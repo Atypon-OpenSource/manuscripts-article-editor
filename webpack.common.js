@@ -53,10 +53,6 @@ module.exports = {
               : ['style-loader', 'css-loader'],
           },
           {
-            test: /'\.svg$/,
-            use: ['svg-react-loader'],
-          },
-          {
             test: /\.(png|jpg|gif)$/,
             use: ['file-loader'],
           },
