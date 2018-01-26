@@ -1,0 +1,50 @@
+image: node:8
+
+# TODO: env
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - yarn
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  script:
+    - yarn build
+  artifacts:
+    paths:
+      - dist/
+
+test:
+  stage: test
+  script: yarn test
+
+.pages:
+  stage: deploy
+  script:
+    - rm -rf public
+    - mv dist public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+
+.deploy_review:
+  stage: deploy
+  script:
+    - echo "Deploy a review app"
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://$CI_ENVIRONMENT_SLUG.example.com
+  only:
+    - branches
+  except:
+    - master
