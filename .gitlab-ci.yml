@@ -17,6 +17,7 @@ cache:
 build:
   stage: build
   script:
+    - cp .env.example .env
     - yarn build
   artifacts:
     paths:
