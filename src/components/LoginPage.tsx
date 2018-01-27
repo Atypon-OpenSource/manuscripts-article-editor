@@ -1,7 +1,12 @@
 import { Formik, FormikConfig } from 'formik'
 import * as React from 'react'
+import AuthenticationButtonContainer from '../containers/AuthButtonContainer'
 import FooterContainer from '../containers/FooterContainer'
-import { AuthContainer, GoogleLogin, OrcidLogin } from './Authentication'
+import {
+  AuthenticationContainer,
+  GoogleLogin,
+  OrcidLogin,
+} from './Authentication'
 import { LoginForm, LoginValues } from './LoginForm'
 
 const LoginPage: React.SFC<FormikConfig<LoginValues>> = ({
@@ -18,13 +23,13 @@ const LoginPage: React.SFC<FormikConfig<LoginValues>> = ({
       component={LoginForm}
     />
 
-    <AuthContainer>
+    <AuthenticationContainer>
       <div>Sign in with</div>
       <div>
-        <GoogleLogin />
-        <OrcidLogin />
+        <AuthenticationButtonContainer component={GoogleLogin} />
+        <AuthenticationButtonContainer component={OrcidLogin} />
       </div>
-    </AuthContainer>
+    </AuthenticationContainer>
 
     <FooterContainer />
   </React.Fragment>

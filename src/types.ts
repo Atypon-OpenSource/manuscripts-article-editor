@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import * as React from 'react'
 
 export interface User {
   name: string
@@ -36,5 +36,5 @@ export interface IconProps {
 }
 
 export interface ChildrenProps {
-  children?: ReactNode
+  children?: React.ReactNode
 }

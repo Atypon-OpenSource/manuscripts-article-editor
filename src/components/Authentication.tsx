@@ -4,35 +4,27 @@ import GoogleLogo from '../icons/google'
 import OrcidLogo from '../icons/orcid'
 import { IconButton } from './Button'
 
-const openLoginWindow = (provider: string) => () => {
-  const width = 800
-  const height = 400
-  const left = window.screenX + (window.outerWidth - width) / 2
-  const right = window.screenY + (window.outerHeight - height) / 2.5
-
-  // const opened = window.open(
-  window.open(
-    process.env.API_BASE_URL + '/authentication/' + provider,
-    'oauth',
-    `width=${width},height=${height},left=${left},right=${right}`
-  )
-
-  // TODO: listen for message from the opened window
+export interface AuthenticationButtonProps {
+  openWindow: (provider: string) => void
 }
 
-export const GoogleLogin = () => (
-  <IconButton type="button" onClick={openLoginWindow('google')}>
+export const GoogleLogin: React.SFC<AuthenticationButtonProps> = ({
+  openWindow,
+}) => (
+  <IconButton type="button" onClick={() => openWindow('google')}>
     <GoogleLogo size={48} />
   </IconButton>
 )
 
-export const OrcidLogin = () => (
-  <IconButton type="button" onClick={openLoginWindow('orcid')}>
+export const OrcidLogin: React.SFC<AuthenticationButtonProps> = ({
+  openWindow,
+}) => (
+  <IconButton type="button" onClick={() => openWindow('orcid')}>
     <OrcidLogo size={48} />
   </IconButton>
 )
 
-export const AuthContainer = styled('div')`
+export const AuthenticationContainer = styled('div')`
   display: flex;
   flex-direction: column;
   justify-content: center;
