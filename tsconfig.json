@@ -14,18 +14,10 @@
     "noImplicitAny": true,
     "strictNullChecks": true
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "__tests__",
-    "coverage",
-    "src/setupTests.ts"
+  "include": [
+    "src/**/*"
   ],
-  "types": [
-    "typePatches"
+  "exclude": [
+    "src/setupTests.ts"
   ]
 }

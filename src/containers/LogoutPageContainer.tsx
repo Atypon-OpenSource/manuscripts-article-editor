@@ -12,9 +12,13 @@ import {
 
 class LogoutPageContainer extends React.Component<AuthenticationProps> {
   public componentDidMount() {
-    logout().then(() => {
-      this.props.authenticate()
-    })
+    logout()
+      .then(() => {
+        this.props.authenticate()
+      })
+      .catch(() => {
+        // TODO: handle appropriately
+      })
   }
 
   public render() {
