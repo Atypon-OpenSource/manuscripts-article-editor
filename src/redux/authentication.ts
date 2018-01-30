@@ -1,6 +1,6 @@
 import { Dispatch } from 'react-redux'
 import { PayloadAction } from '.'
-import * as api from '../client'
+import * as api from '../api'
 import { User } from '../types'
 
 /* constants */

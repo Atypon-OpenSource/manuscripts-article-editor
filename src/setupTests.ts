@@ -3,8 +3,4 @@ import * as Adapter from 'enzyme-adapter-react-16'
 
 configure({ adapter: new Adapter() })
 
-global.localStorage = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  clear: jest.fn(),
-}
+process.env.API_BASE_URL = 'https://127.0.0.1/'
