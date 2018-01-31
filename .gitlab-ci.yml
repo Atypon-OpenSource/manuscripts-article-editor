@@ -1,4 +1,4 @@
-image: node:8
+# image: node:8
 
 # Environment variables needed:
 #
@@ -24,6 +24,8 @@ test:
     - yarn install --frozen-lockfile --non-interactive
     - yarn lint
     - yarn test
+  tags:
+    - nodejs-8
 
 build:
   stage: build
@@ -35,6 +37,8 @@ build:
     expire_in: 1 hour
     paths:
       - dist
+  tags:
+    - nodejs-8
 
 review/start:
   stage: deploy
@@ -55,6 +59,8 @@ review/start:
     - branches
   except:
     - master
+  tags:
+    - nodejs-8
 
 review/stop:
   stage: deploy
@@ -72,6 +78,8 @@ review/stop:
     - branches
   except:
     - master
+  tags:
+    - nodejs-8
 
 .pages:
   stage: deploy
@@ -85,3 +93,5 @@ review/stop:
       - public
   only:
     - master
+  tags:
+    - nodejs-8
