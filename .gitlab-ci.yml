@@ -1,39 +1,82 @@
 image: node:8
 
-# TODO: env
+# Environment variables needed:
+#
+# API_BASE_URL: the base URL of the manuscripts-api endpoint
+# NOW_TOKEN: the token for authentication with the now.sh API
+# NOW_TEAM: the now.sh team name
+# SERVE_USER: the user for HTTP authentication
+# SERVE_PASSWORD: the password for HTTP authentication
+
+# https://gitlab.com/gitlab-org/gitlab-runner/issues/2495
+variables:
+  NOW_APP: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG
+  NOW_DOMAIN: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.now.sh
 
 stages:
-  - lint
   - test
   - build
   - deploy
 
-before_script:
-  - yarn
-
-cache:
-  paths:
-    - node_modules/
-
-lint:
-  stage: lint
-  script: yarn lint
-
 test:
   stage: test
-  script: yarn test
+  script:
+    - yarn install --frozen-lockfile --non-interactive
+    - yarn lint
+    - yarn test
 
 build:
   stage: build
   script:
+    - yarn install --frozen-lockfile --non-interactive
     - cp .env.example .env
-    - yarn build
+    - API_BASE_URL=$API_BASE_URL yarn build
   artifacts:
+    expire_in: 1 hour
     paths:
-      - dist/
+      - dist
+
+review/start:
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - cp deploy.json dist/package.json
+    - npm install --global now --unsafe-perm --silent
+    - NOW_DEPLOY_URL=$(now --token $NOW_TOKEN --team $NOW_TEAM --name $NOW_APP --env SERVE_USER=$SERVE_USER --env SERVE_PASSWORD=$SERVE_PASSWORD --public dist)
+    - now --token $NOW_TOKEN --team $NOW_TEAM alias set "$NOW_DEPLOY_URL" "$NOW_DOMAIN"
+    - now --token $NOW_TOKEN --team $NOW_TEAM rm --safe "$NOW_DOMAIN"
+  allow_failure: true
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://$SERVE_USER:$SERVE_PASSWORD@$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.now.sh
+    on_stop: review/stop
+  only:
+    - branches
+  except:
+    - master
+
+review/stop:
+  stage: deploy
+  dependencies: []
+  variables:
+      GIT_STRATEGY: none
+  script:
+    - npm install --global now --unsafe-perm --silent
+    - now rm --token $NOW_TOKEN --team $NOW_TEAM --yes $NOW_APP
+  when: manual
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
+  only:
+    - branches
+  except:
+    - master
 
 .pages:
   stage: deploy
+  dependencies:
+    - build
   script:
     - rm -rf public
     - mv dist public
@@ -41,16 +84,4 @@ build:
     paths:
       - public
   only:
-    - master
-
-.deploy_review:
-  stage: deploy
-  script:
-    - echo "Deploy a review app"
-  environment:
-    name: review/$CI_COMMIT_REF_NAME
-    url: https://$CI_ENVIRONMENT_SLUG.example.com
-  only:
-    - branches
-  except:
     - master
