@@ -3,9 +3,9 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import * as yup from 'yup'
-import { signup } from '../api'
 import { SignupErrors, SignupValues } from '../components/SignupForm'
 import SignupPage from '../components/SignupPage'
+import { signup } from '../lib/api'
 import { authenticate } from '../redux/authentication'
 import {
   AuthenticationActions,

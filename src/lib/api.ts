@@ -1,6 +1,6 @@
+import { LoginValues } from '../components/LoginForm'
+import { SignupValues } from '../components/SignupForm'
 import client from './client'
-import { LoginValues } from './components/LoginForm'
-import { SignupValues } from './components/SignupForm'
 import token from './token'
 
 export const authenticate = () =>

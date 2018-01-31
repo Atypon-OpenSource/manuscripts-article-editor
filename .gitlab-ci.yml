@@ -30,7 +30,7 @@ test:
 build:
   stage: build
   script:
-    - yarn install --frozen-lockfile --non-interactive
+    - yarn install --frozen-lockfile --non-interactive --production
     - cp .env.example .env
     - API_BASE_URL=$API_BASE_URL yarn build
   artifacts:

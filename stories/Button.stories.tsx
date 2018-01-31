@@ -9,9 +9,9 @@ import {
   LinkButton,
   PlainButton,
   PrimaryButton,
-} from './Button'
+} from '../src/components/Button'
 
-import GoogleIcon from '../icons/google'
+import GoogleIcon from '../src/icons/google'
 
 storiesOf('Button', module).add('with text', () => (
   <Button>Hello Button</Button>

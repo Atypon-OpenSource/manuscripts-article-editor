@@ -3,8 +3,8 @@
 
 
 "@babel/code-frame@^7.0.0-beta.35":
-  version "7.0.0-beta.38"
-  resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.38.tgz#c0af5930617e55e050336838e3a3670983b0b2b2"
+  version "7.0.0-beta.39"
+  resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.39.tgz#91c90bb65207fc5a55128cb54956ded39e850457"
   dependencies:
     chalk "^2.0.0"
     esutils "^2.0.2"
@@ -191,7 +191,13 @@
   version "0.22.7"
   resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.7.tgz#4a92eafedfb2b9f4437d3a4410006d81114c66ce"
 
-"@types/enzyme@^3.1.8":
+"@types/enzyme-adapter-react-16@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.0.1.tgz#cb93338ccf6cd1b8fdda91027c4ffe56583537b5"
+  dependencies:
+    "@types/enzyme" "*"
+
+"@types/enzyme@*", "@types/enzyme@^3.1.8":
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-3.1.8.tgz#e0a4492994fafb2fccc1726f8b4d9960097a4a8c"
   dependencies:
@@ -269,8 +275,8 @@
     "@types/webpack-env" "*"
 
 "@types/webpack-env@*", "@types/webpack-env@^1.13.3":
-  version "1.13.4"
-  resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.13.4.tgz#ca3578299323f4fbec770bb32ed581198f0a8ed9"
+  version "1.13.5"
+  resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.13.5.tgz#ca854e9fbdbcdf45d7376882875f28e2c60593f8"
 
 "@types/yup@^0.24.0":
   version "0.24.0"
@@ -7968,8 +7974,8 @@ ts-jest@^22.0.1:
     yargs "^11.0.0"
 
 ts-loader@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-3.3.1.tgz#5d24b425876cfed094f8da95375c9fd1e598faec"
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-3.4.0.tgz#c376bc0538d4c441ea8790c3fd841ebfdbfb99d0"
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^3.0.0"
@@ -8117,7 +8123,7 @@ uglifyjs-webpack-plugin@^0.4.6:
     uglify-js "^2.8.29"
     webpack-sources "^1.0.1"
 
-uglifyjs-webpack-plugin@^1.1.6, uglifyjs-webpack-plugin@latest:
+uglifyjs-webpack-plugin@^1.1.6, uglifyjs-webpack-plugin@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-1.1.8.tgz#1302fb9471a7daf3d0a5174da6d65f0f415e75ad"
   dependencies:

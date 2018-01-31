@@ -10,8 +10,12 @@ module.exports = (baseConfig, env /*, defaultConfig*/) => {
   defaultConfig.module.rules.push({
     test: /\.tsx?$/,
     exclude: /node_modules/,
-    // include: path.resolve(__dirname, '../src'),
-    use: 'ts-loader',
+    use: {
+      loader: 'ts-loader',
+      options: {
+        configFile: 'tsconfig.storybook.json',
+      },
+    },
   })
 
   defaultConfig.resolve.extensions.push('.ts', '.tsx')

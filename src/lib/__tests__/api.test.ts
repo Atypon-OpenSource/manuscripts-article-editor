@@ -1,9 +1,9 @@
-jest.mock('./token')
+jest.mock('../token')
 
 import MockAdapter from 'axios-mock-adapter'
-import * as api from './api'
-import client from './client'
-import token from './token'
+import * as api from '../api'
+import client from '../client'
+import token from '../token'
 
 describe('api', () => {
   afterEach(() => {

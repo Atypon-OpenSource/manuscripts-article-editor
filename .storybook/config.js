@@ -4,7 +4,7 @@ import { configure, addDecorator } from '@storybook/react'
 import { ThemeProvider } from '../src/theme'
 import '../src/index.css'
 
-const req = require.context('../src/components', true, /\.stories\.tsx/)
+const req = require.context('../stories', true, /\.stories\.tsx/)
 
 addDecorator(story => (
   <ThemeProvider>
