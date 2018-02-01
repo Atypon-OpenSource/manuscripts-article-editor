@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -53,7 +54,7 @@ class LoginPageContainer extends React.Component<AuthenticationProps> {
         setSubmitting(false)
         this.props.authenticate()
       },
-      error => {
+      (error: AxiosError) => {
         setSubmitting(false)
 
         const errors: FormikErrors<LoginErrors> = {

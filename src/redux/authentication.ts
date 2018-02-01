@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { Dispatch } from 'react-redux'
 import { PayloadAction } from '.'
 import * as api from '../lib/api'
@@ -29,10 +30,10 @@ export const authenticate = () => (dispatch: Dispatch<() => PayloadAction>) => {
   dispatch(authenticateRequest())
 
   return api.authenticate().then(
-    data => {
+    (data: User) => {
       dispatch(authenticateSuccess(data))
     },
-    error => {
+    (error: AxiosError) => {
       if (error.response && error.response.status === 401) {
         // 401 response
         dispatch(authenticateSuccess(null))
