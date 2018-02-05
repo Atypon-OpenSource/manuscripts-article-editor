@@ -1,4 +1,10 @@
-import styled from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
+
+injectGlobal`
+  body {
+    margin: 0;
+  }
+`
 
 export const Page = styled('div')`
   display: flex;

@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { action } from '@storybook/addon-actions'
+import { withNotes } from '@storybook/addon-notes'
 import { storiesOf } from '@storybook/react'
 
 import {
@@ -29,8 +30,13 @@ storiesOf('LinkButton', module).add('with text', () => (
   <LinkButton to={'/example'}>primary</LinkButton>
 ))
 
-storiesOf('IconButton', module).add('with text', () => (
-  <IconButton onClick={action('clicked')}>
-    <GoogleIcon />
-  </IconButton>
-))
+storiesOf('IconButton', module).add(
+  'with text',
+  withNotes('This icon would usually be used in an AuthenticationButton.')(
+    () => (
+      <IconButton onClick={action('clicked')}>
+        <GoogleIcon />
+      </IconButton>
+    )
+  )
+)

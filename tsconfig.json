@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "build/dist",
     "module": "commonjs",
     "target": "es5",
     "lib": ["es6", "dom"],
@@ -8,16 +7,17 @@
     "allowJs": false,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "src",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "typeRoots" : [
+      "node_modules/@types",
+      "./types"
+    ]
   },
   "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "./src/setupTests.ts"
+    "src/**/*",
+    "stories/**/*"
   ]
 }
