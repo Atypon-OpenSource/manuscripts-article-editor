@@ -17,6 +17,7 @@
     "lint": "tslint --project tsconfig.build.json",
     "precommit": "lint-staged",
     "prettier": "prettier --write \"{src,test}/**/*.{js,ts,tsx,css}\"",
+    "now": "now",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -35,6 +36,7 @@
     "file-loader": "^1.1.6",
     "formik": "^0.10.5",
     "html-webpack-plugin": "^2.30.1",
+    "now": "^9.2.7",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",

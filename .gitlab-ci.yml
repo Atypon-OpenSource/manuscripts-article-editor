@@ -45,11 +45,11 @@ review/start:
   dependencies:
     - build
   script:
+    - yarn install --frozen-lockfile --non-interactive --production
     - cp deploy.json dist/package.json
-    - npm install --global now --unsafe-perm --silent
-    - NOW_DEPLOY_URL=$(now --token $NOW_TOKEN --team $NOW_TEAM --name $NOW_APP --env SERVE_USER=$SERVE_USER --env SERVE_PASSWORD=$SERVE_PASSWORD --public dist)
-    - now --token $NOW_TOKEN --team $NOW_TEAM alias set "$NOW_DEPLOY_URL" "$NOW_DOMAIN"
-    - now --token $NOW_TOKEN --team $NOW_TEAM rm --safe "$NOW_DOMAIN"
+    - NOW_DEPLOY_URL=$(yarn run --silent now --token $NOW_TOKEN --team $NOW_TEAM --name $NOW_APP --env SERVE_USER=$SERVE_USER --env SERVE_PASSWORD=$SERVE_PASSWORD --public dist)
+    - yarn run --silent now --token $NOW_TOKEN --team $NOW_TEAM alias set "$NOW_DEPLOY_URL" "$NOW_DOMAIN"
+    - yarn run --silent now --token $NOW_TOKEN --team $NOW_TEAM rm --safe "$NOW_DOMAIN"
   allow_failure: true
   environment:
     name: review/$CI_COMMIT_REF_NAME
@@ -65,11 +65,9 @@ review/start:
 review/stop:
   stage: deploy
   dependencies: []
-  variables:
-      GIT_STRATEGY: none
   script:
-    - npm install --global now --unsafe-perm --silent
-    - now rm --token $NOW_TOKEN --team $NOW_TEAM --yes $NOW_APP
+    - yarn install --frozen-lockfile --non-interactive --production
+    - yarn run --silent now rm --token $NOW_TOKEN --team $NOW_TEAM --yes $NOW_APP
   when: manual
   environment:
     name: review/$CI_COMMIT_REF_NAME
