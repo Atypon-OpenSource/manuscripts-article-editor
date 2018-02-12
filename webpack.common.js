@@ -5,68 +5,31 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-const isProduction = process.env.NODE_ENV === 'production'
-
 module.exports = {
   entry: './src/index.tsx',
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Manuscripts',
       template: 'public/index.html',
+      title: 'Manuscripts',
     }),
     new Dotenv({
       safe: true,
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
       minChunks: module => /node_modules/.test(module.resource),
+      name: 'vendor',
     }),
     new ExtractTextPlugin({
-      filename: '[name].[contenthash].css',
       allChunks: true,
+      filename: '[name].[contenthash].css',
     }),
   ],
-  output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json'],
-  },
-  module: {
-    rules: [
-      {
-        oneOf: [
-          {
-            test: /\.tsx?$/,
-            exclude: /node_modules/,
-            use: {
-              loader: 'ts-loader',
-              options: {
-                configFile: 'tsconfig.build.json',
-              },
-            },
-          },
-          {
-            test: /\.css$/,
-            use: isProduction
-              ? ExtractTextPlugin.extract({
-                  fallback: 'style-loader',
-                  use: 'css-loader',
-                })
-              : ['style-loader', 'css-loader'],
-          },
-          {
-            test: /\.(png|jpg|gif)$/,
-            use: ['file-loader'],
-          },
-          {
-            test: /\.(woff|woff2|eot|ttf|otf)$/,
-            use: ['file-loader'],
-          },
-        ],
-      },
-    ],
   },
 }

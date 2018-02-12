@@ -14,16 +14,19 @@
     "build": "webpack --config webpack.prod.js",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "lint": "tslint --project tsconfig.build.json",
+    "lint": "tsc --noEmit --project tsconfig.json && tslint --project tsconfig.json",
     "precommit": "lint-staged",
-    "prettier": "prettier --write \"{src,test}/**/*.{js,ts,tsx,css}\"",
+    "prettier": "prettier --write \"{src,stories,test}/**/*.{js,ts,tsx,css}\"",
     "now": "now",
     "storybook": "start-storybook --config-dir stories/config --port 6006",
     "build-storybook": "build-storybook --config-dir stories/config"
   },
   "dependencies": {
+    "@types/qs": "^6.5.1",
+    "@types/node": "^9.3.0",
     "@types/react": "^16.0.35",
     "@types/react-dom": "^16.0.3",
+    "@types/react-modal": "^3.1.1",
     "@types/react-redux": "^5.0.14",
     "@types/react-router-dom": "^4.2.3",
     "@types/webpack-env": "^1.13.3",
@@ -34,16 +37,19 @@
     "dotenv-webpack": "^1.5.4",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
-    "formik": "^0.10.5",
+    "formik": "^0.11.5",
     "html-webpack-plugin": "^2.30.1",
     "now": "^9.2.7",
+    "qs": "^6.5.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-hot-loader": "^4.0.0-beta.21",
+    "react-modal": "^3.1.11",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "style-loader": "^0.19.1",
+    "style-loader": "^0.20.1",
     "styled-components": "^3.0.1",
     "ts-loader": "^3.3.1",
     "typescript": "^2.6.2",
@@ -62,7 +68,6 @@
     "@types/enzyme": "^3.1.8",
     "@types/enzyme-adapter-react-16": "^1.0.1",
     "@types/jest": "^22.1.0",
-    "@types/node": "^9.3.0",
     "@types/prop-types": "^15.5.2",
     "@types/storybook__addon-actions": "^3.0.1",
     "@types/storybook__addon-links": "^3.0.2",
@@ -70,6 +75,10 @@
     "@types/storybook__react": "^3.0.6",
     "axios-mock-adapter": "^1.12.0",
     "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "husky": "^0.14.3",
@@ -86,9 +95,28 @@
     "tslint-react": "^3.4.0",
     "webpack-dev-server": "^2.11.1"
   },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ],
+    "plugins": [
+      "react-hot-loader/babel",
+      "transform-class-properties"
+    ]
+  },
   "lint-staged": {
-    "*.{js,ts,tsx,css}": [
+    "*.disabled": [
+      "tsc --noEmit --jsx react --lib es2017,dom --typeroots 'node_modules/@types,stories/types,src/types/*.ts'"
+    ],
+    "*.{ts,tsx}": [
       "prettier --write",
+      "tslint",
+      "git add"
+    ],
+    "*.{js,css}": [
+      "prettier --write",
+      "tslint",
       "git add"
     ]
   },
@@ -110,7 +138,7 @@
     "testPathIgnorePatterns": [
       "/node_modules/"
     ],
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "testRegex": "__tests__.*\\.test\\.tsx?$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -119,7 +147,7 @@
     ],
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
-      "!src/*.ts"
+      "!**/*.d.ts"
     ]
   }
 }

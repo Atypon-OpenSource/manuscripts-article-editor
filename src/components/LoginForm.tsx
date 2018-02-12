@@ -1,10 +1,11 @@
 import * as React from 'react'
 
 import { FormikErrors, FormikProps } from 'formik'
+import { styled } from '../theme'
 import { PrimaryButton } from './Button'
 import { CenteredForm, FormActions, FormHeader, FormLink } from './Form'
 import { Hero, SubHero } from './Hero'
-import { TextField } from './TextField'
+import { FirstTextField, LastTextField } from './TextField'
 
 export interface LoginValues {
   email: string
@@ -15,6 +16,10 @@ export interface LoginErrors extends FormikErrors<LoginValues> {
   unauthorized: boolean
   submit: string
 }
+
+const ManuscriptLinks = styled.div`
+  text-align: left;
+`
 
 export const LoginForm = ({
   values,
@@ -32,32 +37,27 @@ export const LoginForm = ({
       <Hero>Manuscripts Online</Hero>
     </FormHeader>
 
-    <TextField
+    <FirstTextField
       type={'email'}
       name={'email'}
-      label={'Email'}
       placeholder={'email'}
       autoFocus={true}
       onChange={handleChange}
       onBlur={handleBlur}
       value={values.email}
       required={true}
-      position={'first'}
-      isInvalid={touched.email && Boolean(errors.email)}
     />
 
     {/*{touched.email && errors.email && <div>{errors.email}</div>}*/}
 
-    <TextField
+    <LastTextField
       type={'password'}
       name={'password'}
-      label={'Password'}
       placeholder={'password'}
       onChange={handleChange}
       onBlur={handleBlur}
       value={values.password}
       required={true}
-      position={'last'}
     />
 
     {/*{touched.password && errors.password && <div>{errors.password}</div>}*/}
@@ -67,9 +67,15 @@ export const LoginForm = ({
     {errors.submit && <div>{errors.submit}</div>}
 
     <FormActions>
-      <div>
-        No account? <FormLink to={'/signup'}>Sign Up</FormLink>
-      </div>
+      <ManuscriptLinks>
+        <div>
+          No account? <FormLink to={'/signup'}>Sign Up</FormLink>
+        </div>
+        <div>
+          Forgot password?{' '}
+          <FormLink to={'/send-password-reset'}>Reset</FormLink>
+        </div>
+      </ManuscriptLinks>
 
       <div>
         <PrimaryButton

@@ -1,5 +1,6 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import { styled } from '../theme'
 
 export const FooterBlock = styled('footer')`
   margin-top: 100px;
@@ -7,6 +8,7 @@ export const FooterBlock = styled('footer')`
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
+  color: #777;
 `
 
 export const FooterLinks = styled('nav')`
@@ -14,10 +16,10 @@ export const FooterLinks = styled('nav')`
   justify-content: center;
 `
 
-export const FooterLink = styled('a')`
+export const FooterLink = styled(Link)`
   display: inline-flex;
+  color: inherit;
   padding: 5px;
-  color: white;
   text-decoration: none;
 `
 
@@ -41,7 +43,7 @@ export const Footer: React.SFC<FooterProps> = ({ links }) => (
       {links.map((link, index) => (
         <span key={link.url}>
           {!!index && <FooterLinkSeparator>|</FooterLinkSeparator>}
-          <FooterLink href={link.url}>{link.text}</FooterLink>
+          <FooterLink to={link.url}>{link.text}</FooterLink>
         </span>
       ))}
     </FooterLinks>

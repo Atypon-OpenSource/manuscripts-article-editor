@@ -1,30 +1,13 @@
-import * as React from 'react'
-import styled from 'styled-components'
+import { styled } from '../theme'
 
-interface InputProps {
-  position?: string
-}
-
-const Input = styled('input')`
+export const TextField = styled.input`
+  display: block;
   font-size: 16px;
   padding: 10px 20px;
   width: 100%;
   box-sizing: border-box;
   border: 1px solid #aaa;
-  border-top-left-radius: ${(props: InputProps) =>
-    props.position === 'first' ? '5px' : '0px'};
-  border-top-right-radius: ${(props: InputProps) =>
-    props.position === 'first' ? '5px' : '0px'};
-  border-bottom-right-radius: ${(props: InputProps) =>
-    props.position === 'last' ? '5px' : '0px'};
-  border-bottom-left-radius: ${(props: InputProps) =>
-    props.position === 'last' ? '5px' : '0px'};
-  border-top-width: ${(props: InputProps) =>
-    props.position === 'first' ? '1px' : '0px'};
-  margin-top: ${(props: InputProps) =>
-    props.position === 'first' ? '5px' : '0px'};
-  margin-bottom: ${(props: InputProps) =>
-    props.position === 'last' ? '5px' : '0px'};
+  border-radius: 5px;
 
   &:focus {
     outline: none;
@@ -41,51 +24,20 @@ const Input = styled('input')`
   }
 `
 
-// const Label = styled('label')`
-//   color: #779;
-//   font-weight: bold;
-//   text-transform: uppercase;
-// `
+export const FirstTextField = TextField.extend`
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-top: 5px;
+  margin-bottom: 0;
+`
 
-interface TextFieldProps {
-  name: string
-  value: string
-  required: boolean
-  type: string
-  label?: string
-  autoFocus?: boolean
-  placeholder: string
-  position?: string
-  isInvalid?: boolean
-  onBlur?: (e: React.ChangeEvent<{}>) => void
-  onChange?: (e: React.ChangeEvent<{}>) => void
-  // label,
-}
+export const MiddleTextField = TextField.extend`
+  border-top: none;
+`
 
-// TODO: label with id/for
-
-export const TextField = ({
-  onChange,
-  onBlur,
-  name,
-  value,
-  required,
-  type,
-  placeholder,
-  position,
-}: TextFieldProps) => (
-  <div>
-    {/*{label && <Label>{label}</Label>}*/}
-
-    <Input
-      name={name}
-      value={value}
-      type={type}
-      position={position}
-      required={required}
-      onChange={onChange}
-      onBlur={onBlur}
-      placeholder={placeholder}
-    />
-  </div>
-)
+export const LastTextField = TextField.extend`
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-bottom: 5px;
+`

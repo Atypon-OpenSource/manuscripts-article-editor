@@ -1,4 +1,4 @@
-import styled, { injectGlobal } from 'styled-components'
+import { injectGlobal, styled } from '../theme'
 
 injectGlobal`
   body {
@@ -6,7 +6,7 @@ injectGlobal`
   }
 `
 
-export const Page = styled('div')`
+export const Page = styled.div`
   display: flex;
   min-height: 100vh;
   box-sizing: border-box;
@@ -15,14 +15,17 @@ export const Page = styled('div')`
   font-family: ${props => props.theme.fontFamily};
 `
 
-export const Sidebar = styled('div')`
+export const Sidebar = styled.div`
   width: 200px;
   padding: ${props => props.theme.padding};
   border-right: 1px solid #aaa;
 `
 
-export const Main = styled('div')`
+export const Main = styled.main`
   flex: 1;
+`
+
+export const Centered = Main.extend`
   display: flex;
   flex-direction: column;
   align-items: center;

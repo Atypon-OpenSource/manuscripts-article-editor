@@ -2,19 +2,20 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Spinner } from '../components/Spinner'
-import { AuthenticationState, State } from '../types'
+import { AuthenticationStateProps } from '../store/authentication/types'
+import { ApplicationState } from '../store/types'
 
 interface PrivateRouteProps {
   component: React.ComponentClass
 }
 
-const PrivateRoute: React.SFC<PrivateRouteProps & AuthenticationState> = ({
+const PrivateRoute: React.SFC<PrivateRouteProps & AuthenticationStateProps> = ({
   component: Component,
   ...rest
-}) => (
+}: PrivateRouteProps) => (
   <Route
     {...rest}
-    render={(props: RouteComponentProps<{}> & AuthenticationState) => {
+    render={(props: RouteComponentProps<{}> & AuthenticationStateProps) => {
       const { authentication } = props
 
       if (!authentication.loaded) {
@@ -37,6 +38,6 @@ const PrivateRoute: React.SFC<PrivateRouteProps & AuthenticationState> = ({
   />
 )
 
-export default connect((state: State) => ({
+export default connect<AuthenticationStateProps>((state: ApplicationState) => ({
   authentication: state.authentication,
 }))(PrivateRoute)

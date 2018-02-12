@@ -1,17 +1,42 @@
+// https://www.styled-components.com/docs/api#typescript
+
 import * as React from 'react'
-import { ThemeProvider as Provider } from 'styled-components'
-import { ChildrenProps } from './types'
+import * as styledComponents from 'styled-components'
 
-// tslint:disable:max-line-length
+export interface ThemeInterface {
+  active: string
+  backgroundColor: string
+  borderRadius: string
+  color: string
+  fontFamily: string
+  padding: string
+  primary: string
+}
 
-const theme = {
-  backgroundColor: '#3f566f',
-  color: '#fff',
+export const theme = {
+  active: '#274c76',
+  backgroundColor: '#fff',
+  borderRadius: '8px',
+  color: '#333',
+  // tslint:disable-next-line:max-line-length
   fontFamily: `'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
   'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,
   padding: '10px',
+  primary: '#4489D8',
 }
 
-export const ThemeProvider = (props: ChildrenProps) => (
-  <Provider theme={theme}>{props.children}</Provider>
+const {
+  default: styled,
+  css,
+  injectGlobal,
+  keyframes,
+  ThemeProvider: StyledThemeProvider,
+} = styledComponents as styledComponents.ThemedStyledComponentsModule<
+  ThemeInterface
+>
+
+export const ThemeProvider: React.SFC = props => (
+  <StyledThemeProvider theme={theme}>{props.children}</StyledThemeProvider>
 )
+
+export { css, injectGlobal, keyframes, styled }

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { AuthenticationButtonProps } from '../components/Authentication'
-import { authenticate } from '../redux/authentication'
-import { AuthenticationActions } from '../types'
+import { authenticate } from '../store/authentication'
+import { AuthenticationDispatchProps } from '../store/authentication/types'
 
 const apiBaseUrl: string = String(process.env.API_BASE_URL)
 
@@ -11,7 +11,7 @@ interface ComponentProps {
 }
 
 class AuthButtonContainer extends React.Component<
-  ComponentProps & AuthenticationActions
+  ComponentProps & AuthenticationDispatchProps
 > {
   public render() {
     const { component: Component } = this.props
@@ -32,7 +32,7 @@ class AuthButtonContainer extends React.Component<
     )
 
     const receiveMessage = (event: MessageEvent) => {
-      if (apiBaseUrl.indexOf(event.origin) !== 0) {
+      if (!apiBaseUrl.startsWith(event.origin)) {
         return
       }
 
@@ -44,13 +44,12 @@ class AuthButtonContainer extends React.Component<
 
       window.removeEventListener('message', receiveMessage)
 
-      this.props.authenticate()
+      /* tslint:disable-next-line:no-any */
+      this.props.dispatch<any>(authenticate())
     }
 
     window.addEventListener('message', receiveMessage)
   }
 }
 
-export default connect<null, AuthenticationActions>(null, {
-  authenticate,
-})(AuthButtonContainer)
+export default connect()(AuthButtonContainer)

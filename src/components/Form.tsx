@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { styled } from '../theme'
 
 export const CenteredForm = styled('form')`
   text-align: center;
@@ -17,12 +17,12 @@ export const FormActions = styled('div')`
   justify-content: space-between;
   margin-top: 20px;
   margin-bottom: 20px;
-  color: rgba(255, 255, 255, 0.51);
+  color: rgba(0, 0, 0, 0.51);
 `
 
 export const FormLink = styled(Link)`
   text-transform: uppercase;
   text-decoration: none;
-  color: white;
+  color: #5e8fcf;
   font-size: 90%;
 `

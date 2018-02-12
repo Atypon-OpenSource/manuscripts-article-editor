@@ -13,10 +13,6 @@ const links = [
   },
 ]
 
-class FooterContainer extends React.Component {
-  public render() {
-    return <Footer links={links} />
-  }
-}
+const FooterContainer: React.SFC = () => <Footer links={links} />
 
 export default FooterContainer

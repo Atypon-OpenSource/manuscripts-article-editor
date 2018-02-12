@@ -3,6 +3,7 @@ import * as React from 'react'
 import AuthButtonContainer from '../containers/AuthButtonContainer'
 import FooterContainer from '../containers/FooterContainer'
 import { AuthenticationContainer, GoogleLogin } from './Authentication'
+import { Centered } from './Page'
 import { SignupForm, SignupValues } from './SignupForm'
 
 const SignupPage: React.SFC<FormikConfig<SignupValues>> = ({
@@ -10,7 +11,7 @@ const SignupPage: React.SFC<FormikConfig<SignupValues>> = ({
   validationSchema,
   onSubmit,
 }) => (
-  <React.Fragment>
+  <Centered>
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -27,7 +28,7 @@ const SignupPage: React.SFC<FormikConfig<SignupValues>> = ({
     </AuthenticationContainer>
 
     <FooterContainer />
-  </React.Fragment>
+  </Centered>
 )
 
 export default SignupPage

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IconProps } from '../types'
+import { IconProps } from './'
 
 // http://samherbert.net/svg-loaders/
 
@@ -7,7 +7,7 @@ const Spinner = (props: IconProps) => (
   <svg
     width={props.size || 45}
     height={props.size || 45}
-    stroke={props.color || '#fff'}
+    stroke={props.color || '#777'}
   >
     <g
       fill="none"

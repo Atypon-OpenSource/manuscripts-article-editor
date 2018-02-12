@@ -2,19 +2,21 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { logout } from '../lib/api'
-import { authenticate } from '../redux/authentication'
+import { authenticate } from '../store/authentication'
 import {
-  AuthenticationActions,
-  AuthenticationProps,
-  AuthenticationState,
-  State,
-} from '../types'
+  AuthenticationDispatchProps,
+  AuthenticationStateProps,
+} from '../store/authentication/types'
+import { ApplicationState } from '../store/types'
 
-class LogoutPageContainer extends React.Component<AuthenticationProps> {
+class LogoutPageContainer extends React.Component<
+  AuthenticationStateProps & AuthenticationDispatchProps
+> {
   public componentDidMount() {
     logout()
       .then(() => {
-        this.props.authenticate()
+        /* tslint:disable-next-line:no-any */
+        this.props.dispatch<any>(authenticate())
       })
       .catch(() => {
         // TODO: handle appropriately
@@ -32,11 +34,8 @@ class LogoutPageContainer extends React.Component<AuthenticationProps> {
   }
 }
 
-export default connect<AuthenticationState, AuthenticationActions>(
-  (state: State) => ({
+export default connect<AuthenticationStateProps, AuthenticationDispatchProps>(
+  (state: ApplicationState) => ({
     authentication: state.authentication,
-  }),
-  {
-    authenticate,
-  }
+  })
 )(LogoutPageContainer)

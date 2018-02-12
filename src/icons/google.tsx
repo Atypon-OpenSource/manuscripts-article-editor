@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IconProps } from '../types'
+import { IconProps } from './'
 
 // https://developers.google.com/identity/branding-guidelines
 

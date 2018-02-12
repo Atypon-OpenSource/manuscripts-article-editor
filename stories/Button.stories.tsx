@@ -5,38 +5,35 @@ import { withNotes } from '@storybook/addon-notes'
 import { storiesOf } from '@storybook/react'
 
 import {
+  ActionButton,
   Button,
   IconButton,
   LinkButton,
-  PlainButton,
   PrimaryButton,
 } from '../src/components/Button'
 
 import GoogleIcon from '../src/icons/google'
 
-storiesOf('Button', module).add('with text', () => (
-  <Button>Hello Button</Button>
-))
-
-storiesOf('PrimaryButton', module).add('with text', () => (
-  <PrimaryButton onClick={action('clicked')}>primary</PrimaryButton>
-))
-
-storiesOf('PlainButton', module).add('with text', () => (
-  <PlainButton onClick={action('clicked')}>primary</PlainButton>
-))
-
-storiesOf('LinkButton', module).add('with text', () => (
-  <LinkButton to={'/example'}>primary</LinkButton>
-))
-
-storiesOf('IconButton', module).add(
-  'with text',
-  withNotes('This icon would usually be used in an AuthenticationButton.')(
-    () => (
-      <IconButton onClick={action('clicked')}>
-        <GoogleIcon />
-      </IconButton>
+storiesOf('Buttons', module)
+  .add('Button', () => <Button onClick={action('clicked')}>Make</Button>)
+  .add('Primary Button', () => (
+    <PrimaryButton onClick={action('clicked')}>Done</PrimaryButton>
+  ))
+  .add('Action Button', () => (
+    <ActionButton onClick={action('clicked')}>+</ActionButton>
+  ))
+  .add('Link Button', () => (
+    <LinkButton onClick={action('clicked')} to={'/'}>
+      Foo
+    </LinkButton>
+  ))
+  .add(
+    'Icon Button',
+    withNotes('This icon would usually be used in an AuthenticationButton.')(
+      () => (
+        <IconButton onClick={action('clicked')}>
+          <GoogleIcon />
+        </IconButton>
+      )
     )
   )
-)

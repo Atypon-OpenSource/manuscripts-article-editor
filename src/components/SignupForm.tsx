@@ -3,7 +3,7 @@ import * as React from 'react'
 import { PrimaryButton } from './Button'
 import { CenteredForm, FormActions, FormHeader, FormLink } from './Form'
 import { Hero, SubHero } from './Hero'
-import { TextField } from './TextField'
+import { FirstTextField, LastTextField } from './TextField'
 
 export interface SignupValues {
   name: string
@@ -32,56 +32,45 @@ export const SignupForm = ({
       <Hero>Sign Up</Hero>
     </FormHeader>
 
-    <TextField
+    <FirstTextField
       type={'text'}
       name={'name'}
-      label={'Name'}
       placeholder={'name'}
       autoFocus={true}
       onChange={handleChange}
       onBlur={handleBlur}
       value={values.name}
       required={true}
-      position={'first'}
-      isInvalid={touched.name && Boolean(errors.name)}
     />
 
-    <TextField
+    <LastTextField
       type={'text'}
       name={'surname'}
-      label={'Surname'}
       placeholder={'surname'}
       onChange={handleChange}
       onBlur={handleBlur}
       value={values.surname}
       required={true}
-      position={'last'}
-      isInvalid={touched.surname && Boolean(errors.surname)}
     />
 
-    <TextField
+    <FirstTextField
       type={'email'}
       name={'email'}
-      label={'Email address'}
       placeholder={'email'}
       onChange={handleChange}
       onBlur={handleBlur}
       value={values.email}
       required={true}
-      position={'first'}
-      isInvalid={touched.email && Boolean(errors.email)}
     />
 
-    <TextField
+    <LastTextField
       type={'password'}
       name={'password'}
-      label={'Password'}
       placeholder={'password'}
       onChange={handleChange}
       onBlur={handleBlur}
       value={values.password}
       required={true}
-      position={'last'}
     />
 
     {errors.submit && <div>{errors.submit}</div>}

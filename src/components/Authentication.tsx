@@ -1,7 +1,7 @@
 import * as React from 'react'
-import styled from 'styled-components'
 import GoogleLogo from '../icons/google'
 import OrcidLogo from '../icons/orcid'
+import { styled } from '../theme'
 import { IconButton } from './Button'
 
 export interface AuthenticationButtonProps {

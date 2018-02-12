@@ -2,9 +2,10 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import HomePage from '../components/HomePage'
 import { Spinner } from '../components/Spinner'
-import { AuthenticationState, State } from '../types'
+import { AuthenticationStateProps } from '../store/authentication/types'
+import { ApplicationState } from '../store/types'
 
-class HomePageContainer extends React.Component<AuthenticationState> {
+class HomePageContainer extends React.Component<AuthenticationStateProps> {
   public render() {
     const { authentication } = this.props
 
@@ -16,10 +17,10 @@ class HomePageContainer extends React.Component<AuthenticationState> {
       return <Spinner color={'black'} />
     }
 
-    return <HomePage user={authentication.user} />
+    return <HomePage />
   }
 }
 
-export default connect((state: State) => ({
+export default connect<AuthenticationStateProps>((state: ApplicationState) => ({
   authentication: state.authentication,
 }))(HomePageContainer)

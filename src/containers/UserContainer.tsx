@@ -2,23 +2,19 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Spinner } from '../components/Spinner'
 import { User } from '../components/User'
-// import { NavLink } from 'react-router-dom'
-import { authenticate } from '../redux/authentication'
+import { authenticate } from '../store/authentication'
 import {
-  Authentication,
-  AuthenticationActions,
-  AuthenticationState,
-  State,
-} from '../types'
+  AuthenticationDispatchProps,
+  AuthenticationStateProps,
+} from '../store/authentication/types'
+import { ApplicationState } from '../store/types'
 
-interface UserContainerProps {
-  authenticate: () => void
-  authentication: Authentication
-}
-
-class UserContainer extends React.Component<UserContainerProps> {
+class UserContainer extends React.Component<
+  AuthenticationStateProps & AuthenticationDispatchProps
+> {
   public componentDidMount() {
-    this.props.authenticate()
+    /* tslint:disable-next-line:no-any */
+    this.props.dispatch<any>(authenticate())
   }
 
   public render() {
@@ -32,19 +28,12 @@ class UserContainer extends React.Component<UserContainerProps> {
       return <Spinner />
     }
 
-    if (!authentication.user) {
-      return null
-    }
-
     return <User user={authentication.user} />
   }
 }
 
-export default connect<AuthenticationState, AuthenticationActions>(
-  (state: State) => ({
+export default connect<AuthenticationStateProps, AuthenticationDispatchProps>(
+  (state: ApplicationState) => ({
     authentication: state.authentication,
-  }),
-  {
-    authenticate,
-  }
+  })
 )(UserContainer)

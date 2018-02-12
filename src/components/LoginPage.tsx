@@ -8,13 +8,14 @@ import {
   OrcidLogin,
 } from './Authentication'
 import { LoginForm, LoginValues } from './LoginForm'
+import { Centered } from './Page'
 
 const LoginPage: React.SFC<FormikConfig<LoginValues>> = ({
   initialValues,
   validationSchema,
   onSubmit,
 }) => (
-  <React.Fragment>
+  <Centered>
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -32,7 +33,7 @@ const LoginPage: React.SFC<FormikConfig<LoginValues>> = ({
     </AuthenticationContainer>
 
     <FooterContainer />
-  </React.Fragment>
+  </Centered>
 )
 
 export default LoginPage

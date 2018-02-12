@@ -1,33 +1,25 @@
-import { AxiosError } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import * as yup from 'yup'
 import { LoginErrors, LoginValues } from '../components/LoginForm'
 import LoginPage from '../components/LoginPage'
 import { login } from '../lib/api'
-import { authenticate } from '../redux/authentication'
+import { authenticate } from '../store/authentication'
 import {
-  AuthenticationActions,
-  AuthenticationProps,
-  AuthenticationState,
-  State,
-} from '../types'
+  AuthenticationDispatchProps,
+  AuthenticationStateProps,
+} from '../store/authentication/types'
+import { ApplicationState } from '../store/types'
+import { loginSchema } from '../validation'
 
-class LoginPageContainer extends React.Component<AuthenticationProps> {
+class LoginPageContainer extends React.Component<
+  AuthenticationStateProps & AuthenticationDispatchProps
+> {
   private initialValues: LoginValues = {
     email: '',
     password: '',
   }
-
-  private validationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .required()
-      .matches(/^.+@.+\..+$/),
-    password: yup.string().required(), // TODO: warn about strength
-  })
 
   public render() {
     const { authentication } = this.props
@@ -39,7 +31,7 @@ class LoginPageContainer extends React.Component<AuthenticationProps> {
     return (
       <LoginPage
         initialValues={this.initialValues}
-        validationSchema={this.validationSchema}
+        validationSchema={loginSchema}
         onSubmit={this.handleSubmit}
       />
     )
@@ -52,9 +44,11 @@ class LoginPageContainer extends React.Component<AuthenticationProps> {
     login(values).then(
       () => {
         setSubmitting(false)
-        this.props.authenticate()
+
+        /* tslint:disable-next-line:no-any */
+        this.props.dispatch<any>(authenticate())
       },
-      (error: AxiosError) => {
+      error => {
         setSubmitting(false)
 
         const errors: FormikErrors<LoginErrors> = {
@@ -72,11 +66,8 @@ class LoginPageContainer extends React.Component<AuthenticationProps> {
   }
 }
 
-export default connect<AuthenticationState, AuthenticationActions>(
-  (state: State) => ({
+export default connect<AuthenticationStateProps, AuthenticationDispatchProps>(
+  (state: ApplicationState) => ({
     authentication: state.authentication,
-  }),
-  {
-    authenticate,
-  }
+  })
 )(LoginPageContainer)

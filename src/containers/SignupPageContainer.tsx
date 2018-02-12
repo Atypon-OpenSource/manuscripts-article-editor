@@ -1,40 +1,21 @@
-import { AxiosError } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import * as yup from 'yup'
 import { SignupErrors, SignupValues } from '../components/SignupForm'
 import SignupPage from '../components/SignupPage'
 import { signup } from '../lib/api'
-import { authenticate } from '../redux/authentication'
+import { authenticate } from '../store/authentication'
 import {
-  AuthenticationActions,
-  AuthenticationProps,
-  AuthenticationState,
-  State,
-} from '../types'
+  AuthenticationDispatchProps,
+  AuthenticationStateProps,
+} from '../store/authentication/types'
+import { ApplicationState } from '../store/types'
+import { signupSchema } from '../validation'
 
-class SignupPageContainer extends React.Component<AuthenticationProps> {
-  private validationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .required()
-      .matches(/^.+@.+\..+$/),
-    password: yup
-      .string()
-      .required()
-      .min(3), // TODO: warn about strength?
-    name: yup
-      .string()
-      .required()
-      .min(1),
-    surname: yup
-      .string()
-      .required()
-      .min(2),
-  })
-
+class SignupPageContainer extends React.Component<
+  AuthenticationStateProps & AuthenticationDispatchProps
+> {
   private initialValues: SignupValues = {
     email: '',
     password: '',
@@ -53,7 +34,7 @@ class SignupPageContainer extends React.Component<AuthenticationProps> {
       <SignupPage
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
-        validationSchema={this.validationSchema}
+        validationSchema={signupSchema}
       />
     )
   }
@@ -65,9 +46,11 @@ class SignupPageContainer extends React.Component<AuthenticationProps> {
     signup(values).then(
       () => {
         setSubmitting(false)
-        this.props.authenticate()
+
+        /* tslint:disable-next-line:no-any */
+        this.props.dispatch<any>(authenticate())
       },
-      (error: AxiosError) => {
+      error => {
         setSubmitting(false)
 
         const errors: FormikErrors<SignupErrors> = {
@@ -86,11 +69,8 @@ class SignupPageContainer extends React.Component<AuthenticationProps> {
   }
 }
 
-export default connect<AuthenticationState, AuthenticationActions>(
-  (state: State) => ({
+export default connect<AuthenticationStateProps, AuthenticationDispatchProps>(
+  (state: ApplicationState) => ({
     authentication: state.authentication,
-  }),
-  {
-    authenticate,
-  }
+  })
 )(SignupPageContainer)
