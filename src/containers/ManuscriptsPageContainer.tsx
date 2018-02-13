@@ -1,92 +1,82 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { RxCollection, RxDocument } from 'rxdb'
+import { Subscription } from 'rxjs'
 import ManuscriptsPage from '../components/ManuscriptsPage'
+import { DbInterface, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
 import {
-  addManuscript,
-  loadManuscripts,
-  removeManuscript,
-  updateManuscript,
-} from '../store/manuscripts'
-import {
-  ManuscriptsDispatchProps,
-  ManuscriptsState,
-  ManuscriptsStateProps,
-} from '../store/manuscripts/types'
-import { ApplicationState } from '../store/types'
-import { ManuscriptInterface } from '../types/manuscript'
+  AddManuscript,
+  ManuscriptInterface,
+  RemoveManuscript,
+  UpdateManuscript,
+} from '../types/manuscript'
 
 interface ManuscriptsPageContainerState {
-  manuscripts: ManuscriptInterface[]
+  manuscripts: Array<RxDocument<ManuscriptInterface>>
+  loaded: boolean
 }
 
-class ManuscriptsPageContainer extends React.Component<
-  ManuscriptsStateProps & ManuscriptsDispatchProps
-> {
+class ManuscriptsPageContainer extends React.Component {
   public state: ManuscriptsPageContainerState = {
     manuscripts: [],
+    loaded: false,
   }
+
+  private db: DbInterface
+
+  private subs: Subscription[] = []
 
   public componentDidMount() {
-    const { manuscripts } = this.props
+    waitForDB.then(db => {
+      this.db = db
 
-    if (!manuscripts.loaded && !manuscripts.loading) {
-      return this.props.dispatch(loadManuscripts)
-    }
+      const sub = (db.manuscripts as RxCollection<ManuscriptInterface>)
+        .find()
+        // .sort({ created: 1 })
+        .$.subscribe(manuscripts => {
+          this.setState({
+            manuscripts,
+            loaded: true,
+          })
+        })
 
-    this.setState({
-      manuscripts: Object.values(manuscripts.items),
+      this.subs.push(sub)
     })
   }
 
-  public componentWillUpdate() {
-    const { manuscripts } = this.props
+  public componentWillUnmount() {
+    this.subs.forEach(sub => sub.unsubscribe())
+  }
 
-    if (!manuscripts.loaded) {
-      return null
-    }
+  public addManuscript: AddManuscript = data => {
+    return this.db.manuscripts.insert(data)
+  }
 
-    this.setState({
-      manuscripts: Object.values(manuscripts.items),
+  // TODO: atomicUpdate?
+  public updateManuscript: UpdateManuscript = (doc, data) => {
+    return doc.update({
+      $set: data,
     })
   }
+
+  public removeManuscript: RemoveManuscript = doc => doc.remove()
 
   public render() {
-    const {
-      manuscripts,
-      addManuscript,
-      updateManuscript,
-      removeManuscript,
-    } = this.props
-    if (!manuscripts.loaded) {
+    const { manuscripts, loaded } = this.state
+
+    if (!loaded) {
       return <Spinner />
     }
 
     return (
       <ManuscriptsPage
-        manuscripts={this.state.manuscripts}
-        addManuscript={addManuscript}
-        updateManuscript={updateManuscript}
-        removeManuscript={removeManuscript}
+        manuscripts={manuscripts}
+        addManuscript={this.addManuscript}
+        updateManuscript={this.updateManuscript}
+        removeManuscript={this.removeManuscript}
       />
     )
   }
 }
 
-export default connect<ManuscriptsStateProps, ManuscriptsDispatchProps>(
-  (state: ApplicationState) => ({
-    manuscripts: state.manuscripts,
-  }),
-  (dispatch: Dispatch<ManuscriptsState>) => ({
-    dispatch,
-    ...bindActionCreators(
-      {
-        addManuscript,
-        updateManuscript,
-        removeManuscript,
-      },
-      dispatch
-    ),
-  })
-)(ManuscriptsPageContainer)
+export default ManuscriptsPageContainer

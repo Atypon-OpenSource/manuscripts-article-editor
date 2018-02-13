@@ -1,92 +1,82 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { RxCollection, RxDocument } from 'rxdb'
+import { Subscription } from 'rxjs'
 import CollaboratorsPage from '../components/CollaboratorsPage'
+import { DbInterface, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
 import {
-  addCollaborator,
-  loadCollaborators,
-  removeCollaborator,
-  updateCollaborator,
-} from '../store/collaborators'
-import {
-  CollaboratorsDispatchProps,
-  CollaboratorsState,
-  CollaboratorsStateProps,
-} from '../store/collaborators/types'
-import { ApplicationState } from '../store/types'
-import { Person } from '../types/person'
+  AddCollaborator,
+  CollaboratorInterface,
+  RemoveCollaborator,
+  UpdateCollaborator,
+} from '../types/collaborator'
 
 interface CollaboratorsPageContainerState {
-  collaborators: Person[]
+  collaborators: Array<RxDocument<CollaboratorInterface>>
+  loaded: boolean
 }
 
-class CollaboratorsPageContainer extends React.Component<
-  CollaboratorsStateProps & CollaboratorsDispatchProps
-> {
+class CollaboratorsPageContainer extends React.Component {
   public state: CollaboratorsPageContainerState = {
     collaborators: [],
+    loaded: false,
   }
+
+  private db: DbInterface
+
+  private subs: Subscription[] = []
 
   public componentDidMount() {
-    const { collaborators } = this.props
+    waitForDB.then(db => {
+      this.db = db
 
-    if (!collaborators.loaded && !collaborators.loading) {
-      return this.props.dispatch(loadCollaborators)
-    }
+      const sub = (db.collaborators as RxCollection<CollaboratorInterface>)
+        .find()
+        // .sort({ created: 1 })
+        .$.subscribe(collaborators => {
+          this.setState({
+            collaborators,
+            loaded: true,
+          })
+        })
 
-    this.setState({
-      collaborators: Object.values(collaborators.items),
+      this.subs.push(sub)
     })
   }
 
-  public componentWillUpdate() {
-    const { collaborators } = this.props
+  public componentWillUnmount() {
+    this.subs.forEach(sub => sub.unsubscribe())
+  }
 
-    if (!collaborators.loaded) {
-      return null
-    }
+  public addCollaborator: AddCollaborator = data => {
+    return this.db.collaborators.insert(data)
+  }
 
-    this.setState({
-      collaborators: Object.values(collaborators.items),
+  // TODO: atomicUpdate?
+  public updateCollaborator: UpdateCollaborator = (doc, data) => {
+    return doc.update({
+      $set: data,
     })
   }
+
+  public removeCollaborator: RemoveCollaborator = doc => doc.remove()
 
   public render() {
-    const {
-      collaborators,
-      addCollaborator,
-      updateCollaborator,
-      removeCollaborator,
-    } = this.props
-    if (!collaborators.loaded) {
+    const { collaborators, loaded } = this.state
+
+    if (!loaded) {
       return <Spinner />
     }
 
     return (
       <CollaboratorsPage
-        collaborators={this.state.collaborators}
-        addCollaborator={addCollaborator}
-        updateCollaborator={updateCollaborator}
-        removeCollaborator={removeCollaborator}
+        collaborators={collaborators}
+        addCollaborator={this.addCollaborator}
+        updateCollaborator={this.updateCollaborator}
+        removeCollaborator={this.removeCollaborator}
       />
     )
   }
 }
 
-export default connect<CollaboratorsStateProps, CollaboratorsDispatchProps>(
-  (state: ApplicationState) => ({
-    collaborators: state.collaborators,
-  }),
-  (dispatch: Dispatch<CollaboratorsState>) => ({
-    dispatch,
-    ...bindActionCreators(
-      {
-        addCollaborator,
-        updateCollaborator,
-        removeCollaborator,
-      },
-      dispatch
-    ),
-  })
-)(CollaboratorsPageContainer)
+export default CollaboratorsPageContainer

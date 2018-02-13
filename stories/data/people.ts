@@ -4,7 +4,7 @@ import * as imageFile from '../assets/melnitz.jpg'
 
 const people: Person[] = [
   {
-    id: 'example-1',
+    _id: 'example-1',
     name: 'Janine',
     surname: 'Melnitz',
     email: 'janine.melnitz@example.com',
@@ -12,7 +12,7 @@ const people: Person[] = [
     image: imageFile,
     affiliations: [
       {
-        id: 'firehouse',
+        _id: 'firehouse',
         name: 'Firehouse, Hook & Ladder Company 8',
         address:
           '14 North Moore Street, Tribeca, Manhattan, New York City, New York, USA',
@@ -20,7 +20,7 @@ const people: Person[] = [
     ],
   },
   {
-    id: 'example-2',
+    _id: 'example-2',
     name: 'Janine',
     surname: 'Melnitz',
     email: 'janine.melnitz@example.com',
@@ -28,7 +28,7 @@ const people: Person[] = [
     image: imageFile,
     affiliations: [
       {
-        id: 'firehouse',
+        _id: 'firehouse',
         name: 'Firehouse, Hook & Ladder Company 8',
         address:
           '14 North Moore Street, Tribeca, Manhattan, New York City, New York, USA',
@@ -36,7 +36,7 @@ const people: Person[] = [
     ],
   },
   {
-    id: 'example-3',
+    _id: 'example-3',
     name: 'Janine',
     surname: 'Melnitz',
     email: 'janine.melnitz@example.com',
@@ -44,7 +44,7 @@ const people: Person[] = [
     image: imageFile,
     affiliations: [
       {
-        id: 'firehouse',
+        _id: 'firehouse',
         name: 'Firehouse, Hook & Ladder Company 8',
         address:
           '14 North Moore Street, Tribeca, Manhattan, New York City, New York, USA',

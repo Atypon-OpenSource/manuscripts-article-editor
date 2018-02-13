@@ -3,14 +3,10 @@ import { Provider } from 'react-redux'
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { reducer as authenticationReducer } from './authentication'
-import { reducer as collaboratorsReducer } from './collaborators'
-import { reducer as manuscriptsReducer } from './manuscripts'
 
 const store = createStore(
   combineReducers({
     authentication: authenticationReducer,
-    collaborators: collaboratorsReducer,
-    manuscripts: manuscriptsReducer,
   }),
   (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose)(
     applyMiddleware(thunk)

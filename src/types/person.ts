@@ -1,11 +1,11 @@
 export interface Affiliation {
-  id: string
+  _id: string
   name: string
   address?: string
 }
 
 export interface Person {
-  id: string
+  _id: string
   name: string
   surname: string
   email?: string
@@ -13,5 +13,3 @@ export interface Person {
   image?: string
   affiliations: Affiliation[] | undefined
 }
-
-export type PartialPerson = Partial<Person>

@@ -35,31 +35,26 @@ const AuthorSurname = styled('span')`
   font-weight: 600;
 `
 
-export interface AuthorsProps {
-  authors: Person[]
+export interface AuthorProps {
+  author: Person
 }
 
-export const Author: React.SFC<Person> = ({ id, name, surname, image }) => (
+export const Author: React.SFC<AuthorProps> = ({ author }) => (
   <AuthorContainer>
-    <AuthorImage src={image} />
+    <AuthorImage src={author.image} />
     <AuthorNameParts>
-      <AuthorName>{name.substring(0, 1)}.</AuthorName>{' '}
-      <AuthorSurname>{surname}</AuthorSurname>
+      <AuthorName>{author.name.substring(0, 1)}.</AuthorName>{' '}
+      <AuthorSurname>{author.surname}</AuthorSurname>
     </AuthorNameParts>
   </AuthorContainer>
 )
 
+export interface AuthorsProps {
+  authors: Person[]
+}
+
 export const Authors: React.SFC<AuthorsProps> = ({ authors }) => (
   <AuthorsContainer>
-    {authors.map(author => (
-      <Author
-        key={author.id}
-        id={author.id}
-        name={author.name}
-        surname={author.surname}
-        image={author.image}
-        affiliations={author.affiliations}
-      />
-    ))}
+    {authors.map(author => <Author key={author._id} author={author} />)}
   </AuthorsContainer>
 )

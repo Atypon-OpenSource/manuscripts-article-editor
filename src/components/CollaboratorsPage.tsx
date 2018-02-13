@@ -1,22 +1,29 @@
 import * as React from 'react'
-import { CollaboratorsActionCreators } from '../store/collaborators/types'
-import { Person } from '../types/person'
+import { RxDocument } from 'rxdb'
+import {
+  CollaboratorActions,
+  CollaboratorInterface,
+} from '../types/collaborator'
 import { Authors } from './Authors'
 import { ActionButton } from './Button'
 import { PageHeading } from './PageHeading'
 import { Search } from './Search'
 
 interface CollaboratorsPageProps {
-  collaborators: Person[]
+  collaborators: Array<RxDocument<CollaboratorInterface>>
 }
 
 const CollaboratorsPage: React.SFC<
-  CollaboratorsPageProps & CollaboratorsActionCreators
-> = ({ collaborators }) => (
+  CollaboratorsPageProps & CollaboratorActions
+> = ({ collaborators, addCollaborator }) => (
   <React.Fragment>
     <PageHeading
       title={'Collaborators'}
-      action={<ActionButton>+</ActionButton>}
+      action={
+        <ActionButton onClick={() => addCollaborator({ name: 'Unnamed' })}>
+          +
+        </ActionButton>
+      }
     />
     <Search />
     <Authors authors={collaborators} />

@@ -1,25 +1,37 @@
 import * as React from 'react'
-import { ManuscriptsActionCreators } from '../store/manuscripts/types'
-import { ManuscriptInterface } from '../types/manuscript'
+import { RxDocument } from 'rxdb'
+import { ManuscriptActions, ManuscriptInterface } from '../types/manuscript'
 import { ActionButton } from './Button'
 import { Manuscripts } from './Manuscripts'
 import { PageHeading } from './PageHeading'
 import { Search } from './Search'
 
 interface ManuscriptsPageProps {
-  manuscripts: ManuscriptInterface[]
+  manuscripts: Array<RxDocument<ManuscriptInterface>>
 }
 
-const ManuscriptsPage: React.SFC<
-  ManuscriptsPageProps & ManuscriptsActionCreators
-> = ({ manuscripts }) => (
+const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({
+  manuscripts,
+  addManuscript,
+  removeManuscript,
+  updateManuscript,
+}) => (
   <React.Fragment>
     <PageHeading
       title={'Manuscripts'}
-      action={<ActionButton>+</ActionButton>}
+      action={
+        <ActionButton onClick={() => addManuscript({ title: 'Untitled' })}>
+          +
+        </ActionButton>
+      }
     />
     <Search />
-    <Manuscripts manuscripts={manuscripts} />
+    <Manuscripts
+      manuscripts={manuscripts}
+      removeManuscript={removeManuscript}
+      addManuscript={addManuscript}
+      updateManuscript={updateManuscript}
+    />
   </React.Fragment>
 )
 

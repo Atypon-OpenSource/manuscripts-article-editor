@@ -1,11 +1,16 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
+import {
+  Redirect,
+  Route,
+  RouteComponentProps,
+  RouteProps,
+} from 'react-router-dom'
 import { Spinner } from '../components/Spinner'
 import { AuthenticationStateProps } from '../store/authentication/types'
 import { ApplicationState } from '../store/types'
 
-interface PrivateRouteProps {
+interface PrivateRouteProps extends RouteProps {
   component: React.ComponentClass
 }
 

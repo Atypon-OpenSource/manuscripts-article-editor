@@ -1,6 +1,12 @@
 import * as React from 'react'
+import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import { ManuscriptInterface } from '../types/manuscript'
+import {
+  ManuscriptActions,
+  ManuscriptInterface,
+  RemoveManuscript,
+} from '../types/manuscript'
+import { ActionButton } from './Button'
 
 export const ManuscriptsContainer = styled('div')``
 
@@ -17,26 +23,35 @@ export const ManuscriptContainer = styled('div')`
 
 const ManuscriptTitle = styled('span')``
 
-export interface ManuscriptsProps {
-  manuscripts: ManuscriptInterface[]
+export interface ManuscriptProps {
+  manuscript: RxDocument<ManuscriptInterface>
+  removeManuscript: RemoveManuscript
 }
 
-export const Manuscript: React.SFC<ManuscriptInterface> = ({ id, title }) => (
+export const Manuscript: React.SFC<ManuscriptProps> = ({
+  manuscript,
+  removeManuscript,
+}) => (
   <ManuscriptContainer>
-    <ManuscriptTitle>{title}</ManuscriptTitle>
+    <ManuscriptTitle>{manuscript.title}</ManuscriptTitle>
+    <ActionButton onClick={() => removeManuscript(manuscript)}>x</ActionButton>
   </ManuscriptContainer>
 )
 
-export const Manuscripts: React.SFC<ManuscriptsProps> = ({ manuscripts }) => (
+export interface ManuscriptsProps {
+  manuscripts: Array<RxDocument<ManuscriptInterface>>
+}
+
+export const Manuscripts: React.SFC<ManuscriptsProps & ManuscriptActions> = ({
+  manuscripts,
+  removeManuscript,
+}) => (
   <ManuscriptsContainer>
     {manuscripts.map(manuscript => (
       <Manuscript
-        key={manuscript.id}
-        id={manuscript.id}
-        title={manuscript.title}
-        createdAt={manuscript.createdAt}
-        updatedAt={manuscript.updatedAt}
-        authors={manuscript.authors}
+        key={manuscript._id}
+        manuscript={manuscript}
+        removeManuscript={removeManuscript}
       />
     ))}
   </ManuscriptsContainer>

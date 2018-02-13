@@ -106,7 +106,7 @@ export const AuthorDetails = ({ author }: AuthorDetailsProps) => (
         </AuthorDetailsHeader>
 
         {author.affiliations.map((affiliation: Affiliation) => (
-          <Affiliation key={affiliation.id}>
+          <Affiliation key={affiliation._id}>
             <AffiliationName>{affiliation.name}</AffiliationName>
             {', '}
             <AffiliationAddress>{affiliation.address}</AffiliationAddress>
