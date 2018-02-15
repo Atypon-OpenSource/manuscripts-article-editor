@@ -5,17 +5,16 @@ import { CenteredForm, FormActions, FormHeader } from './Form'
 import { SubHero } from './Hero'
 import { TextField } from './TextField'
 
-export interface SendPasswordResetValues {
+export interface RecoverValues {
   email: string
 }
 
-export interface SendPasswordResetErrors
-  extends FormikErrors<SendPasswordResetValues> {
+export interface RecoverErrors extends FormikErrors<RecoverValues> {
   notFound: string
   submit: string
 }
 
-export const SendPasswordResetForm = ({
+export const RecoverForm = ({
   values,
   touched,
   errors,
@@ -24,7 +23,7 @@ export const SendPasswordResetForm = ({
   handleSubmit,
   isSubmitting,
   isValid,
-}: FormikProps<SendPasswordResetValues & SendPasswordResetErrors>) => (
+}: FormikProps<RecoverValues & RecoverErrors>) => (
   <CenteredForm onSubmit={handleSubmit}>
     <FormHeader>
       <SubHero>Reset Password</SubHero>

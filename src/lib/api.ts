@@ -1,37 +1,71 @@
+import { AxiosRequestConfig } from 'axios'
+import { stringify } from 'qs'
 import { LoginValues } from '../components/LoginForm'
-import {
-  PasswordHiddenValues,
-  PasswordValues,
-} from '../components/PasswordForm'
-import { SendPasswordResetValues } from '../components/SendPasswordResetForm'
+import { RecoverValues } from '../components/RecoverForm'
 import { SignupValues } from '../components/SignupForm'
 import client from './client'
 import token from './token'
 
+export interface VerifyValues {
+  type: 'signup' | 'recovery'
+  token: string
+  password?: string
+}
+
+/* tslint:disable-next-line:no-any */
+const buildFormRequestConfig = (url: string, data: any): AxiosRequestConfig => {
+  return {
+    url,
+    method: 'POST',
+    data: stringify(data),
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+    },
+  }
+}
+
 export const authenticate = () =>
-  client.get('/authentication').then(response => response.data)
+  client.get('/user').then(response => response.data)
 
-export const signup = (data: SignupValues) =>
-  client.post('/authentication/signup', data).then(response => {
-    token.set(response.data.token)
+export const signup = (data: SignupValues) => client.post('/signup', data)
+
+export const login = (data: LoginValues) => {
+  const requestConfig = buildFormRequestConfig('/token', {
+    username: data.email,
+    password: data.password,
+    grant_type: 'password',
   })
 
-export const login = (data: LoginValues) =>
-  client.post('/authentication', data).then(response => {
-    token.set(response.data.token)
+  return client.request(requestConfig).then(response => {
+    token.set(response.data)
+  })
+}
+
+export const refresh = () => {
+  const tokenData = token.get()
+
+  if (!tokenData) return Promise.resolve()
+
+  const requestConfig = buildFormRequestConfig('/token', {
+    refresh_token: tokenData.refresh_token,
+    grant_type: 'refresh',
   })
 
-export const sendPasswordReset = (data: SendPasswordResetValues) =>
-  client.post('/authentication/send-password-reset', data)
-
-export const password = (data: PasswordValues & PasswordHiddenValues) =>
-  client.post('/authentication/password', data).then(response => {
-    token.set(response.data.token)
+  return client.request(requestConfig).then(response => {
+    token.set(response.data)
   })
+}
+
+export const recover = (data: RecoverValues) => client.post('/recover', data)
 
 export const logout = () =>
-  client.delete('/authentication').then(() => {
+  client.post('/logout').then(() => {
     token.remove()
+  })
+
+export const verify = (data: VerifyValues) =>
+  client.post('/verify', data).then(response => {
+    token.set(response.data)
   })
 
 /* tslint:disable:no-any */

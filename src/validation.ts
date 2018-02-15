@@ -14,7 +14,7 @@ export const passwordSchema = yup.object().shape({
   password: yup.string().required(),
 })
 
-export const sendPasswordResetSchema = yup.object().shape({
+export const recoverSchema = yup.object().shape({
   email: yup
     .string()
     .required()

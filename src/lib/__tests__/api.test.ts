@@ -3,7 +3,7 @@ jest.mock('../token')
 import MockAdapter from 'axios-mock-adapter'
 import * as api from '../api'
 import client from '../client'
-import token from '../token'
+import token, { Token } from '../token'
 
 describe('api', () => {
   afterEach(() => {
@@ -13,36 +13,47 @@ describe('api', () => {
   it('returns data from authenticate', async () => {
     const mock = new MockAdapter(client)
 
-    const mockData = { name: 'foo' }
-    mock.onGet('/authentication').reply(200, mockData)
+    const mockData = {
+      name: 'foo',
+    }
 
-    const data = await api.authenticate()
-    expect(data).toEqual(mockData)
+    mock.onGet('/user').reply(200, mockData)
+
+    const result = await api.authenticate()
+
+    expect(result).toEqual(mockData)
   })
 
-  it('stores the token after signup', async () => {
+  it('returns data from signup', async () => {
     const mock = new MockAdapter(client)
 
-    const mockData = { token: 'foo' }
-    mock.onPost('/authentication/signup').reply(200, mockData)
+    const mockData = {
+      email: 'test@example.com',
+    }
 
-    expect(token.get()).toBeNull()
+    mock.onPost('/signup').reply(200, mockData)
 
-    await api.signup({
+    const result = await api.signup({
       name: 'foo',
       surname: 'foo',
       email: 'test@example.com',
       password: 'foo',
     })
 
-    expect(token.get()).toEqual(mockData.token)
+    expect(result.data.email).toEqual(mockData.email)
   })
 
   it('stores the token after login', async () => {
     const mock = new MockAdapter(client)
 
-    const mockData = { token: 'foo' }
-    mock.onPost('/authentication').reply(200, mockData)
+    const mockData = {
+      access_token: 'foo',
+      refresh_token: 'bar',
+      expires_in: 100,
+      token_type: 'bearer',
+    }
+
+    mock.onPost('/token').reply(200, mockData)
 
     expect(token.get()).toBeNull()
 
@@ -51,16 +62,30 @@ describe('api', () => {
       password: 'foo',
     })
 
-    expect(token.get()).toEqual(mockData.token)
+    const tokenData = token.get() as Token
+
+    expect(tokenData.access_token).toEqual(mockData.access_token)
   })
 
   it('removes the token after logout', async () => {
     const mock = new MockAdapter(client)
 
-    mock.onDelete('/authentication').reply(204)
+    mock.onPost('/logout').reply(204)
 
-    token.set('foo')
-    expect(token.get()).toBe('foo')
+    const tokenData = {
+      access_token: 'foo',
+      refresh_token: 'bar',
+      expires_in: 100,
+      token_type: 'bearer',
+    }
+
+    token.set(tokenData)
+
+    const result = token.get() as Token
+
+    expect(result).not.toBeNull()
+
+    expect(result.access_token).toBe(tokenData.access_token)
 
     await api.logout()
 

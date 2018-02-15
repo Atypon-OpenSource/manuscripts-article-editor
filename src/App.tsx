@@ -9,8 +9,7 @@ import HomePageContainer from './containers/HomePageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
 import LogoutPageContainer from './containers/LogoutPageContainer'
 import ManuscriptsPageContainer from './containers/ManuscriptsPageContainer'
-import PasswordPageContainer from './containers/PasswordPageContainer'
-import SendPasswordResetPageContainer from './containers/SendPasswordResetPageContainer'
+import RecoverPageContainer from './containers/RecoverPageContainer'
 import SignupPageContainer from './containers/SignupPageContainer'
 import UserContainer from './containers/UserContainer'
 
@@ -28,14 +27,9 @@ const App = () => (
         <Route path={'/logout'} exact={true} component={LogoutPageContainer} />
         <Route path={'/signup'} exact={true} component={SignupPageContainer} />
         <Route
-          path={'/send-password-reset'}
+          path={'/recover'}
           exact={true}
-          component={SendPasswordResetPageContainer}
-        />
-        <Route
-          path={'/password'}
-          exact={true}
-          component={PasswordPageContainer}
+          component={RecoverPageContainer}
         />
         <Route path={'/manuscripts'} component={ManuscriptsPageContainer} />
         <Route path={'/collaborators'} component={CollaboratorsPageContainer} />

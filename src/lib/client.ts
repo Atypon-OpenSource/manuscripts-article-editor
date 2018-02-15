@@ -6,8 +6,10 @@ const client = axios.create({
 })
 
 client.interceptors.request.use(config => {
-  if (token.get()) {
-    config.headers.authorization = 'Bearer ' + token.get()
+  const tokenData = token.get()
+
+  if (tokenData) {
+    config.headers.authorization = 'Bearer ' + tokenData.access_token
   }
 
   return config

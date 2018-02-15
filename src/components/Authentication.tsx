@@ -5,21 +5,21 @@ import { styled } from '../theme'
 import { IconButton } from './Button'
 
 export interface AuthenticationButtonProps {
-  openWindow: (provider: string) => void
+  redirect: (provider: string) => () => void
 }
 
 export const GoogleLogin: React.SFC<AuthenticationButtonProps> = ({
-  openWindow,
+  redirect,
 }) => (
-  <IconButton type="button" onClick={() => openWindow('google')}>
+  <IconButton type="button" onClick={redirect('google')}>
     <GoogleLogo size={48} />
   </IconButton>
 )
 
 export const OrcidLogin: React.SFC<AuthenticationButtonProps> = ({
-  openWindow,
+  redirect,
 }) => (
-  <IconButton type="button" onClick={() => openWindow('orcid')}>
+  <IconButton type="button" onClick={redirect('orcid')}>
     <OrcidLogo size={48} />
   </IconButton>
 )

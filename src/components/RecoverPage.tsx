@@ -2,25 +2,24 @@ import { Formik, FormikConfig } from 'formik'
 import * as React from 'react'
 import FooterContainer from '../containers/FooterContainer'
 import { Centered } from './Page'
-import {
-  SendPasswordResetForm,
-  SendPasswordResetValues,
-} from './SendPasswordResetForm'
+import { RecoverForm, RecoverValues } from './RecoverForm'
 
-const SendPasswordResetPage: React.SFC<
-  FormikConfig<SendPasswordResetValues>
-> = ({ initialValues, validationSchema, onSubmit }) => (
+const RecoverPage: React.SFC<FormikConfig<RecoverValues>> = ({
+  initialValues,
+  validationSchema,
+  onSubmit,
+}) => (
   <Centered>
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={false}
       onSubmit={onSubmit}
-      component={SendPasswordResetForm}
+      component={RecoverForm}
     />
 
     <FooterContainer />
   </Centered>
 )
 
-export default SendPasswordResetPage
+export default RecoverPage

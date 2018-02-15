@@ -13,7 +13,6 @@ export interface LoginValues {
 }
 
 export interface LoginErrors extends FormikErrors<LoginValues> {
-  unauthorized: boolean
   submit: string
 }
 
@@ -48,8 +47,6 @@ export const LoginForm = ({
       required={true}
     />
 
-    {/*{touched.email && errors.email && <div>{errors.email}</div>}*/}
-
     <LastTextField
       type={'password'}
       name={'password'}
@@ -60,9 +57,8 @@ export const LoginForm = ({
       required={true}
     />
 
-    {/*{touched.password && errors.password && <div>{errors.password}</div>}*/}
-
-    {errors.unauthorized && <div>Username or password is incorrect</div>}
+    {touched.email && errors.email && <div>{errors.email}</div>}
+    {touched.password && errors.password && <div>{errors.password}</div>}
 
     {errors.submit && <div>{errors.submit}</div>}
 
@@ -72,8 +68,7 @@ export const LoginForm = ({
           No account? <FormLink to={'/signup'}>Sign Up</FormLink>
         </div>
         <div>
-          Forgot password?{' '}
-          <FormLink to={'/send-password-reset'}>Reset</FormLink>
+          Forgot password? <FormLink to={'/recover'}>Reset</FormLink>
         </div>
       </ManuscriptLinks>
 

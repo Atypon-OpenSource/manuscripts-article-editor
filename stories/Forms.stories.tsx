@@ -5,12 +5,12 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { LoginForm } from '../src/components/LoginForm'
 import { PasswordForm } from '../src/components/PasswordForm'
-import { SendPasswordResetForm } from '../src/components/SendPasswordResetForm'
+import { RecoverForm } from '../src/components/RecoverForm'
 import { SignupForm } from '../src/components/SignupForm'
 import {
   loginSchema,
   passwordSchema,
-  sendPasswordResetSchema,
+  recoverSchema,
   signupSchema,
 } from '../src/validation'
 
@@ -36,10 +36,10 @@ storiesOf('Forms', module)
   .add('Send Password Reset', () => (
     <Formik
       initialValues={{ email: '' }}
-      validationSchema={sendPasswordResetSchema}
+      validationSchema={recoverSchema}
       isInitialValid={false}
       onSubmit={action('submit')}
-      component={SendPasswordResetForm}
+      component={RecoverForm}
     />
   ))
   .add('Password', () => (

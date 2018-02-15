@@ -11,7 +11,6 @@ export interface PasswordValues {
 
 export interface PasswordHiddenValues {
   token: string
-  email: string
 }
 
 export interface PasswordErrors extends FormikErrors<PasswordValues> {
