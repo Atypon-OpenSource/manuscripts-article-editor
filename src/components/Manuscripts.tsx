@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
 import {
@@ -6,35 +7,78 @@ import {
   ManuscriptInterface,
   RemoveManuscript,
 } from '../types/manuscript'
-import { ActionButton } from './Button'
+import { Person } from '../types/person'
+import { Button } from './Button'
+import { Contributor } from './Contributor'
 
-export const ManuscriptsContainer = styled('div')``
+export const ManuscriptsContainer = styled.div`
+  padding: 20px 20px;
+`
 
-export const ManuscriptContainer = styled('div')`
+export const ManuscriptContainer = styled(Link)`
   padding: 10px;
-  display: flex;
-  align-items: center;
   cursor: pointer;
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+  display: block;
 
   &:hover {
-    background-color: ${props => props.theme.primary};
+    background-color: #f1f8ff;
   }
 `
 
-const ManuscriptTitle = styled('span')``
+const ManuscriptSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+`
+
+const ManuscriptTitle = styled.span`
+  opacity: 0.75;
+  font-size: 20px;
+  line-height: 24px;
+`
+
+const ManuscriptDate = styled.span`
+  opacity: 0.75;
+  font-size: 12px;
+`
+
+const ManuscriptContributors = styled.div``
 
 export interface ManuscriptProps {
   manuscript: RxDocument<ManuscriptInterface>
+  contributors: Person[]
   removeManuscript: RemoveManuscript
 }
 
+const DeleteButton = Button.extend`
+  color: #ddd;
+`
+
 export const Manuscript: React.SFC<ManuscriptProps> = ({
   manuscript,
+  contributors,
   removeManuscript,
 }) => (
-  <ManuscriptContainer>
-    <ManuscriptTitle>{manuscript.title}</ManuscriptTitle>
-    <ActionButton onClick={() => removeManuscript(manuscript)}>x</ActionButton>
+  <ManuscriptContainer to={`/editor/${manuscript._id}`}>
+    <ManuscriptSection>
+      <ManuscriptTitle>{manuscript.title}</ManuscriptTitle>
+
+      <ManuscriptContributors>
+        {contributors.map(contributor => (
+          <Contributor contributor={contributor} />
+        ))}
+      </ManuscriptContributors>
+    </ManuscriptSection>
+
+    <ManuscriptSection>
+      <ManuscriptDate>{manuscript.updatedAt || '1 day ago'}</ManuscriptDate>
+
+      <DeleteButton onClick={removeManuscript(manuscript)}>Delete</DeleteButton>
+    </ManuscriptSection>
   </ManuscriptContainer>
 )
 
@@ -51,6 +95,7 @@ export const Manuscripts: React.SFC<ManuscriptsProps & ManuscriptActions> = ({
       <Manuscript
         key={manuscript._id}
         manuscript={manuscript}
+        contributors={[]}
         removeManuscript={removeManuscript}
       />
     ))}

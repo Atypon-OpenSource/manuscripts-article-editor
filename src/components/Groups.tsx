@@ -1,42 +1,92 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
+import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import { GroupInterface } from '../types/group'
+import { GroupActions, GroupInterface, RemoveGroup } from '../types/group'
+import { Person } from '../types/person'
+import { Button } from './Button'
+import { Contributor } from './Contributor'
 
-export const GroupsContainer = styled('div')``
+export const GroupsContainer = styled.div`
+  padding: 20px 30px;
+`
 
-export const GroupContainer = styled('div')`
+export const GroupContainer = styled(Link)`
   padding: 10px;
-  display: flex;
-  align-items: center;
   cursor: pointer;
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+  display: block;
 
   &:hover {
-    background-color: ${props => props.theme.primary};
+    background-color: #f1f8ff;
   }
 `
 
-const GroupName = styled('div')`
-  flex: 1;
+const GroupSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+`
+
+const GroupTitle = styled.span`
+  opacity: 0.75;
   font-size: 20px;
-  line-height: 22px;
+  line-height: 24px;
+`
+
+const GroupContributors = styled.div``
+
+const DeleteButton = Button.extend`
+  color: #ddd;
 `
 
 export interface GroupProps {
-  group: GroupInterface
+  group: RxDocument<GroupInterface>
+  contributors: Person[]
+  removeGroup: RemoveGroup
 }
 
-export const Group: React.SFC<GroupProps> = ({ group }) => (
-  <GroupContainer>
-    <GroupName>{group.name}</GroupName>
+export const Group: React.SFC<GroupProps> = ({
+  group,
+  contributors,
+  removeGroup,
+}) => (
+  <GroupContainer to={`/group/${group._id}`}>
+    <GroupSection>
+      <GroupTitle>{group.name}</GroupTitle>
+    </GroupSection>
+
+    <GroupSection>
+      <GroupContributors>
+        {contributors.map(contributor => (
+          <Contributor contributor={contributor} />
+        ))}
+      </GroupContributors>
+
+      <DeleteButton onClick={removeGroup(group)}>Delete</DeleteButton>
+    </GroupSection>
   </GroupContainer>
 )
 
 export interface GroupsProps {
-  groups: GroupInterface[]
+  groups: Array<RxDocument<GroupInterface>>
 }
 
-export const Groups: React.SFC<GroupsProps> = ({ groups }) => (
+export const Groups: React.SFC<GroupsProps & GroupActions> = ({
+  groups,
+  removeGroup,
+}) => (
   <GroupsContainer>
-    {groups.map(group => <Group key={group._id} group={group} />)}
+    {groups.map(group => (
+      <Group
+        key={group._id}
+        group={group}
+        contributors={[]}
+        removeGroup={removeGroup}
+      />
+    ))}
   </GroupsContainer>
 )

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { styled } from '../theme'
+import { Button } from './Button'
 
 export const FooterBlock = styled('footer')`
   margin-top: 100px;
@@ -26,6 +27,11 @@ export const FooterLink = styled(Link)`
 export const FooterLinkSeparator = styled('span')`
   display: inline-flex;
   padding: 0 5px;
+`
+
+export const FooterTextButton = Button.extend`
+  background: transparent;
+  color: white;
 `
 
 interface FooterLink {

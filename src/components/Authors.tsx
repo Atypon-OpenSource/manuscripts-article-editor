@@ -1,8 +1,11 @@
 import * as React from 'react'
+import UserIcon from '../icons/user'
 import { styled } from '../theme'
 import { Person } from '../types/person'
 
-export const AuthorsContainer = styled('div')``
+export const AuthorsContainer = styled('div')`
+  padding: 20px 30px;
+`
 
 export const AuthorContainer = styled('div')`
   padding: 10px;
@@ -35,13 +38,23 @@ const AuthorSurname = styled('span')`
   font-weight: 600;
 `
 
+const AuthorIcon = styled(UserIcon)`
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: #4489d8;
+`
+
 export interface AuthorProps {
   author: Person
 }
 
 export const Author: React.SFC<AuthorProps> = ({ author }) => (
   <AuthorContainer>
-    <AuthorImage src={author.image} />
+    {author.image ? (
+      <AuthorImage src={author.image} />
+    ) : (
+      <AuthorIcon size={32} />
+    )}
     <AuthorNameParts>
       <AuthorName>{author.name.substring(0, 1)}.</AuthorName>{' '}
       <AuthorSurname>{author.surname}</AuthorSurname>

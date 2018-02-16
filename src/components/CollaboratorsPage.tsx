@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { RxDocument } from 'rxdb'
+import Add from '../icons/add'
 import {
   CollaboratorActions,
   CollaboratorInterface,
@@ -7,7 +8,7 @@ import {
 import { Authors } from './Authors'
 import { ActionButton } from './Button'
 import { PageHeading } from './PageHeading'
-import { Search } from './Search'
+import { Sort } from './Sort'
 
 interface CollaboratorsPageProps {
   collaborators: Array<RxDocument<CollaboratorInterface>>
@@ -21,11 +22,14 @@ const CollaboratorsPage: React.SFC<
       title={'Collaborators'}
       action={
         <ActionButton onClick={() => addCollaborator({ name: 'Unnamed' })}>
-          +
+          <Add size={15} />
         </ActionButton>
       }
     />
-    <Search />
+    <Sort>
+      <option value="modified">by modification date</option>
+      <option value="name">by name</option>
+    </Sort>
     <Authors authors={collaborators} />
   </React.Fragment>
 )

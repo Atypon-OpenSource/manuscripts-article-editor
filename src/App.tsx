@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader'
 import { Route, Switch } from 'react-router-dom'
 import { Main, Page, Sidebar } from './components/Page'
 import SidebarNav from './components/SidebarNav'
+import AccountPageContainer from './containers/AccountPageContainer'
 import CollaboratorsPageContainer from './containers/CollaboratorsPageContainer'
 import GroupsPageContainer from './containers/GroupsPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
@@ -26,6 +27,11 @@ const App = () => (
         <Route path={'/login'} exact={true} component={LoginPageContainer} />
         <Route path={'/logout'} exact={true} component={LogoutPageContainer} />
         <Route path={'/signup'} exact={true} component={SignupPageContainer} />
+        <Route
+          path={'/account'}
+          exact={true}
+          component={AccountPageContainer}
+        />
         <Route
           path={'/recover'}
           exact={true}

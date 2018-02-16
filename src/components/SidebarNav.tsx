@@ -1,21 +1,25 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
-import { ThemedStyledProps } from 'styled-components'
-import { styled, ThemeInterface } from '../theme'
+import { styled } from '../theme'
 
-type LinkProps = ThemedStyledProps<
-  React.HTMLProps<HTMLAnchorElement>,
-  ThemeInterface
->
+// type LinkProps = ThemedStyledProps<
+//   React.HTMLProps<HTMLAnchorElement>,
+//   ThemeInterface
+// >
 
-const SidebarLink = styled(NavLink)`
+export const SidebarLink = styled(NavLink)`
   display: block;
-  color: ${(props: LinkProps) => props.theme.primary};
-  padding: 5px;
+  color: inherit;
+  padding: 6px 20px;
   text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+  border-radius: 6px;
+  margin: 6px 0;
 
   &:hover {
-    text-decoration: underline;
+    color: white;
+    background-color: #91c4ff;
   }
 `
 

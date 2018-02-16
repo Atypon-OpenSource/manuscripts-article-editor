@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import HomePage from '../components/HomePage'
 import { Spinner } from '../components/Spinner'
 import { AuthenticationStateProps } from '../store/authentication/types'
@@ -15,6 +16,10 @@ class HomePageContainer extends React.Component<AuthenticationStateProps> {
 
     if (!authentication.loaded) {
       return <Spinner color={'black'} />
+    }
+
+    if (authentication.user) {
+      return <Redirect to={'/manuscripts'} />
     }
 
     return <HomePage />

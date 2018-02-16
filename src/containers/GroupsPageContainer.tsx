@@ -49,17 +49,21 @@ class GroupsPageContainer extends React.Component {
   }
 
   public addGroup: AddGroup = data => {
-    return this.db.groups.insert(data)
+    this.db.groups.insert(data)
   }
 
   // TODO: atomicUpdate?
   public updateGroup: UpdateGroup = (doc, data) => {
-    return doc.update({
+    doc.update({
       $set: data,
     })
   }
 
-  public removeGroup: RemoveGroup = doc => doc.remove()
+  public removeGroup: RemoveGroup = doc => event => {
+    event.preventDefault()
+
+    doc.remove()
+  }
 
   public render() {
     const { groups, loaded } = this.state

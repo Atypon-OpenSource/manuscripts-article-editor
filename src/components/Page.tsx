@@ -1,4 +1,6 @@
-import { injectGlobal, styled } from '../theme'
+import * as React from 'react'
+import { ThemedStyledProps } from 'styled-components'
+import { injectGlobal, styled, ThemeInterface } from '../theme'
 
 injectGlobal`
   body {
@@ -6,19 +8,24 @@ injectGlobal`
   }
 `
 
+export type PageProps = ThemedStyledProps<
+  React.HTMLProps<HTMLDivElement>,
+  ThemeInterface
+>
+
 export const Page = styled.div`
   display: flex;
   min-height: 100vh;
   box-sizing: border-box;
-  background-color: ${props => props.theme.backgroundColor};
-  color: ${props => props.theme.color};
-  font-family: ${props => props.theme.fontFamily};
+  background-color: ${(props: PageProps) => props.theme.backgroundColor};
+  color: ${(props: PageProps) => props.theme.color};
+  font-family: ${(props: PageProps) => props.theme.fontFamily};
 `
 
 export const Sidebar = styled.div`
-  width: 200px;
-  padding: ${props => props.theme.padding};
-  border-right: 1px solid #aaa;
+  width: 272px;
+  padding: 20px;
+  background-color: ${(props: PageProps) => props.theme.sidebarBackgroundColor};
 `
 
 export const Main = styled.main`

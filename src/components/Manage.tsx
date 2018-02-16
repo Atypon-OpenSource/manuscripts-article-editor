@@ -14,7 +14,7 @@ type FooterProps = ThemedStyledProps<
   ThemeInterface
 >
 
-const ModalContainer = styled.div`
+export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-family: ${(props: DivProps) => props.theme.fontFamily};
@@ -22,27 +22,27 @@ const ModalContainer = styled.div`
   width: 932px; /* TODO: depends on the screen width? */
 `
 
-const ModalHeader = styled.div`
+export const ModalHeader = styled.div`
   display: flex;
   font-size: 24px;
   margin-bottom: 20px;
 `
 
-const ModalHeading = styled.div`
+export const ModalHeading = styled.div`
   font-weight: 600;
 `
 
-const ModalHeadingSeparator = styled.div`
+export const ModalHeadingSeparator = styled.div`
   font-weight: 200;
   margin: 0 10px;
   display: inline-block;
 `
 
-const ModalSubheading = styled.div`
+export const ModalSubheading = styled.div`
   font-weight: 200;
 `
 
-const ModalForm = styled.div`
+export const ModalForm = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -52,19 +52,19 @@ const ModalForm = styled.div`
   background: #fff;
 `
 
-const ModalFormBody = styled.div`
+export const ModalFormBody = styled.div`
   flex: 1;
   display: flex;
   padding: 20px;
 `
 
-const ModalSidebar = styled.div`
+export const ModalSidebar = styled.div`
   width: 300px;
   border-right: 1px solid #e6e6e6;
   margin-right: 30px;
 `
 
-const ModalMain = styled.div`
+export const ModalMain = styled.div`
   flex: 1;
 `
 
@@ -74,7 +74,7 @@ export const ModalFormHeading = styled.div`
   color: #acb8c7;
 `
 
-const ModalFormFooter = styled.footer`
+export const ModalFormFooter = styled.footer`
   display: flex;
   justify-content: space-between;
   padding: ${(props: FooterProps) => props.theme.padding};
@@ -85,19 +85,21 @@ const ModalFormFooter = styled.footer`
     props.theme.borderRadius};
 `
 
-const ModalFormFooterText = styled.div`
+export const ModalFormFooterText = styled.div`
   flex: 1;
   color: white;
+  display: flex;
+  align-items: center;
 `
 
-const ModalFormActions = styled.div`
+export const ModalFormActions = styled.div`
   flex: 1;
   display: flex;
   justify-content: flex-end;
   padding: 5px 10px;
 `
 
-const ModalFooterButton = Button.extend`
+export const ModalFooterButton = Button.extend`
   color: #fff;
   border-color: transparent;
   background-color: transparent;
@@ -112,7 +114,7 @@ const ModalFooterButton = Button.extend`
   }
 `
 
-const PrimaryModalFooterButton = ModalFooterButton.extend`
+export const PrimaryModalFooterButton = ModalFooterButton.extend`
   color: ${(props: ButtonProps) => props.theme.primary};
   border-color: #fff;
   background-color: #fff;
@@ -146,7 +148,7 @@ interface ManageProps {
   main: React.ReactNode
   heading: string
   subheading?: string
-  footerText?: string
+  footerText?: string | React.ReactNode
   handleClose?: any // (event: KeyboardEvent) => void
   handleDone: React.MouseEventHandler<HTMLElement>
   handleCancel?: React.MouseEventHandler<HTMLElement>
@@ -182,7 +184,9 @@ export const Manage = ({
         </ModalFormBody>
 
         <ModalFormFooter>
-          {footerText && <ModalFormFooterText />}
+          {footerText && (
+            <ModalFormFooterText>{footerText}</ModalFormFooterText>
+          )}
           <ModalFormActions>
             {handleCancel && (
               <ModalFooterButton onClick={handleCancel}>

@@ -48,18 +48,29 @@ class ManuscriptsPageContainer extends React.Component {
     this.subs.forEach(sub => sub.unsubscribe())
   }
 
+  // TODO: catch and handle errors
   public addManuscript: AddManuscript = data => {
-    return this.db.manuscripts.insert(data)
+    // TODO: open up the template modal
+
+    this.db.manuscripts.insert(data).then(() => {
+      // TODO: redirect to the editor
+    })
   }
 
   // TODO: atomicUpdate?
+  // TODO: catch and handle errors
   public updateManuscript: UpdateManuscript = (doc, data) => {
-    return doc.update({
+    doc.update({
       $set: data,
     })
   }
 
-  public removeManuscript: RemoveManuscript = doc => doc.remove()
+  // TODO: catch and handle errors
+  public removeManuscript: RemoveManuscript = doc => event => {
+    event.preventDefault()
+
+    doc.remove()
+  }
 
   public render() {
     const { manuscripts, loaded } = this.state

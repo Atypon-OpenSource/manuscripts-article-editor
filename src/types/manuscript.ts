@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { RxDocument } from 'rxdb'
 import { Person } from './person'
 
@@ -9,18 +10,16 @@ export interface ManuscriptInterface {
   authors: Person[] | undefined
 }
 
-export type AddManuscript = (
-  data: Partial<ManuscriptInterface>
-) => Promise<RxDocument<ManuscriptInterface>>
+export type AddManuscript = (data: Partial<ManuscriptInterface>) => void
 
 export type UpdateManuscript = (
   doc: RxDocument<ManuscriptInterface>,
   data: Partial<ManuscriptInterface>
-) => Promise<Partial<ManuscriptInterface>>
+) => void
 
 export type RemoveManuscript = (
   doc: RxDocument<ManuscriptInterface>
-) => Promise<boolean>
+) => (event: React.SyntheticEvent<HTMLElement>) => void
 
 export interface ManuscriptActions {
   addManuscript: AddManuscript
