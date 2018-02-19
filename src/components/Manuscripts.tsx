@@ -56,6 +56,7 @@ export interface ManuscriptProps {
 
 const DeleteButton = Button.extend`
   color: #ddd;
+  font-size: 10px;
 `
 
 export const Manuscript: React.SFC<ManuscriptProps> = ({

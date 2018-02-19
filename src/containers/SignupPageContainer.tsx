@@ -3,7 +3,7 @@ import { parse } from 'qs'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { Centered } from '../components/Page'
+import { SignupConfirm } from '../components/SignupConfirm'
 import { SignupErrors, SignupValues } from '../components/SignupForm'
 import SignupPage from '../components/SignupPage'
 import { signup, verify } from '../lib/api'
@@ -72,14 +72,7 @@ class SignupPageContainer extends React.Component<
     }
 
     if (confirming) {
-      return (
-        <Centered>
-          <p>
-            An email has been sent to <b>{confirming.email}</b>.
-          </p>
-          <p>Follow the link in the email to verify your email address.</p>
-        </Centered>
-      )
+      return <SignupConfirm email={confirming.email} />
     }
 
     return (

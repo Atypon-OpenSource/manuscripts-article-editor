@@ -8,29 +8,32 @@ export const AuthorsContainer = styled('div')`
 `
 
 export const AuthorContainer = styled('div')`
-  padding: 10px;
   display: flex;
   align-items: center;
+  padding: 0 20px;
   cursor: pointer;
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
 
   &:hover {
-    background-color: ${props => props.theme.primary};
+    background-color: #f1f8ff;
   }
 `
 
 const AuthorImage = styled('img')`
   display: inline-block;
   border-radius: 50%;
-  margin-right: 10px;
-  width: 40px;
-  height: 40px;
-  padding: 4px;
+  width: 36px;
+  height: 36px;
 `
 
 const AuthorNameParts = styled('div')`
   flex: 1;
   font-size: 20px;
-  line-height: 22px;
+  padding: 5px 10px;
+  line-height: 35px;
+  border-bottom: 1px solid #f6f6f6;
 `
 const AuthorName = styled('span')``
 
@@ -56,7 +59,7 @@ export const Author: React.SFC<AuthorProps> = ({ author }) => (
       <AuthorIcon size={32} />
     )}
     <AuthorNameParts>
-      <AuthorName>{author.name.substring(0, 1)}.</AuthorName>{' '}
+      <AuthorName>{author.name}</AuthorName>{' '}
       <AuthorSurname>{author.surname}</AuthorSurname>
     </AuthorNameParts>
   </AuthorContainer>

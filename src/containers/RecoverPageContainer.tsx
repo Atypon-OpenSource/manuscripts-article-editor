@@ -4,13 +4,13 @@ import { parse } from 'qs'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { Centered } from '../components/Page'
 import {
   PasswordErrors,
   PasswordHiddenValues,
   PasswordValues,
 } from '../components/PasswordForm'
 import PasswordPage from '../components/PasswordPage'
+import { RecoverConfirm } from '../components/RecoverConfirm'
 import { RecoverErrors, RecoverValues } from '../components/RecoverForm'
 import RecoverPage from '../components/RecoverPage'
 import { recover, verify } from '../lib/api'
@@ -23,14 +23,14 @@ import { ApplicationState } from '../store/types'
 import { passwordSchema, recoverSchema } from '../validation'
 
 interface RecoverPageContainerState extends PasswordHiddenValues {
-  sent: boolean
+  sent: string | null
 }
 
 class RecoverPageContainer extends React.Component<
   AuthenticationStateProps & AuthenticationDispatchProps
 > {
   public state: RecoverPageContainerState = {
-    sent: false,
+    sent: null,
     token: '',
   }
 
@@ -59,12 +59,7 @@ class RecoverPageContainer extends React.Component<
     }
 
     if (sent) {
-      return (
-        <Centered>
-          <div>An email has been sent.</div>
-          <div>Follow the link in the email to reset your password.</div>
-        </Centered>
-      )
+      return <RecoverConfirm email={sent} />
     }
 
     if (token) {
@@ -132,7 +127,7 @@ class RecoverPageContainer extends React.Component<
         setSubmitting(false)
 
         this.setState({
-          sent: true,
+          sent: values.email,
         })
       },
       error => {

@@ -1,8 +1,6 @@
 import { stringify } from 'qs'
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { AuthenticationButtonProps } from '../components/Authentication'
-import { AuthenticationDispatchProps } from '../store/authentication/types'
 
 const apiBaseUrl: string = String(process.env.API_BASE_URL)
 
@@ -12,9 +10,7 @@ interface AuthButtonContainerProps {
   component: React.SFC<AuthenticationButtonProps>
 }
 
-class AuthButtonContainer extends React.Component<
-  AuthButtonContainerProps & AuthenticationDispatchProps
-> {
+class AuthButtonContainer extends React.Component<AuthButtonContainerProps> {
   public render() {
     const { component: Component } = this.props
 
@@ -26,4 +22,4 @@ class AuthButtonContainer extends React.Component<
   }
 }
 
-export default connect()(AuthButtonContainer)
+export default AuthButtonContainer

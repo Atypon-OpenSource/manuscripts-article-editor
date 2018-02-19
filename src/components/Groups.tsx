@@ -8,11 +8,11 @@ import { Button } from './Button'
 import { Contributor } from './Contributor'
 
 export const GroupsContainer = styled.div`
-  padding: 20px 30px;
+  padding: 20px 20px;
 `
 
 export const GroupContainer = styled(Link)`
-  padding: 10px;
+  padding: 10px 10px;
   cursor: pointer;
   border-radius: 8px;
   color: inherit;
@@ -35,12 +35,14 @@ const GroupTitle = styled.span`
   opacity: 0.75;
   font-size: 20px;
   line-height: 24px;
+  font-weight: 600;
 `
 
 const GroupContributors = styled.div``
 
 const DeleteButton = Button.extend`
   color: #ddd;
+  font-size: 8px;
 `
 
 export interface GroupProps {

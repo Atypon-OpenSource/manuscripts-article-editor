@@ -18,7 +18,7 @@ export const theme = {
   active: '#274c76',
   backgroundColor: '#fff',
   borderRadius: '8px',
-  color: '#333',
+  color: '#000',
   // tslint:disable-next-line:max-line-length
   fontFamily: `'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
   'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,

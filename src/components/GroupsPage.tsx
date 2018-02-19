@@ -5,7 +5,7 @@ import { GroupActions, GroupInterface } from '../types/group'
 import { ActionButton } from './Button'
 import { Groups } from './Groups'
 import { PageHeading } from './PageHeading'
-import { Sort } from './Sort'
+import { Select, Sort } from './Sort'
 
 interface GroupsPageProps {
   groups: Array<RxDocument<GroupInterface>>
@@ -27,8 +27,10 @@ const GroupsPage: React.SFC<GroupsPageProps & GroupActions> = ({
       }
     />
     <Sort>
-      <option value="modified">by modification date</option>
-      <option value="name">by name</option>
+      <Select>
+        <option value="name">by name</option>
+        <option value="modified">by modification date</option>
+      </Select>
     </Sort>
     <Groups
       groups={groups}

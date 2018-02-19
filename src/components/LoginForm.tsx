@@ -24,6 +24,7 @@ export const LoginForm = ({
   values,
   touched,
   errors,
+  dirty,
   handleBlur,
   handleChange,
   handleSubmit,
@@ -57,8 +58,10 @@ export const LoginForm = ({
       required={true}
     />
 
-    {touched.email && errors.email && <div>{errors.email}</div>}
-    {touched.password && errors.password && <div>{errors.password}</div>}
+    {dirty && touched.email && errors.email && <div>{errors.email}</div>}
+    {dirty &&
+      touched.password &&
+      errors.password && <div>{errors.password}</div>}
 
     {errors.submit && <div>{errors.submit}</div>}
 

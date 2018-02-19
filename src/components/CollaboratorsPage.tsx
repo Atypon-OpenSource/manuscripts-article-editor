@@ -8,7 +8,6 @@ import {
 import { Authors } from './Authors'
 import { ActionButton } from './Button'
 import { PageHeading } from './PageHeading'
-import { Sort } from './Sort'
 
 interface CollaboratorsPageProps {
   collaborators: Array<RxDocument<CollaboratorInterface>>
@@ -26,10 +25,6 @@ const CollaboratorsPage: React.SFC<
         </ActionButton>
       }
     />
-    <Sort>
-      <option value="modified">by modification date</option>
-      <option value="name">by name</option>
-    </Sort>
     <Authors authors={collaborators} />
   </React.Fragment>
 )

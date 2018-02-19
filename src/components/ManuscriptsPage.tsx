@@ -6,7 +6,7 @@ import { ManuscriptActions, ManuscriptInterface } from '../types/manuscript'
 import { ActionButton } from './Button'
 import { Manuscripts } from './Manuscripts'
 import { PageHeading } from './PageHeading'
-import { Sort } from './Sort'
+import { Select, Sort } from './Sort'
 
 interface ManuscriptsPageProps {
   manuscripts: Array<RxDocument<ManuscriptInterface>>
@@ -46,8 +46,10 @@ const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({
     {manuscripts.length ? (
       <React.Fragment>
         <Sort>
-          <option value="modified">by modification date</option>
-          <option value="name">by name</option>
+          <Select>
+            <option value="modified">by modification date</option>
+            <option value="name">by name</option>
+          </Select>
         </Sort>
 
         <Manuscripts
