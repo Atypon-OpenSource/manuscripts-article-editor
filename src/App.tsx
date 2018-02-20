@@ -9,6 +9,7 @@ import GroupsPageContainer from './containers/GroupsPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
 import LogoutPageContainer from './containers/LogoutPageContainer'
+import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
 import ManuscriptsPageContainer from './containers/ManuscriptsPageContainer'
 import PrivateRoute from './containers/PrivateRoute'
 import RecoverPageContainer from './containers/RecoverPageContainer'
@@ -39,13 +40,20 @@ const App = () => (
         />
         <PrivateRoute
           path={'/manuscripts'}
+          exact={true}
           component={ManuscriptsPageContainer}
         />
+        <Route path={'/manuscripts/:id'} component={ManuscriptPageContainer} />
         <PrivateRoute
           path={'/collaborators'}
+          exact={true}
           component={CollaboratorsPageContainer}
         />
-        <PrivateRoute path={'/groups'} component={GroupsPageContainer} />
+        <PrivateRoute
+          path={'/groups'}
+          exact={true}
+          component={GroupsPageContainer}
+        />
         <PrivateRoute
           path={'/logout'}
           exact={true}

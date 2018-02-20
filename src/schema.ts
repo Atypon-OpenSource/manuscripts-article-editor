@@ -11,6 +11,25 @@ export const manuscripts = {
   required: ['title'],
 }
 
+export const sections = {
+  title: 'sections schema',
+  version: 1,
+  description: 'describes a section',
+  type: 'object',
+  properties: {
+    title: {
+      type: 'string',
+    },
+    content: {
+      type: 'string',
+    },
+    manuscript: {
+      type: 'string',
+    },
+  },
+  required: ['title'],
+}
+
 export const collaborators = {
   title: 'collaborators schema',
   version: 0,

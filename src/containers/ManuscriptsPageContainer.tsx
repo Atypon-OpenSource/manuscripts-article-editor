@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import ManuscriptsPage from '../components/ManuscriptsPage'
@@ -16,7 +17,9 @@ interface ManuscriptsPageContainerState {
   loaded: boolean
 }
 
-class ManuscriptsPageContainer extends React.Component {
+class ManuscriptsPageContainer extends React.Component<
+  RouteComponentProps<{}>
+> {
   public state: ManuscriptsPageContainerState = {
     manuscripts: [],
     loaded: false,
@@ -52,9 +55,11 @@ class ManuscriptsPageContainer extends React.Component {
   public addManuscript: AddManuscript = data => {
     // TODO: open up the template modal
 
-    this.db.manuscripts.insert(data).then(() => {
-      // TODO: redirect to the editor
-    })
+    this.db.manuscripts
+      .insert(data)
+      .then((doc: RxDocument<ManuscriptInterface>) => {
+        this.props.history.push(`/manuscripts/${doc._id}`)
+      })
   }
 
   // TODO: atomicUpdate?

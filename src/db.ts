@@ -5,6 +5,7 @@ import * as schema from './schema'
 import { GroupInterface } from './types/group'
 import { ManuscriptInterface } from './types/manuscript'
 import { Person } from './types/person'
+import { SectionInterface } from './types/section'
 
 RxDB.QueryChangeDetector.enable()
 RxDB.QueryChangeDetector.enableDebugging()
@@ -24,6 +25,21 @@ const collections = [
     // sync: true,
   },
   {
+    name: 'sections',
+    schema: schema.sections,
+    // sync: true,
+    migrationStrategies: {
+      1: (doc: RxDB.RxDocument<SectionInterface>) => {
+        if (!doc.manuscript) return null
+
+        return {
+          ...doc,
+          content: '',
+        }
+      },
+    },
+  },
+  {
     name: 'collaborators',
     schema: schema.collaborators,
     // sync: true,
@@ -33,6 +49,7 @@ const collections = [
 export interface DbInterface extends RxDB.RxDatabase {
   groups: RxDB.RxCollection<GroupInterface>
   manuscripts: RxDB.RxCollection<ManuscriptInterface>
+  sections: RxDB.RxCollection<SectionInterface>
   collaborators: RxDB.RxCollection<Person>
 }
 

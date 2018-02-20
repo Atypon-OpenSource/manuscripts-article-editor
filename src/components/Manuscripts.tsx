@@ -64,7 +64,7 @@ export const Manuscript: React.SFC<ManuscriptProps> = ({
   contributors,
   removeManuscript,
 }) => (
-  <ManuscriptContainer to={`/editor/${manuscript._id}`}>
+  <ManuscriptContainer to={`/manuscripts/${manuscript._id}`}>
     <ManuscriptSection>
       <ManuscriptTitle>{manuscript.title}</ManuscriptTitle>
 

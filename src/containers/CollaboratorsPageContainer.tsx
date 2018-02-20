@@ -32,7 +32,7 @@ class CollaboratorsPageContainer extends React.Component {
 
       const sub = (db.collaborators as RxCollection<CollaboratorInterface>)
         .find()
-        .sort({ name: 1 })
+        // .sort({ name: 1 })
         .$.subscribe(collaborators => {
           this.setState({
             collaborators,

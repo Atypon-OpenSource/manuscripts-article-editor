@@ -9,7 +9,3 @@ declare global {
     db: RxDatabase
   }
 }
-
-// declare module 'pouchdb-adapter-idb'
-
-declare module 'react-feather'
