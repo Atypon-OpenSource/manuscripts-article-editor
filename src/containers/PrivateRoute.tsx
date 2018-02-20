@@ -7,21 +7,25 @@ import {
   RouteProps,
 } from 'react-router-dom'
 import { Spinner } from '../components/Spinner'
-import { AuthenticationStateProps } from '../store/authentication/types'
+import {
+  AuthenticationState,
+  AuthenticationStateProps,
+} from '../store/authentication/types'
 import { ApplicationState } from '../store/types'
 
 interface PrivateRouteProps extends RouteProps {
   component: React.ComponentClass
+  authentication: AuthenticationState
 }
 
-const PrivateRoute: React.SFC<PrivateRouteProps & AuthenticationStateProps> = ({
+const PrivateRoute: React.SFC<PrivateRouteProps> = ({
   component: Component,
   ...rest
 }: PrivateRouteProps) => (
   <Route
     {...rest}
-    render={(props: RouteComponentProps<{}> & AuthenticationStateProps) => {
-      const { authentication } = props
+    render={(props: RouteComponentProps<{}>) => {
+      const { authentication } = rest
 
       if (!authentication.loaded) {
         return <Spinner />

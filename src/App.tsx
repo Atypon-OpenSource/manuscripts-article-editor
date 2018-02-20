@@ -10,6 +10,7 @@ import HomePageContainer from './containers/HomePageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
 import LogoutPageContainer from './containers/LogoutPageContainer'
 import ManuscriptsPageContainer from './containers/ManuscriptsPageContainer'
+import PrivateRoute from './containers/PrivateRoute'
 import RecoverPageContainer from './containers/RecoverPageContainer'
 import SignupPageContainer from './containers/SignupPageContainer'
 import UserContainer from './containers/UserContainer'
@@ -25,21 +26,31 @@ const App = () => (
       <Switch>
         <Route path={'/'} exact={true} component={HomePageContainer} />
         <Route path={'/login'} exact={true} component={LoginPageContainer} />
-        <Route path={'/logout'} exact={true} component={LogoutPageContainer} />
         <Route path={'/signup'} exact={true} component={SignupPageContainer} />
-        <Route
-          path={'/account'}
-          exact={true}
-          component={AccountPageContainer}
-        />
         <Route
           path={'/recover'}
           exact={true}
           component={RecoverPageContainer}
         />
-        <Route path={'/manuscripts'} component={ManuscriptsPageContainer} />
-        <Route path={'/collaborators'} component={CollaboratorsPageContainer} />
-        <Route path={'/groups'} component={GroupsPageContainer} />
+        <PrivateRoute
+          path={'/account'}
+          exact={true}
+          component={AccountPageContainer}
+        />
+        <PrivateRoute
+          path={'/manuscripts'}
+          component={ManuscriptsPageContainer}
+        />
+        <PrivateRoute
+          path={'/collaborators'}
+          component={CollaboratorsPageContainer}
+        />
+        <PrivateRoute path={'/groups'} component={GroupsPageContainer} />
+        <PrivateRoute
+          path={'/logout'}
+          exact={true}
+          component={LogoutPageContainer}
+        />
       </Switch>
     </Main>
   </Page>
