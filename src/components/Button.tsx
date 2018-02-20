@@ -12,7 +12,9 @@ interface IconButtonProps extends ButtonProps {
   size?: number
 }
 
-export const Button = styled.button`
+export const Button = styled.button.attrs({
+  type: 'button',
+})`
   background-color: #fff;
   color: ${(props: ButtonProps) => props.theme.primary};
   border: 2px solid transparent;
