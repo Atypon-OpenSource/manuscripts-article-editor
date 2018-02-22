@@ -165,7 +165,6 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "mapCoverage": true,
     "testPathIgnorePatterns": [
       "/node_modules/"
     ],
