@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import HomePage from '../components/HomePage'
+// import HomePage from '../components/HomePage'
 import { Spinner } from '../components/Spinner'
 import { AuthenticationStateProps } from '../store/authentication/types'
 import { ApplicationState } from '../store/types'
@@ -22,7 +22,7 @@ class HomePageContainer extends React.Component<AuthenticationStateProps> {
       return <Redirect to={'/manuscripts'} />
     }
 
-    return <HomePage />
+    return <Redirect to={'/login'} />
   }
 }
 

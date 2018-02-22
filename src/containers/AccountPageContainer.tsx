@@ -1,5 +1,6 @@
 import { Formik, FormikActions, FormikErrors } from 'formik'
 import * as React from 'react'
+import * as Modal from 'react-modal'
 import { connect } from 'react-redux'
 import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
@@ -22,6 +23,21 @@ const FormPage = styled.div`
   margin: 20px 40px;
 `
 
+const modalStyle = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+  },
+  content: {
+    background: 'transparent',
+    border: 'none',
+  },
+}
+
 class AccountPageContainer extends React.Component<
   AuthenticationStateProps & AuthenticationDispatchProps & RouterProps
 > {
@@ -33,15 +49,17 @@ class AccountPageContainer extends React.Component<
     }
 
     return (
-      <FormPage>
-        <Formik
-          initialValues={initialValues as AccountValues}
-          validationSchema={accountSchema}
-          isInitialValid={false}
-          onSubmit={this.handleSubmit}
-          component={AccountForm}
-        />
-      </FormPage>
+      <Modal isOpen={true} style={modalStyle}>
+        <FormPage>
+          <Formik
+            initialValues={initialValues as AccountValues}
+            validationSchema={accountSchema}
+            isInitialValid={false}
+            onSubmit={this.handleSubmit}
+            component={AccountForm}
+          />
+        </FormPage>
+      </Modal>
     )
   }
 

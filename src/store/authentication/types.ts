@@ -7,6 +7,7 @@ export interface UserInterface {
   password?: string
   surname: string
   phone?: string
+  avatar?: string
 }
 
 export interface AuthenticationState {
