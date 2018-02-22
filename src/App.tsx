@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { hot } from 'react-hot-loader'
 import { Route, Switch } from 'react-router-dom'
+import NotFound from './components/NotFound'
 import { Main, Page, Sidebar } from './components/Page'
 import SidebarNav from './components/SidebarNav'
 import AccountPageContainer from './containers/AccountPageContainer'
@@ -59,6 +60,7 @@ const App = () => (
           exact={true}
           component={LogoutPageContainer}
         />
+        <Route component={NotFound} />
       </Switch>
     </Main>
   </Page>

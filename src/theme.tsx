@@ -33,6 +33,7 @@ const {
   injectGlobal,
   keyframes,
   ThemeProvider: StyledThemeProvider,
+  /* tslint:disable-next-line:no-unnecessary-type-assertion */
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<
   ThemeInterface
 >
