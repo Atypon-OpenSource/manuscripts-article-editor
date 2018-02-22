@@ -40,7 +40,7 @@ build:
   tags:
     - nodejs-8
 
-review/start:
+.review/start:
   stage: deploy
   dependencies:
     - build
@@ -62,7 +62,7 @@ review/start:
   tags:
     - nodejs-8
 
-review/stop:
+.review/stop:
   stage: deploy
   dependencies: []
   script:

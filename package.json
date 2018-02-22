@@ -51,7 +51,6 @@
     "file-loader": "^1.1.6",
     "formik": "^0.11.5",
     "html-webpack-plugin": "^2.30.1",
-    "now": "^9.2.7",
     "pouchdb-adapter-http": "^6.4.3",
     "pouchdb-adapter-idb": "^6.4.3",
     "prosemirror-commands": "^1.0.4",
