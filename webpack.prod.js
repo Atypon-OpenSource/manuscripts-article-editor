@@ -41,6 +41,9 @@ module.exports = merge(common, {
       },
     ],
   },
+  output: {
+    filename: '[name].[chunkhash].js',
+  },
   plugins: [
     new UglifyJSPlugin({
       sourceMap: true,
