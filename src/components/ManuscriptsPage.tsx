@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { RxDocument } from 'rxdb'
 import Add from '../icons/add'
-import { styled } from '../theme'
 import { ManuscriptActions, ManuscriptInterface } from '../types/manuscript'
 import { ActionButton } from './Button'
+import { EmptyContainer, EmptyMessage } from './Empty'
 import { Manuscripts } from './Manuscripts'
 import { PageHeading } from './PageHeading'
 import { Select, Sort } from './Sort'
@@ -11,21 +11,6 @@ import { Select, Sort } from './Sort'
 interface ManuscriptsPageProps {
   manuscripts: Array<RxDocument<ManuscriptInterface>>
 }
-
-const EmptyContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
-`
-
-const EmptyMessage = styled.div`
-  text-align: center;
-  max-width: 380px;
-  font-size: 20px;
-  line-height: 28px;
-`
 
 const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({
   manuscripts,
@@ -55,8 +40,6 @@ const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({
         <Manuscripts
           manuscripts={manuscripts}
           removeManuscript={removeManuscript}
-          addManuscript={addManuscript}
-          updateManuscript={updateManuscript}
         />
       </React.Fragment>
     ) : (

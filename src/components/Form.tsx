@@ -26,3 +26,13 @@ export const FormLink = styled(Link)`
   color: #5e8fcf;
   font-size: 90%;
 `
+
+export const FormPage = styled.div`
+  padding: 40px;
+`
+
+export const FormGroup = styled.div`
+  &:not(:last-of-type) {
+    margin-bottom: 20px;
+  }
+`

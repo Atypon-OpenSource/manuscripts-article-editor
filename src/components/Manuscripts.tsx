@@ -2,11 +2,7 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import {
-  ManuscriptActions,
-  ManuscriptInterface,
-  RemoveManuscript,
-} from '../types/manuscript'
+import { ManuscriptInterface, RemoveManuscript } from '../types/manuscript'
 import { Person } from '../types/person'
 import { Button } from './Button'
 import { Contributor } from './Contributor'
@@ -85,9 +81,10 @@ export const Manuscript: React.SFC<ManuscriptProps> = ({
 
 export interface ManuscriptsProps {
   manuscripts: Array<RxDocument<ManuscriptInterface>>
+  removeManuscript: RemoveManuscript
 }
 
-export const Manuscripts: React.SFC<ManuscriptsProps & ManuscriptActions> = ({
+export const Manuscripts: React.SFC<ManuscriptsProps> = ({
   manuscripts,
   removeManuscript,
 }) => (

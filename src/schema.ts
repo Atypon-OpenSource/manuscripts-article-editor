@@ -30,13 +30,16 @@ export const sections = {
   required: ['title'],
 }
 
-export const collaborators = {
-  title: 'collaborators schema',
+export const people = {
+  title: 'people schema',
   version: 0,
-  description: 'describes a collaborator',
+  description: 'describes a person',
   type: 'object',
   properties: {
     name: {
+      type: 'string',
+    },
+    surname: {
       type: 'string',
     },
   },
@@ -50,6 +53,9 @@ export const groups = {
   type: 'object',
   properties: {
     name: {
+      type: 'string',
+    },
+    description: {
       type: 'string',
     },
   },

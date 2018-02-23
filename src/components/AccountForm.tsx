@@ -35,14 +35,14 @@ export const AccountForm = ({
   isSubmitting,
   isValid,
 }: FormikProps<AccountValues & AccountErrors>) => (
-  <ModalContainer>
-    <ModalHeader>
-      <ModalHeading>Manage Account</ModalHeading>
-    </ModalHeader>
-    <ModalForm>
-      <ModalFormBody>
-        <ModalMain>
-          <form onSubmit={handleSubmit}>
+  <form onSubmit={handleSubmit}>
+    <ModalContainer>
+      <ModalHeader>
+        <ModalHeading>Manage Account</ModalHeading>
+      </ModalHeader>
+      <ModalForm>
+        <ModalFormBody>
+          <ModalMain>
             <FirstTextField
               type={'text'}
               name={'name'}
@@ -75,21 +75,21 @@ export const AccountForm = ({
             />
 
             {errors.submit && <div>{errors.submit}</div>}
-          </form>
-        </ModalMain>
-      </ModalFormBody>
+          </ModalMain>
+        </ModalFormBody>
 
-      <ModalFormFooter>
-        <ModalFormFooterText>
-          <ModalFooterButton>Delete Account</ModalFooterButton>
-        </ModalFormFooterText>
+        <ModalFormFooter>
+          <ModalFormFooterText>
+            <ModalFooterButton>Delete Account</ModalFooterButton>
+          </ModalFormFooterText>
 
-        <ModalFormActions>
-          <PrimaryModalFooterButton type={'submit'}>
-            Done
-          </PrimaryModalFooterButton>
-        </ModalFormActions>
-      </ModalFormFooter>
-    </ModalForm>
-  </ModalContainer>
+          <ModalFormActions>
+            <PrimaryModalFooterButton type={'submit'}>
+              Done
+            </PrimaryModalFooterButton>
+          </ModalFormActions>
+        </ModalFormFooter>
+      </ModalForm>
+    </ModalContainer>
+  </form>
 )

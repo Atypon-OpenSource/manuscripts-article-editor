@@ -9,6 +9,7 @@ import {
   AccountForm,
   AccountValues,
 } from '../components/AccountForm'
+import { FormPage } from '../components/Form'
 import { update } from '../lib/api'
 import { authenticate } from '../store/authentication'
 import {
@@ -16,12 +17,7 @@ import {
   AuthenticationStateProps,
 } from '../store/authentication/types'
 import { ApplicationState } from '../store/types'
-import { styled } from '../theme'
 import { accountSchema } from '../validation'
-
-const FormPage = styled.div`
-  margin: 20px 40px;
-`
 
 const modalStyle = {
   overlay: {

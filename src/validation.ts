@@ -53,3 +53,18 @@ export const accountSchema = yup.object().shape({
   email: yup.string().email(),
   phone: yup.string(), // TODO: pattern
 })
+
+export const groupSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required()
+    .min(1),
+  description: yup.string(),
+})
+
+export const collaboratorSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required()
+    .min(1),
+})

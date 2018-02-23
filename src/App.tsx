@@ -5,7 +5,9 @@ import NotFound from './components/NotFound'
 import { Main, Page, Sidebar } from './components/Page'
 import SidebarNav from './components/SidebarNav'
 import AccountPageContainer from './containers/AccountPageContainer'
+import CollaboratorPageContainer from './containers/CollaboratorPageContainer'
 import CollaboratorsPageContainer from './containers/CollaboratorsPageContainer'
+import GroupPageContainer from './containers/GroupPageContainer'
 import GroupsPageContainer from './containers/GroupsPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
@@ -44,16 +46,30 @@ const App = () => (
           exact={true}
           component={ManuscriptsPageContainer}
         />
-        <Route path={'/manuscripts/:id'} component={ManuscriptPageContainer} />
+        <PrivateRoute
+          path={'/manuscripts/:id'}
+          exact={true}
+          component={ManuscriptPageContainer}
+        />
         <PrivateRoute
           path={'/collaborators'}
           exact={true}
           component={CollaboratorsPageContainer}
         />
         <PrivateRoute
+          path={'/collaborators/:id'}
+          exact={true}
+          component={CollaboratorPageContainer}
+        />
+        <PrivateRoute
           path={'/groups'}
           exact={true}
           component={GroupsPageContainer}
+        />
+        <PrivateRoute
+          path={'/groups/:id'}
+          exact={true}
+          component={GroupPageContainer}
         />
         <PrivateRoute
           path={'/logout'}

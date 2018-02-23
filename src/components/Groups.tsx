@@ -2,9 +2,8 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import { GroupActions, GroupInterface, RemoveGroup } from '../types/group'
+import { GroupInterface } from '../types/group'
 import { Person } from '../types/person'
-import { Button } from './Button'
 import { Contributor } from './Contributor'
 
 export const GroupsContainer = styled.div`
@@ -40,23 +39,13 @@ const GroupTitle = styled.span`
 
 const GroupContributors = styled.div``
 
-const DeleteButton = Button.extend`
-  color: #ddd;
-  font-size: 8px;
-`
-
 export interface GroupProps {
   group: RxDocument<GroupInterface>
   contributors: Person[]
-  removeGroup: RemoveGroup
 }
 
-export const Group: React.SFC<GroupProps> = ({
-  group,
-  contributors,
-  removeGroup,
-}) => (
-  <GroupContainer to={`/group/${group._id}`}>
+export const Group: React.SFC<GroupProps> = ({ group, contributors }) => (
+  <GroupContainer to={`/groups/${group._id}`}>
     <GroupSection>
       <GroupTitle>{group.name}</GroupTitle>
     </GroupSection>
@@ -67,8 +56,6 @@ export const Group: React.SFC<GroupProps> = ({
           <Contributor contributor={contributor} />
         ))}
       </GroupContributors>
-
-      <DeleteButton onClick={removeGroup(group)}>Delete</DeleteButton>
     </GroupSection>
   </GroupContainer>
 )
@@ -77,18 +64,10 @@ export interface GroupsProps {
   groups: Array<RxDocument<GroupInterface>>
 }
 
-export const Groups: React.SFC<GroupsProps & GroupActions> = ({
-  groups,
-  removeGroup,
-}) => (
+export const Groups: React.SFC<GroupsProps> = ({ groups }) => (
   <GroupsContainer>
     {groups.map(group => (
-      <Group
-        key={group._id}
-        group={group}
-        contributors={[]}
-        removeGroup={removeGroup}
-      />
+      <Group key={group._id} group={group} contributors={[]} />
     ))}
   </GroupsContainer>
 )

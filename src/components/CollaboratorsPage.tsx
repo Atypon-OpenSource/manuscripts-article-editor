@@ -7,6 +7,7 @@ import {
 } from '../types/collaborator'
 import { Authors } from './Authors'
 import { ActionButton } from './Button'
+import { EmptyContainer, EmptyMessage } from './Empty'
 import { PageHeading } from './PageHeading'
 
 interface CollaboratorsPageProps {
@@ -25,7 +26,16 @@ const CollaboratorsPage: React.SFC<
         </ActionButton>
       }
     />
-    <Authors authors={collaborators} />
+
+    {collaborators.length ? (
+      <Authors authors={collaborators} />
+    ) : (
+      <EmptyContainer>
+        <EmptyMessage>
+          <div>No Collaborators yet.</div>
+        </EmptyMessage>
+      </EmptyContainer>
+    )}
   </React.Fragment>
 )
 

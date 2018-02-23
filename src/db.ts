@@ -17,17 +17,27 @@ const collections = [
   {
     name: 'groups',
     schema: schema.groups,
-    // sync: true,
+    sync: false,
+  },
+  {
+    name: 'groupmembers',
+    schema: schema.people,
+    sync: false,
   },
   {
     name: 'manuscripts',
     schema: schema.manuscripts,
-    // sync: true,
+    sync: false,
+  },
+  {
+    name: 'manuscriptcontributors',
+    schema: schema.people,
+    sync: false,
   },
   {
     name: 'sections',
     schema: schema.sections,
-    // sync: true,
+    sync: false,
     migrationStrategies: {
       1: (doc: RxDB.RxDocument<SectionInterface>) => {
         if (!doc.manuscript) return null
@@ -41,31 +51,45 @@ const collections = [
   },
   {
     name: 'collaborators',
-    schema: schema.collaborators,
-    // sync: true,
+    schema: schema.people,
+    sync: false,
   },
 ]
 
 export interface DbInterface extends RxDB.RxDatabase {
   groups: RxDB.RxCollection<GroupInterface>
+  groupmembers: RxDB.RxCollection<Person>
   manuscripts: RxDB.RxCollection<ManuscriptInterface>
+  manuscriptcontributors: RxDB.RxCollection<Person>
   sections: RxDB.RxCollection<SectionInterface>
   collaborators: RxDB.RxCollection<Person>
 }
 
-export const waitForDB = RxDB.create({
-  name: 'manuscriptsdb',
-  adapter: 'idb',
-}).then(db =>
-  Promise.all(
-    collections.map(data => db.collection(data as RxDB.RxCollectionCreator))
+export const waitForDB = (async () => {
+  // return RxDB.removeDatabase('manuscriptsdb', 'idb')
+  //   .then(() => {
+  //     console.log('removed')
+  //   })
+  //   .catch(error => {
+  //     console.error(error)
+  //   })
+
+  const db = await RxDB.create({
+    name: 'manuscriptsdb',
+    adapter: 'idb',
+  })
+
+  await Promise.all(
+    collections.map(async data => {
+      const collection = await db.collection(data as RxDB.RxCollectionCreator)
+
+      if (data.sync) {
+        collection.sync({
+          remote: `http://example.com/${collection.name}/`,
+        })
+      }
+    })
   )
-    // .then(collections =>
-    //   collections.filter(col => col.sync).map(col =>
-    //     col.sync({
-    //       remote: `http://example.com/${col.name}/`,
-    //     })
-    //   )
-    // )
-    .then(() => db as DbInterface)
-)
+
+  return db as DbInterface
+})()

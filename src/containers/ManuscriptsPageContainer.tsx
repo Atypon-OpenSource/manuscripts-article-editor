@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { RxCollection, RxDocument } from 'rxdb'
+import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import ManuscriptsPage from '../components/ManuscriptsPage'
 import { DbInterface, waitForDB } from '../db'
@@ -30,21 +30,27 @@ class ManuscriptsPageContainer extends React.Component<
   private subs: Subscription[] = []
 
   public componentDidMount() {
-    waitForDB.then(db => {
-      this.db = db
+    waitForDB
+      .then(db => {
+        this.db = db
 
-      const sub = (db.manuscripts as RxCollection<ManuscriptInterface>)
-        .find()
-        // .sort({ created: 1 })
-        .$.subscribe(manuscripts => {
-          this.setState({
-            manuscripts,
-            loaded: true,
+        const sub = db.manuscripts
+          .find()
+          // .sort({ created: 1 })
+          .$.subscribe(manuscripts => {
+            this.setState({
+              manuscripts,
+              loaded: true,
+            })
           })
-        })
 
-      this.subs.push(sub)
-    })
+        this.subs.push(sub)
+      })
+      .catch((error: Error) => {
+        this.setState({
+          error: error.message,
+        })
+      })
   }
 
   public componentWillUnmount() {

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 import UserIcon from '../icons/user'
 import { styled } from '../theme'
 import { Person } from '../types/person'
@@ -7,7 +8,7 @@ export const AuthorsContainer = styled('div')`
   padding: 20px 30px;
 `
 
-export const AuthorContainer = styled('div')`
+export const AuthorContainer = styled(Link)`
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -52,7 +53,7 @@ export interface AuthorProps {
 }
 
 export const Author: React.SFC<AuthorProps> = ({ author }) => (
-  <AuthorContainer>
+  <AuthorContainer to={`/collaborators/${author._id}`}>
     {author.image ? (
       <AuthorImage src={author.image} />
     ) : (

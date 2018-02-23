@@ -1,25 +1,20 @@
 import * as React from 'react'
-import { RxCollection, RxDocument } from 'rxdb'
+import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import GroupsPage from '../components/GroupsPage'
 import { DbInterface, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
-import {
-  AddGroup,
-  GroupInterface,
-  RemoveGroup,
-  UpdateGroup,
-} from '../types/group'
+import { AddGroup, GroupInterface } from '../types/group'
 
 interface GroupsPageContainerState {
-  groups: Array<RxDocument<GroupInterface>>
-  loaded: boolean
+  groups: Array<RxDocument<GroupInterface>> | null
+  error: string | null
 }
 
 class GroupsPageContainer extends React.Component {
   public state: GroupsPageContainerState = {
-    groups: [],
-    loaded: false,
+    groups: null,
+    error: null,
   }
 
   private db: DbInterface
@@ -27,21 +22,24 @@ class GroupsPageContainer extends React.Component {
   private subs: Subscription[] = []
 
   public componentDidMount() {
-    waitForDB.then(db => {
-      this.db = db
+    waitForDB
+      .then(db => {
+        this.db = db
 
-      const sub = (db.groups as RxCollection<GroupInterface>)
-        .find()
-        // .sort({ created: 1 })
-        .$.subscribe(groups => {
-          this.setState({
-            groups,
-            loaded: true,
+        const sub = db.groups
+          .find()
+          // .sort({ created: 1 })
+          .$.subscribe(groups => {
+            this.setState({ groups })
           })
-        })
 
-      this.subs.push(sub)
-    })
+        this.subs.push(sub)
+      })
+      .catch((error: Error) => {
+        this.setState({
+          error: error.message,
+        })
+      })
   }
 
   public componentWillUnmount() {
@@ -52,34 +50,14 @@ class GroupsPageContainer extends React.Component {
     this.db.groups.insert(data)
   }
 
-  // TODO: atomicUpdate?
-  public updateGroup: UpdateGroup = (doc, data) => {
-    doc.update({
-      $set: data,
-    })
-  }
-
-  public removeGroup: RemoveGroup = doc => event => {
-    event.preventDefault()
-
-    doc.remove()
-  }
-
   public render() {
-    const { groups, loaded } = this.state
+    const { groups } = this.state
 
-    if (!loaded) {
+    if (groups === null) {
       return <Spinner />
     }
 
-    return (
-      <GroupsPage
-        groups={groups}
-        addGroup={this.addGroup}
-        updateGroup={this.updateGroup}
-        removeGroup={this.removeGroup}
-      />
-    )
+    return <GroupsPage groups={groups} addGroup={this.addGroup} />
   }
 }
 

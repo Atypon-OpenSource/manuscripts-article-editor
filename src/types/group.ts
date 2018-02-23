@@ -5,6 +5,7 @@ import { GroupInterface } from './group'
 export interface GroupInterface {
   _id: string
   name: string
+  description: string
 }
 
 export type AddGroup = (data: Partial<GroupInterface>) => void
@@ -12,7 +13,7 @@ export type AddGroup = (data: Partial<GroupInterface>) => void
 export type UpdateGroup = (
   doc: RxDocument<GroupInterface>,
   data: Partial<GroupInterface>
-) => void
+) => Promise<RxDocument<GroupInterface>>
 
 export type RemoveGroup = (
   doc: RxDocument<GroupInterface>
