@@ -6,13 +6,13 @@ import {
   MenuBarProps,
 } from './config/types'
 
-const MenuBarContainer = styled.div`
+export const MenuBarContainer = styled.div`
   margin-bottom: 5px;
   display: flex;
   align-items: baseline;
 `
 
-const MenuBarGroup = styled.div`
+export const MenuBarGroup = styled.div`
   margin-right: 10px;
   white-space: nowrap;
 
@@ -31,7 +31,7 @@ const MenuBarGroup = styled.div`
   }
 `
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   background-color: ${(props: MenuBarButtonProps) =>
     props['data-active'] ? '#eee' : '#fff'};
   border: 1px solid #ddd;
@@ -55,7 +55,7 @@ const StyledButton = styled.button`
   }
 `
 
-const MenuBarButton: MenuBarButtonGenerator = (state, dispatch) => (
+export const MenuBarButton: MenuBarButtonGenerator = (state, dispatch) => (
   key,
   item
 ) => (
