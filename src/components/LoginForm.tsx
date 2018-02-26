@@ -1,11 +1,10 @@
-import * as React from 'react'
-
 import { FormikErrors, FormikProps } from 'formik'
+import * as React from 'react'
 import { styled } from '../theme'
 import { PrimaryButton } from './Button'
 import { CenteredForm, FormActions, FormHeader, FormLink } from './Form'
 import { Hero, SubHero } from './Hero'
-import { FirstTextField, LastTextField } from './TextField'
+import { TextField, TextFieldGroup } from './TextField'
 
 export interface LoginValues {
   email: string
@@ -37,26 +36,28 @@ export const LoginForm = ({
       <Hero>Manuscripts Online</Hero>
     </FormHeader>
 
-    <FirstTextField
-      type={'email'}
-      name={'email'}
-      placeholder={'email'}
-      autoFocus={true}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      value={values.email}
-      required={true}
-    />
+    <TextFieldGroup>
+      <TextField
+        type={'email'}
+        name={'email'}
+        placeholder={'email'}
+        autoFocus={true}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.email}
+        required={true}
+      />
 
-    <LastTextField
-      type={'password'}
-      name={'password'}
-      placeholder={'password'}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      value={values.password}
-      required={true}
-    />
+      <TextField
+        type={'password'}
+        name={'password'}
+        placeholder={'password'}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.password}
+        required={true}
+      />
+    </TextFieldGroup>
 
     {dirty && touched.email && errors.email && <div>{errors.email}</div>}
     {dirty &&

@@ -13,7 +13,7 @@ import {
   ModalMain,
   PrimaryModalFooterButton,
 } from './Manage'
-import { FirstTextField, LastTextField, TextField } from './TextField'
+import { TextField, TextFieldGroup } from './TextField'
 
 export interface AccountValues {
   name: string
@@ -43,26 +43,28 @@ export const AccountForm = ({
       <ModalForm>
         <ModalFormBody>
           <ModalMain>
-            <FirstTextField
-              type={'text'}
-              name={'name'}
-              placeholder={'name'}
-              autoFocus={true}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.name}
-              required={true}
-            />
+            <TextFieldGroup>
+              <TextField
+                type={'text'}
+                name={'name'}
+                placeholder={'name'}
+                autoFocus={true}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.name}
+                required={true}
+              />
 
-            <LastTextField
-              type={'text'}
-              name={'surname'}
-              placeholder={'surname'}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.surname}
-              required={true}
-            />
+              <TextField
+                type={'text'}
+                name={'surname'}
+                placeholder={'surname'}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.surname}
+                required={true}
+              />
+            </TextFieldGroup>
 
             <TextField
               type={'text'}

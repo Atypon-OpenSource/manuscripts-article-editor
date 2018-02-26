@@ -3,7 +3,7 @@ import * as React from 'react'
 import { PrimaryButton } from './Button'
 import { CenteredForm, FormActions, FormHeader, FormLink } from './Form'
 import { Hero, SubHero } from './Hero'
-import { FirstTextField, LastTextField } from './TextField'
+import { TextField, TextFieldGroup } from './TextField'
 
 export interface SignupValues {
   name: string
@@ -33,46 +33,50 @@ export const SignupForm = ({
       <Hero>Sign Up</Hero>
     </FormHeader>
 
-    <FirstTextField
-      type={'text'}
-      name={'name'}
-      placeholder={'name'}
-      autoFocus={true}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      value={values.name}
-      required={true}
-    />
+    <TextFieldGroup>
+      <TextField
+        type={'text'}
+        name={'name'}
+        placeholder={'name'}
+        autoFocus={true}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.name}
+        required={true}
+      />
 
-    <LastTextField
-      type={'text'}
-      name={'surname'}
-      placeholder={'surname'}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      value={values.surname}
-      required={true}
-    />
+      <TextField
+        type={'text'}
+        name={'surname'}
+        placeholder={'surname'}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.surname}
+        required={true}
+      />
+    </TextFieldGroup>
 
-    <FirstTextField
-      type={'email'}
-      name={'email'}
-      placeholder={'email'}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      value={values.email}
-      required={true}
-    />
+    <TextFieldGroup>
+      <TextField
+        type={'email'}
+        name={'email'}
+        placeholder={'email'}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.email}
+        required={true}
+      />
 
-    <LastTextField
-      type={'password'}
-      name={'password'}
-      placeholder={'password'}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      value={values.password}
-      required={true}
-    />
+      <TextField
+        type={'password'}
+        name={'password'}
+        placeholder={'password'}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.password}
+        required={true}
+      />
+    </TextFieldGroup>
 
     {dirty && touched.email && errors.email && <div>{errors.email}</div>}
     {dirty &&

@@ -1,5 +1,27 @@
 import { styled } from '../theme'
 
+export const TextFieldGroup = styled.div`
+  & input:first-of-type {
+    margin-top: 5px;
+  }
+
+  & input:last-of-type {
+    margin-bottom: 5px;
+  }
+
+  & input:not(:first-of-type) {
+    margin-top: -1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  & input:not(:last-of-type) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0;
+  }
+`
+
 export const TextField = styled.input`
   display: block;
   font-size: 16px;
@@ -22,24 +44,6 @@ export const TextField = styled.input`
       color: #777;
     }
   }
-`
-
-export const FirstTextField = TextField.extend`
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-top: 5px;
-  margin-bottom: 0;
-`
-
-export const MiddleTextField = TextField.extend`
-  border-top: none;
-`
-
-export const LastTextField = TextField.extend`
-  border-top: none;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  margin-bottom: 5px;
 `
 
 export const TextFieldLabel = styled.label`
