@@ -25,8 +25,16 @@ const buildFormRequestConfig = (url: string, data: any): AxiosRequestConfig => {
   }
 }
 
-export const authenticate = () =>
-  client.get('/user').then(response => response.data)
+// NOTE: this will be replaced by a database connection
+export const authenticate = () => {
+  // return client.get('/user').then(response => response.data)
+
+  // uncomment the line below to be an anonymous user
+  return Promise.resolve(undefined)
+
+  // or uncomment the line below to be signed in
+  // return Promise.resolve({ id: '123', name: 'Temporary', surname: 'Person' })
+}
 
 export const signup = (data: SignupValues) => client.post('/signup', data)
 

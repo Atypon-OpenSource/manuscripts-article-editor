@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios'
-
 import { Action, ActionCreator, Dispatch, Reducer } from 'redux'
 import * as api from '../../lib/api'
 import { ApplicationState, ThunkActionCreator } from '../types'
@@ -46,13 +45,13 @@ export const authenticate: ThunkActionCreator = () => (
   dispatch(authenticateRequest())
 
   return api.authenticate().then(
-    (data: UserInterface) => {
+    (data: UserInterface | undefined) => {
       return dispatch(authenticateSuccess(data))
     },
     (error: AxiosError) => {
       if (error.response && error.response.status === 401) {
         // 401 response
-        return dispatch(authenticateSuccess(null))
+        return dispatch(authenticateSuccess(undefined))
       }
 
       // any other error
