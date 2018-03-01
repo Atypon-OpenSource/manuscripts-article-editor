@@ -1,4 +1,5 @@
 import { FormikActions, FormikErrors } from 'formik'
+import * as httpStatusCode from 'http-status-codes'
 import { parse } from 'qs'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -36,7 +37,6 @@ class SignupPageContainer extends React.Component<
     email: '',
     password: '',
     name: '',
-    surname: '',
   }
 
   public componentDidMount() {
@@ -93,7 +93,7 @@ class SignupPageContainer extends React.Component<
         setSubmitting(false)
 
         this.setState({
-          confirming: response.data,
+          confirming: { email: values.email },
         })
 
         /* tslint:disable-next-line:no-any */
@@ -104,18 +104,19 @@ class SignupPageContainer extends React.Component<
 
         const errors: FormikErrors<SignupErrors> = {
           name: null,
-          surname: null,
           email: null,
           password: null, // TODO: read these from the response
           submit: null,
         }
 
         if (error.response) {
-          if (error.response.data.error_description) {
-            errors.submit = error.response.data.error_description
-          } else if (error.response.data.code === 400) {
-            errors.email = error.response.data.msg
-            // TODO: a button to re-send the confirmation email
+          // TODO: a button to re-send the confirmation email
+          if (error.response.status === httpStatusCode.BAD_REQUEST) {
+            errors.submit = 'Invalid Operation'
+          } else if (error.response.status === httpStatusCode.CONFLICT) {
+            errors.submit = 'The email address already registered'
+          } else {
+            errors.submit = 'An error occurred.'
           }
         }
 

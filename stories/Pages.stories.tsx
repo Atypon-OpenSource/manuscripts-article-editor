@@ -31,7 +31,7 @@ import authors from './data/people'
 storiesOf('Pages', module)
   .add('Sign up', () => (
     <SignupPage
-      initialValues={{ name: '', surname: '', email: '', password: '' }}
+      initialValues={{ name: '', email: '', password: '' }}
       validationSchema={signupSchema}
       onSubmit={action('sign up')}
     />

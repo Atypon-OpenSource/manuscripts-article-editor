@@ -7,7 +7,6 @@ import { TextField, TextFieldGroup } from './TextField'
 
 export interface SignupValues {
   name: string
-  surname: string
   email: string
   password: string
 }
@@ -42,16 +41,6 @@ export const SignupForm = ({
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.name}
-        required={true}
-      />
-
-      <TextField
-        type={'text'}
-        name={'surname'}
-        placeholder={'surname'}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.surname}
         required={true}
       />
     </TextFieldGroup>

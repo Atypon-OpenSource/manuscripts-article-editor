@@ -36,7 +36,13 @@ export const authenticate = () => {
   // return Promise.resolve({ id: '123', name: 'Temporary', surname: 'Person' })
 }
 
-export const signup = (data: SignupValues) => client.post('/signup', data)
+export const signup = (data: SignupValues) =>
+  client.post('/registration/signup', data, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
 
 export const login = (data: LoginValues) => {
   const requestConfig = buildFormRequestConfig('/token', {

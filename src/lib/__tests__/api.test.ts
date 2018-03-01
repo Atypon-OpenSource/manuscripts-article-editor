@@ -1,6 +1,7 @@
 jest.mock('../token')
 
 import MockAdapter from 'axios-mock-adapter'
+import * as httpStatusCodes from 'http-status-codes'
 import * as api from '../api'
 import client from '../client'
 import token, { Token } from '../token'
@@ -17,7 +18,7 @@ describe('api', () => {
       name: 'foo',
     }
 
-    mock.onGet('/user').reply(200, mockData)
+    mock.onGet('/user').reply(httpStatusCodes.OK, mockData)
 
     const result = await api.authenticate()
 
@@ -27,20 +28,15 @@ describe('api', () => {
   it('returns data from signup', async () => {
     const mock = new MockAdapter(client)
 
-    const mockData = {
-      email: 'test@example.com',
-    }
-
-    mock.onPost('/signup').reply(200, mockData)
+    mock.onPost('/registration/signup').reply(httpStatusCodes.OK)
 
     const result = await api.signup({
       name: 'foo',
-      surname: 'foo',
       email: 'test@example.com',
-      password: 'foo',
+      password: 'foo-min-length-8',
     })
 
-    expect(result.data.email).toEqual(mockData.email)
+    expect(result.status).toEqual(httpStatusCodes.OK)
   })
 
   it('stores the token after login', async () => {
@@ -53,7 +49,7 @@ describe('api', () => {
       token_type: 'bearer',
     }
 
-    mock.onPost('/token').reply(200, mockData)
+    mock.onPost('/token').reply(httpStatusCodes.OK, mockData)
 
     expect(token.get()).toBeNull()
 

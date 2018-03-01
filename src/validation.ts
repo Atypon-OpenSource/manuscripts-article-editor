@@ -29,15 +29,11 @@ export const signupSchema = yup.object().shape({
   password: yup
     .string()
     .required()
-    .min(3),
+    .min(8),
   name: yup
     .string()
     .required()
     .min(1),
-  surname: yup
-    .string()
-    .required()
-    .min(2),
 })
 
 export const accountSchema = yup.object().shape({
