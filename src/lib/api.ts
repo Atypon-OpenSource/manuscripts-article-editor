@@ -29,11 +29,17 @@ const buildFormRequestConfig = (url: string, data: any): AxiosRequestConfig => {
 export const authenticate = () => {
   // return client.get('/user').then(response => response.data)
 
-  // uncomment the line below to be an anonymous user
-  return Promise.resolve(undefined)
+  // return a user profile if there's an access token in localStorage
+  const user = token.get()
+    ? {
+        id: '123',
+        name: 'Temporary',
+        surname: 'Person',
+        email: 'foo@example.com',
+      }
+    : undefined
 
-  // or uncomment the line below to be signed in
-  // return Promise.resolve({ id: '123', name: 'Temporary', surname: 'Person' })
+  return Promise.resolve(user)
 }
 
 export const signup = (data: SignupValues) =>

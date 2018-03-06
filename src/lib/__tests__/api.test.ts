@@ -20,9 +20,22 @@ describe('api', () => {
 
     mock.onGet('/user').reply(httpStatusCodes.OK, mockData)
 
-    const result = await api.authenticate()
+    const noTokenResult = await api.authenticate()
 
-    expect(result).toEqual(mockData)
+    expect(noTokenResult).toEqual(undefined)
+
+    const tokenData = {
+      access_token: 'foo',
+      refresh_token: 'bar',
+      expires_in: 100,
+      token_type: 'bearer',
+    }
+
+    token.set(tokenData)
+
+    const tokenResult = await api.authenticate()
+
+    expect(tokenResult).toEqual(mockData)
   })
 
   it('returns data from signup', async () => {
