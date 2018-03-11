@@ -11,6 +11,16 @@ export interface LoginValues {
   password: string
 }
 
+export interface LoginResponse {
+  token: string
+  syncSession: string
+  user: {
+    id: string
+    email: string
+    name: string
+  }
+}
+
 export interface LoginErrors extends FormikErrors<LoginValues> {
   submit: string
 }

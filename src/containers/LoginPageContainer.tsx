@@ -1,4 +1,5 @@
 import { FormikActions, FormikErrors } from 'formik'
+import * as httpStatusCode from 'http-status-codes'
 import { parse } from 'qs'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -6,8 +7,9 @@ import { Redirect } from 'react-router-dom'
 import { LoginErrors, LoginValues } from '../components/LoginForm'
 import LoginPage from '../components/LoginPage'
 import { login } from '../lib/api'
+import deviceId from '../lib/deviceId'
 import token, { Token } from '../lib/token'
-import { authenticate } from '../store/authentication'
+import { authenticate, authenticateSuccess } from '../store/authentication'
 import {
   AuthenticationDispatchProps,
   AuthenticationStateProps,
@@ -26,13 +28,7 @@ class LoginPageContainer extends React.Component<
   public componentDidMount() {
     const tokenData: Token = parse(window.location.hash.substr(1))
 
-    if (
-      tokenData &&
-      tokenData.access_token &&
-      tokenData.token_type === 'bearer' &&
-      tokenData.refresh_token &&
-      tokenData.expires_in
-    ) {
+    if (tokenData && tokenData.access_token && tokenData.sync_session) {
       token.set(tokenData)
 
       /* tslint:disable-next-line:no-any */
@@ -60,26 +56,39 @@ class LoginPageContainer extends React.Component<
     values: LoginValues,
     { setSubmitting, setErrors }: FormikActions<LoginValues | LoginErrors>
   ) => {
-    login(values).then(
-      () => {
+    login({
+      ...values,
+      deviceId: deviceId.get(),
+    }).then(
+      response => {
         setSubmitting(false)
 
         /* tslint:disable-next-line:no-any */
-        this.props.dispatch<any>(authenticate())
+        this.props.dispatch<any>(
+          authenticateSuccess({
+            name: response.data.user.name,
+            email: response.data.user.email,
+          })
+        )
       },
       error => {
         setSubmitting(false)
 
         // TODO: use error and error description: show a "resend email verification" link if not confirmed
-
         const errors: FormikErrors<LoginErrors> = {
           email: null, // TODO: read these from the response
           password: null, // TODO: read these from the response
-          // unauthorized: error.response && error.response.status === 401,
-          submit:
-            error.response && error.response.data.error_description
-              ? error.response.data.error_description
-              : 'There was an error',
+          submit: null,
+        }
+
+        if (error.response) {
+          if (error.response.status === httpStatusCode.BAD_REQUEST) {
+            errors.submit = 'Invalid Operation'
+          } else if (error.response.status === httpStatusCode.FORBIDDEN) {
+            errors.submit = 'Invalid username or password'
+          } else {
+            errors.submit = 'An error occurred.'
+          }
         }
 
         setErrors(errors)

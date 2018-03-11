@@ -2,9 +2,7 @@ const storage = window.localStorage
 
 export interface Token {
   access_token: string
-  refresh_token: string
-  expires_in: number
-  token_type: string
+  sync_session: string
 }
 
 export default {

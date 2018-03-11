@@ -77,8 +77,8 @@ class AccountPageContainer extends React.Component<
 
         const errors: FormikErrors<AccountErrors> = {
           name: null,
-          surname: null,
           phone: null,
+          surname: null,
           submit: error.response
             ? error.response.data.error
             : 'There was an error',

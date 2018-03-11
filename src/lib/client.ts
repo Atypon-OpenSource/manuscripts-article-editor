@@ -8,6 +8,8 @@ const client = axios.create({
 client.interceptors.request.use(config => {
   const tokenData = token.get()
 
+  config.headers.Accept = 'application/json'
+  config.headers['Content-Type'] = 'application/json'
   if (tokenData) {
     config.headers.authorization = 'Bearer ' + tokenData.access_token
   }

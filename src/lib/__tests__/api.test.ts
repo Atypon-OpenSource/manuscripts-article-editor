@@ -26,9 +26,7 @@ describe('api', () => {
 
     const tokenData = {
       access_token: 'foo',
-      refresh_token: 'bar',
-      expires_in: 100,
-      token_type: 'bearer',
+      sync_session: 'bar',
     }
 
     token.set(tokenData)
@@ -56,24 +54,29 @@ describe('api', () => {
     const mock = new MockAdapter(client)
 
     const mockData = {
-      access_token: 'foo',
-      refresh_token: 'bar',
-      expires_in: 100,
-      token_type: 'bearer',
+      token: 'foo',
+      syncSession: 'bar',
+      user: {
+        id: 'id',
+        name: 'name',
+        email: 'email',
+      },
     }
 
-    mock.onPost('/token').reply(httpStatusCodes.OK, mockData)
+    mock.onPost('/auth/login').reply(httpStatusCodes.OK, mockData)
 
     expect(token.get()).toBeNull()
 
     await api.login({
       email: 'test@example.com',
       password: 'foo',
+      deviceId: 'bar',
     })
 
     const tokenData = token.get() as Token
 
-    expect(tokenData.access_token).toEqual(mockData.access_token)
+    expect(tokenData.access_token).toEqual(mockData.token)
+    expect(tokenData.sync_session).toEqual(mockData.syncSession)
   })
 
   it('removes the token after logout', async () => {
@@ -83,9 +86,7 @@ describe('api', () => {
 
     const tokenData = {
       access_token: 'foo',
-      refresh_token: 'bar',
-      expires_in: 100,
-      token_type: 'bearer',
+      sync_session: 'bar',
     }
 
     token.set(tokenData)

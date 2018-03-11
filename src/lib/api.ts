@@ -1,10 +1,11 @@
 // import { AccountValues } from '../components/AccountForm'
 import { AxiosRequestConfig } from 'axios'
 import { stringify } from 'qs'
-import { LoginValues } from '../components/LoginForm'
+import { LoginResponse, LoginValues } from '../components/LoginForm'
 import { RecoverValues } from '../components/RecoverForm'
 import { SignupValues } from '../components/SignupForm'
 import client from './client'
+import { Device } from './deviceId'
 import token from './token'
 
 export interface VerifyValues {
@@ -43,24 +44,24 @@ export const authenticate = () => {
 }
 
 export const signup = (data: SignupValues) =>
-  client.post('/registration/signup', data, {
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  })
+  client.post('/registration/signup', data)
 
-export const login = (data: LoginValues) => {
-  const requestConfig = buildFormRequestConfig('/token', {
-    username: data.email,
-    password: data.password,
-    grant_type: 'password',
-  })
+export const login = (data: LoginValues & Device) =>
+  client
+    .post<LoginResponse>('/auth/login', data, {
+      headers: {
+        'manuscripts-app-id': process.env.API_APPLICATION_ID,
+        'manuscripts-app-secret': process.env.API_APPLICATION_SECRET, // TODO: this should be removed after resolving this https://gitlab.com/mpapp-private/manuscripts-frontend/issues/58
+      },
+    })
+    .then(response => {
+      token.set({
+        access_token: response.data.token,
+        sync_session: response.data.syncSession,
+      })
 
-  return client.request(requestConfig).then(response => {
-    token.set(response.data)
-  })
-}
+      return response
+    })
 
 export const refresh = () => {
   const tokenData = token.get()
@@ -68,7 +69,6 @@ export const refresh = () => {
   if (!tokenData) return Promise.resolve()
 
   const requestConfig = buildFormRequestConfig('/token', {
-    refresh_token: tokenData.refresh_token,
     grant_type: 'refresh',
   })
 
