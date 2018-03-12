@@ -2,66 +2,41 @@ import PouchDBHTTPAdapter = require('pouchdb-adapter-http')
 import PouchDBIDBAdapter = require('pouchdb-adapter-idb')
 import * as RxDB from 'rxdb'
 import * as schema from './schema'
-import { GroupInterface } from './types/group'
-import { ManuscriptInterface } from './types/manuscript'
-import { Person } from './types/person'
-import { SectionInterface } from './types/section'
+import { AnyComponent, Group, Person } from './types/components'
 
 RxDB.QueryChangeDetector.enable()
-RxDB.QueryChangeDetector.enableDebugging()
+// RxDB.QueryChangeDetector.enableDebugging()
 
 RxDB.plugin(PouchDBIDBAdapter)
 RxDB.plugin(PouchDBHTTPAdapter)
 
 const collections = [
   {
+    name: 'components',
+    schema: schema.components,
+    sync: true,
+  },
+  {
     name: 'groups',
     schema: schema.groups,
-    sync: false,
+    sync: true,
   },
   {
     name: 'groupmembers',
     schema: schema.people,
-    sync: false,
-  },
-  {
-    name: 'manuscripts',
-    schema: schema.manuscripts,
-    sync: false,
-  },
-  {
-    name: 'manuscriptcontributors',
-    schema: schema.people,
-    sync: false,
-  },
-  {
-    name: 'sections',
-    schema: schema.sections,
-    sync: false,
-    migrationStrategies: {
-      1: (doc: RxDB.RxDocument<SectionInterface>) => {
-        if (!doc.manuscript) return null
-
-        return {
-          ...doc,
-          content: '',
-        }
-      },
-    },
+    sync: true,
   },
   {
     name: 'collaborators',
     schema: schema.people,
-    sync: false,
+    sync: true,
   },
 ]
 
-export interface DbInterface extends RxDB.RxDatabase {
-  groups: RxDB.RxCollection<GroupInterface>
+export interface Db extends RxDB.RxDatabase {
+  components: RxDB.RxCollection<AnyComponent>
+  groups: RxDB.RxCollection<Group>
   groupmembers: RxDB.RxCollection<Person>
-  manuscripts: RxDB.RxCollection<ManuscriptInterface>
-  manuscriptcontributors: RxDB.RxCollection<Person>
-  sections: RxDB.RxCollection<SectionInterface>
   collaborators: RxDB.RxCollection<Person>
 }
 
@@ -81,15 +56,20 @@ export const waitForDB = (async () => {
 
   await Promise.all(
     collections.map(async data => {
-      const collection = await db.collection(data as RxDB.RxCollectionCreator)
+      try {
+        // tslint:disable-next-line
+        const collection = await db.collection(data as RxDB.RxCollectionCreator)
 
-      if (data.sync) {
-        collection.sync({
-          remote: `http://example.com/${collection.name}/`,
-        })
+        // if (data.sync) {
+        //   collection.sync({
+        //     remote: `http://example.com/${collection.name}/`,
+        //   })
+        // }
+      } catch (error) {
+        console.error(error) // tslint:disable-line
       }
     })
   )
 
-  return db as DbInterface
+  return db as Db
 })()

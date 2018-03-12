@@ -10,15 +10,14 @@ import GroupPage from '../components/GroupPage'
 import { waitForDB } from '../db'
 import Spinner from '../icons/spinner'
 import { ConnectedReduxProps } from '../store/types'
-import { GroupInterface } from '../types/group'
-import { ManuscriptInterface } from '../types/manuscript'
-import { Person } from '../types/person'
+import { MANUSCRIPT } from '../transformer/object-types'
+import { Group, Manuscript, Person } from '../types/components'
 import { groupSchema } from '../validation'
 
 interface GroupPageContainerState {
-  group: RxDocument<GroupInterface> | null
+  group: RxDocument<Group> | null
   members: Array<RxDocument<Person>> | null
-  manuscripts: Array<RxDocument<ManuscriptInterface>> | null
+  manuscripts: Array<RxDocument<Manuscript>> | null
   editing: boolean
   error: string | null
 }
@@ -66,8 +65,12 @@ class GroupPageContainer extends React.Component<
 
         // TODO: how to fetch these manuscripts?
         this.subs.push(
-          db.manuscripts
-            .find({ group: id }) // TODO: does this mapping work?
+          db.components
+            .find()
+            .where('objectType')
+            .eq(MANUSCRIPT)
+            .and('group')
+            .eq(id) // TODO: does this mapping work?
             .$.subscribe(manuscripts => {
               this.setState({ manuscripts })
             })
@@ -139,7 +142,7 @@ class GroupPageContainer extends React.Component<
   private deleteGroup = () => {
     // TODO: confirm
 
-    const doc = this.state.group as RxDocument<GroupInterface>
+    const doc = this.state.group as RxDocument<Group>
 
     doc.remove().then(() => {
       this.props.history.push('/groups')
@@ -150,7 +153,7 @@ class GroupPageContainer extends React.Component<
     values: GroupValues,
     { setSubmitting, setErrors }: FormikActions<GroupValues | GroupErrors>
   ) => {
-    const doc = this.state.group as RxDocument<GroupInterface>
+    const doc = this.state.group as RxDocument<Group>
 
     doc
       .update({

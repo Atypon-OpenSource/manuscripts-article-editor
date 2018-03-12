@@ -1,10 +1,11 @@
-import { Person } from '../../src/types/person'
+import { Person } from '../../src/types/components'
 
 import * as imageFile from '../assets/melnitz.jpg'
 
 const people: Person[] = [
   {
-    _id: 'example-1',
+    id: 'example-1',
+    objectType: 'MPPerson',
     name: 'Janine',
     surname: 'Melnitz',
     email: 'janine.melnitz@example.com',
@@ -12,7 +13,8 @@ const people: Person[] = [
     image: imageFile,
     affiliations: [
       {
-        _id: 'firehouse',
+        id: 'firehouse',
+        objectType: 'MPAffiliation',
         name: 'Firehouse, Hook & Ladder Company 8',
         address:
           '14 North Moore Street, Tribeca, Manhattan, New York City, New York, USA',
@@ -20,7 +22,8 @@ const people: Person[] = [
     ],
   },
   {
-    _id: 'example-2',
+    id: 'example-2',
+    objectType: 'MPPerson',
     name: 'Janine',
     surname: 'Melnitz',
     email: 'janine.melnitz@example.com',
@@ -28,7 +31,8 @@ const people: Person[] = [
     image: imageFile,
     affiliations: [
       {
-        _id: 'firehouse',
+        id: 'firehouse',
+        objectType: 'MPAffiliation',
         name: 'Firehouse, Hook & Ladder Company 8',
         address:
           '14 North Moore Street, Tribeca, Manhattan, New York City, New York, USA',
@@ -36,7 +40,8 @@ const people: Person[] = [
     ],
   },
   {
-    _id: 'example-3',
+    id: 'example-3',
+    objectType: 'MPPerson',
     name: 'Janine',
     surname: 'Melnitz',
     email: 'janine.melnitz@example.com',
@@ -44,7 +49,8 @@ const people: Person[] = [
     image: imageFile,
     affiliations: [
       {
-        _id: 'firehouse',
+        id: 'firehouse',
+        objectType: 'MPAffiliation',
         name: 'Firehouse, Hook & Ladder Company 8',
         address:
           '14 North Moore Street, Tribeca, Manhattan, New York City, New York, USA',

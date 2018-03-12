@@ -1,6 +1,6 @@
 .ProseMirror {
-  font-size: 12pt;
-  line-height: 20pt;
+  font-size: 13pt;
+  line-height: 2em;
   font-family: Charter, 'Charis SIL', serif;
   padding: 10px;
   background: #fff;
@@ -8,6 +8,10 @@
 }
 
 .ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror .ProseMirror-selectednode {
   outline: none;
 }
 
@@ -41,13 +45,166 @@
   cursor: default;
 }
 
+.ProseMirror table {
+  margin: 40px 0;
+}
+
 .ProseMirror th,
 .ProseMirror td {
   border: 1px solid #eee;
   padding: 2px 5px;
 }
 
+.ProseMirror th {
+  background: #f6f6f6;
+}
+
 .ProseMirror sup,
 .ProseMirror sub {
   line-height: 0;
+}
+
+.ProseMirror .citation {
+  background-color: #ccdaf3;
+  border-radius: 5px;
+  padding: 0 2px;
+  cursor: pointer;
+}
+
+.ProseMirror .citation:hover {
+  background-color: #acbad3;
+}
+
+.ProseMirror figure {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.ProseMirror figure > img {
+  display: block;
+  min-height: 200px;
+  background: #f6f6f6;
+  padding: 5px;
+}
+
+.ProseMirror figcaption {
+  color: #777;
+}
+
+.ProseMirror header {
+  background-color: #eeeef2;
+  padding: 5px 50px;
+  margin: 0 -50px 20px;
+}
+
+.ProseMirror h1 {
+  line-height: 1.3;
+}
+
+.ProseMirror .empty-node::before {
+  position: absolute;
+  color: #aaa;
+  cursor: text;
+  font-style: italic;
+}
+
+.ProseMirror .empty-node:hover::before {
+  color: #777;
+}
+
+.ProseMirror h1.empty-node::before {
+  content: 'Title';
+}
+
+.ProseMirror section > h1.empty-node::before {
+  content: 'Section title';
+}
+
+.ProseMirror section > h1 + p.empty-node::before {
+  content: 'Section contents';
+}
+
+.ProseMirror p[placeholder].empty-node::before {
+  content: attr(placeholder); /* TODO: innerHTML? */
+}
+
+.ProseMirror tbody {
+  counter-reset: header_counter;
+}
+
+.ProseMirror th {
+  counter-increment: header_counter;
+}
+
+.ProseMirror th p.empty-node:first-child {
+  text-align: center;
+}
+
+.ProseMirror th p.empty-node:first-child::before {
+  content: 'Header ' counter(header_counter);
+}
+
+.ProseMirror .section-container {
+  position: relative;
+  padding-left: -36px;
+  margin-left: -36px;
+  display: flex;
+}
+
+.ProseMirror .section-container > section {
+  flex: 1;
+}
+
+.ProseMirror .section-gutter {
+  position: relative;
+  cursor: ns-resize;
+  padding: 12px;
+  margin-right: 12px;
+  opacity: 0.1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.2s all;
+}
+
+.ProseMirror .section-gutter::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 50%;
+  border-left: 1px dotted #65cfff;
+  transform: translate(-50%);
+}
+
+.ProseMirror .section-container:hover .section-gutter {
+  opacity: 1;
+}
+
+.ProseMirror .add-section {
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #65cfff;
+  transition: 0.2s all;
+}
+
+.ProseMirror .add-section-before {
+  top: -12px;
+}
+
+.ProseMirror .add-section-after {
+  bottom: -12px;
+}
+
+.ProseMirror .add-section:hover {
+  background-color: #65cfff;
+  color: #fff;
 }

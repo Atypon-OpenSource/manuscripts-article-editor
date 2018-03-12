@@ -2,12 +2,13 @@ import * as React from 'react'
 import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import GroupsPage from '../components/GroupsPage'
-import { DbInterface, waitForDB } from '../db'
+import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
-import { AddGroup, GroupInterface } from '../types/group'
+import { Group } from '../types/components'
+import { AddGroup } from '../types/group'
 
 interface GroupsPageContainerState {
-  groups: Array<RxDocument<GroupInterface>> | null
+  groups: Array<RxDocument<Group>> | null
   error: string | null
 }
 
@@ -17,7 +18,7 @@ class GroupsPageContainer extends React.Component {
     error: null,
   }
 
-  private db: DbInterface
+  private db: Db
 
   private subs: Subscription[] = []
 

@@ -1,7 +1,7 @@
 import { Action } from 'redux'
 import { ConnectedReduxProps } from '../types'
 
-export interface UserInterface {
+export interface User {
   name: string
   email: string
   password?: string
@@ -13,7 +13,7 @@ export interface UserInterface {
 export interface AuthenticationState {
   loading: boolean
   loaded: boolean
-  user: UserInterface | undefined
+  user: User | undefined
   error: string | undefined
 }
 
@@ -23,7 +23,7 @@ export interface AuthenticateRequestAction extends Action {
 
 export interface AuthenticateSuccessAction extends Action {
   type: string
-  payload: UserInterface | undefined
+  payload: User | undefined
 }
 
 export interface AuthenticateFailureAction extends Action {

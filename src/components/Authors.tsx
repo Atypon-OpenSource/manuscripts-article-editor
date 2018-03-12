@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import UserIcon from '../icons/user'
 import { styled } from '../theme'
-import { Person } from '../types/person'
+import { Person } from '../types/components'
 
 export const AuthorsContainer = styled('div')`
   padding: 20px 30px;
@@ -53,7 +53,7 @@ export interface AuthorProps {
 }
 
 export const Author: React.SFC<AuthorProps> = ({ author }) => (
-  <AuthorContainer to={`/collaborators/${author._id}`}>
+  <AuthorContainer to={`/collaborators/${author.id}`}>
     {author.image ? (
       <AuthorImage src={author.image} />
     ) : (
@@ -72,6 +72,6 @@ export interface AuthorsProps {
 
 export const Authors: React.SFC<AuthorsProps> = ({ authors }) => (
   <AuthorsContainer>
-    {authors.map(author => <Author key={author._id} author={author} />)}
+    {authors.map(author => <Author key={author.id} author={author} />)}
   </AuthorsContainer>
 )

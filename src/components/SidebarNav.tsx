@@ -4,7 +4,7 @@ import { styled } from '../theme'
 
 // type LinkProps = ThemedStyledProps<
 //   React.HTMLProps<HTMLAnchorElement>,
-//   ThemeInterface
+//   Theme
 // >
 
 export const SidebarLink = styled(NavLink)`

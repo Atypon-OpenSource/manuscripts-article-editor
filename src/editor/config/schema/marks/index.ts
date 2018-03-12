@@ -1,14 +1,16 @@
 import { MarkSpec } from 'prosemirror-model'
 import { marks } from 'prosemirror-schema-basic'
-import { StringMap } from './types'
+import { StringMap } from '../../types'
 
 const subscript: MarkSpec = {
+  group: 'position',
   excludes: 'superscript',
   parseDOM: [{ tag: 'sub' }, { style: 'vertical-align=sub' }],
   toDOM: () => ['sub'],
 }
 
 const superscript: MarkSpec = {
+  group: 'position',
   excludes: 'subscript',
   parseDOM: [{ tag: 'sup' }, { style: 'vertical-align=super' }],
   toDOM: () => ['sup'],

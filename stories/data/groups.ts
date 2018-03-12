@@ -1,14 +1,16 @@
-import { GroupInterface } from '../../src/types/group'
+import { Group } from '../../src/types/components'
 
-const groups: GroupInterface[] = [
+const groups: Group[] = [
   {
-    _id: 'example-1',
+    id: 'example-1',
+    objectType: 'MPGroup',
     name: 'Example group',
     description: 'An example group',
   },
 
   {
-    _id: 'example-2',
+    id: 'example-2',
+    objectType: 'MPGroup',
     name: 'Example group',
     description: 'Another example group',
   },

@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { ThemedStyledProps } from 'styled-components'
-import { styled, ThemeInterface } from '../theme'
+import { styled, Theme } from '../theme'
 
 export type ButtonProps = ThemedStyledProps<
   React.HTMLProps<HTMLButtonElement>,
-  ThemeInterface
+  Theme
 >
 
 interface IconButtonProps extends ButtonProps {

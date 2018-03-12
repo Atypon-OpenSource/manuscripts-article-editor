@@ -1,8 +1,6 @@
-import * as React from 'react'
-
 import { storiesOf } from '@storybook/react'
+import * as React from 'react'
 import { Avatar } from '../src/components/Avatar'
-
 import * as image from './assets/melnitz.jpg'
 
 storiesOf('Avatar', module)

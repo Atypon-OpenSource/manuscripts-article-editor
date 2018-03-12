@@ -1,5 +1,4 @@
 import {
-  baseKeymap,
   chainCommands,
   exitCode,
   joinDown,
@@ -12,16 +11,9 @@ import {
 } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
 import { undoInputRule } from 'prosemirror-inputrules'
-import { keymap } from 'prosemirror-keymap'
-import {
-  liftListItem,
-  sinkListItem,
-  splitListItem,
-  wrapInList,
-} from 'prosemirror-schema-list'
 import { goToNextCell } from 'prosemirror-tables'
-import schema from './schema'
-import { EditorAction, StringMap } from './types'
+import schema from '../schema'
+import { EditorAction, StringMap } from '../types'
 
 const insertBreak: EditorAction = (state, dispatch) => {
   const br = schema.nodes.hard_break.create()
@@ -35,7 +27,7 @@ const insertRule: EditorAction = (state, dispatch) => {
   return true
 }
 
-const keys: StringMap<EditorAction> = {
+const customKeymap: StringMap<EditorAction> = {
   'Mod-z': undo,
   'Shift-Mod-z': redo,
   Backspace: undoInputRule,
@@ -48,15 +40,10 @@ const keys: StringMap<EditorAction> = {
   'Mod-i': toggleMark(schema.marks.em),
   'Mod-u': toggleMark(schema.marks.underline),
   'Mod-`': toggleMark(schema.marks.code),
-  'Shift-Ctrl-8': wrapInList(schema.nodes.bullet_list),
-  'Shift-Ctrl-9': wrapInList(schema.nodes.ordered_list),
   'Ctrl->': wrapIn(schema.nodes.blockquote),
   'Mod-Enter': chainCommands(exitCode, insertBreak),
   'Shift-Enter': chainCommands(exitCode, insertBreak),
   'Ctrl-Enter': chainCommands(exitCode, insertBreak), // mac-only?
-  Enter: splitListItem(schema.nodes.list_item),
-  'Mod-[': liftListItem(schema.nodes.list_item),
-  'Mod-]': sinkListItem(schema.nodes.list_item),
   'Shift-Ctrl-0': setBlockType(schema.nodes.paragraph),
   'Shift-Ctrl-\\': setBlockType(schema.nodes.code_block),
   'Shift-Ctrl-1': setBlockType(schema.nodes.heading, { level: 1 }),
@@ -70,10 +57,4 @@ const keys: StringMap<EditorAction> = {
   'Shift-Tab': goToNextCell(-1),
 }
 
-Object.keys(baseKeymap).forEach(key => {
-  keys[key] = keys[key]
-    ? chainCommands(keys[key], baseKeymap[key])
-    : baseKeymap[key]
-})
-
-export default keymap(keys)
+export default customKeymap

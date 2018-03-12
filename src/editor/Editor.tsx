@@ -4,21 +4,44 @@ import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
 import * as React from 'react'
 import 'typeface-charis-sil/index.css'
-import { options } from './config'
-import { Dispatch } from './config/types'
+import { styled } from '../theme'
+import { menu, options } from './config'
 import './Editor.css'
+import MenuBar from './MenuBar'
 
 export interface EditorProps {
-  value: string | null
-  onChange: (f: string) => void
   autoFocus?: boolean
-  setActive: (s: EditorState, d: Dispatch) => void
+  doc: ProsemirrorNode | null
+  editable?: boolean
+  onChange?: (N: ProsemirrorNode) => void
 }
 
 interface ComponentState {
   state: EditorState
-  active: boolean
 }
+
+const EditorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+`
+
+const EditorHeader = styled.div`
+  width: 100%;
+  padding: 5px;
+  background: white;
+`
+
+const EditorBody = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 40px;
+`
 
 class Editor extends React.Component<EditorProps> {
   public state: Readonly<ComponentState>
@@ -28,71 +51,63 @@ class Editor extends React.Component<EditorProps> {
   constructor(props: EditorProps) {
     super(props)
 
+    // TODO: add a plugin that saves new blocks and gives them an id, appending to the transaction. handle removed blocks, too.
+    // TODO: do all the saving in this plugin?
+
     this.state = {
       state: EditorState.create({
-        ...options,
-        doc: this.deserialize(props.value),
+        doc: props.doc,
+        schema: options.schema,
+        plugins: options.plugins,
       }),
-      active: Boolean(props.autoFocus),
     }
-  }
-
-  public createEditorView = (node: Node) => {
-    if (!this.view) {
-      this.view = new EditorView(node, {
-        state: this.state.state,
-        dispatchTransaction: this.dispatchTransaction,
-      })
-
-      if (this.props.autoFocus) {
-        this.view.focus()
-        this.props.setActive(this.state.state, this.dispatchTransaction)
-      }
-    }
-  }
-
-  public dispatchTransaction = (transaction: Transaction) => {
-    const state = this.view.state.apply(transaction)
-    this.view.updateState(state)
-    this.setState({ state })
-
-    if (this.state.active) {
-      this.props.setActive(state, this.dispatchTransaction)
-    }
-
-    this.props.onChange(this.serialize(state))
   }
 
   public render() {
     return (
-      <div
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        ref={node => this.createEditorView(node as HTMLDivElement)}
-      />
+      <EditorContainer>
+        {this.props.editable && (
+          <EditorHeader>
+            <MenuBar
+              menu={menu}
+              state={this.state.state}
+              dispatch={this.dispatchTransaction}
+            />
+          </EditorHeader>
+        )}
+
+        <EditorBody>
+          <div ref={node => this.createEditorView(node as HTMLDivElement)} />
+        </EditorBody>
+      </EditorContainer>
     )
   }
 
-  private handleFocus = () => {
-    this.setState({
-      active: true,
-    })
+  private createEditorView = (node: Node) => {
+    const editable = Boolean(this.props.editable)
+
+    if (!this.view) {
+      this.view = new EditorView(node, {
+        editable: () => editable,
+        state: this.state.state,
+        dispatchTransaction: this.dispatchTransaction,
+        nodeViews: options.nodeViews,
+      })
+
+      if (this.props.autoFocus) {
+        this.view.focus()
+      }
+    }
   }
 
-  private handleBlur = () => {
-    this.setState({
-      active: false,
-    })
-  }
+  private dispatchTransaction = (transaction: Transaction) => {
+    const state = this.view.state.apply(transaction)
+    this.view.updateState(state)
+    this.setState({ state })
 
-  private deserialize = (value: string | null) => {
-    if (!value) return null
-
-    return ProsemirrorNode.fromJSON(options.schema, JSON.parse(value))
-  }
-
-  private serialize = (state: EditorState) => {
-    return JSON.stringify(state.doc.toJSON())
+    if (this.props.onChange) {
+      this.props.onChange(state.doc)
+    }
   }
 }
 

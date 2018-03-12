@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ThemedStyledProps } from 'styled-components'
-import { injectGlobal, styled, ThemeInterface } from '../theme'
+import { injectGlobal, styled, Theme } from '../theme'
 
 injectGlobal`
   body {
@@ -10,7 +10,7 @@ injectGlobal`
 
 export type PageProps = ThemedStyledProps<
   React.HTMLProps<HTMLDivElement>,
-  ThemeInterface
+  Theme
 >
 
 export const Page = styled.div`
@@ -30,6 +30,7 @@ export const Sidebar = styled.div`
 
 export const Main = styled.main`
   flex: 1;
+  position: relative;
 `
 
 export const Centered = Main.extend`

@@ -1,28 +1,28 @@
-import { ManuscriptInterface } from '../../src/types/manuscript'
+import { Manuscript } from '../../src/types/components'
 
-const manuscripts: ManuscriptInterface[] = [
+const manuscripts: Manuscript[] = [
   {
-    _id: 'example-1',
+    id: 'example-1',
+    objectType: 'MPManuscript',
     title: 'An example manuscript',
-    createdAt: '2018-01-22T08:00:00Z',
-    updatedAt: '2018-01-22T08:00:00Z',
-    authors: [],
+    createdAt: new Date('2018-01-22T08:00:00Z').getTime(),
+    updatedAt: new Date('2018-01-22T08:00:00Z').getTime(),
   },
 
   {
-    _id: 'example-2',
+    id: 'example-2',
+    objectType: 'MPManuscript',
     title: 'An example manuscript',
-    createdAt: '2018-01-22T08:00:00Z',
-    updatedAt: '2018-01-22T08:00:00Z',
-    authors: [],
+    createdAt: new Date('2018-01-22T08:00:00Z').getTime(),
+    updatedAt: new Date('2018-01-22T08:00:00Z').getTime(),
   },
 
   {
-    _id: 'example-3',
+    id: 'example-3',
+    objectType: 'MPManuscript',
     title: 'An example manuscript',
-    createdAt: '2018-01-22T08:00:00Z',
-    updatedAt: '2018-01-22T08:00:00Z',
-    authors: [],
+    createdAt: new Date('2018-01-22T08:00:00Z').getTime(),
+    updatedAt: new Date('2018-01-22T08:00:00Z').getTime(),
   },
 ]
 

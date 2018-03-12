@@ -3,7 +3,7 @@
 import * as React from 'react'
 import * as styledComponents from 'styled-components'
 
-export interface ThemeInterface {
+export interface Theme {
   active: string
   backgroundColor: string
   borderRadius: string
@@ -34,9 +34,7 @@ const {
   keyframes,
   ThemeProvider: StyledThemeProvider,
   /* tslint:disable-next-line:no-unnecessary-type-assertion */
-} = styledComponents as styledComponents.ThemedStyledComponentsModule<
-  ThemeInterface
->
+} = styledComponents as styledComponents.ThemedStyledComponentsModule<Theme>
 
 export const ThemeProvider: React.SFC = props => (
   <StyledThemeProvider theme={theme}>{props.children}</StyledThemeProvider>

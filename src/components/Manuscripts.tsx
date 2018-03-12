@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import { ManuscriptInterface, RemoveManuscript } from '../types/manuscript'
-import { Person } from '../types/person'
+import { Manuscript, Person } from '../types/components'
+import { RemoveManuscript } from '../types/manuscript'
 import { Button } from './Button'
 import { Contributor } from './Contributor'
 
@@ -45,7 +45,7 @@ const ManuscriptDate = styled.span`
 const ManuscriptContributors = styled.div``
 
 export interface ManuscriptProps {
-  manuscript: RxDocument<ManuscriptInterface>
+  manuscript: RxDocument<Manuscript>
   contributors: Person[]
   removeManuscript: RemoveManuscript
 }
@@ -55,12 +55,12 @@ const DeleteButton = Button.extend`
   font-size: 10px;
 `
 
-export const Manuscript: React.SFC<ManuscriptProps> = ({
+export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
   manuscript,
   contributors,
   removeManuscript,
 }) => (
-  <ManuscriptContainer to={`/manuscripts/${manuscript._id}`}>
+  <ManuscriptContainer to={`/manuscripts/${manuscript.id}`}>
     <ManuscriptSection>
       <ManuscriptTitle>{manuscript.title}</ManuscriptTitle>
 
@@ -80,7 +80,7 @@ export const Manuscript: React.SFC<ManuscriptProps> = ({
 )
 
 export interface ManuscriptsProps {
-  manuscripts: Array<RxDocument<ManuscriptInterface>>
+  manuscripts: Array<RxDocument<Manuscript>>
   removeManuscript: RemoveManuscript
 }
 
@@ -90,8 +90,8 @@ export const Manuscripts: React.SFC<ManuscriptsProps> = ({
 }) => (
   <ManuscriptsContainer>
     {manuscripts.map(manuscript => (
-      <Manuscript
-        key={manuscript._id}
+      <ManuscriptListItem
+        key={manuscript.id}
         manuscript={manuscript}
         contributors={[]}
         removeManuscript={removeManuscript}

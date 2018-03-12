@@ -1,9 +1,7 @@
-import * as React from 'react'
-
 import { action } from '@storybook/addon-actions'
 import { withNotes } from '@storybook/addon-notes'
 import { storiesOf } from '@storybook/react'
-
+import * as React from 'react'
 import {
   ActionButton,
   Button,

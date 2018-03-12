@@ -1,7 +1,7 @@
 import { EditorState, Transaction } from 'prosemirror-state'
 import * as React from 'react'
 import { ThemedStyledProps } from 'styled-components'
-import { ThemeInterface } from '../../theme'
+import { Theme } from '../../theme'
 
 export interface StringMap<T> {
   [x: string]: T
@@ -11,7 +11,7 @@ export type Dispatch = (tr: Transaction) => void
 
 export type EditorAction = (state: EditorState, dispatch: Dispatch) => boolean
 
-export interface MenuButtonInterface {
+export interface MenuButton {
   title: string
   content: React.ReactNode
   active?: (state: EditorState) => boolean
@@ -19,18 +19,18 @@ export interface MenuButtonInterface {
   enable?: (state: EditorState) => boolean
 }
 
-export type MenuButtonMap = StringMap<MenuButtonInterface>
+export type MenuButtonMap = StringMap<MenuButton>
 
 export type MenuButtonMapMap = StringMap<MenuButtonMap>
 
 export type MenuBarButtonGenerator = (
   state: EditorState,
   dispatch: Dispatch
-) => (key: string, item: MenuButtonInterface) => JSX.Element
+) => (key: string, item: MenuButton) => JSX.Element
 
 export type ThemedStyledButtonProps = ThemedStyledProps<
   React.HTMLProps<HTMLButtonElement>,
-  ThemeInterface
+  Theme
 >
 
 export interface MenuBarButtonProps extends ThemedStyledButtonProps {

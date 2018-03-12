@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { RxDocument } from 'rxdb'
 import Add from '../icons/add'
-import { AddGroup, GroupInterface } from '../types/group'
+import { Group } from '../types/components'
+import { AddGroup } from '../types/group'
 import { ActionButton } from './Button'
 import { EmptyContainer, EmptyMessage } from './Empty'
 import { Groups } from './Groups'
@@ -9,7 +10,7 @@ import { PageHeading } from './PageHeading'
 import { Select, Sort } from './Sort'
 
 interface GroupsPageProps {
-  groups: Array<RxDocument<GroupInterface>>
+  groups: Array<RxDocument<Group>>
   addGroup: AddGroup
 }
 

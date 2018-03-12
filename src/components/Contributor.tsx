@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled } from '../theme'
-import { Person } from '../types/person'
+import { Person } from '../types/components'
 
 export interface ContributorProps {
   contributor: Person

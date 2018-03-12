@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Spinner } from '../components/Spinner'
-import { User, UserLink } from '../components/User'
+import { UserInfo, UserLink } from '../components/UserInfo'
 import { authenticate } from '../store/authentication'
 import {
   AuthenticationDispatchProps,
@@ -41,7 +41,7 @@ class UserContainer extends React.Component<
     }
 
     return (
-      <User
+      <UserInfo
         user={authentication.user}
         isOpen={this.state.isOpen}
         toggleOpen={this.toggleOpen}

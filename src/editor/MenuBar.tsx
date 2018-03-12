@@ -7,14 +7,19 @@ import {
 } from './config/types'
 
 export const MenuBarContainer = styled.div`
-  margin-bottom: 5px;
+  margin: 6px 24px;
   display: flex;
   align-items: baseline;
+  //justify-content: center;
 `
 
 export const MenuBarGroup = styled.div`
   margin-right: 10px;
   white-space: nowrap;
+
+  & button {
+    margin-right: 0;
+  }
 
   & button:not(:first-of-type) {
     margin-left: -1px;
@@ -36,7 +41,7 @@ export const StyledButton = styled.button`
     props['data-active'] ? '#eee' : '#fff'};
   border: 1px solid #ddd;
   cursor: pointer;
-  padding: 6px 18px;
+  padding: 5px 15px;
   display: inline-flex;
   align-items: center;
   transition: 0.2s all;

@@ -1,10 +1,8 @@
-import * as React from 'react'
-
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
-import { User } from '../src/components/User'
+import * as React from 'react'
+import { UserInfo } from '../src/components/UserInfo'
 import { styled } from '../src/theme'
-
 import * as avatar from './assets/melnitz.jpg'
 
 const user = {
@@ -25,20 +23,20 @@ const Container = styled.div`
   background-color: rgba(145, 196, 255, 0.12);
 `
 
-storiesOf('User', module)
+storiesOf('UserInfo', module)
   .add('closed', () => (
     <Container>
-      <User user={user} isOpen={false} toggleOpen={action('toggle')} />
+      <UserInfo user={user} isOpen={false} toggleOpen={action('toggle')} />
     </Container>
   ))
   .add('open', () => (
     <Container>
-      <User user={user} isOpen={true} toggleOpen={action('toggle')} />
+      <UserInfo user={user} isOpen={true} toggleOpen={action('toggle')} />
     </Container>
   ))
   .add('with avatar', () => (
     <Container>
-      <User
+      <UserInfo
         user={userWithAvatar}
         isOpen={false}
         toggleOpen={action('toggle')}

@@ -8,7 +8,7 @@ import {
   AuthenticateSuccessAction,
   AuthenticationActions,
   AuthenticationState,
-  UserInterface,
+  User,
 } from './types'
 
 /* constants */
@@ -26,7 +26,7 @@ export const authenticateRequest: ActionCreator<
 })
 
 export const authenticateSuccess: ActionCreator<AuthenticateSuccessAction> = (
-  data: UserInterface | undefined
+  data: User | undefined
 ) => ({
   type: AUTHENTICATE_SUCCESS,
   payload: data,
@@ -44,8 +44,14 @@ export const authenticate: ThunkActionCreator = () => (
 ): Promise<Action> => {
   dispatch(authenticateRequest())
 
+  const storedUser = window.localStorage.getItem('user')
+
+  if (storedUser) {
+    dispatch(authenticateSuccess(storedUser))
+  }
+
   return api.authenticate().then(
-    (data: UserInterface | undefined) => {
+    (data: User | undefined) => {
       return dispatch(authenticateSuccess(data))
     },
     (error: AxiosError) => {
@@ -93,7 +99,7 @@ export const reducer: Reducer<AuthenticationState> = (
     case AUTHENTICATE_FAILURE:
       return {
         loading: false,
-        loaded: false,
+        loaded: state.loaded,
         user: state.user,
         error: (action as AuthenticateFailureAction).payload,
       }

@@ -2,17 +2,17 @@ import * as React from 'react'
 import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import CollaboratorsPage from '../components/CollaboratorsPage'
-import { DbInterface, waitForDB } from '../db'
+import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
 import {
   AddCollaborator,
-  CollaboratorInterface,
   RemoveCollaborator,
   UpdateCollaborator,
 } from '../types/collaborator'
+import { Collaborator } from '../types/components'
 
 interface CollaboratorsPageContainerState {
-  collaborators: Array<RxDocument<CollaboratorInterface>>
+  collaborators: Array<RxDocument<Collaborator>>
   loaded: boolean
   error: string | null
 }
@@ -24,7 +24,7 @@ class CollaboratorsPageContainer extends React.Component {
     error: null,
   }
 
-  private db: DbInterface
+  private db: Db
 
   private subs: Subscription[] = []
 

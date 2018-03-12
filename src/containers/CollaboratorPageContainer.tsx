@@ -14,13 +14,13 @@ import { FormPage } from '../components/Form'
 import { waitForDB } from '../db'
 import Spinner from '../icons/spinner'
 import { ConnectedReduxProps } from '../store/types'
-import { CollaboratorInterface } from '../types/collaborator'
-import { ManuscriptInterface } from '../types/manuscript'
+import { MANUSCRIPT } from '../transformer/object-types'
+import { Collaborator, Manuscript } from '../types/components'
 import { collaboratorSchema } from '../validation'
 
 interface CollaboratorPageContainerState {
-  collaborator: RxDocument<CollaboratorInterface> | null
-  manuscripts: Array<RxDocument<ManuscriptInterface>> | null
+  collaborator: RxDocument<Collaborator> | null
+  manuscripts: Array<RxDocument<Manuscript>> | null
   editing: boolean
   error: string | null
 }
@@ -58,10 +58,13 @@ class CollaboratorPageContainer extends React.Component<
           })
         )
 
-        // TODO: how to fetch these manuscripts?
         this.subs.push(
-          db.manuscripts
-            .find({ collaborator: id }) // TODO: does this mapping work?
+          db.components
+            .find()
+            .where('objectType')
+            .eq(MANUSCRIPT)
+            .and('collaborator')
+            .eq(id) // TODO: does this mapping work?
             .$.subscribe(manuscripts => {
               this.setState({ manuscripts })
             })
@@ -134,7 +137,7 @@ class CollaboratorPageContainer extends React.Component<
   private deleteCollaborator = () => {
     // TODO: confirm
 
-    const doc = this.state.collaborator as RxDocument<CollaboratorInterface>
+    const doc = this.state.collaborator as RxDocument<Collaborator>
 
     doc.remove().then(() => {
       this.props.history.push('/collaborators')
@@ -148,7 +151,7 @@ class CollaboratorPageContainer extends React.Component<
       setErrors,
     }: FormikActions<CollaboratorValues | CollaboratorErrors>
   ) => {
-    const doc = this.state.collaborator as RxDocument<CollaboratorInterface>
+    const doc = this.state.collaborator as RxDocument<Collaborator>
 
     doc
       .update({
@@ -164,6 +167,8 @@ class CollaboratorPageContainer extends React.Component<
         },
         error => {
           setSubmitting(false)
+
+          // TODO: handle database errors instead of axios errors
 
           const errors: FormikErrors<CollaboratorErrors> = {
             name: null,

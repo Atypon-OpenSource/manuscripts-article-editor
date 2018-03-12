@@ -1,33 +1,87 @@
-export const manuscripts = {
-  title: 'manuscripts schema',
+export const components = {
+  title: 'components schema',
   version: 0,
-  description: 'describes a manuscript',
+  description: 'describes a component',
   type: 'object',
   properties: {
-    title: {
+    id: {
       type: 'string',
-    },
-  },
-  required: ['title'],
-}
-
-export const sections = {
-  title: 'sections schema',
-  version: 1,
-  description: 'describes a section',
-  type: 'object',
-  properties: {
-    title: {
-      type: 'string',
-    },
-    content: {
-      type: 'string',
+      primary: true,
     },
     manuscript: {
       type: 'string',
     },
+    objectType: {
+      type: 'string',
+    },
+    elementType: {
+      type: 'string',
+    },
+    createdAt: {
+      type: 'number',
+    },
+    updatedAt: {
+      type: 'number',
+    },
+    title: {
+      type: 'string',
+    },
+    given: {
+      type: 'string',
+    },
+    family: {
+      type: 'string',
+    },
+    lastName: {
+      type: 'string',
+    },
+    firstName: {
+      type: 'string',
+    },
+    email: {
+      type: 'string',
+    },
+    tel: {
+      type: 'string',
+    },
+    image: {
+      type: 'string',
+    },
+    description: {
+      type: 'string',
+    },
+    priority: {
+      type: 'number',
+    },
+    path: {
+      type: 'array',
+    },
+    elementIDs: {
+      type: 'array',
+    },
+    originalURL: {
+      type: 'string',
+    },
+    contents: {
+      type: 'string',
+    },
+    paragraphStyle: {
+      type: 'string',
+    },
+    containedObjectIDs: {
+      type: 'array',
+    },
+    containedObjectID: {
+      type: 'string',
+    },
+    caption: {
+      type: 'string',
+    },
+    // bibliographicName: {
+    //   type: 'object'
+    // }
   },
-  required: ['title'],
+  required: ['objectType'],
 }
 
 export const people = {
@@ -36,6 +90,9 @@ export const people = {
   description: 'describes a person',
   type: 'object',
   properties: {
+    objectType: {
+      type: 'string',
+    },
     name: {
       type: 'string',
     },
@@ -52,6 +109,9 @@ export const groups = {
   description: 'describes a group',
   type: 'object',
   properties: {
+    objectType: {
+      type: 'string',
+    },
     name: {
       type: 'string',
     },

@@ -1,9 +1,7 @@
 import * as React from 'react'
 import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import { GroupInterface } from '../types/group'
-import { ManuscriptInterface } from '../types/manuscript'
-import { Person } from '../types/person'
+import { Group, Manuscript, Person } from '../types/components'
 import { Button } from './Button'
 
 const GroupContainer = styled.div`
@@ -57,7 +55,7 @@ const GroupMember: React.SFC<GroupMemberProps> = ({ member }) => (
 )
 
 interface GroupManuscriptProps {
-  manuscript: ManuscriptInterface
+  manuscript: Manuscript
 }
 
 const GroupManuscript: React.SFC<GroupManuscriptProps> = ({ manuscript }) => (
@@ -65,9 +63,9 @@ const GroupManuscript: React.SFC<GroupManuscriptProps> = ({ manuscript }) => (
 )
 
 interface GroupPageProps {
-  group: RxDocument<GroupInterface>
+  group: RxDocument<Group>
   members: Array<RxDocument<Person>>
-  manuscripts: Array<RxDocument<ManuscriptInterface>>
+  manuscripts: Array<RxDocument<Manuscript>>
   startEditing: () => void
 }
 
@@ -96,7 +94,7 @@ const GroupPage: React.SFC<GroupPageProps> = ({
         <GroupSectionContent>
           {members &&
             members.map((member: Person) => (
-              <GroupMember key={member._id} member={member} />
+              <GroupMember key={member.id} member={member} />
             ))}
         </GroupSectionContent>
       </GroupSection>
@@ -106,8 +104,8 @@ const GroupPage: React.SFC<GroupPageProps> = ({
 
         <GroupSectionContent>
           {manuscripts &&
-            manuscripts.map((manuscript: ManuscriptInterface) => (
-              <GroupManuscript key={manuscript._id} manuscript={manuscript} />
+            manuscripts.map((manuscript: Manuscript) => (
+              <GroupManuscript key={manuscript.id} manuscript={manuscript} />
             ))}
         </GroupSectionContent>
       </GroupSection>

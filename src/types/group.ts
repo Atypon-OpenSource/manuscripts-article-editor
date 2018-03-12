@@ -1,22 +1,16 @@
 import * as React from 'react'
 import { RxDocument } from 'rxdb'
-import { GroupInterface } from './group'
+import { Group } from './components'
 
-export interface GroupInterface {
-  _id: string
-  name: string
-  description: string
-}
-
-export type AddGroup = (data: Partial<GroupInterface>) => void
+export type AddGroup = (data: Partial<Group>) => void
 
 export type UpdateGroup = (
-  doc: RxDocument<GroupInterface>,
-  data: Partial<GroupInterface>
-) => Promise<RxDocument<GroupInterface>>
+  doc: RxDocument<Group>,
+  data: Partial<Group>
+) => Promise<RxDocument<Group>>
 
 export type RemoveGroup = (
-  doc: RxDocument<GroupInterface>
+  doc: RxDocument<Group>
 ) => (event: React.SyntheticEvent<HTMLElement>) => void
 
 export interface GroupActions {

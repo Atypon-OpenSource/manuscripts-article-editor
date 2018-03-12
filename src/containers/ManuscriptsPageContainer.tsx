@@ -3,17 +3,19 @@ import { RouteComponentProps } from 'react-router'
 import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import ManuscriptsPage from '../components/ManuscriptsPage'
-import { DbInterface, waitForDB } from '../db'
+import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
+import { generateID } from '../transformer/id'
+import { MANUSCRIPT } from '../transformer/object-types'
+import { Manuscript } from '../types/components'
 import {
   AddManuscript,
-  ManuscriptInterface,
   RemoveManuscript,
   UpdateManuscript,
 } from '../types/manuscript'
 
 interface ManuscriptsPageContainerState {
-  manuscripts: Array<RxDocument<ManuscriptInterface>>
+  manuscripts: Array<RxDocument<Manuscript>>
   loaded: boolean
 }
 
@@ -25,7 +27,7 @@ class ManuscriptsPageContainer extends React.Component<
     loaded: false,
   }
 
-  private db: DbInterface
+  private db: Db
 
   private subs: Subscription[] = []
 
@@ -34,8 +36,10 @@ class ManuscriptsPageContainer extends React.Component<
       .then(db => {
         this.db = db
 
-        const sub = db.manuscripts
+        const sub = db.components
           .find()
+          .where('objectType')
+          .eq(MANUSCRIPT)
           // .sort({ created: 1 })
           .$.subscribe(manuscripts => {
             this.setState({
@@ -61,26 +65,50 @@ class ManuscriptsPageContainer extends React.Component<
   public addManuscript: AddManuscript = data => {
     // TODO: open up the template modal
 
-    this.db.manuscripts
-      .insert(data)
-      .then((doc: RxDocument<ManuscriptInterface>) => {
-        this.props.history.push(`/manuscripts/${doc._id}`)
+    const id = generateID(MANUSCRIPT)
+
+    this.db.components
+      .insert({
+        id,
+        manuscript: id,
+        objectType: MANUSCRIPT,
+        ...data,
+      })
+      .then((doc: RxDocument<Manuscript>) => {
+        this.props.history.push(`/manuscripts/${doc.id}`)
+      })
+      .catch(error => {
+        console.error(error) // tslint:disable-line
       })
   }
 
   // TODO: atomicUpdate?
   // TODO: catch and handle errors
   public updateManuscript: UpdateManuscript = (doc, data) => {
-    doc.update({
-      $set: data,
-    })
+    // TODO: atomic update?
+    doc
+      .update({
+        $set: data,
+      })
+      .then(() => {
+        console.log('saved') // tslint:disable-line
+      })
+      .catch(error => {
+        console.error(error) // tslint:disable-line
+      })
   }
 
-  // TODO: catch and handle errors
   public removeManuscript: RemoveManuscript = doc => event => {
     event.preventDefault()
 
-    doc.remove()
+    doc
+      .remove()
+      .then(() => {
+        console.log('removed') // tslint:disable-line
+      })
+      .catch(error => {
+        console.error(error) // tslint:disable-line
+      })
   }
 
   public render() {

@@ -11,11 +11,15 @@ module.exports = (baseConfig, env /*, defaultConfig*/) => {
   defaultConfig.module.rules.push({
     exclude: /node_modules/,
     test: /\.tsx?$/,
-    use: 'ts-loader',
+    use: {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+      },
+    },
   })
 
-  /* tslint:disable-next-line:no-console */
-  console.log(env)
+  console.log(env) // tslint:disable-line
 
   if (env === 'PRODUCTION') {
     defaultConfig.plugins.push(

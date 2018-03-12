@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import { CollaboratorInterface } from '../types/collaborator'
-import { ManuscriptInterface } from '../types/manuscript'
+import { Collaborator, Manuscript } from '../types/components'
 import { Button } from './Button'
 
 const CollaboratorContainer = styled.div`
@@ -77,7 +76,7 @@ const CollaboratorTel = CollaboratorInfoSection.extend`
 `
 
 interface CollaboratorManuscriptProps {
-  manuscript: ManuscriptInterface
+  manuscript: Manuscript
 }
 
 const CollaboratorManuscript: React.SFC<CollaboratorManuscriptProps> = ({
@@ -85,8 +84,8 @@ const CollaboratorManuscript: React.SFC<CollaboratorManuscriptProps> = ({
 }) => <div>{manuscript.title}</div>
 
 interface CollaboratorPageProps {
-  collaborator: RxDocument<CollaboratorInterface>
-  manuscripts: Array<RxDocument<ManuscriptInterface>>
+  collaborator: RxDocument<Collaborator>
+  manuscripts: Array<RxDocument<Manuscript>>
   startEditing: () => void
 }
 
@@ -119,9 +118,9 @@ const CollaboratorPage: React.SFC<CollaboratorPageProps> = ({
 
         <CollaboratorSectionContent>
           {manuscripts &&
-            manuscripts.map((manuscript: ManuscriptInterface) => (
+            manuscripts.map((manuscript: Manuscript) => (
               <CollaboratorManuscript
-                key={manuscript._id}
+                key={manuscript.id}
                 manuscript={manuscript}
               />
             ))}

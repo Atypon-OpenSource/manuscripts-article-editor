@@ -69,18 +69,21 @@ const styles: MenuButtonMap = {
     title: 'Toggle strong',
     content: icons.strong,
     active: markActive(schema.marks.strong),
+    enable: toggleMark(schema.marks.strong),
     run: toggleMark(schema.marks.strong),
   },
   em: {
     title: 'Toggle emphasis',
     content: icons.em,
     active: markActive(schema.marks.em),
+    enable: toggleMark(schema.marks.em),
     run: toggleMark(schema.marks.em),
   },
   underline: {
     title: 'Toggle underline',
     content: icons.underline,
     active: markActive(schema.marks.underline),
+    enable: toggleMark(schema.marks.underline),
     run: toggleMark(schema.marks.underline),
   },
 }
@@ -90,12 +93,14 @@ const verticals: MenuButtonMap = {
     title: 'Toggle subscript',
     content: icons.subscript,
     active: markActive(schema.marks.subscript),
+    enable: toggleMark(schema.marks.subscript),
     run: toggleMark(schema.marks.subscript),
   },
   superscript: {
     title: 'Toggle superscript',
     content: icons.superscript,
     active: markActive(schema.marks.superscript),
+    enable: toggleMark(schema.marks.superscript),
     run: toggleMark(schema.marks.superscript),
   },
 }
@@ -103,21 +108,21 @@ const verticals: MenuButtonMap = {
 const blocks: MenuButtonMap = {
   // plain: {
   //   title: 'Change to paragraph',
-  //   content: icons.paragraph,
+  //   content: images.paragraph,
   //   active: blockActive(schema.nodes.paragraph),
   //   enable: setBlockType(schema.nodes.paragraph),
   //   run: setBlockType(schema.nodes.paragraph),
   // },
   // code_block: {
   //   title: 'Change to code block',
-  //   content: icons.code_block,
+  //   content: images.code_block,
   //   active: blockActive(schema.nodes.code_block),
   //   enable: setBlockType(schema.nodes.code_block),
   //   run: setBlockType(schema.nodes.code_block),
   // },
   // h1: {
   //   title: 'Change to heading level 1',
-  //   content: icons.heading,
+  //   content: images.heading,
   //   active: blockActive(schema.nodes.heading, { level: 1 }),
   //   enable: setBlockType(schema.nodes.heading, { level: 1 }),
   //   run: setBlockType(schema.nodes.heading, { level: 1 }),
@@ -131,7 +136,7 @@ const blocks: MenuButtonMap = {
   // },
   // blockquote: {
   //   title: 'Wrap in block quote',
-  //   content: icons.blockquote,
+  //   content: images.blockquote,
   //   active: blockActive(schema.nodes.blockquote),
   //   enable: wrapIn(schema.nodes.blockquote),
   //   run: wrapIn(schema.nodes.blockquote),
@@ -152,13 +157,13 @@ const blocks: MenuButtonMap = {
   },
   // lift: {
   //   title: 'Lift out of enclosing block',
-  //   content: icons.lift,
+  //   content: images.lift,
   //   enable: lift,
   //   run: lift,
   // },
   // join_up: {
   //   title: 'Join with above block',
-  //   content: icons.join_up,
+  //   content: images.join_up,
   //   enable: joinUp,
   //   run: joinUp,
   // },
@@ -180,7 +185,7 @@ const insert: MenuButtonMap = {
   },
   // footnote: {
   //   title: 'Insert footnote',
-  //   content: icons.footnote,
+  //   content: images.footnote,
   //   enable: canInsert(schema.nodes.footnote),
   //   run: (state, dispatch) => {
   //     const footnote = schema.nodes.footnote.create()
@@ -233,13 +238,13 @@ const insert: MenuButtonMap = {
 const history: MenuButtonMap = {
   // undo: {
   //   title: 'Undo last change',
-  //   content: icons.undo,
+  //   content: images.undo,
   //   enable: undo,
   //   run: undo,
   // },
   // redo: {
   //   title: 'Redo last undone change',
-  //   content: icons.redo,
+  //   content: images.redo,
   //   enable: redo,
   //   run: redo,
   // },
@@ -248,13 +253,13 @@ const history: MenuButtonMap = {
 const table: MenuButtonMap = {
   // addColumnBefore: {
   //   title: 'Insert column before',
-  //   content: icons.after,
+  //   content: images.after,
   //   active: addColumnBefore, // TOOD: active -> select
   //   run: addColumnBefore
   // },
   // addColumnAfter: {
   //   title: 'Insert column before',
-  //   content: icons.before,
+  //   content: images.before,
   //   active: addColumnAfter, // TOOD: active -> select
   //   run: addColumnAfter
   // }

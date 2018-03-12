@@ -1,19 +1,17 @@
 import { RxDocument } from 'rxdb'
-import { Person } from './person'
-
-export type CollaboratorInterface = Person
+import { Collaborator } from './components'
 
 export type AddCollaborator = (
-  data: Partial<CollaboratorInterface>
-) => Promise<RxDocument<CollaboratorInterface>>
+  data: Partial<Collaborator>
+) => Promise<RxDocument<Collaborator>>
 
 export type UpdateCollaborator = (
-  doc: RxDocument<CollaboratorInterface>,
-  data: Partial<CollaboratorInterface>
-) => Promise<Partial<CollaboratorInterface>>
+  doc: RxDocument<Collaborator>,
+  data: Partial<Collaborator>
+) => Promise<Partial<Collaborator>>
 
 export type RemoveCollaborator = (
-  doc: RxDocument<CollaboratorInterface>
+  doc: RxDocument<Collaborator>
 ) => Promise<boolean>
 
 export interface CollaboratorActions {

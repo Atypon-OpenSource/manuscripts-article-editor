@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
-import { UserInterface } from '../store/authentication/types'
+import { User } from '../store/authentication/types'
 import { styled } from '../theme'
 import { Avatar } from './Avatar'
 
@@ -51,7 +51,7 @@ const DropdownContent = styled.div`
 `
 
 interface UserProps {
-  user: UserInterface
+  user: User
   isOpen: boolean
   toggleOpen: () => void
 }
@@ -59,7 +59,11 @@ interface UserProps {
 // TODO: remove this once users have names
 const emailPrefix = (email: string) => email.replace(/@.+/, '')
 
-export const User: React.SFC<UserProps> = ({ user, isOpen, toggleOpen }) => (
+export const UserInfo: React.SFC<UserProps> = ({
+  user,
+  isOpen,
+  toggleOpen,
+}) => (
   <UserContainer onClick={toggleOpen}>
     <Avatar src={user.avatar} size={32} color={'#788faa'} />
     <UserName>{user.name || emailPrefix(user.email)}</UserName>

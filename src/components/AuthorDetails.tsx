@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled } from '../theme'
-import { Affiliation, Person } from '../types/person'
+import { Affiliation, Person } from '../types/components'
 import { PrimaryMiniButton } from './Button'
 import { ModalFormHeading } from './Manage'
 
@@ -106,7 +106,7 @@ export const AuthorDetails = ({ author }: AuthorDetailsProps) => (
         </AuthorDetailsHeader>
 
         {author.affiliations.map((affiliation: Affiliation) => (
-          <Affiliation key={affiliation._id}>
+          <Affiliation key={affiliation.id}>
             <AffiliationName>{affiliation.name}</AffiliationName>
             {', '}
             <AffiliationAddress>{affiliation.address}</AffiliationAddress>

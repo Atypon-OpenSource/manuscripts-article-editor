@@ -1,18 +1,12 @@
 import * as React from 'react'
 import * as Modal from 'react-modal'
 import { ThemedStyledProps } from 'styled-components'
-import { styled, ThemeInterface } from '../theme'
+import { styled, Theme } from '../theme'
 import { Button, ButtonProps } from './Button'
 
-type DivProps = ThemedStyledProps<
-  React.HTMLProps<HTMLDivElement>,
-  ThemeInterface
->
+type DivProps = ThemedStyledProps<React.HTMLProps<HTMLDivElement>, Theme>
 
-type FooterProps = ThemedStyledProps<
-  React.HTMLProps<HTMLElement>,
-  ThemeInterface
->
+type FooterProps = ThemedStyledProps<React.HTMLProps<HTMLElement>, Theme>
 
 export const ModalContainer = styled.div`
   display: flex;
