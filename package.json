@@ -149,9 +149,13 @@
       "tslint",
       "git add"
     ],
-    "*.{js,css}": [
+    "*.{js}": [
       "prettier --write",
       "tslint",
+      "git add"
+    ],
+    "*.{css}": [
+      "prettier --write",
       "git add"
     ]
   },
