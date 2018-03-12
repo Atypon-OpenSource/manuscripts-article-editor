@@ -33,6 +33,7 @@ export default {
   superscript: <Icon src={superscript} />,
   underline: <Icon src={underline} />,
   // strikethrough: <Icon src={strikethrough} />,
+  // smallcaps: <Icon src={smallcaps} />,
   // link: <Icon src={link} />,
   // paragraph: <Icon src={paragraph} />,
   // heading: <Icon src={heading} />,

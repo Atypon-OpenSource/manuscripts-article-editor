@@ -19,23 +19,36 @@ const superscript: MarkSpec = {
 const strikethrough: MarkSpec = {
   parseDOM: [
     { tag: 'strike' },
-    { style: 'text-decoration:line-through' },
-    { style: 'text-decoration-line:line-through' },
+    { style: 'text-decoration=line-through' },
+    { style: 'text-decoration-line=line-through' },
   ],
   toDOM: () => [
     'span',
     {
-      style: 'text-decoration-line:line-through',
+      style: 'text-decoration-line=line-through',
     },
   ],
 }
 
 const underline: MarkSpec = {
-  parseDOM: [{ tag: 'u' }, { style: 'text-decoration:underline' }],
+  parseDOM: [{ tag: 'u' }, { style: 'text-decoration=underline' }],
   toDOM: () => [
     'span',
     {
-      style: 'text-decoration:underline',
+      style: 'text-decoration=underline',
+    },
+  ],
+}
+
+const smallcaps: MarkSpec = {
+  parseDOM: [
+    { style: 'font-variant=small-caps' },
+    { style: 'font-variant-caps=small-caps' }, // TODO: all the other font-variant-caps options?
+  ],
+  toDOM: () => [
+    'span',
+    {
+      style: 'font-variant=small-caps',
     },
   ],
 }
@@ -46,6 +59,7 @@ const combinedMarks: StringMap<MarkSpec> = {
   superscript,
   strikethrough,
   underline,
+  smallcaps,
 }
 
 export default combinedMarks

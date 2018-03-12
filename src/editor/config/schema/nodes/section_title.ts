@@ -2,7 +2,7 @@ import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
 export const sectionTitle: NodeSpec = {
   content: 'text*',
-  marks: 'em superscript subscript', // TODO: small-caps
+  marks: 'em superscript subscript smallcaps',
   attrs: {
     id: { default: '' },
   },
