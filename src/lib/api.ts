@@ -2,6 +2,11 @@
 import { AxiosRequestConfig } from 'axios'
 import { stringify } from 'qs'
 import { LoginResponse, LoginValues } from '../components/LoginForm'
+import {
+  PasswordHiddenValues,
+  PasswordValues,
+  ResetPasswordResponse,
+} from '../components/PasswordForm'
 import { RecoverValues } from '../components/RecoverForm'
 import { SignupValues } from '../components/SignupForm'
 import client from './client'
@@ -34,8 +39,8 @@ export const authenticate = () => {
   const user = token.get()
     ? {
         id: '123',
-        name: 'Temporary',
-        surname: 'Person',
+        givenName: 'Temporary',
+        familyName: 'Person',
         email: 'foo@example.com',
       }
     : undefined
@@ -51,13 +56,45 @@ export const login = (data: LoginValues & Device) =>
     .post<LoginResponse>('/auth/login', data, {
       headers: {
         'manuscripts-app-id': process.env.API_APPLICATION_ID,
-        'manuscripts-app-secret': process.env.API_APPLICATION_SECRET, // TODO: this should be removed after resolving this https://gitlab.com/mpapp-private/manuscripts-frontend/issues/58
+        'manuscripts-app-secret': process.env.API_APPLICATION_SECRET, // TODO: this should be removed after resolving this https://gitlab.com/mpapp-private/manuscripts-api/issues/82
       },
     })
     .then(response => {
       token.set({
         access_token: response.data.token,
         sync_session: response.data.syncSession,
+        user: {
+          id: response.data.user.id,
+          name: response.data.user.name,
+          email: response.data.user.email,
+        },
+      })
+
+      return response
+    })
+
+export const recoverPassword = (data: RecoverValues) =>
+  client.post('/auth/sendForgottenPassword', data)
+
+export const resetPassword = (
+  data: PasswordValues & PasswordHiddenValues & Device
+) =>
+  client
+    .post<ResetPasswordResponse>('/auth/resetPassword', data, {
+      headers: {
+        'manuscripts-app-id': process.env.API_APPLICATION_ID,
+        'manuscripts-app-secret': process.env.API_APPLICATION_SECRET, // TODO: this should be removed after resolving this https://gitlab.com/mpapp-private/manuscripts-api/issues/82
+      },
+    })
+    .then(response => {
+      token.set({
+        access_token: response.data.token,
+        sync_session: response.data.syncSession,
+        user: {
+          id: response.data.user.id,
+          name: response.data.user.name,
+          email: response.data.user.email,
+        },
       })
 
       return response
@@ -76,8 +113,6 @@ export const refresh = () => {
     token.set(response.data)
   })
 }
-
-export const recover = (data: RecoverValues) => client.post('/recover', data)
 
 export const logout = () =>
   client.post('/logout').then(() => {

@@ -22,7 +22,7 @@ import {
 storiesOf('Forms', module)
   .add('Sign up', () => (
     <Formik
-      initialValues={{ name: '', surname: '', email: '', password: '' }}
+      initialValues={{ name: '', email: '', password: '' }}
       validationSchema={signupSchema}
       isInitialValid={false}
       onSubmit={action('submit')}
@@ -58,7 +58,7 @@ storiesOf('Forms', module)
   ))
   .add('Account', () => (
     <Formik
-      initialValues={{ name: '', surname: '', phone: '' }}
+      initialValues={{ givenName: '', familyName: '', phone: '' }}
       validationSchema={accountSchema}
       isInitialValid={false}
       onSubmit={action('submit')}
@@ -76,7 +76,7 @@ storiesOf('Forms', module)
   ))
   .add('Collaborator', () => (
     <Formik
-      initialValues={{ name: '', surname: '' }}
+      initialValues={{ givenName: '', familyName: '' }}
       validationSchema={collaboratorSchema}
       isInitialValid={false}
       onSubmit={action('submit')}

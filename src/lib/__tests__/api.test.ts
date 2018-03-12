@@ -27,6 +27,11 @@ describe('api', () => {
     const tokenData = {
       access_token: 'foo',
       sync_session: 'bar',
+      user: {
+        name: 'baz',
+        email: 'example@example.com',
+        id: '123',
+      },
     }
 
     token.set(tokenData)
@@ -82,11 +87,16 @@ describe('api', () => {
   it('removes the token after logout', async () => {
     const mock = new MockAdapter(client)
 
-    mock.onPost('/logout').reply(204)
+    mock.onPost('/logout').reply(httpStatusCodes.NO_CONTENT)
 
     const tokenData = {
       access_token: 'foo',
       sync_session: 'bar',
+      user: {
+        name: 'baz',
+        email: 'example@example.com',
+        id: '123',
+      },
     }
 
     token.set(tokenData)
@@ -100,5 +110,47 @@ describe('api', () => {
     await api.logout()
 
     expect(token.get()).toBeNull()
+  })
+
+  it('send reset password email to the user', async () => {
+    const mock = new MockAdapter(client)
+
+    mock.onPost('/auth/sendForgottenPassword').reply(httpStatusCodes.OK)
+
+    const requestData = {
+      email: 'user@example.com',
+    }
+    const response = await api.recoverPassword(requestData)
+    expect(response.status).toBe(httpStatusCodes.OK)
+  })
+
+  it('should reset the user password', async () => {
+    const mock = new MockAdapter(client)
+
+    const mockData = {
+      token: 'foo',
+      syncSession: 'bar',
+      user: {
+        id: 'id',
+        name: 'name',
+        email: 'email',
+      },
+    }
+
+    mock.onPost('/auth/resetPassword').reply(httpStatusCodes.OK, mockData)
+
+    expect(token.get()).toBeNull()
+
+    await api.resetPassword({
+      userId: 'test@example.com',
+      password: 'foo',
+      deviceId: 'bar',
+      token: 'foo',
+    })
+
+    const tokenData = token.get() as Token
+
+    expect(tokenData.access_token).toEqual(mockData.token)
+    expect(tokenData.sync_session).toEqual(mockData.syncSession)
   })
 })

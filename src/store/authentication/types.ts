@@ -2,10 +2,10 @@ import { Action } from 'redux'
 import { ConnectedReduxProps } from '../types'
 
 export interface User {
-  name: string
+  givenName: string
   email: string
   password?: string
-  surname: string
+  familyName: string
   phone?: string
   avatar?: string
 }

@@ -17,8 +17,8 @@ import {
 import { TextField, TextFieldLabel } from './TextField'
 
 export interface CollaboratorValues {
-  name: string
-  surname: string
+  givenName: string
+  familyName: string
 }
 
 export interface CollaboratorErrors extends FormikErrors<CollaboratorValues> {
@@ -46,22 +46,22 @@ export const CollaboratorForm = ({
   <form onSubmit={handleSubmit}>
     <ModalContainer>
       <ModalHeader>
-        <ModalHeading>Collaborators / {values.name} / Manage</ModalHeading>
+        <ModalHeading>Collaborators / {values.givenName} / Manage</ModalHeading>
       </ModalHeader>
       <ModalForm>
         <ModalFormBody>
           <ModalMain>
             <FormGroup>
               <TextFieldLabel>
-                Collaborator Name
+                Collaborator Given Name
                 <TextField
                   type={'text'}
-                  name={'name'}
-                  id={'name'}
+                  name={'givenName'}
+                  id={'givenName'}
                   autoFocus={true}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.name}
+                  value={values.givenName}
                   required={true}
                 />
               </TextFieldLabel>
@@ -69,14 +69,14 @@ export const CollaboratorForm = ({
 
             <FormGroup>
               <TextFieldLabel>
-                Collaborator Surname
+                Collaborator Family Name
                 <TextField
                   type={'text'}
-                  name={'surname'}
-                  id={'surname'}
+                  name={'familyName'}
+                  id={'familyName'}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.surname}
+                  value={values.familyName}
                 />
               </TextFieldLabel>
             </FormGroup>

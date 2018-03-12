@@ -11,6 +11,17 @@ export interface PasswordValues {
 
 export interface PasswordHiddenValues {
   token: string
+  userId: string // TODO: remove this filed since the new api doesn't accept it
+}
+
+export interface ResetPasswordResponse {
+  token: string
+  syncSession: string
+  user: {
+    id: string
+    email: string
+    name: string
+  }
 }
 
 export interface PasswordErrors extends FormikErrors<PasswordValues> {

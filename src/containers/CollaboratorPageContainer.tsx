@@ -171,8 +171,8 @@ class CollaboratorPageContainer extends React.Component<
           // TODO: handle database errors instead of axios errors
 
           const errors: FormikErrors<CollaboratorErrors> = {
-            name: null,
-            surname: null,
+            givenName: null,
+            familyName: null,
             submit: error.response
               ? error.response.data.error
               : 'There was an error',

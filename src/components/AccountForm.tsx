@@ -16,8 +16,8 @@ import {
 import { TextField, TextFieldGroup } from './TextField'
 
 export interface AccountValues {
-  name: string
-  surname: string
+  givenName: string
+  familyName: string
   phone: string
 }
 
@@ -46,22 +46,22 @@ export const AccountForm = ({
             <TextFieldGroup>
               <TextField
                 type={'text'}
-                name={'name'}
-                placeholder={'name'}
+                name={'givenName'}
+                placeholder={'Given Name'}
                 autoFocus={true}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.name}
+                value={values.givenName}
                 required={true}
               />
 
               <TextField
                 type={'text'}
-                name={'surname'}
-                placeholder={'surname'}
+                name={'familyName'}
+                placeholder={'Family Name'}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.surname}
+                value={values.familyName}
                 required={true}
               />
             </TextFieldGroup>

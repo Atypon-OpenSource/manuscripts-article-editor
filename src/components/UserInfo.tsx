@@ -66,7 +66,7 @@ export const UserInfo: React.SFC<UserProps> = ({
 }) => (
   <UserContainer onClick={toggleOpen}>
     <Avatar src={user.avatar} size={32} color={'#788faa'} />
-    <UserName>{user.name || emailPrefix(user.email)}</UserName>
+    <UserName>{user.givenName || emailPrefix(user.email)}</UserName>
     <div>▼</div>
 
     {isOpen && (

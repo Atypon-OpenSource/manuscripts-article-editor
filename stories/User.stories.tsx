@@ -6,8 +6,8 @@ import { styled } from '../src/theme'
 import * as avatar from './assets/melnitz.jpg'
 
 const user = {
-  name: 'Foo',
-  surname: 'Bar',
+  givenName: 'Foo',
+  familyName: 'Bar',
   email: 'foo@example.com',
   tel: '',
   affiliations: [],
