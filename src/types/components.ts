@@ -73,6 +73,18 @@ export interface ParagraphElement extends Element {
   paragraphStyle: string
 }
 
+export interface UnorderedListElement extends Element {
+  elementType: 'ul'
+  contents: string
+  paragraphStyle: string
+}
+
+export interface OrderedListElement extends Element {
+  elementType: 'ol'
+  contents: string
+  paragraphStyle: string
+}
+
 export interface FigureElement extends Element {
   elementType: 'figure'
   caption: string

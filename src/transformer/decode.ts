@@ -11,10 +11,12 @@ import {
   Figure,
   FigureElement,
   Manuscript,
+  OrderedListElement,
   ParagraphElement,
   Section,
   Table,
   TableElement,
+  UnorderedListElement,
 } from '../types/components'
 import { generateID } from './id'
 import * as ObjectTypes from './object-types'
@@ -42,10 +44,10 @@ const objectTypeFilter = (type: string) => (component: Component) =>
 const sortSectionsByPriority = (a: Section, b: Section) =>
   a.priority === b.priority ? 0 : a.priority - b.priority
 
-const parseContents = (contents: string, options: ParseOptions) => {
+const parseContents = (contents: string, options?: ParseOptions) => {
   const fragment = document.createRange().createContextualFragment(contents)
 
-  return parser.parse(fragment, options)
+  return parser.parse(fragment.firstChild as Node, options)
 }
 
 export const decode = (components: Component[]): ProsemirrorNode => {
@@ -62,10 +64,34 @@ export const decode = (components: Component[]): ProsemirrorNode => {
   const createElement: NodeCreatorMap = {
     [ObjectTypes.PARAGRAPH_ELEMENT]: (element: ParagraphElement) => {
       return parseContents(element.contents, {
-        topNode: schema.nodes.paragraph.createAndFill({
+        topNode: schema.nodes.paragraph.create({
           id: element.id,
-        }) as ProsemirrorNode,
+        }),
       })
+    },
+    [ObjectTypes.LIST_ELEMENT]: (
+      element: OrderedListElement | UnorderedListElement
+    ) => {
+      switch (element.elementType) {
+        case 'ol':
+          // TODO: wrap inline text in paragraphs
+          return parseContents(element.contents, {
+            topNode: schema.nodes.ordered_list.create({
+              id: element.id,
+            }),
+          })
+
+        case 'ul':
+          // TODO: wrap inline text in paragraphs
+          return parseContents(element.contents, {
+            topNode: schema.nodes.bullet_list.create({
+              id: element.id,
+            }),
+          })
+
+        default:
+          throw new Error('Unknown list element type')
+      }
     },
     [ObjectTypes.FIGURE_ELEMENT]: (element: FigureElement) => {
       const containedObjectNodes = element.containedObjectIDs
@@ -97,9 +123,9 @@ export const decode = (components: Component[]): ProsemirrorNode => {
       })
 
       const tableNode = parseContents(table.contents, {
-        topNode: schema.nodes.table.createAndFill({
+        topNode: schema.nodes.table.create({
           id: element.id,
-        }) as ProsemirrorNode,
+        }),
       })
 
       return schema.nodes.figure.createChecked(
@@ -111,9 +137,9 @@ export const decode = (components: Component[]): ProsemirrorNode => {
     },
     [ObjectTypes.BIBLIOGRAPHY_ELEMENT]: (element: BibliographyElement) => {
       return parseContents(element.contents, {
-        topNode: schema.nodes.bib.createAndFill({
+        topNode: schema.nodes.bib.create({
           id: element.id,
-        }) as ProsemirrorNode,
+        }),
       })
     },
   }
@@ -148,9 +174,11 @@ export const decode = (components: Component[]): ProsemirrorNode => {
       elements.push(schema.nodes.paragraph.create())
     }
 
-    const sectionTitleNode = parseContents(section.title || '', {
-      topNode: schema.nodes.section_title.create(),
-    })
+    const sectionTitleNode = section.title
+      ? parseContents(`<h1>${section.title}</h1>`, {
+          topNode: schema.nodes.section_title.create(),
+        })
+      : schema.nodes.section_title.create()
 
     const sectionNode = schema.nodes.section.createAndFill(
       {
@@ -175,9 +203,11 @@ export const decode = (components: Component[]): ProsemirrorNode => {
   const manuscript = manuscripts[0]
 
   const buildExistingArticle = (manuscript: Manuscript) => {
-    const titleNode = parseContents(manuscript.title || '', {
-      topNode: schema.nodes.title.create(),
-    })
+    const titleNode = manuscript.title
+      ? parseContents(`<h1>${manuscript.title}</h1>`, {
+          topNode: schema.nodes.title.create(),
+        })
+      : schema.nodes.title.create()
 
     const manuscriptNode = schema.nodes.manuscript.createAndFill(
       {

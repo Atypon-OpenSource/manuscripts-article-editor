@@ -34,6 +34,11 @@
   padding-left: 30px;
 }
 
+.ProseMirror li > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .ProseMirror blockquote {
   padding-left: 1em;
   border-left: 3px solid #eee;
@@ -122,6 +127,10 @@
 
 .ProseMirror section > h1 + p.empty-node::before {
   content: 'Section contents';
+}
+
+.ProseMirror li > p.empty-node::before {
+  content: 'List item';
 }
 
 .ProseMirror p[placeholder].empty-node::before {

@@ -5,8 +5,8 @@ import miscKeymap from './misc'
 import titleKeymap from './title'
 
 export default [
+  keymap(listKeymap),
   keymap(miscKeymap),
   keymap(titleKeymap),
   keymap(baseKeymap),
-  keymap(listKeymap),
 ]

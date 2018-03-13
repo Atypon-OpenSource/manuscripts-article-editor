@@ -4,7 +4,8 @@ import { SECTION } from '../../../../transformer/object-types'
 // TODO: optional section title?
 
 export const section: NodeSpec = {
-  content: 'section_title (paragraph | figure | bib)* section*', // TODO: elements must be before sections?
+  content:
+    'section_title (paragraph | figure | ordered_list | bullet_list | bib)* section*', // TODO: elements must be before sections?
   attrs: {
     id: { default: '' },
     child: { default: false },

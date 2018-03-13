@@ -66,6 +66,12 @@ const componentData: ComponentData = (objectType, node, path, priority) => {
         contents: contents(node),
       }
 
+    // TODO: unwrap paragraphs
+    case ObjectTypes.LIST_ELEMENT:
+      return {
+        contents: contents(node),
+      }
+
     default:
       return {}
   }

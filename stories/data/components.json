@@ -865,7 +865,9 @@
     "_rev" : "8-b0edf54bc1ca0f7f869b22be1e44e1cf",
     "collection" : "sections",
     "elementIDs" : [
-      "MPParagraphElement:8BA0DF62-0053-479D-CB98-7F0B6496A7BB"
+      "MPParagraphElement:8BA0DF62-0053-479D-CB98-7F0B6496A7BB",
+      "MPListElement:923C6927-5DE5-43C3-BAFA-B7CCACEBBDB9",
+      "MPListElement:3E3C0A32-431A-4E60-AE12-07B1317C952E"
     ],
     "title" : "Background",
     "sessionID" : "b06bd3b6-a820-4e8a-a8e3-437e0c8bdccd",
@@ -1115,6 +1117,30 @@
     "createdAt" : 1446415082,
     "collection" : "elements",
     "sessionID" : "18870E6E-3457-4326-A2ED-ED46968FD1BF"
+  },
+  {
+    "_id" : "MPListElement:3E3C0A32-431A-4E60-AE12-07B1317C952E",
+    "objectType" : "MPListElement",
+    "elementType" : "ul",
+    "id" : "MPListElement:3E3C0A32-431A-4E60-AE12-07B1317C952E",
+    "collection" : "elements",
+    "paragraphStyle" : "MPParagraphStyle:EB203751-238B-467A-A0A2-5BC6115FC960",
+    "contents" : "<ul xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\" id=\"MPListElement:3E3C0A32-431A-4E60-AE12-07B1317C952E\" class=\"MPElement MPParagraphStyle_EB203751-238B-467A-A0A2-5BC6115FC960\" data-object-type=\"MPListElement\"><li data-placeholder-text=\"List item\">This<\/li><li data-placeholder-text=\"List item\">Is<\/li><li data-placeholder-text=\"List item\">A<\/li><li data-placeholder-text=\"List item\">Bulleted<\/li><li data-placeholder-text=\"List item\">List<\/li><\/ul>",
+    "sessionID" : "a1f4a759-4d40-48c0-b2c6-67a432262a96",
+    "createdAt" : 1520870064,
+    "_rev" : "2-bcf170421005f39d5a378c22c7148e09"
+  },
+  {
+    "_id" : "MPListElement:923C6927-5DE5-43C3-BAFA-B7CCACEBBDB9",
+    "objectType" : "MPListElement",
+    "elementType" : "ol",
+    "id" : "MPListElement:923C6927-5DE5-43C3-BAFA-B7CCACEBBDB9",
+    "collection" : "elements",
+    "paragraphStyle" : "MPParagraphStyle:EB203751-238B-467A-A0A2-5BC6115FC960",
+    "contents" : "<ol xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\" id=\"MPListElement:923C6927-5DE5-43C3-BAFA-B7CCACEBBDB9\" class=\"MPElement MPParagraphStyle_EB203751-238B-467A-A0A2-5BC6115FC960\" data-object-type=\"MPListElement\"><li data-placeholder-text=\"List item\">This<\/li><li data-placeholder-text=\"List item\">Is<\/li><li data-placeholder-text=\"List item\">A<\/li><li data-placeholder-text=\"List item\">Numbered<\/li><li data-placeholder-text=\"List item\">List<\/li><\/ol>",
+    "sessionID" : "a1f4a759-4d40-48c0-b2c6-67a432262a96",
+    "createdAt" : 1520870053,
+    "_rev" : "2-83df8db3529d7d90811eb16dd00242f1"
   },
   {
     "_id" : "MPParagraphElement:0601CDFD-EE45-4718-9253-BA670A08AC27",
