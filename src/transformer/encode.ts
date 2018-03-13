@@ -24,14 +24,15 @@ const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {
   return nodes
 }
 
-// TODO: return HTML instead of text
-const textOfNodeType = (node: ProsemirrorNode, type: string): string => {
+const inlineContentsOfNodeType = (
+  node: ProsemirrorNode,
+  type: string
+): string => {
   for (let i = 0; i < node.childCount; i++) {
     const child = node.child(i)
 
     if (child.type.name === type) {
-      return child.textContent
-      // return (serializer.serializeNode(child) as Element).innerHTML
+      return (serializer.serializeNode(child) as Element).innerHTML
     }
   }
 
@@ -49,13 +50,13 @@ const componentData: ComponentData = (objectType, node, path, priority) => {
   switch (objectType) {
     case ObjectTypes.MANUSCRIPT:
       return {
-        title: textOfNodeType(node, 'title'),
+        title: inlineContentsOfNodeType(node, 'title'),
       }
 
     case ObjectTypes.SECTION:
       return {
         priority: priority.value++,
-        title: textOfNodeType(node, 'section_title'),
+        title: inlineContentsOfNodeType(node, 'section_title'),
         path: path.concat([node.attrs.id]),
         elementIDs: childComponentNodes(node).map(node => node.attrs.id),
       }

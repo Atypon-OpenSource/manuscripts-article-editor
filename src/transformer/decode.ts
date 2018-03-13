@@ -77,11 +77,9 @@ export const decode = (components: Component[]): ProsemirrorNode => {
           })
         })
 
-      // TODO: content in captions?
-      const figcaptionNode = schema.nodes.figcaption.createChecked(
-        {},
-        element.caption ? schema.text(element.caption) : undefined
-      )
+      const figcaptionNode = parseContents(element.caption || '', {
+        topNode: schema.nodes.figcaption.create(),
+      })
 
       return schema.nodes.figure.createChecked(
         {
@@ -94,10 +92,9 @@ export const decode = (components: Component[]): ProsemirrorNode => {
     [ObjectTypes.TABLE_ELEMENT]: (element: TableElement) => {
       const table = componentMap.get(element.containedObjectID) as Table
 
-      const figcaption = schema.nodes.figcaption.createChecked(
-        {},
-        element.caption ? schema.text(element.caption) : undefined
-      )
+      const figcaption = parseContents(element.caption || '', {
+        topNode: schema.nodes.figcaption.create(),
+      })
 
       const tableNode = parseContents(table.contents, {
         topNode: schema.nodes.table.createAndFill({
@@ -151,10 +148,9 @@ export const decode = (components: Component[]): ProsemirrorNode => {
       elements.push(schema.nodes.paragraph.create())
     }
 
-    const sectionTitleNode = schema.nodes.section_title.createChecked(
-      {},
-      section.title ? schema.text(section.title) : undefined
-    )
+    const sectionTitleNode = parseContents(section.title || '', {
+      topNode: schema.nodes.section_title.create(),
+    })
 
     const sectionNode = schema.nodes.section.createAndFill(
       {
@@ -179,10 +175,9 @@ export const decode = (components: Component[]): ProsemirrorNode => {
   const manuscript = manuscripts[0]
 
   const buildExistingArticle = (manuscript: Manuscript) => {
-    const titleNode = schema.nodes.title.createAndFill(
-      {},
-      manuscript.title ? schema.text(manuscript.title) : undefined
-    ) as ProsemirrorNode
+    const titleNode = parseContents(manuscript.title || '', {
+      topNode: schema.nodes.title.create(),
+    })
 
     const manuscriptNode = schema.nodes.manuscript.createAndFill(
       {
