@@ -36,7 +36,7 @@ export interface Person extends Component {
   email?: string
   tel?: string
   image?: string
-  affiliations: Affiliation[] | undefined
+  affiliations?: Affiliation[]
 }
 
 export type Collaborator = Person // TODO

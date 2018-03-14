@@ -43,7 +43,7 @@ export const authenticate = () => {
         familyName: 'Person',
         email: 'foo@example.com',
       }
-    : undefined
+    : null
 
   return Promise.resolve(user)
 }

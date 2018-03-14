@@ -13,8 +13,8 @@ export interface User {
 export interface AuthenticationState {
   loading: boolean
   loaded: boolean
-  user: User | undefined
-  error: string | undefined
+  user: User | null
+  error: string | null
 }
 
 export interface AuthenticateRequestAction extends Action {
@@ -23,7 +23,7 @@ export interface AuthenticateRequestAction extends Action {
 
 export interface AuthenticateSuccessAction extends Action {
   type: string
-  payload: User | undefined
+  payload: User | null
 }
 
 export interface AuthenticateFailureAction extends Action {

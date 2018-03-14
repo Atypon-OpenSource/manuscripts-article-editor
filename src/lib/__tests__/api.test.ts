@@ -22,7 +22,7 @@ describe('api', () => {
 
     const noTokenResult = await api.authenticate()
 
-    expect(noTokenResult).toEqual(undefined)
+    expect(noTokenResult).toEqual(null)
 
     const tokenData = {
       access_token: 'foo',

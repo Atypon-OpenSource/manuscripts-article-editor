@@ -26,7 +26,7 @@ export const authenticateRequest: ActionCreator<
 })
 
 export const authenticateSuccess: ActionCreator<AuthenticateSuccessAction> = (
-  data: User | undefined
+  data: User | null
 ) => ({
   type: AUTHENTICATE_SUCCESS,
   payload: data,
@@ -51,13 +51,13 @@ export const authenticate: ThunkActionCreator = () => (
   }
 
   return api.authenticate().then(
-    (data: User | undefined) => {
+    (data: User | null) => {
       return dispatch(authenticateSuccess(data))
     },
     (error: AxiosError) => {
       if (error.response && error.response.status === 401) {
         // 401 response
-        return dispatch(authenticateSuccess(undefined))
+        return dispatch(authenticateSuccess(null))
       }
 
       // any other error
@@ -71,8 +71,8 @@ export const authenticate: ThunkActionCreator = () => (
 const initialState: AuthenticationState = {
   loading: false,
   loaded: false,
-  user: undefined,
-  error: undefined,
+  user: null,
+  error: null,
 }
 
 export const reducer: Reducer<AuthenticationState> = (
@@ -84,8 +84,8 @@ export const reducer: Reducer<AuthenticationState> = (
       return {
         loading: true,
         loaded: false,
-        user: undefined,
-        error: undefined,
+        user: null,
+        error: null,
       }
 
     case AUTHENTICATE_SUCCESS:
@@ -93,7 +93,7 @@ export const reducer: Reducer<AuthenticationState> = (
         loading: false,
         loaded: true,
         user: (action as AuthenticateSuccessAction).payload,
-        error: undefined,
+        error: null,
       }
 
     case AUTHENTICATE_FAILURE:
