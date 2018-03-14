@@ -1,19 +1,71 @@
 import { MarkSpec } from 'prosemirror-model'
-import { marks } from 'prosemirror-schema-basic'
 import { StringMap } from '../../types'
 
-const subscript: MarkSpec = {
-  group: 'position',
-  excludes: 'superscript',
-  parseDOM: [{ tag: 'sub' }, { style: 'vertical-align=sub' }],
-  toDOM: () => ['sub'],
+const bold: MarkSpec = {
+  parseDOM: [
+    {
+      tag: 'b',
+      // Google Docs can produce content wrapped in <b style="fontWeight:normal">, which isn't actually bold. This workaround is copied from prosemirror-schema-basic.
+      getAttrs: (dom: HTMLElement) => dom.style.fontWeight !== 'normal' && null,
+    },
+    { tag: 'strong' },
+    {
+      style: 'font-weight',
+      // This regex, copied from prosemirror-schema-basic, matches all the possible "font-weight" values that can mean "bold".
+      getAttrs: (value: string) =>
+        /^(bold(er)?|[5-9]\d{2,})$/.test(value) && null,
+    },
+  ],
+  toDOM() {
+    return ['b']
+  },
 }
 
-const superscript: MarkSpec = {
-  group: 'position',
-  excludes: 'subscript',
-  parseDOM: [{ tag: 'sup' }, { style: 'vertical-align=super' }],
-  toDOM: () => ['sup'],
+const code: MarkSpec = {
+  parseDOM: [{ tag: 'code' }],
+  toDOM() {
+    return ['code']
+  },
+}
+
+const italic: MarkSpec = {
+  parseDOM: [{ tag: 'i' }, { tag: 'em' }, { style: 'font-style=italic' }],
+  toDOM() {
+    return ['i']
+  },
+}
+
+const link: MarkSpec = {
+  attrs: {
+    href: {},
+    title: { default: null },
+  },
+  inclusive: false,
+  parseDOM: [
+    {
+      tag: 'a[href]',
+      getAttrs: (dom: HTMLAnchorElement) => ({
+        href: dom.getAttribute('href'),
+        title: dom.getAttribute('title'),
+      }),
+    },
+  ],
+  toDOM(node) {
+    return ['a', node.attrs]
+  },
+}
+
+const smallcaps: MarkSpec = {
+  parseDOM: [
+    { style: 'font-variant=small-caps' },
+    { style: 'font-variant-caps=small-caps' }, // TODO: all the other font-variant-caps options?
+  ],
+  toDOM: () => [
+    'span',
+    {
+      style: 'font-variant=small-caps',
+    },
+  ],
 }
 
 const strikethrough: MarkSpec = {
@@ -30,6 +82,20 @@ const strikethrough: MarkSpec = {
   ],
 }
 
+const subscript: MarkSpec = {
+  group: 'position',
+  excludes: 'superscript',
+  parseDOM: [{ tag: 'sub' }, { style: 'vertical-align=sub' }],
+  toDOM: () => ['sub'],
+}
+
+const superscript: MarkSpec = {
+  group: 'position',
+  excludes: 'subscript',
+  parseDOM: [{ tag: 'sup' }, { style: 'vertical-align=super' }],
+  toDOM: () => ['sup'],
+}
+
 const underline: MarkSpec = {
   parseDOM: [{ tag: 'u' }, { style: 'text-decoration=underline' }],
   toDOM: () => [
@@ -40,26 +106,16 @@ const underline: MarkSpec = {
   ],
 }
 
-const smallcaps: MarkSpec = {
-  parseDOM: [
-    { style: 'font-variant=small-caps' },
-    { style: 'font-variant-caps=small-caps' }, // TODO: all the other font-variant-caps options?
-  ],
-  toDOM: () => [
-    'span',
-    {
-      style: 'font-variant=small-caps',
-    },
-  ],
-}
-
 const combinedMarks: StringMap<MarkSpec> = {
-  ...marks,
+  bold,
+  code,
+  italic,
+  link,
+  smallcaps,
+  strikethrough,
   subscript,
   superscript,
-  strikethrough,
   underline,
-  smallcaps,
 }
 
 export default combinedMarks

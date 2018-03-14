@@ -65,19 +65,19 @@ const promptForURL = () => {
 }
 
 const styles: MenuButtonMap = {
-  strong: {
-    title: 'Toggle strong',
-    content: icons.strong,
-    active: markActive(schema.marks.strong),
-    enable: toggleMark(schema.marks.strong),
-    run: toggleMark(schema.marks.strong),
+  bold: {
+    title: 'Toggle bold',
+    content: icons.bold,
+    active: markActive(schema.marks.bold),
+    enable: toggleMark(schema.marks.bold),
+    run: toggleMark(schema.marks.bold),
   },
-  em: {
-    title: 'Toggle emphasis',
-    content: icons.em,
-    active: markActive(schema.marks.em),
-    enable: toggleMark(schema.marks.em),
-    run: toggleMark(schema.marks.em),
+  italic: {
+    title: 'Toggle italic',
+    content: icons.italic,
+    active: markActive(schema.marks.italic),
+    enable: toggleMark(schema.marks.italic),
+    run: toggleMark(schema.marks.italic),
   },
   underline: {
     title: 'Toggle underline',

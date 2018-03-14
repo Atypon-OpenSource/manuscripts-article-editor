@@ -24,9 +24,9 @@ const Icon: React.SFC<ImageIconProps> = ({ src, size = 12 }) => (
 )
 
 export default {
-  em: <Icon src={italic} />,
+  // em: <Icon src={italic} />,
   italic: <Icon src={italic} />,
-  strong: <Icon src={bold} />,
+  // strong: <Icon src={bold} />,
   bold: <Icon src={bold} />,
   // code: <Icon src={code} />,
   subscript: <Icon src={subscript} />,
