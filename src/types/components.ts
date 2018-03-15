@@ -85,6 +85,13 @@ export interface OrderedListElement extends Element {
   paragraphStyle: string
 }
 
+export interface EquationElement extends Element {
+  TeXRepresentation: string
+  // SVGStringRepresentation: string
+  // MathMLStringRepresentation: string
+  // OMMLStringRepresentation: string
+}
+
 export interface FigureElement extends Element {
   elementType: 'figure'
   caption: string

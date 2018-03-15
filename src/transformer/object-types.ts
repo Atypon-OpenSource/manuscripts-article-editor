@@ -1,5 +1,6 @@
 export const BIBLIOGRAPHY_ELEMENT = 'MPBibliographyElement'
 export const CONTRIBUTOR = 'MPContributor'
+export const EQUATION_ELEMENT = 'MPEquationElement'
 export const FIGURE = 'MPFigure'
 export const FIGURE_ELEMENT = 'MPFigureElement'
 export const LIST_ELEMENT = 'MPListElement'

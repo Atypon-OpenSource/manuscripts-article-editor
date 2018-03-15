@@ -1,18 +1,11 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { TextSelection } from 'prosemirror-state'
-import { Decoration, EditorView, NodeView } from 'prosemirror-view'
+import { NodeViewCreator } from '../types'
 
 const svgIcon =
   '<svg width="16" height="16" stroke="currentColor"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>'
 
-type SectionView = (
-  node: ProsemirrorNode,
-  view: EditorView,
-  getPos: () => number,
-  decorations: Decoration[]
-) => NodeView
-
-const section: SectionView = (node, view, getPos, decorations) => {
+const section: NodeViewCreator = (node, view, getPos, decorations) => {
   const dom = document.createElement('div')
 
   if (!node.attrs.child) {

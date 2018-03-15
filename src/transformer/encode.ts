@@ -66,12 +66,19 @@ const componentData: ComponentData = (objectType, node, path, priority) => {
         contents: contents(node),
       }
 
+    case ObjectTypes.EQUATION_ELEMENT:
+      return {
+        // title: 'Equation',
+        TeXRepresentation: node.attrs.latex,
+      }
+
     // TODO: unwrap paragraphs
     case ObjectTypes.LIST_ELEMENT:
       return {
         contents: contents(node),
       }
 
+    // TODO: log unhandled components
     default:
       return {}
   }

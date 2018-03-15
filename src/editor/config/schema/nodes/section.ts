@@ -5,7 +5,7 @@ import { SECTION } from '../../../../transformer/object-types'
 
 export const section: NodeSpec = {
   content:
-    'section_title (paragraph | figure | ordered_list | bullet_list | bib)* section*', // TODO: elements must be before sections?
+    'section_title (paragraph | figure | ordered_list | bullet_list | equation_block | bib)* section*', // TODO: elements must be before sections?
   attrs: {
     id: { default: '' },
     child: { default: false },
@@ -13,7 +13,7 @@ export const section: NodeSpec = {
     'data-element-type': { default: 'section' },
   },
   group: 'block',
-  draggable: true,
+  // draggable: true,
   parseDOM: [
     {
       tag: 'section',

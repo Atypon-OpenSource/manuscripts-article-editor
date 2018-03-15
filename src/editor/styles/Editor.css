@@ -217,3 +217,33 @@
   background-color: #65cfff;
   color: #fff;
 }
+
+.ProseMirror prosemirror-equation {
+  display: block;
+  min-height: 34px;
+  padding: 5px;
+  cursor: context-menu;
+  position: relative;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.ProseMirror prosemirror-inline-equation {
+  display: inline-block;
+  position: relative;
+  cursor: context-menu;
+  margin: 0 1ch;
+}
+
+.ProseMirror mjx-chtml {
+  margin: 0;
+}
+
+.ProseMirror .equation-placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.ProseMirror prosemirror-equation .equation-placeholder {
+  text-align: center;
+}

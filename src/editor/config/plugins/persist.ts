@@ -18,7 +18,10 @@ export default () => {
           const id = generateID(objectType)
 
           // set the id on the node at this position
-          tr = tr.setNodeMarkup(pos, undefined, { id })
+          tr = tr.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
+            id,
+          })
 
           // remember that something changed
           updated.push(id)

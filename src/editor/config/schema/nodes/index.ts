@@ -5,6 +5,8 @@ import { article } from './article'
 import { bib } from './bib'
 import { caption } from './caption'
 import { citation } from './citation'
+import { equation } from './equation'
+import { equationBlock } from './equation_block'
 import { figcaption } from './figcaption'
 import { figimage } from './figimage'
 import { figure } from './figure'
@@ -24,6 +26,8 @@ const combinedNodes: StringMap<NodeSpec> = {
   bib,
   caption,
   citation,
+  equation,
+  equation_block: equationBlock,
   figcaption,
   figimage,
   figure,

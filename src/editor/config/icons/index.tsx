@@ -1,9 +1,10 @@
 import * as React from 'react'
 
+import * as equation from './png/InlineMathA.png'
 import * as bold from './png/Toolbar-BoldTextTemplate@2x.png'
 import * as bulletList from './png/Toolbar-BulletListTemplate@2x.png'
 import * as citation from './png/Toolbar-InsertCitation-N@2x.png'
-import * as equation from './png/Toolbar-InsertEquation-N@2x.png'
+import * as equationBlock from './png/Toolbar-InsertEquation-N@2x.png'
 import * as image from './png/Toolbar-InsertImage-N@2x.png'
 import * as symbol from './png/Toolbar-InsertSymbolTemplate@2x.png'
 import * as table from './png/Toolbar-InsertTable-N@2x.png'
@@ -50,6 +51,7 @@ export default {
   // join_up: <Icon src={joinUp} />,
   citation: <Icon src={citation} />,
   equation: <Icon src={equation} />,
+  equation_block: <Icon src={equationBlock} />,
   symbol: <Icon src={symbol} />,
   notes: <Icon src={notes} />,
   highlight: <Icon src={highlight} />,

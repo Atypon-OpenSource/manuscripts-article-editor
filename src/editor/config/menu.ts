@@ -105,6 +105,19 @@ const verticals: MenuButtonMap = {
   },
 }
 
+const inlines: MenuButtonMap = {
+  equation: {
+    title: 'Insert inline equation',
+    content: icons.equation,
+    active: blockActive(schema.nodes.equation),
+    enable: canInsert(schema.nodes.equation),
+    run: (state, dispatch) => {
+      const node = schema.nodes.equation.create()
+      dispatch(state.tr.replaceSelectionWith(node))
+    },
+  },
+}
+
 const blocks: MenuButtonMap = {
   // plain: {
   //   title: 'Change to paragraph',
@@ -181,6 +194,15 @@ const insert: MenuButtonMap = {
       const img = schema.nodes.image.createAndFill({ src })
       dispatch(state.tr.replaceSelectionWith(img as ProsemirrorNode))
       return
+    },
+  },
+  equation_block: {
+    title: 'Insert equation block',
+    content: icons.equation_block,
+    enable: canInsert(schema.nodes.equation_block),
+    run: (state, dispatch) => {
+      const node = schema.nodes.equation_block.create()
+      dispatch(state.tr.replaceSelectionWith(node))
     },
   },
   // footnote: {
@@ -268,6 +290,7 @@ const table: MenuButtonMap = {
 export default {
   styles,
   verticals,
+  inlines,
   blocks,
   insert,
   history,

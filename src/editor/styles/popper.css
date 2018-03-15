@@ -1,0 +1,46 @@
+.popper {
+  position: absolute;
+  background: #eee;
+  color: black;
+  width: auto;
+  border-radius: 3px;
+  opacity: 0.9;
+  padding: 10px;
+}
+
+.popper-arrow {
+  width: 0;
+  height: 0;
+  position: absolute;
+  border: 5px solid transparent;
+  border-bottom-color: #eee;
+  border-top-width: 0;
+  top: -5px;
+  left: calc(50% - 5px);
+  margin: 0 5px;
+}
+
+.popper .equation-editor {
+  text-align: center;
+  font-family: monospace;
+  font-size: 12pt;
+  background: transparent;
+  border: none;
+  width: 20em;
+  min-width: 5em;
+  max-width: 50em;
+  resize: none;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.popper .equation-editor:focus {
+  outline: none;
+}
+
+.popper .equation-editor:empty::before {
+  content: 'Click to edit equation';
+  color: #aaa;
+  cursor: text;
+  font-style: italic;
+}

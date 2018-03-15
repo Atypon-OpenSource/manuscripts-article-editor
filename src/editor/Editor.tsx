@@ -6,8 +6,9 @@ import * as React from 'react'
 import 'typeface-charis-sil/index.css'
 import { styled } from '../theme'
 import { menu, options } from './config'
-import './Editor.css'
 import MenuBar from './MenuBar'
+import './styles/Editor.css'
+import './styles/popper.css'
 
 export interface EditorProps {
   autoFocus?: boolean

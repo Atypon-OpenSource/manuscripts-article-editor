@@ -77,6 +77,9 @@ export const components = {
     caption: {
       type: 'string',
     },
+    TeXRepresentation: {
+      type: 'string',
+    },
     // bibliographicName: {
     //   type: 'object'
     // }

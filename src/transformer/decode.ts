@@ -8,6 +8,7 @@ import {
   BibliographyElement,
   Component,
   Element,
+  EquationElement,
   Figure,
   FigureElement,
   Manuscript,
@@ -140,6 +141,11 @@ export const decode = (components: Component[]): ProsemirrorNode => {
         topNode: schema.nodes.bib.create({
           id: element.id,
         }),
+      })
+    },
+    [ObjectTypes.EQUATION_ELEMENT]: (element: EquationElement) => {
+      return schema.nodes.equation_block.create({
+        latex: element.TeXRepresentation,
       })
     },
   }
