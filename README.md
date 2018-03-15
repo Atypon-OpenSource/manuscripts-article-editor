@@ -1,4 +1,4 @@
-# manuscripts-frontend
+# manuscripts-frontend [![pipeline status](https://gitlab.com/mpapp-private/manuscripts-frontend/badges/master/pipeline.svg)](https://gitlab.com/mpapp-private/manuscripts-frontend/commits/master)
 
 A client for collaborative editing of rich-text articles.
 
