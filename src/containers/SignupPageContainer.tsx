@@ -3,6 +3,7 @@ import * as httpStatusCode from 'http-status-codes'
 import { parse } from 'qs'
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { SignupConfirm } from '../components/SignupConfirm'
 import { SignupErrors, SignupValues } from '../components/SignupForm'
@@ -26,7 +27,7 @@ interface SignupPageContainerState {
 }
 
 class SignupPageContainer extends React.Component<
-  AuthenticationStateProps & AuthenticationDispatchProps
+  AuthenticationStateProps & AuthenticationDispatchProps & RouterProps
 > {
   public state: SignupPageContainerState = {
     confirming: null,
@@ -40,16 +41,14 @@ class SignupPageContainer extends React.Component<
   }
 
   public componentDidMount() {
-    const { confirmation_token: token } = parse(window.location.hash.substr(1))
+    const { token: verifyEmailToken } = parse(window.location.hash.substr(1))
 
-    if (token) {
+    if (verifyEmailToken) {
       verify({
-        type: 'signup',
-        token,
+        token: verifyEmailToken,
       })
         .then(() => {
-          /* tslint:disable-next-line:no-any */
-          this.props.dispatch<any>(authenticate())
+          this.props.history.push('/login')
         })
         .catch(() => {
           this.setState({

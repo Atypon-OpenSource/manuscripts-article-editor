@@ -153,4 +153,16 @@ describe('api', () => {
     expect(tokenData.access_token).toEqual(mockData.token)
     expect(tokenData.sync_session).toEqual(mockData.syncSession)
   })
+
+  it('verify user email address', async () => {
+    const mock = new MockAdapter(client)
+
+    mock.onPost('/registration/verify').reply(httpStatusCodes.OK)
+
+    const requestData = {
+      token: 'foobar',
+    }
+    const response = await api.verify(requestData)
+    expect(response.status).toBe(httpStatusCodes.OK)
+  })
 })

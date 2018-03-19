@@ -14,9 +14,7 @@ import { Device } from './deviceId'
 import token from './token'
 
 export interface VerifyValues {
-  type: 'signup' | 'recovery'
   token: string
-  password?: string
 }
 
 /* tslint:disable-next-line:no-any */
@@ -120,9 +118,7 @@ export const logout = () =>
   })
 
 export const verify = (data: VerifyValues) =>
-  client.post('/verify', data).then(response => {
-    token.set(response.data)
-  })
+  client.post('/registration/verify', data)
 
 /* tslint:disable:no-any */
 
