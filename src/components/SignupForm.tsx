@@ -42,6 +42,7 @@ export const SignupForm = ({
         onBlur={handleBlur}
         value={values.name}
         required={true}
+        autoComplete={'name'}
       />
     </TextFieldGroup>
 
@@ -54,6 +55,7 @@ export const SignupForm = ({
         onBlur={handleBlur}
         value={values.email}
         required={true}
+        autoComplete={'username email'}
       />
 
       <TextField
@@ -64,6 +66,7 @@ export const SignupForm = ({
         onBlur={handleBlur}
         value={values.password}
         required={true}
+        autoComplete={'new-password'}
       />
     </TextFieldGroup>
 

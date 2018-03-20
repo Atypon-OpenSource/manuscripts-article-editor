@@ -52,6 +52,7 @@ export const PasswordForm = ({
       onBlur={handleBlur}
       value={values.password}
       required={true}
+      autoComplete={'new-password'}
     />
 
     {errors.submit && <div>{errors.submit}</div>}

@@ -56,6 +56,7 @@ export const LoginForm = ({
         onBlur={handleBlur}
         value={values.email}
         required={true}
+        autoComplete={'username email'}
       />
 
       <TextField
@@ -66,6 +67,7 @@ export const LoginForm = ({
         onBlur={handleBlur}
         value={values.password}
         required={true}
+        autoComplete={'current-password'}
       />
     </TextFieldGroup>
 

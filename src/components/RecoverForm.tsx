@@ -38,6 +38,7 @@ export const RecoverForm = ({
       onBlur={handleBlur}
       value={values.email}
       required={true}
+      autoComplete={'username email'}
     />
 
     {/*{touched.email && errors.email && <div>{errors.email}</div>}*/}
