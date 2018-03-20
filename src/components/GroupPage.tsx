@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import { Group, Manuscript, Person } from '../types/components'
+import { CollaboratorDocument } from '../types/collaborator'
+import { Manuscript, Person } from '../types/components'
+import { GroupDocument } from '../types/group'
+import { ManuscriptDocument } from '../types/manuscript'
 import { Button } from './Button'
 
 const GroupContainer = styled.div`
@@ -63,9 +65,9 @@ const GroupManuscript: React.SFC<GroupManuscriptProps> = ({ manuscript }) => (
 )
 
 interface GroupPageProps {
-  group: RxDocument<Group>
-  members: Array<RxDocument<Person>>
-  manuscripts: Array<RxDocument<Manuscript>>
+  group: GroupDocument
+  members: CollaboratorDocument[]
+  manuscripts: ManuscriptDocument[]
   startEditing: () => void
 }
 

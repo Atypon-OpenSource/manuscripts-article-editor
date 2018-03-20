@@ -1,3 +1,4 @@
+import RxDB from 'rxdb/plugins/core'
 // import * as ObjectTypes from '../editor/transformer/object-types'
 
 export interface Component {
@@ -127,3 +128,9 @@ export type AnyComponent =
   | Table
   | Figure
   | AnyElement
+
+export type ComponentMap = Map<string, Component>
+
+export type ComponentIdSet = Set<string>
+
+export type ComponentDocument = RxDB.RxDocument<AnyComponent>

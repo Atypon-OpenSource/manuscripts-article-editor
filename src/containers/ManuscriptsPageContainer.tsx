@@ -1,21 +1,21 @@
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { RxDocument } from 'rxdb'
+import RxDB from 'rxdb/plugins/core'
 import { Subscription } from 'rxjs'
 import ManuscriptsPage from '../components/ManuscriptsPage'
 import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
 import { generateID } from '../transformer/id'
 import { MANUSCRIPT } from '../transformer/object-types'
-import { Manuscript } from '../types/components'
 import {
   AddManuscript,
+  ManuscriptDocument,
   RemoveManuscript,
   UpdateManuscript,
 } from '../types/manuscript'
 
 interface ManuscriptsPageContainerState {
-  manuscripts: Array<RxDocument<Manuscript>>
+  manuscripts: ManuscriptDocument[]
   loaded: boolean
 }
 
@@ -41,7 +41,7 @@ class ManuscriptsPageContainer extends React.Component<
           .where('objectType')
           .eq(MANUSCRIPT)
           // .sort({ created: 1 })
-          .$.subscribe(manuscripts => {
+          .$.subscribe((manuscripts: ManuscriptDocument[]) => {
             this.setState({
               manuscripts,
               loaded: true,
@@ -74,10 +74,10 @@ class ManuscriptsPageContainer extends React.Component<
         objectType: MANUSCRIPT,
         ...data,
       })
-      .then((doc: RxDocument<Manuscript>) => {
-        this.props.history.push(`/manuscripts/${doc.id}`)
+      .then((doc: ManuscriptDocument) => {
+        this.props.history.push(`/manuscripts/${doc.get('id')}`)
       })
-      .catch(error => {
+      .catch((error: RxDB.RxError) => {
         console.error(error) // tslint:disable-line
       })
   }
@@ -85,7 +85,6 @@ class ManuscriptsPageContainer extends React.Component<
   // TODO: atomicUpdate?
   // TODO: catch and handle errors
   public updateManuscript: UpdateManuscript = (doc, data) => {
-    // TODO: atomic update?
     doc
       .update({
         $set: data,
@@ -93,7 +92,7 @@ class ManuscriptsPageContainer extends React.Component<
       .then(() => {
         console.log('saved') // tslint:disable-line
       })
-      .catch(error => {
+      .catch((error: RxDB.RxError) => {
         console.error(error) // tslint:disable-line
       })
   }
@@ -106,7 +105,7 @@ class ManuscriptsPageContainer extends React.Component<
       .then(() => {
         console.log('removed') // tslint:disable-line
       })
-      .catch(error => {
+      .catch((error: RxDB.RxError) => {
         console.error(error) // tslint:disable-line
       })
   }

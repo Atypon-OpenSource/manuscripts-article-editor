@@ -1,6 +1,7 @@
 export const components = {
   title: 'components schema',
   version: 0,
+  disableKeyCompression: true,
   description: 'describes a component',
   type: 'object',
   properties: {
@@ -23,66 +24,6 @@ export const components = {
     updatedAt: {
       type: 'number',
     },
-    title: {
-      type: 'string',
-    },
-    given: {
-      type: 'string',
-    },
-    family: {
-      type: 'string',
-    },
-    lastName: {
-      type: 'string',
-    },
-    firstName: {
-      type: 'string',
-    },
-    email: {
-      type: 'string',
-    },
-    tel: {
-      type: 'string',
-    },
-    image: {
-      type: 'string',
-    },
-    description: {
-      type: 'string',
-    },
-    priority: {
-      type: 'number',
-    },
-    path: {
-      type: 'array',
-    },
-    elementIDs: {
-      type: 'array',
-    },
-    originalURL: {
-      type: 'string',
-    },
-    contents: {
-      type: 'string',
-    },
-    paragraphStyle: {
-      type: 'string',
-    },
-    containedObjectIDs: {
-      type: 'array',
-    },
-    containedObjectID: {
-      type: 'string',
-    },
-    caption: {
-      type: 'string',
-    },
-    TeXRepresentation: {
-      type: 'string',
-    },
-    // bibliographicName: {
-    //   type: 'object'
-    // }
   },
   required: ['objectType'],
 }

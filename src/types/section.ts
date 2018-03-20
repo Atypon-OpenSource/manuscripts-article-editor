@@ -1,16 +1,18 @@
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
+import RxDB from 'rxdb/plugins/core'
 import { Section } from './components'
+
+export type SectionDocument = RxDB.RxDocument<Section>
 
 export type AddSection = (data: Partial<Section>) => void
 
 export type UpdateSection = (
-  doc: RxDocument<Section>,
+  doc: SectionDocument,
   data: Partial<Section>
 ) => void
 
 export type RemoveSection = (
-  doc: RxDocument<Section>
+  doc: SectionDocument
 ) => (event: React.SyntheticEvent<HTMLElement>) => void
 
 export interface SectionActions {

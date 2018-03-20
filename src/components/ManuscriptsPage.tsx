@@ -1,8 +1,6 @@
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
 import Add from '../icons/add'
-import { Manuscript } from '../types/components'
-import { ManuscriptActions } from '../types/manuscript'
+import { ManuscriptActions, ManuscriptDocument } from '../types/manuscript'
 import { ActionButton } from './Button'
 import { EmptyContainer, EmptyMessage } from './Empty'
 import { Manuscripts } from './Manuscripts'
@@ -10,7 +8,7 @@ import { PageHeading } from './PageHeading'
 import { Select, Sort } from './Sort'
 
 interface ManuscriptsPageProps {
-  manuscripts: Array<RxDocument<Manuscript>>
+  manuscripts: ManuscriptDocument[]
 }
 
 const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({

@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
+import { CollaboratorDocument } from '../types/collaborator'
 import { Collaborator, Manuscript } from '../types/components'
+import { ManuscriptDocument } from '../types/manuscript'
 import { Button } from './Button'
 
 const CollaboratorContainer = styled.div`
@@ -84,8 +85,8 @@ const CollaboratorManuscript: React.SFC<CollaboratorManuscriptProps> = ({
 }) => <div>{manuscript.title}</div>
 
 interface CollaboratorPageProps {
-  collaborator: RxDocument<Collaborator>
-  manuscripts: Array<RxDocument<Manuscript>>
+  collaborator: CollaboratorDocument
+  manuscripts: ManuscriptDocument[]
   startEditing: () => void
 }
 

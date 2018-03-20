@@ -1,6 +1,13 @@
 import PouchDBHTTPAdapter = require('pouchdb-adapter-http')
 import PouchDBIDBAdapter = require('pouchdb-adapter-idb')
-import * as RxDB from 'rxdb'
+import RxDBAttachmentsModule from 'rxdb/plugins/attachments'
+import RxDB from 'rxdb/plugins/core'
+import RxDBErrorMessagesModule from 'rxdb/plugins/error-messages'
+import RxDBLeaderElectionModule from 'rxdb/plugins/leader-election'
+import RxDBNoValidateModule from 'rxdb/plugins/no-validate'
+import RxDBReplicationModule from 'rxdb/plugins/replication'
+import RxDBSchemaCheckModule from 'rxdb/plugins/schema-check'
+import RxDBUpdateModule from 'rxdb/plugins/update'
 import * as schema from './schema'
 import { AnyComponent, Group, Person } from './types/components'
 
@@ -9,6 +16,16 @@ RxDB.QueryChangeDetector.enable()
 
 RxDB.plugin(PouchDBIDBAdapter)
 RxDB.plugin(PouchDBHTTPAdapter)
+RxDB.plugin(RxDBNoValidateModule)
+RxDB.plugin(RxDBReplicationModule)
+RxDB.plugin(RxDBAttachmentsModule)
+RxDB.plugin(RxDBLeaderElectionModule)
+RxDB.plugin(RxDBUpdateModule)
+
+if (process.env.NODE_ENV === 'development') {
+  RxDB.plugin(RxDBErrorMessagesModule)
+  RxDB.plugin(RxDBSchemaCheckModule)
+}
 
 const collections = [
   {

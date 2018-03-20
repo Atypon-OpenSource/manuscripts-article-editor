@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import { Group, Person } from '../types/components'
+import { Person } from '../types/components'
+import { GroupDocument } from '../types/group'
 import { Contributor } from './Contributor'
 
 export const GroupsContainer = styled.div`
@@ -39,7 +39,7 @@ const GroupTitle = styled.span`
 const GroupContributors = styled.div``
 
 export interface GroupProps {
-  group: RxDocument<Group>
+  group: GroupDocument
   contributors: Person[]
 }
 
@@ -63,7 +63,7 @@ export const GroupListItem: React.SFC<GroupProps> = ({
 )
 
 export interface GroupsProps {
-  groups: Array<RxDocument<Group>>
+  groups: GroupDocument[]
 }
 
 export const Groups: React.SFC<GroupsProps> = ({ groups }) => (

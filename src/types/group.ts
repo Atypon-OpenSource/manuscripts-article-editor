@@ -1,16 +1,18 @@
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
+import RxDB from 'rxdb/plugins/core'
 import { Group } from './components'
+
+export type GroupDocument = RxDB.RxDocument<Group>
 
 export type AddGroup = (data: Partial<Group>) => void
 
 export type UpdateGroup = (
-  doc: RxDocument<Group>,
+  doc: GroupDocument,
   data: Partial<Group>
-) => Promise<RxDocument<Group>>
+) => Promise<GroupDocument>
 
 export type RemoveGroup = (
-  doc: RxDocument<Group>
+  doc: GroupDocument
 ) => (event: React.SyntheticEvent<HTMLElement>) => void
 
 export interface GroupActions {

@@ -1,14 +1,12 @@
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import GroupsPage from '../components/GroupsPage'
 import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
-import { Group } from '../types/components'
-import { AddGroup } from '../types/group'
+import { AddGroup, GroupDocument } from '../types/group'
 
 interface GroupsPageContainerState {
-  groups: Array<RxDocument<Group>> | null
+  groups: GroupDocument[] | null
   error: string | null
 }
 
@@ -30,7 +28,7 @@ class GroupsPageContainer extends React.Component {
         const sub = db.groups
           .find()
           // .sort({ created: 1 })
-          .$.subscribe(groups => {
+          .$.subscribe((groups: GroupDocument[]) => {
             this.setState({ groups })
           })
 

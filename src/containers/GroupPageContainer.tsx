@@ -2,7 +2,7 @@ import { Formik, FormikActions, FormikErrors, FormikProps } from 'formik'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Route, RouteComponentProps, RouteProps } from 'react-router'
-import { RxDocument } from 'rxdb'
+import RxDB from 'rxdb/plugins/core'
 import { Subscription } from 'rxjs'
 import { FormPage } from '../components/Form'
 import { GroupErrors, GroupForm, GroupValues } from '../components/GroupForm'
@@ -11,13 +11,15 @@ import { waitForDB } from '../db'
 import Spinner from '../icons/spinner'
 import { ConnectedReduxProps } from '../store/types'
 import { MANUSCRIPT } from '../transformer/object-types'
-import { Group, Manuscript, Person } from '../types/components'
+import { CollaboratorDocument } from '../types/collaborator'
+import { GroupDocument } from '../types/group'
+import { ManuscriptDocument } from '../types/manuscript'
 import { groupSchema } from '../validation'
 
 interface GroupPageContainerState {
-  group: RxDocument<Group> | null
-  members: Array<RxDocument<Person>> | null
-  manuscripts: Array<RxDocument<Manuscript>> | null
+  group: GroupDocument | null
+  members: CollaboratorDocument[] | null
+  manuscripts: ManuscriptDocument[] | null
   editing: boolean
   error: string | null
 }
@@ -51,16 +53,18 @@ class GroupPageContainer extends React.Component<
     waitForDB
       .then(db => {
         this.subs.push(
-          db.groups.findOne({ _id: id }).$.subscribe(group => {
+          db.groups.findOne({ _id: id }).$.subscribe((group: GroupDocument) => {
             this.setState({ group })
           })
         )
 
         // TODO: how to fetch these people?
         this.subs.push(
-          db.groupmembers.find({ group: id }).$.subscribe(members => {
-            this.setState({ members })
-          })
+          db.groupmembers
+            .find({ group: id })
+            .$.subscribe((members: CollaboratorDocument[]) => {
+              this.setState({ members })
+            })
         )
 
         // TODO: how to fetch these manuscripts?
@@ -71,7 +75,7 @@ class GroupPageContainer extends React.Component<
             .eq(MANUSCRIPT)
             .and('group')
             .eq(id) // TODO: does this mapping work?
-            .$.subscribe(manuscripts => {
+            .$.subscribe((manuscripts: ManuscriptDocument[]) => {
               this.setState({ manuscripts })
             })
         )
@@ -142,7 +146,7 @@ class GroupPageContainer extends React.Component<
   private deleteGroup = () => {
     // TODO: confirm
 
-    const doc = this.state.group as RxDocument<Group>
+    const doc = this.state.group as GroupDocument
 
     doc.remove().then(() => {
       this.props.history.push('/groups')
@@ -153,7 +157,7 @@ class GroupPageContainer extends React.Component<
     values: GroupValues,
     { setSubmitting, setErrors }: FormikActions<GroupValues | GroupErrors>
   ) => {
-    const doc = this.state.group as RxDocument<Group>
+    const doc = this.state.group as GroupDocument
 
     doc
       .update({
@@ -167,15 +171,13 @@ class GroupPageContainer extends React.Component<
             editing: false,
           })
         },
-        error => {
+        (error: RxDB.RxError) => {
           setSubmitting(false)
 
           const errors: FormikErrors<GroupErrors> = {
             name: null,
             description: null,
-            submit: error.response
-              ? error.response.data.error
-              : 'There was an error',
+            submit: error ? 'There was an error' : null,
           }
 
           setErrors(errors)

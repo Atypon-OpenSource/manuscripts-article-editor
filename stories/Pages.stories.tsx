@@ -1,7 +1,6 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
 import CollaboratorPage from '../src/components/CollaboratorPage'
 import CollaboratorsPage from '../src/components/CollaboratorsPage'
 import GroupPage from '../src/components/GroupPage'
@@ -11,7 +10,8 @@ import ManuscriptsPage from '../src/components/ManuscriptsPage'
 import PasswordPage from '../src/components/PasswordPage'
 import RecoverPage from '../src/components/RecoverPage'
 import SignupPage from '../src/components/SignupPage'
-import { Group, Person } from '../src/types/components'
+import { CollaboratorDocument } from '../src/types/collaborator'
+import { GroupDocument } from '../src/types/group'
 import {
   loginSchema,
   passwordSchema,
@@ -80,7 +80,7 @@ storiesOf('Pages', module)
   ))
   .add('Collaborator', () => (
     <CollaboratorPage
-      collaborator={authors[0] as RxDocument<Person>}
+      collaborator={authors[0] as CollaboratorDocument}
       manuscripts={[]}
       startEditing={action('start editing')}
     />
@@ -90,7 +90,7 @@ storiesOf('Pages', module)
   ))
   .add('Group', () => (
     <GroupPage
-      group={groups[0] as RxDocument<Group>}
+      group={groups[0] as GroupDocument}
       members={[]}
       manuscripts={[]}
       startEditing={action('start editing')}

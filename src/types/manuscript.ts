@@ -1,16 +1,18 @@
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
+import RxDB from 'rxdb/plugins/core'
 import { Manuscript } from './components'
+
+export type ManuscriptDocument = RxDB.RxDocument<Manuscript>
 
 export type AddManuscript = (data: Partial<Manuscript>) => void
 
 export type UpdateManuscript = (
-  doc: RxDocument<Manuscript>,
+  doc: ManuscriptDocument,
   data: Partial<Manuscript>
 ) => void
 
 export type RemoveManuscript = (
-  doc: RxDocument<Manuscript>
+  doc: ManuscriptDocument
 ) => (event: React.SyntheticEvent<HTMLElement>) => void
 
 export interface ManuscriptActions {

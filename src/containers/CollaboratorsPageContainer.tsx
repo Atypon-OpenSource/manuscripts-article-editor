@@ -1,18 +1,17 @@
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import CollaboratorsPage from '../components/CollaboratorsPage'
 import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
 import {
   AddCollaborator,
+  CollaboratorDocument,
   RemoveCollaborator,
   UpdateCollaborator,
 } from '../types/collaborator'
-import { Collaborator } from '../types/components'
 
 interface CollaboratorsPageContainerState {
-  collaborators: Array<RxDocument<Collaborator>>
+  collaborators: CollaboratorDocument[]
   loaded: boolean
   error: string | null
 }
@@ -36,7 +35,7 @@ class CollaboratorsPageContainer extends React.Component {
         const sub = db.collaborators
           .find()
           // .sort({ name: 1 })
-          .$.subscribe(collaborators => {
+          .$.subscribe((collaborators: CollaboratorDocument[]) => {
             this.setState({
               collaborators,
               loaded: true,

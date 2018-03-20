@@ -1,15 +1,16 @@
 import * as React from 'react'
-import { RxDocument } from 'rxdb'
 import Add from '../icons/add'
-import { CollaboratorActions } from '../types/collaborator'
-import { Collaborator } from '../types/components'
+import {
+  CollaboratorActions,
+  CollaboratorDocument,
+} from '../types/collaborator'
 import { Authors } from './Authors'
 import { ActionButton } from './Button'
 import { EmptyContainer, EmptyMessage } from './Empty'
 import { PageHeading } from './PageHeading'
 
 interface CollaboratorsPageProps {
-  collaborators: Array<RxDocument<Collaborator>>
+  collaborators: CollaboratorDocument[]
 }
 
 const CollaboratorsPage: React.SFC<

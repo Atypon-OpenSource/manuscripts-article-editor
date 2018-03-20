@@ -1,6 +1,6 @@
 import { DOMSerializer, Node as ProsemirrorNode } from 'prosemirror-model'
 import { options } from '../editor/config'
-import { Component } from '../types/components'
+import { ComponentMap } from '../types/components'
 import * as ObjectTypes from './object-types'
 
 const { schema } = options
@@ -113,8 +113,8 @@ interface PrioritizedValue {
   value: number
 }
 
-export const encode = (node: ProsemirrorNode) => {
-  const components: Component[] = []
+export const encode = (node: ProsemirrorNode): ComponentMap => {
+  const components = new Map()
 
   const priority: PrioritizedValue = {
     value: 0,
@@ -125,7 +125,7 @@ export const encode = (node: ProsemirrorNode) => {
 
     if (objectType) {
       const component = componentFromNode(child, path, priority)
-      components.push(component)
+      components.set(component.id, component)
 
       const id = child.attrs.id
       child.forEach(addComponent(path.concat(id)))

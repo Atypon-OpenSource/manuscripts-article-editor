@@ -1,11 +1,11 @@
 import { GenericStoreEnhancer } from 'redux'
-import { RxDatabase } from 'rxdb'
+import RxDB from 'rxdb/plugins/core'
 
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: (
       f: GenericStoreEnhancer
     ) => GenericStoreEnhancer
-    db: RxDatabase
+    db: RxDB.RxDatabase
   }
 }

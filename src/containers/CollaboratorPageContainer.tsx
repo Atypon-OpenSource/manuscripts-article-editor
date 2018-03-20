@@ -2,7 +2,7 @@ import { Formik, FormikActions, FormikErrors, FormikProps } from 'formik'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Route, RouteComponentProps, RouteProps } from 'react-router'
-import { RxDocument } from 'rxdb'
+import RxDB from 'rxdb/plugins/core'
 import { Subscription } from 'rxjs'
 import {
   CollaboratorErrors,
@@ -15,12 +15,13 @@ import { waitForDB } from '../db'
 import Spinner from '../icons/spinner'
 import { ConnectedReduxProps } from '../store/types'
 import { MANUSCRIPT } from '../transformer/object-types'
-import { Collaborator, Manuscript } from '../types/components'
+import { CollaboratorDocument } from '../types/collaborator'
+import { ManuscriptDocument } from '../types/manuscript'
 import { collaboratorSchema } from '../validation'
 
 interface CollaboratorPageContainerState {
-  collaborator: RxDocument<Collaborator> | null
-  manuscripts: Array<RxDocument<Manuscript>> | null
+  collaborator: CollaboratorDocument | null
+  manuscripts: ManuscriptDocument[] | null
   editing: boolean
   error: string | null
 }
@@ -53,9 +54,11 @@ class CollaboratorPageContainer extends React.Component<
     waitForDB
       .then(db => {
         this.subs.push(
-          db.collaborators.findOne({ _id: id }).$.subscribe(collaborator => {
-            this.setState({ collaborator })
-          })
+          db.collaborators
+            .findOne({ _id: id })
+            .$.subscribe((collaborator: CollaboratorDocument) => {
+              this.setState({ collaborator })
+            })
         )
 
         this.subs.push(
@@ -65,7 +68,7 @@ class CollaboratorPageContainer extends React.Component<
             .eq(MANUSCRIPT)
             .and('collaborator')
             .eq(id) // TODO: does this mapping work?
-            .$.subscribe(manuscripts => {
+            .$.subscribe((manuscripts: ManuscriptDocument[]) => {
               this.setState({ manuscripts })
             })
         )
@@ -137,7 +140,7 @@ class CollaboratorPageContainer extends React.Component<
   private deleteCollaborator = () => {
     // TODO: confirm
 
-    const doc = this.state.collaborator as RxDocument<Collaborator>
+    const doc = this.state.collaborator as CollaboratorDocument
 
     doc.remove().then(() => {
       this.props.history.push('/collaborators')
@@ -151,7 +154,7 @@ class CollaboratorPageContainer extends React.Component<
       setErrors,
     }: FormikActions<CollaboratorValues | CollaboratorErrors>
   ) => {
-    const doc = this.state.collaborator as RxDocument<Collaborator>
+    const doc = this.state.collaborator as CollaboratorDocument
 
     doc
       .update({
@@ -165,7 +168,7 @@ class CollaboratorPageContainer extends React.Component<
             editing: false,
           })
         },
-        error => {
+        (error: RxDB.RxError) => {
           setSubmitting(false)
 
           // TODO: handle database errors instead of axios errors
@@ -173,9 +176,7 @@ class CollaboratorPageContainer extends React.Component<
           const errors: FormikErrors<CollaboratorErrors> = {
             givenName: null,
             familyName: null,
-            submit: error.response
-              ? error.response.data.error
-              : 'There was an error',
+            submit: error ? 'There was an error' : null,
           }
 
           setErrors(errors)

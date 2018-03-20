@@ -34,11 +34,6 @@ interface NodeCreatorMap {
 
 type ComponentMap = Map<string, Component>
 
-const componentReducer = (output: ComponentMap, component: Component) => {
-  output.set(component.id, component)
-  return output
-}
-
 const objectTypeFilter = (type: string) => (component: Component) =>
   component.objectType === type
 
@@ -51,8 +46,8 @@ const parseContents = (contents: string, options?: ParseOptions) => {
   return parser.parse(fragment.firstChild as Node, options)
 }
 
-export const decode = (components: Component[]): ProsemirrorNode => {
-  const componentMap = components.reduce(componentReducer, new Map())
+export const decode = (componentMap: ComponentMap): ProsemirrorNode => {
+  const components = Array.from(componentMap.values())
 
   const sections = components
     .filter(objectTypeFilter(ObjectTypes.SECTION))
@@ -97,7 +92,7 @@ export const decode = (components: Component[]): ProsemirrorNode => {
     [ObjectTypes.FIGURE_ELEMENT]: (element: FigureElement) => {
       const containedObjectNodes = element.containedObjectIDs
         .map(id => componentMap.get(id))
-        .filter(element => element && element.originalURL)
+        .filter((element: Figure) => element && element.originalURL)
         .map((element: Figure) => {
           return schema.nodes.figimage.createChecked({
             src: element.originalURL,

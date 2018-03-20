@@ -1,18 +1,18 @@
-import { RxDocument } from 'rxdb'
+import RxDB from 'rxdb/plugins/core'
 import { Collaborator } from './components'
+
+export type CollaboratorDocument = RxDB.RxDocument<Collaborator>
 
 export type AddCollaborator = (
   data: Partial<Collaborator>
-) => Promise<RxDocument<Collaborator>>
+) => Promise<CollaboratorDocument>
 
 export type UpdateCollaborator = (
-  doc: RxDocument<Collaborator>,
+  doc: CollaboratorDocument,
   data: Partial<Collaborator>
 ) => Promise<Partial<Collaborator>>
 
-export type RemoveCollaborator = (
-  doc: RxDocument<Collaborator>
-) => Promise<boolean>
+export type RemoveCollaborator = (doc: CollaboratorDocument) => Promise<boolean>
 
 export interface CollaboratorActions {
   addCollaborator: AddCollaborator

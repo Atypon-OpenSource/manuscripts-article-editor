@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { RxDocument } from 'rxdb'
 import { styled } from '../theme'
-import { Manuscript, Person } from '../types/components'
-import { RemoveManuscript } from '../types/manuscript'
+import { Person } from '../types/components'
+import { ManuscriptDocument, RemoveManuscript } from '../types/manuscript'
 import { Button } from './Button'
 import { Contributor } from './Contributor'
 
@@ -45,7 +44,7 @@ const ManuscriptDate = styled.span`
 const ManuscriptContributors = styled.div``
 
 export interface ManuscriptProps {
-  manuscript: RxDocument<Manuscript>
+  manuscript: ManuscriptDocument
   contributors: Person[]
   removeManuscript: RemoveManuscript
 }
@@ -60,9 +59,9 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
   contributors,
   removeManuscript,
 }) => (
-  <ManuscriptContainer to={`/manuscripts/${manuscript.id}`}>
+  <ManuscriptContainer to={`/manuscripts/${manuscript.get('id')}`}>
     <ManuscriptSection>
-      <ManuscriptTitle>{manuscript.title}</ManuscriptTitle>
+      <ManuscriptTitle>{manuscript.get('title')}</ManuscriptTitle>
 
       <ManuscriptContributors>
         {contributors.map(contributor => (
@@ -72,7 +71,9 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
     </ManuscriptSection>
 
     <ManuscriptSection>
-      <ManuscriptDate>{manuscript.updatedAt || '1 day ago'}</ManuscriptDate>
+      <ManuscriptDate>
+        {manuscript.get('updatedAt') || '1 day ago'}
+      </ManuscriptDate>
 
       <DeleteButton onClick={removeManuscript(manuscript)}>Delete</DeleteButton>
     </ManuscriptSection>
@@ -80,7 +81,7 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
 )
 
 export interface ManuscriptsProps {
-  manuscripts: Array<RxDocument<Manuscript>>
+  manuscripts: ManuscriptDocument[]
   removeManuscript: RemoveManuscript
 }
 
@@ -91,7 +92,7 @@ export const Manuscripts: React.SFC<ManuscriptsProps> = ({
   <ManuscriptsContainer>
     {manuscripts.map(manuscript => (
       <ManuscriptListItem
-        key={manuscript.id}
+        key={manuscript.get('id')}
         manuscript={manuscript}
         contributors={[]}
         removeManuscript={removeManuscript}
