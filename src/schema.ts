@@ -31,6 +31,7 @@ export const components = {
 export const people = {
   title: 'people schema',
   version: 0,
+  disableKeyCompression: true,
   description: 'describes a person',
   type: 'object',
   properties: {
@@ -50,6 +51,7 @@ export const people = {
 export const groups = {
   title: 'groups schema',
   version: 0,
+  disableKeyCompression: true,
   description: 'describes a group',
   type: 'object',
   properties: {
