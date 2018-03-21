@@ -1,4 +1,4 @@
-import { debounce } from 'lodash'
+import debounce from 'lodash-es/debounce'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import * as React from 'react'
 import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'

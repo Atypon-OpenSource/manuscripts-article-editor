@@ -19,6 +19,7 @@ module.exports = merge(common, {
               loader: 'ts-loader',
               options: {
                 configFile: 'tsconfig.build.json',
+                transpileOnly: 'true'
               },
             },
           },
@@ -42,6 +43,7 @@ module.exports = merge(common, {
     ],
   },
   output: {
+    chunkFilename: '[name].[chunkhash].js',
     filename: '[name].[chunkhash].js',
   },
   plugins: [

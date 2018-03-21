@@ -1,5 +1,5 @@
-import PouchDBHTTPAdapter = require('pouchdb-adapter-http')
-import PouchDBIDBAdapter = require('pouchdb-adapter-idb')
+import * as PouchDBHTTPAdapter from 'pouchdb-adapter-http'
+import * as PouchDBIDBAdapter from 'pouchdb-adapter-idb'
 import RxDBAttachmentsModule from 'rxdb/plugins/attachments'
 import RxDB from 'rxdb/plugins/core'
 import RxDBErrorMessagesModule from 'rxdb/plugins/error-messages'

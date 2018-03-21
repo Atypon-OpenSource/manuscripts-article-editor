@@ -1,6 +1,5 @@
 import Popper from 'popper.js'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { generate } from '../../lib/mathjax'
 import { createPopper, resizeTextarea } from '../../lib/popper'
 import { NodeViewCreator } from '../types'
 
@@ -17,8 +16,17 @@ const equation = (display: boolean): NodeViewCreator => (
   dom.setAttribute('id', node.attrs.id)
   dom.setAttribute('latex', node.attrs.latex)
 
+  const importMathjax = import(/* webpackChunkName: "mathjax" */ '../../lib/mathjax')
+
   const updateContents = (math: string) => {
-    generate(dom, math, display)
+    importMathjax
+      .then(mathjax => mathjax.generate(dom, math, display))
+      .catch(() => {
+        // TODO: improve the UI for presenting offline/import errors
+        window.alert(
+          'There was an error loading MathJax, please reload to try again'
+        )
+      })
   }
 
   updateContents(node.attrs.latex)

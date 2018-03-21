@@ -8,6 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
   entry: './src/index.tsx',
   output: {
+    chunkFilename: '[name].bundle.js',
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
@@ -24,6 +25,9 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       minChunks: module => /node_modules/.test(module.resource),
       name: 'vendor',
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest'
     }),
     new ExtractTextPlugin({
       allChunks: true,

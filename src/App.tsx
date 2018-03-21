@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { hot } from 'react-hot-loader'
+import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from './components/NotFound'
 import { Main, Page, Sidebar } from './components/Page'
@@ -12,12 +13,19 @@ import GroupsPageContainer from './containers/GroupsPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
 import LogoutPageContainer from './containers/LogoutPageContainer'
-import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
+// import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
 import ManuscriptsPageContainer from './containers/ManuscriptsPageContainer'
 import PrivateRoute from './containers/PrivateRoute'
 import RecoverPageContainer from './containers/RecoverPageContainer'
 import SignupPageContainer from './containers/SignupPageContainer'
 import UserContainer from './containers/UserContainer'
+import Spinner from './icons/spinner'
+
+const ManuscriptPageContainer = Loadable({
+  loader: () =>
+    import(/* webpackChunkName:"manuscript" */ './containers/ManuscriptPageContainer'),
+  loading: Spinner,
+})
 
 const App = () => (
   <Page>
@@ -41,12 +49,12 @@ const App = () => (
           exact={true}
           component={AccountPageContainer}
         />
-        <PrivateRoute
+        <Route
           path={'/manuscripts'}
           exact={true}
           component={ManuscriptsPageContainer}
         />
-        <PrivateRoute
+        <Route
           path={'/manuscripts/:id'}
           exact={true}
           component={ManuscriptPageContainer}
