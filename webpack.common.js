@@ -35,6 +35,9 @@ module.exports = {
     }),
   ],
   resolve: {
+    alias: {
+      react: require.resolve('react')
+    },
     extensions: ['.tsx', '.ts', '.js', '.json'],
   },
 }
