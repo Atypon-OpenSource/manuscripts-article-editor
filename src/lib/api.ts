@@ -29,21 +29,8 @@ const buildFormRequestConfig = (url: string, data: any): AxiosRequestConfig => {
   }
 }
 
-// NOTE: this will be replaced by a database connection
 export const authenticate = () => {
-  // return client.get('/user').then(response => response.data)
-
-  // return a user profile if there's an access token in localStorage
-  const user = token.get()
-    ? {
-        id: '123',
-        givenName: 'Temporary',
-        familyName: 'Person',
-        email: 'foo@example.com',
-      }
-    : null
-
-  return Promise.resolve(user)
+  return client.get('/user').then(response => response.data)
 }
 
 export const signup = (data: SignupValues) =>
@@ -61,12 +48,6 @@ export const login = (data: LoginValues & Device) =>
     .then(response => {
       token.set({
         access_token: response.data.token,
-        sync_session: response.data.syncSession,
-        user: {
-          id: response.data.user.id,
-          name: response.data.user.name,
-          email: response.data.user.email,
-        },
       })
 
       return response
@@ -88,12 +69,6 @@ export const resetPassword = (
     .then(response => {
       token.set({
         access_token: response.data.token,
-        sync_session: response.data.syncSession,
-        user: {
-          id: response.data.user.id,
-          name: response.data.user.name,
-          email: response.data.user.email,
-        },
       })
 
       return response
@@ -121,18 +96,16 @@ export const logout = () =>
 export const verify = (data: VerifyValues) =>
   client.post('/registration/verify', data)
 
-/* tslint:disable:no-any */
-
 export const list = (type: string) =>
   client.get(type).then(response => response.data)
 
-export const create = (type: string, data: any) =>
+export const create = (type: string, data: object) =>
   client.post(type, data).then(response => response.data)
 
 export const get = (type: string, id: string) =>
   client.get(`${type}/${id}`).then(response => response.data)
 
-export const update = (type: string, id: string, data: any) =>
+export const update = (type: string, id: string, data: object) =>
   client.patch(`${type}/${id}`, data).then(response => response.data)
 
 export const remove = (type: string, id: string) =>

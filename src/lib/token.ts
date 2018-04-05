@@ -1,14 +1,7 @@
 const storage = window.localStorage
 
-interface UserDetails {
-  id: string
-  name: string
-  email: string
-}
 export interface Token {
   access_token: string
-  sync_session: string
-  user: UserDetails
 }
 
 export default {

@@ -9,7 +9,7 @@ import LoginPage from '../components/LoginPage'
 import { login } from '../lib/api'
 import deviceId from '../lib/deviceId'
 import token, { Token } from '../lib/token'
-import { authenticate, authenticateSuccess } from '../store/authentication'
+import { authenticate } from '../store/authentication'
 import {
   AuthenticationDispatchProps,
   AuthenticationStateProps,
@@ -28,7 +28,7 @@ class LoginPageContainer extends React.Component<
   public componentDidMount() {
     const tokenData: Token = parse(window.location.hash.substr(1))
 
-    if (tokenData && tokenData.access_token && tokenData.sync_session) {
+    if (tokenData && tokenData.access_token) {
       token.set(tokenData)
 
       /* tslint:disable-next-line:no-any */
@@ -64,12 +64,7 @@ class LoginPageContainer extends React.Component<
         setSubmitting(false)
 
         /* tslint:disable-next-line:no-any */
-        this.props.dispatch<any>(
-          authenticateSuccess({
-            name: response.data.user.name,
-            email: response.data.user.email,
-          })
-        )
+        this.props.dispatch<any>(authenticate())
       },
       error => {
         setSubmitting(false)

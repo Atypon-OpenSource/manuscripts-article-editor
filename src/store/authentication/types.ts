@@ -8,6 +8,7 @@ export interface User {
   familyName: string
   phone?: string
   avatar?: string
+  name?: string
 }
 
 export interface AuthenticationState {

@@ -26,12 +26,6 @@ describe('api', () => {
 
     const tokenData = {
       access_token: 'foo',
-      sync_session: 'bar',
-      user: {
-        name: 'baz',
-        email: 'example@example.com',
-        id: '123',
-      },
     }
 
     token.set(tokenData)
@@ -60,12 +54,6 @@ describe('api', () => {
 
     const mockData = {
       token: 'foo',
-      syncSession: 'bar',
-      user: {
-        id: 'id',
-        name: 'name',
-        email: 'email',
-      },
     }
 
     mock.onPost('/auth/login').reply(httpStatusCodes.OK, mockData)
@@ -81,7 +69,6 @@ describe('api', () => {
     const tokenData = token.get() as Token
 
     expect(tokenData.access_token).toEqual(mockData.token)
-    expect(tokenData.sync_session).toEqual(mockData.syncSession)
   })
 
   it('removes the token after logout', async () => {
@@ -91,12 +78,6 @@ describe('api', () => {
 
     const tokenData = {
       access_token: 'foo',
-      sync_session: 'bar',
-      user: {
-        name: 'baz',
-        email: 'example@example.com',
-        id: '123',
-      },
     }
 
     token.set(tokenData)
@@ -129,12 +110,6 @@ describe('api', () => {
 
     const mockData = {
       token: 'foo',
-      syncSession: 'bar',
-      user: {
-        id: 'id',
-        name: 'name',
-        email: 'email',
-      },
     }
 
     mock.onPost('/auth/resetPassword').reply(httpStatusCodes.OK, mockData)
@@ -151,7 +126,6 @@ describe('api', () => {
     const tokenData = token.get() as Token
 
     expect(tokenData.access_token).toEqual(mockData.token)
-    expect(tokenData.sync_session).toEqual(mockData.syncSession)
   })
 
   it('verify user email address', async () => {

@@ -16,7 +16,7 @@ import { RecoverErrors, RecoverValues } from '../components/RecoverForm'
 import RecoverPage from '../components/RecoverPage'
 import { recoverPassword, resetPassword } from '../lib/api'
 import deviceId from '../lib/deviceId'
-import { authenticateSuccess } from '../store/authentication'
+import { authenticate } from '../store/authentication'
 import {
   AuthenticationDispatchProps,
   AuthenticationStateProps,
@@ -100,12 +100,7 @@ class RecoverPageContainer extends React.Component<
         setSubmitting(false)
 
         /* tslint:disable-next-line:no-any */
-        this.props.dispatch<any>(
-          authenticateSuccess({
-            name: response.data.user.name,
-            email: response.data.user.email,
-          })
-        )
+        this.props.dispatch<any>(authenticate())
       },
       (error: AxiosError) => {
         setSubmitting(false)

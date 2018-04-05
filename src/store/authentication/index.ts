@@ -44,12 +44,6 @@ export const authenticate: ThunkActionCreator = () => (
 ): Promise<Action> => {
   dispatch(authenticateRequest())
 
-  const storedUser = window.localStorage.getItem('user')
-
-  if (storedUser) {
-    dispatch(authenticateSuccess(storedUser))
-  }
-
   return api.authenticate().then(
     (data: User | null) => {
       return dispatch(authenticateSuccess(data))
