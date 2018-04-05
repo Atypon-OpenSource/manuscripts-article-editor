@@ -113,7 +113,7 @@ export const refresh = () => {
 }
 
 export const logout = () =>
-  client.post('/logout').then(() => {
+  client.post('/auth/logout').then(() => {
     token.remove()
   })
 

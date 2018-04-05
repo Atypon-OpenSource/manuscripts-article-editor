@@ -87,7 +87,7 @@ describe('api', () => {
   it('removes the token after logout', async () => {
     const mock = new MockAdapter(client)
 
-    mock.onPost('/logout').reply(httpStatusCodes.NO_CONTENT)
+    mock.onPost('/auth/logout').reply(httpStatusCodes.NO_CONTENT)
 
     const tokenData = {
       access_token: 'foo',
