@@ -56,6 +56,7 @@ export const login = (data: LoginValues & Device) =>
         'manuscripts-app-id': process.env.API_APPLICATION_ID,
         'manuscripts-app-secret': process.env.API_APPLICATION_SECRET, // TODO: this should be removed after resolving this https://gitlab.com/mpapp-private/manuscripts-api/issues/82
       },
+      withCredentials: true,
     })
     .then(response => {
       token.set({
