@@ -1,13 +1,12 @@
 process.env.NODE_ENV = 'production'
 
-const webpack = require('webpack')
 const merge = require('webpack-merge')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const common = require('./webpack.common.js')
 
 module.exports = merge(common, {
   // devtool: 'source-map',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -25,10 +24,11 @@ module.exports = merge(common, {
           },
           {
             test: /\.css$/,
-            use: ExtractTextPlugin.extract({
-              fallback: 'style-loader',
-              use: 'css-loader',
-            }),
+            // use: ExtractTextPlugin.extract({
+            //   fallback: 'style-loader',
+            //   use: 'css-loader',
+            // }),
+            use: ['style-loader', 'css-loader'],
           },
           {
             test: /\.(png|jpg|gif|svg)$/,
@@ -46,12 +46,4 @@ module.exports = merge(common, {
     chunkFilename: '[name].[chunkhash].js',
     filename: '[name].[chunkhash].js',
   },
-  plugins: [
-    new UglifyJSPlugin({
-      sourceMap: true,
-    }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    }),
-  ],
 })

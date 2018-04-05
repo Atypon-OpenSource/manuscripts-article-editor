@@ -15,6 +15,7 @@ module.exports = merge(common, {
     // },
   },
   devtool: 'cheap-module-source-map',
+  mode: 'development',
   module: {
     rules: [
       {
@@ -53,8 +54,5 @@ module.exports = merge(common, {
   performance: {
     hints: false,
   },
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
 })

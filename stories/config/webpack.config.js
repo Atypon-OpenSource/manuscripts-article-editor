@@ -1,14 +1,10 @@
-// const path = require('path')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+module.exports = (storybookBaseConfig, configType) => {
+  /* tslint:disable-next-line:no-console */
+  console.log(configType)
 
-// TODO: remove this once the next version of storybook is released
-// https://github.com/storybooks/storybook/issues/2836
-const genDefaultConfig = require('@storybook/react/dist/server/config/defaults/webpack.config.js')
+  // storybookBaseConfig.mode = configType.toLowerCase()
 
-module.exports = (baseConfig, env /*, defaultConfig*/) => {
-  const defaultConfig = genDefaultConfig(baseConfig, env)
-
-  defaultConfig.module.rules.push({
+  storybookBaseConfig.module.rules.push({
     exclude: /node_modules/,
     test: /\.tsx?$/,
     use: {
@@ -19,21 +15,22 @@ module.exports = (baseConfig, env /*, defaultConfig*/) => {
     },
   })
 
-  console.log(env) // tslint:disable-line
+  storybookBaseConfig.module.rules.push({
+    test: /\.css$/,
+    use: ['style-loader', 'css-loader'],
+  })
 
-  if (env === 'PRODUCTION') {
-    defaultConfig.plugins.push(
-      new UglifyJSPlugin({
-        sourceMap: false,
-      })
-    )
-  }
+  storybookBaseConfig.module.rules.push({
+    test: /\.(png|jpg|gif|svg)$/,
+    use: ['file-loader'],
+  })
 
-  // defaultConfig.plugins.push(new webpack.DefinePlugin({
-  //   'process.env.NODE_ENV': JSON.stringify('production'),
-  // }))
+  storybookBaseConfig.module.rules.push({
+    test: /\.(woff|woff2|eot|ttf|otf)$/,
+    use: ['file-loader'],
+  })
 
-  defaultConfig.resolve.extensions.push('.ts', '.tsx')
+  storybookBaseConfig.resolve.extensions.push('.ts', '.tsx')
 
-  return defaultConfig
+  return storybookBaseConfig
 }
