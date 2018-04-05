@@ -31,22 +31,19 @@ const collections = [
   {
     name: 'components',
     schema: schema.components,
-    sync: true,
+    remote: 'manuscript_data',
   },
   {
     name: 'groups',
     schema: schema.groups,
-    sync: true,
   },
   {
     name: 'groupmembers',
     schema: schema.people,
-    sync: true,
   },
   {
     name: 'collaborators',
     schema: schema.people,
-    sync: true,
   },
 ]
 
@@ -75,13 +72,21 @@ export const waitForDB = (async () => {
     collections.map(async data => {
       try {
         // tslint:disable-next-line
-        const collection = await db.collection(data as RxDB.RxCollectionCreator)
+        const collection = await db.collection({
+          name: data.name,
+          schema: data.schema,
+        })
 
-        // if (data.sync) {
-        //   collection.sync({
-        //     remote: `http://example.com/${collection.name}/`,
-        //   })
-        // }
+        if (data.remote) {
+          collection
+            .sync({
+              remote: process.env.SYNC_GATEWAY_URL + data.remote,
+              waitForLeadership: false, // TODO: remove this for production
+            })
+            .error$.subscribe((error: Error) => {
+              console.error(error) // tslint:disable-line:no-console
+            })
+        }
       } catch (error) {
         console.error(error) // tslint:disable-line
       }
