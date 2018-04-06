@@ -1,7 +1,8 @@
 process.env.NODE_ENV = 'production'
 
 const merge = require('webpack-merge')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+// const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const common = require('./webpack.common.js')
 
 module.exports = merge(common, {
@@ -46,4 +47,11 @@ module.exports = merge(common, {
     chunkFilename: '[name].[chunkhash].js',
     filename: '[name].[chunkhash].js',
   },
+  plugins: [
+    new CleanWebpackPlugin(['dist']),
+    // new ExtractTextPlugin({
+    //   allChunks: true,
+    //   // filename: '[name].[contenthash].css',
+    // }),
+  ]
 })

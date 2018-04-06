@@ -1,5 +1,6 @@
 process.env.NODE_ENV = 'development'
 
+const Dotenv = require('dotenv-webpack')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
@@ -54,5 +55,10 @@ module.exports = merge(common, {
   performance: {
     hints: false,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new Dotenv({
+      safe: true,
+    }),
+    new webpack.HotModuleReplacementPlugin()
+  ],
 })
