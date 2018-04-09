@@ -11,6 +11,8 @@ import RxDBUpdateModule from 'rxdb/plugins/update'
 import * as schema from './schema'
 import { AnyComponent, Group, Person } from './types/components'
 
+window.RxDB = RxDB
+
 RxDB.QueryChangeDetector.enable()
 // RxDB.QueryChangeDetector.enableDebugging()
 

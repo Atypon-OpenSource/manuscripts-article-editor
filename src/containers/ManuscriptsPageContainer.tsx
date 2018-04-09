@@ -1,10 +1,13 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
 import RxDB from 'rxdb/plugins/core'
 import { Subscription } from 'rxjs'
 import ManuscriptsPage from '../components/ManuscriptsPage'
 import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
+import { AuthenticationStateProps } from '../store/authentication/types'
+import { ApplicationState } from '../store/types'
 import { generateID } from '../transformer/id'
 import { MANUSCRIPT } from '../transformer/object-types'
 import {
@@ -20,7 +23,7 @@ interface ManuscriptsPageContainerState {
 }
 
 class ManuscriptsPageContainer extends React.Component<
-  RouteComponentProps<{}>
+  RouteComponentProps<{}> & AuthenticationStateProps
 > {
   public state: ManuscriptsPageContainerState = {
     manuscripts: [],
@@ -63,6 +66,13 @@ class ManuscriptsPageContainer extends React.Component<
 
   // TODO: catch and handle errors
   public addManuscript: AddManuscript = data => {
+    const { authentication } = this.props
+
+    // TODO: this should never happen
+    if (!authentication.user) {
+      throw new Error('Not authenticated!')
+    }
+
     // TODO: open up the template modal
 
     const id = generateID(MANUSCRIPT)
@@ -72,6 +82,7 @@ class ManuscriptsPageContainer extends React.Component<
         id,
         manuscript: id,
         objectType: MANUSCRIPT,
+        owners: [authentication.user._id],
         ...data,
       })
       .then((doc: ManuscriptDocument) => {
@@ -128,4 +139,6 @@ class ManuscriptsPageContainer extends React.Component<
   }
 }
 
-export default ManuscriptsPageContainer
+export default connect<AuthenticationStateProps>((state: ApplicationState) => ({
+  authentication: state.authentication,
+}))(ManuscriptsPageContainer)

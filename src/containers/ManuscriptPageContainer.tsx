@@ -2,12 +2,14 @@ import debounce from 'lodash-es/debounce'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import * as React from 'react'
 import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'
+import { RxDocument } from 'rxdb'
 // import { Subscription } from 'rxjs'
 import { Db, waitForDB } from '../db'
 import Editor from '../editor/Editor'
 import Spinner from '../icons/spinner'
 import { decode, encode } from '../transformer'
 import {
+  AnyComponent,
   Component,
   ComponentDocument,
   ComponentIdSet,
@@ -163,7 +165,22 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
     const requests = components.map(component => {
       component.manuscript = id
 
-      return collection.atomicUpsert(component).then(() => true)
+      return collection
+        .findOne({ id: component.id })
+        .exec()
+        .then(
+          (prev: RxDocument<AnyComponent>) =>
+            prev
+              ? prev.update({
+                  $set: component,
+                })
+              : collection.insert(component)
+        )
+        .then(() => true)
+
+      // TODO: atomicUpdate?
+
+      // return collection.atomicUpsert(component).then(() => true)
     })
 
     // TODO: mark the document as "deleted" instead of removing it?

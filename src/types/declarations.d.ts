@@ -7,5 +7,6 @@ declare global {
       f: GenericStoreEnhancer
     ) => GenericStoreEnhancer
     db: RxDB.RxDatabase
+    RxDB: RxDB
   }
 }
