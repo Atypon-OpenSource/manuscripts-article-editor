@@ -5,7 +5,9 @@ export const equation: NodeSpec = {
     latex: { default: '' },
   },
   atom: true,
+  content: 'text*',
   inline: true,
+  draggable: true,
   group: 'inline',
   parseDOM: [
     {
@@ -17,7 +19,5 @@ export const equation: NodeSpec = {
     },
     // TODO: convert MathML from pasted math elements?
   ],
-  toDOM: (node: ProsemirrorNode) => {
-    return ['prosemirror-inline-equation', node.attrs]
-  },
+  toDOM: (node: ProsemirrorNode) => ['prosemirror-inline-equation', node.attrs],
 }

@@ -3,9 +3,11 @@
   background: #eee;
   color: black;
   width: auto;
+  min-width: 100px;
   border-radius: 3px;
-  opacity: 0.9;
-  padding: 10px;
+  /*opacity: 0.9;*/
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+  'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 .popper-arrow {
@@ -13,34 +15,109 @@
   height: 0;
   position: absolute;
   border: 5px solid transparent;
-  border-bottom-color: #eee;
-  border-top-width: 0;
+}
+
+.popper[x-placement="bottom"] .popper-arrow {
   top: -5px;
   left: calc(50% - 5px);
+  border-bottom-color: #ccc;
+  border-top-width: 0;
   margin: 0 5px;
 }
+
+.popper[x-placement="top"] .popper-arrow {
+  bottom: -5px;
+  left: calc(50% - 5px);
+  border-top-color: #ccc;
+  border-bottom-width: 0;
+  margin: 0 5px;
+}
+
+.popper[x-placement="left"] .popper-arrow {
+  right: -5px;
+  top: calc(50% - 5px);
+  border-left-color: #ccc;
+  border-right-width: 0;
+  margin: 5px 0;
+}
+
+.popper[x-placement="right"] .popper-arrow {
+  left: -5px;
+  top: calc(50% - 5px);
+  border-right-color: #ccc;
+  border-left-width: 0;
+  margin: 5px 0;
+}
+
+.popper[x-placement="bottom-start"] .popper-arrow {
+  top: -5px;
+  left: calc(50% - 5px);
+  border-bottom-color: #ccc;
+  border-top-width: 0;
+  margin: 0 5px;
+}
+
+/*.popper[x-placement="right-end"] .popper-arrow {
+  left: -5px;
+  top: 5px;
+  border-right-color: #eee;
+  border-left-width: 0;
+  margin: 5px 0;
+}*/
 
 .popper .equation-editor {
   text-align: center;
   font-family: monospace;
   font-size: 12pt;
-  background: transparent;
   border: none;
-  width: 20em;
+  background: transparent;
+  /*width: 20em;*/
   min-width: 5em;
   max-width: 50em;
   resize: none;
   overflow: hidden;
   vertical-align: middle;
+  margin: 10px;
 }
 
 .popper .equation-editor:focus {
   outline: none;
 }
 
-.popper .equation-editor:empty::before {
-  content: 'Click to edit equation';
-  color: #aaa;
-  cursor: text;
-  font-style: italic;
+.popper .CodeMirror {
+  min-width: 400px;
+  height: auto;
+  min-height: 2em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid #ccc;
+}
+
+.popper .CodeMirror-scroll {
+  max-height: 400px;
+}
+
+.popper .menu {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid #ccc;
+  border-radius:6px;
+  color: #444;
+  font-size: 90%;
+}
+
+.popper .menu .menu-section {
+  padding: 5px 0;
+}
+
+.popper .menu .menu-section:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+}
+
+.popper .menu-item {
+  padding: 2px 20px;
+  cursor: pointer;
+}
+
+.popper .menu-item:hover {
+  background: #65a3ff;
+  color: white;
 }

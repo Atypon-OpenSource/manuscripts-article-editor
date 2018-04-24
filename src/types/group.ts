@@ -1,8 +1,8 @@
 import * as React from 'react'
-import RxDB from 'rxdb/plugins/core'
+import { RxDocument } from 'rxdb'
 import { Group } from './components'
 
-export type GroupDocument = RxDB.RxDocument<Group>
+export type GroupDocument = RxDocument<Group>
 
 export type AddGroup = (data: Partial<Group>) => void
 

@@ -1,26 +1,51 @@
 import debounce from 'lodash-es/debounce'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { EditorState } from 'prosemirror-state'
 import * as React from 'react'
 import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'
-import { RxDocument } from 'rxdb'
-// import { Subscription } from 'rxjs'
-import { Db, waitForDB } from '../db'
-import Editor from '../editor/Editor'
+import { RxChangeEvent } from 'rxdb/src/typings/rx-change-event'
+import { Subscription } from 'rxjs/Subscription'
+import Editor, {
+  ChangeReceiver,
+  DeleteComponent,
+  GetComponent,
+  SaveComponent,
+} from '../editor/Editor'
+import PopperManager from '../editor/lib/popper'
 import Spinner from '../icons/spinner'
-import { decode, encode } from '../transformer'
+import CitationManager from '../lib/csl'
+import sessionID from '../lib/sessionID'
+import {
+  ComponentObject,
+  ComponentsProps,
+  withComponents,
+} from '../store/ComponentsProvider'
+import { Decoder, encode } from '../transformer'
+import { buildComponentMap, getComponentFromDoc } from '../transformer/decode'
+import { documentObjectTypes } from '../transformer/document-object-types'
+import * as ObjectTypes from '../transformer/object-types'
 import {
   AnyComponent,
-  Component,
+  ComponentCollection,
   ComponentDocument,
   ComponentIdSet,
   ComponentMap,
+  ComponentWithAttachment,
 } from '../types/components'
 
+interface ComponentIdSets {
+  [key: string]: ComponentIdSet
+}
+
 interface ManuscriptPageContainerState {
+  citationProcessor: Citeproc.Processor | null
+  citationStyle: string
+  componentIds: ComponentIdSets
   componentMap: ComponentMap
-  componentIds: ComponentIdSet
   dirty: boolean
   doc: ProsemirrorNode | null
+  locale: string
+  popper: PopperManager
 }
 
 interface ManuscriptPageContainerProps {
@@ -32,21 +57,27 @@ interface ManuscriptPageRoute extends Route<RouteProps> {
 }
 
 type ComponentProps = ManuscriptPageContainerProps &
+  ComponentsProps &
   RouteComponentProps<ManuscriptPageRoute>
 
 class ManuscriptPageContainer extends React.Component<ComponentProps> {
   public state: ManuscriptPageContainerState = {
+    citationProcessor: null,
+    citationStyle: 'apa', // TODO: citation style switcher
+    componentIds: {
+      document: new Set(),
+      data: new Set(),
+    },
     componentMap: new Map(),
-    componentIds: new Set(),
     dirty: false,
     doc: null,
+    locale: 'en-GB', // TODO: locale switcher
+    popper: new PopperManager(),
   }
 
-  // private subs: Subscription[] = []
+  private subs: Subscription[] = []
 
-  private db: Db
-
-  private debouncedSaveComponents: (doc: ProsemirrorNode) => void
+  private readonly debouncedSaveComponents: (state: EditorState) => void
 
   public constructor(props: ComponentProps) {
     super(props)
@@ -56,50 +87,67 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
     })
   }
 
-  public componentDidMount() {
+  public async componentDidMount() {
     const { id } = this.props.match.params
+    const { loadManuscriptComponents } = this.props.components
+    const { citationStyle, locale } = this.state
 
     window.addEventListener('beforeunload', this.unloadListener)
 
-    waitForDB
-      .then(db => {
-        this.db = db
+    try {
+      const components = await loadManuscriptComponents(id)
 
-        // TODO: subscribe to the query and do _something_ when updates come in
+      if (!components.length) {
+        throw new Error('Manuscript not found')
+      }
 
-        // this.subs.push(
-        db.components
-          .find()
-          .where('manuscript')
-          .eq(id)
-          // .$.subscribe(components => {
-          .exec()
-          .then((components: ComponentDocument[]) => {
-            const componentMap = this.buildComponentMap(components)
-            const componentIds = this.buildComponentIdSet(componentMap)
+      const componentMap = await buildComponentMap(components)
 
-            const doc = decode(componentMap)
+      const decoder = new Decoder(componentMap)
 
-            this.setState({ doc, componentIds, componentMap })
-          })
-        // )
+      const citationManager = new CitationManager()
+
+      const doc = decoder.createArticleNode()
+
+      // encode again here to get doc component ids for comparison
+      const encodedComponentMap = encode(doc)
+      const componentIds = this.buildComponentIds(encodedComponentMap)
+
+      this.setState({
+        citationProcessor: await citationManager.createProcessor(
+          citationStyle,
+          locale,
+          this.getComponent
+        ),
+        componentIds,
+        componentMap,
+        doc,
       })
-      .catch((error: Error) => {
-        this.setState({
-          error: error.message,
-        })
+    } catch (error) {
+      console.error(error) // tslint:disable-line:no-console
+      this.setState({
+        error: error.message,
       })
+    }
   }
 
   public componentWillUnmount() {
-    // this.subs.forEach(sub => sub.unsubscribe())
+    this.subs.forEach(sub => sub.unsubscribe())
+    this.state.popper.destroy()
     window.removeEventListener('beforeunload', this.unloadListener)
   }
 
   public render() {
-    const { doc, dirty } = this.state
+    const {
+      dirty,
+      citationProcessor,
+      componentMap,
+      doc,
+      locale,
+      popper,
+    } = this.state
 
-    if (!doc) {
+    if (!doc || !citationProcessor) {
       return <Spinner />
     }
 
@@ -107,13 +155,56 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
       <React.Fragment>
         <Editor
           autoFocus={true}
-          editable={true}
+          citationProcessor={citationProcessor}
           doc={doc}
+          editable={true}
+          getComponent={this.getComponent}
+          saveComponent={this.saveComponent}
+          deleteComponent={this.deleteComponent}
+          locale={locale}
           onChange={this.handleChange}
+          componentMap={componentMap}
+          popper={popper}
+          subscribe={this.handleSubscribe}
         />
         <Prompt when={dirty} message={() => false} />
       </React.Fragment>
     )
+  }
+
+  private getComponent: GetComponent = <T extends AnyComponent>(
+    id: string
+  ): T => {
+    return this.state.componentMap.get(id) as T
+  }
+
+  private saveComponent: SaveComponent = async (
+    component: ComponentWithAttachment
+  ) => {
+    const { id } = this.props.match.params
+    const { saveComponent } = this.props.components
+
+    // TODO: encode?
+
+    // TODO: wait for successful saving first?
+    this.setState({
+      componentMap: this.state.componentMap.set(component.id, component),
+    })
+
+    const { src, attachment, ...data } = component
+
+    // TODO: data.contents = serialized DOM wrapper for bibliography
+
+    const savedDoc = await saveComponent(id, data)
+
+    if (attachment) {
+      await savedDoc.putAttachment(attachment)
+      delete component.attachment // TODO: is this really deleted now?
+    }
+  }
+
+  private deleteComponent: DeleteComponent = (id: string) => {
+    return this.props.components.deleteComponent(id)
   }
 
   // NOTE: can only _return_ the boolean value when using "onbeforeunload"!
@@ -123,94 +214,246 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
     }
   }
 
-  private buildComponentMap = (
-    components: ComponentDocument[]
-  ): ComponentMap => {
-    return components.reduce(
-      (output: ComponentMap, component: ComponentDocument) => {
-        output.set(component.id, component.toJSON())
-        return output
-      },
-      new Map()
+  private handleSubscribe = (receive: ChangeReceiver) => {
+    const { id } = this.props.match.params
+
+    const collection = this.props.components.collection as ComponentCollection
+
+    const sub = collection.$.subscribe(
+      async (changeEvent: RxChangeEvent<AnyComponent>) => {
+        const op = changeEvent.data.op
+        const doc = changeEvent.data.doc
+        const v = changeEvent.data.v as AnyComponent
+
+        if (!v || !doc || !op) {
+          throw new Error('Unexpected change event data')
+        }
+
+        if (v.manuscript !== id) return false // ignore changes to other manuscripts
+
+        if (v.sessionID === sessionID) return false // ignore our changes
+
+        console.log({ op, doc }) // tslint:disable-line:no-console
+
+        if (op === 'REMOVE') {
+          return receive(op, doc)
+        }
+
+        // NOTE: need to load the doc to get attachments
+        const componentDocument = (await collection
+          .findOne(doc)
+          .exec()) as ComponentDocument
+
+        const component = await getComponentFromDoc(componentDocument)
+
+        const { componentMap } = this.state
+
+        componentMap.set(component.id, component) // TODO: what if this overlaps with saving?
+
+        this.setState({ componentMap })
+
+        // TODO: only call receive once finished syncing?
+
+        // TODO: might not need a new decoder, for data components
+
+        // TODO: set updatedAt on nodes that depend on data components?
+
+        const decoder = new Decoder(componentMap)
+
+        const node = decoder.decode(component)
+
+        receive(op, doc, node)
+      }
     )
+
+    this.subs.push(sub)
   }
 
-  private buildComponentArray = (componentMap: ComponentMap): Component[] =>
-    Array.from(componentMap.values())
-
-  private buildComponentIdSet = (componentMap: ComponentMap): ComponentIdSet =>
-    new Set(componentMap.keys())
-
-  private removedComponentIds = (componentIds: ComponentIdSet) =>
-    Array.from(this.state.componentIds).filter(id => {
-      return !componentIds.has(id)
+  // TODO: need to only include document ids in this set, as data ids are handled separately
+  private removedComponentIds = (
+    componentIds: ComponentIdSet,
+    newComponentIds: ComponentIdSet
+  ) =>
+    Array.from(componentIds).filter(id => {
+      return !newComponentIds.has(id)
     })
 
-  private handleChange = (doc: ProsemirrorNode) => {
-    this.setState({ dirty: true })
-    this.debouncedSaveComponents(doc)
+  private hasChanged = (component: ComponentObject): boolean => {
+    const previousComponent = this.getComponent(component.id) as ComponentObject
+
+    if (!previousComponent) return true
+
+    const componentKeys = Object.keys(component)
+    const previousComponentKeys = Object.keys(previousComponent)
+
+    // TODO: ignore keys not stored in the component: createdAt, updatedAt, etc
+
+    // look for different keys
+    if (
+      JSON.stringify(componentKeys) !== JSON.stringify(previousComponentKeys)
+    ) {
+      return true
+    }
+
+    // look for changed values
+    for (const key of componentKeys) {
+      if (
+        JSON.stringify(component[key]) !==
+        JSON.stringify(previousComponent[key])
+      ) {
+        return true
+      }
+    }
+
+    return false
   }
 
-  private saveComponents = (doc: ProsemirrorNode) => {
+  private handleChange = (state: EditorState) => {
+    if (!this.state.dirty) {
+      this.setState({ dirty: true })
+    }
+
+    window.requestIdleCallback(() => this.debouncedSaveComponents(state), {
+      timeout: 5000, // maximum wait for idle
+    })
+  }
+
+  private buildComponentIds = (componentMap: ComponentMap) => {
+    const output = {
+      document: new Set(),
+      data: new Set(),
+    }
+
+    for (const component of componentMap.values()) {
+      const type = documentObjectTypes.includes(component.objectType)
+        ? 'document'
+        : 'data'
+
+      output[type].add(component.id)
+    }
+
+    return output
+  }
+
+  private saveComponents = async (state: EditorState) => {
+    // TODO: return if already saving?
+
     const id = this.props.match.params.id
 
-    const componentMap = encode(doc)
-    const componentIds = this.buildComponentIdSet(componentMap)
-    const components = this.buildComponentArray(componentMap)
+    // NOTE: can't use state.toJSON() as the HTML serializer needs the actual nodes
 
-    // TODO: diff with the previous state and only save changed components
+    // TODO: make sure the manuscript element's ID doesn't change
 
-    const collection = this.db.components
+    const newComponentMap = encode(state.doc)
 
-    const requests = components.map(component => {
-      component.manuscript = id
+    const { deleteComponent, saveComponent } = this.props.components
 
-      return collection
-        .findOne({ id: component.id })
-        .exec()
-        .then(
-          (prev: RxDocument<AnyComponent>) =>
-            prev
-              ? prev.update({
-                  $set: component,
-                })
-              : collection.insert(component)
-        )
-        .then(() => true)
+    try {
+      // save the changed doc components
+      // TODO: make sure dependencies are saved first
 
-      // TODO: atomicUpdate?
+      const { componentMap } = this.state
 
-      // return collection.atomicUpsert(component).then(() => true)
-    })
+      const changedComponents = Array.from(newComponentMap.values()).filter(
+        component => this.hasChanged(component)
+      )
 
-    // TODO: mark the document as "deleted" instead of removing it?
-
-    const removeComponent = (id: string) =>
-      collection
-        .findOne(id)
-        .exec()
-        .then(
-          (component: ComponentDocument) =>
-            component ? component.remove() : false
-        )
-
-    const removedRequests = this.removedComponentIds(componentIds).map(
-      removeComponent
-    )
-
-    Promise.all([...requests, ...removedRequests])
-      .then(() => {
-        this.setState({
-          componentIds,
-          dirty: false,
-        })
-
-        console.log('saved') // tslint:disable-line
+      // TODO: wait for saving?
+      changedComponents.forEach((component: AnyComponent) => {
+        componentMap.set(component.id, component)
       })
-      .catch((error: Error) => {
-        console.error(error) // tslint:disable-line
+
+      interface ChangedComponentsByType {
+        dependencies: AnyComponent[]
+        elements: AnyComponent[]
+        sections: AnyComponent[]
+      }
+
+      const changedComponentsObject: ChangedComponentsByType = {
+        dependencies: [],
+        elements: [],
+        sections: [],
+      }
+
+      const changedComponentsByType = changedComponents.reduce(
+        (output, component) => {
+          switch (component.objectType) {
+            case ObjectTypes.SECTION:
+              output.sections.push(component)
+              break
+
+            case ObjectTypes.BIBLIOGRAPHY_ELEMENT:
+            case ObjectTypes.PARAGRAPH_ELEMENT:
+            case ObjectTypes.LIST_ELEMENT:
+            case ObjectTypes.LISTING_ELEMENT:
+            case ObjectTypes.EQUATION_ELEMENT:
+            case ObjectTypes.FIGURE_ELEMENT:
+            case ObjectTypes.TABLE_ELEMENT:
+              output.elements.push(component)
+              break
+
+            default:
+              output.dependencies.push(component)
+              break
+          }
+
+          return output
+        },
+        changedComponentsObject
+      )
+
+      await Promise.all(
+        changedComponentsByType.dependencies.map((component: AnyComponent) =>
+          saveComponent(id, component)
+        )
+      )
+
+      await Promise.all(
+        changedComponentsByType.elements.map((component: AnyComponent) =>
+          saveComponent(id, component)
+        )
+      )
+
+      await Promise.all(
+        changedComponentsByType.sections.map((component: AnyComponent) =>
+          saveComponent(id, component)
+        )
+      )
+
+      // delete any removed components, children first
+
+      const componentIds = this.buildComponentIds(newComponentMap)
+
+      const deleteRemovedComponentIds = async (type: 'document' | 'data') => {
+        const removedComponentIds = this.removedComponentIds(
+          this.state.componentIds[type],
+          componentIds[type]
+        )
+
+        // NOTE: reversed, to remove children first
+        await Promise.all(
+          removedComponentIds.reverse().map(id =>
+            deleteComponent(id).catch(error => {
+              console.error(error) // tslint:disable-line:no-console
+            })
+          )
+        )
+      }
+
+      await deleteRemovedComponentIds('document')
+      await deleteRemovedComponentIds('data')
+
+      this.setState({
+        componentIds,
+        componentMap,
+        dirty: false,
       })
+
+      console.log('saved') // tslint:disable-line:no-console
+    } catch (error) {
+      console.error(error) // tslint:disable-line:no-console
+    }
   }
 }
 
-export default ManuscriptPageContainer
+export default withComponents(ManuscriptPageContainer)

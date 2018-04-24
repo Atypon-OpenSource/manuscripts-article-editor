@@ -1,18 +1,62 @@
-import RxDB from 'rxdb/plugins/core'
-// import * as ObjectTypes from '../editor/transformer/object-types'
+import { RxAttachment, RxCollection, RxDocument } from 'rxdb'
+import { RxAttachmentCreator } from 'rxdb/src/typings/rx-attachment'
+
+export interface Attachment {
+  id: string
+  type: string
+  data: object
+}
 
 export interface Component {
   // _id: string
+  _rev?: string
+  _deleted?: boolean
   id: string
   objectType: string
   createdAt?: number
   updatedAt?: number
   manuscript?: string
+  sessionID?: string
+}
+
+export interface Style extends Component {
+  name: string
+  title: string
+  subtitle: string
+  desc: string
+}
+
+export interface Color extends Component {
+  deviceColor: string
+  name: string
+  title: string
+  value: string
+}
+
+export interface BorderStyle extends Component {
+  doubleLines: boolean
+}
+
+export interface Border extends Component {
+  color: Color
+  style: string // BorderStyle
+  width: number
+}
+
+export interface FigureStyle extends Component {
+  captionPosition: number
+  innerBorder: Border
+  innerSpacing: number
+  outerBorder: Border
+  outerSpacing: number
+  preferredXHTMLElement?: string
+  alignment: string
 }
 
 export interface Manuscript extends Component {
   title: string
   data?: string
+  owners?: string[]
 }
 
 export interface BibliographicName extends Component {
@@ -60,12 +104,61 @@ export interface Table extends Component {
 }
 
 export interface Figure extends Component {
-  originalURL: string
   contentType: string
+  src?: string
+  attachment?: Attachment
+  originalURL?: string
+  title?: string // TODO: make this editable
+}
+
+type Year = string | number
+type Month = string | number
+type Day = string | number
+
+type DatePart = [Year, Month, Day]
+
+export interface AuxiliaryObjectReference extends Component {
+  containingObject: string
+  referencedObject: string
+  auxiliaryObjectReferenceStyle?: string
+}
+
+export interface BibliographicDate extends Component {
+  'date-parts': [DatePart] | [DatePart, DatePart]
+}
+
+export interface BibliographyItem extends Component {
+  'citation-label'?: string
+  title?: string
+  URL?: string
+  volume?: string
+  'page-first'?: string
+  issued?: BibliographicDate
+  originalIdentifier?: string
+  number?: string // TODO: number?
+  author?: BibliographicName[]
+  embeddedAuthors?: BibliographicName[]
+  sourceIdentifier?: string
+  sourceURI?: string
+  'number-of-pages'?: string // TODO: number?
+  institution?: string
+  'collection-title'?: string
+}
+
+export interface Citation extends Component {
+  containingElement: string
+  embeddedCitationItems: CitationItem[]
+  collationType?: number
+  citationStyle?: string
+}
+
+export interface CitationItem extends Component {
+  bibliographyItem: string
 }
 
 export interface Element extends Component {
   elementType: string
+  placeholderInnerHTML?: string
 }
 
 export interface ParagraphElement extends Element {
@@ -97,6 +190,15 @@ export interface FigureElement extends Element {
   elementType: 'figure'
   caption: string
   containedObjectIDs: string[]
+  figureLayout: string
+  figureStyle: string
+}
+
+export interface ListingElement extends Element {
+  // elementType: 'pre'
+  contents: string
+  language: string
+  languageKey: string
 }
 
 export interface TableElement extends Element {
@@ -113,12 +215,17 @@ export interface BibliographyElement extends Element {
 export type AnyElement =
   | ParagraphElement
   | FigureElement
+  | ListingElement
   | TableElement
   | BibliographyElement
+  | EquationElement
 
 export type AnyComponent =
   | Manuscript
   | BibliographicName
+  | BibliographyItem
+  | BibliographicDate
+  | Citation
   | Contributor
   | Affiliation
   | Person
@@ -129,8 +236,30 @@ export type AnyComponent =
   | Figure
   | AnyElement
 
-export type ComponentMap = Map<string, Component>
+interface Attachments {
+  _attachments: Array<RxAttachment<AnyComponent>>
+}
+
+interface ComponentAttachment {
+  attachment?: RxAttachmentCreator
+  src?: string
+}
+
+export type PrioritizedComponent = Section | Figure
 
 export type ComponentIdSet = Set<string>
 
-export type ComponentDocument = RxDB.RxDocument<AnyComponent>
+export type ComponentDocument = RxDocument<AnyComponent> & Attachments
+
+export type ComponentMap = Map<string, AnyComponent>
+
+export type ComponentCollection = RxCollection<AnyComponent>
+
+export type ComponentWithAttachment = AnyComponent & ComponentAttachment
+
+export type ReferencedComponent =
+  | FigureElement
+  | Figure
+  | TableElement
+  | EquationElement
+  | ListingElement

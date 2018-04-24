@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
-import { User } from '../store/authentication/types'
 import { styled } from '../theme'
+import { User } from '../types/user'
 import { Avatar } from './Avatar'
 
 export const UserLink = styled(NavLink)`

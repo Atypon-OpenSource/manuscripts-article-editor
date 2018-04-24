@@ -1,2 +1,2 @@
-export { decode } from './decode'
+export { Decoder } from './decode'
 export { encode } from './encode'

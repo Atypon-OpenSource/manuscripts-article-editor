@@ -1,4 +1,4 @@
-import { Node as ProsemirrorNode, ResolvedPos } from 'prosemirror-model'
+import { ResolvedPos } from 'prosemirror-model'
 import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
 import { EditorAction, StringMap } from '../types'
 
@@ -28,10 +28,7 @@ const insertParagraph = (
     !nextNode ||
     (nextNode.type.name !== 'paragraph' || nextNode.nodeSize > 2)
   ) {
-    tr = tr.insert(
-      pos,
-      state.schema.nodes.paragraph.createAndFill() as ProsemirrorNode
-    )
+    tr = tr.insert(pos, state.schema.nodes.paragraph.create())
   }
 
   tr = tr.setSelection(TextSelection.create(tr.doc, pos + 1)).scrollIntoView()

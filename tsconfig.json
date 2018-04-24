@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "target": "es5",
+    "target": "es2015",
     "lib": ["es2017", "dom"],
     "sourceMap": true,
     "allowJs": false,
@@ -10,8 +10,8 @@
     "moduleResolution": "node",
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
     "skipLibCheck": true,
+    "strictNullChecks": true,
     "typeRoots" : [
       "node_modules/@types",
       "./stories/types"

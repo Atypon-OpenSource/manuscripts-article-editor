@@ -37,11 +37,11 @@ export const signupSchema = yup.object().shape({
 })
 
 export const accountSchema = yup.object().shape({
-  name: yup
+  givenName: yup
     .string()
     .required()
     .min(1),
-  surname: yup
+  familyName: yup
     .string()
     .required()
     .min(2),

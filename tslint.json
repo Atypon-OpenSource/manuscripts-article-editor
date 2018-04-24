@@ -15,6 +15,7 @@
     "no-shadowed-variable": false,
     "object-literal-sort-keys": false,
     "no-submodule-imports": false,
-    "typedef": true
+    "typedef": true,
+    "cyclomatic-complexity": [true, 15]
   }
 }

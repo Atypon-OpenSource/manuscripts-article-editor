@@ -9,7 +9,6 @@ export default () => {
         const decorations: Decoration[] = []
 
         const decorate = (node: ProsemirrorNode, pos: number) => {
-          // console.log(node.type.name, node.type.isBlock, node.childCount)
           if (node.type.isBlock && node.childCount === 0) {
             decorations.push(
               Decoration.node(pos, pos + node.nodeSize, {
@@ -23,6 +22,35 @@ export default () => {
 
         return DecorationSet.create(state.doc, decorations)
       },
+    },
+    appendTransaction: (transactions, oldState, newState) => {
+      let updated = 0
+
+      let tr = newState.tr
+
+      if (!transactions.some(tr => tr.docChanged)) return null
+
+      // join adjacent empty paragraphs
+      newState.doc.descendants((node, pos) => {
+        if (node.type.name === 'paragraph' && node.childCount === 0) {
+          const nextPos = pos + node.nodeSize
+          const nextNode = newState.doc.nodeAt(nextPos)
+
+          if (
+            nextNode &&
+            nextNode.type.name === 'paragraph' &&
+            nextNode.childCount === 0
+          ) {
+            tr = tr.join(nextPos)
+            updated++
+          }
+        }
+      })
+
+      // return the transaction if something changed
+      if (updated) {
+        return tr.setMeta('addToHistory', false)
+      }
     },
   })
 }

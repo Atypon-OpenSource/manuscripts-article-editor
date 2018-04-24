@@ -2,19 +2,13 @@ import { FormikActions, FormikErrors } from 'formik'
 import * as httpStatusCode from 'http-status-codes'
 import { parse } from 'qs'
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { SignupConfirm } from '../components/SignupConfirm'
 import { SignupErrors, SignupValues } from '../components/SignupForm'
 import SignupPage from '../components/SignupPage'
 import { signup, verify } from '../lib/api'
-import { authenticate } from '../store/authentication'
-import {
-  AuthenticationDispatchProps,
-  AuthenticationStateProps,
-} from '../store/authentication/types'
-import { ApplicationState } from '../store/types'
+import { UserProps, withUser } from '../store/UserProvider'
 import { signupSchema } from '../validation'
 
 interface UserDetails {
@@ -26,9 +20,7 @@ interface SignupPageContainerState {
   error: boolean
 }
 
-class SignupPageContainer extends React.Component<
-  AuthenticationStateProps & AuthenticationDispatchProps & RouterProps
-> {
+class SignupPageContainer extends React.Component<UserProps & RouterProps> {
   public state: SignupPageContainerState = {
     confirming: null,
     error: false,
@@ -59,10 +51,10 @@ class SignupPageContainer extends React.Component<
   }
 
   public render() {
-    const { authentication } = this.props
+    const { user } = this.props
     const { confirming, error } = this.state
 
-    if (authentication.user) {
+    if (user.data) {
       return <Redirect to={'/'} />
     }
 
@@ -95,18 +87,12 @@ class SignupPageContainer extends React.Component<
           confirming: { email: values.email },
         })
 
-        /* tslint:disable-next-line:no-any */
-        this.props.dispatch<any>(authenticate())
+        this.props.user.fetch()
       },
       error => {
         setSubmitting(false)
 
-        const errors: FormikErrors<SignupErrors> = {
-          name: null,
-          email: null,
-          password: null, // TODO: read these from the response
-          submit: null,
-        }
+        const errors: FormikErrors<SignupErrors> = {}
 
         if (error.response) {
           // TODO: a button to re-send the confirmation email
@@ -125,8 +111,4 @@ class SignupPageContainer extends React.Component<
   }
 }
 
-export default connect<AuthenticationStateProps, AuthenticationDispatchProps>(
-  (state: ApplicationState) => ({
-    authentication: state.authentication,
-  })
-)(SignupPageContainer)
+export default withUser(SignupPageContainer)

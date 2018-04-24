@@ -3,7 +3,6 @@ import { FormikActions, FormikErrors } from 'formik'
 import * as httpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import {
   PasswordErrors,
@@ -16,25 +15,17 @@ import { RecoverErrors, RecoverValues } from '../components/RecoverForm'
 import RecoverPage from '../components/RecoverPage'
 import { recoverPassword, resetPassword } from '../lib/api'
 import deviceId from '../lib/deviceId'
-import { authenticate } from '../store/authentication'
-import {
-  AuthenticationDispatchProps,
-  AuthenticationStateProps,
-} from '../store/authentication/types'
-import { ApplicationState } from '../store/types'
+import { UserProps, withUser } from '../store/UserProvider'
 import { passwordSchema, recoverSchema } from '../validation'
 
 interface RecoverPageContainerState extends PasswordHiddenValues {
   sent: string | null
 }
 
-class RecoverPageContainer extends React.Component<
-  AuthenticationStateProps & AuthenticationDispatchProps
-> {
+class RecoverPageContainer extends React.Component<UserProps> {
   public state: RecoverPageContainerState = {
     sent: null,
     token: '',
-    userId: '',
   }
 
   private initialRecoverValues: RecoverValues = {
@@ -46,18 +37,18 @@ class RecoverPageContainer extends React.Component<
   }
 
   public componentDidMount() {
-    const { token, userId } = parse(window.location.hash.substr(1))
+    const { token } = parse(window.location.hash.substr(1))
 
-    if (token && userId) {
-      this.setState({ token, userId })
+    if (token) {
+      this.setState({ token })
     }
   }
 
   public render() {
-    const { authentication } = this.props
-    const { sent, token, userId } = this.state
+    const { user } = this.props
+    const { sent, token } = this.state
 
-    if (authentication.user) {
+    if (user.data) {
       return <Redirect to={'/'} />
     }
 
@@ -65,7 +56,7 @@ class RecoverPageContainer extends React.Component<
       return <RecoverConfirm email={sent} />
     }
 
-    if (token && userId) {
+    if (token) {
       return (
         <PasswordPage
           initialValues={this.initialPasswordValues}
@@ -88,28 +79,22 @@ class RecoverPageContainer extends React.Component<
     values: PasswordValues,
     { setSubmitting, setErrors }: FormikActions<PasswordValues | PasswordErrors>
   ) => {
-    const { token, userId }: PasswordHiddenValues = this.state
+    const { token }: PasswordHiddenValues = this.state
 
     resetPassword({
       ...values,
       token,
-      userId,
-      deviceId: deviceId.get(),
+      deviceId,
     }).then(
       response => {
         setSubmitting(false)
 
-        /* tslint:disable-next-line:no-any */
-        this.props.dispatch<any>(authenticate())
+        this.props.user.fetch()
       },
       (error: AxiosError) => {
         setSubmitting(false)
 
-        const errors: FormikErrors<PasswordErrors> = {
-          password: null, // TODO: read these from the response
-          unauthorized: null,
-          submit: null,
-        }
+        const errors: FormikErrors<PasswordErrors> = {}
 
         if (error.response) {
           if (error.response.status === httpStatusCodes.UNAUTHORIZED) {
@@ -141,11 +126,7 @@ class RecoverPageContainer extends React.Component<
       error => {
         setSubmitting(false)
 
-        const errors: FormikErrors<RecoverErrors> = {
-          email: null, // TODO: read these from the response
-          notFound: false,
-          submit: null,
-        }
+        const errors: FormikErrors<RecoverErrors> = {}
 
         if (error.response) {
           if (error.response.status === httpStatusCodes.UNAUTHORIZED) {
@@ -163,8 +144,4 @@ class RecoverPageContainer extends React.Component<
   }
 }
 
-export default connect<AuthenticationStateProps, AuthenticationDispatchProps>(
-  (state: ApplicationState) => ({
-    authentication: state.authentication,
-  })
-)(RecoverPageContainer)
+export default withUser(RecoverPageContainer)

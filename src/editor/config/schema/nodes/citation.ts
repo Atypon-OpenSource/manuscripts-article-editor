@@ -1,40 +1,37 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
-// TODO: export toJSON and fromJSON methods for use in serializer
-
 export const citation: NodeSpec = {
   inline: true,
   group: 'inline',
   draggable: true,
   atom: true,
-  content: 'text*',
-  // content: 'inline*',
+  // content: 'text*',
   attrs: {
     rid: { default: '' },
+    contents: { default: '…' }, // TODO: make this a decoration?
+    // citationItems: { default: [] },
   },
   parseDOM: [
     {
-      tag: 'span[class~="citation"][data-reference-id]',
+      tag: 'span[class~="citation"]',
       getAttrs: (dom: Element) => ({
+        // id: dom.id,
         rid: dom.getAttribute('data-reference-id'),
+        contents: dom.innerHTML,
+        // citationItems: (dom.getAttribute('data-citation-items') || '').split(
+        //   '|'
+        // ),
       }),
     },
-    // {
-    //   tag: 'a[class~="citation"][href^="#"]',
-    //   getAttrs: (dom: Element) => ({
-    //     rid: (dom.getAttribute('href') as string).substr(1),
-    //   }),
-    // },
   ],
   toDOM: (node: ProsemirrorNode) => {
-    const { rid } = node.attrs
+    const dom = document.createElement('span')
+    dom.className = 'citation'
+    // dom.id = node.attrs.id
+    dom.setAttribute('data-reference-id', node.attrs.rid)
+    // dom.setAttribute('data-citation-items', node.attrs.citationItems.join('|'))
+    dom.innerHTML = node.attrs.contents // TODO: sanitise!!?
 
-    const attrs = {
-      class: 'citation',
-      'data-reference-id': rid,
-      contenteditable: 'false',
-    }
-
-    return ['span', attrs, 0]
+    return dom
   },
 }

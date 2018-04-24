@@ -1,27 +1,37 @@
 import { DOMSerializer, Node as ProsemirrorNode } from 'prosemirror-model'
 import { options } from '../editor/config'
-import { ComponentMap } from '../types/components'
-import * as ObjectTypes from './object-types'
+import { AnyComponent, Component, ComponentMap } from '../types/components'
+import nodeTypes from './node-types'
 
 const { schema } = options
 
 const serializer = DOMSerializer.fromSchema(schema)
 
 const contents = (node: ProsemirrorNode): string =>
-  (serializer.serializeNode(node) as Element).outerHTML
+  (serializer.serializeNode(node) as HTMLElement).outerHTML
 
 const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {
   const nodes: ProsemirrorNode[] = []
 
   node.forEach(node => {
-    const objectType = node.attrs['data-object-type']
-
-    if (objectType && objectType !== ObjectTypes.SECTION) {
+    if (node.type.name !== 'section') {
       nodes.push(node)
     }
   })
 
   return nodes
+}
+
+const idOfNodeType = (node: ProsemirrorNode, type: string): string => {
+  for (let i = 0; i < node.childCount; i++) {
+    const child = node.child(i)
+
+    if (child.type.name === type) {
+      return child.attrs.id
+    }
+  }
+
+  return ''
 }
 
 const inlineContentsOfNodeType = (
@@ -32,7 +42,7 @@ const inlineContentsOfNodeType = (
     const child = node.child(i)
 
     if (child.type.name === type) {
-      return (serializer.serializeNode(child) as Element).innerHTML
+      return (serializer.serializeNode(child) as HTMLElement).innerHTML
     }
   }
 
@@ -40,20 +50,23 @@ const inlineContentsOfNodeType = (
 }
 
 type ComponentData = (
-  objectType: string,
   node: ProsemirrorNode,
   path: string[],
   priority: PrioritizedValue
 ) => object
 
-const componentData: ComponentData = (objectType, node, path, priority) => {
-  switch (objectType) {
-    case ObjectTypes.MANUSCRIPT:
+const componentData: ComponentData = (
+  node,
+  path,
+  priority
+): Partial<AnyComponent> => {
+  switch (node.type.name) {
+    case 'manuscript':
       return {
         title: inlineContentsOfNodeType(node, 'title'),
       }
 
-    case ObjectTypes.SECTION:
+    case 'section':
       return {
         priority: priority.value++,
         title: inlineContentsOfNodeType(node, 'section_title'),
@@ -61,25 +74,86 @@ const componentData: ComponentData = (objectType, node, path, priority) => {
         elementIDs: childComponentNodes(node).map(node => node.attrs.id),
       }
 
-    case ObjectTypes.PARAGRAPH_ELEMENT:
+    case 'bibliography':
       return {
         contents: contents(node),
       }
 
-    case ObjectTypes.EQUATION_ELEMENT:
+    case 'bibliography_section':
       return {
-        // title: 'Equation',
+        priority: priority.value++,
+        title: inlineContentsOfNodeType(node, 'section_title'),
+        path: path.concat([node.attrs.id]),
+        elementIDs: childComponentNodes(node).map(node => node.attrs.id),
+      }
+
+    case 'citation':
+      return {
+        // containingElement: '',
+        // collationType: 0,
+        // TODO: make this a list of bibliography item ids?
+        embeddedCitationItems: node.attrs.citationItems.map((id: string) => ({
+          id,
+          objectType: nodeTypes.get('citation_item') as string,
+          bibliographyItem: id,
+        })),
+      }
+
+    case 'paragraph':
+      return {
+        contents: contents(node), // TODO: can't serialize citations?
+      }
+
+    case 'equation_block':
+      return {
+        title: 'Equation',
         TeXRepresentation: node.attrs.latex,
       }
 
-    // TODO: unwrap paragraphs
-    case ObjectTypes.LIST_ELEMENT:
+    case 'code_block':
       return {
+        title: 'Listing',
+        contents: node.attrs.code,
+        // language: node.attrs.language // TODO
+        languageKey: node.attrs.language,
+      }
+
+    case 'figure':
+      return {
+        containedObjectIDs: node.attrs.containedObjectIDs,
+        caption: inlineContentsOfNodeType(node, 'figcaption'),
+        figureStyle: node.attrs.figureStyle,
+      }
+
+    case 'table_figure':
+      return {
+        containedObjectID: idOfNodeType(node, 'table'),
+        caption: inlineContentsOfNodeType(node, 'figcaption'),
+      }
+
+    case 'table':
+      return {
+        contents: contents(node),
+      }
+
+    // TODO: unwrap paragraphs
+    case 'bullet_list':
+      return {
+        elementType: 'ul',
+        contents: contents(node),
+      }
+
+    // TODO: unwrap paragraphs
+    case 'ordered_list':
+      return {
+        elementType: 'ol',
         contents: contents(node),
       }
 
     // TODO: log unhandled components
     default:
+      // tslint:disable-next-line:no-console
+      console.warn('Unhandled component', node.type.name)
       return {}
   }
 }
@@ -88,24 +162,19 @@ type ComponentBuilder = (
   node: ProsemirrorNode,
   path: string[],
   priority: PrioritizedValue
-) => any // tslint:disable-line:no-any
+) => Component
 
-export const componentFromNode: ComponentBuilder = (node, path, priority) => {
-  const {
-    id, // TODO: in handlePaste, filter out non-standard IDs
-    'data-object-type': objectType,
-    'data-element-type': elementType,
-    createdAt,
-    updatedAt,
-  } = node.attrs
+export const componentFromNode: ComponentBuilder = (
+  node,
+  path,
+  priority
+): Component => {
+  // TODO: in handlePaste, filter out non-standard IDs
 
   return {
-    id,
-    objectType,
-    elementType,
-    createdAt,
-    updatedAt,
-    ...componentData(objectType, node, path, priority),
+    id: node.attrs.id,
+    objectType: nodeTypes.get(node.type.name) as string,
+    ...componentData(node, path, priority),
   }
 }
 
@@ -121,15 +190,12 @@ export const encode = (node: ProsemirrorNode): ComponentMap => {
   }
 
   const addComponent = (path: string[]) => (child: ProsemirrorNode) => {
-    const objectType = child.attrs['data-object-type']
+    if (!child.attrs.id) return
 
-    if (objectType) {
-      const component = componentFromNode(child, path, priority)
-      components.set(component.id, component)
+    const component = componentFromNode(child, path, priority)
+    components.set(component.id, component)
 
-      const id = child.attrs.id
-      child.forEach(addComponent(path.concat(id)))
-    }
+    child.forEach(addComponent(path.concat(child.attrs.id)))
   }
 
   node.forEach(addComponent([]))

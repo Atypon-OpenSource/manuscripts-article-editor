@@ -1,8 +1,8 @@
 import * as React from 'react'
-import RxDB from 'rxdb/plugins/core'
+import { RxDocument } from 'rxdb'
 import { Section } from './components'
 
-export type SectionDocument = RxDB.RxDocument<Section>
+export type SectionDocument = RxDocument<Section>
 
 export type AddSection = (data: Partial<Section>) => void
 

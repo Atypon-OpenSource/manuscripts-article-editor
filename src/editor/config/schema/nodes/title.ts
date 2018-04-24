@@ -4,7 +4,8 @@ export const title: NodeSpec = {
   content: 'text*',
   marks: 'italic superscript subscript smallcaps',
   attrs: {
-    id: { default: '' },
+    // id: { default: '' },
+    placeholder: { default: 'Title' },
   },
   group: 'metadata',
   parseDOM: [
@@ -12,7 +13,11 @@ export const title: NodeSpec = {
       tag: 'h1',
     },
   ],
-  toDOM: (node: ProsemirrorNode) => {
-    return ['h1', {}, 0]
-  },
+  toDOM: (node: ProsemirrorNode) => [
+    'h1',
+    {
+      'data-placeholder': node.attrs.placeholder,
+    },
+    0,
+  ],
 }

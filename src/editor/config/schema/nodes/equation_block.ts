@@ -1,13 +1,13 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
-import { EQUATION_ELEMENT } from '../../../../transformer/object-types'
 
 export const equationBlock: NodeSpec = {
   attrs: {
     id: { default: '' },
     latex: { default: '' },
-    'data-object-type': { default: EQUATION_ELEMENT },
+    // placeholder: { default: 'Click to edit equation' },
   },
   atom: true,
+  content: 'text*',
   group: 'block',
   parseDOM: [
     {
@@ -19,7 +19,5 @@ export const equationBlock: NodeSpec = {
     },
     // TODO: convert MathML from pasted math elements?
   ],
-  toDOM: (node: ProsemirrorNode) => {
-    return ['prosemirror-equation', node.attrs]
-  },
+  toDOM: (node: ProsemirrorNode) => ['prosemirror-equation', node.attrs],
 }

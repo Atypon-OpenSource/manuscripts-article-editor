@@ -1,10 +1,10 @@
 import * as React from 'react'
-import RxDB from 'rxdb/plugins/core'
+import { RxDocument } from 'rxdb'
 import { Manuscript } from './components'
 
-export type ManuscriptDocument = RxDB.RxDocument<Manuscript>
+export type ManuscriptDocument = RxDocument<Manuscript>
 
-export type AddManuscript = (data: Partial<Manuscript>) => void
+export type AddManuscript = () => void
 
 export type UpdateManuscript = (
   doc: ManuscriptDocument,

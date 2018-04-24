@@ -1,48 +1,35 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { Spinner } from '../components/Spinner'
 import { UserInfo, UserLink } from '../components/UserInfo'
-import { authenticate } from '../store/authentication'
-import {
-  AuthenticationDispatchProps,
-  AuthenticationStateProps,
-} from '../store/authentication/types'
-import { ApplicationState } from '../store/types'
+import { UserProps, withUser } from '../store/UserProvider'
 
 interface UserContainerState {
   isOpen: boolean
 }
 
-class UserContainer extends React.Component<
-  AuthenticationStateProps & AuthenticationDispatchProps
-> {
+class UserContainer extends React.Component<UserProps> {
   public state: UserContainerState = {
     isOpen: false,
   }
 
-  public componentDidMount() {
-    /* tslint:disable-next-line:no-any */
-    this.props.dispatch<any>(authenticate())
-  }
-
   public render() {
-    const { authentication } = this.props
+    const { user } = this.props
 
-    if (authentication.error) {
-      return <Spinner color={'red'} />
-    }
-
-    if (!authentication.loaded) {
+    if (!user.loaded) {
       return <Spinner />
     }
 
-    if (!authentication.user) {
+    if (!user.data) {
+      if (user.error) {
+        return <Spinner color={'red'} />
+      }
+
       return <UserLink to={'/login'}>Sign in</UserLink>
     }
 
     return (
       <UserInfo
-        user={authentication.user}
+        user={user.data}
         isOpen={this.state.isOpen}
         toggleOpen={this.toggleOpen}
       />
@@ -56,8 +43,4 @@ class UserContainer extends React.Component<
   }
 }
 
-export default connect<AuthenticationStateProps, AuthenticationDispatchProps>(
-  (state: ApplicationState) => ({
-    authentication: state.authentication,
-  })
-)(UserContainer)
+export default withUser(UserContainer)

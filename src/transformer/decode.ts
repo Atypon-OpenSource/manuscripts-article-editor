@@ -5,12 +5,15 @@ import {
 } from 'prosemirror-model'
 import { options } from '../editor/config'
 import {
+  AnyComponent,
   BibliographyElement,
   Component,
-  Element,
+  ComponentDocument,
+  ComponentMap,
   EquationElement,
   Figure,
   FigureElement,
+  ListingElement,
   Manuscript,
   OrderedListElement,
   ParagraphElement,
@@ -19,69 +22,177 @@ import {
   TableElement,
   UnorderedListElement,
 } from '../types/components'
-import { generateID } from './id'
 import * as ObjectTypes from './object-types'
 
 const { schema } = options
 
 const parser = DOMParser.fromSchema(schema)
 
-type NodeCreator = (element: Element) => ProsemirrorNode
+type NodeCreator = (component: Component) => ProsemirrorNode
 
 interface NodeCreatorMap {
   [key: string]: NodeCreator
 }
 
-type ComponentMap = Map<string, Component>
+export const getComponentData = (component: Component): Component => {
+  const { _rev, _deleted, updatedAt, createdAt, sessionID, ...data } = component
 
-const objectTypeFilter = (type: string) => (component: Component) =>
-  component.objectType === type
+  return data
+}
 
-const sortSectionsByPriority = (a: Section, b: Section) =>
-  a.priority === b.priority ? 0 : a.priority - b.priority
+export const getComponentFromDoc = async (doc: ComponentDocument) => {
+  const data = getComponentData(doc.toJSON())
 
-const parseContents = (contents: string, options?: ParseOptions) => {
+  if (doc._attachments) {
+    const attachments = await doc.allAttachments()
+    const blob = await attachments[0].getData()
+    ;(data as Figure).src = window.URL.createObjectURL(blob)
+  }
+
+  return data
+}
+
+export const parseContents = (contents: string, options?: ParseOptions) => {
   const fragment = document.createRange().createContextualFragment(contents)
 
   return parser.parse(fragment.firstChild as Node, options)
 }
 
-export const decode = (componentMap: ComponentMap): ProsemirrorNode => {
-  const components = Array.from(componentMap.values())
+export const buildComponentMap = (
+  docs: ComponentDocument[]
+): Promise<ComponentMap> => {
+  const output = new Map()
 
-  const sections = components
-    .filter(objectTypeFilter(ObjectTypes.SECTION))
-    .sort(sortSectionsByPriority) as Section[]
+  const promises = docs.map(async doc => {
+    const data = await getComponentFromDoc(doc)
+    output.set(doc.id, data)
+  })
 
-  const rootSections = sections.filter(section => section.path.length <= 1)
+  return Promise.all(promises).then(() => output)
+}
 
-  const childSections = sections.filter(section => section.path.length > 1)
+export const getComponentsByType = <T extends AnyComponent>(
+  componentMap: ComponentMap,
+  objectType: string
+): T[] => {
+  const output: T[] = []
 
-  const createElement: NodeCreatorMap = {
-    [ObjectTypes.PARAGRAPH_ELEMENT]: (element: ParagraphElement) => {
-      return parseContents(element.contents, {
+  for (const component of componentMap.values()) {
+    if (component.objectType === objectType) {
+      output.push(component as T)
+    }
+  }
+
+  return output
+}
+
+const sortSectionsByPriority = (a: Section, b: Section) =>
+  a.priority === b.priority ? 0 : a.priority - b.priority
+
+export class Decoder {
+  private readonly componentMap: ComponentMap
+
+  constructor(componentMap: ComponentMap) {
+    this.componentMap = componentMap
+  }
+
+  public decode = (component: Component) => {
+    if (!this.creators[component.objectType]) {
+      console.debug('No converter for ' + component.objectType) // tslint:disable-line:no-console
+      return null
+    }
+
+    return this.creators[component.objectType](component)
+  }
+
+  public getSections() {
+    return getComponentsByType<Section>(
+      this.componentMap,
+      ObjectTypes.SECTION
+    ).sort(sortSectionsByPriority)
+  }
+
+  public getComponent = <T extends AnyComponent>(id: string): T => {
+    if (!this.componentMap.has(id)) {
+      throw new Error('Element not found: ' + id)
+    }
+
+    return this.componentMap.get(id) as T
+  }
+
+  public createArticleNode = () => {
+    const manuscripts = getComponentsByType<Manuscript>(
+      this.componentMap,
+      ObjectTypes.MANUSCRIPT
+    )
+
+    if (!manuscripts.length) {
+      throw new Error('Manuscript not found')
+    }
+
+    const manuscript = manuscripts[0]
+
+    const rootSections = this.getSections().filter(
+      section => section.path.length <= 1
+    )
+
+    const articleNode = schema.nodes.article.createAndFill({}, [
+      this.decode(manuscript) as ProsemirrorNode,
+      ...(rootSections.map(this.decode) as ProsemirrorNode[]),
+      // this.createBibliographySectionNode(), // TODO:
+    ])
+
+    if (!articleNode) {
+      throw new Error('Unable to create article node')
+    }
+
+    return articleNode
+  }
+
+  // private createBibliographySectionNode = () => {
+  //   const bibliographyNode = schema.nodes.bibliography.create({
+  //     id: generateID('bibliography'),
+  //   })
+  //
+  //   const bibliographyTitleNode = schema.nodes.section_title.createChecked(
+  //     {},
+  //     schema.text('Bibliography')
+  //   )
+  //
+  //   return schema.nodes.bibliography_section.createChecked(
+  //     {
+  //       id: generateID('section'),
+  //     },
+  //     [bibliographyTitleNode, bibliographyNode]
+  //   )
+  // }
+
+  private creators: NodeCreatorMap = {
+    [ObjectTypes.PARAGRAPH_ELEMENT]: (component: ParagraphElement) => {
+      return parseContents(component.contents, {
         topNode: schema.nodes.paragraph.create({
-          id: element.id,
+          id: component.id,
+          placeholder: component.placeholderInnerHTML,
         }),
       })
     },
     [ObjectTypes.LIST_ELEMENT]: (
-      element: OrderedListElement | UnorderedListElement
+      component: OrderedListElement | UnorderedListElement
     ) => {
-      switch (element.elementType) {
+      switch (component.elementType) {
         case 'ol':
           // TODO: wrap inline text in paragraphs
-          return parseContents(element.contents, {
+          return parseContents(component.contents, {
             topNode: schema.nodes.ordered_list.create({
-              id: element.id,
+              id: component.id,
             }),
           })
 
         case 'ul':
           // TODO: wrap inline text in paragraphs
-          return parseContents(element.contents, {
+          return parseContents(component.contents, {
             topNode: schema.nodes.bullet_list.create({
-              id: element.id,
+              id: component.id,
             }),
           })
 
@@ -89,163 +200,122 @@ export const decode = (componentMap: ComponentMap): ProsemirrorNode => {
           throw new Error('Unknown list element type')
       }
     },
-    [ObjectTypes.FIGURE_ELEMENT]: (element: FigureElement) => {
-      const containedObjectNodes = element.containedObjectIDs
-        .map(id => componentMap.get(id))
-        .filter((element: Figure) => element && element.originalURL)
-        .map((element: Figure) => {
-          return schema.nodes.figimage.createChecked({
-            src: element.originalURL,
+    [ObjectTypes.FIGURE_ELEMENT]: (component: FigureElement) => {
+      const figcaptionNode = schema.nodes.figcaption.create()
+
+      const figcaption = component.caption
+        ? parseContents(`<figcaption>${component.caption}</figcaption>`, {
+            topNode: figcaptionNode,
           })
-        })
-
-      const figcaptionNode = parseContents(element.caption || '', {
-        topNode: schema.nodes.figcaption.create(),
-      })
+        : figcaptionNode
 
       return schema.nodes.figure.createChecked(
         {
-          id: element.id,
+          id: component.id,
+          containedObjectIDs: component.containedObjectIDs,
+          figureStyle: component.figureStyle,
         },
-        // TODO: a block element for containing the image
-        containedObjectNodes.concat(figcaptionNode)
+        figcaption
       )
     },
-    [ObjectTypes.TABLE_ELEMENT]: (element: TableElement) => {
-      const table = componentMap.get(element.containedObjectID) as Table
+    [ObjectTypes.TABLE_ELEMENT]: (component: TableElement) => {
+      const tableComponent = this.getComponent<Table>(
+        component.containedObjectID
+      )
 
-      const figcaption = parseContents(element.caption || '', {
-        topNode: schema.nodes.figcaption.create(),
-      })
+      const table =
+        tableComponent && tableComponent.contents
+          ? parseContents(tableComponent.contents, {
+              topNode: schema.nodes.table.create(),
+            })
+          : (schema.nodes.table.createAndFill() as ProsemirrorNode)
 
-      const tableNode = parseContents(table.contents, {
-        topNode: schema.nodes.table.create({
-          id: element.id,
-        }),
-      })
+      const figcaptionNode = schema.nodes.figcaption.create()
 
-      return schema.nodes.figure.createChecked(
+      const figcaption = component.caption
+        ? parseContents(`<figcaption>${component.caption}</figcaption>`, {
+            topNode: figcaptionNode,
+          })
+        : figcaptionNode
+
+      return schema.nodes.table_figure.createChecked(
         {
-          id: element.id,
+          id: component.id,
+          table: component.containedObjectID,
         },
-        [tableNode, figcaption]
+        [table, figcaption]
       )
     },
-    [ObjectTypes.BIBLIOGRAPHY_ELEMENT]: (element: BibliographyElement) => {
-      return parseContents(element.contents, {
-        topNode: schema.nodes.bib.create({
-          id: element.id,
-        }),
+    [ObjectTypes.BIBLIOGRAPHY_ELEMENT]: (component: BibliographyElement) => {
+      return schema.nodes.bibliography.create({
+        id: component.id,
+        contents: component.contents,
       })
     },
-    [ObjectTypes.EQUATION_ELEMENT]: (element: EquationElement) => {
+    [ObjectTypes.EQUATION_ELEMENT]: (component: EquationElement) => {
       return schema.nodes.equation_block.create({
-        latex: element.TeXRepresentation,
+        id: component.id,
+        latex: component.TeXRepresentation,
       })
     },
-  }
-
-  const createSection = (section: Section): ProsemirrorNode => {
-    const elements = section.elementIDs
-      .map(id => {
-        if (!componentMap.has(id)) {
-          throw new Error('Element not found: ' + id)
-        }
-
-        return componentMap.get(id) as Element
+    [ObjectTypes.LISTING_ELEMENT]: (component: ListingElement) => {
+      return schema.nodes.code_block.create({
+        id: component.id,
+        code: component.contents,
+        language: component.languageKey,
       })
-      // .filter(element => element && element.objectType)
-      .map(element => {
-        if (!element.objectType) {
-          throw new Error('Element has no objectType')
-        }
+    },
+    [ObjectTypes.SECTION]: (component: Section) => {
+      const elements = (component.elementIDs || [])
+        .filter(id => id) // TODO: remove once no empty items in the array
+        .map(this.getComponent)
+        .map(this.decode) as ProsemirrorNode[]
 
-        if (!createElement[element.objectType]) {
-          throw new Error('Unknown objectType ' + element.objectType)
-        }
+      const sectionTitleNode = component.title
+        ? parseContents(`<h1>${component.title}</h1>`, {
+            topNode: schema.nodes.section_title.create(),
+          })
+        : schema.nodes.section_title.create()
 
-        return createElement[element.objectType](element)
-      })
+      const nestedSections = this.getSections()
+        .filter(section => section.path.length > 1)
+        .filter(item => item.path[item.path.length - 2] === component.id)
+        .map(this.creators[ObjectTypes.SECTION])
 
-    const nestedSections = childSections
-      .filter(item => item.path[item.path.length - 2] === section.id)
-      .map(createSection)
+      const nodeType =
+        elements.length && elements[0].type.name === 'bibliography'
+          ? schema.nodes.bibliography_section
+          : schema.nodes.section
 
-    if (!elements.length) {
-      elements.push(schema.nodes.paragraph.create())
-    }
+      const sectionNode = nodeType.createAndFill(
+        {
+          id: component.id,
+          priority: component.priority,
+        },
+        [sectionTitleNode].concat(elements).concat(nestedSections)
+      )
 
-    const sectionTitleNode = section.title
-      ? parseContents(`<h1>${section.title}</h1>`, {
-          topNode: schema.nodes.section_title.create(),
-        })
-      : schema.nodes.section_title.create()
+      if (!sectionNode) {
+        console.error(component) // tslint:disable-line
+        throw new Error('Invalid content for section ' + component.id)
+      }
 
-    const sectionNode = schema.nodes.section.createAndFill(
-      {
-        id: section.id,
-        child: section.path.length > 1,
-      },
-      [sectionTitleNode].concat(elements).concat(nestedSections)
-    )
+      return sectionNode
+    },
+    [ObjectTypes.MANUSCRIPT]: (component: Manuscript) => {
+      const titleNode = component.title
+        ? parseContents(`<h1>${component.title}</h1>`, {
+            topNode: schema.nodes.title.create(),
+          })
+        : schema.nodes.title.create()
 
-    if (!sectionNode) {
-      console.error(section) // tslint:disable-line
-      throw new Error('Invalid content for section ' + section.id)
-    }
-
-    return sectionNode
+      return schema.nodes.manuscript.createAndFill(
+        {
+          id: component.id,
+        },
+        titleNode
+      ) as ProsemirrorNode
+    },
+    // TODO: bibliography section?
   }
-
-  const manuscripts = components.filter(
-    objectTypeFilter(ObjectTypes.MANUSCRIPT)
-  ) as Manuscript[]
-
-  const manuscript = manuscripts[0]
-
-  const buildExistingArticle = (manuscript: Manuscript) => {
-    const titleNode = manuscript.title
-      ? parseContents(`<h1>${manuscript.title}</h1>`, {
-          topNode: schema.nodes.title.create(),
-        })
-      : schema.nodes.title.create()
-
-    const manuscriptNode = schema.nodes.manuscript.createAndFill(
-      {
-        id: manuscript.id,
-      },
-      titleNode
-    ) as ProsemirrorNode
-
-    return schema.nodes.article.createAndFill(
-      {},
-      [manuscriptNode].concat(rootSections.map(createSection))
-    ) as ProsemirrorNode
-  }
-
-  const buildNewArticle = (manuscript: Manuscript) => {
-    const titleNode = schema.nodes.title.createAndFill() as ProsemirrorNode
-
-    const manuscriptNode = schema.nodes.manuscript.createAndFill(
-      {
-        id: manuscript.id,
-      },
-      titleNode
-    ) as ProsemirrorNode
-
-    const sectionNode = schema.nodes.section.createAndFill({
-      id: generateID(ObjectTypes.SECTION),
-    }) as ProsemirrorNode
-
-    return schema.nodes.article.createAndFill({}, [
-      manuscriptNode,
-      sectionNode,
-    ]) as ProsemirrorNode
-  }
-
-  if (manuscript.title || rootSections.length) {
-    return buildExistingArticle(manuscript)
-  }
-
-  return buildNewArticle(manuscript)
 }

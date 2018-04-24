@@ -8,6 +8,7 @@ import SidebarNav from './components/SidebarNav'
 import AccountPageContainer from './containers/AccountPageContainer'
 import CollaboratorPageContainer from './containers/CollaboratorPageContainer'
 import CollaboratorsPageContainer from './containers/CollaboratorsPageContainer'
+import ComponentsStatusContainer from './containers/ComponentsStatusContainer'
 import GroupPageContainer from './containers/GroupPageContainer'
 import GroupsPageContainer from './containers/GroupsPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
@@ -32,6 +33,7 @@ const App = () => (
     <Sidebar>
       <UserContainer />
       <SidebarNav />
+      <ComponentsStatusContainer />
     </Sidebar>
 
     <Main>

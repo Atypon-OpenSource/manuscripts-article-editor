@@ -11,7 +11,6 @@ export interface PasswordValues {
 
 export interface PasswordHiddenValues {
   token: string
-  userId: string // TODO: remove this filed since the new api doesn't accept it
 }
 
 export interface ResetPasswordResponse {
@@ -19,8 +18,8 @@ export interface ResetPasswordResponse {
 }
 
 export interface PasswordErrors extends FormikErrors<PasswordValues> {
-  submit: string
-  unauthorized: string
+  submit?: string
+  unauthorized?: string
 }
 
 export const PasswordForm = ({

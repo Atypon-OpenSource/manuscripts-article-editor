@@ -1,15 +1,15 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
-import RxDB from 'rxdb/plugins/core'
+import { RxCollection, RxError } from 'rxdb'
 import { Subscription } from 'rxjs'
 import ManuscriptsPage from '../components/ManuscriptsPage'
-import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
-import { AuthenticationStateProps } from '../store/authentication/types'
-import { ApplicationState } from '../store/types'
+import sessionID from '../lib/sessionID'
+import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
+import { UserProps, withUser } from '../store/UserProvider'
 import { generateID } from '../transformer/id'
 import { MANUSCRIPT } from '../transformer/object-types'
+import { AnyComponent, Manuscript } from '../types/components'
 import {
   AddManuscript,
   ManuscriptDocument,
@@ -23,102 +23,35 @@ interface ManuscriptsPageContainerState {
 }
 
 class ManuscriptsPageContainer extends React.Component<
-  RouteComponentProps<{}> & AuthenticationStateProps
+  UserProps & ComponentsProps & RouteComponentProps<{}>
 > {
   public state: ManuscriptsPageContainerState = {
     manuscripts: [],
     loaded: false,
   }
 
-  private db: Db
-
   private subs: Subscription[] = []
 
   public componentDidMount() {
-    waitForDB
-      .then(db => {
-        this.db = db
+    const collection = this.props.components.collection as RxCollection<
+      AnyComponent
+    >
 
-        const sub = db.components
-          .find()
-          .where('objectType')
-          .eq(MANUSCRIPT)
-          // .sort({ created: 1 })
-          .$.subscribe((manuscripts: ManuscriptDocument[]) => {
-            this.setState({
-              manuscripts,
-              loaded: true,
-            })
-          })
-
-        this.subs.push(sub)
-      })
-      .catch((error: Error) => {
+    const sub = collection
+      .find({ objectType: MANUSCRIPT })
+      .sort({ createdAt: -1 })
+      .$.subscribe((manuscripts: ManuscriptDocument[]) => {
         this.setState({
-          error: error.message,
+          manuscripts,
+          loaded: true,
         })
       })
+
+    this.subs.push(sub)
   }
 
   public componentWillUnmount() {
     this.subs.forEach(sub => sub.unsubscribe())
-  }
-
-  // TODO: catch and handle errors
-  public addManuscript: AddManuscript = data => {
-    const { authentication } = this.props
-
-    // TODO: this should never happen
-    if (!authentication.user) {
-      throw new Error('Not authenticated!')
-    }
-
-    // TODO: open up the template modal
-
-    const id = generateID(MANUSCRIPT)
-
-    this.db.components
-      .insert({
-        id,
-        manuscript: id,
-        objectType: MANUSCRIPT,
-        owners: [authentication.user._id],
-        ...data,
-      })
-      .then((doc: ManuscriptDocument) => {
-        this.props.history.push(`/manuscripts/${doc.get('id')}`)
-      })
-      .catch((error: RxDB.RxError) => {
-        console.error(error) // tslint:disable-line
-      })
-  }
-
-  // TODO: atomicUpdate?
-  // TODO: catch and handle errors
-  public updateManuscript: UpdateManuscript = (doc, data) => {
-    doc
-      .update({
-        $set: data,
-      })
-      .then(() => {
-        console.log('saved') // tslint:disable-line
-      })
-      .catch((error: RxDB.RxError) => {
-        console.error(error) // tslint:disable-line
-      })
-  }
-
-  public removeManuscript: RemoveManuscript = doc => event => {
-    event.preventDefault()
-
-    doc
-      .remove()
-      .then(() => {
-        console.log('removed') // tslint:disable-line
-      })
-      .catch((error: RxDB.RxError) => {
-        console.error(error) // tslint:disable-line
-      })
   }
 
   public render() {
@@ -137,8 +70,81 @@ class ManuscriptsPageContainer extends React.Component<
       />
     )
   }
+
+  // TODO: catch and handle errors
+  private addManuscript: AddManuscript = () => {
+    const { user } = this.props
+
+    // TODO: this should never happen
+    if (!user.data) {
+      throw new Error('Not authenticated!')
+    }
+
+    // TODO: open up the template modal
+
+    const collection = this.props.components.collection as RxCollection<
+      AnyComponent
+    >
+
+    const id = generateID('manuscript') as string
+    const owner = (user.data._id as string).replace('|', '_')
+    const now = Date.now()
+
+    const manuscript: Manuscript = {
+      id,
+      manuscript: id,
+      objectType: MANUSCRIPT,
+      owners: [owner],
+      createdAt: now,
+      updatedAt: now,
+      sessionID,
+      title: '',
+    }
+
+    collection
+      .insert(manuscript)
+      .then((doc: ManuscriptDocument) => {
+        this.props.history.push(`/manuscripts/${doc.get('id')}`)
+      })
+      .catch((error: RxError) => {
+        console.error(error) // tslint:disable-line
+      })
+  }
+
+  // TODO: atomicUpdate?
+  // TODO: catch and handle errors
+  private updateManuscript: UpdateManuscript = (doc, data) => {
+    doc
+      .update({
+        $set: data,
+      })
+      .then(() => {
+        console.log('saved') // tslint:disable-line
+      })
+      .catch((error: RxError) => {
+        console.error(error) // tslint:disable-line
+      })
+  }
+
+  private removeManuscript: RemoveManuscript = doc => event => {
+    event.preventDefault()
+
+    const collection = this.props.components.collection as RxCollection<
+      AnyComponent
+    >
+
+    const manuscript = doc.id
+
+    // TODO: just set the _deleted property
+
+    doc.remove().then(() =>
+      collection
+        .find({
+          manuscript,
+        })
+        .remove()
+    )
+  }
 }
 
-export default connect<AuthenticationStateProps>((state: ApplicationState) => ({
-  authentication: state.authentication,
-}))(ManuscriptsPageContainer)
+export default withComponents(withUser(ManuscriptsPageContainer))

@@ -6,7 +6,7 @@ import { ThemedStyledProps } from 'styled-components'
 import { Theme } from '../../theme'
 
 export interface StringMap<T> {
-  [x: string]: T
+  [key: string]: T
 }
 
 export type Dispatch = (tr: Transaction) => void

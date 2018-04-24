@@ -1,15 +1,13 @@
 import { Formik, FormikActions, FormikErrors, FormikProps } from 'formik'
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { Route, RouteComponentProps, RouteProps } from 'react-router'
-import RxDB from 'rxdb/plugins/core'
+import { RxError } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { FormPage } from '../components/Form'
 import { GroupErrors, GroupForm, GroupValues } from '../components/GroupForm'
 import GroupPage from '../components/GroupPage'
-import { waitForDB } from '../db'
+import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
-import { ConnectedReduxProps } from '../store/types'
 import { MANUSCRIPT } from '../transformer/object-types'
 import { CollaboratorDocument } from '../types/collaborator'
 import { GroupDocument } from '../types/group'
@@ -33,9 +31,7 @@ interface GroupPageRoute extends Route<RouteProps> {
 }
 
 class GroupPageContainer extends React.Component<
-  GroupPageContainerProps &
-    RouteComponentProps<GroupPageRoute> &
-    ConnectedReduxProps<{}>
+  GroupPageContainerProps & RouteComponentProps<GroupPageRoute>
 > {
   public state: GroupPageContainerState = {
     group: null,
@@ -51,7 +47,7 @@ class GroupPageContainer extends React.Component<
     const { id } = this.props.match.params
 
     waitForDB
-      .then(db => {
+      .then((db: Db) => {
         this.subs.push(
           db.groups.findOne({ _id: id }).$.subscribe((group: GroupDocument) => {
             this.setState({ group })
@@ -148,9 +144,16 @@ class GroupPageContainer extends React.Component<
 
     const doc = this.state.group as GroupDocument
 
-    doc.remove().then(() => {
-      this.props.history.push('/groups')
-    })
+    doc
+      .remove()
+      .then(() => {
+        this.props.history.push('/groups')
+      })
+      .catch((error: Error) => {
+        this.setState({
+          error: error.message,
+        })
+      })
   }
 
   private handleSubmit = (
@@ -171,13 +174,11 @@ class GroupPageContainer extends React.Component<
             editing: false,
           })
         },
-        (error: RxDB.RxError) => {
+        (error: RxError) => {
           setSubmitting(false)
 
           const errors: FormikErrors<GroupErrors> = {
-            name: null,
-            description: null,
-            submit: error ? 'There was an error' : null,
+            submit: error ? 'There was an error' : undefined,
           }
 
           setErrors(errors)
@@ -186,4 +187,4 @@ class GroupPageContainer extends React.Component<
   }
 }
 
-export default connect()(GroupPageContainer)
+export default GroupPageContainer

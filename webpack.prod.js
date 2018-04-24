@@ -32,7 +32,7 @@ module.exports = merge(common, {
             use: ['style-loader', 'css-loader'],
           },
           {
-            test: /\.(png|jpg|gif|svg)$/,
+            test: /\.(png|jpg|gif|svg|xml)$/,
             use: ['file-loader'],
           },
           {

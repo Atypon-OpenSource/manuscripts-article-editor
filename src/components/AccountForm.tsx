@@ -18,17 +18,20 @@ import { TextField, TextFieldGroup } from './TextField'
 export interface AccountValues {
   givenName: string
   familyName: string
-  phone: string
+  phone?: string
 }
 
 export interface AccountErrors extends FormikErrors<AccountValues> {
-  submit?: string
+  givenName?: {}
+  familyName?: {}
+  submit?: {}
 }
 
 export const AccountForm = ({
   values,
   touched,
   errors,
+  dirty,
   handleBlur,
   handleChange,
   handleSubmit,
@@ -47,7 +50,8 @@ export const AccountForm = ({
               <TextField
                 type={'text'}
                 name={'givenName'}
-                placeholder={'Given Name'}
+                placeholder={'given name'}
+                autoComplete={'given-name'}
                 autoFocus={true}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -58,7 +62,8 @@ export const AccountForm = ({
               <TextField
                 type={'text'}
                 name={'familyName'}
-                placeholder={'Family Name'}
+                placeholder={'family name'}
+                autoComplete={'family-name'}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.familyName}
@@ -70,13 +75,16 @@ export const AccountForm = ({
               type={'text'}
               name={'phone'}
               placeholder={'contact phone'}
+              autoComplete={'tel'}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.phone}
               required={true}
             />
 
-            {errors.submit && <div>{errors.submit}</div>}
+            {Object.entries(errors).map(([field, message]) => (
+              <div key={field}>{message}</div>
+            ))}
           </ModalMain>
         </ModalFormBody>
 

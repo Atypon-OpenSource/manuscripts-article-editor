@@ -1,20 +1,13 @@
-import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
-
-// TODO: read caption from the JSON
-// TODO: table caption
+import { NodeSpec } from 'prosemirror-model'
 
 export const figcaption: NodeSpec = {
-  content: 'inline+',
-  attrs: {
-    id: { default: '' },
-  },
+  content: 'inline*',
   group: 'block',
+  isolating: true,
   parseDOM: [
     {
       tag: 'figcaption',
     },
   ],
-  toDOM: (node: ProsemirrorNode) => {
-    return ['figcaption', node.attrs, 0]
-  },
+  toDOM: () => ['figcaption', 0],
 }

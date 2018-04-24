@@ -46,7 +46,11 @@ class GroupsPageContainer extends React.Component {
   }
 
   public addGroup: AddGroup = data => {
-    this.db.groups.insert(data)
+    this.db.groups.insert(data).catch((error: Error) => {
+      this.setState({
+        error: error.message,
+      })
+    })
   }
 
   public render() {

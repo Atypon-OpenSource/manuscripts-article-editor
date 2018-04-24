@@ -1,20 +1,36 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
-import { FIGURE_ELEMENT } from '../../../../transformer/object-types'
 
 export const figure: NodeSpec = {
-  content: 'figimage* table* figcaption',
+  content: 'figcaption',
   attrs: {
     id: { default: '' },
-    'data-object-type': { default: FIGURE_ELEMENT },
-    'data-element-type': { default: 'figure' },
+    containedObjectIDs: { default: [] },
+    rows: { default: 1 },
+    columns: { default: 1 },
+    figureStyle: { default: '' },
+    figureLayout: { default: '' },
+    label: { default: '' },
   },
   group: 'block',
   parseDOM: [
     {
       tag: 'figure',
+      getAttrs: (dom: HTMLElement) => {
+        return {
+          id: dom.getAttribute('id'),
+          figureStyle: dom.getAttribute('data-figure-style'),
+          figureLayout: dom.getAttribute('data-figure-layout'),
+        }
+      },
     },
   ],
-  toDOM: (node: ProsemirrorNode) => {
-    return ['figure', node.attrs, 0]
-  },
+  toDOM: (node: ProsemirrorNode) => [
+    'figure',
+    {
+      id: node.attrs.id,
+      'data-figure-style': node.attrs.figureStyle,
+      'data-figure-layout': node.attrs.figureLayout,
+    },
+    0,
+  ],
 }

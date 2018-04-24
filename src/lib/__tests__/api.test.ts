@@ -117,7 +117,6 @@ describe('api', () => {
     expect(token.get()).toBeNull()
 
     await api.resetPassword({
-      userId: 'test@example.com',
       password: 'foo',
       deviceId: 'bar',
       token: 'foo',

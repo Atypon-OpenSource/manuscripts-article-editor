@@ -1,7 +1,7 @@
 import {
   // joinUp,
   // lift,
-  // setBlockType,
+  setBlockType,
   toggleMark,
   // wrapIn,
 } from 'prosemirror-commands'
@@ -14,9 +14,23 @@ import {
   NodeSelection,
   TextSelection,
 } from 'prosemirror-state'
+import { generateID } from '../../transformer/id'
+import {
+  AUXILIARY_OBJECT_REFERENCE,
+  BIBLIOGRAPHY_ITEM,
+  CITATION,
+  CITATION_ITEM,
+} from '../../transformer/object-types'
+import {
+  AuxiliaryObjectReference,
+  BibliographyItem,
+  Citation,
+} from '../../types/components'
+import { sample } from '../lib/crossref'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
 
 import icons from './icons'
+import { componentsKey, INSERT } from './plugins/components'
 import schema from './schema'
 import { MenuButtonMap } from './types'
 
@@ -52,16 +66,6 @@ const canInsert = (type: NodeType) => (state: EditorState) => {
   }
 
   return false
-}
-
-const promptForURL = () => {
-  let url = window && window.prompt('Enter the URL', 'https://')
-
-  if (url && !/^https?:\/\//i.test(url)) {
-    url = 'http://' + url
-  }
-
-  return url
 }
 
 const styles: MenuButtonMap = {
@@ -112,7 +116,13 @@ const inlines: MenuButtonMap = {
     active: blockActive(schema.nodes.equation),
     enable: canInsert(schema.nodes.equation),
     run: (state, dispatch) => {
-      const node = schema.nodes.equation.create()
+      const node = schema.nodes.equation.create({
+        latex: window
+          .getSelection()
+          .toString()
+          .replace(/^\$/, '')
+          .replace(/\$$/, ''),
+      })
       dispatch(state.tr.replaceSelectionWith(node))
     },
   },
@@ -126,13 +136,13 @@ const blocks: MenuButtonMap = {
   //   enable: setBlockType(schema.nodes.paragraph),
   //   run: setBlockType(schema.nodes.paragraph),
   // },
-  // code_block: {
-  //   title: 'Change to code block',
-  //   content: images.code_block,
-  //   active: blockActive(schema.nodes.code_block),
-  //   enable: setBlockType(schema.nodes.code_block),
-  //   run: setBlockType(schema.nodes.code_block),
-  // },
+  code_block: {
+    title: 'Change to code block',
+    content: icons.highlight, // TODO: code block icon
+    active: blockActive(schema.nodes.code_block),
+    enable: setBlockType(schema.nodes.code_block),
+    run: setBlockType(schema.nodes.code_block),
+  },
   // h1: {
   //   title: 'Change to heading level 1',
   //   content: images.heading,
@@ -182,117 +192,237 @@ const blocks: MenuButtonMap = {
   // },
 }
 
-const insert: MenuButtonMap = {
-  image: {
-    title: 'Insert image',
-    content: icons.image,
-    enable: canInsert(schema.nodes.image),
+const insertCitation: MenuButtonMap = {
+  citation: {
+    title: 'Insert citation',
+    content: icons.citation,
+    enable: canInsert(schema.nodes.citation),
     run: (state, dispatch) => {
-      const src = promptForURL()
-      if (!src) return false
+      // TODO: open form/picker instead
 
-      const img = schema.nodes.image.createAndFill({ src })
-      dispatch(state.tr.replaceSelectionWith(img as ProsemirrorNode))
-      return
+      sample(window.getSelection().toString())
+        .then(data => {
+          const containingElement = state.tr.selection.$anchor.parent // TODO: is this enough/needed?
+
+          const bibliographyItem: BibliographyItem = {
+            ...data,
+            id: generateID('bibliography_item') as string,
+            objectType: BIBLIOGRAPHY_ITEM,
+          }
+
+          const citation: Citation = {
+            id: generateID('citation') as string,
+            objectType: CITATION,
+            containingElement: containingElement.attrs.id,
+            embeddedCitationItems: [
+              {
+                bibliographyItem: bibliographyItem.id,
+                id: generateID('citation_item') as string,
+                objectType: CITATION_ITEM,
+              },
+            ],
+          }
+
+          // TODO: add this in the form/picker
+
+          const citationNode = schema.nodes.citation.create({
+            rid: citation.id,
+          })
+
+          const tr = state.tr
+            .setMeta(componentsKey, { [INSERT]: [citation, bibliographyItem] })
+            .insert(state.tr.selection.to, citationNode)
+
+          dispatch(tr)
+        })
+        .catch(error => {
+          console.error(error) // tslint:disable-line:no-console
+        })
     },
   },
+}
+
+const insertCrossReference: MenuButtonMap = {
+  citation: {
+    title: 'Insert cross reference',
+    content: icons.citation, // TODO
+    enable: canInsert(schema.nodes.cross_reference),
+    run: (state, dispatch) => {
+      // TODO: open form/picker instead
+      const referencedObject: { [key: string]: string } = {
+        id: 'foo', // TODO: get the id of the referenced object from a picker
+      }
+
+      const containingObject = state.tr.selection.$anchor.parent // TODO: is this enough/needed?
+
+      const auxiliaryObjectReference: AuxiliaryObjectReference = {
+        id: generateID('cross_reference') as string,
+        objectType: AUXILIARY_OBJECT_REFERENCE,
+        containingObject: containingObject.attrs.id,
+        referencedObject: referencedObject.id,
+      }
+
+      // TODO: add this in the form/picker
+
+      const crossReferenceNode = schema.nodes.cross_reference.create({
+        rid: auxiliaryObjectReference.id,
+      })
+
+      const tr = state.tr
+        .setMeta(componentsKey, { [INSERT]: [auxiliaryObjectReference] })
+        .insert(state.tr.selection.to, crossReferenceNode)
+
+      dispatch(tr)
+    },
+  },
+}
+
+const insertFigure: MenuButtonMap = {
+  figure: {
+    title: 'Insert figure',
+    content: icons.figure,
+    enable: canInsert(schema.nodes.figure),
+    run: (state, dispatch) => {
+      const figure = schema.nodes.figure.createAndFill()
+      dispatch(
+        state.tr.insert(state.tr.selection.anchor, figure as ProsemirrorNode)
+      )
+    },
+  },
+}
+
+const insertEquationBlock: MenuButtonMap = {
   equation_block: {
     title: 'Insert equation block',
     content: icons.equation_block,
     enable: canInsert(schema.nodes.equation_block),
     run: (state, dispatch) => {
       const node = schema.nodes.equation_block.create()
-      dispatch(state.tr.replaceSelectionWith(node))
+      dispatch(state.tr.insert(state.tr.selection.anchor, node))
     },
   },
-  // footnote: {
-  //   title: 'Insert footnote',
-  //   content: images.footnote,
-  //   enable: canInsert(schema.nodes.footnote),
-  //   run: (state, dispatch) => {
-  //     const footnote = schema.nodes.footnote.create()
-  //     dispatch(state.tr.replaceSelectionWith(footnote))
-  //   },
-  // },
-  // hr: {
-  //   title: 'Insert horizontal rule',
-  //   content: 'HR',
-  //   enable: canInsert(schema.nodes.horizontal_rule),
-  //   run: (state, dispatch) => {
-  //     const hr = schema.nodes.horizontal_rule.create()
-  //     dispatch(state.tr.replaceSelectionWith(hr))
-  //   }
-  // },
+}
+
+const insertTable: MenuButtonMap = {
   table: {
     title: 'Insert table',
     content: icons.table,
-    enable: canInsert(schema.nodes.table),
+    enable: canInsert(schema.nodes.table_figure),
     run: (state, dispatch) => {
-      // const { from } = state.selection
-      let rowCount = window ? Number(window.prompt('How many rows?', '2')) : 2
-      let colCount = window
-        ? Number(window.prompt('How many columns?', '2'))
-        : 2
+      // const columnCount = 2
+      // const rowCount = 2
+      //
+      // const thead = schema.nodes.thead.create(
+      //   {},
+      //   Array.from(Array(1), () =>
+      //     state.schema.nodes.table_header_row.create(
+      //       {},
+      //       Array.from(Array(columnCount), () =>
+      //         state.schema.nodes.table_header.create()
+      //       )
+      //     )
+      //   )
+      // )
+      //
+      // const tbody = schema.nodes.tbody.create(
+      //   {},
+      //   Array.from(Array(rowCount), () =>
+      //     state.schema.nodes.table_row.create(
+      //       {},
+      //       Array.from(Array(columnCount), () =>
+      //         state.schema.nodes.table_cell.create()
+      //       )
+      //     )
+      //   )
+      // )
+      //
+      // const tfoot = schema.nodes.tfoot.create(
+      //   {},
+      //   Array.from(Array(1), () =>
+      //     state.schema.nodes.table_row.create(
+      //       {},
+      //       Array.from(Array(columnCount), () =>
+      //         state.schema.nodes.table_cell.create()
+      //       )
+      //     )
+      //   )
+      // )
+      //
+      // const table = state.schema.nodes.table.createAndFill() as ProsemirrorNode
+      //
+      // const figcaption = schema.nodes.figcaption.create()
+      //
+      // const tableFigure = schema.nodes.table_figure.create({}, [
+      //   table,
+      //   figcaption,
+      // ])
 
-      /* tslint:disable-next-line:no-any */
-      const cells: any[] = []
-      while (colCount--) {
-        cells.push(schema.nodes.table_cell.createAndFill())
-      }
+      const tableFigure = schema.nodes.table_figure.createAndFill() as ProsemirrorNode
 
-      /* tslint:disable-next-line:no-any */
-      const rows: any[] = []
-      while (rowCount--) {
-        rows.push(schema.nodes.table_row.createAndFill({}, cells))
-      }
-
-      const table = schema.nodes.table.createAndFill({}, rows)
-      dispatch(state.tr.replaceSelectionWith(table as ProsemirrorNode))
-
-      // const tr = state.tr.replaceSelectionWith(table)
-      // tr.setSelection(Selection.near(tr.doc.resolve(from)))
-      // dispatch(tr.scrollIntoView())
-      // view.focus()
+      dispatch(state.tr.insert(state.tr.selection.anchor, tableFigure))
     },
   },
 }
 
-const history: MenuButtonMap = {
-  // undo: {
-  //   title: 'Undo last change',
-  //   content: images.undo,
-  //   enable: undo,
-  //   run: undo,
-  // },
-  // redo: {
-  //   title: 'Redo last undone change',
-  //   content: images.redo,
-  //   enable: redo,
-  //   run: redo,
-  // },
-}
-
-const table: MenuButtonMap = {
-  // addColumnBefore: {
-  //   title: 'Insert column before',
-  //   content: images.after,
-  //   active: addColumnBefore, // TOOD: active -> select
-  //   run: addColumnBefore
-  // },
-  // addColumnAfter: {
-  //   title: 'Insert column before',
-  //   content: images.before,
-  //   active: addColumnAfter, // TOOD: active -> select
-  //   run: addColumnAfter
-  // }
-}
+// const insert: MenuButtonMap = {
+//   footnote: {
+//     title: 'Insert footnote',
+//     content: images.footnote,
+//     enable: canInsert(schema.nodes.footnote),
+//     run: (state, dispatch) => {
+//       const footnote = schema.nodes.footnote.create()
+//       dispatch(state.tr.insert(state.tr.selection.to, footnote))
+//     },
+//   },
+//   hr: {
+//     title: 'Insert horizontal rule',
+//     content: 'HR',
+//     enable: canInsert(schema.nodes.horizontal_rule),
+//     run: (state, dispatch) => {
+//       const hr = schema.nodes.horizontal_rule.create()
+//       dispatch(state.tr.insert(state.tr.selection.anchor, hr))
+//     }
+//   },
+// }
+//
+// const history: MenuButtonMap = {
+//   undo: {
+//     title: 'Undo last change',
+//     content: images.undo,
+//     enable: undo,
+//     run: undo,
+//   },
+//   redo: {
+//     title: 'Redo last undone change',
+//     content: images.redo,
+//     enable: redo,
+//     run: redo,
+//   },
+// }
+//
+// const table: MenuButtonMap = {
+//   addColumnBefore: {
+//     title: 'Insert column before',
+//     content: images.after,
+//     active: addColumnBefore, // TOOD: active -> select
+//     run: addColumnBefore
+//   },
+//   addColumnAfter: {
+//     title: 'Insert column before',
+//     content: images.before,
+//     active: addColumnAfter, // TOOD: active -> select
+//     run: addColumnAfter
+//   }
+// }
 
 export default {
   styles,
   verticals,
   inlines,
   blocks,
-  insert,
-  history,
-  table,
+  insertCitation,
+  insertCrossReference,
+  insertFigure,
+  insertEquationBlock,
+  insertTable,
 }

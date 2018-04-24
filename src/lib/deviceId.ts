@@ -1,20 +1,13 @@
-import { v4 } from 'uuid'
+import * as uuid from 'uuid'
 
-const DEVICE_ID_KEY = 'deviceId'
-const storage = window.localStorage
-
-export interface Device {
+export interface DeviceValues {
   deviceId: string
 }
 
-export default {
-  get: (): string => {
-    let deviceId = storage.getItem(DEVICE_ID_KEY)
-    if (deviceId === null) {
-      deviceId = v4()
-      storage.setItem(DEVICE_ID_KEY, deviceId)
-    }
+const storage = window.localStorage
 
-    return deviceId
-  },
+if (!storage.getItem('deviceId')) {
+  storage.setItem('deviceId', uuid.v4())
 }
+
+export default storage.getItem('deviceId') as string

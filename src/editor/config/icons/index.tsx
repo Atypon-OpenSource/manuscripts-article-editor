@@ -42,7 +42,7 @@ export default {
   // code_block: <Icon src={code} />,
   ordered_list: <Icon src={orderedList} />,
   bullet_list: <Icon src={bulletList} />,
-  image: <Icon src={image} />,
+  figure: <Icon src={image} />,
   table: <Icon src={table} />,
   // footnote: <Icon src={footnote} />,
   // undo: <Icon src={undo} />,

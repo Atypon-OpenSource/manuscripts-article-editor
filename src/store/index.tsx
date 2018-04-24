@@ -1,18 +1,13 @@
 import * as React from 'react'
-import { Provider } from 'react-redux'
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
-import thunk from 'redux-thunk'
-import { reducer as authenticationReducer } from './authentication'
+import ComponentsProvider from './ComponentsProvider'
+import UserProvider from './UserProvider'
 
-const store = createStore(
-  combineReducers({
-    authentication: authenticationReducer,
-  }),
-  (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose)(
-    applyMiddleware(thunk)
-  )
-)
+interface StoreProvidersProps {
+  children?: JSX.Element
+}
 
-export const StoreProvider: React.SFC = props => (
-  <Provider store={store}>{props.children}</Provider>
+export const StoreProviders = (props: StoreProvidersProps) => (
+  <ComponentsProvider>
+    <UserProvider>{props.children}</UserProvider>
+  </ComponentsProvider>
 )

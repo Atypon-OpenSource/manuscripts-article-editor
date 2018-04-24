@@ -10,7 +10,7 @@ import {
 import { RecoverValues } from '../components/RecoverForm'
 import { SignupValues } from '../components/SignupForm'
 import client from './client'
-import { Device } from './deviceId'
+import { DeviceValues } from './deviceId'
 import token from './token'
 
 export interface VerifyValues {
@@ -36,7 +36,7 @@ export const authenticate = () => {
 export const signup = (data: SignupValues) =>
   client.post('/registration/signup', data)
 
-export const login = (data: LoginValues & Device) =>
+export const login = (data: LoginValues & DeviceValues) =>
   client
     .post<LoginResponse>('/auth/login', data, {
       headers: {
@@ -57,7 +57,7 @@ export const recoverPassword = (data: RecoverValues) =>
   client.post('/auth/sendForgottenPassword', data)
 
 export const resetPassword = (
-  data: PasswordValues & PasswordHiddenValues & Device
+  data: PasswordValues & PasswordHiddenValues & DeviceValues
 ) =>
   client
     .post<ResetPasswordResponse>('/auth/resetPassword', data, {
@@ -65,6 +65,7 @@ export const resetPassword = (
         'manuscripts-app-id': process.env.API_APPLICATION_ID,
         'manuscripts-app-secret': process.env.API_APPLICATION_SECRET, // TODO: this should be removed after resolving this https://gitlab.com/mpapp-private/manuscripts-api/issues/82
       },
+      withCredentials: true,
     })
     .then(response => {
       token.set({

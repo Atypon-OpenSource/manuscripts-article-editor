@@ -63,7 +63,7 @@ const smallcaps: MarkSpec = {
   toDOM: () => [
     'span',
     {
-      style: 'font-variant=small-caps',
+      style: 'font-variant:small-caps',
     },
   ],
 }
@@ -77,7 +77,7 @@ const strikethrough: MarkSpec = {
   toDOM: () => [
     'span',
     {
-      style: 'text-decoration-line=line-through',
+      style: 'text-decoration-line:line-through',
     },
   ],
 }
@@ -101,7 +101,7 @@ const underline: MarkSpec = {
   toDOM: () => [
     'span',
     {
-      style: 'text-decoration=underline',
+      style: 'text-decoration:underline',
     },
   ],
 }

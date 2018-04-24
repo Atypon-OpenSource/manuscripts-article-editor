@@ -54,6 +54,18 @@ const DeleteButton = Button.extend`
   font-size: 10px;
 `
 
+const dateFormatter = new Intl.DateTimeFormat('en-GB')
+
+const updatedAt = (manuscript: ManuscriptDocument) => {
+  const time = manuscript.get('updatedAt')
+
+  if (!time) return ''
+
+  const date = new Date(time)
+
+  return dateFormatter.format(date)
+}
+
 export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
   manuscript,
   contributors,
@@ -71,9 +83,7 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
     </ManuscriptSection>
 
     <ManuscriptSection>
-      <ManuscriptDate>
-        {manuscript.get('updatedAt') || '1 day ago'}
-      </ManuscriptDate>
+      <ManuscriptDate>{updatedAt(manuscript)}</ManuscriptDate>
 
       <DeleteButton onClick={removeManuscript(manuscript)}>Delete</DeleteButton>
     </ManuscriptSection>

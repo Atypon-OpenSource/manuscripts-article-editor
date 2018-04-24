@@ -4,32 +4,55 @@ import { generateID } from '../../../transformer/id'
 export default () => {
   return new Plugin({
     appendTransaction: (transactions, oldState, newState) => {
-      const updated: string[] = []
+      let updated = 0
 
       // get the transaction from the new state
       let tr = newState.tr
 
+      // only scan if nodes have changed
+      if (!transactions.some(tr => tr.docChanged)) return null
+
+      // TODO: keep track of changed nodes that haven't been saved yet?
+      // TODO: call insertComponent directly?
+
+      const ids = new Set()
+
       // for each node in the doc
       newState.doc.descendants((node, pos) => {
-        const objectType = node.attrs['data-object-type']
+        const { id } = node.attrs
 
-        // if it's an object node without an id
-        if (objectType && !node.attrs.id) {
-          const id = generateID(objectType)
+        if (typeof id !== 'string') {
+          return true
+        }
 
+        if (id) {
+          if (ids.has(id)) {
+            // give the duplicate node a new id
+            // TODO: maybe change the other node's ID?
+            tr = tr.setNodeMarkup(pos, undefined, {
+              ...node.attrs,
+              id: generateID(node.type.name),
+            })
+
+            // remember that something changed
+            updated++
+          } else {
+            ids.add(id)
+          }
+        } else {
           // set the id on the node at this position
           tr = tr.setNodeMarkup(pos, undefined, {
             ...node.attrs,
-            id,
+            id: generateID(node.type.name),
           })
 
           // remember that something changed
-          updated.push(id)
+          updated++
         }
       })
 
       // return the transaction if something changed
-      if (updated.length) {
+      if (updated) {
         return tr.setMeta('addToHistory', false)
       }
     },

@@ -1,8 +1,7 @@
 import { Formik, FormikActions, FormikErrors, FormikProps } from 'formik'
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { Route, RouteComponentProps, RouteProps } from 'react-router'
-import RxDB from 'rxdb/plugins/core'
+import { RxError } from 'rxdb'
 import { Subscription } from 'rxjs'
 import {
   CollaboratorErrors,
@@ -11,9 +10,8 @@ import {
 } from '../components/CollaboratorForm'
 import CollaboratorPage from '../components/CollaboratorPage'
 import { FormPage } from '../components/Form'
-import { waitForDB } from '../db'
+import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
-import { ConnectedReduxProps } from '../store/types'
 import { MANUSCRIPT } from '../transformer/object-types'
 import { CollaboratorDocument } from '../types/collaborator'
 import { ManuscriptDocument } from '../types/manuscript'
@@ -35,9 +33,7 @@ interface CollaboratorPageRoute extends Route<RouteProps> {
 }
 
 class CollaboratorPageContainer extends React.Component<
-  CollaboratorPageContainerProps &
-    RouteComponentProps<CollaboratorPageRoute> &
-    ConnectedReduxProps<{}>
+  CollaboratorPageContainerProps & RouteComponentProps<CollaboratorPageRoute>
 > {
   public state: CollaboratorPageContainerState = {
     collaborator: null,
@@ -52,7 +48,7 @@ class CollaboratorPageContainer extends React.Component<
     const { id } = this.props.match.params
 
     waitForDB
-      .then(db => {
+      .then((db: Db) => {
         this.subs.push(
           db.collaborators
             .findOne({ _id: id })
@@ -142,9 +138,16 @@ class CollaboratorPageContainer extends React.Component<
 
     const doc = this.state.collaborator as CollaboratorDocument
 
-    doc.remove().then(() => {
-      this.props.history.push('/collaborators')
-    })
+    doc
+      .remove()
+      .then(() => {
+        this.props.history.push('/collaborators')
+      })
+      .catch((error: Error) => {
+        this.setState({
+          error: error.message,
+        })
+      })
   }
 
   private handleSubmit = (
@@ -168,15 +171,13 @@ class CollaboratorPageContainer extends React.Component<
             editing: false,
           })
         },
-        (error: RxDB.RxError) => {
+        (error: RxError) => {
           setSubmitting(false)
 
           // TODO: handle database errors instead of axios errors
 
           const errors: FormikErrors<CollaboratorErrors> = {
-            givenName: null,
-            familyName: null,
-            submit: error ? 'There was an error' : null,
+            submit: error.message ? 'There was an error' : undefined,
           }
 
           setErrors(errors)
@@ -185,4 +186,4 @@ class CollaboratorPageContainer extends React.Component<
   }
 }
 
-export default connect()(CollaboratorPageContainer)
+export default CollaboratorPageContainer

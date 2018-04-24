@@ -2,24 +2,16 @@ import { FormikActions, FormikErrors } from 'formik'
 import * as httpStatusCode from 'http-status-codes'
 import { parse } from 'qs'
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { LoginErrors, LoginValues } from '../components/LoginForm'
 import LoginPage from '../components/LoginPage'
 import { login } from '../lib/api'
 import deviceId from '../lib/deviceId'
 import token, { Token } from '../lib/token'
-import { authenticate } from '../store/authentication'
-import {
-  AuthenticationDispatchProps,
-  AuthenticationStateProps,
-} from '../store/authentication/types'
-import { ApplicationState } from '../store/types'
+import { UserProps, withUser } from '../store/UserProvider'
 import { loginSchema } from '../validation'
 
-class LoginPageContainer extends React.Component<
-  AuthenticationStateProps & AuthenticationDispatchProps
-> {
+class LoginPageContainer extends React.Component<UserProps> {
   private initialValues: LoginValues = {
     email: '',
     password: '',
@@ -31,15 +23,14 @@ class LoginPageContainer extends React.Component<
     if (tokenData && tokenData.access_token) {
       token.set(tokenData)
 
-      /* tslint:disable-next-line:no-any */
-      this.props.dispatch<any>(authenticate())
+      this.props.user.fetch()
     }
   }
 
   public render() {
-    const { authentication } = this.props
+    const { user } = this.props
 
-    if (authentication.user) {
+    if (user.data) {
       return <Redirect to={'/'} />
     }
 
@@ -58,23 +49,18 @@ class LoginPageContainer extends React.Component<
   ) => {
     login({
       ...values,
-      deviceId: deviceId.get(),
+      deviceId,
     }).then(
       response => {
         setSubmitting(false)
 
-        /* tslint:disable-next-line:no-any */
-        this.props.dispatch<any>(authenticate())
+        this.props.user.fetch()
       },
       error => {
         setSubmitting(false)
 
         // TODO: use error and error description: show a "resend email verification" link if not confirmed
-        const errors: FormikErrors<LoginErrors> = {
-          email: null, // TODO: read these from the response
-          password: null, // TODO: read these from the response
-          submit: null,
-        }
+        const errors: FormikErrors<LoginErrors> = {}
 
         if (error.response) {
           if (error.response.status === httpStatusCode.BAD_REQUEST) {
@@ -92,8 +78,4 @@ class LoginPageContainer extends React.Component<
   }
 }
 
-export default connect<AuthenticationStateProps, AuthenticationDispatchProps>(
-  (state: ApplicationState) => ({
-    authentication: state.authentication,
-  })
-)(LoginPageContainer)
+export default withUser(LoginPageContainer)

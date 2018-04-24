@@ -1,12 +1,10 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
-// TODO: read caption from the JSON
-// TODO: table caption
-
 export const caption: NodeSpec = {
   content: 'inline*',
   attrs: {
     id: { default: '' },
+    label: { default: '' },
   },
   group: 'block',
   parseDOM: [
@@ -14,7 +12,11 @@ export const caption: NodeSpec = {
       tag: 'caption',
     },
   ],
-  toDOM: (node: ProsemirrorNode) => {
-    return ['caption', node.attrs, 0]
-  },
+  toDOM: (node: ProsemirrorNode) => [
+    'caption',
+    {
+      id: node.attrs.id,
+    },
+    0,
+  ],
 }

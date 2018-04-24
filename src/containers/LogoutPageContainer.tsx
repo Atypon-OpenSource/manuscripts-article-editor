@@ -1,22 +1,13 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { logout } from '../lib/api'
-import { authenticate } from '../store/authentication'
-import {
-  AuthenticationDispatchProps,
-  AuthenticationStateProps,
-} from '../store/authentication/types'
-import { ApplicationState } from '../store/types'
+import { UserProps, withUser } from '../store/UserProvider'
 
-class LogoutPageContainer extends React.Component<
-  AuthenticationStateProps & AuthenticationDispatchProps
-> {
+class LogoutPageContainer extends React.Component<UserProps> {
   public componentDidMount() {
     logout()
       .then(() => {
-        /* tslint:disable-next-line:no-any */
-        this.props.dispatch<any>(authenticate())
+        this.props.user.fetch()
       })
       .catch(() => {
         // TODO: handle appropriately
@@ -24,9 +15,9 @@ class LogoutPageContainer extends React.Component<
   }
 
   public render() {
-    const { authentication } = this.props
+    const { user } = this.props
 
-    if (!authentication.user) {
+    if (!user.data) {
       return <Redirect to={'/'} />
     }
 
@@ -34,8 +25,4 @@ class LogoutPageContainer extends React.Component<
   }
 }
 
-export default connect<AuthenticationStateProps, AuthenticationDispatchProps>(
-  (state: ApplicationState) => ({
-    authentication: state.authentication,
-  })
-)(LogoutPageContainer)
+export default withUser(LogoutPageContainer)

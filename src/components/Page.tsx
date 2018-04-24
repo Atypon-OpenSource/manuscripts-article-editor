@@ -26,6 +26,10 @@ export const Sidebar = styled.div`
   width: 272px;
   padding: 20px;
   background-color: ${(props: PageProps) => props.theme.sidebarBackgroundColor};
+
+  @media (max-width: 800px) {
+    display: none;
+  }
 `
 
 export const Main = styled.main`

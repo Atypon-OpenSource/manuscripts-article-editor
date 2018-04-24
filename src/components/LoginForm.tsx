@@ -16,7 +16,7 @@ export interface LoginResponse {
 }
 
 export interface LoginErrors extends FormikErrors<LoginValues> {
-  submit: string
+  submit?: string
 }
 
 const ManuscriptLinks = styled.div`

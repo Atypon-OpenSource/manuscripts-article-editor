@@ -1,7 +1,7 @@
-import RxDB from 'rxdb/plugins/core'
+import { RxDocument } from 'rxdb'
 import { Collaborator } from './components'
 
-export type CollaboratorDocument = RxDB.RxDocument<Collaborator>
+export type CollaboratorDocument = RxDocument<Collaborator>
 
 export type AddCollaborator = (
   data: Partial<Collaborator>

@@ -1,17 +1,18 @@
+import 'babel-polyfill'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
-import { StoreProvider } from './store'
+import { StoreProviders } from './store'
 import { ThemeProvider } from './theme'
 
 ReactDOM.render(
-  <StoreProvider>
+  <StoreProviders>
     <ThemeProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </ThemeProvider>
-  </StoreProvider>,
+  </StoreProviders>,
   document.getElementById('root')
 )

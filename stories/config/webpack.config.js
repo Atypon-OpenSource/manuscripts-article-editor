@@ -1,6 +1,7 @@
+const webpack = require('webpack')
+
 module.exports = (storybookBaseConfig, configType) => {
-  /* tslint:disable-next-line:no-console */
-  console.log(configType)
+  console.log(configType) // tslint:disable-line:no-console
 
   // storybookBaseConfig.mode = configType.toLowerCase()
 
@@ -29,6 +30,27 @@ module.exports = (storybookBaseConfig, configType) => {
     test: /\.(woff|woff2|eot|ttf|otf)$/,
     use: ['file-loader'],
   })
+
+  storybookBaseConfig.module.rules.push({
+    test: /\.(xml)$/,
+    use: ['raw-loader'],
+  })
+
+  storybookBaseConfig.plugins.push(
+    new webpack.NormalModuleReplacementPlugin(
+      /AsyncLoad\.js/,
+      resource => {
+        resource.request = resource.request.replace(/AsyncLoad/, 'AsyncLoad-disabled')
+      }
+    )
+  )
+
+  storybookBaseConfig.plugins.push(
+    new webpack.ContextReplacementPlugin(
+      /codemirror[\/\\]mode$/,
+      /javascript|stex/ // TODO: all the modes needed for the listing format switcher
+    )
+  )
 
   storybookBaseConfig.resolve.extensions.push('.ts', '.tsx')
 

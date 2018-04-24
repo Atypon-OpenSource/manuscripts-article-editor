@@ -20,7 +20,7 @@ const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({
     <PageHeading
       title={'Manuscripts'}
       action={
-        <ActionButton onClick={() => addManuscript({ title: '' })}>
+        <ActionButton onClick={() => addManuscript()}>
           <Add size={15} />
         </ActionButton>
       }

@@ -22,7 +22,7 @@ export interface GroupValues {
 }
 
 export interface GroupErrors extends FormikErrors<GroupValues> {
-  submit?: string
+  submit?: string | null
 }
 
 export interface GroupFormProps {
