@@ -16,6 +16,6 @@
     "object-literal-sort-keys": false,
     "no-submodule-imports": false,
     "typedef": true,
-    "cyclomatic-complexity": [true, 15]
+    "cyclomatic-complexity": [true, 8]
   }
 }

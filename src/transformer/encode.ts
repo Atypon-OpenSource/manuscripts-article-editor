@@ -55,107 +55,95 @@ type ComponentData = (
   priority: PrioritizedValue
 ) => object
 
+type NodeEncoder = (
+  node: ProsemirrorNode,
+  path: string[],
+  priority: PrioritizedValue
+) => Partial<AnyComponent>
+
+interface NodeEncoderMap {
+  [key: string]: NodeEncoder
+}
+
+const encoders: NodeEncoderMap = {
+  bibliography: node => ({
+    contents: contents(node),
+  }),
+  bibliography_section: (node, path, priority) => ({
+    priority: priority.value++,
+    title: inlineContentsOfNodeType(node, 'section_title'),
+    path: path.concat([node.attrs.id]),
+    elementIDs: childComponentNodes(node).map(node => node.attrs.id),
+  }),
+  bullet_list: node => ({
+    elementType: 'ul',
+    contents: contents(node), // TODO: unwrap paragraphs
+  }),
+  citation: node => ({
+    // containingElement: '',
+    // collationType: 0,
+    // TODO: make this a list of bibliography item ids?
+    embeddedCitationItems: node.attrs.citationItems.map((id: string) => ({
+      id,
+      objectType: nodeTypes.get('citation_item') as string,
+      bibliographyItem: id,
+    })),
+  }),
+  code_block: node => ({
+    title: 'Listing',
+    contents: node.attrs.code,
+    // language: node.attrs.language // TODO
+    languageKey: node.attrs.language,
+  }),
+  equation_block: node => ({
+    title: 'Equation',
+    TeXRepresentation: node.attrs.latex,
+  }),
+  figure: node => ({
+    containedObjectIDs: node.attrs.containedObjectIDs,
+    caption: inlineContentsOfNodeType(node, 'figcaption'),
+    figureStyle: node.attrs.figureStyle,
+  }),
+  manuscript: node => ({
+    title: inlineContentsOfNodeType(node, 'title'),
+  }),
+  ordered_list: node => ({
+    elementType: 'ol',
+    contents: contents(node), // TODO: unwrap paragraphs
+  }),
+  paragraph: node => ({
+    contents: contents(node), // TODO: can't serialize citations?
+  }),
+  section: (node, path, priority) => ({
+    priority: priority.value++,
+    title: inlineContentsOfNodeType(node, 'section_title'),
+    path: path.concat([node.attrs.id]),
+    elementIDs: childComponentNodes(node).map(node => node.attrs.id),
+  }),
+  table: node => ({
+    contents: contents(node),
+  }),
+  table_figure: node => ({
+    containedObjectID: idOfNodeType(node, 'table'),
+    caption: inlineContentsOfNodeType(node, 'figcaption'),
+  }),
+}
+
 const componentData: ComponentData = (
   node,
   path,
   priority
 ): Partial<AnyComponent> => {
-  switch (node.type.name) {
-    case 'manuscript':
-      return {
-        title: inlineContentsOfNodeType(node, 'title'),
-      }
+  const encoder = encoders[node.type.name]
 
-    case 'section':
-      return {
-        priority: priority.value++,
-        title: inlineContentsOfNodeType(node, 'section_title'),
-        path: path.concat([node.attrs.id]),
-        elementIDs: childComponentNodes(node).map(node => node.attrs.id),
-      }
-
-    case 'bibliography':
-      return {
-        contents: contents(node),
-      }
-
-    case 'bibliography_section':
-      return {
-        priority: priority.value++,
-        title: inlineContentsOfNodeType(node, 'section_title'),
-        path: path.concat([node.attrs.id]),
-        elementIDs: childComponentNodes(node).map(node => node.attrs.id),
-      }
-
-    case 'citation':
-      return {
-        // containingElement: '',
-        // collationType: 0,
-        // TODO: make this a list of bibliography item ids?
-        embeddedCitationItems: node.attrs.citationItems.map((id: string) => ({
-          id,
-          objectType: nodeTypes.get('citation_item') as string,
-          bibliographyItem: id,
-        })),
-      }
-
-    case 'paragraph':
-      return {
-        contents: contents(node), // TODO: can't serialize citations?
-      }
-
-    case 'equation_block':
-      return {
-        title: 'Equation',
-        TeXRepresentation: node.attrs.latex,
-      }
-
-    case 'code_block':
-      return {
-        title: 'Listing',
-        contents: node.attrs.code,
-        // language: node.attrs.language // TODO
-        languageKey: node.attrs.language,
-      }
-
-    case 'figure':
-      return {
-        containedObjectIDs: node.attrs.containedObjectIDs,
-        caption: inlineContentsOfNodeType(node, 'figcaption'),
-        figureStyle: node.attrs.figureStyle,
-      }
-
-    case 'table_figure':
-      return {
-        containedObjectID: idOfNodeType(node, 'table'),
-        caption: inlineContentsOfNodeType(node, 'figcaption'),
-      }
-
-    case 'table':
-      return {
-        contents: contents(node),
-      }
-
-    // TODO: unwrap paragraphs
-    case 'bullet_list':
-      return {
-        elementType: 'ul',
-        contents: contents(node),
-      }
-
-    // TODO: unwrap paragraphs
-    case 'ordered_list':
-      return {
-        elementType: 'ol',
-        contents: contents(node),
-      }
-
-    // TODO: log unhandled components
-    default:
-      // tslint:disable-next-line:no-console
-      console.warn('Unhandled component', node.type.name)
-      return {}
+  if (encoder) {
+    return encoder(node, path, priority)
   }
+
+  // TODO: log unhandled components
+  // tslint:disable-next-line:no-console
+  console.warn('Unhandled component', node.type.name)
+  return {}
 }
 
 type ComponentBuilder = (
