@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
+import Title from '../editor/Title'
 import { styled } from '../theme'
 import { Person } from '../types/components'
 import { ManuscriptDocument, RemoveManuscript } from '../types/manuscript'
@@ -30,7 +31,7 @@ const ManuscriptSection = styled.div`
   padding: 5px 10px;
 `
 
-const ManuscriptTitle = styled.span`
+const ManuscriptTitle = styled.div`
   opacity: 0.75;
   font-size: 20px;
   line-height: 24px;
@@ -73,7 +74,9 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
 }) => (
   <ManuscriptContainer to={`/manuscripts/${manuscript.get('id')}`}>
     <ManuscriptSection>
-      <ManuscriptTitle>{manuscript.get('title')}</ManuscriptTitle>
+      <ManuscriptTitle>
+        <Title title={manuscript.get('title')} />
+      </ManuscriptTitle>
 
       <ManuscriptContributors>
         {contributors.map(contributor => (

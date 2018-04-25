@@ -1,4 +1,4 @@
-.ProseMirror {
+.ProseMirror:not(.plain) {
   font-size: 13pt;
   line-height: 2em;
   font-family: Charter, 'Charis SIL', serif;
