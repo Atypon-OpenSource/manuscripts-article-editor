@@ -31,7 +31,7 @@ class LoginPageContainer extends React.Component<UserProps> {
     const { user } = this.props
 
     if (user.data) {
-      return <Redirect to={'/'} />
+      return <Redirect to={'/welcome'} />
     }
 
     return (

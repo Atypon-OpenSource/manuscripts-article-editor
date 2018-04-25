@@ -20,6 +20,7 @@ import PrivateRoute from './containers/PrivateRoute'
 import RecoverPageContainer from './containers/RecoverPageContainer'
 import SignupPageContainer from './containers/SignupPageContainer'
 import UserContainer from './containers/UserContainer'
+import WelcomePageContainer from './containers/WelcomePageContainer'
 import Spinner from './icons/spinner'
 
 const ManuscriptPageContainer = Loadable({
@@ -85,6 +86,11 @@ const App = () => (
           path={'/logout'}
           exact={true}
           component={LogoutPageContainer}
+        />
+        <Route
+          path={'/welcome'}
+          exact={true}
+          component={WelcomePageContainer}
         />
         <Route component={NotFound} />
       </Switch>

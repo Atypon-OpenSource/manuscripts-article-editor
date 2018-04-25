@@ -32,5 +32,5 @@ module.exports = {
       react: require.resolve('react')
     },
     extensions: ['.tsx', '.ts', '.js', '.json'],
-  },
+  }
 }
