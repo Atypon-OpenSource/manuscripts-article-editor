@@ -31,7 +31,7 @@
 
 .ProseMirror ul,
 .ProseMirror ol {
-  padding-left: 30px;
+  padding-left: 30px !important;
 }
 
 .ProseMirror li p {
