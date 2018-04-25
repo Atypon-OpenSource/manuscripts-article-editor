@@ -60,9 +60,7 @@ module.exports = merge(common, {
     hints: false,
   },
   plugins: [
-    new Dotenv({
-      safe: true,
-    }),
+    new Dotenv(),
     new webpack.HotModuleReplacementPlugin()
   ],
 })
