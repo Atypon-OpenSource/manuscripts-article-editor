@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router'
 import { RxCollection, RxError } from 'rxdb'
 import { Subscription } from 'rxjs'
 import ManuscriptsPage from '../components/ManuscriptsPage'
+import { IconBar, Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
 import sessionID from '../lib/sessionID'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
@@ -16,6 +17,7 @@ import {
   RemoveManuscript,
   UpdateManuscript,
 } from '../types/manuscript'
+import SidebarContainer from './SidebarContainer'
 
 interface ManuscriptsPageContainerState {
   manuscripts: ManuscriptDocument[]
@@ -62,12 +64,19 @@ class ManuscriptsPageContainer extends React.Component<
     }
 
     return (
-      <ManuscriptsPage
-        manuscripts={manuscripts}
-        addManuscript={this.addManuscript}
-        updateManuscript={this.updateManuscript}
-        removeManuscript={this.removeManuscript}
-      />
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          <ManuscriptsPage
+            manuscripts={manuscripts}
+            addManuscript={this.addManuscript}
+            updateManuscript={this.updateManuscript}
+            removeManuscript={this.removeManuscript}
+          />
+        </Main>
+      </Page>
     )
   }
 

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Subscription } from 'rxjs'
 import CollaboratorsPage from '../components/CollaboratorsPage'
+import { IconBar, Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
 import { Db, waitForDB } from '../lib/rxdb'
 import {
@@ -9,6 +10,7 @@ import {
   RemoveCollaborator,
   UpdateCollaborator,
 } from '../types/collaborator'
+import SidebarContainer from './SidebarContainer'
 
 interface CollaboratorsPageContainerState {
   collaborators: CollaboratorDocument[]
@@ -75,12 +77,19 @@ class CollaboratorsPageContainer extends React.Component {
     }
 
     return (
-      <CollaboratorsPage
-        collaborators={collaborators}
-        addCollaborator={this.addCollaborator}
-        updateCollaborator={this.updateCollaborator}
-        removeCollaborator={this.removeCollaborator}
-      />
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          <CollaboratorsPage
+            collaborators={collaborators}
+            addCollaborator={this.addCollaborator}
+            updateCollaborator={this.updateCollaborator}
+            removeCollaborator={this.removeCollaborator}
+          />
+        </Main>
+      </Page>
     )
   }
 }

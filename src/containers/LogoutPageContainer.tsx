@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { Redirect } from 'react-router-dom'
+import { IconBar, Main, Page } from '../components/Page'
 import { logout } from '../lib/api'
 import { UserProps, withUser } from '../store/UserProvider'
+import SidebarContainer from './SidebarContainer'
 
 class LogoutPageContainer extends React.Component<UserProps> {
   public componentDidMount() {
@@ -21,7 +23,16 @@ class LogoutPageContainer extends React.Component<UserProps> {
       return <Redirect to={'/'} />
     }
 
-    return <div>Signing out…</div>
+    return (
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          <div>Signing out…</div>
+        </Main>
+      </Page>
+    )
   }
 }
 

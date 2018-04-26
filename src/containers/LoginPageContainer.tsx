@@ -5,11 +5,13 @@ import * as React from 'react'
 import { Redirect } from 'react-router-dom'
 import { LoginErrors, LoginValues } from '../components/LoginForm'
 import LoginPage from '../components/LoginPage'
+import { IconBar, Main, Page } from '../components/Page'
 import { login } from '../lib/api'
 import deviceId from '../lib/deviceId'
 import token, { Token } from '../lib/token'
 import { UserProps, withUser } from '../store/UserProvider'
 import { loginSchema } from '../validation'
+import SidebarContainer from './SidebarContainer'
 
 interface LoginPageContainerState {
   error: boolean
@@ -63,11 +65,18 @@ class LoginPageContainer extends React.Component<UserProps> {
     }
 
     return (
-      <LoginPage
-        initialValues={this.initialValues}
-        validationSchema={loginSchema}
-        onSubmit={this.handleSubmit}
-      />
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          <LoginPage
+            initialValues={this.initialValues}
+            validationSchema={loginSchema}
+            onSubmit={this.handleSubmit}
+          />
+        </Main>
+      </Page>
     )
   }
 

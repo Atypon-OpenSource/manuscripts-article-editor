@@ -1,9 +1,11 @@
 import * as React from 'react'
 import { Subscription } from 'rxjs'
 import GroupsPage from '../components/GroupsPage'
+import { IconBar, Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
 import { Db, waitForDB } from '../lib/rxdb'
 import { AddGroup, GroupDocument } from '../types/group'
+import SidebarContainer from './SidebarContainer'
 
 interface GroupsPageContainerState {
   groups: GroupDocument[] | null
@@ -60,7 +62,16 @@ class GroupsPageContainer extends React.Component {
       return <Spinner />
     }
 
-    return <GroupsPage groups={groups} addGroup={this.addGroup} />
+    return (
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          <GroupsPage groups={groups} addGroup={this.addGroup} />
+        </Main>
+      </Page>
+    )
   }
 }
 

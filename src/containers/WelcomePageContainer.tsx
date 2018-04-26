@@ -1,9 +1,11 @@
 import * as React from 'react'
 import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
+import { IconBar, Main, Page } from '../components/Page'
 import { WelcomePage } from '../components/WelcomePage'
 import preferences from '../lib/preferences'
 import { UserProps, withUser } from '../store/UserProvider'
+import SidebarContainer from './SidebarContainer'
 
 class WelcomePageContainer extends React.Component<UserProps & RouterProps> {
   // TODO: load recent files from the database
@@ -23,14 +25,21 @@ class WelcomePageContainer extends React.Component<UserProps & RouterProps> {
     }
 
     return (
-      <WelcomePage
-        createNewManuscript={this.createNewManuscript}
-        handleHideWelcomeChange={this.handleHideWelcomeChange}
-        openManuscript={this.openManuscript}
-        recentFiles={[]}
-        sendFeedback={this.sendFeedback}
-        handleClose={this.handleClose}
-      />
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          <WelcomePage
+            createNewManuscript={this.createNewManuscript}
+            handleHideWelcomeChange={this.handleHideWelcomeChange}
+            openManuscript={this.openManuscript}
+            recentFiles={[]}
+            sendFeedback={this.sendFeedback}
+            handleClose={this.handleClose}
+          />
+        </Main>
+      </Page>
     )
   }
 

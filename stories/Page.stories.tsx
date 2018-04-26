@@ -1,15 +1,15 @@
 import { storiesOf } from '@storybook/react'
 import * as React from 'react'
-import { Main, Page, Sidebar } from '../src/components/Page'
+import { IconBar, Main, Page } from '../src/components/Page'
 
 storiesOf('Page', module)
-  .add('with sidebar', () => (
+  .add('with iconbar', () => (
     <Page>
-      <Sidebar>This is the sidebar</Sidebar>
+      <IconBar />
       <Main style={{ padding: '10px 20px' }}>This is the main content</Main>
     </Page>
   ))
-  .add('without sidebar', () => (
+  .add('without iconbar', () => (
     <Page>
       <Main>This is the main content</Main>
     </Page>

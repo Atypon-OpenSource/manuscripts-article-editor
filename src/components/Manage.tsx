@@ -120,7 +120,7 @@ export const PrimaryModalFooterButton = ModalFooterButton.extend`
   }
 `
 
-const modalStyle = {
+export const modalStyle = {
   overlay: {
     position: 'fixed',
     top: 0,
@@ -128,10 +128,14 @@ const modalStyle = {
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    zIndex: 20,
   },
   content: {
     background: 'transparent',
     border: 'none',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }
 

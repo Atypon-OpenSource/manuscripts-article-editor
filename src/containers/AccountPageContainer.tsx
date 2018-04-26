@@ -1,27 +1,15 @@
 import { FormikActions, FormikErrors } from 'formik'
 import * as React from 'react'
-// import * as Modal from 'react-modal'
+import * as Modal from 'react-modal'
 import { RouterProps } from 'react-router'
 import { AccountErrors, AccountValues } from '../components/AccountForm'
 import AccountPage from '../components/AccountPage'
+import { modalStyle } from '../components/Manage'
+import { IconBar, Main, Page } from '../components/Page'
 import { UserProps, withUser } from '../store/UserProvider'
 import { User } from '../types/user'
 import { accountSchema } from '../validation'
-
-// const modalStyle = {
-//   overlay: {
-//     position: 'fixed',
-//     top: 0,
-//     left: 0,
-//     right: 0,
-//     bottom: 0,
-//     backgroundColor: 'rgba(255, 255, 255, 0.95)',
-//   },
-//   content: {
-//     background: 'transparent',
-//     border: 'none',
-//   },
-// }
+import SidebarContainer from './SidebarContainer'
 
 class AccountPageContainer extends React.Component<UserProps & RouterProps> {
   public render() {
@@ -40,13 +28,20 @@ class AccountPageContainer extends React.Component<UserProps & RouterProps> {
     }
 
     return (
-      // <Modal isOpen={true} style={modalStyle}>
-      <AccountPage
-        initialValues={initialValues}
-        validationSchema={accountSchema}
-        onSubmit={this.handleSubmit}
-      />
-      // </Modal>
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          <Modal isOpen={true} ariaHideApp={false} style={modalStyle}>
+            <AccountPage
+              initialValues={initialValues}
+              validationSchema={accountSchema}
+              onSubmit={this.handleSubmit}
+            />
+          </Modal>
+        </Main>
+      </Page>
     )
   }
 

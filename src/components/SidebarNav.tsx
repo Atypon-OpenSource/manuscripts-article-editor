@@ -15,7 +15,9 @@ export const SidebarLink = styled(NavLink)`
   font-weight: 500;
   font-size: 18px;
   border-radius: 6px;
-  margin: 6px 0;
+  margin: 6px 20px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 
   &:hover {
     color: white;

@@ -5,6 +5,8 @@ import * as React from 'react'
 import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'
 import { RxChangeEvent } from 'rxdb/src/typings/rx-change-event'
 import { Subscription } from 'rxjs/Subscription'
+import { IconBar, Main, Page } from '../components/Page'
+import Panel from '../components/Panel'
 import Editor, {
   ChangeReceiver,
   DeleteComponent,
@@ -32,6 +34,8 @@ import {
   ComponentMap,
   ComponentWithAttachment,
 } from '../types/components'
+import InspectorContainer from './InspectorContainer'
+import OutlineSidebarContainer from './OutlineSidebarContainer'
 
 interface ComponentIdSets {
   [key: string]: ComponentIdSet
@@ -152,23 +156,38 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
     }
 
     return (
-      <React.Fragment>
-        <Editor
-          autoFocus={true}
-          citationProcessor={citationProcessor}
-          doc={doc}
-          editable={true}
-          getComponent={this.getComponent}
-          saveComponent={this.saveComponent}
-          deleteComponent={this.deleteComponent}
-          locale={locale}
-          onChange={this.handleChange}
-          componentMap={componentMap}
-          popper={popper}
-          subscribe={this.handleSubscribe}
-        />
-        <Prompt when={dirty} message={() => false} />
-      </React.Fragment>
+      <Page>
+        <IconBar />
+        <OutlineSidebarContainer />
+
+        <Main>
+          <Editor
+            autoFocus={true}
+            citationProcessor={citationProcessor}
+            doc={doc}
+            editable={true}
+            getComponent={this.getComponent}
+            saveComponent={this.saveComponent}
+            deleteComponent={this.deleteComponent}
+            locale={locale}
+            onChange={this.handleChange}
+            componentMap={componentMap}
+            popper={popper}
+            subscribe={this.handleSubscribe}
+          />
+
+          <Prompt when={dirty} message={() => false} />
+        </Main>
+
+        <Panel
+          name={'inspector'}
+          minSize={200}
+          direction={'row'}
+          side={'start'}
+        >
+          <InspectorContainer />
+        </Panel>
+      </Page>
     )
   }
 

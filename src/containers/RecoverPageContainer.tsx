@@ -4,6 +4,7 @@ import * as httpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import * as React from 'react'
 import { Redirect } from 'react-router-dom'
+import { IconBar, Main, Page } from '../components/Page'
 import {
   PasswordErrors,
   PasswordHiddenValues,
@@ -17,6 +18,7 @@ import { recoverPassword, resetPassword } from '../lib/api'
 import deviceId from '../lib/deviceId'
 import { UserProps, withUser } from '../store/UserProvider'
 import { passwordSchema, recoverSchema } from '../validation'
+import SidebarContainer from './SidebarContainer'
 
 interface RecoverPageContainerState extends PasswordHiddenValues {
   sent: string | null
@@ -53,25 +55,37 @@ class RecoverPageContainer extends React.Component<UserProps> {
     }
 
     if (sent) {
-      return <RecoverConfirm email={sent} />
-    }
-
-    if (token) {
       return (
-        <PasswordPage
-          initialValues={this.initialPasswordValues}
-          validationSchema={passwordSchema}
-          onSubmit={this.verifyRecovery}
-        />
+        <Page>
+          <IconBar />
+          <Main>
+            <RecoverConfirm email={sent} />
+          </Main>
+        </Page>
       )
     }
 
     return (
-      <RecoverPage
-        initialValues={this.initialRecoverValues}
-        validationSchema={recoverSchema}
-        onSubmit={this.sendRecovery}
-      />
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          {token ? (
+            <PasswordPage
+              initialValues={this.initialPasswordValues}
+              validationSchema={passwordSchema}
+              onSubmit={this.verifyRecovery}
+            />
+          ) : (
+            <RecoverPage
+              initialValues={this.initialRecoverValues}
+              validationSchema={recoverSchema}
+              onSubmit={this.sendRecovery}
+            />
+          )}
+        </Main>
+      </Page>
     )
   }
 

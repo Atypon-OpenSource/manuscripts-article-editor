@@ -10,12 +10,14 @@ import {
 } from '../components/CollaboratorForm'
 import CollaboratorPage from '../components/CollaboratorPage'
 import { FormPage } from '../components/Form'
+import { IconBar, Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
 import { Db, waitForDB } from '../lib/rxdb'
 import { MANUSCRIPT } from '../transformer/object-types'
 import { CollaboratorDocument } from '../types/collaborator'
 import { ManuscriptDocument } from '../types/manuscript'
 import { collaboratorSchema } from '../validation'
+import SidebarContainer from './SidebarContainer'
 
 interface CollaboratorPageContainerState {
   collaborator: CollaboratorDocument | null
@@ -87,37 +89,44 @@ class CollaboratorPageContainer extends React.Component<
       return <Spinner />
     }
 
-    if (editing) {
-      return (
-        <FormPage>
-          <Formik
-            initialValues={{
-              name: collaborator.name || '',
-              surname: collaborator.surname || '',
-            }}
-            validationSchema={collaboratorSchema}
-            isInitialValid={true}
-            onSubmit={this.handleSubmit}
-            render={(
-              formikProps: FormikProps<CollaboratorValues & CollaboratorErrors>
-            ) => (
-              <CollaboratorForm
-                {...formikProps}
-                stopEditing={this.stopEditing}
-                deleteCollaborator={this.deleteCollaborator}
-              />
-            )}
-          />
-        </FormPage>
-      )
-    }
-
     return (
-      <CollaboratorPage
-        collaborator={collaborator}
-        manuscripts={manuscripts}
-        startEditing={this.startEditing}
-      />
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          {editing ? (
+            <FormPage>
+              <Formik
+                initialValues={{
+                  name: collaborator.name || '',
+                  surname: collaborator.surname || '',
+                }}
+                validationSchema={collaboratorSchema}
+                isInitialValid={true}
+                onSubmit={this.handleSubmit}
+                render={(
+                  formikProps: FormikProps<
+                    CollaboratorValues & CollaboratorErrors
+                  >
+                ) => (
+                  <CollaboratorForm
+                    {...formikProps}
+                    stopEditing={this.stopEditing}
+                    deleteCollaborator={this.deleteCollaborator}
+                  />
+                )}
+              />
+            </FormPage>
+          ) : (
+            <CollaboratorPage
+              collaborator={collaborator}
+              manuscripts={manuscripts}
+              startEditing={this.startEditing}
+            />
+          )}
+        </Main>
+      </Page>
     )
   }
 

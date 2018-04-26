@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
 import { FormPage } from '../components/Form'
 import { GroupErrors, GroupForm, GroupValues } from '../components/GroupForm'
 import GroupPage from '../components/GroupPage'
+import { IconBar, Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
 import { Db, waitForDB } from '../lib/rxdb'
 import { MANUSCRIPT } from '../transformer/object-types'
@@ -13,6 +14,7 @@ import { CollaboratorDocument } from '../types/collaborator'
 import { GroupDocument } from '../types/group'
 import { ManuscriptDocument } from '../types/manuscript'
 import { groupSchema } from '../validation'
+import SidebarContainer from './SidebarContainer'
 
 interface GroupPageContainerState {
   group: GroupDocument | null
@@ -94,36 +96,43 @@ class GroupPageContainer extends React.Component<
       return <Spinner />
     }
 
-    if (editing) {
-      return (
-        <FormPage>
-          <Formik
-            initialValues={{
-              name: group.name || '',
-              description: group.description || '',
-            }}
-            validationSchema={groupSchema}
-            isInitialValid={true}
-            onSubmit={this.handleSubmit}
-            render={(formikProps: FormikProps<GroupValues & GroupErrors>) => (
-              <GroupForm
-                {...formikProps}
-                stopEditing={this.stopEditing}
-                deleteGroup={this.deleteGroup}
-              />
-            )}
-          />
-        </FormPage>
-      )
-    }
-
     return (
-      <GroupPage
-        group={group}
-        members={members}
-        manuscripts={manuscripts}
-        startEditing={this.startEditing}
-      />
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          {editing ? (
+            <FormPage>
+              <Formik
+                initialValues={{
+                  name: group.name || '',
+                  description: group.description || '',
+                }}
+                validationSchema={groupSchema}
+                isInitialValid={true}
+                onSubmit={this.handleSubmit}
+                render={(
+                  formikProps: FormikProps<GroupValues & GroupErrors>
+                ) => (
+                  <GroupForm
+                    {...formikProps}
+                    stopEditing={this.stopEditing}
+                    deleteGroup={this.deleteGroup}
+                  />
+                )}
+              />
+            </FormPage>
+          ) : (
+            <GroupPage
+              group={group}
+              members={members}
+              manuscripts={manuscripts}
+              startEditing={this.startEditing}
+            />
+          )}
+        </Main>
+      </Page>
     )
   }
 

@@ -4,12 +4,14 @@ import { parse } from 'qs'
 import * as React from 'react'
 import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
+import { IconBar, Main, Page } from '../components/Page'
 import { SignupConfirm } from '../components/SignupConfirm'
 import { SignupErrors, SignupValues } from '../components/SignupForm'
 import SignupPage from '../components/SignupPage'
 import { signup, verify } from '../lib/api'
 import { UserProps, withUser } from '../store/UserProvider'
 import { signupSchema } from '../validation'
+import SidebarContainer from './SidebarContainer'
 
 interface UserDetails {
   email: string
@@ -63,15 +65,27 @@ class SignupPageContainer extends React.Component<UserProps & RouterProps> {
     }
 
     if (confirming) {
-      return <SignupConfirm email={confirming.email} />
+      return (
+        <Page>
+          <IconBar />
+          <SignupConfirm email={confirming.email} />
+        </Page>
+      )
     }
 
     return (
-      <SignupPage
-        initialValues={this.initialValues}
-        onSubmit={this.handleSubmit}
-        validationSchema={signupSchema}
-      />
+      <Page>
+        <IconBar />
+        <SidebarContainer />
+
+        <Main>
+          <SignupPage
+            initialValues={this.initialValues}
+            onSubmit={this.handleSubmit}
+            validationSchema={signupSchema}
+          />
+        </Main>
+      </Page>
     )
   }
 

@@ -44,10 +44,13 @@ const UserName = styled.div`
 const DropdownContent = styled.div`
   position: absolute;
   top: 50px;
-  right: 10px;
   left: 40px;
   background: #fff;
   padding: 10px;
+  box-shadow: 0 1px 5px #ccc;
+  border-radius: 3px;
+  white-space: nowrap;
+  z-index: 2;
 `
 
 interface UserProps {
