@@ -1,8 +1,10 @@
+import * as HttpStatusCodes from 'http-status-codes'
 import * as React from 'react'
 import { RxCollection, RxCollectionCreator, RxReplicationState } from 'rxdb'
 import { PouchReplicationOptions } from 'rxdb/src/typings/pouch'
-import { waitForDB } from '../db'
 import Spinner from '../icons/spinner'
+import * as api from '../lib/api'
+import { waitForDB } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
 import * as schema from '../schema'
 import {
@@ -79,29 +81,8 @@ class ComponentsProvider extends React.Component {
     this.setState({ collection })
 
     // initial sync
-    const replication = this.sync({
+    this.sync({
       live: false,
-    })
-
-    replication.complete$.subscribe(completed => {
-      if (completed) {
-        // TODO: check for errors in the `completed` object?
-
-        // live sync
-        this.sync({
-          live: true,
-        })
-
-        this.setState({ completed })
-      }
-    })
-
-    replication.error$.subscribe((error: Error) => {
-      console.error(error)
-      this.setState({
-        completed: true, // continue offline
-        error: error.message,
-      })
     })
   }
 
@@ -150,12 +131,35 @@ class ComponentsProvider extends React.Component {
 
     replication.complete$.subscribe(completed => {
       console.log({ completed }) // tslint:disable-line:no-console
+
+      if (completed) {
+        this.setState({
+          completed: true,
+        })
+
+        if (!options.live) {
+          // start live syncing
+          this.sync({
+            live: true,
+          })
+        }
+      }
     })
 
-    replication.error$.subscribe((error: Error) => {
+    replication.error$.subscribe((error: PouchDB.Core.Error) => {
       console.error(error)
-      this.setState({
-        error: error.message,
+
+      replication.cancel().then(() => {
+        this.handleSyncError(error)
+          .then(() => {
+            this.sync(options)
+          })
+          .catch(() => {
+            this.setState({
+              completed: true, // continue offline if necessary
+              error: error.message,
+            })
+          })
       })
     })
 
@@ -168,6 +172,17 @@ class ComponentsProvider extends React.Component {
     // })
 
     return replication
+  }
+
+  private handleSyncError = async (error: PouchDB.Core.Error) => {
+    switch (error.status) {
+      // unauthorized, start a new sync gateway session if signed in
+      case HttpStatusCodes.UNAUTHORIZED:
+        return api.refreshSyncSession()
+
+      default:
+        throw error
+    }
   }
 
   private loadManuscriptComponents = (manuscript: string) => {

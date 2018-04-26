@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Subscription } from 'rxjs'
 import GroupsPage from '../components/GroupsPage'
-import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
+import { Db, waitForDB } from '../lib/rxdb'
 import { AddGroup, GroupDocument } from '../types/group'
 
 interface GroupsPageContainerState {

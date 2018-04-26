@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Subscription } from 'rxjs'
 import CollaboratorsPage from '../components/CollaboratorsPage'
-import { Db, waitForDB } from '../db'
 import Spinner from '../icons/spinner'
+import { Db, waitForDB } from '../lib/rxdb'
 import {
   AddCollaborator,
   CollaboratorDocument,

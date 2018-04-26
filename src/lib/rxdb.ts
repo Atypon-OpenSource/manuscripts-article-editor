@@ -10,7 +10,7 @@ import RxDBNoValidateModule from 'rxdb/plugins/no-validate'
 import RxDBReplicationModule from 'rxdb/plugins/replication'
 import RxDBSchemaCheckModule from 'rxdb/plugins/schema-check'
 import RxDBUpdateModule from 'rxdb/plugins/update'
-import { ComponentCollection, Group, Person } from './types/components'
+import { ComponentCollection, Group, Person } from '../types/components'
 
 RxDB.QueryChangeDetector.enable()
 // RxDB.QueryChangeDetector.enableDebugging()

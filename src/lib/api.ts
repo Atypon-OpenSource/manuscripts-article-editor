@@ -89,6 +89,12 @@ export const refresh = () => {
   })
 }
 
+export const refreshSyncSession = () => {
+  return client.post('/auth/refreshSyncSession', null, {
+    withCredentials: true,
+  })
+}
+
 export const logout = () =>
   client.post('/auth/logout').then(() => {
     token.remove()
