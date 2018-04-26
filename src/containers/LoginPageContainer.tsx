@@ -11,27 +11,55 @@ import token, { Token } from '../lib/token'
 import { UserProps, withUser } from '../store/UserProvider'
 import { loginSchema } from '../validation'
 
+interface LoginPageContainerState {
+  error: boolean
+}
+
+interface ErrorMessage {
+  error: string
+}
+
 class LoginPageContainer extends React.Component<UserProps> {
+  public state: LoginPageContainerState = {
+    error: false,
+  }
+
   private initialValues: LoginValues = {
     email: '',
     password: '',
   }
 
   public componentDidMount() {
-    const tokenData: Token = parse(window.location.hash.substr(1))
+    // TODO: needs state
+    const tokenData: Token & ErrorMessage = parse(
+      window.location.hash.substr(1)
+    )
 
-    if (tokenData && tokenData.access_token) {
-      token.set(tokenData)
+    window.location.hash = ''
 
-      this.props.user.fetch()
+    if (tokenData && Object.keys(tokenData).length) {
+      if (tokenData.error) {
+        this.setState({
+          error: true,
+        })
+      } else {
+        token.set(tokenData)
+
+        this.props.user.fetch()
+      }
     }
   }
 
   public render() {
     const { user } = this.props
+    const { error } = this.state
 
     if (user.data) {
       return <Redirect to={'/welcome'} />
+    }
+
+    if (error) {
+      return <div>There was an error.</div>
     }
 
     return (
@@ -65,7 +93,7 @@ class LoginPageContainer extends React.Component<UserProps> {
         if (error.response) {
           if (error.response.status === httpStatusCode.BAD_REQUEST) {
             errors.submit = 'Invalid Operation'
-          } else if (error.response.status === httpStatusCode.FORBIDDEN) {
+          } else if (error.response.status === httpStatusCode.UNAUTHORIZED) {
             errors.submit = 'Invalid username or password'
           } else {
             errors.submit = 'An error occurred.'

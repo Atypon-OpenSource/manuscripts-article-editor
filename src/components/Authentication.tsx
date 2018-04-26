@@ -1,11 +1,12 @@
 import * as React from 'react'
+import { AuthProvider } from '../containers/AuthButtonContainer'
 import GoogleLogo from '../icons/google'
 import OrcidLogo from '../icons/orcid'
 import { styled } from '../theme'
 import { IconButton } from './Button'
 
 export interface AuthenticationButtonProps {
-  redirect: (provider: string) => () => void
+  redirect: (provider: AuthProvider) => () => void
 }
 
 export const GoogleLogin: React.SFC<AuthenticationButtonProps> = ({

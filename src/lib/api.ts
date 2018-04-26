@@ -41,7 +41,6 @@ export const login = (data: LoginValues & DeviceValues) =>
     .post<LoginResponse>('/auth/login', data, {
       headers: {
         'manuscripts-app-id': process.env.API_APPLICATION_ID,
-        'manuscripts-app-secret': process.env.API_APPLICATION_SECRET, // TODO: this should be removed after resolving this https://gitlab.com/mpapp-private/manuscripts-api/issues/82
       },
       withCredentials: true,
     })
@@ -63,7 +62,6 @@ export const resetPassword = (
     .post<ResetPasswordResponse>('/auth/resetPassword', data, {
       headers: {
         'manuscripts-app-id': process.env.API_APPLICATION_ID,
-        'manuscripts-app-secret': process.env.API_APPLICATION_SECRET, // TODO: this should be removed after resolving this https://gitlab.com/mpapp-private/manuscripts-api/issues/82
       },
       withCredentials: true,
     })
