@@ -1,6 +1,11 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import { styled } from '../theme'
+import {
+  CollaboratorsTitleMessage,
+  GroupsTitleMessage,
+  ManuscriptsTitleMessage,
+} from './Messages'
 
 // type LinkProps = ThemedStyledProps<
 //   React.HTMLProps<HTMLAnchorElement>,
@@ -27,9 +32,15 @@ export const SidebarLink = styled(NavLink)`
 
 const SidebarNav = () => (
   <div>
-    <SidebarLink to={'/manuscripts'}>Manuscripts</SidebarLink>
-    <SidebarLink to={'/collaborators'}>Collaborators</SidebarLink>
-    <SidebarLink to={'/groups'}>Groups</SidebarLink>
+    <SidebarLink to={'/manuscripts'}>
+      <ManuscriptsTitleMessage />
+    </SidebarLink>
+    <SidebarLink to={'/collaborators'}>
+      <CollaboratorsTitleMessage />
+    </SidebarLink>
+    <SidebarLink to={'/groups'}>
+      <GroupsTitleMessage />
+    </SidebarLink>
   </div>
 )
 

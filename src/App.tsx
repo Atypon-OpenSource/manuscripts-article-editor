@@ -13,6 +13,7 @@ import LoginPageContainer from './containers/LoginPageContainer'
 import LogoutPageContainer from './containers/LogoutPageContainer'
 // import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
 import ManuscriptsPageContainer from './containers/ManuscriptsPageContainer'
+import PreferencesPageContainer from './containers/PreferencesPageContainer'
 import PrivateRoute from './containers/PrivateRoute'
 import RecoverPageContainer from './containers/RecoverPageContainer'
 import SignupPageContainer from './containers/SignupPageContainer'
@@ -35,6 +36,11 @@ const App = () => (
       path={'/account'}
       exact={true}
       component={AccountPageContainer}
+    />
+    <PrivateRoute
+      path={'/preferences'}
+      exact={true}
+      component={PreferencesPageContainer}
     />
     <Route
       path={'/manuscripts'}

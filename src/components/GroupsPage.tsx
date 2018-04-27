@@ -4,6 +4,7 @@ import { AddGroup, GroupDocument } from '../types/group'
 import { ActionButton } from './Button'
 import { EmptyContainer, EmptyMessage } from './Empty'
 import { Groups } from './Groups'
+import { EmptyGroupsMessage, GroupsTitleMessage } from './Messages'
 import { PageHeading } from './PageHeading'
 import { Select, Sort } from './Sort'
 
@@ -15,13 +16,14 @@ interface GroupsPageProps {
 const GroupsPage: React.SFC<GroupsPageProps> = ({ groups, addGroup }) => (
   <React.Fragment>
     <PageHeading
-      title={'Groups'}
       action={
         <ActionButton onClick={() => addGroup({ name: 'Untitled' })}>
           <Add size={15} />
         </ActionButton>
       }
-    />
+    >
+      <GroupsTitleMessage />
+    </PageHeading>
 
     {groups.length ? (
       <React.Fragment>
@@ -37,7 +39,7 @@ const GroupsPage: React.SFC<GroupsPageProps> = ({ groups, addGroup }) => (
     ) : (
       <EmptyContainer>
         <EmptyMessage>
-          <div>No Groups yet.</div>
+          <EmptyGroupsMessage />
         </EmptyMessage>
       </EmptyContainer>
     )}

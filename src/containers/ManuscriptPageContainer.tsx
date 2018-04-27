@@ -3,7 +3,6 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 import * as React from 'react'
 import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'
-import { RxChangeEvent } from 'rxdb/src/typings/rx-change-event'
 import { Subscription } from 'rxjs/Subscription'
 import { IconBar, Main, Page } from '../components/Page'
 import Panel from '../components/Panel'
@@ -16,12 +15,14 @@ import Editor, {
 import PopperManager from '../editor/lib/popper'
 import Spinner from '../icons/spinner'
 import CitationManager from '../lib/csl'
+import { AnyComponentChangeEvent } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
 import {
   ComponentObject,
   ComponentsProps,
   withComponents,
 } from '../store/ComponentsProvider'
+import { IntlProps, withIntl } from '../store/IntlProvider'
 import { Decoder, encode } from '../transformer'
 import { buildComponentMap, getComponentFromDoc } from '../transformer/decode'
 import { documentObjectTypes } from '../transformer/document-object-types'
@@ -64,7 +65,9 @@ type ComponentProps = ManuscriptPageContainerProps &
   ComponentsProps &
   RouteComponentProps<ManuscriptPageRoute>
 
-class ManuscriptPageContainer extends React.Component<ComponentProps> {
+class ManuscriptPageContainer extends React.Component<
+  ComponentProps & IntlProps
+> {
   public state: ManuscriptPageContainerState = {
     citationProcessor: null,
     citationStyle: 'apa', // TODO: citation style switcher
@@ -75,7 +78,7 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
     componentMap: new Map(),
     dirty: false,
     doc: null,
-    locale: 'en-GB', // TODO: locale switcher
+    locale: 'en-GB', // TODO: per-document locale switcher
     popper: new PopperManager(),
   }
 
@@ -83,7 +86,7 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
 
   private readonly debouncedSaveComponents: (state: EditorState) => void
 
-  public constructor(props: ComponentProps) {
+  public constructor(props: ComponentProps & IntlProps) {
     super(props)
 
     this.debouncedSaveComponents = debounce(this.saveComponents, 1000, {
@@ -93,8 +96,9 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
 
   public async componentDidMount() {
     const { id } = this.props.match.params
+    const { locale } = this.props.intl
     const { loadManuscriptComponents } = this.props.components
-    const { citationStyle, locale } = this.state
+    const { citationStyle } = this.state
 
     window.addEventListener('beforeunload', this.unloadListener)
 
@@ -174,6 +178,9 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
             componentMap={componentMap}
             popper={popper}
             subscribe={this.handleSubscribe}
+            attributes={{
+              dir: locale === 'ar' ? 'rtl' : 'ltr', // TODO: remove hard-coded locale
+            }}
           />
 
           <Prompt when={dirty} message={() => false} />
@@ -239,7 +246,7 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
     const collection = this.props.components.collection as ComponentCollection
 
     const sub = collection.$.subscribe(
-      async (changeEvent: RxChangeEvent<AnyComponent>) => {
+      async (changeEvent: AnyComponentChangeEvent) => {
         const op = changeEvent.data.op
         const doc = changeEvent.data.doc
         const v = changeEvent.data.v as AnyComponent
@@ -475,4 +482,4 @@ class ManuscriptPageContainer extends React.Component<ComponentProps> {
   }
 }
 
-export default withComponents(ManuscriptPageContainer)
+export default withComponents(withIntl(ManuscriptPageContainer))

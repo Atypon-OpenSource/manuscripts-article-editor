@@ -13,6 +13,7 @@ import {
   ModalMain,
   PrimaryModalFooterButton,
 } from './Manage'
+import { ManageAccountMessage } from './Messages'
 import { TextField, TextFieldGroup } from './TextField'
 
 export interface AccountValues {
@@ -35,13 +36,13 @@ export const AccountForm = ({
   handleBlur,
   handleChange,
   handleSubmit,
-  isSubmitting,
-  isValid,
 }: FormikProps<AccountValues & AccountErrors>) => (
   <form onSubmit={handleSubmit}>
     <ModalContainer>
       <ModalHeader>
-        <ModalHeading>Manage Account</ModalHeading>
+        <ModalHeading>
+          <ManageAccountMessage />
+        </ModalHeading>
       </ModalHeader>
       <ModalForm>
         <ModalFormBody>
@@ -78,7 +79,7 @@ export const AccountForm = ({
               autoComplete={'tel'}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.phone}
+              value={values.phone || ''}
               required={true}
             />
 

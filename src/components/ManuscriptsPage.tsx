@@ -4,6 +4,11 @@ import { ManuscriptActions, ManuscriptDocument } from '../types/manuscript'
 import { ActionButton } from './Button'
 import { EmptyContainer, EmptyMessage } from './Empty'
 import { Manuscripts } from './Manuscripts'
+import {
+  EmptyManuscriptsMessage,
+  ImportManuscriptMessage,
+  ManuscriptsTitleMessage,
+} from './Messages'
 import { PageHeading } from './PageHeading'
 import { Select, Sort } from './Sort'
 
@@ -18,13 +23,14 @@ const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({
 }) => (
   <React.Fragment>
     <PageHeading
-      title={'Manuscripts'}
       action={
         <ActionButton onClick={() => addManuscript()}>
           <Add size={15} />
         </ActionButton>
       }
-    />
+    >
+      <ManuscriptsTitleMessage />
+    </PageHeading>
 
     {manuscripts.length ? (
       <React.Fragment>
@@ -43,10 +49,11 @@ const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({
     ) : (
       <EmptyContainer>
         <EmptyMessage>
-          <div>No Manuscripts yet.</div>
           <div>
-            Use the + button to create a new Manuscript or import one from your
-            computer.
+            <EmptyManuscriptsMessage />
+          </div>
+          <div>
+            <ImportManuscriptMessage />
           </div>
         </EmptyMessage>
       </EmptyContainer>

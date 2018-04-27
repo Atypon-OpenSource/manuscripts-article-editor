@@ -22,6 +22,7 @@ export type SaveComponent = (component: Component) => Promise<void>
 export type DeleteComponent = (id: string) => Promise<string>
 
 export interface EditorProps {
+  attributes?: { [key: string]: string }
   autoFocus?: boolean
   citationProcessor: Citeproc.Processor
   doc: ProsemirrorNode
@@ -117,6 +118,7 @@ class Editor extends React.Component<EditorProps> {
         state: this.state.state as EditorState,
         dispatchTransaction: this.dispatchTransaction,
         nodeViews: options.nodeViews(this.props),
+        attributes: this.props.attributes,
       })
 
       // dispatch a transaction so that plugins run

@@ -75,6 +75,7 @@ class CodeBlock extends PropsBlock {
   protected createElement() {
     this.element = document.createElement(this.elementType)
     this.element.className = 'block'
+    this.element.dir = 'ltr'
     this.dom.appendChild(this.element)
   }
 

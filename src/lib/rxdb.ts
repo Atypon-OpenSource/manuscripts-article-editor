@@ -10,7 +10,17 @@ import RxDBNoValidateModule from 'rxdb/plugins/no-validate'
 import RxDBReplicationModule from 'rxdb/plugins/replication'
 import RxDBSchemaCheckModule from 'rxdb/plugins/schema-check'
 import RxDBUpdateModule from 'rxdb/plugins/update'
-import { ComponentCollection, Group, Person } from '../types/components'
+import {
+  RxChangeEventInsert,
+  RxChangeEventRemove,
+  RxChangeEventUpdate,
+} from 'rxdb/src/typings/rx-change-event'
+import {
+  AnyComponent,
+  ComponentCollection,
+  Group,
+  Person,
+} from '../types/components'
 
 RxDB.QueryChangeDetector.enable()
 // RxDB.QueryChangeDetector.enableDebugging()
@@ -37,6 +47,11 @@ export interface Db extends RxDatabase {
   groupmembers: RxCollection<Person>
   collaborators: RxCollection<Person>
 }
+
+export type AnyComponentChangeEvent =
+  | RxChangeEventInsert<AnyComponent>
+  | RxChangeEventUpdate<AnyComponent>
+  | RxChangeEventRemove<AnyComponent>
 
 export const waitForDB = RxDB.create({
   name: 'manuscriptsdb',

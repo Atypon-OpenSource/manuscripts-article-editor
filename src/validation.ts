@@ -50,6 +50,13 @@ export const accountSchema = yup.object().shape({
   phone: yup.string(), // TODO: pattern
 })
 
+export const preferencesSchema = yup.object().shape({
+  locale: yup
+    .string()
+    .required()
+    .min(2), // TODO: valid locales
+})
+
 export const groupSchema = yup.object().shape({
   name: yup
     .string()

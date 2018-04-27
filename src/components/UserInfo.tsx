@@ -3,6 +3,11 @@ import { NavLink } from 'react-router-dom'
 import { styled } from '../theme'
 import { User } from '../types/user'
 import { Avatar } from './Avatar'
+import {
+  ManageAccountMessage,
+  PreferencesMessage,
+  SignOutMessage,
+} from './Messages'
 
 export const UserLink = styled(NavLink)`
   display: block;
@@ -76,8 +81,15 @@ export const UserInfo: React.SFC<UserProps> = ({
 
     {isOpen && (
       <DropdownContent>
-        <UserLink to={'/account'}>Manage Account</UserLink>
-        <UserLink to={'/logout'}>Sign out</UserLink>
+        <UserLink to={'/account'}>
+          <ManageAccountMessage />
+        </UserLink>
+        <UserLink to={'/preferences'}>
+          <PreferencesMessage />
+        </UserLink>
+        <UserLink to={'/logout'}>
+          <SignOutMessage />
+        </UserLink>
       </DropdownContent>
     )}
   </UserContainer>

@@ -2,6 +2,7 @@ import { FormikActions, FormikErrors } from 'formik'
 import * as httpStatusCode from 'http-status-codes'
 import { parse } from 'qs'
 import * as React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { IconBar, Main, Page } from '../components/Page'
@@ -61,7 +62,7 @@ class SignupPageContainer extends React.Component<UserProps & RouterProps> {
     }
 
     if (error) {
-      return <div>There was an error.</div>
+      return <FormattedMessage id={'error'} />
     }
 
     if (confirming) {

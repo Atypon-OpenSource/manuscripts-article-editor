@@ -20,14 +20,17 @@ export const PageHeadingText = styled('div')`
 `
 
 export interface PageHeadingProps {
-  title: string
+  children: React.ReactNode
   action?: React.ReactNode
 }
 
-export const PageHeading: React.SFC<PageHeadingProps> = ({ title, action }) => (
+export const PageHeading: React.SFC<PageHeadingProps> = ({
+  children,
+  action,
+}) => (
   <PageHeadingContainer>
     <PageHeadingSection>
-      <PageHeadingText>{title}</PageHeadingText>
+      <PageHeadingText>{children}</PageHeadingText>
     </PageHeadingSection>
     <PageHeadingSection>
       <HelpButton>
