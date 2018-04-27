@@ -170,6 +170,15 @@ class Block implements NodeView {
     return section
   }
 
+  private sectionLevel = (depth: number) => {
+    switch (depth) {
+      case 1:
+        return 'Section'
+      default:
+        return 'Sub' + 'sub'.repeat(depth - 2) + 'section'
+    }
+  }
+
   private showMenu = (after: boolean): EventListener => event => {
     const menu = document.createElement('div')
     menu.className = 'menu'
@@ -177,15 +186,28 @@ class Block implements NodeView {
     menu.appendChild(
       this.createMenuSection((section: HTMLElement) => {
         const $pos = this.view.state.doc.resolve(this.getPos())
-        const insertPos = after ? $pos.after(1) : $pos.before(1)
-        const labelPrefix = after ? 'New Section After' : 'New Section Before'
-        const sectionTitle = $pos.node(1).child(0).textContent
+        const insertPos = after
+          ? $pos.after($pos.depth)
+          : $pos.before($pos.depth)
+        const labelPosition = after ? 'After' : 'Before'
+        const sectionTitle = $pos.node($pos.depth).child(0).textContent
         const itemTitle = sectionTitle ? `“${sectionTitle}”` : 'This Section'
-        const itemLabel = `${labelPrefix} ${itemTitle}`
+        const sectionLevel = this.sectionLevel($pos.depth)
+        const itemLabel = `New ${sectionLevel} ${labelPosition} ${itemTitle}`
 
         section.appendChild(
           this.createMenuItem(itemLabel, () => {
             this.addBlock('section', after, insertPos)
+            popper.destroy()
+          })
+        )
+
+        const subsectionLevel = this.sectionLevel($pos.depth + 1)
+        const subItemLabel = `New ${subsectionLevel} to ${itemTitle}`
+
+        section.appendChild(
+          this.createMenuItem(subItemLabel, () => {
+            this.addBlock('section', after, $pos.end())
             popper.destroy()
           })
         )
