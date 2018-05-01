@@ -4,7 +4,9 @@ import { Redirect } from 'react-router-dom'
 import { Spinner } from '../components/Spinner'
 import { UserProps, withUser } from '../store/UserProvider'
 
-class HomePageContainer extends React.Component<UserProps> {
+type Props = UserProps
+
+class HomePageContainer extends React.Component<Props> {
   public render() {
     const { user } = this.props
 

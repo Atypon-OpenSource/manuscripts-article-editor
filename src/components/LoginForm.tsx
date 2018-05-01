@@ -23,7 +23,9 @@ const ManuscriptLinks = styled.div`
   text-align: left;
 `
 
-export const LoginForm = ({
+type FormProps = FormikProps<LoginValues & LoginErrors>
+
+export const LoginForm: React.SFC<FormProps> = ({
   values,
   touched,
   errors,
@@ -33,7 +35,7 @@ export const LoginForm = ({
   handleSubmit,
   isSubmitting,
   isValid,
-}: FormikProps<LoginValues & LoginErrors>) => (
+}) => (
   <CenteredForm onSubmit={handleSubmit}>
     <FormHeader>
       <SubHero>Welcome to</SubHero>

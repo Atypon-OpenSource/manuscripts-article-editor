@@ -5,7 +5,7 @@ import Panel from '../components/Panel'
 import ComponentsStatusContainer from './ComponentsStatusContainer'
 import UserContainer from './UserContainer'
 
-const OutlineSidebarContainer = () => (
+const OutlineSidebarContainer: React.SFC = () => (
   <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
     <Sidebar>
       <UserContainer />

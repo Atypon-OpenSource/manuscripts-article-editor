@@ -30,7 +30,7 @@ const SortIconContainer = styled.div`
   margin-right: 15px;
 `
 
-export const Sort: React.SFC<{}> = ({ children }) => (
+export const Sort: React.SFC = ({ children }) => (
   <SortContainer>
     <SortIconContainer>
       <SortIcon size={12} color={'#fff'} />

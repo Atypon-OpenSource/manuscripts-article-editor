@@ -7,7 +7,9 @@ import preferences from '../lib/preferences'
 import { UserProps, withUser } from '../store/UserProvider'
 import SidebarContainer from './SidebarContainer'
 
-class WelcomePageContainer extends React.Component<UserProps & RouterProps> {
+type Props = UserProps & RouterProps
+
+class WelcomePageContainer extends React.Component<Props> {
   // TODO: load recent files from the database
   public componentDidMount() {
     const preferencesData = preferences.get()

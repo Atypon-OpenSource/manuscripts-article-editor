@@ -42,33 +42,33 @@ interface ComponentIdSets {
   [key: string]: ComponentIdSet
 }
 
-interface ManuscriptPageContainerState {
+interface State {
   citationProcessor: Citeproc.Processor | null
   citationStyle: string
   componentIds: ComponentIdSets
   componentMap: ComponentMap
   dirty: boolean
   doc: ProsemirrorNode | null
+  error: string | null
   locale: string
   popper: PopperManager
 }
 
-interface ManuscriptPageContainerProps {
+interface ComponentProps {
   id: string
 }
 
-interface ManuscriptPageRoute extends Route<RouteProps> {
+interface ComponentRoute extends Route<RouteProps> {
   id: string
 }
 
-type ComponentProps = ManuscriptPageContainerProps &
+type Props = ComponentProps &
   ComponentsProps &
-  RouteComponentProps<ManuscriptPageRoute>
+  RouteComponentProps<ComponentRoute> &
+  IntlProps
 
-class ManuscriptPageContainer extends React.Component<
-  ComponentProps & IntlProps
-> {
-  public state: ManuscriptPageContainerState = {
+class ManuscriptPageContainer extends React.Component<Props, State> {
+  public state: Readonly<State> = {
     citationProcessor: null,
     citationStyle: 'apa', // TODO: citation style switcher
     componentIds: {
@@ -78,6 +78,7 @@ class ManuscriptPageContainer extends React.Component<
     componentMap: new Map(),
     dirty: false,
     doc: null,
+    error: null,
     locale: 'en-GB', // TODO: per-document locale switcher
     popper: new PopperManager(),
   }
@@ -86,7 +87,7 @@ class ManuscriptPageContainer extends React.Component<
 
   private readonly debouncedSaveComponents: (state: EditorState) => void
 
-  public constructor(props: ComponentProps & IntlProps) {
+  public constructor(props: Props) {
     super(props)
 
     this.debouncedSaveComponents = debounce(this.saveComponents, 1000, {

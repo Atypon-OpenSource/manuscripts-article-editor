@@ -8,15 +8,14 @@ import {
 import { Spinner } from '../components/Spinner'
 import { UserProviderState, withUser } from '../store/UserProvider'
 
-interface PrivateRouteProps extends RouteProps {
+interface ComponentProps {
   component: React.ComponentType<any> // tslint:disable-line:no-any
   user: UserProviderState
 }
 
-const PrivateRoute: React.SFC<PrivateRouteProps> = ({
-  component: Component,
-  ...rest
-}) => (
+type Props = ComponentProps & RouteProps
+
+const PrivateRoute: React.SFC<Props> = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props: RouteComponentProps<{}>) => {

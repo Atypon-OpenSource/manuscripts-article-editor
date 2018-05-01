@@ -4,11 +4,11 @@ import React from 'react'
 import { parseContents } from '../transformer/decode'
 import schema from './config/schema'
 
-export interface TitleProps {
+interface Props {
   title: string
 }
 
-class Title extends React.Component<TitleProps> {
+class Title extends React.Component<Props> {
   private view: EditorView
 
   public render() {

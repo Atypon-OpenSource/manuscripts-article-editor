@@ -26,7 +26,7 @@ interface PanelStyle {
   height: number | string
 }
 
-class Panel extends React.Component<PanelProps> {
+class Panel extends React.Component<PanelProps, PanelState> {
   public state: PanelState = {
     originalSize: null,
     size: null,

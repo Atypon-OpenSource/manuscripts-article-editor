@@ -37,7 +37,7 @@ export interface EditorProps {
   popper: PopperManager
 }
 
-interface ComponentState {
+interface State {
   state: EditorState | null
 }
 
@@ -66,8 +66,8 @@ const EditorBody = styled.div`
 
 // TODO: pass updated components from the database to plugins, without re-rendering the editor
 
-class Editor extends React.Component<EditorProps> {
-  public state: Readonly<ComponentState> = {
+class Editor extends React.Component<EditorProps, State> {
+  public state: Readonly<State> = {
     state: null,
   }
 

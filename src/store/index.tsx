@@ -3,11 +3,11 @@ import ComponentsProvider from './ComponentsProvider'
 import IntlProvider from './IntlProvider'
 import UserProvider from './UserProvider'
 
-interface StoreProvidersProps {
+interface Props {
   children?: JSX.Element
 }
 
-export const StoreProviders = (props: StoreProvidersProps) => (
+export const StoreProviders: React.SFC<Props> = props => (
   <ComponentsProvider>
     <UserProvider>
       <IntlProvider>{props.children}</IntlProvider>

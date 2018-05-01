@@ -18,13 +18,15 @@ interface UserDetails {
   email: string
 }
 
-interface SignupPageContainerState {
+interface State {
   confirming: UserDetails | null
   error: boolean
 }
 
-class SignupPageContainer extends React.Component<UserProps & RouterProps> {
-  public state: SignupPageContainerState = {
+type Props = UserProps & RouterProps
+
+class SignupPageContainer extends React.Component<Props, State> {
+  public state: Readonly<State> = {
     confirming: null,
     error: false,
   }

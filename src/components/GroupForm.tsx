@@ -25,12 +25,14 @@ export interface GroupErrors extends FormikErrors<GroupValues> {
   submit?: string | null
 }
 
-export interface GroupFormProps {
+interface Props {
   stopEditing: () => void
   deleteGroup: () => void
 }
 
-export const GroupForm = ({
+type FormProps = FormikProps<GroupValues & GroupErrors>
+
+export const GroupForm: React.SFC<FormProps & Props> = ({
   values,
   touched,
   errors,
@@ -41,7 +43,7 @@ export const GroupForm = ({
   isValid,
   stopEditing,
   deleteGroup,
-}: FormikProps<GroupValues & GroupErrors> & GroupFormProps) => (
+}) => (
   <form onSubmit={handleSubmit}>
     <ModalContainer>
       <ModalHeader>

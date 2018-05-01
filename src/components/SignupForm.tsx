@@ -15,7 +15,9 @@ export interface SignupErrors extends FormikErrors<SignupValues> {
   submit?: string
 }
 
-export const SignupForm = ({
+type FormProps = FormikProps<SignupValues & SignupErrors>
+
+export const SignupForm: React.SFC<FormProps> = ({
   values,
   touched,
   errors,
@@ -25,7 +27,7 @@ export const SignupForm = ({
   handleSubmit,
   isSubmitting,
   isValid,
-}: FormikProps<SignupValues & SignupErrors>) => (
+}) => (
   <CenteredForm onSubmit={handleSubmit}>
     <FormHeader>
       <SubHero>Manuscripts Online</SubHero>

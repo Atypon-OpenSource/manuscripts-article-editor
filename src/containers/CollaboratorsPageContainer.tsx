@@ -12,14 +12,14 @@ import {
 } from '../types/collaborator'
 import SidebarContainer from './SidebarContainer'
 
-interface CollaboratorsPageContainerState {
+interface State {
   collaborators: CollaboratorDocument[]
   loaded: boolean
   error: string | null
 }
 
-class CollaboratorsPageContainer extends React.Component {
-  public state: CollaboratorsPageContainerState = {
+class CollaboratorsPageContainer extends React.Component<{}, State> {
+  public state: Readonly<State> = {
     collaborators: [],
     loaded: false,
     error: null,

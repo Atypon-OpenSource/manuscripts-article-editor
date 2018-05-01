@@ -59,12 +59,12 @@ const modalStyle = {
   },
 }
 
-interface SimpleModalProps {
+interface Props {
   children: React.ReactNode
   handleClose: () => void
 }
 
-export const SimpleModal = ({ children, handleClose }: SimpleModalProps) => (
+export const SimpleModal: React.SFC<Props> = ({ children, handleClose }) => (
   <Modal
     isOpen={true}
     onRequestClose={handleClose}

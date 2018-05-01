@@ -44,8 +44,10 @@ const getCurrentUserId = () => {
   return tokenData ? getUserIdFromJWT(tokenData.access_token) : null
 }
 
-class UserProvider extends React.Component<ComponentsProps> {
-  public state: UserProviderState = {
+type Props = ComponentsProps
+
+class UserProvider extends React.Component<Props, UserProviderState> {
+  public state: Readonly<UserProviderState> = {
     loading: false,
     loaded: false,
     data: null,
@@ -92,9 +94,9 @@ class UserProvider extends React.Component<ComponentsProps> {
         if (doc) {
           const previousData = this.state.data
 
-          const data: Partial<User> = {
+          const data: User = {
             _id: doc.get('id'),
-            email: doc.get('email'),
+            email: doc.get('email') as string,
             name: doc.get('name'),
             familyName: doc.get('familyName'),
             givenName: doc.get('givenName'),

@@ -44,12 +44,6 @@ const ManuscriptDate = styled.span`
 
 const ManuscriptContributors = styled.div``
 
-export interface ManuscriptProps {
-  manuscript: ManuscriptDocument
-  contributors: Person[]
-  removeManuscript: RemoveManuscript
-}
-
 const DeleteButton = Button.extend`
   color: #ddd;
   font-size: 10px;
@@ -65,6 +59,12 @@ const updatedAt = (manuscript: ManuscriptDocument) => {
   const date = new Date(time)
 
   return dateFormatter.format(date)
+}
+
+interface ManuscriptProps {
+  manuscript: ManuscriptDocument
+  contributors: Person[]
+  removeManuscript: RemoveManuscript
 }
 
 export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
@@ -93,7 +93,7 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
   </ManuscriptContainer>
 )
 
-export interface ManuscriptsProps {
+interface ManuscriptsProps {
   manuscripts: ManuscriptDocument[]
   removeManuscript: RemoveManuscript
 }

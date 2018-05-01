@@ -5,7 +5,7 @@ import Spinner from '../icons/spinner'
 import preferences from '../lib/preferences'
 // import client from './lib/client'
 
-const translations: StringMap<object> = {
+const translations: StringMap<StringMap<string>> = {
   ar: {
     error: 'خطأ',
     manuscripts: 'المخطوطات',
@@ -52,14 +52,14 @@ interface Messages {
   [key: string]: string
 }
 
-interface IntlProviderState {
+interface State {
   locale: string
   loading: boolean
   error: boolean
   messages: Messages | null
 }
 
-export interface IntlProviderContext extends IntlProviderState {
+export interface IntlProviderContext extends State {
   locale: string
   setLocale: (locale: string) => void
 }
@@ -80,8 +80,8 @@ export const withIntl = (
   </IntlContext.Consumer>
 )
 
-class IntlProvider extends React.Component {
-  public state: IntlProviderState = {
+class IntlProvider extends React.Component<{}, State> {
+  public state: State = {
     locale: 'en',
     loading: true,
     error: false,

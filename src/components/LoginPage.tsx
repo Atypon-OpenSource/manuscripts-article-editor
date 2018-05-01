@@ -10,7 +10,9 @@ import {
 import { LoginForm, LoginValues } from './LoginForm'
 import { Centered } from './Page'
 
-const LoginPage: React.SFC<FormikConfig<LoginValues>> = ({
+type FormProps = FormikConfig<LoginValues>
+
+const LoginPage: React.SFC<FormProps> = ({
   initialValues,
   validationSchema,
   onSubmit,

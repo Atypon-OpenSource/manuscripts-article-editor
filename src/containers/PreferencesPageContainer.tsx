@@ -11,9 +11,9 @@ import preferences from '../lib/preferences'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { preferencesSchema } from '../validation'
 
-class PreferencesPageContainer extends React.Component<
-  RouterProps & IntlProps
-> {
+type Props = RouterProps & IntlProps
+
+class PreferencesPageContainer extends React.Component<Props> {
   public render() {
     const initialValues = preferences.get()
 

@@ -39,7 +39,9 @@ export interface PreferencesErrors extends FormikErrors<PreferencesValues> {
   submit?: {}
 }
 
-export const PreferencesForm = ({
+type FormProps = FormikProps<PreferencesValues & PreferencesErrors>
+
+export const PreferencesForm: React.SFC<FormProps> = ({
   values,
   touched,
   errors,
@@ -49,7 +51,7 @@ export const PreferencesForm = ({
   handleSubmit,
   isSubmitting,
   isValid,
-}: FormikProps<PreferencesValues & PreferencesErrors>) => (
+}) => (
   <form onSubmit={handleSubmit}>
     <ModalContainer>
       <ModalHeader>

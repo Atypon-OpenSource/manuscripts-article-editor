@@ -22,7 +22,9 @@ export interface PasswordErrors extends FormikErrors<PasswordValues> {
   unauthorized?: string
 }
 
-export const PasswordForm = ({
+type FormProps = FormikProps<PasswordValues & PasswordErrors>
+
+export const PasswordForm: React.SFC<FormProps> = ({
   values,
   touched,
   errors,
@@ -31,7 +33,7 @@ export const PasswordForm = ({
   handleSubmit,
   isSubmitting,
   isValid,
-}: FormikProps<PasswordValues & PasswordErrors>) => (
+}) => (
   <CenteredForm onSubmit={handleSubmit}>
     <FormHeader>
       <SubHero>Choose a new password</SubHero>

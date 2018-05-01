@@ -14,7 +14,9 @@ export interface RecoverErrors extends FormikErrors<RecoverValues> {
   submit: string
 }
 
-export const RecoverForm = ({
+type FormProps = FormikProps<RecoverValues & RecoverErrors>
+
+export const RecoverForm: React.SFC<FormProps> = ({
   values,
   touched,
   errors,
@@ -23,7 +25,7 @@ export const RecoverForm = ({
   handleSubmit,
   isSubmitting,
   isValid,
-}: FormikProps<RecoverValues & RecoverErrors>) => (
+}) => (
   <CenteredForm onSubmit={handleSubmit}>
     <FormHeader>
       <SubHero>Reset Password</SubHero>

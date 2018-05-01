@@ -4,12 +4,14 @@ import { Spinner } from '../components/Spinner'
 import { UserInfo, UserLink } from '../components/UserInfo'
 import { UserProps, withUser } from '../store/UserProvider'
 
-interface UserContainerState {
+interface State {
   isOpen: boolean
 }
 
-class UserContainer extends React.Component<UserProps> {
-  public state: UserContainerState = {
+type Props = UserProps
+
+class UserContainer extends React.Component<Props, State> {
+  public state: Readonly<State> = {
     isOpen: false,
   }
 

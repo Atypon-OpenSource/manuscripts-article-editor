@@ -73,11 +73,11 @@ const AffiliationAddress = styled('span')`
   font-weight: normal;
 `
 
-export interface AuthorDetailsProps {
+interface Props {
   author: Person
 }
 
-export const AuthorDetails = ({ author }: AuthorDetailsProps) => (
+export const AuthorDetails: React.SFC<Props> = ({ author }) => (
   <AuthorDetailsContainer>
     <AuthorDetailsHeader>
       <ModalFormHeading>Details</ModalFormHeading>

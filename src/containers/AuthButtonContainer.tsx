@@ -7,11 +7,11 @@ const apiBaseUrl: string = String(process.env.API_BASE_URL)
 
 export type AuthProvider = 'google' | 'orcid'
 
-interface AuthButtonContainerProps {
+interface Props {
   component: React.SFC<AuthenticationButtonProps>
 }
 
-class AuthButtonContainer extends React.Component<AuthButtonContainerProps> {
+class AuthButtonContainer extends React.Component<Props> {
   public render() {
     const { component: Component } = this.props
 

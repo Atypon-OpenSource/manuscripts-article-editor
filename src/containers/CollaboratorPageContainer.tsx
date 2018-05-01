@@ -19,25 +19,25 @@ import { ManuscriptDocument } from '../types/manuscript'
 import { collaboratorSchema } from '../validation'
 import SidebarContainer from './SidebarContainer'
 
-interface CollaboratorPageContainerState {
+interface State {
   collaborator: CollaboratorDocument | null
   manuscripts: ManuscriptDocument[] | null
   editing: boolean
   error: string | null
 }
 
-interface CollaboratorPageContainerProps {
+interface ComponentProps {
   id: string
 }
 
-interface CollaboratorPageRoute extends Route<RouteProps> {
+interface ComponentRoute extends Route<RouteProps> {
   id: string
 }
 
-class CollaboratorPageContainer extends React.Component<
-  CollaboratorPageContainerProps & RouteComponentProps<CollaboratorPageRoute>
-> {
-  public state: CollaboratorPageContainerState = {
+type Props = ComponentProps & RouteComponentProps<ComponentRoute>
+
+class CollaboratorPageContainer extends React.Component<Props, State> {
+  public state: Readonly<State> = {
     collaborator: null,
     manuscripts: null,
     editing: false,

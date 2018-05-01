@@ -3,7 +3,9 @@ import React from 'react'
 import { Centered } from './Page'
 import { PreferencesForm, PreferencesValues } from './PreferencesForm'
 
-const PreferencesPage: React.SFC<FormikConfig<PreferencesValues>> = ({
+type FormProps = FormikConfig<PreferencesValues>
+
+const PreferencesPage: React.SFC<FormProps> = ({
   initialValues,
   validationSchema,
   onSubmit,

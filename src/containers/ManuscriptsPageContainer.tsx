@@ -19,15 +19,15 @@ import {
 } from '../types/manuscript'
 import SidebarContainer from './SidebarContainer'
 
-interface ManuscriptsPageContainerState {
+interface State {
   manuscripts: ManuscriptDocument[]
   loaded: boolean
 }
 
-class ManuscriptsPageContainer extends React.Component<
-  UserProps & ComponentsProps & RouteComponentProps<{}>
-> {
-  public state: ManuscriptsPageContainerState = {
+type Props = UserProps & ComponentsProps & RouteComponentProps<{}>
+
+class ManuscriptsPageContainer extends React.Component<Props, State> {
+  public state: Readonly<State> = {
     manuscripts: [],
     loaded: false,
   }

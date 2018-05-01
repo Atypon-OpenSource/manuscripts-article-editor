@@ -5,7 +5,7 @@ import SidebarNav from '../components/SidebarNav'
 import ComponentsStatusContainer from './ComponentsStatusContainer'
 import UserContainer from './UserContainer'
 
-const SidebarContainer = () => (
+const SidebarContainer: React.SFC = () => (
   <Panel name={'sidebar'} direction={'row'} side={'end'} minSize={200}>
     <Sidebar>
       <UserContainer />

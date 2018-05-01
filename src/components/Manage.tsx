@@ -141,7 +141,7 @@ export const modalStyle = {
 
 // tslint:disable:no-any
 
-interface ManageProps {
+interface Props {
   sidebar?: React.ReactNode
   main: React.ReactNode
   heading: string
@@ -153,7 +153,7 @@ interface ManageProps {
   isOpen: boolean
 }
 
-export const Manage = ({
+export const Manage: React.SFC<Props> = ({
   sidebar,
   main,
   heading,
@@ -163,7 +163,7 @@ export const Manage = ({
   handleDone,
   handleCancel,
   isOpen,
-}: ManageProps) => (
+}) => (
   <Modal isOpen={isOpen} onRequestClose={handleClose} style={modalStyle}>
     <ModalContainer>
       <ModalHeader>

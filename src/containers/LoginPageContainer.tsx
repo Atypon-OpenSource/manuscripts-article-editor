@@ -13,7 +13,7 @@ import { UserProps, withUser } from '../store/UserProvider'
 import { loginSchema } from '../validation'
 import SidebarContainer from './SidebarContainer'
 
-interface LoginPageContainerState {
+interface State {
   error: boolean
 }
 
@@ -21,8 +21,10 @@ interface ErrorMessage {
   error: string
 }
 
-class LoginPageContainer extends React.Component<UserProps> {
-  public state: LoginPageContainerState = {
+type Props = UserProps
+
+class LoginPageContainer extends React.Component<Props, State> {
+  public state: Readonly<State> = {
     error: false,
   }
 

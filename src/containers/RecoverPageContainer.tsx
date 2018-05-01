@@ -20,12 +20,14 @@ import { UserProps, withUser } from '../store/UserProvider'
 import { passwordSchema, recoverSchema } from '../validation'
 import SidebarContainer from './SidebarContainer'
 
-interface RecoverPageContainerState extends PasswordHiddenValues {
+interface State extends PasswordHiddenValues {
   sent: string | null
 }
 
-class RecoverPageContainer extends React.Component<UserProps> {
-  public state: RecoverPageContainerState = {
+type Props = UserProps
+
+class RecoverPageContainer extends React.Component<Props> {
+  public state: Readonly<State> = {
     sent: null,
     token: '',
   }

@@ -11,7 +11,9 @@ import { User } from '../types/user'
 import { accountSchema } from '../validation'
 import SidebarContainer from './SidebarContainer'
 
-class AccountPageContainer extends React.Component<UserProps & RouterProps> {
+type Props = UserProps & RouterProps
+
+class AccountPageContainer extends React.Component<Props> {
   public render() {
     const initialValues = this.props.user.data as User
 

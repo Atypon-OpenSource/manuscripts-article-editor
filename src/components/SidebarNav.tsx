@@ -30,7 +30,7 @@ export const SidebarLink = styled(NavLink)`
   }
 `
 
-const SidebarNav = () => (
+const SidebarNav: React.SFC = () => (
   <div>
     <SidebarLink to={'/manuscripts'}>
       <ManuscriptsTitleMessage />

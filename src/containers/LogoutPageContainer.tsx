@@ -5,7 +5,9 @@ import { logout } from '../lib/api'
 import { UserProps, withUser } from '../store/UserProvider'
 import SidebarContainer from './SidebarContainer'
 
-class LogoutPageContainer extends React.Component<UserProps> {
+type Props = UserProps
+
+class LogoutPageContainer extends React.Component<Props> {
   public componentDidMount() {
     logout()
       .then(() => {

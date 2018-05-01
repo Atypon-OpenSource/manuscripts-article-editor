@@ -25,12 +25,14 @@ export interface CollaboratorErrors extends FormikErrors<CollaboratorValues> {
   submit?: string
 }
 
-export interface CollaboratorFormProps {
+interface Props {
   stopEditing: () => void
   deleteCollaborator: () => void
 }
 
-export const CollaboratorForm = ({
+type FormProps = FormikProps<CollaboratorValues & CollaboratorErrors>
+
+export const CollaboratorForm: React.SFC<Props & FormProps> = ({
   values,
   touched,
   errors,
@@ -41,8 +43,7 @@ export const CollaboratorForm = ({
   isValid,
   stopEditing,
   deleteCollaborator,
-}: FormikProps<CollaboratorValues & CollaboratorErrors> &
-  CollaboratorFormProps) => (
+}) => (
   <form onSubmit={handleSubmit}>
     <ModalContainer>
       <ModalHeader>

@@ -7,13 +7,13 @@ import { Db, waitForDB } from '../lib/rxdb'
 import { AddGroup, GroupDocument } from '../types/group'
 import SidebarContainer from './SidebarContainer'
 
-interface GroupsPageContainerState {
+interface State {
   groups: GroupDocument[] | null
   error: string | null
 }
 
-class GroupsPageContainer extends React.Component {
-  public state: GroupsPageContainerState = {
+class GroupsPageContainer extends React.Component<{}, State> {
+  public state: Readonly<State> = {
     groups: null,
     error: null,
   }

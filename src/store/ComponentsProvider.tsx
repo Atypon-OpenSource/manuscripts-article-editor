@@ -13,11 +13,9 @@ import {
   ComponentDocument,
 } from '../types/components'
 
-// tslint:disable:no-console
-
 // TODO: handle offline/sync problems
 
-export interface ComponentsProviderState {
+interface State {
   active: boolean
   collection: ComponentCollection | null
   completed: object | boolean
@@ -25,7 +23,7 @@ export interface ComponentsProviderState {
   replication: RxReplicationState | null
 }
 
-export interface ComponentsProviderContext extends ComponentsProviderState {
+export interface ComponentsProviderContext extends State {
   sync: (options: PouchReplicationOptions) => void
   loadManuscriptComponents: (id: string) => Promise<ComponentDocument[]>
   saveComponent: (
@@ -59,8 +57,8 @@ export const withComponents = (
   </ComponentsContext.Consumer>
 )
 
-class ComponentsProvider extends React.Component {
-  public state: ComponentsProviderState = {
+class ComponentsProvider extends React.Component<{}, State> {
+  public state: Readonly<State> = {
     active: false,
     collection: null,
     completed: false,
@@ -147,7 +145,7 @@ class ComponentsProvider extends React.Component {
     })
 
     replication.error$.subscribe((error: PouchDB.Core.Error) => {
-      console.error(error)
+      console.error(error) // tslint:disable-line:no-console
 
       replication.cancel().then(() => {
         this.handleSyncError(error)
@@ -157,7 +155,7 @@ class ComponentsProvider extends React.Component {
           .catch(() => {
             this.setState({
               completed: true, // continue offline if necessary
-              error: error.message,
+              error: error.message || null,
             })
           })
       })

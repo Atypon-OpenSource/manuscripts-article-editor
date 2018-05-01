@@ -16,7 +16,7 @@ import { ManuscriptDocument } from '../types/manuscript'
 import { groupSchema } from '../validation'
 import SidebarContainer from './SidebarContainer'
 
-interface GroupPageContainerState {
+interface State {
   group: GroupDocument | null
   members: CollaboratorDocument[] | null
   manuscripts: ManuscriptDocument[] | null
@@ -24,18 +24,18 @@ interface GroupPageContainerState {
   error: string | null
 }
 
-interface GroupPageContainerProps {
+interface ComponentProps {
   id: string
 }
 
-interface GroupPageRoute extends Route<RouteProps> {
+interface ComponentRoute extends Route<RouteProps> {
   id: string
 }
 
-class GroupPageContainer extends React.Component<
-  GroupPageContainerProps & RouteComponentProps<GroupPageRoute>
-> {
-  public state: GroupPageContainerState = {
+type Props = ComponentProps & RouteComponentProps<ComponentRoute>
+
+class GroupPageContainer extends React.Component<Props, State> {
+  public state: Readonly<State> = {
     group: null,
     members: null,
     manuscripts: null,

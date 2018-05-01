@@ -2,7 +2,9 @@ import { Formik, FormikConfig } from 'formik'
 import React from 'react'
 import { AccountForm, AccountValues } from './AccountForm'
 
-const AccountPage: React.SFC<FormikConfig<AccountValues>> = ({
+type Props = FormikConfig<AccountValues>
+
+const AccountPage: React.SFC<Props> = ({
   initialValues,
   validationSchema,
   onSubmit,

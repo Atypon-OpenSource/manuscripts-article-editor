@@ -4,7 +4,9 @@ import FooterContainer from '../containers/FooterContainer'
 import { Centered } from './Page'
 import { RecoverForm, RecoverValues } from './RecoverForm'
 
-const RecoverPage: React.SFC<FormikConfig<RecoverValues>> = ({
+type FormProps = FormikConfig<RecoverValues>
+
+const RecoverPage: React.SFC<FormProps> = ({
   initialValues,
   validationSchema,
   onSubmit,

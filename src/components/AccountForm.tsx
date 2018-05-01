@@ -28,7 +28,9 @@ export interface AccountErrors extends FormikErrors<AccountValues> {
   submit?: {}
 }
 
-export const AccountForm = ({
+type FormProps = FormikProps<AccountValues & AccountErrors>
+
+export const AccountForm: React.SFC<FormProps> = ({
   values,
   touched,
   errors,
@@ -36,7 +38,7 @@ export const AccountForm = ({
   handleBlur,
   handleChange,
   handleSubmit,
-}: FormikProps<AccountValues & AccountErrors>) => (
+}) => (
   <form onSubmit={handleSubmit}>
     <ModalContainer>
       <ModalHeader>
