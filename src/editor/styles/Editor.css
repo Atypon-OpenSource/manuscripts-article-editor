@@ -1,7 +1,7 @@
 .ProseMirror:not(.plain) {
   font-size: 13pt;
   line-height: 2em;
-  font-family: Charter, 'Charis SIL', serif;
+  font-family: Charter, "Charis SIL", serif;
   padding: 10px;
   background: #fff;
   color: #000;
@@ -22,7 +22,7 @@
 }
 
 .ProseMirror hr:after {
-  content: '';
+  content: "";
   display: block;
   height: 1px;
   background-color: silver;
@@ -201,15 +201,15 @@
 }
 
 .ProseMirror thead th.empty-node::before {
-  content: 'Header ' counter(header_counter);
+  content: "Header " counter(header_counter);
 }
 
 .ProseMirror tbody td.empty-node::before {
-  content: 'Data';
+  content: "Data";
 }
 
 .ProseMirror tfoot td.empty-node::before {
-  content: 'Footer ' counter(footer_counter);
+  content: "Footer " counter(footer_counter);
 }
 
 .ProseMirror code {

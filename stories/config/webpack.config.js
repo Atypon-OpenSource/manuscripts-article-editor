@@ -37,12 +37,12 @@ module.exports = (storybookBaseConfig, configType) => {
   })
 
   storybookBaseConfig.plugins.push(
-    new webpack.NormalModuleReplacementPlugin(
-      /AsyncLoad\.js/,
-      resource => {
-        resource.request = resource.request.replace(/AsyncLoad/, 'AsyncLoad-disabled')
-      }
-    )
+    new webpack.NormalModuleReplacementPlugin(/AsyncLoad\.js/, resource => {
+      resource.request = resource.request.replace(
+        /AsyncLoad/,
+        'AsyncLoad-disabled'
+      )
+    })
   )
 
   storybookBaseConfig.plugins.push(

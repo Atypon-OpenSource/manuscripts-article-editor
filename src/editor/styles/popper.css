@@ -6,8 +6,8 @@
   min-width: 100px;
   border-radius: 3px;
   /*opacity: 0.9;*/
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-  'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
 .popper-arrow {
@@ -99,7 +99,7 @@
 .popper .menu {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   border: 1px solid #ccc;
-  border-radius:6px;
+  border-radius: 6px;
   color: #444;
   font-size: 90%;
 }
