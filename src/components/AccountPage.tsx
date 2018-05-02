@@ -1,5 +1,5 @@
 import { Formik, FormikConfig } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { AccountForm, AccountValues } from './AccountForm'
 
 const AccountPage: React.SFC<FormikConfig<AccountValues>> = ({

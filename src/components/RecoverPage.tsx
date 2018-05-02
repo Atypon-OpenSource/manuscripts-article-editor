@@ -1,5 +1,5 @@
 import { Formik, FormikConfig } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import FooterContainer from '../containers/FooterContainer'
 import { Centered } from './Page'
 import { RecoverForm, RecoverValues } from './RecoverForm'

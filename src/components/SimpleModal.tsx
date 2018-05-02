@@ -1,5 +1,5 @@
-import * as React from 'react'
-import * as Modal from 'react-modal'
+import React from 'react'
+import Modal from 'react-modal'
 import { ThemedStyledProps } from 'styled-components'
 import Close from '../icons/close'
 import { styled, Theme } from '../theme'

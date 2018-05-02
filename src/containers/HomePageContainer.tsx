@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { Redirect } from 'react-router-dom'
 // import HomePage from '../components/HomePage'
 import { Spinner } from '../components/Spinner'

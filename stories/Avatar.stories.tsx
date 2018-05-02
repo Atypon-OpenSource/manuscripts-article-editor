@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react'
-import * as React from 'react'
+import React from 'react'
 import { Avatar } from '../src/components/Avatar'
-import * as image from './assets/melnitz.jpg'
+import image from './assets/melnitz.jpg'
 
 storiesOf('Avatar', module)
   .add('with image', () => <Avatar src={image} size={32} />)

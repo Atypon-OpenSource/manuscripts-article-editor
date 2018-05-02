@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { AuthProvider } from '../containers/AuthButtonContainer'
 import GoogleLogo from '../icons/google'
 import OrcidLogo from '../icons/orcid'

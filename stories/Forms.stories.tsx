@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { AccountForm } from '../src/components/AccountForm'
 import { CollaboratorForm } from '../src/components/CollaboratorForm'
 import { GroupForm } from '../src/components/GroupForm'

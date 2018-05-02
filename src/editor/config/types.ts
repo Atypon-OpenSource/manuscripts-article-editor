@@ -1,7 +1,7 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { Decoration, EditorView, NodeView } from 'prosemirror-view'
-import * as React from 'react'
+import React from 'react'
 import { ThemedStyledProps } from 'styled-components'
 import { Theme } from '../../theme'
 

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { styled } from '../theme'
 import { Affiliation, Person } from '../types/components'
 import { PrimaryMiniButton } from './Button'

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { ThemedStyledProps } from 'styled-components'
 import { injectGlobal, styled, Theme } from '../theme'
 

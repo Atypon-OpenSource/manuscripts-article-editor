@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react'
-import * as React from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { ActionButton } from '../src/components/Button'
 import { PageHeading } from '../src/components/PageHeading'

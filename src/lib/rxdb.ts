@@ -1,5 +1,5 @@
-import * as PouchDBHTTPAdapter from 'pouchdb-adapter-http'
-import * as PouchDBIDBAdapter from 'pouchdb-adapter-idb'
+import PouchDBHTTPAdapter from 'pouchdb-adapter-http'
+import PouchDBIDBAdapter from 'pouchdb-adapter-idb'
 import { RxCollection, RxDatabase } from 'rxdb'
 import RxDBAttachmentsModule from 'rxdb/plugins/attachments'
 import RxDB from 'rxdb/plugins/core'

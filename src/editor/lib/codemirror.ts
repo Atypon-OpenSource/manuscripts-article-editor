@@ -1,4 +1,4 @@
-import * as CodeMirror from 'codemirror'
+import CodeMirror from 'codemirror'
 import 'codemirror/lib/codemirror.css'
 
 type CreateEditor = (value: string, mode: string) => Promise<CodeMirror.Editor>

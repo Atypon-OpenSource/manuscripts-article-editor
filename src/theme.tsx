@@ -1,6 +1,6 @@
 // https://www.styled-components.com/docs/api#typescript
 
-import * as React from 'react'
+import React from 'react'
 import * as styledComponents from 'styled-components'
 
 export interface Theme {

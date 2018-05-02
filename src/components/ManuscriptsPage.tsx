@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import Add from '../icons/add'
 import { ManuscriptActions, ManuscriptDocument } from '../types/manuscript'
 import { ActionButton } from './Button'

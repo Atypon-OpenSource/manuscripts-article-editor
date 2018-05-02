@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import Outline from '../components/Outline'
 import { Sidebar } from '../components/Page'
 import Panel from '../components/Panel'

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 import equation from './png/InlineMathA.png'
 import bold from './png/Toolbar-BoldTextTemplate@2x.png'

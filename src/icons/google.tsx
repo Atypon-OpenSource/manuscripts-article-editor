@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { IconProps } from './'
 
 // https://developers.google.com/identity/branding-guidelines

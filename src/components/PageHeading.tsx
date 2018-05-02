@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import Search from '../icons/search'
 import { styled } from '../theme'
 import { HelpButton } from './Button'

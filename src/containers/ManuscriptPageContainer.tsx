@@ -1,7 +1,7 @@
 import debounce from 'lodash-es/debounce'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
-import * as React from 'react'
+import React from 'react'
 import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'
 import { Subscription } from 'rxjs/Subscription'
 import { IconBar, Main, Page } from '../components/Page'

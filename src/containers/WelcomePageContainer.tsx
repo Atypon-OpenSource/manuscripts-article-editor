@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { IconBar, Main, Page } from '../components/Page'

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import CSL from 'citeproc'
-import * as url from 'url'
+import url from 'url'
 import { AnyComponent, BibliographyItem } from '../types/components'
 
 export const convertBibliographyItemToData = (

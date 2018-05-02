@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react'
-import * as React from 'react'
+import React from 'react'
 import { TextField, TextFieldGroup } from '../src/components/TextField'
 
 storiesOf('TextField', module)

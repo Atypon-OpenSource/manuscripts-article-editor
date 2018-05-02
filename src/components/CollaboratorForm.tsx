@@ -1,5 +1,5 @@
 import { FormikErrors, FormikProps } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { FormGroup } from './Form'
 import {
   ModalContainer,

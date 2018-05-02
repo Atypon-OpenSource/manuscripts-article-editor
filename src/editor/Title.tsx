@@ -1,6 +1,6 @@
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import * as React from 'react'
+import React from 'react'
 import { parseContents } from '../transformer/decode'
 import schema from './config/schema'
 

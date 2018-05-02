@@ -1,7 +1,7 @@
 jest.mock('../token')
 
 import MockAdapter from 'axios-mock-adapter'
-import * as httpStatusCodes from 'http-status-codes'
+import * as HttpStatusCodes from 'http-status-codes'
 import * as api from '../api'
 import client from '../client'
 import token, { Token } from '../token'
@@ -18,7 +18,7 @@ describe('api', () => {
       name: 'foo',
     }
 
-    mock.onGet('/user').reply(httpStatusCodes.OK, mockData)
+    mock.onGet('/user').reply(HttpStatusCodes.OK, mockData)
 
     const noTokenResult = await api.authenticate()
 
@@ -38,7 +38,7 @@ describe('api', () => {
   it('returns data from signup', async () => {
     const mock = new MockAdapter(client)
 
-    mock.onPost('/registration/signup').reply(httpStatusCodes.OK)
+    mock.onPost('/registration/signup').reply(HttpStatusCodes.OK)
 
     const result = await api.signup({
       name: 'foo',
@@ -46,7 +46,7 @@ describe('api', () => {
       password: 'foo-min-length-8',
     })
 
-    expect(result.status).toEqual(httpStatusCodes.OK)
+    expect(result.status).toEqual(HttpStatusCodes.OK)
   })
 
   it('stores the token after login', async () => {
@@ -56,7 +56,7 @@ describe('api', () => {
       token: 'foo',
     }
 
-    mock.onPost('/auth/login').reply(httpStatusCodes.OK, mockData)
+    mock.onPost('/auth/login').reply(HttpStatusCodes.OK, mockData)
 
     expect(token.get()).toBeNull()
 
@@ -74,7 +74,7 @@ describe('api', () => {
   it('removes the token after logout', async () => {
     const mock = new MockAdapter(client)
 
-    mock.onPost('/auth/logout').reply(httpStatusCodes.NO_CONTENT)
+    mock.onPost('/auth/logout').reply(HttpStatusCodes.NO_CONTENT)
 
     const tokenData = {
       access_token: 'foo',
@@ -96,13 +96,13 @@ describe('api', () => {
   it('send reset password email to the user', async () => {
     const mock = new MockAdapter(client)
 
-    mock.onPost('/auth/sendForgottenPassword').reply(httpStatusCodes.OK)
+    mock.onPost('/auth/sendForgottenPassword').reply(HttpStatusCodes.OK)
 
     const requestData = {
       email: 'user@example.com',
     }
     const response = await api.recoverPassword(requestData)
-    expect(response.status).toBe(httpStatusCodes.OK)
+    expect(response.status).toBe(HttpStatusCodes.OK)
   })
 
   it('should reset the user password', async () => {
@@ -112,7 +112,7 @@ describe('api', () => {
       token: 'foo',
     }
 
-    mock.onPost('/auth/resetPassword').reply(httpStatusCodes.OK, mockData)
+    mock.onPost('/auth/resetPassword').reply(HttpStatusCodes.OK, mockData)
 
     expect(token.get()).toBeNull()
 
@@ -130,12 +130,12 @@ describe('api', () => {
   it('verify user email address', async () => {
     const mock = new MockAdapter(client)
 
-    mock.onPost('/registration/verify').reply(httpStatusCodes.OK)
+    mock.onPost('/registration/verify').reply(HttpStatusCodes.OK)
 
     const requestData = {
       token: 'foobar',
     }
     const response = await api.verify(requestData)
-    expect(response.status).toBe(httpStatusCodes.OK)
+    expect(response.status).toBe(HttpStatusCodes.OK)
   })
 })

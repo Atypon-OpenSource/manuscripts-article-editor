@@ -1,5 +1,5 @@
 import { Formik, FormikConfig } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { Centered } from './Page'
 import { PreferencesForm, PreferencesValues } from './PreferencesForm'
 

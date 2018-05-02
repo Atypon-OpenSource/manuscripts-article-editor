@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { styled } from '../theme'
 import { CollaboratorDocument } from '../types/collaborator'
 import { Manuscript, Person } from '../types/components'

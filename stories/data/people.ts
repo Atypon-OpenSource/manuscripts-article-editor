@@ -1,6 +1,6 @@
 import { Person } from '../../src/types/components'
 
-import * as imageFile from '../assets/melnitz.jpg'
+import imageFile from '../assets/melnitz.jpg'
 
 const people: Person[] = [
   {

@@ -1,3 +1,3 @@
-import * as uuid from 'uuid'
+import uuid from 'uuid'
 
 export default uuid.v4()

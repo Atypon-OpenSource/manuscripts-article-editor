@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { IconProps } from './'
 
 // https://orcid.org/trademark-and-id-display-guidelines

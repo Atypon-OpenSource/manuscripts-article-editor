@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import layout, { Pane } from '../lib/layout'
 import Resizer, { ResizerDirection, ResizerSide } from '../resizer/Resizer'
 

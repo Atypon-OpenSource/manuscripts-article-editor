@@ -1,5 +1,5 @@
 import { Formik, FormikConfig } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import AuthButtonContainer from '../containers/AuthButtonContainer'
 import FooterContainer from '../containers/FooterContainer'
 import {

@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react'
-import * as React from 'react'
+import React from 'react'
 import { IconBar, Main, Page } from '../src/components/Page'
 
 storiesOf('Page', module)

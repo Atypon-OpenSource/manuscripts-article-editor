@@ -1,5 +1,5 @@
 import { stringify } from 'qs'
-import * as React from 'react'
+import React from 'react'
 import { AuthenticationButtonProps } from '../components/Authentication'
 import deviceId from '../lib/deviceId'
 

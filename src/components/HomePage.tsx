@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { Hero } from './Hero'
 import { Centered } from './Page'
 

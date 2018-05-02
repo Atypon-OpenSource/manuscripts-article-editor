@@ -1,5 +1,5 @@
 import * as HttpStatusCodes from 'http-status-codes'
-import * as React from 'react'
+import React from 'react'
 import { RxCollection, RxCollectionCreator, RxReplicationState } from 'rxdb'
 import { PouchReplicationOptions } from 'rxdb/src/typings/pouch'
 import Spinner from '../icons/spinner'

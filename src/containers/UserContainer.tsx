@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { SignInMessage } from '../components/Messages'
 import { Spinner } from '../components/Spinner'
 import { UserInfo, UserLink } from '../components/UserInfo'

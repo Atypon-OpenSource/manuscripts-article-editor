@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { ThemedStyledProps } from 'styled-components'
 import AddFile from '../icons/welcome/add-file'
 import App from '../icons/welcome/app'

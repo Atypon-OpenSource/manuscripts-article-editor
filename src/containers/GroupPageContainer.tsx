@@ -1,5 +1,5 @@
 import { Formik, FormikActions, FormikErrors, FormikProps } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { Route, RouteComponentProps, RouteProps } from 'react-router'
 import { RxError } from 'rxdb'
 import { Subscription } from 'rxjs'

@@ -1,5 +1,5 @@
 import { FormikErrors, FormikProps } from 'formik'
-import * as React from 'react'
+import React from 'react'
 import { PrimaryButton } from './Button'
 import { CenteredForm, FormActions, FormHeader } from './Form'
 import { SubHero } from './Hero'

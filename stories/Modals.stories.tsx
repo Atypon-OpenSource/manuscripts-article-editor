@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
-import * as React from 'react'
+import React from 'react'
 import { AuthorDetails } from '../src/components/AuthorDetails'
 import { Authors } from '../src/components/Authors'
 import { Manage } from '../src/components/Manage'

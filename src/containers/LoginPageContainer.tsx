@@ -1,7 +1,7 @@
 import { FormikActions, FormikErrors } from 'formik'
-import * as httpStatusCode from 'http-status-codes'
+import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
-import * as React from 'react'
+import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { LoginErrors, LoginValues } from '../components/LoginForm'
 import LoginPage from '../components/LoginPage'
@@ -100,9 +100,9 @@ class LoginPageContainer extends React.Component<UserProps> {
         const errors: FormikErrors<LoginErrors> = {}
 
         if (error.response) {
-          if (error.response.status === httpStatusCode.BAD_REQUEST) {
+          if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
             errors.submit = 'Invalid Operation'
-          } else if (error.response.status === httpStatusCode.UNAUTHORIZED) {
+          } else if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
             errors.submit = 'Invalid username or password'
           } else {
             errors.submit = 'An error occurred.'

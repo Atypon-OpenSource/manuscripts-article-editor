@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
-import * as React from 'react'
+import React from 'react'
 import CollaboratorPage from '../src/components/CollaboratorPage'
 import CollaboratorsPage from '../src/components/CollaboratorsPage'
 import GroupPage from '../src/components/GroupPage'

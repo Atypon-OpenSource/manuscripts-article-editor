@@ -1,4 +1,4 @@
-import * as uuid from 'uuid'
+import uuid from 'uuid'
 import nodeTypes from './node-types'
 
 export const generateID = (type: string) => {

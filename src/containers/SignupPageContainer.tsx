@@ -1,7 +1,7 @@
 import { FormikActions, FormikErrors } from 'formik'
-import * as httpStatusCode from 'http-status-codes'
+import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
-import * as React from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
@@ -111,9 +111,9 @@ class SignupPageContainer extends React.Component<UserProps & RouterProps> {
 
         if (error.response) {
           // TODO: a button to re-send the confirmation email
-          if (error.response.status === httpStatusCode.BAD_REQUEST) {
+          if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
             errors.submit = 'Invalid Operation'
-          } else if (error.response.status === httpStatusCode.CONFLICT) {
+          } else if (error.response.status === HttpStatusCodes.CONFLICT) {
             errors.submit = 'The email address already registered'
           } else {
             errors.submit = 'An error occurred.'

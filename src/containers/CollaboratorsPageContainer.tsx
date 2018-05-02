@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { Subscription } from 'rxjs'
 import CollaboratorsPage from '../components/CollaboratorsPage'
 import { IconBar, Main, Page } from '../components/Page'

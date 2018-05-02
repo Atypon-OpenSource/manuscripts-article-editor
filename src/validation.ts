@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import yup from 'yup'
 
 // TODO: warn about password strength?
 

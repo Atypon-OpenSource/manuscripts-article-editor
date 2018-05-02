@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import * as React from 'react'
+import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
 import * as api from '../lib/api'
 import token from '../lib/token'

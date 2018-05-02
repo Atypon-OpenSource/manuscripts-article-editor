@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import * as Intl from 'react-intl'
 import { StringMap } from '../editor/config/types'
 import Spinner from '../icons/spinner'

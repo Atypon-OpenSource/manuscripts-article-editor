@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 // import { IconButton } from '../components/Button'
 import { Spinner } from '../components/Spinner'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'

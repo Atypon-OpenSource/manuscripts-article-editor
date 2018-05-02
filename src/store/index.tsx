@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import ComponentsProvider from './ComponentsProvider'
 import IntlProvider from './IntlProvider'
 import UserProvider from './UserProvider'

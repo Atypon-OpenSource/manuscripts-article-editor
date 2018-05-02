@@ -1,4 +1,4 @@
-import * as uuid from 'uuid'
+import uuid from 'uuid'
 
 export interface DeviceValues {
   deviceId: string

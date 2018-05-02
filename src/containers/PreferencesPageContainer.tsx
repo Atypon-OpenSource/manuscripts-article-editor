@@ -1,6 +1,6 @@
 import { FormikActions } from 'formik'
-import * as React from 'react'
-// import * as Modal from 'react-modal'
+import React from 'react'
+// import Modal from 'react-modal'
 import { RouterProps } from 'react-router'
 import {
   PreferencesErrors,
