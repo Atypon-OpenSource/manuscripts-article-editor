@@ -30,26 +30,34 @@ export default () => {
 
       if (!transactions.some(tr => tr.docChanged)) return null
 
-      // join adjacent empty paragraphs
-      newState.doc.descendants((node, pos) => {
-        if (node.type.name === 'paragraph' && node.childCount === 0) {
-          const nextPos = pos + node.nodeSize
-          const nextNode = newState.doc.nodeAt(nextPos)
+      const joinAdjacentParagraphs = (parent: ProsemirrorNode, pos: number) => (
+        node: ProsemirrorNode,
+        offset: number,
+        index: number
+      ) => {
+        const nodePos = pos + offset
 
-          if (
-            nextNode &&
-            nextNode.type.name === 'paragraph' &&
-            nextNode.childCount === 0
-          ) {
-            tr = tr.join(nextPos)
+        if (
+          node.type.name === 'paragraph' &&
+          !node.childCount &&
+          index < parent.childCount - 1
+        ) {
+          const nextNode = parent.child(index + 1)
+
+          if (nextNode.type.name === 'paragraph' && nextNode.childCount === 0) {
+            tr = tr.join(nodePos + 2)
             updated++
           }
         }
-      })
+
+        node.forEach(joinAdjacentParagraphs(node, nodePos + 1))
+      }
+
+      newState.doc.forEach(joinAdjacentParagraphs(newState.doc, 0))
 
       // return the transaction if something changed
       if (updated) {
-        return tr.setMeta('addToHistory', false)
+        return tr // .setMeta('addToHistory', false)
       }
     },
   })

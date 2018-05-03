@@ -32,11 +32,10 @@ export const IconBar = styled.div`
 `
 
 export const Sidebar = styled.div`
-  white-space: nowrap;
   overflow-x: hidden;
-  text-overflow: ellipsis;
   width: 100%;
   height: 100%;
+  padding: 10px;
   background-color: ${(props: ThemedDivProps) =>
     props.theme.sidebarBackgroundColor};
   box-sizing: border-box;

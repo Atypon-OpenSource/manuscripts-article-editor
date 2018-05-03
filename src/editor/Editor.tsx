@@ -35,6 +35,7 @@ export interface EditorProps {
   subscribe?: (receive: ChangeReceiver) => void
   componentMap: ComponentMap
   popper: PopperManager
+  setView?: (view: EditorView) => void
 }
 
 interface State {
@@ -111,11 +112,12 @@ class Editor extends React.Component<EditorProps, State> {
 
   private createEditorView = (node: Node) => {
     const editable = Boolean(this.props.editable)
+    const state = this.state.state as EditorState
 
     if (!this.view) {
       this.view = new EditorView(node, {
         editable: () => editable,
-        state: this.state.state as EditorState,
+        state,
         dispatchTransaction: this.dispatchTransaction,
         nodeViews: options.nodeViews(this.props),
         attributes: this.props.attributes,
@@ -130,6 +132,14 @@ class Editor extends React.Component<EditorProps, State> {
 
       if (this.props.subscribe) {
         this.props.subscribe(this.receive)
+      }
+
+      if (this.props.onChange) {
+        this.props.onChange(state)
+      }
+
+      if (this.props.setView) {
+        this.props.setView(this.view)
       }
     }
   }

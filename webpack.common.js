@@ -21,10 +21,6 @@ module.exports = {
       resource => {
         resource.request = resource.request.replace(/AsyncLoad/, 'AsyncLoad-disabled')
       }
-    ),
-    new webpack.ContextReplacementPlugin(
-      /codemirror[\/\\]mode$/,
-      /javascript|stex/ // TODO: all the modes needed for the listing format switcher
     )
   ],
   resolve: {

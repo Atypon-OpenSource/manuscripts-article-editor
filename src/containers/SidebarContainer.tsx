@@ -2,7 +2,6 @@ import React from 'react'
 import { Sidebar } from '../components/Page'
 import Panel from '../components/Panel'
 import SidebarNav from '../components/SidebarNav'
-import ComponentsStatusContainer from './ComponentsStatusContainer'
 import UserContainer from './UserContainer'
 
 const SidebarContainer: React.SFC = () => (
@@ -10,7 +9,6 @@ const SidebarContainer: React.SFC = () => (
     <Sidebar>
       <UserContainer />
       <SidebarNav />
-      <ComponentsStatusContainer />
     </Sidebar>
   </Panel>
 )

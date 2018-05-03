@@ -89,6 +89,11 @@ export const getComponentsByType = <T extends AnyComponent>(
 const sortSectionsByPriority = (a: Section, b: Section) =>
   a.priority === b.priority ? 0 : a.priority - b.priority
 
+export const getSections = (componentMap: ComponentMap) =>
+  getComponentsByType<Section>(componentMap, ObjectTypes.SECTION).sort(
+    sortSectionsByPriority
+  )
+
 export class Decoder {
   private readonly componentMap: ComponentMap
 
@@ -103,13 +108,6 @@ export class Decoder {
     }
 
     return this.creators[component.objectType](component)
-  }
-
-  public getSections() {
-    return getComponentsByType<Section>(
-      this.componentMap,
-      ObjectTypes.SECTION
-    ).sort(sortSectionsByPriority)
   }
 
   public getComponent = <T extends AnyComponent>(id: string): T => {
@@ -132,7 +130,7 @@ export class Decoder {
 
     const manuscript = manuscripts[0]
 
-    const rootSections = this.getSections().filter(
+    const rootSections = getSections(this.componentMap).filter(
       section => section.path.length <= 1
     )
 
@@ -277,7 +275,7 @@ export class Decoder {
           })
         : schema.nodes.section_title.create()
 
-      const nestedSections = this.getSections()
+      const nestedSections = getSections(this.componentMap)
         .filter(section => section.path.length > 1)
         .filter(item => item.path[item.path.length - 2] === component.id)
         .map(this.creators[ObjectTypes.SECTION])

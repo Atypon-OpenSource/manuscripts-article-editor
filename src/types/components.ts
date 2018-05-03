@@ -213,12 +213,14 @@ export interface BibliographyElement extends Element {
 }
 
 export type AnyElement =
-  | ParagraphElement
-  | FigureElement
-  | ListingElement
-  | TableElement
   | BibliographyElement
   | EquationElement
+  | FigureElement
+  | ListingElement
+  | OrderedListElement
+  | ParagraphElement
+  | TableElement
+  | UnorderedListElement
 
 export type AnyComponent =
   | Manuscript
@@ -263,3 +265,10 @@ export type ReferencedComponent =
   | TableElement
   | EquationElement
   | ListingElement
+
+export type ComponentWithCaption = FigureElement | TableElement
+
+export type ComponentWithContents =
+  | ParagraphElement
+  | UnorderedListElement
+  | OrderedListElement

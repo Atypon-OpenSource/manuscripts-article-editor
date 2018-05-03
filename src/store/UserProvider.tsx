@@ -161,7 +161,6 @@ class UserProvider extends React.Component<Props, UserProviderState> {
           this.setState({
             loading: false,
             loaded: true,
-            data: null,
           })
         } else {
           // any other error

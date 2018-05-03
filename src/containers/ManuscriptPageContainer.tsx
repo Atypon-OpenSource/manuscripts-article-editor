@@ -1,9 +1,11 @@
 import debounce from 'lodash-es/debounce'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'
 import { Subscription } from 'rxjs/Subscription'
+import { DropSide, TreeItem } from '../components/DraggableTree'
 import { IconBar, Main, Page } from '../components/Page'
 import Panel from '../components/Panel'
 import Editor, {
@@ -36,7 +38,7 @@ import {
   ComponentWithAttachment,
 } from '../types/components'
 import InspectorContainer from './InspectorContainer'
-import OutlineSidebarContainer from './OutlineSidebarContainer'
+import ManuscriptSidebarContainer from './ManuscriptSidebarContainer'
 
 interface ComponentIdSets {
   [key: string]: ComponentIdSet
@@ -52,6 +54,7 @@ interface State {
   error: string | null
   locale: string
   popper: PopperManager
+  view: EditorView | null
 }
 
 interface ComponentProps {
@@ -81,6 +84,7 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
     error: null,
     locale: 'en-GB', // TODO: per-document locale switcher
     popper: new PopperManager(),
+    view: null,
   }
 
   private subs: Subscription[] = []
@@ -98,13 +102,15 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
   public async componentDidMount() {
     const { id } = this.props.match.params
     const { locale } = this.props.intl
-    const { loadManuscriptComponents } = this.props.components
+    const { findManuscriptComponents } = this.props.components
     const { citationStyle } = this.state
 
     window.addEventListener('beforeunload', this.unloadListener)
 
     try {
-      const components = await loadManuscriptComponents(id)
+      const components = (await findManuscriptComponents(
+        id
+      ).exec()) as ComponentDocument[]
 
       if (!components.length) {
         throw new Error('Manuscript not found')
@@ -163,7 +169,8 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
     return (
       <Page>
         <IconBar />
-        <OutlineSidebarContainer />
+
+        <ManuscriptSidebarContainer doc={doc} onDrop={this.handleDrop} />
 
         <Main>
           <Editor
@@ -179,6 +186,7 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
             componentMap={componentMap}
             popper={popper}
             subscribe={this.handleSubscribe}
+            setView={this.setView}
             attributes={{
               dir: locale === 'ar' ? 'rtl' : 'ltr', // TODO: remove hard-coded locale
             }}
@@ -197,6 +205,10 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
         </Panel>
       </Page>
     )
+  }
+
+  private setView = (view: EditorView) => {
+    this.setState({ view })
   }
 
   private getComponent: GetComponent = <T extends AnyComponent>(
@@ -336,9 +348,14 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
   }
 
   private handleChange = (state: EditorState) => {
-    if (!this.state.dirty) {
-      this.setState({ dirty: true })
-    }
+    // if (!this.state.dirty) {
+    //   this.setState({ dirty: true })
+    // }
+
+    this.setState({
+      dirty: true,
+      doc: state.doc,
+    })
 
     window.requestIdleCallback(() => this.debouncedSaveComponents(state), {
       timeout: 5000, // maximum wait for idle
@@ -474,12 +491,31 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
         componentIds,
         componentMap,
         dirty: false,
+        // doc: state.doc,
       })
 
       console.log('saved') // tslint:disable-line:no-console
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
     }
+  }
+
+  private handleDrop = (source: TreeItem, target: TreeItem, side: DropSide) => {
+    const view = this.state.view as EditorView
+
+    const insertPos =
+      side === 'before' ? target.pos - 1 : target.pos + target.node.nodeSize - 1
+
+    let sourcePos = source.pos - 1
+
+    let tr = view.state.tr.insert(insertPos, source.node)
+
+    sourcePos = tr.mapping.map(sourcePos)
+
+    // tr = tr.replaceWith(sourcePos, sourcePos + source.node.nodeSize, [])
+    tr = tr.delete(sourcePos, sourcePos + source.node.nodeSize)
+
+    view.dispatch(tr)
   }
 }
 

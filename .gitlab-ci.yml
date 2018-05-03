@@ -13,8 +13,8 @@ variables:
   NOW_APP: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG
   NOW_DOMAIN: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.now.sh
 
-before_script:
-  - if [ -x "$(command -v nvm)" ]; then nvm use v8.9; fi
+#before_script:
+#  - if [ -x "$(command -v nvm)" ]; then nvm use v8.9; fi
 
 stages:
   - test

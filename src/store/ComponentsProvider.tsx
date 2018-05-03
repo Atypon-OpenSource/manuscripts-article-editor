@@ -1,6 +1,12 @@
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
-import { RxCollection, RxCollectionCreator, RxReplicationState } from 'rxdb'
+import {
+  RxCollection,
+  RxCollectionCreator,
+  RxDocument,
+  RxQuery,
+  RxReplicationState,
+} from 'rxdb'
 import { PouchReplicationOptions } from 'rxdb/src/typings/pouch'
 import Spinner from '../icons/spinner'
 import * as api from '../lib/api'
@@ -25,7 +31,9 @@ interface State {
 
 export interface ComponentsProviderContext extends State {
   sync: (options: PouchReplicationOptions) => void
-  loadManuscriptComponents: (id: string) => Promise<ComponentDocument[]>
+  findManuscriptComponents: (
+    id: string
+  ) => RxQuery<AnyComponent, Array<RxDocument<AnyComponent>>>
   saveComponent: (
     manuscript: string,
     component: ComponentObject
@@ -96,7 +104,7 @@ class ComponentsProvider extends React.Component<{}, State> {
     const value = {
       ...this.state,
       sync: this.sync,
-      loadManuscriptComponents: this.loadManuscriptComponents,
+      findManuscriptComponents: this.findManuscriptComponents,
       saveComponent: this.saveComponent,
       deleteComponent: this.deleteComponent,
     }
@@ -183,12 +191,10 @@ class ComponentsProvider extends React.Component<{}, State> {
     }
   }
 
-  private loadManuscriptComponents = (manuscript: string) => {
+  private findManuscriptComponents = (manuscript: string) => {
     const collection = this.state.collection as RxCollection<AnyComponent>
 
-    return collection.find({ manuscript }).exec() as Promise<
-      ComponentDocument[]
-    >
+    return collection.find({ manuscript })
   }
 
   private saveComponent = (manuscript: string, component: ComponentObject) => {
