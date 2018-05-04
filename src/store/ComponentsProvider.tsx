@@ -1,36 +1,15 @@
-import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
-import {
-  RxCollection,
-  RxCollectionCreator,
-  RxDocument,
-  RxQuery,
-  RxReplicationState,
-} from 'rxdb'
-import { PouchReplicationOptions } from 'rxdb/src/typings/pouch'
+import { RxCollection, RxDocument, RxQuery } from 'rxdb'
 import Spinner from '../icons/spinner'
-import * as api from '../lib/api'
-import { waitForDB } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
 import * as schema from '../schema'
-import {
-  AnyComponent,
-  ComponentCollection,
-  ComponentDocument,
-} from '../types/components'
+import { AnyComponent, ComponentDocument } from '../types/components'
+import DataProvider, {
+  ComponentObject,
+  DataProviderContext,
+} from './DataProvider'
 
-// TODO: handle offline/sync problems
-
-interface State {
-  active: boolean
-  collection: ComponentCollection | null
-  completed: object | boolean
-  error: string | null
-  replication: RxReplicationState | null
-}
-
-export interface ComponentsProviderContext extends State {
-  sync: (options: PouchReplicationOptions) => void
+export interface ComponentsProviderContext extends DataProviderContext {
   findManuscriptComponents: (
     id: string
   ) => RxQuery<AnyComponent, Array<RxDocument<AnyComponent>>>
@@ -49,15 +28,9 @@ export const ComponentsContext = React.createContext<
   ComponentsProviderContext
 >()
 
-export interface ComponentObject {
-  [key: string]: any // tslint:disable-line:no-any
-}
-
-export const withComponents = (
-  // tslint:disable-next-line:no-any
-  Component: React.ComponentType<any>
-  // tslint:disable-next-line:no-any
-): React.ComponentType<any> => (props: object) => (
+export const withComponents = <T extends {}>(
+  Component: React.ComponentType<ComponentsProps>
+): React.ComponentType<T> => (props: object) => (
   <ComponentsContext.Consumer>
     {value => (
       <Component {...props} components={value as ComponentsProviderContext} />
@@ -65,32 +38,13 @@ export const withComponents = (
   </ComponentsContext.Consumer>
 )
 
-class ComponentsProvider extends React.Component<{}, State> {
-  public state: Readonly<State> = {
-    active: false,
-    collection: null,
-    completed: false,
-    error: null,
-    replication: null,
+class ComponentsProvider extends DataProvider {
+  protected options = {
+    name: 'components',
+    schema: schema.components,
   }
 
-  public async componentDidMount() {
-    const db = await waitForDB
-
-    const options = {
-      name: 'components',
-      schema: schema.components,
-    }
-
-    const collection = await db.collection(options as RxCollectionCreator)
-
-    this.setState({ collection })
-
-    // initial sync
-    this.sync({
-      live: false,
-    })
-  }
+  protected path = 'manuscript_data'
 
   public render() {
     // if (!this.state.replication) {
@@ -102,8 +56,7 @@ class ComponentsProvider extends React.Component<{}, State> {
     }
 
     const value = {
-      ...this.state,
-      sync: this.sync,
+      ...this.getValue(),
       findManuscriptComponents: this.findManuscriptComponents,
       saveComponent: this.saveComponent,
       deleteComponent: this.deleteComponent,
@@ -114,81 +67,6 @@ class ComponentsProvider extends React.Component<{}, State> {
         {this.props.children}
       </ComponentsContext.Provider>
     )
-  }
-
-  private sync = (options: PouchReplicationOptions = {}) => {
-    this.setState({
-      error: null,
-    })
-
-    console.log('syncing', options) // tslint:disable-line:no-console
-
-    const collection = this.state.collection as ComponentCollection
-
-    const replication = collection.sync({
-      remote: process.env.SYNC_GATEWAY_URL + 'manuscript_data',
-      waitForLeadership: false, // TODO: remove this for production
-      options,
-    })
-
-    replication.active$.subscribe(active => {
-      this.setState({ active })
-    })
-
-    replication.complete$.subscribe(completed => {
-      console.log({ completed }) // tslint:disable-line:no-console
-
-      if (completed) {
-        this.setState({
-          completed: true,
-        })
-
-        if (!options.live) {
-          // start live syncing
-          this.sync({
-            live: true,
-          })
-        }
-      }
-    })
-
-    replication.error$.subscribe((error: PouchDB.Core.Error) => {
-      console.error(error) // tslint:disable-line:no-console
-
-      replication.cancel().then(() => {
-        this.handleSyncError(error)
-          .then(() => {
-            this.sync(options)
-          })
-          .catch(() => {
-            this.setState({
-              completed: true, // continue offline if necessary
-              error: error.message || null,
-            })
-          })
-      })
-    })
-
-    // replication.change$.subscribe(change => {
-    //   console.dir({ change })
-    // })
-    //
-    // replication.docs$.subscribe(docData => {
-    //   console.dir({ docData })
-    // })
-
-    return replication
-  }
-
-  private handleSyncError = async (error: PouchDB.Core.Error) => {
-    switch (error.status) {
-      // unauthorized, start a new sync gateway session if signed in
-      case HttpStatusCodes.UNAUTHORIZED:
-        return api.refreshSyncSession()
-
-      default:
-        throw error
-    }
   }
 
   private findManuscriptComponents = (manuscript: string) => {

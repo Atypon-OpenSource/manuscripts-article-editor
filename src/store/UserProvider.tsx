@@ -25,11 +25,9 @@ export interface UserProps {
 
 export const UserContext = React.createContext<UserProviderContext>()
 
-export const withUser = (
-  // tslint:disable-next-line:no-any
-  Component: React.ComponentType<any>
-  // tslint:disable-next-line:no-any
-): React.ComponentType<any> => (props: object) => (
+export const withUser = <T extends {}>(
+  Component: React.ComponentType<UserProps>
+): React.ComponentType<T> => (props: object) => (
   <UserContext.Consumer>
     {value => <Component {...props} user={value as UserProviderContext} />}
   </UserContext.Consumer>
@@ -44,9 +42,7 @@ const getCurrentUserId = () => {
   return tokenData ? getUserIdFromJWT(tokenData.access_token) : null
 }
 
-type Props = ComponentsProps
-
-class UserProvider extends React.Component<Props, UserProviderState> {
+class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
   public state: Readonly<UserProviderState> = {
     loading: false,
     loaded: false,
@@ -78,17 +74,17 @@ class UserProvider extends React.Component<Props, UserProviderState> {
     )
   }
 
-  private subscribe(id: string) {
-    const collection = this.props.components.collection as RxCollection<
-      AnyComponent
-    >
+  private getCollection() {
+    return this.props.components.collection as RxCollection<AnyComponent>
+  }
 
+  private subscribe(id: string) {
     // TODO: a User object instead of Contributor?
-    collection
+    this.getCollection()
       .findOne({
         // objectType: CONTRIBUTOR,
         // _id: id,
-        channel_id: id,
+        user_id: id,
       })
       .$.subscribe((doc: RxDocument<Contributor>) => {
         if (doc) {
@@ -118,11 +114,7 @@ class UserProvider extends React.Component<Props, UserProviderState> {
   private update = async (data: Partial<User>) => {
     const userId = getCurrentUserId()
 
-    const collection = this.props.components.collection as RxCollection<
-      AnyComponent
-    >
-
-    const prev = await collection
+    const prev = await this.getCollection()
       .findOne({
         channel_id: userId,
       })

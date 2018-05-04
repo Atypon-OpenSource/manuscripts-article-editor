@@ -19,11 +19,8 @@ import Spinner from '../icons/spinner'
 import CitationManager from '../lib/csl'
 import { AnyComponentChangeEvent } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
-import {
-  ComponentObject,
-  ComponentsProps,
-  withComponents,
-} from '../store/ComponentsProvider'
+import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
+import { ComponentObject } from '../store/DataProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { Decoder, encode } from '../transformer'
 import { buildComponentMap, getComponentFromDoc } from '../transformer/decode'

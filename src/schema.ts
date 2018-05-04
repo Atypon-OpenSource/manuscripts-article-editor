@@ -1,4 +1,6 @@
-export const components = {
+import { RxJsonSchema } from 'rxdb/src/typings/rx-schema'
+
+export const components: RxJsonSchema = {
   title: 'components schema',
   version: 0,
   disableKeyCompression: true,
@@ -33,7 +35,34 @@ export const components = {
   required: ['objectType'],
 }
 
-export const people = {
+export const shared: RxJsonSchema = {
+  title: 'shared components schema',
+  version: 0,
+  disableKeyCompression: true,
+  description: 'describes a shared component',
+  type: 'object',
+  properties: {
+    id: {
+      type: 'string',
+      primary: true,
+    },
+    objectType: {
+      type: 'string',
+      index: true,
+    },
+    createdAt: {
+      type: 'number',
+      index: true,
+    },
+    updatedAt: {
+      type: 'number',
+      index: true,
+    },
+  },
+  required: ['objectType'],
+}
+
+export const people: RxJsonSchema = {
   title: 'people schema',
   version: 0,
   disableKeyCompression: true,
@@ -53,7 +82,7 @@ export const people = {
   required: ['name'],
 }
 
-export const groups = {
+export const groups: RxJsonSchema = {
   title: 'groups schema',
   version: 0,
   disableKeyCompression: true,

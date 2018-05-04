@@ -6,14 +6,13 @@ import {
   RouteProps,
 } from 'react-router-dom'
 import { Spinner } from '../components/Spinner'
-import { UserProviderState, withUser } from '../store/UserProvider'
+import { UserProps, withUser } from '../store/UserProvider'
 
 interface ComponentProps {
   component: React.ComponentType<any> // tslint:disable-line:no-any
-  user: UserProviderState
 }
 
-type Props = ComponentProps & RouteProps
+type Props = ComponentProps & RouteProps & UserProps
 
 const PrivateRoute: React.SFC<Props> = ({ component: Component, ...rest }) => (
   <Route
@@ -41,4 +40,4 @@ const PrivateRoute: React.SFC<Props> = ({ component: Component, ...rest }) => (
   />
 )
 
-export default withUser(PrivateRoute)
+export default withUser<ComponentProps & RouteProps>(PrivateRoute)
