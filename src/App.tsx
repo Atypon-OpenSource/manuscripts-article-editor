@@ -4,17 +4,14 @@ import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from './components/NotFound'
 import AccountPageContainer from './containers/AccountPageContainer'
-import CollaboratorPageContainer from './containers/CollaboratorPageContainer'
-import CollaboratorsPageContainer from './containers/CollaboratorsPageContainer'
-import GroupPageContainer from './containers/GroupPageContainer'
-import GroupsPageContainer from './containers/GroupsPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
 import LogoutPageContainer from './containers/LogoutPageContainer'
 // import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
-import ManuscriptsPageContainer from './containers/ManuscriptsPageContainer'
 import PreferencesPageContainer from './containers/PreferencesPageContainer'
 import PrivateRoute from './containers/PrivateRoute'
+import ProjectPageContainer from './containers/ProjectPageContainer'
+import ProjectsPageContainer from './containers/ProjectsPageContainer'
 import RecoverPageContainer from './containers/RecoverPageContainer'
 import SignupPageContainer from './containers/SignupPageContainer'
 import WelcomePageContainer from './containers/WelcomePageContainer'
@@ -42,35 +39,20 @@ const App = () => (
       exact={true}
       component={PreferencesPageContainer}
     />
-    <Route
-      path={'/manuscripts'}
+    <PrivateRoute
+      path={'/projects'}
       exact={true}
-      component={ManuscriptsPageContainer}
+      component={ProjectsPageContainer}
     />
-    <Route
-      path={'/manuscripts/:id'}
+    <PrivateRoute
+      path={'/projects/:id'}
+      exact={true}
+      component={ProjectPageContainer}
+    />
+    <PrivateRoute
+      path={'/projects/:id/manuscripts/:id'}
       exact={true}
       component={ManuscriptPageContainer}
-    />
-    <PrivateRoute
-      path={'/collaborators'}
-      exact={true}
-      component={CollaboratorsPageContainer}
-    />
-    <PrivateRoute
-      path={'/collaborators/:id'}
-      exact={true}
-      component={CollaboratorPageContainer}
-    />
-    <PrivateRoute
-      path={'/groups'}
-      exact={true}
-      component={GroupsPageContainer}
-    />
-    <PrivateRoute
-      path={'/groups/:id'}
-      exact={true}
-      component={GroupPageContainer}
     />
     <PrivateRoute
       path={'/logout'}

@@ -26,8 +26,8 @@ export const theme = {
   'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,
   padding: '10px',
   primary: '#4489D8',
-  iconbarBackgroundColor: '#91c4ff',
-  sidebarBackgroundColor: '#f2f8ff',
+  iconbarBackgroundColor: '#7fb5d5',
+  sidebarBackgroundColor: '#f8fbfe',
   resizerColor: '#91c4ff',
 }
 

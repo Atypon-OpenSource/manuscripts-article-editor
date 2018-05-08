@@ -6,7 +6,7 @@ import React from 'react'
 import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'
 import { Subscription } from 'rxjs/Subscription'
 import { DropSide, TreeItem } from '../components/DraggableTree'
-import { IconBar, Main, Page } from '../components/Page'
+import { Main, Page } from '../components/Page'
 import Panel from '../components/Panel'
 import Editor, {
   ChangeReceiver,
@@ -35,7 +35,7 @@ import {
   ComponentWithAttachment,
 } from '../types/components'
 import InspectorContainer from './InspectorContainer'
-import ManuscriptSidebarContainer from './ManuscriptSidebarContainer'
+import ManuscriptSidebar from './ManuscriptSidebar'
 
 interface ComponentIdSets {
   [key: string]: ComponentIdSet
@@ -165,9 +165,7 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
 
     return (
       <Page>
-        <IconBar />
-
-        <ManuscriptSidebarContainer doc={doc} onDrop={this.handleDrop} />
+        <ManuscriptSidebar doc={doc} onDrop={this.handleDrop} />
 
         <Main>
           <Editor

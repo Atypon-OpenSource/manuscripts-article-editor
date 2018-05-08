@@ -3,16 +3,12 @@ import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
 import React from 'react'
 import { AccountForm } from '../src/components/AccountForm'
-import { CollaboratorForm } from '../src/components/CollaboratorForm'
-import { GroupForm } from '../src/components/GroupForm'
 import { LoginForm } from '../src/components/LoginForm'
 import { PasswordForm } from '../src/components/PasswordForm'
 import { RecoverForm } from '../src/components/RecoverForm'
 import { SignupForm } from '../src/components/SignupForm'
 import {
   accountSchema,
-  collaboratorSchema,
-  groupSchema,
   loginSchema,
   passwordSchema,
   recoverSchema,
@@ -63,23 +59,5 @@ storiesOf('Forms', module)
       isInitialValid={false}
       onSubmit={action('submit')}
       component={AccountForm}
-    />
-  ))
-  .add('Group', () => (
-    <Formik
-      initialValues={{ name: '', description: '' }}
-      validationSchema={groupSchema}
-      isInitialValid={false}
-      onSubmit={action('submit')}
-      component={GroupForm}
-    />
-  ))
-  .add('Collaborator', () => (
-    <Formik
-      initialValues={{ givenName: '', familyName: '' }}
-      validationSchema={collaboratorSchema}
-      isInitialValid={false}
-      onSubmit={action('submit')}
-      component={CollaboratorForm}
     />
   ))

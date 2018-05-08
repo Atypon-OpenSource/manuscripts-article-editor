@@ -5,7 +5,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { LoginErrors, LoginValues } from '../components/LoginForm'
 import LoginPage from '../components/LoginPage'
-import { IconBar, Main, Page } from '../components/Page'
+import { Main, Page } from '../components/Page'
 import { login } from '../lib/api'
 import deviceId from '../lib/deviceId'
 import token, { Token } from '../lib/token'
@@ -68,7 +68,6 @@ class LoginPageContainer extends React.Component<Props, State> {
 
     return (
       <Page>
-        <IconBar />
         <SidebarContainer />
 
         <Main>

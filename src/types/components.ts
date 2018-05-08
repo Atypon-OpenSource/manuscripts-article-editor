@@ -53,7 +53,14 @@ export interface FigureStyle extends Component {
   alignment: string
 }
 
+export interface Project extends Component {
+  project: string
+  title: string
+  owners?: string[]
+}
+
 export interface Manuscript extends Component {
+  project: string
   title: string
   data?: string
   owners?: string[]

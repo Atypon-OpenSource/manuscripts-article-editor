@@ -1,8 +1,8 @@
 import React from 'react'
 import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
-import { IconBar, Main, Page } from '../components/Page'
-import { WelcomePage } from '../components/WelcomePage'
+import { Main, Page } from '../components/Page'
+import { RecentFile, WelcomePage } from '../components/WelcomePage'
 import preferences from '../lib/preferences'
 import { UserProps, withUser } from '../store/UserProvider'
 import SidebarContainer from './SidebarContainer'
@@ -28,7 +28,6 @@ class WelcomePageContainer extends React.Component<Props> {
 
     return (
       <Page>
-        <IconBar />
         <SidebarContainer />
 
         <Main>
@@ -57,8 +56,8 @@ class WelcomePageContainer extends React.Component<Props> {
     this.props.history.push('/')
   }
 
-  private openManuscript = (id: string) => {
-    this.props.history.push(`/manuscripts/${id}`)
+  private openManuscript = (file: RecentFile) => {
+    this.props.history.push(`/projects/${file.project}/manuscripts/${file.id}`)
   }
 
   private handleHideWelcomeChange: React.ChangeEventHandler<

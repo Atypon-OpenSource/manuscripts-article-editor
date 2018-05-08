@@ -5,7 +5,7 @@ import { RouterProps } from 'react-router'
 import { AccountErrors, AccountValues } from '../components/AccountForm'
 import AccountPage from '../components/AccountPage'
 import { modalStyle } from '../components/Manage'
-import { IconBar, Main, Page } from '../components/Page'
+import { Main, Page } from '../components/Page'
 import { UserProps, withUser } from '../store/UserProvider'
 import { User } from '../types/user'
 import { accountSchema } from '../validation'
@@ -31,7 +31,6 @@ class AccountPageContainer extends React.Component<Props> {
 
     return (
       <Page>
-        <IconBar />
         <SidebarContainer />
 
         <Main>

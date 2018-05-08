@@ -13,6 +13,7 @@ const nodeTypes: Map<string, string> = new Map([
   ['ordered_list', 'MPListElement'],
   ['manuscript', 'MPManuscript'],
   ['paragraph', 'MPParagraphElement'],
+  ['project', 'MPProject'],
   ['section', 'MPSection'],
   ['table', 'MPTable'],
   ['table_figure', 'MPTableElement'],

@@ -1,17 +1,11 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import CollaboratorPage from '../src/components/CollaboratorPage'
-import CollaboratorsPage from '../src/components/CollaboratorsPage'
-import GroupPage from '../src/components/GroupPage'
-import GroupsPage from '../src/components/GroupsPage'
 import LoginPage from '../src/components/LoginPage'
 import ManuscriptsPage from '../src/components/ManuscriptsPage'
 import PasswordPage from '../src/components/PasswordPage'
 import RecoverPage from '../src/components/RecoverPage'
 import SignupPage from '../src/components/SignupPage'
-import { CollaboratorDocument } from '../src/types/collaborator'
-import { GroupDocument } from '../src/types/group'
 import {
   loginSchema,
   passwordSchema,
@@ -21,9 +15,7 @@ import {
 
 /* tslint:disable:no-any */
 
-import groups from './data/groups'
 import manuscripts from './data/manuscripts'
-import authors from './data/people'
 
 storiesOf('Pages', module)
   .add('Sign up', () => (
@@ -68,31 +60,5 @@ storiesOf('Pages', module)
       addManuscript={action('add manuscript')}
       updateManuscript={() => action('update manuscript')}
       removeManuscript={() => action('remove manuscript')}
-    />
-  ))
-  .add('Collaborators', () => (
-    <CollaboratorsPage
-      collaborators={authors as any}
-      addCollaborator={action('add collaborator')}
-      updateCollaborator={action('update collaborator')}
-      removeCollaborator={action('remove collaborator')}
-    />
-  ))
-  .add('Collaborator', () => (
-    <CollaboratorPage
-      collaborator={authors[0] as CollaboratorDocument}
-      manuscripts={[]}
-      startEditing={action('start editing')}
-    />
-  ))
-  .add('Groups', () => (
-    <GroupsPage groups={groups as any} addGroup={action('add group')} />
-  ))
-  .add('Group', () => (
-    <GroupPage
-      group={groups[0] as GroupDocument}
-      members={[]}
-      manuscripts={[]}
-      startEditing={action('start editing')}
     />
   ))

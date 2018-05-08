@@ -4,7 +4,7 @@ import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { IconBar, Main, Page } from '../components/Page'
+import { Main, Page } from '../components/Page'
 import {
   PasswordErrors,
   PasswordHiddenValues,
@@ -59,7 +59,6 @@ class RecoverPageContainer extends React.Component<Props> {
     if (sent) {
       return (
         <Page>
-          <IconBar />
           <Main>
             <RecoverConfirm email={sent} />
           </Main>
@@ -69,7 +68,6 @@ class RecoverPageContainer extends React.Component<Props> {
 
     return (
       <Page>
-        <IconBar />
         <SidebarContainer />
 
         <Main>

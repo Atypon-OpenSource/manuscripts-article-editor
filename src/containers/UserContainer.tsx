@@ -1,20 +1,15 @@
 import React from 'react'
+import { Avatar } from '../components/Avatar'
+import { MenuLink } from '../components/Menu'
+import MenuDropdown from '../components/MenuDropdown'
 import { SignInMessage } from '../components/Messages'
 import { Spinner } from '../components/Spinner'
-import { UserInfo, UserLink } from '../components/UserInfo'
+import { UserInfo } from '../components/UserInfo'
 import { UserProps, withUser } from '../store/UserProvider'
-
-interface State {
-  isOpen: boolean
-}
 
 type Props = UserProps
 
-class UserContainer extends React.Component<Props, State> {
-  public state: Readonly<State> = {
-    isOpen: false,
-  }
-
+class UserContainer extends React.Component<Props> {
   public render() {
     const { user } = this.props
 
@@ -28,25 +23,27 @@ class UserContainer extends React.Component<Props, State> {
       }
 
       return (
-        <UserLink to={'/login'}>
+        <MenuLink to={'/login'}>
           <SignInMessage />
-        </UserLink>
+        </MenuLink>
       )
     }
 
     return (
-      <UserInfo
-        user={user.data}
-        isOpen={this.state.isOpen}
-        toggleOpen={this.toggleOpen}
-      />
+      <MenuDropdown
+        buttonContents={
+          <MenuLink to={'/account'}>
+            <Avatar src={user.data.avatar} size={16} color={'#788faa'} />
+          </MenuLink>
+        }
+        dropdownStyle={{
+          right: 5,
+          left: 'auto',
+        }}
+      >
+        <UserInfo user={user.data} />
+      </MenuDropdown>
     )
-  }
-
-  private toggleOpen = () => {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    })
   }
 }
 

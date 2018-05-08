@@ -14,6 +14,7 @@ type DivProps = ThemedStyledProps<React.HTMLProps<HTMLDivElement>, Theme>
 
 export interface RecentFile {
   id: string
+  project: string
   title: string
   description?: string
 }
@@ -23,7 +24,7 @@ export interface WelcomeProps {
   handleHideWelcomeChange: React.ChangeEventHandler<HTMLInputElement>
   handleClose: () => void
   createNewManuscript: () => void
-  openManuscript: (id: string) => void
+  openManuscript: (file: RecentFile) => void
   sendFeedback: () => void
 }
 
@@ -52,7 +53,7 @@ const WelcomeFooter = styled.div`
   align-items: center;
 `
 
-const ShowAgainLabel = styled.span`
+const ShowAgainLabel = styled.label`
   font-size: 12px;
   letter-spacing: -0.2px;
   color: #9b9b9b;
@@ -233,10 +234,7 @@ export const WelcomePage: React.SFC<WelcomeProps> = ({
           <OpenRecentFileLabel>Open Recent</OpenRecentFileLabel>
 
           {recentFiles.map(file => (
-            <RecentFileIcon
-              key={file.id}
-              onClick={() => openManuscript(file.id)}
-            >
+            <RecentFileIcon key={file.id} onClick={() => openManuscript(file)}>
               <Project size={20} />
               <RecentFileName>{file.title}</RecentFileName>
               {file.description && (
@@ -298,8 +296,10 @@ export const WelcomePage: React.SFC<WelcomeProps> = ({
       </PanelGroup>
 
       <WelcomeFooter>
-        <input type="checkbox" onChange={handleHideWelcomeChange} />
-        <ShowAgainLabel>Show this window after signing in</ShowAgainLabel>
+        <ShowAgainLabel>
+          <input type="checkbox" onChange={handleHideWelcomeChange} />
+          Show this window after signing in
+        </ShowAgainLabel>
       </WelcomeFooter>
     </Container>
   </SimpleModal>

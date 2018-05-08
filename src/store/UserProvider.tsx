@@ -5,7 +5,7 @@ import * as api from '../lib/api'
 import token from '../lib/token'
 import { AnyComponent, Contributor } from '../types/components'
 import { User } from '../types/user'
-import { ComponentsProps, withComponents } from './ComponentsProvider'
+import { SharedDataProps, withSharedData } from './SharedDataProvider'
 
 export interface UserProviderState {
   loading: boolean
@@ -42,7 +42,7 @@ const getCurrentUserId = () => {
   return tokenData ? getUserIdFromJWT(tokenData.access_token) : null
 }
 
-class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
+class UserProvider extends React.Component<SharedDataProps, UserProviderState> {
   public state: Readonly<UserProviderState> = {
     loading: false,
     loaded: false,
@@ -75,7 +75,7 @@ class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<AnyComponent>
+    return this.props.shared.collection as RxCollection<AnyComponent>
   }
 
   private subscribe(id: string) {
@@ -167,4 +167,4 @@ class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
   }
 }
 
-export default withComponents(UserProvider)
+export default withSharedData(UserProvider)

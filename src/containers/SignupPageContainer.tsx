@@ -5,7 +5,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { RouterProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
-import { IconBar, Main, Page } from '../components/Page'
+import { Main, Page } from '../components/Page'
 import { SignupConfirm } from '../components/SignupConfirm'
 import { SignupErrors, SignupValues } from '../components/SignupForm'
 import SignupPage from '../components/SignupPage'
@@ -70,7 +70,6 @@ class SignupPageContainer extends React.Component<Props, State> {
     if (confirming) {
       return (
         <Page>
-          <IconBar />
           <SignupConfirm email={confirming.email} />
         </Page>
       )
@@ -78,7 +77,6 @@ class SignupPageContainer extends React.Component<Props, State> {
 
     return (
       <Page>
-        <IconBar />
         <SidebarContainer />
 
         <Main>

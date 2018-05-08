@@ -10,6 +10,9 @@ import DataProvider, {
 } from './DataProvider'
 
 export interface ComponentsProviderContext extends DataProviderContext {
+  findProjectComponents: (
+    id: string
+  ) => RxQuery<AnyComponent, Array<RxDocument<AnyComponent>>>
   findManuscriptComponents: (
     id: string
   ) => RxQuery<AnyComponent, Array<RxDocument<AnyComponent>>>
@@ -58,6 +61,7 @@ class ComponentsProvider extends DataProvider {
     const value = {
       ...this.getValue(),
       findManuscriptComponents: this.findManuscriptComponents,
+      findProjectComponents: this.findProjectComponents,
       saveComponent: this.saveComponent,
       deleteComponent: this.deleteComponent,
     }
@@ -69,10 +73,16 @@ class ComponentsProvider extends DataProvider {
     )
   }
 
-  private findManuscriptComponents = (manuscript: string) => {
-    const collection = this.state.collection as RxCollection<AnyComponent>
+  private getCollection() {
+    return this.state.collection as RxCollection<AnyComponent>
+  }
 
-    return collection.find({ manuscript })
+  private findManuscriptComponents = (manuscript: string) => {
+    return this.getCollection().find({ manuscript })
+  }
+
+  private findProjectComponents = (project: string) => {
+    return this.getCollection().find({ project })
   }
 
   private saveComponent = (manuscript: string, component: ComponentObject) => {

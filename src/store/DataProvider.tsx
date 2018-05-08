@@ -51,6 +51,8 @@ class DataProvider extends React.Component<{}, DataProviderState> {
   protected sync = (options: PouchReplicationOptions = {}) => {
     this.setState({ error: null })
 
+    // return this.setState({ completed: true })
+
     console.log('syncing', this.options, options) // tslint:disable-line:no-console
 
     const collection = this.state.collection as ComponentCollection

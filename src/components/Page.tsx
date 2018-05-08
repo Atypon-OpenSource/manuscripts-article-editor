@@ -1,6 +1,7 @@
 import React from 'react'
 import { ThemedStyledProps } from 'styled-components'
 import { injectGlobal, styled, Theme } from '../theme'
+import MenuBar from './MenuBar'
 
 injectGlobal`
   body {
@@ -8,38 +9,7 @@ injectGlobal`
   }
 `
 
-export type ThemedDivProps = ThemedStyledProps<
-  React.HTMLProps<HTMLDivElement>,
-  Theme
->
-
-export const Page = styled.div`
-  display: flex;
-  height: 100vh;
-  box-sizing: border-box;
-  background-color: ${(props: ThemedDivProps) => props.theme.backgroundColor};
-  color: ${(props: ThemedDivProps) => props.theme.color};
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
-`
-
-export const IconBar = styled.div`
-  height: 100vh;
-  width: 40px;
-  display: flex;
-  flex-direction: column;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.iconbarBackgroundColor};
-`
-
-export const Sidebar = styled.div`
-  overflow-x: hidden;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.sidebarBackgroundColor};
-  box-sizing: border-box;
-`
+type ThemedDivProps = ThemedStyledProps<React.HTMLProps<HTMLDivElement>, Theme>
 
 export const Main = styled.main`
   height: 100vh;
@@ -53,3 +23,41 @@ export const Centered = Main.extend`
   align-items: center;
   padding: 20px;
 `
+
+const PageContainer = styled.div`
+  display: flex;
+  height: 100vh;
+  box-sizing: border-box;
+  background-color: ${(props: ThemedDivProps) => props.theme.backgroundColor};
+  color: ${(props: ThemedDivProps) => props.theme.color};
+  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
+`
+
+const ViewsBar = styled.div`
+  height: 100vh;
+  width: 56px;
+  display: flex;
+  flex-direction: column;
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.iconbarBackgroundColor};
+`
+
+const IconBar = styled.div`
+  flex: 1;
+  width: 56px;
+  display: flex;
+  flex-direction: column;
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.iconbarBackgroundColor};
+`
+
+export const Page: React.SFC = ({ children }) => (
+  <PageContainer>
+    <ViewsBar>
+      <MenuBar />
+      <IconBar />
+    </ViewsBar>
+
+    {children}
+  </PageContainer>
+)

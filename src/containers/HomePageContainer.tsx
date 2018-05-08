@@ -19,7 +19,7 @@ class HomePageContainer extends React.Component<Props> {
     }
 
     if (user.data) {
-      return <Redirect to={'/manuscripts'} />
+      return <Redirect to={'/projects'} />
     }
 
     return <Redirect to={'/login'} />

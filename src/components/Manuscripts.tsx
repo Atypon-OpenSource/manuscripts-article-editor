@@ -72,7 +72,11 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
   contributors,
   removeManuscript,
 }) => (
-  <ManuscriptContainer to={`/manuscripts/${manuscript.get('id')}`}>
+  <ManuscriptContainer
+    to={`/projects/${manuscript.get('project')}/manuscripts/${manuscript.get(
+      'id'
+    )}`}
+  >
     <ManuscriptSection>
       <ManuscriptTitle>
         <Title title={manuscript.get('title')} />

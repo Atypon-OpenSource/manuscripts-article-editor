@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { IconBar, Main, Page } from '../components/Page'
+import { Main, Page } from '../components/Page'
 import { logout } from '../lib/api'
 import { UserProps, withUser } from '../store/UserProvider'
 import SidebarContainer from './SidebarContainer'
@@ -27,7 +27,6 @@ class LogoutPageContainer extends React.Component<Props> {
 
     return (
       <Page>
-        <IconBar />
         <SidebarContainer />
 
         <Main>

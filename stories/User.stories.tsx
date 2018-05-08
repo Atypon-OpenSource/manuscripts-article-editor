@@ -1,4 +1,3 @@
-import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { UserInfo } from '../src/components/UserInfo'
@@ -24,22 +23,18 @@ const Container = styled.div`
 `
 
 storiesOf('UserInfo', module)
-  .add('closed', () => (
+  .add('user', () => (
     <Container>
-      <UserInfo user={user} isOpen={false} toggleOpen={action('toggle')} />
+      <UserInfo user={user} />
     </Container>
   ))
   .add('open', () => (
     <Container>
-      <UserInfo user={user} isOpen={true} toggleOpen={action('toggle')} />
+      <UserInfo user={user} />
     </Container>
   ))
   .add('with avatar', () => (
     <Container>
-      <UserInfo
-        user={userWithAvatar}
-        isOpen={false}
-        toggleOpen={action('toggle')}
-      />
+      <UserInfo user={userWithAvatar} />
     </Container>
   ))

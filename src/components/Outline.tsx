@@ -1,11 +1,11 @@
 import { styled } from '../theme'
 
 export const Outline = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   position: relative;
 
-  & > div > div {
-    padding-left: 16px;
+  & > div > div > div {
+    padding-left: 18px;
   }
 `
 
@@ -17,8 +17,8 @@ export const OutlineItemIcon = styled.span`
   justify-content: center;
   align-items: center;
   border-radius: 2px;
-  font-size: 9px;
-  padding: 1px;
+  font-size: 10px;
+  padding: 2px;
   flex-shrink: 0;
 `
 
@@ -38,15 +38,17 @@ export const OutlineItem = styled.div`
 
 export const OutlineItemArrow = styled.button`
   display: inline-block;
-  color: #777;
+  color: #ccc;
   cursor: pointer;
   border: none;
   background: transparent;
-  padding: 0 8px;
+  padding: 0 6px;
+  margin-right: 4px;
   flex-shrink: 0;
+  font-size: 14px;
 
   &:hover {
-    color: #000;
+    color: #666;
   }
 
   &:focus {
@@ -56,7 +58,7 @@ export const OutlineItemArrow = styled.button`
 
 export const OutlineItemNoArrow = styled.span`
   display: inline-block;
-  width: 26px;
+  width: 28px;
   flex-shrink: 0;
 `
 
@@ -65,7 +67,7 @@ export const OutlineDropPreview = styled.div`
   background: #65a3ff;
   height: 1px;
   position: absolute;
-  margin-left: 42px;
+  margin-left: 30px;
 
   &:before {
     content: '';
@@ -87,7 +89,7 @@ export const OutlineItemLink = styled.a`
   overflow-x: hidden;
   color: inherit;
   text-decoration: none;
-  padding: 1px 0;
+  padding: 3px 0;
   height: 100%;
 
   &:focus,
