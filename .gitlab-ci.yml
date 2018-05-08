@@ -43,56 +43,29 @@ build:
   tags:
     - nodejs-8
 
-.review/start:
+deploy_production:
   stage: deploy
   dependencies:
     - build
   script:
-    - yarn install --frozen-lockfile --non-interactive --production
-    - cp deploy.json dist/package.json
-    - NOW_DEPLOY_URL=$(yarn run --silent now --token $NOW_TOKEN --team $NOW_TEAM --name $NOW_APP --env SERVE_USER=$SERVE_USER --env SERVE_PASSWORD=$SERVE_PASSWORD --public dist)
-    - yarn run --silent now --token $NOW_TOKEN --team $NOW_TEAM alias set "$NOW_DEPLOY_URL" "$NOW_DOMAIN"
-    - yarn run --silent now --token $NOW_TOKEN --team $NOW_TEAM rm --safe "$NOW_DOMAIN"
-  allow_failure: true
-  environment:
-    name: review/$CI_COMMIT_REF_NAME
-    url: https://$SERVE_USER:$SERVE_PASSWORD@$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.now.sh
-    on_stop: review/stop
-  only:
-    - branches
-  except:
-    - master
+    - ./bin/deploy-production.sh
   tags:
     - nodejs-8
-
-.review/stop:
-  stage: deploy
-  dependencies: []
-  script:
-    - yarn install --frozen-lockfile --non-interactive --production
-    - yarn run --silent now rm --token $NOW_TOKEN --team $NOW_TEAM --yes $NOW_APP
-  when: manual
-  environment:
-    name: review/$CI_COMMIT_REF_NAME
-    action: stop
+    - awscli
   only:
-    - branches
-  except:
-    - master
-  tags:
-    - nodejs-8
-
-.pages:
+    - /\d\..*$/ # tags which are prefixed with a digit + ., i.e. version numbers like 1.2.3
+    - triggers
+  
+deploy_dev:
   stage: deploy
   dependencies:
     - build
   script:
-    - rm -rf public
-    - mv dist public
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
+    - ./bin/deploy-dev.sh
   tags:
     - nodejs-8
+    - awscli
+  only:
+    - master
+    - triggers
+  
