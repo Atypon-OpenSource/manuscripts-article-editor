@@ -23,7 +23,7 @@ export interface UserProps {
   user: UserProviderContext
 }
 
-export const UserContext = React.createContext<UserProviderContext>()
+export const UserContext = React.createContext<UserProviderContext | null>(null)
 
 export const withUser = <T extends {}>(
   Component: React.ComponentType<UserProps>

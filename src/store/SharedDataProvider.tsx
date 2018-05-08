@@ -16,9 +16,9 @@ export interface SharedDataProps {
   shared: SharedDataProviderContext
 }
 
-export const SharedDataContext = React.createContext<
-  SharedDataProviderContext
->()
+export const SharedDataContext = React.createContext<SharedDataProviderContext | null>(
+  null
+)
 
 export const withSharedData = <T extends {}>(
   Component: React.ComponentType<SharedDataProps>

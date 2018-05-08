@@ -32,7 +32,7 @@ module.exports = (storybookBaseConfig, configType) => {
   })
 
   storybookBaseConfig.module.rules.push({
-    test: /\.(xml)$/,
+    test: /\.xml$/,
     use: ['raw-loader'],
   })
 
@@ -52,7 +52,14 @@ module.exports = (storybookBaseConfig, configType) => {
     )
   )
 
-  storybookBaseConfig.resolve.extensions.push('.ts', '.tsx')
+  storybookBaseConfig.plugins.push(
+    new webpack.ContextReplacementPlugin(
+      /react-intl[\/\\]locale-data$/,
+      /en|ar|zh/ // TODO: all the locales needed for the locale switcher
+    )
+  )
 
+  storybookBaseConfig.resolve.extensions.push('.ts', '.tsx')
+  
   return storybookBaseConfig
 }

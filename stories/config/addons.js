@@ -1,3 +1,3 @@
-import '@storybook/addon-actions/register'
-import '@storybook/addon-links/register'
-import '@storybook/addon-notes/register'
+require('@storybook/addon-actions/register')
+require('@storybook/addon-links/register')
+require('@storybook/addon-notes/register')

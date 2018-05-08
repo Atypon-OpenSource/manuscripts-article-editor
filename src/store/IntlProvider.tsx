@@ -68,7 +68,7 @@ export interface IntlProps {
   intl: IntlProviderContext
 }
 
-export const IntlContext = React.createContext<IntlProviderContext>()
+export const IntlContext = React.createContext<IntlProviderContext | null>(null)
 
 export const withIntl = (
   // tslint:disable-next-line:no-any

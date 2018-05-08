@@ -27,9 +27,9 @@ export interface ComponentsProps {
   components: ComponentsProviderContext
 }
 
-export const ComponentsContext = React.createContext<
-  ComponentsProviderContext
->()
+export const ComponentsContext = React.createContext<ComponentsProviderContext | null>(
+  null
+)
 
 export const withComponents = <T extends {}>(
   Component: React.ComponentType<ComponentsProps>

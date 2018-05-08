@@ -1,9 +1,9 @@
-import { addDecorator, configure } from '@storybook/react'
-import React from 'react'
-import { MemoryRouter } from 'react-router-dom'
-import { Story } from '../components/Story'
-import { ThemeProvider } from '../../src/theme'
-import IntlProvider from '../../src/store/IntlProvider'
+const { addDecorator, configure } = require('@storybook/react')
+const React = require('react')
+const { MemoryRouter } = require('react-router-dom')
+const { Story } = require('../components/Story')
+const { ThemeProvider } = require('../../src/theme')
+const IntlProvider = require('../../src/store/IntlProvider').default
 
 addDecorator(story => (
   <IntlProvider>
