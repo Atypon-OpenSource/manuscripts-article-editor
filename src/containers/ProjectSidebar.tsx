@@ -7,8 +7,10 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../components/Sidebar'
+import Title from '../editor/Title'
 import { styled } from '../theme'
-import { Manuscript, Project } from '../types/components'
+import { Project } from '../types/components'
+import { ManuscriptDocument } from '../types/manuscript'
 
 const SidebarManuscript = styled.div`
   padding: 10px 0;
@@ -22,7 +24,7 @@ const ManuscriptTitle = styled(Link)`
 
 interface Props {
   project: Project
-  manuscripts: Manuscript[]
+  manuscripts: ManuscriptDocument[]
 }
 
 const ProjectSidebar: React.SFC<Props> = ({ project, manuscripts }) => (
@@ -37,7 +39,7 @@ const ProjectSidebar: React.SFC<Props> = ({ project, manuscripts }) => (
             <ManuscriptTitle
               to={`/projects/${project.id}/manuscripts/${manuscript.id}`}
             >
-              {manuscript.title || 'Untitled'}
+              <Title title={manuscript.get('title') || 'Untitled'} />
             </ManuscriptTitle>
           </SidebarManuscript>
         ))}
