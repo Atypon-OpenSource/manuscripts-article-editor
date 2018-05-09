@@ -1,20 +1,12 @@
-# image: node:8
-
 # Environment variables needed:
 #
 # API_BASE_URL: the base URL of the manuscripts-api endpoint
-# NOW_TOKEN: the token for authentication with the now.sh API
-# NOW_TEAM: the now.sh team name
-# SERVE_USER: the user for HTTP authentication
-# SERVE_PASSWORD: the password for HTTP authentication
-
-# https://gitlab.com/gitlab-org/gitlab-runner/issues/2495
-variables:
-  NOW_APP: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG
-  NOW_DOMAIN: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.now.sh
-
-#before_script:
-#  - if [ -x "$(command -v nvm)" ]; then nvm use v8.9; fi
+# API_APPLICATION_ID: the application ID sent to the manuscripts-api endpoint
+# SYNC_GATEWAY_URL: the base URL of the sync gateway endpoint
+# S3_BUCKET: S3 bucket name
+# CLOUDFRONT_ID: CloudFront distribution ID
+# STORYBOOK_BUCKET_NAME: Storybook S3 bucket name
+# STORYBOOK_DISTRIBUTION_ID: Storybook CloudFront distribution ID
 
 stages:
   - test
@@ -34,8 +26,7 @@ build:
   stage: build
   script:
     - yarn install --frozen-lockfile --non-interactive --production
-    - cp .env.example .env
-    - API_BASE_URL=$API_BASE_URL yarn build
+    - yarn build
   artifacts:
     expire_in: 1 hour
     paths:
@@ -43,29 +34,54 @@ build:
   tags:
     - nodejs-8
 
-deploy_production:
+storybook:
+  environment:
+    name: storybook
+    url: https://storybook.manuscripts.io/
   stage: deploy
-  dependencies:
-    - build
   script:
-    - ./bin/deploy-production.sh
-  tags:
-    - nodejs-8
-    - awscli
-  only:
-    - /\d\..*$/ # tags which are prefixed with a digit + ., i.e. version numbers like 1.2.3
-    - triggers
-  
-deploy_dev:
-  stage: deploy
-  dependencies:
-    - build
-  script:
-    - ./bin/deploy-dev.sh
+    - yarn install --frozen-lockfile --non-interactive
+    - yarn run build-storybook
+    - aws s3 sync --include "*" --cache-control "max-age=2592000" --acl "public-read" --sse "AES256" storybook-static/ "s3://${STORYBOOK_BUCKET_NAME}"
+    - aws cloudfront create-invalidation --distribution-id ${STORYBOOK_DISTRIBUTION_ID} --paths /index.html /
   tags:
     - nodejs-8
     - awscli
   only:
     - master
     - triggers
-  
+    - manual
+
+deploy_production:
+  environment:
+    name: production
+    url: https://www.manuscripts.io/
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - aws s3 cp --recursive --include "*" --cache-control "max-age=2592000" --acl "public-read" --sse "AES256" dist/ s3://${S3_BUCKET}
+    - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
+  tags:
+    - nodejs-8
+    - awscli
+  only:
+    - /^v\d+\./ # only deploy release tags, which start with "v" and a version number
+
+deploy_dev:
+  environment:
+    name: dev
+    url: https://dev.manuscripts.io/
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - aws s3 cp --recursive --include "*" --cache-control "max-age=2592000" --acl "public-read" --sse "AES256" dist/ s3://${S3_BUCKET}
+    - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
+  tags:
+    - nodejs-8
+    - awscli
+  only:
+    - master
+    - triggers
+    - manual
