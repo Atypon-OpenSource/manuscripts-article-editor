@@ -1,5 +1,6 @@
 process.env.NODE_ENV = 'production'
 
+const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 // const ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -49,6 +50,14 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
+    new webpack.EnvironmentPlugin([
+      'NODE_ENV',
+      'API_BASE_URL',
+      'API_APPLICATION_ID',
+      'CSL_DATA_URL',
+      'SENTRY_PUBLIC_DSN',
+      'SYNC_GATEWAY_URL'
+    ])
     // new ExtractTextPlugin({
     //   allChunks: true,
     //   // filename: '[name].[contenthash].css',
