@@ -1,3 +1,5 @@
+image: registry.gitlab.com/mpapp-private/manuscripts-frontend/node8-aws
+
 # Environment variables needed:
 #
 # API_BASE_URL: the base URL of the manuscripts-api endpoint
