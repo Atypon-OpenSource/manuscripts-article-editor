@@ -5,6 +5,8 @@ module.exports = (storybookBaseConfig, configType) => {
 
   // storybookBaseConfig.mode = configType.toLowerCase()
 
+  storybookBaseConfig.devtool = false
+
   storybookBaseConfig.module.rules.push({
     exclude: /node_modules/,
     test: /\.tsx?$/,
