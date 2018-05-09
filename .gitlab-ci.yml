@@ -12,7 +12,6 @@ image: registry.gitlab.com/mpapp-private/manuscripts-frontend/node8-aws
 
 stages:
   - test
-  - build
   - deploy
 
 test:
@@ -21,18 +20,7 @@ test:
     - yarn install --frozen-lockfile --non-interactive
     - yarn lint
     - yarn test
-  tags:
-    - nodejs-8
-
-build:
-  stage: build
-  script:
-    - yarn install --frozen-lockfile --non-interactive --production
     - yarn build
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - dist
   tags:
     - nodejs-8
 
@@ -52,16 +40,15 @@ storybook:
   only:
     - master
     - triggers
-    - manual
 
 deploy_production:
   environment:
     name: production
     url: https://www.manuscripts.io/
   stage: deploy
-  dependencies:
-    - build
   script:
+    - yarn install --frozen-lockfile --non-interactive --production
+    - yarn build
     - aws s3 cp --recursive --include "*" --cache-control "max-age=2592000" --acl "public-read" --sse "AES256" dist/ s3://${S3_BUCKET}
     - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
   tags:
@@ -75,9 +62,9 @@ deploy_dev:
     name: dev
     url: https://dev.manuscripts.io/
   stage: deploy
-  dependencies:
-    - build
   script:
+    - yarn install --frozen-lockfile --non-interactive --production
+    - yarn build
     - aws s3 cp --recursive --include "*" --cache-control "max-age=2592000" --acl "public-read" --sse "AES256" dist/ s3://${S3_BUCKET}
     - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
   tags:
@@ -86,4 +73,3 @@ deploy_dev:
   only:
     - master
     - triggers
-    - manual
