@@ -11,6 +11,7 @@ export interface Theme {
   fontFamily: string
   padding: string
   primary: string
+  danger: string
   iconbarBackgroundColor: string
   sidebarBackgroundColor: string
   resizerColor: string
@@ -26,6 +27,7 @@ export const theme = {
   'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,
   padding: '10px',
   primary: '#4489D8',
+  danger: '#D48948',
   iconbarBackgroundColor: '#7fb5d5',
   sidebarBackgroundColor: '#f8fbfe',
   resizerColor: '#91c4ff',

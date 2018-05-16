@@ -85,15 +85,12 @@
 
 .ProseMirror .citation,
 .ProseMirror .cross-reference {
-  background-color: #ccdaf3;
+  font-weight: bold;
+  background-color: #DDEAFB;
   border-radius: 5px;
+  color: #22355E;
   padding: 0 2px;
   cursor: pointer;
-}
-
-.ProseMirror .citation:hover,
-.ProseMirror .cross-reference:hover {
-  background-color: #acbad3;
 }
 
 .ProseMirror .cross-reference {
@@ -315,12 +312,17 @@
   white-space: normal;
 }
 
-/*.ProseMirror .csl-entry {
-  display: flex;
-}*/
+.ProseMirror .csl-entry {
+  display: table-row;
+}
 
 .ProseMirror .csl-left-margin {
-  margin-right: 1ch;
+  padding-right: 1ch;
+  display: table-cell;
+}
+
+.ProseMirror .csl-right-inline {
+  display: table-cell;
 }
 
 .ProseMirror pre {

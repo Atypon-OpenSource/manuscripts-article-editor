@@ -17,18 +17,14 @@ export interface MenuButton {
   title: string
   content: React.ReactNode
   active?: (state: EditorState) => boolean
-  run: (state: EditorState, dispatch: Dispatch) => void
+  run?: (state: EditorState, dispatch: Dispatch) => void
   enable?: (state: EditorState) => boolean
+  dropdown?: any // tslint:disable-line:no-any // TODO
 }
 
 export type MenuButtonMap = StringMap<MenuButton>
 
 export type MenuButtonMapMap = StringMap<MenuButtonMap>
-
-export type MenuBarButtonGenerator = (
-  state: EditorState,
-  dispatch: Dispatch
-) => (key: string, item: MenuButton) => JSX.Element
 
 export type ThemedStyledButtonProps = ThemedStyledProps<
   React.HTMLProps<HTMLButtonElement>,

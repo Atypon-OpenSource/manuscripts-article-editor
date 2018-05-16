@@ -7,15 +7,21 @@ import Bibliography = Citeproc.Bibliography
 type NodesWithPositions = Array<[ProsemirrorNode, number]>
 
 export default (props: EditorProps) => {
-  const { citationProcessor, getComponent } = props
+  const {
+    getCitationProcessor,
+    getComponent,
+    getLibraryItem,
+    getManuscript,
+  } = props
 
   let oldCitationsString: string = ''
 
   return new Plugin({
     appendTransaction: (transactions, oldState, newState) => {
-      if (!transactions.some(transaction => transaction.docChanged)) {
-        return null
-      }
+      // TODO: use setMeta to notify of updates when the doc hasn't changed?
+      // if (!transactions.some(transaction => transaction.docChanged)) {
+      //   return null
+      // }
 
       const citationNodes: NodesWithPositions = []
 
@@ -34,9 +40,11 @@ export default (props: EditorProps) => {
             citationItems: citation.embeddedCitationItems.map(
               (citationItem: CitationItem) => ({
                 id: citationItem.bibliographyItem,
+                data: getLibraryItem(citationItem.bibliographyItem), // for comparison
               })
             ),
             properties: { noteIndex: 0 },
+            manuscript: getManuscript(), // for comparison
           }
         }
       )
@@ -52,6 +60,8 @@ export default (props: EditorProps) => {
       console.time('generate bibliography') // tslint:disable-line:no-console
 
       // TODO: move this into a web worker and/or make it asynchronous?
+
+      const citationProcessor = getCitationProcessor()
 
       const generatedCitations = citationProcessor
         .rebuildProcessorState(citations)

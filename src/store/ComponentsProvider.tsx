@@ -1,5 +1,5 @@
 import React from 'react'
-import { RxCollection, RxDocument, RxQuery } from 'rxdb'
+import { RxCollection } from 'rxdb'
 import Spinner from '../icons/spinner'
 import sessionID from '../lib/sessionID'
 import * as schema from '../schema'
@@ -10,12 +10,7 @@ import DataProvider, {
 } from './DataProvider'
 
 export interface ComponentsProviderContext extends DataProviderContext {
-  findProjectComponents: (
-    id: string
-  ) => RxQuery<AnyComponent, Array<RxDocument<AnyComponent>>>
-  findManuscriptComponents: (
-    id: string
-  ) => RxQuery<AnyComponent, Array<RxDocument<AnyComponent>>>
+  getComponent: (id: string) => Promise<ComponentDocument> | null
   saveComponent: (
     manuscript: string,
     component: ComponentObject
@@ -59,9 +54,9 @@ class ComponentsProvider extends DataProvider {
     }
 
     const value = {
-      ...this.getValue(),
-      findManuscriptComponents: this.findManuscriptComponents,
-      findProjectComponents: this.findProjectComponents,
+      ...this.state,
+      sync: this.sync,
+      getComponent: this.getComponent,
       saveComponent: this.saveComponent,
       deleteComponent: this.deleteComponent,
     }
@@ -77,12 +72,10 @@ class ComponentsProvider extends DataProvider {
     return this.state.collection as RxCollection<AnyComponent>
   }
 
-  private findManuscriptComponents = (manuscript: string) => {
-    return this.getCollection().find({ manuscript })
-  }
-
-  private findProjectComponents = (project: string) => {
-    return this.getCollection().find({ project })
+  private getComponent = (id: string) => {
+    return this.getCollection()
+      .findOne(id)
+      .exec() as Promise<ComponentDocument>
   }
 
   private saveComponent = (manuscript: string, component: ComponentObject) => {
@@ -102,10 +95,11 @@ class ComponentsProvider extends DataProvider {
 
             // delete doc._deleted
 
-            const { id: _id, ...rest } = component
+            const { id: _id, _rev, ...rest } = component
 
             Object.entries(rest).forEach(([key, value]) => {
               doc.set(key, value)
+              // doc._data[key] = value
             })
           }) as Promise<ComponentDocument>
         }
@@ -132,11 +126,16 @@ class ComponentsProvider extends DataProvider {
       throw new Error('Not found')
     }
 
-    return doc
-      .atomicUpdate((doc: ComponentDocument) => {
-        doc.set('_deleted', true)
-      })
-      .then(doc => doc.id)
+    return doc.remove().then(() => doc.id)
+
+    // return doc
+    //   .atomicUpdate((doc: ComponentDocument) => {
+    //     doc._data._deleted = true
+    //   })
+    //   .then(doc => {
+    //     console.log({ doc })
+    //     return doc.id
+    //   })
   }
 }
 

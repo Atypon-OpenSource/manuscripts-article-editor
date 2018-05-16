@@ -1,7 +1,7 @@
 import axios from 'axios'
 import CSL from 'citeproc'
 import url from 'url'
-import { AnyComponent, BibliographyItem } from '../types/components'
+import { BibliographyItem } from '../types/components'
 
 export const convertBibliographyItemToData = (
   item: BibliographyItem
@@ -29,7 +29,7 @@ class CitationManager {
   public createProcessor = async (
     citationStyle: string,
     locale: string,
-    getComponent: <T extends AnyComponent>(id: string) => T
+    getLibraryItem: (id: string) => BibliographyItem
   ) => {
     const citationStyleData = await this.fetchStyle(citationStyle)
 
@@ -41,7 +41,7 @@ class CitationManager {
     return new CSL.Engine(
       {
         retrieveItem: (id: string) =>
-          convertBibliographyItemToData(getComponent<BibliographyItem>(id)),
+          convertBibliographyItemToData(getLibraryItem(id)),
         retrieveLocale: localeName => citationLocales.get(localeName) as string,
         // embedBibliographyEntry: '',
         // wrapCitationEntry: '',
@@ -52,10 +52,24 @@ class CitationManager {
     )
   }
 
+  public fetchStyles = () => {
+    return this.fetchJSON('/styles')
+  }
+
+  public fetchLocales = () => {
+    return this.fetchJSON('/locales')
+  }
+
   private async fetchText(path: string) {
     const response = await axios.get(url.resolve(this.service, path), {
       responseType: 'text',
     })
+
+    return response.data
+  }
+
+  private async fetchJSON(path: string) {
+    const response = await axios.get(url.resolve(this.service, path))
 
     return response.data
   }

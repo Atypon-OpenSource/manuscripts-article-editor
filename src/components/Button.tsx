@@ -59,6 +59,23 @@ export const PrimaryButton = Button.extend`
   }
 `
 
+export const DeleteButton = Button.extend`
+  border-color: ${(props: ButtonProps) => props.theme.danger};
+  color: ${(props: ButtonProps) => props.theme.danger};
+
+  &:hover {
+    background-color: ${(props: ButtonProps) => props.theme.danger};
+    border-color: ${(props: ButtonProps) => props.theme.danger};
+    color: #fff;
+  }
+
+  &:active {
+    background-color: ${(props: ButtonProps) => props.theme.danger};
+    border-color: ${(props: ButtonProps) => props.theme.danger};
+    color: #fff;
+  }
+`
+
 export const ActionButton = styled.div`
   background-color: #ffce7e;
   display: inline-flex;

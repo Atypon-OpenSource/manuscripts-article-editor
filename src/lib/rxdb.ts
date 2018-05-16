@@ -1,6 +1,6 @@
 import PouchDBHTTPAdapter from 'pouchdb-adapter-http'
 import PouchDBIDBAdapter from 'pouchdb-adapter-idb'
-import { RxCollection, RxDatabase } from 'rxdb'
+import { RxDatabase } from 'rxdb'
 import RxDBAttachmentsModule from 'rxdb/plugins/attachments'
 import RxDB from 'rxdb/plugins/core'
 import RxDBErrorMessagesModule from 'rxdb/plugins/error-messages'
@@ -15,12 +15,7 @@ import {
   RxChangeEventRemove,
   RxChangeEventUpdate,
 } from 'rxdb/src/typings/rx-change-event'
-import {
-  AnyComponent,
-  ComponentCollection,
-  Group,
-  Person,
-} from '../types/components'
+import { AnyComponent } from '../types/components'
 
 RxDB.QueryChangeDetector.enable()
 // RxDB.QueryChangeDetector.enableDebugging()
@@ -41,22 +36,19 @@ if (process.env.NODE_ENV === 'development') {
 
 window.RxDB = RxDB
 
-export interface Db extends RxDatabase {
-  components: ComponentCollection
-  groups: RxCollection<Group>
-  groupmembers: RxCollection<Person>
-  collaborators: RxCollection<Person>
-}
-
 export type AnyComponentChangeEvent =
   | RxChangeEventInsert<AnyComponent>
   | RxChangeEventUpdate<AnyComponent>
   | RxChangeEventRemove<AnyComponent>
 
+export interface Db {
+  [key: string]: any // tslint:disable-line:no-any
+}
+
 export const waitForDB = RxDB.create({
   name: 'manuscriptsdb',
   adapter: 'idb',
-}) as Promise<Db>
+}) as Promise<RxDatabase>
 
 export const removeDB = () =>
   RxDB.removeDatabase('manuscriptsdb', 'idb')

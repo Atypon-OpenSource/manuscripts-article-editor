@@ -1,13 +1,23 @@
-const headers = {
-  accept: 'application/vnd.citationstyles.csl+json',
-}
+import { stringify } from 'qs'
 
-export const sample = (query: string) =>
-  fetch(
-    'https://api.crossref.org/works?rows=1&filter=type:journal-article&query=' +
-      encodeURIComponent(query)
-  )
+export const search = (query: string, rows: number) =>
+  window
+    .fetch(
+      'https://api.crossref.org/works?' +
+        stringify({
+          filter: 'type:journal-article',
+          query,
+          rows,
+        })
+    )
     .then(response => response.json())
-    .then(data => data.message.items[0])
-    .then(item => fetch(item.URL, { headers }))
+    .then(data => data.message.items)
+
+export const fetch = (url: string) =>
+  window
+    .fetch(url, {
+      headers: {
+        accept: 'application/vnd.citationstyles.csl+json',
+      },
+    })
     .then(response => response.json())

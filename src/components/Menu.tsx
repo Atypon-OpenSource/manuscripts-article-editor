@@ -79,6 +79,7 @@ export const Menu: React.SFC<MenuProps> = ({ handleClose }) => (
         <MenuLink to={'/activity'}>Activity</MenuLink>
         <MenuLink to={'/plan'}>Plan</MenuLink>
         <MenuLink to={'/people'}>People</MenuLink>
+        <MenuLink to={'/library'}>Library</MenuLink>
       </MenuSection>
 
       <MenuSection>

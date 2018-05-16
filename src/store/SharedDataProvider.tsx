@@ -48,7 +48,8 @@ class SharedDataProvider extends DataProvider {
     }
 
     const value = {
-      ...this.getValue(),
+      ...this.state,
+      sync: this.sync,
       findSharedComponents: this.findSharedComponents,
     }
 

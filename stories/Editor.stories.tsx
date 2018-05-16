@@ -10,7 +10,12 @@ import Editor, {
 import PopperManager from '../src/editor/lib/popper'
 import { convertBibliographyItemToData } from '../src/lib/csl'
 import { Decoder } from '../src/transformer'
-import { AnyComponent, BibliographyItem } from '../src/types/components'
+import { BIBLIOGRAPHY_ITEM, MANUSCRIPT } from '../src/transformer/object-types'
+import {
+  AnyComponent,
+  BibliographyItem,
+  Manuscript,
+} from '../src/types/components'
 import components from './data/components.json'
 import citationLocaleData from './data/locales/en-US.xml'
 import citationStyleData from './data/styles/apa.xml'
@@ -38,6 +43,19 @@ const deleteComponent: DeleteComponent = async (id: string) => {
   return id
 }
 
+const manuscript: Manuscript = {
+  id: 'manuscript-1',
+  objectType: MANUSCRIPT,
+  project: 'project-1',
+  title: 'Foo',
+}
+
+const libraryItem: BibliographyItem = {
+  id: 'bibliography-item-1',
+  objectType: BIBLIOGRAPHY_ITEM,
+  title: 'Foo',
+}
+
 const locale = 'en-US'
 
 const decoder = new Decoder(componentMap)
@@ -53,19 +71,21 @@ const citationProcessor = new CSL.Engine(
     // wrapCitationEntry: '',
   },
   citationStyleData,
-  locale,
+  manuscript.locale,
   false
 )
 
 storiesOf('Editor', module)
   .add('edit', () => (
     <Editor
+      editable={true}
       autoFocus={true}
       locale={locale}
       componentMap={componentMap}
-      editable={true}
       onChange={action('change')}
-      citationProcessor={citationProcessor}
+      getCitationProcessor={() => citationProcessor}
+      getLibraryItem={() => libraryItem}
+      getManuscript={() => manuscript}
       getComponent={getComponent}
       saveComponent={saveComponent}
       deleteComponent={deleteComponent}
@@ -77,11 +97,18 @@ storiesOf('Editor', module)
   .add('view', () => (
     <Editor
       editable={false}
-      componentMap={componentMap}
+      autoFocus={true}
       locale={locale}
-      doc={doc}
-      popper={popper}
-      citationProcessor={citationProcessor}
+      componentMap={componentMap}
+      onChange={action('change')}
+      getCitationProcessor={() => citationProcessor}
+      getLibraryItem={() => libraryItem}
+      getManuscript={() => manuscript}
       getComponent={getComponent}
+      saveComponent={saveComponent}
+      deleteComponent={deleteComponent}
+      doc={doc}
+      subscribe={action('subscribe')}
+      popper={popper}
     />
   ))

@@ -14,19 +14,10 @@ import {
   NodeSelection,
   TextSelection,
 } from 'prosemirror-state'
+import LibraryPicker from '../../containers/LibraryPicker'
 import { generateID } from '../../transformer/id'
-import {
-  AUXILIARY_OBJECT_REFERENCE,
-  BIBLIOGRAPHY_ITEM,
-  CITATION,
-  CITATION_ITEM,
-} from '../../transformer/object-types'
-import {
-  AuxiliaryObjectReference,
-  BibliographyItem,
-  Citation,
-} from '../../types/components'
-import { sample } from '../lib/crossref'
+import { AUXILIARY_OBJECT_REFERENCE } from '../../transformer/object-types'
+import { AuxiliaryObjectReference } from '../../types/components'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
 
 import icons from './icons'
@@ -197,48 +188,7 @@ const insertCitation: MenuButtonMap = {
     title: 'Insert citation',
     content: icons.citation,
     enable: canInsert(schema.nodes.citation),
-    run: (state, dispatch) => {
-      // TODO: open form/picker instead
-
-      sample(window.getSelection().toString())
-        .then(data => {
-          const containingElement = state.tr.selection.$anchor.parent // TODO: is this enough/needed?
-
-          const bibliographyItem: BibliographyItem = {
-            ...data,
-            id: generateID('bibliography_item') as string,
-            objectType: BIBLIOGRAPHY_ITEM,
-          }
-
-          const citation: Citation = {
-            id: generateID('citation') as string,
-            objectType: CITATION,
-            containingElement: containingElement.attrs.id,
-            embeddedCitationItems: [
-              {
-                bibliographyItem: bibliographyItem.id,
-                id: generateID('citation_item') as string,
-                objectType: CITATION_ITEM,
-              },
-            ],
-          }
-
-          // TODO: add this in the form/picker
-
-          const citationNode = schema.nodes.citation.create({
-            rid: citation.id,
-          })
-
-          const tr = state.tr
-            .setMeta(componentsKey, { [INSERT]: [citation, bibliographyItem] })
-            .insert(state.tr.selection.to, citationNode)
-
-          dispatch(tr)
-        })
-        .catch(error => {
-          console.error(error) // tslint:disable-line:no-console
-        })
-    },
+    dropdown: LibraryPicker,
   },
 }
 

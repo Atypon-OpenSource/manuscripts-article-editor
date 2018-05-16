@@ -17,6 +17,7 @@ export interface Component {
   updatedAt?: number
   manuscript?: string
   sessionID?: string
+  keywordIDs?: string[]
 }
 
 export interface Style extends Component {
@@ -64,11 +65,17 @@ export interface Manuscript extends Component {
   title: string
   data?: string
   owners?: string[]
+  citationStyle?: string
+  locale?: string
 }
 
 export interface BibliographicName extends Component {
   given: string
   family: string
+}
+
+export interface Keyword extends Component {
+  name: string
 }
 
 export interface Contributor extends Component {
@@ -137,6 +144,7 @@ export interface BibliographicDate extends Component {
 export interface BibliographyItem extends Component {
   'citation-label'?: string
   title?: string
+  DOI?: string
   URL?: string
   volume?: string
   'page-first'?: string
@@ -150,6 +158,7 @@ export interface BibliographyItem extends Component {
   'number-of-pages'?: string // TODO: number?
   institution?: string
   'collection-title'?: string
+  keyword?: string
 }
 
 export interface Citation extends Component {

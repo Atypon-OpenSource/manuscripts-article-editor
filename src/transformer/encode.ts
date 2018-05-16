@@ -106,6 +106,8 @@ const encoders: NodeEncoderMap = {
   }),
   manuscript: node => ({
     title: inlineContentsOfNodeType(node, 'title'),
+    citationStyle: node.attrs.citationStyle,
+    locale: node.attrs.locale,
   }),
   ordered_list: node => ({
     elementType: 'ol',

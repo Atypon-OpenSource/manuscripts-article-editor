@@ -5,7 +5,13 @@ import 'prosemirror-view/style/prosemirror.css'
 import React from 'react'
 import 'typeface-charis-sil/index.css'
 import { styled } from '../theme'
-import { AnyComponent, Component, ComponentMap } from '../types/components'
+import {
+  AnyComponent,
+  BibliographyItem,
+  Component,
+  ComponentMap,
+  Manuscript,
+} from '../types/components'
 import { menu, options } from './config'
 import PopperManager from './lib/popper'
 import MenuBar from './MenuBar'
@@ -24,12 +30,14 @@ export type DeleteComponent = (id: string) => Promise<string>
 export interface EditorProps {
   attributes?: { [key: string]: string }
   autoFocus?: boolean
-  citationProcessor: Citeproc.Processor
+  getCitationProcessor: () => Citeproc.Processor
   doc: ProsemirrorNode
   editable?: boolean
   getComponent: GetComponent
   saveComponent?: SaveComponent
   deleteComponent?: DeleteComponent
+  getLibraryItem: (id: string) => BibliographyItem
+  getManuscript: () => Manuscript
   locale: string
   onChange?: (state: EditorState) => void
   subscribe?: (receive: ChangeReceiver) => void
@@ -104,13 +112,13 @@ class Editor extends React.Component<EditorProps, State> {
         )}
 
         <EditorBody>
-          <div ref={node => this.createEditorView(node as HTMLDivElement)} />
+          <div ref={this.createEditorView} />
         </EditorBody>
       </EditorContainer>
     )
   }
 
-  private createEditorView = (node: Node) => {
+  private createEditorView = (node: HTMLDivElement) => {
     const editable = Boolean(this.props.editable)
     const state = this.state.state as EditorState
 
@@ -124,7 +132,7 @@ class Editor extends React.Component<EditorProps, State> {
       })
 
       // dispatch a transaction so that plugins run
-      this.view.dispatch(this.view.state.tr.setMeta('addToHistory', false))
+      this.view.dispatch(this.view.state.tr.setMeta('update', true))
 
       if (this.props.autoFocus) {
         this.view.focus()
@@ -163,7 +171,6 @@ class Editor extends React.Component<EditorProps, State> {
     const { state } = this.view
 
     if (!id) {
-      // TODO: let views know they might need to update for incoming data object
       return
     }
 
@@ -174,7 +181,7 @@ class Editor extends React.Component<EditorProps, State> {
         if (!newNode) {
           // tell the editor to update
           return this.dispatchTransaction(
-            state.tr.setMeta('addToHistory', false),
+            state.tr.setMeta('update', true),
             true
           )
         }
@@ -202,7 +209,7 @@ class Editor extends React.Component<EditorProps, State> {
         if (!newNode) {
           // tell the editor to update
           return this.dispatchTransaction(
-            state.tr.setMeta('addToHistory', false),
+            state.tr.setMeta('update', true),
             true
           )
         }

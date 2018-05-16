@@ -4,6 +4,7 @@ import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'
+import { RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import { DropSide, TreeItem } from '../components/DraggableTree'
 import { Main, Page } from '../components/Page'
@@ -28,12 +29,15 @@ import { documentObjectTypes } from '../transformer/document-object-types'
 import * as ObjectTypes from '../transformer/object-types'
 import {
   AnyComponent,
-  ComponentCollection,
+  BibliographyItem,
   ComponentDocument,
   ComponentIdSet,
   ComponentMap,
   ComponentWithAttachment,
+  Manuscript,
 } from '../types/components'
+import { LibraryDocument } from '../types/library'
+import { ManuscriptDocument } from '../types/manuscript'
 import InspectorContainer from './InspectorContainer'
 import ManuscriptSidebar from './ManuscriptSidebar'
 
@@ -42,16 +46,16 @@ interface ComponentIdSets {
 }
 
 interface State {
-  citationProcessor: Citeproc.Processor | null
-  citationStyle: string
   componentIds: ComponentIdSets
   componentMap: ComponentMap
   dirty: boolean
   doc: ProsemirrorNode | null
   error: string | null
-  locale: string
   popper: PopperManager
   view: EditorView | null
+  library: Map<string, BibliographyItem>
+  manuscript: Manuscript | null
+  processor: Citeproc.Processor | null
 }
 
 interface ComponentProps {
@@ -69,8 +73,6 @@ type Props = ComponentProps &
 
 class ManuscriptPageContainer extends React.Component<Props, State> {
   public state: Readonly<State> = {
-    citationProcessor: null,
-    citationStyle: 'apa', // TODO: citation style switcher
     componentIds: {
       document: new Set(),
       data: new Set(),
@@ -79,9 +81,11 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
     dirty: false,
     doc: null,
     error: null,
-    locale: 'en-GB', // TODO: per-document locale switcher
     popper: new PopperManager(),
     view: null,
+    library: new Map(),
+    manuscript: null,
+    processor: null,
   }
 
   private subs: Subscription[] = []
@@ -98,16 +102,17 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
 
   public async componentDidMount() {
     const { id } = this.props.match.params
-    const { locale } = this.props.intl
-    const { findManuscriptComponents } = this.props.components
-    const { citationStyle } = this.state
 
     window.addEventListener('beforeunload', this.unloadListener)
 
     try {
-      const components = (await findManuscriptComponents(
-        id
-      ).exec()) as ComponentDocument[]
+      this.loadLibraryItems() // TODO: move this to provider
+      const manuscript = await this.loadManuscript(id)
+      await this.createCitationProcessor(manuscript)
+
+      const components = (await this.getCollection()
+        .find({ manuscript: id })
+        .exec()) as ComponentDocument[]
 
       if (!components.length) {
         throw new Error('Manuscript not found')
@@ -117,24 +122,15 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
 
       const decoder = new Decoder(componentMap)
 
-      const citationManager = new CitationManager()
-
       const doc = decoder.createArticleNode()
 
       // encode again here to get doc component ids for comparison
       const encodedComponentMap = encode(doc)
       const componentIds = this.buildComponentIds(encodedComponentMap)
 
-      this.setState({
-        citationProcessor: await citationManager.createProcessor(
-          citationStyle,
-          locale,
-          this.getComponent
-        ),
-        componentIds,
-        componentMap,
-        doc,
-      })
+      this.setState({ componentIds, componentMap })
+
+      this.setState({ doc })
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
       this.setState({
@@ -150,18 +146,13 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const {
-      dirty,
-      citationProcessor,
-      componentMap,
-      doc,
-      locale,
-      popper,
-    } = this.state
+    const { dirty, componentMap, doc, manuscript, popper } = this.state
 
-    if (!doc || !citationProcessor) {
+    if (!doc || !manuscript) {
       return <Spinner />
     }
+
+    const locale = this.getLocale()
 
     return (
       <Page>
@@ -170,12 +161,14 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
         <Main>
           <Editor
             autoFocus={true}
-            citationProcessor={citationProcessor}
+            getCitationProcessor={this.getCitationProcessor}
             doc={doc}
             editable={true}
             getComponent={this.getComponent}
             saveComponent={this.saveComponent}
             deleteComponent={this.deleteComponent}
+            getLibraryItem={this.getLibraryItem}
+            getManuscript={this.getManuscript}
             locale={locale}
             onChange={this.handleChange}
             componentMap={componentMap}
@@ -196,7 +189,12 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
           direction={'row'}
           side={'start'}
         >
-          <InspectorContainer />
+          {manuscript && (
+            <InspectorContainer
+              manuscript={manuscript}
+              saveManuscript={this.saveManuscript}
+            />
+          )}
         </Panel>
       </Page>
     )
@@ -204,6 +202,79 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
 
   private setView = (view: EditorView) => {
     this.setState({ view })
+  }
+
+  private getCollection = () => {
+    return this.props.components.collection as RxCollection<AnyComponent>
+  }
+
+  private getLocale = () => {
+    const manuscript = this.getManuscript()
+
+    return manuscript.locale || this.props.intl.locale || 'en-GB'
+  }
+
+  private getManuscript = () => {
+    return this.state.manuscript as Manuscript
+  }
+
+  private saveManuscript = async (manuscript: Manuscript) => {
+    this.setState({ manuscript })
+    await this.createCitationProcessor(manuscript)
+    await this.saveComponent(manuscript)
+  }
+
+  private createCitationProcessor = async (manuscript: Manuscript) => {
+    // TODO: only regenerate the processor when citationStyle or locale change
+
+    const citationManager = new CitationManager()
+
+    const processor = await citationManager.createProcessor(
+      manuscript.citationStyle || 'nature',
+      manuscript.locale || 'en-GB',
+      this.getLibraryItem
+    )
+
+    this.setState({ processor })
+  }
+
+  private getCitationProcessor = () => {
+    return this.state.processor as Citeproc.Processor
+  }
+
+  private loadManuscript = (id: string): Promise<Manuscript> => {
+    return new Promise(resolve => {
+      this.getCollection()
+        .findOne(id)
+        .$.subscribe((doc: ManuscriptDocument) => {
+          const manuscript = doc.toJSON()
+          this.setState({ manuscript })
+          resolve(manuscript)
+        })
+    })
+  }
+
+  private loadLibraryItems = () => {
+    this.getCollection()
+      .find({
+        objectType: ObjectTypes.BIBLIOGRAPHY_ITEM,
+      })
+      .sort({
+        updatedAt: 'desc',
+      })
+      .$.subscribe((items: LibraryDocument[]) => {
+        const library: Map<string, BibliographyItem> = new Map()
+
+        items.forEach(item => {
+          library.set(item.id, item.toJSON())
+        })
+
+        this.setState({ library })
+      })
+  }
+
+  private getLibraryItem = (id: string) => {
+    return this.state.library.get(id) as BibliographyItem
   }
 
   private getComponent: GetComponent = <T extends AnyComponent>(
@@ -225,6 +296,7 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
       componentMap: this.state.componentMap.set(component.id, component),
     })
 
+    // tslint:disable-next-line:no-unused-variable
     const { src, attachment, ...data } = component
 
     // TODO: data.contents = serialized DOM wrapper for bibliography
@@ -251,7 +323,7 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
   private handleSubscribe = (receive: ChangeReceiver) => {
     const { id } = this.props.match.params
 
-    const collection = this.props.components.collection as ComponentCollection
+    const collection = this.getCollection()
 
     const sub = collection.$.subscribe(
       async (changeEvent: AnyComponentChangeEvent) => {
@@ -263,11 +335,16 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
           throw new Error('Unexpected change event data')
         }
 
+        console.log({ op, doc, v }) // tslint:disable-line:no-console
+
+        // updated shared data or library
+        if (!v.manuscript) {
+          return receive('UPDATE', doc, null)
+        }
+
         if (v.manuscript !== id) return false // ignore changes to other manuscripts
 
         if (v.sessionID === sessionID) return false // ignore our changes
-
-        console.log({ op, doc }) // tslint:disable-line:no-console
 
         if (op === 'REMOVE') {
           return receive(op, doc)
@@ -312,15 +389,29 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
       return !newComponentIds.has(id)
     })
 
+  private keysForComparison = (component: ComponentObject) => {
+    const excludedKeys = [
+      'id',
+      '_id',
+      '_rev',
+      'sessionID',
+      'createdAt',
+      'updatedAt',
+      'project',
+      'manuscript',
+      'owners',
+    ]
+
+    return Object.keys(component).filter(key => !excludedKeys.includes(key))
+  }
+
   private hasChanged = (component: ComponentObject): boolean => {
     const previousComponent = this.getComponent(component.id) as ComponentObject
 
     if (!previousComponent) return true
 
-    const componentKeys = Object.keys(component)
-    const previousComponentKeys = Object.keys(previousComponent)
-
-    // TODO: ignore keys not stored in the component: createdAt, updatedAt, etc
+    const componentKeys = this.keysForComparison(component)
+    const previousComponentKeys = this.keysForComparison(previousComponent)
 
     // look for different keys
     if (

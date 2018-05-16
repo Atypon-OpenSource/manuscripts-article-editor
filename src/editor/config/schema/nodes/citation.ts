@@ -8,7 +8,7 @@ export const citation: NodeSpec = {
   // content: 'text*',
   attrs: {
     rid: { default: '' },
-    contents: { default: '…' }, // TODO: make this a decoration?
+    contents: { default: '' },
     // citationItems: { default: [] },
   },
   parseDOM: [
@@ -30,7 +30,7 @@ export const citation: NodeSpec = {
     // dom.id = node.attrs.id
     dom.setAttribute('data-reference-id', node.attrs.rid)
     // dom.setAttribute('data-citation-items', node.attrs.citationItems.join('|'))
-    dom.innerHTML = node.attrs.contents // TODO: sanitise!!?
+    //  dom.innerHTML = node.attrs.contents // TODO: sanitise!!?
 
     return dom
   },

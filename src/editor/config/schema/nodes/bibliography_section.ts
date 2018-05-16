@@ -16,6 +16,7 @@ export const bibliographySection: NodeSpec = {
     {
       id: node.attrs.id,
       class: 'bibliography', // TODO: needs a custom node view
+      spellcheck: 'false',
     },
     0,
   ],

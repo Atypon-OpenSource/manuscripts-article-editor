@@ -55,11 +55,11 @@ class ProjectPageContainer extends React.Component<Props, State> {
   private subs: Subscription[] = []
 
   public async componentDidMount() {
-    const { findProjectComponents } = this.props.components
     const { id } = this.props.match.params
 
     try {
-      const sub = findProjectComponents(id)
+      const sub = this.getCollection()
+        .find({ project: id })
         .sort({ createdAt: -1 })
         .$.subscribe((components: ComponentDocument[]) => {
           if (!components.length) {

@@ -3,7 +3,7 @@ import React from 'react'
 import { RxCollectionCreator, RxReplicationState } from 'rxdb'
 import { PouchReplicationOptions } from 'rxdb/src/typings/pouch'
 import * as api from '../lib/api'
-import { waitForDB } from '../lib/rxdb'
+import { Db, waitForDB } from '../lib/rxdb'
 import { ComponentCollection } from '../types/components'
 
 // TODO: handle offline/sync problems
@@ -21,6 +21,7 @@ export interface DataProviderState {
 }
 
 export interface DataProviderContext extends DataProviderState {
+  collection: ComponentCollection | null
   sync: (options: PouchReplicationOptions) => void
 }
 
@@ -37,16 +38,20 @@ class DataProvider extends React.Component<{}, DataProviderState> {
   protected path: string
 
   public async componentDidMount() {
-    const db = await waitForDB
-    const collection = await db.collection(this.options)
-    this.setState({ collection })
+    const { name } = this.options
+
+    const db: Db = await waitForDB
+
+    if (!db[name]) {
+      await db.collection(this.options)
+    }
+
+    this.setState({
+      collection: db[name],
+    })
+
     this.sync({ live: false }) // initial sync
   }
-
-  protected getValue = () => ({
-    ...this.state,
-    sync: this.sync,
-  })
 
   protected sync = (options: PouchReplicationOptions = {}) => {
     this.setState({ error: null })

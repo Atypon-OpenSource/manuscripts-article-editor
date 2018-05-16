@@ -9,6 +9,7 @@ const nodeTypes: Map<string, string> = new Map([
   ['equation_block', 'MPEquationElement'],
   ['figure', 'MPFigureElement'],
   ['figure_image', 'MPFigure'],
+  ['keyword', 'MPKeyword'],
   ['bullet_list', 'MPListElement'],
   ['ordered_list', 'MPListElement'],
   ['manuscript', 'MPManuscript'],

@@ -4,6 +4,8 @@ export const manuscript: NodeSpec = {
   content: 'title',
   attrs: {
     id: { default: '' },
+    citationStyle: { default: '' },
+    locale: { default: '' },
   },
   group: 'block',
   parseDOM: [

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Title from '../editor/Title'
+import Title from '../editor/manuscript/Title'
 import { styled } from '../theme'
 import { Person } from '../types/components'
 import { ManuscriptDocument, RemoveManuscript } from '../types/manuscript'
@@ -79,7 +79,7 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
   >
     <ManuscriptSection>
       <ManuscriptTitle>
-        <Title title={manuscript.get('title')} />
+        <Title value={manuscript.get('title')} />
       </ManuscriptTitle>
 
       <ManuscriptContributors>

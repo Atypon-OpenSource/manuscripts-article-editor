@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import NotFound from './components/NotFound'
 import AccountPageContainer from './containers/AccountPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
+import LibraryPageContainer from './containers/LibraryPageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
 import LogoutPageContainer from './containers/LogoutPageContainer'
 // import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
@@ -38,6 +39,11 @@ const App = () => (
       path={'/preferences'}
       exact={true}
       component={PreferencesPageContainer}
+    />
+    <PrivateRoute
+      path={'/library'}
+      exact={true}
+      component={LibraryPageContainer}
     />
     <PrivateRoute
       path={'/projects'}
