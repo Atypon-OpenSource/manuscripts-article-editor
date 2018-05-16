@@ -60,7 +60,9 @@ module.exports = merge(common, {
     hints: false,
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({
+      safe: true
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.ContextReplacementPlugin(
       /codemirror[\/\\]mode$/,
