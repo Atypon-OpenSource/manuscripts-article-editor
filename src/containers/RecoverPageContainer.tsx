@@ -18,7 +18,6 @@ import { recoverPassword, resetPassword } from '../lib/api'
 import deviceId from '../lib/deviceId'
 import { UserProps, withUser } from '../store/UserProvider'
 import { passwordSchema, recoverSchema } from '../validation'
-import SidebarContainer from './SidebarContainer'
 
 interface State extends PasswordHiddenValues {
   sent: string | null
@@ -68,8 +67,6 @@ class RecoverPageContainer extends React.Component<Props> {
 
     return (
       <Page>
-        <SidebarContainer />
-
         <Main>
           {token ? (
             <PasswordPage

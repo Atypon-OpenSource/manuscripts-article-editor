@@ -9,7 +9,6 @@ import { Main, Page } from '../components/Page'
 import { UserProps, withUser } from '../store/UserProvider'
 import { User } from '../types/user'
 import { accountSchema } from '../validation'
-import SidebarContainer from './SidebarContainer'
 
 type Props = UserProps & RouterProps
 
@@ -31,8 +30,6 @@ class AccountPageContainer extends React.Component<Props> {
 
     return (
       <Page>
-        <SidebarContainer />
-
         <Main>
           <Modal isOpen={true} ariaHideApp={false} style={modalStyle}>
             <AccountPage

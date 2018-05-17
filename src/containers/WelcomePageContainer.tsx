@@ -5,7 +5,6 @@ import { Main, Page } from '../components/Page'
 import { RecentFile, WelcomePage } from '../components/WelcomePage'
 import preferences from '../lib/preferences'
 import { UserProps, withUser } from '../store/UserProvider'
-import SidebarContainer from './SidebarContainer'
 
 type Props = UserProps & RouterProps
 
@@ -28,8 +27,6 @@ class WelcomePageContainer extends React.Component<Props> {
 
     return (
       <Page>
-        <SidebarContainer />
-
         <Main>
           <WelcomePage
             createNewManuscript={this.createNewManuscript}

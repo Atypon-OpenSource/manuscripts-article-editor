@@ -12,7 +12,6 @@ import SignupPage from '../components/SignupPage'
 import { signup, verify } from '../lib/api'
 import { UserProps, withUser } from '../store/UserProvider'
 import { signupSchema } from '../validation'
-import SidebarContainer from './SidebarContainer'
 
 interface UserDetails {
   email: string
@@ -77,8 +76,6 @@ class SignupPageContainer extends React.Component<Props, State> {
 
     return (
       <Page>
-        <SidebarContainer />
-
         <Main>
           <SignupPage
             initialValues={this.initialValues}

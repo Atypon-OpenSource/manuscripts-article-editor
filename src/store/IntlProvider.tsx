@@ -5,51 +5,46 @@ import Spinner from '../icons/spinner'
 import preferences from '../lib/preferences'
 // import client from './lib/client'
 
-const translations: StringMap<StringMap<string>> = {
+interface Messages {
+  error?: string
+  manuscripts?: string
+  manage_account?: string
+  preferences?: string
+  sign_in?: string
+  sign_out?: string
+  empty_manuscripts?: string
+  import_manuscript?: string
+}
+
+const translations: StringMap<Messages> = {
   ar: {
     error: 'خطأ',
     manuscripts: 'المخطوطات',
-    groups: 'مجموعة',
-    collaborators: 'المتعاونين',
     manage_account: 'إدارة الحساب',
     preferences: 'تفضيلات',
     sign_in: 'تسجيل الدخول',
     sign_out: 'خروج',
-    empty_groups: 'لا يوجد مجموعة بعد',
     empty_manuscripts: 'لا مخطوطات بعد',
-    empty_collaborators: 'لا يوجد متعاونون بعد',
     import_manuscript:
       'استخدم الزر + لإنشاء مخطوطة جديدة أو قم باستيراد واحدة من جهاز الكمبيوتر الخاص بك.',
   },
   en: {
     error: 'Error',
     manuscripts: 'Manuscripts',
-    groups: 'Groups',
-    collaborators: 'Collaborators',
     manage_account: 'Manage account',
     preferences: 'Preferences',
     sign_in: 'Sign in',
     sign_out: 'Sign out',
-    empty_groups: 'No groups yet',
     empty_manuscripts: 'No manuscripts yet',
-    empty_collaborators: 'No collaborators yet',
     import_manuscript:
       'Use the + button to create a new Manuscript or import one from your computer.',
   },
   zh: {
     error: '错误',
     manuscripts: '手稿',
-    groups: '组',
-    collaborators: '合作者',
-    empty_groups: '还没有组',
     empty_manuscripts: '没有手稿',
-    empty_collaborators: '还没有合作者',
     import_manuscript: '使用+按钮来创建一个新的手稿或从您的计算机导入一个。',
   },
-}
-
-interface Messages {
-  [key: string]: string
 }
 
 interface State {

@@ -33,43 +33,11 @@ export const PreferencesMessage = () => (
   />
 )
 
-export const CollaboratorsTitleMessage = () => (
-  <FormattedMessage
-    id={'collaborators'}
-    description={'Title of the collaborators overview page'}
-    defaultMessage={'Collaborators'}
-  />
-)
-
-export const GroupsTitleMessage = () => (
-  <FormattedMessage
-    id={'groups'}
-    description={'Title of the groups overview page'}
-    defaultMessage={'Groups'}
-  />
-)
-
 export const ManuscriptsTitleMessage = () => (
   <FormattedMessage
     id={'manuscripts'}
     description={'Title of the manuscripts overview page'}
     defaultMessage={'Manuscripts'}
-  />
-)
-
-export const EmptyCollaboratorsMessage = () => (
-  <FormattedMessage
-    id={'empty_collaborators'}
-    description={'Message shown when the collaborators list is empty'}
-    defaultMessage={'No collaborators yet.'}
-  />
-)
-
-export const EmptyGroupsMessage = () => (
-  <FormattedMessage
-    id={'empty_groups'}
-    description={'Message shown when the groups list is empty'}
-    defaultMessage={'No groups yet.'}
   />
 )
 

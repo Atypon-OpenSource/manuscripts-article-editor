@@ -11,7 +11,6 @@ import deviceId from '../lib/deviceId'
 import token, { Token } from '../lib/token'
 import { UserProps, withUser } from '../store/UserProvider'
 import { loginSchema } from '../validation'
-import SidebarContainer from './SidebarContainer'
 
 interface State {
   error: boolean
@@ -68,8 +67,6 @@ class LoginPageContainer extends React.Component<Props, State> {
 
     return (
       <Page>
-        <SidebarContainer />
-
         <Main>
           <LoginPage
             initialValues={this.initialValues}
