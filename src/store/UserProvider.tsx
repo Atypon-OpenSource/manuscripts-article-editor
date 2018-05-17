@@ -39,7 +39,9 @@ const getUserIdFromJWT = (jwt: string): string =>
 const getCurrentUserId = () => {
   const tokenData = token.get() // TODO: listen for changes?
 
-  return tokenData ? getUserIdFromJWT(tokenData.access_token) : null
+  return tokenData && tokenData.access_token
+    ? getUserIdFromJWT(tokenData.access_token)
+    : null
 }
 
 class UserProvider extends React.Component<SharedDataProps, UserProviderState> {
@@ -132,6 +134,16 @@ class UserProvider extends React.Component<SharedDataProps, UserProviderState> {
   }
 
   private fetch = () => {
+    if (!token.get()) {
+      this.setState({
+        loading: false,
+        loaded: true,
+        data: null,
+        error: null,
+      })
+      return
+    }
+
     this.setState({
       loading: true,
       // loaded: false,

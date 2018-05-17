@@ -10,11 +10,11 @@ class HomePageContainer extends React.Component<Props> {
   public render() {
     const { user } = this.props
 
-    if (user.error) {
-      return <Spinner color={'red'} />
-    }
-
     if (!user.loaded) {
+      if (user.error) {
+        return <Spinner color={'red'} />
+      }
+
       return <Spinner color={'black'} />
     }
 
