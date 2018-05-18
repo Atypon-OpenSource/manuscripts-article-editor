@@ -1,10 +1,13 @@
 const nodeTypes: Map<string, string> = new Map([
+  ['affiliation', 'MPAffiliation'],
+  ['bibliographic_name', 'MPBibliographicName'],
   ['bibliography', 'MPBibliographyElement'],
   ['bibliography_item', 'MPBibliographyItem'],
   ['bibliography_section', 'MPSection'],
   ['citation_item', 'MPCitationItem'],
   ['citation', 'MPCitation'],
   ['code_block', 'MPListingElement'],
+  ['contributor', 'MPContributor'],
   ['cross_reference', 'MPAuxiliaryObjectReference'],
   ['equation_block', 'MPEquationElement'],
   ['figure', 'MPFigureElement'],

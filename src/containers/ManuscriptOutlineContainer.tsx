@@ -1,22 +1,31 @@
-import * as React from 'react'
+import React from 'react'
 import DraggableTree, {
   buildTree,
   DraggableTreeProps,
 } from '../components/DraggableTree'
+import { parse } from '../editor/manuscript/lib/title'
+import { Manuscript } from '../types/components'
 
-const ManuscriptOutlineContainer: React.SFC<DraggableTreeProps> = ({
+interface Props {
+  manuscript: Manuscript
+}
+
+const ManuscriptOutlineContainer: React.SFC<Props & DraggableTreeProps> = ({
   doc,
+  manuscript,
   onDrop,
 }) => {
   if (!doc) return null
 
-  const { pos, items } = buildTree(doc, 0, 0)
+  const { items } = buildTree(doc, 0, 0)
 
-  const [manuscript, ...sections] = items
-
-  const endPos = pos + manuscript.node.nodeSize
-
-  const tree = { node: manuscript.node, pos, endPos, items: sections, index: 0 }
+  const tree = {
+    node: parse(manuscript.title || 'Manuscript'),
+    pos: 0,
+    endPos: 0,
+    index: 0,
+    items,
+  }
 
   return <DraggableTree tree={tree} onDrop={onDrop} />
 }

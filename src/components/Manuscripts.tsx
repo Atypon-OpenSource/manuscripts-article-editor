@@ -2,10 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Title from '../editor/manuscript/Title'
 import { styled } from '../theme'
-import { Person } from '../types/components'
+import { Contributor } from '../types/components'
 import { ManuscriptDocument, RemoveManuscript } from '../types/manuscript'
 import { Button } from './Button'
-import { Contributor } from './Contributor'
 
 export const ManuscriptsContainer = styled.div`
   padding: 20px 20px;
@@ -42,8 +41,6 @@ const ManuscriptDate = styled.span`
   font-size: 12px;
 `
 
-const ManuscriptContributors = styled.div``
-
 const DeleteButton = Button.extend`
   color: #ddd;
   font-size: 10px;
@@ -63,7 +60,7 @@ const updatedAt = (manuscript: ManuscriptDocument) => {
 
 interface ManuscriptProps {
   manuscript: ManuscriptDocument
-  contributors: Person[]
+  contributors: Contributor[]
   removeManuscript: RemoveManuscript
 }
 
@@ -81,12 +78,6 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
       <ManuscriptTitle>
         <Title value={manuscript.get('title')} />
       </ManuscriptTitle>
-
-      <ManuscriptContributors>
-        {contributors.map(contributor => (
-          <Contributor contributor={contributor} />
-        ))}
-      </ManuscriptContributors>
     </ManuscriptSection>
 
     <ManuscriptSection>

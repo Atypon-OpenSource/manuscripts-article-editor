@@ -70,8 +70,18 @@ export interface Manuscript extends Component {
 }
 
 export interface BibliographicName extends Component {
-  given: string
-  family: string
+  given?: string
+  family?: string
+  droppingParticle?: string
+  nonDroppingParticle?: string
+  suffix?: string
+  literal?: string
+}
+
+export type ContributorRole = 'author'
+
+export interface Keyword extends Component {
+  name: string
 }
 
 export interface Keyword extends Component {
@@ -79,26 +89,33 @@ export interface Keyword extends Component {
 }
 
 export interface Contributor extends Component {
-  lastName: string
-  firstName: string
+  affiliations?: string[] // MPAffiliation IDs
   bibliographicName: BibliographicName
+  email?: string
+  grants?: string[] // MPGrant IDs
+  isCorresponding?: boolean
+  isJointContributor?: boolean
+  phoneNumber?: string
+  priority: number
+  researchFields?: string[] // MPResearchField IDs
+  role: ContributorRole
+  url?: string
+  image?: string
 }
 
 export interface Affiliation extends Component {
   name: string
   address?: string
+  city?: string
+  institution?: string
 }
 
-export interface Person extends Component {
-  name: string
-  surname: string
-  email?: string
-  tel?: string
-  image?: string
-  affiliations?: Affiliation[]
+export interface Grant extends Component {
+  organization: string
+  code: string
+  title: string
+  fundingBody: string
 }
-
-export type Collaborator = Person // TODO
 
 export interface Group extends Component {
   name: string
@@ -246,8 +263,6 @@ export type AnyComponent =
   | Citation
   | Contributor
   | Affiliation
-  | Person
-  | Collaborator
   | Group
   | Section
   | Table

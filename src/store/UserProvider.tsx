@@ -82,6 +82,7 @@ class UserProvider extends React.Component<SharedDataProps, UserProviderState> {
 
   private subscribe(id: string) {
     // TODO: a User object instead of Contributor?
+    // TODO: remove token if user not found locally?
     this.getCollection()
       .findOne({
         // objectType: CONTRIBUTOR,

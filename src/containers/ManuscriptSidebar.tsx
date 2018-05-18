@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 import { DraggableTreeProps } from '../components/DraggableTree'
 import Panel from '../components/Panel'
 import {
@@ -7,30 +8,48 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../components/Sidebar'
-import { Project } from '../types/components'
+import { styled } from '../theme'
+import { Manuscript, Project } from '../types/components'
 // import ComponentsStatusContainer from './ComponentsStatusContainer'
 import ManuscriptOutlineContainer from './ManuscriptOutlineContainer'
 
-interface ManuscriptSidebarProps {
-  project?: Project
+interface Props {
+  project: Project
+  manuscript: Manuscript
 }
-
-type Props = DraggableTreeProps & ManuscriptSidebarProps
 
 const ProjectTitle = SidebarTitle.extend`
   font-size: 110%;
   color: black;
 `
 
-const ManuscriptSidebar: React.SFC<Props> = ({ doc, onDrop, project }) => (
+const ProjectLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`
+
+const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
+  doc,
+  manuscript,
+  onDrop,
+  project,
+}) => (
   <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
     <Sidebar>
       <SidebarHeader>
-        <ProjectTitle>{(project && project.title) || 'Untitled'}</ProjectTitle>
+        <ProjectTitle>
+          <ProjectLink to={`/projects/${project.id}`}>
+            {project.title || 'Untitled'}
+          </ProjectLink>
+        </ProjectTitle>
       </SidebarHeader>
 
       <SidebarContent>
-        <ManuscriptOutlineContainer doc={doc} onDrop={onDrop} />
+        <ManuscriptOutlineContainer
+          manuscript={manuscript}
+          doc={doc}
+          onDrop={onDrop}
+        />
         {/*<ComponentsStatusContainer />*/}
       </SidebarContent>
     </Sidebar>

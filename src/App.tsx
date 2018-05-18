@@ -56,7 +56,7 @@ const App = () => (
       component={ProjectPageContainer}
     />
     <PrivateRoute
-      path={'/projects/:id/manuscripts/:id'}
+      path={'/projects/:project/manuscripts/:id'}
       exact={true}
       component={ManuscriptPageContainer}
     />

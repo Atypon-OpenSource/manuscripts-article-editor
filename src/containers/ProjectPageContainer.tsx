@@ -10,10 +10,16 @@ import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { generateID } from '../transformer/id'
-import { MANUSCRIPT, PROJECT } from '../transformer/object-types'
+import {
+  BIBLIOGRAPHIC_NAME,
+  CONTRIBUTOR,
+  MANUSCRIPT,
+  PROJECT,
+} from '../transformer/object-types'
 import {
   AnyComponent,
   ComponentDocument,
+  Contributor,
   Manuscript,
 } from '../types/components'
 import {
@@ -124,7 +130,7 @@ class ProjectPageContainer extends React.Component<Props, State> {
   }
 
   // TODO: catch and handle errors
-  private addManuscript: AddManuscript = () => {
+  private addManuscript: AddManuscript = async () => {
     const { id: project } = this.props.match.params
     const { user } = this.props
 
@@ -139,10 +145,23 @@ class ProjectPageContainer extends React.Component<Props, State> {
     const owner = (user.data._id as string).replace('|', '_')
     const now = Date.now()
 
+    const contributor: Contributor = {
+      id: generateID('contributor') as string,
+      objectType: CONTRIBUTOR,
+      priority: 0,
+      role: 'author',
+      affiliations: [],
+      bibliographicName: {
+        id: generateID('bibliographic_name') as string,
+        given: user.data.givenName,
+        family: user.data.familyName,
+        objectType: BIBLIOGRAPHIC_NAME,
+      },
+    }
+
     const manuscript: Manuscript = {
       id,
       project,
-      manuscript: id,
       objectType: MANUSCRIPT,
       owners: [owner],
       createdAt: now,
@@ -151,16 +170,16 @@ class ProjectPageContainer extends React.Component<Props, State> {
       title: '',
     }
 
-    this.getCollection()
-      .insert(manuscript)
-      .then((doc: ManuscriptDocument) => {
-        this.props.history.push(
-          `/projects/${project}/manuscripts/${doc.get('id')}`
-        )
-      })
-      .catch((error: RxError) => {
-        console.error(error) // tslint:disable-line
-      })
+    try {
+      const collection = this.getCollection()
+      await collection.insert(contributor)
+
+      await this.props.components.saveComponent(id, contributor)
+      await this.props.components.saveComponent(id, manuscript)
+      this.props.history.push(`/projects/${project}/manuscripts/${id}`)
+    } catch (error) {
+      console.error(error) // tslint:disable-line:no-console
+    }
   }
 
   // TODO: atomicUpdate?

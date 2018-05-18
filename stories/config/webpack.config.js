@@ -5,7 +5,9 @@ module.exports = (storybookBaseConfig, configType) => {
 
   // storybookBaseConfig.mode = configType.toLowerCase()
 
-  storybookBaseConfig.devtool = false
+  if (configType === 'PRODUCTION') {
+    storybookBaseConfig.devtool = false
+  }
 
   storybookBaseConfig.module.rules.push({
     exclude: /node_modules/,
@@ -62,6 +64,6 @@ module.exports = (storybookBaseConfig, configType) => {
   )
 
   storybookBaseConfig.resolve.extensions.push('.ts', '.tsx')
-  
+
   return storybookBaseConfig
 }

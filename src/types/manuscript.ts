@@ -4,7 +4,7 @@ import { Manuscript } from './components'
 
 export type ManuscriptDocument = RxDocument<Manuscript>
 
-export type AddManuscript = () => void
+export type AddManuscript = () => Promise<void>
 
 export type UpdateManuscript = (
   doc: ManuscriptDocument,

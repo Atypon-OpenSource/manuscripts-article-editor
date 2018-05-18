@@ -14,7 +14,6 @@ import {
   Figure,
   FigureElement,
   ListingElement,
-  Manuscript,
   OrderedListElement,
   ParagraphElement,
   Section,
@@ -119,26 +118,13 @@ export class Decoder {
   }
 
   public createArticleNode = () => {
-    const manuscripts = getComponentsByType<Manuscript>(
-      this.componentMap,
-      ObjectTypes.MANUSCRIPT
-    )
-
-    if (!manuscripts.length) {
-      throw new Error('Manuscript not found')
-    }
-
-    const manuscript = manuscripts[0]
-
     const rootSections = getSections(this.componentMap).filter(
       section => section.path.length <= 1
     )
 
-    const articleNode = schema.nodes.article.createAndFill({}, [
-      this.decode(manuscript) as ProsemirrorNode,
-      ...(rootSections.map(this.decode) as ProsemirrorNode[]),
-      // this.createBibliographySectionNode(), // TODO:
-    ])
+    const articleNode = schema.nodes.article.createAndFill({}, rootSections.map(
+      this.decode
+    ) as ProsemirrorNode[])
 
     if (!articleNode) {
       throw new Error('Unable to create article node')
@@ -307,22 +293,5 @@ export class Decoder {
 
       return sectionNode
     },
-    [ObjectTypes.MANUSCRIPT]: (component: Manuscript) => {
-      const titleNode = component.title
-        ? parseContents(`<h1>${component.title}</h1>`, {
-            topNode: schema.nodes.title.create(),
-          })
-        : schema.nodes.title.create()
-
-      return schema.nodes.manuscript.createAndFill(
-        {
-          id: component.id,
-          citationStyle: component.citationStyle,
-          locale: component.locale,
-        },
-        titleNode
-      ) as ProsemirrorNode
-    },
-    // TODO: bibliography section?
   }
 }

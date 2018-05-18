@@ -1,7 +1,7 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
 export const article: NodeSpec = {
-  content: 'manuscript section+ bibliography_section',
+  content: 'section+ bibliography_section',
   attrs: {
     id: { default: '' },
   },

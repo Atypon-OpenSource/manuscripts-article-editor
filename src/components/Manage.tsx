@@ -128,14 +128,19 @@ export const modalStyle = {
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    zIndex: 20,
+    zIndex: 1000,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   content: {
     background: 'transparent',
     border: 'none',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'relative',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 }
 
@@ -164,7 +169,13 @@ export const Manage: React.SFC<Props> = ({
   handleCancel,
   isOpen,
 }) => (
-  <Modal isOpen={isOpen} onRequestClose={handleClose} style={modalStyle}>
+  <Modal
+    isOpen={isOpen}
+    onRequestClose={handleClose}
+    style={modalStyle}
+    ariaHideApp={false}
+    shouldCloseOnOverlayClick={true}
+  >
     <ModalContainer>
       <ModalHeader>
         <ModalHeading>{heading}</ModalHeading>

@@ -57,17 +57,10 @@ export const preferencesSchema = yup.object().shape({
     .min(2), // TODO: valid locales
 })
 
-export const groupSchema = yup.object().shape({
-  name: yup
+export const manuscriptSchema = yup.object().shape({
+  title: yup
     .string()
     .required()
-    .min(1),
-  description: yup.string(),
-})
-
-export const collaboratorSchema = yup.object().shape({
-  name: yup
-    .string()
-    .required()
-    .min(1),
+    .min(10),
+  authors: yup.object().shape({}),
 })

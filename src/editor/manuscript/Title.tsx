@@ -14,6 +14,7 @@ interface Props {
   value: string
   handleChange?: (value: string) => void
   className?: string
+  autoFocus?: boolean
 }
 
 interface State {

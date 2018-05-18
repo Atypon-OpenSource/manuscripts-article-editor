@@ -79,7 +79,7 @@ class ComponentsProvider extends DataProvider {
   }
 
   private saveComponent = (manuscript: string, component: ComponentObject) => {
-    const collection = this.state.collection as RxCollection<AnyComponent>
+    const collection = this.state.collection as RxCollection<ComponentObject>
 
     return collection
       .findOne({ id: component.id })

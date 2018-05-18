@@ -35,9 +35,11 @@ import {
   ComponentMap,
   ComponentWithAttachment,
   Manuscript,
+  Project,
 } from '../types/components'
 import { LibraryDocument } from '../types/library'
 import { ManuscriptDocument } from '../types/manuscript'
+import { ProjectDocument } from '../types/project'
 import InspectorContainer from './InspectorContainer'
 import ManuscriptSidebar from './ManuscriptSidebar'
 
@@ -55,6 +57,7 @@ interface State {
   view: EditorView | null
   library: Map<string, BibliographyItem>
   manuscript: Manuscript | null
+  project: Project | null
   processor: Citeproc.Processor | null
 }
 
@@ -63,6 +66,7 @@ interface ComponentProps {
 }
 
 interface ComponentRoute extends Route<RouteProps> {
+  project: string
   id: string
 }
 
@@ -85,6 +89,7 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
     view: null,
     library: new Map(),
     manuscript: null,
+    project: null,
     processor: null,
   }
 
@@ -101,12 +106,15 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    const { id } = this.props.match.params
+    const { project, id } = this.props.match.params
 
     window.addEventListener('beforeunload', this.unloadListener)
 
     try {
       this.loadLibraryItems() // TODO: move this to provider
+
+      await this.loadProject(project)
+
       const manuscript = await this.loadManuscript(id)
       await this.createCitationProcessor(manuscript)
 
@@ -146,9 +154,9 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const { dirty, componentMap, doc, manuscript, popper } = this.state
+    const { dirty, componentMap, doc, manuscript, project, popper } = this.state
 
-    if (!doc || !manuscript) {
+    if (!doc || !manuscript || !project) {
       return <Spinner />
     }
 
@@ -156,7 +164,12 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
 
     return (
       <Page>
-        <ManuscriptSidebar doc={doc} onDrop={this.handleDrop} />
+        <ManuscriptSidebar
+          manuscript={manuscript}
+          project={project}
+          doc={doc}
+          onDrop={this.handleDrop}
+        />
 
         <Main>
           <Editor
@@ -169,7 +182,9 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
             deleteComponent={this.deleteComponent}
             getLibraryItem={this.getLibraryItem}
             getManuscript={this.getManuscript}
+            saveManuscript={this.saveManuscript}
             locale={locale}
+            manuscript={manuscript}
             onChange={this.handleChange}
             componentMap={componentMap}
             popper={popper}
@@ -254,6 +269,18 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
     })
   }
 
+  private loadProject = (id: string): Promise<Manuscript> => {
+    return new Promise(resolve => {
+      this.getCollection()
+        .findOne(id)
+        .$.subscribe((doc: ProjectDocument) => {
+          const project = doc.toJSON()
+          this.setState({ project })
+          resolve(project)
+        })
+    })
+  }
+
   private loadLibraryItems = () => {
     this.getCollection()
       .find({
@@ -325,15 +352,21 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
 
     const collection = this.getCollection()
 
+    const isValidChangeEvent = (changeEvent: AnyComponentChangeEvent) => {
+      const { v, doc, op } = changeEvent.data
+
+      return v && doc && op
+    }
+
     const sub = collection.$.subscribe(
       async (changeEvent: AnyComponentChangeEvent) => {
+        if (!isValidChangeEvent(changeEvent)) {
+          throw new Error('Unexpected change event data')
+        }
+
         const op = changeEvent.data.op
         const doc = changeEvent.data.doc
         const v = changeEvent.data.v as AnyComponent
-
-        if (!v || !doc || !op) {
-          throw new Error('Unexpected change event data')
-        }
 
         console.log({ op, doc, v }) // tslint:disable-line:no-console
 
@@ -354,6 +387,10 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
         const componentDocument = (await collection
           .findOne(doc)
           .exec()) as ComponentDocument
+
+        if (!componentDocument) {
+          return null
+        }
 
         const component = await getComponentFromDoc(componentDocument)
 
@@ -471,8 +508,6 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
     const id = this.props.match.params.id
 
     // NOTE: can't use state.toJSON() as the HTML serializer needs the actual nodes
-
-    // TODO: make sure the manuscript element's ID doesn't change
 
     const newComponentMap = encode(state.doc)
 

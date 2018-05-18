@@ -86,9 +86,9 @@
 .ProseMirror .citation,
 .ProseMirror .cross-reference {
   font-weight: bold;
-  background-color: #DDEAFB;
+  background-color: #ddeafb;
   border-radius: 5px;
-  color: #22355E;
+  color: #22355e;
   padding: 0 2px;
   cursor: pointer;
 }

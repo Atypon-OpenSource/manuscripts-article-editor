@@ -7,7 +7,7 @@ import ComponentsProvider from '../../../store/ComponentsProvider'
 import KeywordsProvider from '../../../store/KeywordsProvider'
 import { ThemeProvider } from '../../../theme'
 import { BibliographyItem, Citation } from '../../../types/components'
-import { EditorProps, SaveComponent } from '../../Editor'
+import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 
 class CitationView implements NodeView {
@@ -75,7 +75,7 @@ class CitationView implements NodeView {
   private handleSave = async (item: BibliographyItem) => {
     this.props.popper.destroy()
 
-    await (this.props.saveComponent as SaveComponent)(item)
+    await this.props.saveComponent(item)
   }
 
   // private handleDelete = async () => {

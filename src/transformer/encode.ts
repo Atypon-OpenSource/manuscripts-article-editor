@@ -10,6 +10,9 @@ const serializer = DOMSerializer.fromSchema(schema)
 const contents = (node: ProsemirrorNode): string =>
   (serializer.serializeNode(node) as HTMLElement).outerHTML
 
+export const inlineContents = (node: ProsemirrorNode): string =>
+  (serializer.serializeNode(node) as HTMLElement).innerHTML
+
 const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {
   const nodes: ProsemirrorNode[] = []
 
@@ -42,7 +45,7 @@ const inlineContentsOfNodeType = (
     const child = node.child(i)
 
     if (child.type.name === type) {
-      return (serializer.serializeNode(child) as HTMLElement).innerHTML
+      return inlineContents(child)
     }
   }
 

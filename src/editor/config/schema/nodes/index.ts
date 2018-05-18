@@ -13,7 +13,6 @@ import { equationBlock } from './equation_block'
 import { figcaption } from './figcaption'
 import { figure } from './figure'
 import { listNodes } from './list'
-import { manuscript } from './manuscript'
 import { paragraph } from './paragraph'
 import { section } from './section'
 import { sectionTitle } from './section_title'
@@ -40,7 +39,6 @@ const combinedNodes: StringMap<NodeSpec> = {
   hard_break: basic.hard_break,
   horizontal_rule: basic.horizontal_rule,
   image: basic.image,
-  manuscript,
   paragraph,
   section,
   section_title: sectionTitle,

@@ -8,12 +8,12 @@ import { styled } from '../theme'
 import {
   AnyComponent,
   BibliographyItem,
-  Component,
   ComponentMap,
   Manuscript,
 } from '../types/components'
 import { menu, options } from './config'
 import PopperManager from './lib/popper'
+import MetadataContainer from './manuscript/MetadataContainer'
 import MenuBar from './MenuBar'
 import './styles/Editor.css'
 import './styles/popper.css'
@@ -24,7 +24,9 @@ export type ChangeReceiver = (
   data?: ProsemirrorNode | null
 ) => void
 export type GetComponent = <T extends AnyComponent>(id: string) => T
-export type SaveComponent = (component: Component) => Promise<void>
+export type SaveComponent = <T extends AnyComponent>(
+  component: T
+) => Promise<void>
 export type DeleteComponent = (id: string) => Promise<string>
 
 export interface EditorProps {
@@ -34,16 +36,18 @@ export interface EditorProps {
   doc: ProsemirrorNode
   editable?: boolean
   getComponent: GetComponent
-  saveComponent?: SaveComponent
-  deleteComponent?: DeleteComponent
+  saveComponent: SaveComponent
+  deleteComponent: DeleteComponent
   getLibraryItem: (id: string) => BibliographyItem
   getManuscript: () => Manuscript
+  saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
   locale: string
   onChange?: (state: EditorState) => void
   subscribe?: (receive: ChangeReceiver) => void
   componentMap: ComponentMap
   popper: PopperManager
   setView?: (view: EditorView) => void
+  manuscript: Manuscript
 }
 
 interface State {
@@ -112,6 +116,11 @@ class Editor extends React.Component<EditorProps, State> {
         )}
 
         <EditorBody>
+          <MetadataContainer
+            componentMap={this.props.componentMap}
+            saveManuscript={this.props.saveManuscript}
+            manuscript={this.props.manuscript}
+          />
           <div ref={this.createEditorView} />
         </EditorBody>
       </EditorContainer>

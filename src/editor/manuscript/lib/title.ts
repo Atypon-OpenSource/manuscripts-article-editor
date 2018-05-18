@@ -1,5 +1,5 @@
 import { baseKeymap, toggleMark } from 'prosemirror-commands'
-import { redo, undo } from 'prosemirror-history'
+import { history, redo, undo } from 'prosemirror-history'
 import { keymap } from 'prosemirror-keymap'
 import {
   DOMParser,
@@ -53,6 +53,7 @@ export const serialize = (node: ProsemirrorNode): string => {
 }
 
 export const plugins = [
+  history(),
   keymap({
     ...baseKeymap,
     'Mod-z': undo,

@@ -1,8 +1,8 @@
-import { Field, FieldArray, Form, Formik } from 'formik'
+import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import * as React from 'react'
 import { Option } from 'react-select'
 import CreatableSelect from 'react-select/lib/Creatable'
-import TitleField from '../editor/manuscript/TitleField'
+import { TitleField } from '../editor/manuscript/TitleField'
 import {
   KeywordsMap,
   KeywordsProps,
@@ -159,7 +159,7 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
             {/*<LabelText>Title</LabelText>*/}
             <StyledTitleField
               value={values.title || ''}
-              handleChange={data => setFieldValue('title', data)}
+              handleChange={(data: string) => setFieldValue('title', data)}
             />
           </Label>
 
@@ -208,12 +208,12 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
             <LabelText>Keywords</LabelText>
 
             <Field name={'keywordIDs'}>
-              {({ field, form }) => (
+              {(props: FieldProps) => (
                 <CreatableSelect
                   isMulti={true}
                   onChange={async (newValue: [Option]) => {
-                    form.setFieldValue(
-                      field.name,
+                    props.form.setFieldValue(
+                      props.field.name,
                       await Promise.all(
                         newValue.map(async option => {
                           const existing = keywords.data.get(
@@ -236,7 +236,7 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
                     )
                   }}
                   options={buildOptions(keywords.data)}
-                  value={(field.value || [])
+                  value={(props.field.value || [])
                     .filter((id: string) => keywords.data.has(id))
                     .map((id: string) => keywords.data.get(id))
                     .map((item: Keyword) => ({

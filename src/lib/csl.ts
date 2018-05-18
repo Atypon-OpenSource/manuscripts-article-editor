@@ -3,13 +3,20 @@ import CSL from 'citeproc'
 import url from 'url'
 import { BibliographyItem } from '../types/components'
 
+// TODO: full mapping
 export const convertBibliographyItemToData = (
   item: BibliographyItem
 ): CSL.Data => ({
   type: 'article-journal',
   id: item.id,
   title: item.title,
-  author: item.author,
+  author: item.author
+    ? item.author.map(author => ({
+        given: author.given as string,
+        family: author.family as string,
+        suffix: author.suffix,
+      }))
+    : undefined,
   issued: item.issued,
   // URL: item.URL, // TODO: keep if it's not doi.org?
   volume: item.volume,

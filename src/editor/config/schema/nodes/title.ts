@@ -4,7 +4,6 @@ export const title: NodeSpec = {
   content: 'text*',
   marks: 'italic superscript subscript smallcaps',
   attrs: {
-    // id: { default: '' },
     placeholder: { default: 'Title' },
   },
   group: 'metadata',
