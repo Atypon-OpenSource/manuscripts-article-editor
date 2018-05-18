@@ -12,6 +12,14 @@ module.exports = {
     publicPath: '/',
   },
   plugins: [
+    new webpack.EnvironmentPlugin([
+      'NODE_ENV',
+      'API_BASE_URL',
+      'API_APPLICATION_ID',
+      'CSL_DATA_URL',
+      'SENTRY_PUBLIC_DSN',
+      'SYNC_GATEWAY_URL'
+    ]),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       title: 'Manuscripts',

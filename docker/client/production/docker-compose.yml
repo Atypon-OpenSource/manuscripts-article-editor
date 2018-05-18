@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: ../../..
+      dockerfile: docker/client/production/Dockerfile
+      args:
+        - API_BASE_URL=${API_BASE_URL}
+        - API_APPLICATION_ID=${API_APPLICATION_ID}
+        - SYNC_GATEWAY_URL=${SYNC_GATEWAY_URL}
+        - CSL_DATA_URL=${CSL_DATA_URL}
+        - SENTRY_PUBLIC_DSN=${SENTRY_PUBLIC_DSN}
+    ports:
+      - 8080:80
+    volumes:
+      - yarn-cache:/cache/yarn
+
+volumes:
+  yarn-cache:
+  # external: true
+

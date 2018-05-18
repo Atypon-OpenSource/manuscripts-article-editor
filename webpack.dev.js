@@ -1,6 +1,7 @@
 process.env.NODE_ENV = 'development'
 
-const Dotenv = require('dotenv-webpack')
+require('dotenv').config()
+
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
@@ -9,6 +10,7 @@ module.exports = merge(common, {
   devServer: {
     contentBase: './dist',
     historyApiFallback: true,
+    host: '0.0.0.0',
     hot: true,
     open: true,
     // proxy: {
@@ -60,9 +62,6 @@ module.exports = merge(common, {
     hints: false,
   },
   plugins: [
-    new Dotenv({
-      safe: true
-    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.ContextReplacementPlugin(
       /codemirror[\/\\]mode$/,

@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: ../../..
+      dockerfile: docker/client/development/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+    volumes:
+      - yarn-cache:/cache/yarn
+
+volumes:
+  yarn-cache:
+  # external: true
+

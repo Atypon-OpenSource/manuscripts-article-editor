@@ -1,6 +1,9 @@
-# manuscripts-frontend [![pipeline status](https://gitlab.com/mpapp-private/manuscripts-frontend/badges/master/pipeline.svg)](https://gitlab.com/mpapp-private/manuscripts-frontend/commits/master)
+# manuscripts-frontend 
 
 A client for collaborative editing of rich-text articles.
+
+[![pipeline status](https://gitlab.com/mpapp-private/manuscripts-frontend/badges/master/pipeline.svg)](https://gitlab.com/mpapp-private/manuscripts-frontend/commits/master)
+
 
 ## Installation
 
@@ -19,6 +22,18 @@ The editor currently depends on the [`csl-data`](https://gitlab.com/mpapp-privat
 The variables listed in `.env.example` should all be defined as environment variables.
 
 Run `yarn build` to build the app to the `dist` folder, from where it can be deployed.
+
+## Running in Docker
+
+The variables needed for the server should be in `docker/server/.env`.
+
+The variables needed for the client should be in `docker/client/development/.env`.
+
+Run `yarn docker-compose:server pull` to pull the latest server Docker images.
+
+Run `yarn docker-compose:server up` to start the server in Docker.
+
+Run `yarn docker-compose:client up --build` to start the client in Docker.
 
 ## Development
 

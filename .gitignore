@@ -1,7 +1,7 @@
-node_modules/
-coverage/
-build/
-dist/
-storybook-static/
 .env
 *.log
+build/
+coverage/
+dist/
+node_modules/
+storybook-static/

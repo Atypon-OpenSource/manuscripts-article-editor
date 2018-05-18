@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  couchbase:
+    image: registry.gitlab.com/mpapp-private/manuscripts-api/couchbase
+    env_file:
+      - .env
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 8094:8094
+      - 11207:11207
+      - 11208:11208
+      - 11209:11209
+      - 11210:11210
+      - 18091:18091
+      - 18092:18092
+      - 18093:18093
+      - 18094:18094
+    volumes:
+      - couchbase-data:/opt/couchbase/var
+
+  sync_gateway:
+    image: registry.gitlab.com/mpapp-private/manuscripts-api/sync_gateway
+    env_file:
+      - .env
+    depends_on:
+      - couchbase
+    ports:
+      - 4984:4984
+      - 4985:4985
+
+  api:
+    image: registry.gitlab.com/mpapp-private/manuscripts-api/app
+    env_file:
+      - .env
+    depends_on:
+      - couchbase
+      - sync_gateway
+    ports:
+      - 3000:3000
+
+volumes:
+  couchbase-data:
+

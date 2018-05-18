@@ -12,12 +12,13 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
+    "docker-compose:client": "docker-compose -p manuscripts_client -f docker/client/development/docker-compose.yml",
+    "docker-compose:server": "docker-compose -p manuscripts_server -f docker/server/docker-compose.yml",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "lint": "tsc --noEmit --project tsconfig.json && tslint --project tsconfig.json",
     "precommit": "lint-staged",
     "prettier": "prettier --write \"{src,stories,test}/**/*.{js,ts,tsx,css}\"",
-    "now": "now",
     "storybook": "start-storybook --config-dir stories/config --port 6006",
     "build-storybook": "build-storybook --config-dir stories/config"
   },
@@ -58,7 +59,7 @@
     "clean-webpack-plugin": "^0.1.18",
     "codemirror": "^5.36.0",
     "css-loader": "^0.28.10",
-    "dotenv-webpack": "^1.5.4",
+    "dotenv": "^5.0.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.9",
     "formik": "^1.0.0-alpha.4",
