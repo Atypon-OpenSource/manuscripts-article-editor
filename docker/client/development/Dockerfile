@@ -1,11 +1,10 @@
-FROM node:8
+FROM node:8-alpine
 
 WORKDIR /app
 
 # install
 
-COPY package.json /app/package.json
-COPY yarn.lock /app/yarn.lock
+COPY package.json yarn.lock /app/
 
 ARG PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ARG YARN_CACHE_FOLDER=/cache/yarn
@@ -14,9 +13,8 @@ RUN yarn install --frozen-lockfile --non-interactive
 
 # start
 
-COPY tsconfig.json /app/tsconfig.json
-COPY webpack.common.js /app/webpack.common.js
-COPY webpack.dev.js /app/webpack.dev.js
+COPY tsconfig.json /app/
+COPY webpack.common.js webpack.dev.js /app/
 COPY public /app/public
 COPY src /app/src
 

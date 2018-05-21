@@ -4,7 +4,6 @@ A client for collaborative editing of rich-text articles.
 
 [![pipeline status](https://gitlab.com/mpapp-private/manuscripts-frontend/badges/master/pipeline.svg)](https://gitlab.com/mpapp-private/manuscripts-frontend/commits/master)
 
-
 ## Installation
 
 Run `yarn` to install the dependencies.
@@ -29,9 +28,13 @@ The variables needed for the server should be in `docker/server/.env`.
 
 The variables needed for the client should be in `docker/client/development/.env`.
 
+Run `docker login registry.gitlab.com` to log in to GitLab’s Container Registry using your GitLab username and password (or a deploy token for read-only access to the registry images).
+
 Run `yarn docker-compose:server pull` to pull the latest server Docker images.
 
-Run `yarn docker-compose:server up` to start the server in Docker.
+Run `yarn docker-compose:server up -d` to start the server in Docker.
+
+NOTE: the first time the database is run, set `INITIALIZE_DATABASE=true` in `.env`, wait for the API service to exit, set `INITIALIZE_DATABASE=false`, then start the service again.
 
 Run `yarn docker-compose:client up --build` to start the client in Docker.
 

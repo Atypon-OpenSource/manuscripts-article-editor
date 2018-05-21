@@ -1,11 +1,10 @@
-FROM node:8 AS builder
+FROM node:8-alpine AS builder
 
 WORKDIR /app
 
 # install
 
-COPY package.json /app/package.json
-COPY yarn.lock /app/yarn.lock
+COPY package.json yarn.lock /app/
 
 ARG YARN_CACHE_FOLDER=/cache/yarn
 
@@ -13,10 +12,8 @@ RUN yarn install --frozen-lockfile --non-interactive --production
 
 # build
 
-COPY tsconfig.json /app/tsconfig.json
-COPY tsconfig.build.json /app/tsconfig.build.json
-COPY webpack.common.js /app/webpack.common.js
-COPY webpack.prod.js /app/webpack.prod.js
+COPY tsconfig.json tsconfig.build.json /app/
+COPY webpack.common.js webpack.prod.js /app/
 COPY public /app/public
 COPY src /app/src
 
