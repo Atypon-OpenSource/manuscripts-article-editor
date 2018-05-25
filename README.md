@@ -34,7 +34,7 @@ Run `yarn docker-compose:server pull --no-parallel` to pull the latest server Do
 
 Run `yarn docker-compose:server up -d` to start the server in Docker.
 
-NOTE: the first time the database is run, set `INITIALIZE_DATABASE=true` in `.env`, wait for the API service to exit, set `INITIALIZE_DATABASE=false`, then start the service again.
+IMPORTANT: Once the services are running for the first time, run `INITIALIZE_DATABASE=true yarn docker-compose:server run api` to initialize the database.
 
 Run `yarn docker-compose:client up --build -d` to start the client in Docker.
 

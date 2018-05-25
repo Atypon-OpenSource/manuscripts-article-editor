@@ -40,6 +40,8 @@ services:
       - sync_gateway
     ports:
       - 3000:3000
+    environment:
+      - INITIALIZE_DATABASE
 
 volumes:
   couchbase-data:
