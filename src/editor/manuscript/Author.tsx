@@ -6,14 +6,15 @@ import {
   Contributor,
 } from '../../types/components'
 
+const buildNameLiteral = (name: BibliographicName) =>
+  [name.given, name.family, name.suffix].filter(part => part).join(' ')
+
 interface AuthorNameProps {
   name: BibliographicName
 }
 
 const AuthorName: React.SFC<AuthorNameProps> = ({ name }) => (
-  <span>
-    {name.given} {name.family} {name.suffix}
-  </span>
+  <span>{buildNameLiteral(name)}</span>
 )
 
 const AuthorAffiliations = styled.span`
@@ -52,6 +53,13 @@ export const Author: React.SFC<AuthorProps> = ({ author, affiliations }) => (
           </React.Fragment>
         ))}
       </AuthorAffiliations>
+    )}
+
+    {author.isCorresponding && (
+      <AuthorAffiliations title={'Corresponding author'}>*</AuthorAffiliations>
+    )}
+    {author.isJointContributor && (
+      <AuthorAffiliations title={'Joint contributor'}>†</AuthorAffiliations>
     )}
   </span>
 )

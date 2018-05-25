@@ -50,6 +50,8 @@ class DataProvider extends React.Component<{}, DataProviderState> {
       collection: db[name],
     })
 
+    // TODO: only sync when there's a token?
+
     this.sync({ live: false }) // initial sync
   }
 

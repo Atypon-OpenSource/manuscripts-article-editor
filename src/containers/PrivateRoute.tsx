@@ -8,20 +8,25 @@ import {
 import { Spinner } from '../components/Spinner'
 import { UserProps, withUser } from '../store/UserProvider'
 
-interface ComponentProps {
+interface Props {
   component: React.ComponentType<any> // tslint:disable-line:no-any
 }
 
-type Props = ComponentProps & RouteProps & UserProps
-
-const PrivateRoute: React.SFC<Props> = ({ component: Component, ...rest }) => (
+const PrivateRoute: React.SFC<Props & RouteProps & UserProps> = ({
+  component: Component,
+  ...rest
+}) => (
   <Route
     {...rest}
     render={(props: RouteComponentProps<{}>) => {
       const { user } = rest
 
       if (!user.loaded) {
-        return <Spinner />
+        return <Spinner color={'black'} />
+      }
+
+      if (user.error) {
+        return <Spinner color={'red'} />
       }
 
       if (!user.data) {
@@ -40,4 +45,4 @@ const PrivateRoute: React.SFC<Props> = ({ component: Component, ...rest }) => (
   />
 )
 
-export default withUser<ComponentProps & RouteProps>(PrivateRoute)
+export default withUser<Props & RouteProps>(PrivateRoute)

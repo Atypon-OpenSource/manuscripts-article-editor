@@ -46,7 +46,7 @@ export const Metadata: React.SFC<Props> = ({
   <Header>
     <StyledTitleField
       value={manuscript.title}
-      autoFocus={true}
+      autoFocus={!manuscript.title}
       handleChange={saveTitle}
     />
 

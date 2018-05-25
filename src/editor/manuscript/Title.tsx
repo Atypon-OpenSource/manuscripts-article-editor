@@ -54,8 +54,8 @@ class Title extends React.Component<Props, State> {
   protected createEditorView = (node: HTMLDivElement) => {
     if (!node) return
 
-    while (node.hasChildNodes()) {
-      node.removeChild(node.firstChild as Node)
+    while (node.firstChild) {
+      node.removeChild(node.firstChild)
     }
 
     this.view = new EditorView(node, {

@@ -1,5 +1,4 @@
 import React from 'react'
-import { ThemedStyledProps } from 'styled-components'
 import AddFile from '../icons/welcome/add-file'
 import App from '../icons/welcome/app'
 import DocFile from '../icons/welcome/doc-file'
@@ -7,26 +6,10 @@ import Feedback from '../icons/welcome/feedback'
 import MarkdownFile from '../icons/welcome/markdown-file'
 import Project from '../icons/welcome/project'
 import TextFile from '../icons/welcome/text-file'
-import { styled, Theme } from '../theme'
+import { styled, ThemedProps } from '../theme'
 import { SimpleModal } from './SimpleModal'
 
-type DivProps = ThemedStyledProps<React.HTMLProps<HTMLDivElement>, Theme>
-
-export interface RecentFile {
-  id: string
-  project: string
-  title: string
-  description?: string
-}
-
-export interface WelcomeProps {
-  recentFiles: RecentFile[]
-  handleHideWelcomeChange: React.ChangeEventHandler<HTMLInputElement>
-  handleClose: () => void
-  createNewManuscript: () => void
-  openManuscript: (file: RecentFile) => void
-  sendFeedback: () => void
-}
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Container = styled.div`
   border-radius: 8px;
@@ -96,7 +79,7 @@ const ActionButton = styled.button`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: ${(props: DivProps) => props.theme.fontFamily};
+  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
   width: 190px;
   border-radius: 5px;
   background-color: #ffffff;
@@ -211,8 +194,26 @@ const OpenRecentFileLabel = styled.p`
   margin-left: 25px;
 `
 
+export interface RecentFile {
+  id: string
+  project: string
+  title: string
+  description?: string
+}
+
+export interface WelcomeProps {
+  recentFiles: RecentFile[]
+  hideWelcome: boolean
+  handleHideWelcomeChange: React.ChangeEventHandler<HTMLInputElement>
+  handleClose: () => void
+  createNewManuscript: () => void
+  openManuscript: (file: RecentFile) => void
+  sendFeedback: () => void
+}
+
 export const WelcomePage: React.SFC<WelcomeProps> = ({
   recentFiles,
+  hideWelcome,
   handleHideWelcomeChange,
   handleClose,
   createNewManuscript,
@@ -297,7 +298,11 @@ export const WelcomePage: React.SFC<WelcomeProps> = ({
 
       <WelcomeFooter>
         <ShowAgainLabel>
-          <input type="checkbox" onChange={handleHideWelcomeChange} />
+          <input
+            type="checkbox"
+            onChange={handleHideWelcomeChange}
+            checked={!hideWelcome}
+          />
           Show this window after signing in
         </ShowAgainLabel>
       </WelcomeFooter>

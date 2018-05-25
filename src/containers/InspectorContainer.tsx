@@ -76,9 +76,16 @@ class InspectorContainer extends React.Component<Props, State> {
       return <Spinner />
     }
 
+    // TODO: match the defaults in the citation processor
+    const initialValues: Manuscript = {
+      citationStyle: 'nature',
+      locale: 'en-GB',
+      ...manuscript,
+    }
+
     return (
       <Formik
-        initialValues={manuscript}
+        initialValues={initialValues}
         onSubmit={saveManuscript}
         enableReinitialize={true}
       >

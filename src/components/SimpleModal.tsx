@@ -1,15 +1,14 @@
 import React from 'react'
 import Modal from 'react-modal'
-import { ThemedStyledProps } from 'styled-components'
 import Close from '../icons/close'
-import { styled, Theme } from '../theme'
+import { styled, ThemedProps } from '../theme'
 
-type DivProps = ThemedStyledProps<React.HTMLProps<HTMLDivElement>, Theme>
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: ${(props: DivProps) => props.theme.fontFamily};
+  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
   width: 800px;
   max-width: 100%;
   margin: auto;
@@ -33,7 +32,7 @@ export const CloseButton = styled.button`
 export const ModalMain = styled.div`
   flex: 1;
   flex-direction: column;
-  border-radius: ${(props: DivProps) => props.theme.borderRadius};
+  border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
   border: 1px solid #d6d6d6;
   box-shadow: 0 10px 20px 0 rgba(107, 134, 164, 0.19);
   background: #fff;

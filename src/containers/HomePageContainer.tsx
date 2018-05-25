@@ -1,21 +1,14 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-// import HomePage from '../components/HomePage'
-import { Spinner } from '../components/Spinner'
+import Spinner from '../icons/spinner'
 import { UserProps, withUser } from '../store/UserProvider'
 
-type Props = UserProps
-
-class HomePageContainer extends React.Component<Props> {
+class HomePageContainer extends React.Component<UserProps> {
   public render() {
     const { user } = this.props
 
     if (!user.loaded) {
-      if (user.error) {
-        return <Spinner color={'red'} />
-      }
-
-      return <Spinner color={'black'} />
+      return <Spinner />
     }
 
     if (user.data) {

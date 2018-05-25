@@ -1,14 +1,9 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
-import { ThemedStyledProps } from 'styled-components'
-import { styled, Theme } from '../theme'
+import { styled, ThemedProps } from '../theme'
 
-export type ButtonProps = ThemedStyledProps<
-  React.HTMLProps<HTMLButtonElement>,
-  Theme
->
+export type ThemedButtonProps = ThemedProps<HTMLButtonElement>
 
-interface IconButtonProps extends ButtonProps {
+interface IconButtonProps extends ThemedButtonProps {
   size?: number
 }
 
@@ -16,7 +11,7 @@ export const Button = styled.button.attrs({
   type: 'button',
 })`
   background-color: #fff;
-  color: ${(props: ButtonProps) => props.theme.primary};
+  color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
   border: 2px solid transparent;
   border-radius: 4px;
   text-transform: uppercase;
@@ -24,54 +19,66 @@ export const Button = styled.button.attrs({
   align-items: center;
   justify-content: center;
   padding: 1px 10px 3px;
-  font-family: ${(props: ButtonProps) => props.theme.fontFamily};
+  font-family: ${(props: ThemedButtonProps) => props.theme.fontFamily};
   font-size: 16px;
   font-weight: 600;
-  cursor: ${(props: ButtonProps) => (props.disabled ? 'text' : 'pointer')};
-  opacity: ${(props: ButtonProps) => (props.disabled ? '0.5' : '1.0')};
+  cursor: ${(props: ThemedButtonProps) =>
+    props.disabled ? 'text' : 'pointer'};
+  opacity: ${(props: ThemedButtonProps) => (props.disabled ? '0.5' : '1.0')};
   transition: border 0.1s, color 0.1s, background-color 0.1s;
 
   &:hover {
     background-color: #fff;
-    color: ${(props: ButtonProps) => props.theme.primary};
+    color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
     border-color: #4489d8;
   }
 
   &:active {
-    background-color: ${(props: ButtonProps) => props.theme.active};
-    border-color: ${(props: ButtonProps) => props.theme.active};
+    background-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.primary};
+    border-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.primary};
     color: white;
   }
 `
 
 export const PrimaryButton = Button.extend`
-  background-color: ${(props: ButtonProps) => props.theme.primary};
+  background-color: ${(props: ThemedButtonProps) =>
+    props.theme.colors.button.primary};
   color: #fff;
 
   &:hover {
-    border-color: #4489d8;
+    border-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.primary};
   }
 
   &:active {
-    background-color: #274c76;
-    border-color: #274c76;
+    background-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.primary};
+    border-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.primary};
     color: white;
   }
 `
 
 export const DeleteButton = Button.extend`
-  border-color: ${(props: ButtonProps) => props.theme.danger};
-  color: ${(props: ButtonProps) => props.theme.danger};
+  border-color: ${(props: ThemedButtonProps) =>
+    props.theme.colors.button.danger};
+  color: ${(props: ThemedButtonProps) => props.theme.colors.button.danger};
 
   &:hover {
-    background-color: ${(props: ButtonProps) => props.theme.danger};
-    border-color: ${(props: ButtonProps) => props.theme.danger};
+    background-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.danger};
+    border-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.danger};
     color: #fff;
   }
 
   &:active {
-    background-color: ${(props: ButtonProps) => props.theme.danger};
-    border-color: ${(props: ButtonProps) => props.theme.danger};
+    background-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.danger};
+    border-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.danger};
     color: #fff;
   }
 `
@@ -118,7 +125,7 @@ export const HelpButton = ActionButton.extend`
 
 export const LinkButton = styled(Link)`
   display: inline-block;
-  color: ${(props: ButtonProps) => props.theme.primary};
+  color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
   padding: 5px;
   text-decoration: none;
 
@@ -151,5 +158,6 @@ export const MiniButton = Button.extend`
 
 export const PrimaryMiniButton = MiniButton.extend`
   color: white;
-  background-color: ${(props: ButtonProps) => props.theme.primary};
+  background-color: ${(props: ThemedButtonProps) =>
+    props.theme.colors.button.primary};
 `

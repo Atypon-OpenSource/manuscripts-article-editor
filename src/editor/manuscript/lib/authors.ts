@@ -11,7 +11,7 @@ export type AffiliationMap = Map<string, Affiliation>
 const buildSortedAuthors = (componentMap: ComponentMap) => {
   return getComponentsByType<Contributor>(componentMap, CONTRIBUTOR)
     .filter(item => item.role === 'author')
-    .sort((a, b) => a.priority - b.priority)
+    .sort((a, b) => Number(a.priority) - Number(b.priority))
 }
 
 export const buildAffiliationIDs = (authors: Contributor[]): string[] => {

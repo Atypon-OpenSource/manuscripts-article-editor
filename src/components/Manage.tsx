@@ -1,17 +1,15 @@
 import React from 'react'
 import Modal from 'react-modal'
-import { ThemedStyledProps } from 'styled-components'
-import { styled, Theme } from '../theme'
-import { Button, ButtonProps } from './Button'
+import { styled, ThemedProps } from '../theme'
+import { Button, ThemedButtonProps } from './Button'
 
-type DivProps = ThemedStyledProps<React.HTMLProps<HTMLDivElement>, Theme>
-
-type FooterProps = ThemedStyledProps<React.HTMLProps<HTMLElement>, Theme>
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+type ThemedFooterProps = ThemedProps<HTMLElement>
 
 export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: ${(props: DivProps) => props.theme.fontFamily};
+  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
   //height: 640px; /* TODO: depends on the screen height? */
   width: 932px; /* TODO: depends on the screen width? */
 `
@@ -40,7 +38,7 @@ export const ModalForm = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  border-radius: ${(props: DivProps) => props.theme.borderRadius};
+  border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
   border: 1px solid #d6d6d6;
   box-shadow: 0 10px 20px 0 rgba(107, 134, 164, 0.19);
   background: #fff;
@@ -71,12 +69,13 @@ export const ModalFormHeading = styled.div`
 export const ModalFormFooter = styled.footer`
   display: flex;
   justify-content: space-between;
-  padding: ${(props: FooterProps) => props.theme.padding};
-  background-color: ${(props: FooterProps) => props.theme.primary};
-  border-bottom-left-radius: ${(props: FooterProps) =>
-    props.theme.borderRadius};
-  border-bottom-right-radius: ${(props: FooterProps) =>
-    props.theme.borderRadius};
+  padding: ${(props: ThemedFooterProps) => props.theme.spacing}px;
+  background-color: ${(props: ThemedFooterProps) =>
+    props.theme.colors.background.primary};
+  border-bottom-left-radius: ${(props: ThemedFooterProps) =>
+    props.theme.radius}px;
+  border-bottom-right-radius: ${(props: ThemedFooterProps) =>
+    props.theme.radius}px;
 `
 
 export const ModalFormFooterText = styled.div`
@@ -109,7 +108,7 @@ export const ModalFooterButton = Button.extend`
 `
 
 export const PrimaryModalFooterButton = ModalFooterButton.extend`
-  color: ${(props: ButtonProps) => props.theme.primary};
+  color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
   border-color: #fff;
   background-color: #fff;
 

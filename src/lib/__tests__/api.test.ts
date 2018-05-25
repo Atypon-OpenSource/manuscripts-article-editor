@@ -11,7 +11,7 @@ describe('api', () => {
     token.remove()
   })
 
-  it.skip('returns data from authenticate', async () => {
+  it.skip('returns data from fetchUser', async () => {
     const mock = new MockAdapter(client)
 
     const mockData = {
@@ -20,7 +20,7 @@ describe('api', () => {
 
     mock.onGet('/user').reply(HttpStatusCodes.OK, mockData)
 
-    const noTokenResult = await api.authenticate()
+    const noTokenResult = await api.fetchUser()
 
     expect(noTokenResult).toEqual(null)
 
@@ -30,7 +30,7 @@ describe('api', () => {
 
     token.set(tokenData)
 
-    const tokenResult = await api.authenticate()
+    const tokenResult = await api.fetchUser()
 
     expect(tokenResult).toEqual(mockData)
   })

@@ -30,13 +30,19 @@ The variables needed for the client should be in `docker/client/development/.env
 
 Run `docker login registry.gitlab.com` to log in to GitLab’s Container Registry using your GitLab username and password (or a deploy token for read-only access to the registry images).
 
-Run `yarn docker-compose:server pull` to pull the latest server Docker images.
+Run `yarn docker-compose:server pull --no-parallel` to pull the latest server Docker images.
 
 Run `yarn docker-compose:server up -d` to start the server in Docker.
 
 NOTE: the first time the database is run, set `INITIALIZE_DATABASE=true` in `.env`, wait for the API service to exit, set `INITIALIZE_DATABASE=false`, then start the service again.
 
-Run `yarn docker-compose:client up --build` to start the client in Docker.
+Run `yarn docker-compose:client up --build -d` to start the client in Docker.
+
+Run `yarn docker-compose:server down` to stop the server.
+
+Run `yarn docker-compose:client down` to stop the client.
+
+Run `yarn docker-compose:server down -v` to stop the server and delete the data volumes.
 
 ## Development
 

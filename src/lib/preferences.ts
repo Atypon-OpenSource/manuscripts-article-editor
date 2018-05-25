@@ -14,6 +14,8 @@ export default {
   get: (): Preferences => {
     const preferences = storage.getItem('preferences')
 
+    // TODO: merge defaults?
+
     return preferences ? JSON.parse(preferences) : defaults
   },
   set: (data: Preferences): Preferences => {

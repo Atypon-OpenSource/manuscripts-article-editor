@@ -1,4 +1,4 @@
-import { injectGlobal, styled } from '../../src/theme'
+import { injectGlobal, styled, ThemedProps } from '../../src/theme'
 
 injectGlobal`
   body {
@@ -6,9 +6,12 @@ injectGlobal`
   }
 `
 
-export const Story = styled('div')`
-  background-color: ${props => props.theme.backgroundColor};
-  color: ${props => props.theme.color};
-  font-family: ${props => props.theme.fontFamily};
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+
+export const Story = styled.div`
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.colors.primary.white};
+  color: ${(props: ThemedDivProps) => props.theme.colors.primary.black};
+  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
   padding: 3rem;
 `

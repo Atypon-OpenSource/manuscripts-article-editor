@@ -3,12 +3,13 @@ import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { RouterProps } from 'react-router'
+import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { Main, Page } from '../components/Page'
 import { SignupConfirm } from '../components/SignupConfirm'
 import { SignupErrors, SignupValues } from '../components/SignupForm'
 import SignupPage from '../components/SignupPage'
+import { Spinner } from '../components/Spinner'
 import { signup, verify } from '../lib/api'
 import { UserProps, withUser } from '../store/UserProvider'
 import { signupSchema } from '../validation'
@@ -22,9 +23,10 @@ interface State {
   error: boolean
 }
 
-type Props = UserProps & RouterProps
-
-class SignupPageContainer extends React.Component<Props, State> {
+class SignupPageContainer extends React.Component<
+  UserProps & RouteComponentProps<{}>,
+  State
+> {
   public state: Readonly<State> = {
     confirming: null,
     error: false,
@@ -57,6 +59,10 @@ class SignupPageContainer extends React.Component<Props, State> {
   public render() {
     const { user } = this.props
     const { confirming, error } = this.state
+
+    if (!user.loaded) {
+      return <Spinner />
+    }
 
     if (user.data) {
       return <Redirect to={'/'} />
@@ -107,19 +113,26 @@ class SignupPageContainer extends React.Component<Props, State> {
         const errors: FormikErrors<SignupErrors> = {}
 
         if (error.response) {
-          // TODO: a button to re-send the confirmation email
-          if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
-            errors.submit = 'Invalid Operation'
-          } else if (error.response.status === HttpStatusCodes.CONFLICT) {
-            errors.submit = 'The email address already registered'
-          } else {
-            errors.submit = 'An error occurred.'
-          }
+          errors.submit = this.errorResponseMessage(error.response.status)
         }
 
         setErrors(errors)
       }
     )
+  }
+
+  private errorResponseMessage = (status: number) => {
+    switch (status) {
+      case HttpStatusCodes.BAD_REQUEST:
+        return 'Invalid operation'
+
+      case HttpStatusCodes.CONFLICT:
+        // TODO: a button to re-send the confirmation email
+        return 'The email address is already registered'
+
+      default:
+        return 'An error occurred.'
+    }
   }
 }
 

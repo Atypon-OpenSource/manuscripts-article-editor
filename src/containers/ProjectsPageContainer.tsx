@@ -9,7 +9,7 @@ import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { generateID } from '../transformer/id'
 import { PROJECT } from '../transformer/object-types'
-import { AnyComponent, Project } from '../types/components'
+import { AnyComponent, Project, UserProfile } from '../types/components'
 import {
   AddProject,
   ProjectDocument,
@@ -19,13 +19,14 @@ import {
 import ProjectsSidebar from './ProjectsSidebar'
 
 interface State {
-  projects: ProjectDocument[]
+  projects: Project[]
   loaded: boolean
 }
 
-type Props = UserProps & ComponentsProps & RouteComponentProps<{}>
-
-class ProjectsPageContainer extends React.Component<Props, State> {
+class ProjectsPageContainer extends React.Component<
+  UserProps & ComponentsProps & RouteComponentProps<{}>,
+  State
+> {
   public state: Readonly<State> = {
     projects: [],
     loaded: false,
@@ -39,7 +40,7 @@ class ProjectsPageContainer extends React.Component<Props, State> {
       .sort({ createdAt: -1 })
       .$.subscribe((projects: ProjectDocument[]) => {
         this.setState({
-          projects,
+          projects: projects.map(project => project.toJSON()),
           loaded: true,
         })
       })
@@ -53,6 +54,11 @@ class ProjectsPageContainer extends React.Component<Props, State> {
 
   public render() {
     const { projects, loaded } = this.state
+    const { user } = this.props
+
+    if (!user.loaded) {
+      return <Spinner />
+    }
 
     if (!loaded) {
       return <Spinner />
@@ -82,15 +88,12 @@ class ProjectsPageContainer extends React.Component<Props, State> {
   private addProject: AddProject = () => {
     const { user } = this.props
 
-    // TODO: this should never happen
-    if (!user.data) {
-      throw new Error('Not authenticated!')
-    }
+    const profile = user.data as UserProfile
 
     // TODO: open up the template modal
 
     const id = generateID('project') as string
-    const owner = (user.data._id as string).replace('|', '_')
+    const owner = profile.id.replace('|', '_')
     const now = Date.now()
 
     const project: Project = {

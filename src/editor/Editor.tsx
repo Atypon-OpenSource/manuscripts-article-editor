@@ -120,6 +120,8 @@ class Editor extends React.Component<EditorProps, State> {
             componentMap={this.props.componentMap}
             saveManuscript={this.props.saveManuscript}
             manuscript={this.props.manuscript}
+            saveComponent={this.props.saveComponent}
+            deleteComponent={this.props.deleteComponent}
           />
           <div ref={this.createEditorView} />
         </EditorBody>

@@ -14,6 +14,7 @@ import PasswordPage from '../components/PasswordPage'
 import { RecoverConfirm } from '../components/RecoverConfirm'
 import { RecoverErrors, RecoverValues } from '../components/RecoverForm'
 import RecoverPage from '../components/RecoverPage'
+import { Spinner } from '../components/Spinner'
 import { recoverPassword, resetPassword } from '../lib/api'
 import deviceId from '../lib/deviceId'
 import { UserProps, withUser } from '../store/UserProvider'
@@ -23,9 +24,7 @@ interface State extends PasswordHiddenValues {
   sent: string | null
 }
 
-type Props = UserProps
-
-class RecoverPageContainer extends React.Component<Props> {
+class RecoverPageContainer extends React.Component<UserProps> {
   public state: Readonly<State> = {
     sent: null,
     token: '',
@@ -50,6 +49,10 @@ class RecoverPageContainer extends React.Component<Props> {
   public render() {
     const { user } = this.props
     const { sent, token } = this.state
+
+    if (!user.loaded) {
+      return <Spinner />
+    }
 
     if (user.data) {
       return <Redirect to={'/'} />
@@ -97,7 +100,7 @@ class RecoverPageContainer extends React.Component<Props> {
       token,
       deviceId,
     }).then(
-      response => {
+      () => {
         setSubmitting(false)
 
         this.props.user.fetch()
@@ -124,7 +127,7 @@ class RecoverPageContainer extends React.Component<Props> {
 
   private sendRecovery = (
     values: RecoverValues,
-    { setSubmitting, setErrors }: FormikActions<RecoverValues | RecoverErrors>
+    { setSubmitting, setErrors }: FormikActions<RecoverValues & RecoverErrors>
   ) => {
     recoverPassword(values).then(
       () => {
@@ -137,7 +140,7 @@ class RecoverPageContainer extends React.Component<Props> {
       error => {
         setSubmitting(false)
 
-        const errors: FormikErrors<RecoverErrors> = {}
+        const errors: FormikErrors<RecoverValues & RecoverErrors> = {}
 
         if (error.response) {
           if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {

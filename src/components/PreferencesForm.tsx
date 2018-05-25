@@ -1,4 +1,4 @@
-import { FormikErrors, FormikProps } from 'formik'
+import { Form, FormikProps } from 'formik'
 import React from 'react'
 import { styled } from '../theme'
 import {
@@ -34,25 +34,24 @@ export interface PreferencesValues {
   locale: string
 }
 
-export interface PreferencesErrors extends FormikErrors<PreferencesValues> {
+export interface PreferencesErrors {
   locale?: string
   submit?: {}
 }
 
-type FormProps = FormikProps<PreferencesValues & PreferencesErrors>
-
-export const PreferencesForm: React.SFC<FormProps> = ({
+export const PreferencesForm: React.SFC<
+  FormikProps<PreferencesValues & PreferencesErrors>
+> = ({
   values,
   touched,
   errors,
   dirty,
   handleBlur,
   handleChange,
-  handleSubmit,
-  isSubmitting,
-  isValid,
+  // isSubmitting,
+  // isValid,
 }) => (
-  <form onSubmit={handleSubmit}>
+  <Form>
     <ModalContainer>
       <ModalHeader>
         <ModalHeading>
@@ -94,5 +93,5 @@ export const PreferencesForm: React.SFC<FormProps> = ({
         </ModalFormFooter>
       </ModalForm>
     </ModalContainer>
-  </form>
+  </Form>
 )

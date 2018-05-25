@@ -66,8 +66,10 @@ class Equation implements NodeView {
 
     this.props.popper.show(this.dom, input.getWrapperElement(), 'bottom')
 
-    input.refresh()
-    window.requestAnimationFrame(() => input.focus())
+    window.requestAnimationFrame(() => {
+      input.refresh()
+      input.focus()
+    })
 
     // dom.classList.add('ProseMirror-selectednode')
   }

@@ -37,16 +37,22 @@ export const signupSchema = yup.object().shape({
 })
 
 export const accountSchema = yup.object().shape({
-  givenName: yup
-    .string()
-    .required()
-    .min(1),
-  familyName: yup
-    .string()
-    .required()
-    .min(2),
+  password: yup.string().required(),
+})
+
+export const profileSchema = yup.object().shape({
+  bibliographicName: yup.object().shape({
+    givenName: yup
+      .string()
+      .required()
+      .min(1),
+    familyName: yup
+      .string()
+      .required()
+      .min(2),
+  }),
   title: yup.string(),
-  email: yup.string().email(),
+  // email: yup.string().email(),
   phone: yup.string(), // TODO: pattern
 })
 

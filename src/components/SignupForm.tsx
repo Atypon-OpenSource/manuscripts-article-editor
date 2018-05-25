@@ -1,9 +1,17 @@
-import { FormikErrors, FormikProps } from 'formik'
+import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { PrimaryButton } from './Button'
-import { CenteredForm, FormActions, FormHeader, FormLink } from './Form'
+import {
+  buildError,
+  CenteredForm,
+  FormActions,
+  FormError,
+  FormHeader,
+  FormLink,
+} from './Form'
 import { Hero, SubHero } from './Hero'
-import { TextField, TextFieldGroup } from './TextField'
+import { TextField } from './TextField'
+import { TextFieldGroupContainer } from './TextFieldGroupContainer'
 
 export interface SignupValues {
   name: string
@@ -11,73 +19,86 @@ export interface SignupValues {
   password: string
 }
 
-export interface SignupErrors extends FormikErrors<SignupValues> {
+export interface SignupErrors {
   submit?: string
 }
 
-type FormProps = FormikProps<SignupValues & SignupErrors>
-
-export const SignupForm: React.SFC<FormProps> = ({
-  values,
+export const SignupForm: React.SFC<
+  FormikProps<SignupValues & SignupErrors>
+> = ({
   touched,
   errors,
   dirty,
-  handleBlur,
-  handleChange,
-  handleSubmit,
-  isSubmitting,
-  isValid,
+  // isSubmitting,
+  // isValid,
 }) => (
-  <CenteredForm onSubmit={handleSubmit}>
+  <CenteredForm>
     <FormHeader>
       <SubHero>Manuscripts Online</SubHero>
       <Hero>Sign Up</Hero>
     </FormHeader>
 
-    <TextFieldGroup>
-      <TextField
-        type={'text'}
-        name={'name'}
-        placeholder={'name'}
-        autoFocus={true}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.name}
-        required={true}
-        autoComplete={'name'}
-      />
-    </TextFieldGroup>
+    <TextFieldGroupContainer
+      errors={{
+        name: buildError(dirty, touched.name as boolean, errors.name as string),
+      }}
+    >
+      <Field name={'name'}>
+        {({ field }: FieldProps) => (
+          <TextField
+            {...field}
+            type={'text'}
+            placeholder={'name'}
+            required={true}
+            autoComplete={'name'}
+            error={errors.name as string}
+          />
+        )}
+      </Field>
+    </TextFieldGroupContainer>
 
-    <TextFieldGroup>
-      <TextField
-        type={'email'}
-        name={'email'}
-        placeholder={'email'}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.email}
-        required={true}
-        autoComplete={'username email'}
-      />
+    <TextFieldGroupContainer
+      errors={{
+        email: buildError(
+          dirty,
+          touched.email as boolean,
+          errors.email as string
+        ),
+        password: buildError(
+          dirty,
+          touched.password as boolean,
+          errors.password as string
+        ),
+      }}
+    >
+      <Field name={'email'}>
+        {({ field }: FieldProps) => (
+          <TextField
+            {...field}
+            type={'email'}
+            placeholder={'email'}
+            required={true}
+            autoComplete={'username email'}
+            error={errors.email as string}
+          />
+        )}
+      </Field>
 
-      <TextField
-        type={'password'}
-        name={'password'}
-        placeholder={'password'}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.password}
-        required={true}
-        autoComplete={'new-password'}
-      />
-    </TextFieldGroup>
+      <Field name={'password'}>
+        {({ field }: FieldProps) => (
+          <TextField
+            {...field}
+            type={'password'}
+            placeholder={'password'}
+            required={true}
+            autoComplete={'new-password'}
+            error={errors.password as string}
+          />
+        )}
+      </Field>
+    </TextFieldGroupContainer>
 
-    {dirty && touched.email && errors.email && <div>{errors.email}</div>}
-    {dirty &&
-      touched.password &&
-      errors.password && <div>{errors.password}</div>}
-
-    {errors.submit && <div>{errors.submit}</div>}
+    {errors.submit && <FormError>{errors.submit}</FormError>}
 
     <FormActions>
       <div>

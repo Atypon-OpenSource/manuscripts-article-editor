@@ -1,15 +1,11 @@
 import React from 'react'
-import { Avatar } from '../components/Avatar'
 import { MenuLink } from '../components/Menu'
-import MenuDropdown from '../components/MenuDropdown'
 import { SignInMessage } from '../components/Messages'
 import { Spinner } from '../components/Spinner'
-import { UserInfo } from '../components/UserInfo'
+import { UserMenu } from '../components/UserMenu'
 import { UserProps, withUser } from '../store/UserProvider'
 
-type Props = UserProps
-
-class UserContainer extends React.Component<Props> {
+class UserContainer extends React.Component<UserProps> {
   public render() {
     const { user } = this.props
 
@@ -29,21 +25,7 @@ class UserContainer extends React.Component<Props> {
       )
     }
 
-    return (
-      <MenuDropdown
-        buttonContents={
-          <MenuLink to={'/account'}>
-            <Avatar src={user.data.avatar} size={16} color={'#788faa'} />
-          </MenuLink>
-        }
-        dropdownStyle={{
-          right: 5,
-          left: 'auto',
-        }}
-      >
-        <UserInfo user={user.data} />
-      </MenuDropdown>
-    )
+    return <UserMenu user={user.data} />
   }
 }
 

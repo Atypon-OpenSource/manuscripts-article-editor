@@ -13,6 +13,7 @@ export const createEditor: CreateEditor = async (value, mode) => {
 
   // tslint:disable-next-line:no-empty
   return CodeMirror(() => {}, {
+    autofocus: true,
     lineNumbers: true,
     lineWrapping: true,
     mode,

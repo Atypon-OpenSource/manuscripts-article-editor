@@ -79,7 +79,6 @@ storiesOf('Editor', module)
   .add('edit', () => (
     <Editor
       editable={true}
-      autoFocus={true}
       locale={locale}
       componentMap={componentMap}
       onChange={action('change')}
@@ -99,7 +98,6 @@ storiesOf('Editor', module)
   .add('view', () => (
     <Editor
       editable={false}
-      autoFocus={true}
       locale={locale}
       componentMap={componentMap}
       onChange={action('change')}

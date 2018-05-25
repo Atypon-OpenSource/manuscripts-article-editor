@@ -1,16 +1,10 @@
-import React from 'react'
-import { ThemedStyledProps } from 'styled-components'
-import { styled, Theme } from '../theme'
-
-type ThemedDivProps = ThemedStyledProps<React.HTMLProps<HTMLDivElement>, Theme>
+import { styled } from '../theme'
 
 export const Sidebar = styled.div`
   overflow-x: hidden;
   width: 100%;
   height: 100%;
   padding: 16px 8px;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.sidebarBackgroundColor};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

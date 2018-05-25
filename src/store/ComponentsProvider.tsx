@@ -133,7 +133,6 @@ class ComponentsProvider extends DataProvider {
     //     doc._data._deleted = true
     //   })
     //   .then(doc => {
-    //     console.log({ doc })
     //     return doc.id
     //   })
   }

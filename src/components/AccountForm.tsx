@@ -1,5 +1,6 @@
-import { FormikErrors, FormikProps } from 'formik'
+import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
+import { buildError, FormError, FormErrors } from './Form'
 import {
   ModalContainer,
   ModalFooterButton,
@@ -14,32 +15,24 @@ import {
   PrimaryModalFooterButton,
 } from './Manage'
 import { ManageAccountMessage } from './Messages'
-import { TextField, TextFieldGroup } from './TextField'
+import { TextField } from './TextField'
+import { TextFieldContainer } from './TextFieldContainer'
 
 export interface AccountValues {
-  givenName: string
-  familyName: string
-  phone?: string
+  password: string
 }
 
-export interface AccountErrors extends FormikErrors<AccountValues> {
-  givenName?: {}
-  familyName?: {}
-  submit?: {}
+// TODO
+export interface UpdateAccountResponse {
+  status?: number
 }
 
-type FormProps = FormikProps<AccountValues & AccountErrors>
+// TODO: link to "delete account" page
 
-export const AccountForm: React.SFC<FormProps> = ({
-  values,
-  touched,
-  errors,
-  dirty,
-  handleBlur,
-  handleChange,
-  handleSubmit,
-}) => (
-  <form onSubmit={handleSubmit}>
+export const AccountForm: React.SFC<
+  FormikProps<AccountValues & FormErrors>
+> = ({ dirty, errors, touched }) => (
+  <Form>
     <ModalContainer>
       <ModalHeader>
         <ModalHeading>
@@ -49,45 +42,28 @@ export const AccountForm: React.SFC<FormProps> = ({
       <ModalForm>
         <ModalFormBody>
           <ModalMain>
-            <TextFieldGroup>
-              <TextField
-                type={'text'}
-                name={'givenName'}
-                placeholder={'given name'}
-                autoComplete={'given-name'}
-                autoFocus={true}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.givenName}
-                required={true}
-              />
+            <Field name={'password'}>
+              {({ field }: FieldProps) => (
+                <TextFieldContainer
+                  label={'Password'}
+                  error={buildError(
+                    dirty,
+                    touched.password as boolean,
+                    errors.password as string
+                  )}
+                >
+                  <TextField
+                    {...field}
+                    type={'password'}
+                    placeholder={'Enter a new password'}
+                    autoFocus={true}
+                    required={true}
+                  />
+                </TextFieldContainer>
+              )}
+            </Field>
 
-              <TextField
-                type={'text'}
-                name={'familyName'}
-                placeholder={'family name'}
-                autoComplete={'family-name'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.familyName}
-                required={true}
-              />
-            </TextFieldGroup>
-
-            <TextField
-              type={'text'}
-              name={'phone'}
-              placeholder={'contact phone'}
-              autoComplete={'tel'}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.phone || ''}
-              required={true}
-            />
-
-            {Object.entries(errors).map(([field, message]) => (
-              <div key={field}>{message}</div>
-            ))}
+            {errors.submit && <FormError>{errors.submit}</FormError>}
           </ModalMain>
         </ModalFormBody>
 
@@ -104,5 +80,5 @@ export const AccountForm: React.SFC<FormProps> = ({
         </ModalFormFooter>
       </ModalForm>
     </ModalContainer>
-  </form>
+  </Form>
 )

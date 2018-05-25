@@ -1,6 +1,5 @@
 import React from 'react'
-import { ThemedStyledProps } from 'styled-components'
-import { injectGlobal, styled, Theme } from '../theme'
+import { injectGlobal, styled, ThemedProps } from '../theme'
 import MenuBar from './MenuBar'
 
 injectGlobal`
@@ -9,12 +8,13 @@ injectGlobal`
   }
 `
 
-type ThemedDivProps = ThemedStyledProps<React.HTMLProps<HTMLDivElement>, Theme>
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const Main = styled.main`
   height: 100vh;
   flex: 1;
   position: relative;
+  box-sizing: border-box;
 `
 
 export const Centered = Main.extend`
@@ -28,8 +28,7 @@ const PageContainer = styled.div`
   display: flex;
   height: 100vh;
   box-sizing: border-box;
-  background-color: ${(props: ThemedDivProps) => props.theme.backgroundColor};
-  color: ${(props: ThemedDivProps) => props.theme.color};
+  color: ${(props: ThemedDivProps) => props.theme.colors.primary.black};
   font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
 `
 
@@ -39,7 +38,7 @@ const ViewsBar = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${(props: ThemedDivProps) =>
-    props.theme.iconbarBackgroundColor};
+    props.theme.colors.primary.blue};
 `
 
 const IconBar = styled.div`
@@ -48,7 +47,7 @@ const IconBar = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${(props: ThemedDivProps) =>
-    props.theme.iconbarBackgroundColor};
+    props.theme.colors.primary.blue};
 `
 
 export const Page: React.SFC = ({ children }) => (

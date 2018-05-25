@@ -1,4 +1,6 @@
-import styled from 'styled-components'
+import { styled, ThemedProps } from '../theme'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const ResizerInner = styled.div`
   display: block;
@@ -14,7 +16,7 @@ const ResizerInner = styled.div`
   }
 
   &:hover::before {
-    background: ${props => props.theme.resizerColor};
+    background: ${(props: ThemedDivProps) => props.theme.colors.button.primary};
   }
 `
 
