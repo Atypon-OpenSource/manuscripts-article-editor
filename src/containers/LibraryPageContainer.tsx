@@ -4,6 +4,7 @@ import React from 'react'
 import { RouteProps } from 'react-router'
 import { Page } from '../components/Page'
 import * as crossref from '../editor/lib/crossref'
+import * as datacite from '../editor/lib/datacite'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { generateID } from '../transformer/id'
 import { BIBLIOGRAPHY_ITEM } from '../transformer/object-types'
@@ -23,6 +24,12 @@ const sources: LibrarySource[] = [
     name: 'Crossref',
     search: crossref.search,
     fetch: crossref.fetch,
+  },
+  {
+    id: 'datacite',
+    name: 'DataCite',
+    search: datacite.search,
+    fetch: datacite.fetch,
   },
 ]
 
