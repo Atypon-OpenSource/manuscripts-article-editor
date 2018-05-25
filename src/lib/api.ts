@@ -98,7 +98,7 @@ export const refresh = () => {
 }
 
 export const refreshSyncSession = () => {
-  return client.post('/auth/refreshSyncSession', null, {
+  return client.post('/auth/refreshSyncSessions', null, {
     withCredentials: true,
   })
 }

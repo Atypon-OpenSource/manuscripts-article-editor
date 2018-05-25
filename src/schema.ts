@@ -31,6 +31,9 @@ export const components: RxJsonSchema = {
       type: 'number',
       index: true,
     },
+    bibliographicName: {
+      type: 'object',
+    },
   },
   required: ['objectType'],
 }
