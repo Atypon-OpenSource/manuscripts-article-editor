@@ -51,6 +51,8 @@ const TextField = styled.input`
 `
 
 const StyledTitleField = styled(TitleField)`
+  flex: 1;
+
   & .ProseMirror {
     font-weight: bold;
     cursor: pointer;
@@ -114,6 +116,15 @@ const Actions = styled.div`
   justify-content: space-between;
 `
 
+const TitleContainer = styled.div`
+  display: flex;
+  margin-bottom: 8px;
+`
+
+const TitleLink = styled.a`
+  text-decoration: none;
+`
+
 interface Props {
   item: BibliographyItem
   handleDelete?: (item: Partial<BibliographyItem>) => void
@@ -140,6 +151,7 @@ const buildInitialValues = (
   title: item.title,
   author: item.author,
   keywordIDs: item.keywordIDs,
+  DOI: item.DOI,
 })
 
 // TODO: a "manage tags" page, where old tags can be deleted
@@ -158,13 +170,19 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
     {({ values, setFieldValue, handleChange }) => (
       <Form>
         <Fields>
-          <Label>
-            {/*<LabelText>Title</LabelText>*/}
+          <TitleContainer>
             <StyledTitleField
               value={values.title || ''}
               handleChange={(data: string) => setFieldValue('title', data)}
             />
-          </Label>
+            <TitleLink
+              href={`https://doi.org/${values.DOI}`}
+              target={'_blank'}
+              rel={'noopener noreferrer'}
+            >
+              ↗️
+            </TitleLink>
+          </TitleContainer>
 
           <Label>
             <LabelText>Authors</LabelText>
