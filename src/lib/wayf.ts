@@ -22,14 +22,13 @@ class WAYFCloudClientService {
   private readonly wayfCloudBaseUrl: string
 
   constructor() {
-    this.wayfCloudAuthHeaderKey = 'Authorization' // process.env
-    // .WAYF_CLOUD_AUTH_HEADER_KEY as string
+    this.wayfCloudAuthHeaderKey = process.env
+      .WAYF_CLOUD_AUTH_HEADER_KEY as string
 
-    this.wayfCloudAuthorizationHeaderValue =
-      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaXNoZXJDb2RlIjoib2hteWo3UUF6In0.LbkczXtG7zxYVl9V0KdOIfoErCoWoMH78Ot9INtdBto' // process.env
-    // .WAYF_CLOUD_AUTHORIZATION_HEADER_VALUE as string
+    this.wayfCloudAuthorizationHeaderValue = process.env
+      .WAYF_CLOUD_AUTHORIZATION_HEADER_VALUE as string
 
-    this.wayfCloudBaseUrl = 'https://wayf-cloud-sandbox.literatumonline.com' // process.env.WAYF_BASE_URL as string
+    this.wayfCloudBaseUrl = process.env.WAYF_BASE_URL as string
   }
 
   public async registerLocalId(localId: string | null) {
