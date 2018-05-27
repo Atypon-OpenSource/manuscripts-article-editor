@@ -18,7 +18,11 @@ module.exports = {
       'API_APPLICATION_ID',
       'CSL_DATA_URL',
       'SENTRY_PUBLIC_DSN',
-      'SYNC_GATEWAY_URL'
+      'SYNC_GATEWAY_URL',
+      'WAYF_CLOUD_AUTH_HEADER_KEY',
+      'WAYF_CLOUD_BASE_URL',
+      'WAYF_CLOUD_AUTHORIZATION_HEADER_VALUE',
+      'WAYF_CLOUD_ID_REQUIRED'
     ]),
     new HtmlWebpackPlugin({
       template: 'public/index.html',

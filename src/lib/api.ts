@@ -12,6 +12,7 @@ import { SignupValues } from '../components/SignupForm'
 import client from './client'
 import { DeviceValues } from './deviceId'
 import token from './token'
+import { WAYFCloudClientService } from './wayf'
 
 export interface VerifyValues {
   token: string
@@ -49,6 +50,16 @@ export const login = (data: LoginValues & DeviceValues) =>
         access_token: response.data.token,
       })
 
+      if (process.env.WAYF_CLOUD_ID_REQUIRED) {
+        const wayfService = new WAYFCloudClientService()
+        const wayfId = wayfService.readLocalId(token.get())
+        if (wayfId) {
+          wayfService.registerLocalId(wayfId).catch(() => {
+            token.remove()
+          })
+        }
+      }
+
       return response
     })
 
@@ -69,6 +80,16 @@ export const resetPassword = (
       token.set({
         access_token: response.data.token,
       })
+
+      if (process.env.WAYF_CLOUD_ID_REQUIRED) {
+        const wayfService = new WAYFCloudClientService()
+        const wayfId = wayfService.readLocalId(token.get())
+        if (wayfId) {
+          wayfService.registerLocalId(wayfId).catch(() => {
+            token.remove()
+          })
+        }
+      }
 
       return response
     })

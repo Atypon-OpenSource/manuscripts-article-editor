@@ -53,7 +53,8 @@ describe('api', () => {
     const mock = new MockAdapter(client)
 
     const mockData = {
-      token: 'foo',
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbklkIjoiVXNlcnx2YWxpZC11c2VyQG1hbnVzY3JpcHRzYXBwLmNvbStkZXZpY2VJZCIsInVzZXJJZCI6IlVzZXJ8dmFsaWQtdXNlckBtYW51c2NyaXB0c2FwcC5jb20iLCJhcHBJZCI6IkFwcGxpY2F0aW9ufDlhOTA5MGQ5LTZmOTUtNDIwYy1iOTAzLTU0M2YzMmI1MTQwZiIsIndheWZMb2NhbCI6IjcwNjc2M2UxLTc5ZmEtNGQxMS1iZjFlLWM1YjRiYjM5NTM4NSIsImlhdCI6MTUyNzE2NzUxN30._HHz4Sc23w_UQUHr6KqFGDGCw--t8maYjtmvULC2iKc',
     }
 
     mock.onPost('/auth/login').reply(HttpStatusCodes.OK, mockData)
