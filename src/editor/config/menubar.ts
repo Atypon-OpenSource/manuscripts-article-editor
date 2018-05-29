@@ -5,59 +5,24 @@ import {
   toggleMark,
   // wrapIn,
 } from 'prosemirror-commands'
-// import { redo, undo } from 'prosemirror-history'
-import { MarkType, Node as ProsemirrorNode, NodeType } from 'prosemirror-model'
 import { wrapInList } from 'prosemirror-schema-list'
-import {
-  AllSelection,
-  EditorState,
-  NodeSelection,
-  TextSelection,
-} from 'prosemirror-state'
 import LibraryPicker from '../../containers/LibraryPicker'
 import { generateID } from '../../transformer/id'
 import { AUXILIARY_OBJECT_REFERENCE } from '../../transformer/object-types'
 import { AuxiliaryObjectReference } from '../../types/components'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
 
+import {
+  blockActive,
+  canInsert,
+  insertBlock,
+  insertInlineEquation,
+  markActive,
+} from './commands'
 import icons from './icons'
 import { componentsKey, INSERT } from './plugins/components'
 import schema from './schema'
 import { MenuButtonMap } from './types'
-
-interface AnySelection extends NodeSelection, TextSelection, AllSelection {}
-
-const markActive = (type: MarkType) => (state: EditorState): boolean => {
-  const { from, $from, to, empty } = state.selection as AnySelection
-
-  return empty
-    ? type.isInSet(state.storedMarks || $from.marks())
-    : state.doc.rangeHasMark(from, to, type)
-}
-
-const blockActive = (type: NodeType, attrs = {}) => (state: EditorState) => {
-  const { $from, to, node } = state.selection as AnySelection
-
-  if (node) {
-    return node.hasMarkup(type, attrs)
-  }
-
-  return to <= $from.end() && $from.parent.hasMarkup(type, attrs)
-}
-
-const canInsert = (type: NodeType) => (state: EditorState) => {
-  const { $from } = state.selection as AnySelection
-
-  for (let d = $from.depth; d >= 0; d--) {
-    const index = $from.index(d)
-
-    if ($from.node(d).canReplaceWith(index, index, type)) {
-      return true
-    }
-  }
-
-  return false
-}
 
 const styles: MenuButtonMap = {
   bold: {
@@ -106,16 +71,7 @@ const inlines: MenuButtonMap = {
     content: icons.equation,
     active: blockActive(schema.nodes.equation),
     enable: canInsert(schema.nodes.equation),
-    run: (state, dispatch) => {
-      const node = schema.nodes.equation.create({
-        latex: window
-          .getSelection()
-          .toString()
-          .replace(/^\$/, '')
-          .replace(/\$$/, ''),
-      })
-      dispatch(state.tr.replaceSelectionWith(node))
-    },
+    run: insertInlineEquation,
   },
 }
 
@@ -232,12 +188,7 @@ const insertFigure: MenuButtonMap = {
     title: 'Insert figure',
     content: icons.figure,
     enable: canInsert(schema.nodes.figure),
-    run: (state, dispatch) => {
-      const figure = schema.nodes.figure.createAndFill()
-      dispatch(
-        state.tr.insert(state.tr.selection.anchor, figure as ProsemirrorNode)
-      )
-    },
+    run: insertBlock(schema.nodes.figure),
   },
 }
 
@@ -246,10 +197,7 @@ const insertEquationBlock: MenuButtonMap = {
     title: 'Insert equation block',
     content: icons.equation_block,
     enable: canInsert(schema.nodes.equation_block),
-    run: (state, dispatch) => {
-      const node = schema.nodes.equation_block.create()
-      dispatch(state.tr.insert(state.tr.selection.anchor, node))
-    },
+    run: insertBlock(schema.nodes.equation_block),
   },
 }
 
@@ -258,59 +206,56 @@ const insertTable: MenuButtonMap = {
     title: 'Insert table',
     content: icons.table,
     enable: canInsert(schema.nodes.table_figure),
-    run: (state, dispatch) => {
-      // const columnCount = 2
-      // const rowCount = 2
-      //
-      // const thead = schema.nodes.thead.create(
-      //   {},
-      //   Array.from(Array(1), () =>
-      //     state.schema.nodes.table_header_row.create(
-      //       {},
-      //       Array.from(Array(columnCount), () =>
-      //         state.schema.nodes.table_header.create()
-      //       )
-      //     )
-      //   )
-      // )
-      //
-      // const tbody = schema.nodes.tbody.create(
-      //   {},
-      //   Array.from(Array(rowCount), () =>
-      //     state.schema.nodes.table_row.create(
-      //       {},
-      //       Array.from(Array(columnCount), () =>
-      //         state.schema.nodes.table_cell.create()
-      //       )
-      //     )
-      //   )
-      // )
-      //
-      // const tfoot = schema.nodes.tfoot.create(
-      //   {},
-      //   Array.from(Array(1), () =>
-      //     state.schema.nodes.table_row.create(
-      //       {},
-      //       Array.from(Array(columnCount), () =>
-      //         state.schema.nodes.table_cell.create()
-      //       )
-      //     )
-      //   )
-      // )
-      //
-      // const table = state.schema.nodes.table.createAndFill() as ProsemirrorNode
-      //
-      // const figcaption = schema.nodes.figcaption.create()
-      //
-      // const tableFigure = schema.nodes.table_figure.create({}, [
-      //   table,
-      //   figcaption,
-      // ])
-
-      const tableFigure = schema.nodes.table_figure.createAndFill() as ProsemirrorNode
-
-      dispatch(state.tr.insert(state.tr.selection.anchor, tableFigure))
-    },
+    run: insertBlock(schema.nodes.table_figure),
+    // run: (state, dispatch) => {
+    //   const columnCount = 2
+    //   const rowCount = 2
+    //
+    //   const thead = schema.nodes.thead.create(
+    //     {},
+    //     Array.from(Array(1), () =>
+    //       state.schema.nodes.table_header_row.create(
+    //         {},
+    //         Array.from(Array(columnCount), () =>
+    //           state.schema.nodes.table_header.create()
+    //         )
+    //       )
+    //     )
+    //   )
+    //
+    //   const tbody = schema.nodes.tbody.create(
+    //     {},
+    //     Array.from(Array(rowCount), () =>
+    //       state.schema.nodes.table_row.create(
+    //         {},
+    //         Array.from(Array(columnCount), () =>
+    //           state.schema.nodes.table_cell.create()
+    //         )
+    //       )
+    //     )
+    //   )
+    //
+    //   const tfoot = schema.nodes.tfoot.create(
+    //     {},
+    //     Array.from(Array(1), () =>
+    //       state.schema.nodes.table_row.create(
+    //         {},
+    //         Array.from(Array(columnCount), () =>
+    //           state.schema.nodes.table_cell.create()
+    //         )
+    //       )
+    //     )
+    //   )
+    //
+    //   const table = state.schema.nodes.table.createAndFill() as ProsemirrorNode
+    //
+    //   const figcaption = schema.nodes.figcaption.create()
+    //
+    //   const tableFigure = schema.nodes.table_figure.create({}, [
+    //     table,
+    //     figcaption,
+    //   ])
+    // },
   },
 }
 

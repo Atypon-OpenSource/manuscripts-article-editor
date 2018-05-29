@@ -8,4 +8,5 @@ export const options = {
   nodeViews,
 }
 
-export { default as menu } from './menu'
+export { default as menus } from './menus'
+export { default as menubar } from './menubar'

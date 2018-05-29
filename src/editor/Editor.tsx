@@ -4,6 +4,7 @@ import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
 import React from 'react'
 import 'typeface-charis-sil/index.css'
+import { ApplicationMenu } from '../components/ApplicationMenu'
 import { styled } from '../theme'
 import {
   AnyComponent,
@@ -11,7 +12,7 @@ import {
   ComponentMap,
   Manuscript,
 } from '../types/components'
-import { menu, options } from './config'
+import { menubar, menus, options } from './config'
 import PopperManager from './lib/popper'
 import MetadataContainer from './manuscript/MetadataContainer'
 import MenuBar from './MenuBar'
@@ -107,8 +108,14 @@ class Editor extends React.Component<EditorProps, State> {
       <EditorContainer>
         {this.props.editable && (
           <EditorHeader>
+            <ApplicationMenu
+              menus={menus}
+              state={this.state.state}
+              dispatch={this.dispatchTransaction}
+            />
+
             <MenuBar
-              menu={menu}
+              menu={menubar}
               state={this.state.state}
               dispatch={this.dispatchTransaction}
             />
