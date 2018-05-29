@@ -52,12 +52,9 @@ export const login = (data: LoginValues & DeviceValues) =>
 
       if (process.env.WAYF_CLOUD_ID_REQUIRED) {
         const wayfService = new WAYFCloudClientService()
-        const wayfId = wayfService.readLocalId(token.get())
-        if (wayfId) {
-          wayfService.registerLocalId(wayfId).catch(() => {
-            token.remove()
-          })
-        }
+        wayfService.registerLocalId().catch(() => {
+          token.remove()
+        })
       }
 
       return response
@@ -83,12 +80,9 @@ export const resetPassword = (
 
       if (process.env.WAYF_CLOUD_ID_REQUIRED) {
         const wayfService = new WAYFCloudClientService()
-        const wayfId = wayfService.readLocalId(token.get())
-        if (wayfId) {
-          wayfService.registerLocalId(wayfId).catch(() => {
-            token.remove()
-          })
-        }
+        wayfService.registerLocalId().catch(() => {
+          token.remove()
+        })
       }
 
       return response

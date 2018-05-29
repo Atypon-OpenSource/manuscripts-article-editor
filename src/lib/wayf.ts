@@ -1,4 +1,5 @@
-import { Token } from './token'
+import axios from 'axios'
+import token, { Token } from './token'
 
 /*
  * Copyright 2017 Atypon Systems, Inc.
@@ -17,57 +18,34 @@ import { Token } from './token'
  */
 
 class WAYFCloudClientService {
-  private readonly wayfCloudAuthHeaderKey: string
   private readonly wayfCloudAuthorizationHeaderValue: string
   private readonly wayfCloudBaseUrl: string
 
   constructor() {
-    this.wayfCloudAuthHeaderKey = process.env
-      .WAYF_CLOUD_AUTH_HEADER_KEY as string
-
     this.wayfCloudAuthorizationHeaderValue = process.env
       .WAYF_CLOUD_AUTHORIZATION_HEADER_VALUE as string
 
     this.wayfCloudBaseUrl = process.env.WAYF_BASE_URL as string
   }
 
-  public async registerLocalId(localId: string | null) {
-    const url = this.buildRegisterDeviceURL(localId)
-    const request = new XMLHttpRequest()
-
-    request.open('PATCH', url, true)
-
-    request.setRequestHeader(
-      this.wayfCloudAuthHeaderKey,
-      this.wayfCloudAuthorizationHeaderValue
-    )
-    request.withCredentials = true
-    request.onreadystatechange = () => {
-      if (request.readyState === XMLHttpRequest.DONE) {
-        const event = new Event('wayf-done')
-        document.dispatchEvent(event)
-        if (request.status > 299) {
-          throw new Error('Could not register local ID with WAYF')
-        }
-      }
+  public async registerLocalId() {
+    const localId = this.parseIdFromToken()
+    if (localId) {
+      return axios.patch(this.wayfCloudBaseUrl + localId, null, {
+        headers: {
+          Authorization: this.wayfCloudAuthorizationHeaderValue,
+        },
+      })
     }
-    request.send(null)
   }
 
-  public buildRegisterDeviceURL(localId: string | null) {
-    const REGISTER_DEVICE_URL_PREFIX = '/1/device/'
+  private parseIdFromToken() {
+    const data = token.get()
 
-    return this.wayfCloudBaseUrl + REGISTER_DEVICE_URL_PREFIX + localId
-  }
-
-  public readLocalId(token: Token | null) {
-    return token && token.access_token
-      ? this.getWayfLocalFromJWT(token.access_token)
+    return data && data.access_token
+      ? JSON.parse(atob(data.access_token.split('.')[1])).wayfLocal
       : null
   }
-
-  private getWayfLocalFromJWT = (jwt: string): string =>
-    JSON.parse(atob(jwt.split('.')[1])).wayfLocal
 }
 
 export { WAYFCloudClientService }
