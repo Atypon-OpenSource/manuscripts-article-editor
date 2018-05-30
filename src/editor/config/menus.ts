@@ -195,6 +195,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Superscript',
+        accelerator: '⌥⌘=',
         icon: icons.superscript,
         active: markActive(schema.marks.superscript),
         enable: toggleMark(schema.marks.superscript),
@@ -202,6 +203,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Subscript',
+        accelerator: '⌥⌘-',
         icon: icons.subscript,
         active: markActive(schema.marks.subscript),
         enable: toggleMark(schema.marks.subscript),
