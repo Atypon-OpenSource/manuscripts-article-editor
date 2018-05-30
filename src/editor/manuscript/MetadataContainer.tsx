@@ -76,7 +76,10 @@ class MetadataContainer extends React.Component<
   }
 
   private stopEditing = () => {
-    this.setState({ editing: false })
+    this.setState({
+      editing: false,
+      selectedAuthor: null,
+    })
   }
 
   private saveTitle = async (title: string) => {

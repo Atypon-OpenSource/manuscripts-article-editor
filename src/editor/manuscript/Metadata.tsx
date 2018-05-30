@@ -58,34 +58,36 @@ export const Metadata: React.SFC<Props> = ({
 
     <Affiliations affiliations={affiliations} />
 
-    <Manage
-      heading={'Manage Authors'}
-      isOpen={editing}
-      handleDone={stopEditing}
-      handleClose={stopEditing}
-      sidebar={
-        <AuthorsSidebar
-          authors={authors}
-          authorAffiliations={authorAffiliations}
-          createAuthor={createAuthor}
-          removeAuthor={removeAuthor}
-          selectAuthor={selectAuthor}
-        />
-      }
-      main={
-        selectedAuthor && (
-          <AuthorForm
-            manuscript={manuscript.id}
-            author={selectedAuthor}
-            affiliations={affiliations}
-            authorAffiliations={
-              authorAffiliations.get(selectedAuthor.id) as AuthorAffiliation[]
-            }
-            handleSave={handleSaveAuthor}
-            createAffiliation={createAffiliation}
+    {editing && (
+      <Manage
+        heading={'Manage Authors'}
+        isOpen={editing}
+        handleDone={stopEditing}
+        handleClose={stopEditing}
+        sidebar={
+          <AuthorsSidebar
+            authors={authors}
+            authorAffiliations={authorAffiliations}
+            createAuthor={createAuthor}
+            removeAuthor={removeAuthor}
+            selectAuthor={selectAuthor}
           />
-        )
-      }
-    />
+        }
+        main={
+          selectedAuthor && (
+            <AuthorForm
+              manuscript={manuscript.id}
+              author={selectedAuthor}
+              affiliations={affiliations}
+              authorAffiliations={
+                authorAffiliations.get(selectedAuthor.id) as AuthorAffiliation[]
+              }
+              handleSave={handleSaveAuthor}
+              createAffiliation={createAffiliation}
+            />
+          )
+        }
+      />
+    )}
   </Header>
 )
