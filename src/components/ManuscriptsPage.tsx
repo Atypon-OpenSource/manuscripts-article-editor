@@ -10,7 +10,6 @@ import {
   ManuscriptsTitleMessage,
 } from './Messages'
 import { PageHeading } from './PageHeading'
-import { Select, Sort } from './Sort'
 
 interface ManuscriptsPageProps {
   manuscripts: ManuscriptDocument[]
@@ -34,13 +33,6 @@ const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({
 
     {manuscripts.length ? (
       <React.Fragment>
-        <Sort>
-          <Select>
-            <option value="modified">by modification date</option>
-            <option value="name">by name</option>
-          </Select>
-        </Sort>
-
         <Manuscripts
           manuscripts={manuscripts}
           removeManuscript={removeManuscript}
