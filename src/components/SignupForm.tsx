@@ -17,6 +17,7 @@ export interface SignupValues {
   name: string
   email: string
   password: string
+  allowsTracking: boolean
 }
 
 export interface SignupErrors {
@@ -97,6 +98,17 @@ export const SignupForm: React.SFC<
         )}
       </Field>
     </TextFieldGroupContainer>
+
+    <FormActions>
+      <Field name={'allowsTracking'}>
+        {({ field }: FieldProps) => (
+          <div>
+            <span>Allow Tracking</span>
+            <input {...field} type={'checkbox'} />
+          </div>
+        )}
+      </Field>
+    </FormActions>
 
     {errors.submit && <FormError>{errors.submit}</FormError>}
 

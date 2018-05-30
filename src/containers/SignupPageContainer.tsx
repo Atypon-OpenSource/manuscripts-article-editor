@@ -36,6 +36,7 @@ class SignupPageContainer extends React.Component<
     email: '',
     password: '',
     name: '',
+    allowsTracking: false,
   }
 
   public componentDidMount() {
