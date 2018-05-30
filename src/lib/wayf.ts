@@ -1,5 +1,5 @@
 import axios from 'axios'
-import token, { Token } from './token'
+import token from './token'
 
 /*
  * Copyright 2017 Atypon Systems, Inc.
