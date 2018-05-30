@@ -44,6 +44,7 @@ describe('api', () => {
       name: 'foo',
       email: 'test@example.com',
       password: 'foo-min-length-8',
+      allowsTracking: false,
     })
 
     expect(result.status).toEqual(HttpStatusCodes.OK)

@@ -20,7 +20,12 @@ import manuscripts from './data/manuscripts'
 storiesOf('Pages', module)
   .add('Sign up', () => (
     <SignupPage
-      initialValues={{ name: '', email: '', password: '' }}
+      initialValues={{
+        name: '',
+        email: '',
+        password: '',
+        allowsTracking: false,
+      }}
       validationSchema={signupSchema}
       onSubmit={action('sign up')}
     />
