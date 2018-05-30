@@ -3,11 +3,14 @@ import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { LoginErrors, LoginValues } from '../components/LoginForm'
+import { FormErrors } from '../components/Form'
+import { LoginValues } from '../components/LoginForm'
 import LoginPage from '../components/LoginPage'
 import { Main, Page } from '../components/Page'
-import { login } from '../lib/api'
+import Spinner from '../icons/spinner'
+import { login, logout } from '../lib/api'
 import deviceId from '../lib/deviceId'
+import { removeDB } from '../lib/rxdb'
 import token, { Token } from '../lib/token'
 import { UserProps, withUser } from '../store/UserProvider'
 import { loginSchema } from '../validation'
@@ -20,9 +23,7 @@ interface ErrorMessage {
   error: string
 }
 
-type Props = UserProps
-
-class LoginPageContainer extends React.Component<Props, State> {
+class LoginPageContainer extends React.Component<UserProps, State> {
   public state: Readonly<State> = {
     error: false,
   }
@@ -57,6 +58,10 @@ class LoginPageContainer extends React.Component<Props, State> {
     const { user } = this.props
     const { error } = this.state
 
+    if (!user.loaded) {
+      return <Spinner />
+    }
+
     if (user.data) {
       return <Redirect to={'/welcome'} />
     }
@@ -78,10 +83,18 @@ class LoginPageContainer extends React.Component<Props, State> {
     )
   }
 
-  private handleSubmit = (
+  private handleSubmit = async (
     values: LoginValues,
-    { setSubmitting, setErrors }: FormikActions<LoginValues | LoginErrors>
+    { setSubmitting, setErrors }: FormikActions<LoginValues & FormErrors>
   ) => {
+    // TODO: share code with logout
+    try {
+      await logout()
+    } catch (e) {
+      token.remove()
+    }
+    await removeDB()
+
     login({
       ...values,
       deviceId,
@@ -89,27 +102,39 @@ class LoginPageContainer extends React.Component<Props, State> {
       response => {
         setSubmitting(false)
 
-        this.props.user.fetch()
+        // TODO: something better
+        // this.props.user.fetch()
+        window.location.href = '/'
       },
       error => {
         setSubmitting(false)
 
-        // TODO: use error and error description: show a "resend email verification" link if not confirmed
-        const errors: FormikErrors<LoginErrors> = {}
+        const errors: FormikErrors<FormErrors> = {}
 
         if (error.response) {
-          if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
-            errors.submit = 'Invalid Operation'
-          } else if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
-            errors.submit = 'Invalid username or password'
-          } else {
-            errors.submit = 'An error occurred.'
-          }
+          errors.submit = this.errorResponseMessage(error.response.status)
         }
 
         setErrors(errors)
       }
     )
+  }
+
+  private errorResponseMessage = (status: number) => {
+    switch (status) {
+      case HttpStatusCodes.BAD_REQUEST:
+        return 'Invalid operation'
+
+      case HttpStatusCodes.UNAUTHORIZED:
+        return 'Invalid username or password'
+
+      case HttpStatusCodes.FORBIDDEN:
+        // TODO: show a "resend email verification" link if not confirmed
+        return 'Please verify your email address'
+
+      default:
+        return 'An error occurred.'
+    }
   }
 }
 

@@ -3,7 +3,8 @@ import { BibliographyItem } from './components'
 
 export type LibraryDocument = RxDocument<BibliographyItem>
 
-type Fetch = (url: string) => Promise<BibliographyItem>
+type Fetch = (item: BibliographyItem) => Promise<BibliographyItem>
+
 type Search = (query: string, limit: number) => Promise<BibliographyItem[]>
 
 export interface LibrarySource {

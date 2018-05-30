@@ -1,28 +1,36 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import { Main, Page } from '../components/Page'
 import { logout } from '../lib/api'
+import { removeDB } from '../lib/rxdb'
 import { UserProps, withUser } from '../store/UserProvider'
 
-type Props = UserProps
+class LogoutPageContainer extends React.Component<UserProps> {
+  public async componentDidMount() {
+    try {
+      await logout()
+      await removeDB()
+    } catch (e) {
+      // TODO: handle logout failure
+      await removeDB()
+    }
 
-class LogoutPageContainer extends React.Component<Props> {
-  public componentDidMount() {
-    logout()
-      .then(() => {
-        this.props.user.fetch()
-      })
-      .catch(() => {
-        // TODO: handle appropriately
-      })
+    // TODO: clear localStorage?
+
+    // TODO: something better
+    window.location.href = '/'
   }
 
   public render() {
-    const { user } = this.props
-
-    if (!user.data) {
-      return <Redirect to={'/'} />
-    }
+    // const { user } = this.props
+    //
+    // if (!user.loaded) {
+    //   return null
+    // }
+    //
+    // if (!user.data) {
+    //   return <Redirect to={'/'} />
+    // }
 
     return (
       <Page>

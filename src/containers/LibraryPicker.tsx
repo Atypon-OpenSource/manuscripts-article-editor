@@ -25,15 +25,13 @@ interface State {
   query: string
 }
 
-interface ComponentProps {
+interface Props {
   state: EditorState
   dispatch: Dispatch
   handleClose: () => void
 }
 
-type Props = ComponentProps & ComponentsProps
-
-class LibraryPicker extends React.Component<Props, State> {
+class LibraryPicker extends React.Component<Props & ComponentsProps, State> {
   public state = {
     library: [],
     query: '',

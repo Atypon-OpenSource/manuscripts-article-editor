@@ -3,7 +3,7 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
-import { Prompt, Route, RouteComponentProps, RouteProps } from 'react-router'
+import { Prompt, RouteComponentProps } from 'react-router'
 import { RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import { DropSide, TreeItem } from '../components/DraggableTree'
@@ -61,21 +61,21 @@ interface State {
   processor: Citeproc.Processor | null
 }
 
-interface ComponentProps {
+interface Props {
   id: string
 }
 
-interface ComponentRoute extends Route<RouteProps> {
+interface RouteParams {
   project: string
   id: string
 }
 
-type Props = ComponentProps &
+type CombinedProps = Props &
   ComponentsProps &
-  RouteComponentProps<ComponentRoute> &
+  RouteComponentProps<RouteParams> &
   IntlProps
 
-class ManuscriptPageContainer extends React.Component<Props, State> {
+class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
     componentIds: {
       document: new Set(),
@@ -97,7 +97,7 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
 
   private readonly debouncedSaveComponents: (state: EditorState) => void
 
-  public constructor(props: Props) {
+  public constructor(props: CombinedProps) {
     super(props)
 
     this.debouncedSaveComponents = debounce(this.saveComponents, 1000, {
@@ -173,7 +173,7 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
 
         <Main>
           <Editor
-            autoFocus={true}
+            autoFocus={!!manuscript.title}
             getCitationProcessor={this.getCitationProcessor}
             doc={doc}
             editable={true}
@@ -337,6 +337,12 @@ class ManuscriptPageContainer extends React.Component<Props, State> {
   }
 
   private deleteComponent: DeleteComponent = (id: string) => {
+    const { componentMap } = this.state
+
+    componentMap.delete(id)
+
+    this.setState({ componentMap })
+
     return this.props.components.deleteComponent(id)
   }
 

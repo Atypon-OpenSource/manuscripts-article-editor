@@ -1,15 +1,16 @@
 import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
-import { Option } from 'react-select'
-import CreatableSelect from 'react-select/lib/Creatable'
+import AutoSaveInput from '../../components/AutoSaveInput'
 import { styled } from '../../theme'
 import { Affiliation, Contributor } from '../../types/components'
+import { AffiliationsSelect } from './AffiliationsSelect'
 import { AuthorAffiliation } from './Author'
 import { AffiliationMap } from './lib/authors'
 
 const FormHeader = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  //display: flex;
+  //justify-content: flex-end;
+  display: none;
 `
 
 const Fields = styled.div`
@@ -61,6 +62,10 @@ const TextField = styled.input`
   }
 `
 
+const CheckboxField = styled.input.attrs({
+  type: 'checkbox',
+})``
+
 const Checkboxes = styled.div`
   display: flex;
 `
@@ -79,10 +84,6 @@ const CheckboxLabel = styled.label`
     margin-right: 16px;
   }
 `
-
-interface ActionMeta {
-  action: string
-}
 
 interface BibliographicNameValues {
   id: string
@@ -119,26 +120,30 @@ export interface AuthorValues {
   // grants: GrantValues[]
 }
 
+const ensureString = (value: string | undefined) => value || ''
+
 const buildInitialValues = (
   author: Contributor,
   authorAffiliations: AuthorAffiliation[]
   // authorGrants: AuthorGrant[]
-): AuthorValues => ({
-  id: author.id,
-  priority: author.priority, // TODO: ordering = priority
-  email: author.email || '',
-  isCorresponding: author.isCorresponding || false,
-  isJointContributor: author.isJointContributor || false,
-  affiliations: authorAffiliations.map(item => item.data),
-  // grants: authorGrants,
-  bibliographicName: {
-    id: author.bibliographicName.id,
-    objectType: author.bibliographicName.objectType,
-    given: author.bibliographicName.given || '',
-    family: author.bibliographicName.family || '',
-    suffix: author.bibliographicName.suffix || '',
-  },
-})
+): AuthorValues => {
+  return {
+    id: author.id,
+    priority: Number(author.priority), // TODO: ordering = priority
+    email: ensureString(author.email),
+    isCorresponding: Boolean(author.isCorresponding),
+    isJointContributor: Boolean(author.isJointContributor),
+    affiliations: (authorAffiliations || []).map(item => item.data),
+    // grants: authorGrants,
+    bibliographicName: {
+      id: author.bibliographicName.id,
+      objectType: author.bibliographicName.objectType,
+      given: ensureString(author.bibliographicName.given),
+      family: ensureString(author.bibliographicName.family),
+      suffix: ensureString(author.bibliographicName.suffix),
+    },
+  }
+}
 
 interface AuthorProps {
   author: Contributor
@@ -160,6 +165,7 @@ export const AuthorForm: React.SFC<AuthorProps> = ({
   <Formik
     initialValues={buildInitialValues(author, authorAffiliations)}
     onSubmit={handleSave}
+    enableReinitialize={true}
   >
     <Form>
       <FormHeader>
@@ -168,11 +174,27 @@ export const AuthorForm: React.SFC<AuthorProps> = ({
 
       <Checkboxes>
         <CheckboxLabel>
-          <Field name={'isCorresponding'} type={'checkbox'} />
+          <Field name={'isCorresponding'}>
+            {(props: FieldProps) => (
+              <AutoSaveInput
+                {...props}
+                component={CheckboxField}
+                saveOn={'change'}
+              />
+            )}
+          </Field>
           <LabelText>Corresponding author</LabelText>
         </CheckboxLabel>
         <CheckboxLabel>
-          <Field name={'isJointContributor'} type={'checkbox'} />
+          <Field name={'isJointContributor'}>
+            {(props: FieldProps) => (
+              <AutoSaveInput
+                {...props}
+                component={CheckboxField}
+                saveOn={'change'}
+              />
+            )}
+          </Field>
           <LabelText>Joint authorship with next author</LabelText>
         </CheckboxLabel>
       </Checkboxes>
@@ -181,21 +203,27 @@ export const AuthorForm: React.SFC<AuthorProps> = ({
         <Label>
           <LabelText>NAME/s</LabelText>
           <Field name={'bibliographicName.given'}>
-            {(props: FieldProps) => <TextField {...props.field} />}
+            {(props: FieldProps) => (
+              <AutoSaveInput {...props} component={TextField} saveOn={'blur'} />
+            )}
           </Field>
         </Label>
 
         <Label>
           <LabelText>SURNAME</LabelText>
           <Field name={'bibliographicName.family'}>
-            {(props: FieldProps) => <TextField {...props.field} />}
+            {(props: FieldProps) => (
+              <AutoSaveInput {...props} component={TextField} saveOn={'blur'} />
+            )}
           </Field>
         </Label>
 
         <Label>
           <LabelText>CONTACT EMAIL</LabelText>
           <Field name={'email'} type={'email'}>
-            {(props: FieldProps) => <TextField {...props.field} />}
+            {(props: FieldProps) => (
+              <AutoSaveInput {...props} component={TextField} saveOn={'blur'} />
+            )}
           </Field>
         </Label>
 
@@ -204,37 +232,10 @@ export const AuthorForm: React.SFC<AuthorProps> = ({
 
           <Field name={'affiliations'}>
             {(props: FieldProps) => (
-              <CreatableSelect
-                isMulti={true}
-                onChange={async (
-                  newValue: [Option],
-                  actionMeta: ActionMeta
-                ) => {
-                  props.form.setFieldValue(
-                    props.field.name,
-                    await Promise.all(
-                      newValue.map(async option => {
-                        if (actionMeta.action === 'create-option') {
-                          const affiliation = await createAffiliation(
-                            option.label as string
-                          )
-
-                          return affiliation.id
-                        }
-
-                        return affiliations.get(option.value as string)
-                      })
-                    )
-                  )
-                }}
-                options={Array.from(affiliations.values()).map(affiliation => ({
-                  value: affiliation.id,
-                  label: affiliation.name,
-                }))}
-                value={(props.field.value || []).map((item: Affiliation) => ({
-                  value: item.id,
-                  label: item.name,
-                }))}
+              <AffiliationsSelect
+                affiliations={affiliations}
+                createAffiliation={createAffiliation}
+                {...props}
               />
             )}
           </Field>

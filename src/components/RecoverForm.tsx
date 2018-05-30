@@ -1,4 +1,4 @@
-import { FormikErrors, FormikProps } from 'formik'
+import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { PrimaryButton } from './Button'
 import { CenteredForm, FormActions, FormHeader } from './Form'
@@ -9,39 +9,37 @@ export interface RecoverValues {
   email: string
 }
 
-export interface RecoverErrors extends FormikErrors<RecoverValues> {
+export interface RecoverErrors {
   notFound: string
   submit: string
 }
 
-type FormProps = FormikProps<RecoverValues & RecoverErrors>
-
-export const RecoverForm: React.SFC<FormProps> = ({
+export const RecoverForm: React.SFC<
+  FormikProps<RecoverValues & RecoverErrors>
+> = ({
   values,
   touched,
   errors,
-  handleBlur,
-  handleChange,
-  handleSubmit,
-  isSubmitting,
-  isValid,
+  // isSubmitting,
+  // isValid,
 }) => (
-  <CenteredForm onSubmit={handleSubmit}>
+  <CenteredForm>
     <FormHeader>
       <SubHero>Reset Password</SubHero>
     </FormHeader>
 
-    <TextField
-      type={'email'}
-      name={'email'}
-      placeholder={'email'}
-      autoFocus={true}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      value={values.email}
-      required={true}
-      autoComplete={'username email'}
-    />
+    <Field name={'email'}>
+      {({ field }: FieldProps) => (
+        <TextField
+          {...field}
+          type={'email'}
+          placeholder={'email'}
+          autoFocus={true}
+          required={true}
+          autoComplete={'username email'}
+        />
+      )}
+    </Field>
 
     {/*{touched.email && errors.email && <div>{errors.email}</div>}*/}
 

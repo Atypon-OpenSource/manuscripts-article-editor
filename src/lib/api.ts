@@ -1,6 +1,7 @@
 // import { AccountValues } from '../components/AccountForm'
 import { AxiosRequestConfig } from 'axios'
 import { stringify } from 'qs'
+import { AccountValues, UpdateAccountResponse } from '../components/AccountForm'
 import { LoginResponse, LoginValues } from '../components/LoginForm'
 import {
   PasswordHiddenValues,
@@ -11,6 +12,7 @@ import { RecoverValues } from '../components/RecoverForm'
 import { SignupValues } from '../components/SignupForm'
 import client from './client'
 import { DeviceValues } from './deviceId'
+import { applicationHeaders } from './headers'
 import token from './token'
 import { WAYFCloudClientService } from './wayf'
 
@@ -30,7 +32,7 @@ const buildFormRequestConfig = (url: string, data: any): AxiosRequestConfig => {
   }
 }
 
-export const authenticate = () => {
+export const fetchUser = () => {
   return client.get('/user').then(response => response.data)
 }
 
@@ -40,9 +42,7 @@ export const signup = (data: SignupValues) =>
 export const login = (data: LoginValues & DeviceValues) =>
   client
     .post<LoginResponse>('/auth/login', data, {
-      headers: {
-        'manuscripts-app-id': process.env.API_APPLICATION_ID,
-      },
+      headers: applicationHeaders,
       withCredentials: true,
     })
     .then(response => {
@@ -60,6 +60,18 @@ export const login = (data: LoginValues & DeviceValues) =>
       return response
     })
 
+export const updateAccount = (data: AccountValues) =>
+  client.post<UpdateAccountResponse>('/account', data, {
+    headers: applicationHeaders,
+    withCredentials: true,
+  })
+
+export const deleteAccount = (data: AccountValues) =>
+  client.post<UpdateAccountResponse>('/account', data, {
+    headers: applicationHeaders,
+    withCredentials: true,
+  })
+
 export const recoverPassword = (data: RecoverValues) =>
   client.post('/auth/sendForgottenPassword', data)
 
@@ -68,9 +80,7 @@ export const resetPassword = (
 ) =>
   client
     .post<ResetPasswordResponse>('/auth/resetPassword', data, {
-      headers: {
-        'manuscripts-app-id': process.env.API_APPLICATION_ID,
-      },
+      headers: applicationHeaders,
       withCredentials: true,
     })
     .then(response => {
@@ -103,7 +113,7 @@ export const refresh = () => {
 }
 
 export const refreshSyncSession = () => {
-  return client.post('/auth/refreshSyncSession', null, {
+  return client.post('/auth/refreshSyncSessions', null, {
     withCredentials: true,
   })
 }

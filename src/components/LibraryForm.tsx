@@ -12,7 +12,7 @@ import { styled } from '../theme'
 import { generateID } from '../transformer/id'
 import { KEYWORD } from '../transformer/object-types'
 import { BibliographyItem, Keyword } from '../types/components'
-import { ButtonProps, DeleteButton, PrimaryButton } from './Button'
+import { DeleteButton, PrimaryButton, ThemedButtonProps } from './Button'
 
 const Fields = styled.div`
   padding: 10px;
@@ -51,6 +51,8 @@ const TextField = styled.input`
 `
 
 const StyledTitleField = styled(TitleField)`
+  flex: 1;
+
   & .ProseMirror {
     font-weight: bold;
     cursor: pointer;
@@ -65,7 +67,7 @@ const StyledTitleField = styled(TitleField)`
 
 const Button = styled.button`
   background-color: transparent;
-  color: ${(props: ButtonProps) => props.theme.primary};
+  color: ${(props: ThemedButtonProps) => props.theme.colors.primary.blue};
   border: 2px solid transparent;
   border-radius: 4px;
   text-transform: uppercase;
@@ -73,22 +75,25 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   padding: 1px 10px 3px;
-  font-family: ${(props: ButtonProps) => props.theme.fontFamily};
+  font-family: ${(props: ThemedButtonProps) => props.theme.fontFamily};
   font-size: 14px;
   font-weight: 600;
-  cursor: ${(props: ButtonProps) => (props.disabled ? 'text' : 'pointer')};
-  opacity: ${(props: ButtonProps) => (props.disabled ? '0.5' : '1.0')};
+  cursor: ${(props: ThemedButtonProps) =>
+    props.disabled ? 'text' : 'pointer'};
+  opacity: ${(props: ThemedButtonProps) => (props.disabled ? '0.5' : '1.0')};
   transition: border 0.1s, color 0.1s, background-color 0.1s;
 
   &:hover {
     background-color: #fff;
-    color: ${(props: ButtonProps) => props.theme.primary};
+    color: ${(props: ThemedButtonProps) => props.theme.colors.primary.blue};
     border-color: #4489d8;
   }
 
   &:active {
-    background-color: ${(props: ButtonProps) => props.theme.active};
-    border-color: ${(props: ButtonProps) => props.theme.active};
+    background-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.primary.blue};
+    border-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.primary.blue};
     color: white;
   }
 `
@@ -109,6 +114,15 @@ const Author = styled.div`
 const Actions = styled.div`
   display: flex;
   justify-content: space-between;
+`
+
+const TitleContainer = styled.div`
+  display: flex;
+  margin-bottom: 8px;
+`
+
+const TitleLink = styled.a`
+  text-decoration: none;
 `
 
 interface Props {
@@ -137,6 +151,7 @@ const buildInitialValues = (
   title: item.title,
   author: item.author,
   keywordIDs: item.keywordIDs,
+  DOI: item.DOI,
 })
 
 // TODO: a "manage tags" page, where old tags can be deleted
@@ -155,13 +170,19 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
     {({ values, setFieldValue, handleChange }) => (
       <Form>
         <Fields>
-          <Label>
-            {/*<LabelText>Title</LabelText>*/}
+          <TitleContainer>
             <StyledTitleField
               value={values.title || ''}
               handleChange={(data: string) => setFieldValue('title', data)}
             />
-          </Label>
+            <TitleLink
+              href={`https://doi.org/${values.DOI}`}
+              target={'_blank'}
+              rel={'noopener noreferrer'}
+            >
+              ↗️
+            </TitleLink>
+          </TitleContainer>
 
           <Label>
             <LabelText>Authors</LabelText>
@@ -172,18 +193,26 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
                   {values.author &&
                     values.author.map((author, index) => (
                       <Author key={`author.${index}`}>
-                        <TextField
+                        <Field
                           name={`author.${index}.given`}
                           value={author.given}
-                          placeholder={'Given'}
                           onChange={handleChange}
-                        />
-                        <TextField
+                        >
+                          {({ field }: FieldProps) => (
+                            <TextField {...field} placeholder={'Given'} />
+                          )}
+                        </Field>
+
+                        <Field
                           name={`author.${index}.family`}
-                          placeholder={'Family'}
                           value={author.family}
                           onChange={handleChange}
-                        />
+                        >
+                          {({ field }: FieldProps) => (
+                            <TextField {...field} placeholder={'Family'} />
+                          )}
+                        </Field>
+
                         <Button
                           type={'button'}
                           onClick={() => arrayHelpers.remove(index)}

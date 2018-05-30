@@ -1,4 +1,5 @@
 import { stringify } from 'qs'
+import { BibliographyItem } from '../../types/components'
 
 export const search = (query: string, rows: number) =>
   window
@@ -13,11 +14,14 @@ export const search = (query: string, rows: number) =>
     .then(response => response.json())
     .then(data => data.message.items)
 
-export const fetch = (url: string) =>
+export const fetch = (item: BibliographyItem) =>
   window
-    .fetch(url, {
-      headers: {
-        accept: 'application/vnd.citationstyles.csl+json',
-      },
-    })
+    .fetch(
+      'https://data.crossref.org/' + encodeURIComponent(item.DOI as string),
+      {
+        headers: {
+          accept: 'application/vnd.citationstyles.csl+json',
+        },
+      }
+    )
     .then(response => response.json())

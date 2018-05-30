@@ -1,25 +1,37 @@
 import React from 'react'
-import { RouterProps } from 'react-router'
+import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { Main, Page } from '../components/Page'
+import { Spinner } from '../components/Spinner'
 import { RecentFile, WelcomePage } from '../components/WelcomePage'
-import preferences from '../lib/preferences'
+import preferences, { Preferences } from '../lib/preferences'
 import { UserProps, withUser } from '../store/UserProvider'
 
-type Props = UserProps & RouterProps
+interface State {
+  preferences: Preferences
+}
 
-class WelcomePageContainer extends React.Component<Props> {
+class WelcomePageContainer extends React.Component<
+  UserProps & RouteComponentProps<{}>,
+  State
+> {
+  public state = {
+    preferences: preferences.get(),
+  }
+
   // TODO: load recent files from the database
   public componentDidMount() {
-    const preferencesData = preferences.get()
-
-    if (preferencesData.hideWelcome) {
+    if (this.state.preferences.hideWelcome) {
       this.props.history.push('/')
     }
   }
 
   public render() {
     const { user } = this.props
+
+    if (!user.loaded) {
+      return <Spinner />
+    }
 
     if (!user.data) {
       return <Redirect to={'/login'} />
@@ -35,6 +47,7 @@ class WelcomePageContainer extends React.Component<Props> {
             recentFiles={[]}
             sendFeedback={this.sendFeedback}
             handleClose={this.handleClose}
+            hideWelcome={this.state.preferences.hideWelcome}
           />
         </Main>
       </Page>
@@ -60,11 +73,16 @@ class WelcomePageContainer extends React.Component<Props> {
   private handleHideWelcomeChange: React.ChangeEventHandler<
     HTMLInputElement
   > = event => {
-    const preferencesData = preferences.get()
+    const data = {
+      ...this.state.preferences,
+      hideWelcome: !event.target.checked,
+    }
 
-    preferencesData.hideWelcome = event.target.checked
+    preferences.set(data)
 
-    preferences.set(preferencesData)
+    this.setState({
+      preferences: data,
+    })
   }
 }
 

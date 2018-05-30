@@ -1,17 +1,17 @@
+import { Form } from 'formik'
 import { Link } from 'react-router-dom'
 import { styled } from '../theme'
 
-export const CenteredForm = styled('form')`
-  text-align: center;
+export const CenteredForm = styled(Form)`
   width: 450px;
 `
 
-export const FormHeader = styled('div')`
+export const FormHeader = styled.div`
   padding: 40px;
   text-align: center;
 `
 
-export const FormActions = styled('div')`
+export const FormActions = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -27,12 +27,29 @@ export const FormLink = styled(Link)`
   font-size: 90%;
 `
 
-export const FormPage = styled.div`
-  padding: 40px;
+export const FormError = styled.div`
+  background: #fdf2f0;
+  color: #cd593c;
+  border-radius: 2px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  position: relative;
+  padding: 12px;
 `
 
-export const FormGroup = styled.div`
-  &:not(:last-of-type) {
-    margin-bottom: 20px;
-  }
-`
+export interface FormErrors {
+  submit?: string
+}
+
+export interface ErrorProps {
+  error?: string | null
+}
+
+export const buildError = (dirty: boolean, touched: boolean, error: string) =>
+  dirty && touched && error ? error : null
+
+export const submitEvent = {
+  preventDefault: () => {
+    // NOOP
+  },
+}

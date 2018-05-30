@@ -1,19 +1,17 @@
 import React from 'react'
 import { RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs'
-import { DropdownLink } from '../components/MenuDropdown'
+import { DropdownLink } from '../components/Dropdown'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { PROJECT } from '../transformer/object-types'
-import { AnyComponent } from '../types/components'
+import { AnyComponent, Project } from '../types/components'
 import { ProjectDocument } from '../types/project'
 
 interface State {
-  projects: ProjectDocument[]
+  projects: Project[]
 }
 
-type Props = ComponentsProps
-
-class ProjectsMenu extends React.Component<Props, State> {
+class ProjectsMenu extends React.Component<ComponentsProps, State> {
   public state: Readonly<State> = {
     projects: [],
   }
@@ -26,7 +24,7 @@ class ProjectsMenu extends React.Component<Props, State> {
       .sort({ createdAt: -1 })
       .$.subscribe((projects: ProjectDocument[]) => {
         this.setState({
-          projects,
+          projects: projects.map(project => project.toJSON()),
         })
       })
 

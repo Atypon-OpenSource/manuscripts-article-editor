@@ -1,5 +1,6 @@
+import { debounce } from 'lodash-es'
 import React from 'react'
-import { Route, RouteComponentProps, RouteProps } from 'react-router'
+import { RouteComponentProps } from 'react-router'
 import { RxCollection, RxError } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import ManuscriptsPage from '../components/ManuscriptsPage'
@@ -10,17 +11,13 @@ import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { generateID } from '../transformer/id'
-import {
-  BIBLIOGRAPHIC_NAME,
-  CONTRIBUTOR,
-  MANUSCRIPT,
-  PROJECT,
-} from '../transformer/object-types'
+import { CONTRIBUTOR, MANUSCRIPT, PROJECT } from '../transformer/object-types'
 import {
   AnyComponent,
   ComponentDocument,
   Contributor,
   Manuscript,
+  Project,
 } from '../types/components'
 import {
   AddManuscript,
@@ -32,26 +29,27 @@ import { ProjectDocument } from '../types/project'
 import ProjectSidebar from './ProjectSidebar'
 
 interface State {
-  project: ProjectDocument | null
+  project: Project | null
   manuscripts: ManuscriptDocument[] | null
   error: string | null
 }
 
-interface ComponentProps {
+interface Props {
   id: string
 }
 
-interface ComponentRoute extends Route<RouteProps> {
+interface RouteParams {
   id: string
 }
 
-type Props = ComponentProps &
-  ComponentsProps &
-  RouteComponentProps<ComponentRoute> &
-  IntlProps &
-  UserProps
-
-class ProjectPageContainer extends React.Component<Props, State> {
+class ProjectPageContainer extends React.Component<
+  Props &
+    ComponentsProps &
+    RouteComponentProps<RouteParams> &
+    IntlProps &
+    UserProps,
+  State
+> {
   public state: Readonly<State> = {
     project: null,
     manuscripts: null,
@@ -59,6 +57,13 @@ class ProjectPageContainer extends React.Component<Props, State> {
   }
 
   private subs: Subscription[] = []
+
+  private saveProject = debounce(async (values: Partial<Project>) => {
+    await this.props.components.saveComponent('', {
+      ...this.state.project,
+      ...values,
+    })
+  }, 1000)
 
   public async componentDidMount() {
     const { id } = this.props.match.params
@@ -75,7 +80,7 @@ class ProjectPageContainer extends React.Component<Props, State> {
           for (const component of components) {
             if (component.objectType === PROJECT) {
               this.setState({
-                project: component as ProjectDocument, // TODO: ProjectComponent and ManuscriptComponent
+                project: (component as ProjectDocument).toJSON(),
               })
               break
             }
@@ -111,7 +116,14 @@ class ProjectPageContainer extends React.Component<Props, State> {
 
     return (
       <Page>
-        <ProjectSidebar manuscripts={manuscripts} project={project} />
+        <ProjectSidebar
+          manuscripts={manuscripts}
+          project={{
+            ...project,
+            title: project.title || 'Untitled',
+          }}
+          saveProject={this.saveProject}
+        />
 
         <Main>
           <ManuscriptsPage
@@ -142,7 +154,7 @@ class ProjectPageContainer extends React.Component<Props, State> {
     // TODO: open up the template modal
 
     const id = generateID('manuscript') as string
-    const owner = (user.data._id as string).replace('|', '_')
+    const owner = user.data.id.replace('|', '_')
     const now = Date.now()
 
     const contributor: Contributor = {
@@ -153,9 +165,7 @@ class ProjectPageContainer extends React.Component<Props, State> {
       affiliations: [],
       bibliographicName: {
         id: generateID('bibliographic_name') as string,
-        given: user.data.givenName,
-        family: user.data.familyName,
-        objectType: BIBLIOGRAPHIC_NAME,
+        ...user.data.bibliographicName,
       },
     }
 

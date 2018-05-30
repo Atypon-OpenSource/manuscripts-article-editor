@@ -1,7 +1,7 @@
 import { FormikActions } from 'formik'
 import React from 'react'
 // import Modal from 'react-modal'
-import { RouterProps } from 'react-router'
+import { RouteComponentProps } from 'react-router'
 import {
   PreferencesErrors,
   PreferencesValues,
@@ -11,9 +11,9 @@ import preferences from '../lib/preferences'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { preferencesSchema } from '../validation'
 
-type Props = RouterProps & IntlProps
-
-class PreferencesPageContainer extends React.Component<Props> {
+class PreferencesPageContainer extends React.Component<
+  RouteComponentProps<{}> & IntlProps
+> {
   public render() {
     const initialValues = preferences.get()
 

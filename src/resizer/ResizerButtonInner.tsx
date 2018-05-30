@@ -1,6 +1,5 @@
 import React from 'react'
-import styled, { ThemedStyledProps } from 'styled-components'
-import { Theme } from '../theme'
+import { styled, ThemedProps } from '../theme'
 
 const gridSize = 8
 const resizerVisibleSize = 2
@@ -14,16 +13,14 @@ const toggleArrowEndOffset =
 const opacityTransition = `opacity 200ms ease-in-out 100ms`
 const transformTransition = `transform 100ms ease-in-out`
 
-export interface ResizerButtonInnerProps {
+interface ResizerButtonInnerProps {
   isCollapsed: boolean
   isVisible: boolean
   onClick?: () => void
 }
 
-type ThemedResizerButtonInnerProps = ThemedStyledProps<
-  React.HTMLProps<HTMLButtonElement> & ResizerButtonInnerProps,
-  Theme
->
+type ThemedResizerButtonInnerProps = ThemedProps<HTMLButtonElement> &
+  ResizerButtonInnerProps
 
 const ResizerButtonInnerBase: React.SFC<ThemedResizerButtonInnerProps> = ({
   isCollapsed,
@@ -68,7 +65,7 @@ const ResizerButtonInner = styled(ResizerButtonInnerBase)`
     &::before,
     &::after {
       background-color: ${(props: ThemedResizerButtonInnerProps) =>
-        props.theme.resizerColor};
+        props.theme.colors.button.primary};
       opacity: 1;
     }
   }

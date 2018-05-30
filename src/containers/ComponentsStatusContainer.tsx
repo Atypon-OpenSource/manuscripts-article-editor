@@ -3,9 +3,7 @@ import React from 'react'
 import { Spinner } from '../components/Spinner'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 
-type Props = ComponentsProps
-
-class ComponentsStatusContainer extends React.Component<Props> {
+class ComponentsStatusContainer extends React.Component<ComponentsProps> {
   public render() {
     const { components } = this.props
 

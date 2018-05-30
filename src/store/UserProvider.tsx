@@ -1,22 +1,20 @@
-import { AxiosError } from 'axios'
 import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
-import * as api from '../lib/api'
 import token from '../lib/token'
-import { AnyComponent, Contributor } from '../types/components'
-import { User } from '../types/user'
-import { SharedDataProps, withSharedData } from './SharedDataProvider'
+import { USER_PROFILE } from '../transformer/object-types'
+import { AnyComponent, UserProfile } from '../types/components'
+import { ComponentsProps, withComponents } from './ComponentsProvider'
 
 export interface UserProviderState {
   loading: boolean
   loaded: boolean
-  data: User | null
+  data: UserProfile | null
   error: string | null
 }
 
 export interface UserProviderContext extends UserProviderState {
   fetch: () => void
-  update: (data: Partial<User>) => Promise<RxDocument<AnyComponent>>
+  update: (data: Partial<UserProfile>) => Promise<RxDocument<AnyComponent>>
 }
 
 export interface UserProps {
@@ -29,22 +27,30 @@ export const withUser = <T extends {}>(
   Component: React.ComponentType<UserProps>
 ): React.ComponentType<T> => (props: object) => (
   <UserContext.Consumer>
-    {value => <Component {...props} user={value as UserProviderContext} />}
+    {(value: UserProviderContext) => <Component {...props} user={value} />}
   </UserContext.Consumer>
 )
 
 const getUserIdFromJWT = (jwt: string): string =>
   JSON.parse(atob(jwt.split('.')[1])).userId.replace('|', '_')
 
-const getCurrentUserId = () => {
+const getAccessToken = () => {
   const tokenData = token.get() // TODO: listen for changes?
 
-  return tokenData && tokenData.access_token
-    ? getUserIdFromJWT(tokenData.access_token)
-    : null
+  if (!tokenData) return null
+
+  return tokenData.access_token
 }
 
-class UserProvider extends React.Component<SharedDataProps, UserProviderState> {
+const getCurrentUserId = () => {
+  const accessToken = getAccessToken()
+
+  if (!accessToken) return null
+
+  return getUserIdFromJWT(accessToken)
+}
+
+class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
   public state: Readonly<UserProviderState> = {
     loading: false,
     loaded: false,
@@ -52,14 +58,14 @@ class UserProvider extends React.Component<SharedDataProps, UserProviderState> {
     error: null,
   }
 
-  public componentDidMount() {
-    const userId = getCurrentUserId()
+  public async componentDidMount() {
+    // try {
+    //   await this.fetch()
+    // } catch (e) {
+    //   console.warn("Couldn't fetch current user from the API")
+    // }
 
-    if (userId) {
-      this.subscribe(userId)
-    } else {
-      this.fetch()
-    }
+    this.subscribe()
   }
 
   public render() {
@@ -77,57 +83,73 @@ class UserProvider extends React.Component<SharedDataProps, UserProviderState> {
   }
 
   private getCollection() {
-    return this.props.shared.collection as RxCollection<AnyComponent>
+    return this.props.components.collection as RxCollection<AnyComponent>
   }
 
-  private subscribe(id: string) {
-    // TODO: a User object instead of Contributor?
-    // TODO: remove token if user not found locally?
-    this.getCollection()
-      .findOne({
-        // objectType: CONTRIBUTOR,
-        // _id: id,
-        user_id: id,
-      })
-      .$.subscribe((doc: RxDocument<Contributor>) => {
-        if (doc) {
-          const previousData = this.state.data
-
-          const data: User = {
-            _id: doc.get('id'),
-            email: doc.get('email') as string,
-            name: doc.get('name'),
-            familyName: doc.get('familyName'),
-            givenName: doc.get('givenName'),
-            phone: doc.get('phone'),
-          }
-
-          this.setState({
-            loaded: true,
-            data,
-          })
-
-          if (!previousData) {
-            this.fetch()
-          }
-        }
-      })
-  }
-
-  private update = async (data: Partial<User>) => {
+  private buildCurrentUserQuery() {
     const userId = getCurrentUserId()
 
-    const prev = await this.getCollection()
-      .findOne({
-        channel_id: userId,
+    return userId
+      ? this.getCollection().findOne({
+          objectType: USER_PROFILE,
+          // _id: `${USER_PROFILE}:${userId.replace('_', '|')}`,
+          user_id: userId,
+        })
+      : null
+  }
+
+  private subscribe() {
+    const query = this.buildCurrentUserQuery()
+
+    if (!query) {
+      this.setState({
+        loading: false,
+        loaded: true,
+        data: null,
       })
-      .exec()
+      return
+    }
+
+    // TODO: remove token if user not found locally?
+    query.$.subscribe((doc: RxDocument<UserProfile>) => {
+      if (doc) {
+        // const previousData = this.state.data
+
+        const data: UserProfile = doc.toJSON()
+
+        this.setState({
+          loading: false,
+          loaded: true,
+          data,
+        })
+
+        // if (!previousData) {
+        //   this.fetch()
+        // }
+      } else {
+        this.setState({
+          loading: false,
+          loaded: true,
+          data: null,
+        })
+      }
+    })
+  }
+
+  private update = async (data: Partial<UserProfile>) => {
+    const query = this.buildCurrentUserQuery()
+
+    if (!query) {
+      throw new Error('No current user')
+    }
+
+    const prev = await query.exec()
 
     if (!prev) {
       throw new Error('User object not found')
     }
 
-    return prev.atomicUpdate((doc: RxDocument<User>) => {
+    return prev.atomicUpdate((doc: RxDocument<UserProfile>) => {
       Object.entries(data).forEach(([key, value]) => {
         doc.set(key, value)
       })
@@ -145,39 +167,46 @@ class UserProvider extends React.Component<SharedDataProps, UserProviderState> {
       return
     }
 
-    this.setState({
-      loading: true,
-      // loaded: false,
-      // data: null,
-      error: null,
-    })
+    // TODO: check this
+    // if (!this.props.components.active) {
+    //   this.props.components.sync({ live: false })
+    // }
 
-    api.authenticate().then(
-      (data: User | null) => {
-        this.setState({
-          loading: false,
-          loaded: true,
-          data,
-        })
-      },
-      (error: AxiosError) => {
-        if (error.response && error.response.status === 401) {
-          // 401 response
-          this.setState({
-            loading: false,
-            loaded: true,
-          })
-        } else {
-          // any other error
-          this.setState({
-            loading: false,
-            loaded: true,
-            error: error.message,
-          })
-        }
-      }
-    )
+    // TODO: enable this once the API returns a user profile
+
+    // this.setState({
+    //   loading: true,
+    //   // loaded: false,
+    //   // data: null,
+    //   error: null,
+    // })
+    //
+    // api.fetchUser().then(
+    //   (data: UserProfile | null) => {
+    //     this.setState({
+    //       loading: false,
+    //       loaded: true,
+    //       data,
+    //     })
+    //   },
+    //   (error: AxiosError) => {
+    //     if (error.response && error.response.status === 401) {
+    //       // 401 response
+    //       this.setState({
+    //         loading: false,
+    //         loaded: true,
+    //       })
+    //     } else {
+    //       // any other error
+    //       this.setState({
+    //         loading: false,
+    //         loaded: true,
+    //         // error: error.message, // TODO: ignore?
+    //       })
+    //     }
+    //   }
+    // )
   }
 }
 
-export default withSharedData(UserProvider)
+export default withComponents(UserProvider)

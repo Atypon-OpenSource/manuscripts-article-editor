@@ -125,25 +125,18 @@ class LibrarySourceContainer extends React.Component<
       return
     }
 
-    const url = item.URL
-
-    if (!url) {
-      alert('No URL!')
-      return
-    }
-
     if (!source.fetch) {
       throw new Error('No fetch function defined')
     }
 
     source
-      .fetch(url)
+      .fetch(item)
       .then(this.props.handleAdd)
       .then(() => {
         // TODO: 'adding' state
         console.log('added') // tslint:disable-line:no-console
       })
-      .catch(error => {
+      .catch((error: Error) => {
         // TODO: 'failed' state
         console.error('failed to add', error) // tslint:disable-line:no-console
       })

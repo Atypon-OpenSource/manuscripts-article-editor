@@ -1,4 +1,4 @@
-import { Contributor } from '../../src/types/components'
+import { Contributor, UserProfile } from '../../src/types/components'
 
 import imageFile from '../assets/melnitz.jpg'
 
@@ -75,3 +75,18 @@ export const authors: Contributor[] = [
     affiliations: ['affiliation-1'],
   },
 ]
+
+export const user: UserProfile = {
+  id: 'user-1',
+  objectType: 'MPUserProfile',
+  bibliographicName: {
+    id: 'name-1',
+    objectType: 'MPBibliographicName',
+    given: 'Janine',
+    family: 'Melnitz',
+  },
+  email: 'janine.melnitz@example.com',
+  phoneNumber: '+1 800 555-2368',
+  image: imageFile,
+  affiliations: ['affiliation-1'],
+}

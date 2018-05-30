@@ -2,6 +2,7 @@ import { stringify } from 'qs'
 import React from 'react'
 import { AuthenticationButtonProps } from '../components/Authentication'
 import deviceId from '../lib/deviceId'
+import { applicationHeaders } from '../lib/headers'
 
 const apiBaseUrl: string = String(process.env.API_BASE_URL)
 
@@ -21,7 +22,7 @@ class AuthButtonContainer extends React.Component<Props> {
   private redirect = (provider: AuthProvider) => () => {
     const params = {
       deviceId,
-      'manuscripts-app-id': process.env.API_APPLICATION_ID,
+      ...applicationHeaders,
     }
 
     window.location.href =

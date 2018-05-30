@@ -5,25 +5,30 @@ import React from 'react'
 import { AccountForm } from '../src/components/AccountForm'
 import { LoginForm } from '../src/components/LoginForm'
 import { PasswordForm } from '../src/components/PasswordForm'
+import { ProfileForm } from '../src/components/ProfileForm'
 import { RecoverForm } from '../src/components/RecoverForm'
 import { SignupForm } from '../src/components/SignupForm'
+import { BIBLIOGRAPHIC_NAME } from '../src/transformer/object-types'
 import {
   accountSchema,
   loginSchema,
   passwordSchema,
+  profileSchema,
   recoverSchema,
   signupSchema,
 } from '../src/validation'
 
 storiesOf('Forms', module)
   .add('Sign up', () => (
-    <Formik
-      initialValues={{ name: '', email: '', password: '' }}
-      validationSchema={signupSchema}
-      isInitialValid={false}
-      onSubmit={action('submit')}
-      component={SignupForm}
-    />
+    <React.Fragment>
+      <Formik
+        initialValues={{ name: '', email: '', password: '' }}
+        validationSchema={signupSchema}
+        isInitialValid={false}
+        onSubmit={action('submit')}
+        component={SignupForm}
+      />
+    </React.Fragment>
   ))
   .add('Login', () => (
     <Formik
@@ -54,10 +59,26 @@ storiesOf('Forms', module)
   ))
   .add('Account', () => (
     <Formik
-      initialValues={{ givenName: '', familyName: '', phone: '' }}
+      initialValues={{ password: '' }}
       validationSchema={accountSchema}
       isInitialValid={false}
       onSubmit={action('submit')}
       component={AccountForm}
+    />
+  ))
+  .add('Profile', () => (
+    <Formik
+      initialValues={{
+        bibliographicName: {
+          id: '',
+          objectType: BIBLIOGRAPHIC_NAME,
+          given: '',
+          family: '',
+        },
+      }}
+      validationSchema={profileSchema}
+      isInitialValid={false}
+      onSubmit={action('submit')}
+      component={ProfileForm}
     />
   ))

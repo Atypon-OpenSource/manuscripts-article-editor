@@ -1,9 +1,10 @@
-import { FormikErrors, FormikProps } from 'formik'
+import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { PrimaryButton } from './Button'
-import { CenteredForm, FormActions, FormHeader } from './Form'
+import { buildError, CenteredForm, FormActions, FormHeader } from './Form'
 import { SubHero } from './Hero'
 import { TextField } from './TextField'
+import { TextFieldContainer } from './TextFieldContainer'
 
 export interface PasswordValues {
   password: string
@@ -17,38 +18,44 @@ export interface ResetPasswordResponse {
   token: string
 }
 
-export interface PasswordErrors extends FormikErrors<PasswordValues> {
+export interface PasswordErrors {
   submit?: string
   unauthorized?: string
 }
 
-type FormProps = FormikProps<PasswordValues & PasswordErrors>
-
-export const PasswordForm: React.SFC<FormProps> = ({
-  values,
-  touched,
+export const PasswordForm: React.SFC<
+  FormikProps<PasswordValues & PasswordErrors>
+> = ({
+  dirty,
   errors,
-  handleBlur,
-  handleChange,
-  handleSubmit,
-  isSubmitting,
-  isValid,
+  touched,
+  // isSubmitting,
+  // isValid,
 }) => (
-  <CenteredForm onSubmit={handleSubmit}>
+  <CenteredForm>
     <FormHeader>
       <SubHero>Choose a new password</SubHero>
     </FormHeader>
 
-    <TextField
-      type={'password'}
-      name={'password'}
-      autoFocus={true}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      value={values.password}
-      required={true}
-      autoComplete={'new-password'}
-    />
+    <Field name={'password'}>
+      {({ field }: FieldProps) => (
+        <TextFieldContainer
+          error={buildError(
+            dirty,
+            touched.password as boolean,
+            errors.password as string
+          )}
+        >
+          <TextField
+            {...field}
+            type={'password'}
+            autoFocus={true}
+            required={true}
+            autoComplete={'new-password'}
+          />
+        </TextFieldContainer>
+      )}
+    </Field>
 
     {errors.submit && <div>{errors.submit}</div>}
 

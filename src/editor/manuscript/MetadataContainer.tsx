@@ -13,6 +13,7 @@ import {
   Contributor,
   Manuscript,
 } from '../../types/components'
+import { DeleteComponent, SaveComponent } from '../Editor'
 import { AuthorValues } from './AuthorForm'
 import { buildAuthorsAndAffiliations } from './lib/authors'
 import { Metadata } from './Metadata'
@@ -23,6 +24,8 @@ interface Props {
   manuscript: Manuscript
   componentMap: ComponentMap
   saveManuscript?: SaveManuscript
+  saveComponent: SaveComponent
+  deleteComponent: DeleteComponent
 }
 
 interface State {
@@ -98,22 +101,19 @@ class MetadataContainer extends React.Component<
       },
     }
 
-    await this.props.components.saveComponent(this.props.manuscript.id, author)
+    await this.props.saveComponent(author)
 
     this.selectAuthor(author)
   }
 
   private createAffiliation = async (name: string) => {
-    const affiliation = {
+    const affiliation: Affiliation = {
       id: generateID('affiliation') as string,
       objectType: AFFILIATION,
       name,
     }
 
-    await this.props.components.saveComponent(
-      this.props.manuscript.id,
-      affiliation
-    )
+    await this.props.saveComponent(affiliation)
 
     return affiliation
   }
@@ -130,7 +130,7 @@ class MetadataContainer extends React.Component<
   }
 
   private removeAuthor = async (author: Contributor) => {
-    await this.props.components.deleteComponent(author.id)
+    await this.props.deleteComponent(author.id)
     this.deselectAuthor()
   }
 
@@ -143,7 +143,7 @@ class MetadataContainer extends React.Component<
 
     await Promise.all(
       values.affiliations.map((item: Affiliation) =>
-        this.props.components.saveComponent(this.props.manuscript.id, item)
+        this.props.saveComponent(item)
       )
     )
 
@@ -153,14 +153,14 @@ class MetadataContainer extends React.Component<
     //   )
     // )
 
-    await this.props.components.saveComponent(this.props.manuscript.id, {
+    await this.props.saveComponent({
       ...selectedAuthor,
       ...values,
       affiliations: values.affiliations.map(item => item.id),
       // grants: props.values.grants.map(item => item.id),
     })
 
-    this.deselectAuthor()
+    // this.deselectAuthor()
   }
 }
 

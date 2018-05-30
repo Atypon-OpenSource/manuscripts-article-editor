@@ -39,8 +39,10 @@ class EquationBlock extends PropsBlock {
 
     this.props.popper.show(this.element, input.getWrapperElement(), 'bottom')
 
-    input.refresh()
-    window.requestAnimationFrame(() => input.focus())
+    window.requestAnimationFrame(() => {
+      input.refresh()
+      input.focus()
+    })
 
     // dom.classList.add('ProseMirror-selectednode')
   }

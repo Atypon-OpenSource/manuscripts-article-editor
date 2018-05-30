@@ -82,7 +82,7 @@ export const LibraryItem: React.SFC<LibraryItemProps> = ({
           item.author.map((author: BibliographicName, index: number) => (
             <LibraryItemAuthor key={`author.${index}`}>
               {!!index && ', '}
-              {author.given} {author.family}
+              {author.literal || [author.given, author.family].join(' ')}
             </LibraryItemAuthor>
           ))}
       </LibraryItemAuthors>

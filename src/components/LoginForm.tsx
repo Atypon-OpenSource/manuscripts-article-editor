@@ -1,10 +1,19 @@
-import { FormikErrors, FormikProps } from 'formik'
+import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { styled } from '../theme'
 import { PrimaryButton } from './Button'
-import { CenteredForm, FormActions, FormHeader, FormLink } from './Form'
+import {
+  buildError,
+  CenteredForm,
+  FormActions,
+  FormError,
+  FormErrors,
+  FormHeader,
+  FormLink,
+} from './Form'
 import { Hero, SubHero } from './Hero'
-import { TextField, TextFieldGroup } from './TextField'
+import { TextField } from './TextField'
+import { TextFieldGroupContainer } from './TextFieldGroupContainer'
 
 export interface LoginValues {
   email: string
@@ -15,64 +24,62 @@ export interface LoginResponse {
   token: string
 }
 
-export interface LoginErrors extends FormikErrors<LoginValues> {
-  submit?: string
-}
-
 const ManuscriptLinks = styled.div`
   text-align: left;
 `
-
-type FormProps = FormikProps<LoginValues & LoginErrors>
-
-export const LoginForm: React.SFC<FormProps> = ({
-  values,
-  touched,
-  errors,
+export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
   dirty,
-  handleBlur,
-  handleChange,
-  handleSubmit,
-  isSubmitting,
-  isValid,
+  errors,
+  touched,
+  // isSubmitting,
+  // isValid,
 }) => (
-  <CenteredForm onSubmit={handleSubmit}>
+  <CenteredForm>
     <FormHeader>
       <SubHero>Welcome to</SubHero>
       <Hero>Manuscripts Online</Hero>
     </FormHeader>
 
-    <TextFieldGroup>
-      <TextField
-        type={'email'}
-        name={'email'}
-        placeholder={'email'}
-        autoFocus={true}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.email}
-        required={true}
-        autoComplete={'username email'}
-      />
+    {errors.submit && <FormError>{errors.submit}</FormError>}
 
-      <TextField
-        type={'password'}
-        name={'password'}
-        placeholder={'password'}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.password}
-        required={true}
-        autoComplete={'current-password'}
-      />
-    </TextFieldGroup>
+    <TextFieldGroupContainer
+      errors={{
+        email: buildError(
+          dirty,
+          touched.email as boolean,
+          errors.email as string
+        ),
+        password: buildError(
+          dirty,
+          touched.password as boolean,
+          errors.password as string
+        ),
+      }}
+    >
+      <Field name={'email'}>
+        {({ field }: FieldProps) => (
+          <TextField
+            {...field}
+            type={'email'}
+            placeholder={'email'}
+            required={true}
+            autoComplete={'username email'}
+          />
+        )}
+      </Field>
 
-    {dirty && touched.email && errors.email && <div>{errors.email}</div>}
-    {dirty &&
-      touched.password &&
-      errors.password && <div>{errors.password}</div>}
-
-    {errors.submit && <div>{errors.submit}</div>}
+      <Field name={'password'}>
+        {({ field }: FieldProps) => (
+          <TextField
+            {...field}
+            type={'password'}
+            placeholder={'password'}
+            required={true}
+            autoComplete={'username email'}
+          />
+        )}
+      </Field>
+    </TextFieldGroupContainer>
 
     <FormActions>
       <ManuscriptLinks>

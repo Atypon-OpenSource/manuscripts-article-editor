@@ -96,11 +96,15 @@ export interface Contributor extends Component {
   isCorresponding?: boolean
   isJointContributor?: boolean
   phoneNumber?: string
-  priority: number
+  priority?: number
   researchFields?: string[] // MPResearchField IDs
-  role: ContributorRole
+  role?: ContributorRole
   url?: string
   image?: string
+}
+
+export interface UserProfile extends Contributor {
+  avatar?: string // TODO
 }
 
 export interface Affiliation extends Component {

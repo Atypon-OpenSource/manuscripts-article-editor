@@ -38,7 +38,7 @@ export const StyledTitleField = styled(TitleField)`
 
   & .ProseMirror {
     font-weight: bold;
-    cursor: pointer;
+    cursor: text;
     font-size: 200%;
     font-family: Charter, 'Charis SIL', serif;
     line-height: 1.3;

@@ -11,6 +11,7 @@ import LogoutPageContainer from './containers/LogoutPageContainer'
 // import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
 import PreferencesPageContainer from './containers/PreferencesPageContainer'
 import PrivateRoute from './containers/PrivateRoute'
+import ProfilePageContainer from './containers/ProfilePageContainer'
 import ProjectPageContainer from './containers/ProjectPageContainer'
 import ProjectsPageContainer from './containers/ProjectsPageContainer'
 import RecoverPageContainer from './containers/RecoverPageContainer'
@@ -34,6 +35,11 @@ const App = () => (
       path={'/account'}
       exact={true}
       component={AccountPageContainer}
+    />
+    <PrivateRoute
+      path={'/profile'}
+      exact={true}
+      component={ProfilePageContainer}
     />
     <PrivateRoute
       path={'/preferences'}
@@ -60,11 +66,7 @@ const App = () => (
       exact={true}
       component={ManuscriptPageContainer}
     />
-    <PrivateRoute
-      path={'/logout'}
-      exact={true}
-      component={LogoutPageContainer}
-    />
+    <Route path={'/logout'} exact={true} component={LogoutPageContainer} />
     <Route path={'/welcome'} exact={true} component={WelcomePageContainer} />
     <Route component={NotFound} />
   </Switch>

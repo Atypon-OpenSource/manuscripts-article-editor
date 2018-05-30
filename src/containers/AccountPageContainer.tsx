@@ -1,39 +1,27 @@
 import { FormikActions, FormikErrors } from 'formik'
 import React from 'react'
 import Modal from 'react-modal'
-import { RouterProps } from 'react-router'
-import { AccountErrors, AccountValues } from '../components/AccountForm'
+import { RouteComponentProps } from 'react-router'
+import { AccountValues } from '../components/AccountForm'
 import AccountPage from '../components/AccountPage'
+import { FormErrors } from '../components/Form'
 import { modalStyle } from '../components/Manage'
 import { Main, Page } from '../components/Page'
-import { UserProps, withUser } from '../store/UserProvider'
-import { User } from '../types/user'
+import { updateAccount } from '../lib/api'
 import { accountSchema } from '../validation'
 
-type Props = UserProps & RouterProps
+// TODO: edit email address
 
-class AccountPageContainer extends React.Component<Props> {
+class AccountPageContainer extends React.Component<RouteComponentProps<{}>> {
   public render() {
-    const initialValues = this.props.user.data as User
-
-    // TODO: remove this once the User object has the correct fields
-    if (initialValues.name && !initialValues.givenName) {
-      ;[
-        initialValues.givenName,
-        initialValues.familyName,
-      ] = initialValues.name.split(/\s+/, 2)
-    }
-
-    if (!initialValues.phone) {
-      initialValues.phone = ''
-    }
-
     return (
       <Page>
         <Main>
           <Modal isOpen={true} ariaHideApp={false} style={modalStyle}>
             <AccountPage
-              initialValues={initialValues}
+              initialValues={{
+                password: '',
+              }}
               validationSchema={accountSchema}
               onSubmit={this.handleSubmit}
             />
@@ -45,22 +33,20 @@ class AccountPageContainer extends React.Component<Props> {
 
   private handleSubmit = (
     values: AccountValues,
-    { setSubmitting, setErrors }: FormikActions<AccountValues | AccountErrors>
+    { setSubmitting, setErrors }: FormikActions<AccountValues | FormErrors>
   ) => {
     setErrors({})
 
-    this.props.user.update(values).then(
+    updateAccount(values).then(
       () => {
         setSubmitting(false)
 
         this.props.history.push('/')
-
-        // this.props.user.fetch()
       },
       error => {
         setSubmitting(false)
 
-        const errors: FormikErrors<AccountErrors> = {
+        const errors: FormikErrors<FormErrors> = {
           submit: error.response
             ? error.response.data.error
             : 'There was an error',
@@ -72,4 +58,4 @@ class AccountPageContainer extends React.Component<Props> {
   }
 }
 
-export default withUser(AccountPageContainer)
+export default AccountPageContainer
