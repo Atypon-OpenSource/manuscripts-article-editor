@@ -1,7 +1,7 @@
 import {
   // joinUp,
   // lift,
-  setBlockType,
+  // setBlockType,
   toggleMark,
   // wrapIn,
 } from 'prosemirror-commands'
@@ -80,13 +80,6 @@ const blocks: MenuButtonMap = {
   //   enable: setBlockType(schema.nodes.paragraph),
   //   run: setBlockType(schema.nodes.paragraph),
   // },
-  code_block: {
-    title: 'Change to code block',
-    content: icons.highlight, // TODO: code block icon
-    active: blockActive(schema.nodes.code_block),
-    enable: setBlockType(schema.nodes.code_block),
-    run: setBlockType(schema.nodes.code_block),
-  },
   // h1: {
   //   title: 'Change to heading level 1',
   //   content: images.heading,
