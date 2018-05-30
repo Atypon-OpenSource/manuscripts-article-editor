@@ -90,7 +90,7 @@ class WelcomePageContainer extends React.Component<
   }
 
   private sendFeedback = () => {
-    // TODO
+    window.open('mailto:support@manuscriptsapp.com', '_blank')
   }
 
   private handleClose = () => {

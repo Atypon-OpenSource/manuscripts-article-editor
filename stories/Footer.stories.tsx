@@ -8,7 +8,7 @@ const links = [
     text: 'Support',
   },
   {
-    url: 'https://example.com/feedback',
+    url: 'mailto:support@manuscriptsapp.com',
     text: 'Feedback',
   },
 ]
