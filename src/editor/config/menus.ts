@@ -3,7 +3,8 @@ import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from 'prosemirror-schema-list'
 import { EditorState } from 'prosemirror-state'
 import React from 'react'
-import LibraryPicker from '../../containers/LibraryPicker'
+import CrossReferencePickerContainer from '../../containers/CrossReferencePickerContainer'
+import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
 import {
   blockActive,
   canInsert,
@@ -151,7 +152,14 @@ const menus: MenuItem[] = [
         label: 'Citation',
         icon: icons.citation,
         enable: canInsert(schema.nodes.citation),
-        dropdown: LibraryPicker,
+        dropdown: LibraryPickerContainer,
+      },
+      {
+        label: 'Cross-reference',
+        icon: icons.citation,
+        enable: canInsert(schema.nodes.cross_reference),
+        dropdown: CrossReferencePickerContainer,
+        // TODO: build a nested menu?
       },
     ],
   },

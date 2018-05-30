@@ -83,6 +83,8 @@ const LibraryKeywords: React.SFC<Props & KeywordsProps> = ({
     .sort(sortByCount)
     .map(id => keywords.data.get(id))
 
+  if (!sortedKeywords.length) return null
+
   return (
     <Container>
       {sortedKeywords.map((keyword: Keyword) => (

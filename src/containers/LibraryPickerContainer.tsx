@@ -1,6 +1,11 @@
 import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import { LibraryItems } from '../components/LibraryItems'
+import {
+  LibraryPicker,
+  LibraryPickerItems,
+  // LibraryPickerSources,
+} from '../components/LibraryPicker'
 import { componentsKey, INSERT } from '../editor/config/plugins/components'
 import schema from '../editor/config/schema'
 import { Dispatch } from '../editor/config/types'
@@ -23,6 +28,7 @@ import { filterLibrary } from './LibraryContainer'
 interface State {
   library: LibraryDocument[]
   query: string
+  selectedSource: string
 }
 
 interface Props {
@@ -31,10 +37,21 @@ interface Props {
   handleClose: () => void
 }
 
-class LibraryPicker extends React.Component<Props & ComponentsProps, State> {
+/*const sources = [
+  {
+    id: 'library',
+    name: 'Library',
+  },
+]*/
+
+class LibraryPickerContainer extends React.Component<
+  Props & ComponentsProps,
+  State
+> {
   public state = {
     library: [],
     query: '',
+    selectedSource: 'library',
   }
 
   public componentDidMount() {
@@ -51,18 +68,33 @@ class LibraryPicker extends React.Component<Props & ComponentsProps, State> {
   }
 
   public render() {
-    const { query, library } = this.state
+    const { query, library, selectedSource } = this.state
 
     return (
-      <LibraryItems
-        query={query}
-        handleQuery={this.handleQuery}
-        handleSelect={this.handleSelect}
-        hasItem={() => true}
-        items={filterLibrary(library, query)}
-      />
+      <LibraryPicker>
+        {/*<LibraryPickerSources
+          sources={sources}
+          selectedSource={selectedSource}
+          selectSource={this.selectSource}
+        />*/}
+        <LibraryPickerItems>
+          {selectedSource === 'library' && (
+            <LibraryItems
+              query={query}
+              handleQuery={this.handleQuery}
+              handleSelect={this.handleSelect}
+              hasItem={() => true}
+              items={filterLibrary(library, query)}
+            />
+          )}
+        </LibraryPickerItems>
+      </LibraryPicker>
     )
   }
+
+  /*private selectSource = (selectedSource: string) => {
+    this.setState({ selectedSource })
+  }*/
 
   private getCollection() {
     return this.props.components.collection as ComponentCollection
@@ -90,7 +122,6 @@ class LibraryPicker extends React.Component<Props & ComponentsProps, State> {
     const citationNode = schema.nodes.citation.create({
       rid: citation.id,
     })
-
     // TODO: copy the bibliography item into the manuscript?
 
     const tr = state.tr
@@ -109,4 +140,4 @@ class LibraryPicker extends React.Component<Props & ComponentsProps, State> {
   }
 }
 
-export default withComponents(LibraryPicker)
+export default withComponents(LibraryPickerContainer)

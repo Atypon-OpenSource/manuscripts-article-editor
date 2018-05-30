@@ -6,10 +6,8 @@ import {
   // wrapIn,
 } from 'prosemirror-commands'
 import { wrapInList } from 'prosemirror-schema-list'
-import LibraryPicker from '../../containers/LibraryPicker'
-import { generateID } from '../../transformer/id'
-import { AUXILIARY_OBJECT_REFERENCE } from '../../transformer/object-types'
-import { AuxiliaryObjectReference } from '../../types/components'
+// import CrossReferencePickerContainer from '../../containers/CrossReferencePickerContainer'
+import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
 
 import {
@@ -20,7 +18,6 @@ import {
   markActive,
 } from './commands'
 import icons from './icons'
-import { componentsKey, INSERT } from './plugins/components'
 import schema from './schema'
 import { MenuButtonMap } from './types'
 
@@ -144,44 +141,18 @@ const insertCitation: MenuButtonMap = {
     title: 'Insert citation',
     content: icons.citation,
     enable: canInsert(schema.nodes.citation),
-    dropdown: LibraryPicker,
+    dropdown: LibraryPickerContainer,
   },
 }
 
-const insertCrossReference: MenuButtonMap = {
-  citation: {
-    title: 'Insert cross reference',
-    content: icons.citation, // TODO
-    enable: canInsert(schema.nodes.cross_reference),
-    run: (state, dispatch) => {
-      // TODO: open form/picker instead
-      const referencedObject: { [key: string]: string } = {
-        id: 'foo', // TODO: get the id of the referenced object from a picker
-      }
-
-      const containingObject = state.tr.selection.$anchor.parent // TODO: is this enough/needed?
-
-      const auxiliaryObjectReference: AuxiliaryObjectReference = {
-        id: generateID('cross_reference') as string,
-        objectType: AUXILIARY_OBJECT_REFERENCE,
-        containingObject: containingObject.attrs.id,
-        referencedObject: referencedObject.id,
-      }
-
-      // TODO: add this in the form/picker
-
-      const crossReferenceNode = schema.nodes.cross_reference.create({
-        rid: auxiliaryObjectReference.id,
-      })
-
-      const tr = state.tr
-        .setMeta(componentsKey, { [INSERT]: [auxiliaryObjectReference] })
-        .insert(state.tr.selection.to, crossReferenceNode)
-
-      dispatch(tr)
-    },
-  },
-}
+// const insertCrossReference: MenuButtonMap = {
+//   cross_reference: {
+//     title: 'Insert cross reference',
+//     content: icons.citation,
+//     enable: canInsert(schema.nodes.cross_reference),
+//     dropdown: CrossReferencePickerContainer,
+//   },
+// }
 
 const insertFigure: MenuButtonMap = {
   figure: {
@@ -316,7 +287,7 @@ export default {
   inlines,
   blocks,
   insertCitation,
-  insertCrossReference,
+  // insertCrossReference,
   insertFigure,
   insertEquationBlock,
   insertTable,
