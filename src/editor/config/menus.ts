@@ -3,7 +3,8 @@ import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from 'prosemirror-schema-list'
 import { EditorState } from 'prosemirror-state'
 import React from 'react'
-import LibraryPicker from '../../containers/LibraryPicker'
+import CrossReferencePickerContainer from '../../containers/CrossReferencePickerContainer'
+import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
 import {
   blockActive,
   canInsert,
@@ -91,6 +92,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Numbered List',
+        accelerator: '⌃⌘O',
         icon: icons.ordered_list,
         active: blockActive(schema.nodes.ordered_list),
         enable: wrapInList(schema.nodes.ordered_list),
@@ -98,6 +100,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Bullet List',
+        accelerator: '⌃⌘U',
         icon: icons.bullet_list,
         active: blockActive(schema.nodes.bullet_list),
         enable: wrapInList(schema.nodes.bullet_list),
@@ -108,6 +111,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Figure Panel',
+        accelerator: '⌃⌘P',
         icon: icons.figure,
         active: blockActive(schema.nodes.figure),
         enable: canInsert(schema.nodes.figure),
@@ -115,6 +119,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Table',
+        accelerator: '⌃⌘T',
         icon: icons.bullet_list,
         active: blockActive(schema.nodes.table_figure),
         enable: canInsert(schema.nodes.table_figure),
@@ -122,6 +127,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Listing',
+        accelerator: '⌃⌘L',
         icon: icons.bullet_list,
         active: blockActive(schema.nodes.code_block),
         enable: canInsert(schema.nodes.code_block),
@@ -132,6 +138,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Equation',
+        accelerator: '⌃⌘E',
         icon: icons.equation_block,
         active: blockActive(schema.nodes.equation_block),
         enable: canInsert(schema.nodes.equation_block),
@@ -139,6 +146,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Inline Equation',
+        accelerator: '⌃⌥⌘E',
         icon: icons.equation,
         active: blockActive(schema.nodes.equation),
         enable: canInsert(schema.nodes.equation),
@@ -149,9 +157,18 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Citation',
+        accelerator: '⌃⌘C',
         icon: icons.citation,
         enable: canInsert(schema.nodes.citation),
-        dropdown: LibraryPicker,
+        dropdown: LibraryPickerContainer,
+      },
+      {
+        label: 'Cross-reference',
+        accelerator: '⌃⌘R',
+        icon: icons.citation,
+        enable: canInsert(schema.nodes.cross_reference),
+        dropdown: CrossReferencePickerContainer,
+        // TODO: build a nested menu?
       },
     ],
   },
@@ -187,6 +204,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Superscript',
+        accelerator: '⌥⌘=',
         icon: icons.superscript,
         active: markActive(schema.marks.superscript),
         enable: toggleMark(schema.marks.superscript),
@@ -194,6 +212,7 @@ const menus: MenuItem[] = [
       },
       {
         label: 'Subscript',
+        accelerator: '⌥⌘-',
         icon: icons.subscript,
         active: markActive(schema.marks.subscript),
         enable: toggleMark(schema.marks.subscript),

@@ -5,13 +5,16 @@ import {
   joinUp,
   lift,
   selectParentNode,
-  setBlockType,
   toggleMark,
   wrapIn,
 } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
 import { undoInputRule } from 'prosemirror-inputrules'
+import { wrapInList } from 'prosemirror-schema-list'
 import { goToNextCell } from 'prosemirror-tables'
+// import CrossReferencePickerContainer from '../../../containers/CrossReferencePickerContainer'
+// import LibraryPickerContainer from '../../../containers/LibraryPickerContainer'
+import { insertBlock, insertInlineEquation } from '../commands'
 import schema from '../schema'
 import { EditorAction, StringMap } from '../types'
 
@@ -40,21 +43,26 @@ const customKeymap: StringMap<EditorAction> = {
   'Mod-i': toggleMark(schema.marks.italic),
   'Mod-u': toggleMark(schema.marks.underline),
   'Mod-`': toggleMark(schema.marks.code),
+  'Alt-Mod-=': toggleMark(schema.marks.superscript),
+  'Alt-Mod--': toggleMark(schema.marks.subscript),
   'Ctrl->': wrapIn(schema.nodes.blockquote),
   'Mod-Enter': chainCommands(exitCode, insertBreak),
   'Shift-Enter': chainCommands(exitCode, insertBreak),
   'Ctrl-Enter': chainCommands(exitCode, insertBreak), // mac-only?
-  'Shift-Ctrl-0': setBlockType(schema.nodes.paragraph),
-  'Shift-Ctrl-\\': setBlockType(schema.nodes.code_block),
-  'Shift-Ctrl-1': setBlockType(schema.nodes.heading, { level: 1 }),
-  'Shift-Ctrl-2': setBlockType(schema.nodes.heading, { level: 2 }),
-  'Shift-Ctrl-3': setBlockType(schema.nodes.heading, { level: 3 }),
-  'Shift-Ctrl-4': setBlockType(schema.nodes.heading, { level: 4 }),
-  'Shift-Ctrl-5': setBlockType(schema.nodes.heading, { level: 5 }),
-  'Shift-Ctrl-6': setBlockType(schema.nodes.heading, { level: 6 }),
+  // 'Shift-Ctrl-0': setBlockType(schema.nodes.paragraph),
+  // 'Shift-Ctrl-\\': setBlockType(schema.nodes.code_block),
   'Mod-_': insertRule,
   Tab: goToNextCell(1),
   'Shift-Tab': goToNextCell(-1),
+  'Ctrl-Mod-o': wrapInList(schema.nodes.ordered_list),
+  'Ctrl-Mod-u': wrapInList(schema.nodes.bullet_list),
+  'Ctrl-Mod-p': insertBlock(schema.nodes.figure),
+  'Ctrl-Mod-t': insertBlock(schema.nodes.table_figure),
+  'Ctrl-Mod-l': insertBlock(schema.nodes.code_block),
+  'Ctrl-Mod-e': insertBlock(schema.nodes.equation_block),
+  'Ctrl-Alt-Mod-e': insertInlineEquation,
+  // 'Ctrl-Mod-c': openModal(LibraryPickerContainer),
+  // 'Ctrl-Mod-r': openModal(CrossReferencePickerContainer),
 }
 
 export default customKeymap

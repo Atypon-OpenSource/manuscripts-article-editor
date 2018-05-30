@@ -10,11 +10,18 @@ interface Counter {
   label: string
 }
 
+export interface Target {
+  type: string
+  id: string
+  label: string
+  caption: string
+}
+
 export const objectsKey = new PluginKey('objects')
 
 // TODO: figure image
 
-const buildLabels = (doc: ProsemirrorNode) => {
+const buildTargets = (doc: ProsemirrorNode) => {
   const counters: StringMap<Counter> = {
     figure: {
       index: 0,
@@ -32,24 +39,34 @@ const buildLabels = (doc: ProsemirrorNode) => {
     return `${counter.label} ${counter.index}`
   }
 
-  const targetLabels: Map<string, string> = new Map()
+  const targets: Map<string, Target> = new Map()
 
   doc.descendants(node => {
     if (node.type.name in counters) {
       const label = buildLabel(node.type.name)
 
-      targetLabels.set(node.attrs.id, label)
+      targets.set(node.attrs.id, {
+        type: node.type.name,
+        id: node.attrs.id,
+        label,
+        caption: node.textContent, // TODO
+      })
 
       // TODO: allow an individual figure to be referenced
-      if (node.attrs.containedObjectIDs) {
-        node.attrs.containedObjectIDs.forEach((containedObjectID: string) => {
-          targetLabels.set(containedObjectID, label)
-        })
-      }
+      // if (node.attrs.containedObjectIDs) {
+      //   node.attrs.containedObjectIDs.forEach((containedObjectID: string) => {
+      //     targets.set(containedObjectID, {
+      //       type: '',
+      //       id: containedObjectID,
+      //       label,
+      //       caption: '',
+      //     })
+      //   })
+      // }
     }
   })
 
-  return targetLabels
+  return targets
 }
 
 export default (props: EditorProps) => {
@@ -59,27 +76,27 @@ export default (props: EditorProps) => {
     key: objectsKey,
 
     state: {
-      init: (config, state) => buildLabels(state.doc),
+      init: (config, state) => buildTargets(state.doc),
       apply: (tr, old) => {
         // TODO: use decorations to track figure deletion?
         // TODO: map decorations?
 
-        return tr.docChanged ? buildLabels(tr.doc) : old
+        return tr.docChanged ? buildTargets(tr.doc) : old
       },
     },
     props: {
       decorations: state => {
-        const targetLabels = objectsKey.getState(state)
+        const targets = objectsKey.getState(state)
 
         const decorations: Decoration[] = []
 
         state.doc.descendants((node, pos) => {
-          const label = node.attrs.id ? targetLabels.get(node.attrs.id) : null
+          const target = node.attrs.id ? targets.get(node.attrs.id) : null
 
-          if (label) {
+          if (target) {
             const labelNode = document.createElement('span')
             labelNode.className = 'figure-label'
-            labelNode.textContent = targetLabels.get(node.attrs.id) + ':'
+            labelNode.textContent = target.label + ':'
 
             node.forEach((child, offset) => {
               if (child.type.name === 'figcaption') {
@@ -97,7 +114,7 @@ export default (props: EditorProps) => {
       },
     },
     appendTransaction: (transactions, oldState, newState) => {
-      const targetLabels = objectsKey.getState(newState)
+      const targets = objectsKey.getState(newState)
 
       let updated = 0
 
@@ -109,14 +126,12 @@ export default (props: EditorProps) => {
             AuxiliaryObjectReference
           >(node.attrs.rid)
 
-          const label = targetLabels.get(
-            auxiliaryObjectReference.referencedObject
-          )
+          const target = targets.get(auxiliaryObjectReference.referencedObject)
 
-          if (label) {
+          if (target) {
             tr = tr.setNodeMarkup(pos, undefined, {
               ...node.attrs,
-              label,
+              label: target.label,
             })
 
             updated++
