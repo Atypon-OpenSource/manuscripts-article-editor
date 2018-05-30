@@ -40,6 +40,8 @@ const customKeymap: StringMap<EditorAction> = {
   'Mod-i': toggleMark(schema.marks.italic),
   'Mod-u': toggleMark(schema.marks.underline),
   'Mod-`': toggleMark(schema.marks.code),
+  'Alt-Mod-=': toggleMark(schema.marks.superscript),
+  'Alt-Mod--': toggleMark(schema.marks.subscript),
   'Ctrl->': wrapIn(schema.nodes.blockquote),
   'Mod-Enter': chainCommands(exitCode, insertBreak),
   'Shift-Enter': chainCommands(exitCode, insertBreak),
