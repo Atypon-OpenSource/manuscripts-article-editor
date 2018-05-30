@@ -54,6 +54,8 @@ export const insertBlock = (type: NodeType) => (
       type.createAndFill() as ProsemirrorNode
     )
   )
+
+  return true
 }
 
 export const insertInlineEquation = (
@@ -71,4 +73,6 @@ export const insertInlineEquation = (
       })
     )
   )
+
+  return true
 }
