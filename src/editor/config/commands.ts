@@ -44,16 +44,56 @@ export const canInsert = (type: NodeType) => (state: EditorState) => {
   return false
 }
 
-export const insertBlock = (type: NodeType) => (
+const findInsertPosition = (state: EditorState) => {
+  const { $from } = state.selection as AnySelection
+
+  for (let d = $from.depth; d >= 0; d--) {
+    if ($from.node(d).isBlock) {
+      return $from.after(d)
+    }
+  }
+
+  return null
+}
+
+export const createSelection = (
+  nodeType: NodeType,
+  position: number,
+  doc: ProsemirrorNode
+) => {
+  if (nodeType.name.endsWith('_block')) {
+    return NodeSelection.create(doc, position)
+  }
+
+  return TextSelection.near(doc.resolve(position + 1))
+}
+
+export const createBlock = (
+  nodeType: NodeType,
+  position: number,
   state: EditorState,
   dispatch: Dispatch
 ) => {
-  dispatch(
-    state.tr.insert(
-      state.tr.selection.anchor,
-      type.createAndFill() as ProsemirrorNode
-    )
-  )
+  const node = nodeType.createAndFill() as ProsemirrorNode
+
+  let tr = state.tr.insert(position, node)
+
+  const selection = createSelection(nodeType, position, tr.doc)
+
+  tr = tr.setSelection(selection).scrollIntoView()
+
+  dispatch(tr)
+}
+
+export const insertBlock = (nodeType: NodeType) => (
+  state: EditorState,
+  dispatch: Dispatch
+) => {
+  const position = findInsertPosition(state)
+
+  if (position === null) return false
+
+  createBlock(nodeType, position, state, dispatch)
 
   return true
 }

@@ -1,7 +1,7 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-// import { TextSelection } from 'prosemirror-state'
 import { EditorView, NodeView } from 'prosemirror-view'
 import PopperManager from '../../lib/popper'
+import { createBlock } from '../commands'
 
 const popper = new PopperManager()
 
@@ -98,31 +98,16 @@ class Block implements NodeView {
     this.dom.appendChild(gutter)
   }
 
-  private addBlock = (
-    nodeType: string,
-    after: boolean,
-    newPosition?: number
-  ) => {
-    if (newPosition === undefined) {
-      newPosition = after ? this.getPos() + this.node.nodeSize : this.getPos()
+  private addBlock = (type: string, after: boolean, position?: number) => {
+    const { state, dispatch } = this.view
+
+    if (position === undefined) {
+      position = after ? this.getPos() + this.node.nodeSize : this.getPos()
     }
 
-    const block = this.view.state.schema.nodes[
-      nodeType
-    ].createAndFill() as ProsemirrorNode
+    const nodeType = state.schema.nodes[type]
 
-    // TODO: this is splitting the paragraph?
-    const tr = this.view.state.tr.insert(newPosition, block)
-
-    // TODO: select the thing after inserting it!
-    // const selection = TextSelection.create(
-    //   tr.doc,
-    //   newPosition,
-    //   newPosition + block.nodeSize
-    // )
-    // tr = tr.setSelection(selection).scrollIntoView()
-
-    this.view.dispatch(tr)
+    createBlock(nodeType, position, state, dispatch)
   }
 
   private createAddButton = (after: boolean) => {
@@ -131,7 +116,7 @@ class Block implements NodeView {
     button.classList.add(after ? 'add-block-after' : 'add-block-before')
     button.title = 'Add a new block'
     button.innerHTML = this.icons.plus
-    button.addEventListener('click', this.showMenu(after))
+    button.addEventListener('mousedown', this.showMenu(after))
 
     return button
   }
@@ -141,7 +126,7 @@ class Block implements NodeView {
     button.classList.add('edit-block')
     button.title = 'Edit block'
     button.innerHTML = this.icons.circle
-    button.addEventListener('click', this.showEditMenu)
+    button.addEventListener('mousedown', this.showEditMenu)
 
     return button
   }
@@ -157,7 +142,10 @@ class Block implements NodeView {
     const item = document.createElement('div')
     item.className = 'menu-item'
     item.textContent = contents
-    item.addEventListener('click', handler)
+    item.addEventListener('mousedown', event => {
+      event.preventDefault()
+      handler(event)
+    })
     return item
   }
 
@@ -180,6 +168,9 @@ class Block implements NodeView {
   }
 
   private showMenu = (after: boolean): EventListener => event => {
+    event.preventDefault()
+    event.stopPropagation()
+
     const menu = document.createElement('div')
     menu.className = 'menu'
 
@@ -302,6 +293,9 @@ class Block implements NodeView {
   }
 
   private showEditMenu: EventListener = event => {
+    event.preventDefault()
+    event.stopPropagation()
+
     const menu = document.createElement('div')
     menu.className = 'menu'
 
@@ -326,7 +320,7 @@ class Block implements NodeView {
   private addPopperEventListeners = (popper: PopperManager) => {
     const mouseListener: EventListener = () => {
       window.requestAnimationFrame(() => {
-        window.removeEventListener('mouseup', mouseListener)
+        window.removeEventListener('mousedown', mouseListener)
         popper.destroy()
       })
     }
@@ -338,7 +332,7 @@ class Block implements NodeView {
       }
     }
 
-    window.addEventListener('mouseup', mouseListener)
+    window.addEventListener('mousedown', mouseListener)
     window.addEventListener('keydown', keyListener)
   }
 }
