@@ -100,7 +100,7 @@ export default (props: EditorProps) => {
 
       console.timeEnd('generate bibliography') // tslint:disable-line:no-console
 
-      return tr // .setMeta('addToHistory', false)
+      return tr.setMeta('addToHistory', false)
     },
   })
 }

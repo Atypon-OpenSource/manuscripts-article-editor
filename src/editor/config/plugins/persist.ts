@@ -53,7 +53,7 @@ export default () => {
 
       // return the transaction if something changed
       if (updated) {
-        return tr // .setMeta('addToHistory', false)
+        return tr.setMeta('addToHistory', false)
       }
     },
   })
