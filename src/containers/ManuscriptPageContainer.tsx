@@ -17,12 +17,14 @@ import Editor, {
 } from '../editor/Editor'
 import PopperManager from '../editor/lib/popper'
 import Spinner from '../icons/spinner'
+import { buildContributor, buildManuscript } from '../lib/commands'
 import CitationManager from '../lib/csl'
 import { AnyComponentChangeEvent } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { ComponentObject } from '../store/DataProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
+import { UserProps, withUser } from '../store/UserProvider'
 import { Decoder, encode } from '../transformer'
 import { buildComponentMap, getComponentFromDoc } from '../transformer/decode'
 import { documentObjectTypes } from '../transformer/document-object-types'
@@ -36,9 +38,10 @@ import {
   ComponentWithAttachment,
   Manuscript,
   Project,
+  UserProfile,
 } from '../types/components'
 import { LibraryDocument } from '../types/library'
-import { ManuscriptDocument } from '../types/manuscript'
+import { AddManuscript, ManuscriptDocument } from '../types/manuscript'
 import { ProjectDocument } from '../types/project'
 import InspectorContainer from './InspectorContainer'
 import ManuscriptSidebar from './ManuscriptSidebar'
@@ -71,6 +74,7 @@ interface RouteParams {
 }
 
 type CombinedProps = Props &
+  UserProps &
   ComponentsProps &
   RouteComponentProps<RouteParams> &
   IntlProps
@@ -106,44 +110,19 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   public async componentDidMount() {
-    const { project, id } = this.props.match.params
+    const { params } = this.props.match
 
     window.addEventListener('beforeunload', this.unloadListener)
 
-    try {
-      this.loadLibraryItems() // TODO: move this to provider
+    await this.prepare(params.project, params.id)
+  }
 
-      await this.loadProject(project)
+  public async componentWillReceiveProps(nextProps: CombinedProps) {
+    const { params } = this.props.match
+    const { params: nextParams } = nextProps.match
 
-      const manuscript = await this.loadManuscript(id)
-      await this.createCitationProcessor(manuscript)
-
-      const components = (await this.getCollection()
-        .find({ manuscript: id })
-        .exec()) as ComponentDocument[]
-
-      if (!components.length) {
-        throw new Error('Manuscript not found')
-      }
-
-      const componentMap = await buildComponentMap(components)
-
-      const decoder = new Decoder(componentMap)
-
-      const doc = decoder.createArticleNode()
-
-      // encode again here to get doc component ids for comparison
-      const encodedComponentMap = encode(doc)
-      const componentIds = this.buildComponentIds(encodedComponentMap)
-
-      this.setState({ componentIds, componentMap })
-
-      this.setState({ doc })
-    } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
-      this.setState({
-        error: error.message,
-      })
+    if (params.project !== nextParams.project || params.id !== nextParams.id) {
+      await this.prepare(nextParams.project, nextParams.id)
     }
   }
 
@@ -183,6 +162,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             getLibraryItem={this.getLibraryItem}
             getManuscript={this.getManuscript}
             saveManuscript={this.saveManuscript}
+            addManuscript={this.addManuscript}
             locale={locale}
             manuscript={manuscript}
             onChange={this.handleChange}
@@ -215,6 +195,44 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
+  private prepare = async (project: string, id: string) => {
+    try {
+      this.loadLibraryItems() // TODO: move this to provider
+
+      await this.loadProject(project)
+
+      const manuscript = await this.loadManuscript(id)
+      await this.createCitationProcessor(manuscript)
+
+      const components = (await this.getCollection()
+        .find({ manuscript: id })
+        .exec()) as ComponentDocument[]
+
+      if (!components.length) {
+        throw new Error('Manuscript not found')
+      }
+
+      const componentMap = await buildComponentMap(components)
+
+      const decoder = new Decoder(componentMap)
+
+      const doc = decoder.createArticleNode()
+
+      // encode again here to get doc component ids for comparison
+      const encodedComponentMap = encode(doc)
+      const componentIds = this.buildComponentIds(encodedComponentMap)
+
+      this.setState({ componentIds, componentMap })
+
+      this.setState({ doc })
+    } catch (error) {
+      console.error(error) // tslint:disable-line:no-console
+      this.setState({
+        error: error.message,
+      })
+    }
+  }
+
   private setView = (view: EditorView) => {
     this.setState({ view })
   }
@@ -237,6 +255,24 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     this.setState({ manuscript })
     await this.createCitationProcessor(manuscript)
     await this.saveComponent(manuscript)
+  }
+
+  private addManuscript: AddManuscript = async () => {
+    // TODO: open up the template modal
+
+    const { project } = this.props.match.params
+
+    const user = this.props.user.data as UserProfile
+
+    const owner = user.id.replace('|', '_')
+
+    const contributor = buildContributor(user)
+    const manuscript = buildManuscript(project, owner)
+
+    await this.props.components.saveComponent(manuscript.id, contributor)
+    await this.props.components.saveComponent(manuscript.id, manuscript)
+
+    this.props.history.push(`/projects/${project}/manuscripts/${manuscript.id}`)
   }
 
   private createCitationProcessor = async (manuscript: Manuscript) => {
@@ -646,4 +682,4 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withComponents(withIntl(ManuscriptPageContainer))
+export default withComponents(withUser(withIntl(ManuscriptPageContainer)))

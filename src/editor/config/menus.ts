@@ -29,7 +29,11 @@ export interface MenuItem {
   submenu?: MenuItem[]
 }
 
-const menus: MenuItem[] = [
+export interface MenusProps {
+  addManuscript?: () => void
+}
+
+const menus = (props: MenusProps): MenuItem[] => [
   {
     label: 'File',
     submenu: [
@@ -41,6 +45,7 @@ const menus: MenuItem[] = [
           },
           {
             label: 'Manuscript',
+            run: props.addManuscript,
           },
         ],
       },

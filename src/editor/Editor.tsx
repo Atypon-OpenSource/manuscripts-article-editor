@@ -42,6 +42,7 @@ export interface EditorProps {
   getLibraryItem: (id: string) => BibliographyItem
   getManuscript: () => Manuscript
   saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
+  addManuscript?: () => Promise<void>
   locale: string
   onChange?: (state: EditorState) => void
   subscribe?: (receive: ChangeReceiver) => void
@@ -109,7 +110,7 @@ class Editor extends React.Component<EditorProps, State> {
         {this.props.editable && (
           <EditorHeader>
             <ApplicationMenu
-              menus={menus}
+              menus={menus(this.props)}
               state={this.state.state}
               dispatch={this.dispatchTransaction}
             />
