@@ -38,6 +38,8 @@ Run `yarn docker-compose:server up --build` to start the server in Docker.
 
 Run `yarn docker-compose:client up --build` to start the client in Docker.
 
+Install and start the [`csl-data`](https://gitlab.com/mpapp-private/csl-data) web service for CSL styles and locales.
+
 Open <http://0.0.0.0:8080/> in a web browser to start the app.
 
 Run `yarn docker-compose:server down` to stop and remove the server.
