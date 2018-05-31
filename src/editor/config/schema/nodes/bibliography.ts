@@ -2,7 +2,7 @@ import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
 const createBodyElement = (id: string) => {
   const dom = document.createElement('div')
-  dom.className = 'csl-body'
+  dom.className = 'csl-bib-body'
   dom.id = id
 
   return dom

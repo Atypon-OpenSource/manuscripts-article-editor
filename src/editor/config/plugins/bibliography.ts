@@ -92,7 +92,7 @@ export default (props: EditorProps) => {
 
             tr = tr.setNodeMarkup(pos, undefined, {
               ...node.attrs,
-              contents: `<div class="csl-body">${html}</div>`,
+              contents: `<div class="csl-bib-body">${html}</div>`,
             })
           }
         })
