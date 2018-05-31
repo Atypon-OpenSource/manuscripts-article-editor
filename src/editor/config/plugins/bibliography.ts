@@ -88,9 +88,11 @@ export default (props: EditorProps) => {
 
         tr.doc.descendants((node, pos) => {
           if (node.type.name === 'bibliography') {
+            const html = generatedBibliographyItems.join('\n')
+
             tr = tr.setNodeMarkup(pos, undefined, {
               ...node.attrs,
-              contents: generatedBibliographyItems.join('\n'),
+              contents: `<div class="csl-body">${html}</div>`,
             })
           }
         })
