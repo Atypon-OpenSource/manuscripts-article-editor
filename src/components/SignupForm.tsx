@@ -103,8 +103,8 @@ export const SignupForm: React.SFC<
       <Field name={'allowsTracking'}>
         {({ field }: FieldProps) => (
           <div>
-            <span>Allow Tracking</span>
             <input {...field} type={'checkbox'} />
+            <span>Allow Tracking usage to improve service.</span>
           </div>
         )}
       </Field>
