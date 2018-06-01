@@ -97,12 +97,16 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     processor: null,
   }
 
+  private readonly initialState: Readonly<State>
+
   private subs: Subscription[] = []
 
   private readonly debouncedSaveComponents: (state: EditorState) => void
 
   public constructor(props: CombinedProps) {
     super(props)
+
+    this.initialState = this.state
 
     this.debouncedSaveComponents = debounce(this.saveComponents, 1000, {
       maxWait: 5000,
@@ -117,12 +121,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     await this.prepare(params.project, params.id)
   }
 
-  public async componentWillReceiveProps(nextProps: CombinedProps) {
+  public componentWillReceiveProps(nextProps: CombinedProps) {
     const { params } = this.props.match
     const { params: nextParams } = nextProps.match
 
     if (params.project !== nextParams.project || params.id !== nextParams.id) {
-      await this.prepare(nextParams.project, nextParams.id)
+      this.setState(this.initialState, async () => {
+        await this.prepare(nextParams.project, nextParams.id)
+      })
     }
   }
 
