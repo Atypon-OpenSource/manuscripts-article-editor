@@ -21,11 +21,12 @@ class WAYFCloudClientService {
   private readonly wayfCloudAuthorizationHeaderValue: string
   private readonly wayfCloudBaseUrl: string
 
-  constructor() {
-    this.wayfCloudAuthorizationHeaderValue = process.env
-      .WAYF_CLOUD_AUTHORIZATION_HEADER_VALUE as string
-
-    this.wayfCloudBaseUrl = process.env.WAYF_BASE_URL as string
+  constructor(
+    wayfCloudAuthorizationHeaderValue: string,
+    wayfCloudBaseUrl: string
+  ) {
+    this.wayfCloudAuthorizationHeaderValue = wayfCloudAuthorizationHeaderValue
+    this.wayfCloudBaseUrl = wayfCloudBaseUrl
   }
 
   public async registerLocalId() {
