@@ -110,19 +110,6 @@ export const ActionButton = styled.div`
   }
 `
 
-export const HelpButton = ActionButton.extend`
-  background-color: #90cddc;
-  color: white;
-
-  &:hover {
-    background-color: #70addc;
-  }
-
-  &:active {
-    background-color: white;
-  }
-`
-
 export const LinkButton = styled(Link)`
   display: inline-block;
   color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};

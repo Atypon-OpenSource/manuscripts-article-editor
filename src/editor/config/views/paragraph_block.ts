@@ -1,8 +1,6 @@
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
-// tslint:disable:max-classes-per-file
-
 class ParagraphBlock extends Block {
   protected get elementType() {
     return 'p'

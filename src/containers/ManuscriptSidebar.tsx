@@ -1,4 +1,5 @@
 import * as React from 'react'
+import debounceRender from 'react-debounce-render'
 import { Link } from 'react-router-dom'
 import { DraggableTreeProps } from '../components/DraggableTree'
 import Panel from '../components/Panel'
@@ -28,6 +29,11 @@ const ProjectLink = styled(Link)`
   color: inherit;
 `
 
+const DebouncedManuscriptOutlineContainer = debounceRender(
+  ManuscriptOutlineContainer,
+  500
+)
+
 const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
   doc,
   manuscript,
@@ -45,7 +51,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
       </SidebarHeader>
 
       <SidebarContent>
-        <ManuscriptOutlineContainer
+        <DebouncedManuscriptOutlineContainer
           manuscript={manuscript}
           doc={doc}
           onDrop={onDrop}

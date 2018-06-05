@@ -80,20 +80,6 @@ const blocks: MenuButtonMap = {
   //   enable: setBlockType(schema.nodes.paragraph),
   //   run: setBlockType(schema.nodes.paragraph),
   // },
-  // h1: {
-  //   title: 'Change to heading level 1',
-  //   content: images.heading,
-  //   active: blockActive(schema.nodes.heading, { level: 1 }),
-  //   enable: setBlockType(schema.nodes.heading, { level: 1 }),
-  //   run: setBlockType(schema.nodes.heading, { level: 1 }),
-  // },
-  // h2: {
-  //   title: 'Change to heading level 2',
-  //   content: 'H2',
-  //   active: blockActive(schema.nodes.heading, { level: 2 }),
-  //   enable: setBlockType(schema.nodes.heading, { level: 2 }),
-  //   run: setBlockType(schema.nodes.heading, { level: 2 })
-  // },
   // blockquote: {
   //   title: 'Wrap in block quote',
   //   content: images.blockquote,
@@ -117,13 +103,13 @@ const blocks: MenuButtonMap = {
   },
   // lift: {
   //   title: 'Lift out of enclosing block',
-  //   content: images.lift,
+  //   content: icons.lift,
   //   enable: lift,
   //   run: lift,
   // },
   // join_up: {
   //   title: 'Join with above block',
-  //   content: images.join_up,
+  //   content: icons.join_up,
   //   enable: joinUp,
   //   run: joinUp,
   // },

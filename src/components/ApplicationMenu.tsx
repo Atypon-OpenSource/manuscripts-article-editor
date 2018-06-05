@@ -78,12 +78,6 @@ const MenuHeading = styled.div`
   cursor: pointer;
   border: 1px solid transparent;
   border-bottom: none;
-
-  &:hover,
-  &.active {
-    background: #65a3ff;
-    color: white;
-  }
 `
 
 const MenuList = styled.div`
@@ -105,6 +99,17 @@ const MenuList = styled.div`
 
   &[data-placement='right-start'] {
     top: 10px;
+  }
+`
+
+const MenuContainer = styled.div`
+  & ${MenuHeading}:hover {
+    background: #eee;
+  }
+
+  &.active ${MenuHeading}:hover, &.active ${MenuHeading}.open {
+    background: #65a3ff;
+    color: white;
   }
 `
 
@@ -257,6 +262,7 @@ interface MenuProps {
   menu: MenuItem
   state: EditorState
   dispatch: Dispatch
+  isActive: boolean
 }
 
 interface MenuState {
@@ -269,47 +275,51 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   public render() {
-    const { menu, state, dispatch } = this.props
+    const { menu, state, dispatch, isActive } = this.props
     const { isOpen } = this.state
 
     return (
-      <div onMouseLeave={() => this.setState({ isOpen: false })}>
+      <MenuContainer
+        className={isActive ? 'active' : ''}
+        onMouseLeave={() => this.setState({ isOpen: false })}
+      >
         <Manager>
           <Reference>
             {({ ref }) => (
               <MenuHeading
                 innerRef={ref}
                 onMouseEnter={() => this.setState({ isOpen: true })}
-                className={isOpen ? 'active' : ''}
+                className={isOpen ? 'open' : ''}
               >
                 <Text>{menu.label}</Text>
               </MenuHeading>
             )}
           </Reference>
-          {isOpen && (
-            <Popper placement="bottom-start">
-              {({ ref, style, placement }) => (
-                <MenuList
-                  innerRef={ref}
-                  style={style}
-                  data-placement={placement}
-                >
-                  {menu.submenu &&
-                    menu.submenu.map((menu, index) => (
-                      <MenuItemContainer
-                        key={`menu-${index}`}
-                        item={menu}
-                        state={state}
-                        dispatch={dispatch}
-                        closeMenu={this.closeMenu}
-                      />
-                    ))}
-                </MenuList>
-              )}
-            </Popper>
-          )}
+          {isOpen &&
+            isActive && (
+              <Popper placement="bottom-start">
+                {({ ref, style, placement }) => (
+                  <MenuList
+                    innerRef={ref}
+                    style={style}
+                    data-placement={placement}
+                  >
+                    {menu.submenu &&
+                      menu.submenu.map((menu, index) => (
+                        <MenuItemContainer
+                          key={`menu-${index}`}
+                          item={menu}
+                          state={state}
+                          dispatch={dispatch}
+                          closeMenu={this.closeMenu}
+                        />
+                      ))}
+                  </MenuList>
+                )}
+              </Popper>
+            )}
         </Manager>
-      </div>
+      </MenuContainer>
     )
   }
 
@@ -326,21 +336,40 @@ interface Props {
   dispatch: Dispatch
 }
 
-export const ApplicationMenu: React.SFC<Props> = ({
-  menus,
-  state,
-  dispatch,
-}) => (
-  <ApplicationMenuContainer>
-    {menus.map((menu, index) => (
-      <Menu
-        key={`menu-${index}`}
-        menu={menu}
-        state={state}
-        dispatch={dispatch}
-      />
-    ))}
-  </ApplicationMenuContainer>
-)
+interface State {
+  isActive: boolean
+}
+
+export class ApplicationMenu extends React.Component<Props, State> {
+  public state: Readonly<State> = {
+    isActive: false,
+  }
+
+  public render() {
+    const { menus, state, dispatch } = this.props
+
+    return (
+      <ApplicationMenuContainer onMouseDown={this.toggleActive}>
+        {menus.map((menu, index) => (
+          <Menu
+            key={`menu-${index}`}
+            menu={menu}
+            state={state}
+            dispatch={dispatch}
+            isActive={this.state.isActive}
+          />
+        ))}
+      </ApplicationMenuContainer>
+    )
+  }
+
+  private toggleActive = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+
+    this.setState({
+      isActive: !this.state.isActive,
+    })
+  }
+}
 
 // TODO: menu navigation by keyboard

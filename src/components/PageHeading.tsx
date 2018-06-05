@@ -1,7 +1,5 @@
 import React from 'react'
-import Search from '../icons/search'
 import { styled } from '../theme'
-import { HelpButton } from './Button'
 
 export const PageHeadingContainer = styled('div')`
   display: flex;
@@ -32,11 +30,6 @@ export const PageHeading: React.SFC<PageHeadingProps> = ({
     <PageHeadingSection>
       <PageHeadingText>{children}</PageHeadingText>
     </PageHeadingSection>
-    <PageHeadingSection>
-      <HelpButton>
-        <Search size={16} />
-      </HelpButton>
-      {action}
-    </PageHeadingSection>
+    <PageHeadingSection>{action}</PageHeadingSection>
   </PageHeadingContainer>
 )

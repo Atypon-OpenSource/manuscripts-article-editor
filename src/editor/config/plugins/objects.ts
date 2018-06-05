@@ -140,7 +140,7 @@ export default (props: EditorProps) => {
       })
 
       if (updated) {
-        return tr
+        return tr.setMeta('addToHistory', false)
       }
     },
   })

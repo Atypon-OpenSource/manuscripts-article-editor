@@ -42,7 +42,7 @@ const getAccessToken = () => {
   return tokenData.access_token
 }
 
-const getCurrentUserId = () => {
+export const getCurrentUserId = () => {
   const accessToken = getAccessToken()
 
   if (!accessToken) return null

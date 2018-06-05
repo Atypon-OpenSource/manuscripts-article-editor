@@ -46,5 +46,13 @@ export const StyledTitleField = styled(TitleField)`
     &:focus {
       outline: none;
     }
+
+    & .empty-node::before {
+      position: absolute;
+      color: #aaa;
+      cursor: text;
+      font-style: italic;
+      content: 'Title';
+    }
   }
 `

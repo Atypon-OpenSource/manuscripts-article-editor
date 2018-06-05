@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { DeveloperMenu, MenuLabel } from '../containers/DeveloperMenu'
 import ProjectsMenu from '../containers/ProjectsMenu'
 import UserContainer from '../containers/UserContainer'
 import Close from '../icons/close'
@@ -80,6 +81,12 @@ export const Menu: React.SFC<MenuProps> = ({ handleClose }) => (
         <MenuLink to={'/plan'}>Plan</MenuLink>
         <MenuLink to={'/people'}>People</MenuLink>
         <MenuLink to={'/library'}>Library</MenuLink>
+
+        {process.env.NODE_ENV === 'development' && (
+          <MenuDropdown buttonContents={<MenuLabel>Developer</MenuLabel>}>
+            <DeveloperMenu />
+          </MenuDropdown>
+        )}
       </MenuSection>
 
       <MenuSection>

@@ -55,7 +55,6 @@ export const LibraryItems: React.SFC<LibraryItemsProps> = ({
         onChange={e => handleQuery(e.target.value)}
         placeholder={'Search library…'}
         autoComplete={'off'}
-        autoFocus={true}
       />
     </SearchContainer>
 

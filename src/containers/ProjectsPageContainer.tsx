@@ -1,13 +1,16 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { RxCollection, RxError } from 'rxdb'
+import { RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
-import sessionID from '../lib/sessionID'
+import {
+  buildContributor,
+  buildManuscript,
+  buildProject,
+} from '../lib/commands'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
-import { generateID } from '../transformer/id'
 import { PROJECT } from '../transformer/object-types'
 import { AnyComponent, Project, UserProfile } from '../types/components'
 import {
@@ -85,36 +88,27 @@ class ProjectsPageContainer extends React.Component<
   }
 
   // TODO: catch and handle errors
-  private addProject: AddProject = () => {
-    const { user } = this.props
-
-    const profile = user.data as UserProfile
-
+  private addProject: AddProject = async () => {
     // TODO: open up the template modal
 
-    const id = generateID('project') as string
-    const owner = profile.id.replace('|', '_')
-    const now = Date.now()
+    const user = this.props.user.data as UserProfile
 
-    const project: Project = {
-      id,
-      project: id,
-      objectType: PROJECT,
-      owners: [owner],
-      createdAt: now,
-      updatedAt: now,
-      sessionID,
-      title: '',
-    }
+    const owner = user.id.replace('|', '_')
 
-    this.getCollection()
-      .insert(project)
-      .then((doc: ProjectDocument) => {
-        this.props.history.push(`/projects/${doc.get('id')}`)
-      })
-      .catch((error: RxError) => {
-        console.error(error) // tslint:disable-line
-      })
+    const collection = this.getCollection()
+
+    const project = buildProject(owner)
+    await collection.insert(project)
+
+    const manuscript = buildManuscript(project.id, owner)
+    const contributor = buildContributor(user)
+
+    await this.props.components.saveComponent(manuscript.id, contributor)
+    await this.props.components.saveComponent(manuscript.id, manuscript)
+
+    this.props.history.push(
+      `/projects/${project.id}/manuscripts/${manuscript.id}`
+    )
   }
 
   // TODO: atomicUpdate?

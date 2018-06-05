@@ -65,7 +65,12 @@ export const LibraryItem: React.SFC<LibraryItemProps> = ({
   handleSelect,
   hasItem,
 }) => (
-  <Container onMouseDown={() => handleSelect(item)}>
+  <Container
+    onMouseDown={event => {
+      event.preventDefault()
+      handleSelect(item)
+    }}
+  >
     <div>
       <AddIcon>
         <Bookmark color={hasItem(item) ? '#65a3ff' : '#444'} size={24} />

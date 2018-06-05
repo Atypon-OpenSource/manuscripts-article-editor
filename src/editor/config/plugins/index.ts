@@ -7,6 +7,7 @@ import bibliography from './bibliography'
 import components from './components'
 import elements from './elements'
 import objects from './objects'
+import paragraphs from './paragraphs'
 import persist from './persist'
 import placeholder from './placeholder'
 import sections from './sections'
@@ -32,6 +33,7 @@ export default (props: EditorProps) => [
   styles(props),
   bibliography(props),
   objects(props),
+  paragraphs(),
   placeholder(),
 ]
 

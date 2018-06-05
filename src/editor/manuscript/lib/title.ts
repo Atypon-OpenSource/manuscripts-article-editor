@@ -9,6 +9,7 @@ import {
   ParseOptions,
   Schema,
 } from 'prosemirror-model'
+import placeholder from '../../config/plugins/placeholder'
 import marks from '../../config/schema/marks/index'
 
 const { italic, smallcaps, subscript, superscript } = marks
@@ -60,4 +61,5 @@ export const plugins = [
     'Mod-y': redo,
     'Mod-i': toggleMark(schema.marks.italic),
   }),
+  placeholder(),
 ]

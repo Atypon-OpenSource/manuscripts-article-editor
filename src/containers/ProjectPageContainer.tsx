@@ -6,18 +6,16 @@ import { Subscription } from 'rxjs/Subscription'
 import ManuscriptsPage from '../components/ManuscriptsPage'
 import { Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
-import sessionID from '../lib/sessionID'
+import { buildContributor, buildManuscript } from '../lib/commands'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { UserProps, withUser } from '../store/UserProvider'
-import { generateID } from '../transformer/id'
-import { CONTRIBUTOR, MANUSCRIPT, PROJECT } from '../transformer/object-types'
+import { MANUSCRIPT, PROJECT } from '../transformer/object-types'
 import {
   AnyComponent,
   ComponentDocument,
-  Contributor,
-  Manuscript,
   Project,
+  UserProfile,
 } from '../types/components'
 import {
   AddManuscript,
@@ -143,53 +141,21 @@ class ProjectPageContainer extends React.Component<
 
   // TODO: catch and handle errors
   private addManuscript: AddManuscript = async () => {
-    const { id: project } = this.props.match.params
-    const { user } = this.props
-
-    // TODO: this should never happen
-    if (!user.data) {
-      throw new Error('Not authenticated!')
-    }
-
     // TODO: open up the template modal
 
-    const id = generateID('manuscript') as string
-    const owner = user.data.id.replace('|', '_')
-    const now = Date.now()
+    const { id: project } = this.props.match.params
 
-    const contributor: Contributor = {
-      id: generateID('contributor') as string,
-      objectType: CONTRIBUTOR,
-      priority: 0,
-      role: 'author',
-      affiliations: [],
-      bibliographicName: {
-        id: generateID('bibliographic_name') as string,
-        ...user.data.bibliographicName,
-      },
-    }
+    const user = this.props.user.data as UserProfile
 
-    const manuscript: Manuscript = {
-      id,
-      project,
-      objectType: MANUSCRIPT,
-      owners: [owner],
-      createdAt: now,
-      updatedAt: now,
-      sessionID,
-      title: '',
-    }
+    const owner = user.id.replace('|', '_')
 
-    try {
-      const collection = this.getCollection()
-      await collection.insert(contributor)
+    const contributor = buildContributor(user)
+    const manuscript = buildManuscript(project, owner)
 
-      await this.props.components.saveComponent(id, contributor)
-      await this.props.components.saveComponent(id, manuscript)
-      this.props.history.push(`/projects/${project}/manuscripts/${id}`)
-    } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
-    }
+    await this.props.components.saveComponent(manuscript.id, contributor)
+    await this.props.components.saveComponent(manuscript.id, manuscript)
+
+    this.props.history.push(`/projects/${project}/manuscripts/${manuscript.id}`)
   }
 
   // TODO: atomicUpdate?

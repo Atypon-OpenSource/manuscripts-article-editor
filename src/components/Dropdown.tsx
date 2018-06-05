@@ -3,6 +3,8 @@ import { styled } from '../theme'
 
 export const DropdownContainer = styled.div`
   position: relative;
+  display: inline-flex;
+  align-items: center;
 `
 
 export const DropdownToggle = styled.button`
