@@ -5,6 +5,8 @@ import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import CrossReferencePickerContainer from '../../containers/CrossReferencePickerContainer'
 import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
+import { importFile, openFilePicker } from '../../lib/importers'
+import { ImportManuscript } from '../../types/manuscript'
 import {
   blockActive,
   canInsert,
@@ -31,6 +33,7 @@ export interface MenuItem {
 
 export interface MenusProps {
   addManuscript?: () => void
+  importManuscript: ImportManuscript
 }
 
 const menus = (props: MenusProps): MenuItem[] => [
@@ -50,15 +53,15 @@ const menus = (props: MenusProps): MenuItem[] => [
         ],
       },
       {
-        role: 'separator',
-      },
-      {
-        label: 'Open…',
-        accelerator: '⌘O',
-      },
-      {
         label: 'Open Recent',
         submenu: [], // TODO
+      },
+      {
+        label: 'Import…',
+        run: () =>
+          openFilePicker()
+            .then(importFile)
+            .then(props.importManuscript),
       },
     ],
   },

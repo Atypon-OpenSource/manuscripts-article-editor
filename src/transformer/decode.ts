@@ -96,61 +96,6 @@ export const getSections = (componentMap: ComponentMap) =>
 export class Decoder {
   private readonly componentMap: ComponentMap
 
-  constructor(componentMap: ComponentMap) {
-    this.componentMap = componentMap
-  }
-
-  public decode = (component: Component) => {
-    if (!this.creators[component.objectType]) {
-      console.debug('No converter for ' + component.objectType) // tslint:disable-line:no-console
-      return null
-    }
-
-    return this.creators[component.objectType](component)
-  }
-
-  public getComponent = <T extends AnyComponent>(id: string): T => {
-    if (!this.componentMap.has(id)) {
-      throw new Error('Element not found: ' + id)
-    }
-
-    return this.componentMap.get(id) as T
-  }
-
-  public createArticleNode = () => {
-    const rootSections = getSections(this.componentMap).filter(
-      section => section.path.length <= 1
-    )
-
-    const articleNode = schema.nodes.article.createAndFill({}, rootSections.map(
-      this.decode
-    ) as ProsemirrorNode[])
-
-    if (!articleNode) {
-      throw new Error('Unable to create article node')
-    }
-
-    return articleNode
-  }
-
-  // private createBibliographySectionNode = () => {
-  //   const bibliographyNode = schema.nodes.bibliography.create({
-  //     id: generateID('bibliography'),
-  //   })
-  //
-  //   const bibliographyTitleNode = schema.nodes.section_title.createChecked(
-  //     {},
-  //     schema.text('Bibliography')
-  //   )
-  //
-  //   return schema.nodes.bibliography_section.createChecked(
-  //     {
-  //       id: generateID('section'),
-  //     },
-  //     [bibliographyTitleNode, bibliographyNode]
-  //   )
-  // }
-
   private creators: NodeCreatorMap = {
     [ObjectTypes.PARAGRAPH_ELEMENT]: (component: ParagraphElement) => {
       return parseContents(component.contents, {
@@ -257,10 +202,11 @@ export class Decoder {
       })
     },
     [ObjectTypes.SECTION]: (component: Section) => {
-      const elements = (component.elementIDs || [])
+      const components: AnyComponent[] = (component.elementIDs || [])
         .filter(id => id) // TODO: remove once no empty items in the array
         .map(this.getComponent)
-        .map(this.decode) as ProsemirrorNode[]
+
+      const elements = components.map(this.decode) as ProsemirrorNode[]
 
       const sectionTitleNode = component.title
         ? parseContents(`<h1>${component.title}</h1>`, {
@@ -274,7 +220,8 @@ export class Decoder {
         .map(this.creators[ObjectTypes.SECTION])
 
       const nodeType =
-        elements.length && elements[0].type.name === 'bibliography'
+        components.length &&
+        components[0].objectType === ObjectTypes.BIBLIOGRAPHY_ELEMENT
           ? schema.nodes.bibliography_section
           : schema.nodes.section
 
@@ -287,11 +234,66 @@ export class Decoder {
       )
 
       if (!sectionNode) {
-        console.error(component) // tslint:disable-line
+        console.error(component) // tslint:disable-line:no-console
         throw new Error('Invalid content for section ' + component.id)
       }
 
       return sectionNode
     },
   }
+
+  constructor(componentMap: ComponentMap) {
+    this.componentMap = componentMap
+  }
+
+  public decode = (component: Component) => {
+    if (!this.creators[component.objectType]) {
+      console.debug('No converter for ' + component.objectType) // tslint:disable-line:no-console
+      return null
+    }
+
+    return this.creators[component.objectType](component)
+  }
+
+  public getComponent = <T extends AnyComponent>(id: string): T => {
+    if (!this.componentMap.has(id)) {
+      throw new Error('Element not found: ' + id)
+    }
+
+    return this.componentMap.get(id) as T
+  }
+
+  public createArticleNode = () => {
+    const rootSections = getSections(this.componentMap).filter(
+      section => section.path.length <= 1
+    )
+
+    const articleNode = schema.nodes.article.createAndFill({}, rootSections.map(
+      this.decode
+    ) as ProsemirrorNode[])
+
+    if (!articleNode) {
+      throw new Error('Unable to create article node')
+    }
+
+    return articleNode
+  }
+
+  // private createBibliographySectionNode = () => {
+  //   const bibliographyNode = schema.nodes.bibliography.create({
+  //     id: generateID('bibliography'),
+  //   })
+  //
+  //   const bibliographyTitleNode = schema.nodes.section_title.createChecked(
+  //     {},
+  //     schema.text('Bibliography')
+  //   )
+  //
+  //   return schema.nodes.bibliography_section.createChecked(
+  //     {
+  //       id: generateID('section'),
+  //     },
+  //     [bibliographyTitleNode, bibliographyNode]
+  //   )
+  // }
 }

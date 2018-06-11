@@ -87,6 +87,7 @@ storiesOf('Editor', module)
       getManuscript={() => manuscript}
       addManuscript={action('add manuscript')}
       saveManuscript={action('save manuscript')}
+      importManuscript={action('import manuscript')}
       getComponent={getComponent}
       manuscript={manuscript}
       saveComponent={saveComponent}
@@ -105,6 +106,7 @@ storiesOf('Editor', module)
       getCitationProcessor={() => citationProcessor}
       getLibraryItem={() => libraryItem}
       getManuscript={() => manuscript}
+      importManuscript={action('import manuscript')}
       getComponent={getComponent}
       saveComponent={saveComponent}
       deleteComponent={deleteComponent}

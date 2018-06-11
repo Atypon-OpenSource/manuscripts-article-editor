@@ -13,6 +13,7 @@ const state = EditorState.create({
 
 const props: MenusProps = {
   addManuscript: action('add manuscript'),
+  importManuscript: action('import manuscript'),
 }
 
 storiesOf('ApplicationMenu', module).add('menu', () => (

@@ -11,6 +11,7 @@ storiesOf('Welcome', module).add('Modal', () => (
     createNewManuscript={action('create new manuscript')}
     sendFeedback={action('send feedback')}
     openManuscript={action('open manuscript')}
+    importManuscript={action('import manuscript')}
     handleClose={action('close')}
     hideWelcome={false}
   />

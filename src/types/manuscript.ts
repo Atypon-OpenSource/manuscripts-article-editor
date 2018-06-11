@@ -1,10 +1,12 @@
 import React from 'react'
 import { RxDocument } from 'rxdb'
-import { Manuscript } from './components'
+import { AnyComponent, Manuscript } from './components'
 
 export type ManuscriptDocument = RxDocument<Manuscript>
 
 export type AddManuscript = () => Promise<void>
+
+export type ImportManuscript = (components: AnyComponent[]) => Promise<void>
 
 export type UpdateManuscript = (
   doc: ManuscriptDocument,

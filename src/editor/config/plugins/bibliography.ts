@@ -31,9 +31,15 @@ export default (props: EditorProps) => {
         }
       })
 
-      const citations: Citeproc.CitationByIndex = citationNodes.map(
-        ([node]) => {
+      // TOOD: https://gitlab.com/mpapp-private/manuscripts-frontend/issues/156
+      const citations: Citeproc.CitationByIndex = citationNodes
+        .filter(([node]) => node.attrs.rid && node.attrs.rid !== 'null')
+        .map(([node]) => {
           const citation = getComponent<Citation>(node.attrs.rid)
+
+          if (!citation) {
+            throw new Error('Citation not found: ' + node.attrs.rid)
+          }
 
           return {
             citationID: citation.id,
@@ -46,8 +52,7 @@ export default (props: EditorProps) => {
             properties: { noteIndex: 0 },
             manuscript: getManuscript(), // for comparison
           }
-        }
-      )
+        })
 
       const newCitationsString = JSON.stringify(citations)
 

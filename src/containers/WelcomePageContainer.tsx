@@ -13,7 +13,10 @@ import {
 import preferences, { Preferences } from '../lib/preferences'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
-import { AnyComponent, UserProfile } from '../types/components'
+import { generateID } from '../transformer/id'
+import * as ObjectTypes from '../transformer/object-types'
+import { AnyComponent, Manuscript, UserProfile } from '../types/components'
+import { ImportManuscript } from '../types/manuscript'
 
 interface State {
   preferences: Preferences
@@ -56,6 +59,7 @@ class WelcomePageContainer extends React.Component<
             sendFeedback={this.sendFeedback}
             handleClose={this.handleClose}
             hideWelcome={this.state.preferences.hideWelcome}
+            importManuscript={this.importManuscript}
           />
         </Main>
       </Page>
@@ -66,20 +70,23 @@ class WelcomePageContainer extends React.Component<
     return this.props.components.collection as RxCollection<AnyComponent>
   }
 
+  private createProject = async (owner: string) => {
+    const project = buildProject(owner)
+
+    await this.getCollection().insert(project)
+
+    return project
+  }
+
   private createNewManuscript = async () => {
     // TODO: open up the template modal
-
     const user = this.props.user.data as UserProfile
-
     const owner = user.id.replace('|', '_')
 
-    const collection = this.getCollection()
+    const project = await this.createProject(owner)
 
-    const project = buildProject(owner)
-    await collection.insert(project)
-
-    const manuscript = buildManuscript(project.id, owner)
     const contributor = buildContributor(user)
+    const manuscript = buildManuscript(project.id, owner)
 
     await this.props.components.saveComponent(manuscript.id, contributor)
     await this.props.components.saveComponent(manuscript.id, manuscript)
@@ -87,6 +94,31 @@ class WelcomePageContainer extends React.Component<
     this.props.history.push(
       `/projects/${project.id}/manuscripts/${manuscript.id}`
     )
+  }
+
+  private importManuscript: ImportManuscript = async components => {
+    const user = this.props.user.data as UserProfile
+    const owner = user.id.replace('|', '_')
+
+    const project = await this.createProject(owner)
+
+    const id = generateID('manuscript') as string
+
+    const setManuscriptProperties = (manuscript: Manuscript) => {
+      manuscript.id = id
+      manuscript.project = project.id
+      manuscript.owners = [owner]
+    }
+
+    for (const component of components) {
+      if (component.objectType === ObjectTypes.MANUSCRIPT) {
+        setManuscriptProperties(component as Manuscript)
+      }
+
+      await this.props.components.saveComponent(id, component)
+    }
+
+    this.props.history.push(`/projects/${project.id}/manuscripts/${id}`)
   }
 
   private sendFeedback = () => {

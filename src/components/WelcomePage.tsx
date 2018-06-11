@@ -1,4 +1,5 @@
 import React from 'react'
+import ImportContainer, { ImportProps } from '../containers/ImportContainer'
 import AddFile from '../icons/welcome/add-file'
 import App from '../icons/welcome/app'
 import DocFile from '../icons/welcome/doc-file'
@@ -7,6 +8,7 @@ import MarkdownFile from '../icons/welcome/markdown-file'
 import Project from '../icons/welcome/project'
 import TextFile from '../icons/welcome/text-file'
 import { styled, ThemedProps } from '../theme'
+import { ImportManuscript } from '../types/manuscript'
 import { SimpleModal } from './SimpleModal'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
@@ -106,7 +108,8 @@ const Label = styled.span`
 const UploadBox = styled.div`
   border-radius: 8px;
   background-color: #f1f5ff;
-  border: dashed 3px #acb8c7;
+  border: dashed 3px
+    ${(props: ImportProps) => (props.isOver ? '#6fb7ff' : '#acb8c7')};
   padding: 30px;
   margin-top: 50px;
   display: flex;
@@ -209,6 +212,7 @@ export interface WelcomeProps {
   createNewManuscript: () => void
   openManuscript: (file: RecentFile) => void
   sendFeedback: () => void
+  importManuscript: ImportManuscript
 }
 
 export const WelcomePage: React.SFC<WelcomeProps> = ({
@@ -219,6 +223,7 @@ export const WelcomePage: React.SFC<WelcomeProps> = ({
   createNewManuscript,
   sendFeedback,
   openManuscript,
+  importManuscript,
 }) => (
   <SimpleModal handleClose={handleClose}>
     <Container>
@@ -270,29 +275,40 @@ export const WelcomePage: React.SFC<WelcomeProps> = ({
             </ActionButton>
           </ActionButtons>
 
-          <UploadBox>
-            <AddFileIconHolder>
-              <AddFile size={64} />
-            </AddFileIconHolder>
+          <ImportContainer
+            importManuscript={importManuscript}
+            render={({ isImporting, isOver }: ImportProps) => (
+              <UploadBox isImporting={isImporting} isOver={isOver}>
+                <AddFileIconHolder>
+                  <AddFile size={64} />
+                </AddFileIconHolder>
 
-            <UploadLabel>Drag file here to import</UploadLabel>
+                {isImporting ? (
+                  <UploadLabel>Importing…</UploadLabel>
+                ) : (
+                  <React.Fragment>
+                    <UploadLabel>Drag file here to import</UploadLabel>
 
-            <UploadBoxInnerText>
-              or <UploadBoxBrowse>browse</UploadBoxBrowse> for a file
-            </UploadBoxInnerText>
+                    <UploadBoxInnerText>
+                      or <UploadBoxBrowse>browse</UploadBoxBrowse> for a file
+                    </UploadBoxInnerText>
+                  </React.Fragment>
+                )}
 
-            <UploadFileTypes>
-              <UploadFileType>
-                <TextFile size={32} />
-              </UploadFileType>
-              <UploadFileType>
-                <DocFile size={32} />
-              </UploadFileType>
-              <UploadFileType>
-                <MarkdownFile size={32} />
-              </UploadFileType>
-            </UploadFileTypes>
-          </UploadBox>
+                <UploadFileTypes>
+                  <UploadFileType>
+                    <TextFile size={32} />
+                  </UploadFileType>
+                  <UploadFileType>
+                    <DocFile size={32} />
+                  </UploadFileType>
+                  <UploadFileType>
+                    <MarkdownFile size={32} />
+                  </UploadFileType>
+                </UploadFileTypes>
+              </UploadBox>
+            )}
+          />
         </Main>
       </PanelGroup>
 

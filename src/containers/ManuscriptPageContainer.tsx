@@ -28,6 +28,7 @@ import { UserProps, withUser } from '../store/UserProvider'
 import { Decoder, encode } from '../transformer'
 import { buildComponentMap, getComponentFromDoc } from '../transformer/decode'
 import { documentObjectTypes } from '../transformer/document-object-types'
+import { generateID } from '../transformer/id'
 import * as ObjectTypes from '../transformer/object-types'
 import {
   AnyComponent,
@@ -41,7 +42,11 @@ import {
   UserProfile,
 } from '../types/components'
 import { LibraryDocument } from '../types/library'
-import { AddManuscript, ManuscriptDocument } from '../types/manuscript'
+import {
+  AddManuscript,
+  ImportManuscript,
+  ManuscriptDocument,
+} from '../types/manuscript'
 import { ProjectDocument } from '../types/project'
 import InspectorContainer from './InspectorContainer'
 import ManuscriptSidebar from './ManuscriptSidebar'
@@ -169,6 +174,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             getManuscript={this.getManuscript}
             saveManuscript={this.saveManuscript}
             addManuscript={this.addManuscript}
+            importManuscript={this.importManuscript}
             locale={locale}
             manuscript={manuscript}
             onChange={this.handleChange}
@@ -279,6 +285,32 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     await this.props.components.saveComponent(manuscript.id, manuscript)
 
     this.props.history.push(`/projects/${project}/manuscripts/${manuscript.id}`)
+  }
+
+  private importManuscript: ImportManuscript = async components => {
+    const { project } = this.props.match.params
+
+    const user = this.props.user.data as UserProfile
+
+    const owner = user.id.replace('|', '_')
+
+    const id = generateID('manuscript') as string
+
+    const setManuscriptProperties = (manuscript: Manuscript) => {
+      manuscript.id = id
+      manuscript.project = project
+      manuscript.owners = [owner]
+    }
+
+    for (const component of components) {
+      if (component.objectType === ObjectTypes.MANUSCRIPT) {
+        setManuscriptProperties(component as Manuscript)
+      }
+
+      await this.props.components.saveComponent(id, component)
+    }
+
+    this.props.history.push(`/projects/${project}/manuscripts/${id}`)
   }
 
   private createCitationProcessor = async (manuscript: Manuscript) => {

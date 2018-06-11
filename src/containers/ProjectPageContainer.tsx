@@ -10,7 +10,7 @@ import { buildContributor, buildManuscript } from '../lib/commands'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { UserProps, withUser } from '../store/UserProvider'
-import { MANUSCRIPT, PROJECT } from '../transformer/object-types'
+import * as ObjectTypes from '../transformer/object-types'
 import {
   AnyComponent,
   ComponentDocument,
@@ -76,7 +76,7 @@ class ProjectPageContainer extends React.Component<
           }
 
           for (const component of components) {
-            if (component.objectType === PROJECT) {
+            if (component.objectType === ObjectTypes.PROJECT) {
               this.setState({
                 project: (component as ProjectDocument).toJSON(),
               })
@@ -85,7 +85,7 @@ class ProjectPageContainer extends React.Component<
           }
 
           const manuscripts = components.filter(
-            component => component.objectType === MANUSCRIPT
+            component => component.objectType === ObjectTypes.MANUSCRIPT
           ) as ManuscriptDocument[]
 
           this.setState({ manuscripts })
