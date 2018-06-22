@@ -2,6 +2,7 @@ import React from 'react'
 import { RxCollection } from 'rxdb'
 import Spinner from '../icons/spinner'
 import sessionID from '../lib/sessionID'
+import timestamp from '../lib/timestamp'
 import * as schema from '../schema'
 import { AnyComponent, ComponentDocument } from '../types/components'
 import DataProvider, {
@@ -85,7 +86,7 @@ class ComponentsProvider extends DataProvider {
       .findOne({ id: component.id })
       .exec()
       .then(prev => {
-        const now = Date.now()
+        const now = timestamp()
 
         if (prev) {
           return prev.atomicUpdate((doc: ComponentDocument) => {

@@ -7,8 +7,8 @@ const manuscripts: Manuscript[] = [
     objectType: 'MPManuscript',
     title:
       'Landscape genomic prediction for restoration of a <em>Eucalyptus</em> foundation species under climate change',
-    createdAt: new Date('2018-01-22T08:00:00Z').getTime(),
-    updatedAt: new Date('2018-01-22T08:00:00Z').getTime(),
+    createdAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
+    updatedAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
     citationStyle: 'apa',
     locale: 'en-GB',
   },
@@ -19,8 +19,8 @@ const manuscripts: Manuscript[] = [
     objectType: 'MPManuscript',
     title:
       'Two complement receptor one alleles have opposing associations with cerebral malaria and interact with α<sup>+</sup>thalassaemia',
-    createdAt: new Date('2018-01-22T08:00:00Z').getTime(),
-    updatedAt: new Date('2018-01-22T08:00:00Z').getTime(),
+    createdAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
+    updatedAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
     citationStyle: 'nature',
     locale: 'en-US',
   },
@@ -31,8 +31,8 @@ const manuscripts: Manuscript[] = [
     objectType: 'MPManuscript',
     title:
       'Cryo-EM structure of the adenosine A<sub>2A</sub> receptor coupled to an engineered heterotrimeric G protein',
-    createdAt: new Date('2018-01-22T08:00:00Z').getTime(),
-    updatedAt: new Date('2018-01-22T08:00:00Z').getTime(),
+    createdAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
+    updatedAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
     citationStyle: 'peerj',
     locale: 'ar',
   },

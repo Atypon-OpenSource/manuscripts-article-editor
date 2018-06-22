@@ -2,10 +2,11 @@ import { generateID } from '../transformer/id'
 import { CONTRIBUTOR, MANUSCRIPT, PROJECT } from '../transformer/object-types'
 import { Contributor, Manuscript, UserProfile } from '../types/components'
 import sessionID from './sessionID'
+import timestamp from './timestamp'
 
 export const buildProject = (owner: string) => {
   const id = generateID('project') as string
-  const now = Date.now()
+  const now = timestamp()
 
   return {
     id,
@@ -21,7 +22,7 @@ export const buildProject = (owner: string) => {
 
 export const buildManuscript = (project: string, owner: string): Manuscript => {
   const id = generateID('manuscript') as string
-  const now = Date.now()
+  const now = timestamp()
 
   return {
     id,

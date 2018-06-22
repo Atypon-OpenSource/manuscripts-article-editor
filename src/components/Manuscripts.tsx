@@ -53,7 +53,7 @@ const updatedAt = (manuscript: ManuscriptDocument) => {
 
   if (!time) return ''
 
-  const date = new Date(time)
+  const date = new Date(time * 1000)
 
   return dateFormatter.format(date)
 }
