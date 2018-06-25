@@ -1,5 +1,6 @@
 const nodeTypes: Map<string, string> = new Map([
   ['affiliation', 'MPAffiliation'],
+  ['bibliographic_date', 'MPBibliographicDate'],
   ['bibliographic_name', 'MPBibliographicName'],
   ['bibliography', 'MPBibliographyElement'],
   ['bibliography_item', 'MPBibliographyItem'],

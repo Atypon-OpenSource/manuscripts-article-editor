@@ -1,4 +1,5 @@
 import { stringify } from 'qs'
+import { convertDataToBibliographyItem } from '../../lib/csl'
 import { BibliographyItem } from '../../types/components'
 
 export const search = (query: string, rows: number) =>
@@ -25,3 +26,4 @@ export const fetch = (item: BibliographyItem) =>
       }
     )
     .then(response => response.json())
+    .then(convertDataToBibliographyItem)

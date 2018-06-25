@@ -3,35 +3,15 @@ import qs from 'qs'
 import React from 'react'
 import { RouteProps } from 'react-router'
 import { Page } from '../components/Page'
-import * as crossref from '../editor/lib/crossref'
-import * as datacite from '../editor/lib/datacite'
+import { sources } from '../lib/sources'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { generateID } from '../transformer/id'
 import { BIBLIOGRAPHY_ITEM } from '../transformer/object-types'
 import { BibliographyItem, ComponentCollection } from '../types/components'
-import { LibraryDocument, LibrarySource } from '../types/library'
+import { LibraryDocument } from '../types/library'
 import LibraryContainer from './LibraryContainer'
 import LibrarySidebar from './LibrarySidebar'
 import LibrarySourceContainer from './LibrarySourceContainer'
-
-const sources: LibrarySource[] = [
-  {
-    id: 'library',
-    name: 'Library',
-  },
-  {
-    id: 'crossref',
-    name: 'Crossref',
-    search: crossref.search,
-    fetch: crossref.fetch,
-  },
-  {
-    id: 'datacite',
-    name: 'DataCite',
-    search: datacite.search,
-    fetch: datacite.fetch,
-  },
-]
 
 interface State {
   item: BibliographyItem | null

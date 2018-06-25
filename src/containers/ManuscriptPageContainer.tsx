@@ -472,7 +472,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           return null
         }
 
-        const component = await getComponentFromDoc(componentDocument)
+        const component = (await getComponentFromDoc(
+          componentDocument
+        )) as AnyComponent
 
         const { componentMap } = this.state
 

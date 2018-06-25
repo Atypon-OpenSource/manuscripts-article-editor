@@ -29,9 +29,13 @@ declare namespace CSL {
     raw?: string
   }
 
-  type Date =
-    | { 'date-parts': [DatePart] | [DatePart, DatePart] } & DateOptional
-    | { literal: string } & DateOptional
+  type StructuredDate = {
+    'date-parts': [DatePart] | [DatePart, DatePart]
+  } & DateOptional
+
+  type LiteralDate = { literal: string } & DateOptional
+
+  type Date = StructuredDate | LiteralDate
 
   type DateFieldKey =
     | 'accessed'
@@ -180,5 +184,6 @@ declare namespace CSL {
   interface Data extends DateFields, PersonFields, StandardFields {
     id: string
     type: ItemType
+    [key: string]: Data[keyof Data]
   }
 }

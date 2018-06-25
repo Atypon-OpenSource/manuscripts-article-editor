@@ -40,7 +40,7 @@ interface Values {
 }
 
 interface State {
-  items: BibliographyItem[]
+  items: Array<Partial<BibliographyItem>>
   query: string
 }
 
@@ -55,7 +55,7 @@ class LibrarySourceContainer extends React.Component<
   Props & RouteProps,
   State
 > {
-  public state = {
+  public state: Readonly<State> = {
     items: [],
     query: '',
   }

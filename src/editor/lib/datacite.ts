@@ -1,4 +1,5 @@
 import { stringify } from 'qs'
+import { convertDataToBibliographyItem } from '../../lib/csl'
 import { BibliographyItem } from '../../types/components'
 
 interface DataCiteItem {
@@ -35,3 +36,4 @@ export const fetch = (item: BibliographyItem) =>
       }
     )
     .then(response => response.json())
+    .then(convertDataToBibliographyItem)

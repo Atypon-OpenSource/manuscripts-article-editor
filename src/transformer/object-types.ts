@@ -1,5 +1,6 @@
 export const AFFILIATION = 'MPAffiliation'
 export const AUXILIARY_OBJECT_REFERENCE = 'MPAuxiliaryObjectReference'
+export const BIBLIOGRAPHIC_DATE = 'MPBibliographicDate'
 export const BIBLIOGRAPHIC_NAME = 'MPBibliographicName'
 export const BIBLIOGRAPHY_ELEMENT = 'MPBibliographyElement'
 export const BIBLIOGRAPHY_ITEM = 'MPBibliographyItem'

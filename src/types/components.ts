@@ -20,6 +20,11 @@ export interface Component {
   keywordIDs?: string[]
 }
 
+export interface EmbeddedComponent {
+  id: string
+  objectType: string
+}
+
 export interface Style extends Component {
   name: string
   title: string
@@ -69,7 +74,7 @@ export interface Manuscript extends Component {
   locale?: string
 }
 
-export interface BibliographicName extends Component {
+export interface BibliographicName extends EmbeddedComponent {
   given?: string
   family?: string
   droppingParticle?: string
@@ -150,7 +155,7 @@ type Year = string | number
 type Month = string | number
 type Day = string | number
 
-type DatePart = [Year, Month, Day]
+type DatePart = [Year] | [Year, Month] | [Year, Month, Day]
 
 export interface AuxiliaryObjectReference extends Component {
   containingObject: string
@@ -158,11 +163,12 @@ export interface AuxiliaryObjectReference extends Component {
   auxiliaryObjectReferenceStyle?: string
 }
 
-export interface BibliographicDate extends Component {
+export interface BibliographicDate extends EmbeddedComponent {
   'date-parts': [DatePart] | [DatePart, DatePart]
 }
 
 export interface BibliographyItem extends Component {
+  [key: string]: BibliographyItem[keyof BibliographyItem]
   'citation-label'?: string
   title?: string
   DOI?: string
@@ -249,6 +255,8 @@ export interface BibliographyElement extends Element {
   contents: string
 }
 
+export type AnyStyle = FigureStyle | BorderStyle
+
 export type AnyElement =
   | BibliographyElement
   | EquationElement
@@ -261,9 +269,7 @@ export type AnyElement =
 
 export type AnyComponent =
   | Manuscript
-  | BibliographicName
   | BibliographyItem
-  | BibliographicDate
   | Citation
   | Contributor
   | Affiliation
@@ -272,6 +278,8 @@ export type AnyComponent =
   | Table
   | Figure
   | AnyElement
+  | AuxiliaryObjectReference
+  | AnyStyle
 
 interface Attachments {
   _attachments: Array<RxAttachment<AnyComponent>>
