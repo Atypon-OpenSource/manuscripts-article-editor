@@ -6,7 +6,6 @@ import {
   ActionButton,
   Button,
   IconButton,
-  LinkButton,
   PrimaryButton,
 } from '../src/components/Button'
 
@@ -19,11 +18,6 @@ storiesOf('Buttons', module)
   ))
   .add('Action Button', () => (
     <ActionButton onClick={action('clicked')}>+</ActionButton>
-  ))
-  .add('Link Button', () => (
-    <LinkButton onClick={action('clicked')} to={'/'}>
-      Foo
-    </LinkButton>
   ))
   .add(
     'Icon Button',

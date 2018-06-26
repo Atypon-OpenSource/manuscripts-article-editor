@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom'
-import { styled, ThemedProps } from '../theme'
+import { styled, ThemedOuterProps, ThemedProps } from '../theme'
 
 export type ThemedButtonProps = ThemedProps<HTMLButtonElement>
+type ThemedOuterButtonProps = ThemedOuterProps<HTMLButtonElement>
 
 interface IconButtonProps extends ThemedButtonProps {
   size?: number
@@ -110,18 +110,7 @@ export const ActionButton = styled.div`
   }
 `
 
-export const LinkButton = styled(Link)`
-  display: inline-block;
-  color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
-  padding: 5px;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`
-
-export const IconButton = styled.button`
+export const IconButton = styled.button<ThemedOuterButtonProps>`
   border: none;
   background: none;
   cursor: pointer;

@@ -12,7 +12,7 @@ export interface AuthenticationButtonProps {
 export const GoogleLogin: React.SFC<AuthenticationButtonProps> = ({
   redirect,
 }) => (
-  <IconButton type="button" onClick={redirect('google')}>
+  <IconButton type={'button'} onClick={redirect('google')}>
     <GoogleLogo size={48} />
   </IconButton>
 )
@@ -20,7 +20,7 @@ export const GoogleLogin: React.SFC<AuthenticationButtonProps> = ({
 export const OrcidLogin: React.SFC<AuthenticationButtonProps> = ({
   redirect,
 }) => (
-  <IconButton type="button" onClick={redirect('orcid')}>
+  <IconButton type={'button'} onClick={redirect('orcid')}>
     <OrcidLogo size={48} />
   </IconButton>
 )

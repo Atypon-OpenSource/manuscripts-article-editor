@@ -57,6 +57,11 @@ export type ThemedProps<V> = styledComponents.ThemedStyledProps<
   Theme
 >
 
+export type ThemedOuterProps<V> = styledComponents.ThemedOuterStyledProps<
+  React.HTMLProps<V>,
+  Theme
+>
+
 export const theme: Theme = {
   colors,
   // tslint:disable-next-line:max-line-length
@@ -70,7 +75,6 @@ const {
   default: styled,
   css,
   injectGlobal,
-  keyframes,
   ThemeProvider: StyledThemeProvider,
   /* tslint:disable-next-line:no-unnecessary-type-assertion */
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<Theme>
@@ -79,4 +83,4 @@ export const ThemeProvider: React.SFC = props => (
   <StyledThemeProvider theme={theme}>{props.children}</StyledThemeProvider>
 )
 
-export { css, injectGlobal, keyframes, styled }
+export { css, injectGlobal, styled }

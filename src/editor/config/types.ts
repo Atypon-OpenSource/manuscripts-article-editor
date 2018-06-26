@@ -26,7 +26,7 @@ export type MenuButtonMap = StringMap<MenuButton>
 export type MenuButtonMapMap = StringMap<MenuButtonMap>
 
 export interface MenuBarButtonProps extends ThemedProps<HTMLButtonElement> {
-  'data-active': boolean
+  'data-active'?: boolean
 }
 
 export interface MenuBarProps {

@@ -55,10 +55,12 @@ export const buildAffiliationsMap = (
   componentMap: ComponentMap
 ): AffiliationMap =>
   new Map(
-    affiliationIDs.map((id: string): [string, Affiliation] => [
-      id,
-      componentMap.get(id) as Affiliation,
-    ])
+    affiliationIDs.map(
+      (id: string): [string, Affiliation] => [
+        id,
+        componentMap.get(id) as Affiliation,
+      ]
+    )
   )
 
 export const buildAuthorsAndAffiliations = (componentMap: ComponentMap) => {

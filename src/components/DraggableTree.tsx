@@ -34,6 +34,10 @@ interface DragSourceProps {
   position: DropSide
 }
 
+interface DragObject {
+  tree: TreeItem
+}
+
 interface ConnectedDragSourceProps {
   connectDragSource: ConnectDragSource
   connectDragPreview: ConnectDragPreview
@@ -42,15 +46,15 @@ interface ConnectedDragSourceProps {
   item: DragSourceProps
 }
 
-interface ConnectedDragTargetProps {
+interface ConnectedDropTargetProps {
   connectDropTarget: ConnectDropTarget
   // isOver: boolean
   isOverCurrent: boolean
   canDrop: boolean
-  item: DragSourceProps
+  itemType: string | symbol | null
 }
 
-type ConnectedProps = ConnectedDragSourceProps & ConnectedDragTargetProps
+type ConnectedProps = ConnectedDragSourceProps & ConnectedDropTargetProps
 
 type DropHandler = (
   source: TreeItem,
@@ -257,7 +261,7 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
 
 const dragType = 'outline'
 
-const dragSourceSpec: DragSourceSpec<Props> = {
+const dragSourceSpec: DragSourceSpec<Props & ConnectedProps, DragObject> = {
   // return data about the item that's being dragged, for later use
   beginDrag(props: Props) {
     return {
@@ -270,7 +274,7 @@ const dragSourceSpec: DragSourceSpec<Props> = {
   },
 }
 
-const dropTargetSpec: DropTargetSpec<Props> = {
+const dropTargetSpec: DropTargetSpec<Props & ConnectedProps> = {
   canDrop(props: Props, monitor: DropTargetMonitor) {
     const item = monitor.getItem() as DragSourceProps
 
@@ -319,13 +323,15 @@ const dropTargetSpec: DropTargetSpec<Props> = {
     const { bottom, top } = node.getBoundingClientRect()
 
     // Determine mouse position
-    const { y } = monitor.getClientOffset()
+    const offset = monitor.getClientOffset()
+
+    if (!offset) return
 
     // get the vertical middle
     const verticalMiddle = (bottom - top) / 2
 
     // get pixels from the top
-    const verticalHover = y - top
+    const verticalHover = offset.y - top
 
     // get the dragged item
     const item = monitor.getItem() as DragSourceProps
@@ -348,7 +354,10 @@ const dropTargetSpec: DropTargetSpec<Props> = {
   },
 }
 
-const dragSourceCollector: DragSourceCollector = (connect, monitor) => ({
+const dragSourceCollector: DragSourceCollector<ConnectedDragSourceProps> = (
+  connect,
+  monitor
+) => ({
   connectDragSource: connect.dragSource(),
   connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging(),
@@ -356,7 +365,10 @@ const dragSourceCollector: DragSourceCollector = (connect, monitor) => ({
   item: monitor.getItem(),
 })
 
-const dropTargetCollector: DropTargetCollector = (connect, monitor) => ({
+const dropTargetCollector: DropTargetCollector<ConnectedDropTargetProps> = (
+  connect,
+  monitor
+) => ({
   connectDropTarget: connect.dropTarget(),
   // isOver: monitor.isOver(),
   isOverCurrent: monitor.isOver({ shallow: true }),
@@ -364,8 +376,17 @@ const dropTargetCollector: DropTargetCollector = (connect, monitor) => ({
   itemType: monitor.getItemType(),
 })
 
-const dragSource = DragSource(dragType, dragSourceSpec, dragSourceCollector)
-const dropTarget = DropTarget(dragType, dropTargetSpec, dropTargetCollector)
+const dragSource = DragSource<Props, ConnectedDragSourceProps, DragObject>(
+  dragType,
+  dragSourceSpec,
+  dragSourceCollector
+)
+
+const dropTarget = DropTarget<Props, ConnectedDropTargetProps>(
+  dragType,
+  dropTargetSpec,
+  dropTargetCollector
+)
 
 const DraggableTree = dragSource(dropTarget(Tree))
 
