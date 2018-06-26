@@ -3,6 +3,7 @@ import React from 'react'
 import { Main, Page } from '../components/Page'
 import { logout } from '../lib/api'
 import { removeDB } from '../lib/rxdb'
+import token from '../lib/token'
 import { UserProps, withUser } from '../store/UserProvider'
 
 class LogoutPageContainer extends React.Component<UserProps> {
@@ -13,6 +14,7 @@ class LogoutPageContainer extends React.Component<UserProps> {
     } catch (e) {
       // TODO: handle logout failure
       await removeDB()
+      token.remove()
     }
 
     // TODO: clear localStorage?
