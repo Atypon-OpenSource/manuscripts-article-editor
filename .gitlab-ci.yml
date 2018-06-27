@@ -29,11 +29,7 @@ storybook:
     name: storybook
     url: https://storybook.manuscripts.io/
   stage: deploy
-  script:
-    - yarn install --frozen-lockfile --non-interactive
-    - yarn run build-storybook
-    - aws s3 sync --include "*" --cache-control "max-age=2592000" --acl "public-read" --sse "AES256" storybook-static/ "s3://${STORYBOOK_BUCKET_NAME}"
-    - aws cloudfront create-invalidation --distribution-id ${STORYBOOK_DISTRIBUTION_ID} --paths /index.html /
+  script: scripts/deploy-storybook.sh
   tags:
     - nodejs-8
     - awscli
@@ -41,16 +37,23 @@ storybook:
     - master
     - triggers
 
+storybook_manual:
+  environment:
+    name: storybook
+    url: https://storybook.manuscripts.io/
+  stage: deploy
+  script: scripts/deploy-storybook.sh
+  tags:
+    - nodejs-8
+    - awscli
+  when: manual
+
 deploy_production:
   environment:
     name: production
     url: https://www.manuscripts.io/
   stage: deploy
-  script:
-    - yarn install --frozen-lockfile --non-interactive --production
-    - yarn build
-    - aws s3 cp --recursive --include "*" --cache-control "max-age=2592000" --acl "public-read" --sse "AES256" dist/ s3://${S3_BUCKET}
-    - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
+  script: scripts/deploy-production.sh
   tags:
     - nodejs-8
     - awscli
@@ -62,11 +65,7 @@ deploy_dev:
     name: dev
     url: https://dev.manuscripts.io/
   stage: deploy
-  script:
-    - yarn install --frozen-lockfile --non-interactive --production
-    - yarn build
-    - aws s3 cp --recursive --include "*" --cache-control "max-age=2592000" --acl "public-read" --sse "AES256" dist/ s3://${S3_BUCKET}
-    - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
+  script: scripts/deploy-development.sh
   tags:
     - nodejs-8
     - awscli
@@ -77,18 +76,24 @@ deploy_dev:
     variables:
       - $CI_COMMIT_MESSAGE =~ /#deploy-dev/
 
+deploy_dev_manual:
+  environment:
+    name: dev
+    url: https://dev.manuscripts.io/
+  stage: deploy
+  script: scripts/deploy-development.sh
+  tags:
+    - nodejs-8
+    - awscli
+  when: manual
+
 publish_image:
   stage: deploy
   environment:
     name: docker
   variables:
     CONTAINER_IMAGE: registry.gitlab.com/mpapp-private/manuscripts-frontend/manuscripts-frontend:latest
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker pull ${CONTAINER_IMAGE} || true
-    # - docker build --build-arg API_APPLICATION_ID="$API_APPLICATION_ID" --build-arg API_BASE_URL="$API_BASE_URL" --build-arg CSL_DATA_URL="$CSL_DATA_URL" --build-arg SYNC_GATEWAY_URL="$SYNC_GATEWAY_URL" -f docker/client/production/Dockerfile --cache-from ${CONTAINER_IMAGE} --tag ${CONTAINER_IMAGE} .
-    - docker build -f docker/client/development/Dockerfile --cache-from ${CONTAINER_IMAGE} --tag ${CONTAINER_IMAGE} .
-    - docker push ${CONTAINER_IMAGE}
+  script: scripts/publish-image.sh
   tags:
     - docker-ce
   only:
