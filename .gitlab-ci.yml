@@ -53,7 +53,7 @@ deploy_production:
     name: production
     url: https://www.manuscripts.io/
   stage: deploy
-  script: scripts/deploy-production.sh
+  script: scripts/deploy.sh
   tags:
     - nodejs-8
     - awscli
@@ -65,7 +65,7 @@ deploy_dev:
     name: dev
     url: https://dev.manuscripts.io/
   stage: deploy
-  script: scripts/deploy-development.sh
+  script: scripts/deploy.sh
   tags:
     - nodejs-8
     - awscli
@@ -81,7 +81,7 @@ deploy_dev_manual:
     name: dev
     url: https://dev.manuscripts.io/
   stage: deploy
-  script: scripts/deploy-development.sh
+  script: scripts/deploy.sh
   tags:
     - nodejs-8
     - awscli
