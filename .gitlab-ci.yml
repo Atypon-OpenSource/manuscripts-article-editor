@@ -71,8 +71,11 @@ deploy_dev:
     - nodejs-8
     - awscli
   only:
-    - master
-    - triggers
+    refs:
+      - master
+      - triggers
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /#deploy-dev/
 
 publish_image:
   stage: deploy
@@ -90,4 +93,5 @@ publish_image:
     - docker-ce
   only:
     - master
+
 
