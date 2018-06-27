@@ -4,6 +4,8 @@ import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from './components/NotFound'
 import AccountPageContainer from './containers/AccountPageContainer'
+import ChangePasswordContainer from './containers/ChangePasswordContainer'
+import DeleteAccountContainer from './containers/DeleteAccountContainer'
 import HomePageContainer from './containers/HomePageContainer'
 import LibraryPageContainer from './containers/LibraryPageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
@@ -35,6 +37,16 @@ const App = () => (
       path={'/account'}
       exact={true}
       component={AccountPageContainer}
+    />
+    <PrivateRoute
+      path={'/changePassword'}
+      exact={true}
+      component={ChangePasswordContainer}
+    />
+    <PrivateRoute
+      path={'/deleteUser'}
+      exact={true}
+      component={DeleteAccountContainer}
     />
     <PrivateRoute
       path={'/profile'}

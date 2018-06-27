@@ -2,6 +2,10 @@
 import { AxiosRequestConfig } from 'axios'
 import { stringify } from 'qs'
 import { AccountValues, UpdateAccountResponse } from '../components/AccountForm'
+import {
+  ChangePasswordResponse,
+  ChangePasswordValues,
+} from '../components/ChangePasswordForm'
 import { LoginResponse, LoginValues } from '../components/LoginForm'
 import {
   PasswordHiddenValues,
@@ -70,10 +74,17 @@ export const updateAccount = (data: AccountValues) =>
   })
 
 export const deleteAccount = (data: AccountValues) =>
-  client.post<UpdateAccountResponse>('/account', data, {
-    headers: applicationHeaders,
-    withCredentials: true,
-  })
+  client
+    .delete('/user', {
+      data,
+    })
+    .then(() => {
+      token.remove()
+      window.location.href = '/'
+    })
+
+export const changePassword = (data: ChangePasswordValues & DeviceValues) =>
+  client.post<ChangePasswordResponse>('/auth/changePassword', data)
 
 export const recoverPassword = (data: RecoverValues) =>
   client.post('/auth/sendForgottenPassword', data)

@@ -40,6 +40,14 @@ export const accountSchema = yup.object().shape({
   password: yup.string().required(),
 })
 
+export const changePasswordSchema = yup.object().shape({
+  currentPassword: yup.string().required('Please enter the current password'),
+  newPassword: yup
+    .string()
+    .min(8, 'The new password must be at least 8 characters long')
+    .required('Please enter a new password'),
+})
+
 export const profileSchema = yup.object().shape({
   bibliographicName: yup.object().shape({
     givenName: yup

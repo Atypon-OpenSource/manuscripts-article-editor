@@ -2,6 +2,8 @@ import React from 'react'
 import { UserProfile } from '../types/components'
 import { DropdownLink } from './Dropdown'
 import {
+  ChangePasswordMessage,
+  DeleteAccountMessage,
   ManageAccountMessage,
   PreferencesMessage,
   SignOutMessage,
@@ -37,6 +39,12 @@ export const UserInfo: React.SFC<UserProps> = ({ user }) => (
     <DropdownLink to={'/profile'}>{displayName(user)}</DropdownLink>
     <DropdownLink to={'/account'}>
       <ManageAccountMessage />
+    </DropdownLink>
+    <DropdownLink to={'/changePassword'}>
+      <ChangePasswordMessage />
+    </DropdownLink>
+    <DropdownLink to={'/deleteUser'}>
+      <DeleteAccountMessage />
     </DropdownLink>
     <DropdownLink to={'/preferences'}>
       <PreferencesMessage />

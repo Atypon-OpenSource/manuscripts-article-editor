@@ -58,3 +58,19 @@ export const ImportManuscriptMessage = () => (
     }
   />
 )
+
+export const ChangePasswordMessage = () => (
+  <FormattedMessage
+    id={'change_password'}
+    description={'Title of change password page'}
+    defaultMessage={'Change password'}
+  />
+)
+
+export const DeleteAccountMessage = () => (
+  <FormattedMessage
+    id={'delete_account'}
+    description={'Title of delete account page'}
+    defaultMessage={'Delete account'}
+  />
+)
