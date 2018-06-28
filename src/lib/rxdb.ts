@@ -15,6 +15,7 @@ import {
   RxChangeEventRemove,
   RxChangeEventUpdate,
 } from 'rxdb/src/typings/rx-change-event'
+import config from '../config'
 import { AnyComponent } from '../types/components'
 
 RxDB.QueryChangeDetector.enable()
@@ -29,7 +30,7 @@ RxDB.plugin(RxDBLeaderElectionModule)
 RxDB.plugin(RxDBUpdateModule)
 // RxDB.plugin(RxDBKeyCompressionModule)
 
-if (process.env.NODE_ENV === 'development') {
+if (config.environment === 'development') {
   RxDB.plugin(RxDBErrorMessagesModule)
   RxDB.plugin(RxDBSchemaCheckModule)
 }

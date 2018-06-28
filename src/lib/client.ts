@@ -1,8 +1,9 @@
 import axios from 'axios'
+import config from '../config'
 import token from './token'
 
 const client = axios.create({
-  baseURL: process.env.API_BASE_URL,
+  baseURL: config.api.url,
 })
 
 client.interceptors.request.use(config => {

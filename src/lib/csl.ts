@@ -1,6 +1,7 @@
 import axios from 'axios'
 import CSL from 'citeproc'
 import url from 'url'
+import config from '../config'
 import { generateID } from '../transformer/id'
 import {
   BIBLIOGRAPHIC_DATE,
@@ -153,7 +154,7 @@ class CitationManager {
   private readonly service: string
 
   constructor() {
-    this.service = process.env.CSL_DATA_URL as string
+    this.service = config.csl.url
   }
 
   public createProcessor = async (

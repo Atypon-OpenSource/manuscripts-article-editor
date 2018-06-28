@@ -1,5 +1,6 @@
 import Raven from 'raven-js'
+import config from '../config'
 
-if (process.env.SENTRY_PUBLIC_DSN) {
-  Raven.config(process.env.SENTRY_PUBLIC_DSN).install()
+if (config.sentry.dsn) {
+  Raven.config(config.sentry.dsn).install()
 }

@@ -2,6 +2,7 @@ import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { RxCollectionCreator, RxReplicationState } from 'rxdb'
 import { PouchReplicationOptions } from 'rxdb/src/typings/pouch'
+import config from '../config'
 import * as api from '../lib/api'
 import { Db, waitForDB } from '../lib/rxdb'
 import { ComponentCollection } from '../types/components'
@@ -65,7 +66,7 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     const collection = this.state.collection as ComponentCollection
 
     const replication = collection.sync({
-      remote: process.env.SYNC_GATEWAY_URL + this.path,
+      remote: config.gateway.url + this.path,
       waitForLeadership: false, // TODO: remove this for production
       options,
     })

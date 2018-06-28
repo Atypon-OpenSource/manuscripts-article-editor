@@ -1,10 +1,8 @@
 import { stringify } from 'qs'
 import React from 'react'
 import { AuthenticationButtonProps } from '../components/Authentication'
+import config from '../config'
 import deviceId from '../lib/deviceId'
-import { applicationHeaders } from '../lib/headers'
-
-const apiBaseUrl: string = String(process.env.API_BASE_URL)
 
 export type AuthProvider = 'google' | 'orcid'
 
@@ -22,11 +20,11 @@ class AuthButtonContainer extends React.Component<Props> {
   private redirect = (provider: AuthProvider) => () => {
     const params = {
       deviceId,
-      ...applicationHeaders,
+      ...config.api.headers,
     }
 
     window.location.href =
-      apiBaseUrl + '/auth/' + provider + '?' + stringify(params)
+      config.api.url + '/auth/' + provider + '?' + stringify(params)
   }
 }
 

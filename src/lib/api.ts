@@ -14,11 +14,11 @@ import {
 } from '../components/PasswordForm'
 import { RecoverValues } from '../components/RecoverForm'
 import { SignupValues } from '../components/SignupForm'
+import config from '../config'
 import client from './client'
 import { DeviceValues } from './deviceId'
-import { applicationHeaders } from './headers'
 import token from './token'
-import { WAYFCloudClientService } from './wayf'
+import { registerWayfId } from './wayf'
 
 export interface VerifyValues {
   token: string
@@ -46,7 +46,7 @@ export const signup = (data: SignupValues) =>
 export const login = (data: LoginValues & DeviceValues) =>
   client
     .post<LoginResponse>('/auth/login', data, {
-      headers: applicationHeaders,
+      headers: config.api.headers,
       withCredentials: true,
     })
     .then(response => {
@@ -54,22 +54,14 @@ export const login = (data: LoginValues & DeviceValues) =>
         access_token: response.data.token,
       })
 
-      if (process.env.WAYF_CLOUD_ID_REQUIRED) {
-        const wayfService = new WAYFCloudClientService(
-          process.env.WAYF_CLOUD_AUTHORIZATION_HEADER_VALUE as string,
-          process.env.WAYF_BASE_URL as string
-        )
-        wayfService.registerLocalId().catch(() => {
-          token.remove()
-        })
-      }
+      registerWayfId(response.data.token)
 
       return response
     })
 
 export const updateAccount = (data: AccountValues) =>
   client.post<UpdateAccountResponse>('/account', data, {
-    headers: applicationHeaders,
+    headers: config.api.headers,
     withCredentials: true,
   })
 
@@ -94,7 +86,7 @@ export const resetPassword = (
 ) =>
   client
     .post<ResetPasswordResponse>('/auth/resetPassword', data, {
-      headers: applicationHeaders,
+      headers: config.api.headers,
       withCredentials: true,
     })
     .then(response => {
@@ -102,15 +94,7 @@ export const resetPassword = (
         access_token: response.data.token,
       })
 
-      if (process.env.WAYF_CLOUD_ID_REQUIRED) {
-        const wayfService = new WAYFCloudClientService(
-          process.env.WAYF_CLOUD_AUTHORIZATION_HEADER_VALUE as string,
-          process.env.WAYF_BASE_URL as string
-        )
-        wayfService.registerLocalId().catch(() => {
-          token.remove()
-        })
-      }
+      registerWayfId(response.data.token)
 
       return response
     })
