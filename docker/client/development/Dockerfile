@@ -9,6 +9,7 @@ COPY package.json yarn.lock /app/
 ARG PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ARG YARN_CACHE_FOLDER=/cache/yarn
 
+RUN npm config set registry https://registry.npmjs.org/
 RUN yarn install --frozen-lockfile --non-interactive
 
 # start
