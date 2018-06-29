@@ -1,5 +1,3 @@
-import * as yup from 'yup'
-
 interface Config {
   environment: string
   api: {
@@ -42,42 +40,6 @@ const config = {
     key: process.env.WAYF_KEY,
     url: process.env.WAYF_URL,
   },
-}
-
-const schema = yup.object().shape({
-  environment: yup.string().oneOf(['development', 'production', 'test']),
-  api: yup.object().shape({
-    url: yup
-      .string()
-      .url()
-      .required(),
-    headers: yup.object().shape({
-      'manuscripts-app-id': yup.string().required(),
-    }),
-  }),
-  gateway: yup.object().shape({
-    url: yup
-      .string()
-      .url()
-      .required(),
-  }),
-  csl: yup.object().shape({
-    url: yup
-      .string()
-      .url()
-      .required(),
-  }),
-  sentry: yup.object().shape({
-    dsn: yup.string().url(),
-  }),
-  wayf: yup.object().shape({
-    key: yup.string(),
-    url: yup.string().url(),
-  }),
-})
-
-if (config.environment !== 'test') {
-  schema.validateSync(config)
 }
 
 export default config as Config
