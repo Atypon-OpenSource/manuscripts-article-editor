@@ -24,29 +24,22 @@ Run `yarn build` to build the app to the `dist` folder, from where it can be dep
 
 ## Running in Docker
 
-The variables needed for the server should be in `docker/server/.env`.
+1. Edit env variables needed for the server in `docker/server/.env` (example found at `docker/server/.env.example`).
+2. Edit env variables needed for the client in `docker/client/development/.env` (example found at `docker/client/development/.env.example`).
+3. `docker login registry.gitlab.com` to log in to GitLab’s Container Registry using your GitLab username and password (or a deploy token for read-only access to the registry images).
+4. `yarn docker-compose:server pull --no-parallel` to pull the latest server Docker images.
+5. `yarn docker-compose:server up --build` to start the server in Docker.
+6. `yarn docker-compose:client up --build` to start the client in Docker.
+7. Install and start the [`csl-data`](https://gitlab.com/mpapp-private/csl-data) web service for CSL styles and locales.
+8. Open <http://0.0.0.0:8080/> in a web browser to start the app.
 
-The variables needed for the client should be in `docker/client/development/.env`.
+**IMPORTANT:** Before running the service for the first time, run `INITIALIZE_DATABASE=true yarn docker-compose:server run api` to initialize the database, or include `APP_INITIALIZE=1` and `APP_RUN_AFTER_INITIALIZE=1` in server environment variables at `docker/server/.env`.
 
-Run `docker login registry.gitlab.com` to log in to GitLab’s Container Registry using your GitLab username and password (or a deploy token for read-only access to the registry images).
+## Stopping the service in Docker
 
-Run `yarn docker-compose:server pull --no-parallel` to pull the latest server Docker images.
-
-IMPORTANT: Before running the service for the first time, run `INITIALIZE_DATABASE=true yarn docker-compose:server run api` to initialize the database.
-
-Run `yarn docker-compose:server up --build` to start the server in Docker.
-
-Run `yarn docker-compose:client up --build` to start the client in Docker.
-
-Install and start the [`csl-data`](https://gitlab.com/mpapp-private/csl-data) web service for CSL styles and locales.
-
-Open <http://0.0.0.0:8080/> in a web browser to start the app.
-
-Run `yarn docker-compose:server down` to stop and remove the server.
-
-Run `yarn docker-compose:client down` to stop and remove the client.
-
-Optionally, run `yarn docker-compose:server down -v` to stop and remove the server and delete the data volumes.
+- Run `yarn docker-compose:server down` to stop and remove the server.
+- Run `yarn docker-compose:client down` to stop and remove the client.
+- Optionally, run `yarn docker-compose:server down -v` to stop and remove the server and delete the data volumes.
 
 ## Development
 
