@@ -41,6 +41,11 @@ Run `yarn build` to build the app to the `dist` folder, from where it can be dep
 - Run `yarn docker-compose:client down` to stop and remove the client.
 - Optionally, run `yarn docker-compose:server down -v` to stop and remove the server and delete the data volumes.
 
+## Running tests with TestCafé locally
+
+1. Follow the steps in "Running in Docker", above.
+1. Run `yarn testcafe chrome tests` to run the tests in Chrome.
+
 ## Development
 
 See the [`manuscripts-frontend` wiki](https://gitlab.com/mpapp-private/manuscripts-frontend/wikis/) for more information.
