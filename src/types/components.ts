@@ -110,6 +110,7 @@ export interface Contributor extends Component {
 
 export interface UserProfile extends Contributor {
   avatar?: string // TODO
+  userID: string
 }
 
 export interface Affiliation extends Component {

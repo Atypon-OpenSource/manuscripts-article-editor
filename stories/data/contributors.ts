@@ -78,6 +78,7 @@ export const authors: Contributor[] = [
 
 export const user: UserProfile = {
   id: 'user-1',
+  userID: 'user_1',
   objectType: 'MPUserProfile',
   bibliographicName: {
     id: 'name-1',
@@ -86,7 +87,6 @@ export const user: UserProfile = {
     family: 'Melnitz',
   },
   email: 'janine.melnitz@example.com',
-  phoneNumber: '+1 800 555-2368',
   image: imageFile,
   affiliations: ['affiliation-1'],
 }

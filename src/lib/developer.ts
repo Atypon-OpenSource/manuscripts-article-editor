@@ -22,7 +22,7 @@ export const createUserProfile = async (
   await db.components.upsert({
     id: `${USER_PROFILE}:${userId.replace('_', '|')}`,
     objectType: USER_PROFILE,
-    user_id: userId,
+    userID: userId,
     bibliographicName,
   })
 }

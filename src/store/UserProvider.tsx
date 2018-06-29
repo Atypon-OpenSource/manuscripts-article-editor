@@ -93,7 +93,7 @@ class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
       ? this.getCollection().findOne({
           objectType: USER_PROFILE,
           // _id: `${USER_PROFILE}:${userId.replace('_', '|')}`,
-          user_id: userId,
+          userID: userId,
         })
       : null
   }

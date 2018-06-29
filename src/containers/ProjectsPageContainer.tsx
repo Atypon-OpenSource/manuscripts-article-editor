@@ -93,7 +93,7 @@ class ProjectsPageContainer extends React.Component<
 
     const user = this.props.user.data as UserProfile
 
-    const owner = user.id.replace('|', '_')
+    const owner = user.userID
 
     const collection = this.getCollection()
 

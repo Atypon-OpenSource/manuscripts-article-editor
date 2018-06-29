@@ -81,7 +81,7 @@ class WelcomePageContainer extends React.Component<
   private createNewManuscript = async () => {
     // TODO: open up the template modal
     const user = this.props.user.data as UserProfile
-    const owner = user.id.replace('|', '_')
+    const owner = user.userID
 
     const project = await this.createProject(owner)
 
@@ -98,7 +98,7 @@ class WelcomePageContainer extends React.Component<
 
   private importManuscript: ImportManuscript = async components => {
     const user = this.props.user.data as UserProfile
-    const owner = user.id.replace('|', '_')
+    const owner = user.userID
 
     const project = await this.createProject(owner)
 

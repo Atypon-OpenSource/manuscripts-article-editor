@@ -276,7 +276,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const user = this.props.user.data as UserProfile
 
-    const owner = user.id.replace('|', '_')
+    const owner = user.userID
 
     const contributor = buildContributor(user)
     const manuscript = buildManuscript(project, owner)
@@ -292,7 +292,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const user = this.props.user.data as UserProfile
 
-    const owner = user.id.replace('|', '_')
+    const owner = user.userID
 
     const id = generateID('manuscript') as string
 
