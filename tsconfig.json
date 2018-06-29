@@ -6,6 +6,7 @@
     "sourceMap": true,
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "moduleResolution": "node",
     "noImplicitThis": true,

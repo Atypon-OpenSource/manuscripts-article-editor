@@ -125,6 +125,7 @@
     "@types/enzyme": "^3.1.8",
     "@types/enzyme-adapter-react-16": "^1.0.1",
     "@types/jest": "^23.1.1",
+    "@types/jsdom": "^11.0.6",
     "@types/prop-types": "^15.5.2",
     "@types/storybook__addon-actions": "^3.0.1",
     "@types/storybook__addon-links": "^3.0.2",
@@ -135,9 +136,11 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-react-intl": "^2.4.0",
+    "babel-plugin-require-context-hook": "^1.0.0",
     "babel-plugin-styled-components": "^1.5.1",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-runtime": "^6.26.0",
@@ -147,6 +150,7 @@
     "jest": "^23.0.1",
     "jest-enzyme": "^6.0.0",
     "jest-styled-components": "^5.0.1",
+    "jsdom": "^11.11.0",
     "lint-staged": "^7.0.4",
     "prettier": "^1.10.2",
     "react-test-renderer": "^16.2.0",
@@ -172,13 +176,13 @@
     ],
     "plugins": [
       "styled-components",
-      "react-hot-loader/babel",
       "transform-class-properties",
       "syntax-dynamic-import"
     ],
     "env": {
       "development": {
         "plugins": [
+          "react-hot-loader/babel",
           [
             "react-intl",
             {
@@ -189,7 +193,9 @@
       },
       "test": {
         "plugins": [
-          "dynamic-import-node"
+          "dynamic-import-node",
+          "require-context-hook",
+          "transform-es2015-modules-commonjs"
         ]
       }
     }
