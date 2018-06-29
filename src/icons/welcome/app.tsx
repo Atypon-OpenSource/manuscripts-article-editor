@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconProps } from '../index'
+import { IconProps } from '../types'
 
 const App = (props: IconProps) => (
   <svg

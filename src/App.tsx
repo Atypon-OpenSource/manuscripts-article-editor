@@ -3,9 +3,8 @@ import { hot } from 'react-hot-loader'
 import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from './components/NotFound'
-import AccountPageContainer from './containers/AccountPageContainer'
-import ChangePasswordContainer from './containers/ChangePasswordContainer'
-import DeleteAccountContainer from './containers/DeleteAccountContainer'
+import ChangePasswordPageContainer from './containers/ChangePasswordPageContainer'
+import DeleteAccountPageContainer from './containers/DeleteAccountPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
 import LibraryPageContainer from './containers/LibraryPageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
@@ -34,19 +33,14 @@ const App = () => (
     <Route path={'/signup'} exact={true} component={SignupPageContainer} />
     <Route path={'/recover'} exact={true} component={RecoverPageContainer} />
     <PrivateRoute
-      path={'/account'}
+      path={'/change-password'}
       exact={true}
-      component={AccountPageContainer}
+      component={ChangePasswordPageContainer}
     />
     <PrivateRoute
-      path={'/changePassword'}
+      path={'/delete-account'}
       exact={true}
-      component={ChangePasswordContainer}
-    />
-    <PrivateRoute
-      path={'/deleteUser'}
-      exact={true}
-      component={DeleteAccountContainer}
+      component={DeleteAccountPageContainer}
     />
     <PrivateRoute
       path={'/profile'}

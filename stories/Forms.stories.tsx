@@ -2,7 +2,8 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
 import React from 'react'
-import { AccountForm } from '../src/components/AccountForm'
+import { ChangePasswordForm } from '../src/components/ChangePasswordForm'
+import { DeleteAccountForm } from '../src/components/DeleteAccountForm'
 import { LoginForm } from '../src/components/LoginForm'
 import { PasswordForm } from '../src/components/PasswordForm'
 import { ProfileForm } from '../src/components/ProfileForm'
@@ -10,7 +11,8 @@ import { RecoverForm } from '../src/components/RecoverForm'
 import { SignupForm } from '../src/components/SignupForm'
 import { BIBLIOGRAPHIC_NAME } from '../src/transformer/object-types'
 import {
-  accountSchema,
+  changePasswordSchema,
+  deleteAccountSchema,
   loginSchema,
   passwordSchema,
   profileSchema,
@@ -48,22 +50,13 @@ storiesOf('Forms', module)
       component={RecoverForm}
     />
   ))
-  .add('Password', () => (
+  .add('Choose password', () => (
     <Formik
       initialValues={{ password: '' }}
       validationSchema={passwordSchema}
       isInitialValid={false}
       onSubmit={action('submit')}
       component={PasswordForm}
-    />
-  ))
-  .add('Account', () => (
-    <Formik
-      initialValues={{ password: '' }}
-      validationSchema={accountSchema}
-      isInitialValid={false}
-      onSubmit={action('submit')}
-      component={AccountForm}
     />
   ))
   .add('Profile', () => (
@@ -80,5 +73,23 @@ storiesOf('Forms', module)
       isInitialValid={false}
       onSubmit={action('submit')}
       component={ProfileForm}
+    />
+  ))
+  .add('Change password', () => (
+    <Formik
+      initialValues={{ currentPassword: '', newPassword: '' }}
+      validationSchema={changePasswordSchema}
+      isInitialValid={false}
+      onSubmit={action('submit')}
+      component={ChangePasswordForm}
+    />
+  ))
+  .add('Delete account', () => (
+    <Formik
+      initialValues={{ password: '' }}
+      validationSchema={deleteAccountSchema}
+      isInitialValid={false}
+      onSubmit={action('submit')}
+      component={DeleteAccountForm}
     />
   ))

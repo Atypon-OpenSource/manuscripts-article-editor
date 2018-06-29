@@ -26,6 +26,7 @@ export const Button = styled.button.attrs({
     props.disabled ? 'text' : 'pointer'};
   opacity: ${(props: ThemedButtonProps) => (props.disabled ? '0.5' : '1.0')};
   transition: border 0.1s, color 0.1s, background-color 0.1s;
+  white-space: nowrap;
 
   &:hover {
     background-color: #fff;

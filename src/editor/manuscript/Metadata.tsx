@@ -1,5 +1,8 @@
 import React from 'react'
-import { Manage } from '../../components/Manage'
+import Modal from 'react-modal'
+import { CloseButton } from '../../components/SimpleModal'
+import Close from '../../icons/close'
+import { styled, ThemedProps } from '../../theme'
 import { Affiliation, Contributor, Manuscript } from '../../types/components'
 import { Affiliations } from './Affiliations'
 import { AuthorAffiliation } from './Author'
@@ -9,6 +12,67 @@ import AuthorsSidebar from './AuthorsSidebar'
 import { Header } from './Header'
 import { AffiliationMap } from './lib/authors'
 import { StyledTitleField } from './TitleField'
+
+const modalStyle = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#edf2f5',
+    zIndex: 1000,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'start',
+  },
+  content: {
+    background: 'transparent',
+    border: 'none',
+    position: 'relative',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+}
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+
+const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
+  width: 800px;
+  max-width: 100%;
+  margin: auto;
+`
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 8px;
+`
+
+const ModalBody = styled.div`
+  flex: 1;
+  display: flex;
+  border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
+  box-shadow: 0 4px 9px 0 #d8d8d8;
+  background: #fff;
+`
+
+const ModalSidebar = styled.div`
+  width: 300px;
+  height: 70vh;
+  overflow: hidden;
+`
+
+const ModalMain = styled.div`
+  flex: 1;
+  height: 70vh;
+  overflow-y: auto;
+`
 
 interface Props {
   saveTitle: (title: string) => void
@@ -59,35 +123,51 @@ export const Metadata: React.SFC<Props> = ({
     <Affiliations affiliations={affiliations} />
 
     {editing && (
-      <Manage
-        heading={'Manage Authors'}
+      <Modal
         isOpen={editing}
-        handleDone={stopEditing}
-        handleClose={stopEditing}
-        sidebar={
-          <AuthorsSidebar
-            authors={authors}
-            authorAffiliations={authorAffiliations}
-            createAuthor={createAuthor}
-            removeAuthor={removeAuthor}
-            selectAuthor={selectAuthor}
-          />
-        }
-        main={
-          selectedAuthor && (
-            <AuthorForm
-              manuscript={manuscript.id}
-              author={selectedAuthor}
-              affiliations={affiliations}
-              authorAffiliations={
-                authorAffiliations.get(selectedAuthor.id) as AuthorAffiliation[]
-              }
-              handleSave={handleSaveAuthor}
-              createAffiliation={createAffiliation}
-            />
-          )
-        }
-      />
+        onRequestClose={stopEditing}
+        style={modalStyle}
+        ariaHideApp={false}
+        shouldCloseOnOverlayClick={true}
+      >
+        <ModalContainer>
+          <ModalHeader>
+            <CloseButton onClick={stopEditing}>
+              <Close size={24} />
+            </CloseButton>
+          </ModalHeader>
+
+          <ModalBody>
+            <ModalSidebar>
+              <AuthorsSidebar
+                authors={authors}
+                authorAffiliations={authorAffiliations}
+                createAuthor={createAuthor}
+                removeAuthor={removeAuthor}
+                selectAuthor={selectAuthor}
+                selectedAuthor={selectedAuthor}
+              />
+            </ModalSidebar>
+
+            <ModalMain>
+              {selectedAuthor && (
+                <AuthorForm
+                  manuscript={manuscript.id}
+                  author={selectedAuthor}
+                  affiliations={affiliations}
+                  authorAffiliations={
+                    authorAffiliations.get(
+                      selectedAuthor.id
+                    ) as AuthorAffiliation[]
+                  }
+                  handleSave={handleSaveAuthor}
+                  createAffiliation={createAffiliation}
+                />
+              )}
+            </ModalMain>
+          </ModalBody>
+        </ModalContainer>
+      </Modal>
     )}
   </Header>
 )

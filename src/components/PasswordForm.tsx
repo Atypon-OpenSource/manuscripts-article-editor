@@ -1,8 +1,9 @@
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { PrimaryButton } from './Button'
-import { buildError, CenteredForm, FormActions, FormHeader } from './Form'
+import { buildError, CenteredForm, FormHeader } from './Form'
 import { SubHero } from './Hero'
+import { ModalFormActions } from './ModalForm'
 import { TextField } from './TextField'
 import { TextFieldContainer } from './TextFieldContainer'
 
@@ -59,16 +60,13 @@ export const PasswordForm: React.SFC<
 
     {errors.submit && <div>{errors.submit}</div>}
 
-    <FormActions>
-      <div />
-      <div>
-        <PrimaryButton
-          type={'submit'}
-          // disabled={isSubmitting || !isValid}
-        >
-          Save Password
-        </PrimaryButton>
-      </div>
-    </FormActions>
+    <ModalFormActions>
+      <PrimaryButton
+        type={'submit'}
+        // disabled={isSubmitting || !isValid}
+      >
+        Save Password
+      </PrimaryButton>
+    </ModalFormActions>
   </CenteredForm>
 )

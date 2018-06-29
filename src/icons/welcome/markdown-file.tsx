@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconProps } from '../index'
+import { IconProps } from '../types'
 
 const MarkdownFile = (props: IconProps) => (
   <svg width={29} height={32} viewBox="0 0 29 32" {...props}>

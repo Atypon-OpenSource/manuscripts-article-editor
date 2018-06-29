@@ -106,10 +106,18 @@ export interface Contributor extends Component {
   role?: ContributorRole
   url?: string
   image?: string
+  profileID?: string
 }
 
-export interface UserProfile extends Contributor {
+export interface UserProfile extends Component {
   avatar?: string // TODO
+  affiliations?: string[] // MPAffiliation IDs
+  bibliographicName: BibliographicName
+  email?: string
+  grants?: string[] // MPGrant IDs
+  researchFields?: string[] // MPResearchField IDs
+  url?: string
+  image?: string
   userID: string
 }
 

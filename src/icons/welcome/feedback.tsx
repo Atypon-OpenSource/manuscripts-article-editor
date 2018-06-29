@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconProps } from '../index'
+import { IconProps } from '../types'
 
 const Feedback = (props: IconProps) => (
   <svg width={props.size} height={props.size} viewBox="0 0 60 51" {...props}>

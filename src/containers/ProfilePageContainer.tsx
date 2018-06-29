@@ -1,16 +1,15 @@
 import { Formik, FormikActions, FormikErrors } from 'formik'
 import React from 'react'
-import Modal from 'react-modal'
 import { RouteComponentProps } from 'react-router'
-import { modalStyle } from '../components/Manage'
-import { Main, Page } from '../components/Page'
+import { ManageProfileMessage } from '../components/Messages'
+import ModalForm from '../components/ModalForm'
 import {
   ProfileErrors,
   ProfileForm,
   ProfileValues,
 } from '../components/ProfileForm'
 import { UserProps, withUser } from '../store/UserProvider'
-import { accountSchema } from '../validation'
+import { profileSchema } from '../validation'
 
 class ProfilePageContainer extends React.Component<
   UserProps & RouteComponentProps<{}>
@@ -27,19 +26,15 @@ class ProfilePageContainer extends React.Component<
     }
 
     return (
-      <Page>
-        <Main>
-          <Modal isOpen={true} ariaHideApp={false} style={modalStyle}>
-            <Formik
-              initialValues={user.data}
-              validationSchema={accountSchema}
-              isInitialValid={false}
-              onSubmit={this.handleSubmit}
-              component={ProfileForm}
-            />
-          </Modal>
-        </Main>
-      </Page>
+      <ModalForm title={<ManageProfileMessage />}>
+        <Formik
+          initialValues={user.data}
+          validationSchema={profileSchema}
+          isInitialValid={false}
+          onSubmit={this.handleSubmit}
+          component={ProfileForm}
+        />
+      </ModalForm>
     )
   }
 

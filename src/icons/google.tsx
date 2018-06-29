@@ -1,17 +1,12 @@
 import React from 'react'
-import { IconProps } from './'
+import { IconProps } from './types'
 
 // https://developers.google.com/identity/branding-guidelines
 
 // tslint:disable:max-line-length
 
 const Google = (props: IconProps) => (
-  <svg
-    width={props.size}
-    height={props.size}
-    xmlnsXlink="http://www.w3.org/1999/xlink"
-    {...props}
-  >
+  <svg width={props.size} height={props.size} {...props}>
     <defs>
       <filter
         x="-50%"

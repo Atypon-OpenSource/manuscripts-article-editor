@@ -1,18 +1,6 @@
 import { Form, FormikProps } from 'formik'
 import React from 'react'
 import { styled } from '../theme'
-import {
-  ModalContainer,
-  ModalForm,
-  ModalFormActions,
-  ModalFormBody,
-  ModalFormFooter,
-  ModalHeader,
-  ModalHeading,
-  ModalMain,
-  PrimaryModalFooterButton,
-} from './Manage'
-import { PreferencesMessage } from './Messages'
 
 const LocaleSelectorLabel = styled.label`
   display: block;
@@ -52,46 +40,25 @@ export const PreferencesForm: React.SFC<
   // isValid,
 }) => (
   <Form>
-    <ModalContainer>
-      <ModalHeader>
-        <ModalHeading>
-          <PreferencesMessage />
-        </ModalHeading>
-      </ModalHeader>
-      <ModalForm>
-        <ModalFormBody>
-          <ModalMain>
-            <LocaleSelectorLabel>
-              Locale
-              <LocaleSelector
-                name={'locale'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.locale}
-                required={true}
-              >
-                {Array.from(locales).map(([locale, localeName]) => (
-                  <option key={locale} value={locale}>
-                    {localeName}
-                  </option>
-                ))}
-              </LocaleSelector>
-            </LocaleSelectorLabel>
+    <LocaleSelectorLabel>
+      Locale
+      <LocaleSelector
+        name={'locale'}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.locale}
+        required={true}
+      >
+        {Array.from(locales).map(([locale, localeName]) => (
+          <option key={locale} value={locale}>
+            {localeName}
+          </option>
+        ))}
+      </LocaleSelector>
+    </LocaleSelectorLabel>
 
-            {Object.entries(errors).map(([field, message]) => (
-              <div key={field}>{message}</div>
-            ))}
-          </ModalMain>
-        </ModalFormBody>
-
-        <ModalFormFooter>
-          <ModalFormActions>
-            <PrimaryModalFooterButton type={'submit'}>
-              Done
-            </PrimaryModalFooterButton>
-          </ModalFormActions>
-        </ModalFormFooter>
-      </ModalForm>
-    </ModalContainer>
+    {Object.entries(errors).map(([field, message]) => (
+      <div key={field}>{message}</div>
+    ))}
   </Form>
 )

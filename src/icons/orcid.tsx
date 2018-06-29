@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconProps } from './'
+import { IconProps } from './types'
 
 // https://orcid.org/trademark-and-id-display-guidelines
 

@@ -1,12 +1,13 @@
-import { FormikActions } from 'formik'
+import { Formik, FormikActions } from 'formik'
 import React from 'react'
-// import Modal from 'react-modal'
 import { RouteComponentProps } from 'react-router'
+import { PreferencesMessage } from '../components/Messages'
+import ModalForm from '../components/ModalForm'
 import {
   PreferencesErrors,
+  PreferencesForm,
   PreferencesValues,
 } from '../components/PreferencesForm'
-import PreferencesPage from '../components/PreferencesPage'
 import preferences from '../lib/preferences'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { preferencesSchema } from '../validation'
@@ -18,13 +19,15 @@ class PreferencesPageContainer extends React.Component<
     const initialValues = preferences.get()
 
     return (
-      // <Modal isOpen={true} style={modalStyle}>
-      <PreferencesPage
-        initialValues={initialValues}
-        validationSchema={preferencesSchema}
-        onSubmit={this.handleSubmit}
-      />
-      // </Modal>
+      <ModalForm title={<PreferencesMessage />}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={preferencesSchema}
+          isInitialValid={false}
+          onSubmit={this.handleSubmit}
+          component={PreferencesForm}
+        />
+      </ModalForm>
     )
   }
 

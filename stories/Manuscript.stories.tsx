@@ -104,6 +104,7 @@ storiesOf('Manuscript', module)
       createAuthor={action('create author')}
       removeAuthor={action('remove author')}
       selectAuthor={action('select author')}
+      selectedAuthor={null}
     />
   ))
   .add('Author Form', () => (

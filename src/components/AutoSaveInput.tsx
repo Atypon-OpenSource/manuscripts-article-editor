@@ -6,6 +6,8 @@ import { submitEvent } from './Form'
 interface AutoSaveInputProps {
   component: React.ComponentClass<InputHTMLAttributes<HTMLInputElement>>
   saveOn: 'change' | 'blur'
+  // inputProps?: Exclude<InputHTMLAttributes<HTMLInputElement>, FieldProps>
+  placeholder?: string
 }
 
 class AutoSaveInput extends React.Component<FieldProps & AutoSaveInputProps> {
@@ -17,11 +19,12 @@ class AutoSaveInput extends React.Component<FieldProps & AutoSaveInputProps> {
   }, 1)
 
   public render() {
-    const { component: Component, field } = this.props
+    const { component: Component, field, placeholder } = this.props
 
     return (
       <Component
         {...field}
+        placeholder={placeholder}
         checked={!!field.value}
         onBlur={this.handleBlur}
         onChange={this.handleChange}

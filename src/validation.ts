@@ -36,10 +36,6 @@ export const signupSchema = yup.object().shape({
     .min(1),
 })
 
-export const accountSchema = yup.object().shape({
-  password: yup.string().required(),
-})
-
 export const changePasswordSchema = yup.object().shape({
   currentPassword: yup.string().required('Please enter the current password'),
   newPassword: yup
@@ -48,20 +44,22 @@ export const changePasswordSchema = yup.object().shape({
     .required('Please enter a new password'),
 })
 
+export const deleteAccountSchema = yup.object().shape({
+  password: yup.string().required('Please enter the current password'),
+})
+
 export const profileSchema = yup.object().shape({
   bibliographicName: yup.object().shape({
-    givenName: yup
+    given: yup
       .string()
-      .required()
-      .min(1),
-    familyName: yup
+      .required('Please enter your given name')
+      .min(1, 'The given name must contain at least 1 character'),
+    family: yup
       .string()
-      .required()
-      .min(2),
+      .required('Please enter your family name')
+      .min(2, 'The family name must contain at least 2 characters'),
   }),
   title: yup.string(),
-  // email: yup.string().email(),
-  phone: yup.string(), // TODO: pattern
 })
 
 export const preferencesSchema = yup.object().shape({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconProps } from './'
+import { IconProps } from './types'
 
 const Bookmark = (props: IconProps) => (
   <svg

@@ -1,35 +1,37 @@
-import { FormikActions, FormikErrors } from 'formik'
+import { Formik, FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
-import Modal from 'react-modal'
 import { RouteComponentProps } from 'react-router'
-import { ChangePasswordValues } from '../components/ChangePasswordForm'
-import ChangePasswordPage from '../components/ChangePasswordPage'
+import {
+  ChangePasswordForm,
+  ChangePasswordValues,
+} from '../components/ChangePasswordForm'
 import { FormErrors } from '../components/Form'
-import { modalStyle } from '../components/Manage'
-import { Main, Page } from '../components/Page'
+import { ChangePasswordMessage } from '../components/Messages'
+import ModalForm from '../components/ModalForm'
 import { changePassword } from '../lib/api'
 import deviceId from '../lib/deviceId'
-import token from '../lib/token'
 import { changePasswordSchema } from '../validation'
 
-class ChangePasswordContainer extends React.Component<RouteComponentProps<{}>> {
+const initialValues = {
+  currentPassword: '',
+  newPassword: '',
+}
+
+class ChangePasswordPageContainer extends React.Component<
+  RouteComponentProps<{}>
+> {
   public render() {
     return (
-      <Page>
-        <Main>
-          <Modal isOpen={true} ariaHideApp={false} style={modalStyle}>
-            <ChangePasswordPage
-              initialValues={{
-                currentPassword: '',
-                newPassword: '',
-              }}
-              validationSchema={changePasswordSchema}
-              onSubmit={this.handleSubmit}
-            />
-          </Modal>
-        </Main>
-      </Page>
+      <ModalForm title={<ChangePasswordMessage />}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={changePasswordSchema}
+          isInitialValid={false}
+          onSubmit={this.handleSubmit}
+          component={ChangePasswordForm}
+        />
+      </ModalForm>
     )
   }
 
@@ -54,10 +56,6 @@ class ChangePasswordContainer extends React.Component<RouteComponentProps<{}>> {
 
       error => {
         setSubmitting(false)
-        if (error.response.data.notFound) {
-          token.remove()
-          window.location.href = '/'
-        }
 
         const errors: FormikErrors<FormErrors> = {
           submit:
@@ -73,4 +71,4 @@ class ChangePasswordContainer extends React.Component<RouteComponentProps<{}>> {
   }
 }
 
-export default ChangePasswordContainer
+export default ChangePasswordPageContainer

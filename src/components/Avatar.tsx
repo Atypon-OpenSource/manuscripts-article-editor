@@ -12,9 +12,6 @@ const AvatarContainer = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  padding: 4px;
-  background: white;
 `
 
 const RoundedImage = styled.img`

@@ -4,7 +4,6 @@ import { DropdownLink } from './Dropdown'
 import {
   ChangePasswordMessage,
   DeleteAccountMessage,
-  ManageAccountMessage,
   PreferencesMessage,
   SignOutMessage,
 } from './Messages'
@@ -37,13 +36,10 @@ const displayName = (user: UserProfile) => {
 export const UserInfo: React.SFC<UserProps> = ({ user }) => (
   <React.Fragment>
     <DropdownLink to={'/profile'}>{displayName(user)}</DropdownLink>
-    <DropdownLink to={'/account'}>
-      <ManageAccountMessage />
-    </DropdownLink>
-    <DropdownLink to={'/changePassword'}>
+    <DropdownLink to={'/change-password'}>
       <ChangePasswordMessage />
     </DropdownLink>
-    <DropdownLink to={'/deleteUser'}>
+    <DropdownLink to={'/delete-account'}>
       <DeleteAccountMessage />
     </DropdownLink>
     <DropdownLink to={'/preferences'}>

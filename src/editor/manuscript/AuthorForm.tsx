@@ -1,20 +1,16 @@
 import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
 import AutoSaveInput from '../../components/AutoSaveInput'
+import { TextField } from '../../components/TextField'
+import { TextFieldGroupContainer } from '../../components/TextFieldGroupContainer'
 import { styled } from '../../theme'
 import { Affiliation, Contributor } from '../../types/components'
 import { AffiliationsSelect } from './AffiliationsSelect'
 import { AuthorAffiliation } from './Author'
 import { AffiliationMap } from './lib/authors'
 
-const FormHeader = styled.div`
-  //display: flex;
-  //justify-content: flex-end;
-  display: none;
-`
-
 const Fields = styled.div`
-  padding: 10px;
+  padding: 16px;
 `
 
 const Label = styled.label`
@@ -24,57 +20,22 @@ const Label = styled.label`
 `
 
 const LabelText = styled.div`
-  margin-bottom: 5px;
-  color: #777;
-`
-
-const SaveButton = styled.button`
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #4388d8;
-  font-weight: bold;
-  color: white;
-  padding: 4px 24px;
-`
-
-const TextField = styled.input`
   font-size: 14px;
-  padding: 8px 16px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: transparent;
-  display: block;
-
-  &:focus {
-    outline: none;
-  }
-
-  &::placeholder {
-    color: #aaa;
-  }
-
-  &:hover {
-    &::placeholder {
-      color: #777;
-    }
-  }
+  letter-spacing: -0.2px;
+  color: #353535;
 `
 
 const CheckboxField = styled.input.attrs({
   type: 'checkbox',
 })``
 
-const Checkboxes = styled.div`
-  display: flex;
-`
-
 const CheckboxLabel = styled.label`
   color: #444;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  margin-bottom: 8px;
+  margin-top: 24px;
 
   & ${LabelText} {
     margin-left: 4px;
@@ -83,6 +44,16 @@ const CheckboxLabel = styled.label`
   &:not(:last-child) {
     margin-right: 16px;
   }
+`
+
+const Fieldset = styled.fieldset`
+  border: none;
+`
+
+const Legend = styled.legend`
+  font-size: 20px;
+  letter-spacing: -0.4px;
+  color: #949494;
 `
 
 interface BibliographicNameValues {
@@ -165,82 +136,110 @@ export const AuthorForm: React.SFC<AuthorProps> = ({
   <Formik
     initialValues={buildInitialValues(author, authorAffiliations)}
     onSubmit={handleSave}
-    enableReinitialize={true}
   >
-    <Form>
-      <FormHeader>
-        <SaveButton type={'submit'}>SAVE</SaveButton>
-      </FormHeader>
+    {({ values }) => (
+      <Form>
+        <Fields>
+          <Fieldset>
+            <Legend>Details</Legend>
 
-      <Checkboxes>
-        <CheckboxLabel>
-          <Field name={'isCorresponding'}>
+            <TextFieldGroupContainer>
+              <Field name={'bibliographicName.given'}>
+                {(props: FieldProps) => (
+                  <AutoSaveInput
+                    {...props}
+                    component={TextField}
+                    saveOn={'blur'}
+                    placeholder={'Given name'}
+                  />
+                )}
+              </Field>
+
+              <Field name={'bibliographicName.family'}>
+                {(props: FieldProps) => (
+                  <AutoSaveInput
+                    {...props}
+                    component={TextField}
+                    saveOn={'blur'}
+                    placeholder={'Family name'}
+                  />
+                )}
+              </Field>
+            </TextFieldGroupContainer>
+
+            <CheckboxLabel>
+              <Field name={'isCorresponding'}>
+                {(props: FieldProps) => (
+                  <AutoSaveInput
+                    {...props}
+                    component={CheckboxField}
+                    saveOn={'change'}
+                  />
+                )}
+              </Field>
+              <LabelText>Corresponding Author</LabelText>
+            </CheckboxLabel>
+
+            {values.isCorresponding && (
+              <Label>
+                <Field name={'email'} type={'email'}>
+                  {(props: FieldProps) => (
+                    <AutoSaveInput
+                      {...props}
+                      component={TextField}
+                      saveOn={'blur'}
+                      placeholder={'Email address'}
+                    />
+                  )}
+                </Field>
+              </Label>
+            )}
+
+            <CheckboxLabel>
+              <Field name={'isJointContributor'}>
+                {(props: FieldProps) => (
+                  <AutoSaveInput
+                    {...props}
+                    component={CheckboxField}
+                    saveOn={'change'}
+                  />
+                )}
+              </Field>
+              <LabelText>Joint Authorship with Next Author</LabelText>
+            </CheckboxLabel>
+          </Fieldset>
+
+          <Fieldset>
+            <Legend>Affiliations</Legend>
+
+            <Label>
+              <Field name={'affiliations'}>
+                {(props: FieldProps) => (
+                  <AffiliationsSelect
+                    affiliations={affiliations}
+                    createAffiliation={createAffiliation}
+                    {...props}
+                  />
+                )}
+              </Field>
+            </Label>
+          </Fieldset>
+
+          {/*<Fieldset>
+        <Legend>Grants</Legend>
+
+          <Field name={'grants'}>
             {(props: FieldProps) => (
-              <AutoSaveInput
+              <GrantsSelect
+                grants={grants}
+                createGrant={createGrant}
                 {...props}
-                component={CheckboxField}
-                saveOn={'change'}
               />
             )}
           </Field>
-          <LabelText>Corresponding author</LabelText>
-        </CheckboxLabel>
-        <CheckboxLabel>
-          <Field name={'isJointContributor'}>
-            {(props: FieldProps) => (
-              <AutoSaveInput
-                {...props}
-                component={CheckboxField}
-                saveOn={'change'}
-              />
-            )}
-          </Field>
-          <LabelText>Joint authorship with next author</LabelText>
-        </CheckboxLabel>
-      </Checkboxes>
-
-      <Fields>
-        <Label>
-          <LabelText>NAME/s</LabelText>
-          <Field name={'bibliographicName.given'}>
-            {(props: FieldProps) => (
-              <AutoSaveInput {...props} component={TextField} saveOn={'blur'} />
-            )}
-          </Field>
-        </Label>
-
-        <Label>
-          <LabelText>SURNAME</LabelText>
-          <Field name={'bibliographicName.family'}>
-            {(props: FieldProps) => (
-              <AutoSaveInput {...props} component={TextField} saveOn={'blur'} />
-            )}
-          </Field>
-        </Label>
-
-        <Label>
-          <LabelText>CONTACT EMAIL</LabelText>
-          <Field name={'email'} type={'email'}>
-            {(props: FieldProps) => (
-              <AutoSaveInput {...props} component={TextField} saveOn={'blur'} />
-            )}
-          </Field>
-        </Label>
-
-        <Label>
-          <LabelText>AFFILIATIONS</LabelText>
-
-          <Field name={'affiliations'}>
-            {(props: FieldProps) => (
-              <AffiliationsSelect
-                affiliations={affiliations}
-                createAffiliation={createAffiliation}
-                {...props}
-              />
-            )}
-          </Field>
-        </Label>
-      </Fields>
-    </Form>
+        </Fieldset>*/}
+        </Fields>
+      </Form>
+    )}
   </Formik>
 )

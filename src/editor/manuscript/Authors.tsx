@@ -2,6 +2,7 @@ import React from 'react'
 import { Contributor } from '../../types/components'
 import { Author, AuthorAffiliation } from './Author'
 import { EditButton } from './Buttons'
+import { isFirstAuthor } from './lib/authors'
 
 interface Props {
   authors: Contributor[]
@@ -20,6 +21,7 @@ const Authors: React.SFC<Props> = ({
         {!!index && ', '}
         <Author
           author={author}
+          firstAuthor={isFirstAuthor(authors, index)}
           affiliations={authorAffiliations.get(author.id)}
         />
       </React.Fragment>

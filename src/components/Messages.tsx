@@ -17,11 +17,11 @@ export const SignOutMessage = () => (
   />
 )
 
-export const ManageAccountMessage = () => (
+export const ManageProfileMessage = () => (
   <FormattedMessage
-    id={'manage_account'}
-    description={'Title of account management page'}
-    defaultMessage={'Manage account'}
+    id={'manage_profile'}
+    description={'Title of profile management page'}
+    defaultMessage={'Manage profile'}
   />
 )
 
