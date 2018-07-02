@@ -14,8 +14,7 @@
     "build": "webpack --config webpack.prod.js",
     "docker-compose:client": "docker-compose -p manuscripts_client -f docker/client/development/docker-compose.yml",
     "docker-compose:server": "docker-compose -p manuscripts_server -f docker/server/docker-compose.yml",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch",
+    "test": "jest",
     "testcafe": "testcafe",
     "lint": "tsc --noEmit --project tsconfig.json && tslint --project tsconfig.json",
     "precommit": "lint-staged",
@@ -231,43 +230,6 @@
           "singleQuote": false
         }
       }
-    ]
-  },
-  "jest": {
-    "globals": {
-      "ts-jest": {
-        "useBabelrc": true
-      }
-    },
-    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
-    "setupFiles": [
-      "./src/setupTests.ts"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest",
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!lodash-es/)"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "testRegex": "__tests__.*\\.test\\.tsx?$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ],
-    "moduleNameMapper": {
-      "^.+\\.css$": "<rootDir>/src/__mocks__/styleMock.ts",
-      "^.+\\.(jpg|png|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.ts",
-      "^.+\\.xml$": "<rootDir>/src/__mocks__/rawMock.ts"
-    },
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!**/*.d.ts"
     ]
   }
 }
