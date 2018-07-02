@@ -17,6 +17,10 @@ interface Config {
     key: string | undefined
     url: string | undefined
   }
+  git: {
+    version: string
+    commit: string
+  }
 }
 
 const config = {
@@ -39,6 +43,10 @@ const config = {
   wayf: {
     key: process.env.WAYF_KEY,
     url: process.env.WAYF_URL,
+  },
+  git: {
+    version: process.env.GIT_VERSION,
+    commit: process.env.GIT_COMMIT_HASH,
   },
 }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import config from '../config'
 import { createToken, createUserProfile } from '../lib/developer'
 import { removeDB } from '../lib/rxdb'
 import { getCurrentUserId } from '../store/UserProvider'
@@ -14,6 +15,11 @@ const DropdownAction = styled.div`
     background: #7fb5d5;
     color: white;
   }
+`
+
+const DropdownInfo = styled.div`
+  padding: 10px 20px;
+  white-space: nowrap;
 `
 
 export const MenuLabel = styled.div`
@@ -61,5 +67,10 @@ export const DeveloperMenu = () => (
     >
       Create user profile
     </DropdownAction>
+    <DropdownInfo>Version: {config.git.version}</DropdownInfo>
+    <DropdownInfo>Commit: {config.git.commit}</DropdownInfo>
+    <DropdownInfo>
+      <a href={`${config.api.url}/app/version`}>API version</a>
+    </DropdownInfo>
   </React.Fragment>
 )

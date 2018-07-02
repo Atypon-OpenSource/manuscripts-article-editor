@@ -13,10 +13,12 @@ module.exports = {
   },
   plugins: [
     new webpack.EnvironmentPlugin([
-      'NODE_ENV',
       'API_BASE_URL',
       'API_APPLICATION_ID',
       'CSL_DATA_URL',
+      'GIT_COMMIT_HASH',
+      'GIT_VERSION',
+      'NODE_ENV',
       'SENTRY_PUBLIC_DSN',
       'SYNC_GATEWAY_URL',
       'WAYF_KEY',

@@ -10,6 +10,9 @@ image: registry.gitlab.com/mpapp-private/manuscripts-frontend/node8-aws
 # STORYBOOK_BUCKET_NAME: Storybook S3 bucket name
 # STORYBOOK_DISTRIBUTION_ID: Storybook CloudFront distribution ID
 
+before_script:
+  - . scripts/git-env.sh
+
 stages:
   - test
   - deploy

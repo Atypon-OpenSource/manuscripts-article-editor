@@ -7,6 +7,9 @@ services:
       dockerfile: docker/client/development/Dockerfile
     env_file:
       - .env
+    environment:
+      - GIT_VERSION
+      - GIT_COMMIT_HASH
     ports:
       - 8080:8080
     volumes:
