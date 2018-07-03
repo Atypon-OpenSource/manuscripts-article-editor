@@ -10,6 +10,7 @@ import { FormErrors } from '../components/Form'
 import { DeleteAccountMessage } from '../components/Messages'
 import ModalForm from '../components/ModalForm'
 import { deleteAccount } from '../lib/api'
+import { removeDB } from '../lib/rxdb'
 import { deleteAccountSchema } from '../validation'
 
 const initialValues = {
@@ -43,10 +44,10 @@ class DeleteAccountPageContainer extends React.Component<
     setErrors({})
 
     deleteAccount(values).then(
-      () => {
+      async () => {
         setSubmitting(false)
-
-        this.props.history.push('/')
+        await removeDB()
+        window.location.href = '/signup'
       },
       error => {
         setSubmitting(false)
