@@ -15,7 +15,7 @@ export const UserMenu: React.SFC<Props> = ({ user }) => (
   <MenuDropdown
     buttonContents={
       <MenuLink to={'/profile'}>
-        <Avatar src={user.avatar} size={16} color={'#788faa'} />
+        <Avatar src={user.avatar} size={32} color={'#788faa'} />
       </MenuLink>
     }
     dropdownStyle={{

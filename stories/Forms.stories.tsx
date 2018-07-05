@@ -63,7 +63,7 @@ storiesOf('Forms', module)
     <Formik
       initialValues={{
         bibliographicName: {
-          id: '',
+          _id: '',
           objectType: BIBLIOGRAPHIC_NAME,
           given: '',
           family: '',

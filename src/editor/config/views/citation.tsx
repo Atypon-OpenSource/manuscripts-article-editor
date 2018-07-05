@@ -6,7 +6,11 @@ import CitationEditor from '../../../components/CitationEditor'
 import ComponentsProvider from '../../../store/ComponentsProvider'
 import KeywordsProvider from '../../../store/KeywordsProvider'
 import { ThemeProvider } from '../../../theme'
-import { BibliographyItem, Citation } from '../../../types/components'
+import {
+  BibliographyItem,
+  Citation,
+  CitationItem,
+} from '../../../types/components'
 import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 
@@ -40,11 +44,12 @@ class CitationView implements NodeView {
   }
 
   public selectNode() {
-    const { getComponent, getLibraryItem } = this.props
+    const { getComponent, getLibraryItem, projectID } = this.props
     const citation = getComponent<Citation>(this.node.attrs.rid)
 
-    const items = citation.embeddedCitationItems.map(citationItem =>
-      getLibraryItem(citationItem.bibliographyItem)
+    const items = citation.embeddedCitationItems.map(
+      (citationItem: CitationItem) =>
+        getLibraryItem(citationItem.bibliographyItem)
     )
 
     const container = document.createElement('div')
@@ -58,6 +63,7 @@ class CitationView implements NodeView {
               items={items}
               handleSave={this.handleSave}
               // handleDelete={this.handleDelete}
+              projectID={projectID}
             />
           </KeywordsProvider>
         </ComponentsProvider>

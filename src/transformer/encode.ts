@@ -1,6 +1,10 @@
 import { DOMSerializer, Node as ProsemirrorNode } from 'prosemirror-model'
 import { options } from '../editor/config'
-import { AnyComponent, Component, ComponentMap } from '../types/components'
+import {
+  AnyComponent,
+  ComponentMap,
+  ComponentWithAttachment,
+} from '../types/components'
 import nodeTypes from './node-types'
 
 const { schema } = options
@@ -56,7 +60,7 @@ type ComponentData = (
   node: ProsemirrorNode,
   path: string[],
   priority: PrioritizedValue
-) => object
+) => Partial<AnyComponent>
 
 type NodeEncoder = (
   node: ProsemirrorNode,
@@ -70,20 +74,23 @@ interface NodeEncoderMap {
 
 const encoders: NodeEncoderMap = {
   bibliography: node => ({
+    elementType: 'p', // TODO: must be 'p' or 'table'?!
     contents: contents(node),
   }),
   bibliography_section: (node, path, priority) => ({
     priority: priority.value++,
     title: inlineContentsOfNodeType(node, 'section_title'),
     path: path.concat([node.attrs.id]),
-    elementIDs: childComponentNodes(node).map(node => node.attrs.id),
+    elementIDs: childComponentNodes(node)
+      .map(node => node.attrs.id)
+      .filter(id => id),
   }),
   bullet_list: node => ({
     elementType: 'ul',
     contents: contents(node), // TODO: unwrap paragraphs
   }),
   citation: node => ({
-    // containingElement: '',
+    // containingObject: '',
     // collationType: 0,
     // TODO: make this a list of bibliography item ids?
     embeddedCitationItems: node.attrs.citationItems.map((id: string) => ({
@@ -117,13 +124,16 @@ const encoders: NodeEncoderMap = {
     contents: contents(node), // TODO: unwrap paragraphs
   }),
   paragraph: node => ({
+    elementType: 'p',
     contents: contents(node), // TODO: can't serialize citations?
   }),
   section: (node, path, priority) => ({
     priority: priority.value++,
     title: inlineContentsOfNodeType(node, 'section_title'),
     path: path.concat([node.attrs.id]),
-    elementIDs: childComponentNodes(node).map(node => node.attrs.id),
+    elementIDs: childComponentNodes(node)
+      .map(node => node.attrs.id)
+      .filter(id => id),
   }),
   table: node => ({
     contents: contents(node),
@@ -155,13 +165,9 @@ type ComponentBuilder = (
   node: ProsemirrorNode,
   path: string[],
   priority: PrioritizedValue
-) => Component
+) => Partial<ComponentWithAttachment>
 
-export const componentFromNode: ComponentBuilder = (
-  node,
-  path,
-  priority
-): Component => {
+export const componentFromNode: ComponentBuilder = (node, path, priority) => {
   // TODO: in handlePaste, filter out non-standard IDs
 
   return {
@@ -176,7 +182,7 @@ interface PrioritizedValue {
 }
 
 export const encode = (node: ProsemirrorNode): ComponentMap => {
-  const components = new Map()
+  const components: ComponentMap = new Map()
 
   const priority: PrioritizedValue = {
     value: 0,
@@ -186,7 +192,7 @@ export const encode = (node: ProsemirrorNode): ComponentMap => {
     if (!child.attrs.id) return
 
     const component = componentFromNode(child, path, priority)
-    components.set(component.id, component)
+    components.set(component.id as string, component as ComponentWithAttachment)
 
     child.forEach(addComponent(path.concat(child.attrs.id)))
   }

@@ -1,13 +1,13 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { DeveloperMenu, MenuLabel } from '../containers/DeveloperMenu'
 import ProjectsMenu from '../containers/ProjectsMenu'
 import UserContainer from '../containers/UserContainer'
 import Close from '../icons/close'
 import { styled } from '../theme'
+import { DeveloperMenu, MenuLabel } from './DeveloperMenu'
 import MenuDropdown from './MenuDropdown'
 
-const MenuContainer = styled.div`
+export const MenuContainer = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
@@ -32,14 +32,14 @@ export const MenuBarIcon = styled.button`
   }
 `
 
-const MenuSections = styled.div`
+export const MenuSections = styled.div`
   flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `
 
-const MenuSection = styled.div`
+export const MenuSection = styled.div`
   display: flex;
   align-items: center;
   margin-right: 20px;
@@ -60,11 +60,12 @@ export const MenuLink = styled(NavLink)`
   }
 `
 
-interface MenuProps {
-  handleClose: React.MouseEventHandler<HTMLButtonElement>
+interface Props {
+  handleClose: React.MouseEventHandler<HTMLElement>
+  projectID: string
 }
 
-export const Menu: React.SFC<MenuProps> = ({ handleClose }) => (
+export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
   <MenuContainer>
     <MenuBarIcon onClick={handleClose}>
       <Close size={16} color={''} />
@@ -74,13 +75,13 @@ export const Menu: React.SFC<MenuProps> = ({ handleClose }) => (
         <MenuDropdown
           buttonContents={<MenuLink to={'/projects'}>Projects</MenuLink>}
         >
-          <ProjectsMenu />
+          <ProjectsMenu handleClose={handleClose} />
         </MenuDropdown>
 
-        <MenuLink to={'/activity'}>Activity</MenuLink>
-        <MenuLink to={'/plan'}>Plan</MenuLink>
-        <MenuLink to={'/people'}>People</MenuLink>
-        <MenuLink to={'/library'}>Library</MenuLink>
+        <MenuLink to={`/projects/${projectID}/activity`}>Activity</MenuLink>
+        <MenuLink to={`/projects/${projectID}/plan`}>Plan</MenuLink>
+        <MenuLink to={`/projects/${projectID}/people`}>People</MenuLink>
+        <MenuLink to={`/projects/${projectID}/library`}>Library</MenuLink>
 
         <MenuDropdown buttonContents={<MenuLabel>Developer</MenuLabel>}>
           <DeveloperMenu />

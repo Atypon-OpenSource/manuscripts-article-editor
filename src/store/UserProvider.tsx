@@ -2,7 +2,7 @@ import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
 import token from '../lib/token'
 import { USER_PROFILE } from '../transformer/object-types'
-import { AnyComponent, UserProfile } from '../types/components'
+import { UserProfile } from '../types/components'
 import { ComponentsProps, withComponents } from './ComponentsProvider'
 
 export interface UserProviderState {
@@ -14,14 +14,21 @@ export interface UserProviderState {
 
 export interface UserProviderContext extends UserProviderState {
   fetch: () => void
-  update: (data: Partial<UserProfile>) => Promise<RxDocument<AnyComponent>>
+  update: (data: Partial<UserProfile>) => Promise<RxDocument<{}>>
 }
 
 export interface UserProps {
   user: UserProviderContext
 }
 
-export const UserContext = React.createContext<UserProviderContext | null>(null)
+export const UserContext = React.createContext<
+  | UserProviderContext
+  | {
+      loaded: boolean
+    }
+>({
+  loaded: false,
+})
 
 export const withUser = <T extends {}>(
   Component: React.ComponentType<UserProps>
@@ -83,7 +90,7 @@ class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<AnyComponent>
+    return this.props.components.collection as RxCollection<{}>
   }
 
   private buildCurrentUserQuery() {
@@ -111,7 +118,7 @@ class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
     }
 
     // TODO: remove token if user not found locally?
-    query.$.subscribe((doc: RxDocument<UserProfile>) => {
+    query.$.subscribe((doc: RxDocument<UserProfile> | null) => {
       if (doc) {
         // const previousData = this.state.data
 

@@ -45,13 +45,13 @@ export const getYear = (item: BibliographyItem) => {
   if (
     !item.issued ||
     !item.issued['date-parts'] ||
-    !item.issued['date-parts'][0] ||
-    !item.issued['date-parts'][0][0]
+    !item.issued['date-parts']![0] ||
+    !item.issued['date-parts']![0][0]
   ) {
     return null
   }
 
-  return item.issued['date-parts'][0][0] + ' / '
+  return item.issued['date-parts']![0][0] + ' / '
 }
 
 interface LibraryItemProps {

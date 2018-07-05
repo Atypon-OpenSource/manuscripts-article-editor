@@ -19,7 +19,7 @@ export const createUserProfile = async (
 
   const db: Db = await waitForDB
 
-  await db.components.upsert({
+  await db.projects.upsert({
     id: `${USER_PROFILE}:${userId.replace('_', '|')}`,
     objectType: USER_PROFILE,
     userID: userId,

@@ -4,10 +4,8 @@ import { componentsKey, INSERT } from '../editor/config/plugins/components'
 import { objectsKey, Target } from '../editor/config/plugins/objects'
 import schema from '../editor/config/schema'
 import { Dispatch } from '../editor/config/types'
+import { buildAuxiliaryObjectReference } from '../lib/commands'
 // import Title from '../editor/Title'
-import { generateID } from '../transformer/id'
-import { AUXILIARY_OBJECT_REFERENCE } from '../transformer/object-types'
-import { AuxiliaryObjectReference } from '../types/components'
 import { CrossReferenceItems } from './CrossReferenceItems'
 
 interface Props {
@@ -38,12 +36,10 @@ class CrossReferencePickerContainer extends React.Component<Props> {
     // TODO: is this enough/needed?
     const containingObject = state.tr.selection.$anchor.parent
 
-    const auxiliaryObjectReference: AuxiliaryObjectReference = {
-      id: generateID('cross_reference') as string,
-      objectType: AUXILIARY_OBJECT_REFERENCE,
-      containingObject: containingObject.attrs.id,
-      referencedObject: id,
-    }
+    const auxiliaryObjectReference = buildAuxiliaryObjectReference(
+      containingObject.attrs.id,
+      id
+    )
 
     const crossReferenceNode = schema.nodes.cross_reference.create({
       rid: auxiliaryObjectReference.id,

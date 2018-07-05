@@ -1,22 +1,41 @@
 import React from 'react'
-import { RxCollection } from 'rxdb'
+import {
+  RxAttachment,
+  RxAttachmentCreator,
+  RxCollection,
+  RxDocument,
+} from 'rxdb'
 import Spinner from '../icons/spinner'
 import sessionID from '../lib/sessionID'
 import timestamp from '../lib/timestamp'
 import * as schema from '../schema'
-import { AnyComponent, ComponentDocument } from '../types/components'
-import DataProvider, {
-  ComponentObject,
-  DataProviderContext,
-} from './DataProvider'
+import { isManuscriptComponent } from '../transformer/object-types'
+import {
+  AnyContainedComponent,
+  Attachments,
+  ComponentAttachment,
+  ComponentDocument,
+} from '../types/components'
+import DataProvider, { DataProviderContext } from './DataProvider'
+
+export interface ComponentIDs {
+  projectID: string
+  manuscriptID?: string
+}
 
 export interface ComponentsProviderContext extends DataProviderContext {
-  getComponent: (id: string) => Promise<ComponentDocument> | null
-  saveComponent: (
-    manuscript: string,
-    component: ComponentObject
-  ) => Promise<ComponentDocument>
+  getComponent: <T extends AnyContainedComponent>(
+    id: string
+  ) => Promise<(T & Attachments) | null>
+  saveComponent: <T extends AnyContainedComponent>(
+    component: (T & ComponentAttachment) | Partial<T>,
+    ids: ComponentIDs
+  ) => Promise<T & Attachments>
   deleteComponent: (id: string) => Promise<string>
+  putAttachment: <T extends AnyContainedComponent>(
+    id: string,
+    attachment: RxAttachmentCreator
+  ) => Promise<RxAttachment<T>>
 }
 
 export interface ComponentsProps {
@@ -39,11 +58,11 @@ export const withComponents = <T extends {}>(
 
 class ComponentsProvider extends DataProvider {
   protected options = {
-    name: 'components',
-    schema: schema.components,
+    name: 'projects',
+    schema: schema.projects,
   }
 
-  protected path = 'manuscript_data'
+  protected path = 'manuscript_data' // TODO: 'projects' once renamed
 
   public render() {
     // if (!this.state.replication) {
@@ -60,6 +79,7 @@ class ComponentsProvider extends DataProvider {
       getComponent: this.getComponent,
       saveComponent: this.saveComponent,
       deleteComponent: this.deleteComponent,
+      putAttachment: this.putAttachment,
     }
 
     return (
@@ -69,57 +89,81 @@ class ComponentsProvider extends DataProvider {
     )
   }
 
-  private getCollection() {
-    return this.state.collection as RxCollection<AnyComponent>
+  private getCollection = <T extends AnyContainedComponent>() => {
+    return this.state.collection as RxCollection<T>
   }
 
-  private getComponent = (id: string) => {
-    return this.getCollection()
+  private getComponent = async <T extends AnyContainedComponent>(
+    id: string
+  ): Promise<T | null> => {
+    const result = await this.getCollection<T>()
       .findOne(id)
-      .exec() as Promise<ComponentDocument>
+      .exec()
+
+    return result ? result.toJSON() : null
   }
 
-  private saveComponent = (manuscript: string, component: ComponentObject) => {
-    const collection = this.state.collection as RxCollection<ComponentObject>
+  private saveComponent = async <T extends AnyContainedComponent>(
+    component: Partial<T>,
+    ids: ComponentIDs
+  ): Promise<T & Attachments> => {
+    const collection = this.getCollection()
 
-    return collection
-      .findOne({ id: component.id })
-      .exec()
-      .then(prev => {
-        const now = timestamp()
+    const now = timestamp()
 
-        if (prev) {
-          return prev.atomicUpdate((doc: ComponentDocument) => {
-            doc.set('manuscript', manuscript)
-            doc.set('updatedAt', now)
-            doc.set('sessionID', sessionID)
+    const prev = await collection.findOne({ id: component.id }).exec()
 
-            // delete doc._deleted
+    if (prev) {
+      // tslint:disable-next-line:no-unnecessary-type-assertion
+      const result = (await prev.atomicUpdate((doc: ComponentDocument) => {
+        doc.set('updatedAt', now)
+        doc.set('sessionID', sessionID)
 
-            const { id: _id, _rev, ...rest } = component
+        // delete doc._deleted
 
-            Object.entries(rest).forEach(([key, value]) => {
-              doc.set(key, value)
-              // doc._data[key] = value
-            })
-          }) as Promise<ComponentDocument>
-        }
+        const { id, _rev, ...rest } = component as Partial<
+          AnyContainedComponent
+        >
 
-        return collection.insert({
-          ...component,
-          manuscript,
-          createdAt: now,
-          updatedAt: now,
-          sessionID,
-        }) as Promise<ComponentDocument>
-      })
+        Object.entries(rest).forEach(([key, value]) => {
+          doc.set(key, value)
+          // doc._data[key] = value
+        })
+      })) as RxDocument<T & Attachments>
+
+      return result.toJSON()
+    }
+
+    // TODO: don't add this for shared components or projects
+    component.containerID = ids.projectID
+
+    if (isManuscriptComponent(component)) {
+      if (!ids.manuscriptID) {
+        throw new Error('Manuscript ID needed for ' + component.objectType)
+      }
+
+      component.manuscriptID = ids.manuscriptID
+    }
+
+    const newComponent: AnyContainedComponent = {
+      ...(component as AnyContainedComponent),
+      createdAt: now,
+      updatedAt: now,
+      sessionID,
+    }
+
+    const result = await collection.insert(newComponent as T)
+
+    return result.toJSON() as T & Attachments
   }
 
   // NOTE: marking the document as "deleted" instead of removing it
   // https://github.com/pouchdb/pouchdb/issues/4628#issuecomment-164210176
 
   private deleteComponent = async (id: string) => {
-    const collection = this.state.collection as RxCollection<AnyComponent>
+    const collection = this.state.collection as RxCollection<
+      AnyContainedComponent
+    >
 
     const doc = await collection.findOne(id).exec()
 
@@ -136,6 +180,23 @@ class ComponentsProvider extends DataProvider {
     //   .then(doc => {
     //     return doc.id
     //   })
+  }
+
+  private putAttachment = async <T extends AnyContainedComponent>(
+    id: string,
+    attachment: RxAttachmentCreator
+  ): Promise<RxAttachment<T>> => {
+    const collection = this.state.collection as RxCollection<
+      AnyContainedComponent
+    >
+
+    const doc = await collection.findOne(id).exec()
+
+    if (!doc) {
+      throw new Error('Document not found')
+    }
+
+    return doc.putAttachment(attachment) as Promise<RxAttachment<T>>
   }
 }
 

@@ -1,12 +1,7 @@
 import { debounce } from 'lodash-es'
 import React from 'react'
+import { buildAffiliation, buildContributor } from '../../lib/commands'
 import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
-import { generateID } from '../../transformer/id'
-import {
-  AFFILIATION,
-  BIBLIOGRAPHIC_NAME,
-  CONTRIBUTOR,
-} from '../../transformer/object-types'
 import {
   Affiliation,
   ComponentMap,
@@ -90,35 +85,25 @@ class MetadataContainer extends React.Component<
   }
 
   private createAuthor = async (priority: number) => {
-    const author: Contributor = {
-      id: generateID('contributor') as string,
-      objectType: CONTRIBUTOR,
-      role: 'author',
-      priority,
-      bibliographicName: {
-        id: generateID('bibliographic_name') as string,
-        objectType: BIBLIOGRAPHIC_NAME,
-        given: '',
-        family: '',
-        suffix: '',
-      },
+    const name = {
+      given: '',
+      family: '',
+      suffix: '',
     }
 
-    await this.props.saveComponent(author)
+    const author = buildContributor(name, 'author', priority)
 
-    this.selectAuthor(author)
+    const result = await this.props.saveComponent<Contributor>(
+      author as Contributor
+    )
+
+    this.selectAuthor(result)
   }
 
-  private createAffiliation = async (name: string) => {
-    const affiliation: Affiliation = {
-      id: generateID('affiliation') as string,
-      objectType: AFFILIATION,
-      name,
-    }
+  private createAffiliation = async (name: string): Promise<Affiliation> => {
+    const affiliation = buildAffiliation(name)
 
-    await this.props.saveComponent(affiliation)
-
-    return affiliation
+    return this.props.saveComponent<Affiliation>(affiliation)
   }
 
   private selectAuthor = (selectedAuthor: Contributor) => {

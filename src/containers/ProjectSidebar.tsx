@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { RxDocument } from 'rxdb'
 import Panel from '../components/Panel'
 import {
   Sidebar,
@@ -36,7 +37,7 @@ const ProjectTitle = styled(TitleField)`
 interface Props {
   project: Project
   manuscripts: ManuscriptDocument[]
-  saveProject: (values: Partial<Project>) => Promise<void>
+  saveProject: (data: Partial<Project>) => Promise<RxDocument<Project>>
 }
 
 const ProjectSidebar: React.SFC<Props> = ({

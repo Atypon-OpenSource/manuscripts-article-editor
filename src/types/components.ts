@@ -15,14 +15,21 @@ export interface Component {
   objectType: string
   createdAt?: number
   updatedAt?: number
-  manuscript?: string
   sessionID?: string
-  keywordIDs?: string[]
+  // keywordIDs?: string[]
 }
 
 export interface EmbeddedComponent {
-  id: string
+  _id: string
   objectType: string
+}
+
+export interface ContainedComponent extends Component {
+  containerID: string
+}
+
+export interface ManuscriptComponent extends ContainedComponent {
+  manuscriptID: string
 }
 
 export interface Style extends Component {
@@ -39,17 +46,17 @@ export interface Color extends Component {
   value: string
 }
 
-export interface BorderStyle extends Component {
-  doubleLines: boolean
-}
-
 export interface Border extends Component {
   color: Color
   style: string // BorderStyle
   width: number
 }
 
-export interface FigureStyle extends Component {
+export interface BorderStyle extends Style {
+  doubleLines: boolean
+}
+
+export interface FigureStyle extends Style {
   captionPosition: number
   innerBorder: Border
   innerSpacing: number
@@ -59,19 +66,23 @@ export interface FigureStyle extends Component {
   alignment: string
 }
 
+export type ContainedBorderStyle = BorderStyle & ManuscriptComponent
+export type ContainedFigureStyle = FigureStyle & ManuscriptComponent
+
 export interface Project extends Component {
-  project: string
   title: string
-  owners?: string[]
+  owners: string[]
+  writers: string[]
+  viewers: string[]
 }
 
-export interface Manuscript extends Component {
-  project: string
+export interface Manuscript extends ContainedComponent {
   title: string
   data?: string
-  owners?: string[]
-  citationStyle?: string
-  locale?: string
+  citationStyle?: string // TODO: bundle or targetBundle, which contains CSLIdentifier
+  primaryLanguageCode?: string
+  figureElementNumberingScheme: string // TODO: optional
+  figureNumberingScheme: string // TODO: optional
 }
 
 export interface BibliographicName extends EmbeddedComponent {
@@ -85,15 +96,11 @@ export interface BibliographicName extends EmbeddedComponent {
 
 export type ContributorRole = 'author'
 
-export interface Keyword extends Component {
+export interface Keyword extends ContainedComponent {
   name: string
 }
 
-export interface Keyword extends Component {
-  name: string
-}
-
-export interface Contributor extends Component {
+export interface Contributor extends ManuscriptComponent {
   affiliations?: string[] // MPAffiliation IDs
   bibliographicName: BibliographicName
   email?: string
@@ -121,38 +128,33 @@ export interface UserProfile extends Component {
   userID: string
 }
 
-export interface Affiliation extends Component {
+export interface Affiliation extends ManuscriptComponent {
   name: string
   address?: string
   city?: string
   institution?: string
 }
 
-export interface Grant extends Component {
+export interface Grant extends ManuscriptComponent {
   organization: string
   code: string
   title: string
   fundingBody: string
 }
 
-export interface Group extends Component {
-  name: string
-  description: string
-}
-
-export interface Section extends Component {
+export interface Section extends ContainedComponent {
   priority: number
   title: string
   path: string[]
   elementIDs: string[]
 }
 
-export interface Table extends Component {
+export interface Table extends ContainedComponent {
   // caption: string
   contents: string
 }
 
-export interface Figure extends Component {
+export interface Figure extends ContainedComponent {
   contentType: string
   src?: string
   attachment?: Attachment
@@ -166,17 +168,21 @@ type Day = string | number
 
 type DatePart = [Year] | [Year, Month] | [Year, Month, Day]
 
-export interface AuxiliaryObjectReference extends Component {
+export interface AuxiliaryObjectReference extends ContainedComponent {
   containingObject: string
   referencedObject: string
   auxiliaryObjectReferenceStyle?: string
 }
 
 export interface BibliographicDate extends EmbeddedComponent {
-  'date-parts': [DatePart] | [DatePart, DatePart]
+  circa?: boolean
+  'date-parts'?: [DatePart] | [DatePart, DatePart]
+  literal?: string
+  raw?: string
+  season?: string
 }
 
-export interface BibliographyItem extends Component {
+export interface BibliographyItem extends ContainedComponent {
   [key: string]: BibliographyItem[keyof BibliographyItem]
   'citation-label'?: string
   title?: string
@@ -197,18 +203,18 @@ export interface BibliographyItem extends Component {
   keyword?: string
 }
 
-export interface Citation extends Component {
-  containingElement: string
+export interface Citation extends ContainedComponent {
+  containingObject: string
   embeddedCitationItems: CitationItem[]
   collationType?: number
   citationStyle?: string
 }
 
-export interface CitationItem extends Component {
+export interface CitationItem extends EmbeddedComponent {
   bibliographyItem: string
 }
 
-export interface Element extends Component {
+export interface Element extends ContainedComponent {
   elementType: string
   placeholderInnerHTML?: string
 }
@@ -276,25 +282,32 @@ export type AnyElement =
   | TableElement
   | UnorderedListElement
 
-export type AnyComponent =
-  | Manuscript
-  | BibliographyItem
-  | Citation
+export type AnySharedComponent = AnyStyle | Border
+
+export type AnyManuscriptComponent =
   | Contributor
   | Affiliation
-  | Group
+  | Grant
+  | AnyElement
+
+export type AnyContainedComponent =
+  | AnyManuscriptComponent
+  | Manuscript
+  | Keyword
+  | BibliographyItem
+  | Citation
   | Section
   | Table
   | Figure
-  | AnyElement
   | AuxiliaryObjectReference
-  | AnyStyle
 
-interface Attachments {
+export type AnyComponent = AnySharedComponent | AnyContainedComponent
+
+export interface Attachments {
   _attachments: Array<RxAttachment<AnyComponent>>
 }
 
-interface ComponentAttachment {
+export interface ComponentAttachment {
   attachment?: RxAttachmentCreator
   src?: string
 }
@@ -303,13 +316,13 @@ export type PrioritizedComponent = Section | Figure
 
 export type ComponentIdSet = Set<string>
 
-export type ComponentDocument = RxDocument<AnyComponent> & Attachments
-
-export type ComponentMap = Map<string, AnyComponent>
-
-export type ComponentCollection = RxCollection<AnyComponent>
+export type ComponentDocument = RxDocument<AnyContainedComponent & Attachments>
 
 export type ComponentWithAttachment = AnyComponent & ComponentAttachment
+
+export type ComponentMap = Map<string, ComponentWithAttachment>
+
+export type ComponentCollection = RxCollection<AnyComponent>
 
 export type ReferencedComponent =
   | FigureElement

@@ -1,7 +1,7 @@
 import { debounce } from 'lodash-es'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { RxCollection, RxError } from 'rxdb'
+import { RxCollection, RxDocument, RxError } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import ManuscriptsPage from '../components/ManuscriptsPage'
 import { Main, Page } from '../components/Page'
@@ -11,12 +11,7 @@ import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import * as ObjectTypes from '../transformer/object-types'
-import {
-  AnyComponent,
-  ComponentDocument,
-  Project,
-  UserProfile,
-} from '../types/components'
+import { Project, UserProfile } from '../types/components'
 import {
   AddManuscript,
   ManuscriptDocument,
@@ -37,7 +32,7 @@ interface Props {
 }
 
 interface RouteParams {
-  id: string
+  projectID: string
 }
 
 class ProjectPageContainer extends React.Component<
@@ -56,42 +51,54 @@ class ProjectPageContainer extends React.Component<
 
   private subs: Subscription[] = []
 
-  private saveProject = debounce(async (values: Partial<Project>) => {
-    await this.props.components.saveComponent('', {
-      ...this.state.project,
-      ...values,
-    })
+  private saveProject = debounce(async (data: Partial<Project>) => {
+    const { project } = this.state
+
+    const prev = await this.getCollection()
+      .findOne(project!.id)
+      .exec()
+
+    return prev!.atomicUpdate((doc: RxDocument<Project>) => {
+      Object.entries(data).forEach(([key, value]) => {
+        doc.set(key, value)
+      })
+    }) as Promise<RxDocument<Project>>
   }, 1000)
 
   public async componentDidMount() {
-    const { id } = this.props.match.params
+    const { projectID } = this.props.match.params
 
     try {
-      const sub = this.getCollection()
-        .find({ project: id })
-        .sort({ createdAt: -1 })
-        .$.subscribe((components: ComponentDocument[]) => {
-          if (!components.length) {
-            throw new Error('Project not found')
-          }
-
-          for (const component of components) {
-            if (component.objectType === ObjectTypes.PROJECT) {
-              this.setState({
-                project: (component as ProjectDocument).toJSON(),
-              })
-              break
+      this.subs.push(
+        this.getCollection()
+          .findOne({
+            id: projectID,
+            objectType: ObjectTypes.PROJECT,
+          })
+          .$.subscribe((doc: ProjectDocument | null) => {
+            if (!doc) {
+              throw new Error('Project not found')
             }
-          }
 
-          const manuscripts = components.filter(
-            component => component.objectType === ObjectTypes.MANUSCRIPT
-          ) as ManuscriptDocument[]
+            this.setState({
+              project: doc.toJSON(),
+            })
+          })
+      )
 
-          this.setState({ manuscripts })
-        })
-
-      this.subs.push(sub)
+      this.subs.push(
+        this.getCollection()
+          .find({
+            containerID: projectID,
+            objectType: ObjectTypes.MANUSCRIPT,
+          })
+          .sort({
+            createdAt: -1,
+          })
+          .$.subscribe((manuscripts: ManuscriptDocument[]) => {
+            this.setState({ manuscripts })
+          })
+      )
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
 
@@ -113,7 +120,7 @@ class ProjectPageContainer extends React.Component<
     }
 
     return (
-      <Page>
+      <Page projectID={project.id}>
         <ProjectSidebar
           manuscripts={manuscripts}
           project={{
@@ -136,26 +143,35 @@ class ProjectPageContainer extends React.Component<
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<AnyComponent>
+    return this.props.components.collection as RxCollection<{}>
   }
 
   // TODO: catch and handle errors
   private addManuscript: AddManuscript = async () => {
     // TODO: open up the template modal
 
-    const { id: project } = this.props.match.params
+    const { projectID } = this.props.match.params
 
     const user = this.props.user.data as UserProfile
 
-    const owner = user.userID
+    const manuscript = buildManuscript()
+    const manuscriptID = manuscript.id
 
-    const contributor = buildContributor(user)
-    const manuscript = buildManuscript(project, owner)
+    const contributor = buildContributor(user.bibliographicName)
 
-    await this.props.components.saveComponent(manuscript.id, contributor)
-    await this.props.components.saveComponent(manuscript.id, manuscript)
+    await this.props.components.saveComponent(contributor, {
+      projectID,
+      manuscriptID,
+    })
 
-    this.props.history.push(`/projects/${project}/manuscripts/${manuscript.id}`)
+    await this.props.components.saveComponent(manuscript, {
+      projectID,
+      manuscriptID,
+    })
+
+    this.props.history.push(
+      `/projects/${projectID}/manuscripts/${manuscriptID}`
+    )
   }
 
   // TODO: atomicUpdate?
@@ -176,15 +192,13 @@ class ProjectPageContainer extends React.Component<
   private removeManuscript: RemoveManuscript = doc => event => {
     event.preventDefault()
 
-    const manuscript = doc.id
+    const manuscriptID = doc.id
 
     // TODO: just set the _deleted property
 
     doc.remove().then(() =>
       this.getCollection()
-        .find({
-          manuscript,
-        })
+        .find({ manuscriptID })
         .remove()
     )
   }

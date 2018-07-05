@@ -24,10 +24,11 @@ const SourceLink = styled(NavLink)`
 `
 
 interface Props {
+  projectID: string
   sources: LibrarySource[]
 }
 
-const LibrarySidebar: React.SFC<Props> = ({ sources }) => (
+const LibrarySidebar: React.SFC<Props> = ({ projectID, sources }) => (
   <Panel name={'librarySidebar'} minSize={200} direction={'row'} side={'end'}>
     <Sidebar>
       <SidebarHeader>
@@ -38,7 +39,7 @@ const LibrarySidebar: React.SFC<Props> = ({ sources }) => (
           <SourceLink
             key={source.id}
             to={{
-              pathname: '/library',
+              pathname: `/projects/${projectID}/library`,
               search: qs.stringify({ source: source.id }),
             }}
             activeStyle={{

@@ -1,6 +1,9 @@
 import { Plugin } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import { BorderStyle, FigureStyle } from '../../../types/components'
+import {
+  ContainedBorderStyle,
+  ContainedFigureStyle,
+} from '../../../types/components'
 import { EditorProps } from '../../Editor'
 
 export default (props: EditorProps) => {
@@ -10,10 +13,12 @@ export default (props: EditorProps) => {
   // TODO: subscribe to the db directly and use styled-components?
   // TODO: use context to subscribe a "subscribeToComponent" method?
   const styleString = (id: string) => {
-    const item = getComponent<FigureStyle>(id)
+    const item = getComponent<ContainedFigureStyle>(id)
 
     // TODO: bundled objects need to be available here
-    const borderStyle = getComponent<BorderStyle>(item.innerBorder.style) || {
+    const borderStyle = getComponent<ContainedBorderStyle>(
+      item.innerBorder.style
+    ) || {
       doubleLines: false,
     }
 

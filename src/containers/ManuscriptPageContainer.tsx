@@ -4,7 +4,7 @@ import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import { Prompt, RouteComponentProps } from 'react-router'
-import { RxCollection } from 'rxdb'
+import { RxAttachmentCreator, RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import { DropSide, TreeItem } from '../components/DraggableTree'
 import { Main, Page } from '../components/Page'
@@ -24,6 +24,7 @@ import sessionID from '../lib/sessionID'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { ComponentObject } from '../store/DataProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
+import { SharedDataProps, withSharedData } from '../store/SharedDataProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { Decoder, encode } from '../transformer'
 import { buildComponentMap, getComponentFromDoc } from '../transformer/decode'
@@ -32,12 +33,17 @@ import { generateID } from '../transformer/id'
 import * as ObjectTypes from '../transformer/object-types'
 import {
   AnyComponent,
+  AnyContainedComponent,
+  Attachments,
   BibliographyItem,
+  ComponentAttachment,
   ComponentDocument,
   ComponentIdSet,
   ComponentMap,
   ComponentWithAttachment,
+  ContainedComponent,
   Manuscript,
+  ManuscriptComponent,
   Project,
   UserProfile,
 } from '../types/components'
@@ -69,18 +75,14 @@ interface State {
   processor: Citeproc.Processor | null
 }
 
-interface Props {
-  id: string
-}
-
 interface RouteParams {
-  project: string
-  id: string
+  projectID: string
+  manuscriptID: string
 }
 
-type CombinedProps = Props &
-  UserProps &
+type CombinedProps = UserProps &
   ComponentsProps &
+  SharedDataProps &
   RouteComponentProps<RouteParams> &
   IntlProps
 
@@ -123,16 +125,19 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     window.addEventListener('beforeunload', this.unloadListener)
 
-    await this.prepare(params.project, params.id)
+    await this.prepare(params.projectID, params.manuscriptID)
   }
 
   public componentWillReceiveProps(nextProps: CombinedProps) {
     const { params } = this.props.match
     const { params: nextParams } = nextProps.match
 
-    if (params.project !== nextParams.project || params.id !== nextParams.id) {
+    if (
+      params.projectID !== nextParams.projectID ||
+      params.manuscriptID !== nextParams.manuscriptID
+    ) {
       this.setState(this.initialState, async () => {
-        await this.prepare(nextParams.project, nextParams.id)
+        await this.prepare(nextParams.projectID, nextParams.manuscriptID)
       })
     }
   }
@@ -144,6 +149,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   public render() {
+    const { projectID } = this.props.match.params
     const { dirty, componentMap, doc, manuscript, project, popper } = this.state
 
     if (!doc || !manuscript || !project) {
@@ -153,7 +159,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const locale = this.getLocale()
 
     return (
-      <Page>
+      <Page projectID={project.id}>
         <ManuscriptSidebar
           manuscript={manuscript}
           project={project}
@@ -180,6 +186,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             onChange={this.handleChange}
             componentMap={componentMap}
             popper={popper}
+            projectID={projectID}
             subscribe={this.handleSubscribe}
             setView={this.setView}
             attributes={{
@@ -207,21 +214,30 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  private prepare = async (project: string, id: string) => {
+  private prepare = async (projectID: string, manuscriptID: string) => {
     try {
-      this.loadLibraryItems() // TODO: move this to provider
+      this.loadLibraryItems(projectID) // TODO: move this to provider
 
-      await this.loadProject(project)
+      const project = await this.loadProject(projectID)
 
-      const manuscript = await this.loadManuscript(id)
+      if (!project) {
+        throw new Error('Project not found')
+      }
+
+      const manuscript = await this.loadManuscript(manuscriptID)
+
+      if (!manuscript) {
+        throw new Error('Manuscript not found')
+      }
+
       await this.createCitationProcessor(manuscript)
 
-      const components = (await this.getCollection()
-        .find({ manuscript: id })
-        .exec()) as ComponentDocument[]
+      const components = await this.loadComponents(projectID, manuscriptID)
+
+      // console.log(components.map(doc => [doc.objectType, doc.toJSON()]))
 
       if (!components.length) {
-        throw new Error('Manuscript not found')
+        throw new Error('No components found')
       }
 
       const componentMap = await buildComponentMap(components)
@@ -250,13 +266,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private getCollection = () => {
-    return this.props.components.collection as RxCollection<AnyComponent>
+    return this.props.components.collection as RxCollection<{}>
   }
 
   private getLocale = () => {
     const manuscript = this.getManuscript()
 
-    return manuscript.locale || this.props.intl.locale || 'en-GB'
+    return manuscript.primaryLanguageCode || this.props.intl.locale || 'en-GB'
   }
 
   private getManuscript = () => {
@@ -272,45 +288,49 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private addManuscript: AddManuscript = async () => {
     // TODO: open up the template modal
 
-    const { project } = this.props.match.params
+    const { projectID } = this.props.match.params
 
     const user = this.props.user.data as UserProfile
 
-    const owner = user.userID
+    const manuscript = buildManuscript()
+    const manuscriptID = manuscript.id
 
-    const contributor = buildContributor(user)
-    const manuscript = buildManuscript(project, owner)
+    const contributor = buildContributor(user.bibliographicName)
 
-    await this.props.components.saveComponent(manuscript.id, contributor)
-    await this.props.components.saveComponent(manuscript.id, manuscript)
+    await this.props.components.saveComponent(contributor, {
+      projectID,
+      manuscriptID,
+    })
 
-    this.props.history.push(`/projects/${project}/manuscripts/${manuscript.id}`)
+    await this.props.components.saveComponent(manuscript, {
+      projectID,
+      manuscriptID,
+    })
+
+    this.props.history.push(
+      `/projects/${projectID}/manuscripts/${manuscriptID}`
+    )
   }
 
   private importManuscript: ImportManuscript = async components => {
-    const { project } = this.props.match.params
+    const { projectID } = this.props.match.params
 
-    const user = this.props.user.data as UserProfile
-
-    const owner = user.userID
-
-    const id = generateID('manuscript') as string
-
-    const setManuscriptProperties = (manuscript: Manuscript) => {
-      manuscript.id = id
-      manuscript.project = project
-      manuscript.owners = [owner]
-    }
+    const manuscriptID = generateID('manuscript') as string
 
     for (const component of components) {
       if (component.objectType === ObjectTypes.MANUSCRIPT) {
-        setManuscriptProperties(component as Manuscript)
+        component.id = manuscriptID
       }
 
-      await this.props.components.saveComponent(id, component)
+      await this.props.components.saveComponent(component, {
+        projectID,
+        manuscriptID,
+      })
     }
 
-    this.props.history.push(`/projects/${project}/manuscripts/${id}`)
+    this.props.history.push(
+      `/projects/${projectID}/manuscripts/${manuscriptID}`
+    )
   }
 
   private createCitationProcessor = async (manuscript: Manuscript) => {
@@ -320,7 +340,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const processor = await citationManager.createProcessor(
       manuscript.citationStyle || 'nature',
-      manuscript.locale || 'en-GB',
+      manuscript.primaryLanguageCode || 'en-GB',
       this.getLibraryItem
     )
 
@@ -343,10 +363,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private loadProject = (id: string): Promise<Manuscript> => {
+  private loadProject = (projectID: string): Promise<Project> => {
     return new Promise(resolve => {
       this.getCollection()
-        .findOne(id)
+        .findOne(projectID)
         .$.subscribe((doc: ProjectDocument) => {
           const project = doc.toJSON()
           this.setState({ project })
@@ -355,10 +375,38 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private loadLibraryItems = () => {
+  private loadComponents = (
+    projectID: string,
+    manuscriptID: string
+  ): Promise<ComponentDocument[]> => {
+    return this.getCollection()
+      .find({
+        $and: [
+          {
+            containerID: projectID,
+          },
+          {
+            $or: [
+              {
+                manuscriptID,
+              },
+              {
+                manuscriptID: {
+                  $exists: false,
+                },
+              },
+            ],
+          },
+        ],
+      })
+      .exec() as Promise<ComponentDocument[]>
+  }
+
+  private loadLibraryItems = (projectID: string) => {
     this.getCollection()
       .find({
         objectType: ObjectTypes.BIBLIOGRAPHY_ITEM,
+        containerID: projectID,
       })
       .sort({
         updatedAt: 'desc',
@@ -384,30 +432,56 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return this.state.componentMap.get(id) as T
   }
 
-  private saveComponent: SaveComponent = async (
-    component: ComponentWithAttachment
+  private saveComponent: SaveComponent = async <
+    T extends AnyContainedComponent
+  >(
+    component: (T & ComponentAttachment) | Partial<T>
   ) => {
-    const { id } = this.props.match.params
-    const { saveComponent } = this.props.components
+    const { manuscriptID, projectID } = this.props.match.params
+    const { saveComponent, putAttachment } = this.props.components
 
     // TODO: encode?
 
-    // TODO: wait for successful saving first?
+    if (!component.id) {
+      throw new Error('Component ID required')
+    }
+
+    // TODO: remove this?
+    component.containerID = projectID
+
+    if (component.objectType && ObjectTypes.isManuscriptComponent(component)) {
+      component.manuscriptID = manuscriptID
+    }
+
     this.setState({
-      componentMap: this.state.componentMap.set(component.id, component),
+      componentMap: this.state.componentMap.set(
+        component.id as string,
+        component as ComponentWithAttachment
+      ),
     })
 
     // tslint:disable-next-line:no-unused-variable
-    const { src, attachment, ...data } = component
+    const { src, attachment, ...data } = component as Partial<
+      ComponentWithAttachment
+    >
 
     // TODO: data.contents = serialized DOM wrapper for bibliography
 
-    const savedDoc = await saveComponent(id, data)
+    const result = (await saveComponent(data, {
+      manuscriptID,
+      projectID,
+    })) as T & Attachments
 
     if (attachment) {
-      await savedDoc.putAttachment(attachment)
-      delete component.attachment // TODO: is this really deleted now?
+      await putAttachment(result.id, attachment as RxAttachmentCreator)
     }
+
+    // TODO: does this still need to be done again?
+    this.setState({
+      componentMap: this.state.componentMap.set(result.id, result),
+    })
+
+    return result
   }
 
   private deleteComponent: DeleteComponent = (id: string) => {
@@ -427,8 +501,31 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
+  private isRelevantUpdate = (
+    v: AnyComponent,
+    projectID: string,
+    manuscriptID: string,
+    sessionID: string
+  ) => {
+    // ignore changes to other projects
+    if ((v as ContainedComponent).containerID !== projectID) {
+      return false
+    }
+
+    // ignore changes to other manuscripts
+    if (
+      (v as ManuscriptComponent).manuscriptID &&
+      (v as ManuscriptComponent).manuscriptID !== manuscriptID
+    ) {
+      return false
+    }
+
+    // only use updates from other sessions
+    return v.sessionID !== sessionID
+  }
+
   private handleSubscribe = (receive: ChangeReceiver) => {
-    const { id } = this.props.match.params
+    const { projectID, manuscriptID } = this.props.match.params
 
     const collection = this.getCollection()
 
@@ -451,13 +548,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         console.log({ op, doc, v }) // tslint:disable-line:no-console
 
         // updated shared data or library
-        if (!v.manuscript) {
+        if (!(v as ContainedComponent).containerID) {
           return receive('UPDATE', doc, null)
         }
 
-        if (v.manuscript !== id) return false // ignore changes to other manuscripts
-
-        if (v.sessionID === sessionID) return false // ignore our changes
+        // TODO: only subscribe to changes to this project/manuscript?
+        if (!this.isRelevantUpdate(v, projectID, manuscriptID, sessionID)) {
+          return false
+        }
 
         if (op === 'REMOVE') {
           return receive(op, doc)
@@ -466,7 +564,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         // NOTE: need to load the doc to get attachments
         const componentDocument = (await collection
           .findOne(doc)
-          .exec()) as ComponentDocument
+          .exec()) as ComponentDocument | null
 
         if (!componentDocument) {
           return null
@@ -474,7 +572,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         const component = (await getComponentFromDoc(
           componentDocument
-        )) as AnyComponent
+        )) as AnyContainedComponent & Attachments
 
         const { componentMap } = this.state
 
@@ -587,7 +685,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private saveComponents = async (state: EditorState) => {
     // TODO: return if already saving?
 
-    const id = this.props.match.params.id
+    const { manuscriptID, projectID } = this.props.match.params
 
     // NOTE: can't use state.toJSON() as the HTML serializer needs the actual nodes
 
@@ -624,24 +722,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       const changedComponentsByType = changedComponents.reduce(
         (output, component) => {
-          switch (component.objectType) {
-            case ObjectTypes.SECTION:
-              output.sections.push(component)
-              break
-
-            case ObjectTypes.BIBLIOGRAPHY_ELEMENT:
-            case ObjectTypes.PARAGRAPH_ELEMENT:
-            case ObjectTypes.LIST_ELEMENT:
-            case ObjectTypes.LISTING_ELEMENT:
-            case ObjectTypes.EQUATION_ELEMENT:
-            case ObjectTypes.FIGURE_ELEMENT:
-            case ObjectTypes.TABLE_ELEMENT:
-              output.elements.push(component)
-              break
-
-            default:
-              output.dependencies.push(component)
-              break
+          if (component.objectType === ObjectTypes.SECTION) {
+            output.sections.push(component)
+          } else if (
+            ObjectTypes.elementObjects.includes(component.objectType)
+          ) {
+            output.elements.push(component)
+          } else {
+            output.dependencies.push(component)
           }
 
           return output
@@ -651,19 +739,28 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       await Promise.all(
         changedComponentsByType.dependencies.map((component: AnyComponent) =>
-          saveComponent(id, component)
+          saveComponent(component, {
+            projectID,
+            manuscriptID,
+          })
         )
       )
 
       await Promise.all(
         changedComponentsByType.elements.map((component: AnyComponent) =>
-          saveComponent(id, component)
+          saveComponent(component, {
+            projectID,
+            manuscriptID,
+          })
         )
       )
 
       await Promise.all(
         changedComponentsByType.sections.map((component: AnyComponent) =>
-          saveComponent(id, component)
+          saveComponent(component, {
+            projectID,
+            manuscriptID,
+          })
         )
       )
 
@@ -722,4 +819,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withComponents(withUser(withIntl(ManuscriptPageContainer)))
+export default withSharedData(
+  withComponents(withUser(withIntl(ManuscriptPageContainer)))
+)

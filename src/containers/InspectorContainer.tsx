@@ -79,7 +79,7 @@ class InspectorContainer extends React.Component<Props, State> {
     // TODO: match the defaults in the citation processor
     const initialValues: Manuscript = {
       citationStyle: 'nature',
-      locale: 'en-GB',
+      primaryLanguageCode: 'en-GB',
       ...manuscript,
     }
 

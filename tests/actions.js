@@ -8,7 +8,7 @@ const user = {
   password: '12345678',
 }
 
-export const signup = async (t) => {
+export const signup = async t => {
   await t.navigateTo(BASE_URL + '/signup')
   await waitForReact()
 
@@ -22,7 +22,7 @@ export const signup = async (t) => {
     .wait(5000)
 }
 
-export const login = async (t) => {
+export const login = async t => {
   await t.navigateTo(BASE_URL + '/login')
   await waitForReact()
 

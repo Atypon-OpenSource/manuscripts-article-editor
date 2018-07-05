@@ -7,8 +7,10 @@ import 'typeface-charis-sil/index.css'
 import { ApplicationMenu } from '../components/ApplicationMenu'
 import { styled } from '../theme'
 import {
-  AnyComponent,
+  AnyContainedComponent,
+  Attachments,
   BibliographyItem,
+  ComponentAttachment,
   ComponentMap,
   Manuscript,
 } from '../types/components'
@@ -25,10 +27,14 @@ export type ChangeReceiver = (
   id: string,
   data?: ProsemirrorNode | null
 ) => void
-export type GetComponent = <T extends AnyComponent>(id: string) => T
-export type SaveComponent = <T extends AnyComponent>(
-  component: T
-) => Promise<void>
+export type GetComponent = <
+  T extends AnyContainedComponent | AnyContainedComponent & Attachments
+>(
+  id: string
+) => T
+export type SaveComponent = <T extends AnyContainedComponent>(
+  component: (T & ComponentAttachment) | Partial<T>
+) => Promise<T & Attachments>
 export type DeleteComponent = (id: string) => Promise<string>
 
 export interface EditorProps {
@@ -52,6 +58,7 @@ export interface EditorProps {
   popper: PopperManager
   setView?: (view: EditorView) => void
   manuscript: Manuscript
+  projectID: string
 }
 
 interface State {

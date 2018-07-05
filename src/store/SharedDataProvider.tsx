@@ -1,15 +1,12 @@
 import React from 'react'
-import { RxDocument, RxQuery } from 'rxdb'
+import { RxCollection } from 'rxdb'
 import Spinner from '../icons/spinner'
 import * as schema from '../schema'
-import { AnyComponent, ComponentCollection } from '../types/components'
+import { AnySharedComponent } from '../types/components'
 import { DataProviderContext, default as DataProvider } from './DataProvider'
 
 export interface SharedDataProviderContext extends DataProviderContext {
-  findSharedComponents: () => RxQuery<
-    AnyComponent,
-    Array<RxDocument<AnyComponent>>
-  >
+  getSharedComponent: (id: string) => Promise<AnySharedComponent | null>
 }
 
 export interface SharedDataProps {
@@ -50,7 +47,7 @@ class SharedDataProvider extends DataProvider {
     const value = {
       ...this.state,
       sync: this.sync,
-      findSharedComponents: this.findSharedComponents,
+      getSharedComponent: this.getSharedComponent,
     }
 
     return (
@@ -60,10 +57,12 @@ class SharedDataProvider extends DataProvider {
     )
   }
 
-  private findSharedComponents = () => {
-    const collection = this.state.collection as ComponentCollection
+  private getSharedComponent = async (id: string) => {
+    const collection = this.state.collection as RxCollection<AnySharedComponent>
 
-    return collection.find()
+    const doc = await collection.findOne(id).exec()
+
+    return doc ? doc.toJSON() : null
   }
 }
 

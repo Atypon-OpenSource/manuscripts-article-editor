@@ -4,7 +4,7 @@ import LibraryForm from '../components/LibraryForm'
 import { LibraryItems } from '../components/LibraryItems'
 import { Main } from '../components/Page'
 import Panel from '../components/Panel'
-import { BibliographyItem, ComponentDocument } from '../types/components'
+import { BibliographyItem } from '../types/components'
 import { LibraryDocument } from '../types/library'
 
 const buildKeywordMatches = (keyword: string, library: LibraryDocument[]) => {
@@ -52,7 +52,8 @@ export const filterLibrary = (library: LibraryDocument[], query: string) => {
 interface Props {
   library: LibraryDocument[]
   handleDelete: (item: BibliographyItem) => Promise<string>
-  handleSave: (item: BibliographyItem) => Promise<ComponentDocument>
+  handleSave: (item: BibliographyItem) => Promise<BibliographyItem>
+  projectID: string
 }
 
 interface State {
@@ -69,7 +70,7 @@ class LibraryContainer extends React.Component<Props & RouteProps, State> {
   }
 
   public render() {
-    const { library } = this.props
+    const { library, projectID } = this.props
     const { item, query } = this.state
 
     const items = filterLibrary(library, query)
@@ -97,6 +98,7 @@ class LibraryContainer extends React.Component<Props & RouteProps, State> {
               item={item}
               handleSave={this.handleSave}
               handleDelete={this.handleDelete}
+              projectID={projectID}
             />
           )}
         </Panel>

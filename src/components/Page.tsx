@@ -50,12 +50,18 @@ const IconBar = styled.div`
     props.theme.colors.primary.blue};
 `
 
-export const Page: React.SFC = ({ children }) => (
+interface Props {
+  projectID?: string
+}
+
+export const Page: React.SFC<Props> = ({ children, projectID }) => (
   <PageContainer>
-    <ViewsBar>
-      <MenuBar />
-      <IconBar />
-    </ViewsBar>
+    {projectID && (
+      <ViewsBar>
+        <MenuBar projectID={projectID} />
+        <IconBar />
+      </ViewsBar>
+    )}
 
     {children}
   </PageContainer>

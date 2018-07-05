@@ -1,11 +1,10 @@
-import { Location } from 'history'
 import qs from 'qs'
 import React from 'react'
-import { RouteProps } from 'react-router'
+import { RouteComponentProps } from 'react-router'
 import { Page } from '../components/Page'
+import { buildBibliographyItem } from '../lib/commands'
 import { sources } from '../lib/sources'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
-import { generateID } from '../transformer/id'
 import { BIBLIOGRAPHY_ITEM } from '../transformer/object-types'
 import { BibliographyItem, ComponentCollection } from '../types/components'
 import { LibraryDocument } from '../types/library'
@@ -21,7 +20,11 @@ interface State {
   source: string
 }
 
-type Props = RouteProps & ComponentsProps
+interface RouteParams {
+  projectID: string
+}
+
+type Props = RouteComponentProps<RouteParams> & ComponentsProps
 
 class LibraryPageContainer extends React.Component<Props, State> {
   public state = {
@@ -52,6 +55,7 @@ class LibraryPageContainer extends React.Component<Props, State> {
   }
 
   public render() {
+    const { projectID } = this.props.match.params
     const { library, source } = this.state
 
     if (!source) return null
@@ -61,14 +65,15 @@ class LibraryPageContainer extends React.Component<Props, State> {
     if (!librarySource) return null
 
     return (
-      <Page>
-        <LibrarySidebar sources={sources} />
+      <Page projectID={projectID}>
+        <LibrarySidebar projectID={projectID} sources={sources} />
 
         {source === 'library' ? (
           <LibraryContainer
             library={library}
             handleSave={this.handleSave}
             handleDelete={this.handleDelete}
+            projectID={projectID}
           />
         ) : (
           <LibrarySourceContainer
@@ -87,23 +92,30 @@ class LibraryPageContainer extends React.Component<Props, State> {
   }
 
   private setSource(props: Props) {
-    const location = props.location as Location
+    const location = props.location
     const query = qs.parse(location.search.substr(1))
     this.setState({
       source: query.source || 'library',
     })
   }
 
-  private handleAdd = async (item: BibliographyItem) => {
-    await this.props.components.saveComponent('', {
-      id: generateID('bibliography_item') as string,
-      objectType: BIBLIOGRAPHY_ITEM,
-      ...item,
+  private handleAdd = async (data: Partial<BibliographyItem>) => {
+    const { projectID } = this.props.match.params
+
+    const item = buildBibliographyItem(data)
+
+    await this.props.components.saveComponent(item, {
+      projectID,
     })
   }
 
-  private handleSave = (item: BibliographyItem) =>
-    this.props.components.saveComponent('', item)
+  private handleSave = (item: BibliographyItem) => {
+    const { projectID } = this.props.match.params
+
+    return this.props.components.saveComponent<BibliographyItem>(item, {
+      projectID,
+    })
+  }
 
   private handleDelete = async (item: BibliographyItem) => {
     await this.props.components.deleteComponent(item.id)

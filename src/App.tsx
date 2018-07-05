@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import NotFound from './components/NotFound'
 import ChangePasswordPageContainer from './containers/ChangePasswordPageContainer'
 import DeleteAccountPageContainer from './containers/DeleteAccountPageContainer'
+import DeveloperPageContainer from './containers/DeveloperPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
 import LibraryPageContainer from './containers/LibraryPageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
@@ -53,27 +54,32 @@ const App = () => (
       component={PreferencesPageContainer}
     />
     <PrivateRoute
-      path={'/library'}
-      exact={true}
-      component={LibraryPageContainer}
-    />
-    <PrivateRoute
       path={'/projects'}
       exact={true}
       component={ProjectsPageContainer}
     />
     <PrivateRoute
-      path={'/projects/:id'}
+      path={'/projects/:projectID'}
       exact={true}
       component={ProjectPageContainer}
     />
     <PrivateRoute
-      path={'/projects/:project/manuscripts/:id'}
+      path={'/projects/:projectID/manuscripts/:manuscriptID'}
       exact={true}
       component={ManuscriptPageContainer}
     />
+    <PrivateRoute
+      path={'/projects/:projectID/library'}
+      exact={true}
+      component={LibraryPageContainer}
+    />
     <Route path={'/logout'} exact={true} component={LogoutPageContainer} />
     <Route path={'/welcome'} exact={true} component={WelcomePageContainer} />
+    <Route
+      path={'/developer'}
+      exact={true}
+      component={DeveloperPageContainer}
+    />
     <Route component={NotFound} />
   </Switch>
 )

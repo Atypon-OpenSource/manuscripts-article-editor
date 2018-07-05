@@ -3,14 +3,13 @@ import * as React from 'react'
 import { Option } from 'react-select'
 import CreatableSelect from 'react-select/lib/Creatable'
 import { TitleField } from '../editor/manuscript/TitleField'
+import { buildKeyword } from '../lib/commands'
 import {
   KeywordsMap,
   KeywordsProps,
   withKeywords,
 } from '../store/KeywordsProvider'
 import { styled } from '../theme'
-import { generateID } from '../transformer/id'
-import { KEYWORD } from '../transformer/object-types'
 import { BibliographyItem, Keyword } from '../types/components'
 import { DeleteButton, PrimaryButton, ThemedButtonProps } from './Button'
 
@@ -129,6 +128,7 @@ interface Props {
   item: BibliographyItem
   handleDelete?: (item: Partial<BibliographyItem>) => void
   handleSave: (item: Partial<BibliographyItem>) => void
+  projectID: string
 }
 
 const buildOptions = (data: KeywordsMap) => {
@@ -161,6 +161,7 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
   handleSave,
   handleDelete,
   keywords,
+  projectID,
 }) => (
   <Formik
     initialValues={buildInitialValues(item)}
@@ -251,13 +252,9 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
 
                           if (existing) return existing.id
 
-                          const keyword: Keyword = {
-                            id: generateID('keyword') as string,
-                            objectType: KEYWORD,
-                            name: String(option.label),
-                          }
+                          const keyword = buildKeyword(String(option.label))
 
-                          await keywords.create(keyword)
+                          await keywords.create(keyword, projectID)
 
                           return keyword.id
                         })

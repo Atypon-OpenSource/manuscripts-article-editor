@@ -30,16 +30,22 @@ const modalStyle = {
   },
 }
 
-interface MenuBarState {
+interface State {
   open: boolean
 }
 
-class MenuBar extends React.Component<{}, MenuBarState> {
-  public state: Readonly<MenuBarState> = {
+interface Props {
+  projectID: string
+}
+
+class MenuBar extends React.Component<Props, State> {
+  public state: Readonly<State> = {
     open: false,
   }
 
   public render() {
+    const { projectID } = this.props
+
     return (
       <React.Fragment>
         <MenuBarIcon onClick={this.handleOpen}>
@@ -52,7 +58,7 @@ class MenuBar extends React.Component<{}, MenuBarState> {
           style={modalStyle}
           ariaHideApp={false}
         >
-          <Menu handleClose={this.handleClose} />
+          <Menu handleClose={this.handleClose} projectID={projectID} />
         </Modal>
       </React.Fragment>
     )

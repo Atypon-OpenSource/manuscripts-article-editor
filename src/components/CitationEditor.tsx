@@ -12,6 +12,7 @@ interface Props {
   items: BibliographyItem[]
   handleSave: (item: BibliographyItem) => void
   handleDelete?: (item: BibliographyItem) => void
+  projectID: string
 }
 
 interface State {
@@ -24,7 +25,7 @@ class CitationEditor extends React.Component<Props, State> {
   }
 
   public render() {
-    const { items, handleSave, handleDelete } = this.props
+    const { items, handleSave, handleDelete, projectID } = this.props
     const { selected } = this.state
 
     const item = items[selected]
@@ -35,6 +36,7 @@ class CitationEditor extends React.Component<Props, State> {
           item={item}
           handleSave={handleSave}
           handleDelete={handleDelete}
+          projectID={projectID}
         />
 
         <Actions>

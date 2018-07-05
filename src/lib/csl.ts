@@ -2,16 +2,12 @@ import axios from 'axios'
 import CSL from 'citeproc'
 import url from 'url'
 import config from '../config'
-import { generateID } from '../transformer/id'
-import {
-  BIBLIOGRAPHIC_DATE,
-  BIBLIOGRAPHIC_NAME,
-} from '../transformer/object-types'
 import {
   BibliographicDate,
   BibliographicName,
   BibliographyItem,
 } from '../types/components'
+import { buildBibliographicDate, buildBibliographicName } from './commands'
 
 const contributorFields = [
   'author',
@@ -107,17 +103,13 @@ export const convertDataToBibliographyItem = (
       if (standardFields.includes(key)) {
         output[key] = item as string
       } else if (contributorFields.includes(key)) {
-        output[key] = (item as CSL.Person[]).map((value: object) => ({
-          ...value,
-          id: generateID('bibliographic_name'),
-          objectType: BIBLIOGRAPHIC_NAME,
-        })) as BibliographicName[]
+        output[key] = (item as CSL.Person[]).map(
+          (value: Partial<BibliographicName>) => buildBibliographicName(value)
+        ) as BibliographicName[]
       } else if (dateFields.includes(key)) {
-        output[key] = {
-          ...(item as CSL.StructuredDate),
-          id: generateID('bibliographic_date'),
-          objectType: BIBLIOGRAPHIC_DATE,
-        } as BibliographicDate // tslint:disable-line
+        output[key] = buildBibliographicDate(
+          item as CSL.StructuredDate
+        ) as BibliographicDate
       }
 
       return output
@@ -134,11 +126,11 @@ export const convertBibliographyItemToData = (
         output[key] = item as string
       } else if (contributorFields.includes(key as CSL.PersonFieldKey)) {
         output[key] = (item as BibliographicName[]).map(name => {
-          const { id, objectType, ...rest } = name
+          const { _id, objectType, ...rest } = name
           return rest
         }) as CSL.Person[]
       } else if (dateFields.includes(key as CSL.DateFieldKey)) {
-        const { id, objectType, ...rest } = item as BibliographicDate
+        const { _id, objectType, ...rest } = item as BibliographicDate
         output[key] = rest as CSL.StructuredDate
       }
 
@@ -159,14 +151,14 @@ class CitationManager {
 
   public createProcessor = async (
     citationStyle: string,
-    locale: string,
+    primaryLanguageCode: string,
     getLibraryItem: (id: string) => BibliographyItem
   ) => {
     const citationStyleData = await this.fetchStyle(citationStyle)
 
     const citationLocales = await this.fetchCitationLocales(
       citationStyleData,
-      locale
+      primaryLanguageCode
     )
 
     return new CSL.Engine(
@@ -178,7 +170,7 @@ class CitationManager {
         // wrapCitationEntry: '',
       },
       citationStyleData,
-      locale,
+      primaryLanguageCode,
       false
     )
   }
@@ -215,11 +207,14 @@ class CitationManager {
 
   private async fetchCitationLocales(
     citationStyleData: string,
-    locale: string
+    primaryLanguageCode: string
   ) {
     const locales: Map<string, string> = new Map()
 
-    const localeNames = CSL.getLocaleNames(citationStyleData, locale)
+    const localeNames = CSL.getLocaleNames(
+      citationStyleData,
+      primaryLanguageCode
+    )
 
     await Promise.all(
       localeNames.map(async localeName => {

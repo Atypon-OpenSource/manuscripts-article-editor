@@ -13,7 +13,10 @@ import { Decoder } from '../src/transformer'
 import { BIBLIOGRAPHY_ITEM, MANUSCRIPT } from '../src/transformer/object-types'
 import {
   AnyComponent,
+  AnyContainedComponent,
+  Attachments,
   BibliographyItem,
+  ComponentAttachment,
   Manuscript,
 } from '../src/types/components'
 import components from './data/components.json'
@@ -34,8 +37,12 @@ const getComponent: GetComponent = <T extends AnyComponent>(id: string): T => {
   return componentMap.get(id) as T
 }
 
-const saveComponent: SaveComponent = async (component: AnyComponent) => {
+const saveComponent: SaveComponent = async <T extends AnyContainedComponent>(
+  component: (T & ComponentAttachment) | Partial<T>
+) => {
   componentMap.set(component.id, component)
+
+  return component as T & Attachments
 }
 
 const deleteComponent: DeleteComponent = async (id: string) => {
@@ -45,13 +52,16 @@ const deleteComponent: DeleteComponent = async (id: string) => {
 
 const manuscript: Manuscript = {
   id: 'manuscript-1',
+  containerID: 'project-1',
   objectType: MANUSCRIPT,
-  project: 'project-1',
   title: 'Foo',
+  figureElementNumberingScheme: '',
+  figureNumberingScheme: '',
 }
 
 const libraryItem: BibliographyItem = {
   id: 'bibliography-item-1',
+  containerID: 'project-1',
   objectType: BIBLIOGRAPHY_ITEM,
   title: 'Foo',
 }
@@ -71,7 +81,7 @@ const citationProcessor = new CSL.Engine(
     // wrapCitationEntry: '',
   },
   citationStyleData,
-  manuscript.locale,
+  manuscript.primaryLanguageCode,
   false
 )
 
@@ -90,6 +100,7 @@ storiesOf('Editor', module)
       importManuscript={action('import manuscript')}
       getComponent={getComponent}
       manuscript={manuscript}
+      projectID={'project-1'}
       saveComponent={saveComponent}
       deleteComponent={deleteComponent}
       doc={doc}
@@ -111,6 +122,7 @@ storiesOf('Editor', module)
       saveComponent={saveComponent}
       deleteComponent={deleteComponent}
       manuscript={manuscript}
+      projectID={'project-1'}
       doc={doc}
       subscribe={action('subscribe')}
       popper={popper}

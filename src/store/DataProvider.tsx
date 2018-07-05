@@ -10,6 +10,7 @@ import { ComponentCollection } from '../types/components'
 // TODO: handle offline/sync problems
 
 export interface ComponentObject {
+  // [key: string]: ComponentObject[keyof ComponentObject]
   [key: string]: any // tslint:disable-line:no-any
 }
 

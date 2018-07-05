@@ -4,7 +4,7 @@ import { Project } from './components'
 
 export type ProjectDocument = RxDocument<Project>
 
-export type AddProject = () => void
+export type AddProject = () => Promise<void>
 
 export type UpdateProject = (
   doc: ProjectDocument,

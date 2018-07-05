@@ -5,6 +5,6 @@ import initStoryshots, { renderOnly } from '@storybook/addon-storyshots'
 
 initStoryshots({
   configPath: 'stories/config',
-  storyKindRegex: /^(Button|Forms)$/,
+  storyKindRegex: /^(ApplicationMenu|Button|Forms|Menu|Page)$/,
   test: renderOnly,
 })

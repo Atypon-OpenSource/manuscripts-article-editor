@@ -2,24 +2,26 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs'
-import { Main, Page } from '../components/Page'
+import { Page } from '../components/Page'
+import { ProjectsPage } from '../components/ProjectsPage'
 import Spinner from '../icons/spinner'
 import {
   buildContributor,
   buildManuscript,
   buildProject,
 } from '../lib/commands'
+import sessionID from '../lib/sessionID'
+import timestamp from '../lib/timestamp'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { PROJECT } from '../transformer/object-types'
-import { AnyComponent, Project, UserProfile } from '../types/components'
+import { Project, UserProfile } from '../types/components'
 import {
   AddProject,
   ProjectDocument,
   // RemoveProject,
   // UpdateProject,
 } from '../types/project'
-import ProjectsSidebar from './ProjectsSidebar'
 
 interface State {
   projects: Project[]
@@ -69,22 +71,13 @@ class ProjectsPageContainer extends React.Component<
 
     return (
       <Page>
-        <ProjectsSidebar projects={projects} addProject={this.addProject} />
-
-        <Main>
-          {/*<ProjectsPage
-            projects={projects}
-            addProject={this.addProject}
-            updateProject={this.updateProject}
-            removeProject={this.removeProject}
-          />*/}
-        </Main>
+        <ProjectsPage projects={projects} addProject={this.addProject} />
       </Page>
     )
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<AnyComponent>
+    return this.props.components.collection as RxCollection<{}>
   }
 
   // TODO: catch and handle errors
@@ -97,17 +90,34 @@ class ProjectsPageContainer extends React.Component<
 
     const collection = this.getCollection()
 
-    const project = buildProject(owner)
+    const project = buildProject(owner) as Project
+
+    const now = timestamp()
+    project.createdAt = now
+    project.updatedAt = now
+    project.sessionID = sessionID
+
+    const projectID = project.id
+
     await collection.insert(project)
 
-    const manuscript = buildManuscript(project.id, owner)
+    const manuscript = buildManuscript()
+    const manuscriptID = manuscript.id
+
     const contributor = buildContributor(user)
 
-    await this.props.components.saveComponent(manuscript.id, contributor)
-    await this.props.components.saveComponent(manuscript.id, manuscript)
+    await this.props.components.saveComponent(contributor, {
+      manuscriptID,
+      projectID,
+    })
+
+    await this.props.components.saveComponent(manuscript, {
+      manuscriptID,
+      projectID,
+    })
 
     this.props.history.push(
-      `/projects/${project.id}/manuscripts/${manuscript.id}`
+      `/projects/${projectID}/manuscripts/${manuscriptID}`
     )
   }
 

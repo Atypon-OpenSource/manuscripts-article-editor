@@ -34,18 +34,19 @@ class Title extends React.Component<Props, State> {
     })
   }
 
-  public componentWillReceiveProps(nextProps: Props) {
-    const value = nextProps.value
-
-    if (value !== this.state.value) {
-      this.setState({ value })
-
-      if (this.view) {
-        const state = createEditorState(value)
-        this.view.updateState(state)
-      }
-    }
-  }
+  // TODO: enable this once it doesn't conflict with editing
+  // public componentWillReceiveProps(nextProps: Props) {
+  //   const value = nextProps.value
+  //
+  //   if (value !== this.state.value) {
+  //     this.setState({ value })
+  //
+  //     if (this.view) {
+  //       const state = createEditorState(value)
+  //       this.view.updateState(state)
+  //     }
+  //   }
+  // }
 
   public render() {
     return <div ref={this.createEditorView} className={this.props.className} />

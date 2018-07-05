@@ -107,7 +107,7 @@ const buildInitialValues = (
     affiliations: (authorAffiliations || []).map(item => item.data),
     // grants: authorGrants,
     bibliographicName: {
-      id: author.bibliographicName.id,
+      id: author.bibliographicName._id,
       objectType: author.bibliographicName.objectType,
       given: ensureString(author.bibliographicName.given),
       family: ensureString(author.bibliographicName.family),

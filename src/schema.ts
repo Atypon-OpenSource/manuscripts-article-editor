@@ -1,20 +1,16 @@
 import { RxJsonSchema } from 'rxdb/src/typings/rx-schema'
 
-export const components: RxJsonSchema = {
-  title: 'components schema',
+export const projects: RxJsonSchema = {
+  title: 'projects schema',
   version: 0,
   disableKeyCompression: true,
   attachments: {},
-  description: 'describes a component',
+  description: 'describes a component of a project',
   type: 'object',
   properties: {
     id: {
       type: 'string',
       primary: true,
-    },
-    manuscript: {
-      type: 'string',
-      index: true,
     },
     objectType: {
       type: 'string',
@@ -31,11 +27,19 @@ export const components: RxJsonSchema = {
       type: 'number',
       index: true,
     },
+    containerID: {
+      type: 'string',
+      index: true,
+    },
+    manuscriptID: {
+      type: 'string',
+      index: true,
+    },
     bibliographicName: {
       type: 'object',
     },
   },
-  required: ['objectType'],
+  required: ['objectType', 'containerID'],
 }
 
 export const shared: RxJsonSchema = {

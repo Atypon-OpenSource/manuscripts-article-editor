@@ -9,19 +9,11 @@ import {
 import { componentsKey, INSERT } from '../editor/config/plugins/components'
 import schema from '../editor/config/schema'
 import { Dispatch } from '../editor/config/types'
+import { buildCitation } from '../lib/commands'
 // import Title from '../editor/Title'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
-import { generateID } from '../transformer/id'
-import {
-  BIBLIOGRAPHY_ITEM,
-  CITATION,
-  CITATION_ITEM,
-} from '../transformer/object-types'
-import {
-  BibliographyItem,
-  Citation,
-  ComponentCollection,
-} from '../types/components'
+import { BIBLIOGRAPHY_ITEM } from '../transformer/object-types'
+import { BibliographyItem, ComponentCollection } from '../types/components'
 import { LibraryDocument } from '../types/library'
 import { filterLibrary } from './LibraryContainer'
 
@@ -104,24 +96,14 @@ class LibraryPickerContainer extends React.Component<
     const { state, dispatch } = this.props
 
     // TODO: is this enough/needed?
-    const containingElement = state.tr.selection.$anchor.parent
+    const containingObject = state.tr.selection.$anchor.parent
 
-    const citation: Citation = {
-      id: generateID('citation') as string,
-      objectType: CITATION,
-      containingElement: containingElement.attrs.id,
-      embeddedCitationItems: [
-        {
-          bibliographyItem: item.id,
-          id: generateID('citation_item') as string,
-          objectType: CITATION_ITEM,
-        },
-      ],
-    }
+    const citation = buildCitation(containingObject.attrs.id, item.id)
 
     const citationNode = schema.nodes.citation.create({
       rid: citation.id,
     })
+
     // TODO: copy the bibliography item into the manuscript?
 
     const tr = state.tr

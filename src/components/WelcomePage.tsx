@@ -199,7 +199,7 @@ const OpenRecentFileLabel = styled.p`
 
 export interface RecentFile {
   id: string
-  project: string
+  containerID: string
   title: string
   description?: string
 }

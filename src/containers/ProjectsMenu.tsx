@@ -4,14 +4,22 @@ import { Subscription } from 'rxjs'
 import { DropdownLink } from '../components/Dropdown'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { PROJECT } from '../transformer/object-types'
-import { AnyComponent, Project } from '../types/components'
+import { Project } from '../types/components'
 import { ProjectDocument } from '../types/project'
+
+const activeStyle = {
+  fontWeight: 800,
+}
 
 interface State {
   projects: Project[]
 }
 
-class ProjectsMenu extends React.Component<ComponentsProps, State> {
+interface Props {
+  handleClose: React.MouseEventHandler<HTMLElement>
+}
+
+class ProjectsMenu extends React.Component<Props & ComponentsProps, State> {
   public state: Readonly<State> = {
     projects: [],
   }
@@ -36,12 +44,18 @@ class ProjectsMenu extends React.Component<ComponentsProps, State> {
   }
 
   public render() {
+    const { handleClose } = this.props
     const { projects } = this.state
 
     return (
       <React.Fragment>
         {projects.map(project => (
-          <DropdownLink key={project.id} to={`/projects/${project.id}`}>
+          <DropdownLink
+            key={project.id}
+            to={`/projects/${project.id}`}
+            activeStyle={activeStyle}
+            onClick={handleClose}
+          >
             {project.title || 'Untitled'}
           </DropdownLink>
         ))}
@@ -50,8 +64,8 @@ class ProjectsMenu extends React.Component<ComponentsProps, State> {
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<AnyComponent>
+    return this.props.components.collection as RxCollection<{}>
   }
 }
 
-export default withComponents(ProjectsMenu)
+export default withComponents<Props>(ProjectsMenu)

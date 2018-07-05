@@ -11,11 +11,13 @@ import {
   buildProject,
 } from '../lib/commands'
 import preferences, { Preferences } from '../lib/preferences'
+import sessionID from '../lib/sessionID'
+import timestamp from '../lib/timestamp'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { generateID } from '../transformer/id'
 import * as ObjectTypes from '../transformer/object-types'
-import { AnyComponent, Manuscript, UserProfile } from '../types/components'
+import { Project, UserProfile } from '../types/components'
 import { ImportManuscript } from '../types/manuscript'
 
 interface State {
@@ -67,11 +69,16 @@ class WelcomePageContainer extends React.Component<
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<AnyComponent>
+    return this.props.components.collection as RxCollection<{}>
   }
 
   private createProject = async (owner: string) => {
-    const project = buildProject(owner)
+    const project = buildProject(owner) as Project
+
+    const now = timestamp()
+    project.createdAt = now
+    project.updatedAt = now
+    project.sessionID = sessionID
 
     await this.getCollection().insert(project)
 
@@ -84,15 +91,25 @@ class WelcomePageContainer extends React.Component<
     const owner = user.userID
 
     const project = await this.createProject(owner)
+    const projectID = project.id
+
+    const manuscript = buildManuscript()
+    const manuscriptID = manuscript.id
 
     const contributor = buildContributor(user)
-    const manuscript = buildManuscript(project.id, owner)
 
-    await this.props.components.saveComponent(manuscript.id, contributor)
-    await this.props.components.saveComponent(manuscript.id, manuscript)
+    await this.props.components.saveComponent(contributor, {
+      projectID,
+      manuscriptID,
+    })
+
+    await this.props.components.saveComponent(manuscript, {
+      projectID,
+      manuscriptID,
+    })
 
     this.props.history.push(
-      `/projects/${project.id}/manuscripts/${manuscript.id}`
+      `/projects/${projectID}/manuscripts/${manuscriptID}`
     )
   }
 
@@ -101,24 +118,24 @@ class WelcomePageContainer extends React.Component<
     const owner = user.userID
 
     const project = await this.createProject(owner)
+    const projectID = project.id
 
-    const id = generateID('manuscript') as string
-
-    const setManuscriptProperties = (manuscript: Manuscript) => {
-      manuscript.id = id
-      manuscript.project = project.id
-      manuscript.owners = [owner]
-    }
+    const manuscriptID = generateID('manuscript') as string
 
     for (const component of components) {
       if (component.objectType === ObjectTypes.MANUSCRIPT) {
-        setManuscriptProperties(component as Manuscript)
+        component.id = manuscriptID
       }
 
-      await this.props.components.saveComponent(id, component)
+      await this.props.components.saveComponent(component, {
+        manuscriptID,
+        projectID,
+      })
     }
 
-    this.props.history.push(`/projects/${project.id}/manuscripts/${id}`)
+    this.props.history.push(
+      `/projects/${projectID}/manuscripts/${manuscriptID}`
+    )
   }
 
   private sendFeedback = () => {
@@ -130,7 +147,9 @@ class WelcomePageContainer extends React.Component<
   }
 
   private openManuscript = (file: RecentFile) => {
-    this.props.history.push(`/projects/${file.project}/manuscripts/${file.id}`)
+    this.props.history.push(
+      `/projects/${file.containerID}/manuscripts/${file.id}`
+    )
   }
 
   private handleHideWelcomeChange: React.ChangeEventHandler<

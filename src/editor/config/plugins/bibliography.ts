@@ -31,7 +31,7 @@ export default (props: EditorProps) => {
         }
       })
 
-      // TOOD: https://gitlab.com/mpapp-private/manuscripts-frontend/issues/156
+      // TODO: https://gitlab.com/mpapp-private/manuscripts-frontend/issues/156
       const citations: Citeproc.CitationByIndex = citationNodes
         .filter(([node]) => node.attrs.rid && node.attrs.rid !== 'null')
         .map(([node]) => {

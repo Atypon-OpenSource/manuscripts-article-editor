@@ -2,7 +2,7 @@ import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Spinner } from '../components/Spinner'
 import { KEYWORD } from '../transformer/object-types'
-import { ComponentDocument, Keyword } from '../types/components'
+import { Keyword } from '../types/components'
 import { ComponentsProps, withComponents } from './ComponentsProvider'
 
 export type KeywordsMap = Map<string, Keyword>
@@ -16,8 +16,8 @@ export interface KeywordsProviderState {
 
 export interface KeywordsProviderContext {
   data: KeywordsMap
-  update: (data: Partial<Keyword>) => Promise<RxDocument<Keyword>>
-  create: (data: Keyword) => Promise<ComponentDocument>
+  update: (data: Partial<Keyword>) => Promise<RxDocument<{}>>
+  create: (data: Partial<Keyword>, projectID: string) => Promise<Keyword>
 }
 
 export interface KeywordsProps {
@@ -74,7 +74,7 @@ class KeywordsProvider extends React.Component<
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<Keyword>
+    return this.props.components.collection as RxCollection<{}>
   }
 
   private subscribe() {
@@ -93,8 +93,10 @@ class KeywordsProvider extends React.Component<
       })
   }
 
-  private create = (data: Keyword) =>
-    this.props.components.saveComponent('', data)
+  private create = (data: Partial<Keyword>, projectID: string) =>
+    this.props.components.saveComponent<Keyword>(data, {
+      projectID,
+    })
 
   private update = async (data: Partial<Keyword>) => {
     const prev = await this.getCollection()

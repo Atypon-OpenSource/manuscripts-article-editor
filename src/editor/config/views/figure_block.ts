@@ -1,7 +1,5 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { generateID } from '../../../transformer/id'
-import nodeTypes from '../../../transformer/node-types'
-import { Figure } from '../../../types/components'
+import { buildFigure } from '../../../lib/commands'
 import placeholder from '../icons/png/Toolbar-InsertImage-N@2x.png'
 import { componentsKey, INSERT } from '../plugins/components'
 import { NodeViewCreator } from '../types'
@@ -134,17 +132,7 @@ class FigureBlock extends Block {
   }
 
   private addImage(file: File, index: number) {
-    const figure: Figure = {
-      id: generateID('figure_image') as string,
-      objectType: nodeTypes.get('figure_image') as string,
-      contentType: file.type,
-      src: window.URL.createObjectURL(file),
-      attachment: {
-        id: file.name,
-        type: file.type,
-        data: file,
-      },
-    }
+    const figure = buildFigure(file)
 
     const containedObjectIDs = this.node.attrs.containedObjectIDs
     containedObjectIDs[index] = figure.id

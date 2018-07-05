@@ -44,6 +44,22 @@ export const DeveloperMenu = () => (
       Delete database
     </DropdownAction>
 
+    {config.git.version && (
+      <DropdownInfo>Version: {config.git.version}</DropdownInfo>
+    )}
+
+    {config.git.commit && (
+      <DropdownInfo>Commit: {config.git.commit}</DropdownInfo>
+    )}
+
+    <DropdownInfo>
+      <a href={`${config.api.url}/app/version`}>API version</a>
+    </DropdownInfo>
+  </React.Fragment>
+)
+
+export const DeveloperActions = () => (
+  <React.Fragment>
     <DropdownAction
       onClick={() => {
         createToken('demo@example.com')
@@ -67,10 +83,5 @@ export const DeveloperMenu = () => (
     >
       Create user profile
     </DropdownAction>
-    <DropdownInfo>Version: {config.git.version}</DropdownInfo>
-    <DropdownInfo>Commit: {config.git.commit}</DropdownInfo>
-    <DropdownInfo>
-      <a href={`${config.api.url}/app/version`}>API version</a>
-    </DropdownInfo>
   </React.Fragment>
 )

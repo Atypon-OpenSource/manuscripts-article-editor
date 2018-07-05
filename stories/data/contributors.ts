@@ -1,12 +1,15 @@
+import { AffiliationMap } from '../../src/editor/manuscript/lib/authors'
 import { Contributor, UserProfile } from '../../src/types/components'
 
 import imageFile from '../assets/melnitz.jpg'
 
-export const affiliations = new Map([
+export const affiliations: AffiliationMap = new Map([
   [
     'affiliation-1',
     {
       id: 'affiliation-1',
+      containerID: 'project-1',
+      manuscriptID: 'manuscript-1',
       objectType: 'MPAffiliation',
       name: 'Firehouse, Hook & Ladder Company 8',
       address:
@@ -17,6 +20,8 @@ export const affiliations = new Map([
     'affiliation-2',
     {
       id: 'affiliation-2',
+      containerID: 'project-1',
+      manuscriptID: 'manuscript-1',
       objectType: 'MPAffiliation',
       name: 'Firehouse, Hook & Ladder Company 9',
       address:
@@ -28,11 +33,13 @@ export const affiliations = new Map([
 export const authors: Contributor[] = [
   {
     id: 'example-1',
+    containerID: 'project-1',
+    manuscriptID: 'manuscript-1',
     objectType: 'MPContributor',
     priority: 1,
     role: 'author',
     bibliographicName: {
-      id: 'name-1',
+      _id: 'name-1',
       objectType: 'MPBibliographicName',
       given: 'Janine',
       family: 'Melnitz',
@@ -44,11 +51,13 @@ export const authors: Contributor[] = [
   },
   {
     id: 'example-2',
+    containerID: 'project-1',
+    manuscriptID: 'manuscript-1',
     objectType: 'MPContributor',
     priority: 2,
     role: 'author',
     bibliographicName: {
-      id: 'name-2',
+      _id: 'name-2',
       objectType: 'MPBibliographicName',
       given: 'Peter',
       family: 'Venkman',
@@ -60,11 +69,13 @@ export const authors: Contributor[] = [
   },
   {
     id: 'example-3',
+    containerID: 'project-1',
+    manuscriptID: 'manuscript-1',
     objectType: 'MPContributor',
     priority: 3,
     role: 'author',
     bibliographicName: {
-      id: 'name-3',
+      _id: 'name-3',
       objectType: 'MPBibliographicName',
       given: 'Dana',
       family: 'Barrett',
@@ -81,7 +92,7 @@ export const user: UserProfile = {
   userID: 'user_1',
   objectType: 'MPUserProfile',
   bibliographicName: {
-    id: 'name-1',
+    _id: 'name-1',
     objectType: 'MPBibliographicName',
     given: 'Janine',
     family: 'Melnitz',
