@@ -16,7 +16,7 @@ const props: MenusProps = {
   importManuscript: action('import manuscript'),
 }
 
-storiesOf('ApplicationMenu', module).add('menu', () => (
+storiesOf('Application Menu', module).add('menu', () => (
   <ApplicationMenu
     menus={menus(props)}
     state={state}
