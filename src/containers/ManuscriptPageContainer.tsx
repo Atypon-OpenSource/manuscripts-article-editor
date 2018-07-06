@@ -356,9 +356,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       this.getCollection()
         .findOne(id)
         .$.subscribe((doc: ManuscriptDocument) => {
-          const manuscript = doc.toJSON()
-          this.setState({ manuscript })
-          resolve(manuscript)
+          if (doc) {
+            const manuscript = doc.toJSON()
+            this.setState({ manuscript })
+            resolve(manuscript)
+          }
         })
     })
   }

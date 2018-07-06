@@ -38,6 +38,7 @@ export const elementObjects = [
 
 export const manuscriptObjects = [
   AFFILIATION,
+  BIBLIOGRAPHY_SECTION,
   CITATION,
   CONTRIBUTOR,
   SECTION,

@@ -268,9 +268,13 @@ export class Decoder {
       section => section.path.length <= 1
     )
 
-    const articleNode = schema.nodes.article.createAndFill({}, rootSections.map(
-      this.decode
-    ) as ProsemirrorNode[])
+    const rootSectionNodes = rootSections.map(this.decode) as ProsemirrorNode[]
+
+    if (!this.hasBibliographySection(rootSectionNodes)) {
+      rootSectionNodes.push(this.createBibliographySection())
+    }
+
+    const articleNode = schema.nodes.article.createAndFill({}, rootSectionNodes)
 
     if (!articleNode) {
       throw new Error('Unable to create article node')
@@ -279,21 +283,15 @@ export class Decoder {
     return articleNode
   }
 
-  // private createBibliographySectionNode = () => {
-  //   const bibliographyNode = schema.nodes.bibliography.create({
-  //     id: generateID('bibliography'),
-  //   })
-  //
-  //   const bibliographyTitleNode = schema.nodes.section_title.createChecked(
-  //     {},
-  //     schema.text('Bibliography')
-  //   )
-  //
-  //   return schema.nodes.bibliography_section.createChecked(
-  //     {
-  //       id: generateID('section'),
-  //     },
-  //     [bibliographyTitleNode, bibliographyNode]
-  //   )
-  // }
+  private hasBibliographySection = (nodes: ProsemirrorNode[]) =>
+    nodes.some(node => node.type.name === 'bibliography_section')
+
+  private createBibliographySection = () =>
+    schema.nodes.bibliography_section.createAndFill(
+      {},
+      schema.nodes.section_title.create(
+        {},
+        schema.text('Bibliography')
+      ) as ProsemirrorNode
+    ) as ProsemirrorNode
 }
