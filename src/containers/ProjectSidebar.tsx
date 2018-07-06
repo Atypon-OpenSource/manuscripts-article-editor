@@ -11,8 +11,7 @@ import {
 import Title from '../editor/manuscript/Title'
 import { TitleField } from '../editor/manuscript/TitleField'
 import { styled } from '../theme'
-import { Project } from '../types/components'
-import { ManuscriptDocument } from '../types/manuscript'
+import { Manuscript, Project } from '../types/components'
 
 const SidebarManuscript = styled.div`
   padding: 10px 0;
@@ -36,7 +35,7 @@ const ProjectTitle = styled(TitleField)`
 
 interface Props {
   project: Project
-  manuscripts: ManuscriptDocument[]
+  manuscripts: Manuscript[]
   saveProject: (data: Partial<Project>) => Promise<RxDocument<Project>>
 }
 
@@ -65,7 +64,7 @@ const ProjectSidebar: React.SFC<Props> = ({
             <ManuscriptTitle
               to={`/projects/${project.id}/manuscripts/${manuscript.id}`}
             >
-              <Title value={manuscript.get('title') || 'Untitled'} />
+              <Title value={manuscript.title || 'Untitled'} />
             </ManuscriptTitle>
           </SidebarManuscript>
         ))}

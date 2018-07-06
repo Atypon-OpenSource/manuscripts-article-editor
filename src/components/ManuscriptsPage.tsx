@@ -1,6 +1,7 @@
 import React from 'react'
 import Add from '../icons/add'
-import { ManuscriptActions, ManuscriptDocument } from '../types/manuscript'
+import { Manuscript } from '../types/components'
+import { ManuscriptActions } from '../types/manuscript'
 import { ActionButton } from './Button'
 import { EmptyContainer, EmptyMessage } from './Empty'
 import { Manuscripts } from './Manuscripts'
@@ -12,7 +13,7 @@ import {
 import { PageHeading } from './PageHeading'
 
 interface ManuscriptsPageProps {
-  manuscripts: ManuscriptDocument[]
+  manuscripts: Manuscript[]
 }
 
 const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({

@@ -53,7 +53,7 @@ storiesOf('Pages', module)
   ))
   .add('Manuscripts', () => (
     <ManuscriptsPage
-      manuscripts={manuscripts as any}
+      manuscripts={manuscripts}
       addManuscript={action('add manuscript')}
       updateManuscript={() => action('update manuscript')}
       removeManuscript={() => action('remove manuscript')}

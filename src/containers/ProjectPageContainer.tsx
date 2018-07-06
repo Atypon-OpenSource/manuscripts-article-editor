@@ -11,10 +11,9 @@ import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import * as ObjectTypes from '../transformer/object-types'
-import { Project, UserProfile } from '../types/components'
+import { Manuscript, Project, UserProfile } from '../types/components'
 import {
   AddManuscript,
-  ManuscriptDocument,
   RemoveManuscript,
   UpdateManuscript,
 } from '../types/manuscript'
@@ -23,7 +22,7 @@ import ProjectSidebar from './ProjectSidebar'
 
 interface State {
   project: Project | null
-  manuscripts: ManuscriptDocument[] | null
+  manuscripts: Manuscript[] | null
   error: string | null
 }
 
@@ -95,8 +94,10 @@ class ProjectPageContainer extends React.Component<
           .sort({
             createdAt: -1,
           })
-          .$.subscribe((manuscripts: ManuscriptDocument[]) => {
-            this.setState({ manuscripts })
+          .$.subscribe((docs: Array<RxDocument<Manuscript>>) => {
+            this.setState({
+              manuscripts: docs.map(doc => doc.toJSON()),
+            })
           })
       )
     } catch (error) {
@@ -176,11 +177,17 @@ class ProjectPageContainer extends React.Component<
 
   // TODO: atomicUpdate?
   // TODO: catch and handle errors
-  private updateManuscript: UpdateManuscript = (doc, data) => {
-    doc
-      .update({
-        $set: data,
-      })
+  private updateManuscript: UpdateManuscript = (manuscript, data) => {
+    this.props.components
+      .saveComponent<Manuscript>(
+        {
+          id: manuscript.id,
+          ...data,
+        },
+        {
+          projectID: manuscript.containerID,
+        }
+      )
       .then(() => {
         console.log('saved') // tslint:disable-line
       })
@@ -189,18 +196,16 @@ class ProjectPageContainer extends React.Component<
       })
   }
 
-  private removeManuscript: RemoveManuscript = doc => event => {
+  private removeManuscript: RemoveManuscript = manuscriptID => async event => {
     event.preventDefault()
-
-    const manuscriptID = doc.id
 
     // TODO: just set the _deleted property
 
-    doc.remove().then(() =>
-      this.getCollection()
-        .find({ manuscriptID })
-        .remove()
-    )
+    await this.props.components.deleteComponent(manuscriptID)
+
+    await this.getCollection()
+      .find({ manuscriptID })
+      .remove()
   }
 }
 

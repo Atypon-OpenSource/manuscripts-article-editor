@@ -9,13 +9,13 @@ export type AddManuscript = () => Promise<void>
 export type ImportManuscript = (components: AnyComponent[]) => Promise<void>
 
 export type UpdateManuscript = (
-  doc: ManuscriptDocument,
+  manuscript: Manuscript,
   data: Partial<Manuscript>
 ) => void
 
 export type RemoveManuscript = (
-  doc: ManuscriptDocument
-) => (event: React.SyntheticEvent<HTMLElement>) => void
+  manuscriptID: string
+) => (event: React.SyntheticEvent<HTMLElement>) => Promise<void>
 
 export interface ManuscriptActions {
   addManuscript: AddManuscript

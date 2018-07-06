@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Title from '../editor/manuscript/Title'
 import { styled } from '../theme'
-import { Contributor } from '../types/components'
-import { ManuscriptDocument, RemoveManuscript } from '../types/manuscript'
+import { Contributor, Manuscript } from '../types/components'
+import { RemoveManuscript } from '../types/manuscript'
 import { Button } from './Button'
 
 export const ManuscriptsContainer = styled.div`
@@ -48,8 +48,8 @@ const DeleteButton = Button.extend`
 
 const dateFormatter = new Intl.DateTimeFormat('en-GB')
 
-const updatedAt = (manuscript: ManuscriptDocument) => {
-  const time = manuscript.get('updatedAt')
+const updatedAt = (manuscript: Manuscript) => {
+  const time = manuscript.updatedAt
 
   if (!time) return ''
 
@@ -59,7 +59,7 @@ const updatedAt = (manuscript: ManuscriptDocument) => {
 }
 
 interface ManuscriptProps {
-  manuscript: ManuscriptDocument
+  manuscript: Manuscript
   contributors: Contributor[]
   removeManuscript: RemoveManuscript
 }
@@ -70,26 +70,26 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
   removeManuscript,
 }) => (
   <ManuscriptContainer
-    to={`/projects/${manuscript.get(
-      'containerID'
-    )}/manuscripts/${manuscript.get('id')}`}
+    to={`/projects/${manuscript.containerID}/manuscripts/${manuscript.id}`}
   >
     <ManuscriptSection>
       <ManuscriptTitle>
-        <Title value={manuscript.get('title')} />
+        <Title value={manuscript.title} />
       </ManuscriptTitle>
     </ManuscriptSection>
 
     <ManuscriptSection>
       <ManuscriptDate>{updatedAt(manuscript)}</ManuscriptDate>
 
-      <DeleteButton onClick={removeManuscript(manuscript)}>Delete</DeleteButton>
+      <DeleteButton onClick={removeManuscript(manuscript.id)}>
+        Delete
+      </DeleteButton>
     </ManuscriptSection>
   </ManuscriptContainer>
 )
 
 interface ManuscriptsProps {
-  manuscripts: ManuscriptDocument[]
+  manuscripts: Manuscript[]
   removeManuscript: RemoveManuscript
 }
 
@@ -100,7 +100,7 @@ export const Manuscripts: React.SFC<ManuscriptsProps> = ({
   <ManuscriptsContainer>
     {manuscripts.map(manuscript => (
       <ManuscriptListItem
-        key={manuscript.get('id')}
+        key={manuscript.id}
         manuscript={manuscript}
         contributors={[]}
         removeManuscript={removeManuscript}
