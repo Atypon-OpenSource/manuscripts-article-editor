@@ -110,6 +110,22 @@ class Block implements NodeView {
     createBlock(nodeType, position, state, dispatch)
   }
 
+  private canAddBlock = (type: string, after: boolean, position?: number) => {
+    const { state } = this.view
+
+    if (position === undefined) {
+      position = after ? this.getPos() + this.node.nodeSize : this.getPos()
+    }
+
+    const $position = this.view.state.doc.resolve(position)
+
+    const index = $position.index()
+
+    const nodeType = state.schema.nodes[type]
+
+    return $position.parent.canReplaceWith(index, index, nodeType)
+  }
+
   private createAddButton = (after: boolean) => {
     const button = document.createElement('a')
     button.classList.add('add-block')
@@ -167,6 +183,25 @@ class Block implements NodeView {
     }
   }
 
+  private insertableTypes = (
+    after: boolean,
+    insertPos: number,
+    endPos: number
+  ) => ({
+    section: this.canAddBlock('section', after, insertPos),
+    subsection: this.canAddBlock('section', after, endPos),
+    paragraph: this.canAddBlock('paragraph', after),
+    orderedList: this.canAddBlock('ordered_list', after),
+    bulletList: this.canAddBlock('bullet_list', after),
+    figure: this.canAddBlock('figure', after),
+    tableFigure: this.canAddBlock('table_figure', after),
+    equationBlock: this.canAddBlock('equation_block', after),
+    codeBlock: this.canAddBlock('code_block', after),
+  })
+
+  private showMenuSection = (insert: object, types: string[]) =>
+    types.some(type => type in insert)
+
   private showMenu = (after: boolean): EventListener => event => {
     event.preventDefault()
     event.stopPropagation()
@@ -174,93 +209,132 @@ class Block implements NodeView {
     const menu = document.createElement('div')
     menu.className = 'menu'
 
-    menu.appendChild(
-      this.createMenuSection((section: HTMLElement) => {
-        const $pos = this.view.state.doc.resolve(this.getPos())
-        const insertPos = after
-          ? $pos.after($pos.depth)
-          : $pos.before($pos.depth)
-        const labelPosition = after ? 'After' : 'Before'
-        const sectionTitle = $pos.node($pos.depth).child(0).textContent
-        const itemTitle = sectionTitle ? `“${sectionTitle}”` : 'This Section'
-        const sectionLevel = this.sectionLevel($pos.depth)
-        const itemLabel = `New ${sectionLevel} ${labelPosition} ${itemTitle}`
+    const $pos = this.view.state.doc.resolve(this.getPos())
+    const insertPos = after ? $pos.after($pos.depth) : $pos.before($pos.depth)
+    const endPos = $pos.end()
 
-        section.appendChild(
-          this.createMenuItem(itemLabel, () => {
-            this.addBlock('section', after, insertPos)
-            popper.destroy()
-          })
-        )
+    const insertableTypes = this.insertableTypes(after, insertPos, endPos)
 
-        const subsectionLevel = this.sectionLevel($pos.depth + 1)
-        const subItemLabel = `New ${subsectionLevel} to ${itemTitle}`
+    if (this.showMenuSection(insertableTypes, ['section', 'subsection'])) {
+      menu.appendChild(
+        this.createMenuSection((section: HTMLElement) => {
+          const labelPosition = after ? 'After' : 'Before'
+          const sectionTitle = $pos.node($pos.depth).child(0).textContent
+          const itemTitle = sectionTitle ? `“${sectionTitle}”` : 'This Section'
+          const sectionLevel = this.sectionLevel($pos.depth)
+          const itemLabel = `New ${sectionLevel} ${labelPosition} ${itemTitle}`
 
-        section.appendChild(
-          this.createMenuItem(subItemLabel, () => {
-            this.addBlock('section', after, $pos.end())
-            popper.destroy()
-          })
-        )
-      })
-    )
+          if (insertableTypes.section) {
+            section.appendChild(
+              this.createMenuItem(itemLabel, () => {
+                this.addBlock('section', after, insertPos)
+                popper.destroy()
+              })
+            )
+          }
 
-    menu.appendChild(
-      this.createMenuSection((section: HTMLElement) => {
-        section.appendChild(
-          this.createMenuItem('Paragraph', () => {
-            this.addBlock('paragraph', after)
-            popper.destroy()
-          })
-        )
+          if (insertableTypes.subsection) {
+            const subsectionLevel = this.sectionLevel($pos.depth + 1)
+            const subItemLabel = `New ${subsectionLevel} to ${itemTitle}`
 
-        section.appendChild(
-          this.createMenuItem('Numbered List', () => {
-            this.addBlock('ordered_list', after)
-            popper.destroy()
-          })
-        )
+            section.appendChild(
+              this.createMenuItem(subItemLabel, () => {
+                this.addBlock('section', after, endPos)
+                popper.destroy()
+              })
+            )
+          }
+        })
+      )
+    }
 
-        section.appendChild(
-          this.createMenuItem('Bullet list', () => {
-            this.addBlock('bullet_list', after)
-            popper.destroy()
-          })
-        )
-      })
-    )
+    if (
+      this.showMenuSection(insertableTypes, [
+        'paragraph',
+        'orderedList',
+        'bulletList',
+      ])
+    ) {
+      menu.appendChild(
+        this.createMenuSection((section: HTMLElement) => {
+          if (insertableTypes.paragraph) {
+            section.appendChild(
+              this.createMenuItem('Paragraph', () => {
+                this.addBlock('paragraph', after)
+                popper.destroy()
+              })
+            )
+          }
 
-    menu.appendChild(
-      this.createMenuSection((section: HTMLElement) => {
-        section.appendChild(
-          this.createMenuItem('Figure Panel', () => {
-            this.addBlock('figure', after)
-            popper.destroy()
-          })
-        )
+          if (insertableTypes.orderedList) {
+            section.appendChild(
+              this.createMenuItem('Numbered List', () => {
+                this.addBlock('ordered_list', after)
+                popper.destroy()
+              })
+            )
+          }
 
-        section.appendChild(
-          this.createMenuItem('Table', () => {
-            this.addBlock('table_figure', after)
-            popper.destroy()
-          })
-        )
+          if (insertableTypes.bulletList) {
+            section.appendChild(
+              this.createMenuItem('Bullet list', () => {
+                this.addBlock('bullet_list', after)
+                popper.destroy()
+              })
+            )
+          }
+        })
+      )
+    }
 
-        section.appendChild(
-          this.createMenuItem('Equation', () => {
-            this.addBlock('equation_block', after)
-            popper.destroy()
-          })
-        )
+    if (
+      this.showMenuSection(insertableTypes, [
+        'figure',
+        'tableFigure',
+        'equationBlock',
+        'codeBlock',
+      ])
+    ) {
+      menu.appendChild(
+        this.createMenuSection((section: HTMLElement) => {
+          if (insertableTypes.figure) {
+            section.appendChild(
+              this.createMenuItem('Figure Panel', () => {
+                this.addBlock('figure', after)
+                popper.destroy()
+              })
+            )
+          }
 
-        section.appendChild(
-          this.createMenuItem('Listing', () => {
-            this.addBlock('code_block', after)
-            popper.destroy()
-          })
-        )
-      })
-    )
+          if (insertableTypes.tableFigure) {
+            section.appendChild(
+              this.createMenuItem('Table', () => {
+                this.addBlock('table_figure', after)
+                popper.destroy()
+              })
+            )
+          }
+
+          if (insertableTypes.equationBlock) {
+            section.appendChild(
+              this.createMenuItem('Equation', () => {
+                this.addBlock('equation_block', after)
+                popper.destroy()
+              })
+            )
+          }
+
+          if (insertableTypes.codeBlock) {
+            section.appendChild(
+              this.createMenuItem('Listing', () => {
+                this.addBlock('code_block', after)
+                popper.destroy()
+              })
+            )
+          }
+        })
+      )
+    }
 
     popper.show(event.currentTarget as Element, menu, 'right-end')
 
