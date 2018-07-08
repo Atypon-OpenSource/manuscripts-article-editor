@@ -1,49 +1,45 @@
 import { extname } from 'path'
-import { AnyComponent } from '../types/components'
 
-type Importer = (file: File) => Promise<AnyComponent[]>
+// tslint:disable:no-any
+
+// TODO: Replace with a type from manuscripts-json-schema.
+interface Identifiable {
+  id: string
+  objectType: string
+}
+
+type Importer = (file: File, reader: FileReader) => Promise<Identifiable[]>
 
 interface Importers {
   [key: string]: Importer
 }
 
-const importJSON: Importer = file =>
-  new Promise(resolve => {
-    const reader = new FileReader()
-
+export const importJSON: Importer = (file, reader) => {
+  return new Promise(resolve => {
     reader.addEventListener('load', async () => {
       const data = JSON.parse(reader.result)
-
-      const items: AnyComponent[] = []
-
-      for (const section of Object.values(data)) {
-        for (const item of Object.values(section)) {
-          if (!item._id && !item.id) continue
-
-          // TODO: generate a new ID for each object while maintaining references between objects?
+      const items = Object.values(Object.values(data))
+        .filter((item: any) => item._id || !item.id)
+        .map((item: any) => {
           if (!item.id) {
             item.id = item._id
           }
-
           delete item._id
           delete item._rev
           delete item.collection
-
-          items.push(item)
-        }
-      }
-
+          return item as Identifiable
+        })
       resolve(items)
     })
-
     reader.readAsText(file, 'UTF-8')
   })
+}
 
 export const importers: Importers = {
   '.manuscript-json': importJSON,
 }
 
-export const openFilePicker = () =>
+export const openFilePicker = /* istanbul ignore next */ () =>
   new Promise((resolve, reject) => {
     const input = document.createElement('input')
     input.type = 'file'
@@ -60,6 +56,6 @@ export const openFilePicker = () =>
     input.click()
   })
 
-export const importFile = async (file: File) => {
-  return importers[extname(file.name)](file)
+export const importFile = /* istanbul ignore next */ async (file: File) => {
+  return importers[extname(file.name)](file, new FileReader())
 }

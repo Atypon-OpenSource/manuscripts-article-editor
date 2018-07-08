@@ -2,7 +2,7 @@ import { FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, RouteComponentProps } from 'react-router-dom'
 import { FormErrors } from '../components/Form'
 import { LoginValues } from '../components/LoginForm'
 import LoginPage from '../components/LoginPage'
@@ -17,15 +17,20 @@ import { loginSchema } from '../validation'
 
 interface State {
   error: boolean
+  verificationMessage: string
 }
 
 interface ErrorMessage {
   error: string
 }
 
-class LoginPageContainer extends React.Component<UserProps, State> {
+class LoginPageContainer extends React.Component<
+  UserProps & RouteComponentProps<{}>,
+  State
+> {
   public state: Readonly<State> = {
     error: false,
+    verificationMessage: '',
   }
 
   private initialValues: LoginValues = {
@@ -39,8 +44,6 @@ class LoginPageContainer extends React.Component<UserProps, State> {
       window.location.hash.substr(1)
     )
 
-    window.location.hash = ''
-
     if (tokenData && Object.keys(tokenData).length) {
       if (tokenData.error) {
         this.setState({
@@ -51,13 +54,19 @@ class LoginPageContainer extends React.Component<UserProps, State> {
 
         this.props.user.fetch()
       }
+      window.location.hash = ''
+    }
+    const state = this.props.location.state
+    if (state) {
+      this.setState({
+        verificationMessage: this.props.location.state.verificationMessage,
+      })
     }
   }
 
   public render() {
     const { user } = this.props
     const { error } = this.state
-
     if (!user.loaded) {
       return <Spinner />
     }
@@ -77,6 +86,8 @@ class LoginPageContainer extends React.Component<UserProps, State> {
             initialValues={this.initialValues}
             validationSchema={loginSchema}
             onSubmit={this.handleSubmit}
+            onClose={this.handleClose}
+            verificationMessage={this.state.verificationMessage}
           />
         </Main>
       </Page>
@@ -119,7 +130,11 @@ class LoginPageContainer extends React.Component<UserProps, State> {
       }
     )
   }
-
+  private handleClose = () => {
+    this.setState({
+      verificationMessage: '',
+    })
+  }
   private errorResponseMessage = (status: number) => {
     switch (status) {
       case HttpStatusCodes.BAD_REQUEST:

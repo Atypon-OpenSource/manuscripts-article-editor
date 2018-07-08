@@ -3,13 +3,13 @@ import { BibliographicName } from '../types/components'
 import { Db, waitForDB } from './rxdb'
 import token from './token'
 
-export const createToken = (userId: string) => {
+export const createToken = /* istanbul ignore next */ (userId: string) => {
   token.set({
     access_token: ['', btoa(JSON.stringify({ userId })), ''].join('.'),
   })
 }
 
-export const createUserProfile = async (
+export const createUserProfile = /* istanbul ignore next */ async (
   userId: string,
   bibliographicName: Partial<BibliographicName>
 ) => {

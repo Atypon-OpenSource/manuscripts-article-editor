@@ -1,0 +1,125 @@
+version: '3'
+
+services:
+  couchbase:
+    image: registry.gitlab.com/mpapp-private/manuscripts-api/couchbase
+    env_file:
+      - env
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 8094:8094
+      - 11207:11207
+      - 11208:11208
+      - 11209:11209
+      - 11210:11210
+      - 18091:18091
+      - 18092:18092
+      - 18093:18093
+      - 18094:18094
+    volumes:
+      - couchbase-data:/opt/couchbase/var
+    hostname: cb-test.manuscripts.io
+    networks:
+      default:
+        aliases:
+            - cb-test.manuscripts.io
+
+
+  sync_gateway:
+    image: registry.gitlab.com/mpapp-private/manuscripts-api/sync_gateway
+    env_file:
+      - env
+    depends_on:
+      - couchbase
+    ports:
+      - 4984:4984
+      - 4985:4985
+    hostname: sg-test.manuscripts.io
+    networks:
+      default:
+        aliases:
+            - sg-test.manuscripts.io
+
+  api:
+    image: registry.gitlab.com/mpapp-private/manuscripts-api/app
+    env_file:
+      - env
+    depends_on:
+      - couchbase
+      - sync_gateway
+    ports:
+      - 3000:3000
+    environment:
+      - INITIALIZE_DATABASE
+      - NODE_ENV=development
+    hostname: api-test.manuscripts.io
+    networks:
+      default:
+        aliases:
+            - api-test.manuscripts.io
+  client:
+    build:
+      context: ../../..
+      dockerfile: docker/client/development/Dockerfile
+    depends_on:
+      - api
+      - couchbase
+      - sync_gateway
+      - csl-data
+    env_file:
+      - env
+    ports:
+      - 8080:8080
+    hostname: client-test
+    domainname: manuscripts.io
+    networks:
+      default:
+        aliases:
+            - client-test.manuscripts.io
+
+  csl-data:
+    image: registry.gitlab.com/mpapp-private/csl-data
+    ports:
+      - 3002:3002
+    domainname: csl-data-test.manuscripts.io
+    networks:
+      default:
+        aliases:
+            - csl-data-test.manuscripts.io
+
+  testcafe:
+    build:
+      context: ../../..
+      dockerfile: docker/tests/testcafe/Dockerfile
+    env_file:
+      - env
+    environment:
+      BASE_URL: http://client-test.manuscripts.io:8080
+      SCREENSHOTS_VOLUME: '${HOME}/screenshots'
+    command: "'chromium --no-sandbox' /tests --screenshots ./screenshots --screenshots-on-fail"
+    depends_on:
+      - api
+      - client
+      - sync_gateway
+      - couchbase
+      - csl-data
+    ports:
+      - 1337:1337
+      - 1338:1338
+      - 9223:9223
+      - 9222:9222
+    volumes:
+      - '${SCREENSHOTS_VOLUME}:/screenshots'
+      - yarn-cache:/cache/yarn
+    hostname: testcafe.manuscripts.io
+    networks:
+      default:
+        aliases:
+            - testcafe.manuscripts.io
+
+volumes:
+  couchbase-data:
+  screenshots:
+  yarn-cache:

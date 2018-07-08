@@ -39,7 +39,7 @@ export const UserInfo: React.SFC<UserProps> = ({ user }) => (
     <DropdownLink to={'/change-password'}>
       <ChangePasswordMessage />
     </DropdownLink>
-    <DropdownLink to={'/delete-account'}>
+    <DropdownLink to={'/delete-account'} id="delete-account">
       <DeleteAccountMessage />
     </DropdownLink>
     <DropdownLink to={'/preferences'}>

@@ -22,7 +22,9 @@ class MenuDropdown extends React.Component<Props, State> {
       <DropdownContainer>
         {buttonContents}
 
-        <DropdownToggle onClick={this.toggle}>▼</DropdownToggle>
+        <DropdownToggle id="drop-down-toggle" onClick={this.toggle}>
+          ▼
+        </DropdownToggle>
 
         {this.state.open && (
           <Dropdown style={dropdownStyle}>{children}</Dropdown>

@@ -88,9 +88,11 @@ export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
         </MenuDropdown>
       </MenuSection>
 
-      <MenuSection>
-        <UserContainer />
-      </MenuSection>
+      <div id="user-menu-section">
+        <MenuSection>
+          <UserContainer />
+        </MenuSection>
+      </div>
     </MenuSections>
   </MenuContainer>
 )

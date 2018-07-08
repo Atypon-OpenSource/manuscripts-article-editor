@@ -5,7 +5,7 @@ export interface Preferences {
   locale: string
 }
 
-const defaults = {
+export const defaults = {
   hideWelcome: false,
   locale: 'en',
 }

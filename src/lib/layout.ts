@@ -14,13 +14,13 @@ const defaultPane: Pane = {
   collapsed: false,
 }
 
-const load = (): Layout => {
+export const load = (): Layout => {
   const json = storage.getItem('layout')
 
   return json ? JSON.parse(json) : {}
 }
 
-const save = (data: Layout): Layout => {
+export const save = (data: Layout): Layout => {
   storage.setItem('layout', JSON.stringify(data))
 
   return data

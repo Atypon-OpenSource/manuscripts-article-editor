@@ -9,7 +9,7 @@ const coverageThreshold = Math.max(
 )
 
 module.exports = {
-  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!**/*.d.ts'],
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!**/*.d.ts', '!__tests__'],
   coverageThreshold: {
     global: {
       branches: coverageThreshold,

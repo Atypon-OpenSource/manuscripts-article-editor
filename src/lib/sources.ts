@@ -2,6 +2,7 @@ import * as crossref from '../editor/lib/crossref'
 import * as datacite from '../editor/lib/datacite'
 import { LibrarySource } from '../types/library'
 
+/* istanbul ignore next */
 export const sources: LibrarySource[] = [
   {
     id: 'library',

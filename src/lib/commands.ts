@@ -21,6 +21,7 @@ import {
   BibliographyItem,
   Citation,
   Contributor,
+  ContributorRole,
   Figure,
   Keyword,
   Manuscript,
@@ -60,7 +61,7 @@ export const buildManuscript = (title: string = ''): Build<Manuscript> => ({
 
 export const buildContributor = (
   name: Partial<BibliographicName>,
-  role: 'author' = 'author',
+  role: ContributorRole = 'author',
   priority: number = 0
 ): Build<Contributor> => ({
   id: generateID('contributor') as string,

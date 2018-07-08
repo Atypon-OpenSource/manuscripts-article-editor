@@ -27,6 +27,21 @@ test:
   tags:
     - nodejs-8
 
+testcafe:
+  stage: test
+  script:
+    - yarn install --frozen-lockfile --non-interactive
+    - docker-compose -f docker/tests/testcafe/docker-compose.yml down -v
+    - mkdir -p screenshots
+    - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
+    - yarn run docker-compose:testcafe pull # below step won't update images.
+    - SCREENSHOTS_VOLUME=${PWD}/screenshots yarn run docker-compose:testcafe up --build --abort-on-container-exit
+  after_script:
+    - yarn run docker-compose:testcafe down -v
+  artifacts:
+    paths:
+      - ./screenshots
+
 storybook:
   environment:
     name: storybook

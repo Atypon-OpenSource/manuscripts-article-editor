@@ -1,18 +1,38 @@
-import { ReactSelector } from 'testcafe-react-selectors'
-import { login, signup } from './actions'
+import { signup, login } from './actions'
+import { ReactSelector } from 'testcafe-react-selectors';
+import { Selector, ClientFunction } from 'testcafe';
 
-fixture('Login')
+fixture `Successful login`
 
-test('Should be able to login and create a new project', async t => {
-  await signup(t)
-  await login(t)
+    const sidebar = Selector('#projects');
+    const dropdDownToggle = Selector('#drop-down-toggle');
+    const signUpForm = ReactSelector('SignupForm')
+    const deleteAccount = Selector('#delete-account');
+    const deleteAccountForm = ReactSelector('DeleteAccountForm');
+    const getLocation = ClientFunction(() => document.location.href);
 
-  const sidebar = ReactSelector('Sidebar')
+    test('Should be able to login', async t => {
+      await signup(t)
+      await login(t)
+      
+      await t
+        .expect(sidebar.innerText).eql('Projects')
+    })
 
-  const sidebarTitle = sidebar.find('SidebarTitle')
-  const sidebarTitleText = await sidebarTitle.textContent
-  await t.expect(sidebarTitleText).eql('Projects')
-
-  const sidebarIcon = sidebar.find('SidebarIcon')
-  await t.click(sidebarIcon).wait(5000)
-})
+   
+    test('Should be able to delete an account', async t => {
+      
+      await login(t)
+      
+      await t
+        .expect(sidebar.innerText).eql('Projects')
+        .click(dropdDownToggle)
+        .hover(deleteAccount)
+        .click(deleteAccount)
+        .typeText(deleteAccountForm.find('input[name=password]'), '12345678')
+        .click(deleteAccountForm.find('button[type=submit]'))
+        .wait(4000)
+        .expect(getLocation()).contains('/signup')
+        .expect(signUpForm.exists).ok();
+    })
+ 

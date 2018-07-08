@@ -27,10 +27,15 @@ Object.defineProperty(document, 'createRange', {
   }),
 })
 
+// tslint:disable-next-line:no-any
+const storage: { [id: string]: any } = {}
 Object.defineProperty(window, 'localStorage', {
   value: {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-    removeItem: jest.fn(),
+    getItem: (key: string) => storage[key],
+    // tslint:disable-next-line:no-any
+    setItem: (key: string, value: any) => {
+      storage[key] = value
+    },
+    removeItem: (key: string) => delete storage[key],
   },
 })

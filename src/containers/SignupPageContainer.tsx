@@ -47,11 +47,17 @@ class SignupPageContainer extends React.Component<
         token: verifyEmailToken,
       })
         .then(() => {
-          this.props.history.push('/login')
+          this.props.history.push('/login', {
+            verificationMessage: 'Your account is now verified.',
+          })
         })
         .catch(() => {
           this.setState({
             error: true,
+          })
+          this.props.history.push('/login', {
+            verificationMessage:
+              'Account verification failed. Is the account already verified?',
           })
         })
     }

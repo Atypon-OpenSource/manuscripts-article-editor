@@ -44,9 +44,9 @@ interface Props {
 
 const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
   <Panel name={'sidebar'} direction={'row'} side={'end'} minSize={200}>
-    <Sidebar>
+    <Sidebar id="sidebar">
       <SidebarHeader>
-        <SidebarTitle>Projects</SidebarTitle>
+        <SidebarTitle id="projects">Projects</SidebarTitle>
         <SidebarIcon onClick={addProject}>
           <Add color={'#fff'} size={16} />
         </SidebarIcon>
