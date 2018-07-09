@@ -50,11 +50,11 @@ export const buildAuthorAffiliations = (
   return items
 }
 
-export function buildAffiliationsMap(
+export const buildAffiliationsMap = (
   affiliationIDs: string[],
   componentMap: ComponentMap
-): AffiliationMap {
-  return new Map(
+): AffiliationMap =>
+  new Map(
     affiliationIDs.map(
       (id: string): [string, Affiliation] => [
         id,
@@ -62,7 +62,6 @@ export function buildAffiliationsMap(
       ]
     )
   )
-}
 
 export const buildAuthorsAndAffiliations = (componentMap: ComponentMap) => {
   const authors = buildSortedAuthors(componentMap)

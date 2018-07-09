@@ -18,7 +18,7 @@ import {
   isFirstAuthor,
 } from '../authors'
 
-function componentMap(components: ComponentWithAttachment[]): ComponentMap {
+const componentMap = (components: ComponentWithAttachment[]): ComponentMap => {
   const map = new Map<string, ComponentWithAttachment>()
   components.forEach(x => map.set(x.id, x))
   return map

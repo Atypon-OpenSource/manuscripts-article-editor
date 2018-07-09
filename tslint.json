@@ -14,6 +14,7 @@
     "no-implicit-dependencies": [true, "dev"],
     "no-shadowed-variable": false,
     "object-literal-sort-keys": false,
+    "only-arrow-functions": true,
     "no-submodule-imports": false,
     "typedef": true,
     "cyclomatic-complexity": [true, 8],
