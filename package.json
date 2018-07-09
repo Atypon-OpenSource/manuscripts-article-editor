@@ -24,7 +24,7 @@
     "build-storybook": "build-storybook --config-dir stories/config"
   },
   "dependencies": {
-    "@types/codemirror": "^0.0.57",
+    "@types/codemirror": "^0.0.58",
     "@types/lodash": "^4.14.104",
     "@types/lodash-es": "^4.17.0",
     "@types/node": "^10.3.4",
