@@ -30,6 +30,7 @@ RxDB.plugin(RxDBLeaderElectionModule)
 RxDB.plugin(RxDBUpdateModule)
 // RxDB.plugin(RxDBKeyCompressionModule)
 
+/* istanbul ignore next */
 if (config.environment === 'development') {
   RxDB.plugin(RxDBErrorMessagesModule)
   RxDB.plugin(RxDBSchemaCheckModule)

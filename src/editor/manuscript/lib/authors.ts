@@ -8,7 +8,7 @@ import {
 
 export type AffiliationMap = Map<string, Affiliation>
 
-const buildSortedAuthors = (componentMap: ComponentMap) => {
+export const buildSortedAuthors = (componentMap: ComponentMap) => {
   return getComponentsByType<Contributor>(componentMap, CONTRIBUTOR)
     .filter(item => item.role === 'author')
     .sort((a, b) => Number(a.priority) - Number(b.priority))
@@ -50,11 +50,11 @@ export const buildAuthorAffiliations = (
   return items
 }
 
-export const buildAffiliationsMap = (
+export function buildAffiliationsMap(
   affiliationIDs: string[],
   componentMap: ComponentMap
-): AffiliationMap =>
-  new Map(
+): AffiliationMap {
+  return new Map(
     affiliationIDs.map(
       (id: string): [string, Affiliation] => [
         id,
@@ -62,6 +62,7 @@ export const buildAffiliationsMap = (
       ]
     )
   )
+}
 
 export const buildAuthorsAndAffiliations = (componentMap: ComponentMap) => {
   const authors = buildSortedAuthors(componentMap)
@@ -83,6 +84,5 @@ export const buildAuthorsAndAffiliations = (componentMap: ComponentMap) => {
 
 export const isFirstAuthor = (authors: Contributor[], index: number) => {
   const author = index === 0 ? authors[index] : authors[index - 1]
-
-  return Boolean(author.isJointContributor)
+  return Boolean(index === 0 || author.isJointContributor)
 }

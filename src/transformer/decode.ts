@@ -85,7 +85,7 @@ export const getComponentsByType = <T extends AnyComponent>(
   return output
 }
 
-const sortSectionsByPriority = (a: Section, b: Section) =>
+export const sortSectionsByPriority = (a: Section, b: Section) =>
   a.priority === b.priority ? 0 : a.priority - b.priority
 
 export const getSections = (componentMap: ComponentMap) =>
