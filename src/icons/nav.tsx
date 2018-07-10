@@ -49,7 +49,7 @@ const Nav = (props: IconProps) => (
     <g fill="none" fillRule="evenodd">
       <path
         d="M23.5 4.278l6 3.464a9 9 0 0 1 4.5 7.794v6.928a9 9 0 0 1-4.5 7.794l-6 3.464a9 9 0 0 1-9 0l-6-3.464A9 9 0 0 1 4 22.464v-6.928a9 9 0 0 1 4.5-7.794l6-3.464a9 9 0 0 1 9 0z"
-        fill="#585858"
+        fill={props.color || '#cde0f5'}
       />
       <g transform="translate(4 4)">
         <use fill="#FFF" xlinkHref="#a" />

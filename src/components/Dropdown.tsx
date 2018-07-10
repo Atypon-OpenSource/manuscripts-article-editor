@@ -32,6 +32,7 @@ export const Dropdown = styled.div`
   border-radius: 10px;
   box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
   background: #fff;
+  z-index: 10;
 `
 
 export const DropdownLink = styled(NavLink)`

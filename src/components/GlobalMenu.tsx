@@ -1,15 +1,15 @@
 import React from 'react'
+import ProjectsMenu from '../containers/ProjectsMenu'
 import UserContainer from '../containers/UserContainer'
 import Nav from '../icons/nav'
-import { styled } from '../theme'
-import { MenuBarIcon, MenuContainer, MenuSection } from './Menu'
-
-const MenuSections = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`
+import {
+  MenuBarIcon,
+  MenuContainer,
+  MenuLink,
+  MenuSection,
+  MenuSections,
+} from './Menu'
+import MenuDropdown from './MenuDropdown'
 
 export const GlobalMenu: React.SFC = () => (
   <MenuContainer>
@@ -17,6 +17,16 @@ export const GlobalMenu: React.SFC = () => (
       <Nav />
     </MenuBarIcon>
     <MenuSections>
+      <MenuSection>
+        <MenuDropdown
+          buttonContents={<MenuLink to={'/projects'}>Projects</MenuLink>}
+        >
+          <ProjectsMenu />
+        </MenuDropdown>
+
+        <MenuLink to={`/people`}>People</MenuLink>
+      </MenuSection>
+
       <MenuSection>
         <UserContainer />
       </MenuSection>

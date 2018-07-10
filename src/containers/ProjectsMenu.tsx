@@ -16,7 +16,7 @@ interface State {
 }
 
 interface Props {
-  handleClose: React.MouseEventHandler<HTMLElement>
+  handleClose?: React.MouseEventHandler<HTMLElement>
 }
 
 class ProjectsMenu extends React.Component<Props & ComponentsProps, State> {
@@ -54,7 +54,7 @@ class ProjectsMenu extends React.Component<Props & ComponentsProps, State> {
             key={project.id}
             to={`/projects/${project.id}`}
             activeStyle={activeStyle}
-            onClick={handleClose}
+            onClick={event => (handleClose ? handleClose(event) : null)}
           >
             {project.title || 'Untitled'}
           </DropdownLink>
