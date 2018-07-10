@@ -25,7 +25,6 @@ import {
   buildManuscript,
   buildProject,
 } from '../commands'
-import { MockFile } from './mock-file-reader'
 
 describe('commands', () => {
   it('buildProject', () => {
@@ -127,19 +126,15 @@ describe('commands', () => {
   })
 
   it('buildFigure', () => {
-    if (!window.URL.createObjectURL) {
-      window.URL.createObjectURL = jest
-        .fn()
-        .mockImplementationOnce(() => `http://hack-hack`)
-    }
-    const file = new MockFile('./derp.png')
-    file.type = 'image/png'
-    // tslint:disable-next-line:no-any
-    const fig = buildFigure(file as any)
+    const file = new Blob(['foo'], {
+      type: 'image/png',
+    })
+
+    const fig = buildFigure(file as File)
     expect(fig.id).toMatch(/MPFigure:\S+/)
     expect(fig.objectType).toMatch(FIGURE)
     expect(fig.contentType).toMatch(file.type)
-    expect(fig.src).toMatch('http://hack-hack')
+    expect(fig.src).toMatch(/^blob:null\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/)
   })
 
   it('buildAffiliation', () => {

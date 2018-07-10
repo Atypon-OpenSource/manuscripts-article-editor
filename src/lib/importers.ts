@@ -1,39 +1,54 @@
 import { extname } from 'path'
+import { AnyComponent, Component } from '../types/components'
 
-// tslint:disable:no-any
-
-// TODO: Replace with a type from manuscripts-json-schema.
-interface Identifiable {
-  id: string
-  objectType: string
-}
-
-type Importer = (file: File, reader: FileReader) => Promise<Identifiable[]>
+type Importer = (file: File, reader?: FileReader) => Promise<AnyComponent[]>
 
 interface Importers {
   [key: string]: Importer
 }
 
-export const importJSON: Importer = (file, reader) => {
-  return new Promise(resolve => {
+interface JsonComponent extends Component {
+  _id: string
+  collection: string
+}
+
+interface ManuscriptsSection {
+  [key: string]: JsonComponent
+}
+
+interface ManuscriptsDocument {
+  [key: string]: ManuscriptsSection
+}
+
+export const importItems = (data: ManuscriptsDocument): AnyComponent[] => {
+  return Object.values(data)
+    .map(section => Object.values(section))
+    .reduce((a, b) => a.concat(b)) // flatten
+    .filter(item => item._id || item.id)
+    .map(item => {
+      const out = { ...item }
+      out.id = item.id || item._id
+      delete out._id
+      delete out._rev
+      delete out.collection
+      // tslint:disable-next-line:no-any
+      return out as any
+    })
+}
+
+export const importJSON: Importer = /* istanbul ignore next */ (
+  file: File,
+  reader: FileReader
+) =>
+  new Promise(resolve => {
     reader.addEventListener('load', async () => {
       const data = JSON.parse(reader.result)
-      const items = Object.values(Object.values(data))
-        .filter((item: any) => item._id || !item.id)
-        .map((item: any) => {
-          if (!item.id) {
-            item.id = item._id
-          }
-          delete item._id
-          delete item._rev
-          delete item.collection
-          return item as Identifiable
-        })
+      const items = importItems(data)
       resolve(items)
     })
+
     reader.readAsText(file, 'UTF-8')
   })
-}
 
 export const importers: Importers = {
   '.manuscript-json': importJSON,
@@ -56,6 +71,12 @@ export const openFilePicker = /* istanbul ignore next */ () =>
     input.click()
   })
 
-export const importFile = /* istanbul ignore next */ async (file: File) => {
-  return importers[extname(file.name)](file, new FileReader())
+export const importFile = /* istanbul ignore next */ async (
+  file: File,
+  reader?: FileReader
+) => {
+  if (!reader) {
+    reader = new FileReader()
+  }
+  return importers[extname(file.name)](file, reader)
 }

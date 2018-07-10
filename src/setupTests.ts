@@ -2,6 +2,7 @@ import registerRequireContextHook from 'babel-plugin-require-context-hook/regist
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { JSDOM } from 'jsdom'
+import uuid from 'uuid'
 
 registerRequireContextHook()
 
@@ -28,7 +29,7 @@ Object.defineProperty(document, 'createRange', {
 })
 
 // tslint:disable-next-line:no-any
-const storage: { [id: string]: any } = {}
+const storage: { [key: string]: any } = {}
 Object.defineProperty(window, 'localStorage', {
   value: {
     getItem: (key: string) => storage[key],
@@ -39,3 +40,9 @@ Object.defineProperty(window, 'localStorage', {
     removeItem: (key: string) => delete storage[key],
   },
 })
+
+if (!window.URL.createObjectURL) {
+  Object.defineProperty(window.URL, 'createObjectURL', {
+    value: jest.fn(() => 'blob:null/' + uuid.v4()),
+  })
+}
