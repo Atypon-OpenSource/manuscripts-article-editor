@@ -2,13 +2,13 @@ import React from 'react'
 import { Avatar } from '../../components/Avatar'
 import AddAuthor from '../../icons/add-author'
 import CorrespondingAuthorBadge from '../../icons/corresponding-author-badge'
-import FirstAuthorBadge from '../../icons/first-author-badge'
+import JointFirstAuthorBadge from '../../icons/joint-first-author-badge'
 import VerticalEllipsis from '../../icons/vertical-ellipsis'
 import { styled, ThemedProps } from '../../theme'
 import { Contributor, UserProfile } from '../../types/components'
 import { AuthorAffiliation } from './Author'
 import { AuthorName } from './AuthorName'
-import { isFirstAuthor } from './lib/authors'
+import { isJointFirstAuthor } from './lib/authors'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -187,9 +187,9 @@ const AuthorsSidebar: React.SFC<Props> = ({
                       <CorrespondingAuthorBadge />
                     </AuthorBadge>
                   )}
-                  {isFirstAuthor(authors, index) && (
+                  {isJointFirstAuthor(authors, index) && (
                     <AuthorBadge>
-                      <FirstAuthorBadge />
+                      <JointFirstAuthorBadge />
                     </AuthorBadge>
                   )}
                 </AuthorNotes>

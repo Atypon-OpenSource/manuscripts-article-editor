@@ -81,7 +81,8 @@ export const buildAuthorsAndAffiliations = (componentMap: ComponentMap) => {
   }
 }
 
-export const isFirstAuthor = (authors: Contributor[], index: number) => {
+export const isJointFirstAuthor = (authors: Contributor[], index: number) => {
   const author = index === 0 ? authors[index] : authors[index - 1]
-  return Boolean(index === 0 || author.isJointContributor)
+
+  return Boolean(author.isJointContributor)
 }

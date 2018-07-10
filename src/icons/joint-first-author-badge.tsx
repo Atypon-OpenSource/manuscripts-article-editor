@@ -1,7 +1,7 @@
 import React from 'react'
 import { IconProps } from './types'
 
-const FirstAuthorBadge = (props: IconProps) => (
+const JointFirstAuthorBadge = (props: IconProps) => (
   <svg width={props.size || 19} height={props.size || 19} {...props}>
     <g fill="none" fillRule="evenodd">
       <g fillRule="nonzero">
@@ -29,4 +29,4 @@ const FirstAuthorBadge = (props: IconProps) => (
   </svg>
 )
 
-export default FirstAuthorBadge
+export default JointFirstAuthorBadge

@@ -15,7 +15,7 @@ import {
   buildAuthorAffiliations,
   buildAuthorsAndAffiliations,
   buildSortedAuthors,
-  isFirstAuthor,
+  isJointFirstAuthor,
 } from '../authors'
 
 const componentMap = (components: ComponentWithAttachment[]): ComponentMap => {
@@ -103,12 +103,87 @@ describe('author and affiliation helpers', () => {
     ])
   })
 
-  it('isFirstAuthor', () => {
+  it('is joint first author', () => {
     // FIXME: isFirstAuthor should not ignore silently encountering unexpected priority values (they should be the very least monotonously growing)
-    const sortedAuthors = buildSortedAuthors(componentMap(contribs))
-    expect(isFirstAuthor(sortedAuthors, 0)).toBeTruthy()
-    expect(isFirstAuthor(sortedAuthors, 1)).toBeTruthy()
-    expect(isFirstAuthor(sortedAuthors, 2)).toBeFalsy()
+
+    const authors: Contributor[] = [
+      {
+        id: 'MPContributor:author-1',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-1',
+          objectType: 'MPBibliographicName',
+        },
+        isJointContributor: true,
+      },
+      {
+        id: 'MPContributor:author-2',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-2',
+          objectType: 'MPBibliographicName',
+        },
+        isJointContributor: false,
+      },
+      {
+        id: 'MPContributor:author-3',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-3',
+          objectType: 'MPBibliographicName',
+        },
+      },
+    ]
+
+    expect(isJointFirstAuthor(authors, 0)).toBe(true)
+    expect(isJointFirstAuthor(authors, 1)).toBe(true)
+    expect(isJointFirstAuthor(authors, 2)).toBe(false)
+  })
+
+  it('is not joint first author', () => {
+    const authors: Contributor[] = [
+      {
+        id: 'MPContributor:author-1',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-1',
+          objectType: 'MPBibliographicName',
+        },
+        isJointContributor: false,
+      },
+      {
+        id: 'MPContributor:author-2',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-2',
+          objectType: 'MPBibliographicName',
+        },
+      },
+      {
+        id: 'MPContributor:author-3',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-3',
+          objectType: 'MPBibliographicName',
+        },
+      },
+    ]
+
+    expect(isJointFirstAuthor(authors, 0)).toBe(false)
+    expect(isJointFirstAuthor(authors, 1)).toBe(false)
+    expect(isJointFirstAuthor(authors, 2)).toBe(false)
   })
 
   it('buildAffiliationsMap', () => {

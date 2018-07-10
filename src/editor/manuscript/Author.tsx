@@ -36,13 +36,13 @@ export interface AuthorAffiliation {
 interface AuthorProps {
   author: Contributor
   affiliations?: AuthorAffiliation[]
-  firstAuthor: boolean
+  jointFirstAuthor: boolean
 }
 
 export const Author: React.SFC<AuthorProps> = ({
   author,
   affiliations,
-  firstAuthor,
+  jointFirstAuthor,
 }) => (
   <span key={author.id}>
     <AuthorName name={author.bibliographicName} />
@@ -63,7 +63,7 @@ export const Author: React.SFC<AuthorProps> = ({
     {author.isCorresponding && (
       <AuthorAffiliations title={'Corresponding author'}>*</AuthorAffiliations>
     )}
-    {firstAuthor && (
+    {jointFirstAuthor && (
       <AuthorAffiliations title={'Joint contributor'}>†</AuthorAffiliations>
     )}
   </span>
