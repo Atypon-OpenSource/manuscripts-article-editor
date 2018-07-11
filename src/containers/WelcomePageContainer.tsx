@@ -96,7 +96,7 @@ class WelcomePageContainer extends React.Component<
     const manuscript = buildManuscript()
     const manuscriptID = manuscript.id
 
-    const contributor = buildContributor(user)
+    const contributor = buildContributor(user.bibliographicName)
 
     await this.props.components.saveComponent(contributor, {
       projectID,

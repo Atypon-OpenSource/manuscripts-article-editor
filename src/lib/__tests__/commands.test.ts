@@ -52,7 +52,9 @@ describe('commands', () => {
   })
 
   it('buildContributor', () => {
-    const name: Partial<BibliographicName> = {
+    const name: BibliographicName = {
+      _id: 'contributor-a',
+      objectType: BIBLIOGRAPHIC_NAME,
       nonDroppingParticle: 'van der',
       family: 'Derp',
     }

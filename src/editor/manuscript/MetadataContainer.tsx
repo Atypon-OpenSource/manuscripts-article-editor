@@ -2,8 +2,11 @@ import { debounce } from 'lodash-es'
 import React from 'react'
 import { buildAffiliation, buildContributor } from '../../lib/commands'
 import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
+import { generateID } from '../../transformer/id'
+import { BIBLIOGRAPHIC_NAME } from '../../transformer/object-types'
 import {
   Affiliation,
+  BibliographicName,
   ComponentMap,
   Contributor,
   Manuscript,
@@ -85,10 +88,9 @@ class MetadataContainer extends React.Component<
   }
 
   private createAuthor = async (priority: number) => {
-    const name = {
-      given: '',
-      family: '',
-      suffix: '',
+    const name: BibliographicName = {
+      _id: generateID('bibliographic_name') as string,
+      objectType: BIBLIOGRAPHIC_NAME,
     }
 
     const author = buildContributor(name, 'author', priority)

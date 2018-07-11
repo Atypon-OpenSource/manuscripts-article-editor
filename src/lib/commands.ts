@@ -60,7 +60,7 @@ export const buildManuscript = (title: string = ''): Build<Manuscript> => ({
 })
 
 export const buildContributor = (
-  name: Partial<BibliographicName>,
+  bibliographicName: BibliographicName,
   role: ContributorRole = 'author',
   priority: number = 0
 ): Build<Contributor> => ({
@@ -69,35 +69,31 @@ export const buildContributor = (
   priority,
   role,
   affiliations: [],
-  bibliographicName: {
-    _id: generateID('bibliographic_name') as string,
-    objectType: BIBLIOGRAPHIC_NAME,
-    ...name,
-  },
+  bibliographicName,
 })
 
 export const buildBibliographyItem = (
   data: Partial<BibliographyItem>
 ): Build<BibliographyItem> => ({
+  ...data,
   id: generateID('bibliography_item') as string,
   objectType: BIBLIOGRAPHY_ITEM,
-  ...data,
 })
 
 export const buildBibliographicName = (
   data: Partial<BibliographicName>
 ): BuildEmbedded<BibliographicName> => ({
+  ...data,
   _id: generateID('bibliographic_name') as string,
   objectType: BIBLIOGRAPHIC_NAME,
-  ...data,
 })
 
 export const buildBibliographicDate = (
   data: Partial<CSL.StructuredDate>
 ): BuildEmbedded<BibliographicDate> => ({
+  ...data,
   _id: generateID('bibliographic_date') as string,
   objectType: BIBLIOGRAPHIC_DATE,
-  ...data,
 })
 
 export const buildAuxiliaryObjectReference = (
