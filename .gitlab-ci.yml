@@ -108,8 +108,6 @@ deploy_dev:
     refs:
       - master
       - triggers
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /#deploy-dev/
 
 deploy_dev_manual:
   environment:
