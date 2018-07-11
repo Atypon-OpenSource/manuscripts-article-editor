@@ -28,6 +28,7 @@ interface Props {
 
 interface State {
   editing: boolean
+  expanded: boolean
   selectedAuthor: Contributor | null
 }
 
@@ -37,10 +38,14 @@ class MetadataContainer extends React.Component<
 > {
   public state: Readonly<State> = {
     editing: false,
+    expanded: true,
     selectedAuthor: null,
   }
 
   public render() {
+    const { editing, selectedAuthor } = this.state
+    const { manuscript } = this.props
+
     const {
       affiliations,
       authors,
@@ -53,7 +58,7 @@ class MetadataContainer extends React.Component<
       <Metadata
         saveTitle={debounce(this.saveTitle, 1000)}
         authors={authors}
-        editing={this.state.editing}
+        editing={editing}
         affiliations={affiliations}
         startEditing={this.startEditing}
         authorAffiliations={authorAffiliations}
@@ -62,11 +67,19 @@ class MetadataContainer extends React.Component<
         createAuthor={this.createAuthor}
         createAffiliation={this.createAffiliation}
         handleSaveAuthor={this.handleSaveAuthor}
-        manuscript={this.props.manuscript}
-        selectedAuthor={this.state.selectedAuthor}
+        manuscript={manuscript}
+        selectedAuthor={selectedAuthor}
         stopEditing={this.stopEditing}
+        toggleExpanded={this.toggleExpanded}
+        expanded={this.state.expanded}
       />
     )
+  }
+
+  private toggleExpanded = () => {
+    this.setState({
+      expanded: !this.state.expanded,
+    })
   }
 
   private startEditing = () => {

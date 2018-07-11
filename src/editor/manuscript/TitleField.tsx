@@ -34,8 +34,6 @@ export class TitleField extends Title {
 }
 
 export const StyledTitleField = styled(TitleField)`
-  margin-bottom: 16px;
-
   & .ProseMirror {
     font-weight: bold;
     cursor: text;

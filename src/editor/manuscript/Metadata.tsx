@@ -2,6 +2,7 @@ import React from 'react'
 import Modal from 'react-modal'
 import { CloseButton } from '../../components/SimpleModal'
 import Close from '../../icons/close'
+import Expander from '../../icons/expander'
 import { styled, ThemedProps } from '../../theme'
 import { Affiliation, Contributor, Manuscript } from '../../types/components'
 import { Affiliations } from './Affiliations'
@@ -9,7 +10,7 @@ import { AuthorAffiliation } from './Author'
 import { AuthorForm, AuthorValues } from './AuthorForm'
 import Authors from './Authors'
 import AuthorsSidebar from './AuthorsSidebar'
-import { Header } from './Header'
+import { Header, HeaderContainer } from './Header'
 import { AffiliationMap } from './lib/authors'
 import { StyledTitleField } from './TitleField'
 
@@ -74,6 +75,26 @@ const ModalMain = styled.div`
   overflow-y: auto;
 `
 
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+`
+
+const AuthorsContainer = styled.div`
+  margin-top: 16px;
+`
+
+const ExpanderButton = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+`
+
 interface Props {
   saveTitle: (title: string) => void
   manuscript: Manuscript
@@ -89,6 +110,8 @@ interface Props {
   selectedAuthor: Contributor | null
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
   createAffiliation: (name: string) => Promise<Affiliation>
+  expanded: boolean
+  toggleExpanded: () => void
 }
 
 export const Metadata: React.SFC<Props> = ({
@@ -106,68 +129,86 @@ export const Metadata: React.SFC<Props> = ({
   selectedAuthor,
   handleSaveAuthor,
   createAffiliation,
+  expanded,
+  toggleExpanded,
 }) => (
-  <Header>
-    <StyledTitleField
-      value={manuscript.title}
-      autoFocus={!manuscript.title}
-      handleChange={saveTitle}
-    />
+  <HeaderContainer>
+    <Header>
+      <TitleContainer>
+        <StyledTitleField
+          value={manuscript.title}
+          autoFocus={!manuscript.title}
+          handleChange={saveTitle}
+        />
+        <ExpanderButton
+          onClick={toggleExpanded}
+          style={{
+            transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+        >
+          <Expander />
+        </ExpanderButton>
+      </TitleContainer>
 
-    <Authors
-      authors={authors}
-      authorAffiliations={authorAffiliations}
-      startEditing={startEditing}
-    />
+      {expanded && (
+        <AuthorsContainer>
+          <Authors
+            authors={authors}
+            authorAffiliations={authorAffiliations}
+            startEditing={startEditing}
+          />
 
-    <Affiliations affiliations={affiliations} />
+          <Affiliations affiliations={affiliations} />
+        </AuthorsContainer>
+      )}
 
-    {editing && (
-      <Modal
-        isOpen={editing}
-        onRequestClose={stopEditing}
-        style={modalStyle}
-        ariaHideApp={false}
-        shouldCloseOnOverlayClick={true}
-      >
-        <ModalContainer>
-          <ModalHeader>
-            <CloseButton onClick={stopEditing}>
-              <Close size={24} />
-            </CloseButton>
-          </ModalHeader>
+      {editing && (
+        <Modal
+          isOpen={editing}
+          onRequestClose={stopEditing}
+          style={modalStyle}
+          ariaHideApp={false}
+          shouldCloseOnOverlayClick={true}
+        >
+          <ModalContainer>
+            <ModalHeader>
+              <CloseButton onClick={stopEditing}>
+                <Close size={24} />
+              </CloseButton>
+            </ModalHeader>
 
-          <ModalBody>
-            <ModalSidebar>
-              <AuthorsSidebar
-                authors={authors}
-                authorAffiliations={authorAffiliations}
-                createAuthor={createAuthor}
-                removeAuthor={removeAuthor}
-                selectAuthor={selectAuthor}
-                selectedAuthor={selectedAuthor}
-              />
-            </ModalSidebar>
-
-            <ModalMain>
-              {selectedAuthor && (
-                <AuthorForm
-                  manuscript={manuscript.id}
-                  author={selectedAuthor}
-                  affiliations={affiliations}
-                  authorAffiliations={
-                    authorAffiliations.get(
-                      selectedAuthor.id
-                    ) as AuthorAffiliation[]
-                  }
-                  handleSave={handleSaveAuthor}
-                  createAffiliation={createAffiliation}
+            <ModalBody>
+              <ModalSidebar>
+                <AuthorsSidebar
+                  authors={authors}
+                  authorAffiliations={authorAffiliations}
+                  createAuthor={createAuthor}
+                  removeAuthor={removeAuthor}
+                  selectAuthor={selectAuthor}
+                  selectedAuthor={selectedAuthor}
                 />
-              )}
-            </ModalMain>
-          </ModalBody>
-        </ModalContainer>
-      </Modal>
-    )}
-  </Header>
+              </ModalSidebar>
+
+              <ModalMain>
+                {selectedAuthor && (
+                  <AuthorForm
+                    manuscript={manuscript.id}
+                    author={selectedAuthor}
+                    affiliations={affiliations}
+                    authorAffiliations={
+                      authorAffiliations.get(
+                        selectedAuthor.id
+                      ) as AuthorAffiliation[]
+                    }
+                    handleSave={handleSaveAuthor}
+                    createAffiliation={createAffiliation}
+                  />
+                )}
+              </ModalMain>
+            </ModalBody>
+          </ModalContainer>
+        </Modal>
+      )}
+    </Header>
+  </HeaderContainer>
 )

@@ -69,7 +69,7 @@ const Container = styled.div`
 const ApplicationMenuContainer = styled.div`
   display: flex;
   font-size: 14px;
-  padding: 0 16px;
+  padding: 0 30px;
 `
 
 const MenuHeading = styled.div`

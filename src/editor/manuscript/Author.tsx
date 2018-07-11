@@ -1,4 +1,5 @@
 import React from 'react'
+import { initials } from '../../lib/name'
 import { styled } from '../../theme'
 import {
   Affiliation,
@@ -7,7 +8,7 @@ import {
 } from '../../types/components'
 
 const buildNameLiteral = (name: BibliographicName) =>
-  [name.given, name.family, name.suffix].filter(part => part).join(' ')
+  [initials(name), name.family, name.suffix].filter(part => part).join(' ')
 
 interface AuthorNameProps {
   name: BibliographicName
@@ -17,7 +18,7 @@ const AuthorName: React.SFC<AuthorNameProps> = ({ name }) => (
   <span>{buildNameLiteral(name)}</span>
 )
 
-const AuthorAffiliations = styled.span`
+const AuthorNotes = styled.span`
   display: inline-block;
   vertical-align: top;
   font-size: 0.75em;
@@ -48,7 +49,7 @@ export const Author: React.SFC<AuthorProps> = ({
     <AuthorName name={author.bibliographicName} />
 
     {affiliations && (
-      <AuthorAffiliations>
+      <AuthorNotes>
         {affiliations.map((affiliation, index) => (
           <React.Fragment key={affiliation.data.id}>
             {!!index && ','}
@@ -57,14 +58,14 @@ export const Author: React.SFC<AuthorProps> = ({
             </AuthorAffiliation>
           </React.Fragment>
         ))}
-      </AuthorAffiliations>
+      </AuthorNotes>
     )}
 
     {author.isCorresponding && (
-      <AuthorAffiliations title={'Corresponding author'}>*</AuthorAffiliations>
+      <AuthorNotes title={'Corresponding author'}>*</AuthorNotes>
     )}
     {jointFirstAuthor && (
-      <AuthorAffiliations title={'Joint contributor'}>†</AuthorAffiliations>
+      <AuthorNotes title={'Joint contributor'}>†</AuthorNotes>
     )}
   </span>
 )

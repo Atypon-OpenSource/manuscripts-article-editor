@@ -16,7 +16,7 @@ export const StyledButton = styled.button<ThemedOuterButtonProps>`
     props['data-active'] ? '#eee' : '#fff'};
   border: 1px solid #ddd;
   cursor: pointer;
-  padding: 5px 15px;
+  padding: 6px 16px;
   display: inline-flex;
   align-items: center;
   transition: 0.2s all;

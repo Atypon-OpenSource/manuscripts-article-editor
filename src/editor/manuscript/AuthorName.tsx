@@ -1,4 +1,5 @@
 import React from 'react'
+import { initials } from '../../lib/name'
 import { styled } from '../../theme'
 import { BibliographicName } from '../../types/components'
 
@@ -22,14 +23,6 @@ const FamilyName = styled.span`
 const Initials = styled.span``
 
 const Suffix = styled.span``
-
-const initials = (name: BibliographicName): string =>
-  name.given
-    ? name.given
-        .split(' ')
-        .map(part => part.substr(0, 1).toUpperCase() + '.')
-        .join('')
-    : ''
 
 export const AuthorName: React.SFC<Props> = ({ name }) => (
   <NameParts>

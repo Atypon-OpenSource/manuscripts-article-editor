@@ -4,7 +4,7 @@ import { MenuBarProps } from './config/types'
 import MenuBarItem, { MenuItem } from './MenuBarItem'
 
 const MenuBarContainer = styled.div`
-  margin: 6px 24px;
+  margin: 6px 36px;
   display: flex;
   align-items: baseline;
   //justify-content: center;

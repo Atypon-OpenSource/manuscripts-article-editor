@@ -44,6 +44,8 @@ storiesOf('Manuscript', module)
       createAffiliation={action('create affiliation')}
       handleSaveAuthor={action('save author')}
       stopEditing={action('stop editing')}
+      expanded={true}
+      toggleExpanded={action('toggle expanded')}
     />
   ))
   .add('Edit authors', () => (
@@ -62,6 +64,28 @@ storiesOf('Manuscript', module)
       createAffiliation={action('create affiliation')}
       handleSaveAuthor={action('save author')}
       stopEditing={action('stop editing')}
+      expanded={true}
+      toggleExpanded={action('toggle expanded')}
+    />
+  ))
+  .add('Collapsed', () => (
+    <Metadata
+      authors={authors}
+      affiliations={affiliations}
+      authorAffiliations={authorAffiliations}
+      manuscript={manuscripts[0]}
+      selectedAuthor={authors[0]}
+      editing={true}
+      saveTitle={action('save title')}
+      startEditing={action('start editing')}
+      selectAuthor={action('select author')}
+      removeAuthor={action('remove author')}
+      createAuthor={action('create author')}
+      createAffiliation={action('create affiliation')}
+      handleSaveAuthor={action('save author')}
+      stopEditing={action('stop editing')}
+      expanded={false}
+      toggleExpanded={action('toggle expanded')}
     />
   ))
   .add('Title: read-only', () => (

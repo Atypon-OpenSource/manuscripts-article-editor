@@ -1,7 +1,7 @@
 .ProseMirror:not(.plain) {
   font-size: 13pt;
   line-height: 2em;
-  font-family: Charter, "Charis SIL", serif;
+  font-family: "IBM Plex Serif", serif;
   padding: 10px;
   background: #fff;
   color: #000;
@@ -27,6 +27,10 @@
   height: 1px;
   background-color: silver;
   line-height: 2px;
+}
+
+.ProseMirror h1 {
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 .ProseMirror ul,
@@ -134,14 +138,9 @@
 .ProseMirror figcaption {
   text-align: center;
   background: white;
-  font-style: italic;
   line-height: 1.4;
   margin-top: 1em;
   word-wrap: break-word;
-}
-
-.ProseMirror figcaption i {
-  font-style: normal;
 }
 
 .ProseMirror .figure-label {
