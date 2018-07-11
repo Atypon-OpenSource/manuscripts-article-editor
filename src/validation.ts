@@ -76,3 +76,15 @@ export const manuscriptSchema = yup.object().shape({
     .min(10),
   authors: yup.object().shape({}),
 })
+
+export const projectInvitationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email()
+    .required(),
+  name: yup
+    .string()
+    .required()
+    .min(1),
+  role: yup.string().required(),
+})

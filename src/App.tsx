@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader'
 import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from './components/NotFound'
+import AcceptInvitationContainer from './containers/AcceptInvitationContainer'
 import ChangePasswordPageContainer from './containers/ChangePasswordPageContainer'
 import DeleteAccountPageContainer from './containers/DeleteAccountPageContainer'
 import DeveloperPageContainer from './containers/DeveloperPageContainer'
@@ -67,6 +68,11 @@ const App = () => (
       path={'/projects/:projectID/manuscripts/:manuscriptID'}
       exact={true}
       component={ManuscriptPageContainer}
+    />
+    <PrivateRoute
+      path={'/projects/:project/invitation/:invitationToken'}
+      exact={true}
+      component={AcceptInvitationContainer}
     />
     <PrivateRoute
       path={'/projects/:projectID/library'}

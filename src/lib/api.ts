@@ -116,6 +116,28 @@ export const logout = () =>
     token.remove()
   })
 
+export const projectInvite = (
+  projectID: string,
+  invitedUsersEmails: string[],
+  role: string,
+  message: string
+) =>
+  client.post(`invitation/project/${encodeURI(projectID)}/invite`, {
+    invitedUsersEmails,
+    role,
+    message,
+  })
+
+export const requestProjectInvitationToken = (id: string, role: string) =>
+  client
+    .get(`/invitation/project/${encodeURI(id)}/${encodeURI(role)}`)
+    .then(response => response.data.token)
+
+export const acceptProjectInvitationToken = (token: string) =>
+  client
+    .post('/invitation/project/access', { token })
+    .then(response => response.data)
+
 export const verify = (data: VerifyValues) =>
   client.post('/registration/verify', data)
 

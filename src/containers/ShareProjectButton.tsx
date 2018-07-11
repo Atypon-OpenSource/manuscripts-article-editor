@@ -1,0 +1,64 @@
+import React from 'react'
+import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import { IconButton } from '../components/Button'
+import ShareProjectIcon from '../icons/shareProject'
+import { styled } from '../theme'
+import ShareProjectPopperContainer from './ShareProjectPopperContainer'
+
+const ShareIconButton = styled(IconButton)`
+  height: 28px;
+  width: 28px;
+`
+
+type OpenShareProjectURIPopper = () => void
+
+interface State {
+  isOpen: boolean
+}
+
+interface Props {
+  projectID: string
+}
+
+class ShareProjectButton extends React.Component<Props, State> {
+  public state: State = {
+    isOpen: false,
+  }
+
+  public render() {
+    const { isOpen } = this.state
+
+    return (
+      <Manager>
+        <Reference>
+          {({ ref }) => (
+            <ShareIconButton
+              onClick={() => this.openShareProjectURIPopper()}
+              innerRef={ref}
+            >
+              <ShareProjectIcon />
+            </ShareIconButton>
+          )}
+        </Reference>
+        {isOpen && (
+          <Popper placement={'bottom'}>
+            {(popperProps: PopperChildrenProps) => (
+              <ShareProjectPopperContainer
+                projectID={this.props.projectID}
+                popperProps={popperProps}
+              />
+            )}
+          </Popper>
+        )}
+      </Manager>
+    )
+  }
+
+  private openShareProjectURIPopper: OpenShareProjectURIPopper = () => {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    })
+  }
+}
+
+export default ShareProjectButton

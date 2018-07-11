@@ -12,6 +12,7 @@ import Title from '../editor/manuscript/Title'
 import { TitleField } from '../editor/manuscript/TitleField'
 import { styled } from '../theme'
 import { Manuscript, Project } from '../types/components'
+import ShareProjectButton from './ShareProjectButton'
 
 const SidebarManuscript = styled.div`
   padding: 10px 0;
@@ -57,6 +58,7 @@ const ProjectSidebar: React.SFC<Props> = ({
             }}
           />
         </SidebarTitle>
+        <ShareProjectButton projectID={project.id} />
       </SidebarHeader>
       <SidebarContent>
         {manuscripts.map(manuscript => (

@@ -23,6 +23,7 @@ module.exports = {
       'SYNC_GATEWAY_URL',
       'WAYF_KEY',
       'WAYF_URL',
+      'BASE_URL',
     ]),
     new HtmlWebpackPlugin({
       template: 'public/index.html',

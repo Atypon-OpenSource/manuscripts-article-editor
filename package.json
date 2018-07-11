@@ -57,6 +57,7 @@
     "babel-polyfill": "^6.26.0",
     "citeproc": "^2.1.196",
     "clean-webpack-plugin": "^0.1.18",
+    "clipboard-copy": "^2.0.0",
     "codemirror": "^5.36.0",
     "css-loader": "^0.28.10",
     "dotenv": "^6.0.0",
