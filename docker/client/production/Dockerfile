@@ -2,6 +2,10 @@ FROM node:8-alpine AS builder
 
 WORKDIR /app
 
+# dependencies
+
+RUN apk add --no-cache git openssh
+
 # install
 
 COPY package.json yarn.lock /app/

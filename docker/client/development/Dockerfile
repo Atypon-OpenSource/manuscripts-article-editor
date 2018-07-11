@@ -4,7 +4,7 @@ WORKDIR /app
 
 # dependencies
 
-RUN apk --no-cache git openssh
+RUN apk add --no-cache git openssh
 
 # install
 
