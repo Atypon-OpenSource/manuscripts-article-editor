@@ -28,8 +28,6 @@ export const FormLink = styled(Link)`
 `
 
 export const FormError = styled.div`
-  width: 795px;
-  height: 50px;
   background: #fdf2f0;
   color: #cd593c;
   border-radius: 2px;
