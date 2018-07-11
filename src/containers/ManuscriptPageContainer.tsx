@@ -616,9 +616,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       'sessionID',
       'createdAt',
       'updatedAt',
-      'project',
-      'manuscript',
       'owners',
+      'manuscriptID',
+      'containerID',
     ]
 
     return Object.keys(component).filter(key => !excludedKeys.includes(key))
@@ -634,7 +634,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     // look for different keys
     if (
-      JSON.stringify(componentKeys) !== JSON.stringify(previousComponentKeys)
+      componentKeys.length !==
+      new Set([...componentKeys, ...previousComponentKeys]).size
     ) {
       return true
     }
