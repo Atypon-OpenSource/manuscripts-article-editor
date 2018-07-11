@@ -13,6 +13,7 @@
     "no-any": true,
     "no-implicit-dependencies": [true, "dev"],
     "no-shadowed-variable": false,
+    "no-unused-variable": false,
     "object-literal-sort-keys": false,
     "only-arrow-functions": true,
     "no-submodule-imports": false,

@@ -30,7 +30,7 @@ APP_GOOGLE_AUTH_CALLBACK=http://api-test.manuscripts.io:3000/api/v1/auth/google/
 APP_PORT=3000
 APP_CLIENT_APPLICATIONS=com.manuscripts.Manuscripts,foobar,Manuscripts;io.manuscripts,,Manuscripts.io
 APP_STORE_ONLY_SSL_TRANSMITTED_COOKIES=0
-APP_ALLOWED_CORS_ORIGINS=http://0.0.0.0:8080;http://127.0.0.1:8080;http://client-test.manuscripts.io:8080
+APP_ALLOWED_CORS_ORIGINS=http://0.0.0.0:8080;http://127.0.0.1:8080;http://client-test.manuscripts.io:8080;http://client-test.manuscripts.io:8081
 APP_GATEWAY_COOKIE_DOMAIN=.manuscripts.io
 APP_SKIP_ACCOUNT_VERIFICATION=1
 

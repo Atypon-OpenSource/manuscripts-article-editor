@@ -112,6 +112,10 @@
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@emotion/utils/-/utils-0.7.1.tgz#e44e596d03c9f16ba3b127ad333a8a072bcb5a0a"
 
+"@manuscripts/assets@git+ssh://git@gitlab.com/mpapp-private/manuscripts-gfx-assets":
+  version "1.0.0"
+  resolved "git+ssh://git@gitlab.com/mpapp-private/manuscripts-gfx-assets#f9ee54385a163a1218cbf76009cc0eedf1805273"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

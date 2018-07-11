@@ -11,6 +11,8 @@
     "moduleResolution": "node",
     "noImplicitThis": true,
     "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
     "skipLibCheck": true,
     "strictNullChecks": true,
     "typeRoots" : [

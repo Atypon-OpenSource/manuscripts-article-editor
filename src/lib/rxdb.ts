@@ -1,6 +1,5 @@
 import PouchDBHTTPAdapter from 'pouchdb-adapter-http'
 import PouchDBIDBAdapter from 'pouchdb-adapter-idb'
-import { RxDatabase } from 'rxdb'
 import RxDBAttachmentsModule from 'rxdb/plugins/attachments'
 import RxDB from 'rxdb/plugins/core'
 import RxDBErrorMessagesModule from 'rxdb/plugins/error-messages'
@@ -50,7 +49,7 @@ export interface Db {
 export const waitForDB = RxDB.create({
   name: 'manuscriptsdb',
   adapter: 'idb',
-}) as Promise<RxDatabase>
+})
 
 export const removeDB = () =>
   RxDB.removeDatabase('manuscriptsdb', 'idb')

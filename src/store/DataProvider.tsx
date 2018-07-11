@@ -92,18 +92,24 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     replication.error$.subscribe((error: PouchDB.Core.Error) => {
       console.error(error) // tslint:disable-line:no-console
 
-      replication.cancel().then(() => {
-        this.handleSyncError(error)
-          .then(() => {
-            this.sync(options)
-          })
-          .catch(() => {
-            this.setState({
-              completed: true, // continue offline if necessary
-              error: error.message || null,
+      replication
+        .cancel()
+        .then(() => {
+          this.handleSyncError(error)
+            .then(() => {
+              this.sync(options)
             })
-          })
-      })
+            .catch(() => {
+              this.setState({
+                completed: true, // continue offline if necessary
+                error: error.message || null,
+              })
+            })
+        })
+        .catch(e => {
+          // tslint:disable-next-line:no-console
+          console.error('Replication failed due to error', e)
+        })
     })
 
     // replication.change$.subscribe(change => {

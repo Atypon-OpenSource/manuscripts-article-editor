@@ -24,6 +24,7 @@
     "build-storybook": "build-storybook --config-dir stories/config"
   },
   "dependencies": {
+    "@manuscripts/assets": "git+ssh://git@gitlab.com/mpapp-private/manuscripts-gfx-assets",
     "@types/codemirror": "^0.0.58",
     "@types/lodash": "^4.14.104",
     "@types/lodash-es": "^4.17.0",

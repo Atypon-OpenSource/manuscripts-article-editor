@@ -94,7 +94,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
           manuscripts={manuscripts}
           project={{
             ...project,
-            title: project.title || 'Untitled',
+            title: project.title || 'Untitled Project',
           }}
           saveProject={this.saveProject}
         />

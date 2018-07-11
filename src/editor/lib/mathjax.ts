@@ -6,7 +6,11 @@ import { TeX } from 'mathjax3/mathjax3/input/tex'
 import { CHTML } from 'mathjax3/mathjax3/output/chtml'
 import 'mathjax3/mathjax3/util/entities/all'
 
-type Generate = (container: HTMLElement, math: string, display: boolean) => void
+type Generate = (
+  container: HTMLElement,
+  math: string | null,
+  display: boolean
+) => void
 
 export interface Mathjax {
   generate: Generate
@@ -32,18 +36,24 @@ const typeset = (math: string, display: boolean) => {
   return item.typesetRoot
 }
 
-export const generate: Generate = (container, math, display) => {
+export const generate: Generate = (
+  container: HTMLElement,
+  math: string | null,
+  display: boolean
+) => {
   while (container.hasChildNodes()) {
-    container.removeChild(container.firstChild as Node)
+    container.removeChild(container.firstChild as HTMLElement)
   }
 
   if (math) {
     const typesetRoot = typeset(math, display)
-    container.appendChild(typesetRoot as Node)
+    container.appendChild(typesetRoot as HTMLElement)
+    return typesetRoot
   } else {
     const placeholder = document.createElement('div')
     placeholder.className = 'equation-placeholder'
     placeholder.textContent = '<Equation>'
     container.appendChild(placeholder)
+    return placeholder
   }
 }

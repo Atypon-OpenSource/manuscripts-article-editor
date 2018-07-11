@@ -1,0 +1,229 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mathjax generate 1`] = `
+<mjx-chtml
+  class="MathJax MJX-CHTML MJX-TEX"
+>
+  <mjx-math>
+    <mjx-msqrt>
+      <mjx-sqrt>
+        <mjx-surd>
+          <mjx-mo
+            class="mjx-n"
+          >
+            <mjx-c
+              c="221A"
+            />
+          </mjx-mo>
+        </mjx-surd>
+        <mjx-box
+          style="padding-top: 0.129em;"
+        >
+          <mjx-mn
+            class="mjx-n"
+          >
+            <mjx-c
+              c="2"
+            />
+          </mjx-mn>
+        </mjx-box>
+      </mjx-sqrt>
+    </mjx-msqrt>
+    <mjx-mo
+      class="mjx-n"
+      space="3"
+    >
+      <mjx-c
+        c="2212"
+      />
+    </mjx-mo>
+    <mjx-msub
+      space="3"
+    >
+      <mjx-mi
+        class="mjx-i"
+        no-i-c="true"
+      >
+        <mjx-c
+          c="z"
+        />
+      </mjx-mi>
+      <mjx-script
+        style="vertical-align: -0.15em;"
+      >
+        <mjx-texatom
+          size="s"
+        >
+          <mjx-mi
+            class="mjx-i"
+          >
+            <mjx-c
+              c="f"
+            />
+          </mjx-mi>
+          <mjx-mi
+            class="mjx-i"
+          >
+            <mjx-c
+              c="o"
+            />
+          </mjx-mi>
+          <mjx-mi
+            class="mjx-i"
+          >
+            <mjx-c
+              c="o"
+            />
+          </mjx-mi>
+        </mjx-texatom>
+      </mjx-script>
+    </mjx-msub>
+    <mjx-mo
+      class="mjx-n"
+      space="4"
+    >
+      <mjx-c
+        c="="
+      />
+    </mjx-mo>
+    <mjx-mo
+      class="mjx-sop"
+      space="4"
+    >
+      <mjx-c
+        c="2211"
+      />
+    </mjx-mo>
+    <mjx-texatom
+      space="2"
+    >
+      <mjx-mi
+        class="mjx-i"
+      >
+        <mjx-c
+          c="x"
+        />
+      </mjx-mi>
+    </mjx-texatom>
+  </mjx-math>
+</mjx-chtml>
+`;
+
+exports[`mathjax generate 2`] = `
+<mjx-chtml
+  class="MathJax MJX-CHTML MJX-TEX MJX-DISPLAY"
+>
+  <mjx-math
+    display="true"
+  >
+    <mjx-msqrt>
+      <mjx-sqrt>
+        <mjx-surd>
+          <mjx-mo
+            class="mjx-n"
+          >
+            <mjx-c
+              c="221A"
+            />
+          </mjx-mo>
+        </mjx-surd>
+        <mjx-box
+          style="padding-top: 0.082em;"
+        >
+          <mjx-mn
+            class="mjx-n"
+          >
+            <mjx-c
+              c="2"
+            />
+          </mjx-mn>
+        </mjx-box>
+      </mjx-sqrt>
+    </mjx-msqrt>
+    <mjx-mo
+      class="mjx-n"
+      space="3"
+    >
+      <mjx-c
+        c="2212"
+      />
+    </mjx-mo>
+    <mjx-msub
+      space="3"
+    >
+      <mjx-mi
+        class="mjx-i"
+        no-i-c="true"
+      >
+        <mjx-c
+          c="z"
+        />
+      </mjx-mi>
+      <mjx-script
+        style="vertical-align: -0.15em;"
+      >
+        <mjx-texatom
+          size="s"
+        >
+          <mjx-mi
+            class="mjx-i"
+          >
+            <mjx-c
+              c="f"
+            />
+          </mjx-mi>
+          <mjx-mi
+            class="mjx-i"
+          >
+            <mjx-c
+              c="o"
+            />
+          </mjx-mi>
+          <mjx-mi
+            class="mjx-i"
+          >
+            <mjx-c
+              c="o"
+            />
+          </mjx-mi>
+        </mjx-texatom>
+      </mjx-script>
+    </mjx-msub>
+    <mjx-mo
+      class="mjx-n"
+      space="4"
+    >
+      <mjx-c
+        c="="
+      />
+    </mjx-mo>
+    <mjx-mo
+      class="mjx-lop"
+      space="4"
+    >
+      <mjx-c
+        c="2211"
+      />
+    </mjx-mo>
+    <mjx-texatom
+      space="2"
+    >
+      <mjx-mi
+        class="mjx-i"
+      >
+        <mjx-c
+          c="x"
+        />
+      </mjx-mi>
+    </mjx-texatom>
+  </mjx-math>
+</mjx-chtml>
+`;
+
+exports[`mathjax generate 3`] = `
+<div
+  class="equation-placeholder"
+>
+  &lt;Equation&gt;
+</div>
+`;

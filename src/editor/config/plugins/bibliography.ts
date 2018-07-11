@@ -86,10 +86,8 @@ export default (props: EditorProps) => {
       const bibliography = citationProcessor.makeBibliography()
 
       if (bibliography) {
-        const [
-          _bibmeta,
-          generatedBibliographyItems,
-        ] = bibliography as Bibliography
+        // item at index 0 is unused, hence using this syntax.
+        const generatedBibliographyItems = (bibliography as Bibliography)[1]
 
         tr.doc.descendants((node, pos) => {
           if (node.type.name === 'bibliography') {
