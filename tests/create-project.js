@@ -13,5 +13,5 @@ fixture `Projects`
       
       await t
       .click(sidebar.find('button'))
-      .expect(projectTitle.innerText).eql('Untitled')
+      .expect(projectTitle.innerText).eql('Untitled Project')
     })

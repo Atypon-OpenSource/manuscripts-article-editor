@@ -13,6 +13,8 @@ export const MenuContainer = styled.div`
   align-items: center;
   color: #000;
   font-family: ${props => props.theme.fontFamily};
+  font-weight: 500;
+  font-size: 16px;
   white-space: nowrap;
 `
 
@@ -78,8 +80,6 @@ export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
           <ProjectsMenu handleClose={handleClose} />
         </MenuDropdown>
 
-        <MenuLink to={`/projects/${projectID}/activity`}>Activity</MenuLink>
-        <MenuLink to={`/projects/${projectID}/plan`}>Plan</MenuLink>
         <MenuLink to={`/projects/${projectID}/people`}>People</MenuLink>
         <MenuLink to={`/projects/${projectID}/library`}>Library</MenuLink>
 

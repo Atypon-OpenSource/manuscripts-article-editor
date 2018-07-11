@@ -45,7 +45,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
       <SidebarHeader>
         <ProjectTitle>
           <ProjectLink to={`/projects/${project.id}`}>
-            {project.title || 'Untitled'}
+            {project.title || 'Untitled Project'}
           </ProjectLink>
         </ProjectTitle>
       </SidebarHeader>

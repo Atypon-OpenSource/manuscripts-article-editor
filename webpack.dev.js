@@ -9,10 +9,10 @@ const common = require('./webpack.common.js')
 let devServerOpts = {
   contentBase: './dist',
   historyApiFallback: true,
-  host: '0.0.0.0',
+  host: 'client-test.manuscripts.io',
   disableHostCheck: true,
   hot: true,
-  open: true,
+  open: true
   // proxy: {
   //   '/api': 'http://localhost:3000',
   // },

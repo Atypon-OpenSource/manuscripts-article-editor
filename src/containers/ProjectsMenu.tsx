@@ -56,7 +56,7 @@ class ProjectsMenu extends React.Component<Props & ComponentsProps, State> {
             activeStyle={activeStyle}
             onClick={event => (handleClose ? handleClose(event) : null)}
           >
-            {project.title || 'Untitled'}
+            {project.title || 'Untitled Project'}
           </DropdownLink>
         ))}
       </React.Fragment>

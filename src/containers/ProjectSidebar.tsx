@@ -64,7 +64,7 @@ const ProjectSidebar: React.SFC<Props> = ({
             <ManuscriptTitle
               to={`/projects/${project.id}/manuscripts/${manuscript.id}`}
             >
-              <Title value={manuscript.title || 'Untitled'} />
+              <Title value={manuscript.title || 'Untitled Manuscript'} />
             </ManuscriptTitle>
           </SidebarManuscript>
         ))}

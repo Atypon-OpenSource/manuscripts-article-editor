@@ -13,16 +13,6 @@ const Container = styled.div`
   box-sizing: border-box;
 `
 
-const Body = styled.div`
-  flex: 1;
-  display: flex;
-`
-
-const Main = styled.main`
-  flex: 1;
-  padding: 16px;
-`
-
 interface Props {
   projects: Project[]
   addProject: AddProject
@@ -31,9 +21,6 @@ interface Props {
 export const ProjectsPage: React.SFC<Props> = ({ projects, addProject }) => (
   <Container>
     <GlobalMenu />
-    <Body>
-      <ProjectsSidebar projects={projects} addProject={addProject} />
-      <Main />
-    </Body>
+    <ProjectsSidebar projects={projects} addProject={addProject} />
   </Container>
 )

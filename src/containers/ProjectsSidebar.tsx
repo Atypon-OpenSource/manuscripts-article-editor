@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import Panel from '../components/Panel'
 import {
   Sidebar,
   SidebarContent,
@@ -19,22 +18,60 @@ const SidebarProject = styled(NavLink)`
 `
 
 const ProjectTitle = styled.div`
-  font-size: 120%;
+  font-size: 19px;
+  font-weight: 500;
+  font-style: normal;
 `
 
-const SidebarIcon = styled.button`
+const AddButton = styled.button`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  color: #353535;
+  cursor: pointer;
+  background: none;
   border: none;
+  padding: 0;
+
+  &:hover {
+    color: #000;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`
+const AddIcon = styled.span`
   background: #fdcd47;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  padding: 4px;
+  padding: 6px;
+  width: 19px;
+  height: 19px;
   cursor: pointer;
 
   &:hover {
     background: #fda72e;
   }
+`
+
+const SidebarAction = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`
+
+const SidebarActionTitle = styled.span`
+  display: flex;
+  align-items: center;
+  padding-left: 11px;
+  padding-bottom: 2px;
+  font-weight: 600;
+  font-size: 14px;
 `
 
 interface Props {
@@ -43,23 +80,26 @@ interface Props {
 }
 
 const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
-  <Panel name={'sidebar'} direction={'row'} side={'end'} minSize={200}>
-    <Sidebar id="sidebar">
-      <SidebarHeader>
-        <SidebarTitle id="projects">Projects</SidebarTitle>
-        <SidebarIcon onClick={addProject}>
-          <Add color={'#fff'} size={16} />
-        </SidebarIcon>
-      </SidebarHeader>
-      <SidebarContent>
-        {projects.map((project: Project) => (
-          <SidebarProject to={`/projects/${project.id}`} key={project.id}>
-            <ProjectTitle>{project.title || 'Untitled'}</ProjectTitle>
-          </SidebarProject>
-        ))}
-      </SidebarContent>
-    </Sidebar>
-  </Panel>
+  <Sidebar id="sidebar">
+    <SidebarHeader>
+      <SidebarTitle id="projects">Projects</SidebarTitle>
+    </SidebarHeader>
+    <SidebarAction>
+      <AddButton onClick={addProject}>
+        <AddIcon>
+          <Add color={'#fff'} size={19} />
+        </AddIcon>
+        <SidebarActionTitle>Add New Project</SidebarActionTitle>
+      </AddButton>
+    </SidebarAction>
+    <SidebarContent>
+      {projects.map(project => (
+        <SidebarProject to={`/projects/${project.id}`} key={project.id}>
+          <ProjectTitle>{project.title || 'Untitled Project'}</ProjectTitle>
+        </SidebarProject>
+      ))}
+    </SidebarContent>
+  </Sidebar>
 )
 
 export default ProjectsSidebar
