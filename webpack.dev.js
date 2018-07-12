@@ -9,7 +9,7 @@ const common = require('./webpack.common.js')
 let devServerOpts = {
   contentBase: './dist',
   historyApiFallback: true,
-  host: 'client-test.manuscripts.io',
+  host: '0.0.0.0',
   disableHostCheck: true,
   hot: true,
   open: true

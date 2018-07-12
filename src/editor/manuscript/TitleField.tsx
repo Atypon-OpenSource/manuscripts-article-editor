@@ -12,6 +12,7 @@ export class TitleField extends Title {
       dispatchTransaction: this.dispatchTransaction,
       attributes: {
         class: 'plain',
+        id: `${this.props.id}-title-field`,
       },
     })
 

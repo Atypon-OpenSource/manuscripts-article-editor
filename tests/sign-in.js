@@ -5,7 +5,7 @@ import { Selector, ClientFunction } from 'testcafe';
 fixture `Successful login`
 
     const sidebar = Selector('#projects');
-    const dropdDownToggle = Selector('#drop-down-toggle');
+    const dropdDownToggle = Selector('#user-dropdown-toggle');
     const signUpForm = ReactSelector('SignupForm')
     const deleteAccount = Selector('#delete-account');
     const deleteAccountForm = ReactSelector('DeleteAccountForm');
@@ -31,7 +31,7 @@ fixture `Successful login`
         .click(deleteAccount)
         .typeText(deleteAccountForm.find('input[name=password]'), '12345678')
         .click(deleteAccountForm.find('button[type=submit]'))
-        .wait(4000)
+        .wait(5000)
         .expect(getLocation()).contains('/signup')
         .expect(signUpForm.exists).ok();
     })

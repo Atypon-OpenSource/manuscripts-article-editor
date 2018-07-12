@@ -59,6 +59,7 @@ export interface EditorProps {
   setView?: (view: EditorView) => void
   manuscript: Manuscript
   projectID: string
+  id: string
 }
 
 interface State {
@@ -142,6 +143,7 @@ class Editor extends React.Component<EditorProps, State> {
             manuscript={this.props.manuscript}
             saveComponent={this.props.saveComponent}
             deleteComponent={this.props.deleteComponent}
+            id={this.props.id}
           />
           <EditorContent innerRef={this.createEditorView} />
         </EditorBody>

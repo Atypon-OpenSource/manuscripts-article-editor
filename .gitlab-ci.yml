@@ -37,11 +37,6 @@ testcafe:
   artifacts:
     paths:
       - ./screenshots
-  only:
-    refs:
-      - master
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /#testcafe/
   tags:
     - docker-compose
 

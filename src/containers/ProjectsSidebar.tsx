@@ -115,7 +115,7 @@ const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
         <SidebarTitle id="projects">Projects</SidebarTitle>
       </SidebarHeader>
       <SidebarAction>
-        <AddButton onClick={addProject}>
+        <AddButton id="sidebar-add-button" onClick={addProject}>
           <Add size={32} />
           <SidebarActionTitle>Add New Project</SidebarActionTitle>
         </AddButton>

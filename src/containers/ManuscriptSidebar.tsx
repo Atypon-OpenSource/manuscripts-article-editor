@@ -45,6 +45,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
       <SidebarHeader>
         <ProjectTitle>
           <TitleField
+            id="project-title"
             value={project.title || 'Untitled Project'}
             handleChange={title =>
               saveProject({

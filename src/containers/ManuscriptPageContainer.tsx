@@ -193,6 +193,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             attributes={{
               dir: locale === 'ar' ? 'rtl' : 'ltr', // TODO: remove hard-coded locale
             }}
+            id={manuscript.id}
           />
 
           <Prompt when={dirty} message={() => false} />

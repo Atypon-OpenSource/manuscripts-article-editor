@@ -13,6 +13,7 @@ interface Props {
 
 export const UserMenu: React.SFC<Props> = ({ user }) => (
   <MenuDropdown
+    id="user"
     buttonContents={
       <MenuLink to={'/profile'}>
         <Avatar src={user.avatar} size={32} color={'#788faa'} />

@@ -24,6 +24,7 @@ interface Props {
   saveManuscript?: SaveManuscript
   saveComponent: SaveComponent
   deleteComponent: DeleteComponent
+  id: string
 }
 
 interface State {
@@ -72,6 +73,7 @@ class MetadataContainer extends React.Component<
         stopEditing={this.stopEditing}
         toggleExpanded={this.toggleExpanded}
         expanded={this.state.expanded}
+        id={manuscript.id}
       />
     )
   }

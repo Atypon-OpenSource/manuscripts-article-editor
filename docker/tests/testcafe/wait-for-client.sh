@@ -29,6 +29,6 @@ do
   sleep 1
 done
 
-echo "Connected to API…"
+echo "Connected to API."
 
 exec "$@"

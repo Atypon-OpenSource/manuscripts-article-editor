@@ -11,6 +11,7 @@ export const createEditorState = (value: string) =>
   })
 
 interface Props {
+  id?: string
   value: string
   handleChange?: (value: string) => void
   className?: string
