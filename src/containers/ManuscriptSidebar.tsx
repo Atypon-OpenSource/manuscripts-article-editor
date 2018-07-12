@@ -1,6 +1,5 @@
 import * as React from 'react'
 import debounceRender from 'react-debounce-render'
-import { Link } from 'react-router-dom'
 import { DraggableTreeProps } from '../components/DraggableTree'
 import Panel from '../components/Panel'
 import {
@@ -9,7 +8,7 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../components/Sidebar'
-import { styled } from '../theme'
+import { TitleField } from '../editor/manuscript/TitleField'
 import { Manuscript, Project } from '../types/components'
 // import ComponentsStatusContainer from './ComponentsStatusContainer'
 import ManuscriptOutlineContainer from './ManuscriptOutlineContainer'
@@ -17,16 +16,12 @@ import ManuscriptOutlineContainer from './ManuscriptOutlineContainer'
 interface Props {
   project: Project
   manuscript: Manuscript
+  saveProject: (project: Project) => Promise<void>
 }
 
 const ProjectTitle = SidebarTitle.extend`
-  font-size: 110%;
-  color: black;
-`
-
-const ProjectLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
+  font-size: 22px;
+  color: #353535;
 `
 
 const DebouncedManuscriptOutlineContainer = debounceRender(
@@ -39,14 +34,25 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
   manuscript,
   onDrop,
   project,
+  saveProject,
 }) => (
   <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
-    <Sidebar>
+    <Sidebar
+      style={{
+        background: '#f0f6fb',
+      }}
+    >
       <SidebarHeader>
         <ProjectTitle>
-          <ProjectLink to={`/projects/${project.id}`}>
-            {project.title || 'Untitled Project'}
-          </ProjectLink>
+          <TitleField
+            value={project.title || 'Untitled Project'}
+            handleChange={title =>
+              saveProject({
+                ...project,
+                title,
+              })
+            }
+          />
         </ProjectTitle>
       </SidebarHeader>
 

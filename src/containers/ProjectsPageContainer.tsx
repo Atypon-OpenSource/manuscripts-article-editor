@@ -14,18 +14,28 @@ import sessionID from '../lib/sessionID'
 import timestamp from '../lib/timestamp'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
-import { PROJECT } from '../transformer/object-types'
-import { Project, UserProfile } from '../types/components'
+import { CONTRIBUTOR, PROJECT } from '../transformer/object-types'
+import {
+  AnyComponent,
+  AnyContainedComponent,
+  Component,
+  ComponentDocument,
+  Contributor,
+  Project,
+  UserProfile,
+} from '../types/components'
 import {
   AddProject,
-  ProjectDocument,
   // RemoveProject,
   // UpdateProject,
 } from '../types/project'
 
+export interface ProjectInfo extends Partial<Project> {
+  contributors: Contributor[]
+}
+
 interface State {
-  projects: Project[]
-  loaded: boolean
+  projects: ProjectInfo[] | null
 }
 
 class ProjectsPageContainer extends React.Component<
@@ -33,24 +43,13 @@ class ProjectsPageContainer extends React.Component<
   State
 > {
   public state: Readonly<State> = {
-    projects: [],
-    loaded: false,
+    projects: null,
   }
 
   private subs: Subscription[] = []
 
   public componentDidMount() {
-    const sub = this.getCollection()
-      .find({ objectType: PROJECT })
-      .sort({ createdAt: -1 })
-      .$.subscribe((projects: ProjectDocument[]) => {
-        this.setState({
-          projects: projects.map(project => project.toJSON()),
-          loaded: true,
-        })
-      })
-
-    this.subs.push(sub)
+    this.subs.push(this.loadComponents())
   }
 
   public componentWillUnmount() {
@@ -58,14 +57,14 @@ class ProjectsPageContainer extends React.Component<
   }
 
   public render() {
-    const { projects, loaded } = this.state
+    const { projects } = this.state
     const { user } = this.props
 
     if (!user.loaded) {
       return <Spinner />
     }
 
-    if (!loaded) {
+    if (!projects) {
       return <Spinner />
     }
 
@@ -75,6 +74,64 @@ class ProjectsPageContainer extends React.Component<
       </Page>
     )
   }
+
+  private isProject = (component: Component): component is Project =>
+    component.objectType === PROJECT
+
+  private isProjectComponent = (projectID: string) => (
+    component: AnyComponent
+  ): component is AnyContainedComponent =>
+    'containerID' in component && component.containerID === projectID
+
+  // private sortNewestFirst = (a: Component, b: Component) =>
+  //   Number(a.createdAt) - Number(b.createdAt)
+
+  private sortByPriority = (a: Contributor, b: Contributor) =>
+    Number(a.priority) - Number(b.priority)
+
+  private loadComponents = () =>
+    this.getCollection()
+      .find({
+        $or: [
+          { objectType: CONTRIBUTOR },
+          // { objectType: MANUSCRIPT },
+          { objectType: PROJECT },
+        ],
+      })
+      .$.subscribe((docs: ComponentDocument[]) => {
+        const components: AnyComponent[] = docs.map(doc => doc.toJSON())
+
+        const projects: ProjectInfo[] = []
+
+        components.forEach(component => {
+          if (this.isProject(component)) {
+            const projectID = component.id
+
+            const projectComponents = components.filter(
+              this.isProjectComponent(projectID)
+            )
+
+            const contributors: Contributor[] = projectComponents
+              .filter(component => component.objectType === CONTRIBUTOR)
+              .sort(this.sortByPriority) as Contributor[]
+
+            // const manuscripts: Manuscript[] = projectComponents
+            //   .filter(component => component.objectType === MANUSCRIPT)
+            //   .sort(this.sortNewestFirst) as Manuscript[]
+
+            projects.push({
+              id: component.id,
+              objectType: component.objectType,
+              title: component.title,
+              owners: component.owners,
+              // manuscripts,
+              contributors,
+            })
+          }
+        })
+
+        this.setState({ projects })
+      })
 
   private getCollection() {
     return this.props.components.collection as RxCollection<{}>

@@ -1,6 +1,6 @@
 import { debounce } from 'lodash-es'
 import React from 'react'
-import { RouteComponentProps } from 'react-router'
+import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument, RxError } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import ManuscriptsPage from '../components/ManuscriptsPage'
@@ -88,6 +88,14 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
       return <Spinner />
     }
 
+    if (this.redirectToManuscript()) {
+      return (
+        <Redirect
+          to={`/projects/${project.id}/manuscripts/${manuscripts[0].id}`}
+        />
+      )
+    }
+
     return (
       <Page projectID={project.id}>
         <ProjectSidebar
@@ -110,6 +118,8 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
       </Page>
     )
   }
+
+  private redirectToManuscript = () => true
 
   private getCollection() {
     return this.props.components.collection as RxCollection<{}>

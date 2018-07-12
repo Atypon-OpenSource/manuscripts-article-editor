@@ -1,5 +1,6 @@
 import React from 'react'
-import { Dropdown, DropdownContainer, DropdownToggle } from './Dropdown'
+import DropdownToggle from '../icons/dropdown-toggle'
+import { Dropdown, DropdownContainer, DropdownToggleButton } from './Dropdown'
 
 interface Props {
   buttonContents: string | React.ReactNode
@@ -22,9 +23,9 @@ class MenuDropdown extends React.Component<Props, State> {
       <DropdownContainer>
         {buttonContents}
 
-        <DropdownToggle id="drop-down-toggle" onClick={this.toggle}>
-          ▼
-        </DropdownToggle>
+        <DropdownToggleButton id="drop-down-toggle" onClick={this.toggle}>
+          <DropdownToggle />
+        </DropdownToggleButton>
 
         {this.state.open && (
           <Dropdown style={dropdownStyle}>{children}</Dropdown>

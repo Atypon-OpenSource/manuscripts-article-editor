@@ -4,7 +4,7 @@ import React from 'react'
 import {
   Dropdown,
   DropdownContainer,
-  DropdownToggle,
+  DropdownToggleButton,
 } from '../src/components/Dropdown'
 import { UserInfo } from '../src/components/UserInfo'
 import { user } from './data/contributors'
@@ -12,7 +12,7 @@ import { user } from './data/contributors'
 storiesOf('Dropdown', module).add('Menu', () => (
   <DropdownContainer>
     <span>Menu</span>
-    <DropdownToggle onClick={action('toggle')}>▼</DropdownToggle>
+    <DropdownToggleButton onClick={action('toggle')}>▼</DropdownToggleButton>
     <Dropdown>
       <UserInfo user={user} />
     </Dropdown>

@@ -7,7 +7,7 @@ export const DropdownContainer = styled.div`
   align-items: center;
 `
 
-export const DropdownToggle = styled.button`
+export const DropdownToggleButton = styled.button`
   border: none;
   background: none;
   color: #999;

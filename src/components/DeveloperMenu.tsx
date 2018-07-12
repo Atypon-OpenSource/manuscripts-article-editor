@@ -32,6 +32,11 @@ export const MenuLabel = styled.div`
   margin-left: 20px;
 `
 
+const PlainLink = styled.a`
+  color: inherit;
+  text-decoration: none;
+`
+
 export const DeveloperMenu = () => (
   <React.Fragment>
     <DropdownAction
@@ -53,7 +58,7 @@ export const DeveloperMenu = () => (
     )}
 
     <DropdownInfo>
-      <a href={`${config.api.url}/app/version`}>API version</a>
+      <PlainLink href={`${config.api.url}/app/version`}>API version</PlainLink>
     </DropdownInfo>
   </React.Fragment>
 )

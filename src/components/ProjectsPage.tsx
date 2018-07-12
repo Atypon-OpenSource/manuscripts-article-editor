@@ -1,7 +1,7 @@
 import React from 'react'
+import { ProjectInfo } from '../containers/ProjectsPageContainer'
 import ProjectsSidebar from '../containers/ProjectsSidebar'
 import { styled } from '../theme'
-import { Project } from '../types/components'
 import { AddProject } from '../types/project'
 import { GlobalMenu } from './GlobalMenu'
 
@@ -14,7 +14,7 @@ const Container = styled.div`
 `
 
 interface Props {
-  projects: Project[]
+  projects: ProjectInfo[]
   addProject: AddProject
 }
 

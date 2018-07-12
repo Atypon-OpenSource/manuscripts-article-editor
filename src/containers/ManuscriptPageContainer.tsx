@@ -165,6 +165,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           project={project}
           doc={doc}
           onDrop={this.handleDrop}
+          saveProject={this.saveProject}
         />
 
         <Main>
@@ -273,6 +274,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const manuscript = this.getManuscript()
 
     return manuscript.primaryLanguageCode || this.props.intl.locale || 'en-GB'
+  }
+
+  // FIXME: this shouldn't need a project ID
+  private saveProject = async (project: Project) => {
+    await this.props.components.saveComponent(project, {
+      projectID: project.id,
+    })
   }
 
   private getManuscript = () => {

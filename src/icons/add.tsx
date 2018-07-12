@@ -2,15 +2,18 @@ import React from 'react'
 import { IconProps } from './types'
 
 const Add = (props: IconProps) => (
-  <svg
-    viewBox="0 0 512 512"
-    width={props.size || 45}
-    height={props.size || 45}
-    fill={props.color || '#fff'}
-  >
-    <path d="M295.516 216.494h154v78.992h-154v-78.992zM62.474 216.514h154.05v78.971H62.474v-78.971z" />
-    <path d="M216.525 295.465h79.001v154.05h-79.001v-154.05zM216.525 62.474h79.001v154.041h-79.001V62.474z" />
-    <path d="M216.525 216.514h79.001v78.971h-79.001v-78.971z" />
+  <svg viewBox="0 0 32 34" width={props.size || 32} height={props.size || 34}>
+    <g fill="none" fillRule="evenodd">
+      <path
+        d="M20.5 2.278l6 3.464a9 9 0 0 1 4.5 7.794v6.928a9 9 0 0 1-4.5 7.794l-6 3.464a9 9 0 0 1-9 0l-6-3.464A9 9 0 0 1 1 20.464v-6.928a9 9 0 0 1 4.5-7.794l6-3.464a9 9 0 0 1 9 0z"
+        fill={props.color || '#FDCD47'}
+      />
+      <path
+        d="M15.255 15.707v-6a.75.75 0 1 1 1.5 0v6h6a.75.75 0 0 1 0 1.5h-6v6a.75.75 0 0 1-1.5 0v-6h-6a.75.75 0 1 1 0-1.5h6z"
+        stroke="#FFF"
+        fill="#FFF"
+      />
+    </g>
   </svg>
 )
 

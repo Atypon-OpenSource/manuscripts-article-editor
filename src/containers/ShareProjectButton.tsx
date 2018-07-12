@@ -8,9 +8,11 @@ import ShareProjectPopperContainer from './ShareProjectPopperContainer'
 const ShareIconButton = styled(IconButton)`
   height: 28px;
   width: 28px;
-`
 
-type OpenShareProjectURIPopper = () => void
+  &:focus {
+    outline: none;
+  }
+`
 
 interface State {
   isOpen: boolean
@@ -33,7 +35,7 @@ class ShareProjectButton extends React.Component<Props, State> {
         <Reference>
           {({ ref }) => (
             <ShareIconButton
-              onClick={() => this.openShareProjectURIPopper()}
+              onClick={this.openShareProjectURIPopper}
               innerRef={ref}
             >
               <ShareProjectIcon />
@@ -54,7 +56,7 @@ class ShareProjectButton extends React.Component<Props, State> {
     )
   }
 
-  private openShareProjectURIPopper: OpenShareProjectURIPopper = () => {
+  private openShareProjectURIPopper = () => {
     this.setState({
       isOpen: !this.state.isOpen,
     })

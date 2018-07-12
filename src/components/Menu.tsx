@@ -11,11 +11,12 @@ export const MenuContainer = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  color: #000;
+  color: #949494;
   font-family: ${props => props.theme.fontFamily};
   font-weight: 500;
   font-size: 16px;
   white-space: nowrap;
+  border-bottom: solid 1px #ddd;
 `
 
 export const MenuBarIcon = styled.button`
@@ -56,7 +57,8 @@ export const MenuLink = styled(NavLink)`
   border-radius: 4px;
   margin-left: 20px;
 
-  &:hover {
+  &:hover,
+  &.active {
     background: #7fb5d5;
     color: white;
   }
