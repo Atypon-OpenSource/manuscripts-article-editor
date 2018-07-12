@@ -1,6 +1,7 @@
 import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Spinner } from '../components/Spinner'
+import { atomicUpdate } from '../lib/store'
 import { KEYWORD } from '../transformer/object-types'
 import { Keyword } from '../types/components'
 import { ComponentsProps, withComponents } from './ComponentsProvider'
@@ -107,11 +108,7 @@ class KeywordsProvider extends React.Component<
       throw new Error('Keyword object not found')
     }
 
-    return prev.atomicUpdate((doc: RxDocument<Keyword>) => {
-      Object.entries(data).forEach(([key, value]) => {
-        doc.set(key, value)
-      })
-    })
+    return atomicUpdate<Keyword>(prev as RxDocument<Keyword>, data)
   }
 }
 

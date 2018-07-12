@@ -7,6 +7,7 @@ import {
 } from 'rxdb'
 import Spinner from '../icons/spinner'
 import sessionID from '../lib/sessionID'
+import { atomicUpdate } from '../lib/store'
 import timestamp from '../lib/timestamp'
 import * as schema from '../schema'
 import { isManuscriptComponent } from '../transformer/object-types'
@@ -14,7 +15,6 @@ import {
   AnyContainedComponent,
   Attachments,
   ComponentAttachment,
-  ComponentDocument,
 } from '../types/components'
 import DataProvider, { DataProviderContext } from './DataProvider'
 
@@ -114,24 +114,9 @@ class ComponentsProvider extends DataProvider {
     const prev = await collection.findOne({ id: component.id }).exec()
 
     if (prev) {
-      // tslint:disable-next-line:no-unnecessary-type-assertion
-      const result = (await prev.atomicUpdate((doc: ComponentDocument) => {
-        doc.set('updatedAt', now)
-        doc.set('sessionID', sessionID)
+      const result = await atomicUpdate<T>(prev as RxDocument<T>, component)
 
-        // delete doc._deleted
-
-        const { id, _rev, ...rest } = component as Partial<
-          AnyContainedComponent
-        >
-
-        Object.entries(rest).forEach(([key, value]) => {
-          doc.set(key, value)
-          // doc._data[key] = value
-        })
-      })) as RxDocument<T & Attachments>
-
-      return result.toJSON()
+      return result.toJSON() as T & Attachments
     }
 
     // TODO: don't add this for shared components or projects

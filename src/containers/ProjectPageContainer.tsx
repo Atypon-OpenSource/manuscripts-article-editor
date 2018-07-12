@@ -7,6 +7,7 @@ import ManuscriptsPage from '../components/ManuscriptsPage'
 import { Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
 import { buildContributor, buildManuscript } from '../lib/commands'
+import { atomicUpdate } from '../lib/store'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
 import { UserProps, withUser } from '../store/UserProvider'
@@ -56,11 +57,11 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
       .findOne(project!.id)
       .exec()
 
-    return prev!.atomicUpdate((doc: RxDocument<Project>) => {
-      Object.entries(data).forEach(([key, value]) => {
-        doc.set(key, value)
-      })
-    }) as Promise<RxDocument<Project>>
+    if (!prev) {
+      throw new Error('Project object not found')
+    }
+
+    return atomicUpdate<Project>(prev as RxDocument<Project>, data)
   }, 1000)
 
   public async componentDidMount() {
@@ -201,7 +202,6 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  // TODO: atomicUpdate?
   // TODO: catch and handle errors
   private updateManuscript: UpdateManuscript = (manuscript, data) => {
     this.props.components

@@ -1,5 +1,6 @@
 import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
+import { atomicUpdate } from '../lib/store'
 import token from '../lib/token'
 import { USER_PROFILE } from '../transformer/object-types'
 import { UserProfile } from '../types/components'
@@ -156,11 +157,7 @@ class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
       throw new Error('User object not found')
     }
 
-    return prev.atomicUpdate((doc: RxDocument<UserProfile>) => {
-      Object.entries(data).forEach(([key, value]) => {
-        doc.set(key, value)
-      })
-    })
+    return atomicUpdate<UserProfile>(prev as RxDocument<UserProfile>, data)
   }
 
   private fetch = () => {
