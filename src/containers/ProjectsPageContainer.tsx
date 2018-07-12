@@ -1,6 +1,6 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { RxCollection } from 'rxdb'
+import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { Page } from '../components/Page'
 import { ProjectsPage } from '../components/ProjectsPage'
@@ -14,13 +14,11 @@ import sessionID from '../lib/sessionID'
 import timestamp from '../lib/timestamp'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
-import { CONTRIBUTOR, PROJECT } from '../transformer/object-types'
+import { getComponentFromDoc } from '../transformer/decode'
+import { PROJECT, USER_PROFILE } from '../transformer/object-types'
 import {
-  AnyComponent,
-  AnyContainedComponent,
+  Attachments,
   Component,
-  ComponentDocument,
-  Contributor,
   Project,
   UserProfile,
 } from '../types/components'
@@ -31,11 +29,12 @@ import {
 } from '../types/project'
 
 export interface ProjectInfo extends Partial<Project> {
-  contributors: Contributor[]
+  collaborators: UserProfile[]
 }
 
 interface State {
   projects: ProjectInfo[] | null
+  userMap: Map<string, UserProfile>
 }
 
 class ProjectsPageContainer extends React.Component<
@@ -44,11 +43,13 @@ class ProjectsPageContainer extends React.Component<
 > {
   public state: Readonly<State> = {
     projects: null,
+    userMap: new Map(),
   }
 
   private subs: Subscription[] = []
 
   public componentDidMount() {
+    this.subs.push(this.loadUserMap())
     this.subs.push(this.loadComponents())
   }
 
@@ -78,60 +79,58 @@ class ProjectsPageContainer extends React.Component<
   private isProject = (component: Component): component is Project =>
     component.objectType === PROJECT
 
-  private isProjectComponent = (projectID: string) => (
-    component: AnyComponent
-  ): component is AnyContainedComponent =>
-    'containerID' in component && component.containerID === projectID
+  private loadComponents = () => {
+    const collection = this.getCollection()
 
-  // private sortNewestFirst = (a: Component, b: Component) =>
-  //   Number(a.createdAt) - Number(b.createdAt)
-
-  private sortByPriority = (a: Contributor, b: Contributor) =>
-    Number(a.priority) - Number(b.priority)
-
-  private loadComponents = () =>
-    this.getCollection()
-      .find({
-        $or: [
-          { objectType: CONTRIBUTOR },
-          // { objectType: MANUSCRIPT },
-          { objectType: PROJECT },
-        ],
-      })
-      .$.subscribe((docs: ComponentDocument[]) => {
-        const components: AnyComponent[] = docs.map(doc => doc.toJSON())
+    return collection
+      .find({ objectType: PROJECT })
+      .$.subscribe(async (docs: Array<RxDocument<Project>>) => {
+        const getCollaborator = (id: string) =>
+          (this.state.userMap.get(id) as any) as UserProfile // tslint:disable-line:no-any 😥
 
         const projects: ProjectInfo[] = []
 
-        components.forEach(component => {
+        for (const doc of docs) {
+          const component = doc.toJSON()
+
           if (this.isProject(component)) {
-            const projectID = component.id
-
-            const projectComponents = components.filter(
-              this.isProjectComponent(projectID)
-            )
-
-            const contributors: Contributor[] = projectComponents
-              .filter(component => component.objectType === CONTRIBUTOR)
-              .sort(this.sortByPriority) as Contributor[]
-
-            // const manuscripts: Manuscript[] = projectComponents
-            //   .filter(component => component.objectType === MANUSCRIPT)
-            //   .sort(this.sortNewestFirst) as Manuscript[]
+            const collaborators = [
+              ...component.owners.map(getCollaborator),
+              ...component.writers.map(getCollaborator),
+              ...component.viewers.map(getCollaborator),
+            ]
 
             projects.push({
               id: component.id,
               objectType: component.objectType,
               title: component.title,
-              owners: component.owners,
-              // manuscripts,
-              contributors,
+              collaborators,
             })
           }
-        })
+        }
 
         this.setState({ projects })
       })
+  }
+
+  // TODO: move this to a data provider that owns the map of user profiles
+  private loadUserMap = () =>
+    this.getCollection()
+      .find({ objectType: USER_PROFILE })
+      .$.subscribe(
+        async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
+          const users = await Promise.all(
+            docs.map(doc => getComponentFromDoc<UserProfile>(doc))
+          )
+
+          const userMap = users.reduce((output, user) => {
+            output.set(user.userID, user)
+            return output
+          }, new Map())
+
+          this.setState({ userMap })
+        }
+      )
 
   private getCollection() {
     return this.props.components.collection as RxCollection<{}>
@@ -178,7 +177,6 @@ class ProjectsPageContainer extends React.Component<
     )
   }
 
-  // TODO: atomicUpdate?
   // TODO: catch and handle errors
   // private updateProject: UpdateProject = (doc, data) => {
   //   doc

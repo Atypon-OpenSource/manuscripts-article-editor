@@ -3,11 +3,14 @@ import {
   Node as ProsemirrorNode,
   ParseOptions,
 } from 'prosemirror-model'
+import { RxDocument } from 'rxdb'
 import { options } from '../editor/config'
 import {
   AnyComponent,
+  Attachments,
   BibliographyElement,
   Component,
+  ComponentAttachment,
   ComponentDocument,
   ComponentMap,
   EquationElement,
@@ -39,7 +42,9 @@ export const getComponentData = (component: Component): Component => {
   return data
 }
 
-export const getComponentFromDoc = async (doc: ComponentDocument) => {
+export const getComponentFromDoc = async <T extends Component>(
+  doc: RxDocument<Component & Attachments>
+): Promise<T & ComponentAttachment> => {
   const data = getComponentData(doc.toJSON())
 
   if (doc._attachments) {
@@ -48,7 +53,7 @@ export const getComponentFromDoc = async (doc: ComponentDocument) => {
     ;(data as Figure).src = window.URL.createObjectURL(blob)
   }
 
-  return data
+  return data as T & ComponentAttachment
 }
 
 export const parseContents = (contents: string, options?: ParseOptions) => {

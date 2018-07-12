@@ -130,12 +130,12 @@ const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
               <ShareProjectButton projectID={project.id!} />
             </SidebarProjectHeader>
             <ProjectContributors>
-              {project.contributors.map((contributor, index) => (
-                <React.Fragment key={contributor.id}>
+              {project.collaborators.map((collaborator, index) => (
+                <React.Fragment key={collaborator.id}>
                   {!!index && ', '}
-                  <ProjectContributor key={contributor.id}>
-                    {initials(contributor.bibliographicName)}{' '}
-                    {contributor.bibliographicName.family}
+                  <ProjectContributor key={collaborator.id}>
+                    {initials(collaborator.bibliographicName)}{' '}
+                    {collaborator.bibliographicName.family}
                   </ProjectContributor>
                 </React.Fragment>
               ))}
