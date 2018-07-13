@@ -26,6 +26,7 @@ Run `yarn build` to build the app to the `dist` folder, from where it can be dep
 
 1. Edit env variables needed for the server in `docker/server/.env` (example found at `docker/server/.env.example`).
 2. Edit env variables needed for the client in `docker/client/development/.env` (example found at `docker/client/development/.env.example`).
+2. Create a Docker volume for Yarn's cache: `docker volume create --name=yarn-cache`
 3. `docker login registry.gitlab.com` to log in to GitLab’s Container Registry using your GitLab username and password (or a deploy token for read-only access to the registry images).
 4. `yarn docker-compose:server pull --no-parallel` to pull the latest server Docker images.
 5. `yarn docker-compose:server up --build` to start the server in Docker.

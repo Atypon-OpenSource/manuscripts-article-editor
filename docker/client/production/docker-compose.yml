@@ -22,5 +22,5 @@ services:
 
 volumes:
   yarn-cache:
-  # external: true
+    external: true
 

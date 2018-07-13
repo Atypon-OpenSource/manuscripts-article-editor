@@ -1,10 +1,10 @@
 API_APPLICATION_ID=io.manuscripts
 API_BASE_URL=http://api-test.manuscripts.io:3000/api/v1
+BASE_URL=http://client-test.manuscripts.io:8080
 CSL_DATA_URL=http://csl-data-test.manuscripts.io:3002/
 SYNC_GATEWAY_URL=http://sg-test.manuscripts.io:4984/
 WAYF_URL=https://wayf-cloud-sandbox.literatumonline.com
 WAYF_KEY=212b9564-3882-481e-aae2-682000db3359
-PUBLIC_HOSTNAME=client-test.manuscripts.io
 
 APP_AWS_REGION=*****
 APP_AWS_ACCESS_KEY_ID=*****

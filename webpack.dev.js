@@ -6,24 +6,17 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
 
-let devServerOpts = {
-  contentBase: './dist',
-  historyApiFallback: true,
-  host: '0.0.0.0',
-  disableHostCheck: true,
-  hot: true,
-  open: true
-  // proxy: {
-  //   '/api': 'http://localhost:3000',
-  // },
-}
-
-if (process.env.PUBLIC_HOSTNAME) {
-  devServerOpts.public = process.env.PUBLIC_HOSTNAME
-}
-
 module.exports = merge(common, {
-  devServer: devServerOpts,
+  devServer: {
+    contentBase: './dist',
+    historyApiFallback: true,
+    host: '0.0.0.0',
+    hot: true,
+    open: true
+    // proxy: {
+    //   '/api': 'http://localhost:3000',
+    // },
+  },
   devtool: 'cheap-module-source-map',
   mode: 'development',
   module: {

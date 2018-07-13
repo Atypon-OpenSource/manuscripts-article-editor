@@ -31,4 +31,4 @@ COPY src /app/src
 
 EXPOSE 8080
 
-CMD ["yarn", "start"]
+CMD yarn start --public $PUBLIC_HOST
