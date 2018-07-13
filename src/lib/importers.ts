@@ -1,7 +1,7 @@
 import { extname } from 'path'
-import { AnyComponent, Component } from '../types/components'
+import { Component } from '../types/components'
 
-type Importer = (file: File, reader?: FileReader) => Promise<AnyComponent[]>
+type Importer = (file: File) => Promise<Component[]>
 
 interface Importers {
   [key: string]: Importer
@@ -20,27 +20,27 @@ interface ManuscriptsDocument {
   [key: string]: ManuscriptsSection
 }
 
-export const importItems = (data: ManuscriptsDocument): AnyComponent[] => {
-  return Object.values(data)
+// TODO: generate a new ID for each object while maintaining references between objects
+
+const importItems = (data: ManuscriptsDocument): Component[] =>
+  Object.values(data)
     .map(section => Object.values(section))
     .reduce((a, b) => a.concat(b)) // flatten
     .filter(item => item._id || item.id)
     .map(item => {
-      const out = { ...item }
-      out.id = item.id || item._id
-      delete out._id
-      delete out._rev
-      delete out.collection
-      // tslint:disable-next-line:no-any
-      return out as any
-    })
-}
+      item.id = item.id || item._id
 
-export const importJSON: Importer = /* istanbul ignore next */ (
-  file: File,
-  reader: FileReader
-) =>
+      delete item._id
+      delete item._rev
+      delete item.collection
+
+      return item
+    })
+
+const importJSON: Importer = (file: File) =>
   new Promise(resolve => {
+    const reader = new FileReader()
+
     reader.addEventListener('load', async () => {
       const data = JSON.parse(reader.result)
       const items = importItems(data)
@@ -50,33 +50,24 @@ export const importJSON: Importer = /* istanbul ignore next */ (
     reader.readAsText(file, 'UTF-8')
   })
 
-export const importers: Importers = {
+const importers: Importers = {
   '.manuscript-json': importJSON,
 }
 
-export const openFilePicker = /* istanbul ignore next */ () =>
+export const openFilePicker = (): Promise<File> =>
   new Promise((resolve, reject) => {
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = Object.keys(importers).join(',')
-    input.addEventListener('change', event => {
-      const input = event.target as HTMLInputElement
-
-      if (input.files) {
+    input.addEventListener('change', () => {
+      if (input.files && input.files.length) {
         resolve(input.files[0])
       } else {
-        reject()
+        reject(new Error('No file was received'))
       }
     })
     input.click()
   })
 
-export const importFile = /* istanbul ignore next */ async (
-  file: File,
-  reader?: FileReader
-) => {
-  if (!reader) {
-    reader = new FileReader()
-  }
-  return importers[extname(file.name)](file, reader)
-}
+export const importFile = async (file: File) =>
+  importers[extname(file.name)](file)
