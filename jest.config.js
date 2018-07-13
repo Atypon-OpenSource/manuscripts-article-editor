@@ -1,11 +1,6 @@
-const coverageThreshold = Math.max(
-  0.25,
-  Math.min(
-    Math.floor(
-      Math.max(0, (new Date() - new Date('2018-07-01')) / (1000 * 60 * 60 * 24))
-    ),
-    60
-  )
+const coverageThreshold = (target, gradient = 1) => Math.min(
+  ((new Date() - new Date('2018-07-01')) * gradient) / (1000 * 60 * 60 * 24),
+  target
 )
 
 module.exports = {
@@ -19,9 +14,9 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      branches: coverageThreshold,
-      functions: coverageThreshold,
-      lines: coverageThreshold,
+      branches: coverageThreshold(60, 0.5),
+      functions: coverageThreshold(60),
+      lines: coverageThreshold(60),
     }
   },
   globals: {
