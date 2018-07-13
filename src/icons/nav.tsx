@@ -11,7 +11,7 @@ const Nav = (props: IconProps) => (
     <defs>
       <path
         d="M24.56 9.487a1.013 1.013 0 0 1 .44.834v7.88a4.09 4.09 0 0 1-1.69 3.31 1.064 1.064 0 0 1-1.688-.861v-6.624l-1.61.89a10.45 10.45 0 0 1-9.808.16l-1.942-.991v5.001a1.075 1.075 0 0 1-1.63.92A3.381 3.381 0 0 1 5 17.113v-6.86a.988.988 0 0 1 0-.057A1.196 1.196 0 0 1 6.777 9.15l3.494 1.938a9.984 9.984 0 0 0 9.741-.032l3.158-1.778a1.143 1.143 0 0 1 1.39.209z"
-        id="a"
+        id="nav-a"
       />
       <filter
         x="-32.5%"
@@ -19,7 +19,7 @@ const Nav = (props: IconProps) => (
         width="165%"
         height="202.2%"
         filterUnits="objectBoundingBox"
-        id="b"
+        id="nav-b"
       >
         <feGaussianBlur
           stdDeviation={3}
@@ -52,8 +52,8 @@ const Nav = (props: IconProps) => (
         fill={props.color || '#cde0f5'}
       />
       <g transform="translate(4 4)">
-        <use fill="#FFF" xlinkHref="#a" />
-        <use fill="#000" filter="url(#b)" xlinkHref="#a" />
+        <use fill="#FFF" xlinkHref="#nav-a" />
+        <use fill="#000" filter="url(#nav-b)" xlinkHref="#nav-a" />
       </g>
     </g>
   </svg>

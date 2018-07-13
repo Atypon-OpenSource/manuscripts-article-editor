@@ -14,7 +14,7 @@ const Google = (props: IconProps) => (
         width="200%"
         height="200%"
         filterUnits="objectBoundingBox"
-        id="a"
+        id="google-a"
       >
         <feOffset dy={1} in="SourceAlpha" result="shadowOffsetOuter1" />
         <feGaussianBlur
@@ -44,14 +44,14 @@ const Google = (props: IconProps) => (
           <feMergeNode in="SourceGraphic" />
         </feMerge>
       </filter>
-      <rect id="b" width={40} height={40} rx={2} />
+      <rect id="google-b" width={40} height={40} rx={2} />
     </defs>
     <g fill="none" fillRule="evenodd">
-      <g transform="translate(3 3)" filter="url(#a)">
-        <use fill="#FFF" xlinkHref="#b" />
-        <use xlinkHref="#b" />
-        <use xlinkHref="#b" />
-        <use xlinkHref="#b" />
+      <g transform="translate(3 3)" filter="url(#google-a)">
+        <use fill="#FFF" xlinkHref="#google-b" />
+        <use xlinkHref="#google-b" />
+        <use xlinkHref="#google-b" />
+        <use xlinkHref="#google-b" />
       </g>
       <path
         d="M31.64 23.205c0-.639-.057-1.252-.164-1.841H23v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"

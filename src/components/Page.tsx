@@ -1,6 +1,10 @@
 import React from 'react'
+import ProjectContributors from '../icons/project-contributors'
+import ProjectEdit from '../icons/project-edit'
+import ProjectLibrary from '../icons/project-library'
 import { injectGlobal, styled, ThemedProps } from '../theme'
 import MenuBar from './MenuBar'
+import ProjectLink from './ProjectLink'
 
 injectGlobal`
   body {
@@ -46,8 +50,10 @@ const IconBar = styled.div`
   width: 56px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: ${(props: ThemedDivProps) =>
     props.theme.colors.primary.blue};
+  padding-top: 24px;
 `
 
 interface Props {
@@ -59,7 +65,33 @@ export const Page: React.SFC<Props> = ({ children, projectID }) => (
     {projectID && (
       <ViewsBar>
         <MenuBar projectID={projectID} />
-        <IconBar />
+        <IconBar>
+          <ProjectLink
+            to={`/projects/${projectID}`}
+            isActive={(match, location) =>
+              /^\/projects\/.+?\/manuscripts\/.+/.test(location.pathname)
+            }
+            title={'Edit'}
+          >
+            <ProjectEdit />
+          </ProjectLink>
+
+          <ProjectLink
+            title={'Contributors'}
+            to={`/projects/${projectID}/contributors`}
+            exact={true}
+          >
+            <ProjectContributors />
+          </ProjectLink>
+
+          <ProjectLink
+            title={'Library'}
+            to={`/projects/${projectID}/library`}
+            exact={true}
+          >
+            <ProjectLibrary />
+          </ProjectLink>
+        </IconBar>
       </ViewsBar>
     )}
 
