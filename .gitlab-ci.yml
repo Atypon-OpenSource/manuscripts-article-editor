@@ -37,6 +37,8 @@ testcafe:
   artifacts:
     paths:
       - ./screenshots
+    expire_in: 1 week
+    when: on_failure
   tags:
     - docker-compose
 
@@ -50,6 +52,8 @@ testcafe-manual:
   artifacts:
     paths:
       - ./screenshots
+    expire_in: 1 week
+    when: on_failure
   when: manual
   tags:
     - docker-compose
