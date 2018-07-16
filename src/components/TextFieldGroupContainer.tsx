@@ -23,7 +23,9 @@ export const TextFieldGroupContainer: React.SFC<
             {Object.entries(errors).map(
               ([key, error]) =>
                 error && (
-                  <TextFieldErrorItem key={key}>{error}</TextFieldErrorItem>
+                  <TextFieldErrorItem id={`${key}-text-field-error`} key={key}>
+                    {error}
+                  </TextFieldErrorItem>
                 )
             )}
           </TextFieldError>

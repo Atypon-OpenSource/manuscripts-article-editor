@@ -1,6 +1,5 @@
 import { signup, login } from './actions'
-import { ReactSelector } from 'testcafe-react-selectors';
-import { Selector, ClientFunction } from 'testcafe';
+import { Selector } from 'testcafe';
 
 fixture `Projects`
     

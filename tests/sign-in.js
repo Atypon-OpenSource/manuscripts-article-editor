@@ -12,7 +12,7 @@ fixture `Successful login`
     const getLocation = ClientFunction(() => document.location.href);
 
     test('Should be able to login', async t => {
-      await signup(t)
+      await signup(t, 'Example User', 'test@example.com')
       await login(t)
       
       await t
@@ -21,7 +21,6 @@ fixture `Successful login`
 
    
     test('Should be able to delete an account', async t => {
-      
       await login(t)
       
       await t

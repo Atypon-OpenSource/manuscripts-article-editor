@@ -110,7 +110,9 @@ export const SignupForm: React.SFC<
       </Field>
     </FormActions>
 
-    {errors.submit && <FormError>{errors.submit}</FormError>}
+    {errors.submit && (
+      <FormError className="form-error">{errors.submit}</FormError>
+    )}
 
     <FormActions>
       <div>
