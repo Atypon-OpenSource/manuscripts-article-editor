@@ -16,12 +16,7 @@ import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { getComponentFromDoc } from '../transformer/decode'
 import { PROJECT, USER_PROFILE } from '../transformer/object-types'
-import {
-  Attachments,
-  Component,
-  Project,
-  UserProfile,
-} from '../types/components'
+import { Attachments, Project, UserProfile } from '../types/components'
 import {
   AddProject,
   // RemoveProject,
@@ -76,37 +71,31 @@ class ProjectsPageContainer extends React.Component<
     )
   }
 
-  private isProject = (component: Component): component is Project =>
-    component.objectType === PROJECT
-
   private loadComponents = () => {
     const collection = this.getCollection()
 
     return collection
       .find({ objectType: PROJECT })
       .$.subscribe(async (docs: Array<RxDocument<Project>>) => {
-        const getCollaborator = (id: string) =>
-          (this.state.userMap.get(id) as any) as UserProfile // tslint:disable-line:no-any 😥
+        const getCollaborator = (id: string) => this.state.userMap.get(id)
 
         const projects: ProjectInfo[] = []
 
         for (const doc of docs) {
           const component = doc.toJSON()
 
-          if (this.isProject(component)) {
-            const collaborators = [
-              ...component.owners.map(getCollaborator),
-              ...component.writers.map(getCollaborator),
-              ...component.viewers.map(getCollaborator),
-            ]
+          const collaborators = [
+            ...component.owners.map(getCollaborator),
+            ...component.writers.map(getCollaborator),
+            ...component.viewers.map(getCollaborator),
+          ].filter(collaborator => collaborator) as UserProfile[]
 
-            projects.push({
-              id: component.id,
-              objectType: component.objectType,
-              title: component.title,
-              collaborators,
-            })
-          }
+          projects.push({
+            id: component.id,
+            objectType: component.objectType,
+            title: component.title,
+            collaborators,
+          })
         }
 
         this.setState({ projects })
