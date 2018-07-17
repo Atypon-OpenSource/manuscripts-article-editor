@@ -14,3 +14,15 @@ export const signupHelper = async (t, name, email, password  ) => {
     .typeText(form.find('input[name=password]'), password)
     .click(form.find('button[type=submit]'))
 }
+
+export const loginHelper = async (t, email, password) => {
+  await t.navigateTo(BASE_URL + '/login')
+  await waitForReact()
+
+  const form = ReactSelector('LoginForm')
+
+  await t
+    .typeText(form.find('input[name=email]'), email)
+    .typeText(form.find('input[name=password]'), password)
+    .click(form.find('button[type=submit]'))
+}

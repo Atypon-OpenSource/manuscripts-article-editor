@@ -35,17 +35,19 @@ const displayName = (user: UserProfile) => {
 
 export const UserInfo: React.SFC<UserProps> = ({ user }) => (
   <React.Fragment>
-    <DropdownLink to={'/profile'}>{displayName(user)}</DropdownLink>
-    <DropdownLink to={'/change-password'}>
+    <DropdownLink to={'/profile'} id="profile-link">
+      {displayName(user)}
+    </DropdownLink>
+    <DropdownLink to={'/change-password'} id="change-password-link">
       <ChangePasswordMessage />
     </DropdownLink>
-    <DropdownLink to={'/delete-account'} id="delete-account">
+    <DropdownLink to={'/delete-account'} id="delete-account-link">
       <DeleteAccountMessage />
     </DropdownLink>
-    <DropdownLink to={'/preferences'}>
+    <DropdownLink to={'/preferences'} id="preferences-link">
       <PreferencesMessage />
     </DropdownLink>
-    <DropdownLink to={'/logout'}>
+    <DropdownLink to={'/logout'} id="logout-link">
       <SignOutMessage />
     </DropdownLink>
   </React.Fragment>

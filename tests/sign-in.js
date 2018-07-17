@@ -7,12 +7,12 @@ fixture `Successful login`
     const sidebar = Selector('#projects');
     const dropdDownToggle = Selector('#user-dropdown-toggle');
     const signUpForm = ReactSelector('SignupForm')
-    const deleteAccount = Selector('#delete-account');
+    const deleteAccount = Selector('#delete-account-link');
     const deleteAccountForm = ReactSelector('DeleteAccountForm');
     const getLocation = ClientFunction(() => document.location.href);
 
     test('Should be able to login', async t => {
-      await signup(t, 'Example User', 'test@example.com')
+      await signup(t)
       await login(t)
       
       await t
