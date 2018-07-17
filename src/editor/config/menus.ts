@@ -6,7 +6,9 @@ import React from 'react'
 import CrossReferencePickerContainer from '../../containers/CrossReferencePickerContainer'
 import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
 import { importFile, openFilePicker } from '../../lib/importers'
+import { Manuscript } from '../../types/components'
 import { ImportManuscript } from '../../types/manuscript'
+import { DeleteComponent } from '../Editor'
 import {
   blockActive,
   canInsert,
@@ -32,13 +34,15 @@ export interface MenuItem {
 }
 
 export interface MenusProps {
+  manuscript: Manuscript
   addManuscript?: () => void
   importManuscript: ImportManuscript
+  deleteComponent: DeleteComponent
 }
 
 const menus = (props: MenusProps): MenuItem[] => [
   {
-    label: 'File',
+    label: 'Project',
     submenu: [
       {
         label: 'New',
@@ -62,6 +66,27 @@ const menus = (props: MenusProps): MenuItem[] => [
           openFilePicker()
             .then(importFile)
             .then(props.importManuscript),
+      },
+      {
+        label: 'Delete',
+        submenu: [
+          {
+            label: 'Manuscript',
+            run: () =>
+              confirm('Delete this manuscript?') &&
+              props
+                .deleteComponent(props.manuscript.id)
+                .then(() => (window.location.href = '/')),
+          },
+          {
+            label: 'Project',
+            run: () =>
+              confirm('Delete this project?') &&
+              props
+                .deleteComponent(props.manuscript.containerID)
+                .then(() => (window.location.href = '/')),
+          },
+        ],
       },
     ],
   },

@@ -6,7 +6,7 @@ interface SignupConfirmProps {
 }
 
 export const SignupConfirm: React.SFC<SignupConfirmProps> = ({ email }) => (
-  <Centered>
+  <Centered id={'signup-confirm'}>
     <p>
       An email has been sent to <b>{email}</b>.
     </p>

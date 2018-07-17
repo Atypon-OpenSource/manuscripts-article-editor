@@ -33,7 +33,7 @@ export const SignupForm: React.SFC<
   // isSubmitting,
   // isValid,
 }) => (
-  <CenteredForm>
+  <CenteredForm id={'signup-form'}>
     <FormHeader>
       <SubHero>Manuscripts Online</SubHero>
       <Hero>Sign Up</Hero>

@@ -109,13 +109,13 @@ const projectRoute = (project: ProjectInfo) => {
 }
 
 const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
-  <Sidebar id="sidebar">
+  <Sidebar id={'projects-sidebar'}>
     <ProjectsContainer>
       <SidebarHeader>
-        <SidebarTitle id="projects">Projects</SidebarTitle>
+        <SidebarTitle className={'sidebar-title'}>Projects</SidebarTitle>
       </SidebarHeader>
       <SidebarAction>
-        <AddButton id="sidebar-add-button" onClick={addProject}>
+        <AddButton onClick={addProject} id={'create-project'}>
           <Add size={32} />
           <SidebarActionTitle>Add New Project</SidebarActionTitle>
         </AddButton>

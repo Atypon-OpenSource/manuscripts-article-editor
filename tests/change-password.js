@@ -1,41 +1,41 @@
-import { signupHelper, loginHelper } from './helpers'
-import { ReactSelector } from 'testcafe-react-selectors';
-import { Selector, ClientFunction } from 'testcafe';
+import { loginAsNewUser, login } from './helpers'
+import { Selector, ClientFunction } from 'testcafe'
 
-fixture `Change password`
+fixture('Change password')
 
-    const sidebar = Selector('#projects');
-    const dropdDownToggle = Selector('#user-dropdown-toggle');
-    const changePasswordMenu = Selector('#change-password-link');
-    const signOutMenu = Selector('#logout-link');
-    const changePasswordForm = ReactSelector('ChangePasswordForm');
-    const getLocation = ClientFunction(() => document.location.href);
+const userDropdown = Selector('#user-dropdown')
+const userDropdownToggle = userDropdown.find('.dropdown-toggle')
+const changePasswordLink = userDropdown.find('a').withAttribute('href', '/change-password')
+const logoutLink = userDropdown.find('a').withAttribute('href', '/logout')
+const changePasswordForm = Selector('#change-password-form')
+const getLocation = ClientFunction(() => document.location.href)
 
-    test('Can change a password', async t => {
-      await signupHelper(t, 'Travis Tester', 'travis_tester@example.com', '12345678')
-      await loginHelper(t, 'travis_tester@example.com', '12345678')
-      
-      await t
-        .click(dropdDownToggle)
-        .hover(changePasswordMenu)
-        .click(changePasswordMenu)
-        .typeText(changePasswordForm.find('input[name=currentPassword]'), '12345678')
-        .typeText(changePasswordForm.find('input[name=newPassword]'), 'M4nu5cr1pt00')
-        .click(changePasswordForm.find('button[type=submit]'))
-        .wait(5000)
-        .expect(getLocation()).contains('/projects')
-        .click(dropdDownToggle)
-        .hover(signOutMenu)
-        .click(signOutMenu)
-        .wait(5000)
-        .expect(getLocation()).contains('/login')
-    });
+test('Can change a password', async t => {
+  const newPassword = 'M4nu5cr1pt00'
 
-   
-    test('Can sign in with a new password', async t => {
-        await loginHelper(t, 'travis_tester@example.com', 'M4nu5cr1pt00')
-      
-        await t
-          .expect(sidebar.innerText).eql('Projects')
-    });
- 
+  const user = await loginAsNewUser(t)
+
+  await t.click(userDropdownToggle)
+  await t.click(changePasswordLink)
+
+  await t
+    .typeText(changePasswordForm.find('input[name=currentPassword]'), user.password)
+    .typeText(changePasswordForm.find('input[name=newPassword]'), newPassword)
+    .click(changePasswordForm.find('button[type=submit]'))
+
+  await Selector('#create-project')()
+  await t.expect(getLocation()).contains('/projects')
+
+  await t.click(userDropdownToggle)
+  await t.click(logoutLink)
+
+  await Selector('#login-form')()
+  await t.expect(getLocation()).contains('/login')
+
+  await login(t, {
+    ...user,
+    password: newPassword
+  })
+
+  await t.expect(Selector('#create-project')).ok()
+})

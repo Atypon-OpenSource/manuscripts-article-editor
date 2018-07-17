@@ -13,7 +13,7 @@ export interface DeleteAccountValues {
 export const DeleteAccountForm: React.SFC<
   FormikProps<DeleteAccountValues & FormErrors>
 > = ({ dirty, errors, touched }) => (
-  <Form>
+  <Form id={'delete-account-form'}>
     <Field name={'password'}>
       {({ field }: FieldProps) => (
         <TextFieldContainer

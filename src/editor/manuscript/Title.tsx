@@ -50,7 +50,13 @@ class Title extends React.Component<Props, State> {
   // }
 
   public render() {
-    return <div ref={this.createEditorView} className={this.props.className} />
+    return (
+      <div
+        ref={this.createEditorView}
+        className={this.props.className}
+        id={this.props.id}
+      />
+    )
   }
 
   protected createEditorView = (node: HTMLDivElement) => {

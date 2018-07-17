@@ -34,7 +34,7 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
   // isSubmitting,
   // isValid,
 }) => (
-  <CenteredForm>
+  <CenteredForm id={'login-form'}>
     <FormHeader>
       <SubHero>Welcome to</SubHero>
       <Hero>Manuscripts.io</Hero>

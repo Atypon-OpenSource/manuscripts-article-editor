@@ -19,7 +19,7 @@ export interface ChangePasswordResponse {
 export const ChangePasswordForm: React.SFC<
   FormikProps<ChangePasswordValues & FormErrors>
 > = ({ dirty, errors, touched }) => (
-  <Form>
+  <Form id={'change-password-form'}>
     <TextFieldGroupContainer
       errors={{
         currentPassword: buildError(

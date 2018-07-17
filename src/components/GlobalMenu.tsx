@@ -19,7 +19,6 @@ export const GlobalMenu: React.SFC = () => (
     <MenuSections>
       <MenuSection>
         <MenuDropdown
-          id="globalmenu"
           buttonContents={<MenuLink to={'/projects'}>Projects</MenuLink>}
         >
           <ProjectsMenu />

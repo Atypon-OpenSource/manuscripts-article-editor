@@ -46,7 +46,6 @@ storiesOf('Manuscript', module)
       stopEditing={action('stop editing')}
       expanded={true}
       toggleExpanded={action('toggle expanded')}
-      id="edit-title"
     />
   ))
   .add('Edit authors', () => (
@@ -67,7 +66,6 @@ storiesOf('Manuscript', module)
       stopEditing={action('stop editing')}
       expanded={true}
       toggleExpanded={action('toggle expanded')}
-      id="edit-authors"
     />
   ))
   .add('Collapsed', () => (
@@ -88,7 +86,6 @@ storiesOf('Manuscript', module)
       stopEditing={action('stop editing')}
       expanded={false}
       toggleExpanded={action('toggle expanded')}
-      id="collapsed"
     />
   ))
   .add('Title: read-only', () => (

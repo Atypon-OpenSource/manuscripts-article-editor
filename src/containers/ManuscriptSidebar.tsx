@@ -24,6 +24,10 @@ const ProjectTitle = SidebarTitle.extend`
   color: #353535;
 `
 
+const StyledSidebar = Sidebar.extend`
+  background: #f0f6fb;
+`
+
 const DebouncedManuscriptOutlineContainer = debounceRender(
   ManuscriptOutlineContainer,
   500
@@ -37,15 +41,11 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
   saveProject,
 }) => (
   <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
-    <Sidebar
-      style={{
-        background: '#f0f6fb',
-      }}
-    >
+    <StyledSidebar>
       <SidebarHeader>
         <ProjectTitle>
           <TitleField
-            id="project-title"
+            id={'project-title-field'}
             value={project.title || 'Untitled Project'}
             handleChange={title =>
               saveProject({
@@ -65,7 +65,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
         />
         {/*<ComponentsStatusContainer />*/}
       </SidebarContent>
-    </Sidebar>
+    </StyledSidebar>
   </Panel>
 )
 

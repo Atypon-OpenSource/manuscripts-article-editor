@@ -106,7 +106,6 @@ storiesOf('Editor', module)
       doc={doc}
       subscribe={action('subscribe')}
       popper={popper}
-      id="editor-edit"
     />
   ))
   .add('view', () => (
@@ -127,6 +126,5 @@ storiesOf('Editor', module)
       doc={doc}
       subscribe={action('subscribe')}
       popper={popper}
-      id="editor-view"
     />
   ))

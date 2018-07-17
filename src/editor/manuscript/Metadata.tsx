@@ -112,7 +112,6 @@ interface Props {
   createAffiliation: (name: string) => Promise<Affiliation>
   expanded: boolean
   toggleExpanded: () => void
-  id: string
 }
 
 export const Metadata: React.SFC<Props> = ({
@@ -137,10 +136,10 @@ export const Metadata: React.SFC<Props> = ({
     <Header>
       <TitleContainer>
         <StyledTitleField
+          id={'manuscript-title-field'}
           value={manuscript.title}
           autoFocus={!manuscript.title}
           handleChange={saveTitle}
-          id="header"
         />
         <ExpanderButton
           onClick={toggleExpanded}

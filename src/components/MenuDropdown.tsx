@@ -3,9 +3,9 @@ import DropdownToggle from '../icons/dropdown-toggle'
 import { Dropdown, DropdownContainer, DropdownToggleButton } from './Dropdown'
 
 interface Props {
-  id: string
   buttonContents: string | React.ReactNode
   dropdownStyle?: React.CSSProperties
+  id?: string
 }
 
 interface State {
@@ -18,14 +18,14 @@ class MenuDropdown extends React.Component<Props, State> {
   }
 
   public render() {
-    const { buttonContents, children, dropdownStyle } = this.props
+    const { buttonContents, children, dropdownStyle, id } = this.props
 
     return (
-      <DropdownContainer>
+      <DropdownContainer id={id}>
         {buttonContents}
         <DropdownToggleButton
-          id={`${this.props.id}-dropdown-toggle`}
           onClick={this.toggle}
+          className={'dropdown-toggle'}
         >
           <DropdownToggle />
         </DropdownToggleButton>

@@ -77,7 +77,7 @@ export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
     <MenuSections>
       <MenuSection>
         <MenuDropdown
-          id={`${projectID}-dropdown`}
+          id={'projects-dropdown'}
           buttonContents={<MenuLink to={'/projects'}>Projects</MenuLink>}
         >
           <ProjectsMenu handleClose={handleClose} />
@@ -87,18 +87,16 @@ export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
         <MenuLink to={`/projects/${projectID}/library`}>Library</MenuLink>
 
         <MenuDropdown
-          id={'developer'}
+          id={'developer-dropdown'}
           buttonContents={<MenuLabel>Developer</MenuLabel>}
         >
           <DeveloperMenu />
         </MenuDropdown>
       </MenuSection>
 
-      <div id="user-menu-section">
-        <MenuSection>
-          <UserContainer />
-        </MenuSection>
-      </div>
+      <MenuSection>
+        <UserContainer />
+      </MenuSection>
     </MenuSections>
   </MenuContainer>
 )
