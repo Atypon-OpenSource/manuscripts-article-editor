@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -e # exit if any step fails
+set -u # exit if a variable isn't set
+
 yarn install --frozen-lockfile --non-interactive --production
 yarn build
 
