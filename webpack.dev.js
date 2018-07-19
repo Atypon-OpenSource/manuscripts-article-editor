@@ -10,12 +10,8 @@ module.exports = merge(common, {
   devServer: {
     contentBase: './dist',
     historyApiFallback: true,
-    host: '0.0.0.0',
     hot: true,
-    open: true
-    // proxy: {
-    //   '/api': 'http://localhost:3000',
-    // },
+    open: true,
   },
   devtool: 'cheap-module-source-map',
   mode: 'development',
@@ -44,11 +40,21 @@ module.exports = merge(common, {
           },
           {
             test: /\.(png|jpg|gif|svg)$/,
-            use: ['file-loader'],
+            use: {
+              loader: 'file-loader',
+              options: {
+                name: 'files/[name].[ext]'
+              }
+            },
           },
           {
             test: /\.(woff|woff2|eot|ttf|otf)$/,
-            use: ['file-loader'],
+            use: {
+              loader: 'file-loader',
+              options: {
+                name: 'fonts/[name].[ext]'
+              }
+            },
           },
           {
             test: /\.(xml)$/,

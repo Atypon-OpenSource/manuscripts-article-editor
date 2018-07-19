@@ -1,5 +1,6 @@
 interface Config {
   environment: string
+  serviceworker: boolean
   api: {
     url: string
     headers: object
@@ -25,6 +26,7 @@ interface Config {
 
 const config = {
   environment: process.env.NODE_ENV,
+  serviceworker: process.env.SERVICEWORKER_ENABLED === '1',
   api: {
     url: process.env.API_BASE_URL,
     headers: {

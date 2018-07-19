@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
+const { GenerateSW } = require('workbox-webpack-plugin')
 
 module.exports = {
   entry: './src/index.tsx',
@@ -34,7 +35,33 @@ module.exports = {
       resource => {
         resource.request = resource.request.replace(/AsyncLoad/, 'AsyncLoad-disabled')
       }
-    )
+    ),
+    new GenerateSW({
+      cacheId: 'manuscripts.io',
+      // clientsClaim: true,
+      dontCacheBustUrlsMatching: /\.[a-f0-9]{8}\./, // hash in filename
+      exclude: [
+        // /^\d+\./
+        // TODO: cache locales + codemirror languages as they're loaded - load them remotely?
+        new RegExp(process.env.API_BASE_URL),
+        new RegExp(process.env.SYNC_GATEWAY_URL),
+        new RegExp('http://127.0.0.1'),
+      ],
+      importWorkboxFrom: 'local',
+      navigateFallback: '/index.html',
+      navigateFallbackBlacklist: [
+        /^\/csl\//,
+        /^\/shared-data\//
+      ],
+      // runtimeCaching: [
+      //   {
+      //     handler: 'cacheFirst',
+      //     // handler: 'staleWhileRevalidate',
+      //     urlPattern: new RegExp(process.env.CSL_URL),
+      //   },
+      // ],
+      // skipWaiting: true,
+    }),
   ],
   resolve: {
     alias: {

@@ -3,7 +3,6 @@ import { EditorState, Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
 import React from 'react'
-import 'typeface-charis-sil/index.css'
 import { ApplicationMenu } from '../components/ApplicationMenu'
 import { styled } from '../theme'
 import {
