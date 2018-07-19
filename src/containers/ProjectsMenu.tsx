@@ -2,6 +2,7 @@ import React from 'react'
 import { RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { DropdownLink } from '../components/Dropdown'
+import Title from '../editor/manuscript/Title'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { PROJECT } from '../transformer/object-types'
 import { Project } from '../types/components'
@@ -56,7 +57,7 @@ class ProjectsMenu extends React.Component<Props & ComponentsProps, State> {
             activeStyle={activeStyle}
             onClick={event => (handleClose ? handleClose(event) : null)}
           >
-            {project.title || 'Untitled Project'}
+            <Title value={project.title || 'Untitled Project'} />
           </DropdownLink>
         ))}
       </React.Fragment>

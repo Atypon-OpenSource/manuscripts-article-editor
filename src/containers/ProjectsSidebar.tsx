@@ -6,6 +6,7 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../components/Sidebar'
+import Title from '../editor/manuscript/Title'
 import Add from '../icons/add'
 import { styled } from '../theme'
 import { BibliographicName } from '../types/components'
@@ -125,7 +126,7 @@ const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
           <SidebarProject key={project.id}>
             <SidebarProjectHeader>
               <ProjectTitle to={projectRoute(project)}>
-                {project.title || 'Untitled Project'}
+                <Title value={project.title || 'Untitled Project'} />
               </ProjectTitle>
               <ShareProjectButton projectID={project.id!} />
             </SidebarProjectHeader>
