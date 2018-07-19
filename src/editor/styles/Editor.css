@@ -226,6 +226,7 @@
 .ProseMirror .block-container > .block {
   flex: 1;
   padding: 12px;
+  margin: 0;
 }
 
 .ProseMirror .block-gutter {
