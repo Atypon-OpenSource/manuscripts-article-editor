@@ -1,19 +1,17 @@
 import React from 'react'
 import { RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs'
-import { DropdownLink } from '../components/Dropdown'
-import Title from '../editor/manuscript/Title'
+import {
+  EmptyProjectsDropdownList,
+  ProjectsDropdownList,
+} from '../components/ProjectsDropdownList'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { PROJECT } from '../transformer/object-types'
 import { Project } from '../types/components'
 import { ProjectDocument } from '../types/project'
 
-const activeStyle = {
-  fontWeight: 800,
-}
-
 interface State {
-  projects: Project[]
+  projects: Project[] | null
 }
 
 interface Props {
@@ -22,7 +20,7 @@ interface Props {
 
 class ProjectsMenu extends React.Component<Props & ComponentsProps, State> {
   public state: Readonly<State> = {
-    projects: [],
+    projects: null,
   }
 
   private subs: Subscription[] = []
@@ -48,19 +46,16 @@ class ProjectsMenu extends React.Component<Props & ComponentsProps, State> {
     const { handleClose } = this.props
     const { projects } = this.state
 
+    if (projects === null) return null
+
+    if (!projects.length) {
+      return (
+        <EmptyProjectsDropdownList>No projects yet</EmptyProjectsDropdownList>
+      )
+    }
+
     return (
-      <React.Fragment>
-        {projects.map(project => (
-          <DropdownLink
-            key={project.id}
-            to={`/projects/${project.id}`}
-            activeStyle={activeStyle}
-            onClick={event => (handleClose ? handleClose(event) : null)}
-          >
-            <Title value={project.title || 'Untitled Project'} />
-          </DropdownLink>
-        ))}
-      </React.Fragment>
+      <ProjectsDropdownList handleClose={handleClose} projects={projects} />
     )
   }
 
