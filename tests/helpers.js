@@ -49,3 +49,28 @@ export const loginAsNewUser = async t => {
 
   return user
 }
+
+// replace any non-breaking spaces (ASCII 160) in a text with a regular space
+export const normaliseWhitespace = text => text.replace(/\u00a0/g, ' ')
+
+export const generateTitle = wordCount => {
+  const sentence = faker.lorem.words(wordCount)
+
+  return sentence.charAt(0).toUpperCase() + sentence.slice(1)
+}
+
+export const enterRichText = async (t, container, text) => {
+  const selector = container.find('[contenteditable]')
+
+  // focus the rich text editor
+  await t.click(selector).expect(selector.hasClass('ProseMirror-focused'))
+
+  // delete the existing content
+  await t
+    .pressKey('ctrl+a delete') // TODO: meta+a?
+    .expect(selector.textContent)
+    .eql('')
+
+  // enter the new text
+  await t.typeText(selector, text)
+}
