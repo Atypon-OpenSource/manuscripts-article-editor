@@ -9,6 +9,15 @@ export interface Layout {
   [key: string]: Pane
 }
 
+const initialValues: { [key: string]: Partial<Pane> } = {
+  inspector: {
+    collapsed: true,
+  },
+  sidebar: {
+    size: 250,
+  },
+}
+
 const defaultPane: Pane = {
   size: 200,
   collapsed: false,
@@ -30,7 +39,7 @@ export default {
   get: (name: string): Pane => {
     const data = load()
 
-    return data[name] || defaultPane
+    return data[name] || { ...defaultPane, ...initialValues[name] }
   },
   set: (name: string, pane: Pane): Pane => {
     const data = load()
