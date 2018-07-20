@@ -11,7 +11,7 @@ export class TitleField extends Title {
       state: createEditorState(this.props.value),
       dispatchTransaction: this.dispatchTransaction,
       attributes: {
-        class: 'plain',
+        class: 'plain title-editor',
       },
     })
 
@@ -50,6 +50,7 @@ export const StyledTitleField = styled(TitleField)`
       color: #ccc;
       cursor: text;
       content: 'Title';
+      pointer-events: none;
     }
 
     & .empty-node:hover::before {

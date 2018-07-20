@@ -167,6 +167,7 @@
   position: absolute;
   color: #ccc;
   cursor: text;
+  pointer-events: none;
 }
 
 .ProseMirror .empty-node:hover::before {
