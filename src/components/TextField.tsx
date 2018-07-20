@@ -12,6 +12,10 @@ export const TextField = styled.input`
   z-index: ${(props: ErrorProps) => (props.error ? 2 : 1)};
   position: relative;
 
+  &:invalid {
+    box-shadow: none;
+  }
+
   &:focus {
     outline: none;
   }
