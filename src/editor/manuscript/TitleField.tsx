@@ -47,10 +47,13 @@ export const StyledTitleField = styled(TitleField)`
 
     & .empty-node::before {
       position: absolute;
-      color: #aaa;
+      color: #ccc;
       cursor: text;
-      font-style: italic;
       content: 'Title';
+    }
+
+    & .empty-node:hover::before {
+      color: #999;
     }
   }
 `

@@ -165,13 +165,12 @@
 
 .ProseMirror .empty-node::before {
   position: absolute;
-  color: #aaa;
+  color: #ccc;
   cursor: text;
-  font-style: italic;
 }
 
 .ProseMirror .empty-node:hover::before {
-  color: #777;
+  color: #999;
 }
 
 .ProseMirror .empty-node[data-placeholder]::before {
