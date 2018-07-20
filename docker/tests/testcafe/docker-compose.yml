@@ -71,6 +71,8 @@ services:
       - PUBLIC_HOST=client-test.manuscripts.io:8080
     ports:
       - 8080:8080
+    volumes:
+      - build-cache:/app/node_modules/.cache
     networks:
       default:
         aliases:
@@ -118,4 +120,6 @@ volumes:
   couchbase-data:
   screenshots:
   yarn-cache:
+    external: true
+  build-cache:
     external: true

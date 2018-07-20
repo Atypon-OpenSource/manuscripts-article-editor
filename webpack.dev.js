@@ -25,6 +25,9 @@ module.exports = merge(common, {
             use: [
               {
                 loader: 'babel-loader',
+                options: {
+                  cacheDirectory: true,
+                }
               },
               {
                 loader: 'ts-loader',
