@@ -99,16 +99,6 @@ interface Props {
   projects: ProjectInfo[]
 }
 
-const projectRoute = (project: ProjectInfo) => {
-  const parts = ['projects', project.id]
-
-  // if (project.manuscripts.length) {
-  //   parts.push('manuscripts', project.manuscripts[0].id)
-  // }
-
-  return parts.join('/')
-}
-
 const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
   <Sidebar id={'projects-sidebar'}>
     <ProjectsContainer>
@@ -125,7 +115,7 @@ const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
         {projects.map(project => (
           <SidebarProject key={project.id}>
             <SidebarProjectHeader>
-              <ProjectTitle to={projectRoute(project)}>
+              <ProjectTitle to={`/projects/${project.id}`}>
                 <Title value={project.title || 'Untitled Project'} />
               </ProjectTitle>
               <ShareProjectButton projectID={project.id!} />
