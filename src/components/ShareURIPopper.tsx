@@ -41,8 +41,7 @@ const URIFieldContainer = styled.div`
 
 const SuccessCopiedMessage = styled.div`
   display: flex;
-  height: 40px;
-  width: 100%;
+  padding: 8px;
   border-radius: 6px;
   background-color: #dff0d7;
   border: solid 1px #d6e9c5;
@@ -52,9 +51,7 @@ const SuccessCopiedMessage = styled.div`
 const CopiedMessageContentContainer = styled.div`
   display: flex;
   flex: 1;
-  justify-content: space-between;
-  padding-left: 14%;
-  padding-right: 14%;
+  justify-content: center;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.34;
@@ -67,19 +64,20 @@ const CopiedMessageContentContainer = styled.div`
 const CopiedMessageText = styled.div`
   display: flex;
   align-items: center;
+  margin-left: 8px;
 `
 
-export interface ShareURIProps {
+export interface Props {
   dataLoaded: boolean
   URI: string
   selectedRole: string
   isCopied: boolean
   handleChange: (event: React.FormEvent<HTMLInputElement>) => void
   handleCopy: () => void
-  handleSwitching: (invite: boolean) => void
+  handleSwitching: (isInvite: boolean) => void
 }
 
-export const ShareURIPopper: React.SFC<ShareURIProps> = ({
+export const ShareURIPopper: React.SFC<Props> = ({
   dataLoaded,
   URI,
   selectedRole,

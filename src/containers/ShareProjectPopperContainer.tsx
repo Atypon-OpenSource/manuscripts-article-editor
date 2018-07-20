@@ -6,7 +6,9 @@ import {
   InvitationErrors,
   InvitationValues,
 } from '../components/InvitationForm'
+import { InvitationPopper } from '../components/InvitationPopper'
 import { ShareProjectPopper } from '../components/ShareProjectPopper'
+import { ShareURIPopper } from '../components/ShareURIPopper'
 import { projectInvite, requestProjectInvitationToken } from '../lib/api'
 
 type ShareProjectUri = () => Promise<void>
@@ -61,6 +63,8 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
   }
 
   public render() {
+    const { popperProps } = this.props
+
     const {
       isCopied,
       isInvite,
@@ -70,25 +74,29 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
     } = this.state
 
     return (
-      <ShareProjectPopper
-        dataLoaded={isURILoaded}
-        URI={shownURI}
-        popperProps={this.props.popperProps}
-        selectedShareURIRole={selectedShareURIRole}
-        isInvite={isInvite}
-        isCopied={isCopied}
-        handleInvitationSubmit={this.handleInvitationSubmit}
-        handleShareURIChange={this.handleShareURIRoleChange}
-        handleSwitching={this.handleSwitching}
-        handleCopy={this.copyURI}
-      />
+      <ShareProjectPopper popperProps={popperProps}>
+        {isInvite ? (
+          <InvitationPopper
+            handleInvitationSubmit={this.handleInvitationSubmit}
+            handleSwitching={this.handleSwitching}
+          />
+        ) : (
+          <ShareURIPopper
+            dataLoaded={isURILoaded}
+            URI={shownURI}
+            selectedRole={selectedShareURIRole}
+            isCopied={isCopied}
+            handleChange={this.handleShareURIRoleChange}
+            handleCopy={this.copyURI}
+            handleSwitching={this.handleSwitching}
+          />
+        )}
+      </ShareProjectPopper>
     )
   }
 
-  private handleSwitching = (page: boolean) => {
-    this.setState({
-      isInvite: page,
-    })
+  private handleSwitching = (isInvite: boolean) => {
+    this.setState({ isInvite })
   }
 
   private handleShareURIRoleChange = (

@@ -35,7 +35,11 @@ export const InvitationPopper: React.SFC<Props> = ({
       <PrimaryButton>Invite</PrimaryButton>
     </ShareProjectHeader>
     <Formik
-      initialValues={{}}
+      initialValues={{
+        email: '',
+        name: '',
+        role: '',
+      }}
       onSubmit={handleInvitationSubmit}
       isInitialValid={false}
       component={InvitationForm}

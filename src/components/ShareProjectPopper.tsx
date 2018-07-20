@@ -1,4 +1,3 @@
-import { FormikActions } from 'formik'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import {
@@ -9,9 +8,6 @@ import {
 } from '../colors'
 import { styled, ThemedProps } from '../theme'
 import { Button, PrimaryButton } from './Button'
-import { InvitationErrors, InvitationValues } from './InvitationForm'
-import { InvitationPopper } from './InvitationPopper'
-import { ShareURIPopper } from './ShareURIPopper'
 import { TextField } from './TextField'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
@@ -43,7 +39,6 @@ export const PopperBodyContainer = styled.div`
 `
 
 export const ShareProjectHeader = styled.div`
-  flex: 1;
   padding: 10px 20px 10px;
   & ${Button} {
     color: ${dustyGrey};
@@ -77,7 +72,7 @@ export const ShareProjectTitle = styled.div`
 `
 
 export const Main = styled.div`
-  flex: 2;
+  flex: 1;
   padding: 20px 20px;
 `
 
@@ -187,36 +182,13 @@ export const Control = styled.label`
   }
 `
 
-export interface ShareURIProps {
-  dataLoaded: boolean
-  URI: string
-  selectedShareURIRole: string
+export interface Props {
   popperProps: PopperChildrenProps
-  isInvite: boolean
-  isCopied: boolean
-  handleInvitationSubmit: (
-    values: InvitationValues,
-    {
-      setSubmitting,
-      setErrors,
-    }: FormikActions<InvitationValues | InvitationErrors>
-  ) => void
-  handleShareURIChange: (event: React.FormEvent<HTMLInputElement>) => void
-  handleCopy: () => void
-  handleSwitching: (page: boolean) => void
 }
 
-export const ShareProjectPopper: React.SFC<ShareURIProps> = ({
-  dataLoaded,
-  URI,
-  selectedShareURIRole,
+export const ShareProjectPopper: React.SFC<Props> = ({
+  children,
   popperProps,
-  handleInvitationSubmit,
-  handleShareURIChange,
-  handleCopy,
-  handleSwitching,
-  isInvite,
-  isCopied,
 }) => (
   <Container
     innerRef={popperProps.ref}
@@ -227,21 +199,6 @@ export const ShareProjectPopper: React.SFC<ShareURIProps> = ({
       innerRef={popperProps.arrowProps.ref}
       style={popperProps.arrowProps.style}
     />
-    {!isInvite ? (
-      <ShareURIPopper
-        dataLoaded={dataLoaded}
-        URI={URI}
-        selectedRole={selectedShareURIRole}
-        isCopied={isCopied}
-        handleChange={handleShareURIChange}
-        handleCopy={handleCopy}
-        handleSwitching={handleSwitching}
-      />
-    ) : (
-      <InvitationPopper
-        handleInvitationSubmit={handleInvitationSubmit}
-        handleSwitching={handleSwitching}
-      />
-    )}
+    {children}
   </Container>
 )
