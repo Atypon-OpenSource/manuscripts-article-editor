@@ -27,6 +27,10 @@ export const CloseButton = styled.button`
   cursor: pointer;
   background: transparent;
   border: none;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 export const ModalMain = styled.div`

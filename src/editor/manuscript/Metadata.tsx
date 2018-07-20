@@ -1,6 +1,6 @@
 import React from 'react'
-import Modal from 'react-modal'
 import { CloseButton } from '../../components/SimpleModal'
+import { StyledModal, totalTransitionTime } from '../../components/StyledModal'
 import Close from '../../icons/close'
 import Expander from '../../icons/expander'
 import { styled, ThemedProps } from '../../theme'
@@ -13,30 +13,6 @@ import AuthorsSidebar from './AuthorsSidebar'
 import { Header, HeaderContainer } from './Header'
 import { AffiliationMap } from './lib/authors'
 import { StyledTitleField } from './TitleField'
-
-const modalStyle = {
-  overlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#edf2f5',
-    zIndex: 1000,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'start',
-  },
-  content: {
-    background: 'transparent',
-    border: 'none',
-    position: 'relative',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
-}
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -163,53 +139,51 @@ export const Metadata: React.SFC<Props> = ({
         </AuthorsContainer>
       )}
 
-      {editing && (
-        <Modal
-          isOpen={editing}
-          onRequestClose={stopEditing}
-          style={modalStyle}
-          ariaHideApp={false}
-          shouldCloseOnOverlayClick={true}
-        >
-          <ModalContainer>
-            <ModalHeader>
-              <CloseButton onClick={stopEditing}>
-                <Close size={24} />
-              </CloseButton>
-            </ModalHeader>
+      <StyledModal
+        isOpen={editing}
+        onRequestClose={stopEditing}
+        ariaHideApp={false}
+        shouldCloseOnOverlayClick={true}
+        closeTimeoutMS={totalTransitionTime}
+      >
+        <ModalContainer>
+          <ModalHeader>
+            <CloseButton onClick={stopEditing}>
+              <Close size={24} />
+            </CloseButton>
+          </ModalHeader>
 
-            <ModalBody>
-              <ModalSidebar>
-                <AuthorsSidebar
-                  authors={authors}
-                  authorAffiliations={authorAffiliations}
-                  createAuthor={createAuthor}
-                  removeAuthor={removeAuthor}
-                  selectAuthor={selectAuthor}
-                  selectedAuthor={selectedAuthor}
+          <ModalBody>
+            <ModalSidebar>
+              <AuthorsSidebar
+                authors={authors}
+                authorAffiliations={authorAffiliations}
+                createAuthor={createAuthor}
+                removeAuthor={removeAuthor}
+                selectAuthor={selectAuthor}
+                selectedAuthor={selectedAuthor}
+              />
+            </ModalSidebar>
+
+            <ModalMain>
+              {selectedAuthor && (
+                <AuthorForm
+                  manuscript={manuscript.id}
+                  author={selectedAuthor}
+                  affiliations={affiliations}
+                  authorAffiliations={
+                    authorAffiliations.get(
+                      selectedAuthor.id
+                    ) as AuthorAffiliation[]
+                  }
+                  handleSave={handleSaveAuthor}
+                  createAffiliation={createAffiliation}
                 />
-              </ModalSidebar>
-
-              <ModalMain>
-                {selectedAuthor && (
-                  <AuthorForm
-                    manuscript={manuscript.id}
-                    author={selectedAuthor}
-                    affiliations={affiliations}
-                    authorAffiliations={
-                      authorAffiliations.get(
-                        selectedAuthor.id
-                      ) as AuthorAffiliation[]
-                    }
-                    handleSave={handleSaveAuthor}
-                    createAffiliation={createAffiliation}
-                  />
-                )}
-              </ModalMain>
-            </ModalBody>
-          </ModalContainer>
-        </Modal>
-      )}
+              )}
+            </ModalMain>
+          </ModalBody>
+        </ModalContainer>
+      </StyledModal>
     </Header>
   </HeaderContainer>
 )
