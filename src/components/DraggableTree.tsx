@@ -225,7 +225,12 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
         return this.getTextOfNodeType(node, 'title')
 
       case 'section':
-        return this.getTextOfNodeType(node, 'section_title')
+        return (
+          this.getTextOfNodeType(node, 'section_title') || 'Untitled Section'
+        )
+
+      case 'bibliography_section':
+        return this.getTextOfNodeType(node, 'section_title') || 'Bibliography'
 
       case 'figure':
       case 'table_figure':

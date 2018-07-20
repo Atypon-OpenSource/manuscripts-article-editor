@@ -20,7 +20,7 @@ const ManuscriptOutlineContainer: React.SFC<Props & DraggableTreeProps> = ({
   const { items } = buildTree(doc, 0, 0)
 
   const tree = {
-    node: parse(manuscript.title || 'Manuscript'),
+    node: parse(manuscript.title || 'Untitled Manuscript'),
     pos: 0,
     endPos: 0,
     index: 0,
