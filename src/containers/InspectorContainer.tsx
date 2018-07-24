@@ -3,7 +3,6 @@ import React from 'react'
 import { Option } from 'react-select'
 import { ImmediateSelectField } from '../components/ImmediateSelectField'
 import { Spinner } from '../components/Spinner'
-import { StringMap } from '../editor/config/types'
 import CitationManager from '../lib/csl'
 import { styled } from '../theme'
 import { Manuscript } from '../types/components'
@@ -27,16 +26,6 @@ interface Props {
   saveManuscript: (manuscript: Manuscript) => void
 }
 
-interface Style {
-  id: string
-  title: string
-  shortTitle: string
-}
-
-interface Locales {
-  'language-names': StringMap<string[]>
-}
-
 interface State {
   styles: Option[]
   locales: Option[]
@@ -51,14 +40,21 @@ class InspectorContainer extends React.Component<Props, State> {
   public async componentDidMount() {
     const citationManager = new CitationManager()
 
-    const styles = (await citationManager.fetchStyles()) as StringMap<Style>
-    const locales = (await citationManager.fetchLocales()) as Locales
+    const bundles = await citationManager.fetchBundles()
+    const locales = await citationManager.fetchLocales()
 
     this.setState({
-      styles: Object.entries(styles).map(([value, style]) => ({
-        value,
-        label: style.title,
-      })),
+      styles: bundles
+        .filter(
+          bundle => bundle.csl && bundle.csl.cslIdentifier && bundle.csl.title
+        )
+        .map(bundle => ({
+          value: bundle.csl!.cslIdentifier!.replace(
+            'http://www.zotero.org/styles/',
+            ''
+          ),
+          label: bundle.csl!.title,
+        })),
       locales: Object.entries(locales['language-names']).map(
         ([value, languageNames]) => ({
           value,

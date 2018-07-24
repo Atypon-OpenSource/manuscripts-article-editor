@@ -64,7 +64,7 @@ services:
       - api
       - couchbase
       - sync_gateway
-      - csl-data
+      - data
     env_file:
       - env
     environment:
@@ -77,16 +77,6 @@ services:
       default:
         aliases:
           - client-test.manuscripts.io
-
-  csl-data:
-    image: registry.gitlab.com/mpapp-private/csl-data
-    ports:
-      - 3002:3002
-    hostname: csl-data-test.manuscripts.io
-    networks:
-      default:
-        aliases:
-          - csl-data-test.manuscripts.io
 
   testcafe:
     build:
@@ -102,7 +92,7 @@ services:
       - client
       - sync_gateway
       - couchbase
-      - csl-data
+      - data
     ports:
       - 1337:1337
       - 1338:1338
@@ -115,6 +105,15 @@ services:
       default:
         aliases:
           - testcafe.manuscripts.io
+
+  data:
+    image: registry.gitlab.com/mpapp-private/manuscripts-data/manuscripts-data
+    ports:
+      - 8020:8020
+    networks:
+      default:
+        aliases:
+          - data-test.manuscripts.io
 
 volumes:
   couchbase-data:

@@ -9,6 +9,7 @@ import {
 import { InvitationPopper } from '../components/InvitationPopper'
 import { ShareProjectPopper } from '../components/ShareProjectPopper'
 import { ShareURIPopper } from '../components/ShareURIPopper'
+import config from '../config'
 import { projectInvite, requestProjectInvitationToken } from '../lib/api'
 
 type ShareProjectUri = () => Promise<void>
@@ -180,9 +181,7 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
   }
 
   private invitationURI = (projectID: string, invitationToken: string) => {
-    return `${
-      process.env.BASE_URL
-    }/projects/${projectID}/invitation/${invitationToken}/`
+    return `${config.url}/projects/${projectID}/invitation/${invitationToken}/`
   }
 }
 

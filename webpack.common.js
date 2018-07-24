@@ -16,7 +16,8 @@ module.exports = {
     new webpack.EnvironmentPlugin([
       'API_BASE_URL',
       'API_APPLICATION_ID',
-      'CSL_DATA_URL',
+      'BASE_URL',
+      'DATA_URL',
       'GIT_COMMIT_HASH',
       'GIT_VERSION',
       'NODE_ENV',
@@ -24,7 +25,6 @@ module.exports = {
       'SYNC_GATEWAY_URL',
       'WAYF_KEY',
       'WAYF_URL',
-      'BASE_URL',
     ]),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
@@ -42,7 +42,7 @@ module.exports = {
       dontCacheBustUrlsMatching: /\.[a-f0-9]{8}\./, // hash in filename
       exclude: [
         // /^\d+\./
-        // TODO: cache locales + codemirror languages as they're loaded - load them remotely?
+        // TODO: cache locales + codemirror languages as they're loaded
         new RegExp(process.env.API_BASE_URL),
         new RegExp(process.env.SYNC_GATEWAY_URL),
         new RegExp('http://127.0.0.1'),
@@ -50,8 +50,7 @@ module.exports = {
       importWorkboxFrom: 'local',
       navigateFallback: '/index.html',
       navigateFallbackBlacklist: [
-        /^\/csl\//,
-        /^\/shared-data\//
+        /^\/data\//
       ],
       // runtimeCaching: [
       //   {

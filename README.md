@@ -8,13 +8,11 @@ A client for collaborative editing of rich-text articles.
 
 Run `yarn` to install the dependencies.
 
-## Running the app (development mode)
+## Running the client (development mode)
 
 The variables listed in `.env.example` should all have appropriate values set in `.env` (copy `.env.example` to `.env` to get started).
 
 Run `yarn start` to start the app in development mode (using `webpack-dev-server` and `react-hot-loader`).
-
-The editor currently depends on the [`csl-data`](https://gitlab.com/mpapp-private/csl-data) web service for CSL styles and locales.
 
 ## Building the app (production mode)
 
@@ -29,12 +27,11 @@ Run `yarn build` to build the app to the `dist` folder, from where it can be dep
 2. Create a Docker volume for Yarn's cache: `docker volume create --name=yarn-cache`
 3. `docker login registry.gitlab.com` to log in to GitLab’s Container Registry using your GitLab username and password (or a deploy token for read-only access to the registry images).
 4. `yarn docker-compose:server pull --no-parallel` to pull the latest server Docker images.
-5. `yarn docker-compose:server up --build` to start the server in Docker.
+5. `yarn docker-compose:server up` to start the server in Docker.
 6. `yarn docker-compose:client up --build` to start the client in Docker.
-7. Install and start the [`csl-data`](https://gitlab.com/mpapp-private/csl-data) web service for CSL styles and locales.
-8. Open <http://0.0.0.0:8080/> in a web browser to start the app.
+8. Open <http://localhost:8080/> in a web browser to start the app.
 
-**IMPORTANT:** Before running the service for the first time, run `INITIALIZE_DATABASE=true yarn docker-compose:server run api` to initialize the database, or include `APP_INITIALIZE=1` and `APP_RUN_AFTER_INITIALIZE=1` in server environment variables at `docker/server/.env`.
+**IMPORTANT:** When running the service for the first time, set `APP_INITIALIZE=1` and `APP_RUN_AFTER_INITIALIZE=1` in the server environment variables at `docker/server/.env`.
 
 ## Stopping the service in Docker
 

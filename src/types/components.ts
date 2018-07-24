@@ -270,6 +270,40 @@ export interface BibliographyElement extends Element {
   contents: string
 }
 
+export interface Bundle extends Component {
+  csl?: {
+    'author-name'?: string
+    'author-email'?: string
+    version?: string
+    defaultLocale?: string
+    title?: string
+    cslIdentifier?: string
+    'self-URL'?: string
+    'independent-parent-URL'?: string
+    'documentation-URL'?: string
+    fields?: string[]
+    ISSNs?: string[]
+    eISSNs?: string[]
+    updatedAt?: number
+    license?: string
+    _id?: string
+  }
+  scimago?: {
+    t?: string
+    I?: string
+    R?: number
+    H?: number
+    dY?: number
+    d3Y?: number
+    rY?: number
+    c3Y?: number
+    cib3Y?: number
+    muC2Y?: number
+    muR?: number
+    c?: string
+  }
+}
+
 export type AnyStyle = FigureStyle | BorderStyle
 
 export type AnyElement =

@@ -24,7 +24,6 @@ import sessionID from '../lib/sessionID'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { ComponentObject } from '../store/DataProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
-import { SharedDataProps, withSharedData } from '../store/SharedDataProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { Decoder, encode } from '../transformer'
 import { buildComponentMap, getComponentFromDoc } from '../transformer/decode'
@@ -82,7 +81,6 @@ interface RouteParams {
 
 type CombinedProps = UserProps &
   ComponentsProps &
-  SharedDataProps &
   RouteComponentProps<RouteParams> &
   IntlProps
 
@@ -830,6 +828,4 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withSharedData(
-  withComponents(withUser(withIntl(ManuscriptPageContainer)))
-)
+export default withComponents(withUser(withIntl(ManuscriptPageContainer)))

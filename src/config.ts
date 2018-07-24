@@ -1,4 +1,5 @@
 interface Config {
+  url: string
   environment: string
   serviceworker: boolean
   api: {
@@ -8,7 +9,7 @@ interface Config {
   gateway: {
     url: string
   }
-  csl: {
+  data: {
     url: string
   }
   sentry: {
@@ -25,6 +26,7 @@ interface Config {
 }
 
 const config = {
+  url: process.env.BASE_URL,
   environment: process.env.NODE_ENV,
   serviceworker: process.env.SERVICEWORKER_ENABLED === '1',
   api: {
@@ -36,8 +38,8 @@ const config = {
   gateway: {
     url: process.env.SYNC_GATEWAY_URL,
   },
-  csl: {
-    url: process.env.CSL_DATA_URL,
+  data: {
+    url: process.env.DATA_URL,
   },
   sentry: {
     dsn: process.env.SENTRY_PUBLIC_DSN,

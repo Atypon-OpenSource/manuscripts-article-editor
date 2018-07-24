@@ -1,13 +1,19 @@
 import axios from 'axios'
 import CSL from 'citeproc'
-import url from 'url'
 import config from '../config'
+import { StringMap } from '../editor/config/types'
 import {
   BibliographicDate,
   BibliographicName,
   BibliographyItem,
+  Bundle,
 } from '../types/components'
 import { buildBibliographicDate, buildBibliographicName } from './commands'
+import { fetchSharedData } from './shared-data'
+
+interface Locales {
+  'language-names': StringMap<string[]>
+}
 
 const contributorFields = [
   'author',
@@ -143,12 +149,6 @@ export const convertBibliographyItemToData = (
   )
 
 class CitationManager {
-  private readonly service: string
-
-  constructor() {
-    this.service = config.csl.url
-  }
-
   public createProcessor = async (
     citationStyle: string,
     primaryLanguageCode: string,
@@ -175,16 +175,16 @@ class CitationManager {
     )
   }
 
-  public fetchStyles = () => {
-    return this.fetchJSON('/styles')
-  }
+  public fetchBundles = async (): Promise<Bundle[]> =>
+    fetchSharedData('bundles.json')
 
-  public fetchLocales = () => {
-    return this.fetchJSON('/locales')
-  }
+  public fetchLocales = (): Promise<Locales> =>
+    this.fetchJSON('csl/locales/locales.json')
+
+  private buildURL = (path: string) => config.data.url + '/' + path
 
   private async fetchText(path: string) {
-    const response = await axios.get(url.resolve(this.service, path), {
+    const response = await axios.get(this.buildURL(path), {
       responseType: 'text',
     })
 
@@ -192,17 +192,17 @@ class CitationManager {
   }
 
   private async fetchJSON(path: string) {
-    const response = await axios.get(url.resolve(this.service, path))
+    const response = await axios.get(this.buildURL(path))
 
     return response.data
   }
 
   private fetchLocale(id: string) {
-    return this.fetchText('/locales/' + id)
+    return this.fetchText(`csl/locales/locales-${id}.xml`)
   }
 
   private fetchStyle(id: string) {
-    return this.fetchText('/styles/' + id)
+    return this.fetchText(`csl/styles/${id}.csl`)
   }
 
   private async fetchCitationLocales(

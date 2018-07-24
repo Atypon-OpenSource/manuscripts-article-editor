@@ -44,6 +44,11 @@ services:
       - INITIALIZE_DATABASE
       - NODE_ENV=development
 
+  data:
+    image: registry.gitlab.com/mpapp-private/manuscripts-data/manuscripts-data
+    ports:
+      - 8020:8020
+
 volumes:
   couchbase-data:
 

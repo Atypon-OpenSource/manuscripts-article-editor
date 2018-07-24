@@ -8,7 +8,7 @@ services:
     environment:
       - API_BASE_URL
       - API_APPLICATION_ID
-      - CSL_DATA_URL
+      - DATA_URL
       - GIT_VERSION
       - GIT_COMMIT_HASH
       - SENTRY_PUBLIC_DSN
