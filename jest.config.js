@@ -8,9 +8,7 @@ module.exports = {
     'src/**/*.{ts,tsx}', 
     '!**/*.d.ts', 
     '!/**/__tests__',
-    '!src/editor/config/rules.ts', 
-    '!src/editor/config/commands.ts',
-    '!src/editor/lib/popper.ts'
+    '!src/editor/**',
   ],
   coverageThreshold: {
     global: {
