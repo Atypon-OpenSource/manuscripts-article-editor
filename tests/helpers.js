@@ -53,10 +53,17 @@ export const loginAsNewUser = async t => {
 // replace any non-breaking spaces (ASCII 160) in a text with a regular space
 export const normaliseWhitespace = text => text.replace(/\u00a0/g, ' ')
 
+// replace any /n /r strings in a text with a double space
+export const normaliseLineReturn = text => text.replace(/(\r\n|\n|\r)/gm,"  ")
+
 export const generateTitle = wordCount => {
   const sentence = faker.lorem.words(wordCount)
 
   return sentence.charAt(0).toUpperCase() + sentence.slice(1)
+}
+
+export const generateParagraph = paragraphCount => {
+  return faker.lorem.paragraphs(paragraphCount)
 }
 
 export const enterRichText = async (t, container, text) => {
