@@ -86,7 +86,7 @@ services:
       - env
     environment:
       SCREENSHOTS_VOLUME: '${HOME}/screenshots'
-    command: "'chromium --no-sandbox' /tests --screenshots ./screenshots --screenshots-on-fail"
+    command: "'firefox --no-sandbox' /tests --screenshots ./screenshots --screenshots-on-fail"
     depends_on:
       - api
       - client

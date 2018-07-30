@@ -189,6 +189,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             subscribe={this.handleSubscribe}
             setView={this.setView}
             attributes={{
+              class: 'manuscript-editor',
               dir: locale === 'ar' ? 'rtl' : 'ltr', // TODO: remove hard-coded locale
             }}
           />
