@@ -1,7 +1,9 @@
 import { loginAsNewUser } from './helpers'
 import { Selector } from 'testcafe'
 
-fixture('Successful login')
+const BASE_URL = process.env.BASE_URL || 'http://0.0.0.0:8080'
+
+fixture('Successful login').page(BASE_URL + '/login')
 
 const sidebarTitle = Selector('#projects-sidebar .sidebar-title')
 
