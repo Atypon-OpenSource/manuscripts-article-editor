@@ -86,7 +86,7 @@ services:
       - env
     environment:
       SCREENSHOTS_VOLUME: '${HOME}/screenshots/chromium'
-    command: "'chromium --no-sandbox' /tests --screenshots ./screenshots --screenshots-on-fail --page-load-timeout 10000 --speed 0.8"
+    command: "'chromium --no-sandbox' /tests --screenshots /screenshots --screenshots-on-fail --page-load-timeout 10000 --speed 0.8"
     depends_on:
       - api
       - client
@@ -114,7 +114,7 @@ services:
       - env
     environment:
       SCREENSHOTS_VOLUME: '${HOME}/screenshots/firefox'
-    command: "'firefox --no-sandbox' /tests --screenshots /screenshots --screenshots-on-fail"
+    command: "'firefox --no-sandbox' /tests --screenshots /screenshots --screenshots-on-fail --page-load-timeout 10000 --speed 0.8"
     depends_on:
       - api
       - client
