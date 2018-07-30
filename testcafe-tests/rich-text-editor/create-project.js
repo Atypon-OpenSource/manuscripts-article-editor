@@ -1,45 +1,37 @@
-import { loginAsNewUser } from '.../helpers'
+import {
+  confirmRichText,
+  enterRichText,
+  generateTitle,
+  loginAsNewUser,
+} from '../helpers'
 import { Selector } from 'testcafe'
 import faker from 'faker'
 
 fixture('Projects')
 
-const normaliseWhitespace = text => text.replace(/\u00a0/g, ' ')
-
-const generateTitle = wordCount => {
-  const sentence = faker.lorem.words(wordCount)
-
-  return sentence.charAt(0).toUpperCase() + sentence.slice(1)
-}
-
-const enterRichText = async (t, container, text) => {
-  const selector = container.find('[contenteditable]')
-
-  // focus the rich text editor
-  await t.click(selector).expect(selector.hasClass('ProseMirror-focused'))
-
-  // delete the existing content
-  await t
-    .pressKey('ctrl+a delete') // TODO: meta+a?
-    .expect(selector.textContent)
-    .eql('')
-
-  // enter the new text
-  await t.typeText(selector, text)
-}
-
-test('Can create a new project and edit titles', async t => {
+test('Can create a new project', async t => {
   await loginAsNewUser(t)
 
   await t.click(Selector('#create-project'))
 
-  const projectTitleField = Selector('#project-title-field')
-  const manuscriptTitleField = Selector('#manuscript-title-field')
+  const manuscriptTitleField = Selector('#manuscript-title-field .title-editor')
+  const projectTitleField = Selector('#project-title-field .title-editor')
 
-  await t.expect(projectTitleField.textContent).eql('Untitled Project')
   await t.expect(manuscriptTitleField.textContent).eql('')
+  await t.expect(projectTitleField.textContent).eql('Untitled Project')
+})
 
-  const projectTitle = generateTitle(3)
+test.skip('Can create a new project and edit titles', async t => {
+  await loginAsNewUser(t)
+
+  await t.click(Selector('#create-project'))
+
+  const manuscriptTitleField = Selector('#manuscript-title-field .title-editor')
+  const projectTitleField = Selector('#project-title-field .title-editor')
+
+  await t.expect(manuscriptTitleField.textContent).eql('')
+  await t.expect(projectTitleField.textContent).eql('Untitled Project')
+
   const manuscriptTitle = generateTitle(
     faker.random.number({
       max: 10,
@@ -47,13 +39,16 @@ test('Can create a new project and edit titles', async t => {
     })
   )
 
-  await enterRichText(t, projectTitleField, projectTitle)
-  await enterRichText(t, manuscriptTitleField, manuscriptTitle)
+  const projectTitle = generateTitle(
+    faker.random.number({
+      max: 3,
+      min: 2,
+    })
+  )
 
-  await t
-    .expect(normaliseWhitespace(await projectTitleField.textContent))
-    .eql(projectTitle)
-  await t
-    .expect(normaliseWhitespace(await manuscriptTitleField.textContent))
-    .eql(manuscriptTitle)
+  await enterRichText(t, manuscriptTitleField, manuscriptTitle)
+  await enterRichText(t, projectTitleField, projectTitle)
+
+  await confirmRichText(t, manuscriptTitleField, manuscriptTitle)
+  await confirmRichText(t, projectTitleField, projectTitle)
 })

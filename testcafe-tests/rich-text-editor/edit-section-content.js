@@ -3,7 +3,7 @@ import {
     normaliseLineReturn,
     generateParagraph,
     normaliseWhitespace
-  } from '.../helpers'
+  } from '../helpers'
   import { Selector } from 'testcafe'
   
   fixture('Editor sections')

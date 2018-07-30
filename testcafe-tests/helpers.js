@@ -66,18 +66,11 @@ export const generateParagraph = paragraphCount => {
   return faker.lorem.paragraphs(paragraphCount)
 }
 
-export const enterRichText = async (t, container, text) => {
-  const selector = container.find('[contenteditable]')
+export const enterRichText = (t, selector, text) =>
+  t.click(selector).typeText(selector, text, {
+    paste: true,
+    replace: true,
+  })
 
-  // focus the rich text editor
-  await t.click(selector).expect(selector.hasClass('ProseMirror-focused'))
-
-  // delete the existing content
-  await t
-    .pressKey('ctrl+a delete') // TODO: meta+a?
-    .expect(selector.textContent)
-    .eql('')
-
-  // enter the new text
-  await t.typeText(selector, text)
-}
+export const confirmRichText = async (t, selector, text) =>
+  t.expect(normaliseWhitespace(await selector.textContent)).eql(text)
