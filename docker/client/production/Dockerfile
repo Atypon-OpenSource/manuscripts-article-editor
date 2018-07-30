@@ -8,7 +8,7 @@ RUN apk add --no-cache git openssh
 
 # install
 
-COPY package.json yarn.lock /app/
+COPY .yarnrc package.json yarn.lock /app/
 
 ARG YARN_CACHE_FOLDER=/cache/yarn
 
