@@ -122,10 +122,10 @@ services:
       - couchbase
       - data
     ports:
-      - 1337:1337
-      - 1338:1338
-      - 9223:9223
-      - 9222:9222
+      - 1347:1337
+      - 1348:1338
+      - 9233:9223
+      - 9232:9222
     volumes:
       - '${SCREENSHOTS_VOLUME}:/screenshots/firefox'
       - yarn-cache:/cache/yarn
