@@ -78,15 +78,15 @@ services:
         aliases:
           - client-test.manuscripts.io
 
-  testcafe:
+  testcafe_chromium:
     build:
       context: ../../..
-      dockerfile: docker/tests/testcafe/Dockerfile
+      dockerfile: docker/tests/testcafe/Dockerfile-all-tests
     env_file:
       - env
     environment:
-      SCREENSHOTS_VOLUME: '${HOME}/screenshots'
-    command: "'chromium --no-sandbox' /tests --screenshots ./screenshots --screenshots-on-fail"
+      SCREENSHOTS_VOLUME: '${HOME}/screenshots/chromium'
+    command: "'chromium --no-sandbox' /tests --screenshots /screenshots --screenshots-on-fail"
     depends_on:
       - api
       - client
@@ -99,7 +99,35 @@ services:
       - 9223:9223
       - 9222:9222
     volumes:
-      - '${SCREENSHOTS_VOLUME}:/screenshots'
+      - '${SCREENSHOTS_VOLUME}:/screenshots/chromium'
+      - yarn-cache:/cache/yarn
+    networks:
+      default:
+        aliases:
+          - testcafe.manuscripts.io
+
+  testcafe_firefox:
+    build:
+      context: ../../..
+      dockerfile: docker/tests/testcafe/Dockerfile-shell
+    env_file:
+      - env
+    environment:
+      SCREENSHOTS_VOLUME: '${HOME}/screenshots/firefox'
+    command: "'firefox --no-sandbox' /tests --screenshots /screenshots --screenshots-on-fail"
+    depends_on:
+      - api
+      - client
+      - sync_gateway
+      - couchbase
+      - data
+    ports:
+      - 1337:1337
+      - 1338:1338
+      - 9223:9223
+      - 9222:9222
+    volumes:
+      - '${SCREENSHOTS_VOLUME}:/screenshots/firefox'
       - yarn-cache:/cache/yarn
     networks:
       default:

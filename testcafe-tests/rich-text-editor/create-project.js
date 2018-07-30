@@ -1,4 +1,4 @@
-import { loginAsNewUser } from './helpers'
+import { loginAsNewUser } from '.../helpers'
 import { Selector } from 'testcafe'
 import faker from 'faker'
 

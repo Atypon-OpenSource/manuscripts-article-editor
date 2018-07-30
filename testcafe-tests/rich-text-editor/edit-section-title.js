@@ -2,7 +2,7 @@ import {
   loginAsNewUser,
   normaliseWhitespace,
   generateTitle,
-} from './helpers'
+} from '.../helpers'
 import { Selector } from 'testcafe'
 
 fixture('Editor sections')
