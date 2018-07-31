@@ -2,64 +2,35 @@ import { Formik, FormikConfig } from 'formik'
 import React from 'react'
 import AuthButtonContainer from '../containers/AuthButtonContainer'
 import FooterContainer from '../containers/FooterContainer'
-import CloseGreen from '../icons/close-green'
-import CloseRed from '../icons/close-red'
 
-import AttentionRed from '../icons/attention-red'
-import SuccessGreen from '../icons/success'
-
+import AlertMessage from './AlertMessage'
 import {
   AuthenticationContainer,
   GoogleLogin,
   OrcidLogin,
 } from './Authentication'
-import {
-  CloseIcon,
-  FormError,
-  FormMessage,
-  FormSuccess,
-  InformativeIcon,
-} from './Form'
 import { LoginForm, LoginValues } from './LoginForm'
 import { Centered } from './Page'
 
 interface Props {
   verificationMessage: string
-  onClose: () => void
 }
 
 const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
   initialValues,
   validationSchema,
   onSubmit,
-  onClose,
   verificationMessage,
 }) => (
   <Centered>
-    {verificationMessage &&
+    {!!verificationMessage &&
       verificationMessage ===
         'Account verification failed. Is the account already verified?' && (
-        <FormError>
-          <InformativeIcon>
-            <AttentionRed />
-          </InformativeIcon>
-          <FormMessage>{verificationMessage}</FormMessage>
-          <CloseIcon onClick={onClose}>
-            <CloseRed />
-          </CloseIcon>
-        </FormError>
+        <AlertMessage type={'error'}>{verificationMessage}</AlertMessage>
       )}
-    {verificationMessage &&
+    {!!verificationMessage &&
       verificationMessage === 'Your account is now verified.' && (
-        <FormSuccess>
-          <InformativeIcon>
-            <SuccessGreen />
-          </InformativeIcon>
-          <FormMessage>{verificationMessage}</FormMessage>
-          <CloseIcon onClick={onClose}>
-            <CloseGreen />
-          </CloseIcon>
-        </FormSuccess>
+        <AlertMessage type={'info'}>{verificationMessage}</AlertMessage>
       )}
     <Formik
       initialValues={initialValues}

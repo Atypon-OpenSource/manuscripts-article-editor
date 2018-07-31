@@ -86,7 +86,6 @@ class LoginPageContainer extends React.Component<
             initialValues={this.initialValues}
             validationSchema={loginSchema}
             onSubmit={this.handleSubmit}
-            onClose={this.handleClose}
             verificationMessage={this.state.verificationMessage}
           />
         </Main>
@@ -130,11 +129,7 @@ class LoginPageContainer extends React.Component<
       }
     )
   }
-  private handleClose = () => {
-    this.setState({
-      verificationMessage: '',
-    })
-  }
+
   private errorResponseMessage = (status: number) => {
     switch (status) {
       case HttpStatusCodes.BAD_REQUEST:

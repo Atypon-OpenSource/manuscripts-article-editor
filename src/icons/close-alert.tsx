@@ -1,10 +1,10 @@
 import React from 'react'
+import { dustyGrey } from '../colors'
 import { IconProps } from './types'
 
-const CloseGreen = (props: IconProps) => (
+const CloseAlert = (props: IconProps) => (
   <svg width={10} height={10} {...props}>
-    <title>Closegreen@1x</title>
-    <g fill="#B2C0AC" fillRule="evenodd">
+    <g fill={props.color || dustyGrey} fillRule="evenodd">
       <rect
         transform="rotate(-45 5 5)"
         x={-1.154}
@@ -25,4 +25,4 @@ const CloseGreen = (props: IconProps) => (
   </svg>
 )
 
-export default CloseGreen
+export default CloseAlert
