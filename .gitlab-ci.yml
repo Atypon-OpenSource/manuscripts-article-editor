@@ -27,11 +27,26 @@ jest:
   tags:
     - nodejs-8
 
-testcafe:
+testcafe-chromium:
   stage: test
   script:
     - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
-    - ./scripts/run-testcafe-tests.sh
+    - ./scripts/run-testcafe-tests.sh testcafe_chromium
+  after_script:
+    - yarn run docker-compose:testcafe down -v
+  artifacts:
+    paths:
+      - ./screenshots
+    expire_in: 1 week
+    when: on_failure
+  tags:
+    - docker-compose
+
+testcafe-firefox:
+  stage: test
+  script:
+    - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
+    - ./scripts/run-testcafe-tests.sh testcafe_firefox
   after_script:
     - yarn run docker-compose:testcafe down -v
   artifacts:
