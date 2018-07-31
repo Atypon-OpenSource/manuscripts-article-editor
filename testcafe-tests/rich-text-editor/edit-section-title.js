@@ -6,7 +6,7 @@ import {
 } from '../helpers'
 import { Selector } from 'testcafe'
 
-fixture.skip('Editor sections')
+fixture('Editor sections')
 
 test('Can add a new Section title', async t => {
   await loginAsNewUser(t)

@@ -21,7 +21,7 @@ test('Can create a new project', async t => {
   await t.expect(projectTitleField.textContent).eql('Untitled Project')
 })
 
-test.skip('Can create a new project and edit titles', async t => {
+test('Can create a new project and edit titles', async t => {
   await loginAsNewUser(t)
 
   await t.click(Selector('#create-project'))
