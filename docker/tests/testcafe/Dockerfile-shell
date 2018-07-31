@@ -13,6 +13,6 @@ RUN  chmod ugo+x /opt/testcafe/docker/wait-for-client.sh
 USER user
 ENV NODE_PATH=/opt:/opt/testcafe/node_modules
 
-COPY ./testcafe-tests/*.js /tests/
+COPY ./testcafe-tests/*.js /testcafe-tests/
 
 ENTRYPOINT ["/opt/testcafe/docker/testcafe-docker.sh"]
