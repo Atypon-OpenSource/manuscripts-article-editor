@@ -126,6 +126,9 @@ const AuthorNotes = styled.span`
   }
 `
 
+const AuthorNameSpace = styled.span`
+  margin-left: 12px;
+`
 interface Props {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
@@ -195,7 +198,9 @@ const AuthorsSidebar: React.SFC<Props> = ({
                 </AuthorNotes>
               </AvatarContainer>
 
-              <AuthorName name={author.bibliographicName} />
+              <AuthorNameSpace>
+                <AuthorName name={author.bibliographicName} />
+              </AuthorNameSpace>
               {/*<div>
                 {affiliations &&
                   affiliations.map(affiliation => (

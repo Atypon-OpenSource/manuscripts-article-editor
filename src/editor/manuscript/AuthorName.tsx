@@ -7,27 +7,23 @@ interface Props {
   name: BibliographicName
 }
 
+interface NamePartsProps {
+  color?: string
+}
+
 const NameParts = styled.span`
-  margin-left: 12px;
   line-height: 35px;
   font-size: 18px;
   letter-spacing: -0.3px;
-  color: #353535;
-`
-// const GivenName = styled.span``
-
-const FamilyName = styled.span`
-  font-weight: 500;
+  color: ${(props: NamePartsProps) => props.color || '#353535'};
 `
 
-const Initials = styled.span``
+const buildNameLiteral = (name: BibliographicName) =>
+  [initials(name), name.family, name.suffix].filter(part => part).join(' ')
 
-const Suffix = styled.span``
-
-export const AuthorName: React.SFC<Props> = ({ name }) => (
-  <NameParts>
-    <Initials>{initials(name)}</Initials>{' '}
-    {/*<GivenName>{name.given}</GivenName> */}
-    <FamilyName>{name.family}</FamilyName> <Suffix>{name.suffix}</Suffix>
-  </NameParts>
-)
+export const AuthorName: React.SFC<Props> = ({ name }) =>
+  !name.given && !name.family ? (
+    <NameParts color={'#949494'}>Unknown Author</NameParts>
+  ) : (
+    <NameParts>{buildNameLiteral(name)}</NameParts>
+  )

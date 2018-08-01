@@ -1,22 +1,7 @@
 import React from 'react'
-import { initials } from '../../lib/name'
 import { styled } from '../../theme'
-import {
-  Affiliation,
-  BibliographicName,
-  Contributor,
-} from '../../types/components'
-
-const buildNameLiteral = (name: BibliographicName) =>
-  [initials(name), name.family, name.suffix].filter(part => part).join(' ')
-
-interface AuthorNameProps {
-  name: BibliographicName
-}
-
-const AuthorName: React.SFC<AuthorNameProps> = ({ name }) => (
-  <span>{buildNameLiteral(name)}</span>
-)
+import { Affiliation, Contributor } from '../../types/components'
+import { AuthorName } from './AuthorName'
 
 const AuthorNotes = styled.span`
   display: inline-block;
