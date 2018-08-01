@@ -26,6 +26,11 @@ jest:
     - yarn build
   tags:
     - nodejs-8
+  artifacts:
+    paths:
+      - ./coverage
+    expire_in: 1 week
+    when: always
 
 testcafe-chromium:
   stage: test
