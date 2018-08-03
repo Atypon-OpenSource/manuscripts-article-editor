@@ -13,7 +13,6 @@ export const Header = styled.div`
   margin-bottom: 16px;
 
   & .ProseMirror {
-    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 27px;
     font-weight: 600;
   }

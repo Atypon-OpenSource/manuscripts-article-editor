@@ -34,10 +34,10 @@ export class TitleField extends Title {
 }
 
 export const StyledTitleField = styled(TitleField)`
+  flex: 1;
+
   & .ProseMirror {
-    font-weight: bold;
     cursor: text;
-    font-size: 200%;
     font-family: 'IBM Plex Sans', sans-serif;
     line-height: 1.3;
 
