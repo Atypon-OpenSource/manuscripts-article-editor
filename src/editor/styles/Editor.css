@@ -2,7 +2,6 @@
   font-size: 13pt;
   line-height: 2em;
   font-family: "IBM Plex Serif", serif;
-  padding: 10px;
   background: #fff;
   color: #000;
 }
@@ -219,7 +218,6 @@
 
 .ProseMirror .block-container {
   position: relative;
-  margin-left: -36px;
   display: flex;
 }
 

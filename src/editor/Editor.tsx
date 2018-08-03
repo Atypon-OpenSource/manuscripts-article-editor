@@ -73,11 +73,12 @@ const EditorContainer = styled.div`
   left: 0;
   right: 0;
   overflow: hidden;
+  padding-left: 30px;
 `
 
 const EditorHeader = styled.div`
   width: 100%;
-  padding: 5px;
+  padding: 5px 24px;
   background: white;
 `
 
@@ -86,9 +87,7 @@ const EditorBody = styled.div`
   overflow-y: auto;
 `
 
-const EditorContent = styled.div`
-  padding: 0 30px;
-`
+const EditorContent = styled.div``
 
 // TODO: pass updated components from the database to plugins, without re-rendering the editor
 

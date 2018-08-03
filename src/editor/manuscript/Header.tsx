@@ -1,7 +1,7 @@
 import { styled } from '../../theme'
 
 export const HeaderContainer = styled.header`
-  padding: 0 40px;
+  padding: 0 32px;
 `
 
 export const Header = styled.div`
