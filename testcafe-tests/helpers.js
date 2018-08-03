@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { Selector } from 'testcafe'
+import { Selector, ClientFunction } from 'testcafe'
 
 const BASE_URL = process.env.BASE_URL || 'http://0.0.0.0:8080'
 
@@ -50,6 +50,24 @@ export const loginAsNewUser = async t => {
   return user
 }
 
+export const logout = async (t) => {
+
+  const userDropdown = Selector('#user-dropdown')
+  const userDropdownToggle = userDropdown.find('.dropdown-toggle')  
+  const logoutLink = userDropdown
+  .find('a')
+  .withAttribute('href', '/logout')
+  const loginForm = Selector('#login-form')
+  const getLocation = ClientFunction(() => document.location.href)
+
+  await t.click(userDropdownToggle)
+  await t.click(logoutLink)
+
+  await loginForm()
+
+  await t.expect(getLocation()).contains('/login')
+}
+
 // replace any non-breaking spaces (ASCII 160) in a text with a regular space
 export const normaliseWhitespace = text => text.replace(/\u00a0/g, ' ')
 
@@ -66,11 +84,44 @@ export const generateParagraph = paragraphCount => {
   return faker.lorem.paragraphs(paragraphCount)
 }
 
-export const enterRichText = (t, selector, text) =>
+export const enterRichText = (t, selector, text) => 
   t.click(selector).typeText(selector, text, {
     paste: true,
     replace: true,
-  })
+})
 
-export const confirmRichText = async (t, selector, text) =>
+
+export const confirmRichText = async (t, selector, text) => 
   t.expect(normaliseWhitespace(await selector.textContent)).eql(text)
+
+
+export const createProjectWithTitle = async (t) => {
+  
+    await t.click(Selector('#create-project'))
+  
+    const manuscriptTitleField = Selector('#manuscript-title-field .title-editor')
+    const projectTitleField = Selector('#project-title-field .title-editor')
+  
+    await t.expect(manuscriptTitleField.textContent).eql('')
+    await t.expect(projectTitleField.textContent).eql('Untitled Project')
+  
+    const manuscriptTitle = generateTitle(
+      faker.random.number({
+        max: 10,
+        min: 3,
+      })
+    )
+  
+    const projectTitle = generateTitle(
+      faker.random.number({
+        max: 3,
+        min: 2,
+      })
+    )
+
+    await enterRichText(t, manuscriptTitleField, manuscriptTitle)
+    await enterRichText(t, projectTitleField, projectTitle)
+  
+    await confirmRichText(t, manuscriptTitleField, manuscriptTitle)
+    await confirmRichText(t, projectTitleField, projectTitle)
+}

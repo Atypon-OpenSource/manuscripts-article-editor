@@ -17,6 +17,7 @@ import {
     const sectionParagraph = normaliseLineReturn(generateParagraph(4))
   
     await t
+      .setTestSpeed(0.5)  // reduces test speed by 50 %. This overrides the global test speed setting.
       .click(sectionContentField)
       .expect(sectionContentField.hasClass('ProseMirror-focused'))
     await t.typeText(sectionContentField, sectionParagraph, { speed: 0.5, paste: true })

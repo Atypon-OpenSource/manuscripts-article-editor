@@ -48,7 +48,7 @@ class MenuBar extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <MenuBarIcon onClick={this.handleOpen}>
+        <MenuBarIcon id="menu-bar-icon" onClick={this.handleOpen}>
           <Hamburger size={24} />
         </MenuBarIcon>
 

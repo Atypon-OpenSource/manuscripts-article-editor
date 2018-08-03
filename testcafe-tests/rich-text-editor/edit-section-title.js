@@ -19,6 +19,8 @@ test('Can add a new Section title', async t => {
 
   const sectionTitle = generateTitle(6)
 
+  // reduces test speed by 50 %. This overrides the global test speed setting.
+  await t.setTestSpeed(0.5)
   await enterRichText(t, sectionTitleField, sectionTitle)
 
   await confirmRichText(t, sectionTitleField, sectionTitle)
