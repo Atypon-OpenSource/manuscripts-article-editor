@@ -1,5 +1,10 @@
 import { ResolvedPos } from 'prosemirror-model'
-import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
+import {
+  EditorState,
+  Selection,
+  TextSelection,
+  Transaction,
+} from 'prosemirror-state'
 import { EditorAction, StringMap } from '../types'
 
 type Dispatch = (transaction: Transaction) => void
@@ -42,13 +47,38 @@ const enterNextBlock = (
   $anchor: ResolvedPos
 ) => {
   const offset = $anchor.nodeAfter ? $anchor.nodeAfter.nodeSize : 0
-  const pos = $anchor.pos + offset + 3
+  const $pos = state.doc.resolve($anchor.pos + offset + 1)
+  const next = Selection.findFrom($pos, 1, true)
+
+  if (!next) return false
 
   const tr = state.tr
-    .setSelection(TextSelection.create(state.tr.doc, pos))
+    .setSelection(TextSelection.create(state.tr.doc, next.from))
     .scrollIntoView()
 
   dispatch(tr)
+
+  return true
+}
+
+const enterPreviousBlock = (
+  dispatch: Dispatch,
+  state: EditorState,
+  $anchor: ResolvedPos
+) => {
+  const offset = $anchor.nodeBefore ? $anchor.nodeBefore.nodeSize : 0
+  const $pos = state.doc.resolve($anchor.pos - offset - 1)
+  const previous = Selection.findFrom($pos, -1, true)
+
+  if (!previous) return false
+
+  const tr = state.tr
+    .setSelection(TextSelection.create(state.tr.doc, previous.from))
+    .scrollIntoView()
+
+  dispatch(tr)
+
+  return true
 }
 
 const exitTitle: EditorAction = (state, dispatch) => {
@@ -73,9 +103,21 @@ const exitTitle: EditorAction = (state, dispatch) => {
   }
 }
 
+const exitBlock = (direction: number): EditorAction => (state, dispatch) => {
+  const { $anchor } = state.selection
+
+  if (dispatch) {
+    return direction === 1
+      ? enterNextBlock(dispatch, state, $anchor)
+      : enterPreviousBlock(dispatch, state, $anchor)
+  }
+  return true
+}
+
 const titleKeymap: StringMap<EditorAction> = {
   Enter: exitTitle,
-  Tab: exitTitle,
+  Tab: exitBlock(1),
+  'Shift-Tab': exitBlock(-1),
 }
 
 export default titleKeymap

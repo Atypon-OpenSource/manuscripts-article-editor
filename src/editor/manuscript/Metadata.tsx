@@ -116,6 +116,7 @@ export const Metadata: React.SFC<Props> = ({
           value={manuscript.title}
           autoFocus={!manuscript.title}
           handleChange={saveTitle}
+          tabIndex={1}
         />
         <ExpanderButton
           onClick={toggleExpanded}

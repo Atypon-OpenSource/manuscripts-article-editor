@@ -7,12 +7,18 @@ import { createEditorState, default as Title } from './Title'
 
 export class TitleField extends Title {
   protected createEditorView = (node: HTMLDivElement) => {
+    const attributes: { [name: string]: string } = {
+      class: 'plain title-editor',
+    }
+
+    if (typeof this.props.tabIndex !== 'undefined') {
+      attributes.tabindex = String(this.props.tabIndex)
+    }
+
     this.view = new EditorView(node, {
       state: createEditorState(this.props.value),
       dispatchTransaction: this.dispatchTransaction,
-      attributes: {
-        class: 'plain title-editor',
-      },
+      attributes,
     })
 
     if (this.props.autoFocus) {

@@ -10,12 +10,10 @@ export const createEditorState = (value: string) =>
     plugins,
   })
 
-interface Props {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   id?: string
   value: string
   handleChange?: (value: string) => void
-  className?: string
-  autoFocus?: boolean
 }
 
 interface State {

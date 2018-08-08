@@ -191,6 +191,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             attributes={{
               class: 'manuscript-editor',
               dir: locale === 'ar' ? 'rtl' : 'ltr', // TODO: remove hard-coded locale
+              tabindex: '2',
             }}
           />
 
