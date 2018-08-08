@@ -5,7 +5,7 @@ type ThemedDivProps = ThemedProps<HTMLDivElement>
 const ResizerInner = styled.div`
   display: block;
   z-index: 2;
-
+  overflow: hidden;
   position: absolute;
 
   &::before {

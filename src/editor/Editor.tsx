@@ -71,7 +71,7 @@ const EditorContainer = styled.div`
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0;
+  right: 16px;
   overflow: hidden;
   padding-left: 30px;
 `
