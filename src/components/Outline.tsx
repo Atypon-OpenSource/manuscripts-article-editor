@@ -105,3 +105,7 @@ export const OutlineItemLinkText = styled.span`
   text-overflow: ellipsis;
   margin-left: 8px;
 `
+
+export const OutlineItemPlaceholder = styled.span`
+  color: #aaa;
+`

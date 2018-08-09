@@ -15,7 +15,7 @@ import {
 } from 'react-dnd'
 import HTML5DragDropBackend from 'react-dnd-html5-backend'
 import { findDOMNode } from 'react-dom'
-import { nodeNames } from '../transformer/node-names'
+import { nodeTitle, nodeTitlePlaceholder } from '../transformer/node-title'
 import {
   Outline,
   OutlineDropPreview,
@@ -25,6 +25,7 @@ import {
   OutlineItemLink,
   OutlineItemLinkText,
   OutlineItemNoArrow,
+  OutlineItemPlaceholder,
 } from './Outline'
 
 export type DropSide = 'before' | 'after' | null
@@ -219,49 +220,20 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
     })
   }
 
-  private chooseItemText = (node: ProsemirrorNode) => {
-    switch (node.type.name) {
-      case 'manuscript':
-        return this.getTextOfNodeType(node, 'title')
-
-      case 'section':
-        return (
-          this.getTextOfNodeType(node, 'section_title') || 'Untitled Section'
-        )
-
-      case 'bibliography_section':
-        return this.getTextOfNodeType(node, 'section_title') || 'Bibliography'
-
-      case 'figure':
-      case 'table_figure':
-        return this.getTextOfNodeType(node, 'figcaption')
-
-      default:
-        return node.textContent
-    }
-  }
-
   private itemText = (node: ProsemirrorNode) => {
-    const text =
-      this.chooseItemText(node) || nodeNames.get(node.type.name) || ''
+    const text = nodeTitle(node)
 
-    return text.trim()
+    if (text) {
+      return text.trim()
+    }
+
+    const placeholder = nodeTitlePlaceholder(node)
+
+    return <OutlineItemPlaceholder>{placeholder}</OutlineItemPlaceholder>
   }
 
   private nodeTypeLetter = (node: ProsemirrorNode) =>
     node.type.name.substr(0, 1).toUpperCase()
-
-  private getTextOfNodeType = (node: ProsemirrorNode, type: string) => {
-    let output = null
-
-    node.forEach(node => {
-      if (node.type.name === type) {
-        output = node.textContent
-      }
-    })
-
-    return output
-  }
 }
 
 const dragType = 'outline'
