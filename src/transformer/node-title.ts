@@ -1,16 +1,15 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { iterateChildren } from '../editor/lib/iterate'
 import { nodeNames } from './node-names'
 
 const getTextOfNodeType = (node: ProsemirrorNode, type: string) => {
-  let output = null
-
-  node.forEach(node => {
-    if (node.type.name === type) {
-      output = node.textContent
+  for (const child of iterateChildren(node)) {
+    if (child.type.name === type) {
+      return child.textContent
     }
-  })
+  }
 
-  return output
+  return null
 }
 
 export const nodeTitle = (node: ProsemirrorNode) => {

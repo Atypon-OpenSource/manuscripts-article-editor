@@ -1,5 +1,6 @@
 import { DOMSerializer, Node as ProsemirrorNode } from 'prosemirror-model'
 import { options } from '../editor/config'
+import { iterateChildren } from '../editor/lib/iterate'
 import {
   AnyComponent,
   ComponentMap,
@@ -30,9 +31,7 @@ const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {
 }
 
 const idOfNodeType = (node: ProsemirrorNode, type: string): string => {
-  for (let i = 0; i < node.childCount; i++) {
-    const child = node.child(i)
-
+  for (const child of iterateChildren(node)) {
     if (child.type.name === type) {
       return child.attrs.id
     }
