@@ -1,5 +1,6 @@
 import { Plugin } from 'prosemirror-state'
 import { generateID } from '../../../transformer/id'
+import { NodeTypeName } from '../../../transformer/node-types'
 
 export default () => {
   return new Plugin({
@@ -31,7 +32,7 @@ export default () => {
             // TODO: maybe change the other node's ID?
             tr = tr.setNodeMarkup(pos, undefined, {
               ...node.attrs,
-              id: generateID(node.type.name),
+              id: generateID(node.type.name as NodeTypeName),
             })
 
             // remember that something changed
@@ -43,7 +44,7 @@ export default () => {
           // set the id on the node at this position
           tr = tr.setNodeMarkup(pos, undefined, {
             ...node.attrs,
-            id: generateID(node.type.name),
+            id: generateID(node.type.name as NodeTypeName),
           })
 
           // remember that something changed
