@@ -5,6 +5,7 @@ import React from 'react'
 import { ChangePasswordForm } from '../src/components/ChangePasswordForm'
 import { DeleteAccountForm } from '../src/components/DeleteAccountForm'
 import { LoginForm } from '../src/components/LoginForm'
+import ModalForm from '../src/components/ModalForm'
 import { PasswordForm } from '../src/components/PasswordForm'
 import { ProfileForm } from '../src/components/ProfileForm'
 import { RecoverForm } from '../src/components/RecoverForm'
@@ -59,37 +60,45 @@ storiesOf('Forms', module)
       component={PasswordForm}
     />
   ))
+
+storiesOf('Forms/Modal', module)
   .add('Profile', () => (
-    <Formik
-      initialValues={{
-        bibliographicName: {
-          _id: '',
-          objectType: BIBLIOGRAPHIC_NAME,
-          given: '',
-          family: '',
-        },
-      }}
-      validationSchema={profileSchema}
-      isInitialValid={false}
-      onSubmit={action('submit')}
-      component={ProfileForm}
-    />
+    <ModalForm title={'Manage profile'}>
+      <Formik
+        initialValues={{
+          bibliographicName: {
+            _id: '',
+            objectType: BIBLIOGRAPHIC_NAME,
+            given: '',
+            family: '',
+          },
+        }}
+        validationSchema={profileSchema}
+        isInitialValid={false}
+        onSubmit={action('submit')}
+        component={ProfileForm}
+      />
+    </ModalForm>
   ))
   .add('Change password', () => (
-    <Formik
-      initialValues={{ currentPassword: '', newPassword: '' }}
-      validationSchema={changePasswordSchema}
-      isInitialValid={false}
-      onSubmit={action('submit')}
-      component={ChangePasswordForm}
-    />
+    <ModalForm title={'Change Password'}>
+      <Formik
+        initialValues={{ currentPassword: '', newPassword: '' }}
+        validationSchema={changePasswordSchema}
+        isInitialValid={false}
+        onSubmit={action('submit')}
+        component={ChangePasswordForm}
+      />
+    </ModalForm>
   ))
   .add('Delete account', () => (
-    <Formik
-      initialValues={{ password: '' }}
-      validationSchema={deleteAccountSchema}
-      isInitialValid={false}
-      onSubmit={action('submit')}
-      component={DeleteAccountForm}
-    />
+    <ModalForm title={'Delete account'}>
+      <Formik
+        initialValues={{ password: '' }}
+        validationSchema={deleteAccountSchema}
+        isInitialValid={false}
+        onSubmit={action('submit')}
+        component={DeleteAccountForm}
+      />
+    </ModalForm>
   ))

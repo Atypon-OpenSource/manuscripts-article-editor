@@ -36,36 +36,6 @@ export const FormError = styled.div`
   position: relative;
   padding: 12px;
 `
-export const FormSuccess = styled.div`
-  width: 795px;
-  height: 50px;
-  background: #dff0d7;
-  color: #3a773a;
-  border-radius: 3px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  position: relative;
-`
-export const FormMessage = styled.div`
-  display: inline-flex;
-  padding: 12px;
-`
-
-export const CloseIcon = styled.button`
-  display: inline-flex;
-  background: transparent;
-  border-width: 0px;
-  float: right;
-  padding-top: 15px;
-  padding-right: 15px;
-  cursor: pointer;
-`
-export const InformativeIcon = styled.div`
-  display: inline-flex;
-  float: left;
-  padding-top: 10px;
-  padding-left: 15px;
-`
 
 export interface FormErrors {
   submit?: string
