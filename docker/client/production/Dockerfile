@@ -22,7 +22,7 @@ RUN yarn install --frozen-lockfile --non-interactive --production
 
 # build
 
-COPY tsconfig.json tsconfig.build.json /app/
+COPY tsconfig.json /app/
 COPY webpack.common.js webpack.prod.js /app/
 COPY public /app/public
 COPY src /app/src

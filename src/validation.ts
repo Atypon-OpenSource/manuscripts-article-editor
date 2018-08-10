@@ -33,6 +33,10 @@ export const signupSchema = yup.object().shape({
   name: yup
     .string()
     .required()
+    // tslint:disable-next-line:no-empty-character-class
+    .matches(/^\p{Alpha}/u, {
+      message: 'Name must start with a letter',
+    })
     .min(1),
 })
 

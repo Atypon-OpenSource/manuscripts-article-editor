@@ -101,7 +101,9 @@ export const InvitationForm: React.SFC<
           <RadioButton />
           Owner
           <TextHint>
-            Can modify and delete project, invite<br />and remove contributors
+            Can modify and delete project, invite
+            <br />
+            and remove contributors
           </TextHint>
         </Control>
         <Control>
@@ -133,7 +135,9 @@ export const InvitationForm: React.SFC<
           <RadioButton />
           Viewer
           <TextHint>
-            Can only review projects without<br />modifying it
+            Can only review projects without
+            <br />
+            modifying it
           </TextHint>
         </Control>
       </RadioButtonsContainer>

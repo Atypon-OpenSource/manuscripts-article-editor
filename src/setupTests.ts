@@ -28,21 +28,8 @@ Object.defineProperty(document, 'createRange', {
   }),
 })
 
-// tslint:disable-next-line:no-any
-const storage: { [key: string]: any } = {}
-Object.defineProperty(window, 'localStorage', {
-  value: {
-    getItem: (key: string) => storage[key],
-    // tslint:disable-next-line:no-any
-    setItem: (key: string, value: any) => {
-      storage[key] = value
-    },
-    removeItem: (key: string) => delete storage[key],
-  },
-})
-
 if (!window.URL.createObjectURL) {
   Object.defineProperty(window.URL, 'createObjectURL', {
-    value: jest.fn(() => 'blob:null/' + uuid.v4()),
+    value: jest.fn(() => 'blob:https://localhost/' + uuid.v4()),
   })
 }

@@ -16,10 +16,7 @@ import {
 export interface Props {
   handleInvitationSubmit: (
     values: InvitationValues,
-    {
-      setSubmitting,
-      setErrors,
-    }: FormikActions<InvitationValues | InvitationErrors>
+    actions: FormikActions<InvitationValues | InvitationErrors>
   ) => void
   handleSwitching: (page: boolean) => void
 }

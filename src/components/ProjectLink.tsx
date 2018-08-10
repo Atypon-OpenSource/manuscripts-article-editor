@@ -46,7 +46,7 @@ interface Props {
   exact?: boolean
   title: string
   to: string
-  isActive?<P>(match: match<P>, location: Location): boolean
+  isActive?: <P>(match: match<P>, location: Location) => boolean
 }
 
 interface State {

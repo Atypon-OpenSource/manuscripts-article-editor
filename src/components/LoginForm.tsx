@@ -64,6 +64,7 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
             placeholder={'email'}
             required={true}
             autoComplete={'username email'}
+            error={errors.email as string}
           />
         )}
       </Field>
@@ -76,6 +77,7 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
             placeholder={'password'}
             required={true}
             autoComplete={'username email'}
+            error={errors.password as string}
           />
         )}
       </Field>
