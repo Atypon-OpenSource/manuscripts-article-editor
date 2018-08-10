@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import LoginPage from '../src/components/LoginPage'
 import ManuscriptsPage from '../src/components/ManuscriptsPage'
+import NotFound from '../src/components/NotFound'
 import PasswordPage from '../src/components/PasswordPage'
 import RecoverPage from '../src/components/RecoverPage'
 import SignupPage from '../src/components/SignupPage'
@@ -68,3 +69,4 @@ storiesOf('Pages', module)
       removeManuscript={() => action('remove manuscript')}
     />
   ))
+  .add('Not found', () => <NotFound />)
