@@ -139,7 +139,9 @@ export const ShareURIPopper: React.SFC<Props> = ({
             <RadioButton />
             Viewer
             <TextHint>
-              Can only review projects without<br />modifying it
+              Can only review projects without
+              <br />
+              modifying it
             </TextHint>
           </Control>
         </div>

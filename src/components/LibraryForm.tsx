@@ -1,4 +1,11 @@
-import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
+import {
+  Field,
+  FieldArray,
+  FieldProps,
+  Form,
+  Formik,
+  FormikProps,
+} from 'formik'
 import * as React from 'react'
 import { Option } from 'react-select'
 import CreatableSelect from 'react-select/lib/Creatable'
@@ -168,7 +175,11 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
     onSubmit={handleSave}
     enableReinitialize={true}
   >
-    {({ values, setFieldValue, handleChange }) => (
+    {({
+      values,
+      setFieldValue,
+      handleChange,
+    }: FormikProps<BibliographyItem>) => (
       <Form>
         <Fields>
           <TitleContainer>

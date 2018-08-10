@@ -33,6 +33,7 @@ module.exports = {
   setupTestFrameworkScriptFile: './node_modules/jest-enzyme/lib/index.js',
   testPathIgnorePatterns: ['/node_modules/'],
   testRegex: '__tests__.*\\.test\\.tsx?$',
+  testURL: "https://localhost",
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
     '^.+\\.tsx?$': 'ts-jest',

@@ -136,7 +136,9 @@ describe('commands', () => {
     expect(fig.id).toMatch(/MPFigure:\S+/)
     expect(fig.objectType).toMatch(FIGURE)
     expect(fig.contentType).toMatch(file.type)
-    expect(fig.src).toMatch(/^blob:null\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/)
+    expect(fig.src).toMatch(
+      /^blob:https:\/\/localhost\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/
+    )
   })
 
   it('buildAffiliation', () => {

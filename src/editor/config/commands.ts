@@ -5,6 +5,7 @@ import {
   NodeSelection,
   TextSelection,
 } from 'prosemirror-state'
+import { elementNodeTypes, NodeTypeName } from '../../transformer/node-types'
 import schema from './schema'
 import { Dispatch } from './types'
 
@@ -44,11 +45,16 @@ export const canInsert = (type: NodeType) => (state: EditorState) => {
   return false
 }
 
-const findInsertPosition = (state: EditorState) => {
+const isElementNode = (node: ProsemirrorNode) =>
+  elementNodeTypes.includes(node.type.name as NodeTypeName)
+
+const findBlockInsertPosition = (state: EditorState) => {
   const { $from } = state.selection as AnySelection
 
   for (let d = $from.depth; d >= 0; d--) {
-    if ($from.node(d).isBlock) {
+    const node = $from.node(d)
+
+    if (isElementNode(node)) {
       return $from.after(d)
     }
   }
@@ -89,7 +95,7 @@ export const insertBlock = (nodeType: NodeType) => (
   state: EditorState,
   dispatch: Dispatch
 ) => {
-  const position = findInsertPosition(state)
+  const position = findBlockInsertPosition(state)
 
   if (position === null) return false
 

@@ -29,12 +29,6 @@ module.exports = merge(common, {
                   cacheDirectory: true,
                 }
               },
-              {
-                loader: 'ts-loader',
-                options: {
-                  transpileOnly: true,
-                },
-              },
             ],
           },
           {

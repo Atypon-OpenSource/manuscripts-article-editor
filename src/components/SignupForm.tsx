@@ -80,7 +80,6 @@ export const SignupForm: React.SFC<
             placeholder={'email'}
             required={true}
             autoComplete={'username email'}
-            error={errors.email as string}
           />
         )}
       </Field>

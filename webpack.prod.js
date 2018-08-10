@@ -16,13 +16,14 @@ module.exports = merge(common, {
           {
             exclude: /node_modules/,
             test: /\.tsx?$/,
-            use: {
-              loader: 'ts-loader',
-              options: {
-                configFile: 'tsconfig.build.json',
-                transpileOnly: 'true'
+            use: [
+              {
+                loader: 'babel-loader',
+                options: {
+                  cacheDirectory: true,
+                }
               },
-            },
+            ],
           },
           {
             test: /\.css$/,

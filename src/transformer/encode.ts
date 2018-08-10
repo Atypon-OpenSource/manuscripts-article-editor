@@ -6,7 +6,7 @@ import {
   ComponentMap,
   ComponentWithAttachment,
 } from '../types/components'
-import nodeTypes from './node-types'
+import nodeTypes, { NodeTypeName } from './node-types'
 
 const { schema } = options
 
@@ -171,7 +171,7 @@ export const componentFromNode: ComponentBuilder = (node, path, priority) => {
 
   return {
     id: node.attrs.id,
-    objectType: nodeTypes.get(node.type.name) as string,
+    objectType: nodeTypes.get(node.type.name as NodeTypeName) as string,
     ...componentData(node, path, priority),
   }
 }

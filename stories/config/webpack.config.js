@@ -9,13 +9,23 @@ module.exports = (storybookBaseConfig, configType) => {
     storybookBaseConfig.devtool = false
   }
 
+  storybookBaseConfig.module.rules[0].use[0].options.presets = [
+    require.resolve('@babel/preset-env'),
+    require.resolve('@babel/preset-react'),
+    require.resolve('@babel/preset-typescript'),
+  ]
+
+  storybookBaseConfig.module.rules[0].use[0].options.plugins = [
+    require.resolve('@babel/plugin-proposal-class-properties'),
+  ]
+
   storybookBaseConfig.module.rules.push({
     exclude: /node_modules/,
     test: /\.tsx?$/,
     use: {
-      loader: 'ts-loader',
+      loader: 'babel-loader',
       options: {
-        transpileOnly: true,
+        cacheDirectory: true,
       },
     },
   })

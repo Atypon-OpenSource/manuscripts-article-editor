@@ -36,21 +36,18 @@ class DeleteAccountPageContainer extends React.Component<
 
   private handleSubmit = (
     values: DeleteAccountValues,
-    {
-      setSubmitting,
-      setErrors,
-    }: FormikActions<DeleteAccountValues | FormErrors>
+    actions: FormikActions<DeleteAccountValues | FormErrors>
   ) => {
-    setErrors({})
+    actions.setErrors({})
 
     deleteAccount(values).then(
       async () => {
-        setSubmitting(false)
+        actions.setSubmitting(false)
         await removeDB()
         window.location.href = '/signup'
       },
       error => {
-        setSubmitting(false)
+        actions.setSubmitting(false)
 
         const errors: FormikErrors<FormErrors> = {
           submit:
@@ -60,7 +57,7 @@ class DeleteAccountPageContainer extends React.Component<
               : 'There was an error',
         }
 
-        setErrors(errors)
+        actions.setErrors(errors)
       }
     )
   }

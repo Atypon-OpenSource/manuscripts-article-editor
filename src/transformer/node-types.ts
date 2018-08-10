@@ -1,4 +1,38 @@
-const nodeTypes: Map<string, string> = new Map([
+export type NodeTypeName =
+  | 'affiliation'
+  | 'bibliographic_date'
+  | 'bibliographic_name'
+  | 'bibliography'
+  | 'bibliography_item'
+  | 'bibliography_section'
+  | 'bullet_list'
+  | 'citation'
+  | 'citation_item'
+  | 'code_block'
+  | 'contributor'
+  | 'cross_reference'
+  | 'equation_block'
+  | 'figure'
+  | 'figure_image'
+  | 'keyword'
+  | 'manuscript'
+  | 'ordered_list'
+  | 'paragraph'
+  | 'project'
+  | 'section'
+  | 'table'
+  | 'table_figure'
+
+export const elementNodeTypes: NodeTypeName[] = [
+  'equation_block',
+  'figure',
+  'bullet_list',
+  'ordered_list',
+  'paragraph',
+  'table_figure',
+]
+
+const nodeTypes: Array<[NodeTypeName, string]> = [
   ['affiliation', 'MPAffiliation'],
   ['bibliographic_date', 'MPBibliographicDate'],
   ['bibliographic_name', 'MPBibliographicName'],
@@ -22,6 +56,8 @@ const nodeTypes: Map<string, string> = new Map([
   ['section', 'MPSection'],
   ['table', 'MPTable'],
   ['table_figure', 'MPTableElement'],
-])
+]
 
-export default nodeTypes
+const nodeTypesMap: Map<NodeTypeName, string> = new Map(nodeTypes)
+
+export default nodeTypesMap

@@ -1,4 +1,4 @@
-import { Field, FieldProps, Form, Formik } from 'formik'
+import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
 import React from 'react'
 import AutoSaveInput from '../../components/AutoSaveInput'
 import { TextField } from '../../components/TextField'
@@ -137,7 +137,7 @@ export const AuthorForm: React.SFC<AuthorProps> = ({
     initialValues={buildInitialValues(author, authorAffiliations)}
     onSubmit={handleSave}
   >
-    {({ values }) => (
+    {({ values }: FormikProps<AuthorValues>) => (
       <Form>
         <Fields>
           <Fieldset>

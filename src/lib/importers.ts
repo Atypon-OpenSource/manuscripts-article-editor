@@ -42,7 +42,7 @@ const importJSON: Importer = (file: File) =>
     const reader = new FileReader()
 
     reader.addEventListener('load', async () => {
-      const data = JSON.parse(reader.result)
+      const data = JSON.parse(reader.result as string)
       const items = importItems(data)
       resolve(items)
     })

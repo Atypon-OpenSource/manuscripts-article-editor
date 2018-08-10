@@ -2,7 +2,6 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { Citation, CitationItem } from '../../../types/components'
 import { EditorProps } from '../../Editor'
-import Bibliography = Citeproc.Bibliography
 
 type NodesWithPositions = Array<[ProsemirrorNode, number]>
 
@@ -87,7 +86,7 @@ export default (props: EditorProps) => {
 
       if (bibliography) {
         // item at index 0 is unused, hence using this syntax.
-        const generatedBibliographyItems = (bibliography as Bibliography)[1]
+        const generatedBibliographyItems = (bibliography as Citeproc.Bibliography)[1]
 
         tr.doc.descendants((node, pos) => {
           if (node.type.name === 'bibliography') {
