@@ -9,6 +9,9 @@ module.exports = {
     '!**/*.d.ts', 
     '!/**/__tests__',
     '!src/editor/**',
+    '!src/lib/fonts.ts',
+    '!src/lib/sentry.ts',
+    '!src/lib/service-worker.ts',
   ],
   coverageThreshold: {
     global: {

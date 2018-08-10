@@ -11,7 +11,7 @@ describe('api', () => {
     token.remove()
   })
 
-  it.skip('returns data from fetchUser', async () => {
+  it('returns data from fetchUser', async () => {
     const mock = new MockAdapter(client)
 
     const mockData = {
@@ -20,19 +20,9 @@ describe('api', () => {
 
     mock.onGet('/user').reply(HttpStatusCodes.OK, mockData)
 
-    const noTokenResult = await api.fetchUser()
+    const result = await api.fetchUser()
 
-    expect(noTokenResult).toEqual(null)
-
-    const tokenData = {
-      access_token: 'foo',
-    }
-
-    token.set(tokenData)
-
-    const tokenResult = await api.fetchUser()
-
-    expect(tokenResult).toEqual(mockData)
+    expect(result).toEqual(mockData)
   })
 
   it('returns data from signup', async () => {
@@ -139,5 +129,27 @@ describe('api', () => {
     }
     const response = await api.verify(requestData)
     expect(response.status).toBe(HttpStatusCodes.OK)
+  })
+
+  it('removes the token after account deletion', async () => {
+    const mock = new MockAdapter(client)
+
+    mock.onDelete('/user').reply(HttpStatusCodes.OK)
+
+    const tokenData = {
+      access_token: 'foobar',
+    }
+
+    token.set(tokenData)
+
+    const result = token.get() as Token
+
+    expect(result).not.toBeNull()
+
+    expect(result.access_token).toBe(tokenData.access_token)
+
+    await api.deleteAccount({ password: 'foo-min-length-8' })
+
+    expect(token.get()).toBeNull()
   })
 })
