@@ -19,7 +19,9 @@ const SignupPage: React.SFC<FormikConfig<SignupValues>> = ({
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      isInitialValid={false}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={onSubmit}
       component={SignupForm}
     />

@@ -1,15 +1,15 @@
 import { styled } from '../theme'
 import { ErrorProps } from './Form'
 
-export const TextField = styled.input`
+export const TextField = styled.input<ErrorProps>`
   display: block;
   font-size: 16px;
   padding: 10px 15px;
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid ${(props: ErrorProps) => (props.error ? '#D47666' : '#aaa')};
+  border: 1px solid ${props => (props.error ? '#D47666' : '#aaa')};
   border-radius: 5px;
-  z-index: ${(props: ErrorProps) => (props.error ? 2 : 1)};
+  z-index: ${props => (props.error ? 2 : 1)};
   position: relative;
 
   &:invalid {

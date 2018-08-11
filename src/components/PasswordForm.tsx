@@ -1,7 +1,7 @@
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { PrimaryButton } from './Button'
-import { buildError, CenteredForm, FormHeader } from './Form'
+import { CenteredForm, FormHeader } from './Form'
 import { SubHero } from './Hero'
 import { ModalFormActions } from './ModalForm'
 import { TextField } from './TextField'
@@ -26,27 +26,15 @@ export interface PasswordErrors {
 
 export const PasswordForm: React.SFC<
   FormikProps<PasswordValues & PasswordErrors>
-> = ({
-  dirty,
-  errors,
-  touched,
-  // isSubmitting,
-  // isValid,
-}) => (
-  <CenteredForm>
+> = ({ errors, isSubmitting }) => (
+  <CenteredForm noValidate={true}>
     <FormHeader>
       <SubHero>Choose a new password</SubHero>
     </FormHeader>
 
     <Field name={'password'}>
       {({ field }: FieldProps) => (
-        <TextFieldContainer
-          error={buildError(
-            dirty,
-            touched.password as boolean,
-            errors.password as string
-          )}
-        >
+        <TextFieldContainer error={errors.password}>
           <TextField
             {...field}
             type={'password'}
@@ -61,10 +49,7 @@ export const PasswordForm: React.SFC<
     {errors.submit && <div>{errors.submit}</div>}
 
     <ModalFormActions>
-      <PrimaryButton
-        type={'submit'}
-        // disabled={isSubmitting || !isValid}
-      >
+      <PrimaryButton type={'submit'} disabled={isSubmitting}>
         Save Password
       </PrimaryButton>
     </ModalFormActions>

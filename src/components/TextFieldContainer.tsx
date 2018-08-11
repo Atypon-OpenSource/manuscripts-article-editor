@@ -5,7 +5,7 @@ import { TextFieldError, TextFieldErrorItem } from './TextFieldError'
 
 interface TextFieldContainerProps {
   label?: string
-  error?: string | null
+  error?: string | null | object
 }
 
 export const TextFieldContainer: React.SFC<TextFieldContainerProps> = ({

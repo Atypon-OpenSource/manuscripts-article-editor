@@ -16,14 +16,8 @@ export interface RecoverErrors {
 
 export const RecoverForm: React.SFC<
   FormikProps<RecoverValues & RecoverErrors>
-> = ({
-  values,
-  touched,
-  errors,
-  // isSubmitting,
-  // isValid,
-}) => (
-  <CenteredForm>
+> = ({ values, errors, isSubmitting }) => (
+  <CenteredForm noValidate={true}>
     <FormHeader>
       <SubHero>Reset Password</SubHero>
     </FormHeader>
@@ -50,10 +44,7 @@ export const RecoverForm: React.SFC<
     <FormActions>
       <div />
       <div>
-        <PrimaryButton
-          type={'submit'}
-          // disabled={isSubmitting || !isValid}
-        >
+        <PrimaryButton type={'submit'} disabled={isSubmitting}>
           Send password reset
         </PrimaryButton>
       </div>

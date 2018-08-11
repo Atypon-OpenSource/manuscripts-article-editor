@@ -3,7 +3,6 @@ import React from 'react'
 import { manuscriptsBlue } from '../colors'
 import { styled } from '../theme'
 import { PrimaryButton } from './Button'
-import { buildError } from './Form'
 import { Control, Main, RadioButton, TextHint } from './ShareProjectPopper'
 import { TextField } from './TextField'
 import { TextFieldGroupContainer } from './TextFieldGroupContainer'
@@ -47,21 +46,13 @@ export interface InvitationErrors {
 
 export const InvitationForm: React.SFC<
   FormikProps<InvitationValues & InvitationErrors>
-> = ({ dirty, touched, errors, isValid }) => (
+> = ({ errors, isSubmitting }) => (
   <Main>
     <Form>
       <TextFieldGroupContainer
         errors={{
-          name: buildError(
-            dirty,
-            touched.name as boolean,
-            errors.name as string
-          ),
-          email: buildError(
-            dirty,
-            touched.email as boolean,
-            errors.email as string
-          ),
+          name: errors.name,
+          email: errors.email,
         }}
       >
         <Field name={'name'}>
@@ -141,7 +132,7 @@ export const InvitationForm: React.SFC<
           </TextHint>
         </Control>
       </RadioButtonsContainer>
-      <SendInvitationButton type={'submit'} disabled={!isValid}>
+      <SendInvitationButton type={'submit'} disabled={isSubmitting}>
         Send Invitation
       </SendInvitationButton>
     </Form>

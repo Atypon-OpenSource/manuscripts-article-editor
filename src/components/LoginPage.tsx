@@ -35,7 +35,9 @@ const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      isInitialValid={false}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={onSubmit}
       component={LoginForm}
     />

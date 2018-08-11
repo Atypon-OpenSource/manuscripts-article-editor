@@ -30,7 +30,9 @@ class ProfilePageContainer extends React.Component<
         <Formik
           initialValues={user.data}
           validationSchema={profileSchema}
-          isInitialValid={false}
+          isInitialValid={true}
+          validateOnChange={false}
+          validateOnBlur={false}
           onSubmit={this.handleSubmit}
           component={ProfileForm}
         />

@@ -3,7 +3,6 @@ import React from 'react'
 import { styled } from '../theme'
 import { PrimaryButton } from './Button'
 import {
-  buildError,
   CenteredForm,
   FormActions,
   FormError,
@@ -28,13 +27,10 @@ const ManuscriptLinks = styled.div`
   text-align: left;
 `
 export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
-  dirty,
   errors,
-  touched,
-  // isSubmitting,
-  // isValid,
+  isSubmitting,
 }) => (
-  <CenteredForm id={'login-form'}>
+  <CenteredForm id={'login-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Welcome to</SubHero>
       <Hero>Manuscripts.io</Hero>
@@ -44,16 +40,8 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
 
     <TextFieldGroupContainer
       errors={{
-        email: buildError(
-          dirty,
-          touched.email as boolean,
-          errors.email as string
-        ),
-        password: buildError(
-          dirty,
-          touched.password as boolean,
-          errors.password as string
-        ),
+        email: errors.email,
+        password: errors.password,
       }}
     >
       <Field name={'email'}>
@@ -64,7 +52,7 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
             placeholder={'email'}
             required={true}
             autoComplete={'username email'}
-            error={errors.email as string}
+            error={errors.email}
           />
         )}
       </Field>
@@ -77,7 +65,7 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
             placeholder={'password'}
             required={true}
             autoComplete={'username email'}
-            error={errors.password as string}
+            error={errors.password}
           />
         )}
       </Field>
@@ -94,10 +82,7 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
       </ManuscriptLinks>
 
       <div>
-        <PrimaryButton
-          type={'submit'}
-          // disabled={isSubmitting || !isValid}
-        >
+        <PrimaryButton type={'submit'} disabled={isSubmitting}>
           Sign in
         </PrimaryButton>
       </div>

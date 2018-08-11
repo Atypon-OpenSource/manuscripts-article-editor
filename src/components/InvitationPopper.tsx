@@ -38,7 +38,9 @@ export const InvitationPopper: React.SFC<Props> = ({
         role: '',
       }}
       onSubmit={handleInvitationSubmit}
-      isInitialValid={false}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
       component={InvitationForm}
       validationSchema={projectInvitationSchema}
     />

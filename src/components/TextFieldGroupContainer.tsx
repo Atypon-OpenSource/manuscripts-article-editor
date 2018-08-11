@@ -1,13 +1,16 @@
 import React from 'react'
-import { StringMap } from '../editor/config/types'
 import { TextFieldGroup } from './TextField'
 import { TextFieldError, TextFieldErrorItem } from './TextFieldError'
 
-const hasErrors = (errors: StringMap<{} | string | null>) =>
+interface Errors {
+  [key: string]: string | object | undefined
+}
+
+const hasErrors = (errors: Errors) =>
   Object.values(errors).some(error => !!error)
 
 interface TextFieldGroupContainerProps {
-  errors?: StringMap<string | {} | null>
+  errors?: Errors
 }
 
 export const TextFieldGroupContainer: React.SFC<

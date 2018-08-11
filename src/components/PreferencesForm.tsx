@@ -29,16 +29,7 @@ export interface PreferencesErrors {
 
 export const PreferencesForm: React.SFC<
   FormikProps<PreferencesValues & PreferencesErrors>
-> = ({
-  values,
-  touched,
-  errors,
-  dirty,
-  handleBlur,
-  handleChange,
-  // isSubmitting,
-  // isValid,
-}) => (
+> = ({ values, errors, handleBlur, handleChange }) => (
   <Form>
     <LocaleSelectorLabel>
       Locale

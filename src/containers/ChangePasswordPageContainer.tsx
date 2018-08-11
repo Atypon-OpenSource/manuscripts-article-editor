@@ -27,7 +27,9 @@ class ChangePasswordPageContainer extends React.Component<
         <Formik
           initialValues={initialValues}
           validationSchema={changePasswordSchema}
-          isInitialValid={false}
+          isInitialValid={true}
+          validateOnChange={false}
+          validateOnBlur={false}
           onSubmit={this.handleSubmit}
           component={ChangePasswordForm}
         />

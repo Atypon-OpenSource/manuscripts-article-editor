@@ -13,7 +13,9 @@ const RecoverPage: React.SFC<FormikConfig<RecoverValues>> = ({
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      isInitialValid={false}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={onSubmit}
       component={RecoverForm}
     />

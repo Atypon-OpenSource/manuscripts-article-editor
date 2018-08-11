@@ -39,6 +39,19 @@ test('Name field cannot be empty', async t => {
     .eql('name is a required field')
 })
 
+test('Name field must start with a letter', async t => {
+  const user = generateUser()
+
+  await t
+    .typeText(form.find('input[name=name]'), '1')
+    .typeText(form.find('input[name=email]'), user.email)
+    .typeText(form.find('input[name=password]'), user.password)
+    .click(form.find('button[type=submit]'))
+    .click(form.find('input[name=password]'))
+    .expect(nameTextFieldError.innerText)
+    .eql('Name must start with a letter')
+})
+
 test('Can only sign up once with the same email address', async t => {
   const user = generateUser()
 

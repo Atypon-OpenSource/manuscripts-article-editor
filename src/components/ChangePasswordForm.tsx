@@ -1,7 +1,7 @@
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { PrimaryButton } from './Button'
-import { buildError, FormError, FormErrors } from './Form'
+import { FormError, FormErrors } from './Form'
 import { ModalFormActions } from './ModalForm'
 import { TextField } from './TextField'
 import { TextFieldGroupContainer } from './TextFieldGroupContainer'
@@ -18,20 +18,12 @@ export interface ChangePasswordResponse {
 
 export const ChangePasswordForm: React.SFC<
   FormikProps<ChangePasswordValues & FormErrors>
-> = ({ dirty, errors, touched }) => (
-  <Form id={'change-password-form'}>
+> = ({ errors, isSubmitting }) => (
+  <Form id={'change-password-form'} noValidate={true}>
     <TextFieldGroupContainer
       errors={{
-        currentPassword: buildError(
-          dirty,
-          touched.currentPassword as boolean,
-          errors.currentPassword as string
-        ),
-        newPassword: buildError(
-          dirty,
-          touched.newPassword as boolean,
-          errors.newPassword as string
-        ),
+        currentPassword: errors.currentPassword,
+        newPassword: errors.newPassword,
       }}
     >
       <Field name={'currentPassword'}>
@@ -42,7 +34,7 @@ export const ChangePasswordForm: React.SFC<
             placeholder={'Enter the current password'}
             autoFocus={true}
             required={true}
-            error={errors.currentPassword as string}
+            error={errors.currentPassword}
           />
         )}
       </Field>
@@ -54,7 +46,7 @@ export const ChangePasswordForm: React.SFC<
             placeholder={'Enter a new password'}
             autoFocus={true}
             required={true}
-            error={errors.newPassword as string}
+            error={errors.newPassword}
           />
         )}
       </Field>
@@ -63,7 +55,9 @@ export const ChangePasswordForm: React.SFC<
     {errors.submit && <FormError>{errors.submit}</FormError>}
 
     <ModalFormActions>
-      <PrimaryButton type={'submit'}>Save</PrimaryButton>
+      <PrimaryButton type={'submit'} disabled={isSubmitting}>
+        Save
+      </PrimaryButton>
     </ModalFormActions>
   </Form>
 )

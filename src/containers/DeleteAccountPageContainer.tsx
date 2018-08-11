@@ -26,7 +26,9 @@ class DeleteAccountPageContainer extends React.Component<
         <Formik
           initialValues={initialValues}
           validationSchema={deleteAccountSchema}
-          isInitialValid={false}
+          isInitialValid={true}
+          validateOnChange={false}
+          validateOnBlur={false}
           onSubmit={this.handleSubmit}
           component={DeleteAccountForm}
         />

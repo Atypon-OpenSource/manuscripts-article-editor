@@ -1,7 +1,7 @@
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { PrimaryButton } from './Button'
-import { buildError, FormError, FormErrors } from './Form'
+import { FormError, FormErrors } from './Form'
 import { ModalFormActions } from './ModalForm'
 import { TextField } from './TextField'
 import { TextFieldContainer } from './TextFieldContainer'
@@ -12,17 +12,11 @@ export interface DeleteAccountValues {
 
 export const DeleteAccountForm: React.SFC<
   FormikProps<DeleteAccountValues & FormErrors>
-> = ({ dirty, errors, touched }) => (
-  <Form id={'delete-account-form'}>
+> = ({ errors, isSubmitting }) => (
+  <Form id={'delete-account-form'} noValidate={true}>
     <Field name={'password'}>
       {({ field }: FieldProps) => (
-        <TextFieldContainer
-          error={buildError(
-            dirty,
-            touched.password as boolean,
-            errors.password as string
-          )}
-        >
+        <TextFieldContainer error={errors.password}>
           <TextField
             {...field}
             type={'password'}
@@ -37,7 +31,9 @@ export const DeleteAccountForm: React.SFC<
     {errors.submit && <FormError>{errors.submit}</FormError>}
 
     <ModalFormActions>
-      <PrimaryButton type={'submit'}>Delete Account</PrimaryButton>
+      <PrimaryButton type={'submit'} disabled={isSubmitting}>
+        Delete Account
+      </PrimaryButton>
     </ModalFormActions>
   </Form>
 )

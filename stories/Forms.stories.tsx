@@ -27,7 +27,9 @@ storiesOf('Forms', module)
       <Formik
         initialValues={{ name: '', email: '', password: '' }}
         validationSchema={signupSchema}
-        isInitialValid={false}
+        isInitialValid={true}
+        validateOnChange={false}
+        validateOnBlur={false}
         onSubmit={action('submit')}
         component={SignupForm}
       />
@@ -37,7 +39,9 @@ storiesOf('Forms', module)
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={loginSchema}
-      isInitialValid={false}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={action('submit')}
       component={LoginForm}
     />
@@ -46,7 +50,9 @@ storiesOf('Forms', module)
     <Formik
       initialValues={{ email: '' }}
       validationSchema={recoverSchema}
-      isInitialValid={false}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={action('submit')}
       component={RecoverForm}
     />
@@ -55,7 +61,9 @@ storiesOf('Forms', module)
     <Formik
       initialValues={{ password: '' }}
       validationSchema={passwordSchema}
-      isInitialValid={false}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={action('submit')}
       component={PasswordForm}
     />
@@ -74,7 +82,9 @@ storiesOf('Forms/Modal', module)
           },
         }}
         validationSchema={profileSchema}
-        isInitialValid={false}
+        isInitialValid={true}
+        validateOnChange={false}
+        validateOnBlur={false}
         onSubmit={action('submit')}
         component={ProfileForm}
       />
@@ -85,7 +95,9 @@ storiesOf('Forms/Modal', module)
       <Formik
         initialValues={{ currentPassword: '', newPassword: '' }}
         validationSchema={changePasswordSchema}
-        isInitialValid={false}
+        isInitialValid={true}
+        validateOnChange={false}
+        validateOnBlur={false}
         onSubmit={action('submit')}
         component={ChangePasswordForm}
       />
@@ -96,7 +108,9 @@ storiesOf('Forms/Modal', module)
       <Formik
         initialValues={{ password: '' }}
         validationSchema={deleteAccountSchema}
-        isInitialValid={false}
+        isInitialValid={true}
+        validateOnChange={false}
+        validateOnBlur={false}
         onSubmit={action('submit')}
         component={DeleteAccountForm}
       />

@@ -23,7 +23,9 @@ class PreferencesPageContainer extends React.Component<
         <Formik
           initialValues={initialValues}
           validationSchema={preferencesSchema}
-          isInitialValid={false}
+          isInitialValid={true}
+          validateOnChange={false}
+          validateOnBlur={false}
           onSubmit={this.handleSubmit}
           component={PreferencesForm}
         />

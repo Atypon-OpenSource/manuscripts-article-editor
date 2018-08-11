@@ -13,7 +13,9 @@ const PasswordPage: React.SFC<FormikConfig<PasswordValues>> = ({
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      isInitialValid={false}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={onSubmit}
       component={PasswordForm}
     />

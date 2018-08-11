@@ -2,7 +2,6 @@ import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { PrimaryButton } from './Button'
 import {
-  buildError,
   CenteredForm,
   FormActions,
   FormError,
@@ -26,14 +25,8 @@ export interface SignupErrors {
 
 export const SignupForm: React.SFC<
   FormikProps<SignupValues & SignupErrors>
-> = ({
-  touched,
-  errors,
-  dirty,
-  // isSubmitting,
-  // isValid,
-}) => (
-  <CenteredForm id={'signup-form'}>
+> = ({ errors, isSubmitting }) => (
+  <CenteredForm id={'signup-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Manuscripts Online</SubHero>
       <Hero>Sign Up</Hero>
@@ -41,7 +34,7 @@ export const SignupForm: React.SFC<
 
     <TextFieldGroupContainer
       errors={{
-        name: buildError(dirty, touched.name as boolean, errors.name as string),
+        name: errors.name,
       }}
     >
       <Field name={'name'}>
@@ -60,16 +53,8 @@ export const SignupForm: React.SFC<
 
     <TextFieldGroupContainer
       errors={{
-        email: buildError(
-          dirty,
-          touched.email as boolean,
-          errors.email as string
-        ),
-        password: buildError(
-          dirty,
-          touched.password as boolean,
-          errors.password as string
-        ),
+        email: errors.email,
+        password: errors.password,
       }}
     >
       <Field name={'email'}>
@@ -118,10 +103,7 @@ export const SignupForm: React.SFC<
         Have an account? <FormLink to={'/login'}>Sign In</FormLink>
       </div>
 
-      <PrimaryButton
-        type={'submit'}
-        // disabled={isSubmitting || !isValid}
-      >
+      <PrimaryButton type={'submit'} disabled={isSubmitting}>
         Sign up
       </PrimaryButton>
     </FormActions>

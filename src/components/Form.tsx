@@ -42,11 +42,8 @@ export interface FormErrors {
 }
 
 export interface ErrorProps {
-  error?: string | null
+  error?: string | null | object
 }
-
-export const buildError = (dirty: boolean, touched: boolean, error: string) =>
-  dirty && touched && error ? error : null
 
 export const submitEvent = {
   preventDefault: () => {
