@@ -4,9 +4,14 @@ set -e # exit if any step fails
 set -u # exit if a variable isn't set
 
 yarn install --frozen-lockfile --non-interactive
+
+export SCREENSHOTS=${PWD}/screenshots
+echo $SCREENSHOTS
+mkdir -p ${SCREENSHOTS}
+
 docker volume create --name=build-cache
 docker volume create --name=yarn-cache
+
 docker-compose -f docker/tests/testcafe/docker-compose.yml down -v
-mkdir -p screenshots
 yarn run docker-compose:testcafe pull # below step won't update images.
-SCREENSHOTS_VOLUME=${PWD}/screenshots yarn run docker-compose:testcafe up --build --abort-on-container-exit couchbase sync_gateway api client data $1
+yarn run docker-compose:testcafe up --build --abort-on-container-exit $1

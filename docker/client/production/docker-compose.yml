@@ -5,22 +5,26 @@ services:
     build:
       context: ../../..
       dockerfile: docker/client/production/Dockerfile
-    environment:
-      - API_BASE_URL
-      - API_APPLICATION_ID
-      - DATA_URL
-      - GIT_VERSION
-      - GIT_COMMIT_HASH
-      - SENTRY_PUBLIC_DSN
-      - SYNC_GATEWAY_URL
-      - WAYF_URL
-      - WAYF_KEY
+      args:
+        API_APPLICATION_ID: $API_APPLICATION_ID
+        API_BASE_URL: $API_BASE_URL
+        BASE_URL: $BASE_URL
+        DATA_URL: $DATA_URL
+        GIT_COMMIT_HASH: $GIT_COMMIT_HASH
+        GIT_VERSION: $GIT_VERSION
+        SENTRY_PUBLIC_DSN: $SENTRY_PUBLIC_DSN
+        SERVICEWORKER_ENABLED: $SERVICEWORKER_ENABLED
+        SYNC_GATEWAY_URL: $SYNC_GATEWAY_URL
+        WAYF_URL: $WAYF_URL
+        WAYF_KEY: $WAYF_KEY
     ports:
-      - 8080:80
+      - 8080:8080
     volumes:
       - yarn-cache:/cache/yarn
+      - build-cache:/app/node_modules/.cache
 
 volumes:
   yarn-cache:
     external: true
-
+  build-cache:
+    external: true

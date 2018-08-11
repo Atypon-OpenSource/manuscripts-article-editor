@@ -15,6 +15,7 @@ do
 done
 
 echo "Connected to Sync Gateway."
+
 echo "Connecting to API…"
 
 attempts=0
@@ -30,5 +31,37 @@ do
 done
 
 echo "Connected to API."
+
+echo "Connecting to data service…"
+
+attempts=0
+until $(curl -o /dev/null -s --head --fail "${DATA_URL}")
+do
+  attempts=$((attempts + 1))
+  if [ $attempts -eq 256 ]
+  then
+    echo "Data service did not appear."
+    exit 1
+  fi
+  sleep 1
+done
+
+echo "Connected to data service."
+
+echo "Connecting to client…"
+
+attempts=0
+until $(curl -o /dev/null -s --head --fail "${BASE_URL}")
+do
+  attempts=$((attempts + 1))
+  if [ $attempts -eq 256 ]
+  then
+    echo "Client did not appear."
+    exit 1
+  fi
+  sleep 1
+done
+
+echo "Connected to client."
 
 exec "$@"

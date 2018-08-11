@@ -4,7 +4,7 @@ services:
   couchbase:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/couchbase
     env_file:
-      - env
+      - server.env
     ports:
       - 8091:8091
       - 8092:8092
@@ -25,11 +25,10 @@ services:
         aliases:
           - cb-test.manuscripts.io
 
-
   sync_gateway:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/sync_gateway
     env_file:
-      - env
+      - server.env
     depends_on:
       - couchbase
     ports:
@@ -43,7 +42,7 @@ services:
   api:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/app
     env_file:
-      - env
+      - server.env
     depends_on:
       - couchbase
       - sync_gateway
@@ -59,19 +58,27 @@ services:
   client:
     build:
       context: ../../..
-      dockerfile: docker/client/development/Dockerfile
+      dockerfile: docker/client/production/Dockerfile
+      args:
+        API_APPLICATION_ID: io.manuscripts
+        API_BASE_URL: http://api-test.manuscripts.io:3000/api/v1
+        BASE_URL: http://client-test.manuscripts.io:8080
+        DATA_URL: http://data-test.manuscripts.io:8020
+        GIT_COMMIT_HASH: $GIT_COMMIT_HASH
+        GIT_VERSION: $GIT_VERSION
+        SERVICEWORKER_ENABLED: 0
+        SYNC_GATEWAY_URL: http://sg-test.manuscripts.io:4984
+        WAYF_KEY: $WAYF_KEY
+        WAYF_URL: $WAYF_URL
     depends_on:
       - api
       - couchbase
       - sync_gateway
       - data
-    env_file:
-      - env
-    environment:
-      - PUBLIC_HOST=client-test.manuscripts.io:8080
     ports:
       - 8080:8080
     volumes:
+      - yarn-cache:/cache/yarn
       - build-cache:/app/node_modules/.cache
     networks:
       default:
@@ -81,12 +88,10 @@ services:
   testcafe_chromium:
     build:
       context: ../../..
-      dockerfile: docker/tests/testcafe/Dockerfile-all-tests
-    env_file:
-      - env
+      dockerfile: docker/tests/testcafe/Dockerfile
     environment:
-      SCREENSHOTS_VOLUME: '${HOME}/screenshots/chromium'
-    command: "'chromium --no-sandbox' /testcafe-tests --screenshots /screenshots/chromium --screenshots-on-fail --page-load-timeout 10000 --speed 0.8"
+      - BASE_URL=http://client-test.manuscripts.io:8080
+    command: "'chromium:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails"
     depends_on:
       - api
       - client
@@ -99,7 +104,7 @@ services:
       - 9223:9223
       - 9222:9222
     volumes:
-      - '${SCREENSHOTS_VOLUME}:/screenshots/chromium'
+      - ${SCREENSHOTS:-/tmp/screenshots}:/screenshots
       - yarn-cache:/cache/yarn
     networks:
       default:
@@ -109,12 +114,10 @@ services:
   testcafe_firefox:
     build:
       context: ../../..
-      dockerfile: docker/tests/testcafe/Dockerfile-shell
-    env_file:
-      - env
+      dockerfile: docker/tests/testcafe/Dockerfile
     environment:
-      SCREENSHOTS_VOLUME: '${HOME}/screenshots/firefox'
-    command: "'firefox --no-sandbox' /testcafe-tests --screenshots /screenshots/firefox --screenshots-on-fail --page-load-timeout 10000 --speed 0.8"
+      - BASE_URL=http://client-test.manuscripts.io:8080
+    command: "'firefox:headless --no-sandbox' '/testcafe-tests/*.js' --screenshots /screenshots --screenshots-on-fails"
     depends_on:
       - api
       - client
@@ -127,7 +130,7 @@ services:
       - 9233:9223
       - 9232:9222
     volumes:
-      - '${SCREENSHOTS_VOLUME}:/screenshots/firefox'
+      - ${SCREENSHOTS:-/tmp/screenshots}:/screenshots
       - yarn-cache:/cache/yarn
     networks:
       default:
@@ -145,7 +148,6 @@ services:
 
 volumes:
   couchbase-data:
-  screenshots:
   yarn-cache:
     external: true
   build-cache:
