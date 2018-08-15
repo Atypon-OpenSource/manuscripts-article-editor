@@ -1,9 +1,35 @@
-import { Section } from '../../types/components'
-import { getComponentData, sortSectionsByPriority } from '../decode'
+import components from '../../../stories/data/components.json'
+import { AnyComponent, Section } from '../../types/components'
+import { Decoder, getComponentData, sortSectionsByPriority } from '../decode'
 import { MANUSCRIPT, SECTION } from '../object-types'
 
+const createTestComponentMap = (): Map<string, AnyComponent> => {
+  const componentMap = new Map()
+
+  for (const component of components) {
+    componentMap.set(component.id, component)
+  }
+
+  return componentMap
+}
+
+export const createTestDoc = () => {
+  const componentMap = createTestComponentMap()
+
+  const decoder = new Decoder(componentMap)
+
+  return decoder.createArticleNode()
+}
+
 describe('transformer', () => {
-  it('getComponentData', () => {
+  test('Decoder', async () => {
+    const doc = createTestDoc()
+
+    expect(doc).toMatchSnapshot()
+    expect(doc.content.size).toBe(36228)
+  })
+
+  test('getComponentData', () => {
     const data = getComponentData({
       _rev: 'x',
       _deleted: true,
@@ -19,7 +45,7 @@ describe('transformer', () => {
     })
   })
 
-  it('sortSectionsByPriority', () => {
+  test('sortSectionsByPriority', () => {
     const sectionA: Section = {
       id: 'MPSection:A',
       objectType: SECTION,
