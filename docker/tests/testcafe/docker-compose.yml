@@ -91,7 +91,7 @@ services:
       dockerfile: docker/tests/testcafe/Dockerfile
     environment:
       - BASE_URL=http://client-test.manuscripts.io:8080
-    command: "'chromium:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 10000 --speed 0.8"
+    command: "'chromium:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000"
     depends_on:
       - api
       - client
@@ -117,7 +117,7 @@ services:
       dockerfile: docker/tests/testcafe/Dockerfile
     environment:
       - BASE_URL=http://client-test.manuscripts.io:8080
-    command: "'firefox:headless --no-sandbox' '/testcafe-tests/*.js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 10000 --speed 0.8"
+    command: "'firefox:headless --no-sandbox' '/testcafe-tests/*.js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000"
     depends_on:
       - api
       - client

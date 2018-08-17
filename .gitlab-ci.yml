@@ -31,6 +31,8 @@ jest:
       - ./coverage
     expire_in: 1 week
     when: always
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+
 
 testcafe-chromium:
   stage: test
