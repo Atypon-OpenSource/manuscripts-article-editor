@@ -1,6 +1,8 @@
 #!/bin/sh
 
-echo "Connecting to Sync Gateway…"
+set -u # exit if a variable isn't set
+
+echo "Connecting to Sync Gateway at ${SYNC_GATEWAY_URL}…"
 
 sg_attempts=0
 until $(curl -o /dev/null -s --head --fail "${SYNC_GATEWAY_URL}")
@@ -16,7 +18,7 @@ done
 
 echo "Connected to Sync Gateway."
 
-echo "Connecting to API…"
+echo "Connecting to API at ${API_BASE_URL}/app/version…"
 
 attempts=0
 until $(curl -o /dev/null -s --head --fail "${API_BASE_URL}/app/version")
@@ -32,10 +34,10 @@ done
 
 echo "Connected to API."
 
-echo "Connecting to data service…"
+echo "Connecting to data service at ${DATA_URL}/shared/styles.json…"
 
 attempts=0
-until $(curl -o /dev/null -s --head --fail "${DATA_URL}")
+until $(curl -o /dev/null -s --head --fail "${DATA_URL}/shared/styles.json")
 do
   attempts=$((attempts + 1))
   if [ $attempts -eq 256 ]
@@ -48,7 +50,7 @@ done
 
 echo "Connected to data service."
 
-echo "Connecting to client…"
+echo "Connecting to client at ${BASE_URL}…"
 
 attempts=0
 until $(curl -o /dev/null -s --head --fail "${BASE_URL}")
