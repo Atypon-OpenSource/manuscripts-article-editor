@@ -8,5 +8,6 @@ storiesOf('Inspector', module).add('Inspector', () => (
   <InspectorContainer
     manuscript={manuscripts[0]}
     saveManuscript={action('save manuscript')}
+    selected={null}
   />
 ))

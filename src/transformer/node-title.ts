@@ -1,5 +1,5 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { iterateChildren } from '../editor/lib/iterate'
+import { iterateChildren } from '../editor/lib/utils'
 import { nodeNames } from './node-names'
 
 const getTextOfNodeType = (node: ProsemirrorNode, type: string) => {

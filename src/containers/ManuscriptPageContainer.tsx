@@ -16,6 +16,7 @@ import Editor, {
   SaveComponent,
 } from '../editor/Editor'
 import PopperManager from '../editor/lib/popper'
+import { findParentNodeWithId, Selected } from '../editor/lib/utils'
 import Spinner from '../icons/spinner'
 import { buildContributor, buildManuscript } from '../lib/commands'
 import CitationManager from '../lib/csl'
@@ -67,6 +68,7 @@ interface State {
   doc: ProsemirrorNode | null
   error: string | null
   popper: PopperManager
+  selected: Selected | null
   view: EditorView | null
   library: Map<string, BibliographyItem>
   manuscript: Manuscript | null
@@ -100,6 +102,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     manuscript: null,
     project: null,
     processor: null,
+    selected: null,
   }
 
   private readonly initialState: Readonly<State>
@@ -148,7 +151,15 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   public render() {
     const { projectID } = this.props.match.params
-    const { dirty, componentMap, doc, manuscript, project, popper } = this.state
+    const {
+      dirty,
+      componentMap,
+      doc,
+      manuscript,
+      project,
+      popper,
+      selected,
+    } = this.state
 
     if (!doc || !manuscript || !project) {
       return <Spinner />
@@ -164,6 +175,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           doc={doc}
           onDrop={this.handleDrop}
           saveProject={this.saveProject}
+          selected={selected}
         />
 
         <Main>
@@ -204,10 +216,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           direction={'row'}
           side={'start'}
         >
-          {manuscript && (
+          {this.state.view && (
             <InspectorContainer
               manuscript={manuscript}
               saveManuscript={this.saveManuscript}
+              selected={selected}
             />
           )}
         </Panel>
@@ -661,19 +674,19 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return false
   }
 
-  private handleChange = (state: EditorState) => {
-    // if (!this.state.dirty) {
-    //   this.setState({ dirty: true })
-    // }
-
-    this.setState({
-      dirty: true,
+  private handleChange = (state: EditorState, docChanged: boolean) => {
+    this.setState(prevState => ({
+      ...prevState,
+      dirty: prevState.dirty || docChanged,
       doc: state.doc,
-    })
+      selected: findParentNodeWithId(state.selection) || null,
+    }))
 
-    window.requestIdleCallback(() => this.debouncedSaveComponents(state), {
-      timeout: 5000, // maximum wait for idle
-    })
+    if (docChanged) {
+      window.requestIdleCallback(() => this.debouncedSaveComponents(state), {
+        timeout: 5000, // maximum wait for idle
+      })
+    }
   }
 
   private buildComponentIds = (componentMap: ComponentMap) => {

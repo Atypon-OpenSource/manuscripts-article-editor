@@ -51,7 +51,7 @@ export interface EditorProps {
   addManuscript?: () => Promise<void>
   importManuscript: ImportManuscript
   locale: string
-  onChange?: (state: EditorState) => void
+  onChange?: (state: EditorState, docChanged: boolean) => void
   subscribe?: (receive: ChangeReceiver) => void
   componentMap: ComponentMap
   popper: PopperManager
@@ -172,7 +172,7 @@ class Editor extends React.Component<EditorProps, State> {
       }
 
       if (this.props.onChange) {
-        this.props.onChange(state)
+        this.props.onChange(state, false)
       }
 
       if (this.props.setView) {
@@ -190,8 +190,8 @@ class Editor extends React.Component<EditorProps, State> {
     this.setState({ state })
 
     if (this.props.onChange) {
-      if (!external && transaction.docChanged) {
-        this.props.onChange(state)
+      if (!external) {
+        this.props.onChange(state, transaction.docChanged)
       }
     }
   }

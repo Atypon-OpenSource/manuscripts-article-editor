@@ -8,6 +8,7 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../components/Sidebar'
+import { Selected } from '../editor/lib/utils'
 import { TitleField } from '../editor/manuscript/TitleField'
 import { Manuscript, Project } from '../types/components'
 // import ComponentsStatusContainer from './ComponentsStatusContainer'
@@ -17,6 +18,7 @@ interface Props {
   project: Project
   manuscript: Manuscript
   saveProject: (project: Project) => Promise<void>
+  selected: Selected | null
 }
 
 const ProjectTitle = SidebarTitle.extend`
@@ -39,6 +41,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
   onDrop,
   project,
   saveProject,
+  selected,
 }) => (
   <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
     <StyledSidebar>
@@ -62,6 +65,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
           manuscript={manuscript}
           doc={doc}
           onDrop={onDrop}
+          selected={selected}
         />
         {/*<ComponentsStatusContainer />*/}
       </SidebarContent>

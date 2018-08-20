@@ -22,7 +22,11 @@ export const OutlineItemIcon = styled.span`
   flex-shrink: 0;
 `
 
-export const OutlineItem = styled.div`
+interface OutlineItemProps {
+  isSelected: boolean
+}
+
+export const OutlineItem = styled.div<OutlineItemProps>`
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -30,6 +34,7 @@ export const OutlineItem = styled.div`
   overflow-x: hidden;
   cursor: pointer;
   color: #444;
+  background: ${props => (props.isSelected ? 'white' : 'transparent')};
 
   &:hover ${OutlineItemIcon} {
     background: linear-gradient(to bottom, #617ba8 0%, #4966a8 100%);

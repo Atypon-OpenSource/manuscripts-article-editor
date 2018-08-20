@@ -8911,6 +8911,10 @@ prosemirror-transform@^1.0.0, prosemirror-transform@^1.0.4, prosemirror-transfor
   dependencies:
     prosemirror-model "^1.0.0"
 
+prosemirror-utils@^0.6.5:
+  version "0.6.5"
+  resolved "https://registry.npmjs.org/prosemirror-utils/-/prosemirror-utils-0.6.5.tgz#df18e39178d510917838a7337a8b64561324a70b"
+
 prosemirror-view@^1.0.0, prosemirror-view@^1.1.0:
   version "1.4.2"
   resolved "https://registry.npmjs.org/prosemirror-view/-/prosemirror-view-1.4.2.tgz#3ba7b7e7f8d0cb19c89f50dd16bf14d0d7e98324"

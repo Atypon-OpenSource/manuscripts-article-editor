@@ -3,6 +3,7 @@ import React from 'react'
 import { Option } from 'react-select'
 import { ImmediateSelectField } from '../components/ImmediateSelectField'
 import { Spinner } from '../components/Spinner'
+import { Selected } from '../editor/lib/utils'
 import CitationManager from '../lib/csl'
 import { styled } from '../theme'
 import { Manuscript } from '../types/components'
@@ -24,6 +25,7 @@ const LabelText = styled.div`
 interface Props {
   manuscript: Manuscript
   saveManuscript: (manuscript: Manuscript) => void
+  selected: Selected | null
 }
 
 interface State {

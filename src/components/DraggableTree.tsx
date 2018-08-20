@@ -15,6 +15,7 @@ import {
 } from 'react-dnd'
 import HTML5DragDropBackend from 'react-dnd-html5-backend'
 import { findDOMNode } from 'react-dom'
+import { Selected } from '../editor/lib/utils'
 import { nodeTitle, nodeTitlePlaceholder } from '../transformer/node-title'
 import {
   Outline,
@@ -70,6 +71,7 @@ export interface DraggableTreeProps {
 
 export interface TreeItem {
   index: number
+  isSelected: boolean
   items: TreeItem[]
   node: ProsemirrorNode
   pos: number
@@ -89,24 +91,44 @@ interface State {
 
 const excludeTypes = ['table']
 
-export const buildTree = (
-  node: ProsemirrorNode,
-  pos: number,
-  index: number,
+interface TreeBuilderOptions {
+  node: ProsemirrorNode
+  pos: number
+  index: number
+  selected?: Selected
   parent?: ProsemirrorNode
-): TreeItem => {
+}
+
+type TreeBuilder = (options: TreeBuilderOptions) => TreeItem
+
+export const buildTree: TreeBuilder = ({
+  node,
+  pos,
+  index,
+  selected,
+  parent,
+}): TreeItem => {
   const items: TreeItem[] = []
 
   const startPos = pos + 1
   const endPos = pos + node.nodeSize
+  const isSelected = selected ? node.attrs.id === selected.node.attrs.id : false
 
   node.forEach((childNode, offset, index) => {
     if (childNode.attrs.id && !excludeTypes.includes(childNode.type.name)) {
-      items.push(buildTree(childNode, startPos + offset, index, node))
+      items.push(
+        buildTree({
+          node: childNode,
+          pos: startPos + offset,
+          index,
+          selected,
+          parent: node,
+        })
+      )
     }
   })
 
-  return { node, index, items, pos, endPos, parent }
+  return { node, index, items, pos, endPos, parent, isSelected }
 }
 
 class Tree extends React.Component<Props & ConnectedProps, State> {
@@ -130,7 +152,7 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
 
     const { open, dragPosition } = this.state
 
-    const { node, items } = tree
+    const { node, items, isSelected } = tree
 
     const mightDrop = item && isOverCurrent && canDrop
 
@@ -143,7 +165,7 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
 
           {connectDragSource(
             <div>
-              <OutlineItem>
+              <OutlineItem isSelected={isSelected}>
                 {items.length ? (
                   <OutlineItemArrow onClick={this.toggle}>
                     {open ? '▼' : '▶'}

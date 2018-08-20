@@ -1,6 +1,6 @@
 import { DOMSerializer, Node as ProsemirrorNode } from 'prosemirror-model'
 import { options } from '../editor/config'
-import { iterateChildren } from '../editor/lib/iterate'
+import { iterateChildren } from '../editor/lib/utils'
 import {
   AnyComponent,
   ComponentMap,
