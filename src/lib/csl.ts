@@ -1,5 +1,6 @@
 import axios from 'axios'
 import CSL from 'citeproc'
+import { basename } from 'path'
 import config from '../config'
 import { StringMap } from '../editor/config/types'
 import {
@@ -10,6 +11,8 @@ import {
 } from '../types/components'
 import { buildBibliographicDate, buildBibliographicName } from './commands'
 import { fetchSharedData } from './shared-data'
+
+export const DEFAULT_BUNDLE = 'MPBundle:www-zotero-org-styles-nature'
 
 interface Locales {
   'language-names': StringMap<string[]>
@@ -150,11 +153,23 @@ export const convertBibliographyItemToData = (
 
 class CitationManager {
   public createProcessor = async (
-    citationStyle: string,
+    targetBundle: string,
     primaryLanguageCode: string,
     getLibraryItem: (id: string) => BibliographyItem
   ) => {
-    const citationStyleData = await this.fetchStyle(citationStyle)
+    const bundle = await this.fetchBundle(targetBundle || DEFAULT_BUNDLE)
+
+    if (!bundle) {
+      throw new Error('Bundle not found')
+    }
+
+    if (!bundle.csl || !bundle.csl.cslIdentifier) {
+      throw new Error('No CSL identifier')
+    }
+
+    const cslIdentifier = basename(bundle.csl.cslIdentifier, '.csl')
+
+    const citationStyleData = await this.fetchStyle(cslIdentifier)
 
     const citationLocales = await this.fetchCitationLocales(
       citationStyleData,
@@ -173,6 +188,18 @@ class CitationManager {
       primaryLanguageCode,
       false
     )
+  }
+
+  public fetchBundle = async (targetBundle: string): Promise<Bundle> => {
+    const bundles = await this.fetchBundles()
+
+    const bundle = bundles.find(bundle => bundle._id === targetBundle)
+
+    if (!bundle) {
+      throw new Error('Bundle not found: ' + targetBundle)
+    }
+
+    return bundle
   }
 
   public fetchBundles = async (): Promise<Bundle[]> =>

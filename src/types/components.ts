@@ -79,7 +79,7 @@ export interface Project extends Component {
 export interface Manuscript extends ContainedComponent {
   title: string
   data?: string
-  citationStyle?: string // TODO: bundle or targetBundle, which contains CSLIdentifier
+  targetBundle: string
   primaryLanguageCode?: string
   figureElementNumberingScheme: string // TODO: optional
   figureNumberingScheme: string // TODO: optional
@@ -271,6 +271,7 @@ export interface BibliographyElement extends Element {
 }
 
 export interface Bundle extends Component {
+  _id: string
   csl?: {
     'author-name'?: string
     'author-email'?: string

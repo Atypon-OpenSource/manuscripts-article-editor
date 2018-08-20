@@ -148,10 +148,10 @@ class Editor extends React.Component<EditorProps, State> {
   }
 
   private createEditorView = (node: HTMLDivElement) => {
-    const editable = Boolean(this.props.editable)
-    const state = this.state.state as EditorState
-
     if (!this.view) {
+      const editable = Boolean(this.props.editable)
+      const state = this.state.state as EditorState
+
       this.view = new EditorView(node, {
         editable: () => editable,
         state,

@@ -9,7 +9,7 @@ export default () => {
         const decorations: Decoration[] = []
 
         const decorate = (node: ProsemirrorNode, pos: number) => {
-          if (node.type.isBlock && node.childCount === 0) {
+          if (!node.isAtom && node.type.isBlock && node.childCount === 0) {
             decorations.push(
               Decoration.node(pos, pos + node.nodeSize, {
                 class: 'empty-node',

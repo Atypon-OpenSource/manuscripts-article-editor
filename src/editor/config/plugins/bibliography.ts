@@ -2,6 +2,7 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { Citation, CitationItem } from '../../../types/components'
 import { EditorProps } from '../../Editor'
+import { getChildOfType } from '../../lib/utils'
 
 type NodesWithPositions = Array<[ProsemirrorNode, number]>
 
@@ -13,7 +14,7 @@ export default (props: EditorProps) => {
     getManuscript,
   } = props
 
-  let oldCitationsString: string = ''
+  let oldCitationsString: string = '[]'
 
   return new Plugin({
     appendTransaction: (transactions, oldState, newState) => {
@@ -85,16 +86,42 @@ export default (props: EditorProps) => {
       const bibliography = citationProcessor.makeBibliography()
 
       if (bibliography) {
-        // item at index 0 is unused, hence using this syntax.
-        const generatedBibliographyItems = (bibliography as Citeproc.Bibliography)[1]
+        const [
+          bibmeta,
+          generatedBibliographyItems,
+        ] = bibliography as Citeproc.Bibliography
+
+        if (bibmeta.bibliography_errors.length) {
+          console.warn(bibmeta.bibliography_errors) // tslint:disable-line:no-console
+        }
+
+        // TODO: remove if no citations?
+
+        if (!getChildOfType(tr.doc, 'bibliography_section')) {
+          const section = newState.schema.nodes.bibliography_section.createAndFill(
+            {},
+            newState.schema.nodes.section_title.create(
+              {},
+              newState.schema.text('Bibliography')
+            ) as ProsemirrorNode
+          ) as ProsemirrorNode
+
+          tr = tr.insert(tr.doc.content.size, section)
+        }
 
         tr.doc.descendants((node, pos) => {
           if (node.type.name === 'bibliography') {
-            const html = generatedBibliographyItems.join('\n')
+            const contents = generatedBibliographyItems.length
+              ? `<div class="csl-bib-body">${generatedBibliographyItems.join(
+                  '\n'
+                )}</div>`
+              : `<div class="csl-bib-body empty-node" data-placeholder="${
+                  node.attrs.placeholder
+                }"></div>`
 
             tr = tr.setNodeMarkup(pos, undefined, {
               ...node.attrs,
-              contents: `<div class="csl-bib-body">${html}</div>`,
+              contents,
             })
           }
         })

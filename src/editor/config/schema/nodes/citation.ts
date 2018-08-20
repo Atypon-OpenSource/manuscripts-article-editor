@@ -30,7 +30,7 @@ export const citation: NodeSpec = {
     // dom.id = node.attrs.id
     dom.setAttribute('data-reference-id', node.attrs.rid)
     // dom.setAttribute('data-citation-items', node.attrs.citationItems.join('|'))
-    dom.innerHTML = node.attrs.contents // TODO: sanitise!!?
+    dom.innerHTML = node.attrs.contents
 
     return dom
   },

@@ -1,14 +1,35 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { EditorView } from 'prosemirror-view'
 import { EditorProps } from '../../Editor'
 import { CodeMirrorCreator } from '../../lib/codemirror'
 import { NodeViewCreator } from '../types'
-import PropsBlock from './props_block'
+import AbstractBlock from './abstract_block'
 
 // TODO: inline code editor
 
-class CodeBlock extends PropsBlock {
+class CodeBlock extends AbstractBlock {
   private element: HTMLElement
-  private importCodeMirror: Promise<CodeMirrorCreator>
+  private readonly imports: {
+    codemirror: Promise<CodeMirrorCreator>
+  }
+  private readonly props: EditorProps
+
+  public constructor(
+    props: EditorProps,
+    node: ProsemirrorNode,
+    view: EditorView,
+    getPos: () => number
+  ) {
+    super(node, view, getPos)
+
+    this.props = props
+
+    this.imports = {
+      codemirror: import(/* webpackChunkName: "codemirror" */ '../../lib/codemirror'),
+    }
+
+    this.initialise()
+  }
 
   public update(newNode: ProsemirrorNode) {
     if (newNode.attrs.id !== this.node.attrs.id) return false
@@ -22,7 +43,7 @@ class CodeBlock extends PropsBlock {
   }
 
   public async selectNode() {
-    const { createEditor } = await this.importCodeMirror
+    const { createEditor } = await this.imports.codemirror
 
     const input = await createEditor(this.node.attrs.code, 'javascript')
 
@@ -68,10 +89,6 @@ class CodeBlock extends PropsBlock {
 
   protected get objectName() {
     return 'Listing'
-  }
-
-  protected prepare() {
-    this.importCodeMirror = import(/* webpackChunkName: "codemirror" */ '../../lib/codemirror')
   }
 
   protected createElement() {

@@ -8,7 +8,7 @@ import Editor, {
   SaveComponent,
 } from '../src/editor/Editor'
 import PopperManager from '../src/editor/lib/popper'
-import { convertBibliographyItemToData } from '../src/lib/csl'
+import { convertBibliographyItemToData, DEFAULT_BUNDLE } from '../src/lib/csl'
 import { Decoder } from '../src/transformer'
 import { BIBLIOGRAPHY_ITEM, MANUSCRIPT } from '../src/transformer/object-types'
 import {
@@ -57,6 +57,7 @@ const manuscript: Manuscript = {
   title: 'Foo',
   figureElementNumberingScheme: '',
   figureNumberingScheme: '',
+  targetBundle: DEFAULT_BUNDLE,
 }
 
 const libraryItem: BibliographyItem = {

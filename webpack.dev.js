@@ -13,7 +13,7 @@ module.exports = merge(common, {
     hot: true,
     open: true,
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   mode: 'development',
   module: {
     rules: [

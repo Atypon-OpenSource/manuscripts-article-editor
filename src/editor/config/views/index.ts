@@ -1,4 +1,5 @@
 import { EditorProps } from '../../Editor'
+import bibliographyBlock from './bibliography_block'
 import bulletListBlock from './bullet_list_block'
 import citation from './citation'
 import codeBlock from './code_block'
@@ -13,6 +14,7 @@ import sectionTitleBlock from './section_title_block'
 import tableFigure from './table_figure'
 
 export default (props: EditorProps) => ({
+  bibliography: bibliographyBlock,
   bullet_list: bulletListBlock,
   citation: citation(props),
   code_block: codeBlock(props),

@@ -1,3 +1,4 @@
+import { DEFAULT_BUNDLE } from '../../../../lib/csl'
 import {
   AFFILIATION,
   CONTRIBUTOR,
@@ -83,6 +84,7 @@ const manuscripts: Manuscript[] = [
     title: 'Manuscript X',
     figureElementNumberingScheme: 'x',
     figureNumberingScheme: 'y',
+    targetBundle: DEFAULT_BUNDLE,
   },
 ]
 

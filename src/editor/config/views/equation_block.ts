@@ -1,14 +1,38 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { EditorView } from 'prosemirror-view'
 import { EditorProps } from '../../Editor'
 import { CodeMirrorCreator } from '../../lib/codemirror'
 import { Mathjax } from '../../lib/mathjax'
 import { NodeViewCreator } from '../types'
-import PropsBlock from './props_block'
+import AbstractBlock from './abstract_block'
 
-class EquationBlock extends PropsBlock {
+class EquationBlock extends AbstractBlock {
   private element: HTMLElement
-  private importMathjax: Promise<Mathjax>
-  private importCodeMirror: Promise<CodeMirrorCreator>
+  private readonly props: EditorProps
+  private readonly imports: {
+    codemirror: Promise<CodeMirrorCreator>
+    mathjax: Promise<Mathjax>
+  }
+
+  public constructor(
+    props: EditorProps,
+    node: ProsemirrorNode,
+    view: EditorView,
+    getPos: () => number
+  ) {
+    super(node, view, getPos)
+
+    this.props = props
+
+    this.imports = {
+      codemirror: import(/* webpackChunkName: "codemirror" */ '../../lib/codemirror'),
+      mathjax: import(/* webpackChunkName: "mathjax" */ '../../lib/mathjax') as Promise<
+        Mathjax
+      >,
+    }
+
+    this.initialise()
+  }
 
   public update(newNode: ProsemirrorNode) {
     if (newNode.attrs.id !== this.node.attrs.id) return false
@@ -22,7 +46,7 @@ class EquationBlock extends PropsBlock {
   }
 
   public async selectNode() {
-    const { createEditor } = await this.importCodeMirror
+    const { createEditor } = await this.imports.codemirror
 
     const input = await createEditor(this.node.attrs.latex, 'stex')
 
@@ -68,14 +92,9 @@ class EquationBlock extends PropsBlock {
     return 'Equation'
   }
 
-  protected prepare() {
-    this.importMathjax = import(/* webpackChunkName: "mathjax" */ '../../lib/mathjax')
-    this.importCodeMirror = import(/* webpackChunkName: "codemirror" */ '../../lib/codemirror')
-  }
-
   protected async updateContents() {
     try {
-      const mathjax = await this.importMathjax
+      const mathjax = await this.imports.mathjax
       mathjax.generate(this.element, this.node.attrs.latex, true)
     } catch (e) {
       // TODO: improve the UI for presenting offline/import errors

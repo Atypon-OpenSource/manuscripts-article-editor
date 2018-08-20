@@ -28,6 +28,7 @@ import {
   ManuscriptComponent,
   Project,
 } from '../types/components'
+import { DEFAULT_BUNDLE } from './csl'
 
 export type Build<T> = Pick<T, Exclude<keyof T, keyof ManuscriptComponent>> & {
   id: string
@@ -57,6 +58,7 @@ export const buildManuscript = (title: string = ''): Build<Manuscript> => ({
   title,
   figureElementNumberingScheme: '',
   figureNumberingScheme: '',
+  targetBundle: DEFAULT_BUNDLE,
 })
 
 export const buildContributor = (

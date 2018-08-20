@@ -1,5 +1,6 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { findParentNode } from 'prosemirror-utils'
+import { NodeTypeName } from '../../transformer/node-types'
 
 export function* iterateChildren(
   node: ProsemirrorNode,
@@ -16,6 +17,23 @@ export function* iterateChildren(
     }
   }
 }
+
+export const getMatchingChild = (
+  parent: ProsemirrorNode,
+  matcher: (node: ProsemirrorNode) => boolean
+): ProsemirrorNode | undefined => {
+  for (const node of iterateChildren(parent)) {
+    if (matcher(node)) {
+      return node
+    }
+  }
+}
+
+export const getChildOfType = (
+  parent: ProsemirrorNode,
+  nodeTypeName: NodeTypeName
+): boolean =>
+  !!getMatchingChild(parent, node => node.type.name === nodeTypeName)
 
 export interface Selected {
   pos: number

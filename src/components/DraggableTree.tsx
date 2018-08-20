@@ -115,7 +115,11 @@ export const buildTree: TreeBuilder = ({
   const isSelected = selected ? node.attrs.id === selected.node.attrs.id : false
 
   node.forEach((childNode, offset, index) => {
-    if (childNode.attrs.id && !excludeTypes.includes(childNode.type.name)) {
+    if (
+      !childNode.isAtom &&
+      childNode.attrs.id &&
+      !excludeTypes.includes(childNode.type.name)
+    ) {
       items.push(
         buildTree({
           node: childNode,

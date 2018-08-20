@@ -50,6 +50,7 @@ class LibraryPickerContainer extends React.Component<
     this.getCollection()
       .find({
         objectType: BIBLIOGRAPHY_ITEM,
+        // containerID: this.props.projectID, // TODO: only show library items from this project
       })
       .sort({
         updatedAt: 'desc',

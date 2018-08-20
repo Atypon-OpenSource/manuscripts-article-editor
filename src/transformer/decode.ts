@@ -275,28 +275,21 @@ export class Decoder {
 
     const rootSectionNodes = rootSections.map(this.decode) as ProsemirrorNode[]
 
-    if (!this.hasBibliographySection(rootSectionNodes)) {
-      rootSectionNodes.push(this.createBibliographySection())
+    if (!rootSectionNodes.length) {
+      rootSectionNodes.push(
+        schema.nodes.section.createAndFill() as ProsemirrorNode
+      )
     }
 
-    const articleNode = schema.nodes.article.createAndFill({}, rootSectionNodes)
+    const node = schema.nodes.article.create({}, rootSectionNodes)
 
-    if (!articleNode) {
+    try {
+      node.check()
+    } catch (e) {
+      console.error(e) // tslint:disable-line:no-console
       throw new Error('Unable to create article node')
     }
 
-    return articleNode
+    return node
   }
-
-  private hasBibliographySection = (nodes: ProsemirrorNode[]) =>
-    nodes.some(node => node.type.name === 'bibliography_section')
-
-  private createBibliographySection = () =>
-    schema.nodes.bibliography_section.createAndFill(
-      {},
-      schema.nodes.section_title.create(
-        {},
-        schema.text('Bibliography')
-      ) as ProsemirrorNode
-    ) as ProsemirrorNode
 }

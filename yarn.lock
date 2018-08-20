@@ -968,6 +968,10 @@
   version "0.0.30"
   resolved "https://registry.npmjs.org/@types/debug/-/debug-0.0.30.tgz#dc1e40f7af3b9c815013a7860e6252f6352a84df"
 
+"@types/dompurify@^0.0.31":
+  version "0.0.31"
+  resolved "https://registry.npmjs.org/@types/dompurify/-/dompurify-0.0.31.tgz#f152d5a81f2b5625e29f11eb016cd9b301d0d4b4"
+
 "@types/enzyme-adapter-react-16@^1.0.1":
   version "1.0.3"
   resolved "https://registry.npmjs.org/@types/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.0.3.tgz#0cf7025b036694ca8d596fe38f24162e7117acf1"
@@ -4169,6 +4173,10 @@ domhandler@^2.3.0:
   resolved "https://registry.npmjs.org/domhandler/-/domhandler-2.4.2.tgz#8805097e933d65e85546f726d60f5eb88b44f803"
   dependencies:
     domelementtype "1"
+
+dompurify@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/dompurify/-/dompurify-1.0.7.tgz#33e5c4a5fc84df93b58ca162d1d3f28537aa3ec2"
 
 domutils@1.1:
   version "1.1.6"

@@ -6149,6 +6149,7 @@ Object {
           "attrs": Object {
             "contents": "<div class=\\"csl-bib-body\\" id=\\"MPBibliographyElement:80EFCE66-58E9-4BB7-A80A-2058507A5970\\"></div>",
             "id": "MPBibliographyElement:80EFCE66-58E9-4BB7-A80A-2058507A5970",
+            "placeholder": "Citations inserted to the manuscript will be formatted here as a bibliography.",
           },
           "type": "bibliography",
         },

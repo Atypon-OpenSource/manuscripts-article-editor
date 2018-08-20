@@ -4,7 +4,7 @@ import { Option } from 'react-select'
 import { ImmediateSelectField } from '../components/ImmediateSelectField'
 import { Spinner } from '../components/Spinner'
 import { Selected } from '../editor/lib/utils'
-import CitationManager from '../lib/csl'
+import CitationManager, { DEFAULT_BUNDLE } from '../lib/csl'
 import { styled } from '../theme'
 import { Manuscript } from '../types/components'
 
@@ -51,10 +51,7 @@ class InspectorContainer extends React.Component<Props, State> {
           bundle => bundle.csl && bundle.csl.cslIdentifier && bundle.csl.title
         )
         .map(bundle => ({
-          value: bundle.csl!.cslIdentifier!.replace(
-            'http://www.zotero.org/styles/',
-            ''
-          ),
+          value: bundle._id,
           label: bundle.csl!.title,
         })),
       locales: Object.entries(locales['language-names']).map(
@@ -74,11 +71,9 @@ class InspectorContainer extends React.Component<Props, State> {
       return <Spinner />
     }
 
-    // TODO: match the defaults in the citation processor
-    const initialValues: Manuscript = {
-      citationStyle: 'nature',
-      primaryLanguageCode: 'en-GB',
-      ...manuscript,
+    const initialValues: Partial<Manuscript> = {
+      targetBundle: manuscript.targetBundle || DEFAULT_BUNDLE,
+      primaryLanguageCode: manuscript.primaryLanguageCode || 'en-GB',
     }
 
     return (
@@ -92,7 +87,7 @@ class InspectorContainer extends React.Component<Props, State> {
             <LabelText>Citation Style</LabelText>
 
             <Field
-              name={'citationStyle'}
+              name={'targetBundle'}
               component={ImmediateSelectField}
               options={styles}
             />

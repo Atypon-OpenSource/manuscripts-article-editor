@@ -12,6 +12,7 @@ import {
   CitationItem,
 } from '../../../types/components'
 import { EditorProps } from '../../Editor'
+import { Purify } from '../../lib/dompurify'
 import { NodeViewCreator } from '../types'
 
 class CitationView implements NodeView {
@@ -19,17 +20,25 @@ class CitationView implements NodeView {
 
   private readonly props: EditorProps
   private node: ProsemirrorNode
+  private readonly imports: {
+    purify: Promise<Purify>
+  }
 
   constructor(props: EditorProps, node: ProsemirrorNode) {
     this.props = props
     this.node = node
 
-    this.createDOM()
+    this.imports = {
+      purify: import(/* webpackChunkName: "dompurify" */ '../../lib/dompurify'),
+    }
+
+    this.initialise()
   }
 
   public update(newNode: ProsemirrorNode) {
     if (!newNode.sameMarkup(this.node)) return false
     this.node = newNode
+    this.updateContents() // tslint:disable-line:no-floating-promises
     this.props.popper.update()
     return true
   }
@@ -78,6 +87,11 @@ class CitationView implements NodeView {
     this.props.popper.destroy()
   }
 
+  private initialise() {
+    this.createDOM()
+    this.updateContents() // tslint:disable-line:no-floating-promises
+  }
+
   private handleSave = async (item: BibliographyItem) => {
     this.props.popper.destroy()
 
@@ -97,7 +111,12 @@ class CitationView implements NodeView {
     this.dom.setAttribute('data-reference-id', this.node.attrs.rid)
     this.dom.setAttribute('spellcheck', 'false')
     // dom.setAttribute('data-citation-items', node.attrs.citationItems.join('|'))
-    this.dom.innerHTML = this.node.attrs.contents // TODO: sanitise!!?
+  }
+
+  private async updateContents() {
+    const { sanitize } = await this.imports.purify
+
+    this.dom.innerHTML = sanitize(this.node.attrs.contents) // TODO: whitelist
   }
 }
 

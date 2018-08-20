@@ -300,10 +300,41 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return this.state.manuscript as Manuscript
   }
 
-  private saveManuscript = async (manuscript: Manuscript) => {
+  private saveManuscript = async (data: Partial<Manuscript>) => {
+    const previousManuscript = this.state.manuscript!
+
+    const manuscript = {
+      ...previousManuscript,
+      ...data,
+    }
+
     this.setState({ manuscript })
-    await this.createCitationProcessor(manuscript)
+
     await this.saveComponent(manuscript)
+
+    if (this.shouldUpdateCitationProcessor(manuscript, previousManuscript)) {
+      await this.createCitationProcessor(manuscript)
+
+      this.dispatchUpdate()
+    }
+  }
+
+  private shouldUpdateCitationProcessor = (
+    manuscript: Manuscript,
+    previousManuscript: Manuscript
+  ) => {
+    return (
+      previousManuscript.targetBundle !== manuscript.targetBundle ||
+      previousManuscript.primaryLanguageCode !== manuscript.primaryLanguageCode
+    )
+  }
+
+  private dispatchUpdate = () => {
+    const { view } = this.state
+
+    if (view) {
+      view.dispatch(view.state.tr.setMeta('update', true))
+    }
   }
 
   private addManuscript: AddManuscript = async () => {
@@ -355,12 +386,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private createCitationProcessor = async (manuscript: Manuscript) => {
-    // TODO: only regenerate the processor when citationStyle or locale change
-
     const citationManager = new CitationManager()
 
     const processor = await citationManager.createProcessor(
-      manuscript.citationStyle || 'nature',
+      manuscript.targetBundle,
       manuscript.primaryLanguageCode || 'en-GB',
       this.getLibraryItem
     )

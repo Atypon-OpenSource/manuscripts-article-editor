@@ -8,17 +8,20 @@ const createBodyElement = (id: string) => {
   return dom
 }
 
-// TODO: sanitise!!?
 const parseBodyElement = (contents: string) =>
   document.createRange().createContextualFragment(contents)
     .firstChild as HTMLDivElement
 
 export const bibliography: NodeSpec = {
-  // atom: true,
+  atom: true,
   content: 'text*',
   attrs: {
     id: { default: '' },
     contents: { default: '' },
+    placeholder: {
+      default:
+        'Citations inserted to the manuscript will be formatted here as a bibliography.',
+    },
   },
   group: 'block',
   parseDOM: [
@@ -30,8 +33,6 @@ export const bibliography: NodeSpec = {
     },
   ],
   toDOM: (node: ProsemirrorNode) => {
-    // TODO: use a node view?
-
     return node.attrs.contents
       ? parseBodyElement(node.attrs.contents)
       : createBodyElement(node.attrs.id)
