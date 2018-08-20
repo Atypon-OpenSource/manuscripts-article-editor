@@ -7,18 +7,66 @@ import {
 } from '../src/components/ProgressIndicator'
 
 storiesOf('Progress Indicator', module)
-  .add('Determinate Project Progress Indicator', () => (
-    <ProgressIndicator
-      isDeterminate={true}
-      size={IndicatorSize.Large}
-      progress={0.4}
-      symbols={IndicatorKind.Project}
-    />
+  .add('Determinate', () => (
+    <div>
+      <ProgressIndicator
+        isDeterminate={true}
+        progress={0.1}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.Author}
+      />
+      <ProgressIndicator
+        isDeterminate={true}
+        progress={0.3}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.ContributorDetail}
+      />
+      <ProgressIndicator
+        isDeterminate={true}
+        progress={0.5}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.Contributors}
+      />
+      <ProgressIndicator
+        isDeterminate={true}
+        progress={0.7}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.Project}
+      />
+      <ProgressIndicator
+        isDeterminate={true}
+        progress={0.9}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.ReferenceLibrary}
+      />
+    </div>
   ))
-  .add('Indeterminate Reference Library View', () => (
-    <ProgressIndicator
-      isDeterminate={false}
-      size={IndicatorSize.Large}
-      symbols={IndicatorKind.ReferenceLibrary}
-    />
+  .add('Indeterminate', () => (
+    <div>
+      <ProgressIndicator
+        isDeterminate={false}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.Author}
+      />
+      <ProgressIndicator
+        isDeterminate={false}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.ContributorDetail}
+      />
+      <ProgressIndicator
+        isDeterminate={false}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.Contributors}
+      />
+      <ProgressIndicator
+        isDeterminate={false}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.Project}
+      />
+      <ProgressIndicator
+        isDeterminate={false}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.ReferenceLibrary}
+      />
+    </div>
   ))
