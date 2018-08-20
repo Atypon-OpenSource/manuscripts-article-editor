@@ -9,7 +9,7 @@ import { Selector } from 'testcafe'
 
 fixture('Editor sections')
 
-test('Can add a paragraph to a section contents', async t => {
+test.skip('Can add a paragraph to a section contents', async t => {
   await loginAsNewUser(t)
 
   await t.click(Selector('#create-project'))
