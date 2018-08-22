@@ -57,7 +57,7 @@ const manuscript: Manuscript = {
   title: 'Foo',
   figureElementNumberingScheme: '',
   figureNumberingScheme: '',
-  targetBundle: DEFAULT_BUNDLE,
+  bundle: DEFAULT_BUNDLE,
 }
 
 const libraryItem: BibliographyItem = {

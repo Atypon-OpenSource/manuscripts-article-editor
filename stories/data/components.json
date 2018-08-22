@@ -1696,7 +1696,7 @@
     "id" : "MPManuscript:7F9298F3-147A-40A4-A6A4-BB97EE84712D",
     "objectType" : "MPManuscript",
     "_rev" : "6-fce548593f04529c347109373b1baef1",
-    "targetBundle" : "MPBundle:www-zotero-org-styles-harvard1",
+    "bundle" : "MPBundle:www-zotero-org-styles-harvard1",
     "collection" : "Manuscripts",
     "title" : "The first whole genome and transcriptome of the cinereous vulture reveals adaptation in the gastric and immune defense systems and possible convergent evolution between the Old and New World vultures",
     "sessionID" : "95da5a82-5363-4624-abea-a88008862da3",

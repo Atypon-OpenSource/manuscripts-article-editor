@@ -58,7 +58,7 @@ export const buildManuscript = (title: string = ''): Build<Manuscript> => ({
   title,
   figureElementNumberingScheme: '',
   figureNumberingScheme: '',
-  targetBundle: DEFAULT_BUNDLE,
+  bundle: DEFAULT_BUNDLE,
 })
 
 export const buildContributor = (

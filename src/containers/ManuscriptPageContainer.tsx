@@ -324,7 +324,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     previousManuscript: Manuscript
   ) => {
     return (
-      previousManuscript.targetBundle !== manuscript.targetBundle ||
+      previousManuscript.bundle !== manuscript.bundle ||
       previousManuscript.primaryLanguageCode !== manuscript.primaryLanguageCode
     )
   }
@@ -389,7 +389,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const citationManager = new CitationManager()
 
     const processor = await citationManager.createProcessor(
-      manuscript.targetBundle,
+      manuscript.bundle,
       manuscript.primaryLanguageCode || 'en-GB',
       this.getLibraryItem
     )

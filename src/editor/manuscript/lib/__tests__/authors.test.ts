@@ -84,7 +84,7 @@ const manuscripts: Manuscript[] = [
     title: 'Manuscript X',
     figureElementNumberingScheme: 'x',
     figureNumberingScheme: 'y',
-    targetBundle: DEFAULT_BUNDLE,
+    bundle: DEFAULT_BUNDLE,
   },
 ]
 

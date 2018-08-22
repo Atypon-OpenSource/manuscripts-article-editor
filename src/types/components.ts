@@ -89,7 +89,7 @@ export interface ProjectInvitation extends Component {
 export interface Manuscript extends ContainedComponent {
   title: string
   data?: string
-  targetBundle: string
+  bundle: string
   primaryLanguageCode?: string
   figureElementNumberingScheme: string // TODO: optional
   figureNumberingScheme: string // TODO: optional

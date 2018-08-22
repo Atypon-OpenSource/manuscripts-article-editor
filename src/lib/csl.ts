@@ -153,11 +153,11 @@ export const convertBibliographyItemToData = (
 
 class CitationManager {
   public createProcessor = async (
-    targetBundle: string,
+    bundleID: string,
     primaryLanguageCode: string,
     getLibraryItem: (id: string) => BibliographyItem
   ) => {
-    const bundle = await this.fetchBundle(targetBundle || DEFAULT_BUNDLE)
+    const bundle = await this.fetchBundle(bundleID || DEFAULT_BUNDLE)
 
     if (!bundle) {
       throw new Error('Bundle not found')
@@ -190,13 +190,13 @@ class CitationManager {
     )
   }
 
-  public fetchBundle = async (targetBundle: string): Promise<Bundle> => {
+  public fetchBundle = async (bundleID: string): Promise<Bundle> => {
     const bundles = await this.fetchBundles()
 
-    const bundle = bundles.find(bundle => bundle._id === targetBundle)
+    const bundle = bundles.find(bundle => bundle._id === bundleID)
 
     if (!bundle) {
-      throw new Error('Bundle not found: ' + targetBundle)
+      throw new Error('Bundle not found: ' + bundleID)
     }
 
     return bundle

@@ -72,7 +72,7 @@ class InspectorContainer extends React.Component<Props, State> {
     }
 
     const initialValues: Partial<Manuscript> = {
-      targetBundle: manuscript.targetBundle || DEFAULT_BUNDLE,
+      bundle: manuscript.bundle || DEFAULT_BUNDLE,
       primaryLanguageCode: manuscript.primaryLanguageCode || 'en-GB',
     }
 
@@ -87,7 +87,7 @@ class InspectorContainer extends React.Component<Props, State> {
             <LabelText>Citation Style</LabelText>
 
             <Field
-              name={'targetBundle'}
+              name={'bundle'}
               component={ImmediateSelectField}
               options={styles}
             />
