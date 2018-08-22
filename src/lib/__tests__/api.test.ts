@@ -153,7 +153,109 @@ describe('api', () => {
     expect(token.get()).toBeNull()
   })
 
-  it('removes the invitation', async () => {
+  it('accepts a project invitation', async () => {
+    const mock = new MockAdapter(client)
+
+    mock
+      .onPost('/invitation/accept', {
+        invitationId: 'MPProjectInvitation:valid-id',
+      })
+      .reply(HttpStatusCodes.OK)
+
+    const tokenData = {
+      access_token: 'foobar',
+    }
+
+    token.set(tokenData)
+
+    const result = await api.acceptProjectInvitation(
+      'MPProjectInvitation:valid-id'
+    )
+
+    expect(result.status).toBe(HttpStatusCodes.OK)
+  })
+
+  it('creates a project invitation', async () => {
+    const mock = new MockAdapter(client)
+
+    const projectID = 'MPProject:valid-id'
+
+    mock
+      .onPost(`invitation/project/${encodeURIComponent(projectID)}/invite`)
+      .reply(HttpStatusCodes.OK)
+
+    const tokenData = {
+      access_token: 'foobar',
+    }
+
+    token.set(tokenData)
+
+    const result = await api.projectInvite(
+      projectID,
+      [
+        {
+          email: 'user@example.com',
+          name: 'Example User',
+        },
+      ],
+      'Viewer',
+      'message'
+    )
+
+    expect(result.status).toBe(HttpStatusCodes.OK)
+  })
+
+  it('requests a project invitation token', async () => {
+    const mock = new MockAdapter(client)
+
+    const projectID = 'MPProject:valid-id'
+    const role = 'Writer'
+    const uriToken = 'valid-invitation-token'
+
+    mock
+      .onGet(
+        `/invitation/project/${encodeURIComponent(
+          projectID
+        )}/${encodeURIComponent(role)}`
+      )
+      .reply(HttpStatusCodes.OK, { token: uriToken })
+
+    const tokenData = {
+      access_token: 'foobar',
+    }
+
+    token.set(tokenData)
+
+    const result = await api.requestProjectInvitationToken(projectID, role)
+
+    expect(result).toBe(uriToken)
+  })
+
+  it('accepts an invitation token', async () => {
+    const mock = new MockAdapter(client)
+    const uriToken = 'valid-invitation-token'
+
+    mock
+      .onPost('/invitation/project/access', { token: uriToken })
+      .reply(HttpStatusCodes.OK, {
+        message: 'message',
+        projectId: 'MPProject:valid-id',
+      })
+
+    const tokenData = {
+      access_token: 'foobar',
+    }
+
+    token.set(tokenData)
+
+    const result = await api.acceptProjectInvitationToken(uriToken)
+    expect(result).toEqual({
+      message: 'message',
+      projectId: 'MPProject:valid-id',
+    })
+  })
+
+  it('removes an invitation', async () => {
     const mock = new MockAdapter(client)
 
     mock.onDelete('/invitation').reply(HttpStatusCodes.OK)

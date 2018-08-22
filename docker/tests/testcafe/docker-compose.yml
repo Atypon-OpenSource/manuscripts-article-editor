@@ -94,7 +94,7 @@ services:
       - API_BASE_URL=http://api-test.manuscripts.io:3000/api/v1
       - DATA_URL=http://data-test.manuscripts.io:8020
       - SYNC_GATEWAY_URL=http://sg-test.manuscripts.io:4984
-    command: "'chromium:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000 --speed 0.8"
+    command: "'chromium:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000"
     depends_on:
       - api
       - client
@@ -120,7 +120,7 @@ services:
       dockerfile: docker/tests/testcafe/Dockerfile
     environment:
       - BASE_URL=http://client-test.manuscripts.io:8080
-    command: "'firefox:headless --no-sandbox' '/testcafe-tests/*.js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000 --speed 0.8"
+    command: "'firefox:headless --no-sandbox' '/testcafe-tests/*.js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000"
     depends_on:
       - api
       - client

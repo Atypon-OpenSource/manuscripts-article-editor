@@ -1,46 +1,73 @@
 import React from 'react'
-import DropdownToggle from '../icons/dropdown-toggle'
-import { Dropdown, DropdownContainer, DropdownToggleButton } from './Dropdown'
+import { Dropdown, DropdownButton, DropdownContainer } from './Dropdown'
 
 interface Props {
   buttonContents: string | React.ReactNode
   dropdownStyle?: React.CSSProperties
   id?: string
+  notificationsCount?: number
 }
 
 interface State {
-  open: boolean
+  isOpen: boolean
 }
 
 class MenuDropdown extends React.Component<Props, State> {
   public state: Readonly<State> = {
-    open: false,
+    isOpen: false,
+  }
+
+  private node: Node
+
+  public componentWillUnmount() {
+    this.setOpen(false)
   }
 
   public render() {
-    const { buttonContents, children, dropdownStyle, id } = this.props
+    const {
+      buttonContents,
+      children,
+      dropdownStyle,
+      id,
+      notificationsCount,
+    } = this.props
+
+    const { isOpen } = this.state
 
     return (
-      <DropdownContainer id={id}>
-        {buttonContents}
-        <DropdownToggleButton
-          onClick={this.toggle}
-          className={'dropdown-toggle'}
+      <DropdownContainer
+        id={id}
+        innerRef={(node: HTMLDivElement) => (this.node = node)}
+      >
+        <DropdownButton
+          isOpen={isOpen}
+          notificationsCount={notificationsCount}
+          onClick={() => this.setOpen(!isOpen)}
         >
-          <DropdownToggle />
-        </DropdownToggleButton>
-
-        {this.state.open && (
-          <Dropdown style={dropdownStyle}>{children}</Dropdown>
-        )}
+          {buttonContents}
+        </DropdownButton>
+        {isOpen && <Dropdown style={dropdownStyle}>{children}</Dropdown>}
       </DropdownContainer>
     )
   }
 
-  private toggle = () => {
-    this.setState({
-      open: !this.state.open,
-    })
+  private setOpen = (isOpen: boolean) => {
+    this.setState({ isOpen })
+    this.updateListener(isOpen)
+  }
+
+  private handleClickOutside: EventListener = (event: Event) => {
+    if (this.node && !this.node.contains(event.target as Node)) {
+      this.setOpen(false)
+    }
+  }
+
+  private updateListener = (isOpen: boolean) => {
+    if (isOpen) {
+      document.addEventListener('mousedown', this.handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', this.handleClickOutside)
+    }
   }
 }
 

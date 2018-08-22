@@ -58,16 +58,16 @@ storiesOf('Pages', module)
     <ManuscriptsPage
       manuscripts={manuscripts}
       addManuscript={action('add manuscript')}
-      updateManuscript={() => action('update manuscript')}
-      removeManuscript={() => action('remove manuscript')}
+      updateManuscript={action('update manuscript')}
+      removeManuscript={action('remove manuscript')}
     />
   ))
   .add('Manuscripts (empty)', () => (
     <ManuscriptsPage
       manuscripts={[]}
       addManuscript={action('add manuscript')}
-      updateManuscript={() => action('update manuscript')}
-      removeManuscript={() => action('remove manuscript')}
+      updateManuscript={action('update manuscript')}
+      removeManuscript={action('remove manuscript')}
     />
   ))
   .add('Not found', () => <NotFound />)

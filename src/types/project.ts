@@ -1,8 +1,9 @@
 import React from 'react'
 import { RxDocument } from 'rxdb'
-import { Project } from './components'
+import { Project, ProjectInvitation } from './components'
 
 export type ProjectDocument = RxDocument<Project>
+export type ProjectInvitationDocument = RxDocument<ProjectInvitation>
 
 export type AddProject = () => Promise<void>
 

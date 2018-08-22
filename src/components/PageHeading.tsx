@@ -18,7 +18,6 @@ export const PageHeadingText = styled.div`
 `
 
 export interface PageHeadingProps {
-  children: React.ReactNode
   action?: React.ReactNode
 }
 

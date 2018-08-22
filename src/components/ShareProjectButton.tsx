@@ -45,7 +45,7 @@ class ShareProjectButton extends React.Component<Props, State> {
       <Manager>
         <Reference>
           {({ ref }) => (
-            <ShareIconButton onClick={this.toggleOpen} innerRef={ref}>
+            <ShareIconButton onClick={this.openPopper} innerRef={ref}>
               <ShareProjectIcon />
             </ShareIconButton>
           )}
@@ -66,7 +66,7 @@ class ShareProjectButton extends React.Component<Props, State> {
     )
   }
 
-  private toggleOpen = () => {
+  private openPopper = () => {
     if (!this.closedNow) {
       this.setState({
         isOpen: true,

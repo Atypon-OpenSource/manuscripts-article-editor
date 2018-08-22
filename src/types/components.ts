@@ -104,6 +104,16 @@ export interface BibliographicName extends EmbeddedComponent {
   literal?: string
 }
 
+export interface ProjectInvitation extends Component {
+  invitedUserEmail: string
+  invitingUserID: string
+  projectID: string
+  message: string
+  role: string
+  projectTitle?: string
+  invitedUserName?: string
+}
+
 export type ContributorRole = 'author'
 
 export interface Keyword extends ContainedComponent {

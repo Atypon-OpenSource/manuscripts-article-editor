@@ -1,5 +1,5 @@
 import React from 'react'
-import ProjectsMenu from '../containers/ProjectsMenu'
+import ProjectsDropdownButton from '../containers/ProjectsDropdownButton'
 import UserContainer from '../containers/UserContainer'
 import Nav from '../icons/nav'
 import {
@@ -9,7 +9,6 @@ import {
   MenuSection,
   MenuSections,
 } from './Menu'
-import MenuDropdown from './MenuDropdown'
 
 export const GlobalMenu: React.SFC = () => (
   <MenuContainer>
@@ -18,12 +17,7 @@ export const GlobalMenu: React.SFC = () => (
     </MenuBarIcon>
     <MenuSections>
       <MenuSection>
-        <MenuDropdown
-          buttonContents={<MenuLink to={'/projects'}>Projects</MenuLink>}
-        >
-          <ProjectsMenu />
-        </MenuDropdown>
-
+        <ProjectsDropdownButton />
         <MenuLink to={`/people`}>People</MenuLink>
       </MenuSection>
 

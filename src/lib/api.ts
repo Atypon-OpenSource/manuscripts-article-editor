@@ -163,18 +163,37 @@ export const projectUninvite = (invitationID: string) =>
     },
   })
 
-export const requestProjectInvitationToken = (id: string, role: string) =>
+export const requestProjectInvitationToken = (
+  projectID: string,
+  role: string
+) =>
   client
     .get(
-      `/invitation/project/${encodeURIComponent(id)}/${encodeURIComponent(
-        role
-      )}`
+      `/invitation/project/${encodeURIComponent(
+        projectID
+      )}/${encodeURIComponent(role)}`
     )
     .then(response => response.data.token)
 
 export const acceptProjectInvitationToken = (token: string) =>
   client
     .post('/invitation/project/access', { token })
+    .then(response => response.data)
+
+export const acceptProjectInvitation = (
+  invitationId: string,
+  password?: string,
+  name?: string
+) =>
+  client.post('/invitation/accept', {
+    invitationId,
+    password,
+    name,
+  })
+
+export const rejectProjectInvitation = (invitationId: string) =>
+  client
+    .post('/invitation/reject', { invitationId })
     .then(response => response.data)
 
 export const verify = (data: VerifyValues) =>

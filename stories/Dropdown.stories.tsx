@@ -3,18 +3,41 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import {
   Dropdown,
+  DropdownButton,
   DropdownContainer,
-  DropdownToggleButton,
 } from '../src/components/Dropdown'
 import { UserInfo } from '../src/components/UserInfo'
 import { user } from './data/contributors'
 
-storiesOf('Dropdown', module).add('Menu', () => (
-  <DropdownContainer>
-    <span>Menu</span>
-    <DropdownToggleButton onClick={action('toggle')}>▼</DropdownToggleButton>
-    <Dropdown>
-      <UserInfo user={user} />
-    </Dropdown>
-  </DropdownContainer>
-))
+storiesOf('Dropdown', module)
+  .add('Menu', () => (
+    <DropdownContainer>
+      <DropdownButton isOpen={false} onClick={action('toggle')}>
+        Menu
+      </DropdownButton>
+      <Dropdown>
+        <UserInfo user={user} />
+      </Dropdown>
+    </DropdownContainer>
+  ))
+  .add('Button', () => (
+    <div>
+      <DropdownButton isOpen={false}>Closed</DropdownButton>
+      <DropdownButton isOpen={true}>Open</DropdownButton>
+      <DropdownButton isOpen={false} notificationsCount={3}>
+        Closed with notifications
+      </DropdownButton>
+      <DropdownButton isOpen={true} notificationsCount={3}>
+        Open with notifications
+      </DropdownButton>
+      <DropdownButton isOpen={false} notificationsCount={30}>
+        More notifications
+      </DropdownButton>
+      <DropdownButton isOpen={false} notificationsCount={300}>
+        More notifications
+      </DropdownButton>
+      <DropdownButton isOpen={false} notificationsCount={3000}>
+        More notifications
+      </DropdownButton>
+    </div>
+  ))

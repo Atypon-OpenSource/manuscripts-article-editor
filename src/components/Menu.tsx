@@ -1,10 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import ProjectsMenu from '../containers/ProjectsMenu'
+import ProjectsDropdownButton from '../containers/ProjectsDropdownButton'
 import UserContainer from '../containers/UserContainer'
 import Close from '../icons/close'
 import { styled } from '../theme'
-import { DeveloperMenu, MenuLabel } from './DeveloperMenu'
+import { DeveloperMenu } from './DeveloperMenu'
 import MenuDropdown from './MenuDropdown'
 
 export const MenuContainer = styled.div`
@@ -76,20 +76,11 @@ export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
     </MenuBarIcon>
     <MenuSections>
       <MenuSection>
-        <MenuDropdown
-          id={'projects-dropdown'}
-          buttonContents={<MenuLink to={'/projects'}>Projects</MenuLink>}
-        >
-          <ProjectsMenu handleClose={handleClose} />
-        </MenuDropdown>
-
+        <ProjectsDropdownButton />
         <MenuLink to={`/projects/${projectID}/contributors`}>People</MenuLink>
         <MenuLink to={`/projects/${projectID}/library`}>Library</MenuLink>
 
-        <MenuDropdown
-          id={'developer-dropdown'}
-          buttonContents={<MenuLabel>Developer</MenuLabel>}
-        >
+        <MenuDropdown id={'developer-dropdown'} buttonContents={'Developer'}>
           <DeveloperMenu />
         </MenuDropdown>
       </MenuSection>

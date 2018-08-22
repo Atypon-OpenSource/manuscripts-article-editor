@@ -63,7 +63,6 @@ const modalStyle = {
 }
 
 interface Props {
-  children: React.ReactNode
   handleClose: () => void
 }
 

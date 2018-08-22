@@ -23,6 +23,7 @@ import {
   Table,
   TableElement,
   UnorderedListElement,
+  UserProfile,
 } from '../types/components'
 import * as ObjectTypes from './object-types'
 
@@ -47,10 +48,22 @@ export const getComponentFromDoc = async <T extends Component>(
 ): Promise<T & ComponentAttachment> => {
   const data = getComponentData(doc.toJSON())
 
+  // TODO: provide a method for loading attachments from a doc id, instead of this?
   if (doc._attachments) {
     const attachments = await doc.allAttachments()
     const blob = await attachments[0].getData()
-    ;(data as Figure).src = window.URL.createObjectURL(blob)
+    const url = window.URL.createObjectURL(blob)
+
+    switch (data.objectType) {
+      case ObjectTypes.USER_PROFILE:
+        ;(data as UserProfile).image = url
+        break
+
+      case ObjectTypes.FIGURE:
+      default:
+        ;(data as Figure).src = url
+        break
+    }
   }
 
   return data as T & ComponentAttachment

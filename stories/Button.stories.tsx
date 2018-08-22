@@ -8,7 +8,6 @@ import {
   IconButton,
   PrimaryButton,
 } from '../src/components/Button'
-
 import GoogleIcon from '../src/icons/google'
 
 storiesOf('Buttons', module)

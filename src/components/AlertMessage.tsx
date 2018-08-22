@@ -20,7 +20,11 @@ const CloseIcon = styled.div`
 
 const InformativeIcon = styled.div`
   display: flex;
-  margin: 0px 16px 0px 14px;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 10px 0px 8px;
+  width: 32px;
+  height: 24px;
 `
 
 const InnerContainer = styled.div`
@@ -46,7 +50,6 @@ interface State {
 }
 
 interface Props {
-  children: React.ReactNode
   type: string
 }
 
