@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { RxDocument } from 'rxdb'
 import Panel from '../components/Panel'
+import ShareProjectButton from '../components/ShareProjectButton'
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +13,6 @@ import Title from '../editor/manuscript/Title'
 import { TitleField } from '../editor/manuscript/TitleField'
 import { styled } from '../theme'
 import { Manuscript, Project } from '../types/components'
-import ShareProjectButton from './ShareProjectButton'
 
 const SidebarManuscript = styled.div`
   padding: 10px 0;

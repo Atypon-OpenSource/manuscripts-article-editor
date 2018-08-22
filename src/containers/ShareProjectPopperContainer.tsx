@@ -7,9 +7,8 @@ import {
   InvitationValues,
 } from '../components/InvitationForm'
 import { InvitationPopper } from '../components/InvitationPopper'
-import { ShareProjectPopper } from '../components/ShareProjectPopper'
+import { CustomPopper } from '../components/Popper'
 import { ShareURIPopper } from '../components/ShareURIPopper'
-import config from '../config'
 import { projectInvite, requestProjectInvitationToken } from '../lib/api'
 
 type ShareProjectUri = () => Promise<void>
@@ -74,25 +73,29 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
       selectedShareURIRole,
     } = this.state
 
-    return (
-      <ShareProjectPopper popperProps={popperProps}>
-        {isInvite ? (
+    if (isInvite) {
+      return (
+        <CustomPopper popperProps={popperProps}>
           <InvitationPopper
             handleInvitationSubmit={this.handleInvitationSubmit}
             handleSwitching={this.handleSwitching}
           />
-        ) : (
-          <ShareURIPopper
-            dataLoaded={isURILoaded}
-            URI={shownURI}
-            selectedRole={selectedShareURIRole}
-            isCopied={isCopied}
-            handleChange={this.handleShareURIRoleChange}
-            handleCopy={this.copyURI}
-            handleSwitching={this.handleSwitching}
-          />
-        )}
-      </ShareProjectPopper>
+        </CustomPopper>
+      )
+    }
+
+    return (
+      <CustomPopper popperProps={popperProps}>
+        <ShareURIPopper
+          dataLoaded={isURILoaded}
+          URI={shownURI}
+          selectedRole={selectedShareURIRole}
+          isCopied={isCopied}
+          handleChange={this.handleShareURIRoleChange}
+          handleCopy={this.copyURI}
+          handleSwitching={this.handleSwitching}
+        />
+      </CustomPopper>
     )
   }
 
@@ -129,7 +132,7 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
   ) => {
     projectInvite(
       this.props.projectID,
-      [values.email],
+      [{ email: values.email, name: values.name }],
       values.role,
       'message'
     ).then(
@@ -151,17 +154,21 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
   }
 
   private copyURI = async () => {
-    const { selectedShareURIRole, shareURI } = this.state
-    switch (selectedShareURIRole) {
-      case 'Writer':
-        await copyToClipboard(shareURI.writer)
-        break
-      case 'Viewer':
-        await copyToClipboard(shareURI.viewer)
-        break
+    const { isCopied } = this.state
+
+    if (!isCopied) {
+      const { selectedShareURIRole, shareURI } = this.state
+      switch (selectedShareURIRole) {
+        case 'Writer':
+          await copyToClipboard(shareURI.writer)
+          break
+        case 'Viewer':
+          await copyToClipboard(shareURI.viewer)
+          break
+      }
     }
 
-    this.setState({ isCopied: true })
+    this.setState({ isCopied: !isCopied })
   }
 
   private shareProjectURI: ShareProjectUri = async () => {
@@ -181,7 +188,9 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
   }
 
   private invitationURI = (projectID: string, invitationToken: string) => {
-    return `${config.url}/projects/${projectID}/invitation/${invitationToken}/`
+    return `${process.env.BASE_URL}/projects/${encodeURIComponent(
+      projectID
+    )}/invitation/${encodeURIComponent(invitationToken)}/`
   }
 }
 

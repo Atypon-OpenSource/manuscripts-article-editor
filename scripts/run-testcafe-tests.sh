@@ -6,7 +6,7 @@ set -u # exit if a variable isn't set
 yarn install --frozen-lockfile --non-interactive
 
 export SCREENSHOTS=${PWD}/screenshots
-echo $SCREENSHOTS
+echo ${SCREENSHOTS}
 mkdir -p ${SCREENSHOTS}
 
 docker volume create --name=build-cache

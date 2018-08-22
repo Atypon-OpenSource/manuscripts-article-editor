@@ -77,8 +77,8 @@ export const Page: React.SFC<Props> = ({ children, projectID }) => (
           </ProjectLink>
 
           <ProjectLink
-            title={'Contributors'}
-            to={`/projects/${projectID}/contributors`}
+            title={'Collaborators'}
+            to={`/projects/${projectID}/collaborators`}
             exact={true}
           >
             <ProjectContributors />

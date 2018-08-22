@@ -25,3 +25,5 @@ const projects: Project[] = [
 ]
 
 export default projects
+
+export const project = projects[0]

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import { IconButton } from '../components/Button'
+import ShareProjectPopperContainer from '../containers/ShareProjectPopperContainer'
 import ShareProjectIcon from '../icons/shareProject'
 import { styled } from '../theme'
-import ShareProjectPopperContainer from './ShareProjectPopperContainer'
+import { IconButton } from './Button'
 
 const ShareIconButton = styled(IconButton)`
   height: 28px;
@@ -27,6 +27,17 @@ class ShareProjectButton extends React.Component<Props, State> {
     isOpen: false,
   }
 
+  private node: Node
+  private closedNow: boolean = false
+
+  public componentWillMount() {
+    document.addEventListener('mousedown', this.handleClickOutside, false)
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside, false)
+  }
+
   public render() {
     const { isOpen } = this.state
 
@@ -42,10 +53,12 @@ class ShareProjectButton extends React.Component<Props, State> {
         {isOpen && (
           <Popper placement={'bottom'}>
             {(popperProps: PopperChildrenProps) => (
-              <ShareProjectPopperContainer
-                projectID={this.props.projectID}
-                popperProps={popperProps}
-              />
+              <div ref={(node: HTMLDivElement) => (this.node = node)}>
+                <ShareProjectPopperContainer
+                  projectID={this.props.projectID}
+                  popperProps={popperProps}
+                />
+              </div>
             )}
           </Popper>
         )}
@@ -54,9 +67,25 @@ class ShareProjectButton extends React.Component<Props, State> {
   }
 
   private toggleOpen = () => {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    })
+    if (!this.closedNow) {
+      this.setState({
+        isOpen: true,
+      })
+    }
+  }
+
+  private handleClickOutside: EventListener = (event: Event) => {
+    if (this.node && !this.node.contains(event.target as Node)) {
+      this.setState({
+        isOpen: false,
+      })
+
+      this.closedNow = true
+
+      setTimeout(() => {
+        this.closedNow = false
+      }, 100)
+    }
   }
 }
 

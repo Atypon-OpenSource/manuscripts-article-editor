@@ -116,21 +116,60 @@ export const logout = () =>
     token.remove()
   })
 
+const convertUserID = (userID: string) => userID.replace('_', '|')
+
+export const addProjectUser = (
+  projectID: string,
+  userID: string,
+  role: string
+) =>
+  client.post(`/project/${encodeURIComponent(projectID)}/addUser`, {
+    role,
+    userId: convertUserID(userID),
+  })
+
+export const updateUserRole = (
+  projectID: string,
+  userID: string,
+  newRole: string | null
+) =>
+  client.post(`/project/${encodeURIComponent(projectID)}/roles`, {
+    newRole,
+    managedUserId: convertUserID(userID),
+  })
+
+// TODO: find a better place for this
+interface InvitedUsersData {
+  email: string
+  name?: string
+}
+
 export const projectInvite = (
   projectID: string,
-  invitedUsersEmails: string[],
+  invitedUsers: InvitedUsersData[],
   role: string,
   message: string
 ) =>
-  client.post(`invitation/project/${encodeURI(projectID)}/invite`, {
-    invitedUsersEmails,
+  client.post(`/invitation/project/${encodeURIComponent(projectID)}/invite`, {
+    invitedUsers,
     role,
     message,
   })
 
+export const projectUninvite = (invitationID: string) =>
+  client.delete(`/invitation`, {
+    data: {
+      invitationId: invitationID,
+    },
+  })
+
 export const requestProjectInvitationToken = (id: string, role: string) =>
   client
-    .get(`/invitation/project/${encodeURI(id)}/${encodeURI(role)}`)
+    .get(
+      `/invitation/project/${encodeURIComponent(id)}/${encodeURIComponent(
+        role
+      )}`
+    )
     .then(response => response.data.token)
 
 export const acceptProjectInvitationToken = (token: string) =>

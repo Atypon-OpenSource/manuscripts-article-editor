@@ -14,12 +14,14 @@ import { Centered } from './Page'
 
 interface Props {
   verificationMessage: string
+  loginMessage: string | null
 }
 
 const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
   initialValues,
   validationSchema,
   onSubmit,
+  loginMessage,
   verificationMessage,
 }) => (
   <Centered>
@@ -32,6 +34,9 @@ const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
       verificationMessage === 'Your account is now verified.' && (
         <AlertMessage type={'info'}>{verificationMessage}</AlertMessage>
       )}
+    {loginMessage && (
+      <AlertMessage type={'warning'}>{loginMessage}</AlertMessage>
+    )}
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}

@@ -2,12 +2,12 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { InvitationPopper } from '../src/components/InvitationPopper'
+import ShareProjectButton from '../src/components/ShareProjectButton'
 import { ShareURIPopper } from '../src/components/ShareURIPopper'
-import ShareProjectButton from '../src/containers/ShareProjectButton'
 import { styled } from '../src/theme'
 
 const PopperStory = styled.div`
-  width: 300px;
+  width: 400px;
 `
 
 storiesOf('Invitation', module)

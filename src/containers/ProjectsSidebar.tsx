@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import ShareProjectButton from '../components/ShareProjectButton'
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +12,6 @@ import Add from '../icons/add'
 import { styled } from '../theme'
 import { BibliographicName } from '../types/components'
 import { ProjectInfo } from './ProjectsPageContainer'
-import ShareProjectButton from './ShareProjectButton'
 
 const SidebarProject = styled.div`
   padding: 16px;

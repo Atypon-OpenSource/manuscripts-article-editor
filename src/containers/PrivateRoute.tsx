@@ -10,10 +10,12 @@ import { UserProps, withUser } from '../store/UserProvider'
 
 interface Props {
   component: React.ComponentType<any> // tslint:disable-line:no-any
+  message?: string
 }
 
 const PrivateRoute: React.SFC<Props & RouteProps & UserProps> = ({
   component: Component,
+  message,
   ...rest
 }) => (
   <Route
@@ -34,7 +36,10 @@ const PrivateRoute: React.SFC<Props & RouteProps & UserProps> = ({
           <Redirect
             to={{
               pathname: '/login',
-              state: { from: props.location },
+              state: {
+                from: props.location,
+                loginMessage: message,
+              },
             }}
           />
         )

@@ -24,7 +24,7 @@ const ManuscriptsPage: React.SFC<ManuscriptsPageProps & ManuscriptActions> = ({
   <React.Fragment>
     <PageHeading
       action={
-        <ActionButton onClick={() => addManuscript()}>
+        <ActionButton onClick={addManuscript}>
           <Add size={15} />
         </ActionButton>
       }

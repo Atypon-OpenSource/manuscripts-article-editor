@@ -48,6 +48,7 @@ class AcceptInvitationContainer extends React.Component<
 
   public render() {
     const { success, loading, projectID, message } = this.state
+
     if (loading) {
       return <Spinner />
     }

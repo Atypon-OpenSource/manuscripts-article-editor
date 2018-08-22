@@ -74,3 +74,54 @@ export const DeleteAccountMessage = () => (
     defaultMessage={'Delete account'}
   />
 )
+
+export const SelectCollaboratorMessage = () => (
+  <FormattedMessage
+    id={'select_collaborator'}
+    defaultMessage={
+      'Select a collaborator from the list at the left to display the details here.'
+    }
+  />
+)
+
+export const AddCollaboratorsMessage = () => (
+  <FormattedMessage
+    id={'add_collaborators'}
+    defaultMessage={
+      'You can add collaborators from the people list or send out invitation mails to those not yet in the list.'
+    }
+  />
+)
+
+export const AddedCollaboratorsMessage: React.SFC<{ addedCount: number }> = ({
+  addedCount,
+}) => (
+  <FormattedMessage
+    id={'added_collaborators'}
+    defaultMessage={`You added {addedCount, number} {addedCount, plural,
+                      one {collaborator}
+                      other {collaborators}
+                    }`}
+    values={{ addedCount }}
+  />
+)
+
+export const CheckCollaboratorsSearchMessage: React.SFC<{
+  searchText: string
+}> = ({ searchText }) => (
+  <FormattedMessage
+    id={'check_collaborators_search'}
+    defaultMessage={`Check that the name or email are correct or invite "{searchText}" to
+          join as new Collaborator.`}
+    values={{ searchText }}
+  />
+)
+
+export const InviteCollaboratorsMessage = () => (
+  <FormattedMessage
+    id={'invite_collaborators'}
+    defaultMessage={
+      'You can invite collaborators by sending email to the users you want to add.'
+    }
+  />
+)

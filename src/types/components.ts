@@ -76,6 +76,16 @@ export interface Project extends Component {
   viewers: string[]
 }
 
+export interface ProjectInvitation extends Component {
+  invitedUserEmail: string
+  invitingUserID: string
+  projectID: string
+  message: string
+  role: string
+  projectTitle?: string
+  invitedUserName?: string
+}
+
 export interface Manuscript extends ContainedComponent {
   title: string
   data?: string

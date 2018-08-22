@@ -4,7 +4,9 @@ import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from './components/NotFound'
 import AcceptInvitationContainer from './containers/AcceptInvitationContainer'
+import AddCollaboratorsPageContainer from './containers/AddCollaboratorsPageContainer'
 import ChangePasswordPageContainer from './containers/ChangePasswordPageContainer'
+import CollaboratorsPageContainer from './containers/CollaboratorsPageContainer'
 import DeleteAccountPageContainer from './containers/DeleteAccountPageContainer'
 import DeveloperPageContainer from './containers/DeveloperPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
@@ -70,14 +72,25 @@ const App = () => (
       component={ManuscriptPageContainer}
     />
     <PrivateRoute
-      path={'/projects/:project/invitation/:invitationToken'}
+      path={'/projects/:projectID/invitation/:invitationToken'}
       exact={true}
       component={AcceptInvitationContainer}
+      message={'You must sign in first to access the shared project.'}
     />
     <PrivateRoute
       path={'/projects/:projectID/library'}
       exact={true}
       component={LibraryPageContainer}
+    />
+    <PrivateRoute
+      path={'/projects/:projectID/collaborators'}
+      exact={true}
+      component={CollaboratorsPageContainer}
+    />
+    <PrivateRoute
+      path={'/projects/:projectID/collaborators/add'}
+      exact={true}
+      component={AddCollaboratorsPageContainer}
     />
     <Route path={'/logout'} exact={true} component={LogoutPageContainer} />
     <Route path={'/welcome'} exact={true} component={WelcomePageContainer} />

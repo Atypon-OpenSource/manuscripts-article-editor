@@ -1,3 +1,4 @@
+import { dustyGrey, manuscriptsBlue } from '../colors'
 import { styled, ThemedOuterProps, ThemedProps } from '../theme'
 
 export type ThemedButtonProps = ThemedProps<HTMLButtonElement>
@@ -108,6 +109,56 @@ export const ActionButton = styled.div`
 
   &:focus {
     outline: none;
+  }
+`
+
+export const TransparentBlackButton = styled(Button)`
+  color: #585858;
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+    border-color: ${manuscriptsBlue};
+    color: ${manuscriptsBlue};
+  }
+
+  &:active {
+    border-color: transparent;
+    background-color: transparent;
+    color: ${dustyGrey};
+  }
+`
+
+export const TransparentGreyButton = styled(Button)`
+  color: ${dustyGrey};
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+    border-color: ${manuscriptsBlue};
+    color: ${manuscriptsBlue};
+  }
+
+  &:active {
+    border-color: transparent;
+    background-color: transparent;
+    color: ${dustyGrey};
+  }
+`
+
+export const ManuscriptBlueButton = styled(PrimaryButton)`
+  background-color: ${manuscriptsBlue};
+
+  & :hover {
+    background-color: transparent;
+    border-color: ${manuscriptsBlue};
+    color: ${manuscriptsBlue};
+  }
+
+  & :active {
+    border-color: transparent;
+    background-color: transparent;
+    color: ${manuscriptsBlue};
   }
 `
 

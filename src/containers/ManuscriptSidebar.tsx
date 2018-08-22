@@ -2,6 +2,7 @@ import * as React from 'react'
 import debounceRender from 'react-debounce-render'
 import { DraggableTreeProps } from '../components/DraggableTree'
 import Panel from '../components/Panel'
+import ShareProjectButton from '../components/ShareProjectButton'
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +12,6 @@ import {
 import { Selected } from '../editor/lib/utils'
 import { TitleField } from '../editor/manuscript/TitleField'
 import { Manuscript, Project } from '../types/components'
-// import ComponentsStatusContainer from './ComponentsStatusContainer'
 import ManuscriptOutlineContainer from './ManuscriptOutlineContainer'
 
 interface Props {
@@ -58,6 +58,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
             }
           />
         </ProjectTitle>
+        <ShareProjectButton projectID={project.id} />
       </SidebarHeader>
 
       <SidebarContent>
@@ -67,7 +68,6 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
           onDrop={onDrop}
           selected={selected}
         />
-        {/*<ComponentsStatusContainer />*/}
       </SidebarContent>
     </StyledSidebar>
   </Panel>

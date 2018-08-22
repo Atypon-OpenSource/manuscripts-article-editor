@@ -2,25 +2,22 @@ import React from 'react'
 import { altoGrey, dustyGrey, manuscriptsBlue } from '../colors'
 import SuccessGreen from '../icons/success'
 import { styled } from '../theme'
-import { Button, PrimaryButton } from './Button'
-import {
-  Control,
-  Main,
-  PopperBodyContainer,
-  RadioButton,
-  ShareProjectHeader,
-  ShareProjectTitle,
-  TextHint,
-} from './ShareProjectPopper'
+import { Button, ManuscriptBlueButton, TransparentGreyButton } from './Button'
+import { ShareProjectHeader, ShareProjectTitle } from './InvitationPopper'
+import { PopperBody } from './Popper'
+import { RadioButton } from './RadioButton'
 import { TextField } from './TextField'
 
 const URIFieldContainer = styled.div`
   display: flex;
+  margin-bottom: 21px;
+
   & ${TextField} {
     border-color: ${altoGrey};
     border-right: transparent;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
+    width: 78%;
   }
 
   & ${Button} {
@@ -30,18 +27,19 @@ const URIFieldContainer = styled.div`
     border-left: transparent;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+    width: 22%;
   }
 
   & ${Button}:active {
     color: ${dustyGrey};
     background-color: white;
-    border-color: white;
   }
 `
 
 const SuccessCopiedMessage = styled.div`
   display: flex;
   padding: 8px;
+  margin-bottom: 21px;
   border-radius: 6px;
   background-color: #dff0d7;
   border: solid 1px #d6e9c5;
@@ -67,7 +65,36 @@ const CopiedMessageText = styled.div`
   margin-left: 8px;
 `
 
-export interface Props {
+const LinkButton = styled(ManuscriptBlueButton)`
+  width: 70px;
+  text-transform: none;
+`
+
+const InviteButton = styled(TransparentGreyButton)`
+  width: 70px;
+  text-transform: none;
+`
+
+export const MiniText = styled.span`
+  font-size: 14px;
+  letter-spacing: -0.3px;
+  text-align: left;
+  color: ${dustyGrey};
+  clear: both;
+  display: block;
+  margin-bottom: 11px;
+`
+
+const OKText = styled.div`
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+`
+
+interface Props {
   dataLoaded: boolean
   URI: string
   selectedRole: string
@@ -86,68 +113,62 @@ export const ShareURIPopper: React.SFC<Props> = ({
   handleCopy,
   handleSwitching,
 }) => (
-  <PopperBodyContainer>
+  <PopperBody>
     <ShareProjectHeader>
       <ShareProjectTitle>Share Project</ShareProjectTitle>
-      <PrimaryButton>Link</PrimaryButton>
-      <Button onClick={() => handleSwitching(true)}>Invite</Button>
+      <div>
+        <LinkButton>Link</LinkButton>
+        <InviteButton onClick={() => handleSwitching(true)}>
+          Invite
+        </InviteButton>
+      </div>
     </ShareProjectHeader>
-    <Main>
-      {dataLoaded ? (
-        <div>
-          {isCopied ? (
-            <SuccessCopiedMessage>
-              <CopiedMessageContentContainer>
-                <SuccessGreen />
-                <CopiedMessageText>Link copied to clipboard.</CopiedMessageText>
-              </CopiedMessageContentContainer>
-            </SuccessCopiedMessage>
-          ) : (
-            <URIFieldContainer>
-              <TextField
-                name={'url'}
-                type={'text'}
-                disabled={true}
-                value={URI}
-                style={{ backgroundColor: 'white' }}
-              />
-              <Button onClick={() => handleCopy()}>COPY</Button>
-            </URIFieldContainer>
-          )}
-          <TextHint>Anyone with the link can join as:</TextHint>
-          <Control>
-            <input
-              name={'role'}
-              type={'radio'}
-              checked={selectedRole === 'Writer'}
-              value={'Writer'}
-              onChange={handleChange}
+    {dataLoaded ? (
+      <React.Fragment>
+        {isCopied ? (
+          <SuccessCopiedMessage>
+            <CopiedMessageContentContainer>
+              <SuccessGreen />
+              <CopiedMessageText>Link copied to clipboard.</CopiedMessageText>
+              <OKText onClick={handleCopy}>OK</OKText>
+            </CopiedMessageContentContainer>
+          </SuccessCopiedMessage>
+        ) : (
+          <URIFieldContainer>
+            <TextField
+              name={'url'}
+              type={'text'}
+              disabled={true}
+              value={URI}
+              style={{ backgroundColor: 'white' }}
             />
-            <RadioButton />
-            Writer
-            <TextHint>Can modify project contents</TextHint>
-          </Control>
-          <br />
-          <Control>
-            <input
-              name={'role'}
-              type={'radio'}
-              checked={selectedRole === 'Viewer'}
-              value={'Viewer'}
-              onChange={handleChange}
-            />
-            <RadioButton />
-            Viewer
-            <TextHint>
-              Can only review projects without
-              <br />
-              modifying it
-            </TextHint>
-          </Control>
-        </div>
-      ) : (
-        <div>Thinking...</div>
-      )}
-    </Main>
-  </PopperBodyContainer>
+            <Button onClick={handleCopy}>COPY</Button>
+          </URIFieldContainer>
+        )}
+        <MiniText>Anyone with the link can join as:</MiniText>
+        <RadioButton
+          name={'role'}
+          checked={selectedRole === 'Writer'}
+          value={'Writer'}
+          disabled={isCopied}
+          textHint={'Can modify project contents'}
+          onChange={handleChange}
+        >
+          Writer
+        </RadioButton>
+        <RadioButton
+          name={'role'}
+          checked={selectedRole === 'Viewer'}
+          value={'Viewer'}
+          disabled={isCopied}
+          textHint={'Can only review projects without modifying it'}
+          onChange={handleChange}
+        >
+          Viewer
+        </RadioButton>
+      </React.Fragment>
+    ) : (
+      <div>Thinking...</div>
+    )}
+  </PopperBody>
 )

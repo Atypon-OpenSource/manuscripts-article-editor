@@ -13,8 +13,10 @@ export const Sidebar = styled.div`
 export const SidebarHeader = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
   padding: 0 12px;
+  flex-shrink: 0;
 `
 
 export const SidebarTitle = styled.div`

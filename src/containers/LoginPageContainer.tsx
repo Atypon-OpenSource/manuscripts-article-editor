@@ -18,6 +18,7 @@ import { loginSchema } from '../validation'
 interface State {
   error: boolean
   verificationMessage: string
+  loginMessage: string | null
 }
 
 interface ErrorMessage {
@@ -31,6 +32,7 @@ class LoginPageContainer extends React.Component<
   public state: Readonly<State> = {
     error: false,
     verificationMessage: '',
+    loginMessage: '',
   }
 
   private initialValues: LoginValues = {
@@ -59,7 +61,8 @@ class LoginPageContainer extends React.Component<
     const state = this.props.location.state
     if (state) {
       this.setState({
-        verificationMessage: this.props.location.state.verificationMessage,
+        verificationMessage: state.verificationMessage,
+        loginMessage: state.loginMessage || null,
       })
     }
   }
@@ -87,6 +90,7 @@ class LoginPageContainer extends React.Component<
             validationSchema={loginSchema}
             onSubmit={this.handleSubmit}
             verificationMessage={this.state.verificationMessage}
+            loginMessage={this.state.loginMessage}
           />
         </Main>
       </Page>
@@ -129,7 +133,6 @@ class LoginPageContainer extends React.Component<
       }
     )
   }
-
   private errorResponseMessage = (status: number) => {
     switch (status) {
       case HttpStatusCodes.BAD_REQUEST:

@@ -21,7 +21,7 @@ import {
   signupSchema,
 } from '../src/validation'
 
-storiesOf('Forms', module)
+storiesOf('Forms/Authentication', module)
   .add('Sign up', () => (
     <React.Fragment>
       <Formik

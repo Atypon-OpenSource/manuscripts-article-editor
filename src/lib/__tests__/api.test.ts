@@ -152,4 +152,20 @@ describe('api', () => {
 
     expect(token.get()).toBeNull()
   })
+
+  it('removes the invitation', async () => {
+    const mock = new MockAdapter(client)
+
+    mock.onDelete('/invitation').reply(HttpStatusCodes.OK)
+
+    const tokenData = {
+      access_token: 'foobar',
+    }
+
+    token.set(tokenData)
+
+    const result = await api.projectUninvite('MPProjectInvitation:valid-id')
+
+    expect(result.status).toBe(HttpStatusCodes.OK)
+  })
 })

@@ -37,6 +37,7 @@ storiesOf('Pages', module)
       validationSchema={loginSchema}
       onSubmit={action('login')}
       verificationMessage={''}
+      loginMessage={''}
     />
   ))
   .add('Recover', () => (
