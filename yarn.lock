@@ -603,7 +603,7 @@
     core-js "^2.5.7"
     regenerator-runtime "^0.12.0"
 
-"@babel/runtime@7.0.0-rc.1", "@babel/runtime@^7.0.0-beta.55":
+"@babel/runtime@7.0.0-rc.1", "@babel/runtime@^7.0.0-rc.1":
   version "7.0.0-rc.1"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.0.0-rc.1.tgz#42f36fc5817911c89ea75da2b874054922967616"
   dependencies:
@@ -3068,6 +3068,10 @@ buffer-from@0.1.1:
   resolved "https://registry.npmjs.org/buffer-from/-/buffer-from-0.1.1.tgz#57b18b1da0a19ec06f33837a5275a242351bd75e"
   dependencies:
     is-array-buffer-x "^1.0.13"
+
+buffer-from@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/buffer-from/-/buffer-from-1.1.0.tgz#87fcaa3a298358e0ade6e442cfce840740d1ad04"
 
 buffer-from@^1.0.0:
   version "1.1.1"
@@ -8367,9 +8371,9 @@ pouchdb-adapter-http@^6.4.3:
     pouchdb-promise "6.4.3"
     pouchdb-utils "6.4.3"
 
-pouchdb-adapter-idb@^6.4.3:
-  version "6.4.3"
-  resolved "https://registry.npmjs.org/pouchdb-adapter-idb/-/pouchdb-adapter-idb-6.4.3.tgz#5610ca073aedf75723371de6fd906b7eb5962d0c"
+"pouchdb-adapter-idb@https://gitlab.com/mpapp-public/pouchdb-adapter-idb/-/archive/e440a7c/pouchdb-adapter-idb-master.tar.gz":
+  version "7.0.0-prerelease"
+  resolved "https://gitlab.com/mpapp-public/pouchdb-adapter-idb/-/archive/e440a7c/pouchdb-adapter-idb-master.tar.gz#59253fa7353bd2ee852250697c6e3aeeb9be6dd8"
   dependencies:
     pouchdb-adapter-utils "6.4.3"
     pouchdb-binary-utils "6.4.3"
@@ -8436,6 +8440,12 @@ pouchdb-binary-utils@6.4.3:
   dependencies:
     buffer-from "0.1.1"
 
+pouchdb-binary-utils@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pouchdb-binary-utils/-/pouchdb-binary-utils-7.0.0.tgz#cb71a288b09572a231f6bab1b4aed201c4d219a7"
+  dependencies:
+    buffer-from "1.1.0"
+
 pouchdb-bulkdocs-wrapper@4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/pouchdb-bulkdocs-wrapper/-/pouchdb-bulkdocs-wrapper-4.0.1.tgz#36d05fcc3d41b0f2689433f842e3cde706e37952"
@@ -8454,21 +8464,28 @@ pouchdb-changeslike-wrapper@4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/pouchdb-changeslike-wrapper/-/pouchdb-changeslike-wrapper-4.0.1.tgz#6311644b7835f1197da8e11696139fd9e3e60aa7"
 
-pouchdb-checkpointer@6.4.3:
-  version "6.4.3"
-  resolved "https://registry.npmjs.org/pouchdb-checkpointer/-/pouchdb-checkpointer-6.4.3.tgz#af0e429ca3fe8b86000412f4fc6e9ea98d956992"
+pouchdb-checkpointer@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pouchdb-checkpointer/-/pouchdb-checkpointer-7.0.0.tgz#e02b98f18c7a50fb01c31c865b735d0d9dc7be1d"
   dependencies:
-    pouchdb-collate "6.4.3"
-    pouchdb-promise "6.4.3"
-    pouchdb-utils "6.4.3"
+    pouchdb-collate "7.0.0"
+    pouchdb-utils "7.0.0"
 
 pouchdb-collate@6.4.3:
   version "6.4.3"
   resolved "https://registry.npmjs.org/pouchdb-collate/-/pouchdb-collate-6.4.3.tgz#55a77a1a3e1c2cf86fe4d02aea171e10c2a3f944"
 
+pouchdb-collate@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pouchdb-collate/-/pouchdb-collate-7.0.0.tgz#4f9a0a03c236f1677a971c400b79b7baf6379a4d"
+
 pouchdb-collections@6.4.3, pouchdb-collections@^6.4.1:
   version "6.4.3"
   resolved "https://registry.npmjs.org/pouchdb-collections/-/pouchdb-collections-6.4.3.tgz#2b70ca3143134c361dba6e466518b4f4d8e92ff4"
+
+pouchdb-collections@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pouchdb-collections/-/pouchdb-collections-7.0.0.tgz#fd1f632337dc6301b0ff8649732ca79204e41780"
 
 pouchdb-core@6.4.3:
   version "6.4.3"
@@ -8496,6 +8513,12 @@ pouchdb-errors@6.4.3:
   dependencies:
     inherits "2.0.3"
 
+pouchdb-errors@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pouchdb-errors/-/pouchdb-errors-7.0.0.tgz#4e2a5a8b82af20cbe5f9970ca90b7ec74563caa0"
+  dependencies:
+    inherits "2.0.3"
+
 pouchdb-fauxton@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/pouchdb-fauxton/-/pouchdb-fauxton-0.0.6.tgz#fcfae265a3d621e913ebd035eec338a4efa92aa1"
@@ -8511,13 +8534,12 @@ pouchdb-find@6.4.3, pouchdb-find@^6.4.1:
     pouchdb-selector-core "6.4.3"
     pouchdb-utils "6.4.3"
 
-pouchdb-generate-replication-id@6.4.3:
-  version "6.4.3"
-  resolved "https://registry.npmjs.org/pouchdb-generate-replication-id/-/pouchdb-generate-replication-id-6.4.3.tgz#a11806f511991389c641e81ed46e7460f75bc570"
+pouchdb-generate-replication-id@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pouchdb-generate-replication-id/-/pouchdb-generate-replication-id-7.0.0.tgz#1d885e949a326623fabef747ecfdf6d492765274"
   dependencies:
-    pouchdb-collate "6.4.3"
-    pouchdb-md5 "6.4.3"
-    pouchdb-promise "6.4.3"
+    pouchdb-collate "7.0.0"
+    pouchdb-md5 "7.0.0"
 
 pouchdb-json@6.4.3:
   version "6.4.3"
@@ -8553,6 +8575,13 @@ pouchdb-md5@6.4.3:
     pouchdb-binary-utils "6.4.3"
     spark-md5 "3.0.0"
 
+pouchdb-md5@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pouchdb-md5/-/pouchdb-md5-7.0.0.tgz#935dc6bb507a5f3978fb653ca5790331bae67c96"
+  dependencies:
+    pouchdb-binary-utils "7.0.0"
+    spark-md5 "3.0.0"
+
 pouchdb-merge@6.4.3:
   version "6.4.3"
   resolved "https://registry.npmjs.org/pouchdb-merge/-/pouchdb-merge-6.4.3.tgz#4ef901f4aaa27be6aec0108998a127fe55bb0628"
@@ -8573,16 +8602,15 @@ pouchdb-promise@6.4.3, pouchdb-promise@^6.4.1:
   dependencies:
     lie "3.1.1"
 
-pouchdb-replication@6.4.3:
-  version "6.4.3"
-  resolved "https://registry.npmjs.org/pouchdb-replication/-/pouchdb-replication-6.4.3.tgz#33718e2b100883707d56a9cc0ec7acba1a7355dd"
+pouchdb-replication@6.4.3, "pouchdb-replication@https://gitlab.com/mpapp-public/pouchdb-replication/-/archive/13f2acf7/pouchdb-replication-master.tar.gz":
+  version "7.0.0-prerelease"
+  resolved "https://gitlab.com/mpapp-public/pouchdb-replication/-/archive/13f2acf7/pouchdb-replication-master.tar.gz#9950235e8bc0dd9b0ca369163723b247d25c9046"
   dependencies:
     inherits "2.0.3"
-    pouchdb-checkpointer "6.4.3"
-    pouchdb-errors "6.4.3"
-    pouchdb-generate-replication-id "6.4.3"
-    pouchdb-promise "6.4.3"
-    pouchdb-utils "6.4.3"
+    pouchdb-checkpointer "7.0.0"
+    pouchdb-errors "7.0.0"
+    pouchdb-generate-replication-id "7.0.0"
+    pouchdb-utils "7.0.0"
 
 pouchdb-replicator@4.0.1:
   version "4.0.1"
@@ -8697,6 +8725,19 @@ pouchdb-utils@6.4.3:
     pouchdb-collections "6.4.3"
     pouchdb-errors "6.4.3"
     pouchdb-promise "6.4.3"
+    uuid "3.2.1"
+
+pouchdb-utils@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pouchdb-utils/-/pouchdb-utils-7.0.0.tgz#48bfced6665b8f5a2b2d2317e2aa57635ed1e88e"
+  dependencies:
+    argsarray "0.0.1"
+    clone-buffer "1.0.0"
+    immediate "3.0.6"
+    inherits "2.0.3"
+    pouchdb-collections "7.0.0"
+    pouchdb-errors "7.0.0"
+    pouchdb-md5 "7.0.0"
     uuid "3.2.1"
 
 pouchdb-validation@4.0.1:
@@ -9868,9 +9909,9 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxdb@^7.6.1:
+"rxdb@https://gitlab.com/mpapp-public/rxdb/-/archive/b447535/rxdb-master.tar.gz":
   version "7.7.1"
-  resolved "https://registry.npmjs.org/rxdb/-/rxdb-7.7.1.tgz#fc69859e85464142dbcecb6201224d8598de6042"
+  resolved "https://gitlab.com/mpapp-public/rxdb/-/archive/b447535/rxdb-master.tar.gz#c2c72dadd7098c9fb70a1f5275847fe7b5ee2195"
   dependencies:
     babel-runtime "^6.26.0"
     clone "^2.1.1"
@@ -11268,10 +11309,10 @@ unique-slug@^2.0.0:
     imurmurhash "^0.1.4"
 
 universal-dotenv@^1.8.2:
-  version "1.8.2"
-  resolved "https://registry.npmjs.org/universal-dotenv/-/universal-dotenv-1.8.2.tgz#2137163a8583520591c99a6aa40d82c3d0f07026"
+  version "1.8.3"
+  resolved "https://registry.npmjs.org/universal-dotenv/-/universal-dotenv-1.8.3.tgz#91576ae50c362ad525e326e7eea5d037094807a8"
   dependencies:
-    "@babel/runtime" "^7.0.0-beta.55"
+    "@babel/runtime" "^7.0.0-rc.1"
     app-root-dir "^1.0.2"
     core-js "^2.5.7"
     dotenv "^6.0.0"

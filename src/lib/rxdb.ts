@@ -5,6 +5,7 @@ import RxDB from 'rxdb/plugins/core'
 import RxDBErrorMessagesModule from 'rxdb/plugins/error-messages'
 // import RxDBKeyCompressionModule from 'rxdb/plugins/key-compression'
 import RxDBLeaderElectionModule from 'rxdb/plugins/leader-election'
+import RxDBLocalDocumentsModule from 'rxdb/plugins/local-documents'
 import RxDBNoValidateModule from 'rxdb/plugins/no-validate'
 import RxDBReplicationModule from 'rxdb/plugins/replication'
 import RxDBSchemaCheckModule from 'rxdb/plugins/schema-check'
@@ -27,6 +28,8 @@ RxDB.plugin(RxDBReplicationModule)
 RxDB.plugin(RxDBAttachmentsModule)
 RxDB.plugin(RxDBLeaderElectionModule)
 RxDB.plugin(RxDBUpdateModule)
+RxDB.plugin(RxDBLocalDocumentsModule)
+
 // RxDB.plugin(RxDBKeyCompressionModule)
 
 /* istanbul ignore next */

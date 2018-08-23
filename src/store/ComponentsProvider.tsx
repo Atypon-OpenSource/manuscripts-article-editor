@@ -69,7 +69,7 @@ class ComponentsProvider extends DataProvider {
     //   return <Spinner />
     // }
 
-    if (!this.state.completed) {
+    if (!this.state.pull.completed) {
       return <Spinner color={'green'} />
     }
 

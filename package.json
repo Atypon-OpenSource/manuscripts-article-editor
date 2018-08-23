@@ -87,7 +87,7 @@
     "mathjax3": "^3.0.0-beta.1",
     "popper.js": "^1.14.1",
     "pouchdb-adapter-http": "^6.4.3",
-    "pouchdb-adapter-idb": "^6.4.3",
+    "pouchdb-adapter-idb": "https://gitlab.com/mpapp-public/pouchdb-adapter-idb/-/archive/e440a7c/pouchdb-adapter-idb-master.tar.gz",
     "prosemirror-commands": "^1.0.4",
     "prosemirror-dropcursor": "^1.0.0",
     "prosemirror-gapcursor": "^1.0.0",
@@ -119,7 +119,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-select": "^2.0.0-beta.7",
-    "rxdb": "^7.6.1",
+    "rxdb": "https://gitlab.com/mpapp-public/rxdb/-/archive/b447535/rxdb-master.tar.gz",
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.1.0",
     "style-loader": "^0.22.1",
@@ -173,5 +173,8 @@
     "tslint-plugin-prettier": "^1.3.0",
     "tslint-react": "^3.4.0",
     "webpack-dev-server": "^3.0.0"
+  },
+  "resolutions": {
+    "rxdb/pouchdb-replication": "https://gitlab.com/mpapp-public/pouchdb-replication/-/archive/13f2acf7/pouchdb-replication-master.tar.gz"
   }
 }

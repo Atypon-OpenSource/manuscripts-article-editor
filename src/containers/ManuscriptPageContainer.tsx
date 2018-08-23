@@ -4,7 +4,7 @@ import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import { Prompt, RouteComponentProps } from 'react-router'
-import { RxAttachmentCreator, RxCollection } from 'rxdb'
+import { RxAttachmentCreator, RxCollection, RxLocalDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import { DropSide, TreeItem } from '../components/DraggableTree'
 import { Main, Page } from '../components/Page'
@@ -253,6 +253,21 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       if (!components.length) {
         throw new Error('No components found')
       }
+
+      // tslint:disable-next-line:no-any
+      let localDoc: RxLocalDocument<any> = await this.getCollection().getLocal(
+        manuscriptID
+      )
+
+      // TODO: move this
+      // tslint:disable-next-line:strict-type-predicates
+      if (localDoc === null) {
+        localDoc = await this.getCollection().insertLocal(manuscriptID, {})
+      }
+
+      localDoc.$.subscribe(doc => {
+        console.log('Conflicts:', doc) // tslint:disable-line:no-console
+      })
 
       const componentMap = await buildComponentMap(components)
 
@@ -663,6 +678,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       'id',
       '_id',
       '_rev',
+      '_revisions',
       'sessionID',
       'createdAt',
       'updatedAt',

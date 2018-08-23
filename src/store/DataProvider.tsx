@@ -4,6 +4,7 @@ import { RxCollectionCreator, RxReplicationState } from 'rxdb'
 import { PouchReplicationOptions } from 'rxdb/src/typings/pouch'
 import config from '../config'
 import * as api from '../lib/api'
+import { handleConflicts } from '../lib/conflicts'
 import { Db, waitForDB } from '../lib/rxdb'
 import { ComponentCollection } from '../types/components'
 
@@ -14,26 +15,53 @@ export interface ComponentObject {
   [key: string]: any // tslint:disable-line:no-any
 }
 
+interface PouchReplicationError {
+  error: string
+  id: string
+  rev: string
+  message: string
+  name: string
+  ok: boolean
+  reason: string
+  status: number
+  result?: {
+    errors: PouchReplicationError[]
+  }
+}
+
+export interface ReplicationState {
+  active: boolean
+  completed: boolean
+}
+
+type Direction = 'push' | 'pull'
+
 export interface DataProviderState {
   active: boolean
   collection: ComponentCollection | null
-  completed: object | boolean
+  push: ReplicationState
+  pull: ReplicationState
   error: string | null
-  replication: RxReplicationState | null
 }
 
 export interface DataProviderContext extends DataProviderState {
   collection: ComponentCollection | null
-  sync: (options: PouchReplicationOptions) => void
+  sync: (options: PouchReplicationOptions, direction: 'push' | 'pull') => void
 }
 
 class DataProvider extends React.Component<{}, DataProviderState> {
   public state: Readonly<DataProviderState> = {
     active: false,
     collection: null,
-    completed: false,
+    pull: {
+      active: false,
+      completed: false,
+    },
+    push: {
+      active: false,
+      completed: false,
+    },
     error: null,
-    replication: null,
   }
 
   protected options: RxCollectionCreator
@@ -54,13 +82,19 @@ class DataProvider extends React.Component<{}, DataProviderState> {
 
     // TODO: only sync when there's a token?
 
-    this.sync({ live: false }) // initial sync
+    // wait for initial pull of data to finish
+    await this.sync({ live: false, retry: true }, 'pull')
+    // start ongoing pull sync
+    // tslint:disable-next-line:no-floating-promises
+    this.sync({ live: true, retry: true }, 'pull')
+
+    // start ongoing push sync
+    // tslint:disable-next-line:no-floating-promises
+    this.sync({ live: true, retry: true }, 'push') // ongoing push sync
   }
 
-  protected sync = (options: PouchReplicationOptions = {}) => {
+  protected sync = (options: PouchReplicationOptions, direction: Direction) => {
     this.setState({ error: null })
-
-    // return this.setState({ completed: true })
 
     console.log('syncing', this.options, options) // tslint:disable-line:no-console
 
@@ -69,61 +103,100 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     const replication = collection.sync({
       remote: config.gateway.url + this.path,
       waitForLeadership: false, // TODO: remove this for production
+      direction: {
+        push: direction === 'push',
+        pull: direction === 'pull',
+      },
       options,
     })
 
-    replication.active$.subscribe(active => {
-      this.setState({ active })
-    })
-
-    replication.complete$.subscribe(completed => {
-      console.log({ completed }) // tslint:disable-line:no-console
-
-      if (completed) {
-        this.setState({ completed: true })
-
-        if (!options.live) {
-          // start live syncing
-          this.sync({ live: true })
-        }
-      }
-    })
-
-    replication.error$.subscribe((error: PouchDB.Core.Error) => {
-      console.error(error) // tslint:disable-line:no-console
-
-      replication
-        .cancel()
-        .then(() => {
-          this.handleSyncError(error)
-            .then(() => {
-              this.sync(options)
-            })
-            .catch(() => {
-              this.setState({
-                completed: true, // continue offline if necessary
-                error: error.message || null,
-              })
-            })
-        })
-        .catch(e => {
-          // tslint:disable-next-line:no-console
-          console.error('Replication failed due to error', e)
-        })
-    })
-
-    // replication.change$.subscribe(change => {
-    //   console.dir({ change })
-    // })
-    //
-    // replication.docs$.subscribe(docData => {
-    //   console.dir({ docData })
-    // })
-
-    return replication
+    return this.addSyncHandlers(replication, options, direction)
   }
 
-  private handleSyncError = async (error: PouchDB.Core.Error) => {
+  private setCompletedState(direction: Direction, value: boolean) {
+    // TODO: make this typed somehow (i.e. no object assign)
+    this.setState({
+      ...this.state,
+      [direction]: {
+        ...this.state[direction],
+        completed: value,
+      },
+    })
+  }
+
+  private setActiveState(direction: Direction, value: boolean) {
+    // TODO: make this typed somehow (i.e. no object assign)
+    this.setState({
+      ...this.state,
+      [direction]: {
+        ...this.state[direction],
+        active: value,
+      },
+    })
+  }
+
+  // Returns a promise that resolves when syncing completes successfully
+  // `live: true` syncs never complete
+  private addSyncHandlers = (
+    replication: RxReplicationState,
+    options: PouchReplicationOptions,
+    direction: Direction
+  ) => {
+    return new Promise((resolve, reject) => {
+      replication.active$.subscribe(active => {
+        this.setActiveState(direction, active)
+      })
+
+      // For `live: true` the replication never completes
+      replication.complete$.subscribe(completed => {
+        console.log({ completed }) // tslint:disable-line:no-console
+
+        if (completed) {
+          this.setCompletedState(direction, true)
+          return resolve()
+        }
+      })
+
+      replication.error$.subscribe(async (error: PouchReplicationError) => {
+        try {
+          await this.handleSyncError(error, direction)
+        } catch (e) {
+          // Unhandled sync error
+          // Bail out and cancel syncing
+          this.setCompletedState(direction, true)
+          this.setState({ error: error.message || null })
+
+          // await replication.cancel()
+
+          // tslint:disable-next-line:no-console
+          console.error('Replication failed due to error', e)
+          // reject()
+          resolve()
+        }
+      })
+    })
+  }
+
+  private handleSyncError = async (
+    error: PouchReplicationError,
+    direction: Direction
+  ) => {
+    if (direction === 'push') {
+      if (error.error === 'conflict' && error.result && error.result.errors) {
+        const conflicts = error.result.errors
+          .filter(e => e.error === 'conflict')
+          .map(({ id, rev }) => ({ id, rev }))
+
+        const collection = this.state.collection
+
+        if (!collection) {
+          throw new Error('Collection not initialized')
+        }
+
+        return handleConflicts(collection, conflicts)
+      }
+    }
+
     switch (error.status) {
       // unauthorized, start a new sync gateway session if signed in
       case HttpStatusCodes.UNAUTHORIZED:
