@@ -39,6 +39,7 @@ testcafe-chromium:
   script:
     - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
     - ./scripts/run-testcafe-tests.sh testcafe_chromium
+  allow_failure: true
   after_script:
     - yarn run docker-compose:testcafe down -v
   artifacts:
@@ -54,6 +55,7 @@ testcafe-firefox:
   script:
     - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
     - ./scripts/run-testcafe-tests.sh testcafe_firefox
+  allow_failure: true
   after_script:
     - yarn run docker-compose:testcafe down -v
   artifacts:
