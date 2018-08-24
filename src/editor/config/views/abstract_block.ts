@@ -193,8 +193,10 @@ abstract class AbstractBlock implements NodeView {
     codeBlock: this.canAddBlock('code_block', after),
   })
 
-  private showMenuSection = (insert: object, types: string[]) =>
-    types.some(type => type in insert)
+  private showMenuSection = (
+    insertableTypes: { [key: string]: boolean },
+    types: string[]
+  ) => types.some(type => insertableTypes[type])
 
   private showMenu = (after: boolean): EventListener => event => {
     event.preventDefault()
@@ -335,30 +337,43 @@ abstract class AbstractBlock implements NodeView {
     this.addPopperEventListeners(popper)
   }
 
-  private handleDelete = (nodeType: string) => {
-    switch (nodeType) {
-      case 'section_title':
-        return () => {
-          const pos = this.getPos()
-          const $pos = this.view.state.doc.resolve(pos)
-          const parent = $pos.parent
-          const parentPos = pos - $pos.parentOffset - 1
-          this.view.dispatch(
-            this.view.state.tr.delete(parentPos, parentPos + parent.nodeSize)
-          )
-          popper.destroy()
-        }
+  private changeNodeType = (type: string) => {
+    const nodeType = this.view.state.schema.nodes[type]
 
-      default:
-        return () => {
-          const pos = this.getPos()
-          this.view.dispatch(
-            this.view.state.tr.delete(pos, pos + this.node.nodeSize)
-          )
-          popper.destroy()
-        }
+    this.view.dispatch(
+      this.view.state.tr.setNodeMarkup(this.getPos(), nodeType, {
+        id: this.node.attrs.id,
+      })
+    )
+
+    popper.destroy()
+  }
+
+  private deleteNode = (nodeType: string) => {
+    switch (nodeType) {
+      case 'section_title': {
+        const pos = this.getPos()
+        const $pos = this.view.state.doc.resolve(pos)
+        const parent = $pos.parent
+        const parentPos = pos - $pos.parentOffset - 1
+        this.view.dispatch(
+          this.view.state.tr.delete(parentPos, parentPos + parent.nodeSize)
+        )
+        break
+      }
+
+      default: {
+        const pos = this.getPos()
+        this.view.dispatch(
+          this.view.state.tr.delete(pos, pos + this.node.nodeSize)
+        )
+        break
+      }
     }
   }
+
+  private isListType = (type: string) =>
+    ['bullet_list', 'ordered_list'].includes(type)
 
   private showEditMenu: EventListener = event => {
     event.preventDefault()
@@ -369,13 +384,37 @@ abstract class AbstractBlock implements NodeView {
 
     const nodeType = this.node.type.name
 
+    if (this.isListType(nodeType)) {
+      menu.appendChild(
+        this.createMenuSection((section: HTMLElement) => {
+          if (nodeType === 'bullet_list') {
+            section.appendChild(
+              this.createMenuItem('Change to Numbered List', () => {
+                this.changeNodeType('ordered_list')
+                popper.destroy()
+              })
+            )
+          }
+
+          if (nodeType === 'ordered_list') {
+            section.appendChild(
+              this.createMenuItem('Change to Bullet List', () => {
+                this.changeNodeType('bullet_list')
+                popper.destroy()
+              })
+            )
+          }
+        })
+      )
+    }
+
     menu.appendChild(
       this.createMenuSection((section: HTMLElement) => {
         section.appendChild(
-          this.createMenuItem(
-            `Delete ${this.objectName}`,
-            this.handleDelete(nodeType)
-          )
+          this.createMenuItem(`Delete ${this.objectName}`, () => {
+            this.deleteNode(nodeType)
+            popper.destroy()
+          })
         )
       })
     )
