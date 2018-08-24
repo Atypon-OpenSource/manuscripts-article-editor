@@ -1,12 +1,13 @@
 process.env.NODE_ENV = 'development'
 
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
 
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const common = require('./webpack.common.js')
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+import common from './webpack.common'
 
-module.exports = merge(common, {
+const configuration: webpack.Configuration = merge(common, {
   devServer: {
     contentBase: './dist',
     historyApiFallback: true,
@@ -27,7 +28,7 @@ module.exports = merge(common, {
                 loader: 'babel-loader',
                 options: {
                   cacheDirectory: true,
-                }
+                },
               },
             ],
           },
@@ -40,8 +41,8 @@ module.exports = merge(common, {
             use: {
               loader: 'file-loader',
               options: {
-                name: 'files/[name].[ext]'
-              }
+                name: 'files/[name].[ext]',
+              },
             },
           },
           {
@@ -49,8 +50,8 @@ module.exports = merge(common, {
             use: {
               loader: 'file-loader',
               options: {
-                name: 'fonts/[name].[ext]'
-              }
+                name: 'fonts/[name].[ext]',
+              },
             },
           },
           {
@@ -73,6 +74,8 @@ module.exports = merge(common, {
     new webpack.ContextReplacementPlugin(
       /react-intl[\/\\]locale-data$/,
       /en|ar|zh/ // TODO: all the locales needed for the locale switcher
-    )
+    ),
   ],
 })
+
+export default configuration

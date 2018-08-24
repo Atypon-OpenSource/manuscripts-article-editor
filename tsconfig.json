@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es2015",
     "lib": ["es2017", "dom"],
     "sourceMap": true,
@@ -18,11 +18,14 @@
     "strictNullChecks": true,
     "typeRoots" : [
       "node_modules/@types",
-      "./stories/types"
+      "./stories/types",
+      "./types"
     ]
   },
   "include": [
     "src/**/*",
-    "stories/**/*"
+    "stories/**/*",
+    "types/**/*",
+    "webpack.*"
   ]
 }

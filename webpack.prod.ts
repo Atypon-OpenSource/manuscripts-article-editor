@@ -1,11 +1,12 @@
 process.env.NODE_ENV = 'production'
 
-const merge = require('webpack-merge')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-// const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const common = require('./webpack.common.js')
+import CleanWebpackPlugin from 'clean-webpack-plugin'
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+// import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import common from './webpack.common'
 
-module.exports = merge(common, {
+const configuration: webpack.Configuration = merge(common, {
   bail: true,
   // devtool: 'source-map',
   mode: 'production',
@@ -21,7 +22,7 @@ module.exports = merge(common, {
                 loader: 'babel-loader',
                 options: {
                   cacheDirectory: true,
-                }
+                },
               },
             ],
           },
@@ -38,8 +39,8 @@ module.exports = merge(common, {
             use: {
               loader: 'file-loader',
               options: {
-                name: 'files/[name].[hash:8].[ext]'
-              }
+                name: 'files/[name].[hash:8].[ext]',
+              },
             },
           },
           {
@@ -47,8 +48,8 @@ module.exports = merge(common, {
             use: {
               loader: 'file-loader',
               options: {
-                name: 'fonts/[name].[hash:8].[ext]'
-              }
+                name: 'fonts/[name].[hash:8].[ext]',
+              },
             },
           },
         ],
@@ -65,5 +66,7 @@ module.exports = merge(common, {
     //   allChunks: true,
     //   // filename: '[name].[contenthash].css',
     // }),
-  ]
+  ],
 })
+
+export default configuration
