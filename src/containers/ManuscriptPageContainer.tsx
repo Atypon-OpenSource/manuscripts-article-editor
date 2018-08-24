@@ -543,11 +543,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       await putAttachment(result.id, attachment as RxAttachmentCreator)
     }
 
-    // TODO: does this still need to be done again?
-    this.setState({
-      componentMap: this.state.componentMap.set(result.id, result),
-    })
-
     return result
   }
 
@@ -613,11 +608,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         const v = changeEvent.data.v as AnyComponent
 
         console.log({ op, doc, v }) // tslint:disable-line:no-console
-
-        // updated shared data or library
-        if (!(v as ContainedComponent).containerID) {
-          return receive('UPDATE', doc, null)
-        }
 
         // TODO: only subscribe to changes to this project/manuscript?
         if (!this.isRelevantUpdate(v, projectID, manuscriptID, sessionID)) {

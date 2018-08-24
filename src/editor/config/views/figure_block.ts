@@ -145,7 +145,8 @@ class FigureBlock extends AbstractBlock {
   private addImage(file: File, index: number) {
     const figure = buildFigure(file)
 
-    const containedObjectIDs = this.node.attrs.containedObjectIDs
+    // IMPORTANT: the array must be cloned here, not modified
+    const containedObjectIDs = [...this.node.attrs.containedObjectIDs]
     containedObjectIDs[index] = figure.id
 
     this.view.dispatch(
