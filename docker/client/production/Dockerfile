@@ -24,7 +24,7 @@ RUN yarn install --frozen-lockfile --non-interactive --production
 
 COPY tsconfig.json /app/
 COPY babel.config.js /app/
-COPY webpack.common.js webpack.prod.js /app/
+COPY webpack.common.ts webpack.prod.ts /app/
 COPY public /app/public
 COPY src /app/src
 
