@@ -26,6 +26,7 @@ COPY tsconfig.json /app/
 COPY babel.config.js /app/
 COPY webpack.common.ts webpack.prod.ts /app/
 COPY public /app/public
+COPY types /app/types
 COPY src /app/src
 
 ARG API_APPLICATION_ID

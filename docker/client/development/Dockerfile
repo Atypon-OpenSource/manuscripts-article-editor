@@ -27,6 +27,7 @@ COPY tsconfig.json /app/
 COPY babel.config.js /app/
 COPY webpack.common.ts webpack.dev.ts /app/
 COPY public /app/public
+COPY types /app/types
 COPY src /app/src
 
 EXPOSE 8080
