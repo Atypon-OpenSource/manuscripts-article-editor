@@ -18,7 +18,9 @@ import {
 import config from '../config'
 import { AnyComponent } from '../types/components'
 
-RxDB.QueryChangeDetector.enable()
+// TODO: re-enable QueryChangeDetector once the fix is released:
+// https://github.com/pubkey/rxdb/issues/754
+// RxDB.QueryChangeDetector.enable()
 // RxDB.QueryChangeDetector.enableDebugging()
 
 RxDB.plugin(PouchDBIDBAdapter)
