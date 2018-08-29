@@ -45,7 +45,7 @@ RUN yarn build
 
 # serve
 
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
 COPY docker/client/production/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
