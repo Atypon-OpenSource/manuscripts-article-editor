@@ -21,17 +21,13 @@ module.exports = {
   },
   plugins: [
     'styled-components',
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-proposal-unicode-property-regex',
+    '@babel/proposal-class-properties',
+    '@babel/proposal-unicode-property-regex',
+    '@babel/proposal-object-rest-spread',
     'syntax-dynamic-import',
   ],
   presets: [
-    [
-      '@babel/preset-env',
-      {
-        modules: false,
-      },
-    ],
+    '@babel/preset-env',
     '@babel/preset-react',
     '@babel/preset-typescript',
   ],
