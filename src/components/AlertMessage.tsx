@@ -6,6 +6,15 @@ import AttentionWarning from '../icons/attention-warning'
 import CloseAlert from '../icons/close-alert'
 import SuccessGreen from '../icons/success'
 
+export const ResendButton = styled.button`
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-decoration: underline;
+  padding-left: 2px;
+  cursor: pointer;
+`
+
 interface AlertProps {
   color: string
   backgroundColor: string

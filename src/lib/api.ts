@@ -199,6 +199,9 @@ export const rejectProjectInvitation = (invitationId: string) =>
 export const verify = (data: VerifyValues) =>
   client.post('/registration/verify', data)
 
+export const resendVerificationEmail = (email: string) =>
+  client.post(`/registration/verify/resend`, { email })
+
 export const list = (type: string) =>
   client.get(type).then(response => response.data)
 

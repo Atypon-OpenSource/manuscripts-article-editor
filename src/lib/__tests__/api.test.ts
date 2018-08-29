@@ -270,4 +270,17 @@ describe('api', () => {
 
     expect(result.status).toBe(HttpStatusCodes.OK)
   })
+
+  it('resend the verification email', async () => {
+    const mock = new MockAdapter(client)
+    const email = 'ace@example.com'
+
+    mock
+      .onPost(`/registration/verify/resend`, { email })
+      .reply(HttpStatusCodes.OK)
+
+    const result = await api.resendVerificationEmail(email)
+
+    expect(result.status).toBe(HttpStatusCodes.OK)
+  })
 })

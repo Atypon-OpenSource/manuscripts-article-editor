@@ -6,11 +6,11 @@ import { FormattedMessage } from 'react-intl'
 import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { Main, Page } from '../components/Page'
-import { SignupConfirm } from '../components/SignupConfirm'
 import { SignupErrors, SignupValues } from '../components/SignupForm'
+import SignupMessages from '../components/SignupMessages'
 import SignupPage from '../components/SignupPage'
 import { Spinner } from '../components/Spinner'
-import { signup, verify } from '../lib/api'
+import { resendVerificationEmail, signup, verify } from '../lib/api'
 import { UserProps, withUser } from '../store/UserProvider'
 import { signupSchema } from '../validation'
 
@@ -20,6 +20,8 @@ interface UserDetails {
 
 interface State {
   confirming: UserDetails | null
+  resendSucceed: boolean | null
+  existButNotVerified: UserDetails | null
   error: boolean
 }
 
@@ -29,6 +31,8 @@ class SignupPageContainer extends React.Component<
 > {
   public state: Readonly<State> = {
     confirming: null,
+    resendSucceed: null,
+    existButNotVerified: null,
     error: false,
   }
 
@@ -65,7 +69,7 @@ class SignupPageContainer extends React.Component<
 
   public render() {
     const { user } = this.props
-    const { confirming, error } = this.state
+    const { error, confirming, existButNotVerified, resendSucceed } = this.state
 
     if (!user.loaded) {
       return <Spinner />
@@ -79,17 +83,15 @@ class SignupPageContainer extends React.Component<
       return <FormattedMessage id={'error'} />
     }
 
-    if (confirming) {
-      return (
-        <Page>
-          <SignupConfirm email={confirming.email} />
-        </Page>
-      )
-    }
-
     return (
       <Page>
         <Main>
+          <SignupMessages
+            confirming={confirming}
+            existButNotVerified={existButNotVerified}
+            resendSucceed={resendSucceed}
+            resendVerificationEmail={this.resendVerificationEmail}
+          />
           <SignupPage
             initialValues={this.initialValues}
             onSubmit={this.handleSubmit}
@@ -105,27 +107,57 @@ class SignupPageContainer extends React.Component<
     { setSubmitting, setErrors }: FormikActions<SignupValues | SignupErrors>
   ) => {
     signup(values).then(
-      response => {
+      () => {
         setSubmitting(false)
 
         this.setState({
           confirming: { email: values.email },
+          existButNotVerified: null,
         })
 
         this.props.user.fetch()
       },
-      error => {
+      async error => {
         setSubmitting(false)
 
         const errors: FormikErrors<SignupErrors> = {}
 
         if (error.response) {
-          errors.submit = this.errorResponseMessage(error.response.status)
-        }
+          const { data } = error.response
+          const { email } = values
 
-        setErrors(errors)
+          if (data.error.name === 'ConflictingUnverifiedUserExistsError') {
+            this.setState({
+              confirming: null,
+              existButNotVerified: { email },
+            })
+
+            await resendVerificationEmail(email)
+          } else {
+            errors.submit = this.errorResponseMessage(error.response.status)
+
+            setErrors(errors)
+          }
+        }
       }
     )
+  }
+
+  private resendVerificationEmail = () => {
+    const { confirming } = this.state
+    if (confirming) {
+      resendVerificationEmail(confirming.email)
+        .then(() => {
+          this.setState({
+            resendSucceed: true,
+          })
+        })
+        .catch(() => {
+          this.setState({
+            resendSucceed: false,
+          })
+        })
+    }
   }
 
   private errorResponseMessage = (status: number) => {
@@ -134,7 +166,6 @@ class SignupPageContainer extends React.Component<
         return 'Invalid operation'
 
       case HttpStatusCodes.CONFLICT:
-        // TODO: a button to re-send the confirmation email
         return 'The email address is already registered'
 
       default:

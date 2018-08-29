@@ -125,3 +125,49 @@ export const InviteCollaboratorsMessage = () => (
     }
   />
 )
+
+export const SignupVerifyMessage: React.SFC<{
+  email: string
+}> = ({ email }) => (
+  <FormattedMessage
+    id={'signup_verify'}
+    defaultMessage={
+      'Thanks for signing up! Please click the link sent to {email} to verify your account.'
+    }
+    values={{ email }}
+  />
+)
+
+export const SignupVerifyResendSuccessMessage: React.SFC<{
+  email: string
+}> = ({ email }) => (
+  <FormattedMessage
+    id={'signup_verify_resend_success'}
+    defaultMessage={
+      'Verification email re-resent to {email}. If you have not received it, please wait, check your spam box before getting in touch via support@manuscriptsapp.com.'
+    }
+    values={{ email }}
+  />
+)
+
+export const SignupVerifyResendFailureMessage: React.SFC<{
+  email: string
+}> = ({ email }) => (
+  <FormattedMessage
+    id={'signup_verify_resend_failure'}
+    defaultMessage={'Failed to re-send verification email to {email}.'}
+    values={{ email }}
+  />
+)
+
+export const SignupVerifyConflictMessage: React.SFC<{
+  email: string
+}> = ({ email }) => (
+  <FormattedMessage
+    id={'signup_verify_conflict'}
+    defaultMessage={
+      'Account already exists with {email}. Verification email has been re-sent to your email address.'
+    }
+    values={{ email }}
+  />
+)
