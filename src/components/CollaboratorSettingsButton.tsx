@@ -31,6 +31,12 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
     isOpen: false,
   }
 
+  private node: Node
+
+  public componentDidMount() {
+    this.updateListener(this.state.isOpen)
+  }
+
   public render() {
     const { isOpen } = this.state
     const { projectID, collaborator } = this.props
@@ -45,7 +51,10 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
           )}
         </Reference>
         {isOpen && (
-          <Popper placement={'bottom'}>
+          <Popper
+            placement={'bottom'}
+            innerRef={(node: HTMLDivElement) => (this.node = node)}
+          >
             {(popperProps: PopperChildrenProps) => (
               <CollaboratorSettingsPopperContainer
                 projectID={projectID}
@@ -62,9 +71,24 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
 
   private openPopper = () => {
     this.props.openPopper(!this.state.isOpen)
+    this.updateListener(!this.state.isOpen)
     this.setState({
       isOpen: !this.state.isOpen,
     })
+  }
+
+  private handleClickOutside: EventListener = (event: Event) => {
+    if (this.node && !this.node.contains(event.target as Node)) {
+      this.openPopper()
+    }
+  }
+
+  private updateListener = (isOpen: boolean) => {
+    if (isOpen) {
+      document.addEventListener('mousedown', this.handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', this.handleClickOutside)
+    }
   }
 }
 

@@ -4,9 +4,10 @@ import ContributorDetails from '../icons/contributor-details-placeholder'
 import ContributorsPlaceholder from '../icons/contributor-placeholder'
 import ContributorSearchPlaceholder from '../icons/contributor-search-placeholder'
 import InvitationPlaceholder from '../icons/invitation-placeholder'
+import { isOwner } from '../lib/roles'
 import { styled } from '../theme'
 import { CollaboratorActions } from '../types/collaborator'
-import { Project } from '../types/components'
+import { Project, UserProfile } from '../types/components'
 import {
   AddCollaboratorsMessage,
   AddedCollaboratorsMessage,
@@ -84,16 +85,17 @@ const AddButtonIcon = styled.div`
 `
 
 interface CollaboratorDetailsPageProps {
-  collaboratorsCount: number
+  user: UserProfile
   project: Project
+  collaboratorsCount: number
 }
 
 export const CollaboratorDetailsPage: React.SFC<
   CollaboratorDetailsPageProps & CollaboratorActions
-> = ({ collaboratorsCount, handleAddCollaborator, project }) => (
+> = ({ project, user, collaboratorsCount, handleAddCollaborator }) => (
   <OuterContainer>
     <InnerContainer>
-      {collaboratorsCount ? (
+      {collaboratorsCount || isOwner(project, user.userID) ? (
         <InnerContainer>
           <Placeholder>
             <ContributorDetails size={500} />

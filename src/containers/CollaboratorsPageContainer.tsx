@@ -98,7 +98,6 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           user={user.data}
           isSettingsOpen={isSettingsOpen}
           openPopper={this.openPopper}
-          getUserRole={this.getUserRole}
           handleAddCollaborator={this.handleAddCollaborator}
           handleHover={this.handleHover}
           hoveredID={hoveredID}
@@ -106,6 +105,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
         <Main>
           <CollaboratorDetailsPage
             project={project}
+            user={user.data}
             collaboratorsCount={collaborators.length + invitations.length}
             handleAddCollaborator={this.handleAddCollaborator}
           />
@@ -171,20 +171,6 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           this.setState({ userMap })
         }
       )
-
-  private getUserRole = (project: Project, userID: string) => {
-    if (project.owners.includes(userID)) {
-      return 'Owner'
-    }
-
-    if (project.writers.includes(userID)) {
-      return 'Writer'
-    }
-
-    if (project.viewers.includes(userID)) {
-      return 'Viewer'
-    }
-  }
 
   private handleAddCollaborator = () => {
     const { projectID } = this.props.match.params

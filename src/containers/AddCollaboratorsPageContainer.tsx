@@ -17,6 +17,7 @@ import InviteCollaboratorsSidebar from '../components/InviteCollaboratorsSidebar
 import { Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
 import { addProjectUser, projectInvite } from '../lib/api'
+import { isOwner } from '../lib/roles'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { getComponentFromDoc } from '../transformer/decode'
@@ -110,7 +111,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       return <Redirect to={'/login'} />
     }
 
-    if (this.getUserRole(project, user.data.userID) !== 'Owner') {
+    if (isOwner(project, user.data.userID)) {
       return <Redirect to={`/projects/${project.id}/collaborators`} />
     }
 
@@ -341,22 +342,8 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private getUserRole = (project: Project, userID: string) => {
-    if (project.owners.includes(userID)) {
-      return 'Owner'
-    }
-
-    if (project.writers.includes(userID)) {
-      return 'Writer'
-    }
-
-    if (project.viewers.includes(userID)) {
-      return 'Viewer'
-    }
-  }
-
   private search = (searchText: string) => {
-    const { people } = this.state
+    const { people, addedUsers } = this.state
 
     if (!people || !searchText) {
       return this.setState({
@@ -367,6 +354,8 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     searchText = searchText.toLowerCase()
 
     const searchResults: UserProfile[] = people.filter(person => {
+      if (addedUsers.includes(person.userID)) return false
+
       if (searchText.includes('@')) {
         return person.email && person.email.toLowerCase().includes(searchText)
       }

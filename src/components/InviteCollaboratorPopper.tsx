@@ -11,8 +11,8 @@ interface State {
 
 interface Props {
   invitedUserName: string
-  projectInvite: (role: string) => Promise<void>
-  projectUninvite: () => Promise<void>
+  handleUpdateRole: (role: string) => Promise<void>
+  handleUninvite: () => Promise<void>
 }
 
 class InviteCollaboratorPopper extends React.Component<Props, State> {
@@ -26,7 +26,7 @@ class InviteCollaboratorPopper extends React.Component<Props, State> {
 
     if (selectedRole) {
       try {
-        await this.props.projectInvite(selectedRole)
+        await this.props.handleUpdateRole(selectedRole)
       } catch (error) {
         alert(error)
       }
@@ -46,8 +46,8 @@ class InviteCollaboratorPopper extends React.Component<Props, State> {
       />
     ) : (
       <UninviteCollaboratorPopper
-        handleUninvite={this.handleUninvite}
         invitedUserName={invitedUserName}
+        handleUninvite={this.handleUninvite}
         switchMode={() => this.setMode('invite')}
       />
     )
@@ -60,12 +60,12 @@ class InviteCollaboratorPopper extends React.Component<Props, State> {
   }
 
   private setMode = (selectedMode: Mode) => {
-    this.setState({ selectedMode })
+    this.setState({ selectedMode, selectedRole: '' })
   }
 
   private handleUninvite = async () => {
     try {
-      await this.props.projectUninvite()
+      await this.props.handleUninvite()
 
       this.setState({
         selectedMode: 'invite',

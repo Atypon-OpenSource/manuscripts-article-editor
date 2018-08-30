@@ -1,6 +1,7 @@
 import React from 'react'
 import AddAuthor from '../icons/add-author'
 import { initials } from '../lib/name'
+import { getUserRole, isOwner } from '../lib/roles'
 import { styled } from '../theme'
 import { Project, ProjectInvitation, UserProfile } from '../types/components'
 import { Avatar } from './Avatar'
@@ -85,10 +86,6 @@ interface Props {
   isSettingsOpen: boolean
   hoveredID: string
   handleAddCollaborator: () => void
-  getUserRole: (
-    project: Project,
-    userID: string
-  ) => 'Owner' | 'Viewer' | 'Writer' | undefined
   handleHover: (ID?: string) => void
   openPopper: (isOpen: boolean) => void
 }
@@ -99,7 +96,6 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
   invitations,
   user,
   handleAddCollaborator,
-  getUserRole,
   handleHover,
   hoveredID,
   openPopper,
@@ -115,7 +111,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
         <SidebarTitle>Collaborators</SidebarTitle>
       </SidebarHeader>
 
-      {getUserRole(project, user.userID) === 'Owner' && (
+      {isOwner(project, user.userID) && (
         <AddCollaboratorButton onClick={handleAddCollaborator}>
           <AddAuthor />
           <AddCollaboratorText>Add new collaborator</AddCollaboratorText>
@@ -141,7 +137,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
             <InvitedContainer>
               <Invited>Invited</Invited>
               {hoveredID === invitation.id &&
-                getUserRole(project, user.userID) === 'Owner' && (
+                isOwner(project, user.userID) && (
                   <InvitedCollaboratorSettingsButton
                     invitation={invitation}
                     openPopper={openPopper}
@@ -176,7 +172,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
                 </CollaboratorData>
               </UserDataContainer>
               {hoveredID === collaborator.userID &&
-                getUserRole(project, user.userID) === 'Owner' && (
+                isOwner(project, user.userID) && (
                   <CollaboratorSettingsButton
                     projectID={project.id}
                     collaborator={collaborator}

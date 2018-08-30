@@ -25,7 +25,7 @@ const AvatarStyle = styled.div`
   padding-bottom: 6px;
 `
 
-const BoldText = styled.div`
+const Action = styled.div`
   color: #353535;
   font-weight: 600;
   padding-left: 5px;
@@ -60,33 +60,35 @@ export const RemoveCollaboratorPopper: React.SFC<Props> = ({
   collaborator,
   handleRemove,
   switchMode,
-}) => (
-  <PopperBody>
-    <Message>
-      Are you sure you want to <BoldText>remove</BoldText>
-    </Message>
-    <AvatarStyle>
-      <Avatar src={collaborator.avatar} size={45} color={'#585858'} />
-    </AvatarStyle>
-    <CollaboratorName>
-      <CollaboratorInitial>
-        {initials(collaborator.bibliographicName)}
-      </CollaboratorInitial>
-      {collaborator.bibliographicName.family}
-    </CollaboratorName>
-    <Message>from the Contributors list?</Message>
-    <Description>
-      {collaborator.bibliographicName.given} won't be able to view or modify any
-      content of the project anymore
-    </Description>
-    <SeparatorLine />
-    <ButtonsContainer>
-      <TransparentBlackButton onClick={switchMode}>
-        Cancel
-      </TransparentBlackButton>
-      <TransparentGreyButton onClick={handleRemove}>
-        Remove
-      </TransparentGreyButton>
-    </ButtonsContainer>
-  </PopperBody>
-)
+}) => {
+  const { bibliographicName, avatar } = collaborator
+
+  return (
+    <PopperBody>
+      <Message>
+        Are you sure you want to <Action>remove</Action>
+      </Message>
+      <AvatarStyle>
+        <Avatar src={avatar} size={45} color={'#585858'} />
+      </AvatarStyle>
+      <CollaboratorName>
+        <CollaboratorInitial>{initials(bibliographicName)}</CollaboratorInitial>
+        {bibliographicName.family}
+      </CollaboratorName>
+      <Message>from the Contributors list?</Message>
+      <Description>
+        {bibliographicName.given} won't be able to view or modify any content of
+        the project anymore
+      </Description>
+      <SeparatorLine />
+      <ButtonsContainer>
+        <TransparentBlackButton onClick={switchMode}>
+          Cancel
+        </TransparentBlackButton>
+        <TransparentGreyButton onClick={handleRemove}>
+          Remove
+        </TransparentGreyButton>
+      </ButtonsContainer>
+    </PopperBody>
+  )
+}

@@ -49,8 +49,8 @@ storiesOf('Collaborators/Poppers', module)
     <PopperStory>
       <InviteCollaboratorPopper
         invitedUserName={'Example User'}
-        projectInvite={action('invite')}
-        projectUninvite={action('uninvite')}
+        handleUpdateRole={action('invite')}
+        handleUninvite={action('uninvite')}
       />
     </PopperStory>
   ))
@@ -78,6 +78,7 @@ storiesOf('Collaborators/Pages', module)
     <CollaboratorDetailsPage
       project={project}
       collaboratorsCount={0}
+      user={user}
       handleAddCollaborator={action('add collaborator')}
     />
   ))
@@ -85,6 +86,7 @@ storiesOf('Collaborators/Pages', module)
     <CollaboratorDetailsPage
       project={project}
       collaboratorsCount={3}
+      user={user}
       handleAddCollaborator={action('add collaborator')}
     />
   ))

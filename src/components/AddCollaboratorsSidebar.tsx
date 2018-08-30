@@ -16,6 +16,7 @@ import { Sidebar, SidebarContent, SidebarHeader, SidebarTitle } from './Sidebar'
 
 const PeopleContainer = styled.div`
   display: flex;
+  margin: 0 -22px;
   padding: 10px 20px;
   cursor: pointer;
   align-items: center;
@@ -104,8 +105,9 @@ const InvitedContainer = styled.div`
 `
 
 const AddIconButton = styled(IconButton)`
-  height: 48px;
-  width: 48px;
+  display: flex;
+  width: unset;
+  height: unset;
 
   &:focus {
     outline: none;

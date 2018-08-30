@@ -19,14 +19,14 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
       <CustomPopper popperProps={popperProps}>
         <InviteCollaboratorPopper
           invitedUserName={invitation.invitedUserName!}
-          projectInvite={this.handleInvite}
-          projectUninvite={this.handleUninvite}
+          handleUpdateRole={this.handleUpdateRole}
+          handleUninvite={this.handleUninvite}
         />
       </CustomPopper>
     )
   }
 
-  private handleInvite(role: string) {
+  private handleUpdateRole = (role: string) => {
     const {
       invitedUserEmail,
       invitedUserName,
@@ -45,9 +45,9 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
   }
 
   private handleUninvite = () => {
-    return projectUninvite(this.props.invitation.id).then(() => {
-      this.props.openPopper()
-    })
+    const { openPopper, invitation } = this.props
+
+    return projectUninvite(invitation.id).then(openPopper)
   }
 }
 

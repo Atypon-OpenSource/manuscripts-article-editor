@@ -31,20 +31,6 @@ export const ProjectsDropdownList: React.SFC<Props> = ({
   rejectInvitation,
   handleClose,
 }) => {
-  const acceptedInvitationsData = invitationsData.filter(({ project }) =>
-    acceptedInvitations.includes(project.id)
-  )
-
-  const openInvitationsData = invitationsData.filter(
-    ({ project }) =>
-      !acceptedInvitations.includes(project.id) &&
-      !rejectedInvitations.includes(project.id)
-  )
-
-  const otherProjects = projects.filter(
-    project => !acceptedInvitations.includes(project.id)
-  )
-
   const hasContent = invitationsData.length || projects.length
 
   return (
@@ -53,16 +39,7 @@ export const ProjectsDropdownList: React.SFC<Props> = ({
 
       {!!hasContent && <DropdownSeparator />}
 
-      {acceptedInvitationsData.map(({ invitation, project }) => (
-        <ProjectDropdownSection
-          key={invitation.id}
-          handleClose={handleClose}
-          project={project}
-          accepted={true}
-        />
-      ))}
-
-      {openInvitationsData.map(({ invitation, invitingUserProfile }) => (
+      {invitationsData.map(({ invitation, invitingUserProfile }) => (
         <InvitationDropdownSection
           key={invitation.id}
           invitation={invitation}
@@ -72,15 +49,16 @@ export const ProjectsDropdownList: React.SFC<Props> = ({
         />
       ))}
 
-      {otherProjects.map(project => (
+      {projects.map(project => (
         <ProjectDropdownSection
           key={project.id}
           handleClose={handleClose}
           project={project}
+          accepted={acceptedInvitations.includes(project.id)}
         />
       ))}
 
-      {!!otherProjects.length && <DropdownSeparator />}
+      {!!projects.length && <DropdownSeparator />}
 
       <DropdownSection onClick={addProject} icon={<AddAuthor size={18} />}>
         Add new project

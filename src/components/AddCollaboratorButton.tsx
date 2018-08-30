@@ -12,6 +12,8 @@ const AddIconButton = styled(IconButton)`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: unset;
+  height: unset;
 
   &:focus {
     outline: none;
@@ -36,7 +38,10 @@ class AddCollaboratorButton extends React.Component<Props, State> {
     isSelected: false,
   }
 
+  private node: Node
+
   public componentDidMount() {
+    this.updateListener(this.state.isOpen)
     this.setState({
       isSelected: this.props.isSelected || false,
     })
@@ -67,7 +72,10 @@ class AddCollaboratorButton extends React.Component<Props, State> {
           )}
         </Reference>
         {isOpen && (
-          <Popper placement={'bottom'}>
+          <Popper
+            placement={'bottom'}
+            innerRef={(node: HTMLDivElement) => (this.node = node)}
+          >
             {(popperProps: PopperChildrenProps) => (
               <AddCollaboratorPopperContainer
                 userID={this.props.collaborator.userID}
@@ -91,9 +99,24 @@ class AddCollaboratorButton extends React.Component<Props, State> {
   }
 
   private togglePopper = () => {
+    this.updateListener(!this.state.isOpen)
     this.setState({
       isOpen: !this.state.isOpen,
     })
+  }
+
+  private handleClickOutside: EventListener = (event: Event) => {
+    if (this.node && !this.node.contains(event.target as Node)) {
+      this.togglePopper()
+    }
+  }
+
+  private updateListener = (isOpen: boolean) => {
+    if (isOpen) {
+      document.addEventListener('mousedown', this.handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', this.handleClickOutside)
+    }
   }
 }
 
