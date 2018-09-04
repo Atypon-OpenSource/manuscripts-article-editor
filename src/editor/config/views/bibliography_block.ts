@@ -1,5 +1,6 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorView } from 'prosemirror-view'
+import { EditorProps } from '../../Editor'
 import { Purify } from '../../lib/dompurify'
 import { NodeViewCreator } from '../types'
 import AbstractBlock from './abstract_block'
@@ -11,11 +12,12 @@ class BibliographyBlock extends AbstractBlock {
   }
 
   public constructor(
+    props: EditorProps,
     node: ProsemirrorNode,
     view: EditorView,
     getPos: () => number
   ) {
-    super(node, view, getPos)
+    super(props, node, view, getPos)
 
     this.imports = {
       purify: import(/* webpackChunkName: "dompurify" */ '../../lib/dompurify'),
@@ -71,7 +73,10 @@ class BibliographyBlock extends AbstractBlock {
   }
 }
 
-const bibliographyBlock: NodeViewCreator = (node, view, getPos) =>
-  new BibliographyBlock(node, view, getPos)
+const bibliographyBlock = (props: EditorProps): NodeViewCreator => (
+  node,
+  view,
+  getPos
+) => new BibliographyBlock(props, node, view, getPos)
 
 export default bibliographyBlock

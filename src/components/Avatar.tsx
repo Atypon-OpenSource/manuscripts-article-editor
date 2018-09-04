@@ -1,4 +1,5 @@
 import React from 'react'
+import { manuscriptsBlue } from '../colors'
 import UserIcon from '../icons/user'
 import { styled } from '../theme'
 
@@ -22,6 +23,10 @@ const RoundedImage = styled.img`
 
 export const Avatar: React.SFC<AvatarProps> = props => (
   <AvatarContainer>
-    {props.src ? <RoundedImage {...props} /> : <UserIcon {...props} />}
+    {props.src ? (
+      <RoundedImage {...props} />
+    ) : (
+      <UserIcon {...props} color={manuscriptsBlue} />
+    )}
   </AvatarContainer>
 )

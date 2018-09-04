@@ -1,12 +1,11 @@
 import { Field, Form, Formik } from 'formik'
 import React from 'react'
 import { Option } from 'react-select'
-import { ImmediateSelectField } from '../components/ImmediateSelectField'
-import { Spinner } from '../components/Spinner'
-import { Selected } from '../editor/lib/utils'
 import CitationManager, { DEFAULT_BUNDLE } from '../lib/csl'
 import { styled } from '../theme'
 import { Manuscript } from '../types/components'
+import { ImmediateSelectField } from './ImmediateSelectField'
+import { Spinner } from './Spinner'
 
 const StyledForm = styled(Form)`
   padding: 20px;
@@ -25,7 +24,6 @@ const LabelText = styled.div`
 interface Props {
   manuscript: Manuscript
   saveManuscript: (manuscript: Manuscript) => void
-  selected: Selected | null
 }
 
 interface State {
@@ -33,7 +31,7 @@ interface State {
   locales: Option[]
 }
 
-class InspectorContainer extends React.Component<Props, State> {
+class ManuscriptForm extends React.Component<Props, State> {
   public state: Readonly<State> = {
     styles: [],
     locales: [],
@@ -108,4 +106,4 @@ class InspectorContainer extends React.Component<Props, State> {
   }
 }
 
-export default InspectorContainer
+export default ManuscriptForm

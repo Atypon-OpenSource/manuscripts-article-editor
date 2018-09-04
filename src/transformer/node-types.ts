@@ -9,6 +9,7 @@ export type NodeTypeName =
   | 'citation'
   | 'citation_item'
   | 'code_block'
+  | 'comment'
   | 'contributor'
   | 'cross_reference'
   | 'equation_block'
@@ -42,6 +43,7 @@ const nodeTypes: Array<[NodeTypeName, string]> = [
   ['citation_item', 'MPCitationItem'],
   ['citation', 'MPCitation'],
   ['code_block', 'MPListingElement'],
+  ['comment', 'MPComment'],
   ['contributor', 'MPContributor'],
   ['cross_reference', 'MPAuxiliaryObjectReference'],
   ['equation_block', 'MPEquationElement'],

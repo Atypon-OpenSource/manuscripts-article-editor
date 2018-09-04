@@ -1,3 +1,4 @@
+import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
@@ -11,10 +12,15 @@ class OrderedListBlock extends Block {
   }
 }
 
-const orderedListBlock: NodeViewCreator = (node, view, getPos, decorations) => {
+const orderedListBlock = (props: EditorProps): NodeViewCreator => (
+  node,
+  view,
+  getPos,
+  decorations
+) => {
   for (const decoration of decorations) {
     if (decoration.spec.element) {
-      return new OrderedListBlock(node, view, getPos)
+      return new OrderedListBlock(props, node, view, getPos)
     }
   }
 

@@ -5,7 +5,7 @@ import DraggableTree, {
   TreeItem,
 } from '../components/DraggableTree'
 import { Selected } from '../editor/lib/utils'
-import { parse } from '../editor/manuscript/lib/title'
+import { parse } from '../editor/title/config'
 import { Manuscript } from '../types/components'
 
 interface Props {

@@ -1,3 +1,4 @@
+import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
@@ -11,10 +12,15 @@ class BulletListBlock extends Block {
   }
 }
 
-const bulletListBlock: NodeViewCreator = (node, view, getPos, decorations) => {
+const bulletListBlock = (props: EditorProps): NodeViewCreator => (
+  node,
+  view,
+  getPos,
+  decorations
+) => {
   for (const decoration of decorations) {
     if (decoration.spec.element) {
-      return new BulletListBlock(node, view, getPos)
+      return new BulletListBlock(props, node, view, getPos)
     }
   }
 

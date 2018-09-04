@@ -10,6 +10,7 @@ export const BIBLIOGRAPHY_SECTION = 'MPSection'
 export const BORDER_STYLE = 'MPBorderStyle'
 export const CITATION = 'MPCitation'
 export const CITATION_ITEM = 'MPCitationItem'
+export const COMMENT_ANNOTATION = 'MPCommentAnnotation'
 export const CONTRIBUTOR = 'MPContributor'
 export const EQUATION_ELEMENT = 'MPEquationElement'
 export const FIGURE = 'MPFigure'
@@ -41,6 +42,7 @@ export const manuscriptObjects = [
   AFFILIATION,
   BIBLIOGRAPHY_SECTION,
   CITATION,
+  COMMENT_ANNOTATION,
   CONTRIBUTOR,
   SECTION,
 ].concat(elementObjects) // TODO: remove elementObjects if they don't need `manuscriptID`

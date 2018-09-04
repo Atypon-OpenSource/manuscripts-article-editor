@@ -1,3 +1,4 @@
+import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
@@ -11,11 +12,16 @@ class ParagraphBlock extends Block {
   }
 }
 
-const paragraphBlock: NodeViewCreator = (node, view, getPos, decorations) => {
+const paragraphBlock = (props: EditorProps): NodeViewCreator => (
+  node,
+  view,
+  getPos,
+  decorations
+) => {
   // TODO: set a node property instead?
   for (const decoration of decorations) {
     if (decoration.spec.element) {
-      return new ParagraphBlock(node, view, getPos)
+      return new ParagraphBlock(props, node, view, getPos)
     }
   }
 

@@ -1,26 +1,16 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { EditorView } from 'prosemirror-view'
 import { buildFigure } from '../../../lib/commands'
+import { EditorProps } from '../../Editor'
 import placeholder from '../icons/png/Toolbar-InsertImage-N@2x.png'
 import { componentsKey, INSERT } from '../plugins/components'
 import { NodeViewCreator } from '../types'
-import AbstractBlock from './abstract_block'
+import Block from './block'
 
 // TODO: double-click to select in caption
 
-class FigureBlock extends AbstractBlock {
+class FigureBlock extends Block {
   private container: HTMLElement
   private element: HTMLElement
-
-  public constructor(
-    node: ProsemirrorNode,
-    view: EditorView,
-    getPos: () => number
-  ) {
-    super(node, view, getPos)
-
-    this.initialise()
-  }
 
   // TODO: does this need to be different?
   public update(newNode: ProsemirrorNode) {
@@ -160,7 +150,10 @@ class FigureBlock extends AbstractBlock {
   }
 }
 
-const figureBlock: NodeViewCreator = (node, view, getPos) =>
-  new FigureBlock(node, view, getPos)
+const figureBlock = (props: EditorProps): NodeViewCreator => (
+  node,
+  view,
+  getPos
+) => new FigureBlock(props, node, view, getPos)
 
 export default figureBlock

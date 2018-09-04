@@ -9,7 +9,7 @@ import {
 import * as React from 'react'
 import { Option } from 'react-select'
 import CreatableSelect from 'react-select/lib/Creatable'
-import { TitleField } from '../editor/manuscript/TitleField'
+import { TitleField } from '../editor/title/TitleField'
 import { buildKeyword } from '../lib/commands'
 import {
   KeywordsMap,

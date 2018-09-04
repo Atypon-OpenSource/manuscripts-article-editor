@@ -12,7 +12,6 @@ class CodeBlock extends AbstractBlock {
   private readonly imports: {
     codemirror: Promise<CodeMirrorCreator>
   }
-  private readonly props: EditorProps
 
   public constructor(
     props: EditorProps,
@@ -20,9 +19,7 @@ class CodeBlock extends AbstractBlock {
     view: EditorView,
     getPos: () => number
   ) {
-    super(node, view, getPos)
-
-    this.props = props
+    super(props, node, view, getPos)
 
     this.imports = {
       codemirror: import(/* webpackChunkName: "codemirror" */ '../../lib/codemirror'),

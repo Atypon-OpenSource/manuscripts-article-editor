@@ -1,4 +1,4 @@
-.ProseMirror:not(.plain) {
+.ProseMirror.manuscript-editor {
   font-size: 13pt;
   line-height: 2em;
   font-family: "IBM Plex Serif", serif;

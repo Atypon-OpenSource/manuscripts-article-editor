@@ -8,7 +8,6 @@ import AbstractBlock from './abstract_block'
 
 class EquationBlock extends AbstractBlock {
   private element: HTMLElement
-  private readonly props: EditorProps
   private readonly imports: {
     codemirror: Promise<CodeMirrorCreator>
     mathjax: Promise<Mathjax>
@@ -20,9 +19,7 @@ class EquationBlock extends AbstractBlock {
     view: EditorView,
     getPos: () => number
   ) {
-    super(node, view, getPos)
-
-    this.props = props
+    super(props, node, view, getPos)
 
     this.imports = {
       codemirror: import(/* webpackChunkName: "codemirror" */ '../../lib/codemirror'),

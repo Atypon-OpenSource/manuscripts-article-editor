@@ -1,5 +1,7 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorView, NodeView } from 'prosemirror-view'
+import { buildComment } from '../../../lib/commands'
+import { EditorProps } from '../../Editor'
 import PopperManager from '../../lib/popper'
 import { createBlock } from '../commands'
 
@@ -9,6 +11,7 @@ abstract class AbstractBlock implements NodeView {
   public dom: HTMLElement
   public contentDOM: HTMLElement
 
+  protected readonly props: EditorProps
   protected readonly getPos: () => number
   protected node: ProsemirrorNode
   protected readonly icons = {
@@ -20,10 +23,12 @@ abstract class AbstractBlock implements NodeView {
   protected readonly view: EditorView
 
   protected constructor(
+    props: EditorProps,
     node: ProsemirrorNode,
     view: EditorView,
     getPos: () => number
   ) {
+    this.props = props
     this.node = node
     this.view = view
     this.getPos = getPos
@@ -372,6 +377,14 @@ abstract class AbstractBlock implements NodeView {
     }
   }
 
+  private createComment = async () => {
+    const user = this.props.getCurrentUser()
+
+    const comment = buildComment(user.id, this.node.attrs.id)
+
+    await this.props.saveComponent(comment)
+  }
+
   private isListType = (type: string) =>
     ['bullet_list', 'ordered_list'].includes(type)
 
@@ -407,6 +420,17 @@ abstract class AbstractBlock implements NodeView {
         })
       )
     }
+
+    menu.appendChild(
+      this.createMenuSection((section: HTMLElement) => {
+        section.appendChild(
+          this.createMenuItem('Comment', async () => {
+            await this.createComment()
+            popper.destroy()
+          })
+        )
+      })
+    )
 
     menu.appendChild(
       this.createMenuSection((section: HTMLElement) => {

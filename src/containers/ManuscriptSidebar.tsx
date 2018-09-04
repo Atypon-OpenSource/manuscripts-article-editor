@@ -10,7 +10,7 @@ import {
   SidebarTitle,
 } from '../components/Sidebar'
 import { Selected } from '../editor/lib/utils'
-import { TitleField } from '../editor/manuscript/TitleField'
+import { TitleField } from '../editor/title/TitleField'
 import { Manuscript, Project } from '../types/components'
 import ManuscriptOutlineContainer from './ManuscriptOutlineContainer'
 

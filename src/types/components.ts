@@ -325,6 +325,19 @@ export interface Bundle extends Component {
   }
 }
 
+export interface CommentSelector {
+  from: number
+  to: number
+  text: string
+}
+
+export interface CommentAnnotation extends ManuscriptComponent {
+  contents: string
+  selector?: CommentSelector
+  target: string
+  userID: string
+}
+
 export type AnyStyle = FigureStyle | BorderStyle
 
 export type AnyElement =

@@ -9,8 +9,8 @@ import {
   ParseOptions,
   Schema,
 } from 'prosemirror-model'
-import placeholder from '../../config/plugins/placeholder'
-import marks from '../../config/schema/marks/index'
+import placeholder from '../config/plugins/placeholder'
+import marks from '../config/schema/marks/index'
 
 const { italic, smallcaps, subscript, superscript } = marks
 
@@ -42,7 +42,7 @@ const parser = DOMParser.fromSchema(schema)
 export const parse = (contents: string, options?: ParseOptions) => {
   const fragment = document
     .createRange()
-    .createContextualFragment(`<div>${contents || ''}</div>` || '')
+    .createContextualFragment(`<div>${contents || ''}</div>`)
 
   return parser.parse(fragment as Node, options)
 }

@@ -21,6 +21,7 @@ import {
 } from '../src/types/components'
 import components from './data/components.json'
 import citationLocaleData from './data/locales/en-US.xml'
+import { people } from './data/people'
 import citationStyleData from './data/styles/apa.xml'
 
 const citationLocales: Map<string, string> = new Map([
@@ -100,6 +101,7 @@ storiesOf('Editor', module)
       saveManuscript={action('save manuscript')}
       importManuscript={action('import manuscript')}
       getComponent={getComponent}
+      getCurrentUser={() => people[0]}
       manuscript={manuscript}
       projectID={'project-1'}
       saveComponent={saveComponent}
@@ -122,6 +124,7 @@ storiesOf('Editor', module)
       getComponent={getComponent}
       saveComponent={saveComponent}
       deleteComponent={deleteComponent}
+      getCurrentUser={() => people[0]}
       manuscript={manuscript}
       projectID={'project-1'}
       doc={doc}

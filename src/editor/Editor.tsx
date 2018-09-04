@@ -12,6 +12,7 @@ import {
   ComponentAttachment,
   ComponentMap,
   Manuscript,
+  UserProfile,
 } from '../types/components'
 import { ImportManuscript } from '../types/manuscript'
 import { menubar, menus, options } from './config'
@@ -58,6 +59,7 @@ export interface EditorProps {
   setView?: (view: EditorView) => void
   manuscript: Manuscript
   projectID: string
+  getCurrentUser: () => UserProfile
 }
 
 interface State {

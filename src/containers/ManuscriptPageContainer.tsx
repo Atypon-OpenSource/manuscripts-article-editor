@@ -3,12 +3,27 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
+import debounceRender from 'react-debounce-render'
 import { Prompt, RouteComponentProps } from 'react-router'
-import { RxAttachmentCreator, RxCollection, RxLocalDocument } from 'rxdb'
+import {
+  RxAttachmentCreator,
+  RxCollection,
+  RxDocument,
+  RxLocalDocument,
+} from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
+import { CommentList } from '../components/CommentList'
 import { DropSide, TreeItem } from '../components/DraggableTree'
+import { Inspector } from '../components/Inspector'
+import ManuscriptForm from '../components/ManuscriptForm'
 import { Main, Page } from '../components/Page'
 import Panel from '../components/Panel'
+import {
+  GetCollaborators,
+  GetKeyword,
+  GetKeywords,
+  GetUser,
+} from '../editor/comment/config'
 import Editor, {
   ChangeReceiver,
   DeleteComponent,
@@ -18,7 +33,12 @@ import Editor, {
 import PopperManager from '../editor/lib/popper'
 import { findParentNodeWithId, Selected } from '../editor/lib/utils'
 import Spinner from '../icons/spinner'
-import { buildContributor, buildManuscript } from '../lib/commands'
+import {
+  buildContributor,
+  buildKeyword,
+  buildManuscript,
+} from '../lib/commands'
+import { buildName } from '../lib/comments'
 import CitationManager from '../lib/csl'
 import { AnyComponentChangeEvent } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
@@ -36,12 +56,14 @@ import {
   AnyContainedComponent,
   Attachments,
   BibliographyItem,
+  CommentAnnotation,
   ComponentAttachment,
   ComponentDocument,
   ComponentIdSet,
   ComponentMap,
   ComponentWithAttachment,
   ContainedComponent,
+  Keyword,
   Manuscript,
   ManuscriptComponent,
   Project,
@@ -54,7 +76,6 @@ import {
   ManuscriptDocument,
 } from '../types/manuscript'
 import { ProjectDocument } from '../types/project'
-import InspectorContainer from './InspectorContainer'
 import ManuscriptSidebar from './ManuscriptSidebar'
 
 interface ComponentIdSets {
@@ -71,6 +92,9 @@ interface State {
   selected: Selected | null
   view: EditorView | null
   library: Map<string, BibliographyItem>
+  comments: CommentAnnotation[] | null
+  keywords: Map<string, Keyword> | null
+  users: Map<string, UserProfile> | null
   manuscript: Manuscript | null
   project: Project | null
   processor: Citeproc.Processor | null
@@ -80,6 +104,8 @@ interface RouteParams {
   projectID: string
   manuscriptID: string
 }
+
+const DebouncedInspector = debounceRender(Inspector, 100)
 
 type CombinedProps = UserProps &
   ComponentsProps &
@@ -99,6 +125,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     popper: new PopperManager(),
     view: null,
     library: new Map(),
+    comments: null,
+    keywords: null,
+    users: null,
     manuscript: null,
     project: null,
     processor: null,
@@ -159,9 +188,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       project,
       popper,
       selected,
+      comments,
     } = this.state
 
-    if (!doc || !manuscript || !project) {
+    if (!doc || !manuscript || !project || !comments) {
       return <Spinner />
     }
 
@@ -192,6 +222,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             saveManuscript={this.saveManuscript}
             addManuscript={this.addManuscript}
             importManuscript={this.importManuscript}
+            getCurrentUser={this.getCurrentUser}
             locale={locale}
             manuscript={manuscript}
             onChange={this.handleChange}
@@ -216,13 +247,28 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           direction={'row'}
           side={'start'}
         >
-          {this.state.view && (
-            <InspectorContainer
-              manuscript={manuscript}
-              saveManuscript={this.saveManuscript}
-              selected={selected}
-            />
-          )}
+          {this.state.view &&
+            comments && (
+              <DebouncedInspector>
+                <ManuscriptForm
+                  manuscript={manuscript}
+                  saveManuscript={this.saveManuscript}
+                />
+                <CommentList
+                  comments={comments}
+                  doc={doc}
+                  getCurrentUser={this.getCurrentUser}
+                  getUser={this.getUser}
+                  getCollaborators={this.getCollaborators}
+                  getKeyword={this.getKeyword}
+                  getKeywords={this.getKeywords}
+                  deleteComponent={this.deleteComponent}
+                  saveComponent={this.saveComponent}
+                  createKeyword={this.createKeyword}
+                  selected={selected}
+                />
+              </DebouncedInspector>
+            )}
         </Panel>
       </Page>
     )
@@ -230,7 +276,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private prepare = async (projectID: string, manuscriptID: string) => {
     try {
+      this.loadUsers() // TODO: move this to provider
+      this.loadKeywords(projectID) // TODO: move this to provider
       this.loadLibraryItems(projectID) // TODO: move this to provider
+      this.loadComments(projectID, manuscriptID) // TODO: move this to provider
 
       const project = await this.loadProject(projectID)
 
@@ -467,6 +516,58 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         ],
       })
       .exec() as Promise<ComponentDocument[]>
+  }
+
+  private loadKeywords = (projectID: string) =>
+    this.getCollection()
+      .find({
+        objectType: ObjectTypes.KEYWORD,
+        containerID: projectID,
+      })
+      .$.subscribe(async (docs: Array<RxDocument<Keyword>>) => {
+        const keywords = new Map()
+
+        for (const doc of docs) {
+          keywords.set(doc.id, doc.toJSON())
+        }
+
+        this.setState({ keywords })
+      })
+
+  private loadUsers = () =>
+    this.getCollection()
+      .find({
+        objectType: ObjectTypes.USER_PROFILE,
+      })
+      .$.subscribe(
+        async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
+          const items = await Promise.all(
+            docs.map(doc => getComponentFromDoc<UserProfile>(doc))
+          )
+
+          const users = items.reduce((output, user) => {
+            output.set(user.id, user)
+            return output
+          }, new Map())
+
+          this.setState({ users })
+        }
+      )
+
+  private loadComments = (projectID: string, manuscriptID: string) => {
+    this.getCollection()
+      .find({
+        objectType: ObjectTypes.COMMENT_ANNOTATION,
+        containerID: projectID,
+        manuscriptID,
+      })
+      .$.subscribe((docs: Array<RxDocument<CommentAnnotation>>) => {
+        if (docs) {
+          this.setState({
+            comments: docs.map(doc => doc.toJSON()),
+          })
+        }
+      })
   }
 
   private loadLibraryItems = (projectID: string) => {
@@ -833,6 +934,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           componentIds[type]
         )
 
+        // TODO: only delete components with manuscriptID
+
         // NOTE: reversed, to remove children first
         await Promise.all(
           removedComponentIds.reverse().map(id =>
@@ -875,6 +978,28 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     tr = tr.delete(sourcePos, sourcePos + source.node.nodeSize)
 
     view.dispatch(tr)
+  }
+
+  private getCurrentUser = (): UserProfile => this.props.user.data!
+
+  private getUser: GetUser = id => this.state.users!.get(id)
+
+  // TODO: build this in advance
+  private getCollaborators: GetCollaborators = () =>
+    Array.from(this.state.users!.values()).map(person => ({
+      ...person,
+      name: buildName(person.bibliographicName),
+    }))
+
+  private getKeyword: GetKeyword = id => this.state.keywords!.get(id)
+
+  private getKeywords: GetKeywords = () =>
+    Array.from(this.state.keywords!.values())
+
+  private createKeyword = (name: string) => {
+    const keyword = buildKeyword(name)
+
+    return this.saveComponent<Keyword>(keyword)
   }
 }
 

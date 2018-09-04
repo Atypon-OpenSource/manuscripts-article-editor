@@ -1,3 +1,4 @@
+import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
@@ -11,7 +12,10 @@ class TableFigureBlock extends Block {
   }
 }
 
-const tableFigure: NodeViewCreator = (node, view, getPos) =>
-  new TableFigureBlock(node, view, getPos)
+const tableFigure = (props: EditorProps): NodeViewCreator => (
+  node,
+  view,
+  getPos
+) => new TableFigureBlock(props, node, view, getPos)
 
 export default tableFigure

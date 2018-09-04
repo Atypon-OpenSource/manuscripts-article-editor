@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Title from '../editor/manuscript/Title'
+import Title from '../editor/title/Title'
 import { styled } from '../theme'
 import { Contributor, Manuscript } from '../types/components'
 import { RemoveManuscript } from '../types/manuscript'

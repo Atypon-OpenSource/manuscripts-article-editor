@@ -1,7 +1,7 @@
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
-import { parse, plugins, schema } from './lib/title'
+import { parse, plugins, schema } from './config'
 
 export const createEditorState = (value: string) =>
   EditorState.create({
@@ -16,22 +16,22 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   handleChange?: (value: string) => void
 }
 
-interface State {
-  value: string
-}
+// interface State {
+//   value: string
+// }
 
-class Title extends React.Component<Props, State> {
-  public state = {
-    value: this.props.value,
-  }
+class Title extends React.Component<Props> {
+  // public state = {
+  //   value: this.props.value,
+  // }
 
   protected view: EditorView
 
-  public componentDidMount() {
-    this.setState({
-      value: this.props.value,
-    })
-  }
+  // public componentDidMount() {
+  //   this.setState({
+  //     value: this.props.value,
+  //   })
+  // }
 
   // TODO: enable this once it doesn't conflict with editing
   // public componentWillReceiveProps(nextProps: Props) {

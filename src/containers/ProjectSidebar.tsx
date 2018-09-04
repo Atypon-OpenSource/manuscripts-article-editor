@@ -9,8 +9,8 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../components/Sidebar'
-import Title from '../editor/manuscript/Title'
-import { TitleField } from '../editor/manuscript/TitleField'
+import Title from '../editor/title/Title'
+import { TitleField } from '../editor/title/TitleField'
 import { styled } from '../theme'
 import { Manuscript, Project } from '../types/components'
 

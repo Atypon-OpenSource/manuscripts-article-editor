@@ -2,7 +2,7 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { styled } from '../../theme'
-import { serialize } from './lib/title'
+import { serialize } from './config'
 import { createEditorState, default as Title } from './Title'
 
 export class TitleField extends Title {

@@ -7,7 +7,7 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../components/Sidebar'
-import Title from '../editor/manuscript/Title'
+import Title from '../editor/title/Title'
 import Add from '../icons/add'
 import { styled } from '../theme'
 import { BibliographicName } from '../types/components'

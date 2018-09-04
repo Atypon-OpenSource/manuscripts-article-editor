@@ -1,3 +1,4 @@
+import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
@@ -11,7 +12,10 @@ class SectionTitleBlock extends Block {
   }
 }
 
-const sectionTitleBlock: NodeViewCreator = (node, view, getPos) =>
-  new SectionTitleBlock(node, view, getPos)
+const sectionTitleBlock = (props: EditorProps): NodeViewCreator => (
+  node,
+  view,
+  getPos
+) => new SectionTitleBlock(props, node, view, getPos)
 
 export default sectionTitleBlock

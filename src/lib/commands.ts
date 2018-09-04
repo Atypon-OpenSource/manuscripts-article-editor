@@ -7,6 +7,7 @@ import {
   BIBLIOGRAPHY_ITEM,
   CITATION,
   CITATION_ITEM,
+  COMMENT_ANNOTATION,
   CONTRIBUTOR,
   FIGURE,
   KEYWORD,
@@ -20,6 +21,8 @@ import {
   BibliographicName,
   BibliographyItem,
   Citation,
+  CommentAnnotation,
+  CommentSelector,
   Contributor,
   ContributorRole,
   Figure,
@@ -146,4 +149,18 @@ export const buildAffiliation = (name: string): Build<Affiliation> => ({
   id: generateID('affiliation') as string,
   objectType: AFFILIATION,
   name,
+})
+
+export const buildComment = (
+  userID: string,
+  target: string,
+  contents: string = '',
+  selector?: CommentSelector
+): Build<CommentAnnotation> => ({
+  id: generateID('comment') as string,
+  objectType: COMMENT_ANNOTATION,
+  userID,
+  target,
+  selector,
+  contents,
 })

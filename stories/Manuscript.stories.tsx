@@ -11,11 +11,8 @@ import {
   buildAuthorAffiliations,
 } from '../src/editor/manuscript/lib/authors'
 import { Metadata } from '../src/editor/manuscript/Metadata'
-import Title from '../src/editor/manuscript/Title'
-import {
-  StyledTitleField,
-  TitleField,
-} from '../src/editor/manuscript/TitleField'
+import Title from '../src/editor/title/Title'
+import { StyledTitleField, TitleField } from '../src/editor/title/TitleField'
 import { affiliations, authors } from './data/contributors'
 import manuscripts from './data/manuscripts'
 

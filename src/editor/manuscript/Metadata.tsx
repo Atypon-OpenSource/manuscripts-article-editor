@@ -5,6 +5,7 @@ import Close from '../../icons/close'
 import Expander from '../../icons/expander'
 import { styled, ThemedProps } from '../../theme'
 import { Affiliation, Contributor, Manuscript } from '../../types/components'
+import { StyledTitleField } from '../title/TitleField'
 import { Affiliations } from './Affiliations'
 import { AuthorAffiliation } from './Author'
 import { AuthorForm, AuthorValues } from './AuthorForm'
@@ -12,7 +13,6 @@ import Authors from './Authors'
 import AuthorsSidebar from './AuthorsSidebar'
 import { Header, HeaderContainer } from './Header'
 import { AffiliationMap } from './lib/authors'
-import { StyledTitleField } from './TitleField'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 

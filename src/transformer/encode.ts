@@ -1,4 +1,8 @@
-import { DOMSerializer, Node as ProsemirrorNode } from 'prosemirror-model'
+import {
+  DOMSerializer,
+  Fragment,
+  Node as ProsemirrorNode,
+} from 'prosemirror-model'
 import { options } from '../editor/config'
 import { iterateChildren } from '../editor/lib/utils'
 import {
@@ -17,6 +21,9 @@ const contents = (node: ProsemirrorNode): string =>
 
 export const inlineContents = (node: ProsemirrorNode): string =>
   (serializer.serializeNode(node) as HTMLElement).innerHTML
+
+export const fragmentText = (fragment: Fragment): string =>
+  serializer.serializeFragment(fragment).textContent || ''
 
 const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {
   const nodes: ProsemirrorNode[] = []

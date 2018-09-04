@@ -14,17 +14,17 @@ import sectionTitleBlock from './section_title_block'
 import tableFigure from './table_figure'
 
 export default (props: EditorProps) => ({
-  bibliography: bibliographyBlock,
-  bullet_list: bulletListBlock,
+  bibliography: bibliographyBlock(props),
+  bullet_list: bulletListBlock(props),
   citation: citation(props),
   code_block: codeBlock(props),
   cross_reference: crossReference(props),
   equation: equation(props),
   equation_block: equationBlock(props),
-  figure: figureBlock,
+  figure: figureBlock(props),
   // figcaption: figcaption(props),
-  ordered_list: orderedListBlock,
-  paragraph: paragraphBlock,
-  section_title: sectionTitleBlock,
-  table_figure: tableFigure,
+  ordered_list: orderedListBlock(props),
+  paragraph: paragraphBlock(props),
+  section_title: sectionTitleBlock(props),
+  table_figure: tableFigure(props),
 })

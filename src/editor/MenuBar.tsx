@@ -8,10 +8,12 @@ const MenuBarContainer = styled.div`
   display: flex;
   align-items: baseline;
   //justify-content: center;
+  flex-wrap: wrap;
 `
 
 export const MenuBarGroup = styled.div`
-  margin-right: 10px;
+  margin-right: 8px;
+  margin-bottom: 8px;
   white-space: nowrap;
 
   & ${MenuItem} button {
