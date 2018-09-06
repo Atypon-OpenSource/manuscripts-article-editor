@@ -13,8 +13,10 @@ aws s3 sync --exclude "index.html" --exclude "service-worker.js" \
 aws s3 cp "dist/index.html" s3://${S3_BUCKET}/index.html \
     --cache-control "max-age=0" --acl "public-read"
 
- aws s3 cp "dist/service-worker.js" s3://${S3_BUCKET}/service-worker.js \
+if [[ -f "dist/service-worker.js" ]]; then
+aws s3 cp "dist/service-worker.js" s3://${S3_BUCKET}/service-worker.js \
     --cache-control "no-cache" --acl "public-read"
+fi
 
 aws cloudfront create-invalidation \
     --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
