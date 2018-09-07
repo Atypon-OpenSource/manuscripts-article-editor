@@ -11,7 +11,7 @@ export const ResendButton = styled.button`
   background: transparent;
   color: inherit;
   text-decoration: underline;
-  padding-left: 2px;
+  padding-left: 3px;
   cursor: pointer;
 `
 

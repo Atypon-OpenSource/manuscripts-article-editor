@@ -30,7 +30,7 @@ const SignupMessages: React.SFC<Props> = ({
         <AlertMessage type={'success'}>
           <SignupVerifyMessage email={confirming.email} />
           <ResendButton onClick={resendVerificationEmail}>
-            [Click here to re-send]
+            Click here to re-send.
           </ResendButton>
         </AlertMessage>
       )
@@ -44,7 +44,7 @@ const SignupMessages: React.SFC<Props> = ({
       <AlertMessage type={'error'}>
         <SignupVerifyResendFailureMessage email={confirming.email} />
         <ResendButton onClick={resendVerificationEmail}>
-          [Click here to retry]
+          Click here to retry.
         </ResendButton>
       </AlertMessage>
     )
