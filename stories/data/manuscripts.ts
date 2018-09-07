@@ -11,8 +11,6 @@ const manuscripts: Manuscript[] = [
     updatedAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
     bundle: 'MPBundle:www-zotero-org-styles-apa-5th-edition',
     primaryLanguageCode: 'en-GB',
-    figureElementNumberingScheme: '',
-    figureNumberingScheme: '',
   },
 
   {
@@ -25,8 +23,6 @@ const manuscripts: Manuscript[] = [
     updatedAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
     bundle: 'MPBundle:www-zotero-org-styles-nature',
     primaryLanguageCode: 'en-US',
-    figureElementNumberingScheme: '',
-    figureNumberingScheme: '',
   },
 
   {
@@ -39,8 +35,6 @@ const manuscripts: Manuscript[] = [
     updatedAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
     bundle: 'MPBundle:www-zotero-org-styles-peerj',
     primaryLanguageCode: 'ar',
-    figureElementNumberingScheme: '',
-    figureNumberingScheme: '',
   },
 ]
 

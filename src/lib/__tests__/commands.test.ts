@@ -42,8 +42,6 @@ describe('commands', () => {
     expect(manuscriptA.id).toMatch(/MPManuscript:\S+/)
     expect(manuscriptA.objectType).toEqual(MANUSCRIPT)
     expect(manuscriptA.title).toEqual('Teh title')
-    expect(manuscriptA.figureElementNumberingScheme).toEqual('')
-    expect(manuscriptA.figureNumberingScheme).toEqual('')
 
     const manuscriptB = buildManuscript()
     expect(manuscriptB.id).toMatch(/MPManuscript:\S+/)

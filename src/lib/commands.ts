@@ -59,8 +59,6 @@ export const buildManuscript = (title: string = ''): Build<Manuscript> => ({
   id: generateID('manuscript') as string,
   objectType: MANUSCRIPT,
   title,
-  figureElementNumberingScheme: '',
-  figureNumberingScheme: '',
   bundle: DEFAULT_BUNDLE,
 })
 
@@ -139,7 +137,7 @@ export const buildFigure = (file: File): Build<Figure> => ({
   contentType: file.type,
   src: window.URL.createObjectURL(file),
   attachment: {
-    id: file.name,
+    id: file.name, // TODO: unique id?
     type: file.type,
     data: file,
   },

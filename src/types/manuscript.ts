@@ -7,6 +7,7 @@ export type ManuscriptDocument = RxDocument<Manuscript>
 export type AddManuscript = () => Promise<void>
 
 export type ImportManuscript = (components: AnyComponent[]) => Promise<void>
+export type ExportManuscript = (format: string) => Promise<void>
 
 export type UpdateManuscript = (
   manuscript: Manuscript,

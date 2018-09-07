@@ -15,6 +15,7 @@ const state = EditorState.create({
 const props: MenusProps = {
   addManuscript: action('add manuscript'),
   importManuscript: action('import manuscript'),
+  exportManuscript: action('export manuscript'),
   manuscript: manuscripts[0],
   deleteComponent: action('delete component'),
 }

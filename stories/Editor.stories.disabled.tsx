@@ -56,8 +56,6 @@ const manuscript: Manuscript = {
   containerID: 'project-1',
   objectType: MANUSCRIPT,
   title: 'Foo',
-  figureElementNumberingScheme: '',
-  figureNumberingScheme: '',
   bundle: DEFAULT_BUNDLE,
 }
 
@@ -99,6 +97,7 @@ storiesOf('Editor', module)
       getManuscript={() => manuscript}
       addManuscript={action('add manuscript')}
       saveManuscript={action('save manuscript')}
+      exportManuscript={action('export manuscript')}
       importManuscript={action('import manuscript')}
       getComponent={getComponent}
       getCurrentUser={() => people[0]}
@@ -120,6 +119,7 @@ storiesOf('Editor', module)
       getCitationProcessor={() => citationProcessor}
       getLibraryItem={() => libraryItem}
       getManuscript={() => manuscript}
+      exportManuscript={action('export manuscript')}
       importManuscript={action('import manuscript')}
       getComponent={getComponent}
       saveComponent={saveComponent}

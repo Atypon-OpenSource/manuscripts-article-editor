@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
-import { RxCollection } from 'rxdb'
+import { RxAttachmentCreator, RxCollection } from 'rxdb'
 import { Main, Page } from '../components/Page'
 import { Spinner } from '../components/Spinner'
 import { RecentFile, WelcomePage } from '../components/WelcomePage'
@@ -17,7 +17,11 @@ import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { generateID } from '../transformer/id'
 import * as ObjectTypes from '../transformer/object-types'
-import { Project, UserProfile } from '../types/components'
+import {
+  ComponentWithAttachment,
+  Project,
+  UserProfile,
+} from '../types/components'
 import { ImportManuscript } from '../types/manuscript'
 
 interface State {
@@ -127,10 +131,23 @@ class WelcomePageContainer extends React.Component<
         component.id = manuscriptID
       }
 
-      await this.props.components.saveComponent(component, {
+      const { attachment, ...data } = component as Partial<
+        ComponentWithAttachment
+      >
+
+      // TODO: save dependencies first
+
+      const result = await this.props.components.saveComponent(data, {
         manuscriptID,
         projectID,
       })
+
+      if (attachment) {
+        await this.props.components.putAttachment(
+          result.id,
+          attachment as RxAttachmentCreator
+        )
+      }
     }
 
     this.props.history.push(

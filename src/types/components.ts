@@ -3,8 +3,8 @@ import { RxAttachmentCreator } from 'rxdb/src/typings/rx-attachment'
 
 export interface Attachment {
   id: string
+  data: Blob | ArrayBuffer
   type: string
-  data: object
 }
 
 export interface Component {
@@ -91,8 +91,6 @@ export interface Manuscript extends ContainedComponent {
   data?: string
   bundle: string
   primaryLanguageCode?: string
-  figureElementNumberingScheme: string // TODO: optional
-  figureNumberingScheme: string // TODO: optional
 }
 
 export interface BibliographicName extends EmbeddedComponent {

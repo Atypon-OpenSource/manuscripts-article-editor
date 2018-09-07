@@ -40,6 +40,8 @@ import {
 } from '../lib/commands'
 import { buildName } from '../lib/comments'
 import CitationManager from '../lib/csl'
+import { download } from '../lib/download'
+import { exportProject, generateDownloadFilename } from '../lib/exporter'
 import { AnyComponentChangeEvent } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
@@ -72,6 +74,7 @@ import {
 import { LibraryDocument } from '../types/library'
 import {
   AddManuscript,
+  ExportManuscript,
   ImportManuscript,
   ManuscriptDocument,
 } from '../types/manuscript'
@@ -221,6 +224,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             getManuscript={this.getManuscript}
             saveManuscript={this.saveManuscript}
             addManuscript={this.addManuscript}
+            exportManuscript={this.exportManuscript}
             importManuscript={this.importManuscript}
             getCurrentUser={this.getCurrentUser}
             locale={locale}
@@ -428,6 +432,21 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
+  private exportManuscript: ExportManuscript = async format => {
+    const { componentMap } = this.state
+    const { manuscriptID } = this.props.match.params
+
+    try {
+      const blob = await exportProject(componentMap, format)
+      const manuscript = componentMap.get(manuscriptID) as Manuscript
+      const filename = generateDownloadFilename(manuscript.title) + format
+
+      download(blob, filename)
+    } catch (e) {
+      alert('Something went wrong: ' + e.message)
+    }
+  }
+
   private importManuscript: ImportManuscript = async components => {
     const { projectID } = this.props.match.params
 
@@ -438,10 +457,21 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         component.id = manuscriptID
       }
 
-      await this.props.components.saveComponent(component, {
+      const { attachment, ...data } = component as Partial<
+        ComponentWithAttachment
+      >
+
+      const result = await this.props.components.saveComponent(data, {
         projectID,
         manuscriptID,
       })
+
+      if (attachment) {
+        await this.props.components.putAttachment(
+          result.id,
+          attachment as RxAttachmentCreator
+        )
+      }
     }
 
     this.props.history.push(

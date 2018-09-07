@@ -1,5 +1,15 @@
+import JSZip from 'jszip'
 import { extname } from 'path'
-import { Component } from '../types/components'
+import { FIGURE } from '../transformer/object-types'
+import {
+  Attachments,
+  Component,
+  ComponentAttachment,
+  ContainedComponent,
+  Figure,
+} from '../types/components'
+import { generateAttachmentFilename } from './exporter'
+import { convert } from './pressroom'
 
 type Importer = (file: File) => Promise<Component[]>
 
@@ -7,25 +17,49 @@ interface Importers {
   [key: string]: Importer
 }
 
-interface JsonComponent extends Component {
+export interface JsonComponent
+  extends ContainedComponent,
+    Attachments,
+    ComponentAttachment {
   _id: string
+  bundled: boolean
   collection: string
+  contentType: string
 }
 
-interface ManuscriptsSection {
-  [key: string]: JsonComponent
+export interface ProjectDump {
+  version: string
+  data: JsonComponent[]
 }
 
-interface ManuscriptsDocument {
-  [key: string]: ManuscriptsSection
+const componentHasObjectType = <T extends Component>(objectType: string) => (
+  component: Component
+): component is T => {
+  return component.objectType === objectType
 }
 
-// TODO: generate a new ID for each object while maintaining references between objects
+export const readManuscriptFromBundle = async (
+  zip: JSZip
+): Promise<ProjectDump> => {
+  const json = await zip.file('index.manuscript-json').async('text')
 
-const importItems = (data: ManuscriptsDocument): Component[] =>
-  Object.values(data)
-    .map(section => Object.values(section))
-    .reduce((a, b) => a.concat(b)) // flatten
+  return JSON.parse(json)
+}
+
+const importProjectBundle = async (result: Blob) => {
+  const zip = await new JSZip().loadAsync(result)
+
+  const doc = await readManuscriptFromBundle(zip)
+
+  if (doc.version !== '2.0') {
+    throw new Error(`Unsupported version: ${doc.version}`)
+  }
+
+  // TODO: validate?
+  // TODO: ensure default data is added
+
+  const items = doc.data
+    .filter(item => !item.bundled)
     .filter(item => item._id || item.id)
     .map(item => {
       item.id = item.id || item._id
@@ -37,21 +71,34 @@ const importItems = (data: ManuscriptsDocument): Component[] =>
       return item
     })
 
-const importJSON: Importer = (file: File) =>
-  new Promise(resolve => {
-    const reader = new FileReader()
+  const folder = zip.folder('Data')
 
-    reader.addEventListener('load', async () => {
-      const data = JSON.parse(reader.result as string)
-      const items = importItems(data)
-      resolve(items)
-    })
+  await Promise.all(
+    items
+      .filter(componentHasObjectType<Figure>(FIGURE))
+      .map(async (item: Figure) => {
+        const filename = generateAttachmentFilename(item.id)
 
-    reader.readAsText(file, 'UTF-8')
-  })
+        item.attachment = {
+          id: filename, // TODO: original name?
+          type: item.contentType || 'image/png',
+          data: await folder.file(filename).async('blob'),
+        }
+      })
+  )
 
-const importers: Importers = {
-  '.manuscript-json': importJSON,
+  return items
+}
+
+const importConvertedFile: Importer = async (file: File) => {
+  const form = new FormData()
+  form.append('file', file)
+
+  const result = await convert(form, '.manuproj')
+
+  // download(result, 'manuscript.zip')
+
+  return importProjectBundle(result)
 }
 
 export const openFilePicker = (): Promise<File> =>
@@ -69,5 +116,15 @@ export const openFilePicker = (): Promise<File> =>
     input.click()
   })
 
-export const importFile = async (file: File) =>
-  importers[extname(file.name)](file)
+const importers: Importers = {
+  '.docx': importConvertedFile,
+  '.html': importConvertedFile,
+  '.md': importConvertedFile,
+  '.manuproj': importProjectBundle,
+}
+
+export const importFile = async (file: File) => {
+  const extension = extname(file.name)
+
+  return importers[extension](file)
+}

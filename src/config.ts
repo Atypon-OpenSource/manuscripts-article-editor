@@ -12,6 +12,10 @@ interface Config {
   data: {
     url: string
   }
+  pressroom: {
+    key: string
+    url: string
+  }
   sentry: {
     dsn: string | undefined
   }
@@ -40,6 +44,10 @@ const config = {
   },
   data: {
     url: process.env.DATA_URL,
+  },
+  pressroom: {
+    key: process.env.PRESSROOM_KEY,
+    url: process.env.PRESSROOM_URL,
   },
   sentry: {
     dsn: process.env.SENTRY_PUBLIC_DSN,

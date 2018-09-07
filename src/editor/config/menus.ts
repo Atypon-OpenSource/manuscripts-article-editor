@@ -7,7 +7,7 @@ import CrossReferencePickerContainer from '../../containers/CrossReferencePicker
 import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
 import { importFile, openFilePicker } from '../../lib/importers'
 import { Manuscript } from '../../types/components'
-import { ImportManuscript } from '../../types/manuscript'
+import { ExportManuscript, ImportManuscript } from '../../types/manuscript'
 import { DeleteComponent } from '../Editor'
 import {
   blockActive,
@@ -37,6 +37,7 @@ export interface MenusProps {
   manuscript: Manuscript
   addManuscript?: () => void
   importManuscript: ImportManuscript
+  exportManuscript: ExportManuscript
   deleteComponent: DeleteComponent
 }
 
@@ -66,6 +67,23 @@ const menus = (props: MenusProps): MenuItem[] => [
           openFilePicker()
             .then(importFile)
             .then(props.importManuscript),
+      },
+      {
+        label: 'Export as…',
+        submenu: [
+          {
+            label: 'Markdown',
+            run: () => props.exportManuscript('.md'),
+          },
+          {
+            label: 'Microsoft Word',
+            run: () => props.exportManuscript('.docx'),
+          },
+          {
+            label: 'PDF',
+            run: () => props.exportManuscript('.pdf'),
+          },
+        ],
       },
       {
         label: 'Delete',

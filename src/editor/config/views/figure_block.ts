@@ -1,4 +1,5 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { EditorView } from 'prosemirror-view'
 import { buildFigure } from '../../../lib/commands'
 import { EditorProps } from '../../Editor'
 import placeholder from '../icons/png/Toolbar-InsertImage-N@2x.png'
@@ -12,9 +13,20 @@ class FigureBlock extends Block {
   private container: HTMLElement
   private element: HTMLElement
 
+  public constructor(
+    props: EditorProps,
+    node: ProsemirrorNode,
+    view: EditorView,
+    getPos: () => number
+  ) {
+    super(props, node, view, getPos)
+
+    this.initialise()
+  }
+
   // TODO: does this need to be different?
   public update(newNode: ProsemirrorNode) {
-    if (newNode.attrs.type !== this.node.attrs.type) return false
+    if (newNode.type.name !== this.node.type.name) return false
     if (newNode.attrs.id !== this.node.attrs.id) return false
     this.node = newNode
     this.updateContents()

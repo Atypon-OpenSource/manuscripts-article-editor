@@ -25,7 +25,7 @@ const configuration: webpack.Configuration = {
         'GIT_COMMIT_HASH',
         'GIT_VERSION',
         'NODE_ENV',
-        'PRESSROOM_TOKEN',
+        'PRESSROOM_KEY',
         'PRESSROOM_URL',
         'SENTRY_PUBLIC_DSN',
         'SYNC_GATEWAY_URL',

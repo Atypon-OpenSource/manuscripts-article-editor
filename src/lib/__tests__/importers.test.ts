@@ -1,31 +1,37 @@
+jest.mock('../pressroom')
+
+import data from '../__fixtures__/example-manuscript.json'
+import { exportProject } from '../exporter'
 import { importFile, openFilePicker } from '../importers'
-import data from './data/example-manuscript.json'
+import { buildComponentMap } from './util'
 
 // tslint:disable:no-any
 
-const createJSONFile = (): File => {
-  const blob = new Blob([JSON.stringify(data)], {
-    type: 'application/json',
-  })
+const createFile = (format: string): File => {
+  switch (format) {
+    case '.docx': {
+      const blob = new Blob([], {
+        type:
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      })
 
-  return new File([blob], 'example.manuscript-json')
+      return new File([blob], 'example.docx')
+    }
+
+    case '.md': {
+      const blob = new Blob([], {
+        type: 'application/markdown',
+      })
+
+      return new File([blob], 'example.md')
+    }
+
+    default:
+      throw new Error('Unknown format: ' + format)
+  }
 }
 
 describe('Import', () => {
-  test('Import a manuscript from a JSON file', async () => {
-    const file = createJSONFile()
-
-    const items = await importFile(file)
-
-    expect(items.length).toEqual(114)
-
-    items.forEach((item: any) => expect(item.id).toBeDefined())
-    items.forEach((item: any) => expect(item.objectType).toBeDefined())
-    items.forEach((item: any) => expect(item._id).toBeUndefined())
-    items.forEach((item: any) => expect(item._rev).toBeUndefined())
-    items.forEach((item: any) => expect(item.collection).toBeUndefined())
-  })
-
   test('Receive a file from a file picker', async () => {
     jest
       .spyOn(document, 'createElement')
@@ -36,7 +42,7 @@ describe('Import', () => {
 
         jest.spyOn(element, 'click').mockImplementation(() => {
           Object.defineProperty(element, 'files', {
-            get: () => [createJSONFile()],
+            get: () => [createFile('.docx')],
           })
 
           element.dispatchEvent(new Event('change'))
@@ -47,7 +53,7 @@ describe('Import', () => {
 
     const file = await openFilePicker()
 
-    expect(file.name).toBe('example.manuscript-json')
+    expect(file.name).toBe('example.docx')
   })
 
   test('Receive no files from a file picker', async () => {
@@ -66,5 +72,28 @@ describe('Import', () => {
       })
 
     await expect(openFilePicker()).rejects.toThrowError('No file was received')
+  })
+
+  test('Import a manuscript from a DOCX file', async () => {
+    const componentMap = buildComponentMap(data)
+
+    // `result` is the blob that would be sent for conversion, echoed back
+    const result = await exportProject(componentMap, 'docx')
+
+    const file = new File([result], 'manuscript.docx', {
+      type:
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      lastModified: Date.now(),
+    })
+
+    const items = await importFile(file)
+
+    expect(items.length).toEqual(33)
+
+    items.forEach((item: any) => expect(item.id).toBeDefined())
+    items.forEach((item: any) => expect(item.objectType).toBeDefined())
+    items.forEach((item: any) => expect(item._id).toBeUndefined())
+    items.forEach((item: any) => expect(item._rev).toBeUndefined())
+    items.forEach((item: any) => expect(item.collection).toBeUndefined())
   })
 })

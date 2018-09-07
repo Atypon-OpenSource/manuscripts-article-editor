@@ -82,8 +82,6 @@ const manuscripts: Manuscript[] = [
     objectType: MANUSCRIPT,
     containerID: 'MPProject:1',
     title: 'Manuscript X',
-    figureElementNumberingScheme: 'x',
-    figureNumberingScheme: 'y',
     bundle: DEFAULT_BUNDLE,
   },
 ]

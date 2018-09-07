@@ -14,7 +14,7 @@ import {
   Manuscript,
   UserProfile,
 } from '../types/components'
-import { ImportManuscript } from '../types/manuscript'
+import { ExportManuscript, ImportManuscript } from '../types/manuscript'
 import { menubar, menus, options } from './config'
 import PopperManager from './lib/popper'
 import MetadataContainer from './manuscript/MetadataContainer'
@@ -51,6 +51,7 @@ export interface EditorProps {
   saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
   addManuscript?: () => Promise<void>
   importManuscript: ImportManuscript
+  exportManuscript: ExportManuscript
   locale: string
   onChange?: (state: EditorState, docChanged: boolean) => void
   subscribe?: (receive: ChangeReceiver) => void
