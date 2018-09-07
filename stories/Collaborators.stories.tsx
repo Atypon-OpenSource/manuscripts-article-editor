@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
 import React from 'react'
 import AddCollaboratorPopper from '../src/components/AddCollaboratorPopper'
-// import AddCollaboratorsSidebar from '../src/components/AddCollaboratorsSidebar'
+import AddCollaboratorsSidebar from '../src/components/AddCollaboratorsSidebar'
 import CollaboratorSettingsPopper from '../src/components/CollaboratorSettingsPopper'
 import {
   AddCollaboratorsPage,
@@ -11,7 +11,7 @@ import {
   InviteCollaboratorsPage,
   SearchCollaboratorsPage,
 } from '../src/components/CollaboratorsPage'
-// import CollaboratorsSidebar from '../src/components/CollaboratorsSidebar'
+import CollaboratorsSidebar from '../src/components/CollaboratorsSidebar'
 import { InvitationForm } from '../src/components/InvitationForm'
 import InviteCollaboratorPopper from '../src/components/InviteCollaboratorPopper'
 import InviteCollaboratorsSidebar from '../src/components/InviteCollaboratorsSidebar'
@@ -104,8 +104,37 @@ storiesOf('Collaborators/Pages', module)
   ))
 
 storiesOf('Collaborators/Sidebars', module)
-  // .add('Collaborators', () => <CollaboratorsSidebar />)
-  // .add('Add Collaborator', () => <AddCollaboratorsSidebar />)
+  .add('Collaborators', () => (
+    <CollaboratorsSidebar
+      project={project}
+      collaborators={people}
+      invitations={[]}
+      user={people[0]}
+      handleAddCollaborator={action('add collaborator')}
+      handleHover={action('hover')}
+      hoveredID={''}
+      openPopper={action('open popper')}
+      isSettingsOpen={true}
+    />
+  ))
+  .add('Add Collaborator', () => (
+    <AddCollaboratorsSidebar
+      people={people}
+      invitations={[]}
+      addCollaborator={action('add collaborator')}
+      handleSearchChange={action('search change')}
+      handleSearchFocus={action('search focus')}
+      handleInvite={action('invite')}
+      numberOfAddedCollaborators={0}
+      countAddedCollaborators={() => 0}
+      isSearching={false}
+      searchText={''}
+      searchResults={[]}
+      addedUsers={[]}
+      handleDoneCancel={action('handle done/cancel')}
+    />
+  ))
+
   .add('Invite Collaborators', () => (
     <InviteCollaboratorsSidebar
       initialValues={{ name: '', email: 'user@example.com', role: '' }}
