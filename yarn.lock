@@ -8830,9 +8830,9 @@ pouchdb-adapter-http@^6.4.3:
     pouchdb-promise "6.4.3"
     pouchdb-utils "6.4.3"
 
-"pouchdb-adapter-idb@https://gitlab.com/mpapp-public/pouchdb-adapter-idb/-/archive/e440a7c/pouchdb-adapter-idb-master.tar.gz":
+"pouchdb-adapter-idb@git+https://gitlab.com/mpapp-public/pouchdb-adapter-idb.git#master":
   version "7.0.0-prerelease"
-  resolved "https://gitlab.com/mpapp-public/pouchdb-adapter-idb/-/archive/e440a7c/pouchdb-adapter-idb-master.tar.gz#59253fa7353bd2ee852250697c6e3aeeb9be6dd8"
+  resolved "git+https://gitlab.com/mpapp-public/pouchdb-adapter-idb.git#e440a7cbe61bb7b02b1fbc69d5e82ad23f32ae8e"
   dependencies:
     pouchdb-adapter-utils "6.4.3"
     pouchdb-binary-utils "6.4.3"
@@ -9061,9 +9061,9 @@ pouchdb-promise@6.4.3, pouchdb-promise@^6.4.1:
   dependencies:
     lie "3.1.1"
 
-pouchdb-replication@6.4.3, "pouchdb-replication@https://gitlab.com/mpapp-public/pouchdb-replication/-/archive/13f2acf7/pouchdb-replication-master.tar.gz":
+pouchdb-replication@6.4.3, "pouchdb-replication@git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master":
   version "7.0.0-prerelease"
-  resolved "https://gitlab.com/mpapp-public/pouchdb-replication/-/archive/13f2acf7/pouchdb-replication-master.tar.gz#9950235e8bc0dd9b0ca369163723b247d25c9046"
+  resolved "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#13f2acf7ee642e3cabf8373b1592430927ef70cb"
   dependencies:
     inherits "2.0.3"
     pouchdb-checkpointer "7.0.0"
@@ -10376,9 +10376,9 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-"rxdb@https://gitlab.com/mpapp-public/rxdb/-/archive/b447535/rxdb-master.tar.gz":
+"rxdb@git+https://gitlab.com/mpapp-public/rxdb.git#wb-request-error":
   version "7.7.1"
-  resolved "https://gitlab.com/mpapp-public/rxdb/-/archive/b447535/rxdb-master.tar.gz#c2c72dadd7098c9fb70a1f5275847fe7b5ee2195"
+  resolved "git+https://gitlab.com/mpapp-public/rxdb.git#07edbb50bbeb971b16399e42ca1f11c394d39646"
   dependencies:
     babel-runtime "^6.26.0"
     clone "^2.1.1"

@@ -101,6 +101,13 @@ const importConvertedFile: Importer = async (file: File) => {
   return importProjectBundle(result)
 }
 
+const importers: Importers = {
+  '.docx': importConvertedFile,
+  '.html': importConvertedFile,
+  '.md': importConvertedFile,
+  '.manuproj': importProjectBundle,
+}
+
 export const openFilePicker = (): Promise<File> =>
   new Promise((resolve, reject) => {
     const input = document.createElement('input')
@@ -115,13 +122,6 @@ export const openFilePicker = (): Promise<File> =>
     })
     input.click()
   })
-
-const importers: Importers = {
-  '.docx': importConvertedFile,
-  '.html': importConvertedFile,
-  '.md': importConvertedFile,
-  '.manuproj': importProjectBundle,
-}
 
 export const importFile = async (file: File) => {
   const extension = extname(file.name)
