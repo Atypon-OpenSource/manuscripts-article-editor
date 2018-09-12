@@ -10376,9 +10376,9 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-"rxdb@git+https://gitlab.com/mpapp-public/rxdb.git#wb-request-error":
+"rxdb@git+https://gitlab.com/mpapp-public/rxdb.git#master":
   version "7.7.1"
-  resolved "git+https://gitlab.com/mpapp-public/rxdb.git#07edbb50bbeb971b16399e42ca1f11c394d39646"
+  resolved "git+https://gitlab.com/mpapp-public/rxdb.git#f634321841ed9875cc793c589c63a5cdd65b787b"
   dependencies:
     babel-runtime "^6.26.0"
     clone "^2.1.1"
