@@ -31,7 +31,7 @@ export const OutlineItem = styled.div<OutlineItemProps>`
   overflow-x: hidden;
   cursor: pointer;
   color: #444;
-  background: ${props => (props.isSelected ? 'white' : 'transparent')};
+  background: ${props => (props.isSelected ? '#E4EEF7' : 'transparent')};
 `
 
 export const OutlineItemArrow = styled.button`
