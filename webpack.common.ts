@@ -31,6 +31,7 @@ const configuration: webpack.Configuration = {
         'SYNC_GATEWAY_URL',
         'WAYF_KEY',
         'WAYF_URL',
+        'PROJECTS_BUCKET',
       ]),
       new HtmlWebpackPlugin({
         template: 'public/index.html',

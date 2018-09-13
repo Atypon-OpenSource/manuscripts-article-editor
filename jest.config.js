@@ -1,5 +1,5 @@
 const coverageThreshold = (target, gradient = 1) => Math.min(
-  ((new Date() - new Date('2018-07-01')) * gradient) / (1000 * 60 * 90 * 24),
+  ((new Date() - new Date('2018-07-01')) * gradient) / (1000 * 60 * 120 * 24),
   target
 )
 
