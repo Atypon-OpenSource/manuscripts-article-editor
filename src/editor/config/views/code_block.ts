@@ -92,6 +92,8 @@ class CodeBlock extends AbstractBlock {
     this.element = document.createElement(this.elementType)
     this.element.className = 'block'
     this.element.dir = 'ltr'
+    this.element.id = this.node.attrs.id
+
     this.dom.appendChild(this.element)
   }
 

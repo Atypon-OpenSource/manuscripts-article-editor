@@ -838,8 +838,8 @@
   resolved "https://registry.npmjs.org/@emotion/weak-memoize/-/weak-memoize-0.1.2.tgz#4e4afffc61fb82fd0e55a4ed3c3041fd0a765a5a"
 
 "@manuscripts/assets@git+ssh://git@gitlab.com/mpapp-private/manuscripts-gfx-assets":
-  version "1.0.0"
-  resolved "git+ssh://git@gitlab.com/mpapp-private/manuscripts-gfx-assets#7270115e06827a550b11f18ba151422bedc3a2e4"
+  version "0.1.6"
+  resolved "git+ssh://git@gitlab.com/mpapp-private/manuscripts-gfx-assets#a8cb8592ed281cb2cbf680c8b006d5bdc2bab076"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

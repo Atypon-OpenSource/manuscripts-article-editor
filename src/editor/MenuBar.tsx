@@ -25,13 +25,13 @@ export const MenuBarGroup = styled.div`
   }
 
   & ${MenuItem}:first-of-type button {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
   }
 
   & ${MenuItem}:last-of-type button {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
 `
 

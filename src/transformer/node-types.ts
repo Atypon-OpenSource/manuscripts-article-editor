@@ -1,3 +1,5 @@
+import { Node as ProsemirrorNode } from 'prosemirror-model'
+
 export type NodeTypeName =
   | 'affiliation'
   | 'bibliographic_date'
@@ -24,7 +26,8 @@ export type NodeTypeName =
   | 'table'
   | 'table_figure'
 
-export const elementNodeTypes: NodeTypeName[] = [
+const elementNodeTypes: NodeTypeName[] = [
+  'code_block',
   'equation_block',
   'figure',
   'bullet_list',
@@ -32,6 +35,9 @@ export const elementNodeTypes: NodeTypeName[] = [
   'paragraph',
   'table_figure',
 ]
+
+export const isElementNode = (node: ProsemirrorNode) =>
+  elementNodeTypes.includes(node.type.name as NodeTypeName)
 
 const nodeTypes: Array<[NodeTypeName, string]> = [
   ['affiliation', 'MPAffiliation'],

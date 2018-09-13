@@ -2,7 +2,7 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { Decoration, EditorView, NodeView } from 'prosemirror-view'
 import React from 'react'
-import { ThemedProps } from '../../theme'
+import { ThemedOuterProps } from '../../theme'
 
 export interface StringMap<T> {
   [key: string]: T
@@ -25,7 +25,9 @@ export type MenuButtonMap = StringMap<MenuButton>
 
 export type MenuButtonMapMap = StringMap<MenuButtonMap>
 
-export interface MenuBarButtonProps extends ThemedProps<HTMLButtonElement> {
+export type ThemedOuterButtonProps = ThemedOuterProps<HTMLButtonElement>
+
+export interface MenuBarButtonProps extends ThemedOuterButtonProps {
   'data-active'?: boolean
 }
 

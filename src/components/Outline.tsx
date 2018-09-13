@@ -12,12 +12,9 @@ export const Outline = styled.div`
 export const OutlineItemIcon = styled.span`
   display: inline-flex;
   width: 1.2em;
-  background: linear-gradient(to bottom, #8bbbff 0%, #65a3ff 100%);
-  color: #fff;
+  height: 1.3em;
   justify-content: center;
   align-items: center;
-  border-radius: 2px;
-  font-size: 10px;
   padding: 2px;
   flex-shrink: 0;
 `
@@ -35,10 +32,6 @@ export const OutlineItem = styled.div<OutlineItemProps>`
   cursor: pointer;
   color: #444;
   background: ${props => (props.isSelected ? 'white' : 'transparent')};
-
-  &:hover ${OutlineItemIcon} {
-    background: linear-gradient(to bottom, #617ba8 0%, #4966a8 100%);
-  }
 `
 
 export const OutlineItemArrow = styled.button`
@@ -48,7 +41,6 @@ export const OutlineItemArrow = styled.button`
   border: none;
   background: transparent;
   padding: 0 6px;
-  margin-right: 4px;
   flex-shrink: 0;
   font-size: 14px;
 
@@ -63,7 +55,7 @@ export const OutlineItemArrow = styled.button`
 
 export const OutlineItemNoArrow = styled.span`
   display: inline-block;
-  width: 28px;
+  width: 24px;
   flex-shrink: 0;
 `
 
@@ -94,7 +86,6 @@ export const OutlineItemLink = styled.a`
   overflow-x: hidden;
   color: inherit;
   text-decoration: none;
-  padding: 3px 0;
   height: 100%;
 
   &:focus,
@@ -108,7 +99,7 @@ export const OutlineItemLinkText = styled.span`
   display: inline-block;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  margin-left: 8px;
+  margin-left: 4px;
 `
 
 export const OutlineItemPlaceholder = styled.span`

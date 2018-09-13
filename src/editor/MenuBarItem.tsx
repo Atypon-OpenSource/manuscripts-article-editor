@@ -1,28 +1,25 @@
 import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import Modal from 'react-modal'
-import { styled, ThemedOuterProps } from '../theme'
+import { styled } from '../theme'
 import { Dispatch, MenuBarButtonProps, MenuButton } from './config/types'
-
-type ThemedOuterButtonProps = ThemedOuterProps<HTMLButtonElement>
 
 export const MenuItem = styled.div`
   display: inline-flex;
   position: relative;
 `
 
-export const StyledButton = styled.button<ThemedOuterButtonProps>`
-  background-color: ${(props: MenuBarButtonProps) =>
-    props['data-active'] ? '#eee' : '#fff'};
-  border: 1px solid #ddd;
+export const StyledButton = styled.button<MenuBarButtonProps>`
+  background-color: ${props => (props['data-active'] ? '#eee' : '#fff')};
+  border: 1px solid #d6d6d6;
   cursor: pointer;
-  padding: 6px 16px;
+  padding: 2px 12px;
   display: inline-flex;
   align-items: center;
   transition: 0.2s all;
 
   &:hover {
-    background: #f6f6f6;
+    background: ${props => (props['data-active'] ? '#eee' : '#f6f6f6')};
     z-index: 2;
   }
 

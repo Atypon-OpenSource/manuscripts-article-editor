@@ -17,6 +17,8 @@ import HTML5DragDropBackend from 'react-dnd-html5-backend'
 import { findDOMNode } from 'react-dom'
 import { Selected } from '../editor/lib/utils'
 import { nodeTitle, nodeTitlePlaceholder } from '../transformer/node-title'
+import { nodeTypeIcon } from '../transformer/node-type-icons'
+import { isElementNode } from '../transformer/node-types'
 import {
   Outline,
   OutlineDropPreview,
@@ -116,7 +118,7 @@ export const buildTree: TreeBuilder = ({
 
   node.forEach((childNode, offset, index) => {
     if (
-      !childNode.isAtom &&
+      (!childNode.isAtom || isElementNode(childNode)) &&
       childNode.attrs.id &&
       !excludeTypes.includes(childNode.type.name)
     ) {
@@ -187,7 +189,7 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
                       }}
                     >
                       <OutlineItemIcon>
-                        {this.nodeTypeLetter(node)}
+                        {nodeTypeIcon(node.type.name)}
                       </OutlineItemIcon>
                     </span>
                   )}
@@ -257,9 +259,6 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
 
     return <OutlineItemPlaceholder>{placeholder}</OutlineItemPlaceholder>
   }
-
-  private nodeTypeLetter = (node: ProsemirrorNode) =>
-    node.type.name.substr(0, 1).toUpperCase()
 }
 
 const dragType = 'outline'

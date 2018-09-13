@@ -14,7 +14,7 @@ import {
   blockActive,
   canInsert,
   insertBlock,
-  insertInlineEquation,
+  // insertInlineEquation,
   markActive,
 } from './commands'
 import icons from './icons'
@@ -62,15 +62,15 @@ const verticals: MenuButtonMap = {
   },
 }
 
-const inlines: MenuButtonMap = {
-  equation: {
-    title: 'Insert inline equation',
-    content: icons.equation,
-    active: blockActive(schema.nodes.equation),
-    enable: canInsert(schema.nodes.equation),
-    run: insertInlineEquation,
-  },
-}
+// const inlines: MenuButtonMap = {
+//   equation: {
+//     title: 'Insert inline equation',
+//     content: icons.equation,
+//     active: blockActive(schema.nodes.equation),
+//     enable: canInsert(schema.nodes.equation),
+//     run: insertInlineEquation,
+//   },
+// }
 
 const blocks: MenuButtonMap = {
   // plain: {
@@ -133,25 +133,13 @@ const insertCitation: MenuButtonMap = {
 //   },
 // }
 
-const insertFigure: MenuButtonMap = {
+const inserts: MenuButtonMap = {
   figure: {
     title: 'Insert figure',
     content: icons.figure,
     enable: canInsert(schema.nodes.figure),
     run: insertBlock(schema.nodes.figure),
   },
-}
-
-const insertEquationBlock: MenuButtonMap = {
-  equation_block: {
-    title: 'Insert equation block',
-    content: icons.equation_block,
-    enable: canInsert(schema.nodes.equation_block),
-    run: insertBlock(schema.nodes.equation_block),
-  },
-}
-
-const insertTable: MenuButtonMap = {
   table: {
     title: 'Insert table',
     content: icons.table,
@@ -206,6 +194,18 @@ const insertTable: MenuButtonMap = {
     //     figcaption,
     //   ])
     // },
+  },
+  equation_block: {
+    title: 'Insert equation block',
+    content: icons.equation_block,
+    enable: canInsert(schema.nodes.equation_block),
+    run: insertBlock(schema.nodes.equation_block),
+  },
+  code_block: {
+    title: 'Insert code block',
+    content: icons.code_block,
+    enable: canInsert(schema.nodes.code_block),
+    run: insertBlock(schema.nodes.code_block),
   },
 }
 
@@ -263,11 +263,8 @@ const insertTable: MenuButtonMap = {
 export default {
   styles,
   verticals,
-  inlines,
+  // inlines,
   blocks,
   insertCitation,
-  // insertCrossReference,
-  insertFigure,
-  insertEquationBlock,
-  insertTable,
+  inserts,
 }
