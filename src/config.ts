@@ -27,6 +27,9 @@ interface Config {
     version: string
     commit: string
   }
+  buckets: {
+    projects: string
+  }
 }
 
 const config = {
@@ -59,6 +62,9 @@ const config = {
   git: {
     version: process.env.GIT_VERSION,
     commit: process.env.GIT_COMMIT_HASH,
+  },
+  buckets: {
+    projects: process.env.PROJECTS_BUCKET,
   },
 }
 

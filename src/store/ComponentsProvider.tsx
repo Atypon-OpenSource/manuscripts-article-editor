@@ -5,6 +5,7 @@ import {
   RxCollection,
   RxDocument,
 } from 'rxdb'
+import config from '../config'
 import Spinner from '../icons/spinner'
 import sessionID from '../lib/sessionID'
 import { atomicUpdate } from '../lib/store'
@@ -62,7 +63,7 @@ class ComponentsProvider extends DataProvider {
     schema: schema.projects,
   }
 
-  protected path = 'manuscript_data' // TODO: 'projects' once renamed
+  protected path = config.buckets.projects
 
   public render() {
     // if (!this.state.replication) {
