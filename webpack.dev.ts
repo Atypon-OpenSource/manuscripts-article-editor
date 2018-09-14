@@ -5,7 +5,7 @@ dotenv.config()
 
 import webpack from 'webpack'
 import merge from 'webpack-merge'
-import common, { svgrLoader } from './webpack.common'
+import common from './webpack.common'
 
 const configuration: webpack.Configuration = merge(common, {
   devServer: {
@@ -57,15 +57,6 @@ const configuration: webpack.Configuration = merge(common, {
           {
             test: /\.xml$/,
             use: ['raw-loader'],
-          },
-          {
-            test: /\.svg$/,
-            use: [
-              {
-                loader: 'babel-loader',
-              },
-              svgrLoader,
-            ],
           },
         ],
       },

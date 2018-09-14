@@ -1,6 +1,4 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import path from 'path'
-import hash from 'string-hash'
 import webpack from 'webpack'
 import { GenerateSW } from 'workbox-webpack-plugin'
 import config from './src/config'
@@ -89,30 +87,3 @@ const configuration: webpack.Configuration = {
 }
 
 export default configuration
-
-export const resourceHash = (resource: string) =>
-  hash(path.relative(__dirname, resource))
-
-export const svgrLoader = ({ resource }: { resource: string }) => ({
-  loader: '@svgr/webpack',
-  options: {
-    babel: false,
-    svgAttributes: {
-      fill: 'currentColor',
-      shapeRendering: 'crispEdges',
-    },
-    svgoConfig: {
-      // multipass: true,
-      pretty: process.env.NODE_ENV === 'development',
-      indent: 2,
-      plugins: [
-        {
-          cleanupIDs: {
-            prefix: 'svg-' + resourceHash(resource),
-          },
-        },
-        // { collapseGroups: false },
-      ],
-    },
-  },
-})

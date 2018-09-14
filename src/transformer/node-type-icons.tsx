@@ -1,14 +1,14 @@
 import React from 'react'
 
-import listing from '@manuscripts/assets/images/OutlineIconCodeSnippet.svg'
-import equationBlock from '@manuscripts/assets/images/OutlineIconEquation.svg'
-import figure from '@manuscripts/assets/images/OutlineIconFigure.svg'
-import manuscript from '@manuscripts/assets/images/OutlineIconManuscript.svg'
-import orderedList from '@manuscripts/assets/images/OutlineIconOrderedList.svg'
-import paragraph from '@manuscripts/assets/images/OutlineIconParagraph.svg'
-import section from '@manuscripts/assets/images/OutlineIconSection.svg'
-import table from '@manuscripts/assets/images/OutlineIconTable.svg'
-import unorderedList from '@manuscripts/assets/images/OutlineIconUnorderedList.svg'
+import listing from '@manuscripts/assets/react/OutlineIconCodeSnippet'
+import equationBlock from '@manuscripts/assets/react/OutlineIconEquation'
+import figure from '@manuscripts/assets/react/OutlineIconFigure'
+import manuscript from '@manuscripts/assets/react/OutlineIconManuscript'
+import orderedList from '@manuscripts/assets/react/OutlineIconOrderedList'
+import paragraph from '@manuscripts/assets/react/OutlineIconParagraph'
+import section from '@manuscripts/assets/react/OutlineIconSection'
+import table from '@manuscripts/assets/react/OutlineIconTable'
+import unorderedList from '@manuscripts/assets/react/OutlineIconUnorderedList'
 
 const icons: Map<string, React.SFC<React.SVGAttributes<SVGElement>>> = new Map([
   ['bibliography', section],

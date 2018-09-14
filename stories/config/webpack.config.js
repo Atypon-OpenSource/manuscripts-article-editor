@@ -1,25 +1,4 @@
-const hash = require('string-hash')
-const path = require('path')
 const webpack = require('webpack')
-
-const resourceHash = (resource) =>
-  hash(path.relative(__dirname, resource))
-
-const svgrLoader = ({ resource }) => ({
-  loader: '@svgr/webpack',
-  options: {
-    babel: false,
-    svgoConfig: {
-      plugins: [
-        {
-          cleanupIDs: {
-            prefix: 'svg-' + resourceHash(resource),
-          },
-        },
-      ],
-    },
-  },
-})
 
 module.exports = (storybookBaseConfig, configType) => {
   console.log(configType) // tslint:disable-line:no-console
@@ -69,14 +48,6 @@ module.exports = (storybookBaseConfig, configType) => {
   storybookBaseConfig.module.rules.push({
     test: /\.xml$/,
     use: ['raw-loader'],
-  })
-
-  storybookBaseConfig.module.rules.push({
-    test: /\.svg/,
-    use: [
-      'babel-loader',
-      svgrLoader,
-    ],
   })
 
   storybookBaseConfig.plugins.push(

@@ -12,6 +12,7 @@ image: registry.gitlab.com/mpapp-private/manuscripts-frontend/node8-aws
 
 before_script:
   - . scripts/git-env.sh
+  - npm config set //atypon-npm-registry.herokuapp.com/:_authToken ${NPM_TOKEN}
 
 stages:
   - test

@@ -1,7 +1,7 @@
-import EditIcon from '@manuscripts/assets/images/AnnotationEdit@1x.svg'
-import RemoveIcon from '@manuscripts/assets/images/AnnotationRemove@1x.svg'
-import ReplyIcon from '@manuscripts/assets/images/AnnotationReply@1x.svg'
-import ShareIcon from '@manuscripts/assets/images/AnnotationShare@1x.svg'
+import AnnotationEdit from '@manuscripts/assets/react/AnnotationEdit'
+import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
+import AnnotationReply from '@manuscripts/assets/react/AnnotationReply'
+import AnnotationShare from '@manuscripts/assets/react/AnnotationShare'
 import {
   Field,
   FieldProps,
@@ -137,22 +137,22 @@ class CommentBody extends React.Component<Props, State> {
         <CommentFooter>
           <span>
             <ActionButton onClick={this.startEditing}>
-              <EditIcon />
+              <AnnotationEdit />
             </ActionButton>
             <ActionButton
               onClick={() => this.confirmThenDeleteComment(comment.id)}
             >
-              <RemoveIcon />
+              <AnnotationRemove />
             </ActionButton>
           </span>
 
           <span>
             <ActionButton onClick={this.openSharing}>
-              <ShareIcon />
+              <AnnotationShare />
             </ActionButton>
             {!isReply && (
               <ActionButton onClick={() => this.createReply(comment.id)}>
-                <ReplyIcon />
+                <AnnotationReply />
               </ActionButton>
             )}
           </span>

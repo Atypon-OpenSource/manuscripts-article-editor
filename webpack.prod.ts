@@ -4,7 +4,7 @@ import CleanWebpackPlugin from 'clean-webpack-plugin'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
 // import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import common, { svgrLoader } from './webpack.common'
+import common from './webpack.common'
 
 const configuration: webpack.Configuration = merge(common, {
   bail: true,
@@ -51,15 +51,6 @@ const configuration: webpack.Configuration = merge(common, {
                 name: 'fonts/[name].[hash:8].[ext]',
               },
             },
-          },
-          {
-            test: /\.svg$/,
-            use: [
-              {
-                loader: 'babel-loader',
-              },
-              svgrLoader,
-            ],
           },
         ],
       },

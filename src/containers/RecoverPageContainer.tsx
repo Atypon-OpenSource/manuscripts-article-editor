@@ -144,7 +144,7 @@ class RecoverPageContainer extends React.Component<UserProps> {
 
         if (error.response) {
           if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
-            errors.notFound = true
+            errors.notFound = 'Invalid username or password'
           } else if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
             errors.submit = 'Invalid parameters'
           } else {
