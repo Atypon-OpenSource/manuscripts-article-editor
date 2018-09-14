@@ -201,18 +201,3 @@ export const verify = (data: VerifyValues) =>
 
 export const resendVerificationEmail = (email: string) =>
   client.post(`/registration/verify/resend`, { email })
-
-export const list = (type: string) =>
-  client.get(type).then(response => response.data)
-
-export const create = (type: string, data: object) =>
-  client.post(type, data).then(response => response.data)
-
-export const get = (type: string, id: string) =>
-  client.get(`${type}/${id}`).then(response => response.data)
-
-export const update = (type: string, id: string, data: object) =>
-  client.patch(`${type}/${id}`, data).then(response => response.data)
-
-export const remove = (type: string, id: string) =>
-  client.delete(`${type}/${id}`).then(response => response.data)
