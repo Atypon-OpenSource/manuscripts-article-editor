@@ -186,6 +186,8 @@
     "webpack-dev-server": "^3.0.0"
   },
   "resolutions": {
-    "rxdb/pouchdb-replication": "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master"
+    "rxdb/pouchdb-replication": "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master",
+    "rxjs": "6.2.2",
+    "rxjs-compat": "6.2.2"
   }
 }
