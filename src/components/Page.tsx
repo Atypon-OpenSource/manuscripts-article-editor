@@ -2,15 +2,9 @@ import React from 'react'
 import ProjectContributors from '../icons/project-contributors'
 import ProjectEdit from '../icons/project-edit'
 import ProjectLibrary from '../icons/project-library'
-import { injectGlobal, styled, ThemedProps } from '../theme'
+import { GlobalStyle, styled, ThemedProps } from '../theme'
 import MenuBar from './MenuBar'
 import ProjectLink from './ProjectLink'
-
-injectGlobal`
-  body {
-    margin: 0;
-  }
-`
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -21,7 +15,7 @@ export const Main = styled.main`
   box-sizing: border-box;
 `
 
-export const Centered = Main.extend`
+export const Centered = styled(Main)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,6 +56,8 @@ interface Props {
 
 export const Page: React.SFC<Props> = ({ children, projectID }) => (
   <PageContainer>
+    <GlobalStyle />
+
     {projectID && (
       <ViewsBar>
         <MenuBar projectID={projectID} />

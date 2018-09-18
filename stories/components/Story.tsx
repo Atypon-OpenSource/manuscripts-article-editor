@@ -1,10 +1,4 @@
-import { injectGlobal, styled, ThemedProps } from '../../src/theme'
-
-injectGlobal`
-  body {
-    margin: 0;
-  }
-`
+import { styled, ThemedProps } from '../../src/theme'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 

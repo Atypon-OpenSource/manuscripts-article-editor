@@ -3,7 +3,7 @@ const { addDecorator, configure } = require('@storybook/react')
 const React = require('react')
 const { MemoryRouter } = require('react-router-dom')
 const { Story } = require('../components/Story')
-const { ThemeProvider } = require('../../src/theme')
+const { GlobalStyle, ThemeProvider } = require('../../src/theme')
 const IntlProvider = require('../../src/store/IntlProvider').default
 
 addDecorator(story => (
@@ -11,6 +11,7 @@ addDecorator(story => (
     <ThemeProvider>
       <MemoryRouter initialEntries={['/']}>
         <Story>
+          <GlobalStyle />
           <div>{story()}</div>
         </Story>
       </MemoryRouter>

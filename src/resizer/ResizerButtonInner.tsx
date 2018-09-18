@@ -71,7 +71,7 @@ const ResizerButtonInner = styled(ResizerButtonInnerBase)`
   }
 `
 
-const HorizontalResizerButtonInner = ResizerButtonInner.extend`
+const HorizontalResizerButtonInner = styled(ResizerButtonInner)`
   top: calc(50% - ${toggleButtonDepth / 2}px);
   width: ${gridSize * 3}px;
   height: ${toggleButtonDepth}px;
@@ -92,7 +92,9 @@ const HorizontalResizerButtonInner = ResizerButtonInner.extend`
   }
 `
 
-export const HorizontalEndResizerButtonInner = HorizontalResizerButtonInner.extend`
+export const HorizontalEndResizerButtonInner = styled(
+  HorizontalResizerButtonInner
+)`
   left: -${resizerVisibleSize / 2}px;
 
   &::before,
@@ -117,7 +119,9 @@ export const HorizontalEndResizerButtonInner = HorizontalResizerButtonInner.exte
   }
 `
 
-export const HorizontalStartResizerButtonInner = HorizontalResizerButtonInner.extend`
+export const HorizontalStartResizerButtonInner = styled(
+  HorizontalResizerButtonInner
+)`
   right: -${resizerVisibleSize / 2}px;
 
   &::before,
@@ -142,7 +146,7 @@ export const HorizontalStartResizerButtonInner = HorizontalResizerButtonInner.ex
   }
 `
 
-const VerticalResizerButtonInner = ResizerButtonInner.extend`
+const VerticalResizerButtonInner = styled(ResizerButtonInner)`
   left: calc(50% - ${toggleButtonDepth / 2}px);
   width: ${toggleButtonDepth}px;
   height: ${gridSize * 3}px;
@@ -162,7 +166,7 @@ const VerticalResizerButtonInner = ResizerButtonInner.extend`
   }
 `
 
-export const VerticalEndResizerButtonInner = VerticalResizerButtonInner.extend`
+export const VerticalEndResizerButtonInner = styled(VerticalResizerButtonInner)`
   bottom: -${resizerVisibleSize / 2}px;
 
   &::before,
@@ -188,7 +192,9 @@ export const VerticalEndResizerButtonInner = VerticalResizerButtonInner.extend`
   }
 `
 
-export const VerticalStartResizerButtonInner = VerticalResizerButtonInner.extend`
+export const VerticalStartResizerButtonInner = styled(
+  VerticalResizerButtonInner
+)`
   top: -${resizerVisibleSize / 2}px;
 
   &::before,

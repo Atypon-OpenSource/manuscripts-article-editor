@@ -24,12 +24,12 @@ export const FooterLink = styled(Link)`
   text-decoration: none;
 `
 
-export const FooterLinkSeparator = styled('span')`
+export const FooterLinkSeparator = styled.span`
   display: inline-flex;
   padding: 0 5px;
 `
 
-export const FooterTextButton = Button.extend`
+export const FooterTextButton = styled(Button)`
   background: transparent;
   color: white;
 `

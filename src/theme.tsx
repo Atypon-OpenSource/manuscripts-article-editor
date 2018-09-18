@@ -74,7 +74,8 @@ export const theme: Theme = {
 const {
   default: styled,
   css,
-  injectGlobal,
+  // @ts-ignore (types need updating)
+  createGlobalStyle,
   ThemeProvider: StyledThemeProvider,
   /* tslint:disable-next-line:no-unnecessary-type-assertion */
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<Theme>
@@ -83,4 +84,11 @@ export const ThemeProvider: React.SFC = props => (
   <StyledThemeProvider theme={theme}>{props.children}</StyledThemeProvider>
 )
 
-export { css, injectGlobal, styled }
+export { css, styled }
+
+// @ts-ignore (needs updated types)
+export const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+  }
+`

@@ -1,3 +1,4 @@
+import { ButtonHTMLAttributes } from 'react'
 import { dustyGrey, manuscriptsBlue } from '../colors'
 import { styled, ThemedOuterProps, ThemedProps } from '../theme'
 
@@ -10,7 +11,7 @@ interface IconButtonProps extends ThemedButtonProps {
 
 export const Button = styled.button.attrs({
   type: 'button',
-})`
+})<{ type?: string }>`
   background-color: #fff;
   color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
   border: 2px solid transparent;
@@ -44,7 +45,9 @@ export const Button = styled.button.attrs({
   }
 `
 
-export const PrimaryButton = Button.extend`
+export const PrimaryButton = styled(Button)<
+  ButtonHTMLAttributes<HTMLButtonElement>
+>`
   background-color: ${(props: ThemedButtonProps) =>
     props.theme.colors.button.primary};
   color: #fff;
@@ -63,7 +66,7 @@ export const PrimaryButton = Button.extend`
   }
 `
 
-export const DeleteButton = Button.extend`
+export const DeleteButton = styled(Button)`
   border-color: ${(props: ThemedButtonProps) =>
     props.theme.colors.button.danger};
   color: ${(props: ThemedButtonProps) => props.theme.colors.button.danger};
@@ -176,7 +179,7 @@ export const IconButton = styled.button<ThemedOuterButtonProps>`
   }
 `
 
-export const MiniButton = Button.extend`
+export const MiniButton = styled(Button)`
   padding: 0 7px;
   margin: 0 5px;
   height: 20px;
@@ -184,7 +187,7 @@ export const MiniButton = Button.extend`
   border-radius: 5px;
 `
 
-export const PrimaryMiniButton = MiniButton.extend`
+export const PrimaryMiniButton = styled(MiniButton)`
   color: white;
   background-color: ${(props: ThemedButtonProps) =>
     props.theme.colors.button.primary};

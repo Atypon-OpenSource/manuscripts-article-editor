@@ -720,7 +720,7 @@
   version "0.6.5"
   resolved "https://registry.npmjs.org/@emotion/hash/-/hash-0.6.5.tgz#097729b84a5164f71f9acd2570ecfd1354d7b360"
 
-"@emotion/is-prop-valid@^0.6.7":
+"@emotion/is-prop-valid@^0.6.5", "@emotion/is-prop-valid@^0.6.7":
   version "0.6.7"
   resolved "https://registry.npmjs.org/@emotion/is-prop-valid/-/is-prop-valid-0.6.7.tgz#1767d39c29ba786b7afc3d8d727a2896995f01eb"
   dependencies:
@@ -1443,6 +1443,13 @@
 "@types/string-hash@^1.1.1":
   version "1.1.1"
   resolved "https://registry.npmjs.org/@types/string-hash/-/string-hash-1.1.1.tgz#4c336e61d1e13ce2d3efaaa5910005fd080e106b"
+
+"@types/styled-components@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/@types/styled-components/-/styled-components-3.0.1.tgz#0f591a38e005aeb10687e85eb078c92d9b988ed1"
+  dependencies:
+    "@types/node" "*"
+    "@types/react" "*"
 
 "@types/tapable@*":
   version "1.0.4"
@@ -2407,7 +2414,7 @@ babel-plugin-require-context-hook@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/babel-plugin-require-context-hook/-/babel-plugin-require-context-hook-1.0.0.tgz#3f0e7cce87c338f53639b948632fd4e73834632d"
 
-babel-plugin-styled-components@^1.5.1:
+babel-plugin-styled-components@^1.7.1:
   version "1.7.1"
   resolved "https://registry.npmjs.org/babel-plugin-styled-components/-/babel-plugin-styled-components-1.7.1.tgz#c291d2a48ec77bb0828275b87696b6594a2f80f9"
   dependencies:
@@ -3203,13 +3210,6 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.0.3:
-  version "5.2.1"
-  resolved "https://registry.npmjs.org/buffer/-/buffer-5.2.1.tgz#dd57fa0f109ac59c602479044dca7b8b3d0b71d6"
-  dependencies:
-    base64-js "^1.0.2"
-    ieee754 "^1.1.4"
-
 builtin-modules@^1.0.0, builtin-modules@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
@@ -3942,7 +3942,7 @@ css@2.2.3:
     source-map-resolve "^0.5.1"
     urix "^0.1.0"
 
-css@^2.2.1:
+css@^2.2.4:
   version "2.2.4"
   resolved "https://registry.npmjs.org/css/-/css-2.2.4.tgz#c646755c73971f2bba6a601e2cf2fd71b1298929"
   dependencies:
@@ -4997,7 +4997,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.0, fbjs@^0.8.1, fbjs@^0.8.16, fbjs@^0.8.5, fbjs@^0.8.9:
+fbjs@^0.8.0, fbjs@^0.8.1, fbjs@^0.8.5, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.npmjs.org/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -5679,6 +5679,12 @@ hoist-non-react-statics@1.x.x, hoist-non-react-statics@^1.2.0:
 hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0, hoist-non-react-statics@^2.5.5:
   version "2.5.5"
   resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
+
+hoist-non-react-statics@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.0.1.tgz#fba3e7df0210eb9447757ca1a7cb607162f0a364"
+  dependencies:
+    react-is "^16.3.2"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -6833,11 +6839,11 @@ jest-specific-snapshot@^1.0.0:
   dependencies:
     jest-snapshot ">=20.0.3"
 
-jest-styled-components@^5.0.1:
-  version "5.0.1"
-  resolved "http://registry.npmjs.org/jest-styled-components/-/jest-styled-components-5.0.1.tgz#386c5a161a0f5e783444d624bfc18c6d228d1277"
+jest-styled-components@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.npmjs.org/jest-styled-components/-/jest-styled-components-6.2.0.tgz#a8cbb39ff21a968e11a154c60b6e8c7b284595ff"
   dependencies:
-    css "^2.2.1"
+    css "^2.2.4"
 
 jest-util@^22.4.3:
   version "22.4.3"
@@ -9522,6 +9528,10 @@ react-is@^16.3.1, react-is@^16.4.2, react-is@^16.5.0:
   version "16.5.0"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.5.0.tgz#2ec7c192709698591efe13722fab3ef56144ba55"
 
+react-is@^16.3.2:
+  version "16.5.1"
+  resolved "https://registry.npmjs.org/react-is/-/react-is-16.5.1.tgz#c6e8734fd548a22e1cef4fd0833afbeb433b85ee"
+
 react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
@@ -10813,20 +10823,18 @@ style-loader@^0.23.0:
     loader-utils "^1.1.0"
     schema-utils "^0.4.5"
 
-styled-components@3.3.3:
-  version "3.3.3"
-  resolved "https://registry.npmjs.org/styled-components/-/styled-components-3.3.3.tgz#09e702055ab11f7a8eab8229b1c0d0b855095686"
+styled-components@^4.0.0-beta.7:
+  version "4.0.0-beta.4-hmr"
+  resolved "https://registry.npmjs.org/styled-components/-/styled-components-4.0.0-beta.4-hmr.tgz#b9580f8a4496112774ed1e0e88dddd66219a4ee0"
   dependencies:
-    buffer "^5.0.3"
+    "@emotion/is-prop-valid" "^0.6.5"
     css-to-react-native "^2.0.3"
-    fbjs "^0.8.16"
-    hoist-non-react-statics "^2.5.0"
-    is-plain-object "^2.0.1"
+    hoist-non-react-statics "^3.0.0"
+    memoize-one "^4.0.0"
     prop-types "^15.5.4"
     react-is "^16.3.1"
     stylis "^3.5.0"
     stylis-rule-sheet "^0.0.10"
-    supports-color "^3.2.3"
 
 stylis-rule-sheet@^0.0.10:
   version "0.0.10"
@@ -10840,7 +10848,7 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.1.2, supports-color@^3.2.3:
+supports-color@^3.1.2:
   version "3.2.3"
   resolved "https://registry.npmjs.org/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:

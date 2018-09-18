@@ -41,7 +41,7 @@ const ManuscriptDate = styled.span`
   font-size: 12px;
 `
 
-const DeleteButton = Button.extend`
+const DeleteButton = styled(Button)`
   color: #ddd;
   font-size: 10px;
 `

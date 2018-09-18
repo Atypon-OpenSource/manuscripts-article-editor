@@ -288,7 +288,7 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
           <Actions>
             <PrimaryButton type={'submit'}>Save</PrimaryButton>
             {handleDelete && (
-              <DeleteButton type={'button'} onClick={() => handleDelete(item)}>
+              <DeleteButton onClick={() => handleDelete(item)}>
                 Delete
               </DeleteButton>
             )}

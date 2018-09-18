@@ -27,7 +27,7 @@ const LabelText = styled.div`
 
 const CheckboxField = styled.input.attrs({
   type: 'checkbox',
-})``
+})<{ type?: string }>``
 
 const CheckboxLabel = styled.label`
   color: #444;

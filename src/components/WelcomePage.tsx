@@ -127,7 +127,7 @@ const UploadLabel = styled.span`
   text-align: center;
 `
 
-const UploadBoxInnerText = UploadLabel.extend`
+const UploadBoxInnerText = styled(UploadLabel)`
   display: block;
   font-size: 16px;
   color: #939fad;

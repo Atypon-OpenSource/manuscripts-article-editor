@@ -35,7 +35,7 @@ const CommentFooter = styled.div`
   justify-content: space-between;
 `
 
-const EditingCommentFooter = CommentFooter.extend`
+const EditingCommentFooter = styled(CommentFooter)`
   justify-content: flex-end;
   padding: 8px 16px 0;
 `

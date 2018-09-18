@@ -11,6 +11,7 @@ import {
 } from '../components/Sidebar'
 import { Selected } from '../editor/lib/utils'
 import { TitleField } from '../editor/title/TitleField'
+import { styled } from '../theme'
 import { Manuscript, Project } from '../types/components'
 import ManuscriptOutlineContainer from './ManuscriptOutlineContainer'
 
@@ -21,12 +22,12 @@ interface Props {
   selected: Selected | null
 }
 
-const ProjectTitle = SidebarTitle.extend`
+const ProjectTitle = styled(SidebarTitle)`
   font-size: 22px;
   color: #353535;
 `
 
-const StyledSidebar = Sidebar.extend`
+const StyledSidebar = styled(Sidebar)`
   background: #f0f6fb;
 `
 

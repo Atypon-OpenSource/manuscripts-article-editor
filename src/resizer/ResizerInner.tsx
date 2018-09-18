@@ -20,7 +20,7 @@ const ResizerInner = styled.div`
   }
 `
 
-const HorizontalResizerInner = ResizerInner.extend`
+const HorizontalResizerInner = styled(ResizerInner)`
   cursor: ew-resize;
   top: 0;
   height: 100%;
@@ -32,7 +32,7 @@ const HorizontalResizerInner = ResizerInner.extend`
   }
 `
 
-export const HorizontalStartResizerInner = HorizontalResizerInner.extend`
+export const HorizontalStartResizerInner = styled(HorizontalResizerInner)`
   left: -16px;
 
   &::before {
@@ -40,7 +40,7 @@ export const HorizontalStartResizerInner = HorizontalResizerInner.extend`
   }
 `
 
-export const HorizontalEndResizerInner = HorizontalResizerInner.extend`
+export const HorizontalEndResizerInner = styled(HorizontalResizerInner)`
   right: -16px;
 
   &::before {
@@ -48,7 +48,7 @@ export const HorizontalEndResizerInner = HorizontalResizerInner.extend`
   }
 `
 
-const VerticalResizerInner = ResizerInner.extend`
+const VerticalResizerInner = styled(ResizerInner)`
   cursor: ns-resize;
   left: 0;
   height: 16px;
@@ -60,7 +60,7 @@ const VerticalResizerInner = ResizerInner.extend`
   }
 `
 
-export const VerticalStartResizerInner = VerticalResizerInner.extend`
+export const VerticalStartResizerInner = styled(VerticalResizerInner)`
   top: -16px;
 
   &::before {
@@ -68,7 +68,7 @@ export const VerticalStartResizerInner = VerticalResizerInner.extend`
   }
 `
 
-export const VerticalEndResizerInner = VerticalResizerInner.extend`
+export const VerticalEndResizerInner = styled(VerticalResizerInner)`
   bottom: -16px;
 
   &::before {

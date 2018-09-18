@@ -69,7 +69,7 @@ const AuthorMetadata = styled.div`
 
 const Sidebar = styled.div`
   background-color: #f8fbfe;
-  border-top-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
+  border-top-left-radius: ${props => props.theme.radius}px;
   border-bottom-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
   padding-bottom: 16px;
   height: 100%;
