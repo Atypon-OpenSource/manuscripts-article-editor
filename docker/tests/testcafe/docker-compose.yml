@@ -66,6 +66,7 @@ services:
         DATA_URL: http://data-test.manuscripts.io:8020
         GIT_COMMIT_HASH: $GIT_COMMIT_HASH
         GIT_VERSION: $GIT_VERSION
+        NPM_TOKEN: $NPM_TOKEN
         SERVICEWORKER_ENABLED: 0
         SYNC_GATEWAY_URL: http://sg-test.manuscripts.io:4984
         WAYF_KEY: $WAYF_KEY
