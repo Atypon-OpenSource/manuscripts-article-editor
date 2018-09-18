@@ -4,7 +4,7 @@ services:
   couchbase:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/couchbase
     env_file:
-      - server.env
+      - ../../server/defaults.env
     ports:
       - 8091:8091
       - 8092:8092
@@ -18,6 +18,8 @@ services:
       - 18092:18092
       - 18093:18093
       - 18094:18094
+    environment:
+      - APP_COUCHBASE_HOSTNAME=cb-test.manuscripts.io
     volumes:
       - couchbase-data:/opt/couchbase/var
     networks:
@@ -28,12 +30,20 @@ services:
   sync_gateway:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/sync_gateway
     env_file:
-      - server.env
+      - ../../server/defaults.env
     depends_on:
       - couchbase
     ports:
       - 4984:4984
       - 4985:4985
+    environment:
+      - APP_COUCHBASE_HOSTNAME=cb-test.manuscripts.io
+      - APP_DB_URI=couchbase://cb-test.manuscripts.io/
+      - APP_GATEWAY_ADMIN_PORT=4985
+      - APP_GATEWAY_HOSTNAME=sg-test.manuscripts.io
+      - APP_GATEWAY_PUBLIC_PORT=4984
+      - APP_ALLOWED_CORS_ORIGINS=http://0.0.0.0:8080;http://127.0.0.1:8080;http://client-test.manuscripts.io:8080;http://client-test.manuscripts.io:8081
+      - APP_GATEWAY_COOKIE_DOMAIN=.manuscripts.io
     networks:
       default:
         aliases:
@@ -42,7 +52,7 @@ services:
   api:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/app
     env_file:
-      - server.env
+      - ../../server/defaults.env
     depends_on:
       - couchbase
       - sync_gateway
@@ -51,6 +61,17 @@ services:
     environment:
       - INITIALIZE_DATABASE
       - NODE_ENV=development
+      - APP_BASE_URL=http://client-test.manuscripts.io:8080
+      - APP_COUCHBASE_HOSTNAME=cb-test.manuscripts.io
+      - APP_DB_URI=couchbase://cb-test.manuscripts.io/
+      - APP_FROM_EMAIL=no-reply@manuscriptsapp.com
+      - APP_GATEWAY_ADMIN_PORT=4985
+      - APP_GATEWAY_HOSTNAME=sg-test.manuscripts.io
+      - APP_GATEWAY_PUBLIC_PORT=4984
+      - APP_GOOGLE_AUTH_CALLBACK=http://api-test.manuscripts.io:3000/api/v1/auth/google/callback
+      - APP_ALLOWED_CORS_ORIGINS=http://0.0.0.0:8080;http://127.0.0.1:8080;http://client-test.manuscripts.io:8080;http://client-test.manuscripts.io:8081
+      - APP_GATEWAY_COOKIE_DOMAIN=.manuscripts.io
+
     networks:
       default:
         aliases:
@@ -95,7 +116,7 @@ services:
       - API_BASE_URL=http://api-test.manuscripts.io:3000/api/v1
       - DATA_URL=http://data-test.manuscripts.io:8020
       - SYNC_GATEWAY_URL=http://sg-test.manuscripts.io:4984
-    command: "'chromium:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000"
+    command: "'chromium:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots/data --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000"
     depends_on:
       - api
       - client
@@ -121,7 +142,7 @@ services:
       dockerfile: docker/tests/testcafe/Dockerfile
     environment:
       - BASE_URL=http://client-test.manuscripts.io:8080
-    command: "'firefox:headless --no-sandbox' '/testcafe-tests/*.js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000"
+    command: "'firefox:headless --no-sandbox' '/testcafe-tests/*.js' --screenshots /screenshots/data --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000"
     depends_on:
       - api
       - client

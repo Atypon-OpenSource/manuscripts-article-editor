@@ -2,8 +2,8 @@ FROM testcafe/testcafe
 
 USER root
 
-RUN mkdir /screenshots
-RUN chown -R user:user /screenshots
+RUN mkdir -p /screenshots/data
+#RUN chown -R user:user /screenshots/data
 
 RUN apk add --no-cache curl
 

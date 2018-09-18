@@ -4,6 +4,7 @@ services:
   couchbase:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/couchbase
     env_file:
+      - defaults.env
       - .env
     ports:
       - 8091:8091
@@ -24,6 +25,7 @@ services:
   sync_gateway:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/sync_gateway
     env_file:
+      - defaults.env
       - .env
     depends_on:
       - couchbase
@@ -34,6 +36,7 @@ services:
   api:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/app
     env_file:
+      - defaults.env
       - .env
     depends_on:
       - couchbase
