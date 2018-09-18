@@ -849,9 +849,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }))
 
     if (docChanged) {
-      window.requestIdleCallback(() => this.debouncedSaveComponents(state), {
-        timeout: 5000, // maximum wait for idle
-      })
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => this.debouncedSaveComponents(state), {
+          timeout: 5000, // maximum wait for idle
+        })
+      } else {
+        this.debouncedSaveComponents(state)
+      }
     }
   }
 
