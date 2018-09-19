@@ -165,16 +165,3 @@ deploy_dev_manual:
     - awscli
   when: manual
 
-publish_image:
-  stage: deploy
-  environment:
-    name: docker
-  variables:
-    CONTAINER_IMAGE: registry.gitlab.com/mpapp-private/manuscripts-frontend/manuscripts-frontend:latest
-  script: scripts/publish-image.sh
-  tags:
-    - docker-ce
-  only:
-    - master
-    - triggers
-
