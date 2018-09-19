@@ -85,7 +85,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
   public render() {
     const { manuscripts, project } = this.state
 
-    if (!manuscripts || !project) {
+    if (!project || !manuscripts || !manuscripts.length) {
       return <Spinner />
     }
 
@@ -140,13 +140,11 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
             objectType: ObjectTypes.PROJECT,
           })
           .$.subscribe((doc: ProjectDocument | null) => {
-            if (!doc) {
-              throw new Error('Project not found')
+            if (doc) {
+              this.setState({
+                project: doc.toJSON(),
+              })
             }
-
-            this.setState({
-              project: doc.toJSON(),
-            })
           })
       )
 
