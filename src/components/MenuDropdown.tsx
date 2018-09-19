@@ -17,7 +17,7 @@ class MenuDropdown extends React.Component<Props, State> {
     isOpen: false,
   }
 
-  private node: Node
+  private nodeRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   public componentWillUnmount() {
     this.setOpen(false)
@@ -37,7 +37,8 @@ class MenuDropdown extends React.Component<Props, State> {
     return (
       <DropdownContainer
         id={id}
-        innerRef={(node: HTMLDivElement) => (this.node = node)}
+        // @ts-ignore: styled
+        ref={this.nodeRef}
       >
         <DropdownButton
           isOpen={isOpen}
@@ -57,7 +58,10 @@ class MenuDropdown extends React.Component<Props, State> {
   }
 
   private handleClickOutside: EventListener = (event: Event) => {
-    if (this.node && !this.node.contains(event.target as Node)) {
+    if (
+      this.nodeRef.current &&
+      !this.nodeRef.current.contains(event.target as Node)
+    ) {
       this.setOpen(false)
     }
   }

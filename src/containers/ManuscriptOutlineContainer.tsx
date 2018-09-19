@@ -10,7 +10,7 @@ import { Manuscript } from '../types/components'
 
 interface Props {
   manuscript: Manuscript
-  selected?: Selected
+  selected: Selected | null
 }
 
 const ManuscriptOutlineContainer: React.SFC<Props & DraggableTreeProps> = ({

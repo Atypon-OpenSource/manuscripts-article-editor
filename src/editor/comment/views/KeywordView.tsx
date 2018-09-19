@@ -3,9 +3,15 @@ import { TextSelection } from 'prosemirror-state'
 import { EditorView, NodeView } from 'prosemirror-view'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Select, { Option } from 'react-select'
+import { Creatable } from 'react-select'
+import { OptionsType } from 'react-select/lib/types'
 import { CreateKeyword, GetKeyword, GetKeywords } from '../config'
 import { KeywordSelect } from '../KeywordSelect'
+
+interface OptionType {
+  label: string
+  value: string
+}
 
 export const createKeywordView = (getKeyword: GetKeyword) => (
   node: ProsemirrorNode
@@ -44,7 +50,7 @@ export const createEditableKeywordView = (
   select.style.display = 'inline-block'
   dom.appendChild(select)
 
-  const selectRef = React.createRef<Select>()
+  const selectRef = React.createRef<Creatable<OptionType>>()
   const portal = document.getElementById('menu') as HTMLDivElement
 
   const handleChange = (keywordID: string) => {
@@ -65,7 +71,7 @@ export const createEditableKeywordView = (
   }
 
   const updateContents = () => {
-    const options: Array<Option<string>> = getKeywords().map(item => ({
+    const options: OptionsType<OptionType> = getKeywords().map(item => ({
       value: item.id,
       label: item.name,
     }))

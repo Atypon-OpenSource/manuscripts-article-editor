@@ -3,11 +3,17 @@ import { TextSelection } from 'prosemirror-state'
 import { EditorView, NodeView } from 'prosemirror-view'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Select, { Option } from 'react-select'
+import Select from 'react-select'
+import { OptionsType } from 'react-select/lib/types'
 import { buildName } from '../../../lib/comments'
 import PopperManager from '../../lib/popper'
 import { GetCollaborators, GetUser } from '../config'
 import { MentionSelect } from '../MentionSelect'
+
+interface OptionType {
+  label: string
+  value: string
+}
 
 const popperManager = new PopperManager()
 
@@ -61,7 +67,7 @@ export const createEditableMentionView = (
   select.style.display = 'inline-block'
   dom.appendChild(select)
 
-  const selectRef = React.createRef<Select>()
+  const selectRef = React.createRef<Select<OptionType>>()
   const portal = document.getElementById('menu') as HTMLDivElement
 
   const handleChange = (userID: string) => {
@@ -82,7 +88,7 @@ export const createEditableMentionView = (
   }
 
   const updateContents = () => {
-    const options: Option[] = getCollaborators().map(item => ({
+    const options: OptionsType<OptionType> = getCollaborators().map(item => ({
       value: item.id,
       label: item.name,
     }))

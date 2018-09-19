@@ -1,13 +1,18 @@
 import { FieldProps } from 'formik'
 import React from 'react'
-import { Option } from 'react-select'
-import CreatableSelect from 'react-select/lib/Creatable'
+import { Creatable as CreatableSelect } from 'react-select'
+import { OptionsType } from 'react-select/lib/types'
 import { submitEvent } from '../../components/Form'
 import { Affiliation } from '../../types/components'
 import { AffiliationMap } from './lib/authors'
 
 interface ActionMeta {
   action: string
+}
+
+interface OptionType {
+  label: string
+  value: string
 }
 
 interface Props {
@@ -21,18 +26,21 @@ export const AffiliationsSelect: React.SFC<Props & FieldProps> = ({
   form,
   field,
 }) => (
-  <CreatableSelect
+  <CreatableSelect<OptionType>
     isMulti={true}
-    onChange={async (newValue: [Option], actionMeta: ActionMeta) => {
+    onChange={async (
+      newValue: OptionsType<OptionType>,
+      actionMeta: ActionMeta
+    ) => {
       form.setFieldValue(
         field.name,
         await Promise.all(
           newValue.map(async option => {
             if (actionMeta.action === 'create-option') {
-              return createAffiliation(option.label as string)
+              return createAffiliation(option.label)
             }
 
-            return affiliations.get(option.value as string)
+            return affiliations.get(option.value)
           })
         )
       )

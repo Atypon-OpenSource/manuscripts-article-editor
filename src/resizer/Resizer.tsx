@@ -37,7 +37,7 @@ const inners = {
 }
 
 class Resizer extends React.Component<Props, State> {
-  public resizerNode: Node | null = null
+  public resizerRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   public state = {
     startPosition: 0,
@@ -52,9 +52,8 @@ class Resizer extends React.Component<Props, State> {
 
     return (
       <ResizerInner
-        innerRef={(resizerNode: Node) => {
-          this.resizerNode = resizerNode
-        }}
+        // @ts-ignore: styled
+        ref={this.resizerRef}
         onMouseDown={this.mouseDownHandler}
         onMouseEnter={this.mouseEnterHandler}
         onMouseLeave={this.mouseLeaveHandler}
@@ -79,7 +78,7 @@ class Resizer extends React.Component<Props, State> {
   private mouseDownHandler: React.MouseEventHandler<HTMLDivElement> = e => {
     e.preventDefault()
 
-    if (!this.resizerNode || e.target !== this.resizerNode) {
+    if (!this.resizerRef.current || e.target !== this.resizerRef.current) {
       return
     }
 

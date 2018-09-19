@@ -7,8 +7,8 @@ import {
   FormikProps,
 } from 'formik'
 import * as React from 'react'
-import { Option } from 'react-select'
-import CreatableSelect from 'react-select/lib/Creatable'
+import { Creatable as CreatableSelect } from 'react-select'
+import { OptionsType } from 'react-select/lib/types'
 import { TitleField } from '../editor/title/TitleField'
 import { buildKeyword } from '../lib/commands'
 import {
@@ -131,6 +131,11 @@ const TitleLink = styled.a`
   text-decoration: none;
 `
 
+interface OptionType {
+  label: string
+  value: any // tslint:disable-line:no-any
+}
+
 interface Props {
   item: BibliographyItem
   handleDelete?: (item: Partial<BibliographyItem>) => void
@@ -139,7 +144,7 @@ interface Props {
 }
 
 const buildOptions = (data: KeywordsMap) => {
-  const options = []
+  const options: OptionsType<OptionType> = []
 
   for (const keyword of data.values()) {
     options.push({
@@ -250,16 +255,14 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
 
             <Field name={'keywordIDs'}>
               {(props: FieldProps) => (
-                <CreatableSelect
+                <CreatableSelect<OptionType>
                   isMulti={true}
-                  onChange={async (newValue: [Option]) => {
+                  onChange={async (newValue: OptionsType<OptionType>) => {
                     props.form.setFieldValue(
                       props.field.name,
                       await Promise.all(
                         newValue.map(async option => {
-                          const existing = keywords.data.get(
-                            option.value as string
-                          )
+                          const existing = keywords.data.get(option.value)
 
                           if (existing) return existing.id
 

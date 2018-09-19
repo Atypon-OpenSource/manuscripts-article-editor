@@ -210,7 +210,8 @@ export class MenuItemContainer extends React.Component<
           <Reference>
             {({ ref }) => (
               <Container
-                innerRef={ref}
+                // @ts-ignore: styled
+                ref={ref}
                 onMouseEnter={() => this.setState({ isOpen: true })}
               >
                 <Active>{activeContent(item, state)}</Active>
@@ -227,7 +228,8 @@ export class MenuItemContainer extends React.Component<
             <Popper placement="right-start">
               {({ ref, style, placement }) => (
                 <MenuList
-                  innerRef={ref}
+                  // @ts-ignore: styled
+                  ref={ref}
                   style={style}
                   data-placement={placement}
                 >
@@ -286,7 +288,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           <Reference>
             {({ ref }) => (
               <MenuHeading
-                innerRef={ref}
+                // @ts-ignore: styled
+                ref={ref}
                 onMouseEnter={() => this.setState({ isOpen: true })}
                 className={isOpen ? 'open' : ''}
               >
@@ -299,7 +302,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
               <Popper placement="bottom-start">
                 {({ ref, style, placement }) => (
                   <MenuList
-                    innerRef={ref}
+                    // @ts-ignore: styled
+                    ref={ref}
                     style={style}
                     data-placement={placement}
                   >

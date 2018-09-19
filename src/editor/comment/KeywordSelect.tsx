@@ -1,12 +1,18 @@
 import React from 'react'
-import ReactSelectClass, { Creatable, Option, Options } from 'react-select'
+import { Creatable as CreatableSelect } from 'react-select'
+import { OptionsType } from 'react-select/lib/types'
 import { Keyword } from '../../types/components'
 import { plainStyles } from './select'
 
+interface OptionType {
+  label: string
+  value: string
+}
+
 interface Props {
-  options: Options<string>
+  options: OptionsType<OptionType>
   portal: Node
-  selectRef: React.RefObject<ReactSelectClass>
+  selectRef: React.RefObject<CreatableSelect<OptionType>>
   selected: string
   handleChange: (id?: string) => void
   handleCreate: (name: string) => Promise<Keyword>
@@ -14,7 +20,7 @@ interface Props {
 
 interface State {
   isLoading: boolean
-  options: Options<string>
+  options: OptionsType<OptionType>
   selected: string
 }
 
@@ -39,14 +45,14 @@ export class KeywordSelect extends React.Component<Props, State> {
     // TODO: use menuRenderer to render in popper
 
     return (
-      <Creatable
+      <CreatableSelect<OptionType>
         ref={selectRef}
         autosize={true}
         isLoading={isLoading}
         options={options}
         value={value}
-        onChange={(option: Option<string>) => {
-          if (option.value) {
+        onChange={(option?: OptionType) => {
+          if (option && option.value) {
             this.props.handleChange(option.value)
           }
         }}
@@ -61,7 +67,7 @@ export class KeywordSelect extends React.Component<Props, State> {
 
           const keyword: Keyword = await this.props.handleCreate(inputValue)
 
-          const option = {
+          const option: OptionType = {
             value: keyword.id,
             label: keyword.name,
           }
@@ -69,6 +75,7 @@ export class KeywordSelect extends React.Component<Props, State> {
           this.setState(state => ({
             ...state,
             isLoading: false,
+            // options: [],
             options: [...state.options, option],
             selected: option.value,
           }))

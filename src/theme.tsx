@@ -77,7 +77,6 @@ const {
   // @ts-ignore (types need updating)
   createGlobalStyle,
   ThemeProvider: StyledThemeProvider,
-  /* tslint:disable-next-line:no-unnecessary-type-assertion */
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<Theme>
 
 export const ThemeProvider: React.SFC = props => (

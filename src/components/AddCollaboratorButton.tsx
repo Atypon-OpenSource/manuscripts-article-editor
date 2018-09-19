@@ -62,7 +62,11 @@ class AddCollaboratorButton extends React.Component<Props, State> {
       <Manager>
         <Reference>
           {({ ref }) => (
-            <AddIconButton onClick={this.togglePopper} innerRef={ref}>
+            <AddIconButton
+              // @ts-ignore: styled
+              ref={ref}
+              onClick={this.togglePopper}
+            >
               {isOpen ? (
                 <AddIconActive color={'#7fb5d5'} />
               ) : (

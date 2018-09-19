@@ -58,8 +58,17 @@ export const CustomPopper: React.SFC<Props> = ({
   children,
   popperProps: { ref, style, placement, arrowProps },
 }) => (
-  <Container innerRef={ref} style={style} data-placement={placement}>
-    <Arrow innerRef={arrowProps.ref} style={arrowProps.style} />
+  <Container
+    // @ts-ignore: styled
+    ref={ref}
+    style={style}
+    data-placement={placement}
+  >
+    <Arrow
+      // @ts-ignore: styled
+      ref={arrowProps.ref}
+      style={arrowProps.style}
+    />
     <PopperBodyContainer>{children}</PopperBodyContainer>
   </Container>
 )

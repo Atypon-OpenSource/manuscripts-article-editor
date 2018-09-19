@@ -1,11 +1,17 @@
 import React from 'react'
-import Select, { Option, Options } from 'react-select'
+import Select from 'react-select'
+import { OptionsType } from 'react-select/lib/types'
 import { plainStyles } from './select'
 
+interface OptionType {
+  label: string
+  value: string
+}
+
 interface Props {
-  options: Options
-  portal: Node
-  selectRef: React.RefObject<Select>
+  options: OptionsType<OptionType>
+  portal: HTMLDivElement
+  selectRef: React.RefObject<Select<OptionType>>
   selected: string
   handleChange: (id?: string) => void
 }
@@ -19,15 +25,13 @@ export const MentionSelect: React.SFC<Props> = ({
 }) => (
   <Select
     ref={selectRef}
-    autosize={true}
     options={options}
     value={options.find(option => option.value === selected)}
-    onChange={(option: Option<string>) => {
+    onChange={(option: OptionType) => {
       if (option.value) {
         handleChange(option.value)
       }
     }}
-    // @ts-ignore (types are out of date)
     menuPortalTarget={portal}
     openMenuOnFocus={true}
     styles={plainStyles}

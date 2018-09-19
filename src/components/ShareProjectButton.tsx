@@ -45,7 +45,11 @@ class ShareProjectButton extends React.Component<Props, State> {
       <Manager>
         <Reference>
           {({ ref }) => (
-            <ShareIconButton onClick={this.openPopper} innerRef={ref}>
+            <ShareIconButton
+              // @ts-ignore: styled
+              ref={ref}
+              onClick={this.openPopper}
+            >
               <ShareProjectIcon />
             </ShareIconButton>
           )}

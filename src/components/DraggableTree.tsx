@@ -97,7 +97,7 @@ interface TreeBuilderOptions {
   node: ProsemirrorNode
   pos: number
   index: number
-  selected?: Selected
+  selected: Selected | null
   parent?: ProsemirrorNode
 }
 

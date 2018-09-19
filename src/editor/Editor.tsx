@@ -90,8 +90,6 @@ const EditorBody = styled.div`
   overflow-y: auto;
 `
 
-const EditorContent = styled.div``
-
 // TODO: pass updated components from the database to plugins, without re-rendering the editor
 
 class Editor extends React.Component<EditorProps, State> {
@@ -144,7 +142,7 @@ class Editor extends React.Component<EditorProps, State> {
             saveComponent={this.props.saveComponent}
             deleteComponent={this.props.deleteComponent}
           />
-          <EditorContent innerRef={this.createEditorView} />
+          <div ref={this.createEditorView} />
         </EditorBody>
       </EditorContainer>
     )

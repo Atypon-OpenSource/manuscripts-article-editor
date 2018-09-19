@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from 'formik'
 import React from 'react'
-import { Option } from 'react-select'
+import { OptionsType } from 'react-select/lib/types'
 import CitationManager, { DEFAULT_BUNDLE } from '../lib/csl'
 import { styled } from '../theme'
 import { Manuscript } from '../types/components'
@@ -26,9 +26,14 @@ interface Props {
   saveManuscript: (manuscript: Manuscript) => void
 }
 
+interface OptionType {
+  label: string
+  value: string
+}
+
 interface State {
-  styles: Option[]
-  locales: Option[]
+  styles: OptionsType<OptionType>
+  locales: OptionsType<OptionType>
 }
 
 class ManuscriptForm extends React.Component<Props, State> {
@@ -50,7 +55,7 @@ class ManuscriptForm extends React.Component<Props, State> {
         )
         .map(bundle => ({
           value: bundle._id,
-          label: bundle.csl!.title,
+          label: bundle.csl!.title!,
         })),
       locales: Object.entries(locales['language-names']).map(
         ([value, languageNames]) => ({
