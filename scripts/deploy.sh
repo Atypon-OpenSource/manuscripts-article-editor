@@ -20,3 +20,7 @@ fi
 
 aws cloudfront create-invalidation \
     --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
+
+npx sentry-cli releases new --finalize "$GIT_VERSION-$CI_ENVIRONMENT_NAME"
+npx sentry-cli releases deploys "$GIT_VERSION-$CI_ENVIRONMENT_NAME" new -e ${CI_ENVIRONMENT_NAME} -n $CI_ENVIRONMENT_NAME
+npx sentry-cli releases files "$GIT_VERSION-$CI_ENVIRONMENT_NAME" upload-sourcemaps dist/js

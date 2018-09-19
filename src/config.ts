@@ -1,6 +1,7 @@
 interface Config {
   url: string
   environment: string
+  deployment: string
   serviceworker: boolean
   api: {
     url: string
@@ -35,6 +36,7 @@ interface Config {
 const config = {
   url: process.env.BASE_URL,
   environment: process.env.NODE_ENV,
+  deployment: process.env.CI_ENVIRONMENT_NAME || 'manual-build',
   serviceworker: process.env.SERVICEWORKER_ENABLED === '1',
   api: {
     url: process.env.API_BASE_URL,

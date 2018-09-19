@@ -8,7 +8,7 @@ import common from './webpack.common'
 
 const configuration: webpack.Configuration = merge(common, {
   bail: true,
-  // devtool: 'source-map',
+  devtool: 'source-map',
   mode: 'production',
   module: {
     rules: [

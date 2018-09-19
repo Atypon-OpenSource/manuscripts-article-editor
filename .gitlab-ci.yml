@@ -18,7 +18,7 @@ stages:
   - test
   - deploy
 
-jest:
+lint_test_build:
   stage: test
   script:
     - yarn install --frozen-lockfile --non-interactive
@@ -131,7 +131,8 @@ deploy_production:
     name: production
     url: https://www.manuscripts.io/
   stage: deploy
-  script: scripts/deploy.sh
+  script:
+    - scripts/deploy.sh
   tags:
     - nodejs-8
     - awscli
@@ -143,14 +144,15 @@ deploy_dev:
     name: dev
     url: https://dev.manuscripts.io/
   stage: deploy
-  script: scripts/deploy.sh
+  script:
+    - scripts/deploy.sh
+
   tags:
     - nodejs-8
     - awscli
   only:
-    refs:
-      - master
-      - triggers
+    - master
+    - triggers
 
 deploy_dev_manual:
   environment:
@@ -174,5 +176,5 @@ publish_image:
     - docker-ce
   only:
     - master
-
+    - triggers
 

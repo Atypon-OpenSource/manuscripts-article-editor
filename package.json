@@ -33,6 +33,7 @@
     "@babel/preset-typescript": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "@manuscripts/assets": "^0.1.8",
+    "@sentry/cli": "^1.35.6",
     "@types/clean-webpack-plugin": "^0.1.2",
     "@types/codemirror": "^0.0.58",
     "@types/dompurify": "^0.0.31",
