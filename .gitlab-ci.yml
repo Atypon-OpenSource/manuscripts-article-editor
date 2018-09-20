@@ -136,6 +136,7 @@ deploy_production:
   tags:
     - nodejs-8
     - awscli
+    - sentry-cli
   only:
     - /^v\d+\./ # only deploy release tags, which start with "v" and a version number
 
@@ -146,10 +147,10 @@ deploy_dev:
   stage: deploy
   script:
     - scripts/deploy.sh
-
   tags:
     - nodejs-8
     - awscli
+    - sentry-cli
   only:
     - master
     - triggers
@@ -163,5 +164,6 @@ deploy_dev_manual:
   tags:
     - nodejs-8
     - awscli
+    - sentry-cli
   when: manual
 

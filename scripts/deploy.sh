@@ -29,6 +29,6 @@ aws cloudfront create-invalidation \
 
 # upload the source maps for this release to Sentry
 
-npx sentry-cli releases new --finalize "$SENTRY_RELEASE"
-npx sentry-cli releases deploys "$SENTRY_RELEASE" new -e ${CI_ENVIRONMENT_NAME} -n ${CI_ENVIRONMENT_NAME}
-npx sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps dist/js
+sentry-cli releases new --finalize "$SENTRY_RELEASE"
+sentry-cli releases deploys "$SENTRY_RELEASE" new -e ${CI_ENVIRONMENT_NAME} -n ${CI_ENVIRONMENT_NAME}
+sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps dist/js
