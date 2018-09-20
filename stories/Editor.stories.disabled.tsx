@@ -1,6 +1,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import CSL from 'citeproc'
+import { createBrowserHistory } from 'history'
 import React from 'react'
 import Editor, {
   DeleteComponent,
@@ -85,6 +86,8 @@ const citationProcessor = new CSL.Engine(
   false
 )
 
+const history = createBrowserHistory()
+
 storiesOf('Editor', module)
   .add('edit', () => (
     <Editor
@@ -108,6 +111,7 @@ storiesOf('Editor', module)
       doc={doc}
       subscribe={action('subscribe')}
       popper={popper}
+      history={history}
     />
   ))
   .add('view', () => (
@@ -130,5 +134,6 @@ storiesOf('Editor', module)
       doc={doc}
       subscribe={action('subscribe')}
       popper={popper}
+      history={history}
     />
   ))

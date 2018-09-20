@@ -1,3 +1,4 @@
+import { History } from 'history'
 import { toggleMark } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from 'prosemirror-schema-list'
@@ -39,6 +40,7 @@ export interface MenusProps {
   importManuscript: ImportManuscript
   exportManuscript: ExportManuscript
   deleteComponent: DeleteComponent
+  history: History
 }
 
 const menus = (props: MenusProps): MenuItem[] => [
@@ -86,25 +88,12 @@ const menus = (props: MenusProps): MenuItem[] => [
         ],
       },
       {
-        label: 'Delete',
-        submenu: [
-          {
-            label: 'Manuscript',
-            run: () =>
-              confirm('Delete this manuscript?') &&
-              props
-                .deleteComponent(props.manuscript.id)
-                .then(() => (window.location.href = '/')),
-          },
-          {
-            label: 'Project',
-            run: () =>
-              confirm('Delete this project?') &&
-              props
-                .deleteComponent(props.manuscript.containerID)
-                .then(() => (window.location.href = '/')),
-          },
-        ],
+        label: 'Delete Project',
+        run: () =>
+          confirm('Are you sure you wish to delete this project?') &&
+          props
+            .deleteComponent(props.manuscript.containerID)
+            .then(() => props.history.push('/')),
       },
     ],
   },

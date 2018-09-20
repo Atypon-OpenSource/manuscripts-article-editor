@@ -1,3 +1,4 @@
+import { History } from 'history'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
@@ -61,6 +62,7 @@ export interface EditorProps {
   manuscript: Manuscript
   projectID: string
   getCurrentUser: () => UserProfile
+  history: History
 }
 
 interface State {

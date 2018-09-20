@@ -228,6 +228,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             exportManuscript={this.exportManuscript}
             importManuscript={this.importManuscript}
             getCurrentUser={this.getCurrentUser}
+            history={this.props.history}
             locale={locale}
             manuscript={manuscript}
             onChange={this.handleChange}
