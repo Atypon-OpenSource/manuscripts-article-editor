@@ -72,7 +72,7 @@ export const buildContributor = (
   priority,
   role,
   affiliations: [],
-  bibliographicName,
+  bibliographicName: buildBibliographicName(bibliographicName),
 })
 
 export const buildBibliographyItem = (
