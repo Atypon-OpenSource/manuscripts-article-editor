@@ -1,7 +1,7 @@
 .ProseMirror.manuscript-editor {
   font-size: 15px;
   line-height: 1.67;
-  font-family: "IBM Plex Serif", serif;
+  font-family: "IBM Plex Serif", "Georgia", Times, serif;
   background: #fff;
   color: #353535;
 }
@@ -29,7 +29,7 @@
 }
 
 .ProseMirror h1 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 .ProseMirror ul,

@@ -770,6 +770,10 @@
   version "0.1.2"
   resolved "https://registry.npmjs.org/@emotion/weak-memoize/-/weak-memoize-0.1.2.tgz#4e4afffc61fb82fd0e55a4ed3c3041fd0a765a5a"
 
+"@ibm/plex@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.npmjs.org/@ibm/plex/-/plex-1.1.6.tgz#9fe299d64233ad952986e238333ca95c9247d2c6"
+
 "@manuscripts/assets@^0.1.8":
   version "0.1.8"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.1.8.tgz#3f4cd368e8f7eb09c7d7c495fb8b87a30b81d87b"
@@ -11587,14 +11591,6 @@ typedarray@^0.0.6:
 typeface-barlow@^0.0.54:
   version "0.0.54"
   resolved "https://registry.npmjs.org/typeface-barlow/-/typeface-barlow-0.0.54.tgz#67f33bb32a79ccd414c251b273ea20c26131eda6"
-
-typeface-ibm-plex-sans@^0.0.58:
-  version "0.0.58"
-  resolved "https://registry.npmjs.org/typeface-ibm-plex-sans/-/typeface-ibm-plex-sans-0.0.58.tgz#5d369480af2e4e3d1663ff71ab66c2cab83e0ca0"
-
-typeface-ibm-plex-serif@^0.0.58:
-  version "0.0.58"
-  resolved "https://registry.npmjs.org/typeface-ibm-plex-serif/-/typeface-ibm-plex-serif-0.0.58.tgz#04a7e05254094ee1a749acbf96a039003522d416"
 
 typescript@^2.2.2:
   version "2.9.2"
