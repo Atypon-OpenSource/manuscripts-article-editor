@@ -1,5 +1,6 @@
 import * as React from 'react'
 import debounceRender from 'react-debounce-render'
+import { manuscriptsBlue, powderBlue } from '../colors'
 import { DraggableTreeProps } from '../components/DraggableTree'
 import Panel from '../components/Panel'
 import ShareProjectButton from '../components/ShareProjectButton'
@@ -25,6 +26,14 @@ interface Props {
 const ProjectTitle = styled(SidebarTitle)`
   font-size: 22px;
   color: #353535;
+  border: 1px solid transparent;
+  padding: 4px;
+  margin: -4px 0 -4px;
+
+  &:hover {
+    border-color: ${manuscriptsBlue};
+    background: ${powderBlue};
+  }
 `
 
 const StyledSidebar = styled(Sidebar)`
