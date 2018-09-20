@@ -1,10 +1,9 @@
 import Raven from 'raven-js'
 import config from '../config'
 
+const { dsn, environment, release } = config.sentry
+
 /* istanbul ignore next */
-if (config.sentry.dsn) {
-  Raven.config(config.sentry.dsn, {
-    environment: config.deployment,
-    release: config.git.version,
-  }).install()
+if (dsn) {
+  Raven.config(dsn, { environment, release }).install()
 }

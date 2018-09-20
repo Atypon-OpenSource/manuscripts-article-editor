@@ -6,6 +6,8 @@ set -u # exit if a variable isn't set
 yarn install --frozen-lockfile --non-interactive --production
 yarn build
 
+# upload static files to S3
+
 aws s3 sync --exclude "index.html" --exclude "service-worker.js" \
     --cache-control "max-age=2592000" --acl "public-read" \
      dist/ s3://${S3_BUCKET}
@@ -18,9 +20,15 @@ aws s3 cp "dist/service-worker.js" s3://${S3_BUCKET}/service-worker.js \
     --cache-control "no-cache" --acl "public-read"
 fi
 
+# invalidate the CloudFront cache for the index page
+
+aws configure set preview.cloudfront true
+
 aws cloudfront create-invalidation \
     --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
 
-npx sentry-cli releases new --finalize "$GIT_VERSION-$CI_ENVIRONMENT_NAME"
-npx sentry-cli releases deploys "$GIT_VERSION-$CI_ENVIRONMENT_NAME" new -e ${CI_ENVIRONMENT_NAME} -n $CI_ENVIRONMENT_NAME
-npx sentry-cli releases files "$GIT_VERSION-$CI_ENVIRONMENT_NAME" upload-sourcemaps dist/js
+# upload the source maps for this release to Sentry
+
+npx sentry-cli releases new --finalize "$SENTRY_RELEASE"
+npx sentry-cli releases deploys "$SENTRY_RELEASE" new -e ${CI_ENVIRONMENT_NAME} -n ${CI_ENVIRONMENT_NAME}
+npx sentry-cli releases files "$SENTRY_RELEASE" upload-sourcemaps dist/js
