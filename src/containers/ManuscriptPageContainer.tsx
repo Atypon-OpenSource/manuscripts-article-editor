@@ -42,6 +42,7 @@ import { buildName } from '../lib/comments'
 import CitationManager from '../lib/csl'
 import { download } from '../lib/download'
 import { exportProject, generateDownloadFilename } from '../lib/exporter'
+import { ContributorRole } from '../lib/roles'
 import { AnyComponentChangeEvent } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
@@ -415,7 +416,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const manuscript = buildManuscript()
     const manuscriptID = manuscript.id
 
-    const contributor = buildContributor(user.bibliographicName)
+    const contributor = buildContributor(
+      user.bibliographicName,
+      ContributorRole.author,
+      0,
+      user.userID
+    )
 
     await this.props.components.saveComponent(contributor, {
       projectID,

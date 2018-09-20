@@ -7,6 +7,7 @@ import ManuscriptsPage from '../components/ManuscriptsPage'
 import { Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
 import { buildContributor, buildManuscript } from '../lib/commands'
+import { ContributorRole } from '../lib/roles'
 import { atomicUpdate } from '../lib/store'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
@@ -183,7 +184,12 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
     const manuscript = buildManuscript()
     const manuscriptID = manuscript.id
 
-    const contributor = buildContributor(user.bibliographicName)
+    const contributor = buildContributor(
+      user.bibliographicName,
+      ContributorRole.author,
+      0,
+      user.userID
+    )
 
     await this.props.components.saveComponent(contributor, {
       projectID,

@@ -1,18 +1,32 @@
+import { FormikActions } from 'formik'
 import React from 'react'
+import { InvitationValues } from '../../components/InvitationForm'
 import { CloseButton } from '../../components/SimpleModal'
 import { StyledModal, totalTransitionTime } from '../../components/StyledModal'
 import Close from '../../icons/close'
 import Expander from '../../icons/expander'
+import { isOwner } from '../../lib/roles'
 import { styled, ThemedProps } from '../../theme'
-import { Affiliation, Contributor, Manuscript } from '../../types/components'
+import {
+  Affiliation,
+  Contributor,
+  Manuscript,
+  Project,
+  UserProfile,
+} from '../../types/components'
 import { StyledTitleField } from '../title/TitleField'
 import { Affiliations } from './Affiliations'
 import { AuthorAffiliation } from './Author'
-import { AuthorForm, AuthorValues } from './AuthorForm'
+import { AuthorValues } from './AuthorForm'
 import Authors from './Authors'
-import AuthorsSidebar from './AuthorsSidebar'
+import {
+  AddAuthorsModal,
+  AuthorsModal,
+  InviteAuthorsModal,
+} from './AuthorsModals'
 import { Header, HeaderContainer } from './Header'
 import { AffiliationMap } from './lib/authors'
+import { AuthorItem, DropSide } from './lib/drag-drop'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -29,26 +43,6 @@ const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 16px 8px;
-`
-
-const ModalBody = styled.div`
-  flex: 1;
-  display: flex;
-  border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 #d8d8d8;
-  background: #fff;
-`
-
-const ModalSidebar = styled.div`
-  width: 300px;
-  height: 70vh;
-  overflow: hidden;
-`
-
-const ModalMain = styled.div`
-  flex: 1;
-  height: 70vh;
-  overflow-y: auto;
 `
 
 const TitleContainer = styled.div`
@@ -80,7 +74,12 @@ interface Props {
   startEditing: () => void
   editing: boolean
   stopEditing: () => void
-  createAuthor: (priority: number) => void
+  createAuthor: (
+    priority: number,
+    person?: UserProfile,
+    name?: string,
+    invitationID?: string
+  ) => void
   removeAuthor: (data: Contributor) => void
   selectAuthor: (data: Contributor) => void
   selectedAuthor: Contributor | null
@@ -88,101 +87,94 @@ interface Props {
   createAffiliation: (name: string) => Promise<Affiliation>
   expanded: boolean
   toggleExpanded: () => void
+  addingAuthors: boolean
+  nonAuthors: UserProfile[]
+  addedAuthorsCount: number
+  searchingAuthors: boolean
+  searchText: string
+  addedAuthors: string[]
+  searchResults: UserProfile[]
+  project: Project
+  user: UserProfile
+  isInvite: boolean
+  invitationValues: InvitationValues
+  isRemovePopperOpen: boolean
+  startAddingAuthors: () => void
+  checkInvitations: (author: Contributor) => boolean
+  handleAddingDoneCancel: () => void
+  handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
+  handleSearchFocus: () => void
+  handleInvite: () => void
+  handleInviteCancel: () => void
+  handleInvitationSubmit: (
+    values: InvitationValues,
+    formikActions: FormikActions<InvitationValues>
+  ) => void
+  handleDrop: (
+    source: AuthorItem,
+    target: AuthorItem,
+    position: DropSide,
+    authors: Contributor[]
+  ) => void
+  handleRemovePopperOpen: () => void
 }
 
-export const Metadata: React.SFC<Props> = ({
-  saveTitle,
-  manuscript,
-  authors,
-  authorAffiliations,
-  affiliations,
-  startEditing,
-  editing,
-  stopEditing,
-  createAuthor,
-  removeAuthor,
-  selectAuthor,
-  selectedAuthor,
-  handleSaveAuthor,
-  createAffiliation,
-  expanded,
-  toggleExpanded,
-}) => (
+export const Metadata: React.SFC<Props> = props => (
   <HeaderContainer>
     <Header>
       <TitleContainer>
         <StyledTitleField
           id={'manuscript-title-field'}
-          value={manuscript.title}
-          autoFocus={!manuscript.title}
-          handleChange={saveTitle}
+          value={props.manuscript.title}
+          autoFocus={!props.manuscript.title}
+          handleChange={props.saveTitle}
           tabIndex={1}
         />
         <ExpanderButton
-          onClick={toggleExpanded}
+          onClick={props.toggleExpanded}
           style={{
-            transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            transform: props.expanded ? 'rotate(180deg)' : 'rotate(0deg)',
           }}
         >
           <Expander />
         </ExpanderButton>
       </TitleContainer>
 
-      {expanded && (
+      {props.expanded && (
         <AuthorsContainer>
           <Authors
-            authors={authors}
-            authorAffiliations={authorAffiliations}
-            startEditing={startEditing}
+            authors={props.authors}
+            authorAffiliations={props.authorAffiliations}
+            startEditing={props.startEditing}
+            showEditButton={isOwner(props.project, props.user.userID)}
+            selectAuthor={props.selectAuthor}
           />
 
-          <Affiliations affiliations={affiliations} />
+          <Affiliations affiliations={props.affiliations} />
         </AuthorsContainer>
       )}
 
       <StyledModal
-        isOpen={editing}
-        onRequestClose={stopEditing}
+        isOpen={props.editing}
+        onRequestClose={props.stopEditing}
         ariaHideApp={false}
         shouldCloseOnOverlayClick={true}
         closeTimeoutMS={totalTransitionTime}
       >
         <ModalContainer>
           <ModalHeader>
-            <CloseButton onClick={stopEditing}>
+            <CloseButton onClick={props.stopEditing}>
               <Close size={24} />
             </CloseButton>
           </ModalHeader>
 
-          <ModalBody>
-            <ModalSidebar>
-              <AuthorsSidebar
-                authors={authors}
-                authorAffiliations={authorAffiliations}
-                createAuthor={createAuthor}
-                removeAuthor={removeAuthor}
-                selectAuthor={selectAuthor}
-                selectedAuthor={selectedAuthor}
-              />
-            </ModalSidebar>
+          {!props.isInvite &&
+            !props.addingAuthors && <AuthorsModal {...props} />}
 
-            <ModalMain>
-              {selectedAuthor && (
-                <AuthorForm
-                  manuscript={manuscript.id}
-                  author={selectedAuthor}
-                  affiliations={affiliations}
-                  authorAffiliations={
-                    authorAffiliations.get(
-                      selectedAuthor.id
-                    ) as AuthorAffiliation[]
-                  }
-                  handleSave={handleSaveAuthor}
-                  createAffiliation={createAffiliation}
-                />
-              )}
-            </ModalMain>
-          </ModalBody>
+          {!props.isInvite &&
+            props.addingAuthors && <AddAuthorsModal {...props} />}
+
+          {props.isInvite && <InviteAuthorsModal {...props} />}
         </ModalContainer>
       </StyledModal>
     </Header>

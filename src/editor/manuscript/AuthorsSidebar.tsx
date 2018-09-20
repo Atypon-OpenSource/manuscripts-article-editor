@@ -1,14 +1,10 @@
 import React from 'react'
-import { Avatar } from '../../components/Avatar'
 import AddAuthor from '../../icons/add-author'
-import CorrespondingAuthorBadge from '../../icons/corresponding-author-badge'
-import JointFirstAuthorBadge from '../../icons/joint-first-author-badge'
-import VerticalEllipsis from '../../icons/vertical-ellipsis'
 import { styled, ThemedProps } from '../../theme'
 import { Contributor, UserProfile } from '../../types/components'
 import { AuthorAffiliation } from './Author'
-import { AuthorName } from './AuthorName'
-import { isJointFirstAuthor } from './lib/authors'
+import DraggableAuthorItem from './DraggableAuthorItem'
+import { AuthorItem, DropSide } from './lib/drag-drop'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -38,33 +34,6 @@ const AddButton = styled.button`
   &:focus {
     outline: none;
   }
-`
-
-const DeleteButton = styled.button.attrs({
-  type: 'button',
-})`
-  background: transparent;
-  border: none;
-  cursor: pointer;
-`
-
-const AuthorItem = styled.div`
-  padding: 4px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.25s;
-
-  &:hover,
-  &.active {
-    background: #e0eef9;
-  }
-`
-
-const AuthorMetadata = styled.div`
-  display: flex;
-  align-items: center;
 `
 
 const Sidebar = styled.div`
@@ -104,47 +73,35 @@ const SidebarList = styled.div`
   overflow-y: auto;
 `
 
-const AvatarContainer = styled.span`
-  display: inline-flex;
-  position: relative;
-`
-
-const AuthorBadge = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`
-
-const AuthorNotes = styled.span`
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  & ${AuthorBadge}:not(:last-child) {
-    right: -20%;
-  }
-`
-
-const AuthorNameSpace = styled.span`
-  margin-left: 12px;
-`
 interface Props {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
-  createAuthor: (priority: number) => void
+  selectedAuthor: Contributor | null
+  isRemovePopperOpen: boolean
+  checkInvitations: (author: Contributor) => boolean
   removeAuthor: (item: Contributor) => void
   selectAuthor: (item: Contributor) => void
-  selectedAuthor: Contributor | null
+  startAdding: () => void
+  handleDrop: (
+    source: AuthorItem,
+    target: AuthorItem,
+    position: DropSide,
+    authors: Contributor[]
+  ) => void
+  handleRemovePopperOpen: () => void
 }
 
 const AuthorsSidebar: React.SFC<Props> = ({
   authors,
   authorAffiliations,
-  createAuthor,
   removeAuthor,
   selectAuthor,
   selectedAuthor,
+  startAdding,
+  handleDrop,
+  checkInvitations,
+  isRemovePopperOpen,
+  handleRemovePopperOpen,
 }) => (
   <Sidebar>
     <SidebarHeader>
@@ -154,7 +111,7 @@ const AuthorsSidebar: React.SFC<Props> = ({
     <SidebarAction>
       <AddButton
         onClick={() => {
-          createAuthor(authors.length + 1)
+          startAdding()
         }}
       >
         <AddIcon>
@@ -173,52 +130,27 @@ const AuthorsSidebar: React.SFC<Props> = ({
           id: author.profileID,
         }
 
+        const authorItem = {
+          id: author.id,
+          priority: author.priority || null,
+          index,
+        }
+
         return (
-          <AuthorItem
+          <DraggableAuthorItem
             key={author.id}
-            onClick={() => selectAuthor(author)}
-            className={
-              selectedAuthor && selectedAuthor.id === author.id ? 'active' : ''
-            }
-          >
-            <AuthorMetadata>
-              <AvatarContainer>
-                <Avatar src={user.avatar} size={48} color={'#788faa'} />
-                <AuthorNotes>
-                  {author.isCorresponding && (
-                    <AuthorBadge>
-                      <CorrespondingAuthorBadge />
-                    </AuthorBadge>
-                  )}
-                  {isJointFirstAuthor(authors, index) && (
-                    <AuthorBadge>
-                      <JointFirstAuthorBadge />
-                    </AuthorBadge>
-                  )}
-                </AuthorNotes>
-              </AvatarContainer>
-
-              <AuthorNameSpace>
-                <AuthorName name={author.bibliographicName} />
-              </AuthorNameSpace>
-              {/*<div>
-                {affiliations &&
-                  affiliations.map(affiliation => (
-                    <AffiliationName key={affiliation.data.id}>
-                      {affiliation.data.name}
-                    </AffiliationName>
-                  ))}
-              </div>*/}
-            </AuthorMetadata>
-
-            <DeleteButton
-              onClick={() => {
-                removeAuthor(author)
-              }}
-            >
-              <VerticalEllipsis />
-            </DeleteButton>
-          </AuthorItem>
+            authorItem={authorItem}
+            onDrop={handleDrop}
+            author={author}
+            authors={authors}
+            user={user}
+            selectedAuthor={selectedAuthor}
+            removeAuthor={removeAuthor}
+            selectAuthor={selectAuthor}
+            checkInvitations={checkInvitations}
+            isRemovePopperOpen={isRemovePopperOpen}
+            handleRemovePopperOpen={handleRemovePopperOpen}
+          />
         )
       })}
     </SidebarList>

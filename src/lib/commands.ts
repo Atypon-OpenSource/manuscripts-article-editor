@@ -65,7 +65,9 @@ export const buildManuscript = (title: string = ''): Build<Manuscript> => ({
 export const buildContributor = (
   bibliographicName: BibliographicName,
   role: ContributorRole = 'author',
-  priority: number = 0
+  priority: number = 0,
+  userID?: string | null,
+  invitationID?: string
 ): Build<Contributor> => ({
   id: generateID('contributor') as string,
   objectType: CONTRIBUTOR,
@@ -73,6 +75,8 @@ export const buildContributor = (
   role,
   affiliations: [],
   bibliographicName: buildBibliographicName(bibliographicName),
+  userID,
+  invitationID,
 })
 
 export const buildBibliographyItem = (

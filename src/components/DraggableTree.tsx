@@ -4,7 +4,6 @@ import {
   ConnectDragPreview,
   ConnectDragSource,
   ConnectDropTarget,
-  DragDropContext,
   DragSource,
   DragSourceCollector,
   DragSourceSpec,
@@ -13,9 +12,9 @@ import {
   DropTargetMonitor,
   DropTargetSpec,
 } from 'react-dnd'
-import HTML5DragDropBackend from 'react-dnd-html5-backend'
 import { findDOMNode } from 'react-dom'
 import { Selected } from '../editor/lib/utils'
+import { withDragDropContext } from '../editor/manuscript/lib/drag-drop'
 import { nodeTitle, nodeTitlePlaceholder } from '../transformer/node-title'
 import { nodeTypeIcon } from '../transformer/node-type-icons'
 import { isElementNode } from '../transformer/node-types'
@@ -392,6 +391,4 @@ const dropTarget = DropTarget<Props, ConnectedDropTargetProps>(
 
 const DraggableTree = dragSource(dropTarget(Tree))
 
-const dragContext = DragDropContext(HTML5DragDropBackend)
-
-export default dragContext(DraggableTree)
+export default withDragDropContext(DraggableTree)

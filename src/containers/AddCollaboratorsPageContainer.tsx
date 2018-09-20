@@ -111,7 +111,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       return <Redirect to={'/login'} />
     }
 
-    if (isOwner(project, user.data.userID)) {
+    if (!isOwner(project, user.data.userID)) {
       return <Redirect to={`/projects/${project.id}/collaborators`} />
     }
 

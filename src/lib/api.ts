@@ -35,9 +35,8 @@ const buildFormRequestConfig = (url: string, data: any): AxiosRequestConfig => {
   }
 }
 
-export const fetchUser = () => {
-  return client.get('/user').then(response => response.data)
-}
+export const fetchUser = () =>
+  client.get('/user').then(response => response.data)
 
 export const signup = (data: SignupValues) =>
   client.post('/registration/signup', data)
@@ -105,11 +104,10 @@ export const refresh = () => {
   })
 }
 
-export const refreshSyncSession = () => {
-  return client.post('/auth/refreshSyncSessions', null, {
+export const refreshSyncSession = () =>
+  client.post('/auth/refreshSyncSessions', null, {
     withCredentials: true,
   })
-}
 
 export const logout = () =>
   client.post('/auth/logout').then(() => {
@@ -192,9 +190,7 @@ export const acceptProjectInvitation = (
   })
 
 export const rejectProjectInvitation = (invitationId: string) =>
-  client
-    .post('/invitation/reject', { invitationId })
-    .then(response => response.data)
+  client.post('/invitation/reject', { invitationId })
 
 export const verify = (data: VerifyValues) =>
   client.post('/registration/verify', data)

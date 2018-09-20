@@ -10,6 +10,7 @@ import {
   buildManuscript,
   buildProject,
 } from '../lib/commands'
+import { ContributorRole } from '../lib/roles'
 import sessionID from '../lib/sessionID'
 import timestamp from '../lib/timestamp'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
@@ -149,7 +150,12 @@ class ProjectsPageContainer extends React.Component<
     const manuscript = buildManuscript()
     const manuscriptID = manuscript.id
 
-    const contributor = buildContributor(user.bibliographicName)
+    const contributor = buildContributor(
+      user.bibliographicName,
+      ContributorRole.author,
+      0,
+      user.userID
+    )
 
     await this.props.components.saveComponent(contributor, {
       manuscriptID,

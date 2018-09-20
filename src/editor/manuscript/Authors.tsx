@@ -7,13 +7,17 @@ import { isJointFirstAuthor } from './lib/authors'
 interface Props {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
+  showEditButton: boolean
   startEditing: () => void
+  selectAuthor: (data: Contributor) => void
 }
 
 const Authors: React.SFC<Props> = ({
   authors,
   authorAffiliations,
   startEditing,
+  showEditButton,
+  selectAuthor,
 }) => (
   <div>
     {authors.map((author, index) => (
@@ -23,11 +27,14 @@ const Authors: React.SFC<Props> = ({
           author={author}
           jointFirstAuthor={isJointFirstAuthor(authors, index)}
           affiliations={authorAffiliations.get(author.id)}
+          selectAuthor={selectAuthor}
+          startEditing={startEditing}
+          showEditButton={showEditButton}
         />
       </React.Fragment>
     ))}
 
-    <EditButton onClick={startEditing}>EDIT</EditButton>
+    {showEditButton && <EditButton onClick={startEditing}>EDIT</EditButton>}
   </div>
 )
 

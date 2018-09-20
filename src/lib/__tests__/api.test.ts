@@ -2,6 +2,7 @@ jest.mock('../token')
 
 import MockAdapter from 'axios-mock-adapter'
 import * as HttpStatusCodes from 'http-status-codes'
+import { stringify } from 'qs'
 import * as api from '../api'
 import client from '../client'
 import token, { Token } from '../token'
@@ -282,5 +283,98 @@ describe('api', () => {
     const result = await api.resendVerificationEmail(email)
 
     expect(result.status).toBe(HttpStatusCodes.OK)
+  })
+
+  it('change the password of the user', async () => {
+    const mock = new MockAdapter(client)
+    const data = {
+      newPassword: 'abcde',
+      currentPassword: 'pass123',
+      deviceId: 'device-007',
+    }
+
+    mock.onPost('/auth/changePassword', data).reply(HttpStatusCodes.OK)
+
+    const results = await api.changePassword(data)
+
+    expect(results.status).toBe(HttpStatusCodes.OK)
+  })
+
+  it('add a user to the project', async () => {
+    const mock = new MockAdapter(client)
+    const projectID = 'MPProject:project-id'
+    const userID = 'User_user-id'
+    const role = 'Viewer'
+
+    mock
+      .onPost(`/project/${encodeURIComponent(projectID)}/addUser`, {
+        role,
+        userId: userID.replace('_', '|'),
+      })
+      .reply(HttpStatusCodes.OK)
+
+    const results = await api.addProjectUser(projectID, userID, role)
+
+    expect(results.status).toBe(HttpStatusCodes.OK)
+  })
+
+  it('update the role of a user', async () => {
+    const mock = new MockAdapter(client)
+    const projectID = 'MPProject:project-id'
+    const userID = 'User_user-id'
+    const newRole = 'Viewer'
+
+    mock
+      .onPost(`/project/${encodeURIComponent(projectID)}/roles`, {
+        newRole,
+        managedUserId: userID.replace('_', '|'),
+      })
+      .reply(HttpStatusCodes.OK)
+
+    const results = await api.updateUserRole(projectID, userID, newRole)
+
+    expect(results.status).toBe(HttpStatusCodes.OK)
+  })
+
+  it('reject project invitation', async () => {
+    const mock = new MockAdapter(client)
+    const invitationId = 'ProjectInvitation:invitation-id'
+
+    mock.onPost('invitation/reject', { invitationId }).reply(HttpStatusCodes.OK)
+
+    const results = await api.rejectProjectInvitation(invitationId)
+
+    expect(results.status).toBe(HttpStatusCodes.OK)
+  })
+
+  it('refresh the token', async () => {
+    const mock = new MockAdapter(client)
+    const tokenData = {
+      access_token: 'foobar',
+    }
+
+    token.set(tokenData)
+
+    mock
+      .onPost('/token', stringify({ grant_type: 'refresh' }))
+      .reply(HttpStatusCodes.OK, { access_token: 'new-foobar' })
+
+    await api.refresh()
+    const results = token.get() as Token
+
+    expect(results.access_token).toBe('new-foobar')
+  })
+
+  it('no token to refresh', async () => {
+    const mock = new MockAdapter(client)
+
+    mock
+      .onPost('/token', stringify({ grant_type: 'refresh' }))
+      .reply(HttpStatusCodes.OK, { access_token: 'new-foobar' })
+
+    await api.refresh()
+    const results = token.get()
+
+    expect(results).toBeNull()
   })
 })

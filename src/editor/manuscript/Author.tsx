@@ -14,6 +14,14 @@ const AuthorAffiliation = styled.a`
   color: inherit;
 `
 
+const AuthorsContainer = styled.div`
+  display: inline-flex;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`
+
 export interface AuthorAffiliation {
   ordinal: number
   data: Affiliation
@@ -23,16 +31,32 @@ interface AuthorProps {
   author: Contributor
   affiliations?: AuthorAffiliation[]
   jointFirstAuthor: boolean
+  showEditButton: boolean
+  selectAuthor: (data: Contributor) => void
+  startEditing: () => void
 }
 
 export const Author: React.SFC<AuthorProps> = ({
   author,
   affiliations,
   jointFirstAuthor,
+  startEditing,
+  selectAuthor,
+  showEditButton,
 }) => (
   <span key={author.id}>
-    <AuthorName name={author.bibliographicName} />
-
+    {showEditButton ? (
+      <AuthorsContainer
+        onClick={() => {
+          startEditing()
+          selectAuthor(author)
+        }}
+      >
+        <AuthorName name={author.bibliographicName} />
+      </AuthorsContainer>
+    ) : (
+      <AuthorName name={author.bibliographicName} />
+    )}
     {affiliations && (
       <AuthorNotes>
         {affiliations.map((affiliation, index) => (

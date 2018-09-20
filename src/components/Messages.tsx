@@ -106,6 +106,24 @@ export const AddedCollaboratorsMessage: React.SFC<{ addedCount: number }> = ({
   />
 )
 
+export const AddAuthorsMessage = () => (
+  <FormattedMessage
+    id={'add_authors'}
+    defaultMessage={
+      'Add authors to your author list from your collaborators, or invite new ones'
+    }
+  />
+)
+
+export const AddedAuthorsMessage: React.SFC<{ addedCount: number }> = ({
+  addedCount,
+}) => (
+  <FormattedMessage
+    id={'added_authors'}
+    defaultMessage={`You added {addedCount, number} {addedCount, plural, one {author} other {authors}}`}
+    values={{ addedCount }}
+  />
+)
 export const CheckCollaboratorsSearchMessage: React.SFC<{
   searchText: string
 }> = ({ searchText }) => (

@@ -30,3 +30,7 @@ export const getUserRole = (project: Project, userID: string) => {
 
   return null
 }
+
+export enum ContributorRole {
+  author = 'author',
+}

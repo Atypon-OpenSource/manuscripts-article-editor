@@ -1,7 +1,8 @@
 import React from 'react'
+import { buildAuthorPriority } from '../editor/manuscript/lib/authors'
 import { styled } from '../theme'
-import { UserProfile } from '../types/components'
-import AddCollaboratorButton from './AddCollaboratorButton'
+import { Contributor, UserProfile } from '../types/components'
+import AddAuthorButton from './AddAuthorButton'
 import { Avatar } from './Avatar'
 import { ManuscriptBlueButton } from './Button'
 import { SidebarContent, SidebarPersonContainer } from './Sidebar'
@@ -34,36 +35,62 @@ const SidebarText = styled.div`
 `
 
 const SidebarButtonContainer = styled.div`
-  padding-left: 20px;
+  display: flex;
+  padding-left: 5px;
+`
+
+const Container = styled.div`
+  padding-left: 5px;
 `
 
 interface SearchSidebarProps {
   searchText: string
   searchResults: UserProfile[]
-  addCollaborator: (userID: string, role: string) => Promise<void>
-  countAddedCollaborators: () => void
+  addedAuthors: string[]
+  authors: Contributor[]
   handleInvite: (searchText: string) => void
+  createAuthor: (
+    priority: number,
+    person?: UserProfile | null,
+    name?: string,
+    invitationID?: string
+  ) => void
 }
 
-const SearchCollaboratorsSidebar: React.SFC<SearchSidebarProps> = ({
-  addCollaborator,
-  countAddedCollaborators,
+const SearchAuthorsSidebar: React.SFC<SearchSidebarProps> = ({
+  createAuthor,
   handleInvite,
   searchText,
   searchResults,
+  addedAuthors,
+  authors,
 }) => (
   <React.Fragment>
     {!searchResults.length ? (
       <SidebarContent>
         <SidebarText>
-          No matches in the People list.
+          No matches found.
           <br />
-          Do you want to <b>invite</b> {searchText}?
+          Do you want to <b>create</b> a new author or
+          <br />
+          <b>invite</b> a new Collaborator to be added to
+          <br />
+          the author list?
         </SidebarText>
         <SidebarButtonContainer>
           <ManuscriptBlueButton onClick={() => handleInvite(searchText)}>
             Invite
           </ManuscriptBlueButton>
+
+          <Container>
+            <ManuscriptBlueButton
+              onClick={() =>
+                createAuthor(buildAuthorPriority(authors), null, searchText)
+              }
+            >
+              Create
+            </ManuscriptBlueButton>
+          </Container>
         </SidebarButtonContainer>
       </SidebarContent>
     ) : (
@@ -81,10 +108,11 @@ const SearchCollaboratorsSidebar: React.SFC<SearchSidebarProps> = ({
                 </PersonName>
               </PeopleData>
             </UserDataContainer>
-            <AddCollaboratorButton
-              collaborator={person}
-              addCollaborator={addCollaborator}
-              countAddedCollaborators={countAddedCollaborators}
+            <AddAuthorButton
+              person={person}
+              isSelected={addedAuthors.includes(person.userID)}
+              createAuthor={createAuthor}
+              authors={authors}
             />
           </SidebarPersonContainer>
         ))}
@@ -93,4 +121,4 @@ const SearchCollaboratorsSidebar: React.SFC<SearchSidebarProps> = ({
   </React.Fragment>
 )
 
-export default SearchCollaboratorsSidebar
+export default SearchAuthorsSidebar

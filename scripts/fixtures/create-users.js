@@ -1,5 +1,6 @@
 const axios = require('axios')
 const uuid = require('uuid')
+const config = require('../../src/config.ts')
 
 const timestamp = () => Math.floor(Date.now() / 1000)
 
@@ -21,7 +22,7 @@ const createUser = user =>
   axios.post('http://localhost:3000/api/v1/registration/signup', user)
 
 const createProject = (users) =>
-  axios.post('http://localhost:4985/manuscript_data/', {
+  axios.post(`http://localhost:4985/${config.buckets.projects}/`, {
     _id: `MPProject:project-${uuid()}`,
     createdAt: now,
     objectType: 'MPProject',

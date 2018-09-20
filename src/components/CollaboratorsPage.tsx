@@ -1,5 +1,7 @@
 import React from 'react'
 import AddAuthor from '../icons/add-author'
+import AddedIcon from '../icons/added-icon'
+import AuthorsPlaceholder from '../icons/author-placeholder'
 import ContributorDetails from '../icons/contributor-details-placeholder'
 import ContributorsPlaceholder from '../icons/contributor-placeholder'
 import ContributorSearchPlaceholder from '../icons/contributor-search-placeholder'
@@ -9,7 +11,9 @@ import { styled } from '../theme'
 import { CollaboratorActions } from '../types/collaborator'
 import { Project, UserProfile } from '../types/components'
 import {
+  AddAuthorsMessage,
   AddCollaboratorsMessage,
+  AddedAuthorsMessage,
   AddedCollaboratorsMessage,
   CheckCollaboratorsSearchMessage,
   InviteCollaboratorsMessage,
@@ -25,7 +29,12 @@ const OuterContainer = styled.div`
   overflow-y: auto;
 `
 
+const OuterContainerModal = styled(OuterContainer)`
+  height: 65vh;
+`
+
 const InnerContainer = styled.div`
+  display: contents;
   text-align: center;
   max-width: 480px;
   font-size: 20px;
@@ -95,7 +104,7 @@ export const CollaboratorDetailsPage: React.SFC<
 > = ({ project, user, collaboratorsCount, handleAddCollaborator }) => (
   <OuterContainer>
     <InnerContainer>
-      {collaboratorsCount || isOwner(project, user.userID) ? (
+      {collaboratorsCount || !isOwner(project, user.userID) ? (
         <InnerContainer>
           <Placeholder>
             <ContributorDetails size={500} />
@@ -141,6 +150,10 @@ interface AddCollaboratorsPageProps {
   addedCollaboratorsCount: number
 }
 
+interface AddAuthorsPageProps {
+  addedAuthorsCount: number
+}
+
 export const AddCollaboratorsPage: React.SFC<AddCollaboratorsPageProps> = ({
   project,
   addedCollaboratorsCount,
@@ -172,6 +185,48 @@ export const AddCollaboratorsPage: React.SFC<AddCollaboratorsPageProps> = ({
   </OuterContainer>
 )
 
+const IconContainer = styled.div`
+  display: flex;
+  align-self: center;
+  padding-right: 5px;
+`
+
+const MessageContainer = styled.div`
+  display: flex;
+  align-content: center;
+`
+
+export const AddAuthorsPage: React.SFC<AddAuthorsPageProps> = ({
+  addedAuthorsCount,
+}) => (
+  <OuterContainerModal>
+    <InnerContainer>
+      <Placeholder>
+        <AuthorsPlaceholder size={500} />
+      </Placeholder>
+
+      {addedAuthorsCount ? (
+        <MessageContainer>
+          <IconContainer>
+            <AddedIcon />
+          </IconContainer>
+
+          <Message>
+            <AddedAuthorsMessage addedCount={addedAuthorsCount} />
+          </Message>
+        </MessageContainer>
+      ) : (
+        <React.Fragment>
+          <Action>Add Author</Action>
+          <Message>
+            <AddAuthorsMessage />
+          </Message>
+        </React.Fragment>
+      )}
+    </InnerContainer>
+  </OuterContainerModal>
+)
+
 interface InviteCollaboratorsPageProps {
   project: Project
 }
@@ -194,6 +249,26 @@ export const InviteCollaboratorsPage: React.SFC<
       </Message>
     </InnerContainer>
   </OuterContainer>
+)
+
+export const InviteCollaboratorsModal: React.SFC<
+  InviteCollaboratorsPageProps
+> = ({ project }) => (
+  <OuterContainerModal>
+    <InnerContainer>
+      <Placeholder>
+        <InvitationPlaceholder size={500} />
+      </Placeholder>
+
+      <ProjectTitle>{project.title}</ProjectTitle>
+
+      <Action>Invite New Collaborator</Action>
+
+      <Message>
+        <InviteCollaboratorsMessage />
+      </Message>
+    </InnerContainer>
+  </OuterContainerModal>
 )
 
 interface SearchCollaboratorsPageProps {

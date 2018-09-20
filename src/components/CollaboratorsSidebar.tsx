@@ -8,20 +8,13 @@ import { Avatar } from './Avatar'
 import CollaboratorSettingsButton from './CollaboratorSettingsButton'
 import InvitedCollaboratorSettingsButton from './InvitedCollaboratorSettingsButton'
 import Panel from './Panel'
-import { Sidebar, SidebarContent, SidebarHeader, SidebarTitle } from './Sidebar'
-
-const CollaboratorContainer = styled.div`
-  display: flex;
-  margin: 0 -22px;
-  padding: 8px 16px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: space-between;
-
-  & :hover {
-    background-color: #e0eef9;
-  }
-`
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarPersonContainer,
+  SidebarTitle,
+} from './Sidebar'
 
 const CollaboratorInitial = styled.span`
   margin-right: 4px;
@@ -39,7 +32,7 @@ const CollaboratorRole = styled.div`
   color: #949494;
 `
 
-const CollaboratorSideBar = styled(Sidebar)`
+const CollaboratorSidebar = styled(Sidebar)`
   background-color: #f8fbfe;
 `
 
@@ -106,7 +99,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
     side={'end'}
     minSize={200}
   >
-    <CollaboratorSideBar>
+    <CollaboratorSidebar>
       <SidebarHeader>
         <SidebarTitle>Collaborators</SidebarTitle>
       </SidebarHeader>
@@ -120,7 +113,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
 
       <SidebarContent>
         {invitations.map(invitation => (
-          <CollaboratorContainer
+          <SidebarPersonContainer
             key={invitation.id}
             onMouseEnter={() => handleHover(invitation.id)}
             onMouseLeave={() => handleHover()}
@@ -144,11 +137,11 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
                   />
                 )}
             </InvitedContainer>
-          </CollaboratorContainer>
+          </SidebarPersonContainer>
         ))}
         {!!collaborators &&
           collaborators.map(collaborator => (
-            <CollaboratorContainer
+            <SidebarPersonContainer
               key={collaborator.id}
               onMouseEnter={() => handleHover(collaborator.userID)}
               onMouseLeave={() => handleHover()}
@@ -179,10 +172,10 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
                     openPopper={openPopper}
                   />
                 )}
-            </CollaboratorContainer>
+            </SidebarPersonContainer>
           ))}
       </SidebarContent>
-    </CollaboratorSideBar>
+    </CollaboratorSidebar>
   </Panel>
 )
 

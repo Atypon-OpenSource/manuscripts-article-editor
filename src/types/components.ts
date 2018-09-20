@@ -132,6 +132,8 @@ export interface Contributor extends ManuscriptComponent {
   url?: string
   image?: string
   profileID?: string
+  userID?: string | null
+  invitationID?: string
 }
 
 export interface UserProfile extends Component {

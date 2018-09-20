@@ -13,6 +13,7 @@ import {
 import { Metadata } from '../src/editor/manuscript/Metadata'
 import Title from '../src/editor/title/Title'
 import { StyledTitleField, TitleField } from '../src/editor/title/TitleField'
+import { Project, UserProfile } from '../src/types/components'
 import { affiliations, authors } from './data/contributors'
 import manuscripts from './data/manuscripts'
 
@@ -28,6 +29,7 @@ storiesOf('Manuscript', module)
   .add('View/edit title', () => (
     <Metadata
       authors={authors}
+      nonAuthors={[]}
       affiliations={affiliations}
       authorAffiliations={authorAffiliations}
       manuscript={manuscripts[0]}
@@ -43,11 +45,39 @@ storiesOf('Manuscript', module)
       stopEditing={action('stop editing')}
       expanded={true}
       toggleExpanded={action('toggle expanded')}
+      addingAuthors={false}
+      startAddingAuthors={action('start adding')}
+      addedAuthorsCount={0}
+      searchingAuthors={false}
+      searchText={''}
+      // tslint:disable-next-line:no-object-literal-type-assertion
+      project={{} as Project}
+      // tslint:disable-next-line:no-object-literal-type-assertion
+      user={{} as UserProfile}
+      addedAuthors={[]}
+      handleAddingDoneCancel={action('stop adding')}
+      handleSearchChange={action('update search text')}
+      handleSearchFocus={action('start searching')}
+      searchResults={[]}
+      isInvite={false}
+      handleInvite={action('start invite')}
+      handleInviteCancel={action('stop invite')}
+      handleInvitationSubmit={action('invite author')}
+      invitationValues={{
+        name: '',
+        email: '',
+        role: '',
+      }}
+      checkInvitations={action('check invitation existence')}
+      handleDrop={action('dropped the user')}
+      isRemovePopperOpen={false}
+      handleRemovePopperOpen={action('handle open the remove author popper')}
     />
   ))
   .add('Edit authors', () => (
     <Metadata
       authors={authors}
+      nonAuthors={[]}
       affiliations={affiliations}
       authorAffiliations={authorAffiliations}
       manuscript={manuscripts[0]}
@@ -63,11 +93,39 @@ storiesOf('Manuscript', module)
       stopEditing={action('stop editing')}
       expanded={true}
       toggleExpanded={action('toggle expanded')}
+      addingAuthors={false}
+      // tslint:disable-next-line:no-object-literal-type-assertion
+      user={{} as UserProfile}
+      // tslint:disable-next-line:no-object-literal-type-assertion
+      project={{} as Project}
+      startAddingAuthors={action('start adding')}
+      addedAuthorsCount={0}
+      searchingAuthors={false}
+      searchText={''}
+      addedAuthors={[]}
+      handleAddingDoneCancel={action('stop adding')}
+      handleSearchChange={action('update search text')}
+      handleSearchFocus={action('start searching')}
+      searchResults={[]}
+      isInvite={false}
+      handleInvite={action('start invite')}
+      handleInviteCancel={action('stop invite')}
+      handleInvitationSubmit={action('invite author')}
+      invitationValues={{
+        name: '',
+        email: '',
+        role: '',
+      }}
+      checkInvitations={action('check invitation existence')}
+      handleDrop={action('dropped the user')}
+      isRemovePopperOpen={false}
+      handleRemovePopperOpen={action('handle open the remove author popper')}
     />
   ))
   .add('Collapsed', () => (
     <Metadata
       authors={authors}
+      nonAuthors={[]}
       affiliations={affiliations}
       authorAffiliations={authorAffiliations}
       manuscript={manuscripts[0]}
@@ -83,6 +141,33 @@ storiesOf('Manuscript', module)
       stopEditing={action('stop editing')}
       expanded={false}
       toggleExpanded={action('toggle expanded')}
+      addingAuthors={false}
+      startAddingAuthors={action('start adding')}
+      addedAuthorsCount={0}
+      searchingAuthors={false}
+      // tslint:disable-next-line:no-object-literal-type-assertion
+      user={{} as UserProfile}
+      // tslint:disable-next-line:no-object-literal-type-assertion
+      project={{} as Project}
+      searchText={''}
+      addedAuthors={[]}
+      handleAddingDoneCancel={action('stop adding')}
+      handleSearchChange={action('update search text')}
+      handleSearchFocus={action('start searching')}
+      searchResults={[]}
+      isInvite={false}
+      handleInvite={action('start invite')}
+      handleInviteCancel={action('stop invite')}
+      handleInvitationSubmit={action('invite author')}
+      invitationValues={{
+        name: '',
+        email: '',
+        role: '',
+      }}
+      checkInvitations={action('check invitation existence')}
+      handleDrop={action('dropped the user')}
+      isRemovePopperOpen={false}
+      handleRemovePopperOpen={action('handle open the remove author popper')}
     />
   ))
   .add('Title: read-only', () => (
@@ -110,11 +195,22 @@ storiesOf('Manuscript', module)
       ))}
     </div>
   ))
-  .add('Authors', () => (
+  .add('Authors with edit button', () => (
     <Authors
       authors={authors}
       authorAffiliations={authorAffiliations}
       startEditing={action('start editing')}
+      showEditButton={true}
+      selectAuthor={action('select author')}
+    />
+  ))
+  .add('Authors with no edit button', () => (
+    <Authors
+      authors={authors}
+      authorAffiliations={authorAffiliations}
+      startEditing={action('start editing')}
+      showEditButton={false}
+      selectAuthor={action('select author')}
     />
   ))
   .add('Affiliations', () => <Affiliations affiliations={affiliations} />)
@@ -122,10 +218,14 @@ storiesOf('Manuscript', module)
     <AuthorsSidebar
       authors={authors}
       authorAffiliations={authorAffiliations}
-      createAuthor={action('create author')}
       removeAuthor={action('remove author')}
       selectAuthor={action('select author')}
       selectedAuthor={null}
+      startAdding={action('start adding')}
+      checkInvitations={action('check invitation existence')}
+      handleDrop={action('dropped the user')}
+      isRemovePopperOpen={false}
+      handleRemovePopperOpen={action('handle open the remove author popper')}
     />
   ))
   .add('Author Form', () => (

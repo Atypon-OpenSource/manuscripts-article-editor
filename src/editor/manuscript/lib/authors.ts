@@ -14,6 +14,14 @@ export const buildSortedAuthors = (componentMap: ComponentMap) => {
     .sort((a, b) => Number(a.priority) - Number(b.priority))
 }
 
+export const buildAuthorPriority = (authors: Contributor[]) => {
+  if (!authors.length) return 0
+
+  const priorities = authors.map(author => author.priority!)
+
+  return Math.max(...priorities) + 1
+}
+
 export const buildAffiliationIDs = (authors: Contributor[]): string[] => {
   const ids: string[] = []
 

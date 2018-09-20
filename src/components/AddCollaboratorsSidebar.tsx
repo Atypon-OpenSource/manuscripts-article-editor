@@ -12,20 +12,16 @@ import {
 } from './Button'
 import Panel from './Panel'
 import SearchCollaboratorsSidebar from './SearchCollaboratorsSidebar'
-import { Sidebar, SidebarContent, SidebarHeader, SidebarTitle } from './Sidebar'
-
-const PeopleContainer = styled.div`
-  display: flex;
-  margin: 0 -22px;
-  padding: 10px 20px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: space-between;
-
-  & :hover {
-    background-color: #e0eef9;
-  }
-`
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarPersonContainer,
+  SidebarSearchField,
+  SidebarSearchIconContainer,
+  SidebarSearchText,
+  SidebarTitle,
+} from './Sidebar'
 
 const PersonInitial = styled.span`
   margin-right: 4px;
@@ -38,58 +34,16 @@ const PersonName = styled.div`
   font-weight: 500;
 `
 
-const PeopleSideBar = styled(Sidebar)`
+const PeopleSidebar = styled(Sidebar)`
   background-color: #f8fbfe;
 `
 
-const SearchField = styled.div`
-  display: flex;
-  margin: 10px;
-  align-items: center;
-  cursor: pointer;
-`
-
-const SearchText = styled.input`
-  display: flex;
-  flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-  border: none;
-  background-color: transparent;
-  height: 30px;
-  position: relative;
-  left: -16px;
-  right: -16px;
-  padding-left: 24px;
-
-  &:hover,
-  &:focus {
-    background-color: #e0eef9;
-    outline: none;
-  }
-
-  &::placeholder {
-    color: #000;
-  }
-
-  &:focus::placeholder {
-    color: transparent;
-  }
-`
-
-const PeopleData = styled.div`
+const PersonData = styled.div`
   padding-left: 10px;
 `
 
 const UserDataContainer = styled.div`
   display: flex;
-  align-items: center;
-`
-
-const SearchIconContainer = styled.span`
-  z-index: 5;
-  display: flex;
-  justify-content: center;
   align-items: center;
 `
 
@@ -151,7 +105,7 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
     side={'end'}
     minSize={250}
   >
-    <PeopleSideBar>
+    <PeopleSidebar>
       <SidebarHeader>
         <SidebarTitle>Add Collaborators</SidebarTitle>
 
@@ -166,27 +120,30 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
         )}
       </SidebarHeader>
 
-      <SearchField onFocus={handleSearchFocus} onBlur={handleSearchFocus}>
-        <SearchIconContainer>
+      <SidebarSearchField
+        onFocus={handleSearchFocus}
+        onBlur={handleSearchFocus}
+      >
+        <SidebarSearchIconContainer>
           {isSearching ? <SearchIcon color={'#e0eef9'} /> : <SearchIcon />}
-        </SearchIconContainer>
+        </SidebarSearchIconContainer>
 
-        <SearchText
+        <SidebarSearchText
           value={searchText}
           placeholder={'Search name/email'}
           onChange={handleSearchChange}
           maxLength={100}
         />
-      </SearchField>
+      </SidebarSearchField>
       {searchText === '' ? (
         <SidebarContent>
           {invitations.map(invitation => (
-            <PeopleContainer key={invitation.id}>
+            <SidebarPersonContainer key={invitation.id}>
               <UserDataContainer>
                 <Avatar size={45} color={'#585858'} />
-                <PeopleData>
+                <PersonData>
                   <PersonName>{invitation.invitedUserName}</PersonName>
-                </PeopleData>
+                </PersonData>
               </UserDataContainer>
               <InvitedContainer>
                 <Invited>Invited</Invited>
@@ -194,20 +151,20 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
                   <AddedIcon />
                 </AddIconButton>
               </InvitedContainer>
-            </PeopleContainer>
+            </SidebarPersonContainer>
           ))}
           {people.map(person => (
-            <PeopleContainer key={person.id}>
+            <SidebarPersonContainer key={person.id}>
               <UserDataContainer>
                 <Avatar src={person.avatar} size={45} color={'#585858'} />
-                <PeopleData>
+                <PersonData>
                   <PersonName>
                     <PersonInitial>
                       {person.bibliographicName.given}
                     </PersonInitial>
                     {person.bibliographicName.family}
                   </PersonName>
-                </PeopleData>
+                </PersonData>
               </UserDataContainer>
               <AddCollaboratorButton
                 collaborator={person}
@@ -215,7 +172,7 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
                 addCollaborator={addCollaborator}
                 countAddedCollaborators={countAddedCollaborators}
               />
-            </PeopleContainer>
+            </SidebarPersonContainer>
           ))}
         </SidebarContent>
       ) : (
@@ -227,7 +184,7 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
           searchResults={searchResults}
         />
       )}
-    </PeopleSideBar>
+    </PeopleSidebar>
   </Panel>
 )
 

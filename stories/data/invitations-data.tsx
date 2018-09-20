@@ -5,7 +5,7 @@ import {
   UserProfile,
 } from '../../src/types/components'
 
-const invitations: ProjectInvitation[] = [
+export const invitations: ProjectInvitation[] = [
   {
     id: 'ProjectInvitation|2da9a8bc004083daea2b2746a5414b18f318f845',
     invitedUserEmail: 'lmessi@atypon.com',
