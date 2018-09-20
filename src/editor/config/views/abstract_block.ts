@@ -1,4 +1,4 @@
-import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { Fragment, Node as ProsemirrorNode, Slice } from 'prosemirror-model'
 import { EditorView, NodeView } from 'prosemirror-view'
 import { buildComment } from '../../../lib/commands'
 import { EditorProps } from '../../Editor'
@@ -377,6 +377,27 @@ abstract class AbstractBlock implements NodeView {
     }
   }
 
+  private splitSection = () => {
+    const { schema, tr } = this.view.state
+
+    const from = this.getPos()
+    const to = from + this.node.nodeSize
+
+    const slice = new Slice(
+      Fragment.from([
+        schema.nodes.section.create(),
+        schema.nodes.section.create({}, [
+          schema.nodes.section_title.create(),
+          this.node,
+        ]),
+      ]),
+      1,
+      1
+    )
+
+    this.view.dispatch(tr.replaceRange(from, to, slice))
+  }
+
   private createComment = async () => {
     const user = this.props.getCurrentUser()
 
@@ -395,6 +416,7 @@ abstract class AbstractBlock implements NodeView {
     const menu = document.createElement('div')
     menu.className = 'menu'
 
+    const $pos = this.view.state.doc.resolve(this.getPos())
     const nodeType = this.node.type.name
 
     if (this.isListType(nodeType)) {
@@ -431,6 +453,21 @@ abstract class AbstractBlock implements NodeView {
         )
       })
     )
+
+    if (nodeType === 'paragraph' && $pos.parent.type.name === 'section') {
+      menu.appendChild(
+        this.createMenuSection((section: HTMLElement) => {
+          const sectionLevel = this.sectionLevel($pos.depth)
+
+          section.appendChild(
+            this.createMenuItem(`Split to New ${sectionLevel}`, () => {
+              this.splitSection()
+              popper.destroy()
+            })
+          )
+        })
+      )
+    }
 
     menu.appendChild(
       this.createMenuSection((section: HTMLElement) => {
