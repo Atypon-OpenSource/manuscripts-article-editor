@@ -55,5 +55,11 @@ export const AffiliationsSelect: React.SFC<Props & FieldProps> = ({
       value: item.id,
       label: item.name,
     }))}
+    styles={{
+      control: base => ({
+        ...base,
+        backgroundColor: '#fff',
+      }),
+    }}
   />
 )
