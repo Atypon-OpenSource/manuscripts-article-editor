@@ -1,9 +1,9 @@
 .ProseMirror.manuscript-editor {
-  font-size: 13pt;
-  line-height: 2em;
+  font-size: 15px;
+  line-height: 1.67;
   font-family: "IBM Plex Serif", serif;
   background: #fff;
-  color: #000;
+  color: #353535;
 }
 
 .ProseMirror:focus {
@@ -40,6 +40,10 @@
 .ProseMirror li p {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.ProseMirror p {
+  letter-spacing: -0.1px;
 }
 
 .ProseMirror p.block {
@@ -160,6 +164,23 @@
 
 .ProseMirror section h1 {
   margin: 0;
+}
+
+.ProseMirror section h1 {
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.ProseMirror section > section h1 {
+  font-size: 20px;
+}
+
+.ProseMirror section > section > section h1 {
+  font-size: 17px;
+}
+
+.ProseMirror section > section > section > section h1 {
+  font-size: 100%;
 }
 
 .ProseMirror .empty-node::before {
