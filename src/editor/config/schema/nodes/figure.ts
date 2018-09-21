@@ -10,6 +10,7 @@ export const figure: NodeSpec = {
     figureStyle: { default: '' },
     figureLayout: { default: '' },
     label: { default: '' },
+    suppressCaption: { default: false },
   },
   group: 'block',
   parseDOM: [

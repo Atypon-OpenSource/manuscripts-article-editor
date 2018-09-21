@@ -406,6 +406,15 @@ abstract class AbstractBlock implements NodeView {
     await this.props.saveComponent(comment)
   }
 
+  private toggleCaption = async () => {
+    this.view.dispatch(
+      this.view.state.tr.setNodeMarkup(this.getPos(), undefined, {
+        ...this.node.attrs,
+        suppressCaption: !this.node.attrs.suppressCaption,
+      })
+    )
+  }
+
   private isListType = (type: string) =>
     ['bullet_list', 'ordered_list'].includes(type)
 
@@ -453,6 +462,23 @@ abstract class AbstractBlock implements NodeView {
         )
       })
     )
+
+    if ('suppressCaption' in this.node.attrs) {
+      menu.appendChild(
+        this.createMenuSection((section: HTMLElement) => {
+          const label = this.node.attrs.suppressCaption
+            ? 'Show Caption'
+            : 'Hide Caption'
+
+          section.appendChild(
+            this.createMenuItem(label, async () => {
+              await this.toggleCaption()
+              popper.destroy()
+            })
+          )
+        })
+      )
+    }
 
     if (nodeType === 'paragraph' && $pos.parent.type.name === 'section') {
       menu.appendChild(

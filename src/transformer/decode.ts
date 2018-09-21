@@ -161,6 +161,7 @@ export class Decoder {
           id: component.id,
           containedObjectIDs: component.containedObjectIDs,
           figureStyle: component.figureStyle,
+          suppressCaption: Boolean(component.suppressCaption),
         },
         figcaption
       )

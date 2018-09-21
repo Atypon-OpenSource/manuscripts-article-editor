@@ -3488,6 +3488,7 @@ Object {
                 "id": "MPFigureElement:DF026E1B-394A-4A68-C761-9DB39349A714",
                 "label": "",
                 "rows": 1,
+                "suppressCaption": false,
               },
               "content": Array [
                 Object {
@@ -5091,6 +5092,7 @@ Object {
                 "id": "MPFigureElement:46C8B471-2D20-4EB2-D784-7754BDEE2DFF",
                 "label": "",
                 "rows": 1,
+                "suppressCaption": false,
               },
               "content": Array [
                 Object {
@@ -5458,6 +5460,7 @@ Object {
                 "id": "MPFigureElement:347C7D2A-5C1D-4A9B-AED0-97CAEB91F210",
                 "label": "",
                 "rows": 1,
+                "suppressCaption": false,
               },
               "content": Array [
                 Object {
@@ -6413,6 +6416,7 @@ Map {
     "figureStyle": "MPFigureStyle:E173019C-00BB-415E-926A-D0C57ED43303",
     "id": "MPFigureElement:DF026E1B-394A-4A68-C761-9DB39349A714",
     "objectType": "MPFigureElement",
+    "suppressCaption": false,
   },
   "MPTableElement:0380FFE1-98F0-49B0-B1FE-6FD9496CE3EE" => Object {
     "caption": "Unique amino acid site changes on sites between two vultures in immune system-related proteins",
@@ -6428,6 +6432,7 @@ Map {
     "figureStyle": "MPFigureStyle:E173019C-00BB-415E-926A-D0C57ED43303",
     "id": "MPFigureElement:46C8B471-2D20-4EB2-D784-7754BDEE2DFF",
     "objectType": "MPFigureElement",
+    "suppressCaption": false,
   },
   "MPParagraphElement:9A650430-1526-44C8-9A9A-34B5E72CCD91" => Object {
     "contents": "<p id=\\"MPParagraphElement:9A650430-1526-44C8-9A9A-34B5E72CCD91\\" placeholder=\\"Section contents\\">We also investigated the Accipitridae (cinereous vulture, bald eagle, and white-tailed eagle) and Cathartidae (turkey vulture)-specific amino acid changes in the digestive system pathways (Additional file 1: Table S15). A total of eight and 10 genes were identified as unique amino acid changes in the Accipitridae and the Cathartidae, respectively. Among these genes, seven were shared by both the Accipitridae and Cathartidae (Additional file 1: Table S16). Of these, two genes (KCNJ16 and SLC26A7) are involved in the gastric acid secretion pathways (Additional file 2: Fig. S3). KCNJ16 is an inward-rectifier potassium channel which regulates fluid and pH balance, and SLC26A7 is known to play an important role in gastric acidification <span class=\\"citation\\" data-reference-id=\\"MPCitation:1DD06A73-9AAC-45DE-9440-6FAE13CBC2D4\\">(Xu et al. 2009)</span>. Among the five amino acid differences in these genes, two were predicted as function-altering using Polyphen2 <span class=\\"citation\\" data-reference-id=\\"MPCitation:015A478A-4AE3-4266-981C-D07642524ABB\\">(Adzhubei et al. 2010)</span> and PROVEAN (Additional file 1: Table S17). Additionally, two genes (KCNC1 and KCTD18), which are involved in potassium channel activity, were positively selected in the cinereous vulture, although it was not the case in the turkey vulture. It is known that potassium ions are required for gastric acid secretion <span class=\\"citation\\" data-reference-id=\\"MPCitation:5F324C60-D603-4E19-AA08-CA54284FB597\\">(He et al. 2011)</span>. Recently, a vulture metagenome study showed that the facial microbial community was significantly more diverse than that of the hindgut, reflecting the breakdown of dietary DNA in the vulture gastrointestinal tract and pointing to extraordinarily harsh chemical conditions <span class=\\"citation\\" data-reference-id=\\"MPCitation:A2D76F21-3936-49A0-B1BB-41A8D4F5E757\\">(Roggenbuck et al. 2014)</span>. Taken together, we propose that these vulture-specific amino acid changes in the immune system and gastric acid-associated genes are evidence of the vultures' enhanced defenses against microbial/viral infections from carcasses and are good candidates for future functional studies.</p>",
@@ -6510,6 +6515,7 @@ Map {
     "figureStyle": "MPFigureStyle:E173019C-00BB-415E-926A-D0C57ED43303",
     "id": "MPFigureElement:347C7D2A-5C1D-4A9B-AED0-97CAEB91F210",
     "objectType": "MPFigureElement",
+    "suppressCaption": false,
   },
   "MPSection:39D955B4-EB6D-433C-F399-45EA6331DC72" => Object {
     "elementIDs": Array [

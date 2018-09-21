@@ -146,6 +146,10 @@
   word-wrap: break-word;
 }
 
+.ProseMirror .hidden-caption {
+  display: none;
+}
+
 .ProseMirror .figure-label {
   font-weight: bold;
   margin-right: 5px;

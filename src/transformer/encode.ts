@@ -118,6 +118,7 @@ const encoders: NodeEncoderMap = {
   figure: node => ({
     containedObjectIDs: node.attrs.containedObjectIDs,
     caption: inlineContentsOfNodeType(node, 'figcaption'),
+    suppressCaption: node.attrs.suppressCaption,
     figureStyle: node.attrs.figureStyle,
   }),
   manuscript: node => ({

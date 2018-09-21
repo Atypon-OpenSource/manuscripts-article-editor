@@ -270,6 +270,7 @@ export interface FigureElement extends Element {
   containedObjectIDs: string[]
   figureLayout: string
   figureStyle: string
+  suppressCaption?: boolean
 }
 
 export interface ListingElement extends Element {
