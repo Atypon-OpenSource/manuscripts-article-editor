@@ -16,8 +16,8 @@ const configuration: webpack.Configuration = {
   plugins: (() => {
     const plugins = [
       new webpack.EnvironmentPlugin([
-        'API_BASE_URL',
         'API_APPLICATION_ID',
+        'API_BASE_URL',
         'BASE_URL',
         'CI_ENVIRONMENT_NAME',
         'DATA_URL',
@@ -26,13 +26,13 @@ const configuration: webpack.Configuration = {
         'NODE_ENV',
         'PRESSROOM_KEY',
         'PRESSROOM_URL',
+        'PROJECTS_BUCKET',
         'SENTRY_PUBLIC_DSN',
         'SENTRY_RELEASE',
         'SERVICEWORKER_ENABLED',
         'SYNC_GATEWAY_URL',
         'WAYF_KEY',
         'WAYF_URL',
-        'PROJECTS_BUCKET',
       ]),
       new HtmlWebpackPlugin({
         template: 'public/index.html',

@@ -57,9 +57,7 @@ test('Can only sign up once with the same email address', async t => {
 
   await signup(t, user, true)
 
-  const message = signUpConfirmationMessage.with({ boundTestRun: t })
-
-  await t.expect(message.innerText).match(/^An email has been sent to /)
+  await t.expect(signUpConfirmationMessage.innerText).match(/^An email has been sent to /)
 
   await signup(t, user)
 
