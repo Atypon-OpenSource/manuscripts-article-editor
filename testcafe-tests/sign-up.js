@@ -8,7 +8,7 @@ fixture('User can sign up for an account').page(BASE_URL + '/signup')
 const form = Selector('#signup-form')
 const signInLink = form.find('a')
 const nameTextFieldError = Selector('#name-text-field-error')
-const signUpConfirmationMessage = Selector('#signup-confirm')
+const signUpConfirmationMessage = Selector('.alert-message')
 const signUpFormError = Selector('.form-error')
 
 test('Sign up form components exists', async t => {
@@ -57,7 +57,9 @@ test('Can only sign up once with the same email address', async t => {
 
   await signup(t, user, true)
 
-  await t.expect(signUpConfirmationMessage.innerText).match(/^An email has been sent to /)
+  const message = signUpConfirmationMessage.with({ boundTestRun: t })
+
+  await t.expect(message.innerText).match(/^Thanks for signing up! Please click the link sent to /)
 
   await signup(t, user)
 

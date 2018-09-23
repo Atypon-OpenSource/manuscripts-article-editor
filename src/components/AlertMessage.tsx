@@ -76,6 +76,7 @@ class AlertMessage extends React.Component<Props, State> {
           color={alertAttributes.color}
           backgroundColor={alertAttributes.backgroundColor}
           borderColor={alertAttributes.borderColor}
+          className={'alert-message'}
         >
           <InnerContainer>
             <InformativeIcon>{alertAttributes.icon}</InformativeIcon>
