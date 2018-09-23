@@ -15,12 +15,6 @@ export const ResendButton = styled.button`
   cursor: pointer;
 `
 
-interface AlertProps {
-  color: string
-  backgroundColor: string
-  borderColor: string
-}
-
 const CloseIcon = styled.div`
   display: flex;
   cursor: pointer;
@@ -41,6 +35,12 @@ const InnerContainer = styled.div`
   align-items: center;
   padding: 13px 0px 13px;
 `
+
+interface AlertProps {
+  color: string
+  backgroundColor: string
+  borderColor: string
+}
 
 const AlertContainer = styled.div`
   display: flex;
@@ -100,7 +100,7 @@ class AlertMessage extends React.Component<Props, State> {
         return {
           icon: <SuccessGreen />,
           closeButton: <CloseAlert color={'#b2c0ac'} />,
-          color: '#82ab80',
+          color: '#3a773a',
           backgroundColor: '#dff0d7',
           borderColor: '#b2c0ac',
         }
@@ -108,24 +108,24 @@ class AlertMessage extends React.Component<Props, State> {
         return {
           icon: <AttentionError />,
           closeButton: <CloseAlert color={'#f5c1b7'} />,
-          backgroundColor: '#fff2f0',
-          color: '#de6751',
+          backgroundColor: '#fff1f0',
+          color: '#dc5030',
           borderColor: '#f5c1b7',
         }
       case 'info':
         return {
           icon: <AttentionInfo />,
           closeButton: <CloseAlert color={'#adbec6'} />,
-          backgroundColor: '#d8ecf7',
-          color: '#417895',
+          backgroundColor: '#e0eef9',
+          color: '#2a6f9d',
           borderColor: '#7fb5d5',
         }
       default:
         return {
           icon: <AttentionWarning />,
           closeButton: <CloseAlert color={'#f7d7b2'} />,
-          backgroundColor: '#fffcec',
-          color: '#cc7836',
+          backgroundColor: '#fffceb',
+          color: '#e28327',
           borderColor: '#f7d7b2',
         }
     }
