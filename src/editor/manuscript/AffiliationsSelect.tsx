@@ -28,6 +28,7 @@ export const AffiliationsSelect: React.SFC<Props & FieldProps> = ({
 }) => (
   <CreatableSelect<OptionType>
     isMulti={true}
+    noOptionsMessage={() => 'Type institution name to search for it.'}
     onChange={async (
       newValue: OptionsType<OptionType>,
       actionMeta: ActionMeta
