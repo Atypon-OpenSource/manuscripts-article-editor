@@ -8,7 +8,7 @@ import { Selector } from 'testcafe'
 
 fixture('Editor sections')
 
-test.skip('Can add a new Section title', async t => {
+test('Can add a new Section title', async t => {
   await loginAsNewUser(t)
 
   await t.click(Selector('#create-project'))

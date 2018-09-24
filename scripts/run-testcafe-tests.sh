@@ -5,12 +5,20 @@ set -u # exit if a variable isn't set
 
 yarn install --frozen-lockfile --non-interactive
 
-export SCREENSHOTS=${PWD}/screenshots
-mkdir -p ${SCREENSHOTS}/data
-
 docker volume create --name=build-cache
 docker volume create --name=yarn-cache
 
-docker-compose -f docker/tests/testcafe/docker-compose.yml down -v
-yarn run docker-compose:testcafe pull
-yarn run docker-compose:testcafe up --build --abort-on-container-exit --exit-code-from $1 $1
+SCREENSHOTS="$PWD/screenshots"
+mkdir -p "$SCREENSHOTS"
+
+CONFIG="docker/tests/testcafe/docker-compose.yml"
+
+docker-compose --file "$CONFIG" down --volumes
+docker-compose --file "$CONFIG" pull
+docker-compose --file "$CONFIG" build
+docker-compose --file "$CONFIG" up -d client
+docker-compose --file "$CONFIG" run \
+    --user="$(id -u):$(id -g)" \
+    --volume="${SCREENSHOTS}:/screenshots" \
+    $1
+docker-compose --file "$CONFIG" down
