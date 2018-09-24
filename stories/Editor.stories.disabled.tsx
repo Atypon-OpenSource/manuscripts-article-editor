@@ -112,6 +112,7 @@ storiesOf('Editor', module)
       subscribe={action('subscribe')}
       popper={popper}
       history={history}
+      handleSectionChange={action('section change')}
     />
   ))
   .add('view', () => (
@@ -135,5 +136,6 @@ storiesOf('Editor', module)
       subscribe={action('subscribe')}
       popper={popper}
       history={history}
+      handleSectionChange={action('section change')}
     />
   ))

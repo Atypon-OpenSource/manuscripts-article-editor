@@ -72,6 +72,7 @@ storiesOf('Manuscript', module)
       handleDrop={action('dropped the user')}
       isRemovePopperOpen={false}
       handleRemovePopperOpen={action('handle open the remove author popper')}
+      handleSectionChange={action('section change')}
     />
   ))
   .add('Edit authors', () => (
@@ -120,6 +121,7 @@ storiesOf('Manuscript', module)
       handleDrop={action('dropped the user')}
       isRemovePopperOpen={false}
       handleRemovePopperOpen={action('handle open the remove author popper')}
+      handleSectionChange={action('section change')}
     />
   ))
   .add('Collapsed', () => (
@@ -168,6 +170,7 @@ storiesOf('Manuscript', module)
       handleDrop={action('dropped the user')}
       isRemovePopperOpen={false}
       handleRemovePopperOpen={action('handle open the remove author popper')}
+      handleSectionChange={action('section change')}
     />
   ))
   .add('Title: read-only', () => (

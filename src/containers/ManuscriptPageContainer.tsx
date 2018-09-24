@@ -45,6 +45,7 @@ import { exportProject, generateDownloadFilename } from '../lib/exporter'
 import { ContributorRole } from '../lib/roles'
 import { AnyComponentChangeEvent } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
+import { newestFirst, oldestFirst } from '../lib/sort'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { ComponentObject } from '../store/DataProvider'
 import { IntlProps, withIntl } from '../store/IntlProvider'
@@ -97,6 +98,7 @@ interface State {
   view: EditorView | null
   library: Map<string, BibliographyItem>
   comments: CommentAnnotation[] | null
+  manuscripts: Manuscript[] | null
   keywords: Map<string, Keyword> | null
   users: Map<string, UserProfile> | null
   manuscript: Manuscript | null
@@ -130,6 +132,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     view: null,
     library: new Map(),
     comments: null,
+    manuscripts: null,
     keywords: null,
     users: null,
     manuscript: null,
@@ -182,6 +185,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     window.removeEventListener('beforeunload', this.unloadListener)
   }
 
+  // tslint:disable:cyclomatic-complexity
   public render() {
     const { projectID } = this.props.match.params
     const {
@@ -189,13 +193,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       componentMap,
       doc,
       manuscript,
+      manuscripts,
       project,
       popper,
       selected,
       comments,
     } = this.state
 
-    if (!doc || !manuscript || !project || !comments) {
+    if (!doc || !manuscript || !manuscripts || !project || !comments) {
       return <Spinner />
     }
 
@@ -204,7 +209,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return (
       <Page projectID={project.id}>
         <ManuscriptSidebar
+          addManuscript={this.addManuscript}
           manuscript={manuscript}
+          manuscripts={manuscripts}
           project={project}
           doc={doc}
           onDrop={this.handleDrop}
@@ -242,6 +249,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               dir: locale === 'ar' ? 'rtl' : 'ltr', // TODO: remove hard-coded locale
               tabindex: '2',
             }}
+            handleSectionChange={this.handleSectionChange}
           />
 
           <Prompt when={dirty} message={() => false} />
@@ -283,6 +291,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private prepare = async (projectID: string, manuscriptID: string) => {
     try {
       this.loadUsers() // TODO: move this to provider
+      this.loadManuscripts(projectID) // TODO: move this to provider
       this.loadKeywords(projectID) // TODO: move this to provider
       this.loadLibraryItems(projectID) // TODO: move this to provider
       this.loadComments(projectID, manuscriptID) // TODO: move this to provider
@@ -607,19 +616,29 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       })
   }
 
+  private loadManuscripts = (projectID: string) => {
+    this.getCollection()
+      .find({
+        objectType: ObjectTypes.MANUSCRIPT,
+        containerID: projectID,
+      })
+      .$.subscribe((docs: Array<RxDocument<Manuscript>>) => {
+        this.setState({
+          manuscripts: docs.sort(oldestFirst).map(doc => doc.toJSON()),
+        })
+      })
+  }
+
   private loadLibraryItems = (projectID: string) => {
     this.getCollection()
       .find({
         objectType: ObjectTypes.BIBLIOGRAPHY_ITEM,
         containerID: projectID,
       })
-      .sort({
-        updatedAt: 'desc',
-      })
       .$.subscribe((items: LibraryDocument[]) => {
         const library: Map<string, BibliographyItem> = new Map()
 
-        items.forEach(item => {
+        items.sort(newestFirst).forEach(item => {
           library.set(item.id, item.toJSON())
         })
 
@@ -848,11 +867,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private handleChange = (state: EditorState, docChanged: boolean) => {
+    const selected = findParentNodeWithId(state.selection) || null
+
     this.setState(prevState => ({
       ...prevState,
       dirty: prevState.dirty || docChanged,
       doc: state.doc,
-      selected: findParentNodeWithId(state.selection) || null,
+      selected,
     }))
 
     if (docChanged) {
@@ -1041,6 +1062,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const keyword = buildKeyword(name)
 
     return this.saveComponent<Keyword>(keyword)
+  }
+
+  private handleSectionChange = (section: string) => {
+    if (section !== 'manuscript') {
+      this.setState({ selected: null })
+    }
   }
 }
 

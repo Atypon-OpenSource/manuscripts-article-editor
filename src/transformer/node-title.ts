@@ -32,8 +32,8 @@ export const nodeTitle = (node: ProsemirrorNode) => {
   }
 }
 
-export const nodeTitlePlaceholder = (node: ProsemirrorNode) => {
-  switch (node.type.name) {
+export const nodeTitlePlaceholder = (type: string) => {
+  switch (type) {
     case 'doc':
       return 'Untitled Manuscript'
 
@@ -44,6 +44,6 @@ export const nodeTitlePlaceholder = (node: ProsemirrorNode) => {
       return 'Bibliography'
 
     default:
-      return nodeNames.get(node.type.name) || ''
+      return nodeNames.get(type) || ''
   }
 }

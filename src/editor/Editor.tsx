@@ -63,6 +63,7 @@ export interface EditorProps {
   projectID: string
   getCurrentUser: () => UserProfile
   history: History
+  handleSectionChange: (section: string) => void
 }
 
 interface State {
@@ -143,6 +144,7 @@ class Editor extends React.Component<EditorProps, State> {
             manuscript={this.props.manuscript}
             saveComponent={this.props.saveComponent}
             deleteComponent={this.props.deleteComponent}
+            handleSectionChange={this.props.handleSectionChange}
           />
           <div ref={this.createEditorView} />
         </EditorBody>

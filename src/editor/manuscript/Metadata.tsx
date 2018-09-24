@@ -117,6 +117,7 @@ interface Props {
     authors: Contributor[]
   ) => void
   handleRemovePopperOpen: () => void
+  handleSectionChange: (section: string) => void
 }
 
 export const Metadata: React.SFC<Props> = props => (
@@ -128,6 +129,10 @@ export const Metadata: React.SFC<Props> = props => (
           value={props.manuscript.title}
           autoFocus={!props.manuscript.title}
           handleChange={props.saveTitle}
+          handleFocus={() => {
+            props.handleSectionChange('title')
+            return false
+          }}
           tabIndex={1}
         />
         <ExpanderButton

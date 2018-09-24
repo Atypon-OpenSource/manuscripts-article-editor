@@ -179,7 +179,7 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
                   <OutlineItemNoArrow />
                 )}
 
-                <OutlineItemLink href={'#' + node.attrs.id}>
+                <OutlineItemLink to={'#' + node.attrs.id}>
                   {connectDragPreview(
                     <span
                       style={{
@@ -193,7 +193,9 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
                     </span>
                   )}
 
-                  <OutlineItemLinkText>
+                  <OutlineItemLinkText
+                    className={`outline-text-${node.type.name}`}
+                  >
                     {this.itemText(node)}
                   </OutlineItemLinkText>
                 </OutlineItemLink>
@@ -254,7 +256,7 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
       return text.trim()
     }
 
-    const placeholder = nodeTitlePlaceholder(node)
+    const placeholder = nodeTitlePlaceholder(node.type.name)
 
     return <OutlineItemPlaceholder>{placeholder}</OutlineItemPlaceholder>
   }

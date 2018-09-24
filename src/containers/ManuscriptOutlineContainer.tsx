@@ -28,7 +28,7 @@ const ManuscriptOutlineContainer: React.SFC<Props & DraggableTreeProps> = ({
     pos: 0,
     endPos: 0,
     index: 0,
-    isSelected: false,
+    isSelected: !selected,
     items,
   }
 

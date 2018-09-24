@@ -19,6 +19,9 @@ export class TitleField extends Title {
       state: createEditorState(this.props.value),
       dispatchTransaction: this.dispatchTransaction,
       attributes,
+      handleDOMEvents: {
+        focus: this.handleFocus,
+      },
     })
 
     if (this.props.autoFocus) {
@@ -36,6 +39,10 @@ export class TitleField extends Title {
     if (this.props.handleChange) {
       this.props.handleChange(value)
     }
+  }
+
+  private handleFocus = (view: EditorView, event: Event) => {
+    return this.props.handleFocus ? this.props.handleFocus(view, event) : false
   }
 }
 

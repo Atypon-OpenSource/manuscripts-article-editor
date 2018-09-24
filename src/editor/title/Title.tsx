@@ -14,6 +14,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   id?: string
   value: string
   handleChange?: (value: string) => void
+  handleFocus?: (view: EditorView, event: Event) => boolean
 }
 
 // interface State {

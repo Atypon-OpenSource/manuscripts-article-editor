@@ -1,13 +1,5 @@
+import { Link } from 'react-router-dom'
 import { styled } from '../theme'
-
-export const Outline = styled.div`
-  font-size: 16px;
-  position: relative;
-
-  & > div > div > div {
-    padding-left: 18px;
-  }
-`
 
 export const OutlineItemIcon = styled.span`
   display: inline-flex;
@@ -32,6 +24,19 @@ export const OutlineItem = styled.div<OutlineItemProps>`
   cursor: pointer;
   color: #444;
   background: ${props => (props.isSelected ? '#E4EEF7' : 'transparent')};
+`
+
+export const Outline = styled.div`
+  font-size: 16px;
+  position: relative;
+
+  & > div > div > div {
+    padding-left: 18px;
+  }
+
+  & .outline-text-doc {
+    font-size: 18px;
+  }
 `
 
 export const OutlineItemArrow = styled.button`
@@ -79,7 +84,7 @@ export const OutlineDropPreview = styled.div`
   }
 `
 
-export const OutlineItemLink = styled.a`
+export const OutlineItemLink = styled(Link)`
   flex: 1;
   display: inline-flex;
   align-items: center;

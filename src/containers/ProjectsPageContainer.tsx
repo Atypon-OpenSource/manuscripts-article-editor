@@ -12,6 +12,7 @@ import {
 } from '../lib/commands'
 import { ContributorRole } from '../lib/roles'
 import sessionID from '../lib/sessionID'
+import { newestFirst } from '../lib/sort'
 import timestamp from '../lib/timestamp'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
@@ -82,7 +83,7 @@ class ProjectsPageContainer extends React.Component<
 
         const projects: ProjectInfo[] = []
 
-        for (const doc of docs) {
+        for (const doc of docs.sort(newestFirst)) {
           const component = doc.toJSON()
 
           const collaborators = [

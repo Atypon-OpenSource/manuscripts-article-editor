@@ -50,6 +50,7 @@ interface Props {
   saveManuscript?: SaveManuscript
   saveComponent: SaveComponent
   deleteComponent: DeleteComponent
+  handleSectionChange: (section: string) => void
 }
 
 interface State {
@@ -195,6 +196,7 @@ class MetadataContainer extends React.Component<
         handleDrop={this.handleDrop}
         isRemovePopperOpen={isRemovePopperOpen}
         handleRemovePopperOpen={this.handleRemovePopperOpen}
+        handleSectionChange={this.props.handleSectionChange}
       />
     )
   }
