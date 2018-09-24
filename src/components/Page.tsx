@@ -1,10 +1,12 @@
+import NavIconFillCut from '@manuscripts/assets/react/NavIconFillCut'
+import NavIconOutline from '@manuscripts/assets/react/NavIconOutline'
 import React from 'react'
 import ProjectContributors from '../icons/project-contributors'
 import ProjectEdit from '../icons/project-edit'
 import ProjectLibrary from '../icons/project-library'
 import { GlobalStyle, styled, ThemedProps } from '../theme'
 import MenuBar from './MenuBar'
-import ProjectLink from './ProjectLink'
+import ViewIcon, { ViewLink } from './ViewIcon'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -35,6 +37,7 @@ const ViewsBar = styled.div`
   width: 56px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: ${(props: ThemedDivProps) =>
     props.theme.colors.primary.blue};
 `
@@ -47,7 +50,32 @@ const IconBar = styled.div`
   align-items: center;
   background-color: ${(props: ThemedDivProps) =>
     props.theme.colors.primary.blue};
-  padding-top: 24px;
+`
+
+const NavIcon = styled(NavIconOutline)`
+  display: block;
+`
+
+const NavIconHover = styled(NavIconFillCut)`
+  display: none;
+`
+
+const NavIconContainer = styled.div`
+  &:hover ${NavIcon} {
+    display: none;
+  }
+
+  &:hover ${NavIconHover} {
+    display: block;
+  }
+`
+
+const ViewsSeparator = styled.div`
+  height: 2px;
+  border-radius: 2px;
+  width: 30px;
+  background: rgba(255, 255, 255, 0.5);
+  margin-bottom: 4px;
 `
 
 interface Props {
@@ -60,33 +88,40 @@ export const Page: React.SFC<Props> = ({ children, projectID }) => (
 
     {projectID && (
       <ViewsBar>
-        <MenuBar projectID={projectID} />
+        <MenuBar projectID={projectID}>
+          <ViewIcon title={'Home'} tooltip={{ top: '8px', left: '40px' }}>
+            <NavIconContainer>
+              <NavIcon />
+              <NavIconHover />
+            </NavIconContainer>
+          </ViewIcon>
+        </MenuBar>
+
+        <ViewsSeparator />
+
         <IconBar>
-          <ProjectLink
+          <ViewLink
             to={`/projects/${projectID}`}
             isActive={(match, location) =>
               /^\/projects\/.+?\/manuscripts\/.+/.test(location.pathname)
             }
-            title={'Edit'}
           >
-            <ProjectEdit />
-          </ProjectLink>
+            <ViewIcon title={'Edit'}>
+              <ProjectEdit />
+            </ViewIcon>
+          </ViewLink>
 
-          <ProjectLink
-            title={'Collaborators'}
-            to={`/projects/${projectID}/collaborators`}
-            exact={true}
-          >
-            <ProjectContributors />
-          </ProjectLink>
+          <ViewLink to={`/projects/${projectID}/library`} exact={true}>
+            <ViewIcon title={'Library'}>
+              <ProjectLibrary />
+            </ViewIcon>
+          </ViewLink>
 
-          <ProjectLink
-            title={'Library'}
-            to={`/projects/${projectID}/library`}
-            exact={true}
-          >
-            <ProjectLibrary />
-          </ProjectLink>
+          <ViewLink to={`/projects/${projectID}/collaborators`} exact={true}>
+            <ViewIcon title={'Collaborators'}>
+              <ProjectContributors />
+            </ViewIcon>
+          </ViewLink>
         </IconBar>
       </ViewsBar>
     )}

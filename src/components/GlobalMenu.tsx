@@ -1,13 +1,13 @@
+import NavIcon from '@manuscripts/assets/react/NavIcon'
 import React from 'react'
 import ProjectsDropdownButton from '../containers/ProjectsDropdownButton'
 import UserContainer from '../containers/UserContainer'
-import Nav from '../icons/nav'
 import { MenuBarIcon, MenuContainer, MenuSection, MenuSections } from './Menu'
 
 export const GlobalMenu: React.SFC = () => (
   <MenuContainer>
     <MenuBarIcon>
-      <Nav />
+      <NavIcon />
     </MenuBarIcon>
     <MenuSections>
       <MenuSection>

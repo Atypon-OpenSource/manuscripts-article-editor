@@ -1,6 +1,4 @@
-import { Location } from 'history'
 import React from 'react'
-import { match } from 'react-router'
 import { NavLink } from 'react-router-dom'
 import { styled, ThemedProps } from '../theme'
 
@@ -15,8 +13,33 @@ const IconLink = styled(NavLink)`
   height: 30px;
   background: none;
   color: white;
-  margin-top: 10px;
-  margin-bottom: 10px;
+`
+
+interface TooltipProps {
+  top?: string
+  left?: string
+}
+
+const Tooltip = styled.div<TooltipProps>`
+  background: #364d5e;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 2px;
+  z-index: 10;
+  position: absolute;
+  top: ${props => props.top || '4px'};
+  left: ${props => props.left || '32px'};
+  font-size: 12px;
+  letter-spacing: -0.2px;
+`
+
+const Container = styled.div`
+  overflow: visible;
+  position: relative;
+`
+
+export const ViewLink = styled(IconLink)`
+  margin: 12px 0;
 
   &:hover,
   &.active {
@@ -25,35 +48,16 @@ const IconLink = styled(NavLink)`
   }
 `
 
-const Tooltip = styled.div`
-  background: #364d5e;
-  color: #fff;
-  padding: 2px 8px;
-  border-radius: 2px;
-  z-index: 10;
-  position: absolute;
-  top: 25%;
-  left: 120%;
-  opacity: 0.9;
-`
-
-const Container = styled.div`
-  overflow: visible;
-  position: relative;
-`
-
 interface Props {
-  exact?: boolean
   title: string
-  to: string
-  isActive?: <P>(match: match<P>, location: Location) => boolean
+  tooltip?: TooltipProps
 }
 
 interface State {
   isOver: boolean
 }
 
-class ProjectLink extends React.Component<Props, State> {
+class ViewIcon extends React.Component<Props, State> {
   public state: Readonly<State> = {
     isOver: false,
   }
@@ -61,15 +65,13 @@ class ProjectLink extends React.Component<Props, State> {
   private timer: number | undefined
 
   public render() {
-    const { children, to, title, isActive } = this.props
+    const { children, title, tooltip = {} } = this.props
     const { isOver } = this.state
 
     return (
-      <Container onMouseLeave={this.hideTitle}>
-        <IconLink to={to} isActive={isActive} onMouseEnter={this.showTitle}>
-          {children}
-        </IconLink>
-        {isOver && <Tooltip>{title}</Tooltip>}
+      <Container onMouseEnter={this.showTitle} onMouseLeave={this.hideTitle}>
+        {children}
+        {isOver && <Tooltip {...tooltip}>{title}</Tooltip>}
       </Container>
     )
   }
@@ -93,4 +95,4 @@ class ProjectLink extends React.Component<Props, State> {
   }
 }
 
-export default ProjectLink
+export default ViewIcon

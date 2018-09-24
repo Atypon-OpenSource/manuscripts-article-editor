@@ -1,11 +1,12 @@
+import NavIcon from '@manuscripts/assets/react/NavIcon'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import ProjectsDropdownButton from '../containers/ProjectsDropdownButton'
 import UserContainer from '../containers/UserContainer'
-import Close from '../icons/close'
 import { styled } from '../theme'
 import { DeveloperMenu } from './DeveloperMenu'
 import MenuDropdown from './MenuDropdown'
+import ViewIcon from './ViewIcon'
 
 export const MenuContainer = styled.div`
   display: flex;
@@ -25,10 +26,11 @@ export const MenuBarIcon = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: transparent;
   border: none;
   cursor: pointer;
   color: #7fb5d5;
+  font-size: inherit;
 
   &:focus {
     outline: none;
@@ -71,13 +73,16 @@ interface Props {
 
 export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
   <MenuContainer>
-    <MenuBarIcon onClick={handleClose}>
-      <Close size={16} color={''} />
-    </MenuBarIcon>
+    <ViewIcon title={'Back to Editor'} tooltip={{ top: '80%', left: '20%' }}>
+      <MenuBarIcon onClick={handleClose}>
+        <NavIcon />
+      </MenuBarIcon>
+    </ViewIcon>
+
     <MenuSections>
       <MenuSection>
         <ProjectsDropdownButton />
-        <MenuLink to={`/projects/${projectID}/contributors`}>People</MenuLink>
+        <MenuLink to={`/projects/${projectID}/collaborators`}>People</MenuLink>
         <MenuLink to={`/projects/${projectID}/library`}>Library</MenuLink>
 
         <MenuDropdown id={'developer-dropdown'} buttonContents={'Developer'}>

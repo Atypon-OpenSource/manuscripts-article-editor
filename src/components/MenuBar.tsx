@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from 'react-modal'
-import Hamburger from '../icons/hamburger'
+import ProjectsModalContainer from '../containers/ProjectsModalContainer'
 import { Menu, MenuBarIcon } from './Menu'
 
 const modalStyle = {
@@ -10,7 +10,7 @@ const modalStyle = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: 'white',
     zIndex: 20,
   },
   content: {
@@ -18,15 +18,13 @@ const modalStyle = {
     top: 0,
     left: 0,
     right: 0,
-    bottom: 'auto',
+    bottom: 0,
     background: 'white',
     display: 'flex',
-    alignItems: 'center',
-    height: 58,
+    flexDirection: 'column',
     padding: 0,
-    overflow: 'visible',
+    overflow: 'hidden',
     border: 'none',
-    borderBottom: 'solid 1px rgba(151, 151, 151, 0.26)',
   },
 }
 
@@ -44,12 +42,12 @@ class MenuBar extends React.Component<Props, State> {
   }
 
   public render() {
-    const { projectID } = this.props
+    const { children, projectID } = this.props
 
     return (
       <React.Fragment>
         <MenuBarIcon id="menu-bar-icon" onClick={this.handleOpen}>
-          <Hamburger size={24} />
+          {children}
         </MenuBarIcon>
 
         <Modal
@@ -59,6 +57,7 @@ class MenuBar extends React.Component<Props, State> {
           ariaHideApp={false}
         >
           <Menu handleClose={this.handleClose} projectID={projectID} />
+          <ProjectsModalContainer />
         </Modal>
       </React.Fragment>
     )

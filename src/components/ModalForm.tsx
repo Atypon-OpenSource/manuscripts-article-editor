@@ -81,7 +81,7 @@ interface Props {
   title: string | React.ReactNode
 }
 
-class ModalForm extends React.Component<Props & RouteComponentProps<{}>> {
+class ModalForm extends React.Component<Props & RouteComponentProps> {
   public render() {
     const { title, children } = this.props
 
