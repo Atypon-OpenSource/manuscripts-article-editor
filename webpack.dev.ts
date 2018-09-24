@@ -67,14 +67,6 @@ const configuration: webpack.Configuration = merge(common, {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.ContextReplacementPlugin(
-      /codemirror[\/\\]mode$/,
-      /javascript|stex/ // TODO: all the modes needed for the listing format switcher
-    ),
-    new webpack.ContextReplacementPlugin(
-      /react-intl[\/\\]locale-data$/,
-      /en|ar|zh/ // TODO: all the locales needed for the locale switcher
-    ),
   ],
 })
 

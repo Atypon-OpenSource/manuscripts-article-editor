@@ -49,6 +49,14 @@ const configuration: webpack.Configuration = {
           )
         }
       ),
+      new webpack.ContextReplacementPlugin(
+        /codemirror[\/\\]mode$/,
+        /javascript/ // TODO: all the modes needed for the listing format switcher
+      ),
+      new webpack.ContextReplacementPlugin(
+        /react-intl[\/\\]locale-data$/,
+        /en/ // TODO: all the locales needed for the locale switcher
+      ),
     ]
 
     if (config.serviceworker) {

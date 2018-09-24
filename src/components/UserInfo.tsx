@@ -4,7 +4,7 @@ import { DropdownLink } from './Dropdown'
 import {
   ChangePasswordMessage,
   DeleteAccountMessage,
-  PreferencesMessage,
+  // PreferencesMessage,
   SignOutMessage,
 } from './Messages'
 
@@ -42,9 +42,9 @@ export const UserInfo: React.SFC<UserProps> = ({ user }) => (
     <DropdownLink to={'/delete-account'}>
       <DeleteAccountMessage />
     </DropdownLink>
-    <DropdownLink to={'/preferences'}>
+    {/*<DropdownLink to={'/preferences'}>
       <PreferencesMessage />
-    </DropdownLink>
+    </DropdownLink>*/}
     <DropdownLink to={'/logout'}>
       <SignOutMessage />
     </DropdownLink>

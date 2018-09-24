@@ -14,7 +14,7 @@ import LibraryPageContainer from './containers/LibraryPageContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
 import LogoutPageContainer from './containers/LogoutPageContainer'
 // import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
-import PreferencesPageContainer from './containers/PreferencesPageContainer'
+// import PreferencesPageContainer from './containers/PreferencesPageContainer'
 import PrivateRoute from './containers/PrivateRoute'
 import ProfilePageContainer from './containers/ProfilePageContainer'
 import ProjectPageContainer from './containers/ProjectPageContainer'
@@ -51,11 +51,11 @@ const App = () => (
       exact={true}
       component={ProfilePageContainer}
     />
-    <PrivateRoute
+    {/*<PrivateRoute
       path={'/preferences'}
       exact={true}
       component={PreferencesPageContainer}
-    />
+    />*/}
     <PrivateRoute
       path={'/projects'}
       exact={true}
