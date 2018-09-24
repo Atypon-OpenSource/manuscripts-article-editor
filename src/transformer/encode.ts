@@ -25,6 +25,36 @@ export const inlineContents = (node: ProsemirrorNode): string =>
 export const fragmentText = (fragment: Fragment): string =>
   serializer.serializeFragment(fragment).textContent || ''
 
+const tableContents = (node: ProsemirrorNode): string => {
+  const table = serializer.serializeNode(node) as HTMLTableElement
+
+  const sections = ['thead', 'tbody', 'tfoot']
+
+  for (const tagName of sections) {
+    const section = table.appendChild(document.createElement(tagName))
+
+    for (const row of table.querySelectorAll(`tr.${tagName}`)) {
+      row.classList.remove(tagName)
+
+      section.appendChild(row)
+
+      if (tagName === 'thead') {
+        for (const td of row.children) {
+          const th = row.insertBefore(document.createElement('th'), td)
+
+          while (td.firstChild) {
+            th.appendChild(td.firstChild)
+          }
+
+          row.removeChild(td)
+        }
+      }
+    }
+  }
+
+  return table.outerHTML
+}
+
 const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {
   const nodes: ProsemirrorNode[] = []
 
@@ -143,11 +173,13 @@ const encoders: NodeEncoderMap = {
       .filter(id => id),
   }),
   table: node => ({
-    contents: contents(node),
+    contents: tableContents(node),
   }),
   table_figure: node => ({
     containedObjectID: idOfNodeType(node, 'table'),
     caption: inlineContentsOfNodeType(node, 'figcaption'),
+    suppressFooter: node.attrs.suppressFooter,
+    suppressHeader: node.attrs.suppressHeader,
   }),
 }
 

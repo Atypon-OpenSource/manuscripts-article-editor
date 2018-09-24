@@ -61,27 +61,29 @@
   cursor: default;
 }
 
-.ProseMirror th,
+.ProseMirror .suppress-footer .tfoot,
+.ProseMirror .suppress-header .thead {
+  display: none;
+}
+
 .ProseMirror td {
   padding: 10px;
 }
 
-.ProseMirror thead th {
+.ProseMirror .thead td {
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
-}
-
-.ProseMirror tfoot td {
-  border-top: 1px solid #000;
-  border-bottom: 1px solid #000;
-}
-
-.ProseMirror th {
   background: #eee;
   text-align: left;
+  font-weight: bold;
 }
 
-.ProseMirror tbody tr td:not(:last-child) {
+.ProseMirror .tfoot td {
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+.ProseMirror .tbody tr td:not(:last-child) {
   border-right: 1px solid #000;
 }
 
@@ -146,7 +148,7 @@
   word-wrap: break-word;
 }
 
-.ProseMirror .hidden-caption {
+.ProseMirror .suppress-caption {
   display: none;
 }
 
@@ -206,31 +208,31 @@
   line-height: 1.2;
 }
 
-.ProseMirror thead {
+.ProseMirror .thead {
   counter-reset: header_counter;
 }
 
-.ProseMirror thead th {
+.ProseMirror .thead td {
   counter-increment: header_counter;
 }
 
-.ProseMirror tfoot {
+.ProseMirror .tfoot {
   counter-reset: footer_counter;
 }
 
-.ProseMirror tfoot td {
+.ProseMirror .tfoot td {
   counter-increment: footer_counter;
 }
 
-.ProseMirror thead th.empty-node::before {
+.ProseMirror .thead td.empty-node::before {
   content: "Header " counter(header_counter);
 }
 
-.ProseMirror tbody td.empty-node::before {
+.ProseMirror .tbody td.empty-node::before {
   content: "Data";
 }
 
-.ProseMirror tfoot td.empty-node::before {
+.ProseMirror .tfoot td.empty-node::before {
   content: "Footer " counter(footer_counter);
 }
 

@@ -119,3 +119,20 @@ export const insertInlineEquation = (
 
   return true
 }
+
+/**
+ * Call the callback (a prosemirror-tables command) if the current selection is in the table body
+ */
+export const ifInTableBody = (command: (state: EditorState) => boolean) => (
+  state: EditorState
+): boolean => {
+  const $head = state.selection.$head
+
+  for (let d = $head.depth; d > 0; d--) {
+    if ($head.node(d).type.name === 'tbody_row') {
+      return command(state)
+    }
+  }
+
+  return false
+}

@@ -167,23 +167,13 @@ export class Decoder {
       )
     },
     [ObjectTypes.TABLE_ELEMENT]: (component: TableElement) => {
-      let table
+      const tableComponent = this.getComponent<Table>(
+        component.containedObjectID
+      )
 
-      // TODO: find out why the table component is getting lost
-      try {
-        const tableComponent = this.getComponent<Table>(
-          component.containedObjectID
-        )
-
-        table =
-          tableComponent && tableComponent.contents
-            ? parseContents(tableComponent.contents, {
-                topNode: schema.nodes.table.create(),
-              })
-            : (schema.nodes.table.createAndFill() as ProsemirrorNode)
-      } catch (e) {
-        table = schema.nodes.table.createAndFill() as ProsemirrorNode
-      }
+      const table = parseContents(tableComponent.contents, {
+        topNode: schema.nodes.table.create(),
+      })
 
       const figcaptionNode = schema.nodes.figcaption.create()
 
@@ -197,6 +187,8 @@ export class Decoder {
         {
           id: component.id,
           table: component.containedObjectID,
+          suppressFooter: component.suppressFooter,
+          suppressHeader: component.suppressHeader,
         },
         [table, figcaption]
       )

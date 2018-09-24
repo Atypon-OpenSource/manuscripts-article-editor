@@ -26,7 +26,6 @@ describe('transformer', () => {
     const doc = createTestDoc()
 
     expect(doc).toMatchSnapshot()
-    expect(doc.content.size).toBe(36228)
   })
 
   test('getComponentData', () => {

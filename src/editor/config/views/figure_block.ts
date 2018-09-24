@@ -30,7 +30,7 @@ class FigureBlock extends Block {
     if (newNode.attrs.id !== this.node.attrs.id) return false
     this.node = newNode
     this.contentDOM.classList.toggle(
-      'hidden-caption',
+      'suppress-caption',
       this.node.attrs.suppressCaption
     )
     this.updateContents()

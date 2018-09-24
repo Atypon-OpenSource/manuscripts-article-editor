@@ -3,6 +3,14 @@ import { toggleMark } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from 'prosemirror-schema-list'
 import { EditorState } from 'prosemirror-state'
+import {
+  addColumnAfter,
+  addColumnBefore,
+  addRowAfter,
+  addRowBefore,
+  deleteColumn,
+  deleteRow,
+} from 'prosemirror-tables'
 import React from 'react'
 import CrossReferencePickerContainer from '../../containers/CrossReferencePickerContainer'
 import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
@@ -15,6 +23,7 @@ import {
   canInsert,
   insertBlock,
   insertInlineEquation,
+  ifInTableBody,
   markActive,
 } from './commands'
 import icons from './icons'
@@ -257,6 +266,47 @@ const menus = (props: MenusProps): MenuItem[] => [
         active: markActive(schema.marks.subscript),
         enable: toggleMark(schema.marks.subscript),
         run: toggleMark(schema.marks.subscript),
+      },
+      {
+        role: 'separator',
+      },
+      {
+        label: 'Table',
+        submenu: [
+          {
+            label: 'Add Row Above',
+            enable: ifInTableBody(addRowBefore),
+            run: addRowBefore,
+          },
+          {
+            label: 'Add Row Below',
+            enable: ifInTableBody(addRowAfter),
+            run: addRowAfter,
+          },
+          {
+            label: 'Delete Row',
+            enable: ifInTableBody(deleteRow),
+            run: deleteRow,
+          },
+          {
+            role: 'separator',
+          },
+          {
+            label: 'Add Column Before',
+            enable: addColumnBefore,
+            run: addColumnBefore,
+          },
+          {
+            label: 'Add Column After',
+            enable: addColumnAfter,
+            run: addColumnAfter,
+          },
+          {
+            label: 'Delete Column',
+            enable: deleteColumn,
+            run: deleteColumn,
+          },
+        ],
       },
     ],
   },

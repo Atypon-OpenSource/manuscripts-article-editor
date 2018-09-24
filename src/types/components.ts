@@ -284,6 +284,8 @@ export interface TableElement extends Element {
   elementType: 'table'
   caption: string
   containedObjectID: string
+  suppressFooter?: boolean
+  suppressHeader?: boolean
 }
 
 export interface BibliographyElement extends Element {

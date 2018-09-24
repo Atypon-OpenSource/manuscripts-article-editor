@@ -38,7 +38,7 @@ interface TableNodeSpec extends NodeSpec {
 
 export const tableNodes: StringMap<TableNodeSpec> = {
   table: {
-    content: 'thead tbody tfoot',
+    content: 'thead_row tbody_row+ tfoot_row',
     tableRole: 'table',
     isolating: true,
     group: 'block',
@@ -48,48 +48,27 @@ export const tableNodes: StringMap<TableNodeSpec> = {
     parseDOM: [{ tag: 'table' }],
     toDOM: () => ['table', 0],
   },
-  thead: {
-    content: 'table_header_row',
-    tableRole: 'container',
-    parseDOM: [{ tag: 'thead' }],
-    toDOM: () => ['thead', 0],
-  },
-  tbody: {
-    content: 'table_row+',
-    tableRole: 'container',
-    parseDOM: [{ tag: 'tbody' }],
-    toDOM: () => ['tbody', 0],
-  },
-  tfoot: {
-    content: 'table_row',
-    tableRole: 'container',
-    parseDOM: [{ tag: 'tfoot' }],
-    toDOM: () => ['tfoot', 0],
-  },
-  table_header_row: {
-    content: 'table_header{2,}',
+  thead_row: {
+    content: 'table_cell+',
     tableRole: 'row',
-    parseDOM: [{ tag: 'tr', context: 'thead/' }],
-    toDOM: () => ['tr', 0],
+    parseDOM: [{ tag: 'tr.thead' }, { tag: 'tr', context: 'thead/' }],
+    toDOM: () => ['tr', { class: 'thead' }, 0],
   },
-  table_row: {
-    content: 'table_cell{2,}',
+  tfoot_row: {
+    content: 'table_cell+',
     tableRole: 'row',
-    parseDOM: [{ tag: 'tr', context: 'tbody/|tfoot/' }],
-    toDOM: () => ['tr', 0],
+    parseDOM: [{ tag: 'tr.tfoot' }, { tag: 'tr', context: 'tfoot/' }],
+    toDOM: () => ['tr', { class: 'tfoot' }, 0],
   },
-  table_header: {
-    content: 'inline*',
-    attrs: {
-      colspan: { default: 1 },
-      rowspan: { default: 1 },
-      colwidth: { default: null },
-      background: { default: null },
-    },
-    tableRole: 'header_cell',
-    isolating: true,
-    parseDOM: [{ tag: 'th', getAttrs: getCellAttrs }],
-    toDOM: (node: ProsemirrorNode) => ['th', setCellAttrs(node), 0],
+  tbody_row: {
+    content: 'table_cell+',
+    tableRole: 'row',
+    parseDOM: [
+      { tag: 'tr.tbody' },
+      { tag: 'tr', context: 'tbody/' },
+      { tag: 'tr' }, // NOTE: must come last
+    ],
+    toDOM: () => ['tr', { class: 'tbody' }, 0],
   },
   table_cell: {
     content: 'inline*',
@@ -101,7 +80,10 @@ export const tableNodes: StringMap<TableNodeSpec> = {
     },
     tableRole: 'cell',
     isolating: true,
-    parseDOM: [{ tag: 'td', getAttrs: getCellAttrs }],
+    parseDOM: [
+      { tag: 'td', getAttrs: getCellAttrs },
+      { tag: 'th', getAttrs: getCellAttrs },
+    ],
     toDOM: (node: ProsemirrorNode) => ['td', setCellAttrs(node), 0],
   },
 }

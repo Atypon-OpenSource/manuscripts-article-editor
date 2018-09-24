@@ -8,6 +8,14 @@ import { createBlock } from '../commands'
 const popper = new PopperManager()
 
 abstract class AbstractBlock implements NodeView {
+  protected get elementType() {
+    return 'div'
+  }
+
+  protected get objectName() {
+    return 'AbstractBlock'
+  }
+
   public dom: HTMLElement
   public contentDOM: HTMLElement
 
@@ -21,6 +29,12 @@ abstract class AbstractBlock implements NodeView {
       '<svg width="16" height="16" stroke="currentColor"><circle r="4" cx="8" cy="8"/></svg>',
   }
   protected readonly view: EditorView
+
+  private suppressibleAttrs: Map<string, string> = new Map([
+    ['suppressCaption', 'Caption'],
+    ['suppressHeader', 'Header'],
+    ['suppressFooter', 'Footer'],
+  ])
 
   protected constructor(
     props: EditorProps,
@@ -45,14 +59,6 @@ abstract class AbstractBlock implements NodeView {
     this.createDOM()
     this.createElement()
     this.updateContents()
-  }
-
-  protected get elementType() {
-    return 'div'
-  }
-
-  protected get objectName() {
-    return 'AbstractBlock'
   }
 
   protected updateContents() {
@@ -406,17 +412,27 @@ abstract class AbstractBlock implements NodeView {
     await this.props.saveComponent(comment)
   }
 
-  private toggleCaption = async () => {
+  private toggleNodeAttr = (attr: string) => async () => {
     this.view.dispatch(
       this.view.state.tr.setNodeMarkup(this.getPos(), undefined, {
         ...this.node.attrs,
-        suppressCaption: !this.node.attrs.suppressCaption,
+        [attr]: !this.node.attrs[attr],
       })
     )
   }
 
   private isListType = (type: string) =>
     ['bullet_list', 'ordered_list'].includes(type)
+
+  private hasSuppressOptions = (): boolean => {
+    for (const attr of this.suppressibleAttrs.keys()) {
+      if (attr in this.node.attrs) {
+        return true
+      }
+    }
+
+    return false
+  }
 
   private showEditMenu: EventListener = event => {
     event.preventDefault()
@@ -463,19 +479,23 @@ abstract class AbstractBlock implements NodeView {
       })
     )
 
-    if ('suppressCaption' in this.node.attrs) {
+    if (this.hasSuppressOptions()) {
       menu.appendChild(
         this.createMenuSection((section: HTMLElement) => {
-          const label = this.node.attrs.suppressCaption
-            ? 'Show Caption'
-            : 'Hide Caption'
+          for (const [attr, attrName] of this.suppressibleAttrs.entries()) {
+            if (attr in this.node.attrs) {
+              const label = this.node.attrs[attr]
+                ? `Show ${attrName}`
+                : `Hide ${attrName}`
 
-          section.appendChild(
-            this.createMenuItem(label, async () => {
-              await this.toggleCaption()
-              popper.destroy()
-            })
-          )
+              section.appendChild(
+                this.createMenuItem(label, async () => {
+                  await this.toggleNodeAttr(attr)()
+                  popper.destroy()
+                })
+              )
+            }
+          }
         })
       )
     }

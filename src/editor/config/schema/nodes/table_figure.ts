@@ -6,6 +6,8 @@ export const tableFigure: NodeSpec = {
     id: { default: '' },
     tableStyle: { default: '' },
     label: { default: '' },
+    suppressHeader: { default: false },
+    suppressFooter: { default: false },
   },
   group: 'block',
   parseDOM: [
