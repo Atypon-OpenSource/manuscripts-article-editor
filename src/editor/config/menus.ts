@@ -21,9 +21,9 @@ import { DeleteComponent } from '../Editor'
 import {
   blockActive,
   canInsert,
+  ifInTableBody,
   insertBlock,
   insertInlineEquation,
-  ifInTableBody,
   markActive,
 } from './commands'
 import icons from './icons'

@@ -39,3 +39,5 @@ const manuscripts: Manuscript[] = [
 ]
 
 export default manuscripts
+
+export const manuscript = manuscripts[0]
