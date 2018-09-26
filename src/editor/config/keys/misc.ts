@@ -14,7 +14,11 @@ import { wrapInList } from 'prosemirror-schema-list'
 import { goToNextCell } from 'prosemirror-tables'
 // import CrossReferencePickerContainer from '../../../containers/CrossReferencePickerContainer'
 // import LibraryPickerContainer from '../../../containers/LibraryPickerContainer'
-import { insertBlock, insertInlineEquation } from '../commands'
+import {
+  ignoreAtomBlockNodeBackward,
+  insertBlock,
+  insertInlineEquation,
+} from '../commands'
 import schema from '../schema'
 import { EditorAction, StringMap } from '../types'
 
@@ -33,7 +37,7 @@ const insertRule: EditorAction = (state, dispatch) => {
 const customKeymap: StringMap<EditorAction> = {
   'Mod-z': undo,
   'Shift-Mod-z': redo,
-  Backspace: undoInputRule,
+  Backspace: chainCommands(undoInputRule, ignoreAtomBlockNodeBackward),
   'Mod-y': redo,
   'Alt-ArrowUp': joinUp,
   'Alt-ArrowDown': joinDown,

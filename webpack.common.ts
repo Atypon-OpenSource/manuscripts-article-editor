@@ -51,7 +51,7 @@ const configuration: webpack.Configuration = {
       ),
       new webpack.ContextReplacementPlugin(
         /codemirror[\/\\]mode$/,
-        /javascript/ // TODO: all the modes needed for the listing format switcher
+        /javascript|stex/ // TODO: all the modes needed for the listing format switcher
       ),
       new webpack.ContextReplacementPlugin(
         /react-intl[\/\\]locale-data$/,

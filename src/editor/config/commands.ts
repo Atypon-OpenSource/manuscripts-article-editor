@@ -1,10 +1,16 @@
-import { MarkType, Node as ProsemirrorNode, NodeType } from 'prosemirror-model'
+import {
+  MarkType,
+  Node as ProsemirrorNode,
+  NodeType,
+  ResolvedPos,
+} from 'prosemirror-model'
 import {
   AllSelection,
   EditorState,
   NodeSelection,
   TextSelection,
 } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 import { isElementNode } from '../../transformer/node-types'
 import schema from './schema'
 import { Dispatch } from './types'
@@ -135,4 +141,47 @@ export const ifInTableBody = (command: (state: EditorState) => boolean) => (
   }
 
   return false
+}
+
+// Copied from prosemirror-commands
+const findCutBefore = ($pos: ResolvedPos) => {
+  if (!$pos.parent.type.spec.isolating) {
+    for (let i = $pos.depth - 1; i >= 0; i--) {
+      if ($pos.index(i) > 0) return $pos.doc.resolve($pos.before(i + 1))
+      if ($pos.node(i).type.spec.isolating) break
+    }
+  }
+  return null
+}
+
+// Ignore atom blocks (as backspace handler), instead of deleting them.
+// Adapted from selectNodeBackward in prosemirror-commands
+export const ignoreAtomBlockNodeBackward = (
+  state: EditorState,
+  dispatch?: Dispatch,
+  view?: EditorView
+): boolean => {
+  const { $cursor } = state.selection as TextSelection
+
+  if (!$cursor) return false
+
+  // ignore empty blocks
+  if ($cursor.parent.content.size === 0) return false
+
+  // handle cursor at start of textblock
+  if (
+    view ? !view.endOfTextblock('backward', state) : $cursor.parentOffset > 0
+  ) {
+    return false
+  }
+
+  const $cut = findCutBefore($cursor)
+
+  if (!$cut) return false
+
+  const node = $cut.nodeBefore
+
+  if (!node) return false
+
+  return node.isBlock && node.isAtom
 }

@@ -6,9 +6,6 @@ export const codeBlock: NodeSpec = {
     code: { default: '' },
     language: { default: '' },
   },
-  atom: true,
-  content: 'text*',
-  defining: true,
   group: 'block',
   parseDOM: [
     {
@@ -18,7 +15,6 @@ export const codeBlock: NodeSpec = {
         code: node.getAttribute('code') || node.textContent,
         language: node.getAttribute('language'),
       }),
-      getContent: null,
     },
   ],
   toDOM: (node: ProsemirrorNode) => ['pre', node.attrs],

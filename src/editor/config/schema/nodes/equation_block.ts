@@ -6,8 +6,6 @@ export const equationBlock: NodeSpec = {
     latex: { default: '' },
     // placeholder: { default: 'Click to edit equation' },
   },
-  atom: true,
-  content: 'text*',
   group: 'block',
   parseDOM: [
     {
@@ -15,7 +13,6 @@ export const equationBlock: NodeSpec = {
       getAttrs: (node: Element) => ({
         latex: node.getAttribute('latex'),
       }),
-      getContent: null,
     },
     // TODO: convert MathML from pasted math elements?
   ],
