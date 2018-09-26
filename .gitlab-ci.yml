@@ -138,6 +138,33 @@ deploy_production:
   only:
     - /^v\d+\./ # only deploy release tags, which start with "v" and a version number
 
+deploy_test:
+  environment:
+    name: test
+    url: https://test.manuscripts.io/
+  stage: deploy
+  script:
+    - scripts/deploy.sh
+  tags:
+    - nodejs-8
+    - awscli
+    - sentry-cli
+  only:
+    refs:
+      - test
+
+deploy_test_manual:
+  environment:
+    name: test
+    url: https://test.manuscripts.io/
+  stage: deploy
+  script: scripts/deploy.sh
+  tags:
+    - nodejs-8
+    - awscli
+    - sentry-cli
+  when: manual
+
 deploy_dev:
   environment:
     name: dev
