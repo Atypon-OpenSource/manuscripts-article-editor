@@ -1,5 +1,5 @@
 import { encode } from '../encode'
-import { createTestDoc } from './decode.test'
+import { createTestDoc } from './__helpers__/doc'
 
 describe('transformer', () => {
   test('Encoder', async () => {

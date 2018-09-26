@@ -65,9 +65,7 @@ const configuration: webpack.Configuration = merge(common, {
   performance: {
     hints: false,
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
 })
 
 export default configuration

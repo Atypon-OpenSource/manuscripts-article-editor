@@ -1,25 +1,7 @@
-import components from '../../../stories/data/components.json'
-import { AnyComponent, Section } from '../../types/components'
-import { Decoder, getComponentData, sortSectionsByPriority } from '../decode'
+import { Section } from '../../types/components'
+import { getComponentData, sortSectionsByPriority } from '../decode'
 import { MANUSCRIPT, SECTION } from '../object-types'
-
-const createTestComponentMap = (): Map<string, AnyComponent> => {
-  const componentMap = new Map()
-
-  for (const component of components) {
-    componentMap.set(component.id, component)
-  }
-
-  return componentMap
-}
-
-export const createTestDoc = () => {
-  const componentMap = createTestComponentMap()
-
-  const decoder = new Decoder(componentMap)
-
-  return decoder.createArticleNode()
-}
+import { createTestDoc } from './__helpers__/doc'
 
 describe('transformer', () => {
   test('Decoder', async () => {

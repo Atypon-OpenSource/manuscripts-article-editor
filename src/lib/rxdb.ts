@@ -1,5 +1,6 @@
 import PouchDBHTTPAdapter from 'pouchdb-adapter-http'
 import PouchDBIDBAdapter from 'pouchdb-adapter-idb'
+import PouchDBMemoryAdapter from 'pouchdb-adapter-memory'
 import RxDBAttachmentsModule from 'rxdb/plugins/attachments'
 import RxDB from 'rxdb/plugins/core'
 import RxDBErrorMessagesModule from 'rxdb/plugins/error-messages'
@@ -23,7 +24,12 @@ import { AnyComponent } from '../types/components'
 // RxDB.QueryChangeDetector.enable()
 // RxDB.QueryChangeDetector.enableDebugging()
 
-RxDB.plugin(PouchDBIDBAdapter)
+if (config.environment === 'test') {
+  RxDB.plugin(PouchDBMemoryAdapter)
+} else {
+  RxDB.plugin(PouchDBIDBAdapter)
+}
+
 RxDB.plugin(PouchDBHTTPAdapter)
 RxDB.plugin(RxDBNoValidateModule)
 RxDB.plugin(RxDBReplicationModule)
@@ -35,7 +41,7 @@ RxDB.plugin(RxDBLocalDocumentsModule)
 // RxDB.plugin(RxDBKeyCompressionModule)
 
 /* istanbul ignore next */
-if (config.environment === 'development') {
+if (config.environment !== 'production') {
   RxDB.plugin(RxDBErrorMessagesModule)
   RxDB.plugin(RxDBSchemaCheckModule)
 }
@@ -51,16 +57,20 @@ export interface Db {
   [key: string]: any // tslint:disable-line:no-any
 }
 
-export const waitForDB = RxDB.create({
-  name: 'manuscriptsdb',
-  adapter: 'idb',
-})
+const createDB = () =>
+  RxDB.create({
+    name: 'manuscriptsdb',
+    adapter: config.environment === 'test' ? 'memory' : 'idb',
+  })
 
-export const removeDB = () =>
-  RxDB.removeDatabase('manuscriptsdb', 'idb')
-    .then(() => {
-      console.log('removed') // tslint:disable-line:no-console
-    })
-    .catch((error: Error) => {
-      console.error(error) // tslint:disable-line:no-console
-    })
+export let waitForDB = createDB()
+
+export const removeDB = async () => {
+  const db = await waitForDB
+
+  await db.remove()
+
+  waitForDB = createDB()
+
+  return waitForDB
+}

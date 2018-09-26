@@ -16,7 +16,9 @@ import {
   UserProfile,
 } from '../types/components'
 import { ExportManuscript, ImportManuscript } from '../types/manuscript'
-import { menubar, menus, options } from './config'
+import { options } from './config'
+import menubar from './config/menubar'
+import menus from './config/menus'
 import PopperManager from './lib/popper'
 import MetadataContainer from './manuscript/MetadataContainer'
 import MenuBar from './MenuBar'

@@ -9,6 +9,7 @@ module.exports = {
     '!**/*.d.ts', 
     '!/**/__tests__',
     '!src/editor/**',
+    '!src/resizer/**',
     '!src/lib/fonts.ts',
     '!src/lib/sentry.ts',
     '!src/lib/service-worker.ts',
@@ -17,13 +18,8 @@ module.exports = {
     global: {
       branches: coverageThreshold(60, 0.25),
       functions: coverageThreshold(60, 0.5),
-      lines: coverageThreshold(60),
+      lines: coverageThreshold(60, 0.5),
     }
-  },
-  globals: {
-    'ts-jest': {
-      useBabelrc: true,
-    },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
@@ -38,8 +34,7 @@ module.exports = {
   testRegex: '__tests__.*\\.test\\.tsx?$',
   testURL: "https://localhost",
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.(j|t)sx?$': 'babel-jest',
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/(?!(lodash-es|@manuscripts)/)'],
 }

@@ -7,6 +7,3 @@ export const options = {
   schema,
   nodeViews,
 }
-
-export { default as menus } from './menus'
-export { default as menubar } from './menubar'
