@@ -110,6 +110,7 @@ export interface ProjectInvitation extends Component {
   role: string
   projectTitle?: string
   invitedUserName?: string
+  acceptedAt?: number
 }
 
 export type ContributorRole = 'author'

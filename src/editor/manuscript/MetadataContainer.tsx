@@ -499,14 +499,31 @@ class MetadataContainer extends React.Component<
         )
       })
 
+  private buildInvitedAuthorsEmail = (authorInvitationIDs: string[]) => {
+    const invitedAuthorsEmail: string[] = []
+    for (const invitation of this.state.invitations) {
+      if (authorInvitationIDs.includes(invitation.id)) {
+        invitedAuthorsEmail.push(invitation.invitedUserEmail)
+      }
+    }
+    return invitedAuthorsEmail
+  }
+
   private buildCollaborators = (
     authors: Contributor[],
     collaborators: UserProfile[]
   ) => {
     const userIDs: string[] = authors.map(author => author.userID as string)
+    const invitationsID: string[] = authors.map(author => author.invitationID!)
+
+    const invitedAuthorsEmail: string[] = this.buildInvitedAuthorsEmail(
+      invitationsID
+    )
 
     const nonAuthors: UserProfile[] = collaborators.filter(
-      person => !userIDs.includes(person.userID)
+      person =>
+        !userIDs.includes(person.userID) &&
+        !invitedAuthorsEmail.includes(person.email as string)
     )
 
     this.setState({ nonAuthors })
@@ -595,20 +612,11 @@ class MetadataContainer extends React.Component<
   }
 
   private checkInvitations = (author: Contributor) => {
-    const invitationsID = this.state.invitations.map(
-      invitation => invitation.id
-    )
-
-    if (author.invitationID) {
-      if (!invitationsID.includes(author.invitationID)) {
-        delete author.invitationID
-        this.props.saveComponent<Contributor>(author).catch(err => alert(err))
-        return false
+    for (const invitation of this.state.invitations) {
+      if (invitation.id === author.invitationID) {
+        return !invitation.acceptedAt
       }
-
-      return true
     }
-
     return false
   }
 }
