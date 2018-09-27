@@ -2,16 +2,31 @@ import NavIcon from '@manuscripts/assets/react/NavIcon'
 import React from 'react'
 import ProjectsDropdownButton from '../containers/ProjectsDropdownButton'
 import UserContainer from '../containers/UserContainer'
-import { MenuBarIcon, MenuContainer, MenuSection, MenuSections } from './Menu'
+import {
+  MenuBarIcon,
+  MenuContainer,
+  MenuLink,
+  MenuSection,
+  MenuSections,
+} from './Menu'
 
-export const GlobalMenu: React.SFC = () => (
+interface Props {
+  active: string
+}
+
+export const GlobalMenu: React.SFC<Props> = ({ active }) => (
   <MenuContainer>
     <MenuBarIcon>
       <NavIcon />
     </MenuBarIcon>
     <MenuSections>
       <MenuSection>
-        <ProjectsDropdownButton />
+        {active === 'projects' ? (
+          <MenuLink to={`/projects`}>Projects</MenuLink>
+        ) : (
+          <ProjectsDropdownButton />
+        )}
+
         {/* <MenuLink to={`/people`}>People</MenuLink> */}
       </MenuSection>
 

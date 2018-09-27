@@ -20,7 +20,7 @@ interface Props {
 
 export const ProjectsPage: React.SFC<Props> = ({ projects, addProject }) => (
   <Container>
-    <GlobalMenu />
+    <GlobalMenu active={'projects'} />
     <ProjectsSidebar projects={projects} addProject={addProject} />
   </Container>
 )

@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { deYorkGreen, manuscriptsBlue } from '../colors'
+import { deYorkGreen, jellyBeanBlue, manuscriptsBlue } from '../colors'
 import DropdownToggle from '../icons/dropdown-toggle'
 import { styled } from '../theme'
 import { Badge } from './Badge'
@@ -36,7 +36,7 @@ export const DropdownLink = styled(NavLink)`
   white-space: nowrap;
 
   &:hover {
-    background: #7fb5d5;
+    background: ${manuscriptsBlue};
     color: white;
   }
 `
@@ -52,7 +52,7 @@ export const DropdownElement = styled.div`
   cursor: pointer;
 
   &:hover {
-    background: #7fb5d5;
+    background: ${manuscriptsBlue};
     color: white;
   }
 
@@ -114,7 +114,7 @@ const DropdownButtonContainer = styled.button<DropdownProps>`
   }
 
   &:hover {
-    background-color: #7fb5d5;
+    background-color: ${jellyBeanBlue};
     color: white;
   }
 

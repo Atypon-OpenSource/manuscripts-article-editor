@@ -1,11 +1,10 @@
 import NavIcon from '@manuscripts/assets/react/NavIcon'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { jellyBeanBlue, manuscriptsBlue } from '../colors'
 import ProjectsDropdownButton from '../containers/ProjectsDropdownButton'
 import UserContainer from '../containers/UserContainer'
 import { styled } from '../theme'
-import { DeveloperMenu } from './DeveloperMenu'
-import MenuDropdown from './MenuDropdown'
 import ViewIcon from './ViewIcon'
 
 export const MenuContainer = styled.div`
@@ -60,9 +59,13 @@ export const MenuLink = styled(NavLink)`
   border-radius: 4px;
   margin-left: 20px;
 
-  &:hover,
   &.active {
-    background: #7fb5d5;
+    background: ${manuscriptsBlue};
+    color: white;
+  }
+
+  &:hover {
+    background: ${jellyBeanBlue};
     color: white;
   }
 `
@@ -85,10 +88,6 @@ export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
         <ProjectsDropdownButton />
         <MenuLink to={`/projects/${projectID}/collaborators`}>People</MenuLink>
         <MenuLink to={`/projects/${projectID}/library`}>Library</MenuLink>
-
-        <MenuDropdown id={'developer-dropdown'} buttonContents={'Developer'}>
-          <DeveloperMenu />
-        </MenuDropdown>
       </MenuSection>
 
       <MenuSection>
