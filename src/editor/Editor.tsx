@@ -1,6 +1,6 @@
-import { History } from 'history'
+import { History, UnregisterCallback } from 'history'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { EditorState, Transaction } from 'prosemirror-state'
+import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
 import React from 'react'
@@ -106,6 +106,8 @@ class Editor extends React.Component<EditorProps, State> {
 
   private view: EditorView
 
+  private unregisterHistoryListener: UnregisterCallback
+
   constructor(props: EditorProps) {
     super(props)
   }
@@ -118,6 +120,14 @@ class Editor extends React.Component<EditorProps, State> {
         plugins: plugins(this.props),
       }),
     })
+
+    this.unregisterHistoryListener = this.props.history.listen(
+      this.handleHistoryChange
+    )
+  }
+
+  public componentWillUnmount() {
+    this.unregisterHistoryListener()
   }
 
   public render() {
@@ -170,11 +180,13 @@ class Editor extends React.Component<EditorProps, State> {
       })
 
       // dispatch a transaction so that plugins run
-      this.view.dispatch(this.view.state.tr.setMeta('update', true))
+      this.view.dispatch(state.tr.setMeta('update', true))
 
       if (this.props.autoFocus) {
         this.view.focus()
       }
+
+      this.handleHistoryChange()
 
       if (this.props.subscribe) {
         this.props.subscribe(this.receive)
@@ -316,6 +328,31 @@ class Editor extends React.Component<EditorProps, State> {
     // TODO: find the updated node and replace it
     // TODO: find the deleted node and delete it
     // TODO: add an added component
+  }
+
+  private handleHistoryChange = () => {
+    this.focusNodeWithId(location.hash.substring(1))
+  }
+
+  private focusNodeWithId(id: string) {
+    if (!id || !this.view) return
+
+    const { state } = this.view
+
+    state.doc.descendants((node, pos) => {
+      if (node.attrs.id === id) {
+        this.view.focus()
+
+        const $pos = state.doc.resolve(pos + 1)
+        const selection = TextSelection.near($pos)
+
+        this.dispatchTransaction(
+          state.tr.setSelection(selection).scrollIntoView()
+        )
+
+        return false
+      }
+    })
   }
 }
 
