@@ -10,6 +10,7 @@ import ViewIcon from './ViewIcon'
 
 export const MenuContainer = styled.div`
   display: flex;
+  flex-shrink: 0;
   width: 100%;
   align-items: center;
   color: #949494;
