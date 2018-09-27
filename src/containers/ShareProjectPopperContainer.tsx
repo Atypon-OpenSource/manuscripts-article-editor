@@ -124,34 +124,31 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
     }
   }
 
-  private handleInvitationSubmit = (
+  private handleInvitationSubmit = async (
     values: InvitationValues,
     {
       setSubmitting,
       setErrors,
     }: FormikActions<InvitationValues | InvitationErrors>
   ) => {
-    projectInvite(
-      this.props.projectID,
-      [{ email: values.email, name: values.name }],
-      values.role,
-      'message'
-    ).then(
-      () => {
-        setSubmitting(false)
-      },
-      error => {
-        setSubmitting(false)
+    const { projectID } = this.props
+    const { email, name, role } = values
 
-        const errors: FormikErrors<InvitationErrors> = {}
+    try {
+      await projectInvite(projectID, [{ email, name }], role)
 
-        if (error.response) {
-          errors.submit = error.response
-        }
+      setSubmitting(false)
+    } catch (error) {
+      setSubmitting(false)
 
-        setErrors(errors)
+      const errors: FormikErrors<InvitationErrors> = {}
+
+      if (error.response) {
+        errors.submit = error.response
       }
-    )
+
+      setErrors(errors)
+    }
   }
 
   private copyURI = async () => {
@@ -174,24 +171,24 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
 
   private shareProjectURI: ShareProjectUri = async () => {
     const { projectID } = this.props
-    const [viewerToken, writerToken] = await Promise.all([
-      requestProjectInvitationToken(projectID, 'Viewer'),
-      requestProjectInvitationToken(projectID, 'Writer'),
-    ])
 
     this.setState({
       isShareURIPopperOpen: true,
       shareURI: {
-        viewer: this.invitationURI(projectID, viewerToken),
-        writer: this.invitationURI(projectID, writerToken),
+        viewer: await this.fetchInvitationURI(projectID, 'Viewer'),
+        writer: await this.fetchInvitationURI(projectID, 'Writer'),
       },
     })
   }
 
-  private invitationURI = (projectID: string, invitationToken: string) => {
+  private fetchInvitationURI = async (projectID: string, role: string) => {
+    const {
+      data: { token },
+    } = await requestProjectInvitationToken(projectID, role)
+
     return `${config.url}/projects/${encodeURIComponent(
       projectID
-    )}/invitation/${encodeURIComponent(invitationToken)}/`
+    )}/invitation/${encodeURIComponent(token)}/`
   }
 }
 

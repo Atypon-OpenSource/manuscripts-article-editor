@@ -4,7 +4,7 @@ import {
   ParseOptions,
 } from 'prosemirror-model'
 import { RxDocument } from 'rxdb'
-import { options } from '../editor/config'
+import schema from '../editor/config/schema'
 import {
   AnyComponent,
   Attachments,
@@ -26,8 +26,6 @@ import {
   UserProfile,
 } from '../types/components'
 import * as ObjectTypes from './object-types'
-
-const { schema } = options
 
 const parser = DOMParser.fromSchema(schema)
 

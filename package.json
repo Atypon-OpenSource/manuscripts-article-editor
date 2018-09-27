@@ -98,7 +98,9 @@
     "popper.js": "^1.14.1",
     "pouchdb-adapter-http": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-http.git#master",
     "pouchdb-adapter-idb": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-idb.git#master",
+    "pouchdb-adapter-leveldb-core": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#master",
     "pouchdb-adapter-memory": "^7.0.0",
+    "pouchdb-replication": "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master",
     "prosemirror-commands": "^1.0.4",
     "prosemirror-dropcursor": "^1.0.0",
     "prosemirror-gapcursor": "^1.0.0",
@@ -164,7 +166,6 @@
     "@types/storybook__addon-notes": "^3.3.3",
     "@types/storybook__react": "^3.0.9",
     "@types/webpack-dev-server": "^3.1.1",
-    "axios-mock-adapter": "^1.12.0",
     "babel-jest": "^23.4.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -187,6 +188,7 @@
   },
   "resolutions": {
     "rxdb/pouchdb-replication": "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master",
+    "pouchdb-adapter-leveldb-core": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#master",
     "rxjs": "6.2.2",
     "rxjs-compat": "6.2.2"
   }

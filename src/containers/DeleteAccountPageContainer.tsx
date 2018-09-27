@@ -9,8 +9,9 @@ import {
 import { FormErrors } from '../components/Form'
 import { DeleteAccountMessage } from '../components/Messages'
 import ModalForm from '../components/ModalForm'
+import { logout } from '../lib/account'
 import { deleteAccount } from '../lib/api'
-import { removeDB } from '../lib/rxdb'
+import { databaseCreator } from '../lib/db'
 import { deleteAccountSchema } from '../validation'
 
 const initialValues = {
@@ -36,32 +37,37 @@ class DeleteAccountPageContainer extends React.Component<
     )
   }
 
-  private handleSubmit = (
+  private handleSubmit = async (
     values: DeleteAccountValues,
-    actions: FormikActions<DeleteAccountValues | FormErrors>
+    {
+      setErrors,
+      setSubmitting,
+    }: FormikActions<DeleteAccountValues | FormErrors>
   ) => {
-    actions.setErrors({})
+    setErrors({})
 
-    deleteAccount(values).then(
-      async () => {
-        actions.setSubmitting(false)
-        await removeDB()
-        window.location.href = '/signup'
-      },
-      error => {
-        actions.setSubmitting(false)
+    try {
+      await deleteAccount(values.password)
 
-        const errors: FormikErrors<FormErrors> = {
-          submit:
-            error.response &&
-            error.response.status === HttpStatusCodes.UNAUTHORIZED
-              ? 'The password entered is incorrect'
-              : 'There was an error',
-        }
+      setSubmitting(false)
 
-        actions.setErrors(errors)
+      const db = await databaseCreator
+      await logout(db)
+
+      window.location.href = '/signup'
+    } catch (error) {
+      setSubmitting(false)
+
+      const errors: FormikErrors<FormErrors> = {
+        submit:
+          error.response &&
+          error.response.status === HttpStatusCodes.UNAUTHORIZED
+            ? 'The password entered is incorrect'
+            : 'There was an error',
       }
-    )
+
+      setErrors(errors)
+    }
   }
 }
 

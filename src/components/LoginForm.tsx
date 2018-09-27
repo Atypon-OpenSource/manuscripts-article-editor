@@ -19,10 +19,6 @@ export interface LoginValues {
   password: string
 }
 
-export interface LoginResponse {
-  token: string
-}
-
 const ManuscriptLinks = styled.div`
   text-align: left;
 `

@@ -24,7 +24,7 @@ export const convert = async (
 ): Promise<Blob> => {
   const responseType: XMLHttpRequestResponseType = 'blob'
 
-  const response = await client.post('/v1/document/compile', form, {
+  const response = await client.post<Blob>('/v1/document/compile', form, {
     responseType,
     headers: {
       'Pressroom-Target-File-Extension': format.replace(/^\./, ''),

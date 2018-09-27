@@ -430,7 +430,7 @@ class MetadataContainer extends React.Component<
 
   private getProjectID = () => this.props.manuscript.containerID
 
-  private handleInvitationSubmit = (
+  private handleInvitationSubmit = async (
     values: InvitationValues,
     {
       setSubmitting,
@@ -454,25 +454,25 @@ class MetadataContainer extends React.Component<
       }
     }
 
-    projectInvite(projectID, [{ email, name }], role, 'message').then(
-      () => {
-        setSubmitting(false)
-        if (create) {
-          this.createInvitedAuthor(email, invitingID, name)
-        }
-      },
-      error => {
-        setSubmitting(false)
+    try {
+      await projectInvite(projectID, [{ email, name }], role)
 
-        const errors: FormikErrors<InvitationErrors> = {}
+      setSubmitting(false)
 
-        if (error.response) {
-          errors.submit = error.response
-        }
-
-        setErrors(errors)
+      if (create) {
+        this.createInvitedAuthor(email, invitingID, name)
       }
-    )
+    } catch (error) {
+      setSubmitting(false)
+
+      const errors: FormikErrors<InvitationErrors> = {}
+
+      if (error.response) {
+        errors.submit = error.response
+      }
+
+      setErrors(errors)
+    }
   }
 
   private createInvitedAuthor = (

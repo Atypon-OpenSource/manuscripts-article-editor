@@ -11,11 +11,6 @@ export interface ChangePasswordValues {
   newPassword: string
 }
 
-// TODO
-export interface ChangePasswordResponse {
-  status?: number
-}
-
 export const ChangePasswordForm: React.SFC<
   FormikProps<ChangePasswordValues & FormErrors>
 > = ({ errors, isSubmitting }) => (

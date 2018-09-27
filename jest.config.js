@@ -8,6 +8,7 @@ module.exports = {
     'src/**/*.{ts,tsx}', 
     '!**/*.d.ts', 
     '!/**/__tests__',
+    '!src/api/**',
     '!src/editor/**',
     '!src/resizer/**',
     '!src/lib/fonts.ts',

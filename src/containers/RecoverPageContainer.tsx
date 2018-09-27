@@ -1,27 +1,23 @@
-import { AxiosError } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { Main, Page } from '../components/Page'
-import {
-  PasswordErrors,
-  PasswordHiddenValues,
-  PasswordValues,
-} from '../components/PasswordForm'
+import { PasswordErrors, PasswordValues } from '../components/PasswordForm'
 import PasswordPage from '../components/PasswordPage'
 import { RecoverConfirm } from '../components/RecoverConfirm'
 import { RecoverErrors, RecoverValues } from '../components/RecoverForm'
 import RecoverPage from '../components/RecoverPage'
 import { Spinner } from '../components/Spinner'
-import { recoverPassword, resetPassword } from '../lib/api'
-import deviceId from '../lib/deviceId'
+import { resetPassword } from '../lib/account'
+import { sendPasswordRecovery } from '../lib/api'
 import { UserProps, withUser } from '../store/UserProvider'
 import { passwordSchema, recoverSchema } from '../validation'
 
-interface State extends PasswordHiddenValues {
+interface State {
   sent: string | null
+  token: string
 }
 
 class RecoverPageContainer extends React.Component<UserProps> {
@@ -89,72 +85,62 @@ class RecoverPageContainer extends React.Component<UserProps> {
     )
   }
 
-  private verifyRecovery = (
+  private verifyRecovery = async (
     values: PasswordValues,
     { setSubmitting, setErrors }: FormikActions<PasswordValues | PasswordErrors>
   ) => {
-    const { token }: PasswordHiddenValues = this.state
+    try {
+      await resetPassword(values.password, this.state.token)
 
-    resetPassword({
-      ...values,
-      token,
-      deviceId,
-    }).then(
-      () => {
-        setSubmitting(false)
+      setSubmitting(false)
+    } catch (error) {
+      setSubmitting(false)
 
-        this.props.user.fetch()
-      },
-      (error: AxiosError) => {
-        setSubmitting(false)
+      const errors: FormikErrors<PasswordErrors> = {}
 
-        const errors: FormikErrors<PasswordErrors> = {}
-
-        if (error.response) {
-          if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
-            errors.submit = 'Invalid or expired reset password link'
-          } else if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
-            errors.submit = 'Invalid parameters'
-          } else {
-            errors.submit = 'An error occurred'
-          }
+      if (error.response) {
+        if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+          errors.submit = 'Invalid or expired reset password link'
+        } else if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
+          errors.submit = 'Invalid parameters'
+        } else {
+          errors.submit = 'An error occurred'
         }
-
-        setErrors(errors)
       }
-    )
+
+      setErrors(errors)
+    }
   }
 
-  private sendRecovery = (
+  private sendRecovery = async (
     values: RecoverValues,
     { setSubmitting, setErrors }: FormikActions<RecoverValues & RecoverErrors>
   ) => {
-    recoverPassword(values).then(
-      () => {
-        setSubmitting(false)
+    try {
+      await sendPasswordRecovery(values.email)
 
-        this.setState({
-          sent: values.email,
-        })
-      },
-      error => {
-        setSubmitting(false)
+      setSubmitting(false)
 
-        const errors: FormikErrors<RecoverValues & RecoverErrors> = {}
+      this.setState({
+        sent: values.email,
+      })
+    } catch (error) {
+      setSubmitting(false)
 
-        if (error.response) {
-          if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
-            errors.notFound = 'Invalid username or password'
-          } else if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
-            errors.submit = 'Invalid parameters'
-          } else {
-            errors.submit = 'An error occurred'
-          }
+      const errors: FormikErrors<RecoverValues & RecoverErrors> = {}
+
+      if (error.response) {
+        if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+          errors.notFound = 'Invalid username or password'
+        } else if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
+          errors.submit = 'Invalid parameters'
+        } else {
+          errors.submit = 'An error occurred'
         }
-
-        setErrors(errors)
       }
-    )
+
+      setErrors(errors)
+    }
   }
 }
 

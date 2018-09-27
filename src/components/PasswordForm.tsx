@@ -11,14 +11,6 @@ export interface PasswordValues {
   password: string
 }
 
-export interface PasswordHiddenValues {
-  token: string
-}
-
-export interface ResetPasswordResponse {
-  token: string
-}
-
 export interface PasswordErrors {
   submit?: string
   unauthorized?: string

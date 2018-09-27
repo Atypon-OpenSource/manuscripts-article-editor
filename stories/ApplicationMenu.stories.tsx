@@ -4,13 +4,13 @@ import { createBrowserHistory } from 'history'
 import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import { ApplicationMenu } from '../src/components/ApplicationMenu'
-import { options } from '../src/editor/config'
 import menus, { MenusProps } from '../src/editor/config/menus'
+import schema from '../src/editor/config/schema'
 import manuscripts from './data/manuscripts'
 
 const state = EditorState.create({
   doc: null,
-  schema: options.schema,
+  schema,
 })
 
 const history = createBrowserHistory()

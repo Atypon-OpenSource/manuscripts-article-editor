@@ -1,11 +1,14 @@
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
-import { RxCollectionCreator, RxReplicationState } from 'rxdb'
-import { PouchReplicationOptions } from 'rxdb/src/typings/pouch'
+import {
+  PouchReplicationOptions,
+  RxCollectionCreator,
+  RxReplicationState,
+} from 'rxdb'
 import config from '../config'
-import * as api from '../lib/api'
+import { refreshSyncSessions } from '../lib/api'
 import { handleConflicts } from '../lib/conflicts'
-import { Db, waitForDB } from '../lib/rxdb'
+import { databaseCreator } from '../lib/db'
 import { ComponentCollection } from '../types/components'
 
 // TODO: handle offline/sync problems
@@ -70,7 +73,7 @@ class DataProvider extends React.Component<{}, DataProviderState> {
   public async componentDidMount() {
     const { name } = this.options
 
-    const db: Db = await waitForDB
+    const db = await databaseCreator
 
     if (!db[name]) {
       await db.collection(this.options)
@@ -200,7 +203,7 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     switch (error.status) {
       // unauthorized, start a new sync gateway session if signed in
       case HttpStatusCodes.UNAUTHORIZED:
-        return api.refreshSyncSession()
+        return refreshSyncSessions()
 
       default:
         throw error

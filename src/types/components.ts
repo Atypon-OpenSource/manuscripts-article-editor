@@ -1,5 +1,9 @@
-import { RxAttachment, RxCollection, RxDocument } from 'rxdb'
-import { RxAttachmentCreator } from 'rxdb/src/typings/rx-attachment'
+import {
+  RxAttachment,
+  RxAttachmentCreator,
+  RxCollection,
+  RxDocument,
+} from 'rxdb'
 
 export interface Attachment {
   id: string

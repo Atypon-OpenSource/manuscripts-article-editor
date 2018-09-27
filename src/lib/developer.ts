@@ -1,9 +1,9 @@
 import { USER_PROFILE } from '../transformer/object-types'
 import { BibliographicName } from '../types/components'
-import { Db, waitForDB } from './rxdb'
+import { databaseCreator } from './db'
 import token from './token'
 
-export const createToken = /* istanbul ignore next */ (userId: string) => {
+export const createToken = (userId: string) => {
   token.set({
     access_token: ['', btoa(JSON.stringify({ userId })), ''].join('.'),
   })
@@ -17,7 +17,7 @@ export const createUserProfile = /* istanbul ignore next */ async (
     alert('Create a token first')
   }
 
-  const db: Db = await waitForDB
+  const db = await databaseCreator
 
   await db.projects.upsert({
     id: `${USER_PROFILE}:${userId.replace('_', '|')}`,

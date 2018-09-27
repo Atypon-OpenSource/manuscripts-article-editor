@@ -43,27 +43,22 @@ class SignupPageContainer extends React.Component<
     allowsTracking: false,
   }
 
-  public componentDidMount() {
-    const { token: verifyEmailToken } = parse(window.location.hash.substr(1))
+  public async componentDidMount() {
+    const { token } = parse(window.location.hash.substr(1))
 
-    if (verifyEmailToken) {
-      verify({
-        token: verifyEmailToken,
-      })
-        .then(() => {
-          this.props.history.push('/login', {
-            verificationMessage: 'Your account is now verified.',
-          })
+    if (token) {
+      try {
+        await verify(token)
+
+        this.props.history.push('/login', {
+          verificationMessage: 'Your account is now verified.',
         })
-        .catch(() => {
-          this.setState({
-            error: true,
-          })
-          this.props.history.push('/login', {
-            verificationMessage:
-              'Account verification failed. Is the account already verified?',
-          })
+      } catch (error) {
+        this.props.history.push('/login', {
+          verificationMessage:
+            'Account verification failed. Is the account already verified?',
         })
+      }
     }
   }
 
@@ -102,61 +97,62 @@ class SignupPageContainer extends React.Component<
     )
   }
 
-  private handleSubmit = (
+  private handleSubmit = async (
     values: SignupValues,
     { setSubmitting, setErrors }: FormikActions<SignupValues | SignupErrors>
   ) => {
-    signup(values).then(
-      () => {
-        setSubmitting(false)
+    const { name, email, password, allowsTracking } = values
 
-        this.setState({
-          confirming: { email: values.email },
-          existButNotVerified: null,
-        })
+    try {
+      await signup(name, email, password, allowsTracking)
 
-        this.props.user.fetch()
-      },
-      async error => {
-        setSubmitting(false)
+      setSubmitting(false)
 
-        const errors: FormikErrors<SignupErrors> = {}
+      this.setState({
+        confirming: { email },
+        existButNotVerified: null,
+      })
+    } catch (error) {
+      setSubmitting(false)
 
-        if (error.response) {
-          const { data } = error.response
-          const { email } = values
+      const errors: FormikErrors<SignupErrors> = {}
 
-          if (data.error.name === 'ConflictingUnverifiedUserExistsError') {
-            this.setState({
-              confirming: null,
-              existButNotVerified: { email },
-            })
+      if (error.response) {
+        const { data } = error.response
 
-            await resendVerificationEmail(email)
-          } else {
-            errors.submit = this.errorResponseMessage(error.response.status)
+        if (data.error.name === 'ConflictingUnverifiedUserExistsError') {
+          this.setState({
+            confirming: null,
+            existButNotVerified: { email },
+          })
 
-            setErrors(errors)
-          }
+          await resendVerificationEmail(email)
+        } else {
+          errors.submit = this.errorResponseMessage(error.response.status)
+
+          setErrors(errors)
         }
       }
-    )
+    }
   }
 
-  private resendVerificationEmail = () => {
+  private resendVerificationEmail = async () => {
     const { confirming } = this.state
-    if (confirming) {
-      resendVerificationEmail(confirming.email)
-        .then(() => {
-          this.setState({
-            resendSucceed: true,
-          })
-        })
-        .catch(() => {
-          this.setState({
-            resendSucceed: false,
-          })
-        })
+
+    if (!confirming) return
+
+    const { email } = confirming
+
+    try {
+      await resendVerificationEmail(email)
+
+      this.setState({
+        resendSucceed: true,
+      })
+    } catch (error) {
+      this.setState({
+        resendSucceed: false,
+      })
     }
   }
 

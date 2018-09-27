@@ -117,7 +117,7 @@ services:
       - API_BASE_URL=http://api-test.manuscripts.io:3000/api/v1
       - DATA_URL=http://data-test.manuscripts.io:8020
       - SYNC_GATEWAY_URL=http://sg-test.manuscripts.io:4984
-    command: "'chromium:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000 --disable-dev-shm-usage"
+    command: "'chromium:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 60000 --selector-timeout 60000 --assertion-timeout 60000 --disable-dev-shm-usage"
     depends_on:
       - api
       - client
@@ -145,7 +145,7 @@ services:
       - API_BASE_URL=http://api-test.manuscripts.io:3000/api/v1
       - DATA_URL=http://data-test.manuscripts.io:8020
       - SYNC_GATEWAY_URL=http://sg-test.manuscripts.io:4984
-    command: "'firefox:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 20000 --selector-timeout 20000 --assertion-timeout 20000 --shm-size=1gb"
+    command: "'firefox:headless --no-sandbox' '/testcafe-tests/**/*js' --screenshots /screenshots --screenshots-on-fails --page-load-timeout 60000 --selector-timeout 60000 --assertion-timeout 60000 --shm-size=1gb"
     depends_on:
       - api
       - client

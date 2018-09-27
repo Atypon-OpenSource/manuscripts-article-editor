@@ -8,9 +8,8 @@ import { LoginValues } from '../components/LoginForm'
 import LoginPage from '../components/LoginPage'
 import { Main, Page } from '../components/Page'
 import Spinner from '../icons/spinner'
-import { login, logout } from '../lib/api'
-import deviceId from '../lib/deviceId'
-import { removeDB } from '../lib/rxdb'
+import { login } from '../lib/account'
+import { databaseCreator } from '../lib/db'
 import token, { Token } from '../lib/token'
 import { UserProps, withUser } from '../store/UserProvider'
 import { loginSchema } from '../validation'
@@ -26,7 +25,7 @@ interface ErrorMessage {
 }
 
 class LoginPageContainer extends React.Component<
-  UserProps & RouteComponentProps<{}>,
+  UserProps & RouteComponentProps,
   State
 > {
   public state: Readonly<State> = {
@@ -101,38 +100,25 @@ class LoginPageContainer extends React.Component<
     values: LoginValues,
     { setSubmitting, setErrors }: FormikActions<LoginValues & FormErrors>
   ) => {
-    // TODO: share code with logout
     try {
-      await logout()
-    } catch (e) {
-      token.remove()
-    }
-    await removeDB()
+      const db = await databaseCreator
 
-    login({
-      ...values,
-      deviceId,
-    }).then(
-      response => {
-        setSubmitting(false)
+      await login(values.email, values.password, db)
 
-        // TODO: something better
-        // this.props.user.fetch()
-        window.location.href = '/'
-      },
-      error => {
-        setSubmitting(false)
+      window.location.href = '/'
+    } catch (error) {
+      setSubmitting(false)
 
-        const errors: FormikErrors<FormErrors> = {}
+      const errors: FormikErrors<FormErrors> = {}
 
-        if (error.response) {
-          errors.submit = this.errorResponseMessage(error.response.status)
-        }
-
-        setErrors(errors)
+      if (error.response) {
+        errors.submit = this.errorResponseMessage(error.response.status)
       }
-    )
+
+      setErrors(errors)
+    }
   }
+
   private errorResponseMessage = (status: number) => {
     switch (status) {
       case HttpStatusCodes.BAD_REQUEST:

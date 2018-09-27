@@ -1,7 +1,7 @@
 import React from 'react'
 import config from '../config'
+import { databaseCreator } from '../lib/db'
 import { createToken, createUserProfile } from '../lib/developer'
-import { removeDB } from '../lib/rxdb'
 import { getCurrentUserId } from '../store/UserProvider'
 import { styled } from '../theme'
 
@@ -41,9 +41,10 @@ export const DeveloperMenu = () => (
   <React.Fragment>
     <DropdownAction
       onClick={async () => {
-        await removeDB()
+        const db = await databaseCreator
+        await db.remove()
         alert('Removed database')
-        window.location.reload(true)
+        window.location.href = '/'
       }}
     >
       Delete database
@@ -76,6 +77,8 @@ export const DeveloperActions = () => (
 
     <DropdownAction
       onClick={async () => {
+        createToken('demo@example.com')
+
         const userId = getCurrentUserId()
 
         await createUserProfile(userId as string, {

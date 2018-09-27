@@ -16,9 +16,11 @@ import {
   UserProfile,
 } from '../types/components'
 import { ExportManuscript, ImportManuscript } from '../types/manuscript'
-import { options } from './config'
 import menubar from './config/menubar'
 import menus from './config/menus'
+import plugins from './config/plugins'
+import schema from './config/schema'
+import views from './config/views'
 import PopperManager from './lib/popper'
 import MetadataContainer from './manuscript/MetadataContainer'
 import MenuBar from './MenuBar'
@@ -112,8 +114,8 @@ class Editor extends React.Component<EditorProps, State> {
     this.setState({
       state: EditorState.create({
         doc: this.props.doc,
-        schema: options.schema,
-        plugins: options.plugins(this.props),
+        schema,
+        plugins: plugins(this.props),
       }),
     })
   }
@@ -163,7 +165,7 @@ class Editor extends React.Component<EditorProps, State> {
         editable: () => editable,
         state,
         dispatchTransaction: this.dispatchTransaction,
-        nodeViews: options.nodeViews(this.props),
+        nodeViews: views(this.props),
         attributes: this.props.attributes,
       })
 

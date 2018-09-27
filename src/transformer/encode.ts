@@ -3,7 +3,7 @@ import {
   Fragment,
   Node as ProsemirrorNode,
 } from 'prosemirror-model'
-import { options } from '../editor/config'
+import schema from '../editor/config/schema'
 import { iterateChildren } from '../editor/lib/utils'
 import {
   AnyComponent,
@@ -11,8 +11,6 @@ import {
   ComponentWithAttachment,
 } from '../types/components'
 import nodeTypes, { NodeTypeName } from './node-types'
-
-const { schema } = options
 
 const serializer = DOMSerializer.fromSchema(schema)
 

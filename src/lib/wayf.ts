@@ -1,7 +1,7 @@
 import axios from 'axios'
 import config from '../config'
 
-export const registerWayfId = (token: string) => {
+export const registerWayfId = async (token: string) => {
   if (config.wayf.url && config.wayf.key) {
     const localId = JSON.parse(atob(token.split('.')[1])).wayfLocal
 

@@ -1,5 +1,5 @@
 import { RxDocument } from 'rxdb'
-import { Component, UserProfile } from '../types/components'
+import { Component } from '../types/components'
 import sessionID from './sessionID'
 import timestamp from './timestamp'
 
@@ -23,9 +23,12 @@ export const atomicUpdate = async <T extends Component>(
 ): Promise<RxDocument<T>> => {
   const update = prepareUpdate(data)
 
-  return prev.atomicUpdate((doc: RxDocument<UserProfile>) => {
+  // tslint:disable-next-line:no-any
+  return prev.atomicUpdate((doc: RxDocument<T> & { [key: string]: any }) => {
     Object.entries(update).forEach(([key, value]) => {
-      doc.set(key, value)
+      doc[key] = value
     })
+
+    return doc
   })
 }

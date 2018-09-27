@@ -1,4 +1,5 @@
 import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router'
 import { RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { ProjectsDropdownList } from '../components/ProjectsDropdownList'
@@ -31,7 +32,7 @@ interface Props {
 }
 
 class ProjectsMenu extends React.Component<
-  Props & ComponentsProps & UserProps,
+  Props & ComponentsProps & UserProps & RouteComponentProps,
   State
 > {
   public state: Readonly<State> = {
@@ -125,7 +126,9 @@ class ProjectsMenu extends React.Component<
       projectID,
     })
 
-    window.location.href = `/projects/${projectID}/manuscripts/${manuscriptID}`
+    this.props.history.push(
+      `/projects/${projectID}/manuscripts/${manuscriptID}`
+    )
   }
 
   private acceptInvitation = async (invitation: ProjectInvitation) => {
@@ -153,4 +156,6 @@ class ProjectsMenu extends React.Component<
   }
 }
 
-export default withComponents<Props>(withUser(ProjectsMenu))
+export default withRouter<Props & RouteComponentProps>(
+  withComponents<Props & RouteComponentProps>(withUser(ProjectsMenu))
+)

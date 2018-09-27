@@ -1,4 +1,5 @@
 jest.mock('../lib/token')
+jest.mock('../lib/db')
 jest.mock('../lib/deviceId')
 jest.mock('react-modal')
 

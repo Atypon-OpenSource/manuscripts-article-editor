@@ -10,7 +10,6 @@ import { FormErrors } from '../components/Form'
 import { ChangePasswordMessage } from '../components/Messages'
 import ModalForm from '../components/ModalForm'
 import { changePassword } from '../lib/api'
-import deviceId from '../lib/deviceId'
 import { changePasswordSchema } from '../validation'
 
 const initialValues = {
@@ -37,7 +36,7 @@ class ChangePasswordPageContainer extends React.Component<
     )
   }
 
-  private handleSubmit = (
+  private handleSubmit = async (
     values: ChangePasswordValues,
     {
       setSubmitting,
@@ -46,30 +45,25 @@ class ChangePasswordPageContainer extends React.Component<
   ) => {
     setErrors({})
 
-    changePassword({
-      ...values,
-      deviceId,
-    }).then(
-      () => {
-        setSubmitting(false)
+    try {
+      await changePassword(values.currentPassword, values.newPassword)
 
-        this.props.history.push('/')
-      },
+      setSubmitting(false)
 
-      error => {
-        setSubmitting(false)
+      this.props.history.push('/')
+    } catch (error) {
+      setSubmitting(false)
 
-        const errors: FormikErrors<FormErrors> = {
-          submit:
-            error.response &&
-            error.response.status === HttpStatusCodes.UNAUTHORIZED
-              ? 'The password entered is incorrect'
-              : 'There was an error',
-        }
-
-        setErrors(errors)
+      const errors: FormikErrors<FormErrors> = {
+        submit:
+          error.response &&
+          error.response.status === HttpStatusCodes.UNAUTHORIZED
+            ? 'The password entered is incorrect'
+            : 'There was an error',
       }
-    )
+
+      setErrors(errors)
+    }
   }
 }
 

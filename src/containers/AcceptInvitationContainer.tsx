@@ -27,23 +27,26 @@ class AcceptInvitationContainer extends React.Component<
 
   public async componentDidMount() {
     const { invitationToken } = this.props.match.params
-    await acceptProjectInvitationToken(invitationToken)
-      .then(response => {
-        this.setState({
-          loading: false,
-          success: true,
-          projectID: response.projectId || null,
-          message: response.message,
-        })
+
+    try {
+      const {
+        data: { projectId, message },
+      } = await acceptProjectInvitationToken(invitationToken)
+
+      this.setState({
+        loading: false,
+        success: true,
+        projectID: projectId || null,
+        message,
       })
-      .catch(() => {
-        this.setState({
-          loading: false,
-          success: false,
-          projectID: null,
-          message: '',
-        })
+    } catch (error) {
+      this.setState({
+        loading: false,
+        success: false,
+        projectID: null,
+        message: '',
       })
+    }
   }
 
   public render() {
@@ -56,9 +59,9 @@ class AcceptInvitationContainer extends React.Component<
     if (!success) {
       alert(message)
       return <Redirect to={'/projects'} />
-    } else {
-      return <Redirect to={`/projects/${projectID}`} />
     }
+
+    return <Redirect to={`/projects/${projectID}`} />
   }
 }
 

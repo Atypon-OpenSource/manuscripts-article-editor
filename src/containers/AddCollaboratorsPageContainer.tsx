@@ -302,9 +302,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     userID: string,
     role: string
   ) => {
-    const projectID = this.getProjectID()
-
-    await addProjectUser(projectID, userID, role)
+    await addProjectUser(this.getProjectID(), role, userID)
 
     this.setState({
       addedUsers: this.state.addedUsers.concat(userID),
@@ -383,7 +381,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private handleInvitationSubmit = (
+  private handleInvitationSubmit = async (
     values: InvitationValues,
     {
       setSubmitting,
@@ -392,24 +390,21 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   ) => {
     const { email, name, role } = values
 
-    const projectID = this.getProjectID()
+    try {
+      await projectInvite(this.getProjectID(), [{ email, name }], role)
 
-    projectInvite(projectID, [{ email, name }], role, 'message').then(
-      () => {
-        setSubmitting(false)
-      },
-      error => {
-        setSubmitting(false)
+      setSubmitting(false)
+    } catch (error) {
+      setSubmitting(false)
 
-        const errors: FormikErrors<InvitationErrors> = {}
+      const errors: FormikErrors<InvitationErrors> = {}
 
-        if (error.response) {
-          errors.submit = error.response
-        }
-
-        setErrors(errors)
+      if (error.response) {
+        errors.submit = error.response
       }
-    )
+
+      setErrors(errors)
+    }
   }
 }
 

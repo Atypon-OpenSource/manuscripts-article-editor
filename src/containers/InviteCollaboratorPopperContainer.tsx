@@ -26,28 +26,33 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
     )
   }
 
-  private handleUpdateRole = (role: string) => {
+  private handleUpdateRole = async (role: string) => {
     const {
-      invitedUserEmail,
-      invitedUserName,
+      invitedUserEmail: email,
+      invitedUserName: name,
       projectID,
       message,
     } = this.props.invitation
 
-    const userData = {
-      email: invitedUserEmail,
-      name: invitedUserName,
-    }
-
-    return projectInvite(projectID, [userData], role, message).then(
-      response => response.data
+    await projectInvite(
+      projectID,
+      [
+        {
+          email,
+          name,
+        },
+      ],
+      role,
+      message
     )
   }
 
-  private handleUninvite = () => {
+  private handleUninvite = async () => {
     const { openPopper, invitation } = this.props
 
-    return projectUninvite(invitation.id).then(openPopper)
+    await projectUninvite(invitation.id)
+
+    openPopper()
   }
 }
 
