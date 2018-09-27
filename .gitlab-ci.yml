@@ -50,7 +50,7 @@ testcafe-chromium:
   tags:
     - docker-compose
 
-testcafe-firefox:
+.testcafe-firefox:
   stage: test
   script:
     - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com

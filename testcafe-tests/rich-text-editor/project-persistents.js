@@ -12,7 +12,7 @@ import faker from 'faker'
 
 fixture('Project persistent')
 
-test.skip('Project is persisted after logout', async t => {
+test('Project is persisted after logout', async t => {
   const user = generateUser()
   await signup(t, user, true)
   await login(t, user, true)
