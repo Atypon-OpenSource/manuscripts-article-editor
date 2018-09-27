@@ -147,9 +147,9 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
         projectID: this.getProjectID(),
       })
       .$.subscribe((invitationsDocs: Array<RxDocument<ProjectInvitation>>) => {
-        const invitations = invitationsDocs.map(
-          invitation => invitation.toJSON() as ProjectInvitation
-        )
+        const invitations = invitationsDocs
+          .map(invitation => invitation.toJSON() as ProjectInvitation)
+          .filter(invitation => !invitation.acceptedAt)
 
         this.setState({ invitations })
       })

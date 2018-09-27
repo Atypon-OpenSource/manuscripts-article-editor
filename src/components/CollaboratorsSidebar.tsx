@@ -1,4 +1,5 @@
 import React from 'react'
+import { darkGrey } from '../colors'
 import AddAuthor from '../icons/add-author'
 import { initials } from '../lib/name'
 import { getUserRole, isOwner } from '../lib/roles'
@@ -147,7 +148,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
               onMouseLeave={() => handleHover()}
             >
               <UserDataContainer>
-                <Avatar src={collaborator.avatar} size={45} color={'#585858'} />
+                <Avatar src={collaborator.avatar} size={45} color={darkGrey} />
                 <CollaboratorData>
                   {user.userID !== collaborator.userID ? (
                     <CollaboratorName>

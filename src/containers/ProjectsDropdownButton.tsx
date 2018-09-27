@@ -126,7 +126,11 @@ class ProjectsDropdownButton extends React.Component<
 
         const invitations = docs
           .map(doc => doc.toJSON())
-          .filter(invitation => invitation.invitingUserID !== user.userID)
+          .filter(
+            invitation =>
+              invitation.invitingUserID !== user.userID &&
+              !invitation.acceptedAt
+          )
 
         const invitationsData: InvitationData[] = []
 

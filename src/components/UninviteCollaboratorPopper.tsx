@@ -1,4 +1,5 @@
 import React from 'react'
+import { darkGrey } from '../colors'
 import { styled } from '../theme'
 import { Avatar } from './Avatar'
 import { TransparentBlackButton, TransparentGreyButton } from './Button'
@@ -59,7 +60,7 @@ export const UninviteCollaboratorPopper: React.SFC<Props> = ({
       Are you sure you want to <Action>uninvite</Action>
     </Message>
     <AvatarStyle>
-      <Avatar size={45} color={'#585858'} />
+      <Avatar size={45} color={darkGrey} />
     </AvatarStyle>
     <CollaboratorName>{invitedUserName}</CollaboratorName>
     <Message>from the Contributors list?</Message>

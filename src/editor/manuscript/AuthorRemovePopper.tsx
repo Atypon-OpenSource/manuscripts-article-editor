@@ -1,5 +1,6 @@
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
+import { darkGrey } from '../../colors'
 import { Avatar } from '../../components/Avatar'
 import {
   TransparentBlackButton,
@@ -71,7 +72,7 @@ const AuthorRemovePopper: React.SFC<Props> = ({
           Are you sure you want to <Action>remove</Action>
         </Message>
         <AvatarStyle>
-          <Avatar size={45} color={'#585858'} />
+          <Avatar size={45} color={darkGrey} />
         </AvatarStyle>
         <CollaboratorName>
           <CollaboratorInitial>

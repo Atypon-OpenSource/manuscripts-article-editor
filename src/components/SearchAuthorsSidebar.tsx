@@ -1,4 +1,5 @@
 import React from 'react'
+import { darkGrey } from '../colors'
 import { buildAuthorPriority } from '../editor/manuscript/lib/authors'
 import { styled } from '../theme'
 import { Contributor, UserProfile } from '../types/components'
@@ -98,7 +99,7 @@ const SearchAuthorsSidebar: React.SFC<SearchSidebarProps> = ({
         {searchResults.map(person => (
           <SidebarPersonContainer key={person.id}>
             <UserDataContainer>
-              <Avatar src={person.avatar} size={45} color={'#585858'} />
+              <Avatar src={person.avatar} size={45} color={darkGrey} />
               <PeopleData>
                 <PersonName>
                   <PersonInitial>

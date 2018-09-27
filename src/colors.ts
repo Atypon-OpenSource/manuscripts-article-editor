@@ -7,6 +7,7 @@ export const dustyGrey = '#949494'
 export const altoGrey = '#d8d8d8'
 export const mercuryGrey = '#e2e2e2'
 export const seashellGrey = '#f1f1f1'
+export const darkGrey = '#585858'
 
 // blues
 export const jellyBeanBlue = '#2a6f9d'

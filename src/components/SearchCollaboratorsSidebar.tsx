@@ -1,4 +1,5 @@
 import React from 'react'
+import { darkGrey } from '../colors'
 import { styled } from '../theme'
 import { UserProfile } from '../types/components'
 import AddCollaboratorButton from './AddCollaboratorButton'
@@ -71,7 +72,7 @@ const SearchCollaboratorsSidebar: React.SFC<SearchSidebarProps> = ({
         {searchResults.map(person => (
           <SidebarPersonContainer key={person.id}>
             <UserDataContainer>
-              <Avatar src={person.avatar} size={45} color={'#585858'} />
+              <Avatar src={person.avatar} size={45} color={darkGrey} />
               <PeopleData>
                 <PersonName>
                   <PersonInitial>

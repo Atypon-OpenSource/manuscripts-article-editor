@@ -1,4 +1,5 @@
 import React from 'react'
+import { darkGrey } from '../colors'
 import { initials } from '../lib/name'
 import { styled } from '../theme'
 import { UserProfile } from '../types/components'
@@ -69,7 +70,7 @@ export const RemoveCollaboratorPopper: React.SFC<Props> = ({
         Are you sure you want to <Action>remove</Action>
       </Message>
       <AvatarStyle>
-        <Avatar src={avatar} size={45} color={'#585858'} />
+        <Avatar src={avatar} size={45} color={darkGrey} />
       </AvatarStyle>
       <CollaboratorName>
         <CollaboratorInitial>{initials(bibliographicName)}</CollaboratorInitial>

@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from 'react'
-import { dustyGrey, manuscriptsBlue } from '../colors'
+import { darkGrey, dustyGrey, manuscriptsBlue } from '../colors'
 import { styled, ThemedOuterProps, ThemedProps } from '../theme'
 
 export type ThemedButtonProps = ThemedProps<HTMLButtonElement>
@@ -116,7 +116,7 @@ export const ActionButton = styled.div`
 `
 
 export const TransparentBlackButton = styled(Button)`
-  color: #585858;
+  color: ${darkGrey};
   background-color: transparent;
 
   &:hover {

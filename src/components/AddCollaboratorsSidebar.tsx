@@ -1,4 +1,5 @@
 import React from 'react'
+import { darkGrey } from '../colors'
 import AddedIcon from '../icons/added-icon'
 import SearchIcon from '../icons/search'
 import { styled } from '../theme'
@@ -156,7 +157,7 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
           {people.map(person => (
             <SidebarPersonContainer key={person.id}>
               <UserDataContainer>
-                <Avatar src={person.avatar} size={45} color={'#585858'} />
+                <Avatar src={person.avatar} size={45} color={darkGrey} />
                 <PersonData>
                   <PersonName>
                     <PersonInitial>

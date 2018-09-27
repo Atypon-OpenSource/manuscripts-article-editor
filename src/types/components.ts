@@ -88,6 +88,7 @@ export interface ProjectInvitation extends Component {
   role: string
   projectTitle?: string
   invitedUserName?: string
+  acceptedAt?: number
 }
 
 export interface Manuscript extends ContainedComponent {
