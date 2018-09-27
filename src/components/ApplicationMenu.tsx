@@ -2,6 +2,7 @@ import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import Modal from 'react-modal'
 import { Manager, Popper, Reference } from 'react-popper'
+import { manuscriptsBlue } from '../colors'
 import { MenuItem } from '../editor/config/menus'
 import { Dispatch } from '../editor/config/types'
 import { styled } from '../theme'
@@ -53,7 +54,7 @@ const Container = styled.div`
   padding: 8px 16px 8px 4px;
 
   &:hover {
-    background: #65a3ff;
+    background: ${manuscriptsBlue};
     color: white;
   }
 
@@ -107,7 +108,7 @@ const MenuContainer = styled.div`
   }
 
   &.active ${MenuHeading}:hover, &.active ${MenuHeading}.open {
-    background: #65a3ff;
+    background: ${manuscriptsBlue};
     color: white;
   }
 `
