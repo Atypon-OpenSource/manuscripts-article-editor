@@ -12,7 +12,7 @@ test('Can create a new project', async t => {
   const projectTitleField = Selector('#project-title-field .title-editor')
 
   await t.expect(manuscriptTitleField.textContent).eql('')
-  await t.expect(projectTitleField.textContent).eql('Untitled Project')
+  await t.expect(projectTitleField.textContent).eql('')
 })
 
 test('Can create a new project and edit titles', async t => {

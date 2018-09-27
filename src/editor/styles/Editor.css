@@ -42,10 +42,6 @@
   margin-bottom: 0;
 }
 
-.ProseMirror p {
-  letter-spacing: -0.1px;
-}
-
 .ProseMirror p.block {
   margin: 0;
 }

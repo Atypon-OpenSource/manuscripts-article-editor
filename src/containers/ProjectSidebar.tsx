@@ -31,6 +31,18 @@ const ProjectTitle = styled(TitleField)`
     &:focus {
       outline: none;
     }
+
+    & .empty-node::before {
+      position: absolute;
+      color: #ccc;
+      cursor: text;
+      content: 'Untitled Manuscript';
+      pointer-events: none;
+    }
+
+    & .empty-node:hover::before {
+      color: #999;
+    }
   }
 `
 

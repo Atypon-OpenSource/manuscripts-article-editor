@@ -102,10 +102,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
       <Page projectID={project.id}>
         <ProjectSidebar
           manuscripts={manuscripts}
-          project={{
-            ...project,
-            title: project.title || 'Untitled Project',
-          }}
+          project={project}
           saveProject={this.saveProject}
         />
 

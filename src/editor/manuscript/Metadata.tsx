@@ -14,7 +14,7 @@ import {
   Project,
   UserProfile,
 } from '../../types/components'
-import { StyledTitleField } from '../title/TitleField'
+import { TitleField } from '../title/TitleField'
 import { Affiliations } from './Affiliations'
 import { AuthorAffiliation } from './Author'
 import { AuthorValues } from './AuthorForm'
@@ -62,6 +62,32 @@ const ExpanderButton = styled.button`
 
   &:focus {
     outline: none;
+  }
+`
+
+const StyledTitleField = styled(TitleField)`
+  flex: 1;
+
+  & .ProseMirror {
+    cursor: text;
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.3;
+
+    &:focus {
+      outline: none;
+    }
+
+    & .empty-node::before {
+      position: absolute;
+      color: #ccc;
+      cursor: text;
+      content: 'Untitled Manuscript';
+      pointer-events: none;
+    }
+
+    & .empty-node:hover::before {
+      color: #999;
+    }
   }
 `
 

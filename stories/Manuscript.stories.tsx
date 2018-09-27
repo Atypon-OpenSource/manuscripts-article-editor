@@ -12,7 +12,7 @@ import {
 } from '../src/editor/manuscript/lib/authors'
 import { Metadata } from '../src/editor/manuscript/Metadata'
 import Title from '../src/editor/title/Title'
-import { StyledTitleField, TitleField } from '../src/editor/title/TitleField'
+import { TitleField } from '../src/editor/title/TitleField'
 import { Project, UserProfile } from '../src/types/components'
 import { affiliations, authors } from './data/contributors'
 import manuscripts from './data/manuscripts'
@@ -186,17 +186,6 @@ storiesOf('Manuscript', module)
         'Landscape genomic prediction for restoration of a <em>Eucalyptus</em> foundation species under climate change'
       }
     />
-  ))
-  .add('Titles: write, styled', () => (
-    <div>
-      {manuscripts.map((manuscript, index) => (
-        <StyledTitleField
-          value={manuscript.title}
-          autoFocus={index === 0}
-          handleChange={action('save title')}
-        />
-      ))}
-    </div>
   ))
   .add('Authors with edit button', () => (
     <Authors

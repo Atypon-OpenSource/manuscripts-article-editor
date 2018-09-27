@@ -1,7 +1,6 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { styled } from '../../theme'
 import { serialize } from './config'
 import { createEditorState, default as Title } from './Title'
 
@@ -22,6 +21,7 @@ export class TitleField extends Title {
       handleDOMEvents: {
         focus: this.handleFocus,
       },
+      handleKeyDown: this.handleKeyDown,
     })
 
     if (this.props.autoFocus) {
@@ -44,30 +44,14 @@ export class TitleField extends Title {
   private handleFocus = (view: EditorView, event: Event) => {
     return this.props.handleFocus ? this.props.handleFocus(view, event) : false
   }
+
+  private handleKeyDown = (view: EditorView, event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      ;(this.view.dom as HTMLDivElement).blur()
+      return true
+    }
+
+    return false
+  }
 }
 
-export const StyledTitleField = styled(TitleField)`
-  flex: 1;
-
-  & .ProseMirror {
-    cursor: text;
-    font-family: 'IBM Plex Sans', sans-serif;
-    line-height: 1.3;
-
-    &:focus {
-      outline: none;
-    }
-
-    & .empty-node::before {
-      position: absolute;
-      color: #ccc;
-      cursor: text;
-      content: 'Title';
-      pointer-events: none;
-    }
-
-    & .empty-node:hover::before {
-      color: #999;
-    }
-  }
-`

@@ -116,7 +116,7 @@ const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
           <SidebarProject key={project.id}>
             <SidebarProjectHeader>
               <ProjectTitle to={`/projects/${project.id}`}>
-                <Title value={project.title || 'Untitled Project'} />
+                <Title value={project.title || ''} />
               </ProjectTitle>
               <ShareProjectButton projectID={project.id!} />
             </SidebarProjectHeader>

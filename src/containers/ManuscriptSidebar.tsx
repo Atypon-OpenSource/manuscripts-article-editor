@@ -28,6 +28,26 @@ const ProjectTitle = styled(SidebarTitle)`
     border-color: ${manuscriptsBlue};
     background: ${powderBlue};
   }
+
+  & .ProseMirror {
+    cursor: text;
+
+    &:focus {
+      outline: none;
+    }
+
+    & .empty-node::before {
+      position: absolute;
+      color: #ccc;
+      cursor: text;
+      content: 'Untitled Project';
+      pointer-events: none;
+    }
+
+    & .empty-node:hover::before {
+      color: #999;
+    }
+  }
 `
 
 const StyledSidebar = styled(Sidebar)`
@@ -81,7 +101,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
         <ProjectTitle>
           <TitleField
             id={'project-title-field'}
-            value={project.title || 'Untitled Project'}
+            value={project.title}
             handleChange={title =>
               saveProject({
                 ...project,
