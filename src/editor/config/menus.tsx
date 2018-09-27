@@ -18,6 +18,7 @@ import { importFile, openFilePicker } from '../../lib/importers'
 import { Manuscript } from '../../types/components'
 import { ExportManuscript, ImportManuscript } from '../../types/manuscript'
 import { DeleteComponent } from '../Editor'
+import { textContent } from '../title/config'
 import {
   blockActive,
   canInsert,
@@ -31,7 +32,7 @@ import schema from './schema'
 import { Dispatch } from './types'
 
 export interface MenuItem {
-  label?: string
+  label?: React.ReactNode
   role?: string
   type?: string
   accelerator?: string
@@ -73,6 +74,9 @@ const menus = (props: MenusProps): MenuItem[] => [
         submenu: [], // TODO
       },
       {
+        role: 'separator',
+      },
+      {
         label: 'Import…',
         run: () =>
           openFilePicker()
@@ -97,9 +101,39 @@ const menus = (props: MenusProps): MenuItem[] => [
         ],
       },
       {
+        role: 'separator',
+      },
+      {
         label: 'Delete Project',
         run: () =>
           confirm('Are you sure you wish to delete this project?') &&
+          props
+            .deleteComponent(props.manuscript.containerID)
+            .then(() => props.history.push('/')),
+      },
+      {
+        label: props.manuscript.title ? (
+          <span>
+            Delete "
+            <abbr
+              style={{ textDecoration: 'none' }}
+              title={textContent(props.manuscript.title)}
+            >
+              "{textContent(props.manuscript.title, 15)}
+            </abbr>
+            "
+          </span>
+        ) : (
+          'Delete Untitled Manuscript'
+        ),
+        run: () =>
+          confirm(
+            props.manuscript.title
+              ? `Are you sure you wish to delete the manuscript with title "${textContent(
+                  props.manuscript.title
+                )}"?`
+              : `Are you sure you wish to delete this untitled manuscript?`
+          ) &&
           props
             .deleteComponent(props.manuscript.containerID)
             .then(() => props.history.push('/')),

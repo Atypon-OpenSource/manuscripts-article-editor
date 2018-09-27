@@ -63,3 +63,13 @@ export const plugins = [
   }),
   placeholder(),
 ]
+
+export const textContent = (html: string, maxLength?: number) => {
+  if (!html) return ''
+
+  const text = parse(html).textContent
+
+  return maxLength && text.length > maxLength
+    ? text.substring(0, maxLength) + '…'
+    : text
+}
