@@ -179,15 +179,6 @@ class Editor extends React.Component<EditorProps, State> {
         attributes: this.props.attributes,
       })
 
-      // dispatch a transaction so that plugins run
-      this.view.dispatch(state.tr.setMeta('update', true))
-
-      if (this.props.autoFocus) {
-        this.view.focus()
-      }
-
-      this.handleHistoryChange()
-
       if (this.props.subscribe) {
         this.props.subscribe(this.receive)
       }
@@ -199,6 +190,15 @@ class Editor extends React.Component<EditorProps, State> {
       if (this.props.setView) {
         this.props.setView(this.view)
       }
+
+      // dispatch a transaction so that plugins run
+      this.view.dispatch(state.tr.setMeta('update', true))
+
+      if (this.props.autoFocus) {
+        this.view.focus()
+      }
+
+      this.handleHistoryChange()
     }
   }
 
@@ -206,13 +206,15 @@ class Editor extends React.Component<EditorProps, State> {
     transaction: Transaction,
     external: boolean = false
   ) => {
-    const state = this.view.state.apply(transaction)
+    const { state, transactions } = this.view.state.applyTransaction(
+      transaction
+    )
     this.view.updateState(state)
     this.setState({ state })
 
-    if (this.props.onChange) {
-      if (!external) {
-        this.props.onChange(state, transaction.docChanged)
+    if (!external) {
+      if (this.props.onChange) {
+        this.props.onChange(state, transactions.some(tr => tr.docChanged))
       }
     }
   }

@@ -211,11 +211,20 @@ export class Decoder {
       })
     },
     [ObjectTypes.SECTION]: (component: Section) => {
-      const components: AnyComponent[] = (component.elementIDs || [])
-        .filter(id => id) // TODO: remove once no empty items in the array
-        .map(this.getComponent)
+      const elements = []
 
-      const elements = components.map(this.decode) as ProsemirrorNode[]
+      if (component.elementIDs) {
+        for (const id of component.elementIDs) {
+          // try {
+          elements.push(this.getComponent(id))
+          // } catch (e) {
+          // TODO: create a placeholder element if a component isn't found
+          //   console.error(e) // tslint:disable-line:no-console
+          // }
+        }
+      }
+
+      const elementNodes = elements.map(this.decode) as ProsemirrorNode[]
 
       const sectionTitleNode = component.title
         ? parseContents(`<h1>${component.title}</h1>`, {
@@ -229,8 +238,8 @@ export class Decoder {
         .map(this.creators[ObjectTypes.SECTION])
 
       const nodeType =
-        components.length &&
-        components[0].objectType === ObjectTypes.BIBLIOGRAPHY_ELEMENT
+        elements.length &&
+        elements[0].objectType === ObjectTypes.BIBLIOGRAPHY_ELEMENT
           ? schema.nodes.bibliography_section
           : schema.nodes.section
 
@@ -239,7 +248,7 @@ export class Decoder {
           id: component.id,
           priority: component.priority,
         },
-        [sectionTitleNode].concat(elements).concat(nestedSections)
+        [sectionTitleNode].concat(elementNodes).concat(nestedSections)
       )
 
       if (!sectionNode) {

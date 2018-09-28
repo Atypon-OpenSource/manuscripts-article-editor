@@ -1,4 +1,5 @@
 import React from 'react'
+import { debounceRender } from '../components/DebounceRender'
 import DraggableTree, {
   buildTree,
   DraggableTreeProps,
@@ -36,3 +37,7 @@ const ManuscriptOutlineContainer: React.SFC<Props & DraggableTreeProps> = ({
 }
 
 export default ManuscriptOutlineContainer
+
+export const DebouncedManuscriptOutlineContainer = debounceRender<
+  Props & DraggableTreeProps
+>(ManuscriptOutlineContainer, 500)

@@ -3,7 +3,6 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
-import debounceRender from 'react-debounce-render'
 import { Prompt, RouteComponentProps } from 'react-router'
 import {
   RxAttachmentCreator,
@@ -14,7 +13,7 @@ import {
 import { Subscription } from 'rxjs/Subscription'
 import { CommentList } from '../components/CommentList'
 import { DropSide, TreeItem } from '../components/DraggableTree'
-import { Inspector } from '../components/Inspector'
+import { DebouncedInspector } from '../components/Inspector'
 import ManuscriptForm from '../components/ManuscriptForm'
 import { Main, Page } from '../components/Page'
 import Panel from '../components/Panel'
@@ -110,8 +109,6 @@ interface RouteParams {
   projectID: string
   manuscriptID: string
 }
-
-const DebouncedInspector = debounceRender(Inspector, 100)
 
 type CombinedProps = UserProps &
   ComponentsProps &
@@ -341,7 +338,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       // encode again here to get doc component ids for comparison
       const encodedComponentMap = encode(doc)
-      const componentIds = this.buildComponentIds(encodedComponentMap)
+      const componentIds = this.buildManuscriptComponentIds(encodedComponentMap)
 
       this.setState({ componentIds, componentMap })
 
@@ -811,7 +808,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     this.subs.push(sub)
   }
 
-  // TODO: need to only include document ids in this set, as data ids are handled separately
   private removedComponentIds = (
     componentIds: ComponentIdSet,
     newComponentIds: ComponentIdSet
@@ -887,31 +883,32 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private buildComponentIds = (componentMap: ComponentMap) => {
+  private buildManuscriptComponentIds = (componentMap: ComponentMap) => {
     const output = {
       document: new Set(),
       data: new Set(),
     }
 
     for (const component of componentMap.values()) {
-      const type = documentObjectTypes.includes(component.objectType)
-        ? 'document'
-        : 'data'
+      if (ObjectTypes.isManuscriptComponent(component)) {
+        const type = documentObjectTypes.includes(component.objectType)
+          ? 'document'
+          : 'data'
 
-      output[type].add(component.id)
+        output[type].add(component.id)
+      }
     }
 
     return output
   }
 
   private saveComponents = async (state: EditorState) => {
-    // TODO: return if already saving?
-
+    // TODO: return/queue if already saving?
     const { manuscriptID, projectID } = this.props.match.params
 
     // NOTE: can't use state.toJSON() as the HTML serializer needs the actual nodes
 
-    const newComponentMap = encode(state.doc)
+    const encodedComponentMap = encode(state.doc)
 
     const { deleteComponent, saveComponent } = this.props.components
 
@@ -921,14 +918,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       const { componentMap } = this.state
 
-      const changedComponents = Array.from(newComponentMap.values()).filter(
-        component => this.hasChanged(component)
-      )
+      const changedComponents = []
 
-      // TODO: wait for saving?
-      changedComponents.forEach((component: AnyComponent) => {
-        componentMap.set(component.id, component)
-      })
+      for (const component of encodedComponentMap.values()) {
+        if (this.hasChanged(component)) {
+          changedComponents.push(component)
+          componentMap.set(component.id, component)
+        }
+      }
 
       interface ChangedComponentsByType {
         dependencies: AnyComponent[]
@@ -988,15 +985,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       // delete any removed components, children first
 
-      const componentIds = this.buildComponentIds(newComponentMap)
+      const componentIds = this.buildManuscriptComponentIds(encodedComponentMap)
 
       const deleteRemovedComponentIds = async (type: 'document' | 'data') => {
         const removedComponentIds = this.removedComponentIds(
           this.state.componentIds[type],
           componentIds[type]
         )
-
-        // TODO: only delete components with manuscriptID
 
         // NOTE: reversed, to remove children first
         await Promise.all(
@@ -1006,6 +1001,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             })
           )
         )
+
+        removedComponentIds.map(id => {
+          componentMap.delete(id)
+        })
       }
 
       await deleteRemovedComponentIds('document')
@@ -1013,7 +1012,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       this.setState({
         componentIds,
-        componentMap,
+        componentMap, // NOTE: not using encodedComponentMap, to keep removed components
         dirty: false,
         // doc: state.doc,
       })

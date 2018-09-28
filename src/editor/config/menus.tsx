@@ -135,7 +135,7 @@ const menus = (props: MenusProps): MenuItem[] => [
               : `Are you sure you wish to delete this untitled manuscript?`
           ) &&
           props
-            .deleteComponent(props.manuscript.containerID)
+            .deleteComponent(props.manuscript.id)
             .then(() => props.history.push('/')),
       },
     ],

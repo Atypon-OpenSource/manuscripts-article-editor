@@ -1,6 +1,5 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
 import * as React from 'react'
-import debounceRender from 'react-debounce-render'
 import { manuscriptsBlue, powderBlue } from '../colors'
 import { DraggableTreeProps } from '../components/DraggableTree'
 import Panel from '../components/Panel'
@@ -15,7 +14,7 @@ import { Selected } from '../editor/lib/utils'
 import { TitleField } from '../editor/title/TitleField'
 import { styled } from '../theme'
 import { Manuscript, Project } from '../types/components'
-import ManuscriptOutlineContainer from './ManuscriptOutlineContainer'
+import { DebouncedManuscriptOutlineContainer } from './ManuscriptOutlineContainer'
 import { OutlineManuscript } from './OutlineManuscript'
 
 const ProjectTitle = styled(SidebarTitle)`
@@ -70,11 +69,6 @@ const AddManuscriptButton = styled.button`
   padding: 2px 8px;
   letter-spacing: -0.3px;
 `
-
-const DebouncedManuscriptOutlineContainer = debounceRender(
-  ManuscriptOutlineContainer,
-  500
-)
 
 interface Props {
   addManuscript: () => Promise<void>
