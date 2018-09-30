@@ -27,6 +27,7 @@ export const ChangePasswordForm: React.SFC<
             {...field}
             type={'password'}
             placeholder={'Enter the current password'}
+            autoComplete={'password'}
             autoFocus={true}
             required={true}
             error={errors.currentPassword}
@@ -38,6 +39,7 @@ export const ChangePasswordForm: React.SFC<
           <TextField
             {...field}
             type={'password'}
+            autoComplete={'new-password'}
             placeholder={'Enter a new password'}
             autoFocus={true}
             required={true}
