@@ -1,5 +1,5 @@
 import React from 'react'
-import AlertMessage, { ResendButton } from './AlertMessage'
+import AlertMessage, { TextButton } from './AlertMessage'
 import {
   SignupVerifyConflictMessage,
   SignupVerifyMessage,
@@ -15,7 +15,7 @@ interface Props {
   confirming: UserDetails | null
   resendSucceed: boolean | null
   existButNotVerified: UserDetails | null
-  resendVerificationEmail: () => void
+  resendVerificationEmail?: () => void
 }
 
 const SignupMessages: React.SFC<Props> = ({
@@ -29,9 +29,9 @@ const SignupMessages: React.SFC<Props> = ({
       return (
         <AlertMessage type={'success'}>
           <SignupVerifyMessage email={confirming.email} />
-          <ResendButton onClick={resendVerificationEmail}>
+          <TextButton onClick={resendVerificationEmail}>
             Click here to re-send.
-          </ResendButton>
+          </TextButton>
         </AlertMessage>
       )
     }
@@ -43,9 +43,9 @@ const SignupMessages: React.SFC<Props> = ({
     ) : (
       <AlertMessage type={'error'}>
         <SignupVerifyResendFailureMessage email={confirming.email} />
-        <ResendButton onClick={resendVerificationEmail}>
+        <TextButton onClick={resendVerificationEmail}>
           Click here to retry.
-        </ResendButton>
+        </TextButton>
       </AlertMessage>
     )
   }

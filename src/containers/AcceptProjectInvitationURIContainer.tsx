@@ -2,7 +2,6 @@ import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { Spinner } from '../components/Spinner'
 import { acceptProjectInvitationToken } from '../lib/api'
-import { UserProps, withUser } from '../store/UserProvider'
 
 interface State {
   loading: boolean
@@ -15,8 +14,8 @@ interface RouteParams {
   invitationToken: string
 }
 
-class AcceptInvitationContainer extends React.Component<
-  RouteComponentProps<RouteParams> & UserProps
+class AcceptInvitationURIContainer extends React.Component<
+  RouteComponentProps<RouteParams>
 > {
   public state: State = {
     loading: true,
@@ -27,10 +26,9 @@ class AcceptInvitationContainer extends React.Component<
 
   public async componentDidMount() {
     const { invitationToken } = this.props.match.params
-
     try {
       const {
-        data: { projectId, message },
+        data: { message, projectId },
       } = await acceptProjectInvitationToken(invitationToken)
 
       this.setState({
@@ -59,10 +57,10 @@ class AcceptInvitationContainer extends React.Component<
     if (!success) {
       alert(message)
       return <Redirect to={'/projects'} />
+    } else {
+      return <Redirect to={`/projects/${projectID}`} />
     }
-
-    return <Redirect to={`/projects/${projectID}`} />
   }
 }
 
-export default withUser(AcceptInvitationContainer)
+export default AcceptInvitationURIContainer

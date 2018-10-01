@@ -3,7 +3,8 @@ import { hot } from 'react-hot-loader'
 import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from './components/NotFound'
-import AcceptInvitationContainer from './containers/AcceptInvitationContainer'
+import AcceptEmailInvitationContainer from './containers/AcceptEmailInvitationContainer'
+import AcceptInvitationURIContainer from './containers/AcceptProjectInvitationURIContainer'
 import AddCollaboratorsPageContainer from './containers/AddCollaboratorsPageContainer'
 import ChangePasswordPageContainer from './containers/ChangePasswordPageContainer'
 import CollaboratorsPageContainer from './containers/CollaboratorsPageContainer'
@@ -74,7 +75,7 @@ const App = () => (
     <PrivateRoute
       path={'/projects/:projectID/invitation/:invitationToken'}
       exact={true}
-      component={AcceptInvitationContainer}
+      component={AcceptInvitationURIContainer}
       message={'You must sign in first to access the shared project.'}
     />
     <PrivateRoute
@@ -91,6 +92,11 @@ const App = () => (
       path={'/projects/:projectID/collaborators/add'}
       exact={true}
       component={AddCollaboratorsPageContainer}
+    />
+    <Route
+      path={'/invitation'}
+      exact={true}
+      component={AcceptEmailInvitationContainer}
     />
     <Route path={'/logout'} exact={true} component={LogoutPageContainer} />
     <Route path={'/welcome'} exact={true} component={WelcomePageContainer} />

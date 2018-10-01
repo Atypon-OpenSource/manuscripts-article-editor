@@ -2,9 +2,11 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
-import { Page } from '../components/Page'
+import AcceptInvitationMessages from '../components/AcceptInvitationMessages'
+import { Main, Page } from '../components/Page'
 import { ProjectsPage } from '../components/ProjectsPage'
 import Spinner from '../icons/spinner'
+import { acceptProjectInvitation } from '../lib/api'
 import {
   buildContributor,
   buildManuscript,
@@ -17,8 +19,17 @@ import timestamp from '../lib/timestamp'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { getComponentFromDoc } from '../transformer/decode'
-import { PROJECT, USER_PROFILE } from '../transformer/object-types'
-import { Attachments, Project, UserProfile } from '../types/components'
+import {
+  PROJECT,
+  PROJECT_INVITATION,
+  USER_PROFILE,
+} from '../transformer/object-types'
+import {
+  Attachments,
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '../types/components'
 import {
   AddProject,
   // RemoveProject,
@@ -32,6 +43,7 @@ export interface ProjectInfo extends Partial<Project> {
 interface State {
   projects: ProjectInfo[] | null
   userMap: Map<string, UserProfile>
+  invitationAccepted: boolean | null
 }
 
 class ProjectsPageContainer extends React.Component<
@@ -41,13 +53,26 @@ class ProjectsPageContainer extends React.Component<
   public state: Readonly<State> = {
     projects: null,
     userMap: new Map(),
+    invitationAccepted: null,
   }
 
   private subs: Subscription[] = []
 
-  public componentDidMount() {
+  public async componentDidMount() {
     this.subs.push(this.loadUserMap())
     this.subs.push(this.loadComponents())
+    const invitationToken = window.localStorage.getItem('invitationToken')
+    if (invitationToken) {
+      window.localStorage.removeItem('invitationToken')
+      const invitation = await this.loadInvitation(invitationToken)
+      if (invitation) {
+        await this.acceptInvitation(invitation.id)
+          .then(() => this.setState({ invitationAccepted: true }))
+          .catch(() => this.setState({ invitationAccepted: false }))
+      } else {
+        this.setState({ invitationAccepted: false })
+      }
+    }
   }
 
   public componentWillUnmount() {
@@ -55,7 +80,7 @@ class ProjectsPageContainer extends React.Component<
   }
 
   public render() {
-    const { projects } = this.state
+    const { projects, invitationAccepted } = this.state
     const { user } = this.props
 
     if (!user.loaded) {
@@ -68,7 +93,10 @@ class ProjectsPageContainer extends React.Component<
 
     return (
       <Page>
-        <ProjectsPage projects={projects} addProject={this.addProject} />
+        <Main>
+          <AcceptInvitationMessages invitationAccepted={invitationAccepted} />
+          <ProjectsPage projects={projects} addProject={this.addProject} />
+        </Main>
       </Page>
     )
   }
@@ -171,6 +199,25 @@ class ProjectsPageContainer extends React.Component<
     this.props.history.push(
       `/projects/${projectID}/manuscripts/${manuscriptID}`
     )
+  }
+
+  private loadInvitation = (invitationId: string) =>
+    this.getCollection()
+      .findOne({
+        objectType: PROJECT_INVITATION,
+        id: invitationId,
+      })
+      .exec()
+      .then(invitation => {
+        if (invitation) {
+          return invitation.toJSON() as ProjectInvitation
+        }
+      })
+
+  private acceptInvitation = async (invitationID: string) => {
+    await acceptProjectInvitation(invitationID).catch(() => {
+      alert('Invitation not found')
+    })
   }
 
   // TODO: catch and handle errors

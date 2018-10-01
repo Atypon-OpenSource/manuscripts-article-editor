@@ -6,7 +6,7 @@ import AttentionWarning from '../icons/attention-warning'
 import CloseAlert from '../icons/close-alert'
 import SuccessGreen from '../icons/success'
 
-export const ResendButton = styled.button`
+export const TextButton = styled.button`
   border: none;
   background: transparent;
   color: inherit;
@@ -60,6 +60,7 @@ interface State {
 
 interface Props {
   type: string
+  dismissButtonText?: string
 }
 
 class AlertMessage extends React.Component<Props, State> {
@@ -81,6 +82,11 @@ class AlertMessage extends React.Component<Props, State> {
           <InnerContainer>
             <InformativeIcon>{alertAttributes.icon}</InformativeIcon>
             {this.props.children}
+            {this.props.dismissButtonText && (
+              <TextButton onClick={this.handleClose}>
+                {this.props.dismissButtonText}
+              </TextButton>
+            )}
           </InnerContainer>
           <CloseIcon onClick={this.handleClose}>
             {alertAttributes.closeButton}

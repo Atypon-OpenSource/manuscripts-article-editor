@@ -189,3 +189,21 @@ export const SignupVerifyConflictMessage: React.SFC<{
     values={{ email }}
   />
 )
+
+export const AcceptedInvitationSuccessMessage: React.SFC = () => (
+  <FormattedMessage
+    id={'accepted_invitation_success'}
+    defaultMessage={
+      'An invitation was accepted successfully, you can find the project in the projects list.'
+    }
+  />
+)
+
+export const AcceptedInvitationFailureMessage: React.SFC = () => (
+  <FormattedMessage
+    id={'accepted_invitation_failure'}
+    defaultMessage={
+      'Please sign in with the invited email address to accept this invitation.'
+    }
+  />
+)
