@@ -100,6 +100,7 @@ const EditorHeader = styled.div`
 const EditorBody = styled.div`
   flex: 1;
   overflow-y: auto;
+  padding-bottom: 20px;
 `
 
 // TODO: pass updated components from the database to plugins, without re-rendering the editor

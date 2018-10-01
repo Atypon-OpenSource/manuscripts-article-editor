@@ -44,17 +44,23 @@ const insertParagraph = (
 const enterNextBlock = (
   dispatch: Dispatch,
   state: EditorState,
-  $anchor: ResolvedPos
+  $anchor: ResolvedPos,
+  create?: boolean
 ) => {
-  const offset = $anchor.nodeAfter ? $anchor.nodeAfter.nodeSize : 0
-  const $pos = state.doc.resolve($anchor.pos + offset + 1)
-  const next = Selection.findFrom($pos, 1, true)
+  let tr = state.tr
 
-  if (!next) return false
+  const pos = $anchor.after($anchor.depth - 1)
 
-  const tr = state.tr
-    .setSelection(TextSelection.create(state.tr.doc, next.from))
-    .scrollIntoView()
+  let selection = Selection.findFrom(tr.doc.resolve(pos), 1, true)
+
+  if (!selection && create) {
+    tr.insert(pos, state.schema.nodes.paragraph.create())
+    selection = Selection.findFrom(tr.doc.resolve(pos), 1, true)
+  }
+
+  if (!selection) return false
+
+  tr = tr.setSelection(selection).scrollIntoView()
 
   dispatch(tr)
 
@@ -81,7 +87,7 @@ const enterPreviousBlock = (
   return true
 }
 
-const exitTitle: EditorAction = (state, dispatch) => {
+const handleEnter: EditorAction = (state, dispatch) => {
   const { $anchor } = state.selection
   const node = $anchor.parent
 
@@ -95,6 +101,12 @@ const exitTitle: EditorAction = (state, dispatch) => {
     case 'section_title':
       if (dispatch) {
         insertParagraph(dispatch, state, $anchor)
+      }
+      return true
+
+    case 'figcaption':
+      if (dispatch) {
+        enterNextBlock(dispatch, state, $anchor, true)
       }
       return true
 
@@ -115,7 +127,7 @@ const exitBlock = (direction: number): EditorAction => (state, dispatch) => {
 }
 
 const titleKeymap: StringMap<EditorAction> = {
-  Enter: exitTitle,
+  Enter: handleEnter,
   Tab: exitBlock(1),
   'Shift-Tab': exitBlock(-1),
 }
