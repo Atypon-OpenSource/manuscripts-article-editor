@@ -114,14 +114,14 @@ const menus = (props: MenusProps): MenuItem[] => [
       {
         label: props.manuscript.title ? (
           <span>
-            Delete "
+            Delete “
             <abbr
               style={{ textDecoration: 'none' }}
               title={textContent(props.manuscript.title)}
             >
-              "{textContent(props.manuscript.title, 15)}
+              {textContent(props.manuscript.title, 15)}
             </abbr>
-            "
+            ”
           </span>
         ) : (
           'Delete Untitled Manuscript'
