@@ -2015,20 +2015,6 @@ Object {
                           "type": "table_cell",
                         },
                       ],
-                      "type": "tbody_row",
-                    },
-                    Object {
-                      "content": Array [
-                        Object {
-                          "attrs": Object {
-                            "background": null,
-                            "colspan": 1,
-                            "colwidth": null,
-                            "rowspan": 1,
-                          },
-                          "type": "table_cell",
-                        },
-                      ],
                       "type": "tfoot_row",
                     },
                   ],
@@ -3381,20 +3367,6 @@ Object {
                           },
                           "type": "table_cell",
                         },
-                        Object {
-                          "attrs": Object {
-                            "background": null,
-                            "colspan": 1,
-                            "colwidth": null,
-                            "rowspan": 1,
-                          },
-                          "type": "table_cell",
-                        },
-                      ],
-                      "type": "tbody_row",
-                    },
-                    Object {
-                      "content": Array [
                         Object {
                           "attrs": Object {
                             "background": null,
@@ -5043,20 +5015,6 @@ Object {
                           },
                           "type": "table_cell",
                         },
-                        Object {
-                          "attrs": Object {
-                            "background": null,
-                            "colspan": 1,
-                            "colwidth": null,
-                            "rowspan": 1,
-                          },
-                          "type": "table_cell",
-                        },
-                      ],
-                      "type": "tbody_row",
-                    },
-                    Object {
-                      "content": Array [
                         Object {
                           "attrs": Object {
                             "background": null,

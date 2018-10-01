@@ -145,55 +145,6 @@ const inserts: MenuButtonMap = {
     content: icons.table,
     enable: canInsert(schema.nodes.table_figure),
     run: insertBlock(schema.nodes.table_figure),
-    // run: (state, dispatch) => {
-    //   const columnCount = 2
-    //   const rowCount = 2
-    //
-    //   const thead = schema.nodes.thead.create(
-    //     {},
-    //     Array.from(Array(1), () =>
-    //       state.schema.nodes.table_header_row.create(
-    //         {},
-    //         Array.from(Array(columnCount), () =>
-    //           state.schema.nodes.table_header.create()
-    //         )
-    //       )
-    //     )
-    //   )
-    //
-    //   const tbody = schema.nodes.tbody.create(
-    //     {},
-    //     Array.from(Array(rowCount), () =>
-    //       state.schema.nodes.table_row.create(
-    //         {},
-    //         Array.from(Array(columnCount), () =>
-    //           state.schema.nodes.table_cell.create()
-    //         )
-    //       )
-    //     )
-    //   )
-    //
-    //   const tfoot = schema.nodes.tfoot.create(
-    //     {},
-    //     Array.from(Array(1), () =>
-    //       state.schema.nodes.table_row.create(
-    //         {},
-    //         Array.from(Array(columnCount), () =>
-    //           state.schema.nodes.table_cell.create()
-    //         )
-    //       )
-    //     )
-    //   )
-    //
-    //   const table = state.schema.nodes.table.createAndFill() as ProsemirrorNode
-    //
-    //   const figcaption = schema.nodes.figcaption.create()
-    //
-    //   const tableFigure = schema.nodes.table_figure.create({}, [
-    //     table,
-    //     figcaption,
-    //   ])
-    // },
   },
   equation_block: {
     title: 'Insert equation block',

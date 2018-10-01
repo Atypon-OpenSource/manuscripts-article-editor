@@ -46,29 +46,35 @@ export const tableNodes: StringMap<TableNodeSpec> = {
       id: { default: '' },
     },
     parseDOM: [{ tag: 'table' }],
-    toDOM: () => ['table', 0],
+    toDOM: () => ['table', ['tbody', 0]],
   },
   thead_row: {
     content: 'table_cell+',
-    tableRole: 'row',
-    parseDOM: [{ tag: 'tr.thead' }, { tag: 'tr', context: 'thead/' }],
+    tableRole: 'header',
+    parseDOM: [
+      { tag: 'tr.thead', priority: 100 },
+      { tag: 'thead > tr', priority: 90 },
+    ],
     toDOM: () => ['tr', { class: 'thead' }, 0],
-  },
-  tfoot_row: {
-    content: 'table_cell+',
-    tableRole: 'row',
-    parseDOM: [{ tag: 'tr.tfoot' }, { tag: 'tr', context: 'tfoot/' }],
-    toDOM: () => ['tr', { class: 'tfoot' }, 0],
   },
   tbody_row: {
     content: 'table_cell+',
     tableRole: 'row',
     parseDOM: [
-      { tag: 'tr.tbody' },
-      { tag: 'tr', context: 'tbody/' },
-      { tag: 'tr' }, // NOTE: must come last
+      { tag: 'tr.tbody', priority: 100 },
+      { tag: 'tbody > tr', priority: 90 },
+      { tag: 'tr', priority: 80 },
     ],
     toDOM: () => ['tr', { class: 'tbody' }, 0],
+  },
+  tfoot_row: {
+    content: 'table_cell+',
+    tableRole: 'footer',
+    parseDOM: [
+      { tag: 'tr.tfoot', priority: 100 },
+      { tag: 'tfoot > tr', priority: 90 },
+    ],
+    toDOM: () => ['tr', { class: 'tfoot' }, 0],
   },
   table_cell: {
     content: 'inline*',

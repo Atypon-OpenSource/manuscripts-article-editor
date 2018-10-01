@@ -25,7 +25,6 @@ export default (props: EditorProps) => [
   dropCursor(),
   gapCursor(),
   history(),
-  tableEditing(),
   components(props), // NOTE: this should come first
   elements(),
   persist(),
@@ -35,6 +34,7 @@ export default (props: EditorProps) => [
   objects(props),
   paragraphs(),
   placeholder(),
+  tableEditing(),
 ]
 
 // for tables

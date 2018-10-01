@@ -24,33 +24,35 @@ export const fragmentText = (fragment: Fragment): string =>
   serializer.serializeFragment(fragment).textContent || ''
 
 const tableContents = (node: ProsemirrorNode): string => {
-  const table = serializer.serializeNode(node) as HTMLTableElement
+  const input = serializer.serializeNode(node) as HTMLTableElement
 
-  const sections = ['thead', 'tbody', 'tfoot']
+  const output = document.createElement('table')
 
-  for (const tagName of sections) {
-    const section = table.appendChild(document.createElement(tagName))
+  const tagNames = ['thead', 'tbody', 'tfoot']
 
-    for (const row of table.querySelectorAll(`tr.${tagName}`)) {
-      row.classList.remove(tagName)
+  for (const tagName of tagNames) {
+    const section = output.appendChild(document.createElement(tagName))
 
-      section.appendChild(row)
+    for (const sectionRow of input.querySelectorAll(`tr.${tagName}`)) {
+      const row = section.appendChild(document.createElement('tr'))
 
-      if (tagName === 'thead') {
-        for (const td of row.children) {
-          const th = row.insertBefore(document.createElement('th'), td)
+      for (const child of sectionRow.children) {
+        const cellType = tagName === 'thead' ? 'th' : 'td'
 
-          while (td.firstChild) {
-            th.appendChild(td.firstChild)
-          }
+        const cell = row.appendChild(document.createElement(cellType))
 
-          row.removeChild(td)
+        while (child.firstChild) {
+          cell.appendChild(child.firstChild)
+        }
+
+        for (const attribute of child.attributes) {
+          cell.setAttribute(attribute.name, attribute.value)
         }
       }
     }
   }
 
-  return table.outerHTML
+  return output.outerHTML
 }
 
 const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {

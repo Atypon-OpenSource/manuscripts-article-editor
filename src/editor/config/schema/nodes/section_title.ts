@@ -4,7 +4,7 @@ export const sectionTitle: NodeSpec = {
   content: 'text*',
   marks: 'italic superscript subscript smallcaps',
   group: 'block',
-  // defining: true,
+  defining: true,
   isolating: true,
   selectable: false,
   attrs: {

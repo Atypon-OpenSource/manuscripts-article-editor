@@ -10,7 +10,7 @@ export const section: NodeSpec = {
     priority: { default: 0 },
   },
   group: 'block',
-  isolating: true,
+  // isolating: true,
   // draggable: true,
   parseDOM: [
     {

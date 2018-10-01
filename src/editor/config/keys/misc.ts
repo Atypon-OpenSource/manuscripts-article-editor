@@ -16,8 +16,10 @@ import { goToNextCell } from 'prosemirror-tables'
 // import LibraryPickerContainer from '../../../containers/LibraryPickerContainer'
 import {
   ignoreAtomBlockNodeBackward,
+  ignoreAtomBlockNodeForward,
   insertBlock,
   insertInlineEquation,
+  selectAllIsolating,
 } from '../commands'
 import schema from '../schema'
 import { EditorAction, StringMap } from '../types'
@@ -38,11 +40,13 @@ const customKeymap: StringMap<EditorAction> = {
   'Mod-z': undo,
   'Shift-Mod-z': redo,
   Backspace: chainCommands(undoInputRule, ignoreAtomBlockNodeBackward),
+  Delete: ignoreAtomBlockNodeForward,
   'Mod-y': redo,
   'Alt-ArrowUp': joinUp,
   'Alt-ArrowDown': joinDown,
   'Mod-BracketLeft': lift,
   Escape: selectParentNode,
+  'Mod-a': selectAllIsolating,
   'Mod-b': toggleMark(schema.marks.bold),
   'Mod-i': toggleMark(schema.marks.italic),
   'Mod-u': toggleMark(schema.marks.underline),

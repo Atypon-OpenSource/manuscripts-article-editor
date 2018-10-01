@@ -4,21 +4,14 @@ import {
   NodeType,
   ResolvedPos,
 } from 'prosemirror-model'
-import {
-  AllSelection,
-  EditorState,
-  NodeSelection,
-  TextSelection,
-} from 'prosemirror-state'
+import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { isElementNode } from '../../transformer/node-types'
 import schema from './schema'
 import { Dispatch } from './types'
 
-type AnySelection = NodeSelection & TextSelection & AllSelection
-
 export const markActive = (type: MarkType) => (state: EditorState): boolean => {
-  const { from, $from, to, empty } = state.selection as AnySelection
+  const { from, $from, to, empty } = state.selection
 
   return empty
     ? type.isInSet(state.storedMarks || $from.marks())
@@ -28,17 +21,19 @@ export const markActive = (type: MarkType) => (state: EditorState): boolean => {
 export const blockActive = (type: NodeType, attrs = {}) => (
   state: EditorState
 ) => {
-  const { $from, to, node } = state.selection as AnySelection
+  const { selection } = state
 
-  if (node) {
-    return node.hasMarkup(type, attrs)
+  if (selection instanceof NodeSelection) {
+    return selection.node.hasMarkup(type, attrs)
   }
+
+  const { to, $from } = selection
 
   return to <= $from.end() && $from.parent.hasMarkup(type, attrs)
 }
 
 export const canInsert = (type: NodeType) => (state: EditorState) => {
-  const { $from } = state.selection as AnySelection
+  const { $from } = state.selection
 
   for (let d = $from.depth; d >= 0; d--) {
     const index = $from.index(d)
@@ -52,7 +47,7 @@ export const canInsert = (type: NodeType) => (state: EditorState) => {
 }
 
 const findBlockInsertPosition = (state: EditorState) => {
-  const { $from } = state.selection as AnySelection
+  const { $from } = state.selection
 
   for (let d = $from.depth; d >= 0; d--) {
     const node = $from.node(d)
@@ -83,7 +78,9 @@ export const createBlock = (
   state: EditorState,
   dispatch: Dispatch
 ) => {
-  const node = nodeType.createAndFill() as ProsemirrorNode
+  const node = (nodeType.name === 'table_figure'
+    ? createAndFillTableFigure()
+    : nodeType.createAndFill()) as ProsemirrorNode
 
   let tr = state.tr.insert(position, node)
 
@@ -154,6 +151,12 @@ const findCutBefore = ($pos: ResolvedPos) => {
   return null
 }
 
+const isAtStartOfTextBlock = (
+  state: EditorState,
+  $cursor: ResolvedPos,
+  view?: EditorView
+) => (view ? view.endOfTextblock('backward', state) : $cursor.parentOffset <= 0)
+
 // Ignore atom blocks (as backspace handler), instead of deleting them.
 // Adapted from selectNodeBackward in prosemirror-commands
 export const ignoreAtomBlockNodeBackward = (
@@ -161,7 +164,11 @@ export const ignoreAtomBlockNodeBackward = (
   dispatch?: Dispatch,
   view?: EditorView
 ): boolean => {
-  const { $cursor } = state.selection as TextSelection
+  const { selection } = state
+
+  if (!(selection instanceof TextSelection)) return false
+
+  const { $cursor } = selection
 
   if (!$cursor) return false
 
@@ -169,9 +176,7 @@ export const ignoreAtomBlockNodeBackward = (
   if ($cursor.parent.content.size === 0) return false
 
   // handle cursor at start of textblock
-  if (
-    view ? !view.endOfTextblock('backward', state) : $cursor.parentOffset > 0
-  ) {
+  if (!isAtStartOfTextBlock(state, $cursor, view)) {
     return false
   }
 
@@ -185,3 +190,118 @@ export const ignoreAtomBlockNodeBackward = (
 
   return node.isBlock && node.isAtom
 }
+
+// Copied from prosemirror-commands
+const findCutAfter = ($pos: ResolvedPos) => {
+  if (!$pos.parent.type.spec.isolating) {
+    for (let i = $pos.depth - 1; i >= 0; i--) {
+      const parent = $pos.node(i)
+      if ($pos.index(i) + 1 < parent.childCount) {
+        return $pos.doc.resolve($pos.after(i + 1))
+      }
+      if (parent.type.spec.isolating) break
+    }
+  }
+  return null
+}
+
+const isAtEndOfTextBlock = (
+  state: EditorState,
+  $cursor: ResolvedPos,
+  view?: EditorView
+) =>
+  view
+    ? view.endOfTextblock('forward', state)
+    : $cursor.parentOffset >= $cursor.parent.content.size
+
+// Ignore atom blocks (as delete handler), instead of deleting them.
+// Adapted from selectNodeForward in prosemirror-commands
+export const ignoreAtomBlockNodeForward = (
+  state: EditorState,
+  dispatch?: Dispatch,
+  view?: EditorView
+): boolean => {
+  const { selection } = state
+
+  if (!(selection instanceof TextSelection)) return false
+
+  const { $cursor } = selection
+
+  if (!$cursor) return false
+
+  // ignore empty blocks
+  if ($cursor.parent.content.size === 0) return false
+
+  // handle cursor at start of textblock
+  if (!isAtEndOfTextBlock(state, $cursor, view)) {
+    return false
+  }
+
+  const $cut = findCutAfter($cursor)
+
+  if (!$cut) return false
+
+  const node = $cut.nodeAfter
+
+  if (!node) return false
+
+  return node.isBlock && node.isAtom
+}
+
+const selectIsolatingParent = (state: EditorState): TextSelection | null => {
+  const { $anchor } = state.selection
+
+  for (let d = $anchor.depth; d >= 0; d--) {
+    const node = $anchor.node(d)
+
+    if (node.type.spec.isolating) {
+      return TextSelection.create(state.doc, $anchor.start(d), $anchor.end(d))
+    }
+  }
+
+  return null
+}
+
+/**
+ * "Select All" the contents of an isolating block instead of the whole document
+ */
+export const selectAllIsolating = (
+  state: EditorState,
+  dispatch?: Dispatch
+): boolean => {
+  const selection = selectIsolatingParent(state)
+
+  if (!selection) return false
+
+  if (dispatch) {
+    dispatch(state.tr.setSelection(selection))
+  }
+
+  return true
+}
+
+/**
+ * Create a figure containing a 2x2 table with header and footer and a figcaption
+ */
+export const createAndFillTableFigure = () =>
+  schema.nodes.table_figure.create({}, [
+    schema.nodes.table.create({}, [
+      schema.nodes.thead_row.create({}, [
+        schema.nodes.table_cell.create(),
+        schema.nodes.table_cell.create(),
+      ]),
+      schema.nodes.tbody_row.create({}, [
+        schema.nodes.table_cell.create(),
+        schema.nodes.table_cell.create(),
+      ]),
+      schema.nodes.tbody_row.create({}, [
+        schema.nodes.table_cell.create(),
+        schema.nodes.table_cell.create(),
+      ]),
+      schema.nodes.tfoot_row.create({}, [
+        schema.nodes.table_cell.create(),
+        schema.nodes.table_cell.create(),
+      ]),
+    ]),
+    schema.nodes.figcaption.create(),
+  ])
