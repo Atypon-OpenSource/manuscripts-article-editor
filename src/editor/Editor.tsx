@@ -1,6 +1,11 @@
 import { History, UnregisterCallback } from 'history'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
+import {
+  EditorState,
+  NodeSelection,
+  TextSelection,
+  Transaction,
+} from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
 import React from 'react'
@@ -345,8 +350,9 @@ class Editor extends React.Component<EditorProps, State> {
       if (node.attrs.id === id) {
         this.view.focus()
 
-        const $pos = state.doc.resolve(pos + 1)
-        const selection = TextSelection.near($pos)
+        const selection = node.isAtom
+          ? NodeSelection.create(state.doc, pos)
+          : TextSelection.near(state.doc.resolve(pos + 1))
 
         this.dispatchTransaction(
           state.tr.setSelection(selection).scrollIntoView()
