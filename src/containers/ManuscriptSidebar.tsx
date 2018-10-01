@@ -49,10 +49,6 @@ const ProjectTitle = styled(SidebarTitle)`
   }
 `
 
-const StyledSidebar = styled(Sidebar)`
-  background: #f0f6fb;
-`
-
 const SidebarManuscript = styled.div`
   margin-bottom: 16px;
 `
@@ -90,7 +86,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
   selected,
 }) => (
   <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
-    <StyledSidebar>
+    <Sidebar>
       <SidebarHeader>
         <ProjectTitle>
           <TitleField
@@ -128,7 +124,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
           Add Manuscript
         </AddManuscriptButton>
       </SidebarContent>
-    </StyledSidebar>
+    </Sidebar>
   </Panel>
 )
 

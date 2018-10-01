@@ -1,6 +1,7 @@
 import qs from 'qs'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { jellyBeanBlue, manuscriptsBlue } from '../colors'
 import Panel from '../components/Panel'
 import {
   Sidebar,
@@ -14,12 +15,13 @@ import { LibrarySource } from '../types/library'
 const SourceLink = styled(NavLink)`
   display: block;
   text-decoration: none;
-  padding: 10px;
+  padding: 10px 20px;
   cursor: pointer;
   color: inherit;
+  margin: 0 -20px;
 
   &:hover {
-    color: #5fa2ff;
+    color: ${jellyBeanBlue};
   }
 `
 
@@ -43,7 +45,7 @@ const LibrarySidebar: React.SFC<Props> = ({ projectID, sources }) => (
               search: qs.stringify({ source: source.id }),
             }}
             activeStyle={{
-              background: '#65a3ff',
+              background: manuscriptsBlue,
               color: 'white',
             }}
             isActive={(match, location) => {

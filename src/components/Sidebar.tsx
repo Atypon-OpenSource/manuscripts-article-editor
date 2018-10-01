@@ -1,3 +1,4 @@
+import { aliceBlue } from '../colors'
 import { styled } from '../theme'
 
 export const Sidebar = styled.div`
@@ -8,6 +9,7 @@ export const Sidebar = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  background: ${aliceBlue};
 `
 
 export const SidebarHeader = styled.div`
