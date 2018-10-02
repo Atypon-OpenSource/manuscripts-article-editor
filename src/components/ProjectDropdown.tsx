@@ -12,7 +12,7 @@ import { Button, PrimaryButton } from './Button'
 import { DropdownElement, DropdownLink } from './Dropdown'
 
 const activeStyle = {
-  fontWeight: 800,
+  fontWeight: 600,
 }
 
 const DropdownIcon = styled.div`

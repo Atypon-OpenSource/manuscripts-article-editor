@@ -26,7 +26,6 @@ export const ProjectsDropdownList: React.SFC<Props> = ({
   projects,
   invitationsData,
   acceptedInvitations,
-  rejectedInvitations,
   acceptInvitation,
   rejectInvitation,
   handleClose,
