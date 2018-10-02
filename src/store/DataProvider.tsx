@@ -104,7 +104,7 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     const collection = this.state.collection as ComponentCollection
 
     const replication = collection.sync({
-      remote: config.gateway.url + this.path,
+      remote: config.gateway.url + '/' + this.path,
       waitForLeadership: false, // TODO: remove this for production
       direction: {
         push: direction === 'push',
