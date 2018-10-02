@@ -84,10 +84,6 @@ class CodeBlock extends AbstractBlock {
     return 'pre'
   }
 
-  protected get objectName() {
-    return 'Listing'
-  }
-
   protected createElement() {
     this.element = document.createElement(this.elementType)
     this.element.className = 'block'

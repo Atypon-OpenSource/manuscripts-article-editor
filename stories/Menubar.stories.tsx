@@ -1,12 +1,12 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import { MenuBarGroup } from '../src/editor/MenuBar'
-import { StyledButton } from '../src/editor/MenuBarItem'
+import { ToolbarGroup } from '../src/editor/Toolbar'
+import { StyledButton } from '../src/editor/ToolbarItemContainer'
 
-storiesOf('MenuBar', module).add('MenuBarGroup', () => (
-  <MenuBarGroup>
+storiesOf('Toolbar', module).add('ToolbarGroup', () => (
+  <ToolbarGroup>
     <StyledButton onClick={action('click')}>Test</StyledButton>
     <StyledButton onClick={action('click')}>Test</StyledButton>
-  </MenuBarGroup>
+  </ToolbarGroup>
 ))

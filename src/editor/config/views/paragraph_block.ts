@@ -6,10 +6,6 @@ class ParagraphBlock extends Block {
   protected get elementType() {
     return 'p'
   }
-
-  protected get objectName() {
-    return 'Paragraph'
-  }
 }
 
 const paragraphBlock = (props: EditorProps): NodeViewCreator => (

@@ -1,7 +1,8 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
+import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { EditorView } from 'prosemirror-view'
 import * as React from 'react'
 import { manuscriptsBlue, powderBlue } from '../colors'
-import { DraggableTreeProps } from '../components/DraggableTree'
 import Panel from '../components/Panel'
 import ShareProjectButton from '../components/ShareProjectButton'
 import {
@@ -73,14 +74,16 @@ interface Props {
   project: Project
   saveProject: (project: Project) => Promise<void>
   selected: Selected | null
+  view: EditorView | null
+  doc: ProsemirrorNode | null
 }
 
-const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
+const ManuscriptSidebar: React.SFC<Props> = ({
   addManuscript,
   doc,
   manuscript,
   manuscripts,
-  onDrop,
+  view,
   project,
   saveProject,
   selected,
@@ -110,7 +113,7 @@ const ManuscriptSidebar: React.SFC<Props & DraggableTreeProps> = ({
               <DebouncedManuscriptOutlineContainer
                 manuscript={manuscript}
                 doc={doc}
-                onDrop={onDrop}
+                view={view}
                 selected={selected}
               />
             ) : (

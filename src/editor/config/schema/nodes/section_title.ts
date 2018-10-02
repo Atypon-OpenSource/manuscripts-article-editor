@@ -8,7 +8,7 @@ export const sectionTitle: NodeSpec = {
   isolating: true,
   selectable: false,
   attrs: {
-    placeholder: { default: 'Section title' },
+    // placeholder: { default: 'Section heading' },
   },
   parseDOM: [
     {

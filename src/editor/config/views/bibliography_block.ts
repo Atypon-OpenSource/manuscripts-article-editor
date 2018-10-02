@@ -48,10 +48,6 @@ class BibliographyBlock extends AbstractBlock {
     return 'div'
   }
 
-  protected get objectName() {
-    return 'Bibliography'
-  }
-
   protected async updateContents() {
     try {
       const { sanitize } = await this.imports.purify

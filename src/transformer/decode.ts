@@ -246,7 +246,7 @@ export class Decoder {
       const sectionNode = nodeType.createAndFill(
         {
           id: component.id,
-          priority: component.priority,
+          titleSuppressed: component.titleSuppressed,
         },
         [sectionTitleNode].concat(elementNodes).concat(nestedSections)
       )

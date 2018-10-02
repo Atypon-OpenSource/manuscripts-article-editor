@@ -6,10 +6,6 @@ class BulletListBlock extends Block {
   protected get elementType() {
     return 'ul'
   }
-
-  protected get objectName() {
-    return 'List'
-  }
 }
 
 const bulletListBlock = (props: EditorProps): NodeViewCreator => (

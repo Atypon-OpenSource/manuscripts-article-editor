@@ -1,4 +1,5 @@
 import { Fragment, Node as ProsemirrorNode } from 'prosemirror-model'
+import { EditorView } from 'prosemirror-view'
 import * as React from 'react'
 import {
   ConnectDragPreview,
@@ -13,6 +14,7 @@ import {
   DropTargetSpec,
 } from 'react-dnd'
 import { findDOMNode } from 'react-dom'
+import { Menu } from '../editor/lib/menu'
 import { Selected } from '../editor/lib/utils'
 import { withDragDropContext } from '../editor/manuscript/lib/drag-drop'
 import { nodeTitle, nodeTitlePlaceholder } from '../transformer/node-title'
@@ -59,17 +61,6 @@ interface ConnectedDropTargetProps {
 
 type ConnectedProps = ConnectedDragSourceProps & ConnectedDropTargetProps
 
-type DropHandler = (
-  source: TreeItem,
-  target: TreeItem,
-  position: DropSide
-) => void
-
-export interface DraggableTreeProps {
-  doc: ProsemirrorNode | null
-  onDrop: DropHandler
-}
-
 export interface TreeItem {
   index: number
   isSelected: boolean
@@ -82,7 +73,7 @@ export interface TreeItem {
 
 interface Props {
   tree: TreeItem
-  onDrop: DropHandler
+  view: EditorView
 }
 
 interface State {
@@ -111,7 +102,7 @@ export const buildTree: TreeBuilder = ({
 }): TreeItem => {
   const items: TreeItem[] = []
 
-  const startPos = pos + 1
+  const startPos = pos + 1 // TODO: don't increment this?
   const endPos = pos + node.nodeSize
   const isSelected = selected ? node.attrs.id === selected.node.attrs.id : false
 
@@ -146,13 +137,13 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
     const {
       tree,
       canDrop,
-      onDrop,
       connectDragSource,
       connectDragPreview,
       connectDropTarget,
       isDragging,
       isOverCurrent,
       item,
+      view,
     } = this.props
 
     const { open, dragPosition } = this.state
@@ -170,7 +161,10 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
 
           {connectDragSource(
             <div>
-              <OutlineItem isSelected={isSelected}>
+              <OutlineItem
+                isSelected={isSelected}
+                onContextMenu={this.handleContextMenu}
+              >
                 {items.length ? (
                   <OutlineItemArrow onClick={this.toggle}>
                     {open ? '▼' : '▶'}
@@ -209,7 +203,7 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
                 <DraggableTree // tslint:disable-line:no-use-before-declare
                   key={tree.node.attrs.id}
                   tree={tree}
-                  onDrop={onDrop}
+                  view={view}
                 />
               ))}
             </div>
@@ -259,6 +253,21 @@ class Tree extends React.Component<Props & ConnectedProps, State> {
     const placeholder = nodeTitlePlaceholder(node.type.name)
 
     return <OutlineItemPlaceholder>{placeholder}</OutlineItemPlaceholder>
+  }
+
+  private handleContextMenu: React.EventHandler<React.MouseEvent> = event => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const menu = this.createMenu()
+    menu.showEditMenu(event.currentTarget as HTMLAnchorElement)
+  }
+
+  private createMenu = () => {
+    const { tree, view } = this.props
+
+    // TODO: getPos?
+    return new Menu(tree.node, view, () => tree.pos - 1)
   }
 }
 
@@ -353,7 +362,23 @@ const dropTargetSpec: DropTargetSpec<Props & ConnectedProps> = {
 
     const item = monitor.getItem() as DragSourceProps
 
-    props.onDrop(item.tree, props.tree, item.position)
+    const source = item.tree
+    const target = props.tree
+    const side = item.position
+
+    const insertPos =
+      side === 'before' ? target.pos - 1 : target.pos + target.node.nodeSize - 1
+
+    let sourcePos = source.pos - 1
+
+    let tr = props.view.state.tr.insert(insertPos, source.node)
+
+    sourcePos = tr.mapping.map(sourcePos)
+
+    // tr = tr.replaceWith(sourcePos, sourcePos + source.node.nodeSize, [])
+    tr = tr.delete(sourcePos, sourcePos + source.node.nodeSize)
+
+    props.view.dispatch(tr)
   },
 }
 

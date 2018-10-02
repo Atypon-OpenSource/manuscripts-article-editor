@@ -12,7 +12,7 @@ export type Dispatch = (tr: Transaction) => void
 
 export type EditorAction = (state: EditorState, dispatch: Dispatch) => boolean
 
-export interface MenuButton {
+export interface ToolbarButton {
   title: string
   content: React.ReactNode
   active?: (state: EditorState) => boolean
@@ -21,18 +21,18 @@ export interface MenuButton {
   dropdown?: any // tslint:disable-line:no-any // TODO
 }
 
-export type MenuButtonMap = StringMap<MenuButton>
+export type ToolbarButtonMap = StringMap<ToolbarButton>
 
-export type MenuButtonMapMap = StringMap<MenuButtonMap>
+export type ToolbarButtonMapMap = StringMap<ToolbarButtonMap>
 
 export type ThemedOuterButtonProps = ThemedOuterProps<HTMLButtonElement>
 
-export interface MenuBarButtonProps extends ThemedOuterButtonProps {
+export interface ToolbarButtonProps extends ThemedOuterButtonProps {
   'data-active'?: boolean
 }
 
-export interface MenuBarProps {
-  menu: MenuButtonMapMap
+export interface ToolbarProps {
+  toolbar: ToolbarButtonMapMap
   state: EditorState
   dispatch: Dispatch
 }

@@ -1,4 +1,5 @@
 import { EditorProps } from '../../Editor'
+import { sectionLevel } from '../../lib/menu'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
@@ -7,8 +8,19 @@ class SectionTitleBlock extends Block {
     return 'h1'
   }
 
-  protected get objectName() {
-    return 'Section'
+  protected updateContents() {
+    if (this.node.childCount) {
+      this.contentDOM.classList.remove('empty-node')
+    } else {
+      this.contentDOM.classList.add('empty-node')
+
+      const $pos = this.view.state.doc.resolve(this.getPos())
+
+      this.contentDOM.setAttribute(
+        'data-placeholder',
+        `${sectionLevel($pos.depth)} heading`
+      )
+    }
   }
 }
 

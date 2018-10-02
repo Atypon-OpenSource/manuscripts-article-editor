@@ -54,4 +54,3 @@ export class TitleField extends Title {
     return false
   }
 }
-

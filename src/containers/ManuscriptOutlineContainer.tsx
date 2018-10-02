@@ -1,10 +1,8 @@
+import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import { debounceRender } from '../components/DebounceRender'
-import DraggableTree, {
-  buildTree,
-  DraggableTreeProps,
-  TreeItem,
-} from '../components/DraggableTree'
+import DraggableTree, { buildTree, TreeItem } from '../components/DraggableTree'
 import { Selected } from '../editor/lib/utils'
 import { parse } from '../editor/title/config'
 import { Manuscript } from '../types/components'
@@ -12,15 +10,17 @@ import { Manuscript } from '../types/components'
 interface Props {
   manuscript: Manuscript
   selected: Selected | null
+  view: EditorView | null
+  doc: ProsemirrorNode | null
 }
 
-const ManuscriptOutlineContainer: React.SFC<Props & DraggableTreeProps> = ({
+const ManuscriptOutlineContainer: React.SFC<Props> = ({
   doc,
   manuscript,
-  onDrop,
   selected,
+  view,
 }) => {
-  if (!doc) return null
+  if (!doc || !view) return null
 
   const { items } = buildTree({ node: doc, pos: 0, index: 0, selected })
 
@@ -33,11 +33,12 @@ const ManuscriptOutlineContainer: React.SFC<Props & DraggableTreeProps> = ({
     items,
   }
 
-  return <DraggableTree tree={tree} onDrop={onDrop} />
+  return <DraggableTree tree={tree} view={view} />
 }
 
 export default ManuscriptOutlineContainer
 
-export const DebouncedManuscriptOutlineContainer = debounceRender<
-  Props & DraggableTreeProps
->(ManuscriptOutlineContainer, 500)
+export const DebouncedManuscriptOutlineContainer = debounceRender<Props>(
+  ManuscriptOutlineContainer,
+  500
+)

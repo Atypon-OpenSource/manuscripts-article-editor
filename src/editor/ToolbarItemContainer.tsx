@@ -2,14 +2,14 @@ import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import Modal from 'react-modal'
 import { styled } from '../theme'
-import { Dispatch, MenuBarButtonProps, MenuButton } from './config/types'
+import { Dispatch, ToolbarButton, ToolbarButtonProps } from './config/types'
 
-export const MenuItem = styled.div`
+export const ToolbarItem = styled.div`
   display: inline-flex;
   position: relative;
 `
 
-export const StyledButton = styled.button<MenuBarButtonProps>`
+export const StyledButton = styled.button<ToolbarButtonProps>`
   background-color: ${props => (props['data-active'] ? '#eee' : '#fff')};
   border: 1px solid #d6d6d6;
   cursor: pointer;
@@ -62,12 +62,12 @@ interface State {
 
 interface Props {
   key: string
-  item: MenuButton
+  item: ToolbarButton
   state: EditorState
   dispatch: Dispatch
 }
 
-class MenuBarItem extends React.Component<Props, State> {
+class ToolbarItemContainer extends React.Component<Props, State> {
   public state = {
     open: false,
   }
@@ -78,7 +78,7 @@ class MenuBarItem extends React.Component<Props, State> {
     const Dropdown = item.dropdown
 
     return (
-      <MenuItem>
+      <ToolbarItem>
         <StyledButton
           type={'button'}
           title={item.title}
@@ -118,7 +118,7 @@ class MenuBarItem extends React.Component<Props, State> {
             <Dropdown state={state} dispatch={dispatch} />
           </DropdownContainer>
         )}*/}
-      </MenuItem>
+      </ToolbarItem>
     )
   }
 
@@ -129,4 +129,4 @@ class MenuBarItem extends React.Component<Props, State> {
   }
 }
 
-export default MenuBarItem
+export default ToolbarItemContainer

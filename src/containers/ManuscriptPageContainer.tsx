@@ -12,7 +12,6 @@ import {
 } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import { CommentList } from '../components/CommentList'
-import { DropSide, TreeItem } from '../components/DraggableTree'
 import { DebouncedInspector } from '../components/Inspector'
 import ManuscriptForm from '../components/ManuscriptForm'
 import { Main, Page } from '../components/Page'
@@ -195,6 +194,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       popper,
       selected,
       comments,
+      view,
     } = this.state
 
     if (!doc || !manuscript || !manuscripts || !project || !comments) {
@@ -211,7 +211,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           manuscripts={manuscripts}
           project={project}
           doc={doc}
-          onDrop={this.handleDrop}
+          view={view}
           saveProject={this.saveProject}
           selected={selected}
         />
@@ -1021,24 +1021,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
     }
-  }
-
-  private handleDrop = (source: TreeItem, target: TreeItem, side: DropSide) => {
-    const view = this.state.view as EditorView
-
-    const insertPos =
-      side === 'before' ? target.pos - 1 : target.pos + target.node.nodeSize - 1
-
-    let sourcePos = source.pos - 1
-
-    let tr = view.state.tr.insert(insertPos, source.node)
-
-    sourcePos = tr.mapping.map(sourcePos)
-
-    // tr = tr.replaceWith(sourcePos, sourcePos + source.node.nodeSize, [])
-    tr = tr.delete(sourcePos, sourcePos + source.node.nodeSize)
-
-    view.dispatch(tr)
   }
 
   private getCurrentUser = (): UserProfile => this.props.user.data!

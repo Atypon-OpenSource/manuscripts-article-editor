@@ -166,11 +166,12 @@
 
 .ProseMirror section h1 {
   margin: 0;
-}
-
-.ProseMirror section h1 {
   font-size: 23px;
   font-weight: 600;
+}
+
+.ProseMirror section.title-suppressed > .block-section_title {
+  display: none;
 }
 
 .ProseMirror section > section h1 {

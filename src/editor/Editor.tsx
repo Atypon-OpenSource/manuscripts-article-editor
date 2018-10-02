@@ -21,16 +21,16 @@ import {
   UserProfile,
 } from '../types/components'
 import { ExportManuscript, ImportManuscript } from '../types/manuscript'
-import menubar from './config/menubar'
 import menus from './config/menus'
 import plugins from './config/plugins'
 import schema from './config/schema'
+import toolbar from './config/toolbar'
 import views from './config/views'
 import PopperManager from './lib/popper'
 import MetadataContainer from './manuscript/MetadataContainer'
-import MenuBar from './MenuBar'
 import './styles/Editor.css'
 import './styles/popper.css'
+import Toolbar from './Toolbar'
 
 export type ChangeReceiver = (
   op: string,
@@ -148,8 +148,8 @@ class Editor extends React.Component<EditorProps, State> {
               dispatch={this.dispatchTransaction}
             />
 
-            <MenuBar
-              menu={menubar}
+            <Toolbar
+              toolbar={toolbar}
               state={this.state.state}
               dispatch={this.dispatchTransaction}
             />

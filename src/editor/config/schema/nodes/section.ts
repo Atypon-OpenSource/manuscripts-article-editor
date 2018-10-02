@@ -7,7 +7,7 @@ export const section: NodeSpec = {
     'section_title (paragraph | figure | table_figure | ordered_list | bullet_list | equation_block | code_block | bibliography)* section*',
   attrs: {
     id: { default: '' },
-    priority: { default: 0 },
+    titleSuppressed: { default: false },
   },
   group: 'block',
   // isolating: true,
@@ -17,5 +17,12 @@ export const section: NodeSpec = {
       tag: 'section',
     },
   ],
-  toDOM: (node: ProsemirrorNode) => ['section', node.attrs, 0],
+  toDOM: (node: ProsemirrorNode) => [
+    'section',
+    {
+      id: node.attrs.id,
+      class: node.attrs.titleSuppressed ? 'title-suppressed' : '',
+    },
+    0,
+  ],
 }

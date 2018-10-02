@@ -13,9 +13,7 @@ test('Can add a new Section title', async t => {
 
   await t.click(Selector('#create-project'))
 
-  const sectionTitleField = Selector(
-    '.manuscript-editor h1:first-of-type'
-  ).withAttribute('placeholder', 'Section title')
+  const sectionTitleField = Selector('.manuscript-editor h1:first-of-type')
 
   const sectionTitle = generateTitle(6)
 

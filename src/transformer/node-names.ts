@@ -14,6 +14,7 @@ export const nodeNames: Map<string, string> = new Map([
   ['manuscript', 'Manuscript'],
   ['paragraph', 'Paragraph'],
   ['section', 'Section'],
+  ['section_title', 'Section'],
   ['table', 'Table'],
   ['table_figure', 'Table'],
 ])

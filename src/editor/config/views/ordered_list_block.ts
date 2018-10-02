@@ -6,10 +6,6 @@ class OrderedListBlock extends Block {
   protected get elementType() {
     return 'ol'
   }
-
-  protected get objectName() {
-    return 'List'
-  }
 }
 
 const orderedListBlock = (props: EditorProps): NodeViewCreator => (

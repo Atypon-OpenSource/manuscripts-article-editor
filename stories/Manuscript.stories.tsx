@@ -132,7 +132,7 @@ storiesOf('Manuscript', module)
       authorAffiliations={authorAffiliations}
       manuscript={manuscripts[0]}
       selectedAuthor={authors[0]}
-      editing={true}
+      editing={false}
       saveTitle={action('save title')}
       startEditing={action('start editing')}
       selectAuthor={action('select author')}

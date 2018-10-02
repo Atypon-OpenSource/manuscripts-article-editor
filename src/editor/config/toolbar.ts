@@ -19,9 +19,9 @@ import {
 } from './commands'
 import icons from './icons'
 import schema from './schema'
-import { MenuButtonMap } from './types'
+import { ToolbarButtonMap } from './types'
 
-const styles: MenuButtonMap = {
+const styles: ToolbarButtonMap = {
   bold: {
     title: 'Toggle bold',
     content: icons.bold,
@@ -45,7 +45,7 @@ const styles: MenuButtonMap = {
   },
 }
 
-const verticals: MenuButtonMap = {
+const verticals: ToolbarButtonMap = {
   subscript: {
     title: 'Toggle subscript',
     content: icons.subscript,
@@ -62,7 +62,7 @@ const verticals: MenuButtonMap = {
   },
 }
 
-// const inlines: MenuButtonMap = {
+// const inlines: ToolbarButtonMap = {
 //   equation: {
 //     title: 'Insert inline equation',
 //     content: icons.equation,
@@ -72,7 +72,7 @@ const verticals: MenuButtonMap = {
 //   },
 // }
 
-const blocks: MenuButtonMap = {
+const blocks: ToolbarButtonMap = {
   // plain: {
   //   title: 'Change to paragraph',
   //   content: images.paragraph,
@@ -115,7 +115,7 @@ const blocks: MenuButtonMap = {
   // },
 }
 
-const insertCitation: MenuButtonMap = {
+const insertCitation: ToolbarButtonMap = {
   citation: {
     title: 'Insert citation',
     content: icons.citation,
@@ -124,7 +124,7 @@ const insertCitation: MenuButtonMap = {
   },
 }
 
-// const insertCrossReference: MenuButtonMap = {
+// const insertCrossReference: ToolbarButtonMap = {
 //   cross_reference: {
 //     title: 'Insert cross reference',
 //     content: icons.citation,
@@ -133,7 +133,7 @@ const insertCitation: MenuButtonMap = {
 //   },
 // }
 
-const inserts: MenuButtonMap = {
+const inserts: ToolbarButtonMap = {
   figure: {
     title: 'Insert figure',
     content: icons.figure,
@@ -160,7 +160,7 @@ const inserts: MenuButtonMap = {
   },
 }
 
-// const insert: MenuButtonMap = {
+// const insert: ToolbarButtonMap = {
 //   footnote: {
 //     title: 'Insert footnote',
 //     content: images.footnote,
@@ -181,7 +181,7 @@ const inserts: MenuButtonMap = {
 //   },
 // }
 //
-// const history: MenuButtonMap = {
+// const history: ToolbarButtonMap = {
 //   undo: {
 //     title: 'Undo last change',
 //     content: images.undo,
@@ -196,7 +196,7 @@ const inserts: MenuButtonMap = {
 //   },
 // }
 //
-// const table: MenuButtonMap = {
+// const table: ToolbarButtonMap = {
 //   addColumnBefore: {
 //     title: 'Insert column before',
 //     content: images.after,

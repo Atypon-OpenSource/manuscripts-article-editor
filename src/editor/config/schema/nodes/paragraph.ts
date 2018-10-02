@@ -4,7 +4,8 @@ export const paragraph: NodeSpec = {
   content: 'inline*',
   attrs: {
     id: { default: '' },
-    placeholder: { default: 'Section contents' }, // TODO: 'List item' if inside a list
+    // TODO: https://gitlab.com/mpapp-private/manuscripts-frontend/issues/301
+    // placeholder: { default: 'Section contents' }, // TODO: 'List item' if inside a list
   },
   group: 'block',
   parseDOM: [

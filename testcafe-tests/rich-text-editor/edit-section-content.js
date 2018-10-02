@@ -2,8 +2,8 @@ import {
   loginAsNewUser,
   normaliseLineReturn,
   generateParagraph,
-  normaliseWhitespace,
   enterRichText,
+  confirmRichText,
 } from '../helpers'
 import { Selector } from 'testcafe'
 
@@ -14,18 +14,11 @@ test('Can add a paragraph to a section contents', async t => {
 
   await t.click(Selector('#create-project'))
 
-  const sectionContentField = Selector('.ProseMirror')
-    .find('p')
-    .withAttribute('data-placeholder', 'Section contents')
+  const sectionContentField = Selector('.manuscript-editor p:first-of-type')
+
   const sectionParagraph = normaliseLineReturn(generateParagraph(4))
 
-  await t
-    .click(sectionContentField)
-    .expect(sectionContentField.hasClass('ProseMirror-focused'))
+  await enterRichText(t, sectionContentField, sectionParagraph)
 
-  await t.typeText(sectionContentField, sectionParagraph, { paste: true })
-
-  await t
-    .expect(normaliseWhitespace(await sectionContentField.textContent))
-    .eql(sectionParagraph)
+  await confirmRichText(t, sectionContentField, sectionParagraph)
 })

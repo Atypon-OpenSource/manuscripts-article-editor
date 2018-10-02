@@ -29,10 +29,6 @@ class FigureBlock extends Block {
     if (newNode.type.name !== this.node.type.name) return false
     if (newNode.attrs.id !== this.node.attrs.id) return false
     this.node = newNode
-    this.contentDOM.classList.toggle(
-      'suppress-caption',
-      this.node.attrs.suppressCaption
-    )
     this.updateContents()
     return true
   }
@@ -57,10 +53,6 @@ class FigureBlock extends Block {
     return 'figure'
   }
 
-  protected get objectName() {
-    return 'Figure'
-  }
-
   // TODO: load/subscribe to the figure style object from the database and use it here?
   protected createElement() {
     this.element = document.createElement(this.elementType)
@@ -82,7 +74,12 @@ class FigureBlock extends Block {
   protected updateContents() {
     const { getComponent } = componentsKey.getState(this.view.state)
 
-    const { rows, columns, containedObjectIDs } = this.node.attrs
+    const {
+      rows,
+      columns,
+      containedObjectIDs,
+      suppressCaption,
+    } = this.node.attrs
 
     const objects = containedObjectIDs.map(getComponent)
 
@@ -134,6 +131,8 @@ class FigureBlock extends Block {
         index++
       }
     }
+
+    this.contentDOM.classList.toggle('suppress-caption', suppressCaption)
   }
 
   private handleImage(index: number): EventListener {

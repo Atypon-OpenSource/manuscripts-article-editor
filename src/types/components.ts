@@ -173,6 +173,7 @@ export interface Section extends ContainedComponent {
   title: string
   path: string[]
   elementIDs: string[]
+  titleSuppressed?: boolean
 }
 
 export interface Table extends ContainedComponent {

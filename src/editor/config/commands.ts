@@ -65,7 +65,7 @@ export const createSelection = (
   position: number,
   doc: ProsemirrorNode
 ) => {
-  if (nodeType.name.endsWith('_block')) {
+  if (nodeType.isAtom) {
     return NodeSelection.create(doc, position)
   }
 
@@ -108,17 +108,19 @@ export const insertInlineEquation = (
   state: EditorState,
   dispatch: Dispatch
 ) => {
-  dispatch(
-    state.tr.replaceSelectionWith(
-      schema.nodes.equation.create({
-        latex: window
-          .getSelection()
-          .toString()
-          .replace(/^\$/, '')
-          .replace(/\$$/, ''),
-      })
-    )
+  const tr = state.tr.replaceSelectionWith(
+    schema.nodes.equation.create({
+      latex: window
+        .getSelection()
+        .toString()
+        .replace(/^\$/, '')
+        .replace(/\$$/, ''),
+    })
   )
+
+  const selection = NodeSelection.create(tr.doc, tr.selection.from - 2)
+
+  dispatch(tr.setSelection(selection))
 
   return true
 }

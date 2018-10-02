@@ -67,10 +67,14 @@ const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {
   return nodes
 }
 
-const idOfNodeType = (node: ProsemirrorNode, type: string): string => {
+const attributeOfNodeType = (
+  node: ProsemirrorNode,
+  type: string,
+  attribute: string
+): string => {
   for (const child of iterateChildren(node)) {
     if (child.type.name === type) {
-      return child.attrs.id
+      return child.attrs[attribute]
     }
   }
 
@@ -171,12 +175,13 @@ const encoders: NodeEncoderMap = {
     elementIDs: childComponentNodes(node)
       .map(node => node.attrs.id)
       .filter(id => id),
+    titleSuppressed: node.attrs.titleSuppressed,
   }),
   table: node => ({
     contents: tableContents(node),
   }),
   table_figure: node => ({
-    containedObjectID: idOfNodeType(node, 'table'),
+    containedObjectID: attributeOfNodeType(node, 'table', 'id'),
     caption: inlineContentsOfNodeType(node, 'figcaption'),
     suppressFooter: node.attrs.suppressFooter,
     suppressHeader: node.attrs.suppressHeader,

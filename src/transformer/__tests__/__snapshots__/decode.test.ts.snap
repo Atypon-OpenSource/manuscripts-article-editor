@@ -9,13 +9,10 @@ Object {
     Object {
       "attrs": Object {
         "id": "MPSection:95A8E63F-87B6-45EC-A3FE-CA66252975A1",
-        "priority": 0,
+        "titleSuppressed": false,
       },
       "content": Array [
         Object {
-          "attrs": Object {
-            "placeholder": "Section title",
-          },
           "content": Array [
             Object {
               "text": "Abstract",
@@ -27,13 +24,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:DC63982F-D0EA-483C-BA62-3358FAF8D885",
-            "priority": 1,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Background",
@@ -45,7 +39,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:8BA0DF62-0053-479D-CB98-7F0B6496A7BB",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -76,7 +69,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -94,7 +86,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -112,7 +103,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -130,7 +120,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -148,7 +137,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -174,7 +162,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -192,7 +179,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -210,7 +196,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -228,7 +213,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -246,7 +230,6 @@ Object {
                     Object {
                       "attrs": Object {
                         "id": "",
-                        "placeholder": "Section contents",
                       },
                       "content": Array [
                         Object {
@@ -268,13 +251,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:F74A6F36-4C9E-4634-AD09-1892FC671ECB",
-            "priority": 2,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Results",
@@ -286,7 +266,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:C305643F-DC79-45BB-9BC5-55CEF40363E8",
-                "placeholder": "Subsection contents",
               },
               "content": Array [
                 Object {
@@ -302,13 +281,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:7C5DF410-0419-4442-B3AA-0F4E91328335",
-            "priority": 3,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Conclusions",
@@ -320,7 +296,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:5C9A4436-813E-40EE-C8D3-F1EA9BAF1B79",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -333,13 +308,10 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPSection:7480F4E2-C867-4586-B109-E0FA96AD223F",
-                "priority": 4,
+                "titleSuppressed": false,
               },
               "content": Array [
                 Object {
-                  "attrs": Object {
-                    "placeholder": "Section title",
-                  },
                   "content": Array [
                     Object {
                       "text": "Keywords:",
@@ -351,7 +323,6 @@ Object {
                 Object {
                   "attrs": Object {
                     "id": "MPParagraphElement:09DF7C8E-AE53-49C1-9331-3881F09708A9",
-                    "placeholder": "Section contents",
                   },
                   "content": Array [
                     Object {
@@ -373,13 +344,10 @@ Object {
     Object {
       "attrs": Object {
         "id": "MPSection:38442782-17F5-45D6-DEEB-520C1F0FE751",
-        "priority": 1,
+        "titleSuppressed": false,
       },
       "content": Array [
         Object {
-          "attrs": Object {
-            "placeholder": "Section title",
-          },
           "content": Array [
             Object {
               "text": "Background",
@@ -391,7 +359,6 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPParagraphElement:872C613C-4BD6-48DC-CC11-5CEC1ED4DBA0",
-            "placeholder": "Section contents",
           },
           "content": Array [
             Object {
@@ -481,7 +448,6 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPParagraphElement:453A469A-24E1-4A46-E098-C02B7AF14C92",
-            "placeholder": "Section contents",
           },
           "content": Array [
             Object {
@@ -505,7 +471,6 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPParagraphElement:7FE6E578-A0CF-4C43-8007-13487ADB475D",
-            "placeholder": "Section contents",
           },
           "content": Array [
             Object {
@@ -532,13 +497,10 @@ Object {
     Object {
       "attrs": Object {
         "id": "MPSection:6820624D-AE4D-451B-ACB1-4369F8818542",
-        "priority": 2,
+        "titleSuppressed": false,
       },
       "content": Array [
         Object {
-          "attrs": Object {
-            "placeholder": "Section title",
-          },
           "content": Array [
             Object {
               "text": "Results and discussion",
@@ -550,20 +512,16 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPParagraphElement:7FCA608B-7848-4324-B151-FAFA3830810D",
-            "placeholder": "Section contents",
           },
           "type": "paragraph",
         },
         Object {
           "attrs": Object {
             "id": "MPSection:4B696965-8F32-479C-CE5C-273081E50436",
-            "priority": 1,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Whole genome sequence",
@@ -575,7 +533,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:1945C2BC-B699-430E-C8E6-B43E2CEFE977",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -602,13 +559,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:E395F4B4-DB72-470B-8633-86D47A777424",
-            "priority": 2,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Comparative evolutionary analyses",
@@ -620,7 +574,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:907237FE-ABEF-4401-C09E-AA658EA38223",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -666,7 +619,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:6223AEC0-829F-4170-8DCF-92738EB381E8",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -701,7 +653,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:17072371-B892-4083-9CEB-8D5743CD7B83",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -2035,7 +1986,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:4089991D-EA53-4567-D60B-3142D744014F",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -2070,7 +2020,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:DD00780E-6054-4EF9-8300-834024B8459B",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -3397,7 +3346,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:C182016D-428C-4498-A1C3-F9F427B582FD",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5071,7 +5019,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:9A650430-1526-44C8-9A9A-34B5E72CCD91",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5131,13 +5078,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:4D9ED00B-6749-4FAE-CFF4-98DE6D24633A",
-            "priority": 3,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Transcriptome analysis",
@@ -5149,7 +5093,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:855415F2-F0D7-4372-BB39-626EB73FFE19",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5173,7 +5116,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:7E14EE22-9568-4BCA-A219-7A48E28C8E00",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5197,7 +5139,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:BD13DAE1-81A8-4B4A-9E81-4E5212DB27AE",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5254,7 +5195,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:AB9818AC-C60C-4287-B5D2-FB502069C310",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5300,7 +5240,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:64CE37D4-FCEB-45AA-B38F-E3CE8CCF4610",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5349,13 +5288,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:63D9A574-4869-4141-B298-F355D035A1FB",
-            "priority": 4,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Genetic diversity and population history",
@@ -5367,7 +5303,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:60BE17B0-A901-482E-9C6D-C88D7DC60533",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5445,13 +5380,10 @@ Object {
     Object {
       "attrs": Object {
         "id": "MPSection:39D955B4-EB6D-433C-F399-45EA6331DC72",
-        "priority": 3,
+        "titleSuppressed": false,
       },
       "content": Array [
         Object {
-          "attrs": Object {
-            "placeholder": "Section title",
-          },
           "content": Array [
             Object {
               "text": "Conclusions",
@@ -5463,7 +5395,6 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPParagraphElement:0601CDFD-EE45-4718-9253-BA670A08AC27",
-            "placeholder": "Section contents",
           },
           "content": Array [
             Object {
@@ -5523,13 +5454,10 @@ Object {
     Object {
       "attrs": Object {
         "id": "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382",
-        "priority": 4,
+        "titleSuppressed": false,
       },
       "content": Array [
         Object {
-          "attrs": Object {
-            "placeholder": "Section title",
-          },
           "content": Array [
             Object {
               "text": "Methods",
@@ -5541,20 +5469,16 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPParagraphElement:60DA3D93-F8A8-408B-9E64-2B2ABCB8F8CA",
-            "placeholder": "Section contents",
           },
           "type": "paragraph",
         },
         Object {
           "attrs": Object {
             "id": "MPSection:F04C8764-CF4F-488D-A7BF-97CB105E770C",
-            "priority": 5,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Sample preparation and sequencing",
@@ -5566,7 +5490,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:29BCFF96-36A5-4CF6-F686-844BF818B7D0",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5579,7 +5502,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:16990272-8C7C-4F3C-B21B-93F63D409EBF",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5595,13 +5517,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:03FF87AF-ACDA-411A-D594-612D186BB4D0",
-            "priority": 6,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Vulture DNA read alignment to bald eagle reference genome",
@@ -5613,7 +5532,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:E19B311F-D78E-49FA-8D57-A751F4865649",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5651,13 +5569,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:CB2DA59A-B02B-4E28-9326-655D2D812276",
-            "priority": 7,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Transcriptome analysis and functional gene annotation",
@@ -5669,7 +5584,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:404E3FE1-D323-4ABA-B4C7-357ECB1BDD9B",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5682,7 +5596,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:E07CD730-E2AA-43CD-9F47-A3A65B972009",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5761,7 +5674,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:4D239238-33E6-48C8-8865-77B39486E3B1",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5832,13 +5744,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:C0866416-D246-417F-B214-588354396BB6",
-            "priority": 8,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Molecular evolutionary analyses",
@@ -5850,7 +5759,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:DABFE058-9475-4D97-A0E6-AA98D2A0BAD0",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5896,7 +5804,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:FEA91A1E-ED82-4602-A853-8F5FC5874C97",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -5953,7 +5860,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:9FCC24C8-220E-424D-83BE-866C4A30BC88",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -6002,13 +5908,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:ADE22325-E659-4527-CDDB-EA410ED8BB7C",
-            "priority": 9,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Demographic history analysis",
@@ -6020,7 +5923,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:E2034971-7FEB-47BE-C56F-4A3601AA8E3C",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -6058,13 +5960,10 @@ Object {
         Object {
           "attrs": Object {
             "id": "MPSection:7ABEEEAA-1D53-409F-C241-74C4CFCE261C",
-            "priority": 10,
+            "titleSuppressed": false,
           },
           "content": Array [
             Object {
-              "attrs": Object {
-                "placeholder": "Section title",
-              },
               "content": Array [
                 Object {
                   "text": "Availability of supporting data",
@@ -6076,7 +5975,6 @@ Object {
             Object {
               "attrs": Object {
                 "id": "MPParagraphElement:67FC55A0-11B6-42CA-D093-31E324FE5193",
-                "placeholder": "Section contents",
               },
               "content": Array [
                 Object {
@@ -6098,9 +5996,6 @@ Object {
       },
       "content": Array [
         Object {
-          "attrs": Object {
-            "placeholder": "Section title",
-          },
           "content": Array [
             Object {
               "text": "Bibliography",

@@ -10,24 +10,19 @@ class TableFigureBlock extends Block {
     return 'figure'
   }
 
-  protected get objectName() {
-    return 'Table'
-  }
-
   public update(newNode: ProsemirrorNode) {
     if (newNode.type.name !== this.node.type.name) return false
     if (newNode.attrs.id !== this.node.attrs.id) return false
     this.node = newNode
-    this.contentDOM.classList.toggle(
-      'suppress-header',
-      this.node.attrs.suppressHeader
-    )
-    this.contentDOM.classList.toggle(
-      'suppress-footer',
-      this.node.attrs.suppressFooter
-    )
     this.updateContents()
     return true
+  }
+
+  protected updateContents() {
+    const { suppressHeader, suppressFooter } = this.node.attrs
+
+    this.contentDOM.classList.toggle('suppress-header', suppressHeader)
+    this.contentDOM.classList.toggle('suppress-footer', suppressFooter)
   }
 
   protected createElement() {

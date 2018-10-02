@@ -8,13 +8,12 @@ const createBodyElement = (id: string) => {
   return dom
 }
 
-const parseBodyElement = (contents: string) =>
-  document.createRange().createContextualFragment(contents)
-    .firstChild as HTMLDivElement
+// const parseBodyElement = (contents: string) =>
+//   document.createRange().createContextualFragment(contents)
+//     .firstChild as HTMLDivElement
 
 export const bibliography: NodeSpec = {
   atom: true,
-  content: 'text*',
   attrs: {
     id: { default: '' },
     contents: { default: '' },
@@ -28,13 +27,16 @@ export const bibliography: NodeSpec = {
     {
       tag: 'div[class~="csl-bib-body"]',
       getAttrs: (dom: Element) => ({
-        contents: dom.innerHTML,
+        contents: dom.outerHTML,
       }),
     },
   ],
   toDOM: (node: ProsemirrorNode) => {
-    return node.attrs.contents
-      ? parseBodyElement(node.attrs.contents)
-      : createBodyElement(node.attrs.id)
+    return createBodyElement(node.attrs.id)
+
+    // TODO: https://gitlab.com/mpapp-private/manuscripts-frontend/issues/348
+    // return node.attrs.contents
+    //   ? parseBodyElement(node.attrs.contents)
+    //   : createBodyElement(node.attrs.id)
   },
 }

@@ -85,10 +85,6 @@ class EquationBlock extends AbstractBlock {
     return 'prosemirror-equation'
   }
 
-  protected get objectName() {
-    return 'Equation'
-  }
-
   protected async updateContents() {
     try {
       const mathjax = await this.imports.mathjax
