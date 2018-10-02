@@ -13,6 +13,10 @@ import { styled } from '../theme'
 import { BibliographicName } from '../types/components'
 import { ProjectInfo } from './ProjectsPageContainer'
 
+const Container = styled(Sidebar)`
+  background: white;
+`
+
 const SidebarProject = styled.div`
   padding: 16px;
   margin: 0 -16px;
@@ -100,7 +104,7 @@ interface Props {
 }
 
 const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
-  <Sidebar id={'projects-sidebar'}>
+  <Container id={'projects-sidebar'}>
     <ProjectsContainer>
       <SidebarHeader>
         <SidebarTitle className={'sidebar-title'}>Projects</SidebarTitle>
@@ -135,7 +139,7 @@ const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
         ))}
       </SidebarContent>
     </ProjectsContainer>
-  </Sidebar>
+  </Container>
 )
 
 export default ProjectsSidebar
