@@ -9,18 +9,27 @@ interface Props {
   invitation: ProjectInvitation
   popperProps: PopperChildrenProps
   openPopper: () => void
+  handleOpenModal: () => void
+  updateRoleIsOpen: boolean
 }
 
 class InviteCollaboratorPopperContainer extends React.Component<Props> {
   public render() {
-    const { invitation, popperProps } = this.props
+    const {
+      invitation,
+      popperProps,
+      updateRoleIsOpen,
+      handleOpenModal,
+    } = this.props
 
     return (
       <CustomPopper popperProps={popperProps}>
         <InviteCollaboratorPopper
-          invitedUserName={invitation.invitedUserName!}
+          invitation={invitation}
           handleUpdateRole={this.handleUpdateRole}
           handleUninvite={this.handleUninvite}
+          updateRoleIsOpen={updateRoleIsOpen}
+          handleOpenModal={handleOpenModal}
         />
       </CustomPopper>
     )
@@ -45,6 +54,8 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
       role,
       message
     )
+
+    this.props.openPopper()
   }
 
   private handleUninvite = async () => {

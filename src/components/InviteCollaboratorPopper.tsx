@@ -1,4 +1,6 @@
 import React from 'react'
+import UpdateRolePageContainer from '../containers/UpdateRolePageContainer'
+import { ProjectInvitation } from '../types/components'
 import { CollaboratorRolePopper } from './CollaboratorRolePopper'
 import { UninviteCollaboratorPopper } from './UninviteCollaboratorPopper'
 
@@ -10,43 +12,40 @@ interface State {
 }
 
 interface Props {
-  invitedUserName: string
+  invitation: ProjectInvitation
   handleUpdateRole: (role: string) => Promise<void>
   handleUninvite: () => Promise<void>
+  handleOpenModal: () => void
+  updateRoleIsOpen: boolean
 }
 
 class InviteCollaboratorPopper extends React.Component<Props, State> {
   public state: State = {
-    selectedRole: '',
+    selectedRole: this.props.invitation.role,
     selectedMode: 'invite',
-  }
-
-  public async componentWillUnmount() {
-    const { selectedRole } = this.state
-
-    if (selectedRole) {
-      try {
-        await this.props.handleUpdateRole(selectedRole)
-      } catch (error) {
-        alert(error)
-      }
-    }
   }
 
   public render() {
     const { selectedRole, selectedMode } = this.state
-    const { invitedUserName } = this.props
+    const { invitation, updateRoleIsOpen } = this.props
 
-    return selectedMode === 'invite' ? (
+    return selectedMode === 'invite' && !updateRoleIsOpen ? (
       <CollaboratorRolePopper
         handleRoleChange={this.handleRoleChange}
         selectedRole={selectedRole}
         switchMode={() => this.setMode('uninvite')}
-        removeText={'Uninvite Collaborator'}
+        removeText={'Cancel invitation'}
+      />
+    ) : updateRoleIsOpen ? (
+      <UpdateRolePageContainer
+        updating={updateRoleIsOpen}
+        selectedRole={selectedRole}
+        handleUpdateRole={this.props.handleUpdateRole}
+        handleCancel={this.handleCancel}
       />
     ) : (
       <UninviteCollaboratorPopper
-        invitedUserName={invitedUserName}
+        invitedUserName={invitation.invitedUserName!}
         handleUninvite={this.handleUninvite}
         switchMode={() => this.setMode('invite')}
       />
@@ -57,10 +56,18 @@ class InviteCollaboratorPopper extends React.Component<Props, State> {
     this.setState({
       selectedRole: event.currentTarget.value,
     })
+    this.props.handleOpenModal()
+  }
+
+  private handleCancel = () => {
+    this.props.handleOpenModal()
+    this.setState({
+      selectedRole: this.props.invitation.role,
+    })
   }
 
   private setMode = (selectedMode: Mode) => {
-    this.setState({ selectedMode, selectedRole: '' })
+    this.setState({ selectedMode, selectedRole: this.state.selectedRole })
   }
 
   private handleUninvite = async () => {

@@ -1,5 +1,7 @@
 import React from 'react'
-import { UserProfile } from '../types/components'
+import UpdateRolePageContainer from '../containers/UpdateRolePageContainer'
+import { getUserRole } from '../lib/roles'
+import { Project, UserProfile } from '../types/components'
 import { CollaboratorRolePopper } from './CollaboratorRolePopper'
 import { RemoveCollaboratorPopper } from './RemoveCollaboratorPopper'
 
@@ -12,38 +14,37 @@ interface State {
 
 interface Props {
   collaborator: UserProfile
+  project: Project
   handleUpdateRole: (role: string) => Promise<void>
   handleRemove: () => Promise<void>
+  handleOpenModal: () => void
+  updateRoleIsOpen: boolean
 }
 
 class CollaboratorSettingsPopper extends React.Component<Props, State> {
   public state: State = {
-    selectedRole: '',
+    selectedRole:
+      getUserRole(this.props.project, this.props.collaborator.userID) || '',
     selectedMode: 'role',
-  }
-
-  public async componentWillUnmount() {
-    const { selectedRole } = this.state
-
-    if (selectedRole) {
-      try {
-        await this.props.handleUpdateRole(selectedRole)
-      } catch (error) {
-        alert(error)
-      }
-    }
   }
 
   public render() {
     const { selectedRole, selectedMode } = this.state
-    const { collaborator } = this.props
+    const { collaborator, updateRoleIsOpen } = this.props
 
-    return selectedMode === 'role' ? (
+    return selectedMode === 'role' && !updateRoleIsOpen ? (
       <CollaboratorRolePopper
         selectedRole={selectedRole}
         handleRoleChange={this.handleRoleChange}
         switchMode={() => this.setMode('remove')}
-        removeText={'Remove Collaborator'}
+        removeText={'Remove from project'}
+      />
+    ) : updateRoleIsOpen ? (
+      <UpdateRolePageContainer
+        updating={updateRoleIsOpen}
+        selectedRole={selectedRole}
+        handleUpdateRole={this.props.handleUpdateRole}
+        handleCancel={this.handleCancel}
       />
     ) : (
       <RemoveCollaboratorPopper
@@ -57,6 +58,15 @@ class CollaboratorSettingsPopper extends React.Component<Props, State> {
   private handleRoleChange = (event: React.FormEvent<HTMLInputElement>) => {
     this.setState({
       selectedRole: event.currentTarget.value,
+    })
+    this.props.handleOpenModal()
+  }
+
+  private handleCancel = () => {
+    this.props.handleOpenModal()
+    this.setState({
+      selectedRole:
+        getUserRole(this.props.project, this.props.collaborator.userID) || '',
     })
   }
 

@@ -168,7 +168,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
               {hoveredID === collaborator.userID &&
                 isOwner(project, user.userID) && (
                   <CollaboratorSettingsButton
-                    projectID={project.id}
+                    project={project}
                     collaborator={collaborator}
                     openPopper={openPopper}
                   />

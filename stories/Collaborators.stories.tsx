@@ -19,6 +19,7 @@ import SearchCollaboratorsSidebar from '../src/components/SearchCollaboratorsSid
 import { styled } from '../src/theme'
 import { projectInvitationSchema } from '../src/validation'
 import { user } from './data/contributors'
+import { invitations } from './data/invitations-data'
 import { people } from './data/people'
 import { project } from './data/projects'
 
@@ -39,18 +40,23 @@ storiesOf('Collaborators/Poppers', module)
   .add('Settings and Remove', () => (
     <PopperStory>
       <CollaboratorSettingsPopper
+        project={project}
         collaborator={user}
         handleUpdateRole={action('update role')}
         handleRemove={action('remove')}
+        handleOpenModal={action('open update role confirmation modal')}
+        updateRoleIsOpen={false}
       />
     </PopperStory>
   ))
   .add('Invite and Uninvite', () => (
     <PopperStory>
       <InviteCollaboratorPopper
-        invitedUserName={'Example User'}
+        invitation={invitations[0]}
         handleUpdateRole={action('invite')}
         handleUninvite={action('uninvite')}
+        handleOpenModal={action('open update role confirmation modal')}
+        updateRoleIsOpen={false}
       />
     </PopperStory>
   ))

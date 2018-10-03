@@ -3,7 +3,7 @@ import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import CollaboratorSettingsPopperContainer from '../containers/CollaboratorSettingsPopperContainer'
 import SettingsInverted from '../icons/settings-inverted-icon'
 import { styled } from '../theme'
-import { UserProfile } from '../types/components'
+import { Project, UserProfile } from '../types/components'
 import { IconButton } from './Button'
 
 const AddIconButton = styled(IconButton)`
@@ -18,10 +18,11 @@ const AddIconButton = styled(IconButton)`
 
 interface State {
   isOpen: boolean
+  updateRoleIsOpen: boolean
 }
 
 interface Props {
-  projectID: string
+  project: Project
   collaborator: UserProfile
   openPopper: (isOpen: boolean) => void
 }
@@ -29,6 +30,7 @@ interface Props {
 class CollaboratorSettingsButton extends React.Component<Props, State> {
   public state: State = {
     isOpen: false,
+    updateRoleIsOpen: false,
   }
 
   private node: Node
@@ -39,7 +41,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
 
   public render() {
     const { isOpen } = this.state
-    const { projectID, collaborator } = this.props
+    const { project, collaborator } = this.props
 
     return (
       <Manager>
@@ -61,10 +63,12 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
           >
             {(popperProps: PopperChildrenProps) => (
               <CollaboratorSettingsPopperContainer
-                projectID={projectID}
+                project={project}
                 collaborator={collaborator}
                 popperProps={popperProps}
                 openPopper={this.openPopper}
+                handleOpenModal={this.handleOpenModal}
+                updateRoleIsOpen={this.state.updateRoleIsOpen}
               />
             )}
           </Popper>
@@ -81,8 +85,18 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
     })
   }
 
+  private handleOpenModal = () => {
+    this.setState({
+      updateRoleIsOpen: !this.state.updateRoleIsOpen,
+    })
+  }
+
   private handleClickOutside: EventListener = (event: Event) => {
-    if (this.node && !this.node.contains(event.target as Node)) {
+    if (
+      this.node &&
+      !this.node.contains(event.target as Node) &&
+      !this.state.updateRoleIsOpen
+    ) {
       this.openPopper()
     }
   }

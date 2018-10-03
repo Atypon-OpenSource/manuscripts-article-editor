@@ -39,7 +39,7 @@ const Arrow = styled.div`
 `
 
 export const SeparatorLine = styled.div`
-  margin: 10px 0;
+  margin: 10px 0 25px;
   background-color: #e6e6e6;
   height: 1px;
 `
