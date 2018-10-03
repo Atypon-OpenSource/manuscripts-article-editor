@@ -5,6 +5,8 @@ const BASE_URL = process.env.BASE_URL || 'http://0.0.0.0:8080'
 
 const timestamp = () => Math.floor(Date.now() / 1000)
 
+export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 export const generateUser = () => ({
   email: timestamp() + '-' + faker.internet.email(),
   name: faker.name.findName(),
@@ -84,11 +86,14 @@ export const generateParagraph = paragraphCount => {
   return faker.lorem.paragraphs(paragraphCount)
 }
 
-export const enterRichText = (t, selector, text) => 
-  t.click(selector).typeText(selector, text, {
+export const enterRichText = async (t, selector, text) => {
+  await t.click(selector).typeText(selector, text, {
     paste: true,
     replace: true,
-})
+  })
+
+  await sleep(1000)
+}
 
 
 export const confirmRichText = async (t, selector, text) => 
