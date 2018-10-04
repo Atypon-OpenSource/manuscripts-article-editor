@@ -38,7 +38,7 @@ export const ToolbarGroup = styled.div`
 const Toolbar: React.SFC<ToolbarProps> = ({ toolbar, state, dispatch }) => (
   <ToolbarContainer>
     {Object.entries(toolbar).map(([key, items]) => (
-      <ToolbarGroup key={key}>
+      <ToolbarGroup key={key} className={'toolbar-group'}>
         {Object.entries(items).map(([key, item]) => (
           <ToolbarItemContainer
             key={key}
