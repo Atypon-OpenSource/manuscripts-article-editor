@@ -1,5 +1,6 @@
 import React from 'react'
 import { InvitationData } from '../containers/ProjectsDropdownButton'
+import { projectListCompare } from '../containers/ProjectsPageContainer'
 import AddAuthor from '../icons/add-author'
 import { Project, ProjectInvitation } from '../types/components'
 import { DropdownSeparator } from './Dropdown'
@@ -48,7 +49,7 @@ export const ProjectsDropdownList: React.SFC<Props> = ({
         />
       ))}
 
-      {projects.map(project => (
+      {projects.sort(projectListCompare).map(project => (
         <ProjectDropdownSection
           key={project.id}
           handleClose={handleClose}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { dustyGrey } from '../colors'
 import ShareProjectButton from '../components/ShareProjectButton'
 import {
   Sidebar,
@@ -11,7 +12,7 @@ import Title from '../editor/title/Title'
 import Add from '../icons/add'
 import { styled } from '../theme'
 import { BibliographicName } from '../types/components'
-import { ProjectInfo } from './ProjectsPageContainer'
+import { ProjectInfo, projectListCompare } from './ProjectsPageContainer'
 
 const Container = styled(Sidebar)`
   background: white;
@@ -88,6 +89,10 @@ const ProjectContributors = styled.div`
   margin-top: 8px;
 `
 
+const PlaceholderTitle = styled(Title)`
+  color: ${dustyGrey};
+`
+
 const ProjectContributor = styled.span``
 
 const initials = (name: BibliographicName): string =>
@@ -116,11 +121,15 @@ const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
         </AddButton>
       </SidebarAction>
       <SidebarContent>
-        {projects.map(project => (
+        {projects.sort(projectListCompare).map(project => (
           <SidebarProject key={project.id}>
             <SidebarProjectHeader>
               <ProjectTitle to={`/projects/${project.id}`}>
-                <Title value={project.title || ''} />
+                {project.title ? (
+                  <Title value={project.title} />
+                ) : (
+                  <PlaceholderTitle value={'Untitled Project'} />
+                )}
               </ProjectTitle>
               <ShareProjectButton projectID={project.id!} />
             </SidebarProjectHeader>
