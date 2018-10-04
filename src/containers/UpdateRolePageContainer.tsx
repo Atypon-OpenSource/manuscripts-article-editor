@@ -17,7 +17,7 @@ class UpdateRolePageContainer extends React.Component<Props> {
         secondaryAction={this.handleUpdate}
         secondaryActionTitle={'Update Role'}
         primaryActionTitle={'Cancel'}
-        category={Category.error}
+        category={Category.confirmation}
         header={'Update collaborator role'}
         message={'Are you sure you want to update collaborator role?'}
       />
