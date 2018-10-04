@@ -27,13 +27,13 @@ export const sendPasswordRecovery = (email: string) =>
     email,
   })
 
-export const resetPassword = (email: string, token: string) =>
+export const resetPassword = (password: string, token: string) =>
   client.post<{
     token: string
   }>(
     '/auth/resetPassword',
     {
-      email,
+      password,
       token,
       deviceId,
     },

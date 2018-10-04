@@ -56,10 +56,10 @@ export const logout = async (db: RxDatabase) => {
   // TODO: clear localStorage
 }
 
-export const resetPassword = async (email: string, token: string) => {
+export const resetPassword = async (password: string, token: string) => {
   const {
     data: { token: accessToken },
-  } = await api.resetPassword(email, token)
+  } = await api.resetPassword(password, token)
 
   tokenHandler.set({
     access_token: accessToken,
