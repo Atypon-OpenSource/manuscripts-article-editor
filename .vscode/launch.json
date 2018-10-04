@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome",
+            "url": "http://127.0.0.1:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
             "type": "node",
             "name": "vscode-jest-tests",
             "request": "launch",
@@ -21,6 +28,13 @@
             "request": "launch",
             "name": "Firefox against Storybook (localhost:6006)",
             "url": "http://localhost:6006",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "Firefox against locally running app (127.0.0.1:8080)",
+            "url": "http://127.0.0.1:8080",
             "webRoot": "${workspaceFolder}"
         }
     ]
