@@ -6,7 +6,8 @@ import ProjectEdit from '../icons/project-edit'
 import ProjectLibrary from '../icons/project-library'
 import { GlobalStyle, styled, ThemedProps } from '../theme'
 import MenuBar from './MenuBar'
-import ViewIcon, { ViewLink } from './ViewIcon'
+import { Tip } from './Tip'
+import { ViewLink } from './ViewLink'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -89,39 +90,39 @@ export const Page: React.SFC<Props> = ({ children, projectID }) => (
     {projectID && (
       <ViewsBar>
         <MenuBar projectID={projectID}>
-          <ViewIcon title={'Home'} tooltip={{ top: '8px', left: '40px' }}>
+          <Tip title={'Home'} placement={'right'}>
             <NavIconContainer>
               <NavIcon />
               <NavIconHover />
             </NavIconContainer>
-          </ViewIcon>
+          </Tip>
         </MenuBar>
 
         <ViewsSeparator />
 
         <IconBar>
-          <ViewLink
-            to={`/projects/${projectID}`}
-            isActive={(match, location) =>
-              /^\/projects\/.+?\/manuscripts\/.+/.test(location.pathname)
-            }
-          >
-            <ViewIcon title={'Edit'}>
+          <Tip title={'Edit'} placement={'right'}>
+            <ViewLink
+              to={`/projects/${projectID}`}
+              isActive={(match, location) =>
+                /^\/projects\/.+?\/manuscripts\/.+/.test(location.pathname)
+              }
+            >
               <ProjectEdit />
-            </ViewIcon>
-          </ViewLink>
+            </ViewLink>
+          </Tip>
 
-          <ViewLink to={`/projects/${projectID}/library`} exact={true}>
-            <ViewIcon title={'Library'}>
+          <Tip title={'Library'} placement={'right'}>
+            <ViewLink to={`/projects/${projectID}/library`} exact={true}>
               <ProjectLibrary />
-            </ViewIcon>
-          </ViewLink>
+            </ViewLink>
+          </Tip>
 
-          <ViewLink to={`/projects/${projectID}/collaborators`} exact={true}>
-            <ViewIcon title={'Collaborators'}>
+          <Tip title={'Collaborators'} placement={'right'}>
+            <ViewLink to={`/projects/${projectID}/collaborators`} exact={true}>
               <ProjectContributors />
-            </ViewIcon>
-          </ViewLink>
+            </ViewLink>
+          </Tip>
         </IconBar>
       </ViewsBar>
     )}
