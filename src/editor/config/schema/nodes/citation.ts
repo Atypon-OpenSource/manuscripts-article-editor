@@ -5,7 +5,6 @@ export const citation: NodeSpec = {
   group: 'inline',
   draggable: true,
   atom: true,
-  // content: 'text*',
   attrs: {
     rid: { default: '' },
     contents: { default: '' },
@@ -13,7 +12,7 @@ export const citation: NodeSpec = {
   },
   parseDOM: [
     {
-      tag: 'span[class~="citation"]',
+      tag: 'span.citation',
       getAttrs: (dom: Element) => ({
         // id: dom.id,
         rid: dom.getAttribute('data-reference-id'),

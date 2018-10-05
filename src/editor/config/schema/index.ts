@@ -1,6 +1,6 @@
 import { Schema } from 'prosemirror-model'
 
-import marks from './marks'
-import nodes from './nodes'
+import marks, { Marks } from './marks'
+import nodes, { Nodes } from './nodes'
 
-export default new Schema({ nodes, marks })
+export default new Schema<Nodes, Marks>({ nodes, marks })

@@ -9,7 +9,7 @@ import Block from './block'
 
 // TODO: double-click to select in caption
 
-class FigureBlock extends Block {
+class FigureElement extends Block {
   private container: HTMLElement
   private element: HTMLElement
 
@@ -132,7 +132,7 @@ class FigureBlock extends Block {
       }
     }
 
-    this.contentDOM.classList.toggle('suppress-caption', suppressCaption)
+    this.dom.classList.toggle('suppress-caption', suppressCaption)
   }
 
   private handleImage(index: number): EventListener {
@@ -165,10 +165,10 @@ class FigureBlock extends Block {
   }
 }
 
-const figureBlock = (props: EditorProps): NodeViewCreator => (
+const figureElement = (props: EditorProps): NodeViewCreator => (
   node,
   view,
   getPos
-) => new FigureBlock(props, node, view, getPos)
+) => new FigureElement(props, node, view, getPos)
 
-export default figureBlock
+export default figureElement

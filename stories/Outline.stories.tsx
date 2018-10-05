@@ -22,7 +22,7 @@ storiesOf('Outline', module)
       <OutlineItem isSelected={false}>
         <OutlineItemArrow onClick={action('toggle')}>▼</OutlineItemArrow>
         <OutlineItemLink to={'#'}>
-          <OutlineItemIcon>{nodeTypeIcon('figure')}</OutlineItemIcon>
+          <OutlineItemIcon>{nodeTypeIcon('figure_element')}</OutlineItemIcon>
 
           <OutlineItemLinkText className={`outline-text-figure`}>
             Figure
@@ -34,7 +34,9 @@ storiesOf('Outline', module)
           <OutlineItem isSelected={true}>
             <OutlineItemNoArrow />
             <OutlineItemLink to={'#'}>
-              <OutlineItemIcon>{nodeTypeIcon('figure')}</OutlineItemIcon>
+              <OutlineItemIcon>
+                {nodeTypeIcon('figure_element')}
+              </OutlineItemIcon>
 
               <OutlineItemLinkText className={`outline-text-figure`}>
                 Figure
@@ -49,7 +51,7 @@ storiesOf('Outline', module)
     <OutlineItem isSelected={false}>
       <OutlineItemArrow onClick={action('toggle')}>▼</OutlineItemArrow>
       <OutlineItemLink to={'#'}>
-        <OutlineItemIcon>{nodeTypeIcon('figure')}</OutlineItemIcon>
+        <OutlineItemIcon>{nodeTypeIcon('figure_element')}</OutlineItemIcon>
 
         <OutlineItemLinkText className={`outline-text-figure`}>
           Figure
@@ -61,7 +63,7 @@ storiesOf('Outline', module)
     <OutlineItem isSelected={true}>
       <OutlineItemNoArrow />
       <OutlineItemLink to={'#'}>
-        <OutlineItemIcon>{nodeTypeIcon('figure')}</OutlineItemIcon>
+        <OutlineItemIcon>{nodeTypeIcon('figure_element')}</OutlineItemIcon>
 
         <OutlineItemLinkText className={`outline-text-figure`}>
           Figure

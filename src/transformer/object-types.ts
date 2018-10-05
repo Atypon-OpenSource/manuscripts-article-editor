@@ -12,30 +12,39 @@ export const CITATION = 'MPCitation'
 export const CITATION_ITEM = 'MPCitationItem'
 export const COMMENT_ANNOTATION = 'MPCommentAnnotation'
 export const CONTRIBUTOR = 'MPContributor'
+export const EQUATION = 'MPEquation'
 export const EQUATION_ELEMENT = 'MPEquationElement'
 export const FIGURE = 'MPFigure'
 export const FIGURE_ELEMENT = 'MPFigureElement'
 export const FIGURE_STYLE = 'MPFigureStyle'
+export const FOOTNOTE = 'MPFootnote'
+export const FOOTNOTES_ELEMENT = 'MPFootnotesElement'
+export const INLINE_MATH_FRAGMENT = 'MPInlineMathFragment'
 export const KEYWORD = 'MPKeyword'
 export const LIST_ELEMENT = 'MPListElement'
+export const LISTING = 'MPListing'
 export const LISTING_ELEMENT = 'MPListingElement'
 export const MANUSCRIPT = 'MPManuscript'
-export const PARAGRAPH_ELEMENT = 'MPParagraphElement'
+export const PARAGRAPH = 'MPParagraphElement'
 export const PROJECT = 'MPProject'
 export const PROJECT_INVITATION = 'MPProjectInvitation'
 export const SECTION = 'MPSection'
 export const TABLE = 'MPTable'
 export const TABLE_ELEMENT = 'MPTableElement'
+export const TOC_ELEMENT = 'MPTOCElement'
+export const TOC_SECTION = 'MPSection'
 export const USER_PROFILE = 'MPUserProfile'
 
 export const elementObjects = [
   BIBLIOGRAPHY_ELEMENT,
   EQUATION_ELEMENT,
   FIGURE_ELEMENT,
+  FOOTNOTES_ELEMENT,
   LIST_ELEMENT,
   LISTING_ELEMENT,
-  PARAGRAPH_ELEMENT,
+  PARAGRAPH,
   TABLE_ELEMENT,
+  TOC_ELEMENT,
 ]
 
 export const manuscriptObjects = [
@@ -44,7 +53,10 @@ export const manuscriptObjects = [
   CITATION,
   COMMENT_ANNOTATION,
   CONTRIBUTOR,
+  FOOTNOTE,
+  INLINE_MATH_FRAGMENT,
   SECTION,
+  TOC_SECTION,
 ].concat(elementObjects) // TODO: remove elementObjects if they don't need `manuscriptID`
 
 export const isManuscriptComponent = (

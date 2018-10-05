@@ -2,26 +2,25 @@ import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
-class ParagraphBlock extends Block {
+class BulletList extends Block {
   protected get elementType() {
-    return 'p'
+    return 'ul'
   }
 }
 
-const paragraphBlock = (props: EditorProps): NodeViewCreator => (
+const bulletList = (props: EditorProps): NodeViewCreator => (
   node,
   view,
   getPos,
   decorations
 ) => {
-  // TODO: set a node property instead?
   for (const decoration of decorations) {
     if (decoration.spec.element) {
-      return new ParagraphBlock(props, node, view, getPos)
+      return new BulletList(props, node, view, getPos)
     }
   }
 
-  const dom = document.createElement('p')
+  const dom = document.createElement('ul')
   dom.id = node.attrs.id
 
   return {
@@ -30,4 +29,4 @@ const paragraphBlock = (props: EditorProps): NodeViewCreator => (
   }
 }
 
-export default paragraphBlock
+export default bulletList

@@ -6,7 +6,6 @@ export const sectionTitle: NodeSpec = {
   group: 'block',
   defining: true,
   isolating: true,
-  selectable: false,
   attrs: {
     // placeholder: { default: 'Section heading' },
   },

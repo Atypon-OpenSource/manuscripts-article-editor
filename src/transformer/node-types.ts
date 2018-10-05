@@ -4,36 +4,43 @@ export type NodeTypeName =
   | 'affiliation'
   | 'bibliographic_date'
   | 'bibliographic_name'
-  | 'bibliography'
+  | 'bibliography_element'
   | 'bibliography_item'
   | 'bibliography_section'
   | 'bullet_list'
   | 'citation'
   | 'citation_item'
-  | 'code_block'
   | 'comment'
   | 'contributor'
   | 'cross_reference'
-  | 'equation_block'
+  | 'equation'
+  | 'equation_element'
   | 'figure'
-  | 'figure_image'
+  | 'figure_element'
+  | 'footnote'
+  | 'footnotes_element'
+  | 'inline_equation'
   | 'keyword'
+  | 'listing'
+  | 'listing_element'
   | 'manuscript'
   | 'ordered_list'
   | 'paragraph'
   | 'project'
   | 'section'
   | 'table'
-  | 'table_figure'
+  | 'table_element'
+  | 'toc_element'
+  | 'toc_section'
 
 const elementNodeTypes: NodeTypeName[] = [
-  'code_block',
-  'equation_block',
-  'figure',
+  'listing_element',
+  'equation_element',
+  'figure_element',
   'bullet_list',
   'ordered_list',
   'paragraph',
-  'table_figure',
+  'table_element',
 ]
 
 export const isElementNode = (node: ProsemirrorNode) =>
@@ -43,27 +50,34 @@ const nodeTypes: Array<[NodeTypeName, string]> = [
   ['affiliation', 'MPAffiliation'],
   ['bibliographic_date', 'MPBibliographicDate'],
   ['bibliographic_name', 'MPBibliographicName'],
-  ['bibliography', 'MPBibliographyElement'],
+  ['bibliography_element', 'MPBibliographyElement'],
   ['bibliography_item', 'MPBibliographyItem'],
   ['bibliography_section', 'MPSection'],
-  ['citation_item', 'MPCitationItem'],
+  ['bullet_list', 'MPListElement'],
   ['citation', 'MPCitation'],
-  ['code_block', 'MPListingElement'],
+  ['citation_item', 'MPCitationItem'],
   ['comment', 'MPComment'],
   ['contributor', 'MPContributor'],
   ['cross_reference', 'MPAuxiliaryObjectReference'],
-  ['equation_block', 'MPEquationElement'],
-  ['figure', 'MPFigureElement'],
-  ['figure_image', 'MPFigure'],
+  ['equation', 'MPEquation'],
+  ['equation_element', 'MPEquationElement'],
+  ['figure', 'MPFigure'],
+  ['figure_element', 'MPFigureElement'],
+  ['footnote', 'MPFootnote'],
+  ['footnotes_element', 'MPFootnotesElement'],
+  ['inline_equation', 'MPInlineMathFragment'],
   ['keyword', 'MPKeyword'],
-  ['bullet_list', 'MPListElement'],
-  ['ordered_list', 'MPListElement'],
+  ['listing', 'MPListing'],
+  ['listing_element', 'MPListingElement'],
   ['manuscript', 'MPManuscript'],
+  ['ordered_list', 'MPListElement'],
   ['paragraph', 'MPParagraphElement'],
   ['project', 'MPProject'],
   ['section', 'MPSection'],
   ['table', 'MPTable'],
-  ['table_figure', 'MPTableElement'],
+  ['table_element', 'MPTableElement'],
+  ['toc_element', 'MPTOCElement'],
+  ['toc_section', 'MPSection'],
 ]
 
 const nodeTypesMap: Map<NodeTypeName, string> = new Map(nodeTypes)

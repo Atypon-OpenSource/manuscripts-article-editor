@@ -6,7 +6,9 @@ import {
 } from 'prosemirror-model'
 import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
+import { buildFootnote, buildInlineMathFragment } from '../../lib/commands'
 import { isElementNode } from '../../transformer/node-types'
+import { componentsKey, INSERT } from './plugins/components'
 import schema from './schema'
 import { Dispatch } from './types'
 
@@ -78,8 +80,8 @@ export const createBlock = (
   state: EditorState,
   dispatch: Dispatch
 ) => {
-  const node = (nodeType.name === 'table_figure'
-    ? createAndFillTableFigure()
+  const node = (nodeType.name === 'table_element'
+    ? createAndFillTableElement()
     : nodeType.createAndFill()) as ProsemirrorNode
 
   let tr = state.tr.insert(position, node)
@@ -108,19 +110,42 @@ export const insertInlineEquation = (
   state: EditorState,
   dispatch: Dispatch
 ) => {
-  const tr = state.tr.replaceSelectionWith(
-    schema.nodes.equation.create({
-      latex: window
-        .getSelection()
-        .toString()
-        .replace(/^\$/, '')
-        .replace(/\$$/, ''),
-    })
+  const inlineMathFragment = buildInlineMathFragment(
+    state.selection.$anchor.parent.attrs.id,
+    window
+      .getSelection()
+      .toString()
+      .replace(/^\$/, '')
+      .replace(/\$$/, '')
   )
 
-  const selection = NodeSelection.create(tr.doc, tr.selection.from - 2)
+  const tr = state.tr
+    .setMeta(componentsKey, { [INSERT]: [inlineMathFragment] })
+    .replaceSelectionWith(schema.nodes.inline_equation.create())
 
-  dispatch(tr.setSelection(selection))
+  dispatch(tr.setSelection(NodeSelection.create(tr.doc, tr.selection.from)))
+
+  return true
+}
+
+export const insertInlineFootnote = (
+  state: EditorState,
+  dispatch: Dispatch
+) => {
+  const footnote = buildFootnote(
+    state.selection.$anchor.parent.attrs.id,
+    window.getSelection().toString()
+  )
+
+  const node = schema.nodes.inline_footnote.create()
+
+  const pos = state.selection.to
+
+  const tr = state.tr
+    .setMeta(componentsKey, { [INSERT]: [footnote] })
+    .insert(pos, node)
+
+  dispatch(tr.setSelection(NodeSelection.create(tr.doc, pos)))
 
   return true
 }
@@ -285,8 +310,8 @@ export const selectAllIsolating = (
 /**
  * Create a figure containing a 2x2 table with header and footer and a figcaption
  */
-export const createAndFillTableFigure = () =>
-  schema.nodes.table_figure.create({}, [
+export const createAndFillTableElement = () =>
+  schema.nodes.table_element.create({}, [
     schema.nodes.table.create({}, [
       schema.nodes.thead_row.create({}, [
         schema.nodes.table_cell.create(),

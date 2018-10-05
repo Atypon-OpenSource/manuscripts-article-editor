@@ -79,10 +79,16 @@ const importProjectBundle = async (result: Blob) => {
       .map(async (item: Figure) => {
         const filename = generateAttachmentFilename(item.id)
 
-        item.attachment = {
-          id: filename, // TODO: original name?
-          type: item.contentType || 'image/png',
-          data: await folder.file(filename).async('blob'),
+        try {
+          item.attachment = {
+            id: filename, // TODO: original name?
+            type: item.contentType || 'image/png',
+            data: await folder.file(filename).async('blob'),
+          }
+        } catch (error) {
+          // tslint:disable-next-line:no-console
+          console.error(`Could not retrieve attachment from zip: ${error}`)
+          // continue without attachment
         }
       })
   )

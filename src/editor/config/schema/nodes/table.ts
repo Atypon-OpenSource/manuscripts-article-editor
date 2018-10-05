@@ -1,8 +1,9 @@
 // adapted from 'prosemirror-tables'
 
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
-import { StringMap } from '../../types'
 
+// tslint:disable:cyclomatic-complexity
+// ^ keeping this method as close to the original as possible, for ease of updating
 const getCellAttrs = (dom: HTMLElement) => {
   const widthAttr = dom.getAttribute('data-colwidth')
   const widths =
@@ -16,27 +17,22 @@ const getCellAttrs = (dom: HTMLElement) => {
     rowspan: Number(dom.getAttribute('rowspan') || 1),
     colwidth: widths && widths.length === colspan ? widths : null,
     background: dom.style.backgroundColor || null,
+    placeholder: dom.getAttribute('data-placeholder-text') || '',
   }
-}
-
-const setCellAttrs = (node: ProsemirrorNode) => {
-  const attrs: StringMap<any> = {} // tslint:disable-line:no-any
-  if (node.attrs.colspan !== 1) attrs.colspan = node.attrs.colspan
-  if (node.attrs.rowspan !== 1) attrs.rowspan = node.attrs.rowspan
-  if (node.attrs.colwidth) {
-    attrs['data-colwidth'] = node.attrs.colwidth.join(',')
-  }
-  if (node.attrs.backgroundColor) {
-    attrs.style.backgroundColor = node.attrs.backgroundColor
-  }
-  return attrs
 }
 
 interface TableNodeSpec extends NodeSpec {
   tableRole: string
 }
 
-export const tableNodes: StringMap<TableNodeSpec> = {
+export type TableNodes =
+  | 'table'
+  | 'thead_row'
+  | 'tbody_row'
+  | 'tfoot_row'
+  | 'table_cell'
+
+export const tableNodes: { [key in TableNodes]: TableNodeSpec } = {
   table: {
     content: 'thead_row tbody_row+ tfoot_row',
     tableRole: 'table',
@@ -45,36 +41,103 @@ export const tableNodes: StringMap<TableNodeSpec> = {
     attrs: {
       id: { default: '' },
     },
-    parseDOM: [{ tag: 'table' }],
-    toDOM: () => ['table', ['tbody', 0]],
+    parseDOM: [
+      {
+        tag: 'table',
+        getAttrs: (dom: HTMLTableElement) => ({
+          id: dom.getAttribute('id'),
+        }),
+      },
+    ],
+    toDOM: node => [
+      'table',
+      {
+        id: node.attrs.id,
+      },
+      ['tbody', 0],
+    ],
   },
   thead_row: {
     content: 'table_cell+',
     tableRole: 'header',
     parseDOM: [
-      { tag: 'tr.thead', priority: 100 },
-      { tag: 'thead > tr', priority: 90 },
+      {
+        tag: 'tr.thead',
+        priority: 100,
+      },
+      {
+        tag: 'thead > tr',
+        priority: 90,
+      },
     ],
-    toDOM: () => ['tr', { class: 'thead' }, 0],
+    toDOM: node => [
+      'tr',
+      {
+        class: 'thead',
+        // 'data-placeholder-text': node.attrs.placeholder || undefined,
+      },
+      0,
+    ],
   },
   tbody_row: {
     content: 'table_cell+',
     tableRole: 'row',
+    attrs: {
+      placeholder: { default: '' },
+    },
     parseDOM: [
-      { tag: 'tr.tbody', priority: 100 },
-      { tag: 'tbody > tr', priority: 90 },
-      { tag: 'tr', priority: 80 },
+      {
+        tag: 'tr.tbody',
+        priority: 100,
+        getAttrs: (dom: HTMLTableRowElement) => ({
+          placeholder: dom.getAttribute('data-placeholder-text'),
+        }),
+      },
+      {
+        tag: 'tbody > tr',
+        priority: 90,
+        getAttrs: (dom: HTMLTableRowElement) => ({
+          placeholder: dom.getAttribute('data-placeholder-text'),
+        }),
+      },
+      {
+        tag: 'tr',
+        priority: 80,
+        getAttrs: (dom: HTMLTableRowElement) => ({
+          placeholder: dom.getAttribute('data-placeholder-text'),
+        }),
+      },
     ],
-    toDOM: () => ['tr', { class: 'tbody' }, 0],
+    toDOM: node => [
+      'tr',
+      {
+        class: 'tbody',
+        'data-placeholder-text': node.attrs.placeholder || undefined,
+      },
+      0,
+    ],
   },
   tfoot_row: {
     content: 'table_cell+',
     tableRole: 'footer',
     parseDOM: [
-      { tag: 'tr.tfoot', priority: 100 },
-      { tag: 'tfoot > tr', priority: 90 },
+      {
+        tag: 'tr.tfoot',
+        priority: 100,
+      },
+      {
+        tag: 'tfoot > tr',
+        priority: 90,
+      },
     ],
-    toDOM: () => ['tr', { class: 'tfoot' }, 0],
+    toDOM: node => [
+      'tr',
+      {
+        class: 'tfoot',
+        'data-placeholder-text': node.attrs.placeholder || undefined,
+      },
+      0,
+    ],
   },
   table_cell: {
     content: 'inline*',
@@ -83,6 +146,7 @@ export const tableNodes: StringMap<TableNodeSpec> = {
       rowspan: { default: 1 },
       colwidth: { default: null },
       background: { default: null },
+      placeholder: { default: 'Data' }, // TODO: depends on cell type and position
     },
     tableRole: 'cell',
     isolating: true,
@@ -90,6 +154,34 @@ export const tableNodes: StringMap<TableNodeSpec> = {
       { tag: 'td', getAttrs: getCellAttrs },
       { tag: 'th', getAttrs: getCellAttrs },
     ],
-    toDOM: (node: ProsemirrorNode) => ['td', setCellAttrs(node), 0],
+    toDOM: (node: ProsemirrorNode) => {
+      const attrs: { [attr: string]: string } = {}
+
+      if (node.attrs.colspan !== 1) {
+        attrs.colspan = node.attrs.colspan
+      }
+
+      if (node.attrs.rowspan !== 1) {
+        attrs.rowspan = node.attrs.rowspan
+      }
+
+      if (node.attrs.background) {
+        attrs.style = `backgroundColor: ${node.attrs.background}`
+      }
+
+      if (node.attrs.colwidth) {
+        attrs['data-colwidth'] = node.attrs.colwidth.join(',')
+      }
+
+      if (node.attrs.placeholder) {
+        attrs['data-placeholder-text'] = node.attrs.placeholder
+      }
+
+      if (!node.textContent) {
+        attrs.class = 'placeholder'
+      }
+
+      return ['td', attrs, 0]
+    },
   },
 }

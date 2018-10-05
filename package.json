@@ -95,7 +95,7 @@
     "jszip": "^3.1.5",
     "lodash": "^4.17.11",
     "lodash-es": "^4.17.7",
-    "mathjax3": "^3.0.0-beta.1",
+    "mathjax3": "^3.0.0-beta.2",
     "popper.js": "^1.14.1",
     "pouchdb-adapter-http": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-http.git#master",
     "pouchdb-adapter-idb": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-idb.git#master",
@@ -149,6 +149,7 @@
     "yup": "^0.26.1"
   },
   "devDependencies": {
+    "@manuscripts/examples": "^0.0.1",
     "@storybook/addon-actions": "^4.0.0-alpha.20",
     "@storybook/addon-links": "^4.0.0-alpha.20",
     "@storybook/addon-notes": "^4.0.0-alpha.20",
@@ -184,6 +185,7 @@
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.0",
     "tslint-react": "^3.4.0",
+    "w3c-xmlserializer": "^0.0.4-0",
     "webpack-dev-server": "^3.0.0"
   },
   "resolutions": {

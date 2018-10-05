@@ -31,7 +31,7 @@ test('Can insert a figure', async t => {
     await t.expect(figure).ok()
   })
 
-  test('Can insert an equation block', async t => {
+  test('Can insert an equation element', async t => {
     await loginAsNewUser(t)
   
     const sectionContentField = Selector('.manuscript-editor p:first-of-type')
@@ -41,6 +41,6 @@ test('Can insert a figure', async t => {
     
     await t.click(Selector('#create-project'))
     await enterRichText(t, sectionContentField, 'hello')
-    await t.click(Selector(toolbar).find('button').withAttribute('title', 'Insert equation block'))
+    await t.click(Selector(toolbar).find('button').withAttribute('title', 'Insert equation'))
     await t.expect(equationBlock).ok()
   })

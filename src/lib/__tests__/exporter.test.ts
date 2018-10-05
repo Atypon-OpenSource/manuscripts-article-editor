@@ -1,7 +1,7 @@
 jest.mock('../pressroom')
 
+import data from '@manuscripts/examples/data/project-dump.json'
 import JSZip from 'jszip'
-import data from '../__fixtures__/example-manuscript.json'
 import {
   exportProject,
   generateAttachmentFilename,
@@ -32,13 +32,12 @@ describe('exporter', () => {
     // `result` is the blob that would be sent for conversion, echoed back
     const result = await exportProject(componentMap, 'docx')
     expect(result).toBeInstanceOf(Blob)
-    expect(result.size).toBe(17002)
 
     const zip = await new JSZip().loadAsync(result)
     const manuscript = await readManuscriptFromBundle(zip)
 
     expect(manuscript.version).toBe('2.0')
-    expect(manuscript.data).toHaveLength(33)
+    expect(manuscript.data).toHaveLength(137)
     expect(manuscript).toMatchSnapshot('exported-manuscript')
   })
 })

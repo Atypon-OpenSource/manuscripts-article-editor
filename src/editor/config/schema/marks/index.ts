@@ -1,5 +1,4 @@
 import { MarkSpec } from 'prosemirror-model'
-import { StringMap } from '../../types'
 
 const bold: MarkSpec = {
   parseDOM: [
@@ -98,15 +97,21 @@ const superscript: MarkSpec = {
 
 const underline: MarkSpec = {
   parseDOM: [{ tag: 'u' }, { style: 'text-decoration=underline' }],
-  toDOM: () => [
-    'span',
-    {
-      style: 'text-decoration:underline',
-    },
-  ],
+  toDOM: () => ['u'],
 }
 
-const combinedMarks: StringMap<MarkSpec> = {
+export type Marks =
+  | 'bold'
+  | 'code'
+  | 'italic'
+  | 'link'
+  | 'smallcaps'
+  | 'strikethrough'
+  | 'subscript'
+  | 'superscript'
+  | 'underline'
+
+const combinedMarks: { [key in Marks]: MarkSpec } = {
   bold,
   code,
   italic,

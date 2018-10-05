@@ -7,7 +7,7 @@ import React from 'react'
 import { ApplicationMenu } from '../src/components/ApplicationMenu'
 import menus, { MenusProps } from '../src/editor/config/menus'
 import { doc } from './data/doc'
-import manuscripts from './data/manuscripts'
+import { manuscript } from './data/manuscripts'
 
 const node = document.createElement('div')
 const state = EditorState.create({ doc })
@@ -19,8 +19,8 @@ const props: MenusProps = {
   addManuscript: action('add manuscript'),
   importManuscript: action('import manuscript'),
   exportManuscript: action('export manuscript'),
-  manuscript: manuscripts[0],
   deleteComponent: action('delete component'),
+  manuscript,
   history,
 }
 

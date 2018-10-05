@@ -25,6 +25,7 @@ import {
   ifInTableBody,
   insertBlock,
   insertInlineEquation,
+  // insertInlineFootnote,
   markActive,
 } from './commands'
 import icons from './icons'
@@ -195,26 +196,26 @@ const menus = (props: MenusProps): MenuItem[] => [
       {
         label: 'Figure Panel',
         accelerator: '⌃⌘P',
-        icon: icons.figure,
-        active: blockActive(schema.nodes.figure),
-        enable: canInsert(schema.nodes.figure),
-        run: insertBlock(schema.nodes.figure),
+        icon: icons.figure_element,
+        active: blockActive(schema.nodes.figure_element),
+        enable: canInsert(schema.nodes.figure_element),
+        run: insertBlock(schema.nodes.figure_element),
       },
       {
         label: 'Table',
         accelerator: '⌃⌘T',
         icon: icons.bullet_list,
-        active: blockActive(schema.nodes.table_figure),
-        enable: canInsert(schema.nodes.table_figure),
-        run: insertBlock(schema.nodes.table_figure),
+        active: blockActive(schema.nodes.table_element),
+        enable: canInsert(schema.nodes.table_element),
+        run: insertBlock(schema.nodes.table_element),
       },
       {
         label: 'Listing',
         accelerator: '⌃⌘L',
         icon: icons.bullet_list,
-        active: blockActive(schema.nodes.code_block),
-        enable: canInsert(schema.nodes.code_block),
-        run: insertBlock(schema.nodes.code_block),
+        active: blockActive(schema.nodes.listing_element),
+        enable: canInsert(schema.nodes.listing_element),
+        run: insertBlock(schema.nodes.listing_element),
       },
       {
         role: 'separator',
@@ -222,17 +223,17 @@ const menus = (props: MenusProps): MenuItem[] => [
       {
         label: 'Equation',
         accelerator: '⌃⌘E',
-        icon: icons.equation_block,
-        active: blockActive(schema.nodes.equation_block),
-        enable: canInsert(schema.nodes.equation_block),
-        run: insertBlock(schema.nodes.equation_block),
+        icon: icons.equation_element,
+        active: blockActive(schema.nodes.equation_element),
+        enable: canInsert(schema.nodes.equation_element),
+        run: insertBlock(schema.nodes.equation_element),
       },
       {
         label: 'Inline Equation',
         accelerator: '⌃⌥⌘E',
-        icon: icons.equation,
-        active: blockActive(schema.nodes.equation),
-        enable: canInsert(schema.nodes.equation),
+        icon: icons.inline_equation,
+        active: blockActive(schema.nodes.inline_equation),
+        enable: canInsert(schema.nodes.inline_equation),
         run: insertInlineEquation,
       },
       {
@@ -253,6 +254,13 @@ const menus = (props: MenusProps): MenuItem[] => [
         dropdown: CrossReferencePickerContainer,
         // TODO: build a nested menu?
       },
+      // {
+      //   label: 'Footnote',
+      //   // accelerator: '⌃⌥⌘F',
+      //   // icon: icons.footnote,
+      //   enable: canInsert(schema.nodes.inline_footnote),
+      //   run: insertInlineFootnote,
+      // },
     ],
   },
   {

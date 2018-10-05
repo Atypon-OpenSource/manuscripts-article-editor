@@ -62,16 +62,6 @@ const verticals: ToolbarButtonMap = {
   },
 }
 
-// const inlines: ToolbarButtonMap = {
-//   equation: {
-//     title: 'Insert inline equation',
-//     content: icons.equation,
-//     active: blockActive(schema.nodes.equation),
-//     enable: canInsert(schema.nodes.equation),
-//     run: insertInlineEquation,
-//   },
-// }
-
 const blocks: ToolbarButtonMap = {
   // plain: {
   //   title: 'Change to paragraph',
@@ -134,42 +124,33 @@ const insertCitation: ToolbarButtonMap = {
 // }
 
 const inserts: ToolbarButtonMap = {
-  figure: {
+  figure_element: {
     title: 'Insert figure',
-    content: icons.figure,
-    enable: canInsert(schema.nodes.figure),
-    run: insertBlock(schema.nodes.figure),
+    content: icons.figure_element,
+    enable: canInsert(schema.nodes.figure_element),
+    run: insertBlock(schema.nodes.figure_element),
   },
-  table: {
+  table_element: {
     title: 'Insert table',
-    content: icons.table,
-    enable: canInsert(schema.nodes.table_figure),
-    run: insertBlock(schema.nodes.table_figure),
+    content: icons.table_element,
+    enable: canInsert(schema.nodes.table_element),
+    run: insertBlock(schema.nodes.table_element),
   },
-  equation_block: {
-    title: 'Insert equation block',
-    content: icons.equation_block,
-    enable: canInsert(schema.nodes.equation_block),
-    run: insertBlock(schema.nodes.equation_block),
+  equation_element: {
+    title: 'Insert equation',
+    content: icons.equation_element,
+    enable: canInsert(schema.nodes.equation_element),
+    run: insertBlock(schema.nodes.equation_element),
   },
-  code_block: {
-    title: 'Insert code block',
-    content: icons.code_block,
-    enable: canInsert(schema.nodes.code_block),
-    run: insertBlock(schema.nodes.code_block),
+  listing_element: {
+    title: 'Insert listing',
+    content: icons.listing_element,
+    enable: canInsert(schema.nodes.listing_element),
+    run: insertBlock(schema.nodes.listing_element),
   },
 }
 
 // const insert: ToolbarButtonMap = {
-//   footnote: {
-//     title: 'Insert footnote',
-//     content: images.footnote,
-//     enable: canInsert(schema.nodes.footnote),
-//     run: (state, dispatch) => {
-//       const footnote = schema.nodes.footnote.create()
-//       dispatch(state.tr.insert(state.tr.selection.to, footnote))
-//     },
-//   },
 //   hr: {
 //     title: 'Insert horizontal rule',
 //     content: 'HR',
@@ -194,21 +175,6 @@ const inserts: ToolbarButtonMap = {
 //     enable: redo,
 //     run: redo,
 //   },
-// }
-//
-// const table: ToolbarButtonMap = {
-//   addColumnBefore: {
-//     title: 'Insert column before',
-//     content: images.after,
-//     active: addColumnBefore, // TOOD: active -> select
-//     run: addColumnBefore
-//   },
-//   addColumnAfter: {
-//     title: 'Insert column before',
-//     content: images.before,
-//     active: addColumnAfter, // TOOD: active -> select
-//     run: addColumnAfter
-//   }
 // }
 
 export default {

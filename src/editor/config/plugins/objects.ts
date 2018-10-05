@@ -1,14 +1,16 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
+import { nodeNames } from '../../../transformer/node-names'
 import { AuxiliaryObjectReference } from '../../../types/components'
 import { EditorProps } from '../../Editor'
-import { StringMap } from '../types'
 
 interface Counter {
-  index: number
   label: string
+  index: number
 }
+
+type Counters = { [key in TargetNodes]: Counter }
 
 export interface Target {
   type: string
@@ -19,37 +21,50 @@ export interface Target {
 
 export const objectsKey = new PluginKey('objects')
 
-// TODO: figure image
+// TODO: labels for "figure" (parts of a figure panel)
+
+type TargetNodes =
+  | 'figure_element'
+  | 'table_element'
+  | 'equation_element'
+  | 'listing_element'
+
+const types: TargetNodes[] = [
+  'figure_element',
+  'table_element',
+  'equation_element',
+  'listing_element',
+]
 
 const buildTargets = (doc: ProsemirrorNode) => {
-  const counters: StringMap<Counter> = {
-    figure: {
-      index: 0,
-      label: 'Figure',
+  const counters: Counters = types.reduce(
+    (output, type) => {
+      output[type] = {
+        label: nodeNames.get(type)!, // TODO: label from settings?
+        index: 0,
+      }
+      return output
     },
-    table_figure: {
-      index: 0,
-      label: 'Table',
-    },
-  }
+    {} as Counters // tslint:disable-line:no-object-literal-type-assertion
+  )
 
-  const buildLabel = (type: string) => {
+  const buildLabel = (type: TargetNodes) => {
     const counter = counters[type]
     counter.index++
-    return `${counter.label} ${counter.index}`
+    return `${counter.label} ${counter.index}` // TODO: label from node.attrs.title?
   }
 
   const targets: Map<string, Target> = new Map()
 
   doc.descendants(node => {
     if (node.type.name in counters) {
-      const label = buildLabel(node.type.name)
+      const label = buildLabel(node.type.name as TargetNodes)
 
       targets.set(node.attrs.id, {
         type: node.type.name,
         id: node.attrs.id,
         label,
-        caption: node.textContent, // TODO
+        caption: node.textContent, // TODO: HTML?
       })
 
       // TODO: allow an individual figure to be referenced

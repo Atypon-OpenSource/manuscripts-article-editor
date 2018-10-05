@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react'
 import CSL from 'citeproc'
 import { createBrowserHistory } from 'history'
 import React from 'react'
+import projectDump from '@manuscripts/examples/data/project-dump.json'
 import Editor, {
   DeleteComponent,
   GetComponent,
@@ -19,7 +20,7 @@ import {
   ComponentAttachment,
   Manuscript,
 } from '../src/types/components'
-import { componentMap, doc } from './data/doc'
+import { doc } from './data/doc'
 import citationLocaleData from './data/locales/en-US.xml'
 import { people } from './data/people'
 import citationStyleData from './data/styles/apa.xml'
@@ -27,6 +28,12 @@ import citationStyleData from './data/styles/apa.xml'
 const citationLocales: Map<string, string> = new Map([
   ['en-US', citationLocaleData],
 ])
+
+const componentMap = new Map()
+
+projectDump.data.forEach((component: AnyComponent) => {
+  componentMap.set(component.id, component)
+})
 
 const getComponent: GetComponent = <T extends AnyComponent>(id: string): T => {
   return componentMap.get(id) as T

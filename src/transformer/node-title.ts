@@ -1,8 +1,9 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { Nodes } from '../editor/config/schema/nodes'
 import { iterateChildren } from '../editor/lib/utils'
 import { nodeNames } from './node-names'
 
-const getTextOfNodeType = (node: ProsemirrorNode, type: string) => {
+const getTextOfNodeType = (node: ProsemirrorNode, type: Nodes) => {
   for (const child of iterateChildren(node)) {
     if (child.type.name === type) {
       return child.textContent
@@ -13,7 +14,7 @@ const getTextOfNodeType = (node: ProsemirrorNode, type: string) => {
 }
 
 export const nodeTitle = (node: ProsemirrorNode) => {
-  switch (node.type.name) {
+  switch (node.type.name as Nodes) {
     case 'doc':
       return getTextOfNodeType(node, 'title')
 
@@ -23,8 +24,10 @@ export const nodeTitle = (node: ProsemirrorNode) => {
     case 'bibliography_section':
       return getTextOfNodeType(node, 'section_title')
 
-    case 'figure':
-    case 'table_figure':
+    case 'figure_element':
+    case 'table_element':
+    case 'equation_element':
+    case 'listing_element':
       return getTextOfNodeType(node, 'figcaption')
 
     default:

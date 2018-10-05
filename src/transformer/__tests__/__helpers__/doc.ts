@@ -1,11 +1,11 @@
-import components from '../../../../stories/data/components.json'
+import projectDump from '@manuscripts/examples/data/project-dump.json'
 import { AnyComponent } from '../../../types/components'
 import { Decoder } from '../../decode'
 
-const createTestComponentMap = (): Map<string, AnyComponent> => {
+export const createTestComponentMap = (): Map<string, AnyComponent> => {
   const componentMap = new Map()
 
-  for (const component of components) {
+  for (const component of projectDump.data) {
     componentMap.set(component.id, component)
   }
 

@@ -1,584 +1,393 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transformer Encoder 1`] = `
+exports[`encoder 1`] = `
 Map {
-  "MPSection:95A8E63F-87B6-45EC-A3FE-CA66252975A1" => Object {
-    "elementIDs": Array [],
-    "id": "MPSection:95A8E63F-87B6-45EC-A3FE-CA66252975A1",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:95A8E63F-87B6-45EC-A3FE-CA66252975A1",
-    ],
-    "priority": 0,
-    "title": "Abstract",
-    "titleSuppressed": false,
-  },
-  "MPSection:DC63982F-D0EA-483C-BA62-3358FAF8D885" => Object {
+  "MPSection:DFCBE345-A12D-451E-8320-723F25D2F472" => Object {
     "elementIDs": Array [
-      "MPParagraphElement:8BA0DF62-0053-479D-CB98-7F0B6496A7BB",
-      "MPListElement:923C6927-5DE5-43C3-BAFA-B7CCACEBBDB9",
-      "MPListElement:3E3C0A32-431A-4E60-AE12-07B1317C952E",
+      "MPTOCElement:657C54DB-78B5-4206-E322-170F68263A01",
     ],
-    "id": "MPSection:DC63982F-D0EA-483C-BA62-3358FAF8D885",
+    "id": "MPSection:DFCBE345-A12D-451E-8320-723F25D2F472",
     "objectType": "MPSection",
     "path": Array [
-      "MPSection:95A8E63F-87B6-45EC-A3FE-CA66252975A1",
-      "MPSection:DC63982F-D0EA-483C-BA62-3358FAF8D885",
+      "MPSection:DFCBE345-A12D-451E-8320-723F25D2F472",
     ],
     "priority": 1,
-    "title": "Background",
-    "titleSuppressed": false,
+    "title": "Table of Contents",
   },
-  "MPParagraphElement:8BA0DF62-0053-479D-CB98-7F0B6496A7BB" => Object {
-    "contents": "<p id=\\"MPParagraphElement:8BA0DF62-0053-479D-CB98-7F0B6496A7BB\\">The cinereous vulture, Aegypius monachus, is the largest bird of prey and plays a key role in the ecosystem by removing carcasses, thus preventing the spread of diseases<span class=\\"cross-reference\\" data-reference-id=\\"MPAuxiliaryObjectReference:918A8E0F-FEDF-4145-F24A-066B7D5A806B\\"><span class=\\"kind elementIndex\\"><b>Figure 1</b></span></span>. Its feeding habits force it to cope with constant exposure to pathogens, making this species an interesting target for discovering functionally selected genetic variants. Furthermore, the presence of two independently evolved vulture groups, Old World and New World vultures, provides a natural experiment in which to investigate convergent evolution due to obligate scavenging.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:8BA0DF62-0053-479D-CB98-7F0B6496A7BB",
-    "objectType": "MPParagraphElement",
+  "MPTOCElement:657C54DB-78B5-4206-E322-170F68263A01" => Object {
+    "contents": "<div id=\\"MPTOCElement:657C54DB-78B5-4206-E322-170F68263A01\\" class=\\"manuscript-toc\\" contenteditable=\\"false\\">
+  
+    
+    
+    
+    
+
+	
+      
+        
+        
+        <ul class=\\"manuscript-toc-list\\">
+      
+	
+	 
+    <li class=\\"manuscript-toc-list-item\\" data-referenced-section=\\"MPSection:DFCBE345-A12D-451E-8320-723F25D2F472\\" data-referenced-section-path-length=\\"1\\">
+      1. Table of Contents
+    </li>
+
+    
+
+    
+    
+    
+
+  
+    
+    
+    
+    
+
+	
+	 
+    <li class=\\"manuscript-toc-list-item\\" data-referenced-section=\\"MPSection:77786D47-6060-4FBC-BC13-5FA754968D6A\\" data-referenced-section-path-length=\\"1\\">
+      2. First section
+    </li>
+
+    
+
+    
+    
+    
+
+  
+    
+    
+    
+    
+
+	
+	 
+    <li class=\\"manuscript-toc-list-item\\" data-referenced-section=\\"MPSection:F8EE617B-484B-4CF2-F1CA-014F5307D5CF\\" data-referenced-section-path-length=\\"1\\">
+      3. Section Two
+    </li>
+
+    
+
+    
+    
+    
+
+  
+    
+    
+    
+    
+
+	
+	 
+    <li class=\\"manuscript-toc-list-item\\" data-referenced-section=\\"MPSection:E07B0D52-9642-4D58-E577-26F8804E3DEE\\" data-referenced-section-path-length=\\"1\\">
+      4. Bibliography
+    </li>
+
+    
+
+    
+    
+    
+      </ul>
+    
+
+  
+</div>",
+    "id": "MPTOCElement:657C54DB-78B5-4206-E322-170F68263A01",
+    "objectType": "MPTOCElement",
   },
-  "MPListElement:923C6927-5DE5-43C3-BAFA-B7CCACEBBDB9" => Object {
-    "contents": "<ol><li><p id=\\"\\">This</p></li><li><p id=\\"\\">Is</p></li><li><p id=\\"\\">A</p></li><li><p id=\\"\\">Numbered</p></li><li><p id=\\"\\">List</p></li></ol>",
-    "elementType": "ol",
-    "id": "MPListElement:923C6927-5DE5-43C3-BAFA-B7CCACEBBDB9",
-    "objectType": "MPListElement",
-  },
-  "MPListElement:3E3C0A32-431A-4E60-AE12-07B1317C952E" => Object {
-    "contents": "<ul><li><p id=\\"\\">This</p></li><li><p id=\\"\\">Is</p></li><li><p id=\\"\\">A</p></li><li><p id=\\"\\">Bulleted</p></li><li><p id=\\"\\">List</p></li></ul>",
-    "elementType": "ul",
-    "id": "MPListElement:3E3C0A32-431A-4E60-AE12-07B1317C952E",
-    "objectType": "MPListElement",
-  },
-  "MPSection:F74A6F36-4C9E-4634-AD09-1892FC671ECB" => Object {
+  "MPSection:77786D47-6060-4FBC-BC13-5FA754968D6A" => Object {
     "elementIDs": Array [
-      "MPParagraphElement:C305643F-DC79-45BB-9BC5-55CEF40363E8",
+      "MPParagraphElement:150780D7-CFED-4529-9398-77B5C7625044",
+      "MPParagraphElement:60C13548-23C0-4348-FE98-0510E0B61B18",
+      "MPParagraphElement:A89DC62A-90ED-4283-AB6D-06CA2519D801",
+      "MPParagraphElement:05A0ED43-8928-4C69-A17C-0A98795001CD",
     ],
-    "id": "MPSection:F74A6F36-4C9E-4634-AD09-1892FC671ECB",
+    "id": "MPSection:77786D47-6060-4FBC-BC13-5FA754968D6A",
     "objectType": "MPSection",
     "path": Array [
-      "MPSection:95A8E63F-87B6-45EC-A3FE-CA66252975A1",
-      "MPSection:F74A6F36-4C9E-4634-AD09-1892FC671ECB",
+      "MPSection:77786D47-6060-4FBC-BC13-5FA754968D6A",
     ],
     "priority": 2,
-    "title": "Results",
-    "titleSuppressed": false,
+    "title": "First section",
+    "titleSuppressed": undefined,
   },
-  "MPParagraphElement:C305643F-DC79-45BB-9BC5-55CEF40363E8" => Object {
-    "contents": "<p id=\\"MPParagraphElement:C305643F-DC79-45BB-9BC5-55CEF40363E8\\">We sequenced the genome of a cinereous vulture, and mapped it to the bald eagle reference genome, a close relative with a divergence time of 18 million years. By comparing the cinereous vulture to other avian genomes, we find positively selected genetic variations in this species associated with respiration, likely linked to their ability of immune defense responses and gastric acid secretion, consistent with their ability to digest carcasses. Comparisons between the Old World and New World vulture groups suggest convergent gene evolution. We assemble the cinereous vulture blood transcriptome from a second individual, and annotate genes. Finally, we infer the demographic history of the cinereous vulture which shows marked fluctuations in effective population size during the late Pleistocene.</p>",
+  "MPParagraphElement:150780D7-CFED-4529-9398-77B5C7625044" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:150780D7-CFED-4529-9398-77B5C7625044\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\" data-placeholder-text=\\"Start from here. Enjoy writing! - the Manuscripts Team.\\">The first section.</p>",
     "elementType": "p",
-    "id": "MPParagraphElement:C305643F-DC79-45BB-9BC5-55CEF40363E8",
+    "id": "MPParagraphElement:150780D7-CFED-4529-9398-77B5C7625044",
     "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
   },
-  "MPSection:7C5DF410-0419-4442-B3AA-0F4E91328335" => Object {
+  "MPParagraphElement:60C13548-23C0-4348-FE98-0510E0B61B18" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:60C13548-23C0-4348-FE98-0510E0B61B18\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\">The text in this sentence is <b>bold</b>, <i>italic</i>, or <u>underlined</u>.</p>",
+    "elementType": "p",
+    "id": "MPParagraphElement:60C13548-23C0-4348-FE98-0510E0B61B18",
+    "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPParagraphElement:A89DC62A-90ED-4283-AB6D-06CA2519D801" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:A89DC62A-90ED-4283-AB6D-06CA2519D801\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\"><b><i><u>The text in this sentence is bold, italic and underlined.</u></i></b></p>",
+    "elementType": "p",
+    "id": "MPParagraphElement:A89DC62A-90ED-4283-AB6D-06CA2519D801",
+    "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPParagraphElement:05A0ED43-8928-4C69-A17C-0A98795001CD" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:05A0ED43-8928-4C69-A17C-0A98795001CD\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\">The text in this sentence is <sup>superscript</sup> and <sub>subscript</sub>.</p>",
+    "elementType": "p",
+    "id": "MPParagraphElement:05A0ED43-8928-4C69-A17C-0A98795001CD",
+    "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPSection:F8EE617B-484B-4CF2-F1CA-014F5307D5CF" => Object {
     "elementIDs": Array [
-      "MPParagraphElement:5C9A4436-813E-40EE-C8D3-F1EA9BAF1B79",
+      "MPParagraphElement:4DF93A63-D44D-41CF-AF54-23712B8703FA",
+      "MPListElement:D1C6E3B5-C549-47B8-B051-1F534E8AA7E7",
+      "MPListElement:F11B9FCA-5DB5-4ED4-FEF9-10CDCB64F96E",
+      "MPListElement:AF5341C4-5E24-40BF-B853-F966726431EB",
+      "MPFigureElement:A5D68C57-B5BB-4D10-E0C3-ECED717A2AA7",
+      "MPFigureElement:B32BDEC8-E816-4946-C0BB-0404AF2F0C29",
+      "MPTableElement:82BD8BAF-D136-4536-AD9C-92C30B9D7315",
+      "MPTableElement:E0D445B4-18C4-43D3-97B3-1076A7BB5CF4",
+      "MPTableElement:1DF69096-DBA3-47B0-B8C2-E06491E4C655",
+      "MPTableElement:89CF51B2-A20C-4AB9-CBD9-F47DAF167DAA",
+      "MPEquationElement:3896A81A-D43B-483F-B990-F64518A940D1",
+      "MPListingElement:160785A9-4BC0-4C55-C4DE-AF5F4D858DCE",
+      "MPParagraphElement:345B8B57-2E5E-45ED-E587-4EAAC2BD63E9",
+      "MPParagraphElement:6B6DBF43-F7B2-404C-89DD-0EC1E1442B27",
+      "MPParagraphElement:41B99DAB-F86C-477F-D36C-2B8590B5DAD0",
+      "MPParagraphElement:C8A173A4-DF32-4242-E800-28A1AE5B48B8",
+      "MPParagraphElement:CB7347E5-8502-4667-82B9-51104BB1FEDB",
+      "MPParagraphElement:3708E8C7-441C-4502-8BFC-D3A2059CEF8B",
+      "MPFootnotesElement:4CD7CE08-0880-46BD-FF83-52E32AEFAC3E",
     ],
-    "id": "MPSection:7C5DF410-0419-4442-B3AA-0F4E91328335",
+    "id": "MPSection:F8EE617B-484B-4CF2-F1CA-014F5307D5CF",
     "objectType": "MPSection",
     "path": Array [
-      "MPSection:95A8E63F-87B6-45EC-A3FE-CA66252975A1",
-      "MPSection:7C5DF410-0419-4442-B3AA-0F4E91328335",
+      "MPSection:F8EE617B-484B-4CF2-F1CA-014F5307D5CF",
     ],
     "priority": 3,
-    "title": "Conclusions",
-    "titleSuppressed": false,
+    "title": "Section Two",
+    "titleSuppressed": true,
   },
-  "MPParagraphElement:5C9A4436-813E-40EE-C8D3-F1EA9BAF1B79" => Object {
-    "contents": "<p id=\\"MPParagraphElement:5C9A4436-813E-40EE-C8D3-F1EA9BAF1B79\\">We present the first genome and transcriptome analyses of the cinereous vulture compared to other avian genomes and transcriptomes, revealing genetic signatures of dietary and environmental adaptations accompanied by possible convergent evolution between the Old World and New World vultures.</p>",
+  "MPParagraphElement:4DF93A63-D44D-41CF-AF54-23712B8703FA" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:4DF93A63-D44D-41CF-AF54-23712B8703FA\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\">The heading of this section is hidden.</p>",
     "elementType": "p",
-    "id": "MPParagraphElement:5C9A4436-813E-40EE-C8D3-F1EA9BAF1B79",
+    "id": "MPParagraphElement:4DF93A63-D44D-41CF-AF54-23712B8703FA",
     "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
   },
-  "MPSection:7480F4E2-C867-4586-B109-E0FA96AD223F" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:09DF7C8E-AE53-49C1-9331-3881F09708A9",
+  "MPListElement:D1C6E3B5-C549-47B8-B051-1F534E8AA7E7" => Object {
+    "contents": "<ol xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPListElement:D1C6E3B5-C549-47B8-B051-1F534E8AA7E7\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPListElement\\"><li data-placeholder-text=\\"List item\\">A numbered list.</li></ol>",
+    "elementType": "ol",
+    "id": "MPListElement:D1C6E3B5-C549-47B8-B051-1F534E8AA7E7",
+    "objectType": "MPListElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPListElement:F11B9FCA-5DB5-4ED4-FEF9-10CDCB64F96E" => Object {
+    "contents": "<ul xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPListElement:F11B9FCA-5DB5-4ED4-FEF9-10CDCB64F96E\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPListElement\\"><li data-placeholder-text=\\"List item\\">A bullet list.</li></ul>",
+    "elementType": "ul",
+    "id": "MPListElement:F11B9FCA-5DB5-4ED4-FEF9-10CDCB64F96E",
+    "objectType": "MPListElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPListElement:AF5341C4-5E24-40BF-B853-F966726431EB" => Object {
+    "contents": "<ol xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPListElement:AF5341C4-5E24-40BF-B853-F966726431EB\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPListElement\\"><li data-placeholder-text=\\"List item\\">A numbered list with a nested list.<ol><li data-placeholder-text=\\"List item\\">This item is nested.</li></ol></li></ol>",
+    "elementType": "ol",
+    "id": "MPListElement:AF5341C4-5E24-40BF-B853-F966726431EB",
+    "objectType": "MPListElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPFigureElement:A5D68C57-B5BB-4D10-E0C3-ECED717A2AA7" => Object {
+    "caption": "A figure with a caption",
+    "containedObjectIDs": Array [
+      "MPFigure:D673DF08-D75E-4061-8EC1-9611EAB302F0",
     ],
-    "id": "MPSection:7480F4E2-C867-4586-B109-E0FA96AD223F",
+    "figureStyle": "MPFigureStyle:12916784-C8A2-414E-919D-490172E82B25",
+    "id": "MPFigureElement:A5D68C57-B5BB-4D10-E0C3-ECED717A2AA7",
+    "objectType": "MPFigureElement",
+    "suppressCaption": undefined,
+  },
+  "MPFigureElement:B32BDEC8-E816-4946-C0BB-0404AF2F0C29" => Object {
+    "caption": "A figure with hidden caption",
+    "containedObjectIDs": Array [
+      "MPFigure:AD65D628-A904-4DC4-A026-F8F4C08F6557",
+    ],
+    "figureStyle": "MPFigureStyle:12916784-C8A2-414E-919D-490172E82B25",
+    "id": "MPFigureElement:B32BDEC8-E816-4946-C0BB-0404AF2F0C29",
+    "objectType": "MPFigureElement",
+    "suppressCaption": true,
+  },
+  "MPTableElement:82BD8BAF-D136-4536-AD9C-92C30B9D7315" => Object {
+    "caption": "A table",
+    "containedObjectID": "MPTable:509A944E-994C-4867-AE55-593628C5DBD5",
+    "id": "MPTableElement:82BD8BAF-D136-4536-AD9C-92C30B9D7315",
+    "objectType": "MPTableElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+    "suppressCaption": undefined,
+    "suppressFooter": undefined,
+    "suppressHeader": undefined,
+    "tableStyle": "MPTableStyle:08C0E93B-848D-491F-8EB2-A8A0B17714BA",
+  },
+  "MPTable:509A944E-994C-4867-AE55-593628C5DBD5" => Object {
+    "contents": "<table xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPTableElement:82BD8BAF-D136-4536-AD9C-92C30B9D7315\\" class=\\"MPElement MPTableStyle_08C0E93B-848D-491F-8EB2-A8A0B17714BA MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-contained-object-id=\\"MPTable:509A944E-994C-4867-AE55-593628C5DBD5\\"><thead style=\\"display: table-header-group;\\"><tr><th data-placeholder-text=\\"Header 1\\">Table Header</th><th data-placeholder-text=\\"Header 2\\">Table Header</th></tr></thead><tbody><tr><td data-placeholder-text=\\"Data\\">Table Data</td><td data-placeholder-text=\\"Data\\">Table Data</td></tr><tr><td data-placeholder-text=\\"Data\\">Table Data</td><td data-placeholder-text=\\"Data\\">Table Data</td></tr></tbody><tfoot style=\\"display: table-footer-group;\\"><tr><td data-placeholder-text=\\"Footer 1\\">Table Footer</td><td data-placeholder-text=\\"Footer 2\\">Table Footer</td></tr></tfoot></table>",
+    "id": "MPTable:509A944E-994C-4867-AE55-593628C5DBD5",
+    "objectType": "MPTable",
+  },
+  "MPTableElement:E0D445B4-18C4-43D3-97B3-1076A7BB5CF4" => Object {
+    "caption": "A table with hidden header",
+    "containedObjectID": "MPTable:7E83812B-A759-4D38-C1C5-F6507D2FC2A9",
+    "id": "MPTableElement:E0D445B4-18C4-43D3-97B3-1076A7BB5CF4",
+    "objectType": "MPTableElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+    "suppressCaption": undefined,
+    "suppressFooter": undefined,
+    "suppressHeader": true,
+    "tableStyle": "MPTableStyle:08C0E93B-848D-491F-8EB2-A8A0B17714BA",
+  },
+  "MPTable:7E83812B-A759-4D38-C1C5-F6507D2FC2A9" => Object {
+    "contents": "<table xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPTableElement:E0D445B4-18C4-43D3-97B3-1076A7BB5CF4\\" class=\\"MPElement MPTableStyle_08C0E93B-848D-491F-8EB2-A8A0B17714BA MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-contained-object-id=\\"MPTable:7E83812B-A759-4D38-C1C5-F6507D2FC2A9\\"><thead style=\\"display: none;\\"><tr><th data-placeholder-text=\\"Header 1\\">Table Header</th><th data-placeholder-text=\\"Header 2\\" class=\\"placeholder\\"></th></tr></thead><tbody><tr><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td></tr><tr><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td></tr></tbody><tfoot style=\\"display: table-footer-group;\\"><tr><td data-placeholder-text=\\"Footer 1\\" class=\\"placeholder\\"></td><td data-placeholder-text=\\"Footer 2\\" class=\\"placeholder\\"></td></tr></tfoot></table>",
+    "id": "MPTable:7E83812B-A759-4D38-C1C5-F6507D2FC2A9",
+    "objectType": "MPTable",
+  },
+  "MPTableElement:1DF69096-DBA3-47B0-B8C2-E06491E4C655" => Object {
+    "caption": "A table with hidden footer",
+    "containedObjectID": "MPTable:2A2413E2-71F5-4B6C-F513-7B44748E49A8",
+    "id": "MPTableElement:1DF69096-DBA3-47B0-B8C2-E06491E4C655",
+    "objectType": "MPTableElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+    "suppressCaption": undefined,
+    "suppressFooter": true,
+    "suppressHeader": undefined,
+    "tableStyle": "MPTableStyle:08C0E93B-848D-491F-8EB2-A8A0B17714BA",
+  },
+  "MPTable:2A2413E2-71F5-4B6C-F513-7B44748E49A8" => Object {
+    "contents": "<table xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPTableElement:1DF69096-DBA3-47B0-B8C2-E06491E4C655\\" class=\\"MPElement MPTableStyle_08C0E93B-848D-491F-8EB2-A8A0B17714BA MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-contained-object-id=\\"MPTable:2A2413E2-71F5-4B6C-F513-7B44748E49A8\\"><thead style=\\"display: table-header-group;\\"><tr><th data-placeholder-text=\\"Header 1\\" class=\\"placeholder\\"></th><th data-placeholder-text=\\"Header 2\\" class=\\"placeholder\\"></th></tr></thead><tbody><tr><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td></tr><tr><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td></tr></tbody><tfoot style=\\"display: none;\\"><tr><td data-placeholder-text=\\"Footer 1\\" class=\\"placeholder\\"></td><td data-placeholder-text=\\"Footer 2\\" class=\\"placeholder\\"></td></tr></tfoot></table>",
+    "id": "MPTable:2A2413E2-71F5-4B6C-F513-7B44748E49A8",
+    "objectType": "MPTable",
+  },
+  "MPTableElement:89CF51B2-A20C-4AB9-CBD9-F47DAF167DAA" => Object {
+    "caption": "A table with hidden caption",
+    "containedObjectID": "MPTable:6C045963-404A-4E1E-FF81-B40E9772A6A6",
+    "id": "MPTableElement:89CF51B2-A20C-4AB9-CBD9-F47DAF167DAA",
+    "objectType": "MPTableElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+    "suppressCaption": undefined,
+    "suppressFooter": undefined,
+    "suppressHeader": undefined,
+    "tableStyle": "MPTableStyle:08C0E93B-848D-491F-8EB2-A8A0B17714BA",
+  },
+  "MPTable:6C045963-404A-4E1E-FF81-B40E9772A6A6" => Object {
+    "contents": "<table xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPTableElement:89CF51B2-A20C-4AB9-CBD9-F47DAF167DAA\\" class=\\"MPElement MPTableStyle_08C0E93B-848D-491F-8EB2-A8A0B17714BA MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-contained-object-id=\\"MPTable:6C045963-404A-4E1E-FF81-B40E9772A6A6\\"><thead style=\\"display: table-header-group;\\"><tr><th data-placeholder-text=\\"Header 1\\" class=\\"placeholder\\"></th><th data-placeholder-text=\\"Header 2\\" class=\\"placeholder\\"></th></tr></thead><tbody><tr><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td></tr><tr><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td><td data-placeholder-text=\\"Data\\" class=\\"placeholder\\"></td></tr></tbody><tfoot style=\\"display: table-footer-group;\\"><tr><td data-placeholder-text=\\"Footer 1\\" class=\\"placeholder\\"></td><td data-placeholder-text=\\"Footer 2\\" class=\\"placeholder\\"></td></tr></tfoot></table>",
+    "id": "MPTable:6C045963-404A-4E1E-FF81-B40E9772A6A6",
+    "objectType": "MPTable",
+  },
+  "MPEquationElement:3896A81A-D43B-483F-B990-F64518A940D1" => Object {
+    "caption": "",
+    "containedObjectID": "MPEquation:C900DDA4-BE45-4AF6-8C9F-CA0AA5FCC403",
+    "id": "MPEquationElement:3896A81A-D43B-483F-B990-F64518A940D1",
+    "objectType": "MPEquationElement",
+    "suppressCaption": true,
+  },
+  "MPEquation:C900DDA4-BE45-4AF6-8C9F-CA0AA5FCC403" => Object {
+    "SVGStringRepresentation": "<svg xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"7.916ex\\" height=\\"2.097ex\\" viewBox=\\"0 -781.2 3408.1 903.1\\" role=\\"img\\" focusable=\\"false\\" style=\\"vertical-align: -0.283ex;\\"><defs xmlns=\\"http://www.w3.org/2000/svg\\"><path stroke-width=\\"1\\" id=\\"MJMAIN-32\\" d=\\"M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z\\"/><path stroke-width=\\"1\\" id=\\"MJMATHI-78\\" d=\\"M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-33\\" d=\\"M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-3D\\" d=\\"M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-36\\" d=\\"M42 313Q42 476 123 571T303 666Q372 666 402 630T432 550Q432 525 418 510T379 495Q356 495 341 509T326 548Q326 592 373 601Q351 623 311 626Q240 626 194 566Q147 500 147 364L148 360Q153 366 156 373Q197 433 263 433H267Q313 433 348 414Q372 400 396 374T435 317Q456 268 456 210V192Q456 169 451 149Q440 90 387 34T253 -22Q225 -22 199 -14T143 16T92 75T56 172T42 313ZM257 397Q227 397 205 380T171 335T154 278T148 216Q148 133 160 97T198 39Q222 21 251 21Q302 21 329 59Q342 77 347 104T352 209Q352 289 347 316T329 361Q302 397 257 397Z\\"/></defs><g stroke=\\"currentColor\\" fill=\\"currentColor\\" stroke-width=\\"0\\" transform=\\"matrix(1 0 0 -1 0 0)\\"><use xlink:href=\\"#MJMAIN-32\\" x=\\"0\\" y=\\"0\\"/><use xlink:href=\\"#MJMATHI-78\\" x=\\"500\\" y=\\"0\\"/><use xlink:href=\\"#MJMAIN-33\\" x=\\"1073\\" y=\\"0\\"/><use xlink:href=\\"#MJMAIN-3D\\" x=\\"1851\\" y=\\"0\\"/><use xlink:href=\\"#MJMAIN-36\\" x=\\"2907\\" y=\\"0\\"/></g></svg>",
+    "TeXRepresentation": "2x3=6",
+    "id": "MPEquation:C900DDA4-BE45-4AF6-8C9F-CA0AA5FCC403",
+    "objectType": "MPEquation",
+  },
+  "MPListingElement:160785A9-4BC0-4C55-C4DE-AF5F4D858DCE" => Object {
+    "caption": "",
+    "containedObjectID": "MPListing:4D688DCF-29CD-40CC-93BD-2B13CD883257",
+    "id": "MPListingElement:160785A9-4BC0-4C55-C4DE-AF5F4D858DCE",
+    "objectType": "MPListingElement",
+    "suppressCaption": false,
+  },
+  "MPListing:4D688DCF-29CD-40CC-93BD-2B13CD883257" => Object {
+    "contents": "// a JavaScript code block
+
+const x = 'y'",
+    "id": "MPListing:4D688DCF-29CD-40CC-93BD-2B13CD883257",
+    "language": "JavaScript",
+    "languageKey": "javascript",
+    "objectType": "MPListing",
+  },
+  "MPParagraphElement:345B8B57-2E5E-45ED-E587-4EAAC2BD63E9" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:345B8B57-2E5E-45ED-E587-4EAAC2BD63E9\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\">An inline equation: <span class=\\"MPInlineMathFragment\\" id=\\"MPInlineMathFragment:A8A76DC2-EA6A-44BF-E8E7-B4A9EAEDF090\\" data-tex-representation=\\"3+5=8\\"><svg xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" width=\\"9.426ex\\" height=\\"2.237ex\\" viewBox=\\"0 -781.2 4058.5 963\\" role=\\"img\\" focusable=\\"false\\" xmlns=\\"http://www.w3.org/2000/svg\\" style=\\"vertical-align: -0.422ex;\\"><defs><path stroke-width=\\"1\\" id=\\"MJMAIN-33\\" d=\\"M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-2B\\" d=\\"M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-35\\" d=\\"M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-3D\\" d=\\"M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-38\\" d=\\"M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z\\"/></defs><g stroke=\\"currentColor\\" fill=\\"currentColor\\" stroke-width=\\"0\\" transform=\\"matrix(1 0 0 -1 0 0)\\"><use xlink:href=\\"#MJMAIN-33\\" x=\\"0\\" y=\\"0\\"/><use xlink:href=\\"#MJMAIN-2B\\" x=\\"722\\" y=\\"0\\"/><use xlink:href=\\"#MJMAIN-35\\" x=\\"1723\\" y=\\"0\\"/><use xlink:href=\\"#MJMAIN-3D\\" x=\\"2501\\" y=\\"0\\"/><use xlink:href=\\"#MJMAIN-38\\" x=\\"3558\\" y=\\"0\\"/></g></svg></span></p>",
+    "elementType": "p",
+    "id": "MPParagraphElement:345B8B57-2E5E-45ED-E587-4EAAC2BD63E9",
+    "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPInlineMathFragment:A8A76DC2-EA6A-44BF-E8E7-B4A9EAEDF090" => Object {
+    "SVGGlyphs": "<defs xmlns=\\"http://www.w3.org/2000/svg\\"><path stroke-width=\\"1\\" id=\\"MJMAIN-33\\" d=\\"M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-2B\\" d=\\"M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-35\\" d=\\"M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-3D\\" d=\\"M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z\\"/><path stroke-width=\\"1\\" id=\\"MJMAIN-38\\" d=\\"M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z\\"/></defs>",
+    "SVGRepresentation": "<svg xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" width=\\"9.426ex\\" height=\\"2.237ex\\" viewBox=\\"0 -781.2 4058.5 963\\" role=\\"img\\" focusable=\\"false\\" xmlns=\\"http://www.w3.org/2000/svg\\" style=\\"vertical-align: -0.422ex;\\"><defs><path stroke-width=\\"1\\" id=\\"MJMAIN-33\\" d=\\"M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z\\"></path><path stroke-width=\\"1\\" id=\\"MJMAIN-2B\\" d=\\"M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z\\"></path><path stroke-width=\\"1\\" id=\\"MJMAIN-35\\" d=\\"M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z\\"></path><path stroke-width=\\"1\\" id=\\"MJMAIN-3D\\" d=\\"M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z\\"></path><path stroke-width=\\"1\\" id=\\"MJMAIN-38\\" d=\\"M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z\\"></path></defs><g stroke=\\"currentColor\\" fill=\\"currentColor\\" stroke-width=\\"0\\" transform=\\"matrix(1 0 0 -1 0 0)\\"><use xlink:href=\\"#MJMAIN-33\\" x=\\"0\\" y=\\"0\\"></use><use xlink:href=\\"#MJMAIN-2B\\" x=\\"722\\" y=\\"0\\"></use><use xlink:href=\\"#MJMAIN-35\\" x=\\"1723\\" y=\\"0\\"></use><use xlink:href=\\"#MJMAIN-3D\\" x=\\"2501\\" y=\\"0\\"></use><use xlink:href=\\"#MJMAIN-38\\" x=\\"3558\\" y=\\"0\\"></use></g></svg>",
+    "TeXRepresentation": "3+5=8",
+    "containingObject": "MPParagraphElement:345B8B57-2E5E-45ED-E587-4EAAC2BD63E9",
+    "id": "MPInlineMathFragment:A8A76DC2-EA6A-44BF-E8E7-B4A9EAEDF090",
+    "objectType": "MPInlineMathFragment",
+  },
+  "MPParagraphElement:6B6DBF43-F7B2-404C-89DD-0EC1E1442B27" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:6B6DBF43-F7B2-404C-89DD-0EC1E1442B27\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\">A cross-reference to a figure: <span class=\\"cross-reference\\" data-reference-id=\\"MPAuxiliaryObjectReference:82E2F9F9-797F-4397-9084-D98B72C12903\\"><span class=\\"kind elementIndex\\"><b>Figure 1</b></span></span></p>",
+    "elementType": "p",
+    "id": "MPParagraphElement:6B6DBF43-F7B2-404C-89DD-0EC1E1442B27",
+    "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPParagraphElement:41B99DAB-F86C-477F-D36C-2B8590B5DAD0" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:41B99DAB-F86C-477F-D36C-2B8590B5DAD0\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\">A cross-reference to a table: <span class=\\"cross-reference\\" data-reference-id=\\"MPAuxiliaryObjectReference:88AF1DCA-B232-4791-8EAA-F38E0025A3C6\\"><span class=\\"kind elementIndex\\"><b>Table 1</b></span></span></p>",
+    "elementType": "p",
+    "id": "MPParagraphElement:41B99DAB-F86C-477F-D36C-2B8590B5DAD0",
+    "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPParagraphElement:C8A173A4-DF32-4242-E800-28A1AE5B48B8" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:C8A173A4-DF32-4242-E800-28A1AE5B48B8\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\">A cross-reference to an equation: <span class=\\"cross-reference\\" data-reference-id=\\"MPAuxiliaryObjectReference:461D1AFF-1871-4594-8E07-963D3476B7F5\\"><span class=\\"kind elementIndex\\"><b>Equation 1</b></span></span></p>",
+    "elementType": "p",
+    "id": "MPParagraphElement:C8A173A4-DF32-4242-E800-28A1AE5B48B8",
+    "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPParagraphElement:CB7347E5-8502-4667-82B9-51104BB1FEDB" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:CB7347E5-8502-4667-82B9-51104BB1FEDB\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\"><span class=\\"citation\\" data-reference-id=\\"MPCitation:C1BA9478-E940-4273-CB5C-0DDCD62CFBF2\\">A hyperlink</span></p>",
+    "elementType": "p",
+    "id": "MPParagraphElement:CB7347E5-8502-4667-82B9-51104BB1FEDB",
+    "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPParagraphElement:3708E8C7-441C-4502-8BFC-D3A2059CEF8B" => Object {
+    "contents": "<p xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPParagraphElement:3708E8C7-441C-4502-8BFC-D3A2059CEF8B\\" class=\\"MPElement MPParagraphStyle_7EAB5784-717B-4672-BD59-8CA324FB0637\\" data-object-type=\\"MPParagraphElement\\">A footnote:<span class=\\"footnote\\" id=\\"MPFootnote:B1589279-0F3B-472B-BF11-3F59D6B65791\\">1</span></p>",
+    "elementType": "p",
+    "id": "MPParagraphElement:3708E8C7-441C-4502-8BFC-D3A2059CEF8B",
+    "objectType": "MPParagraphElement",
+    "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
+  },
+  "MPFootnotesElement:4CD7CE08-0880-46BD-FF83-52E32AEFAC3E" => Object {
+    "contents": "<div xmlns=\\"http://www.w3.org/1999/xhtml\\" xmlns=\\"http://www.w3.org/1999/xhtml\\" id=\\"MPFootnotesElement:4CD7CE08-0880-46BD-FF83-52E32AEFAC3E\\" class=\\"footnotes\\"></div>",
+    "id": "MPFootnotesElement:4CD7CE08-0880-46BD-FF83-52E32AEFAC3E",
+    "objectType": "MPFootnotesElement",
+  },
+  "MPSection:E07B0D52-9642-4D58-E577-26F8804E3DEE" => Object {
+    "elementIDs": Array [
+      "MPBibliographyElement:5987B3BA-D894-4700-90D6-114E20B9F3B1",
+    ],
+    "id": "MPSection:E07B0D52-9642-4D58-E577-26F8804E3DEE",
     "objectType": "MPSection",
     "path": Array [
-      "MPSection:95A8E63F-87B6-45EC-A3FE-CA66252975A1",
-      "MPSection:7C5DF410-0419-4442-B3AA-0F4E91328335",
-      "MPSection:7480F4E2-C867-4586-B109-E0FA96AD223F",
+      "MPSection:E07B0D52-9642-4D58-E577-26F8804E3DEE",
     ],
     "priority": 4,
-    "title": "Keywords:",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:09DF7C8E-AE53-49C1-9331-3881F09708A9" => Object {
-    "contents": "<p id=\\"MPParagraphElement:09DF7C8E-AE53-49C1-9331-3881F09708A9\\">Cinereous vulture; Old world vulture; New world vulture; Transcriptome; Genome; Next-generation sequencing</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:09DF7C8E-AE53-49C1-9331-3881F09708A9",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:38442782-17F5-45D6-DEEB-520C1F0FE751" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:872C613C-4BD6-48DC-CC11-5CEC1ED4DBA0",
-      "MPParagraphElement:453A469A-24E1-4A46-E098-C02B7AF14C92",
-      "MPParagraphElement:7FE6E578-A0CF-4C43-8007-13487ADB475D",
-    ],
-    "id": "MPSection:38442782-17F5-45D6-DEEB-520C1F0FE751",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:38442782-17F5-45D6-DEEB-520C1F0FE751",
-    ],
-    "priority": 5,
-    "title": "Background",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:872C613C-4BD6-48DC-CC11-5CEC1ED4DBA0" => Object {
-    "contents": "<p id=\\"MPParagraphElement:872C613C-4BD6-48DC-CC11-5CEC1ED4DBA0\\">Vultures play an important role in the ecosystem by consuming animal carcasses, which helps prevent the spread of disease <span class=\\"citation\\" data-reference-id=\\"MPCitation:6A127D81-F94B-432C-8BA5-1E59C8CF042F\\">(PARRA &amp; TELLERÍA 2004)</span>. The term vulture refers to two independently evolved groups of birds of prey, namely the Old World (16 species) and New World (7 species) vultures. While the two vulture groups are members of different avian families (Accipitridae and Cathartidae), they are phenotypically similar and are both obligate scavengers. The cinereous vulture, also known as the monk vulture, or the Eurasian black vulture, is a member of the family Accipitridae <span class=\\"citation\\" data-reference-id=\\"MPCitation:C3ADE0DD-B571-4F90-B805-1295A4EA7CC8\\">(del Hoyo et al. 1994)</span>, and is a carrion bird <span class=\\"citation\\" data-reference-id=\\"MPCitation:7E9F1FF2-A05D-49B5-9160-662558EE2D35\\">(Ruxton &amp; Houston 2004)</span>. The cinereous vulture (Aegypius monachus), the largest bird of prey <span class=\\"citation\\" data-reference-id=\\"MPCitation:C1CC6363-709F-4E0F-9C57-B8EDB30070AC\\">(Ferguson-Lees &amp; Christie 2001)</span>, is distributed throughout Eurasia and is an iconic bird in the Far East. Its population is estimated to number 7,200-10,000 pairs globally, with 5,500-8,000 pairs residing in Asia. Over the past two centuries, its numbers have declined across most of its range leading to this species being classified as 'near threatened' on the International Union for Conservation of Nature (IUCN) Red List <span class=\\"citation\\" data-reference-id=\\"MPCitation:EAA9F4F6-FC38-4E19-BEBE-004AA5728D83\\">(BirdLife International 2013)</span>. Recently, several protection and conservation efforts for this species have been developed at a national <span class=\\"citation\\" data-reference-id=\\"MPCitation:3C6E467B-BDDA-446D-B2FB-D7E302A52612\\">(Ministry of Environment of Korea 2012)</span> and international level <span class=\\"citation\\" data-reference-id=\\"MPCitation:54CEE13C-0D90-4D58-A59E-2F7E6DBA721D\\">(la Puente et al. 2007; Eliotout et al. 2007)</span>.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:872C613C-4BD6-48DC-CC11-5CEC1ED4DBA0",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:453A469A-24E1-4A46-E098-C02B7AF14C92" => Object {
-    "contents": "<p id=\\"MPParagraphElement:453A469A-24E1-4A46-E098-C02B7AF14C92\\">Vultures are suspected to have strong immune defense systems compared to other vertebrates due to their scavenging lifestyle <span class=\\"citation\\" data-reference-id=\\"MPCitation:02F93A26-874D-4E72-BE2D-9B5F7CC29B8C\\">(la Lastra &amp; la Fuente 2007)</span>, suggesting that they have evolved mechanisms to prevent infection by the microbes found in their diet. Despite the potential interest in the immune system of scavenger birds, little is known about the genetic variations and molecular mechanisms involved in the regulation of immune processes in vultures.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:453A469A-24E1-4A46-E098-C02B7AF14C92",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:7FE6E578-A0CF-4C43-8007-13487ADB475D" => Object {
-    "contents": "<p id=\\"MPParagraphElement:7FE6E578-A0CF-4C43-8007-13487ADB475D\\">The Avian Phylogenomics Project recently sequenced and analyzed 48 avian species to provide insights into avian evolution <span class=\\"citation\\" data-reference-id=\\"MPCitation:C13F3F7C-07AF-450D-89D4-7A99F8867F9F\\">(Zhang et al. 2014)</span>. Among the species included were two members of the Accipitridae family, the bald eagle (Haliaeetus leucocephalus) and white-tailed eagle (H. albicilla). Additionally, the project included the turkey vulture (Cathartes aura), which is a member of the Cathartidae (New World vulture). However, no whole genome or transcriptome analyses have been reported for any of the Old World vultures. In order to identify the genetic adaptations and possible convergent evolution linked to obligate scavenging, we provide a whole genome and transcriptome analysis of the cinereous vulture which we compared to other avian genomes; including other birds of prey belonging to the family Accipitridae, as well as New World vultures from the family Cathartidae.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:7FE6E578-A0CF-4C43-8007-13487ADB475D",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:6820624D-AE4D-451B-ACB1-4369F8818542" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:7FCA608B-7848-4324-B151-FAFA3830810D",
-    ],
-    "id": "MPSection:6820624D-AE4D-451B-ACB1-4369F8818542",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:6820624D-AE4D-451B-ACB1-4369F8818542",
-    ],
-    "priority": 6,
-    "title": "Results and discussion",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:7FCA608B-7848-4324-B151-FAFA3830810D" => Object {
-    "contents": "<p id=\\"MPParagraphElement:7FCA608B-7848-4324-B151-FAFA3830810D\\"></p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:7FCA608B-7848-4324-B151-FAFA3830810D",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:4B696965-8F32-479C-CE5C-273081E50436" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:1945C2BC-B699-430E-C8E6-B43E2CEFE977",
-    ],
-    "id": "MPSection:4B696965-8F32-479C-CE5C-273081E50436",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:6820624D-AE4D-451B-ACB1-4369F8818542",
-      "MPSection:4B696965-8F32-479C-CE5C-273081E50436",
-    ],
-    "priority": 7,
-    "title": "Whole genome sequence",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:1945C2BC-B699-430E-C8E6-B43E2CEFE977" => Object {
-    "contents": "<p id=\\"MPParagraphElement:1945C2BC-B699-430E-C8E6-B43E2CEFE977\\">The genomic DNA from a cinereous vulture was sequenced using the Illumina HiSeq2000. We obtained 595 million paired reads (total length, 119 Gb) with a read length of 100 bp and an insert size of 346 bp (Additional file 1: Table S1). We performed a K-mer analysis (K = 17) using the vulture whole genome sequences (Additional file 2: Fig. S1), and we estimate the genome to be approximately 1.13 Gb (Additional file 1: Table S2), which is consistent with the estimates for other birds (1.0-1.2 Gb) <span class=\\"citation\\" data-reference-id=\\"MPCitation:5A463349-C18A-4A8C-A09C-F54001431EAC\\">(Warren et al. 2010; Zhan et al. 2013; Huang et al. 2013; International Chicken Genome Sequencing Consortium 2004; Dalloul et al. 2010)</span>. As there is no cinereous vulture reference genome, we aligned the DNA reads to the bald eagle reference, which (as a member of the Accipitridae) is one of the closest species to the cinereous vulture and of higher coverage than the white-tailed eagle (another Accipitridae species) [10]. The mapping rate was relatively high (89.61 %), and the mapped reads covered 91.45 % and 89.84 % of the reference genome and protein coding region at 15× or greater depth, respectively (Additional file 1: Table S1). Compared to the bald eagle reference, there were approximately 34 million single nucleotide variations (SNVs) and 2.0 million small insertions or deletions (indels) in the cinereous vulture. The SNVs were composed of 32,093,779 (95.6 %) homozygous and 1,482,652 (4.4 %) heterozygous SNVs (Additional file 1: Table S3).</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:1945C2BC-B699-430E-C8E6-B43E2CEFE977",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:E395F4B4-DB72-470B-8633-86D47A777424" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:907237FE-ABEF-4401-C09E-AA658EA38223",
-      "MPParagraphElement:6223AEC0-829F-4170-8DCF-92738EB381E8",
-      "MPParagraphElement:17072371-B892-4083-9CEB-8D5743CD7B83",
-      "MPTableElement:AE529814-BA0D-491D-FB3A-9AA3389B1A77",
-      "MPParagraphElement:4089991D-EA53-4567-D60B-3142D744014F",
-      "MPParagraphElement:DD00780E-6054-4EF9-8300-834024B8459B",
-      "MPTableElement:95254D7A-F05E-4365-9E88-30FE19417792",
-      "MPParagraphElement:C182016D-428C-4498-A1C3-F9F427B582FD",
-      "MPFigureElement:DF026E1B-394A-4A68-C761-9DB39349A714",
-      "MPTableElement:0380FFE1-98F0-49B0-B1FE-6FD9496CE3EE",
-      "MPFigureElement:46C8B471-2D20-4EB2-D784-7754BDEE2DFF",
-      "MPParagraphElement:9A650430-1526-44C8-9A9A-34B5E72CCD91",
-    ],
-    "id": "MPSection:E395F4B4-DB72-470B-8633-86D47A777424",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:6820624D-AE4D-451B-ACB1-4369F8818542",
-      "MPSection:E395F4B4-DB72-470B-8633-86D47A777424",
-    ],
-    "priority": 8,
-    "title": "Comparative evolutionary analyses",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:907237FE-ABEF-4401-C09E-AA658EA38223" => Object {
-    "contents": "<p id=\\"MPParagraphElement:907237FE-ABEF-4401-C09E-AA658EA38223\\">A set of close but distinct species with clear trait differences can let us predict variants that may contain geno-phenotype association information if their whole genomes are compared <span class=\\"citation\\" data-reference-id=\\"MPCitation:6A227C51-0AE3-4D1A-BD8C-7FB68A9DAA67\\">(Cho et al. 2013; Yim et al. 2014)</span>. For our comparative evolutionary analyses, we generated a DNA consensus sequence of the cinereous vulture by substituting the vulture SNVs detected from the whole genome sequencing data to the bald eagle reference genome. We then identified orthologous genes between the cinereous vulture consensus sequence and the 3,710 orthologous gene clusters from 17 avian genomes (adelie penguin, american crow, bald eagle, chicken, chimney swift, common cuckoo, crested ibis, downy woodpecker, hoatzin, killdeer, little egret, mallard, ostrich, peregrine falcon, rock pigeon, turkey vulture, and white-tailed eagle) previously reported <span class=\\"citation\\" data-reference-id=\\"MPCitation:B8F988A5-628B-4D68-9CB9-5422BDAC4185\\">(Zhang et al. n.d.)</span>, by matching and adding the cinereous vulture genes to orthologous clusters of the bald eagle genes. A total of 48,081 four-fold degenerate sites of the orthologous gene families were used to calculate the divergence time between the cinereous vulture and the other avian species. The divergence time between the cinereous vulture and bald eagle was estimated to be 18 million years ago (MYA) (Additional file 2: Fig. S2). This split is older than the divergence time between the bald eagle and white-tailed eagle (6-7 million years), and much younger than that of the Old World vultures and New World vultures (about 60 million years) <span class=\\"citation\\" data-reference-id=\\"MPCitation:927F4A6E-555C-4D7A-869E-A3E96A4DB637\\">(Jarvis et al. 2014)</span>; confirming that the cinereous vulture is more closely related to the eagles.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:907237FE-ABEF-4401-C09E-AA658EA38223",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:6223AEC0-829F-4170-8DCF-92738EB381E8" => Object {
-    "contents": "<p id=\\"MPParagraphElement:6223AEC0-829F-4170-8DCF-92738EB381E8\\">The identification of positively selected genes (PSGs) is a key genomics tool to understand the evolution of species, especially under distinctive environmental pressures. We identified genes evolving under positive selection by performing tests for deviations in the d N /d S ratio (non-synonymous substitutions per non-synonymous site to synonymous substitutions per synonymous site, ω) and likelihood ratio tests (LRTs) (P ≤0.05) <span class=\\"citation\\" data-reference-id=\\"MPCitation:1967597C-01B9-43EC-9B96-965BEE3E600E\\">(Yang 2007; Zhang et al. 2005)</span>. We successfully discovered a suite of positively selected genes in the Accipitrimorphae clade (Accipitriformes and Cathartiformes orders: bald eagle, cinereous vulture, white-tailed eagle, and turkey vulture). A total of seven and 136 genes were identified as PSGs using, respectively, a branch-site model with a 10 % of false discovery rate (FDR) and a branch model (1 &lt; d N /d S ≤5 was interpreted as positive selection) (Additional file 1: Tables S4 and S5). To investigate the functional enrichments of these PSGs, we used the DAVID functional annotation tool (Additional file 1: Table S6) <span class=\\"citation\\" data-reference-id=\\"MPCitation:438CD740-665E-4D0E-9ABD-6381866FE4BE\\">(Huang et al. 2009)</span>.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:6223AEC0-829F-4170-8DCF-92738EB381E8",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:17072371-B892-4083-9CEB-8D5743CD7B83" => Object {
-    "contents": "<p id=\\"MPParagraphElement:17072371-B892-4083-9CEB-8D5743CD7B83\\">In order to investigate the biologically meaningful PSGs of the Accipitrimorphae, we selected the PSGs associated with the digestive system in the KEGG database (Table 1) <span class=\\"citation\\" data-reference-id=\\"MPCitation:0F1D57C2-3C20-4CF6-8E86-B6C78DA458A8\\">(Kanehisa et al. 2014)</span>, since it is known that the Accipitrimorphae have extremely acidic stomachs <span class=\\"citation\\" data-reference-id=\\"MPCitation:F1739B95-14F8-4B65-A789-CA8E9D613F66\\">(Duke et al. 1975; Wink 1995)</span>. Among the PSGs of the Accipitriformes, Somatostatin (SST) (ω average : 0.04840, ω Accipitriformes : 1.4515) was involved in the digestive system pathway. SST is a strong inhibitor of gastrin release and plays a role in regulating gastric acid secretion <span class=\\"citation\\" data-reference-id=\\"MPCitation:863FCD60-3558-41F4-A9C0-0E68C472C22A\\">(Krejs 1986)</span>. We suggest that SST has been functionally selected in the Accipitrimorphae clade.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:17072371-B892-4083-9CEB-8D5743CD7B83",
-    "objectType": "MPParagraphElement",
-  },
-  "MPTableElement:AE529814-BA0D-491D-FB3A-9AA3389B1A77" => Object {
-    "caption": "Positively selected genes involved in immune defence and digestive system pathways",
-    "containedObjectID": "",
-    "id": "MPTableElement:AE529814-BA0D-491D-FB3A-9AA3389B1A77",
-    "objectType": "MPTableElement",
-    "suppressFooter": false,
-    "suppressHeader": false,
-  },
-  "MPParagraphElement:4089991D-EA53-4567-D60B-3142D744014F" => Object {
-    "contents": "<p id=\\"MPParagraphElement:4089991D-EA53-4567-D60B-3142D744014F\\">The cinereous vulture belongs to the family of Accipitridae together with the bald eagle and white-tailed eagle, while the turkey vulture (Cathartes aura) belongs to the family of Cathartidae, which is an obligate scavenger like the cinereous vulture <span class=\\"citation\\" data-reference-id=\\"MPCitation:B5F85347-CAFB-4333-8843-69E9E4B6CE2F\\">(Ogada et al. 2012)</span>. To identify the convergent and unique adaptations to a scavenging lifestyle <span class=\\"citation\\" data-reference-id=\\"MPCitation:DEC495F3-90D4-4DB9-A189-56B440E5657A\\">(Sibley &amp; Ahlquist 1990)</span>, we compared the PSGs of the cinereous and turkey vultures using other birds of prey as a reference (bald eagle, peregrine falcon, and white-tailed eagle). Six and 167 genes were identified as PSGs in the cinereous vulture and 196 and 85 PSGs in the turkey vulture using a branch-site model and a branch model, respectively (Additional file 1: Tables S7-S10). For the PSGs of the cinereous and turkey vultures, we also performed a functional clustering analysis using the DAVID tool (Additional file 1: Tables S11 and S12).</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:4089991D-EA53-4567-D60B-3142D744014F",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:DD00780E-6054-4EF9-8300-834024B8459B" => Object {
-    "contents": "<p id=\\"MPParagraphElement:DD00780E-6054-4EF9-8300-834024B8459B\\">We detected nine PSGs that were shared in both the cinereous vulture (Accipitridae) and turkey vulture (Cathartidae) (Table 2). Among the nine PSGs, several genes were associated with immune functions. The AHSG gene is involved in endocytosis, which is a key process that allows cells to internalize particulate matters such as micro-organisms and apoptotic cells. The Alpha2-HS glycoprotein (AHSG) promotes endocytosis and possesses opsonic properties, through which a pathogen is marked for ingestion and eliminated by a phagocyte. In addition, the programmed cell death protein six (PDCD6), which encodes a calcium-binding protein required for glucocorticoid-induced cell death, was positively selected in the both vultures. It is known that interaction between PDCD6 and DAPK1 (Death-associated protein kinase 1) can accelerate apoptotic cell death. Viral induction of apoptosis occurs when one or several cells of a living organism are infected with a virus, and many viruses encode proteins that can inhibit apoptosis <span class=\\"citation\\" data-reference-id=\\"MPCitation:1EDB61B3-3640-4031-AF15-258BFB10F9B3\\">(Teodoro &amp; Branton 1997)</span>. We speculate that these positively selected genes may play a role in helping the two vulture species combat pathogens encountered in their diet, complementing the role of gastric secretion discussed previously. Taken together, our genome scale variation analyses have provided interesting new targets for further investigation at the transcriptome, proteome, and even epigenome levels; and will enable future experimental studies to conclusively examine the roles of these genes in the adaptive evolution of these species<i>.</i></p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:DD00780E-6054-4EF9-8300-834024B8459B",
-    "objectType": "MPParagraphElement",
-  },
-  "MPTableElement:95254D7A-F05E-4365-9E88-30FE19417792" => Object {
-    "caption": "Positively selected genes by branch and branch-site model that were shared in both the cinereous vulture (Accipitridae) and turkey vulture (Cathartidae)",
-    "containedObjectID": "",
-    "id": "MPTableElement:95254D7A-F05E-4365-9E88-30FE19417792",
-    "objectType": "MPTableElement",
-    "suppressFooter": false,
-    "suppressHeader": false,
-  },
-  "MPParagraphElement:C182016D-428C-4498-A1C3-F9F427B582FD" => Object {
-    "contents": "<p id=\\"MPParagraphElement:C182016D-428C-4498-A1C3-F9F427B582FD\\">If adaptive evolution is episodic and affects only a few crucial amino acids, the application of the PSG criterion is likely to result in the omission of important genes [30]. To overcome this limitation, we investigated the cinereous vulture and turkey vulture-specific amino acid changes in the immune system pathways (Fig. 1) (Additional file 1: Tables S13 and S14). A total of 17 and 24 genes had amino acid changes specific to the cinereous vulture and the turkey vulture, respectively. Among these genes, three were shared only by the cinereous vulture and turkey vulture (Table 3). The Protein Variation Effect Analyzer (PROVEAN) software predicted that the vulture-specific amino acid substitutions observed in all three genes (PIK3AP1, TBK1, and TNFAIP3) are likely to cause alterations to protein function <span class=\\"citation\\" data-reference-id=\\"MPCitation:3728F8B4-A6AD-4AD2-937E-2C8F5CA4B3A2\\">(Choi et al. 2012)</span>. Of particular interest is TANK-binding kinase-1 (TBK1), which is essential for regulating the response to viral and microbial agents and promotes the development of a cellular antiviral state by activating interferon regulatory factors <span class=\\"citation\\" data-reference-id=\\"MPCitation:7AA89022-9A9B-49A9-BD9F-4062AA3B0A22\\">(tenOever et al. 2004)</span> (Fig. 2). Two of the three vulture-specific amino acid polymorphisms present in TBK1 were predicted as function altering amino acid changes and are located in the ubiquitin-like domain on the exposed surface of the protein. Namely, the positively charged side chain (His) at residue 327 in the cinereous vulture has been replaced by an uncharged side chain (Gln), while the polar side chain (Thr) at residue 364 in the turkey vulture has been substituted with a hydrophobic side chain (Ala). It is known that TBK1 forms several different complexes with a variety of scaffolding molecules, and that the deletion or mutation of the ubiquitin-like domain in TBK1 impairs kinase activation and substrate phosphorylation in cells <span class=\\"citation\\" data-reference-id=\\"MPCitation:4FD57A49-2F29-41C2-BF54-4C15FFA7A4F4\\">(Ma et al. 2012; Ikeda et al. 2007; Goncalves et al. 2011)</span>. Therefore, we speculate that the amino acid changes in this gene may contribute to these vultures' enhanced immune systems. Additionally, the PIK3AP1 and TNFAIP3 genes, which also contain functional altering amino acid changes, are involved in B-cell development, antigen presentation, auto-inflammation, and NF-kappa B activation, respectively <span class=\\"citation\\" data-reference-id=\\"MPCitation:B5B508A0-ED1C-456F-B9F0-24D3351B3972\\">(Song et al. 1996; Yamazaki et al. 2002)</span>.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:C182016D-428C-4498-A1C3-F9F427B582FD",
-    "objectType": "MPParagraphElement",
-  },
-  "MPFigureElement:DF026E1B-394A-4A68-C761-9DB39349A714" => Object {
-    "caption": "Vulture-specific genetic change in immune system. Genes with vulture-specific amino acid changes (TNFAIP3, CARD9, TRAF6, MAP3K8, and TBK1) are shown in red (cinereous vulture) and blue (turkey vulture) rectangles. Upregulated gene in the cinereous vulture (TAB2) is shown in yellow rectangle. A positively selected gene (LY96) in the turkey vulture is shown in a light blue rectangle. The pathway was drawn according to KEGG pathway (NOD-like receptor and Toll-like receptor signaling pathways). The solid lines indicate direct relationships between enzymes and metabolites. The dashed lines indicate that more than one step is involved in a process",
-    "containedObjectIDs": Array [
-      "MPFigure:DE6E7B4A-C84D-4DC0-8C2A-2FE71DCF1C5F",
-    ],
-    "figureStyle": "MPFigureStyle:E173019C-00BB-415E-926A-D0C57ED43303",
-    "id": "MPFigureElement:DF026E1B-394A-4A68-C761-9DB39349A714",
-    "objectType": "MPFigureElement",
-    "suppressCaption": false,
-  },
-  "MPTableElement:0380FFE1-98F0-49B0-B1FE-6FD9496CE3EE" => Object {
-    "caption": "Unique amino acid site changes on sites between two vultures in immune system-related proteins",
-    "containedObjectID": "",
-    "id": "MPTableElement:0380FFE1-98F0-49B0-B1FE-6FD9496CE3EE",
-    "objectType": "MPTableElement",
-    "suppressFooter": false,
-    "suppressHeader": false,
-  },
-  "MPFigureElement:46C8B471-2D20-4EB2-D784-7754BDEE2DFF" => Object {
-    "caption": "Positions of two vulture-specific amino acid changes in the three-dimensional structure of TBK1. The kinase, ubiquitin-like, and scaffolding/dimerization domains are colored cyan, yellow, and green, respectively. Structural positions of the three amino acids changes in the two vultures are shown in red",
-    "containedObjectIDs": Array [
-      "MPFigure:512520EF-2074-4D64-B283-D0F87C7D2E0B",
-    ],
-    "figureStyle": "MPFigureStyle:E173019C-00BB-415E-926A-D0C57ED43303",
-    "id": "MPFigureElement:46C8B471-2D20-4EB2-D784-7754BDEE2DFF",
-    "objectType": "MPFigureElement",
-    "suppressCaption": false,
-  },
-  "MPParagraphElement:9A650430-1526-44C8-9A9A-34B5E72CCD91" => Object {
-    "contents": "<p id=\\"MPParagraphElement:9A650430-1526-44C8-9A9A-34B5E72CCD91\\">We also investigated the Accipitridae (cinereous vulture, bald eagle, and white-tailed eagle) and Cathartidae (turkey vulture)-specific amino acid changes in the digestive system pathways (Additional file 1: Table S15). A total of eight and 10 genes were identified as unique amino acid changes in the Accipitridae and the Cathartidae, respectively. Among these genes, seven were shared by both the Accipitridae and Cathartidae (Additional file 1: Table S16). Of these, two genes (KCNJ16 and SLC26A7) are involved in the gastric acid secretion pathways (Additional file 2: Fig. S3). KCNJ16 is an inward-rectifier potassium channel which regulates fluid and pH balance, and SLC26A7 is known to play an important role in gastric acidification <span class=\\"citation\\" data-reference-id=\\"MPCitation:1DD06A73-9AAC-45DE-9440-6FAE13CBC2D4\\">(Xu et al. 2009)</span>. Among the five amino acid differences in these genes, two were predicted as function-altering using Polyphen2 <span class=\\"citation\\" data-reference-id=\\"MPCitation:015A478A-4AE3-4266-981C-D07642524ABB\\">(Adzhubei et al. 2010)</span> and PROVEAN (Additional file 1: Table S17). Additionally, two genes (KCNC1 and KCTD18), which are involved in potassium channel activity, were positively selected in the cinereous vulture, although it was not the case in the turkey vulture. It is known that potassium ions are required for gastric acid secretion <span class=\\"citation\\" data-reference-id=\\"MPCitation:5F324C60-D603-4E19-AA08-CA54284FB597\\">(He et al. 2011)</span>. Recently, a vulture metagenome study showed that the facial microbial community was significantly more diverse than that of the hindgut, reflecting the breakdown of dietary DNA in the vulture gastrointestinal tract and pointing to extraordinarily harsh chemical conditions <span class=\\"citation\\" data-reference-id=\\"MPCitation:A2D76F21-3936-49A0-B1BB-41A8D4F5E757\\">(Roggenbuck et al. 2014)</span>. Taken together, we propose that these vulture-specific amino acid changes in the immune system and gastric acid-associated genes are evidence of the vultures' enhanced defenses against microbial/viral infections from carcasses and are good candidates for future functional studies.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:9A650430-1526-44C8-9A9A-34B5E72CCD91",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:4D9ED00B-6749-4FAE-CFF4-98DE6D24633A" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:855415F2-F0D7-4372-BB39-626EB73FFE19",
-      "MPParagraphElement:7E14EE22-9568-4BCA-A219-7A48E28C8E00",
-      "MPParagraphElement:BD13DAE1-81A8-4B4A-9E81-4E5212DB27AE",
-      "MPParagraphElement:AB9818AC-C60C-4287-B5D2-FB502069C310",
-      "MPParagraphElement:64CE37D4-FCEB-45AA-B38F-E3CE8CCF4610",
-    ],
-    "id": "MPSection:4D9ED00B-6749-4FAE-CFF4-98DE6D24633A",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:6820624D-AE4D-451B-ACB1-4369F8818542",
-      "MPSection:4D9ED00B-6749-4FAE-CFF4-98DE6D24633A",
-    ],
-    "priority": 9,
-    "title": "Transcriptome analysis",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:855415F2-F0D7-4372-BB39-626EB73FFE19" => Object {
-    "contents": "<p id=\\"MPParagraphElement:855415F2-F0D7-4372-BB39-626EB73FFE19\\">To extend our genomic inferences, we constructed a cDNA library from total RNA isolated from the blood sample of a second cinereous vulture from the same population. Using an Illumina HiSeq2500, a total of 30,118,314 paired reads (approximately 6.0 Gb in length) were produced, with a read length of 100 bp and an insert size of 280 bp. To reduce the effect of sequencing errors, 51,537,752 (85.6 %, approximately 5.15 Gb in length) reads were selected after filtering out ambiguous and low-quality reads. All filtered short-read transcriptome data were assembled using the Trinity de novo assembler program <span class=\\"citation\\" data-reference-id=\\"MPCitation:0D9A5CD5-E563-4BD5-8F0D-1AA000153A50\\">(Altschul et al. 1997)</span> with an optimized K-mer length of 25. The filtered reads were assembled into 423,702 contigs with a mean length of 3,670 bp (N50 of 6,110 bp), and the contigs were clustered into 352,872 non-redundant unigenes with a mean length of 3,469 bp and an N50 of 6,015 bp (Additional file 1: Table S18).</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:855415F2-F0D7-4372-BB39-626EB73FFE19",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:7E14EE22-9568-4BCA-A219-7A48E28C8E00" => Object {
-    "contents": "<p id=\\"MPParagraphElement:7E14EE22-9568-4BCA-A219-7A48E28C8E00\\">To validate and annotate the 352,872 assembled unigenes, we searched the GenBank non-redundant (NR) database for homologs of all the assembled unigenes, using the BLASTx program <span class=\\"citation\\" data-reference-id=\\"MPCitation:7B3B90C3-EA19-44E6-A117-13C1AA7956D3\\">(Altschul et al. 1997)</span> with the criterion E-value ≤ 1.0E-5. A total of 241,347 (68.4 %) out of 352,872 unigenes were homologous to sequences in the NR database. As expected, the BLASTx top-hit species distribution of the vulture unigene was highly enriched in vertebrates, especially among avian species (Additional file 2: Figs. S4 and S5). For a further evaluation of the assembled transcripts, we also examined the expression levels of the assembled vulture unigenes. The number of mapped reads for each annotated unigene was normalized to fragments per kilobase of transcript per million mapped fragments (FPKM). A total of 170,990 unigenes were determined to be expressed (FPKM &gt;0); of those, 73,984 unigenes could be functionally annotated by matching with sequences in the databases. Ultimately, 33,302 functionally annotated and highly expressed unigenes (FPKM ≥1.0) were selected and used in the transcriptome analysis.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:7E14EE22-9568-4BCA-A219-7A48E28C8E00",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:BD13DAE1-81A8-4B4A-9E81-4E5212DB27AE" => Object {
-    "contents": "<p id=\\"MPParagraphElement:BD13DAE1-81A8-4B4A-9E81-4E5212DB27AE\\">A total of 29,774 out of the 33,302 unigenes were functionally clustered into 52 subcategories under three non-mutually exclusive ontologies (cellular components, molecular functions, and biological process) using WEGO <span class=\\"citation\\" data-reference-id=\\"MPCitation:AFFB054C-A1B0-41F1-B16E-FCCD62A006D9\\">(Ye et al. 2006)</span> (Additional file 2: Fig. S6): 27,632 were assigned to cellular components, 25,572 to molecular functions, and 25,145 to biological processes (Additional file 1: Table S19). Of the cellular components, most unigenes were classified as components of cells (or cell parts), with only a small portion classified as components of virions (or virion parts). Importantly, a considerable number of unigenes were assigned to immune system processes (2,305 unigenes, 7.7 %) and responses to stimulus (5,425 unigenes, 18.2 %) subcategories that could be linked to the vultures' immune defenses. The numbers are higher than those found in blood lymphocytes transcriptome from the Chinese goose (Anser cygnoides) <span class=\\"citation\\" data-reference-id=\\"MPCitation:7F6367E6-75AD-47EE-9761-6F897A3DAD8D\\">(Tariq et al. 2015)</span>, which are 0.3 % and 2.8 % for the immune system processes and the responses to stimulus, respectively. We also analyzed the annotated unigenes using the KEGG automatic annotations server (KAAS) <span class=\\"citation\\" data-reference-id=\\"MPCitation:7FFD5954-D383-4D92-B818-00674F2933CA\\">(Moriya et al. 2007)</span>. We obtained KEGG orthology-based annotations for the vulture unigenes from the human, chicken, turkey, and zebra finch. A total of 327 KEGG pathways were identified in the vulture unigenes. The vulture unigenes were most over-represented in metabolic pathways (649 unigenes), biosynthesis of secondary metabolites (162 unigenes), and pathways in cancer (153 unigenes) (Additional file 1: Table S20), which showed a similar pattern found in a crow lung transcriptome <span class=\\"citation\\" data-reference-id=\\"MPCitation:588122CC-AF82-425C-9BA9-3EA9687B9580\\">(Vijayakumar et al. 2014)</span> (top three over-represented pathways: metabolic pathways, pathways in cancer, and PI3K-Akt signaling pathway).</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:BD13DAE1-81A8-4B4A-9E81-4E5212DB27AE",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:AB9818AC-C60C-4287-B5D2-FB502069C310" => Object {
-    "contents": "<p id=\\"MPParagraphElement:AB9818AC-C60C-4287-B5D2-FB502069C310\\">The Toll-like receptors (TLRs), together with interleukin-1 receptor type 1 (IL-1R) gene family, recognize pathogen components and trigger a signaling cascade through the recruitment of different combinations of toll/interleukin receptor (TIR)-domain containing adaptor proteins <span class=\\"citation\\" data-reference-id=\\"MPCitation:BD3B1FBE-3421-416D-BE06-02506616F664\\">(Loiarro et al. 2010)</span>. TLRs are essential in pathogen recognition <span class=\\"citation\\" data-reference-id=\\"MPCitation:2A998A6C-42BA-4255-8785-09537F02D1F6\\">(Medzhitov &amp; Janeway 1997)</span>, and a previous study reported that TLR1 in the Griffon vulture (Gyps fulvus), an Old World vulture, has a unique gene structure (with respect to the length of the ectodomain, number and position of leucine-rich repeat [LRRs] motifs, and N-glycosylation sites) relative to orthologous genes from other organisms <span class=\\"citation\\" data-reference-id=\\"MPCitation:8677A895-6B4D-48B1-A178-11248EB10F0D\\">(la Lastra &amp; la Fuente 2007)</span>. These features have possible functional implications and we confirmed that the TLR1 unigene of the cinereous vulture has identical LRR motifs and N-glycosylation sites (Additional file 2: Fig. S7).</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:AB9818AC-C60C-4287-B5D2-FB502069C310",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:64CE37D4-FCEB-45AA-B38F-E3CE8CCF4610" => Object {
-    "contents": "<p id=\\"MPParagraphElement:64CE37D4-FCEB-45AA-B38F-E3CE8CCF4610\\">Additionally, we compared the gene expression levels of the cinereous vulture to those of blood lymphocytes from a Chinese goose and blood from four Eurasian siskins (Spinus spinus) <span class=\\"citation\\" data-reference-id=\\"MPCitation:DE12D708-6902-4C36-B6BF-D9576EF509F0\\">(Videvall et al. 2015)</span> (Additional file 1: Table S21). We examined the expression levels of immune system associated genes and identified differentially expressed genes that satisfy the log2 fold-change of at least 2.0 and FDR less than or equal to 0.1. A total of four immune system associated genes (TAB2, STAT3, CYLD, and NFYA) were significantly highly expressed in the cinereous vulture, compared to the others (Additional file 1: Table S22). The TAB2 protein is a mediator of TAK1 activation in the interleukin-1 signaling transduction pathway. Expression of TAB2 induces JNK (c-Jun N-terminal kinase) and NF-kappaB activation, which upregulate the expression of many proinflammatory genes <span class=\\"citation\\" data-reference-id=\\"MPCitation:6B14627A-B6CB-476A-B450-813983215838\\">(Takaesu et al. 2000)</span>. The CYLD protein plays an important role in the regulation of pathways leading to NF-kappaB activation <span class=\\"citation\\" data-reference-id=\\"MPCitation:3188EF45-52DE-4E61-A804-867274394F0A\\">(Trompouki et al. 2003)</span>. Also, it is known that STAT3 mediates cellular responses to interleukins and growth factors, and STAT3 mediates the expression of a variety of genes in response to cell stimuli, and thus plays a key role in apoptosis.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:64CE37D4-FCEB-45AA-B38F-E3CE8CCF4610",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:63D9A574-4869-4141-B298-F355D035A1FB" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:60BE17B0-A901-482E-9C6D-C88D7DC60533",
-      "MPFigureElement:347C7D2A-5C1D-4A9B-AED0-97CAEB91F210",
-    ],
-    "id": "MPSection:63D9A574-4869-4141-B298-F355D035A1FB",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:6820624D-AE4D-451B-ACB1-4369F8818542",
-      "MPSection:63D9A574-4869-4141-B298-F355D035A1FB",
-    ],
-    "priority": 10,
-    "title": "Genetic diversity and population history",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:60BE17B0-A901-482E-9C6D-C88D7DC60533" => Object {
-    "contents": "<p id=\\"MPParagraphElement:60BE17B0-A901-482E-9C6D-C88D7DC60533\\">The demographic history of a species can be reconstructed from deeply sequenced genomes <span class=\\"citation\\" data-reference-id=\\"MPCitation:05D4F6CE-400F-41C8-8565-FECCE78A07F5\\">(Miller et al. 2012)</span>. We first calculated the level of the genomic diversity of cinereous vulture by measuring the rate of heterozygous SNVs found in the genome. The genomic diversity was found to be 0.00132, which is comparable to the diversity observed in the turkey vulture (0.00148) and much higher than that of humans (0.00069) <span class=\\"citation\\" data-reference-id=\\"MPCitation:0D076E42-9C70-46CF-9370-35B9F00A9A44\\">(Wang et al. 2008)</span> and bald eagle (0.00053). We also inferred the demographic history of the cinereous vulture using the pairwise sequentially Markovian coalescent (PSMC) model <span class=\\"citation\\" data-reference-id=\\"MPCitation:66376018-0076-407C-A854-D1DC5AA23B62\\">(Li &amp; Durbin 2009)</span> (Fig. 3). Between 1,000,000 and 200,000 years ago, the cinereous vulture and the bald eagle showed similar effective population sizes. However, during the late Pleistocene (approximately 110,000 to 12,000 years ago), the effective population size of the cinereous fluctuated markedly, whereas the bald eagle and the turkey vulture were relatively stable. In particular, the cinereous vulture population experienced a strong bottleneck between 110,000 and 70,000 years ago, whereas the bald eagle and the turkey vulture showed relatively stable and increasing population sizes, respectively.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:60BE17B0-A901-482E-9C6D-C88D7DC60533",
-    "objectType": "MPParagraphElement",
-  },
-  "MPFigureElement:347C7D2A-5C1D-4A9B-AED0-97CAEB91F210" => Object {
-    "caption": "Demographic history of the cinereous vulture. g, generation time (years); , mutation rate per site per generation time; Tsuf, atmospheric surface air temperature; RSL, relative sea level; 10 m.s.l.e., 10 m sea level equivalent",
-    "containedObjectIDs": Array [
-      "MPFigure:855BACE1-2483-4E3A-9D46-3FF3CFD4FB5E",
-    ],
-    "figureStyle": "MPFigureStyle:E173019C-00BB-415E-926A-D0C57ED43303",
-    "id": "MPFigureElement:347C7D2A-5C1D-4A9B-AED0-97CAEB91F210",
-    "objectType": "MPFigureElement",
-    "suppressCaption": false,
-  },
-  "MPSection:39D955B4-EB6D-433C-F399-45EA6331DC72" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:0601CDFD-EE45-4718-9253-BA670A08AC27",
-    ],
-    "id": "MPSection:39D955B4-EB6D-433C-F399-45EA6331DC72",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:39D955B4-EB6D-433C-F399-45EA6331DC72",
-    ],
-    "priority": 11,
-    "title": "Conclusions",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:0601CDFD-EE45-4718-9253-BA670A08AC27" => Object {
-    "contents": "<p id=\\"MPParagraphElement:0601CDFD-EE45-4718-9253-BA670A08AC27\\">Our study provides the first whole genome and de novo transcriptome analyses of the cinereous vulture, along with comparative evolutionary analyses with other avian genomes. The comparative analyses revealed likely signatures of selection in cinereous vulture genes associated with the immune response and gastric acid secretion. Together with previous analysis of vulture metagenomes <span class=\\"citation\\" data-reference-id=\\"MPCitation:9044DF23-741C-44E7-83B5-7416CE0FF696\\">(Roggenbuck et al. 2014)</span>, our results suggest that the acidic gastrointestinal tract of vultures is a strong filter of the microbiota ingested from decaying carcasses, which likely plays a role in enabling the vulture's scavenging lifestyle. A comparison to the turkey vulture revealed a number of possible instances of convergent evolution between Old and New World vultures, in line with the recent observation of convergent evolution (adaptive convergence) based on comparative genomics data <span class=\\"citation\\" data-reference-id=\\"MPCitation:4EFDF723-8272-4B63-82C6-8512A7172305\\">(Zhang et al. 2014; Jarvis et al. 2014)</span>. At the same time, it is important to note that convergence might be non-adaptive <span class=\\"citation\\" data-reference-id=\\"MPCitation:28142676-92DD-4FD2-A633-5B8F05A1FA44\\">(Goldstein et al. 2015)</span>, and simply driven co-evolutionary interactions between sites, with the process at one site changing other coupled sites <span class=\\"citation\\" data-reference-id=\\"MPCitation:59C001C3-9331-449D-9E95-80A72B2D4517\\">(Pollock et al. 2012)</span>. Therefore, with additional genomic data, the candidate genes identified in this study can be further investigated to test the possible roles of adaptive versus non-adaptive convergence in this system. While functional studies of candidate genes will be needed to confirm the role of individual genes, this first analysis of the cinereous vulture genome and transcriptome provides insights into the genetic adaptations that have allowed this lineage to successfully occupy such a challenging niche.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:0601CDFD-EE45-4718-9253-BA670A08AC27",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:60DA3D93-F8A8-408B-9E64-2B2ABCB8F8CA",
-    ],
-    "id": "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382",
-    ],
-    "priority": 12,
-    "title": "Methods",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:60DA3D93-F8A8-408B-9E64-2B2ABCB8F8CA" => Object {
-    "contents": "<p id=\\"MPParagraphElement:60DA3D93-F8A8-408B-9E64-2B2ABCB8F8CA\\"></p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:60DA3D93-F8A8-408B-9E64-2B2ABCB8F8CA",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:F04C8764-CF4F-488D-A7BF-97CB105E770C" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:29BCFF96-36A5-4CF6-F686-844BF818B7D0",
-      "MPParagraphElement:16990272-8C7C-4F3C-B21B-93F63D409EBF",
-    ],
-    "id": "MPSection:F04C8764-CF4F-488D-A7BF-97CB105E770C",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382",
-      "MPSection:F04C8764-CF4F-488D-A7BF-97CB105E770C",
-    ],
-    "priority": 13,
-    "title": "Sample preparation and sequencing",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:29BCFF96-36A5-4CF6-F686-844BF818B7D0" => Object {
-    "contents": "<p id=\\"MPParagraphElement:29BCFF96-36A5-4CF6-F686-844BF818B7D0\\">Blood samples from two cinereous vultures were acquired from the Korean Association for Bird Protection under the Cultural Heritage Administration (Korea) Permit. DNA was extracted using a QIAamp DNA Mini Kit (Qiagen, CA, USA). The amount of DNA was quantified by fluorometry using a Qubit dsDNA Assay Kit (Invitrogen, CA, USA) and an Infinite F200 Pro NanoQuant (TECAN, Männedorf, Germany). High-molecular weight genomic DNA was sheared to approximately 500 bp using a Covaris S2 Ultrasonicator, and then used in the preparation of whole-genome shotgun libraries according to Illumina's library preparation protocols (Illumina, CA, USA). The efficacy of each step of library construction was ascertained using a 2100 Bioanalyzer (Agilent Technologies, CA, USA). A final dilution of the library was then sequenced on a HiSeq 2000 (Illumina), using the TruSeq Paired-End Cluster Kit v3 (Illumina) and a TruSeq SBS HS Kit v3 (Illumina) for 200 cycles.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:29BCFF96-36A5-4CF6-F686-844BF818B7D0",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:16990272-8C7C-4F3C-B21B-93F63D409EBF" => Object {
-    "contents": "<p id=\\"MPParagraphElement:16990272-8C7C-4F3C-B21B-93F63D409EBF\\">Total RNA was extracted from the blood of an additional vulture using the Trizol LS Reagent (Ambion, TX, USA). RNA quality was assessed by analysis of rRNA band integrity on an Agilent RNA 6000 LabChip kit (Agilent Technologies). Prior to cDNA library construction, 2 μg of total RNA was treated with DNase I, and magnetic beads with Oligo (dT) were used to enrich poly (A) mRNA. Next, the purified mRNAs were disrupted into short fragments, and double-stranded cDNAs were immediately synthesized. The cDNAs were subjected to end-repair and poly (A) addition, and then connected with sequencing adapters using the TruSeq RNA Sample Prep Kit (Illumina). Suitable fragments, automatically purified using a BluePippin 2 % agarose gel cassette (Sage Science, MA, USA), were selected as templates for PCR amplification. The final library sizes and qualities were evaluated electrophoretically using an Agilent High Sensitivity DNA kit (Agilent Technologies); the fragment size range was 350-450 bp. Subsequently, the library was sequenced using a HiSeq 2500 sequencer (Illumina) in rapid run mode. Cluster generation was performed, followed by 2 × 100 cycle sequencing reads separated by a paired-end turnaround. Image analysis was performed using the HiSeq control software version 1.8.4.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:16990272-8C7C-4F3C-B21B-93F63D409EBF",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:03FF87AF-ACDA-411A-D594-612D186BB4D0" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:E19B311F-D78E-49FA-8D57-A751F4865649",
-    ],
-    "id": "MPSection:03FF87AF-ACDA-411A-D594-612D186BB4D0",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382",
-      "MPSection:03FF87AF-ACDA-411A-D594-612D186BB4D0",
-    ],
-    "priority": 14,
-    "title": "Vulture DNA read alignment to bald eagle reference genome",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:E19B311F-D78E-49FA-8D57-A751F4865649" => Object {
-    "contents": "<p id=\\"MPParagraphElement:E19B311F-D78E-49FA-8D57-A751F4865649\\">A DNA read was filtered out when average quality was less than Q20 and/or ambiguous nucleotide ratio was higher than 10 %. The clean reads were aligned to the bald eagle genome sequence using BWA ver. 0.6.2 <span class=\\"citation\\" data-reference-id=\\"MPCitation:98751426-F6FC-4508-B1E5-509FBFB972F0\\">(Li &amp; Durbin 2009)</span> with default options. The rmdup command of SAMtools 0.1.18 <span class=\\"citation\\" data-reference-id=\\"MPCitation:783A4D42-D6A3-497F-BCD2-3A84EFFA42C3\\">(Li et al. 2009)</span> was used to remove PCR duplicates from the reads. The raw SNVs and indels were called using the mpileup command of SAMtools ver. 0.1.19 with the -Q 30 option followed by the view command with the -cg option. From the raw SNVs, the consensus genome sequences of the cinereous vulture were generated using vcf2fq with -d 8 and -l 2 options. The final SNVs were defined by comparing the consensus sequence to the reference sequence. The raw indels were filtered using varFilter of vcfutils.pl with -d 8 to produce the final indel dataset. To remove gene sequences possibly derived from paralog genes in the vulture or low sequencing depth regions, we filtered out coding sequences (CDSs) using the following criteria; (1) CDSs that contain ambiguous nucleotides 'N'; (2) CDSs that contain premature stop codons. Among the 16,526 protein coding genes, 8,546 genes were obtained and used in the further analyses. For the K-mer analysis, JELLYFISH [60] was used with K = 17. Genome size was estimated from the total number of K-mers divided by the peak depth of K-mer graph.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:E19B311F-D78E-49FA-8D57-A751F4865649",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:CB2DA59A-B02B-4E28-9326-655D2D812276" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:404E3FE1-D323-4ABA-B4C7-357ECB1BDD9B",
-      "MPParagraphElement:E07CD730-E2AA-43CD-9F47-A3A65B972009",
-      "MPParagraphElement:4D239238-33E6-48C8-8865-77B39486E3B1",
-    ],
-    "id": "MPSection:CB2DA59A-B02B-4E28-9326-655D2D812276",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382",
-      "MPSection:CB2DA59A-B02B-4E28-9326-655D2D812276",
-    ],
-    "priority": 15,
-    "title": "Transcriptome analysis and functional gene annotation",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:404E3FE1-D323-4ABA-B4C7-357ECB1BDD9B" => Object {
-    "contents": "<p id=\\"MPParagraphElement:404E3FE1-D323-4ABA-B4C7-357ECB1BDD9B\\">The raw sequencing reads contained low-quality reads and adaptors, which were removed as follows: First, reads with &gt;10 % ambiguous bases (represented by the letter 'N') or with Q20 &lt; 20 % were removed. If the average quality of the reads was under Q20, reads were also removed. The bases under Q20 were removed at the both end of a read.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:404E3FE1-D323-4ABA-B4C7-357ECB1BDD9B",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:E07CD730-E2AA-43CD-9F47-A3A65B972009" => Object {
-    "contents": "<p id=\\"MPParagraphElement:E07CD730-E2AA-43CD-9F47-A3A65B972009\\">De novo transcriptome assembly was performed on the remaining high-quality reads using the short-read assembly software Trinity <span class=\\"citation\\" data-reference-id=\\"MPCitation:477E168D-4EAE-47B5-BEED-4260009B293F\\">(Grabherr et al. 2011)</span>. These resulting contigs were further processed with the sequence clustering software TGICL <span class=\\"citation\\" data-reference-id=\\"MPCitation:03B2C14A-88AE-414C-A0B8-611A20299C66\\">(Pertea et al. 2003)</span> to produce unigenes. Coding sequence (CDS) were predicted using TransDecoder <span class=\\"citation\\" data-reference-id=\\"MPCitation:77C29F01-CB32-490D-8D1B-706095CBE16D\\">(Haas et al. 2013)</span>, and functions of unigenes were predicted by DNA and protein sequence homology searches using BLAST and InterProScan v5 <span class=\\"citation\\" data-reference-id=\\"MPCitation:F1871DAC-7F63-4127-B6AF-6E9C546D777E\\">(Quevillon et al. 2005)</span>. The NCBI Blast 2.2.28+ and NR database were used to search for protein sequence homology. InterProScan v5, consisting of five protein databases (Pfam, Panther, SMART, SuperFamily, and Gene3D) was used to predict the function of unigenes. The FPKM method <span class=\\"citation\\" data-reference-id=\\"MPCitation:BA20386C-B99E-4ADD-A54D-FDB80CC97FA6\\">(Mortazavi et al. 2008)</span> was used to calculate unigene expression and gene expression levels were analyzed using the RSEM software <span class=\\"citation\\" data-reference-id=\\"MPCitation:6611F6FD-C4B9-4B61-A2A4-5509D7B1035F\\">(Li et al. 2010)</span>. The WEGO software was then used to perform GO functional classification of all unigenes and view the distribution of gene functions. Pathway assignments were performed according to the KEGG pathway database, using KAAS.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:E07CD730-E2AA-43CD-9F47-A3A65B972009",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:4D239238-33E6-48C8-8865-77B39486E3B1" => Object {
-    "contents": "<p id=\\"MPParagraphElement:4D239238-33E6-48C8-8865-77B39486E3B1\\">To compare the gene expression level of the cinereous vulture, Chinese goose, and Eurasian siskins, the RNA reads from the cinereous vulture, Chinese goose, and Eurasian siskins were aligned to the bald eagle, duck, and American crow reference genome using TopHat2 <span class=\\"citation\\" data-reference-id=\\"MPCitation:1D57F538-6D2D-467B-970F-FC662D2C1642\\">(Kim et al. 2013)</span>, respectively. The number of reads that were mapped to orthologous gene regions were counted using HTSeq-0.6.1 <span class=\\"citation\\" data-reference-id=\\"MPCitation:D9E7BA6D-B8BA-4582-8844-D2F5CD6B3F67\\">(Anders et al. 2015)</span>, and then normalized by gene length and transcripts per million (TPM) <span class=\\"citation\\" data-reference-id=\\"MPCitation:0549937E-D799-4CD7-A598-BEDC8C66874A\\">(Robinson &amp; Oshlack 2010)</span>. The genes having less than 1.0 TPM were filtered out. The TPM values were normalized by Trimmed Mean of M-values (TMM) <span class=\\"citation\\" data-reference-id=\\"MPCitation:43FA04CD-37DD-4A30-B7EB-EE9353FACD55\\">(Robinson &amp; Oshlack 2010)</span> using edgeR <span class=\\"citation\\" data-reference-id=\\"MPCitation:EF43A1F3-F0E2-4B52-9F79-0D9E2A189359\\">(Robinson et al. 2010)</span>. The significance of differential expression between the vulture and siskins was calculated by the exact negative binomial test, and corrected for multiple testing by the Benjamini-Hochberg false discovery rate.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:4D239238-33E6-48C8-8865-77B39486E3B1",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:C0866416-D246-417F-B214-588354396BB6" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:DABFE058-9475-4D97-A0E6-AA98D2A0BAD0",
-      "MPParagraphElement:FEA91A1E-ED82-4602-A853-8F5FC5874C97",
-      "MPParagraphElement:9FCC24C8-220E-424D-83BE-866C4A30BC88",
-    ],
-    "id": "MPSection:C0866416-D246-417F-B214-588354396BB6",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382",
-      "MPSection:C0866416-D246-417F-B214-588354396BB6",
-    ],
-    "priority": 16,
-    "title": "Molecular evolutionary analyses",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:DABFE058-9475-4D97-A0E6-AA98D2A0BAD0" => Object {
-    "contents": "<p id=\\"MPParagraphElement:DABFE058-9475-4D97-A0E6-AA98D2A0BAD0\\">To estimate divergence times, we used four-fold degenerate sites of avian one-to-one orthologous families using RelTime-CC version 2.0 <span class=\\"citation\\" data-reference-id=\\"MPCitation:945BA72F-D638-439E-8A5C-C835BBD97A8D\\">(Tamura et al. 2012)</span> with the phylogenetic tree topology of published previously <span class=\\"citation\\" data-reference-id=\\"MPCitation:73BE62FB-FD13-45C2-B785-158F9F4D2F4F\\">(Jarvis et al. 2014)</span>. The evolutionary rates of the each branch were calculated by the resulting tree. The program used a maximum likelihood statistical method and time reversible model. The date of the node between duck and chicken was constrained to 65.8 MYA <span class=\\"citation\\" data-reference-id=\\"MPCitation:DA2E5ACF-23CC-4C40-A4D2-6B8CFD0B1E0A\\">(Jarvis et al. 2014)</span>.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:DABFE058-9475-4D97-A0E6-AA98D2A0BAD0",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:FEA91A1E-ED82-4602-A853-8F5FC5874C97" => Object {
-    "contents": "<p id=\\"MPParagraphElement:FEA91A1E-ED82-4602-A853-8F5FC5874C97\\">PRANK <span class=\\"citation\\" data-reference-id=\\"MPCitation:74FD9A45-847B-4D66-AC83-5EBBA8AD7A4A\\">(Löytynoja &amp; Goldman 2005)</span> was used to construct multiple sequence alignment among ortholog genes, and the CODEML program in PAML 4.5 was used to estimate the rates of synonymous (d S ) and non-synonymous substitutions (d N ) and the d N /d S ratio (ω) <span class=\\"citation\\" data-reference-id=\\"MPCitation:26C6CB5D-13FF-4791-A4DC-117A64697DDC\\">(Zhang et al. 2005)</span>. The one-ratio model, which allows only a single d N /d S ratio for all branches, was used to estimate the general selective pressure acting among all species. A free-ratios model was used to analyze the d N /d S ratio along each branch. To further examine potential positive selection, the branch-site test of positive selection was conducted <span class=\\"citation\\" data-reference-id=\\"MPCitation:8571C5F1-3045-4D40-877C-4B1EE4BEB8C8\\">(Zhang et al. 2005)</span>. Statistical significance was assessed using likelihood ratio tests (LRTs) with a conservative 10 % false discovery rate (FDR) criterion <span class=\\"citation\\" data-reference-id=\\"MPCitation:1DC35F99-7D7B-46FC-9E72-9D4F8C76D80D\\">(Nielsen et al. 2005)</span>. The Accipitrimorphae were used as the foreground branch and the other species as background branch. To identify the convergent evolution of the two vultures, the each vulture as foreground was used and the rest of the bird of prey as the background were used.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:FEA91A1E-ED82-4602-A853-8F5FC5874C97",
-    "objectType": "MPParagraphElement",
-  },
-  "MPParagraphElement:9FCC24C8-220E-424D-83BE-866C4A30BC88" => Object {
-    "contents": "<p id=\\"MPParagraphElement:9FCC24C8-220E-424D-83BE-866C4A30BC88\\">Function-altering amino acid changes were predicted using PolyPhen2 <span class=\\"citation\\" data-reference-id=\\"MPCitation:D5C5123A-6B21-4C36-B24A-3C046CC6AC3C\\">(Adzhubei et al. 2010)</span> and PROVEAN v1.1 <span class=\\"citation\\" data-reference-id=\\"MPCitation:C264DD9C-68AF-494A-981F-84691EFEEC9C\\">(Ikeda et al. 2007)</span> using the default cutoff values. A 3D modeling structure of the TBK1 was predicted by SWISS-MODEL <span class=\\"citation\\" data-reference-id=\\"MPCitation:099677B0-FF0E-4103-BC4C-A0A8B335CE47\\">(Gautschi 2001; Arnold et al. 2006; Anon n.d.; Schwede et al. 2003)</span>.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:9FCC24C8-220E-424D-83BE-866C4A30BC88",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:ADE22325-E659-4527-CDDB-EA410ED8BB7C" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:E2034971-7FEB-47BE-C56F-4A3601AA8E3C",
-    ],
-    "id": "MPSection:ADE22325-E659-4527-CDDB-EA410ED8BB7C",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382",
-      "MPSection:ADE22325-E659-4527-CDDB-EA410ED8BB7C",
-    ],
-    "priority": 17,
-    "title": "Demographic history analysis",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:E2034971-7FEB-47BE-C56F-4A3601AA8E3C" => Object {
-    "contents": "<p id=\\"MPParagraphElement:E2034971-7FEB-47BE-C56F-4A3601AA8E3C\\">To infer the population history of the cinereous vulture, we used the PSMC program using scaffold length ≥50 kb sequence. We performed 100 rounds of bootstrapping and used 1.4 × 10 −8 substitutions per site per generation <span class=\\"citation\\" data-reference-id=\\"MPCitation:70B8061B-7E18-4DB3-AD3B-119CA5179B56\\">(International Chicken Genome Sequencing Consortium 2004)</span>. We used 10 years as a generation time as previously reported <span class=\\"citation\\" data-reference-id=\\"MPCitation:D94C7D33-84F1-40E7-9BAB-DAD563FFCBDD\\">(Gautschi 2001)</span>.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:E2034971-7FEB-47BE-C56F-4A3601AA8E3C",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:7ABEEEAA-1D53-409F-C241-74C4CFCE261C" => Object {
-    "elementIDs": Array [
-      "MPParagraphElement:67FC55A0-11B6-42CA-D093-31E324FE5193",
-    ],
-    "id": "MPSection:7ABEEEAA-1D53-409F-C241-74C4CFCE261C",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:40729A24-33EA-49B8-D0B9-91170BC6D382",
-      "MPSection:7ABEEEAA-1D53-409F-C241-74C4CFCE261C",
-    ],
-    "priority": 18,
-    "title": "Availability of supporting data",
-    "titleSuppressed": false,
-  },
-  "MPParagraphElement:67FC55A0-11B6-42CA-D093-31E324FE5193" => Object {
-    "contents": "<p id=\\"MPParagraphElement:67FC55A0-11B6-42CA-D093-31E324FE5193\\">Whole-genome sequence data and RNA sequence data were deposited in the SRA database at NCBI with BioSample accession numbers SAMN02728242 and SAMN02739871, respectively. The SRA of whole genome sequencing can be accessed via reference numbers SRX518112, and the RNA sequence can be accessed as SRX529363. The data can also be accessed through BioProject accession number PRJNA244786 for the whole-genome sequence and PRJNA245779 for the RNA sequence data. The Transcriptome Shotgun Assembly project has been deposited at DDBJ/EMBL/GenBank under the accession GDQP00000000. The version described in this paper is the first version, GDQP01000000.</p>",
-    "elementType": "p",
-    "id": "MPParagraphElement:67FC55A0-11B6-42CA-D093-31E324FE5193",
-    "objectType": "MPParagraphElement",
-  },
-  "MPSection:1A694B2D-D569-44AD-8AE6-38751F7FBF36" => Object {
-    "elementIDs": Array [
-      "MPBibliographyElement:80EFCE66-58E9-4BB7-A80A-2058507A5970",
-    ],
-    "id": "MPSection:1A694B2D-D569-44AD-8AE6-38751F7FBF36",
-    "objectType": "MPSection",
-    "path": Array [
-      "MPSection:1A694B2D-D569-44AD-8AE6-38751F7FBF36",
-    ],
-    "priority": 19,
     "title": "Bibliography",
   },
-  "MPBibliographyElement:80EFCE66-58E9-4BB7-A80A-2058507A5970" => Object {
-    "contents": "<div class=\\"csl-bib-body\\" id=\\"MPBibliographyElement:80EFCE66-58E9-4BB7-A80A-2058507A5970\\"></div>",
-    "elementType": "p",
-    "id": "MPBibliographyElement:80EFCE66-58E9-4BB7-A80A-2058507A5970",
+  "MPBibliographyElement:5987B3BA-D894-4700-90D6-114E20B9F3B1" => Object {
+    "contents": "<div xmlns=\\"http://www.w3.org/1999/xhtml\\" class=\\"csl-bib-body\\" id=\\"MPBibliographyElement:5987B3BA-D894-4700-90D6-114E20B9F3B1\\"></div>",
+    "elementType": "div",
+    "id": "MPBibliographyElement:5987B3BA-D894-4700-90D6-114E20B9F3B1",
     "objectType": "MPBibliographyElement",
   },
 }

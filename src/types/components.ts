@@ -241,34 +241,54 @@ export interface CitationItem extends EmbeddedComponent {
   bibliographyItem: string
 }
 
+export interface Equation extends ContainedComponent {
+  TeXRepresentation: string
+  SVGStringRepresentation?: string
+  MathMLStringRepresentation?: string
+  OMMLStringRepresentation?: string
+}
+
+export interface Footnote extends ContainedComponent {
+  containingObject: string
+  contents: string
+}
+
+export interface Listing extends ContainedComponent {
+  contents: string
+  language: string
+  languageKey: string
+}
+
+export interface InlineMathFragment extends ContainedComponent {
+  containingObject: string
+  TeXRepresentation: string
+  SVGRepresentation?: string
+  SVGGlyphs?: string
+  MathMLRepresentation?: string
+  OMMLRepresentation?: string
+}
+
 export interface Element extends ContainedComponent {
   elementType: string
   placeholderInnerHTML?: string
 }
 
-export interface ParagraphElement extends Element {
+export interface Paragraph extends Element {
   elementType: 'p'
   contents: string
   paragraphStyle: string
 }
 
-export interface UnorderedListElement extends Element {
-  elementType: 'ul'
-  contents: string
-  paragraphStyle: string
-}
-
-export interface OrderedListElement extends Element {
-  elementType: 'ol'
+export interface List extends Element {
+  elementType: 'ul' | 'ol'
   contents: string
   paragraphStyle: string
 }
 
 export interface EquationElement extends Element {
-  TeXRepresentation: string
-  // SVGStringRepresentation: string
-  // MathMLStringRepresentation: string
-  // OMMLStringRepresentation: string
+  caption: string
+  containedObjectID: string
+  suppressCaption?: boolean
 }
 
 export interface FigureElement extends Element {
@@ -280,23 +300,35 @@ export interface FigureElement extends Element {
   suppressCaption?: boolean
 }
 
-export interface ListingElement extends Element {
-  // elementType: 'pre'
+export interface FootnotesElement extends Element {
+  collateByKind?: string
   contents: string
-  language: string
-  languageKey: string
+}
+
+export interface ListingElement extends Element {
+  elementType: 'figure'
+  caption: string
+  containedObjectID: string
+  suppressCaption?: boolean
+}
+
+export interface TOCElement extends Element {
+  contents: string
 }
 
 export interface TableElement extends Element {
   elementType: 'table'
   caption: string
   containedObjectID: string
+  paragraphStyle?: string
+  suppressCaption?: boolean
   suppressFooter?: boolean
   suppressHeader?: boolean
+  tableStyle?: string
 }
 
 export interface BibliographyElement extends Element {
-  elementType: 'div'
+  elementType: 'div' | 'p' | 'table' // TODO: must be 'p' or 'table'?!
   contents: string
 }
 
@@ -348,36 +380,39 @@ export interface CommentAnnotation extends ManuscriptComponent {
   userID: string
 }
 
-export type AnyStyle = FigureStyle | BorderStyle
+export type AnyStyle = BorderStyle | FigureStyle
 
 export type AnyElement =
   | BibliographyElement
   | EquationElement
   | FigureElement
+  | FootnotesElement
   | ListingElement
-  | OrderedListElement
-  | ParagraphElement
+  | List
+  | Paragraph
   | TableElement
-  | UnorderedListElement
+  | TOCElement
 
 export type AnySharedComponent = AnyStyle | Border
 
 export type AnyManuscriptComponent =
-  | Contributor
-  | Affiliation
-  | Grant
   | AnyElement
+  | Affiliation
+  | Contributor
+  | Grant
 
 export type AnyContainedComponent =
   | AnyManuscriptComponent
-  | Manuscript
-  | Keyword
+  | AuxiliaryObjectReference
   | BibliographyItem
   | Citation
+  | Equation
+  | Figure
+  | InlineMathFragment
+  | Keyword
+  | Manuscript
   | Section
   | Table
-  | Figure
-  | AuxiliaryObjectReference
 
 export type AnyComponent = AnySharedComponent | AnyContainedComponent
 
@@ -390,8 +425,6 @@ export interface ComponentAttachment {
   src?: string
 }
 
-export type PrioritizedComponent = Section | Figure
-
 export type ComponentIdSet = Set<string>
 
 export type ComponentDocument = RxDocument<AnyContainedComponent & Attachments>
@@ -401,17 +434,3 @@ export type ComponentWithAttachment = AnyComponent & ComponentAttachment
 export type ComponentMap = Map<string, ComponentWithAttachment>
 
 export type ComponentCollection = RxCollection<AnyComponent>
-
-export type ReferencedComponent =
-  | FigureElement
-  | Figure
-  | TableElement
-  | EquationElement
-  | ListingElement
-
-export type ComponentWithCaption = FigureElement | TableElement
-
-export type ComponentWithContents =
-  | ParagraphElement
-  | UnorderedListElement
-  | OrderedListElement

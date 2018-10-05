@@ -11,7 +11,7 @@ export const crossReference: NodeSpec = {
   },
   parseDOM: [
     {
-      tag: 'span[class~="cross-reference"]',
+      tag: 'span.cross-reference',
       getAttrs: (dom: Element) => ({
         rid: dom.getAttribute('data-reference-id'),
         label: dom.textContent,

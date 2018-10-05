@@ -1,6 +1,6 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
-export const figure: NodeSpec = {
+export const figureElement: NodeSpec = {
   content: 'figcaption',
   attrs: {
     id: { default: '' },
@@ -12,7 +12,7 @@ export const figure: NodeSpec = {
     label: { default: '' },
     suppressCaption: { default: false },
   },
-  group: 'block',
+  group: 'block element',
   parseDOM: [
     {
       tag: 'figure',
