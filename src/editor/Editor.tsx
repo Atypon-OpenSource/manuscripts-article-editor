@@ -137,7 +137,9 @@ class Editor extends React.Component<EditorProps, State> {
   }
 
   public render() {
-    if (!this.state.state) return null
+    const { state } = this.state
+
+    if (!state) return null
 
     return (
       <EditorContainer>
@@ -145,15 +147,11 @@ class Editor extends React.Component<EditorProps, State> {
           <EditorHeader>
             <ApplicationMenu
               menus={menus(this.props)}
-              state={this.state.state}
-              dispatch={this.dispatchTransaction}
+              state={state}
+              view={this.view}
             />
 
-            <Toolbar
-              toolbar={toolbar}
-              state={this.state.state}
-              dispatch={this.dispatchTransaction}
-            />
+            <Toolbar toolbar={toolbar} state={state} view={this.view} />
           </EditorHeader>
         )}
 

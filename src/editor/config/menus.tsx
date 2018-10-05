@@ -306,6 +306,7 @@ const menus = (props: MenusProps): MenuItem[] => [
       },
       {
         label: 'Table',
+        enable: blockActive(schema.nodes.table),
         submenu: [
           {
             label: 'Add Row Above',

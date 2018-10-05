@@ -8,6 +8,7 @@ import {
 import { wrapInList } from 'prosemirror-schema-list'
 // import CrossReferencePickerContainer from '../../containers/CrossReferencePickerContainer'
 import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
+import { ToolbarButtonMap } from '../Toolbar'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
 
 import {
@@ -19,7 +20,6 @@ import {
 } from './commands'
 import icons from './icons'
 import schema from './schema'
-import { ToolbarButtonMap } from './types'
 
 const styles: ToolbarButtonMap = {
   bold: {
