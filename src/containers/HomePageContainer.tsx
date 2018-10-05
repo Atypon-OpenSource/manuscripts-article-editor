@@ -15,7 +15,7 @@ class HomePageContainer extends React.Component<UserProps> {
       return <Redirect to={'/projects'} />
     }
 
-    return <Redirect to={'/login'} />
+    return <Redirect to={'/signup'} />
   }
 }
 
