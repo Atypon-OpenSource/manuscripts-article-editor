@@ -4,6 +4,7 @@ image: registry.gitlab.com/mpapp-private/manuscripts-frontend/node8-aws
 #
 # API_BASE_URL: the base URL of the manuscripts-api endpoint
 # API_APPLICATION_ID: the application ID sent to the manuscripts-api endpoint
+# DISCOURSE_HOST: the base URL of the Discourse host
 # SYNC_GATEWAY_URL: the base URL of the sync gateway endpoint
 # S3_BUCKET: S3 bucket name
 # CLOUDFRONT_ID: CloudFront distribution ID

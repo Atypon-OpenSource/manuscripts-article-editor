@@ -9,6 +9,7 @@ import {
   MenuSection,
   MenuSections,
 } from './Menu'
+import { UpdatesContainer } from './UpdatesContainer'
 
 interface Props {
   active: string
@@ -16,9 +17,11 @@ interface Props {
 
 export const GlobalMenu: React.SFC<Props> = ({ active }) => (
   <MenuContainer>
-    <MenuBarIcon>
-      <NavIcon />
-    </MenuBarIcon>
+    <UpdatesContainer>
+      <MenuBarIcon>
+        <NavIcon />
+      </MenuBarIcon>
+    </UpdatesContainer>
     <MenuSections>
       <MenuSection>
         {active === 'projects' ? (

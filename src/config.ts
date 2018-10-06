@@ -6,6 +6,9 @@ interface Config {
     url: string
     headers: object
   }
+  discourse: {
+    host: string
+  }
   gateway: {
     url: string
   }
@@ -47,6 +50,9 @@ const config = {
     headers: {
       'manuscripts-app-id': process.env.API_APPLICATION_ID,
     },
+  },
+  discourse: {
+    host: normalizeURL(process.env.DISCOURSE_HOST),
   },
   gateway: {
     url: normalizeURL(process.env.SYNC_GATEWAY_URL),
