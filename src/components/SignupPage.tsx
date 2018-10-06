@@ -5,7 +5,7 @@ import FooterContainer from '../containers/FooterContainer'
 import {
   AuthenticationContainer,
   GoogleLogin,
-  OrcidLogin,
+  // OrcidLogin,
 } from './Authentication'
 import { Centered } from './Page'
 import { SignupForm, SignupValues } from './SignupForm'
@@ -30,7 +30,7 @@ const SignupPage: React.SFC<FormikConfig<SignupValues>> = ({
       <div>Sign up with</div>
       <div>
         <AuthButtonContainer component={GoogleLogin} />
-        <AuthButtonContainer component={OrcidLogin} />
+        {/*<AuthButtonContainer component={OrcidLogin} />*/}
       </div>
     </AuthenticationContainer>
 
