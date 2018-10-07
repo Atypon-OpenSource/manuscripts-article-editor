@@ -1,9 +1,6 @@
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
-import AttentionWarning from '../icons/attention-warning'
-import { styled, ThemedProps } from '../theme'
-import { ManuscriptBlueButton, TransparentGreyButton } from './Button'
-import { StyledModal, totalTransitionTime } from './StyledModal'
+import { styled } from '../theme'
 
 const Container = styled.div`
   z-index: 10;
