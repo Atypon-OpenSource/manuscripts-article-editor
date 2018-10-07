@@ -1,9 +1,9 @@
+import projectDump from '@manuscripts/examples/data/project-dump.json'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import CSL from 'citeproc'
 import { createBrowserHistory } from 'history'
 import React from 'react'
-import projectDump from '@manuscripts/examples/data/project-dump.json'
 import Editor, {
   DeleteComponent,
   GetComponent,
