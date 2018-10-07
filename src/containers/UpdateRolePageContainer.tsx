@@ -1,5 +1,5 @@
 import React from 'react'
-import { Category, Dialog } from '../components/Popper'
+import { Category, Dialog } from '../components/Dialog'
 
 interface Props {
   selectedRole: string
@@ -10,13 +10,20 @@ interface Props {
 
 class UpdateRolePageContainer extends React.Component<Props> {
   public render() {
+    const actions = {
+      primary: {
+        action: this.props.handleCancel,
+        title: 'Cancel',
+      },
+      secondary: {
+        action: this.handleUpdate,
+        title: 'Update Role',
+      },
+    }
     return (
       <Dialog
         isOpen={this.props.updating}
-        primaryAction={this.props.handleCancel}
-        secondaryAction={this.handleUpdate}
-        secondaryActionTitle={'Update Role'}
-        primaryActionTitle={'Cancel'}
+        actions={actions}
         category={Category.confirmation}
         header={'Update collaborator role'}
         message={'Are you sure you want to update collaborator role?'}
