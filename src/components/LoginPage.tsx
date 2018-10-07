@@ -7,7 +7,7 @@ import AlertMessage from './AlertMessage'
 import {
   AuthenticationContainer,
   GoogleLogin,
-  OrcidLogin,
+  // OrcidLogin,
 } from './Authentication'
 import { LoginForm, LoginValues } from './LoginForm'
 import { Centered } from './Page'
@@ -51,7 +51,7 @@ const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
       <div>Sign in with</div>
       <div>
         <AuthButtonContainer component={GoogleLogin} />
-        <AuthButtonContainer component={OrcidLogin} />
+        {/*<AuthButtonContainer component={OrcidLogin} />*/}
       </div>
     </AuthenticationContainer>
 
