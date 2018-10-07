@@ -316,11 +316,12 @@ export class ApplicationMenu extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    this.addClickListener()
+    this.addBlurListener()
   }
 
   public componentWillUnmount() {
     this.removeClickListener()
+    this.removeBlurListener()
   }
 
   public render() {
@@ -393,6 +394,10 @@ export class ApplicationMenu extends React.Component<Props, State> {
     this.setState({
       activeMenu: index,
     })
+
+    if (index !== null) {
+      this.addClickListener()
+    }
   }
 
   private addClickListener = () => {
@@ -411,6 +416,18 @@ export class ApplicationMenu extends React.Component<Props, State> {
       this.setActiveMenu(null)
       this.removeClickListener()
     }
+  }
+
+  private addBlurListener = () => {
+    window.addEventListener('blur', this.handleBlur)
+  }
+
+  private removeBlurListener = () => {
+    window.removeEventListener('blur', this.handleBlur)
+  }
+
+  private handleBlur = () => {
+    this.setActiveMenu(null)
   }
 }
 
