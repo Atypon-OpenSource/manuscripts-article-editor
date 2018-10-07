@@ -5,7 +5,7 @@ import { jellyBeanBlue, manuscriptsBlue } from '../colors'
 import ProjectsDropdownButton from '../containers/ProjectsDropdownButton'
 import UserContainer from '../containers/UserContainer'
 import { styled } from '../theme'
-import ViewIcon from './ViewIcon'
+import { Tip } from './Tip'
 
 export const MenuContainer = styled.div`
   display: flex;
@@ -77,17 +77,15 @@ interface Props {
 
 export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
   <MenuContainer>
-    <ViewIcon title={'Back to Editor'} tooltip={{ top: '80%', left: '20%' }}>
+    <Tip title={'Back to Editor'} placement={'bottom-end'}>
       <MenuBarIcon onClick={handleClose}>
         <NavIcon />
       </MenuBarIcon>
-    </ViewIcon>
+    </Tip>
 
     <MenuSections>
       <MenuSection>
         <ProjectsDropdownButton />
-        <MenuLink to={`/projects/${projectID}/collaborators`}>People</MenuLink>
-        <MenuLink to={`/projects/${projectID}/library`}>Library</MenuLink>
       </MenuSection>
 
       <MenuSection>

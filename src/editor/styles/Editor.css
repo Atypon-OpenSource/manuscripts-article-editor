@@ -144,7 +144,7 @@
   word-wrap: break-word;
 }
 
-.ProseMirror .suppress-caption {
+.ProseMirror .suppress-caption figcaption {
   display: none;
 }
 
@@ -294,29 +294,36 @@
   flex: 1;
 }
 
-.ProseMirror prosemirror-equation,
-.ProseMirror prosemirror-inline-equation {
+.ProseMirror .equation,
+.ProseMirror .listing,
+.ProseMirror .MPInlineMathFragment {
   position: relative;
   cursor: context-menu;
   line-height: 1em;
 }
 
-.ProseMirror prosemirror-equation {
-  display: block;
-  width: 100%;
+.ProseMirror .equation,
+.ProseMirror .listing {
+  display: flex;
   min-height: 34px;
   padding: 5px;
   max-width: 100%;
   overflow-x: auto;
+  justify-content: center;
 }
 
-.ProseMirror prosemirror-inline-equation {
+.ProseMirror .equation svg {
+  max-width: 100%;
+}
+
+.ProseMirror p .equation {
+  display: inline-flex;
+  min-height: 0;
+}
+
+.ProseMirror .MPInlineMathFragment {
   display: inline-block;
   /*margin: 0 1ch;*/
-}
-
-.ProseMirror mjx-chtml {
-  margin: 0;
 }
 
 .ProseMirror .code-placeholder,
@@ -326,7 +333,7 @@
   font-style: italic;
 }
 
-.ProseMirror prosemirror-equation .equation-placeholder {
+.ProseMirror .equation .equation-placeholder {
   text-align: center;
 }
 

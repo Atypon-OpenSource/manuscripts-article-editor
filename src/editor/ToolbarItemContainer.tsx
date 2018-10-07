@@ -1,15 +1,18 @@
 import { EditorState } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import Modal from 'react-modal'
 import { styled } from '../theme'
-import { Dispatch, ToolbarButton, ToolbarButtonProps } from './config/types'
+import { ToolbarButton } from './Toolbar'
 
 export const ToolbarItem = styled.div`
   display: inline-flex;
   position: relative;
 `
 
-export const StyledButton = styled.button<ToolbarButtonProps>`
+export const StyledButton = styled.button<{
+  'data-active'?: boolean
+}>`
   background-color: ${props => (props['data-active'] ? '#eee' : '#fff')};
   border: 1px solid #d6d6d6;
   cursor: pointer;
@@ -64,7 +67,7 @@ interface Props {
   key: string
   item: ToolbarButton
   state: EditorState
-  dispatch: Dispatch
+  view: EditorView
 }
 
 class ToolbarItemContainer extends React.Component<Props, State> {
@@ -73,7 +76,7 @@ class ToolbarItemContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const { state, dispatch, item } = this.props
+    const { state, view, item } = this.props
 
     const Dropdown = item.dropdown
 
@@ -89,7 +92,7 @@ class ToolbarItemContainer extends React.Component<Props, State> {
             if (item.dropdown) {
               this.toggleDropdown()
             } else if (item.run) {
-              item.run(state, dispatch)
+              item.run(state, view.dispatch)
             } else {
               // console.warn('No dropdown or run')
             }
@@ -107,7 +110,7 @@ class ToolbarItemContainer extends React.Component<Props, State> {
           >
             <Dropdown
               state={state}
-              dispatch={dispatch}
+              view={view}
               handleClose={this.toggleDropdown}
             />
           </Modal>

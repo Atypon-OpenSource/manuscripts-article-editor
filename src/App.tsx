@@ -8,6 +8,7 @@ import AcceptInvitationURIContainer from './containers/AcceptProjectInvitationUR
 import AddCollaboratorsPageContainer from './containers/AddCollaboratorsPageContainer'
 import ChangePasswordPageContainer from './containers/ChangePasswordPageContainer'
 import CollaboratorsPageContainer from './containers/CollaboratorsPageContainer'
+import CommunityLoginPageContainer from './containers/CommunityLoginContainer'
 import DeleteAccountPageContainer from './containers/DeleteAccountPageContainer'
 import DeveloperPageContainer from './containers/DeveloperPageContainer'
 import HomePageContainer from './containers/HomePageContainer'
@@ -41,6 +42,11 @@ const App = () => (
       path={'/change-password'}
       exact={true}
       component={ChangePasswordPageContainer}
+    />
+    <PrivateRoute
+      path={'/community'}
+      exact={true}
+      component={CommunityLoginPageContainer}
     />
     <PrivateRoute
       path={'/delete-account'}

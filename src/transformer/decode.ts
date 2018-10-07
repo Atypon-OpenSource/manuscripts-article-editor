@@ -13,16 +13,18 @@ import {
   ComponentAttachment,
   ComponentDocument,
   ComponentMap,
+  Equation,
   EquationElement,
   Figure,
   FigureElement,
+  List,
+  Listing,
   ListingElement,
-  OrderedListElement,
-  ParagraphElement,
+  Paragraph,
   Section,
   Table,
   TableElement,
-  UnorderedListElement,
+  TOCElement,
   UserProfile,
 } from '../types/components'
 import * as ObjectTypes from './object-types'
@@ -104,6 +106,7 @@ export const getComponentsByType = <T extends AnyComponent>(
 export const sortSectionsByPriority = (a: Section, b: Section) =>
   a.priority === b.priority ? 0 : a.priority - b.priority
 
+// TODO: include bibliography and toc sections
 export const getSections = (componentMap: ComponentMap) =>
   getComponentsByType<Section>(componentMap, ObjectTypes.SECTION).sort(
     sortSectionsByPriority
@@ -113,37 +116,11 @@ export class Decoder {
   private readonly componentMap: ComponentMap
 
   private creators: NodeCreatorMap = {
-    [ObjectTypes.PARAGRAPH_ELEMENT]: (component: ParagraphElement) => {
-      return parseContents(component.contents, {
-        topNode: schema.nodes.paragraph.create({
-          id: component.id,
-          placeholder: component.placeholderInnerHTML,
-        }),
+    [ObjectTypes.BIBLIOGRAPHY_ELEMENT]: (component: BibliographyElement) => {
+      return schema.nodes.bibliography_element.create({
+        id: component.id,
+        contents: component.contents.replace(/\s+xmlns=".+?"/, ''),
       })
-    },
-    [ObjectTypes.LIST_ELEMENT]: (
-      component: OrderedListElement | UnorderedListElement
-    ) => {
-      switch (component.elementType) {
-        case 'ol':
-          // TODO: wrap inline text in paragraphs
-          return parseContents(component.contents, {
-            topNode: schema.nodes.ordered_list.create({
-              id: component.id,
-            }),
-          })
-
-        case 'ul':
-          // TODO: wrap inline text in paragraphs
-          return parseContents(component.contents, {
-            topNode: schema.nodes.bullet_list.create({
-              id: component.id,
-            }),
-          })
-
-        default:
-          throw new Error('Unknown list element type')
-      }
     },
     [ObjectTypes.FIGURE_ELEMENT]: (component: FigureElement) => {
       const figcaptionNode = schema.nodes.figcaption.create()
@@ -154,7 +131,9 @@ export class Decoder {
           })
         : figcaptionNode
 
-      return schema.nodes.figure.createChecked(
+      // TODO: actual figure nodes in here?
+
+      return schema.nodes.figure_element.createChecked(
         {
           id: component.id,
           containedObjectIDs: component.containedObjectIDs,
@@ -164,13 +143,15 @@ export class Decoder {
         figcaption
       )
     },
-    [ObjectTypes.TABLE_ELEMENT]: (component: TableElement) => {
-      const tableComponent = this.getComponent<Table>(
+    [ObjectTypes.EQUATION_ELEMENT]: (component: EquationElement) => {
+      const equationComponent = this.getComponent<Equation>(
         component.containedObjectID
       )
 
-      const table = parseContents(tableComponent.contents, {
-        topNode: schema.nodes.table.create(),
+      const equation = schema.nodes.equation.create({
+        id: equationComponent.id,
+        SVGStringRepresentation: equationComponent.SVGStringRepresentation,
+        TeXRepresentation: equationComponent.TeXRepresentation,
       })
 
       const figcaptionNode = schema.nodes.figcaption.create()
@@ -181,37 +162,83 @@ export class Decoder {
           })
         : figcaptionNode
 
-      return schema.nodes.table_figure.createChecked(
+      return schema.nodes.equation_element.createChecked(
         {
           id: component.id,
-          table: component.containedObjectID,
-          suppressFooter: component.suppressFooter,
-          suppressHeader: component.suppressHeader,
+          suppressCaption: component.suppressCaption,
         },
-        [table, figcaption]
+        [equation, figcaption]
       )
     },
-    [ObjectTypes.BIBLIOGRAPHY_ELEMENT]: (component: BibliographyElement) => {
-      return schema.nodes.bibliography.create({
+    [ObjectTypes.FOOTNOTES_ELEMENT]: (component: TOCElement) => {
+      return schema.nodes.footnotes_element.create({
         id: component.id,
         contents: component.contents,
       })
     },
-    [ObjectTypes.EQUATION_ELEMENT]: (component: EquationElement) => {
-      return schema.nodes.equation_block.create({
-        id: component.id,
-        latex: component.TeXRepresentation,
-      })
+    [ObjectTypes.LIST_ELEMENT]: (component: List) => {
+      switch (component.elementType) {
+        case 'ol':
+          // TODO: wrap inline text in paragraphs
+          return parseContents(component.contents, {
+            topNode: schema.nodes.ordered_list.create({
+              id: component.id,
+              paragraphStyle: component.paragraphStyle,
+            }),
+          })
+
+        case 'ul':
+          // TODO: wrap inline text in paragraphs
+          return parseContents(component.contents, {
+            topNode: schema.nodes.bullet_list.create({
+              id: component.id,
+              paragraphStyle: component.paragraphStyle,
+            }),
+          })
+
+        default:
+          throw new Error('Unknown list element type')
+      }
     },
     [ObjectTypes.LISTING_ELEMENT]: (component: ListingElement) => {
-      return schema.nodes.code_block.create({
-        id: component.id,
-        code: component.contents,
-        language: component.languageKey,
+      const listingComponent = this.getComponent<Listing>(
+        component.containedObjectID
+      )
+
+      const listing = schema.nodes.listing.create({
+        id: listingComponent.id,
+        contents: listingComponent.contents,
+        language: listingComponent.language,
+        languageKey: listingComponent.languageKey,
+      })
+
+      const figcaptionNode = schema.nodes.figcaption.create()
+
+      const figcaption = component.caption
+        ? parseContents(`<figcaption>${component.caption}</figcaption>`, {
+            topNode: figcaptionNode,
+          })
+        : figcaptionNode
+
+      return schema.nodes.listing_element.createChecked(
+        {
+          id: component.id,
+          suppressCaption: component.suppressCaption,
+        },
+        [listing, figcaption]
+      )
+    },
+    [ObjectTypes.PARAGRAPH]: (component: Paragraph) => {
+      return parseContents(component.contents, {
+        topNode: schema.nodes.paragraph.create({
+          id: component.id,
+          paragraphStyle: component.paragraphStyle,
+          placeholder: component.placeholderInnerHTML,
+        }),
       })
     },
     [ObjectTypes.SECTION]: (component: Section) => {
-      const elements = []
+      const elements: Component[] = []
 
       if (component.elementIDs) {
         for (const id of component.elementIDs) {
@@ -224,7 +251,7 @@ export class Decoder {
         }
       }
 
-      const elementNodes = elements.map(this.decode) as ProsemirrorNode[]
+      const elementNodes = elements.map(this.decode)
 
       const sectionTitleNode = component.title
         ? parseContents(`<h1>${component.title}</h1>`, {
@@ -237,13 +264,9 @@ export class Decoder {
         .filter(item => item.path[item.path.length - 2] === component.id)
         .map(this.creators[ObjectTypes.SECTION])
 
-      const nodeType =
-        elements.length &&
-        elements[0].objectType === ObjectTypes.BIBLIOGRAPHY_ELEMENT
-          ? schema.nodes.bibliography_section
-          : schema.nodes.section
+      const sectionNodeType = this.chooseSectionNodeType(elements)
 
-      const sectionNode = nodeType.createAndFill(
+      const sectionNode = sectionNodeType.createAndFill(
         {
           id: component.id,
           titleSuppressed: component.titleSuppressed,
@@ -258,6 +281,44 @@ export class Decoder {
 
       return sectionNode
     },
+    [ObjectTypes.TABLE_ELEMENT]: (component: TableElement) => {
+      const tableComponent = this.getComponent<Table>(
+        component.containedObjectID
+      )
+
+      const table = parseContents(tableComponent.contents, {
+        topNode: schema.nodes.table.create({
+          id: tableComponent.id,
+        }),
+      })
+
+      const figcaptionNode = schema.nodes.figcaption.create()
+
+      const figcaption = component.caption
+        ? parseContents(`<figcaption>${component.caption}</figcaption>`, {
+            topNode: figcaptionNode,
+          })
+        : figcaptionNode
+
+      return schema.nodes.table_element.createChecked(
+        {
+          id: component.id,
+          table: component.containedObjectID,
+          suppressCaption: component.suppressCaption,
+          suppressFooter: component.suppressFooter,
+          suppressHeader: component.suppressHeader,
+          tableStyle: component.tableStyle,
+          paragraphStyle: component.paragraphStyle,
+        },
+        [table, figcaption]
+      )
+    },
+    [ObjectTypes.TOC_ELEMENT]: (component: TOCElement) => {
+      return schema.nodes.toc_element.create({
+        id: component.id,
+        contents: component.contents,
+      })
+    },
   }
 
   constructor(componentMap: ComponentMap) {
@@ -266,8 +327,7 @@ export class Decoder {
 
   public decode = (component: Component) => {
     if (!this.creators[component.objectType]) {
-      console.debug('No converter for ' + component.objectType) // tslint:disable-line:no-console
-      return null
+      throw new Error('No converter for ' + component.objectType)
     }
 
     return this.creators[component.objectType](component)
@@ -286,7 +346,7 @@ export class Decoder {
       section => section.path.length <= 1
     )
 
-    const rootSectionNodes = rootSections.map(this.decode) as ProsemirrorNode[]
+    const rootSectionNodes = rootSections.map(this.decode)
 
     if (!rootSectionNodes.length) {
       rootSectionNodes.push(
@@ -294,7 +354,7 @@ export class Decoder {
       )
     }
 
-    const node = schema.nodes.article.create({}, rootSectionNodes)
+    const node = schema.nodes.manuscript.create({}, rootSectionNodes)
 
     try {
       node.check()
@@ -304,5 +364,20 @@ export class Decoder {
     }
 
     return node
+  }
+
+  private chooseSectionNodeType = (elements: Component[]) => {
+    if (!elements.length) return schema.nodes.section
+
+    switch (elements[0].objectType) {
+      case ObjectTypes.BIBLIOGRAPHY_ELEMENT:
+        return schema.nodes.bibliography_section
+
+      case ObjectTypes.TOC_ELEMENT:
+        return schema.nodes.toc_section
+
+      default:
+        return schema.nodes.section
+    }
   }
 }

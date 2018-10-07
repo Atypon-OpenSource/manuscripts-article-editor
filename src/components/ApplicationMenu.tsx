@@ -1,10 +1,10 @@
 import { EditorState } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import Modal from 'react-modal'
 import { Manager, Popper, Reference } from 'react-popper'
 import { manuscriptsBlue } from '../colors'
 import { MenuItem } from '../editor/config/menus'
-import { Dispatch } from '../editor/config/types'
 import { styled } from '../theme'
 
 // tslint:disable:max-classes-per-file
@@ -133,7 +133,7 @@ const Shortcut: React.SFC<ShortcutProps> = ({ accelerator }) => (
 interface MenuItemProps {
   item: MenuItem
   state: EditorState
-  dispatch: Dispatch
+  view: EditorView
   closeMenu: () => void
 }
 
@@ -156,9 +156,10 @@ export class MenuItemContainer extends React.Component<
     isOpen: false,
     isDropdownOpen: false,
   }
+  private menuTimeout: number
 
   public render(): React.ReactNode | null {
-    const { item, state, dispatch, closeMenu } = this.props
+    const { item, state, view, closeMenu } = this.props
     const { isOpen } = this.state
 
     if (item.role === 'separator') return <Separator />
@@ -173,9 +174,9 @@ export class MenuItemContainer extends React.Component<
             event.preventDefault()
 
             if (item.dropdown) {
-              this.toggleDropdown()
+              this.openDropdown()
             } else if (item.run) {
-              item.run(state, dispatch)
+              item.run(state, view.dispatch)
               closeMenu()
             } else {
               // console.warn('No dropdown or run')
@@ -190,14 +191,15 @@ export class MenuItemContainer extends React.Component<
           {item.dropdown && (
             <Modal
               isOpen={this.state.isDropdownOpen}
-              onRequestClose={this.toggleDropdown}
+              onRequestClose={this.closeDropdown}
+              shouldCloseOnOverlayClick={false}
               style={modalStyle}
               ariaHideApp={false}
             >
               <Dropdown
                 state={state}
-                dispatch={dispatch}
-                handleClose={this.toggleDropdown}
+                view={view}
+                handleClose={this.closeDropdown}
               />
             </Modal>
           )}
@@ -206,14 +208,15 @@ export class MenuItemContainer extends React.Component<
     }
 
     return (
-      <div onMouseLeave={() => this.setState({ isOpen: false })}>
+      <div onMouseLeave={this.closeMenu}>
         <Manager>
           <Reference>
             {({ ref }) => (
               <Container
                 // @ts-ignore: styled
                 ref={ref}
-                onMouseEnter={() => this.setState({ isOpen: true })}
+                onMouseEnter={this.openMenu}
+                className={classNameFromState(item, state)}
               >
                 <Active>{activeContent(item, state)}</Active>
                 {item.icon && <Icon>{item.icon}</Icon>}
@@ -240,7 +243,7 @@ export class MenuItemContainer extends React.Component<
                         key={`menu-${index}`}
                         item={menu}
                         state={state}
-                        dispatch={dispatch}
+                        view={view}
                         closeMenu={closeMenu}
                       />
                     ))}
@@ -253,126 +256,161 @@ export class MenuItemContainer extends React.Component<
     )
   }
 
-  private toggleDropdown = () => {
-    this.setState({
-      isDropdownOpen: !this.state.isDropdownOpen,
-    })
-  }
-}
+  private openMenu = () => {
+    window.clearTimeout(this.menuTimeout)
 
-interface MenuProps {
-  menu: MenuItem
-  state: EditorState
-  dispatch: Dispatch
-  isActive: boolean
-}
-
-interface MenuState {
-  isOpen: boolean
-}
-
-export class Menu extends React.Component<MenuProps, MenuState> {
-  public state = {
-    isOpen: false,
-  }
-
-  public render() {
-    const { menu, state, dispatch, isActive } = this.props
-    const { isOpen } = this.state
-
-    return (
-      <MenuContainer
-        className={isActive ? 'active' : ''}
-        onMouseLeave={() => this.setState({ isOpen: false })}
-      >
-        <Manager>
-          <Reference>
-            {({ ref }) => (
-              <MenuHeading
-                // @ts-ignore: styled
-                ref={ref}
-                onMouseEnter={() => this.setState({ isOpen: true })}
-                className={isOpen ? 'open' : ''}
-              >
-                <Text>{menu.label}</Text>
-              </MenuHeading>
-            )}
-          </Reference>
-          {isOpen &&
-            isActive && (
-              <Popper placement="bottom-start">
-                {({ ref, style, placement }) => (
-                  <MenuList
-                    // @ts-ignore: styled
-                    ref={ref}
-                    style={style}
-                    data-placement={placement}
-                  >
-                    {menu.submenu &&
-                      menu.submenu.map((menu, index) => (
-                        <MenuItemContainer
-                          key={`menu-${index}`}
-                          item={menu}
-                          state={state}
-                          dispatch={dispatch}
-                          closeMenu={this.closeMenu}
-                        />
-                      ))}
-                  </MenuList>
-                )}
-              </Popper>
-            )}
-        </Manager>
-      </MenuContainer>
-    )
+    this.menuTimeout = window.setTimeout(() => {
+      this.setState({
+        isOpen: true,
+      })
+    }, 100)
   }
 
   private closeMenu = () => {
+    window.clearTimeout(this.menuTimeout)
+
+    this.menuTimeout = window.setTimeout(() => {
+      this.setState({
+        isOpen: false,
+      })
+    }, 100)
+  }
+
+  private openDropdown = () => {
     this.setState({
-      isOpen: false,
+      isDropdownOpen: true,
     })
+  }
+
+  private closeDropdown = () => {
+    this.setState(
+      {
+        isDropdownOpen: false,
+      },
+      () => {
+        this.props.closeMenu()
+      }
+    )
   }
 }
 
 interface Props {
   menus: MenuItem[]
   state: EditorState
-  dispatch: Dispatch
+  view: EditorView
 }
 
 interface State {
-  isActive: boolean
+  activeMenu: number | null
 }
 
 export class ApplicationMenu extends React.Component<Props, State> {
   public state: Readonly<State> = {
-    isActive: false,
+    activeMenu: null,
+  }
+  private containerRef: React.RefObject<HTMLDivElement>
+
+  public constructor(props: Props) {
+    super(props)
+    this.containerRef = React.createRef()
+  }
+
+  public componentDidMount() {
+    this.addClickListener()
+  }
+
+  public componentWillUnmount() {
+    this.removeClickListener()
   }
 
   public render() {
-    const { menus, state, dispatch } = this.props
+    const { menus, state, view } = this.props
+    const { activeMenu } = this.state
 
     return (
-      <ApplicationMenuContainer onMouseDown={this.toggleActive}>
+      // @ts-ignore: styled
+      <ApplicationMenuContainer ref={this.containerRef}>
         {menus.map((menu, index) => (
-          <Menu
+          <MenuContainer
             key={`menu-${index}`}
-            menu={menu}
-            state={state}
-            dispatch={dispatch}
-            isActive={this.state.isActive}
-          />
+            className={activeMenu === index ? 'active' : ''}
+          >
+            <Manager>
+              <Reference>
+                {({ ref }) => (
+                  <MenuHeading
+                    // @ts-ignore: styled
+                    ref={ref}
+                    onMouseDown={event => {
+                      event.preventDefault()
+                      this.setActiveMenu(activeMenu !== null ? null : index)
+                    }}
+                    onMouseEnter={() => {
+                      if (activeMenu !== null) {
+                        this.setActiveMenu(index)
+                      }
+                    }}
+                    className={activeMenu === index ? 'open' : ''}
+                  >
+                    <Text>{menu.label}</Text>
+                  </MenuHeading>
+                )}
+              </Reference>
+
+              {activeMenu === index && (
+                <Popper placement="bottom-start">
+                  {({ ref, style, placement }) => (
+                    <MenuList
+                      // @ts-ignore: styled
+                      ref={ref}
+                      style={style}
+                      data-placement={placement}
+                    >
+                      {menu.submenu &&
+                        menu.submenu.map((menu, index) => (
+                          <MenuItemContainer
+                            key={`menu-${index}`}
+                            item={menu}
+                            state={state}
+                            view={view}
+                            closeMenu={() => {
+                              this.setActiveMenu(null)
+                            }}
+                          />
+                        ))}
+                    </MenuList>
+                  )}
+                </Popper>
+              )}
+            </Manager>
+          </MenuContainer>
         ))}
       </ApplicationMenuContainer>
     )
   }
 
-  private toggleActive = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault()
-
+  private setActiveMenu = (index: number | null) => {
     this.setState({
-      isActive: !this.state.isActive,
+      activeMenu: index,
     })
+  }
+
+  private addClickListener = () => {
+    document.addEventListener('mousedown', this.handleClick)
+  }
+
+  private removeClickListener = () => {
+    document.removeEventListener('mousedown', this.handleClick)
+  }
+
+  private handleClick = (event: MouseEvent) => {
+    if (
+      this.containerRef.current &&
+      !this.containerRef.current.contains(event.target as Node)
+    ) {
+      this.setActiveMenu(null)
+      this.removeClickListener()
+    }
   }
 }
 

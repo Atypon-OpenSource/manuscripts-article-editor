@@ -14,7 +14,6 @@ import {
 } from '../lib/commands'
 import { ContributorRole } from '../lib/roles'
 import sessionID from '../lib/sessionID'
-import { newestFirst } from '../lib/sort'
 import timestamp from '../lib/timestamp'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
@@ -38,6 +37,21 @@ import {
 
 export interface ProjectInfo extends Partial<Project> {
   collaborators: UserProfile[]
+}
+
+export const projectListCompare = (
+  a: ProjectInfo | Project,
+  b: ProjectInfo | Project
+) => {
+  // sort untitled projects to the top
+  if (!a.title) {
+    return b.title ? -1 : Number(b.createdAt) - Number(a.createdAt)
+  }
+
+  return (
+    String(a.title).localeCompare(String(b.title)) ||
+    Number(b.createdAt) - Number(a.createdAt)
+  )
 }
 
 interface State {
@@ -111,7 +125,7 @@ class ProjectsPageContainer extends React.Component<
 
         const projects: ProjectInfo[] = []
 
-        for (const doc of docs.sort(newestFirst)) {
+        for (const doc of docs) {
           const component = doc.toJSON()
 
           const collaborators = [

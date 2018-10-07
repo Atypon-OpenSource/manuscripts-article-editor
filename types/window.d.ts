@@ -8,5 +8,6 @@ declare global {
   interface Window {
     RxDB: RxDB
     requestIdleCallback: (T: () => void, options: object) => string
+    XMLSerializer: XMLSerializer
   }
 }

@@ -2,6 +2,7 @@ import { Fragment, Node as ProsemirrorNode, Slice } from 'prosemirror-model'
 import { EditorView } from 'prosemirror-view'
 import { nodeNames } from '../../transformer/node-names'
 import { createBlock } from '../config/commands'
+import { Nodes } from '../config/schema/nodes'
 import PopperManager from './popper'
 
 const popper = new PopperManager()
@@ -138,44 +139,44 @@ export class Menu {
     if (
       this.showMenuSection(insertableTypes, [
         'figure',
-        'tableFigure',
-        'equationBlock',
-        'codeBlock',
+        'tableElement',
+        'equationElement',
+        'listingElement',
       ])
     ) {
       menu.appendChild(
         this.createMenuSection((section: HTMLElement) => {
-          if (insertableTypes.figure) {
+          if (insertableTypes.figureElement) {
             section.appendChild(
               this.createMenuItem('Figure Panel', () => {
-                this.addBlock('figure', after)
+                this.addBlock('figure_element', after)
                 popper.destroy()
               })
             )
           }
 
-          if (insertableTypes.tableFigure) {
+          if (insertableTypes.tableElement) {
             section.appendChild(
               this.createMenuItem('Table', () => {
-                this.addBlock('table_figure', after)
+                this.addBlock('table_element', after)
                 popper.destroy()
               })
             )
           }
 
-          if (insertableTypes.equationBlock) {
+          if (insertableTypes.equationElement) {
             section.appendChild(
               this.createMenuItem('Equation', () => {
-                this.addBlock('equation_block', after)
+                this.addBlock('equation_element', after)
                 popper.destroy()
               })
             )
           }
 
-          if (insertableTypes.codeBlock) {
+          if (insertableTypes.listingElement) {
             section.appendChild(
               this.createMenuItem('Listing', () => {
-                this.addBlock('code_block', after)
+                this.addBlock('listing_element', after)
                 popper.destroy()
               })
             )
@@ -194,7 +195,7 @@ export class Menu {
     menu.className = 'menu'
 
     const $pos = this.resolvePos()
-    const nodeType = this.node.type.name
+    const nodeType = this.node.type.name as Nodes
 
     if (this.isListType(nodeType)) {
       menu.appendChild(
@@ -289,7 +290,7 @@ export class Menu {
     this.addPopperEventListeners(popper)
   }
 
-  private addBlock = (type: string, after: boolean, position?: number) => {
+  private addBlock = (type: Nodes, after: boolean, position?: number) => {
     const { state, dispatch } = this.view
 
     if (position === undefined) {
@@ -301,7 +302,7 @@ export class Menu {
     createBlock(nodeType, position, state, dispatch)
   }
 
-  private canAddBlock = (type: string, after: boolean, position?: number) => {
+  private canAddBlock = (type: Nodes, after: boolean, position?: number) => {
     const { state } = this.view
 
     if (position === undefined) {
@@ -347,10 +348,10 @@ export class Menu {
     paragraph: this.canAddBlock('paragraph', after),
     orderedList: this.canAddBlock('ordered_list', after),
     bulletList: this.canAddBlock('bullet_list', after),
-    figure: this.canAddBlock('figure', after),
-    tableFigure: this.canAddBlock('table_figure', after),
-    equationBlock: this.canAddBlock('equation_block', after),
-    codeBlock: this.canAddBlock('code_block', after),
+    figureElement: this.canAddBlock('figure_element', after),
+    tableElement: this.canAddBlock('table_element', after),
+    equationElement: this.canAddBlock('equation_element', after),
+    listingElement: this.canAddBlock('listing_element', after),
   })
 
   private showMenuSection = (
@@ -370,7 +371,7 @@ export class Menu {
     popper.destroy()
   }
 
-  private deleteNode = (nodeType: string) => {
+  private deleteNode = (nodeType: Nodes) => {
     switch (nodeType) {
       case 'section_title': {
         const $pos = this.resolvePos()

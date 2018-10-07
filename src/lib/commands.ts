@@ -10,6 +10,8 @@ import {
   COMMENT_ANNOTATION,
   CONTRIBUTOR,
   FIGURE,
+  FOOTNOTE,
+  INLINE_MATH_FRAGMENT,
   KEYWORD,
   MANUSCRIPT,
   PROJECT,
@@ -26,6 +28,8 @@ import {
   Contributor,
   ContributorRole,
   Figure,
+  Footnote,
+  InlineMathFragment,
   Keyword,
   Manuscript,
   ManuscriptComponent,
@@ -136,7 +140,7 @@ export const buildKeyword = (name: string): Build<Keyword> => ({
 })
 
 export const buildFigure = (file: File): Build<Figure> => ({
-  id: generateID('figure_image') as string,
+  id: generateID('figure') as string,
   objectType: FIGURE,
   contentType: file.type,
   src: window.URL.createObjectURL(file),
@@ -164,5 +168,25 @@ export const buildComment = (
   userID,
   target,
   selector,
+  contents,
+})
+
+export const buildInlineMathFragment = (
+  containingObject: string,
+  TeXRepresentation: string
+): Build<InlineMathFragment> => ({
+  id: generateID('inline_equation') as string,
+  objectType: INLINE_MATH_FRAGMENT,
+  containingObject,
+  TeXRepresentation,
+})
+
+export const buildFootnote = (
+  containingObject: string,
+  contents: string
+): Build<Footnote> => ({
+  id: generateID('footnote') as string,
+  objectType: FOOTNOTE,
+  containingObject,
   contents,
 })

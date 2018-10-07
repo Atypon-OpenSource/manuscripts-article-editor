@@ -1,58 +1,152 @@
-import {
-  DOMSerializer,
-  Fragment,
-  Node as ProsemirrorNode,
-} from 'prosemirror-model'
+import { DOMSerializer, Node as ProsemirrorNode } from 'prosemirror-model'
 import schema from '../editor/config/schema'
 import { iterateChildren } from '../editor/lib/utils'
 import {
   AnyComponent,
+  BibliographyElement,
+  Citation,
   ComponentMap,
   ComponentWithAttachment,
+  Equation,
+  EquationElement,
+  FigureElement,
+  Footnote,
+  FootnotesElement,
+  InlineMathFragment,
+  List,
+  Listing,
+  ListingElement,
+  Paragraph,
+  Section,
+  Table,
+  TableElement,
+  TOCElement,
 } from '../types/components'
 import nodeTypes, { NodeTypeName } from './node-types'
+import xmlSerializer from './serializer'
 
 const serializer = DOMSerializer.fromSchema(schema)
 
-const contents = (node: ProsemirrorNode): string =>
-  (serializer.serializeNode(node) as HTMLElement).outerHTML
+const contents = (node: ProsemirrorNode): string => {
+  const output = serializer.serializeNode(node) as HTMLElement
+
+  return xmlSerializer.serializeToString(output)
+}
+
+const htmlContents = (node: ProsemirrorNode): string => {
+  const output = serializer.serializeNode(node) as HTMLElement
+
+  return output.outerHTML
+}
 
 export const inlineContents = (node: ProsemirrorNode): string =>
   (serializer.serializeNode(node) as HTMLElement).innerHTML
 
-export const fragmentText = (fragment: Fragment): string =>
-  serializer.serializeFragment(fragment).textContent || ''
+const listContents = (node: ProsemirrorNode): string => {
+  const output = serializer.serializeNode(node) as HTMLElement
 
-const tableContents = (node: ProsemirrorNode): string => {
-  const input = serializer.serializeNode(node) as HTMLTableElement
+  for (const p of output.querySelectorAll('li > p')) {
+    const parent = p.parentNode as HTMLLIElement
 
-  const output = document.createElement('table')
+    while (p.hasChildNodes()) {
+      parent.insertBefore(p.firstChild!, p)
+    }
 
-  const tagNames = ['thead', 'tbody', 'tfoot']
+    parent.removeChild(p)
+  }
 
-  for (const tagName of tagNames) {
-    const section = output.appendChild(document.createElement(tagName))
+  return xmlSerializer.serializeToString(output)
+}
 
-    for (const sectionRow of input.querySelectorAll(`tr.${tagName}`)) {
-      const row = section.appendChild(document.createElement('tr'))
+const svgDefs = (svg: string): string | undefined => {
+  const fragment = document.createRange().createContextualFragment(svg)
 
-      for (const child of sectionRow.children) {
-        const cellType = tagName === 'thead' ? 'th' : 'td'
+  const defs = fragment.querySelector('defs')
 
-        const cell = row.appendChild(document.createElement(cellType))
+  return defs ? xmlSerializer.serializeToString(defs) : undefined
+}
 
-        while (child.firstChild) {
-          cell.appendChild(child.firstChild)
-        }
+const tags = ['thead', 'tbody', 'tfoot']
 
-        for (const attribute of child.attributes) {
-          cell.setAttribute(attribute.name, attribute.value)
-        }
+const tableRowDisplayStyle = (tagName: string, parent: ProsemirrorNode) => {
+  switch (tagName) {
+    case 'thead':
+      return parent.attrs.suppressHeader ? 'none' : 'table-header-group'
+
+    case 'tfoot':
+      return parent.attrs.suppressFooter ? 'none' : 'table-footer-group'
+
+    default:
+      return null
+  }
+}
+
+const buildTableSection = (
+  tagName: string,
+  inputRows: NodeListOf<HTMLTableRowElement>
+): HTMLTableSectionElement => {
+  const section = document.createElement(tagName) as HTMLTableSectionElement
+
+  for (const sectionRow of inputRows) {
+    const row = section.appendChild(document.createElement('tr'))
+
+    for (const child of sectionRow.children) {
+      const cellType = tagName === 'thead' ? 'th' : 'td'
+
+      const cell = row.appendChild(document.createElement(cellType))
+
+      while (child.firstChild) {
+        cell.appendChild(child.firstChild)
+      }
+
+      for (const attribute of child.attributes) {
+        cell.setAttribute(attribute.name, attribute.value)
       }
     }
   }
 
-  return output.outerHTML
+  return section
+}
+
+const tableContents = (
+  node: ProsemirrorNode,
+  parent: ProsemirrorNode
+): string => {
+  const input = serializer.serializeNode(node) as HTMLTableElement
+
+  const output = document.createElement('table')
+
+  output.setAttribute('id', parent.attrs.id)
+
+  output.classList.add('MPElement')
+
+  if (parent.attrs.tableStyle) {
+    output.classList.add(parent.attrs.tableStyle.replace(/:/g, '_'))
+  }
+
+  if (parent.attrs.paragraphStyle) {
+    output.classList.add(parent.attrs.paragraphStyle.replace(/:/g, '_'))
+  }
+
+  output.setAttribute('data-contained-object-id', node.attrs.id)
+
+  for (const tagName of tags) {
+    const rows = input.querySelectorAll(`tr.${tagName}`) as NodeListOf<
+      HTMLTableRowElement
+    >
+
+    const section = buildTableSection(tagName, rows)
+
+    const displayStyle = tableRowDisplayStyle(tagName, parent)
+
+    if (displayStyle) {
+      section.style.display = displayStyle
+    }
+
+    output.appendChild(section)
+  }
+
+  return xmlSerializer.serializeToString(output)
 }
 
 const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {
@@ -96,28 +190,24 @@ const inlineContentsOfNodeType = (
   return ''
 }
 
-type ComponentData = (
-  node: ProsemirrorNode,
-  path: string[],
-  priority: PrioritizedValue
-) => Partial<AnyComponent>
-
 type NodeEncoder = (
   node: ProsemirrorNode,
+  parent: ProsemirrorNode,
   path: string[],
   priority: PrioritizedValue
 ) => Partial<AnyComponent>
 
+// type NodeEncoderMap = { [key in NodeTypeName]: NodeEncoder }
 interface NodeEncoderMap {
   [key: string]: NodeEncoder
 }
 
 const encoders: NodeEncoderMap = {
-  bibliography: node => ({
-    elementType: 'p', // TODO: must be 'p' or 'table'?!
+  bibliography_element: (node): Partial<BibliographyElement> => ({
+    elementType: 'div',
     contents: contents(node),
   }),
-  bibliography_section: (node, path, priority) => ({
+  bibliography_section: (node, parent, path, priority): Partial<Section> => ({
     priority: priority.value++,
     title: inlineContentsOfNodeType(node, 'section_title'),
     path: path.concat([node.attrs.id]),
@@ -125,12 +215,13 @@ const encoders: NodeEncoderMap = {
       .map(node => node.attrs.id)
       .filter(id => id),
   }),
-  bullet_list: node => ({
+  bullet_list: (node): Partial<List> => ({
     elementType: 'ul',
-    contents: contents(node), // TODO: unwrap paragraphs
+    contents: listContents(node),
+    paragraphStyle: node.attrs.paragraphStyle,
   }),
-  citation: node => ({
-    // containingObject: '',
+  citation: (node, parent): Partial<Citation> => ({
+    containingObject: parent.attrs.id, // TODO: closest parent with an id?
     // collationType: 0,
     // TODO: make this a list of bibliography item ids?
     embeddedCitationItems: node.attrs.citationItems.map((id: string) => ({
@@ -139,85 +230,114 @@ const encoders: NodeEncoderMap = {
       bibliographyItem: id,
     })),
   }),
-  code_block: node => ({
-    title: 'Listing',
-    contents: node.attrs.code,
-    // language: node.attrs.language // TODO
-    languageKey: node.attrs.language,
+  listing: (node): Partial<Listing> => ({
+    contents: inlineContents(node),
+    language: node.attrs.language,
+    languageKey: node.attrs.languageKey,
   }),
-  equation_block: node => ({
-    title: 'Equation',
-    TeXRepresentation: node.attrs.latex,
+  listing_element: (node): Partial<ListingElement> => ({
+    containedObjectID: attributeOfNodeType(node, 'listing', 'id'),
+    caption: inlineContentsOfNodeType(node, 'figcaption'),
+    suppressCaption: node.attrs.suppressCaption === true ? undefined : false,
   }),
-  figure: node => ({
+  equation: (node): Partial<Equation> => ({
+    TeXRepresentation: node.attrs.TeXRepresentation,
+    SVGStringRepresentation: node.attrs.SVGStringRepresentation,
+    // title: 'Equation',
+  }),
+  equation_element: (node): Partial<EquationElement> => ({
+    containedObjectID: attributeOfNodeType(node, 'equation', 'id'),
+    caption: inlineContentsOfNodeType(node, 'figcaption'),
+    suppressCaption: Boolean(node.attrs.suppressCaption) || undefined,
+  }),
+  figure_element: (node): Partial<FigureElement> => ({
     containedObjectIDs: node.attrs.containedObjectIDs,
     caption: inlineContentsOfNodeType(node, 'figcaption'),
-    suppressCaption: node.attrs.suppressCaption,
+    suppressCaption: Boolean(node.attrs.suppressCaption) || undefined,
     figureStyle: node.attrs.figureStyle,
   }),
-  manuscript: node => ({
-    title: inlineContentsOfNodeType(node, 'title'),
-    citationStyle: node.attrs.citationStyle,
-    locale: node.attrs.locale,
+  footnote: (node, parent): Partial<Footnote> => ({
+    containingObject: parent.attrs.id,
+    contents: contents(node),
   }),
-  ordered_list: node => ({
+  footnotes_element: (node): Partial<FootnotesElement> => ({
+    contents: contents(node),
+  }),
+  inline_equation: (node, parent): Partial<InlineMathFragment> => ({
+    containingObject: parent.attrs.id,
+    TeXRepresentation: node.attrs.TeXRepresentation,
+    SVGRepresentation: node.attrs.SVGRepresentation,
+    SVGGlyphs: svgDefs(node.attrs.SVGRepresentation),
+  }),
+  ordered_list: (node): Partial<List> => ({
     elementType: 'ol',
-    contents: contents(node), // TODO: unwrap paragraphs
+    contents: listContents(node),
+    paragraphStyle: node.attrs.paragraphStyle,
   }),
-  paragraph: node => ({
+  paragraph: (node): Partial<Paragraph> => ({
     elementType: 'p',
     contents: contents(node), // TODO: can't serialize citations?
+    paragraphStyle: node.attrs.paragraphStyle,
   }),
-  section: (node, path, priority) => ({
+  section: (node, parent, path, priority): Partial<Section> => ({
     priority: priority.value++,
     title: inlineContentsOfNodeType(node, 'section_title'),
     path: path.concat([node.attrs.id]),
     elementIDs: childComponentNodes(node)
       .map(node => node.attrs.id)
       .filter(id => id),
-    titleSuppressed: node.attrs.titleSuppressed,
+    titleSuppressed: node.attrs.titleSuppressed || undefined,
   }),
-  table: node => ({
-    contents: tableContents(node),
+  table: (node, parent): Partial<Table> => ({
+    contents: tableContents(node, parent),
   }),
-  table_figure: node => ({
+  table_element: (node): Partial<TableElement> => ({
     containedObjectID: attributeOfNodeType(node, 'table', 'id'),
     caption: inlineContentsOfNodeType(node, 'figcaption'),
-    suppressFooter: node.attrs.suppressFooter,
-    suppressHeader: node.attrs.suppressHeader,
+    paragraphStyle: node.attrs.paragraphStyle || undefined,
+    suppressCaption: Boolean(node.attrs.suppressCaption) || undefined,
+    suppressFooter: Boolean(node.attrs.suppressFooter) || undefined,
+    suppressHeader: Boolean(node.attrs.suppressHeader) || undefined,
+    tableStyle: node.attrs.tableStyle || undefined,
+  }),
+  toc_element: (node): Partial<TOCElement> => ({
+    contents: htmlContents(node),
+  }),
+  toc_section: (node, parent, path, priority): Partial<Section> => ({
+    priority: priority.value++,
+    title: inlineContentsOfNodeType(node, 'section_title'),
+    path: path.concat([node.attrs.id]),
+    elementIDs: childComponentNodes(node)
+      .map(node => node.attrs.id)
+      .filter(id => id),
   }),
 }
 
-const componentData: ComponentData = (
-  node,
-  path,
-  priority
+const componentData = (
+  node: ProsemirrorNode,
+  parent: ProsemirrorNode,
+  path: string[],
+  priority: PrioritizedValue
 ): Partial<AnyComponent> => {
   const encoder = encoders[node.type.name]
 
-  if (encoder) {
-    return encoder(node, path, priority)
-  }
+  if (!encoder) throw new Error(`Unhandled component: ${node.type.name}`)
 
-  // TODO: log unhandled components
-  // tslint:disable-next-line:no-console
-  console.warn('Unhandled component', node.type.name)
-  return {}
+  return encoder(node, parent, path, priority)
 }
 
-type ComponentBuilder = (
+export const componentFromNode = (
   node: ProsemirrorNode,
+  parent: ProsemirrorNode,
   path: string[],
   priority: PrioritizedValue
-) => Partial<ComponentWithAttachment>
-
-export const componentFromNode: ComponentBuilder = (node, path, priority) => {
+): Partial<ComponentWithAttachment> => {
   // TODO: in handlePaste, filter out non-standard IDs
 
   return {
     id: node.attrs.id,
     objectType: nodeTypes.get(node.type.name as NodeTypeName) as string,
-    ...componentData(node, path, priority),
+    ...componentData(node, parent, path, priority),
   }
 }
 
@@ -229,19 +349,21 @@ export const encode = (node: ProsemirrorNode): ComponentMap => {
   const components: ComponentMap = new Map()
 
   const priority: PrioritizedValue = {
-    value: 0,
+    value: 1,
   }
 
-  const addComponent = (path: string[]) => (child: ProsemirrorNode) => {
+  const addComponent = (path: string[], parent: ProsemirrorNode) => (
+    child: ProsemirrorNode
+  ) => {
     if (!child.attrs.id) return
 
-    const component = componentFromNode(child, path, priority)
+    const component = componentFromNode(child, parent, path, priority)
     components.set(component.id as string, component as ComponentWithAttachment)
 
-    child.forEach(addComponent(path.concat(child.attrs.id)))
+    child.forEach(addComponent(path.concat(child.attrs.id), child))
   }
 
-  node.forEach(addComponent([]))
+  node.forEach(addComponent([], node))
 
   return components
 }

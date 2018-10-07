@@ -120,7 +120,11 @@ class SignupPageContainer extends React.Component<
       if (error.response) {
         const { data } = error.response
 
-        if (data.error.name === 'ConflictingUnverifiedUserExistsError') {
+        if (
+          data &&
+          data.error &&
+          data.error.name === 'ConflictingUnverifiedUserExistsError'
+        ) {
           this.setState({
             confirming: null,
             existButNotVerified: { email },

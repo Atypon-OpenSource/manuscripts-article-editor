@@ -1,5 +1,6 @@
-import { EditorState } from 'prosemirror-state'
+import { TextSelection } from 'prosemirror-state'
 import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router'
 import { LibraryItems } from '../components/LibraryItems'
 import {
   LibraryPicker,
@@ -8,7 +9,7 @@ import {
 } from '../components/LibraryPicker'
 import { componentsKey, INSERT } from '../editor/config/plugins/components'
 import schema from '../editor/config/schema'
-import { Dispatch } from '../editor/config/types'
+import { ToolbarDropdownProps } from '../editor/Toolbar'
 import { buildCitation } from '../lib/commands'
 // import Title from '../editor/Title'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
@@ -23,12 +24,6 @@ interface State {
   selectedSource: string
 }
 
-interface Props {
-  state: EditorState
-  dispatch: Dispatch
-  handleClose: () => void
-}
-
 /*const sources = [
   {
     id: 'library',
@@ -36,8 +31,12 @@ interface Props {
   },
 ]*/
 
+interface RouteParams {
+  projectID: string
+}
+
 class LibraryPickerContainer extends React.Component<
-  Props & ComponentsProps,
+  ToolbarDropdownProps & ComponentsProps & RouteComponentProps<RouteParams>,
   State
 > {
   public state = {
@@ -50,7 +49,7 @@ class LibraryPickerContainer extends React.Component<
     this.getCollection()
       .find({
         objectType: BIBLIOGRAPHY_ITEM,
-        // containerID: this.props.projectID, // TODO: only show library items from this project
+        containerID: this.props.match.params.projectID,
       })
       .sort({
         updatedAt: 'desc',
@@ -94,10 +93,12 @@ class LibraryPickerContainer extends React.Component<
   }
 
   private handleSelect = (item: BibliographyItem) => {
-    const { state, dispatch } = this.props
+    const { state, view } = this.props
+
+    const { selection } = state
 
     // TODO: is this enough/needed?
-    const containingObject = state.tr.selection.$anchor.parent
+    const containingObject = selection.$anchor.parent
 
     const citation = buildCitation(containingObject.attrs.id, item.id)
 
@@ -106,14 +107,19 @@ class LibraryPickerContainer extends React.Component<
     })
 
     // TODO: copy the bibliography item into the manuscript?
+    const pos = selection.to
 
-    const tr = state.tr
+    let tr = state.tr
       .setMeta(componentsKey, { [INSERT]: [citation] })
-      .insert(state.tr.selection.to, citationNode)
+      .insert(pos, citationNode)
 
-    // TODO: restore selection
+    // restore the selection
+    tr = tr.setSelection(
+      TextSelection.create(tr.doc, pos + citationNode.nodeSize)
+    )
 
-    dispatch(tr)
+    view.focus()
+    view.dispatch(tr)
 
     this.props.handleClose()
   }
@@ -123,4 +129,6 @@ class LibraryPickerContainer extends React.Component<
   }
 }
 
-export default withComponents(LibraryPickerContainer)
+export default withRouter<
+  ToolbarDropdownProps & RouteComponentProps<RouteParams>
+>(withComponents(LibraryPickerContainer))

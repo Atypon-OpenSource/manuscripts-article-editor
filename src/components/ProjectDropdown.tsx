@@ -136,6 +136,14 @@ export const InvitationDropdownSection: React.SFC<InvitationProps> = ({
   </DropdownElement>
 )
 
+const PlaceholderTitle = styled(Title)`
+  color: ${dustyGrey};
+
+  &:hover {
+    color: white;
+  }
+`
+
 interface ProjectSectionProps {
   project: Partial<Project>
   accepted?: boolean
@@ -157,7 +165,11 @@ export const ProjectDropdownSection: React.SFC<ProjectSectionProps> = ({
       <DropdownIcon>
         <ProjectIcon color={'#7fb5d5'} />
       </DropdownIcon>
-      <Title value={project.title || 'Untitled Project'} />
+      {project.title ? (
+        <Title value={project.title} />
+      ) : (
+        <PlaceholderTitle value={'Untitled Project'} />
+      )}
     </ProjectNameContainer>
     {accepted && (
       <AcceptedLabel>

@@ -1,10 +1,10 @@
+import projectDump from '@manuscripts/examples/data/project-dump.json'
 import { Decoder } from '../../src/transformer'
 import { AnyComponent } from '../../src/types/components'
-import components from './components.json'
 
 export const componentMap = new Map()
 
-components.forEach((component: AnyComponent) => {
+projectDump.data.forEach((component: AnyComponent) => {
   componentMap.set(component.id, component)
 })
 

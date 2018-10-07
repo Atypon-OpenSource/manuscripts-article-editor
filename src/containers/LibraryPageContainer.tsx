@@ -41,7 +41,7 @@ class LibraryPageContainer extends React.Component<Props, State> {
     this.getCollection()
       .find({
         objectType: BIBLIOGRAPHY_ITEM,
-        // containerID: this.props.projectID, // TODO: only show library items from this project
+        containerID: this.props.match.params.projectID,
       })
       .sort({
         updatedAt: 'desc',

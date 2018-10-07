@@ -29,8 +29,8 @@ export default inputRules({
     // * bullet list
     wrappingInputRule(/^\s*([-+*])\s$/, schema.nodes.bullet_list),
 
-    // ``` code block
-    textblockTypeInputRule(/^```$/, schema.nodes.code_block),
+    // ``` listing
+    textblockTypeInputRule(/^```$/, schema.nodes.listing_element),
 
     // # heading
     textblockTypeInputRule(

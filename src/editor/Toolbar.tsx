@@ -1,6 +1,8 @@
+import { EditorState } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import { styled } from '../theme'
-import { ToolbarProps } from './config/types'
+import { Dispatch } from './config/types'
 import ToolbarItemContainer, { ToolbarItem } from './ToolbarItemContainer'
 
 const ToolbarContainer = styled.div`
@@ -35,15 +37,44 @@ export const ToolbarGroup = styled.div`
   }
 `
 
-const Toolbar: React.SFC<ToolbarProps> = ({ toolbar, state, dispatch }) => (
+interface ToolbarProps {
+  toolbar: ToolbarButtonMapMap
+  state: EditorState
+  view: EditorView
+}
+
+interface ToolbarButtonMapMap {
+  [key: string]: ToolbarButtonMap
+}
+
+export interface ToolbarButtonMap {
+  [key: string]: ToolbarButton
+}
+
+export interface ToolbarDropdownProps {
+  state: EditorState
+  view: EditorView
+  handleClose: () => void
+}
+
+export interface ToolbarButton {
+  title: string
+  content: React.ReactNode
+  active?: (state: EditorState) => boolean
+  run?: (state: EditorState, dispatch: Dispatch) => void
+  enable?: (state: EditorState) => boolean
+  dropdown?: any // tslint:disable-line:no-any // TODO
+}
+
+const Toolbar: React.SFC<ToolbarProps> = ({ toolbar, state, view }) => (
   <ToolbarContainer>
     {Object.entries(toolbar).map(([key, items]) => (
-      <ToolbarGroup key={key}>
+      <ToolbarGroup key={key} className={'toolbar-group'}>
         {Object.entries(items).map(([key, item]) => (
           <ToolbarItemContainer
             key={key}
             state={state}
-            dispatch={dispatch}
+            view={view}
             item={item}
           />
         ))}

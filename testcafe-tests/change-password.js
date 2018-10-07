@@ -8,6 +8,7 @@ const userDropdownToggle = userDropdown.find('.dropdown-toggle')
 const changePasswordLink = userDropdown
   .find('a')
   .withAttribute('href', '/change-password')
+const loginLink = Selector('a').withAttribute('href', '/login')
 const logoutLink = userDropdown.find('a').withAttribute('href', '/logout')
 const changePasswordForm = Selector('#change-password-form')
 const getLocation = ClientFunction(() => document.location.href)
@@ -33,6 +34,10 @@ test('Can change a password', async t => {
 
   await t.click(userDropdownToggle)
   await t.click(logoutLink)
+
+  await Selector('#signup-form')()
+  await t.expect(getLocation()).contains('/signup')
+  await t.click(loginLink)
 
   await Selector('#login-form')()
   await t.expect(getLocation()).contains('/login')

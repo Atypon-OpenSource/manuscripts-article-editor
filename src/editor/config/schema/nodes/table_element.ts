@@ -1,15 +1,17 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
-export const tableFigure: NodeSpec = {
+export const tableElement: NodeSpec = {
   content: 'table figcaption',
   attrs: {
     id: { default: '' },
+    paragraphStyle: { default: '' },
     tableStyle: { default: '' },
     label: { default: '' },
+    suppressCaption: { default: false },
     suppressHeader: { default: false },
     suppressFooter: { default: false },
   },
-  group: 'block',
+  group: 'block element',
   parseDOM: [
     {
       tag: 'figure.table',
@@ -18,7 +20,8 @@ export const tableFigure: NodeSpec = {
 
         return {
           id: dom.getAttribute('id'),
-          tableStyle: dom.getAttribute('data-table-style'),
+          paragraphStyle: dom.getAttribute('data-paragraph-style') || '',
+          tableStyle: dom.getAttribute('data-table-style') || '',
           // table: table ? table.id : null,
         }
       },
@@ -27,8 +30,9 @@ export const tableFigure: NodeSpec = {
   toDOM: (node: ProsemirrorNode) => [
     'figure',
     {
-      class: 'table',
+      class: 'table', // TODO: suppress-header, suppress-footer?
       id: node.attrs.id,
+      'data-paragraph-style': node.attrs.paragraphStyle,
       'data-table-style': node.attrs.tableStyle,
     },
     0,

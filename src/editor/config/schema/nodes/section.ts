@@ -3,15 +3,13 @@ import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 // TODO: optional section title?
 
 export const section: NodeSpec = {
-  content:
-    'section_title (paragraph | figure | table_figure | ordered_list | bullet_list | equation_block | code_block | bibliography)* section*',
+  // NOTE: the schema needs paragraphs to be the default type, so they must explicitly come first
+  content: 'section_title (paragraph | element)+ footnotes_element? section*',
   attrs: {
     id: { default: '' },
     titleSuppressed: { default: false },
   },
-  group: 'block',
-  // isolating: true,
-  // draggable: true,
+  group: 'block sections',
   parseDOM: [
     {
       tag: 'section',

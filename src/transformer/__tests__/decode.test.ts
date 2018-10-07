@@ -3,8 +3,8 @@ import { getComponentData, sortSectionsByPriority } from '../decode'
 import { MANUSCRIPT, SECTION } from '../object-types'
 import { createTestDoc } from './__helpers__/doc'
 
-describe('transformer', () => {
-  test('Decoder', async () => {
+describe('decoder', () => {
+  test('createTestDoc', async () => {
     const doc = createTestDoc()
 
     expect(doc).toMatchSnapshot()

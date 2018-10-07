@@ -1,23 +1,31 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
+import { EQUATION } from '../../../../transformer/object-types'
 
 export const equation: NodeSpec = {
   attrs: {
-    latex: { default: '' },
+    id: { default: '' },
+    TeXRepresentation: { default: '' },
+    SVGStringRepresentation: { default: '' },
+    // placeholder: { default: 'Click to edit equation' },
   },
-  atom: true,
-  content: 'text*',
-  inline: true,
-  draggable: true,
-  group: 'inline',
+  group: 'block',
   parseDOM: [
     {
-      tag: 'prosemirror-inline-equation',
+      tag: `div.${EQUATION}`,
       getAttrs: (node: Element) => ({
-        latex: node.getAttribute('latex'),
+        TeXRepresentation: node.getAttribute('data-tex-representation'),
+        SVGStringRepresentation: node.innerHTML,
       }),
-      getContent: null,
     },
     // TODO: convert MathML from pasted math elements?
   ],
-  toDOM: (node: ProsemirrorNode) => ['prosemirror-inline-equation', node.attrs],
+  toDOM: (node: ProsemirrorNode) => {
+    const dom = document.createElement('div')
+    dom.setAttribute('id', node.attrs.id)
+    dom.classList.add(EQUATION)
+    dom.setAttribute('data-tex-representation', node.attrs.TeXRepresentation)
+    dom.innerHTML = node.attrs.SVGStringRepresentation
+
+    return dom
+  },
 }

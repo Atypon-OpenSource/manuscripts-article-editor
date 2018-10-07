@@ -5,6 +5,8 @@ import { CodeMirrorCreator } from '../../lib/codemirror'
 import { Mathjax } from '../../lib/mathjax'
 import { NodeViewCreator } from '../types'
 
+const xmlSerializer = new XMLSerializer()
+
 class Equation implements NodeView {
   public dom: HTMLElement
 
@@ -12,8 +14,11 @@ class Equation implements NodeView {
   private readonly getPos: () => number
   private node: ProsemirrorNode
   private readonly view: EditorView
-  private importMathjax: Promise<Mathjax>
-  private importCodeMirror: Promise<CodeMirrorCreator>
+
+  private readonly imports: {
+    codemirror: Promise<CodeMirrorCreator>
+    mathjax: Promise<Mathjax>
+  }
 
   constructor(
     props: EditorProps,
@@ -28,7 +33,13 @@ class Equation implements NodeView {
     this.getPos = getPos
     // this.decorations = decorations
 
-    this.prepare()
+    this.imports = {
+      codemirror: import(/* webpackChunkName: "codemirror" */ '../../lib/codemirror'),
+      mathjax: import(/* webpackChunkName: "mathjax" */ '../../lib/mathjax') as Promise<
+        Mathjax
+      >,
+    }
+
     this.createDOM()
     this.updateContents().catch(error => {
       console.error(error) // tslint:disable-line:no-console
@@ -49,15 +60,32 @@ class Equation implements NodeView {
   public async selectNode() {
     // dom.classList.add('ProseMirror-selectednode')
 
-    const { createEditor } = await this.importCodeMirror
+    const { createEditor } = await this.imports.codemirror
+    const { typeset } = await this.imports.mathjax
 
-    const input = await createEditor(this.node.attrs.latex || '', 'stex')
+    const input = await createEditor(
+      this.node.attrs.TeXRepresentation || '',
+      'stex'
+    )
 
-    input.on('changes', () => {
+    input.on('changes', async () => {
+      const TeXRepresentation = input.getValue()
+
+      const typesetRoot = typeset(TeXRepresentation, true)
+
+      if (!typesetRoot || !typesetRoot.firstChild) {
+        throw new Error('No SVG output from MathJax')
+      }
+
+      const SVGStringRepresentation = xmlSerializer.serializeToString(
+        typesetRoot.firstChild
+      )
+
       const tr = this.view.state.tr
         .setNodeMarkup(this.getPos(), undefined, {
           ...this.node.attrs,
-          latex: input.getValue(),
+          TeXRepresentation,
+          SVGStringRepresentation,
         })
         .setSelection(this.view.state.selection)
 
@@ -88,28 +116,30 @@ class Equation implements NodeView {
   }
 
   protected get elementType() {
-    return 'prosemirror-inline-equation'
-  }
-
-  protected prepare() {
-    this.importMathjax = import(/* webpackChunkName: "mathjax" */ '../../lib/mathjax')
-    this.importCodeMirror = import(/* webpackChunkName: "codemirror" */ '../../lib/codemirror')
+    return 'div'
   }
 
   protected async updateContents() {
-    try {
-      const mathjax = await this.importMathjax
-      mathjax.generate(this.dom, this.node.attrs.latex, false)
-    } catch (e) {
-      // TODO: improve the UI for presenting offline/import errors
-      window.alert(
-        'There was an error loading MathJax, please reload to try again'
-      )
+    const { SVGStringRepresentation } = this.node.attrs
+
+    if (SVGStringRepresentation) {
+      this.dom.innerHTML = SVGStringRepresentation // TODO: sanitize!
+    } else {
+      while (this.dom.hasChildNodes()) {
+        this.dom.removeChild(this.dom.firstChild!)
+      }
+
+      const placeholder = document.createElement('div')
+      placeholder.className = 'equation-placeholder'
+      placeholder.textContent = '<Equation>'
+
+      this.dom.appendChild(placeholder)
     }
   }
 
   protected createDOM() {
     this.dom = document.createElement(this.elementType)
+    this.dom.classList.add('equation')
   }
 }
 

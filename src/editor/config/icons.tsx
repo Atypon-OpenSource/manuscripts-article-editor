@@ -3,9 +3,9 @@ import React from 'react'
 import Bold from '@manuscripts/assets/react/ToolbarIconBold'
 import Citation from '@manuscripts/assets/react/ToolbarIconCitation'
 import CodeSnippet from '@manuscripts/assets/react/ToolbarIconCodeSnippet'
-import EquationBlock from '@manuscripts/assets/react/ToolbarIconEquation'
+import Equation from '@manuscripts/assets/react/ToolbarIconEquation'
 import Figure from '@manuscripts/assets/react/ToolbarIconFigure'
-import Equation from '@manuscripts/assets/react/ToolbarIconInlineMath'
+import InlineMath from '@manuscripts/assets/react/ToolbarIconInlineMath'
 import Italic from '@manuscripts/assets/react/ToolbarIconItalic'
 import OrderedList from '@manuscripts/assets/react/ToolbarIconOrderedList'
 import Subscript from '@manuscripts/assets/react/ToolbarIconSubscript'
@@ -23,11 +23,11 @@ export default {
   underline: <Underline />,
   ordered_list: <OrderedList />,
   bullet_list: <UnorderedList />,
-  figure: <Figure />,
-  table: <Table />,
+  figure_element: <Figure />,
+  table_element: <Table />,
   citation: <Citation />,
-  equation: <Equation />,
-  equation_block: <EquationBlock />,
-  code_block: <CodeSnippet />,
+  inline_equation: <InlineMath />,
+  equation_element: <Equation />,
+  listing_element: <CodeSnippet />,
   symbol: <Symbol />,
 }

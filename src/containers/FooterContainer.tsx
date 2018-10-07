@@ -2,7 +2,14 @@ import React from 'react'
 import { Footer } from '../components/Footer'
 
 // TODO: read this from somewhere else?
-const links = [
+
+interface Link {
+  url: string
+  text: string
+}
+
+const links: Link[] = [
+  /*
   {
     url: '/status',
     text: 'Status',
@@ -10,7 +17,7 @@ const links = [
   {
     url: '/disclaimer',
     text: 'Disclaimer',
-  },
+  },*/
 ]
 
 const FooterContainer: React.SFC = () => <Footer links={links} />

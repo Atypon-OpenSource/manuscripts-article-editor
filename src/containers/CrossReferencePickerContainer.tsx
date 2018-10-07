@@ -1,20 +1,16 @@
-import { EditorState } from 'prosemirror-state'
+import { TextSelection } from 'prosemirror-state'
 import React from 'react'
 import { componentsKey, INSERT } from '../editor/config/plugins/components'
 import { objectsKey, Target } from '../editor/config/plugins/objects'
 import schema from '../editor/config/schema'
-import { Dispatch } from '../editor/config/types'
+import { ToolbarDropdownProps } from '../editor/Toolbar'
 import { buildAuxiliaryObjectReference } from '../lib/commands'
 // import Title from '../editor/Title'
 import { CrossReferenceItems } from './CrossReferenceItems'
 
-interface Props {
-  state: EditorState
-  dispatch: Dispatch
-  handleClose: () => void
-}
-
-class CrossReferencePickerContainer extends React.Component<Props> {
+class CrossReferencePickerContainer extends React.Component<
+  ToolbarDropdownProps
+> {
   public render() {
     return (
       <CrossReferenceItems
@@ -31,10 +27,12 @@ class CrossReferencePickerContainer extends React.Component<Props> {
   }
 
   private handleSelect = (id: string) => {
-    const { state, dispatch } = this.props
+    const { state, view } = this.props
+
+    const { selection } = state
 
     // TODO: is this enough/needed?
-    const containingObject = state.tr.selection.$anchor.parent
+    const containingObject = selection.$anchor.parent
 
     const auxiliaryObjectReference = buildAuxiliaryObjectReference(
       containingObject.attrs.id,
@@ -45,13 +43,19 @@ class CrossReferencePickerContainer extends React.Component<Props> {
       rid: auxiliaryObjectReference.id,
     })
 
-    const tr = state.tr
+    const pos = selection.to
+
+    let tr = state.tr
       .setMeta(componentsKey, { [INSERT]: [auxiliaryObjectReference] })
-      .insert(state.tr.selection.to, crossReferenceNode)
+      .insert(pos, crossReferenceNode)
 
-    // TODO: restore selection
+    // restore the selection
+    tr = tr.setSelection(
+      TextSelection.create(tr.doc, pos + crossReferenceNode.nodeSize)
+    )
 
-    dispatch(tr)
+    view.focus()
+    view.dispatch(tr)
 
     this.props.handleClose()
   }

@@ -1,30 +1,36 @@
 import { EditorProps } from '../../Editor'
-import bibliographyBlock from './bibliography_block'
-import bulletListBlock from './bullet_list_block'
+import bibliographyElement from './bibliography_element'
+import bulletList from './bullet_list'
 import citation from './citation'
-import codeBlock from './code_block'
 import crossReference from './cross_reference'
 import equation from './equation'
-import equationBlock from './equation_block'
-import figureBlock from './figure_block'
-import orderedListBlock from './ordered_list_block'
-// import figcaption from './figcaption'
-import paragraphBlock from './paragraph_block'
-import sectionTitleBlock from './section_title_block'
-import tableFigure from './table_figure'
+import equationElement from './equation_element'
+import figureElement from './figure_element'
+import inlineEquation from './inline_equation'
+import inlineFootnote from './inline_footnote'
+import listing from './listing'
+import listingElement from './listing_element'
+import orderedList from './ordered_list'
+import paragraph from './paragraph'
+import sectionTitle from './section_title'
+import tableElement from './table_element'
+import tocElement from './toc_element'
 
 export default (props: EditorProps) => ({
-  bibliography: bibliographyBlock(props),
-  bullet_list: bulletListBlock(props),
+  bibliography_element: bibliographyElement(props),
+  bullet_list: bulletList(props),
   citation: citation(props),
-  code_block: codeBlock(props),
   cross_reference: crossReference(props),
   equation: equation(props),
-  equation_block: equationBlock(props),
-  figure: figureBlock(props),
-  // figcaption: figcaption(props),
-  ordered_list: orderedListBlock(props),
-  paragraph: paragraphBlock(props),
-  section_title: sectionTitleBlock(props),
-  table_figure: tableFigure(props),
+  equation_element: equationElement(props),
+  figure_element: figureElement(props),
+  inline_equation: inlineEquation(props),
+  inline_footnote: inlineFootnote(props),
+  listing: listing(props),
+  listing_element: listingElement(props),
+  ordered_list: orderedList(props),
+  paragraph: paragraph(props),
+  section_title: sectionTitle(props),
+  table_element: tableElement(props),
+  toc_element: tocElement(props),
 })

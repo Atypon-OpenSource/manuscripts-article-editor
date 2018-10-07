@@ -110,7 +110,7 @@ export default (props: EditorProps) => {
         }
 
         tr.doc.descendants((node, pos) => {
-          if (node.type.name === 'bibliography') {
+          if (node.type.name === 'bibliography_element') {
             const contents = generatedBibliographyItems.length
               ? `<div class="csl-bib-body">${generatedBibliographyItems.join(
                   '\n'

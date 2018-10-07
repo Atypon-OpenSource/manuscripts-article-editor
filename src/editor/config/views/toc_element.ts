@@ -5,7 +5,7 @@ import { Purify } from '../../lib/dompurify'
 import { NodeViewCreator } from '../types'
 import AbstractBlock from './abstract_block'
 
-class BibliographyBlock extends AbstractBlock {
+class TOCElement extends AbstractBlock {
   private element: HTMLElement
   private readonly imports: {
     purify: Promise<Purify>
@@ -69,10 +69,10 @@ class BibliographyBlock extends AbstractBlock {
   }
 }
 
-const bibliographyBlock = (props: EditorProps): NodeViewCreator => (
+const tocElement = (props: EditorProps): NodeViewCreator => (
   node,
   view,
   getPos
-) => new BibliographyBlock(props, node, view, getPos)
+) => new TOCElement(props, node, view, getPos)
 
-export default bibliographyBlock
+export default tocElement

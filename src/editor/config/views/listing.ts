@@ -1,34 +1,47 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { EditorView } from 'prosemirror-view'
+import { EditorView, NodeView } from 'prosemirror-view'
 import { EditorProps } from '../../Editor'
 import { CodeMirrorCreator } from '../../lib/codemirror'
 import { NodeViewCreator } from '../types'
-import AbstractBlock from './abstract_block'
 
 // TODO: inline code editor
 
-class CodeBlock extends AbstractBlock {
-  private element: HTMLElement
+class Listing implements NodeView {
+  public dom: HTMLElement
+
+  private readonly props: EditorProps
+  private readonly getPos: () => number
+  private node: ProsemirrorNode
+  private readonly view: EditorView
+
   private readonly imports: {
     codemirror: Promise<CodeMirrorCreator>
   }
 
-  public constructor(
+  constructor(
     props: EditorProps,
     node: ProsemirrorNode,
     view: EditorView,
     getPos: () => number
+    // decorations?: Decoration[]
   ) {
-    super(props, node, view, getPos)
+    this.props = props
+    this.node = node
+    this.view = view
+    this.getPos = getPos
+    // this.decorations = decorations
 
     this.imports = {
       codemirror: import(/* webpackChunkName: "codemirror" */ '../../lib/codemirror'),
     }
 
-    this.initialise()
+    this.createDOM()
+    this.updateContents().catch(error => {
+      console.error(error) // tslint:disable-line:no-console
+    })
   }
 
-  public update(newNode: ProsemirrorNode) {
+  public update(newNode: ProsemirrorNode): boolean {
     if (newNode.attrs.id !== this.node.attrs.id) return false
     if (newNode.type.name !== this.node.type.name) return false
     this.node = newNode
@@ -40,24 +53,29 @@ class CodeBlock extends AbstractBlock {
   }
 
   public async selectNode() {
+    // dom.classList.add('ProseMirror-selectednode')
+
     const { createEditor } = await this.imports.codemirror
 
-    const input = await createEditor(this.node.attrs.code, 'javascript')
+    // TODO: this.node.attrs.languageKey
+    const input = await createEditor(this.node.attrs.contents, 'javascript')
 
     // input.className = 'code-editor'
 
-    input.on('changes', () => {
+    input.on('changes', async () => {
+      const contents = input.getValue()
+
       const tr = this.view.state.tr
         .setNodeMarkup(this.getPos(), undefined, {
           ...this.node.attrs,
-          code: input.getValue(),
+          contents,
         })
         .setSelection(this.view.state.selection)
 
       this.view.dispatch(tr)
     })
 
-    this.props.popper.show(this.dom, input.getWrapperElement(), 'bottom-start')
+    this.props.popper.show(this.dom, input.getWrapperElement(), 'bottom')
 
     window.requestAnimationFrame(() => {
       input.refresh()
@@ -73,7 +91,7 @@ class CodeBlock extends AbstractBlock {
   }
 
   public stopEvent(event: Event) {
-    return !event.type.startsWith('drag')
+    return event.type !== 'mousedown' && !event.type.startsWith('drag')
   }
 
   public ignoreMutation() {
@@ -84,31 +102,30 @@ class CodeBlock extends AbstractBlock {
     return 'pre'
   }
 
-  protected createElement() {
-    this.element = document.createElement(this.elementType)
-    this.element.className = 'block'
-    this.element.dir = 'ltr'
-    this.element.id = this.node.attrs.id
-
-    this.dom.appendChild(this.element)
-  }
-
   protected async updateContents() {
-    this.element.textContent = this.node.attrs.code
+    const { contents } = this.node.attrs
 
-    if (!this.node.attrs.code) {
+    if (contents) {
+      this.dom.textContent = this.node.attrs.contents
+    } else {
+      while (this.dom.hasChildNodes()) {
+        this.dom.removeChild(this.dom.firstChild!)
+      }
+
       const placeholder = document.createElement('div')
       placeholder.className = 'code-placeholder'
       placeholder.textContent = this.node.attrs.placeholder || '<Listing>'
-      this.element.appendChild(placeholder)
+      this.dom.appendChild(placeholder)
     }
+  }
+
+  protected createDOM() {
+    this.dom = document.createElement(this.elementType)
+    this.dom.classList.add('listing')
   }
 }
 
-const codeBlock = (props: EditorProps): NodeViewCreator => (
-  node,
-  view,
-  getPos
-) => new CodeBlock(props, node, view, getPos)
+const listing = (props: EditorProps): NodeViewCreator => (node, view, getPos) =>
+  new Listing(props, node, view, getPos)
 
-export default codeBlock
+export default listing

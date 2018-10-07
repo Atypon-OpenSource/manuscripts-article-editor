@@ -3,7 +3,7 @@ import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
-class TableFigureBlock extends Block {
+class TableElement extends Block {
   private element: HTMLElement
 
   protected get elementType() {
@@ -19,10 +19,11 @@ class TableFigureBlock extends Block {
   }
 
   protected updateContents() {
-    const { suppressHeader, suppressFooter } = this.node.attrs
+    const { suppressCaption, suppressHeader, suppressFooter } = this.node.attrs
 
-    this.contentDOM.classList.toggle('suppress-header', suppressHeader)
-    this.contentDOM.classList.toggle('suppress-footer', suppressFooter)
+    this.dom.classList.toggle('suppress-caption', suppressCaption)
+    this.dom.classList.toggle('suppress-header', suppressHeader)
+    this.dom.classList.toggle('suppress-footer', suppressFooter)
   }
 
   protected createElement() {
@@ -38,10 +39,10 @@ class TableFigureBlock extends Block {
   }
 }
 
-const tableFigure = (props: EditorProps): NodeViewCreator => (
+const tableElement = (props: EditorProps): NodeViewCreator => (
   node,
   view,
   getPos
-) => new TableFigureBlock(props, node, view, getPos)
+) => new TableElement(props, node, view, getPos)
 
-export default tableFigure
+export default tableElement

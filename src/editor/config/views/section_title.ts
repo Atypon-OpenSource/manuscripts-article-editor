@@ -3,7 +3,7 @@ import { sectionLevel } from '../../lib/menu'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
-class SectionTitleBlock extends Block {
+class SectionTitle extends Block {
   protected get elementType() {
     return 'h1'
   }
@@ -24,10 +24,10 @@ class SectionTitleBlock extends Block {
   }
 }
 
-const sectionTitleBlock = (props: EditorProps): NodeViewCreator => (
+const sectionTitle = (props: EditorProps): NodeViewCreator => (
   node,
   view,
   getPos
-) => new SectionTitleBlock(props, node, view, getPos)
+) => new SectionTitle(props, node, view, getPos)
 
-export default sectionTitleBlock
+export default sectionTitle

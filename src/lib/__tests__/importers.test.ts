@@ -1,6 +1,6 @@
 jest.mock('../pressroom')
 
-import data from '../__fixtures__/example-manuscript.json'
+import data from '@manuscripts/examples/data/project-dump.json'
 import { exportProject } from '../exporter'
 import { importFile, openFilePicker } from '../importers'
 import { buildComponentMap } from './util'
@@ -87,8 +87,6 @@ describe('Import', () => {
     })
 
     const items = await importFile(file)
-
-    expect(items.length).toEqual(33)
 
     items.forEach((item: any) => expect(item.id).toBeDefined())
     items.forEach((item: any) => expect(item.objectType).toBeDefined())
