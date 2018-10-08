@@ -44,14 +44,13 @@ interface AlertProps {
 
 const AlertContainer = styled.div`
   display: flex;
-  width: 100%;
-  margin: 9px;
   color: ${(props: AlertProps) => props.color};
   background-color: ${(props: AlertProps) => props.backgroundColor};
   border: solid 1px ${(props: AlertProps) => props.borderColor};
   border-radius: 3px;
   align-items: center;
   justify-content: space-between;
+  white-space: normal;
 `
 
 interface State {
@@ -61,6 +60,7 @@ interface State {
 interface Props {
   type: string
   dismissButtonText?: string
+  hideCloseButton?: boolean
 }
 
 class AlertMessage extends React.Component<Props, State> {
@@ -70,9 +70,11 @@ class AlertMessage extends React.Component<Props, State> {
 
   public render() {
     const alertAttributes = this.getByType()
+    const { hideCloseButton, dismissButtonText, children } = this.props
+    const { isOpen } = this.state
 
     return (
-      this.state.isOpen && (
+      isOpen && (
         <AlertContainer
           color={alertAttributes.color}
           backgroundColor={alertAttributes.backgroundColor}
@@ -81,16 +83,18 @@ class AlertMessage extends React.Component<Props, State> {
         >
           <InnerContainer>
             <InformativeIcon>{alertAttributes.icon}</InformativeIcon>
-            {this.props.children}
-            {this.props.dismissButtonText && (
+            {children}
+            {dismissButtonText && (
               <TextButton onClick={this.handleClose}>
-                {this.props.dismissButtonText}
+                {dismissButtonText}
               </TextButton>
             )}
           </InnerContainer>
-          <CloseIcon onClick={this.handleClose}>
-            {alertAttributes.closeButton}
-          </CloseIcon>
+          {!hideCloseButton && (
+            <CloseIcon onClick={this.handleClose}>
+              {alertAttributes.closeButton}
+            </CloseIcon>
+          )}
         </AlertContainer>
       )
     )

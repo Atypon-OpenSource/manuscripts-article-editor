@@ -1,10 +1,9 @@
 import React from 'react'
 import { altoGrey, dustyGrey, manuscriptsBlue } from '../colors'
-import AttentionError from '../icons/attention-error'
-import SuccessGreen from '../icons/success'
 import { getUserRole, ProjectRole } from '../lib/roles'
 import { styled } from '../theme'
 import { Project, UserProfile } from '../types/components'
+import AlertMessage from './AlertMessage'
 import { Button, ManuscriptBlueButton, TransparentGreyButton } from './Button'
 import { ShareProjectHeader, ShareProjectTitle } from './InvitationPopper'
 import { PopperBody } from './Popper'
@@ -39,50 +38,8 @@ const URIFieldContainer = styled.div`
   }
 `
 
-const SuccessCopiedMessage = styled.div`
-  display: flex;
-  padding: 8px 25px;
-  margin-bottom: 21px;
-  border-radius: 6px;
-  background-color: #dff0d7;
-  border: solid 1px #d6e9c5;
-  align-items: center;
-  flex: 1;
-  justify-content: space-between;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.34;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
-  color: #3a773a;
-  white-space: normal;
-`
-
-const ErrorMessage = styled.div`
-  display: flex;
-  padding: 8px 25px;
-  margin-bottom: 21px;
-  border-radius: 6px;
-  background-color: #fff1f0;
-  border: solid 1px #f5c1b7;
-  align-items: center;
-  flex: 1;
-  justify-content: space-between;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.34;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
-  color: #dc5030;
-  white-space: normal;
-`
-
-const MessageText = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 8px;
+const AlertMessageContainer = styled.div`
+  margin-bottom: 9px;
 `
 
 const LinkButton = styled(ManuscriptBlueButton)`
@@ -114,6 +71,11 @@ const OKText = styled.div`
   margin-left: 8px;
 `
 
+const RetryButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
 interface Props {
   dataLoaded: boolean
   URI: string
@@ -121,6 +83,8 @@ interface Props {
   isCopied: boolean
   user: UserProfile
   project: Project
+  error: Error | null
+  requestURI: () => void
   handleChange: (event: React.FormEvent<HTMLInputElement>) => void
   handleCopy: () => void
   handleSwitching: (isInvite: boolean) => void
@@ -133,9 +97,11 @@ export const ShareURIPopper: React.SFC<Props> = ({
   isCopied,
   user,
   project,
+  requestURI,
   handleChange,
   handleCopy,
   handleSwitching,
+  error,
 }) => {
   const isOwner = getUserRole(project, user.userID) === ProjectRole.owner
 
@@ -150,62 +116,85 @@ export const ShareURIPopper: React.SFC<Props> = ({
           </InviteButton>
         </div>
       </ShareProjectHeader>
-      {!isOwner || dataLoaded ? (
-        <React.Fragment>
-          {!isOwner ? (
-            <ErrorMessage>
-              <AttentionError />
-              <MessageText>
-                Only project owners can share links to the document.
-              </MessageText>
-            </ErrorMessage>
-          ) : (
-            <React.Fragment>
-              {isCopied ? (
-                <SuccessCopiedMessage>
-                  <SuccessGreen />
-                  <MessageText>Link copied to clipboard.</MessageText>
-                  <OKText onClick={handleCopy}>OK</OKText>
-                </SuccessCopiedMessage>
-              ) : (
-                <URIFieldContainer>
-                  <TextField
-                    name={'url'}
-                    type={'text'}
-                    disabled={true}
-                    value={URI}
-                    style={{ backgroundColor: 'white' }}
-                  />
-                  <Button onClick={handleCopy}>COPY</Button>
-                </URIFieldContainer>
-              )}
-            </React.Fragment>
-          )}
-          <MiniText>Anyone with the link can join as:</MiniText>
-          <RadioButton
-            name={'role'}
-            checked={selectedRole === 'Writer'}
-            value={'Writer'}
-            disabled={isCopied || !isOwner}
-            textHint={'Can modify project contents'}
-            onChange={handleChange}
-          >
-            Writer
-          </RadioButton>
-          <RadioButton
-            name={'role'}
-            checked={selectedRole === 'Viewer'}
-            value={'Viewer'}
-            disabled={isCopied || !isOwner}
-            textHint={'Can only review projects without modifying it'}
-            onChange={handleChange}
-          >
-            Viewer
-          </RadioButton>
-        </React.Fragment>
-      ) : (
-        <div>Thinking...</div>
-      )}
+      <React.Fragment>
+        {!isOwner || dataLoaded ? (
+          <React.Fragment>
+            {!isOwner ? (
+              <AlertMessageContainer>
+                <AlertMessage type={'warning'} hideCloseButton={true}>
+                  Only project owners can share links to the document.
+                </AlertMessage>
+              </AlertMessageContainer>
+            ) : (
+              <React.Fragment>
+                {!error ? (
+                  <React.Fragment>
+                    {isCopied ? (
+                      <AlertMessageContainer>
+                        <AlertMessage type={'success'} hideCloseButton={true}>
+                          Link copied to clipboard.
+                          <OKText onClick={handleCopy}>OK.</OKText>
+                        </AlertMessage>
+                      </AlertMessageContainer>
+                    ) : (
+                      <URIFieldContainer>
+                        <TextField
+                          name={'url'}
+                          type={'text'}
+                          disabled={true}
+                          value={URI}
+                          style={{ backgroundColor: 'white' }}
+                        />
+                        <Button onClick={handleCopy}>COPY</Button>
+                      </URIFieldContainer>
+                    )}{' '}
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <AlertMessageContainer>
+                      <AlertMessage
+                        type={'error'}
+                        dismissButtonText={'Dismiss.'}
+                        hideCloseButton={true}
+                      >
+                        {error.message}
+                      </AlertMessage>
+                    </AlertMessageContainer>
+                    <RetryButtonContainer>
+                      <ManuscriptBlueButton onClick={requestURI}>
+                        Retry
+                      </ManuscriptBlueButton>
+                    </RetryButtonContainer>
+                  </React.Fragment>
+                )}
+              </React.Fragment>
+            )}
+            <MiniText>Anyone with the link can join as:</MiniText>
+            <RadioButton
+              name={'role'}
+              checked={selectedRole === 'Writer'}
+              value={'Writer'}
+              disabled={isCopied || !isOwner}
+              textHint={'Can modify project contents'}
+              onChange={handleChange}
+            >
+              Writer
+            </RadioButton>
+            <RadioButton
+              name={'role'}
+              checked={selectedRole === 'Viewer'}
+              value={'Viewer'}
+              disabled={isCopied || !isOwner}
+              textHint={'Can only review projects without modifying it'}
+              onChange={handleChange}
+            >
+              Viewer
+            </RadioButton>
+          </React.Fragment>
+        ) : (
+          <div>Thinking...</div>
+        )}
+      </React.Fragment>
     </PopperBody>
   )
 }

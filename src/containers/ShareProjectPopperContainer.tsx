@@ -29,7 +29,7 @@ interface State {
   isCopied: boolean
   shownURI: string
   isInvite: boolean
-  error: boolean
+  error: Error | null
 }
 
 interface Props {
@@ -52,20 +52,11 @@ class ShareProjectPopperContainer extends React.Component<
     selectedShareURIRole: 'Writer',
     shownURI: '',
     isInvite: false,
-    error: false,
+    error: null,
   }
 
   public componentDidMount() {
-    this.shareProjectURI()
-      .then(() => {
-        this.setState({
-          isURILoaded: true,
-          shownURI: this.state.shareURI.writer,
-        })
-      })
-      .catch(() => {
-        this.setState({ error: true })
-      })
+    this.requestURI()
   }
 
   public render() {
@@ -77,6 +68,7 @@ class ShareProjectPopperContainer extends React.Component<
       isURILoaded,
       shownURI,
       selectedShareURIRole,
+      error,
     } = this.state
 
     if (isInvite) {
@@ -99,15 +91,30 @@ class ShareProjectPopperContainer extends React.Component<
           URI={shownURI}
           selectedRole={selectedShareURIRole}
           isCopied={isCopied}
+          user={user.data as UserProfile}
+          project={project}
+          error={error}
+          requestURI={this.requestURI}
           handleChange={this.handleShareURIRoleChange}
           handleCopy={this.copyURI}
           handleSwitching={this.handleSwitching}
-          user={user.data as UserProfile}
-          project={project}
         />
       </CustomPopper>
     )
   }
+
+  private requestURI = () =>
+    this.shareProjectURI()
+      .then(() => {
+        this.setState({
+          isURILoaded: true,
+          shownURI: this.state.shareURI.writer,
+          error: null,
+        })
+      })
+      .catch(error => {
+        this.setState({ error })
+      })
 
   private handleSwitching = (isInvite: boolean) => {
     this.setState({ isInvite })
