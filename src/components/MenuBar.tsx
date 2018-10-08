@@ -3,6 +3,8 @@ import Modal from 'react-modal'
 import ProjectsModalContainer from '../containers/ProjectsModalContainer'
 import { Menu, MenuBarIcon } from './Menu'
 
+Modal.setAppElement('#root')
+
 const modalStyle = {
   overlay: {
     position: 'fixed',
@@ -54,7 +56,6 @@ class MenuBar extends React.Component<Props, State> {
           isOpen={this.state.open}
           onRequestClose={this.handleClose}
           style={modalStyle}
-          ariaHideApp={false}
         >
           <Menu handleClose={this.handleClose} projectID={projectID} />
           <ProjectsModalContainer />

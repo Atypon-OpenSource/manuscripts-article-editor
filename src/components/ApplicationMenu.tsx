@@ -7,6 +7,8 @@ import { manuscriptsBlue } from '../colors'
 import { MenuItem } from '../editor/config/menus'
 import { styled } from '../theme'
 
+Modal.setAppElement('#root')
+
 // tslint:disable:max-classes-per-file
 
 const Separator = styled.div`
@@ -194,7 +196,6 @@ export class MenuItemContainer extends React.Component<
               onRequestClose={this.closeDropdown}
               shouldCloseOnOverlayClick={false}
               style={modalStyle}
-              ariaHideApp={false}
             >
               <Dropdown
                 state={state}

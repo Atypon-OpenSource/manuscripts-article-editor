@@ -11,7 +11,7 @@ const ButtonContainer = styled.div`
 `
 const Icon = styled.div`
   margin-right: 6px;
-  color: '#fffceb';
+  color: #fffceb;
 `
 const ModalBody = styled.div`
   border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
@@ -76,7 +76,6 @@ export const Dialog: React.SFC<DialogProps> = ({
   <StyledModal
     isOpen={isOpen}
     onRequestClose={actions.primary.action}
-    ariaHideApp={false}
     shouldCloseOnOverlayClick={true}
     closeTimeoutMS={totalTransitionTime}
   >
