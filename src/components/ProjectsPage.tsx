@@ -1,7 +1,7 @@
 import React from 'react'
-import { ProjectInfo } from '../containers/ProjectsPageContainer'
 import ProjectsSidebar from '../containers/ProjectsSidebar'
 import { styled } from '../theme'
+import { Project, UserProfile } from '../types/components'
 import { AddProject } from '../types/project'
 import { GlobalMenu } from './GlobalMenu'
 
@@ -14,13 +14,22 @@ const Container = styled.div`
 `
 
 interface Props {
-  projects: ProjectInfo[]
+  projects: Project[]
   addProject: AddProject
+  getCollaborators: (project: Project) => UserProfile[]
 }
 
-export const ProjectsPage: React.SFC<Props> = ({ projects, addProject }) => (
+export const ProjectsPage: React.SFC<Props> = ({
+  projects,
+  addProject,
+  getCollaborators,
+}) => (
   <Container>
     <GlobalMenu active={'projects'} />
-    <ProjectsSidebar projects={projects} addProject={addProject} />
+    <ProjectsSidebar
+      projects={projects}
+      addProject={addProject}
+      getCollaborators={getCollaborators}
+    />
   </Container>
 )

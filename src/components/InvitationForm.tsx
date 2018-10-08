@@ -48,7 +48,7 @@ export interface InvitationErrors {
 
 export const InvitationForm: React.SFC<
   FormikProps<InvitationValues & InvitationErrors>
-> = ({ errors, isSubmitting }) => (
+> = ({ errors, isSubmitting, initialValues }) => (
   <Form noValidate={true}>
     <TextFieldGroupContainer
       errors={{
@@ -64,6 +64,7 @@ export const InvitationForm: React.SFC<
             placeholder={'name'}
             required={true}
             error={errors.name}
+            disabled={!initialValues.name}
           />
         )}
       </Field>
@@ -76,6 +77,7 @@ export const InvitationForm: React.SFC<
             placeholder={'email'}
             required={true}
             error={errors.email}
+            disabled={!initialValues.email}
           />
         )}
       </Field>
@@ -91,6 +93,7 @@ export const InvitationForm: React.SFC<
             textHint={
               'Can modify and delete project, invite and remove collaborators'
             }
+            disabled={!initialValues.role}
           >
             Owner
           </RadioButton>
@@ -104,6 +107,7 @@ export const InvitationForm: React.SFC<
             value={'Writer'}
             required={true}
             textHint={'Can modify project contents'}
+            disabled={!initialValues.role}
           >
             Writer
           </RadioButton>
@@ -117,6 +121,7 @@ export const InvitationForm: React.SFC<
             value={'Viewer'}
             required={true}
             textHint={'Can only review projects without modifying it'}
+            disabled={!initialValues.role}
           >
             Viewer
           </RadioButton>

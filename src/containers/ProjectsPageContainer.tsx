@@ -55,7 +55,7 @@ export const projectListCompare = (
 }
 
 interface State {
-  projects: ProjectInfo[] | null
+  projects: Project[] | null
   userMap: Map<string, UserProfile>
   invitationAccepted: boolean | null
 }
@@ -109,10 +109,24 @@ class ProjectsPageContainer extends React.Component<
       <Page>
         <Main>
           <AcceptInvitationMessages invitationAccepted={invitationAccepted} />
-          <ProjectsPage projects={projects} addProject={this.addProject} />
+          <ProjectsPage
+            projects={projects}
+            addProject={this.addProject}
+            getCollaborators={this.getCollaborators}
+          />
         </Main>
       </Page>
     )
+  }
+
+  private getCollaborators = (project: Project): UserProfile[] => {
+    const getCollaborator = (id: string) => this.state.userMap.get(id)
+
+    return [
+      ...project.owners.map(getCollaborator),
+      ...project.writers.map(getCollaborator),
+      ...project.viewers.map(getCollaborator),
+    ].filter(collaborator => collaborator) as UserProfile[]
   }
 
   private loadComponents = () => {
@@ -121,25 +135,12 @@ class ProjectsPageContainer extends React.Component<
     return collection
       .find({ objectType: PROJECT })
       .$.subscribe(async (docs: Array<RxDocument<Project>>) => {
-        const getCollaborator = (id: string) => this.state.userMap.get(id)
-
-        const projects: ProjectInfo[] = []
+        const projects: Project[] = []
 
         for (const doc of docs) {
           const component = doc.toJSON()
 
-          const collaborators = [
-            ...component.owners.map(getCollaborator),
-            ...component.writers.map(getCollaborator),
-            ...component.viewers.map(getCollaborator),
-          ].filter(collaborator => collaborator) as UserProfile[]
-
-          projects.push({
-            id: component.id,
-            objectType: component.objectType,
-            title: component.title,
-            collaborators,
-          })
+          projects.push(component)
         }
 
         this.setState({ projects })

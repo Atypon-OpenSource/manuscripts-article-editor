@@ -11,8 +11,8 @@ import {
 import Title from '../editor/title/Title'
 import Add from '../icons/add'
 import { styled } from '../theme'
-import { BibliographicName } from '../types/components'
-import { ProjectInfo, projectListCompare } from './ProjectsPageContainer'
+import { BibliographicName, Project, UserProfile } from '../types/components'
+import { projectListCompare } from './ProjectsPageContainer'
 
 const Container = styled(Sidebar)`
   background: white;
@@ -105,10 +105,15 @@ const initials = (name: BibliographicName): string =>
 
 interface Props {
   addProject: React.MouseEventHandler<HTMLButtonElement>
-  projects: ProjectInfo[]
+  projects: Project[]
+  getCollaborators: (project: Project) => UserProfile[]
 }
 
-const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
+const ProjectsSidebar: React.SFC<Props> = ({
+  addProject,
+  projects,
+  getCollaborators,
+}) => (
   <Container id={'projects-sidebar'}>
     <ProjectsContainer>
       <SidebarHeader>
@@ -131,10 +136,10 @@ const ProjectsSidebar: React.SFC<Props> = ({ addProject, projects }) => (
                   <PlaceholderTitle value={'Untitled Project'} />
                 )}
               </ProjectTitle>
-              <ShareProjectButton projectID={project.id!} />
+              <ShareProjectButton project={project!} />
             </SidebarProjectHeader>
             <ProjectContributors>
-              {project.collaborators.map((collaborator, index) => (
+              {getCollaborators(project).map((collaborator, index) => (
                 <React.Fragment key={collaborator.id}>
                   {!!index && ', '}
                   <ProjectContributor key={collaborator.id}>

@@ -3,6 +3,7 @@ import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import ShareProjectPopperContainer from '../containers/ShareProjectPopperContainer'
 import ShareProjectIcon from '../icons/shareProject'
 import { styled } from '../theme'
+import { Project } from '../types/components'
 import { IconButton } from './Button'
 
 const ShareIconButton = styled(IconButton)`
@@ -19,7 +20,7 @@ interface State {
 }
 
 interface Props {
-  projectID: string
+  project: Project
 }
 
 class ShareProjectButton extends React.Component<Props, State> {
@@ -59,7 +60,7 @@ class ShareProjectButton extends React.Component<Props, State> {
             {(popperProps: PopperChildrenProps) => (
               <div ref={(node: HTMLDivElement) => (this.node = node)}>
                 <ShareProjectPopperContainer
-                  projectID={this.props.projectID}
+                  project={this.props.project}
                   popperProps={popperProps}
                 />
               </div>

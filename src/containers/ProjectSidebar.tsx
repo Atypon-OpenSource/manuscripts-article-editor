@@ -70,7 +70,7 @@ const ProjectSidebar: React.SFC<Props> = ({
             }}
           />
         </SidebarTitle>
-        <ShareProjectButton projectID={project.id} />
+        <ShareProjectButton project={project} />
       </SidebarHeader>
       <SidebarContent>
         {manuscripts.map(manuscript => (

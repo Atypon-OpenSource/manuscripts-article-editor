@@ -103,7 +103,7 @@ const ManuscriptSidebar: React.SFC<Props> = ({
             }
           />
         </ProjectTitle>
-        <ShareProjectButton projectID={project.id} />
+        <ShareProjectButton project={project} />
       </SidebarHeader>
 
       <SidebarContent>

@@ -11,6 +11,8 @@ import { CustomPopper } from '../components/Popper'
 import { ShareURIPopper } from '../components/ShareURIPopper'
 import config from '../config'
 import { projectInvite, requestProjectInvitationToken } from '../lib/api'
+import { UserProps, withUser } from '../store/UserProvider'
+import { Project, UserProfile } from '../types/components'
 
 type ShareProjectUri = () => Promise<void>
 
@@ -31,11 +33,14 @@ interface State {
 }
 
 interface Props {
-  projectID: string
+  project: Project
   popperProps: PopperChildrenProps
 }
 
-class ShareProjectPopperContainer extends React.Component<Props, State> {
+class ShareProjectPopperContainer extends React.Component<
+  Props & UserProps,
+  State
+> {
   public state: State = {
     shareURI: {
       viewer: '',
@@ -64,7 +69,7 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const { popperProps } = this.props
+    const { popperProps, user, project } = this.props
 
     const {
       isCopied,
@@ -80,6 +85,8 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
           <InvitationPopper
             handleInvitationSubmit={this.handleInvitationSubmit}
             handleSwitching={this.handleSwitching}
+            project={project}
+            user={user.data as UserProfile}
           />
         </CustomPopper>
       )
@@ -95,6 +102,8 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
           handleChange={this.handleShareURIRoleChange}
           handleCopy={this.copyURI}
           handleSwitching={this.handleSwitching}
+          user={user.data as UserProfile}
+          project={project}
         />
       </CustomPopper>
     )
@@ -131,11 +140,11 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
       setErrors,
     }: FormikActions<InvitationValues | InvitationErrors>
   ) => {
-    const { projectID } = this.props
+    const { project } = this.props
     const { email, name, role } = values
 
     try {
-      await projectInvite(projectID, [{ email, name }], role)
+      await projectInvite(project.id, [{ email, name }], role)
 
       setSubmitting(false)
     } catch (error) {
@@ -170,13 +179,13 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
   }
 
   private shareProjectURI: ShareProjectUri = async () => {
-    const { projectID } = this.props
+    const { project } = this.props
 
     this.setState({
       isShareURIPopperOpen: true,
       shareURI: {
-        viewer: await this.fetchInvitationURI(projectID, 'Viewer'),
-        writer: await this.fetchInvitationURI(projectID, 'Writer'),
+        viewer: await this.fetchInvitationURI(project.id, 'Viewer'),
+        writer: await this.fetchInvitationURI(project.id, 'Writer'),
       },
     })
   }
@@ -192,4 +201,4 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
   }
 }
 
-export default ShareProjectPopperContainer
+export default withUser(ShareProjectPopperContainer)
