@@ -47,6 +47,9 @@ const App = () => (
       path={'/community'}
       exact={true}
       component={CommunityLoginPageContainer}
+      message={
+        'Please sign in here at Manuscripts.io first. Your Manuscripts.io account signs you in also to community.manuscripts.io.'
+      }
     />
     <PrivateRoute
       path={'/delete-account'}
