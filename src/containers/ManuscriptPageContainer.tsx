@@ -39,7 +39,11 @@ import {
 import { buildName } from '../lib/comments'
 import CitationManager from '../lib/csl'
 import { download } from '../lib/download'
-import { exportProject, generateDownloadFilename } from '../lib/exporter'
+import {
+  downloadExtension,
+  exportProject,
+  generateDownloadFilename,
+} from '../lib/exporter'
 import { ContributorRole } from '../lib/roles'
 import { AnyComponentChangeEvent } from '../lib/rxdb'
 import sessionID from '../lib/sessionID'
@@ -452,7 +456,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     try {
       const blob = await exportProject(componentMap, format)
       const manuscript = componentMap.get(manuscriptID) as Manuscript
-      const filename = generateDownloadFilename(manuscript.title) + format
+
+      const filename =
+        generateDownloadFilename(manuscript.title) + downloadExtension(format)
 
       download(blob, filename)
     } catch (e) {

@@ -218,7 +218,7 @@ const encoders: NodeEncoderMap = {
   bullet_list: (node): Partial<List> => ({
     elementType: 'ul',
     contents: listContents(node),
-    paragraphStyle: node.attrs.paragraphStyle,
+    paragraphStyle: node.attrs.paragraphStyle || undefined,
   }),
   citation: (node, parent): Partial<Citation> => ({
     containingObject: parent.attrs.id, // TODO: closest parent with an id?
@@ -232,8 +232,8 @@ const encoders: NodeEncoderMap = {
   }),
   listing: (node): Partial<Listing> => ({
     contents: inlineContents(node),
-    language: node.attrs.language,
-    languageKey: node.attrs.languageKey,
+    language: node.attrs.language || undefined,
+    languageKey: node.attrs.languageKey || undefined,
   }),
   listing_element: (node): Partial<ListingElement> => ({
     containedObjectID: attributeOfNodeType(node, 'listing', 'id'),
@@ -254,7 +254,7 @@ const encoders: NodeEncoderMap = {
     containedObjectIDs: node.attrs.containedObjectIDs,
     caption: inlineContentsOfNodeType(node, 'figcaption'),
     suppressCaption: Boolean(node.attrs.suppressCaption) || undefined,
-    figureStyle: node.attrs.figureStyle,
+    figureStyle: node.attrs.figureStyle || undefined,
   }),
   footnote: (node, parent): Partial<Footnote> => ({
     containingObject: parent.attrs.id,
@@ -277,7 +277,7 @@ const encoders: NodeEncoderMap = {
   paragraph: (node): Partial<Paragraph> => ({
     elementType: 'p',
     contents: contents(node), // TODO: can't serialize citations?
-    paragraphStyle: node.attrs.paragraphStyle,
+    paragraphStyle: node.attrs.paragraphStyle || undefined,
   }),
   section: (node, parent, path, priority): Partial<Section> => ({
     priority: priority.value++,

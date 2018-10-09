@@ -2,10 +2,12 @@ jest.mock('../pressroom')
 
 import data from '@manuscripts/examples/data/project-dump.json'
 import JSZip from 'jszip'
+import { Paragraph } from '../../types/components'
 import {
   exportProject,
   generateAttachmentFilename,
   generateDownloadFilename,
+  removeEmptyStyles,
 } from '../exporter'
 import { readManuscriptFromBundle } from '../importers'
 import { buildComponentMap } from './util'
@@ -24,6 +26,23 @@ describe('exporter', () => {
   test('generates a filename for a manuscript title with markup', () => {
     const result = generateDownloadFilename('An <b>example</b> manuscript')
     expect(result).toBe('AnExampleManuscript')
+  })
+
+  test('removes empty properties', () => {
+    const componentMap = buildComponentMap(data)
+
+    const component = componentMap.get(
+      'MPParagraphElement:05A0ED43-8928-4C69-A17C-0A98795001CD'
+    ) as Paragraph
+
+    expect(component.paragraphStyle).toBe(
+      'MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637'
+    )
+    component.paragraphStyle = ''
+
+    removeEmptyStyles(component)
+
+    expect(component.paragraphStyle).toBeUndefined()
   })
 
   test('exports a manuscript', async () => {

@@ -1,5 +1,6 @@
 import { NodeSpec } from 'prosemirror-model'
 import { LIST_ELEMENT } from '../../../../transformer/object-types'
+import { buildElementClass } from './attributes'
 
 export type ListNodes = 'ordered_list' | 'bullet_list' | 'list_item'
 
@@ -28,9 +29,7 @@ export const listNodes: { [key in ListNodes]: NodeSpec } = {
             {
               id: node.attrs.id,
               // start: node.attrs.order === 1 ? undefined : node.attrs.order,
-              class: ['MPElement', node.attrs.paragraphStyle.replace(/:/g, '_')]
-                .filter(_ => _)
-                .join(' '),
+              class: buildElementClass(node.attrs),
               'data-object-type': LIST_ELEMENT,
             },
             0,
@@ -53,9 +52,7 @@ export const listNodes: { [key in ListNodes]: NodeSpec } = {
             {
               id: node.attrs.id,
               // start: node.attrs.order === 1 ? undefined : node.attrs.order,
-              class: ['MPElement', node.attrs.paragraphStyle.replace(/:/g, '_')]
-                .filter(_ => _)
-                .join(' '),
+              class: buildElementClass(node.attrs),
               'data-object-type': LIST_ELEMENT,
             },
             0,

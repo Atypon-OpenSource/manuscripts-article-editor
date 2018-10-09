@@ -1,5 +1,6 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 import { PARAGRAPH } from '../../../../transformer/object-types'
+import { buildElementClass } from './attributes'
 
 export const paragraph: NodeSpec = {
   content: 'inline*',
@@ -25,9 +26,7 @@ export const paragraph: NodeSpec = {
     'p',
     {
       id: node.attrs.id || undefined,
-      class: ['MPElement', node.attrs.paragraphStyle.replace(/:/g, '_')]
-        .filter(_ => _)
-        .join(' '),
+      class: buildElementClass(node.attrs),
       'data-object-type': PARAGRAPH,
       'data-placeholder-text': node.attrs.placeholder || undefined,
     },

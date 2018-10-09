@@ -10,6 +10,15 @@ import {
 import { JsonComponent, ProjectDump } from './importers'
 import { convert } from './pressroom'
 
+// tslint:disable-next-line:no-any
+export const removeEmptyStyles = (component: { [key: string]: any }) => {
+  Object.entries(component).forEach(([key, value]) => {
+    if (value === '' && key.match(/Style$/)) {
+      delete component[key]
+    }
+  })
+}
+
 // TODO: only include the components referenced by this manuscript?
 const createProjectDump = (componentMap: ComponentMap): ProjectDump => ({
   version: '2.0',
@@ -19,6 +28,8 @@ const createProjectDump = (componentMap: ComponentMap): ProjectDump => ({
     delete component._attachments
     delete component.attachment
     delete component.src
+
+    removeEmptyStyles(component)
 
     return component
   }),
@@ -82,6 +93,17 @@ export const generateDownloadFilename = (title: string) =>
     .replace(/\W/g, '_') // remove non-word characters
     .replace(/_+(.)/g, matches => matches[1].toUpperCase()) // convert snake case to camel case
     .replace(/_+$/, '') // remove any trailing underscores
+
+export const downloadExtension = (format: string): string => {
+  switch (format) {
+    case '.docx':
+    case '.pdf':
+      return format
+
+    default:
+      return '.zip'
+  }
+}
 
 export const exportProject = async (
   componentMap: ComponentMap,

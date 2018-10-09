@@ -1970,7 +1970,6 @@ const x = 'y'",
       "createdAt": 1538473157,
       "elementType": "p",
       "objectType": "MPParagraphElement",
-      "paragraphStyle": "MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637",
       "sessionID": "58d96cc7-c834-4810-8f39-55cbca7eef93",
     },
     Object {
