@@ -67,14 +67,11 @@ abstract class AbstractBlock implements NodeView {
     this.contentDOM = document.createElement(this.elementType)
     this.contentDOM.className = 'block'
 
-    const { id, ...attrs } = this.node.attrs
-
-    if (id) {
-      this.contentDOM.id = id
-    }
-
-    Object.entries(attrs).forEach(([key, value]) => {
-      this.contentDOM.setAttribute(key, value)
+    Object.entries(this.node.attrs).forEach(([key, value]) => {
+      // ignore empty or null-like values
+      if (value !== '' && value != null) {
+        this.contentDOM.setAttribute(key, value)
+      }
     })
 
     this.dom.appendChild(this.contentDOM)

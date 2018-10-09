@@ -20,11 +20,11 @@ export default () => {
 
       // for each node in the doc
       newState.doc.descendants((node, pos) => {
-        const { id } = node.attrs
-
-        if (typeof id !== 'string') {
+        if (!('id' in node.attrs)) {
           return true
         }
+
+        const { id } = node.attrs
 
         if (id) {
           if (ids.has(id)) {
