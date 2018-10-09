@@ -1,5 +1,5 @@
 import copyToClipboard from 'clipboard-copy'
-import { FormikActions, FormikErrors } from 'formik'
+import { FormikActions } from 'formik'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import {
@@ -11,6 +11,7 @@ import { CustomPopper } from '../components/Popper'
 import { ShareURIPopper } from '../components/ShareURIPopper'
 import config from '../config'
 import { projectInvite, requestProjectInvitationToken } from '../lib/api'
+import { isOwner } from '../lib/roles'
 import { UserProps, withUser } from '../store/UserProvider'
 import { Project, UserProfile } from '../types/components'
 
@@ -29,7 +30,8 @@ interface State {
   isCopied: boolean
   shownURI: string
   isInvite: boolean
-  error: Error | null
+  loadingURIError: Error | null
+  invitationError: Error | null
 }
 
 interface Props {
@@ -52,11 +54,17 @@ class ShareProjectPopperContainer extends React.Component<
     selectedShareURIRole: 'Writer',
     shownURI: '',
     isInvite: false,
-    error: null,
+    loadingURIError: null,
+    invitationError: null,
   }
 
   public componentDidMount() {
-    this.requestURI()
+    const { project, user } = this.props
+    const isProjectOwner = isOwner(project, (user.data as UserProfile).userID)
+
+    if (isProjectOwner) {
+      this.requestURI()
+    }
   }
 
   public render() {
@@ -68,7 +76,8 @@ class ShareProjectPopperContainer extends React.Component<
       isURILoaded,
       shownURI,
       selectedShareURIRole,
-      error,
+      loadingURIError,
+      invitationError,
     } = this.state
 
     if (isInvite) {
@@ -79,6 +88,7 @@ class ShareProjectPopperContainer extends React.Component<
             handleSwitching={this.handleSwitching}
             project={project}
             user={user.data as UserProfile}
+            invitationError={invitationError}
           />
         </CustomPopper>
       )
@@ -93,7 +103,7 @@ class ShareProjectPopperContainer extends React.Component<
           isCopied={isCopied}
           user={user.data as UserProfile}
           project={project}
-          error={error}
+          loadingURIError={loadingURIError}
           requestURI={this.requestURI}
           handleChange={this.handleShareURIRoleChange}
           handleCopy={this.copyURI}
@@ -109,11 +119,11 @@ class ShareProjectPopperContainer extends React.Component<
         this.setState({
           isURILoaded: true,
           shownURI: this.state.shareURI.writer,
-          error: null,
+          loadingURIError: null,
         })
       })
       .catch(error => {
-        this.setState({ error })
+        this.setState({ loadingURIError: error })
       })
 
   private handleSwitching = (isInvite: boolean) => {
@@ -152,18 +162,10 @@ class ShareProjectPopperContainer extends React.Component<
 
     try {
       await projectInvite(project.id, [{ email, name }], role)
-
-      setSubmitting(false)
     } catch (error) {
+      this.setState({ invitationError: error })
+    } finally {
       setSubmitting(false)
-
-      const errors: FormikErrors<InvitationErrors> = {}
-
-      if (error.response) {
-        errors.submit = error.response
-      }
-
-      setErrors(errors)
     }
   }
 

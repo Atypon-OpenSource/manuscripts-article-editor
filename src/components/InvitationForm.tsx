@@ -40,6 +40,7 @@ export interface InvitationValues {
   name: string
   email: string
   role: string
+  disabled?: boolean
 }
 
 export interface InvitationErrors {
@@ -64,7 +65,7 @@ export const InvitationForm: React.SFC<
             placeholder={'name'}
             required={true}
             error={errors.name}
-            disabled={!initialValues.name}
+            disabled={initialValues.disabled}
           />
         )}
       </Field>
@@ -77,7 +78,7 @@ export const InvitationForm: React.SFC<
             placeholder={'email'}
             required={true}
             error={errors.email}
-            disabled={!initialValues.email}
+            disabled={initialValues.disabled}
           />
         )}
       </Field>
@@ -93,7 +94,7 @@ export const InvitationForm: React.SFC<
             textHint={
               'Can modify and delete project, invite and remove collaborators'
             }
-            disabled={!initialValues.role}
+            disabled={initialValues.disabled}
           >
             Owner
           </RadioButton>
@@ -107,7 +108,7 @@ export const InvitationForm: React.SFC<
             value={'Writer'}
             required={true}
             textHint={'Can modify project contents'}
-            disabled={!initialValues.role}
+            disabled={initialValues.disabled}
           >
             Writer
           </RadioButton>
@@ -121,7 +122,7 @@ export const InvitationForm: React.SFC<
             value={'Viewer'}
             required={true}
             textHint={'Can only review projects without modifying it'}
-            disabled={!initialValues.role}
+            disabled={initialValues.disabled}
           >
             Viewer
           </RadioButton>
@@ -131,7 +132,10 @@ export const InvitationForm: React.SFC<
       {errors.role && <FormError>{errors.role}</FormError>}
     </RadioButtonsContainer>
 
-    <SendInvitationButton type={'submit'} disabled={isSubmitting}>
+    <SendInvitationButton
+      type={'submit'}
+      disabled={isSubmitting || initialValues.disabled}
+    >
       Send Invitation
     </SendInvitationButton>
   </Form>

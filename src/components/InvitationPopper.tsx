@@ -1,10 +1,10 @@
 import { Formik, FormikActions } from 'formik'
 import React from 'react'
 import { manuscriptsGrey } from '../colors'
-import AttentionError from '../icons/attention-error'
-import { getUserRole, ProjectRole } from '../lib/roles'
+import { isOwner } from '../lib/roles'
 import { styled, ThemedProps } from '../theme'
 import { Project, UserProfile } from '../types/components'
+import AlertMessage from './AlertMessage'
 import { ManuscriptBlueButton, TransparentGreyButton } from './Button'
 import {
   InvitationErrors,
@@ -13,30 +13,8 @@ import {
 } from './InvitationForm'
 import { PopperBody } from './Popper'
 
-const ErrorMessage = styled.div`
-  display: flex;
-  padding: 8px 25px;
-  margin-bottom: 21px;
-  border-radius: 6px;
-  background-color: #fff1f0;
-  border: solid 1px #f5c1b7;
-  align-items: center;
-  flex: 1;
-  justify-content: space-between;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.34;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
-  color: #dc5030;
-  white-space: normal;
-`
-
-const MessageText = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 8px;
+const AlertMessageContainer = styled.div`
+  margin-bottom: 9px;
 `
 
 const LinkButton = styled(TransparentGreyButton)`
@@ -71,6 +49,7 @@ export const ShareProjectTitle = styled.div`
 interface Props {
   project: Project
   user: UserProfile
+  invitationError: Error | null
   handleInvitationSubmit: (
     values: InvitationValues,
     actions: FormikActions<InvitationValues | InvitationErrors>
@@ -81,10 +60,11 @@ interface Props {
 export const InvitationPopper: React.SFC<Props> = ({
   handleInvitationSubmit,
   handleSwitching,
+  invitationError,
   project,
   user,
 }) => {
-  const isOwner = getUserRole(project, user.userID) === ProjectRole.owner
+  const isProjectOwner = isOwner(project, user.userID)
 
   return (
     <PopperBody>
@@ -95,19 +75,27 @@ export const InvitationPopper: React.SFC<Props> = ({
           <InviteButton>Invite</InviteButton>
         </div>
       </ShareProjectHeader>
-      {!isOwner && (
-        <ErrorMessage>
-          <AttentionError />
-          <MessageText>
-            Only project owners can share links to the document.
-          </MessageText>
-        </ErrorMessage>
+      {!isProjectOwner &&
+        !invitationError && (
+          <AlertMessageContainer>
+            <AlertMessage type={'error'} hideCloseButton={true}>
+              Only project owners can share links to the document.
+            </AlertMessage>
+          </AlertMessageContainer>
+        )}
+      {!!invitationError && (
+        <AlertMessageContainer>
+          <AlertMessage type={'error'} hideCloseButton={true}>
+            {invitationError.message}
+          </AlertMessage>
+        </AlertMessageContainer>
       )}
       <Formik
         initialValues={{
-          email: isOwner ? true : false,
-          name: isOwner ? true : false,
-          role: isOwner ? true : false,
+          email: '',
+          name: '',
+          role: '',
+          disabled: !isOwner,
         }}
         onSubmit={handleInvitationSubmit}
         isInitialValid={true}
