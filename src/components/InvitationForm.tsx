@@ -1,6 +1,7 @@
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { manuscriptsBlue } from '../colors'
+import { ProjectRole } from '../lib/roles'
 import { styled } from '../theme'
 import { PrimaryButton } from './Button'
 import { FormError } from './Form'
@@ -49,7 +50,7 @@ export interface InvitationErrors {
 
 export const InvitationForm: React.SFC<
   FormikProps<InvitationValues & InvitationErrors>
-> = ({ errors, isSubmitting, initialValues }) => (
+> = ({ errors, isSubmitting, initialValues, values }) => (
   <Form noValidate={true}>
     <TextFieldGroupContainer
       errors={{
@@ -94,6 +95,7 @@ export const InvitationForm: React.SFC<
             textHint={
               'Can modify and delete project, invite and remove collaborators'
             }
+            checked={values.role === ProjectRole.owner}
             disabled={initialValues.disabled}
           >
             Owner
@@ -108,6 +110,7 @@ export const InvitationForm: React.SFC<
             value={'Writer'}
             required={true}
             textHint={'Can modify project contents'}
+            checked={values.role === ProjectRole.writer}
             disabled={initialValues.disabled}
           >
             Writer
@@ -122,6 +125,7 @@ export const InvitationForm: React.SFC<
             value={'Viewer'}
             required={true}
             textHint={'Can only review projects without modifying it'}
+            checked={values.role === ProjectRole.viewer}
             disabled={initialValues.disabled}
           >
             Viewer

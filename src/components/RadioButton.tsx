@@ -78,6 +78,10 @@ const Control = styled.label`
     display: block;
   }
 
+  & input:checked:disabled ~ ${CustomRadioButton}:after {
+    background: ${dustyGrey};
+  }
+
   & ${TextHint} {
     margin: 4px 0 6px;
   }

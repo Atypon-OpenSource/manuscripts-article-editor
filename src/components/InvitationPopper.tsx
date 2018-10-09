@@ -79,14 +79,14 @@ export const InvitationPopper: React.SFC<Props> = ({
         !invitationError && (
           <AlertMessageContainer>
             <AlertMessage type={'error'} hideCloseButton={true}>
-              Only project owners can share links to the document.
+              Only project owners can invite others to the project.
             </AlertMessage>
           </AlertMessageContainer>
         )}
       {!!invitationError && (
         <AlertMessageContainer>
           <AlertMessage type={'error'} hideCloseButton={true}>
-            {invitationError.message}
+            Sending invitation failed.
           </AlertMessage>
         </AlertMessageContainer>
       )}
@@ -94,8 +94,8 @@ export const InvitationPopper: React.SFC<Props> = ({
         initialValues={{
           email: '',
           name: '',
-          role: '',
-          disabled: !isOwner,
+          role: 'Writer',
+          disabled: !isProjectOwner,
         }}
         onSubmit={handleInvitationSubmit}
         isInitialValid={true}

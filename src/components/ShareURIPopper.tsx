@@ -202,7 +202,7 @@ export const ShareURIPopper: React.SFC<Props> = ({
               {loadingURIError ? (
                 <AlertMessageContainer>
                   <AlertMessage type={'error'} hideCloseButton={true}>
-                    {loadingURIError.message}
+                    Retrieving sharing link failed.
                     <ClickableText onClick={requestURI}>Retry.</ClickableText>
                   </AlertMessage>
                 </AlertMessageContainer>
