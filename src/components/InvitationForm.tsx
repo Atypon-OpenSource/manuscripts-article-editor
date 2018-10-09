@@ -41,6 +41,11 @@ export interface InvitationValues {
   name: string
   email: string
   role: string
+  // disabled?: boolean
+}
+
+interface Props {
+  dismissSentAlert?: () => void
   disabled?: boolean
 }
 
@@ -48,9 +53,16 @@ export interface InvitationErrors {
   submit?: string
 }
 
-export const InvitationForm: React.SFC<
-  FormikProps<InvitationValues & InvitationErrors>
-> = ({ errors, isSubmitting, initialValues, values }) => (
+type InvitationFormProps = FormikProps<InvitationValues & InvitationErrors> &
+  Props
+
+export const InvitationForm: React.SFC<InvitationFormProps> = ({
+  errors,
+  dismissSentAlert,
+  disabled,
+  isSubmitting,
+  values,
+}) => (
   <Form noValidate={true}>
     <TextFieldGroupContainer
       errors={{
@@ -62,11 +74,12 @@ export const InvitationForm: React.SFC<
         {({ field }: FieldProps) => (
           <TextField
             {...field}
+            onFocus={dismissSentAlert!}
             type={'text'}
             placeholder={'name'}
             required={true}
             error={errors.name}
-            disabled={initialValues.disabled}
+            disabled={disabled}
           />
         )}
       </Field>
@@ -75,11 +88,12 @@ export const InvitationForm: React.SFC<
         {({ field }: FieldProps) => (
           <TextField
             {...field}
+            onFocus={dismissSentAlert!}
             type={'email'}
             placeholder={'email'}
             required={true}
             error={errors.email}
-            disabled={initialValues.disabled}
+            disabled={disabled}
           />
         )}
       </Field>
@@ -90,13 +104,14 @@ export const InvitationForm: React.SFC<
         {({ field }: FieldProps) => (
           <RadioButton
             {...field}
+            onFocus={dismissSentAlert!}
             value={'Owner'}
             required={true}
             textHint={
               'Can modify and delete project, invite and remove collaborators'
             }
             checked={values.role === ProjectRole.owner}
-            disabled={initialValues.disabled}
+            disabled={disabled}
           >
             Owner
           </RadioButton>
@@ -107,11 +122,12 @@ export const InvitationForm: React.SFC<
         {({ field }: FieldProps) => (
           <RadioButton
             {...field}
+            onFocus={dismissSentAlert!}
             value={'Writer'}
             required={true}
             textHint={'Can modify project contents'}
             checked={values.role === ProjectRole.writer}
-            disabled={initialValues.disabled}
+            disabled={disabled}
           >
             Writer
           </RadioButton>
@@ -122,11 +138,12 @@ export const InvitationForm: React.SFC<
         {({ field }: FieldProps) => (
           <RadioButton
             {...field}
+            onFocus={dismissSentAlert!}
             value={'Viewer'}
             required={true}
             textHint={'Can only review projects without modifying it'}
             checked={values.role === ProjectRole.viewer}
-            disabled={initialValues.disabled}
+            disabled={disabled}
           >
             Viewer
           </RadioButton>
@@ -136,10 +153,7 @@ export const InvitationForm: React.SFC<
       {errors.role && <FormError>{errors.role}</FormError>}
     </RadioButtonsContainer>
 
-    <SendInvitationButton
-      type={'submit'}
-      disabled={isSubmitting || initialValues.disabled}
-    >
+    <SendInvitationButton type={'submit'} disabled={isSubmitting || disabled}>
       Send Invitation
     </SendInvitationButton>
   </Form>

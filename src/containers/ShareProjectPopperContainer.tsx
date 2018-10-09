@@ -32,6 +32,7 @@ interface State {
   isInvite: boolean
   loadingURIError: Error | null
   invitationError: Error | null
+  invitationSent: boolean
 }
 
 interface Props {
@@ -56,6 +57,7 @@ class ShareProjectPopperContainer extends React.Component<
     isInvite: false,
     loadingURIError: null,
     invitationError: null,
+    invitationSent: false,
   }
 
   public componentDidMount() {
@@ -78,6 +80,7 @@ class ShareProjectPopperContainer extends React.Component<
       selectedShareURIRole,
       loadingURIError,
       invitationError,
+      invitationSent,
     } = this.state
 
     if (isInvite) {
@@ -88,7 +91,9 @@ class ShareProjectPopperContainer extends React.Component<
             handleSwitching={this.handleSwitching}
             project={project}
             user={user.data as UserProfile}
+            dismissSentAlert={this.dismissSentAlert}
             invitationError={invitationError}
+            invitationSent={invitationSent}
           />
         </CustomPopper>
       )
@@ -113,7 +118,7 @@ class ShareProjectPopperContainer extends React.Component<
     )
   }
 
-  private requestURI = () =>
+  private requestURI = () => {
     this.shareProjectURI()
       .then(() => {
         this.setState({
@@ -125,6 +130,7 @@ class ShareProjectPopperContainer extends React.Component<
       .catch(error => {
         this.setState({ loadingURIError: error })
       })
+  }
 
   private handleSwitching = (isInvite: boolean) => {
     this.setState({ isInvite })
@@ -162,6 +168,7 @@ class ShareProjectPopperContainer extends React.Component<
 
     try {
       await projectInvite(project.id, [{ email, name }], role)
+      this.setState({ invitationSent: true })
     } catch (error) {
       this.setState({ invitationError: error })
     } finally {
@@ -208,6 +215,8 @@ class ShareProjectPopperContainer extends React.Component<
       projectID
     )}/invitation/${encodeURIComponent(token)}/`
   }
+
+  private dismissSentAlert = () => this.setState({ invitationSent: false })
 }
 
 export default withUser<Props>(ShareProjectPopperContainer)

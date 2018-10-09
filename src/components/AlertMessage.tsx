@@ -25,7 +25,7 @@ const InformativeIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0px 10px 0px 8px;
+  margin-left: 10px;
   width: 32px;
   height: 24px;
 `
@@ -33,7 +33,7 @@ const InformativeIcon = styled.div`
 const InnerContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 13px 0px 13px;
+  padding: 13px 0px;
 `
 
 interface AlertProps {
@@ -51,6 +51,10 @@ const AlertContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   white-space: normal;
+`
+
+const TextContainer = styled.div`
+  padding: 0 10px;
 `
 
 interface State {
@@ -83,12 +87,14 @@ class AlertMessage extends React.Component<Props, State> {
         >
           <InnerContainer>
             <InformativeIcon>{alertAttributes.icon}</InformativeIcon>
-            {children}
-            {dismissButtonText && (
-              <TextButton onClick={this.handleClose}>
-                {dismissButtonText}
-              </TextButton>
-            )}
+            <TextContainer>
+              {children}
+              {dismissButtonText && (
+                <TextButton onClick={this.handleClose}>
+                  {dismissButtonText}
+                </TextButton>
+              )}
+            </TextContainer>
           </InnerContainer>
           {!hideCloseButton && (
             <CloseIcon onClick={this.handleClose}>

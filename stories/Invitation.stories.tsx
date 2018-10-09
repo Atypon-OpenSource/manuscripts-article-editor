@@ -29,6 +29,8 @@ storiesOf('Invitation', module)
         project={project}
         user={owner}
         invitationError={null}
+        invitationSent={false}
+        dismissSentAlert={action('dismiss success alert')}
       />
     </PopperStory>
   ))
@@ -40,6 +42,8 @@ storiesOf('Invitation', module)
         project={project}
         user={notOwner}
         invitationError={null}
+        invitationSent={false}
+        dismissSentAlert={action('dismiss success alert')}
       />
     </PopperStory>
   ))
@@ -51,6 +55,21 @@ storiesOf('Invitation', module)
         project={project}
         user={owner}
         invitationError={new Error('An error occurred.')}
+        invitationSent={false}
+        dismissSentAlert={action('dismiss success alert')}
+      />
+    </PopperStory>
+  ))
+  .add('Invite: invitation sent successfully', () => (
+    <PopperStory>
+      <InvitationPopper
+        handleInvitationSubmit={action('submit')}
+        handleSwitching={action('switch')}
+        project={project}
+        user={owner}
+        invitationError={null}
+        invitationSent={true}
+        dismissSentAlert={action('dismiss success alert')}
       />
     </PopperStory>
   ))

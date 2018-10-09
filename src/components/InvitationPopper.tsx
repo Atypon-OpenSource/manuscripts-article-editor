@@ -1,4 +1,4 @@
-import { Formik, FormikActions } from 'formik'
+import { Formik, FormikActions, FormikProps } from 'formik'
 import React from 'react'
 import { manuscriptsGrey } from '../colors'
 import { isOwner } from '../lib/roles'
@@ -50,6 +50,8 @@ interface Props {
   project: Project
   user: UserProfile
   invitationError: Error | null
+  invitationSent: boolean
+  dismissSentAlert: () => void
   handleInvitationSubmit: (
     values: InvitationValues,
     actions: FormikActions<InvitationValues | InvitationErrors>
@@ -58,11 +60,13 @@ interface Props {
 }
 
 export const InvitationPopper: React.SFC<Props> = ({
-  handleInvitationSubmit,
-  handleSwitching,
-  invitationError,
-  project,
   user,
+  project,
+  invitationSent,
+  invitationError,
+  dismissSentAlert,
+  handleSwitching,
+  handleInvitationSubmit,
 }) => {
   const isProjectOwner = isOwner(project, user.userID)
 
@@ -90,18 +94,30 @@ export const InvitationPopper: React.SFC<Props> = ({
           </AlertMessage>
         </AlertMessageContainer>
       )}
+      {!!invitationSent && (
+        <AlertMessageContainer>
+          <AlertMessage type={'success'} hideCloseButton={true}>
+            Invitation was sent successfully.
+          </AlertMessage>
+        </AlertMessageContainer>
+      )}
       <Formik
         initialValues={{
           email: '',
           name: '',
           role: 'Writer',
-          disabled: !isProjectOwner,
         }}
         onSubmit={handleInvitationSubmit}
         isInitialValid={true}
         validateOnChange={false}
         validateOnBlur={false}
-        component={InvitationForm}
+        render={(props: FormikProps<InvitationValues & InvitationErrors>) => (
+          <InvitationForm
+            {...props}
+            dismissSentAlert={dismissSentAlert}
+            disabled={!isProjectOwner}
+          />
+        )}
       />
     </PopperBody>
   )
