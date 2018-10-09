@@ -11,19 +11,50 @@ const PopperStory = styled.div`
   width: 400px;
 `
 
+// tslint:disable-next-line:no-object-literal-type-assertion
+const project = { id: 'project-id', owners: ['user-1'] } as Project
+
+// tslint:disable-next-line:no-object-literal-type-assertion
+const owner = { userID: 'user-1' } as UserProfile
+
+// tslint:disable-next-line:no-object-literal-type-assertion
+const notOwner = { userID: 'user-2' } as UserProfile
+
 storiesOf('Invitation', module)
   .add('Invite', () => (
     <PopperStory>
       <InvitationPopper
         handleInvitationSubmit={action('submit')}
         handleSwitching={action('switch')}
+        project={project}
+        user={owner}
+        invitationError={null}
       />
     </PopperStory>
   ))
-  .add('Share Project Button', () => (
-    // tslint:disable-next-line:no-object-literal-type-assertion
-    <ShareProjectButton project={{ id: 'project-id' } as Project} />
+  .add('Invite: not owner', () => (
+    <PopperStory>
+      <InvitationPopper
+        handleInvitationSubmit={action('submit')}
+        handleSwitching={action('switch')}
+        project={project}
+        user={notOwner}
+        invitationError={null}
+      />
+    </PopperStory>
   ))
+  .add('Invite: error', () => (
+    <PopperStory>
+      <InvitationPopper
+        handleInvitationSubmit={action('submit')}
+        handleSwitching={action('switch')}
+        project={project}
+        user={owner}
+        invitationError={new Error('An error occurred.')}
+      />
+    </PopperStory>
+  ))
+  .add('Share Project Button', () => <ShareProjectButton project={project} />)
   .add('Share Link: loading', () => (
     <PopperStory>
       <ShareURIPopper
@@ -34,10 +65,10 @@ storiesOf('Invitation', module)
         handleChange={action('change')}
         handleCopy={action('copy')}
         handleSwitching={action('switch')}
-        // tslint:disable-next-line:no-object-literal-type-assertion
-        project={{ owners: ['user-1'] } as Project}
-        // tslint:disable-next-line:no-object-literal-type-assertion
-        user={{ userID: 'user-1' } as UserProfile}
+        requestURI={action('request URI')}
+        project={project}
+        user={owner}
+        loadingURIError={null}
       />
     </PopperStory>
   ))
@@ -51,10 +82,10 @@ storiesOf('Invitation', module)
         handleChange={action('change')}
         handleCopy={action('copy')}
         handleSwitching={action('switch')}
-        // tslint:disable-next-line:no-object-literal-type-assertion
-        project={{ owners: ['user-1'] } as Project}
-        // tslint:disable-next-line:no-object-literal-type-assertion
-        user={{ userID: 'user-1' } as UserProfile}
+        project={project}
+        user={owner}
+        requestURI={action('request URI')}
+        loadingURIError={null}
       />
     </PopperStory>
   ))
@@ -68,10 +99,44 @@ storiesOf('Invitation', module)
         handleChange={action('change')}
         handleCopy={action('copy')}
         handleSwitching={action('switch')}
-        // tslint:disable-next-line:no-object-literal-type-assertion
-        project={{ owners: ['user-1'] } as Project}
-        // tslint:disable-next-line:no-object-literal-type-assertion
-        user={{ userID: 'user-1' } as UserProfile}
+        project={project}
+        user={owner}
+        requestURI={action('request URI')}
+        loadingURIError={null}
+      />
+    </PopperStory>
+  ))
+  .add('Share Link: not owner', () => (
+    <PopperStory>
+      <ShareURIPopper
+        dataLoaded={true}
+        URI={'http://example.com'}
+        selectedRole={'Writer'}
+        isCopied={true}
+        handleChange={action('change')}
+        handleCopy={action('copy')}
+        handleSwitching={action('switch')}
+        project={project}
+        user={notOwner}
+        requestURI={action('request URI')}
+        loadingURIError={null}
+      />
+    </PopperStory>
+  ))
+  .add('Share Link: error', () => (
+    <PopperStory>
+      <ShareURIPopper
+        dataLoaded={true}
+        URI={'http://example.com'}
+        selectedRole={'Writer'}
+        isCopied={true}
+        handleChange={action('change')}
+        handleCopy={action('copy')}
+        handleSwitching={action('switch')}
+        project={project}
+        user={owner}
+        requestURI={action('request URI')}
+        loadingURIError={new Error('An error occurred.')}
       />
     </PopperStory>
   ))
