@@ -3,7 +3,7 @@ import React from 'react'
 import ProjectsDropdownButton from '../containers/ProjectsDropdownButton'
 import UserContainer from '../containers/UserContainer'
 import {
-  MenuBarIcon,
+  FilledMenuBarIcon,
   MenuContainer,
   MenuLink,
   MenuSection,
@@ -18,9 +18,9 @@ interface Props {
 export const GlobalMenu: React.SFC<Props> = ({ active }) => (
   <MenuContainer>
     <UpdatesContainer>
-      <MenuBarIcon>
+      <FilledMenuBarIcon>
         <NavIcon />
-      </MenuBarIcon>
+      </FilledMenuBarIcon>
     </UpdatesContainer>
     <MenuSections>
       <MenuSection>

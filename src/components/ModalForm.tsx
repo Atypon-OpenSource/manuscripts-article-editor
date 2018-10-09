@@ -4,6 +4,8 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import Close from '../icons/close'
 import { styled, ThemedProps } from '../theme'
 
+Modal.setAppElement('#root')
+
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const ModalContainer = styled.div`
@@ -89,7 +91,6 @@ class ModalForm extends React.Component<Props & RouteComponentProps> {
       <Modal
         isOpen={true}
         onRequestClose={this.handleClose}
-        ariaHideApp={false}
         shouldCloseOnOverlayClick={true}
         style={modalStyle}
       >

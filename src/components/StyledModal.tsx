@@ -2,6 +2,8 @@ import React from 'react'
 import Modal from 'react-modal'
 import { styled, ThemedOuterProps } from '../theme'
 
+Modal.setAppElement('#root')
+
 export const totalTransitionTime = 800
 const transitionDelay = 300
 const delayedTransitionTime = totalTransitionTime - transitionDelay

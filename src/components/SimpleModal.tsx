@@ -3,6 +3,8 @@ import Modal from 'react-modal'
 import Close from '../icons/close'
 import { styled, ThemedProps } from '../theme'
 
+Modal.setAppElement('#root')
+
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const ModalContainer = styled.div`
@@ -70,7 +72,6 @@ export const SimpleModal: React.SFC<Props> = ({ children, handleClose }) => (
   <Modal
     isOpen={true}
     onRequestClose={handleClose}
-    ariaHideApp={false}
     shouldCloseOnOverlayClick={true}
     style={modalStyle}
   >

@@ -70,6 +70,16 @@ export const MenuLink = styled(NavLink)`
   }
 `
 
+export const FilledMenuBarIcon = styled(MenuBarIcon)`
+  & path {
+    fill: ${manuscriptsBlue};
+  }
+
+  &:hover path {
+    fill: ${jellyBeanBlue};
+  }
+`
+
 interface Props {
   handleClose: React.MouseEventHandler<HTMLElement>
   projectID: string
@@ -78,9 +88,9 @@ interface Props {
 export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
   <MenuContainer>
     <Tip title={'Back to Editor'} placement={'bottom-end'}>
-      <MenuBarIcon onClick={handleClose}>
+      <FilledMenuBarIcon onClick={handleClose}>
         <NavIcon />
-      </MenuBarIcon>
+      </FilledMenuBarIcon>
     </Tip>
 
     <MenuSections>

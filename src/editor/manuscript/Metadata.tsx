@@ -188,7 +188,6 @@ export const Metadata: React.SFC<Props> = props => (
       <StyledModal
         isOpen={props.editing}
         onRequestClose={props.stopEditing}
-        ariaHideApp={false}
         shouldCloseOnOverlayClick={true}
         closeTimeoutMS={totalTransitionTime}
       >

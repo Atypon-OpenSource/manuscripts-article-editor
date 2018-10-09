@@ -1,10 +1,16 @@
 import React from 'react'
 
-interface ModalProps {
+interface Props {
   isOpen?: boolean
 }
 
-const Modal: React.SFC<ModalProps> = ({ isOpen, children }) =>
-  isOpen ? <div>{children}</div> : null
+class Modal extends React.Component<Props> {
+  public static setAppElement(selector: string) {
+    return null
+  }
+  public render() {
+    return this.props.isOpen ? <div>{this.props.children}</div> : null
+  }
+}
 
 export default Modal

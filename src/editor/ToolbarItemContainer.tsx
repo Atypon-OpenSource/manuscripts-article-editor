@@ -5,6 +5,8 @@ import Modal from 'react-modal'
 import { styled } from '../theme'
 import { ToolbarButton } from './Toolbar'
 
+Modal.setAppElement('#root')
+
 export const ToolbarItem = styled.div`
   display: inline-flex;
   position: relative;
@@ -106,7 +108,6 @@ class ToolbarItemContainer extends React.Component<Props, State> {
             isOpen={this.state.open}
             onRequestClose={this.toggleDropdown}
             style={modalStyle}
-            ariaHideApp={false}
           >
             <Dropdown
               state={state}

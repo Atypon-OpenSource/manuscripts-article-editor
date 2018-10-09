@@ -7,6 +7,8 @@ import { manuscriptsBlue } from '../colors'
 import { MenuItem } from '../editor/config/menus'
 import { styled } from '../theme'
 
+Modal.setAppElement('#root')
+
 // tslint:disable:max-classes-per-file
 
 const Separator = styled.div`
@@ -194,7 +196,6 @@ export class MenuItemContainer extends React.Component<
               onRequestClose={this.closeDropdown}
               shouldCloseOnOverlayClick={false}
               style={modalStyle}
-              ariaHideApp={false}
             >
               <Dropdown
                 state={state}
@@ -316,11 +317,12 @@ export class ApplicationMenu extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    this.addClickListener()
+    this.addBlurListener()
   }
 
   public componentWillUnmount() {
     this.removeClickListener()
+    this.removeBlurListener()
   }
 
   public render() {
@@ -393,6 +395,10 @@ export class ApplicationMenu extends React.Component<Props, State> {
     this.setState({
       activeMenu: index,
     })
+
+    if (index !== null) {
+      this.addClickListener()
+    }
   }
 
   private addClickListener = () => {
@@ -411,6 +417,18 @@ export class ApplicationMenu extends React.Component<Props, State> {
       this.setActiveMenu(null)
       this.removeClickListener()
     }
+  }
+
+  private addBlurListener = () => {
+    window.addEventListener('blur', this.handleBlur)
+  }
+
+  private removeBlurListener = () => {
+    window.removeEventListener('blur', this.handleBlur)
+  }
+
+  private handleBlur = () => {
+    this.setActiveMenu(null)
   }
 }
 

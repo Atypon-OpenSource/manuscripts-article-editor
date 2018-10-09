@@ -27,6 +27,7 @@ import {
   TOCElement,
   UserProfile,
 } from '../types/components'
+import { generateID } from './id'
 import * as ObjectTypes from './object-types'
 
 const parser = DOMParser.fromSchema(schema)
@@ -349,9 +350,9 @@ export class Decoder {
     const rootSectionNodes = rootSections.map(this.decode)
 
     if (!rootSectionNodes.length) {
-      rootSectionNodes.push(
-        schema.nodes.section.createAndFill() as ProsemirrorNode
-      )
+      rootSectionNodes.push(schema.nodes.section.createAndFill({
+        id: generateID('section'),
+      }) as ProsemirrorNode)
     }
 
     const node = schema.nodes.manuscript.create({}, rootSectionNodes)

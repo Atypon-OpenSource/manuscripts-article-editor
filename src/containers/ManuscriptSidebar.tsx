@@ -67,6 +67,10 @@ const AddManuscriptButton = styled.button`
   letter-spacing: -0.3px;
 `
 
+const StyledAddIcon = styled(AddIcon)`
+  transform: scale(0.6);
+`
+
 interface Props {
   addManuscript: () => Promise<void>
   manuscript: Manuscript
@@ -123,7 +127,7 @@ const ManuscriptSidebar: React.SFC<Props> = ({
         ))}
 
         <AddManuscriptButton onClick={addManuscript}>
-          <AddIcon transform={'scale(0.6)'} />
+          <StyledAddIcon />
           Add Manuscript
         </AddManuscriptButton>
       </SidebarContent>
