@@ -210,4 +210,4 @@ class ShareProjectPopperContainer extends React.Component<
   }
 }
 
-export default withUser(ShareProjectPopperContainer)
+export default withUser<Props>(ShareProjectPopperContainer)
