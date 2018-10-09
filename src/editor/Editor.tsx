@@ -26,6 +26,7 @@ import plugins from './config/plugins'
 import schema from './config/schema'
 import toolbar from './config/toolbar'
 import views from './config/views'
+import { transformPasted } from './lib/paste'
 import PopperManager from './lib/popper'
 import MetadataContainer from './manuscript/MetadataContainer'
 import './styles/Editor.css'
@@ -181,6 +182,7 @@ class Editor extends React.Component<EditorProps, State> {
         dispatchTransaction: this.dispatchTransaction,
         nodeViews: views(this.props),
         attributes: this.props.attributes,
+        transformPasted,
       })
 
       if (this.props.subscribe) {
