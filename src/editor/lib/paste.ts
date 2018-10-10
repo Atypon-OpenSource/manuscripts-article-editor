@@ -12,8 +12,19 @@ const removeFirstParagraphIfEmpty = (slice: Slice) => {
   }
 }
 
+// remove `id` from pasted content
+const removeIDs = (slice: Slice) => {
+  slice.content.descendants(node => {
+    if (node.attrs.id) {
+      node.attrs.id = null
+    }
+  })
+}
+
 export const transformPasted = (slice: Slice): Slice => {
   removeFirstParagraphIfEmpty(slice)
+
+  removeIDs(slice)
 
   return slice
 }

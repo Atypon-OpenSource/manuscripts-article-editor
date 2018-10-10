@@ -12,7 +12,9 @@ test('transformPasted handler', () => {
       },
       {
         type: 'paragraph',
-        attrs: {},
+        attrs: {
+          id: 'p-1',
+        },
         content: [
           {
             type: 'text',
@@ -27,11 +29,13 @@ test('transformPasted handler', () => {
   })
 
   expect(slice.content.childCount).toBe(2)
+  expect(slice.content.child(1).attrs.id).toBe('p-1')
 
   const result = transformPasted(slice)
 
   expect(result.content.childCount).toBe(1)
   expect(result.content.size).toBe(111)
+  expect(slice.content.child(0).attrs.id).toBeNull()
 
   expect(result).toMatchSnapshot('transform-pasted')
 })
