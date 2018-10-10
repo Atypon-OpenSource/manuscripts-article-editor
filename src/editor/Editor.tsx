@@ -355,9 +355,17 @@ class Editor extends React.Component<EditorProps, State> {
           ? NodeSelection.create(state.doc, pos)
           : TextSelection.near(state.doc.resolve(pos + 1))
 
-        this.dispatchTransaction(
-          state.tr.setSelection(selection).scrollIntoView()
-        )
+        this.dispatchTransaction(state.tr.setSelection(selection))
+
+        const dom = this.view.domAtPos(pos)
+
+        if (dom.node instanceof Element) {
+          dom.node.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest',
+          })
+        }
 
         return false
       }
