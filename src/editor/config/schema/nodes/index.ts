@@ -44,7 +44,6 @@ export type Nodes =
   | 'footnotes_element'
   | 'hard_break'
   | 'horizontal_rule'
-  | 'image'
   | 'inline_equation'
   | 'inline_footnote'
   | 'listing'
@@ -81,7 +80,6 @@ const combinedNodes: { [key in Nodes]: NodeSpec } = {
   footnotes_element: footnotesElement,
   hard_break: basic.hard_break,
   horizontal_rule: basic.horizontal_rule,
-  image: basic.image,
   inline_equation: inlineEquation,
   inline_footnote: inlineFootnote,
   listing,
