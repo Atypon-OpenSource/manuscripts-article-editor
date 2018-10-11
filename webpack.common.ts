@@ -1,3 +1,4 @@
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
 import { GenerateSW } from 'workbox-webpack-plugin'
@@ -35,6 +36,7 @@ const configuration: webpack.Configuration = {
         'WAYF_KEY',
         'WAYF_URL',
       ]),
+      new CopyWebpackPlugin(['public/landing.html']),
       new HtmlWebpackPlugin({
         template: 'public/index.html',
         title: 'Manuscripts',
