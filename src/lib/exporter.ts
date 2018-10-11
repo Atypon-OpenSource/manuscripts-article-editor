@@ -19,10 +19,11 @@ export const removeEmptyStyles = (component: { [key: string]: any }) => {
   })
 }
 
-// TODO: only include the components referenced by this manuscript?
-const createProjectDump = (componentMap: ComponentMap): ProjectDump => ({
+const createProjectDump = (componentMap: ComponentMap, manuscriptID: string): ProjectDump => ({
   version: '2.0',
-  data: Array.from(componentMap.values()).map((component: JsonComponent) => {
+  data: Array.from(componentMap.values()).filter((component: JsonComponent) => {
+    return component.objectType !== ObjectTypes.MANUSCRIPT || component.id === manuscriptID
+  }).map((component: JsonComponent) => {
     component._id = component._id || component.id
     delete component.id
     delete component._attachments
@@ -66,8 +67,8 @@ const fetchAttachment = (
 
 export const generateAttachmentFilename = (id: string) => id.replace(':', '_')
 
-const buildProjectBundle = (componentMap: ComponentMap) => {
-  const data = createProjectDump(componentMap)
+const buildProjectBundle = (componentMap: ComponentMap, manuscriptID: string) => {
+  const data = createProjectDump(componentMap, manuscriptID)
 
   const zip = new JSZip()
 
@@ -107,9 +108,10 @@ export const downloadExtension = (format: string): string => {
 
 export const exportProject = async (
   componentMap: ComponentMap,
+  manuscriptID: string,
   format: string
 ) => {
-  const file = await buildProjectBundle(componentMap)
+  const file = await buildProjectBundle(componentMap, manuscriptID)
   // download(file, 'manuscript.manuproj.zip')
 
   const form = new FormData()

@@ -454,7 +454,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const { manuscriptID } = this.props.match.params
 
     try {
-      const blob = await exportProject(componentMap, format)
+      const blob = await exportProject(componentMap, manuscriptID, format)
       const manuscript = componentMap.get(manuscriptID) as Manuscript
 
       const filename =
