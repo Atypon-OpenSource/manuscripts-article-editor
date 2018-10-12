@@ -34,7 +34,6 @@ lint_test_build:
     when: always
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
 
-
 testcafe-chromium:
   stage: test
   script:
@@ -49,6 +48,9 @@ testcafe-chromium:
     when: on_failure
   tags:
     - docker-compose
+  only:
+    - master
+    - triggers
 
 .testcafe-firefox:
   stage: test
