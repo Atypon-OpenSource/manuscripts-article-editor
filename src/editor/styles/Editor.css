@@ -371,6 +371,38 @@
   font-size: 90%;
 }
 
+.ProseMirror .placeholder-item {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: help;
+  font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  color: #dc5030;
+  background-color: #fff1f0;
+  border: solid 1px #f5c1b7;
+  border-radius: 3px;
+  align-items: center;
+  white-space: normal;
+}
+
+.ProseMirror .placeholder-item-icon {
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.ProseMirror .placeholder-item-message {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+}
+
+.ProseMirror .placeholder-item-link {
+  color: inherit;
+}
+
 /*.ProseMirror {
   counter-reset: section
 }

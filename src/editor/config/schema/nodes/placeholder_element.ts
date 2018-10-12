@@ -1,27 +1,25 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
-export const equationElement: NodeSpec = {
-  content: '(equation | placeholder) figcaption',
+export const placeholderElement: NodeSpec = {
+  atom: true,
+  selectable: false,
   attrs: {
     id: { default: '' },
-    suppressCaption: { default: true },
   },
-  selectable: false,
   group: 'block element',
   parseDOM: [
     {
-      tag: 'figure.equation',
+      tag: 'div.placeholder-element',
       getAttrs: (dom: HTMLElement) => ({
         id: dom.getAttribute('id'),
       }),
     },
   ],
   toDOM: (node: ProsemirrorNode) => [
-    'figure',
+    'div',
     {
-      class: 'equation', // TODO: suppress-caption?
+      class: 'placeholder-element',
       id: node.attrs.id,
     },
-    0,
   ],
 }

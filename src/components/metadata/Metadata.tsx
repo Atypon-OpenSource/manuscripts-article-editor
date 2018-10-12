@@ -70,7 +70,7 @@ const StyledTitleField = styled(TitleField)`
 
   & .ProseMirror {
     cursor: text;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.3;
 
     &:focus {

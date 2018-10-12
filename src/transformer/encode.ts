@@ -17,6 +17,7 @@ import {
   Listing,
   ListingElement,
   Paragraph,
+  PlaceholderElement,
   Section,
   Table,
   TableElement,
@@ -277,6 +278,9 @@ const encoders: NodeEncoderMap = {
     contents: contents(node), // TODO: can't serialize citations?
     paragraphStyle: node.attrs.paragraphStyle || undefined,
   }),
+  placeholder_element: (node): Partial<PlaceholderElement> => ({
+    elementType: 'div',
+  }),
   section: (node, parent, path, priority): Partial<Section> => ({
     priority: priority.value++,
     title: inlineContentsOfNodeType(node, 'section_title'),
@@ -350,10 +354,13 @@ export const encode = (node: ProsemirrorNode): ComponentMap => {
     value: 1,
   }
 
+  const placeholders = ['placeholder', 'placeholder_element']
+
   const addComponent = (path: string[], parent: ProsemirrorNode) => (
     child: ProsemirrorNode
   ) => {
     if (!child.attrs.id) return
+    if (placeholders.includes(child.type.name)) return
 
     const component = componentFromNode(child, parent, path, priority)
     components.set(component.id as string, component as ComponentWithAttachment)

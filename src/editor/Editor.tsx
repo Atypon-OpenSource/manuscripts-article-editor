@@ -42,7 +42,7 @@ export type GetComponent = <
   T extends AnyContainedComponent | AnyContainedComponent & Attachments
 >(
   id: string
-) => T
+) => T | undefined
 export type SaveComponent = <T extends AnyContainedComponent>(
   component: (T & ComponentAttachment) | Partial<T>
 ) => Promise<T & Attachments>

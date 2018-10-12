@@ -332,6 +332,10 @@ export interface BibliographyElement extends Element {
   contents: string
 }
 
+export interface PlaceholderElement extends Element {
+  elementType: 'div'
+}
+
 export interface Bundle extends Component {
   _id: string
   csl?: {

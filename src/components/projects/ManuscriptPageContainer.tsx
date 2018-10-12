@@ -342,6 +342,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       const decoder = new Decoder(componentMap)
 
       const doc = decoder.createArticleNode()
+      doc.check()
 
       // encode again here to get doc component ids for comparison
       const encodedComponentMap = encode(doc)
@@ -658,9 +659,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private getComponent: GetComponent = <T extends AnyComponent>(
     id: string
-  ): T => {
-    return this.state.componentMap.get(id) as T
-  }
+  ): T | undefined => this.state.componentMap.get(id) as T | undefined
 
   private saveComponent: SaveComponent = async <
     T extends AnyContainedComponent
@@ -844,6 +843,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private hasChanged = (component: ComponentObject): boolean => {
     const previousComponent = this.getComponent(component.id) as ComponentObject
+
+    // TODO: return false if the previous component was a placeholder element?
 
     if (!previousComponent) return true
 

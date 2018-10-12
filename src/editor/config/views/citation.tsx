@@ -54,7 +54,14 @@ class CitationView implements NodeView {
 
   public selectNode() {
     const { getComponent, getLibraryItem, projectID } = this.props
-    const citation = getComponent<Citation>(this.node.attrs.rid)
+
+    const { rid } = this.node.attrs
+
+    const citation = rid ? getComponent<Citation>(rid) : undefined
+
+    // TODO: handle missing objects?
+    // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/395
+    if (!citation) return
 
     const items = citation.embeddedCitationItems.map(
       (citationItem: CitationItem) =>

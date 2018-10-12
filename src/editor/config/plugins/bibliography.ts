@@ -23,7 +23,7 @@ export default (props: EditorProps) => {
       //   return null
       // }
 
-      const citationNodes: NodesWithPositions = []
+      let citationNodes: NodesWithPositions = []
 
       newState.doc.descendants((node, pos) => {
         if (node.type.name === 'citation') {
@@ -31,28 +31,30 @@ export default (props: EditorProps) => {
         }
       })
 
-      // TODO: https://gitlab.com/mpapp-private/manuscripts-frontend/issues/156
+      // TODO: handle missing objects?
+      // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/395
+      citationNodes = citationNodes.filter(
+        ([node]) =>
+          node.attrs.rid &&
+          node.attrs.rid !== 'null' &&
+          getComponent<Citation>(node.attrs.rid)
+      )
+
+      // TODO: handle link citations
+      // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/156
       const citations: Citeproc.CitationByIndex = citationNodes
-        .filter(([node]) => node.attrs.rid && node.attrs.rid !== 'null')
-        .map(([node]) => {
-          const citation = getComponent<Citation>(node.attrs.rid)
-
-          if (!citation) {
-            throw new Error('Citation not found: ' + node.attrs.rid)
-          }
-
-          return {
-            citationID: citation.id,
-            citationItems: citation.embeddedCitationItems.map(
-              (citationItem: CitationItem) => ({
-                id: citationItem.bibliographyItem,
-                data: getLibraryItem(citationItem.bibliographyItem), // for comparison
-              })
-            ),
-            properties: { noteIndex: 0 },
-            manuscript: getManuscript(), // for comparison
-          }
-        })
+        .map(([node]) => getComponent<Citation>(node.attrs.rid))
+        .map((citation: Citation) => ({
+          citationID: citation.id,
+          citationItems: citation.embeddedCitationItems.map(
+            (citationItem: CitationItem) => ({
+              id: citationItem.bibliographyItem,
+              data: getLibraryItem(citationItem.bibliographyItem), // for comparison
+            })
+          ),
+          properties: { noteIndex: 0 },
+          manuscript: getManuscript(), // for comparison
+        }))
 
       const newCitationsString = JSON.stringify(citations)
 

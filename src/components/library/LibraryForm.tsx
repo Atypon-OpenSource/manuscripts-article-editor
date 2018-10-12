@@ -63,7 +63,7 @@ const StyledTitleField = styled(TitleField)`
     font-weight: bold;
     cursor: pointer;
     font-size: 13pt;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 
     &:focus {
       outline: none;
