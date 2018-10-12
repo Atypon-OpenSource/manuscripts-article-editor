@@ -138,7 +138,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     }
 
     return (
-      <Page projectID={project.id}>
+      <Page project={project}>
         <InviteCollaboratorsSidebar
           initialValues={initialValues}
           handleCancel={this.handleCancel}
@@ -165,7 +165,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     } = this.state
 
     return (
-      <Page projectID={project.id}>
+      <Page project={project}>
         <AddCollaboratorsSidebar
           people={people}
           invitations={invitations}

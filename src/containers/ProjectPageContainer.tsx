@@ -99,7 +99,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
     }
 
     return (
-      <Page projectID={project.id}>
+      <Page project={project}>
         <ProjectSidebar
           manuscripts={manuscripts}
           project={project}

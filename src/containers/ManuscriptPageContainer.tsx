@@ -208,7 +208,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const locale = this.getLocale()
 
     return (
-      <Page projectID={project.id}>
+      <Page project={project}>
         <ManuscriptSidebar
           addManuscript={this.addManuscript}
           manuscript={manuscript}

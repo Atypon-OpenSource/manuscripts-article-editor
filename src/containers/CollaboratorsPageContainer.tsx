@@ -90,7 +90,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     }
 
     return (
-      <Page projectID={project.id}>
+      <Page project={project}>
         <CollaboratorsSidebar
           collaborators={collaborators}
           invitations={invitations}
