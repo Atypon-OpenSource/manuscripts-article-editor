@@ -1,4 +1,5 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin'
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
 import { GenerateSW } from 'workbox-webpack-plugin'
@@ -37,9 +38,24 @@ const configuration: webpack.Configuration = {
         'WAYF_URL',
       ]),
       new CopyWebpackPlugin(['public/landing.html']),
+      new FaviconsWebpackPlugin({
+        background: '#fff',
+        inject: true,
+        logo: './public/favicon.png',
+        theme_color: '#fff',
+        title: 'Manuscripts.io',
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: false,
+          favicons: true,
+          firefox: true,
+          windows: true,
+        },
+      }),
       new HtmlWebpackPlugin({
         template: 'public/index.html',
-        title: 'Manuscripts',
+        title: 'Manuscripts.io',
       }),
       // tslint:disable-next-line:deprecation (typing bug)
       new webpack.NormalModuleReplacementPlugin(
