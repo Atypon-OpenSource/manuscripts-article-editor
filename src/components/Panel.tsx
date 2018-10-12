@@ -1,6 +1,6 @@
+import { Resizer, ResizerDirection, ResizerSide } from '@manuscripts/resizer'
 import React from 'react'
 import layout, { Pane } from '../lib/layout'
-import Resizer, { ResizerDirection, ResizerSide } from '../resizer/Resizer'
 
 interface PanelProps {
   name: string

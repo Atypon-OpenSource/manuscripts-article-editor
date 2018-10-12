@@ -34,6 +34,7 @@
     "@babel/runtime": "^7.0.0",
     "@ibm/plex": "^1.1.6",
     "@manuscripts/assets": "^0.1.8",
+    "@manuscripts/resizer": "^0.0.1",
     "@types/clean-webpack-plugin": "^0.1.2",
     "@types/codemirror": "^0.0.58",
     "@types/copy-webpack-plugin": "^4.4.2",

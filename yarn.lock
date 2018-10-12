@@ -872,6 +872,11 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.1.tgz#c88abc0bc08f120ba41146148425cdb637584e6d"
   integrity sha512-1W1gEK12vYv0oKOdF0KDrJsg57GwJuu1MJGzqajW87PQEqAt4r7CVWrzYxdUwmoUosOAUZ3AKM0LR0UUHA4W/w==
 
+"@manuscripts/resizer@^0.0.1":
+  version "0.0.1"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fresizer/-/resizer-0.0.1.tgz#b719bec2cd06e32c69ce8a033f7948e580c34a9c"
+  integrity sha512-hSXuz0ZGBemjDTS2CYEc5D3iOaxkWYoeTmj/p+sJT57IyJgxYBE9U58POHUQcsxM26MedJU0ar+XVmBNh4BMSg==
+
 "@storybook/addon-actions@^4.0.0-alpha.20":
   version "4.0.0-alpha.23"
   resolved "https://registry.npmjs.org/@storybook/addon-actions/-/addon-actions-4.0.0-alpha.23.tgz#6cced9449711963dcfff98fec77c998be78399c3"
