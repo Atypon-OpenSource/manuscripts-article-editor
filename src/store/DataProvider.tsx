@@ -44,7 +44,6 @@ export interface DataProviderState {
   collection: ComponentCollection | null
   push: ReplicationState
   pull: ReplicationState
-  error: string | null
 }
 
 export interface DataProviderContext extends DataProviderState {
@@ -64,7 +63,6 @@ class DataProvider extends React.Component<{}, DataProviderState> {
       active: false,
       completed: false,
     },
-    error: null,
   }
 
   protected options: RxCollectionCreator
@@ -97,8 +95,6 @@ class DataProvider extends React.Component<{}, DataProviderState> {
   }
 
   protected sync = (options: PouchReplicationOptions, direction: Direction) => {
-    this.setState({ error: null })
-
     console.log('syncing', this.options, options) // tslint:disable-line:no-console
 
     const collection = this.state.collection as ComponentCollection
@@ -167,7 +163,6 @@ class DataProvider extends React.Component<{}, DataProviderState> {
           // Unhandled sync error
           // Bail out and cancel syncing
           this.setCompletedState(direction, true)
-          this.setState({ error: error.message || null })
 
           // await replication.cancel()
 
