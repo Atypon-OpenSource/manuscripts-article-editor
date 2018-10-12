@@ -357,7 +357,7 @@ class Editor extends React.Component<EditorProps, State> {
 
         this.dispatchTransaction(state.tr.setSelection(selection))
 
-        const dom = this.view.domAtPos(pos)
+        const dom = this.view.domAtPos(pos + 1)
 
         if (dom.node instanceof Element) {
           dom.node.scrollIntoView({

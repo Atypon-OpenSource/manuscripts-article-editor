@@ -40,5 +40,8 @@ export default ManuscriptOutlineContainer
 
 export const DebouncedManuscriptOutlineContainer = debounceRender<Props>(
   ManuscriptOutlineContainer,
-  500
+  500,
+  {
+    leading: true,
+  }
 )
