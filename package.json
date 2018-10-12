@@ -14,7 +14,7 @@
     "build": "TS_NODE_FILES=true webpack --config webpack.prod.ts",
     "docker-compose:client": "docker-compose -p manuscripts_client -f docker/client/development/docker-compose.yml",
     "docker-compose:server": "docker-compose -p manuscripts_server -f docker/server/docker-compose.yml",
-    "docker-compose:testcafe": "docker-compose -f docker/tests/testcafe/docker-compose.yml",
+    "docker-compose:testcafe": "docker-compose -f testcafe/docker-compose.yml",
     "test": "jest",
     "testcafe": "testcafe",
     "testcafe-live": "testcafe-live",

@@ -11,7 +11,7 @@ docker volume create --name=yarn-cache
 SCREENSHOTS="$PWD/screenshots"
 mkdir -p "$SCREENSHOTS"
 
-CONFIG="docker/tests/testcafe/docker-compose.yml"
+CONFIG="testcafe/docker-compose.yml"
 
 docker-compose --file "$CONFIG" down --volumes
 docker-compose --file "$CONFIG" pull

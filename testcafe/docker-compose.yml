@@ -4,7 +4,7 @@ services:
   couchbase:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/couchbase
     env_file:
-      - ../../server/defaults.env
+      - ../docker/server/defaults.env
     ports:
       - 8091:8091
       - 8092:8092
@@ -30,7 +30,7 @@ services:
   sync_gateway:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/sync_gateway
     env_file:
-      - ../../server/defaults.env
+      - ../docker/server/defaults.env
     depends_on:
       - couchbase
     ports:
@@ -52,7 +52,7 @@ services:
   api:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/app
     env_file:
-      - ../../server/defaults.env
+      - ../docker/server/defaults.env
     depends_on:
       - couchbase
       - sync_gateway
@@ -78,7 +78,7 @@ services:
           - api-test.manuscripts.io
   client:
     build:
-      context: ../../..
+      context: ..
       dockerfile: docker/client/production/Dockerfile
       args:
         API_APPLICATION_ID: io.manuscripts
@@ -111,9 +111,7 @@ services:
           - client-test.manuscripts.io
 
   testcafe_chromium:
-    build:
-      context: ../../..
-      dockerfile: docker/tests/testcafe/Dockerfile
+    build: .
     environment:
       - BASE_URL=http://client-test.manuscripts.io:8080
       - API_BASE_URL=http://api-test.manuscripts.io:3000/api/v1
@@ -139,9 +137,7 @@ services:
           - testcafe.manuscripts.io
 
   testcafe_firefox:
-    build:
-      context: ../../..
-      dockerfile: docker/tests/testcafe/Dockerfile
+    build: .
     environment:
       - BASE_URL=http://client-test.manuscripts.io:8080
       - API_BASE_URL=http://api-test.manuscripts.io:3000/api/v1

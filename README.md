@@ -42,7 +42,7 @@ Run `yarn build` to build the app to the `dist` folder, from where it can be dep
 ## Running tests with TestCafé locally
 
 1. Follow the steps in "Running in Docker", above.
-1. Run `yarn testcafe chrome testcafe-tests` to run the tests in Chrome.
+1. Run `yarn testcafe chrome testcafe/tests` to run the tests in Chrome.
 
 ## Development
 

@@ -39,7 +39,7 @@ testcafe-chromium:
   stage: test
   script:
     - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
-    - ./scripts/run-testcafe-tests.sh testcafe_chromium
+    - ./testcafe/scripts/run-tests.sh testcafe_chromium
   after_script:
     - yarn run docker-compose:testcafe down -v
   artifacts:
@@ -54,7 +54,7 @@ testcafe-chromium:
   stage: test
   script:
     - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
-    - ./scripts/run-testcafe-tests.sh testcafe_firefox
+    - ./testcafe/scripts/run-tests.sh testcafe_firefox
   after_script:
     - yarn run docker-compose:testcafe down -v
   artifacts:
@@ -72,7 +72,7 @@ testcafe-firefox-manual:
   stage: test
   script:
     - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
-    - ./scripts/run-testcafe-tests.sh testcafe_firefox
+    - ./testcafe/scripts/run-tests.sh testcafe_firefox
   after_script:
     - yarn run docker-compose:testcafe down -v
   artifacts:
@@ -88,7 +88,7 @@ testcafe-chromium-manual:
   stage: test
   script:
     - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
-    - ./scripts/run-testcafe-tests.sh testcafe_chromium
+    - ./testcafe/scripts/run-tests.sh testcafe_chromium
   after_script:
     - yarn run docker-compose:testcafe down -v
   artifacts:
