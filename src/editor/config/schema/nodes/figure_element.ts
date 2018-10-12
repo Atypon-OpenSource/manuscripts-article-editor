@@ -23,6 +23,7 @@ export const figureElement: NodeSpec = {
           figureLayout: dom.getAttribute('data-figure-layout'),
         }
       },
+      priority: 10, // make sure that figure.table etc get a chance to match first
     },
   ],
   toDOM: (node: ProsemirrorNode) => [
