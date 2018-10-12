@@ -245,6 +245,10 @@
   display: flex;
 }
 
+.ProseMirror .block-container:hover {
+  z-index: 2;
+}
+
 .ProseMirror .block-container > .block {
   flex: 1;
   padding: 12px;
@@ -259,7 +263,7 @@
   flex-direction: column;
   justify-content: space-between;
   transition: 0.2s all;
-  /*margin: -12px 0;*/
+  margin: -12px 0;
 }
 
 .ProseMirror .block-container:hover .block-gutter {
