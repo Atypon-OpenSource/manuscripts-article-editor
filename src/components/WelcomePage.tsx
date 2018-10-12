@@ -1,5 +1,4 @@
 import React from 'react'
-import ImportContainer, { ImportProps } from '../containers/ImportContainer'
 import AddFile from '../icons/welcome/add-file'
 import App from '../icons/welcome/app'
 import DocFile from '../icons/welcome/doc-file'
@@ -9,6 +8,7 @@ import Project from '../icons/welcome/project'
 import TextFile from '../icons/welcome/text-file'
 import { styled, ThemedProps } from '../theme'
 import { ImportManuscript } from '../types/manuscript'
+import ImportContainer, { ImportProps } from './projects/ImportContainer'
 import { SimpleModal } from './SimpleModal'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>

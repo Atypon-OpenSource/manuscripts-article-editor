@@ -1,7 +1,7 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
 export const listingElement: NodeSpec = {
-  content: 'listing figcaption',
+  content: '(listing | placeholder) figcaption',
   attrs: {
     id: { default: '' },
     suppressCaption: { default: true },

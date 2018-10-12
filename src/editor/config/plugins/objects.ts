@@ -141,15 +141,24 @@ export default (props: EditorProps) => {
             AuxiliaryObjectReference
           >(node.attrs.rid)
 
-          const target = targets.get(auxiliaryObjectReference.referencedObject)
+          // TODO: handle missing objects?
+          // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/395
+          if (
+            auxiliaryObjectReference &&
+            auxiliaryObjectReference.referencedObject
+          ) {
+            const target = targets.get(
+              auxiliaryObjectReference.referencedObject
+            )
 
-          if (target) {
-            tr = tr.setNodeMarkup(pos, undefined, {
-              ...node.attrs,
-              label: target.label,
-            })
+            if (target && target.label) {
+              tr = tr.setNodeMarkup(pos, undefined, {
+                ...node.attrs,
+                label: target.label,
+              })
 
-            updated++
+              updated++
+            }
           }
         }
       })

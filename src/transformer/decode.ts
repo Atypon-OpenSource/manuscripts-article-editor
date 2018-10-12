@@ -7,6 +7,7 @@ import { RxDocument } from 'rxdb'
 import schema from '../editor/config/schema'
 import {
   AnyComponent,
+  AnyElement,
   Attachments,
   BibliographyElement,
   Component,
@@ -21,6 +22,7 @@ import {
   Listing,
   ListingElement,
   Paragraph,
+  PlaceholderElement,
   Section,
   Table,
   TableElement,
@@ -123,6 +125,11 @@ export class Decoder {
         contents: component.contents.replace(/\s+xmlns=".+?"/, ''),
       })
     },
+    [ObjectTypes.PLACEHOLDER_ELEMENT]: (component: PlaceholderElement) => {
+      return schema.nodes.placeholder_element.create({
+        id: component.id,
+      })
+    },
     [ObjectTypes.FIGURE_ELEMENT]: (component: FigureElement) => {
       const figcaptionNode = schema.nodes.figcaption.create()
 
@@ -149,11 +156,16 @@ export class Decoder {
         component.containedObjectID
       )
 
-      const equation = schema.nodes.equation.create({
-        id: equationComponent.id,
-        SVGStringRepresentation: equationComponent.SVGStringRepresentation,
-        TeXRepresentation: equationComponent.TeXRepresentation,
-      })
+      const equation = equationComponent
+        ? schema.nodes.equation.create({
+            id: equationComponent.id,
+            SVGStringRepresentation: equationComponent.SVGStringRepresentation,
+            TeXRepresentation: equationComponent.TeXRepresentation,
+          })
+        : schema.nodes.placeholder.create({
+            id: component.containedObjectID,
+            label: 'An equation',
+          })
 
       const figcaptionNode = schema.nodes.figcaption.create()
 
@@ -206,12 +218,17 @@ export class Decoder {
         component.containedObjectID
       )
 
-      const listing = schema.nodes.listing.create({
-        id: listingComponent.id,
-        contents: listingComponent.contents,
-        language: listingComponent.language,
-        languageKey: listingComponent.languageKey,
-      })
+      const listing = listingComponent
+        ? schema.nodes.listing.create({
+            id: listingComponent.id,
+            contents: listingComponent.contents,
+            language: listingComponent.language,
+            languageKey: listingComponent.languageKey,
+          })
+        : schema.nodes.placeholder.create({
+            id: component.containedObjectID,
+            label: 'A listing',
+          })
 
       const figcaptionNode = schema.nodes.figcaption.create()
 
@@ -243,12 +260,20 @@ export class Decoder {
 
       if (component.elementIDs) {
         for (const id of component.elementIDs) {
-          // try {
-          elements.push(this.getComponent(id))
-          // } catch (e) {
-          // TODO: create a placeholder element if a component isn't found
-          //   console.error(e) // tslint:disable-line:no-console
-          // }
+          const element = this.getComponent<AnyElement>(id)
+
+          if (element) {
+            elements.push(element)
+          } else {
+            const placeholderElement: PlaceholderElement = {
+              id,
+              containerID: component.id,
+              elementType: 'div',
+              objectType: ObjectTypes.PLACEHOLDER_ELEMENT,
+            }
+
+            elements.push(placeholderElement)
+          }
         }
       }
 
@@ -287,11 +312,16 @@ export class Decoder {
         component.containedObjectID
       )
 
-      const table = parseContents(tableComponent.contents, {
-        topNode: schema.nodes.table.create({
-          id: tableComponent.id,
-        }),
-      })
+      const table = tableComponent
+        ? parseContents(tableComponent.contents, {
+            topNode: schema.nodes.table.create({
+              id: tableComponent.id,
+            }),
+          })
+        : schema.nodes.placeholder.create({
+            id: component.containedObjectID,
+            label: 'A table',
+          })
 
       const figcaptionNode = schema.nodes.figcaption.create()
 
@@ -334,13 +364,8 @@ export class Decoder {
     return this.creators[component.objectType](component)
   }
 
-  public getComponent = <T extends AnyComponent>(id: string): T => {
-    if (!this.componentMap.has(id)) {
-      throw new Error('Element not found: ' + id)
-    }
-
-    return this.componentMap.get(id) as T
-  }
+  public getComponent = <T extends AnyComponent>(id: string): T | undefined =>
+    this.componentMap.get(id) as T | undefined
 
   public createArticleNode = () => {
     const rootSections = getSections(this.componentMap).filter(
@@ -355,16 +380,7 @@ export class Decoder {
       }) as ProsemirrorNode)
     }
 
-    const node = schema.nodes.manuscript.create({}, rootSectionNodes)
-
-    try {
-      node.check()
-    } catch (e) {
-      console.error(e) // tslint:disable-line:no-console
-      throw new Error('Unable to create article node')
-    }
-
-    return node
+    return schema.nodes.manuscript.create({}, rootSectionNodes)
   }
 
   private chooseSectionNodeType = (elements: Component[]) => {

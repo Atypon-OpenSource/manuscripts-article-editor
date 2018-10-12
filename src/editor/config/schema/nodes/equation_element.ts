@@ -1,7 +1,7 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
 export const equationElement: NodeSpec = {
-  content: 'equation figcaption',
+  content: '(equation | placeholder) figcaption',
   attrs: {
     id: { default: '' },
     suppressCaption: { default: true },

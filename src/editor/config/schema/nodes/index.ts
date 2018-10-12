@@ -19,6 +19,8 @@ import { listing } from './listing'
 import { listingElement } from './listing_element'
 import { manuscript } from './manuscript'
 import { paragraph } from './paragraph'
+import { placeholder } from './placeholder'
+import { placeholderElement } from './placeholder_element'
 import { section } from './section'
 import { sectionTitle } from './section_title'
 import { TableNodes, tableNodes } from './table'
@@ -49,6 +51,8 @@ export type Nodes =
   | 'listing_element'
   | 'manuscript'
   | 'paragraph'
+  | 'placeholder'
+  | 'placeholder_element'
   | 'section'
   | 'section_title'
   | 'section_title'
@@ -83,6 +87,8 @@ const combinedNodes: { [key in Nodes]: NodeSpec } = {
   listing,
   listing_element: listingElement,
   paragraph,
+  placeholder,
+  placeholder_element: placeholderElement,
   section,
   section_title: sectionTitle,
   table_element: tableElement,

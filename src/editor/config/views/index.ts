@@ -12,6 +12,8 @@ import listing from './listing'
 import listingElement from './listing_element'
 import orderedList from './ordered_list'
 import paragraph from './paragraph'
+import placeholder from './placeholder'
+import placeholderElement from './placeholder_element'
 import sectionTitle from './section_title'
 import tableElement from './table_element'
 import tocElement from './toc_element'
@@ -30,6 +32,8 @@ export default (props: EditorProps) => ({
   listing_element: listingElement(props),
   ordered_list: orderedList(props),
   paragraph: paragraph(props),
+  placeholder,
+  placeholder_element: placeholderElement(props),
   section_title: sectionTitle(props),
   table_element: tableElement(props),
   toc_element: tocElement(props),

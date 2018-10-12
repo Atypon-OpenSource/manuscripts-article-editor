@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import SignupMessages from '../src/components/SignupMessages'
+import SignupMessages from '../src/components/account/SignupMessages'
 
 storiesOf('SignupMessages', module)
   .add('verification email sent', () => (

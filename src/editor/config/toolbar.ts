@@ -7,7 +7,7 @@ import {
 } from 'prosemirror-commands'
 import { wrapInList } from 'prosemirror-schema-list'
 // import CrossReferencePickerContainer from '../../containers/CrossReferencePickerContainer'
-import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
+import LibraryPickerContainer from '../../components/library/LibraryPickerContainer'
 import { ToolbarButtonMap } from '../Toolbar'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
 

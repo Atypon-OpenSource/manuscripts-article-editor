@@ -1,4 +1,4 @@
-import * as RxDB from 'rxdb'
+import RxDB from 'rxdb/plugins/core'
 import { ComponentCollection } from '../types/components'
 
 interface PouchOpenRevsDoc {
@@ -134,11 +134,7 @@ export const prune = (revToRemove: string) => {
 
 // tslint:disable-next-line:no-any
 export const updateDoc = (collection: any, changeDoc: PouchOpenRevsDoc) => {
-  // tslint:disable-next-line:no-any
-  const change = (RxDB as any).RxChangeEvent.fromPouchChange(
-    changeDoc,
-    collection
-  )
+  const change = RxDB.fromPouchChange(changeDoc, collection)
 
   collection.$emit(change)
 }

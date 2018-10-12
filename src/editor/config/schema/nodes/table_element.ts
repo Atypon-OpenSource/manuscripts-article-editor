@@ -1,7 +1,7 @@
 import { Node as ProsemirrorNode, NodeSpec } from 'prosemirror-model'
 
 export const tableElement: NodeSpec = {
-  content: 'table figcaption',
+  content: '(table | placeholder) figcaption',
   attrs: {
     id: { default: '' },
     paragraphStyle: { default: '' },

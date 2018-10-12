@@ -4,7 +4,7 @@ import { createBrowserHistory } from 'history'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
-import { ApplicationMenu } from '../src/components/ApplicationMenu'
+import { ApplicationMenu } from '../src/components/projects/ApplicationMenu'
 import menus, { MenusProps } from '../src/editor/config/menus'
 import { doc } from './data/doc'
 import { manuscript } from './data/manuscripts'
@@ -24,6 +24,6 @@ const props: MenusProps = {
   history,
 }
 
-storiesOf('Application Menu', module).add('menu', () => (
+storiesOf('Projects/Application Menu', module).add('menu', () => (
   <ApplicationMenu menus={menus(props)} state={state} view={view} />
 ))

@@ -1,9 +1,9 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import { InvitationPopper } from '../src/components/InvitationPopper'
-import ShareProjectButton from '../src/components/ShareProjectButton'
-import { ShareURIPopper } from '../src/components/ShareURIPopper'
+import { InvitationPopper } from '../src/components/collaboration/InvitationPopper'
+import ShareProjectButton from '../src/components/collaboration/ShareProjectButton'
+import { ShareURIPopper } from '../src/components/collaboration/ShareURIPopper'
 import { styled } from '../src/theme'
 import { Project, UserProfile } from '../src/types/components'
 
@@ -20,7 +20,7 @@ const owner = { userID: 'user-1' } as UserProfile
 // tslint:disable-next-line:no-object-literal-type-assertion
 const notOwner = { userID: 'user-2' } as UserProfile
 
-storiesOf('Invitation', module)
+storiesOf('Collaboration/Invitation', module)
   .add('Invite', () => (
     <PopperStory>
       <InvitationPopper

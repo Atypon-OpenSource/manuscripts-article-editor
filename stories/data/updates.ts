@@ -1,4 +1,4 @@
-import { Post, Topic } from '../../src/components/Updates'
+import { Post, Topic } from '../../src/components/nav/Updates'
 
 interface Feed {
   posts: Post[]

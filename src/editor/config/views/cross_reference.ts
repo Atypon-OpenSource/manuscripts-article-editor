@@ -52,10 +52,15 @@ class CrossReference implements NodeView {
 
     this.dom = document.createElement('a')
     this.dom.className = 'cross-reference'
-    this.dom.setAttribute(
-      'href',
-      '#' + auxiliaryObjectReference.referencedObject
-    )
+
+    if (auxiliaryObjectReference) {
+      this.dom.setAttribute(
+        'href',
+        '#' + auxiliaryObjectReference.referencedObject
+      )
+    } else {
+      // TODO: something if the referenced object isn't found?
+    }
   }
 
   private updateContents() {

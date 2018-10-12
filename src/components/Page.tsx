@@ -2,14 +2,15 @@ import NavIconFillCut from '@manuscripts/assets/react/NavIconFillCut'
 import NavIconOutline from '@manuscripts/assets/react/NavIconOutline'
 import React from 'react'
 import { Helmet } from 'react-helmet'
+import { NavLink } from 'react-router-dom'
+import { manuscriptsBlue } from '../colors'
 import ProjectContributors from '../icons/project-contributors'
 import ProjectEdit from '../icons/project-edit'
 import ProjectLibrary from '../icons/project-library'
 import { GlobalStyle, styled, ThemedProps } from '../theme'
 import { Project } from '../types/components'
-import MenuBar from './MenuBar'
+import MenuBar from './nav/MenuBar'
 import { Tip } from './Tip'
-import { ViewLink } from './ViewLink'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -53,6 +54,24 @@ const IconBar = styled.div`
   align-items: center;
   background-color: ${(props: ThemedDivProps) =>
     props.theme.colors.primary.blue};
+`
+
+const ViewLink = styled(NavLink)`
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  background: none;
+  color: white;
+
+  &:hover,
+  &.active {
+    background: #fff;
+    color: ${manuscriptsBlue};
+  }
 `
 
 const NavIcon = styled(NavIconOutline)`

@@ -5,7 +5,7 @@ import React from 'react'
 import DraggableTree, {
   buildTree,
   TreeItem,
-} from '../src/components/DraggableTree'
+} from '../src/components/projects/DraggableTree'
 import { parse } from '../src/editor/title/config'
 import { doc } from './data/doc'
 import { manuscript } from './data/manuscripts'
@@ -32,6 +32,6 @@ const tree: TreeItem = {
   items,
 }
 
-storiesOf('Tree', module).add('DraggableTree', () => (
+storiesOf('Projects/Tree', module).add('DraggableTree', () => (
   <DraggableTree tree={tree} view={view} />
 ))

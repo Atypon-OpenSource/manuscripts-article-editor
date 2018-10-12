@@ -1,4 +1,4 @@
-import { AffiliationMap } from '../../src/editor/manuscript/lib/authors'
+import { AffiliationMap } from '../../src/lib/authors'
 import { Contributor, UserProfile } from '../../src/types/components'
 
 import imageFile from '../assets/melnitz.jpg'

@@ -1,10 +1,7 @@
 import PouchDBHTTPAdapter from 'pouchdb-adapter-http'
 import {
-  // @ts-ignore: rxdb
   RxChangeEventInsert,
-  // @ts-ignore: rxdb
   RxChangeEventRemove,
-  // @ts-ignore: rxdb
   RxChangeEventUpdate,
 } from 'rxdb'
 import RxDBAttachmentsModule from 'rxdb/plugins/attachments'

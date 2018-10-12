@@ -5,11 +5,11 @@ import {
   Dropdown,
   DropdownButton,
   DropdownContainer,
-} from '../src/components/Dropdown'
-import { UserInfo } from '../src/components/UserInfo'
+} from '../src/components/nav/Dropdown'
+import { UserInfo } from '../src/components/nav/UserInfo'
 import { user } from './data/contributors'
 
-storiesOf('Dropdown', module)
+storiesOf('Nav/Dropdown', module)
   .add('Menu', () => (
     <DropdownContainer>
       <DropdownButton isOpen={false} onClick={action('toggle')}>
