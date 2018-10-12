@@ -83,6 +83,7 @@ abstract class AbstractBlock implements NodeView {
     this.dom.classList.add(`block-${this.node.type.name}`)
 
     const gutter = document.createElement('div')
+    gutter.setAttribute('contenteditable', 'false')
     gutter.className = 'block-gutter'
     gutter.appendChild(this.createAddButton(false))
     gutter.appendChild(this.createEditButton())

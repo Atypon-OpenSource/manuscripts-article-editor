@@ -11,6 +11,7 @@ export const tableElement: NodeSpec = {
     suppressHeader: { default: false },
     suppressFooter: { default: false },
   },
+  selectable: false,
   group: 'block element',
   parseDOM: [
     {

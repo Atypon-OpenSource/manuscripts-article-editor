@@ -12,6 +12,7 @@ export const figureElement: NodeSpec = {
     label: { default: '' },
     suppressCaption: { default: false },
   },
+  selectable: false,
   group: 'block element',
   parseDOM: [
     {

@@ -23,7 +23,6 @@ import { section } from './section'
 import { sectionTitle } from './section_title'
 import { TableNodes, tableNodes } from './table'
 import { tableElement } from './table_element'
-import { title } from './title'
 import { tocElement } from './toc_element'
 import { tocSection } from './toc_section'
 
@@ -55,7 +54,6 @@ export type Nodes =
   | 'section_title'
   | 'table_element'
   | 'text'
-  | 'title'
   | 'toc_element'
   | 'toc_section'
   | ListNodes
@@ -89,7 +87,6 @@ const combinedNodes: { [key in Nodes]: NodeSpec } = {
   section_title: sectionTitle,
   table_element: tableElement,
   text: basic.text,
-  title,
   toc_element: tocElement,
   toc_section: tocSection,
 }

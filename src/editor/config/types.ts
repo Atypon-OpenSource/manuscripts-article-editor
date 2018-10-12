@@ -9,7 +9,11 @@ export interface StringMap<T> {
 
 export type Dispatch = (tr: Transaction) => void
 
-export type EditorAction = (state: EditorState, dispatch: Dispatch) => boolean
+export type EditorAction = (
+  state: EditorState,
+  dispatch: Dispatch,
+  view?: EditorView
+) => boolean
 
 export type ThemedOuterButtonProps = ThemedOuterProps<HTMLButtonElement>
 

@@ -15,9 +15,6 @@ const getTextOfNodeType = (node: ProsemirrorNode, type: Nodes) => {
 
 export const nodeTitle = (node: ProsemirrorNode) => {
   switch (node.type.name as Nodes) {
-    case 'doc':
-      return getTextOfNodeType(node, 'title')
-
     case 'section':
       return getTextOfNodeType(node, 'section_title')
 

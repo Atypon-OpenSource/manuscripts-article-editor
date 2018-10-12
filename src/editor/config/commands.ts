@@ -178,7 +178,7 @@ const findCutBefore = ($pos: ResolvedPos) => {
   return null
 }
 
-const isAtStartOfTextBlock = (
+export const isAtStartOfTextBlock = (
   state: EditorState,
   $cursor: ResolvedPos,
   view?: EditorView
@@ -232,7 +232,7 @@ const findCutAfter = ($pos: ResolvedPos) => {
   return null
 }
 
-const isAtEndOfTextBlock = (
+export const isAtEndOfTextBlock = (
   state: EditorState,
   $cursor: ResolvedPos,
   view?: EditorView

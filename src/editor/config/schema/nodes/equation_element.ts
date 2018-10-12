@@ -6,6 +6,7 @@ export const equationElement: NodeSpec = {
     id: { default: '' },
     suppressCaption: { default: true },
   },
+  selectable: false,
   group: 'block element',
   parseDOM: [
     {

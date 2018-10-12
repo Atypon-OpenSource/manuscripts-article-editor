@@ -1,3 +1,4 @@
+import { chainCommands } from 'prosemirror-commands'
 import { ResolvedPos } from 'prosemirror-model'
 import {
   EditorState,
@@ -5,18 +6,11 @@ import {
   TextSelection,
   Transaction,
 } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
+import { isAtEndOfTextBlock, isAtStartOfTextBlock } from '../commands'
 import { EditorAction, StringMap } from '../types'
 
 type Dispatch = (transaction: Transaction) => void
-
-// const insertSection = (state: EditorState, end: number) => {
-//   const tr = state.tr.insert(
-//     end + 1,
-//     state.schema.nodes.section.createAndFill() as ProsemirrorNode
-//   )
-//
-//   return tr.setSelection(TextSelection.create(tr.doc, end + 2)).scrollIntoView()
-// }
 
 const insertParagraph = (
   dispatch: Dispatch,
@@ -87,34 +81,6 @@ const enterPreviousBlock = (
   return true
 }
 
-const handleEnter: EditorAction = (state, dispatch) => {
-  const { $anchor } = state.selection
-  const node = $anchor.parent
-
-  switch (node.type.name) {
-    case 'title':
-      if (dispatch) {
-        enterNextBlock(dispatch, state, $anchor)
-      }
-      return true
-
-    case 'section_title':
-      if (dispatch) {
-        insertParagraph(dispatch, state, $anchor)
-      }
-      return true
-
-    case 'figcaption':
-      if (dispatch) {
-        enterNextBlock(dispatch, state, $anchor, true)
-      }
-      return true
-
-    default:
-      return false
-  }
-}
-
 const exitBlock = (direction: number): EditorAction => (state, dispatch) => {
   const { $anchor } = state.selection
 
@@ -126,8 +92,65 @@ const exitBlock = (direction: number): EditorAction => (state, dispatch) => {
   return true
 }
 
+const leaveSectionTitle: EditorAction = (state, dispatch, view) => {
+  const { selection } = state
+
+  if (!(selection instanceof TextSelection)) return false
+
+  const { $cursor } = selection
+
+  if (!$cursor) return false
+
+  if ($cursor.parent.type.name !== 'section_title') {
+    return false
+  }
+
+  if (!isAtEndOfTextBlock(state, $cursor, view)) {
+    return false
+  }
+
+  if (dispatch) {
+    insertParagraph(dispatch, state, $cursor)
+  }
+
+  return true
+}
+
+const leaveFigcaption: EditorAction = (state, dispatch) => {
+  const { $anchor } = state.selection
+
+  if ($anchor.parent.type.name !== 'figcaption') return false
+
+  if (dispatch) {
+    enterNextBlock(dispatch, state, $anchor, true)
+  }
+
+  return true
+}
+
+// ignore backspace at the start of section titles
+const protectSectionTitle: EditorAction = (
+  state: EditorState,
+  dispatch?: Dispatch,
+  view?: EditorView
+) => {
+  const { selection } = state
+
+  if (!(selection instanceof TextSelection)) return false
+
+  const { $cursor } = selection
+
+  if (!$cursor) return false
+
+  return (
+    $cursor.parent.type.name === 'section_title' &&
+    isAtStartOfTextBlock(state, $cursor, view)
+  )
+}
+
 const titleKeymap: StringMap<EditorAction> = {
-  Enter: handleEnter,
+  Backspace: protectSectionTitle,
+  Enter: chainCommands(leaveSectionTitle, leaveFigcaption),
   Tab: exitBlock(1),
   'Shift-Tab': exitBlock(-1),
 }
