@@ -4,8 +4,6 @@ import { NodeViewCreator } from '../types'
 import Block from './block'
 
 class TableElement extends Block {
-  private element: HTMLElement
-
   protected get elementType() {
     return 'figure'
   }
@@ -27,15 +25,15 @@ class TableElement extends Block {
   }
 
   protected createElement() {
-    this.element = document.createElement(this.elementType)
-    this.element.className = 'block'
-    this.element.id = this.node.attrs.id
-    this.element.setAttribute('data-table-style', this.node.attrs.tableStyle)
-
-    this.contentDOM = document.createElement('div')
-    this.element.appendChild(this.contentDOM)
-
-    this.dom.appendChild(this.element)
+    this.contentDOM = document.createElement('figure')
+    this.contentDOM.classList.add('block')
+    this.contentDOM.id = this.node.attrs.id
+    this.contentDOM.setAttribute(
+      'data-paragraph-style',
+      this.node.attrs.paragraphStyle
+    )
+    this.contentDOM.setAttribute('data-table-style', this.node.attrs.tableStyle)
+    this.dom.appendChild(this.contentDOM)
   }
 }
 
