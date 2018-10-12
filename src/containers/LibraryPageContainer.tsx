@@ -1,12 +1,14 @@
 import qs from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+import { RxCollection, RxDocument } from 'rxdb'
+import { Subscription } from 'rxjs'
 import { Page } from '../components/Page'
 import { buildBibliographyItem } from '../lib/commands'
 import { sources } from '../lib/sources'
 import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
 import { BIBLIOGRAPHY_ITEM } from '../transformer/object-types'
-import { BibliographyItem, ComponentCollection } from '../types/components'
+import { BibliographyItem, Project } from '../types/components'
 import { LibraryDocument } from '../types/library'
 import LibraryContainer from './LibraryContainer'
 import LibrarySidebar from './LibrarySidebar'
@@ -18,6 +20,7 @@ interface State {
   library: LibraryDocument[]
   query: string | null
   source: string
+  project: Project | null
 }
 
 interface RouteParams {
@@ -27,54 +30,48 @@ interface RouteParams {
 type Props = RouteComponentProps<RouteParams> & ComponentsProps
 
 class LibraryPageContainer extends React.Component<Props, State> {
-  public state = {
+  public state: Readonly<State> = {
     item: null,
     items: null,
     library: [],
     query: null,
     source: 'library',
+    project: null,
   }
 
-  public componentDidMount() {
-    this.setSource(this.props)
+  private subs: Subscription[] = []
 
-    this.getCollection()
-      .find({
-        objectType: BIBLIOGRAPHY_ITEM,
-        containerID: this.props.match.params.projectID,
-      })
-      .sort({
-        updatedAt: 'desc',
-      })
-      .$.subscribe((library: LibraryDocument[]) => {
-        this.setState({ library })
-      })
+  public componentDidMount() {
+    this.prepare(this.props)
   }
 
   public componentWillReceiveProps(nextProps: Props) {
-    this.setSource(nextProps)
+    this.prepare(nextProps)
+  }
+
+  public componentWillUnmount() {
+    this.subs.forEach(sub => sub.unsubscribe())
   }
 
   public render() {
-    const { projectID } = this.props.match.params
-    const { library, source } = this.state
+    const { library, project, source } = this.state
 
-    if (!source) return null
+    if (!source || !project) return null
 
     const librarySource = sources.find(item => item.id === source)
 
     if (!librarySource) return null
 
     return (
-      <Page projectID={projectID}>
-        <LibrarySidebar projectID={projectID} sources={sources} />
+      <Page project={project}>
+        <LibrarySidebar projectID={project.id} sources={sources} />
 
         {source === 'library' ? (
           <LibraryContainer
             library={library}
             handleSave={this.handleSave}
             handleDelete={this.handleDelete}
-            projectID={projectID}
+            projectID={project.id}
           />
         ) : (
           <LibrarySourceContainer
@@ -88,8 +85,40 @@ class LibraryPageContainer extends React.Component<Props, State> {
     )
   }
 
+  private prepare = (props: Props) => {
+    this.setSource(props)
+
+    const { projectID } = props.match.params
+
+    this.subs.push(
+      this.getCollection()
+        .findOne(projectID)
+        .$.subscribe((doc: RxDocument<Project> | null) => {
+          if (doc) {
+            this.setState({
+              project: doc.toJSON(),
+            })
+          }
+        })
+    )
+
+    this.subs.push(
+      this.getCollection()
+        .find({
+          objectType: BIBLIOGRAPHY_ITEM,
+          containerID: projectID,
+        })
+        .sort({
+          updatedAt: 'desc',
+        })
+        .$.subscribe((library: Array<RxDocument<BibliographyItem>>) => {
+          this.setState({ library })
+        })
+    )
+  }
+
   private getCollection() {
-    return this.props.components.collection as ComponentCollection
+    return this.props.components.collection as RxCollection<{}>
   }
 
   private setSource(props: Props) {
