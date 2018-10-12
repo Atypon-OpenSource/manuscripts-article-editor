@@ -10,13 +10,13 @@ import {
   OutlineItemLink,
   OutlineItemLinkText,
   OutlineItemNoArrow,
-} from '../src/components/Outline'
-import { OutlineManuscript } from '../src/containers/OutlineManuscript'
+} from '../src/components/projects/Outline'
+import { OutlineManuscript } from '../src/components/projects/OutlineManuscript'
 import { nodeTypeIcon } from '../src/transformer/node-type-icons'
 import { manuscript } from './data/manuscripts'
 import { project } from './data/projects'
 
-storiesOf('Outline', module)
+storiesOf('Projects/Outline', module)
   .add('Outline', () => (
     <Outline>
       <OutlineItem isSelected={false}>

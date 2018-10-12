@@ -6,6 +6,7 @@ export const projects: RxJsonSchema = {
   attachments: {},
   description: 'describes a component of a project',
   type: 'object',
+  additionalProperties: true,
   properties: {
     id: {
       type: 'string',

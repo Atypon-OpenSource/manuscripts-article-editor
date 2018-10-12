@@ -2,20 +2,20 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
 import React from 'react'
-import AddCollaboratorPopper from '../src/components/AddCollaboratorPopper'
-import AddCollaboratorsSidebar from '../src/components/AddCollaboratorsSidebar'
-import CollaboratorSettingsPopper from '../src/components/CollaboratorSettingsPopper'
+import AddCollaboratorPopper from '../src/components/collaboration/AddCollaboratorPopper'
+import AddCollaboratorsSidebar from '../src/components/collaboration/AddCollaboratorsSidebar'
+import CollaboratorSettingsPopper from '../src/components/collaboration/CollaboratorSettingsPopper'
 import {
   AddCollaboratorsPage,
   CollaboratorDetailsPage,
   InviteCollaboratorsPage,
   SearchCollaboratorsPage,
-} from '../src/components/CollaboratorsPage'
-import CollaboratorsSidebar from '../src/components/CollaboratorsSidebar'
-import { InvitationForm } from '../src/components/InvitationForm'
-import InviteCollaboratorPopper from '../src/components/InviteCollaboratorPopper'
-import InviteCollaboratorsSidebar from '../src/components/InviteCollaboratorsSidebar'
-import SearchCollaboratorsSidebar from '../src/components/SearchCollaboratorsSidebar'
+} from '../src/components/collaboration/CollaboratorsPage'
+import CollaboratorsSidebar from '../src/components/collaboration/CollaboratorsSidebar'
+import { InvitationForm } from '../src/components/collaboration/InvitationForm'
+import InviteCollaboratorPopper from '../src/components/collaboration/InviteCollaboratorPopper'
+import InviteCollaboratorsSidebar from '../src/components/collaboration/InviteCollaboratorsSidebar'
+import SearchCollaboratorsSidebar from '../src/components/collaboration/SearchCollaboratorsSidebar'
 import { styled } from '../src/theme'
 import { projectInvitationSchema } from '../src/validation'
 import { user } from './data/contributors'
@@ -31,7 +31,7 @@ const SidebarStory = styled.div`
   width: 800px;
 `
 
-storiesOf('Collaborators/Poppers', module)
+storiesOf('Collaboration/Poppers', module)
   .add('Add', () => (
     <PopperStory>
       <AddCollaboratorPopper addCollaborator={action('add collaborator')} />
@@ -61,7 +61,7 @@ storiesOf('Collaborators/Poppers', module)
     </PopperStory>
   ))
 
-storiesOf('Collaborators/Forms', module).add('Invite', () => (
+storiesOf('Collaboration/Forms', module).add('Invite', () => (
   <PopperStory>
     <Formik
       initialValues={{
@@ -79,7 +79,7 @@ storiesOf('Collaborators/Forms', module).add('Invite', () => (
   </PopperStory>
 ))
 
-storiesOf('Collaborators/Pages', module)
+storiesOf('Collaboration/Pages', module)
   .add('No collaborators', () => (
     <CollaboratorDetailsPage
       project={project}
@@ -109,7 +109,7 @@ storiesOf('Collaborators/Pages', module)
     <SearchCollaboratorsPage project={project} searchText={'bob@example.com'} />
   ))
 
-storiesOf('Collaborators/Sidebars', module)
+storiesOf('Collaboration/Sidebars', module)
   .add('Collaborators', () => (
     <CollaboratorsSidebar
       project={project}

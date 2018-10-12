@@ -2,33 +2,33 @@ import React from 'react'
 import { hot } from 'react-hot-loader'
 import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
+import ChangePasswordPageContainer from './components/account/ChangePasswordPageContainer'
+import CommunityLoginPageContainer from './components/account/CommunityLoginPageContainer'
+import DeleteAccountPageContainer from './components/account/DeleteAccountPageContainer'
+import LoginPageContainer from './components/account/LoginPageContainer'
+import LogoutPageContainer from './components/account/LogoutPageContainer'
+import ProfilePageContainer from './components/account/ProfilePageContainer'
+import RecoverPageContainer from './components/account/RecoverPageContainer'
+import SignupPageContainer from './components/account/SignupPageContainer'
+import AcceptEmailInvitationPageContainer from './components/collaboration/AcceptEmailInvitationPageContainer'
+import AcceptInvitationURIContainer from './components/collaboration/AcceptProjectInvitationURIPageContainer'
+import AddCollaboratorsPageContainer from './components/collaboration/AddCollaboratorsPageContainer'
+import CollaboratorsPageContainer from './components/collaboration/CollaboratorsPageContainer'
+import DeveloperPageContainer from './components/DeveloperPageContainer'
+import HomePageContainer from './components/HomePageContainer'
+import LibraryPageContainer from './components/library/LibraryPageContainer'
 import NotFound from './components/NotFound'
-import AcceptEmailInvitationContainer from './containers/AcceptEmailInvitationContainer'
-import AcceptInvitationURIContainer from './containers/AcceptProjectInvitationURIContainer'
-import AddCollaboratorsPageContainer from './containers/AddCollaboratorsPageContainer'
-import ChangePasswordPageContainer from './containers/ChangePasswordPageContainer'
-import CollaboratorsPageContainer from './containers/CollaboratorsPageContainer'
-import CommunityLoginPageContainer from './containers/CommunityLoginContainer'
-import DeleteAccountPageContainer from './containers/DeleteAccountPageContainer'
-import DeveloperPageContainer from './containers/DeveloperPageContainer'
-import HomePageContainer from './containers/HomePageContainer'
-import LibraryPageContainer from './containers/LibraryPageContainer'
-import LoginPageContainer from './containers/LoginPageContainer'
-import LogoutPageContainer from './containers/LogoutPageContainer'
 // import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
 // import PreferencesPageContainer from './containers/PreferencesPageContainer'
-import PrivateRoute from './containers/PrivateRoute'
-import ProfilePageContainer from './containers/ProfilePageContainer'
-import ProjectPageContainer from './containers/ProjectPageContainer'
-import ProjectsPageContainer from './containers/ProjectsPageContainer'
-import RecoverPageContainer from './containers/RecoverPageContainer'
-import SignupPageContainer from './containers/SignupPageContainer'
-import WelcomePageContainer from './containers/WelcomePageContainer'
+import PrivateRoute from './components/PrivateRoute'
+import ProjectPageContainer from './components/projects/ProjectPageContainer'
+import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
+import WelcomePageContainer from './components/WelcomePageContainer'
 import Spinner from './icons/spinner'
 
 const ManuscriptPageContainer = Loadable({
   loader: () =>
-    import(/* webpackChunkName:"manuscript" */ './containers/ManuscriptPageContainer'),
+    import(/* webpackChunkName:"manuscript" */ './components/projects/ManuscriptPageContainer'),
   loading: Spinner,
 })
 
@@ -105,7 +105,7 @@ const App = () => (
     <Route
       path={'/invitation'}
       exact={true}
-      component={AcceptEmailInvitationContainer}
+      component={AcceptEmailInvitationPageContainer}
     />
     <Route path={'/logout'} exact={true} component={LogoutPageContainer} />
     <Route path={'/welcome'} exact={true} component={WelcomePageContainer} />

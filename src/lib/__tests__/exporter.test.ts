@@ -48,14 +48,16 @@ describe('exporter', () => {
   test('exports a manuscript', async () => {
     const componentMap = buildComponentMap(data)
     const manuscriptID = 'MPManuscript:8EB79C14-9F61-483A-902F-A0B8EF5973C9'
-    const anotherManuscript: any = { // tslint:disable-line:no-any
+
+    // tslint:disable-next-line:no-any
+    const anotherManuscript: any = {
       _rev: 'someRev',
       createdAt: 1538472121.690101,
       id: 'MPManuscript:TEST',
       objectType: 'MPManuscript',
       sessionID: 'fb8b3d44-9515-4747-c7d8-a30fb1bc188b',
       title: 'Example Manuscript',
-      updatedAt: 1538472121.690101
+      updatedAt: 1538472121.690101,
     }
 
     componentMap.set(anotherManuscript.id, anotherManuscript)

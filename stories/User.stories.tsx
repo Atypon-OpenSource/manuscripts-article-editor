@@ -1,10 +1,10 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import { UserInfo } from '../src/components/UserInfo'
-import { UserMenu } from '../src/components/UserMenu'
+import { UserInfo } from '../src/components/nav/UserInfo'
+import { UserMenu } from '../src/components/nav/UserMenu'
 import { user } from './data/contributors'
 
-storiesOf('User', module)
+storiesOf('Nav/User', module)
   .add('UserInfo', () => <UserInfo user={user} />)
   .add('UserMenu', () => (
     <div style={{ display: 'flex', justifyContent: 'flex-end', width: 400 }}>

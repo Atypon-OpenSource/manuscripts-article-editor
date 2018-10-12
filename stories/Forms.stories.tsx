@@ -2,14 +2,14 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
 import React from 'react'
-import { ChangePasswordForm } from '../src/components/ChangePasswordForm'
-import { DeleteAccountForm } from '../src/components/DeleteAccountForm'
-import { LoginForm } from '../src/components/LoginForm'
+import { ChangePasswordForm } from '../src/components/account/ChangePasswordForm'
+import { DeleteAccountForm } from '../src/components/account/DeleteAccountForm'
+import { LoginForm } from '../src/components/account/LoginForm'
+import { PasswordForm } from '../src/components/account/PasswordForm'
+import { ProfileForm } from '../src/components/account/ProfileForm'
+import { RecoverForm } from '../src/components/account/RecoverForm'
+import { SignupForm } from '../src/components/account/SignupForm'
 import ModalForm from '../src/components/ModalForm'
-import { PasswordForm } from '../src/components/PasswordForm'
-import { ProfileForm } from '../src/components/ProfileForm'
-import { RecoverForm } from '../src/components/RecoverForm'
-import { SignupForm } from '../src/components/SignupForm'
 import { BIBLIOGRAPHIC_NAME } from '../src/transformer/object-types'
 import {
   changePasswordSchema,
@@ -21,7 +21,7 @@ import {
   signupSchema,
 } from '../src/validation'
 
-storiesOf('Forms/Authentication', module)
+storiesOf('Account/Forms/Pages', module)
   .add('Sign up', () => (
     <React.Fragment>
       <Formik
@@ -69,7 +69,7 @@ storiesOf('Forms/Authentication', module)
     />
   ))
 
-storiesOf('Forms/Modal', module)
+storiesOf('Account/Forms/Modal', module)
   .add('Profile', () => (
     <ModalForm title={'Manage profile'}>
       <Formik

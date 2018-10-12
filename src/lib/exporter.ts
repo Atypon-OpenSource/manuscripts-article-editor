@@ -19,21 +19,29 @@ export const removeEmptyStyles = (component: { [key: string]: any }) => {
   })
 }
 
-const createProjectDump = (componentMap: ComponentMap, manuscriptID: string): ProjectDump => ({
+const createProjectDump = (
+  componentMap: ComponentMap,
+  manuscriptID: string
+): ProjectDump => ({
   version: '2.0',
-  data: Array.from(componentMap.values()).filter((component: JsonComponent) => {
-    return component.objectType !== ObjectTypes.MANUSCRIPT || component.id === manuscriptID
-  }).map((component: JsonComponent) => {
-    component._id = component._id || component.id
-    delete component.id
-    delete component._attachments
-    delete component.attachment
-    delete component.src
+  data: Array.from(componentMap.values())
+    .filter((component: JsonComponent) => {
+      return (
+        component.objectType !== ObjectTypes.MANUSCRIPT ||
+        component.id === manuscriptID
+      )
+    })
+    .map((component: JsonComponent) => {
+      component._id = component._id || component.id
+      delete component.id
+      delete component._attachments
+      delete component.attachment
+      delete component.src
 
-    removeEmptyStyles(component)
+      removeEmptyStyles(component)
 
-    return component
-  }),
+      return component
+    }),
 })
 
 const componentHasObjectType = <T extends Component>(
@@ -67,7 +75,10 @@ const fetchAttachment = (
 
 export const generateAttachmentFilename = (id: string) => id.replace(':', '_')
 
-const buildProjectBundle = (componentMap: ComponentMap, manuscriptID: string) => {
+const buildProjectBundle = (
+  componentMap: ComponentMap,
+  manuscriptID: string
+) => {
   const data = createProjectDump(componentMap, manuscriptID)
 
   const zip = new JSZip()

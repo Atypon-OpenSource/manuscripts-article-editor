@@ -83,7 +83,7 @@ const tableRowDisplayStyle = (tagName: string, parent: ProsemirrorNode) => {
 
 const buildTableSection = (
   tagName: string,
-  inputRows: NodeListOf<HTMLTableRowElement>
+  inputRows: NodeListOf<Element>
 ): HTMLTableSectionElement => {
   const section = document.createElement(tagName) as HTMLTableSectionElement
 
@@ -131,9 +131,7 @@ const tableContents = (
   output.setAttribute('data-contained-object-id', node.attrs.id)
 
   for (const tagName of tags) {
-    const rows = input.querySelectorAll(`tr.${tagName}`) as NodeListOf<
-      HTMLTableRowElement
-    >
+    const rows = input.querySelectorAll(`tr.${tagName}`)
 
     const section = buildTableSection(tagName, rows)
 

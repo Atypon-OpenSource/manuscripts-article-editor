@@ -1,11 +1,11 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import { ProjectsDropdownList } from '../src/components/ProjectsDropdownList'
+import { ProjectsDropdownList } from '../src/components/nav/ProjectsDropdownList'
 import invitationsData from './data/invitations-data'
 import projects from './data/projects'
 
-storiesOf('Projects Dropdown List', module)
+storiesOf('Nav/Projects Dropdown List', module)
   .add('Without projects', () => (
     <ProjectsDropdownList
       projects={[]}

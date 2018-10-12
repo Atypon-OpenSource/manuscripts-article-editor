@@ -2,7 +2,6 @@ import { History } from 'history'
 import { toggleMark } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from 'prosemirror-schema-list'
-import { EditorState } from 'prosemirror-state'
 import {
   addColumnAfter,
   addColumnBefore,
@@ -12,8 +11,9 @@ import {
   deleteRow,
 } from 'prosemirror-tables'
 import React from 'react'
-import CrossReferencePickerContainer from '../../containers/CrossReferencePickerContainer'
-import LibraryPickerContainer from '../../containers/LibraryPickerContainer'
+import LibraryPickerContainer from '../../components/library/LibraryPickerContainer'
+import { MenuItem } from '../../components/projects/ApplicationMenu'
+import CrossReferencePickerContainer from '../../components/projects/CrossReferencePickerContainer'
 import { importFile, openFilePicker } from '../../lib/importers'
 import { Manuscript } from '../../types/components'
 import { ExportManuscript, ImportManuscript } from '../../types/manuscript'
@@ -30,20 +30,6 @@ import {
 } from './commands'
 import icons from './icons'
 import schema from './schema'
-import { Dispatch } from './types'
-
-export interface MenuItem {
-  label?: React.ReactNode
-  role?: string
-  type?: string
-  accelerator?: string
-  icon?: React.ReactNode
-  dropdown?: any // tslint:disable-line:no-any // TODO
-  active?: (state: EditorState) => boolean
-  enable?: (state: EditorState) => boolean
-  run?: (state: EditorState, dispatch: Dispatch) => void
-  submenu?: MenuItem[]
-}
 
 export interface MenusProps {
   manuscript: Manuscript

@@ -1,4 +1,4 @@
-import { InvitationData } from '../../src/containers/ProjectsDropdownButton'
+import { InvitationData } from '../../src/components/nav/ProjectsDropdownButton'
 import {
   Project,
   ProjectInvitation,

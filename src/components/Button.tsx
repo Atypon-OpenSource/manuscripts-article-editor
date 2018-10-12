@@ -88,33 +88,6 @@ export const DeleteButton = styled(Button)`
   }
 `
 
-export const ActionButton = styled.div`
-  background-color: #ffce7e;
-  display: inline-flex;
-  align-items: flex-end;
-  justify-content: center;
-  font-size: 20px;
-  cursor: pointer;
-  height: 60px;
-  width: 20px;
-  margin: -40px 10px 0;
-  padding: 10px;
-  border-radius: 0 0 8px 8px;
-  transition: 0.1s background-color;
-
-  &:hover {
-    background-color: #ffae5e;
-  }
-
-  &:active {
-    background-color: #ffae5e;
-  }
-
-  &:focus {
-    outline: none;
-  }
-`
-
 export const TransparentBlackButton = styled(Button)`
   color: ${darkGrey};
   background-color: transparent;

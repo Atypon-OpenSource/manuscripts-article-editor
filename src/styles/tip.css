@@ -20,14 +20,14 @@
 }
 
 .tooltip[x-placement^="top"] .tooltip-arrow {
-   border-width: 5px 5px 0 5px;
-   border-left-color: transparent;
-   border-right-color: transparent;
-   border-bottom-color: transparent;
-   bottom: -5px;
-   left: calc(50% - 5px);
-   margin-top: 0;
-   margin-bottom: 0;
+  border-width: 5px 5px 0 5px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  bottom: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .tooltip[x-placement^="bottom"] .tooltip-arrow {

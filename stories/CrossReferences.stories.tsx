@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import { CrossReferenceItems } from '../src/containers/CrossReferenceItems'
+import { CrossReferenceItems } from '../src/components/projects/CrossReferenceItems'
 import { Target } from '../src/editor/config/plugins/objects'
 
 const targets: Target[] = [
@@ -21,6 +21,6 @@ const targets: Target[] = [
   },
 ]
 
-storiesOf('Cross References', module).add('Picker', () => (
+storiesOf('Projects/Cross References', module).add('Picker', () => (
   <CrossReferenceItems targets={targets} handleSelect={action('select')} />
 ))

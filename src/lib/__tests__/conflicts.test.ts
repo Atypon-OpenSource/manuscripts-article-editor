@@ -1,6 +1,6 @@
 import * as Conflicts from '../conflicts'
 
-jest.mock('rxdb')
+jest.mock('rxdb/plugins/core')
 
 describe('events', () => {
   it('calls rxdb change emit function', () => {

@@ -9,7 +9,8 @@ import {
 import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
 import React from 'react'
-import { ApplicationMenu } from '../components/ApplicationMenu'
+import MetadataContainer from '../components/metadata/MetadataContainer'
+import { ApplicationMenu } from '../components/projects/ApplicationMenu'
 import { styled } from '../theme'
 import {
   AnyContainedComponent,
@@ -28,7 +29,6 @@ import toolbar from './config/toolbar'
 import views from './config/views'
 import { transformPasted } from './lib/paste'
 import PopperManager from './lib/popper'
-import MetadataContainer from './manuscript/MetadataContainer'
 import './styles/Editor.css'
 import './styles/popper.css'
 import Toolbar from './Toolbar'
