@@ -19,7 +19,7 @@ const InputJax = new TeX({})
 const OutputJax = new SVG()
 
 const doc = new GenericMathDocument(document, browserAdaptor(), { OutputJax })
-document.head.appendChild(OutputJax.styleSheet(doc) as Node)
+document.head!.appendChild(OutputJax.styleSheet(doc) as Node)
 
 export const typeset = (math: string, display: boolean) => {
   const item = new GenericMathItem(math, InputJax, display)

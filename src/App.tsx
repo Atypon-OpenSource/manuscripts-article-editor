@@ -17,6 +17,7 @@ import CollaboratorsPageContainer from './components/collaboration/Collaborators
 import DeveloperPageContainer from './components/DeveloperPageContainer'
 import HomePageContainer from './components/HomePageContainer'
 import LibraryPageContainer from './components/library/LibraryPageContainer'
+import { LoadableSpinner } from './components/LoadableSpinner'
 import NotFound from './components/NotFound'
 // import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
 // import PreferencesPageContainer from './containers/PreferencesPageContainer'
@@ -24,12 +25,12 @@ import PrivateRoute from './components/PrivateRoute'
 import ProjectPageContainer from './components/projects/ProjectPageContainer'
 import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
 import WelcomePageContainer from './components/WelcomePageContainer'
-import Spinner from './icons/spinner'
 
 const ManuscriptPageContainer = Loadable({
+  delay: 500,
   loader: () =>
     import(/* webpackChunkName:"manuscript" */ './components/projects/ManuscriptPageContainer'),
-  loading: Spinner,
+  loading: LoadableSpinner,
 })
 
 const App = () => (

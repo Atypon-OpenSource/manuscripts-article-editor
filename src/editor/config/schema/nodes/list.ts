@@ -44,7 +44,6 @@ export const listNodes: { [key in ListNodes]: NodeSpec } = {
       paragraphStyle: { default: '' },
     },
     parseDOM: [{ tag: 'ul' }],
-    // @ts-ignore: undefined
     toDOM: node =>
       node.attrs.id
         ? [

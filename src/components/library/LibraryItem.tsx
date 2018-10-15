@@ -42,6 +42,7 @@ export const LibraryItemAuthors = styled.div`
 export const LibraryItemAuthor = styled.span``
 
 export const getYear = (item: BibliographyItem) => {
+  // tslint:disable:no-unnecessary-type-assertion
   if (
     !item.issued ||
     !item.issued['date-parts'] ||

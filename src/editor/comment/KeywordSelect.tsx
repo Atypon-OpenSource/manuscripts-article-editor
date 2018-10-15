@@ -11,7 +11,7 @@ interface OptionType {
 
 interface Props {
   options: OptionsType<OptionType>
-  portal: Node
+  portal: HTMLElement
   selectRef: React.RefObject<CreatableSelect<OptionType>>
   selected: string
   handleChange: (id?: string) => void
@@ -47,7 +47,6 @@ export class KeywordSelect extends React.Component<Props, State> {
     return (
       <CreatableSelect<OptionType>
         ref={selectRef}
-        autosize={true}
         isLoading={isLoading}
         options={options}
         value={value}
@@ -56,7 +55,6 @@ export class KeywordSelect extends React.Component<Props, State> {
             this.props.handleChange(option.value)
           }
         }}
-        // @ts-ignore (types are out of date)
         menuPortalTarget={portal}
         openMenuOnFocus={true}
         styles={plainStyles}

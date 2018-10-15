@@ -74,7 +74,6 @@ export const theme: Theme = {
 const {
   default: styled,
   css,
-  // @ts-ignore (types need updating)
   createGlobalStyle,
   ThemeProvider: StyledThemeProvider,
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<Theme>
@@ -85,7 +84,6 @@ export const ThemeProvider: React.SFC = props => (
 
 export { css, styled }
 
-// @ts-ignore (needs updated types)
 export const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;

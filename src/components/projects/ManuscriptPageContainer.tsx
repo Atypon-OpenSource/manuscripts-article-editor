@@ -210,6 +210,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const locale = this.getLocale()
 
+    const attributes = {
+      class: 'manuscript-editor',
+      dir: locale === 'ar' ? 'rtl' : 'ltr', // TODO: remove hard-coded locale
+      tabindex: '2',
+    }
+
     return (
       <Page project={project}>
         <ManuscriptSidebar
@@ -249,11 +255,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             projectID={projectID}
             subscribe={this.handleSubscribe}
             setView={this.setView}
-            attributes={{
-              class: 'manuscript-editor',
-              dir: locale === 'ar' ? 'rtl' : 'ltr', // TODO: remove hard-coded locale
-              tabindex: '2',
-            }}
+            attributes={attributes}
             handleSectionChange={this.handleSectionChange}
           />
 
@@ -551,6 +553,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       this.getCollection()
         .findOne(projectID)
         .$.subscribe((doc: ProjectDocument) => {
+          if (!doc) return
           const project = doc.toJSON()
           this.setState({ project })
           resolve(project)
