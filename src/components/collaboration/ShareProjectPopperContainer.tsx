@@ -164,7 +164,7 @@ class ShareProjectPopperContainer extends React.Component<
     const { email, name, role } = values
 
     try {
-      await projectInvite(project.id, [{ email, name }], role)
+      await projectInvite(project._id, [{ email, name }], role)
       this.setState({ invitationSent: true })
     } catch (error) {
       this.setState({ invitationError: error })
@@ -197,8 +197,8 @@ class ShareProjectPopperContainer extends React.Component<
     this.setState({
       isShareURIPopperOpen: true,
       shareURI: {
-        viewer: await this.fetchInvitationURI(project.id, 'Viewer'),
-        writer: await this.fetchInvitationURI(project.id, 'Writer'),
+        viewer: await this.fetchInvitationURI(project._id, 'Viewer'),
+        writer: await this.fetchInvitationURI(project._id, 'Writer'),
       },
     })
   }

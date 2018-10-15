@@ -11,14 +11,14 @@ const PopperStory = styled.div`
   width: 400px;
 `
 
-// tslint:disable-next-line:no-object-literal-type-assertion
-const project = { id: 'project-id', owners: ['user-1'] } as Project
+const project: Partial<Project> = {
+  _id: 'project-id',
+  owners: ['user-1'],
+}
 
-// tslint:disable-next-line:no-object-literal-type-assertion
-const owner = { userID: 'user-1' } as UserProfile
+const owner: Partial<UserProfile> = { userID: 'user-1' }
 
-// tslint:disable-next-line:no-object-literal-type-assertion
-const notOwner = { userID: 'user-2' } as UserProfile
+const notOwner: Partial<UserProfile> = { userID: 'user-2' }
 
 storiesOf('Collaboration/Invitation', module)
   .add('Invite', () => (
@@ -26,8 +26,8 @@ storiesOf('Collaboration/Invitation', module)
       <InvitationPopper
         handleInvitationSubmit={action('submit')}
         handleSwitching={action('switch')}
-        project={project}
-        user={owner}
+        project={project as Project}
+        user={owner as UserProfile}
         invitationError={null}
         invitationSent={false}
         dismissSentAlert={action('dismiss success alert')}
@@ -39,8 +39,8 @@ storiesOf('Collaboration/Invitation', module)
       <InvitationPopper
         handleInvitationSubmit={action('submit')}
         handleSwitching={action('switch')}
-        project={project}
-        user={notOwner}
+        project={project as Project}
+        user={notOwner as UserProfile}
         invitationError={null}
         invitationSent={false}
         dismissSentAlert={action('dismiss success alert')}
@@ -52,8 +52,8 @@ storiesOf('Collaboration/Invitation', module)
       <InvitationPopper
         handleInvitationSubmit={action('submit')}
         handleSwitching={action('switch')}
-        project={project}
-        user={owner}
+        project={project as Project}
+        user={owner as UserProfile}
         invitationError={new Error('An error occurred.')}
         invitationSent={false}
         dismissSentAlert={action('dismiss success alert')}
@@ -65,15 +65,17 @@ storiesOf('Collaboration/Invitation', module)
       <InvitationPopper
         handleInvitationSubmit={action('submit')}
         handleSwitching={action('switch')}
-        project={project}
-        user={owner}
+        project={project as Project}
+        user={owner as UserProfile}
         invitationError={null}
         invitationSent={true}
         dismissSentAlert={action('dismiss success alert')}
       />
     </PopperStory>
   ))
-  .add('Share Project Button', () => <ShareProjectButton project={project} />)
+  .add('Share Project Button', () => (
+    <ShareProjectButton project={project as Project} />
+  ))
   .add('Share Link: loading', () => (
     <PopperStory>
       <ShareURIPopper
@@ -85,8 +87,8 @@ storiesOf('Collaboration/Invitation', module)
         handleCopy={action('copy')}
         handleSwitching={action('switch')}
         requestURI={action('request URI')}
-        project={project}
-        user={owner}
+        project={project as Project}
+        user={owner as UserProfile}
         loadingURIError={null}
       />
     </PopperStory>
@@ -101,8 +103,8 @@ storiesOf('Collaboration/Invitation', module)
         handleChange={action('change')}
         handleCopy={action('copy')}
         handleSwitching={action('switch')}
-        project={project}
-        user={owner}
+        project={project as Project}
+        user={owner as UserProfile}
         requestURI={action('request URI')}
         loadingURIError={null}
       />
@@ -118,8 +120,8 @@ storiesOf('Collaboration/Invitation', module)
         handleChange={action('change')}
         handleCopy={action('copy')}
         handleSwitching={action('switch')}
-        project={project}
-        user={owner}
+        project={project as Project}
+        user={owner as UserProfile}
         requestURI={action('request URI')}
         loadingURIError={null}
       />
@@ -135,8 +137,8 @@ storiesOf('Collaboration/Invitation', module)
         handleChange={action('change')}
         handleCopy={action('copy')}
         handleSwitching={action('switch')}
-        project={project}
-        user={notOwner}
+        project={project as Project}
+        user={notOwner as UserProfile}
         requestURI={action('request URI')}
         loadingURIError={null}
       />
@@ -152,8 +154,8 @@ storiesOf('Collaboration/Invitation', module)
         handleChange={action('change')}
         handleCopy={action('copy')}
         handleSwitching={action('switch')}
-        project={project}
-        user={owner}
+        project={project as Project}
+        user={owner as UserProfile}
         requestURI={action('request URI')}
         loadingURIError={new Error('An error occurred.')}
       />

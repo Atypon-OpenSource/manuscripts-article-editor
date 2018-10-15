@@ -117,7 +117,7 @@ const AddAuthorsSidebar: React.SFC<Props> = ({
         {searchText === '' ? (
           <SidebarContent>
             {nonAuthors.map(person => (
-              <SidebarPersonContainer key={person.id}>
+              <SidebarPersonContainer key={person._id}>
                 <UserDataContainer>
                   <Avatar src={person.avatar} size={45} color={darkGrey} />
                   <PersonData>

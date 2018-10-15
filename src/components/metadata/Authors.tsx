@@ -21,12 +21,12 @@ const Authors: React.SFC<Props> = ({
 }) => (
   <div>
     {authors.map((author, index) => (
-      <React.Fragment key={author.id}>
+      <React.Fragment key={author._id}>
         {!!index && ', '}
         <Author
           author={author}
           jointFirstAuthor={isJointFirstAuthor(authors, index)}
-          affiliations={authorAffiliations.get(author.id)}
+          affiliations={authorAffiliations.get(author._id)}
           selectAuthor={selectAuthor}
           startEditing={startEditing}
           showEditButton={showEditButton}

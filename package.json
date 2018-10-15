@@ -138,7 +138,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-select": "^2.0.0-beta.7",
-    "rxdb": "git+https://gitlab.com/mpapp-public/rxdb.git#export-rxchangeevent",
+    "rxdb": "git+https://gitlab.com/mpapp-public/rxdb.git#master",
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.1.0",
     "style-loader": "^0.23.0",
@@ -156,7 +156,7 @@
     "yup": "^0.26.1"
   },
   "devDependencies": {
-    "@manuscripts/examples": "^0.0.1",
+    "@manuscripts/examples": "^0.0.2",
     "@storybook/addon-actions": "^4.0.0-alpha.20",
     "@storybook/addon-links": "^4.0.0-alpha.20",
     "@storybook/addon-notes": "^4.0.0-alpha.20",

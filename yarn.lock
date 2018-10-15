@@ -867,10 +867,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.1.11.tgz#df454cd6b8d84c8d08e327adb09f2c381696f9fd"
   integrity sha512-nGrBbs0hURU6WovRcFCh+4LCLwg6Tw2J+BflSSk5hJCuxmdRkfF4X4GACv4nfgM63IEXX+zJfsQu2vl3UERcMg==
 
-"@manuscripts/examples@^0.0.1":
-  version "0.0.1"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.1.tgz#c88abc0bc08f120ba41146148425cdb637584e6d"
-  integrity sha512-1W1gEK12vYv0oKOdF0KDrJsg57GwJuu1MJGzqajW87PQEqAt4r7CVWrzYxdUwmoUosOAUZ3AKM0LR0UUHA4W/w==
+"@manuscripts/examples@^0.0.2":
+  version "0.0.2"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.2.tgz#bc7354d1dc704bf03c4b9d4e0f4c1054c70bbc73"
+  integrity sha512-kctNmYWfzk0M3Rxe5+UNdnMYM5pGL1ZFwE0+izMfpVegm3744Sbeg/0JUXrHXvaHIwT8JOzdOCi6WO6oBlejlA==
 
 "@manuscripts/resizer@^0.0.1":
   version "0.0.1"
@@ -12317,9 +12317,9 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-"rxdb@git+https://gitlab.com/mpapp-public/rxdb.git#export-rxchangeevent":
+"rxdb@git+https://gitlab.com/mpapp-public/rxdb.git#master":
   version "8.0.1"
-  resolved "git+https://gitlab.com/mpapp-public/rxdb.git#d61c2a6fe8ede5b2c0b2d3712fcd1f8fb07df364"
+  resolved "git+https://gitlab.com/mpapp-public/rxdb.git#887b210f599e81a0db61e444eaafe4bf888a882e"
   dependencies:
     "@babel/runtime" "7.0.0"
     broadcast-channel "2.1.4"

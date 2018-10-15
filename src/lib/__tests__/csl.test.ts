@@ -1,4 +1,5 @@
 import { BIBLIOGRAPHIC_NAME } from '../../transformer/object-types'
+import { BibliographyItem } from '../../types/components'
 import {
   convertBibliographyItemToData,
   convertDataToBibliographyItem,
@@ -25,8 +26,8 @@ describe('CSL <=> bibliography model transforms', () => {
   })
 
   it('should convert bibliography items to CSL', () => {
-    const item = {
-      id: 'MPBibliographyItem:x',
+    const item: BibliographyItem = {
+      _id: 'MPBibliographyItem:x',
       objectType: 'MPBibliographyItem',
       DOI: 'foo',
       accessed: {

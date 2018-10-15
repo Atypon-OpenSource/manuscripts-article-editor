@@ -41,7 +41,7 @@ export const ProjectsDropdownList: React.SFC<Props> = ({
 
       {invitationsData.map(({ invitation, invitingUserProfile }) => (
         <InvitationDropdownSection
-          key={invitation.id}
+          key={invitation._id}
           invitation={invitation}
           invitingUserProfile={invitingUserProfile}
           acceptInvitation={acceptInvitation}
@@ -51,10 +51,10 @@ export const ProjectsDropdownList: React.SFC<Props> = ({
 
       {projects.sort(projectListCompare).map(project => (
         <ProjectDropdownSection
-          key={project.id}
+          key={project._id}
           handleClose={handleClose}
           project={project}
-          accepted={acceptedInvitations.includes(project.id)}
+          accepted={acceptedInvitations.includes(project._id)}
         />
       ))}
 

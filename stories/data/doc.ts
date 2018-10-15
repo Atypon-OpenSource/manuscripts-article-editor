@@ -5,7 +5,7 @@ import { AnyComponent } from '../../src/types/components'
 export const componentMap = new Map()
 
 projectDump.data.forEach((component: AnyComponent) => {
-  componentMap.set(component.id, component)
+  componentMap.set(component._id, component)
 })
 
 const decoder = new Decoder(componentMap)

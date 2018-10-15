@@ -222,11 +222,11 @@ storiesOf('Metadata', module)
   ))
   .add('Author Form', () => (
     <AuthorForm
-      manuscript={manuscripts[0].id}
+      manuscript={manuscripts[0]._id}
       author={authors[0]}
       affiliations={affiliations}
       authorAffiliations={
-        authorAffiliations.get(authors[0].id) as AuthorAffiliation[]
+        authorAffiliations.get(authors[0]._id) as AuthorAffiliation[]
       }
       handleSave={action('save author')}
       createAffiliation={action('create affiliation')}

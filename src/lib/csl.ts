@@ -146,8 +146,8 @@ export const convertBibliographyItemToData = (
       return output
     },
     {
-      id: item.id,
-      type: item.type || 'article-journal',
+      id: item._id,
+      type: 'article-journal', // TODO: more types
     } as CSL.Data // tslint:disable-line
   )
 

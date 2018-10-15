@@ -123,22 +123,22 @@ const AuthorsSidebar: React.SFC<Props> = ({
 
     <SidebarList>
       {authors.map((author, index) => {
-        // const affiliations = authorAffiliations.get(author.id)
+        // const affiliations = authorAffiliations.get(author._id)
         // const user = users.findOne(author.profileID) // TODO
 
         const user: Partial<UserProfile> = {
-          id: author.profileID,
+          _id: author.profileID,
         }
 
         const authorItem = {
-          id: author.id,
+          _id: author._id,
           priority: author.priority || null,
           index,
         }
 
         return (
           <DraggableAuthorItem
-            key={author.id}
+            key={author._id}
             authorItem={authorItem}
             onDrop={handleDrop}
             author={author}

@@ -299,8 +299,7 @@
 }
 
 .ProseMirror .equation,
-.ProseMirror .listing,
-.ProseMirror .MPInlineMathFragment {
+.ProseMirror .listing {
   position: relative;
   cursor: context-menu;
   line-height: 1em;
@@ -314,6 +313,7 @@
   max-width: 100%;
   overflow-x: auto;
   justify-content: center;
+  vertical-align: middle;
 }
 
 .ProseMirror .equation svg {
@@ -323,11 +323,7 @@
 .ProseMirror p .equation {
   display: inline-flex;
   min-height: 0;
-}
-
-.ProseMirror .MPInlineMathFragment {
-  display: inline-block;
-  /*margin: 0 1ch;*/
+  padding: 0 5px;
 }
 
 .ProseMirror .code-placeholder,

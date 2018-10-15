@@ -61,18 +61,18 @@ describe('decoder', () => {
       updatedAt: Date.now(),
       createdAt: Date.now(),
       sessionID: 'xyz',
-      id: 'MPManuscript:X',
+      _id: 'MPManuscript:X',
       objectType: MANUSCRIPT,
     })
     expect(data).toEqual({
-      id: 'MPManuscript:X',
+      _id: 'MPManuscript:X',
       objectType: MANUSCRIPT,
     })
   })
 
   test('sortSectionsByPriority', () => {
     const sectionA: Section = {
-      id: 'MPSection:A',
+      _id: 'MPSection:A',
       objectType: SECTION,
       priority: 0,
       title: 'A',
@@ -81,7 +81,7 @@ describe('decoder', () => {
       containerID: 'MPProject:X',
     }
     const sectionB: Section = {
-      id: 'MPSection:B',
+      _id: 'MPSection:B',
       objectType: SECTION,
       priority: 1,
       title: 'B',

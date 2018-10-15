@@ -16,16 +16,11 @@ interface State {
   error: string | null
 }
 
-interface Props {
-  id: string
-}
-
 interface RouteParams {
   projectID: string
 }
 
-type CombinedProps = Props &
-  ComponentsProps &
+type CombinedProps = ComponentsProps &
   RouteComponentProps<RouteParams> &
   IntlProps &
   UserProps
@@ -66,7 +61,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
 
     return (
       <Redirect
-        to={`/projects/${project.id}/manuscripts/${manuscripts[0].id}`}
+        to={`/projects/${project._id}/manuscripts/${manuscripts[0]._id}`}
       />
     )
   }
@@ -84,10 +79,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
     try {
       this.subs.push(
         this.getCollection()
-          .findOne({
-            id: projectID,
-            objectType: ObjectTypes.PROJECT,
-          })
+          .findOne(projectID)
           .$.subscribe((doc: ProjectDocument | null) => {
             if (doc) {
               this.setState({

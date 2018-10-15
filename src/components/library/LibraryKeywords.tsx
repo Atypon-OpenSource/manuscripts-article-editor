@@ -89,11 +89,11 @@ const LibraryKeywords: React.SFC<Props & KeywordsProps> = ({
     <Container>
       {sortedKeywords.map((keyword: Keyword) => (
         <LibraryKeyword
-          key={keyword.id}
-          onClick={() => handleQuery('keyword:' + keyword.id)}
+          key={keyword._id}
+          onClick={() => handleQuery('keyword:' + keyword._id)}
         >
           <LibraryKeywordText>{keyword.name}</LibraryKeywordText>
-          <LibraryKeywordCount>{counts.get(keyword.id)}</LibraryKeywordCount>
+          <LibraryKeywordCount>{counts.get(keyword._id)}</LibraryKeywordCount>
         </LibraryKeyword>
       ))}
     </Container>

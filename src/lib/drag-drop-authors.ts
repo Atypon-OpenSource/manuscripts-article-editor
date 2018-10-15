@@ -7,7 +7,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { Contributor } from '../types/components'
 
 export interface AuthorItem {
-  id: string
+  _id: string
   index: number
   priority: number | null
 }

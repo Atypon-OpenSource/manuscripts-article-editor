@@ -337,7 +337,7 @@ export const componentFromNode = (
   // TODO: in handlePaste, filter out non-standard IDs
 
   return {
-    id: node.attrs.id,
+    _id: node.attrs.id,
     objectType: nodeTypes.get(node.type.name as NodeTypeName) as string,
     ...componentData(node, parent, path, priority),
   }
@@ -363,7 +363,10 @@ export const encode = (node: ProsemirrorNode): ComponentMap => {
     if (placeholders.includes(child.type.name)) return
 
     const component = componentFromNode(child, parent, path, priority)
-    components.set(component.id as string, component as ComponentWithAttachment)
+    components.set(
+      component._id as string,
+      component as ComponentWithAttachment
+    )
 
     child.forEach(addComponent(path.concat(child.attrs.id), child))
   }

@@ -139,7 +139,7 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
       {searchText === '' ? (
         <SidebarContent>
           {invitations.map(invitation => (
-            <SidebarPersonContainer key={invitation.id}>
+            <SidebarPersonContainer key={invitation._id}>
               <UserDataContainer>
                 <Avatar size={45} color={'#585858'} />
                 <PersonData>
@@ -155,7 +155,7 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
             </SidebarPersonContainer>
           ))}
           {people.map(person => (
-            <SidebarPersonContainer key={person.id}>
+            <SidebarPersonContainer key={person._id}>
               <UserDataContainer>
                 <Avatar src={person.avatar} size={45} color={darkGrey} />
                 <PersonData>

@@ -87,7 +87,7 @@ class KeywordsProvider extends React.Component<
         this.setState({
           loaded: true,
           data: docs.reduce((output, doc) => {
-            output.set(doc.id, doc.toJSON())
+            output.set(doc._id, doc.toJSON())
             return output
           }, new Map()),
         })
@@ -101,7 +101,7 @@ class KeywordsProvider extends React.Component<
 
   private update = async (data: Partial<Keyword>) => {
     const prev = await this.getCollection()
-      .findOne(data.id)
+      .findOne(data._id)
       .exec()
 
     if (!prev) {

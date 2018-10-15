@@ -2,7 +2,7 @@ jest.mock('../pressroom')
 
 import data from '@manuscripts/examples/data/project-dump.json'
 import JSZip from 'jszip'
-import { Paragraph } from '../../types/components'
+import { Manuscript, Paragraph } from '../../types/components'
 import {
   exportProject,
   generateAttachmentFilename,
@@ -49,18 +49,20 @@ describe('exporter', () => {
     const componentMap = buildComponentMap(data)
     const manuscriptID = 'MPManuscript:8EB79C14-9F61-483A-902F-A0B8EF5973C9'
 
-    // tslint:disable-next-line:no-any
-    const anotherManuscript: any = {
+    const anotherManuscript: Partial<Manuscript> = {
+      _id: 'MPManuscript:TEST',
       _rev: 'someRev',
       createdAt: 1538472121.690101,
-      id: 'MPManuscript:TEST',
       objectType: 'MPManuscript',
       sessionID: 'fb8b3d44-9515-4747-c7d8-a30fb1bc188b',
       title: 'Example Manuscript',
       updatedAt: 1538472121.690101,
     }
 
-    componentMap.set(anotherManuscript.id, anotherManuscript)
+    componentMap.set(
+      (anotherManuscript as Manuscript)._id,
+      anotherManuscript as Manuscript
+    )
 
     // `result` is the blob that would be sent for conversion, echoed back
     const result = await exportProject(componentMap, manuscriptID, 'docx')

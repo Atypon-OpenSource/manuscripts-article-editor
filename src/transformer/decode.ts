@@ -85,7 +85,7 @@ export const buildComponentMap = (
 
   const promises = docs.map(async doc => {
     const data = await getComponentFromDoc(doc)
-    output.set(doc.id, data)
+    output.set(doc._id, data)
   })
 
   return Promise.all(promises).then(() => output)
@@ -121,13 +121,13 @@ export class Decoder {
   private creators: NodeCreatorMap = {
     [ObjectTypes.BIBLIOGRAPHY_ELEMENT]: (component: BibliographyElement) => {
       return schema.nodes.bibliography_element.create({
-        id: component.id,
+        id: component._id,
         contents: component.contents.replace(/\s+xmlns=".+?"/, ''),
       })
     },
     [ObjectTypes.PLACEHOLDER_ELEMENT]: (component: PlaceholderElement) => {
       return schema.nodes.placeholder_element.create({
-        id: component.id,
+        id: component._id,
       })
     },
     [ObjectTypes.FIGURE_ELEMENT]: (component: FigureElement) => {
@@ -143,7 +143,7 @@ export class Decoder {
 
       return schema.nodes.figure_element.createChecked(
         {
-          id: component.id,
+          id: component._id,
           containedObjectIDs: component.containedObjectIDs,
           figureStyle: component.figureStyle,
           suppressCaption: Boolean(component.suppressCaption),
@@ -158,7 +158,7 @@ export class Decoder {
 
       const equation = equationComponent
         ? schema.nodes.equation.create({
-            id: equationComponent.id,
+            id: equationComponent._id,
             SVGStringRepresentation: equationComponent.SVGStringRepresentation,
             TeXRepresentation: equationComponent.TeXRepresentation,
           })
@@ -177,7 +177,7 @@ export class Decoder {
 
       return schema.nodes.equation_element.createChecked(
         {
-          id: component.id,
+          id: component._id,
           suppressCaption: component.suppressCaption,
         },
         [equation, figcaption]
@@ -185,7 +185,7 @@ export class Decoder {
     },
     [ObjectTypes.FOOTNOTES_ELEMENT]: (component: TOCElement) => {
       return schema.nodes.footnotes_element.create({
-        id: component.id,
+        id: component._id,
         contents: component.contents,
       })
     },
@@ -195,7 +195,7 @@ export class Decoder {
           // TODO: wrap inline text in paragraphs
           return parseContents(component.contents, {
             topNode: schema.nodes.ordered_list.create({
-              id: component.id,
+              id: component._id,
               paragraphStyle: component.paragraphStyle,
             }),
           })
@@ -204,7 +204,7 @@ export class Decoder {
           // TODO: wrap inline text in paragraphs
           return parseContents(component.contents, {
             topNode: schema.nodes.bullet_list.create({
-              id: component.id,
+              id: component._id,
               paragraphStyle: component.paragraphStyle,
             }),
           })
@@ -220,7 +220,7 @@ export class Decoder {
 
       const listing = listingComponent
         ? schema.nodes.listing.create({
-            id: listingComponent.id,
+            id: listingComponent._id,
             contents: listingComponent.contents,
             language: listingComponent.language,
             languageKey: listingComponent.languageKey,
@@ -240,7 +240,7 @@ export class Decoder {
 
       return schema.nodes.listing_element.createChecked(
         {
-          id: component.id,
+          id: component._id,
           suppressCaption: component.suppressCaption,
         },
         [listing, figcaption]
@@ -249,7 +249,7 @@ export class Decoder {
     [ObjectTypes.PARAGRAPH]: (component: Paragraph) => {
       return parseContents(component.contents, {
         topNode: schema.nodes.paragraph.create({
-          id: component.id,
+          id: component._id,
           paragraphStyle: component.paragraphStyle,
           placeholder: component.placeholderInnerHTML,
         }),
@@ -266,8 +266,8 @@ export class Decoder {
             elements.push(element)
           } else {
             const placeholderElement: PlaceholderElement = {
-              id,
-              containerID: component.id,
+              _id: id,
+              containerID: component._id,
               elementType: 'div',
               objectType: ObjectTypes.PLACEHOLDER_ELEMENT,
             }
@@ -287,14 +287,14 @@ export class Decoder {
 
       const nestedSections = getSections(this.componentMap)
         .filter(section => section.path.length > 1)
-        .filter(item => item.path[item.path.length - 2] === component.id)
+        .filter(item => item.path[item.path.length - 2] === component._id)
         .map(this.creators[ObjectTypes.SECTION])
 
       const sectionNodeType = this.chooseSectionNodeType(elements)
 
       const sectionNode = sectionNodeType.createAndFill(
         {
-          id: component.id,
+          id: component._id,
           titleSuppressed: component.titleSuppressed,
         },
         [sectionTitleNode].concat(elementNodes).concat(nestedSections)
@@ -302,7 +302,7 @@ export class Decoder {
 
       if (!sectionNode) {
         console.error(component) // tslint:disable-line:no-console
-        throw new Error('Invalid content for section ' + component.id)
+        throw new Error('Invalid content for section ' + component._id)
       }
 
       return sectionNode
@@ -315,7 +315,7 @@ export class Decoder {
       const table = tableComponent
         ? parseContents(tableComponent.contents, {
             topNode: schema.nodes.table.create({
-              id: tableComponent.id,
+              id: tableComponent._id,
             }),
           })
         : schema.nodes.placeholder.create({
@@ -333,7 +333,7 @@ export class Decoder {
 
       return schema.nodes.table_element.createChecked(
         {
-          id: component.id,
+          id: component._id,
           table: component.containedObjectID,
           suppressCaption: component.suppressCaption,
           suppressFooter: component.suppressFooter,
@@ -346,7 +346,7 @@ export class Decoder {
     },
     [ObjectTypes.TOC_ELEMENT]: (component: TOCElement) => {
       return schema.nodes.toc_element.create({
-        id: component.id,
+        id: component._id,
         contents: component.contents,
       })
     },

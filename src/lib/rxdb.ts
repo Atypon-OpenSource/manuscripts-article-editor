@@ -7,7 +7,6 @@ import {
 import RxDBAttachmentsModule from 'rxdb/plugins/attachments'
 import RxDB from 'rxdb/plugins/core'
 import RxDBErrorMessagesModule from 'rxdb/plugins/error-messages'
-import RxDBKeyCompressionModule from 'rxdb/plugins/key-compression'
 import RxDBLeaderElectionModule from 'rxdb/plugins/leader-election'
 import RxDBLocalDocumentsModule from 'rxdb/plugins/local-documents'
 import RxDBNoValidateModule from 'rxdb/plugins/no-validate'
@@ -29,7 +28,6 @@ RxDB.plugin(RxDBAttachmentsModule)
 RxDB.plugin(RxDBLeaderElectionModule)
 RxDB.plugin(RxDBUpdateModule)
 RxDB.plugin(RxDBLocalDocumentsModule)
-RxDB.plugin(RxDBKeyCompressionModule)
 
 if (config.environment !== 'production') {
   RxDB.plugin(RxDBErrorMessagesModule)

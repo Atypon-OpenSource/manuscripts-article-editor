@@ -112,8 +112,8 @@ const ManuscriptSidebar: React.SFC<Props> = ({
 
       <SidebarContent>
         {manuscripts.map(item => (
-          <SidebarManuscript key={item.id}>
-            {item.id === manuscript.id ? (
+          <SidebarManuscript key={item._id}>
+            {item._id === manuscript._id ? (
               <DebouncedManuscriptOutlineContainer
                 manuscript={manuscript}
                 doc={doc}

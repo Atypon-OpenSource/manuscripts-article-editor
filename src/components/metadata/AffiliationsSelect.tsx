@@ -49,11 +49,11 @@ export const AffiliationsSelect: React.SFC<Props & FieldProps> = ({
       form.handleSubmit(submitEvent as React.FormEvent<HTMLFormElement>)
     }}
     options={Array.from(affiliations.values()).map(affiliation => ({
-      value: affiliation.id,
+      value: affiliation._id,
       label: affiliation.name,
     }))}
     value={(field.value || []).map((item: Affiliation) => ({
-      value: item.id,
+      value: item._id,
       label: item.name,
     }))}
     styles={{

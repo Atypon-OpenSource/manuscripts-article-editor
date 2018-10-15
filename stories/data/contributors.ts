@@ -7,7 +7,7 @@ export const affiliations: AffiliationMap = new Map([
   [
     'affiliation-1',
     {
-      id: 'affiliation-1',
+      _id: 'affiliation-1',
       containerID: 'project-1',
       manuscriptID: 'manuscript-1',
       objectType: 'MPAffiliation',
@@ -19,7 +19,7 @@ export const affiliations: AffiliationMap = new Map([
   [
     'affiliation-2',
     {
-      id: 'affiliation-2',
+      _id: 'affiliation-2',
       containerID: 'project-1',
       manuscriptID: 'manuscript-1',
       objectType: 'MPAffiliation',
@@ -32,7 +32,7 @@ export const affiliations: AffiliationMap = new Map([
 
 export const authors: Contributor[] = [
   {
-    id: 'example-1',
+    _id: 'example-1',
     containerID: 'project-1',
     manuscriptID: 'manuscript-1',
     objectType: 'MPContributor',
@@ -50,7 +50,7 @@ export const authors: Contributor[] = [
     affiliations: ['affiliation-1'],
   },
   {
-    id: 'example-2',
+    _id: 'example-2',
     containerID: 'project-1',
     manuscriptID: 'manuscript-1',
     objectType: 'MPContributor',
@@ -68,7 +68,7 @@ export const authors: Contributor[] = [
     affiliations: ['affiliation-1', 'affiliation-2'],
   },
   {
-    id: 'example-3',
+    _id: 'example-3',
     containerID: 'project-1',
     manuscriptID: 'manuscript-1',
     objectType: 'MPContributor',
@@ -88,7 +88,7 @@ export const authors: Contributor[] = [
 ]
 
 export const user: UserProfile = {
-  id: 'user-1',
+  _id: 'user-1',
   userID: 'user_1',
   objectType: 'MPUserProfile',
   bibliographicName: {

@@ -38,7 +38,7 @@ import {
 import { DEFAULT_BUNDLE } from './csl'
 
 export type Build<T> = Pick<T, Exclude<keyof T, keyof ManuscriptComponent>> & {
-  id: string
+  _id: string
   objectType: string
 }
 
@@ -51,7 +51,7 @@ export type BuildEmbedded<T> = Pick<
 }
 
 export const buildProject = (owner: string): Build<Project> => ({
-  id: generateID('project') as string,
+  _id: generateID('project') as string,
   objectType: PROJECT,
   owners: [owner],
   writers: [],
@@ -60,7 +60,7 @@ export const buildProject = (owner: string): Build<Project> => ({
 })
 
 export const buildManuscript = (title: string = ''): Build<Manuscript> => ({
-  id: generateID('manuscript') as string,
+  _id: generateID('manuscript') as string,
   objectType: MANUSCRIPT,
   title,
   bundle: DEFAULT_BUNDLE,
@@ -73,7 +73,7 @@ export const buildContributor = (
   userID?: string | null,
   invitationID?: string
 ): Build<Contributor> => ({
-  id: generateID('contributor') as string,
+  _id: generateID('contributor') as string,
   objectType: CONTRIBUTOR,
   priority,
   role,
@@ -87,7 +87,7 @@ export const buildBibliographyItem = (
   data: Partial<BibliographyItem>
 ): Build<BibliographyItem> => ({
   ...data,
-  id: generateID('bibliography_item') as string,
+  _id: generateID('bibliography_item') as string,
   objectType: BIBLIOGRAPHY_ITEM,
 })
 
@@ -111,7 +111,7 @@ export const buildAuxiliaryObjectReference = (
   containingObject: string,
   referencedObject: string
 ): Build<AuxiliaryObjectReference> => ({
-  id: generateID('cross_reference') as string,
+  _id: generateID('cross_reference') as string,
   objectType: AUXILIARY_OBJECT_REFERENCE,
   containingObject,
   referencedObject,
@@ -121,7 +121,7 @@ export const buildCitation = (
   containingObject: string,
   bibliographyItem: string
 ): Build<Citation> => ({
-  id: generateID('citation') as string,
+  _id: generateID('citation') as string,
   objectType: CITATION,
   containingObject,
   embeddedCitationItems: [
@@ -134,13 +134,13 @@ export const buildCitation = (
 })
 
 export const buildKeyword = (name: string): Build<Keyword> => ({
-  id: generateID('keyword') as string,
+  _id: generateID('keyword') as string,
   objectType: KEYWORD,
   name,
 })
 
 export const buildFigure = (file: File): Build<Figure> => ({
-  id: generateID('figure') as string,
+  _id: generateID('figure') as string,
   objectType: FIGURE,
   contentType: file.type,
   src: window.URL.createObjectURL(file),
@@ -152,7 +152,7 @@ export const buildFigure = (file: File): Build<Figure> => ({
 })
 
 export const buildAffiliation = (name: string): Build<Affiliation> => ({
-  id: generateID('affiliation') as string,
+  _id: generateID('affiliation') as string,
   objectType: AFFILIATION,
   name,
 })
@@ -163,7 +163,7 @@ export const buildComment = (
   contents: string = '',
   selector?: CommentSelector
 ): Build<CommentAnnotation> => ({
-  id: generateID('comment') as string,
+  _id: generateID('comment') as string,
   objectType: COMMENT_ANNOTATION,
   userID,
   target,
@@ -175,7 +175,7 @@ export const buildInlineMathFragment = (
   containingObject: string,
   TeXRepresentation: string
 ): Build<InlineMathFragment> => ({
-  id: generateID('inline_equation') as string,
+  _id: generateID('inline_equation') as string,
   objectType: INLINE_MATH_FRAGMENT,
   containingObject,
   TeXRepresentation,
@@ -185,7 +185,7 @@ export const buildFootnote = (
   containingObject: string,
   contents: string
 ): Build<Footnote> => ({
-  id: generateID('footnote') as string,
+  _id: generateID('footnote') as string,
   objectType: FOOTNOTE,
   containingObject,
   contents,

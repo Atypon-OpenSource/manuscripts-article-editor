@@ -96,10 +96,10 @@ class WelcomePageContainer extends React.Component<
     const owner = user.userID
 
     const project = await this.createProject(owner)
-    const projectID = project.id
+    const projectID = project._id
 
     const manuscript = buildManuscript()
-    const manuscriptID = manuscript.id
+    const manuscriptID = manuscript._id
 
     const contributor = buildContributor(
       user.bibliographicName,
@@ -128,13 +128,13 @@ class WelcomePageContainer extends React.Component<
     const owner = user.userID
 
     const project = await this.createProject(owner)
-    const projectID = project.id
+    const projectID = project._id
 
     const manuscriptID = generateID('manuscript') as string
 
     for (const component of components) {
       if (component.objectType === ObjectTypes.MANUSCRIPT) {
-        component.id = manuscriptID
+        component._id = manuscriptID
       }
 
       const { attachment, ...data } = component as Partial<
@@ -150,7 +150,7 @@ class WelcomePageContainer extends React.Component<
 
       if (attachment) {
         await this.props.components.putAttachment(
-          result.id,
+          result._id,
           attachment as RxAttachmentCreator
         )
       }

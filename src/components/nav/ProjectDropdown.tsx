@@ -156,8 +156,8 @@ export const ProjectDropdownSection: React.SFC<ProjectSectionProps> = ({
   handleClose,
 }) => (
   <DropdownLink
-    key={project.id}
-    to={`/projects/${project.id}`}
+    key={project._id}
+    to={`/projects/${project._id}`}
     activeStyle={activeStyle}
     onClick={event => (handleClose ? handleClose(event) : null)}
   >

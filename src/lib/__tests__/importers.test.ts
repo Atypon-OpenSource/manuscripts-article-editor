@@ -89,9 +89,8 @@ describe('Import', () => {
 
     const items = await importFile(file)
 
-    items.forEach((item: any) => expect(item.id).toBeDefined())
+    items.forEach((item: any) => expect(item._id).toBeDefined())
     items.forEach((item: any) => expect(item.objectType).toBeDefined())
-    items.forEach((item: any) => expect(item._id).toBeUndefined())
     items.forEach((item: any) => expect(item._rev).toBeUndefined())
     items.forEach((item: any) => expect(item.collection).toBeUndefined())
   })

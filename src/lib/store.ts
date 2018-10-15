@@ -8,7 +8,7 @@ export const prepareUpdate = <T extends Component>(
 ): Partial<T> => {
   // https://github.com/Microsoft/TypeScript/pull/13288
   // tslint:disable-next-line:no-any
-  const { id, _rev, ...rest } = data as any
+  const { _id, _rev, ...rest } = data as any
 
   return {
     ...rest,

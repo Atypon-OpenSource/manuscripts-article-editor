@@ -115,8 +115,8 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
       <SidebarContent>
         {invitations.map(invitation => (
           <SidebarPersonContainer
-            key={invitation.id}
-            onMouseEnter={() => handleHover(invitation.id)}
+            key={invitation._id}
+            onMouseEnter={() => handleHover(invitation._id)}
             onMouseLeave={() => handleHover()}
           >
             <UserDataContainer>
@@ -130,7 +130,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
             </UserDataContainer>
             <InvitedContainer>
               <Invited>Invited</Invited>
-              {hoveredID === invitation.id &&
+              {hoveredID === invitation._id &&
                 isOwner(project, user.userID) && (
                   <InvitedCollaboratorSettingsButton
                     invitation={invitation}
@@ -143,7 +143,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
         {!!collaborators &&
           collaborators.map(collaborator => (
             <SidebarPersonContainer
-              key={collaborator.id}
+              key={collaborator._id}
               onMouseEnter={() => handleHover(collaborator.userID)}
               onMouseLeave={() => handleHover()}
             >

@@ -136,12 +136,12 @@ class ProjectsModalContainer extends React.Component<Props, State> {
     project.updatedAt = now
     project.sessionID = sessionID
 
-    const projectID = project.id
+    const projectID = project._id
 
     await collection.insert(project)
 
     const manuscript = buildManuscript()
-    const manuscriptID = manuscript.id
+    const manuscriptID = manuscript._id
 
     const contributor = buildContributor(
       user.bibliographicName,

@@ -21,12 +21,12 @@ import { DEFAULT_BUNDLE } from '../csl'
 
 const componentMap = (components: ComponentWithAttachment[]): ComponentMap => {
   const map = new Map<string, ComponentWithAttachment>()
-  components.forEach(x => map.set(x.id, x))
+  components.forEach(x => map.set(x._id, x))
   return map
 }
 
 const affiliation: Affiliation = {
-  id: 'MPAffiliation:X',
+  _id: 'MPAffiliation:X',
   objectType: AFFILIATION,
   name: 'University of Toronto',
   manuscriptID: 'MPManuscript:X',
@@ -37,7 +37,7 @@ const affiliations = [affiliation]
 
 const contribs: Contributor[] = [
   {
-    id: 'MPContributor:x',
+    _id: 'MPContributor:x',
     objectType: CONTRIBUTOR,
     priority: 1,
     bibliographicName: {
@@ -47,10 +47,10 @@ const contribs: Contributor[] = [
     manuscriptID: 'MPManuscript:A',
     containerID: 'MPProject:1',
     role: 'author',
-    affiliations: affiliations.map(a => a.id),
+    affiliations: affiliations.map(a => a._id),
   },
   {
-    id: 'MPContributor:y',
+    _id: 'MPContributor:y',
     objectType: CONTRIBUTOR,
     priority: 0,
     bibliographicName: {
@@ -63,7 +63,7 @@ const contribs: Contributor[] = [
     role: 'author',
   },
   {
-    id: 'MPContributor:z',
+    _id: 'MPContributor:z',
     objectType: CONTRIBUTOR,
     priority: 2,
     bibliographicName: {
@@ -78,7 +78,7 @@ const contribs: Contributor[] = [
 
 const manuscripts: Manuscript[] = [
   {
-    id: 'MPManuscript:x',
+    _id: 'MPManuscript:x',
     objectType: MANUSCRIPT,
     containerID: 'MPProject:1',
     title: 'Manuscript X',
@@ -96,7 +96,7 @@ describe('author and affiliation helpers', () => {
   it('buildSortedAuthors', () => {
     // FIXME: buildSortedAuthors should not ignore silently encountering contributors with no "role" or "priority" fields present.
     // tslint:disable-line:no-any
-    expect(buildSortedAuthors(componentMap(objs)).map(x => x.id)).toEqual([
+    expect(buildSortedAuthors(componentMap(objs)).map(x => x._id)).toEqual([
       'MPContributor:y',
       'MPContributor:x',
       'MPContributor:z',
@@ -108,7 +108,7 @@ describe('author and affiliation helpers', () => {
 
     const authors: Contributor[] = [
       {
-        id: 'MPContributor:author-1',
+        _id: 'MPContributor:author-1',
         objectType: CONTRIBUTOR,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
@@ -119,7 +119,7 @@ describe('author and affiliation helpers', () => {
         isJointContributor: true,
       },
       {
-        id: 'MPContributor:author-2',
+        _id: 'MPContributor:author-2',
         objectType: CONTRIBUTOR,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
@@ -130,7 +130,7 @@ describe('author and affiliation helpers', () => {
         isJointContributor: false,
       },
       {
-        id: 'MPContributor:author-3',
+        _id: 'MPContributor:author-3',
         objectType: CONTRIBUTOR,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
@@ -149,7 +149,7 @@ describe('author and affiliation helpers', () => {
   it('is not joint first author', () => {
     const authors: Contributor[] = [
       {
-        id: 'MPContributor:author-1',
+        _id: 'MPContributor:author-1',
         objectType: CONTRIBUTOR,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
@@ -160,7 +160,7 @@ describe('author and affiliation helpers', () => {
         isJointContributor: false,
       },
       {
-        id: 'MPContributor:author-2',
+        _id: 'MPContributor:author-2',
         objectType: CONTRIBUTOR,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
@@ -170,7 +170,7 @@ describe('author and affiliation helpers', () => {
         },
       },
       {
-        id: 'MPContributor:author-3',
+        _id: 'MPContributor:author-3',
         objectType: CONTRIBUTOR,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
@@ -188,7 +188,7 @@ describe('author and affiliation helpers', () => {
 
   it('buildAffiliationsMap', () => {
     const affMap = buildAffiliationsMap(
-      affiliations.map(x => x.id),
+      affiliations.map(x => x._id),
       componentMap(objs)
     )
     expect(Array.from(affMap)).toEqual([['MPAffiliation:X', affiliations[0]]])
@@ -196,7 +196,7 @@ describe('author and affiliation helpers', () => {
 
   it('buildAuthorAffiliations', () => {
     const affMap = buildAffiliationsMap(
-      affiliations.map(x => x.id),
+      affiliations.map(x => x._id),
       componentMap(objs)
     )
     const authorAffMap = buildAuthorAffiliations(

@@ -70,7 +70,7 @@ const SearchCollaboratorsSidebar: React.SFC<SearchSidebarProps> = ({
     ) : (
       <SidebarContent>
         {searchResults.map(person => (
-          <SidebarPersonContainer key={person.id}>
+          <SidebarPersonContainer key={person._id}>
             <UserDataContainer>
               <Avatar src={person.avatar} size={45} color={darkGrey} />
               <PeopleData>

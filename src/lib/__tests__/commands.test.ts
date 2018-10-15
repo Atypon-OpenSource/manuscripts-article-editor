@@ -29,7 +29,7 @@ import {
 describe('commands', () => {
   it('buildProject', () => {
     const proj = buildProject('Mr Derp')
-    expect(proj.id).toMatch(/MPProject:\S+/)
+    expect(proj._id).toMatch(/MPProject:\S+/)
     expect(proj.objectType).toEqual(PROJECT)
     expect(proj.owners).toEqual(['Mr Derp'])
     expect(proj.writers).toEqual([])
@@ -39,12 +39,12 @@ describe('commands', () => {
 
   it('buildManuscript', () => {
     const manuscriptA = buildManuscript('Teh title')
-    expect(manuscriptA.id).toMatch(/MPManuscript:\S+/)
+    expect(manuscriptA._id).toMatch(/MPManuscript:\S+/)
     expect(manuscriptA.objectType).toEqual(MANUSCRIPT)
     expect(manuscriptA.title).toEqual('Teh title')
 
     const manuscriptB = buildManuscript()
-    expect(manuscriptB.id).toMatch(/MPManuscript:\S+/)
+    expect(manuscriptB._id).toMatch(/MPManuscript:\S+/)
     expect(manuscriptB.objectType).toEqual(MANUSCRIPT)
     expect(manuscriptB.title).toEqual('')
   })
@@ -75,7 +75,7 @@ describe('commands', () => {
       URL: 'https://humdi.net/evo/',
     }
     const item = buildBibliographyItem(data)
-    expect(item.id).toMatch(/MPBibliographyItem:\S+/)
+    expect(item._id).toMatch(/MPBibliographyItem:\S+/)
     expect(item.objectType).toMatch(BIBLIOGRAPHY_ITEM)
     expect(item.title).toMatch(data.title!)
     expect(item.DOI).toMatch(data.DOI!)
@@ -104,7 +104,7 @@ describe('commands', () => {
 
   it('buildAuxiliaryObjectReference', () => {
     const auxRef = buildAuxiliaryObjectReference('x', 'y')
-    expect(auxRef.id).toMatch(/MPAuxiliaryObjectReference:\S+/)
+    expect(auxRef._id).toMatch(/MPAuxiliaryObjectReference:\S+/)
     expect(auxRef.objectType).toMatch(AUXILIARY_OBJECT_REFERENCE)
     expect(auxRef.containingObject).toMatch('x')
     expect(auxRef.referencedObject).toMatch('y')
@@ -112,7 +112,7 @@ describe('commands', () => {
 
   it('buildCitation', () => {
     const citation = buildCitation('x', 'y')
-    expect(citation.id).toMatch(/MPCitation:\S+/)
+    expect(citation._id).toMatch(/MPCitation:\S+/)
     expect(citation.containingObject).toMatch('x')
     expect(citation.embeddedCitationItems.length).toEqual(1)
     expect(citation.embeddedCitationItems[0].objectType).toEqual(CITATION_ITEM)
@@ -121,7 +121,7 @@ describe('commands', () => {
   it('buildKeyword', () => {
     const keyword = buildKeyword('foo')
     expect(keyword.name).toMatch('foo')
-    expect(keyword.id).toMatch(/MPKeyword:\S+/)
+    expect(keyword._id).toMatch(/MPKeyword:\S+/)
     expect(keyword.objectType).toMatch(KEYWORD)
   })
 
@@ -131,7 +131,7 @@ describe('commands', () => {
     })
 
     const fig = buildFigure(file as File)
-    expect(fig.id).toMatch(/MPFigure:\S+/)
+    expect(fig._id).toMatch(/MPFigure:\S+/)
     expect(fig.objectType).toMatch(FIGURE)
     expect(fig.contentType).toMatch(file.type)
     expect(fig.src).toMatch(
@@ -141,7 +141,7 @@ describe('commands', () => {
 
   it('buildAffiliation', () => {
     const aff = buildAffiliation('x')
-    expect(aff.id).toMatch(/MPAffiliation:\S+/)
+    expect(aff._id).toMatch(/MPAffiliation:\S+/)
     expect(aff.objectType).toMatch(AFFILIATION)
     expect(aff.name).toMatch('x')
   })

@@ -286,7 +286,8 @@ class Editor extends React.Component<EditorProps, State> {
             const start = newNode.content.findDiffStart(node.content)
 
             if (typeof start === 'number') {
-              const diffEnd = newNode.content.findDiffEnd(node.content as any) // tslint:disable-line:no-any - TODO: remove once types are fixed
+              // tslint:disable-next-line:no-any - TODO: remove once types are fixed
+              const diffEnd = newNode.content.findDiffEnd(node.content as any)
 
               if (diffEnd) {
                 let { a: newNodeDiffEnd, b: nodeDiffEnd } = diffEnd

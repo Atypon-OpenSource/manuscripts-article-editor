@@ -14,7 +14,7 @@ const buildMap = <T extends Component>(items: T[]) => {
   const map = new Map()
 
   for (const item of items) {
-    map.set(item.id, item)
+    map.set(item._id, item)
   }
 
   return map

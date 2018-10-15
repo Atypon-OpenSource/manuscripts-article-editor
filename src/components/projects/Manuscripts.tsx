@@ -70,7 +70,7 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
   removeManuscript,
 }) => (
   <ManuscriptContainer
-    to={`/projects/${manuscript.containerID}/manuscripts/${manuscript.id}`}
+    to={`/projects/${manuscript.containerID}/manuscripts/${manuscript._id}`}
   >
     <ManuscriptSection>
       <ManuscriptTitle>
@@ -81,7 +81,7 @@ export const ManuscriptListItem: React.SFC<ManuscriptProps> = ({
     <ManuscriptSection>
       <ManuscriptDate>{updatedAt(manuscript)}</ManuscriptDate>
 
-      <DeleteButton onClick={removeManuscript(manuscript.id)}>
+      <DeleteButton onClick={removeManuscript(manuscript._id)}>
         Delete
       </DeleteButton>
     </ManuscriptSection>
@@ -100,7 +100,7 @@ export const Manuscripts: React.SFC<ManuscriptsProps> = ({
   <ManuscriptsContainer>
     {manuscripts.map(manuscript => (
       <ManuscriptListItem
-        key={manuscript.id}
+        key={manuscript._id}
         manuscript={manuscript}
         contributors={[]}
         removeManuscript={removeManuscript}

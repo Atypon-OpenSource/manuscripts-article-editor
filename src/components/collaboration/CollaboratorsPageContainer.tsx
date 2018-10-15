@@ -30,16 +30,11 @@ interface State {
   hoveredID: string
 }
 
-interface Props {
-  id: string
-}
-
 interface RouteParams {
   projectID: string
 }
 
-type CombinedProps = Props &
-  ComponentsProps &
+type CombinedProps = ComponentsProps &
   RouteComponentProps<RouteParams> &
   UserProps
 

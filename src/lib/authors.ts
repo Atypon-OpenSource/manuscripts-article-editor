@@ -41,7 +41,7 @@ export const buildAuthorAffiliations = (
 
   authors.forEach(author => {
     items.set(
-      author.id,
+      author._id,
       (author.affiliations || []).map(id => {
         return {
           ordinal: uniqueAffiliationIDs.indexOf(id) + 1,

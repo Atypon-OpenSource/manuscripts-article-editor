@@ -2,7 +2,11 @@ import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
 import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme'
-import { Affiliation, Contributor } from '../../types/components'
+import {
+  Affiliation,
+  BibliographicName,
+  Contributor,
+} from '../../types/components'
 import AutoSaveInput from '../AutoSaveInput'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
@@ -56,16 +60,16 @@ const Legend = styled.legend`
   color: #949494;
 `
 
-interface BibliographicNameValues {
-  id: string
+interface BibliographicNameValues extends Partial<BibliographicName> {
+  _id: string
   objectType: string
   given: string
   family: string
   suffix?: string
 }
 
-interface AffiliationValues {
-  id: string
+interface AffiliationValues extends Partial<Affiliation> {
+  _id: string
   name: string
   address?: string
   city?: string
@@ -73,7 +77,7 @@ interface AffiliationValues {
 }
 
 // interface GrantValues {
-//   id: string
+//   _id: string
 //   organization: string
 //   code: string
 //   title: string
@@ -81,7 +85,7 @@ interface AffiliationValues {
 // }
 
 export interface AuthorValues {
-  id: string
+  _id: string
   priority: number
   email: string
   isCorresponding: boolean
@@ -99,7 +103,7 @@ const buildInitialValues = (
   // authorGrants: AuthorGrant[]
 ): AuthorValues => {
   return {
-    id: author.id,
+    _id: author._id,
     priority: Number(author.priority), // TODO: ordering = priority
     email: ensureString(author.email),
     isCorresponding: Boolean(author.isCorresponding),
@@ -107,7 +111,7 @@ const buildInitialValues = (
     affiliations: (authorAffiliations || []).map(item => item.data),
     // grants: authorGrants,
     bibliographicName: {
-      id: author.bibliographicName._id,
+      _id: author.bibliographicName._id,
       objectType: author.bibliographicName.objectType,
       given: ensureString(author.bibliographicName.given),
       family: ensureString(author.bibliographicName.family),

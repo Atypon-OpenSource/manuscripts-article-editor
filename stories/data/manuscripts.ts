@@ -2,7 +2,7 @@ import { Manuscript } from '../../src/types/components'
 
 const manuscripts: Manuscript[] = [
   {
-    id: 'example-1',
+    _id: 'example-1',
     containerID: 'project-1',
     objectType: 'MPManuscript',
     title:
@@ -14,7 +14,7 @@ const manuscripts: Manuscript[] = [
   },
 
   {
-    id: 'example-2',
+    _id: 'example-2',
     containerID: 'project-1',
     objectType: 'MPManuscript',
     title:
@@ -26,7 +26,7 @@ const manuscripts: Manuscript[] = [
   },
 
   {
-    id: 'example-3',
+    _id: 'example-3',
     containerID: 'project-1',
     objectType: 'MPManuscript',
     title:

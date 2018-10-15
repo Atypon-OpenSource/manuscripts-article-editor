@@ -61,7 +61,7 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
   private handleUninvite = async () => {
     const { openPopper, invitation } = this.props
 
-    await projectUninvite(invitation.id)
+    await projectUninvite(invitation._id)
 
     openPopper()
   }

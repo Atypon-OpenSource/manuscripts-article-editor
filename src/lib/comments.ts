@@ -26,7 +26,7 @@ const buildCommentsMap = (comments: CommentAnnotation[]) => {
       })
     } else {
       // parent
-      map.set(comment.id, {
+      map.set(comment._id, {
         comment,
         children: [],
       })

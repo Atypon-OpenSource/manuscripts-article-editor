@@ -140,7 +140,7 @@ abstract class AbstractBlock implements NodeView {
   private createComment = async (id: string) => {
     const user = this.props.getCurrentUser()
 
-    const comment = buildComment(user.id, id)
+    const comment = buildComment(user._id, id)
 
     await this.props.saveComponent(comment)
   }

@@ -15,7 +15,7 @@ export interface Component {
   // _id: string
   _rev?: string
   _deleted?: boolean
-  id: string
+  _id: string
   objectType: string
   createdAt?: number
   updatedAt?: number

@@ -121,7 +121,7 @@ const menus = (props: MenusProps): MenuItem[] => [
                   props.manuscript.title
                 )}"?`
               : `Are you sure you wish to delete this untitled manuscript?`
-          ) && props.deleteManuscript(props.manuscript.id),
+          ) && props.deleteManuscript(props.manuscript._id),
       },
     ],
   },

@@ -2,13 +2,13 @@ import { RxJsonSchema } from 'rxdb'
 
 export const projects: RxJsonSchema = {
   title: 'projects schema',
-  version: 0,
+  version: 1,
   attachments: {},
   description: 'describes a component of a project',
   type: 'object',
   additionalProperties: true,
   properties: {
-    id: {
+    _id: {
       type: 'string',
       primary: true,
     },
@@ -39,5 +39,5 @@ export const projects: RxJsonSchema = {
       type: 'object',
     },
   },
-  required: ['objectType', 'containerID'],
+  required: ['objectType'],
 }

@@ -282,7 +282,7 @@ class MetadataContainer extends React.Component<
 
   private saveTitle = async (title: string) => {
     await (this.props.saveManuscript as SaveManuscript)({
-      id: this.props.manuscript.id,
+      _id: this.props.manuscript._id,
       title,
     })
   }
@@ -347,7 +347,7 @@ class MetadataContainer extends React.Component<
   }
 
   private removeAuthor = async (author: Contributor) => {
-    await this.props.deleteComponent(author.id)
+    await this.props.deleteComponent(author._id)
     this.deselectAuthor()
     if (this.state.addedAuthors.includes(author.userID as string)) {
       const index = this.state.addedAuthors.indexOf(author.userID as string)
@@ -495,14 +495,14 @@ class MetadataContainer extends React.Component<
           buildAuthorPriority(authors),
           null,
           name,
-          invitation.id
+          invitation._id
         )
       })
 
   private buildInvitedAuthorsEmail = (authorInvitationIDs: string[]) => {
     const invitedAuthorsEmail: string[] = []
     for (const invitation of this.state.invitations) {
-      if (authorInvitationIDs.includes(invitation.id)) {
+      if (authorInvitationIDs.includes(invitation._id)) {
         invitedAuthorsEmail.push(invitation.invitedUserEmail)
       }
     }
@@ -544,15 +544,15 @@ class MetadataContainer extends React.Component<
 
     // await Promise.all(
     //   values.grants.map((item: Grant) =>
-    //     this.props.components.saveComponent(this.props.manuscript.id, item)
+    //     this.props.components.saveComponent(this.props.manuscript._id, item)
     //   )
     // )
 
     await this.props.saveComponent({
       ...selectedAuthor,
       ...values,
-      affiliations: values.affiliations.map(item => item.id),
-      // grants: props.values.grants.map(item => item.id),
+      affiliations: values.affiliations.map(item => item._id),
+      // grants: props.values.grants.map(item => item._id),
     })
 
     // this.deselectAuthor()
@@ -613,7 +613,7 @@ class MetadataContainer extends React.Component<
 
   private checkInvitations = (author: Contributor) => {
     for (const invitation of this.state.invitations) {
-      if (invitation.id === author.invitationID) {
+      if (invitation._id === author.invitationID) {
         return !invitation.acceptedAt
       }
     }

@@ -44,7 +44,7 @@ export const Author: React.SFC<AuthorProps> = ({
   selectAuthor,
   showEditButton,
 }) => (
-  <span key={author.id}>
+  <span key={author._id}>
     {showEditButton ? (
       <AuthorsContainer
         onClick={() => {
@@ -60,7 +60,7 @@ export const Author: React.SFC<AuthorProps> = ({
     {affiliations && (
       <AuthorNotes>
         {affiliations.map((affiliation, index) => (
-          <React.Fragment key={affiliation.data.id}>
+          <React.Fragment key={affiliation.data._id}>
             {!!index && ','}
             <AuthorAffiliation href={`#affiliation-${affiliation.ordinal}`}>
               {affiliation.ordinal}

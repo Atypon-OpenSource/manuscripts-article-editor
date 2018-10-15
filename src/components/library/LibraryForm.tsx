@@ -148,7 +148,7 @@ const buildOptions = (data: KeywordsMap) => {
 
   for (const keyword of data.values()) {
     options.push({
-      value: keyword.id,
+      value: keyword._id,
       label: keyword.name,
     })
   }
@@ -159,7 +159,7 @@ const buildOptions = (data: KeywordsMap) => {
 const buildInitialValues = (
   item: BibliographyItem
 ): Partial<BibliographyItem> => ({
-  id: item.id,
+  _id: item._id,
   title: item.title,
   author: item.author,
   keywordIDs: item.keywordIDs,
@@ -264,13 +264,13 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
                         newValue.map(async option => {
                           const existing = keywords.data.get(option.value)
 
-                          if (existing) return existing.id
+                          if (existing) return existing._id
 
                           const keyword = buildKeyword(String(option.label))
 
                           await keywords.create(keyword, projectID)
 
-                          return keyword.id
+                          return keyword._id
                         })
                       )
                     )
@@ -280,7 +280,7 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
                     .filter((id: string) => keywords.data.has(id))
                     .map((id: string) => keywords.data.get(id))
                     .map((item: Keyword) => ({
-                      value: item.id,
+                      value: item._id,
                       label: item.name,
                     }))}
                 />

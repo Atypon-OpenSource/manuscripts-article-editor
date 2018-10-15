@@ -140,7 +140,7 @@ class CommentBody extends React.Component<Props, State> {
               <AnnotationEdit />
             </ActionButton>
             <ActionButton
-              onClick={() => this.confirmThenDeleteComment(comment.id)}
+              onClick={() => this.confirmThenDeleteComment(comment._id)}
             >
               <AnnotationRemove />
             </ActionButton>
@@ -151,7 +151,7 @@ class CommentBody extends React.Component<Props, State> {
               <AnnotationShare />
             </ActionButton>
             {!isReply && (
-              <ActionButton onClick={() => this.createReply(comment.id)}>
+              <ActionButton onClick={() => this.createReply(comment._id)}>
                 <AnnotationReply />
               </ActionButton>
             )}
@@ -219,7 +219,7 @@ class CommentBody extends React.Component<Props, State> {
 
     const user = getCurrentUser()
 
-    const comment = buildComment(user.id, id)
+    const comment = buildComment(user._id, id)
 
     await saveComponent(comment)
   }

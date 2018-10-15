@@ -379,14 +379,17 @@ export class Menu {
         this.view.dispatch(
           this.view.state.tr.delete($pos.before(), $pos.after())
         )
+
         break
       }
 
       default: {
         const pos = this.getPos()
+
         this.view.dispatch(
           this.view.state.tr.delete(pos, pos + this.node.nodeSize)
         )
+
         break
       }
     }

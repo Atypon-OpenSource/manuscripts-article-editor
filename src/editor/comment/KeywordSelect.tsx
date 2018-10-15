@@ -68,7 +68,7 @@ export class KeywordSelect extends React.Component<Props, State> {
           const keyword: Keyword = await this.props.handleCreate(inputValue)
 
           const option: OptionType = {
-            value: keyword.id,
+            value: keyword._id,
             label: keyword.name,
           }
 
