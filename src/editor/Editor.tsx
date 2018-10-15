@@ -74,6 +74,7 @@ export interface EditorProps {
   getCurrentUser: () => UserProfile
   history: History
   handleSectionChange: (section: string) => void
+  getPreviousManuscript: (manuscript: Manuscript) => Manuscript
 }
 
 interface State {

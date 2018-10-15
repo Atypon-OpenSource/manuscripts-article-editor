@@ -38,6 +38,7 @@ export interface MenusProps {
   exportManuscript: ExportManuscript
   deleteComponent: DeleteComponent
   history: History
+  getPreviousManuscript: (manuscript: Manuscript) => Manuscript
 }
 
 const menus = (props: MenusProps): MenuItem[] => [
@@ -123,7 +124,13 @@ const menus = (props: MenusProps): MenuItem[] => [
           ) &&
           props
             .deleteComponent(props.manuscript.id)
-            .then(() => props.history.push('/')),
+            .then(() =>
+              props.history.push(
+                `/projects/${props.manuscript.containerID}/manuscripts/${
+                  props.getPreviousManuscript(props.manuscript).id
+                }`
+              )
+            ),
       },
     ],
   },

@@ -254,6 +254,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               tabindex: '2',
             }}
             handleSectionChange={this.handleSectionChange}
+            getPreviousManuscript={this.getPreviousManuscript}
           />
 
           <Prompt when={dirty} message={() => false} />
@@ -500,6 +501,16 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     this.props.history.push(
       `/projects/${projectID}/manuscripts/${manuscriptID}`
     )
+  }
+
+  private getPreviousManuscript = (manuscript: Manuscript) => {
+    const index = this.state
+      .manuscripts!.map(manuscript => manuscript.id)
+      .indexOf(manuscript.id)
+
+    if (index > 0) return this.state.manuscripts![index - 1]
+    else if (index === 0) return this.state.manuscripts![1]
+    else return this.state.manuscripts![0]
   }
 
   private createCitationProcessor = async (manuscript: Manuscript) => {
