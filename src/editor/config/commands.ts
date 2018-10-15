@@ -123,7 +123,7 @@ export const insertInlineEquation = (
     .setMeta(componentsKey, { [INSERT]: [inlineMathFragment] })
     .replaceSelectionWith(schema.nodes.inline_equation.create())
 
-  dispatch(tr.setSelection(NodeSelection.create(tr.doc, tr.selection.from)))
+  dispatch(tr.setSelection(NodeSelection.create(tr.doc, tr.selection.from - 1)))
 
   return true
 }
