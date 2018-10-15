@@ -405,20 +405,17 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private deleteManuscript = async (id: string) => {
-    const { project, manuscripts, manuscript } = this.state
-    const index = manuscripts!
-      .map(manuscript => manuscript.id)
-      .indexOf(manuscript!.id)
+    const { project, manuscripts } = this.state
+    const index = manuscripts!.findIndex(item => item.id === id)
 
-    let prevIndex: number
-    if (index > 0) prevIndex = index - 1
-    else if (index === 0) prevIndex = 1
-    else prevIndex = 0
+    const prevManuscript: Manuscript = manuscripts![
+      index - 1 >= 0 ? index - 1 : 1
+    ]
 
-    await this.deleteComponent(id).then(() =>
-      this.props.history.push(
-        `/projects/${project!.id}/manuscripts/${manuscripts![prevIndex].id}`
-      )
+    await this.deleteComponent(id)
+
+    this.props.history.push(
+      `/projects/${project!.id}/manuscripts/${prevManuscript.id}`
     )
   }
 
