@@ -130,7 +130,7 @@ export class CommentList extends React.Component<Props> {
           return (
             <CommentTarget key={target} isSelected={isSelected}>
               {commentData.map(({ comment, children }) => (
-                <CommentThread key={comment.id}>
+                <CommentThread key={comment._id}>
                   <Container isSelected={isSelected}>
                     <CommentHeader>
                       <CommentUser user={getUser(comment.userID)} />
@@ -151,7 +151,7 @@ export class CommentList extends React.Component<Props> {
                   </Container>
 
                   {children.map(comment => (
-                    <Reply key={comment.id}>
+                    <Reply key={comment._id}>
                       <CommentHeader>
                         <CommentUser user={getUser(comment.userID)} />
                         <LightRelativeDate createdAt={comment.createdAt} />

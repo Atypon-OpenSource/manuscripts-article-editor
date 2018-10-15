@@ -28,12 +28,10 @@ const createProjectDump = (
     .filter((component: JsonComponent) => {
       return (
         component.objectType !== ObjectTypes.MANUSCRIPT ||
-        component.id === manuscriptID
+        component._id === manuscriptID
       )
     })
     .map((component: JsonComponent) => {
-      component._id = component._id || component.id
-      delete component.id
       delete component._attachments
       delete component.attachment
       delete component.src

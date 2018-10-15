@@ -26,7 +26,7 @@ interface State {
 
 /*const sources = [
   {
-    id: 'library',
+    _id: 'library',
     name: 'Library',
   },
 ]*/
@@ -100,10 +100,10 @@ class LibraryPickerContainer extends React.Component<
     // TODO: is this enough/needed?
     const containingObject = selection.$anchor.parent
 
-    const citation = buildCitation(containingObject.attrs.id, item.id)
+    const citation = buildCitation(containingObject.attrs.id, item._id)
 
     const citationNode = schema.nodes.citation.create({
-      rid: citation.id,
+      rid: citation._id,
     })
 
     // TODO: copy the bibliography item into the manuscript?

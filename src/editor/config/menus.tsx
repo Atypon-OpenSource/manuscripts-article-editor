@@ -122,7 +122,7 @@ const menus = (props: MenusProps): MenuItem[] => [
               : `Are you sure you wish to delete this untitled manuscript?`
           ) &&
           props
-            .deleteComponent(props.manuscript.id)
+            .deleteComponent(props.manuscript._id)
             .then(() => props.history.push('/')),
       },
     ],

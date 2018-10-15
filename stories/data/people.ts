@@ -4,7 +4,7 @@ import imageFile from '../assets/melnitz.jpg'
 
 export const people: UserProfile[] = [
   {
-    id: 'user-1',
+    _id: 'user-1',
     userID: 'user_1',
     objectType: 'MPUserProfile',
     bibliographicName: {
@@ -17,7 +17,7 @@ export const people: UserProfile[] = [
     image: imageFile,
   },
   {
-    id: 'user-2',
+    _id: 'user-2',
     userID: 'user_2',
     objectType: 'MPUserProfile',
     bibliographicName: {
@@ -30,7 +30,7 @@ export const people: UserProfile[] = [
     image: null,
   },
   {
-    id: 'user-3',
+    _id: 'user-3',
     userID: 'user_3',
     objectType: 'MPUserProfile',
     bibliographicName: {

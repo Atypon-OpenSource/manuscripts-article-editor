@@ -127,9 +127,9 @@ const ProjectsSidebar: React.SFC<Props> = ({
       </SidebarAction>
       <SidebarContent>
         {projects.sort(projectListCompare).map(project => (
-          <SidebarProject key={project.id}>
+          <SidebarProject key={project._id}>
             <SidebarProjectHeader>
-              <ProjectTitle to={`/projects/${project.id}`}>
+              <ProjectTitle to={`/projects/${project._id}`}>
                 {project.title ? (
                   <Title value={project.title} />
                 ) : (
@@ -140,9 +140,9 @@ const ProjectsSidebar: React.SFC<Props> = ({
             </SidebarProjectHeader>
             <ProjectContributors>
               {getCollaborators(project).map((collaborator, index) => (
-                <React.Fragment key={collaborator.id}>
+                <React.Fragment key={collaborator._id}>
                   {!!index && ', '}
-                  <ProjectContributor key={collaborator.id}>
+                  <ProjectContributor key={collaborator._id}>
                     {initials(collaborator.bibliographicName)}{' '}
                     {collaborator.bibliographicName.family}
                   </ProjectContributor>

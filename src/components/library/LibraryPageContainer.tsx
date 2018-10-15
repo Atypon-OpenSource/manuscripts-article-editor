@@ -64,14 +64,14 @@ class LibraryPageContainer extends React.Component<Props, State> {
 
     return (
       <Page project={project}>
-        <LibrarySidebar projectID={project.id} sources={sources} />
+        <LibrarySidebar projectID={project._id} sources={sources} />
 
         {source === 'library' ? (
           <LibraryContainer
             library={library}
             handleSave={this.handleSave}
             handleDelete={this.handleDelete}
-            projectID={project.id}
+            projectID={project._id}
           />
         ) : (
           <LibrarySourceContainer
@@ -147,14 +147,14 @@ class LibraryPageContainer extends React.Component<Props, State> {
     })
   }
 
-  private handleDelete = async (item: BibliographyItem) => {
-    await this.props.components.deleteComponent(item.id)
+  private handleDelete = async (item: BibliographyItem): Promise<string> => {
+    await this.props.components.deleteComponent(item._id)
 
     this.setState({
       item: null,
     })
 
-    return item.id
+    return item._id
   }
 
   // TODO: move this to source definition

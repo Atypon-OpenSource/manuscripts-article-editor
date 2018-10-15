@@ -72,7 +72,7 @@ export const createEditableKeywordView = (
 
   const updateContents = () => {
     const options: OptionsType<OptionType> = getKeywords().map(item => ({
-      value: item.id,
+      value: item._id,
       label: item.name,
     }))
 

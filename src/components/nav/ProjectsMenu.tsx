@@ -102,12 +102,12 @@ class ProjectsMenu extends React.Component<
     project.updatedAt = now
     project.sessionID = sessionID
 
-    const projectID = project.id
+    const projectID = project._id
 
     await collection.insert(project)
 
     const manuscript = buildManuscript()
-    const manuscriptID = manuscript.id
+    const manuscriptID = manuscript._id
 
     const contributor = buildContributor(
       user.bibliographicName,
@@ -132,7 +132,7 @@ class ProjectsMenu extends React.Component<
   }
 
   private acceptInvitation = async (invitation: ProjectInvitation) => {
-    await acceptProjectInvitation(invitation.id)
+    await acceptProjectInvitation(invitation._id)
 
     const acceptedInvitations = this.state.acceptedInvitations.concat(
       invitation.projectID
@@ -140,11 +140,11 @@ class ProjectsMenu extends React.Component<
 
     this.setState({ acceptedInvitations })
 
-    this.props.removeInvitationData(invitation.id)
+    this.props.removeInvitationData(invitation._id)
   }
 
   private rejectInvitation = async (invitation: ProjectInvitation) => {
-    await rejectProjectInvitation(invitation.id)
+    await rejectProjectInvitation(invitation._id)
 
     const rejectedInvitations = this.state.rejectedInvitations.concat(
       invitation.projectID
@@ -152,7 +152,7 @@ class ProjectsMenu extends React.Component<
 
     this.setState({ rejectedInvitations })
 
-    this.props.removeInvitationData(invitation.id)
+    this.props.removeInvitationData(invitation._id)
   }
 }
 

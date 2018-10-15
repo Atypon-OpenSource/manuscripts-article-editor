@@ -38,7 +38,11 @@ class AuthorRemoveButton extends React.Component<Props> {
       <Manager>
         <Reference>
           {({ ref }) => (
-            <RemoveButton onClick={this.openPopper} innerRef={ref}>
+            <RemoveButton
+              onClick={this.openPopper}
+              // @ts-ignore: styled
+              ref={ref}
+            >
               <VerticalEllipsis color={'#7fb5d5'} />
             </RemoveButton>
           )}

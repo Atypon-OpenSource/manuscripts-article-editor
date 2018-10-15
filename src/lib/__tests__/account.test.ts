@@ -13,7 +13,7 @@ const schema = {
   version: 0,
   type: 'object',
   properties: {
-    id: {
+    _id: {
       type: 'string',
       primary: true,
     },

@@ -3,6 +3,7 @@ import {
   RxAttachment,
   RxAttachmentCreator,
   RxCollection,
+  RxCollectionCreator,
   RxDocument,
 } from 'rxdb'
 import config from '../config'
@@ -58,9 +59,17 @@ export const withComponents = <T extends {}>(
 )
 
 class ComponentsProvider extends DataProvider {
-  protected options = {
+  protected options: RxCollectionCreator = {
     name: 'projects',
     schema: schema.projects,
+    migrationStrategies: {
+      // tslint:disable-next-line:no-any
+      1: (doc: any) => {
+        doc._id = doc.id
+        delete doc.id
+        return doc
+      },
+    },
   }
 
   protected path = config.buckets.projects
@@ -112,7 +121,7 @@ class ComponentsProvider extends DataProvider {
 
     const now = timestamp()
 
-    const prev = await collection.findOne({ id: component.id }).exec()
+    const prev = await collection.findOne({ _id: component._id }).exec()
 
     if (prev) {
       const result = await atomicUpdate<T>(prev as RxDocument<T>, component)
@@ -157,14 +166,14 @@ class ComponentsProvider extends DataProvider {
       throw new Error('Not found')
     }
 
-    return doc.remove().then(() => doc.id)
+    return doc.remove().then(() => doc._id)
 
     // return doc
     //   .atomicUpdate((doc: ComponentDocument) => {
     //     doc._data._deleted = true
     //   })
     //   .then(doc => {
-    //     return doc.id
+    //     return doc._id
     //   })
   }
 

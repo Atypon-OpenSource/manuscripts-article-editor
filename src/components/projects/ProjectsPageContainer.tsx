@@ -15,11 +15,7 @@ import timestamp from '../../lib/timestamp'
 import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
 import { getComponentFromDoc } from '../../transformer/decode'
-import {
-  PROJECT,
-  PROJECT_INVITATION,
-  USER_PROFILE,
-} from '../../transformer/object-types'
+import { PROJECT, USER_PROFILE } from '../../transformer/object-types'
 import {
   Attachments,
   Project,
@@ -80,7 +76,7 @@ class ProjectsPageContainer extends React.Component<
       window.localStorage.removeItem('invitationToken')
       const invitation = await this.loadInvitation(invitationToken)
       if (invitation) {
-        await this.acceptInvitation(invitation.id)
+        await this.acceptInvitation(invitation._id)
           .then(() => this.setState({ invitationAccepted: true }))
           .catch(() => this.setState({ invitationAccepted: false }))
       } else {
@@ -187,12 +183,12 @@ class ProjectsPageContainer extends React.Component<
     project.updatedAt = now
     project.sessionID = sessionID
 
-    const projectID = project.id
+    const projectID = project._id
 
     await collection.insert(project)
 
     const manuscript = buildManuscript()
-    const manuscriptID = manuscript.id
+    const manuscriptID = manuscript._id
 
     const contributor = buildContributor(
       user.bibliographicName,
@@ -218,10 +214,7 @@ class ProjectsPageContainer extends React.Component<
 
   private loadInvitation = (invitationId: string) =>
     this.getCollection()
-      .findOne({
-        objectType: PROJECT_INVITATION,
-        id: invitationId,
-      })
+      .findOne(invitationId)
       .exec()
       .then(invitation => {
         if (invitation) {
@@ -256,7 +249,7 @@ class ProjectsPageContainer extends React.Component<
   //     AnyComponent
   //   >
   //
-  //   const project = doc.id
+  //   const project = doc._id
   //
   //   // TODO: just set the _deleted property
   //

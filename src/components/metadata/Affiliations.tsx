@@ -24,7 +24,7 @@ export const Affiliations: React.SFC<Props> = ({ affiliations }) => (
   <Container>
     <tbody>
       {Array.from(affiliations.values()).map((affiliation, index) => (
-        <tr key={affiliation.id}>
+        <tr key={affiliation._id}>
           <Header>{index + 1}</Header>
           <td>{affiliation.name}</td>
         </tr>

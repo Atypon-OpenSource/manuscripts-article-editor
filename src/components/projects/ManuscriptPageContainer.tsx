@@ -376,7 +376,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   // FIXME: this shouldn't need a project ID
   private saveProject = async (project: Project) => {
     await this.props.components.saveComponent(project, {
-      projectID: project.id,
+      projectID: project._id,
     })
   }
 
@@ -429,7 +429,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const user = this.props.user.data as UserProfile
 
     const manuscript = buildManuscript()
-    const manuscriptID = manuscript.id
+    const manuscriptID = manuscript._id
 
     const contributor = buildContributor(
       user.bibliographicName,
@@ -477,7 +477,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     for (const component of components) {
       if (component.objectType === ObjectTypes.MANUSCRIPT) {
-        component.id = manuscriptID
+        component._id = manuscriptID
       }
 
       const { attachment, ...data } = component as Partial<
@@ -491,7 +491,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       if (attachment) {
         await this.props.components.putAttachment(
-          result.id,
+          result._id,
           attachment as RxAttachmentCreator
         )
       }
@@ -581,7 +581,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         const keywords = new Map()
 
         for (const doc of docs) {
-          keywords.set(doc.id, doc.toJSON())
+          keywords.set(doc._id, doc.toJSON())
         }
 
         this.setState({ keywords })
@@ -599,7 +599,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           )
 
           const users = items.reduce((output, user) => {
-            output.set(user.id, user)
+            output.set(user._id, user)
             return output
           }, new Map())
 
@@ -646,7 +646,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         const library: Map<string, BibliographyItem> = new Map()
 
         items.sort(newestFirst).forEach(item => {
-          library.set(item.id, item.toJSON())
+          library.set(item._id, item.toJSON())
         })
 
         this.setState({ library })
@@ -671,7 +671,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     // TODO: encode?
 
-    if (!component.id) {
+    if (!component._id) {
       throw new Error('Component ID required')
     }
 
@@ -684,7 +684,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     this.setState({
       componentMap: this.state.componentMap.set(
-        component.id as string,
+        component._id as string,
         component as ComponentWithAttachment
       ),
     })
@@ -702,7 +702,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })) as T & Attachments
 
     if (attachment) {
-      await putAttachment(result.id, attachment as RxAttachmentCreator)
+      await putAttachment(result._id, attachment as RxAttachmentCreator)
     }
 
     return result
@@ -795,7 +795,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         const { componentMap } = this.state
 
-        componentMap.set(component.id, component) // TODO: what if this overlaps with saving?
+        componentMap.set(component._id, component) // TODO: what if this overlaps with saving?
 
         this.setState({ componentMap })
 
@@ -842,7 +842,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private hasChanged = (component: ComponentObject): boolean => {
-    const previousComponent = this.getComponent(component.id) as ComponentObject
+    const previousComponent = this.getComponent(
+      component._id
+    ) as ComponentObject
 
     // TODO: return false if the previous component was a placeholder element?
 
@@ -905,7 +907,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           ? 'document'
           : 'data'
 
-        output[type].add(component.id)
+        output[type].add(component._id)
       }
     }
 
@@ -933,7 +935,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       for (const component of encodedComponentMap.values()) {
         if (this.hasChanged(component)) {
           changedComponents.push(component)
-          componentMap.set(component.id, component)
+          componentMap.set(component._id, component)
         }
       }
 

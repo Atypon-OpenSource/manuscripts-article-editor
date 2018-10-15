@@ -3,10 +3,10 @@ import { AnyComponent } from '../../../types/components'
 import { Decoder } from '../../decode'
 
 export const createTestComponentMap = (): Map<string, AnyComponent> => {
-  const componentMap = new Map()
+  const componentMap: Map<string, AnyComponent> = new Map()
 
-  for (const component of projectDump.data) {
-    componentMap.set(component.id, component)
+  for (const component of projectDump.data as AnyComponent[]) {
+    componentMap.set(component._id, component)
   }
 
   return componentMap

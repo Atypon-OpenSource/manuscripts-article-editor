@@ -26,7 +26,7 @@ class PlaceholderElement extends Block {
   protected createElement() {
     this.element = document.createElement(this.elementType)
     this.element.className = 'block'
-    this.element.id = this.node.attrs.id
+    this.element.setAttribute('id', this.node.attrs.id)
     this.dom.appendChild(this.element)
 
     const content = document.createElement('div')

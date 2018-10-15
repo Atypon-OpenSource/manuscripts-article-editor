@@ -27,7 +27,7 @@ class TableElement extends Block {
   protected createElement() {
     this.contentDOM = document.createElement('figure')
     this.contentDOM.classList.add('block')
-    this.contentDOM.id = this.node.attrs.id
+    this.contentDOM.setAttribute('id', this.node.attrs.id)
     this.contentDOM.setAttribute(
       'data-paragraph-style',
       this.node.attrs.paragraphStyle

@@ -18,7 +18,7 @@ import MenuDropdown from './MenuDropdown'
 import ProjectsMenu from './ProjectsMenu'
 
 export interface InvitationDataProject {
-  id: string
+  _id: string
   title?: string
 }
 
@@ -146,7 +146,7 @@ class ProjectsDropdownButton extends React.Component<
             invitation,
             invitingUserProfile,
             project: {
-              id: invitation.projectID,
+              _id: invitation.projectID,
               title: invitation.projectTitle,
             },
           })
@@ -160,7 +160,7 @@ class ProjectsDropdownButton extends React.Component<
   private removeInvitationData = (id: string) => {
     this.setState({
       invitationsData: this.state.invitationsData!.filter(
-        invitationData => invitationData.invitation.id !== id
+        invitationData => invitationData.invitation._id !== id
       ),
     })
   }

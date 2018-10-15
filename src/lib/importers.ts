@@ -60,11 +60,8 @@ const importProjectBundle = async (result: Blob) => {
 
   const items = doc.data
     .filter(item => !item.bundled)
-    .filter(item => item._id || item.id)
+    .filter(item => item._id)
     .map(item => {
-      item.id = item.id || item._id
-
-      delete item._id
       delete item._rev
       delete item.collection
 
@@ -77,7 +74,7 @@ const importProjectBundle = async (result: Blob) => {
     items
       .filter(componentHasObjectType<Figure>(FIGURE))
       .map(async (item: Figure) => {
-        const filename = generateAttachmentFilename(item.id)
+        const filename = generateAttachmentFilename(item._id)
 
         try {
           item.attachment = {

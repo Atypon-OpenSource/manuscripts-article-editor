@@ -2,7 +2,7 @@ import { Project } from '../../src/types/components'
 
 const projects: Project[] = [
   {
-    id: 'project-1',
+    _id: 'project-1',
     objectType: 'MPProject',
     title: 'An example project',
     createdAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
@@ -13,7 +13,7 @@ const projects: Project[] = [
   },
 
   {
-    id: 'project-2',
+    _id: 'project-2',
     objectType: 'MPProject',
     title: 'Another example project',
     createdAt: Math.floor(new Date('2018-02-22T08:00:00Z').getTime() / 1000),

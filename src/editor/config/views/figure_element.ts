@@ -57,7 +57,7 @@ class FigureElement extends Block {
   protected createElement() {
     this.element = document.createElement(this.elementType)
     this.element.className = 'block'
-    this.element.id = this.node.attrs.id
+    this.element.setAttribute('id', this.node.attrs.id)
     this.element.setAttribute('data-figure-style', this.node.attrs.figureStyle)
 
     this.container = document.createElement('div')
@@ -152,7 +152,7 @@ class FigureElement extends Block {
 
     // IMPORTANT: the array must be cloned here, not modified
     const containedObjectIDs = [...this.node.attrs.containedObjectIDs]
-    containedObjectIDs[index] = figure.id
+    containedObjectIDs[index] = figure._id
 
     this.view.dispatch(
       this.view.state.tr

@@ -63,7 +63,7 @@ export const LibraryItems: React.SFC<LibraryItemsProps> = ({
     <Results>
       {items.map((item: LibraryDocument) => (
         <LibraryItem
-          key={item.id}
+          key={item._id}
           item={item.toJSON()}
           handleSelect={handleSelect}
           hasItem={hasItem}

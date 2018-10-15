@@ -3,7 +3,7 @@ import { CommentAnnotation } from '../../src/types/components'
 
 export const comments: CommentAnnotation[] = [
   {
-    id: 'comment-1',
+    _id: 'comment-1',
     objectType: COMMENT_ANNOTATION,
     containerID: 'project-1',
     manuscriptID: 'manuscript-1',

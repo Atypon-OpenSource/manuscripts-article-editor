@@ -25,7 +25,7 @@ export const OutlineManuscript: React.SFC<Props> = ({
   <Outline>
     <OutlineItem isSelected={false}>
       <OutlineItemLink
-        to={`/projects/${project.id}/manuscripts/${manuscript.id}`}
+        to={`/projects/${project._id}/manuscripts/${manuscript._id}`}
       >
         <OutlineItemArrow>▶</OutlineItemArrow>
 

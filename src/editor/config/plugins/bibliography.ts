@@ -45,7 +45,7 @@ export default (props: EditorProps) => {
       const citations: Citeproc.CitationByIndex = citationNodes
         .map(([node]) => getComponent<Citation>(node.attrs.rid))
         .map((citation: Citation) => ({
-          citationID: citation.id,
+          citationID: citation._id,
           citationItems: citation.embeddedCitationItems.map(
             (citationItem: CitationItem) => ({
               id: citationItem.bibliographyItem,

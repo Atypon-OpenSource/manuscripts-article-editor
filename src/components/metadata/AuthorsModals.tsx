@@ -100,11 +100,11 @@ export const AuthorsModal: React.SFC<AuthorsProps> = ({
     <ModalMain>
       {selectedAuthor && (
         <AuthorForm
-          manuscript={manuscript.id}
+          manuscript={manuscript._id}
           author={selectedAuthor}
           affiliations={affiliations}
           authorAffiliations={
-            authorAffiliations.get(selectedAuthor.id) as AuthorAffiliation[]
+            authorAffiliations.get(selectedAuthor._id) as AuthorAffiliation[]
           }
           handleSave={handleSaveAuthor}
           createAffiliation={createAffiliation}

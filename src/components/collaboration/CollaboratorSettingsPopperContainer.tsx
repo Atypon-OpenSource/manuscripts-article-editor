@@ -41,14 +41,14 @@ class CollaboratorSettingsPopperContainer extends React.Component<Props> {
   private handleUpdateRole = async (selectedRole: string) => {
     const { collaborator, project, openPopper } = this.props
 
-    await updateUserRole(project.id, selectedRole, collaborator.userID)
+    await updateUserRole(project._id, selectedRole, collaborator.userID)
     openPopper()
   }
 
   private handleRemove = async () => {
     const { collaborator, openPopper, project } = this.props
 
-    await updateUserRole(project.id, null, collaborator.userID)
+    await updateUserRole(project._id, null, collaborator.userID)
 
     openPopper()
   }

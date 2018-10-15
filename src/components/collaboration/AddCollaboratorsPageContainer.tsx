@@ -45,16 +45,11 @@ interface State {
   addedUsers: string[]
 }
 
-interface Props {
-  id: string
-}
-
 interface RouteParams {
   projectID: string
 }
 
-type CombinedProps = Props &
-  ComponentsProps &
+type CombinedProps = ComponentsProps &
   RouteComponentProps<RouteParams> &
   UserProps
 
@@ -109,14 +104,14 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     }
 
     if (!isOwner(project, user.data.userID)) {
-      return <Redirect to={`/projects/${project.id}/collaborators`} />
+      return <Redirect to={`/projects/${project._id}/collaborators`} />
     }
 
-    if (!isInvite) {
-      return this.renderAddCollaboratorsPage(project, people, invitations)
-    } else {
+    if (isInvite) {
       return this.renderInviteCollaboratorPage(project)
     }
+
+    return this.renderAddCollaboratorsPage(project, people, invitations)
   }
 
   private renderInviteCollaboratorPage(project: Project) {

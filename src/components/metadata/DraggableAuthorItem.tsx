@@ -156,7 +156,7 @@ const dropTargetSpec: DropTargetSpec<Props & ConnectedProps> = {
   canDrop(props: Props, monitor: DropTargetMonitor) {
     const item = monitor.getItem() as DragSourceProps
 
-    return props.authorItem.id !== item.authorItem.id
+    return props.authorItem._id !== item.authorItem._id
   },
 
   drop(props: Props, monitor: DropTargetMonitor) {
@@ -206,7 +206,7 @@ class AuthorComponent extends React.Component<Props & ConnectedProps, State> {
         {connectDropTarget(
           <div>
             <AuthorItemComponent
-              key={author.id}
+              key={author._id}
               onClick={() => selectAuthor(author)}
               className={this.selectedAuthorClass()}
               opacity={opacity}
@@ -231,14 +231,6 @@ class AuthorComponent extends React.Component<Props & ConnectedProps, State> {
                 <AuthorNameSpace>
                   <AuthorName name={author.bibliographicName} />
                 </AuthorNameSpace>
-                {/*<div>
-                  {affiliations &&
-                    affiliations.map(affiliation => (
-                      <AffiliationName key={affiliation.data.id}>
-                        {affiliation.data.name}
-                      </AffiliationName>
-                    ))}
-                  </div>*/}
               </AuthorMetadata>
 
               <InvitedContainer>
@@ -270,7 +262,7 @@ class AuthorComponent extends React.Component<Props & ConnectedProps, State> {
   private selectedAuthorClass = () => {
     const { selectedAuthor, author } = this.props
 
-    return selectedAuthor && selectedAuthor.id === author.id ? 'active' : ''
+    return selectedAuthor && selectedAuthor._id === author._id ? 'active' : ''
   }
 
   private topPreviewStyles = (

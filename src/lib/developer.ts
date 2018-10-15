@@ -1,5 +1,5 @@
 import { USER_PROFILE } from '../transformer/object-types'
-import { BibliographicName } from '../types/components'
+import { BibliographicName, UserProfile } from '../types/components'
 import { databaseCreator } from './db'
 import token from './token'
 
@@ -19,10 +19,12 @@ export const createUserProfile = /* istanbul ignore next */ async (
 
   const db = await databaseCreator
 
-  await db.projects.upsert({
-    id: `${USER_PROFILE}:${userId.replace('_', '|')}`,
+  const profile: Partial<UserProfile> = {
+    _id: `${USER_PROFILE}:${userId.replace('_', '|')}`,
     objectType: USER_PROFILE,
     userID: userId,
-    bibliographicName,
-  })
+    bibliographicName: bibliographicName as BibliographicName,
+  }
+
+  await db.projects.upsert(profile)
 }

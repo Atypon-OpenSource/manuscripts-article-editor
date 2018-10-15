@@ -40,7 +40,7 @@ class CrossReferencePickerContainer extends React.Component<
     )
 
     const crossReferenceNode = schema.nodes.cross_reference.create({
-      rid: auxiliaryObjectReference.id,
+      rid: auxiliaryObjectReference._id,
     })
 
     const pos = selection.to

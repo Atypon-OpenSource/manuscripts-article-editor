@@ -118,7 +118,7 @@ export const Page: React.SFC<Props> = ({ children, project }) => (
 
     {project && (
       <ViewsBar>
-        <MenuBar projectID={project.id}>
+        <MenuBar projectID={project._id}>
           <Tip title={'Home'} placement={'right'}>
             <NavIconContainer>
               <NavIcon />
@@ -132,7 +132,7 @@ export const Page: React.SFC<Props> = ({ children, project }) => (
         <IconBar>
           <Tip title={'Edit'} placement={'right'}>
             <ViewLink
-              to={`/projects/${project.id}`}
+              to={`/projects/${project._id}`}
               isActive={(match, location) =>
                 /^\/projects\/.+?\/manuscripts\/.+/.test(location.pathname)
               }
@@ -142,13 +142,16 @@ export const Page: React.SFC<Props> = ({ children, project }) => (
           </Tip>
 
           <Tip title={'Library'} placement={'right'}>
-            <ViewLink to={`/projects/${project.id}/library`} exact={true}>
+            <ViewLink to={`/projects/${project._id}/library`} exact={true}>
               <ProjectLibrary />
             </ViewLink>
           </Tip>
 
           <Tip title={'Collaborators'} placement={'right'}>
-            <ViewLink to={`/projects/${project.id}/collaborators`} exact={true}>
+            <ViewLink
+              to={`/projects/${project._id}/collaborators`}
+              exact={true}
+            >
               <ProjectContributors />
             </ViewLink>
           </Tip>

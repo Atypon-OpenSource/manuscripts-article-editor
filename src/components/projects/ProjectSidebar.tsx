@@ -74,9 +74,9 @@ const ProjectSidebar: React.SFC<Props> = ({
       </SidebarHeader>
       <SidebarContent>
         {manuscripts.map(manuscript => (
-          <SidebarManuscript key={manuscript.id}>
+          <SidebarManuscript key={manuscript._id}>
             <ManuscriptTitle
-              to={`/projects/${project.id}/manuscripts/${manuscript.id}`}
+              to={`/projects/${project._id}/manuscripts/${manuscript._id}`}
             >
               <Title value={manuscript.title || 'Untitled Manuscript'} />
             </ManuscriptTitle>
