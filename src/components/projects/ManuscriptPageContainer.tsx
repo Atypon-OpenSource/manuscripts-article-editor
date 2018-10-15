@@ -236,6 +236,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             getManuscript={this.getManuscript}
             saveManuscript={this.saveManuscript}
             addManuscript={this.addManuscript}
+            deleteManuscript={this.deleteManuscript}
             exportManuscript={this.exportManuscript}
             importManuscript={this.importManuscript}
             getCurrentUser={this.getCurrentUser}
@@ -254,7 +255,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               tabindex: '2',
             }}
             handleSectionChange={this.handleSectionChange}
-            getPreviousManuscript={this.getPreviousManuscript}
           />
 
           <Prompt when={dirty} message={() => false} />
@@ -404,6 +404,24 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
+  private deleteManuscript = async (id: string) => {
+    const { project, manuscripts, manuscript } = this.state
+    const index = manuscripts!
+      .map(manuscript => manuscript.id)
+      .indexOf(manuscript!.id)
+
+    let prevIndex: number
+    if (index > 0) prevIndex = index - 1
+    else if (index === 0) prevIndex = 1
+    else prevIndex = 0
+
+    await this.deleteComponent(id).then(() =>
+      this.props.history.push(
+        `/projects/${project!.id}/manuscripts/${manuscripts![prevIndex].id}`
+      )
+    )
+  }
+
   private shouldUpdateCitationProcessor = (
     manuscript: Manuscript,
     previousManuscript: Manuscript
@@ -501,16 +519,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     this.props.history.push(
       `/projects/${projectID}/manuscripts/${manuscriptID}`
     )
-  }
-
-  private getPreviousManuscript = (manuscript: Manuscript) => {
-    const index = this.state
-      .manuscripts!.map(manuscript => manuscript.id)
-      .indexOf(manuscript.id)
-
-    if (index > 0) return this.state.manuscripts![index - 1]
-    else if (index === 0) return this.state.manuscripts![1]
-    else return this.state.manuscripts![0]
   }
 
   private createCitationProcessor = async (manuscript: Manuscript) => {

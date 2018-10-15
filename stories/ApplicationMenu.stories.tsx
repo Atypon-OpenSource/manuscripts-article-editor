@@ -20,7 +20,7 @@ const props: MenusProps = {
   importManuscript: action('import manuscript'),
   exportManuscript: action('export manuscript'),
   deleteComponent: action('delete component'),
-  getPreviousManuscript: action('get previous manuscript'),
+  deleteManuscript: action('delete manuscript'),
   manuscript,
   history,
 }

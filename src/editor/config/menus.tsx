@@ -34,11 +34,11 @@ import schema from './schema'
 export interface MenusProps {
   manuscript: Manuscript
   addManuscript?: () => void
+  deleteManuscript: (id: string) => Promise<void>
   importManuscript: ImportManuscript
   exportManuscript: ExportManuscript
   deleteComponent: DeleteComponent
   history: History
-  getPreviousManuscript: (manuscript: Manuscript) => Manuscript
 }
 
 const menus = (props: MenusProps): MenuItem[] => [
@@ -121,16 +121,7 @@ const menus = (props: MenusProps): MenuItem[] => [
                   props.manuscript.title
                 )}"?`
               : `Are you sure you wish to delete this untitled manuscript?`
-          ) &&
-          props
-            .deleteComponent(props.manuscript.id)
-            .then(() =>
-              props.history.push(
-                `/projects/${props.manuscript.containerID}/manuscripts/${
-                  props.getPreviousManuscript(props.manuscript).id
-                }`
-              )
-            ),
+          ) && props.deleteManuscript(props.manuscript.id),
       },
     ],
   },

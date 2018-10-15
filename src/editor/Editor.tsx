@@ -61,6 +61,7 @@ export interface EditorProps {
   getManuscript: () => Manuscript
   saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
   addManuscript?: () => Promise<void>
+  deleteManuscript: (id: string) => Promise<void>
   importManuscript: ImportManuscript
   exportManuscript: ExportManuscript
   locale: string
@@ -74,7 +75,6 @@ export interface EditorProps {
   getCurrentUser: () => UserProfile
   history: History
   handleSectionChange: (section: string) => void
-  getPreviousManuscript: (manuscript: Manuscript) => Manuscript
 }
 
 interface State {
