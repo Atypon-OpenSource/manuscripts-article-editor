@@ -8,7 +8,7 @@ import ProjectContributors from '../icons/project-contributors'
 import ProjectEdit from '../icons/project-edit'
 import ProjectLibrary from '../icons/project-library'
 import { GlobalStyle, styled, ThemedProps } from '../theme'
-import { Project } from '../types/components'
+import { Project } from '../types/models'
 import MenuBar from './nav/MenuBar'
 import { Tip } from './Tip'
 

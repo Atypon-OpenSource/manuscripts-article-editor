@@ -4,8 +4,8 @@ import { history } from 'prosemirror-history'
 import { tableEditing } from 'prosemirror-tables'
 import { EditorProps } from '../../Editor'
 import bibliography from './bibliography'
-import components from './components'
 import elements from './elements'
+import models from './models'
 import objects from './objects'
 import paragraphs from './paragraphs'
 import persist from './persist'
@@ -25,7 +25,7 @@ export default (props: EditorProps) => [
   dropCursor(),
   gapCursor(),
   history(),
-  components(props), // NOTE: this should come first
+  models(props), // NOTE: this should come first
   elements(),
   persist(),
   sections(),

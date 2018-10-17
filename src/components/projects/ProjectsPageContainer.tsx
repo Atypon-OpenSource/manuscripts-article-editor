@@ -12,21 +12,16 @@ import {
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/sessionID'
 import timestamp from '../../lib/timestamp'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { getComponentFromDoc } from '../../transformer/decode'
+import { getModelFromDoc } from '../../transformer/decode'
 import { PROJECT, USER_PROFILE } from '../../transformer/object-types'
 import {
   Attachments,
   Project,
   ProjectInvitation,
   UserProfile,
-} from '../../types/components'
-import {
-  AddProject,
-  // RemoveProject,
-  // UpdateProject,
-} from '../../types/project'
+} from '../../types/models'
 import AcceptInvitationMessages from '../collaboration/AcceptInvitationMessages'
 import { Main, Page } from '../Page'
 import { ProjectsPage } from './ProjectsPage'
@@ -57,7 +52,7 @@ interface State {
 }
 
 class ProjectsPageContainer extends React.Component<
-  UserProps & ComponentsProps & RouteComponentProps<{}>,
+  UserProps & ModelsProps & RouteComponentProps<{}>,
   State
 > {
   public state: Readonly<State> = {
@@ -70,7 +65,7 @@ class ProjectsPageContainer extends React.Component<
 
   public async componentDidMount() {
     this.subs.push(this.loadUserMap())
-    this.subs.push(this.loadComponents())
+    this.subs.push(this.loadProjects())
     const invitationToken = window.localStorage.getItem('invitationToken')
     if (invitationToken) {
       window.localStorage.removeItem('invitationToken')
@@ -125,7 +120,7 @@ class ProjectsPageContainer extends React.Component<
     ].filter(collaborator => collaborator) as UserProfile[]
   }
 
-  private loadComponents = () => {
+  private loadProjects = () => {
     const collection = this.getCollection()
 
     return collection
@@ -134,9 +129,7 @@ class ProjectsPageContainer extends React.Component<
         const projects: Project[] = []
 
         for (const doc of docs) {
-          const component = doc.toJSON()
-
-          projects.push(component)
+          projects.push(doc.toJSON())
         }
 
         this.setState({ projects })
@@ -150,7 +143,7 @@ class ProjectsPageContainer extends React.Component<
       .$.subscribe(
         async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
           const users = await Promise.all(
-            docs.map(doc => getComponentFromDoc<UserProfile>(doc))
+            docs.map(doc => getModelFromDoc<UserProfile>(doc))
           )
 
           const userMap = users.reduce((output, user) => {
@@ -163,11 +156,11 @@ class ProjectsPageContainer extends React.Component<
       )
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   // TODO: catch and handle errors
-  private addProject: AddProject = async () => {
+  private addProject = async () => {
     // TODO: open up the template modal
 
     const user = this.props.user.data as UserProfile
@@ -197,12 +190,12 @@ class ProjectsPageContainer extends React.Component<
       user.userID
     )
 
-    await this.props.components.saveComponent(contributor, {
+    await this.props.models.saveModel(contributor, {
       manuscriptID,
       projectID,
     })
 
-    await this.props.components.saveComponent(manuscript, {
+    await this.props.models.saveModel(manuscript, {
       manuscriptID,
       projectID,
     })
@@ -227,40 +220,6 @@ class ProjectsPageContainer extends React.Component<
       alert('Invitation not found')
     })
   }
-
-  // TODO: catch and handle errors
-  // private updateProject: UpdateProject = (doc, data) => {
-  //   doc
-  //     .update({
-  //       $set: data,
-  //     })
-  //     .then(() => {
-  //       console.log('saved') // tslint:disable-line
-  //     })
-  //     .catch((error: RxError) => {
-  //       console.error(error) // tslint:disable-line
-  //     })
-  // }
-  //
-  // private removeProject: RemoveProject = doc => event => {
-  //   event.preventDefault()
-  //
-  //   const collection = this.props.components.collection as RxCollection<
-  //     AnyComponent
-  //   >
-  //
-  //   const project = doc._id
-  //
-  //   // TODO: just set the _deleted property
-  //
-  //   doc.remove().then(() =>
-  //     collection
-  //       .find({
-  //         project,
-  //       })
-  //       .remove()
-  //   )
-  // }
 }
 
-export default withComponents(withUser(ProjectsPageContainer))
+export default withModels(withUser(ProjectsPageContainer))

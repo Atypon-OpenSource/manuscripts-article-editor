@@ -1,9 +1,9 @@
 import { RxDocument } from 'rxdb'
-import { Component } from '../types/components'
+import { Model } from '../types/models'
 import sessionID from './sessionID'
 import timestamp from './timestamp'
 
-export const prepareUpdate = <T extends Component>(
+export const prepareUpdate = <T extends Model>(
   data: Partial<T>
 ): Partial<T> => {
   // https://github.com/Microsoft/TypeScript/pull/13288
@@ -17,7 +17,7 @@ export const prepareUpdate = <T extends Component>(
   }
 }
 
-export const atomicUpdate = async <T extends Component>(
+export const atomicUpdate = async <T extends Model>(
   prev: RxDocument<T>,
   data: Partial<T>
 ): Promise<RxDocument<T>> => {

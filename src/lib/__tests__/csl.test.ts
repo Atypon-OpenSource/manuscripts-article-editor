@@ -1,5 +1,5 @@
 import { BIBLIOGRAPHIC_NAME } from '../../transformer/object-types'
-import { BibliographyItem } from '../../types/components'
+import { BibliographyItem } from '../../types/models'
 import {
   convertBibliographyItemToData,
   convertDataToBibliographyItem,

@@ -1,8 +1,8 @@
-import { ComponentMap } from '../../types/components'
+import { Model } from '../../types/models'
 import { ProjectDump } from '../importers'
 
-export const buildComponentMap = (doc: ProjectDump): ComponentMap => {
-  const output: ComponentMap = new Map()
+export const buildModelMap = (doc: ProjectDump): Map<string, Model> => {
+  const output: Map<string, Model> = new Map()
 
   doc.data.forEach(item => {
     output.set(item._id, item)

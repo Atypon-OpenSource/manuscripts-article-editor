@@ -1,6 +1,6 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
-import { Citation, CitationItem } from '../../../types/components'
+import { Citation, CitationItem } from '../../../types/models'
 import { EditorProps } from '../../Editor'
 import { getChildOfType } from '../../lib/utils'
 
@@ -9,7 +9,7 @@ type NodesWithPositions = Array<[ProsemirrorNode, number]>
 export default (props: EditorProps) => {
   const {
     getCitationProcessor,
-    getComponent,
+    getModel,
     getLibraryItem,
     getManuscript,
   } = props
@@ -37,13 +37,13 @@ export default (props: EditorProps) => {
         ([node]) =>
           node.attrs.rid &&
           node.attrs.rid !== 'null' &&
-          getComponent<Citation>(node.attrs.rid)
+          getModel<Citation>(node.attrs.rid)
       )
 
       // TODO: handle link citations
       // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/156
       const citations: Citeproc.CitationByIndex = citationNodes
-        .map(([node]) => getComponent<Citation>(node.attrs.rid))
+        .map(([node]) => getModel<Citation>(node.attrs.rid))
         .map((citation: Citation) => ({
           citationID: citation._id,
           citationItems: citation.embeddedCitationItems.map(

@@ -9,7 +9,7 @@ import {
   Manuscript,
   Project,
   UserProfile,
-} from '../../types/components'
+} from '../../types/models'
 import {
   AddAuthorsPage,
   InviteCollaboratorsModal,

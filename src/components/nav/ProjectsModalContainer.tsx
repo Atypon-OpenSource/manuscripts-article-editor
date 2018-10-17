@@ -11,12 +11,11 @@ import {
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/sessionID'
 import timestamp from '../../lib/timestamp'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { getComponentFromDoc } from '../../transformer/decode'
+import { getModelFromDoc } from '../../transformer/decode'
 import { PROJECT, USER_PROFILE } from '../../transformer/object-types'
-import { Attachments, Project, UserProfile } from '../../types/components'
-import { AddProject } from '../../types/project'
+import { Attachments, Project, UserProfile } from '../../types/models'
 import ProjectsSidebar from '../projects/ProjectsSidebar'
 
 export interface ProjectInfo extends Partial<Project> {
@@ -28,7 +27,7 @@ interface State {
   userMap: Map<string, UserProfile>
 }
 
-type Props = UserProps & ComponentsProps & RouteComponentProps
+type Props = UserProps & ModelsProps & RouteComponentProps
 
 class ProjectsModalContainer extends React.Component<Props, State> {
   public state: Readonly<State> = {
@@ -103,7 +102,7 @@ class ProjectsModalContainer extends React.Component<Props, State> {
       .$.subscribe(
         async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
           const users = await Promise.all(
-            docs.map(doc => getComponentFromDoc<UserProfile>(doc))
+            docs.map(doc => getModelFromDoc<UserProfile>(doc))
           )
 
           const userMap = users.reduce((output, user) => {
@@ -116,11 +115,11 @@ class ProjectsModalContainer extends React.Component<Props, State> {
       )
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   // TODO: catch and handle errors
-  private addProject: AddProject = async () => {
+  private addProject = async () => {
     // TODO: open up the template modal
 
     const user = this.props.user.data as UserProfile
@@ -150,12 +149,12 @@ class ProjectsModalContainer extends React.Component<Props, State> {
       user.userID
     )
 
-    await this.props.components.saveComponent(contributor, {
+    await this.props.models.saveModel(contributor, {
       manuscriptID,
       projectID,
     })
 
-    await this.props.components.saveComponent(manuscript, {
+    await this.props.models.saveModel(manuscript, {
       manuscriptID,
       projectID,
     })
@@ -167,5 +166,5 @@ class ProjectsModalContainer extends React.Component<Props, State> {
 }
 
 export default withRouter<RouteComponentProps>(
-  withComponents(withUser(ProjectsModalContainer))
+  withModels(withUser(ProjectsModalContainer))
 )

@@ -11,7 +11,7 @@ import {
   MANUSCRIPT,
   PROJECT,
 } from '../../transformer/object-types'
-import { BibliographicName, BibliographyItem } from '../../types/components'
+import { BibliographicName, BibliographyItem } from '../../types/models'
 import {
   buildAffiliation,
   buildAuxiliaryObjectReference,
@@ -143,6 +143,6 @@ describe('commands', () => {
     const aff = buildAffiliation('x')
     expect(aff._id).toMatch(/MPAffiliation:\S+/)
     expect(aff.objectType).toMatch(AFFILIATION)
-    expect(aff.name).toMatch('x')
+    expect(aff.institution).toMatch('x')
   })
 })

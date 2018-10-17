@@ -2,7 +2,7 @@ import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import SettingsInverted from '../../icons/settings-inverted-icon'
 import { styled } from '../../theme'
-import { ProjectInvitation } from '../../types/components'
+import { ProjectInvitation } from '../../types/models'
 import { IconButton } from '../Button'
 import InviteCollaboratorPopperContainer from './InviteCollaboratorPopperContainer'
 

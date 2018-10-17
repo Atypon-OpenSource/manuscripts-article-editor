@@ -3,13 +3,7 @@ import {
   CONTRIBUTOR,
   MANUSCRIPT,
 } from '../../transformer/object-types'
-import {
-  Affiliation,
-  ComponentMap,
-  ComponentWithAttachment,
-  Contributor,
-  Manuscript,
-} from '../../types/components'
+import { Affiliation, Contributor, Manuscript, Model } from '../../types/models'
 import {
   buildAffiliationsMap,
   buildAuthorAffiliations,
@@ -19,18 +13,19 @@ import {
 } from '../authors'
 import { DEFAULT_BUNDLE } from '../csl'
 
-const componentMap = (components: ComponentWithAttachment[]): ComponentMap => {
-  const map = new Map<string, ComponentWithAttachment>()
-  components.forEach(x => map.set(x._id, x))
+const modelMap = (models: Model[]): Map<string, Model> => {
+  const map = new Map<string, Model>()
+  models.forEach(x => map.set(x._id, x))
   return map
 }
 
 const affiliation: Affiliation = {
   _id: 'MPAffiliation:X',
   objectType: AFFILIATION,
-  name: 'University of Toronto',
+  institution: 'University of Toronto',
   manuscriptID: 'MPManuscript:X',
   containerID: 'MPProject:1',
+  priority: 0,
 }
 
 const affiliations = [affiliation]
@@ -86,7 +81,7 @@ const manuscripts: Manuscript[] = [
   },
 ]
 
-const objs: ComponentWithAttachment[] = manuscripts
+const objs: Model[] = manuscripts
   // tslint:disable-next-line:no-any
   .concat(contribs as any)
   // tslint:disable-next-line:no-any
@@ -96,7 +91,7 @@ describe('author and affiliation helpers', () => {
   it('buildSortedAuthors', () => {
     // FIXME: buildSortedAuthors should not ignore silently encountering contributors with no "role" or "priority" fields present.
     // tslint:disable-line:no-any
-    expect(buildSortedAuthors(componentMap(objs)).map(x => x._id)).toEqual([
+    expect(buildSortedAuthors(modelMap(objs)).map(x => x._id)).toEqual([
       'MPContributor:y',
       'MPContributor:x',
       'MPContributor:z',
@@ -189,7 +184,7 @@ describe('author and affiliation helpers', () => {
   it('buildAffiliationsMap', () => {
     const affMap = buildAffiliationsMap(
       affiliations.map(x => x._id),
-      componentMap(objs)
+      modelMap(objs)
     )
     expect(Array.from(affMap)).toEqual([['MPAffiliation:X', affiliations[0]]])
   })
@@ -197,7 +192,7 @@ describe('author and affiliation helpers', () => {
   it('buildAuthorAffiliations', () => {
     const affMap = buildAffiliationsMap(
       affiliations.map(x => x._id),
-      componentMap(objs)
+      modelMap(objs)
     )
     const authorAffMap = buildAuthorAffiliations(
       contribs,
@@ -217,7 +212,7 @@ describe('author and affiliation helpers', () => {
   })
 
   it('buildAuthorsAndAffiliations', () => {
-    const comps = componentMap(objs)
+    const comps = modelMap(objs)
     const map = buildAuthorsAndAffiliations(comps)
     expect(map).toEqual({
       affiliations: new Map(Object.entries({ 'MPAffiliation:X': affiliation })),

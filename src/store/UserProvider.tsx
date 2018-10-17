@@ -3,8 +3,8 @@ import { RxCollection, RxDocument } from 'rxdb'
 import { atomicUpdate } from '../lib/store'
 import token from '../lib/token'
 import { USER_PROFILE } from '../transformer/object-types'
-import { UserProfile } from '../types/components'
-import { ComponentsProps, withComponents } from './ComponentsProvider'
+import { UserProfile } from '../types/models'
+import { ModelsProps, withModels } from './ModelsProvider'
 
 export interface UserProviderState {
   loading: boolean
@@ -58,7 +58,7 @@ export const getCurrentUserId = () => {
   return getUserIdFromJWT(accessToken)
 }
 
-class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
+class UserProvider extends React.Component<ModelsProps, UserProviderState> {
   public state: Readonly<UserProviderState> = {
     loading: false,
     loaded: false,
@@ -91,7 +91,7 @@ class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   private buildCurrentUserQuery() {
@@ -172,8 +172,8 @@ class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
     }
 
     // TODO: check this
-    // if (!this.props.components.active) {
-    //   this.props.components.sync({ live: false })
+    // if (!this.props.models.active) {
+    //   this.props.models.sync({ live: false })
     // }
 
     // TODO: enable this once the API returns a user profile
@@ -213,4 +213,4 @@ class UserProvider extends React.Component<ComponentsProps, UserProviderState> {
   }
 }
 
-export default withComponents(UserProvider)
+export default withModels(UserProvider)

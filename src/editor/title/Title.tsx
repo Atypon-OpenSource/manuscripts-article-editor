@@ -12,7 +12,7 @@ export const createEditorState = (value: string) =>
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   id?: string
-  value: string
+  value?: string
   handleChange?: (value: string) => void
   handleFocus?: (view: EditorView, event: Event) => boolean
 }
@@ -66,7 +66,7 @@ class Title extends React.Component<Props> {
     }
 
     this.view = new EditorView(node, {
-      state: createEditorState(this.props.value),
+      state: createEditorState(this.props.value || ''),
       editable: () => false,
       attributes: {
         class: 'plain',

@@ -20,10 +20,9 @@ import {
   GetKeywords,
   GetUser,
 } from '../../editor/comment/config'
-import { DeleteComponent, SaveComponent } from '../../editor/Editor'
-import { buildComment } from '../../lib/commands'
+import { Build, buildComment } from '../../lib/commands'
 import { styled } from '../../theme'
-import { CommentAnnotation, UserProfile } from '../../types/components'
+import { CommentAnnotation, Model, UserProfile } from '../../types/models'
 import { Button, PrimaryButton } from '../Button'
 import { FormError } from '../Form'
 
@@ -54,8 +53,8 @@ const CommentContent = styled.div`
 interface Props {
   comment: CommentAnnotation
   getCurrentUser: () => UserProfile
-  saveComponent: SaveComponent
-  deleteComponent: DeleteComponent
+  saveModel: <T extends Model>(model: Build<T>) => Promise<T>
+  deleteModel: (id: string) => Promise<string>
   getCollaborators: GetCollaborators
   getKeywords: GetKeywords
   getKeyword: GetKeyword
@@ -173,11 +172,11 @@ class CommentBody extends React.Component<Props, State> {
     values: CommentAnnotation,
     formikActions: FormikActions<CommentAnnotation>
   ) => {
-    const { saveComponent } = this.props
+    const { saveModel } = this.props
 
     formikActions.setSubmitting(true)
 
-    saveComponent(values)
+    saveModel(values)
       .then(() => {
         this.setEditing(false)
       })
@@ -204,7 +203,7 @@ class CommentBody extends React.Component<Props, State> {
 
   private confirmThenDeleteComment = (id: string) => {
     if (confirm('Delete this comment?')) {
-      this.props.deleteComponent(id).catch(error => {
+      this.props.deleteModel(id).catch(error => {
         console.error(error) // tslint:disable-line:no-console
       })
     }
@@ -215,13 +214,13 @@ class CommentBody extends React.Component<Props, State> {
   }
 
   private createReply = async (id: string) => {
-    const { getCurrentUser, saveComponent } = this.props
+    const { getCurrentUser, saveModel } = this.props
 
     const user = getCurrentUser()
 
     const comment = buildComment(user._id, id)
 
-    await saveComponent(comment)
+    await saveModel<CommentAnnotation>(comment)
   }
 }
 

@@ -13,7 +13,7 @@ import {
   Manuscript,
   Project,
   UserProfile,
-} from '../../types/components'
+} from '../../types/models'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { CloseButton } from '../SimpleModal'
 import { StyledModal, totalTransitionTime } from '../StyledModal'

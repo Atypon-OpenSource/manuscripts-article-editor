@@ -8,7 +8,7 @@ import {
   BibliographicName,
   BibliographyItem,
   Bundle,
-} from '../types/components'
+} from '../types/models'
 import { buildBibliographicDate, buildBibliographicName } from './commands'
 import { fetchSharedData } from './shared-data'
 
@@ -157,7 +157,7 @@ class CitationManager {
     primaryLanguageCode: string,
     getLibraryItem: (id: string) => BibliographyItem
   ) => {
-    const bundle = await this.fetchBundle(bundleID || DEFAULT_BUNDLE)
+    const bundle = await this.fetchBundle(bundleID)
 
     if (!bundle) {
       throw new Error('Bundle not found')

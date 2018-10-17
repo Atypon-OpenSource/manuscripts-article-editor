@@ -1,6 +1,6 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { iterateChildren } from '../editor/lib/utils'
-import { BibliographicName, CommentAnnotation } from '../types/components'
+import { BibliographicName, CommentAnnotation } from '../types/models'
 
 interface CommentData {
   comment: CommentAnnotation
@@ -8,7 +8,7 @@ interface CommentData {
 }
 
 const oldestFirst = (a: CommentAnnotation, b: CommentAnnotation) =>
-  a.createdAt! - b.createdAt!
+  Number(a.createdAt) - Number(b.createdAt)
 
 type CommentsMap = Map<string, CommentData>
 

@@ -16,7 +16,7 @@ import {
 } from 'prosemirror-model'
 import { nodes as basicNodes } from 'prosemirror-schema-basic'
 import { NodeSelection } from 'prosemirror-state'
-import { Keyword, UserProfile } from '../../../types/components'
+import { Keyword, UserProfile } from '../../../types/models'
 import marks from '../../config/schema/marks'
 
 const { blockquote, paragraph } = basicNodes

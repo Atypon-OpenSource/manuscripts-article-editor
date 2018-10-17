@@ -1,7 +1,7 @@
 import React from 'react'
 import { darkGrey } from '../../colors'
 import { styled } from '../../theme'
-import { UserProfile } from '../../types/components'
+import { UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { ManuscriptBlueButton } from '../Button'
 import { SidebarContent, SidebarPersonContainer } from '../Sidebar'

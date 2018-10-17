@@ -8,7 +8,7 @@ import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { buildFootnote, buildInlineMathFragment } from '../../lib/commands'
 import { isElementNode } from '../../transformer/node-types'
-import { componentsKey, INSERT } from './plugins/components'
+import { INSERT, modelsKey } from './plugins/models'
 import schema from './schema'
 import { Dispatch } from './types'
 
@@ -120,7 +120,7 @@ export const insertInlineEquation = (
   )
 
   const tr = state.tr
-    .setMeta(componentsKey, { [INSERT]: [inlineMathFragment] })
+    .setMeta(modelsKey, { [INSERT]: [inlineMathFragment] })
     .replaceSelectionWith(schema.nodes.inline_equation.create())
 
   dispatch(tr.setSelection(NodeSelection.create(tr.doc, tr.selection.from - 1)))
@@ -142,7 +142,7 @@ export const insertInlineFootnote = (
   const pos = state.selection.to
 
   const tr = state.tr
-    .setMeta(componentsKey, { [INSERT]: [footnote] })
+    .setMeta(modelsKey, { [INSERT]: [footnote] })
     .insert(pos, node)
 
   dispatch(tr.setSelection(NodeSelection.create(tr.doc, pos)))

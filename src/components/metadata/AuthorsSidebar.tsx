@@ -2,7 +2,7 @@ import React from 'react'
 import AddAuthor from '../../icons/add-author'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { styled, ThemedProps } from '../../theme'
-import { Contributor, UserProfile } from '../../types/components'
+import { Contributor, UserProfile } from '../../types/models'
 import { AuthorAffiliation } from './Author'
 import DraggableAuthorItem from './DraggableAuthorItem'
 

@@ -3,7 +3,7 @@ import { darkGrey } from '../../colors'
 import AddedIcon from '../../icons/added-icon'
 import SearchIcon from '../../icons/search'
 import { styled } from '../../theme'
-import { ProjectInvitation, UserProfile } from '../../types/components'
+import { ProjectInvitation, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import {
   IconButton,

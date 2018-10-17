@@ -2,7 +2,7 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { nodeNames } from '../../../transformer/node-names'
-import { AuxiliaryObjectReference } from '../../../types/components'
+import { AuxiliaryObjectReference } from '../../../types/models'
 import { EditorProps } from '../../Editor'
 
 interface Counter {
@@ -85,7 +85,7 @@ const buildTargets = (doc: ProsemirrorNode) => {
 }
 
 export default (props: EditorProps) => {
-  const { getComponent } = props
+  const { getModel } = props
 
   return new Plugin({
     key: objectsKey,
@@ -137,9 +137,9 @@ export default (props: EditorProps) => {
 
       newState.doc.descendants((node, pos) => {
         if (node.type.name === 'cross_reference') {
-          const auxiliaryObjectReference = getComponent<
-            AuxiliaryObjectReference
-          >(node.attrs.rid)
+          const auxiliaryObjectReference = getModel<AuxiliaryObjectReference>(
+            node.attrs.rid
+          )
 
           // TODO: handle missing objects?
           // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/395

@@ -6,7 +6,7 @@ import { manuscriptsBlue, powderBlue } from '../../colors'
 import { Selected } from '../../editor/lib/utils'
 import { TitleField } from '../../editor/title/TitleField'
 import { styled } from '../../theme'
-import { Manuscript, Project } from '../../types/components'
+import { Manuscript, Project } from '../../types/models'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import Panel from '../Panel'
 import {
@@ -98,7 +98,7 @@ const ManuscriptSidebar: React.SFC<Props> = ({
         <ProjectTitle>
           <TitleField
             id={'project-title-field'}
-            value={project.title}
+            value={project.title || ''}
             handleChange={title =>
               saveProject({
                 ...project,

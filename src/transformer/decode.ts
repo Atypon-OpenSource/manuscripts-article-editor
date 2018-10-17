@@ -6,14 +6,9 @@ import {
 import { RxDocument } from 'rxdb'
 import schema from '../editor/config/schema'
 import {
-  AnyComponent,
-  AnyElement,
   Attachments,
   BibliographyElement,
-  Component,
-  ComponentAttachment,
-  ComponentDocument,
-  ComponentMap,
+  Element,
   Equation,
   EquationElement,
   Figure,
@@ -21,6 +16,8 @@ import {
   List,
   Listing,
   ListingElement,
+  Model,
+  ModelAttachment,
   Paragraph,
   PlaceholderElement,
   Section,
@@ -28,28 +25,28 @@ import {
   TableElement,
   TOCElement,
   UserProfile,
-} from '../types/components'
+} from '../types/models'
 import { generateID } from './id'
 import * as ObjectTypes from './object-types'
 
 const parser = DOMParser.fromSchema(schema)
 
-type NodeCreator = (component: Component) => ProsemirrorNode
+type NodeCreator = (model: Model) => ProsemirrorNode
 
 interface NodeCreatorMap {
   [key: string]: NodeCreator
 }
 
-export const getComponentData = (component: Component): Component => {
-  const { _rev, _deleted, updatedAt, createdAt, sessionID, ...data } = component
+export const getModelData = (model: Model): Model => {
+  const { _rev, _deleted, updatedAt, createdAt, sessionID, ...data } = model
 
   return data
 }
 
-export const getComponentFromDoc = async <T extends Component>(
-  doc: RxDocument<Component & Attachments>
-): Promise<T & ComponentAttachment> => {
-  const data = getComponentData(doc.toJSON())
+export const getModelFromDoc = async <T extends Model>(
+  doc: RxDocument<Model & Attachments>
+): Promise<T & ModelAttachment> => {
+  const data = getModelData(doc.toJSON())
 
   // TODO: provide a method for loading attachments from a doc id, instead of this?
   if (doc._attachments) {
@@ -69,7 +66,7 @@ export const getComponentFromDoc = async <T extends Component>(
     }
   }
 
-  return data as T & ComponentAttachment
+  return data as T & ModelAttachment
 }
 
 export const parseContents = (contents: string, options?: ParseOptions) => {
@@ -78,28 +75,28 @@ export const parseContents = (contents: string, options?: ParseOptions) => {
   return parser.parse(fragment.firstChild as Node, options)
 }
 
-export const buildComponentMap = (
-  docs: ComponentDocument[]
-): Promise<ComponentMap> => {
+export const buildModelMap = (
+  docs: Array<RxDocument<Model>>
+): Promise<Map<string, Model>> => {
   const output = new Map()
 
   const promises = docs.map(async doc => {
-    const data = await getComponentFromDoc(doc)
+    const data = await getModelFromDoc(doc as RxDocument<Model & Attachments>)
     output.set(doc._id, data)
   })
 
   return Promise.all(promises).then(() => output)
 }
 
-export const getComponentsByType = <T extends AnyComponent>(
-  componentMap: ComponentMap,
+export const getModelsByType = <T extends Model>(
+  modelMap: Map<string, Model>,
   objectType: string
 ): T[] => {
   const output: T[] = []
 
-  for (const component of componentMap.values()) {
-    if (component.objectType === objectType) {
-      output.push(component as T)
+  for (const model of modelMap.values()) {
+    if (model.objectType === objectType) {
+      output.push(model as T)
     }
   }
 
@@ -107,34 +104,36 @@ export const getComponentsByType = <T extends AnyComponent>(
 }
 
 export const sortSectionsByPriority = (a: Section, b: Section) =>
-  a.priority === b.priority ? 0 : a.priority - b.priority
+  a.priority === b.priority ? 0 : Number(a.priority) - Number(b.priority)
 
 // TODO: include bibliography and toc sections
-export const getSections = (componentMap: ComponentMap) =>
-  getComponentsByType<Section>(componentMap, ObjectTypes.SECTION).sort(
+export const getSections = (modelMap: Map<string, Model>) =>
+  getModelsByType<Section>(modelMap, ObjectTypes.SECTION).sort(
     sortSectionsByPriority
   )
 
 export class Decoder {
-  private readonly componentMap: ComponentMap
+  private readonly modelMap: Map<string, Model>
 
   private creators: NodeCreatorMap = {
-    [ObjectTypes.BIBLIOGRAPHY_ELEMENT]: (component: BibliographyElement) => {
+    [ObjectTypes.BIBLIOGRAPHY_ELEMENT]: (model: BibliographyElement) => {
       return schema.nodes.bibliography_element.create({
-        id: component._id,
-        contents: component.contents.replace(/\s+xmlns=".+?"/, ''),
+        id: model._id,
+        contents: model.contents
+          ? model.contents.replace(/\s+xmlns=".+?"/, '')
+          : '',
       })
     },
-    [ObjectTypes.PLACEHOLDER_ELEMENT]: (component: PlaceholderElement) => {
+    [ObjectTypes.PLACEHOLDER_ELEMENT]: (model: PlaceholderElement) => {
       return schema.nodes.placeholder_element.create({
-        id: component._id,
+        id: model._id,
       })
     },
-    [ObjectTypes.FIGURE_ELEMENT]: (component: FigureElement) => {
+    [ObjectTypes.FIGURE_ELEMENT]: (model: FigureElement) => {
       const figcaptionNode = schema.nodes.figcaption.create()
 
-      const figcaption = component.caption
-        ? parseContents(`<figcaption>${component.caption}</figcaption>`, {
+      const figcaption = model.caption
+        ? parseContents(`<figcaption>${model.caption}</figcaption>`, {
             topNode: figcaptionNode,
           })
         : figcaptionNode
@@ -143,69 +142,67 @@ export class Decoder {
 
       return schema.nodes.figure_element.createChecked(
         {
-          id: component._id,
-          containedObjectIDs: component.containedObjectIDs,
-          figureStyle: component.figureStyle,
-          suppressCaption: Boolean(component.suppressCaption),
+          id: model._id,
+          containedObjectIDs: model.containedObjectIDs,
+          figureStyle: model.figureStyle,
+          suppressCaption: Boolean(model.suppressCaption),
         },
         figcaption
       )
     },
-    [ObjectTypes.EQUATION_ELEMENT]: (component: EquationElement) => {
-      const equationComponent = this.getComponent<Equation>(
-        component.containedObjectID
-      )
+    [ObjectTypes.EQUATION_ELEMENT]: (model: EquationElement) => {
+      const equationModel = this.getModel<Equation>(model.containedObjectID)
 
-      const equation = equationComponent
+      const equation = equationModel
         ? schema.nodes.equation.create({
-            id: equationComponent._id,
-            SVGStringRepresentation: equationComponent.SVGStringRepresentation,
-            TeXRepresentation: equationComponent.TeXRepresentation,
+            id: equationModel._id,
+            SVGStringRepresentation: equationModel.SVGStringRepresentation,
+            TeXRepresentation: equationModel.TeXRepresentation,
           })
         : schema.nodes.placeholder.create({
-            id: component.containedObjectID,
+            id: model.containedObjectID,
             label: 'An equation',
           })
 
       const figcaptionNode = schema.nodes.figcaption.create()
 
-      const figcaption = component.caption
-        ? parseContents(`<figcaption>${component.caption}</figcaption>`, {
+      const figcaption = model.caption
+        ? parseContents(`<figcaption>${model.caption}</figcaption>`, {
             topNode: figcaptionNode,
           })
         : figcaptionNode
 
       return schema.nodes.equation_element.createChecked(
         {
-          id: component._id,
-          suppressCaption: component.suppressCaption,
+          id: model._id,
+          suppressCaption: model.suppressCaption,
         },
         [equation, figcaption]
       )
     },
-    [ObjectTypes.FOOTNOTES_ELEMENT]: (component: TOCElement) => {
+    [ObjectTypes.FOOTNOTES_ELEMENT]: (model: TOCElement) => {
       return schema.nodes.footnotes_element.create({
-        id: component._id,
-        contents: component.contents,
+        id: model._id,
+        contents: model.contents,
       })
     },
-    [ObjectTypes.LIST_ELEMENT]: (component: List) => {
-      switch (component.elementType) {
+    [ObjectTypes.LIST_ELEMENT]: (model: List) => {
+      switch (model.elementType) {
         case 'ol':
           // TODO: wrap inline text in paragraphs
-          return parseContents(component.contents, {
+          return parseContents(model.contents || '<ol></ol>', {
             topNode: schema.nodes.ordered_list.create({
-              id: component._id,
-              paragraphStyle: component.paragraphStyle,
+              id: model._id,
+              paragraphStyle: model.paragraphStyle,
             }),
           })
 
         case 'ul':
           // TODO: wrap inline text in paragraphs
-          return parseContents(component.contents, {
+          return parseContents(model.contents || '<ul></ul>', {
             topNode: schema.nodes.bullet_list.create({
-              id: component._id,
-              paragraphStyle: component.paragraphStyle,
+              id: model._id,
+              paragraphStyle: model.paragraphStyle,
             }),
           })
 
@@ -213,61 +210,59 @@ export class Decoder {
           throw new Error('Unknown list element type')
       }
     },
-    [ObjectTypes.LISTING_ELEMENT]: (component: ListingElement) => {
-      const listingComponent = this.getComponent<Listing>(
-        component.containedObjectID
-      )
+    [ObjectTypes.LISTING_ELEMENT]: (model: ListingElement) => {
+      const listingModel = this.getModel<Listing>(model.containedObjectID)
 
-      const listing = listingComponent
+      const listing = listingModel
         ? schema.nodes.listing.create({
-            id: listingComponent._id,
-            contents: listingComponent.contents,
-            language: listingComponent.language,
-            languageKey: listingComponent.languageKey,
+            id: listingModel._id,
+            contents: listingModel.contents,
+            language: listingModel.language,
+            languageKey: listingModel.languageKey,
           })
         : schema.nodes.placeholder.create({
-            id: component.containedObjectID,
+            id: model.containedObjectID,
             label: 'A listing',
           })
 
       const figcaptionNode = schema.nodes.figcaption.create()
 
-      const figcaption = component.caption
-        ? parseContents(`<figcaption>${component.caption}</figcaption>`, {
+      const figcaption = model.caption
+        ? parseContents(`<figcaption>${model.caption}</figcaption>`, {
             topNode: figcaptionNode,
           })
         : figcaptionNode
 
       return schema.nodes.listing_element.createChecked(
         {
-          id: component._id,
-          suppressCaption: component.suppressCaption,
+          id: model._id,
+          suppressCaption: model.suppressCaption,
         },
         [listing, figcaption]
       )
     },
-    [ObjectTypes.PARAGRAPH]: (component: Paragraph) => {
-      return parseContents(component.contents, {
+    [ObjectTypes.PARAGRAPH]: (model: Paragraph) => {
+      return parseContents(model.contents || '<p></p>', {
         topNode: schema.nodes.paragraph.create({
-          id: component._id,
-          paragraphStyle: component.paragraphStyle,
-          placeholder: component.placeholderInnerHTML,
+          id: model._id,
+          paragraphStyle: model.paragraphStyle,
+          placeholder: model.placeholderInnerHTML,
         }),
       })
     },
-    [ObjectTypes.SECTION]: (component: Section) => {
-      const elements: Component[] = []
+    [ObjectTypes.SECTION]: (model: Section) => {
+      const elements: Element[] = []
 
-      if (component.elementIDs) {
-        for (const id of component.elementIDs) {
-          const element = this.getComponent<AnyElement>(id)
+      if (model.elementIDs) {
+        for (const id of model.elementIDs) {
+          const element = this.getModel<Element>(id)
 
           if (element) {
             elements.push(element)
           } else {
             const placeholderElement: PlaceholderElement = {
               _id: id,
-              containerID: component._id,
+              containerID: model._id,
               elementType: 'div',
               objectType: ObjectTypes.PLACEHOLDER_ELEMENT,
             }
@@ -279,96 +274,94 @@ export class Decoder {
 
       const elementNodes = elements.map(this.decode)
 
-      const sectionTitleNode = component.title
-        ? parseContents(`<h1>${component.title}</h1>`, {
+      const sectionTitleNode = model.title
+        ? parseContents(`<h1>${model.title}</h1>`, {
             topNode: schema.nodes.section_title.create(),
           })
         : schema.nodes.section_title.create()
 
-      const nestedSections = getSections(this.componentMap)
+      const nestedSections = getSections(this.modelMap)
         .filter(section => section.path.length > 1)
-        .filter(item => item.path[item.path.length - 2] === component._id)
+        .filter(item => item.path[item.path.length - 2] === model._id)
         .map(this.creators[ObjectTypes.SECTION])
 
       const sectionNodeType = this.chooseSectionNodeType(elements)
 
       const sectionNode = sectionNodeType.createAndFill(
         {
-          id: component._id,
-          titleSuppressed: component.titleSuppressed,
+          id: model._id,
+          titleSuppressed: model.titleSuppressed,
         },
         [sectionTitleNode].concat(elementNodes).concat(nestedSections)
       )
 
       if (!sectionNode) {
-        console.error(component) // tslint:disable-line:no-console
-        throw new Error('Invalid content for section ' + component._id)
+        console.error(model) // tslint:disable-line:no-console
+        throw new Error('Invalid content for section ' + model._id)
       }
 
       return sectionNode
     },
-    [ObjectTypes.TABLE_ELEMENT]: (component: TableElement) => {
-      const tableComponent = this.getComponent<Table>(
-        component.containedObjectID
-      )
+    [ObjectTypes.TABLE_ELEMENT]: (model: TableElement) => {
+      const tableModel = this.getModel<Table>(model.containedObjectID)
 
-      const table = tableComponent
-        ? parseContents(tableComponent.contents, {
+      const table = tableModel
+        ? parseContents(tableModel.contents, {
             topNode: schema.nodes.table.create({
-              id: tableComponent._id,
+              id: tableModel._id,
             }),
           })
         : schema.nodes.placeholder.create({
-            id: component.containedObjectID,
+            id: model.containedObjectID,
             label: 'A table',
           })
 
       const figcaptionNode = schema.nodes.figcaption.create()
 
-      const figcaption = component.caption
-        ? parseContents(`<figcaption>${component.caption}</figcaption>`, {
+      const figcaption = model.caption
+        ? parseContents(`<figcaption>${model.caption}</figcaption>`, {
             topNode: figcaptionNode,
           })
         : figcaptionNode
 
       return schema.nodes.table_element.createChecked(
         {
-          id: component._id,
-          table: component.containedObjectID,
-          suppressCaption: component.suppressCaption,
-          suppressFooter: component.suppressFooter,
-          suppressHeader: component.suppressHeader,
-          tableStyle: component.tableStyle,
-          paragraphStyle: component.paragraphStyle,
+          id: model._id,
+          table: model.containedObjectID,
+          suppressCaption: model.suppressCaption,
+          suppressFooter: model.suppressFooter,
+          suppressHeader: model.suppressHeader,
+          tableStyle: model.tableStyle,
+          paragraphStyle: model.paragraphStyle,
         },
         [table, figcaption]
       )
     },
-    [ObjectTypes.TOC_ELEMENT]: (component: TOCElement) => {
+    [ObjectTypes.TOC_ELEMENT]: (model: TOCElement) => {
       return schema.nodes.toc_element.create({
-        id: component._id,
-        contents: component.contents,
+        id: model._id,
+        contents: model.contents,
       })
     },
   }
 
-  constructor(componentMap: ComponentMap) {
-    this.componentMap = componentMap
+  constructor(modelMap: Map<string, Model>) {
+    this.modelMap = modelMap
   }
 
-  public decode = (component: Component) => {
-    if (!this.creators[component.objectType]) {
-      throw new Error('No converter for ' + component.objectType)
+  public decode = (model: Model) => {
+    if (!this.creators[model.objectType]) {
+      throw new Error('No converter for ' + model.objectType)
     }
 
-    return this.creators[component.objectType](component)
+    return this.creators[model.objectType](model)
   }
 
-  public getComponent = <T extends AnyComponent>(id: string): T | undefined =>
-    this.componentMap.get(id) as T | undefined
+  public getModel = <T extends Model>(id: string): T | undefined =>
+    this.modelMap.get(id) as T | undefined
 
   public createArticleNode = () => {
-    const rootSections = getSections(this.componentMap).filter(
+    const rootSections = getSections(this.modelMap).filter(
       section => section.path.length <= 1
     )
 
@@ -383,7 +376,7 @@ export class Decoder {
     return schema.nodes.manuscript.create({}, rootSectionNodes)
   }
 
-  private chooseSectionNodeType = (elements: Component[]) => {
+  private chooseSectionNodeType = (elements: Model[]) => {
     if (!elements.length) return schema.nodes.section
 
     switch (elements[0].objectType) {

@@ -2,7 +2,7 @@ import React from 'react'
 import Title from '../../editor/title/Title'
 import Bookmark from '../../icons/bookmark'
 import { styled } from '../../theme'
-import { BibliographicName, BibliographyItem } from '../../types/components'
+import { BibliographicName, BibliographyItem } from '../../types/models'
 
 export const AddIcon = styled.button`
   border: none;

@@ -15,7 +15,7 @@ export class TitleField extends Title {
     }
 
     this.view = new EditorView(node, {
-      state: createEditorState(this.props.value),
+      state: createEditorState(this.props.value || ''),
       dispatchTransaction: this.dispatchTransaction,
       attributes,
       handleDOMEvents: {

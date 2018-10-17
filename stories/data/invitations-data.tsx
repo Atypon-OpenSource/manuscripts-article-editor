@@ -1,9 +1,6 @@
 import { InvitationData } from '../../src/components/nav/ProjectsDropdownButton'
-import {
-  Project,
-  ProjectInvitation,
-  UserProfile,
-} from '../../src/types/components'
+import timestamp from '../../src/lib/timestamp'
+import { Project, ProjectInvitation, UserProfile } from '../../src/types/models'
 
 export const invitations: ProjectInvitation[] = [
   {
@@ -14,7 +11,8 @@ export const invitations: ProjectInvitation[] = [
     projectTitle: 'Breadth First Search Algorithm',
     message: 'message',
     role: 'Writer',
-    objectType: 'MPInvitation',
+    objectType: 'MPProjectInvitation',
+    createdAt: timestamp(),
   },
   {
     _id: 'ProjectInvitation|2da9a8bc004083daea2b2746a5414b18f318f547',
@@ -23,7 +21,8 @@ export const invitations: ProjectInvitation[] = [
     projectID: 'MPProject:C8C7A84A-0927-4240-B83E-F5290C829BDB',
     message: 'message',
     role: 'Writer',
-    objectType: 'MPInvitation',
+    objectType: 'MPProjectInvitation',
+    createdAt: timestamp(),
   },
 ]
 

@@ -8,8 +8,7 @@ import ContributorSearchPlaceholder from '../../icons/contributor-search-placeho
 import InvitationPlaceholder from '../../icons/invitation-placeholder'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme'
-import { CollaboratorActions } from '../../types/collaborator'
-import { Project, UserProfile } from '../../types/components'
+import { Project, UserProfile } from '../../types/models'
 import {
   AddAuthorsMessage,
   AddCollaboratorsMessage,
@@ -97,10 +96,11 @@ interface CollaboratorDetailsPageProps {
   user: UserProfile
   project: Project
   collaboratorsCount: number
+  handleAddCollaborator: () => void
 }
 
 export const CollaboratorDetailsPage: React.SFC<
-  CollaboratorDetailsPageProps & CollaboratorActions
+  CollaboratorDetailsPageProps
 > = ({ project, user, collaboratorsCount, handleAddCollaborator }) => (
   <OuterContainer>
     <InnerContainer>

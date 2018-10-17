@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
-import { RxAttachmentCreator, RxCollection } from 'rxdb'
+import { RxCollection } from 'rxdb'
 import {
   buildContributor,
   buildManuscript,
@@ -11,16 +11,11 @@ import preferences, { Preferences } from '../lib/preferences'
 import { ContributorRole } from '../lib/roles'
 import sessionID from '../lib/sessionID'
 import timestamp from '../lib/timestamp'
-import { ComponentsProps, withComponents } from '../store/ComponentsProvider'
+import { ModelsProps, withModels } from '../store/ModelsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
 import { generateID } from '../transformer/id'
 import * as ObjectTypes from '../transformer/object-types'
-import {
-  ComponentWithAttachment,
-  Project,
-  UserProfile,
-} from '../types/components'
-import { ImportManuscript } from '../types/manuscript'
+import { Model, ModelAttachment, Project, UserProfile } from '../types/models'
 import { Main, Page } from './Page'
 import { Spinner } from './Spinner'
 import { RecentFile, WelcomePage } from './WelcomePage'
@@ -30,7 +25,7 @@ interface State {
 }
 
 class WelcomePageContainer extends React.Component<
-  ComponentsProps & UserProps & RouteComponentProps<{}>,
+  ModelsProps & UserProps & RouteComponentProps<{}>,
   State
 > {
   public state = {
@@ -74,7 +69,7 @@ class WelcomePageContainer extends React.Component<
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   private createProject = async (owner: string) => {
@@ -108,12 +103,12 @@ class WelcomePageContainer extends React.Component<
       user.userID
     )
 
-    await this.props.components.saveComponent(contributor, {
+    await this.props.models.saveModel(contributor, {
       projectID,
       manuscriptID,
     })
 
-    await this.props.components.saveComponent(manuscript, {
+    await this.props.models.saveModel(manuscript, {
       projectID,
       manuscriptID,
     })
@@ -123,7 +118,7 @@ class WelcomePageContainer extends React.Component<
     )
   }
 
-  private importManuscript: ImportManuscript = async components => {
+  private importManuscript = async (models: Model[]): Promise<void> => {
     const user = this.props.user.data as UserProfile
     const owner = user.userID
 
@@ -132,27 +127,22 @@ class WelcomePageContainer extends React.Component<
 
     const manuscriptID = generateID('manuscript') as string
 
-    for (const component of components) {
-      if (component.objectType === ObjectTypes.MANUSCRIPT) {
-        component._id = manuscriptID
+    for (const model of models) {
+      if (model.objectType === ObjectTypes.MANUSCRIPT) {
+        model._id = manuscriptID
       }
 
-      const { attachment, ...data } = component as Partial<
-        ComponentWithAttachment
-      >
+      const { attachment, ...data } = model as Model & ModelAttachment
 
       // TODO: save dependencies first
 
-      const result = await this.props.components.saveComponent(data, {
+      const result = await this.props.models.saveModel(data, {
         manuscriptID,
         projectID,
       })
 
       if (attachment) {
-        await this.props.components.putAttachment(
-          result._id,
-          attachment as RxAttachmentCreator
-        )
+        await this.props.models.putAttachment(result._id, attachment)
       }
     }
 
@@ -191,4 +181,4 @@ class WelcomePageContainer extends React.Component<
   }
 }
 
-export default withComponents(withUser(WelcomePageContainer))
+export default withModels(withUser(WelcomePageContainer))

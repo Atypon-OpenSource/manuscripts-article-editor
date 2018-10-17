@@ -15,9 +15,7 @@ import LibraryPickerContainer from '../../components/library/LibraryPickerContai
 import { MenuItem } from '../../components/projects/ApplicationMenu'
 import CrossReferencePickerContainer from '../../components/projects/CrossReferencePickerContainer'
 import { importFile, openFilePicker } from '../../lib/importers'
-import { Manuscript } from '../../types/components'
-import { ExportManuscript, ImportManuscript } from '../../types/manuscript'
-import { DeleteComponent } from '../Editor'
+import { Manuscript, Model } from '../../types/models'
 import { textContent } from '../title/config'
 import {
   blockActive,
@@ -35,9 +33,9 @@ export interface MenusProps {
   manuscript: Manuscript
   addManuscript?: () => void
   deleteManuscript: (id: string) => Promise<void>
-  importManuscript: ImportManuscript
-  exportManuscript: ExportManuscript
-  deleteComponent: DeleteComponent
+  importManuscript: (models: Model[]) => Promise<void>
+  exportManuscript: (format: string) => Promise<void>
+  deleteModel: (id: string) => Promise<string>
   history: History
 }
 
@@ -96,7 +94,7 @@ const menus = (props: MenusProps): MenuItem[] => [
         run: () =>
           confirm('Are you sure you wish to delete this project?') &&
           props
-            .deleteComponent(props.manuscript.containerID)
+            .deleteModel(props.manuscript.containerID)
             .then(() => props.history.push('/')),
       },
       {

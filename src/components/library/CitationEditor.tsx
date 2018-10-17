@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '../../theme'
-import { BibliographyItem } from '../../types/components'
+import { BibliographyItem } from '../../types/models'
 import LibraryForm from './LibraryForm'
 
 const Actions = styled.div`

@@ -4,13 +4,13 @@ import React from 'react'
 import { CommentList } from '../src/components/projects/CommentList'
 import { UserWithName } from '../src/editor/comment/config'
 import { buildName } from '../src/lib/comments'
-import { Component } from '../src/types/components'
+import { Model } from '../src/types/models'
 import { comments } from './data/comments'
 import { doc } from './data/doc'
 import { keywords } from './data/keywords'
 import { people } from './data/people'
 
-const buildMap = <T extends Component>(items: T[]) => {
+const buildMap = <T extends Model>(items: T[]) => {
   const map = new Map()
 
   for (const item of items) {
@@ -35,8 +35,8 @@ storiesOf('Projects/Comments', module).add('with comments', () => (
       doc={doc}
       getCurrentUser={() => people[0]}
       getUser={(id: string) => userMap.get(id)}
-      deleteComponent={async () => action('delete component')}
-      saveComponent={async () => action('save component')}
+      deleteModel={async () => action('delete model')}
+      saveModel={async () => action('save model')}
       getCollaborators={() => peopleWithNames}
       createKeyword={async () => action('create keyword')}
       getKeyword={(id: string) => keywordMap.get(id)}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
-import { RxCollection } from 'rxdb'
+import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
 import {
@@ -11,11 +11,10 @@ import {
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/sessionID'
 import timestamp from '../../lib/timestamp'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
 import { PROJECT } from '../../transformer/object-types'
-import { Project, ProjectInvitation, UserProfile } from '../../types/components'
-import { AddProject, ProjectDocument } from '../../types/project'
+import { Project, ProjectInvitation, UserProfile } from '../../types/models'
 import { InvitationData } from './ProjectsDropdownButton'
 import { ProjectsDropdownList } from './ProjectsDropdownList'
 
@@ -32,7 +31,7 @@ interface Props {
 }
 
 class ProjectsMenu extends React.Component<
-  Props & ComponentsProps & UserProps & RouteComponentProps,
+  Props & ModelsProps & UserProps & RouteComponentProps,
   State
 > {
   public state: Readonly<State> = {
@@ -74,19 +73,19 @@ class ProjectsMenu extends React.Component<
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   private loadProjects = () =>
     this.getCollection()
       .find({ objectType: PROJECT })
-      .$.subscribe((docs: ProjectDocument[]) => {
+      .$.subscribe((docs: Array<RxDocument<Project>>) => {
         this.setState({
           projects: docs.map(doc => doc.toJSON()),
         })
       })
 
-  private addProject: AddProject = async () => {
+  private addProject = async () => {
     // TODO: open up the template modal
 
     const user = this.props.user.data as UserProfile
@@ -116,12 +115,12 @@ class ProjectsMenu extends React.Component<
       user.userID
     )
 
-    await this.props.components.saveComponent(contributor, {
+    await this.props.models.saveModel(contributor, {
       manuscriptID,
       projectID,
     })
 
-    await this.props.components.saveComponent(manuscript, {
+    await this.props.models.saveModel(manuscript, {
       manuscriptID,
       projectID,
     })
@@ -157,5 +156,5 @@ class ProjectsMenu extends React.Component<
 }
 
 export default withRouter<Props & RouteComponentProps>(
-  withComponents<Props & RouteComponentProps>(withUser(ProjectsMenu))
+  withModels<Props & RouteComponentProps>(withUser(ProjectsMenu))
 )

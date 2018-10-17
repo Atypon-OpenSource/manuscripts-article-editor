@@ -3,7 +3,7 @@ import React from 'react'
 import { OptionsType } from 'react-select/lib/types'
 import CitationManager, { DEFAULT_BUNDLE } from '../../lib/csl'
 import { styled } from '../../theme'
-import { Manuscript } from '../../types/components'
+import { Manuscript } from '../../types/models'
 import { ImmediateSelectField } from '../ImmediateSelectField'
 import { Spinner } from '../Spinner'
 

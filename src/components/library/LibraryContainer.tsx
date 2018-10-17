@@ -1,14 +1,18 @@
 import React from 'react'
 import { RouteProps } from 'react-router'
-import { BibliographyItem } from '../../types/components'
-import { LibraryDocument } from '../../types/library'
+import { BibliographyItem } from '../../types/models'
+
+import { RxDocument } from 'rxdb'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
 
-const buildKeywordMatches = (keyword: string, library: LibraryDocument[]) => {
-  const output: LibraryDocument[] = []
+const buildKeywordMatches = (
+  keyword: string,
+  library: Array<RxDocument<BibliographyItem>>
+) => {
+  const output: Array<RxDocument<BibliographyItem>> = []
 
   for (const item of library) {
     const ids = item.get('keywordIDs') as string[] | null
@@ -21,8 +25,11 @@ const buildKeywordMatches = (keyword: string, library: LibraryDocument[]) => {
   return output
 }
 
-const buildTextMatches = (match: string, library: LibraryDocument[]) => {
-  const output: LibraryDocument[] = []
+const buildTextMatches = (
+  match: string,
+  library: Array<RxDocument<BibliographyItem>>
+) => {
+  const output: Array<RxDocument<BibliographyItem>> = []
 
   for (const item of library) {
     const title = item.get('title').toLowerCase()
@@ -35,7 +42,10 @@ const buildTextMatches = (match: string, library: LibraryDocument[]) => {
   return output
 }
 
-export const filterLibrary = (library: LibraryDocument[], query: string) => {
+export const filterLibrary = (
+  library: Array<RxDocument<BibliographyItem>>,
+  query: string
+) => {
   if (!query) return library
 
   if (!library) return []
@@ -50,7 +60,7 @@ export const filterLibrary = (library: LibraryDocument[], query: string) => {
 }
 
 interface Props {
-  library: LibraryDocument[]
+  library: Array<RxDocument<BibliographyItem>>
   handleDelete: (item: BibliographyItem) => Promise<string>
   handleSave: (item: BibliographyItem) => Promise<BibliographyItem>
   projectID: string
@@ -58,7 +68,7 @@ interface Props {
 
 interface State {
   item: BibliographyItem | null
-  items: LibraryDocument[]
+  items: Array<RxDocument<BibliographyItem>>
   query: string
 }
 

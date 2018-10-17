@@ -1,6 +1,6 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeView } from 'prosemirror-view'
-import { AuxiliaryObjectReference } from '../../../types/components'
+import { AuxiliaryObjectReference } from '../../../types/models'
 import { EditorProps } from '../../Editor'
 import { NodeViewCreator } from '../types'
 
@@ -46,7 +46,7 @@ class CrossReference implements NodeView {
   // }
 
   private createDOM() {
-    const auxiliaryObjectReference = this.props.getComponent<
+    const auxiliaryObjectReference = this.props.getModel<
       AuxiliaryObjectReference
     >(this.node.attrs.rid)
 

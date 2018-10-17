@@ -3,7 +3,7 @@ import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import { Selected } from '../../editor/lib/utils'
 import { parse } from '../../editor/title/config'
-import { Manuscript } from '../../types/components'
+import { Manuscript } from '../../types/models'
 import { debounceRender } from '../DebounceRender'
 import DraggableTree, { buildTree, TreeItem } from './DraggableTree'
 

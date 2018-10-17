@@ -1,21 +1,21 @@
 import projectDump from '@manuscripts/examples/data/project-dump.json'
-import { AnyComponent } from '../../../types/components'
+import { Model } from '../../../types/models'
 import { Decoder } from '../../decode'
 
-export const createTestComponentMap = (): Map<string, AnyComponent> => {
-  const componentMap: Map<string, AnyComponent> = new Map()
+export const createTestModelMap = (): Map<string, Model> => {
+  const modelMap: Map<string, Model> = new Map()
 
-  for (const component of projectDump.data as AnyComponent[]) {
-    componentMap.set(component._id, component)
+  for (const component of projectDump.data as Model[]) {
+    modelMap.set(component._id, component)
   }
 
-  return componentMap
+  return modelMap
 }
 
 export const createTestDoc = () => {
-  const componentMap = createTestComponentMap()
+  const modelMap = createTestModelMap()
 
-  const decoder = new Decoder(componentMap)
+  const decoder = new Decoder(modelMap)
 
   return decoder.createArticleNode()
 }

@@ -1,4 +1,4 @@
-import { Project } from '../../types/components'
+import { Project } from '../../types/models'
 import { getUserRole, isOwner, isViewer, isWriter, ProjectRole } from '../roles'
 
 describe('roles', () => {

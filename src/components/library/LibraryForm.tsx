@@ -17,7 +17,7 @@ import {
   withKeywords,
 } from '../../store/KeywordsProvider'
 import { styled } from '../../theme'
-import { BibliographyItem, Keyword } from '../../types/components'
+import { BibliographyItem, Keyword } from '../../types/models'
 import { DeleteButton, PrimaryButton, ThemedButtonProps } from '../Button'
 
 const Fields = styled.div`

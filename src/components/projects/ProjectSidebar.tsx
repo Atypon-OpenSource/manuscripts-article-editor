@@ -4,7 +4,7 @@ import { RxDocument } from 'rxdb'
 import Title from '../../editor/title/Title'
 import { TitleField } from '../../editor/title/TitleField'
 import { styled } from '../../theme'
-import { Manuscript, Project } from '../../types/components'
+import { Manuscript, Project } from '../../types/models'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import Panel from '../Panel'
 import {
@@ -62,7 +62,7 @@ const ProjectSidebar: React.SFC<Props> = ({
       <SidebarHeader>
         <SidebarTitle>
           <ProjectTitle
-            value={project.title}
+            value={project.title || ''}
             handleChange={async (title: string) => {
               if (title && title !== project.title) {
                 await saveProject({ title })

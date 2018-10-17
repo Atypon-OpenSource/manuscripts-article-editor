@@ -17,7 +17,8 @@ declare namespace CSL {
     /** First variant if no end date. Second variant if there is an end date */
     'date-parts'?: [DatePart] | [DatePart, DatePart]
     /** Spring, Summer, Fall, Winter */
-    season?: '1' | '2' | '3' | '4'
+    // season?: '1' | '2' | '3' | '4'
+    season?: 1 | 2 | 3 | 4
     /** If date is approximate, this should be true. Otherwise Don't set */
     circa?: boolean
     /** Literal date string. Should be used as a last resort */

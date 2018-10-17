@@ -1,5 +1,5 @@
 import React from 'react'
-import { UserProfile } from '../../types/components'
+import { UserProfile } from '../../types/models'
 import {
   ChangePasswordMessage,
   DeleteAccountMessage,

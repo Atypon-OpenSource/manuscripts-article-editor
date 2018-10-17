@@ -1,6 +1,6 @@
 import { TextSelection } from 'prosemirror-state'
 import React from 'react'
-import { componentsKey, INSERT } from '../../editor/config/plugins/components'
+import { INSERT, modelsKey } from '../../editor/config/plugins/models'
 import { objectsKey, Target } from '../../editor/config/plugins/objects'
 import schema from '../../editor/config/schema/index'
 import { ToolbarDropdownProps } from '../../editor/Toolbar'
@@ -46,7 +46,7 @@ class CrossReferencePickerContainer extends React.Component<
     const pos = selection.to
 
     let tr = state.tr
-      .setMeta(componentsKey, { [INSERT]: [auxiliaryObjectReference] })
+      .setMeta(modelsKey, { [INSERT]: [auxiliaryObjectReference] })
       .insert(pos, crossReferenceNode)
 
     // restore the selection

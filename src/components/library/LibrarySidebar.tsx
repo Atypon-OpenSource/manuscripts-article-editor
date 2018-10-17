@@ -2,8 +2,8 @@ import qs from 'qs'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { jellyBeanBlue, manuscriptsBlue } from '../../colors'
+import { LibrarySource } from '../../lib/sources'
 import { styled } from '../../theme'
-import { LibrarySource } from '../../types/library'
 import Panel from '../Panel'
 import {
   Sidebar,

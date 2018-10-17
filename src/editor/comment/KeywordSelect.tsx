@@ -1,7 +1,7 @@
 import React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
-import { Keyword } from '../../types/components'
+import { Keyword } from '../../types/models'
 import { plainStyles } from './select'
 
 interface OptionType {

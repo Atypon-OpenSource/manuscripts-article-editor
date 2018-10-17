@@ -5,10 +5,10 @@ import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { buildBibliographyItem } from '../../lib/commands'
 import { sources } from '../../lib/sources'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { BIBLIOGRAPHY_ITEM } from '../../transformer/object-types'
-import { BibliographyItem, Project } from '../../types/components'
-import { LibraryDocument } from '../../types/library'
+import { BibliographyItem, Project } from '../../types/models'
+
 import { Page } from '../Page'
 import LibraryContainer from './LibraryContainer'
 import LibrarySidebar from './LibrarySidebar'
@@ -17,7 +17,7 @@ import LibrarySourceContainer from './LibrarySourceContainer'
 interface State {
   item: BibliographyItem | null
   items: BibliographyItem[] | null
-  library: LibraryDocument[]
+  library: Array<RxDocument<BibliographyItem>>
   query: string | null
   source: string
   project: Project | null
@@ -27,7 +27,7 @@ interface RouteParams {
   projectID: string
 }
 
-type Props = RouteComponentProps<RouteParams> & ComponentsProps
+type Props = RouteComponentProps<RouteParams> & ModelsProps
 
 class LibraryPageContainer extends React.Component<Props, State> {
   public state: Readonly<State> = {
@@ -118,7 +118,7 @@ class LibraryPageContainer extends React.Component<Props, State> {
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   private setSource(props: Props) {
@@ -134,7 +134,7 @@ class LibraryPageContainer extends React.Component<Props, State> {
 
     const item = buildBibliographyItem(data)
 
-    await this.props.components.saveComponent(item, {
+    await this.props.models.saveModel(item, {
       projectID,
     })
   }
@@ -142,13 +142,13 @@ class LibraryPageContainer extends React.Component<Props, State> {
   private handleSave = (item: BibliographyItem) => {
     const { projectID } = this.props.match.params
 
-    return this.props.components.saveComponent<BibliographyItem>(item, {
+    return this.props.models.saveModel<BibliographyItem>(item, {
       projectID,
     })
   }
 
   private handleDelete = async (item: BibliographyItem): Promise<string> => {
-    await this.props.components.deleteComponent(item._id)
+    await this.props.models.deleteModel(item._id)
 
     this.setState({
       item: null,
@@ -160,9 +160,10 @@ class LibraryPageContainer extends React.Component<Props, State> {
   // TODO: move this to source definition
   private hasItem = (item: BibliographyItem): boolean => {
     return this.state.library.some(
-      (libraryItem: LibraryDocument) => libraryItem.get('DOI') === item.DOI
+      (libraryItem: RxDocument<BibliographyItem>) =>
+        libraryItem.get('DOI') === item.DOI
     )
   }
 }
 
-export default withComponents(LibraryPageContainer)
+export default withModels(LibraryPageContainer)

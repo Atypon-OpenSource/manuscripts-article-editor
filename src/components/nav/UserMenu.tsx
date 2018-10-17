@@ -1,5 +1,5 @@
 import React from 'react'
-import { UserProfile } from '../../types/components'
+import { UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import MenuDropdown from './MenuDropdown'
 import { UserInfo } from './UserInfo'

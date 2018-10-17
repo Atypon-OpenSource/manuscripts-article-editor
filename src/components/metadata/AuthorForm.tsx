@@ -2,11 +2,7 @@ import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
 import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme'
-import {
-  Affiliation,
-  BibliographicName,
-  Contributor,
-} from '../../types/components'
+import { Affiliation, BibliographicName, Contributor } from '../../types/models'
 import AutoSaveInput from '../AutoSaveInput'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
@@ -62,7 +58,7 @@ const Legend = styled.legend`
 
 interface BibliographicNameValues extends Partial<BibliographicName> {
   _id: string
-  objectType: string
+  objectType: 'MPBibliographicName'
   given: string
   family: string
   suffix?: string
@@ -70,10 +66,10 @@ interface BibliographicNameValues extends Partial<BibliographicName> {
 
 interface AffiliationValues extends Partial<Affiliation> {
   _id: string
-  name: string
   address?: string
   city?: string
   institution?: string
+  department?: string
 }
 
 // interface GrantValues {

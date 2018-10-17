@@ -1,71 +1,62 @@
 import JSZip from 'jszip'
 import * as ObjectTypes from '../transformer/object-types'
-import {
-  Component,
-  ComponentMap,
-  ComponentWithAttachment,
-  Figure,
-  UserProfile,
-} from '../types/components'
-import { JsonComponent, ProjectDump } from './importers'
+import { Figure, Model, ModelAttachment, UserProfile } from '../types/models'
+import { JsonModel, ProjectDump } from './importers'
 import { convert } from './pressroom'
 
 // tslint:disable-next-line:no-any
-export const removeEmptyStyles = (component: { [key: string]: any }) => {
-  Object.entries(component).forEach(([key, value]) => {
+export const removeEmptyStyles = (model: { [key: string]: any }) => {
+  Object.entries(model).forEach(([key, value]) => {
     if (value === '' && key.match(/Style$/)) {
-      delete component[key]
+      delete model[key]
     }
   })
 }
 
 const createProjectDump = (
-  componentMap: ComponentMap,
+  modelMap: Map<string, Model>,
   manuscriptID: string
 ): ProjectDump => ({
   version: '2.0',
-  data: Array.from(componentMap.values())
-    .filter((component: JsonComponent) => {
+  data: Array.from(modelMap.values())
+    .filter((model: JsonModel) => {
       return (
-        component.objectType !== ObjectTypes.MANUSCRIPT ||
-        component._id === manuscriptID
+        model.objectType !== ObjectTypes.MANUSCRIPT ||
+        model._id === manuscriptID
       )
     })
-    .map((component: JsonComponent) => {
-      delete component._attachments
-      delete component.attachment
-      delete component.src
+    .map((model: JsonModel) => {
+      delete model._attachments
+      delete model.attachment
+      delete model.src
 
-      removeEmptyStyles(component)
+      removeEmptyStyles(model)
 
-      return component
+      return model
     }),
 })
 
-const componentHasObjectType = <T extends Component>(
-  component: Component,
+const modelHasObjectType = <T extends Model>(
+  model: Model,
   objectType: string
-): component is T => {
-  return component.objectType === objectType
+): model is T => {
+  return model.objectType === objectType
 }
 
 const fetchBlob = (url: string) => fetch(url).then(res => res.blob())
 
 const fetchAttachment = (
-  component: ComponentWithAttachment
+  model: Model & ModelAttachment
 ): Promise<Blob> | null => {
   if (
-    componentHasObjectType<UserProfile>(component, ObjectTypes.USER_PROFILE) &&
-    component.image
+    modelHasObjectType<UserProfile>(model, ObjectTypes.USER_PROFILE) &&
+    model.image
   ) {
-    return fetchBlob(component.image)
+    return fetchBlob(model.image)
   }
 
-  if (
-    componentHasObjectType<Figure>(component, ObjectTypes.FIGURE) &&
-    component.src
-  ) {
-    return fetchBlob(component.src)
+  if (modelHasObjectType<Figure>(model, ObjectTypes.FIGURE) && model.src) {
+    return fetchBlob(model.src)
   }
 
   return null
@@ -74,22 +65,20 @@ const fetchAttachment = (
 export const generateAttachmentFilename = (id: string) => id.replace(':', '_')
 
 const buildProjectBundle = (
-  componentMap: ComponentMap,
+  modelMap: Map<string, Model>,
   manuscriptID: string
 ) => {
-  const data = createProjectDump(componentMap, manuscriptID)
+  const data = createProjectDump(modelMap, manuscriptID)
 
   const zip = new JSZip()
 
   zip.file<'string'>('index.manuscript-json', JSON.stringify(data))
 
-  for (const component of componentMap.values()) {
-    const attachment = fetchAttachment(component)
+  for (const model of modelMap.values()) {
+    const attachment = fetchAttachment(model)
 
     if (attachment) {
-      const filename = generateAttachmentFilename(
-        (component as JsonComponent)._id
-      )
+      const filename = generateAttachmentFilename((model as JsonModel)._id)
       zip.file<'blob'>('Data/' + filename, attachment)
     }
   }
@@ -116,11 +105,11 @@ export const downloadExtension = (format: string): string => {
 }
 
 export const exportProject = async (
-  componentMap: ComponentMap,
+  modelMap: Map<string, Model>,
   manuscriptID: string,
   format: string
 ) => {
-  const file = await buildProjectBundle(componentMap, manuscriptID)
+  const file = await buildProjectBundle(modelMap, manuscriptID)
   // download(file, 'manuscript.manuproj.zip')
 
   const form = new FormData()

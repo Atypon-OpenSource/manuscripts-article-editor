@@ -2,7 +2,7 @@ jest.mock('../pressroom')
 
 import data from '@manuscripts/examples/data/project-dump.json'
 import JSZip from 'jszip'
-import { Manuscript, Paragraph } from '../../types/components'
+import { Manuscript, Paragraph } from '../../types/models'
 import {
   exportProject,
   generateAttachmentFilename,
@@ -10,7 +10,7 @@ import {
   removeEmptyStyles,
 } from '../exporter'
 import { readManuscriptFromBundle } from '../importers'
-import { buildComponentMap } from './util'
+import { buildModelMap } from './util'
 
 describe('exporter', () => {
   test('generates a filename for an attachment', () => {
@@ -29,24 +29,24 @@ describe('exporter', () => {
   })
 
   test('removes empty properties', () => {
-    const componentMap = buildComponentMap(data)
+    const modelMap = buildModelMap(data)
 
-    const component = componentMap.get(
+    const model = modelMap.get(
       'MPParagraphElement:05A0ED43-8928-4C69-A17C-0A98795001CD'
     ) as Paragraph
 
-    expect(component.paragraphStyle).toBe(
+    expect(model.paragraphStyle).toBe(
       'MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637'
     )
-    component.paragraphStyle = ''
+    model.paragraphStyle = ''
 
-    removeEmptyStyles(component)
+    removeEmptyStyles(model)
 
-    expect(component.paragraphStyle).toBeUndefined()
+    expect(model.paragraphStyle).toBeUndefined()
   })
 
   test('exports a manuscript', async () => {
-    const componentMap = buildComponentMap(data)
+    const modelMap = buildModelMap(data)
     const manuscriptID = 'MPManuscript:8EB79C14-9F61-483A-902F-A0B8EF5973C9'
 
     const anotherManuscript: Partial<Manuscript> = {
@@ -59,13 +59,13 @@ describe('exporter', () => {
       updatedAt: 1538472121.690101,
     }
 
-    componentMap.set(
+    modelMap.set(
       (anotherManuscript as Manuscript)._id,
       anotherManuscript as Manuscript
     )
 
     // `result` is the blob that would be sent for conversion, echoed back
-    const result = await exportProject(componentMap, manuscriptID, 'docx')
+    const result = await exportProject(modelMap, manuscriptID, 'docx')
     expect(result).toBeInstanceOf(Blob)
 
     const zip = await new JSZip().loadAsync(result)

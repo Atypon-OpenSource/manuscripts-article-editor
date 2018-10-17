@@ -1,5 +1,5 @@
 import { KEYWORD } from '../../transformer/object-types'
-import { Keyword } from '../../types/components'
+import { Keyword } from '../../types/models'
 import sessionID from '../sessionID'
 import { prepareUpdate } from '../store'
 

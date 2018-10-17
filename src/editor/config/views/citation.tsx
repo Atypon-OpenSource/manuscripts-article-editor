@@ -3,14 +3,10 @@ import { NodeView } from 'prosemirror-view'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import CitationEditor from '../../../components/library/CitationEditor'
-import ComponentsProvider from '../../../store/ComponentsProvider'
 import KeywordsProvider from '../../../store/KeywordsProvider'
+import ModelsProvider from '../../../store/ModelsProvider'
 import { ThemeProvider } from '../../../theme'
-import {
-  BibliographyItem,
-  Citation,
-  CitationItem,
-} from '../../../types/components'
+import { BibliographyItem, Citation, CitationItem } from '../../../types/models'
 import { EditorProps } from '../../Editor'
 import { Purify } from '../../lib/dompurify'
 import { NodeViewCreator } from '../types'
@@ -53,11 +49,11 @@ class CitationView implements NodeView {
   }
 
   public selectNode() {
-    const { getComponent, getLibraryItem, projectID } = this.props
+    const { getModel, getLibraryItem, projectID } = this.props
 
     const { rid } = this.node.attrs
 
-    const citation = rid ? getComponent<Citation>(rid) : undefined
+    const citation = rid ? getModel<Citation>(rid) : undefined
 
     // TODO: handle missing objects?
     // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/395
@@ -73,7 +69,7 @@ class CitationView implements NodeView {
 
     ReactDOM.render(
       <ThemeProvider>
-        <ComponentsProvider>
+        <ModelsProvider>
           <KeywordsProvider>
             <CitationEditor
               items={items}
@@ -82,7 +78,7 @@ class CitationView implements NodeView {
               projectID={projectID}
             />
           </KeywordsProvider>
-        </ComponentsProvider>
+        </ModelsProvider>
       </ThemeProvider>,
       container
     )
@@ -102,13 +98,13 @@ class CitationView implements NodeView {
   private handleSave = async (item: BibliographyItem) => {
     this.props.popper.destroy()
 
-    await this.props.saveComponent(item)
+    await this.props.saveModel(item)
   }
 
   // private handleDelete = async () => {
   //   this.props.popper.destroy()
   //
-  //   await (this.props.deleteComponent as DeleteComponent)(this.node.attrs.id)
+  //   await (this.props.deleteModel as DeleteModel)(this.node.attrs.id)
   // }
 
   private createDOM() {

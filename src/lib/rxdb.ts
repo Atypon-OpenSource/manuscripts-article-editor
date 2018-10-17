@@ -14,7 +14,7 @@ import RxDBReplicationModule from 'rxdb/plugins/replication'
 import RxDBSchemaCheckModule from 'rxdb/plugins/schema-check'
 import RxDBUpdateModule from 'rxdb/plugins/update'
 import config from '../config'
-import { AnyComponent } from '../types/components'
+import { Model } from '../types/models'
 
 // TODO: re-enable QueryChangeDetector once the fix is released:
 // https://github.com/pubkey/rxdb/issues/754
@@ -36,9 +36,9 @@ if (config.environment !== 'production') {
 
 window.RxDB = RxDB
 
-export type AnyComponentChangeEvent =
-  | RxChangeEventInsert<AnyComponent>
-  | RxChangeEventUpdate<AnyComponent>
-  | RxChangeEventRemove<AnyComponent>
+export type ModelChangeEvent =
+  | RxChangeEventInsert<Model>
+  | RxChangeEventUpdate<Model>
+  | RxChangeEventRemove<Model>
 
 export default RxDB

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { importFile, openFilePicker } from '../../lib/importers'
 import { styled } from '../../theme'
-import { ImportManuscript } from '../../types/manuscript'
+import { Model } from '../../types/models'
 
 export interface ImportProps {
   isImporting: boolean
@@ -17,7 +17,7 @@ const Container = styled.div`
 `
 
 interface Props {
-  importManuscript: ImportManuscript
+  importManuscript: (models: Model[]) => Promise<void>
   render: (props: ImportProps) => React.ReactNode
 }
 

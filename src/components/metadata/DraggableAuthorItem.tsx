@@ -22,7 +22,7 @@ import {
   withDragDropContext,
 } from '../../lib/drag-drop-authors'
 import { styled } from '../../theme'
-import { Contributor, UserProfile } from '../../types/components'
+import { Contributor, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { AuthorName } from './AuthorName'
 import AuthorRemoveButton from './AuthorRemoveButton'

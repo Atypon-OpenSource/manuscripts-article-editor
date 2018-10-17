@@ -4,7 +4,6 @@ import React from 'react'
 import { Redirect } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
-import { DeleteComponent, SaveComponent } from '../../editor/Editor'
 import Spinner from '../../icons/spinner'
 import { projectInvite } from '../../lib/api'
 import {
@@ -13,14 +12,15 @@ import {
   buildSortedAuthors,
 } from '../../lib/authors'
 import {
+  Build,
   buildAffiliation,
   buildBibliographicName,
   buildContributor,
 } from '../../lib/commands'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { getComponentFromDoc } from '../../transformer/decode'
+import { getModelFromDoc } from '../../transformer/decode'
 import {
   PROJECT_INVITATION,
   USER_PROFILE,
@@ -28,13 +28,13 @@ import {
 import {
   Affiliation,
   Attachments,
-  ComponentMap,
   Contributor,
   Manuscript,
+  Model,
   Project,
   ProjectInvitation,
   UserProfile,
-} from '../../types/components'
+} from '../../types/models'
 import {
   InvitationErrors,
   InvitationValues,
@@ -42,14 +42,12 @@ import {
 import { AuthorValues } from './AuthorForm'
 import { Metadata } from './Metadata'
 
-type SaveManuscript = (manuscript: Partial<Manuscript>) => Promise<void>
-
 interface Props {
   manuscript: Manuscript
-  componentMap: ComponentMap
-  saveManuscript?: SaveManuscript
-  saveComponent: SaveComponent
-  deleteComponent: DeleteComponent
+  modelMap: Map<string, Model>
+  saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
+  saveModel: <T extends Model>(model: Build<T>) => Promise<T>
+  deleteModel: (id: string) => Promise<string>
   handleSectionChange: (section: string) => void
 }
 
@@ -74,7 +72,7 @@ interface State {
 }
 
 class MetadataContainer extends React.Component<
-  Props & ComponentsProps & UserProps,
+  Props & ModelsProps & UserProps,
   State
 > {
   public state: Readonly<State> = {
@@ -136,7 +134,7 @@ class MetadataContainer extends React.Component<
       affiliations,
       authors,
       authorAffiliations,
-    } = buildAuthorsAndAffiliations(this.props.componentMap)
+    } = buildAuthorsAndAffiliations(this.props.modelMap)
 
     if (!project) {
       return <Spinner />
@@ -222,7 +220,7 @@ class MetadataContainer extends React.Component<
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   private handleRemovePopperOpen = () =>
@@ -234,7 +232,7 @@ class MetadataContainer extends React.Component<
       .$.subscribe(
         async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
           const users = await Promise.all(
-            docs.map(doc => getComponentFromDoc<UserProfile>(doc))
+            docs.map(doc => getModelFromDoc<UserProfile>(doc))
           )
 
           const userMap = users.reduce((output, user) => {
@@ -281,7 +279,7 @@ class MetadataContainer extends React.Component<
       })
 
   private saveTitle = async (title: string) => {
-    await (this.props.saveManuscript as SaveManuscript)({
+    await this.props.saveManuscript!({
       _id: this.props.manuscript._id,
       title,
     })
@@ -302,9 +300,9 @@ class MetadataContainer extends React.Component<
       })
 
       const author = invitationID
-        ? buildContributor(bibName, 'author', priority, null, invitationID)
+        ? buildContributor(bibName, 'author', priority, undefined, invitationID)
         : buildContributor(bibName, 'author', priority)
-      await this.props.saveComponent<Contributor>(author as Contributor)
+      await this.props.saveModel<Contributor>(author as Contributor)
       this.setState({
         addedAuthorsCount: this.state.addedAuthorsCount + 1,
       })
@@ -318,7 +316,7 @@ class MetadataContainer extends React.Component<
         person.userID
       )
 
-      const result = await this.props.saveComponent<Contributor>(
+      const result = await this.props.saveModel<Contributor>(
         author as Contributor
       )
       this.setState({
@@ -332,7 +330,7 @@ class MetadataContainer extends React.Component<
   private createAffiliation = async (name: string): Promise<Affiliation> => {
     const affiliation = buildAffiliation(name)
 
-    return this.props.saveComponent<Affiliation>(affiliation)
+    return this.props.saveModel<Affiliation>(affiliation)
   }
 
   private selectAuthor = (selectedAuthor: Contributor) => {
@@ -347,7 +345,7 @@ class MetadataContainer extends React.Component<
   }
 
   private removeAuthor = async (author: Contributor) => {
-    await this.props.deleteComponent(author._id)
+    await this.props.deleteModel(author._id)
     this.deselectAuthor()
     if (this.state.addedAuthors.includes(author.userID as string)) {
       const index = this.state.addedAuthors.indexOf(author.userID as string)
@@ -358,7 +356,7 @@ class MetadataContainer extends React.Component<
   private startAddingAuthors = () => {
     this.setState({ addingAuthors: true })
 
-    const authors = buildSortedAuthors(this.props.componentMap)
+    const authors = buildSortedAuthors(this.props.modelMap)
     this.buildCollaborators(authors, this.state.collaborators)
   }
 
@@ -490,7 +488,7 @@ class MetadataContainer extends React.Component<
       .$.subscribe(async (doc: RxDocument<ProjectInvitation>) => {
         if (!doc) return
         const invitation = doc.toJSON() as ProjectInvitation
-        const authors = buildSortedAuthors(this.props.componentMap)
+        const authors = buildSortedAuthors(this.props.modelMap)
         await this.createAuthor(
           buildAuthorPriority(authors),
           null,
@@ -538,24 +536,15 @@ class MetadataContainer extends React.Component<
 
     await Promise.all(
       values.affiliations.map((item: Affiliation) =>
-        this.props.saveComponent(item)
+        this.props.saveModel<Affiliation>(item)
       )
     )
 
-    // await Promise.all(
-    //   values.grants.map((item: Grant) =>
-    //     this.props.components.saveComponent(this.props.manuscript._id, item)
-    //   )
-    // )
-
-    await this.props.saveComponent({
+    await this.props.saveModel<Contributor>({
       ...selectedAuthor,
       ...values,
       affiliations: values.affiliations.map(item => item._id),
-      // grants: props.values.grants.map(item => item._id),
     })
-
-    // this.deselectAuthor()
   }
 
   private handleDrop = async (
@@ -569,14 +558,14 @@ class MetadataContainer extends React.Component<
 
       authors[source.index].priority = (target.priority as number) + addIndex
 
-      await this.props.saveComponent<Contributor>(authors[source.index])
+      await this.props.saveModel<Contributor>(authors[source.index])
       await this.decreasePriority(source, target, authors, addIndex)
     } else if (source.index < target.index) {
       const subIndex = side === 'before' ? 1 : 0
 
       authors[source.index].priority = (target.priority as number) - subIndex
 
-      await this.props.saveComponent<Contributor>(authors[source.index])
+      await this.props.saveModel<Contributor>(authors[source.index])
       await this.increasePriority(source, target, authors, subIndex)
     }
   }
@@ -588,11 +577,8 @@ class MetadataContainer extends React.Component<
     addIndex: number
   ) {
     for (let idx = source.index - 1; idx >= target.index + addIndex; idx--) {
-      authors[idx].priority =
-        authors[idx].priority !== undefined
-          ? (authors[idx].priority as number) + 1
-          : undefined
-      await this.props.saveComponent<Contributor>(authors[idx])
+      authors[idx].priority = Number(authors[idx].priority) + 1
+      await this.props.saveModel<Contributor>(authors[idx])
     }
   }
 
@@ -603,11 +589,8 @@ class MetadataContainer extends React.Component<
     subIndex: number
   ) {
     for (let idx = source.index + 1; idx <= target.index - subIndex; idx++) {
-      authors[idx].priority =
-        authors[idx].priority !== undefined
-          ? (authors[idx].priority as number) - 1
-          : undefined
-      await this.props.saveComponent<Contributor>(authors[idx])
+      authors[idx].priority = Number(authors[idx].priority) - 1
+      await this.props.saveModel<Contributor>(authors[idx])
     }
   }
 
@@ -621,4 +604,4 @@ class MetadataContainer extends React.Component<
   }
 }
 
-export default withComponents<Props>(withUser(MetadataContainer))
+export default withModels<Props>(withUser(MetadataContainer))

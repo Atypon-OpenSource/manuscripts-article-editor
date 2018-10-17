@@ -4,7 +4,7 @@ import AddAuthor from '../../icons/add-author'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner } from '../../lib/roles'
 import { styled } from '../../theme'
-import { Project, ProjectInvitation, UserProfile } from '../../types/components'
+import { Project, ProjectInvitation, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import Panel from '../Panel'
 import {

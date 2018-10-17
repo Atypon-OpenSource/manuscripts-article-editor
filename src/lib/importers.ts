@@ -3,24 +3,24 @@ import { extname } from 'path'
 import { FIGURE } from '../transformer/object-types'
 import {
   Attachments,
-  Component,
-  ComponentAttachment,
-  ContainedComponent,
+  ContainedModel,
   Figure,
-} from '../types/components'
+  Model,
+  ModelAttachment,
+} from '../types/models'
 import { generateAttachmentFilename } from './exporter'
 import { convert } from './pressroom'
 
-type Importer = (file: File) => Promise<Component[]>
+type Importer = (file: File) => Promise<Model[]>
 
 interface Importers {
   [key: string]: Importer
 }
 
-export interface JsonComponent
-  extends ContainedComponent,
+export interface JsonModel
+  extends ContainedModel,
     Attachments,
-    ComponentAttachment {
+    ModelAttachment {
   _id: string
   bundled: boolean
   collection: string
@@ -29,13 +29,13 @@ export interface JsonComponent
 
 export interface ProjectDump {
   version: string
-  data: JsonComponent[]
+  data: JsonModel[]
 }
 
-const componentHasObjectType = <T extends Component>(objectType: string) => (
-  component: Component
-): component is T => {
-  return component.objectType === objectType
+const modelHasObjectType = <T extends Model>(objectType: string) => (
+  model: Model
+): model is T => {
+  return model.objectType === objectType
 }
 
 export const readManuscriptFromBundle = async (
@@ -72,7 +72,7 @@ const importProjectBundle = async (result: Blob) => {
 
   await Promise.all(
     items
-      .filter(componentHasObjectType<Figure>(FIGURE))
+      .filter(modelHasObjectType<Figure>(FIGURE))
       .map(async (item: Figure) => {
         const filename = generateAttachmentFilename(item._id)
 

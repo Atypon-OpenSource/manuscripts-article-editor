@@ -32,22 +32,23 @@ import {
   InlineMathFragment,
   Keyword,
   Manuscript,
-  ManuscriptComponent,
+  ManuscriptModel,
+  Model,
   Project,
-} from '../types/components'
+} from '../types/models'
 import { DEFAULT_BUNDLE } from './csl'
 
-export type Build<T> = Pick<T, Exclude<keyof T, keyof ManuscriptComponent>> & {
+export type Build<T> = Pick<T, Exclude<keyof T, keyof ManuscriptModel>> & {
   _id: string
   objectType: string
 }
 
-export type BuildEmbedded<T> = Pick<
+export type BuildEmbedded<T extends Model> = Pick<
   T,
-  Exclude<keyof T, keyof ManuscriptComponent>
+  Exclude<keyof T, keyof ManuscriptModel>
 > & {
   _id: string
-  objectType: string
+  objectType: T['objectType']
 }
 
 export const buildProject = (owner: string): Build<Project> => ({
@@ -70,7 +71,7 @@ export const buildContributor = (
   bibliographicName: BibliographicName,
   role: ContributorRole = 'author',
   priority: number = 0,
-  userID?: string | null,
+  userID?: string,
   invitationID?: string
 ): Build<Contributor> => ({
   _id: generateID('contributor') as string,
@@ -151,10 +152,14 @@ export const buildFigure = (file: File): Build<Figure> => ({
   },
 })
 
-export const buildAffiliation = (name: string): Build<Affiliation> => ({
+export const buildAffiliation = (
+  institution: string,
+  priority: number = 0
+): Build<Affiliation> => ({
   _id: generateID('affiliation') as string,
   objectType: AFFILIATION,
-  name,
+  institution,
+  priority,
 })
 
 export const buildComment = (

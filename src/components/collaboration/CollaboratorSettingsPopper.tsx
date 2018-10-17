@@ -1,6 +1,6 @@
 import React from 'react'
 import { getUserRole } from '../../lib/roles'
-import { Project, UserProfile } from '../../types/components'
+import { Project, UserProfile } from '../../types/models'
 import { CollaboratorRolePopper } from './CollaboratorRolePopper'
 import { RemoveCollaboratorPopper } from './RemoveCollaboratorPopper'
 import UpdateRolePageContainer from './UpdateRolePageContainer'

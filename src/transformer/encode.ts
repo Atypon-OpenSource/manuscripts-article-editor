@@ -2,11 +2,8 @@ import { DOMSerializer, Node as ProsemirrorNode } from 'prosemirror-model'
 import schema from '../editor/config/schema'
 import { iterateChildren } from '../editor/lib/utils'
 import {
-  AnyComponent,
   BibliographyElement,
   Citation,
-  ComponentMap,
-  ComponentWithAttachment,
   Equation,
   EquationElement,
   FigureElement,
@@ -16,13 +13,14 @@ import {
   List,
   Listing,
   ListingElement,
+  Model,
   Paragraph,
   PlaceholderElement,
   Section,
   Table,
   TableElement,
   TOCElement,
-} from '../types/components'
+} from '../types/models'
 import nodeTypes, { NodeTypeName } from './node-types'
 import xmlSerializer from './serializer'
 
@@ -148,7 +146,7 @@ const tableContents = (
   return xmlSerializer.serializeToString(output)
 }
 
-const childComponentNodes = (node: ProsemirrorNode): ProsemirrorNode[] => {
+const childElements = (node: ProsemirrorNode): ProsemirrorNode[] => {
   const nodes: ProsemirrorNode[] = []
 
   node.forEach(node => {
@@ -194,7 +192,7 @@ type NodeEncoder = (
   parent: ProsemirrorNode,
   path: string[],
   priority: PrioritizedValue
-) => Partial<AnyComponent>
+) => Partial<Model>
 
 // type NodeEncoderMap = { [key in NodeTypeName]: NodeEncoder }
 interface NodeEncoderMap {
@@ -210,7 +208,7 @@ const encoders: NodeEncoderMap = {
     priority: priority.value++,
     title: inlineContentsOfNodeType(node, 'section_title'),
     path: path.concat([node.attrs.id]),
-    elementIDs: childComponentNodes(node)
+    elementIDs: childElements(node)
       .map(node => node.attrs.id)
       .filter(id => id),
   }),
@@ -285,7 +283,7 @@ const encoders: NodeEncoderMap = {
     priority: priority.value++,
     title: inlineContentsOfNodeType(node, 'section_title'),
     path: path.concat([node.attrs.id]),
-    elementIDs: childComponentNodes(node)
+    elementIDs: childElements(node)
       .map(node => node.attrs.id)
       .filter(id => id),
     titleSuppressed: node.attrs.titleSuppressed || undefined,
@@ -309,37 +307,37 @@ const encoders: NodeEncoderMap = {
     priority: priority.value++,
     title: inlineContentsOfNodeType(node, 'section_title'),
     path: path.concat([node.attrs.id]),
-    elementIDs: childComponentNodes(node)
+    elementIDs: childElements(node)
       .map(node => node.attrs.id)
       .filter(id => id),
   }),
 }
 
-const componentData = (
+const modelData = (
   node: ProsemirrorNode,
   parent: ProsemirrorNode,
   path: string[],
   priority: PrioritizedValue
-): Partial<AnyComponent> => {
+): Partial<Model> => {
   const encoder = encoders[node.type.name]
 
-  if (!encoder) throw new Error(`Unhandled component: ${node.type.name}`)
+  if (!encoder) throw new Error(`Unhandled model: ${node.type.name}`)
 
   return encoder(node, parent, path, priority)
 }
 
-export const componentFromNode = (
+export const modelFromNode = (
   node: ProsemirrorNode,
   parent: ProsemirrorNode,
   path: string[],
   priority: PrioritizedValue
-): Partial<ComponentWithAttachment> => {
+): Model => {
   // TODO: in handlePaste, filter out non-standard IDs
 
   return {
     _id: node.attrs.id,
     objectType: nodeTypes.get(node.type.name as NodeTypeName) as string,
-    ...componentData(node, parent, path, priority),
+    ...modelData(node, parent, path, priority),
   }
 }
 
@@ -347,8 +345,8 @@ interface PrioritizedValue {
   value: number
 }
 
-export const encode = (node: ProsemirrorNode): ComponentMap => {
-  const components: ComponentMap = new Map()
+export const encode = (node: ProsemirrorNode): Map<string, Model> => {
+  const models: Map<string, Model> = new Map()
 
   const priority: PrioritizedValue = {
     value: 1,
@@ -356,22 +354,19 @@ export const encode = (node: ProsemirrorNode): ComponentMap => {
 
   const placeholders = ['placeholder', 'placeholder_element']
 
-  const addComponent = (path: string[], parent: ProsemirrorNode) => (
+  const addModel = (path: string[], parent: ProsemirrorNode) => (
     child: ProsemirrorNode
   ) => {
     if (!child.attrs.id) return
     if (placeholders.includes(child.type.name)) return
 
-    const component = componentFromNode(child, parent, path, priority)
-    components.set(
-      component._id as string,
-      component as ComponentWithAttachment
-    )
+    const model = modelFromNode(child, parent, path, priority)
+    models.set(model._id, model)
 
-    child.forEach(addComponent(path.concat(child.attrs.id), child))
+    child.forEach(addModel(path.concat(child.attrs.id), child))
   }
 
-  node.forEach(addComponent([], node))
+  node.forEach(addModel([], node))
 
-  return components
+  return models
 }

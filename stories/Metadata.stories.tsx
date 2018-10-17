@@ -13,7 +13,7 @@ import {
   buildAffiliationIDs,
   buildAuthorAffiliations,
 } from '../src/lib/authors'
-import { Project, UserProfile } from '../src/types/components'
+import { Project, UserProfile } from '../src/types/models'
 import { affiliations, authors } from './data/contributors'
 import manuscripts from './data/manuscripts'
 

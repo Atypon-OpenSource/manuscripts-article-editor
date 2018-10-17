@@ -1,4 +1,4 @@
-import { AnyContainedComponent, ManuscriptComponent } from '../types/components'
+import { ManuscriptModel, Model } from '../types/models'
 
 export const AFFILIATION = 'MPAffiliation'
 export const AUXILIARY_OBJECT_REFERENCE = 'MPAuxiliaryObjectReference'
@@ -60,13 +60,11 @@ export const manuscriptObjects = [
   TOC_SECTION,
 ].concat(elementObjects) // TODO: remove elementObjects if they don't need `manuscriptID`
 
-export const isManuscriptComponent = (
-  component: Partial<AnyContainedComponent>
-): component is ManuscriptComponent => {
+export const isManuscriptModel = (model: Model): model is ManuscriptModel => {
   // TODO: check all required fields
-  if (!component.objectType) {
-    throw new Error('Component must have objectType')
+  if (!model.objectType) {
+    throw new Error('Model must have objectType')
   }
 
-  return manuscriptObjects.includes(component.objectType)
+  return manuscriptObjects.includes(model.objectType)
 }

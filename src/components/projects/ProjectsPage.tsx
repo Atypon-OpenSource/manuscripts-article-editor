@@ -1,7 +1,6 @@
 import React from 'react'
 import { styled } from '../../theme'
-import { Project, UserProfile } from '../../types/components'
-import { AddProject } from '../../types/project'
+import { Project, UserProfile } from '../../types/models'
 import { GlobalMenu } from '../nav/GlobalMenu'
 import ProjectsSidebar from './ProjectsSidebar'
 
@@ -15,7 +14,7 @@ const Container = styled.div`
 
 interface Props {
   projects: Project[]
-  addProject: AddProject
+  addProject: () => Promise<void>
   getCollaborators: (project: Project) => UserProfile[]
 }
 

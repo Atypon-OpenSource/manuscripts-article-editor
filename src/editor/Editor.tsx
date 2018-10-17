@@ -11,17 +11,14 @@ import 'prosemirror-view/style/prosemirror.css'
 import React from 'react'
 import MetadataContainer from '../components/metadata/MetadataContainer'
 import { ApplicationMenu } from '../components/projects/ApplicationMenu'
+import { Build } from '../lib/commands'
 import { styled } from '../theme'
 import {
-  AnyContainedComponent,
-  Attachments,
   BibliographyItem,
-  ComponentAttachment,
-  ComponentMap,
   Manuscript,
+  Model,
   UserProfile,
-} from '../types/components'
-import { ExportManuscript, ImportManuscript } from '../types/manuscript'
+} from '../types/models'
 import menus from './config/menus'
 import plugins from './config/plugins'
 import schema from './config/schema'
@@ -38,15 +35,6 @@ export type ChangeReceiver = (
   id: string,
   data?: ProsemirrorNode | null
 ) => void
-export type GetComponent = <
-  T extends AnyContainedComponent | AnyContainedComponent & Attachments
->(
-  id: string
-) => T | undefined
-export type SaveComponent = <T extends AnyContainedComponent>(
-  component: (T & ComponentAttachment) | Partial<T>
-) => Promise<T & Attachments>
-export type DeleteComponent = (id: string) => Promise<string>
 
 export interface EditorProps {
   attributes?: { [key: string]: string }
@@ -54,20 +42,20 @@ export interface EditorProps {
   getCitationProcessor: () => Citeproc.Processor
   doc: ProsemirrorNode
   editable?: boolean
-  getComponent: GetComponent
-  saveComponent: SaveComponent
-  deleteComponent: DeleteComponent
+  getModel: <T extends Model>(id: string) => T | undefined
+  saveModel: <T extends Model>(model: Build<T>) => Promise<T>
+  deleteModel: (id: string) => Promise<string>
   getLibraryItem: (id: string) => BibliographyItem
   getManuscript: () => Manuscript
   saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
   addManuscript?: () => Promise<void>
   deleteManuscript: (id: string) => Promise<void>
-  importManuscript: ImportManuscript
-  exportManuscript: ExportManuscript
+  importManuscript: (models: Model[]) => Promise<void>
+  exportManuscript: (format: string) => Promise<void>
   locale: string
   onChange?: (state: EditorState, docChanged: boolean) => void
   subscribe?: (receive: ChangeReceiver) => void
-  componentMap: ComponentMap
+  modelMap: Map<string, Model>
   popper: PopperManager
   setView?: (view: EditorView) => void
   manuscript: Manuscript
@@ -159,11 +147,11 @@ class Editor extends React.Component<EditorProps, State> {
 
         <EditorBody>
           <MetadataContainer
-            componentMap={this.props.componentMap}
+            modelMap={this.props.modelMap}
             saveManuscript={this.props.saveManuscript}
             manuscript={this.props.manuscript}
-            saveComponent={this.props.saveComponent}
-            deleteComponent={this.props.deleteComponent}
+            saveModel={this.props.saveModel}
+            deleteModel={this.props.deleteModel}
             handleSectionChange={this.props.handleSectionChange}
           />
           <div ref={this.createEditorView} />

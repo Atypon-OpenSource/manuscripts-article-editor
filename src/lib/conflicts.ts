@@ -1,5 +1,6 @@
+import { RxCollection } from 'rxdb'
 import RxDB from 'rxdb/plugins/core'
-import { ComponentCollection } from '../types/components'
+import { Model } from '../types/models'
 
 interface PouchOpenRevsDoc {
   _revisions: {
@@ -28,7 +29,7 @@ export interface Conflict {
 }
 
 const saveConflictLocally = async (
-  collection: ComponentCollection,
+  collection: RxCollection<Model>,
   conflict: Conflict
 ) => {
   const { manuscriptID, _id } = conflict.local
@@ -140,7 +141,7 @@ export const updateDoc = (collection: any, changeDoc: PouchOpenRevsDoc) => {
 }
 
 const removeRevs = async (
-  collection: ComponentCollection,
+  collection: RxCollection<Model>,
   conflict: Conflict,
   revToRemove: string,
   winningRev: string
@@ -167,7 +168,7 @@ const removeRevs = async (
 }
 
 export const removeConflict = (
-  collection: ComponentCollection,
+  collection: RxCollection<Model>,
   conflict: Conflict
 ) => {
   const revs = conflict.local._revisions.ids
@@ -187,7 +188,7 @@ export const removeConflict = (
 }
 
 const getConflict = async (
-  collection: ComponentCollection,
+  collection: RxCollection<Model>,
   conflictingRev: ConflictingRevision
 ): Promise<Conflict | null> => {
   const docs = await collection.pouch
@@ -249,7 +250,7 @@ const getConflict = async (
  * from the main synced collection
  */
 export const handleConflicts = async (
-  collection: ComponentCollection,
+  collection: RxCollection<Model>,
   conflictingRevs: ConflictingRevision[]
 ) => {
   for (const conflictingRev of conflictingRevs) {

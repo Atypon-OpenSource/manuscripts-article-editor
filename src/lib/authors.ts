@@ -1,11 +1,11 @@
-import { getComponentsByType } from '../transformer/decode'
+import { getModelsByType } from '../transformer/decode'
 import { CONTRIBUTOR } from '../transformer/object-types'
-import { Affiliation, ComponentMap, Contributor } from '../types/components'
+import { Affiliation, Contributor, Model } from '../types/models'
 
 export type AffiliationMap = Map<string, Affiliation>
 
-export const buildSortedAuthors = (componentMap: ComponentMap) => {
-  return getComponentsByType<Contributor>(componentMap, CONTRIBUTOR)
+export const buildSortedAuthors = (modelMap: Map<string, Model>) => {
+  return getModelsByType<Contributor>(modelMap, CONTRIBUTOR)
     .filter(item => item.role === 'author')
     .sort((a, b) => Number(a.priority) - Number(b.priority))
 }
@@ -13,7 +13,7 @@ export const buildSortedAuthors = (componentMap: ComponentMap) => {
 export const buildAuthorPriority = (authors: Contributor[]) => {
   if (!authors.length) return 0
 
-  const priorities = authors.map(author => author.priority!)
+  const priorities = authors.map(author => Number(author.priority))
 
   return Math.max(...priorities) + 1
 }
@@ -56,21 +56,21 @@ export const buildAuthorAffiliations = (
 
 export const buildAffiliationsMap = (
   affiliationIDs: string[],
-  componentMap: ComponentMap
+  modelMap: Map<string, Model>
 ): AffiliationMap =>
   new Map(
     affiliationIDs.map(
       (id: string): [string, Affiliation] => [
         id,
-        componentMap.get(id) as Affiliation,
+        modelMap.get(id) as Affiliation,
       ]
     )
   )
 
-export const buildAuthorsAndAffiliations = (componentMap: ComponentMap) => {
-  const authors = buildSortedAuthors(componentMap)
+export const buildAuthorsAndAffiliations = (modelMap: Map<string, Model>) => {
+  const authors = buildSortedAuthors(modelMap)
   const affiliationIDs = buildAffiliationIDs(authors)
-  const affiliations = buildAffiliationsMap(affiliationIDs, componentMap)
+  const affiliations = buildAffiliationsMap(affiliationIDs, modelMap)
 
   const authorAffiliations = buildAuthorAffiliations(
     authors,

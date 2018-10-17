@@ -7,7 +7,7 @@ import MarkdownFile from '../icons/welcome/markdown-file'
 import Project from '../icons/welcome/project'
 import TextFile from '../icons/welcome/text-file'
 import { styled, ThemedProps } from '../theme'
-import { ImportManuscript } from '../types/manuscript'
+import { Model } from '../types/models'
 import ImportContainer, { ImportProps } from './projects/ImportContainer'
 import { SimpleModal } from './SimpleModal'
 
@@ -212,7 +212,7 @@ export interface WelcomeProps {
   createNewManuscript: () => void
   openManuscript: (file: RecentFile) => void
   sendFeedback: () => void
-  importManuscript: ImportManuscript
+  importManuscript: (models: Model[]) => Promise<void>
 }
 
 export const WelcomePage: React.SFC<WelcomeProps> = ({

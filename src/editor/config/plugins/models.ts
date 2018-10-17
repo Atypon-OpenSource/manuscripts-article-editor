@@ -1,40 +1,40 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { EditorProps } from '../../Editor'
 
-export const componentsKey = new PluginKey('components')
+export const modelsKey = new PluginKey('models')
 
 export const INSERT = 'INSERT'
 export const UPDATE = 'UPDATE'
 export const REMOVE = 'REMOVE'
 
 export default (props: EditorProps) => {
-  const { getComponent, saveComponent, deleteComponent } = props
+  const { getModel, saveModel, deleteModel } = props
 
   return new Plugin({
-    key: componentsKey,
+    key: modelsKey,
 
     state: {
       init: () => {
         return {
-          getComponent,
-          saveComponent,
-          deleteComponent,
+          getModel,
+          saveModel,
+          deleteModel,
         }
       },
       apply: (transaction, pluginState) => {
-        const meta = transaction.getMeta(componentsKey)
+        const meta = transaction.getMeta(modelsKey)
 
         if (meta) {
           if (meta[INSERT]) {
-            meta[INSERT].forEach(saveComponent)
+            meta[INSERT].forEach(saveModel)
           }
 
           if (meta[UPDATE]) {
-            meta[UPDATE].forEach(saveComponent)
+            meta[UPDATE].forEach(saveModel)
           }
 
           if (meta[REMOVE]) {
-            meta[REMOVE].forEach(deleteComponent)
+            meta[REMOVE].forEach(deleteModel)
           }
         }
 

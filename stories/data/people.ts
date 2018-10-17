@@ -1,4 +1,4 @@
-import { UserProfile } from '../../src/types/components'
+import { UserProfile } from '../../src/types/models'
 
 import imageFile from '../assets/melnitz.jpg'
 

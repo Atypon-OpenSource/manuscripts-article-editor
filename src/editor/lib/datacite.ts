@@ -1,6 +1,6 @@
 import { stringify } from 'qs'
 import { convertDataToBibliographyItem } from '../../lib/csl'
-import { BibliographyItem } from '../../types/components'
+import { BibliographyItem } from '../../types/models'
 
 interface DataCiteItem {
   attributes: {

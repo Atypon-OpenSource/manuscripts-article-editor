@@ -1,15 +1,16 @@
 import { TextSelection } from 'prosemirror-state'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
-import { componentsKey, INSERT } from '../../editor/config/plugins/components'
+import { RxCollection, RxDocument } from 'rxdb'
+import { INSERT, modelsKey } from '../../editor/config/plugins/models'
 import schema from '../../editor/config/schema/index'
 import { ToolbarDropdownProps } from '../../editor/Toolbar'
 import { buildCitation } from '../../lib/commands'
 // import Title from '../editor/Title'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { BIBLIOGRAPHY_ITEM } from '../../transformer/object-types'
-import { BibliographyItem, ComponentCollection } from '../../types/components'
-import { LibraryDocument } from '../../types/library'
+import { BibliographyItem } from '../../types/models'
+
 import { filterLibrary } from './LibraryContainer'
 import { LibraryItems } from './LibraryItems'
 import {
@@ -19,7 +20,7 @@ import {
 } from './LibraryPicker'
 
 interface State {
-  library: LibraryDocument[]
+  library: Array<RxDocument<BibliographyItem>>
   query: string
   selectedSource: string
 }
@@ -36,7 +37,7 @@ interface RouteParams {
 }
 
 class LibraryPickerContainer extends React.Component<
-  ToolbarDropdownProps & ComponentsProps & RouteComponentProps<RouteParams>,
+  ToolbarDropdownProps & ModelsProps & RouteComponentProps<RouteParams>,
   State
 > {
   public state = {
@@ -54,7 +55,7 @@ class LibraryPickerContainer extends React.Component<
       .sort({
         updatedAt: 'desc',
       })
-      .$.subscribe((library: LibraryDocument[]) => {
+      .$.subscribe((library: Array<RxDocument<BibliographyItem>>) => {
         this.setState({ library })
       })
   }
@@ -89,7 +90,7 @@ class LibraryPickerContainer extends React.Component<
   }*/
 
   private getCollection() {
-    return this.props.components.collection as ComponentCollection
+    return this.props.models.collection as RxCollection<BibliographyItem>
   }
 
   private handleSelect = (item: BibliographyItem) => {
@@ -110,7 +111,7 @@ class LibraryPickerContainer extends React.Component<
     const pos = selection.to
 
     let tr = state.tr
-      .setMeta(componentsKey, { [INSERT]: [citation] })
+      .setMeta(modelsKey, { [INSERT]: [citation] })
       .insert(pos, citationNode)
 
     // restore the selection
@@ -131,4 +132,4 @@ class LibraryPickerContainer extends React.Component<
 
 export default withRouter<
   ToolbarDropdownProps & RouteComponentProps<RouteParams>
->(withComponents(LibraryPickerContainer))
+>(withModels(LibraryPickerContainer))

@@ -2,6 +2,7 @@ import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import {
   PouchReplicationOptions,
+  RxCollection,
   RxCollectionCreator,
   RxReplicationState,
 } from 'rxdb'
@@ -9,12 +10,12 @@ import config from '../config'
 import { refreshSyncSessions } from '../lib/api'
 import { handleConflicts } from '../lib/conflicts'
 import { databaseCreator } from '../lib/db'
-import { ComponentCollection } from '../types/components'
+import { Model } from '../types/models'
 
 // TODO: handle offline/sync problems
 
-export interface ComponentObject {
-  // [key: string]: ComponentObject[keyof ComponentObject]
+export interface ModelObject {
+  // [key: string]: ModelObject[keyof ModelObject]
   [key: string]: any // tslint:disable-line:no-any
 }
 
@@ -41,13 +42,13 @@ type Direction = 'push' | 'pull'
 
 export interface DataProviderState {
   active: boolean
-  collection: ComponentCollection | null
+  collection: RxCollection<Model> | null
   push: ReplicationState
   pull: ReplicationState
 }
 
 export interface DataProviderContext extends DataProviderState {
-  collection: ComponentCollection | null
+  collection: RxCollection<Model> | null
   sync: (options: PouchReplicationOptions, direction: 'push' | 'pull') => void
 }
 
@@ -97,7 +98,7 @@ class DataProvider extends React.Component<{}, DataProviderState> {
   protected sync = (options: PouchReplicationOptions, direction: Direction) => {
     console.log('syncing', this.options, options) // tslint:disable-line:no-console
 
-    const collection = this.state.collection as ComponentCollection
+    const collection = this.state.collection as RxCollection<Model>
 
     const replication = collection.sync({
       remote: config.gateway.url + '/' + this.path,

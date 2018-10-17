@@ -1,6 +1,6 @@
 import React from 'react'
 import AddAuthor from '../../icons/add-author'
-import { Project, ProjectInvitation } from '../../types/components'
+import { Project, ProjectInvitation } from '../../types/models'
 import { projectListCompare } from '../projects/ProjectsPageContainer'
 import { DropdownSeparator } from './Dropdown'
 import {

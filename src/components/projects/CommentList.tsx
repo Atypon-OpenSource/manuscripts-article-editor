@@ -7,11 +7,11 @@ import {
   GetKeywords,
   GetUser,
 } from '../../editor/comment/config'
-import { DeleteComponent, SaveComponent } from '../../editor/Editor'
 import { Selected } from '../../editor/lib/utils'
+import { Build } from '../../lib/commands'
 import { buildCommentTree, buildName } from '../../lib/comments'
 import { styled } from '../../theme'
-import { CommentAnnotation, UserProfile } from '../../types/components'
+import { CommentAnnotation, Model, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { LightRelativeDate } from '../RelativeDate'
 import CommentBody from './CommentBody'
@@ -77,9 +77,9 @@ const CommentUser: React.SFC<UserProps> = ({ user }) =>
 
 interface Props {
   comments: CommentAnnotation[]
-  deleteComponent: DeleteComponent
+  deleteModel: (id: string) => Promise<string>
   doc: ProsemirrorNode
-  saveComponent: SaveComponent
+  saveModel: <T extends Model>(model: Build<T>) => Promise<T>
   getCurrentUser: () => UserProfile
   getUser: GetUser
   getKeyword: GetKeyword
@@ -105,12 +105,12 @@ export class CommentList extends React.Component<Props> {
   public render() {
     const {
       comments,
-      deleteComponent,
+      deleteModel,
       doc,
       getCurrentUser,
       getUser,
       getKeyword,
-      saveComponent,
+      saveModel,
       getCollaborators,
       getKeywords,
       createKeyword,
@@ -142,8 +142,8 @@ export class CommentList extends React.Component<Props> {
                       getCurrentUser={getCurrentUser}
                       getUser={getUser}
                       getKeyword={getKeyword}
-                      saveComponent={saveComponent}
-                      deleteComponent={deleteComponent}
+                      saveModel={saveModel}
+                      deleteModel={deleteModel}
                       getCollaborators={getCollaborators}
                       getKeywords={getKeywords}
                       createKeyword={createKeyword}
@@ -162,8 +162,8 @@ export class CommentList extends React.Component<Props> {
                         getCurrentUser={getCurrentUser}
                         getUser={getUser}
                         getKeyword={getKeyword}
-                        saveComponent={saveComponent}
-                        deleteComponent={deleteComponent}
+                        saveModel={saveModel}
+                        deleteModel={deleteModel}
                         getCollaborators={getCollaborators}
                         getKeywords={getKeywords}
                         createKeyword={createKeyword}

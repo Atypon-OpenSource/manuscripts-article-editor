@@ -1,9 +1,9 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { Nodes } from '../../editor/config/schema/nodes'
-import { ComponentMap, Section } from '../../types/components'
-import { Decoder, getComponentData, sortSectionsByPriority } from '../decode'
+import { Model, Section } from '../../types/models'
+import { Decoder, getModelData, sortSectionsByPriority } from '../decode'
 import { MANUSCRIPT, SECTION } from '../object-types'
-import { createTestComponentMap, createTestDoc } from './__helpers__/doc'
+import { createTestDoc, createTestModelMap } from './__helpers__/doc'
 
 const countDescendantsOfType = (node: ProsemirrorNode, type: Nodes) => {
   let count = 0
@@ -17,8 +17,8 @@ const countDescendantsOfType = (node: ProsemirrorNode, type: Nodes) => {
   return count
 }
 
-const createDoc = (componentMap: ComponentMap) => {
-  const decoder = new Decoder(componentMap)
+const createDoc = (modelMap: Map<string, Model>) => {
+  const decoder = new Decoder(modelMap)
 
   return decoder.createArticleNode()
 }
@@ -31,31 +31,27 @@ describe('decoder', () => {
   })
 
   test('create test doc with missing data', async () => {
-    const componentMap = createTestComponentMap()
+    const modelMap = createTestModelMap()
 
-    const beforeDoc = createDoc(componentMap)
+    const beforeDoc = createDoc(modelMap)
     expect(countDescendantsOfType(beforeDoc, 'placeholder')).toBe(0)
     expect(countDescendantsOfType(beforeDoc, 'placeholder_element')).toBe(0)
     expect(beforeDoc).toMatchSnapshot('decoded-without-placeholders')
 
-    componentMap.delete('MPTable:2A2413E2-71F5-4B6C-F513-7B44748E49A8')
-    componentMap.delete('MPFigureElement:A5D68C57-B5BB-4D10-E0C3-ECED717A2AA7')
-    componentMap.delete(
-      'MPParagraphElement:05A0ED43-8928-4C69-A17C-0A98795001CD'
-    )
-    componentMap.delete(
-      'MPBibliographyItem:8C394C86-F7B0-48CE-D5BC-E7A10FCE7FA5'
-    )
-    componentMap.delete('MPCitation:C1BA9478-E940-4273-CB5C-0DDCD62CFBF2')
+    modelMap.delete('MPTable:2A2413E2-71F5-4B6C-F513-7B44748E49A8')
+    modelMap.delete('MPFigureElement:A5D68C57-B5BB-4D10-E0C3-ECED717A2AA7')
+    modelMap.delete('MPParagraphElement:05A0ED43-8928-4C69-A17C-0A98795001CD')
+    modelMap.delete('MPBibliographyItem:8C394C86-F7B0-48CE-D5BC-E7A10FCE7FA5')
+    modelMap.delete('MPCitation:C1BA9478-E940-4273-CB5C-0DDCD62CFBF2')
 
-    const afterDoc = createDoc(componentMap)
+    const afterDoc = createDoc(modelMap)
     expect(countDescendantsOfType(afterDoc, 'placeholder')).toBe(1)
     expect(countDescendantsOfType(afterDoc, 'placeholder_element')).toBe(2)
     expect(afterDoc).toMatchSnapshot('decoded-with-placeholders')
   })
 
-  test('getComponentData', () => {
-    const data = getComponentData({
+  test('getModelData', () => {
+    const data = getModelData({
       _rev: 'x',
       _deleted: true,
       updatedAt: Date.now(),
@@ -79,6 +75,7 @@ describe('decoder', () => {
       path: ['MPSection:A'],
       elementIDs: [],
       containerID: 'MPProject:X',
+      manuscriptID: 'MPManuscript:X',
     }
     const sectionB: Section = {
       _id: 'MPSection:B',
@@ -88,6 +85,7 @@ describe('decoder', () => {
       path: ['MPSection:A'],
       elementIDs: [],
       containerID: 'MPProject:X',
+      manuscriptID: 'MPManuscript:X',
     }
     expect(sortSectionsByPriority(sectionA, sectionA)).toEqual(0)
     expect(sortSectionsByPriority(sectionA, sectionB)).toEqual(-1)

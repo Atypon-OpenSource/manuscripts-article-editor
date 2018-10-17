@@ -1,4 +1,4 @@
-import { BibliographicName } from '../types/components'
+import { BibliographicName } from '../types/models'
 
 export const initials = (name: BibliographicName): string =>
   name.given

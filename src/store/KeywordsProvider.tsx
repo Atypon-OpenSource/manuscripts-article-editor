@@ -1,10 +1,11 @@
 import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Spinner } from '../components/Spinner'
+import { Build } from '../lib/commands'
 import { atomicUpdate } from '../lib/store'
 import { KEYWORD } from '../transformer/object-types'
-import { Keyword } from '../types/components'
-import { ComponentsProps, withComponents } from './ComponentsProvider'
+import { Keyword } from '../types/models'
+import { ModelsProps, withModels } from './ModelsProvider'
 
 export type KeywordsMap = Map<string, Keyword>
 
@@ -17,8 +18,8 @@ export interface KeywordsProviderState {
 
 export interface KeywordsProviderContext {
   data: KeywordsMap
+  create: (data: Build<Keyword>, projectID: string) => Promise<Keyword>
   update: (data: Partial<Keyword>) => Promise<RxDocument<{}>>
-  create: (data: Partial<Keyword>, projectID: string) => Promise<Keyword>
 }
 
 export interface KeywordsProps {
@@ -40,7 +41,7 @@ export const withKeywords = <T extends {}>(
 )
 
 class KeywordsProvider extends React.Component<
-  ComponentsProps,
+  ModelsProps,
   KeywordsProviderState
 > {
   public state: Readonly<KeywordsProviderState> = {
@@ -75,7 +76,7 @@ class KeywordsProvider extends React.Component<
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   private subscribe() {
@@ -94,8 +95,8 @@ class KeywordsProvider extends React.Component<
       })
   }
 
-  private create = (data: Partial<Keyword>, projectID: string) =>
-    this.props.components.saveComponent<Keyword>(data, {
+  private create = (data: Build<Keyword>, projectID: string) =>
+    this.props.models.saveModel<Keyword>(data, {
       projectID,
     })
 
@@ -112,4 +113,4 @@ class KeywordsProvider extends React.Component<
   }
 }
 
-export default withComponents(KeywordsProvider)
+export default withModels(KeywordsProvider)

@@ -1,4 +1,4 @@
-import { Manuscript } from '../../src/types/components'
+import { Manuscript } from '../../src/types/models'
 
 const manuscripts: Manuscript[] = [
   {

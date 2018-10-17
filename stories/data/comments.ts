@@ -1,5 +1,5 @@
 import { COMMENT_ANNOTATION } from '../../src/transformer/object-types'
-import { CommentAnnotation } from '../../src/types/components'
+import { CommentAnnotation } from '../../src/types/models'
 
 export const comments: CommentAnnotation[] = [
   {

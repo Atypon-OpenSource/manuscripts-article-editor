@@ -3,12 +3,11 @@ import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import Spinner from '../../icons/spinner'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
 import { IntlProps, withIntl } from '../../store/IntlProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
 import * as ObjectTypes from '../../transformer/object-types'
-import { Manuscript, Project } from '../../types/components'
-import { ProjectDocument } from '../../types/project'
+import { Manuscript, Project } from '../../types/models'
 
 interface State {
   project: Project | null
@@ -20,7 +19,7 @@ interface RouteParams {
   projectID: string
 }
 
-type CombinedProps = ComponentsProps &
+type CombinedProps = ModelsProps &
   RouteComponentProps<RouteParams> &
   IntlProps &
   UserProps
@@ -37,14 +36,14 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
   public async componentDidMount() {
     const { projectID } = this.props.match.params
 
-    this.loadComponents(projectID)
+    this.loadModels(projectID)
   }
 
   public async componentWillReceiveProps(nextProps: CombinedProps) {
     const { projectID } = nextProps.match.params
 
     if (projectID !== this.props.match.params.projectID) {
-      this.loadComponents(projectID)
+      this.loadModels(projectID)
     }
   }
 
@@ -67,10 +66,10 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
-  private loadComponents(projectID: string) {
+  private loadModels(projectID: string) {
     this.setState({
       project: null,
       manuscripts: null,
@@ -80,7 +79,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
       this.subs.push(
         this.getCollection()
           .findOne(projectID)
-          .$.subscribe((doc: ProjectDocument | null) => {
+          .$.subscribe((doc: RxDocument<Project> | null) => {
             if (doc) {
               this.setState({
                 project: doc.toJSON(),
@@ -114,4 +113,4 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withComponents(withUser(withIntl(ProjectPageContainer)))
+export default withModels(withUser(withIntl(ProjectPageContainer)))

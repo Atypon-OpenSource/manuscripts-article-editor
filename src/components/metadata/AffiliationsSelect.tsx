@@ -3,7 +3,7 @@ import React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
 import { AffiliationMap } from '../../lib/authors'
-import { Affiliation } from '../../types/components'
+import { Affiliation } from '../../types/models'
 import { submitEvent } from '../Form'
 
 interface ActionMeta {
@@ -17,7 +17,7 @@ interface OptionType {
 
 interface Props {
   affiliations: AffiliationMap
-  createAffiliation: (name: string) => Promise<Affiliation>
+  createAffiliation: (institution: string) => Promise<Affiliation>
 }
 
 export const AffiliationsSelect: React.SFC<Props & FieldProps> = ({
@@ -50,11 +50,11 @@ export const AffiliationsSelect: React.SFC<Props & FieldProps> = ({
     }}
     options={Array.from(affiliations.values()).map(affiliation => ({
       value: affiliation._id,
-      label: affiliation.name,
+      label: affiliation.institution || '',
     }))}
     value={(field.value || []).map((item: Affiliation) => ({
       value: item._id,
-      label: item.name,
+      label: item.institution,
     }))}
     styles={{
       control: base => ({

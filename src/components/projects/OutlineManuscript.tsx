@@ -2,7 +2,7 @@ import OutlineIconManuscript from '@manuscripts/assets/react/OutlineIconManuscri
 import * as React from 'react'
 import { titleText } from '../../editor/lib/text'
 import { nodeTitlePlaceholder } from '../../transformer/node-title'
-import { Manuscript, Project } from '../../types/components'
+import { Manuscript, Project } from '../../types/models'
 import {
   Outline,
   OutlineItem,

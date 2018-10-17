@@ -4,12 +4,7 @@ import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import { Prompt, RouteComponentProps } from 'react-router'
-import {
-  RxAttachmentCreator,
-  RxCollection,
-  RxDocument,
-  RxLocalDocument,
-} from 'rxdb'
+import { RxCollection, RxDocument, RxLocalDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import {
   GetCollaborators,
@@ -17,22 +12,18 @@ import {
   GetKeywords,
   GetUser,
 } from '../../editor/comment/config'
-import Editor, {
-  ChangeReceiver,
-  DeleteComponent,
-  GetComponent,
-  SaveComponent,
-} from '../../editor/Editor'
+import Editor, { ChangeReceiver } from '../../editor/Editor'
 import PopperManager from '../../editor/lib/popper'
 import { findParentNodeWithId, Selected } from '../../editor/lib/utils'
 import Spinner from '../../icons/spinner'
 import {
+  Build,
   buildContributor,
   buildKeyword,
   buildManuscript,
 } from '../../lib/commands'
 import { buildName } from '../../lib/comments'
-import CitationManager from '../../lib/csl'
+import CitationManager, { DEFAULT_BUNDLE } from '../../lib/csl'
 import { download } from '../../lib/download'
 import {
   downloadExtension,
@@ -40,47 +31,33 @@ import {
   generateDownloadFilename,
 } from '../../lib/exporter'
 import { ContributorRole } from '../../lib/roles'
-import { AnyComponentChangeEvent } from '../../lib/rxdb'
+import { ModelChangeEvent } from '../../lib/rxdb'
 import sessionID from '../../lib/sessionID'
 import { newestFirst, oldestFirst } from '../../lib/sort'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
-import { ComponentObject } from '../../store/DataProvider'
+import { ModelObject } from '../../store/DataProvider'
 import { IntlProps, withIntl } from '../../store/IntlProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import {
-  buildComponentMap,
-  getComponentFromDoc,
-} from '../../transformer/decode'
+import { buildModelMap, getModelFromDoc } from '../../transformer/decode'
 import { documentObjectTypes } from '../../transformer/document-object-types'
 import { generateID } from '../../transformer/id'
 import { Decoder, encode } from '../../transformer/index'
 import * as ObjectTypes from '../../transformer/object-types'
 import {
-  AnyComponent,
-  AnyContainedComponent,
   Attachments,
   BibliographyItem,
   CommentAnnotation,
-  ComponentAttachment,
-  ComponentDocument,
-  ComponentIdSet,
-  ComponentMap,
-  ComponentWithAttachment,
-  ContainedComponent,
+  ContainedModel,
+  ContainedProps,
   Keyword,
   Manuscript,
-  ManuscriptComponent,
+  ManuscriptModel,
+  Model,
+  ModelAttachment,
   Project,
   UserProfile,
-} from '../../types/components'
-import { LibraryDocument } from '../../types/library'
-import {
-  AddManuscript,
-  ExportManuscript,
-  ImportManuscript,
-  ManuscriptDocument,
-} from '../../types/manuscript'
-import { ProjectDocument } from '../../types/project'
+} from '../../types/models'
+
 import { DebouncedInspector } from '../Inspector'
 import { Main, Page } from '../Page'
 import Panel from '../Panel'
@@ -88,13 +65,11 @@ import { CommentList } from './CommentList'
 import ManuscriptForm from './ManuscriptForm'
 import ManuscriptSidebar from './ManuscriptSidebar'
 
-interface ComponentIdSets {
-  [key: string]: ComponentIdSet
-}
-
 interface State {
-  componentIds: ComponentIdSets
-  componentMap: ComponentMap
+  modelIds: {
+    [key: string]: Set<string>
+  }
+  modelMap: Map<string, Model>
   dirty: boolean
   doc: ProsemirrorNode | null
   error: string | null
@@ -117,17 +92,17 @@ interface RouteParams {
 }
 
 type CombinedProps = UserProps &
-  ComponentsProps &
+  ModelsProps &
   RouteComponentProps<RouteParams> &
   IntlProps
 
 class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
-    componentIds: {
+    modelIds: {
       document: new Set(),
       data: new Set(),
     },
-    componentMap: new Map(),
+    modelMap: new Map(),
     dirty: false,
     doc: null,
     error: null,
@@ -148,14 +123,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private subs: Subscription[] = []
 
-  private readonly debouncedSaveComponents: (state: EditorState) => void
+  private readonly debouncedSaveModels: (state: EditorState) => void
 
   public constructor(props: CombinedProps) {
     super(props)
 
     this.initialState = this.state
 
-    this.debouncedSaveComponents = debounce(this.saveComponents, 1000, {
+    this.debouncedSaveModels = debounce(this.saveModels, 1000, {
       maxWait: 5000,
     })
   }
@@ -193,7 +168,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const { projectID } = this.props.match.params
     const {
       dirty,
-      componentMap,
+      modelMap,
       doc,
       manuscript,
       manuscripts,
@@ -235,9 +210,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             getCitationProcessor={this.getCitationProcessor}
             doc={doc}
             editable={true}
-            getComponent={this.getComponent}
-            saveComponent={this.saveComponent}
-            deleteComponent={this.deleteComponent}
+            getModel={this.getModel}
+            saveModel={this.saveModel}
+            deleteModel={this.deleteModel}
             getLibraryItem={this.getLibraryItem}
             getManuscript={this.getManuscript}
             saveManuscript={this.saveManuscript}
@@ -250,7 +225,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             locale={locale}
             manuscript={manuscript}
             onChange={this.handleChange}
-            componentMap={componentMap}
+            modelMap={modelMap}
             popper={popper}
             projectID={projectID}
             subscribe={this.handleSubscribe}
@@ -283,8 +258,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   getCollaborators={this.getCollaborators}
                   getKeyword={this.getKeyword}
                   getKeywords={this.getKeywords}
-                  deleteComponent={this.deleteComponent}
-                  saveComponent={this.saveComponent}
+                  deleteModel={this.deleteModel}
+                  saveModel={this.saveModel}
                   createKeyword={this.createKeyword}
                   selected={selected}
                 />
@@ -317,12 +292,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       await this.createCitationProcessor(manuscript)
 
-      const components = await this.loadComponents(projectID, manuscriptID)
+      const models = await this.loadModels(projectID, manuscriptID)
 
-      // console.log(components.map(doc => [doc.objectType, doc.toJSON()]))
+      // console.log(models.map(doc => [doc.objectType, doc.toJSON()]))
 
-      if (!components.length) {
-        throw new Error('No components found')
+      if (!models.length) {
+        throw new Error('No models found')
       }
 
       // tslint:disable-next-line:no-any
@@ -340,18 +315,18 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         console.log('Conflicts:', doc) // tslint:disable-line:no-console
       })
 
-      const componentMap = await buildComponentMap(components)
+      const modelMap = await buildModelMap(models)
 
-      const decoder = new Decoder(componentMap)
+      const decoder = new Decoder(modelMap)
 
       const doc = decoder.createArticleNode()
       doc.check()
 
-      // encode again here to get doc component ids for comparison
-      const encodedComponentMap = encode(doc)
-      const componentIds = this.buildManuscriptComponentIds(encodedComponentMap)
+      // encode again here to get doc model ids for comparison
+      const encodedModelMap = encode(doc)
+      const modelIds = this.buildManuscriptModelIds(encodedModelMap)
 
-      this.setState({ componentIds, componentMap })
+      this.setState({ modelIds, modelMap })
 
       this.setState({ doc })
     } catch (error) {
@@ -367,7 +342,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private getCollection = () => {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   private getLocale = () => {
@@ -378,7 +353,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   // FIXME: this shouldn't need a project ID
   private saveProject = async (project: Project) => {
-    await this.props.components.saveComponent(project, {
+    await this.props.models.saveModel(project, {
       projectID: project._id,
     })
   }
@@ -397,7 +372,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     this.setState({ manuscript })
 
-    await this.saveComponent(manuscript)
+    await this.saveModel(manuscript)
 
     if (this.shouldUpdateCitationProcessor(manuscript, previousManuscript)) {
       await this.createCitationProcessor(manuscript)
@@ -412,7 +387,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const prevManuscript: Manuscript = manuscripts![index === 0 ? 1 : index - 1]
 
-    await this.deleteComponent(id)
+    await this.deleteModel(id)
 
     this.props.history.push(
       `/projects/${project!._id}/manuscripts/${prevManuscript._id}`
@@ -437,7 +412,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private addManuscript: AddManuscript = async () => {
+  private addManuscript = async () => {
     // TODO: open up the template modal
 
     const { projectID } = this.props.match.params
@@ -454,12 +429,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       user.userID
     )
 
-    await this.props.components.saveComponent(contributor, {
+    await this.props.models.saveModel(contributor, {
       projectID,
       manuscriptID,
     })
 
-    await this.props.components.saveComponent(manuscript, {
+    await this.props.models.saveModel(manuscript, {
       projectID,
       manuscriptID,
     })
@@ -469,16 +444,17 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  private exportManuscript: ExportManuscript = async format => {
-    const { componentMap } = this.state
+  private exportManuscript = async (format: string): Promise<void> => {
+    const { modelMap } = this.state
     const { manuscriptID } = this.props.match.params
 
     try {
-      const blob = await exportProject(componentMap, manuscriptID, format)
-      const manuscript = componentMap.get(manuscriptID) as Manuscript
+      const blob = await exportProject(modelMap, manuscriptID, format)
+      const manuscript = modelMap.get(manuscriptID) as Manuscript
 
       const filename =
-        generateDownloadFilename(manuscript.title) + downloadExtension(format)
+        generateDownloadFilename(manuscript.title || 'Untitled') +
+        downloadExtension(format)
 
       download(blob, filename)
     } catch (e) {
@@ -486,30 +462,25 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private importManuscript: ImportManuscript = async components => {
+  private importManuscript = async (models: Model[]) => {
     const { projectID } = this.props.match.params
 
     const manuscriptID = generateID('manuscript') as string
 
-    for (const component of components) {
-      if (component.objectType === ObjectTypes.MANUSCRIPT) {
-        component._id = manuscriptID
+    for (const model of models) {
+      if (model.objectType === ObjectTypes.MANUSCRIPT) {
+        model._id = manuscriptID
       }
 
-      const { attachment, ...data } = component as Partial<
-        ComponentWithAttachment
-      >
+      const { attachment, ...data } = model as Model & ModelAttachment
 
-      const result = await this.props.components.saveComponent(data, {
+      const result = await this.props.models.saveModel(data, {
         projectID,
         manuscriptID,
       })
 
       if (attachment) {
-        await this.props.components.putAttachment(
-          result._id,
-          attachment as RxAttachmentCreator
-        )
+        await this.props.models.putAttachment(result._id, attachment)
       }
     }
 
@@ -521,8 +492,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private createCitationProcessor = async (manuscript: Manuscript) => {
     const citationManager = new CitationManager()
 
+    // TODO: move defaults into method?
     const processor = await citationManager.createProcessor(
-      manuscript.bundle,
+      manuscript.bundle || DEFAULT_BUNDLE,
       manuscript.primaryLanguageCode || 'en-GB',
       this.getLibraryItem
     )
@@ -538,7 +510,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return new Promise(resolve => {
       this.getCollection()
         .findOne(id)
-        .$.subscribe((doc: ManuscriptDocument) => {
+        .$.subscribe((doc: RxDocument<Manuscript>) => {
           if (doc) {
             const manuscript = doc.toJSON()
             this.setState({ manuscript })
@@ -552,7 +524,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return new Promise(resolve => {
       this.getCollection()
         .findOne(projectID)
-        .$.subscribe((doc: ProjectDocument) => {
+        .$.subscribe((doc: RxDocument<Project>) => {
           if (!doc) return
           const project = doc.toJSON()
           this.setState({ project })
@@ -561,10 +533,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private loadComponents = (
+  private loadModels = (
     projectID: string,
     manuscriptID: string
-  ): Promise<ComponentDocument[]> => {
+  ): Promise<Array<RxDocument<ContainedModel | ManuscriptModel>>> => {
     return this.getCollection()
       .find({
         $and: [
@@ -585,7 +557,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           },
         ],
       })
-      .exec() as Promise<ComponentDocument[]>
+      .exec() as Promise<Array<RxDocument<ContainedModel | ManuscriptModel>>>
   }
 
   private loadKeywords = (projectID: string) =>
@@ -612,7 +584,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       .$.subscribe(
         async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
           const items = await Promise.all(
-            docs.map(doc => getComponentFromDoc<UserProfile>(doc))
+            docs.map(doc => getModelFromDoc<UserProfile>(doc))
           )
 
           const users = items.reduce((output, user) => {
@@ -659,7 +631,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         objectType: ObjectTypes.BIBLIOGRAPHY_ITEM,
         containerID: projectID,
       })
-      .$.subscribe((items: LibraryDocument[]) => {
+      .$.subscribe((items: Array<RxDocument<BibliographyItem>>) => {
         const library: Map<string, BibliographyItem> = new Map()
 
         items.sort(newestFirst).forEach(item => {
@@ -674,65 +646,64 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return this.state.library.get(id) as BibliographyItem
   }
 
-  private getComponent: GetComponent = <T extends AnyComponent>(
-    id: string
-  ): T | undefined => this.state.componentMap.get(id) as T | undefined
+  private getModel = <T extends Model>(id: string): T | undefined =>
+    this.state.modelMap.get(id) as T | undefined
 
-  private saveComponent: SaveComponent = async <
-    T extends AnyContainedComponent
-  >(
-    component: (T & ComponentAttachment) | Partial<T>
-  ) => {
+  private saveModel = async <T extends Model>(model: Build<T>): Promise<T> => {
     const { manuscriptID, projectID } = this.props.match.params
-    const { saveComponent, putAttachment } = this.props.components
+    const { saveModel, putAttachment } = this.props.models
 
     // TODO: encode?
 
-    if (!component._id) {
-      throw new Error('Component ID required')
+    if (!model._id) {
+      throw new Error('Model ID required')
     }
+
+    const containedModel = model as T & ContainedProps
 
     // TODO: remove this?
-    component.containerID = projectID
+    containedModel.containerID = projectID
 
-    if (component.objectType && ObjectTypes.isManuscriptComponent(component)) {
-      component.manuscriptID = manuscriptID
+    if (
+      containedModel.objectType &&
+      ObjectTypes.isManuscriptModel(containedModel)
+    ) {
+      containedModel.manuscriptID = manuscriptID
     }
 
+    // NOTE: can't set a partial here
     this.setState({
-      componentMap: this.state.componentMap.set(
-        component._id as string,
-        component as ComponentWithAttachment
-      ),
+      modelMap: this.state.modelMap.set(containedModel._id, containedModel),
     })
 
-    // tslint:disable-next-line:no-unused-variable
-    const { src, attachment, ...data } = component as Partial<
-      ComponentWithAttachment
-    >
+    const {
+      src: _src,
+      attachment,
+      ...data
+    } = containedModel as ContainedModel & ModelAttachment
 
     // TODO: data.contents = serialized DOM wrapper for bibliography
 
-    const result = (await saveComponent(data, {
+    const result = await saveModel(data, {
       manuscriptID,
       projectID,
-    })) as T & Attachments
+    })
 
     if (attachment) {
-      await putAttachment(result._id, attachment as RxAttachmentCreator)
+      await putAttachment(result._id, attachment)
     }
 
-    return result
+    return result as T
   }
 
-  private deleteComponent: DeleteComponent = (id: string) => {
-    const { componentMap } = this.state
+  private deleteModel = (id: string) => {
+    const { modelMap } = this.state
 
-    componentMap.delete(id)
+    modelMap.delete(id)
 
-    this.setState({ componentMap })
+    this.setState({ modelMap })
 
-    return this.props.components.deleteComponent(id)
+    return this.props.models.deleteModel(id)
   }
 
   // NOTE: can only _return_ the boolean value when using "onbeforeunload"!
@@ -743,20 +714,20 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private isRelevantUpdate = (
-    v: AnyComponent,
+    v: Model,
     projectID: string,
     manuscriptID: string,
     sessionID: string
   ) => {
     // ignore changes to other projects
-    if ((v as ContainedComponent).containerID !== projectID) {
+    if ((v as ContainedModel).containerID !== projectID) {
       return false
     }
 
     // ignore changes to other manuscripts
     if (
-      (v as ManuscriptComponent).manuscriptID &&
-      (v as ManuscriptComponent).manuscriptID !== manuscriptID
+      (v as ManuscriptModel).manuscriptID &&
+      (v as ManuscriptModel).manuscriptID !== manuscriptID
     ) {
       return false
     }
@@ -770,21 +741,21 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const collection = this.getCollection()
 
-    const isValidChangeEvent = (changeEvent: AnyComponentChangeEvent) => {
+    const isValidChangeEvent = (changeEvent: ModelChangeEvent) => {
       const { v, doc, op } = changeEvent.data
 
       return v && doc && op
     }
 
     const sub = collection.$.subscribe(
-      async (changeEvent: AnyComponentChangeEvent) => {
+      async (changeEvent: ModelChangeEvent) => {
         if (!isValidChangeEvent(changeEvent)) {
           throw new Error('Unexpected change event data')
         }
 
         const op = changeEvent.data.op
         const doc = changeEvent.data.doc
-        const v = changeEvent.data.v as AnyComponent
+        const v = changeEvent.data.v as Model
 
         console.log({ op, doc, v }) // tslint:disable-line:no-console
 
@@ -798,33 +769,32 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         }
 
         // NOTE: need to load the doc to get attachments
-        const componentDocument = (await collection
+        const modelDocument = (await collection
           .findOne(doc)
-          .exec()) as ComponentDocument | null
+          .exec()) as RxDocument<Model & Attachments> | null
 
-        if (!componentDocument) {
+        if (!modelDocument) {
           return null
         }
 
-        const component = (await getComponentFromDoc(
-          componentDocument
-        )) as AnyContainedComponent & Attachments
+        const model = (await getModelFromDoc(modelDocument)) as Model &
+          Attachments
 
-        const { componentMap } = this.state
+        const { modelMap } = this.state
 
-        componentMap.set(component._id, component) // TODO: what if this overlaps with saving?
+        modelMap.set(model._id, model) // TODO: what if this overlaps with saving?
 
-        this.setState({ componentMap })
+        this.setState({ modelMap })
 
         // TODO: only call receive once finished syncing?
 
-        // TODO: might not need a new decoder, for data components
+        // TODO: might not need a new decoder, for data models
 
-        // TODO: set updatedAt on nodes that depend on data components?
+        // TODO: set updatedAt on nodes that depend on data models?
 
-        const decoder = new Decoder(componentMap)
+        const decoder = new Decoder(modelMap)
 
-        const node = decoder.decode(component)
+        const node = decoder.decode(model)
 
         receive(op, doc, node)
       }
@@ -833,15 +803,15 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     this.subs.push(sub)
   }
 
-  private removedComponentIds = (
-    componentIds: ComponentIdSet,
-    newComponentIds: ComponentIdSet
-  ) =>
-    Array.from(componentIds).filter(id => {
-      return !newComponentIds.has(id)
+  private removedModelIds = (
+    modelIds: Set<string>,
+    newModelIds: Set<string>
+  ): string[] =>
+    Array.from(modelIds).filter(id => {
+      return !newModelIds.has(id)
     })
 
-  private keysForComparison = (component: ComponentObject) => {
+  private keysForComparison = (model: ModelObject) => {
     const excludedKeys = [
       'id',
       '_id',
@@ -855,35 +825,29 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       'containerID',
     ]
 
-    return Object.keys(component).filter(key => !excludedKeys.includes(key))
+    return Object.keys(model).filter(key => !excludedKeys.includes(key))
   }
 
-  private hasChanged = (component: ComponentObject): boolean => {
-    const previousComponent = this.getComponent(
-      component._id
-    ) as ComponentObject
+  private hasChanged = (model: ModelObject): boolean => {
+    const previousModel = this.getModel(model._id) as ModelObject
 
-    // TODO: return false if the previous component was a placeholder element?
+    // TODO: return false if the previous model was a placeholder element?
 
-    if (!previousComponent) return true
+    if (!previousModel) return true
 
-    const componentKeys = this.keysForComparison(component)
-    const previousComponentKeys = this.keysForComparison(previousComponent)
+    const modelKeys = this.keysForComparison(model)
+    const previousModelKeys = this.keysForComparison(previousModel)
 
     // look for different keys
     if (
-      componentKeys.length !==
-      new Set([...componentKeys, ...previousComponentKeys]).size
+      modelKeys.length !== new Set([...modelKeys, ...previousModelKeys]).size
     ) {
       return true
     }
 
     // look for changed values
-    for (const key of componentKeys) {
-      if (
-        JSON.stringify(component[key]) !==
-        JSON.stringify(previousComponent[key])
-      ) {
+    for (const key of modelKeys) {
+      if (JSON.stringify(model[key]) !== JSON.stringify(previousModel[key])) {
         return true
       }
     }
@@ -903,91 +867,86 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     if (docChanged) {
       if (window.requestIdleCallback) {
-        window.requestIdleCallback(() => this.debouncedSaveComponents(state), {
+        window.requestIdleCallback(() => this.debouncedSaveModels(state), {
           timeout: 5000, // maximum wait for idle
         })
       } else {
-        this.debouncedSaveComponents(state)
+        this.debouncedSaveModels(state)
       }
     }
   }
 
-  private buildManuscriptComponentIds = (componentMap: ComponentMap) => {
+  private buildManuscriptModelIds = (modelMap: Map<string, Model>) => {
     const output = {
       document: new Set(),
       data: new Set(),
     }
 
-    for (const component of componentMap.values()) {
-      if (ObjectTypes.isManuscriptComponent(component)) {
-        const type = documentObjectTypes.includes(component.objectType)
+    for (const model of modelMap.values()) {
+      if (ObjectTypes.isManuscriptModel(model)) {
+        const type = documentObjectTypes.includes(model.objectType)
           ? 'document'
           : 'data'
 
-        output[type].add(component._id)
+        output[type].add(model._id)
       }
     }
 
     return output
   }
 
-  private saveComponents = async (state: EditorState) => {
+  private saveModels = async (state: EditorState) => {
     // TODO: return/queue if already saving?
     const { manuscriptID, projectID } = this.props.match.params
 
     // NOTE: can't use state.toJSON() as the HTML serializer needs the actual nodes
 
-    const encodedComponentMap = encode(state.doc)
+    const encodedModelMap = encode(state.doc)
 
-    const { deleteComponent, saveComponent } = this.props.components
+    const { deleteModel, saveModel } = this.props.models
 
     try {
-      // save the changed doc components
+      // save the changed doc models
       // TODO: make sure dependencies are saved first
 
-      const { componentMap } = this.state
+      const { modelMap } = this.state
 
-      const changedComponents = []
+      const changedModels = []
 
-      for (const component of encodedComponentMap.values()) {
-        if (this.hasChanged(component)) {
-          changedComponents.push(component)
-          componentMap.set(component._id, component)
+      for (const model of encodedModelMap.values()) {
+        if (this.hasChanged(model)) {
+          changedModels.push(model)
+          modelMap.set(model._id, model)
         }
       }
 
-      interface ChangedComponentsByType {
-        dependencies: AnyComponent[]
-        elements: AnyComponent[]
-        sections: AnyComponent[]
+      interface ChangedModelsByType {
+        dependencies: Model[]
+        elements: Model[]
+        sections: Model[]
       }
 
-      const changedComponentsObject: ChangedComponentsByType = {
+      const changedModelsObject: ChangedModelsByType = {
         dependencies: [],
         elements: [],
         sections: [],
       }
 
-      const changedComponentsByType = changedComponents.reduce(
-        (output, component) => {
-          if (component.objectType === ObjectTypes.SECTION) {
-            output.sections.push(component)
-          } else if (
-            ObjectTypes.elementObjects.includes(component.objectType)
-          ) {
-            output.elements.push(component)
-          } else {
-            output.dependencies.push(component)
-          }
+      const changedModelsByType = changedModels.reduce((output, model) => {
+        if (model.objectType === ObjectTypes.SECTION) {
+          output.sections.push(model)
+        } else if (ObjectTypes.elementObjects.includes(model.objectType)) {
+          output.elements.push(model)
+        } else {
+          output.dependencies.push(model)
+        }
 
-          return output
-        },
-        changedComponentsObject
-      )
+        return output
+      }, changedModelsObject)
 
       await Promise.all(
-        changedComponentsByType.dependencies.map((component: AnyComponent) =>
-          saveComponent(component, {
+        changedModelsByType.dependencies.map((model: Model) =>
+          saveModel(model, {
             projectID,
             manuscriptID,
           })
@@ -995,8 +954,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       )
 
       await Promise.all(
-        changedComponentsByType.elements.map((component: AnyComponent) =>
-          saveComponent(component, {
+        changedModelsByType.elements.map((model: Model) =>
+          saveModel(model, {
             projectID,
             manuscriptID,
           })
@@ -1004,44 +963,44 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       )
 
       await Promise.all(
-        changedComponentsByType.sections.map((component: AnyComponent) =>
-          saveComponent(component, {
+        changedModelsByType.sections.map((model: Model) =>
+          saveModel(model, {
             projectID,
             manuscriptID,
           })
         )
       )
 
-      // delete any removed components, children first
+      // delete any removed models, children first
 
-      const componentIds = this.buildManuscriptComponentIds(encodedComponentMap)
+      const modelIds = this.buildManuscriptModelIds(encodedModelMap)
 
-      const deleteRemovedComponentIds = async (type: 'document' | 'data') => {
-        const removedComponentIds = this.removedComponentIds(
-          this.state.componentIds[type],
-          componentIds[type]
+      const deleteRemovedModelIds = async (type: 'document' | 'data') => {
+        const removedModelIds = this.removedModelIds(
+          this.state.modelIds[type],
+          modelIds[type]
         )
 
         // NOTE: reversed, to remove children first
         await Promise.all(
-          removedComponentIds.reverse().map(id =>
-            deleteComponent(id).catch(error => {
+          removedModelIds.reverse().map(id =>
+            deleteModel(id).catch(error => {
               console.error(error) // tslint:disable-line:no-console
             })
           )
         )
 
-        removedComponentIds.map(id => {
-          componentMap.delete(id)
+        removedModelIds.map(id => {
+          modelMap.delete(id)
         })
       }
 
-      await deleteRemovedComponentIds('document')
-      await deleteRemovedComponentIds('data')
+      await deleteRemovedModelIds('document')
+      await deleteRemovedModelIds('data')
 
       this.setState({
-        componentIds,
-        componentMap, // NOTE: not using encodedComponentMap, to keep removed components
+        modelIds,
+        modelMap, // NOTE: not using encodedModelMap, to keep removed models
         dirty: false,
         // doc: state.doc,
       })
@@ -1071,7 +1030,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private createKeyword = (name: string) => {
     const keyword = buildKeyword(name)
 
-    return this.saveComponent<Keyword>(keyword)
+    return this.saveModel(keyword)
   }
 
   private handleSectionChange = (section: string) => {
@@ -1081,4 +1040,4 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withComponents(withUser(withIntl(ManuscriptPageContainer)))
+export default withModels(withUser(withIntl(ManuscriptPageContainer)))

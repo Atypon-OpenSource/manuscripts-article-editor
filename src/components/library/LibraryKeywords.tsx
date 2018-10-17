@@ -1,10 +1,10 @@
 import React from 'react'
+import { RxDocument } from 'rxdb'
 import { KeywordsProps, withKeywords } from '../../store/KeywordsProvider'
 import { styled } from '../../theme'
-import { Keyword } from '../../types/components'
-import { LibraryDocument } from '../../types/library'
+import { BibliographyItem, Keyword } from '../../types/models'
 
-const buildCounts = (items: LibraryDocument[]) => {
+const buildCounts = (items: Array<RxDocument<BibliographyItem>>) => {
   const counts: Map<string, number> = new Map()
 
   items.forEach(item => {
@@ -63,7 +63,7 @@ const LibraryKeyword = styled.span`
 `
 
 interface Props {
-  items: LibraryDocument[]
+  items: Array<RxDocument<BibliographyItem>>
   handleQuery: (query: string) => void
 }
 

@@ -3,7 +3,7 @@ import { EditorView } from 'prosemirror-view'
 import { buildFigure } from '../../../lib/commands'
 import { EditorProps } from '../../Editor'
 import placeholder from '../icons/png/Toolbar-InsertImage-N@2x.png'
-import { componentsKey, INSERT } from '../plugins/components'
+import { INSERT, modelsKey } from '../plugins/models'
 import { NodeViewCreator } from '../types'
 import Block from './block'
 
@@ -72,7 +72,7 @@ class FigureElement extends Block {
   }
 
   protected updateContents() {
-    const { getComponent } = componentsKey.getState(this.view.state)
+    const { getModel } = modelsKey.getState(this.view.state)
 
     const {
       rows,
@@ -81,7 +81,7 @@ class FigureElement extends Block {
       suppressCaption,
     } = this.node.attrs
 
-    const objects = containedObjectIDs.map(getComponent)
+    const objects = containedObjectIDs.map(getModel)
 
     while (this.container.hasChildNodes()) {
       this.container.removeChild(this.container.firstChild as Node)
@@ -156,7 +156,7 @@ class FigureElement extends Block {
 
     this.view.dispatch(
       this.view.state.tr
-        .setMeta(componentsKey, { [INSERT]: [figure] })
+        .setMeta(modelsKey, { [INSERT]: [figure] })
         .setNodeMarkup(this.getPos(), undefined, {
           ...this.node.attrs,
           containedObjectIDs,

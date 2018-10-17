@@ -6,21 +6,20 @@ import { Subscription } from 'rxjs'
 import Spinner from '../../icons/spinner'
 import { addProjectUser, projectInvite } from '../../lib/api'
 import { isOwner } from '../../lib/roles'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { getComponentFromDoc } from '../../transformer/decode'
+import { getModelFromDoc } from '../../transformer/decode'
 import {
   PROJECT,
   PROJECT_INVITATION,
   USER_PROFILE,
 } from '../../transformer/object-types'
-import { AddCollaborator } from '../../types/collaborator'
 import {
   Attachments,
   Project,
   ProjectInvitation,
   UserProfile,
-} from '../../types/components'
+} from '../../types/models'
 import { Main, Page } from '../Page'
 import AddCollaboratorsSidebar from './AddCollaboratorsSidebar'
 import {
@@ -49,9 +48,7 @@ interface RouteParams {
   projectID: string
 }
 
-type CombinedProps = ComponentsProps &
-  RouteComponentProps<RouteParams> &
-  UserProps
+type CombinedProps = ModelsProps & RouteComponentProps<RouteParams> & UserProps
 
 class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
@@ -191,7 +188,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   private getProjectID = () => this.props.match.params.projectID
@@ -278,7 +275,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       .$.subscribe(
         async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
           const users = await Promise.all(
-            docs.map(doc => getComponentFromDoc<UserProfile>(doc))
+            docs.map(doc => getModelFromDoc<UserProfile>(doc))
           )
 
           const userMap = users.reduce((output, user) => {
@@ -290,10 +287,10 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
         }
       )
 
-  private addCollaborator: AddCollaborator = async (
+  private addCollaborator = async (
     userID: string,
     role: string
-  ) => {
+  ): Promise<void> => {
     await addProjectUser(this.getProjectID(), role, userID)
 
     this.setState({
@@ -400,4 +397,4 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withComponents(withUser(CollaboratorPageContainer))
+export default withModels(withUser(CollaboratorPageContainer))

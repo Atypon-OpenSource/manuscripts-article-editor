@@ -1,4 +1,4 @@
-import { Project } from '../types/components'
+import { Project } from '../types/models'
 
 export enum ProjectRole {
   owner = 'Owner',

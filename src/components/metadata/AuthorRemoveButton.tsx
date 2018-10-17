@@ -2,7 +2,7 @@ import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import VerticalEllipsis from '../../icons/vertical-ellipsis'
 import { styled } from '../../theme'
-import { Contributor } from '../../types/components'
+import { Contributor } from '../../types/models'
 import { IconButton } from '../Button'
 import AuthorRemovePopper from './AuthorRemovePopper'
 

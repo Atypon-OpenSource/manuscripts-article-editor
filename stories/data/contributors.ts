@@ -1,19 +1,17 @@
-import { AffiliationMap } from '../../src/lib/authors'
-import { Contributor, UserProfile } from '../../src/types/components'
+import { Affiliation, Contributor, UserProfile } from '../../src/types/models'
 
 import imageFile from '../assets/melnitz.jpg'
 
-export const affiliations: AffiliationMap = new Map([
+export const affiliations: Map<string, Affiliation> = new Map([
   [
     'affiliation-1',
     {
       _id: 'affiliation-1',
       containerID: 'project-1',
       manuscriptID: 'manuscript-1',
-      objectType: 'MPAffiliation',
-      name: 'Firehouse, Hook & Ladder Company 8',
-      address:
-        '14 North Moore Street, Tribeca, Manhattan, New York City, New York, USA',
+      objectType: 'MPAffiliation' as 'MPAffiliation',
+      institution: 'Firehouse, Hook & Ladder Company 8',
+      priority: 0,
     },
   ],
   [
@@ -22,10 +20,9 @@ export const affiliations: AffiliationMap = new Map([
       _id: 'affiliation-2',
       containerID: 'project-1',
       manuscriptID: 'manuscript-1',
-      objectType: 'MPAffiliation',
-      name: 'Firehouse, Hook & Ladder Company 9',
-      address:
-        '15 North Moore Street, Tribeca, Manhattan, New York City, New York, USA',
+      objectType: 'MPAffiliation' as 'MPAffiliation',
+      institution: 'Firehouse, Hook & Ladder Company 9',
+      priority: 0,
     },
   ],
 ])
@@ -45,8 +42,6 @@ export const authors: Contributor[] = [
       family: 'Melnitz',
     },
     email: 'janine.melnitz@example.com',
-    phoneNumber: '+1 800 555-2368',
-    image: imageFile,
     affiliations: ['affiliation-1'],
   },
   {
@@ -63,8 +58,6 @@ export const authors: Contributor[] = [
       family: 'Venkman',
     },
     email: 'peter.venkman@example.com',
-    phoneNumber: '+1 800 555-2368',
-    image: imageFile,
     affiliations: ['affiliation-1', 'affiliation-2'],
   },
   {
@@ -81,8 +74,6 @@ export const authors: Contributor[] = [
       family: 'Barrett',
     },
     email: 'dana.barrett@example.com',
-    phoneNumber: '+1 800 555-2368',
-    image: imageFile,
     affiliations: ['affiliation-1'],
   },
 ]

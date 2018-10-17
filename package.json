@@ -18,7 +18,9 @@
     "test": "jest",
     "testcafe": "testcafe",
     "testcafe-live": "testcafe-live",
-    "lint": "tsc --noEmit --project tsconfig.json && tslint --project tsconfig.json",
+    "lint": "yarn typecheck && yarn tslint",
+    "tslint": "tslint --project tsconfig.json",
+    "typecheck": "tsc --noEmit",
     "prettier": "prettier --write \"{src,stories,tests}/**/*.{js,ts,tsx,css}\"",
     "storybook": "start-storybook --config-dir stories/config --port 6006",
     "build-storybook": "build-storybook --config-dir stories/config"
@@ -34,6 +36,7 @@
     "@babel/runtime": "^7.0.0",
     "@ibm/plex": "^1.1.6",
     "@manuscripts/assets": "^0.1.8",
+    "@manuscripts/manuscripts-json-schema": "^1.3.6",
     "@manuscripts/resizer": "^0.0.1",
     "@types/clean-webpack-plugin": "^0.1.2",
     "@types/codemirror": "^0.0.63",

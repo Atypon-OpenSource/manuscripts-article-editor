@@ -1,5 +1,5 @@
 import { KEYWORD } from '../../src/transformer/object-types'
-import { Keyword } from '../../src/types/components'
+import { Keyword } from '../../src/types/models'
 
 export const keywords: Keyword[] = [
   {

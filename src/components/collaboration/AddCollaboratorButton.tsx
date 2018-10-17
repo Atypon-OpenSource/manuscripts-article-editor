@@ -4,7 +4,7 @@ import AddIconActive from '../../icons/add-icon-active'
 import AddIconInverted from '../../icons/add-icon-inverted'
 import AddedIcon from '../../icons/added-icon'
 import { styled } from '../../theme'
-import { UserProfile } from '../../types/components'
+import { UserProfile } from '../../types/models'
 import { IconButton } from '../Button'
 import AddCollaboratorPopperContainer from './AddCollaboratorPopperContainer'
 

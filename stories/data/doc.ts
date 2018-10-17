@@ -1,13 +1,13 @@
 import projectDump from '@manuscripts/examples/data/project-dump.json'
 import { Decoder } from '../../src/transformer'
-import { AnyComponent } from '../../src/types/components'
+import { Model } from '../../src/types/models'
 
-export const componentMap = new Map()
+export const modelMap = new Map()
 
-projectDump.data.forEach((component: AnyComponent) => {
-  componentMap.set(component._id, component)
+projectDump.data.forEach((model: Model) => {
+  modelMap.set(model._id, model)
 })
 
-const decoder = new Decoder(componentMap)
+const decoder = new Decoder(modelMap)
 
 export const doc = decoder.createArticleNode()

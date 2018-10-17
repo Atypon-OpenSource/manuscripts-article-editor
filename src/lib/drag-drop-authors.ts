@@ -4,7 +4,7 @@ import {
   DragDropContext,
 } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { Contributor } from '../types/components'
+import { Contributor } from '../types/models'
 
 export interface AuthorItem {
   _id: string

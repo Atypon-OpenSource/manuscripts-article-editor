@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProjectInvitation } from '../../types/components'
+import { ProjectInvitation } from '../../types/models'
 import { CollaboratorRolePopper } from './CollaboratorRolePopper'
 import { UninviteCollaboratorPopper } from './UninviteCollaboratorPopper'
 import UpdateRolePageContainer from './UpdateRolePageContainer'

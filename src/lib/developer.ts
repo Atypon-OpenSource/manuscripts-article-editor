@@ -1,5 +1,5 @@
 import { USER_PROFILE } from '../transformer/object-types'
-import { BibliographicName, UserProfile } from '../types/components'
+import { BibliographicName, UserProfile } from '../types/models'
 import { databaseCreator } from './db'
 import token from './token'
 

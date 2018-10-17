@@ -1,7 +1,7 @@
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import { projectInvite, projectUninvite } from '../../lib/api'
-import { ProjectInvitation } from '../../types/components'
+import { ProjectInvitation } from '../../types/models'
 import { CustomPopper } from '../Popper'
 import InviteCollaboratorPopper from './InviteCollaboratorPopper'
 

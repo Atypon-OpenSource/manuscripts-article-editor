@@ -2,10 +2,10 @@ jest.mock('../serializer')
 
 import { Decoder } from '../decode'
 import { encode } from '../encode'
-import { createTestComponentMap } from './__helpers__/doc'
+import { createTestModelMap } from './__helpers__/doc'
 
 test('transformer', async () => {
-  const input = createTestComponentMap()
+  const input = createTestModelMap()
   const decoder = new Decoder(input)
   const doc = decoder.createArticleNode()
   const output = encode(doc)

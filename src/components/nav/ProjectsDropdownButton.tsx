@@ -1,7 +1,7 @@
 import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
-import { ComponentsProps, withComponents } from '../../store/ComponentsProvider'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
 import {
   PROJECT_INVITATION,
@@ -9,11 +9,10 @@ import {
 } from '../../transformer/object-types'
 import {
   Attachments,
-  ComponentAttachment,
+  ModelAttachment,
   ProjectInvitation,
   UserProfile,
-} from '../../types/components'
-import { ProjectInvitationDocument } from '../../types/project'
+} from '../../types/models'
 import MenuDropdown from './MenuDropdown'
 import ProjectsMenu from './ProjectsMenu'
 
@@ -35,15 +34,8 @@ interface State {
 
 const getUserProfileFromDoc = async (
   doc: RxDocument<UserProfile & Attachments>
-): Promise<UserProfile & ComponentAttachment> => {
-  const {
-    _rev,
-    _deleted,
-    updatedAt,
-    createdAt,
-    sessionID,
-    ...data
-  } = doc.toJSON()
+): Promise<UserProfile & ModelAttachment> => {
+  const { _rev, updatedAt, createdAt, sessionID, ...data } = doc.toJSON()
 
   if (doc._attachments) {
     const attachments = await doc.allAttachments()
@@ -55,7 +47,7 @@ const getUserProfileFromDoc = async (
 }
 
 class ProjectsDropdownButton extends React.Component<
-  UserProps & ComponentsProps,
+  UserProps & ModelsProps,
   State
 > {
   public state: Readonly<State> = {
@@ -96,34 +88,34 @@ class ProjectsDropdownButton extends React.Component<
   }
 
   private getCollection() {
-    return this.props.components.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<{}>
   }
 
   // TODO: move this to a data provider that owns the map of user profiles
   private loadUserMap = () =>
     this.getCollection()
       .find({ objectType: USER_PROFILE })
-      .$.subscribe(
-        async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
-          const userMap: Map<string, UserProfile> = new Map()
+      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
+        const userMap: Map<string, UserProfile> = new Map()
 
-          await Promise.all(
-            docs.map(async doc => {
-              const user = await getUserProfileFromDoc(doc)
-              userMap.set(user.userID, user)
-            })
-          )
+        await Promise.all(
+          docs.map(async doc => {
+            const user = await getUserProfileFromDoc(doc as RxDocument<
+              UserProfile & Attachments
+            >)
+            userMap.set(user.userID, user)
+          })
+        )
 
-          this.setState({ userMap })
-        }
-      )
+        this.setState({ userMap })
+      })
 
   private loadInvitations = () =>
     this.getCollection()
       .find({
         objectType: PROJECT_INVITATION,
       })
-      .$.subscribe(async (docs: ProjectInvitationDocument[]) => {
+      .$.subscribe(async (docs: Array<RxDocument<ProjectInvitation>>) => {
         const user = this.props.user.data!
         const { userMap } = this.state
 
@@ -166,4 +158,4 @@ class ProjectsDropdownButton extends React.Component<
   }
 }
 
-export default withComponents(withUser(ProjectsDropdownButton))
+export default withModels(withUser(ProjectsDropdownButton))

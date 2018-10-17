@@ -1,6 +1,6 @@
 import React from 'react'
 import { isJointFirstAuthor } from '../../lib/authors'
-import { Contributor } from '../../types/components'
+import { Contributor } from '../../types/models'
 import { Author, AuthorAffiliation } from './Author'
 import { EditButton } from './Buttons'
 
