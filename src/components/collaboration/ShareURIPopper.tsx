@@ -3,7 +3,7 @@ import { altoGrey, dustyGrey, manuscriptsBlue } from '../../colors'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme'
 import { Project, UserProfile } from '../../types/models'
-import AlertMessage from '../AlertMessage'
+import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { Button, ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import { PopperBody } from '../Popper'
 import { RadioButton } from '../RadioButton'
@@ -85,9 +85,9 @@ const ShareURIField: React.SFC<ShareURIFieldProps> = ({
   <React.Fragment>
     {isCopied ? (
       <AlertMessageContainer>
-        <AlertMessage type={'success'} hideCloseButton={true}>
+        <AlertMessage type={AlertMessageType.success} hideCloseButton={true}>
           Link copied to clipboard.
-          <ClickableText onClick={handleCopy}>OK.</ClickableText>
+          <ClickableText onClick={handleCopy}>OK</ClickableText>
         </AlertMessage>
       </AlertMessageContainer>
     ) : (
@@ -193,7 +193,10 @@ export const ShareURIPopper: React.SFC<Props> = ({
         <React.Fragment>
           {!isProjectOwner ? (
             <AlertMessageContainer>
-              <AlertMessage type={'error'} hideCloseButton={true}>
+              <AlertMessage
+                type={AlertMessageType.error}
+                hideCloseButton={true}
+              >
                 Only project owners can share links to the document.
               </AlertMessage>
             </AlertMessageContainer>
@@ -201,7 +204,10 @@ export const ShareURIPopper: React.SFC<Props> = ({
             <React.Fragment>
               {loadingURIError ? (
                 <AlertMessageContainer>
-                  <AlertMessage type={'error'} hideCloseButton={true}>
+                  <AlertMessage
+                    type={AlertMessageType.error}
+                    hideCloseButton={true}
+                  >
                     Retrieving sharing link failed.
                     <ClickableText onClick={requestURI}>Retry.</ClickableText>
                   </AlertMessage>

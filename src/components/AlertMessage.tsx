@@ -61,9 +61,21 @@ interface State {
   isOpen: boolean
 }
 
+interface Dismiss {
+  text: string
+  action?: () => void
+}
+
+export enum AlertMessageType {
+  success = 'success',
+  error = 'error',
+  warning = 'warning',
+  info = 'info',
+}
+
 interface Props {
-  type: string
-  dismissButtonText?: string
+  type: AlertMessageType
+  dismissButton?: Dismiss
   hideCloseButton?: boolean
 }
 
@@ -74,7 +86,7 @@ class AlertMessage extends React.Component<Props, State> {
 
   public render() {
     const alertAttributes = this.getByType()
-    const { hideCloseButton, dismissButtonText, children } = this.props
+    const { hideCloseButton, dismissButton, children } = this.props
     const { isOpen } = this.state
 
     return (
@@ -89,9 +101,15 @@ class AlertMessage extends React.Component<Props, State> {
             <InformativeIcon>{alertAttributes.icon}</InformativeIcon>
             <TextContainer>
               {children}
-              {dismissButtonText && (
-                <TextButton onClick={this.handleClose}>
-                  {dismissButtonText}
+              {dismissButton && (
+                <TextButton
+                  onClick={
+                    dismissButton.action
+                      ? dismissButton.action
+                      : this.handleClose
+                  }
+                >
+                  {dismissButton.text}
                 </TextButton>
               )}
             </TextContainer>
@@ -112,7 +130,7 @@ class AlertMessage extends React.Component<Props, State> {
 
   private getByType() {
     switch (this.props.type) {
-      case 'success':
+      case AlertMessageType.success:
         return {
           icon: <SuccessGreen />,
           closeButton: <CloseAlert color={'#b2c0ac'} />,
@@ -120,7 +138,7 @@ class AlertMessage extends React.Component<Props, State> {
           backgroundColor: '#dff0d7',
           borderColor: '#b2c0ac',
         }
-      case 'error':
+      case AlertMessageType.error:
         return {
           icon: <AttentionError />,
           closeButton: <CloseAlert color={'#f5c1b7'} />,
@@ -128,7 +146,7 @@ class AlertMessage extends React.Component<Props, State> {
           color: '#dc5030',
           borderColor: '#f5c1b7',
         }
-      case 'info':
+      case AlertMessageType.info:
         return {
           icon: <AttentionInfo />,
           closeButton: <CloseAlert color={'#adbec6'} />,

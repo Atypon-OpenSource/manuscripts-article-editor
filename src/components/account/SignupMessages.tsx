@@ -1,5 +1,5 @@
 import React from 'react'
-import AlertMessage, { TextButton } from '../AlertMessage'
+import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import {
   SignupVerifyConflictMessage,
   SignupVerifyMessage,
@@ -27,32 +27,38 @@ const SignupMessages: React.SFC<Props> = ({
   if (confirming) {
     if (resendSucceed === null) {
       return (
-        <AlertMessage type={'success'}>
+        <AlertMessage
+          type={AlertMessageType.success}
+          dismissButton={{
+            text: 'Click here to re-send.',
+            action: resendVerificationEmail,
+          }}
+        >
           <SignupVerifyMessage email={confirming.email} />
-          <TextButton onClick={resendVerificationEmail}>
-            Click here to re-send.
-          </TextButton>
         </AlertMessage>
       )
     }
 
     return resendSucceed ? (
-      <AlertMessage type={'success'}>
+      <AlertMessage type={AlertMessageType.success}>
         <SignupVerifyResendSuccessMessage email={confirming.email} />
       </AlertMessage>
     ) : (
-      <AlertMessage type={'error'}>
+      <AlertMessage
+        type={AlertMessageType.error}
+        dismissButton={{
+          text: 'Click here to retry.',
+          action: resendVerificationEmail,
+        }}
+      >
         <SignupVerifyResendFailureMessage email={confirming.email} />
-        <TextButton onClick={resendVerificationEmail}>
-          Click here to retry.
-        </TextButton>
       </AlertMessage>
     )
   }
 
   if (existButNotVerified) {
     return (
-      <AlertMessage type={'warning'}>
+      <AlertMessage type={AlertMessageType.warning}>
         <SignupVerifyConflictMessage email={existButNotVerified.email} />
       </AlertMessage>
     )

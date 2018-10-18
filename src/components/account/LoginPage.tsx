@@ -3,7 +3,7 @@ import React from 'react'
 import AuthButtonContainer from './AuthButtonContainer'
 import FooterContainer from './FooterContainer'
 
-import AlertMessage from '../AlertMessage'
+import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { Centered } from '../Page'
 import {
   AuthenticationContainer,
@@ -12,9 +12,17 @@ import {
 } from './Authentication'
 import { LoginForm, LoginValues } from './LoginForm'
 
+interface ResendVerificationData {
+  message: string
+  email: string
+  type: AlertMessageType
+}
+
 interface Props {
   verificationMessage: string
   loginMessage: string | null
+  resendVerificationData: ResendVerificationData | null
+  resendVerificationEmail: (email: string) => void
 }
 
 const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
@@ -23,19 +31,38 @@ const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
   onSubmit,
   loginMessage,
   verificationMessage,
+  resendVerificationData,
+  resendVerificationEmail,
 }) => (
   <Centered>
     {!!verificationMessage &&
       verificationMessage ===
         'Account verification failed. Is the account already verified?' && (
-        <AlertMessage type={'error'}>{verificationMessage}</AlertMessage>
+        <AlertMessage type={AlertMessageType.error}>
+          {verificationMessage}
+        </AlertMessage>
       )}
     {!!verificationMessage &&
       verificationMessage === 'Your account is now verified.' && (
-        <AlertMessage type={'info'}>{verificationMessage}</AlertMessage>
+        <AlertMessage type={AlertMessageType.info}>
+          {verificationMessage}
+        </AlertMessage>
       )}
+    {!!resendVerificationData && (
+      <AlertMessage
+        type={resendVerificationData.type}
+        dismissButton={{
+          text: 'Re-send verification email.',
+          action: () => resendVerificationEmail(resendVerificationData.email),
+        }}
+      >
+        {resendVerificationData.message}
+      </AlertMessage>
+    )}
     {loginMessage && (
-      <AlertMessage type={'warning'}>{loginMessage}</AlertMessage>
+      <AlertMessage type={AlertMessageType.warning}>
+        {loginMessage}
+      </AlertMessage>
     )}
     <Formik
       initialValues={initialValues}

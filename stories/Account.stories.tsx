@@ -32,6 +32,8 @@ storiesOf('Account/Pages', module)
       onSubmit={action('login')}
       verificationMessage={''}
       loginMessage={''}
+      resendVerificationData={null}
+      resendVerificationEmail={action('resend verification email')}
     />
   ))
   .add('Recover', () => (

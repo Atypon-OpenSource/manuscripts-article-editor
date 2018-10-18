@@ -1,5 +1,5 @@
 import React from 'react'
-import AlertMessage from '../AlertMessage'
+import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import {
   AcceptedInvitationFailureMessage,
   AcceptedInvitationSuccessMessage,
@@ -12,7 +12,10 @@ interface Props {
 const AcceptInvitationMessages: React.SFC<Props> = ({ invitationAccepted }) => {
   if (invitationAccepted) {
     return (
-      <AlertMessage type={'success'} dismissButtonText={'OK.'}>
+      <AlertMessage
+        type={AlertMessageType.success}
+        dismissButton={{ text: 'OK' }}
+      >
         <AcceptedInvitationSuccessMessage />
       </AlertMessage>
     )
@@ -20,7 +23,10 @@ const AcceptInvitationMessages: React.SFC<Props> = ({ invitationAccepted }) => {
 
   if (invitationAccepted === false) {
     return (
-      <AlertMessage type={'error'} dismissButtonText={'OK.'}>
+      <AlertMessage
+        type={AlertMessageType.error}
+        dismissButton={{ text: 'OK' }}
+      >
         <AcceptedInvitationFailureMessage />
       </AlertMessage>
     )

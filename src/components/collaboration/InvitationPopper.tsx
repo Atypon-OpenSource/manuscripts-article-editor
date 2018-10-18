@@ -4,7 +4,7 @@ import { manuscriptsGrey } from '../../colors'
 import { isOwner } from '../../lib/roles'
 import { styled, ThemedProps } from '../../theme'
 import { Project, UserProfile } from '../../types/models'
-import AlertMessage from '../AlertMessage'
+import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import { PopperBody } from '../Popper'
 import {
@@ -82,21 +82,21 @@ export const InvitationPopper: React.SFC<Props> = ({
       {!isProjectOwner &&
         !invitationError && (
           <AlertMessageContainer>
-            <AlertMessage type={'error'} hideCloseButton={true}>
+            <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
               Only project owners can invite others to the project.
             </AlertMessage>
           </AlertMessageContainer>
         )}
       {!!invitationError && (
         <AlertMessageContainer>
-          <AlertMessage type={'error'} hideCloseButton={true}>
+          <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
             Sending invitation failed.
           </AlertMessage>
         </AlertMessageContainer>
       )}
       {!!invitationSent && (
         <AlertMessageContainer>
-          <AlertMessage type={'success'} hideCloseButton={true}>
+          <AlertMessage type={AlertMessageType.success} hideCloseButton={true}>
             Invitation was sent successfully.
           </AlertMessage>
         </AlertMessageContainer>

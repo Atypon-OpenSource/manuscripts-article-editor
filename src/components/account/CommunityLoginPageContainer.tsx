@@ -4,7 +4,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import config from '../../config'
 import client from '../../lib/client'
-import AlertMessage from '../AlertMessage'
+import AlertMessage, { AlertMessageType } from '../AlertMessage'
 
 interface RouteParams {
   sig: string
@@ -44,12 +44,14 @@ export class CommunityLoginPageContainer extends React.Component<Props, State> {
       return (
         <React.Fragment>
           <h1>Failed to log in to Manuscripts.io community.</h1>
-          <AlertMessage type={'error'}>{this.state.error.message}</AlertMessage>
+          <AlertMessage type={AlertMessageType.error}>
+            {this.state.error.message}
+          </AlertMessage>
         </React.Fragment>
       )
     } else {
       return (
-        <AlertMessage type={'info'}>
+        <AlertMessage type={AlertMessageType.info}>
           Redirecting to Manuscripts.io community login...
         </AlertMessage>
       )

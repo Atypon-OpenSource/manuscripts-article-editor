@@ -2,7 +2,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { logout } from '../../lib/account'
 import { databaseCreator } from '../../lib/db'
-import AlertMessage from '../AlertMessage'
+import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { Main, Page } from '../Page'
 
 interface State {
@@ -33,7 +33,7 @@ class LogoutPageContainer extends React.Component<RouteComponentProps, State> {
       <Page>
         <Main>
           {error ? (
-            <AlertMessage type={'error'}>{error}</AlertMessage>
+            <AlertMessage type={AlertMessageType.error}>{error}</AlertMessage>
           ) : (
             <div>Signing out…</div>
           )}

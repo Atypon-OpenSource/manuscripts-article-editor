@@ -5,19 +5,28 @@ import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router-dom'
 import Spinner from '../../icons/spinner'
 import { login } from '../../lib/account'
+import { resendVerificationEmail } from '../../lib/api'
 import { databaseCreator } from '../../lib/db'
 import token, { Token } from '../../lib/token'
 import { UserProps, withUser } from '../../store/UserProvider'
 import { loginSchema } from '../../validation'
+import { AlertMessageType } from '../AlertMessage'
 import { FormErrors } from '../Form'
 import { Main, Page } from '../Page'
 import { LoginValues } from './LoginForm'
 import LoginPage from './LoginPage'
 
+interface ResendVerificationData {
+  message: string
+  email: string
+  type: AlertMessageType
+}
+
 interface State {
   error: boolean
   verificationMessage: string
   loginMessage: string | null
+  resendVerificationData: ResendVerificationData | null
 }
 
 interface ErrorMessage {
@@ -32,6 +41,7 @@ class LoginPageContainer extends React.Component<
     error: false,
     verificationMessage: '',
     loginMessage: '',
+    resendVerificationData: null,
   }
 
   private initialValues: LoginValues = {
@@ -68,7 +78,12 @@ class LoginPageContainer extends React.Component<
 
   public render() {
     const { user } = this.props
-    const { error } = this.state
+    const {
+      error,
+      verificationMessage,
+      loginMessage,
+      resendVerificationData,
+    } = this.state
     if (!user.loaded) {
       return <Spinner />
     }
@@ -88,8 +103,10 @@ class LoginPageContainer extends React.Component<
             initialValues={this.initialValues}
             validationSchema={loginSchema}
             onSubmit={this.handleSubmit}
-            verificationMessage={this.state.verificationMessage}
-            loginMessage={this.state.loginMessage}
+            verificationMessage={verificationMessage}
+            loginMessage={loginMessage}
+            resendVerificationData={resendVerificationData}
+            resendVerificationEmail={this.resendVerificationEmail}
           />
         </Main>
       </Page>
@@ -112,14 +129,14 @@ class LoginPageContainer extends React.Component<
       const errors: FormikErrors<FormErrors> = {}
 
       if (error.response) {
-        errors.submit = this.errorResponseMessage(error.response.status)
+        errors.submit = this.errorResponseMessage(error.response.status, values)
       }
 
       setErrors(errors)
     }
   }
 
-  private errorResponseMessage = (status: number) => {
+  private errorResponseMessage = (status: number, values: LoginValues) => {
     switch (status) {
       case HttpStatusCodes.BAD_REQUEST:
         return 'Invalid operation'
@@ -128,11 +145,32 @@ class LoginPageContainer extends React.Component<
         return 'Invalid username or password'
 
       case HttpStatusCodes.FORBIDDEN:
-        // TODO: show a "resend email verification" link if not confirmed
-        return 'Please verify your email address'
-
+        this.setState({
+          resendVerificationData: {
+            message: 'Please verify your email address',
+            email: values.email,
+            type: AlertMessageType.warning,
+          },
+        })
+        break
       default:
         return 'An error occurred.'
+    }
+  }
+
+  private resendVerificationEmail = async (email: string) => {
+    try {
+      await resendVerificationEmail(email)
+
+      this.setState({ resendVerificationData: null })
+    } catch (error) {
+      this.setState({
+        resendVerificationData: {
+          email,
+          message: 'Re-sending verification email failed.',
+          type: AlertMessageType.error,
+        },
+      })
     }
   }
 }
