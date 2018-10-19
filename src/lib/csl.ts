@@ -10,7 +10,6 @@ import {
   Bundle,
 } from '../types/models'
 import { buildBibliographicDate, buildBibliographicName } from './commands'
-import { fetchSharedData } from './shared-data'
 
 export const DEFAULT_BUNDLE = 'MPBundle:www-zotero-org-styles-nature'
 
@@ -203,7 +202,7 @@ class CitationManager {
   }
 
   public fetchBundles = async (): Promise<Bundle[]> =>
-    fetchSharedData('bundles.json')
+    this.fetchJSON('shared/bundles.json')
 
   public fetchLocales = (): Promise<Locales> =>
     this.fetchJSON('csl/locales/locales.json')

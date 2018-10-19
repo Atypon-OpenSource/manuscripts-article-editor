@@ -78,6 +78,7 @@ import Panel from '../Panel'
 import { CommentList } from './CommentList'
 import ManuscriptForm from './ManuscriptForm'
 import ManuscriptSidebar from './ManuscriptSidebar'
+import { ReloadDialog } from './ReloadDialog'
 
 interface State {
   modelIds: {
@@ -193,7 +194,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       selected,
       comments,
       view,
+      error,
     } = this.state
+
+    if (error) {
+      return <ReloadDialog message={error} />
+    }
 
     if (!doc || !manuscript || !manuscripts || !project || !comments) {
       return <Spinner />
@@ -299,39 +305,59 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       const project = await this.loadProject(projectID)
 
       if (!project) {
-        throw new Error('Project not found')
+        throw new Error(
+          'Failed to open project for editing as the project could not be found.'
+        )
       }
 
       const manuscript = await this.loadManuscript(manuscriptID)
 
       if (!manuscript) {
-        throw new Error('Manuscript not found')
+        throw new Error(
+          'Failed to open manuscript for editing as the manuscript could not be found.'
+        )
       }
 
-      await this.createCitationProcessor(manuscript)
+      try {
+        await this.createCitationProcessor(manuscript)
+      } catch (error) {
+        console.error(error) // tslint:disable-line:no-console
+        throw new Error(
+          'Failed to open project for editing due to the citation processor failing to start.'
+        )
+      }
 
       const models = await this.loadModels(projectID, manuscriptID)
 
       // console.log(models.map(doc => [doc.objectType, doc.toJSON()]))
 
       if (!models.length) {
-        throw new Error('No models found')
+        throw new Error(
+          'Failed to open project for editing due to missing data.'
+        )
       }
 
       const modelMap = await buildModelMap(models)
 
       const decoder = new Decoder(modelMap)
 
-      const doc = decoder.createArticleNode()
-      doc.check()
+      try {
+        const doc = decoder.createArticleNode()
+        doc.check()
 
-      // encode again here to get doc model ids for comparison
-      const encodedModelMap = encode(doc)
-      const modelIds = this.buildManuscriptModelIds(encodedModelMap)
+        // encode again here to get doc model ids for comparison
+        const encodedModelMap = encode(doc)
+        const modelIds = this.buildManuscriptModelIds(encodedModelMap)
 
-      this.setState({ modelIds, modelMap })
+        this.setState({ modelIds, modelMap })
 
-      this.setState({ doc })
+        this.setState({ doc })
+      } catch (error) {
+        console.error(error) // tslint:disable-line:no-console
+        throw new Error(
+          'Failed to open project for editing due to an error during data preparation.'
+        )
+      }
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
       this.setState({
