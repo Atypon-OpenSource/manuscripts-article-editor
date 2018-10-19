@@ -16,7 +16,10 @@ class Placeholder implements NodeView {
   private initialise() {
     this.dom = document.createElement('div')
     this.dom.classList.add('placeholder-item')
-    this.dom.innerHTML = placeholderContent(this.node.attrs.label)
+    this.dom.innerHTML = placeholderContent(
+      this.node.attrs.label,
+      'support@manuscriptsapp.com'
+    )
   }
 }
 

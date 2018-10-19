@@ -158,13 +158,14 @@ export const SignupVerifyMessage: React.SFC<{
 
 export const SignupVerifyResendSuccessMessage: React.SFC<{
   email: string
-}> = ({ email }) => (
+  supportEmail: string
+}> = ({ email, supportEmail }) => (
   <FormattedMessage
     id={'signup_verify_resend_success'}
     defaultMessage={
-      'Verification email re-resent to {email}. If you have not received it, please wait, check your spam box before getting in touch via support@manuscriptsapp.com.'
+      'Verification email re-resent to {email}. If you have not received it, please wait, check your spam box before getting in touch via {supportEmail}.'
     }
-    values={{ email }}
+    values={{ email, supportEmail }}
   />
 )
 

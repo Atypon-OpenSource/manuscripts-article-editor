@@ -1,4 +1,5 @@
 import React from 'react'
+import config from '../../config'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import {
   SignupVerifyConflictMessage,
@@ -41,7 +42,10 @@ const SignupMessages: React.SFC<Props> = ({
 
     return resendSucceed ? (
       <AlertMessage type={AlertMessageType.success}>
-        <SignupVerifyResendSuccessMessage email={confirming.email} />
+        <SignupVerifyResendSuccessMessage
+          email={confirming.email}
+          supportEmail={config.support.email}
+        />
       </AlertMessage>
     ) : (
       <AlertMessage

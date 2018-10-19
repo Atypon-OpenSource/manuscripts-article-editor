@@ -31,7 +31,10 @@ class PlaceholderElement extends Block {
 
     const content = document.createElement('div')
     content.className = 'placeholder-item'
-    content.innerHTML = placeholderContent('An element')
+    content.innerHTML = placeholderContent(
+      'An element',
+      'support@manuscriptsapp.com'
+    )
     this.element.appendChild(content)
   }
 

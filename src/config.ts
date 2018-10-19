@@ -24,6 +24,10 @@ interface Config {
     environment: string
     release: string | undefined
   }
+  support: {
+    email: string
+    url: string | undefined
+  }
   wayf: {
     key: string | undefined
     url: string | undefined
@@ -68,6 +72,10 @@ const config = {
     dsn: normalizeURL(process.env.SENTRY_PUBLIC_DSN),
     environment: process.env.CI_ENVIRONMENT_NAME || 'manual-build',
     release: process.env.SENTRY_RELEASE,
+  },
+  support: {
+    email: process.env.SUPPORT_EMAIL || 'support@manuscriptsapp.com',
+    url: process.env.SUPPORT_URL,
   },
   wayf: {
     key: process.env.WAYF_KEY,

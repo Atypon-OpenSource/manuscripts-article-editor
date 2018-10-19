@@ -34,6 +34,8 @@ const configuration: webpack.Configuration = {
         'SENTRY_RELEASE',
         'SERVICEWORKER_ENABLED',
         'SYNC_GATEWAY_URL',
+        'SUPPORT_EMAIL',
+        'SUPPORT_URL',
         'WAYF_KEY',
         'WAYF_URL',
       ]),

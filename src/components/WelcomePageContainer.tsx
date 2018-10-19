@@ -2,6 +2,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { RxCollection } from 'rxdb'
+import config from '../config'
 import {
   buildContributor,
   buildManuscript,
@@ -152,7 +153,7 @@ class WelcomePageContainer extends React.Component<
   }
 
   private sendFeedback = () => {
-    window.open('mailto:support@manuscriptsapp.com', '_blank')
+    window.open(`mailto:${config.support.email}`, '_blank')
   }
 
   private handleClose = () => {
