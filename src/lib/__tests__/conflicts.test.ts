@@ -1,5 +1,11 @@
+import { ReplaceStep } from 'prosemirror-transform'
+import { Decoder } from '../../transformer'
+import { Paragraph } from '../../types/models'
 import * as Conflicts from '../conflicts'
+import * as Merge from '../merge'
 
+jest.mock('rxdb')
+jest.mock('../../transformer/serializer')
 jest.mock('rxdb/plugins/core')
 
 describe('events', () => {
@@ -131,5 +137,263 @@ describe('remove conflicts', () => {
       winningRev,
       expect.any(Function)
     )
+  })
+})
+
+describe('parse rev number', () => {
+  it('parse rev number correctly', () => {
+    expect(Conflicts.getRevNumber('24-barbaz')).toEqual(24)
+  })
+
+  it('should fail to parse broken rev number', () => {
+    expect(() => Conflicts.getRevNumber('-barbaz')).toThrow()
+  })
+
+  it('should fail to parse empty string', () => {
+    expect(() => Conflicts.getRevNumber('')).toThrow()
+  })
+})
+
+describe('apply remote step', () => {
+  const manuscriptID = 'MPManuscript:21333'
+  const componentID = 'MPParagraphElement:6AB75E6E-65FC-42AB-8FA5-98BAF03977B0'
+
+  const encodedContents = (contents: string) => {
+    return `<p xmlns="http://www.w3.org/1999/xhtml" id="${componentID}" class="MPElement" data-object-type="MPParagraphElement">${contents}</p>`
+  }
+
+  const conflict: Conflicts.Conflict<Paragraph> = {
+    id: '3-cae48a6191f8e130f9aceaf01c7ab788:3-c7aaa9280b8b60eb7c708f9c5e9fb04b',
+    ancestor: {
+      objectType: 'MPParagraphElement',
+      elementType: 'p',
+      contents: encodedContents('money in a big box'),
+      containerID: 'MPProject:5BCCEC56-7E77-4BEC-82FA-E884078B5000',
+      manuscriptID,
+      _id: componentID,
+      _rev: '1-68e5c5ecb0364bf48a0345808b162aa8',
+      _revisions: {
+        ids: [],
+        start: 0,
+      },
+    },
+    local: {
+      objectType: 'MPParagraphElement',
+      elementType: 'p',
+      contents: encodedContents('money outsiiiide a smaaall box'),
+      containerID: 'MPProject:5BCCEC56-7E77-4BEC-82FA-E884078B5000',
+      manuscriptID,
+      _id: componentID,
+      _rev: '3-cae48a6191f8e130f9aceaf01c7ab788',
+      _revisions: {
+        ids: [],
+        start: 0,
+      },
+    },
+    remote: {
+      objectType: 'MPParagraphElement',
+      elementType: 'p',
+      contents: encodedContents('money inside a smaaall box'),
+      containerID: 'MPProject:5BCCEC56-7E77-4BEC-82FA-E884078B5000',
+      manuscriptID,
+      _id: componentID,
+      _rev: '4-cae48a6191f8e130f9aceaf01c7ab788',
+      _revisions: {
+        ids: [],
+        start: 0,
+      },
+    },
+  }
+
+  const current: Paragraph = {
+    objectType: 'MPParagraphElement',
+    elementType: 'p',
+    contents: encodedContents('money inside a shoe box'),
+    containerID: 'MPProject:5BCCEC56-7E77-4BEC-82FA-E884078B5000',
+    manuscriptID,
+    _id: componentID,
+    _rev: '4-fffffff191f8e130f9aceaf01c7ab788',
+  }
+
+  const decoder = new Decoder(new Map())
+
+  const localConflicts = {
+    [componentID]: {
+      [conflict.id]: conflict,
+    },
+  }
+
+  // tslint:disable-next-line:no-any
+  const collection: any = {
+    upsertLocal: jest.fn((manuscriptID, updatedLocalConflicts) => ({
+      toJSON: () => updatedLocalConflicts,
+    })),
+    getLocal: () => ({
+      toJSON: () => localConflicts,
+    }),
+  }
+
+  it('updates the conflict if there are remaining conflicts', async () => {
+    const { localNode, ancestorNode } = Merge.hydrateConflictNodes(
+      conflict,
+      decoder.decode
+    )
+
+    const apply = Conflicts.applyRemoteStep(collection)
+
+    const currentNode = decoder.decode(current)
+
+    const step = new ReplaceStep(6, 16, currentNode.slice(6, 12))
+
+    const isFinalConflict = false
+
+    const updatedConflicts = await apply(
+      conflict,
+      {
+        ancestor: ancestorNode,
+        current: currentNode,
+        local: localNode,
+      },
+      step,
+      isFinalConflict
+    )
+
+    // tslint:disable-next-line:no-any
+    const updatedLocal: any = updatedConflicts[componentID][conflict.id].local
+
+    expect(updatedLocal.contents).toEqual(
+      encodedContents('money inside a smaaall box')
+    )
+
+    expect(collection.upsertLocal).toHaveBeenCalledWith(
+      manuscriptID,
+      localConflicts
+    )
+  })
+
+  it('removes the conflict if there are no remaining conflicts', async () => {
+    const { localNode, ancestorNode } = Merge.hydrateConflictNodes(
+      conflict,
+      decoder.decode
+    )
+
+    const applyFn = Conflicts.applyRemoteStep(collection)
+
+    const currentNode = decoder.decode(current)
+
+    const step = new ReplaceStep(6, 16, currentNode.slice(6, 12))
+
+    const isFinalConflict = true
+
+    const updatedConflicts = await applyFn(
+      conflict,
+      {
+        ancestor: ancestorNode,
+        current: currentNode,
+        local: localNode,
+      },
+      step,
+      isFinalConflict
+    )
+
+    expect(updatedConflicts[componentID]).toBeUndefined()
+
+    expect(collection.upsertLocal).toHaveBeenCalledWith(manuscriptID, {})
+  })
+})
+
+describe('apply local step', () => {
+  const manuscriptID = 'MPManuscript:21333'
+  const componentID = 'MPParagraphElement:6AB75E6E-65FC-42AB-8FA5-98BAF03977B0'
+
+  const encodedContents = (contents: string) => {
+    return `<p xmlns="http://www.w3.org/1999/xhtml" id="${componentID}" class="MPElement" data-object-type="MPParagraphElement">${contents}</p>`
+  }
+
+  // tslint:disable-next-line:no-any
+  const conflict: Conflicts.Conflict<Paragraph> = {
+    id: '3-cae48a6191f8e130f9aceaf01c7ab788:3-c7aaa9280b8b60eb7c708f9c5e9fb04b',
+    ancestor: {
+      objectType: 'MPParagraphElement',
+      elementType: 'p',
+      contents: encodedContents('money in a big box'),
+      containerID: 'MPProject:5BCCEC56-7E77-4BEC-82FA-E884078B5000',
+      manuscriptID,
+      _id: componentID,
+      _rev: '1-68e5c5ecb0364bf48a0345808b162aa8',
+      _revisions: {
+        ids: [],
+        start: 0,
+      },
+    },
+    local: {
+      objectType: 'MPParagraphElement',
+      elementType: 'p',
+      contents: encodedContents('money outsiiiide a smaaall box'),
+      containerID: 'MPProject:5BCCEC56-7E77-4BEC-82FA-E884078B5000',
+      manuscriptID,
+      _id: componentID,
+      _rev: '3-cae48a6191f8e130f9aceaf01c7ab788',
+      _revisions: {
+        ids: [],
+        start: 0,
+      },
+    },
+    remote: {
+      objectType: 'MPParagraphElement',
+      elementType: 'p',
+      contents: encodedContents('money inside a smaaall box'),
+      containerID: 'MPProject:5BCCEC56-7E77-4BEC-82FA-E884078B5000',
+      manuscriptID,
+      _id: componentID,
+      _rev: '4-cae48a6191f8e130f9aceaf01c7ab788',
+      _revisions: {
+        ids: [],
+        start: 0,
+      },
+    },
+  }
+
+  const localConflicts = {
+    [componentID]: {
+      [conflict.id]: conflict,
+    },
+  }
+
+  // tslint:disable-next-line:no-any
+  const collection: any = {
+    upsertLocal: jest.fn((manuscriptID, updatedLocalConflicts) => ({
+      toJSON: () => updatedLocalConflicts,
+    })),
+    getLocal: () => ({
+      toJSON: () => localConflicts,
+    }),
+  }
+
+  it('does nothing if there are remaining conflicts', async () => {
+    const apply = Conflicts.applyLocalStep(collection)
+
+    const isFinalConflict = false
+
+    const updatedConflicts = await apply(conflict, isFinalConflict)
+
+    expect(updatedConflicts).toEqual(localConflicts)
+
+    expect(collection.upsertLocal).toHaveBeenCalledWith(
+      manuscriptID,
+      localConflicts
+    )
+  })
+
+  it('removes the conflicts if there are no remaining conflicts', async () => {
+    const apply = Conflicts.applyLocalStep(collection)
+
+    const isFinalConflict = true
+
+    const updatedConflicts = await apply(conflict, isFinalConflict)
+
+    expect(updatedConflicts[componentID]).toBeUndefined()
+
+    expect(collection.upsertLocal).toHaveBeenCalledWith(manuscriptID, {})
   })
 })

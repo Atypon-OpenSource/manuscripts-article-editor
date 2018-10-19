@@ -1,6 +1,16 @@
+import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { Step } from 'prosemirror-transform'
 import { RxCollection } from 'rxdb'
 import RxDB from 'rxdb/plugins/core'
-import { Model } from '../types/models'
+import {
+  ApplyLocalStep,
+  ApplyRemoteStep,
+  HydratedNodes,
+} from '../editor/Editor'
+import { ComponentConflicts, LocalConflicts } from '../lib/conflicts'
+import { modelFromNode } from '../transformer/encode'
+import { PARAGRAPH } from '../transformer/object-types'
+import { Model, Paragraph, ParagraphElement } from '../types/models'
 
 interface PouchOpenRevsDoc {
   _revisions: {
@@ -10,6 +20,7 @@ interface PouchOpenRevsDoc {
   _id: string
   _rev: string
   manuscriptID?: string
+  objectType?: string
 }
 
 export interface PouchOpenRevsResult {
@@ -22,51 +33,144 @@ export interface ConflictingRevision {
   rev: string
 }
 
-export interface Conflict {
-  ancestor: PouchOpenRevsDoc
-  local: PouchOpenRevsDoc
-  remote: PouchOpenRevsDoc
+export interface Conflict<T = {}> {
+  id: string
+  ancestor: PouchOpenRevsDoc & T
+  local: PouchOpenRevsDoc & T
+  remote: PouchOpenRevsDoc & T
 }
 
-const saveConflictLocally = async (
+export interface ComponentConflicts {
+  [conflictID: string]: Conflict
+}
+
+export type LocalConflicts = {
+  [componentID: string]: ComponentConflicts
+} & {
+  _id: string
+  _rev: string
+}
+
+export interface StepWithRange extends Step {
+  from: number
+  to: number
+}
+
+export const getRevNumber = (rev: string | undefined): number => {
+  if (!rev) {
+    throw new Error('Invalid rev string')
+  }
+  const match = rev.match(/(\d+)-/)
+  if (!match || !match[1]) {
+    throw new Error('Unable to parse _rev number')
+  }
+  return Number(match[1])
+}
+
+export const getLocalConflictDoc = async (
+  collection: RxCollection<{}>,
+  manuscriptID: string
+) => {
+  let localDoc = await collection.getLocal(manuscriptID)
+
+  if (!localDoc) {
+    localDoc = await collection.insertLocal(manuscriptID, {})
+  }
+
+  return localDoc.toJSON() as LocalConflicts
+}
+
+export const saveConflictLocally = async (
   collection: RxCollection<Model>,
   conflict: Conflict
 ) => {
   const { manuscriptID, _id } = conflict.local
 
   if (!manuscriptID) {
+    // TODO: components that could conflict but don't have a manuscriptID
     throw new Error('No manuscriptID')
   }
 
-  // TODO: sort out an actual type here
-  // tslint:disable-next-line:no-any
-  const localDoc: any = await collection.getLocal(manuscriptID)
+  const localDoc = await getLocalConflictDoc(collection, manuscriptID)
 
-  if (localDoc === null) {
-    return collection.insertLocal(manuscriptID, {
-      [_id]: [conflict],
-    })
-  } else {
-    const existingConflicts = localDoc.get(_id) || []
+  const existingConflicts: ComponentConflicts = localDoc[_id] || {}
 
-    // TODO: make this better/hash
-    const hashConflict = (c: Conflict) => {
-      return c.local._rev + c.remote._rev
-    }
-
-    const newConflict = hashConflict(conflict)
-
-    // TODO: possibly remove this code
-    // It's currently just a sanity check
-    for (const existingConflict of existingConflicts) {
-      if (hashConflict(existingConflict) === newConflict) {
-        throw new Error('Duplicate conflict')
-      }
-    }
-
-    localDoc.set(_id, existingConflicts.concat(conflict))
-    return localDoc.save()
+  if (conflict.id in existingConflicts) {
+    throw new Error('Duplicate conflict')
   }
+
+  const updatedDoc: LocalConflicts = {
+    ...localDoc,
+    [_id]: {
+      ...existingConflicts,
+      [conflict.id]: conflict,
+    },
+  }
+
+  return collection.upsertLocal(manuscriptID, updatedDoc)
+}
+
+export const removeConflictLocally = async (
+  collection: RxCollection<Model>,
+  conflict: Conflict
+) => {
+  const { manuscriptID, _id: componentID } = conflict.local
+
+  if (!manuscriptID) {
+    // TODO: components that could conflict but don't have a manuscriptID
+    throw new Error('No manuscriptID')
+  }
+
+  const localDoc = await getLocalConflictDoc(collection, manuscriptID)
+
+  const componentConflicts = localDoc[componentID] || {}
+
+  if (!(conflict.id in componentConflicts)) {
+    throw new Error('Invalid state')
+  }
+
+  const updatedDoc: LocalConflicts = { ...localDoc }
+
+  // If this was the last conflict lets remove the key for the component
+  if (Object.keys(componentConflicts).length === 1) {
+    delete updatedDoc[componentID]
+  } else {
+    delete componentConflicts[conflict.id]
+    updatedDoc[componentID] = componentConflicts
+  }
+
+  const updated = await collection.upsertLocal(manuscriptID, updatedDoc)
+
+  return updated.toJSON() as LocalConflicts
+}
+
+export const updateConflictLocally = async (
+  collection: RxCollection<Model>,
+  conflict: Conflict
+) => {
+  const { manuscriptID, _id: componentID } = conflict.local
+
+  if (!manuscriptID) {
+    // TODO: components that could conflict but don't have a manuscriptID
+    throw new Error('No manuscriptID')
+  }
+
+  const localDoc = await getLocalConflictDoc(collection, manuscriptID)
+
+  const componentConflicts = localDoc[componentID] || {}
+
+  if (!(conflict.id in componentConflicts)) {
+    throw new Error('Invalid state')
+  }
+
+  const updatedDoc: LocalConflicts = { ...localDoc }
+
+  componentConflicts[conflict.id] = conflict
+  updatedDoc[componentID] = componentConflicts
+
+  const updated = await collection.upsertLocal(manuscriptID, updatedDoc)
+
+  return updated.toJSON() as LocalConflicts
 }
 
 interface RevTreeNodeStatus {
@@ -133,10 +237,11 @@ export const prune = (revToRemove: string) => {
   }
 }
 
-// tslint:disable-next-line:no-any
-export const updateDoc = (collection: any, changeDoc: PouchOpenRevsDoc) => {
+export const updateDoc = (
+  collection: RxCollection<Model>,
+  changeDoc: PouchOpenRevsDoc
+) => {
   const change = RxDB.fromPouchChange(changeDoc, collection)
-
   collection.$emit(change)
 }
 
@@ -236,7 +341,20 @@ const getConflict = async (
     revs: true,
   })
 
-  return { ancestor, local, remote }
+  const id = `${local._rev}:${remote._rev}`
+
+  return { id, ancestor, local, remote }
+}
+
+// For now we only really support MPParagraphElements
+const supportedObjectTypes = new Set([PARAGRAPH])
+
+export const supportedConflictType = (conflict: Conflict) => {
+  if (!conflict.local.objectType) {
+    return false
+  }
+
+  return supportedObjectTypes.has(conflict.local.objectType)
 }
 
 /**
@@ -256,8 +374,83 @@ export const handleConflicts = async (
   for (const conflictingRev of conflictingRevs) {
     const conflict = await getConflict(collection, conflictingRev)
     if (conflict) {
-      await saveConflictLocally(collection, conflict)
+      if (supportedConflictType(conflict)) {
+        await saveConflictLocally(collection, conflict)
+      }
       await removeConflict(collection, conflict)
+    }
+  }
+}
+
+export const docPosition = (step: StepWithRange, pos: number): Step => {
+  const { from, to } = step
+  if (Number.isInteger(from) && Number.isInteger(to)) {
+    step.from = from + pos
+    step.to = to + pos
+  } else {
+    throw new Error('Unsupported step')
+  }
+
+  return step
+}
+
+export const applyLocalStep = (
+  collection: RxCollection<Model>
+): ApplyLocalStep => {
+  return (conflict: Conflict, isFinalConflict: boolean) => {
+    if (isFinalConflict) {
+      return removeConflictLocally(collection, conflict)
+    } else {
+      // This is essentially a no-op
+      return updateConflictLocally(collection, conflict)
+    }
+  }
+}
+
+const isParagraphElement = (model: Model): model is ParagraphElement =>
+  model.objectType === PARAGRAPH
+
+export const applyRemoteStep = (
+  collection: RxCollection<Model>
+): ApplyRemoteStep => {
+  return (
+    conflict: Conflict,
+    hydratedNodes: HydratedNodes,
+    step: Step,
+    isFinalConflict: boolean
+  ) => {
+    const { local } = hydratedNodes
+
+    const result = step.apply(local)
+
+    if (result.failed) {
+      throw new Error('Failed to apply reverse step to local conflict')
+    }
+
+    const newLocal: Model = modelFromNode(
+      result.doc as ProsemirrorNode,
+      // tslint:disable-next-line:no-any
+      null as any,
+      [],
+      {
+        value: 0,
+      }
+    )
+
+    // tslint:disable-next-line:no-any
+    const remainingConflict: any = { ...conflict }
+
+    if (!isParagraphElement(remainingConflict.local)) {
+      throw new Error('Not implemented')
+    }
+
+    // TODO: update _rev for consistency?
+    remainingConflict.local.contents = (newLocal as Paragraph).contents
+
+    if (isFinalConflict) {
+      return removeConflictLocally(collection, conflict)
+    } else {
+      return updateConflictLocally(collection, conflict)
     }
   }
 }

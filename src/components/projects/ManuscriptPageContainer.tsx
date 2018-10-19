@@ -12,6 +12,7 @@ import {
   GetKeywords,
   GetUser,
 } from '../../editor/comment/config'
+import { conflictsKey } from '../../editor/config/plugins/conflicts'
 import Editor, { ChangeReceiver } from '../../editor/Editor'
 import PopperManager from '../../editor/lib/popper'
 import { findParentNodeWithId, Selected } from '../../editor/lib/utils'
@@ -23,6 +24,14 @@ import {
   buildManuscript,
 } from '../../lib/commands'
 import { buildName } from '../../lib/comments'
+import {
+  applyLocalStep,
+  applyRemoteStep,
+  Conflict,
+  getRevNumber,
+  LocalConflicts,
+  removeConflictLocally,
+} from '../../lib/conflicts'
 import CitationManager, { DEFAULT_BUNDLE } from '../../lib/csl'
 import { download } from '../../lib/download'
 import {
@@ -30,6 +39,11 @@ import {
   exportProject,
   generateDownloadFilename,
 } from '../../lib/exporter'
+import {
+  createMerge,
+  hydrateConflictNodes,
+  iterateConflicts,
+} from '../../lib/merge'
 import { ContributorRole } from '../../lib/roles'
 import { ModelChangeEvent } from '../../lib/rxdb'
 import sessionID from '../../lib/sessionID'
@@ -70,6 +84,7 @@ interface State {
     [key: string]: Set<string>
   }
   modelMap: Map<string, Model>
+  conflicts: LocalConflicts | null
   dirty: boolean
   doc: ProsemirrorNode | null
   error: string | null
@@ -103,6 +118,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       data: new Set(),
     },
     modelMap: new Map(),
+    conflicts: null,
     dirty: false,
     doc: null,
     error: null,
@@ -213,6 +229,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             getModel={this.getModel}
             saveModel={this.saveModel}
             deleteModel={this.deleteModel}
+            applyLocalStep={applyLocalStep(this.getCollection())}
+            applyRemoteStep={applyRemoteStep(this.getCollection())}
             getLibraryItem={this.getLibraryItem}
             getManuscript={this.getManuscript}
             saveManuscript={this.saveManuscript}
@@ -300,21 +318,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         throw new Error('No models found')
       }
 
-      // tslint:disable-next-line:no-any
-      let localDoc: RxLocalDocument<any> = await this.getCollection().getLocal(
-        manuscriptID
-      )
-
-      // TODO: move this
-      // tslint:disable-next-line:strict-type-predicates
-      if (localDoc === null) {
-        localDoc = await this.getCollection().insertLocal(manuscriptID, {})
-      }
-
-      localDoc.$.subscribe(doc => {
-        console.log('Conflicts:', doc) // tslint:disable-line:no-console
-      })
-
       const modelMap = await buildModelMap(models)
 
       const decoder = new Decoder(modelMap)
@@ -339,10 +342,58 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private setView = (view: EditorView) => {
     this.setState({ view })
+
+    this.subscribeToConflicts().catch(err => {
+      throw err
+    })
+  }
+
+  private getOrInsertLocalDocument = async (manuscriptID: string) => {
+    const collection = this.getCollection() as RxCollection<{}>
+
+    let localDoc = await collection.getLocal(manuscriptID)
+
+    if (!localDoc) {
+      localDoc = await collection.insertLocal(manuscriptID, {})
+    }
+
+    return localDoc as RxLocalDocument<RxCollection<LocalConflicts>>
+  }
+
+  private subscribeToConflicts = async () => {
+    const { manuscriptID } = this.props.match.params
+
+    let loaded = false
+
+    const localDoc = await this.getOrInsertLocalDocument(manuscriptID)
+
+    localDoc.$.subscribe((conflicts: LocalConflicts) => {
+      this.setState({ conflicts })
+
+      // when the editor is loaded for the first time, we should check if we
+      // have any conflicts to resolve/decorations to create
+      if (!loaded) {
+        loaded = true
+
+        this.handleConflicts(conflicts).catch(err => {
+          throw err
+        })
+      } else {
+        const { view } = this.state
+
+        if (!view) {
+          throw new Error('View not initialized')
+        }
+
+        const tr = view.state.tr.setMeta(conflictsKey, conflicts)
+
+        view.dispatch(tr)
+      }
+    })
   }
 
   private getCollection = () => {
-    return this.props.models.collection as RxCollection<{}>
+    return this.props.models.collection as RxCollection<Model>
   }
 
   private getLocale = () => {
@@ -736,6 +787,22 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return v.sessionID !== sessionID
   }
 
+  private conflictForComponent = (componentId: string) => {
+    const { conflicts } = this.state
+
+    // If this update is a component which has conflicts
+    if (conflicts && componentId in conflicts) {
+      const conflictsForNode = Object.values(conflicts[componentId])
+      if (conflictsForNode.length > 1) {
+        // TODO: what do we do here
+        throw new Error('Multiple conflicts for same element')
+      }
+      return conflictsForNode[0]
+    }
+
+    return null
+  }
+
   private handleSubscribe = (receive: ChangeReceiver) => {
     const { projectID, manuscriptID } = this.props.match.params
 
@@ -780,6 +847,26 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         const model = (await getModelFromDoc(modelDocument)) as Model &
           Attachments
 
+        const conflict = this.conflictForComponent(modelDocument._id)
+
+        if (conflict) {
+          const updatedRevNumber = getRevNumber(modelDocument._rev)
+          const remoteConflictRevNumber = getRevNumber(conflict.remote._rev)
+
+          // Check to see if the node is either the one we initially conflicted
+          // with, or descendant of it.
+          if (updatedRevNumber >= remoteConflictRevNumber) {
+            // TODO: this following check shouldn't be needed
+            // Maybe there's an issue with the sessionID check
+            if (modelDocument._rev !== conflict.local._rev) {
+              const updatedNode = await this.processConflict(model, conflict)
+
+              receive(op, doc, updatedNode)
+              return
+            }
+          }
+        }
+
         const { modelMap } = this.state
 
         modelMap.set(model._id, model) // TODO: what if this overlaps with saving?
@@ -801,6 +888,68 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
 
     this.subs.push(sub)
+  }
+
+  private processConflict = async (
+    component: Model & Attachments,
+    conflict: Conflict
+  ) => {
+    const decoder = new Decoder(new Map())
+
+    const { localNode, ancestorNode } = hydrateConflictNodes(
+      conflict,
+      decoder.decode
+    )
+
+    let updatedNode = decoder.decode(component)
+
+    const { merge, tr: transform } = createMerge(
+      updatedNode,
+      localNode,
+      ancestorNode,
+      conflict
+    )
+
+    if (transform.steps.length) {
+      const mergedStep = transform.steps.reduce((acc, step) => {
+        const newStep = acc.merge(step)
+        if (!newStep) {
+          return acc
+        } else {
+          return newStep
+        }
+      })
+
+      const result = mergedStep.apply(updatedNode)
+      if (result.doc) {
+        updatedNode = result.doc
+      }
+    }
+
+    // if we have a conflict then this will be set
+    let updatedConflicts = this.state.conflicts!
+
+    // This removes conflicts that can be (completely) automerged
+    // It is possible the user could manually/coincidentally have the same
+    // content, so we want to delete even when there were no automerged steps.
+    if (merge.conflictingSteps2.length === 0) {
+      updatedConflicts = await removeConflictLocally(
+        this.getCollection(),
+        conflict
+      )
+    }
+
+    // send remaining/updated conflict state to editor plugin
+    const { view } = this.state
+
+    if (!view) {
+      throw new Error('No view initialized')
+    }
+
+    const tr = view.state.tr.setMeta(conflictsKey, updatedConflicts)
+    view.dispatch(tr)
+
+    return updatedNode
   }
 
   private removedModelIds = (
@@ -1009,6 +1158,49 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
     }
+  }
+
+  private handleConflicts = async (conflicts: LocalConflicts) => {
+    const { view } = this.state
+
+    if (!view) {
+      throw new Error('EditorView not initialized')
+    }
+
+    const decoder = new Decoder(new Map())
+
+    let tr = view.state.tr
+
+    const conflictsToDelete: Conflict[] = []
+
+    // Iterate conflicts, cleaning up resolved conflicts
+    iterateConflicts(
+      conflicts,
+      view.state.doc,
+      decoder.decode,
+      (current, local, ancestor, pos, conflict) => {
+        const { merge } = createMerge(current, local, ancestor, conflict)
+
+        // This removes conflicts that can be (completely) automerged
+        // Automerging is currently turned off, so this will just cases where
+        // the remote state matches the local conflict.
+        if (merge.conflictingSteps2.length === 0) {
+          conflictsToDelete.push(conflict)
+        }
+        return
+      }
+    )
+
+    let updatedConflicts = conflicts
+
+    for (const c of conflictsToDelete) {
+      updatedConflicts = await removeConflictLocally(this.getCollection(), c)
+    }
+
+    // send remaining/updated conflict state to editor plugin
+    tr = tr.setMeta(conflictsKey, updatedConflicts)
+
+    view.dispatch(tr)
   }
 
   private getCurrentUser = (): UserProfile => this.props.user.data!

@@ -1,13 +1,14 @@
-import Popper, { Placement } from 'popper.js'
+import Popper from 'popper.js'
 
 export default class PopperManager {
-  private activePopper: Popper | null
-  private container: HTMLElement | null
+  protected activePopper: Popper | null
+  protected container: HTMLElement | null
 
   public show(
     target: Element,
     contents: HTMLElement,
-    placement: Placement = 'bottom'
+    placement: Popper.Placement = 'bottom',
+    showArrow: boolean = true
   ) {
     if (this.activePopper) {
       return this.destroy()
@@ -17,9 +18,21 @@ export default class PopperManager {
       this.container = document.createElement('div')
       this.container.className = 'popper'
 
-      const arrow = document.createElement('div')
-      arrow.className = 'popper-arrow'
-      this.container.appendChild(arrow)
+      const modifiers: Popper.Modifiers = {}
+
+      if (showArrow) {
+        const arrow = document.createElement('div')
+        arrow.className = 'popper-arrow'
+        this.container.appendChild(arrow)
+
+        modifiers.arrow = {
+          element: arrow,
+        }
+      } else {
+        modifiers.arrow = {
+          enabled: false,
+        }
+      }
 
       this.container.appendChild(contents)
       document.body.appendChild(this.container)
@@ -27,6 +40,7 @@ export default class PopperManager {
       this.activePopper = new Popper(target, this.container, {
         placement,
         removeOnDestroy: true,
+        modifiers,
       })
     })
   }

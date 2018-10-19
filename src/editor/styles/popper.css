@@ -131,3 +131,33 @@
   border: 1px solid #ccc;
   background: #fff;
 }
+
+.popper .conflict-dropdown {
+  background: #fff;
+  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 1px;
+}
+
+.popper .conflict-option {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.popper .conflict-option-contents {
+  font-family: "IBM Plex Serif", "Georgia", Times, serif;
+  font-size: 15px;
+  line-height: 1.67;
+  color: #353535;
+}
+
+.popper .conflict-option:hover {
+  background: #dcefff;
+}
+
+.popper .conflict-option-label {
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #628ec4;
+}
+

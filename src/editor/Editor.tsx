@@ -6,12 +6,14 @@ import {
   TextSelection,
   Transaction,
 } from 'prosemirror-state'
+import { Step } from 'prosemirror-transform'
 import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
 import React from 'react'
 import MetadataContainer from '../components/metadata/MetadataContainer'
 import { ApplicationMenu } from '../components/projects/ApplicationMenu'
 import { Build } from '../lib/commands'
+import { Conflict, LocalConflicts } from '../lib/conflicts'
 import { styled } from '../theme'
 import {
   BibliographyItem,
@@ -36,6 +38,24 @@ export type ChangeReceiver = (
   data?: ProsemirrorNode | null
 ) => void
 
+export interface HydratedNodes {
+  current: ProsemirrorNode
+  ancestor: ProsemirrorNode
+  local: ProsemirrorNode
+}
+
+export type ApplyLocalStep = (
+  conflict: Conflict,
+  isFinalConflict: boolean
+) => Promise<LocalConflicts>
+
+export type ApplyRemoteStep = (
+  conflict: Conflict,
+  hydratedNodes: HydratedNodes,
+  step: Step,
+  isFinalConflict: boolean
+) => Promise<LocalConflicts>
+
 export interface EditorProps {
   attributes?: { [key: string]: string }
   autoFocus?: boolean
@@ -45,6 +65,8 @@ export interface EditorProps {
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: Build<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
+  applyLocalStep: ApplyLocalStep
+  applyRemoteStep: ApplyRemoteStep
   getLibraryItem: (id: string) => BibliographyItem
   getManuscript: () => Manuscript
   saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>

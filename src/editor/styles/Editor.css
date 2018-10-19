@@ -367,6 +367,45 @@
   font-size: 90%;
 }
 
+.ProseMirror .conflict {
+  background-color: #E0EEF9;
+}
+
+.ProseMirror .conflict-chevron {
+  background-color: #E0EEF9;
+  color: #000;
+  border-radius: 6px 0 0 6px;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.ProseMirror .conflict-chevron-open {
+  transform: rotate(180deg);
+}
+
+.ProseMirror .conflict-reject,
+.ProseMirror .conflict-accept {
+  background-color: #E0EEF9;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 8px;
+}
+
+.ProseMirror .conflict-reject:hover,
+.ProseMirror .conflict-accept:hover {
+  cursor: pointer;
+}
+
+.ProseMirror .conflict-reject {
+  color: red;
+}
+
+.ProseMirror .conflict-accept {
+  background-color: #E0EEF9;
+  border-radius: 0 6px 6px 0;
+  color: green;
+}
+
 .ProseMirror .placeholder-item {
   display: flex;
   flex-wrap: wrap;
