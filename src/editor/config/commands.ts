@@ -21,18 +21,27 @@ export const markActive = (type: MarkType) => (state: EditorState): boolean => {
     : state.doc.rangeHasMark(from, to, type)
 }
 
-export const blockActive = (type: NodeType, attrs = {}) => (
-  state: EditorState
-) => {
+export const blockActive = (type: NodeType) => (state: EditorState) => {
   const { selection } = state
 
   if (selection instanceof NodeSelection) {
-    return selection.node.hasMarkup(type, attrs)
+    return selection.node.type === type
   }
 
   const { to, $from } = selection
 
-  return to <= $from.end() && $from.parent.hasMarkup(type, attrs)
+  if (to > $from.end()) return false
+
+  for (let d = $from.depth; d >= 0; d--) {
+    const ancestor = $from.node(d)
+
+    // only look at the closest parent with an id
+    if (ancestor.attrs.id) {
+      return ancestor.type === type
+    }
+  }
+
+  return false
 }
 
 export const canInsert = (type: NodeType) => (state: EditorState) => {
