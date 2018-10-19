@@ -33,6 +33,11 @@ interface ErrorMessage {
   error: string
 }
 
+interface VerificationData {
+  token: string
+  email: string
+}
+
 class LoginPageContainer extends React.Component<
   UserProps & RouteComponentProps,
   State
@@ -49,29 +54,34 @@ class LoginPageContainer extends React.Component<
     password: '',
   }
 
-  public componentDidMount() {
+  public async componentDidMount() {
     // TODO: needs state
-    const tokenData: Token & ErrorMessage = parse(
+    const hashData: Token & ErrorMessage & VerificationData = parse(
       window.location.hash.substr(1)
     )
 
-    if (tokenData && Object.keys(tokenData).length) {
-      if (tokenData.error) {
-        this.setState({
-          error: true,
-        })
+    if (hashData && Object.keys(hashData).length) {
+      if (hashData.error) {
+        this.setState({ error: true })
       } else {
-        token.set(tokenData)
+        token.set(hashData)
 
         this.props.user.fetch()
       }
       window.location.hash = ''
     }
+
+    const { email } = parse(this.props.location.search.substr(1))
+
+    if (email) {
+      this.initialValues.email = email
+    }
+
     const state = this.props.location.state
     if (state) {
       this.setState({
-        verificationMessage: state.verificationMessage,
         loginMessage: state.loginMessage || null,
+        verificationMessage: state.verificationMessage,
       })
     }
   }

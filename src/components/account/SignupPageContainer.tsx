@@ -1,6 +1,6 @@
 import { FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
-import { parse } from 'qs'
+import { parse, stringify } from 'qs'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { RouteComponentProps } from 'react-router'
@@ -44,13 +44,13 @@ class SignupPageContainer extends React.Component<
   }
 
   public async componentDidMount() {
-    const { token } = parse(window.location.hash.substr(1))
+    const { token, email } = parse(window.location.hash.substr(1))
 
     if (token) {
       try {
         await verify(token)
 
-        this.props.history.push('/login', {
+        this.props.history.push(`/login?${stringify({ email })}`, {
           verificationMessage: 'Your account is now verified.',
         })
       } catch (error) {
