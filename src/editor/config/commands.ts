@@ -8,6 +8,7 @@ import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { buildFootnote, buildInlineMathFragment } from '../../lib/commands'
 import { isElementNode } from '../../transformer/node-types'
+import { getChildOfType } from '../lib/utils'
 import { INSERT, modelsKey } from './plugins/models'
 import schema from './schema'
 import { Dispatch } from './types'
@@ -146,6 +147,30 @@ export const insertInlineFootnote = (
     .insert(pos, node)
 
   dispatch(tr.setSelection(NodeSelection.create(tr.doc, pos)))
+
+  return true
+}
+
+export const insertBibliographySection = (
+  state: EditorState,
+  dispatch?: Dispatch
+) => {
+  if (getChildOfType(state.doc, 'bibliography_section')) {
+    return false
+  }
+
+  const section = state.schema.nodes.bibliography_section.createAndFill({}, [
+    state.schema.nodes.section_title.create(
+      {},
+      state.schema.text('Bibliography')
+    ),
+  ]) as ProsemirrorNode
+
+  if (dispatch) {
+    dispatch(
+      state.tr.insert(state.tr.doc.content.size, section).scrollIntoView()
+    )
+  }
 
   return true
 }

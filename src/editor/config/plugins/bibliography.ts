@@ -1,10 +1,47 @@
+import isEqual from 'lodash-es/isEqual'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { Plugin } from 'prosemirror-state'
+import { EditorState, Plugin } from 'prosemirror-state'
 import { Citation, CitationItem } from '../../../types/models'
 import { EditorProps } from '../../Editor'
 import { getChildOfType } from '../../lib/utils'
 
 type NodesWithPositions = Array<[ProsemirrorNode, number]>
+
+interface PluginState {
+  citationNodes: NodesWithPositions
+  citations: Citeproc.CitationByIndex
+}
+
+const needsBibliographySection = (
+  hadBibliographySection: boolean,
+  hasBibliographySection: boolean,
+  oldCitations: Citeproc.CitationByIndex,
+  citations: Citeproc.CitationByIndex
+) => {
+  if (hasBibliographySection) return false // not if already exists
+  if (hadBibliographySection) return false // not if being deleted
+  if (citations.length === 0) return false //  not if no citations
+
+  return oldCitations.length === 0 // only when creating the first citation
+}
+
+const needsUpdate = (
+  hadBibliographySection: boolean,
+  hasBibliographySection: boolean,
+  oldCitations: Citeproc.CitationByIndex,
+  citations: Citeproc.CitationByIndex
+) =>
+  hadBibliographySection !== hasBibliographySection ||
+  !isEqual(citations, oldCitations)
+
+const createBibliographySection = (state: EditorState) =>
+  state.schema.nodes.bibliography_section.createAndFill(
+    {},
+    state.schema.nodes.section_title.create(
+      {},
+      state.schema.text('Bibliography')
+    )
+  ) as ProsemirrorNode
 
 export default (props: EditorProps) => {
   const {
@@ -14,57 +51,101 @@ export default (props: EditorProps) => {
     getManuscript,
   } = props
 
-  let oldCitationsString: string = '[]'
+  const buildCitationNodes = (state: EditorState): NodesWithPositions => {
+    let citationNodes: NodesWithPositions = []
+
+    state.doc.descendants((node, pos) => {
+      if (node.type.name === 'citation') {
+        citationNodes.push([node, pos])
+      }
+    })
+
+    // TODO: handle missing objects?
+    // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/395
+    citationNodes = citationNodes.filter(
+      ([node]) =>
+        node.attrs.rid &&
+        node.attrs.rid !== 'null' &&
+        getModel<Citation>(node.attrs.rid)
+    )
+
+    return citationNodes
+  }
+
+  const buildCitations = (
+    citationNodes: NodesWithPositions
+  ): Citeproc.CitationByIndex =>
+    citationNodes
+      .map(([node]) => getModel<Citation>(node.attrs.rid))
+      .map((citation: Citation) => ({
+        citationID: citation._id,
+        citationItems: citation.embeddedCitationItems.map(
+          (citationItem: CitationItem) => ({
+            id: citationItem.bibliographyItem,
+            data: getLibraryItem(citationItem.bibliographyItem), // for comparison
+          })
+        ),
+        properties: { noteIndex: 0 },
+        manuscript: getManuscript(), // for comparison
+      }))
 
   return new Plugin({
-    appendTransaction: (transactions, oldState, newState) => {
+    state: {
+      init(config, instance): PluginState {
+        const citationNodes = buildCitationNodes(instance)
+        const citations = buildCitations(citationNodes)
+
+        return {
+          citationNodes,
+          citations,
+        }
+      },
+
+      apply(tr, value, oldState, newState): PluginState {
+        const citationNodes = buildCitationNodes(newState)
+        const citations = buildCitations(citationNodes)
+
+        return {
+          citationNodes,
+          citations,
+        }
+      },
+    },
+
+    appendTransaction(transactions, oldState, newState) {
       // TODO: use setMeta to notify of updates when the doc hasn't changed?
       // if (!transactions.some(transaction => transaction.docChanged)) {
       //   return null
       // }
 
-      let citationNodes: NodesWithPositions = []
+      const { citations: oldCitations } = (this as Plugin).getState(
+        oldState
+      ) as PluginState
 
-      newState.doc.descendants((node, pos) => {
-        if (node.type.name === 'citation') {
-          citationNodes.push([node, pos])
-        }
-      })
+      const { citationNodes, citations } = (this as Plugin).getState(
+        newState
+      ) as PluginState
 
-      // TODO: handle missing objects?
-      // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/395
-      citationNodes = citationNodes.filter(
-        ([node]) =>
-          node.attrs.rid &&
-          node.attrs.rid !== 'null' &&
-          getModel<Citation>(node.attrs.rid)
+      const hadBibliographySection = getChildOfType(
+        oldState.tr.doc,
+        'bibliography_section'
       )
 
-      // TODO: handle link citations
-      // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/156
-      const citations: Citeproc.CitationByIndex = citationNodes
-        .map(([node]) => getModel<Citation>(node.attrs.rid))
-        .map((citation: Citation) => ({
-          citationID: citation._id,
-          citationItems: citation.embeddedCitationItems.map(
-            (citationItem: CitationItem) => ({
-              id: citationItem.bibliographyItem,
-              data: getLibraryItem(citationItem.bibliographyItem), // for comparison
-            })
-          ),
-          properties: { noteIndex: 0 },
-          manuscript: getManuscript(), // for comparison
-        }))
+      const hasBibliographySection = getChildOfType(
+        newState.tr.doc,
+        'bibliography_section'
+      )
 
-      const newCitationsString = JSON.stringify(citations)
-
-      if (newCitationsString === oldCitationsString) {
+      if (
+        !needsUpdate(
+          hadBibliographySection,
+          hasBibliographySection,
+          oldCitations,
+          citations
+        )
+      ) {
         return null
       }
-
-      oldCitationsString = newCitationsString
-
-      console.time('generate bibliography') // tslint:disable-line:no-console
 
       // TODO: move this into a web worker and/or make it asynchronous?
 
@@ -83,8 +164,18 @@ export default (props: EditorProps) => {
         })
       })
 
-      // generate the bibliography
+      if (
+        needsBibliographySection(
+          hadBibliographySection,
+          hasBibliographySection,
+          oldCitations,
+          citations
+        )
+      ) {
+        tr = tr.insert(tr.doc.content.size, createBibliographySection(newState))
+      }
 
+      // generate the bibliography
       const bibliography = citationProcessor.makeBibliography()
 
       if (bibliography) {
@@ -95,20 +186,6 @@ export default (props: EditorProps) => {
 
         if (bibmeta.bibliography_errors.length) {
           console.warn(bibmeta.bibliography_errors) // tslint:disable-line:no-console
-        }
-
-        // TODO: remove if no citations?
-
-        if (!getChildOfType(tr.doc, 'bibliography_section')) {
-          const section = newState.schema.nodes.bibliography_section.createAndFill(
-            {},
-            newState.schema.nodes.section_title.create(
-              {},
-              newState.schema.text('Bibliography')
-            ) as ProsemirrorNode
-          ) as ProsemirrorNode
-
-          tr = tr.insert(tr.doc.content.size, section)
         }
 
         tr.doc.descendants((node, pos) => {
@@ -128,8 +205,6 @@ export default (props: EditorProps) => {
           }
         })
       }
-
-      console.timeEnd('generate bibliography') // tslint:disable-line:no-console
 
       return tr.setMeta('addToHistory', false)
     },

@@ -21,9 +21,10 @@ import {
   blockActive,
   canInsert,
   ifInTableBody,
+  insertBibliographySection,
   insertBlock,
-  insertInlineEquation,
   // insertInlineFootnote,
+  insertInlineEquation,
   markActive,
 } from './commands'
 import icons from './icons'
@@ -243,6 +244,14 @@ const menus = (props: MenusProps): MenuItem[] => [
       //   enable: canInsert(schema.nodes.inline_footnote),
       //   run: insertInlineFootnote,
       // },
+      {
+        role: 'separator',
+      },
+      {
+        label: 'Bibliography',
+        enable: insertBibliographySection,
+        run: insertBibliographySection,
+      },
     ],
   },
   {

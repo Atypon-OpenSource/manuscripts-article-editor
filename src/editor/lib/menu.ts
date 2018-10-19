@@ -383,6 +383,19 @@ export class Menu {
         break
       }
 
+      case 'bibliography_element': {
+        const $pos = this.resolvePos()
+
+        this.view.dispatch(
+          this.view.state.tr.delete(
+            $pos.before($pos.depth),
+            $pos.after($pos.depth)
+          )
+        )
+
+        break
+      }
+
       default: {
         const pos = this.getPos()
 

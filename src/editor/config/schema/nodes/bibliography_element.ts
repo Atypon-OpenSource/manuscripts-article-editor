@@ -27,6 +27,7 @@ export const bibliographyElement: NodeSpec = {
         'Citations inserted to the manuscript will be formatted here as a bibliography.',
     },
   },
+  selectable: false,
   group: 'block',
   parseDOM: [
     {
