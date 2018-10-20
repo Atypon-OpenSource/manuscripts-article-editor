@@ -19,9 +19,9 @@ interface ResendVerificationData {
 }
 
 interface Props {
-  verificationMessage: string
-  loginMessage: string | null
-  resendVerificationData: ResendVerificationData | null
+  verificationMessage?: string
+  loginMessage?: string
+  resendVerificationData?: ResendVerificationData
   resendVerificationEmail: (email: string) => void
 }
 

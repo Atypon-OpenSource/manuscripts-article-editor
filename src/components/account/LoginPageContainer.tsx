@@ -1,4 +1,5 @@
 import { FormikActions, FormikErrors } from 'formik'
+import { LocationState } from 'history'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import React from 'react'
@@ -24,9 +25,9 @@ interface ResendVerificationData {
 
 interface State {
   error: boolean
-  verificationMessage: string
-  loginMessage: string | null
-  resendVerificationData: ResendVerificationData | null
+  verificationMessage?: string
+  loginMessage?: string
+  resendVerificationData?: ResendVerificationData
 }
 
 interface ErrorMessage {
@@ -38,15 +39,18 @@ interface VerificationData {
   email: string
 }
 
+interface RouteLocationState {
+  from?: LocationState
+  loginMessage?: string
+  verificationMessage?: string
+}
+
 class LoginPageContainer extends React.Component<
-  UserProps & RouteComponentProps,
+  UserProps & RouteComponentProps<{}, {}, RouteLocationState>,
   State
 > {
   public state: Readonly<State> = {
     error: false,
-    verificationMessage: '',
-    loginMessage: '',
-    resendVerificationData: null,
   }
 
   private initialValues: LoginValues = {
@@ -77,10 +81,11 @@ class LoginPageContainer extends React.Component<
       this.initialValues.email = email
     }
 
-    const state = this.props.location.state
+    const { state } = this.props.location
+
     if (state) {
       this.setState({
-        loginMessage: state.loginMessage || null,
+        loginMessage: state.loginMessage,
         verificationMessage: state.verificationMessage,
       })
     }
@@ -132,7 +137,11 @@ class LoginPageContainer extends React.Component<
 
       await login(values.email, values.password, db)
 
-      window.location.href = '/'
+      const { state } = this.props.location
+
+      // redirect if the user tried before login to access an authenticated route
+      // (e.g. a bookmarked project, or a project invitation link)
+      window.location.href = state && state.from ? state.from.pathname : '/'
     } catch (error) {
       setSubmitting(false)
 
@@ -172,7 +181,9 @@ class LoginPageContainer extends React.Component<
     try {
       await resendVerificationEmail(email)
 
-      this.setState({ resendVerificationData: null })
+      this.setState({
+        resendVerificationData: undefined,
+      })
     } catch (error) {
       this.setState({
         resendVerificationData: {

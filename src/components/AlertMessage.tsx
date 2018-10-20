@@ -51,6 +51,7 @@ const AlertContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   white-space: normal;
+  flex-shrink: 0;
 `
 
 const TextContainer = styled.div`
