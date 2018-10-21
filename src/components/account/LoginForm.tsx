@@ -70,7 +70,7 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
     <FormActions>
       <ManuscriptLinks>
         <div>
-          No account? <FormLink to={'/signup'}>Sign Up</FormLink>
+          No account? <FormLink to={'/signup'}>Sign up</FormLink>
         </div>
         <div>
           Forgot password? <FormLink to={'/recover'}>Reset</FormLink>
