@@ -909,6 +909,11 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fresizer/-/resizer-0.0.1.tgz#b719bec2cd06e32c69ce8a033f7948e580c34a9c"
   integrity sha512-hSXuz0ZGBemjDTS2CYEc5D3iOaxkWYoeTmj/p+sJT57IyJgxYBE9U58POHUQcsxM26MedJU0ar+XVmBNh4BMSg==
 
+"@manuscripts/title-editor@^0.0.3":
+  version "0.0.3"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.0.3.tgz#34da29118b7b517855985790574f082df18c75f5"
+  integrity sha512-ZZ9juGIbBP+OdIO/ZadI/skR1pT+uJoSEU4orf8lneuTMwrRmOydC9xrFhC3PUkCtojETocmsaERk0np04Zhbw==
+
 "@storybook/addon-actions@^4.0.0-rc.1":
   version "4.0.0-rc.1"
   resolved "https://registry.npmjs.org/@storybook/addon-actions/-/addon-actions-4.0.0-rc.1.tgz#672ae2fdef62304b5f35bb18a1e98a420cfafee9"
@@ -1358,11 +1363,6 @@
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.117.tgz#695a7f514182771a1e0f4345d189052ee33c8778"
   integrity sha512-xyf2m6tRbz8qQKcxYZa7PA4SllYcay+eh25DN3jmNYY6gSTL7Htc/bttVdkqj2wfJGbeWlQiX8pIyJpKU+tubw==
 
-"@types/markdown-it@*":
-  version "0.0.6"
-  resolved "https://registry.npmjs.org/@types/markdown-it/-/markdown-it-0.0.6.tgz#32c4bea406f243263ba741b8d588e314a44d4a45"
-  integrity sha512-BJc/VKKKvLAnpsanrnEhXItJeFHrOJhWgeOj7Jfe/OdmwOsbCycpaizf29j9FfR+p77sVbLb50pWCHRkfLfVnA==
-
 "@types/mime@*":
   version "2.0.0"
   resolved "https://registry.npmjs.org/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
@@ -1469,14 +1469,6 @@
     "@types/prosemirror-state" "*"
     "@types/prosemirror-view" "*"
 
-"@types/prosemirror-markdown@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@types/prosemirror-markdown/-/prosemirror-markdown-1.0.1.tgz#c74ffe05bd465764afb1194d77b826427af34e2d"
-  integrity sha512-c3dNJmZrHkxs1RczZBOD7ehQY4Hs/YR6NtGqvnHYw0/Ed0YyGMrr7UCoKIeT1cOOOT+g48wZon60uYAy4R6BOg==
-  dependencies:
-    "@types/markdown-it" "*"
-    "@types/prosemirror-model" "*"
-
 "@types/prosemirror-model@*", "@types/prosemirror-model@^1.1.1", "@types/prosemirror-model@^1.5.0":
   version "1.5.0"
   resolved "https://registry.npmjs.org/@types/prosemirror-model/-/prosemirror-model-1.5.0.tgz#a37548559ec32dc77b179ca8738df44ef261a3ef"
@@ -1525,7 +1517,7 @@
   dependencies:
     "@types/prosemirror-model" "*"
 
-"@types/prosemirror-view@*":
+"@types/prosemirror-view@*", "@types/prosemirror-view@^1.3.0":
   version "1.3.0"
   resolved "https://registry.npmjs.org/@types/prosemirror-view/-/prosemirror-view-1.3.0.tgz#b360b52db2c96b3dcf4b47fd9536d26501e2b1cb"
   integrity sha512-wf64TepBlTX8/iu/7fY6oDfpAArVAXYjJ0sWpuq64lAxSnZyx5bKHM1NChF6ATOdfOpPcsm8oaFZnwhWNF9g8A==
@@ -8802,13 +8794,6 @@ lie@3.1.1, lie@~3.1.0:
   dependencies:
     immediate "~3.0.5"
 
-linkify-it@^2.0.0:
-  version "2.0.3"
-  resolved "https://registry.npmjs.org/linkify-it/-/linkify-it-2.0.3.tgz#d94a4648f9b1c179d64fa97291268bdb6ce9434f"
-  integrity sha1-2UpGSPmxwXnWT6lykSaL22zpQ08=
-  dependencies:
-    uc.micro "^1.0.1"
-
 linux-platform-info@^0.0.3:
   version "0.0.3"
   resolved "https://registry.npmjs.org/linux-platform-info/-/linux-platform-info-0.0.3.tgz#2dae324385e66e3d755bec83f86c7beea61ceb83"
@@ -9151,17 +9136,6 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-it@^8.4.2:
-  version "8.4.2"
-  resolved "https://registry.npmjs.org/markdown-it/-/markdown-it-8.4.2.tgz#386f98998dc15a37722aa7722084f4020bdd9b54"
-  integrity sha512-GcRz3AWTqSUphY3vsUqQSFMbgR38a4Lh3GWlHRh/7MRwz8mcu9n2IO7HOh+bXHrR9kOPDl5RNCaEsrneb+xhHQ==
-  dependencies:
-    argparse "^1.0.7"
-    entities "~1.1.1"
-    linkify-it "^2.0.0"
-    mdurl "^1.0.1"
-    uc.micro "^1.0.5"
-
 marked@^0.5.1:
   version "0.5.1"
   resolved "https://registry.npmjs.org/marked/-/marked-0.5.1.tgz#062f43b88b02ee80901e8e8d8e6a620ddb3aa752"
@@ -9214,11 +9188,6 @@ md5.js@^1.3.4:
     hash-base "^3.0.0"
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
-
-mdurl@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
-  integrity sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -11343,14 +11312,6 @@ prosemirror-keymap@^1.0.0:
   dependencies:
     prosemirror-state "^1.0.0"
     w3c-keyname "^1.1.8"
-
-prosemirror-markdown@^1.0.3:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/prosemirror-markdown/-/prosemirror-markdown-1.2.0.tgz#8f7fae09b8b74d16304bb51254e656631c52ac6c"
-  integrity sha512-YDn6ZetQ3Q5Eo9xcxXip+KN/EarUILSFz9KnYaOwgcy48yRsVcqGbmKmKq4BAZBknOHizTBetJUArmyhHH4Zzw==
-  dependencies:
-    markdown-it "^8.4.2"
-    prosemirror-model "^1.0.0"
 
 prosemirror-menu@^1.0.0:
   version "1.0.5"
@@ -14146,11 +14107,6 @@ ua-parser-js@^0.7.18:
   version "0.7.18"
   resolved "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.18.tgz#a7bfd92f56edfb117083b69e31d2aa8882d4b1ed"
   integrity sha512-LtzwHlVHwFGTptfNSgezHp7WUlwiqb0gA9AALRbKaERfxwJoiX0A73QbTToxteIAuIaFshhgIZfqK8s7clqgnA==
-
-uc.micro@^1.0.1, uc.micro@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/uc.micro/-/uc.micro-1.0.5.tgz#0c65f15f815aa08b560a61ce8b4db7ffc3f45376"
-  integrity sha512-JoLI4g5zv5qNyT09f4YAvEZIIV1oOjqnewYg5D38dkQljIzpPT296dbIGvKro3digYI1bkb7W6EP1y4uDlmzLg==
 
 uglify-es@^3.3.4:
   version "3.3.9"

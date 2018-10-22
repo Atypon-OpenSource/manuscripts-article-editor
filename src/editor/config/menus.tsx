@@ -1,3 +1,4 @@
+import { parse as parseTitle } from '@manuscripts/title-editor'
 import { History } from 'history'
 import { toggleMark } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
@@ -16,7 +17,6 @@ import { MenuItem } from '../../components/projects/ApplicationMenu'
 import CrossReferencePickerContainer from '../../components/projects/CrossReferencePickerContainer'
 import { importFile, openFilePicker } from '../../lib/importers'
 import { Manuscript, Model } from '../../types/models'
-import { textContent } from '../title/config'
 import {
   blockActive,
   canInsert,
@@ -38,6 +38,31 @@ export interface MenusProps {
   exportManuscript: (format: string) => Promise<void>
   deleteModel: (id: string) => Promise<string>
   history: History
+}
+
+const truncateText = (text: string, maxLength: number) =>
+  text.length > maxLength ? text.substring(0, maxLength) + '…' : text
+
+const deleteManuscriptLabel = (title: string) => {
+  const node = parseTitle(title)
+
+  return (
+    <span>
+      Delete “
+      <abbr style={{ textDecoration: 'none' }} title={node.textContent}>
+        {truncateText(node.textContent, 15)}
+      </abbr>
+      ”
+    </span>
+  )
+}
+
+const confirmDeleteManuscriptMessage = (title: string) => {
+  const node = parseTitle(title)
+
+  return `Are you sure you wish to delete the manuscript with title "${
+    node.textContent
+  }"?`
 }
 
 const menus = (props: MenusProps): MenuItem[] => [
@@ -99,26 +124,13 @@ const menus = (props: MenusProps): MenuItem[] => [
             .then(() => props.history.push('/')),
       },
       {
-        label: props.manuscript.title ? (
-          <span>
-            Delete “
-            <abbr
-              style={{ textDecoration: 'none' }}
-              title={textContent(props.manuscript.title)}
-            >
-              {textContent(props.manuscript.title, 15)}
-            </abbr>
-            ”
-          </span>
-        ) : (
-          'Delete Untitled Manuscript'
-        ),
+        label: props.manuscript.title
+          ? deleteManuscriptLabel(props.manuscript.title)
+          : 'Delete Untitled Manuscript',
         run: () =>
           confirm(
             props.manuscript.title
-              ? `Are you sure you wish to delete the manuscript with title "${textContent(
-                  props.manuscript.title
-                )}"?`
+              ? confirmDeleteManuscriptMessage(props.manuscript.title)
               : `Are you sure you wish to delete this untitled manuscript?`
           ) && props.deleteManuscript(props.manuscript._id),
       },

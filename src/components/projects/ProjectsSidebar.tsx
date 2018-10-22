@@ -1,7 +1,7 @@
+import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { dustyGrey } from '../../colors'
-import Title from '../../editor/title/Title'
 import Add from '../../icons/add'
 import { styled } from '../../theme'
 import { BibliographicName, Project, UserProfile } from '../../types/models'

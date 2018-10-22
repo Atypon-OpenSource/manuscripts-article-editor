@@ -5,7 +5,6 @@ import { objectsKey, Target } from '../../editor/config/plugins/objects'
 import schema from '../../editor/config/schema/index'
 import { ToolbarDropdownProps } from '../../editor/Toolbar'
 import { buildAuxiliaryObjectReference } from '../../lib/commands'
-// import Title from '../editor/Title'
 import { CrossReferenceItems } from './CrossReferenceItems'
 
 class CrossReferencePickerContainer extends React.Component<

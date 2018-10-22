@@ -15,7 +15,7 @@ const icons: Map<string, React.SFC<React.SVGAttributes<SVGElement>>> = new Map([
   ['bullet_list', unorderedList],
   ['listing_element', listing],
   ['equation_element', equationElement],
-  ['doc', manuscript],
+  ['title', manuscript],
   ['figure_element', figure],
   ['ordered_list', orderedList],
   ['paragraph', paragraph],

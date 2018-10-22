@@ -1,6 +1,6 @@
+import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { dustyGrey, manuscriptsBlue } from '../../colors'
-import Title from '../../editor/title/Title'
 import ProjectIcon from '../../icons/project'
 import ProjectNotification from '../../icons/project-notification'
 import ProjectsList from '../../icons/projects-list'

@@ -1,3 +1,4 @@
+import { Title, TitleField } from '@manuscripts/title-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -7,8 +8,6 @@ import { AuthorForm } from '../src/components/metadata/AuthorForm'
 import Authors from '../src/components/metadata/Authors'
 import AuthorsSidebar from '../src/components/metadata/AuthorsSidebar'
 import { Metadata } from '../src/components/metadata/Metadata'
-import Title from '../src/editor/title/Title'
-import { TitleField } from '../src/editor/title/TitleField'
 import {
   buildAffiliationIDs,
   buildAuthorAffiliations,

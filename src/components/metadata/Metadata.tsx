@@ -1,6 +1,6 @@
+import { TitleField } from '@manuscripts/title-editor'
 import { FormikActions } from 'formik'
 import React from 'react'
-import { TitleField } from '../../editor/title/TitleField'
 import Close from '../../icons/close'
 import Expander from '../../icons/expander'
 import { AffiliationMap } from '../../lib/authors'
@@ -77,7 +77,7 @@ const StyledTitleField = styled(TitleField)`
       outline: none;
     }
 
-    & .empty-node::before {
+    &.empty-node::before {
       position: absolute;
       color: #ccc;
       cursor: text;
@@ -85,7 +85,7 @@ const StyledTitleField = styled(TitleField)`
       pointer-events: none;
     }
 
-    & .empty-node:hover::before {
+    &.empty-node:hover::before {
       color: #999;
     }
   }

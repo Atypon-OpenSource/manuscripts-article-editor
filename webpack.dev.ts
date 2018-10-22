@@ -66,6 +66,9 @@ const configuration: webpack.Configuration = merge(common, {
     hints: false,
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
+  watchOptions: {
+    ignored: /node_modules\/(?!@manuscripts\/)/,
+  },
 })
 
 export default configuration

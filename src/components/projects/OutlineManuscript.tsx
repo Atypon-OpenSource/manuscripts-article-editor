@@ -1,6 +1,6 @@
 import OutlineIconManuscript from '@manuscripts/assets/react/OutlineIconManuscript'
+import { parse, schema } from '@manuscripts/title-editor'
 import * as React from 'react'
-import { titleText } from '../../editor/lib/text'
 import { nodeTitlePlaceholder } from '../../transformer/node-title'
 import { Manuscript, Project } from '../../types/models'
 import {
@@ -16,6 +16,14 @@ import {
 interface Props {
   project: Project
   manuscript: Manuscript
+}
+
+const titleText = (value: string) => {
+  const node = parse(value, {
+    topNode: schema.nodes.title.create(),
+  })
+
+  return node.textContent
 }
 
 export const OutlineManuscript: React.SFC<Props> = ({
@@ -38,7 +46,7 @@ export const OutlineManuscript: React.SFC<Props> = ({
             titleText(manuscript.title)
           ) : (
             <OutlineItemPlaceholder>
-              {nodeTitlePlaceholder('doc')}
+              {nodeTitlePlaceholder('title')}
             </OutlineItemPlaceholder>
           )}
         </OutlineItemLinkText>

@@ -1,10 +1,10 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
+import { TitleField } from '@manuscripts/title-editor'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorView } from 'prosemirror-view'
 import * as React from 'react'
 import { manuscriptsBlue, powderBlue } from '../../colors'
 import { Selected } from '../../editor/lib/utils'
-import { TitleField } from '../../editor/title/TitleField'
 import { styled } from '../../theme'
 import { Manuscript, Project } from '../../types/models'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
@@ -36,7 +36,7 @@ const ProjectTitle = styled(SidebarTitle)`
       outline: none;
     }
 
-    & .empty-node::before {
+    &.empty-node::before {
       position: absolute;
       color: #ccc;
       cursor: text;
@@ -44,7 +44,7 @@ const ProjectTitle = styled(SidebarTitle)`
       pointer-events: none;
     }
 
-    & .empty-node:hover::before {
+    &.empty-node:hover::before {
       color: #999;
     }
   }
@@ -99,12 +99,9 @@ const ManuscriptSidebar: React.SFC<Props> = ({
           <TitleField
             id={'project-title-field'}
             value={project.title || ''}
-            handleChange={title =>
-              saveProject({
-                ...project,
-                title,
-              })
-            }
+            handleChange={async title => {
+              await saveProject({ ...project, title })
+            }}
           />
         </ProjectTitle>
         <ShareProjectButton project={project} />

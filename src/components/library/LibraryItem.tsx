@@ -1,5 +1,5 @@
+import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import Title from '../../editor/title/Title'
 import Bookmark from '../../icons/bookmark'
 import { styled } from '../../theme'
 import { BibliographicName, BibliographyItem } from '../../types/models'

@@ -34,7 +34,7 @@ export const nodeTitle = (node: ProsemirrorNode) => {
 
 export const nodeTitlePlaceholder = (type: string) => {
   switch (type) {
-    case 'doc':
+    case 'title':
       return 'Untitled Manuscript'
 
     case 'section':

@@ -1,3 +1,4 @@
+import { TitleField } from '@manuscripts/title-editor'
 import {
   Field,
   FieldArray,
@@ -9,7 +10,6 @@ import {
 import * as React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
-import { TitleField } from '../../editor/title/TitleField'
 import { buildKeyword } from '../../lib/commands'
 import {
   KeywordsMap,
