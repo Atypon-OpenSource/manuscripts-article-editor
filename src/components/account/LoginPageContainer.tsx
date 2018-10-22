@@ -71,6 +71,7 @@ class LoginPageContainer extends React.Component<
         token.set(hashData)
 
         this.props.user.fetch()
+        window.location.href = '/'
       }
       window.location.hash = ''
     }
