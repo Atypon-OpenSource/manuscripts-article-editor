@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="48px" viewBox="0 0 42 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Project@1x</title>
+    <desc>Created with sketchtool.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Project">
+            <g id="Left-Icons" transform="translate(3.000000, 3.000000)">
+                <g id="Man">
+                    <g id="F---Strip-Manuscripts">
+                        <g id="Man">
+                            <rect id="Rectangle-17" stroke="#7FB5D5" stroke-width="2.5" x="-1.25" y="-1.25" width="38.5" height="44.5" rx="3"></rect>
+                            <path d="M7,9 L20,9 C20.5522847,9 21,9.44771525 21,10 L21,11 C21,11.5522847 20.5522847,12 20,12 L7,12 C6.44771525,12 6,11.5522847 6,11 L6,10 C6,9.44771525 6.44771525,9 7,9 Z" id="Rectangle-2" fill="#93C1DC"></path>
+                            <path d="M7,20 L29,20 C29.5522847,20 30,20.4477153 30,21 L30,22 C30,22.5522847 29.5522847,23 29,23 L7,23 C6.44771525,23 6,22.5522847 6,22 L6,21 C6,20.4477153 6.44771525,20 7,20 Z" id="Rectangle-2" fill="#93C1DC"></path>
+                            <path d="M7,31 L29,31 C29.5522847,31 30,31.4477153 30,32 L30,33 C30,33.5522847 29.5522847,34 29,34 L7,34 C6.44771525,34 6,33.5522847 6,33 L6,32 C6,31.4477153 6.44771525,31 7,31 Z" id="Rectangle-2" fill="#93C1DC"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
