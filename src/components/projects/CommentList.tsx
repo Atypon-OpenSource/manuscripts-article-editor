@@ -1,17 +1,15 @@
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import React from 'react'
-import {
-  CreateKeyword,
-  GetCollaborators,
-  GetKeyword,
-  GetKeywords,
-  GetUser,
-} from '../../editor/comment/config'
 import { Selected } from '../../editor/lib/utils'
 import { Build } from '../../lib/commands'
 import { buildCommentTree, buildName } from '../../lib/comments'
 import { styled } from '../../theme'
-import { CommentAnnotation, Model, UserProfile } from '../../types/models'
+import {
+  CommentAnnotation,
+  Keyword,
+  Model,
+  UserProfile,
+} from '../../types/models'
 import { Avatar } from '../Avatar'
 import { LightRelativeDate } from '../RelativeDate'
 import CommentBody from './CommentBody'
@@ -77,15 +75,15 @@ const CommentUser: React.SFC<UserProps> = ({ user }) =>
 
 interface Props {
   comments: CommentAnnotation[]
-  deleteModel: (id: string) => Promise<string>
+  createKeyword: (name: string) => Promise<Keyword>
+  deleteComment: (id: string) => Promise<string>
   doc: ProsemirrorNode
-  saveModel: <T extends Model>(model: Build<T>) => Promise<T>
+  getCollaborator: (id: string) => UserProfile | undefined
   getCurrentUser: () => UserProfile
-  getUser: GetUser
-  getKeyword: GetKeyword
-  getKeywords: GetKeywords
-  getCollaborators: GetCollaborators
-  createKeyword: CreateKeyword
+  getKeyword: (id: string) => Keyword | undefined
+  listCollaborators: () => UserProfile[]
+  listKeywords: () => Keyword[]
+  saveComment: <T extends Model>(model: Build<T>) => Promise<T>
   selected: Selected | null
 }
 
@@ -105,16 +103,16 @@ export class CommentList extends React.Component<Props> {
   public render() {
     const {
       comments,
-      deleteModel,
+      deleteComment,
       doc,
       getCurrentUser,
-      getUser,
-      getKeyword,
-      saveModel,
-      getCollaborators,
-      getKeywords,
-      createKeyword,
+      saveComment,
       selected,
+      createKeyword,
+      getCollaborator,
+      getKeyword,
+      listCollaborators,
+      listKeywords,
     } = this.props
 
     const commentsTreeMap = buildCommentTree(doc, comments)
@@ -133,41 +131,41 @@ export class CommentList extends React.Component<Props> {
                 <CommentThread key={comment._id}>
                   <Container isSelected={isSelected}>
                     <CommentHeader>
-                      <CommentUser user={getUser(comment.userID)} />
+                      <CommentUser user={getCollaborator(comment.userID)} />
                       <LightRelativeDate createdAt={comment.createdAt} />
                     </CommentHeader>
 
                     <CommentBody
                       comment={comment}
-                      getCurrentUser={getCurrentUser}
-                      getUser={getUser}
-                      getKeyword={getKeyword}
-                      saveModel={saveModel}
-                      deleteModel={deleteModel}
-                      getCollaborators={getCollaborators}
-                      getKeywords={getKeywords}
                       createKeyword={createKeyword}
+                      deleteComment={deleteComment}
+                      getCollaborator={getCollaborator}
+                      getCurrentUser={getCurrentUser}
+                      getKeyword={getKeyword}
+                      listCollaborators={listCollaborators}
+                      listKeywords={listKeywords}
+                      saveComment={saveComment}
                     />
                   </Container>
 
                   {children.map(comment => (
                     <Reply key={comment._id}>
                       <CommentHeader>
-                        <CommentUser user={getUser(comment.userID)} />
+                        <CommentUser user={getCollaborator(comment.userID)} />
                         <LightRelativeDate createdAt={comment.createdAt} />
                       </CommentHeader>
 
                       <CommentBody
                         comment={comment}
-                        getCurrentUser={getCurrentUser}
-                        getUser={getUser}
-                        getKeyword={getKeyword}
-                        saveModel={saveModel}
-                        deleteModel={deleteModel}
-                        getCollaborators={getCollaborators}
-                        getKeywords={getKeywords}
                         createKeyword={createKeyword}
+                        deleteComment={deleteComment}
+                        getCollaborator={getCollaborator}
+                        getCurrentUser={getCurrentUser}
+                        getKeyword={getKeyword}
                         isReply={true}
+                        listCollaborators={listCollaborators}
+                        listKeywords={listKeywords}
+                        saveComment={saveComment}
                       />
                     </Reply>
                   ))}

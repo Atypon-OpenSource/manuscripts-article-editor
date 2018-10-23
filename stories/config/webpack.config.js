@@ -75,5 +75,9 @@ module.exports = (storybookBaseConfig, configType) => {
 
   storybookBaseConfig.resolve.extensions.push('.ts', '.tsx')
 
+  storybookBaseConfig.watchOptions = {
+    ignored: /node_modules\/(?!@manuscripts\/)/,
+  }
+
   return storybookBaseConfig
 }
