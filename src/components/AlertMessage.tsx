@@ -11,21 +11,23 @@ export const TextButton = styled.button`
   background: transparent;
   color: inherit;
   text-decoration: underline;
-  padding-left: 3px;
   cursor: pointer;
+  font-size: 1em;
+  padding-right: 10px;
+  padding-left: 0px;
 `
 
 const CloseIcon = styled.div`
   display: flex;
   cursor: pointer;
-  padding-right: 16px;
+  padding-right: 10px;
 `
 
 const InformativeIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 10px;
+  margin: 0px 10px 0px 10px;
   width: 32px;
   height: 24px;
 `
@@ -55,7 +57,7 @@ const AlertContainer = styled.div`
 `
 
 const TextContainer = styled.div`
-  padding: 0 10px;
+  padding-right: 10px;
 `
 
 interface State {

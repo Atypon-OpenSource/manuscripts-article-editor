@@ -16,6 +16,7 @@ import {
   AddedCollaboratorsMessage,
   CheckCollaboratorsSearchMessage,
   InviteCollaboratorsMessage,
+  SelectAuthorMessage,
   SelectCollaboratorMessage,
 } from '../Messages'
 
@@ -223,6 +224,23 @@ export const AddAuthorsPage: React.SFC<AddAuthorsPageProps> = ({
           </Message>
         </React.Fragment>
       )}
+    </InnerContainer>
+  </OuterContainerModal>
+)
+
+export const AuthorDetailsPage: React.SFC = () => (
+  <OuterContainerModal>
+    <InnerContainer>
+      <Placeholder>
+        <ContributorDetails size={500} />
+      </Placeholder>
+
+      <React.Fragment>
+        <Action>Author Details</Action>
+        <Message>
+          <SelectAuthorMessage />
+        </Message>
+      </React.Fragment>
     </InnerContainer>
   </OuterContainerModal>
 )

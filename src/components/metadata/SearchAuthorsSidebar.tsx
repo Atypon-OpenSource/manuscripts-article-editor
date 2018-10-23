@@ -4,7 +4,7 @@ import { buildAuthorPriority } from '../../lib/authors'
 import { styled } from '../../theme'
 import { Contributor, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
-import { ManuscriptBlueButton } from '../Button'
+import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
 import AddAuthorButton from './AddAuthorButton'
 
@@ -41,7 +41,10 @@ const SidebarButtonContainer = styled.div`
 `
 
 const Container = styled.div`
-  padding-left: 5px;
+  padding-left: 10px;
+`
+const Action = styled.span`
+  font-weight: 600;
 `
 
 interface SearchSidebarProps {
@@ -56,6 +59,8 @@ interface SearchSidebarProps {
     name?: string,
     invitationID?: string
   ) => void
+  authorExist: () => boolean
+  handleCreateAuthor: () => void
 }
 
 const SearchAuthorsSidebar: React.SFC<SearchSidebarProps> = ({
@@ -65,34 +70,63 @@ const SearchAuthorsSidebar: React.SFC<SearchSidebarProps> = ({
   searchResults,
   addedAuthors,
   authors,
+  authorExist,
+  handleCreateAuthor,
 }) => (
   <React.Fragment>
     {!searchResults.length ? (
       <SidebarContent>
-        <SidebarText>
-          No matches found.
-          <br />
-          Do you want to <b>create</b> a new author or
-          <br />
-          <b>invite</b> a new Collaborator to be added to
-          <br />
-          the author list?
-        </SidebarText>
-        <SidebarButtonContainer>
-          <ManuscriptBlueButton onClick={() => handleInvite(searchText)}>
-            Invite
-          </ManuscriptBlueButton>
+        {!searchText.includes('@') ? (
+          <span>
+            <SidebarText>
+              No matches found.
+              <br />
+              Do you want to <Action>create</Action> a new author or
+              <Action> invite</Action> a new Collaborator to be added to the
+              author list?
+            </SidebarText>
 
-          <Container>
-            <ManuscriptBlueButton
-              onClick={() =>
-                createAuthor(buildAuthorPriority(authors), null, searchText)
-              }
-            >
-              Create
-            </ManuscriptBlueButton>
-          </Container>
-        </SidebarButtonContainer>
+            <SidebarButtonContainer>
+              <TransparentGreyButton
+                onClick={() =>
+                  !authorExist()
+                    ? createAuthor(
+                        buildAuthorPriority(authors),
+                        null,
+                        searchText
+                      )
+                    : handleCreateAuthor()
+                }
+              >
+                Create
+              </TransparentGreyButton>
+
+              <Container>
+                <ManuscriptBlueButton onClick={() => handleInvite(searchText)}>
+                  Invite
+                </ManuscriptBlueButton>
+              </Container>
+            </SidebarButtonContainer>
+          </span>
+        ) : (
+          <span>
+            <SidebarText>
+              No matches found.
+              <br />
+              Do you want to <Action>invite</Action> a new Collaborator to be
+              added to
+              <br />
+              the author list?
+            </SidebarText>
+            <SidebarButtonContainer>
+              <Container>
+                <ManuscriptBlueButton onClick={() => handleInvite(searchText)}>
+                  Invite
+                </ManuscriptBlueButton>
+              </Container>
+            </SidebarButtonContainer>
+          </span>
+        )}
       </SidebarContent>
     ) : (
       <SidebarContent>

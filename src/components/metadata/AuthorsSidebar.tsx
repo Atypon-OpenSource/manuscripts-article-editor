@@ -1,4 +1,5 @@
 import React from 'react'
+import { salomieYellow } from '../../colors'
 import AddAuthor from '../../icons/add-author'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { styled, ThemedProps } from '../../theme'
@@ -77,9 +78,7 @@ interface Props {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   selectedAuthor: Contributor | null
-  isRemovePopperOpen: boolean
   checkInvitations: (author: Contributor) => boolean
-  removeAuthor: (item: Contributor) => void
   selectAuthor: (item: Contributor) => void
   startAdding: () => void
   handleDrop: (
@@ -88,20 +87,20 @@ interface Props {
     position: DropSide,
     authors: Contributor[]
   ) => void
-  handleRemovePopperOpen: () => void
+  handleHover: () => void
+  hovered: boolean
 }
 
 const AuthorsSidebar: React.SFC<Props> = ({
   authors,
   authorAffiliations,
-  removeAuthor,
   selectAuthor,
   selectedAuthor,
   startAdding,
   handleDrop,
   checkInvitations,
-  isRemovePopperOpen,
-  handleRemovePopperOpen,
+  handleHover,
+  hovered,
 }) => (
   <Sidebar>
     <SidebarHeader>
@@ -113,9 +112,15 @@ const AuthorsSidebar: React.SFC<Props> = ({
         onClick={() => {
           startAdding()
         }}
+        onMouseEnter={() => handleHover()}
+        onMouseLeave={() => handleHover()}
       >
         <AddIcon>
-          <AddAuthor size={38} />
+          {hovered ? (
+            <AddAuthor size={38} color={salomieYellow} />
+          ) : (
+            <AddAuthor size={38} />
+          )}
         </AddIcon>
         Add new author
       </AddButton>
@@ -145,11 +150,8 @@ const AuthorsSidebar: React.SFC<Props> = ({
             authors={authors}
             user={user}
             selectedAuthor={selectedAuthor}
-            removeAuthor={removeAuthor}
             selectAuthor={selectAuthor}
             checkInvitations={checkInvitations}
-            isRemovePopperOpen={isRemovePopperOpen}
-            handleRemovePopperOpen={handleRemovePopperOpen}
           />
         )
       })}

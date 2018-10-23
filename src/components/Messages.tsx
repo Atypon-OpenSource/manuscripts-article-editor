@@ -79,7 +79,7 @@ export const SelectCollaboratorMessage = () => (
   <FormattedMessage
     id={'select_collaborator'}
     defaultMessage={
-      'Select a collaborator from the list at the left to display the details here.'
+      'Select a collaborator from the list to display their details here.'
     }
   />
 )
@@ -111,6 +111,14 @@ export const AddAuthorsMessage = () => (
     id={'add_authors'}
     defaultMessage={
       'Add authors to your author list from your collaborators, or invite new ones'
+    }
+  />
+)
+export const SelectAuthorMessage = () => (
+  <FormattedMessage
+    id={'select_author'}
+    defaultMessage={
+      'Select an author from the list to display their details here.'
     }
   />
 )

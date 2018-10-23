@@ -9,6 +9,9 @@ type ThemedDivProps = ThemedProps<HTMLDivElement>
 const ButtonContainer = styled.div`
   margin-left: 4px;
 `
+const Container = styled.div`
+  display: flex;
+`
 const Icon = styled.div`
   margin-right: 6px;
   color: #fffceb;
@@ -54,6 +57,7 @@ interface DialogProps {
     secondary?: {
       action: () => void
       title: string
+      isDestructive: boolean
     }
   }
   category: string
@@ -90,17 +94,35 @@ export const Dialog: React.SFC<DialogProps> = ({
       </HeaderContainer>
       <MessageContainer>{message}</MessageContainer>
       <ButtonsContainer>
-        <ManuscriptBlueButton onClick={actions.primary.action}>
-          {actions.primary.title || 'Dismiss'}
-        </ManuscriptBlueButton>
-        {category === Category.confirmation &&
-          actions.secondary && (
-            <ButtonContainer>
+        {category === Category.confirmation && actions.secondary ? (
+          !actions.secondary.isDestructive ? (
+            <Container>
+              <TransparentGreyButton onClick={actions.primary.action}>
+                {actions.primary.title || 'Dismiss'}
+              </TransparentGreyButton>
+              <ButtonContainer>
+                <ManuscriptBlueButton onClick={actions.secondary.action}>
+                  {actions.secondary.title}
+                </ManuscriptBlueButton>
+              </ButtonContainer>
+            </Container>
+          ) : (
+            <Container>
               <TransparentGreyButton onClick={actions.secondary.action}>
                 {actions.secondary.title}
               </TransparentGreyButton>
-            </ButtonContainer>
-          )}
+              <ButtonContainer>
+                <ManuscriptBlueButton onClick={actions.primary.action}>
+                  {actions.primary.title || 'Dismiss'}
+                </ManuscriptBlueButton>
+              </ButtonContainer>
+            </Container>
+          )
+        ) : (
+          <ManuscriptBlueButton onClick={actions.primary.action}>
+            {actions.primary.title || 'Dismiss'}
+          </ManuscriptBlueButton>
+        )}
       </ButtonsContainer>
     </ModalBody>
   </StyledModal>

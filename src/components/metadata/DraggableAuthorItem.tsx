@@ -9,8 +9,10 @@ import {
   DropTargetSpec,
 } from 'react-dnd'
 import { findDOMNode } from 'react-dom'
+import { manuscriptsBlue } from '../../colors'
 import CorrespondingAuthorBadge from '../../icons/corresponding-author-badge'
 import JointFirstAuthorBadge from '../../icons/joint-first-author-badge'
+import VerticalEllipsis from '../../icons/vertical-ellipsis'
 import { isJointFirstAuthor } from '../../lib/authors'
 import {
   AuthorItem,
@@ -25,7 +27,6 @@ import { styled } from '../../theme'
 import { Contributor, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { AuthorName } from './AuthorName'
-import AuthorRemoveButton from './AuthorRemoveButton'
 
 interface OpacityProps {
   opacity: number
@@ -95,6 +96,14 @@ const AuthorDropPreview = styled.div`
   position: relative;
 `
 
+const DragHandle = styled.div`
+  margin-left: 12px;
+
+  &:hover {
+    cursor: move;
+  }
+`
+
 type ConnectedProps = ConnectedDragSourceProps & ConnectedDropTargetProps
 
 interface DragObject {
@@ -107,12 +116,9 @@ interface Props {
   author: Contributor
   authors: Contributor[]
   user: Partial<UserProfile>
-  isRemovePopperOpen: boolean
   selectedAuthor: Contributor | null
   checkInvitations: (author: Contributor) => boolean
-  removeAuthor: (item: Contributor) => void
   selectAuthor: (item: Contributor) => void
-  handleRemovePopperOpen: () => void
 }
 
 interface State {
@@ -186,14 +192,11 @@ class AuthorComponent extends React.Component<Props & ConnectedProps, State> {
       connectDragSource,
       connectDropTarget,
       selectAuthor,
-      removeAuthor,
       author,
       authors,
       user,
       authorItem,
       checkInvitations,
-      isRemovePopperOpen,
-      handleRemovePopperOpen,
     } = this.props
 
     const opacity = isDragging ? 0 : 1
@@ -236,14 +239,9 @@ class AuthorComponent extends React.Component<Props & ConnectedProps, State> {
               <InvitedContainer>
                 {checkInvitations(author) && <Invited>Invited</Invited>}
                 {this.selectedAuthorClass() && (
-                  <AuthorRemoveButton
-                    author={author}
-                    authorRemove={() => {
-                      removeAuthor(author)
-                    }}
-                    isOpen={isRemovePopperOpen}
-                    handleOpen={handleRemovePopperOpen}
-                  />
+                  <DragHandle>
+                    <VerticalEllipsis color={manuscriptsBlue} />
+                  </DragHandle>
                 )}
               </InvitedContainer>
             </AuthorItemComponent>

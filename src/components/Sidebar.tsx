@@ -22,7 +22,7 @@ export const SidebarHeader = styled.div`
 `
 
 export const SidebarTitle = styled.div`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: #353535;
   flex: 1;
@@ -57,7 +57,6 @@ export const SidebarSearchText = styled.input`
   display: flex;
   flex: 1;
   font-size: 14px;
-  font-weight: 500;
   border: none;
   background-color: transparent;
   height: 30px;
@@ -73,11 +72,7 @@ export const SidebarSearchText = styled.input`
   }
 
   &::placeholder {
-    color: #000;
-  }
-
-  &:focus::placeholder {
-    color: transparent;
+    color: #aaa;
   }
 `
 
