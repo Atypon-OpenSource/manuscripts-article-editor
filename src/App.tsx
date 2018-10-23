@@ -18,7 +18,7 @@ import DeveloperPageContainer from './components/DeveloperPageContainer'
 import HomePageContainer from './components/HomePageContainer'
 import LibraryPageContainer from './components/library/LibraryPageContainer'
 import { LoadableSpinner } from './components/LoadableSpinner'
-import NotFound from './components/NotFound'
+import NotFoundPage from './components/NotFoundPage'
 // import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
 // import PreferencesPageContainer from './containers/PreferencesPageContainer'
 import PrivateRoute from './components/PrivateRoute'
@@ -115,7 +115,7 @@ const App = () => (
       exact={true}
       component={DeveloperPageContainer}
     />
-    <Route component={NotFound} />
+    <Route component={NotFoundPage} />
   </Switch>
 )
 

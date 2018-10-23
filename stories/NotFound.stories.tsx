@@ -1,18 +1,25 @@
 import { storiesOf } from '@storybook/react'
+import createBrowserHistory from 'history/createBrowserHistory'
 import React from 'react'
-import NotFound from '../src/components/NotFound'
+import { RouteComponentProps } from 'react-router'
+import NotFoundPage from '../src/components/NotFoundPage'
+
+const routeProps: RouteComponentProps = {
+  history: createBrowserHistory(),
+  match: {
+    isExact: true,
+    params: {},
+    path: '',
+    url: '',
+  },
+  location: {
+    hash: '',
+    pathname: '/page-that-does-not-exist',
+    search: '',
+    state: {},
+  },
+}
 
 storiesOf('NotFound', module).add('Resource not found', () => (
-  <NotFound
-    // tslint:disable-next-line:no-any
-    match={{} as any}
-    location={{
-      pathname: '/page-that-does-not-exist',
-      search: '',
-      hash: '#hello',
-      state: {},
-    }}
-    // tslint:disable-next-line:no-any
-    history={{} as any}
-  />
+  <NotFoundPage {...routeProps} />
 ))
