@@ -22,19 +22,18 @@ interface Props {
   verificationMessage?: string
   loginMessage?: string
   resendVerificationData?: ResendVerificationData
+  googleLoginError?: string
   resendVerificationEmail: (email: string) => void
 }
 
-const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
-  initialValues,
-  validationSchema,
-  onSubmit,
-  loginMessage,
+const LoginPageMessage: React.SFC<Props> = ({
   verificationMessage,
+  loginMessage,
   resendVerificationData,
+  googleLoginError,
   resendVerificationEmail,
 }) => (
-  <Centered>
+  <React.Fragment>
     {!!verificationMessage &&
       verificationMessage ===
         'Account verification failed. Is the account already verified?' && (
@@ -64,6 +63,37 @@ const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
         {loginMessage}
       </AlertMessage>
     )}
+    {googleLoginError === 'user-not-found' ? (
+      <AlertMessage type={AlertMessageType.error}>
+        User not found, please make sure that the google email is valid.
+      </AlertMessage>
+    ) : (
+      <AlertMessage type={AlertMessageType.error}>
+        An error occurred while logging in with Google, please contact
+        support@manuscriptsapp.com.
+      </AlertMessage>
+    )}
+  </React.Fragment>
+)
+
+const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
+  initialValues,
+  validationSchema,
+  onSubmit,
+  verificationMessage,
+  googleLoginError,
+  loginMessage,
+  resendVerificationData,
+  resendVerificationEmail,
+}) => (
+  <Centered>
+    <LoginPageMessage
+      verificationMessage={verificationMessage}
+      googleLoginError={googleLoginError}
+      loginMessage={loginMessage}
+      resendVerificationData={resendVerificationData}
+      resendVerificationEmail={resendVerificationEmail}
+    />
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}

@@ -28,6 +28,7 @@ interface State {
   verificationMessage?: string
   loginMessage?: string
   resendVerificationData?: ResendVerificationData
+  googleLoginError?: string
 }
 
 interface ErrorMessage {
@@ -66,7 +67,7 @@ class LoginPageContainer extends React.Component<
 
     if (hashData && Object.keys(hashData).length) {
       if (hashData.error) {
-        this.setState({ error: true })
+        this.setState({ googleLoginError: hashData.error })
       } else {
         token.set(hashData)
 
@@ -76,10 +77,16 @@ class LoginPageContainer extends React.Component<
       window.location.hash = ''
     }
 
-    const { email } = parse(this.props.location.search.substr(1))
+    const { email, error_description: errorDescription } = parse(
+      this.props.location.search.substr(1)
+    )
 
     if (email) {
       this.initialValues.email = email
+    }
+
+    if (errorDescription) {
+      // TODO: do something
     }
 
     const { state } = this.props.location
@@ -91,25 +98,22 @@ class LoginPageContainer extends React.Component<
       })
     }
   }
-
   public render() {
     const { user } = this.props
     const {
-      error,
+      // error,
       verificationMessage,
       loginMessage,
       resendVerificationData,
+      googleLoginError,
     } = this.state
+
     if (!user.loaded) {
       return <Spinner />
     }
 
     if (user.data) {
       return <Redirect to={'/welcome'} />
-    }
-
-    if (error) {
-      return <div>There was an error.</div>
     }
 
     return (
@@ -122,6 +126,7 @@ class LoginPageContainer extends React.Component<
             verificationMessage={verificationMessage}
             loginMessage={loginMessage}
             resendVerificationData={resendVerificationData}
+            googleLoginError={googleLoginError}
             resendVerificationEmail={this.resendVerificationEmail}
           />
         </Main>
