@@ -85,9 +85,12 @@ const ShareURIField: React.SFC<ShareURIFieldProps> = ({
   <React.Fragment>
     {isCopied ? (
       <AlertMessageContainer>
-        <AlertMessage type={AlertMessageType.success} hideCloseButton={true}>
+        <AlertMessage
+          type={AlertMessageType.success}
+          dismissButton={{ text: 'OK', action: handleCopy }}
+          hideCloseButton={true}
+        >
           Link copied to clipboard.
-          <ClickableText onClick={handleCopy}>OK</ClickableText>
         </AlertMessage>
       </AlertMessageContainer>
     ) : (

@@ -102,25 +102,24 @@ class AlertMessage extends React.Component<Props, State> {
         >
           <InnerContainer>
             <InformativeIcon>{alertAttributes.icon}</InformativeIcon>
-            <TextContainer>
-              {children}
-              {dismissButton && (
-                <TextButton
-                  onClick={
-                    dismissButton.action
-                      ? dismissButton.action
-                      : this.handleClose
-                  }
-                >
-                  {dismissButton.text}
-                </TextButton>
-              )}
-            </TextContainer>
+            <TextContainer>{children}</TextContainer>
           </InnerContainer>
-          {!hideCloseButton && (
-            <CloseIcon onClick={this.handleClose}>
-              {alertAttributes.closeButton}
-            </CloseIcon>
+          {dismissButton ? (
+            <TextButton
+              onClick={
+                dismissButton.action ? dismissButton.action : this.handleClose
+              }
+            >
+              {dismissButton.text}
+            </TextButton>
+          ) : (
+            <React.Fragment>
+              {!hideCloseButton && (
+                <CloseIcon onClick={this.handleClose}>
+                  {alertAttributes.closeButton}
+                </CloseIcon>
+              )}
+            </React.Fragment>
           )}
         </AlertContainer>
       )

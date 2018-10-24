@@ -79,8 +79,10 @@ interface Props {
   user: UserProfile
   isSettingsOpen: boolean
   hoveredID: string
+  selectedCollaborator: UserProfile | null
   handleAddCollaborator: () => void
   handleHover: (ID?: string) => void
+  handleClickCollaborator: (selectedCollaborator: UserProfile) => void
   openPopper: (isOpen: boolean) => void
 }
 
@@ -89,6 +91,8 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
   collaborators,
   invitations,
   user,
+  selectedCollaborator,
+  handleClickCollaborator,
   handleAddCollaborator,
   handleHover,
   hoveredID,
@@ -146,6 +150,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
               key={collaborator._id}
               onMouseEnter={() => handleHover(collaborator.userID)}
               onMouseLeave={() => handleHover()}
+              onClick={() => handleClickCollaborator(collaborator)}
             >
               <UserDataContainer>
                 <Avatar src={collaborator.avatar} size={45} color={darkGrey} />
