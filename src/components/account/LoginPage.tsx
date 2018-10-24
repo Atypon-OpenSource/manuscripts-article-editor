@@ -3,6 +3,7 @@ import React from 'react'
 import AuthButtonContainer from './AuthButtonContainer'
 import FooterContainer from './FooterContainer'
 
+import config from '../../config'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { Centered } from '../Page'
 import {
@@ -65,12 +66,14 @@ const LoginPageMessage: React.SFC<Props> = ({
     )}
     {googleLoginError === 'user-not-found' ? (
       <AlertMessage type={AlertMessageType.error}>
-        User not found, please make sure that the google email is valid.
+        {`A user record matching your identity at Google was unexpectedly not
+        found. Please contact ${config.support} if this persists.`}
       </AlertMessage>
     ) : (
       <AlertMessage type={AlertMessageType.error}>
-        An error occurred while logging in with Google, please contact
-        support@manuscriptsapp.com.
+        {`An error occurred while logging in with Google, please contact ${
+          config.support
+        }`}
       </AlertMessage>
     )}
   </React.Fragment>
