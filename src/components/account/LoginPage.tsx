@@ -3,8 +3,7 @@ import React from 'react'
 import AuthButtonContainer from './AuthButtonContainer'
 import FooterContainer from './FooterContainer'
 
-import config from '../../config'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
+import { AlertMessageType } from '../AlertMessage'
 import { Centered } from '../Page'
 import {
   AuthenticationContainer,
@@ -12,6 +11,12 @@ import {
   // OrcidLogin,
 } from './Authentication'
 import { LoginForm, LoginValues } from './LoginForm'
+import {
+  GoogleErrorMessage,
+  LoginWarning,
+  ResendVerificationDataMessage,
+  VerificationMessage,
+} from './LoginPageErrorsAndMessages'
 
 interface ResendVerificationData {
   message: string
@@ -35,46 +40,18 @@ const LoginPageMessage: React.SFC<Props> = ({
   resendVerificationEmail,
 }) => (
   <React.Fragment>
-    {!!verificationMessage &&
-      verificationMessage ===
-        'Account verification failed. Is the account already verified?' && (
-        <AlertMessage type={AlertMessageType.error}>
-          {verificationMessage}
-        </AlertMessage>
-      )}
-    {!!verificationMessage &&
-      verificationMessage === 'Your account is now verified.' && (
-        <AlertMessage type={AlertMessageType.info}>
-          {verificationMessage}
-        </AlertMessage>
-      )}
-    {!!resendVerificationData && (
-      <AlertMessage
-        type={resendVerificationData.type}
-        dismissButton={{
-          text: 'Re-send verification email.',
-          action: () => resendVerificationEmail(resendVerificationData.email),
-        }}
-      >
-        {resendVerificationData.message}
-      </AlertMessage>
+    {verificationMessage && (
+      <VerificationMessage verificationMessage={verificationMessage} />
     )}
-    {loginMessage && (
-      <AlertMessage type={AlertMessageType.warning}>
-        {loginMessage}
-      </AlertMessage>
+    {loginMessage && <LoginWarning loginWarning={loginMessage} />}
+    {googleLoginError && (
+      <GoogleErrorMessage googleLoginError={googleLoginError} />
     )}
-    {googleLoginError === 'user-not-found' ? (
-      <AlertMessage type={AlertMessageType.error}>
-        {`A user record matching your identity at Google was unexpectedly not
-        found. Please contact ${config.support} if this persists.`}
-      </AlertMessage>
-    ) : (
-      <AlertMessage type={AlertMessageType.error}>
-        {`An error occurred while logging in with Google, please contact ${
-          config.support
-        }`}
-      </AlertMessage>
+    {resendVerificationData && (
+      <ResendVerificationDataMessage
+        resendVerificationData={resendVerificationData}
+        resendVerificationEmail={resendVerificationEmail}
+      />
     )}
   </React.Fragment>
 )
