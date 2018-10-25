@@ -29,10 +29,15 @@ interface State {
   loginMessage?: string
   resendVerificationData?: ResendVerificationData
   googleLoginError?: string
+  infoLoginMessage?: string
 }
 
 interface ErrorMessage {
   error: string
+}
+
+interface Message {
+  message: string
 }
 
 interface VerificationData {
@@ -44,6 +49,7 @@ interface RouteLocationState {
   from?: LocationState
   loginMessage?: string
   verificationMessage?: string
+  infoLoginMessage?: string
 }
 
 class LoginPageContainer extends React.Component<
@@ -59,20 +65,24 @@ class LoginPageContainer extends React.Component<
     password: '',
   }
 
+  // tslint:disable-next-line:cyclomatic-complexity
   public async componentDidMount() {
     // TODO: needs state
-    const hashData: Token & ErrorMessage & VerificationData = parse(
+    const hashData: Token & ErrorMessage & VerificationData & Message = parse(
       window.location.hash.substr(1)
     )
 
     if (hashData && Object.keys(hashData).length) {
       if (hashData.error) {
         this.setState({ googleLoginError: hashData.error })
-      } else {
+      } else if (hashData.access_token) {
         token.set(hashData)
 
         this.props.user.fetch()
         window.location.href = '/'
+      }
+      if (hashData.message) {
+        this.setState({ infoLoginMessage: hashData.message })
       }
       window.location.hash = ''
     }
@@ -95,6 +105,7 @@ class LoginPageContainer extends React.Component<
       this.setState({
         loginMessage: state.loginMessage,
         verificationMessage: state.verificationMessage,
+        infoLoginMessage: state.infoLoginMessage,
       })
     }
   }
@@ -106,6 +117,7 @@ class LoginPageContainer extends React.Component<
       loginMessage,
       resendVerificationData,
       googleLoginError,
+      infoLoginMessage,
     } = this.state
 
     if (!user.loaded) {
@@ -128,6 +140,7 @@ class LoginPageContainer extends React.Component<
             resendVerificationData={resendVerificationData}
             googleLoginError={googleLoginError}
             resendVerificationEmail={this.resendVerificationEmail}
+            infoLoginMessage={infoLoginMessage}
           />
         </Main>
       </Page>

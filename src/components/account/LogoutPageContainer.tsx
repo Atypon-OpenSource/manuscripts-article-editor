@@ -23,7 +23,12 @@ class LogoutPageContainer extends React.Component<RouteComponentProps, State> {
     }
 
     // this.props.history.push('/')
-    window.location.href = '/'
+    // window.location.href = '/'
+
+    window.location.href = '/login#message=You have been logged out.'
+    // this.props.history.push('/login', {
+    //   infoLoginMessage: 'You have been logged out.',
+    // })
   }
 
   public render() {
@@ -32,10 +37,8 @@ class LogoutPageContainer extends React.Component<RouteComponentProps, State> {
     return (
       <Page>
         <Main>
-          {error ? (
+          {error && (
             <AlertMessage type={AlertMessageType.error}>{error}</AlertMessage>
-          ) : (
-            <div>Signing out…</div>
           )}
         </Main>
       </Page>

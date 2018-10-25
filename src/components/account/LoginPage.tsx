@@ -25,13 +25,59 @@ interface Props {
   resendVerificationData?: ResendVerificationData
   googleLoginError?: string
   resendVerificationEmail: (email: string) => void
+  infoLoginMessage?: string
 }
 
-const LoginPageMessage: React.SFC<Props> = ({
-  verificationMessage,
+interface LoginMessageProps {
+  loginMessage?: string
+  googleLoginError?: string
+  infoLoginMessage?: string
+}
+
+const LoginPageMessage: React.SFC<LoginMessageProps> = ({
   loginMessage,
-  resendVerificationData,
   googleLoginError,
+  infoLoginMessage,
+}) => (
+  <React.Fragment>
+    {loginMessage && (
+      <AlertMessage type={AlertMessageType.warning}>
+        {loginMessage}
+      </AlertMessage>
+    )}
+    {googleLoginError && (
+      <React.Fragment>
+        {googleLoginError === 'user-not-found' ? (
+          <AlertMessage type={AlertMessageType.error}>
+            {`A user record matching your identity at Google was unexpectedly not
+        found. Please contact ${config.support.email} if this persists.`}
+          </AlertMessage>
+        ) : (
+          <AlertMessage type={AlertMessageType.error}>
+            {`An error occurred while logging in with Google, please contact ${
+              config.support.email
+            }`}
+          </AlertMessage>
+        )}
+      </React.Fragment>
+    )}
+    {infoLoginMessage && (
+      <AlertMessage type={AlertMessageType.info}>
+        {infoLoginMessage}
+      </AlertMessage>
+    )}
+  </React.Fragment>
+)
+
+interface VerificationMessageProps {
+  verificationMessage?: string
+  resendVerificationData?: ResendVerificationData
+  resendVerificationEmail: (email: string) => void
+}
+
+const VerificationMessage: React.SFC<VerificationMessageProps> = ({
+  verificationMessage,
+  resendVerificationData,
   resendVerificationEmail,
 }) => (
   <React.Fragment>
@@ -59,23 +105,6 @@ const LoginPageMessage: React.SFC<Props> = ({
         {resendVerificationData.message}
       </AlertMessage>
     )}
-    {loginMessage && (
-      <AlertMessage type={AlertMessageType.warning}>
-        {loginMessage}
-      </AlertMessage>
-    )}
-    {googleLoginError === 'user-not-found' ? (
-      <AlertMessage type={AlertMessageType.error}>
-        {`A user record matching your identity at Google was unexpectedly not
-        found. Please contact ${config.support} if this persists.`}
-      </AlertMessage>
-    ) : (
-      <AlertMessage type={AlertMessageType.error}>
-        {`An error occurred while logging in with Google, please contact ${
-          config.support
-        }`}
-      </AlertMessage>
-    )}
   </React.Fragment>
 )
 
@@ -88,14 +117,18 @@ const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
   loginMessage,
   resendVerificationData,
   resendVerificationEmail,
+  infoLoginMessage,
 }) => (
   <Centered>
-    <LoginPageMessage
+    <VerificationMessage
       verificationMessage={verificationMessage}
-      googleLoginError={googleLoginError}
-      loginMessage={loginMessage}
       resendVerificationData={resendVerificationData}
       resendVerificationEmail={resendVerificationEmail}
+    />
+    <LoginPageMessage
+      googleLoginError={googleLoginError}
+      loginMessage={loginMessage}
+      infoLoginMessage={infoLoginMessage}
     />
     <Formik
       initialValues={initialValues}
