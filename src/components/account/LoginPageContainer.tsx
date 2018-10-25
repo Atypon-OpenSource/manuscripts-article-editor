@@ -65,27 +65,13 @@ class LoginPageContainer extends React.Component<
     password: '',
   }
 
-  // tslint:disable-next-line:cyclomatic-complexity
   public async componentDidMount() {
     // TODO: needs state
     const hashData: Token & ErrorMessage & VerificationData & Action = parse(
       window.location.hash.substr(1)
     )
 
-    if (hashData && Object.keys(hashData).length) {
-      if (hashData.error) {
-        this.setState({ googleLoginError: hashData.error })
-      } else if (hashData.access_token) {
-        token.set(hashData)
-
-        this.props.user.fetch()
-        window.location.href = '/'
-      }
-      if (hashData.action === 'logout') {
-        this.setState({ infoLoginMessage: 'You have been logged out.' })
-      }
-      window.location.hash = ''
-    }
+    this.updateState(hashData)
 
     const { email, error_description: errorDescription } = parse(
       this.props.location.search.substr(1)
@@ -145,6 +131,25 @@ class LoginPageContainer extends React.Component<
         </Main>
       </Page>
     )
+  }
+
+  private updateState = (
+    hashData: Token & ErrorMessage & VerificationData & Action
+  ) => {
+    if (hashData && Object.keys(hashData).length) {
+      if (hashData.error) {
+        this.setState({ googleLoginError: hashData.error })
+      } else if (hashData.access_token) {
+        token.set(hashData)
+
+        this.props.user.fetch()
+        window.location.href = '/'
+      }
+      if (hashData.action === 'logout') {
+        this.setState({ infoLoginMessage: 'You have been logged out.' })
+      }
+      window.location.hash = ''
+    }
   }
 
   private handleSubmit = async (
