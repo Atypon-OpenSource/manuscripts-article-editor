@@ -23,12 +23,7 @@ class LogoutPageContainer extends React.Component<RouteComponentProps, State> {
     }
 
     // this.props.history.push('/')
-    // window.location.href = '/'
-
-    window.location.href = '/login#message=You have been logged out.'
-    // this.props.history.push('/login', {
-    //   infoLoginMessage: 'You have been logged out.',
-    // })
+    window.location.href = '/login#action=logout'
   }
 
   public render() {

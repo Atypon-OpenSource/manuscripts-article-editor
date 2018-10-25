@@ -36,8 +36,8 @@ interface ErrorMessage {
   error: string
 }
 
-interface Message {
-  message: string
+interface Action {
+  action: string
 }
 
 interface VerificationData {
@@ -68,7 +68,7 @@ class LoginPageContainer extends React.Component<
   // tslint:disable-next-line:cyclomatic-complexity
   public async componentDidMount() {
     // TODO: needs state
-    const hashData: Token & ErrorMessage & VerificationData & Message = parse(
+    const hashData: Token & ErrorMessage & VerificationData & Action = parse(
       window.location.hash.substr(1)
     )
 
@@ -81,8 +81,8 @@ class LoginPageContainer extends React.Component<
         this.props.user.fetch()
         window.location.href = '/'
       }
-      if (hashData.message) {
-        this.setState({ infoLoginMessage: hashData.message })
+      if (hashData.action === 'logout') {
+        this.setState({ infoLoginMessage: 'You have been logged out.' })
       }
       window.location.hash = ''
     }
