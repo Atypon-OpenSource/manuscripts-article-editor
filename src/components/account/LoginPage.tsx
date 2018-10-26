@@ -3,8 +3,7 @@ import React from 'react'
 import AuthButtonContainer from './AuthButtonContainer'
 import FooterContainer from './FooterContainer'
 
-import config from '../../config'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
+import { AlertMessageType } from '../AlertMessage'
 import { Centered } from '../Page'
 import {
   AuthenticationContainer,
@@ -12,6 +11,13 @@ import {
   // OrcidLogin,
 } from './Authentication'
 import { LoginForm, LoginValues } from './LoginForm'
+import {
+  GoogleErrorMessage,
+  LoginInfo,
+  LoginWarning,
+  ResendVerificationDataMessage,
+  VerificationMessage,
+} from './LoginPageErrorsAndMessages'
 
 interface ResendVerificationData {
   message: string
@@ -28,83 +34,29 @@ interface Props {
   infoLoginMessage?: string
 }
 
-interface LoginMessageProps {
-  loginMessage?: string
-  googleLoginError?: string
-  infoLoginMessage?: string
-}
-
-const LoginPageMessage: React.SFC<LoginMessageProps> = ({
+const LoginPageMessage: React.SFC<Props> = ({
+  verificationMessage,
   loginMessage,
+  resendVerificationData,
   googleLoginError,
+  resendVerificationEmail,
   infoLoginMessage,
 }) => (
   <React.Fragment>
-    {loginMessage && (
-      <AlertMessage type={AlertMessageType.warning}>
-        {loginMessage}
-      </AlertMessage>
+    {verificationMessage && (
+      <VerificationMessage verificationMessage={verificationMessage} />
     )}
+    {loginMessage && <LoginWarning loginWarning={loginMessage} />}
     {googleLoginError && (
-      <React.Fragment>
-        {googleLoginError === 'user-not-found' ? (
-          <AlertMessage type={AlertMessageType.error}>
-            {`A user record matching your identity at Google was unexpectedly not
-        found. Please contact ${config.support.email} if this persists.`}
-          </AlertMessage>
-        ) : (
-          <AlertMessage type={AlertMessageType.error}>
-            {`An error occurred while logging in with Google, please contact ${
-              config.support.email
-            }`}
-          </AlertMessage>
-        )}
-      </React.Fragment>
+      <GoogleErrorMessage googleLoginError={googleLoginError} />
     )}
-    {infoLoginMessage && (
-      <AlertMessage type={AlertMessageType.info}>
-        {infoLoginMessage}
-      </AlertMessage>
+    {resendVerificationData && (
+      <ResendVerificationDataMessage
+        resendVerificationData={resendVerificationData}
+        resendVerificationEmail={resendVerificationEmail}
+      />
     )}
-  </React.Fragment>
-)
-
-interface VerificationMessageProps {
-  verificationMessage?: string
-  resendVerificationData?: ResendVerificationData
-  resendVerificationEmail: (email: string) => void
-}
-
-const VerificationMessage: React.SFC<VerificationMessageProps> = ({
-  verificationMessage,
-  resendVerificationData,
-  resendVerificationEmail,
-}) => (
-  <React.Fragment>
-    {!!verificationMessage &&
-      verificationMessage ===
-        'Account verification failed. Is the account already verified?' && (
-        <AlertMessage type={AlertMessageType.error}>
-          {verificationMessage}
-        </AlertMessage>
-      )}
-    {!!verificationMessage &&
-      verificationMessage === 'Your account is now verified.' && (
-        <AlertMessage type={AlertMessageType.info}>
-          {verificationMessage}
-        </AlertMessage>
-      )}
-    {!!resendVerificationData && (
-      <AlertMessage
-        type={resendVerificationData.type}
-        dismissButton={{
-          text: 'Re-send verification email.',
-          action: () => resendVerificationEmail(resendVerificationData.email),
-        }}
-      >
-        {resendVerificationData.message}
-      </AlertMessage>
-    )}
+    {infoLoginMessage && <LoginInfo loginInfo={infoLoginMessage} />}
   </React.Fragment>
 )
 
@@ -120,14 +72,12 @@ const LoginPage: React.SFC<FormikConfig<LoginValues> & Props> = ({
   infoLoginMessage,
 }) => (
   <Centered>
-    <VerificationMessage
-      verificationMessage={verificationMessage}
-      resendVerificationData={resendVerificationData}
-      resendVerificationEmail={resendVerificationEmail}
-    />
     <LoginPageMessage
+      verificationMessage={verificationMessage}
       googleLoginError={googleLoginError}
       loginMessage={loginMessage}
+      resendVerificationData={resendVerificationData}
+      resendVerificationEmail={resendVerificationEmail}
       infoLoginMessage={infoLoginMessage}
     />
     <Formik
