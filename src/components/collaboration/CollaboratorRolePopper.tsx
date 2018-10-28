@@ -25,6 +25,7 @@ interface Props {
   resendSucceed?: boolean | null
   invitedUserEmail?: string
   selectedMode?: Mode
+  isOnlyOwner: boolean
 }
 
 export const CollaboratorRolePopper: React.SFC<Props> = ({
@@ -36,8 +37,16 @@ export const CollaboratorRolePopper: React.SFC<Props> = ({
   resendSucceed,
   invitedUserEmail,
   selectedMode,
+  isOnlyOwner,
 }) => (
   <PopperBody size={250}>
+    {isOnlyOwner && (
+      <AlertMessageContainer>
+        <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
+          Role change not permitted because you are the only owner.
+        </AlertMessage>
+      </AlertMessageContainer>
+    )}
     {selectedMode === 'invite' &&
       resendSucceed !== null &&
       (resendSucceed ? (
@@ -57,10 +66,11 @@ export const CollaboratorRolePopper: React.SFC<Props> = ({
       name={'role'}
       value={selectedRole}
       onChange={handleRoleChange}
+      disabled={isOnlyOwner}
     />
     <SeparatorLine />
     <Container>
-      <TransparentGreyButton onClick={switchMode}>
+      <TransparentGreyButton onClick={switchMode} disabled={isOnlyOwner}>
         {removeText}
       </TransparentGreyButton>
       {selectedMode === 'invite' && (

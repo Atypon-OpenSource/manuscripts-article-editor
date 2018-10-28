@@ -1,5 +1,5 @@
 import React from 'react'
-import { getUserRole } from '../../lib/roles'
+import { getUserRole, isOwner } from '../../lib/roles'
 import { Project, UserProfile } from '../../types/models'
 import { CollaboratorRolePopper } from './CollaboratorRolePopper'
 import { RemoveCollaboratorPopper } from './RemoveCollaboratorPopper'
@@ -30,7 +30,9 @@ class CollaboratorSettingsPopper extends React.Component<Props, State> {
 
   public render() {
     const { selectedRole, selectedMode } = this.state
-    const { collaborator, updateRoleIsOpen } = this.props
+    const { collaborator, updateRoleIsOpen, project } = this.props
+    const isOnlyOwner =
+      project.owners.length === 1 && isOwner(project, collaborator.userID)
 
     return selectedMode === 'role' && !updateRoleIsOpen ? (
       <CollaboratorRolePopper
@@ -38,6 +40,7 @@ class CollaboratorSettingsPopper extends React.Component<Props, State> {
         handleRoleChange={this.handleRoleChange}
         switchMode={() => this.setMode('remove')}
         removeText={'Remove from project'}
+        isOnlyOwner={isOnlyOwner}
       />
     ) : updateRoleIsOpen ? (
       <UpdateRolePageContainer
