@@ -1,5 +1,6 @@
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { styled } from '../../theme'
 import { PrimaryButton } from '../Button'
 import {
@@ -22,6 +23,17 @@ export interface LoginValues {
 const ManuscriptLinks = styled.div`
   text-align: left;
 `
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+const RecoverLink = styled(Link)`
+  text-decoration: underline;
+  color: #cd593c;
+`
+
 export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
   errors,
   isSubmitting,
@@ -32,7 +44,14 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
       <Hero>Manuscripts.io</Hero>
     </FormHeader>
 
-    {errors.submit && <FormError>{errors.submit}</FormError>}
+    {errors.submit && (
+      <FormError>
+        <Container>
+          {errors.submit}
+          <RecoverLink to={'/recover'}>Forgot password?</RecoverLink>{' '}
+        </Container>
+      </FormError>
+    )}
 
     <TextFieldGroupContainer
       errors={{
@@ -71,9 +90,6 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
       <ManuscriptLinks>
         <div>
           No account? <FormLink to={'/signup'}>Sign up</FormLink>
-        </div>
-        <div>
-          Forgot password? <FormLink to={'/recover'}>Reset</FormLink>
         </div>
       </ManuscriptLinks>
 
