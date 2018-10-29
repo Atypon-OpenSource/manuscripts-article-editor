@@ -39,7 +39,7 @@ const CollaboratorSidebar = styled(Sidebar)`
 
 const AddCollaboratorButton = styled.button`
   display: flex;
-  margin: 8px 0;
+  margin: 8px 0px 8px 4px;
   font-size: 14px;
   align-items: center;
   cursor: pointer;
@@ -54,7 +54,7 @@ const AddCollaboratorText = styled.div`
 `
 
 const CollaboratorData = styled.div`
-  padding-left: 8px;
+  padding-left: 3px;
 `
 const UserDataContainer = styled.div`
   display: flex;
