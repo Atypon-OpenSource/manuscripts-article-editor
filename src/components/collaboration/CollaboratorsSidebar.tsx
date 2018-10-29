@@ -102,7 +102,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
     name={'collaborators-sidebar'}
     direction={'row'}
     side={'end'}
-    minSize={200}
+    minSize={250}
   >
     <CollaboratorSidebar>
       <SidebarHeader>
