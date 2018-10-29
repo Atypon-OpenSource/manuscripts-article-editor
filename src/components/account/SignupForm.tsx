@@ -1,13 +1,7 @@
-import { Field, FieldProps, FormikProps } from 'formik'
+import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { PrimaryButton } from '../Button'
-import {
-  CenteredForm,
-  FormActions,
-  FormError,
-  FormHeader,
-  FormLink,
-} from '../Form'
+import { FormActions, FormError, FormHeader, FormLink } from '../Form'
 import { Hero, SubHero } from '../Hero'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
@@ -26,7 +20,7 @@ export interface SignupErrors {
 export const SignupForm: React.SFC<
   FormikProps<SignupValues & SignupErrors>
 > = ({ errors, isSubmitting, initialValues }) => (
-  <CenteredForm id={'signup-form'} noValidate={true}>
+  <Form id={'signup-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Manuscripts.io</SubHero>
       <Hero>Sign Up</Hero>
@@ -107,5 +101,5 @@ export const SignupForm: React.SFC<
         Sign up
       </PrimaryButton>
     </FormActions>
-  </CenteredForm>
+  </Form>
 )

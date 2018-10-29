@@ -1,10 +1,9 @@
-import { Field, FieldProps, FormikProps } from 'formik'
+import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { styled } from '../../theme'
 import { PrimaryButton } from '../Button'
 import {
-  CenteredForm,
   FormActions,
   FormError,
   FormErrors,
@@ -38,7 +37,7 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
   errors,
   isSubmitting,
 }) => (
-  <CenteredForm id={'login-form'} noValidate={true}>
+  <Form id={'login-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Welcome to</SubHero>
       <Hero>Manuscripts.io</Hero>
@@ -99,5 +98,5 @@ export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
         </PrimaryButton>
       </div>
     </FormActions>
-  </CenteredForm>
+  </Form>
 )
