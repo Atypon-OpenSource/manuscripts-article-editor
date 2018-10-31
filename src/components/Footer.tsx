@@ -4,8 +4,8 @@ import { styled } from '../theme'
 import { Button } from './Button'
 
 export const FooterBlock = styled('footer')`
-  margin-top: 100px;
-  //background-color: #303e4e;
+  position: absolute;
+  bottom: 7px;
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
