@@ -74,7 +74,11 @@ export class UpdatesContainer extends React.Component<{}, State> {
         {isOpen && (
           <Popper placement={'right'}>
             {({ ref, style, placement }) => (
-              <div ref={ref} style={style} data-placement={placement}>
+              <div
+                ref={ref}
+                style={{ ...style, zIndex: 2 }}
+                data-placement={placement}
+              >
                 <Popup>
                   <Updates
                     host={config.discourse.host}
