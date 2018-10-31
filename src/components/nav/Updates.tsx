@@ -209,8 +209,8 @@ export class Updates extends React.Component<Props, State> {
             <>
               <Header onClick={() => this.selectTopic(null)}>
                 <Back>
-                  <BackArrow size={15} color={'#585858'} />
-                  Back to Latest Updates
+                  <BackArrow size={15} color={'#585858'} /> Back to Latest
+                  Updates
                 </Back>
               </Header>
 

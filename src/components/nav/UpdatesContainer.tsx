@@ -39,15 +39,19 @@ export class UpdatesContainer extends React.Component<{}, State> {
 
   private requestInterval: number
 
+  private nodeRef: React.RefObject<HTMLDivElement> = React.createRef()
+
   public componentDidMount() {
     this.fetchData().catch(() => {
       // ignore fetch errors
     })
     this.requestInterval = window.setInterval(this.fetchData, 1000 * 60 * 5)
+    this.addClickListener()
   }
 
   public componentWillUnmount() {
     window.clearInterval(this.requestInterval)
+    this.removeClickListener()
   }
 
   public render() {
@@ -57,42 +61,44 @@ export class UpdatesContainer extends React.Component<{}, State> {
     if (!config.discourse.host) return children
 
     return (
-      <Manager>
-        <Reference>
-          {({ ref }) => (
-            <Wrapper
-              // @ts-ignore: styled
-              ref={ref}
-              onClick={this.toggleOpen}
-            >
-              {this.hasUpdates() && <Notification />}
-              {children}
-            </Wrapper>
-          )}
-        </Reference>
-
-        {isOpen && (
-          <Popper placement={'right'}>
-            {({ ref, style, placement }) => (
-              <div
+      <div ref={this.nodeRef}>
+        <Manager>
+          <Reference>
+            {({ ref }) => (
+              <Wrapper
+                // @ts-ignore: styled
                 ref={ref}
-                style={{ ...style, zIndex: 2 }}
-                data-placement={placement}
+                onClick={this.toggleOpen}
               >
-                <Popup>
-                  <Updates
-                    host={config.discourse.host}
-                    error={error}
-                    loaded={loaded}
-                    posts={posts}
-                    topics={topics}
-                  />
-                </Popup>
-              </div>
+                {this.hasUpdates() && <Notification />}
+                {children}
+              </Wrapper>
             )}
-          </Popper>
-        )}
-      </Manager>
+          </Reference>
+
+          {isOpen && (
+            <Popper placement={'right'}>
+              {({ ref, style, placement }) => (
+                <div
+                  ref={ref}
+                  style={{ ...style, zIndex: 2 }}
+                  data-placement={placement}
+                >
+                  <Popup>
+                    <Updates
+                      host={config.discourse.host}
+                      error={error}
+                      loaded={loaded}
+                      posts={posts}
+                      topics={topics}
+                    />
+                  </Popup>
+                </div>
+              )}
+            </Popper>
+          )}
+        </Manager>
+      </div>
     )
   }
 
@@ -140,6 +146,26 @@ export class UpdatesContainer extends React.Component<{}, State> {
     return topics.sort(newestFirst)[0]
   }
 
+  private handleClickOutside = (event: Event) => {
+    if (
+      this.state.isOpen &&
+      this.nodeRef.current &&
+      !this.nodeRef.current.contains(event.target as Node)
+    ) {
+      this.setState({
+        isOpen: false,
+      })
+    }
+  }
+
+  private addClickListener() {
+    document.addEventListener('mousedown', this.handleClickOutside)
+  }
+
+  private removeClickListener() {
+    document.removeEventListener('mousedown', this.handleClickOutside)
+  }
+
   private toggleOpen = () => {
     const { isOpen } = this.state
 
@@ -151,9 +177,8 @@ export class UpdatesContainer extends React.Component<{}, State> {
       }
     }
 
-    this.setState(state => ({
-      ...state,
-      isOpen: !state.isOpen,
-    }))
+    this.setState({
+      isOpen: !isOpen,
+    })
   }
 }
