@@ -196,10 +196,7 @@ export const ShareURIPopper: React.SFC<Props> = ({
         <React.Fragment>
           {!isProjectOwner ? (
             <AlertMessageContainer>
-              <AlertMessage
-                type={AlertMessageType.error}
-                hideCloseButton={true}
-              >
+              <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
                 Only project owners can share links to the document.
               </AlertMessage>
             </AlertMessageContainer>
