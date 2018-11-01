@@ -86,6 +86,7 @@ class DataProvider extends React.Component<{}, DataProviderState> {
 
     // wait for initial pull of data to finish
     await this.sync({ live: false, retry: true }, 'pull')
+
     // start ongoing pull sync
     // tslint:disable-next-line:no-floating-promises
     this.sync({ live: true, retry: true }, 'pull')
@@ -95,7 +96,11 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     this.sync({ live: true, retry: true }, 'push') // ongoing push sync
   }
 
-  protected sync = (options: PouchReplicationOptions, direction: Direction) => {
+  protected sync = (
+    options: PouchReplicationOptions,
+    direction: Direction,
+    isRetry: boolean = false
+  ) => {
     console.log('syncing', this.options, options) // tslint:disable-line:no-console
 
     const collection = this.state.collection as RxCollection<Model>
@@ -110,7 +115,7 @@ class DataProvider extends React.Component<{}, DataProviderState> {
       options,
     })
 
-    return this.addSyncHandlers(replication, options, direction)
+    return this.addSyncHandlers(replication, options, direction, isRetry)
   }
 
   private setCompletedState(direction: Direction, value: boolean) {
@@ -140,7 +145,8 @@ class DataProvider extends React.Component<{}, DataProviderState> {
   private addSyncHandlers = (
     replication: RxReplicationState,
     options: PouchReplicationOptions,
-    direction: Direction
+    direction: Direction,
+    isRetry: boolean
   ) => {
     return new Promise((resolve, reject) => {
       replication.active$.subscribe(active => {
@@ -160,6 +166,16 @@ class DataProvider extends React.Component<{}, DataProviderState> {
       replication.error$.subscribe(async (error: PouchReplicationError) => {
         try {
           await this.handleSyncError(error, direction)
+
+          if (isRetry) {
+            // successfully handled sync error but failed again, move on
+            this.setCompletedState(direction, true)
+          } else {
+            // try once more, after refreshing the sync session
+            await this.sync(options, direction, true)
+          }
+
+          resolve()
         } catch (e) {
           // Unhandled sync error
           // Bail out and cancel syncing
@@ -170,7 +186,6 @@ class DataProvider extends React.Component<{}, DataProviderState> {
           // tslint:disable-next-line:no-console
           console.error('Replication failed due to error', e)
           // reject()
-          resolve()
         }
       })
     })
