@@ -86,6 +86,10 @@ const SidebarAction = styled.div`
 
 const ProjectsContainer = styled.div`
   padding: 20px 60px;
+
+  @media (max-width: 450px) {
+    padding: 7px 20px;
+  }
 `
 
 const ProjectContributors = styled.div`
