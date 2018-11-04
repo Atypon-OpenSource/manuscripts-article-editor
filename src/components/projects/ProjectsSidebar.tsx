@@ -30,6 +30,10 @@ const SidebarProject = styled.div`
     background-color: #f1f8ff;
     border-color: #edf2f5;
   }
+
+  @media (max-width: 450px) {
+    width: unset;
+  }
 `
 
 const SidebarProjectHeader = styled.div`
