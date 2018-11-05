@@ -28,7 +28,7 @@ export const SignupForm: React.SFC<
 > = ({ errors, isSubmitting, initialValues }) => (
   <CenteredForm id={'signup-form'} noValidate={true}>
     <FormHeader>
-      <SubHero>Manuscripts Online</SubHero>
+      <SubHero>Manuscripts.io</SubHero>
       <Hero>Sign Up</Hero>
     </FormHeader>
 

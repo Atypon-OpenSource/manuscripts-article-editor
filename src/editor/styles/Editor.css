@@ -263,7 +263,7 @@
   flex-direction: column;
   justify-content: space-between;
   transition: 0.2s all;
-  margin: -12px 0;
+  margin: -10px 0;
 }
 
 .ProseMirror .block-container:hover .block-gutter {
@@ -288,6 +288,10 @@
 .ProseMirror .add-block:hover {
   background-color: #65cfff;
   color: #fff;
+}
+
+.ProseMirror .edit-block {
+  margin-top: 5px;
 }
 
 .ProseMirror .edit-block:hover {
@@ -368,11 +372,11 @@
 }
 
 .ProseMirror .conflict {
-  background-color: #E0EEF9;
+  background-color: #e0eef9;
 }
 
 .ProseMirror .conflict-chevron {
-  background-color: #E0EEF9;
+  background-color: #e0eef9;
   color: #000;
   border-radius: 6px 0 0 6px;
   padding: 0 8px;
@@ -385,7 +389,7 @@
 
 .ProseMirror .conflict-reject,
 .ProseMirror .conflict-accept {
-  background-color: #E0EEF9;
+  background-color: #e0eef9;
   cursor: pointer;
   font-weight: bold;
   padding: 0 8px;
@@ -401,7 +405,7 @@
 }
 
 .ProseMirror .conflict-accept {
-  background-color: #E0EEF9;
+  background-color: #e0eef9;
   border-radius: 0 6px 6px 0;
   color: green;
 }

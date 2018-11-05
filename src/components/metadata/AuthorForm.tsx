@@ -1,13 +1,21 @@
 import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
 import React from 'react'
+import AlertMessage, { AlertMessageType } from '../../components/AlertMessage'
+import InviteAuthorButton from '../../components/InviteAuthorButton'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme'
-import { Affiliation, BibliographicName, Contributor } from '../../types/models'
+import {
+  Affiliation,
+  BibliographicName,
+  Contributor,
+  Project,
+} from '../../types/models'
 import AutoSaveInput from '../AutoSaveInput'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 import { AffiliationsSelect } from './AffiliationsSelect'
 import { AuthorAffiliation } from './Author'
+import RemoveAuthorButton from './RemoveAuthorButton'
 
 const Fields = styled.div`
   padding: 16px;
@@ -56,6 +64,16 @@ const Legend = styled.legend`
   color: #949494;
 `
 
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const FormMessage = styled.div`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 450px;
+`
 interface BibliographicNameValues extends Partial<BibliographicName> {
   _id: string
   objectType: 'MPBibliographicName'
@@ -123,6 +141,13 @@ interface AuthorProps {
   manuscript: string
   handleSave: (values: AuthorValues) => Promise<void>
   createAffiliation: (name: string) => Promise<Affiliation>
+  removeAuthorIsOpen: boolean
+  removeAuthor: (data: Contributor) => void
+  handleRemoveAuthor: () => void
+  isRejected: (invitationID: string) => boolean
+  project: Project
+  updateAuthor: (author: Contributor, email: string) => void
+  getAuthorName: (author: Contributor) => string
 }
 
 export const AuthorForm: React.SFC<AuthorProps> = ({
@@ -132,100 +157,118 @@ export const AuthorForm: React.SFC<AuthorProps> = ({
   manuscript,
   handleSave,
   createAffiliation,
+  removeAuthor,
+  removeAuthorIsOpen,
+  handleRemoveAuthor,
+  isRejected,
+  project,
+  updateAuthor,
+  getAuthorName,
 }) => (
-  <Formik
-    initialValues={buildInitialValues(author, authorAffiliations)}
-    onSubmit={handleSave}
-  >
-    {({ values }: FormikProps<AuthorValues>) => (
-      <Form>
-        <Fields>
-          <Fieldset>
-            <Legend>Details</Legend>
+  <React.Fragment>
+    <Formik
+      initialValues={buildInitialValues(author, authorAffiliations)}
+      onSubmit={handleSave}
+    >
+      {({ values }: FormikProps<AuthorValues>) => (
+        <Form>
+          <Fields>
+            <Fieldset>
+              <Container>
+                <Legend>Details</Legend>
 
-            <TextFieldGroupContainer>
-              <Field name={'bibliographicName.given'}>
-                {(props: FieldProps) => (
-                  <AutoSaveInput
-                    {...props}
-                    component={TextField}
-                    saveOn={'blur'}
-                    placeholder={'Given name'}
-                  />
-                )}
-              </Field>
-
-              <Field name={'bibliographicName.family'}>
-                {(props: FieldProps) => (
-                  <AutoSaveInput
-                    {...props}
-                    component={TextField}
-                    saveOn={'blur'}
-                    placeholder={'Family name'}
-                  />
-                )}
-              </Field>
-            </TextFieldGroupContainer>
-
-            <CheckboxLabel>
-              <Field name={'isCorresponding'}>
-                {(props: FieldProps) => (
-                  <AutoSaveInput
-                    {...props}
-                    component={CheckboxField}
-                    saveOn={'change'}
-                  />
-                )}
-              </Field>
-              <LabelText>Corresponding Author</LabelText>
-            </CheckboxLabel>
-
-            {values.isCorresponding && (
-              <Label>
-                <Field name={'email'} type={'email'}>
+                <RemoveAuthorButton
+                  author={author}
+                  removeAuthor={() => {
+                    removeAuthor(author)
+                  }}
+                  isOpen={removeAuthorIsOpen}
+                  handleOpen={handleRemoveAuthor}
+                />
+              </Container>
+              <TextFieldGroupContainer>
+                <Field name={'bibliographicName.given'}>
                   {(props: FieldProps) => (
                     <AutoSaveInput
                       {...props}
                       component={TextField}
                       saveOn={'blur'}
-                      placeholder={'Email address'}
+                      placeholder={'Given name'}
+                    />
+                  )}
+                </Field>
+
+                <Field name={'bibliographicName.family'}>
+                  {(props: FieldProps) => (
+                    <AutoSaveInput
+                      {...props}
+                      component={TextField}
+                      saveOn={'blur'}
+                      placeholder={'Family name'}
+                    />
+                  )}
+                </Field>
+              </TextFieldGroupContainer>
+
+              <CheckboxLabel>
+                <Field name={'isCorresponding'}>
+                  {(props: FieldProps) => (
+                    <AutoSaveInput
+                      {...props}
+                      component={CheckboxField}
+                      saveOn={'change'}
+                    />
+                  )}
+                </Field>
+                <LabelText>Corresponding Author</LabelText>
+              </CheckboxLabel>
+
+              {values.isCorresponding && (
+                <Label>
+                  <Field name={'email'} type={'email'}>
+                    {(props: FieldProps) => (
+                      <AutoSaveInput
+                        {...props}
+                        component={TextField}
+                        saveOn={'blur'}
+                        placeholder={'Email address'}
+                      />
+                    )}
+                  </Field>
+                </Label>
+              )}
+
+              <CheckboxLabel>
+                <Field name={'isJointContributor'}>
+                  {(props: FieldProps) => (
+                    <AutoSaveInput
+                      {...props}
+                      component={CheckboxField}
+                      saveOn={'change'}
+                    />
+                  )}
+                </Field>
+                <LabelText>Joint Authorship with Next Author</LabelText>
+              </CheckboxLabel>
+            </Fieldset>
+
+            <Fieldset>
+              <Legend>Affiliations</Legend>
+
+              <Label>
+                <Field name={'affiliations'}>
+                  {(props: FieldProps) => (
+                    <AffiliationsSelect
+                      affiliations={affiliations}
+                      createAffiliation={createAffiliation}
+                      {...props}
                     />
                   )}
                 </Field>
               </Label>
-            )}
+            </Fieldset>
 
-            <CheckboxLabel>
-              <Field name={'isJointContributor'}>
-                {(props: FieldProps) => (
-                  <AutoSaveInput
-                    {...props}
-                    component={CheckboxField}
-                    saveOn={'change'}
-                  />
-                )}
-              </Field>
-              <LabelText>Joint Authorship with Next Author</LabelText>
-            </CheckboxLabel>
-          </Fieldset>
-
-          <Fieldset>
-            <Legend>Affiliations</Legend>
-
-            <Label>
-              <Field name={'affiliations'}>
-                {(props: FieldProps) => (
-                  <AffiliationsSelect
-                    affiliations={affiliations}
-                    createAffiliation={createAffiliation}
-                    {...props}
-                  />
-                )}
-              </Field>
-            </Label>
-          </Fieldset>
-
-          {/*<Fieldset>
+            {/*<Fieldset>
         <Legend>Grants</Legend>
 
           <Field name={'grants'}>
@@ -238,8 +281,37 @@ export const AuthorForm: React.SFC<AuthorProps> = ({
             )}
           </Field>
         </Fieldset>*/}
-        </Fields>
-      </Form>
-    )}
-  </Formik>
+          </Fields>
+        </Form>
+      )}
+    </Formik>
+    {!author.userID &&
+      !author.invitationID && (
+        <FormMessage>
+          <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
+            {getAuthorName(author) + ' '}
+            does not have access to the project.
+            <InviteAuthorButton
+              author={author}
+              project={project}
+              updateAuthor={updateAuthor}
+            />
+          </AlertMessage>
+        </FormMessage>
+      )}
+    {author.invitationID &&
+      isRejected(author.invitationID) && (
+        <FormMessage>
+          <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
+            {getAuthorName(author) + ' '}
+            does not have access to the project.
+            <InviteAuthorButton
+              author={author}
+              project={project}
+              updateAuthor={updateAuthor}
+            />
+          </AlertMessage>
+        </FormMessage>
+      )}
+  </React.Fragment>
 )

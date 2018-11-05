@@ -5,7 +5,6 @@ import { styled } from '../../theme'
 import { Contributor, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
-import Panel from '../Panel'
 import {
   Sidebar,
   SidebarContent,
@@ -17,6 +16,7 @@ import {
   SidebarTitle,
 } from '../Sidebar'
 import AddAuthorButton from './AddAuthorButton'
+import CreateAuthorPageContainer from './CreateAuthorPageContainer'
 import SearchAuthorsSidebar from './SearchAuthorsSidebar'
 
 const PersonInitial = styled.span`
@@ -42,7 +42,9 @@ const UserDataContainer = styled.div`
   display: flex;
   align-items: center;
 `
-
+const Container = styled.div`
+  padding-top: 5px;
+`
 interface Props {
   nonAuthors: UserProfile[]
   numberOfAddedAuthors: number
@@ -61,6 +63,9 @@ interface Props {
     name?: string,
     invitationID?: string
   ) => void
+  authorExist: () => boolean
+  handleCreateAuthor: () => void
+  createAuthorIsOpen: boolean
 }
 
 const AddAuthorsSidebar: React.SFC<Props> = ({
@@ -76,80 +81,88 @@ const AddAuthorsSidebar: React.SFC<Props> = ({
   searchResults,
   handleInvite,
   authors,
+  authorExist,
+  createAuthorIsOpen,
+  handleCreateAuthor,
 }) => {
   return (
-    <Panel
-      name={'authors-sidebar'}
-      direction={'row'}
-      side={'end'}
-      minSize={250}
-    >
-      <PeopleSidebar>
-        <SidebarHeader>
-          <SidebarTitle>Add Author</SidebarTitle>
+    <PeopleSidebar>
+      <SidebarHeader>
+        <SidebarTitle>Add Author</SidebarTitle>
 
-          {!numberOfAddedAuthors ? (
+        {!numberOfAddedAuthors ? (
+          <Container>
             <TransparentGreyButton onClick={handleDoneCancel}>
               Cancel
             </TransparentGreyButton>
-          ) : (
-            <ManuscriptBlueButton onClick={handleDoneCancel}>
-              Done
-            </ManuscriptBlueButton>
-          )}
-        </SidebarHeader>
-
-        <SidebarSearchField
-          onFocus={handleSearchFocus}
-          onBlur={handleSearchFocus}
-        >
-          <SidebarSearchIconContainer>
-            {isSearching ? <SearchIcon color={'#e0eef9'} /> : <SearchIcon />}
-          </SidebarSearchIconContainer>
-
-          <SidebarSearchText
-            value={searchText}
-            placeholder={'Search name/email'}
-            onChange={handleSearchChange}
-            maxLength={100}
-          />
-        </SidebarSearchField>
-        {searchText === '' ? (
-          <SidebarContent>
-            {nonAuthors.map(person => (
-              <SidebarPersonContainer key={person._id}>
-                <UserDataContainer>
-                  <Avatar src={person.avatar} size={45} color={darkGrey} />
-                  <PersonData>
-                    <PersonName>
-                      <PersonInitial>
-                        {person.bibliographicName.given}
-                      </PersonInitial>
-                      {person.bibliographicName.family}
-                    </PersonName>
-                  </PersonData>
-                </UserDataContainer>
-                <AddAuthorButton
-                  person={person}
-                  isSelected={addedAuthors.includes(person.userID)}
-                  createAuthor={createAuthor}
-                  authors={authors}
-                />
-              </SidebarPersonContainer>
-            ))}
-          </SidebarContent>
+          </Container>
         ) : (
-          <SearchAuthorsSidebar
-            handleInvite={handleInvite}
-            searchText={searchText}
-            addedAuthors={addedAuthors}
-            createAuthor={createAuthor}
-            searchResults={searchResults}
-            authors={authors}
-          />
+          <ManuscriptBlueButton onClick={handleDoneCancel}>
+            Done
+          </ManuscriptBlueButton>
         )}
-      </PeopleSidebar>
-    </Panel>
+      </SidebarHeader>
+
+      <SidebarSearchField
+        onFocus={handleSearchFocus}
+        onBlur={handleSearchFocus}
+      >
+        <SidebarSearchIconContainer>
+          {isSearching ? <SearchIcon color={'#e0eef9'} /> : <SearchIcon />}
+        </SidebarSearchIconContainer>
+
+        <SidebarSearchText
+          value={searchText}
+          placeholder={'Search name/email'}
+          onChange={handleSearchChange}
+          maxLength={100}
+        />
+      </SidebarSearchField>
+      {searchText === '' ? (
+        <SidebarContent>
+          {nonAuthors.map(person => (
+            <SidebarPersonContainer key={person._id}>
+              <UserDataContainer>
+                <Avatar src={person.avatar} size={45} color={darkGrey} />
+                <PersonData>
+                  <PersonName>
+                    <PersonInitial>
+                      {person.bibliographicName.given}
+                    </PersonInitial>
+                    {person.bibliographicName.family}
+                  </PersonName>
+                </PersonData>
+              </UserDataContainer>
+              <AddAuthorButton
+                person={person}
+                isSelected={addedAuthors.includes(person.userID)}
+                createAuthor={createAuthor}
+                authors={authors}
+              />
+            </SidebarPersonContainer>
+          ))}
+        </SidebarContent>
+      ) : createAuthorIsOpen ? (
+        <CreateAuthorPageContainer
+          authors={authors}
+          createAuthor={createAuthor}
+          isOpen={createAuthorIsOpen}
+          handleCancel={handleCreateAuthor}
+          searchText={searchText}
+        />
+      ) : (
+        <SearchAuthorsSidebar
+          handleInvite={handleInvite}
+          searchText={searchText}
+          addedAuthors={addedAuthors}
+          createAuthor={createAuthor}
+          searchResults={searchResults}
+          authors={authors}
+          authorExist={authorExist}
+          handleCreateAuthor={handleCreateAuthor}
+        />
+      )}
+    </PeopleSidebar>
   )
 }
 

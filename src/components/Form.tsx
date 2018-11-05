@@ -3,12 +3,16 @@ import { Link } from 'react-router-dom'
 import { styled } from '../theme'
 
 export const CenteredForm = styled(Form)`
-  width: 450px;
+  width: 100%;
+  max-width: 450px;
 `
 
 export const FormHeader = styled.div`
   padding: 40px;
   text-align: center;
+  @media (max-width: 450px) {
+    padding: 40px 0;
+  }
 `
 
 export const FormActions = styled.div`

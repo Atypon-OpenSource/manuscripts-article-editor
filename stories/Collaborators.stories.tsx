@@ -4,6 +4,7 @@ import { Formik } from 'formik'
 import React from 'react'
 import AddCollaboratorPopper from '../src/components/collaboration/AddCollaboratorPopper'
 import AddCollaboratorsSidebar from '../src/components/collaboration/AddCollaboratorsSidebar'
+import { CollaboratorForm } from '../src/components/collaboration/CollaboratorForm'
 import CollaboratorSettingsPopper from '../src/components/collaboration/CollaboratorSettingsPopper'
 import {
   AddCollaboratorsPage,
@@ -17,6 +18,7 @@ import InviteCollaboratorPopper from '../src/components/collaboration/InviteColl
 import InviteCollaboratorsSidebar from '../src/components/collaboration/InviteCollaboratorsSidebar'
 import SearchCollaboratorsSidebar from '../src/components/collaboration/SearchCollaboratorsSidebar'
 import { styled } from '../src/theme'
+import { UserProfile } from '../src/types/models'
 import { projectInvitationSchema } from '../src/validation'
 import { user } from './data/contributors'
 import { invitations } from './data/invitations-data'
@@ -57,6 +59,7 @@ storiesOf('Collaboration/Poppers', module)
         handleUninvite={action('uninvite')}
         handleOpenModal={action('open update role confirmation modal')}
         updateRoleIsOpen={false}
+        resendInvitation={action('re-send invitation')}
       />
     </PopperStory>
   ))
@@ -86,6 +89,8 @@ storiesOf('Collaboration/Pages', module)
       collaboratorsCount={0}
       user={user}
       handleAddCollaborator={action('add collaborator')}
+      selectedCollaborator={null}
+      manageProfile={action('manage your profile')}
     />
   ))
   .add('Collaborator details', () => (
@@ -94,6 +99,26 @@ storiesOf('Collaboration/Pages', module)
       collaboratorsCount={3}
       user={user}
       handleAddCollaborator={action('add collaborator')}
+      selectedCollaborator={null}
+      manageProfile={action('manage your profile')}
+    />
+  ))
+  .add('Collaborator Details page', () => (
+    <CollaboratorForm
+      collaborator={
+        // tslint:disable-next-line:no-object-literal-type-assertion
+        {
+          bibliographicName: {
+            _id: 'id',
+            objectType: 'MPBibliographicName',
+            given: 'Mark',
+            family: 'Foobarovic',
+          },
+        } as UserProfile
+      }
+      user={user}
+      manageProfile={action('manage your profile')}
+      affiliations={null}
     />
   ))
   .add('Add collaborators', () => (
@@ -121,6 +146,8 @@ storiesOf('Collaboration/Sidebars', module)
       hoveredID={''}
       openPopper={action('open popper')}
       isSettingsOpen={true}
+      selectedCollaborator={null}
+      handleClickCollaborator={action('selected collaborator')}
     />
   ))
   .add('Add Collaborator', () => (

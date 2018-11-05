@@ -2,7 +2,7 @@ import { FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, RouteComponentProps } from 'react-router-dom'
 import { resetPassword } from '../../lib/account'
 import { sendPasswordRecovery } from '../../lib/api'
 import { UserProps, withUser } from '../../store/UserProvider'
@@ -11,7 +11,6 @@ import { Main, Page } from '../Page'
 import { Spinner } from '../Spinner'
 import { PasswordErrors, PasswordValues } from './PasswordForm'
 import PasswordPage from './PasswordPage'
-import { RecoverConfirm } from './RecoverConfirm'
 import { RecoverErrors, RecoverValues } from './RecoverForm'
 import RecoverPage from './RecoverPage'
 
@@ -20,7 +19,9 @@ interface State {
   token: string
 }
 
-class RecoverPageContainer extends React.Component<UserProps> {
+class RecoverPageContainer extends React.Component<
+  UserProps & RouteComponentProps<{}>
+> {
   public state: Readonly<State> = {
     sent: null,
     token: '',
@@ -55,13 +56,10 @@ class RecoverPageContainer extends React.Component<UserProps> {
     }
 
     if (sent) {
-      return (
-        <Page>
-          <Main>
-            <RecoverConfirm email={sent} />
-          </Main>
-        </Page>
-      )
+      this.props.history.push('/login', {
+        infoLoginMessage:
+          'An email with password reset instructions has been sent. Follow the link in the email to reset your password.',
+      })
     }
 
     return (

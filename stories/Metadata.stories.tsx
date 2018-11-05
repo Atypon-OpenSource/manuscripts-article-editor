@@ -15,6 +15,7 @@ import {
 import { Project, UserProfile } from '../src/types/models'
 import { affiliations, authors } from './data/contributors'
 import manuscripts from './data/manuscripts'
+import { project } from './data/projects'
 
 const affiliationIds = buildAffiliationIDs(authors)
 
@@ -69,9 +70,23 @@ storiesOf('Metadata', module)
       }}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      isRemovePopperOpen={false}
-      handleRemovePopperOpen={action('handle open the remove author popper')}
+      removeAuthorIsOpen={false}
+      handleRemoveAuthor={action(
+        'handle open the remove author confirmation dialog'
+      )}
       handleSectionChange={action('section change')}
+      authorExist={action('check author existence')}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+      createAuthorIsOpen={false}
+      isRejected={action('check invitation existence')}
+      hovered={false}
+      handleHover={action('handle hover over add author button')}
+      updateAuthor={action(
+        'update author after inviting him to collaborate on project'
+      )}
+      getAuthorName={action('get the author name')}
     />
   ))
   .add('Edit authors', () => (
@@ -118,9 +133,23 @@ storiesOf('Metadata', module)
       }}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      isRemovePopperOpen={false}
-      handleRemovePopperOpen={action('handle open the remove author popper')}
+      removeAuthorIsOpen={false}
+      handleRemoveAuthor={action(
+        'handle open the remove author confirmation dialog'
+      )}
       handleSectionChange={action('section change')}
+      authorExist={action('check author existence')}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+      createAuthorIsOpen={false}
+      isRejected={action('check invitation existence')}
+      hovered={false}
+      handleHover={action('handle hover over add author button')}
+      updateAuthor={action(
+        'update author after inviting him to collaborate on project'
+      )}
+      getAuthorName={action('get the author name')}
     />
   ))
   .add('Collapsed', () => (
@@ -167,9 +196,23 @@ storiesOf('Metadata', module)
       }}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      isRemovePopperOpen={false}
-      handleRemovePopperOpen={action('handle open the remove author popper')}
+      removeAuthorIsOpen={false}
+      handleRemoveAuthor={action(
+        'handle open the remove author confirmation dialog'
+      )}
       handleSectionChange={action('section change')}
+      authorExist={action('check author existence')}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+      createAuthorIsOpen={false}
+      isRejected={action('check invitation existence')}
+      hovered={false}
+      handleHover={action('handle hover over add author button')}
+      updateAuthor={action(
+        'update author after inviting him to collaborate on project'
+      )}
+      getAuthorName={action('get the author name')}
     />
   ))
   .add('Title: read-only', () => (
@@ -209,14 +252,13 @@ storiesOf('Metadata', module)
     <AuthorsSidebar
       authors={authors}
       authorAffiliations={authorAffiliations}
-      removeAuthor={action('remove author')}
       selectAuthor={action('select author')}
       selectedAuthor={null}
       startAdding={action('start adding')}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      isRemovePopperOpen={false}
-      handleRemovePopperOpen={action('handle open the remove author popper')}
+      hovered={false}
+      handleHover={action('handle hover over add author button')}
     />
   ))
   .add('Author Form', () => (
@@ -229,5 +271,16 @@ storiesOf('Metadata', module)
       }
       handleSave={action('save author')}
       createAffiliation={action('create affiliation')}
+      removeAuthorIsOpen={false}
+      removeAuthor={action('remove author')}
+      handleRemoveAuthor={action(
+        'handle open the remove author confirmation dialog'
+      )}
+      isRejected={action('check invitation existence')}
+      project={project}
+      updateAuthor={action(
+        'update author after inviting him to collaborate on project'
+      )}
+      getAuthorName={action('get the author name')}
     />
   ))

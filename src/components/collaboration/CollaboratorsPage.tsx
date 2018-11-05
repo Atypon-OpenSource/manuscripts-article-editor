@@ -16,8 +16,10 @@ import {
   AddedCollaboratorsMessage,
   CheckCollaboratorsSearchMessage,
   InviteCollaboratorsMessage,
+  SelectAuthorMessage,
   SelectCollaboratorMessage,
 } from '../Messages'
+import { CollaboratorForm } from './CollaboratorForm'
 
 const OuterContainer = styled.div`
   display: flex;
@@ -96,53 +98,73 @@ interface CollaboratorDetailsPageProps {
   user: UserProfile
   project: Project
   collaboratorsCount: number
+  selectedCollaborator: UserProfile | null
+  manageProfile: () => void
   handleAddCollaborator: () => void
 }
 
 export const CollaboratorDetailsPage: React.SFC<
   CollaboratorDetailsPageProps
-> = ({ project, user, collaboratorsCount, handleAddCollaborator }) => (
-  <OuterContainer>
-    <InnerContainer>
-      {collaboratorsCount || !isOwner(project, user.userID) ? (
+> = ({
+  project,
+  user,
+  collaboratorsCount,
+  handleAddCollaborator,
+  selectedCollaborator,
+  manageProfile,
+}) => (
+  <React.Fragment>
+    {selectedCollaborator ? (
+      <CollaboratorForm
+        collaborator={selectedCollaborator}
+        user={user}
+        manageProfile={manageProfile}
+        affiliations={null}
+      />
+    ) : (
+      <OuterContainer>
         <InnerContainer>
-          <Placeholder>
-            <ContributorDetails size={500} />
-          </Placeholder>
+          {collaboratorsCount || !isOwner(project, user.userID) ? (
+            <InnerContainer>
+              <Placeholder>
+                <ContributorDetails size={500} />
+              </Placeholder>
 
-          <ProjectTitle>{project.title}</ProjectTitle>
+              <ProjectTitle>{project.title}</ProjectTitle>
 
-          <Action>Collaborator's Details</Action>
+              <Action>Collaborator Details</Action>
 
-          <Message>
-            <SelectCollaboratorMessage />
-          </Message>
+              <Message>
+                <SelectCollaboratorMessage />
+              </Message>
+            </InnerContainer>
+          ) : (
+            <InnerContainer>
+              <Placeholder>
+                <ContributorsPlaceholder size={500} />
+              </Placeholder>
+
+              <ProjectTitle>{project.title}</ProjectTitle>
+
+              <Action>
+                <ActionButton onClick={handleAddCollaborator}>
+                  <AddButtonIcon>
+                    <AddAuthor />
+                  </AddButtonIcon>
+
+                  <ActionButtonText>Add Collaborator</ActionButtonText>
+                </ActionButton>
+              </Action>
+
+              <Message>
+                <AddCollaboratorsMessage />
+              </Message>
+            </InnerContainer>
+          )}
         </InnerContainer>
-      ) : (
-        <InnerContainer>
-          <Placeholder>
-            <ContributorsPlaceholder size={500} />
-          </Placeholder>
-
-          <ProjectTitle>{project.title}</ProjectTitle>
-
-          <Action>
-            <ActionButton onClick={handleAddCollaborator}>
-              <AddButtonIcon>
-                <AddAuthor />
-              </AddButtonIcon>
-
-              <ActionButtonText>Add Collaborator</ActionButtonText>
-            </ActionButton>
-          </Action>
-
-          <Message>
-            <AddCollaboratorsMessage />
-          </Message>
-        </InnerContainer>
-      )}
-    </InnerContainer>
-  </OuterContainer>
+      </OuterContainer>
+    )}
+  </React.Fragment>
 )
 
 interface AddCollaboratorsPageProps {
@@ -223,6 +245,23 @@ export const AddAuthorsPage: React.SFC<AddAuthorsPageProps> = ({
           </Message>
         </React.Fragment>
       )}
+    </InnerContainer>
+  </OuterContainerModal>
+)
+
+export const AuthorDetailsPage: React.SFC = () => (
+  <OuterContainerModal>
+    <InnerContainer>
+      <Placeholder>
+        <ContributorDetails size={500} />
+      </Placeholder>
+
+      <React.Fragment>
+        <Action>Author Details</Action>
+        <Message>
+          <SelectAuthorMessage />
+        </Message>
+      </React.Fragment>
     </InnerContainer>
   </OuterContainerModal>
 )

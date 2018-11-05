@@ -85,9 +85,12 @@ const ShareURIField: React.SFC<ShareURIFieldProps> = ({
   <React.Fragment>
     {isCopied ? (
       <AlertMessageContainer>
-        <AlertMessage type={AlertMessageType.success} hideCloseButton={true}>
+        <AlertMessage
+          type={AlertMessageType.success}
+          dismissButton={{ text: 'OK', action: handleCopy }}
+          hideCloseButton={true}
+        >
           Link copied to clipboard.
-          <ClickableText onClick={handleCopy}>OK</ClickableText>
         </AlertMessage>
       </AlertMessageContainer>
     ) : (
@@ -193,10 +196,7 @@ export const ShareURIPopper: React.SFC<Props> = ({
         <React.Fragment>
           {!isProjectOwner ? (
             <AlertMessageContainer>
-              <AlertMessage
-                type={AlertMessageType.error}
-                hideCloseButton={true}
-              >
+              <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
                 Only project owners can share links to the document.
               </AlertMessage>
             </AlertMessageContainer>

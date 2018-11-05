@@ -228,7 +228,7 @@ export const WelcomePage: React.SFC<WelcomeProps> = ({
   <SimpleModal handleClose={handleClose}>
     <Container>
       <WelcomeHeader>
-        <WelcomeTitle>Welcome to Manuscripts.io</WelcomeTitle>
+        <WelcomeTitle>Manuscripts.io</WelcomeTitle>
       </WelcomeHeader>
 
       <PanelGroup>

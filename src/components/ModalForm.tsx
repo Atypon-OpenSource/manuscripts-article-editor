@@ -12,8 +12,13 @@ const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
-  min-width: 400px;
+  width: 400px;
   max-width: 70vw;
+
+  @media (max-width: 450px) {
+    width: 100%;
+    max-width: unset;
+  }
 `
 
 const ModalHeader = styled.div`
@@ -55,6 +60,12 @@ export const ModalFormActions = styled.div`
   justify-content: flex-end;
 `
 
+const ResponsiveModal = styled(Modal)`
+  @media (max-width: 450px) {
+    width: 90%;
+  }
+`
+
 const modalStyle = {
   overlay: {
     position: 'fixed',
@@ -72,10 +83,11 @@ const modalStyle = {
     background: 'transparent',
     border: 'none',
     position: 'relative',
-    top: 0,
+    top: '34%',
     left: 0,
     bottom: 0,
     right: 0,
+    transform: 'translate(0, -50%)',
   },
 }
 
@@ -88,7 +100,7 @@ class ModalForm extends React.Component<Props & RouteComponentProps> {
     const { title, children } = this.props
 
     return (
-      <Modal
+      <ResponsiveModal
         isOpen={true}
         onRequestClose={this.handleClose}
         shouldCloseOnOverlayClick={true}
@@ -105,7 +117,7 @@ class ModalForm extends React.Component<Props & RouteComponentProps> {
             <ModalBody>{children}</ModalBody>
           </ModalMain>
         </ModalContainer>
-      </Modal>
+      </ResponsiveModal>
     )
   }
 

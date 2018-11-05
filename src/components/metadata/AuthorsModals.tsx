@@ -12,6 +12,7 @@ import {
 } from '../../types/models'
 import {
   AddAuthorsPage,
+  AuthorDetailsPage,
   InviteCollaboratorsModal,
 } from '../collaboration/CollaboratorsPage'
 import { InvitationValues } from '../collaboration/InvitationForm'
@@ -50,20 +51,26 @@ interface AuthorsProps {
   manuscript: Manuscript
   affiliations: AffiliationMap
   selectedAuthor: Contributor | null
-  isRemovePopperOpen: boolean
+  removeAuthorIsOpen: boolean
   removeAuthor: (data: Contributor) => void
   selectAuthor: (data: Contributor) => void
   startAddingAuthors: () => void
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
   createAffiliation: (name: string) => Promise<Affiliation>
   checkInvitations: (author: Contributor) => boolean
-  handleRemovePopperOpen: () => void
+  handleRemoveAuthor: () => void
   handleDrop: (
     source: AuthorItem,
     target: AuthorItem,
     position: DropSide,
     authors: Contributor[]
   ) => void
+  isRejected: (invitationID: string) => boolean
+  handleHover: () => void
+  hovered: boolean
+  project: Project
+  updateAuthor: (author: Contributor, email: string) => void
+  getAuthorName: (author: Contributor) => string
 }
 
 export const AuthorsModal: React.SFC<AuthorsProps> = ({
@@ -79,26 +86,31 @@ export const AuthorsModal: React.SFC<AuthorsProps> = ({
   createAffiliation,
   handleDrop,
   checkInvitations,
-  isRemovePopperOpen,
-  handleRemovePopperOpen,
+  removeAuthorIsOpen,
+  handleRemoveAuthor,
+  isRejected,
+  handleHover,
+  hovered,
+  project,
+  updateAuthor,
+  getAuthorName,
 }) => (
   <ModalBody>
     <ModalSidebar>
       <AuthorsSidebar
         authors={authors}
         authorAffiliations={authorAffiliations}
-        removeAuthor={removeAuthor}
         selectAuthor={selectAuthor}
         selectedAuthor={selectedAuthor}
         startAdding={startAddingAuthors}
         handleDrop={handleDrop}
         checkInvitations={checkInvitations}
-        isRemovePopperOpen={isRemovePopperOpen}
-        handleRemovePopperOpen={handleRemovePopperOpen}
+        handleHover={handleHover}
+        hovered={hovered}
       />
     </ModalSidebar>
     <ModalMain>
-      {selectedAuthor && (
+      {selectedAuthor ? (
         <AuthorForm
           manuscript={manuscript._id}
           author={selectedAuthor}
@@ -108,7 +120,16 @@ export const AuthorsModal: React.SFC<AuthorsProps> = ({
           }
           handleSave={handleSaveAuthor}
           createAffiliation={createAffiliation}
+          removeAuthorIsOpen={removeAuthorIsOpen}
+          handleRemoveAuthor={handleRemoveAuthor}
+          removeAuthor={removeAuthor}
+          isRejected={isRejected}
+          project={project}
+          updateAuthor={updateAuthor}
+          getAuthorName={getAuthorName}
         />
+      ) : (
+        <AuthorDetailsPage />
       )}
     </ModalMain>
   </ModalBody>
@@ -132,6 +153,9 @@ interface AddAuthorsProps {
   handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
   handleSearchFocus: () => void
   handleInvite: () => void
+  authorExist: () => boolean
+  handleCreateAuthor: () => void
+  createAuthorIsOpen: boolean
 }
 
 export const AddAuthorsModal: React.SFC<AddAuthorsProps> = ({
@@ -147,6 +171,9 @@ export const AddAuthorsModal: React.SFC<AddAuthorsProps> = ({
   handleSearchChange,
   handleSearchFocus,
   handleInvite,
+  authorExist,
+  createAuthorIsOpen,
+  handleCreateAuthor,
 }) => (
   <ModalBody>
     <ModalSidebar>
@@ -163,6 +190,9 @@ export const AddAuthorsModal: React.SFC<AddAuthorsProps> = ({
         handleSearchFocus={handleSearchFocus}
         searchResults={searchResults}
         handleInvite={handleInvite}
+        authorExist={authorExist}
+        createAuthorIsOpen={createAuthorIsOpen}
+        handleCreateAuthor={handleCreateAuthor}
       />
     </ModalSidebar>
     <ModalMain>

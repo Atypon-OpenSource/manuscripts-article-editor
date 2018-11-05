@@ -28,6 +28,7 @@ interface State {
   error: string | null
   userMap: Map<string, UserProfile>
   hoveredID: string
+  selectedCollaborator: UserProfile | null
 }
 
 interface RouteParams {
@@ -45,6 +46,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     error: null,
     userMap: new Map(),
     hoveredID: '',
+    selectedCollaborator: null,
   }
 
   private subs: Subscription[] = []
@@ -66,6 +68,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       invitations,
       isSettingsOpen,
       hoveredID,
+      selectedCollaborator,
     } = this.state
     const { user } = this.props
 
@@ -97,6 +100,8 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           handleAddCollaborator={this.handleAddCollaborator}
           handleHover={this.handleHover}
           hoveredID={hoveredID}
+          handleClickCollaborator={this.handleClickCollaborator}
+          selectedCollaborator={selectedCollaborator}
         />
         <Main>
           <CollaboratorDetailsPage
@@ -104,6 +109,8 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
             user={user.data}
             collaboratorsCount={collaborators.length + invitations.length}
             handleAddCollaborator={this.handleAddCollaborator}
+            selectedCollaborator={selectedCollaborator}
+            manageProfile={this.manageProfile}
           />
         </Main>
       </Page>
@@ -185,6 +192,12 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       isSettingsOpen: isOpen,
     })
   }
+
+  private handleClickCollaborator = (selectedCollaborator: UserProfile) => {
+    this.setState({ selectedCollaborator })
+  }
+
+  private manageProfile = () => this.props.history.push('/profile')
 }
 
 export default withModels(withUser(CollaboratorPageContainer))

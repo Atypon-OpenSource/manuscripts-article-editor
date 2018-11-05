@@ -9,6 +9,7 @@ export type Mode = 'invite' | 'uninvite'
 interface State {
   selectedRole: string
   selectedMode: Mode
+  resendSucceed: boolean | null
 }
 
 interface Props {
@@ -17,16 +18,18 @@ interface Props {
   handleUninvite: () => Promise<void>
   handleOpenModal: () => void
   updateRoleIsOpen: boolean
+  resendInvitation: () => Promise<void>
 }
 
 class InviteCollaboratorPopper extends React.Component<Props, State> {
   public state: State = {
     selectedRole: this.props.invitation.role,
     selectedMode: 'invite',
+    resendSucceed: null,
   }
 
   public render() {
-    const { selectedRole, selectedMode } = this.state
+    const { selectedRole, selectedMode, resendSucceed } = this.state
     const { invitation, updateRoleIsOpen } = this.props
 
     return selectedMode === 'invite' && !updateRoleIsOpen ? (
@@ -35,6 +38,11 @@ class InviteCollaboratorPopper extends React.Component<Props, State> {
         selectedRole={selectedRole}
         switchMode={() => this.setMode('uninvite')}
         removeText={'Cancel invitation'}
+        invitedUserEmail={invitation.invitedUserEmail}
+        resendSucceed={resendSucceed}
+        resendInvitation={this.handleResendSubmit}
+        selectedMode={this.state.selectedMode}
+        isOnlyOwner={false}
       />
     ) : updateRoleIsOpen ? (
       <UpdateRolePageContainer
@@ -50,6 +58,19 @@ class InviteCollaboratorPopper extends React.Component<Props, State> {
         switchMode={() => this.setMode('invite')}
       />
     )
+  }
+
+  private handleResendSubmit = async () => {
+    try {
+      await this.props.resendInvitation()
+      this.setState({
+        resendSucceed: true,
+      })
+    } catch (error) {
+      this.setState({
+        resendSucceed: false,
+      })
+    }
   }
 
   private handleRoleChange = (event: React.FormEvent<HTMLInputElement>) => {

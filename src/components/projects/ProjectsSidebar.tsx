@@ -18,6 +18,11 @@ const Container = styled(Sidebar)`
   background: white;
 `
 
+const Header = styled(SidebarHeader)`
+  @media (max-width: 450px) {
+    margin-left: 7px;
+  }
+`
 const SidebarProject = styled.div`
   padding: 16px;
   margin: 0 -16px;
@@ -30,10 +35,17 @@ const SidebarProject = styled.div`
     background-color: #f1f8ff;
     border-color: #edf2f5;
   }
+
+  @media (max-width: 450px) {
+    width: unset;
+  }
 `
 
 const SidebarProjectHeader = styled.div`
   display: flex;
+  @media (max-width: 450px) {
+    margin-left: 7px;
+  }
 `
 
 const ProjectTitle = styled(NavLink)`
@@ -78,15 +90,26 @@ const SidebarAction = styled.div`
   display: flex;
   align-items: center;
   margin: 10px;
+  @media (max-width: 450px) {
+    margin-left: 17px;
+  }
 `
 
 const ProjectsContainer = styled.div`
   padding: 20px 60px;
+
+  @media (max-width: 450px) {
+    padding: unset;
+  }
 `
 
 const ProjectContributors = styled.div`
   font-size: 15px;
   margin-top: 8px;
+
+  @media (max-width: 450px) {
+    margin-left: 7px;
+  }
 `
 
 const PlaceholderTitle = styled(Title)`
@@ -116,9 +139,9 @@ const ProjectsSidebar: React.SFC<Props> = ({
 }) => (
   <Container id={'projects-sidebar'}>
     <ProjectsContainer>
-      <SidebarHeader>
+      <Header>
         <SidebarTitle className={'sidebar-title'}>Projects</SidebarTitle>
-      </SidebarHeader>
+      </Header>
       <SidebarAction>
         <AddButton onClick={addProject} id={'create-project'}>
           <Add size={32} />

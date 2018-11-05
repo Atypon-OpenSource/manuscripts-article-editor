@@ -30,6 +30,7 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
           handleUninvite={this.handleUninvite}
           updateRoleIsOpen={updateRoleIsOpen}
           handleOpenModal={handleOpenModal}
+          resendInvitation={this.resendInvitation}
         />
       </CustomPopper>
     )
@@ -56,6 +57,28 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
     )
 
     this.props.openPopper()
+  }
+
+  private resendInvitation = async () => {
+    const {
+      invitedUserEmail: email,
+      invitedUserName: name,
+      projectID,
+      message,
+      role,
+    } = this.props.invitation
+
+    await projectInvite(
+      projectID,
+      [
+        {
+          email,
+          name,
+        },
+      ],
+      role,
+      message
+    )
   }
 
   private handleUninvite = async () => {

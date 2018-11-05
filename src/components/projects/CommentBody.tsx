@@ -2,6 +2,7 @@ import AnnotationEdit from '@manuscripts/assets/react/AnnotationEdit'
 import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import AnnotationReply from '@manuscripts/assets/react/AnnotationReply'
 import AnnotationShare from '@manuscripts/assets/react/AnnotationShare'
+import { Comment, CommentField } from '@manuscripts/comment-editor'
 import {
   Field,
   FieldProps,
@@ -11,18 +12,14 @@ import {
   FormikProps,
 } from 'formik'
 import React from 'react'
-import { StyledCommentEditor } from '../../editor/comment/CommentEditor'
-import { StyledCommentViewer } from '../../editor/comment/CommentViewer'
-import {
-  CreateKeyword,
-  GetCollaborators,
-  GetKeyword,
-  GetKeywords,
-  GetUser,
-} from '../../editor/comment/config'
 import { Build, buildComment } from '../../lib/commands'
 import { styled } from '../../theme'
-import { CommentAnnotation, Model, UserProfile } from '../../types/models'
+import {
+  CommentAnnotation,
+  Keyword,
+  Model,
+  UserProfile,
+} from '../../types/models'
 import { Button, PrimaryButton } from '../Button'
 import { FormError } from '../Form'
 
@@ -50,16 +47,87 @@ const CommentContent = styled.div`
   padding: 0 16px;
 `
 
+const StyledCommentField = styled(CommentField)`
+  flex: 1;
+
+  & .ProseMirror {
+    cursor: text;
+    font-family: 'Barlow', sans-serif;
+    line-height: 1.06;
+    letter-spacing: -0.2px;
+    color: #444;
+    margin: 8px 0;
+
+    &:focus {
+      outline: none;
+    }
+
+    & p:first-child {
+      margin-top: 0;
+    }
+
+    & p:last-child {
+      margin-bottom: 0;
+    }
+
+    & blockquote {
+      margin: 10px 0;
+      border-left: 4px solid #faed98;
+      padding-left: 1em;
+      font-size: 12px;
+      font-style: italic;
+      line-height: 1.17;
+      letter-spacing: -0.2px;
+      color: #b7b7b7;
+    }
+  }
+`
+
+const StyledCommentViewer = styled(Comment)`
+  flex: 1;
+
+  & .ProseMirror {
+    font-family: 'Barlow', sans-serif;
+    line-height: 1.06;
+    letter-spacing: -0.2px;
+    color: #666;
+    margin: 8px 0;
+
+    &:focus {
+      outline: none;
+    }
+
+    & p:first-child {
+      margin-top: 0;
+    }
+
+    & p:last-child {
+      margin-bottom: 0;
+    }
+
+    & blockquote {
+      margin: 10px 0;
+      border-left: 4px solid #faed98;
+      padding-left: 1em;
+      font-size: 12px;
+      font-style: italic;
+      line-height: 1.17;
+      letter-spacing: -0.2px;
+      color: #b7b7b7;
+    }
+  }
+`
+
 interface Props {
   comment: CommentAnnotation
+  createKeyword: (name: string) => Promise<Keyword>
   getCurrentUser: () => UserProfile
-  saveModel: <T extends Model>(model: Build<T>) => Promise<T>
-  deleteModel: (id: string) => Promise<string>
-  getCollaborators: GetCollaborators
-  getKeywords: GetKeywords
-  getKeyword: GetKeyword
-  getUser: GetUser
-  createKeyword: CreateKeyword
+  getCollaborator: (id: string) => UserProfile | undefined
+  getKeyword: (id: string) => Keyword | undefined
+  listCollaborators: () => UserProfile[]
+  listKeywords: () => Keyword[]
+  saveComment: <T extends Model>(model: Build<T>) => Promise<T>
+  deleteComment: (id: string) => Promise<string>
   isReply?: boolean
 }
 
@@ -82,12 +150,12 @@ class CommentBody extends React.Component<Props, State> {
     const { editing } = this.state
     const {
       comment,
-      getKeyword,
-      getKeywords,
-      getUser,
-      getCollaborators,
       createKeyword,
+      getCollaborator,
+      getKeyword,
       isReply = false,
+      listCollaborators,
+      listKeywords,
     } = this.props
 
     return editing ? (
@@ -103,14 +171,14 @@ class CommentBody extends React.Component<Props, State> {
             <Field name={'contents'}>
               {(props: FieldProps) => (
                 <CommentContent>
-                  <StyledCommentEditor
+                  <StyledCommentField
                     value={values.contents}
                     handleChange={(data: string) =>
                       setFieldValue(props.field.name, data)
                     }
-                    getCollaborators={getCollaborators}
-                    getKeywords={getKeywords}
                     createKeyword={createKeyword}
+                    listCollaborators={listCollaborators}
+                    listKeywords={listKeywords}
                   />
                 </CommentContent>
               )}
@@ -128,7 +196,7 @@ class CommentBody extends React.Component<Props, State> {
         <CommentContent>
           <StyledCommentViewer
             value={comment.contents}
-            getUser={getUser}
+            getCollaborator={getCollaborator}
             getKeyword={getKeyword}
           />
         </CommentContent>
@@ -164,19 +232,16 @@ class CommentBody extends React.Component<Props, State> {
     const { comment } = this.props
 
     return Date.now() / 1000 - comment.createdAt! < 60 // created < 1 min ago
-
-    // return !comment.contents
   }
 
   private handleSubmit = (
     values: CommentAnnotation,
     formikActions: FormikActions<CommentAnnotation>
   ) => {
-    const { saveModel } = this.props
-
     formikActions.setSubmitting(true)
 
-    saveModel(values)
+    this.props
+      .saveComment(values)
       .then(() => {
         this.setEditing(false)
       })
@@ -197,13 +262,12 @@ class CommentBody extends React.Component<Props, State> {
   }
 
   private cancelEditing = () => {
-    // TODO: delete the comment if it's always been empty
     this.setEditing(false)
   }
 
   private confirmThenDeleteComment = (id: string) => {
     if (confirm('Delete this comment?')) {
-      this.props.deleteModel(id).catch(error => {
+      this.props.deleteComment(id).catch(error => {
         console.error(error) // tslint:disable-line:no-console
       })
     }
@@ -214,13 +278,13 @@ class CommentBody extends React.Component<Props, State> {
   }
 
   private createReply = async (id: string) => {
-    const { getCurrentUser, saveModel } = this.props
+    const { getCurrentUser, saveComment } = this.props
 
     const user = getCurrentUser()
 
     const comment = buildComment(user._id, id)
 
-    await saveModel<CommentAnnotation>(comment)
+    await saveComment<CommentAnnotation>(comment)
   }
 }
 

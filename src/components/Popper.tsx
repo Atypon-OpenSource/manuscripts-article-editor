@@ -28,7 +28,7 @@ export const PopperBodyContainer = styled.div`
   }
 `
 
-const Arrow = styled.div`
+const ArrowUp = styled.div`
   position: relative;
   width: 0;
   height: 0;
@@ -36,6 +36,16 @@ const Arrow = styled.div`
   border-right: 8px solid transparent;
   border-bottom: 8px solid #d6d6d6;
   top: 1px;
+`
+
+const ArrowDown = styled.div`
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #d6d6d6;
+  bottom: 1px;
 `
 
 export const SeparatorLine = styled.div`
@@ -64,11 +74,30 @@ export const CustomPopper: React.SFC<Props> = ({
     style={style}
     data-placement={placement}
   >
-    <Arrow
+    <ArrowUp
       // @ts-ignore: styled
       ref={arrowProps.ref}
       style={arrowProps.style}
     />
     <PopperBodyContainer>{children}</PopperBodyContainer>
+  </Container>
+)
+
+export const CustomUpPopper: React.SFC<Props> = ({
+  children,
+  popperProps: { ref, style, placement, arrowProps },
+}) => (
+  <Container
+    // @ts-ignore: styled
+    ref={ref}
+    style={style}
+    data-placement={placement}
+  >
+    <PopperBodyContainer>{children}</PopperBodyContainer>
+    <ArrowDown
+      // @ts-ignore: styled
+      ref={arrowProps.ref}
+      style={arrowProps.style}
+    />
   </Container>
 )

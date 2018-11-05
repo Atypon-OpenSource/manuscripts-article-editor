@@ -18,6 +18,7 @@ class UpdateRolePageContainer extends React.Component<Props> {
       secondary: {
         action: this.handleUpdate,
         title: 'Update Role',
+        isDestructive: true,
       },
     }
     return (

@@ -39,7 +39,7 @@ const CollaboratorSidebar = styled(Sidebar)`
 
 const AddCollaboratorButton = styled.button`
   display: flex;
-  margin: 8px 0;
+  margin: 8px 0px 8px 4px;
   font-size: 14px;
   align-items: center;
   cursor: pointer;
@@ -54,7 +54,7 @@ const AddCollaboratorText = styled.div`
 `
 
 const CollaboratorData = styled.div`
-  padding-left: 8px;
+  padding-left: 3px;
 `
 const UserDataContainer = styled.div`
   display: flex;
@@ -79,8 +79,10 @@ interface Props {
   user: UserProfile
   isSettingsOpen: boolean
   hoveredID: string
+  selectedCollaborator: UserProfile | null
   handleAddCollaborator: () => void
   handleHover: (ID?: string) => void
+  handleClickCollaborator: (selectedCollaborator: UserProfile) => void
   openPopper: (isOpen: boolean) => void
 }
 
@@ -89,6 +91,8 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
   collaborators,
   invitations,
   user,
+  selectedCollaborator,
+  handleClickCollaborator,
   handleAddCollaborator,
   handleHover,
   hoveredID,
@@ -98,7 +102,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
     name={'collaborators-sidebar'}
     direction={'row'}
     side={'end'}
-    minSize={200}
+    minSize={250}
   >
     <CollaboratorSidebar>
       <SidebarHeader>
@@ -146,6 +150,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
               key={collaborator._id}
               onMouseEnter={() => handleHover(collaborator.userID)}
               onMouseLeave={() => handleHover()}
+              onClick={() => handleClickCollaborator(collaborator)}
             >
               <UserDataContainer>
                 <Avatar src={collaborator.avatar} size={45} color={darkGrey} />

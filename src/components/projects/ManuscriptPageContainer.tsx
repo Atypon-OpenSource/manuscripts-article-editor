@@ -6,12 +6,6 @@ import React from 'react'
 import { Prompt, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument, RxLocalDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
-import {
-  GetCollaborators,
-  GetKeyword,
-  GetKeywords,
-  GetUser,
-} from '../../editor/comment/config'
 import { conflictsKey } from '../../editor/config/plugins/conflicts'
 import Editor, { ChangeReceiver } from '../../editor/Editor'
 import PopperManager from '../../editor/lib/popper'
@@ -23,7 +17,6 @@ import {
   buildKeyword,
   buildManuscript,
 } from '../../lib/commands'
-import { buildName } from '../../lib/comments'
 import {
   applyLocalStep,
   applyRemoteStep,
@@ -278,14 +271,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   comments={comments}
                   doc={doc}
                   getCurrentUser={this.getCurrentUser}
-                  getUser={this.getUser}
-                  getCollaborators={this.getCollaborators}
-                  getKeyword={this.getKeyword}
-                  getKeywords={this.getKeywords}
-                  deleteModel={this.deleteModel}
-                  saveModel={this.saveModel}
-                  createKeyword={this.createKeyword}
                   selected={selected}
+                  createKeyword={this.createKeyword}
+                  deleteComment={this.deleteModel}
+                  getCollaborator={this.getCollaborator}
+                  getKeyword={this.getKeyword}
+                  listCollaborators={this.listCollaborators}
+                  listKeywords={this.listKeywords}
+                  saveComment={this.saveModel}
                 />
               </DebouncedInspector>
             )}
@@ -1231,25 +1224,19 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private getCurrentUser = (): UserProfile => this.props.user.data!
 
-  private getUser: GetUser = id => this.state.users!.get(id)
+  private listCollaborators = () => Array.from(this.state.users!.values())
 
-  // TODO: build this in advance
-  private getCollaborators: GetCollaborators = () =>
-    Array.from(this.state.users!.values()).map(person => ({
-      ...person,
-      name: buildName(person.bibliographicName),
-    }))
+  private getKeyword = (id: string) => this.state.keywords!.get(id)
 
-  private getKeyword: GetKeyword = id => this.state.keywords!.get(id)
-
-  private getKeywords: GetKeywords = () =>
-    Array.from(this.state.keywords!.values())
+  private listKeywords = () => Array.from(this.state.keywords!.values())
 
   private createKeyword = (name: string) => {
     const keyword = buildKeyword(name)
 
     return this.saveModel(keyword)
   }
+
+  private getCollaborator = (id: string) => this.state.users!.get(id)
 
   private handleSectionChange = (section: string) => {
     if (section !== 'manuscript') {

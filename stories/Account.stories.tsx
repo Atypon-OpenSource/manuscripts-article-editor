@@ -30,9 +30,6 @@ storiesOf('Account/Pages', module)
       initialValues={{ email: '', password: '' }}
       validationSchema={loginSchema}
       onSubmit={action('login')}
-      verificationMessage={''}
-      loginMessage={''}
-      resendVerificationEmail={action('resend verification email')}
     />
   ))
   .add('Recover', () => (

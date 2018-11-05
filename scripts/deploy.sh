@@ -12,6 +12,9 @@ aws s3 sync --exclude "index.html" --exclude "service-worker.js" \
     --cache-control "max-age=2592000" --acl "public-read" \
      dist/ s3://${S3_BUCKET}
 
+aws s3 sync --cache-control "max-age=2592000" --acl "public-read" \
+     gfx-assets/ s3://${S3_BUCKET}/gfx-assets
+
 aws s3 cp "dist/index.html" s3://${S3_BUCKET}/index.html \
     --cache-control "max-age=0" --acl "public-read"
 

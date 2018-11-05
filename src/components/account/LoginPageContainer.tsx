@@ -15,6 +15,7 @@ import { AlertMessageType } from '../AlertMessage'
 import { FormErrors } from '../Form'
 import { Main, Page } from '../Page'
 import { LoginValues } from './LoginForm'
+import LoginPageMessages from './LoginMessages'
 import LoginPage from './LoginPage'
 
 interface ResendVerificationData {
@@ -25,13 +26,20 @@ interface ResendVerificationData {
 
 interface State {
   error: boolean
-  verificationMessage?: string
-  loginMessage?: string
-  resendVerificationData?: ResendVerificationData
+  verificationMessage: string | null
+  loginMessage: string | null
+  resendVerificationData: ResendVerificationData | null
+  googleLoginError: string | null
+  infoLoginMessage: string | null
+  networkError: boolean | null
 }
 
 interface ErrorMessage {
   error: string
+}
+
+interface Action {
+  action: string
 }
 
 interface VerificationData {
@@ -43,6 +51,7 @@ interface RouteLocationState {
   from?: LocationState
   loginMessage?: string
   verificationMessage?: string
+  infoLoginMessage?: string
 }
 
 class LoginPageContainer extends React.Component<
@@ -51,6 +60,12 @@ class LoginPageContainer extends React.Component<
 > {
   public state: Readonly<State> = {
     error: false,
+    googleLoginError: null,
+    infoLoginMessage: null,
+    loginMessage: null,
+    networkError: null,
+    resendVerificationData: null,
+    verificationMessage: null,
   }
 
   private initialValues: LoginValues = {
@@ -60,34 +75,31 @@ class LoginPageContainer extends React.Component<
 
   public async componentDidMount() {
     // TODO: needs state
-    const hashData: Token & ErrorMessage & VerificationData = parse(
+    const hashData: Token & ErrorMessage & VerificationData & Action = parse(
       window.location.hash.substr(1)
     )
 
-    if (hashData && Object.keys(hashData).length) {
-      if (hashData.error) {
-        this.setState({ error: true })
-      } else {
-        token.set(hashData)
+    this.updateState(hashData)
 
-        this.props.user.fetch()
-        window.location.href = '/'
-      }
-      window.location.hash = ''
-    }
-
-    const { email } = parse(this.props.location.search.substr(1))
+    const { email, error_description: errorDescription } = parse(
+      this.props.location.search.substr(1)
+    )
 
     if (email) {
       this.initialValues.email = email
+    }
+
+    if (errorDescription) {
+      // TODO: do something
     }
 
     const { state } = this.props.location
 
     if (state) {
       this.setState({
-        loginMessage: state.loginMessage,
-        verificationMessage: state.verificationMessage,
+        loginMessage: state.loginMessage || null,
+        verificationMessage: state.verificationMessage || null,
+        infoLoginMessage: state.infoLoginMessage || null,
       })
     }
   }
@@ -95,11 +107,15 @@ class LoginPageContainer extends React.Component<
   public render() {
     const { user } = this.props
     const {
-      error,
+      // error,
       verificationMessage,
       loginMessage,
       resendVerificationData,
+      googleLoginError,
+      infoLoginMessage,
+      networkError,
     } = this.state
+
     if (!user.loaded) {
       return <Spinner />
     }
@@ -108,25 +124,45 @@ class LoginPageContainer extends React.Component<
       return <Redirect to={'/welcome'} />
     }
 
-    if (error) {
-      return <div>There was an error.</div>
-    }
-
     return (
       <Page>
         <Main>
+          <LoginPageMessages
+            verificationMessage={verificationMessage}
+            googleLoginError={googleLoginError}
+            loginMessage={loginMessage}
+            resendVerificationData={resendVerificationData}
+            resendVerificationEmail={this.resendVerificationEmail}
+            infoLoginMessage={infoLoginMessage}
+            networkError={networkError}
+          />
           <LoginPage
             initialValues={this.initialValues}
             validationSchema={loginSchema}
             onSubmit={this.handleSubmit}
-            verificationMessage={verificationMessage}
-            loginMessage={loginMessage}
-            resendVerificationData={resendVerificationData}
-            resendVerificationEmail={this.resendVerificationEmail}
           />
         </Main>
       </Page>
     )
+  }
+
+  private updateState = (
+    hashData: Token & ErrorMessage & VerificationData & Action
+  ) => {
+    if (hashData && Object.keys(hashData).length) {
+      if (hashData.error) {
+        this.setState({ googleLoginError: hashData.error })
+      } else if (hashData.access_token) {
+        token.set(hashData)
+
+        this.props.user.fetch()
+        window.location.href = '/'
+      }
+      if (hashData.action === 'logout') {
+        this.setState({ infoLoginMessage: 'You have been logged out.' })
+      }
+      window.location.hash = ''
+    }
   }
 
   private handleSubmit = async (
@@ -148,8 +184,12 @@ class LoginPageContainer extends React.Component<
 
       const errors: FormikErrors<FormErrors> = {}
 
+      alert(error)
+
       if (error.response) {
         errors.submit = this.errorResponseMessage(error.response.status, values)
+      } else {
+        this.setState({ networkError: true })
       }
 
       setErrors(errors)
@@ -183,7 +223,7 @@ class LoginPageContainer extends React.Component<
       await resendVerificationEmail(email)
 
       this.setState({
-        resendVerificationData: undefined,
+        resendVerificationData: null,
       })
     } catch (error) {
       this.setState({

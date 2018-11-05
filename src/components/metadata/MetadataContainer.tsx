@@ -68,7 +68,9 @@ interface State {
   isInvite: boolean
   invitationValues: InvitationValues
   invitations: ProjectInvitation[]
-  isRemovePopperOpen: boolean
+  removeAuthorIsOpen: boolean
+  createAuthorIsOpen: boolean
+  hovered: boolean
 }
 
 class MetadataContainer extends React.Component<
@@ -96,7 +98,9 @@ class MetadataContainer extends React.Component<
       email: '',
       role: '',
     },
-    isRemovePopperOpen: false,
+    removeAuthorIsOpen: false,
+    createAuthorIsOpen: false,
+    hovered: false,
   }
 
   private subs: Subscription[] = []
@@ -126,7 +130,8 @@ class MetadataContainer extends React.Component<
       project,
       isInvite,
       invitationValues,
-      isRemovePopperOpen,
+      removeAuthorIsOpen,
+      createAuthorIsOpen,
     } = this.state
     const { manuscript, user } = this.props
 
@@ -192,11 +197,67 @@ class MetadataContainer extends React.Component<
         handleInviteCancel={this.handleInviteCancel}
         handleInvitationSubmit={this.handleInvitationSubmit}
         handleDrop={this.handleDrop}
-        isRemovePopperOpen={isRemovePopperOpen}
-        handleRemovePopperOpen={this.handleRemovePopperOpen}
+        removeAuthorIsOpen={removeAuthorIsOpen}
+        handleRemoveAuthor={this.handleRemoveAuthor}
         handleSectionChange={this.props.handleSectionChange}
+        authorExist={this.authorExist}
+        createAuthorIsOpen={createAuthorIsOpen}
+        handleCreateAuthor={this.handleCreateAuthor}
+        isRejected={this.isRejected}
+        hovered={this.state.hovered}
+        handleHover={this.handleHover}
+        updateAuthor={this.updateAuthor}
+        getAuthorName={this.getAuthorName}
       />
     )
+  }
+
+  private updateAuthor = async (author: Contributor, invitedEmail: string) => {
+    const invitation = await this.getInvitation(invitedEmail)
+    author.invitationID = invitation._id
+    const data = {
+      ...author,
+    }
+
+    const result = await this.props.saveModel<Contributor>(data)
+    this.selectAuthor(result)
+  }
+
+  private handleHover = () => {
+    this.setState({
+      hovered: !this.state.hovered,
+    })
+  }
+
+  private handleCreateAuthor = () => {
+    if (this.state.createAuthorIsOpen) {
+      this.setState({
+        searchText: '',
+      })
+    }
+    this.setState({
+      createAuthorIsOpen: !this.state.createAuthorIsOpen,
+    })
+  }
+
+  private handleRemoveAuthor = () => {
+    this.setState({ removeAuthorIsOpen: !this.state.removeAuthorIsOpen })
+  }
+
+  private authorExist = () => {
+    const name = this.state.searchText
+    const [given, ...family] = name.split(' ')
+    const authors = buildSortedAuthors(this.props.modelMap)
+    for (const author of authors) {
+      if (
+        author.bibliographicName.given!.toLowerCase() === given.toLowerCase() &&
+        author.bibliographicName.family!.toLowerCase() ===
+          family.join(' ').toLowerCase()
+      ) {
+        return true
+      }
+    }
+    return false
   }
 
   private toggleExpanded = () => {
@@ -222,9 +283,6 @@ class MetadataContainer extends React.Component<
   private getCollection() {
     return this.props.models.collection as RxCollection<{}>
   }
-
-  private handleRemovePopperOpen = () =>
-    this.setState({ isRemovePopperOpen: !this.state.isRemovePopperOpen })
 
   private loadUserMap = () =>
     this.getCollection()
@@ -305,6 +363,7 @@ class MetadataContainer extends React.Component<
       await this.props.saveModel<Contributor>(author as Contributor)
       this.setState({
         addedAuthorsCount: this.state.addedAuthorsCount + 1,
+        searchText: '',
       })
     }
 
@@ -351,6 +410,7 @@ class MetadataContainer extends React.Component<
       const index = this.state.addedAuthors.indexOf(author.userID as string)
       this.state.addedAuthors.splice(index, 1)
     }
+    this.handleRemoveAuthor()
   }
 
   private startAddingAuthors = () => {
@@ -540,11 +600,15 @@ class MetadataContainer extends React.Component<
       )
     )
 
-    await this.props.saveModel<Contributor>({
+    const author = {
       ...selectedAuthor,
       ...values,
       affiliations: values.affiliations.map(item => item._id),
-    })
+    }
+
+    delete author.containerID
+
+    await this.props.saveModel<Contributor>(author)
   }
 
   private handleDrop = async (
@@ -601,6 +665,41 @@ class MetadataContainer extends React.Component<
       }
     }
     return false
+  }
+
+  private isRejected = (invitationID: string) => {
+    for (const invitation of this.state.invitations) {
+      if (invitation._id === invitationID) {
+        return false
+      }
+    }
+    return true
+  }
+
+  private getInvitation = (
+    invitedEmail: string
+  ): Promise<ProjectInvitation> => {
+    const invitingUser = this.props.user.data as UserProfile
+    return new Promise(resolve => {
+      this.getCollection()
+        .findOne({
+          objectType: PROJECT_INVITATION,
+          projectID: this.getProjectID(),
+          invitedUserEmail: invitedEmail,
+          invitingUserID: invitingUser.userID,
+        })
+        .$.subscribe((doc: RxDocument<ProjectInvitation>) => {
+          const invitation = doc.toJSON()
+          resolve(invitation)
+        })
+    })
+  }
+
+  private getAuthorName = (author: Contributor) => {
+    const name = !author.bibliographicName.given
+      ? 'Author '
+      : author.bibliographicName.given + ' ' + author.bibliographicName.family
+    return name
   }
 }
 

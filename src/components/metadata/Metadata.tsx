@@ -124,7 +124,6 @@ interface Props {
   user: UserProfile
   isInvite: boolean
   invitationValues: InvitationValues
-  isRemovePopperOpen: boolean
   startAddingAuthors: () => void
   checkInvitations: (author: Contributor) => boolean
   handleAddingDoneCancel: () => void
@@ -142,8 +141,17 @@ interface Props {
     position: DropSide,
     authors: Contributor[]
   ) => void
-  handleRemovePopperOpen: () => void
   handleSectionChange: (section: string) => void
+  removeAuthorIsOpen: boolean
+  handleRemoveAuthor: () => void
+  authorExist: () => boolean
+  handleCreateAuthor: () => void
+  createAuthorIsOpen: boolean
+  isRejected: (invitationID: string) => boolean
+  handleHover: () => void
+  hovered: boolean
+  updateAuthor: (author: Contributor, email: string) => void
+  getAuthorName: (author: Contributor) => string
 }
 
 export const Metadata: React.SFC<Props> = props => (

@@ -2,7 +2,7 @@ version: '3'
 
 services:
   couchbase:
-    image: registry.gitlab.com/mpapp-private/manuscripts-api/couchbase
+    image: registry.gitlab.com/mpapp-private/manuscripts-sync/couchbase
     env_file:
       - ../docker/server/defaults.env
     ports:
@@ -28,7 +28,7 @@ services:
           - cb-test.manuscripts.io
 
   sync_gateway:
-    image: registry.gitlab.com/mpapp-private/manuscripts-api/sync_gateway
+    image: registry.gitlab.com/mpapp-private/manuscripts-sync/sync_gateway
     env_file:
       - ../docker/server/defaults.env
     depends_on:
