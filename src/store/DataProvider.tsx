@@ -36,6 +36,7 @@ interface PouchReplicationError {
 export interface ReplicationState {
   active: boolean
   completed: boolean
+  replication: RxReplicationState | null
 }
 
 type Direction = 'push' | 'pull'
@@ -59,10 +60,12 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     pull: {
       active: false,
       completed: false,
+      replication: null,
     },
     push: {
       active: false,
       completed: false,
+      replication: null,
     },
   }
 
@@ -101,6 +104,12 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     direction: Direction,
     isRetry: boolean = false
   ) => {
+    const replicationState = this.state[direction]
+
+    if (replicationState.replication) {
+      throw new Error('Existing replication in progress')
+    }
+
     console.log('syncing', this.options, options) // tslint:disable-line:no-console
 
     const collection = this.state.collection as RxCollection<Model>
@@ -115,7 +124,28 @@ class DataProvider extends React.Component<{}, DataProviderState> {
       options,
     })
 
+    this.setReplicationState(direction, replication)
+
     return this.addSyncHandlers(replication, options, direction, isRetry)
+  }
+
+  private cancelReplication = async (
+    replication: RxReplicationState,
+    direction: Direction
+  ) => {
+    await replication.cancel()
+    this.state[direction].replication = null
+  }
+
+  private setReplicationState(direction: Direction, value: RxReplicationState) {
+    // TODO: make this typed somehow (i.e. no object assign)
+    this.setState({
+      ...this.state,
+      [direction]: {
+        ...this.state[direction],
+        replication: value,
+      },
+    })
   }
 
   private setCompletedState(direction: Direction, value: boolean) {
@@ -159,7 +189,10 @@ class DataProvider extends React.Component<{}, DataProviderState> {
 
         if (completed) {
           this.setCompletedState(direction, true)
-          return resolve()
+          // It is easier to just cancel this (despite it being "over" anyway)
+          return this.cancelReplication(replication, direction).then(() => {
+            return resolve()
+          })
         }
       })
 
@@ -171,6 +204,8 @@ class DataProvider extends React.Component<{}, DataProviderState> {
             // successfully handled sync error but failed again, move on
             this.setCompletedState(direction, true)
           } else {
+            // cancel this replication
+            await this.cancelReplication(replication, direction)
             // try once more, after refreshing the sync session
             await this.sync(options, direction, true)
           }

@@ -188,8 +188,6 @@ const createDecorationsForConflict = (
     const handleRevert = (view: EditorView) => async () => {
       popperManager.destroy()
 
-      await applyLocalStep(conflict, isFinalConflict)
-
       const tr = view.state.tr
 
       const mergeResult = merge.apply(change.user, change.index)
@@ -200,6 +198,8 @@ const createDecorationsForConflict = (
         step.to += documentPosition
         tr.step(step)
       })
+
+      await applyLocalStep(conflict, isFinalConflict)
 
       view.dispatch(tr)
     }
