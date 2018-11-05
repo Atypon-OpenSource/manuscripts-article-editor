@@ -22,6 +22,7 @@ interface State {
   confirming: UserDetails | null
   resendSucceed: boolean | null
   existButNotVerified: UserDetails | null
+  networkError: boolean | null
   error: boolean
 }
 
@@ -33,6 +34,7 @@ class SignupPageContainer extends React.Component<
     confirming: null,
     resendSucceed: null,
     existButNotVerified: null,
+    networkError: null,
     error: false,
   }
 
@@ -64,7 +66,13 @@ class SignupPageContainer extends React.Component<
 
   public render() {
     const { user } = this.props
-    const { error, confirming, existButNotVerified, resendSucceed } = this.state
+    const {
+      error,
+      confirming,
+      existButNotVerified,
+      resendSucceed,
+      networkError,
+    } = this.state
 
     if (!user.loaded) {
       return <Spinner />
@@ -86,6 +94,7 @@ class SignupPageContainer extends React.Component<
             existButNotVerified={existButNotVerified}
             resendSucceed={resendSucceed}
             resendVerificationEmail={this.resendVerificationEmail}
+            networkError={networkError}
           />
           <SignupPage
             initialValues={this.initialValues}
@@ -113,6 +122,7 @@ class SignupPageContainer extends React.Component<
         existButNotVerified: null,
       })
     } catch (error) {
+      alert(JSON.stringify(error.request))
       setSubmitting(false)
 
       const errors: FormikErrors<SignupErrors> = {}
@@ -136,6 +146,8 @@ class SignupPageContainer extends React.Component<
 
           setErrors(errors)
         }
+      } else {
+        this.setState({ networkError: true })
       }
     }
   }

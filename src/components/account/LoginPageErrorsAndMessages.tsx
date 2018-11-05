@@ -1,6 +1,7 @@
 import React from 'react'
 import config from '../../config'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
+import { NetworkErrorMessage } from '../Messages'
 
 interface ResendVerificationData {
   message: string
@@ -81,4 +82,10 @@ export const LoginWarning: React.SFC<{ loginWarning: string }> = ({
 
 export const LoginInfo: React.SFC<{ loginInfo: string }> = ({ loginInfo }) => (
   <AlertMessage type={AlertMessageType.info}>{loginInfo}</AlertMessage>
+)
+
+export const NetworkMessage: React.SFC = () => (
+  <AlertMessage type={AlertMessageType.error}>
+    <NetworkErrorMessage />
+  </AlertMessage>
 )

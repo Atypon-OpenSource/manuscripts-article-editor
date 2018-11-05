@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import config from '../config'
 
 export const SignInMessage = () => (
   <FormattedMessage
@@ -214,5 +215,15 @@ export const AcceptedInvitationFailureMessage: React.SFC = () => (
     defaultMessage={
       'Please sign in with the invited email address to accept this invitation.'
     }
+  />
+)
+
+export const NetworkErrorMessage: React.SFC = () => (
+  <FormattedMessage
+    id={'network_error'}
+    defaultMessage={
+      'Failed to connect to service. Please check your network connection before trying again, and if the problem persists contact {email}.'
+    }
+    values={{ email: config.support.email }}
   />
 )

@@ -10,6 +10,7 @@ storiesOf('SignupMessages', module)
       confirming={{ email: 'foo@bar.com' }}
       existButNotVerified={null}
       resendVerificationEmail={() => action('resend')}
+      networkError={null}
     />
   ))
   .add('verification email resent successfully', () => (
@@ -18,6 +19,7 @@ storiesOf('SignupMessages', module)
       confirming={{ email: 'foo@bar.com' }}
       existButNotVerified={null}
       resendVerificationEmail={() => action('resend')}
+      networkError={null}
     />
   ))
   .add('verification email failed to resend', () => (
@@ -26,6 +28,7 @@ storiesOf('SignupMessages', module)
       confirming={{ email: 'foo@bar.com' }}
       existButNotVerified={null}
       resendVerificationEmail={() => action('resend')}
+      networkError={null}
     />
   ))
   .add('the user exist but not verified', () => (
@@ -34,5 +37,15 @@ storiesOf('SignupMessages', module)
       confirming={null}
       existButNotVerified={{ email: 'bar@baz.com' }}
       resendVerificationEmail={() => action('resend')}
+      networkError={null}
+    />
+  ))
+  .add('cannot connect to the api', () => (
+    <SignupMessages
+      resendSucceed={null}
+      confirming={null}
+      existButNotVerified={null}
+      resendVerificationEmail={() => action('resend')}
+      networkError={true}
     />
   ))
