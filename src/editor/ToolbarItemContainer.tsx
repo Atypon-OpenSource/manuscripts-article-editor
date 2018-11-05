@@ -88,6 +88,7 @@ class ToolbarItemContainer extends React.Component<Props, State> {
           type={'button'}
           title={item.title}
           data-active={item.active && item.active(state)}
+          data-cy={item.title}
           disabled={item.enable && !item.enable(state)}
           onMouseDown={event => {
             event.preventDefault()
