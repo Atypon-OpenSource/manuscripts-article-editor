@@ -1,3 +1,4 @@
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import PouchDBHTTPAdapter from 'pouchdb-adapter-http'
 import {
   RxChangeEventInsert,
@@ -14,7 +15,6 @@ import RxDBReplicationModule from 'rxdb/plugins/replication'
 import RxDBSchemaCheckModule from 'rxdb/plugins/schema-check'
 import RxDBUpdateModule from 'rxdb/plugins/update'
 import config from '../config'
-import { Model } from '../types/models'
 
 // TODO: re-enable QueryChangeDetector once the fix is released:
 // https://github.com/pubkey/rxdb/issues/754

@@ -1,5 +1,5 @@
-import { KEYWORD } from '../../transformer/object-types'
-import { Keyword } from '../../types/models'
+import { KEYWORD } from '@manuscripts/manuscript-editor'
+import { Keyword } from '@manuscripts/manuscripts-json-schema'
 import sessionID from '../sessionID'
 import { prepareUpdate } from '../store'
 

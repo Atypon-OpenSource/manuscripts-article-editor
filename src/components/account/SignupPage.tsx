@@ -2,11 +2,7 @@ import { Formik, FormikConfig } from 'formik'
 import React from 'react'
 import { Centered } from '../Page'
 import AuthButtonContainer from './AuthButtonContainer'
-import {
-  AuthenticationContainer,
-  GoogleLogin,
-  // OrcidLogin,
-} from './Authentication'
+import { AuthenticationContainer, GoogleLogin } from './Authentication'
 import FooterContainer from './FooterContainer'
 import { SignupForm, SignupValues } from './SignupForm'
 

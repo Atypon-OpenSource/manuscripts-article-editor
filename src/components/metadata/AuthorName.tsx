@@ -1,7 +1,7 @@
+import { BibliographicName } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { initials } from '../../lib/name'
 import { styled } from '../../theme'
-import { BibliographicName } from '../../types/models'
 
 interface Props {
   name: BibliographicName

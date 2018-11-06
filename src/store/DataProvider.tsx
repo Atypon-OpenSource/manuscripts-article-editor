@@ -1,3 +1,5 @@
+import { handleConflicts } from '@manuscripts/manuscript-editor'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import {
@@ -8,9 +10,7 @@ import {
 } from 'rxdb'
 import config from '../config'
 import { refreshSyncSessions } from '../lib/api'
-import { handleConflicts } from '../lib/conflicts'
 import { databaseCreator } from '../lib/db'
-import { Model } from '../types/models'
 
 // TODO: handle offline/sync problems
 

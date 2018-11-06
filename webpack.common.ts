@@ -1,5 +1,4 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import FaviconsWebpackPlugin from 'favicons-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
 import { GenerateSW } from 'workbox-webpack-plugin'
@@ -40,21 +39,6 @@ const configuration: webpack.Configuration = {
         'WAYF_URL',
       ]),
       new CopyWebpackPlugin(['public/landing.html']),
-      new FaviconsWebpackPlugin({
-        background: '#fff',
-        inject: true,
-        logo: './public/favicon.png',
-        theme_color: '#fff',
-        title: 'Manuscripts.io',
-        icons: {
-          android: true,
-          appleIcon: true,
-          appleStartup: false,
-          favicons: true,
-          firefox: true,
-          windows: true,
-        },
-      }),
       new HtmlWebpackPlugin({
         template: 'public/index.html',
         title: 'Manuscripts.io',
@@ -113,6 +97,9 @@ const configuration: webpack.Configuration = {
   resolve: {
     alias: {
       react: require.resolve('react'),
+      'react-dom': require.resolve('react-dom'),
+      'react-hot-loader': require.resolve('react-hot-loader'),
+      'styled-components': require.resolve('styled-components'),
     },
     extensions: ['.tsx', '.ts', '.js', '.json'],
   },

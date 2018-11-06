@@ -1,10 +1,10 @@
+import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import AddIconActive from '../../icons/add-icon-active'
 import AddIconInverted from '../../icons/add-icon-inverted'
 import AddedIcon from '../../icons/added-icon'
 import { styled } from '../../theme'
-import { UserProfile } from '../../types/models'
 import { IconButton } from '../Button'
 import AddCollaboratorPopperContainer from './AddCollaboratorPopperContainer'
 

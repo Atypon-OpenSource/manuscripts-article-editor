@@ -1,3 +1,11 @@
+import {
+  Build,
+  ContainedModel,
+  ContainedProps,
+  isManuscriptModel,
+  timestamp,
+} from '@manuscripts/manuscript-editor'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import {
   RxAttachment,
@@ -7,13 +15,9 @@ import {
 } from 'rxdb'
 import config from '../config'
 import Spinner from '../icons/spinner'
-import { Build } from '../lib/commands'
 import sessionID from '../lib/sessionID'
 import { atomicUpdate } from '../lib/store'
-import timestamp from '../lib/timestamp'
 import * as schema from '../schema'
-import { isManuscriptModel } from '../transformer/object-types'
-import { ContainedModel, ContainedProps, Model } from '../types/models'
 import DataProvider, { DataProviderContext } from './DataProvider'
 
 export interface ModelIDs {
@@ -25,7 +29,7 @@ export interface ModelsProviderContext extends DataProviderContext {
   getModel: <T extends Model>(id: string) => Promise<T | null>
   saveModel: <T extends Model>(model: Build<T>, ids: ModelIDs) => Promise<T>
   deleteModel: (id: string) => Promise<string>
-  putAttachment: <T extends ContainedModel>(
+  putAttachment: <T extends Model & ContainedProps>(
     id: string,
     attachment: RxAttachmentCreator
   ) => Promise<RxAttachment<T>>

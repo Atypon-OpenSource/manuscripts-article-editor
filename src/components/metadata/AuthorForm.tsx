@@ -1,15 +1,15 @@
+import {
+  Affiliation,
+  BibliographicName,
+  Contributor,
+  Project,
+} from '@manuscripts/manuscripts-json-schema'
 import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
 import React from 'react'
 import AlertMessage, { AlertMessageType } from '../../components/AlertMessage'
 import InviteAuthorButton from '../../components/InviteAuthorButton'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme'
-import {
-  Affiliation,
-  BibliographicName,
-  Contributor,
-  Project,
-} from '../../types/models'
 import AutoSaveInput from '../AutoSaveInput'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'

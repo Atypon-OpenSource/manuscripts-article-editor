@@ -1,9 +1,9 @@
+import { Affiliation } from '@manuscripts/manuscripts-json-schema'
 import { FieldProps } from 'formik'
 import React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
 import { AffiliationMap } from '../../lib/authors'
-import { Affiliation } from '../../types/models'
 import { submitEvent } from '../Form'
 
 interface ActionMeta {

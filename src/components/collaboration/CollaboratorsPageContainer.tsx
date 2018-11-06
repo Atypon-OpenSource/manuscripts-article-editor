@@ -1,21 +1,20 @@
+import {
+  PROJECT_INVITATION,
+  USER_PROFILE,
+} from '@manuscripts/manuscript-editor'
+import {
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import Spinner from '../../icons/spinner'
+import { buildUserMap } from '../../lib/data'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { getModelFromDoc } from '../../transformer/decode'
-import {
-  PROJECT_INVITATION,
-  USER_PROFILE,
-} from '../../transformer/object-types'
-import {
-  Attachments,
-  Project,
-  ProjectInvitation,
-  UserProfile,
-} from '../../types/models'
 import { Main, Page } from '../Page'
 import { CollaboratorDetailsPage } from './CollaboratorsPage'
 import CollaboratorsSidebar from './CollaboratorsSidebar'
@@ -160,20 +159,11 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   private loadUserMap = () =>
     this.getCollection()
       .find({ objectType: USER_PROFILE })
-      .$.subscribe(
-        async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
-          const users = await Promise.all(
-            docs.map(doc => getModelFromDoc<UserProfile>(doc))
-          )
-
-          const userMap = users.reduce((output, user) => {
-            output.set(user.userID, user)
-            return output
-          }, new Map())
-
-          this.setState({ userMap })
-        }
-      )
+      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
+        this.setState({
+          userMap: await buildUserMap(docs),
+        })
+      })
 
   private handleAddCollaborator = () => {
     const { projectID } = this.props.match.params

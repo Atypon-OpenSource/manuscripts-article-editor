@@ -1,3 +1,4 @@
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AddAuthor from '../../icons/add-author'
 import AddedIcon from '../../icons/added-icon'
@@ -8,7 +9,6 @@ import ContributorSearchPlaceholder from '../../icons/contributor-search-placeho
 import InvitationPlaceholder from '../../icons/invitation-placeholder'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme'
-import { Project, UserProfile } from '../../types/models'
 import {
   AddAuthorsMessage,
   AddCollaboratorsMessage,

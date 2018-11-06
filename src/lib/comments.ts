@@ -1,6 +1,8 @@
-import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { iterateChildren } from '../editor/lib/utils'
-import { BibliographicName, CommentAnnotation } from '../types/models'
+import {
+  CommentAnnotation,
+  ManuscriptNode,
+} from '@manuscripts/manuscript-editor'
+import { BibliographicName } from '@manuscripts/manuscripts-json-schema'
 
 interface CommentData {
   comment: CommentAnnotation
@@ -56,20 +58,20 @@ const buildTargetsMap = (commentsMap: CommentsMap) => {
 
 type CommentsTreeMap = Map<string, CommentData[]>
 
-const buildTreeMap = (doc: ProsemirrorNode, targetsMap: TargetsMap) => {
+const buildTreeMap = (doc: ManuscriptNode, targetsMap: TargetsMap) => {
   const map: CommentsTreeMap = new Map()
 
-  for (const node of iterateChildren(doc, true)) {
+  doc.descendants(node => {
     if (node.attrs.id && targetsMap.has(node.attrs.id)) {
       map.set(node.attrs.id, targetsMap.get(node.attrs.id)!)
     }
-  }
+  })
 
   return map
 }
 
 export const buildCommentTree = (
-  doc: ProsemirrorNode,
+  doc: ManuscriptNode,
   comments: CommentAnnotation[]
 ): CommentsTreeMap => {
   const commentsMap = buildCommentsMap(comments)

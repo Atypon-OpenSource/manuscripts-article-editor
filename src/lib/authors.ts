@@ -1,6 +1,9 @@
-import { getModelsByType } from '../transformer/decode'
-import { CONTRIBUTOR } from '../transformer/object-types'
-import { Affiliation, Contributor, Model } from '../types/models'
+import { CONTRIBUTOR, getModelsByType } from '@manuscripts/manuscript-editor'
+import {
+  Affiliation,
+  Contributor,
+  Model,
+} from '@manuscripts/manuscripts-json-schema'
 
 export type AffiliationMap = Map<string, Affiliation>
 

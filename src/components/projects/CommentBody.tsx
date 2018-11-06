@@ -4,6 +4,16 @@ import AnnotationReply from '@manuscripts/assets/react/AnnotationReply'
 import AnnotationShare from '@manuscripts/assets/react/AnnotationShare'
 import { Comment, CommentField } from '@manuscripts/comment-editor'
 import {
+  Build,
+  buildComment,
+  CommentAnnotation,
+} from '@manuscripts/manuscript-editor'
+import {
+  Keyword,
+  Model,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
+import {
   Field,
   FieldProps,
   Form,
@@ -12,14 +22,7 @@ import {
   FormikProps,
 } from 'formik'
 import React from 'react'
-import { Build, buildComment } from '../../lib/commands'
 import { styled } from '../../theme'
-import {
-  CommentAnnotation,
-  Keyword,
-  Model,
-  UserProfile,
-} from '../../types/models'
 import { Button, PrimaryButton } from '../Button'
 import { FormError } from '../Form'
 
@@ -231,7 +234,7 @@ class CommentBody extends React.Component<Props, State> {
   private isNew = () => {
     const { comment } = this.props
 
-    return Date.now() / 1000 - comment.createdAt! < 60 // created < 1 min ago
+    return Date.now() / 1000 - comment.createdAt < 60 // created < 1 min ago
   }
 
   private handleSubmit = (

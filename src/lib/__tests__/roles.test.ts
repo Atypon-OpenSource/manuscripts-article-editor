@@ -1,4 +1,4 @@
-import { Project } from '../../types/models'
+import { Project } from '@manuscripts/manuscripts-json-schema'
 import { getUserRole, isOwner, isViewer, isWriter, ProjectRole } from '../roles'
 
 describe('roles', () => {

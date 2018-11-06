@@ -1,3 +1,8 @@
+import {
+  UserProfileWithAvatar,
+  withDragDropContext,
+} from '@manuscripts/manuscript-editor'
+import { Contributor } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import {
   DragSource,
@@ -21,10 +26,8 @@ import {
   DragSourceProps,
   DropHandler,
   DropSide,
-  withDragDropContext,
 } from '../../lib/drag-drop-authors'
 import { styled } from '../../theme'
-import { Contributor, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { AuthorName } from './AuthorName'
 
@@ -115,7 +118,7 @@ interface Props {
   onDrop: DropHandler
   author: Contributor
   authors: Contributor[]
-  user: Partial<UserProfile>
+  user: Partial<UserProfileWithAvatar>
   selectedAuthor: Contributor | null
   checkInvitations: (author: Contributor) => boolean
   selectAuthor: (item: Contributor) => void

@@ -1,8 +1,7 @@
-import { UserProfile } from '../../src/types/models'
-
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import imageFile from '../assets/melnitz.jpg'
 
-export const people: UserProfile[] = [
+export const people: UserProfileWithAvatar[] = [
   {
     _id: 'user-1',
     userID: 'user_1',
@@ -14,7 +13,9 @@ export const people: UserProfile[] = [
       family: 'Melnitz',
     },
     email: 'janine.melnitz@example.com',
-    image: imageFile,
+    avatar: imageFile,
+    createdAt: 0,
+    updatedAt: 0,
   },
   {
     _id: 'user-2',
@@ -27,7 +28,8 @@ export const people: UserProfile[] = [
       family: 'Venkman',
     },
     email: 'peter.venkman@example.com',
-    image: null,
+    createdAt: 0,
+    updatedAt: 0,
   },
   {
     _id: 'user-3',
@@ -40,6 +42,7 @@ export const people: UserProfile[] = [
       family: 'Spengler',
     },
     email: 'egon.spengler@example.com',
-    image: null,
+    createdAt: 0,
+    updatedAt: 0,
   },
 ]

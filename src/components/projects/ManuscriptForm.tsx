@@ -1,9 +1,10 @@
+import { CitationManager, DEFAULT_BUNDLE } from '@manuscripts/manuscript-editor'
+import { Manuscript } from '@manuscripts/manuscripts-json-schema'
 import { Field, Form, Formik } from 'formik'
 import React from 'react'
 import { OptionsType } from 'react-select/lib/types'
-import CitationManager, { DEFAULT_BUNDLE } from '../../lib/csl'
+import config from '../../config'
 import { styled } from '../../theme'
-import { Manuscript } from '../../types/models'
 import { ImmediateSelectField } from '../ImmediateSelectField'
 import { Spinner } from '../Spinner'
 
@@ -43,7 +44,7 @@ class ManuscriptForm extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    const citationManager = new CitationManager()
+    const citationManager = new CitationManager(config.data.url)
 
     const bundles = await citationManager.fetchBundles()
     const locales = await citationManager.fetchLocales()

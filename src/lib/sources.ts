@@ -1,6 +1,5 @@
-import * as crossref from '../editor/lib/crossref'
-import * as datacite from '../editor/lib/datacite'
-import { BibliographyItem } from '../types/models'
+import { crossref, datacite } from '@manuscripts/manuscript-editor'
+import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 
 export interface LibrarySource {
   id: string

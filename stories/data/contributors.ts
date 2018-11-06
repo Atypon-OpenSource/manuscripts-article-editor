@@ -1,5 +1,5 @@
-import { Affiliation, Contributor, UserProfile } from '../../src/types/models'
-
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { Affiliation, Contributor } from '@manuscripts/manuscripts-json-schema'
 import imageFile from '../assets/melnitz.jpg'
 
 export const affiliations: Map<string, Affiliation> = new Map([
@@ -12,6 +12,9 @@ export const affiliations: Map<string, Affiliation> = new Map([
       objectType: 'MPAffiliation' as 'MPAffiliation',
       institution: 'Firehouse, Hook & Ladder Company 8',
       priority: 0,
+      sessionID: 'story',
+      createdAt: 0,
+      updatedAt: 0,
     },
   ],
   [
@@ -23,6 +26,9 @@ export const affiliations: Map<string, Affiliation> = new Map([
       objectType: 'MPAffiliation' as 'MPAffiliation',
       institution: 'Firehouse, Hook & Ladder Company 9',
       priority: 0,
+      sessionID: 'story',
+      createdAt: 0,
+      updatedAt: 0,
     },
   ],
 ])
@@ -43,6 +49,9 @@ export const authors: Contributor[] = [
     },
     email: 'janine.melnitz@example.com',
     affiliations: ['affiliation-1'],
+    sessionID: 'story',
+    createdAt: 0,
+    updatedAt: 0,
   },
   {
     _id: 'example-2',
@@ -59,6 +68,9 @@ export const authors: Contributor[] = [
     },
     email: 'peter.venkman@example.com',
     affiliations: ['affiliation-1', 'affiliation-2'],
+    sessionID: 'story',
+    createdAt: 0,
+    updatedAt: 0,
   },
   {
     _id: 'example-3',
@@ -75,10 +87,13 @@ export const authors: Contributor[] = [
     },
     email: 'dana.barrett@example.com',
     affiliations: ['affiliation-1'],
+    sessionID: 'story',
+    createdAt: 0,
+    updatedAt: 0,
   },
 ]
 
-export const user: UserProfile = {
+export const user: UserProfileWithAvatar = {
   _id: 'user-1',
   userID: 'user_1',
   objectType: 'MPUserProfile',
@@ -89,6 +104,9 @@ export const user: UserProfile = {
     family: 'Melnitz',
   },
   email: 'janine.melnitz@example.com',
-  image: imageFile,
+  avatar: imageFile,
   affiliations: ['affiliation-1'],
+  sessionID: 'story',
+  createdAt: 0,
+  updatedAt: 0,
 }

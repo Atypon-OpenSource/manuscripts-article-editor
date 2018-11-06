@@ -1,6 +1,9 @@
+import {
+  Project,
+  ProjectInvitation,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AddAuthor from '../../icons/add-author'
-import { Project, ProjectInvitation } from '../../types/models'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { projectListCompare } from '../projects/ProjectsPageContainer'
 import { DropdownSeparator } from './Dropdown'

@@ -1,3 +1,20 @@
+import {
+  Build,
+  buildAffiliation,
+  buildBibliographicName,
+  buildContributor,
+  PROJECT_INVITATION,
+  USER_PROFILE,
+} from '@manuscripts/manuscript-editor'
+import {
+  Affiliation,
+  Contributor,
+  Manuscript,
+  Model,
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import { FormikActions, FormikErrors } from 'formik'
 import { debounce } from 'lodash-es'
 import React from 'react'
@@ -11,30 +28,10 @@ import {
   buildAuthorsAndAffiliations,
   buildSortedAuthors,
 } from '../../lib/authors'
-import {
-  Build,
-  buildAffiliation,
-  buildBibliographicName,
-  buildContributor,
-} from '../../lib/commands'
+import { buildUserMap } from '../../lib/data'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { getModelFromDoc } from '../../transformer/decode'
-import {
-  PROJECT_INVITATION,
-  USER_PROFILE,
-} from '../../transformer/object-types'
-import {
-  Affiliation,
-  Attachments,
-  Contributor,
-  Manuscript,
-  Model,
-  Project,
-  ProjectInvitation,
-  UserProfile,
-} from '../../types/models'
 import {
   InvitationErrors,
   InvitationValues,
@@ -287,20 +284,11 @@ class MetadataContainer extends React.Component<
   private loadUserMap = () =>
     this.getCollection()
       .find({ objectType: USER_PROFILE })
-      .$.subscribe(
-        async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
-          const users = await Promise.all(
-            docs.map(doc => getModelFromDoc<UserProfile>(doc))
-          )
-
-          const userMap = users.reduce((output, user) => {
-            output.set(user.userID, user)
-            return output
-          }, new Map())
-
-          this.setState({ userMap })
-        }
-      )
+      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
+        this.setState({
+          userMap: await buildUserMap(docs),
+        })
+      })
 
   private loadProject = () =>
     this.getCollection()

@@ -1,14 +1,10 @@
 import { Formik, FormikConfig } from 'formik'
 import React from 'react'
-import AuthButtonContainer from './AuthButtonContainer'
-import FooterContainer from './FooterContainer'
 
 import { Centered } from '../Page'
-import {
-  AuthenticationContainer,
-  GoogleLogin,
-  // OrcidLogin,
-} from './Authentication'
+import AuthButtonContainer from './AuthButtonContainer'
+import { AuthenticationContainer, GoogleLogin } from './Authentication'
+import FooterContainer from './FooterContainer'
 import { LoginForm, LoginValues } from './LoginForm'
 
 const LoginPage: React.SFC<FormikConfig<LoginValues>> = ({
