@@ -1,6 +1,6 @@
+import { BibliographicName } from '@manuscripts/manuscripts-json-schema'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
-import { BibliographicName } from '../../types/models'
 import { PrimaryButton } from '../Button'
 import { FormError } from '../Form'
 import { ModalFormActions } from '../ModalForm'

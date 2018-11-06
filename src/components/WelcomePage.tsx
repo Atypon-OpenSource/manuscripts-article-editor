@@ -1,3 +1,4 @@
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AddFile from '../icons/welcome/add-file'
 import App from '../icons/welcome/app'
@@ -7,8 +8,7 @@ import MarkdownFile from '../icons/welcome/markdown-file'
 import Project from '../icons/welcome/project'
 import TextFile from '../icons/welcome/text-file'
 import { styled, ThemedProps } from '../theme'
-import { Model } from '../types/models'
-import ImportContainer, { ImportProps } from './projects/ImportContainer'
+import ImportContainer, { ImportProps } from './ImportContainer'
 import { SimpleModal } from './SimpleModal'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>

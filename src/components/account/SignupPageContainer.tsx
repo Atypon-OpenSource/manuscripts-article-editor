@@ -122,7 +122,6 @@ class SignupPageContainer extends React.Component<
         existButNotVerified: null,
       })
     } catch (error) {
-      alert(JSON.stringify(error.request))
       setSubmitting(false)
 
       const errors: FormikErrors<SignupErrors> = {}

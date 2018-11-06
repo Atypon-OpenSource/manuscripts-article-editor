@@ -1,10 +1,9 @@
+import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Field, Form, Formik } from 'formik'
 import React, { CSSProperties } from 'react'
 import { RouteProps } from 'react-router'
-import { RxDocument } from 'rxdb'
 import { LibrarySource } from '../../lib/sources'
 import { styled } from '../../theme'
-import { BibliographyItem } from '../../types/models'
 import { PrimaryButton } from '../Button'
 import { Main } from '../Page'
 import { LibraryItem } from './LibraryItem'
@@ -47,7 +46,7 @@ interface State {
 
 interface Props {
   source: LibrarySource
-  library: Array<RxDocument<BibliographyItem>>
+  library: Map<string, BibliographyItem>
   handleAdd: (item: BibliographyItem) => void
   hasItem: (item: BibliographyItem) => boolean
 }

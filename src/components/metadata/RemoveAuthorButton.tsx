@@ -1,9 +1,9 @@
+import { Contributor } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager } from 'react-popper'
 import { ManuscriptBlueButton } from '../../components/Button'
 import { Category, Dialog } from '../../components/Dialog'
 import { initials } from '../../lib/name'
-import { Contributor } from '../../types/models'
 
 interface Props {
   author: Contributor

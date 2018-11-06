@@ -1,18 +1,17 @@
-import React from 'react'
-import { RxCollection, RxDocument } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { UserProps, withUser } from '../../store/UserProvider'
 import {
   PROJECT_INVITATION,
   USER_PROFILE,
-} from '../../transformer/object-types'
+} from '@manuscripts/manuscript-editor'
 import {
-  Attachments,
-  ModelAttachment,
   ProjectInvitation,
   UserProfile,
-} from '../../types/models'
+} from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
+import { RxCollection, RxDocument } from 'rxdb'
+import { Subscription } from 'rxjs'
+import { buildUserMap } from '../../lib/data'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
+import { UserProps, withUser } from '../../store/UserProvider'
 import MenuDropdown from './MenuDropdown'
 import ProjectsMenu from './ProjectsMenu'
 
@@ -30,20 +29,6 @@ export interface InvitationData {
 interface State {
   invitationsData: InvitationData[] | null
   userMap: Map<string, UserProfile>
-}
-
-const getUserProfileFromDoc = async (
-  doc: RxDocument<UserProfile & Attachments>
-): Promise<UserProfile & ModelAttachment> => {
-  const { _rev, updatedAt, createdAt, sessionID, ...data } = doc.toJSON()
-
-  if (doc._attachments) {
-    const attachments = await doc.allAttachments()
-    const blob = await attachments[0].getData()
-    data.image = window.URL.createObjectURL(blob)
-  }
-
-  return data
 }
 
 class ProjectsDropdownButton extends React.Component<
@@ -96,18 +81,9 @@ class ProjectsDropdownButton extends React.Component<
     this.getCollection()
       .find({ objectType: USER_PROFILE })
       .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
-        const userMap: Map<string, UserProfile> = new Map()
-
-        await Promise.all(
-          docs.map(async doc => {
-            const user = await getUserProfileFromDoc(doc as RxDocument<
-              UserProfile & Attachments
-            >)
-            userMap.set(user.userID, user)
-          })
-        )
-
-        this.setState({ userMap })
+        this.setState({
+          userMap: await buildUserMap(docs),
+        })
       })
 
   private loadInvitations = () =>

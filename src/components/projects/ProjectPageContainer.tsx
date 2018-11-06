@@ -1,3 +1,5 @@
+import { MANUSCRIPT } from '@manuscripts/manuscript-editor'
+import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
@@ -6,8 +8,6 @@ import Spinner from '../../icons/spinner'
 import { IntlProps, withIntl } from '../../store/IntlProvider'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import * as ObjectTypes from '../../transformer/object-types'
-import { Manuscript, Project } from '../../types/models'
 
 interface State {
   project: Project | null
@@ -92,7 +92,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
         this.getCollection()
           .find({
             containerID: projectID,
-            objectType: ObjectTypes.MANUSCRIPT,
+            objectType: MANUSCRIPT,
           })
           .sort({
             createdAt: -1,

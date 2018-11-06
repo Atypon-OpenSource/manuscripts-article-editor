@@ -1,21 +1,22 @@
+import {
+  buildContributor,
+  buildManuscript,
+  buildProject,
+  PROJECT,
+  timestamp,
+  USER_PROFILE,
+} from '@manuscripts/manuscript-editor'
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import Spinner from '../../icons/spinner'
-import {
-  buildContributor,
-  buildManuscript,
-  buildProject,
-} from '../../lib/commands'
+import { buildUserMap } from '../../lib/data'
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/sessionID'
-import timestamp from '../../lib/timestamp'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { getModelFromDoc } from '../../transformer/decode'
-import { PROJECT, USER_PROFILE } from '../../transformer/object-types'
-import { Attachments, Project, UserProfile } from '../../types/models'
 import ProjectsSidebar from '../projects/ProjectsSidebar'
 
 export interface ProjectInfo extends Partial<Project> {
@@ -99,20 +100,11 @@ class ProjectsModalContainer extends React.Component<Props, State> {
   private loadUserMap = () =>
     this.getCollection()
       .find({ objectType: USER_PROFILE })
-      .$.subscribe(
-        async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
-          const users = await Promise.all(
-            docs.map(doc => getModelFromDoc<UserProfile>(doc))
-          )
-
-          const userMap = users.reduce((output, user) => {
-            output.set(user.userID, user)
-            return output
-          }, new Map())
-
-          this.setState({ userMap })
-        }
-      )
+      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
+        this.setState({
+          userMap: await buildUserMap(docs),
+        })
+      })
 
   private getCollection() {
     return this.props.models.collection as RxCollection<{}>

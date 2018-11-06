@@ -1,6 +1,6 @@
+import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import { Contributor, Project } from '../types/models'
 import { TextButton } from './AlertMessage'
 import InviteAuthorPopperContainer from './metadata/InviteAuthorPopperContainer'
 

@@ -1,10 +1,15 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import {
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey } from '../../colors'
 import AddAuthor from '../../icons/add-author'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner } from '../../lib/roles'
 import { styled } from '../../theme'
-import { Project, ProjectInvitation, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import Panel from '../Panel'
 import {
@@ -145,7 +150,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
           </SidebarPersonContainer>
         ))}
         {!!collaborators &&
-          collaborators.map(collaborator => (
+          collaborators.map((collaborator: UserProfileWithAvatar) => (
             <SidebarPersonContainer
               key={collaborator._id}
               onMouseEnter={() => handleHover(collaborator.userID)}

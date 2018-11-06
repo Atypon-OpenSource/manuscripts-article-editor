@@ -1,22 +1,25 @@
-import { Node as ProsemirrorNode } from 'prosemirror-model'
-import React from 'react'
-import { Selected } from '../../editor/lib/utils'
-import { Build } from '../../lib/commands'
-import { buildCommentTree, buildName } from '../../lib/comments'
-import { styled } from '../../theme'
 import {
+  Build,
   CommentAnnotation,
+  ManuscriptNode,
+  Selected,
+  UserProfileWithAvatar,
+} from '@manuscripts/manuscript-editor'
+import {
   Keyword,
   Model,
   UserProfile,
-} from '../../types/models'
+} from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
+import { buildCommentTree, buildName } from '../../lib/comments'
+import { styled } from '../../theme'
 import { Avatar } from '../Avatar'
 import { LightRelativeDate } from '../RelativeDate'
 import CommentBody from './CommentBody'
 import { CommentTarget } from './CommentTarget'
 
 interface UserProps {
-  user?: UserProfile
+  user?: UserProfileWithAvatar
 }
 
 const CommentListContainer = styled.div`
@@ -68,7 +71,7 @@ const Reply = styled.div`
 const CommentUser: React.SFC<UserProps> = ({ user }) =>
   user ? (
     <CommentUserContainer>
-      <Avatar src={user.image} size={20} />
+      <Avatar src={user.avatar} size={20} />
       <CommentUserName>by {buildName(user.bibliographicName)}</CommentUserName>
     </CommentUserContainer>
   ) : null
@@ -77,7 +80,7 @@ interface Props {
   comments: CommentAnnotation[]
   createKeyword: (name: string) => Promise<Keyword>
   deleteComment: (id: string) => Promise<string>
-  doc: ProsemirrorNode
+  doc: ManuscriptNode
   getCollaborator: (id: string) => UserProfile | undefined
   getCurrentUser: () => UserProfile
   getKeyword: (id: string) => Keyword | undefined

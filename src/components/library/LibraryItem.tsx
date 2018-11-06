@@ -1,8 +1,11 @@
+import {
+  BibliographicName,
+  BibliographyItem,
+} from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import Bookmark from '../../icons/bookmark'
 import { styled } from '../../theme'
-import { BibliographicName, BibliographyItem } from '../../types/models'
 
 export const AddIcon = styled.button`
   border: none;

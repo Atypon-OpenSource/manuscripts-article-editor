@@ -1,8 +1,8 @@
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import SettingsInverted from '../../icons/settings-inverted-icon'
 import { styled } from '../../theme'
-import { Project, UserProfile } from '../../types/models'
 import { IconButton } from '../Button'
 import CollaboratorSettingsPopperContainer from './CollaboratorSettingsPopperContainer'
 

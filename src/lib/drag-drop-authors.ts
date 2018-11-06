@@ -1,10 +1,5 @@
-import {
-  ConnectDragSource,
-  ConnectDropTarget,
-  DragDropContext,
-} from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
-import { Contributor } from '../types/models'
+import { Contributor } from '@manuscripts/manuscripts-json-schema'
+import { ConnectDragSource, ConnectDropTarget } from 'react-dnd'
 
 export interface AuthorItem {
   _id: string
@@ -39,5 +34,3 @@ export interface ConnectedDropTargetProps {
   isOverCurrent: boolean
   canDrop: boolean
 }
-
-export const withDragDropContext = DragDropContext(HTML5Backend)

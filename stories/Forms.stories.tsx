@@ -1,3 +1,4 @@
+import { BIBLIOGRAPHIC_NAME } from '@manuscripts/manuscript-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
@@ -10,7 +11,6 @@ import { ProfileForm } from '../src/components/account/ProfileForm'
 import { RecoverForm } from '../src/components/account/RecoverForm'
 import { SignupForm } from '../src/components/account/SignupForm'
 import ModalForm from '../src/components/ModalForm'
-import { BIBLIOGRAPHIC_NAME } from '../src/transformer/object-types'
 import {
   changePasswordSchema,
   deleteAccountSchema,

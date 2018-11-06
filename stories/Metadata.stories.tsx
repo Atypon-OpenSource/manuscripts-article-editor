@@ -1,3 +1,4 @@
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Title, TitleField } from '@manuscripts/title-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
@@ -12,7 +13,6 @@ import {
   buildAffiliationIDs,
   buildAuthorAffiliations,
 } from '../src/lib/authors'
-import { Project, UserProfile } from '../src/types/models'
 import { affiliations, authors } from './data/contributors'
 import manuscripts from './data/manuscripts'
 import { project } from './data/projects'

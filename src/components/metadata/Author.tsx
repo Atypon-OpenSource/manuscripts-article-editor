@@ -1,6 +1,6 @@
+import { Affiliation, Contributor } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { styled } from '../../theme'
-import { Affiliation, Contributor } from '../../types/models'
 import { AuthorName } from './AuthorName'
 
 const AuthorNotes = styled.span`

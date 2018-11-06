@@ -1,7 +1,7 @@
+import { timestamp } from '@manuscripts/manuscript-editor'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from 'rxdb'
-import { Model } from '../types/models'
 import sessionID from './sessionID'
-import timestamp from './timestamp'
 
 export const prepareUpdate = <T extends Model>(
   data: Partial<T>

@@ -1,8 +1,9 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey } from '../../colors'
 import SearchIcon from '../../icons/search'
 import { styled } from '../../theme'
-import { Contributor, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import {
@@ -120,7 +121,7 @@ const AddAuthorsSidebar: React.SFC<Props> = ({
       </SidebarSearchField>
       {searchText === '' ? (
         <SidebarContent>
-          {nonAuthors.map(person => (
+          {nonAuthors.map((person: UserProfileWithAvatar) => (
             <SidebarPersonContainer key={person._id}>
               <UserDataContainer>
                 <Avatar src={person.avatar} size={45} color={darkGrey} />

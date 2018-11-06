@@ -1,4 +1,4 @@
-import { Manuscript } from '../../src/types/models'
+import { Manuscript } from '@manuscripts/manuscripts-json-schema'
 
 const manuscripts: Manuscript[] = [
   {

@@ -1,74 +1,98 @@
-import debounce from 'lodash-es/debounce'
-import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { EditorState } from 'prosemirror-state'
-import { EditorView } from 'prosemirror-view'
-import React from 'react'
-import { Prompt, RouteComponentProps } from 'react-router'
-import { RxCollection, RxDocument, RxLocalDocument } from 'rxdb'
-import { Subscription } from 'rxjs/Subscription'
-import { conflictsKey } from '../../editor/config/plugins/conflicts'
-import Editor, { ChangeReceiver } from '../../editor/Editor'
-import PopperManager from '../../editor/lib/popper'
-import { findParentNodeWithId, Selected } from '../../editor/lib/utils'
-import Spinner from '../../icons/spinner'
 import {
+  ApplicationMenu,
+  applyLocalStep,
+  applyRemoteStep,
+  BIBLIOGRAPHY_ITEM,
   Build,
   buildContributor,
   buildKeyword,
   buildManuscript,
-} from '../../lib/commands'
-import {
-  applyLocalStep,
-  applyRemoteStep,
+  buildModelMap,
+  ChangeReceiver,
+  CitationManager,
+  COMMENT_ANNOTATION,
+  CommentAnnotation,
   Conflict,
-  getRevNumber,
-  LocalConflicts,
-  removeConflictLocally,
-} from '../../lib/conflicts'
-import CitationManager, { DEFAULT_BUNDLE } from '../../lib/csl'
-import { download } from '../../lib/download'
-import {
-  downloadExtension,
-  exportProject,
-  generateDownloadFilename,
-} from '../../lib/exporter'
-import {
+  conflictsKey,
+  ContainedModel,
+  ContainedProps,
   createMerge,
+  Decoder,
+  DEFAULT_BUNDLE,
+  documentObjectTypes,
+  Editor,
+  elementObjects,
+  encode,
+  findParentNodeWithId,
+  generateID,
+  getImageAttachment,
+  getRevNumber,
   hydrateConflictNodes,
+  isFigure,
+  isManuscriptModel,
+  isUserProfile,
   iterateConflicts,
-} from '../../lib/merge'
+  KEYWORD,
+  LocalConflicts,
+  MANUSCRIPT,
+  ManuscriptEditorState,
+  ManuscriptEditorView,
+  ManuscriptModel,
+  ManuscriptNode,
+  menus,
+  ModelAttachment,
+  PopperManager,
+  removeConflictLocally,
+  SECTION,
+  Selected,
+  Toolbar,
+  toolbar,
+  USER_PROFILE,
+  UserProfileWithAvatar,
+} from '@manuscripts/manuscript-editor'
+import '@manuscripts/manuscript-editor/styles/Editor.css'
+import '@manuscripts/manuscript-editor/styles/popper.css'
+import {
+  BibliographyItem,
+  Keyword,
+  Manuscript,
+  Model,
+  Project,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
+import debounce from 'lodash-es/debounce'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Prompt, RouteComponentProps } from 'react-router'
+import { RxCollection, RxDocument, RxLocalDocument } from 'rxdb'
+import { Subscription } from 'rxjs/Subscription'
+import config from '../../config'
+import Spinner from '../../icons/spinner'
+import { buildUserMap } from '../../lib/data'
+import { download } from '../../lib/download'
+import { filterLibrary } from '../../lib/library'
 import { ContributorRole } from '../../lib/roles'
 import { ModelChangeEvent } from '../../lib/rxdb'
 import sessionID from '../../lib/sessionID'
 import { newestFirst, oldestFirst } from '../../lib/sort'
+import {
+  downloadExtension,
+  exportProject,
+  generateDownloadFilename,
+} from '../../pressroom/exporter'
+import { importFile, openFilePicker } from '../../pressroom/importers'
 import { ModelObject } from '../../store/DataProvider'
-import { IntlProps, withIntl } from '../../store/IntlProvider'
+import IntlProvider, { IntlProps, withIntl } from '../../store/IntlProvider'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { buildModelMap, getModelFromDoc } from '../../transformer/decode'
-import { documentObjectTypes } from '../../transformer/document-object-types'
-import { generateID } from '../../transformer/id'
-import { Decoder, encode } from '../../transformer/index'
-import * as ObjectTypes from '../../transformer/object-types'
-import {
-  Attachments,
-  BibliographyItem,
-  CommentAnnotation,
-  ContainedModel,
-  ContainedProps,
-  Keyword,
-  Manuscript,
-  ManuscriptModel,
-  Model,
-  ModelAttachment,
-  Project,
-  UserProfile,
-} from '../../types/models'
-
+import { ThemeProvider } from '../../theme'
 import { DebouncedInspector } from '../Inspector'
+import CitationEditor from '../library/CitationEditor'
+import MetadataContainer from '../metadata/MetadataContainer'
 import { Main, Page } from '../Page'
 import Panel from '../Panel'
 import { CommentList } from './CommentList'
+import { EditorBody, EditorContainer, EditorHeader } from './EditorContainer'
 import ManuscriptForm from './ManuscriptForm'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ReloadDialog } from './ReloadDialog'
@@ -80,11 +104,11 @@ interface State {
   modelMap: Map<string, Model>
   conflicts: LocalConflicts | null
   dirty: boolean
-  doc: ProsemirrorNode | null
+  doc: ManuscriptNode | null
   error: string | null
   popper: PopperManager
   selected: Selected | null
-  view: EditorView | null
+  view: ManuscriptEditorView | null
   library: Map<string, BibliographyItem>
   comments: CommentAnnotation[] | null
   manuscripts: Manuscript[] | null
@@ -133,7 +157,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private subs: Subscription[] = []
 
-  private readonly debouncedSaveModels: (state: EditorState) => void
+  private readonly debouncedSaveModels: (state: ManuscriptEditorState) => void
 
   public constructor(props: CombinedProps) {
     super(props)
@@ -198,7 +222,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       return <Spinner />
     }
 
-    const locale = this.getLocale()
+    const locale = this.getLocale(manuscript)
 
     const attributes = {
       class: 'manuscript-editor',
@@ -220,36 +244,76 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         />
 
         <Main>
-          <Editor
-            autoFocus={!!manuscript.title}
-            getCitationProcessor={this.getCitationProcessor}
-            doc={doc}
-            editable={true}
-            getModel={this.getModel}
-            saveModel={this.saveModel}
-            deleteModel={this.deleteModel}
-            applyLocalStep={applyLocalStep(this.getCollection())}
-            applyRemoteStep={applyRemoteStep(this.getCollection())}
-            getLibraryItem={this.getLibraryItem}
-            getManuscript={this.getManuscript}
-            saveManuscript={this.saveManuscript}
-            addManuscript={this.addManuscript}
-            deleteManuscript={this.deleteManuscript}
-            exportManuscript={this.exportManuscript}
-            importManuscript={this.importManuscript}
-            getCurrentUser={this.getCurrentUser}
-            history={this.props.history}
-            locale={locale}
-            manuscript={manuscript}
-            onChange={this.handleChange}
-            modelMap={modelMap}
-            popper={popper}
-            projectID={projectID}
-            subscribe={this.handleSubscribe}
-            setView={this.setView}
-            attributes={attributes}
-            handleSectionChange={this.handleSectionChange}
-          />
+          <EditorContainer>
+            {view && (
+              <EditorHeader>
+                <ApplicationMenu
+                  menus={menus({
+                    manuscript,
+                    addManuscript: this.addManuscript,
+                    deleteManuscript: this.deleteManuscript,
+                    deleteModel: this.deleteModel,
+                    exportManuscript: this.exportManuscript,
+                    history: this.props.history,
+                    importManuscript: this.importManuscript,
+                    importFile,
+                    openFilePicker,
+                  })}
+                  view={view}
+                />
+
+                <Toolbar toolbar={toolbar} view={view} />
+              </EditorHeader>
+            )}
+
+            <EditorBody>
+              <MetadataContainer
+                modelMap={modelMap}
+                saveManuscript={this.saveManuscript}
+                manuscript={manuscript}
+                saveModel={this.saveModel}
+                deleteModel={this.deleteModel}
+                handleSectionChange={this.handleSectionChange}
+              />
+
+              <Editor
+                autoFocus={!!manuscript.title}
+                getCitationProcessor={this.getCitationProcessor}
+                doc={doc}
+                editable={true}
+                getModel={this.getModel}
+                saveModel={this.saveModel}
+                deleteModel={this.deleteModel}
+                applyLocalStep={applyLocalStep(this.getCollection())}
+                applyRemoteStep={applyRemoteStep(this.getCollection())}
+                addLibraryItem={this.addLibraryItem}
+                getLibraryItem={this.getLibraryItem}
+                filterLibraryItems={this.filterLibraryItems}
+                getManuscript={this.getManuscript}
+                saveManuscript={this.saveManuscript}
+                addManuscript={this.addManuscript}
+                deleteManuscript={this.deleteManuscript}
+                exportManuscript={this.exportManuscript}
+                importManuscript={this.importManuscript}
+                getCurrentUser={this.getCurrentUser}
+                history={this.props.history}
+                locale={locale}
+                manuscript={manuscript}
+                onChange={this.handleChange}
+                modelMap={modelMap}
+                popper={popper}
+                projectID={projectID}
+                subscribe={this.handleSubscribe}
+                setView={this.setView}
+                attributes={attributes}
+                handleSectionChange={this.handleSectionChange}
+                renderReactComponent={this.renderReactComponent}
+                CitationEditor={CitationEditor}
+                importFile={importFile}
+                openFilePicker={openFilePicker}
+              />
+            </EditorBody>
+          </EditorContainer>
 
           <Prompt when={dirty} message={() => false} />
         </Main>
@@ -359,7 +423,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private setView = (view: EditorView) => {
+  private setView = (view: ManuscriptEditorView) => {
     this.setState({ view })
 
     this.subscribeToConflicts().catch(err => {
@@ -415,11 +479,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return this.props.models.collection as RxCollection<Model>
   }
 
-  private getLocale = () => {
-    const manuscript = this.getManuscript()
-
-    return manuscript.primaryLanguageCode || this.props.intl.locale || 'en-GB'
-  }
+  private getLocale = (manuscript: Manuscript) =>
+    manuscript.primaryLanguageCode || this.props.intl.locale || 'en-GB'
 
   // FIXME: this shouldn't need a project ID
   private saveProject = async (project: Project) => {
@@ -535,10 +596,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private importManuscript = async (models: Model[]) => {
     const { projectID } = this.props.match.params
 
-    const manuscriptID = generateID('manuscript') as string
+    const manuscriptID = generateID(MANUSCRIPT)
 
     for (const model of models) {
-      if (model.objectType === ObjectTypes.MANUSCRIPT) {
+      if (model.objectType === MANUSCRIPT) {
         model._id = manuscriptID
       }
 
@@ -560,7 +621,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private createCitationProcessor = async (manuscript: Manuscript) => {
-    const citationManager = new CitationManager()
+    const citationManager = new CitationManager(config.data.url)
 
     // TODO: move defaults into method?
     const processor = await citationManager.createProcessor(
@@ -633,7 +694,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private loadKeywords = (projectID: string) =>
     this.getCollection()
       .find({
-        objectType: ObjectTypes.KEYWORD,
+        objectType: KEYWORD,
         containerID: projectID,
       })
       .$.subscribe(async (docs: Array<RxDocument<Keyword>>) => {
@@ -649,27 +710,18 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private loadUsers = () =>
     this.getCollection()
       .find({
-        objectType: ObjectTypes.USER_PROFILE,
+        objectType: USER_PROFILE,
       })
-      .$.subscribe(
-        async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
-          const items = await Promise.all(
-            docs.map(doc => getModelFromDoc<UserProfile>(doc))
-          )
-
-          const users = items.reduce((output, user) => {
-            output.set(user._id, user)
-            return output
-          }, new Map())
-
-          this.setState({ users })
-        }
-      )
+      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
+        this.setState({
+          users: await buildUserMap(docs),
+        })
+      })
 
   private loadComments = (projectID: string, manuscriptID: string) => {
     this.getCollection()
       .find({
-        objectType: ObjectTypes.COMMENT_ANNOTATION,
+        objectType: COMMENT_ANNOTATION,
         containerID: projectID,
         manuscriptID,
       })
@@ -685,7 +737,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private loadManuscripts = (projectID: string) => {
     this.getCollection()
       .find({
-        objectType: ObjectTypes.MANUSCRIPT,
+        objectType: MANUSCRIPT,
         containerID: projectID,
       })
       .$.subscribe((docs: Array<RxDocument<Manuscript>>) => {
@@ -698,7 +750,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private loadLibraryItems = (projectID: string) => {
     this.getCollection()
       .find({
-        objectType: ObjectTypes.BIBLIOGRAPHY_ITEM,
+        objectType: BIBLIOGRAPHY_ITEM,
         containerID: projectID,
       })
       .$.subscribe((items: Array<RxDocument<BibliographyItem>>) => {
@@ -712,9 +764,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       })
   }
 
-  private getLibraryItem = (id: string) => {
-    return this.state.library.get(id) as BibliographyItem
-  }
+  private addLibraryItem = (item: BibliographyItem) =>
+    this.state.library.set(item._id, item)
+
+  private getLibraryItem = (id: string) => this.state.library.get(id)
+
+  private filterLibraryItems = (query: string) =>
+    filterLibrary(this.state.library, query)
 
   private getModel = <T extends Model>(id: string): T | undefined =>
     this.state.modelMap.get(id) as T | undefined
@@ -734,10 +790,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     // TODO: remove this?
     containedModel.containerID = projectID
 
-    if (
-      containedModel.objectType &&
-      ObjectTypes.isManuscriptModel(containedModel)
-    ) {
+    if (containedModel.objectType && isManuscriptModel(containedModel)) {
       containedModel.manuscriptID = manuscriptID
     }
 
@@ -855,34 +908,44 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         }
 
         // NOTE: need to load the doc to get attachments
-        const modelDocument = (await collection
-          .findOne(doc)
-          .exec()) as RxDocument<Model & Attachments> | null
+        const modelDocument = await collection.findOne(doc).exec()
 
         if (!modelDocument) {
           return null
         }
 
-        const model = (await getModelFromDoc(modelDocument)) as Model &
-          Attachments
+        const model = modelDocument.toJSON()
+
+        if (isFigure(model)) {
+          model.src = await getImageAttachment(modelDocument)
+        } else if (isUserProfile(model)) {
+          ;(model as UserProfileWithAvatar).avatar = await getImageAttachment(
+            modelDocument
+          )
+        }
 
         const conflict = this.conflictForComponent(modelDocument._id)
 
         if (conflict) {
-          const updatedRevNumber = getRevNumber(modelDocument._rev)
-          const remoteConflictRevNumber = getRevNumber(conflict.remote._rev)
+          try {
+            const updatedRevNumber = getRevNumber(modelDocument._rev)
+            const remoteConflictRevNumber = getRevNumber(conflict.remote._rev)
 
-          // Check to see if the node is either the one we initially conflicted
-          // with, or descendant of it.
-          if (updatedRevNumber >= remoteConflictRevNumber) {
-            // TODO: this following check shouldn't be needed
-            // Maybe there's an issue with the sessionID check
-            if (modelDocument._rev !== conflict.local._rev) {
-              const updatedNode = await this.processConflict(model, conflict)
+            // Check to see if the node is either the one we initially conflicted
+            // with, or descendant of it.
+            if (updatedRevNumber >= remoteConflictRevNumber) {
+              // TODO: this following check shouldn't be needed
+              // Maybe there's an issue with the sessionID check
+              if (modelDocument._rev !== conflict.local._rev) {
+                const updatedNode = await this.processConflict(model, conflict)
 
-              receive(op, doc, updatedNode)
-              return
+                receive(op, doc, updatedNode)
+                return
+              }
             }
+          } catch (e) {
+            // tslint:disable-next-line:no-console
+            console.warn(`Could not resolve conflict for ${model._id}`, e)
           }
         }
 
@@ -900,19 +963,21 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         const decoder = new Decoder(modelMap)
 
-        const node = decoder.decode(model)
+        try {
+          const node = decoder.decode(model)
 
-        receive(op, doc, node)
+          receive(op, doc, node)
+        } catch (e) {
+          // tslint:disable-next-line:no-console
+          console.warn(e)
+        }
       }
     )
 
     this.subs.push(sub)
   }
 
-  private processConflict = async (
-    component: Model & Attachments,
-    conflict: Conflict
-  ) => {
+  private processConflict = async (component: Model, conflict: Conflict) => {
     const decoder = new Decoder(new Map())
 
     const { localNode, ancestorNode } = hydrateConflictNodes(
@@ -1023,7 +1088,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return false
   }
 
-  private handleChange = (state: EditorState, docChanged: boolean) => {
+  private handleChange = (
+    state: ManuscriptEditorState,
+    docChanged: boolean
+  ) => {
     const selected = findParentNodeWithId(state.selection) || null
 
     this.setState(prevState => ({
@@ -1051,7 +1119,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
 
     for (const model of modelMap.values()) {
-      if (ObjectTypes.isManuscriptModel(model)) {
+      if (isManuscriptModel(model)) {
         const type = documentObjectTypes.includes(model.objectType)
           ? 'document'
           : 'data'
@@ -1063,7 +1131,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return output
   }
 
-  private saveModels = async (state: EditorState) => {
+  private saveModels = async (state: ManuscriptEditorState) => {
     // TODO: return/queue if already saving?
     const { manuscriptID, projectID } = this.props.match.params
 
@@ -1101,9 +1169,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       }
 
       const changedModelsByType = changedModels.reduce((output, model) => {
-        if (model.objectType === ObjectTypes.SECTION) {
+        if (model.objectType === SECTION) {
           output.sections.push(model)
-        } else if (ObjectTypes.elementObjects.includes(model.objectType)) {
+        } else if (elementObjects.includes(model.objectType)) {
           output.elements.push(model)
         } else {
           output.dependencies.push(model)
@@ -1242,6 +1310,19 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     if (section !== 'manuscript') {
       this.setState({ selected: null })
     }
+  }
+
+  // TODO: unmount
+  private renderReactComponent = (
+    child: React.ReactNode,
+    container: HTMLElement
+  ) => {
+    ReactDOM.render(
+      <IntlProvider>
+        <ThemeProvider>{child}</ThemeProvider>
+      </IntlProvider>,
+      container
+    )
   }
 }
 

@@ -1,15 +1,15 @@
-import { FormikActions } from 'formik'
-import React from 'react'
-import { AffiliationMap } from '../../lib/authors'
-import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
-import { styled, ThemedProps } from '../../theme'
 import {
   Affiliation,
   Contributor,
   Manuscript,
   Project,
   UserProfile,
-} from '../../types/models'
+} from '@manuscripts/manuscripts-json-schema'
+import { FormikActions } from 'formik'
+import React from 'react'
+import { AffiliationMap } from '../../lib/authors'
+import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
+import { styled, ThemedProps } from '../../theme'
 import {
   AddAuthorsPage,
   AuthorDetailsPage,
@@ -17,7 +17,6 @@ import {
 } from '../collaboration/CollaboratorsPage'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import InviteCollaboratorsSidebar from '../collaboration/InviteCollaboratorsSidebar'
-import {} from '../SimpleModal'
 import AddAuthorsSidebar from './AddAuthorsSidebar'
 import { AuthorAffiliation } from './Author'
 import { AuthorForm, AuthorValues } from './AuthorForm'

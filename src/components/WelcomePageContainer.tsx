@@ -1,22 +1,27 @@
+import {
+  buildContributor,
+  buildManuscript,
+  buildProject,
+  generateID,
+  MANUSCRIPT,
+  ModelAttachment,
+  timestamp,
+} from '@manuscripts/manuscript-editor'
+import {
+  Model,
+  Project,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { RxCollection } from 'rxdb'
 import config from '../config'
-import {
-  buildContributor,
-  buildManuscript,
-  buildProject,
-} from '../lib/commands'
 import preferences, { Preferences } from '../lib/preferences'
 import { ContributorRole } from '../lib/roles'
 import sessionID from '../lib/sessionID'
-import timestamp from '../lib/timestamp'
 import { ModelsProps, withModels } from '../store/ModelsProvider'
 import { UserProps, withUser } from '../store/UserProvider'
-import { generateID } from '../transformer/id'
-import * as ObjectTypes from '../transformer/object-types'
-import { Model, ModelAttachment, Project, UserProfile } from '../types/models'
 import { Main, Page } from './Page'
 import { Spinner } from './Spinner'
 import { RecentFile, WelcomePage } from './WelcomePage'
@@ -126,10 +131,10 @@ class WelcomePageContainer extends React.Component<
     const project = await this.createProject(owner)
     const projectID = project._id
 
-    const manuscriptID = generateID('manuscript') as string
+    const manuscriptID = generateID(MANUSCRIPT)
 
     for (const model of models) {
-      if (model.objectType === ObjectTypes.MANUSCRIPT) {
+      if (model.objectType === MANUSCRIPT) {
         model._id = manuscriptID
       }
 

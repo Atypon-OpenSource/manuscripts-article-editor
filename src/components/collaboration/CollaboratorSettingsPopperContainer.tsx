@@ -1,7 +1,7 @@
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import { updateUserRole } from '../../lib/api'
-import { Project, UserProfile } from '../../types/models'
 import { CustomPopper } from '../Popper'
 import CollaboratorSettingsPopper from './CollaboratorSettingsPopper'
 

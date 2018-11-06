@@ -1,8 +1,8 @@
 import React from 'react'
 import * as Intl from 'react-intl'
-import { StringMap } from '../editor/config/types'
 import Spinner from '../icons/spinner'
 import preferences from '../lib/preferences'
+
 // import client from './lib/client'
 
 interface Messages {
@@ -16,7 +16,7 @@ interface Messages {
   import_manuscript?: string
 }
 
-const translations: StringMap<Messages> = {
+const translations: { [key: string]: Messages } = {
   ar: {
     error: 'خطأ',
     manuscripts: 'المخطوطات',

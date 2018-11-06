@@ -1,20 +1,24 @@
+import {
+  buildContributor,
+  buildManuscript,
+  buildProject,
+  PROJECT,
+  timestamp,
+} from '@manuscripts/manuscript-editor'
+import {
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
-import {
-  buildContributor,
-  buildManuscript,
-  buildProject,
-} from '../../lib/commands'
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/sessionID'
-import timestamp from '../../lib/timestamp'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { PROJECT } from '../../transformer/object-types'
-import { Project, ProjectInvitation, UserProfile } from '../../types/models'
 import { InvitationData } from './ProjectsDropdownButton'
 import { ProjectsDropdownList } from './ProjectsDropdownList'
 

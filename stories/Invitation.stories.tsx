@@ -1,3 +1,4 @@
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -5,7 +6,6 @@ import { InvitationPopper } from '../src/components/collaboration/InvitationPopp
 import ShareProjectButton from '../src/components/collaboration/ShareProjectButton'
 import { ShareURIPopper } from '../src/components/collaboration/ShareURIPopper'
 import { styled } from '../src/theme'
-import { Project, UserProfile } from '../src/types/models'
 
 const PopperStory = styled.div`
   width: 400px;

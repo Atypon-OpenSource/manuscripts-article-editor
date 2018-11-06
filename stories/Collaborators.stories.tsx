@@ -1,3 +1,4 @@
+import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
@@ -18,7 +19,6 @@ import InviteCollaboratorPopper from '../src/components/collaboration/InviteColl
 import InviteCollaboratorsSidebar from '../src/components/collaboration/InviteCollaboratorsSidebar'
 import SearchCollaboratorsSidebar from '../src/components/collaboration/SearchCollaboratorsSidebar'
 import { styled } from '../src/theme'
-import { UserProfile } from '../src/types/models'
 import { projectInvitationSchema } from '../src/validation'
 import { user } from './data/contributors'
 import { invitations } from './data/invitations-data'

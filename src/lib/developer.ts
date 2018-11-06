@@ -1,5 +1,8 @@
-import { USER_PROFILE } from '../transformer/object-types'
-import { BibliographicName, UserProfile } from '../types/models'
+import { USER_PROFILE } from '@manuscripts/manuscript-editor'
+import {
+  BibliographicName,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import { databaseCreator } from './db'
 import token from './token'
 

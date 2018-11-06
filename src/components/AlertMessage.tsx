@@ -1,4 +1,5 @@
 import React from 'react'
+import { SizeMe } from 'react-sizeme'
 import styled from 'styled-components'
 import AttentionError from '../icons/attention-error'
 import AttentionInfo from '../icons/attention-info'
@@ -6,7 +7,7 @@ import AttentionWarning from '../icons/attention-warning'
 import CloseAlert from '../icons/close-alert'
 import SuccessGreen from '../icons/success'
 
-export const TextButton = styled.button`
+export const TextButton = styled.span`
   border: none;
   background: transparent;
   color: inherit;
@@ -15,8 +16,18 @@ export const TextButton = styled.button`
   font-size: 1em;
   padding-right: 10px;
   padding-left: 0px;
+  position: relative;
+  top: 1px;
+  white-space: nowrap;
 `
-
+const WideContainerButton = styled(TextButton)`
+  padding-left: 10px;
+`
+const SmallContainerButton = styled(TextButton)`
+  position: absolute;
+  right: 10px;
+  top: unset;
+`
 const CloseIcon = styled.div`
   display: flex;
   cursor: pointer;
@@ -37,7 +48,10 @@ const InnerContainer = styled.div`
   align-items: center;
   padding: 13px 0px;
 `
-
+const CloseContainer = styled.div`
+  position: absolute;
+  right: 10px;
+`
 interface AlertProps {
   color: string
   backgroundColor: string
@@ -51,13 +65,13 @@ const AlertContainer = styled.div`
   border: solid 1px ${(props: AlertProps) => props.borderColor};
   border-radius: 3px;
   align-items: center;
-  justify-content: space-between;
   white-space: normal;
   flex-shrink: 0;
 `
 
 const TextContainer = styled.div`
-  padding-right: 10px;
+  max-width: 700px;
+  padding-right: 20px;
 `
 
 interface State {
@@ -94,34 +108,52 @@ class AlertMessage extends React.Component<Props, State> {
 
     return (
       isOpen && (
-        <AlertContainer
-          color={alertAttributes.color}
-          backgroundColor={alertAttributes.backgroundColor}
-          borderColor={alertAttributes.borderColor}
-          className={'alert-message'}
-        >
-          <InnerContainer>
-            <InformativeIcon>{alertAttributes.icon}</InformativeIcon>
-            <TextContainer>{children}</TextContainer>
-          </InnerContainer>
-          {dismissButton ? (
-            <TextButton
-              onClick={
-                dismissButton.action ? dismissButton.action : this.handleClose
-              }
+        <SizeMe>
+          {({ size }) => (
+            <AlertContainer
+              color={alertAttributes.color}
+              backgroundColor={alertAttributes.backgroundColor}
+              borderColor={alertAttributes.borderColor}
+              className={'alert-message'}
             >
-              {dismissButton.text}
-            </TextButton>
-          ) : (
-            <React.Fragment>
-              {!hideCloseButton && (
-                <CloseIcon onClick={this.handleClose}>
-                  {alertAttributes.closeButton}
-                </CloseIcon>
+              <InnerContainer>
+                <InformativeIcon>{alertAttributes.icon}</InformativeIcon>
+                <TextContainer>
+                  {children}
+                  {dismissButton &&
+                    (size.width! < 900 ? (
+                      <SmallContainerButton
+                        onClick={
+                          dismissButton.action
+                            ? dismissButton.action
+                            : this.handleClose
+                        }
+                      >
+                        {dismissButton.text}
+                      </SmallContainerButton>
+                    ) : (
+                      <WideContainerButton
+                        onClick={
+                          dismissButton.action
+                            ? dismissButton.action
+                            : this.handleClose
+                        }
+                      >
+                        {dismissButton.text}
+                      </WideContainerButton>
+                    ))}
+                </TextContainer>
+              </InnerContainer>
+              {(size.width! >= 900 || (!hideCloseButton && !dismissButton)) && (
+                <CloseContainer>
+                  <CloseIcon onClick={this.handleClose}>
+                    {alertAttributes.closeButton}
+                  </CloseIcon>
+                </CloseContainer>
               )}
-            </React.Fragment>
+            </AlertContainer>
           )}
-        </AlertContainer>
+        </SizeMe>
       )
     )
   }

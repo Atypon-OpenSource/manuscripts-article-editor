@@ -1,8 +1,8 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
 import { darkGrey } from '../../colors'
 import { initials } from '../../lib/name'
 import { styled } from '../../theme'
-import { UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { TransparentBlackButton, TransparentGreyButton } from '../Button'
 import { PopperBody, SeparatorLine } from '../Popper'
@@ -52,7 +52,7 @@ const ButtonsContainer = styled.div`
 `
 
 interface Props {
-  collaborator: UserProfile
+  collaborator: UserProfileWithAvatar
   handleRemove: () => void
   switchMode: () => void
 }

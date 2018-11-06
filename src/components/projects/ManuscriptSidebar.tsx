@@ -1,12 +1,16 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
+import {
+  DebouncedManuscriptOutlineContainer,
+  ManuscriptEditorView,
+  ManuscriptNode,
+  OutlineManuscript,
+  Selected,
+} from '@manuscripts/manuscript-editor'
+import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
-import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { EditorView } from 'prosemirror-view'
 import * as React from 'react'
 import { manuscriptsBlue, powderBlue } from '../../colors'
-import { Selected } from '../../editor/lib/utils'
 import { styled } from '../../theme'
-import { Manuscript, Project } from '../../types/models'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import Panel from '../Panel'
 import {
@@ -15,8 +19,6 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../Sidebar'
-import { DebouncedManuscriptOutlineContainer } from './ManuscriptOutlineContainer'
-import { OutlineManuscript } from './OutlineManuscript'
 
 const ProjectTitle = styled(SidebarTitle)`
   color: #353535;
@@ -78,8 +80,8 @@ interface Props {
   project: Project
   saveProject: (project: Project) => Promise<void>
   selected: Selected | null
-  view: EditorView | null
-  doc: ProsemirrorNode | null
+  view: ManuscriptEditorView | null
+  doc: ManuscriptNode | null
 }
 
 const ManuscriptSidebar: React.SFC<Props> = ({

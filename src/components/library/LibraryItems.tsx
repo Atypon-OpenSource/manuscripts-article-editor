@@ -1,8 +1,6 @@
+import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { styled } from '../../theme'
-import { BibliographyItem } from '../../types/models'
-
-import { RxDocument } from 'rxdb'
 import { LibraryItem } from './LibraryItem'
 import LibraryKeywords from './LibraryKeywords'
 
@@ -38,7 +36,7 @@ interface LibraryItemsProps {
   handleQuery: (query: string) => void
   handleSelect: (item: BibliographyItem) => void
   hasItem: (item: BibliographyItem) => boolean
-  items: Array<RxDocument<BibliographyItem>>
+  items: BibliographyItem[]
 }
 
 export const LibraryItems: React.SFC<LibraryItemsProps> = ({
@@ -62,10 +60,10 @@ export const LibraryItems: React.SFC<LibraryItemsProps> = ({
     <LibraryKeywords items={items} handleQuery={handleQuery} />
 
     <Results>
-      {items.map((item: RxDocument<BibliographyItem>) => (
+      {items.map((item: BibliographyItem) => (
         <LibraryItem
           key={item._id}
-          item={item.toJSON()}
+          item={item}
           handleSelect={handleSelect}
           hasItem={hasItem}
         />

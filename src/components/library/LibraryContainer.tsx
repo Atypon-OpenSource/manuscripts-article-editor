@@ -1,66 +1,14 @@
+import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteProps } from 'react-router'
-import { BibliographyItem } from '../../types/models'
-
-import { RxDocument } from 'rxdb'
+import { filterLibrary } from '../../lib/library'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
 
-const buildKeywordMatches = (
-  keyword: string,
-  library: Array<RxDocument<BibliographyItem>>
-) => {
-  const output: Array<RxDocument<BibliographyItem>> = []
-
-  for (const item of library) {
-    const ids = item.get('keywordIDs') as string[] | null
-
-    if (ids && ids.includes(keyword)) {
-      output.push(item)
-    }
-  }
-
-  return output
-}
-
-const buildTextMatches = (
-  match: string,
-  library: Array<RxDocument<BibliographyItem>>
-) => {
-  const output: Array<RxDocument<BibliographyItem>> = []
-
-  for (const item of library) {
-    const title = item.get('title').toLowerCase()
-
-    if (title && title.indexOf(match) !== -1) {
-      output.push(item)
-    }
-  }
-
-  return output
-}
-
-export const filterLibrary = (
-  library: Array<RxDocument<BibliographyItem>>,
-  query: string
-) => {
-  if (!query) return library
-
-  if (!library) return []
-
-  const matches = query.match(/^keyword:(.+)/)
-
-  if (matches) {
-    return buildKeywordMatches(matches[1], library)
-  }
-
-  return buildTextMatches(query.toLowerCase(), library)
-}
-
 interface Props {
-  library: Array<RxDocument<BibliographyItem>>
+  library: Map<string, BibliographyItem>
   handleDelete: (item: BibliographyItem) => Promise<string>
   handleSave: (item: BibliographyItem) => Promise<BibliographyItem>
   projectID: string
@@ -68,14 +16,14 @@ interface Props {
 
 interface State {
   item: BibliographyItem | null
-  items: Array<RxDocument<BibliographyItem>>
+  items: Map<string, BibliographyItem>
   query: string
 }
 
 class LibraryContainer extends React.Component<Props & RouteProps, State> {
-  public state = {
+  public state: Readonly<State> = {
     item: null,
-    items: [],
+    items: new Map(),
     query: '',
   }
 
@@ -83,7 +31,7 @@ class LibraryContainer extends React.Component<Props & RouteProps, State> {
     const { library, projectID } = this.props
     const { item, query } = this.state
 
-    const items = filterLibrary(library, query)
+    const items: BibliographyItem[] = filterLibrary(library, query)
 
     return (
       <React.Fragment>

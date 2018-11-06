@@ -1,9 +1,9 @@
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Formik, FormikActions, FormikProps } from 'formik'
 import React from 'react'
 import { manuscriptsGrey } from '../../colors'
 import { isOwner } from '../../lib/roles'
 import { styled, ThemedProps } from '../../theme'
-import { Project, UserProfile } from '../../types/models'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import { PopperBody } from '../Popper'
@@ -82,7 +82,7 @@ export const InvitationPopper: React.SFC<Props> = ({
       {!isProjectOwner &&
         !invitationError && (
           <AlertMessageContainer>
-            <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
+            <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
               Only project owners can invite others to the project.
             </AlertMessage>
           </AlertMessageContainer>

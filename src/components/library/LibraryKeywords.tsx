@@ -1,14 +1,13 @@
+import { BibliographyItem, Keyword } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxDocument } from 'rxdb'
 import { KeywordsProps, withKeywords } from '../../store/KeywordsProvider'
 import { styled } from '../../theme'
-import { BibliographyItem, Keyword } from '../../types/models'
 
-const buildCounts = (items: Array<RxDocument<BibliographyItem>>) => {
+const buildCounts = (items: BibliographyItem[]) => {
   const counts: Map<string, number> = new Map()
 
   items.forEach(item => {
-    const ids = item.get('keywordIDs') as string[]
+    const ids = item.keywordIDs as string[]
 
     if (ids) {
       ids.forEach(id => {
@@ -63,7 +62,7 @@ const LibraryKeyword = styled.span`
 `
 
 interface Props {
-  items: Array<RxDocument<BibliographyItem>>
+  items: BibliographyItem[]
   handleQuery: (query: string) => void
 }
 

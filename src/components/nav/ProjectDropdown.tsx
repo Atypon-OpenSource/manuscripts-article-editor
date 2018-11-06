@@ -1,3 +1,8 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import {
+  Project,
+  ProjectInvitation,
+} from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { dustyGrey, manuscriptsBlue } from '../../colors'
@@ -6,7 +11,6 @@ import ProjectNotification from '../../icons/project-notification'
 import ProjectsList from '../../icons/projects-list'
 import TickMark from '../../icons/tick-mark'
 import { styled } from '../../theme'
-import { Project, ProjectInvitation, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { Button, PrimaryButton } from '../Button'
 import { DropdownElement, DropdownLink } from './Dropdown'
@@ -95,7 +99,7 @@ const TickMarkContainer = styled.div`
 
 interface InvitationProps {
   invitation: ProjectInvitation
-  invitingUserProfile: UserProfile
+  invitingUserProfile: UserProfileWithAvatar
   acceptInvitation: (invitation: ProjectInvitation) => void
   rejectInvitation: (invitation: ProjectInvitation) => void
 }
