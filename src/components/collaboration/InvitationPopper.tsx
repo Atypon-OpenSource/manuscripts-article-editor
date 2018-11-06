@@ -82,7 +82,7 @@ export const InvitationPopper: React.SFC<Props> = ({
       {!isProjectOwner &&
         !invitationError && (
           <AlertMessageContainer>
-            <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
+            <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
               Only project owners can invite others to the project.
             </AlertMessage>
           </AlertMessageContainer>
