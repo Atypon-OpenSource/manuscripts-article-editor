@@ -12,7 +12,7 @@ describe('Figures', () => {
 
         cy.get('#create-project').click()
         cy.get('.manuscript-editor').type('{enter}')
-        cy.get('[data-cy="Insert figure"]').click()
+        cy.get('[title="Insert figure"]').click()
         cy.get('.figure-panel').should('exist')
         cy.get('[tabindex="2"]').type('Metamotif estimation from simulated motif data.')
         cy.get('figcaption').should('have.text', 'Figure 1:Metamotif estimation from simulated motif data.')
@@ -23,7 +23,7 @@ describe('Figures', () => {
 
         cy.get('#create-project').click()
         cy.get('.manuscript-editor').type('{enter}')
-        cy.get('[data-cy="Insert figure"]').click()
+        cy.get('[title="Insert figure"]').click()
         cy.get('[tabindex="2"]').type('Test caption. {enter}')
         cy.get('p').last()
         cy.get('[tabindex="2"]').type('hi')
@@ -35,7 +35,7 @@ describe('Figures', () => {
 
         cy.get('#create-project').click()
         cy.get('.manuscript-editor').type('{enter}')
-        cy.get('[data-cy="Insert figure"]').click()
+        cy.get('[title="Insert figure"]').click()
         cy.get('.block-figure_element > .block-gutter > .edit-block > svg').click()
         cy.get(':nth-child(3) > .menu-item').click()
         cy.get('.figure-panel').should('not.exist')
