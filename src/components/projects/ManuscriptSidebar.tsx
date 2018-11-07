@@ -9,13 +9,14 @@ import {
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import * as React from 'react'
-import { manuscriptsBlue, powderBlue } from '../../colors'
+import { manuscriptsBlue, manuscriptsGrey, powderBlue } from '../../colors'
 import { styled } from '../../theme'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import Panel from '../Panel'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarTitle,
 } from '../Sidebar'
@@ -58,7 +59,6 @@ const SidebarManuscript = styled.div`
 
 const AddManuscriptButton = styled.button`
   display: flex;
-  margin: 8px 12px;
   font-size: 14px;
   font-weight: 500;
   align-items: center;
@@ -67,10 +67,14 @@ const AddManuscriptButton = styled.button`
   border: none;
   padding: 2px 8px;
   letter-spacing: -0.3px;
+  color: ${manuscriptsGrey};
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 const StyledAddIcon = styled(AddIcon)`
   transform: scale(0.6);
+  flex-shrink: 0;
 `
 
 interface Props {
@@ -124,12 +128,14 @@ const ManuscriptSidebar: React.SFC<Props> = ({
             )}
           </SidebarManuscript>
         ))}
+      </SidebarContent>
 
+      <SidebarFooter>
         <AddManuscriptButton onClick={addManuscript}>
           <StyledAddIcon />
           Add Manuscript
         </AddManuscriptButton>
-      </SidebarContent>
+      </SidebarFooter>
     </Sidebar>
   </Panel>
 )

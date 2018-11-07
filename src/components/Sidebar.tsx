@@ -21,6 +21,14 @@ export const SidebarHeader = styled.div`
   flex-shrink: 0;
 `
 
+export const SidebarFooter = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  padding: 0 12px;
+  flex-shrink: 0;
+`
+
 export const SidebarTitle = styled.div`
   font-size: 20px;
   font-weight: 600;
