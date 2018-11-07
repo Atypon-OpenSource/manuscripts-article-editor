@@ -9,6 +9,7 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { FormikActions, FormikErrors } from 'formik'
+import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
@@ -379,10 +380,22 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       const errors: FormikErrors<InvitationErrors> = {}
 
       if (error.response) {
-        errors.submit = error.response
+        errors.submit = this.errorResponseMessage(error.response.status)
       }
 
       setErrors(errors)
+    }
+  }
+
+  private errorResponseMessage = (status: number) => {
+    switch (status) {
+      case HttpStatusCodes.BAD_REQUEST:
+        return 'You are already a collaborator on this project.'
+
+      case HttpStatusCodes.CONFLICT:
+        return 'The invited user is already a collaborator on this project.'
+      default:
+        return 'Sending invitation failed.'
     }
   }
 }

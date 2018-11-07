@@ -184,8 +184,6 @@ class LoginPageContainer extends React.Component<
 
       const errors: FormikErrors<FormErrors> = {}
 
-      alert(error)
-
       if (error.response) {
         errors.submit = this.errorResponseMessage(error.response.status, values)
       } else {
