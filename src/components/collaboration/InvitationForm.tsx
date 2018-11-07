@@ -3,6 +3,7 @@ import React from 'react'
 import { manuscriptsBlue } from '../../colors'
 import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme'
+import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { PrimaryButton } from '../Button'
 import { FormError } from '../Form'
 import { RadioButton } from '../RadioButton'
@@ -64,6 +65,11 @@ export const InvitationForm: React.SFC<InvitationFormProps> = ({
   values,
 }) => (
   <Form noValidate={true}>
+    {errors.submit && (
+      <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
+        {errors.submit}{' '}
+      </AlertMessage>
+    )}
     <TextFieldGroupContainer
       errors={{
         name: errors.name,
