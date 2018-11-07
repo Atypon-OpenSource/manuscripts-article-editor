@@ -97,6 +97,7 @@ const configuration: webpack.Configuration = {
   resolve: {
     alias: {
       react: require.resolve('react'),
+      'react-dnd': require.resolve('react-dnd'),
       'react-dom': require.resolve('react-dom'),
       'react-hot-loader': require.resolve('react-hot-loader'),
       'styled-components': require.resolve('styled-components'),
