@@ -50,8 +50,6 @@ Run `yarn build` to build the app to the `dist` folder, from where it can be dep
 2. Run `yarn run cypress:open` to launch the Cypress runner.
 3. From the Cypress runner, select an individual test to run or select `Run all specs`
 
-
-
 ## Development
 
 See the [`manuscripts-frontend` wiki](https://gitlab.com/mpapp-private/manuscripts-frontend/wikis/) for more information.

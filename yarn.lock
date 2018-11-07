@@ -1301,9 +1301,9 @@
     "@types/jquery" "*"
 
 "@types/chai@*":
-  version "4.1.6"
-  resolved "https://registry.npmjs.org/@types/chai/-/chai-4.1.6.tgz#1eb26c040e3a84205b1008ad55c800e5e8a94e34"
-  integrity sha512-CBk7KTZt3FhPsEkYioG6kuCIpWISw+YI8o+3op4+NXwTpvAPxE1ES8+PY8zfaK2L98b1z5oq03UHa4VYpeUxnw==
+  version "4.1.7"
+  resolved "https://registry.npmjs.org/@types/chai/-/chai-4.1.7.tgz#1b8e33b61a8c09cbe1f85133071baa0dbf9fa71a"
+  integrity sha512-2Y8uPt0/jwjhQ6EiluT0XCri1Dbplr0ZxfFXUz+ye13gaqE8u5gL5ppao1JrUYr9cIip5S6MvQzBS7Kke7U9VA==
 
 "@types/chai@4.0.8":
   version "4.0.8"
@@ -1466,10 +1466,10 @@
   dependencies:
     "@types/sizzle" "*"
 
-"@types/jquery@3.2.16":
-  version "3.2.16"
-  resolved "https://registry.npmjs.org/@types/jquery/-/jquery-3.2.16.tgz#04419c404a3194350e7d3f339a90e72c88db3111"
-  integrity sha512-q2WC02YxQoX2nY1HRKlYGHpGP1saPmD7GN0pwCDlTz35a4eOtJG+aHRlXyjCuXokUukSrR2aXyBhSW3j+jPc0A==
+"@types/jquery@3.3.6":
+  version "3.3.6"
+  resolved "https://registry.npmjs.org/@types/jquery/-/jquery-3.3.6.tgz#5932ead926307ca21e5b36808257f7c926b06565"
+  integrity sha512-403D4wN95Mtzt2EoQHARf5oe/jEPhzBOBNrunk+ydQGW8WmkQ/E8rViRAEB1qEt/vssfGfNVD6ujP4FVeegrLg==
 
 "@types/jsdom@^12.2.0":
   version "12.2.0"
@@ -2156,7 +2156,7 @@ ansi-cyan@^0.1.1:
 
 ansi-escapes@^1.0.0:
   version "1.4.0"
-  resolved "https://registry.npmjs.org/ansi-escapes/-/ansi-escapes-1.4.0.tgz#d3a8a83b319aa67793662b13e761c7911422306e"
+  resolved "http://registry.npmjs.org/ansi-escapes/-/ansi-escapes-1.4.0.tgz#d3a8a83b319aa67793662b13e761c7911422306e"
   integrity sha1-06ioOzGapneTZisT52HHkRQiMG4=
 
 ansi-escapes@^2.0.0:
@@ -4949,9 +4949,9 @@ cyclist@~0.2.2:
   integrity sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
 
 cypress@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.npmjs.org/cypress/-/cypress-3.1.0.tgz#b718ba64289b887c7ab7a7f09245d871a4a409ba"
-  integrity sha512-UqLbXgHvM8Y6Y+roHrepZMWcyMN5u4KcjpTbJTZi0d5O2Prvtqmnpoky7a4C65q4oRQXeSc6cBZUhxJkhU4pbQ==
+  version "3.1.1"
+  resolved "https://registry.npmjs.org/cypress/-/cypress-3.1.1.tgz#ba5da8c1afb8a4d9a4951d5353095d6feeb346d9"
+  integrity sha512-0i5xd+UrYPlRF8uCcJcVwGeez8uxj4oXGIjg5a6GKtko2YRybOTNCABtFi6SEXUM4khqf+Qt3cVpo67R8ym3iA==
   dependencies:
     "@cypress/listr-verbose-renderer" "0.4.1"
     "@cypress/xvfb" "1.2.3"
@@ -4959,7 +4959,7 @@ cypress@^3.1.0:
     "@types/bluebird" "3.5.18"
     "@types/chai" "4.0.8"
     "@types/chai-jquery" "1.1.35"
-    "@types/jquery" "3.2.16"
+    "@types/jquery" "3.3.6"
     "@types/lodash" "4.14.87"
     "@types/minimatch" "3.0.3"
     "@types/mocha" "2.2.44"
