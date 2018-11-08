@@ -8,8 +8,8 @@ import InviteCollaboratorPopperContainer from './InviteCollaboratorPopperContain
 
 const AddIconButton = styled(IconButton)`
   display: flex;
-  height: 20px;
-  width: 36px;
+  height: 24px;
+  width: 40px;
 
   &:focus {
     outline: none;
