@@ -23,7 +23,7 @@ import {
   Editor,
   elementObjects,
   encode,
-  findParentNodeWithId,
+  findParentNodeWithIdValue,
   generateID,
   getImageAttachment,
   getRevNumber,
@@ -1092,7 +1092,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     state: ManuscriptEditorState,
     docChanged: boolean
   ) => {
-    const selected = findParentNodeWithId(state.selection) || null
+    const selected = findParentNodeWithIdValue(state.selection) || null
 
     this.setState(prevState => ({
       ...prevState,
