@@ -1,8 +1,8 @@
+import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AddAuthor from '../../icons/add-author'
 import AddedIcon from '../../icons/added-icon'
-import AuthorsPlaceholder from '../../icons/author-placeholder'
 import ContributorDetails from '../../icons/contributor-details-placeholder'
 import ContributorsPlaceholder from '../../icons/contributor-placeholder'
 import ContributorSearchPlaceholder from '../../icons/contributor-search-placeholder'
@@ -215,7 +215,7 @@ const IconContainer = styled.div`
 
 const MessageContainer = styled.div`
   display: flex;
-  align-content: center;
+  justify-content: center;
 `
 
 export const AddAuthorsPage: React.SFC<AddAuthorsPageProps> = ({
@@ -224,7 +224,7 @@ export const AddAuthorsPage: React.SFC<AddAuthorsPageProps> = ({
   <OuterContainerModal>
     <InnerContainer>
       <Placeholder>
-        <AuthorsPlaceholder size={500} />
+        <AuthorPlaceholder />
       </Placeholder>
 
       {addedAuthorsCount ? (
