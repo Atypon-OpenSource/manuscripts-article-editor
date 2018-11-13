@@ -75,7 +75,7 @@ const importProjectBundle = async (result: Blob) => {
 
       try {
         item.attachment = {
-          id: filename, // TODO: original name?
+          id: 'image',
           type: item.contentType || 'image/png',
           data: await folder.file(filename).async('blob'),
         }
