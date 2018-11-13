@@ -24,6 +24,7 @@ interface State {
   existButNotVerified: UserDetails | null
   networkError: boolean | null
   error: boolean
+  gatewayInaccessible: boolean | null
 }
 
 class SignupPageContainer extends React.Component<
@@ -36,6 +37,7 @@ class SignupPageContainer extends React.Component<
     existButNotVerified: null,
     networkError: null,
     error: false,
+    gatewayInaccessible: null,
   }
 
   private initialValues: SignupValues = {
@@ -72,6 +74,7 @@ class SignupPageContainer extends React.Component<
       existButNotVerified,
       resendSucceed,
       networkError,
+      gatewayInaccessible,
     } = this.state
 
     if (!user.loaded) {
@@ -95,6 +98,7 @@ class SignupPageContainer extends React.Component<
             resendSucceed={resendSucceed}
             resendVerificationEmail={this.resendVerificationEmail}
             networkError={networkError}
+            gatewayInaccessible={gatewayInaccessible}
           />
           <SignupPage
             initialValues={this.initialValues}
@@ -124,30 +128,42 @@ class SignupPageContainer extends React.Component<
     } catch (error) {
       setSubmitting(false)
 
-      const errors: FormikErrors<SignupErrors> = {}
+      await this.handleError(error, setErrors, email)
+    }
+  }
+  // tslint:disable-next-line:no-any
+  private handleError = async (error: any, setErrors: any, email: string) => {
+    const errors: FormikErrors<SignupErrors> = {}
 
-      if (error.response) {
-        const { data } = error.response
+    if (error.response) {
+      const { data } = error.response
 
-        if (
-          data &&
-          data.error &&
-          data.error.name === 'ConflictingUnverifiedUserExistsError'
-        ) {
-          this.setState({
-            confirming: null,
-            existButNotVerified: { email },
-          })
+      if (
+        data &&
+        data.error &&
+        JSON.parse(data.error).name === 'ConflictingUnverifiedUserExistsError'
+      ) {
+        this.setState({
+          confirming: null,
+          existButNotVerified: { email },
+        })
 
-          await resendVerificationEmail(email)
-        } else {
-          errors.submit = this.errorResponseMessage(error.response.status)
-
-          setErrors(errors)
-        }
+        await resendVerificationEmail(email)
+      } else if (
+        data &&
+        data.error &&
+        JSON.parse(data.error).name === 'GatewayInaccessibleError'
+      ) {
+        this.setState({
+          gatewayInaccessible: true,
+        })
       } else {
-        this.setState({ networkError: true })
+        errors.submit = this.errorResponseMessage(error.response.status)
+
+        setErrors(errors)
       }
+    } else {
+      this.setState({ networkError: true })
     }
   }
 

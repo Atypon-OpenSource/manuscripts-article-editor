@@ -1,7 +1,7 @@
 import React from 'react'
 import config from '../../config'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-import { NetworkErrorMessage } from '../Messages'
+import { GatewayInaccessibleMessage, NetworkErrorMessage } from '../Messages'
 
 interface ResendVerificationData {
   message: string
@@ -87,5 +87,11 @@ export const LoginInfo: React.SFC<{ loginInfo: string }> = ({ loginInfo }) => (
 export const NetworkMessage: React.SFC = () => (
   <AlertMessage type={AlertMessageType.error}>
     <NetworkErrorMessage />
+  </AlertMessage>
+)
+
+export const GatewayInaccessible: React.SFC = () => (
+  <AlertMessage type={AlertMessageType.error}>
+    <GatewayInaccessibleMessage />
   </AlertMessage>
 )

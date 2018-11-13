@@ -2,6 +2,7 @@ import React from 'react'
 import config from '../../config'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import {
+  GatewayInaccessibleMessage,
   NetworkErrorMessage,
   SignupVerifyConflictMessage,
   SignupVerifyMessage,
@@ -19,6 +20,7 @@ interface Props {
   existButNotVerified: UserDetails | null
   networkError: boolean | null
   resendVerificationEmail?: () => void
+  gatewayInaccessible: boolean | null
 }
 
 const SignupMessages: React.SFC<Props> = ({
@@ -27,6 +29,7 @@ const SignupMessages: React.SFC<Props> = ({
   existButNotVerified,
   resendVerificationEmail,
   networkError,
+  gatewayInaccessible,
 }) => {
   if (confirming) {
     if (resendSucceed === null) {
@@ -75,6 +78,14 @@ const SignupMessages: React.SFC<Props> = ({
     return (
       <AlertMessage type={AlertMessageType.error}>
         <NetworkErrorMessage />
+      </AlertMessage>
+    )
+  }
+
+  if (gatewayInaccessible) {
+    return (
+      <AlertMessage type={AlertMessageType.error}>
+        <GatewayInaccessibleMessage />
       </AlertMessage>
     )
   }
