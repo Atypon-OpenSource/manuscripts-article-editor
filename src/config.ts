@@ -29,8 +29,8 @@ interface Config {
     url: string | undefined
   }
   wayf: {
-    key: string | undefined
-    url: string | undefined
+    key?: string
+    url?: string
   }
   git: {
     version: string
@@ -43,6 +43,11 @@ interface Config {
 
 const normalizeURL = (url: string | undefined) => {
   return url && url.replace(/\/$/, '')
+}
+
+export interface WayfConfiguration {
+  key?: string
+  url?: string
 }
 
 const config = {

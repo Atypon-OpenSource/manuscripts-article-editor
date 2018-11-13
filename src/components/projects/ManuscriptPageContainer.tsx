@@ -45,6 +45,9 @@ import {
   removeConflictLocally,
   SECTION,
   Selected,
+  SYNC_ERROR_LOCAL_DOC_ID,
+  SyncErrors,
+  syncErrorsKey,
   Toolbar,
   toolbar,
   USER_PROFILE,
@@ -307,6 +310,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                 setView={this.setView}
                 attributes={attributes}
                 handleSectionChange={this.handleSectionChange}
+                retrySync={this.retrySync}
                 renderReactComponent={this.renderReactComponent}
                 CitationEditor={CitationEditor}
                 importFile={importFile}
@@ -429,18 +433,52 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     this.subscribeToConflicts().catch(err => {
       throw err
     })
+
+    this.subscribeToSyncErrors().catch(err => {
+      throw err
+    })
   }
 
-  private getOrInsertLocalDocument = async (manuscriptID: string) => {
+  private getOrInsertLocalDocument = async <T extends {}>(id: string) => {
     const collection = this.getCollection() as RxCollection<{}>
 
-    let localDoc = await collection.getLocal(manuscriptID)
+    let localDoc = await collection.getLocal(id)
 
     if (!localDoc) {
-      localDoc = await collection.insertLocal(manuscriptID, {})
+      localDoc = await collection.insertLocal(id, {})
     }
 
-    return localDoc as RxLocalDocument<RxCollection<LocalConflicts>>
+    return localDoc as RxLocalDocument<RxCollection<T>>
+  }
+
+  private subscribeToSyncErrors = async () => {
+    const localDoc = await this.getOrInsertLocalDocument(
+      SYNC_ERROR_LOCAL_DOC_ID
+    )
+
+    localDoc.$.subscribe((syncErrors: SyncErrors) => {
+      const { view } = this.state
+
+      if (!view) {
+        throw new Error('View not initialized')
+      }
+
+      const tr = view.state.tr.setMeta(syncErrorsKey, syncErrors)
+
+      view.dispatch(tr)
+    })
+  }
+
+  private retrySync = async (componentIDs: string[]) => {
+    for (const componentID of componentIDs) {
+      const model = this.getModel(componentID)
+      if (!model) {
+        throw new Error('Unable to find model for retry')
+      }
+      // TODO: saveModel doesn't run encode, so fixes to encoders won't work
+      // TODO: ideally we wouldn't have to "update" the doc to trigger sync
+      await this.saveModel(model)
+    }
   }
 
   private subscribeToConflicts = async () => {
@@ -842,6 +880,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     manuscriptID: string,
     sessionID: string
   ) => {
+    // ignore changes to local documents
+    if (v._id.startsWith('_local/')) {
+      return false
+    }
+
     // ignore changes to other projects
     if ((v as ContainedModel).containerID !== projectID) {
       return false

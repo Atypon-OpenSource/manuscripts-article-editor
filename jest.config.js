@@ -14,11 +14,12 @@ module.exports = {
     '!src/lib/fonts.ts',
     '!src/lib/sentry.ts',
     '!src/lib/service-worker.ts',
+    '!src/lib/developer.ts'
   ],
   coverageThreshold: {
     global: {
       branches: coverageThreshold(60, 0.25),
-      functions: coverageThreshold(60, 0.5),
+      functions: coverageThreshold(60, 0.4),
       lines: coverageThreshold(60, 0.5),
     }
   },

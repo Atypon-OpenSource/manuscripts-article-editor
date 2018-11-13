@@ -33,12 +33,11 @@ const buildTextMatches = (
 }
 
 export const filterLibrary = (
-  library: Map<string, BibliographyItem>,
-  query: string
+  library: Map<string, BibliographyItem> | null,
+  query: string | null
 ): BibliographyItem[] => {
-  if (!query) return Array.from(library.values())
-
   if (!library) return []
+  if (!query) return Array.from(library.values())
 
   const matches = query.match(/^keyword:(.+)/)
 

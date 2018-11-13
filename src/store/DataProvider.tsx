@@ -1,4 +1,4 @@
-import { handleConflicts } from '@manuscripts/manuscript-editor'
+import { handleConflicts, saveSyncState } from '@manuscripts/manuscript-editor'
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
@@ -178,9 +178,26 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     direction: Direction,
     isRetry: boolean
   ) => {
+    const collection = this.state.collection as RxCollection<Model>
+
     return new Promise((resolve, reject) => {
       replication.active$.subscribe(active => {
         this.setActiveState(direction, active)
+      })
+
+      // When pouch tries to replicate a single document
+      replication.denied$.subscribe(error => {
+        saveSyncState(collection, [error], []).catch(err => {
+          throw err
+        })
+      })
+
+      // When pouch tries to replicate multiple documents
+      replication.change$.subscribe(changeInfo => {
+        const { docs, errors } = changeInfo
+        saveSyncState(collection, errors, docs).catch(err => {
+          throw err
+        })
       })
 
       // For `live: true` the replication never completes
