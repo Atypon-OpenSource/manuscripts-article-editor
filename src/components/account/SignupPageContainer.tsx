@@ -132,7 +132,7 @@ class SignupPageContainer extends React.Component<
         if (
           data &&
           data.error &&
-          data.error.name === 'ConflictingUnverifiedUserExistsError'
+          JSON.parse(data.error).name === 'ConflictingUnverifiedUserExistsError' // FIXME: This needs a solution
         ) {
           this.setState({
             confirming: null,

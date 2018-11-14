@@ -71,7 +71,7 @@ class ProjectsPageContainer extends React.Component<
       window.localStorage.removeItem('invitationToken')
       const invitation = await this.loadInvitation(invitationToken)
       if (invitation) {
-        await this.acceptInvitation(invitation._id)
+        await acceptProjectInvitation(invitation._id)
           .then(() => this.setState({ invitationAccepted: true }))
           .catch(() => this.setState({ invitationAccepted: false }))
       } else {
@@ -205,12 +205,6 @@ class ProjectsPageContainer extends React.Component<
           return invitation.toJSON() as ProjectInvitation
         }
       })
-
-  private acceptInvitation = async (invitationID: string) => {
-    await acceptProjectInvitation(invitationID).catch(() => {
-      alert('Invitation not found')
-    })
-  }
 }
 
 export default withModels(withUser(ProjectsPageContainer))
