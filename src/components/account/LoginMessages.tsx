@@ -1,6 +1,7 @@
 import React from 'react'
 import { AlertMessageType } from '../AlertMessage'
 import {
+  GatewayInaccessible,
   GoogleErrorMessage,
   LoginInfo,
   LoginWarning,
@@ -23,6 +24,7 @@ interface Props {
   resendVerificationEmail: (email: string) => void
   infoLoginMessage: string | null
   networkError: boolean | null
+  gatewayInaccessible: boolean | null
 }
 
 const LoginPageMessages: React.SFC<Props> = ({
@@ -33,6 +35,7 @@ const LoginPageMessages: React.SFC<Props> = ({
   resendVerificationEmail,
   infoLoginMessage,
   networkError,
+  gatewayInaccessible,
 }) => (
   <React.Fragment>
     {verificationMessage && (
@@ -50,6 +53,7 @@ const LoginPageMessages: React.SFC<Props> = ({
     )}
     {infoLoginMessage && <LoginInfo loginInfo={infoLoginMessage} />}
     {networkError && <NetworkMessage />}
+    {gatewayInaccessible && <GatewayInaccessible />}
   </React.Fragment>
 )
 

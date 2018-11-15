@@ -32,6 +32,7 @@ interface State {
   googleLoginError: string | null
   infoLoginMessage: string | null
   networkError: boolean | null
+  gatewayInaccessible: boolean | null
 }
 
 interface ErrorMessage {
@@ -66,6 +67,7 @@ class LoginPageContainer extends React.Component<
     networkError: null,
     resendVerificationData: null,
     verificationMessage: null,
+    gatewayInaccessible: null,
   }
 
   private initialValues: LoginValues = {
@@ -114,6 +116,7 @@ class LoginPageContainer extends React.Component<
       googleLoginError,
       infoLoginMessage,
       networkError,
+      gatewayInaccessible,
     } = this.state
 
     if (!user.loaded) {
@@ -135,6 +138,7 @@ class LoginPageContainer extends React.Component<
             resendVerificationEmail={this.resendVerificationEmail}
             infoLoginMessage={infoLoginMessage}
             networkError={networkError}
+            gatewayInaccessible={gatewayInaccessible}
           />
           <LoginPage
             initialValues={this.initialValues}
@@ -185,12 +189,25 @@ class LoginPageContainer extends React.Component<
       const errors: FormikErrors<FormErrors> = {}
 
       if (error.response) {
-        errors.submit = this.errorResponseMessage(error.response.status, values)
+        const { data } = error.response
+        if (
+          data &&
+          data.error &&
+          JSON.parse(data.error).name === 'GatewayInaccessibleError'
+        ) {
+          this.setState({
+            gatewayInaccessible: true,
+          })
+        } else {
+          errors.submit = this.errorResponseMessage(
+            error.response.status,
+            values
+          )
+          setErrors(errors)
+        }
       } else {
         this.setState({ networkError: true })
       }
-
-      setErrors(errors)
     }
   }
 

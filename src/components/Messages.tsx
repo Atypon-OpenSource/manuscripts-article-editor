@@ -227,3 +227,12 @@ export const NetworkErrorMessage: React.SFC = () => (
     values={{ email: config.support.email }}
   />
 )
+
+export const GatewayInaccessibleMessage: React.SFC = () => (
+  <FormattedMessage
+    id={'gateway_error'}
+    defaultMessage={
+      'Trouble reaching manuscripts.io servers. Please try again later.'
+    }
+  />
+)

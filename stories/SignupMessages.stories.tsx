@@ -11,6 +11,7 @@ storiesOf('SignupMessages', module)
       existButNotVerified={null}
       resendVerificationEmail={() => action('resend')}
       networkError={null}
+      gatewayInaccessible={null}
     />
   ))
   .add('verification email resent successfully', () => (
@@ -20,6 +21,7 @@ storiesOf('SignupMessages', module)
       existButNotVerified={null}
       resendVerificationEmail={() => action('resend')}
       networkError={null}
+      gatewayInaccessible={null}
     />
   ))
   .add('verification email failed to resend', () => (
@@ -29,6 +31,7 @@ storiesOf('SignupMessages', module)
       existButNotVerified={null}
       resendVerificationEmail={() => action('resend')}
       networkError={null}
+      gatewayInaccessible={null}
     />
   ))
   .add('the user exist but not verified', () => (
@@ -38,6 +41,7 @@ storiesOf('SignupMessages', module)
       existButNotVerified={{ email: 'bar@baz.com' }}
       resendVerificationEmail={() => action('resend')}
       networkError={null}
+      gatewayInaccessible={null}
     />
   ))
   .add('cannot connect to the api', () => (
@@ -47,5 +51,6 @@ storiesOf('SignupMessages', module)
       existButNotVerified={null}
       resendVerificationEmail={() => action('resend')}
       networkError={true}
+      gatewayInaccessible={null}
     />
   ))
