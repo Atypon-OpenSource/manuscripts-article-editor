@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse, stringify } from 'qs'
@@ -131,8 +132,14 @@ class SignupPageContainer extends React.Component<
       await this.handleError(error, setErrors, email)
     }
   }
-  // tslint:disable-next-line:no-any
-  private handleError = async (error: any, setErrors: any, email: string) => {
+
+  private handleError = async (
+    error: AxiosError,
+    setErrors: (
+      errors: FormikErrors<SignupValues> | FormikErrors<SignupErrors>
+    ) => void,
+    email: string
+  ) => {
     const errors: FormikErrors<SignupErrors> = {}
 
     if (error.response) {
