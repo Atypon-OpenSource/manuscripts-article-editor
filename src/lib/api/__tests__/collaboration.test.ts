@@ -1,5 +1,11 @@
 import client from '../../client'
-import { addProjectUser, projectInvite, updateUserRole } from '../collaboration'
+import {
+  acceptProjectInvitation,
+  addProjectUser,
+  projectInvite,
+  rejectProjectInvitation,
+  updateUserRole,
+} from '../collaboration'
 
 jest.mock('../../client', () => ({
   post: jest.fn(),
@@ -51,5 +57,23 @@ describe('collaboration', () => {
         managedUserId: userId,
       }
     )
+  })
+
+  test('accept project invitation', async () => {
+    const invitationId = 'user id'
+    await acceptProjectInvitation(invitationId)
+
+    expect(client.post).toBeCalledWith(`/invitation/accept`, {
+      invitationId,
+    })
+  })
+
+  test('reject project invitation', async () => {
+    const invitationId = 'user id'
+    await rejectProjectInvitation(invitationId)
+
+    expect(client.post).toBeCalledWith(`/invitation/reject`, {
+      invitationId,
+    })
   })
 })
