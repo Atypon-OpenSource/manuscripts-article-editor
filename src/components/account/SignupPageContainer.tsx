@@ -137,11 +137,12 @@ class SignupPageContainer extends React.Component<
 
     if (error.response) {
       const { data } = error.response
+      const name = JSON.parse(data.error).name
 
       if (
         data &&
         data.error &&
-        JSON.parse(data.error).name === 'ConflictingUnverifiedUserExistsError'
+        name === 'ConflictingUnverifiedUserExistsError'
       ) {
         this.setState({
           confirming: null,
@@ -149,11 +150,7 @@ class SignupPageContainer extends React.Component<
         })
 
         await resendVerificationEmail(email)
-      } else if (
-        data &&
-        data.error &&
-        JSON.parse(data.error).name === 'GatewayInaccessibleError'
-      ) {
+      } else if (data && data.error && name === 'GatewayInaccessibleError') {
         this.setState({
           gatewayInaccessible: true,
         })
