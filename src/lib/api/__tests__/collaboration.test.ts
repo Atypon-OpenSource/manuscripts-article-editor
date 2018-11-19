@@ -1,14 +1,19 @@
 import client from '../../client'
 import {
   acceptProjectInvitation,
+  acceptProjectInvitationToken,
   addProjectUser,
   projectInvite,
+  projectUninvite,
   rejectProjectInvitation,
+  requestProjectInvitationToken,
   updateUserRole,
 } from '../collaboration'
 
 jest.mock('../../client', () => ({
   post: jest.fn(),
+  delete: jest.fn(),
+  get: jest.fn(),
 }))
 
 describe('collaboration', () => {
@@ -45,7 +50,7 @@ describe('collaboration', () => {
   })
 
   test('update user role', async () => {
-    const projectID = ' project id'
+    const projectID = 'project id'
     const newRole = 'role'
     const userId = 'user id'
     await updateUserRole(projectID, newRole, userId)
@@ -60,7 +65,7 @@ describe('collaboration', () => {
   })
 
   test('accept project invitation', async () => {
-    const invitationId = 'user id'
+    const invitationId = 'invitation id'
     await acceptProjectInvitation(invitationId)
 
     expect(client.post).toBeCalledWith(`/invitation/accept`, {
@@ -69,11 +74,43 @@ describe('collaboration', () => {
   })
 
   test('reject project invitation', async () => {
-    const invitationId = 'user id'
+    const invitationId = 'invitation id'
     await rejectProjectInvitation(invitationId)
 
     expect(client.post).toBeCalledWith(`/invitation/reject`, {
       invitationId,
+    })
+  })
+
+  test('uninvite user', async () => {
+    const invitationId = 'invitation id'
+    await projectUninvite(invitationId)
+
+    expect(client.delete).toBeCalledWith(`/invitation`, {
+      data: { invitationId },
+    })
+  })
+
+  test('request project invitation token', async () => {
+    const projectID = 'project id'
+    const role = 'role'
+
+    await requestProjectInvitationToken(projectID, role)
+
+    expect(client.get).toBeCalledWith(
+      `/invitation/project/${encodeURIComponent(
+        projectID
+      )}/${encodeURIComponent(role)}`
+    )
+  })
+
+  test('accept project invitation token', async () => {
+    const token = 'token'
+
+    await acceptProjectInvitationToken(token)
+
+    expect(client.post).toBeCalledWith('/invitation/project/access', {
+      token,
     })
   })
 })

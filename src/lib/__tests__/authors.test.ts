@@ -11,8 +11,10 @@ import {
   Model,
 } from '@manuscripts/manuscripts-json-schema'
 import {
+  buildAffiliationIDs,
   buildAffiliationsMap,
   buildAuthorAffiliations,
+  buildAuthorPriority,
   buildAuthorsAndAffiliations,
   buildSortedAuthors,
   isJointFirstAuthor,
@@ -263,5 +265,45 @@ describe('author and affiliation helpers', () => {
       ),
       authors: buildSortedAuthors(comps),
     })
+  })
+
+  it('buildAuthorPriority', () => {
+    const authors: Contributor[] = [
+      {
+        _id: 'MPContributor:author-1',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-1',
+          objectType: 'MPBibliographicName',
+        },
+        isJointContributor: false,
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
+        priority: 0,
+      },
+      {
+        _id: 'MPContributor:author-2',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-2',
+          objectType: 'MPBibliographicName',
+        },
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
+        priority: 1,
+      },
+    ]
+
+    expect(buildAuthorPriority(authors)).toBe(2)
+  })
+
+  it('buildAffiliationIDs', () => {
+    expect(buildAffiliationIDs(contribs)).toEqual(['MPAffiliation:X'])
   })
 })

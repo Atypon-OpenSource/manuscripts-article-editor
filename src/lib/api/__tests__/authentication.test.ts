@@ -1,9 +1,12 @@
+import { stringify } from 'qs'
 import client from '../../client'
 import deviceId from '../../deviceId'
 import {
   changePassword,
+  deleteAccount,
   login,
   logout,
+  refresh,
   refreshSyncSessions,
   resendVerificationEmail,
   resetPassword,
@@ -16,6 +19,8 @@ jest.mock('../../deviceId')
 
 jest.mock('../../client', () => ({
   post: jest.fn(),
+  delete: jest.fn(),
+  request: jest.fn(),
 }))
 
 jest.mock('../../../config', () => ({
@@ -128,6 +133,30 @@ describe('authentication', () => {
     await refreshSyncSessions()
     expect(client.post).toBeCalledWith('/auth/refreshSyncSessions', null, {
       withCredentials: true,
+    })
+  })
+
+  test('delete user account', async () => {
+    const password = 'password'
+    await deleteAccount(password)
+
+    expect(client.delete).toBeCalledWith(`/user`, {
+      data: { password },
+    })
+  })
+
+  test('refresh', async () => {
+    await refresh()
+
+    expect(client.request).toBeCalledWith({
+      url: '/token',
+      method: 'POST',
+      data: stringify({
+        grant_type: 'refresh',
+      }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+      },
     })
   })
 })

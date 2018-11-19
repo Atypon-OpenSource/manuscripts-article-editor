@@ -7,6 +7,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import {
+  downloadExtension,
   exportProject,
   generateAttachmentFilename,
   generateDownloadFilename,
@@ -29,6 +30,16 @@ describe('exporter', () => {
   test('generates a filename for a manuscript title with markup', () => {
     const result = generateDownloadFilename('An <b>example</b> manuscript')
     expect(result).toBe('AnExampleManuscript')
+  })
+
+  test('downloadExtension', () => {
+    const result = downloadExtension('.docx')
+    expect(result).toEqual('.docx')
+  })
+
+  test('downloadExtension', () => {
+    const result = downloadExtension('.doc')
+    expect(result).toEqual('.zip')
   })
 
   test('removes empty properties', () => {

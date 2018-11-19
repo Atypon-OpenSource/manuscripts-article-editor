@@ -54,3 +54,14 @@ storiesOf('SignupMessages', module)
       gatewayInaccessible={null}
     />
   ))
+
+  .add('cannot connect to gateway', () => (
+    <SignupMessages
+      resendSucceed={null}
+      confirming={null}
+      existButNotVerified={null}
+      resendVerificationEmail={() => action('resend')}
+      networkError={null}
+      gatewayInaccessible={true}
+    />
+  ))
