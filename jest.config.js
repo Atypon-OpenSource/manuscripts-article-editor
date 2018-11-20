@@ -1,5 +1,5 @@
 const coverageThreshold = (target, gradient = 1) => Math.min(
-  ((new Date() - new Date('2018-07-01')) * gradient) / (1000 * 60 * 120 * 24),
+  ((new Date() - new Date('2018-07-01')) * gradient) / (1000 * 60 * 60 * 24),
   target
 )
 
@@ -8,9 +8,6 @@ module.exports = {
     'src/**/*.{ts,tsx}', 
     '!**/*.d.ts', 
     '!/**/__tests__',
-    '!src/api/**',
-    '!src/editor/**',
-    '!src/resizer/**',
     '!src/lib/fonts.ts',
     '!src/lib/sentry.ts',
     '!src/lib/service-worker.ts',
@@ -18,9 +15,9 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      branches: coverageThreshold(60, 0.25),
-      functions: coverageThreshold(60, 0.4),
-      lines: coverageThreshold(60, 0.5),
+      branches: coverageThreshold(60, 0.1),
+      functions: coverageThreshold(60, 0.2),
+      lines: coverageThreshold(60, 0.2),
     }
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
