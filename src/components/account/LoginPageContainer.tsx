@@ -8,6 +8,7 @@ import Spinner from '../../icons/spinner'
 import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
 import { databaseCreator } from '../../lib/db'
+import { fetchUser } from '../../lib/fetchUser'
 import token, { Token } from '../../lib/token'
 import { UserProps, withUser } from '../../store/UserProvider'
 import { loginSchema } from '../../validation'
@@ -95,6 +96,26 @@ class LoginPageContainer extends React.Component<
       })
     }
   }
+
+  public updateState = (
+    hashData: Token & ErrorMessage & VerificationData & Action
+  ) => {
+    if (hashData && Object.keys(hashData).length) {
+      if (hashData.error) {
+        this.setState({ googleLoginError: hashData.error })
+      } else if (hashData.access_token) {
+        token.set(hashData)
+
+        fetchUser(this.props.user)
+        window.location.href = '/'
+      }
+      if (hashData.action === 'logout') {
+        this.setState({ infoLoginMessage: 'You have been logged out.' })
+      }
+      window.location.hash = ''
+    }
+  }
+
   public render() {
     const { user } = this.props
     const {
@@ -131,25 +152,6 @@ class LoginPageContainer extends React.Component<
         </Main>
       </Page>
     )
-  }
-
-  private updateState = (
-    hashData: Token & ErrorMessage & VerificationData & Action
-  ) => {
-    if (hashData && Object.keys(hashData).length) {
-      if (hashData.error) {
-        this.setState({ googleLoginError: hashData.error })
-      } else if (hashData.access_token) {
-        token.set(hashData)
-
-        this.props.user.fetch()
-        window.location.href = '/'
-      }
-      if (hashData.action === 'logout') {
-        this.setState({ infoLoginMessage: 'You have been logged out.' })
-      }
-      window.location.hash = ''
-    }
   }
 
   private handleSubmit = async (
