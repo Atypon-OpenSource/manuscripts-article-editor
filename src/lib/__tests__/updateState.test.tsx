@@ -18,7 +18,7 @@ describe('Update state', () => {
     expect(wrapper.state('googleLoginError')).toEqual(null)
 
     // tslint:disable-next-line:no-any
-    const instance = (await wrapper.instance()) as any
+    const instance = wrapper.instance() as any
 
     await instance.updateState({ error: 'Error' })
     expect(wrapper.state('googleLoginError')).toEqual('Error')
@@ -30,7 +30,7 @@ describe('Update state', () => {
     expect(wrapper.state('infoLoginMessage')).toEqual(null)
 
     // tslint:disable-next-line:no-any
-    const instance = (await wrapper.instance()) as any
+    const instance = wrapper.instance() as any
 
     await instance.updateState({ action: 'logout' })
     expect(wrapper.state('infoLoginMessage')).toEqual(
@@ -45,7 +45,7 @@ describe('Update state', () => {
     const wrapper = mount(shallow(<LoginPageContainer />).get(0))
 
     // tslint:disable-next-line:no-any
-    const instance = (await wrapper.instance()) as any
+    const instance = wrapper.instance() as any
 
     await instance.updateState({ access_token: 'xyz' })
     expect(token.get()).toEqual({
