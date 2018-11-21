@@ -1,6 +1,10 @@
+import { timestamp } from '@manuscripts/manuscript-editor'
+import {
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import { InvitationData } from '../../src/components/nav/ProjectsDropdownButton'
-import timestamp from '../../src/lib/timestamp'
-import { Project, ProjectInvitation, UserProfile } from '../../src/types/models'
 
 export const invitations: ProjectInvitation[] = [
   {
@@ -13,6 +17,7 @@ export const invitations: ProjectInvitation[] = [
     role: 'Writer',
     objectType: 'MPProjectInvitation',
     createdAt: timestamp(),
+    updatedAt: timestamp(),
   },
   {
     _id: 'ProjectInvitation|2da9a8bc004083daea2b2746a5414b18f318f547',
@@ -23,6 +28,7 @@ export const invitations: ProjectInvitation[] = [
     role: 'Writer',
     objectType: 'MPProjectInvitation',
     createdAt: timestamp(),
+    updatedAt: timestamp(),
   },
 ]
 
@@ -37,6 +43,8 @@ const userProfiles: UserProfile[] = [
       family: 'Messi',
     },
     objectType: 'MPUserProfile',
+    createdAt: timestamp(),
+    updatedAt: timestamp(),
   },
 ]
 
@@ -48,6 +56,8 @@ const projects: Project[] = [
     viewers: [],
     writers: [],
     title: invitations[0].projectTitle || 'Untitled Project',
+    createdAt: timestamp(),
+    updatedAt: timestamp(),
   },
   {
     _id: invitations[1].projectID,
@@ -56,6 +66,8 @@ const projects: Project[] = [
     viewers: [],
     writers: [],
     title: invitations[1].projectTitle || 'Untitled Project',
+    createdAt: timestamp(),
+    updatedAt: timestamp(),
   },
 ]
 

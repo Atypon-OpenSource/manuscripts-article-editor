@@ -1,9 +1,9 @@
+import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { salomieYellow } from '../../colors'
 import AddAuthor from '../../icons/add-author'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { styled, ThemedProps } from '../../theme'
-import { Contributor, UserProfile } from '../../types/models'
 import { AuthorAffiliation } from './Author'
 import DraggableAuthorItem from './DraggableAuthorItem'
 
@@ -129,10 +129,10 @@ const AuthorsSidebar: React.SFC<Props> = ({
     <SidebarList>
       {authors.map((author, index) => {
         // const affiliations = authorAffiliations.get(author._id)
-        // const user = users.findOne(author.profileID) // TODO
+        // const user = users.findOne(author.userID) // TODO
 
         const user: Partial<UserProfile> = {
-          _id: author.profileID,
+          _id: author.userID,
         }
 
         const authorItem = {

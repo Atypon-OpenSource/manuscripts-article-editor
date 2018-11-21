@@ -94,7 +94,7 @@ describe('Account', () => {
   test('resetPassword', async () => {
     expect(token.get()).toBe(null)
 
-    await resetPassword('foo1234', 'example')
+    await resetPassword('foo1234', 'foo.eyJ3YXlmTG9jYWwiOiJ4In0=')
 
     expect(token.get()).toEqual({
       access_token: '123',

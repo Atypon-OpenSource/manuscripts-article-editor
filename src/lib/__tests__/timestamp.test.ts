@@ -1,4 +1,4 @@
-import timestamp from '../timestamp'
+import { timestamp } from '@manuscripts/manuscript-editor'
 
 describe('timestamp', () => {
   it('function should divide by 1000', () => {

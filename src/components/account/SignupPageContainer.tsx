@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse, stringify } from 'qs'
@@ -22,7 +23,9 @@ interface State {
   confirming: UserDetails | null
   resendSucceed: boolean | null
   existButNotVerified: UserDetails | null
+  networkError: boolean | null
   error: boolean
+  gatewayInaccessible: boolean | null
 }
 
 class SignupPageContainer extends React.Component<
@@ -33,7 +36,9 @@ class SignupPageContainer extends React.Component<
     confirming: null,
     resendSucceed: null,
     existButNotVerified: null,
+    networkError: null,
     error: false,
+    gatewayInaccessible: null,
   }
 
   private initialValues: SignupValues = {
@@ -64,7 +69,14 @@ class SignupPageContainer extends React.Component<
 
   public render() {
     const { user } = this.props
-    const { error, confirming, existButNotVerified, resendSucceed } = this.state
+    const {
+      error,
+      confirming,
+      existButNotVerified,
+      resendSucceed,
+      networkError,
+      gatewayInaccessible,
+    } = this.state
 
     if (!user.loaded) {
       return <Spinner />
@@ -86,6 +98,8 @@ class SignupPageContainer extends React.Component<
             existButNotVerified={existButNotVerified}
             resendSucceed={resendSucceed}
             resendVerificationEmail={this.resendVerificationEmail}
+            networkError={networkError}
+            gatewayInaccessible={gatewayInaccessible}
           />
           <SignupPage
             initialValues={this.initialValues}
@@ -115,28 +129,45 @@ class SignupPageContainer extends React.Component<
     } catch (error) {
       setSubmitting(false)
 
-      const errors: FormikErrors<SignupErrors> = {}
+      await this.handleError(error, setErrors, email)
+    }
+  }
 
-      if (error.response) {
-        const { data } = error.response
+  private handleError = async (
+    error: AxiosError,
+    setErrors: (
+      errors: FormikErrors<SignupValues> | FormikErrors<SignupErrors>
+    ) => void,
+    email: string
+  ) => {
+    const errors: FormikErrors<SignupErrors> = {}
 
-        if (
-          data &&
-          data.error &&
-          data.error.name === 'ConflictingUnverifiedUserExistsError'
-        ) {
-          this.setState({
-            confirming: null,
-            existButNotVerified: { email },
-          })
+    if (error.response) {
+      const { data } = error.response
+      const name = JSON.parse(data.error).name
 
-          await resendVerificationEmail(email)
-        } else {
-          errors.submit = this.errorResponseMessage(error.response.status)
+      if (
+        data &&
+        data.error &&
+        name === 'ConflictingUnverifiedUserExistsError'
+      ) {
+        this.setState({
+          confirming: null,
+          existButNotVerified: { email },
+        })
 
-          setErrors(errors)
-        }
+        await resendVerificationEmail(email)
+      } else if (data && data.error && name === 'GatewayInaccessibleError') {
+        this.setState({
+          gatewayInaccessible: true,
+        })
+      } else {
+        errors.submit = this.errorResponseMessage(error.response.status)
+
+        setErrors(errors)
       }
+    } else {
+      this.setState({ networkError: true })
     }
   }
 

@@ -1,11 +1,11 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
-import { UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import MenuDropdown from './MenuDropdown'
 import { UserInfo } from './UserInfo'
 
 interface Props {
-  user: UserProfile
+  user: UserProfileWithAvatar
 }
 
 export const UserMenu: React.SFC<Props> = ({ user }) => (

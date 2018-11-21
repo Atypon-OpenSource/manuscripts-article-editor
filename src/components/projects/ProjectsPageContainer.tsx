@@ -1,27 +1,27 @@
+import {
+  buildContributor,
+  buildManuscript,
+  buildProject,
+  PROJECT,
+  timestamp,
+  USER_PROFILE,
+} from '@manuscripts/manuscript-editor'
+import {
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import Spinner from '../../icons/spinner'
 import { acceptProjectInvitation } from '../../lib/api'
-import {
-  buildContributor,
-  buildManuscript,
-  buildProject,
-} from '../../lib/commands'
+import { buildUserMap } from '../../lib/data'
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/sessionID'
-import timestamp from '../../lib/timestamp'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { getModelFromDoc } from '../../transformer/decode'
-import { PROJECT, USER_PROFILE } from '../../transformer/object-types'
-import {
-  Attachments,
-  Project,
-  ProjectInvitation,
-  UserProfile,
-} from '../../types/models'
 import AcceptInvitationMessages from '../collaboration/AcceptInvitationMessages'
 import { Main, Page } from '../Page'
 import { ProjectsPage } from './ProjectsPage'
@@ -71,7 +71,7 @@ class ProjectsPageContainer extends React.Component<
       window.localStorage.removeItem('invitationToken')
       const invitation = await this.loadInvitation(invitationToken)
       if (invitation) {
-        await this.acceptInvitation(invitation._id)
+        await acceptProjectInvitation(invitation._id)
           .then(() => this.setState({ invitationAccepted: true }))
           .catch(() => this.setState({ invitationAccepted: false }))
       } else {
@@ -140,20 +140,11 @@ class ProjectsPageContainer extends React.Component<
   private loadUserMap = () =>
     this.getCollection()
       .find({ objectType: USER_PROFILE })
-      .$.subscribe(
-        async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
-          const users = await Promise.all(
-            docs.map(doc => getModelFromDoc<UserProfile>(doc))
-          )
-
-          const userMap = users.reduce((output, user) => {
-            output.set(user.userID, user)
-            return output
-          }, new Map())
-
-          this.setState({ userMap })
-        }
-      )
+      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
+        this.setState({
+          userMap: await buildUserMap(docs),
+        })
+      })
 
   private getCollection() {
     return this.props.models.collection as RxCollection<{}>
@@ -214,12 +205,6 @@ class ProjectsPageContainer extends React.Component<
           return invitation.toJSON() as ProjectInvitation
         }
       })
-
-  private acceptInvitation = async (invitationID: string) => {
-    await acceptProjectInvitation(invitationID).catch(() => {
-      alert('Invitation not found')
-    })
-  }
 }
 
 export default withModels(withUser(ProjectsPageContainer))

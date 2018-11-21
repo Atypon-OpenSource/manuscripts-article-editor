@@ -1,9 +1,13 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import {
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey } from '../../colors'
 import AddedIcon from '../../icons/added-icon'
 import SearchIcon from '../../icons/search'
 import { styled } from '../../theme'
-import { ProjectInvitation, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import {
   IconButton,
@@ -154,7 +158,7 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
               </InvitedContainer>
             </SidebarPersonContainer>
           ))}
-          {people.map(person => (
+          {people.map((person: UserProfileWithAvatar) => (
             <SidebarPersonContainer key={person._id}>
               <UserDataContainer>
                 <Avatar src={person.avatar} size={45} color={darkGrey} />

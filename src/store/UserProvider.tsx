@@ -1,9 +1,9 @@
+import { USER_PROFILE } from '@manuscripts/manuscript-editor'
+import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
 import { atomicUpdate } from '../lib/store'
 import token from '../lib/token'
-import { USER_PROFILE } from '../transformer/object-types'
-import { UserProfile } from '../types/models'
 import { ModelsProps, withModels } from './ModelsProvider'
 
 export interface UserProviderState {

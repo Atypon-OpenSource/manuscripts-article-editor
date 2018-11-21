@@ -1,5 +1,5 @@
+import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { ProjectInvitation } from '../../types/models'
 import { CollaboratorRolePopper } from './CollaboratorRolePopper'
 import { UninviteCollaboratorPopper } from './UninviteCollaboratorPopper'
 import UpdateRolePageContainer from './UpdateRolePageContainer'
@@ -42,6 +42,7 @@ class InviteCollaboratorPopper extends React.Component<Props, State> {
         resendSucceed={resendSucceed}
         resendInvitation={this.handleResendSubmit}
         selectedMode={this.state.selectedMode}
+        isOnlyOwner={false}
       />
     ) : updateRoleIsOpen ? (
       <UpdateRolePageContainer

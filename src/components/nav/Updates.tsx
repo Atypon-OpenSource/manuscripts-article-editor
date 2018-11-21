@@ -10,6 +10,7 @@ export const Popup = styled.div`
   box-shadow: 0 2px 2px #777;
   font-family: Barlow, sans-serif;
   font-size: 10pt;
+  font-weight: normal;
   color: #000;
   padding: 20px;
   max-width: 500px;
@@ -54,10 +55,15 @@ const Header = styled.div`
 
 const Heading = styled.div`
   font-size: 1.05em;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 2px;
   display: flex;
   justify-content: space-between;
+`
+
+const UpdatesContent = styled.div`
+  max-height: 70vh;
+  overflow-y: auto;
 `
 
 const Blurb = styled.div`
@@ -69,18 +75,10 @@ const Blurb = styled.div`
   }
 `
 
-const Topic = styled.div`
-  margin: 0pt;
-  * p {
-    margin-top: 0.3em;
-    margin-bottom: 1em;
-  }
-`
-
 const Timestamp = styled.span`
   color: #585858;
   font-size: 8pt;
-  font-weight: 600;
+  font-weight: normal;
   border-radius: 6px;
   border: 1px solid rgba(0, 197, 255, 0.12);
   background-color: rgba(0, 197, 255, 0.1);
@@ -96,6 +94,7 @@ const Container = styled.div`
 
 const TopicItem = styled.div`
   margin-bottom: 20px;
+  cursor: pointer;
 
   * p {
     margin-top: 0.5em;
@@ -206,22 +205,22 @@ export class Updates extends React.Component<Props, State> {
 
         <div>
           {selectedTopic ? (
-            <>
+            <UpdatesContent>
               <Header onClick={() => this.selectTopic(null)}>
                 <Back>
-                  <BackArrow size={15} color={'#585858'} />
-                  Back to Latest Updates
+                  <BackArrow size={15} color={'#585858'} /> Back to Latest
+                  Updates
                 </Back>
               </Header>
 
               {this.renderTopic(selectedTopic)}
-            </>
+            </UpdatesContent>
           ) : (
-            <>
+            <UpdatesContent>
               <Header>Latest Updates</Header>
 
               {this.renderTopics()}
-            </>
+            </UpdatesContent>
           )}
 
           <LoginLink host={host} />
@@ -292,11 +291,11 @@ export class Updates extends React.Component<Props, State> {
             </Link>
           </Title>
 
-          <Topic>
+          <div>
             <Timestamp>
               <FormattedRelative value={topic.created_at} />
             </Timestamp>
-          </Topic>
+          </div>
         </Heading>
 
         <TopicItem>{sanitizedContent(post.cooked)}</TopicItem>

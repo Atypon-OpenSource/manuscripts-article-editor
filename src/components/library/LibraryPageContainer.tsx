@@ -1,13 +1,15 @@
+import {
+  BIBLIOGRAPHY_ITEM,
+  buildBibliographyItem,
+} from '@manuscripts/manuscript-editor'
+import { BibliographyItem, Project } from '@manuscripts/manuscripts-json-schema'
 import qs from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
-import { buildBibliographyItem } from '../../lib/commands'
 import { sources } from '../../lib/sources'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { BIBLIOGRAPHY_ITEM } from '../../transformer/object-types'
-import { BibliographyItem, Project } from '../../types/models'
 
 import { Page } from '../Page'
 import LibraryContainer from './LibraryContainer'
@@ -17,7 +19,7 @@ import LibrarySourceContainer from './LibrarySourceContainer'
 interface State {
   item: BibliographyItem | null
   items: BibliographyItem[] | null
-  library: Array<RxDocument<BibliographyItem>>
+  library: Map<string, BibliographyItem>
   query: string | null
   source: string
   project: Project | null
@@ -33,7 +35,7 @@ class LibraryPageContainer extends React.Component<Props, State> {
   public state: Readonly<State> = {
     item: null,
     items: null,
-    library: [],
+    library: new Map(),
     query: null,
     source: 'library',
     project: null,
@@ -111,7 +113,13 @@ class LibraryPageContainer extends React.Component<Props, State> {
         .sort({
           updatedAt: 'desc',
         })
-        .$.subscribe((library: Array<RxDocument<BibliographyItem>>) => {
+        .$.subscribe((docs: Array<RxDocument<BibliographyItem>>) => {
+          const library = new Map()
+
+          docs.forEach(doc => {
+            library.set(doc._id, doc.toJSON())
+          })
+
           this.setState({ library })
         })
     )
@@ -159,9 +167,11 @@ class LibraryPageContainer extends React.Component<Props, State> {
 
   // TODO: move this to source definition
   private hasItem = (item: BibliographyItem): boolean => {
-    return this.state.library.some(
+    const items = Array.from(this.state.library.values())
+
+    return items.some(
       (libraryItem: RxDocument<BibliographyItem>) =>
-        libraryItem.get('DOI') === item.DOI
+        libraryItem.DOI === item.DOI
     )
   }
 }

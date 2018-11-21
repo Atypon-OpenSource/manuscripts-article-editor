@@ -35,10 +35,6 @@ test('Can change a password', async t => {
   await t.click(userDropdownToggle)
   await t.click(logoutLink)
 
-  await Selector('#signup-form')()
-  await t.expect(getLocation()).contains('/signup')
-  await t.click(loginLink)
-
   await Selector('#login-form')()
   await t.expect(getLocation()).contains('/login')
 

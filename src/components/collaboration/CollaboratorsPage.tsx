@@ -1,14 +1,14 @@
+import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
+import ContributorSearchPlaceholder from '@manuscripts/assets/react/ContributorSearchPlaceholder'
+import ContributorsPlaceholder from '@manuscripts/assets/react/ContributorsPlaceholder'
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AddAuthor from '../../icons/add-author'
 import AddedIcon from '../../icons/added-icon'
-import AuthorsPlaceholder from '../../icons/author-placeholder'
 import ContributorDetails from '../../icons/contributor-details-placeholder'
-import ContributorsPlaceholder from '../../icons/contributor-placeholder'
-import ContributorSearchPlaceholder from '../../icons/contributor-search-placeholder'
 import InvitationPlaceholder from '../../icons/invitation-placeholder'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme'
-import { Project, UserProfile } from '../../types/models'
 import {
   AddAuthorsMessage,
   AddCollaboratorsMessage,
@@ -35,7 +35,6 @@ const OuterContainerModal = styled(OuterContainer)`
 `
 
 const InnerContainer = styled.div`
-  display: contents;
   text-align: center;
   max-width: 480px;
   font-size: 20px;
@@ -85,6 +84,12 @@ const Message = styled.div`
   padding: 15px 0;
   font-weight: 300;
   color: #949494;
+
+  @media (max-width: 850px) {
+    margin-right: 20px;
+    margin-left: 20px;
+    max-width: 350px;
+  }
 `
 
 const AddButtonIcon = styled.div`
@@ -141,7 +146,7 @@ export const CollaboratorDetailsPage: React.SFC<
           ) : (
             <InnerContainer>
               <Placeholder>
-                <ContributorsPlaceholder size={500} />
+                <ContributorsPlaceholder />
               </Placeholder>
 
               <ProjectTitle>{project.title}</ProjectTitle>
@@ -183,7 +188,7 @@ export const AddCollaboratorsPage: React.SFC<AddCollaboratorsPageProps> = ({
   <OuterContainer>
     <InnerContainer>
       <Placeholder>
-        <ContributorsPlaceholder size={500} />
+        <ContributorsPlaceholder />
       </Placeholder>
 
       <ProjectTitle>{project.title}</ProjectTitle>
@@ -215,7 +220,7 @@ const IconContainer = styled.div`
 
 const MessageContainer = styled.div`
   display: flex;
-  align-content: center;
+  justify-content: center;
 `
 
 export const AddAuthorsPage: React.SFC<AddAuthorsPageProps> = ({
@@ -224,7 +229,7 @@ export const AddAuthorsPage: React.SFC<AddAuthorsPageProps> = ({
   <OuterContainerModal>
     <InnerContainer>
       <Placeholder>
-        <AuthorsPlaceholder size={500} />
+        <AuthorPlaceholder />
       </Placeholder>
 
       {addedAuthorsCount ? (
@@ -321,7 +326,7 @@ export const SearchCollaboratorsPage: React.SFC<
   <OuterContainer>
     <InnerContainer>
       <Placeholder>
-        <ContributorSearchPlaceholder size={500} />
+        <ContributorSearchPlaceholder />
       </Placeholder>
 
       <ProjectTitle>{project.title}</ProjectTitle>

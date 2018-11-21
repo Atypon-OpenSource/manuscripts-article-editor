@@ -1,25 +1,25 @@
+import {
+  PROJECT,
+  PROJECT_INVITATION,
+  USER_PROFILE,
+} from '@manuscripts/manuscript-editor'
+import {
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import { FormikActions, FormikErrors } from 'formik'
+import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import Spinner from '../../icons/spinner'
 import { addProjectUser, projectInvite } from '../../lib/api'
+import { buildUserMap } from '../../lib/data'
 import { isOwner } from '../../lib/roles'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { getModelFromDoc } from '../../transformer/decode'
-import {
-  PROJECT,
-  PROJECT_INVITATION,
-  USER_PROFILE,
-} from '../../transformer/object-types'
-import {
-  Attachments,
-  Project,
-  ProjectInvitation,
-  UserProfile,
-} from '../../types/models'
 import { Main, Page } from '../Page'
 import AddCollaboratorsSidebar from './AddCollaboratorsSidebar'
 import {
@@ -272,20 +272,11 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   private loadUserMap = () =>
     this.getCollection()
       .find({ objectType: USER_PROFILE })
-      .$.subscribe(
-        async (docs: Array<RxDocument<UserProfile & Attachments>>) => {
-          const users = await Promise.all(
-            docs.map(doc => getModelFromDoc<UserProfile>(doc))
-          )
-
-          const userMap = users.reduce((output, user) => {
-            output.set(user.userID, user)
-            return output
-          }, new Map())
-
-          this.setState({ userMap })
-        }
-      )
+      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
+        this.setState({
+          userMap: await buildUserMap(docs),
+        })
+      })
 
   private addCollaborator = async (
     userID: string,
@@ -389,10 +380,22 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       const errors: FormikErrors<InvitationErrors> = {}
 
       if (error.response) {
-        errors.submit = error.response
+        errors.submit = this.errorResponseMessage(error.response.status)
       }
 
       setErrors(errors)
+    }
+  }
+
+  private errorResponseMessage = (status: number) => {
+    switch (status) {
+      case HttpStatusCodes.BAD_REQUEST:
+        return 'You are already a collaborator on this project.'
+
+      case HttpStatusCodes.CONFLICT:
+        return 'The invited user is already a collaborator on this project.'
+      default:
+        return 'Sending invitation failed.'
     }
   }
 }

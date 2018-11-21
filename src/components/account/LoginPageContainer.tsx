@@ -16,6 +16,7 @@ import { AlertMessageType } from '../AlertMessage'
 import { FormErrors } from '../Form'
 import { Main, Page } from '../Page'
 import { LoginValues } from './LoginForm'
+import LoginPageMessages from './LoginMessages'
 import LoginPage from './LoginPage'
 
 interface ResendVerificationData {
@@ -26,11 +27,13 @@ interface ResendVerificationData {
 
 interface State {
   error: boolean
-  verificationMessage?: string
-  loginMessage?: string
-  resendVerificationData?: ResendVerificationData
-  googleLoginError?: string
-  infoLoginMessage?: string
+  verificationMessage: string | null
+  loginMessage: string | null
+  resendVerificationData: ResendVerificationData | null
+  googleLoginError: string | null
+  infoLoginMessage: string | null
+  networkError: boolean | null
+  gatewayInaccessible: boolean | null
 }
 
 interface ErrorMessage {
@@ -59,6 +62,13 @@ class LoginPageContainer extends React.Component<
 > {
   public state: Readonly<State> = {
     error: false,
+    googleLoginError: null,
+    infoLoginMessage: null,
+    loginMessage: null,
+    networkError: null,
+    resendVerificationData: null,
+    verificationMessage: null,
+    gatewayInaccessible: null,
   }
 
   private initialValues: LoginValues = {
@@ -90,9 +100,9 @@ class LoginPageContainer extends React.Component<
 
     if (state) {
       this.setState({
-        loginMessage: state.loginMessage,
-        verificationMessage: state.verificationMessage,
-        infoLoginMessage: state.infoLoginMessage,
+        loginMessage: state.loginMessage || null,
+        verificationMessage: state.verificationMessage || null,
+        infoLoginMessage: state.infoLoginMessage || null,
       })
     }
   }
@@ -125,6 +135,8 @@ class LoginPageContainer extends React.Component<
       resendVerificationData,
       googleLoginError,
       infoLoginMessage,
+      networkError,
+      gatewayInaccessible,
     } = this.state
 
     if (!user.loaded) {
@@ -138,16 +150,20 @@ class LoginPageContainer extends React.Component<
     return (
       <Page>
         <Main>
+          <LoginPageMessages
+            verificationMessage={verificationMessage}
+            googleLoginError={googleLoginError}
+            loginMessage={loginMessage}
+            resendVerificationData={resendVerificationData}
+            resendVerificationEmail={this.resendVerificationEmail}
+            infoLoginMessage={infoLoginMessage}
+            networkError={networkError}
+            gatewayInaccessible={gatewayInaccessible}
+          />
           <LoginPage
             initialValues={this.initialValues}
             validationSchema={loginSchema}
             onSubmit={this.handleSubmit}
-            verificationMessage={verificationMessage}
-            loginMessage={loginMessage}
-            resendVerificationData={resendVerificationData}
-            googleLoginError={googleLoginError}
-            resendVerificationEmail={this.resendVerificationEmail}
-            infoLoginMessage={infoLoginMessage}
           />
         </Main>
       </Page>
@@ -174,10 +190,25 @@ class LoginPageContainer extends React.Component<
       const errors: FormikErrors<FormErrors> = {}
 
       if (error.response) {
-        errors.submit = this.errorResponseMessage(error.response.status, values)
+        const { data } = error.response
+        if (
+          data &&
+          data.error &&
+          JSON.parse(data.error).name === 'GatewayInaccessibleError'
+        ) {
+          this.setState({
+            gatewayInaccessible: true,
+          })
+        } else {
+          errors.submit = this.errorResponseMessage(
+            error.response.status,
+            values
+          )
+          setErrors(errors)
+        }
+      } else {
+        this.setState({ networkError: true })
       }
-
-      setErrors(errors)
     }
   }
 
@@ -208,7 +239,7 @@ class LoginPageContainer extends React.Component<
       await resendVerificationEmail(email)
 
       this.setState({
-        resendVerificationData: undefined,
+        resendVerificationData: null,
       })
     } catch (error) {
       this.setState({

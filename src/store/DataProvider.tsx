@@ -1,3 +1,5 @@
+import { handleConflicts, saveSyncState } from '@manuscripts/manuscript-editor'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import {
@@ -8,9 +10,7 @@ import {
 } from 'rxdb'
 import config from '../config'
 import { refreshSyncSessions } from '../lib/api'
-import { handleConflicts } from '../lib/conflicts'
 import { databaseCreator } from '../lib/db'
-import { Model } from '../types/models'
 
 // TODO: handle offline/sync problems
 
@@ -36,6 +36,7 @@ interface PouchReplicationError {
 export interface ReplicationState {
   active: boolean
   completed: boolean
+  replication: RxReplicationState | null
 }
 
 type Direction = 'push' | 'pull'
@@ -59,10 +60,12 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     pull: {
       active: false,
       completed: false,
+      replication: null,
     },
     push: {
       active: false,
       completed: false,
+      replication: null,
     },
   }
 
@@ -86,6 +89,7 @@ class DataProvider extends React.Component<{}, DataProviderState> {
 
     // wait for initial pull of data to finish
     await this.sync({ live: false, retry: true }, 'pull')
+
     // start ongoing pull sync
     // tslint:disable-next-line:no-floating-promises
     this.sync({ live: true, retry: true }, 'pull')
@@ -95,7 +99,17 @@ class DataProvider extends React.Component<{}, DataProviderState> {
     this.sync({ live: true, retry: true }, 'push') // ongoing push sync
   }
 
-  protected sync = (options: PouchReplicationOptions, direction: Direction) => {
+  protected sync = (
+    options: PouchReplicationOptions,
+    direction: Direction,
+    isRetry: boolean = false
+  ) => {
+    const replicationState = this.state[direction]
+
+    if (replicationState.replication) {
+      throw new Error('Existing replication in progress')
+    }
+
     console.log('syncing', this.options, options) // tslint:disable-line:no-console
 
     const collection = this.state.collection as RxCollection<Model>
@@ -110,7 +124,28 @@ class DataProvider extends React.Component<{}, DataProviderState> {
       options,
     })
 
-    return this.addSyncHandlers(replication, options, direction)
+    this.setReplicationState(direction, replication)
+
+    return this.addSyncHandlers(replication, options, direction, isRetry)
+  }
+
+  private cancelReplication = async (
+    replication: RxReplicationState,
+    direction: Direction
+  ) => {
+    await replication.cancel()
+    this.state[direction].replication = null
+  }
+
+  private setReplicationState(direction: Direction, value: RxReplicationState) {
+    // TODO: make this typed somehow (i.e. no object assign)
+    this.setState({
+      ...this.state,
+      [direction]: {
+        ...this.state[direction],
+        replication: value,
+      },
+    })
   }
 
   private setCompletedState(direction: Direction, value: boolean) {
@@ -140,11 +175,29 @@ class DataProvider extends React.Component<{}, DataProviderState> {
   private addSyncHandlers = (
     replication: RxReplicationState,
     options: PouchReplicationOptions,
-    direction: Direction
+    direction: Direction,
+    isRetry: boolean
   ) => {
+    const collection = this.state.collection as RxCollection<Model>
+
     return new Promise((resolve, reject) => {
       replication.active$.subscribe(active => {
         this.setActiveState(direction, active)
+      })
+
+      // When pouch tries to replicate a single document
+      replication.denied$.subscribe(error => {
+        saveSyncState(collection, [error], []).catch(err => {
+          throw err
+        })
+      })
+
+      // When pouch tries to replicate multiple documents
+      replication.change$.subscribe(changeInfo => {
+        const { docs, errors } = changeInfo
+        saveSyncState(collection, errors, docs).catch(err => {
+          throw err
+        })
       })
 
       // For `live: true` the replication never completes
@@ -153,13 +206,28 @@ class DataProvider extends React.Component<{}, DataProviderState> {
 
         if (completed) {
           this.setCompletedState(direction, true)
-          return resolve()
+          // It is easier to just cancel this (despite it being "over" anyway)
+          return this.cancelReplication(replication, direction).then(() => {
+            return resolve()
+          })
         }
       })
 
       replication.error$.subscribe(async (error: PouchReplicationError) => {
         try {
           await this.handleSyncError(error, direction)
+
+          if (isRetry) {
+            // successfully handled sync error but failed again, move on
+            this.setCompletedState(direction, true)
+          } else {
+            // cancel this replication
+            await this.cancelReplication(replication, direction)
+            // try once more, after refreshing the sync session
+            await this.sync(options, direction, true)
+          }
+
+          resolve()
         } catch (e) {
           // Unhandled sync error
           // Bail out and cancel syncing
@@ -170,7 +238,6 @@ class DataProvider extends React.Component<{}, DataProviderState> {
           // tslint:disable-next-line:no-console
           console.error('Replication failed due to error', e)
           // reject()
-          resolve()
         }
       })
     })

@@ -1,3 +1,10 @@
+import {
+  Affiliation,
+  Contributor,
+  Manuscript,
+  Project,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import { FormikActions } from 'formik'
 import React from 'react'
@@ -7,13 +14,6 @@ import { AffiliationMap } from '../../lib/authors'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { isOwner } from '../../lib/roles'
 import { styled, ThemedProps } from '../../theme'
-import {
-  Affiliation,
-  Contributor,
-  Manuscript,
-  Project,
-  UserProfile,
-} from '../../types/models'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { CloseButton } from '../SimpleModal'
 import { StyledModal, totalTransitionTime } from '../StyledModal'

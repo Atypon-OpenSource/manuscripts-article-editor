@@ -1,15 +1,15 @@
+import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import SettingsInverted from '../../icons/settings-inverted-icon'
 import { styled } from '../../theme'
-import { ProjectInvitation } from '../../types/models'
 import { IconButton } from '../Button'
 import InviteCollaboratorPopperContainer from './InviteCollaboratorPopperContainer'
 
 const AddIconButton = styled(IconButton)`
   display: flex;
-  height: 20px;
-  width: 36px;
+  height: 24px;
+  width: 40px;
 
   &:focus {
     outline: none;

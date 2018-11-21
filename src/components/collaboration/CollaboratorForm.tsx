@@ -1,6 +1,7 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { Affiliation, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { styled } from '../../theme'
-import { Affiliation, UserProfile } from '../../types/models'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { Avatar } from '../Avatar'
 
@@ -65,7 +66,7 @@ const AffiliationGroupContainer = styled.div`
 `
 
 interface CollaboratorProps {
-  collaborator: UserProfile
+  collaborator: UserProfileWithAvatar
   user: UserProfile
   affiliations: Affiliation[] | null
   manageProfile: () => void

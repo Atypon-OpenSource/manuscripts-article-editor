@@ -1,4 +1,4 @@
-import { BibliographicName } from '../types/models'
+import { BibliographicName } from '@manuscripts/manuscripts-json-schema'
 
 export const initials = (name: BibliographicName): string =>
   name.given

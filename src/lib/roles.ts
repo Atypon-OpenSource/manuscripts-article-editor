@@ -1,4 +1,4 @@
-import { Project } from '../types/models'
+import { Project } from '@manuscripts/manuscripts-json-schema'
 
 export enum ProjectRole {
   owner = 'Owner',

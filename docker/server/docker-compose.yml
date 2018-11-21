@@ -2,7 +2,7 @@ version: '3'
 
 services:
   couchbase:
-    image: registry.gitlab.com/mpapp-private/manuscripts-api/couchbase
+    image: registry.gitlab.com/mpapp-private/manuscripts-sync/couchbase
     env_file:
       - defaults.env
       - .env
@@ -23,7 +23,7 @@ services:
       - couchbase-data:/opt/couchbase/var
 
   sync_gateway:
-    image: registry.gitlab.com/mpapp-private/manuscripts-api/sync_gateway
+    image: registry.gitlab.com/mpapp-private/manuscripts-sync/sync_gateway
     env_file:
       - defaults.env
       - .env

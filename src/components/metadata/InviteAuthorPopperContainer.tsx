@@ -1,9 +1,9 @@
+import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
 import { Formik, FormikActions, FormikProps } from 'formik'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import { projectInvite } from '../../lib/api/collaboration'
 import { styled } from '../../theme'
-import { Contributor, Project } from '../../types/models'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import {
   InvitationErrors,

@@ -1,8 +1,8 @@
+import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import ShareProjectIcon from '../../icons/shareProject'
 import { styled } from '../../theme'
-import { Project } from '../../types/models'
 import { IconButton } from '../Button'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
 

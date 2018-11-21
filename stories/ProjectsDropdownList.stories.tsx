@@ -15,6 +15,7 @@ storiesOf('Nav/Projects Dropdown List', module)
       acceptInvitation={action('accept invitation')}
       rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
+      acceptError={null}
     />
   ))
   .add('With projects', () => (
@@ -26,6 +27,7 @@ storiesOf('Nav/Projects Dropdown List', module)
       acceptInvitation={action('accept invitation')}
       rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
+      acceptError={null}
     />
   ))
   .add('With only invitations', () => (
@@ -39,6 +41,7 @@ storiesOf('Nav/Projects Dropdown List', module)
       acceptInvitation={action('accept invitation')}
       rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
+      acceptError={null}
     />
   ))
   .add('With projects and invitations', () => (
@@ -52,6 +55,7 @@ storiesOf('Nav/Projects Dropdown List', module)
       acceptInvitation={action('accept invitation')}
       rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
+      acceptError={null}
     />
   ))
   .add('With rejected invitations', () => (
@@ -67,5 +71,6 @@ storiesOf('Nav/Projects Dropdown List', module)
       acceptInvitation={action('accept invitation')}
       rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
+      acceptError={null}
     />
   ))

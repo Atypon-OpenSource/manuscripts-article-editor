@@ -1,9 +1,9 @@
+import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AddIconInverted from '../../icons/add-icon-inverted'
 import AddedIcon from '../../icons/added-icon'
 import { buildAuthorPriority } from '../../lib/authors'
 import { styled } from '../../theme'
-import { Contributor, UserProfile } from '../../types/models'
 import { IconButton } from '../Button'
 
 const AddIconButton = styled(IconButton)`

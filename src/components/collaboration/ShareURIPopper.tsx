@@ -1,8 +1,8 @@
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { altoGrey, dustyGrey, manuscriptsBlue } from '../../colors'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme'
-import { Project, UserProfile } from '../../types/models'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { Button, ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import { PopperBody } from '../Popper'
@@ -196,10 +196,7 @@ export const ShareURIPopper: React.SFC<Props> = ({
         <React.Fragment>
           {!isProjectOwner ? (
             <AlertMessageContainer>
-              <AlertMessage
-                type={AlertMessageType.error}
-                hideCloseButton={true}
-              >
+              <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
                 Only project owners can share links to the document.
               </AlertMessage>
             </AlertMessageContainer>

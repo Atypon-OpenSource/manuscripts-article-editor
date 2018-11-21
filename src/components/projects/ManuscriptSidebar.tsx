@@ -1,22 +1,25 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
+import {
+  DebouncedManuscriptOutlineContainer,
+  ManuscriptEditorView,
+  ManuscriptNode,
+  OutlineManuscript,
+  Selected,
+} from '@manuscripts/manuscript-editor'
+import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
-import { Node as ProsemirrorNode } from 'prosemirror-model'
-import { EditorView } from 'prosemirror-view'
 import * as React from 'react'
-import { manuscriptsBlue, powderBlue } from '../../colors'
-import { Selected } from '../../editor/lib/utils'
+import { manuscriptsBlue, manuscriptsGrey, powderBlue } from '../../colors'
 import { styled } from '../../theme'
-import { Manuscript, Project } from '../../types/models'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import Panel from '../Panel'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarTitle,
 } from '../Sidebar'
-import { DebouncedManuscriptOutlineContainer } from './ManuscriptOutlineContainer'
-import { OutlineManuscript } from './OutlineManuscript'
 
 const ProjectTitle = styled(SidebarTitle)`
   color: #353535;
@@ -56,7 +59,6 @@ const SidebarManuscript = styled.div`
 
 const AddManuscriptButton = styled.button`
   display: flex;
-  margin: 8px 12px;
   font-size: 14px;
   font-weight: 500;
   align-items: center;
@@ -65,10 +67,14 @@ const AddManuscriptButton = styled.button`
   border: none;
   padding: 2px 8px;
   letter-spacing: -0.3px;
+  color: ${manuscriptsGrey};
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 const StyledAddIcon = styled(AddIcon)`
   transform: scale(0.6);
+  flex-shrink: 0;
 `
 
 interface Props {
@@ -78,8 +84,8 @@ interface Props {
   project: Project
   saveProject: (project: Project) => Promise<void>
   selected: Selected | null
-  view: EditorView | null
-  doc: ProsemirrorNode | null
+  view: ManuscriptEditorView | null
+  doc: ManuscriptNode | null
 }
 
 const ManuscriptSidebar: React.SFC<Props> = ({
@@ -122,12 +128,14 @@ const ManuscriptSidebar: React.SFC<Props> = ({
             )}
           </SidebarManuscript>
         ))}
+      </SidebarContent>
 
+      <SidebarFooter>
         <AddManuscriptButton onClick={addManuscript}>
           <StyledAddIcon />
           Add Manuscript
         </AddManuscriptButton>
-      </SidebarContent>
+      </SidebarFooter>
     </Sidebar>
   </Panel>
 )

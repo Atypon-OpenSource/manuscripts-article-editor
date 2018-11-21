@@ -1,7 +1,8 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey } from '../../colors'
 import { styled } from '../../theme'
-import { UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import { ManuscriptBlueButton } from '../Button'
 import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
@@ -69,7 +70,7 @@ const SearchCollaboratorsSidebar: React.SFC<SearchSidebarProps> = ({
       </SidebarContent>
     ) : (
       <SidebarContent>
-        {searchResults.map(person => (
+        {searchResults.map((person: UserProfileWithAvatar) => (
           <SidebarPersonContainer key={person._id}>
             <UserDataContainer>
               <Avatar src={person.avatar} size={45} color={darkGrey} />

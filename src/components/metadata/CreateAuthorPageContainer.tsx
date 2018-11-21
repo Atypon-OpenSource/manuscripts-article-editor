@@ -1,6 +1,6 @@
+import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { buildAuthorPriority } from '../../lib/authors'
-import { Contributor, UserProfile } from '../../types/models'
 import { Category, Dialog } from '../Dialog'
 
 interface Props {

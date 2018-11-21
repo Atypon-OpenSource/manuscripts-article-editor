@@ -1,17 +1,24 @@
 import {
   AFFILIATION,
   CONTRIBUTOR,
+  DEFAULT_BUNDLE,
   MANUSCRIPT,
-} from '../../transformer/object-types'
-import { Affiliation, Contributor, Manuscript, Model } from '../../types/models'
+} from '@manuscripts/manuscript-editor'
 import {
+  Affiliation,
+  Contributor,
+  Manuscript,
+  Model,
+} from '@manuscripts/manuscripts-json-schema'
+import {
+  buildAffiliationIDs,
   buildAffiliationsMap,
   buildAuthorAffiliations,
+  buildAuthorPriority,
   buildAuthorsAndAffiliations,
   buildSortedAuthors,
   isJointFirstAuthor,
 } from '../authors'
-import { DEFAULT_BUNDLE } from '../csl'
 
 const modelMap = (models: Model[]): Map<string, Model> => {
   const map = new Map<string, Model>()
@@ -26,6 +33,9 @@ const affiliation: Affiliation = {
   manuscriptID: 'MPManuscript:X',
   containerID: 'MPProject:1',
   priority: 0,
+  sessionID: 'test',
+  createdAt: 0,
+  updatedAt: 0,
 }
 
 const affiliations = [affiliation]
@@ -43,6 +53,9 @@ const contribs: Contributor[] = [
     containerID: 'MPProject:1',
     role: 'author',
     affiliations: affiliations.map(a => a._id),
+    sessionID: 'test',
+    createdAt: 0,
+    updatedAt: 0,
   },
   {
     _id: 'MPContributor:y',
@@ -56,6 +69,9 @@ const contribs: Contributor[] = [
     containerID: 'MPProject:1',
     isJointContributor: true,
     role: 'author',
+    sessionID: 'test',
+    createdAt: 0,
+    updatedAt: 0,
   },
   {
     _id: 'MPContributor:z',
@@ -68,6 +84,9 @@ const contribs: Contributor[] = [
     manuscriptID: 'manuscript-A',
     containerID: 'MPProject:1',
     role: 'author',
+    sessionID: 'test',
+    createdAt: 0,
+    updatedAt: 0,
   },
 ]
 
@@ -78,6 +97,9 @@ const manuscripts: Manuscript[] = [
     containerID: 'MPProject:1',
     title: 'Manuscript X',
     bundle: DEFAULT_BUNDLE,
+    sessionID: 'test',
+    createdAt: 0,
+    updatedAt: 0,
   },
 ]
 
@@ -112,6 +134,9 @@ describe('author and affiliation helpers', () => {
           objectType: 'MPBibliographicName',
         },
         isJointContributor: true,
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
       },
       {
         _id: 'MPContributor:author-2',
@@ -123,6 +148,9 @@ describe('author and affiliation helpers', () => {
           objectType: 'MPBibliographicName',
         },
         isJointContributor: false,
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
       },
       {
         _id: 'MPContributor:author-3',
@@ -133,6 +161,9 @@ describe('author and affiliation helpers', () => {
           _id: 'MPBibliographicName:author-3',
           objectType: 'MPBibliographicName',
         },
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
       },
     ]
 
@@ -153,6 +184,9 @@ describe('author and affiliation helpers', () => {
           objectType: 'MPBibliographicName',
         },
         isJointContributor: false,
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
       },
       {
         _id: 'MPContributor:author-2',
@@ -163,6 +197,9 @@ describe('author and affiliation helpers', () => {
           _id: 'MPBibliographicName:author-2',
           objectType: 'MPBibliographicName',
         },
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
       },
       {
         _id: 'MPContributor:author-3',
@@ -173,6 +210,9 @@ describe('author and affiliation helpers', () => {
           _id: 'MPBibliographicName:author-3',
           objectType: 'MPBibliographicName',
         },
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
       },
     ]
 
@@ -225,5 +265,45 @@ describe('author and affiliation helpers', () => {
       ),
       authors: buildSortedAuthors(comps),
     })
+  })
+
+  it('buildAuthorPriority', () => {
+    const authors: Contributor[] = [
+      {
+        _id: 'MPContributor:author-1',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-1',
+          objectType: 'MPBibliographicName',
+        },
+        isJointContributor: false,
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
+        priority: 0,
+      },
+      {
+        _id: 'MPContributor:author-2',
+        objectType: CONTRIBUTOR,
+        manuscriptID: 'MPManuscript:manuscript-1',
+        containerID: 'MPProject:project-1',
+        bibliographicName: {
+          _id: 'MPBibliographicName:author-2',
+          objectType: 'MPBibliographicName',
+        },
+        sessionID: 'test',
+        createdAt: 0,
+        updatedAt: 0,
+        priority: 1,
+      },
+    ]
+
+    expect(buildAuthorPriority(authors)).toBe(2)
+  })
+
+  it('buildAffiliationIDs', () => {
+    expect(buildAffiliationIDs(contribs)).toEqual(['MPAffiliation:X'])
   })
 })

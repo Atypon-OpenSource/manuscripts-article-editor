@@ -1,19 +1,26 @@
+import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Title, TitleField } from '@manuscripts/title-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+import {
+  AddAuthorsPage,
+  AuthorDetailsPage,
+} from '../src/components/collaboration/CollaboratorsPage'
+import AddAuthorButton from '../src/components/metadata/AddAuthorButton'
+import AddAuthorsSidebar from '../src/components/metadata/AddAuthorsSidebar'
 import { Affiliations } from '../src/components/metadata/Affiliations'
 import { AuthorAffiliation } from '../src/components/metadata/Author'
 import { AuthorForm } from '../src/components/metadata/AuthorForm'
 import Authors from '../src/components/metadata/Authors'
 import AuthorsSidebar from '../src/components/metadata/AuthorsSidebar'
 import { Metadata } from '../src/components/metadata/Metadata'
+import SearchAuthorsSidebar from '../src/components/metadata/SearchAuthorsSidebar'
 import {
   buildAffiliationIDs,
   buildAuthorAffiliations,
 } from '../src/lib/authors'
-import { Project, UserProfile } from '../src/types/models'
-import { affiliations, authors } from './data/contributors'
+import { affiliations, authors, user } from './data/contributors'
 import manuscripts from './data/manuscripts'
 import { project } from './data/projects'
 
@@ -284,3 +291,51 @@ storiesOf('Metadata', module)
       getAuthorName={action('get the author name')}
     />
   ))
+
+  .add('Add Authors Sidebar', () => (
+    <AddAuthorsSidebar
+      nonAuthors={[]}
+      numberOfAddedAuthors={0}
+      isSearching={false}
+      searchText={''}
+      addedAuthors={[]}
+      handleDoneCancel={action('stop adding')}
+      createAuthor={action('create author')}
+      handleSearchChange={action('update search text')}
+      handleSearchFocus={action('start searching')}
+      searchResults={[]}
+      handleInvite={action('start invite')}
+      authors={authors}
+      authorExist={action('check author existence')}
+      createAuthorIsOpen={false}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+    />
+  ))
+
+  .add('Search Authors Sidebar', () => (
+    <SearchAuthorsSidebar
+      searchText={''}
+      addedAuthors={[]}
+      createAuthor={action('create author')}
+      searchResults={[]}
+      handleInvite={action('start invite')}
+      authors={authors}
+      authorExist={action('check author existence')}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+    />
+  ))
+
+  .add('Add Author Button', () => (
+    <AddAuthorButton
+      person={user}
+      authors={authors}
+      createAuthor={action('create author')}
+    />
+  ))
+
+  .add('Add Authors Page', () => <AddAuthorsPage addedAuthorsCount={3} />)
+  .add('Author Details Page ', () => <AuthorDetailsPage />)

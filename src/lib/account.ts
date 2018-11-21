@@ -1,4 +1,5 @@
 import { RxDatabase } from 'rxdb'
+import config from '../config'
 import * as api from './api'
 import tokenHandler from './token'
 import { registerWayfId } from './wayf'
@@ -28,7 +29,7 @@ export const login = async (
 
   tokenHandler.set({ access_token: accessToken })
 
-  await registerWayfId(accessToken)
+  await registerWayfId(accessToken, config.wayf)
 }
 
 export const logout = async (db: RxDatabase) => {
@@ -65,5 +66,5 @@ export const resetPassword = async (password: string, token: string) => {
     access_token: accessToken,
   })
 
-  await registerWayfId(accessToken)
+  await registerWayfId(accessToken, config.wayf)
 }

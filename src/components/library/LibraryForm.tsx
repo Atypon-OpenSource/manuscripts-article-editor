@@ -1,3 +1,5 @@
+import { buildKeyword } from '@manuscripts/manuscript-editor'
+import { BibliographyItem, Keyword } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import {
   Field,
@@ -10,14 +12,12 @@ import {
 import * as React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
-import { buildKeyword } from '../../lib/commands'
 import {
   KeywordsMap,
   KeywordsProps,
   withKeywords,
 } from '../../store/KeywordsProvider'
 import { styled } from '../../theme'
-import { BibliographyItem, Keyword } from '../../types/models'
 import { DeleteButton, PrimaryButton, ThemedButtonProps } from '../Button'
 
 const Fields = styled.div`
@@ -120,6 +120,12 @@ const Author = styled.div`
 const Actions = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+`
+
+const ActionsGroup = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 const TitleContainer = styled.div`
@@ -192,13 +198,6 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
               value={values.title || ''}
               handleChange={(data: string) => setFieldValue('title', data)}
             />
-            <TitleLink
-              href={`https://doi.org/${values.DOI}`}
-              target={'_blank'}
-              rel={'noopener noreferrer'}
-            >
-              ↗️
-            </TitleLink>
           </TitleContainer>
 
           <Label>
@@ -289,7 +288,18 @@ const LibraryForm: React.SFC<Props & KeywordsProps> = ({
           </Label>
 
           <Actions>
-            <PrimaryButton type={'submit'}>Save</PrimaryButton>
+            <ActionsGroup>
+              <PrimaryButton type={'submit'}>Save</PrimaryButton>
+
+              <TitleLink
+                href={`https://doi.org/${values.DOI}`}
+                target={'_blank'}
+                rel={'noopener noreferrer'}
+              >
+                Read
+              </TitleLink>
+            </ActionsGroup>
+
             {handleDelete && (
               <DeleteButton onClick={() => handleDelete(item)}>
                 Delete

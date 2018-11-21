@@ -1,6 +1,7 @@
+import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import { Contributor, Project } from '../types/models'
+import { styled } from '../theme'
 import { TextButton } from './AlertMessage'
 import InviteAuthorPopperContainer from './metadata/InviteAuthorPopperContainer'
 
@@ -14,6 +15,9 @@ interface Props {
   updateAuthor: (author: Contributor, email: string) => void
 }
 
+const Button = styled(TextButton)`
+  margin-left: 10px;
+`
 class InviteAuthorButton extends React.Component<Props, State> {
   public state: State = {
     isOpen: false,
@@ -37,13 +41,13 @@ class InviteAuthorButton extends React.Component<Props, State> {
       <Manager>
         <Reference>
           {({ ref }) => (
-            <TextButton
+            <Button
               // @ts-ignore: styled
               ref={ref}
               onClick={this.openPopper}
             >
               Invite as Collaborator
-            </TextButton>
+            </Button>
           )}
         </Reference>
         {isOpen && (

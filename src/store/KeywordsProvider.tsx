@@ -1,10 +1,9 @@
+import { Build, KEYWORD } from '@manuscripts/manuscript-editor'
+import { Keyword } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Spinner } from '../components/Spinner'
-import { Build } from '../lib/commands'
 import { atomicUpdate } from '../lib/store'
-import { KEYWORD } from '../transformer/object-types'
-import { Keyword } from '../types/models'
 import { ModelsProps, withModels } from './ModelsProvider'
 
 export type KeywordsMap = Map<string, Keyword>

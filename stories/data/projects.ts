@@ -1,4 +1,4 @@
-import { Project } from '../../src/types/models'
+import { Project } from '@manuscripts/manuscripts-json-schema'
 
 const projects: Project[] = [
   {

@@ -1,9 +1,8 @@
+import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { UserProfile } from '../../types/models'
 import {
   ChangePasswordMessage,
   DeleteAccountMessage,
-  // PreferencesMessage,
   SignOutMessage,
 } from '../Messages'
 import { DropdownLink } from './Dropdown'

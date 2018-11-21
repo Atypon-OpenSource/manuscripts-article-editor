@@ -1,4 +1,3 @@
-require('@babel/polyfill')
 const { addDecorator, configure } = require('@storybook/react')
 const React = require('react')
 const { MemoryRouter } = require('react-router-dom')

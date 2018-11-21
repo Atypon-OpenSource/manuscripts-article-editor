@@ -1,20 +1,24 @@
+import {
+  buildContributor,
+  buildManuscript,
+  buildProject,
+  PROJECT,
+  timestamp,
+} from '@manuscripts/manuscript-editor'
+import {
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
-import {
-  buildContributor,
-  buildManuscript,
-  buildProject,
-} from '../../lib/commands'
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/sessionID'
-import timestamp from '../../lib/timestamp'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import { PROJECT } from '../../transformer/object-types'
-import { Project, ProjectInvitation, UserProfile } from '../../types/models'
 import { InvitationData } from './ProjectsDropdownButton'
 import { ProjectsDropdownList } from './ProjectsDropdownList'
 
@@ -22,6 +26,10 @@ interface State {
   projects: Project[] | null
   acceptedInvitations: string[]
   rejectedInvitations: string[]
+  acceptError: {
+    invitationId: string
+    errorMessage: string
+  } | null
 }
 
 interface Props {
@@ -38,6 +46,7 @@ class ProjectsMenu extends React.Component<
     projects: null,
     acceptedInvitations: [],
     rejectedInvitations: [],
+    acceptError: null,
   }
 
   private subs: Subscription[] = []
@@ -52,22 +61,34 @@ class ProjectsMenu extends React.Component<
 
   public render() {
     const { handleClose, invitationsData } = this.props
-    const { projects, acceptedInvitations, rejectedInvitations } = this.state
+    const {
+      projects,
+      acceptedInvitations,
+      rejectedInvitations,
+      acceptError,
+    } = this.state
 
     if (projects === null) {
       return null
     }
+
+    const projectsIDs = projects.map(project => project._id)
+
+    const filteredInvitationsData = invitationsData.filter(
+      invitationData => projectsIDs.indexOf(invitationData.project._id) < 0
+    )
 
     return (
       <ProjectsDropdownList
         handleClose={handleClose}
         projects={projects}
         addProject={this.addProject}
-        invitationsData={invitationsData}
+        invitationsData={filteredInvitationsData}
         acceptedInvitations={acceptedInvitations}
         rejectedInvitations={rejectedInvitations}
         acceptInvitation={this.acceptInvitation}
         rejectInvitation={this.rejectInvitation}
+        acceptError={acceptError}
       />
     )
   }
@@ -131,15 +152,26 @@ class ProjectsMenu extends React.Component<
   }
 
   private acceptInvitation = async (invitation: ProjectInvitation) => {
-    await acceptProjectInvitation(invitation._id)
+    try {
+      await acceptProjectInvitation(invitation._id)
 
-    const acceptedInvitations = this.state.acceptedInvitations.concat(
-      invitation.projectID
-    )
+      const acceptedInvitations = this.state.acceptedInvitations.concat(
+        invitation.projectID
+      )
 
-    this.setState({ acceptedInvitations })
+      this.setState({ acceptedInvitations })
 
-    this.props.removeInvitationData(invitation._id)
+      this.props.removeInvitationData(invitation._id)
+    } catch (error) {
+      const errorMessage =
+        error && error.response && error.response.status === 400
+          ? 'The invitation does not exist, either because it has expired or the project owner uninvited you.'
+          : `Service unreachable, please try again later.`
+
+      this.setState({
+        acceptError: { invitationId: invitation._id, errorMessage },
+      })
+    }
   }
 
   private rejectInvitation = async (invitation: ProjectInvitation) => {

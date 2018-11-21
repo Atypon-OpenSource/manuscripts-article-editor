@@ -1,10 +1,15 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import {
+  Project,
+  ProjectInvitation,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey } from '../../colors'
 import AddAuthor from '../../icons/add-author'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner } from '../../lib/roles'
 import { styled } from '../../theme'
-import { Project, ProjectInvitation, UserProfile } from '../../types/models'
 import { Avatar } from '../Avatar'
 import Panel from '../Panel'
 import {
@@ -39,7 +44,7 @@ const CollaboratorSidebar = styled(Sidebar)`
 
 const AddCollaboratorButton = styled.button`
   display: flex;
-  margin: 8px 0;
+  margin: 8px 0px 8px 4px;
   font-size: 14px;
   align-items: center;
   cursor: pointer;
@@ -54,7 +59,7 @@ const AddCollaboratorText = styled.div`
 `
 
 const CollaboratorData = styled.div`
-  padding-left: 8px;
+  padding-left: 3px;
 `
 const UserDataContainer = styled.div`
   display: flex;
@@ -102,7 +107,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
     name={'collaborators-sidebar'}
     direction={'row'}
     side={'end'}
-    minSize={200}
+    minSize={250}
   >
     <CollaboratorSidebar>
       <SidebarHeader>
@@ -145,7 +150,7 @@ const CollaboratorsSidebar: React.SFC<Props> = ({
           </SidebarPersonContainer>
         ))}
         {!!collaborators &&
-          collaborators.map(collaborator => (
+          collaborators.map((collaborator: UserProfileWithAvatar) => (
             <SidebarPersonContainer
               key={collaborator._id}
               onMouseEnter={() => handleHover(collaborator.userID)}
