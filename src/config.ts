@@ -1,6 +1,7 @@
 interface Config {
   url: string
   environment: string
+  native: boolean
   serviceworker: boolean
   api: {
     url: string
@@ -41,6 +42,10 @@ interface Config {
   }
 }
 
+const isTrue = (value: string | undefined) => {
+  return value === '1' || value === 'true'
+}
+
 const normalizeURL = (url: string | undefined) => {
   return url && url.replace(/\/$/, '')
 }
@@ -53,7 +58,8 @@ export interface WayfConfiguration {
 const config = {
   url: normalizeURL(process.env.BASE_URL),
   environment: process.env.NODE_ENV,
-  serviceworker: process.env.SERVICEWORKER_ENABLED === '1',
+  native: isTrue(process.env.NATIVE),
+  serviceworker: isTrue(process.env.SERVICEWORKER_ENABLED),
   api: {
     url: normalizeURL(process.env.API_BASE_URL),
     headers: {

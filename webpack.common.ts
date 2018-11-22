@@ -25,6 +25,7 @@ const configuration: webpack.Configuration = {
         'DISCOURSE_HOST',
         'GIT_COMMIT_HASH',
         'GIT_VERSION',
+        'NATIVE',
         'NODE_ENV',
         'PRESSROOM_KEY',
         'PRESSROOM_URL',

@@ -248,26 +248,27 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         <Main>
           <EditorContainer>
-            {view && (
-              <EditorHeader>
-                <ApplicationMenu
-                  menus={menus({
-                    manuscript,
-                    addManuscript: this.addManuscript,
-                    deleteManuscript: this.deleteManuscript,
-                    deleteModel: this.deleteModel,
-                    exportManuscript: this.exportManuscript,
-                    history: this.props.history,
-                    importManuscript: this.importManuscript,
-                    importFile,
-                    openFilePicker,
-                  })}
-                  view={view}
-                />
+            {view &&
+              !config.native && (
+                <EditorHeader>
+                  <ApplicationMenu
+                    menus={menus({
+                      manuscript,
+                      addManuscript: this.addManuscript,
+                      deleteManuscript: this.deleteManuscript,
+                      deleteModel: this.deleteModel,
+                      exportManuscript: this.exportManuscript,
+                      history: this.props.history,
+                      importManuscript: this.importManuscript,
+                      importFile,
+                      openFilePicker,
+                    })}
+                    view={view}
+                  />
 
-                <Toolbar toolbar={toolbar} view={view} />
-              </EditorHeader>
-            )}
+                  <Toolbar toolbar={toolbar} view={view} />
+                </EditorHeader>
+              )}
 
             <EditorBody>
               <MetadataContainer
