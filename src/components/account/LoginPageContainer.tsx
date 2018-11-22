@@ -30,7 +30,7 @@ interface State {
   verificationMessage: string | null
   loginMessage: string | null
   resendVerificationData: ResendVerificationData | null
-  googleLoginError: string | null
+  identityProviderError: string | null
   infoLoginMessage: string | null
   networkError: boolean | null
   gatewayInaccessible: boolean | null
@@ -62,7 +62,7 @@ class LoginPageContainer extends React.Component<
 > {
   public state: Readonly<State> = {
     error: false,
-    googleLoginError: null,
+    identityProviderError: null,
     infoLoginMessage: null,
     loginMessage: null,
     networkError: null,
@@ -112,7 +112,7 @@ class LoginPageContainer extends React.Component<
   ) => {
     if (hashData && Object.keys(hashData).length) {
       if (hashData.error) {
-        this.setState({ googleLoginError: hashData.error })
+        this.setState({ identityProviderError: hashData.error })
       } else if (hashData.access_token) {
         token.set(hashData)
 
@@ -133,7 +133,7 @@ class LoginPageContainer extends React.Component<
       verificationMessage,
       loginMessage,
       resendVerificationData,
-      googleLoginError,
+      identityProviderError,
       infoLoginMessage,
       networkError,
       gatewayInaccessible,
@@ -152,7 +152,7 @@ class LoginPageContainer extends React.Component<
         <Main>
           <LoginPageMessages
             verificationMessage={verificationMessage}
-            googleLoginError={googleLoginError}
+            identityProviderError={identityProviderError}
             loginMessage={loginMessage}
             resendVerificationData={resendVerificationData}
             resendVerificationEmail={this.resendVerificationEmail}

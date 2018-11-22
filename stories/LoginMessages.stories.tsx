@@ -11,7 +11,7 @@ storiesOf('LoginMessages', module)
       }
       loginMessage={null}
       resendVerificationData={null}
-      googleLoginError={null}
+      identityProviderError={null}
       resendVerificationEmail={() => action('resend')}
       infoLoginMessage={null}
       networkError={null}
@@ -23,7 +23,7 @@ storiesOf('LoginMessages', module)
       verificationMessage={null}
       loginMessage={null}
       resendVerificationData={null}
-      googleLoginError={null}
+      identityProviderError={null}
       resendVerificationEmail={() => action('resend')}
       infoLoginMessage={'You have been logged out.'}
       networkError={null}
@@ -35,7 +35,7 @@ storiesOf('LoginMessages', module)
       verificationMessage={null}
       loginMessage={null}
       resendVerificationData={null}
-      googleLoginError={null}
+      identityProviderError={null}
       resendVerificationEmail={() => action('resend')}
       infoLoginMessage={null}
       networkError={true}
@@ -47,7 +47,7 @@ storiesOf('LoginMessages', module)
       verificationMessage={null}
       loginMessage={null}
       resendVerificationData={null}
-      googleLoginError={null}
+      identityProviderError={null}
       resendVerificationEmail={() => action('resend')}
       infoLoginMessage={null}
       networkError={false}

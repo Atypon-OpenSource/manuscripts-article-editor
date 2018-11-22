@@ -9,10 +9,10 @@ interface ResendVerificationData {
   type: AlertMessageType
 }
 
-export const GoogleErrorMessage: React.SFC<{ googleLoginError: string }> = ({
-  googleLoginError,
-}) => {
-  switch (googleLoginError) {
+export const GoogleErrorMessage: React.SFC<{
+  identityProviderError: string
+}> = ({ identityProviderError }) => {
+  switch (identityProviderError) {
     case 'user-not-found':
       return (
         <AlertMessage type={AlertMessageType.error}>

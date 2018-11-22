@@ -20,7 +20,7 @@ interface Props {
   verificationMessage: string | null
   loginMessage: string | null
   resendVerificationData: ResendVerificationData | null
-  googleLoginError: string | null
+  identityProviderError: string | null
   resendVerificationEmail: (email: string) => void
   infoLoginMessage: string | null
   networkError: boolean | null
@@ -31,7 +31,7 @@ const LoginPageMessages: React.SFC<Props> = ({
   verificationMessage,
   loginMessage,
   resendVerificationData,
-  googleLoginError,
+  identityProviderError,
   resendVerificationEmail,
   infoLoginMessage,
   networkError,
@@ -42,8 +42,8 @@ const LoginPageMessages: React.SFC<Props> = ({
       <VerificationMessage verificationMessage={verificationMessage} />
     )}
     {loginMessage && <LoginWarning loginWarning={loginMessage} />}
-    {googleLoginError && (
-      <GoogleErrorMessage googleLoginError={googleLoginError} />
+    {identityProviderError && (
+      <GoogleErrorMessage identityProviderError={identityProviderError} />
     )}
     {resendVerificationData && (
       <ResendVerificationDataMessage

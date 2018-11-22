@@ -12,16 +12,16 @@ import token from '../token'
 RxDB.plugin(PouchDBMemoryAdapter)
 
 describe('Update state', () => {
-  test('update googleLoginError state', async () => {
+  test('update identityProviderError state', async () => {
     const wrapper = mount(shallow(<LoginPageContainer />).get(0))
 
-    expect(wrapper.state('googleLoginError')).toEqual(null)
+    expect(wrapper.state('identityProviderError')).toEqual(null)
 
     // tslint:disable-next-line:no-any
     const instance = wrapper.instance() as any
 
     await instance.updateState({ error: 'Error' })
-    expect(wrapper.state('googleLoginError')).toEqual('Error')
+    expect(wrapper.state('identityProviderError')).toEqual('Error')
     expect(window.location.hash).toEqual('')
   })
 
