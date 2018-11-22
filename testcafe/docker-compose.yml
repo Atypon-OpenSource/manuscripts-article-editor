@@ -43,7 +43,8 @@ services:
       - APP_GATEWAY_HOSTNAME=sg-test.manuscripts.io
       - APP_GATEWAY_PUBLIC_PORT=4984
       - APP_ALLOWED_CORS_ORIGINS=http://0.0.0.0:8080;http://127.0.0.1:8080;http://client-test.manuscripts.io:8080;http://client-test.manuscripts.io:8081
-      - APP_GATEWAY_COOKIE_DOMAIN=.manuscripts.io
+      - APP_LIBRARY_GATEWAY_COOKIE_DOMAIN=.manuscripts.io
+      - APP_PROJECTS_GATEWAY_COOKIE_DOMAIN=.manuscripts.io
     networks:
       default:
         aliases:
@@ -71,6 +72,8 @@ services:
       - APP_GOOGLE_AUTH_CALLBACK=http://api-test.manuscripts.io:3000/api/v1/auth/google/callback
       - APP_ALLOWED_CORS_ORIGINS=http://0.0.0.0:8080;http://127.0.0.1:8080;http://client-test.manuscripts.io:8080;http://client-test.manuscripts.io:8081
       - APP_GATEWAY_COOKIE_DOMAIN=.manuscripts.io
+      - APP_LIBRARY_GATEWAY_COOKIE_DOMAIN=.manuscripts.io
+      - APP_PROJECTS_GATEWAY_COOKIE_DOMAIN=.manuscripts.io
 
     networks:
       default:
