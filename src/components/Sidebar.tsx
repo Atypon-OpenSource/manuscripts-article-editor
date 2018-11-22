@@ -39,6 +39,7 @@ export const SidebarTitle = styled.div`
 export const SidebarContent = styled.div`
   flex: 1;
   padding: 0 12px;
+  position: relative;
 `
 
 export const SidebarPersonContainer = styled.div`

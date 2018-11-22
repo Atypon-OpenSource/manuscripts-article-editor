@@ -3,7 +3,7 @@ import { IconProps } from './types'
 
 const User = (props: IconProps) => (
   <svg
-    viewBox={`0 0 45 45`}
+    viewBox={`1 1 39 39`}
     width={props.size || 45}
     height={props.size || 45}
     className={props.className}

@@ -942,19 +942,19 @@
     uuid "^3.3.2"
     w3c-xmlserializer "^1.0.0"
 
-"@manuscripts/manuscripts-json-schema@^1.6.2":
-  version "1.6.2"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscripts-json-schema/-/manuscripts-json-schema-1.6.2.tgz#59a7b6bf57c98057d88cd96b76b2a3143cf5c15a"
-  integrity sha512-AgshZs78ajsnfCyVK+D0bsHwn+B0zM0gQTx+NWfRFWlwft55HoRrhvFIpsQMjyoJa7Qkt73XI8nPotw9Jg8dCQ==
+"@manuscripts/manuscripts-json-schema@^1.6.5":
+  version "1.6.5"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscripts-json-schema/-/manuscripts-json-schema-1.6.5.tgz#54b3f35dee05d612767d59671ad126117995ebbd"
+  integrity sha512-A15dkE1EPERScEKhxrkL/QPdHt7pnPPj0i4W2MUA5JJhY/zRNrM2hF9AR/mG6WoQnGPXYk3HfKXSNr3e0DkIPA==
   dependencies:
     ajv "^6.5.0"
     deepmerge "^2.0.1"
     js-beautify "^1.7.5"
 
-"@manuscripts/manuscripts-json-schema@^1.6.5":
-  version "1.6.5"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscripts-json-schema/-/manuscripts-json-schema-1.6.5.tgz#54b3f35dee05d612767d59671ad126117995ebbd"
-  integrity sha512-A15dkE1EPERScEKhxrkL/QPdHt7pnPPj0i4W2MUA5JJhY/zRNrM2hF9AR/mG6WoQnGPXYk3HfKXSNr3e0DkIPA==
+"@manuscripts/manuscripts-json-schema@^1.6.6":
+  version "1.6.12"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscripts-json-schema/-/manuscripts-json-schema-1.6.12.tgz#2859515baa0c9ec0d204957c04317d22e1c5e6bf"
+  integrity sha512-rMwAzYdzLrNi4hL2vgKrmWe9qr/yWPH+jLrgcNj5zJj4uXyE1RuV8Yn91qpWs9+fX1wCQ6b+iBkNUiaeqvLCTg==
   dependencies:
     ajv "^6.5.0"
     deepmerge "^2.0.1"
@@ -1644,6 +1644,13 @@
   version "1.2.2"
   resolved "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.2.tgz#fa8e1ad1d474688a757140c91de6dace6f4abc8d"
   integrity sha512-HtKGu+qG1NPvYe1z7ezLsyIaXYyi8SoAVqWDZgDQ8dLrsZvSzUNCwZyfX33uhWxL/SU0ZDQZ3nwZ0nimt507Kw==
+
+"@types/react-avatar-editor@^10.3.2":
+  version "10.3.2"
+  resolved "https://registry.npmjs.org/@types/react-avatar-editor/-/react-avatar-editor-10.3.2.tgz#4356e64dfafe5053047a108313d6ebd4b9c26d10"
+  integrity sha512-+1kNYlTr+E2WJC48CJvamZcgRYVQtz9SB63J4/Fo+nbuZPXvm2jVxynFG44L46JwzJhF9s/rjYvLW21PGSa4Sg==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-dom@*", "@types/react-dom@^16.0.3":
   version "16.0.9"
@@ -12078,6 +12085,13 @@ rc@^1.2.7:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-avatar-editor@^11.0.4:
+  version "11.0.4"
+  resolved "https://registry.npmjs.org/react-avatar-editor/-/react-avatar-editor-11.0.4.tgz#a32e2e10f1edc8480b1b852f3ab287c7b56c7ced"
+  integrity sha1-oy4uEPHtyEgLG4UvOrKHx7VsfO0=
+  dependencies:
+    prop-types "^15.5.8"
 
 react-dev-utils@^6.0.5:
   version "6.1.1"

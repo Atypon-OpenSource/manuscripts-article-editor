@@ -21,8 +21,9 @@ import * as schema from '../schema'
 import DataProvider, { DataProviderContext } from './DataProvider'
 
 export interface ModelIDs {
-  projectID: string
+  projectID?: string
   manuscriptID?: string
+  userProfileID?: string
 }
 
 export interface ModelsProviderContext extends DataProviderContext {
@@ -123,14 +124,18 @@ class ModelsProvider extends DataProvider {
     const containedModel = model as T & ContainedProps
 
     // TODO: don't add this for shared components or projects
-    containedModel.containerID = ids.projectID
+    if (ids.projectID) {
+      containedModel.containerID = ids.projectID
 
-    if (isManuscriptModel(containedModel)) {
-      if (!ids.manuscriptID) {
-        throw new Error('Manuscript ID needed for ' + model.objectType)
+      if (isManuscriptModel(containedModel)) {
+        if (!ids.manuscriptID) {
+          throw new Error('Manuscript ID needed for ' + model.objectType)
+        }
+
+        containedModel.manuscriptID = ids.manuscriptID
       }
-
-      containedModel.manuscriptID = ids.manuscriptID
+    } else if (ids.userProfileID) {
+      containedModel.containerID = ids.userProfileID
     }
 
     const newModel = {

@@ -1,4 +1,3 @@
-import { BIBLIOGRAPHIC_NAME } from '@manuscripts/manuscript-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
@@ -7,7 +6,6 @@ import { ChangePasswordForm } from '../src/components/account/ChangePasswordForm
 import { DeleteAccountForm } from '../src/components/account/DeleteAccountForm'
 import { LoginForm } from '../src/components/account/LoginForm'
 import { PasswordForm } from '../src/components/account/PasswordForm'
-import { ProfileForm } from '../src/components/account/ProfileForm'
 import { RecoverForm } from '../src/components/account/RecoverForm'
 import { SignupForm } from '../src/components/account/SignupForm'
 import ModalForm from '../src/components/ModalForm'
@@ -16,7 +14,6 @@ import {
   deleteAccountSchema,
   loginSchema,
   passwordSchema,
-  profileSchema,
   recoverSchema,
   signupSchema,
 } from '../src/validation'
@@ -70,26 +67,6 @@ storiesOf('Account/Forms/Pages', module)
   ))
 
 storiesOf('Account/Forms/Modal', module)
-  .add('Profile', () => (
-    <ModalForm title={'Manage profile'}>
-      <Formik
-        initialValues={{
-          bibliographicName: {
-            _id: '',
-            objectType: BIBLIOGRAPHIC_NAME,
-            given: '',
-            family: '',
-          },
-        }}
-        validationSchema={profileSchema}
-        isInitialValid={true}
-        validateOnChange={false}
-        validateOnBlur={false}
-        onSubmit={action('submit')}
-        component={ProfileForm}
-      />
-    </ModalForm>
-  ))
   .add('Change password', () => (
     <ModalForm title={'Change Password'}>
       <Formik
