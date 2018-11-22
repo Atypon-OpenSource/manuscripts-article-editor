@@ -22,6 +22,7 @@ describe('Update state', () => {
 
     await instance.updateState({ error: 'Error' })
     expect(wrapper.state('googleLoginError')).toEqual('Error')
+    expect(window.location.hash).toEqual('')
   })
 
   test('update infoLoginMessage state', async () => {
@@ -36,6 +37,7 @@ describe('Update state', () => {
     expect(wrapper.state('infoLoginMessage')).toEqual(
       'You have been logged out.'
     )
+    expect(window.location.hash).toEqual('')
   })
 
   test('set token', async () => {
@@ -51,5 +53,6 @@ describe('Update state', () => {
     expect(token.get()).toEqual({
       access_token: 'xyz',
     })
+    expect(window.location.hash).toEqual('')
   })
 })
