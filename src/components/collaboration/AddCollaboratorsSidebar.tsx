@@ -9,11 +9,7 @@ import AddedIcon from '../../icons/added-icon'
 import SearchIcon from '../../icons/search'
 import { styled } from '../../theme'
 import { Avatar } from '../Avatar'
-import {
-  IconButton,
-  ManuscriptBlueButton,
-  TransparentGreyButton,
-} from '../Button'
+import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import Panel from '../Panel'
 import {
   Sidebar,
@@ -63,10 +59,9 @@ const InvitedContainer = styled.div`
   align-items: center;
 `
 
-const AddIconButton = styled(IconButton)`
+const AddedIconContainer = styled.div`
   display: flex;
-  width: unset;
-  height: unset;
+  padding: 0 10px;
 
   &:focus {
     outline: none;
@@ -152,9 +147,9 @@ const AddCollaboratorsSidebar: React.SFC<Props> = ({
               </UserDataContainer>
               <InvitedContainer>
                 <Invited>Invited</Invited>
-                <AddIconButton>
+                <AddedIconContainer>
                   <AddedIcon />
-                </AddIconButton>
+                </AddedIconContainer>
               </InvitedContainer>
             </SidebarPersonContainer>
           ))}

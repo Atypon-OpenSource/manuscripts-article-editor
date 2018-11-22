@@ -3,6 +3,7 @@ import React from 'react'
 import Panel from '../../components/Panel'
 import { styled } from '../../theme'
 import { projectInvitationSchema } from '../../validation'
+import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { TransparentGreyButton } from '../Button'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import { InvitationForm, InvitationValues } from './InvitationForm'
@@ -18,6 +19,7 @@ const FormContainer = styled.div`
 interface Props {
   handleCancel: () => void
   initialValues: InvitationValues
+  invitationSent: boolean
   onSubmit: (
     values: InvitationValues,
     formikActions: FormikActions<InvitationValues>
@@ -28,6 +30,7 @@ const InviteCollaboratorsSidebar: React.SFC<Props> = ({
   handleCancel,
   initialValues,
   onSubmit,
+  invitationSent,
 }) => (
   <Panel
     name={'collaborators-sidebar'}
@@ -43,6 +46,11 @@ const InviteCollaboratorsSidebar: React.SFC<Props> = ({
         </TransparentGreyButton>
       </SidebarHeader>
       <FormContainer>
+        {!!invitationSent && (
+          <AlertMessage type={AlertMessageType.success} hideCloseButton={true}>
+            Invitation was sent successfully.
+          </AlertMessage>
+        )}
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}

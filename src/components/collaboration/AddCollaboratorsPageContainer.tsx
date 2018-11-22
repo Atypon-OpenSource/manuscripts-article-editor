@@ -42,6 +42,7 @@ interface State {
   userMap: Map<string, UserProfile>
   addedCollaboratorsCount: number
   addedUsers: string[]
+  invitationSent: boolean
 }
 
 interface RouteParams {
@@ -63,6 +64,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     userMap: new Map(),
     addedCollaboratorsCount: 0,
     addedUsers: [],
+    invitationSent: false,
   }
 
   private subs: Subscription[] = []
@@ -112,7 +114,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private renderInviteCollaboratorPage(project: Project) {
-    const { searchText } = this.state
+    const { searchText, invitationSent } = this.state
 
     const initialValues = {
       name: '',
@@ -132,6 +134,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           initialValues={initialValues}
           handleCancel={this.handleCancel}
           onSubmit={this.handleInvitationSubmit}
+          invitationSent={invitationSent}
         />
         <Main>
           <InviteCollaboratorsPage project={project} />
@@ -358,6 +361,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     this.setState({
       searchText: '',
       isInvite: false,
+      invitationSent: false,
     })
   }
 
@@ -373,6 +377,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     try {
       await projectInvite(this.getProjectID(), [{ email, name }], role)
 
+      this.setState({ invitationSent: true })
       setSubmitting(false)
     } catch (error) {
       setSubmitting(false)

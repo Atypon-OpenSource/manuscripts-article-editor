@@ -203,6 +203,7 @@ export const AddAuthorsModal: React.SFC<AddAuthorsProps> = ({
 interface InviteAuthorsProps {
   project: Project
   invitationValues: InvitationValues
+  invitationSent: boolean
   handleInviteCancel: () => void
   handleInvitationSubmit: (
     values: InvitationValues,
@@ -213,12 +214,14 @@ interface InviteAuthorsProps {
 export const InviteAuthorsModal: React.SFC<InviteAuthorsProps> = ({
   project,
   invitationValues,
+  invitationSent,
   handleInviteCancel,
   handleInvitationSubmit,
 }) => (
   <ModalBody>
     <ModalSidebar>
       <InviteCollaboratorsSidebar
+        invitationSent={invitationSent}
         initialValues={invitationValues}
         handleCancel={handleInviteCancel}
         onSubmit={handleInvitationSubmit}

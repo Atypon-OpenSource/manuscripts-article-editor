@@ -170,6 +170,7 @@ storiesOf('Collaboration/Sidebars', module)
 
   .add('Invite Collaborators', () => (
     <InviteCollaboratorsSidebar
+      invitationSent={false}
       initialValues={{ name: '', email: 'user@example.com', role: '' }}
       handleCancel={action('cancel')}
       onSubmit={action('submit')}
