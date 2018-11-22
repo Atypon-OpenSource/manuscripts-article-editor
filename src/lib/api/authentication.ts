@@ -23,9 +23,7 @@ export const resendVerificationEmail = (email: string) =>
   client.post(`/registration/verify/resend`, { email })
 
 export const sendPasswordRecovery = (email: string) =>
-  client.post('/auth/sendForgottenPassword', {
-    email,
-  })
+  client.post('/auth/sendForgottenPassword', { email })
 
 export const resetPassword = (password: string, token: string) =>
   client.post<{

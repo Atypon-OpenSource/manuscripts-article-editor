@@ -2,6 +2,32 @@ import * as yup from 'yup'
 
 // TODO: warn about password strength?
 
+export const affiliationSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required()
+    .min(1),
+})
+
+export const grantSchema = yup.object().shape({
+  organization: yup
+    .string()
+    .required()
+    .min(1),
+  title: yup
+    .string()
+    .required()
+    .min(1),
+  code: yup
+    .string()
+    .required()
+    .min(1),
+  fundingBody: yup
+    .string()
+    .required()
+    .min(1),
+})
+
 export const loginSchema = yup.object().shape({
   email: yup
     .string()

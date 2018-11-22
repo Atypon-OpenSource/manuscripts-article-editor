@@ -136,6 +136,12 @@ export const ManuscriptBlueButton = styled(PrimaryButton)`
     background-color: transparent;
     color: ${manuscriptsBlue};
   }
+
+  & :hover:disabled {
+    background-color: ${manuscriptsBlue};
+    color: #fff;
+    cursor: unset;
+  }
 `
 
 export const IconButton = styled.button<ThemedOuterButtonProps>`

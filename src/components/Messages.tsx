@@ -22,7 +22,7 @@ export const ManageProfileMessage = () => (
   <FormattedMessage
     id={'manage_profile'}
     description={'Title of profile management page'}
-    defaultMessage={'Manage profile'}
+    defaultMessage={'Details'}
   />
 )
 

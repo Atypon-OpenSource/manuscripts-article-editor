@@ -1,7 +1,12 @@
 import { USER_PROFILE } from '@manuscripts/manuscript-editor'
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection, RxDocument } from 'rxdb'
+import {
+  RxAttachment,
+  RxAttachmentCreator,
+  RxCollection,
+  RxDocument,
+} from 'rxdb'
 import { atomicUpdate } from '../lib/store'
 import token from '../lib/token'
 import { ModelsProps, withModels } from './ModelsProvider'
@@ -16,6 +21,8 @@ export interface UserProviderState {
 export interface UserProviderContext extends UserProviderState {
   fetch: () => void
   update: (data: Partial<UserProfile>) => Promise<RxDocument<{}>>
+  putAttachment: (attachment: RxAttachmentCreator) => Promise<void>
+  getAttachment: (id: string) => Promise<RxAttachment<{}, {}>>
 }
 
 export interface UserProps {
@@ -81,6 +88,8 @@ class UserProvider extends React.Component<ModelsProps, UserProviderState> {
       ...this.state,
       fetch: this.fetch,
       update: this.update,
+      putAttachment: this.putAttachment,
+      getAttachment: this.getAttachment,
     }
 
     return (
@@ -158,6 +167,38 @@ class UserProvider extends React.Component<ModelsProps, UserProviderState> {
     }
 
     return atomicUpdate<UserProfile>(prev as RxDocument<UserProfile>, data)
+  }
+
+  private putAttachment = async (attachment: RxAttachmentCreator) => {
+    const query = this.buildCurrentUserQuery()
+
+    if (!query) {
+      throw new Error('No current user')
+    }
+
+    const prev = await query.exec()
+
+    if (!prev) {
+      throw new Error('User object not found')
+    }
+
+    return prev.putAttachment(attachment)
+  }
+
+  private getAttachment = async (id: string) => {
+    const query = this.buildCurrentUserQuery()
+
+    if (!query) {
+      throw new Error('No current user')
+    }
+
+    const prev = await query.exec()
+
+    if (!prev) {
+      throw new Error('User object not found')
+    }
+
+    return prev.getAttachment(id)
   }
 
   private fetch = () => {
