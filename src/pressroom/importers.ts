@@ -7,6 +7,7 @@ import {
 import { Figure, Model } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { extname } from 'path'
+import { cleanItem } from './clean-item'
 import { generateAttachmentFilename } from './exporter'
 import { convert } from './pressroom'
 
@@ -59,13 +60,9 @@ const importProjectBundle = async (result: Blob) => {
 
   const items = doc.data
     .filter(item => !item.bundled)
+    .filter(item => item.objectType !== 'MPContentSummary')
     .filter(item => item._id)
-    .map(item => {
-      delete item._rev
-      delete item.collection
-
-      return item
-    })
+    .map(item => cleanItem(item))
 
   const folder = zip.folder('Data')
 
