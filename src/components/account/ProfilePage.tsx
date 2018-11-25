@@ -4,8 +4,10 @@ import { FormikActions } from 'formik'
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import { altoGrey } from '../../colors'
+import Close from '../../icons/close'
 import { styled, ThemedProps } from '../../theme'
-import { StyledModal } from '../StyledModal'
+import { CloseButton } from '../SimpleModal'
+import { StyledModal, totalTransitionTime } from '../StyledModal'
 import { ProfileErrors, ProfileForm, ProfileValues } from './ProfileForm'
 import ProfilePageSidebar from './ProfilePageSidebar'
 
@@ -15,6 +17,12 @@ type ThemedDivProps = ThemedProps<HTMLDivElement>
 const ModalMain = styled.div`
   width: 500px;
   height: 600px;
+`
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 8px;
 `
 
 const ModalContainer = styled.div`
@@ -33,6 +41,7 @@ interface Props {
   saveUserProfileAvatar: () => void
   handleChangePassword: () => void
   handleDeleteAccount: () => void
+  handleClose: () => void
   handleSave: (
     values: ProfileValues,
     actions: FormikActions<ProfileValues | ProfileErrors>
@@ -46,11 +55,22 @@ const ProfilePage: React.SFC<Props> = ({
   handleSave,
   handleChangePassword,
   handleDeleteAccount,
+  handleClose,
   saveUserProfileAvatar,
   createAffiliation,
 }) => {
   return (
-    <StyledModal isOpen={true}>
+    <StyledModal
+      isOpen={true}
+      onRequestClose={handleClose}
+      shouldCloseOnOverlayClick={true}
+      closeTimeoutMS={totalTransitionTime}
+    >
+      <ModalHeader>
+        <CloseButton onClick={handleClose}>
+          <Close size={24} />
+        </CloseButton>
+      </ModalHeader>
       <ModalContainer>
         <ProfilePageSidebar
           avatarEditorRef={avatarEditorRef}

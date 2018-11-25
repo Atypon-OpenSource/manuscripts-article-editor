@@ -22,6 +22,10 @@ const MemberSince = styled.div`
 const EditButton = styled(ManuscriptBlueButton)`
   padding-left: 7px;
   padding-right: 7px;
+
+  &:hover {
+    background: #fff;
+  }
 `
 
 const AvatarContainer = styled.div`

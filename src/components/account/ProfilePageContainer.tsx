@@ -66,6 +66,7 @@ class ProfilePageContainer extends React.Component<Props> {
         avatarEditorRef={this.avatarEditorRef}
         handleChangePassword={this.handleChangePassword}
         handleDeleteAccount={this.handleDeleteAccount}
+        handleClose={this.handleClose}
         saveUserProfileAvatar={this.saveUserProfileAvatar}
         createAffiliation={this.createAffiliation}
       />
@@ -112,6 +113,8 @@ class ProfilePageContainer extends React.Component<Props> {
     this.props.history.push('/change-password')
 
   private handleDeleteAccount = () => this.props.history.push('/delete-account')
+
+  private handleClose = () => this.props.history.goBack()
 
   private createAffiliation = async (institution: string) => {
     const userProfileAffiliation = buildUserProfileAffiliation(institution)

@@ -56,10 +56,11 @@ storiesOf('Account/Modals', module).add('Profile', () => (
     userWithAvatar={user}
     affiliationsMap={affiliationsMap}
     avatarEditorRef={React.createRef<AvatarEditor>()}
-    handleSave={action('handle save')}
-    handleChangePassword={action('change password')}
-    handleDeleteAccount={action('delete account')}
-    saveUserProfileAvatar={action('save avatar')}
-    createAffiliation={action('create affiliation')}
+    handleSave={action('save profile')}
+    handleChangePassword={action('open change password modal')}
+    handleDeleteAccount={action('open delete account modal')}
+    handleClose={action('close profile page')}
+    saveUserProfileAvatar={action('save user avatar')}
+    createAffiliation={action('create new affiliation')}
   />
 ))
