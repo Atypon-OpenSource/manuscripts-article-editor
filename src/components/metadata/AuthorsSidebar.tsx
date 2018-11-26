@@ -91,7 +91,7 @@ interface Props {
   hovered: boolean
 }
 
-const AuthorsSidebar: React.SFC<Props> = ({
+const AuthorsSidebar: React.FunctionComponent<Props> = ({
   authors,
   authorAffiliations,
   selectAuthor,

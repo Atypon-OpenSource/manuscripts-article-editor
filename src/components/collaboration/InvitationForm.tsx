@@ -57,7 +57,7 @@ export interface InvitationErrors {
 type InvitationFormProps = FormikProps<InvitationValues & InvitationErrors> &
   Props
 
-export const InvitationForm: React.SFC<InvitationFormProps> = ({
+export const InvitationForm: React.FunctionComponent<InvitationFormProps> = ({
   errors,
   dismissSentAlert,
   disabled,

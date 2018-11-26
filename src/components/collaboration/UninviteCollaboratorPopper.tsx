@@ -50,7 +50,7 @@ interface Props {
   switchMode: () => void
 }
 
-export const UninviteCollaboratorPopper: React.SFC<Props> = ({
+export const UninviteCollaboratorPopper: React.FunctionComponent<Props> = ({
   invitedUserName,
   handleUninvite,
   switchMode,

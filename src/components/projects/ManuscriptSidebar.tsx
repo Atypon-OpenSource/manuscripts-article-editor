@@ -88,7 +88,7 @@ interface Props {
   doc: ManuscriptNode | null
 }
 
-const ManuscriptSidebar: React.SFC<Props> = ({
+const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   addManuscript,
   doc,
   manuscript,

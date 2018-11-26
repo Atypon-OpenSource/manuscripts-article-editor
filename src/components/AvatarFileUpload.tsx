@@ -101,7 +101,9 @@ export interface AvatarFileUploadProps {
   handleAvatarZoom: (event: React.FormEvent<HTMLInputElement>) => void
 }
 
-export const AvatarFileUpload: React.SFC<AvatarFileUploadProps> = ({
+export const AvatarFileUpload: React.FunctionComponent<
+  AvatarFileUploadProps
+> = ({
   avatar,
   avatarZoom,
   avatarEditorRef,

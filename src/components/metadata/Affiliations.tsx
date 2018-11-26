@@ -20,7 +20,9 @@ interface Props {
   affiliations: AffiliationMap
 }
 
-export const Affiliations: React.SFC<Props> = ({ affiliations }) => (
+export const Affiliations: React.FunctionComponent<Props> = ({
+  affiliations,
+}) => (
   <Container>
     <tbody>
       {Array.from(affiliations.values()).map((affiliation, index) => (

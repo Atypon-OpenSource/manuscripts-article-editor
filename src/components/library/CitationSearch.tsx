@@ -1,23 +1,24 @@
+import SearchIcon from '@manuscripts/assets/react/SearchIcon'
 import {
   Build,
   buildBibliographyItem,
   crossref,
 } from '@manuscripts/manuscript-editor'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { debounce } from 'lodash-es'
 import React from 'react'
-import { manuscriptsBlue } from '../../colors'
 import { styled } from '../../theme'
-import { LibraryItem } from './LibraryItem'
+import { Button, PrimaryButton } from '../Button'
+import { CitationSearchSection } from './CitationSearchSection'
 
 const Search = styled.input`
   margin: 4px;
   padding: 8px;
   flex: 1;
   font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  border: none;
+  width: 500px;
   -webkit-appearance: none;
+  outline: none;
 `
 
 const SearchContainer = styled.div`
@@ -26,21 +27,20 @@ const SearchContainer = styled.div`
   align-items: center;
 `
 
-const SearchSource = styled.div`
-  color: ${manuscriptsBlue};
-  font-weight: 300;
-  font-size: 140%;
-  margin-bottom: 8px;
-  border-bottom: 1px solid ${manuscriptsBlue};
-`
-
-const ResultsSection = styled.div`
-  margin: 8px 16px;
-`
-
 const Results = styled.div`
   max-height: 400px;
   overflow-y: auto;
+`
+
+const Actions = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 16px;
+`
+
+const Container = styled.div`
+  font-family: ${props => props.theme.fontFamily};
 `
 
 export interface SearchValues {
@@ -48,188 +48,160 @@ export interface SearchValues {
 }
 
 interface Props {
-  filterLibraryItems: (query: string) => BibliographyItem[]
-  handleSelect: (
-    data: BibliographyItem | Build<BibliographyItem>,
-    source?: string
+  filterLibraryItems: (query: string | null) => BibliographyItem[]
+  handleCite: (
+    items: Array<BibliographyItem | Build<BibliographyItem>>,
+    query?: string
   ) => Promise<void>
   query: string
+  handleCancel: () => void
+  scheduleUpdate: () => void
 }
 
 interface State {
-  error: Error | null
+  selectedSource: string | null
   query: string
-  results: BibliographyItem[] | null
-  searching: boolean
-  searchResults: BibliographyItem[] | null
+  selected: Map<string, Build<BibliographyItem>>
 }
 
 export class CitationSearch extends React.Component<Props, State> {
-  private debouncedSearch: () => void
-
   public constructor(props: Props) {
     super(props)
 
     this.state = {
-      error: null,
+      selectedSource: null,
       query: props.query || '',
-      results: null,
-      searching: false,
-      searchResults: null,
+      selected: new Map(),
     }
   }
 
-  public componentDidMount() {
-    this.debouncedSearch = debounce(this.runSearch, 1000)
-
-    this.runSearch().catch(error => {
-      this.setState({ error })
-    })
-
-    this.filterLibrary(this.state.query)
-  }
-
   public render() {
-    const { query, results } = this.state
+    const { query, selected, selectedSource } = this.state
+
+    const sources = this.buildSources()
 
     return (
-      <div>
+      <Container>
         <SearchContainer>
+          <SearchIcon />
+
           <Search
             autoComplete={'off'}
             autoFocus={true}
-            onChange={e => this.handleQuery(e.target.value)}
-            placeholder={'Search terms…'}
+            onChange={this.handleQuery}
+            placeholder={'Search'}
             type={'search'}
             value={query || ''}
           />
         </SearchContainer>
 
         <Results>
-          {this.renderSearchResults()}
-
-          {results &&
-            !!results.length && (
-              <ResultsSection>
-                <SearchSource>Library</SearchSource>
-
-                {results.map(item => (
-                  <LibraryItem
-                    key={`library-${item.DOI}`}
-                    item={item}
-                    handleSelect={this.props.handleSelect}
-                    hasItem={() => true}
-                  />
-                ))}
-              </ResultsSection>
-            )}
+          {sources.filter(source => source.always || query).map(source => (
+            <CitationSearchSection
+              key={source.id}
+              source={source}
+              addToSelection={this.addToSelection}
+              selectSource={() => this.setState({ selectedSource: source.id })}
+              selected={selected}
+              query={query}
+              rows={selectedSource === source.id ? 25 : 3}
+            />
+          ))}
         </Results>
-      </div>
+
+        <Actions>
+          <Button onClick={this.props.handleCancel}>Cancel</Button>
+          <PrimaryButton
+            onClick={this.handleCite}
+            disabled={selected.size === 0}
+          >
+            Cite
+          </PrimaryButton>
+        </Actions>
+      </Container>
     )
   }
 
-  private renderSearchResults = () => {
-    const { error, searching, searchResults } = this.state
-
-    if (error) {
-      return <div>{error.message}</div>
-    }
-
-    if (searching) {
-      return (
-        <ResultsSection>
-          <SearchSource>Crossref</SearchSource>
-          <div>Searching…</div>
-        </ResultsSection>
-      )
-    }
-
-    if (!searchResults) {
-      return null
-    }
-
-    if (!searchResults.length) {
-      return (
-        <ResultsSection>
-          <SearchSource>Crossref</SearchSource>
-          <div>No results</div>
-        </ResultsSection>
-      )
-    }
-
-    return (
-      <ResultsSection>
-        <SearchSource>Crossref</SearchSource>
-        {searchResults.map(item => (
-          <LibraryItem
-            key={`crossref-${item.DOI}`}
-            item={item}
-            handleSelect={this.handleAdd}
-            hasItem={this.hasItem}
-          />
-        ))}
-      </ResultsSection>
-    )
+  private buildSources = () => {
+    return [
+      {
+        id: 'library',
+        title: 'Library',
+        search: this.filterLibraryItems,
+        always: true,
+      },
+      {
+        id: 'crossref',
+        title: 'External sources',
+        search: async (
+          query: string | null,
+          params: { rows: number; sort?: string }
+        ) =>
+          query
+            ? crossref.search(query, params.rows)
+            : {
+                items: [],
+                total: 0,
+              },
+      },
+      // {
+      //   id: 'datacite',
+      //   title: 'DataCite',
+      //   search: async (
+      //     query: string | null,
+      //     params: { rows: number; sort?: string }
+      //   ) =>
+      //     query
+      //       ? datacite.search(query, params.rows)
+      //       : {
+      //           items: [],
+      //           total: 0,
+      //         },
+      // },
+    ]
   }
 
-  private handleAdd = async (data: Partial<BibliographyItem>) => {
-    // TODO: pick the exact fields
-    if (Array.isArray(data.title)) {
-      data.title = data.title[0]
+  private addToSelection = (id: string, data: Build<BibliographyItem>) => {
+    const { selected } = this.state
+
+    if (selected.has(id)) {
+      selected.delete(id)
+    } else {
+      // TODO: move this to Crossref handler?
+      // TODO: pick the exact fields
+
+      if (Array.isArray(data.title)) {
+        data.title = data.title[0]
+      }
+
+      selected.set(id, data._id ? data : buildBibliographyItem(data))
     }
 
-    const item = buildBibliographyItem(data)
-
-    await this.props.handleSelect(item, 'crossref')
+    this.setState({ selected })
   }
 
-  private handleQuery = (query: string) => {
-    this.setState({ query })
-
-    this.setState({
-      results: null,
-      searchResults: null,
-    })
-
-    this.filterLibrary(query)
-
-    this.debouncedSearch()
+  private handleCite = async () => {
+    const items = Array.from(this.state.selected.values())
+    await this.props.handleCite(items)
   }
 
-  private filterLibrary = (query: string) => {
-    this.setState({
-      results: this.props.filterLibraryItems(query),
-    })
+  private handleQuery: React.ChangeEventHandler<
+    HTMLInputElement
+  > = async event => {
+    const query = event.target.value
+
+    this.setState({ query }, this.props.scheduleUpdate)
   }
 
-  private runSearch = async () => {
-    const { query } = this.state
+  private filterLibraryItems = async (
+    query: string | null,
+    params: { rows: number; sort?: string }
+  ) => {
+    const items = this.props.filterLibraryItems(query)
 
-    if (!query) {
-      this.setState({
-        error: null,
-        searching: false,
-        searchResults: null,
-      })
-
-      return
+    return {
+      items: items.slice(0, params.rows - 1),
+      total: items.length,
     }
-
-    this.setState({
-      searching: true,
-    })
-
-    const searchResults = await crossref.search(query, 3)
-
-    if (query === this.state.query) {
-      this.setState({
-        searching: false,
-        searchResults,
-      })
-    }
-  }
-
-  private hasItem = (item: BibliographyItem) => {
-    return false // TODO
   }
 }

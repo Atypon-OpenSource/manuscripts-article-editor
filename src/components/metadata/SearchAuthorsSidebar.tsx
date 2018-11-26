@@ -64,7 +64,7 @@ interface SearchSidebarProps {
   handleCreateAuthor: () => void
 }
 
-const SearchAuthorsSidebar: React.SFC<SearchSidebarProps> = ({
+const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
   createAuthor,
   handleInvite,
   searchText,

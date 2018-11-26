@@ -91,7 +91,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   textHint?: string
 }
 
-export const RadioButton: React.SFC<Props> = ({
+export const RadioButton: React.FunctionComponent<Props> = ({
   children,
   textHint,
   ...rest

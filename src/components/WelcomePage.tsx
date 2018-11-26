@@ -215,7 +215,7 @@ export interface WelcomeProps {
   importManuscript: (models: Model[]) => Promise<void>
 }
 
-export const WelcomePage: React.SFC<WelcomeProps> = ({
+export const WelcomePage: React.FunctionComponent<WelcomeProps> = ({
   recentFiles,
   hideWelcome,
   handleHideWelcomeChange,

@@ -8,7 +8,7 @@ interface Props {
   children?: JSX.Element
 }
 
-export const StoreProviders: React.SFC<Props> = props => (
+export const StoreProviders: React.FunctionComponent<Props> = props => (
   <ModelsProvider>
     <UserProvider>
       <KeywordsProvider>

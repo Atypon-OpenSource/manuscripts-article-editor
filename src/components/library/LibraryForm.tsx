@@ -174,7 +174,7 @@ const buildInitialValues = (
 
 // TODO: a "manage tags" page, where old tags can be deleted
 
-const LibraryForm: React.SFC<Props & KeywordsProps> = ({
+const LibraryForm: React.FunctionComponent<Props & KeywordsProps> = ({
   item,
   handleSave,
   handleDelete,

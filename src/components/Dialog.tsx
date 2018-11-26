@@ -70,7 +70,7 @@ export enum Category {
   confirmation = 'confirmation',
 }
 
-export const Dialog: React.SFC<DialogProps> = ({
+export const Dialog: React.FunctionComponent<DialogProps> = ({
   isOpen,
   actions,
   header,

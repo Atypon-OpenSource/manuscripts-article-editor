@@ -59,7 +59,7 @@ interface Props {
   handleSwitching: (page: boolean) => void
 }
 
-export const InvitationPopper: React.SFC<Props> = ({
+export const InvitationPopper: React.FunctionComponent<Props> = ({
   user,
   project,
   invitationSent,

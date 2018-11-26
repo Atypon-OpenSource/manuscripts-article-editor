@@ -13,7 +13,7 @@ interface TextFieldGroupContainerProps {
   errors?: Errors
 }
 
-export const TextFieldGroupContainer: React.SFC<
+export const TextFieldGroupContainer: React.FunctionComponent<
   TextFieldGroupContainerProps
 > = ({ children, errors }) => {
   return (

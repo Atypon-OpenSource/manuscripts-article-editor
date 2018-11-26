@@ -3,7 +3,7 @@ import { RadioButton } from '../RadioButton'
 
 type Props = React.InputHTMLAttributes<HTMLInputElement>
 
-export const CollaboratorRolesInput: React.SFC<Props> = ({
+export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({
   value,
   ...rest
 }) => (

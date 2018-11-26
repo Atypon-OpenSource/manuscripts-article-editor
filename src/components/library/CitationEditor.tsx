@@ -1,113 +1,158 @@
+// import AnnotationEdit from '@manuscripts/assets/react/AnnotationEdit'
+import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { Title } from '@manuscripts/title-editor'
 import React from 'react'
+import { issuedYear, shortAuthorsString } from '../../lib/library'
 import { styled } from '../../theme'
+import { PrimaryButton } from '../Button'
 import { CitationSearch } from './CitationSearch'
-import { LibraryItem } from './LibraryItem'
+
+const CitedItem = styled.div`
+  padding: 16px 0;
+  cursor: pointer;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid #eee;
+  }
+`
+
+const CitedItemTitle = styled(Title)``
+
+const CitedItemAuthors = styled.div`
+  margin-top: 4px;
+  color: #777;
+  flex: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`
+
+const CitedItemActionLine = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+`
+
+const CitedItemActions = styled.span`
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+`
+
+const CitedItems = styled.div`
+  padding: 0 16px;
+  font-family: ${props => props.theme.fontFamily};
+  max-height: 70vh;
+  overflow-y: auto;
+`
+
+const ActionButton = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+  height: 24px;
+`
 
 const Actions = styled.div`
   display: flex;
-  padding: 8px;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 16px;
 `
 
 interface Props {
   filterLibraryItems: (query: string) => BibliographyItem[]
-  items: Array<BibliographyItem | undefined>
+  handleCite: (items: BibliographyItem[], query?: string) => Promise<void>
   handleRemove: (id: string) => void
-  handleSelect: (item: BibliographyItem, source?: string) => Promise<void>
+  handleUpdate: (id: string, data: Partial<BibliographyItem>) => void
+  items: BibliographyItem[]
   projectID: string
   selectedText: string
+  scheduleUpdate: () => void
 }
 
-export type CitationEditorProps = Props
-
 interface State {
-  selected: number
+  editing: BibliographyItem | null
+  searching: boolean
 }
 
 class CitationEditor extends React.Component<Props, State> {
-  public state = {
-    selected: 0,
+  public state: Readonly<State> = {
+    editing: null,
+    searching: false,
   }
 
   public render() {
-    const { filterLibraryItems, items, handleSelect, selectedText } = this.props
-    const { selected } = this.state
+    const { items, handleCite, selectedText, scheduleUpdate } = this.props
+    const { searching } = this.state
 
-    const item = items[selected]
+    /*if (editing) {
+      return <div>TODO…</div>
+    }*/
+
+    if (searching || !items.length) {
+      return (
+        <CitationSearch
+          query={selectedText}
+          filterLibraryItems={this.props.filterLibraryItems}
+          handleCite={handleCite}
+          handleCancel={() => this.setState({ searching: false })}
+          scheduleUpdate={scheduleUpdate}
+        />
+      )
+    }
 
     return (
       <div>
-        {item ? (
-          <LibraryItem
-            item={item}
-            handleSelect={() => {
-              if (item.DOI) {
-                window.open(`https://doi.org/${item.DOI}`)
-              }
-            }}
-            hasItem={() => true}
-          />
-        ) : (
-          <CitationSearch
-            filterLibraryItems={filterLibraryItems}
-            query={selectedText}
-            handleSelect={handleSelect}
-          />
-        )}
+        <CitedItems>
+          {items.map(item => (
+            <CitedItem
+              key={item._id}
+              onClick={() => {
+                if (item.DOI) {
+                  window.open(`https://doi.org/${item.DOI}`)
+                }
+              }}
+            >
+              <CitedItemTitle value={item.title || 'Untitled'} />
+
+              <CitedItemActionLine>
+                <CitedItemAuthors>
+                  {shortAuthorsString(item)} {issuedYear(item)}
+                </CitedItemAuthors>
+
+                <CitedItemActions>
+                  {/*     <ActionButton
+                    onClick={() => this.setState({ editing: item })}
+                  >
+                    <AnnotationEdit />
+                  </ActionButton>*/}
+                  <ActionButton
+                    onMouseDown={event => {
+                      event.preventDefault()
+
+                      if (confirm('Delete this cited item?')) {
+                        this.props.handleRemove(item._id)
+                      }
+                    }}
+                  >
+                    <AnnotationRemove />
+                  </ActionButton>
+                </CitedItemActions>
+              </CitedItemActionLine>
+            </CitedItem>
+          ))}
+        </CitedItems>
 
         <Actions>
-          {selected > 0 ? (
-            <button onClick={this.selectPrevious}>&lt;</button>
-          ) : (
-            <span />
-          )}
-
-          {item ? (
-            <span>
-              <button onClick={this.handleRemove}>-</button>
-              <button onClick={this.handleAdd}>+</button>
-            </span>
-          ) : (
-            <span />
-          )}
-
-          {selected < items.length - 1 ? (
-            <button onClick={this.selectNext}>&gt;</button>
-          ) : (
-            <span />
-          )}
+          <PrimaryButton onClick={() => this.setState({ searching: true })}>
+            Add Citation
+          </PrimaryButton>
         </Actions>
       </div>
     )
-  }
-
-  private handleAdd = () => {
-    this.setState({
-      selected: this.props.items.length,
-    })
-  }
-
-  private handleRemove = () => {
-    const item = this.props.items[this.state.selected]
-
-    this.props.handleRemove(item!._id)
-
-    this.setState({
-      selected: this.state.selected - 1,
-    })
-  }
-
-  private selectPrevious = () => {
-    this.setState({
-      selected: this.state.selected - 1,
-    })
-  }
-
-  private selectNext = () => {
-    this.setState({
-      selected: this.state.selected + 1,
-    })
   }
 }
 

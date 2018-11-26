@@ -12,7 +12,7 @@ interface Props {
   options: OptionsType<OptionType>
 }
 
-export const SelectField: React.SFC<Props & FieldProps> = ({
+export const SelectField: React.FunctionComponent<Props & FieldProps> = ({
   options,
   field,
   form,

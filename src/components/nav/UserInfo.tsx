@@ -32,7 +32,7 @@ const displayName = (user: UserProfile) => {
   return ''
 }
 
-export const UserInfo: React.SFC<UserProps> = ({ user }) => (
+export const UserInfo: React.FunctionComponent<UserProps> = ({ user }) => (
   <React.Fragment>
     <DropdownLink to={'/profile'}>{displayName(user)}</DropdownLink>
     <DropdownLink to={'/change-password'}>

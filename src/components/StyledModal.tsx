@@ -12,7 +12,7 @@ interface Props {
   modalClassName?: Modal.Classes
 }
 
-export const ReactModalAdapter: React.SFC<
+export const ReactModalAdapter: React.FunctionComponent<
   Modal.Props & ThemedOuterProps<ReactModal> & Props
 > = ({ className, modalClassName, ...props }) => (
   <Modal className={modalClassName} portalClassName={className} {...props} />

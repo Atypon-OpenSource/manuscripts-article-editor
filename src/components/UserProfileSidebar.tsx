@@ -72,7 +72,7 @@ interface Props {
   handleEditAvatar: () => void
 }
 
-const UserProfileSidebar: React.SFC<Props> = ({
+const UserProfileSidebar: React.FunctionComponent<Props> = ({
   userWithAvatar,
   createdAt,
   handleChangePassword,

@@ -150,7 +150,7 @@ interface AuthorProps {
   getAuthorName: (author: Contributor) => string
 }
 
-export const AuthorForm: React.SFC<AuthorProps> = ({
+export const AuthorForm: React.FunctionComponent<AuthorProps> = ({
   author,
   affiliations,
   authorAffiliations,

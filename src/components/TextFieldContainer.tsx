@@ -8,11 +8,9 @@ interface TextFieldContainerProps {
   error?: string | null | object
 }
 
-export const TextFieldContainer: React.SFC<TextFieldContainerProps> = ({
-  label,
-  error,
-  children,
-}) => {
+export const TextFieldContainer: React.FunctionComponent<
+  TextFieldContainerProps
+> = ({ label, error, children }) => {
   const childrenWithErrorProp = React.Children.map(
     children,
     (child: React.ReactElement<ErrorProps>) =>

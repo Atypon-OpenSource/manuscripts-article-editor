@@ -155,7 +155,7 @@ interface Props {
   getAuthorName: (author: Contributor) => string
 }
 
-export const Metadata: React.SFC<Props> = props => (
+export const Metadata: React.FunctionComponent<Props> = props => (
   <HeaderContainer>
     <Header>
       <TitleContainer>

@@ -9,7 +9,9 @@ interface Props {
   invitationAccepted: boolean | null
 }
 
-const AcceptInvitationMessages: React.SFC<Props> = ({ invitationAccepted }) => {
+const AcceptInvitationMessages: React.FunctionComponent<Props> = ({
+  invitationAccepted,
+}) => {
   if (invitationAccepted) {
     return (
       <AlertMessage

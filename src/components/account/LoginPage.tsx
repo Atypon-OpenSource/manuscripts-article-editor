@@ -7,7 +7,7 @@ import { AuthenticationContainer, GoogleLogin } from './Authentication'
 import FooterContainer from './FooterContainer'
 import { LoginForm, LoginValues } from './LoginForm'
 
-const LoginPage: React.SFC<FormikConfig<LoginValues>> = ({
+const LoginPage: React.FunctionComponent<FormikConfig<LoginValues>> = ({
   initialValues,
   validationSchema,
   onSubmit,

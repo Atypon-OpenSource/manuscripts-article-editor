@@ -27,7 +27,7 @@ export interface PreferencesErrors {
   submit?: {}
 }
 
-export const PreferencesForm: React.SFC<
+export const PreferencesForm: React.FunctionComponent<
   FormikProps<PreferencesValues & PreferencesErrors>
 > = ({ values, errors, handleBlur, handleChange }) => (
   <Form>

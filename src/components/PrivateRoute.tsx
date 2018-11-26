@@ -13,7 +13,7 @@ interface Props {
   message?: string
 }
 
-const PrivateRoute: React.SFC<Props & RouteProps & UserProps> = ({
+const PrivateRoute: React.FunctionComponent<Props & RouteProps & UserProps> = ({
   component: Component,
   message,
   ...rest

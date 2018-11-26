@@ -9,15 +9,15 @@ export interface AuthenticationButtonProps {
   redirect: (provider: AuthProvider) => () => void
 }
 
-export const GoogleLogin: React.SFC<AuthenticationButtonProps> = ({
-  redirect,
-}) => (
+export const GoogleLogin: React.FunctionComponent<
+  AuthenticationButtonProps
+> = ({ redirect }) => (
   <IconButton type={'button'} onClick={redirect('google')}>
     <GoogleLogo size={48} />
   </IconButton>
 )
 
-export const OrcidLogin: React.SFC<AuthenticationButtonProps> = ({
+export const OrcidLogin: React.FunctionComponent<AuthenticationButtonProps> = ({
   redirect,
 }) => (
   <IconButton type={'button'} onClick={redirect('orcid')}>

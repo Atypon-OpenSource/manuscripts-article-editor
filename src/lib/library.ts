@@ -37,6 +37,7 @@ export const filterLibrary = (
   query: string | null
 ): BibliographyItem[] => {
   if (!library) return []
+
   if (!query) return Array.from(library.values())
 
   const matches = query.match(/^keyword:(.+)/)
@@ -46,4 +47,63 @@ export const filterLibrary = (
   }
 
   return buildTextMatches(query.toLowerCase(), library)
+}
+
+export const issuedYear = (item: Partial<BibliographyItem>): string | null => {
+  if (
+    !item.issued ||
+    !item.issued['date-parts'] ||
+    !item.issued['date-parts'][0] ||
+    !item.issued['date-parts'][0][0]
+  ) {
+    return null
+  }
+
+  const year = item.issued['date-parts'][0][0]
+
+  return `(${year}) `
+}
+
+const firstAuthorName = (
+  item: Partial<BibliographyItem>
+): string | null | undefined => {
+  if (!item) return null
+  if (!item.author) return null
+  if (!item.author.length) return null
+
+  const author = item.author[0]
+
+  return author.family || author.literal || author.given
+}
+
+const generateItemIdentifier = (item: Partial<BibliographyItem>) =>
+  JSON.stringify({
+    title: item.title,
+    author: firstAuthorName(item),
+    year: issuedYear(item),
+  })
+
+export const estimateID = (item: Partial<BibliographyItem>) => {
+  if (item.DOI) {
+    return item.DOI
+  }
+
+  return generateItemIdentifier(item)
+}
+
+export const shortAuthorsString = (item: Partial<BibliographyItem>) => {
+  const authors = (item.author || []).map(
+    (author, index) => author.family || author.literal || author.given
+  )
+
+  if (authors.length > 1) {
+    if (authors.length > 3) {
+      authors.splice(2, authors.length - 3)
+    }
+
+    const lastAuthors = authors.splice(-2)
+    authors.push(lastAuthors.join(' & '))
+  }
+
+  return authors.join(', ')
 }

@@ -91,7 +91,7 @@ interface Props {
   openPopper: (isOpen: boolean) => void
 }
 
-const CollaboratorsSidebar: React.SFC<Props> = ({
+const CollaboratorsSidebar: React.FunctionComponent<Props> = ({
   project,
   collaborators,
   invitations,

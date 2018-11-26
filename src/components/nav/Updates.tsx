@@ -120,7 +120,7 @@ const Logo = styled.div`
   margin-right: 26px;
 `
 
-const LoginLink: React.SFC<{ host: string }> = ({ host }) => (
+const LoginLink: React.FunctionComponent<{ host: string }> = ({ host }) => (
   <Link href={`${host}/login`} target={'_blank'}>
     &#128279; Manuscripts.io community
   </Link>

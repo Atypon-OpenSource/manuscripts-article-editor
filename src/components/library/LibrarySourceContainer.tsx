@@ -112,8 +112,10 @@ class LibrarySourceContainer extends React.Component<
       throw new Error('No search function defined')
     }
 
+    const { items } = await source.search(query, 25)
+
     this.setState({
-      items: await source.search(query, 25),
+      items,
     })
   }
 

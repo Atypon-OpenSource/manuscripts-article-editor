@@ -68,7 +68,10 @@ interface Props {
   handleClose: () => void
 }
 
-export const SimpleModal: React.SFC<Props> = ({ children, handleClose }) => (
+export const SimpleModal: React.FunctionComponent<Props> = ({
+  children,
+  handleClose,
+}) => (
   <Modal
     isOpen={true}
     onRequestClose={handleClose}

@@ -15,7 +15,7 @@ interface Props {
   active: string
 }
 
-export const GlobalMenu: React.SFC<Props> = ({ active }) => (
+export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
   <MenuContainer>
     <UpdatesContainer>
       <FilledMenuBarIcon>

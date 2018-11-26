@@ -47,7 +47,9 @@ interface SearchSidebarProps {
   handleInvite: (searchText: string) => void
 }
 
-const SearchCollaboratorsSidebar: React.SFC<SearchSidebarProps> = ({
+const SearchCollaboratorsSidebar: React.FunctionComponent<
+  SearchSidebarProps
+> = ({
   addCollaborator,
   countAddedCollaborators,
   handleInvite,

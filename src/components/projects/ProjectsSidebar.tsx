@@ -136,7 +136,7 @@ interface Props {
   getCollaborators: (project: Project) => UserProfile[]
 }
 
-const ProjectsSidebar: React.SFC<Props> = ({
+const ProjectsSidebar: React.FunctionComponent<Props> = ({
   addProject,
   projects,
   getCollaborators,

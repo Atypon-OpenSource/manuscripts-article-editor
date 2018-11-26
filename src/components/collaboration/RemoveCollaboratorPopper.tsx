@@ -57,7 +57,7 @@ interface Props {
   switchMode: () => void
 }
 
-export const RemoveCollaboratorPopper: React.SFC<Props> = ({
+export const RemoveCollaboratorPopper: React.FunctionComponent<Props> = ({
   collaborator,
   handleRemove,
   switchMode,

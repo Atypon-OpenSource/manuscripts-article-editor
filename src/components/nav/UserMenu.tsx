@@ -8,7 +8,7 @@ interface Props {
   user: UserProfileWithAvatar
 }
 
-export const UserMenu: React.SFC<Props> = ({ user }) => (
+export const UserMenu: React.FunctionComponent<Props> = ({ user }) => (
   <MenuDropdown
     id={'user-dropdown'}
     buttonContents={<Avatar src={user.avatar} size={32} color={'#788faa'} />}

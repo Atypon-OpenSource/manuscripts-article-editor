@@ -77,7 +77,7 @@ interface ShareURIFieldProps {
   handleCopy: () => void
 }
 
-const ShareURIField: React.SFC<ShareURIFieldProps> = ({
+const ShareURIField: React.FunctionComponent<ShareURIFieldProps> = ({
   isCopied,
   handleCopy,
   URI,
@@ -116,7 +116,7 @@ interface FormProps {
   handleChange: (event: React.FormEvent<HTMLInputElement>) => void
 }
 
-const ShareURIForm: React.SFC<FormProps> = ({
+const ShareURIForm: React.FunctionComponent<FormProps> = ({
   loadingURIError,
   selectedRole,
   isCopied,
@@ -166,7 +166,7 @@ interface Props {
   handleSwitching: (isInvite: boolean) => void
 }
 
-export const ShareURIPopper: React.SFC<Props> = ({
+export const ShareURIPopper: React.FunctionComponent<Props> = ({
   dataLoaded,
   URI,
   selectedRole,

@@ -108,7 +108,7 @@ interface CollaboratorDetailsPageProps {
   handleAddCollaborator: () => void
 }
 
-export const CollaboratorDetailsPage: React.SFC<
+export const CollaboratorDetailsPage: React.FunctionComponent<
   CollaboratorDetailsPageProps
 > = ({
   project,
@@ -181,10 +181,9 @@ interface AddAuthorsPageProps {
   addedAuthorsCount: number
 }
 
-export const AddCollaboratorsPage: React.SFC<AddCollaboratorsPageProps> = ({
-  project,
-  addedCollaboratorsCount,
-}) => (
+export const AddCollaboratorsPage: React.FunctionComponent<
+  AddCollaboratorsPageProps
+> = ({ project, addedCollaboratorsCount }) => (
   <OuterContainer>
     <InnerContainer>
       <Placeholder>
@@ -223,7 +222,7 @@ const MessageContainer = styled.div`
   justify-content: center;
 `
 
-export const AddAuthorsPage: React.SFC<AddAuthorsPageProps> = ({
+export const AddAuthorsPage: React.FunctionComponent<AddAuthorsPageProps> = ({
   addedAuthorsCount,
 }) => (
   <OuterContainerModal>
@@ -254,7 +253,7 @@ export const AddAuthorsPage: React.SFC<AddAuthorsPageProps> = ({
   </OuterContainerModal>
 )
 
-export const AuthorDetailsPage: React.SFC = () => (
+export const AuthorDetailsPage: React.FunctionComponent = () => (
   <OuterContainerModal>
     <InnerContainer>
       <Placeholder>
@@ -275,7 +274,7 @@ interface InviteCollaboratorsPageProps {
   project: Project
 }
 
-export const InviteCollaboratorsPage: React.SFC<
+export const InviteCollaboratorsPage: React.FunctionComponent<
   InviteCollaboratorsPageProps
 > = ({ project }) => (
   <OuterContainer>
@@ -295,7 +294,7 @@ export const InviteCollaboratorsPage: React.SFC<
   </OuterContainer>
 )
 
-export const InviteCollaboratorsModal: React.SFC<
+export const InviteCollaboratorsModal: React.FunctionComponent<
   InviteCollaboratorsPageProps
 > = ({ project }) => (
   <OuterContainerModal>
@@ -320,7 +319,7 @@ interface SearchCollaboratorsPageProps {
   searchText: string
 }
 
-export const SearchCollaboratorsPage: React.SFC<
+export const SearchCollaboratorsPage: React.FunctionComponent<
   SearchCollaboratorsPageProps
 > = ({ project, searchText }) => (
   <OuterContainer>

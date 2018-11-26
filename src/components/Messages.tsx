@@ -94,9 +94,9 @@ export const AddCollaboratorsMessage = () => (
   />
 )
 
-export const AddedCollaboratorsMessage: React.SFC<{ addedCount: number }> = ({
-  addedCount,
-}) => (
+export const AddedCollaboratorsMessage: React.FunctionComponent<{
+  addedCount: number
+}> = ({ addedCount }) => (
   <FormattedMessage
     id={'added_collaborators'}
     defaultMessage={`You added {addedCount, number} {addedCount, plural,
@@ -124,16 +124,16 @@ export const SelectAuthorMessage = () => (
   />
 )
 
-export const AddedAuthorsMessage: React.SFC<{ addedCount: number }> = ({
-  addedCount,
-}) => (
+export const AddedAuthorsMessage: React.FunctionComponent<{
+  addedCount: number
+}> = ({ addedCount }) => (
   <FormattedMessage
     id={'added_authors'}
     defaultMessage={`You added {addedCount, number} {addedCount, plural, one {author} other {authors}}`}
     values={{ addedCount }}
   />
 )
-export const CheckCollaboratorsSearchMessage: React.SFC<{
+export const CheckCollaboratorsSearchMessage: React.FunctionComponent<{
   searchText: string
 }> = ({ searchText }) => (
   <FormattedMessage
@@ -153,7 +153,7 @@ export const InviteCollaboratorsMessage = () => (
   />
 )
 
-export const SignupVerifyMessage: React.SFC<{
+export const SignupVerifyMessage: React.FunctionComponent<{
   email: string
 }> = ({ email }) => (
   <FormattedMessage
@@ -165,7 +165,7 @@ export const SignupVerifyMessage: React.SFC<{
   />
 )
 
-export const SignupVerifyResendSuccessMessage: React.SFC<{
+export const SignupVerifyResendSuccessMessage: React.FunctionComponent<{
   email: string
   supportEmail: string
 }> = ({ email, supportEmail }) => (
@@ -178,7 +178,7 @@ export const SignupVerifyResendSuccessMessage: React.SFC<{
   />
 )
 
-export const SignupVerifyResendFailureMessage: React.SFC<{
+export const SignupVerifyResendFailureMessage: React.FunctionComponent<{
   email: string
 }> = ({ email }) => (
   <FormattedMessage
@@ -188,7 +188,7 @@ export const SignupVerifyResendFailureMessage: React.SFC<{
   />
 )
 
-export const SignupVerifyConflictMessage: React.SFC<{
+export const SignupVerifyConflictMessage: React.FunctionComponent<{
   email: string
 }> = ({ email }) => (
   <FormattedMessage
@@ -200,7 +200,7 @@ export const SignupVerifyConflictMessage: React.SFC<{
   />
 )
 
-export const AcceptedInvitationSuccessMessage: React.SFC = () => (
+export const AcceptedInvitationSuccessMessage: React.FunctionComponent = () => (
   <FormattedMessage
     id={'accepted_invitation_success'}
     defaultMessage={
@@ -209,7 +209,7 @@ export const AcceptedInvitationSuccessMessage: React.SFC = () => (
   />
 )
 
-export const AcceptedInvitationFailureMessage: React.SFC = () => (
+export const AcceptedInvitationFailureMessage: React.FunctionComponent = () => (
   <FormattedMessage
     id={'accepted_invitation_failure'}
     defaultMessage={
@@ -218,7 +218,7 @@ export const AcceptedInvitationFailureMessage: React.SFC = () => (
   />
 )
 
-export const NetworkErrorMessage: React.SFC = () => (
+export const NetworkErrorMessage: React.FunctionComponent = () => (
   <FormattedMessage
     id={'network_error'}
     defaultMessage={
@@ -228,7 +228,7 @@ export const NetworkErrorMessage: React.SFC = () => (
   />
 )
 
-export const GatewayInaccessibleMessage: React.SFC = () => (
+export const GatewayInaccessibleMessage: React.FunctionComponent = () => (
   <FormattedMessage
     id={'gateway_error'}
     defaultMessage={

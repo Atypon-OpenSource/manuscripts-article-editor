@@ -33,7 +33,7 @@ interface Props {
   selectAuthor: (data: Contributor) => void
 }
 
-const Authors: React.SFC<Props> = ({
+const Authors: React.FunctionComponent<Props> = ({
   authors,
   authorAffiliations,
   startEditing,

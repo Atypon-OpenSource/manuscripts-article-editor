@@ -21,7 +21,7 @@ const NameParts = styled.span`
 const buildNameLiteral = (name: BibliographicName) =>
   [initials(name), name.family, name.suffix].filter(part => part).join(' ')
 
-export const AuthorName: React.SFC<Props> = ({ name }) =>
+export const AuthorName: React.FunctionComponent<Props> = ({ name }) =>
   !name.given && !name.family ? (
     <NameParts color={'#949494'}>Unknown Author</NameParts>
   ) : (

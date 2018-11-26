@@ -66,7 +66,7 @@ interface Props {
   handleQuery: (query: string) => void
 }
 
-const LibraryKeywords: React.SFC<Props & KeywordsProps> = ({
+const LibraryKeywords: React.FunctionComponent<Props & KeywordsProps> = ({
   items,
   handleQuery,
   keywords,

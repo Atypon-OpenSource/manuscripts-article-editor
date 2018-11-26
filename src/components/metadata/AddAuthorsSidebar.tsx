@@ -69,7 +69,7 @@ interface Props {
   createAuthorIsOpen: boolean
 }
 
-const AddAuthorsSidebar: React.SFC<Props> = ({
+const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
   nonAuthors,
   numberOfAddedAuthors,
   isSearching,

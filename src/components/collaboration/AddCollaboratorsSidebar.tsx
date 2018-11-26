@@ -84,7 +84,7 @@ interface Props {
   handleSearchFocus: () => void
 }
 
-const AddCollaboratorsSidebar: React.SFC<Props> = ({
+const AddCollaboratorsSidebar: React.FunctionComponent<Props> = ({
   people,
   invitations,
   numberOfAddedCollaborators,

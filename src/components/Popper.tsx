@@ -64,7 +64,7 @@ interface Props {
   popperProps: PopperChildrenProps
 }
 
-export const CustomPopper: React.SFC<Props> = ({
+export const CustomPopper: React.FunctionComponent<Props> = ({
   children,
   popperProps: { ref, style, placement, arrowProps },
 }) => (
@@ -83,7 +83,7 @@ export const CustomPopper: React.SFC<Props> = ({
   </Container>
 )
 
-export const CustomUpPopper: React.SFC<Props> = ({
+export const CustomUpPopper: React.FunctionComponent<Props> = ({
   children,
   popperProps: { ref, style, placement, arrowProps },
 }) => (

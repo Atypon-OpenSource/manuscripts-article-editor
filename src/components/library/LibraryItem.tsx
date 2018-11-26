@@ -5,9 +5,10 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import Bookmark from '../../icons/bookmark'
+import { issuedYear } from '../../lib/library'
 import { styled } from '../../theme'
 
-export const AddIcon = styled.button`
+const AddIcon = styled.button`
   border: none;
   display: inline-flex;
   align-items: center;
@@ -28,35 +29,21 @@ const Container = styled.div`
   display: flex;
   transition: background-color 0.1s;
 
-  &:hover {
-    background: #eee;
-  }
+  //&:hover {
+  //  background: #eee;
+  //}
 `
 
-export const LibraryItemTitle = styled(Title)`
+const LibraryItemTitle = styled(Title)`
   font-weight: bold;
 `
 
-export const LibraryItemAuthors = styled.div`
+const LibraryItemAuthors = styled.div`
   margin-top: 4px;
   color: #777;
 `
 
-export const LibraryItemAuthor = styled.span``
-
-export const getYear = (item: BibliographyItem) => {
-  // tslint:disable:no-unnecessary-type-assertion
-  if (
-    !item.issued ||
-    !item.issued['date-parts'] ||
-    !item.issued['date-parts']![0] ||
-    !item.issued['date-parts']![0][0]
-  ) {
-    return null
-  }
-
-  return item.issued['date-parts']![0][0] + ' / '
-}
+const LibraryItemAuthor = styled.span``
 
 interface LibraryItemProps {
   item: BibliographyItem
@@ -64,7 +51,7 @@ interface LibraryItemProps {
   hasItem: (item: BibliographyItem) => boolean
 }
 
-export const LibraryItem: React.SFC<LibraryItemProps> = ({
+export const LibraryItem: React.FunctionComponent<LibraryItemProps> = ({
   item,
   handleSelect,
   hasItem,
@@ -85,7 +72,7 @@ export const LibraryItem: React.SFC<LibraryItemProps> = ({
       <LibraryItemTitle value={item.title || 'Untitled'} />
 
       <LibraryItemAuthors>
-        <span>{getYear(item)}</span>
+        <span>{issuedYear(item)}</span>
 
         {item.author &&
           item.author.map((author: BibliographicName, index: number) => (

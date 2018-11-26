@@ -85,7 +85,10 @@ interface Props {
   projectID: string
 }
 
-export const Menu: React.SFC<Props> = ({ handleClose, projectID }) => (
+export const Menu: React.FunctionComponent<Props> = ({
+  handleClose,
+  projectID,
+}) => (
   <MenuContainer>
     <Tip title={'Back to Editor'} placement={'bottom-end'}>
       <FilledMenuBarIcon onClick={handleClose}>

@@ -23,7 +23,7 @@ interface Props {
   gatewayInaccessible: boolean | null
 }
 
-const SignupMessages: React.SFC<Props> = ({
+const SignupMessages: React.FunctionComponent<Props> = ({
   confirming,
   resendSucceed,
   existButNotVerified,

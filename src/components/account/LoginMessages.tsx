@@ -27,7 +27,7 @@ interface Props {
   gatewayInaccessible: boolean | null
 }
 
-const LoginPageMessages: React.SFC<Props> = ({
+const LoginPageMessages: React.FunctionComponent<Props> = ({
   verificationMessage,
   loginMessage,
   resendVerificationData,

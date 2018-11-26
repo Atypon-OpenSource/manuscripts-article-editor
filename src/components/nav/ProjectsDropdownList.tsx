@@ -30,7 +30,7 @@ interface Props {
   addProject: () => void
 }
 
-export const ProjectsDropdownList: React.SFC<Props> = ({
+export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
   addProject,
   projects,
   invitationsData,

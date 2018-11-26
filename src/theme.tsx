@@ -78,7 +78,7 @@ const {
   ThemeProvider: StyledThemeProvider,
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<Theme>
 
-export const ThemeProvider: React.SFC = props => (
+export const ThemeProvider: React.FunctionComponent = props => (
   <StyledThemeProvider theme={theme}>{props.children}</StyledThemeProvider>
 )
 

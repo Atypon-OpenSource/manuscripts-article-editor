@@ -23,7 +23,7 @@ const RoundedImage = styled.img`
   justify-content: center;
 `
 
-export const Avatar: React.SFC<AvatarProps> = props => (
+export const Avatar: React.FunctionComponent<AvatarProps> = props => (
   <AvatarContainer>
     {props.src ? <RoundedImage {...props} /> : <UserIcon {...props} />}
   </AvatarContainer>

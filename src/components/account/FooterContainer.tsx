@@ -20,6 +20,6 @@ const links: Link[] = [
   },*/
 ]
 
-const FooterContainer: React.SFC = () => <Footer links={links} />
+const FooterContainer: React.FunctionComponent = () => <Footer links={links} />
 
 export default FooterContainer

@@ -39,7 +39,7 @@ interface LibraryItemsProps {
   items: BibliographyItem[]
 }
 
-export const LibraryItems: React.SFC<LibraryItemsProps> = ({
+export const LibraryItems: React.FunctionComponent<LibraryItemsProps> = ({
   query,
   handleQuery,
   handleSelect,

@@ -51,7 +51,7 @@ interface Props {
   openPopper: () => void
 }
 
-const AuthorRemovePopper: React.SFC<Props> = ({
+const AuthorRemovePopper: React.FunctionComponent<Props> = ({
   removeAuthor,
   author,
   popperProps,

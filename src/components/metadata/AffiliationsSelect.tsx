@@ -25,12 +25,9 @@ interface Props {
   createAffiliation: (institution: string) => Promise<AffiliationType>
 }
 
-export const AffiliationsSelect: React.SFC<Props & FieldProps> = ({
-  affiliations,
-  createAffiliation,
-  form,
-  field,
-}) => (
+export const AffiliationsSelect: React.FunctionComponent<
+  Props & FieldProps
+> = ({ affiliations, createAffiliation, form, field }) => (
   <CreatableSelect<OptionType>
     isMulti={true}
     noOptionsMessage={() => 'Type institution name to search for it.'}

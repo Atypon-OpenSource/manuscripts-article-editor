@@ -68,7 +68,7 @@ interface Props {
   ) => void
 }
 
-export const ProfileForm: React.SFC<Props> = ({
+export const ProfileForm: React.FunctionComponent<Props> = ({
   affiliationsMap,
   userWithAvatar,
   handleSave,

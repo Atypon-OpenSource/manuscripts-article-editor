@@ -14,7 +14,7 @@ const configuration: webpack.Configuration = merge(common, {
     hot: true,
     open: true,
   },
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   mode: 'development',
   module: {
     rules: [

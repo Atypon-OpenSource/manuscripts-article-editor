@@ -10,7 +10,7 @@ export interface DeleteAccountValues {
   password: string
 }
 
-export const DeleteAccountForm: React.SFC<
+export const DeleteAccountForm: React.FunctionComponent<
   FormikProps<DeleteAccountValues & FormErrors>
 > = ({ errors, isSubmitting }) => (
   <Form id={'delete-account-form'} noValidate={true}>

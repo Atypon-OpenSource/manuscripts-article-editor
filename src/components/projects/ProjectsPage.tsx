@@ -18,7 +18,7 @@ interface Props {
   getCollaborators: (project: Project) => UserProfile[]
 }
 
-export const ProjectsPage: React.SFC<Props> = ({
+export const ProjectsPage: React.FunctionComponent<Props> = ({
   projects,
   addProject,
   getCollaborators,

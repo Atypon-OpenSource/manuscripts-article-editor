@@ -9,7 +9,7 @@ interface ResendVerificationData {
   type: AlertMessageType
 }
 
-export const GoogleErrorMessage: React.SFC<{
+export const GoogleErrorMessage: React.FunctionComponent<{
   identityProviderError: string
 }> = ({ identityProviderError }) => {
   switch (identityProviderError) {
@@ -40,7 +40,7 @@ export const GoogleErrorMessage: React.SFC<{
   }
 }
 
-export const VerificationMessage: React.SFC<{
+export const VerificationMessage: React.FunctionComponent<{
   verificationMessage: string
 }> = ({ verificationMessage }) => {
   switch (verificationMessage) {
@@ -59,7 +59,7 @@ export const VerificationMessage: React.SFC<{
   }
 }
 
-export const ResendVerificationDataMessage: React.SFC<{
+export const ResendVerificationDataMessage: React.FunctionComponent<{
   resendVerificationData: ResendVerificationData
   resendVerificationEmail: (email: string) => void
 }> = ({ resendVerificationData, resendVerificationEmail }) => (
@@ -74,23 +74,23 @@ export const ResendVerificationDataMessage: React.SFC<{
   </AlertMessage>
 )
 
-export const LoginWarning: React.SFC<{ loginWarning: string }> = ({
-  loginWarning,
-}) => (
+export const LoginWarning: React.FunctionComponent<{
+  loginWarning: string
+}> = ({ loginWarning }) => (
   <AlertMessage type={AlertMessageType.warning}>{loginWarning}</AlertMessage>
 )
 
-export const LoginInfo: React.SFC<{ loginInfo: string }> = ({ loginInfo }) => (
-  <AlertMessage type={AlertMessageType.info}>{loginInfo}</AlertMessage>
-)
+export const LoginInfo: React.FunctionComponent<{ loginInfo: string }> = ({
+  loginInfo,
+}) => <AlertMessage type={AlertMessageType.info}>{loginInfo}</AlertMessage>
 
-export const NetworkMessage: React.SFC = () => (
+export const NetworkMessage: React.FunctionComponent = () => (
   <AlertMessage type={AlertMessageType.error}>
     <NetworkErrorMessage />
   </AlertMessage>
 )
 
-export const GatewayInaccessible: React.SFC = () => (
+export const GatewayInaccessible: React.FunctionComponent = () => (
   <AlertMessage type={AlertMessageType.error}>
     <GatewayInaccessibleMessage />
   </AlertMessage>

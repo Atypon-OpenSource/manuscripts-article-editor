@@ -72,7 +72,7 @@ interface CollaboratorProps {
   manageProfile: () => void
 }
 
-export const CollaboratorForm: React.SFC<CollaboratorProps> = ({
+export const CollaboratorForm: React.FunctionComponent<CollaboratorProps> = ({
   collaborator,
   manageProfile,
   user,

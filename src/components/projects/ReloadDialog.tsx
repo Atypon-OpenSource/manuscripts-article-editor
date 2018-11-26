@@ -6,7 +6,7 @@ import { styled } from '../../theme'
 import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
 
-const Message: React.SFC<{
+const Message: React.FunctionComponent<{
   message: string
 }> = ({ message }) => (
   <div>
@@ -72,7 +72,7 @@ interface Props {
   message: string
 }
 
-export const ReloadDialog: React.SFC<Props> = ({ message }) => (
+export const ReloadDialog: React.FunctionComponent<Props> = ({ message }) => (
   <StyledModal
     isOpen={true}
     onRequestClose={navigateToProjectsList}

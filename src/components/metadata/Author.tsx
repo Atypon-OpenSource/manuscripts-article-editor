@@ -36,7 +36,7 @@ interface AuthorProps {
   startEditing: () => void
 }
 
-export const Author: React.SFC<AuthorProps> = ({
+export const Author: React.FunctionComponent<AuthorProps> = ({
   author,
   affiliations,
   jointFirstAuthor,

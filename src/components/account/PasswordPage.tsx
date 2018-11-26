@@ -4,7 +4,7 @@ import { Centered } from '../Page'
 import FooterContainer from './FooterContainer'
 import { PasswordForm, PasswordValues } from './PasswordForm'
 
-const PasswordPage: React.SFC<FormikConfig<PasswordValues>> = ({
+const PasswordPage: React.FunctionComponent<FormikConfig<PasswordValues>> = ({
   initialValues,
   validationSchema,
   onSubmit,

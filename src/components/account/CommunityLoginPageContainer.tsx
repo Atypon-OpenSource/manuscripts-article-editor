@@ -13,7 +13,7 @@ interface RouteParams {
 
 type Props = RouteComponentProps<RouteParams>
 
-export interface State {
+interface State {
   loginRedirectURL: string | null
   error: Error | null
 }

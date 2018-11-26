@@ -2,11 +2,12 @@ import React from 'react'
 import { FormattedRelative } from 'react-intl'
 import { styled } from '../theme'
 
-interface RelativeDateProps {
+interface Props {
   createdAt?: number
+  children?: React.ReactNode
 }
 
-export const RelativeDate: React.SFC<RelativeDateProps> = ({ createdAt }) =>
+export const RelativeDate: React.FunctionComponent<Props> = ({ createdAt }) =>
   createdAt ? <FormattedRelative value={createdAt * 1000} /> : null
 
 export const LightRelativeDate = styled(RelativeDate)`

@@ -23,7 +23,7 @@ export interface SignupErrors {
   submit?: string
 }
 
-export const SignupForm: React.SFC<
+export const SignupForm: React.FunctionComponent<
   FormikProps<SignupValues & SignupErrors>
 > = ({ errors, isSubmitting, initialValues }) => (
   <CenteredForm id={'signup-form'} noValidate={true}>

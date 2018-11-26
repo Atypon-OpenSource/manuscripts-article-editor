@@ -7,7 +7,7 @@ import { AuthenticationButtonProps } from './Authentication'
 export type AuthProvider = 'google' | 'orcid'
 
 interface Props {
-  component: React.SFC<AuthenticationButtonProps>
+  component: React.FunctionComponent<AuthenticationButtonProps>
 }
 
 class AuthButtonContainer extends React.Component<Props> {

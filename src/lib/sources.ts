@@ -8,7 +8,10 @@ export interface LibrarySource {
   search?: (
     query: string,
     limit: number
-  ) => Promise<Array<Partial<BibliographyItem>>>
+  ) => Promise<{
+    items: Array<Partial<BibliographyItem>>
+    total: number
+  }>
 }
 
 export const sources: LibrarySource[] = [

@@ -13,11 +13,9 @@ interface Props {
   options: OptionsType<OptionType>
 }
 
-export const ImmediateSelectField: React.SFC<Props & FieldProps> = ({
-  options,
-  field,
-  form,
-}) => (
+export const ImmediateSelectField: React.FunctionComponent<
+  Props & FieldProps
+> = ({ options, field, form }) => (
   <Select<OptionType>
     options={options}
     name={field.name}

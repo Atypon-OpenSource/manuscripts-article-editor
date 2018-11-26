@@ -26,7 +26,7 @@ interface Props {
   ) => void
 }
 
-const InviteCollaboratorsSidebar: React.SFC<Props> = ({
+const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
   handleCancel,
   initialValues,
   onSubmit,

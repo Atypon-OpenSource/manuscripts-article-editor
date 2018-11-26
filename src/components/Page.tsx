@@ -104,7 +104,7 @@ interface Props {
   project?: Project
 }
 
-export const Page: React.SFC<Props> = ({ children, project }) => (
+export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
   <PageContainer>
     <GlobalStyle />
 

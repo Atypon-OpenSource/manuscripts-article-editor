@@ -30,7 +30,10 @@ interface Props {
   sources: LibrarySource[]
 }
 
-const LibrarySidebar: React.SFC<Props> = ({ projectID, sources }) => (
+const LibrarySidebar: React.FunctionComponent<Props> = ({
+  projectID,
+  sources,
+}) => (
   <Panel name={'librarySidebar'} minSize={200} direction={'row'} side={'end'}>
     <Sidebar>
       <SidebarHeader>

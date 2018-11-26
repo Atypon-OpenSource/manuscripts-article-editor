@@ -72,7 +72,7 @@ interface AuthorsProps {
   getAuthorName: (author: Contributor) => string
 }
 
-export const AuthorsModal: React.SFC<AuthorsProps> = ({
+export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   authors,
   authorAffiliations,
   manuscript,
@@ -157,7 +157,7 @@ interface AddAuthorsProps {
   createAuthorIsOpen: boolean
 }
 
-export const AddAuthorsModal: React.SFC<AddAuthorsProps> = ({
+export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
   nonAuthors,
   authors,
   addedAuthors,
@@ -211,7 +211,9 @@ interface InviteAuthorsProps {
   ) => void
 }
 
-export const InviteAuthorsModal: React.SFC<InviteAuthorsProps> = ({
+export const InviteAuthorsModal: React.FunctionComponent<
+  InviteAuthorsProps
+> = ({
   project,
   invitationValues,
   invitationSent,

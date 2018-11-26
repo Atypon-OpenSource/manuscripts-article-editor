@@ -48,7 +48,7 @@ interface Props {
   ) => void
 }
 
-const ProfilePage: React.SFC<Props> = ({
+const ProfilePage: React.FunctionComponent<Props> = ({
   userWithAvatar,
   avatarEditorRef,
   affiliationsMap,

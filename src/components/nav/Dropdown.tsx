@@ -130,7 +130,7 @@ interface DropdownButtonProps {
   onClick?: React.MouseEventHandler
 }
 
-export const DropdownButton: React.SFC<DropdownButtonProps> = ({
+export const DropdownButton: React.FunctionComponent<DropdownButtonProps> = ({
   children,
   isOpen,
   notificationsCount,

@@ -28,7 +28,7 @@ interface Props {
   isOnlyOwner: boolean
 }
 
-export const CollaboratorRolePopper: React.SFC<Props> = ({
+export const CollaboratorRolePopper: React.FunctionComponent<Props> = ({
   selectedRole,
   handleRoleChange,
   switchMode,

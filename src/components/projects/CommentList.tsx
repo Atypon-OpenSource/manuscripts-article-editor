@@ -68,7 +68,7 @@ const Reply = styled.div`
   border-top: none;
 `
 
-const CommentUser: React.SFC<UserProps> = ({ user }) =>
+const CommentUser: React.FunctionComponent<UserProps> = ({ user }) =>
   user ? (
     <CommentUserContainer>
       <Avatar src={user.avatar} size={20} />

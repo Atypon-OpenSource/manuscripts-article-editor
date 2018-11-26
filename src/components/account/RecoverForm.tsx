@@ -14,7 +14,7 @@ export interface RecoverErrors {
   submit: string
 }
 
-export const RecoverForm: React.SFC<
+export const RecoverForm: React.FunctionComponent<
   FormikProps<RecoverValues & RecoverErrors>
 > = ({ values, errors, isSubmitting }) => (
   <CenteredForm noValidate={true}>

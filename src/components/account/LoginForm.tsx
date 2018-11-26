@@ -34,10 +34,9 @@ const RecoverLink = styled(Link)`
   color: #cd593c;
 `
 
-export const LoginForm: React.SFC<FormikProps<LoginValues & FormErrors>> = ({
-  errors,
-  isSubmitting,
-}) => (
+export const LoginForm: React.FunctionComponent<
+  FormikProps<LoginValues & FormErrors>
+> = ({ errors, isSubmitting }) => (
   <CenteredForm id={'login-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Welcome to</SubHero>

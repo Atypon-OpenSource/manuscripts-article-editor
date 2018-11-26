@@ -43,7 +43,7 @@ interface FooterProps {
   links: FooterLink[]
 }
 
-export const Footer: React.SFC<FooterProps> = ({ links }) => (
+export const Footer: React.FunctionComponent<FooterProps> = ({ links }) => (
   <FooterBlock>
     <FooterLinks>
       {links.map((link, index) => (
