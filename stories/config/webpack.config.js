@@ -10,9 +10,12 @@ module.exports = (storybookBaseConfig, configType) => {
   }
 
   storybookBaseConfig.module.rules[0].use[0].options.presets = [
-    [require.resolve('@babel/preset-env'), {
-      useBuiltIns: 'usage'
-    }],
+    [
+      require.resolve('@babel/preset-env'),
+      {
+        useBuiltIns: 'usage',
+      },
+    ],
     require.resolve('@babel/preset-react'),
     require.resolve('@babel/preset-typescript'),
   ]

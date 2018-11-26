@@ -70,3 +70,9 @@ export const createProjectWithTitle = () => {
     cy.get('#manuscript-title-field .title-editor').contains(manuscriptTitle)
     cy.get('#project-title-field .title-editor').contains(projectTitle)
 }
+
+export const generateParagraph = (wordCount) => {
+  const sentence = faker.lorem.words(wordCount)
+
+  return sentence.charAt(0).toUpperCase() + sentence.slice(1)
+}

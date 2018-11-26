@@ -7,24 +7,14 @@ describe('Figures', () => {
         signup(user, true)
     })
 
-    it('Can insert a figure block caption', () => {
+    it('Can insert and exit a figure caption with enter', () => {
         login(user, true)
 
         cy.get('#create-project').click()
         cy.get('.manuscript-editor').type('{enter}')
         cy.get('[title="Insert figure"]').click()
         cy.get('.figure-panel').should('exist')
-        cy.get('[tabindex="2"]').type('Metamotif estimation from simulated motif data.')
-        cy.get('figcaption').should('have.text', 'Figure 1:Metamotif estimation from simulated motif data.')
-    })
-
-    it('Can exit a figure caption with enter', () => {
-        login(user, true)
-
-        cy.get('#create-project').click()
-        cy.get('.manuscript-editor').type('{enter}')
-        cy.get('[title="Insert figure"]').click()
-        cy.get('[tabindex="2"]').type('Test caption. {enter}')
+        cy.get('[tabindex="2"]').type('{enter}')
         cy.get('p').last()
         cy.get('[tabindex="2"]').type('hi')
         cy.get('p').last().should('have.text', 'hi')
