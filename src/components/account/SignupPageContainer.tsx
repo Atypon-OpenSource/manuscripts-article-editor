@@ -3,7 +3,6 @@ import { FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse, stringify } from 'qs'
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { resendVerificationEmail, signup, verify } from '../../lib/api'
@@ -11,21 +10,23 @@ import { UserProps, withUser } from '../../store/UserProvider'
 import { signupSchema } from '../../validation'
 import { Main, Page } from '../Page'
 import { Spinner } from '../Spinner'
+import {
+  gatewayInaccessibleErrorMessage,
+  networkErrorMessage,
+} from './LoginMessages'
 import { SignupErrors, SignupValues } from './SignupForm'
-import SignupMessages from './SignupMessages'
+import {
+  signupVerifyConflictMessage,
+  signupVerifyMessage,
+  signupVerifyResendFailureMessage,
+  signupVerifyResendSuccessMessage,
+} from './SignupMessages'
 import SignupPage from './SignupPage'
 
-interface UserDetails {
-  email: string
-}
-
+type AlertFunction = () => void
 interface State {
-  confirming: UserDetails | null
-  resendSucceed: boolean | null
-  existButNotVerified: UserDetails | null
-  networkError: boolean | null
-  error: boolean
-  gatewayInaccessible: boolean | null
+  message: null | AlertFunction
+  email: string | null
 }
 
 class SignupPageContainer extends React.Component<
@@ -33,12 +34,8 @@ class SignupPageContainer extends React.Component<
   State
 > {
   public state: Readonly<State> = {
-    confirming: null,
-    resendSucceed: null,
-    existButNotVerified: null,
-    networkError: null,
-    error: false,
-    gatewayInaccessible: null,
+    message: null,
+    email: null,
   }
 
   private initialValues: SignupValues = {
@@ -60,8 +57,7 @@ class SignupPageContainer extends React.Component<
         })
       } catch (error) {
         this.props.history.push('/login', {
-          verificationMessage:
-            'Account verification failed. Is the account already verified?',
+          verificationMessage: 'account-verification-failed',
         })
       }
     }
@@ -69,14 +65,7 @@ class SignupPageContainer extends React.Component<
 
   public render() {
     const { user } = this.props
-    const {
-      error,
-      confirming,
-      existButNotVerified,
-      resendSucceed,
-      networkError,
-      gatewayInaccessible,
-    } = this.state
+    const { message } = this.state
 
     if (!user.loaded) {
       return <Spinner />
@@ -86,21 +75,10 @@ class SignupPageContainer extends React.Component<
       return <Redirect to={'/'} />
     }
 
-    if (error) {
-      return <FormattedMessage id={'error'} />
-    }
-
     return (
       <Page>
         <Main>
-          <SignupMessages
-            confirming={confirming}
-            existButNotVerified={existButNotVerified}
-            resendSucceed={resendSucceed}
-            resendVerificationEmail={this.resendVerificationEmail}
-            networkError={networkError}
-            gatewayInaccessible={gatewayInaccessible}
-          />
+          {message && message()}
           <SignupPage
             initialValues={this.initialValues}
             onSubmit={this.handleSubmit}
@@ -123,8 +101,8 @@ class SignupPageContainer extends React.Component<
       setSubmitting(false)
 
       this.setState({
-        confirming: { email },
-        existButNotVerified: null,
+        message: () => signupVerifyMessage(email, this.resendVerificationEmail),
+        email,
       })
     } catch (error) {
       setSubmitting(false)
@@ -152,14 +130,14 @@ class SignupPageContainer extends React.Component<
         name === 'ConflictingUnverifiedUserExistsError'
       ) {
         this.setState({
-          confirming: null,
-          existButNotVerified: { email },
+          message: () => signupVerifyConflictMessage(email),
+          email: null,
         })
 
         await resendVerificationEmail(email)
       } else if (data && data.error && name === 'GatewayInaccessibleError') {
         this.setState({
-          gatewayInaccessible: true,
+          message: () => gatewayInaccessibleErrorMessage(),
         })
       } else {
         errors.submit = this.errorResponseMessage(error.response.status)
@@ -167,26 +145,27 @@ class SignupPageContainer extends React.Component<
         setErrors(errors)
       }
     } else {
-      this.setState({ networkError: true })
+      this.setState({
+        message: () => networkErrorMessage(),
+      })
     }
   }
 
   private resendVerificationEmail = async () => {
-    const { confirming } = this.state
+    const email = this.state.email
 
-    if (!confirming) return
-
-    const { email } = confirming
+    if (!email) return
 
     try {
       await resendVerificationEmail(email)
 
       this.setState({
-        resendSucceed: true,
+        message: () => signupVerifyResendSuccessMessage(email),
       })
     } catch (error) {
       this.setState({
-        resendSucceed: false,
+        message: () =>
+          signupVerifyResendFailureMessage(email, this.resendVerificationEmail),
       })
     }
   }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import config from '../config'
 
 export const SignInMessage = () => (
   <FormattedMessage
@@ -153,53 +152,6 @@ export const InviteCollaboratorsMessage = () => (
   />
 )
 
-export const SignupVerifyMessage: React.FunctionComponent<{
-  email: string
-}> = ({ email }) => (
-  <FormattedMessage
-    id={'signup_verify'}
-    defaultMessage={
-      'Thanks for signing up! Please click the link sent to {email} to verify your account.'
-    }
-    values={{ email }}
-  />
-)
-
-export const SignupVerifyResendSuccessMessage: React.FunctionComponent<{
-  email: string
-  supportEmail: string
-}> = ({ email, supportEmail }) => (
-  <FormattedMessage
-    id={'signup_verify_resend_success'}
-    defaultMessage={
-      'Verification email re-resent to {email}. If you have not received it, please wait, check your spam box before getting in touch via {supportEmail}.'
-    }
-    values={{ email, supportEmail }}
-  />
-)
-
-export const SignupVerifyResendFailureMessage: React.FunctionComponent<{
-  email: string
-}> = ({ email }) => (
-  <FormattedMessage
-    id={'signup_verify_resend_failure'}
-    defaultMessage={'Failed to re-send verification email to {email}.'}
-    values={{ email }}
-  />
-)
-
-export const SignupVerifyConflictMessage: React.FunctionComponent<{
-  email: string
-}> = ({ email }) => (
-  <FormattedMessage
-    id={'signup_verify_conflict'}
-    defaultMessage={
-      'Account already exists with {email}. Verification email has been re-sent to your email address.'
-    }
-    values={{ email }}
-  />
-)
-
 export const AcceptedInvitationSuccessMessage: React.FunctionComponent = () => (
   <FormattedMessage
     id={'accepted_invitation_success'}
@@ -214,25 +166,6 @@ export const AcceptedInvitationFailureMessage: React.FunctionComponent = () => (
     id={'accepted_invitation_failure'}
     defaultMessage={
       'Please sign in with the invited email address to accept this invitation.'
-    }
-  />
-)
-
-export const NetworkErrorMessage: React.FunctionComponent = () => (
-  <FormattedMessage
-    id={'network_error'}
-    defaultMessage={
-      'Failed to connect to service. Please check your network connection before trying again, and if the problem persists contact {email}.'
-    }
-    values={{ email: config.support.email }}
-  />
-)
-
-export const GatewayInaccessibleMessage: React.FunctionComponent = () => (
-  <FormattedMessage
-    id={'gateway_error'}
-    defaultMessage={
-      'Trouble reaching manuscripts.io servers. Please try again later.'
     }
   />
 )

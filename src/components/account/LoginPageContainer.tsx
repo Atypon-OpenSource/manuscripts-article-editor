@@ -16,7 +16,15 @@ import { AlertMessageType } from '../AlertMessage'
 import { FormErrors } from '../Form'
 import { Main, Page } from '../Page'
 import { LoginValues } from './LoginForm'
-import LoginPageMessages from './LoginMessages'
+import {
+  gatewayInaccessibleErrorMessage,
+  identityProviderErrorMessage,
+  infoLoginMessage,
+  networkErrorMessage,
+  resendVerificationDataMessage,
+  verificationMessage,
+  warningLoginMessage,
+} from './LoginMessages'
 import LoginPage from './LoginPage'
 
 interface ResendVerificationData {
@@ -25,15 +33,10 @@ interface ResendVerificationData {
   type: AlertMessageType
 }
 
+type AlertFunction = () => void
+
 interface State {
-  error: boolean
-  verificationMessage: string | null
-  loginMessage: string | null
-  resendVerificationData: ResendVerificationData | null
-  identityProviderError: string | null
-  infoLoginMessage: string | null
-  networkError: boolean | null
-  gatewayInaccessible: boolean | null
+  message: null | AlertFunction
 }
 
 interface ErrorMessage {
@@ -61,14 +64,7 @@ class LoginPageContainer extends React.Component<
   State
 > {
   public state: Readonly<State> = {
-    error: false,
-    identityProviderError: null,
-    infoLoginMessage: null,
-    loginMessage: null,
-    networkError: null,
-    resendVerificationData: null,
-    verificationMessage: null,
-    gatewayInaccessible: null,
+    message: null,
   }
 
   private initialValues: LoginValues = {
@@ -99,11 +95,21 @@ class LoginPageContainer extends React.Component<
     const { state } = this.props.location
 
     if (state) {
-      this.setState({
-        loginMessage: state.loginMessage || null,
-        verificationMessage: state.verificationMessage || null,
-        infoLoginMessage: state.infoLoginMessage || null,
-      })
+      if (state.loginMessage) {
+        this.setState({
+          message: () => warningLoginMessage(state.loginMessage!),
+        })
+      }
+      if (state.verificationMessage) {
+        this.setState({
+          message: () => verificationMessage(state.verificationMessage!),
+        })
+      }
+      if (state.infoLoginMessage) {
+        this.setState({
+          message: () => infoLoginMessage(state.infoLoginMessage!),
+        })
+      }
     }
   }
 
@@ -112,7 +118,9 @@ class LoginPageContainer extends React.Component<
   ) => {
     if (hashData && Object.keys(hashData).length) {
       if (hashData.error) {
-        this.setState({ identityProviderError: hashData.error })
+        this.setState({
+          message: () => identityProviderErrorMessage(hashData.error),
+        })
       } else if (hashData.access_token) {
         token.set(hashData)
 
@@ -120,7 +128,9 @@ class LoginPageContainer extends React.Component<
         window.location.href = '/'
       }
       if (hashData.action === 'logout') {
-        this.setState({ infoLoginMessage: 'You have been logged out.' })
+        this.setState({
+          message: () => infoLoginMessage('You have been logged out.'),
+        })
       }
       window.location.hash = ''
     }
@@ -128,16 +138,7 @@ class LoginPageContainer extends React.Component<
 
   public render() {
     const { user } = this.props
-    const {
-      // error,
-      verificationMessage,
-      loginMessage,
-      resendVerificationData,
-      identityProviderError,
-      infoLoginMessage,
-      networkError,
-      gatewayInaccessible,
-    } = this.state
+    const { message } = this.state
 
     if (!user.loaded) {
       return <Spinner />
@@ -150,16 +151,7 @@ class LoginPageContainer extends React.Component<
     return (
       <Page>
         <Main>
-          <LoginPageMessages
-            verificationMessage={verificationMessage}
-            identityProviderError={identityProviderError}
-            loginMessage={loginMessage}
-            resendVerificationData={resendVerificationData}
-            resendVerificationEmail={this.resendVerificationEmail}
-            infoLoginMessage={infoLoginMessage}
-            networkError={networkError}
-            gatewayInaccessible={gatewayInaccessible}
-          />
+          {message && message()}
           <LoginPage
             initialValues={this.initialValues}
             validationSchema={loginSchema}
@@ -197,7 +189,7 @@ class LoginPageContainer extends React.Component<
           JSON.parse(data.error).name === 'GatewayInaccessibleError'
         ) {
           this.setState({
-            gatewayInaccessible: true,
+            message: () => gatewayInaccessibleErrorMessage(),
           })
         } else {
           errors.submit = this.errorResponseMessage(
@@ -207,7 +199,9 @@ class LoginPageContainer extends React.Component<
           setErrors(errors)
         }
       } else {
-        this.setState({ networkError: true })
+        this.setState({
+          message: () => networkErrorMessage(),
+        })
       }
     }
   }
@@ -221,12 +215,17 @@ class LoginPageContainer extends React.Component<
         return 'Invalid username or password'
 
       case HttpStatusCodes.FORBIDDEN:
+        const resendVerificationData: ResendVerificationData = {
+          message: 'Please verify your email address',
+          email: values.email,
+          type: AlertMessageType.warning,
+        }
+
         this.setState({
-          resendVerificationData: {
-            message: 'Please verify your email address',
-            email: values.email,
-            type: AlertMessageType.warning,
-          },
+          message: () =>
+            resendVerificationDataMessage(resendVerificationData, () =>
+              this.resendVerificationEmail(values.email)
+            ),
         })
         break
       default:
@@ -239,15 +238,19 @@ class LoginPageContainer extends React.Component<
       await resendVerificationEmail(email)
 
       this.setState({
-        resendVerificationData: null,
+        message: null,
       })
     } catch (error) {
+      const resendVerificationData: ResendVerificationData = {
+        message: 'Re-sending verification email failed.',
+        email,
+        type: AlertMessageType.error,
+      }
       this.setState({
-        resendVerificationData: {
-          email,
-          message: 'Re-sending verification email failed.',
-          type: AlertMessageType.error,
-        },
+        message: () =>
+          resendVerificationDataMessage(resendVerificationData, () =>
+            this.resendVerificationEmail(email)
+          ),
       })
     }
   }

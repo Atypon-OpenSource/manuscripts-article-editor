@@ -12,31 +12,29 @@ import token from '../token'
 RxDB.plugin(PouchDBMemoryAdapter)
 
 describe('Update state', () => {
-  test('update identityProviderError state', async () => {
+  test('call identityProviderErrorMessage method', async () => {
     const wrapper = mount(shallow(<LoginPageContainer />).get(0))
 
-    expect(wrapper.state('identityProviderError')).toEqual(null)
+    expect(wrapper.state('message')).toBeNull()
 
     // tslint:disable-next-line:no-any
     const instance = wrapper.instance() as any
 
     await instance.updateState({ error: 'Error' })
-    expect(wrapper.state('identityProviderError')).toEqual('Error')
+    expect(wrapper.state('message')).not.toBeNull()
     expect(window.location.hash).toEqual('')
   })
 
-  test('update infoLoginMessage state', async () => {
+  test('call infoLoginMessage method', async () => {
     const wrapper = mount(shallow(<LoginPageContainer />).get(0))
 
-    expect(wrapper.state('infoLoginMessage')).toEqual(null)
+    expect(wrapper.state('message')).toBeNull()
 
     // tslint:disable-next-line:no-any
     const instance = wrapper.instance() as any
 
     await instance.updateState({ action: 'logout' })
-    expect(wrapper.state('infoLoginMessage')).toEqual(
-      'You have been logged out.'
-    )
+    expect(wrapper.state('message')).not.toBeNull()
     expect(window.location.hash).toEqual('')
   })
 
