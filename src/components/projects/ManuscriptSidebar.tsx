@@ -133,7 +133,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
       <SidebarFooter>
         <AddManuscriptButton onClick={addManuscript}>
           <StyledAddIcon />
-          Add Manuscript
+          New Manuscript
         </AddManuscriptButton>
       </SidebarFooter>
     </Sidebar>

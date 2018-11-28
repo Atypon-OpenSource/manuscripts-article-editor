@@ -555,13 +555,21 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const { project, manuscripts } = this.state
     const index = manuscripts!.findIndex(item => item._id === id)
 
-    const prevManuscript: Manuscript = manuscripts![index === 0 ? 1 : index - 1]
+    const isLast = manuscripts!.length === 1
+    if (!isLast) {
+      const prevManuscript: Manuscript = manuscripts![
+        index === 0 ? 1 : index - 1
+      ]
 
-    await this.deleteModel(id)
+      await this.deleteModel(id)
 
-    this.props.history.push(
-      `/projects/${project!._id}/manuscripts/${prevManuscript._id}`
-    )
+      this.props.history.push(
+        `/projects/${project!._id}/manuscripts/${prevManuscript._id}`
+      )
+    } else {
+      await this.deleteModel(id)
+      this.props.history.push(`/projects/${project!._id}`)
+    }
   }
 
   private shouldUpdateCitationProcessor = (

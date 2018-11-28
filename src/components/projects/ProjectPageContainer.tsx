@@ -1,13 +1,23 @@
-import { MANUSCRIPT } from '@manuscripts/manuscript-editor'
-import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
+import {
+  buildContributor,
+  buildManuscript,
+  MANUSCRIPT,
+} from '@manuscripts/manuscript-editor'
+import {
+  Manuscript,
+  Project,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import Spinner from '../../icons/spinner'
+import { ContributorRole } from '../../lib/roles'
 import { IntlProps, withIntl } from '../../store/IntlProvider'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
+import { EmptyProjectPage } from './EmptyProjectPage'
 
 interface State {
   project: Project | null
@@ -54,8 +64,17 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
   public render() {
     const { manuscripts, project } = this.state
 
-    if (!project || !manuscripts || !manuscripts.length) {
+    if (!project || !manuscripts) {
       return <Spinner />
+    }
+
+    if (!manuscripts.length) {
+      return (
+        <EmptyProjectPage
+          project={project}
+          addManuscript={this.addManuscript}
+        />
+      )
     }
 
     return (
@@ -110,6 +129,38 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
         error: error.message,
       })
     }
+  }
+
+  private addManuscript = async () => {
+    // TODO: open up the template modal
+
+    const { projectID } = this.props.match.params
+
+    const user = this.props.user.data as UserProfile
+
+    const manuscript = buildManuscript()
+    const manuscriptID = manuscript._id
+
+    const contributor = buildContributor(
+      user.bibliographicName,
+      ContributorRole.author,
+      0,
+      user.userID
+    )
+
+    await this.props.models.saveModel(contributor, {
+      projectID,
+      manuscriptID,
+    })
+
+    await this.props.models.saveModel(manuscript, {
+      projectID,
+      manuscriptID,
+    })
+
+    this.props.history.push(
+      `/projects/${projectID}/manuscripts/${manuscriptID}`
+    )
   }
 }
 
