@@ -28,9 +28,6 @@ storiesOf('Collaboration/Invitation', module)
         handleSwitching={action('switch')}
         project={project as Project}
         user={owner as UserProfile}
-        invitationError={null}
-        invitationSent={false}
-        dismissSentAlert={action('dismiss success alert')}
       />
     </PopperStory>
   ))
@@ -41,9 +38,6 @@ storiesOf('Collaboration/Invitation', module)
         handleSwitching={action('switch')}
         project={project as Project}
         user={notOwner as UserProfile}
-        invitationError={null}
-        invitationSent={false}
-        dismissSentAlert={action('dismiss success alert')}
       />
     </PopperStory>
   ))
@@ -54,9 +48,6 @@ storiesOf('Collaboration/Invitation', module)
         handleSwitching={action('switch')}
         project={project as Project}
         user={owner as UserProfile}
-        invitationError={new Error('An error occurred.')}
-        invitationSent={false}
-        dismissSentAlert={action('dismiss success alert')}
       />
     </PopperStory>
   ))
@@ -67,9 +58,6 @@ storiesOf('Collaboration/Invitation', module)
         handleSwitching={action('switch')}
         project={project as Project}
         user={owner as UserProfile}
-        invitationError={null}
-        invitationSent={true}
-        dismissSentAlert={action('dismiss success alert')}
       />
     </PopperStory>
   ))

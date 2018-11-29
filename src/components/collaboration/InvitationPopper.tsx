@@ -1,21 +1,11 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { Formik, FormikActions, FormikProps } from 'formik'
 import React from 'react'
 import { manuscriptsGrey } from '../../colors'
 import { isOwner } from '../../lib/roles'
 import { styled, ThemedProps } from '../../theme'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import { PopperBody } from '../Popper'
-import {
-  InvitationErrors,
-  InvitationForm,
-  InvitationValues,
-} from './InvitationForm'
-
-const AlertMessageContainer = styled.div`
-  margin-bottom: 9px;
-`
+import { InvitationForm, InvitationValues } from './InvitationForm'
 
 const LinkButton = styled(TransparentGreyButton)`
   width: 70px;
@@ -49,22 +39,13 @@ export const ShareProjectTitle = styled.div`
 interface Props {
   project: Project
   user: UserProfile
-  invitationError: Error | null
-  invitationSent: boolean
-  dismissSentAlert: () => void
-  handleInvitationSubmit: (
-    values: InvitationValues,
-    actions: FormikActions<InvitationValues | InvitationErrors>
-  ) => void
+  handleInvitationSubmit: (values: InvitationValues) => Promise<void>
   handleSwitching: (page: boolean) => void
 }
 
 export const InvitationPopper: React.FunctionComponent<Props> = ({
   user,
   project,
-  invitationSent,
-  invitationError,
-  dismissSentAlert,
   handleSwitching,
   handleInvitationSubmit,
 }) => {
@@ -79,45 +60,9 @@ export const InvitationPopper: React.FunctionComponent<Props> = ({
           <InviteButton>Invite</InviteButton>
         </div>
       </ShareProjectHeader>
-      {!isProjectOwner &&
-        !invitationError && (
-          <AlertMessageContainer>
-            <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
-              Only project owners can invite others to the project.
-            </AlertMessage>
-          </AlertMessageContainer>
-        )}
-      {!!invitationError && (
-        <AlertMessageContainer>
-          <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
-            Sending invitation failed.
-          </AlertMessage>
-        </AlertMessageContainer>
-      )}
-      {!!invitationSent && (
-        <AlertMessageContainer>
-          <AlertMessage type={AlertMessageType.success} hideCloseButton={true}>
-            Invitation was sent successfully.
-          </AlertMessage>
-        </AlertMessageContainer>
-      )}
-      <Formik
-        initialValues={{
-          email: '',
-          name: '',
-          role: 'Writer',
-        }}
-        onSubmit={handleInvitationSubmit}
-        isInitialValid={true}
-        validateOnChange={false}
-        validateOnBlur={false}
-        render={(props: FormikProps<InvitationValues & InvitationErrors>) => (
-          <InvitationForm
-            {...props}
-            dismissSentAlert={dismissSentAlert}
-            disabled={!isProjectOwner}
-          />
-        )}
+      <InvitationForm
+        allowSubmit={isProjectOwner}
+        handleSubmit={handleInvitationSubmit}
       />
     </PopperBody>
   )

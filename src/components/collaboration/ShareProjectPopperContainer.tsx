@@ -1,6 +1,5 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import copyToClipboard from 'clipboard-copy'
-import { FormikActions } from 'formik'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import config from '../../config'
@@ -8,7 +7,7 @@ import { projectInvite, requestProjectInvitationToken } from '../../lib/api'
 import { isOwner } from '../../lib/roles'
 import { UserProps, withUser } from '../../store/UserProvider'
 import { CustomPopper } from '../Popper'
-import { InvitationErrors, InvitationValues } from './InvitationForm'
+import { InvitationValues } from './InvitationForm'
 import { InvitationPopper } from './InvitationPopper'
 import { ShareURIPopper } from './ShareURIPopper'
 
@@ -28,8 +27,6 @@ interface State {
   shownURI: string
   isInvite: boolean
   loadingURIError: Error | null
-  invitationError: Error | null
-  invitationSent: boolean
 }
 
 interface Props {
@@ -53,8 +50,6 @@ class ShareProjectPopperContainer extends React.Component<
     shownURI: '',
     isInvite: false,
     loadingURIError: null,
-    invitationError: null,
-    invitationSent: false,
   }
 
   public componentDidMount() {
@@ -76,8 +71,6 @@ class ShareProjectPopperContainer extends React.Component<
       shownURI,
       selectedShareURIRole,
       loadingURIError,
-      invitationError,
-      invitationSent,
     } = this.state
 
     if (isInvite) {
@@ -88,9 +81,6 @@ class ShareProjectPopperContainer extends React.Component<
             handleSwitching={this.handleSwitching}
             project={project}
             user={user.data as UserProfile}
-            dismissSentAlert={this.dismissSentAlert}
-            invitationError={invitationError}
-            invitationSent={invitationSent}
           />
         </CustomPopper>
       )
@@ -153,24 +143,11 @@ class ShareProjectPopperContainer extends React.Component<
     }
   }
 
-  private handleInvitationSubmit = async (
-    values: InvitationValues,
-    {
-      setSubmitting,
-      setErrors,
-    }: FormikActions<InvitationValues | InvitationErrors>
-  ) => {
+  private handleInvitationSubmit = async (values: InvitationValues) => {
     const { project } = this.props
     const { email, name, role } = values
 
-    try {
-      await projectInvite(project._id, [{ email, name }], role)
-      this.setState({ invitationSent: true })
-    } catch (error) {
-      this.setState({ invitationError: error })
-    } finally {
-      setSubmitting(false)
-    }
+    await projectInvite(project._id, [{ email, name }], role)
   }
 
   private copyURI = async () => {
@@ -212,8 +189,6 @@ class ShareProjectPopperContainer extends React.Component<
       projectID
     )}/invitation/${encodeURIComponent(token)}/`
   }
-
-  private dismissSentAlert = () => this.setState({ invitationSent: false })
 }
 
 export default withUser<Props>(ShareProjectPopperContainer)

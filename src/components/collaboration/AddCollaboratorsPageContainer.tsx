@@ -8,8 +8,6 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { FormikActions, FormikErrors } from 'formik'
-import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
@@ -27,7 +25,7 @@ import {
   InviteCollaboratorsPage,
   SearchCollaboratorsPage,
 } from './CollaboratorsPage'
-import { InvitationErrors, InvitationValues } from './InvitationForm'
+import { InvitationValues } from './InvitationForm'
 import InviteCollaboratorsSidebar from './InviteCollaboratorsSidebar'
 
 interface State {
@@ -42,7 +40,6 @@ interface State {
   userMap: Map<string, UserProfile>
   addedCollaboratorsCount: number
   addedUsers: string[]
-  invitationSent: boolean
 }
 
 interface RouteParams {
@@ -64,7 +61,6 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     userMap: new Map(),
     addedCollaboratorsCount: 0,
     addedUsers: [],
-    invitationSent: false,
   }
 
   private subs: Subscription[] = []
@@ -114,27 +110,26 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private renderInviteCollaboratorPage(project: Project) {
-    const { searchText, invitationSent } = this.state
+    const { searchText } = this.state
 
-    const initialValues = {
+    const invitationValues = {
       name: '',
       email: '',
-      role: '',
+      role: 'Writer',
     }
 
     if (searchText.includes('@')) {
-      initialValues.email = searchText
+      invitationValues.email = searchText
     } else {
-      initialValues.name = searchText
+      invitationValues.name = searchText
     }
 
     return (
       <Page project={project}>
         <InviteCollaboratorsSidebar
-          initialValues={initialValues}
+          invitationValues={invitationValues}
           handleCancel={this.handleCancel}
-          onSubmit={this.handleInvitationSubmit}
-          invitationSent={invitationSent}
+          handleSubmit={this.handleInvitationSubmit}
         />
         <Main>
           <InviteCollaboratorsPage project={project} />
@@ -361,47 +356,13 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     this.setState({
       searchText: '',
       isInvite: false,
-      invitationSent: false,
     })
   }
 
-  private handleInvitationSubmit = async (
-    values: InvitationValues,
-    {
-      setSubmitting,
-      setErrors,
-    }: FormikActions<InvitationValues | InvitationErrors>
-  ) => {
+  private handleInvitationSubmit = async (values: InvitationValues) => {
     const { email, name, role } = values
 
-    try {
-      await projectInvite(this.getProjectID(), [{ email, name }], role)
-
-      this.setState({ invitationSent: true })
-      setSubmitting(false)
-    } catch (error) {
-      setSubmitting(false)
-
-      const errors: FormikErrors<InvitationErrors> = {}
-
-      if (error.response) {
-        errors.submit = this.errorResponseMessage(error.response.status)
-      }
-
-      setErrors(errors)
-    }
-  }
-
-  private errorResponseMessage = (status: number) => {
-    switch (status) {
-      case HttpStatusCodes.BAD_REQUEST:
-        return 'You are already a collaborator on this project.'
-
-      case HttpStatusCodes.CONFLICT:
-        return 'The invited user is already a collaborator on this project.'
-      default:
-        return 'Sending invitation failed.'
-    }
+    await projectInvite(this.getProjectID(), [{ email, name }], role)
   }
 }
 

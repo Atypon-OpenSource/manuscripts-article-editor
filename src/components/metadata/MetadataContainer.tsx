@@ -15,7 +15,6 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { FormikActions, FormikErrors } from 'formik'
 import { debounce } from 'lodash-es'
 import React from 'react'
 import { Redirect } from 'react-router'
@@ -32,10 +31,7 @@ import { buildUserMap } from '../../lib/data'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
-import {
-  InvitationErrors,
-  InvitationValues,
-} from '../collaboration/InvitationForm'
+import { InvitationValues } from '../collaboration/InvitationForm'
 import { AuthorValues } from './AuthorForm'
 import { Metadata } from './Metadata'
 
@@ -68,7 +64,6 @@ interface State {
   removeAuthorIsOpen: boolean
   createAuthorIsOpen: boolean
   hovered: boolean
-  invitationSent: boolean
 }
 
 class MetadataContainer extends React.Component<
@@ -99,7 +94,6 @@ class MetadataContainer extends React.Component<
     removeAuthorIsOpen: false,
     createAuthorIsOpen: false,
     hovered: false,
-    invitationSent: false,
   }
 
   private subs: Subscription[] = []
@@ -131,7 +125,6 @@ class MetadataContainer extends React.Component<
       invitationValues,
       removeAuthorIsOpen,
       createAuthorIsOpen,
-      invitationSent,
     } = this.state
     const { manuscript, user } = this.props
 
@@ -208,7 +201,6 @@ class MetadataContainer extends React.Component<
         handleHover={this.handleHover}
         updateAuthor={this.updateAuthor}
         getAuthorName={this.getAuthorName}
-        invitationSent={invitationSent}
       />
     )
   }
@@ -463,7 +455,7 @@ class MetadataContainer extends React.Component<
     const invitationValues = {
       name: '',
       email: '',
-      role: '',
+      role: 'Writer',
     }
 
     if (searchText.includes('@')) {
@@ -476,17 +468,13 @@ class MetadataContainer extends React.Component<
   }
 
   private handleInviteCancel = () =>
-    this.setState({ searchText: '', isInvite: false, invitationSent: false })
+    this.setState({ searchText: '', isInvite: false })
 
   private getProjectID = () => this.props.manuscript.containerID
 
   private handleInvitationSubmit = async (
-    values: InvitationValues,
-    {
-      setSubmitting,
-      setErrors,
-    }: FormikActions<InvitationValues | InvitationErrors>
-  ) => {
+    values: InvitationValues
+  ): Promise<void> => {
     const { email, name, role } = values
 
     const projectID = this.getProjectID()
@@ -504,25 +492,10 @@ class MetadataContainer extends React.Component<
       }
     }
 
-    try {
-      await projectInvite(projectID, [{ email, name }], role)
+    await projectInvite(projectID, [{ email, name }], role)
 
-      setSubmitting(false)
-      this.setState({ invitationSent: true })
-
-      if (create) {
-        this.createInvitedAuthor(email, invitingID, name)
-      }
-    } catch (error) {
-      setSubmitting(false)
-
-      const errors: FormikErrors<InvitationErrors> = {}
-
-      if (error.response) {
-        errors.submit = error.response
-      }
-
-      setErrors(errors)
+    if (create) {
+      this.createInvitedAuthor(email, invitingID, name)
     }
   }
 

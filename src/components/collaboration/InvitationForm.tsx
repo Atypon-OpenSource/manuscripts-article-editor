@@ -1,8 +1,18 @@
-import { Field, FieldProps, Form, FormikProps } from 'formik'
+import {
+  Field,
+  FieldProps,
+  Form,
+  Formik,
+  FormikActions,
+  FormikErrors,
+  FormikProps,
+} from 'formik'
+import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { manuscriptsBlue } from '../../colors'
 import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme'
+import { projectInvitationSchema } from '../../validation'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { PrimaryButton } from '../Button'
 import { FormError } from '../Form'
@@ -38,129 +48,229 @@ const RadioButtonsContainer = styled.div`
   padding-bottom: 24px;
 `
 
+const AlertMessageContainer = styled.div`
+  margin-bottom: 9px;
+`
+
 export interface InvitationValues {
   name: string
   email: string
   role: string
-  // disabled?: boolean
 }
 
 interface Props {
-  dismissSentAlert?: () => void
-  disabled?: boolean
+  allowSubmit: boolean
+  invitationValues?: InvitationValues
+  handleSubmit: (values: InvitationValues) => Promise<void>
+}
+
+interface State {
+  invitationSent: boolean
 }
 
 export interface InvitationErrors {
   submit?: string
 }
 
-type InvitationFormProps = FormikProps<InvitationValues & InvitationErrors> &
-  Props
+export class InvitationForm extends React.Component<Props, State> {
+  public state = {
+    invitationSent: false,
+  }
 
-export const InvitationForm: React.FunctionComponent<InvitationFormProps> = ({
-  errors,
-  dismissSentAlert,
-  disabled,
-  isSubmitting,
-  values,
-}) => (
-  <Form noValidate={true}>
-    {errors.submit && (
-      <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
-        {errors.submit}{' '}
-      </AlertMessage>
-    )}
-    <TextFieldGroupContainer
-      errors={{
-        name: errors.name,
-        email: errors.email,
-      }}
-    >
-      <Field name={'name'}>
-        {({ field }: FieldProps) => (
-          <TextField
-            {...field}
-            onFocus={dismissSentAlert!}
-            type={'text'}
-            placeholder={'name'}
-            required={true}
-            error={errors.name}
-            disabled={disabled}
-          />
+  private initialValues: InvitationValues = {
+    email: '',
+    name: '',
+    role: 'Writer',
+  }
+
+  public render() {
+    const { allowSubmit, invitationValues } = this.props
+
+    const { invitationSent } = this.state
+
+    return (
+      <Formik
+        onSubmit={this.handleSubmit}
+        initialValues={invitationValues || this.initialValues}
+        isInitialValid={true}
+        validateOnChange={false}
+        validateOnBlur={false}
+        validationSchema={projectInvitationSchema}
+      >
+        {({
+          errors,
+          isSubmitting,
+          values,
+          resetForm,
+        }: FormikProps<InvitationValues & InvitationErrors>) => (
+          <Form noValidate={true}>
+            {errors.submit && (
+              <AlertMessage
+                type={AlertMessageType.error}
+                hideCloseButton={true}
+              >
+                {errors.submit}{' '}
+              </AlertMessage>
+            )}
+            {!allowSubmit && (
+              <AlertMessageContainer>
+                <AlertMessage
+                  type={AlertMessageType.info}
+                  hideCloseButton={true}
+                >
+                  Only project owners can invite others to the project.
+                </AlertMessage>
+              </AlertMessageContainer>
+            )}
+            {invitationSent && (
+              <AlertMessageContainer>
+                <AlertMessage
+                  type={AlertMessageType.success}
+                  hideCloseButton={true}
+                  dismissButton={{
+                    text: 'OK',
+                    action: () => {
+                      this.dismissSuccessAlert()
+                      resetForm(this.initialValues)
+                    },
+                  }}
+                >
+                  Invitation was sent successfully.
+                </AlertMessage>
+              </AlertMessageContainer>
+            )}
+            <TextFieldGroupContainer
+              errors={{
+                name: errors.name,
+                email: errors.email,
+              }}
+            >
+              <Field name={'name'}>
+                {({ field }: FieldProps) => (
+                  <TextField
+                    {...field}
+                    onFocus={this.dismissSuccessAlert}
+                    type={'text'}
+                    placeholder={'name'}
+                    required={true}
+                    error={errors.name}
+                    disabled={!allowSubmit}
+                  />
+                )}
+              </Field>
+
+              <Field name={'email'}>
+                {({ field }: FieldProps) => (
+                  <TextField
+                    {...field}
+                    onFocus={this.dismissSuccessAlert}
+                    type={'email'}
+                    placeholder={'email'}
+                    required={true}
+                    error={errors.email}
+                    disabled={!allowSubmit}
+                  />
+                )}
+              </Field>
+            </TextFieldGroupContainer>
+
+            <RadioButtonsContainer>
+              <Field name={'role'}>
+                {({ field }: FieldProps) => (
+                  <RadioButton
+                    {...field}
+                    onFocus={this.dismissSuccessAlert}
+                    value={'Owner'}
+                    required={true}
+                    textHint={
+                      'Can modify and delete project, invite and remove collaborators'
+                    }
+                    checked={values.role === ProjectRole.owner}
+                    disabled={!allowSubmit}
+                  >
+                    Owner
+                  </RadioButton>
+                )}
+              </Field>
+
+              <Field name={'role'}>
+                {({ field }: FieldProps) => (
+                  <RadioButton
+                    {...field}
+                    onFocus={this.dismissSuccessAlert}
+                    value={'Writer'}
+                    required={true}
+                    textHint={'Can modify project contents'}
+                    checked={values.role === ProjectRole.writer}
+                    disabled={!allowSubmit}
+                  >
+                    Writer
+                  </RadioButton>
+                )}
+              </Field>
+
+              <Field name={'role'}>
+                {({ field }: FieldProps) => (
+                  <RadioButton
+                    {...field}
+                    onFocus={this.dismissSuccessAlert}
+                    value={'Viewer'}
+                    required={true}
+                    textHint={'Can only review projects without modifying it'}
+                    checked={values.role === ProjectRole.viewer}
+                    disabled={!allowSubmit}
+                  >
+                    Viewer
+                  </RadioButton>
+                )}
+              </Field>
+
+              {errors.role && <FormError>{errors.role}</FormError>}
+            </RadioButtonsContainer>
+
+            <SendInvitationButton
+              type={'submit'}
+              disabled={isSubmitting || !allowSubmit}
+            >
+              Send Invitation
+            </SendInvitationButton>
+          </Form>
         )}
-      </Field>
+      </Formik>
+    )
+  }
 
-      <Field name={'email'}>
-        {({ field }: FieldProps) => (
-          <TextField
-            {...field}
-            onFocus={dismissSentAlert!}
-            type={'email'}
-            placeholder={'email'}
-            required={true}
-            error={errors.email}
-            disabled={disabled}
-          />
-        )}
-      </Field>
-    </TextFieldGroupContainer>
+  private dismissSuccessAlert = () => this.setState({ invitationSent: false })
 
-    <RadioButtonsContainer>
-      <Field name={'role'}>
-        {({ field }: FieldProps) => (
-          <RadioButton
-            {...field}
-            onFocus={dismissSentAlert!}
-            value={'Owner'}
-            required={true}
-            textHint={
-              'Can modify and delete project, invite and remove collaborators'
-            }
-            checked={values.role === ProjectRole.owner}
-            disabled={disabled}
-          >
-            Owner
-          </RadioButton>
-        )}
-      </Field>
+  private handleSubmit = async (
+    values: InvitationValues,
+    actions: FormikActions<InvitationValues | InvitationErrors>
+  ) => {
+    try {
+      await this.props.handleSubmit(values)
+      this.setState({ invitationSent: true })
+    } catch (error) {
+      const errors: FormikErrors<InvitationErrors> = {}
 
-      <Field name={'role'}>
-        {({ field }: FieldProps) => (
-          <RadioButton
-            {...field}
-            onFocus={dismissSentAlert!}
-            value={'Writer'}
-            required={true}
-            textHint={'Can modify project contents'}
-            checked={values.role === ProjectRole.writer}
-            disabled={disabled}
-          >
-            Writer
-          </RadioButton>
-        )}
-      </Field>
+      if (error.response) {
+        errors.submit = this.errorResponseMessage(error.response.status)
+      }
 
-      <Field name={'role'}>
-        {({ field }: FieldProps) => (
-          <RadioButton
-            {...field}
-            onFocus={dismissSentAlert!}
-            value={'Viewer'}
-            required={true}
-            textHint={'Can only review projects without modifying it'}
-            checked={values.role === ProjectRole.viewer}
-            disabled={disabled}
-          >
-            Viewer
-          </RadioButton>
-        )}
-      </Field>
+      actions.setErrors(errors)
+    } finally {
+      actions.setSubmitting(false)
+    }
+  }
 
-      {errors.role && <FormError>{errors.role}</FormError>}
-    </RadioButtonsContainer>
+  private errorResponseMessage = (status: number) => {
+    switch (status) {
+      case HttpStatusCodes.BAD_REQUEST:
+        return 'You are already a collaborator on this project.'
 
-    <SendInvitationButton type={'submit'} disabled={isSubmitting || disabled}>
-      Send Invitation
-    </SendInvitationButton>
-  </Form>
-)
+      case HttpStatusCodes.CONFLICT:
+        return 'The invited user is already a collaborator on this project.'
+      default:
+        return 'Sending invitation failed.'
+    }
+  }
+}

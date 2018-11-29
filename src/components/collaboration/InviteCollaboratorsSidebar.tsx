@@ -1,9 +1,6 @@
-import { Formik, FormikActions } from 'formik'
 import React from 'react'
 import Panel from '../../components/Panel'
 import { styled } from '../../theme'
-import { projectInvitationSchema } from '../../validation'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { TransparentGreyButton } from '../Button'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import { InvitationForm, InvitationValues } from './InvitationForm'
@@ -17,20 +14,15 @@ const FormContainer = styled.div`
 `
 
 interface Props {
+  invitationValues: InvitationValues
   handleCancel: () => void
-  initialValues: InvitationValues
-  invitationSent: boolean
-  onSubmit: (
-    values: InvitationValues,
-    formikActions: FormikActions<InvitationValues>
-  ) => void
+  handleSubmit: (values: InvitationValues) => Promise<void>
 }
 
 const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
+  invitationValues,
   handleCancel,
-  initialValues,
-  onSubmit,
-  invitationSent,
+  handleSubmit,
 }) => (
   <Panel
     name={'collaborators-sidebar'}
@@ -46,19 +38,10 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
         </TransparentGreyButton>
       </SidebarHeader>
       <FormContainer>
-        {!!invitationSent && (
-          <AlertMessage type={AlertMessageType.success} hideCloseButton={true}>
-            Invitation was sent successfully.
-          </AlertMessage>
-        )}
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          isInitialValid={true}
-          validateOnChange={false}
-          validateOnBlur={false}
-          component={InvitationForm}
-          validationSchema={projectInvitationSchema}
+        <InvitationForm
+          allowSubmit={true}
+          invitationValues={invitationValues}
+          handleSubmit={handleSubmit}
         />
       </FormContainer>
     </CollaboratorSidebar>

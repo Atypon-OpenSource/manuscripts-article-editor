@@ -5,7 +5,6 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { FormikActions } from 'formik'
 import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
@@ -203,12 +202,8 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
 interface InviteAuthorsProps {
   project: Project
   invitationValues: InvitationValues
-  invitationSent: boolean
   handleInviteCancel: () => void
-  handleInvitationSubmit: (
-    values: InvitationValues,
-    formikActions: FormikActions<InvitationValues>
-  ) => void
+  handleInvitationSubmit: (values: InvitationValues) => Promise<void>
 }
 
 export const InviteAuthorsModal: React.FunctionComponent<
@@ -216,17 +211,15 @@ export const InviteAuthorsModal: React.FunctionComponent<
 > = ({
   project,
   invitationValues,
-  invitationSent,
   handleInviteCancel,
   handleInvitationSubmit,
 }) => (
   <ModalBody>
     <ModalSidebar>
       <InviteCollaboratorsSidebar
-        invitationSent={invitationSent}
-        initialValues={invitationValues}
+        invitationValues={invitationValues}
         handleCancel={handleInviteCancel}
-        onSubmit={handleInvitationSubmit}
+        handleSubmit={handleInvitationSubmit}
       />
     </ModalSidebar>
     <ModalMain>

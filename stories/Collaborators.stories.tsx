@@ -1,7 +1,6 @@
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
-import { Formik } from 'formik'
 import React from 'react'
 import AddCollaboratorPopper from '../src/components/collaboration/AddCollaboratorPopper'
 import AddCollaboratorsSidebar from '../src/components/collaboration/AddCollaboratorsSidebar'
@@ -19,7 +18,6 @@ import InviteCollaboratorPopper from '../src/components/collaboration/InviteColl
 import InviteCollaboratorsSidebar from '../src/components/collaboration/InviteCollaboratorsSidebar'
 import SearchCollaboratorsSidebar from '../src/components/collaboration/SearchCollaboratorsSidebar'
 import { styled } from '../src/theme'
-import { projectInvitationSchema } from '../src/validation'
 import { user } from './data/contributors'
 import { invitations } from './data/invitations-data'
 import { people } from './data/people'
@@ -66,19 +64,7 @@ storiesOf('Collaboration/Poppers', module)
 
 storiesOf('Collaboration/Forms', module).add('Invite', () => (
   <PopperStory>
-    <Formik
-      initialValues={{
-        name: '',
-        email: '',
-        role: '',
-      }}
-      onSubmit={action('submit')}
-      isInitialValid={true}
-      validateOnChange={false}
-      validateOnBlur={false}
-      component={InvitationForm}
-      validationSchema={projectInvitationSchema}
-    />
+    <InvitationForm allowSubmit={true} handleSubmit={action('submit')} />
   </PopperStory>
 ))
 
@@ -170,10 +156,9 @@ storiesOf('Collaboration/Sidebars', module)
 
   .add('Invite Collaborators', () => (
     <InviteCollaboratorsSidebar
-      invitationSent={false}
-      initialValues={{ name: '', email: 'user@example.com', role: '' }}
+      invitationValues={{ name: '', email: 'user@example.com', role: '' }}
       handleCancel={action('cancel')}
-      onSubmit={action('submit')}
+      handleSubmit={action('submit')}
     />
   ))
   .add('Search Collaborators', () => (

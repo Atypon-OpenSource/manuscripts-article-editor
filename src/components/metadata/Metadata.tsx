@@ -6,7 +6,6 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
-import { FormikActions } from 'formik'
 import React from 'react'
 import Close from '../../icons/close'
 import Expander from '../../icons/expander'
@@ -124,7 +123,6 @@ interface Props {
   user: UserProfile
   isInvite: boolean
   invitationValues: InvitationValues
-  invitationSent: boolean
   startAddingAuthors: () => void
   checkInvitations: (author: Contributor) => boolean
   handleAddingDoneCancel: () => void
@@ -132,10 +130,7 @@ interface Props {
   handleSearchFocus: () => void
   handleInvite: () => void
   handleInviteCancel: () => void
-  handleInvitationSubmit: (
-    values: InvitationValues,
-    formikActions: FormikActions<InvitationValues>
-  ) => void
+  handleInvitationSubmit: (values: InvitationValues) => Promise<void>
   handleDrop: (
     source: AuthorItem,
     target: AuthorItem,
