@@ -1,5 +1,6 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
+import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { manuscriptsGrey } from '../../colors'
 import ProjectPlaceholder from '../../icons/project-placeholder'
@@ -25,7 +26,7 @@ const Placeholder = styled.div`
   margin-top: 50px;
 `
 
-const ProjectTitle = styled.div`
+const ProjectTitle = styled(Title)`
   font-size: 18px;
   font-weight: 300;
   padding: 15px 0;
@@ -84,7 +85,7 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
         <ProjectPlaceholder />
       </Placeholder>
 
-      <ProjectTitle>{project.title || 'Untitled Project'}</ProjectTitle>
+      <ProjectTitle value={project.title || 'Untitled Project'} />
 
       <Message>
         This project is empty. Create a manuscript to get started.
