@@ -254,6 +254,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   <ApplicationMenu
                     menus={menus({
                       manuscript,
+                      project,
                       addManuscript: this.addManuscript,
                       deleteManuscript: this.deleteManuscript,
                       deleteModel: this.deleteModel,
