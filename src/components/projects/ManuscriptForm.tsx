@@ -101,7 +101,7 @@ class ManuscriptForm extends React.Component<Props, State> {
             <LabelText>Locale</LabelText>
 
             <Field
-              name={'locale'}
+              name={'primaryLanguageCode'}
               component={ImmediateSelectField}
               options={locales}
             />

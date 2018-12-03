@@ -230,6 +230,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const attributes = {
       class: 'manuscript-editor',
       dir: locale === 'ar' ? 'rtl' : 'ltr', // TODO: remove hard-coded locale
+      lang: locale,
+      spellcheck: 'true',
       tabindex: '2',
     }
 
