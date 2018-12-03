@@ -109,7 +109,7 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
 
         return (
           <SearchResult onClick={() => addToSelection(id, item)} key={id}>
-            <StyledPlusIcon selected={selected.has(id)} />
+            <StyledPlusIcon data-cy={'plus-icon'} selected={selected.has(id)} />
 
             <ResultMetadata>
               <SearchResultTitle
