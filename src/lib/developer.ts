@@ -1,4 +1,4 @@
-import { USER_PROFILE } from '@manuscripts/manuscript-editor'
+import { timestamp, USER_PROFILE } from '@manuscripts/manuscript-editor'
 import {
   BibliographicName,
   UserProfile,
@@ -22,11 +22,15 @@ export const createUserProfile = /* istanbul ignore next */ async (
 
   const db = await databaseCreator
 
+  const createdAt = timestamp()
+
   const profile: Partial<UserProfile> = {
     _id: `${USER_PROFILE}:${userId.replace('_', '|')}`,
     objectType: USER_PROFILE,
     userID: userId,
     bibliographicName: bibliographicName as BibliographicName,
+    createdAt,
+    updatedAt: createdAt,
   }
 
   await db.projects.upsert(profile)
