@@ -11,7 +11,7 @@ export const buildUserMap = async (docs: Array<RxDocument<UserProfile>>) => {
     const attachment = await doc.getAttachment('image')
 
     if (attachment) {
-      item.avatar = window.URL.createObjectURL(attachment.getData())
+      item.avatar = window.URL.createObjectURL(await attachment.getData())
     }
 
     output.set(item.userID, item)
