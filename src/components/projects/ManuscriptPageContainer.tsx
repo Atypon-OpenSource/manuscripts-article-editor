@@ -72,18 +72,11 @@ import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
 import Spinner from '../../icons/spinner'
 import { buildUserMap } from '../../lib/data'
-import { download } from '../../lib/download'
 import { filterLibrary } from '../../lib/library'
 import { ContributorRole } from '../../lib/roles'
 import { ModelChangeEvent } from '../../lib/rxdb'
 import sessionID from '../../lib/sessionID'
 import { newestFirst, oldestFirst } from '../../lib/sort'
-import {
-  downloadExtension,
-  exportProject,
-  generateDownloadFilename,
-} from '../../pressroom/exporter'
-import { importFile, openFilePicker } from '../../pressroom/importers'
 import { ModelObject } from '../../store/DataProvider'
 import IntlProvider, { IntlProps, withIntl } from '../../store/IntlProvider'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
@@ -92,10 +85,13 @@ import { ThemeProvider } from '../../theme'
 import { DebouncedInspector } from '../Inspector'
 import CitationEditor from '../library/CitationEditor'
 import MetadataContainer from '../metadata/MetadataContainer'
+import { ModalProps, withModal } from '../ModalProvider'
 import { Main, Page } from '../Page'
 import Panel from '../Panel'
 import { CommentList } from './CommentList'
 import { EditorBody, EditorContainer, EditorHeader } from './EditorContainer'
+import { Exporter } from './Exporter'
+import { Importer } from './Importer'
 import ManuscriptForm from './ManuscriptForm'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ReloadDialog } from './ReloadDialog'
@@ -130,7 +126,8 @@ interface RouteParams {
 type CombinedProps = UserProps &
   ModelsProps &
   RouteComponentProps<RouteParams> &
-  IntlProps
+  IntlProps &
+  ModalProps
 
 class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
@@ -260,11 +257,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                       addManuscript: this.addManuscript,
                       deleteManuscript: this.deleteManuscript,
                       deleteModel: this.deleteModel,
-                      exportManuscript: this.exportManuscript,
                       history: this.props.history,
-                      importManuscript: this.importManuscript,
-                      importFile,
-                      openFilePicker,
+                      openExporter: this.openExporter,
+                      openImporter: this.openImporter,
                     })}
                     view={view}
                   />
@@ -300,8 +295,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                 saveManuscript={this.saveManuscript}
                 addManuscript={this.addManuscript}
                 deleteManuscript={this.deleteManuscript}
-                exportManuscript={this.exportManuscript}
-                importManuscript={this.importManuscript}
                 getCurrentUser={this.getCurrentUser}
                 history={this.props.history}
                 locale={locale}
@@ -317,8 +310,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                 retrySync={this.retrySync}
                 renderReactComponent={this.renderReactComponent}
                 CitationEditor={CitationEditor}
-                importFile={importFile}
-                openFilePicker={openFilePicker}
               />
             </EditorBody>
           </EditorContainer>
@@ -621,22 +612,28 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  private exportManuscript = async (format: string): Promise<void> => {
-    const { modelMap } = this.state
-    const { manuscriptID } = this.props.match.params
+  private openExporter = (format: string) => {
+    const { addModal, closeModal, match } = this.props
 
-    try {
-      const blob = await exportProject(modelMap, manuscriptID, format)
-      const manuscript = modelMap.get(manuscriptID) as Manuscript
+    const modalID = addModal(() => (
+      <Exporter
+        format={format}
+        handleComplete={() => closeModal(modalID)}
+        modelMap={this.state.modelMap}
+        manuscriptID={match.params.manuscriptID}
+      />
+    ))
+  }
 
-      const filename =
-        generateDownloadFilename(manuscript.title || 'Untitled') +
-        downloadExtension(format)
+  private openImporter = () => {
+    const { addModal, closeModal } = this.props
 
-      download(blob, filename)
-    } catch (e) {
-      alert('Something went wrong: ' + e.message)
-    }
+    const modalID = addModal(() => (
+      <Importer
+        handleComplete={() => closeModal(modalID)}
+        importManuscript={this.importManuscript}
+      />
+    ))
   }
 
   private importManuscript = async (models: Model[]) => {
@@ -1377,4 +1374,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withModels(withUser(withIntl(ManuscriptPageContainer)))
+export default withModal(
+  withModels(withUser(withIntl(ManuscriptPageContainer)))
+)

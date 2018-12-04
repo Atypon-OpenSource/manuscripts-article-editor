@@ -20,6 +20,7 @@ const ModalBody = styled.div`
   border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
   box-shadow: 0 4px 9px 0 #d8d8d8;
   background: #fff;
+  min-width: 200px;
 `
 
 const MessageContainer = styled.div`
@@ -37,8 +38,7 @@ const HeaderContainer = styled.div`
   font-family: Barlow;
   font-size: 16px;
   font-weight: 500;
-  padding-left: 20px;
-  padding-top: 15px;
+  padding: 15px 20px 0;
 `
 const ButtonsContainer = styled.div`
   display: flex;
@@ -60,7 +60,7 @@ interface DialogProps {
       isDestructive: boolean
     }
   }
-  category: string
+  category: Category
   header: string
   message: string
 }

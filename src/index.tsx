@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
+import { ModalProvider } from './components/ModalProvider'
 import './lib/fonts'
 import './lib/sentry'
 import './lib/service-worker'
@@ -12,7 +13,9 @@ ReactDOM.render(
   <StoreProviders>
     <ThemeProvider>
       <BrowserRouter>
-        <App />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
       </BrowserRouter>
     </ThemeProvider>
   </StoreProviders>,
