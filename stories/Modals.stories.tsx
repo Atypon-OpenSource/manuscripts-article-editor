@@ -6,7 +6,6 @@ import {
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import AvatarEditor from 'react-avatar-editor'
 import ProfilePage from '../src/components/account/ProfilePage'
 
 const bibliographicName: BibliographicName = {
@@ -55,7 +54,6 @@ storiesOf('Account/Modals', module).add('Profile', () => (
   <ProfilePage
     userWithAvatar={user}
     affiliationsMap={affiliationsMap}
-    avatarEditorRef={React.createRef<AvatarEditor>()}
     handleSave={action('save profile')}
     handleChangePassword={action('open change password modal')}
     handleDeleteAccount={action('open delete account modal')}
