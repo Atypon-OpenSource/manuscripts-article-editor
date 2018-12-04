@@ -1,5 +1,6 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
+import { FormattedDate } from 'react-intl'
 import { darkGrey, dustyGrey } from '../colors'
 import { styled } from '../theme'
 import { Avatar } from './Avatar'
@@ -65,7 +66,6 @@ const EditButtonContainer = styled.div`
 `
 
 interface Props {
-  createdAt: string
   userWithAvatar: UserProfileWithAvatar
   handleChangePassword: () => void
   handleDeleteAccount: () => void
@@ -74,7 +74,6 @@ interface Props {
 
 const UserProfileSidebar: React.FunctionComponent<Props> = ({
   userWithAvatar,
-  createdAt,
   handleChangePassword,
   handleDeleteAccount,
   handleEditAvatar,
@@ -102,7 +101,9 @@ const UserProfileSidebar: React.FunctionComponent<Props> = ({
       )}
 
       <UserEmail>{userWithAvatar.email}</UserEmail>
-      <MemberSince>Member since {createdAt}</MemberSince>
+      <MemberSince>
+        Member since <FormattedDate value={userWithAvatar.createdAt * 1000} />
+      </MemberSince>
       <ChangePasswordButton onClick={handleChangePassword}>
         Change Password
       </ChangePasswordButton>
