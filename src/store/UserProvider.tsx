@@ -1,4 +1,7 @@
-import { USER_PROFILE } from '@manuscripts/manuscript-editor'
+import {
+  USER_PROFILE,
+  UserProfileWithAvatar,
+} from '@manuscripts/manuscript-editor'
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import {
@@ -14,7 +17,7 @@ import { ModelsProps, withModels } from './ModelsProvider'
 export interface UserProviderState {
   loading: boolean
   loaded: boolean
-  data: UserProfile | null
+  data: UserProfileWithAvatar | null
   error: string | null
 }
 
@@ -128,11 +131,17 @@ class UserProvider extends React.Component<ModelsProps, UserProviderState> {
     }
 
     // TODO: remove token if user not found locally?
-    query.$.subscribe((doc: RxDocument<UserProfile> | null) => {
+    query.$.subscribe(async (doc: RxDocument<UserProfile> | null) => {
       if (doc) {
         // const previousData = this.state.data
 
-        const data: UserProfile = doc.toJSON()
+        const data: UserProfileWithAvatar = doc.toJSON()
+
+        const attachment = await doc.getAttachment('image')
+
+        if (attachment) {
+          data.avatar = window.URL.createObjectURL(await attachment.getData())
+        }
 
         this.setState({
           loading: false,
