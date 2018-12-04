@@ -1,14 +1,12 @@
 import {
   buildUserProfileAffiliation,
   USER_PROFILE_AFFILIATION,
-  UserProfileWithAvatar,
 } from '@manuscripts/manuscript-editor'
 import { UserProfileAffiliation } from '@manuscripts/manuscripts-json-schema'
 import { FormikActions, FormikErrors } from 'formik'
 import React from 'react'
-import AvatarEditor from 'react-avatar-editor'
 import { RouteComponentProps } from 'react-router'
-import { RxAttachmentCreator, RxCollection, RxDocument } from 'rxdb'
+import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
@@ -17,7 +15,6 @@ import ProfilePage from './ProfilePage'
 
 interface State {
   affiliationMap: Map<string, UserProfileAffiliation>
-  userWithAvatar: UserProfileWithAvatar | null
   affiliationsLoaded: boolean
 }
 
@@ -26,20 +23,13 @@ type Props = UserProps & RouteComponentProps<{}> & ModelsProps
 class ProfilePageContainer extends React.Component<Props> {
   public state: Readonly<State> = {
     affiliationMap: new Map(),
-    userWithAvatar: this.props.user.data,
     affiliationsLoaded: false,
   }
 
-  private userWithAvatar: UserProfileWithAvatar = this.props.user.data!
-
   private subs: Subscription[] = []
-
-  private avatarEditorRef = React.createRef<AvatarEditor>()
 
   public async componentDidMount() {
     this.subs.push(this.loadAffiliations())
-
-    await this.getUserProfileAvatar()
   }
 
   public async componentWillUnmount() {
@@ -48,7 +38,7 @@ class ProfilePageContainer extends React.Component<Props> {
 
   public render() {
     const { user } = this.props
-    const { affiliationMap, userWithAvatar, affiliationsLoaded } = this.state
+    const { affiliationMap, affiliationsLoaded } = this.state
 
     if (!user.loaded) {
       return null
@@ -60,10 +50,9 @@ class ProfilePageContainer extends React.Component<Props> {
 
     return (
       <ProfilePage
-        userWithAvatar={userWithAvatar!}
+        userWithAvatar={user.data}
         affiliationsMap={affiliationMap}
         handleSave={this.handleSave}
-        avatarEditorRef={this.avatarEditorRef}
         handleChangePassword={this.handleChangePassword}
         handleDeleteAccount={this.handleDeleteAccount}
         handleClose={this.handleClose}
@@ -149,28 +138,12 @@ class ProfilePageContainer extends React.Component<Props> {
         )
       })
 
-  private saveUserProfileAvatar = () =>
-    this.avatarEditorRef.current!.getImage().toBlob(async blob => {
-      const attachment: RxAttachmentCreator = {
-        id: 'image',
-        type: blob!.type,
-        data: blob!,
-      }
-
-      await this.props.user.putAttachment(attachment)
+  private saveUserProfileAvatar = (data: Blob) =>
+    this.props.user.putAttachment({
+      id: 'image',
+      type: data.type,
+      data,
     })
-
-  private getUserProfileAvatar = async () => {
-    const attachment = await this.props.user.getAttachment('image')
-
-    if (attachment) {
-      this.userWithAvatar.avatar = window.URL.createObjectURL(
-        await attachment.getData()
-      )
-
-      this.setState({ userWithAvatar: this.userWithAvatar })
-    }
-  }
 }
 
 export default withModels(withUser(ProfilePageContainer))

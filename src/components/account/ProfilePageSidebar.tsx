@@ -23,8 +23,7 @@ export interface AvatarProps {
 
 interface Props {
   userWithAvatar: UserProfileWithAvatar
-  avatarEditorRef: React.RefObject<AvatarEditor>
-  saveUserProfileAvatar: () => void
+  saveUserProfileAvatar: (data: Blob) => Promise<void>
   handleChangePassword: () => void
   handleDeleteAccount: () => void
 }
@@ -42,33 +41,34 @@ class ProfilePageSidebar extends React.Component<Props, State> {
     avatarZoom: 1,
   }
 
+  private avatarEditorRef = React.createRef<AvatarEditor>()
+
   public render() {
     const {
       userWithAvatar,
-      avatarEditorRef,
       handleChangePassword,
       handleDeleteAccount,
     } = this.props
     const { editAvatar, avatar, avatarZoom } = this.state
+
     return (
       <ModalSidebar>
         {editAvatar ? (
           <AvatarFileUpload
             avatar={avatar}
             avatarZoom={avatarZoom}
-            avatarEditorRef={avatarEditorRef}
+            avatarEditorRef={this.avatarEditorRef}
             importAvatar={this.importAvatar}
-            handleCancel={this.handleEditAvatarSidebar}
+            handleCancel={this.closeEditor}
             handleSaveAvatar={this.handleSaveAvatar}
             handleAvatarZoom={this.handleAvatarZoom}
           />
         ) : (
           <UserProfileSidebar
             userWithAvatar={userWithAvatar}
-            createdAt={new Date(userWithAvatar.createdAt * 1000).toDateString()} // the number is divided by 1000 before being stored in the DB
             handleChangePassword={handleChangePassword}
             handleDeleteAccount={handleDeleteAccount}
-            handleEditAvatar={this.handleEditAvatarSidebar}
+            handleEditAvatar={this.openEditor}
           />
         )}
         >
@@ -76,20 +76,31 @@ class ProfilePageSidebar extends React.Component<Props, State> {
     )
   }
 
-  private handleEditAvatarSidebar = () => {
+  private openEditor = () => {
     this.setState({
       avatar: null,
-      editAvatar: !this.state.editAvatar,
+      editAvatar: true,
       avatarZoom: 1,
     })
   }
 
-  private handleSaveAvatar = async () => {
-    const imageURL = this.getCroppedImage()
-    this.props.saveUserProfileAvatar()
-    this.setAvatar(imageURL)
-    this.handleEditAvatarSidebar()
+  private closeEditor = () => {
+    this.setState({
+      editAvatar: false,
+    })
   }
+
+  private handleSaveAvatar = async () => {
+    const canvasElement = this.avatarEditorRef.current!.getImage()
+    const blob = await this.canvasToBlob(canvasElement)
+    await this.props.saveUserProfileAvatar(blob)
+    this.closeEditor()
+  }
+
+  private canvasToBlob = (canvasElement: HTMLCanvasElement): Promise<Blob> =>
+    new Promise((resolve, reject) => {
+      canvasElement.toBlob(blob => (blob ? resolve(blob) : reject()))
+    })
 
   private handleAvatarZoom = (event: React.FormEvent<HTMLInputElement>) =>
     this.setState({
@@ -121,12 +132,6 @@ class ProfilePageSidebar extends React.Component<Props, State> {
 
     fileReader.readAsDataURL(file)
   }
-
-  private setAvatar = (avatar: string) =>
-    (this.props.userWithAvatar.avatar = avatar)
-
-  private getCroppedImage = () =>
-    this.props.avatarEditorRef.current!.getImage().toDataURL()
 }
 
 export default ProfilePageSidebar

@@ -2,7 +2,6 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { UserProfileAffiliation } from '@manuscripts/manuscripts-json-schema'
 import { FormikActions } from 'formik'
 import React from 'react'
-import AvatarEditor from 'react-avatar-editor'
 import { altoGrey } from '../../colors'
 import Close from '../../icons/close'
 import { styled, ThemedProps } from '../../theme'
@@ -36,9 +35,8 @@ const ModalContainer = styled.div`
 interface Props {
   userWithAvatar: UserProfileWithAvatar
   affiliationsMap: Map<string, UserProfileAffiliation>
-  avatarEditorRef: React.RefObject<AvatarEditor>
   createAffiliation: (institution: string) => Promise<UserProfileAffiliation>
-  saveUserProfileAvatar: () => void
+  saveUserProfileAvatar: (data: Blob) => Promise<void>
   handleChangePassword: () => void
   handleDeleteAccount: () => void
   handleClose: () => void
@@ -50,7 +48,6 @@ interface Props {
 
 const ProfilePage: React.FunctionComponent<Props> = ({
   userWithAvatar,
-  avatarEditorRef,
   affiliationsMap,
   handleSave,
   handleChangePassword,
@@ -73,7 +70,6 @@ const ProfilePage: React.FunctionComponent<Props> = ({
       </ModalHeader>
       <ModalContainer>
         <ProfilePageSidebar
-          avatarEditorRef={avatarEditorRef}
           handleChangePassword={handleChangePassword}
           handleDeleteAccount={handleDeleteAccount}
           saveUserProfileAvatar={saveUserProfileAvatar}
