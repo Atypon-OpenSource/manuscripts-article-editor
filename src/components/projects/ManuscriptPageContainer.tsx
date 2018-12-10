@@ -64,6 +64,7 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import debounce from 'lodash-es/debounce'
+import { parse } from 'qs'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Prompt, RouteComponentProps } from 'react-router'
@@ -88,6 +89,7 @@ import MetadataContainer from '../metadata/MetadataContainer'
 import { ModalProps, withModal } from '../ModalProvider'
 import { Main, Page } from '../Page'
 import Panel from '../Panel'
+import { AcceptInvitationDialog } from './AcceptInvitationDialog'
 import { CommentList } from './CommentList'
 import { EditorBody, EditorContainer, EditorHeader } from './EditorContainer'
 import { Exporter } from './Exporter'
@@ -116,6 +118,7 @@ interface State {
   manuscript: Manuscript | null
   project: Project | null
   processor: Citeproc.Processor | null
+  onLoadMessage: string | null
 }
 
 interface RouteParams {
@@ -151,6 +154,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     project: null,
     processor: null,
     selected: null,
+    onLoadMessage: null,
   }
 
   private readonly initialState: Readonly<State>
@@ -171,6 +175,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   public async componentDidMount() {
     const { params } = this.props.match
+    const { message } = parse(window.location.hash.substr(1))
+    this.setState({ onLoadMessage: message })
+    window.location.hash = ''
 
     window.addEventListener('beforeunload', this.unloadListener)
 
@@ -212,6 +219,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       comments,
       view,
       error,
+      onLoadMessage,
     } = this.state
 
     if (error) {
@@ -220,6 +228,15 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     if (!doc || !manuscript || !manuscripts || !project || !comments) {
       return <Spinner />
+    }
+
+    if (onLoadMessage) {
+      return (
+        <AcceptInvitationDialog
+          message={onLoadMessage}
+          closeDialog={this.closeAcceptInvitationDialog}
+        />
+      )
     }
 
     const locale = this.getLocale(manuscript)
@@ -349,6 +366,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       </Page>
     )
   }
+
+  private closeAcceptInvitationDialog = () =>
+    this.setState({ onLoadMessage: null })
 
   private prepare = async (projectID: string, manuscriptID: string) => {
     try {

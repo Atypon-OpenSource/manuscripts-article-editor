@@ -55,10 +55,9 @@ class AcceptInvitationURIContainer extends React.Component<
     }
 
     if (!success) {
-      alert(message)
       return <Redirect to={'/projects'} />
     } else {
-      return <Redirect to={`/projects/${projectID}`} />
+      return <Redirect to={`/projects/${projectID}#message=${message}`} />
     }
   }
 }
