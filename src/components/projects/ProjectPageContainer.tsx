@@ -81,9 +81,12 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
 
     return (
       <Redirect
-        to={`/projects/${project._id}/manuscripts/${
-          manuscripts[0]._id
-        }${!!message && `#${stringify({ message })}`}`}
+        to={{
+          pathname: `/projects/${project._id}/manuscripts/${
+            manuscripts[0]._id
+          }`,
+          state: this.props.location.state,
+        }}
       />
     )
   }

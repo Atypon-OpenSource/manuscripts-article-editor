@@ -64,7 +64,6 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import debounce from 'lodash-es/debounce'
-import { parse } from 'qs'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Prompt, RouteComponentProps } from 'react-router'
@@ -118,7 +117,6 @@ interface State {
   manuscript: Manuscript | null
   project: Project | null
   processor: Citeproc.Processor | null
-  onLoadMessage: string | null
 }
 
 interface RouteParams {
@@ -126,9 +124,13 @@ interface RouteParams {
   manuscriptID: string
 }
 
+interface StateParams {
+  message?: string
+}
+
 type CombinedProps = UserProps &
   ModelsProps &
-  RouteComponentProps<RouteParams> &
+  RouteComponentProps<RouteParams, {}, StateParams> &
   IntlProps &
   ModalProps
 
@@ -154,7 +156,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     project: null,
     processor: null,
     selected: null,
-    onLoadMessage: null,
   }
 
   private readonly initialState: Readonly<State>
@@ -175,9 +176,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   public async componentDidMount() {
     const { params } = this.props.match
-    const { message } = parse(window.location.hash.substr(1))
-    this.setState({ onLoadMessage: message })
-    window.location.hash = ''
 
     window.addEventListener('beforeunload', this.unloadListener)
 
@@ -206,7 +204,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   // tslint:disable:cyclomatic-complexity
   public render() {
-    const { projectID } = this.props.match.params
+    const {
+      history,
+      match: { params },
+      location: { state },
+    } = this.props
+
+    const { projectID } = params
+
     const {
       dirty,
       modelMap,
@@ -219,7 +224,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       comments,
       view,
       error,
-      onLoadMessage,
     } = this.state
 
     if (error) {
@@ -230,11 +234,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       return <Spinner />
     }
 
-    if (onLoadMessage) {
+    if (state && state.message) {
       return (
         <AcceptInvitationDialog
-          message={onLoadMessage}
-          closeDialog={this.closeAcceptInvitationDialog}
+          message={state.message}
+          closeDialog={() => {
+            const { state, ...rest } = this.props.location
+            history.push(rest)
+          }}
         />
       )
     }
@@ -366,9 +373,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       </Page>
     )
   }
-
-  private closeAcceptInvitationDialog = () =>
-    this.setState({ onLoadMessage: null })
 
   private prepare = async (projectID: string, manuscriptID: string) => {
     try {
