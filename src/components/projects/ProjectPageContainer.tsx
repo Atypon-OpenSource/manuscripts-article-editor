@@ -8,7 +8,6 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { parse, stringify } from 'qs'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
@@ -64,7 +63,6 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
 
   public render() {
     const { manuscripts, project } = this.state
-    const { message } = parse(window.location.hash.substr(1))
 
     if (!project || !manuscripts) {
       return <Spinner />
@@ -81,12 +79,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
 
     return (
       <Redirect
-        to={{
-          pathname: `/projects/${project._id}/manuscripts/${
-            manuscripts[0]._id
-          }`,
-          state: this.props.location.state,
-        }}
+        to={`/projects/${project._id}/manuscripts/${manuscripts[0]._id}`}
       />
     )
   }

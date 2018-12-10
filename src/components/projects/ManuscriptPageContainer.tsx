@@ -88,7 +88,6 @@ import MetadataContainer from '../metadata/MetadataContainer'
 import { ModalProps, withModal } from '../ModalProvider'
 import { Main, Page } from '../Page'
 import Panel from '../Panel'
-import { AcceptInvitationDialog } from './AcceptInvitationDialog'
 import { CommentList } from './CommentList'
 import { EditorBody, EditorContainer, EditorHeader } from './EditorContainer'
 import { Exporter } from './Exporter'
@@ -204,13 +203,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   // tslint:disable:cyclomatic-complexity
   public render() {
-    const {
-      history,
-      match: { params },
-      location: { state },
-    } = this.props
-
-    const { projectID } = params
+    const projectID = this.props.match.params
 
     const {
       dirty,
@@ -232,18 +225,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     if (!doc || !manuscript || !manuscripts || !project || !comments) {
       return <Spinner />
-    }
-
-    if (state && state.message) {
-      return (
-        <AcceptInvitationDialog
-          message={state.message}
-          closeDialog={() => {
-            const { state, ...rest } = this.props.location
-            history.push(rest)
-          }}
-        />
-      )
     }
 
     const locale = this.getLocale(manuscript)

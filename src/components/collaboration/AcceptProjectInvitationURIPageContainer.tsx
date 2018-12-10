@@ -1,7 +1,15 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { acceptProjectInvitationToken } from '../../lib/api'
+import { AcceptInvitationDialog } from '../projects/AcceptInvitationDialog'
 import { Spinner } from '../Spinner'
+
+interface State {
+  data?: {
+    message: string
+    projectId: string
+  }
+}
 
 interface RouteParams {
   invitationToken: string
@@ -10,25 +18,35 @@ interface RouteParams {
 class AcceptInvitationURIContainer extends React.Component<
   RouteComponentProps<RouteParams>
 > {
-  public async componentDidMount() {
+  public state: Readonly<State> = {}
+
+  public componentDidMount() {
     const { invitationToken } = this.props.match.params
 
-    try {
-      const {
-        data: { message, projectId },
-      } = await acceptProjectInvitationToken(invitationToken)
-
-      this.props.history.push({
-        pathname: `/projects/${projectId}`,
-        state: { message },
-      })
-    } catch (error) {
-      this.props.history.push('/projects')
-    }
+    acceptProjectInvitationToken(invitationToken).then(
+      data => {
+        this.setState({ data })
+      },
+      () => {
+        // TODO: display an error message?
+        this.props.history.push('/projects')
+      }
+    )
   }
 
   public render() {
-    return <Spinner />
+    const { data } = this.state
+
+    return data ? (
+      <AcceptInvitationDialog
+        message={data.message}
+        closeDialog={() => {
+          this.props.history.push(`/projects/${data.projectId}`)
+        }}
+      />
+    ) : (
+      <Spinner />
+    )
   }
 }
 
