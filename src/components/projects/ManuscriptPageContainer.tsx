@@ -123,13 +123,9 @@ interface RouteParams {
   manuscriptID: string
 }
 
-interface StateParams {
-  message?: string
-}
-
 type CombinedProps = UserProps &
   ModelsProps &
-  RouteComponentProps<RouteParams, {}, StateParams> &
+  RouteComponentProps<RouteParams> &
   IntlProps &
   ModalProps
 
