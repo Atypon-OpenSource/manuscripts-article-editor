@@ -203,7 +203,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   // tslint:disable:cyclomatic-complexity
   public render() {
-    const projectID = this.props.match.params
+    const { projectID } = this.props.match.params
 
     const {
       dirty,
