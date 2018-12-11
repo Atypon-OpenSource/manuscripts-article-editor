@@ -117,3 +117,8 @@ export const projectInvitationSchema = yup.object().shape({
     .min(1),
   role: yup.string().required(),
 })
+
+export const feedbackSchema = yup.object().shape({
+  message: yup.string().required('Please provide feedback'),
+  title: yup.string().required('Please provide the feedback title'),
+})

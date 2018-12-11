@@ -169,3 +169,11 @@ export const AcceptedInvitationFailureMessage: React.FunctionComponent = () => (
     }
   />
 )
+
+export const FeedbackMessage = () => (
+  <FormattedMessage
+    id={'feedback'}
+    description={'Title of feedback page'}
+    defaultMessage={'Post Feedback'}
+  />
+)

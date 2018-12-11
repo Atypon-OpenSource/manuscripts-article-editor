@@ -12,7 +12,7 @@ const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
-  width: 400px;
+  width: 480px;
   max-width: 70vw;
 
   @media (max-width: 450px) {
