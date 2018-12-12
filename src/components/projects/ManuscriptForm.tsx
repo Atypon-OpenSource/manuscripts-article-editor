@@ -27,7 +27,7 @@ interface Props {
   saveManuscript: (manuscript: Partial<Manuscript>) => void
 }
 
-interface ManuscriptFormValue {
+interface ManuscriptValues {
   bundle: string
   primaryLanguageCode: string
 }
@@ -80,13 +80,13 @@ class ManuscriptForm extends React.Component<Props, State> {
       return <Spinner />
     }
 
-    const initialValues: ManuscriptFormValue = {
+    const initialValues: ManuscriptValues = {
       bundle: manuscript.bundle || DEFAULT_BUNDLE,
       primaryLanguageCode: manuscript.primaryLanguageCode || 'en-GB',
     }
 
     return (
-      <Formik<ManuscriptFormValue>
+      <Formik<ManuscriptValues>
         initialValues={initialValues}
         onSubmit={saveManuscript}
         enableReinitialize={true}
