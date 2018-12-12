@@ -1,8 +1,5 @@
 import {
-  PROJECT_INVITATION,
-  USER_PROFILE,
-} from '@manuscripts/manuscript-editor'
-import {
+  ObjectTypes,
   Project,
   ProjectInvitation,
   UserProfile,
@@ -145,7 +142,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   private loadInvitations = () =>
     this.getCollection()
       .find({
-        objectType: PROJECT_INVITATION,
+        objectType: ObjectTypes.ProjectInvitation,
         projectID: this.getProjectID(),
       })
       .$.subscribe((invitationsDocs: Array<RxDocument<ProjectInvitation>>) => {
@@ -158,7 +155,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
   private loadUserMap = () =>
     this.getCollection()
-      .find({ objectType: USER_PROFILE })
+      .find({ objectType: ObjectTypes.UserProfile })
       .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
         this.setState({
           userMap: await buildUserMap(docs),

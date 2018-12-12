@@ -1,8 +1,5 @@
 import {
-  PROJECT_INVITATION,
-  USER_PROFILE,
-} from '@manuscripts/manuscript-editor'
-import {
+  ObjectTypes,
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -79,7 +76,7 @@ class ProjectsDropdownButton extends React.Component<
   // TODO: move this to a data provider that owns the map of user profiles
   private loadUserMap = () =>
     this.getCollection()
-      .find({ objectType: USER_PROFILE })
+      .find({ objectType: ObjectTypes.UserProfile })
       .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
         this.setState({
           userMap: await buildUserMap(docs),
@@ -89,7 +86,7 @@ class ProjectsDropdownButton extends React.Component<
   private loadInvitations = () =>
     this.getCollection()
       .find({
-        objectType: PROJECT_INVITATION,
+        objectType: ObjectTypes.ProjectInvitation,
       })
       .$.subscribe(async (docs: Array<RxDocument<ProjectInvitation>>) => {
         const user = this.props.user.data!

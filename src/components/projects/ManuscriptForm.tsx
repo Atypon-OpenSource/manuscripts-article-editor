@@ -24,7 +24,12 @@ const LabelText = styled.div`
 
 interface Props {
   manuscript: Manuscript
-  saveManuscript: (manuscript: Manuscript) => void
+  saveManuscript: (manuscript: Partial<Manuscript>) => void
+}
+
+interface ManuscriptFormValue {
+  bundle: string
+  primaryLanguageCode: string
 }
 
 interface OptionType {
@@ -75,13 +80,13 @@ class ManuscriptForm extends React.Component<Props, State> {
       return <Spinner />
     }
 
-    const initialValues: Partial<Manuscript> = {
+    const initialValues: ManuscriptFormValue = {
       bundle: manuscript.bundle || DEFAULT_BUNDLE,
       primaryLanguageCode: manuscript.primaryLanguageCode || 'en-GB',
     }
 
     return (
-      <Formik
+      <Formik<ManuscriptFormValue>
         initialValues={initialValues}
         onSubmit={saveManuscript}
         enableReinitialize={true}

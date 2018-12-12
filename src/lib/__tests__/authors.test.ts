@@ -1,14 +1,10 @@
-import {
-  AFFILIATION,
-  CONTRIBUTOR,
-  DEFAULT_BUNDLE,
-  MANUSCRIPT,
-} from '@manuscripts/manuscript-editor'
+import { DEFAULT_BUNDLE } from '@manuscripts/manuscript-editor'
 import {
   Affiliation,
   Contributor,
   Manuscript,
   Model,
+  ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   buildAffiliationIDs,
@@ -28,7 +24,7 @@ const modelMap = (models: Model[]): Map<string, Model> => {
 
 const affiliation: Affiliation = {
   _id: 'MPAffiliation:X',
-  objectType: AFFILIATION,
+  objectType: ObjectTypes.Affiliation,
   institution: 'University of Toronto',
   manuscriptID: 'MPManuscript:X',
   containerID: 'MPProject:1',
@@ -43,7 +39,7 @@ const affiliations = [affiliation]
 const contribs: Contributor[] = [
   {
     _id: 'MPContributor:x',
-    objectType: CONTRIBUTOR,
+    objectType: ObjectTypes.Contributor,
     priority: 1,
     bibliographicName: {
       _id: 'MPBibliographicName:x-name',
@@ -59,7 +55,7 @@ const contribs: Contributor[] = [
   },
   {
     _id: 'MPContributor:y',
-    objectType: CONTRIBUTOR,
+    objectType: ObjectTypes.Contributor,
     priority: 0,
     bibliographicName: {
       _id: 'MPBibliographicName:y-name',
@@ -75,7 +71,7 @@ const contribs: Contributor[] = [
   },
   {
     _id: 'MPContributor:z',
-    objectType: CONTRIBUTOR,
+    objectType: ObjectTypes.Contributor,
     priority: 2,
     bibliographicName: {
       _id: 'MPBibliographicName:z-name',
@@ -93,7 +89,7 @@ const contribs: Contributor[] = [
 const manuscripts: Manuscript[] = [
   {
     _id: 'MPManuscript:x',
-    objectType: MANUSCRIPT,
+    objectType: ObjectTypes.Manuscript,
     containerID: 'MPProject:1',
     title: 'Manuscript X',
     bundle: DEFAULT_BUNDLE,
@@ -126,7 +122,7 @@ describe('author and affiliation helpers', () => {
     const authors: Contributor[] = [
       {
         _id: 'MPContributor:author-1',
-        objectType: CONTRIBUTOR,
+        objectType: ObjectTypes.Contributor,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
         bibliographicName: {
@@ -140,7 +136,7 @@ describe('author and affiliation helpers', () => {
       },
       {
         _id: 'MPContributor:author-2',
-        objectType: CONTRIBUTOR,
+        objectType: ObjectTypes.Contributor,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
         bibliographicName: {
@@ -154,7 +150,7 @@ describe('author and affiliation helpers', () => {
       },
       {
         _id: 'MPContributor:author-3',
-        objectType: CONTRIBUTOR,
+        objectType: ObjectTypes.Contributor,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
         bibliographicName: {
@@ -176,7 +172,7 @@ describe('author and affiliation helpers', () => {
     const authors: Contributor[] = [
       {
         _id: 'MPContributor:author-1',
-        objectType: CONTRIBUTOR,
+        objectType: ObjectTypes.Contributor,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
         bibliographicName: {
@@ -190,7 +186,7 @@ describe('author and affiliation helpers', () => {
       },
       {
         _id: 'MPContributor:author-2',
-        objectType: CONTRIBUTOR,
+        objectType: ObjectTypes.Contributor,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
         bibliographicName: {
@@ -203,7 +199,7 @@ describe('author and affiliation helpers', () => {
       },
       {
         _id: 'MPContributor:author-3',
-        objectType: CONTRIBUTOR,
+        objectType: ObjectTypes.Contributor,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
         bibliographicName: {
@@ -271,7 +267,7 @@ describe('author and affiliation helpers', () => {
     const authors: Contributor[] = [
       {
         _id: 'MPContributor:author-1',
-        objectType: CONTRIBUTOR,
+        objectType: ObjectTypes.Contributor,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
         bibliographicName: {
@@ -286,7 +282,7 @@ describe('author and affiliation helpers', () => {
       },
       {
         _id: 'MPContributor:author-2',
-        objectType: CONTRIBUTOR,
+        objectType: ObjectTypes.Contributor,
         manuscriptID: 'MPManuscript:manuscript-1',
         containerID: 'MPProject:project-1',
         bibliographicName: {

@@ -2,7 +2,6 @@ import {
   ApplicationMenu,
   applyLocalStep,
   applyRemoteStep,
-  BIBLIOGRAPHY_ITEM,
   Build,
   buildContributor,
   buildKeyword,
@@ -32,9 +31,7 @@ import {
   isManuscriptModel,
   isUserProfile,
   iterateConflicts,
-  KEYWORD,
   LocalConflicts,
-  MANUSCRIPT,
   ManuscriptEditorState,
   ManuscriptEditorView,
   ManuscriptModel,
@@ -43,14 +40,12 @@ import {
   ModelAttachment,
   PopperManager,
   removeConflictLocally,
-  SECTION,
   Selected,
   SYNC_ERROR_LOCAL_DOC_ID,
   SyncErrors,
   syncErrorsKey,
   Toolbar,
   toolbar,
-  USER_PROFILE,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-editor'
 import '@manuscripts/manuscript-editor/styles/Editor.css'
@@ -60,6 +55,7 @@ import {
   Keyword,
   Manuscript,
   Model,
+  ObjectTypes,
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -659,10 +655,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private importManuscript = async (models: Model[]) => {
     const { projectID } = this.props.match.params
 
-    const manuscriptID = generateID(MANUSCRIPT)
+    const manuscriptID = generateID(ObjectTypes.Manuscript)
 
     for (const model of models) {
-      if (model.objectType === MANUSCRIPT) {
+      if (model.objectType === ObjectTypes.Manuscript) {
         model._id = manuscriptID
       }
 
@@ -757,7 +753,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private loadKeywords = (projectID: string) =>
     this.getCollection()
       .find({
-        objectType: KEYWORD,
+        objectType: ObjectTypes.Keyword,
         containerID: projectID,
       })
       .$.subscribe(async (docs: Array<RxDocument<Keyword>>) => {
@@ -773,7 +769,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private loadUsers = () =>
     this.getCollection()
       .find({
-        objectType: USER_PROFILE,
+        objectType: ObjectTypes.UserProfile,
       })
       .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
         this.setState({
@@ -800,7 +796,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private loadManuscripts = (projectID: string) => {
     this.getCollection()
       .find({
-        objectType: MANUSCRIPT,
+        objectType: ObjectTypes.Manuscript,
         containerID: projectID,
       })
       .$.subscribe((docs: Array<RxDocument<Manuscript>>) => {
@@ -813,7 +809,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private loadLibraryItems = (projectID: string) => {
     this.getCollection()
       .find({
-        objectType: BIBLIOGRAPHY_ITEM,
+        objectType: ObjectTypes.BibliographyItem,
         containerID: projectID,
       })
       .$.subscribe((items: Array<RxDocument<BibliographyItem>>) => {
@@ -1237,7 +1233,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       }
 
       const changedModelsByType = changedModels.reduce((output, model) => {
-        if (model.objectType === SECTION) {
+        if (model.objectType === ObjectTypes.Section) {
           output.sections.push(model)
         } else if (elementObjects.includes(model.objectType)) {
           output.elements.push(model)

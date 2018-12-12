@@ -1,10 +1,10 @@
 import {
   buildContributor,
   buildManuscript,
-  MANUSCRIPT,
 } from '@manuscripts/manuscript-editor'
 import {
   Manuscript,
+  ObjectTypes,
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -115,7 +115,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
         this.getCollection()
           .find({
             containerID: projectID,
-            objectType: MANUSCRIPT,
+            objectType: ObjectTypes.Manuscript,
           })
           .sort({
             createdAt: -1,

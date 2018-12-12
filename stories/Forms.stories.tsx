@@ -2,12 +2,24 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
 import React from 'react'
-import { ChangePasswordForm } from '../src/components/account/ChangePasswordForm'
-import { DeleteAccountForm } from '../src/components/account/DeleteAccountForm'
-import { LoginForm } from '../src/components/account/LoginForm'
-import { PasswordForm } from '../src/components/account/PasswordForm'
-import { RecoverForm } from '../src/components/account/RecoverForm'
-import { SignupForm } from '../src/components/account/SignupForm'
+import {
+  ChangePasswordForm,
+  ChangePasswordValues,
+} from '../src/components/account/ChangePasswordForm'
+import {
+  DeleteAccountForm,
+  DeleteAccountValues,
+} from '../src/components/account/DeleteAccountForm'
+import { LoginForm, LoginValues } from '../src/components/account/LoginForm'
+import {
+  PasswordForm,
+  PasswordValues,
+} from '../src/components/account/PasswordForm'
+import {
+  RecoverForm,
+  RecoverValues,
+} from '../src/components/account/RecoverForm'
+import { SignupForm, SignupValues } from '../src/components/account/SignupForm'
 import ModalForm from '../src/components/ModalForm'
 import {
   changePasswordSchema,
@@ -21,8 +33,13 @@ import {
 storiesOf('Account/Forms/Pages', module)
   .add('Sign up', () => (
     <React.Fragment>
-      <Formik
-        initialValues={{ name: '', email: '', password: '' }}
+      <Formik<SignupValues>
+        initialValues={{
+          name: '',
+          email: '',
+          password: '',
+          allowsTracking: false,
+        }}
         validationSchema={signupSchema}
         isInitialValid={true}
         validateOnChange={false}
@@ -33,7 +50,7 @@ storiesOf('Account/Forms/Pages', module)
     </React.Fragment>
   ))
   .add('Login', () => (
-    <Formik
+    <Formik<LoginValues>
       initialValues={{ email: '', password: '' }}
       validationSchema={loginSchema}
       isInitialValid={true}
@@ -44,7 +61,7 @@ storiesOf('Account/Forms/Pages', module)
     />
   ))
   .add('Recover', () => (
-    <Formik
+    <Formik<RecoverValues>
       initialValues={{ email: '' }}
       validationSchema={recoverSchema}
       isInitialValid={true}
@@ -55,7 +72,7 @@ storiesOf('Account/Forms/Pages', module)
     />
   ))
   .add('Choose password', () => (
-    <Formik
+    <Formik<PasswordValues>
       initialValues={{ password: '' }}
       validationSchema={passwordSchema}
       isInitialValid={true}
@@ -69,7 +86,7 @@ storiesOf('Account/Forms/Pages', module)
 storiesOf('Account/Forms/Modal', module)
   .add('Change password', () => (
     <ModalForm title={'Change Password'}>
-      <Formik
+      <Formik<ChangePasswordValues>
         initialValues={{ currentPassword: '', newPassword: '' }}
         validationSchema={changePasswordSchema}
         isInitialValid={true}
@@ -82,7 +99,7 @@ storiesOf('Account/Forms/Modal', module)
   ))
   .add('Delete account', () => (
     <ModalForm title={'Delete account'}>
-      <Formik
+      <Formik<DeleteAccountValues>
         initialValues={{ password: '' }}
         validationSchema={deleteAccountSchema}
         isInitialValid={true}

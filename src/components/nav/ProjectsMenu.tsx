@@ -2,10 +2,10 @@ import {
   buildContributor,
   buildManuscript,
   buildProject,
-  PROJECT,
   timestamp,
 } from '@manuscripts/manuscript-editor'
 import {
+  ObjectTypes,
   Project,
   ProjectInvitation,
   UserProfile,
@@ -99,7 +99,7 @@ class ProjectsMenu extends React.Component<
 
   private loadProjects = () =>
     this.getCollection()
-      .find({ objectType: PROJECT })
+      .find({ objectType: ObjectTypes.Project })
       .$.subscribe((docs: Array<RxDocument<Project>>) => {
         this.setState({
           projects: docs.map(doc => doc.toJSON()),

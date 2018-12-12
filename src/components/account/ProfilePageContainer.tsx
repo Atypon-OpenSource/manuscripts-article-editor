@@ -1,8 +1,8 @@
+import { buildUserProfileAffiliation } from '@manuscripts/manuscript-editor'
 import {
-  buildUserProfileAffiliation,
-  USER_PROFILE_AFFILIATION,
-} from '@manuscripts/manuscript-editor'
-import { UserProfileAffiliation } from '@manuscripts/manuscripts-json-schema'
+  ObjectTypes,
+  UserProfileAffiliation,
+} from '@manuscripts/manuscripts-json-schema'
 import { FormikActions, FormikErrors } from 'formik'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
@@ -123,7 +123,7 @@ class ProfilePageContainer extends React.Component<Props> {
   private loadAffiliations = () =>
     this.getCollection()
       .find({
-        objectType: USER_PROFILE_AFFILIATION,
+        objectType: ObjectTypes.UserProfileAffiliation,
         containerID: this.props.user.data!._id,
       })
       .$.subscribe(async (docs: Array<RxDocument<UserProfileAffiliation>>) => {

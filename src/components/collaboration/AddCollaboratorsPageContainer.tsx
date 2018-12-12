@@ -1,9 +1,5 @@
 import {
-  PROJECT,
-  PROJECT_INVITATION,
-  USER_PROFILE,
-} from '@manuscripts/manuscript-editor'
-import {
+  ObjectTypes,
   Project,
   ProjectInvitation,
   UserProfile,
@@ -216,7 +212,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
   private loadCollaborators = () =>
     this.getCollection()
-      .find({ objectType: PROJECT })
+      .find({ objectType: ObjectTypes.Project })
       .$.subscribe(async (docs: Array<RxDocument<Project>>) => {
         if (this.state.people && !this.state.people.length) {
           const getCollaborator = (id: string) =>
@@ -253,7 +249,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   private loadInvitations = () =>
     this.getCollection()
       .find({
-        objectType: PROJECT_INVITATION,
+        objectType: ObjectTypes.ProjectInvitation,
         projectID: this.getProjectID(),
       })
       .$.subscribe((docs: Array<RxDocument<ProjectInvitation>>) => {
@@ -269,7 +265,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
   private loadUserMap = () =>
     this.getCollection()
-      .find({ objectType: USER_PROFILE })
+      .find({ objectType: ObjectTypes.UserProfile })
       .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
         this.setState({
           userMap: await buildUserMap(docs),

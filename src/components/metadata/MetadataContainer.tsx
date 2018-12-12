@@ -3,14 +3,13 @@ import {
   buildAffiliation,
   buildBibliographicName,
   buildContributor,
-  PROJECT_INVITATION,
-  USER_PROFILE,
 } from '@manuscripts/manuscript-editor'
 import {
   Affiliation,
   Contributor,
   Manuscript,
   Model,
+  ObjectTypes,
   Project,
   ProjectInvitation,
   UserProfile,
@@ -279,7 +278,7 @@ class MetadataContainer extends React.Component<
 
   private loadUserMap = () =>
     this.getCollection()
-      .find({ objectType: USER_PROFILE })
+      .find({ objectType: ObjectTypes.UserProfile })
       .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
         this.setState({
           userMap: await buildUserMap(docs),
@@ -309,7 +308,7 @@ class MetadataContainer extends React.Component<
   private loadInvitations = () =>
     this.getCollection()
       .find({
-        objectType: PROJECT_INVITATION,
+        objectType: ObjectTypes.ProjectInvitation,
         projectID: this.getProjectID(),
       })
       .$.subscribe((docs: Array<RxDocument<ProjectInvitation>>) => {
@@ -506,7 +505,7 @@ class MetadataContainer extends React.Component<
   ) =>
     this.getCollection()
       .findOne({
-        objectType: PROJECT_INVITATION,
+        objectType: ObjectTypes.ProjectInvitation,
         projectID: this.getProjectID(),
         invitedUserEmail: invitedEmail,
         invitingUserID: invitingID,
@@ -649,7 +648,7 @@ class MetadataContainer extends React.Component<
     return new Promise(resolve => {
       this.getCollection()
         .findOne({
-          objectType: PROJECT_INVITATION,
+          objectType: ObjectTypes.ProjectInvitation,
           projectID: this.getProjectID(),
           invitedUserEmail: invitedEmail,
           invitingUserID: invitingUser.userID,

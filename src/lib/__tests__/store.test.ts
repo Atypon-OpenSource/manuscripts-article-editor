@@ -1,12 +1,11 @@
-import { KEYWORD } from '@manuscripts/manuscript-editor'
-import { Keyword } from '@manuscripts/manuscripts-json-schema'
+import { Keyword, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import sessionID from '../sessionID'
 import { prepareUpdate } from '../store'
 
 test('should add/remove appropriate fields for update', () => {
   const data: Partial<Keyword> = {
     _id: 'keyword-1',
-    objectType: KEYWORD,
+    objectType: ObjectTypes.Keyword,
     name: 'foo',
   }
 

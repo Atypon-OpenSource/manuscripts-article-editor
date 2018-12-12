@@ -2,11 +2,13 @@ import {
   buildContributor,
   buildManuscript,
   buildProject,
-  PROJECT,
   timestamp,
-  USER_PROFILE,
 } from '@manuscripts/manuscript-editor'
-import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import {
+  ObjectTypes,
+  Project,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
@@ -82,7 +84,7 @@ class ProjectsModalContainer extends React.Component<Props, State> {
     const collection = this.getCollection()
 
     return collection
-      .find({ objectType: PROJECT })
+      .find({ objectType: ObjectTypes.Project })
       .$.subscribe(async (docs: Array<RxDocument<Project>>) => {
         const projects: Project[] = []
 
@@ -99,7 +101,7 @@ class ProjectsModalContainer extends React.Component<Props, State> {
   // TODO: move this to a data provider that owns the map of user profiles
   private loadUserMap = () =>
     this.getCollection()
-      .find({ objectType: USER_PROFILE })
+      .find({ objectType: ObjectTypes.UserProfile })
       .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
         this.setState({
           userMap: await buildUserMap(docs),

@@ -3,12 +3,12 @@ import {
   buildManuscript,
   buildProject,
   generateID,
-  MANUSCRIPT,
   ModelAttachment,
   timestamp,
 } from '@manuscripts/manuscript-editor'
 import {
   Model,
+  ObjectTypes,
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -131,10 +131,10 @@ class WelcomePageContainer extends React.Component<
     const project = await this.createProject(owner)
     const projectID = project._id
 
-    const manuscriptID = generateID(MANUSCRIPT)
+    const manuscriptID = generateID(ObjectTypes.Manuscript)
 
     for (const model of models) {
-      if (model.objectType === MANUSCRIPT) {
+      if (model.objectType === ObjectTypes.Manuscript) {
         model._id = manuscriptID
       }
 
