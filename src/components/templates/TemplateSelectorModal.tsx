@@ -8,11 +8,10 @@ import { ResearchField, TemplateData } from '../../types/templates'
 import { ManuscriptBlueButton } from '../Button'
 import { CloseButton } from '../SimpleModal'
 import { TemplateCategorySelector } from './TemplateCategorySelector'
+import { TemplateEmpty } from './TemplateEmpty'
 import { TemplateSearchInput } from './TemplateSearchInput'
 import { TemplateSelectorList } from './TemplateSelectorList'
 import { TemplateTopicSelector } from './TemplateTopicSelector'
-
-const SadAnimal = React.lazy(() => import('./SadAnimal'))
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -64,30 +63,6 @@ const ModalMain = styled.div`
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
-`
-
-const CreateButtonContainer = styled.div`
-  padding: 20px;
-`
-
-const Container = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
-  width: 600px;
-`
-
-const TextContainer = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  color: ${(props: ThemedDivProps) => props.theme.colors.primary.grey};
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-top: 20px;
-  text-align: center;
 `
 
 const SidebarFooter = styled.div`
@@ -187,26 +162,11 @@ export class TemplateSelectorModal extends Component<Props, State> {
                 />
               </ListContainer>
             ) : (
-              <Container>
-                <React.Suspense fallback={'😿'}>
-                  <SadAnimal />
-                </React.Suspense>
-
-                {!this.state.searchText ? (
-                  <TextContainer>
-                    {`No manuscript templates yet in the ${this.selectedCategoryName()} category.`}
-                  </TextContainer>
-                ) : (
-                  <TextContainer>
-                    {`No matching template for query '${searchText}'.`}
-                  </TextContainer>
-                )}
-                <CreateButtonContainer>
-                  <ManuscriptBlueButton onClick={createEmpty}>
-                    Create empty manuscript
-                  </ManuscriptBlueButton>
-                </CreateButtonContainer>
-              </Container>
+              <TemplateEmpty
+                createEmpty={createEmpty}
+                searchText={this.state.searchText}
+                selectedCategoryName={this.selectedCategoryName()}
+              />
             )}
           </ModalMain>
         </ModalContainer>

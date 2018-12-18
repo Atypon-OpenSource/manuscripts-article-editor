@@ -1,10 +1,20 @@
-import { Formik, FormikActions, FormikErrors } from 'formik'
+import {
+  ObjectTypes,
+  Project,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
+import { Formik, FormikActions, FormikErrors, FormikProps } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+import { RxCollection, RxDocument } from 'rxdb'
+import { Subscription } from 'rxjs'
 import { logout } from '../../lib/account'
 import { deleteAccount } from '../../lib/api'
 import { databaseCreator } from '../../lib/db'
+import { isOwner } from '../../lib/roles'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
+import { UserProps, withUser } from '../../store/UserProvider'
 import { deleteAccountSchema } from '../../validation'
 import { FormErrors } from '../Form'
 import { DeleteAccountMessage } from '../Messages'
@@ -15,10 +25,30 @@ const initialValues = {
   password: '',
 }
 
-class DeleteAccountPageContainer extends React.Component<
-  RouteComponentProps<{}>
-> {
+interface State {
+  projects: Project[] | null
+}
+
+type Props = UserProps & RouteComponentProps<{}> & ModelsProps
+class DeleteAccountPageContainer extends React.Component<Props> {
+  public state: Readonly<State> = {
+    projects: null,
+  }
+  private subs: Subscription[] = []
+
+  public componentDidMount() {
+    this.subs.push(this.loadProjects())
+  }
+
+  public componentWillUnmount() {
+    this.subs.forEach(sub => sub.unsubscribe())
+  }
+
   public render() {
+    if (!this.state.projects) {
+      return null
+    }
+
     return (
       <ModalForm title={<DeleteAccountMessage />}>
         <Formik
@@ -28,7 +58,12 @@ class DeleteAccountPageContainer extends React.Component<
           validateOnChange={false}
           validateOnBlur={false}
           onSubmit={this.handleSubmit}
-          component={DeleteAccountForm}
+          render={(props: FormikProps<DeleteAccountValues & FormErrors>) => (
+            <DeleteAccountForm
+              {...props}
+              deletedProjects={this.findUserProjects() as Project[]}
+            />
+          )}
         />
       </ModalForm>
     )
@@ -66,6 +101,37 @@ class DeleteAccountPageContainer extends React.Component<
       setErrors(errors)
     }
   }
+
+  private loadProjects = () => {
+    const collection = this.getCollection()
+
+    return collection
+      .find({ objectType: ObjectTypes.Project })
+      .$.subscribe(async (docs: Array<RxDocument<Project>>) => {
+        const projects: Project[] = []
+
+        for (const doc of docs) {
+          projects.push(doc.toJSON())
+        }
+
+        this.setState({ projects })
+      })
+  }
+
+  private findUserProjects() {
+    const user = this.props.user.data as UserProfile
+    const projects: Project[] | null = this.state.projects
+    if (projects) {
+      const deletedProjects: Project[] = projects.filter(
+        project => project.owners.length === 1 && isOwner(project, user.userID)
+      )
+      return deletedProjects
+    }
+  }
+
+  private getCollection() {
+    return this.props.models.collection as RxCollection<{}>
+  }
 }
 
-export default DeleteAccountPageContainer
+export default withModels(withUser(DeleteAccountPageContainer))

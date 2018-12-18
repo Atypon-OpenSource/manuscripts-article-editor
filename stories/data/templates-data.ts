@@ -10,6 +10,8 @@ export const templatesData: TemplateData[] = [
       bundle: 'MPBundle:www-zotero-org-styles-drugs-and-aging',
       category: 'MPManuscriptCategory:research-article',
       createdAt: 1433095331.944184,
+      desc:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Metus dictum at tempor commodo ullamcorper a lacus vestibulum sed. Sit amet aliquam id diam maecenas. Amet mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan. Amet mattis vulputate enim nulla aliquet. Elit sed vulputate mi sit amet mauris commodo quis imperdiet. Ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Massa vitae tortor condimentum lacinia quis vel eros donec ac. Orci dapibus ultrices in iaculis nunc sed augue lacus viverra. Nunc pulvinar sapien et ligula ullamcorper malesuada proin libero. Semper auctor neque vitae tempus. Faucibus purus in massa tempor nec feugiat nisl. Quisque id diam vel quam elementum pulvinar. Sed ullamcorper morbi tincidunt ornare massa. Id venenatis a condimentum vitae sapien pellentesque habitant morbi.',
       objectType: 'MPManuscriptTemplate',
       priority: 2204,
       publisher: 'MPPublisher:springer',

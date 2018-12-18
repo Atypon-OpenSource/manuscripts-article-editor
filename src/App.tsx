@@ -25,7 +25,6 @@ import NotFoundPage from './components/NotFoundPage'
 import PrivateRoute from './components/PrivateRoute'
 import ProjectPageContainer from './components/projects/ProjectPageContainer'
 import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
-import WelcomePageContainer from './components/WelcomePageContainer'
 
 const ManuscriptPageContainer = Loadable({
   delay: 500,
@@ -115,7 +114,6 @@ const App = () => (
       component={AcceptEmailInvitationPageContainer}
     />
     <Route path={'/logout'} exact={true} component={LogoutPageContainer} />
-    <Route path={'/welcome'} exact={true} component={WelcomePageContainer} />
     <Route
       path={'/developer'}
       exact={true}
