@@ -12,6 +12,8 @@ import { TemplateSearchInput } from './TemplateSearchInput'
 import { TemplateSelectorList } from './TemplateSelectorList'
 import { TemplateTopicSelector } from './TemplateTopicSelector'
 
+const SadAnimal = React.lazy(() => import('./SadAnimal'))
+
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const ListContainer = styled.div`
@@ -84,6 +86,8 @@ const TextContainer = styled.div`
   color: ${(props: ThemedDivProps) => props.theme.colors.primary.grey};
   padding-left: 20px;
   padding-right: 20px;
+  margin-top: 20px;
+  text-align: center;
 `
 
 const SidebarFooter = styled.div`
@@ -184,11 +188,17 @@ export class TemplateSelectorModal extends Component<Props, State> {
               </ListContainer>
             ) : (
               <Container>
+                <React.Suspense fallback={'😿'}>
+                  <SadAnimal />
+                </React.Suspense>
+
                 {!this.state.searchText ? (
-                  <TextContainer>No manuscript templates yet</TextContainer>
+                  <TextContainer>
+                    {`No manuscript templates yet in the ${this.selectedCategoryName()} category.`}
+                  </TextContainer>
                 ) : (
                   <TextContainer>
-                    No matches in the templates list
+                    {`No matching template for query '${searchText}'.`}
                   </TextContainer>
                 )}
                 <CreateButtonContainer>
@@ -202,6 +212,16 @@ export class TemplateSelectorModal extends Component<Props, State> {
         </ModalContainer>
       </ModalBody>
     )
+  }
+
+  private selectedCategoryName = (): string => {
+    const { selectedCategory } = this.state
+
+    const category = this.props.categories.find(
+      category => category._id === selectedCategory
+    )
+
+    return category && category.name ? category.name : 'selected'
   }
 
   private hasSelectedCategory = (item: TemplateData) =>
