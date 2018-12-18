@@ -6,8 +6,10 @@ const coverageThreshold = (target, gradient = 1) => Math.min(
 module.exports = {
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}', 
-    '!**/*.d.ts', 
+    '!**/*.d.ts',
     '!/**/__tests__',
+    '!/**/__mocks__',
+    '!/**/__fixtures__',
     '!src/lib/fonts.ts',
     '!src/lib/sentry.ts',
     '!src/lib/service-worker.ts',
