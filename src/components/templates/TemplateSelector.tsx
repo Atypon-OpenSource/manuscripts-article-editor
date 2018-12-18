@@ -197,7 +197,7 @@ export class TemplateSelector extends React.Component<Props, State> {
       projectID: possibleProjectID,
     } = this.props
 
-    const newProject = possibleProjectID ? null : buildProject(user._id)
+    const newProject = possibleProjectID ? null : buildProject(user.userID)
 
     const projectID = newProject
       ? newProject._id
@@ -242,7 +242,7 @@ export class TemplateSelector extends React.Component<Props, State> {
   private buildNewProject = () => {
     const { projectID, user } = this.props
 
-    return projectID ? undefined : buildProject(user._id)
+    return projectID ? undefined : buildProject(user.userID)
   }
 
   private selectTemplate = async (item: TemplateData) => {
