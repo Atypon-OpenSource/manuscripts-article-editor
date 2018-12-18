@@ -145,7 +145,7 @@ class LoginPageContainer extends React.Component<
     }
 
     if (user.data) {
-      return <Redirect to={'/welcome'} />
+      return <Redirect to={'/'} />
     }
 
     return (

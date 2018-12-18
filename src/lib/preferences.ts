@@ -1,12 +1,10 @@
 const storage = window.localStorage
 
 export interface Preferences {
-  hideWelcome: boolean
   locale: string
 }
 
 export const defaults = {
-  hideWelcome: false,
   locale: 'en',
 }
 
