@@ -4,4 +4,5 @@ export interface IconProps {
   className?: string
   title?: string
   transform?: string
+  viewBox?: string
 }

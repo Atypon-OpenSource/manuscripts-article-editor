@@ -13,7 +13,6 @@ export const EditorContainer = styled.div`
 `
 
 export const EditorHeader = styled.div`
-  width: 100%;
   padding: 5px 24px;
   background: white;
 `

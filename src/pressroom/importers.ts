@@ -1,10 +1,13 @@
 import {
   Attachments,
-  FIGURE,
   ManuscriptModel,
   ModelAttachment,
 } from '@manuscripts/manuscript-editor'
-import { Figure, Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  Figure,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { extname } from 'path'
 import { cleanItem } from './clean-item'
@@ -67,21 +70,23 @@ const importProjectBundle = async (result: Blob) => {
   const folder = zip.folder('Data')
 
   await Promise.all(
-    items.filter(modelHasObjectType<Figure>(FIGURE)).map(async item => {
-      const filename = generateAttachmentFilename(item._id)
+    items
+      .filter(modelHasObjectType<Figure>(ObjectTypes.Figure))
+      .map(async item => {
+        const filename = generateAttachmentFilename(item._id)
 
-      try {
-        item.attachment = {
-          id: 'image',
-          type: item.contentType || 'image/png',
-          data: await folder.file(filename).async('blob'),
+        try {
+          item.attachment = {
+            id: 'image',
+            type: item.contentType || 'image/png',
+            data: await folder.file(filename).async('blob'),
+          }
+        } catch (error) {
+          // tslint:disable-next-line:no-console
+          console.error(`Could not retrieve attachment from zip: ${error}`)
+          // continue without attachment
         }
-      } catch (error) {
-        // tslint:disable-next-line:no-console
-        console.error(`Could not retrieve attachment from zip: ${error}`)
-        // continue without attachment
-      }
-    })
+      })
   )
 
   return items

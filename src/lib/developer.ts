@@ -1,6 +1,7 @@
-import { timestamp, USER_PROFILE } from '@manuscripts/manuscript-editor'
+import { timestamp } from '@manuscripts/manuscript-editor'
 import {
   BibliographicName,
+  ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { databaseCreator } from './db'
@@ -25,8 +26,8 @@ export const createUserProfile = /* istanbul ignore next */ async (
   const createdAt = timestamp()
 
   const profile: Partial<UserProfile> = {
-    _id: `${USER_PROFILE}:${userId.replace('_', '|')}`,
-    objectType: USER_PROFILE,
+    _id: `${ObjectTypes.UserProfile}:${userId.replace('_', '|')}`,
+    objectType: ObjectTypes.UserProfile,
     userID: userId,
     bibliographicName: bibliographicName as BibliographicName,
     createdAt,

@@ -19,15 +19,15 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "typeRoots" : [
-      "node_modules/@types",
+      "./node_modules/@types",
       "./stories/types",
       "./types"
     ]
   },
   "include": [
-    "src/**/*",
-    "stories/**/*",
-    "types/**/*",
-    "webpack.*"
+    "./src/**/*",
+    "./stories/**/*",
+    "./types/**/*",
+    "./webpack.*"
   ]
 }

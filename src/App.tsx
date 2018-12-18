@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import ChangePasswordPageContainer from './components/account/ChangePasswordPageContainer'
 import CommunityLoginPageContainer from './components/account/CommunityLoginPageContainer'
 import DeleteAccountPageContainer from './components/account/DeleteAccountPageContainer'
+import FeedbackPageContainer from './components/account/FeedbackPageContainer'
 import LoginPageContainer from './components/account/LoginPageContainer'
 import LogoutPageContainer from './components/account/LogoutPageContainer'
 import ProfilePageContainer from './components/account/ProfilePageContainer'
@@ -102,6 +103,11 @@ const App = () => (
       path={'/projects/:projectID/collaborators/add'}
       exact={true}
       component={AddCollaboratorsPageContainer}
+    />
+    <PrivateRoute
+      path={'/feedback'}
+      exact={true}
+      component={FeedbackPageContainer}
     />
     <Route
       path={'/invitation'}

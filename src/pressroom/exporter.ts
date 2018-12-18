@@ -1,11 +1,12 @@
 import {
-  FIGURE,
-  MANUSCRIPT,
   ModelAttachment,
-  USER_PROFILE,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-editor'
-import { Figure, Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  Figure,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { JsonModel, ProjectDump } from './importers'
 import { convert } from './pressroom'
@@ -26,7 +27,10 @@ const createProjectDump = (
   version: '2.0',
   data: Array.from(modelMap.values())
     .filter((model: Model) => {
-      return model.objectType !== MANUSCRIPT || model._id === manuscriptID
+      return (
+        model.objectType !== ObjectTypes.Manuscript ||
+        model._id === manuscriptID
+      )
     })
     .map((data: Model) => {
       const model = data as JsonModel
@@ -54,13 +58,13 @@ const fetchAttachment = (
   model: Model & ModelAttachment
 ): Promise<Blob> | null => {
   if (
-    modelHasObjectType<UserProfileWithAvatar>(model, USER_PROFILE) &&
+    modelHasObjectType<UserProfileWithAvatar>(model, ObjectTypes.UserProfile) &&
     model.avatar
   ) {
     return fetchBlob(model.avatar)
   }
 
-  if (modelHasObjectType<Figure>(model, FIGURE) && model.src) {
+  if (modelHasObjectType<Figure>(model, ObjectTypes.Figure) && model.src) {
     return fetchBlob(model.src)
   }
 

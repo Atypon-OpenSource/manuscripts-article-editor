@@ -1,8 +1,9 @@
+import { buildBibliographyItem } from '@manuscripts/manuscript-editor'
 import {
-  BIBLIOGRAPHY_ITEM,
-  buildBibliographyItem,
-} from '@manuscripts/manuscript-editor'
-import { BibliographyItem, Project } from '@manuscripts/manuscripts-json-schema'
+  BibliographyItem,
+  ObjectTypes,
+  Project,
+} from '@manuscripts/manuscripts-json-schema'
 import qs from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
@@ -107,7 +108,7 @@ class LibraryPageContainer extends React.Component<Props, State> {
     this.subs.push(
       this.getCollection()
         .find({
-          objectType: BIBLIOGRAPHY_ITEM,
+          objectType: ObjectTypes.BibliographyItem,
           containerID: projectID,
         })
         .sort({

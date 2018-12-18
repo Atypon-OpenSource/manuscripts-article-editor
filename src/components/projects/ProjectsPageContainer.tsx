@@ -1,12 +1,5 @@
 import {
-  buildContributor,
-  buildManuscript,
-  buildProject,
-  PROJECT,
-  timestamp,
-  USER_PROFILE,
-} from '@manuscripts/manuscript-editor'
-import {
+  ObjectTypes,
   Project,
   ProjectInvitation,
   UserProfile,
@@ -18,12 +11,12 @@ import { Subscription } from 'rxjs'
 import Spinner from '../../icons/spinner'
 import { acceptProjectInvitation } from '../../lib/api'
 import { buildUserMap } from '../../lib/data'
-import { ContributorRole } from '../../lib/roles'
-import sessionID from '../../lib/sessionID'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
 import AcceptInvitationMessages from '../collaboration/AcceptInvitationMessages'
+import { ModalProps, withModal } from '../ModalProvider'
 import { Main, Page } from '../Page'
+import { TemplateSelector } from '../templates/TemplateSelector'
 import { ProjectsPage } from './ProjectsPage'
 
 export interface ProjectInfo extends Partial<Project> {
@@ -52,7 +45,7 @@ interface State {
 }
 
 class ProjectsPageContainer extends React.Component<
-  UserProps & ModelsProps & RouteComponentProps<{}>,
+  UserProps & ModelsProps & RouteComponentProps & ModalProps,
   State
 > {
   public state: Readonly<State> = {
@@ -102,7 +95,7 @@ class ProjectsPageContainer extends React.Component<
           <AcceptInvitationMessages invitationAccepted={invitationAccepted} />
           <ProjectsPage
             projects={projects}
-            addProject={this.addProject}
+            addProject={this.openTemplateSelector}
             getCollaborators={this.getCollaborators}
           />
         </Main>
@@ -124,7 +117,7 @@ class ProjectsPageContainer extends React.Component<
     const collection = this.getCollection()
 
     return collection
-      .find({ objectType: PROJECT })
+      .find({ objectType: ObjectTypes.Project })
       .$.subscribe(async (docs: Array<RxDocument<Project>>) => {
         const projects: Project[] = []
 
@@ -139,7 +132,7 @@ class ProjectsPageContainer extends React.Component<
   // TODO: move this to a data provider that owns the map of user profiles
   private loadUserMap = () =>
     this.getCollection()
-      .find({ objectType: USER_PROFILE })
+      .find({ objectType: ObjectTypes.UserProfile })
       .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
         this.setState({
           userMap: await buildUserMap(docs),
@@ -150,50 +143,17 @@ class ProjectsPageContainer extends React.Component<
     return this.props.models.collection as RxCollection<{}>
   }
 
-  // TODO: catch and handle errors
-  private addProject = async () => {
-    // TODO: open up the template modal
+  private openTemplateSelector = () => {
+    const { addModal, history, models, user } = this.props
 
-    const user = this.props.user.data as UserProfile
-
-    const owner = user.userID
-
-    const collection = this.getCollection()
-
-    const project = buildProject(owner) as Project
-
-    const now = timestamp()
-    project.createdAt = now
-    project.updatedAt = now
-    project.sessionID = sessionID
-
-    const projectID = project._id
-
-    await collection.insert(project)
-
-    const manuscript = buildManuscript()
-    const manuscriptID = manuscript._id
-
-    const contributor = buildContributor(
-      user.bibliographicName,
-      ContributorRole.author,
-      0,
-      user.userID
-    )
-
-    await this.props.models.saveModel(contributor, {
-      manuscriptID,
-      projectID,
-    })
-
-    await this.props.models.saveModel(manuscript, {
-      manuscriptID,
-      projectID,
-    })
-
-    this.props.history.push(
-      `/projects/${projectID}/manuscripts/${manuscriptID}`
-    )
+    addModal('template-selector', ({ handleClose }) => (
+      <TemplateSelector
+        history={history}
+        saveModel={models.saveModel}
+        user={user.data!}
+        handleComplete={handleClose}
+      />
+    ))
   }
 
   private loadInvitation = (invitationId: string) =>
@@ -207,4 +167,4 @@ class ProjectsPageContainer extends React.Component<
       })
 }
 
-export default withModels(withUser(ProjectsPageContainer))
+export default withModal(withModels(withUser(ProjectsPageContainer)))

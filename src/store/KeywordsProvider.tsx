@@ -1,5 +1,5 @@
-import { Build, KEYWORD } from '@manuscripts/manuscript-editor'
-import { Keyword } from '@manuscripts/manuscripts-json-schema'
+import { Build } from '@manuscripts/manuscript-editor'
+import { Keyword, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Spinner } from '../components/Spinner'
@@ -81,7 +81,7 @@ class KeywordsProvider extends React.Component<
   private subscribe() {
     this.getCollection()
       .find({
-        objectType: KEYWORD,
+        objectType: ObjectTypes.Keyword,
       })
       .$.subscribe((docs: Array<RxDocument<Keyword>>) => {
         this.setState({

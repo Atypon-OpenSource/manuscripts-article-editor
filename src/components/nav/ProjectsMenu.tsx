@@ -1,24 +1,17 @@
 import {
-  buildContributor,
-  buildManuscript,
-  buildProject,
-  PROJECT,
-  timestamp,
-} from '@manuscripts/manuscript-editor'
-import {
+  ObjectTypes,
   Project,
   ProjectInvitation,
-  UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
-import { ContributorRole } from '../../lib/roles'
-import sessionID from '../../lib/sessionID'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
+import { ModalProps, withModal } from '../ModalProvider'
+import { TemplateSelector } from '../templates/TemplateSelector'
 import { InvitationData } from './ProjectsDropdownButton'
 import { ProjectsDropdownList } from './ProjectsDropdownList'
 
@@ -39,7 +32,7 @@ interface Props {
 }
 
 class ProjectsMenu extends React.Component<
-  Props & ModelsProps & UserProps & RouteComponentProps,
+  Props & ModelsProps & UserProps & RouteComponentProps & ModalProps,
   State
 > {
   public state: Readonly<State> = {
@@ -82,7 +75,7 @@ class ProjectsMenu extends React.Component<
       <ProjectsDropdownList
         handleClose={handleClose}
         projects={projects}
-        addProject={this.addProject}
+        addProject={this.openTemplateSelector}
         invitationsData={filteredInvitationsData}
         acceptedInvitations={acceptedInvitations}
         rejectedInvitations={rejectedInvitations}
@@ -99,56 +92,24 @@ class ProjectsMenu extends React.Component<
 
   private loadProjects = () =>
     this.getCollection()
-      .find({ objectType: PROJECT })
+      .find({ objectType: ObjectTypes.Project })
       .$.subscribe((docs: Array<RxDocument<Project>>) => {
         this.setState({
           projects: docs.map(doc => doc.toJSON()),
         })
       })
 
-  private addProject = async () => {
-    // TODO: open up the template modal
+  private openTemplateSelector = () => {
+    const { addModal, history, models, user } = this.props
 
-    const user = this.props.user.data as UserProfile
-
-    const owner = user.userID
-
-    const collection = this.getCollection()
-
-    const project = buildProject(owner) as Project
-
-    const now = timestamp()
-    project.createdAt = now
-    project.updatedAt = now
-    project.sessionID = sessionID
-
-    const projectID = project._id
-
-    await collection.insert(project)
-
-    const manuscript = buildManuscript()
-    const manuscriptID = manuscript._id
-
-    const contributor = buildContributor(
-      user.bibliographicName,
-      ContributorRole.author,
-      0,
-      user.userID
-    )
-
-    await this.props.models.saveModel(contributor, {
-      manuscriptID,
-      projectID,
-    })
-
-    await this.props.models.saveModel(manuscript, {
-      manuscriptID,
-      projectID,
-    })
-
-    this.props.history.push(
-      `/projects/${projectID}/manuscripts/${manuscriptID}`
-    )
+    addModal('template-selector', ({ handleClose }) => (
+      <TemplateSelector
+        history={history}
+        saveModel={models.saveModel}
+        user={user.data!}
+        handleComplete={handleClose}
+      />
+    ))
   }
 
   private acceptInvitation = async (invitation: ProjectInvitation) => {
@@ -188,5 +149,5 @@ class ProjectsMenu extends React.Component<
 }
 
 export default withRouter<Props & RouteComponentProps>(
-  withModels<Props & RouteComponentProps>(withUser(ProjectsMenu))
+  withModal(withModels(withUser(ProjectsMenu)))
 )

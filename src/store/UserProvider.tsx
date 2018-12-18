@@ -1,8 +1,5 @@
-import {
-  USER_PROFILE,
-  UserProfileWithAvatar,
-} from '@manuscripts/manuscript-editor'
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { ObjectTypes, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import {
   RxAttachment,
@@ -111,8 +108,8 @@ class UserProvider extends React.Component<ModelsProps, UserProviderState> {
 
     return userId
       ? this.getCollection().findOne({
-          objectType: USER_PROFILE,
-          // _id: `${USER_PROFILE}:${userId.replace('_', '|')}`,
+          objectType: ObjectTypes.UserProfile,
+          // _id: `${ObjectTypes.UserProfile}:${userId.replace('_', '|')}`,
           userID: userId,
         })
       : null

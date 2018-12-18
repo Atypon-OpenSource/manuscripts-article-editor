@@ -78,7 +78,7 @@ const StyledAddIcon = styled(AddIcon)`
 `
 
 interface Props {
-  addManuscript: () => Promise<void>
+  openTemplateSelector: () => void
   manuscript: Manuscript
   manuscripts: Manuscript[]
   project: Project
@@ -89,7 +89,7 @@ interface Props {
 }
 
 const ManuscriptSidebar: React.FunctionComponent<Props> = ({
-  addManuscript,
+  openTemplateSelector,
   doc,
   manuscript,
   manuscripts,
@@ -131,7 +131,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
       </SidebarContent>
 
       <SidebarFooter>
-        <AddManuscriptButton onClick={addManuscript}>
+        <AddManuscriptButton onClick={openTemplateSelector}>
           <StyledAddIcon />
           New Manuscript
         </AddManuscriptButton>

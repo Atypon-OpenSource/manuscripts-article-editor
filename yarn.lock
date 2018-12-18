@@ -882,10 +882,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.1.13.tgz#96220fc8289bbc8c285337e2dc92641f60a50b02"
   integrity sha512-i3QCwdsQTYjWH8NXJZ7a+CbwVsMlyJLzUibVvhPQPHLeiW4QDopn7I3FUx6OOFusCXVuCfjeAmhIbP0aLD05kA==
 
-"@manuscripts/assets@^0.2.4":
-  version "0.2.4"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.2.4.tgz#e70dfbf6325e41a9e8351caf6b9302a0ab2486d9"
-  integrity sha512-ICqlSP2sCuy+ltNl+qnMim0z/30QBZ34dxgGOxOxXVQQLeG8+dTqnXx6JhqVJ98XwC89/90+WNkkgJhOrAZuxw==
+"@manuscripts/assets@^0.2.10":
+  version "0.2.10"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.2.10.tgz#21d5079461a14d75da12fa7a82b057331eb43d75"
+  integrity sha512-KfJApiMB9HLdFleO6yPC1+VLeOnhH5vvzKFedb2ea5jY7GbM1wrfaTGLb24JDSIUPDUkVurwv89NMJ526bLz3Q==
 
 "@manuscripts/comment-editor@^0.1.0":
   version "0.1.0"
@@ -906,10 +906,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.2.tgz#bc7354d1dc704bf03c4b9d4e0f4c1054c70bbc73"
   integrity sha512-kctNmYWfzk0M3Rxe5+UNdnMYM5pGL1ZFwE0+izMfpVegm3744Sbeg/0JUXrHXvaHIwT8JOzdOCi6WO6oBlejlA==
 
-"@manuscripts/manuscript-editor@^0.5.0":
-  version "0.5.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.5.0.tgz#2599d58481f03608bb051c9646067a2f1ad5a589"
-  integrity sha512-F73BcR7EBNEOfVo/dUiL3F5Od9tLTX8d3ioRsAboW/RU1iZ9u8QT9WMtj/+EPe+P6OjoEPJTReMwhtGYBz+nVQ==
+"@manuscripts/manuscript-editor@^0.6.0":
+  version "0.6.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.6.0.tgz#4aa585ae5dfdf2c744a4a2b91669882e7cb49c17"
+  integrity sha512-S6jnKdF/hUVAWeqGpXUOtjJdo+rnQmezDDHOE6eI/qHklOCjW3+eA0hV+AM3b1xUayGzdjGsCLcqHsJIgk6Rcw==
   dependencies:
     "@manuscripts/assets" "^0.1.13"
     "@manuscripts/examples" "^0.0.2"
@@ -1713,6 +1713,13 @@
   version "2.0.14"
   resolved "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-2.0.14.tgz#afd0cd785a97f070b55765e9f9d76ff568269001"
   integrity sha512-pa7qB0/mkhwWMBFoXhX8BcntK8G4eQl4sIfSrJCxnivTYRQWjOWf2ClR9bWdm0EUFBDHzMbKYS+QYfDtBzkY4w==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-window@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@types/react-window/-/react-window-1.1.0.tgz#5253a7545b9017e0a4440f2a14e78136b4a7fb2a"
+  integrity sha512-T387G7k7VvBOkI1foivqK5uFhR6+QJte4pLd+ZPkwEnYLRE2gyhZpVnCCbxpGg2U3Bj7AIKKXPvgwzJozyqHlA==
   dependencies:
     "@types/react" "*"
 
@@ -9658,6 +9665,11 @@ memdown@1.2.4:
     inherits "~2.0.1"
     ltgt "~2.1.3"
 
+memoize-one@^3.1.1:
+  version "3.1.1"
+  resolved "http://registry.npmjs.org/memoize-one/-/memoize-one-3.1.1.tgz#ef609811e3bc28970eac2884eece64d167830d17"
+  integrity sha512-YqVh744GsMlZu6xkhGslPSqSurOv6P+kLN2J3ysBZfagLcL5FdRK/0UpgLoL8hwjjEvvAVkjJZyFP+1T6p1vgA==
+
 memoize-one@^4.0.0:
   version "4.0.2"
   resolved "https://registry.npmjs.org/memoize-one/-/memoize-one-4.0.2.tgz#3fb8db695aa14ab9c0f1644e1585a8806adc1aee"
@@ -9670,6 +9682,11 @@ memory-fs@^0.4.0, memory-fs@~0.4.1:
   dependencies:
     errno "^0.1.3"
     readable-stream "^2.0.1"
+
+memorystream@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.npmjs.org/memorystream/-/memorystream-0.3.1.tgz#86d7090b30ce455d63fbae12dda51a47ddcaf9b2"
+  integrity sha1-htcJCzDORV1j+64S3aUaR93K+bI=
 
 merge-defaults@^0.2.1:
   version "0.2.1"
@@ -10250,6 +10267,21 @@ npm-packlist@^1.1.6:
   dependencies:
     ignore-walk "^3.0.1"
     npm-bundled "^1.0.1"
+
+npm-run-all@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.npmjs.org/npm-run-all/-/npm-run-all-4.1.5.tgz#04476202a15ee0e2e214080861bff12a51d98fba"
+  integrity sha512-Oo82gJDAVcaMdi3nuoKFavkIHBRVqQ1qvMb+9LHk/cF4P6B2m8aP04hGf7oL6wZ9BuGwX1onlLhpuoofSyoQDQ==
+  dependencies:
+    ansi-styles "^3.2.1"
+    chalk "^2.4.1"
+    cross-spawn "^6.0.5"
+    memorystream "^0.3.1"
+    minimatch "^3.0.4"
+    pidtree "^0.3.0"
+    read-pkg "^3.0.0"
+    shell-quote "^1.6.1"
+    string.prototype.padend "^3.0.0"
 
 npm-run-path@^2.0.0:
   version "2.0.2"
@@ -10873,6 +10905,11 @@ phin@^2.9.1:
   version "2.9.3"
   resolved "https://registry.npmjs.org/phin/-/phin-2.9.3.tgz#f9b6ac10a035636fb65dfc576aaaa17b8743125c"
   integrity sha512-CzFr90qM24ju5f88quFC/6qohjC144rehe5n6DH900lgXmUe86+xCKc10ev56gRKC4/BkHUoG4uSiQgBiIXwDA==
+
+pidtree@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/pidtree/-/pidtree-0.3.0.tgz#f6fada10fccc9f99bf50e90d0b23d72c9ebc2e6b"
+  integrity sha512-9CT4NFlDcosssyg8KVFltgokyKZIFjoBxw8CTGy+5F38Y1eQWrt8tRayiUOXE+zVKQnYu5BR8JjCtvK3BcnBhg==
 
 pify@^2.0.0, pify@^2.2.0, pify@^2.3.0:
   version "2.3.0"
@@ -12399,6 +12436,19 @@ react-treebeard@^3.1.0:
     shallowequal "^1.1.0"
     velocity-react "^1.4.1"
 
+react-virtualized-auto-sizer@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.2.tgz#a61dd4f756458bbf63bd895a92379f9b70f803bd"
+  integrity sha512-MYXhTY1BZpdJFjUovvYHVBmkq79szK/k7V3MO+36gJkWGkrXKtyr4vCPtpphaTLRAdDNoYEYFZWE8LjN+PIHNg==
+
+react-window@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/react-window/-/react-window-1.3.1.tgz#4509ff0b5f25f08377a5f16050ae5826f8dc46ed"
+  integrity sha512-hNeFTTrIcmypDuWAFgppeu6awNr3QFJhgFBa3MHLxsfjx2CHdTjjyP4CqCK1mh2diyA58jYaXGQoQjWzdHDYIQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    memoize-one "^3.1.1"
+
 react@^16.6.3:
   version "16.6.3"
   resolved "https://registry.npmjs.org/react/-/react-16.6.3.tgz#25d77c91911d6bbdd23db41e70fb094cc1e0871c"
@@ -13345,7 +13395,7 @@ shebang-regex@^1.0.0:
   resolved "https://registry.npmjs.org/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
   integrity sha1-2kL0l0DAtC2yypcoVxyxkMmO/qM=
 
-shell-quote@1.6.1:
+shell-quote@1.6.1, shell-quote@^1.6.1:
   version "1.6.1"
   resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.6.1.tgz#f4781949cce402697127430ea3b3c5476f481767"
   integrity sha1-9HgZSczkAmlxJ0MOo7PFR29IF2c=
@@ -14676,10 +14726,10 @@ typescript@^2.2.2:
   resolved "https://registry.npmjs.org/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
   integrity sha512-Gr4p6nFNaoufRIY4NMdpQRNmgxVIGMs4Fcu/ujdYk3nAZqk7supzBE9idmvfZIlH/Cuj//dvi+019qEue9lV0w==
 
-typescript@^3.0.1:
-  version "3.1.6"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-3.1.6.tgz#b6543a83cfc8c2befb3f4c8fba6896f5b0c9be68"
-  integrity sha512-tDMYfVtvpb96msS1lDX9MEdHrW4yOuZ4Kdc4Him9oU796XldPYF/t2+uKoX0BBa0hXXwDlqYQbXY5Rzjzc5hBA==
+typescript@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-3.2.2.tgz#fe8101c46aa123f8353523ebdcf5730c2ae493e5"
+  integrity sha512-VCj5UiSyHBjwfYacmDuc/NOk4QQixbE+Wn7MFJuS0nRuPQbof132Pw4u53dm264O8LPc2MVsc7RJNml5szurkg==
 
 ua-parser-js@^0.7.18:
   version "0.7.19"

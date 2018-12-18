@@ -67,12 +67,13 @@ export const SidebarSearchText = styled.input`
   flex: 1;
   font-size: 14px;
   border: none;
+  border-radius: ${props => props.theme.radius}px;
   background-color: transparent;
-  height: 30px;
+  line-height: 30px;
   position: relative;
   left: -16px;
   right: -16px;
-  padding-left: 24px;
+  padding: 0 12px 0 24px;
 
   &:hover,
   &:focus {

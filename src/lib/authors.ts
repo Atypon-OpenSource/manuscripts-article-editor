@@ -1,14 +1,15 @@
-import { CONTRIBUTOR, getModelsByType } from '@manuscripts/manuscript-editor'
+import { getModelsByType } from '@manuscripts/manuscript-editor'
 import {
   Affiliation,
   Contributor,
   Model,
+  ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 
 export type AffiliationMap = Map<string, Affiliation>
 
 export const buildSortedAuthors = (modelMap: Map<string, Model>) => {
-  return getModelsByType<Contributor>(modelMap, CONTRIBUTOR)
+  return getModelsByType<Contributor>(modelMap, ObjectTypes.Contributor)
     .filter(item => item.role === 'author')
     .sort((a, b) => Number(a.priority) - Number(b.priority))
 }

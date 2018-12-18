@@ -1,22 +1,18 @@
 import {
-  buildContributor,
-  buildManuscript,
-  MANUSCRIPT,
-} from '@manuscripts/manuscript-editor'
-import {
   Manuscript,
+  ObjectTypes,
   Project,
-  UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import Spinner from '../../icons/spinner'
-import { ContributorRole } from '../../lib/roles'
 import { IntlProps, withIntl } from '../../store/IntlProvider'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
+import { ModalProps, withModal } from '../ModalProvider'
+import { TemplateSelector } from '../templates/TemplateSelector'
 import { EmptyProjectPage } from './EmptyProjectPage'
 
 interface State {
@@ -29,7 +25,8 @@ interface RouteParams {
   projectID: string
 }
 
-type CombinedProps = ModelsProps &
+type CombinedProps = ModalProps &
+  ModelsProps &
   RouteComponentProps<RouteParams> &
   IntlProps &
   UserProps
@@ -72,7 +69,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
       return (
         <EmptyProjectPage
           project={project}
-          addManuscript={this.addManuscript}
+          openTemplateSelector={this.openTemplateSelector}
         />
       )
     }
@@ -111,7 +108,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
         this.getCollection()
           .find({
             containerID: projectID,
-            objectType: MANUSCRIPT,
+            objectType: ObjectTypes.Manuscript,
           })
           .sort({
             createdAt: -1,
@@ -131,37 +128,19 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private addManuscript = async () => {
-    // TODO: open up the template modal
+  private openTemplateSelector = () => {
+    const { addModal, history, match, models, user } = this.props
 
-    const { projectID } = this.props.match.params
-
-    const user = this.props.user.data as UserProfile
-
-    const manuscript = buildManuscript()
-    const manuscriptID = manuscript._id
-
-    const contributor = buildContributor(
-      user.bibliographicName,
-      ContributorRole.author,
-      0,
-      user.userID
-    )
-
-    await this.props.models.saveModel(contributor, {
-      projectID,
-      manuscriptID,
-    })
-
-    await this.props.models.saveModel(manuscript, {
-      projectID,
-      manuscriptID,
-    })
-
-    this.props.history.push(
-      `/projects/${projectID}/manuscripts/${manuscriptID}`
-    )
+    addModal('template-selector', ({ handleClose }) => (
+      <TemplateSelector
+        history={history}
+        projectID={match.params.projectID}
+        saveModel={models.saveModel}
+        user={user.data!}
+        handleComplete={handleClose}
+      />
+    ))
   }
 }
 
-export default withModels(withUser(withIntl(ProjectPageContainer)))
+export default withModal(withModels(withUser(withIntl(ProjectPageContainer))))
