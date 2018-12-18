@@ -70,14 +70,18 @@ const Message = styled.div`
   }
 `
 
+const ButtonText = styled.span`
+  margin-left: 4px;
+`
+
 interface Props {
   project: Project
-  addManuscript: () => Promise<void>
+  openTemplateSelector: () => void
 }
 
 export const EmptyProjectPage: React.FunctionComponent<Props> = ({
   project,
-  addManuscript,
+  openTemplateSelector,
 }) => (
   <Page project={project}>
     <OuterContainer>
@@ -91,9 +95,9 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
         This project is empty. Create a manuscript to get started.
       </Message>
       <Action>
-        <AddManuscriptButton onClick={addManuscript}>
+        <AddManuscriptButton onClick={openTemplateSelector}>
           <AddIcon />
-          New Manuscript
+          <ButtonText>New Manuscript</ButtonText>
         </AddManuscriptButton>
       </Action>
     </OuterContainer>

@@ -85,12 +85,12 @@ import MetadataContainer from '../metadata/MetadataContainer'
 import { ModalProps, withModal } from '../ModalProvider'
 import { Main, Page } from '../Page'
 import Panel from '../Panel'
+import { TemplateSelector } from '../templates/TemplateSelector'
 import { AcceptInvitationDialog } from './AcceptInvitationDialog'
 import { CommentList } from './CommentList'
 import { EditorBody, EditorContainer, EditorHeader } from './EditorContainer'
 import { Exporter } from './Exporter'
 import { Importer } from './Importer'
-import ManuscriptForm from './ManuscriptForm'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ReloadDialog } from './ReloadDialog'
 
@@ -171,8 +171,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   public async componentDidMount() {
     const { params } = this.props.match
+
     const { message } = parse(window.location.hash.substr(1))
-    this.setState({ onLoadMessage: message })
+
+    this.setState({
+      onLoadMessage: message,
+    })
+
     window.location.hash = ''
 
     window.addEventListener('beforeunload', this.unloadListener)
@@ -248,7 +253,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return (
       <Page project={project}>
         <ManuscriptSidebar
-          addManuscript={this.addManuscript}
+          openTemplateSelector={this.openTemplateSelector}
           manuscript={manuscript}
           manuscripts={manuscripts}
           project={project}
@@ -268,6 +273,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                       manuscript,
                       project,
                       addManuscript: this.addManuscript,
+                      openTemplateSelector: this.openTemplateSelector,
                       deleteManuscript: this.deleteManuscript,
                       deleteModel: this.deleteModel,
                       history: this.props.history,
@@ -306,7 +312,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                 filterLibraryItems={this.filterLibraryItems}
                 getManuscript={this.getManuscript}
                 saveManuscript={this.saveManuscript}
-                addManuscript={this.addManuscript}
                 deleteManuscript={this.deleteManuscript}
                 getCurrentUser={this.getCurrentUser}
                 history={this.props.history}
@@ -339,10 +344,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           {this.state.view &&
             comments && (
               <DebouncedInspector>
-                <ManuscriptForm
-                  manuscript={manuscript}
-                  saveManuscript={this.saveManuscript}
-                />
                 <CommentList
                   comments={comments}
                   doc={doc}
@@ -597,8 +598,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private addManuscript = async () => {
-    // TODO: open up the template modal
-
     const { projectID } = this.props.match.params
 
     const user = this.props.user.data as UserProfile
@@ -628,13 +627,27 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  private openExporter = (format: string) => {
-    const { addModal, closeModal, match } = this.props
+  private openTemplateSelector = () => {
+    const { addModal, history, match, models, user } = this.props
 
-    const modalID = addModal(() => (
+    addModal('template-selector', ({ handleClose }) => (
+      <TemplateSelector
+        history={history}
+        projectID={match.params.projectID}
+        saveModel={models.saveModel}
+        user={user.data!}
+        handleComplete={handleClose}
+      />
+    ))
+  }
+
+  private openExporter = (format: string) => {
+    const { addModal, match } = this.props
+
+    addModal('exporter', ({ handleClose }) => (
       <Exporter
         format={format}
-        handleComplete={() => closeModal(modalID)}
+        handleComplete={handleClose}
         modelMap={this.state.modelMap}
         manuscriptID={match.params.manuscriptID}
       />
@@ -642,11 +655,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private openImporter = () => {
-    const { addModal, closeModal } = this.props
+    const { addModal } = this.props
 
-    const modalID = addModal(() => (
+    addModal('importer', ({ handleClose }) => (
       <Importer
-        handleComplete={() => closeModal(modalID)}
+        handleComplete={handleClose}
         importManuscript={this.importManuscript}
       />
     ))

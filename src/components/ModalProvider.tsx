@@ -1,27 +1,24 @@
 import React from 'react'
-import uuid from 'uuid/v4'
 import { styled } from '../theme'
 
 type ModalComponent = React.FunctionComponent<{
   handleClose: CloseModal
 }>
 
-type AddModal = (component: ModalComponent) => string
-type CloseModal = (id: string) => void
+type AddModal = (id: string, component: ModalComponent) => void
+type CloseModal = () => void
 
 export interface ModalProps {
   addModal: AddModal
-  closeModal: CloseModal
 }
 
 export const ModalContext = React.createContext<ModalProps>({
   addModal: () => '',
-  closeModal: id => null,
 })
 
-export const withModal = (
-  Component: React.ComponentType<ModalProps>
-): React.ComponentType<ModalProps> => (props: object) => (
+export const withModal = <Props extends {}>(
+  Component: React.ComponentType<Props & ModalProps>
+): React.ComponentType<Props & ModalProps> => (props: Props) => (
   <ModalContext.Consumer>
     {value => <Component {...props} {...value} />}
   </ModalContext.Consumer>
@@ -33,9 +30,8 @@ const ModalContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 1;
-  background: #eee;
-  opacity: 0.9;
+  z-index: 10;
+  background: rgba(235, 235, 235, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,7 +50,6 @@ export class ModalProvider extends React.Component<{}, State> {
       modals: [],
       value: {
         addModal: this.addModal,
-        closeModal: this.closeModal,
       },
     }
   }
@@ -68,17 +63,15 @@ export class ModalProvider extends React.Component<{}, State> {
     )
   }
 
-  private addModal: AddModal = modal => {
-    const id = uuid()
-
+  private addModal: AddModal = (id, modal) => {
     this.setState({
-      modals: this.state.modals.concat({ id, modal }),
+      modals: this.state.modals
+        .filter(item => item.id !== id)
+        .concat({ id, modal }),
     })
-
-    return id
   }
 
-  private closeModal: CloseModal = id => {
+  private closeModal = (id: string) => {
     this.setState({
       modals: this.state.modals.filter(modal => modal.id !== id),
     })
@@ -93,11 +86,11 @@ export class ModalProvider extends React.Component<{}, State> {
 
     const { id, modal } = modals[modals.length - 1]
 
-    const Modal = modal
-
     return (
       <ModalContainer>
-        <Modal handleClose={() => this.closeModal(id)} />
+        {modal({
+          handleClose: () => this.closeModal(id),
+        })}
       </ModalContainer>
     )
   }

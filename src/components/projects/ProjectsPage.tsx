@@ -14,7 +14,7 @@ const Container = styled.div`
 
 interface Props {
   projects: Project[]
-  addProject: () => Promise<void>
+  addProject: () => void
   getCollaborators: (project: Project) => UserProfile[]
 }
 
