@@ -34,7 +34,7 @@ lint_test_build:
     when: always
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
 
-testcafe-chromium:
+.testcafe-chromium:
   stage: test
   script:
     - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com
