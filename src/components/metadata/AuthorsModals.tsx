@@ -204,6 +204,7 @@ interface InviteAuthorsProps {
   invitationValues: InvitationValues
   handleInviteCancel: () => void
   handleInvitationSubmit: (values: InvitationValues) => Promise<void>
+  addedAuthorsCount: number
 }
 
 export const InviteAuthorsModal: React.FunctionComponent<
@@ -213,6 +214,7 @@ export const InviteAuthorsModal: React.FunctionComponent<
   invitationValues,
   handleInviteCancel,
   handleInvitationSubmit,
+  addedAuthorsCount,
 }) => (
   <ModalBody>
     <ModalSidebar>
@@ -220,6 +222,7 @@ export const InviteAuthorsModal: React.FunctionComponent<
         invitationValues={invitationValues}
         handleCancel={handleInviteCancel}
         handleSubmit={handleInvitationSubmit}
+        counter={addedAuthorsCount}
       />
     </ModalSidebar>
     <ModalMain>

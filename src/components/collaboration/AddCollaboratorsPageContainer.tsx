@@ -106,7 +106,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private renderInviteCollaboratorPage(project: Project) {
-    const { searchText } = this.state
+    const { searchText, addedCollaboratorsCount } = this.state
 
     const invitationValues = {
       name: '',
@@ -126,6 +126,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           invitationValues={invitationValues}
           handleCancel={this.handleCancel}
           handleSubmit={this.handleInvitationSubmit}
+          counter={addedCollaboratorsCount}
         />
         <Main>
           <InviteCollaboratorsPage project={project} />
