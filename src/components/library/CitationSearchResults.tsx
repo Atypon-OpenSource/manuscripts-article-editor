@@ -117,7 +117,7 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
                 title={item.title}
               />
 
-              <SearchResultAuthors>
+              <SearchResultAuthors data-cy={'search-result-author'}>
                 {shortAuthorsString(item)}{' '}
                 {issuedYear(item as BibliographyItem)}
               </SearchResultAuthors>

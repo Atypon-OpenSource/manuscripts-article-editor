@@ -106,7 +106,10 @@ export class CitationSearchSection extends React.Component<Props, State> {
 
         {results &&
           results.total > rows && (
-            <MoreButton onClick={() => selectSource(source.id)}>
+            <MoreButton
+              onClick={() => selectSource(source.id)}
+              data-cy={'more-button'}
+            >
               Show more
             </MoreButton>
           )}
