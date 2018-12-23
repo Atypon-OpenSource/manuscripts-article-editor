@@ -36,6 +36,7 @@ interface State {
   userMap: Map<string, UserProfile>
   addedCollaboratorsCount: number
   addedUsers: string[]
+  invitationSent: boolean
 }
 
 interface RouteParams {
@@ -57,6 +58,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     userMap: new Map(),
     addedCollaboratorsCount: 0,
     addedUsers: [],
+    invitationSent: false,
   }
 
   private subs: Subscription[] = []
@@ -106,7 +108,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private renderInviteCollaboratorPage(project: Project) {
-    const { searchText, addedCollaboratorsCount } = this.state
+    const { searchText, invitationSent } = this.state
 
     const invitationValues = {
       name: '',
@@ -126,7 +128,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           invitationValues={invitationValues}
           handleCancel={this.handleCancel}
           handleSubmit={this.handleInvitationSubmit}
-          counter={addedCollaboratorsCount}
+          invitationSent={invitationSent}
         />
         <Main>
           <InviteCollaboratorsPage project={project} />
@@ -354,12 +356,14 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       searchText: '',
       isInvite: false,
     })
+    this.setState({ invitationSent: false })
   }
 
   private handleInvitationSubmit = async (values: InvitationValues) => {
     const { email, name, role } = values
 
     await projectInvite(this.getProjectID(), [{ email, name }], role)
+    this.setState({ invitationSent: true })
   }
 }
 

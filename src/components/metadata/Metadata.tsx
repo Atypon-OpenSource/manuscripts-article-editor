@@ -148,6 +148,7 @@ interface Props {
   hovered: boolean
   updateAuthor: (author: Contributor, email: string) => void
   getAuthorName: (author: Contributor) => string
+  invitationSent: boolean
 }
 
 export const Metadata: React.FunctionComponent<Props> = props => (

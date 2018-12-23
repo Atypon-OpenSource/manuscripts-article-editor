@@ -94,6 +94,7 @@ storiesOf('Metadata', module)
         'update author after inviting him to collaborate on project'
       )}
       getAuthorName={action('get the author name')}
+      invitationSent={false}
     />
   ))
   .add('Edit authors', () => (
@@ -157,6 +158,7 @@ storiesOf('Metadata', module)
         'update author after inviting him to collaborate on project'
       )}
       getAuthorName={action('get the author name')}
+      invitationSent={false}
     />
   ))
   .add('Collapsed', () => (
@@ -220,6 +222,7 @@ storiesOf('Metadata', module)
         'update author after inviting him to collaborate on project'
       )}
       getAuthorName={action('get the author name')}
+      invitationSent={false}
     />
   ))
   .add('Title: read-only', () => (

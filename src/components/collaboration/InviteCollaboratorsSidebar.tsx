@@ -20,14 +20,14 @@ interface Props {
   invitationValues: InvitationValues
   handleCancel: () => void
   handleSubmit: (values: InvitationValues) => Promise<void>
-  counter: number
+  invitationSent: boolean
 }
 
 const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
   invitationValues,
   handleCancel,
   handleSubmit,
-  counter,
+  invitationSent,
 }) => (
   <Panel
     name={'collaborators-sidebar'}
@@ -38,7 +38,7 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
     <CollaboratorSidebar>
       <SidebarHeader>
         <SidebarTitle>Invite</SidebarTitle>
-        {!counter ? (
+        {!invitationSent ? (
           <Container>
             <TransparentGreyButton onClick={handleCancel}>
               Cancel

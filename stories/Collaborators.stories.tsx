@@ -159,7 +159,7 @@ storiesOf('Collaboration/Sidebars', module)
       invitationValues={{ name: '', email: 'user@example.com', role: '' }}
       handleCancel={action('cancel')}
       handleSubmit={action('submit')}
-      counter={0}
+      invitationSent={false}
     />
   ))
   .add('Search Collaborators', () => (
