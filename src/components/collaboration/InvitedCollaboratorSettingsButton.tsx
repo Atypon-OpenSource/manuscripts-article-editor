@@ -24,6 +24,13 @@ interface State {
 interface Props {
   invitation: ProjectInvitation
   openPopper: (isOpen: boolean) => void
+  projectInvite: (
+    email: string,
+    role: string,
+    name?: string,
+    message?: string
+  ) => Promise<void>
+  projectUninvite: (invitationID: string) => Promise<void>
 }
 
 class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
@@ -40,6 +47,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
 
   public render() {
     const { isOpen, updateRoleIsOpen } = this.state
+    const { projectInvite, projectUninvite } = this.props
 
     return (
       <Manager>
@@ -63,6 +71,8 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
               <InviteCollaboratorPopperContainer
                 invitation={this.props.invitation}
                 popperProps={popperProps}
+                projectInvite={projectInvite}
+                projectUninvite={projectUninvite}
                 openPopper={this.openPopper}
                 updateRoleIsOpen={updateRoleIsOpen}
                 handleOpenModal={this.handleOpenModal}

@@ -1,7 +1,6 @@
 import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
-import { projectInvite, projectUninvite } from '../../lib/api'
 import { CustomPopper } from '../Popper'
 import InviteCollaboratorPopper from './InviteCollaboratorPopper'
 
@@ -10,6 +9,13 @@ interface Props {
   popperProps: PopperChildrenProps
   openPopper: () => void
   handleOpenModal: () => void
+  projectInvite: (
+    email: string,
+    role: string,
+    name?: string,
+    message?: string
+  ) => Promise<void>
+  projectUninvite: (invitationID: string) => Promise<void>
   updateRoleIsOpen: boolean
 }
 
@@ -40,49 +46,31 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
     const {
       invitedUserEmail: email,
       invitedUserName: name,
-      projectID,
       message,
     } = this.props.invitation
 
-    await projectInvite(
-      projectID,
-      [
-        {
-          email,
-          name,
-        },
-      ],
-      role,
-      message
-    )
+    const { projectInvite, openPopper } = this.props
 
-    this.props.openPopper()
+    await projectInvite(email, role, name, message)
+
+    openPopper()
   }
 
   private resendInvitation = async () => {
     const {
       invitedUserEmail: email,
       invitedUserName: name,
-      projectID,
       message,
       role,
     } = this.props.invitation
 
-    await projectInvite(
-      projectID,
-      [
-        {
-          email,
-          name,
-        },
-      ],
-      role,
-      message
-    )
+    const { projectInvite } = this.props
+
+    await projectInvite(email, role, name, message)
   }
 
   private handleUninvite = async () => {
-    const { openPopper, invitation } = this.props
+    const { openPopper, invitation, projectUninvite } = this.props
 
     await projectUninvite(invitation._id)
 

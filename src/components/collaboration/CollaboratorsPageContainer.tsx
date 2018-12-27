@@ -9,7 +9,9 @@ import { Redirect, RouteComponentProps } from 'react-router'
 import { RxCollection, RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import Spinner from '../../icons/spinner'
+import { projectInvite, projectUninvite, updateUserRole } from '../../lib/api'
 import { buildUserMap } from '../../lib/data'
+import { ProjectRole } from '../../lib/roles'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
 import { Main, Page } from '../Page'
@@ -20,10 +22,8 @@ interface State {
   project: Project | null
   collaborators: UserProfile[] | null
   invitations: ProjectInvitation[] | null
-  isSettingsOpen: boolean
   error: string | null
   userMap: Map<string, UserProfile>
-  hoveredID: string
   selectedCollaborator: UserProfile | null
 }
 
@@ -37,11 +37,9 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
     project: null,
     collaborators: null,
-    isSettingsOpen: false,
     invitations: null,
     error: null,
     userMap: new Map(),
-    hoveredID: '',
     selectedCollaborator: null,
   }
 
@@ -62,8 +60,6 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       collaborators,
       project,
       invitations,
-      isSettingsOpen,
-      hoveredID,
       selectedCollaborator,
     } = this.state
     const { user } = this.props
@@ -91,13 +87,11 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           invitations={invitations}
           project={project}
           user={user.data}
-          isSettingsOpen={isSettingsOpen}
-          openPopper={this.openPopper}
+          updateUserRole={this.updateUserRole}
+          projectInvite={this.projectInvite}
+          projectUninvite={this.projectUninvite}
           handleAddCollaborator={this.handleAddCollaborator}
-          handleHover={this.handleHover}
-          hoveredID={hoveredID}
           handleClickCollaborator={this.handleClickCollaborator}
-          selectedCollaborator={selectedCollaborator}
         />
         <Main>
           <CollaboratorDetailsPage
@@ -168,16 +162,38 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     this.props.history.push(`/projects/${projectID}/collaborators/add`)
   }
 
-  private handleHover = (hoveredID: string = '') => {
-    if (!this.state.isSettingsOpen) {
-      this.setState({ hoveredID })
-    }
+  private updateUserRole = async (
+    selectedRole: ProjectRole | null,
+    userID: string
+  ) => {
+    const { projectID } = this.props.match.params
+
+    await updateUserRole(projectID, selectedRole, userID)
   }
 
-  private openPopper = (isOpen: boolean) => {
-    this.setState({
-      isSettingsOpen: isOpen,
-    })
+  private projectInvite = async (
+    email: string,
+    role: string,
+    name?: string,
+    message?: string
+  ) => {
+    const { projectID } = this.props.match.params
+
+    await projectInvite(
+      projectID,
+      [
+        {
+          email,
+          name,
+        },
+      ],
+      role,
+      message
+    )
+  }
+
+  private projectUninvite = async (invitationID: string) => {
+    await projectUninvite(invitationID)
   }
 
   private handleClickCollaborator = (selectedCollaborator: UserProfile) => {

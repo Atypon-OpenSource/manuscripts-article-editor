@@ -2,6 +2,7 @@ import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import SettingsInverted from '../../icons/settings-inverted-icon'
+import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import CollaboratorSettingsPopperContainer from './CollaboratorSettingsPopperContainer'
@@ -25,6 +26,7 @@ interface Props {
   project: Project
   collaborator: UserProfile
   openPopper: (isOpen: boolean) => void
+  updateUserRole: (role: ProjectRole | null, userID: string) => Promise<void>
 }
 
 class CollaboratorSettingsButton extends React.Component<Props, State> {
@@ -41,7 +43,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
 
   public render() {
     const { isOpen } = this.state
-    const { project, collaborator } = this.props
+    const { project, collaborator, updateUserRole } = this.props
 
     return (
       <Manager>
@@ -69,6 +71,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
                 openPopper={this.openPopper}
                 handleOpenModal={this.handleOpenModal}
                 updateRoleIsOpen={this.state.updateRoleIsOpen}
+                updateUserRole={updateUserRole}
               />
             )}
           </Popper>

@@ -10,6 +10,7 @@ export const invitations: ProjectInvitation[] = [
   {
     _id: 'ProjectInvitation|2da9a8bc004083daea2b2746a5414b18f318f845',
     invitedUserEmail: 'lmessi@atypon.com',
+    invitedUserName: 'Lionel Messi',
     invitingUserID: 'User|pcoutinho@atypon.com',
     projectID: 'MPProject:2D9BC3CE-D75D-429F-AE8B-3459269785D5',
     projectTitle: 'Breadth First Search Algorithm',

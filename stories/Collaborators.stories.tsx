@@ -16,7 +16,6 @@ import CollaboratorsSidebar from '../src/components/collaboration/CollaboratorsS
 import { InvitationForm } from '../src/components/collaboration/InvitationForm'
 import InviteCollaboratorPopper from '../src/components/collaboration/InviteCollaboratorPopper'
 import InviteCollaboratorsSidebar from '../src/components/collaboration/InviteCollaboratorsSidebar'
-import SearchCollaboratorsSidebar from '../src/components/collaboration/SearchCollaboratorsSidebar'
 import { styled } from '../src/theme'
 import { user } from './data/contributors'
 import { invitations } from './data/invitations-data'
@@ -25,10 +24,6 @@ import { project } from './data/projects'
 
 const PopperStory = styled.div`
   width: 300px;
-`
-
-const SidebarStory = styled.div`
-  width: 800px;
 `
 
 storiesOf('Collaboration/Poppers', module)
@@ -121,18 +116,37 @@ storiesOf('Collaboration/Pages', module)
   ))
 
 storiesOf('Collaboration/Sidebars', module)
-  .add('Collaborators', () => (
+  .add('Collaborators - Owner', () => (
     <CollaboratorsSidebar
-      project={project}
+      project={{
+        ...project,
+        owners: [people[0].userID],
+        viewers: [people[1].userID, people[2].userID],
+      }}
+      collaborators={people}
+      invitations={invitations}
+      user={people[0]}
+      projectInvite={action('invitation send')}
+      projectUninvite={action('invitation deleted')}
+      updateUserRole={action('update user role')}
+      handleAddCollaborator={action('add collaborator')}
+      handleClickCollaborator={action('selected collaborator')}
+    />
+  ))
+  .add('Collaborators - Non-owner', () => (
+    <CollaboratorsSidebar
+      project={{
+        ...project,
+        owners: [people[1].userID],
+        viewers: [people[0].userID, people[2].userID],
+      }}
       collaborators={people}
       invitations={[]}
       user={people[0]}
+      projectInvite={action('invitation send')}
+      projectUninvite={action('invitation deleted')}
+      updateUserRole={action('update user role')}
       handleAddCollaborator={action('add collaborator')}
-      handleHover={action('hover')}
-      hoveredID={''}
-      openPopper={action('open popper')}
-      isSettingsOpen={true}
-      selectedCollaborator={null}
       handleClickCollaborator={action('selected collaborator')}
     />
   ))
@@ -141,34 +155,18 @@ storiesOf('Collaboration/Sidebars', module)
       people={people}
       invitations={[]}
       addCollaborator={action('add collaborator')}
-      handleSearchChange={action('search change')}
-      handleSearchFocus={action('search focus')}
       handleInvite={action('invite')}
       numberOfAddedCollaborators={0}
       countAddedCollaborators={() => 0}
-      isSearching={false}
-      searchText={''}
-      searchResults={[]}
       addedUsers={[]}
+      setSearchText={action('set search text')}
       handleDoneCancel={action('handle done/cancel')}
     />
   ))
-
   .add('Invite Collaborators', () => (
     <InviteCollaboratorsSidebar
       invitationValues={{ name: '', email: 'user@example.com', role: '' }}
       handleCancel={action('cancel')}
       handleSubmit={action('submit')}
     />
-  ))
-  .add('Search Collaborators', () => (
-    <SidebarStory>
-      <SearchCollaboratorsSidebar
-        addCollaborator={action('add collaborator')}
-        countAddedCollaborators={() => 3}
-        handleInvite={action('invite')}
-        searchResults={people}
-        searchText={'ego'}
-      />
-    </SidebarStory>
   ))

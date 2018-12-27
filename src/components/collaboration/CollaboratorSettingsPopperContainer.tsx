@@ -1,7 +1,7 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
-import { updateUserRole } from '../../lib/api'
+import { ProjectRole } from '../../lib/roles'
 import { CustomPopper } from '../Popper'
 import CollaboratorSettingsPopper from './CollaboratorSettingsPopper'
 
@@ -11,6 +11,7 @@ interface Props {
   popperProps: PopperChildrenProps
   openPopper: () => void
   handleOpenModal: () => void
+  updateUserRole: (role: ProjectRole | null, userID: string) => Promise<void>
   updateRoleIsOpen: boolean
 }
 
@@ -39,17 +40,16 @@ class CollaboratorSettingsPopperContainer extends React.Component<Props> {
   }
 
   private handleUpdateRole = async (selectedRole: string) => {
-    const { collaborator, project, openPopper } = this.props
+    const { collaborator, openPopper, updateUserRole } = this.props
 
-    await updateUserRole(project._id, selectedRole, collaborator.userID)
+    await updateUserRole(selectedRole as ProjectRole, collaborator.userID)
     openPopper()
   }
 
   private handleRemove = async () => {
-    const { collaborator, openPopper, project } = this.props
+    const { collaborator, openPopper, updateUserRole } = this.props
 
-    await updateUserRole(project._id, null, collaborator.userID)
-
+    await updateUserRole(null, collaborator.userID)
     openPopper()
   }
 }
