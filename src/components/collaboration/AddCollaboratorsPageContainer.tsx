@@ -29,10 +29,8 @@ interface State {
   people: UserProfile[] | null
   collaborators: UserProfile[]
   invitations: ProjectInvitation[]
-  isSearching: boolean
   isInvite: boolean
   searchText: string
-  searchResults: UserProfile[]
   userMap: Map<string, UserProfile>
   addedCollaboratorsCount: number
   addedUsers: string[]
@@ -50,10 +48,8 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     people: [],
     collaborators: [],
     invitations: [],
-    isSearching: false,
     isInvite: false,
     searchText: '',
-    searchResults: [],
     userMap: new Map(),
     addedCollaboratorsCount: 0,
     addedUsers: [],
@@ -139,13 +135,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     people: UserProfile[],
     invitations: ProjectInvitation[]
   ) {
-    const {
-      addedCollaboratorsCount,
-      isSearching,
-      searchText,
-      searchResults,
-      addedUsers,
-    } = this.state
+    const { addedCollaboratorsCount, searchText, addedUsers } = this.state
 
     return (
       <Page project={project}>
@@ -153,16 +143,12 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           people={people}
           invitations={invitations}
           numberOfAddedCollaborators={addedCollaboratorsCount}
-          isSearching={isSearching}
-          searchText={searchText}
-          searchResults={searchResults}
           addedUsers={addedUsers}
           addCollaborator={this.addCollaborator}
           countAddedCollaborators={this.countAddedCollaborators}
           handleDoneCancel={this.handleDoneCancel}
           handleInvite={this.handleInvite}
-          handleSearchChange={this.handleSearchChange}
-          handleSearchFocus={this.handleSearchFocus}
+          setSearchText={this.setSearchText}
         />
         <Main>
           {!searchText.length ? (
@@ -301,52 +287,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private handleSearchChange = (event: React.FormEvent<HTMLInputElement>) => {
-    this.setState({
-      searchText: event.currentTarget.value,
-    })
-    this.search(event.currentTarget.value)
-  }
-
-  private handleSearchFocus = () => {
-    this.setState({
-      isSearching: !this.state.isSearching,
-    })
-  }
-
-  private search = (searchText: string) => {
-    const { people, addedUsers } = this.state
-
-    if (!people || !searchText) {
-      return this.setState({
-        searchResults: [],
-      })
-    }
-
-    searchText = searchText.toLowerCase()
-
-    const searchResults: UserProfile[] = people.filter(person => {
-      if (addedUsers.includes(person.userID)) return false
-
-      if (searchText.includes('@')) {
-        return person.email && person.email.toLowerCase().includes(searchText)
-      }
-
-      const personName = [
-        person.bibliographicName.given,
-        person.bibliographicName.family,
-      ]
-        .filter(part => part)
-        .join(' ')
-        .toLowerCase()
-
-      return personName && personName.includes(searchText)
-    })
-
-    this.setState({
-      searchResults,
-    })
-  }
+  private setSearchText = (searchText: string) => this.setState({ searchText }) // FIXME: Don't use get
 
   private handleCancel = () => {
     this.setState({

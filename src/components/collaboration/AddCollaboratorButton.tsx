@@ -49,6 +49,7 @@ class AddCollaboratorButton extends React.Component<Props, State> {
 
   public render() {
     const { isOpen, isSelected } = this.state
+    const { addCollaborator, collaborator } = this.props
 
     if (isSelected) {
       return (
@@ -82,9 +83,9 @@ class AddCollaboratorButton extends React.Component<Props, State> {
           >
             {(popperProps: PopperChildrenProps) => (
               <AddCollaboratorPopperContainer
-                userID={this.props.collaborator.userID}
+                userID={collaborator.userID}
                 popperProps={popperProps}
-                addCollaborator={this.props.addCollaborator}
+                addCollaborator={addCollaborator}
                 handleIsRoleSelected={this.handleIsRoleSelected}
               />
             )}
