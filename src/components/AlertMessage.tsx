@@ -144,13 +144,14 @@ class AlertMessage extends React.Component<Props, State> {
                     ))}
                 </TextContainer>
               </InnerContainer>
-              {(size.width! >= 900 || (!hideCloseButton && !dismissButton)) && (
-                <CloseContainer>
-                  <CloseIcon onClick={this.handleClose}>
-                    {alertAttributes.closeButton}
-                  </CloseIcon>
-                </CloseContainer>
-              )}
+              {!hideCloseButton &&
+                ((size.width! >= 900 || !dismissButton) && (
+                  <CloseContainer>
+                    <CloseIcon onClick={this.handleClose}>
+                      {alertAttributes.closeButton}
+                    </CloseIcon>
+                  </CloseContainer>
+                ))}
             </AlertContainer>
           )}
         </SizeMe>
