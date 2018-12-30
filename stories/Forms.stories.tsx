@@ -10,6 +10,10 @@ import {
   DeleteAccountForm,
   DeleteAccountValues,
 } from '../src/components/account/DeleteAccountForm'
+import {
+  FeedbackForm,
+  FeedbackValues,
+} from '../src/components/account/FeedbackForm'
 import { LoginForm, LoginValues } from '../src/components/account/LoginForm'
 import {
   PasswordForm,
@@ -24,6 +28,7 @@ import ModalForm from '../src/components/ModalForm'
 import {
   changePasswordSchema,
   deleteAccountSchema,
+  feedbackSchema,
   loginSchema,
   passwordSchema,
   recoverSchema,
@@ -110,3 +115,21 @@ storiesOf('Account/Forms/Modal', module)
       />
     </ModalForm>
   ))
+
+storiesOf('Feedback', module).add('Feedback', () => (
+  <ModalForm title={'feedback'}>
+    <Formik<FeedbackValues>
+      initialValues={{
+        message: '',
+
+        title: '',
+      }}
+      validationSchema={feedbackSchema}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
+      onSubmit={action('submit')}
+      component={FeedbackForm}
+    />
+  </ModalForm>
+))
