@@ -10,7 +10,7 @@ import {
 import AddAuthorButton from '../src/components/metadata/AddAuthorButton'
 import AddAuthorsSidebar from '../src/components/metadata/AddAuthorsSidebar'
 import { Affiliations } from '../src/components/metadata/Affiliations'
-import { AuthorAffiliation } from '../src/components/metadata/Author'
+import { Author, AuthorAffiliation } from '../src/components/metadata/Author'
 import { AuthorForm } from '../src/components/metadata/AuthorForm'
 import Authors from '../src/components/metadata/Authors'
 import AuthorsSidebar from '../src/components/metadata/AuthorsSidebar'
@@ -257,6 +257,24 @@ storiesOf('Metadata', module)
       selectAuthor={action('select author')}
     />
   ))
+  .add('Author is joint first author', () => (
+    <Author
+      author={authors[0]}
+      startEditing={action('start editing')}
+      showEditButton={false}
+      selectAuthor={action('select author')}
+      jointFirstAuthor={true}
+    />
+  ))
+  .add('Author is corresponding', () => (
+    <Author
+      author={authors[1]}
+      startEditing={action('start editing')}
+      showEditButton={false}
+      selectAuthor={action('select author')}
+      jointFirstAuthor={true}
+    />
+  ))
   .add('Affiliations', () => <Affiliations affiliations={affiliations} />)
   .add('Authors Sidebar', () => (
     <AuthorsSidebar
@@ -316,10 +334,75 @@ storiesOf('Metadata', module)
       )}
     />
   ))
+  .add('Add Authors Sidebar with suggested users', () => (
+    <AddAuthorsSidebar
+      nonAuthors={[user]}
+      numberOfAddedAuthors={0}
+      isSearching={false}
+      searchText={''}
+      addedAuthors={[]}
+      handleDoneCancel={action('stop adding')}
+      createAuthor={action('create author')}
+      handleSearchChange={action('update search text')}
+      handleSearchFocus={action('start searching')}
+      searchResults={[]}
+      handleInvite={action('start invite')}
+      authors={authors}
+      authorExist={action('check author existence')}
+      createAuthorIsOpen={false}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+    />
+  ))
+
+  .add('Add Authors Sidebar - Searching', () => (
+    <AddAuthorsSidebar
+      nonAuthors={[]}
+      numberOfAddedAuthors={1}
+      isSearching={true}
+      searchText={'notFound'}
+      addedAuthors={[]}
+      handleDoneCancel={action('stop adding')}
+      createAuthor={action('create author')}
+      handleSearchChange={action('update search text')}
+      handleSearchFocus={action('start searching')}
+      searchResults={[]}
+      handleInvite={action('start invite')}
+      authors={authors}
+      authorExist={action('check author existence')}
+      createAuthorIsOpen={false}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+    />
+  ))
+
+  .add('Add Authors Sidebar - Create author', () => (
+    <AddAuthorsSidebar
+      nonAuthors={[]}
+      numberOfAddedAuthors={1}
+      isSearching={true}
+      searchText={'notFound'}
+      addedAuthors={[]}
+      handleDoneCancel={action('stop adding')}
+      createAuthor={action('create author')}
+      handleSearchChange={action('update search text')}
+      handleSearchFocus={action('start searching')}
+      searchResults={[]}
+      handleInvite={action('start invite')}
+      authors={authors}
+      authorExist={action('check author existence')}
+      createAuthorIsOpen={true}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+    />
+  ))
 
   .add('Search Authors Sidebar', () => (
     <SearchAuthorsSidebar
-      searchText={''}
+      searchText={'notFound'}
       addedAuthors={[]}
       createAuthor={action('create author')}
       searchResults={[]}
@@ -331,7 +414,34 @@ storiesOf('Metadata', module)
       )}
     />
   ))
-
+  .add('Search Authors Sidebar - search email', () => (
+    <SearchAuthorsSidebar
+      searchText={'notFound@atypon.com'}
+      addedAuthors={[]}
+      createAuthor={action('create author')}
+      searchResults={[]}
+      handleInvite={action('start invite')}
+      authors={authors}
+      authorExist={action('check author existence')}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+    />
+  ))
+  .add('Search Authors Sidebar - Search with results', () => (
+    <SearchAuthorsSidebar
+      searchText={user.bibliographicName.given!}
+      addedAuthors={[]}
+      createAuthor={action('create author')}
+      searchResults={[user]}
+      handleInvite={action('start invite')}
+      authors={authors}
+      authorExist={action('check author existence')}
+      handleCreateAuthor={action(
+        'handle open the create author confirmation dialog'
+      )}
+    />
+  ))
   .add('Add Author Button', () => (
     <AddAuthorButton
       person={user}

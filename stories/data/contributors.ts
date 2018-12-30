@@ -71,6 +71,7 @@ export const authors: Contributor[] = [
     sessionID: 'story',
     createdAt: 0,
     updatedAt: 0,
+    isCorresponding: true,
   },
   {
     _id: 'example-3',
