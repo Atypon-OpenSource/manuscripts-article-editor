@@ -21,15 +21,15 @@ describe('collaboration', () => {
     const projectID = ' project id'
     const invitedUsers = [{ email: 'email' }]
     const role = 'role'
-    const message = 'message'
-    await projectInvite(projectID, invitedUsers, role, message)
+
+    await projectInvite(projectID, invitedUsers, role)
 
     expect(client.post).toBeCalledWith(
       `/invitation/project/${encodeURIComponent(projectID)}/invite`,
       {
         invitedUsers,
         role,
-        message,
+        message: 'message',
       }
     )
   })
