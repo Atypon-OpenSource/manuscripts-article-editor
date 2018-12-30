@@ -1,4 +1,3 @@
-import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Title, TitleField } from '@manuscripts/title-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
@@ -57,10 +56,8 @@ storiesOf('Metadata', module)
       addedAuthorsCount={0}
       searchingAuthors={false}
       searchText={''}
-      // tslint:disable-next-line:no-object-literal-type-assertion
-      project={{} as Project}
-      // tslint:disable-next-line:no-object-literal-type-assertion
-      user={{} as UserProfile}
+      user={user}
+      project={project}
       addedAuthors={[]}
       handleAddingDoneCancel={action('stop adding')}
       handleSearchChange={action('update search text')}
@@ -116,10 +113,8 @@ storiesOf('Metadata', module)
       expanded={true}
       toggleExpanded={action('toggle expanded')}
       addingAuthors={false}
-      // tslint:disable-next-line:no-object-literal-type-assertion
-      user={{} as UserProfile}
-      // tslint:disable-next-line:no-object-literal-type-assertion
-      project={{} as Project}
+      user={user}
+      project={project}
       startAddingAuthors={action('start adding')}
       addedAuthorsCount={0}
       searchingAuthors={false}
@@ -182,10 +177,8 @@ storiesOf('Metadata', module)
       startAddingAuthors={action('start adding')}
       addedAuthorsCount={0}
       searchingAuthors={false}
-      // tslint:disable-next-line:no-object-literal-type-assertion
-      user={{} as UserProfile}
-      // tslint:disable-next-line:no-object-literal-type-assertion
-      project={{} as Project}
+      user={user}
+      project={project}
       searchText={''}
       addedAuthors={[]}
       handleAddingDoneCancel={action('stop adding')}
