@@ -2,6 +2,7 @@ import {
   Affiliation,
   Contributor,
   Manuscript,
+  Model,
   Project,
   ProjectInvitation,
   UserProfile,
@@ -17,12 +18,13 @@ import { styled, ThemedProps } from '../../theme'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { CloseButton } from '../SimpleModal'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
+import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { Affiliations } from './Affiliations'
 import { AuthorAffiliation } from './Author'
 import { AuthorValues } from './AuthorForm'
 import Authors from './Authors'
 import AuthorsModalContainer from './AuthorsModalContainer'
-import { AddAuthorsModal, InviteAuthorsModal } from './AuthorsModals'
+import { InviteAuthorsModal } from './AuthorsModals'
 import { Header, HeaderContainer } from './Header'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
@@ -89,6 +91,7 @@ const StyledTitleField = styled(TitleField)`
 `
 
 interface Props {
+  modelMap: Map<string, Model>
   saveTitle: (title: string) => void
   manuscript: Manuscript
   authors: Contributor[]
@@ -113,11 +116,8 @@ interface Props {
   toggleExpanded: () => void
   addingAuthors: boolean
   nonAuthors: UserProfile[]
-  addedAuthorsCount: number
-  searchingAuthors: boolean
-  searchText: string
+  numberOfAddedAuthors: number
   addedAuthors: string[]
-  searchResults: UserProfile[]
   project: Project
   user: UserProfile
   isInvite: boolean
@@ -125,9 +125,7 @@ interface Props {
   openAddAuthors: () => void
   checkInvitations: (author: Contributor) => boolean
   handleAddingDoneCancel: () => void
-  handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
-  handleSearchFocus: () => void
-  handleInvite: () => void
+  handleInvite: (searchText: string) => void
   handleInviteCancel: () => void
   handleInvitationSubmit: (values: InvitationValues) => Promise<void>
   handleDrop: (
@@ -137,9 +135,6 @@ interface Props {
     authors: Contributor[]
   ) => void
   handleSectionChange: (section: string) => void
-  authorExist: () => boolean
-  handleCreateAuthor: () => void
-  createAuthorIsOpen: boolean
   updateAuthor: (author: Contributor, email: string) => void
 }
 
@@ -199,7 +194,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
             !props.addingAuthors && <AuthorsModalContainer {...props} />}
 
           {!props.isInvite &&
-            props.addingAuthors && <AddAuthorsModal {...props} />}
+            props.addingAuthors && <AddAuthorsModalContainer {...props} />}
 
           {props.isInvite && <InviteAuthorsModal {...props} />}
         </ModalContainer>

@@ -132,17 +132,17 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
 interface AddAuthorsProps {
   nonAuthors: UserProfile[]
   authors: Contributor[]
-  addedAuthorsCount: number
+  numberOfAddedAuthors: number
   searchingAuthors: boolean
   searchText: string
   addedAuthors: string[]
   searchResults: UserProfile[]
-  createAuthorIsOpen: boolean
+  isCreateAuthorOpen: boolean
+  isAuthorExist: () => boolean
   handleAddingDoneCancel: () => void
   handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
   handleSearchFocus: () => void
-  handleInvite: () => void
-  authorExist: () => boolean
+  handleInvite: (searchText: string) => void
   handleCreateAuthor: () => void
   createAuthor: (
     priority: number,
@@ -156,7 +156,7 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
   nonAuthors,
   authors,
   addedAuthors,
-  addedAuthorsCount,
+  numberOfAddedAuthors,
   searchingAuthors,
   searchResults,
   searchText,
@@ -165,16 +165,16 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
   handleSearchChange,
   handleSearchFocus,
   handleInvite,
-  authorExist,
-  createAuthorIsOpen,
+  isAuthorExist,
+  isCreateAuthorOpen,
   handleCreateAuthor,
 }) => (
   <ModalBody>
     <ModalSidebar>
       <AddAuthorsSidebar
-        nonAuthors={nonAuthors}
         authors={authors}
-        numberOfAddedAuthors={addedAuthorsCount}
+        nonAuthors={nonAuthors}
+        numberOfAddedAuthors={numberOfAddedAuthors}
         isSearching={searchingAuthors}
         searchText={searchText}
         addedAuthors={addedAuthors}
@@ -184,13 +184,13 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
         handleSearchFocus={handleSearchFocus}
         searchResults={searchResults}
         handleInvite={handleInvite}
-        authorExist={authorExist}
-        createAuthorIsOpen={createAuthorIsOpen}
+        isAuthorExist={isAuthorExist}
+        isCreateAuthorOpen={isCreateAuthorOpen}
         handleCreateAuthor={handleCreateAuthor}
       />
     </ModalSidebar>
     <ModalMain>
-      <AddAuthorsPage addedAuthorsCount={addedAuthorsCount} />
+      <AddAuthorsPage addedAuthorsCount={numberOfAddedAuthors} />
     </ModalMain>
   </ModalBody>
 )
