@@ -25,7 +25,7 @@ interface Props {
   authorAffiliations: Map<string, AuthorAffiliation[]>
   affiliations: AffiliationMap
   selectedAuthor: Contributor | null
-  removeAuthor: (data: Contributor) => void
+  removeAuthor: (data: Contributor) => Promise<void>
   selectAuthor: (data: Contributor) => void
   updateAuthor: (author: Contributor, email: string) => void
   openAddAuthors: () => void

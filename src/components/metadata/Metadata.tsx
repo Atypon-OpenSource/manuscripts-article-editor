@@ -107,7 +107,7 @@ interface Props {
     name?: string,
     invitationID?: string
   ) => void
-  removeAuthor: (data: Contributor) => void
+  removeAuthor: (data: Contributor) => Promise<void>
   selectAuthor: (data: Contributor) => void
   selectedAuthor: Contributor | null
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
