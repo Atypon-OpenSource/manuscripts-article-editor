@@ -135,30 +135,28 @@ const buildInitialValues = (
 }
 
 interface AuthorProps {
+  project: Project
   author: Contributor
   affiliations: AffiliationMap
   authorAffiliations: AuthorAffiliation[]
-  manuscript: string
-  handleSave: (values: AuthorValues) => Promise<void>
+  isRemoveAuthorOpen: boolean
   createAffiliation: (name: string) => Promise<Affiliation>
-  removeAuthorIsOpen: boolean
   removeAuthor: (data: Contributor) => void
-  handleRemoveAuthor: () => void
   isRejected: (invitationID: string) => boolean
-  project: Project
   updateAuthor: (author: Contributor, email: string) => void
   getAuthorName: (author: Contributor) => string
+  handleSave: (values: AuthorValues) => Promise<void>
+  handleRemoveAuthor: () => void
 }
 
 export const AuthorForm: React.FunctionComponent<AuthorProps> = ({
   author,
   affiliations,
   authorAffiliations,
-  manuscript,
   handleSave,
   createAffiliation,
   removeAuthor,
-  removeAuthorIsOpen,
+  isRemoveAuthorOpen,
   handleRemoveAuthor,
   isRejected,
   project,
@@ -182,7 +180,7 @@ export const AuthorForm: React.FunctionComponent<AuthorProps> = ({
                   removeAuthor={() => {
                     removeAuthor(author)
                   }}
-                  isOpen={removeAuthorIsOpen}
+                  isOpen={isRemoveAuthorOpen}
                   handleOpen={handleRemoveAuthor}
                 />
               </Container>

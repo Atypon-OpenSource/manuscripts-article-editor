@@ -60,9 +60,7 @@ interface State {
   isInvite: boolean
   invitationValues: InvitationValues
   invitations: ProjectInvitation[]
-  removeAuthorIsOpen: boolean
   createAuthorIsOpen: boolean
-  hovered: boolean
 }
 
 class MetadataContainer extends React.Component<
@@ -90,9 +88,7 @@ class MetadataContainer extends React.Component<
       email: '',
       role: '',
     },
-    removeAuthorIsOpen: false,
     createAuthorIsOpen: false,
-    hovered: false,
   }
 
   private subs: Subscription[] = []
@@ -122,8 +118,8 @@ class MetadataContainer extends React.Component<
       project,
       isInvite,
       invitationValues,
-      removeAuthorIsOpen,
       createAuthorIsOpen,
+      invitations,
     } = this.state
     const { manuscript, user } = this.props
 
@@ -155,6 +151,7 @@ class MetadataContainer extends React.Component<
       <Metadata
         saveTitle={debounce(this.saveTitle, 1000)}
         authors={authors}
+        invitations={invitations}
         editing={editing}
         affiliations={affiliations}
         startEditing={this.startEditing}
@@ -172,7 +169,7 @@ class MetadataContainer extends React.Component<
         project={project}
         user={user.data}
         addingAuthors={addingAuthors}
-        startAddingAuthors={this.startAddingAuthors}
+        openAddAuthors={this.openAddAuthors}
         nonAuthors={nonAuthors}
         addedAuthorsCount={addedAuthorsCount}
         searchingAuthors={searchingAuthors}
@@ -189,17 +186,11 @@ class MetadataContainer extends React.Component<
         handleInviteCancel={this.handleInviteCancel}
         handleInvitationSubmit={this.handleInvitationSubmit}
         handleDrop={this.handleDrop}
-        removeAuthorIsOpen={removeAuthorIsOpen}
-        handleRemoveAuthor={this.handleRemoveAuthor}
         handleSectionChange={this.props.handleSectionChange}
         authorExist={this.authorExist}
         createAuthorIsOpen={createAuthorIsOpen}
         handleCreateAuthor={this.handleCreateAuthor}
-        isRejected={this.isRejected}
-        hovered={this.state.hovered}
-        handleHover={this.handleHover}
         updateAuthor={this.updateAuthor}
-        getAuthorName={this.getAuthorName}
       />
     )
   }
@@ -215,12 +206,6 @@ class MetadataContainer extends React.Component<
     this.selectAuthor(result)
   }
 
-  private handleHover = () => {
-    this.setState({
-      hovered: !this.state.hovered,
-    })
-  }
-
   private handleCreateAuthor = () => {
     if (this.state.createAuthorIsOpen) {
       this.setState({
@@ -230,10 +215,6 @@ class MetadataContainer extends React.Component<
     this.setState({
       createAuthorIsOpen: !this.state.createAuthorIsOpen,
     })
-  }
-
-  private handleRemoveAuthor = () => {
-    this.setState({ removeAuthorIsOpen: !this.state.removeAuthorIsOpen })
   }
 
   private authorExist = () => {
@@ -343,7 +324,9 @@ class MetadataContainer extends React.Component<
       const author = invitationID
         ? buildContributor(bibName, 'author', priority, undefined, invitationID)
         : buildContributor(bibName, 'author', priority)
+
       await this.props.saveModel<Contributor>(author as Contributor)
+
       this.setState({
         addedAuthorsCount: this.state.addedAuthorsCount + 1,
         searchText: '',
@@ -361,10 +344,12 @@ class MetadataContainer extends React.Component<
       const result = await this.props.saveModel<Contributor>(
         author as Contributor
       )
+
       this.setState({
         addedAuthors: this.state.addedAuthors.concat(author.userID as string),
         addedAuthorsCount: this.state.addedAuthorsCount + 1,
       })
+
       this.selectAuthor(result)
     }
   }
@@ -393,10 +378,9 @@ class MetadataContainer extends React.Component<
       const index = this.state.addedAuthors.indexOf(author.userID as string)
       this.state.addedAuthors.splice(index, 1)
     }
-    this.handleRemoveAuthor()
   }
 
-  private startAddingAuthors = () => {
+  private openAddAuthors = () => {
     this.setState({ addingAuthors: true })
 
     const authors = buildSortedAuthors(this.props.modelMap)
@@ -632,15 +616,6 @@ class MetadataContainer extends React.Component<
     return false
   }
 
-  private isRejected = (invitationID: string) => {
-    for (const invitation of this.state.invitations) {
-      if (invitation._id === invitationID) {
-        return false
-      }
-    }
-    return true
-  }
-
   private getInvitation = (
     invitedEmail: string
   ): Promise<ProjectInvitation> => {
@@ -658,13 +633,6 @@ class MetadataContainer extends React.Component<
           resolve(invitation)
         })
     })
-  }
-
-  private getAuthorName = (author: Contributor) => {
-    const name = !author.bibliographicName.given
-      ? 'Author '
-      : author.bibliographicName.given + ' ' + author.bibliographicName.family
-    return name
   }
 }
 

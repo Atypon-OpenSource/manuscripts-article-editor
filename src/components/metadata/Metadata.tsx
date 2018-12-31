@@ -3,6 +3,7 @@ import {
   Contributor,
   Manuscript,
   Project,
+  ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
@@ -20,11 +21,8 @@ import { Affiliations } from './Affiliations'
 import { AuthorAffiliation } from './Author'
 import { AuthorValues } from './AuthorForm'
 import Authors from './Authors'
-import {
-  AddAuthorsModal,
-  AuthorsModal,
-  InviteAuthorsModal,
-} from './AuthorsModals'
+import AuthorsModalContainer from './AuthorsModalContainer'
+import { AddAuthorsModal, InviteAuthorsModal } from './AuthorsModals'
 import { Header, HeaderContainer } from './Header'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
@@ -94,6 +92,7 @@ interface Props {
   saveTitle: (title: string) => void
   manuscript: Manuscript
   authors: Contributor[]
+  invitations: ProjectInvitation[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   affiliations: AffiliationMap
   startEditing: () => void
@@ -123,7 +122,7 @@ interface Props {
   user: UserProfile
   isInvite: boolean
   invitationValues: InvitationValues
-  startAddingAuthors: () => void
+  openAddAuthors: () => void
   checkInvitations: (author: Contributor) => boolean
   handleAddingDoneCancel: () => void
   handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
@@ -138,16 +137,10 @@ interface Props {
     authors: Contributor[]
   ) => void
   handleSectionChange: (section: string) => void
-  removeAuthorIsOpen: boolean
-  handleRemoveAuthor: () => void
   authorExist: () => boolean
   handleCreateAuthor: () => void
   createAuthorIsOpen: boolean
-  isRejected: (invitationID: string) => boolean
-  handleHover: () => void
-  hovered: boolean
   updateAuthor: (author: Contributor, email: string) => void
-  getAuthorName: (author: Contributor) => string
 }
 
 export const Metadata: React.FunctionComponent<Props> = props => (
@@ -203,7 +196,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
           </ModalHeader>
 
           {!props.isInvite &&
-            !props.addingAuthors && <AuthorsModal {...props} />}
+            !props.addingAuthors && <AuthorsModalContainer {...props} />}
 
           {!props.isInvite &&
             props.addingAuthors && <AddAuthorsModal {...props} />}

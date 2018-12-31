@@ -78,17 +78,17 @@ interface Props {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   selectedAuthor: Contributor | null
+  isHovered: boolean
   checkInvitations: (author: Contributor) => boolean
   selectAuthor: (item: Contributor) => void
-  startAdding: () => void
+  openAddAuthors: () => void
+  handleHover: () => void
   handleDrop: (
     source: AuthorItem,
     target: AuthorItem,
     position: DropSide,
     authors: Contributor[]
   ) => void
-  handleHover: () => void
-  hovered: boolean
 }
 
 const AuthorsSidebar: React.FunctionComponent<Props> = ({
@@ -96,11 +96,11 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
   authorAffiliations,
   selectAuthor,
   selectedAuthor,
-  startAdding,
+  openAddAuthors,
   handleDrop,
   checkInvitations,
   handleHover,
-  hovered,
+  isHovered,
 }) => (
   <Sidebar>
     <SidebarHeader>
@@ -110,13 +110,13 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
     <SidebarAction>
       <AddButton
         onClick={() => {
-          startAdding()
+          openAddAuthors()
         }}
         onMouseEnter={() => handleHover()}
         onMouseLeave={() => handleHover()}
       >
         <AddIcon>
-          {hovered ? (
+          {isHovered ? (
             <AddAuthor size={38} color={salomieYellow} />
           ) : (
             <AddAuthor size={38} />
