@@ -15,20 +15,18 @@ const images: { [key: string]: string } = {
   '🐶': SadAnimal5,
 }
 
+const key = sample(Object.keys(images)) as string
+
 const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `
 
-const SadAnimal: React.FunctionComponent = () => {
-  const key = sample(Object.keys(images)) as string
-
-  return (
-    <Container>
-      <img src={images[key]} alt={key} height={154} />
-    </Container>
-  )
-}
+const SadAnimal: React.FunctionComponent = () => (
+  <Container>
+    <img src={images[key]} alt={key} height={154} />
+  </Container>
+)
 
 export default SadAnimal

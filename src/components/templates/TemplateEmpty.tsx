@@ -16,6 +16,7 @@ const Container = styled.div`
   align-items: center;
   overflow-y: auto;
   width: 600px;
+  max-width: 100%;
 `
 
 const TextContainer = styled.div`
