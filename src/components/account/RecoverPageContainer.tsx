@@ -1,12 +1,13 @@
 import { FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
-import { parse } from 'qs'
+import { parse, stringify } from 'qs'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router-dom'
 import { resetPassword } from '../../lib/account'
 import { sendPasswordRecovery } from '../../lib/api'
 import { UserProps, withUser } from '../../store/UserProvider'
 import { passwordSchema, recoverSchema } from '../../validation'
+import { MessageBannerAction } from '../MessageBanner'
 import { Main, Page } from '../Page'
 import { Spinner } from '../Spinner'
 import { PasswordErrors, PasswordValues } from './PasswordForm'
@@ -91,6 +92,12 @@ class RecoverPageContainer extends React.Component<
       await resetPassword(values.password, this.state.token)
 
       setSubmitting(false)
+
+      window.location.href =
+        '/projects#' +
+        stringify({
+          action: MessageBannerAction.resetPassword,
+        })
     } catch (error) {
       setSubmitting(false)
 

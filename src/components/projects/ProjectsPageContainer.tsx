@@ -14,6 +14,7 @@ import { buildUserMap } from '../../lib/data'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
 import AcceptInvitationMessages from '../collaboration/AcceptInvitationMessages'
+import MessageBanner from '../MessageBanner'
 import { ModalProps, withModal } from '../ModalProvider'
 import { Main, Page } from '../Page'
 import { TemplateSelector } from '../templates/TemplateSelector'
@@ -59,6 +60,7 @@ class ProjectsPageContainer extends React.Component<
   public async componentDidMount() {
     this.subs.push(this.loadUserMap())
     this.subs.push(this.loadProjects())
+
     const invitationToken = window.localStorage.getItem('invitationToken')
     if (invitationToken) {
       window.localStorage.removeItem('invitationToken')
@@ -92,6 +94,7 @@ class ProjectsPageContainer extends React.Component<
     return (
       <Page>
         <Main>
+          <MessageBanner />
           <AcceptInvitationMessages invitationAccepted={invitationAccepted} />
           <ProjectsPage
             projects={projects}
