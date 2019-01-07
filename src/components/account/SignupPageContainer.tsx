@@ -4,12 +4,9 @@ import * as HttpStatusCodes from 'http-status-codes'
 import { parse, stringify } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { Redirect } from 'react-router-dom'
 import { resendVerificationEmail, signup, verify } from '../../lib/api'
-import { UserProps, withUser } from '../../store/UserProvider'
 import { signupSchema } from '../../validation'
 import { Main, Page } from '../Page'
-import { Spinner } from '../Spinner'
 import {
   gatewayInaccessibleErrorMessage,
   networkErrorMessage,
@@ -30,7 +27,7 @@ interface State {
 }
 
 class SignupPageContainer extends React.Component<
-  UserProps & RouteComponentProps<{}>,
+  RouteComponentProps<{}>,
   State
 > {
   public state: Readonly<State> = {
@@ -64,16 +61,7 @@ class SignupPageContainer extends React.Component<
   }
 
   public render() {
-    const { user } = this.props
     const { message } = this.state
-
-    if (!user.loaded) {
-      return <Spinner />
-    }
-
-    if (user.data) {
-      return <Redirect to={'/'} />
-    }
 
     return (
       <Page>
@@ -184,4 +172,4 @@ class SignupPageContainer extends React.Component<
   }
 }
 
-export default withUser(SignupPageContainer)
+export default SignupPageContainer

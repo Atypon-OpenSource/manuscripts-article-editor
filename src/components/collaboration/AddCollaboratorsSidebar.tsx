@@ -33,6 +33,8 @@ const PersonName = styled.div`
   font-size: 120%;
   color: #353535;
   font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 const PeopleSidebar = styled(Sidebar)`
@@ -46,6 +48,8 @@ const PersonData = styled.div`
 const UserDataContainer = styled.div`
   display: flex;
   align-items: center;
+  min-width: 100px;
+  overflow: hidden;
 `
 
 const Invited = styled.div`

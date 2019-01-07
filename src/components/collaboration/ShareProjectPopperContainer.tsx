@@ -5,7 +5,6 @@ import { PopperChildrenProps } from 'react-popper'
 import config from '../../config'
 import { projectInvite, requestProjectInvitationToken } from '../../lib/api'
 import { isOwner } from '../../lib/roles'
-import { UserProps, withUser } from '../../store/UserProvider'
 import { CustomPopper } from '../Popper'
 import { InvitationValues } from './InvitationForm'
 import { InvitationPopper } from './InvitationPopper'
@@ -32,12 +31,10 @@ interface State {
 interface Props {
   project: Project
   popperProps: PopperChildrenProps
+  user: UserProfile
 }
 
-class ShareProjectPopperContainer extends React.Component<
-  Props & UserProps,
-  State
-> {
+class ShareProjectPopperContainer extends React.Component<Props, State> {
   public state: State = {
     shareURI: {
       viewer: '',
@@ -54,9 +51,8 @@ class ShareProjectPopperContainer extends React.Component<
 
   public componentDidMount() {
     const { project, user } = this.props
-    const isProjectOwner = isOwner(project, (user.data as UserProfile).userID)
 
-    if (isProjectOwner) {
+    if (isOwner(project, user.userID)) {
       this.requestURI()
     }
   }
@@ -80,7 +76,7 @@ class ShareProjectPopperContainer extends React.Component<
             handleInvitationSubmit={this.handleInvitationSubmit}
             handleSwitching={this.handleSwitching}
             project={project}
-            user={user.data as UserProfile}
+            user={user}
           />
         </CustomPopper>
       )
@@ -93,7 +89,7 @@ class ShareProjectPopperContainer extends React.Component<
           URI={shownURI}
           selectedRole={selectedShareURIRole}
           isCopied={isCopied}
-          user={user.data as UserProfile}
+          user={user}
           project={project}
           loadingURIError={loadingURIError}
           requestURI={this.requestURI}
@@ -191,4 +187,4 @@ class ShareProjectPopperContainer extends React.Component<
   }
 }
 
-export default withUser<Props>(ShareProjectPopperContainer)
+export default ShareProjectPopperContainer

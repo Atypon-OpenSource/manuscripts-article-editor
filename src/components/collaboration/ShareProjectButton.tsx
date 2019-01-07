@@ -1,7 +1,9 @@
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import UserData from '../../data/UserData'
 import ShareProjectIcon from '../../icons/shareProject'
+import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
@@ -59,10 +61,15 @@ class ShareProjectButton extends React.Component<Props, State> {
           <Popper placement={'bottom'}>
             {(popperProps: PopperChildrenProps) => (
               <div ref={(node: HTMLDivElement) => (this.node = node)}>
-                <ShareProjectPopperContainer
-                  project={this.props.project}
-                  popperProps={popperProps}
-                />
+                <UserData userID={getCurrentUserId()!}>
+                  {user => (
+                    <ShareProjectPopperContainer
+                      project={this.props.project}
+                      popperProps={popperProps}
+                      user={user}
+                    />
+                  )}
+                </UserData>
               </div>
             )}
           </Popper>

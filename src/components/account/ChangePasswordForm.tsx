@@ -41,7 +41,6 @@ export const ChangePasswordForm: React.FunctionComponent<
             type={'password'}
             autoComplete={'new-password'}
             placeholder={'Enter a new password'}
-            autoFocus={true}
             required={true}
             error={errors.newPassword}
           />

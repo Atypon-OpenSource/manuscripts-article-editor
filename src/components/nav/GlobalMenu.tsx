@@ -25,7 +25,7 @@ export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
     <MenuSections>
       <MenuSection>
         {active === 'projects' ? (
-          <MenuLink to={`/projects`}>Projects</MenuLink>
+          <MenuLink to={'/projects'}>Projects</MenuLink>
         ) : (
           <ProjectsDropdownButton />
         )}

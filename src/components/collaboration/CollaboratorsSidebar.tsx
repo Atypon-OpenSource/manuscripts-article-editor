@@ -59,7 +59,7 @@ const AddCollaboratorText = styled.div`
 `
 
 const CollaboratorData = styled.div`
-  padding-left: 3px;
+  padding-left: 8px;
 `
 const UserDataContainer = styled.div`
   display: flex;
