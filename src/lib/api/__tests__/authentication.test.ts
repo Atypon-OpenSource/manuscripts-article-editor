@@ -141,7 +141,7 @@ describe('authentication', () => {
     await deleteAccount(password)
 
     expect(client.delete).toBeCalledWith(`/user`, {
-      data: { password },
+      data: { password, deviceId },
     })
   })
 

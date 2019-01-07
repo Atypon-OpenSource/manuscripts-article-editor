@@ -222,12 +222,12 @@ export class TemplateSelector extends React.Component<Props, State> {
       user.userID
     )
 
+    if (newProject) {
+      await this.props.saveModel(newProject, {})
+    }
+
     await saveModelWithIDs(contributor)
     await saveModelWithIDs(manuscript)
-
-    if (newProject) {
-      await saveModelWithIDs(newProject)
-    }
 
     // TODO: copy CSL file, more shared data?
 
@@ -284,11 +284,15 @@ export class TemplateSelector extends React.Component<Props, State> {
       user.userID
     )
 
+    if (newProject) {
+      await this.props.saveModel(newProject, {})
+    }
+
     await saveModelWithIDs(contributor)
 
     // save the bundle
     if (item.bundle) {
-      await saveModelWithIDs(item.bundle)
+      await this.props.saveModel(item.bundle, {})
     }
 
     if (item.template) {
@@ -336,10 +340,6 @@ export class TemplateSelector extends React.Component<Props, State> {
     }
 
     await saveModelWithIDs(manuscript)
-
-    if (newProject) {
-      await saveModelWithIDs(newProject)
-    }
 
     // TODO: copy CSL file, more shared data?
 

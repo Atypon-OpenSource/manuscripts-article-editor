@@ -16,6 +16,9 @@ import CollaboratorsSidebar from '../src/components/collaboration/CollaboratorsS
 import { InvitationForm } from '../src/components/collaboration/InvitationForm'
 import InviteCollaboratorPopper from '../src/components/collaboration/InviteCollaboratorPopper'
 import InviteCollaboratorsSidebar from '../src/components/collaboration/InviteCollaboratorsSidebar'
+import { RemoveCollaboratorPopper } from '../src/components/collaboration/RemoveCollaboratorPopper'
+import SearchCollaboratorsSidebar from '../src/components/collaboration/SearchCollaboratorsSidebar'
+import { UninviteCollaboratorPopper } from '../src/components/collaboration/UninviteCollaboratorPopper'
 import { styled } from '../src/theme'
 import { user } from './data/contributors'
 import { invitations } from './data/invitations-data'
@@ -44,6 +47,18 @@ storiesOf('Collaboration/Poppers', module)
       />
     </PopperStory>
   ))
+  .add('Settings and Remove - Update role', () => (
+    <PopperStory>
+      <CollaboratorSettingsPopper
+        project={project}
+        collaborator={user}
+        handleUpdateRole={action('update role')}
+        handleRemove={action('remove')}
+        handleOpenModal={action('open update role confirmation modal')}
+        updateRoleIsOpen={true}
+      />
+    </PopperStory>
+  ))
   .add('Invite and Uninvite', () => (
     <PopperStory>
       <InviteCollaboratorPopper
@@ -52,6 +67,19 @@ storiesOf('Collaboration/Poppers', module)
         handleUninvite={action('uninvite')}
         handleOpenModal={action('open update role confirmation modal')}
         updateRoleIsOpen={false}
+        resendInvitation={action('re-send invitation')}
+      />
+    </PopperStory>
+  ))
+
+  .add('Invite and Uninvite - Update role', () => (
+    <PopperStory>
+      <InviteCollaboratorPopper
+        invitation={invitations[0]}
+        handleUpdateRole={action('invite')}
+        handleUninvite={action('uninvite')}
+        handleOpenModal={action('open update role confirmation modal')}
+        updateRoleIsOpen={true}
         resendInvitation={action('re-send invitation')}
       />
     </PopperStory>
@@ -141,12 +169,38 @@ storiesOf('Collaboration/Sidebars', module)
         viewers: [people[0].userID, people[2].userID],
       }}
       collaborators={people}
-      invitations={[]}
+      invitations={invitations}
       user={people[0]}
       projectInvite={action('invitation send')}
       projectUninvite={action('invitation deleted')}
       updateUserRole={action('update user role')}
       handleAddCollaborator={action('add collaborator')}
+      handleClickCollaborator={action('selected collaborator')}
+    />
+  ))
+  .add('Collaborators - Hovered on invited', () => (
+    <CollaboratorsSidebar
+      project={project}
+      collaborators={people}
+      invitations={invitations}
+      user={people[0]}
+      handleAddCollaborator={action('add collaborator')}
+      updateUserRole={action('Update user role')}
+      projectInvite={action('Project Invite')}
+      projectUninvite={action('Project Uninvite')}
+      handleClickCollaborator={action('selected collaborator')}
+    />
+  ))
+  .add('Collaborators - Hovered on collaborator', () => (
+    <CollaboratorsSidebar
+      project={project}
+      collaborators={people}
+      invitations={invitations}
+      user={people[0]}
+      handleAddCollaborator={action('add collaborator')}
+      updateUserRole={action('Update user role')}
+      projectInvite={action('Project Invite')}
+      projectUninvite={action('Project Uninvite')}
       handleClickCollaborator={action('selected collaborator')}
     />
   ))
@@ -168,5 +222,38 @@ storiesOf('Collaboration/Sidebars', module)
       invitationValues={{ name: '', email: 'user@example.com', role: '' }}
       handleCancel={action('cancel')}
       handleSubmit={action('submit')}
+      invitationSent={false}
+    />
+  ))
+  .add('Search Collaborators', () => (
+    <SearchCollaboratorsSidebar
+      addCollaborator={action('add collaborator')}
+      countAddedCollaborators={() => 3}
+      handleInvite={action('invite')}
+      searchResults={people}
+      searchText={'ego'}
+    />
+  ))
+  .add('Search Collaborators - Empty', () => (
+    <SearchCollaboratorsSidebar
+      addCollaborator={action('add collaborator')}
+      countAddedCollaborators={() => 3}
+      handleInvite={action('invite')}
+      searchResults={[]}
+      searchText={'ego'}
+    />
+  ))
+  .add('Uninvite Collaborators', () => (
+    <UninviteCollaboratorPopper
+      invitedUserName={''}
+      handleUninvite={action('Uninvite')}
+      switchMode={action('switch mode')}
+    />
+  ))
+  .add('Remove Collaborators', () => (
+    <RemoveCollaboratorPopper
+      collaborator={people[0]}
+      handleRemove={action('remove')}
+      switchMode={action('switch mode')}
     />
   ))

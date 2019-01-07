@@ -73,7 +73,7 @@ export const refreshSyncSessions = () =>
 
 export const deleteAccount = (password: string) =>
   client.delete('/user', {
-    data: { password },
+    data: { password, deviceId },
   })
 
 export const logout = () => client.post('/auth/logout')

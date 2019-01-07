@@ -57,6 +57,7 @@ interface State {
   isInvite: boolean
   invitationValues: InvitationValues
   invitations: ProjectInvitation[]
+  invitationSent: boolean
 }
 
 class MetadataContainer extends React.Component<
@@ -76,6 +77,7 @@ class MetadataContainer extends React.Component<
     addedAuthors: [],
     invitations: [],
     isInvite: false,
+    invitationSent: false,
     invitationValues: {
       name: '',
       email: '',
@@ -107,6 +109,7 @@ class MetadataContainer extends React.Component<
       project,
       isInvite,
       invitationValues,
+      invitationSent,
       invitations,
     } = this.state
     const { manuscript, user, modelMap } = this.props
@@ -172,6 +175,7 @@ class MetadataContainer extends React.Component<
         handleDrop={this.handleDrop}
         handleSectionChange={this.props.handleSectionChange}
         updateAuthor={this.updateAuthor}
+        invitationSent={invitationSent}
       />
     )
   }
@@ -358,7 +362,8 @@ class MetadataContainer extends React.Component<
     this.setState({ invitationValues, isInvite: true })
   }
 
-  private handleInviteCancel = () => this.setState({ isInvite: false })
+  private handleInviteCancel = () =>
+    this.setState({ isInvite: false, invitationSent: false })
 
   private getProjectID = () => this.props.manuscript.containerID
 
@@ -383,6 +388,7 @@ class MetadataContainer extends React.Component<
     }
 
     await projectInvite(projectID, [{ email, name }], role)
+    this.setState({ invitationSent: true })
 
     if (create) {
       this.createInvitedAuthor(email, invitingID, name)

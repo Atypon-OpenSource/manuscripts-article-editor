@@ -200,6 +200,7 @@ interface InviteAuthorsProps {
   invitationValues: InvitationValues
   handleInviteCancel: () => void
   handleInvitationSubmit: (values: InvitationValues) => Promise<void>
+  invitationSent: boolean
 }
 
 export const InviteAuthorsModal: React.FunctionComponent<
@@ -209,6 +210,7 @@ export const InviteAuthorsModal: React.FunctionComponent<
   invitationValues,
   handleInviteCancel,
   handleInvitationSubmit,
+  invitationSent,
 }) => (
   <ModalBody>
     <ModalSidebar>
@@ -216,6 +218,7 @@ export const InviteAuthorsModal: React.FunctionComponent<
         invitationValues={invitationValues}
         handleCancel={handleInviteCancel}
         handleSubmit={handleInvitationSubmit}
+        invitationSent={invitationSent}
       />
     </ModalSidebar>
     <ModalMain>

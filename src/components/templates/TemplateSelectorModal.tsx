@@ -29,6 +29,7 @@ const TemplateSearch = styled.div`
 const ModalContainer = styled.div`
   height: 70vh;
   max-width: 70vw;
+  min-width: 600px;
   display: flex;
   background: white;
   opacity: 1;

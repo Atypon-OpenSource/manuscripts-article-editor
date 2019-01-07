@@ -122,6 +122,7 @@ interface Props {
   user: UserProfile
   isInvite: boolean
   invitationValues: InvitationValues
+  invitationSent: boolean
   openAddAuthors: () => void
   checkInvitations: (author: Contributor) => boolean
   handleAddingDoneCancel: () => void
