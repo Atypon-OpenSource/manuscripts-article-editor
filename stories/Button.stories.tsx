@@ -4,9 +4,11 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import {
   Button,
+  DeleteButton,
   IconButton,
   ManuscriptBlueButton,
   PrimaryButton,
+  PrimaryMiniButton,
   TransparentBlackButton,
   TransparentGreyButton,
 } from '../src/components/Button'
@@ -22,15 +24,21 @@ storiesOf('Buttons', module)
       Save
     </ManuscriptBlueButton>
   ))
-  .add('Transperent Grey Button', () => (
+  .add('Transparent Grey Button', () => (
     <TransparentGreyButton onClick={action('clicked')}>
       Cancel
     </TransparentGreyButton>
   ))
-  .add('Transperent Black Button', () => (
+  .add('Transparent Black Button', () => (
     <TransparentBlackButton onClick={action('clicked')}>
       Cancel
     </TransparentBlackButton>
+  ))
+  .add('Delete Button', () => (
+    <DeleteButton onClick={action('clicked')}>Delete</DeleteButton>
+  ))
+  .add('Primary Mini Button', () => (
+    <PrimaryMiniButton onClick={action('clicked')}>Click</PrimaryMiniButton>
   ))
   .add(
     'Icon Button',

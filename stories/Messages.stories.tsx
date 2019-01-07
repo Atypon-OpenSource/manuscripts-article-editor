@@ -18,6 +18,18 @@ import {
 } from '../src/components/account/SignupMessages'
 import { AlertMessageType } from '../src/components/AlertMessage'
 import AcceptInvitationMessages from '../src/components/collaboration/AcceptInvitationMessages'
+import {
+  AcceptedInvitationFailureMessage,
+  AcceptedInvitationSuccessMessage,
+  AddAuthorsMessage,
+  EmptyManuscriptsMessage,
+  FeedbackMessage,
+  ImportManuscriptMessage,
+  ManageProfileMessage,
+  ManuscriptsTitleMessage,
+  PreferencesMessage,
+  SignInMessage,
+} from '../src/components/Messages'
 
 storiesOf('Account/Messages/Login', module)
   .add('warningLoginMessage', () =>
@@ -81,4 +93,20 @@ storiesOf('Collaboration/Messages/AcceptInvitation', module)
   ))
   .add('AcceptInvitationMessages - rejected', () => (
     <AcceptInvitationMessages invitationAccepted={false} />
+  ))
+
+storiesOf('Messages', module)
+  .add('SignInMessage', () => <SignInMessage />)
+  .add('ManageProfileMessage', () => <ManageProfileMessage />)
+  .add('PreferencesMessage', () => <PreferencesMessage />)
+  .add('ManuscriptsTitleMessage', () => <ManuscriptsTitleMessage />)
+  .add('EmptyManuscriptsMessage', () => <EmptyManuscriptsMessage />)
+  .add('ImportManuscriptMessage', () => <ImportManuscriptMessage />)
+  .add('AddAuthorsMessage', () => <AddAuthorsMessage />)
+  .add('FeedbackMessage', () => <FeedbackMessage />)
+  .add('AcceptedInvitationSuccessMessage', () => (
+    <AcceptedInvitationSuccessMessage />
+  ))
+  .add('AcceptedInvitationFailureMessage', () => (
+    <AcceptedInvitationFailureMessage />
   ))

@@ -91,6 +91,16 @@ storiesOf('Collaboration/Forms', module).add('Invite', () => (
   </PopperStory>
 ))
 
+// tslint:disable-next-line:no-object-literal-type-assertion
+const collaborator = {
+  bibliographicName: {
+    _id: 'id',
+    objectType: 'MPBibliographicName',
+    given: 'Mark',
+    family: 'Foobarovic',
+  },
+} as UserProfile
+
 storiesOf('Collaboration/Pages', module)
   .add('No collaborators', () => (
     <CollaboratorDetailsPage
@@ -114,17 +124,7 @@ storiesOf('Collaboration/Pages', module)
   ))
   .add('Collaborator Details page', () => (
     <CollaboratorForm
-      collaborator={
-        // tslint:disable-next-line:no-object-literal-type-assertion
-        {
-          bibliographicName: {
-            _id: 'id',
-            objectType: 'MPBibliographicName',
-            given: 'Mark',
-            family: 'Foobarovic',
-          },
-        } as UserProfile
-      }
+      collaborator={collaborator}
       user={user}
       manageProfile={action('manage your profile')}
       affiliations={null}
@@ -175,32 +175,6 @@ storiesOf('Collaboration/Sidebars', module)
       projectUninvite={action('invitation deleted')}
       updateUserRole={action('update user role')}
       handleAddCollaborator={action('add collaborator')}
-      handleClickCollaborator={action('selected collaborator')}
-    />
-  ))
-  .add('Collaborators - Hovered on invited', () => (
-    <CollaboratorsSidebar
-      project={project}
-      collaborators={people}
-      invitations={invitations}
-      user={people[0]}
-      handleAddCollaborator={action('add collaborator')}
-      updateUserRole={action('Update user role')}
-      projectInvite={action('Project Invite')}
-      projectUninvite={action('Project Uninvite')}
-      handleClickCollaborator={action('selected collaborator')}
-    />
-  ))
-  .add('Collaborators - Hovered on collaborator', () => (
-    <CollaboratorsSidebar
-      project={project}
-      collaborators={people}
-      invitations={invitations}
-      user={people[0]}
-      handleAddCollaborator={action('add collaborator')}
-      updateUserRole={action('Update user role')}
-      projectInvite={action('Project Invite')}
-      projectUninvite={action('Project Uninvite')}
       handleClickCollaborator={action('selected collaborator')}
     />
   ))
