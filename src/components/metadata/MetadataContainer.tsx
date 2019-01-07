@@ -10,24 +10,25 @@ import {
   Manuscript,
   Model,
   ObjectTypes,
-  Project,
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { debounce } from 'lodash-es'
 import React from 'react'
-import { Redirect } from 'react-router'
-import { RxCollection, RxDocument } from 'rxdb'
-import { Subscription } from 'rxjs'
-import Spinner from '../../icons/spinner'
+import { RxCollection } from 'rxdb'
+import ProjectData from '../../data/ProjectData'
+import ProjectInvitationsData from '../../data/ProjectInvitationsData'
+import UserData from '../../data/UserData'
+import UsersData from '../../data/UsersData'
 import { projectInvite } from '../../lib/api'
 import {
   buildAuthorPriority,
   buildAuthorsAndAffiliations,
   buildSortedAuthors,
 } from '../../lib/authors'
-import { buildUserMap } from '../../lib/data'
+import { buildCollaborators } from '../../lib/collaborators'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
+import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
 import { InvitationValues } from '../collaboration/InvitationForm'
@@ -48,10 +49,7 @@ interface State {
   expanded: boolean
   selectedAuthor: Contributor | null
   addingAuthors: boolean
-  project: Project | null
-  collaborators: UserProfile[]
   nonAuthors: UserProfile[]
-  userMap: Map<string, UserProfile>
   addedAuthorsCount: number
   searchingAuthors: boolean
   searchText: string
@@ -75,10 +73,7 @@ class MetadataContainer extends React.Component<
     expanded: true,
     selectedAuthor: null,
     addingAuthors: false,
-    project: null,
-    collaborators: [],
     nonAuthors: [],
-    userMap: new Map(),
     addedAuthorsCount: 0,
     searchingAuthors: false,
     searchText: '',
@@ -97,18 +92,6 @@ class MetadataContainer extends React.Component<
     invitationSent: false,
   }
 
-  private subs: Subscription[] = []
-
-  public componentDidMount() {
-    this.subs.push(this.loadUserMap())
-    this.subs.push(this.loadProject())
-    this.subs.push(this.loadInvitations())
-  }
-
-  public componentWillUnmount() {
-    this.subs.forEach(sub => sub.unsubscribe())
-  }
-
   public render() {
     const {
       editing,
@@ -121,14 +104,14 @@ class MetadataContainer extends React.Component<
       searchText,
       addedAuthors,
       searchResults,
-      project,
       isInvite,
       invitationValues,
       removeAuthorIsOpen,
       createAuthorIsOpen,
       invitationSent,
     } = this.state
-    const { manuscript, user } = this.props
+
+    const { manuscript } = this.props
 
     const {
       affiliations,
@@ -136,87 +119,98 @@ class MetadataContainer extends React.Component<
       authorAffiliations,
     } = buildAuthorsAndAffiliations(this.props.modelMap)
 
-    if (!project) {
-      return <Spinner />
-    }
-
-    if (!user.loaded) {
-      return <Spinner />
-    }
-
-    if (!user.data) {
-      if (user.error) {
-        return <Spinner color={'red'} />
-      }
-
-      return <Redirect to={'/login'} />
-    }
-
     // TODO: editable prop
 
     return (
-      <Metadata
-        saveTitle={debounce(this.saveTitle, 1000)}
-        authors={authors}
-        editing={editing}
-        affiliations={affiliations}
-        startEditing={this.startEditing}
-        authorAffiliations={authorAffiliations}
-        selectAuthor={this.selectAuthor}
-        removeAuthor={this.removeAuthor}
-        createAuthor={this.createAuthor}
-        createAffiliation={this.createAffiliation}
-        handleSaveAuthor={this.handleSaveAuthor}
-        manuscript={manuscript}
-        selectedAuthor={selectedAuthor}
-        stopEditing={this.stopEditing}
-        toggleExpanded={this.toggleExpanded}
-        expanded={expanded}
-        project={project}
-        user={user.data}
-        addingAuthors={addingAuthors}
-        startAddingAuthors={this.startAddingAuthors}
-        nonAuthors={nonAuthors}
-        addedAuthorsCount={addedAuthorsCount}
-        searchingAuthors={searchingAuthors}
-        searchText={searchText}
-        addedAuthors={addedAuthors}
-        searchResults={searchResults}
-        isInvite={isInvite}
-        invitationValues={invitationValues}
-        checkInvitations={this.checkInvitations}
-        handleAddingDoneCancel={this.handleAddingDoneCancel}
-        handleSearchChange={this.handleSearchChange}
-        handleSearchFocus={this.handleSearchFocus}
-        handleInvite={this.handleInvite}
-        handleInviteCancel={this.handleInviteCancel}
-        handleInvitationSubmit={this.handleInvitationSubmit}
-        handleDrop={this.handleDrop}
-        removeAuthorIsOpen={removeAuthorIsOpen}
-        handleRemoveAuthor={this.handleRemoveAuthor}
-        handleSectionChange={this.props.handleSectionChange}
-        authorExist={this.authorExist}
-        createAuthorIsOpen={createAuthorIsOpen}
-        handleCreateAuthor={this.handleCreateAuthor}
-        isRejected={this.isRejected}
-        hovered={this.state.hovered}
-        handleHover={this.handleHover}
-        updateAuthor={this.updateAuthor}
-        getAuthorName={this.getAuthorName}
-        invitationSent={invitationSent}
-      />
+      <UsersData>
+        {users => (
+          <UserData userID={getCurrentUserId()!}>
+            {user => (
+              <ProjectData projectID={manuscript.containerID}>
+                {project => (
+                  <ProjectInvitationsData projectID={manuscript.containerID}>
+                    {invitations => {
+                      const collaborators = buildCollaborators(project, users)
+
+                      return (
+                        <Metadata
+                          saveTitle={debounce(this.saveTitle, 1000)}
+                          authors={authors}
+                          editing={editing}
+                          affiliations={affiliations}
+                          startEditing={this.startEditing}
+                          authorAffiliations={authorAffiliations}
+                          selectAuthor={this.selectAuthor}
+                          removeAuthor={this.removeAuthor}
+                          createAuthor={this.createAuthor}
+                          createAffiliation={this.createAffiliation}
+                          handleSaveAuthor={this.handleSaveAuthor}
+                          manuscript={manuscript}
+                          selectedAuthor={selectedAuthor}
+                          stopEditing={this.stopEditing}
+                          toggleExpanded={this.toggleExpanded}
+                          expanded={expanded}
+                          project={project}
+                          user={user}
+                          addingAuthors={addingAuthors}
+                          startAddingAuthors={this.startAddingAuthors(
+                            collaborators
+                          )}
+                          nonAuthors={nonAuthors}
+                          addedAuthorsCount={addedAuthorsCount}
+                          searchingAuthors={searchingAuthors}
+                          searchText={searchText}
+                          addedAuthors={addedAuthors}
+                          searchResults={searchResults}
+                          isInvite={isInvite}
+                          invitationValues={invitationValues}
+                          checkInvitations={this.checkInvitations}
+                          handleAddingDoneCancel={this.handleAddingDoneCancel}
+                          handleSearchChange={this.handleSearchChange}
+                          handleSearchFocus={this.handleSearchFocus}
+                          handleInvite={this.handleInvite}
+                          handleInviteCancel={this.handleInviteCancel}
+                          handleInvitationSubmit={this.handleInvitationSubmit(
+                            user
+                          )}
+                          handleDrop={this.handleDrop}
+                          removeAuthorIsOpen={removeAuthorIsOpen}
+                          handleRemoveAuthor={this.handleRemoveAuthor}
+                          handleSectionChange={this.props.handleSectionChange}
+                          authorExist={this.authorExist}
+                          createAuthorIsOpen={createAuthorIsOpen}
+                          handleCreateAuthor={this.handleCreateAuthor}
+                          isRejected={this.isRejected}
+                          hovered={this.state.hovered}
+                          handleHover={this.handleHover}
+                          updateAuthor={this.updateAuthor(user)}
+                          getAuthorName={this.getAuthorName}
+                          invitationSent={invitationSent}
+                        />
+                      )
+                    }}
+                  </ProjectInvitationsData>
+                )}
+              </ProjectData>
+            )}
+          </UserData>
+        )}
+      </UsersData>
     )
   }
 
-  private updateAuthor = async (author: Contributor, invitedEmail: string) => {
-    const invitation = await this.getInvitation(invitedEmail)
-    author.invitationID = invitation._id
-    const data = {
-      ...author,
-    }
+  private updateAuthor = (invitingUser: UserProfile) => async (
+    author: Contributor,
+    invitedEmail: string
+  ) => {
+    const invitation = await this.getInvitation(invitingUser, invitedEmail)
 
-    const result = await this.props.saveModel<Contributor>(data)
-    this.selectAuthor(result)
+    const updatedAuthor = await this.props.saveModel<Contributor>({
+      ...author,
+      invitationID: invitation._id,
+    })
+
+    this.selectAuthor(updatedAuthor)
   }
 
   private handleHover = () => {
@@ -276,53 +270,6 @@ class MetadataContainer extends React.Component<
     })
   }
 
-  private getCollection() {
-    return this.props.models.collection as RxCollection<{}>
-  }
-
-  private loadUserMap = () =>
-    this.getCollection()
-      .find({ objectType: ObjectTypes.UserProfile })
-      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
-        this.setState({
-          userMap: await buildUserMap(docs),
-        })
-      })
-
-  private loadProject = () =>
-    this.getCollection()
-      .findOne(this.props.manuscript.containerID)
-      .$.subscribe(async (doc: RxDocument<Project>) => {
-        if (!doc) return
-
-        const project = doc.toJSON() as Project
-
-        const getCollaborator = (id: string) =>
-          this.state.userMap.get(id) as UserProfile
-
-        const collaborators = [
-          ...project.owners.map(getCollaborator),
-          ...project.writers.map(getCollaborator),
-          ...project.viewers.map(getCollaborator),
-        ].filter(collaborator => collaborator)
-
-        this.setState({ project, collaborators })
-      })
-
-  private loadInvitations = () =>
-    this.getCollection()
-      .find({
-        objectType: ObjectTypes.ProjectInvitation,
-        projectID: this.getProjectID(),
-      })
-      .$.subscribe((docs: Array<RxDocument<ProjectInvitation>>) => {
-        const invitations = docs.map(invitation => invitation.toJSON())
-
-        this.setState({
-          invitations,
-        })
-      })
-
   private saveTitle = async (title: string) => {
     await this.props.saveManuscript!({
       _id: this.props.manuscript._id,
@@ -347,7 +294,9 @@ class MetadataContainer extends React.Component<
       const author = invitationID
         ? buildContributor(bibName, 'author', priority, undefined, invitationID)
         : buildContributor(bibName, 'author', priority)
+
       await this.props.saveModel<Contributor>(author as Contributor)
+
       this.setState({
         addedAuthorsCount: this.state.addedAuthorsCount + 1,
         searchText: '',
@@ -362,14 +311,16 @@ class MetadataContainer extends React.Component<
         person.userID
       )
 
-      const result = await this.props.saveModel<Contributor>(
+      const createdAuthor = await this.props.saveModel<Contributor>(
         author as Contributor
       )
+
       this.setState({
         addedAuthors: this.state.addedAuthors.concat(author.userID as string),
         addedAuthorsCount: this.state.addedAuthorsCount + 1,
       })
-      this.selectAuthor(result)
+
+      this.selectAuthor(createdAuthor)
     }
   }
 
@@ -400,11 +351,11 @@ class MetadataContainer extends React.Component<
     this.handleRemoveAuthor()
   }
 
-  private startAddingAuthors = () => {
+  private startAddingAuthors = (collaborators: UserProfile[]) => () => {
     this.setState({ addingAuthors: true })
 
     const authors = buildSortedAuthors(this.props.modelMap)
-    this.buildCollaborators(authors, this.state.collaborators)
+    this.buildNonAuthors(authors, collaborators)
   }
 
   private handleSearchChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -473,15 +424,12 @@ class MetadataContainer extends React.Component<
   private handleInviteCancel = () =>
     this.setState({ searchText: '', isInvite: false, invitationSent: false })
 
-  private getProjectID = () => this.props.manuscript.containerID
-
-  private handleInvitationSubmit = async (
+  private handleInvitationSubmit = (invitingUser: UserProfile) => async (
     values: InvitationValues
   ): Promise<void> => {
     const { email, name, role } = values
 
-    const projectID = this.getProjectID()
-    const invitingUser = this.props.user.data as UserProfile
+    const projectID = this.props.manuscript.containerID
     const invitingID = invitingUser.userID
 
     let create = true
@@ -507,25 +455,34 @@ class MetadataContainer extends React.Component<
     invitedEmail: string,
     invitingID: string,
     name: string
-  ) =>
-    this.getCollection()
+  ) => {
+    const collection = this.props.models.collection as RxCollection<
+      ProjectInvitation
+    >
+
+    const sub = collection
       .findOne({
         objectType: ObjectTypes.ProjectInvitation,
-        projectID: this.getProjectID(),
+        projectID: this.props.manuscript.containerID,
         invitedUserEmail: invitedEmail,
         invitingUserID: invitingID,
       })
-      .$.subscribe(async (doc: RxDocument<ProjectInvitation>) => {
-        if (!doc) return
-        const invitation = doc.toJSON() as ProjectInvitation
-        const authors = buildSortedAuthors(this.props.modelMap)
-        await this.createAuthor(
-          buildAuthorPriority(authors),
-          null,
-          name,
-          invitation._id
-        )
+      .$.subscribe(async doc => {
+        if (doc) {
+          sub.unsubscribe()
+
+          const invitation = doc.toJSON()
+          const authors = buildSortedAuthors(this.props.modelMap)
+
+          await this.createAuthor(
+            buildAuthorPriority(authors),
+            null,
+            name,
+            invitation._id
+          )
+        }
       })
+  }
 
   private buildInvitedAuthorsEmail = (authorInvitationIDs: string[]) => {
     const invitedAuthorsEmail: string[] = []
@@ -537,7 +494,7 @@ class MetadataContainer extends React.Component<
     return invitedAuthorsEmail
   }
 
-  private buildCollaborators = (
+  private buildNonAuthors = (
     authors: Contributor[],
     collaborators: UserProfile[]
   ) => {
@@ -647,20 +604,26 @@ class MetadataContainer extends React.Component<
   }
 
   private getInvitation = (
+    invitingUser: UserProfile,
     invitedEmail: string
   ): Promise<ProjectInvitation> => {
-    const invitingUser = this.props.user.data as UserProfile
     return new Promise(resolve => {
-      this.getCollection()
+      const collection = this.props.models.collection as RxCollection<
+        ProjectInvitation
+      >
+
+      const sub = collection
         .findOne({
           objectType: ObjectTypes.ProjectInvitation,
-          projectID: this.getProjectID(),
+          projectID: this.props.manuscript.containerID,
           invitedUserEmail: invitedEmail,
           invitingUserID: invitingUser.userID,
         })
-        .$.subscribe((doc: RxDocument<ProjectInvitation>) => {
-          const invitation = doc.toJSON()
-          resolve(invitation)
+        .$.subscribe(doc => {
+          if (doc) {
+            sub.unsubscribe()
+            resolve(doc.toJSON())
+          }
         })
     })
   }

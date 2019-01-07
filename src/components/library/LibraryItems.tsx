@@ -60,14 +60,16 @@ export const LibraryItems: React.FunctionComponent<LibraryItemsProps> = ({
     <LibraryKeywords items={items} handleQuery={handleQuery} />
 
     <Results>
-      {items.map((item: BibliographyItem) => (
-        <LibraryItem
-          key={item._id}
-          item={item}
-          handleSelect={handleSelect}
-          hasItem={hasItem}
-        />
-      ))}
+      {items
+        .sort((a, b) => Number(b.updatedAt) - Number(a.updatedAt))
+        .map((item: BibliographyItem) => (
+          <LibraryItem
+            key={item._id}
+            item={item}
+            handleSelect={handleSelect}
+            hasItem={hasItem}
+          />
+        ))}
     </Results>
   </Container>
 )

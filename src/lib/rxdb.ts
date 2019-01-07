@@ -1,10 +1,4 @@
-import { Model } from '@manuscripts/manuscripts-json-schema'
 import PouchDBHTTPAdapter from 'pouchdb-adapter-http'
-import {
-  RxChangeEventInsert,
-  RxChangeEventRemove,
-  RxChangeEventUpdate,
-} from 'rxdb'
 import RxDBAttachmentsModule from 'rxdb/plugins/attachments'
 import RxDB from 'rxdb/plugins/core'
 import RxDBErrorMessagesModule from 'rxdb/plugins/error-messages'
@@ -35,10 +29,5 @@ if (config.environment !== 'production') {
 }
 
 window.RxDB = RxDB
-
-export type ModelChangeEvent =
-  | RxChangeEventInsert<Model>
-  | RxChangeEventUpdate<Model>
-  | RxChangeEventRemove<Model>
 
 export default RxDB

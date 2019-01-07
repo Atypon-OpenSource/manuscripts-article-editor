@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from 'react-modal'
+import ProjectsSidebar from '../projects/ProjectsSidebar'
 import { Menu, MenuBarIcon } from './Menu'
-import ProjectsModalContainer from './ProjectsModalContainer'
 
 Modal.setAppElement('#root')
 
@@ -58,7 +58,7 @@ class MenuBar extends React.Component<Props, State> {
           style={modalStyle}
         >
           <Menu handleClose={this.handleClose} projectID={projectID} />
-          <ProjectsModalContainer />
+          <ProjectsSidebar />
         </Modal>
       </React.Fragment>
     )

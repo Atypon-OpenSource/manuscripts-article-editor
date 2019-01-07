@@ -1,20 +1,24 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import ProjectsMenu from '../src/components/nav/ProjectsMenu'
 import { EmptyProjectPage } from '../src/components/projects/EmptyProjectPage'
 import ManuscriptSidebar from '../src/components/projects/ManuscriptSidebar'
-import { ProjectsPage } from '../src/components/projects/ProjectsPage'
+import { ProjectsList } from '../src/components/projects/ProjectsList'
 import manuscripts from './data/manuscripts'
+import { people } from './data/people'
 import projects from './data/projects'
+
+const users: Map<string, UserProfileWithAvatar> = new Map()
+
+for (const person of people) {
+  users.set(person._id, person)
+}
 
 storiesOf('Projects', module)
   .add('Projects Page', () => (
-    <ProjectsPage
-      projects={projects}
-      getCollaborators={action('get collaborator')}
-      addProject={action('add project')}
-    />
+    <ProjectsList projects={projects} users={users} />
   ))
   .add('Projects Page - Empty', () => (
     <EmptyProjectPage
@@ -38,5 +42,6 @@ storiesOf('Projects', module)
     <ProjectsMenu
       invitationsData={[]}
       removeInvitationData={action('remove')}
+      projects={projects}
     />
   ))

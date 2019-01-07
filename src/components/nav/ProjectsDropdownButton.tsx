@@ -1,14 +1,13 @@
 import {
-  ObjectTypes,
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection, RxDocument } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { buildUserMap } from '../../lib/data'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { UserProps, withUser } from '../../store/UserProvider'
+import InvitationsData from '../../data/InvitationsData'
+import ProjectsData from '../../data/ProjectsData'
+import UserData from '../../data/UserData'
+import UsersData from '../../data/UsersData'
+import { getCurrentUserId } from '../../lib/user'
 import MenuDropdown from './MenuDropdown'
 import ProjectsMenu from './ProjectsMenu'
 
@@ -24,111 +23,91 @@ export interface InvitationData {
 }
 
 interface State {
-  invitationsData: InvitationData[] | null
-  userMap: Map<string, UserProfile>
+  handledInvitations: Set<string>
 }
 
-class ProjectsDropdownButton extends React.Component<
-  UserProps & ModelsProps,
-  State
-> {
+class ProjectsDropdownButton extends React.Component<{}, State> {
   public state: Readonly<State> = {
-    invitationsData: null,
-    userMap: new Map(),
-  }
-
-  private subs: Subscription[] = []
-
-  public componentDidMount() {
-    this.subs.push(this.loadUserMap())
-    this.subs.push(this.loadInvitations())
-  }
-
-  public componentWillUnmount() {
-    this.subs.forEach(sub => sub.unsubscribe())
+    handledInvitations: new Set(),
   }
 
   public render() {
-    const { invitationsData } = this.state
-
-    if (invitationsData === null) {
-      return null
-    }
-
     return (
-      <MenuDropdown
-        buttonContents={'Projects'}
-        notificationsCount={invitationsData.length}
-        dropdownStyle={{ width: 342, left: 20 }}
-      >
-        <ProjectsMenu
-          invitationsData={invitationsData}
-          removeInvitationData={this.removeInvitationData}
-        />
-      </MenuDropdown>
+      <UserData userID={getCurrentUserId()!}>
+        {user => (
+          <UsersData>
+            {users => (
+              <ProjectsData>
+                {projects => (
+                  <InvitationsData>
+                    {invitations => {
+                      const invitationsData = this.buildInvitationData(
+                        invitations,
+                        user,
+                        users
+                      )
+
+                      return (
+                        <MenuDropdown
+                          buttonContents={'Projects'}
+                          notificationsCount={invitationsData.length}
+                          dropdownStyle={{ width: 342, left: 20 }}
+                        >
+                          <ProjectsMenu
+                            invitationsData={invitationsData}
+                            projects={projects}
+                            removeInvitationData={this.removeInvitationData}
+                          />
+                        </MenuDropdown>
+                      )
+                    }}
+                  </InvitationsData>
+                )}
+              </ProjectsData>
+            )}
+          </UsersData>
+        )}
+      </UserData>
     )
   }
 
-  private getCollection() {
-    return this.props.models.collection as RxCollection<{}>
+  private buildInvitationData = (
+    invitations: ProjectInvitation[],
+    user: UserProfile,
+    users: Map<string, UserProfile>
+  ) => {
+    const { handledInvitations } = this.state
+
+    const invitationsData: InvitationData[] = []
+
+    for (const invitation of invitations) {
+      if (invitation.acceptedAt) continue // ignore accepted invitations
+      if (invitation.invitingUserID === user.userID) continue // ignore invitee invitations
+      if (handledInvitations.has(invitation._id)) continue // ignore handled invitations
+
+      const invitingUserProfile = users.get(invitation.invitingUserID)
+      if (!invitingUserProfile) continue // ignore missing invitee
+
+      invitationsData.push({
+        invitation,
+        invitingUserProfile,
+        project: {
+          _id: invitation.projectID,
+          title: invitation.projectTitle,
+        },
+      })
+    }
+
+    return invitationsData
   }
 
-  // TODO: move this to a data provider that owns the map of user profiles
-  private loadUserMap = () =>
-    this.getCollection()
-      .find({ objectType: ObjectTypes.UserProfile })
-      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
-        this.setState({
-          userMap: await buildUserMap(docs),
-        })
-      })
-
-  private loadInvitations = () =>
-    this.getCollection()
-      .find({
-        objectType: ObjectTypes.ProjectInvitation,
-      })
-      .$.subscribe(async (docs: Array<RxDocument<ProjectInvitation>>) => {
-        const user = this.props.user.data!
-        const { userMap } = this.state
-
-        const invitations = docs
-          .map(doc => doc.toJSON())
-          .filter(
-            invitation =>
-              invitation.invitingUserID !== user.userID &&
-              !invitation.acceptedAt
-          )
-
-        const invitationsData: InvitationData[] = []
-
-        for (const invitation of invitations) {
-          const invitingUserProfile = userMap.get(invitation.invitingUserID)
-
-          if (!invitingUserProfile) continue
-
-          invitationsData.push({
-            invitation,
-            invitingUserProfile,
-            project: {
-              _id: invitation.projectID,
-              title: invitation.projectTitle,
-            },
-          })
-        }
-
-        this.setState({
-          invitationsData,
-        })
-      })
-
   private removeInvitationData = (id: string) => {
-    this.setState({
-      invitationsData: this.state.invitationsData!.filter(
-        invitationData => invitationData.invitation._id !== id
-      ),
-    })
+    const { handledInvitations } = this.state
+
+    handledInvitations.add(id)
+
+    this.setState({ handledInvitations })
   }
 }
 
-export default withModels(withUser(ProjectsDropdownButton))
+export default ProjectsDropdownButton

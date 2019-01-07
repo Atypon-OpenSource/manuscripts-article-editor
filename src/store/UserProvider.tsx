@@ -9,6 +9,7 @@ import {
 } from 'rxdb'
 import { atomicUpdate } from '../lib/store'
 import token from '../lib/token'
+import { getCurrentUserId } from '../lib/user'
 import { ModelsProps, withModels } from './ModelsProvider'
 
 export interface UserProviderState {
@@ -45,25 +46,6 @@ export const withUser = <T extends {}>(
     {(value: UserProviderContext) => <Component {...props} user={value} />}
   </UserContext.Consumer>
 )
-
-const getUserIdFromJWT = (jwt: string): string =>
-  JSON.parse(atob(jwt.split('.')[1])).userId.replace('|', '_')
-
-const getAccessToken = () => {
-  const tokenData = token.get() // TODO: listen for changes?
-
-  if (!tokenData) return null
-
-  return tokenData.access_token
-}
-
-export const getCurrentUserId = () => {
-  const accessToken = getAccessToken()
-
-  if (!accessToken) return null
-
-  return getUserIdFromJWT(accessToken)
-}
 
 class UserProvider extends React.Component<ModelsProps, UserProviderState> {
   public state: Readonly<UserProviderState> = {
@@ -260,4 +242,4 @@ class UserProvider extends React.Component<ModelsProps, UserProviderState> {
   }
 }
 
-export default withModels(UserProvider)
+export default withModels<{}>(UserProvider)

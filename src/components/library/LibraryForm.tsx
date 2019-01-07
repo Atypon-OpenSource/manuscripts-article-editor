@@ -12,11 +12,8 @@ import {
 import * as React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
-import {
-  KeywordsMap,
-  KeywordsProps,
-  withKeywords,
-} from '../../store/KeywordsProvider'
+import ProjectKeywordsData from '../../data/ProjectKeywordsData'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled } from '../../theme'
 import { DeleteButton, PrimaryButton, ThemedButtonProps } from '../Button'
 
@@ -149,7 +146,7 @@ interface Props {
   projectID: string
 }
 
-const buildOptions = (data: KeywordsMap) => {
+const buildOptions = (data: Map<string, Keyword>) => {
   const options: OptionsType<OptionType> = []
 
   for (const keyword of data.values()) {
@@ -174,142 +171,150 @@ const buildInitialValues = (
 
 // TODO: a "manage tags" page, where old tags can be deleted
 
-const LibraryForm: React.FunctionComponent<Props & KeywordsProps> = ({
+const LibraryForm: React.FunctionComponent<Props & ModelsProps> = ({
   item,
   handleSave,
   handleDelete,
-  keywords,
+  models,
   projectID,
 }) => (
-  <Formik
-    initialValues={buildInitialValues(item)}
-    onSubmit={handleSave}
-    enableReinitialize={true}
-  >
-    {({
-      values,
-      setFieldValue,
-      handleChange,
-    }: FormikProps<BibliographyItem>) => (
-      <Form>
-        <Fields>
-          <TitleContainer>
-            <StyledTitleField
-              value={values.title || ''}
-              handleChange={(data: string) => setFieldValue('title', data)}
-            />
-          </TitleContainer>
-
-          <Label>
-            <LabelText>Authors</LabelText>
-            <FieldArray
-              name={'author'}
-              render={arrayHelpers => (
-                <div>
-                  {values.author &&
-                    values.author.map((author, index) => (
-                      <Author key={`author.${index}`}>
-                        <Field
-                          name={`author.${index}.given`}
-                          value={author.given}
-                          onChange={handleChange}
-                        >
-                          {({ field }: FieldProps) => (
-                            <TextField {...field} placeholder={'Given'} />
-                          )}
-                        </Field>
-
-                        <Field
-                          name={`author.${index}.family`}
-                          value={author.family}
-                          onChange={handleChange}
-                        >
-                          {({ field }: FieldProps) => (
-                            <TextField {...field} placeholder={'Family'} />
-                          )}
-                        </Field>
-
-                        <Button
-                          type={'button'}
-                          onClick={() => arrayHelpers.remove(index)}
-                          tabIndex={-1}
-                        >
-                          -
-                        </Button>
-                      </Author>
-                    ))}
-                  <Button
-                    type={'button'}
-                    onClick={() => arrayHelpers.push({ given: '', family: '' })}
-                  >
-                    +
-                  </Button>
-                </div>
-              )}
-            />
-          </Label>
-
-          <Label>
-            <LabelText>Keywords</LabelText>
-
-            <Field name={'keywordIDs'}>
-              {(props: FieldProps) => (
-                <CreatableSelect<OptionType>
-                  isMulti={true}
-                  onChange={async (newValue: OptionsType<OptionType>) => {
-                    props.form.setFieldValue(
-                      props.field.name,
-                      await Promise.all(
-                        newValue.map(async option => {
-                          const existing = keywords.data.get(option.value)
-
-                          if (existing) return existing._id
-
-                          const keyword = buildKeyword(String(option.label))
-
-                          await keywords.create(keyword, projectID)
-
-                          return keyword._id
-                        })
-                      )
-                    )
-                  }}
-                  options={buildOptions(keywords.data)}
-                  value={(props.field.value || [])
-                    .filter((id: string) => keywords.data.has(id))
-                    .map((id: string) => keywords.data.get(id))
-                    .map((item: Keyword) => ({
-                      value: item._id,
-                      label: item.name,
-                    }))}
+  <ProjectKeywordsData projectID={projectID}>
+    {keywords => (
+      <Formik
+        initialValues={buildInitialValues(item)}
+        onSubmit={handleSave}
+        enableReinitialize={true}
+      >
+        {({
+          values,
+          setFieldValue,
+          handleChange,
+        }: FormikProps<BibliographyItem>) => (
+          <Form>
+            <Fields>
+              <TitleContainer>
+                <StyledTitleField
+                  value={values.title || ''}
+                  handleChange={(data: string) => setFieldValue('title', data)}
                 />
-              )}
-            </Field>
-          </Label>
+              </TitleContainer>
 
-          <Actions>
-            <ActionsGroup>
-              <PrimaryButton type={'submit'}>Save</PrimaryButton>
+              <Label>
+                <LabelText>Authors</LabelText>
+                <FieldArray
+                  name={'author'}
+                  render={arrayHelpers => (
+                    <div>
+                      {values.author &&
+                        values.author.map((author, index) => (
+                          <Author key={`author.${index}`}>
+                            <Field
+                              name={`author.${index}.given`}
+                              value={author.given}
+                              onChange={handleChange}
+                            >
+                              {({ field }: FieldProps) => (
+                                <TextField {...field} placeholder={'Given'} />
+                              )}
+                            </Field>
 
-              <TitleLink
-                href={`https://doi.org/${values.DOI}`}
-                target={'_blank'}
-                rel={'noopener noreferrer'}
-              >
-                Read
-              </TitleLink>
-            </ActionsGroup>
+                            <Field
+                              name={`author.${index}.family`}
+                              value={author.family}
+                              onChange={handleChange}
+                            >
+                              {({ field }: FieldProps) => (
+                                <TextField {...field} placeholder={'Family'} />
+                              )}
+                            </Field>
 
-            {handleDelete && (
-              <DeleteButton onClick={() => handleDelete(item)}>
-                Delete
-              </DeleteButton>
-            )}
-          </Actions>
-        </Fields>
-      </Form>
+                            <Button
+                              type={'button'}
+                              onClick={() => arrayHelpers.remove(index)}
+                              tabIndex={-1}
+                            >
+                              -
+                            </Button>
+                          </Author>
+                        ))}
+                      <Button
+                        type={'button'}
+                        onClick={() =>
+                          arrayHelpers.push({ given: '', family: '' })
+                        }
+                      >
+                        +
+                      </Button>
+                    </div>
+                  )}
+                />
+              </Label>
+
+              <Label>
+                <LabelText>Keywords</LabelText>
+
+                <Field name={'keywordIDs'}>
+                  {(props: FieldProps) => (
+                    <CreatableSelect<OptionType>
+                      isMulti={true}
+                      onChange={async (newValue: OptionsType<OptionType>) => {
+                        props.form.setFieldValue(
+                          props.field.name,
+                          await Promise.all(
+                            newValue.map(async option => {
+                              const existing = keywords.get(option.value)
+
+                              if (existing) return existing._id
+
+                              const keyword = buildKeyword(String(option.label))
+
+                              await models.saveModel<Keyword>(keyword, {
+                                projectID,
+                              })
+
+                              return keyword._id
+                            })
+                          )
+                        )
+                      }}
+                      options={buildOptions(keywords)}
+                      value={(props.field.value || [])
+                        .filter((id: string) => keywords.has(id))
+                        .map((id: string) => keywords.get(id))
+                        .map((item: Keyword) => ({
+                          value: item._id,
+                          label: item.name,
+                        }))}
+                    />
+                  )}
+                </Field>
+              </Label>
+
+              <Actions>
+                <ActionsGroup>
+                  <PrimaryButton type={'submit'}>Save</PrimaryButton>
+
+                  <TitleLink
+                    href={`https://doi.org/${values.DOI}`}
+                    target={'_blank'}
+                    rel={'noopener noreferrer'}
+                  >
+                    Read
+                  </TitleLink>
+                </ActionsGroup>
+
+                {handleDelete && (
+                  <DeleteButton onClick={() => handleDelete(item)}>
+                    Delete
+                  </DeleteButton>
+                )}
+              </Actions>
+            </Fields>
+          </Form>
+        )}
+      </Formik>
     )}
-  </Formik>
+  </ProjectKeywordsData>
 )
 
-export default withKeywords<Props>(LibraryForm)
+export default withModels<Props>(LibraryForm)

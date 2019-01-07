@@ -17,8 +17,8 @@ export const ModalContext = React.createContext<ModalProps>({
 })
 
 export const withModal = <Props extends {}>(
-  Component: React.ComponentType<Props & ModalProps>
-): React.ComponentType<Props & ModalProps> => (props: Props) => (
+  Component: React.ComponentType<ModalProps>
+): React.ComponentType<Props> => (props: Props) => (
   <ModalContext.Consumer>
     {value => <Component {...props} {...value} />}
   </ModalContext.Consumer>

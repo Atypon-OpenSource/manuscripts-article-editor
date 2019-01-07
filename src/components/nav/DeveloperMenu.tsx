@@ -2,7 +2,7 @@ import React from 'react'
 import config from '../../config'
 import { databaseCreator } from '../../lib/db'
 import { createToken, createUserProfile } from '../../lib/developer'
-import { getCurrentUserId } from '../../store/UserProvider'
+import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme'
 
 const DropdownAction = styled.div`

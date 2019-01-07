@@ -1,12 +1,9 @@
 import {
-  ObjectTypes,
   Project,
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
-import { RxCollection, RxDocument } from 'rxdb'
-import { Subscription } from 'rxjs'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { UserProps, withUser } from '../../store/UserProvider'
@@ -16,7 +13,6 @@ import { InvitationData } from './ProjectsDropdownButton'
 import { ProjectsDropdownList } from './ProjectsDropdownList'
 
 interface State {
-  projects: Project[] | null
   acceptedInvitations: string[]
   rejectedInvitations: string[]
   acceptError: {
@@ -27,6 +23,7 @@ interface State {
 
 interface Props {
   invitationsData: InvitationData[]
+  projects: Project[]
   removeInvitationData: (id: string) => void
   handleClose?: React.MouseEventHandler<HTMLElement>
 }
@@ -36,34 +33,14 @@ class ProjectsMenu extends React.Component<
   State
 > {
   public state: Readonly<State> = {
-    projects: null,
     acceptedInvitations: [],
     rejectedInvitations: [],
     acceptError: null,
   }
 
-  private subs: Subscription[] = []
-
-  public async componentDidMount() {
-    this.subs.push(this.loadProjects())
-  }
-
-  public componentWillUnmount() {
-    this.subs.forEach(sub => sub.unsubscribe())
-  }
-
   public render() {
-    const { handleClose, invitationsData } = this.props
-    const {
-      projects,
-      acceptedInvitations,
-      rejectedInvitations,
-      acceptError,
-    } = this.state
-
-    if (projects === null) {
-      return null
-    }
+    const { handleClose, invitationsData, projects } = this.props
+    const { acceptedInvitations, rejectedInvitations, acceptError } = this.state
 
     const projectsIDs = projects.map(project => project._id)
 
@@ -85,19 +62,6 @@ class ProjectsMenu extends React.Component<
       />
     )
   }
-
-  private getCollection() {
-    return this.props.models.collection as RxCollection<{}>
-  }
-
-  private loadProjects = () =>
-    this.getCollection()
-      .find({ objectType: ObjectTypes.Project })
-      .$.subscribe((docs: Array<RxDocument<Project>>) => {
-        this.setState({
-          projects: docs.map(doc => doc.toJSON()),
-        })
-      })
 
   private openTemplateSelector = () => {
     const { addModal, history, models, user } = this.props

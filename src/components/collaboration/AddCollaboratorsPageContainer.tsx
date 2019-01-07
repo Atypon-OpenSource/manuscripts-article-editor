@@ -1,19 +1,16 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import {
-  ObjectTypes,
   Project,
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { difference } from 'lodash-es'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
-import { RxCollection, RxDocument } from 'rxdb'
-import { Subscription } from 'rxjs'
-import Spinner from '../../icons/spinner'
 import { addProjectUser, projectInvite } from '../../lib/api'
-import { buildUserMap } from '../../lib/data'
+import { buildCollaborators } from '../../lib/collaborators'
 import { isOwner } from '../../lib/roles'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { UserProps, withUser } from '../../store/UserProvider'
 import { Main, Page } from '../Page'
 import AddCollaboratorsSidebar from './AddCollaboratorsSidebar'
 import {
@@ -25,78 +22,45 @@ import { InvitationValues } from './InvitationForm'
 import InviteCollaboratorsSidebar from './InviteCollaboratorsSidebar'
 
 interface State {
-  project: Project | null
-  people: UserProfile[] | null
-  collaborators: UserProfile[]
-  invitations: ProjectInvitation[]
   isSearching: boolean
   isInvite: boolean
   searchText: string
   searchResults: UserProfile[]
-  userMap: Map<string, UserProfile>
   addedCollaboratorsCount: number
   addedUsers: string[]
   invitationSent: boolean
 }
 
-interface RouteParams {
-  projectID: string
+interface Props {
+  invitations: ProjectInvitation[]
+  project: Project
+  projects: Project[]
+  user: UserProfileWithAvatar
+  users: Map<string, UserProfileWithAvatar>
 }
 
-type CombinedProps = ModelsProps & RouteComponentProps<RouteParams> & UserProps
+type CombinedProps = Props &
+  ModelsProps &
+  RouteComponentProps<{
+    projectID: string
+  }>
 
 class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
-    project: null,
-    people: [],
-    collaborators: [],
-    invitations: [],
     isSearching: false,
     isInvite: false,
     searchText: '',
     searchResults: [],
-    userMap: new Map(),
     addedCollaboratorsCount: 0,
     addedUsers: [],
     invitationSent: false,
   }
 
-  private subs: Subscription[] = []
-
-  public componentDidMount() {
-    // TODO: need to load these sequentially
-    this.subs.push(this.loadUserMap())
-    this.subs.push(this.loadInvitations())
-    this.subs.push(this.loadProject())
-    this.subs.push(this.loadCollaborators())
-  }
-
-  public componentWillUnmount() {
-    this.subs.forEach(sub => sub.unsubscribe())
-  }
-
   public render() {
-    const { project, people, invitations, isInvite } = this.state
+    const { isInvite } = this.state
+    const { invitations, project, user } = this.props
 
-    const { user } = this.props
-
-    if (!people || !project) {
-      return <Spinner />
-    }
-
-    if (!user.loaded) {
-      return <Spinner />
-    }
-
-    if (!user.data) {
-      if (user.error) {
-        return <Spinner color={'red'} />
-      }
-
-      return <Redirect to={'/login'} />
-    }
-
-    if (!isOwner(project, user.data.userID)) {
+    if (!isOwner(project, user.userID)) {
       return <Redirect to={`/projects/${project._id}/collaborators`} />
     }
 
@@ -104,22 +68,24 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       return this.renderInviteCollaboratorPage(project)
     }
 
-    return this.renderAddCollaboratorsPage(project, people, invitations)
+    const acceptedInvitations = invitations.filter(
+      invitation => !invitation.acceptedAt
+    )
+
+    const people = this.buildPeople()
+
+    return this.renderAddCollaboratorsPage(project, people, acceptedInvitations)
   }
 
   private renderInviteCollaboratorPage(project: Project) {
     const { searchText, invitationSent } = this.state
 
-    const invitationValues = {
-      name: '',
-      email: '',
-      role: 'Writer',
-    }
+    const isEmail = searchText.includes('@')
 
-    if (searchText.includes('@')) {
-      invitationValues.email = searchText
-    } else {
-      invitationValues.name = searchText
+    const invitationValues = {
+      name: isEmail ? '' : searchText,
+      email: isEmail ? searchText : '',
+      role: 'Writer',
     }
 
     return (
@@ -140,7 +106,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   private renderAddCollaboratorsPage(
     project: Project,
     people: UserProfile[],
-    invitations: ProjectInvitation[]
+    acceptedInvitations: ProjectInvitation[]
   ) {
     const {
       addedCollaboratorsCount,
@@ -154,7 +120,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       <Page project={project}>
         <AddCollaboratorsSidebar
           people={people}
-          invitations={invitations}
+          invitations={acceptedInvitations}
           numberOfAddedCollaborators={addedCollaboratorsCount}
           isSearching={isSearching}
           searchText={searchText}
@@ -184,102 +150,33 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  private getCollection() {
-    return this.props.models.collection as RxCollection<{}>
+  private buildPeople = () => {
+    const { projectID } = this.props.match.params
+
+    const { project, projects, users } = this.props
+
+    const otherProjects = projects.filter(project => project._id !== projectID)
+
+    const projectCollaborators = buildCollaborators(project, users)
+
+    const collaborators: UserProfile[] = []
+
+    for (const otherProject of otherProjects) {
+      const otherCollaborators = buildCollaborators(otherProject, users)
+
+      collaborators.push(...otherCollaborators)
+    }
+
+    return difference(collaborators, projectCollaborators)
   }
-
-  private getProjectID = () => this.props.match.params.projectID
-
-  private loadProject = () =>
-    this.getCollection()
-      .findOne(this.getProjectID())
-      .$.subscribe(async (doc: RxDocument<Project>) => {
-        if (!doc) return
-
-        const project = doc.toJSON() as Project
-
-        const getCollaborator = (id: string) =>
-          this.state.userMap.get(id) as UserProfile
-
-        const collaborators = [
-          ...project.owners.map(getCollaborator),
-          ...project.writers.map(getCollaborator),
-          ...project.viewers.map(getCollaborator),
-        ].filter(collaborator => collaborator)
-
-        this.setState({
-          project,
-          collaborators,
-        })
-      })
-
-  private loadCollaborators = () =>
-    this.getCollection()
-      .find({ objectType: ObjectTypes.Project })
-      .$.subscribe(async (docs: Array<RxDocument<Project>>) => {
-        if (this.state.people && !this.state.people.length) {
-          const getCollaborator = (id: string) =>
-            this.state.userMap.get(id) as UserProfile
-
-          const people: UserProfile[] = []
-
-          for (const doc of docs) {
-            const project = doc.toJSON() as Project
-
-            const collaborators: UserProfile[] = [
-              ...project.owners.map(getCollaborator),
-              ...project.writers.map(getCollaborator),
-              ...project.viewers.map(getCollaborator),
-            ].filter(collaborator => collaborator)
-
-            for (const person of collaborators) {
-              people.push(person)
-            }
-          }
-
-          const { collaborators } = this.state
-
-          const nonCollaborators = people.filter(
-            collaborator => !collaborators.includes(collaborator)
-          )
-
-          this.setState({
-            people: [...new Set(nonCollaborators)],
-          })
-        }
-      })
-
-  private loadInvitations = () =>
-    this.getCollection()
-      .find({
-        objectType: ObjectTypes.ProjectInvitation,
-        projectID: this.getProjectID(),
-      })
-      .$.subscribe((docs: Array<RxDocument<ProjectInvitation>>) => {
-        const invitations = docs
-          .map(invitation => invitation.toJSON() as ProjectInvitation)
-          .filter(invitation => !invitation.acceptedAt)
-
-        this.setState({
-          invitations,
-          addedCollaboratorsCount: invitations.length,
-        })
-      })
-
-  private loadUserMap = () =>
-    this.getCollection()
-      .find({ objectType: ObjectTypes.UserProfile })
-      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
-        this.setState({
-          userMap: await buildUserMap(docs),
-        })
-      })
 
   private addCollaborator = async (
     userID: string,
     role: string
   ): Promise<void> => {
-    await addProjectUser(this.getProjectID(), role, userID)
+    const { projectID } = this.props.match.params
+
+    await addProjectUser(projectID, role, userID)
 
     this.setState({
       addedUsers: this.state.addedUsers.concat(userID),
@@ -293,7 +190,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private handleDoneCancel = () => {
-    const projectID = this.getProjectID()
+    const { projectID } = this.props.match.params
 
     this.props.history.push(`/projects/${projectID}/collaborators`)
   }
@@ -318,15 +215,17 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private search = (searchText: string) => {
-    const { people, addedUsers } = this.state
+    const { addedUsers } = this.state
 
-    if (!people || !searchText) {
+    if (!searchText) {
       return this.setState({
         searchResults: [],
       })
     }
 
     searchText = searchText.toLowerCase()
+
+    const people = this.buildPeople()
 
     const searchResults: UserProfile[] = people.filter(person => {
       if (addedUsers.includes(person.userID)) return false
@@ -360,11 +259,13 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private handleInvitationSubmit = async (values: InvitationValues) => {
+    const { projectID } = this.props.match.params
+
     const { email, name, role } = values
 
-    await projectInvite(this.getProjectID(), [{ email, name }], role)
+    await projectInvite(projectID, [{ email, name }], role)
     this.setState({ invitationSent: true })
   }
 }
 
-export default withModels(withUser(CollaboratorPageContainer))
+export default withModels<Props>(CollaboratorPageContainer)

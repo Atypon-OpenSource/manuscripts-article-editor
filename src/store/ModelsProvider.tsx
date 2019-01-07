@@ -44,9 +44,9 @@ export const ModelsContext = React.createContext<ModelsProviderContext | null>(
   null
 )
 
-export const withModels = <T extends {}>(
-  Component: React.ComponentType<ModelsProps>
-): React.ComponentType<T> => (props: object) => (
+export const withModels = <Props extends {}>(
+  Component: React.ComponentType<Props & ModelsProps>
+): React.ComponentType<Props> => (props: Props) => (
   <ModelsContext.Consumer>
     {value => <Component {...props} models={value as ModelsProviderContext} />}
   </ModelsContext.Consumer>

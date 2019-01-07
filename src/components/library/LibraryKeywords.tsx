@@ -1,6 +1,6 @@
 import { BibliographyItem, Keyword } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { KeywordsProps, withKeywords } from '../../store/KeywordsProvider'
+import KeywordsData from '../../data/KeywordsData'
 import { styled } from '../../theme'
 
 const buildCounts = (items: BibliographyItem[]) => {
@@ -66,37 +66,42 @@ interface Props {
   handleQuery: (query: string) => void
 }
 
-const LibraryKeywords: React.FunctionComponent<Props & KeywordsProps> = ({
+const LibraryKeywords: React.FunctionComponent<Props> = ({
   items,
   handleQuery,
-  keywords,
-}) => {
-  const counts = buildCounts(items)
+}) => (
+  <KeywordsData>
+    {keywords => {
+      const counts = buildCounts(items)
 
-  const sortByCount = (a: string, b: string) => {
-    return (counts.get(b) as number) - (counts.get(a) as number)
-  }
+      const sortByCount = (a: string, b: string) => {
+        return (counts.get(b) as number) - (counts.get(a) as number)
+      }
 
-  const sortedKeywords = Array.from(counts.keys())
-    .filter(id => keywords.data.has(id))
-    .sort(sortByCount)
-    .map(id => keywords.data.get(id))
+      const sortedKeywords = Array.from(counts.keys())
+        .filter(id => keywords.has(id))
+        .sort(sortByCount)
+        .map(id => keywords.get(id))
 
-  if (!sortedKeywords.length) return null
+      if (!sortedKeywords.length) return null
 
-  return (
-    <Container>
-      {sortedKeywords.map((keyword: Keyword) => (
-        <LibraryKeyword
-          key={keyword._id}
-          onClick={() => handleQuery('keyword:' + keyword._id)}
-        >
-          <LibraryKeywordText>{keyword.name}</LibraryKeywordText>
-          <LibraryKeywordCount>{counts.get(keyword._id)}</LibraryKeywordCount>
-        </LibraryKeyword>
-      ))}
-    </Container>
-  )
-}
+      return (
+        <Container>
+          {sortedKeywords.map((keyword: Keyword) => (
+            <LibraryKeyword
+              key={keyword._id}
+              onClick={() => handleQuery('keyword:' + keyword._id)}
+            >
+              <LibraryKeywordText>{keyword.name}</LibraryKeywordText>
+              <LibraryKeywordCount>
+                {counts.get(keyword._id)}
+              </LibraryKeywordCount>
+            </LibraryKeyword>
+          ))}
+        </Container>
+      )
+    }}
+  </KeywordsData>
+)
 
-export default withKeywords<Props>(LibraryKeywords)
+export default LibraryKeywords

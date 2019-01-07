@@ -9,7 +9,6 @@ import {
   buildModelMap,
   ChangeReceiver,
   CitationManager,
-  COMMENT_ANNOTATION,
   CommentAnnotation,
   Conflict,
   conflictsKey,
@@ -63,20 +62,17 @@ import debounce from 'lodash-es/debounce'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Prompt, RouteComponentProps } from 'react-router'
-import { RxCollection, RxDocument, RxLocalDocument } from 'rxdb'
+import { RxCollection } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
 import Spinner from '../../icons/spinner'
-import { buildUserMap } from '../../lib/data'
 import { filterLibrary } from '../../lib/library'
 import { ContributorRole } from '../../lib/roles'
-import { ModelChangeEvent } from '../../lib/rxdb'
 import sessionID from '../../lib/sessionID'
-import { newestFirst, oldestFirst } from '../../lib/sort'
+// import { newestFirst, oldestFirst } from '../../lib/sort'
 import { ModelObject } from '../../store/DataProvider'
 import IntlProvider, { IntlProps, withIntl } from '../../store/IntlProvider'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { UserProps, withUser } from '../../store/UserProvider'
 import { ThemeProvider } from '../../theme'
 import { DebouncedInspector } from '../Inspector'
 import CitationEditor from '../library/CitationEditor'
@@ -101,17 +97,22 @@ interface State {
   dirty: boolean
   doc: ManuscriptNode | null
   error: string | null
+  manuscript: Manuscript
   popper: PopperManager
   selected: Selected | null
   view: ManuscriptEditorView | null
-  library: Map<string, BibliographyItem>
-  comments: CommentAnnotation[] | null
-  manuscripts: Manuscript[] | null
-  keywords: Map<string, Keyword> | null
-  users: Map<string, UserProfile> | null
-  manuscript: Manuscript | null
-  project: Project | null
   processor: Citeproc.Processor | null
+}
+
+interface Props {
+  comments: CommentAnnotation[]
+  keywords: Map<string, Keyword>
+  library: Map<string, BibliographyItem>
+  manuscripts: Manuscript[]
+  manuscript: Manuscript
+  project: Project
+  user: UserProfileWithAvatar
+  users: Map<string, UserProfileWithAvatar>
 }
 
 interface RouteParams {
@@ -119,36 +120,13 @@ interface RouteParams {
   manuscriptID: string
 }
 
-type CombinedProps = UserProps &
+type CombinedProps = Props &
   ModelsProps &
   RouteComponentProps<RouteParams> &
   IntlProps &
   ModalProps
 
 class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
-  public state: Readonly<State> = {
-    modelIds: {
-      document: new Set(),
-      data: new Set(),
-    },
-    modelMap: new Map(),
-    conflicts: null,
-    dirty: false,
-    doc: null,
-    error: null,
-    popper: new PopperManager(),
-    view: null,
-    library: new Map(),
-    comments: null,
-    manuscripts: null,
-    keywords: null,
-    users: null,
-    manuscript: null,
-    project: null,
-    processor: null,
-    selected: null,
-  }
-
   private readonly initialState: Readonly<State>
 
   private subs: Subscription[] = []
@@ -157,6 +135,23 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   public constructor(props: CombinedProps) {
     super(props)
+
+    this.state = {
+      manuscript: props.manuscript,
+      modelIds: {
+        document: new Set(),
+        data: new Set(),
+      },
+      modelMap: new Map(),
+      conflicts: null,
+      dirty: false,
+      doc: null,
+      error: null,
+      popper: new PopperManager(),
+      view: null,
+      processor: null,
+      selected: null,
+    }
 
     this.initialState = this.state
 
@@ -201,21 +196,20 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       dirty,
       modelMap,
       doc,
-      manuscript,
-      manuscripts,
-      project,
+
       popper,
       selected,
-      comments,
       view,
       error,
     } = this.state
+
+    const { comments, manuscripts, manuscript, models, project } = this.props
 
     if (error) {
       return <ReloadDialog message={error} />
     }
 
-    if (!doc || !manuscript || !manuscripts || !project || !comments) {
+    if (!doc || !manuscript || !project || !comments) {
       return <Spinner />
     }
 
@@ -228,6 +222,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       spellcheck: 'true',
       tabindex: '2',
     }
+
+    const collection = models.collection as RxCollection<Model>
 
     return (
       <Page project={project}>
@@ -284,8 +280,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                 getModel={this.getModel}
                 saveModel={this.saveModel}
                 deleteModel={this.deleteModel}
-                applyLocalStep={applyLocalStep(this.getCollection())}
-                applyRemoteStep={applyRemoteStep(this.getCollection())}
+                applyLocalStep={applyLocalStep(collection)}
+                applyRemoteStep={applyRemoteStep(collection)}
                 addLibraryItem={this.addLibraryItem}
                 getLibraryItem={this.getLibraryItem}
                 filterLibraryItems={this.filterLibraryItems}
@@ -345,30 +341,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private prepare = async (projectID: string, manuscriptID: string) => {
     try {
-      this.loadUsers() // TODO: move this to provider
-      this.loadManuscripts(projectID) // TODO: move this to provider
-      this.loadKeywords(projectID) // TODO: move this to provider
-      this.loadLibraryItems(projectID) // TODO: move this to provider
-      this.loadComments(projectID, manuscriptID) // TODO: move this to provider
-
-      const project = await this.loadProject(projectID)
-
-      if (!project) {
-        throw new Error(
-          'Failed to open project for editing as the project could not be found.'
-        )
-      }
-
-      const manuscript = await this.loadManuscript(manuscriptID)
-
-      if (!manuscript) {
-        throw new Error(
-          'Failed to open manuscript for editing as the manuscript could not be found.'
-        )
-      }
-
       try {
-        await this.createCitationProcessor(manuscript)
+        await this.createCitationProcessor(this.props.manuscript)
       } catch (error) {
         console.error(error) // tslint:disable-line:no-console
         throw new Error(
@@ -427,8 +401,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private getOrInsertLocalDocument = async <T extends {}>(id: string) => {
-    const collection = this.getCollection() as RxCollection<{}>
+  private getOrInsertLocalDocument = async (id: string) => {
+    const collection = this.props.models.collection as RxCollection<Model>
 
     let localDoc = await collection.getLocal(id)
 
@@ -436,7 +410,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       localDoc = await collection.insertLocal(id, {})
     }
 
-    return localDoc as RxLocalDocument<RxCollection<T>>
+    return localDoc
   }
 
   private subscribeToSyncErrors = async () => {
@@ -501,10 +475,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private getCollection = () => {
-    return this.props.models.collection as RxCollection<Model>
-  }
-
   private getLocale = (manuscript: Manuscript) =>
     manuscript.primaryLanguageCode || this.props.intl.locale || 'en-GB'
 
@@ -515,12 +485,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private getManuscript = () => {
-    return this.state.manuscript as Manuscript
-  }
+  private getManuscript = () => this.state.manuscript
 
   private saveManuscript = async (data: Partial<Manuscript>) => {
-    const previousManuscript = this.state.manuscript!
+    const previousManuscript = this.state.manuscript
 
     const manuscript = {
       ...previousManuscript,
@@ -539,20 +507,20 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private deleteManuscript = async (id: string) => {
-    const { project, manuscripts } = this.state
-    const index = manuscripts!.findIndex(item => item._id === id)
+    const { manuscripts, project } = this.props
+    const index = manuscripts.findIndex(item => item._id === id)
 
-    const prevManuscript: Manuscript = manuscripts![index === 0 ? 1 : index - 1]
+    const prevManuscript: Manuscript = manuscripts[index === 0 ? 1 : index - 1]
 
     await this.deleteModel(id)
 
     if (prevManuscript) {
       this.props.history.push(
-        `/projects/${project!._id}/manuscripts/${prevManuscript._id}`
+        `/projects/${project._id}/manuscripts/${prevManuscript._id}`
       )
     }
 
-    this.props.history.push(`/projects/${project!._id}`)
+    this.props.history.push(`/projects/${project._id}`)
   }
 
   private shouldUpdateCitationProcessor = (
@@ -574,9 +542,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private addManuscript = async () => {
+    const { user } = this.props
     const { projectID } = this.props.match.params
-
-    const user = this.props.user.data as UserProfile
 
     const manuscript = buildManuscript()
     const manuscriptID = manuscript._id
@@ -611,7 +578,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         history={history}
         projectID={match.params.projectID}
         saveModel={models.saveModel}
-        user={user.data!}
+        user={user}
         handleComplete={handleClose}
       />
     ))
@@ -685,38 +652,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return this.state.processor as Citeproc.Processor
   }
 
-  private loadManuscript = (id: string): Promise<Manuscript> => {
-    return new Promise(resolve => {
-      this.getCollection()
-        .findOne(id)
-        .$.subscribe((doc: RxDocument<Manuscript>) => {
-          if (doc) {
-            const manuscript = doc.toJSON()
-            this.setState({ manuscript })
-            resolve(manuscript)
-          }
-        })
-    })
-  }
+  private loadModels = (projectID: string, manuscriptID: string) => {
+    const collection = this.props.models.collection as RxCollection<
+      ContainedModel | ManuscriptModel
+    >
 
-  private loadProject = (projectID: string): Promise<Project> => {
-    return new Promise(resolve => {
-      this.getCollection()
-        .findOne(projectID)
-        .$.subscribe((doc: RxDocument<Project>) => {
-          if (!doc) return
-          const project = doc.toJSON()
-          this.setState({ project })
-          resolve(project)
-        })
-    })
-  }
-
-  private loadModels = (
-    projectID: string,
-    manuscriptID: string
-  ): Promise<Array<RxDocument<ContainedModel | ManuscriptModel>>> => {
-    return this.getCollection()
+    return collection
       .find({
         $and: [
           {
@@ -736,89 +677,16 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           },
         ],
       })
-      .exec() as Promise<Array<RxDocument<ContainedModel | ManuscriptModel>>>
-  }
-
-  private loadKeywords = (projectID: string) =>
-    this.getCollection()
-      .find({
-        objectType: ObjectTypes.Keyword,
-        containerID: projectID,
-      })
-      .$.subscribe(async (docs: Array<RxDocument<Keyword>>) => {
-        const keywords = new Map()
-
-        for (const doc of docs) {
-          keywords.set(doc._id, doc.toJSON())
-        }
-
-        this.setState({ keywords })
-      })
-
-  private loadUsers = () =>
-    this.getCollection()
-      .find({
-        objectType: ObjectTypes.UserProfile,
-      })
-      .$.subscribe(async (docs: Array<RxDocument<UserProfile>>) => {
-        this.setState({
-          users: await buildUserMap(docs),
-        })
-      })
-
-  private loadComments = (projectID: string, manuscriptID: string) => {
-    this.getCollection()
-      .find({
-        objectType: COMMENT_ANNOTATION,
-        containerID: projectID,
-        manuscriptID,
-      })
-      .$.subscribe((docs: Array<RxDocument<CommentAnnotation>>) => {
-        if (docs) {
-          this.setState({
-            comments: docs.map(doc => doc.toJSON()),
-          })
-        }
-      })
-  }
-
-  private loadManuscripts = (projectID: string) => {
-    this.getCollection()
-      .find({
-        objectType: ObjectTypes.Manuscript,
-        containerID: projectID,
-      })
-      .$.subscribe((docs: Array<RxDocument<Manuscript>>) => {
-        this.setState({
-          manuscripts: docs.sort(oldestFirst).map(doc => doc.toJSON()),
-        })
-      })
-  }
-
-  private loadLibraryItems = (projectID: string) => {
-    this.getCollection()
-      .find({
-        objectType: ObjectTypes.BibliographyItem,
-        containerID: projectID,
-      })
-      .$.subscribe((items: Array<RxDocument<BibliographyItem>>) => {
-        const library: Map<string, BibliographyItem> = new Map()
-
-        items.sort(newestFirst).forEach(item => {
-          library.set(item._id, item.toJSON())
-        })
-
-        this.setState({ library })
-      })
+      .exec()
   }
 
   private addLibraryItem = (item: BibliographyItem) =>
-    this.state.library.set(item._id, item)
+    this.props.library.set(item._id, item) // TODO: move this to the provider?
 
-  private getLibraryItem = (id: string) => this.state.library.get(id)
+  private getLibraryItem = (id: string) => this.props.library.get(id)
 
   private filterLibraryItems = (query: string) =>
-    filterLibrary(this.state.library, query)
+    filterLibrary(this.props.library, query)
 
   private getModel = <T extends Model>(id: string): T | undefined =>
     this.state.modelMap.get(id) as T | undefined
@@ -931,101 +799,95 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private handleSubscribe = (receive: ChangeReceiver) => {
     const { projectID, manuscriptID } = this.props.match.params
 
-    const collection = this.getCollection()
+    const collection = this.props.models.collection as RxCollection<
+      ContainedModel | ManuscriptModel
+    >
 
-    const isValidChangeEvent = (changeEvent: ModelChangeEvent) => {
-      const { v, doc, op } = changeEvent.data
+    const sub = collection.$.subscribe(async changeEvent => {
+      const op = changeEvent.data.op
+      const doc = changeEvent.data.doc
+      const v = changeEvent.data.v as Model
 
-      return v && doc && op
-    }
+      if (!(v && doc && op)) {
+        throw new Error('Unexpected change event data')
+      }
 
-    const sub = collection.$.subscribe(
-      async (changeEvent: ModelChangeEvent) => {
-        if (!isValidChangeEvent(changeEvent)) {
-          throw new Error('Unexpected change event data')
-        }
+      console.log({ op, doc, v }) // tslint:disable-line:no-console
 
-        const op = changeEvent.data.op
-        const doc = changeEvent.data.doc
-        const v = changeEvent.data.v as Model
+      // TODO: only subscribe to changes to this project/manuscript?
+      if (!this.isRelevantUpdate(v, projectID, manuscriptID, sessionID)) {
+        return false
+      }
 
-        console.log({ op, doc, v }) // tslint:disable-line:no-console
+      if (op === 'REMOVE') {
+        return receive(op, doc)
+      }
 
-        // TODO: only subscribe to changes to this project/manuscript?
-        if (!this.isRelevantUpdate(v, projectID, manuscriptID, sessionID)) {
-          return false
-        }
+      // NOTE: need to load the doc to get attachments
+      const modelDocument = await collection.findOne(doc).exec()
 
-        if (op === 'REMOVE') {
-          return receive(op, doc)
-        }
+      if (!modelDocument) {
+        return null
+      }
 
-        // NOTE: need to load the doc to get attachments
-        const modelDocument = await collection.findOne(doc).exec()
+      const model = modelDocument.toJSON()
 
-        if (!modelDocument) {
-          return null
-        }
+      if (isFigure(model)) {
+        model.src = await getImageAttachment(modelDocument)
+      } else if (isUserProfile(model)) {
+        ;(model as UserProfileWithAvatar).avatar = await getImageAttachment(
+          modelDocument
+        )
+      }
 
-        const model = modelDocument.toJSON()
+      const conflict = this.conflictForComponent(modelDocument._id)
 
-        if (isFigure(model)) {
-          model.src = await getImageAttachment(modelDocument)
-        } else if (isUserProfile(model)) {
-          ;(model as UserProfileWithAvatar).avatar = await getImageAttachment(
-            modelDocument
-          )
-        }
-
-        const conflict = this.conflictForComponent(modelDocument._id)
-
-        if (conflict) {
-          try {
-            const updatedRevNumber = getRevNumber(modelDocument._rev)
-            const remoteConflictRevNumber = getRevNumber(conflict.remote._rev)
-
-            // Check to see if the node is either the one we initially conflicted
-            // with, or descendant of it.
-            if (updatedRevNumber >= remoteConflictRevNumber) {
-              // TODO: this following check shouldn't be needed
-              // Maybe there's an issue with the sessionID check
-              if (modelDocument._rev !== conflict.local._rev) {
-                const updatedNode = await this.processConflict(model, conflict)
-
-                receive(op, doc, updatedNode)
-                return
-              }
-            }
-          } catch (e) {
-            // tslint:disable-next-line:no-console
-            console.warn(`Could not resolve conflict for ${model._id}`, e)
-          }
-        }
-
-        const { modelMap } = this.state
-
-        modelMap.set(model._id, model) // TODO: what if this overlaps with saving?
-
-        this.setState({ modelMap })
-
-        // TODO: only call receive once finished syncing?
-
-        // TODO: might not need a new decoder, for data models
-
-        // TODO: set updatedAt on nodes that depend on data models?
-
-        const decoder = new Decoder(modelMap)
-
+      if (conflict) {
         try {
-          const node = decoder.decode(model)
+          const updatedRevNumber = getRevNumber(modelDocument._rev)
+          const remoteConflictRevNumber = getRevNumber(conflict.remote._rev)
 
-          receive(op, doc, node)
+          // Check to see if the node is either the one we initially conflicted
+          // with, or descendant of it.
+          if (updatedRevNumber >= remoteConflictRevNumber) {
+            // TODO: this following check shouldn't be needed
+            // Maybe there's an issue with the sessionID check
+            if (modelDocument._rev !== conflict.local._rev) {
+              const updatedNode = await this.processConflict(model, conflict)
+
+              receive(op, doc, updatedNode)
+              return
+            }
+          }
         } catch (e) {
           // tslint:disable-next-line:no-console
-          console.warn(e)
+          console.warn(`Could not resolve conflict for ${model._id}`, e)
         }
       }
-    )
+
+      const { modelMap } = this.state
+
+      modelMap.set(model._id, model) // TODO: what if this overlaps with saving?
+
+      this.setState({ modelMap })
+
+      // TODO: only call receive once finished syncing?
+
+      // TODO: might not need a new decoder, for data models
+
+      // TODO: set updatedAt on nodes that depend on data models?
+
+      const decoder = new Decoder(modelMap)
+
+      try {
+        const node = decoder.decode(model)
+
+        receive(op, doc, node)
+      } catch (e) {
+        // tslint:disable-next-line:no-console
+        console.warn(e)
+      }
+    })
 
     this.subs.push(sub)
   }
@@ -1070,10 +932,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     // It is possible the user could manually/coincidentally have the same
     // content, so we want to delete even when there were no automerged steps.
     if (merge.conflictingSteps2.length === 0) {
-      updatedConflicts = await removeConflictLocally(
-        this.getCollection(),
-        conflict
-      )
+      const collection = this.props.models.collection as RxCollection<Model>
+
+      updatedConflicts = await removeConflictLocally(collection, conflict)
     }
 
     // send remaining/updated conflict state to editor plugin
@@ -1333,8 +1194,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     let updatedConflicts = conflicts
 
+    const collection = this.props.models.collection as RxCollection<Model>
+
     for (const c of conflictsToDelete) {
-      updatedConflicts = await removeConflictLocally(this.getCollection(), c)
+      updatedConflicts = await removeConflictLocally(collection, c)
     }
 
     // send remaining/updated conflict state to editor plugin
@@ -1343,13 +1206,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     view.dispatch(tr)
   }
 
-  private getCurrentUser = (): UserProfile => this.props.user.data!
+  private getCurrentUser = (): UserProfile => this.props.user
 
-  private listCollaborators = () => Array.from(this.state.users!.values())
+  private listCollaborators = () => Array.from(this.props.users.values())
 
-  private getKeyword = (id: string) => this.state.keywords!.get(id)
+  private getKeyword = (id: string) => this.props.keywords.get(id)
 
-  private listKeywords = () => Array.from(this.state.keywords!.values())
+  private listKeywords = () => Array.from(this.props.keywords.values())
 
   private createKeyword = (name: string) => {
     const keyword = buildKeyword(name)
@@ -1357,7 +1220,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return this.saveModel(keyword)
   }
 
-  private getCollaborator = (id: string) => this.state.users!.get(id)
+  private getCollaborator = (id: string) => this.props.users.get(id)
 
   private handleSectionChange = (section: string) => {
     if (section !== 'manuscript') {
@@ -1379,6 +1242,4 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withModal(
-  withModels(withUser(withIntl(ManuscriptPageContainer)))
-)
+export default withModal<Props>(withModels(withIntl(ManuscriptPageContainer)))

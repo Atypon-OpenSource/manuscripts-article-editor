@@ -24,7 +24,7 @@ class AcceptInvitationURIContainer extends React.Component<
     const { invitationToken } = this.props.match.params
 
     acceptProjectInvitationToken(invitationToken).then(
-      data => {
+      ({ data }) => {
         this.setState({ data })
       },
       () => {
@@ -37,15 +37,15 @@ class AcceptInvitationURIContainer extends React.Component<
   public render() {
     const { data } = this.state
 
-    return data ? (
+    if (!data) return <Spinner />
+
+    return (
       <AcceptInvitationDialog
         message={data.message}
         closeDialog={() => {
           this.props.history.push(`/projects/${data.projectId}`)
         }}
       />
-    ) : (
-      <Spinner />
     )
   }
 }
