@@ -1,5 +1,4 @@
 import React from 'react'
-import Panel from '../../components/Panel'
 import { styled } from '../../theme'
 import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
@@ -29,36 +28,27 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
   handleSubmit,
   invitationSent,
 }) => (
-  <Panel
-    name={'collaborators-sidebar'}
-    direction={'row'}
-    side={'end'}
-    minSize={250}
-  >
-    <CollaboratorSidebar>
-      <SidebarHeader>
-        <SidebarTitle>Invite</SidebarTitle>
-        {!invitationSent ? (
-          <Container>
-            <TransparentGreyButton onClick={handleCancel}>
-              Cancel
-            </TransparentGreyButton>
-          </Container>
-        ) : (
-          <ManuscriptBlueButton onClick={handleCancel}>
-            Done
-          </ManuscriptBlueButton>
-        )}
-      </SidebarHeader>
-      <FormContainer>
-        <InvitationForm
-          allowSubmit={true}
-          invitationValues={invitationValues}
-          handleSubmit={handleSubmit}
-        />
-      </FormContainer>
-    </CollaboratorSidebar>
-  </Panel>
+  <CollaboratorSidebar>
+    <SidebarHeader>
+      <SidebarTitle>Invite</SidebarTitle>
+      {!invitationSent ? (
+        <Container>
+          <TransparentGreyButton onClick={handleCancel}>
+            Cancel
+          </TransparentGreyButton>
+        </Container>
+      ) : (
+        <ManuscriptBlueButton onClick={handleCancel}>Done</ManuscriptBlueButton>
+      )}
+    </SidebarHeader>
+    <FormContainer>
+      <InvitationForm
+        allowSubmit={true}
+        invitationValues={invitationValues}
+        handleSubmit={handleSubmit}
+      />
+    </FormContainer>
+  </CollaboratorSidebar>
 )
 
 export default InviteCollaboratorsSidebar
