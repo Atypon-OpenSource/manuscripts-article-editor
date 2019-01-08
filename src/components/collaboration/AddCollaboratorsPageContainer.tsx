@@ -12,6 +12,7 @@ import { buildCollaborators } from '../../lib/collaborators'
 import { isOwner } from '../../lib/roles'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { Main, Page } from '../Page'
+import Panel from '../Panel'
 import AddCollaboratorsSidebar from './AddCollaboratorsSidebar'
 import {
   AddCollaboratorsPage,
@@ -96,12 +97,19 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
     return (
       <Page project={project}>
-        <InviteCollaboratorsSidebar
-          invitationValues={invitationValues}
-          handleCancel={this.handleCancel}
-          handleSubmit={this.handleInvitationSubmit}
-          invitationSent={invitationSent}
-        />
+        <Panel
+          name={'collaborators-sidebar'}
+          direction={'row'}
+          side={'end'}
+          minSize={250}
+        >
+          <InviteCollaboratorsSidebar
+            invitationValues={invitationValues}
+            handleCancel={this.handleCancel}
+            handleSubmit={this.handleInvitationSubmit}
+            invitationSent={invitationSent}
+          />
+        </Panel>
         <Main>
           <InviteCollaboratorsPage project={project} />
         </Main>
