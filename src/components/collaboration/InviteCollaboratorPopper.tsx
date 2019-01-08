@@ -17,7 +17,7 @@ interface Props {
   handleUpdateRole: (role: string) => Promise<void>
   handleUninvite: () => Promise<void>
   handleOpenModal: () => void
-  updateRoleIsOpen: boolean
+  isUpdateRoleOpen: boolean
   resendInvitation: () => Promise<void>
 }
 
@@ -30,9 +30,9 @@ class InviteCollaboratorPopper extends React.Component<Props, State> {
 
   public render() {
     const { selectedRole, selectedMode, resendSucceed } = this.state
-    const { invitation, updateRoleIsOpen } = this.props
+    const { invitation, isUpdateRoleOpen } = this.props
 
-    return selectedMode === 'invite' && !updateRoleIsOpen ? (
+    return selectedMode === 'invite' && !isUpdateRoleOpen ? (
       <CollaboratorRolePopper
         handleRoleChange={this.handleRoleChange}
         selectedRole={selectedRole}
@@ -44,9 +44,9 @@ class InviteCollaboratorPopper extends React.Component<Props, State> {
         selectedMode={this.state.selectedMode}
         isOnlyOwner={false}
       />
-    ) : updateRoleIsOpen ? (
+    ) : isUpdateRoleOpen ? (
       <UpdateRolePageContainer
-        updating={updateRoleIsOpen}
+        updating={isUpdateRoleOpen}
         selectedRole={selectedRole}
         handleUpdateRole={this.props.handleUpdateRole}
         handleCancel={this.handleCancel}

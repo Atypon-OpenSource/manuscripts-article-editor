@@ -23,10 +23,8 @@ import { InvitationValues } from './InvitationForm'
 import InviteCollaboratorsSidebar from './InviteCollaboratorsSidebar'
 
 interface State {
-  project: Project | null
   people: UserProfile[] | null
   collaborators: UserProfile[]
-  invitations: ProjectInvitation[]
   isInvite: boolean
   searchText: string
   userMap: Map<string, UserProfile>
@@ -51,10 +49,8 @@ type CombinedProps = Props &
 
 class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
-    project: null,
     people: [],
     collaborators: [],
-    invitations: [],
     isInvite: false,
     searchText: '',
     userMap: new Map(),
@@ -126,17 +122,24 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
     return (
       <Page project={project}>
-        <AddCollaboratorsSidebar
-          people={people}
-          invitations={acceptedInvitations}
-          numberOfAddedCollaborators={addedCollaboratorsCount}
-          addedUsers={addedUsers}
-          addCollaborator={this.addCollaborator}
-          countAddedCollaborators={this.countAddedCollaborators}
-          handleDoneCancel={this.handleDoneCancel}
-          handleInvite={this.handleInvite}
-          setSearchText={this.setSearchText}
-        />
+        <Panel
+          name={'add-collaborators-sidebar'}
+          direction={'row'}
+          side={'end'}
+          minSize={250}
+        >
+          <AddCollaboratorsSidebar
+            people={people}
+            invitations={acceptedInvitations}
+            numberOfAddedCollaborators={addedCollaboratorsCount}
+            addedUsers={addedUsers}
+            addCollaborator={this.addCollaborator}
+            countAddedCollaborators={this.countAddedCollaborators}
+            handleDoneCancel={this.handleDoneCancel}
+            handleInvite={this.handleInvite}
+            setSearchText={this.setSearchText}
+          />
+        </Panel>
         <Main>
           {!searchText.length ? (
             <AddCollaboratorsPage

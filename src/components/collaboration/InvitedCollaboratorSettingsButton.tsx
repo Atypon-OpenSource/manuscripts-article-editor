@@ -18,7 +18,7 @@ const AddIconButton = styled(IconButton)`
 
 interface State {
   isOpen: boolean
-  updateRoleIsOpen: boolean
+  isUpdateRoleOpen: boolean
 }
 
 interface Props {
@@ -36,7 +36,7 @@ interface Props {
 class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
   public state: State = {
     isOpen: false,
-    updateRoleIsOpen: false,
+    isUpdateRoleOpen: false,
   }
 
   private node: Node
@@ -46,7 +46,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isOpen, updateRoleIsOpen } = this.state
+    const { isOpen, isUpdateRoleOpen } = this.state
     const { projectInvite, projectUninvite } = this.props
 
     return (
@@ -74,7 +74,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
                 projectInvite={projectInvite}
                 projectUninvite={projectUninvite}
                 openPopper={this.openPopper}
-                updateRoleIsOpen={updateRoleIsOpen}
+                isUpdateRoleOpen={isUpdateRoleOpen}
                 handleOpenModal={this.handleOpenModal}
               />
             )}
@@ -94,7 +94,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
 
   private handleOpenModal = () => {
     this.setState({
-      updateRoleIsOpen: !this.state.updateRoleIsOpen,
+      isUpdateRoleOpen: !this.state.isUpdateRoleOpen,
     })
   }
 
@@ -102,7 +102,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
     if (
       this.node &&
       !this.node.contains(event.target as Node) &&
-      !this.state.updateRoleIsOpen
+      !this.state.isUpdateRoleOpen
     ) {
       this.openPopper()
     }

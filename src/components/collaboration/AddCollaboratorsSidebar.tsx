@@ -10,7 +10,6 @@ import SearchIcon from '../../icons/search'
 import { styled } from '../../theme'
 import { Avatar } from '../Avatar'
 import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
-import Panel from '../Panel'
 import {
   Sidebar,
   SidebarContent,
@@ -108,93 +107,86 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
     const { searchResults, searchText, isSearching } = this.state
 
     return (
-      <Panel
-        name={'collaborators-sidebar'}
-        direction={'row'}
-        side={'end'}
-        minSize={250}
-      >
-        <PeopleSidebar>
-          <SidebarHeader>
-            <SidebarTitle>Add Collaborators</SidebarTitle>
+      <PeopleSidebar>
+        <SidebarHeader>
+          <SidebarTitle>Add Collaborators</SidebarTitle>
 
-            {!numberOfAddedCollaborators ? (
-              <TransparentGreyButton onClick={handleDoneCancel}>
-                Cancel
-              </TransparentGreyButton>
-            ) : (
-              <ManuscriptBlueButton onClick={handleDoneCancel}>
-                Done
-              </ManuscriptBlueButton>
-            )}
-          </SidebarHeader>
-
-          <SidebarSearchField
-            onFocus={this.handleSearchFocus}
-            onBlur={this.handleSearchFocus}
-          >
-            <SidebarSearchIconContainer>
-              {isSearching ? <SearchIcon color={'#e0eef9'} /> : <SearchIcon />}
-            </SidebarSearchIconContainer>
-
-            <SidebarSearchText
-              value={searchText}
-              placeholder={'Search name/email'}
-              onChange={this.handleSearchChange}
-              maxLength={100}
-            />
-          </SidebarSearchField>
-          {searchText === '' ? (
-            <SidebarContent>
-              {invitations.map(invitation => (
-                <SidebarPersonContainer key={invitation._id}>
-                  <UserDataContainer>
-                    <Avatar size={45} color={'#585858'} />
-                    <PersonData>
-                      <PersonName>{invitation.invitedUserName}</PersonName>
-                    </PersonData>
-                  </UserDataContainer>
-                  <InvitedContainer>
-                    <Invited>Invited</Invited>
-                    <AddedIconContainer>
-                      <AddedIcon />
-                    </AddedIconContainer>
-                  </InvitedContainer>
-                </SidebarPersonContainer>
-              ))}
-              {people.map((person: UserProfileWithAvatar) => (
-                <SidebarPersonContainer key={person._id}>
-                  <UserDataContainer>
-                    <Avatar src={person.avatar} size={45} color={darkGrey} />
-                    <PersonData>
-                      <PersonName>
-                        <PersonInitial>
-                          {person.bibliographicName.given}
-                        </PersonInitial>
-                        {person.bibliographicName.family}
-                      </PersonName>
-                    </PersonData>
-                  </UserDataContainer>
-                  <AddCollaboratorButton
-                    collaborator={person}
-                    isSelected={addedUsers.includes(person.userID)}
-                    addCollaborator={addCollaborator}
-                    countAddedCollaborators={countAddedCollaborators}
-                  />
-                </SidebarPersonContainer>
-              ))}
-            </SidebarContent>
+          {!numberOfAddedCollaborators ? (
+            <TransparentGreyButton onClick={handleDoneCancel}>
+              Cancel
+            </TransparentGreyButton>
           ) : (
-            <SearchCollaboratorsSidebar
-              handleInvite={handleInvite}
-              searchText={searchText}
-              countAddedCollaborators={countAddedCollaborators}
-              addCollaborator={addCollaborator}
-              searchResults={searchResults}
-            />
+            <ManuscriptBlueButton onClick={handleDoneCancel}>
+              Done
+            </ManuscriptBlueButton>
           )}
-        </PeopleSidebar>
-      </Panel>
+        </SidebarHeader>
+
+        <SidebarSearchField
+          onFocus={this.handleSearchFocus}
+          onBlur={this.handleSearchFocus}
+        >
+          <SidebarSearchIconContainer>
+            {isSearching ? <SearchIcon color={'#e0eef9'} /> : <SearchIcon />}
+          </SidebarSearchIconContainer>
+
+          <SidebarSearchText
+            value={searchText}
+            placeholder={'Search name/email'}
+            onChange={this.handleSearchChange}
+            maxLength={100}
+          />
+        </SidebarSearchField>
+        {searchText === '' ? (
+          <SidebarContent>
+            {invitations.map(invitation => (
+              <SidebarPersonContainer key={invitation._id}>
+                <UserDataContainer>
+                  <Avatar size={45} color={'#585858'} />
+                  <PersonData>
+                    <PersonName>{invitation.invitedUserName}</PersonName>
+                  </PersonData>
+                </UserDataContainer>
+                <InvitedContainer>
+                  <Invited>Invited</Invited>
+                  <AddedIconContainer>
+                    <AddedIcon />
+                  </AddedIconContainer>
+                </InvitedContainer>
+              </SidebarPersonContainer>
+            ))}
+            {people.map((person: UserProfileWithAvatar) => (
+              <SidebarPersonContainer key={person._id}>
+                <UserDataContainer>
+                  <Avatar src={person.avatar} size={45} color={darkGrey} />
+                  <PersonData>
+                    <PersonName>
+                      <PersonInitial>
+                        {person.bibliographicName.given}
+                      </PersonInitial>
+                      {person.bibliographicName.family}
+                    </PersonName>
+                  </PersonData>
+                </UserDataContainer>
+                <AddCollaboratorButton
+                  collaborator={person}
+                  isSelected={addedUsers.includes(person.userID)}
+                  addCollaborator={addCollaborator}
+                  countAddedCollaborators={countAddedCollaborators}
+                />
+              </SidebarPersonContainer>
+            ))}
+          </SidebarContent>
+        ) : (
+          <SearchCollaboratorsSidebar
+            handleInvite={handleInvite}
+            searchText={searchText}
+            countAddedCollaborators={countAddedCollaborators}
+            addCollaborator={addCollaborator}
+            searchResults={searchResults}
+          />
+        )}
+      </PeopleSidebar>
     )
   }
 

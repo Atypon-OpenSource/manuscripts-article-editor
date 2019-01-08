@@ -66,7 +66,7 @@ storiesOf('Collaboration/Poppers', module)
         handleUpdateRole={action('invite')}
         handleUninvite={action('uninvite')}
         handleOpenModal={action('open update role confirmation modal')}
-        updateRoleIsOpen={false}
+        isUpdateRoleOpen={false}
         resendInvitation={action('re-send invitation')}
       />
     </PopperStory>
@@ -79,7 +79,7 @@ storiesOf('Collaboration/Poppers', module)
         handleUpdateRole={action('invite')}
         handleUninvite={action('uninvite')}
         handleOpenModal={action('open update role confirmation modal')}
-        updateRoleIsOpen={true}
+        isUpdateRoleOpen={true}
         resendInvitation={action('re-send invitation')}
       />
     </PopperStory>

@@ -7,6 +7,7 @@ import InviteCollaboratorPopper from './InviteCollaboratorPopper'
 interface Props {
   invitation: ProjectInvitation
   popperProps: PopperChildrenProps
+  isUpdateRoleOpen: boolean
   openPopper: () => void
   handleOpenModal: () => void
   projectInvite: (
@@ -16,7 +17,6 @@ interface Props {
     message?: string
   ) => Promise<void>
   projectUninvite: (invitationID: string) => Promise<void>
-  updateRoleIsOpen: boolean
 }
 
 class InviteCollaboratorPopperContainer extends React.Component<Props> {
@@ -24,7 +24,7 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
     const {
       invitation,
       popperProps,
-      updateRoleIsOpen,
+      isUpdateRoleOpen,
       handleOpenModal,
     } = this.props
 
@@ -34,7 +34,7 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
           invitation={invitation}
           handleUpdateRole={this.handleUpdateRole}
           handleUninvite={this.handleUninvite}
-          updateRoleIsOpen={updateRoleIsOpen}
+          isUpdateRoleOpen={isUpdateRoleOpen}
           handleOpenModal={handleOpenModal}
           resendInvitation={this.resendInvitation}
         />
