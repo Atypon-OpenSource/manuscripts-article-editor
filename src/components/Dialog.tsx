@@ -31,6 +31,7 @@ const MessageContainer = styled.div`
   color: #949494;
   margin-top: 15px;
   margin-left: 20px;
+  margin-right: 20px;
 `
 const HeaderContainer = styled.div`
   display: flex;
