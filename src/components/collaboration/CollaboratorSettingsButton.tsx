@@ -52,7 +52,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
             <AddIconButton
               // @ts-ignore: styled
               ref={ref}
-              onClick={this.openPopper}
+              onClick={this.togglePopper}
             >
               <SettingsInverted color={'#7fb5d5'} />
             </AddIconButton>
@@ -68,7 +68,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
                 project={project}
                 collaborator={collaborator}
                 popperProps={popperProps}
-                openPopper={this.openPopper}
+                openPopper={this.togglePopper}
                 handleOpenModal={this.handleOpenModal}
                 updateRoleIsOpen={this.state.updateRoleIsOpen}
                 updateUserRole={updateUserRole}
@@ -80,7 +80,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
     )
   }
 
-  private openPopper = () => {
+  private togglePopper = () => {
     this.props.openPopper(!this.state.isOpen)
     this.updateListener(!this.state.isOpen)
     this.setState({
@@ -100,7 +100,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
       !this.node.contains(event.target as Node) &&
       !this.state.updateRoleIsOpen
     ) {
-      this.openPopper()
+      this.togglePopper()
     }
   }
 

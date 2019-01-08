@@ -1,6 +1,5 @@
 import { Contributor } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { Manager } from 'react-popper'
 import { ManuscriptBlueButton } from '../../components/Button'
 import { Category, Dialog } from '../../components/Dialog'
 import { initials } from '../../lib/name'
@@ -28,12 +27,10 @@ class RemoveAuthorButton extends React.Component<Props> {
       },
     }
     return (
-      <Manager>
-        {
-          <ManuscriptBlueButton onClick={this.props.handleOpen}>
-            Delete
-          </ManuscriptBlueButton>
-        }
+      <React.Fragment>
+        <ManuscriptBlueButton onClick={this.props.handleOpen}>
+          Delete
+        </ManuscriptBlueButton>
         {isOpen && (
           <Dialog
             isOpen={isOpen}
@@ -45,7 +42,7 @@ class RemoveAuthorButton extends React.Component<Props> {
             )}${' '}${author.bibliographicName.family} from the authors list?`}
           />
         )}
-      </Manager>
+      </React.Fragment>
     )
   }
 }

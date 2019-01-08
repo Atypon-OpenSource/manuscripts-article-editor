@@ -7,7 +7,6 @@ import {
 import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
 import React from 'react'
 import AlertMessage, { AlertMessageType } from '../../components/AlertMessage'
-import InviteAuthorButton from '../../components/InviteAuthorButton'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme'
 import AutoSaveInput from '../AutoSaveInput'
@@ -15,6 +14,7 @@ import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 import { AffiliationsSelect } from './AffiliationsSelect'
 import { AuthorAffiliation } from './Author'
+import InviteAuthorButton from './InviteAuthorButton'
 import RemoveAuthorButton from './RemoveAuthorButton'
 
 const Fields = styled.div`
