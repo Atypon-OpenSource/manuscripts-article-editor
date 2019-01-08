@@ -1,22 +1,22 @@
-import {
-  BibliographicName,
-  Project,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
-import { Title } from '@manuscripts/title-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { dustyGrey } from '../../colors'
+import { RouteComponentProps, withRouter } from 'react-router'
+import ProjectsData from '../../data/ProjectsData'
+import UserData from '../../data/UserData'
+import UsersData from '../../data/UsersData'
 import Add from '../../icons/add'
+import { getCurrentUserId } from '../../lib/user'
+import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled } from '../../theme'
-import ShareProjectButton from '../collaboration/ShareProjectButton'
+import { ModalProps, withModal } from '../ModalProvider'
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarTitle,
 } from '../Sidebar'
-import { projectListCompare } from './ProjectsPageContainer'
+import { TemplateSelector } from '../templates/TemplateSelector'
+import { ProjectsList } from './ProjectsList'
 
 const Container = styled(Sidebar)`
   background: white;
@@ -26,40 +26,6 @@ const Header = styled(SidebarHeader)`
   @media (max-width: 450px) {
     margin-left: 7px;
   }
-`
-const SidebarProject = styled.div`
-  padding: 16px;
-  margin: 0 -16px;
-  border: 1px solid transparent;
-  border-bottom-color: #eaecee;
-  width: 500px;
-  border-radius: 4px;
-
-  &:hover {
-    background-color: #f1f8ff;
-    border-color: #edf2f5;
-  }
-
-  @media (max-width: 450px) {
-    width: unset;
-  }
-`
-
-const SidebarProjectHeader = styled.div`
-  display: flex;
-  @media (max-width: 450px) {
-    margin-left: 7px;
-  }
-`
-
-const ProjectTitle = styled(NavLink)`
-  font-size: 19px;
-  font-weight: 500;
-  font-style: normal;
-  flex: 1;
-  color: inherit;
-  text-decoration: none;
-  display: block;
 `
 
 const SidebarActionTitle = styled.span`
@@ -107,80 +73,52 @@ const ProjectsContainer = styled.div`
   }
 `
 
-const ProjectContributors = styled.div`
-  font-size: 15px;
-  margin-top: 8px;
+type Props = ModelsProps & RouteComponentProps & ModalProps
 
-  @media (max-width: 450px) {
-    margin-left: 7px;
-  }
-`
-
-const PlaceholderTitle = styled(Title)`
-  color: ${dustyGrey};
-`
-
-const ProjectContributor = styled.span``
-
-const initials = (name: BibliographicName): string =>
-  name.given
-    ? name.given
-        .split(' ')
-        .map(part => part.substr(0, 1).toUpperCase() + '.')
-        .join('')
-    : ''
-
-interface Props {
-  addProject: React.MouseEventHandler<HTMLButtonElement>
-  projects: Project[]
-  getCollaborators: (project: Project) => UserProfile[]
+const openTemplateSelector = (
+  props: Props,
+  user: UserProfileWithAvatar
+) => () => {
+  props.addModal('template-selector', ({ handleClose }) => (
+    <TemplateSelector
+      history={props.history}
+      saveModel={props.models.saveModel}
+      user={user}
+      handleComplete={handleClose}
+    />
+  ))
 }
 
-const ProjectsSidebar: React.FunctionComponent<Props> = ({
-  addProject,
-  projects,
-  getCollaborators,
-}) => (
+const ProjectsSidebar: React.FunctionComponent<Props> = props => (
   <Container id={'projects-sidebar'}>
     <ProjectsContainer>
       <Header>
         <SidebarTitle className={'sidebar-title'}>Projects</SidebarTitle>
       </Header>
       <SidebarAction>
-        <AddButton onClick={addProject} id={'create-project'}>
-          <Add size={32} />
-          <SidebarActionTitle>Add New Project</SidebarActionTitle>
-        </AddButton>
+        <UserData userID={getCurrentUserId()!}>
+          {user => (
+            <AddButton
+              onClick={openTemplateSelector(props, user)}
+              id={'create-project'}
+            >
+              <Add size={32} />
+              <SidebarActionTitle>Add New Project</SidebarActionTitle>
+            </AddButton>
+          )}
+        </UserData>
       </SidebarAction>
       <SidebarContent>
-        {projects.sort(projectListCompare).map(project => (
-          <SidebarProject key={project._id}>
-            <SidebarProjectHeader>
-              <ProjectTitle to={`/projects/${project._id}`}>
-                {project.title ? (
-                  <Title value={project.title} />
-                ) : (
-                  <PlaceholderTitle value={'Untitled Project'} />
-                )}
-              </ProjectTitle>
-              <ShareProjectButton project={project} />
-            </SidebarProjectHeader>
-            <ProjectContributors>
-              {getCollaborators(project).map((collaborator, index) => (
-                <React.Fragment key={collaborator._id}>
-                  {!!index && ', '}
-                  <ProjectContributor key={collaborator._id}>
-                    {initials(collaborator.bibliographicName)}{' '}
-                    {collaborator.bibliographicName.family}
-                  </ProjectContributor>
-                </React.Fragment>
-              ))}
-            </ProjectContributors>
-          </SidebarProject>
-        ))}
+        <UsersData>
+          {users => (
+            <ProjectsData>
+              {projects => <ProjectsList projects={projects} users={users} />}
+            </ProjectsData>
+          )}
+        </UsersData>
       </SidebarContent>
     </ProjectsContainer>
   </Container>
 )
 
-export default ProjectsSidebar
+export default withRouter(withModal(withModels(ProjectsSidebar)))

@@ -1,14 +1,9 @@
 import { buildBibliographyItem } from '@manuscripts/manuscript-editor'
-import {
-  BibliographyItem,
-  ObjectTypes,
-  Project,
-} from '@manuscripts/manuscripts-json-schema'
+import { BibliographyItem, Project } from '@manuscripts/manuscripts-json-schema'
 import qs from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { RxCollection, RxDocument } from 'rxdb'
-import { Subscription } from 'rxjs'
+import { RxDocument } from 'rxdb'
 import { sources } from '../../lib/sources'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 
@@ -20,44 +15,40 @@ import LibrarySourceContainer from './LibrarySourceContainer'
 interface State {
   item: BibliographyItem | null
   items: BibliographyItem[] | null
-  library: Map<string, BibliographyItem>
   query: string | null
   source: string
-  project: Project | null
 }
 
-interface RouteParams {
-  projectID: string
+interface Props {
+  library: Map<string, BibliographyItem>
+  project: Project
 }
 
-type Props = RouteComponentProps<RouteParams> & ModelsProps
+type CombinedProps = Props &
+  RouteComponentProps<{
+    projectID: string
+  }> &
+  ModelsProps
 
-class LibraryPageContainer extends React.Component<Props, State> {
+class LibraryPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
     item: null,
     items: null,
-    library: new Map(),
     query: null,
     source: 'library',
-    project: null,
   }
-
-  private subs: Subscription[] = []
 
   public componentDidMount() {
-    this.prepare(this.props)
+    this.setSource(this.props)
   }
 
-  public componentWillReceiveProps(nextProps: Props) {
-    this.prepare(nextProps)
-  }
-
-  public componentWillUnmount() {
-    this.subs.forEach(sub => sub.unsubscribe())
+  public componentWillReceiveProps(nextProps: CombinedProps) {
+    this.setSource(nextProps)
   }
 
   public render() {
-    const { library, project, source } = this.state
+    const { source } = this.state
+    const { library, project } = this.props
 
     if (!source || !project) return null
 
@@ -78,7 +69,6 @@ class LibraryPageContainer extends React.Component<Props, State> {
           />
         ) : (
           <LibrarySourceContainer
-            library={library}
             source={librarySource}
             handleAdd={this.handleAdd}
             hasItem={this.hasItem}
@@ -88,49 +78,7 @@ class LibraryPageContainer extends React.Component<Props, State> {
     )
   }
 
-  private prepare = (props: Props) => {
-    this.setSource(props)
-
-    const { projectID } = props.match.params
-
-    this.subs.push(
-      this.getCollection()
-        .findOne(projectID)
-        .$.subscribe((doc: RxDocument<Project> | null) => {
-          if (doc) {
-            this.setState({
-              project: doc.toJSON(),
-            })
-          }
-        })
-    )
-
-    this.subs.push(
-      this.getCollection()
-        .find({
-          objectType: ObjectTypes.BibliographyItem,
-          containerID: projectID,
-        })
-        .sort({
-          updatedAt: 'desc',
-        })
-        .$.subscribe((docs: Array<RxDocument<BibliographyItem>>) => {
-          const library = new Map()
-
-          docs.forEach(doc => {
-            library.set(doc._id, doc.toJSON())
-          })
-
-          this.setState({ library })
-        })
-    )
-  }
-
-  private getCollection() {
-    return this.props.models.collection as RxCollection<{}>
-  }
-
-  private setSource(props: Props) {
+  private setSource(props: CombinedProps) {
     const location = props.location
     const query = qs.parse(location.search.substr(1))
     this.setState({
@@ -143,7 +91,7 @@ class LibraryPageContainer extends React.Component<Props, State> {
 
     const item = buildBibliographyItem(data)
 
-    await this.props.models.saveModel(item, {
+    await this.props.models.saveModel<BibliographyItem>(item, {
       projectID,
     })
   }
@@ -168,7 +116,7 @@ class LibraryPageContainer extends React.Component<Props, State> {
 
   // TODO: move this to source definition
   private hasItem = (item: BibliographyItem): boolean => {
-    const items = Array.from(this.state.library.values())
+    const items = Array.from(this.props.library.values())
 
     return items.some(
       (libraryItem: RxDocument<BibliographyItem>) =>
@@ -177,4 +125,4 @@ class LibraryPageContainer extends React.Component<Props, State> {
   }
 }
 
-export default withModels(LibraryPageContainer)
+export default withModels<Props>(LibraryPageContainer)

@@ -4,8 +4,8 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AddAuthor from '../../icons/add-author'
+import { projectListCompare } from '../../lib/projects'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-import { projectListCompare } from '../projects/ProjectsPageContainer'
 import { DropdownSeparator } from './Dropdown'
 import {
   AllProjectsDropdownSection,

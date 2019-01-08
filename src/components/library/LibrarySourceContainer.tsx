@@ -46,7 +46,6 @@ interface State {
 
 interface Props {
   source: LibrarySource
-  library: Map<string, BibliographyItem>
   handleAdd: (item: BibliographyItem) => void
   hasItem: (item: BibliographyItem) => boolean
 }

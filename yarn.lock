@@ -906,10 +906,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.2.tgz#bc7354d1dc704bf03c4b9d4e0f4c1054c70bbc73"
   integrity sha512-kctNmYWfzk0M3Rxe5+UNdnMYM5pGL1ZFwE0+izMfpVegm3744Sbeg/0JUXrHXvaHIwT8JOzdOCi6WO6oBlejlA==
 
-"@manuscripts/manuscript-editor@^0.6.0":
-  version "0.6.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.6.0.tgz#4aa585ae5dfdf2c744a4a2b91669882e7cb49c17"
-  integrity sha512-S6jnKdF/hUVAWeqGpXUOtjJdo+rnQmezDDHOE6eI/qHklOCjW3+eA0hV+AM3b1xUayGzdjGsCLcqHsJIgk6Rcw==
+"@manuscripts/manuscript-editor@^0.6.1":
+  version "0.6.1"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.6.1.tgz#e5d956aa819e78d30b0238f2a0e8ade11b651c14"
+  integrity sha512-Ascusbmpd81K+dCH5Gfuryyilsh4h0q3ZhXVBPfPxNqrX/jWEyVjaOHR4GzsJSSsZ+5Ny6j5aidvRm+0BDhdrA==
   dependencies:
     "@manuscripts/assets" "^0.1.13"
     "@manuscripts/examples" "^0.0.2"
@@ -1492,6 +1492,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/jwt-decode@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.npmjs.org/@types/jwt-decode/-/jwt-decode-2.2.1.tgz#afdf5c527fcfccbd4009b5fd02d1e18241f2d2f2"
+  integrity sha512-aWw2YTtAdT7CskFyxEX2K21/zSDStuf/ikI3yBqmwpwJF0pS+/IX5DWv+1UFffZIbruP6cnT9/LAJV1gFwAT1A==
+
 "@types/lodash-es@^4.17.0":
   version "4.17.1"
   resolved "https://registry.npmjs.org/@types/lodash-es/-/lodash-es-4.17.1.tgz#56745e5411558362aeca31def918f88f725dd29d"
@@ -1667,14 +1672,6 @@
   version "2.3.11"
   resolved "https://registry.npmjs.org/@types/react-intl/-/react-intl-2.3.11.tgz#8d9e8a5931c665ce9086cbcda5b7467d668dfa33"
   integrity sha512-UWTuvlPfpwZII8sUIxXMHX85opFBT0Iq/qQlspcQOCJdvcQiArD/7N5JqBEcmWWdr/vu7rA43erx9i1ig436mA==
-
-"@types/react-loadable@^5.3.3":
-  version "5.4.1"
-  resolved "https://registry.npmjs.org/@types/react-loadable/-/react-loadable-5.4.1.tgz#bc76978c6d9039e5808797b5ee35f6ae18b7329f"
-  integrity sha512-nBvsWjPfBHepN5LoK/wgaunZSK9LmkKsPYum+/QrEKzUAb1yoe1/dwqTH6ZrinHDjru9LgjvXOqek9hvbq4Skw==
-  dependencies:
-    "@types/react" "*"
-    "@types/webpack" "*"
 
 "@types/react-modal@^3.1.1":
   version "3.2.1"
@@ -9014,6 +9011,11 @@ jszip@^3.1.5:
     pako "~1.0.2"
     readable-stream "~2.0.6"
 
+jwt-decode@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
+  integrity sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=
+
 kew@^0.7.0:
   version "0.7.0"
   resolved "http://registry.npmjs.org/kew/-/kew-0.7.0.tgz#79d93d2d33363d6fdd2970b335d9141ad591d79b"
@@ -11727,7 +11729,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
@@ -12292,13 +12294,6 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles
   version "3.0.4"
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
-
-react-loadable@^5.3.1:
-  version "5.5.0"
-  resolved "https://registry.npmjs.org/react-loadable/-/react-loadable-5.5.0.tgz#582251679d3da86c32aae2c8e689c59f1196d8c4"
-  integrity sha512-C8Aui0ZpMd4KokxRdVAm2bQtI03k2RMRNzOB+IipV3yxFTSVICv7WoUr5L9ALB5BmKO1iHgZtWM8EvYG83otdg==
-  dependencies:
-    prop-types "^15.5.0"
 
 react-modal@^3.1.11, react-modal@^3.6.1:
   version "3.6.1"

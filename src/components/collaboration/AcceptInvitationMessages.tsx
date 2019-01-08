@@ -5,36 +5,14 @@ import {
   AcceptedInvitationSuccessMessage,
 } from '../Messages'
 
-interface Props {
-  invitationAccepted: boolean | null
-}
+export const AcceptInvitationSuccess = () => (
+  <AlertMessage type={AlertMessageType.success} dismissButton={{ text: 'OK' }}>
+    <AcceptedInvitationSuccessMessage />
+  </AlertMessage>
+)
 
-const AcceptInvitationMessages: React.FunctionComponent<Props> = ({
-  invitationAccepted,
-}) => {
-  if (invitationAccepted) {
-    return (
-      <AlertMessage
-        type={AlertMessageType.success}
-        dismissButton={{ text: 'OK' }}
-      >
-        <AcceptedInvitationSuccessMessage />
-      </AlertMessage>
-    )
-  }
-
-  if (invitationAccepted === false) {
-    return (
-      <AlertMessage
-        type={AlertMessageType.error}
-        dismissButton={{ text: 'OK' }}
-      >
-        <AcceptedInvitationFailureMessage />
-      </AlertMessage>
-    )
-  }
-
-  return null
-}
-
-export default AcceptInvitationMessages
+export const AcceptInvitationError = () => (
+  <AlertMessage type={AlertMessageType.error} dismissButton={{ text: 'OK' }}>
+    <AcceptedInvitationFailureMessage />
+  </AlertMessage>
+)

@@ -17,13 +17,14 @@ class LogoutPageContainer extends React.Component<RouteComponentProps, State> {
   public async componentDidMount() {
     try {
       const db = await databaseCreator
+
       await logout(db)
+
+      // this.props.history.push('/')
+      window.location.href = '/login#action=logout'
     } catch (error) {
       this.setState({ error })
     }
-
-    // this.props.history.push('/')
-    window.location.href = '/login#action=logout'
   }
 
   public render() {

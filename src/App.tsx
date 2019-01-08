@@ -1,6 +1,5 @@
 import React from 'react'
 import { hot } from 'react-hot-loader'
-import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 import ChangePasswordPageContainer from './components/account/ChangePasswordPageContainer'
 import CommunityLoginPageContainer from './components/account/CommunityLoginPageContainer'
@@ -13,25 +12,13 @@ import RecoverPageContainer from './components/account/RecoverPageContainer'
 import SignupPageContainer from './components/account/SignupPageContainer'
 import AcceptEmailInvitationPageContainer from './components/collaboration/AcceptEmailInvitationPageContainer'
 import AcceptInvitationURIContainer from './components/collaboration/AcceptProjectInvitationURIPageContainer'
-import AddCollaboratorsPageContainer from './components/collaboration/AddCollaboratorsPageContainer'
-import CollaboratorsPageContainer from './components/collaboration/CollaboratorsPageContainer'
 import DeveloperPageContainer from './components/DeveloperPageContainer'
 import HomePageContainer from './components/HomePageContainer'
-import LibraryPageContainer from './components/library/LibraryPageContainer'
-import { LoadableSpinner } from './components/LoadableSpinner'
 import NotFoundPage from './components/NotFoundPage'
-// import ManuscriptPageContainer from './containers/ManuscriptPageContainer'
 // import PreferencesPageContainer from './containers/PreferencesPageContainer'
 import PrivateRoute from './components/PrivateRoute'
 import ProjectPageContainer from './components/projects/ProjectPageContainer'
 import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
-
-const ManuscriptPageContainer = Loadable({
-  delay: 500,
-  loader: () =>
-    import(/* webpackChunkName:"manuscript" */ './components/projects/ManuscriptPageContainer'),
-  loading: LoadableSpinner,
-})
 
 const App = () => (
   <Switch>
@@ -73,35 +60,14 @@ const App = () => (
       component={ProjectsPageContainer}
     />
     <PrivateRoute
-      path={'/projects/:projectID'}
-      exact={true}
-      component={ProjectPageContainer}
-    />
-    <PrivateRoute
-      path={'/projects/:projectID/manuscripts/:manuscriptID'}
-      exact={true}
-      component={ManuscriptPageContainer}
-    />
-    <PrivateRoute
       path={'/projects/:projectID/invitation/:invitationToken'}
       exact={true}
       component={AcceptInvitationURIContainer}
       message={'You must sign in first to access the shared project.'}
     />
     <PrivateRoute
-      path={'/projects/:projectID/library'}
-      exact={true}
-      component={LibraryPageContainer}
-    />
-    <PrivateRoute
-      path={'/projects/:projectID/collaborators'}
-      exact={true}
-      component={CollaboratorsPageContainer}
-    />
-    <PrivateRoute
-      path={'/projects/:projectID/collaborators/add'}
-      exact={true}
-      component={AddCollaboratorsPageContainer}
+      path={'/projects/:projectID'}
+      component={ProjectPageContainer}
     />
     <PrivateRoute
       path={'/feedback'}

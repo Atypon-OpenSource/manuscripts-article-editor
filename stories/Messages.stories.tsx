@@ -17,7 +17,10 @@ import {
   signupVerifyResendSuccessMessage,
 } from '../src/components/account/SignupMessages'
 import { AlertMessageType } from '../src/components/AlertMessage'
-import AcceptInvitationMessages from '../src/components/collaboration/AcceptInvitationMessages'
+import {
+  AcceptInvitationError,
+  AcceptInvitationSuccess,
+} from '../src/components/collaboration/AcceptInvitationMessages'
 import {
   AcceptedInvitationFailureMessage,
   AcceptedInvitationSuccessMessage,
@@ -88,12 +91,8 @@ storiesOf('Account/Messages/Signup', module)
   )
 
 storiesOf('Collaboration/Messages/AcceptInvitation', module)
-  .add('AcceptInvitationMessages - accepted', () => (
-    <AcceptInvitationMessages invitationAccepted={true} />
-  ))
-  .add('AcceptInvitationMessages - rejected', () => (
-    <AcceptInvitationMessages invitationAccepted={false} />
-  ))
+  .add('success', () => <AcceptInvitationSuccess />)
+  .add('error', () => <AcceptInvitationError />)
 
 storiesOf('Messages', module)
   .add('SignInMessage', () => <SignInMessage />)
