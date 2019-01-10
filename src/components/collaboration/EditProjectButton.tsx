@@ -163,4 +163,4 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withModal(withModels(EditProjectButton))
+export default withModal<Props>(withModels(EditProjectButton))
