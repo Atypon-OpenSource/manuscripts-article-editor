@@ -10,6 +10,7 @@ import { dustyGrey } from '../../colors'
 import { buildCollaborators } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
 import { styled } from '../../theme'
+import EditProjectButton from '../collaboration/EditProjectButton'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 
 const SidebarProject = styled.div`
@@ -32,6 +33,7 @@ const SidebarProject = styled.div`
 
 const SidebarProjectHeader = styled.div`
   display: flex;
+  align-items: center;
   @media (max-width: 450px) {
     margin-left: 7px;
   }
@@ -62,6 +64,11 @@ const PlaceholderTitle = styled(Title)`
 
 const ProjectContributor = styled.span``
 
+const Edit = styled.div`
+  margin-bottom: 5px;
+  margin-right: 2px;
+`
+
 const initials = (name: BibliographicName): string =>
   name.given
     ? name.given
@@ -90,7 +97,9 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
               <PlaceholderTitle value={'Untitled Project'} />
             )}
           </ProjectTitle>
-
+          <Edit>
+            <EditProjectButton project={project} />
+          </Edit>
           <ShareProjectButton project={project} />
         </SidebarProjectHeader>
 

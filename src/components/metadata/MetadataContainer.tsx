@@ -30,7 +30,6 @@ import { buildCollaborators } from '../../lib/collaborators'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { UserProps, withUser } from '../../store/UserProvider'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { AuthorValues } from './AuthorForm'
 import { Metadata } from './Metadata'
@@ -59,10 +58,7 @@ interface State {
   invitationSent: boolean
 }
 
-class MetadataContainer extends React.Component<
-  Props & ModelsProps & UserProps,
-  State
-> {
+class MetadataContainer extends React.Component<Props & ModelsProps, State> {
   public state: Readonly<State> = {
     editing: false,
     expanded: true,
@@ -508,4 +504,4 @@ class MetadataContainer extends React.Component<
   }
 }
 
-export default withModels<Props>(withUser(MetadataContainer))
+export default withModels<Props>(MetadataContainer)

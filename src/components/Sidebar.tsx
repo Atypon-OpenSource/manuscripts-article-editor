@@ -34,12 +34,14 @@ export const SidebarTitle = styled.div`
   font-weight: 600;
   color: #353535;
   flex: 1;
+  white-space: nowrap;
 `
 
 export const SidebarContent = styled.div`
   flex: 1;
   padding: 0 12px;
   position: relative;
+  flex-shrink: 0;
 `
 
 export const SidebarPersonContainer = styled.div`
@@ -60,6 +62,7 @@ export const SidebarSearchField = styled.div`
   margin: 10px;
   align-items: center;
   cursor: pointer;
+  flex-shrink: 0;
 `
 
 export const SidebarSearchText = styled.input`

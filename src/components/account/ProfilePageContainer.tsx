@@ -1,4 +1,7 @@
-import { buildUserProfileAffiliation } from '@manuscripts/manuscript-editor'
+import {
+  buildUserProfileAffiliation,
+  UserProfileWithAvatar,
+} from '@manuscripts/manuscript-editor'
 import {
   UserProfile,
   UserProfileAffiliation,
@@ -10,18 +13,15 @@ import UserAffiliationsData from '../../data/UserAffiliationsData'
 import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { UserProps, withUser } from '../../store/UserProvider'
 import { ProfileErrors, ProfileValues } from './ProfileForm'
 import ProfilePage from './ProfilePage'
 
-type Props = UserProps & RouteComponentProps<{}> & ModelsProps
-
-class ProfilePageContainer extends React.Component<Props> {
+class ProfilePageContainer extends React.Component<
+  RouteComponentProps & ModelsProps
+> {
   public render() {
-    const userID = getCurrentUserId()!
-
     return (
-      <UserData userID={userID}>
+      <UserData userID={getCurrentUserId()!}>
         {user => (
           <UserAffiliationsData profileID={user._id}>
             {affiliations => (
@@ -32,7 +32,7 @@ class ProfilePageContainer extends React.Component<Props> {
                 handleChangePassword={this.handleChangePassword}
                 handleDeleteAccount={this.handleDeleteAccount}
                 handleClose={this.handleClose}
-                saveUserProfileAvatar={this.saveUserProfileAvatar}
+                saveUserProfileAvatar={this.saveUserProfileAvatar(user._id)}
                 createAffiliation={this.createAffiliation(user._id)}
               />
             )}
@@ -54,13 +54,15 @@ class ProfilePageContainer extends React.Component<Props> {
       )
     )
 
+    // TODO: remove avatar property?
+
     const userProfile = {
       ...user,
       ...values,
       affiliations: values.affiliations.map(item => item._id),
     }
 
-    this.props.user.update(userProfile).then(
+    this.props.models.saveModel<UserProfileWithAvatar>(userProfile, {}).then(
       () => setSubmitting(false),
       error => {
         setSubmitting(false)
@@ -96,12 +98,13 @@ class ProfilePageContainer extends React.Component<Props> {
     )
   }
 
-  private saveUserProfileAvatar = (data: Blob) =>
-    this.props.user.putAttachment({
+  private saveUserProfileAvatar = (id: string) => async (data: Blob) => {
+    await this.props.models.putAttachment(id, {
       id: 'image',
       type: data.type,
       data,
     })
+  }
 }
 
-export default withModels(withUser(ProfilePageContainer))
+export default withModels(ProfilePageContainer)

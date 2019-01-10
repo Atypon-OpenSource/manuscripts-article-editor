@@ -177,3 +177,11 @@ export const FeedbackMessage = () => (
     defaultMessage={'Post Feedback'}
   />
 )
+
+export const ProjectRenameMessage = () => (
+  <FormattedMessage
+    id={'rename_project'}
+    description={'Title of rename project form'}
+    defaultMessage={'Rename project'}
+  />
+)
