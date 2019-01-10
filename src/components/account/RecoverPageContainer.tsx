@@ -2,14 +2,12 @@ import { FormikActions, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse, stringify } from 'qs'
 import React from 'react'
-import { Redirect, RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { resetPassword } from '../../lib/account'
 import { sendPasswordRecovery } from '../../lib/api'
-import { UserProps, withUser } from '../../store/UserProvider'
 import { passwordSchema, recoverSchema } from '../../validation'
 import { MessageBannerAction } from '../MessageBanner'
 import { Main, Page } from '../Page'
-import { Spinner } from '../Spinner'
 import { PasswordErrors, PasswordValues } from './PasswordForm'
 import PasswordPage from './PasswordPage'
 import { RecoverErrors, RecoverValues } from './RecoverForm'
@@ -20,9 +18,7 @@ interface State {
   token: string
 }
 
-class RecoverPageContainer extends React.Component<
-  UserProps & RouteComponentProps<{}>
-> {
+class RecoverPageContainer extends React.Component<RouteComponentProps<{}>> {
   public state: Readonly<State> = {
     sent: null,
     token: '',
@@ -45,16 +41,7 @@ class RecoverPageContainer extends React.Component<
   }
 
   public render() {
-    const { user } = this.props
     const { sent, token } = this.state
-
-    if (!user.loaded) {
-      return <Spinner />
-    }
-
-    if (user.data) {
-      return <Redirect to={'/'} />
-    }
 
     if (sent) {
       this.props.history.push('/login', {
@@ -149,4 +136,4 @@ class RecoverPageContainer extends React.Component<
   }
 }
 
-export default withUser(RecoverPageContainer)
+export default RecoverPageContainer

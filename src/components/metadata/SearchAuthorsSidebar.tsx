@@ -60,7 +60,7 @@ interface SearchSidebarProps {
     name?: string,
     invitationID?: string
   ) => void
-  authorExist: () => boolean
+  isAuthorExist: () => boolean
   handleCreateAuthor: () => void
 }
 
@@ -71,7 +71,7 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
   searchResults,
   addedAuthors,
   authors,
-  authorExist,
+  isAuthorExist,
   handleCreateAuthor,
 }) => (
   <React.Fragment>
@@ -90,7 +90,7 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
             <SidebarButtonContainer>
               <TransparentGreyButton
                 onClick={() =>
-                  !authorExist()
+                  !isAuthorExist()
                     ? createAuthor(
                         buildAuthorPriority(authors),
                         null,

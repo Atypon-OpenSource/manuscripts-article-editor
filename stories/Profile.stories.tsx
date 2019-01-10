@@ -6,7 +6,11 @@ import {
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+import { AvatarFileUpload } from '../src/components/account/AvatarFileUpload'
 import ProfilePage from '../src/components/account/ProfilePage'
+import { AvatarProps } from '../src/components/account/ProfilePageSidebar'
+import { styled } from '../src/theme'
+import { people } from './data/people'
 
 const bibliographicName: BibliographicName = {
   _id: 'MPBibliographicName:id',
@@ -62,3 +66,39 @@ storiesOf('Account/Modals', module).add('Profile', () => (
     createAffiliation={action('create new affiliation')}
   />
 ))
+
+// tslint:disable-next-line:no-object-literal-type-assertion
+const avatar = { src: people[0].avatar } as AvatarProps
+
+const SidebarStory = styled.div`
+  width: 300px;
+  height: 600px;
+`
+
+storiesOf('Account/Profile', module)
+  .add('AvatarFileUpload', () => (
+    <SidebarStory>
+      <AvatarFileUpload
+        avatar={null}
+        avatarZoom={2}
+        avatarEditorRef={React.createRef()}
+        importAvatar={action('import avatar')}
+        handleAvatarZoom={action('zoom avatar')}
+        handleCancel={action('cancel')}
+        handleSaveAvatar={action('save avatar')}
+      />
+    </SidebarStory>
+  ))
+  .add('AvatarFileUpload - with Avatar', () => (
+    <SidebarStory>
+      <AvatarFileUpload
+        avatar={avatar}
+        avatarZoom={1}
+        avatarEditorRef={React.createRef()}
+        importAvatar={action('import avatar')}
+        handleAvatarZoom={action('zoom avatar')}
+        handleCancel={action('cancel')}
+        handleSaveAvatar={action('save avatar')}
+      />
+    </SidebarStory>
+  ))

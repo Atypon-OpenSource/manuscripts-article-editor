@@ -1,7 +1,6 @@
 import {
   Affiliation,
   Contributor,
-  Manuscript,
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -46,16 +45,21 @@ const ModalMain = styled.div`
 interface AuthorsProps {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
-  manuscript: Manuscript
   affiliations: AffiliationMap
   selectedAuthor: Contributor | null
-  removeAuthorIsOpen: boolean
+  isRemoveAuthorOpen: boolean
+  isHovered: boolean
+  project: Project
   removeAuthor: (data: Contributor) => void
   selectAuthor: (data: Contributor) => void
-  startAddingAuthors: () => void
-  handleSaveAuthor: (values: AuthorValues) => Promise<void>
+  updateAuthor: (author: Contributor, email: string) => void
+  openAddAuthors: () => void
   createAffiliation: (name: string) => Promise<Affiliation>
   checkInvitations: (author: Contributor) => boolean
+  isRejected: (invitationID: string) => boolean
+  getAuthorName: (author: Contributor) => string
+  handleSaveAuthor: (values: AuthorValues) => Promise<void>
+  handleHover: () => void
   handleRemoveAuthor: () => void
   handleDrop: (
     source: AuthorItem,
@@ -63,32 +67,25 @@ interface AuthorsProps {
     position: DropSide,
     authors: Contributor[]
   ) => void
-  isRejected: (invitationID: string) => boolean
-  handleHover: () => void
-  hovered: boolean
-  project: Project
-  updateAuthor: (author: Contributor, email: string) => void
-  getAuthorName: (author: Contributor) => string
 }
 
 export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   authors,
   authorAffiliations,
-  manuscript,
   affiliations,
   removeAuthor,
   selectAuthor,
   selectedAuthor,
-  startAddingAuthors,
+  openAddAuthors,
   handleSaveAuthor,
   createAffiliation,
   handleDrop,
   checkInvitations,
-  removeAuthorIsOpen,
+  isRemoveAuthorOpen,
   handleRemoveAuthor,
   isRejected,
   handleHover,
-  hovered,
+  isHovered,
   project,
   updateAuthor,
   getAuthorName,
@@ -100,17 +97,16 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
         authorAffiliations={authorAffiliations}
         selectAuthor={selectAuthor}
         selectedAuthor={selectedAuthor}
-        startAdding={startAddingAuthors}
+        openAddAuthors={openAddAuthors}
         handleDrop={handleDrop}
         checkInvitations={checkInvitations}
         handleHover={handleHover}
-        hovered={hovered}
+        isHovered={isHovered}
       />
     </ModalSidebar>
     <ModalMain>
       {selectedAuthor ? (
         <AuthorForm
-          manuscript={manuscript._id}
           author={selectedAuthor}
           affiliations={affiliations}
           authorAffiliations={
@@ -118,7 +114,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
           }
           handleSave={handleSaveAuthor}
           createAffiliation={createAffiliation}
-          removeAuthorIsOpen={removeAuthorIsOpen}
+          isRemoveAuthorOpen={isRemoveAuthorOpen}
           handleRemoveAuthor={handleRemoveAuthor}
           removeAuthor={removeAuthor}
           isRejected={isRejected}
@@ -136,31 +132,31 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
 interface AddAuthorsProps {
   nonAuthors: UserProfile[]
   authors: Contributor[]
-  addedAuthorsCount: number
+  numberOfAddedAuthors: number
   searchingAuthors: boolean
   searchText: string
   addedAuthors: string[]
   searchResults: UserProfile[]
+  isCreateAuthorOpen: boolean
+  isAuthorExist: () => boolean
+  handleAddingDoneCancel: () => void
+  handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
+  handleSearchFocus: () => void
+  handleInvite: (searchText: string) => void
+  handleCreateAuthor: () => void
   createAuthor: (
     priority: number,
     person?: UserProfile,
     name?: string,
     invitationID?: string
   ) => void
-  handleAddingDoneCancel: () => void
-  handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
-  handleSearchFocus: () => void
-  handleInvite: () => void
-  authorExist: () => boolean
-  handleCreateAuthor: () => void
-  createAuthorIsOpen: boolean
 }
 
 export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
   nonAuthors,
   authors,
   addedAuthors,
-  addedAuthorsCount,
+  numberOfAddedAuthors,
   searchingAuthors,
   searchResults,
   searchText,
@@ -169,16 +165,16 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
   handleSearchChange,
   handleSearchFocus,
   handleInvite,
-  authorExist,
-  createAuthorIsOpen,
+  isAuthorExist,
+  isCreateAuthorOpen,
   handleCreateAuthor,
 }) => (
   <ModalBody>
     <ModalSidebar>
       <AddAuthorsSidebar
-        nonAuthors={nonAuthors}
         authors={authors}
-        numberOfAddedAuthors={addedAuthorsCount}
+        nonAuthors={nonAuthors}
+        numberOfAddedAuthors={numberOfAddedAuthors}
         isSearching={searchingAuthors}
         searchText={searchText}
         addedAuthors={addedAuthors}
@@ -188,13 +184,13 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
         handleSearchFocus={handleSearchFocus}
         searchResults={searchResults}
         handleInvite={handleInvite}
-        authorExist={authorExist}
-        createAuthorIsOpen={createAuthorIsOpen}
+        isAuthorExist={isAuthorExist}
+        isCreateAuthorOpen={isCreateAuthorOpen}
         handleCreateAuthor={handleCreateAuthor}
       />
     </ModalSidebar>
     <ModalMain>
-      <AddAuthorsPage addedAuthorsCount={addedAuthorsCount} />
+      <AddAuthorsPage addedAuthorsCount={numberOfAddedAuthors} />
     </ModalMain>
   </ModalBody>
 )

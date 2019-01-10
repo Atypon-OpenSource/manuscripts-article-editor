@@ -7,7 +7,6 @@ import {
 import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
 import React from 'react'
 import AlertMessage, { AlertMessageType } from '../../components/AlertMessage'
-import InviteAuthorButton from '../../components/InviteAuthorButton'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme'
 import AutoSaveInput from '../AutoSaveInput'
@@ -15,6 +14,7 @@ import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 import { AffiliationsSelect } from './AffiliationsSelect'
 import { AuthorAffiliation } from './Author'
+import InviteAuthorButton from './InviteAuthorButton'
 import RemoveAuthorButton from './RemoveAuthorButton'
 
 const Fields = styled.div`
@@ -135,30 +135,28 @@ const buildInitialValues = (
 }
 
 interface AuthorProps {
+  project: Project
   author: Contributor
   affiliations: AffiliationMap
   authorAffiliations: AuthorAffiliation[]
-  manuscript: string
-  handleSave: (values: AuthorValues) => Promise<void>
+  isRemoveAuthorOpen: boolean
   createAffiliation: (name: string) => Promise<Affiliation>
-  removeAuthorIsOpen: boolean
   removeAuthor: (data: Contributor) => void
-  handleRemoveAuthor: () => void
   isRejected: (invitationID: string) => boolean
-  project: Project
   updateAuthor: (author: Contributor, email: string) => void
   getAuthorName: (author: Contributor) => string
+  handleSave: (values: AuthorValues) => Promise<void>
+  handleRemoveAuthor: () => void
 }
 
 export const AuthorForm: React.FunctionComponent<AuthorProps> = ({
   author,
   affiliations,
   authorAffiliations,
-  manuscript,
   handleSave,
   createAffiliation,
   removeAuthor,
-  removeAuthorIsOpen,
+  isRemoveAuthorOpen,
   handleRemoveAuthor,
   isRejected,
   project,
@@ -182,7 +180,7 @@ export const AuthorForm: React.FunctionComponent<AuthorProps> = ({
                   removeAuthor={() => {
                     removeAuthor(author)
                   }}
-                  isOpen={removeAuthorIsOpen}
+                  isOpen={isRemoveAuthorOpen}
                   handleOpen={handleRemoveAuthor}
                 />
               </Container>

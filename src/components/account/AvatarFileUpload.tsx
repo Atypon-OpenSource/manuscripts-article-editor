@@ -1,12 +1,12 @@
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
-import { aliceBlue, altoGrey } from '../colors'
-import { Sidebar, SidebarContent } from '../components/Sidebar'
-import { styled } from '../theme'
-import ImportAvatarContainer from './account/ImportAvatarContainer'
-import { AvatarProps } from './account/ProfilePageSidebar'
-import { ManuscriptBlueButton, TransparentGreyButton } from './Button'
-import { ImportProps } from './ImportContainer'
+import { aliceBlue, altoGrey } from '../../colors'
+import { styled } from '../../theme'
+import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { ImportProps } from '../ImportContainer'
+import { Sidebar, SidebarContent } from '../Sidebar'
+import ImportAvatarContainer from './ImportAvatarContainer'
+import { AvatarProps } from './ProfilePageSidebar'
 
 const DropZone = styled.div`
   width: 150px;
@@ -119,21 +119,19 @@ export const AvatarFileUpload: React.FunctionComponent<
           importAvatar={importAvatar}
           render={({ isImporting, isOver }: ImportProps) => (
             <UploadContainer isOver={isOver}>
-              <React.Fragment>
-                <DropZone />
-                <UploadBox>
-                  {isImporting ? (
-                    <UploadLabel>Importing…</UploadLabel>
-                  ) : (
-                    <React.Fragment>
-                      <UploadLabel>Drag file above</UploadLabel>
-                      <UploadBoxInnerText>
-                        or <UploadBoxBrowse>browse</UploadBoxBrowse> for a file
-                      </UploadBoxInnerText>
-                    </React.Fragment>
-                  )}
-                </UploadBox>
-              </React.Fragment>
+              <DropZone />
+              <UploadBox>
+                {isImporting ? (
+                  <UploadLabel>Importing…</UploadLabel>
+                ) : (
+                  <React.Fragment>
+                    <UploadLabel>Drag file above</UploadLabel>
+                    <UploadBoxInnerText>
+                      or <UploadBoxBrowse>browse</UploadBoxBrowse> for a file
+                    </UploadBoxInnerText>
+                  </React.Fragment>
+                )}
+              </UploadBox>
             </UploadContainer>
           )}
         />

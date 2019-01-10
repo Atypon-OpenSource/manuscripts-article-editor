@@ -21,12 +21,11 @@ class AddCollaboratorPopperContainer extends React.Component<Props> {
     )
   }
 
-  private addCollaborator = (role: string) => {
-    const { userID } = this.props
+  private addCollaborator = async (role: string) => {
+    const { userID, addCollaborator, handleIsRoleSelected } = this.props
 
-    return this.props
-      .addCollaborator(userID, role)
-      .then(this.props.handleIsRoleSelected)
+    await addCollaborator(userID, role)
+    handleIsRoleSelected()
   }
 }
 

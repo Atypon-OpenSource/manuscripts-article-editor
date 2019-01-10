@@ -3,14 +3,11 @@ import { LocationState } from 'history'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import React from 'react'
-import { Redirect, RouteComponentProps } from 'react-router-dom'
-import Spinner from '../../icons/spinner'
+import { RouteComponentProps } from 'react-router-dom'
 import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
 import { databaseCreator } from '../../lib/db'
-import { fetchUser } from '../../lib/fetchUser'
 import token, { Token } from '../../lib/token'
-import { UserProps, withUser } from '../../store/UserProvider'
 import { loginSchema } from '../../validation'
 import { AlertMessageType } from '../AlertMessage'
 import { FormErrors } from '../Form'
@@ -60,7 +57,7 @@ interface RouteLocationState {
 }
 
 class LoginPageContainer extends React.Component<
-  UserProps & RouteComponentProps<{}, {}, RouteLocationState>,
+  RouteComponentProps<{}, {}, RouteLocationState>,
   State
 > {
   public state: Readonly<State> = {
@@ -124,7 +121,6 @@ class LoginPageContainer extends React.Component<
       } else if (hashData.access_token) {
         token.set(hashData)
 
-        fetchUser(this.props.user)
         window.location.href = '/'
       }
       if (hashData.action === 'logout') {
@@ -137,16 +133,7 @@ class LoginPageContainer extends React.Component<
   }
 
   public render() {
-    const { user } = this.props
     const { message } = this.state
-
-    if (!user.loaded) {
-      return <Spinner />
-    }
-
-    if (user.data) {
-      return <Redirect to={'/'} />
-    }
 
     return (
       <Page>
@@ -256,4 +243,4 @@ class LoginPageContainer extends React.Component<
   }
 }
 
-export default withUser(LoginPageContainer)
+export default LoginPageContainer

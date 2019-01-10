@@ -1,9 +1,9 @@
 import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import { styled } from '../theme'
-import { TextButton } from './AlertMessage'
-import InviteAuthorPopperContainer from './metadata/InviteAuthorPopperContainer'
+import { styled } from '../../theme'
+import { TextButton } from '../AlertMessage'
+import InviteAuthorPopperContainer from './InviteAuthorPopperContainer'
 
 interface State {
   isOpen: boolean
@@ -18,20 +18,16 @@ interface Props {
 const Button = styled(TextButton)`
   margin-left: 10px;
 `
+
 class InviteAuthorButton extends React.Component<Props, State> {
   public state: State = {
     isOpen: false,
   }
 
   private node: Node
-  private closedNow: boolean = false
 
-  public componentWillMount() {
-    document.addEventListener('mousedown', this.handleClickOutside, false)
-  }
-
-  public componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside, false)
+  public componentDidMount() {
+    this.updateListener(this.state.isOpen)
   }
 
   public render() {
@@ -44,23 +40,24 @@ class InviteAuthorButton extends React.Component<Props, State> {
             <Button
               // @ts-ignore: styled
               ref={ref}
-              onClick={this.openPopper}
+              onClick={this.togglePopper}
             >
               Invite as Collaborator
             </Button>
           )}
         </Reference>
         {isOpen && (
-          <Popper placement={'bottom'}>
+          <Popper
+            placement={'bottom'}
+            innerRef={(node: HTMLDivElement) => (this.node = node)}
+          >
             {(popperProps: PopperChildrenProps) => (
-              <div ref={(node: HTMLDivElement) => (this.node = node)}>
-                <InviteAuthorPopperContainer
-                  popperProps={popperProps}
-                  project={this.props.project}
-                  author={this.props.author}
-                  updateAuthor={this.props.updateAuthor}
-                />
-              </div>
+              <InviteAuthorPopperContainer
+                popperProps={popperProps}
+                project={this.props.project}
+                author={this.props.author}
+                updateAuthor={this.props.updateAuthor}
+              />
             )}
           </Popper>
         )}
@@ -68,25 +65,24 @@ class InviteAuthorButton extends React.Component<Props, State> {
     )
   }
 
-  private openPopper = () => {
-    if (!this.closedNow) {
-      this.setState({
-        isOpen: true,
-      })
-    }
+  private togglePopper = () => {
+    this.updateListener(!this.state.isOpen)
+    this.setState({
+      isOpen: !this.state.isOpen,
+    })
   }
 
   private handleClickOutside: EventListener = (event: Event) => {
     if (this.node && !this.node.contains(event.target as Node)) {
-      this.setState({
-        isOpen: false,
-      })
+      this.togglePopper()
+    }
+  }
 
-      this.closedNow = true
-
-      setTimeout(() => {
-        this.closedNow = false
-      }, 100)
+  private updateListener = (isOpen: boolean) => {
+    if (isOpen) {
+      document.addEventListener('mousedown', this.handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', this.handleClickOutside)
     }
   }
 }

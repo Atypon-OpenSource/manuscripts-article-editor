@@ -1,6 +1,7 @@
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import { manuscriptsBlue } from '../../colors'
 import AddIconActive from '../../icons/add-icon-active'
 import AddIconInverted from '../../icons/add-icon-inverted'
 import AddedIcon from '../../icons/added-icon'
@@ -49,6 +50,7 @@ class AddCollaboratorButton extends React.Component<Props, State> {
 
   public render() {
     const { isOpen, isSelected } = this.state
+    const { addCollaborator, collaborator } = this.props
 
     if (isSelected) {
       return (
@@ -68,9 +70,9 @@ class AddCollaboratorButton extends React.Component<Props, State> {
               onClick={this.togglePopper}
             >
               {isOpen ? (
-                <AddIconActive color={'#7fb5d5'} />
+                <AddIconActive color={manuscriptsBlue} />
               ) : (
-                <AddIconInverted color={'#7fb5d5'} />
+                <AddIconInverted color={manuscriptsBlue} />
               )}
             </AddIconButton>
           )}
@@ -82,9 +84,9 @@ class AddCollaboratorButton extends React.Component<Props, State> {
           >
             {(popperProps: PopperChildrenProps) => (
               <AddCollaboratorPopperContainer
-                userID={this.props.collaborator.userID}
+                userID={collaborator.userID}
                 popperProps={popperProps}
-                addCollaborator={this.props.addCollaborator}
+                addCollaborator={addCollaborator}
                 handleIsRoleSelected={this.handleIsRoleSelected}
               />
             )}

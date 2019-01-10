@@ -1,7 +1,9 @@
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import UserData from '../../data/UserData'
 import ShareProjectIcon from '../../icons/shareProject'
+import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
@@ -29,14 +31,9 @@ class ShareProjectButton extends React.Component<Props, State> {
   }
 
   private node: Node
-  private closedNow: boolean = false
 
-  public componentWillMount() {
-    document.addEventListener('mousedown', this.handleClickOutside, false)
-  }
-
-  public componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside, false)
+  public componentDidMount() {
+    this.updateListener(this.state.isOpen)
   }
 
   public render() {
@@ -49,20 +46,28 @@ class ShareProjectButton extends React.Component<Props, State> {
             <ShareIconButton
               // @ts-ignore: styled
               ref={ref}
-              onClick={this.openPopper}
+              onClick={this.togglePopper}
             >
               <ShareProjectIcon />
             </ShareIconButton>
           )}
         </Reference>
         {isOpen && (
-          <Popper placement={'bottom'}>
+          <Popper
+            placement={'bottom'}
+            innerRef={(node: HTMLDivElement) => (this.node = node)}
+          >
             {(popperProps: PopperChildrenProps) => (
               <div ref={(node: HTMLDivElement) => (this.node = node)}>
-                <ShareProjectPopperContainer
-                  project={this.props.project}
-                  popperProps={popperProps}
-                />
+                <UserData userID={getCurrentUserId()!}>
+                  {user => (
+                    <ShareProjectPopperContainer
+                      project={this.props.project}
+                      popperProps={popperProps}
+                      user={user}
+                    />
+                  )}
+                </UserData>
               </div>
             )}
           </Popper>
@@ -71,25 +76,24 @@ class ShareProjectButton extends React.Component<Props, State> {
     )
   }
 
-  private openPopper = () => {
-    if (!this.closedNow) {
-      this.setState({
-        isOpen: true,
-      })
-    }
+  private togglePopper = () => {
+    this.updateListener(!this.state.isOpen)
+    this.setState({
+      isOpen: !this.state.isOpen,
+    })
   }
 
   private handleClickOutside: EventListener = (event: Event) => {
     if (this.node && !this.node.contains(event.target as Node)) {
-      this.setState({
-        isOpen: false,
-      })
+      this.togglePopper()
+    }
+  }
 
-      this.closedNow = true
-
-      setTimeout(() => {
-        this.closedNow = false
-      }, 100)
+  private updateListener = (isOpen: boolean) => {
+    if (isOpen) {
+      document.addEventListener('mousedown', this.handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', this.handleClickOutside)
     }
   }
 }

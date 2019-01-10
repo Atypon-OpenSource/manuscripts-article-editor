@@ -30,7 +30,6 @@ import { buildCollaborators } from '../../lib/collaborators'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { UserProps, withUser } from '../../store/UserProvider'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { AuthorValues } from './AuthorForm'
 import { Metadata } from './Metadata'
@@ -50,46 +49,33 @@ interface State {
   selectedAuthor: Contributor | null
   addingAuthors: boolean
   nonAuthors: UserProfile[]
-  addedAuthorsCount: number
-  searchingAuthors: boolean
-  searchText: string
-  searchResults: UserProfile[]
+  userMap: Map<string, UserProfile>
+  numberOfAddedAuthors: number
   addedAuthors: string[]
   isInvite: boolean
   invitationValues: InvitationValues
   invitations: ProjectInvitation[]
-  removeAuthorIsOpen: boolean
-  createAuthorIsOpen: boolean
-  hovered: boolean
   invitationSent: boolean
 }
 
-class MetadataContainer extends React.Component<
-  Props & ModelsProps & UserProps,
-  State
-> {
+class MetadataContainer extends React.Component<Props & ModelsProps, State> {
   public state: Readonly<State> = {
     editing: false,
     expanded: true,
     selectedAuthor: null,
     addingAuthors: false,
     nonAuthors: [],
-    addedAuthorsCount: 0,
-    searchingAuthors: false,
-    searchText: '',
-    searchResults: [],
+    userMap: new Map(),
+    numberOfAddedAuthors: 0,
     addedAuthors: [],
     invitations: [],
     isInvite: false,
+    invitationSent: false,
     invitationValues: {
       name: '',
       email: '',
       role: '',
     },
-    removeAuthorIsOpen: false,
-    createAuthorIsOpen: false,
-    hovered: false,
-    invitationSent: false,
   }
 
   public render() {
@@ -99,19 +85,13 @@ class MetadataContainer extends React.Component<
       addingAuthors,
       nonAuthors,
       expanded,
-      addedAuthorsCount,
-      searchingAuthors,
-      searchText,
+      numberOfAddedAuthors,
       addedAuthors,
-      searchResults,
       isInvite,
       invitationValues,
-      removeAuthorIsOpen,
-      createAuthorIsOpen,
       invitationSent,
     } = this.state
-
-    const { manuscript } = this.props
+    const { manuscript, modelMap } = this.props
 
     const {
       affiliations,
@@ -134,8 +114,10 @@ class MetadataContainer extends React.Component<
 
                       return (
                         <Metadata
+                          modelMap={modelMap}
                           saveTitle={debounce(this.saveTitle, 1000)}
                           authors={authors}
+                          invitations={invitations}
                           editing={editing}
                           affiliations={affiliations}
                           startEditing={this.startEditing}
@@ -153,38 +135,24 @@ class MetadataContainer extends React.Component<
                           project={project}
                           user={user}
                           addingAuthors={addingAuthors}
-                          startAddingAuthors={this.startAddingAuthors(
+                          openAddAuthors={this.startAddingAuthors(
                             collaborators
                           )}
+                          numberOfAddedAuthors={numberOfAddedAuthors}
                           nonAuthors={nonAuthors}
-                          addedAuthorsCount={addedAuthorsCount}
-                          searchingAuthors={searchingAuthors}
-                          searchText={searchText}
                           addedAuthors={addedAuthors}
-                          searchResults={searchResults}
                           isInvite={isInvite}
                           invitationValues={invitationValues}
                           checkInvitations={this.checkInvitations}
                           handleAddingDoneCancel={this.handleAddingDoneCancel}
-                          handleSearchChange={this.handleSearchChange}
-                          handleSearchFocus={this.handleSearchFocus}
                           handleInvite={this.handleInvite}
                           handleInviteCancel={this.handleInviteCancel}
                           handleInvitationSubmit={this.handleInvitationSubmit(
                             user
                           )}
                           handleDrop={this.handleDrop}
-                          removeAuthorIsOpen={removeAuthorIsOpen}
-                          handleRemoveAuthor={this.handleRemoveAuthor}
                           handleSectionChange={this.props.handleSectionChange}
-                          authorExist={this.authorExist}
-                          createAuthorIsOpen={createAuthorIsOpen}
-                          handleCreateAuthor={this.handleCreateAuthor}
-                          isRejected={this.isRejected}
-                          hovered={this.state.hovered}
-                          handleHover={this.handleHover}
                           updateAuthor={this.updateAuthor(user)}
-                          getAuthorName={this.getAuthorName}
                           invitationSent={invitationSent}
                         />
                       )
@@ -213,43 +181,6 @@ class MetadataContainer extends React.Component<
     this.selectAuthor(updatedAuthor)
   }
 
-  private handleHover = () => {
-    this.setState({
-      hovered: !this.state.hovered,
-    })
-  }
-
-  private handleCreateAuthor = () => {
-    if (this.state.createAuthorIsOpen) {
-      this.setState({
-        searchText: '',
-      })
-    }
-    this.setState({
-      createAuthorIsOpen: !this.state.createAuthorIsOpen,
-    })
-  }
-
-  private handleRemoveAuthor = () => {
-    this.setState({ removeAuthorIsOpen: !this.state.removeAuthorIsOpen })
-  }
-
-  private authorExist = () => {
-    const name = this.state.searchText
-    const [given, ...family] = name.split(' ')
-    const authors = buildSortedAuthors(this.props.modelMap)
-    for (const author of authors) {
-      if (
-        author.bibliographicName.given!.toLowerCase() === given.toLowerCase() &&
-        author.bibliographicName.family!.toLowerCase() ===
-          family.join(' ').toLowerCase()
-      ) {
-        return true
-      }
-    }
-    return false
-  }
-
   private toggleExpanded = () => {
     this.setState({
       expanded: !this.state.expanded,
@@ -266,7 +197,6 @@ class MetadataContainer extends React.Component<
       selectedAuthor: null,
       addingAuthors: false,
       isInvite: false,
-      searchText: '',
     })
   }
 
@@ -298,8 +228,7 @@ class MetadataContainer extends React.Component<
       await this.props.saveModel<Contributor>(author as Contributor)
 
       this.setState({
-        addedAuthorsCount: this.state.addedAuthorsCount + 1,
-        searchText: '',
+        numberOfAddedAuthors: this.state.numberOfAddedAuthors + 1,
       })
     }
 
@@ -317,7 +246,7 @@ class MetadataContainer extends React.Component<
 
       this.setState({
         addedAuthors: this.state.addedAuthors.concat(author.userID as string),
-        addedAuthorsCount: this.state.addedAuthorsCount + 1,
+        numberOfAddedAuthors: this.state.numberOfAddedAuthors + 1,
       })
 
       this.selectAuthor(createdAuthor)
@@ -348,7 +277,6 @@ class MetadataContainer extends React.Component<
       const index = this.state.addedAuthors.indexOf(author.userID as string)
       this.state.addedAuthors.splice(index, 1)
     }
-    this.handleRemoveAuthor()
   }
 
   private startAddingAuthors = (collaborators: UserProfile[]) => () => {
@@ -358,54 +286,10 @@ class MetadataContainer extends React.Component<
     this.buildNonAuthors(authors, collaborators)
   }
 
-  private handleSearchChange = (event: React.FormEvent<HTMLInputElement>) => {
-    this.setState({ searchText: event.currentTarget.value })
-
-    this.search(event.currentTarget.value)
-  }
-
-  private search = (searchText: string) => {
-    const { nonAuthors } = this.state
-
-    if (!nonAuthors || !searchText) {
-      return this.setState({ searchResults: [] })
-    }
-
-    searchText = searchText.toLowerCase()
-
-    const searchResults: UserProfile[] = nonAuthors.filter(person => {
-      if (searchText.includes('@')) {
-        return person.email && person.email.toLowerCase().includes(searchText)
-      }
-
-      const personName = [
-        person.bibliographicName.given,
-        person.bibliographicName.family,
-      ]
-        .filter(part => part)
-        .join(' ')
-        .toLowerCase()
-
-      return personName && personName.includes(searchText)
-    })
-
-    this.setState({ searchResults })
-  }
-
-  private handleSearchFocus = () =>
-    this.setState({
-      searchingAuthors: !this.state.searchingAuthors,
-    })
-
   private handleAddingDoneCancel = () =>
-    this.setState({
-      addedAuthorsCount: 0,
-      addingAuthors: false,
-      searchText: '',
-    })
+    this.setState({ numberOfAddedAuthors: 0, addingAuthors: false })
 
-  private handleInvite = () => {
-    const { searchText } = this.state
+  private handleInvite = (searchText: string) => {
     const invitationValues = {
       name: '',
       email: '',
@@ -422,7 +306,7 @@ class MetadataContainer extends React.Component<
   }
 
   private handleInviteCancel = () =>
-    this.setState({ searchText: '', isInvite: false, invitationSent: false })
+    this.setState({ isInvite: false, invitationSent: false })
 
   private handleInvitationSubmit = (invitingUser: UserProfile) => async (
     values: InvitationValues
@@ -594,15 +478,6 @@ class MetadataContainer extends React.Component<
     return false
   }
 
-  private isRejected = (invitationID: string) => {
-    for (const invitation of this.state.invitations) {
-      if (invitation._id === invitationID) {
-        return false
-      }
-    }
-    return true
-  }
-
   private getInvitation = (
     invitingUser: UserProfile,
     invitedEmail: string
@@ -627,13 +502,6 @@ class MetadataContainer extends React.Component<
         })
     })
   }
-
-  private getAuthorName = (author: Contributor) => {
-    const name = !author.bibliographicName.given
-      ? 'Author '
-      : author.bibliographicName.given + ' ' + author.bibliographicName.family
-    return name
-  }
 }
 
-export default withModels<Props>(withUser(MetadataContainer))
+export default withModels<Props>(MetadataContainer)

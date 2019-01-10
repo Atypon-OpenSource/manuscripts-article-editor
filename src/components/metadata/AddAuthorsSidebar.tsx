@@ -50,6 +50,7 @@ interface Props {
   nonAuthors: UserProfile[]
   numberOfAddedAuthors: number
   isSearching: boolean
+  isCreateAuthorOpen: boolean
   searchText: string
   searchResults: UserProfile[]
   addedAuthors: string[]
@@ -57,16 +58,15 @@ interface Props {
   handleDoneCancel: () => void
   handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
   handleSearchFocus: () => void
-  handleInvite: () => void
+  handleInvite: (searchText: string) => void
+  isAuthorExist: () => boolean
+  handleCreateAuthor: () => void
   createAuthor: (
     priority: number,
     person?: UserProfile,
     name?: string,
     invitationID?: string
   ) => void
-  authorExist: () => boolean
-  handleCreateAuthor: () => void
-  createAuthorIsOpen: boolean
 }
 
 const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
@@ -82,8 +82,8 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
   searchResults,
   handleInvite,
   authors,
-  authorExist,
-  createAuthorIsOpen,
+  isAuthorExist,
+  isCreateAuthorOpen,
   handleCreateAuthor,
 }) => {
   return (
@@ -143,11 +143,11 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
             </SidebarPersonContainer>
           ))}
         </SidebarContent>
-      ) : createAuthorIsOpen ? (
+      ) : isCreateAuthorOpen ? (
         <CreateAuthorPageContainer
           authors={authors}
           createAuthor={createAuthor}
-          isOpen={createAuthorIsOpen}
+          isOpen={isCreateAuthorOpen}
           handleCancel={handleCreateAuthor}
           searchText={searchText}
         />
@@ -159,7 +159,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
           createAuthor={createAuthor}
           searchResults={searchResults}
           authors={authors}
-          authorExist={authorExist}
+          isAuthorExist={isAuthorExist}
           handleCreateAuthor={handleCreateAuthor}
         />
       )}

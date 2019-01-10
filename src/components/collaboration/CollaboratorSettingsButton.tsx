@@ -2,6 +2,7 @@ import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import SettingsInverted from '../../icons/settings-inverted-icon'
+import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import CollaboratorSettingsPopperContainer from './CollaboratorSettingsPopperContainer'
@@ -25,6 +26,7 @@ interface Props {
   project: Project
   collaborator: UserProfile
   openPopper: (isOpen: boolean) => void
+  updateUserRole: (role: ProjectRole | null, userID: string) => Promise<void>
 }
 
 class CollaboratorSettingsButton extends React.Component<Props, State> {
@@ -41,7 +43,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
 
   public render() {
     const { isOpen } = this.state
-    const { project, collaborator } = this.props
+    const { project, collaborator, updateUserRole } = this.props
 
     return (
       <Manager>
@@ -50,7 +52,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
             <AddIconButton
               // @ts-ignore: styled
               ref={ref}
-              onClick={this.openPopper}
+              onClick={this.togglePopper}
             >
               <SettingsInverted color={'#7fb5d5'} />
             </AddIconButton>
@@ -66,9 +68,10 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
                 project={project}
                 collaborator={collaborator}
                 popperProps={popperProps}
-                openPopper={this.openPopper}
+                openPopper={this.togglePopper}
                 handleOpenModal={this.handleOpenModal}
                 updateRoleIsOpen={this.state.updateRoleIsOpen}
+                updateUserRole={updateUserRole}
               />
             )}
           </Popper>
@@ -77,7 +80,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
     )
   }
 
-  private openPopper = () => {
+  private togglePopper = () => {
     this.props.openPopper(!this.state.isOpen)
     this.updateListener(!this.state.isOpen)
     this.setState({
@@ -97,7 +100,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
       !this.node.contains(event.target as Node) &&
       !this.state.updateRoleIsOpen
     ) {
-      this.openPopper()
+      this.togglePopper()
     }
   }
 

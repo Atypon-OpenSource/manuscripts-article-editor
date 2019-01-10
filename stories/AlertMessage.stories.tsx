@@ -23,3 +23,16 @@ storiesOf('AlertMessage', module)
       Example of overall warning message. Lorem ipsum dolor sit amet.
     </AlertMessage>
   ))
+  .add('without close button', () => (
+    <AlertMessage type={AlertMessageType.warning} hideCloseButton={true}>
+      Example of overall warning message. Lorem ipsum dolor sit amet.
+    </AlertMessage>
+  ))
+  .add('with dismiss text', () => (
+    <AlertMessage
+      type={AlertMessageType.warning}
+      dismissButton={{ text: 'Dismiss' }}
+    >
+      Example of overall warning message. Lorem ipsum dolor sit amet.
+    </AlertMessage>
+  ))

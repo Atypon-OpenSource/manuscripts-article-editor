@@ -23,10 +23,11 @@ import { InvitationValues } from './InvitationForm'
 import InviteCollaboratorsSidebar from './InviteCollaboratorsSidebar'
 
 interface State {
-  isSearching: boolean
+  people: UserProfile[] | null
+  collaborators: UserProfile[]
   isInvite: boolean
   searchText: string
-  searchResults: UserProfile[]
+  userMap: Map<string, UserProfile>
   addedCollaboratorsCount: number
   addedUsers: string[]
   invitationSent: boolean
@@ -48,10 +49,11 @@ type CombinedProps = Props &
 
 class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
-    isSearching: false,
+    people: [],
+    collaborators: [],
     isInvite: false,
     searchText: '',
-    searchResults: [],
+    userMap: new Map(),
     addedCollaboratorsCount: 0,
     addedUsers: [],
     invitationSent: false,
@@ -116,31 +118,28 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     people: UserProfile[],
     acceptedInvitations: ProjectInvitation[]
   ) {
-    const {
-      addedCollaboratorsCount,
-      isSearching,
-      searchText,
-      searchResults,
-      addedUsers,
-    } = this.state
+    const { addedCollaboratorsCount, searchText, addedUsers } = this.state
 
     return (
       <Page project={project}>
-        <AddCollaboratorsSidebar
-          people={people}
-          invitations={acceptedInvitations}
-          numberOfAddedCollaborators={addedCollaboratorsCount}
-          isSearching={isSearching}
-          searchText={searchText}
-          searchResults={searchResults}
-          addedUsers={addedUsers}
-          addCollaborator={this.addCollaborator}
-          countAddedCollaborators={this.countAddedCollaborators}
-          handleDoneCancel={this.handleDoneCancel}
-          handleInvite={this.handleInvite}
-          handleSearchChange={this.handleSearchChange}
-          handleSearchFocus={this.handleSearchFocus}
-        />
+        <Panel
+          name={'add-collaborators-sidebar'}
+          direction={'row'}
+          side={'end'}
+          minSize={250}
+        >
+          <AddCollaboratorsSidebar
+            people={people}
+            invitations={acceptedInvitations}
+            numberOfAddedCollaborators={addedCollaboratorsCount}
+            addedUsers={addedUsers}
+            addCollaborator={this.addCollaborator}
+            countAddedCollaborators={this.countAddedCollaborators}
+            handleDoneCancel={this.handleDoneCancel}
+            handleInvite={this.handleInvite}
+            setSearchText={this.setSearchText}
+          />
+        </Panel>
         <Main>
           {!searchText.length ? (
             <AddCollaboratorsPage
@@ -209,54 +208,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private handleSearchChange = (event: React.FormEvent<HTMLInputElement>) => {
-    this.setState({
-      searchText: event.currentTarget.value,
-    })
-    this.search(event.currentTarget.value)
-  }
-
-  private handleSearchFocus = () => {
-    this.setState({
-      isSearching: !this.state.isSearching,
-    })
-  }
-
-  private search = (searchText: string) => {
-    const { addedUsers } = this.state
-
-    if (!searchText) {
-      return this.setState({
-        searchResults: [],
-      })
-    }
-
-    searchText = searchText.toLowerCase()
-
-    const people = this.buildPeople()
-
-    const searchResults: UserProfile[] = people.filter(person => {
-      if (addedUsers.includes(person.userID)) return false
-
-      if (searchText.includes('@')) {
-        return person.email && person.email.toLowerCase().includes(searchText)
-      }
-
-      const personName = [
-        person.bibliographicName.given,
-        person.bibliographicName.family,
-      ]
-        .filter(part => part)
-        .join(' ')
-        .toLowerCase()
-
-      return personName && personName.includes(searchText)
-    })
-
-    this.setState({
-      searchResults,
-    })
-  }
+  private setSearchText = (searchText: string) => this.setState({ searchText })
 
   private handleCancel = () => {
     this.setState({

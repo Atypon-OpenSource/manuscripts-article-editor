@@ -2,8 +2,8 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import { styled, ThemedProps } from '../../theme'
-import { AvatarFileUpload } from '../AvatarFileUpload'
 import UserProfileSidebar from '../UserProfileSidebar'
+import { AvatarFileUpload } from './AvatarFileUpload'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 

@@ -41,26 +41,6 @@ storiesOf('Collaboration/Invitation', module)
       />
     </PopperStory>
   ))
-  .add('Invite: error', () => (
-    <PopperStory>
-      <InvitationPopper
-        handleInvitationSubmit={action('submit')}
-        handleSwitching={action('switch')}
-        project={project as Project}
-        user={owner as UserProfile}
-      />
-    </PopperStory>
-  ))
-  .add('Invite: invitation sent successfully', () => (
-    <PopperStory>
-      <InvitationPopper
-        handleInvitationSubmit={action('submit')}
-        handleSwitching={action('switch')}
-        project={project as Project}
-        user={owner as UserProfile}
-      />
-    </PopperStory>
-  ))
   .add('Share Project Button', () => (
     <ShareProjectButton project={project as Project} />
   ))

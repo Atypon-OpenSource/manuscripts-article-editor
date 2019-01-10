@@ -18,18 +18,25 @@ const AddIconButton = styled(IconButton)`
 
 interface State {
   isOpen: boolean
-  updateRoleIsOpen: boolean
+  isUpdateRoleOpen: boolean
 }
 
 interface Props {
   invitation: ProjectInvitation
   openPopper: (isOpen: boolean) => void
+  projectInvite: (
+    email: string,
+    role: string,
+    name?: string,
+    message?: string
+  ) => Promise<void>
+  projectUninvite: (invitationID: string) => Promise<void>
 }
 
 class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
   public state: State = {
     isOpen: false,
-    updateRoleIsOpen: false,
+    isUpdateRoleOpen: false,
   }
 
   private node: Node
@@ -39,7 +46,8 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isOpen, updateRoleIsOpen } = this.state
+    const { isOpen, isUpdateRoleOpen } = this.state
+    const { projectInvite, projectUninvite } = this.props
 
     return (
       <Manager>
@@ -63,8 +71,10 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
               <InviteCollaboratorPopperContainer
                 invitation={this.props.invitation}
                 popperProps={popperProps}
+                projectInvite={projectInvite}
+                projectUninvite={projectUninvite}
                 openPopper={this.openPopper}
-                updateRoleIsOpen={updateRoleIsOpen}
+                isUpdateRoleOpen={isUpdateRoleOpen}
                 handleOpenModal={this.handleOpenModal}
               />
             )}
@@ -84,7 +94,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
 
   private handleOpenModal = () => {
     this.setState({
-      updateRoleIsOpen: !this.state.updateRoleIsOpen,
+      isUpdateRoleOpen: !this.state.isUpdateRoleOpen,
     })
   }
 
@@ -92,7 +102,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
     if (
       this.node &&
       !this.node.contains(event.target as Node) &&
-      !this.state.updateRoleIsOpen
+      !this.state.isUpdateRoleOpen
     ) {
       this.openPopper()
     }

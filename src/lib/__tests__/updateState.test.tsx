@@ -1,8 +1,7 @@
 jest.mock('../db')
-jest.mock('../fetchUser')
 
-import { mount, shallow } from 'enzyme'
-
+import { shallow } from 'enzyme'
+import { createMemoryHistory } from 'history'
 import PouchDBMemoryAdapter from 'pouchdb-adapter-memory'
 import React from 'react'
 import LoginPageContainer from '../../components/account/LoginPageContainer'
@@ -11,9 +10,17 @@ import token from '../token'
 
 RxDB.plugin(PouchDBMemoryAdapter)
 
+const history = createMemoryHistory()
+
+const props = {
+  history,
+  location: history.location,
+  match: { params: {}, isExact: true, path: '/login', url: '/login' },
+}
+
 describe('Update state', () => {
   test('call identityProviderErrorMessage method', async () => {
-    const wrapper = mount(shallow(<LoginPageContainer />).get(0))
+    const wrapper = shallow(<LoginPageContainer {...props} />)
 
     expect(wrapper.state('message')).toBeNull()
 
@@ -26,7 +33,7 @@ describe('Update state', () => {
   })
 
   test('call infoLoginMessage method', async () => {
-    const wrapper = mount(shallow(<LoginPageContainer />).get(0))
+    const wrapper = shallow(<LoginPageContainer {...props} />)
 
     expect(wrapper.state('message')).toBeNull()
 
@@ -42,7 +49,7 @@ describe('Update state', () => {
     token.remove()
     expect(token.get()).toBe(null)
 
-    const wrapper = mount(shallow(<LoginPageContainer />).get(0))
+    const wrapper = shallow(<LoginPageContainer {...props} />)
 
     // tslint:disable-next-line:no-any
     const instance = wrapper.instance() as any

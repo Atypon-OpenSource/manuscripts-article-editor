@@ -12,6 +12,7 @@ import { Affiliations } from '../src/components/metadata/Affiliations'
 import { Author, AuthorAffiliation } from '../src/components/metadata/Author'
 import { AuthorForm } from '../src/components/metadata/AuthorForm'
 import Authors from '../src/components/metadata/Authors'
+import { AuthorsModal } from '../src/components/metadata/AuthorsModals'
 import AuthorsSidebar from '../src/components/metadata/AuthorsSidebar'
 import { Metadata } from '../src/components/metadata/Metadata'
 import SearchAuthorsSidebar from '../src/components/metadata/SearchAuthorsSidebar'
@@ -31,15 +32,26 @@ const authorAffiliations = buildAuthorAffiliations(
   affiliationIds
 )
 
+const invitationValues = {
+  name: '',
+  email: '',
+  role: '',
+}
+
 storiesOf('Metadata', module)
   .add('View/edit title', () => (
     <Metadata
+      modelMap={new Map()}
+      invitations={[]}
+      numberOfAddedAuthors={0}
       authors={authors}
       nonAuthors={[]}
+      addedAuthors={[]}
       affiliations={affiliations}
       authorAffiliations={authorAffiliations}
       manuscript={manuscripts[0]}
       selectedAuthor={null}
+      openAddAuthors={action('open adding')}
       editing={false}
       saveTitle={action('save title')}
       startEditing={action('start editing')}
@@ -52,50 +64,27 @@ storiesOf('Metadata', module)
       expanded={true}
       toggleExpanded={action('toggle expanded')}
       addingAuthors={false}
-      startAddingAuthors={action('start adding')}
-      addedAuthorsCount={0}
-      searchingAuthors={false}
-      searchText={''}
       user={user}
       project={project}
-      addedAuthors={[]}
       handleAddingDoneCancel={action('stop adding')}
-      handleSearchChange={action('update search text')}
-      handleSearchFocus={action('start searching')}
-      searchResults={[]}
       isInvite={false}
       handleInvite={action('start invite')}
       handleInviteCancel={action('stop invite')}
       handleInvitationSubmit={action('invite author')}
-      invitationValues={{
-        name: '',
-        email: '',
-        role: '',
-      }}
+      invitationValues={invitationValues}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      removeAuthorIsOpen={false}
-      handleRemoveAuthor={action(
-        'handle open the remove author confirmation dialog'
-      )}
       handleSectionChange={action('section change')}
-      authorExist={action('check author existence')}
-      handleCreateAuthor={action(
-        'handle open the create author confirmation dialog'
-      )}
-      createAuthorIsOpen={false}
-      isRejected={action('check invitation existence')}
-      hovered={false}
-      handleHover={action('handle hover over add author button')}
       updateAuthor={action(
         'update author after inviting him to collaborate on project'
       )}
-      getAuthorName={action('get the author name')}
       invitationSent={false}
     />
   ))
   .add('Edit authors', () => (
     <Metadata
+      modelMap={new Map()}
+      invitations={[]}
       authors={authors}
       nonAuthors={[]}
       affiliations={affiliations}
@@ -116,48 +105,28 @@ storiesOf('Metadata', module)
       addingAuthors={false}
       user={user}
       project={project}
-      startAddingAuthors={action('start adding')}
-      addedAuthorsCount={0}
-      searchingAuthors={false}
-      searchText={''}
+      openAddAuthors={action('start adding')}
+      numberOfAddedAuthors={0}
       addedAuthors={[]}
       handleAddingDoneCancel={action('stop adding')}
-      handleSearchChange={action('update search text')}
-      handleSearchFocus={action('start searching')}
-      searchResults={[]}
       isInvite={false}
       handleInvite={action('start invite')}
       handleInviteCancel={action('stop invite')}
       handleInvitationSubmit={action('invite author')}
-      invitationValues={{
-        name: '',
-        email: '',
-        role: '',
-      }}
+      invitationValues={invitationValues}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      removeAuthorIsOpen={false}
-      handleRemoveAuthor={action(
-        'handle open the remove author confirmation dialog'
-      )}
       handleSectionChange={action('section change')}
-      authorExist={action('check author existence')}
-      handleCreateAuthor={action(
-        'handle open the create author confirmation dialog'
-      )}
-      createAuthorIsOpen={false}
-      isRejected={action('check invitation existence')}
-      hovered={false}
-      handleHover={action('handle hover over add author button')}
       updateAuthor={action(
         'update author after inviting him to collaborate on project'
       )}
-      getAuthorName={action('get the author name')}
       invitationSent={false}
     />
   ))
   .add('Collapsed', () => (
     <Metadata
+      modelMap={new Map()}
+      invitations={[]}
       authors={authors}
       nonAuthors={[]}
       affiliations={affiliations}
@@ -176,45 +145,23 @@ storiesOf('Metadata', module)
       expanded={false}
       toggleExpanded={action('toggle expanded')}
       addingAuthors={false}
-      startAddingAuthors={action('start adding')}
-      addedAuthorsCount={0}
-      searchingAuthors={false}
+      openAddAuthors={action('start adding')}
+      numberOfAddedAuthors={0}
       user={user}
       project={project}
-      searchText={''}
       addedAuthors={[]}
       handleAddingDoneCancel={action('stop adding')}
-      handleSearchChange={action('update search text')}
-      handleSearchFocus={action('start searching')}
-      searchResults={[]}
       isInvite={false}
       handleInvite={action('start invite')}
       handleInviteCancel={action('stop invite')}
       handleInvitationSubmit={action('invite author')}
-      invitationValues={{
-        name: '',
-        email: '',
-        role: '',
-      }}
+      invitationValues={invitationValues}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      removeAuthorIsOpen={false}
-      handleRemoveAuthor={action(
-        'handle open the remove author confirmation dialog'
-      )}
       handleSectionChange={action('section change')}
-      authorExist={action('check author existence')}
-      handleCreateAuthor={action(
-        'handle open the create author confirmation dialog'
-      )}
-      createAuthorIsOpen={false}
-      isRejected={action('check invitation existence')}
-      hovered={false}
-      handleHover={action('handle hover over add author button')}
       updateAuthor={action(
         'update author after inviting him to collaborate on project'
       )}
-      getAuthorName={action('get the author name')}
       invitationSent={false}
     />
   ))
@@ -269,22 +216,48 @@ storiesOf('Metadata', module)
     />
   ))
   .add('Affiliations', () => <Affiliations affiliations={affiliations} />)
+  .add('Authors Modal', () => (
+    <AuthorsModal
+      affiliations={affiliations}
+      authorAffiliations={authorAffiliations}
+      handleSaveAuthor={action('save author')}
+      createAffiliation={action('create affiliation')}
+      isRemoveAuthorOpen={false}
+      removeAuthor={action('remove author')}
+      handleRemoveAuthor={action(
+        'handle open the remove author confirmation dialog'
+      )}
+      isRejected={action('check invitation existence')}
+      project={project}
+      updateAuthor={action(
+        'update author after inviting him to collaborate on project'
+      )}
+      getAuthorName={action('get the author name')}
+      authors={authors}
+      selectAuthor={action('select author')}
+      selectedAuthor={null}
+      checkInvitations={action('check invitation existence')}
+      handleDrop={action('dropped the user')}
+      isHovered={false}
+      openAddAuthors={action('start adding')}
+      handleHover={action('handle hover over add author button')}
+    />
+  ))
   .add('Authors Sidebar', () => (
     <AuthorsSidebar
       authors={authors}
       authorAffiliations={authorAffiliations}
       selectAuthor={action('select author')}
       selectedAuthor={null}
-      startAdding={action('start adding')}
+      openAddAuthors={action('start adding')}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      hovered={false}
+      isHovered={false}
       handleHover={action('handle hover over add author button')}
     />
   ))
   .add('Author Form', () => (
     <AuthorForm
-      manuscript={manuscripts[0]._id}
       author={authors[0]}
       affiliations={affiliations}
       authorAffiliations={
@@ -292,7 +265,7 @@ storiesOf('Metadata', module)
       }
       handleSave={action('save author')}
       createAffiliation={action('create affiliation')}
-      removeAuthorIsOpen={false}
+      isRemoveAuthorOpen={false}
       removeAuthor={action('remove author')}
       handleRemoveAuthor={action(
         'handle open the remove author confirmation dialog'
@@ -305,7 +278,6 @@ storiesOf('Metadata', module)
       getAuthorName={action('get the author name')}
     />
   ))
-
   .add('Add Authors Sidebar', () => (
     <AddAuthorsSidebar
       nonAuthors={[]}
@@ -320,8 +292,8 @@ storiesOf('Metadata', module)
       searchResults={[]}
       handleInvite={action('start invite')}
       authors={authors}
-      authorExist={action('check author existence')}
-      createAuthorIsOpen={false}
+      isAuthorExist={action('check author existence')}
+      isCreateAuthorOpen={false}
       handleCreateAuthor={action(
         'handle open the create author confirmation dialog'
       )}
@@ -341,8 +313,8 @@ storiesOf('Metadata', module)
       searchResults={[]}
       handleInvite={action('start invite')}
       authors={authors}
-      authorExist={action('check author existence')}
-      createAuthorIsOpen={false}
+      isAuthorExist={action('check author existence')}
+      isCreateAuthorOpen={false}
       handleCreateAuthor={action(
         'handle open the create author confirmation dialog'
       )}
@@ -363,8 +335,8 @@ storiesOf('Metadata', module)
       searchResults={[]}
       handleInvite={action('start invite')}
       authors={authors}
-      authorExist={action('check author existence')}
-      createAuthorIsOpen={false}
+      isAuthorExist={action('check author existence')}
+      isCreateAuthorOpen={false}
       handleCreateAuthor={action(
         'handle open the create author confirmation dialog'
       )}
@@ -385,8 +357,8 @@ storiesOf('Metadata', module)
       searchResults={[]}
       handleInvite={action('start invite')}
       authors={authors}
-      authorExist={action('check author existence')}
-      createAuthorIsOpen={true}
+      isAuthorExist={action('check author existence')}
+      isCreateAuthorOpen={true}
       handleCreateAuthor={action(
         'handle open the create author confirmation dialog'
       )}
@@ -401,7 +373,7 @@ storiesOf('Metadata', module)
       searchResults={[]}
       handleInvite={action('start invite')}
       authors={authors}
-      authorExist={action('check author existence')}
+      isAuthorExist={action('check author existence')}
       handleCreateAuthor={action(
         'handle open the create author confirmation dialog'
       )}
@@ -415,7 +387,7 @@ storiesOf('Metadata', module)
       searchResults={[]}
       handleInvite={action('start invite')}
       authors={authors}
-      authorExist={action('check author existence')}
+      isAuthorExist={action('check author existence')}
       handleCreateAuthor={action(
         'handle open the create author confirmation dialog'
       )}
@@ -429,7 +401,7 @@ storiesOf('Metadata', module)
       searchResults={[user]}
       handleInvite={action('start invite')}
       authors={authors}
-      authorExist={action('check author existence')}
+      isAuthorExist={action('check author existence')}
       handleCreateAuthor={action(
         'handle open the create author confirmation dialog'
       )}

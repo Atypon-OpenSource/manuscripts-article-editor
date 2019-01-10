@@ -116,6 +116,8 @@ class ModelsProvider extends DataProvider {
     const prev = await collection.findOne(model._id).exec()
 
     if (prev) {
+      // TODO: set updatedAt?
+
       const result = await atomicUpdate<T>(prev, model as Partial<T>)
 
       return result.toJSON()

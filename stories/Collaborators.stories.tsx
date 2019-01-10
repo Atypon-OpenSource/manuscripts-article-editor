@@ -29,10 +29,6 @@ const PopperStory = styled.div`
   width: 300px;
 `
 
-const SidebarStory = styled.div`
-  width: 800px;
-`
-
 storiesOf('Collaboration/Poppers', module)
   .add('Add', () => (
     <PopperStory>
@@ -70,7 +66,7 @@ storiesOf('Collaboration/Poppers', module)
         handleUpdateRole={action('invite')}
         handleUninvite={action('uninvite')}
         handleOpenModal={action('open update role confirmation modal')}
-        updateRoleIsOpen={false}
+        isUpdateRoleOpen={false}
         resendInvitation={action('re-send invitation')}
       />
     </PopperStory>
@@ -83,7 +79,7 @@ storiesOf('Collaboration/Poppers', module)
         handleUpdateRole={action('invite')}
         handleUninvite={action('uninvite')}
         handleOpenModal={action('open update role confirmation modal')}
-        updateRoleIsOpen={true}
+        isUpdateRoleOpen={true}
         resendInvitation={action('re-send invitation')}
       />
     </PopperStory>
@@ -94,6 +90,16 @@ storiesOf('Collaboration/Forms', module).add('Invite', () => (
     <InvitationForm allowSubmit={true} handleSubmit={action('submit')} />
   </PopperStory>
 ))
+
+// tslint:disable-next-line:no-object-literal-type-assertion
+const collaborator = {
+  bibliographicName: {
+    _id: 'id',
+    objectType: 'MPBibliographicName',
+    given: 'Mark',
+    family: 'Foobarovic',
+  },
+} as UserProfile
 
 storiesOf('Collaboration/Pages', module)
   .add('No collaborators', () => (
@@ -118,17 +124,7 @@ storiesOf('Collaboration/Pages', module)
   ))
   .add('Collaborator Details page', () => (
     <CollaboratorForm
-      collaborator={
-        // tslint:disable-next-line:no-object-literal-type-assertion
-        {
-          bibliographicName: {
-            _id: 'id',
-            objectType: 'MPBibliographicName',
-            given: 'Mark',
-            family: 'Foobarovic',
-          },
-        } as UserProfile
-      }
+      collaborator={collaborator}
       user={user}
       manageProfile={action('manage your profile')}
       affiliations={null}
@@ -148,48 +144,37 @@ storiesOf('Collaboration/Pages', module)
   ))
 
 storiesOf('Collaboration/Sidebars', module)
-  .add('Collaborators', () => (
+  .add('Collaborators - Owner', () => (
     <CollaboratorsSidebar
-      project={project}
+      project={{
+        ...project,
+        owners: [people[0].userID],
+        viewers: [people[1].userID, people[2].userID],
+      }}
       collaborators={people}
       invitations={invitations}
       user={people[0]}
+      projectInvite={action('invitation send')}
+      projectUninvite={action('invitation deleted')}
+      updateUserRole={action('update user role')}
       handleAddCollaborator={action('add collaborator')}
-      handleHover={action('hover')}
-      hoveredID={''}
-      openPopper={action('open popper')}
-      isSettingsOpen={true}
-      selectedCollaborator={null}
       handleClickCollaborator={action('selected collaborator')}
     />
   ))
-  .add('Collaborators - Hovered on invited', () => (
+  .add('Collaborators - Non-owner', () => (
     <CollaboratorsSidebar
-      project={project}
+      project={{
+        ...project,
+        owners: [people[1].userID],
+        viewers: [people[0].userID, people[2].userID],
+      }}
       collaborators={people}
       invitations={invitations}
       user={people[0]}
+      projectInvite={action('invitation send')}
+      projectUninvite={action('invitation deleted')}
+      updateUserRole={action('update user role')}
       handleAddCollaborator={action('add collaborator')}
-      handleHover={action('hover')}
-      hoveredID={invitations[0]._id}
-      openPopper={action('open popper')}
-      isSettingsOpen={true}
-      selectedCollaborator={null}
-      handleClickCollaborator={action('selected collaborator')}
-    />
-  ))
-  .add('Collaborators - Hovered on collaborator', () => (
-    <CollaboratorsSidebar
-      project={project}
-      collaborators={people}
-      invitations={invitations}
-      user={people[0]}
-      handleAddCollaborator={action('add collaborator')}
-      handleHover={action('hover')}
-      hoveredID={people[0].userID}
-      openPopper={action('open popper')}
-      isSettingsOpen={true}
-      selectedCollaborator={null}
       handleClickCollaborator={action('selected collaborator')}
     />
   ))
@@ -198,19 +183,14 @@ storiesOf('Collaboration/Sidebars', module)
       people={people}
       invitations={[]}
       addCollaborator={action('add collaborator')}
-      handleSearchChange={action('search change')}
-      handleSearchFocus={action('search focus')}
       handleInvite={action('invite')}
       numberOfAddedCollaborators={0}
       countAddedCollaborators={() => 0}
-      isSearching={false}
-      searchText={''}
-      searchResults={[]}
       addedUsers={[]}
+      setSearchText={action('set search text')}
       handleDoneCancel={action('handle done/cancel')}
     />
   ))
-
   .add('Invite Collaborators', () => (
     <InviteCollaboratorsSidebar
       invitationValues={{ name: '', email: 'user@example.com', role: '' }}
@@ -220,26 +200,22 @@ storiesOf('Collaboration/Sidebars', module)
     />
   ))
   .add('Search Collaborators', () => (
-    <SidebarStory>
-      <SearchCollaboratorsSidebar
-        addCollaborator={action('add collaborator')}
-        countAddedCollaborators={() => 3}
-        handleInvite={action('invite')}
-        searchResults={people}
-        searchText={'ego'}
-      />
-    </SidebarStory>
+    <SearchCollaboratorsSidebar
+      addCollaborator={action('add collaborator')}
+      countAddedCollaborators={() => 3}
+      handleInvite={action('invite')}
+      searchResults={people}
+      searchText={'ego'}
+    />
   ))
   .add('Search Collaborators - Empty', () => (
-    <SidebarStory>
-      <SearchCollaboratorsSidebar
-        addCollaborator={action('add collaborator')}
-        countAddedCollaborators={() => 3}
-        handleInvite={action('invite')}
-        searchResults={[]}
-        searchText={'ego'}
-      />
-    </SidebarStory>
+    <SearchCollaboratorsSidebar
+      addCollaborator={action('add collaborator')}
+      countAddedCollaborators={() => 3}
+      handleInvite={action('invite')}
+      searchResults={[]}
+      searchText={'ego'}
+    />
   ))
   .add('Uninvite Collaborators', () => (
     <UninviteCollaboratorPopper

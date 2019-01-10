@@ -2,7 +2,9 @@ import {
   Affiliation,
   Contributor,
   Manuscript,
+  Model,
   Project,
+  ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
@@ -16,15 +18,13 @@ import { styled, ThemedProps } from '../../theme'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { CloseButton } from '../SimpleModal'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
+import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { Affiliations } from './Affiliations'
 import { AuthorAffiliation } from './Author'
 import { AuthorValues } from './AuthorForm'
 import Authors from './Authors'
-import {
-  AddAuthorsModal,
-  AuthorsModal,
-  InviteAuthorsModal,
-} from './AuthorsModals'
+import AuthorsModalContainer from './AuthorsModalContainer'
+import { InviteAuthorsModal } from './AuthorsModals'
 import { Header, HeaderContainer } from './Header'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
@@ -91,9 +91,11 @@ const StyledTitleField = styled(TitleField)`
 `
 
 interface Props {
+  modelMap: Map<string, Model>
   saveTitle: (title: string) => void
   manuscript: Manuscript
   authors: Contributor[]
+  invitations: ProjectInvitation[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   affiliations: AffiliationMap
   startEditing: () => void
@@ -105,7 +107,7 @@ interface Props {
     name?: string,
     invitationID?: string
   ) => void
-  removeAuthor: (data: Contributor) => void
+  removeAuthor: (data: Contributor) => Promise<void>
   selectAuthor: (data: Contributor) => void
   selectedAuthor: Contributor | null
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
@@ -114,21 +116,17 @@ interface Props {
   toggleExpanded: () => void
   addingAuthors: boolean
   nonAuthors: UserProfile[]
-  addedAuthorsCount: number
-  searchingAuthors: boolean
-  searchText: string
+  numberOfAddedAuthors: number
   addedAuthors: string[]
-  searchResults: UserProfile[]
   project: Project
   user: UserProfile
   isInvite: boolean
   invitationValues: InvitationValues
-  startAddingAuthors: () => void
+  invitationSent: boolean
+  openAddAuthors: () => void
   checkInvitations: (author: Contributor) => boolean
   handleAddingDoneCancel: () => void
-  handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
-  handleSearchFocus: () => void
-  handleInvite: () => void
+  handleInvite: (searchText: string) => void
   handleInviteCancel: () => void
   handleInvitationSubmit: (values: InvitationValues) => Promise<void>
   handleDrop: (
@@ -138,17 +136,7 @@ interface Props {
     authors: Contributor[]
   ) => void
   handleSectionChange: (section: string) => void
-  removeAuthorIsOpen: boolean
-  handleRemoveAuthor: () => void
-  authorExist: () => boolean
-  handleCreateAuthor: () => void
-  createAuthorIsOpen: boolean
-  isRejected: (invitationID: string) => boolean
-  handleHover: () => void
-  hovered: boolean
   updateAuthor: (author: Contributor, email: string) => void
-  getAuthorName: (author: Contributor) => string
-  invitationSent: boolean
 }
 
 export const Metadata: React.FunctionComponent<Props> = props => (
@@ -204,10 +192,10 @@ export const Metadata: React.FunctionComponent<Props> = props => (
           </ModalHeader>
 
           {!props.isInvite &&
-            !props.addingAuthors && <AuthorsModal {...props} />}
+            !props.addingAuthors && <AuthorsModalContainer {...props} />}
 
           {!props.isInvite &&
-            props.addingAuthors && <AddAuthorsModal {...props} />}
+            props.addingAuthors && <AddAuthorsModalContainer {...props} />}
 
           {props.isInvite && <InviteAuthorsModal {...props} />}
         </ModalContainer>
