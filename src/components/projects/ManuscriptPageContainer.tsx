@@ -87,6 +87,7 @@ import { Exporter } from './Exporter'
 import { Importer } from './Importer'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ReloadDialog } from './ReloadDialog'
+import RenameProject from './RenameProject'
 
 interface State {
   modelIds: {
@@ -254,6 +255,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                       history: this.props.history,
                       openExporter: this.openExporter,
                       openImporter: this.openImporter,
+                      openRenameProject: this.openRenameProject,
                     })}
                     view={view}
                   />
@@ -581,6 +583,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         user={user}
         handleComplete={handleClose}
       />
+    ))
+  }
+
+  private openRenameProject = (project: Project) => {
+    const { addModal } = this.props
+
+    addModal('open rename project', ({ handleClose }) => (
+      <RenameProject project={project} handleComplete={handleClose} />
     ))
   }
 

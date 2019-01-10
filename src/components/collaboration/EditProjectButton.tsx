@@ -1,7 +1,6 @@
 import HorizontalEllipsis from '@manuscripts/assets/react/HorizontalEllipsis'
 import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
 import { parse as parseTitle } from '@manuscripts/title-editor'
-import { Formik, FormikActions, FormikErrors } from 'formik'
 import React from 'react'
 import { Manager, Reference } from 'react-popper'
 import { manuscriptsBlue } from '../../colors'
@@ -9,11 +8,9 @@ import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import { Category, Dialog } from '../Dialog'
-import { FormErrors } from '../Form'
-import { ProjectRenameMessage } from '../Messages'
-import ModalForm from '../ModalForm'
+import { ModalProps, withModal } from '../ModalProvider'
 import { Dropdown, DropdownContainer, DropdownElement } from '../nav/Dropdown'
-import { RenameProjectForm, Values } from './RenameProjectForm'
+import RenameProject from '../projects/RenameProject'
 
 const EditIconButton = styled(IconButton)`
   height: 28px;
@@ -34,7 +31,7 @@ interface Props {
   project: Project
 }
 
-type CombinedProps = Props & ModelsProps
+type CombinedProps = Props & ModelsProps & ModalProps
 
 class EditProjectButton extends React.Component<CombinedProps, State> {
   public state: State = {
@@ -71,12 +68,6 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
       },
     }
 
-    const title = this.props.project.title
-
-    const initialValues = {
-      projectTitle: title,
-    }
-
     const confirmDeleteProjectMessage = (title: string) => {
       const node = parseTitle(title)
       return `Are you sure you wish to delete the project with title "${
@@ -87,6 +78,7 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
     const message = this.props.project.title
       ? confirmDeleteProjectMessage(this.props.project.title)
       : 'Are you sure you wish to delete this untitled project?'
+
     return (
       <Manager>
         <Reference>
@@ -140,18 +132,18 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
             message={message}
           />
         )}
-        {renameIsOpen && (
-          <ModalForm title={<ProjectRenameMessage />}>
-            <Formik
-              initialValues={initialValues}
-              isInitialValid={true}
-              validateOnChange={false}
-              validateOnBlur={false}
-              onSubmit={this.handleSubmit}
-              component={RenameProjectForm}
+        {renameIsOpen &&
+          this.props.addModal('rename-project', ({ handleClose }) => (
+            <RenameProject
+              project={this.props.project}
+              handleComplete={() => {
+                handleClose()
+                this.setState({
+                  renameIsOpen: false,
+                })
+              }}
             />
-          </ModalForm>
-        )}
+          ))}
       </Manager>
     )
   }
@@ -169,38 +161,6 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
       })
     }
   }
-
-  private saveProject = async (project: Project) => {
-    await this.props.models.saveModel(project, {
-      projectID: project._id,
-    })
-  }
-
-  private handleSubmit = async (
-    values: Values,
-    { setSubmitting, setErrors }: FormikActions<Values | FormErrors>
-  ) => {
-    setErrors({})
-
-    try {
-      await this.saveProject({
-        ...this.props.project,
-        title: values.projectTitle,
-      })
-      setSubmitting(false)
-      this.setState({
-        renameIsOpen: false,
-      })
-    } catch (error) {
-      setSubmitting(false)
-
-      const errors: FormikErrors<FormErrors> = {
-        submit: error.response && 'There was an error',
-      }
-
-      setErrors(errors)
-    }
-  }
 }
 
-export default withModels(EditProjectButton)
+export default withModal(withModels(EditProjectButton))
