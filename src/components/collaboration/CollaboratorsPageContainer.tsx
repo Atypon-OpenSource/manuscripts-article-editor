@@ -16,7 +16,6 @@ import CollaboratorsSidebar from './CollaboratorsSidebar'
 
 interface State {
   error: string | null
-  userMap: Map<string, UserProfile>
   selectedCollaborator: UserProfile | null
 }
 
@@ -36,7 +35,6 @@ type CombinedProps = Props &
 class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
     error: null,
-    userMap: new Map(),
     selectedCollaborator: null,
   }
 

@@ -49,7 +49,6 @@ interface State {
   selectedAuthor: Contributor | null
   addingAuthors: boolean
   nonAuthors: UserProfile[]
-  userMap: Map<string, UserProfile>
   numberOfAddedAuthors: number
   addedAuthors: string[]
   isInvite: boolean
@@ -65,7 +64,6 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
     selectedAuthor: null,
     addingAuthors: false,
     nonAuthors: [],
-    userMap: new Map(),
     numberOfAddedAuthors: 0,
     addedAuthors: [],
     invitations: [],
