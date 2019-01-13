@@ -46,7 +46,7 @@ class InvitationsData extends React.Component<ModelsProps & Props, State> {
 
     return collection
       .find({
-        objectType: ObjectTypes.Invitation,
+        objectType: ObjectTypes.ProjectInvitation,
       })
       .$.subscribe(docs => {
         if (docs) {
