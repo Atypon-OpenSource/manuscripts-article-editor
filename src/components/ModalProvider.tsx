@@ -30,7 +30,7 @@ const ModalContainer = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 10;
+  z-index: 1000;
   background: rgba(235, 235, 235, 0.9);
   display: flex;
   align-items: center;

@@ -27,7 +27,6 @@ interface State {
   collaborators: UserProfile[]
   isInvite: boolean
   searchText: string
-  userMap: Map<string, UserProfile>
   addedCollaboratorsCount: number
   addedUsers: string[]
   invitationSent: boolean
@@ -53,7 +52,6 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     collaborators: [],
     isInvite: false,
     searchText: '',
-    userMap: new Map(),
     addedCollaboratorsCount: 0,
     addedUsers: [],
     invitationSent: false,
