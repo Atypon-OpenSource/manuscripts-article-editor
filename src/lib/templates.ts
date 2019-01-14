@@ -166,7 +166,7 @@ export const createManuscriptSectionsFromTemplate = async (
       }
 
       if (sectionDescription.subsections) {
-        const subsectionElementIDs = await Promise.all(
+        await Promise.all(
           sectionDescription.subsections.map(
             async (subsectionDescription, index) => {
               const subsection = buildSection(index, [section._id])
@@ -194,13 +194,9 @@ export const createManuscriptSectionsFromTemplate = async (
               }
 
               await saveModelWithIDs(subsection)
-
-              return subsection._id
             }
           )
         )
-
-        section.elementIDs.push(...subsectionElementIDs)
       }
 
       await saveModelWithIDs(section)
