@@ -1,6 +1,7 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { Affiliation, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import { darkGrey } from '../../colors'
 import { styled } from '../../theme'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { Avatar } from '../Avatar'
@@ -85,7 +86,7 @@ export const CollaboratorForm: React.FunctionComponent<CollaboratorProps> = ({
       }`}
     </NameField>
     <CollaboratorInformationContainer>
-      <Avatar size={74} src={collaborator.avatar} />
+      <Avatar size={74} src={collaborator.avatar} color={darkGrey} />
       <div>
         <EmailContainer>{collaborator.email}</EmailContainer>
       </div>

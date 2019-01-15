@@ -66,7 +66,6 @@ const ProjectContributor = styled.span``
 
 const Edit = styled.div`
   margin-bottom: 5px;
-  margin-right: 2px;
 `
 
 const initials = (name: BibliographicName): string =>

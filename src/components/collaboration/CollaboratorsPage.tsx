@@ -3,6 +3,7 @@ import ContributorSearchPlaceholder from '@manuscripts/assets/react/ContributorS
 import ContributorsPlaceholder from '@manuscripts/assets/react/ContributorsPlaceholder'
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import { salomieYellow } from '../../colors'
 import AddAuthor from '../../icons/add-author'
 import AddedIcon from '../../icons/added-icon'
 import ContributorDetails from '../../icons/contributor-details-placeholder'
@@ -71,6 +72,10 @@ const ActionButton = styled.button`
   border: none;
   font-size: inherit;
   white-space: nowrap;
+
+  &:hover .add-author-path {
+    fill: ${salomieYellow};
+  }
 `
 
 const ActionButtonText = styled.div`
@@ -129,7 +134,7 @@ export const CollaboratorDetailsPage: React.FunctionComponent<
     ) : (
       <OuterContainer>
         <InnerContainer>
-          {collaboratorsCount || !isOwner(project, user.userID) ? (
+          {collaboratorsCount > 1 || !isOwner(project, user.userID) ? (
             <InnerContainer>
               <Placeholder>
                 <ContributorDetails size={500} />
@@ -156,7 +161,6 @@ export const CollaboratorDetailsPage: React.FunctionComponent<
                   <AddButtonIcon>
                     <AddAuthor />
                   </AddButtonIcon>
-
                   <ActionButtonText>Add Collaborator</ActionButtonText>
                 </ActionButton>
               </Action>

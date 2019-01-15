@@ -44,6 +44,10 @@ export const SidebarContent = styled.div`
   flex-shrink: 0;
 `
 
+interface SidebarPersonContainerProps {
+  selected?: boolean
+}
+
 export const SidebarPersonContainer = styled.div`
   display: flex;
   margin: 0 -22px;
@@ -51,6 +55,8 @@ export const SidebarPersonContainer = styled.div`
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
+  background-color: ${(props: SidebarPersonContainerProps) =>
+    props.selected ? ' #e0eef9' : 'unset'};
 
   & :hover {
     background-color: #e0eef9;

@@ -9,8 +9,8 @@ import { IconButton } from '../Button'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
 
 const ShareIconButton = styled(IconButton)`
-  height: 28px;
-  width: 28px;
+  height: unset;
+  width: unset;
 
   &:focus {
     outline: none;

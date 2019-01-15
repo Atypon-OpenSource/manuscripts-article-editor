@@ -20,6 +20,7 @@ import { ProjectsList } from './ProjectsList'
 
 const Container = styled(Sidebar)`
   background: white;
+  height: unset;
 `
 
 const Header = styled(SidebarHeader)`

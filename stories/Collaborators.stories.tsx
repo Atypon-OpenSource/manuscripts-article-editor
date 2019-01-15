@@ -107,8 +107,8 @@ storiesOf('Collaboration/Pages', module)
       project={project}
       collaboratorsCount={0}
       user={user}
-      handleAddCollaborator={action('add collaborator')}
       selectedCollaborator={null}
+      handleAddCollaborator={action('add collaborator')}
       manageProfile={action('manage your profile')}
     />
   ))
@@ -117,8 +117,8 @@ storiesOf('Collaboration/Pages', module)
       project={project}
       collaboratorsCount={3}
       user={user}
-      handleAddCollaborator={action('add collaborator')}
       selectedCollaborator={null}
+      handleAddCollaborator={action('add collaborator')}
       manageProfile={action('manage your profile')}
     />
   ))

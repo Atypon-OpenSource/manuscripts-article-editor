@@ -93,7 +93,6 @@ interface Props {
 
 const AuthorsSidebar: React.FunctionComponent<Props> = ({
   authors,
-  authorAffiliations,
   selectAuthor,
   selectedAuthor,
   openAddAuthors,
@@ -112,8 +111,8 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
         onClick={() => {
           openAddAuthors()
         }}
-        onMouseEnter={() => handleHover()}
-        onMouseLeave={() => handleHover()}
+        onMouseEnter={handleHover}
+        onMouseLeave={handleHover}
       >
         <AddIcon>
           {isHovered ? (

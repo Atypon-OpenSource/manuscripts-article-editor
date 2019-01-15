@@ -9,8 +9,8 @@ import CollaboratorSettingsPopperContainer from './CollaboratorSettingsPopperCon
 
 const AddIconButton = styled(IconButton)`
   display: flex;
-  height: 24px;
-  width: 40px;
+  height: unset;
+  width: unset;
 
   &:focus {
     outline: none;

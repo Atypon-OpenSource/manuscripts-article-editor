@@ -13,8 +13,8 @@ import { Dropdown, DropdownContainer, DropdownElement } from '../nav/Dropdown'
 import RenameProject from '../projects/RenameProject'
 
 const EditIconButton = styled(IconButton)`
-  height: 28px;
-  width: 28px;
+  height: unset;
+  width: unset;
 
   &:focus {
     outline: none;

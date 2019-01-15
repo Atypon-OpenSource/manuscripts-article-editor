@@ -15,7 +15,11 @@ const AddAuthor = (props: IconProps) => (
       <mask id="add-author-b" fill="#fff">
         <use xlinkHref="#add-author-a" />
       </mask>
-      <use fill={props.color || '#FDCD47'} xlinkHref="#add-author-a" />
+      <use
+        className={'add-author-path'}
+        fill={props.color || '#FDCD47'}
+        xlinkHref="#add-author-a"
+      />
       <path
         d="M17.305 16.793v-5.6a.7.7 0 0 1 1.4 0v5.6h5.6a.7.7 0 0 1 0 1.4h-5.6v5.6a.7.7 0 0 1-1.4 0v-5.6h-5.6a.7.7 0 0 1 0-1.4h5.6z"
         stroke="#FFF"

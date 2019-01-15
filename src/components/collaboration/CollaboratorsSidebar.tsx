@@ -5,7 +5,7 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { darkGrey } from '../../colors'
+import { darkGrey, salomieYellow } from '../../colors'
 import AddAuthor from '../../icons/add-author'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
@@ -51,6 +51,10 @@ const AddCollaboratorButton = styled.button`
   background: transparent;
   border: none;
   padding: 2px 8px;
+
+  &:hover .add-author-path {
+    fill: ${salomieYellow};
+  }
 `
 
 const AddCollaboratorText = styled.div`
@@ -61,6 +65,7 @@ const AddCollaboratorText = styled.div`
 const CollaboratorData = styled.div`
   padding-left: 8px;
 `
+
 const UserDataContainer = styled.div`
   display: flex;
   align-items: center;
@@ -97,12 +102,14 @@ interface Props {
 interface State {
   isSettingsOpen: boolean
   hoveredID: string
+  selectedID: string
 }
 
 class CollaboratorsSidebar extends React.Component<Props, State> {
-  public state = {
+  public state: Readonly<State> = {
     isSettingsOpen: false,
     hoveredID: '',
+    selectedID: '',
   }
 
   public render() {
@@ -114,11 +121,10 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
       updateUserRole,
       projectInvite,
       projectUninvite,
-      handleClickCollaborator,
       handleAddCollaborator,
     } = this.props
 
-    const { hoveredID } = this.state
+    const { hoveredID, selectedID } = this.state
 
     return (
       <Panel
@@ -135,6 +141,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
           {isOwner(project, user.userID) && (
             <AddCollaboratorButton onClick={handleAddCollaborator}>
               <AddAuthor />
+
               <AddCollaboratorText>Add new collaborator</AddCollaboratorText>
             </AddCollaboratorButton>
           )}
@@ -158,7 +165,8 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                 </UserDataContainer>
                 <InvitedContainer>
                   <Invited>Invited</Invited>
-                  {hoveredID === invitation._id &&
+                  {(hoveredID === invitation._id ||
+                    selectedID === invitation._id) &&
                     isOwner(project, user.userID) && (
                       <InvitedCollaboratorSettingsButton
                         invitation={invitation}
@@ -174,9 +182,10 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
               collaborators.map((collaborator: UserProfileWithAvatar) => (
                 <SidebarPersonContainer
                   key={collaborator._id}
+                  selected={selectedID === collaborator.userID}
                   onMouseEnter={() => this.handleHover(collaborator.userID)}
                   onMouseLeave={() => this.handleHover()}
-                  onClick={() => handleClickCollaborator(collaborator)}
+                  onClick={() => this.handleClickCollaborator(collaborator)}
                 >
                   <UserDataContainer>
                     <Avatar
@@ -200,7 +209,8 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                       </CollaboratorRole>
                     </CollaboratorData>
                   </UserDataContainer>
-                  {hoveredID === collaborator.userID &&
+                  {(hoveredID === collaborator.userID ||
+                    selectedID === collaborator.userID) &&
                     isOwner(project, user.userID) && (
                       <CollaboratorSettingsButton
                         project={project}
@@ -227,6 +237,11 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
     this.setState({
       isSettingsOpen: isOpen,
     })
+  }
+
+  private handleClickCollaborator = (collaborator: UserProfile) => {
+    this.props.handleClickCollaborator(collaborator)
+    this.setState({ selectedID: collaborator.userID })
   }
 }
 
