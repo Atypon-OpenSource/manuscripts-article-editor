@@ -55,15 +55,15 @@ class ProjectInvitationsData extends React.Component<
     return this.props.children(invitations)
   }
 
-  private loadInvitations = (containerID: string) => {
+  private loadInvitations = (projectID: string) => {
     const collection = this.props.models.collection as RxCollection<
       ProjectInvitation
     >
 
     return collection
       .find({
-        containerID,
-        objectType: ObjectTypes.Invitation,
+        projectID,
+        objectType: ObjectTypes.ProjectInvitation,
       })
       .$.subscribe(docs => {
         if (docs) {
