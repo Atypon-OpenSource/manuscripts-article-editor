@@ -5,15 +5,17 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { dustyGrey, manuscriptsBlue } from '../../colors'
+import { dustyGrey } from '../../colors'
 import ProjectIcon from '../../icons/project'
 import ProjectNotification from '../../icons/project-notification'
 import ProjectsList from '../../icons/projects-list'
 import TickMark from '../../icons/tick-mark'
-import { styled } from '../../theme'
+import { styled, theme, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'
 import { Button, PrimaryButton } from '../Button'
 import { DropdownElement, DropdownLink } from './Dropdown'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const activeStyle = {
   fontWeight: 600,
@@ -43,7 +45,8 @@ export const InvitedBy = styled.div`
   align-items: center;
   font-size: 14px;
   letter-spacing: -0.3px;
-  color: ${dustyGrey};
+  color: ${(props: ThemedDivProps) =>
+    props.theme.colors.dropdown.text.secondary};
   clear: both;
   margin-top: 6px;
 `
@@ -51,12 +54,13 @@ export const InvitedBy = styled.div`
 const AcceptButton = styled(PrimaryButton)`
   font-size: 14px;
   font-weight: 500;
-  background-color: ${manuscriptsBlue};
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.colors.dropdown.button.primary};
   padding: 0 8px;
 
   &:hover {
-    color: ${manuscriptsBlue};
-    border-color: ${manuscriptsBlue};
+    color: white;
+    border-color: white;
   }
 `
 
@@ -64,11 +68,12 @@ const RejectButton = styled(Button)`
   font-size: 14px;
   font-weight: 500;
   padding: 0 8px;
-  color: ${dustyGrey};
+  color: ${(props: ThemedDivProps) =>
+    props.theme.colors.dropdown.button.secondary};
 
   &:hover {
-    color: ${manuscriptsBlue};
-    border-color: ${manuscriptsBlue};
+    color: white;
+    border-color: white;
   }
 `
 
@@ -76,7 +81,7 @@ const AcceptedLabel = styled.div`
   display: flex;
   align-items: center;
   color: white;
-  background: #80be86;
+  background: ${(props: ThemedDivProps) => props.theme.colors.label.success};
   padding: 2px 10px;
   border-radius: 4px;
   text-transform: uppercase;
@@ -97,6 +102,8 @@ const TickMarkContainer = styled.div`
   padding-right: 3px;
 `
 
+const iconColor = theme.colors.icon.primary
+
 interface InvitationProps {
   invitation: ProjectInvitation
   invitingUserProfile: UserProfileWithAvatar
@@ -115,7 +122,7 @@ export const InvitationDropdownSection: React.FunctionComponent<
   <DropdownElement>
     <ProjectNameContainer>
       <DropdownWithNotificationIcon>
-        <ProjectNotification color={'#7fb5d5'} />
+        <ProjectNotification color={iconColor} />
       </DropdownWithNotificationIcon>
       <ButtonsContainer>
         <Title value={invitation.projectTitle || 'Untitled Invitation'} />
@@ -125,7 +132,7 @@ export const InvitationDropdownSection: React.FunctionComponent<
             <Avatar
               size={20}
               src={invitingUserProfile.avatar}
-              color={'#7fb5d5'}
+              color={iconColor}
             />
           </AvatarContainer>
         </InvitedBy>
@@ -142,12 +149,8 @@ export const InvitationDropdownSection: React.FunctionComponent<
   </DropdownElement>
 )
 
-const PlaceholderTitle = styled(Title)`
+export const PlaceholderTitle = styled(Title)`
   color: ${dustyGrey};
-
-  &:hover {
-    color: white;
-  }
 `
 
 interface ProjectSectionProps {
@@ -163,11 +166,13 @@ export const ProjectDropdownSection: React.FunctionComponent<
     key={project._id}
     to={`/projects/${project._id}`}
     activeStyle={activeStyle}
-    onClick={event => (handleClose ? handleClose(event) : null)}
+    onClick={(event: React.MouseEvent<HTMLAnchorElement>) =>
+      handleClose ? handleClose(event) : null
+    }
   >
     <ProjectNameContainer>
       <DropdownIcon>
-        <ProjectIcon color={'#7fb5d5'} />
+        <ProjectIcon color={iconColor} />
       </DropdownIcon>
       {project.title ? (
         <Title value={project.title} />
@@ -216,13 +221,15 @@ export const AllProjectsDropdownSection: React.FunctionComponent<
     to={'/projects'}
     exact={true}
     activeStyle={activeStyle}
-    onClick={event => (handleClose ? handleClose(event) : null)}
+    onClick={(event: React.MouseEvent<HTMLAnchorElement>) =>
+      handleClose ? handleClose(event) : null
+    }
   >
     <ProjectNameContainer>
       <DropdownIcon>
         <ProjectsList />
       </DropdownIcon>
-      {'View all projects'}
+      View all projects
     </ProjectNameContainer>
   </DropdownLink>
 )

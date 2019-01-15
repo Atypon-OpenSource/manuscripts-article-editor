@@ -2,48 +2,7 @@
 
 import React from 'react'
 import * as styledComponents from 'styled-components'
-import {
-  black,
-  brightSunYellow,
-  jellyBeanBlue,
-  killarneyGreen,
-  manuscriptsBlue,
-  manuscriptsGrey,
-  punchRed,
-  white,
-  zestOrange,
-} from './colors'
-
-interface Palette {
-  [key: string]: {
-    [key: string]: string
-  }
-}
-
-const colors: Palette = {
-  primary: {
-    grey: manuscriptsGrey,
-    blue: manuscriptsBlue,
-    white,
-    black,
-  },
-
-  secondary: {
-    orange: zestOrange,
-    red: punchRed,
-    green: killarneyGreen,
-    yellow: brightSunYellow,
-  },
-
-  button: {
-    primary: jellyBeanBlue,
-    danger: punchRed,
-  },
-
-  background: {
-    primary: jellyBeanBlue,
-  },
-}
+import { Palette, themeColors } from './theme-colors'
 
 export interface Theme {
   colors: Palette
@@ -63,7 +22,7 @@ export type ThemedOuterProps<V> = styledComponents.ThemedOuterStyledProps<
 >
 
 export const theme: Theme = {
-  colors,
+  colors: themeColors,
   // tslint:disable-next-line:max-line-length
   fontFamily: `'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
   'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,

@@ -1,17 +1,20 @@
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
-import { aliceBlue, altoGrey } from '../../colors'
-import { styled } from '../../theme'
-import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { altoGrey } from '../../colors'
+import { styled, ThemedProps } from '../../theme'
+import { GreyButton, PrimaryButton } from '../Button'
 import { ImportProps } from '../ImportContainer'
 import { Sidebar, SidebarContent } from '../Sidebar'
 import ImportAvatarContainer from './ImportAvatarContainer'
 import { AvatarProps } from './ProfilePageSidebar'
 
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+
 const DropZone = styled.div`
   width: 150px;
   height: 150px;
-  background-color: #f8fbfe;
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.colors.sidebar.background.default};
   border: dashed 3px ${altoGrey};
   border-radius: 50%;
 `
@@ -40,7 +43,7 @@ const UploadLabel = styled.div`
   line-height: 22px;
   letter-spacing: -0.4px;
   text-align: center;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
 `
 
 const UploadBoxInnerText = styled.div`
@@ -48,7 +51,8 @@ const UploadBoxInnerText = styled.div`
   line-height: 22px;
   letter-spacing: -0.4px;
   text-align: center;
-  color: #97a2b1;
+  color: ${(props: ThemedDivProps) =>
+    props.theme.colors.sidebar.text.secondary};
 `
 
 const UploadBoxBrowse = styled.span`
@@ -57,7 +61,7 @@ const UploadBoxBrowse = styled.span`
   line-height: 22px;
   letter-spacing: -0.4px;
   text-align: center;
-  color: #7fb5d5;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.link};
   cursor: pointer;
 `
 
@@ -68,12 +72,12 @@ const ButtonsContainer = styled.div`
   align-items: center;
 `
 
-const SaveAvatarButton = styled(ManuscriptBlueButton)`
+const SaveAvatarButton = styled(PrimaryButton)`
   margin-bottom: 10px;
   width: 50%;
 `
 
-const CancelButton = styled(TransparentGreyButton)`
+const CancelButton = styled(GreyButton)`
   margin-bottom: 10px;
   width: 50%;
 `
@@ -83,7 +87,8 @@ const AvatarContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
-  background-color: ${aliceBlue};
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.colors.sidebar.background.default};
   overflow: hidden;
 `
 

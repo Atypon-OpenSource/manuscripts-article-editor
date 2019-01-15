@@ -7,7 +7,6 @@ import ManualIcon from '@manuscripts/assets/react/TemplateCategoryManual'
 import ResearchIcon from '@manuscripts/assets/react/TemplateCategoryResearchArticle'
 import { ManuscriptCategory } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { powderBlue } from '../../colors'
 import { styled } from '../../theme'
 
 const Categories = styled.div`
@@ -22,11 +21,15 @@ const Category = styled.div<{ selected: boolean }>`
   padding: 8px 20px;
   cursor: pointer;
   align-items: center;
-  color: ${props => props.theme.colors.primary.grey};
-  background-color: ${props => (props.selected ? powderBlue : 'inherit')};
+  color: ${props => props.theme.colors.sidebar.text.primary};
+  background-color: ${props =>
+    props.selected
+      ? props.theme.colors.sidebar.background.selected
+      : 'inherit'};
 
   &:hover {
-    background-color: ${powderBlue};
+    background-color: ${props =>
+      props.theme.colors.sidebar.background.selected};
   }
 `
 

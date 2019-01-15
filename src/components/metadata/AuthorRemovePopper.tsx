@@ -3,10 +3,12 @@ import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import { darkGrey } from '../../colors'
 import { initials } from '../../lib/name'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'
-import { TransparentBlackButton, TransparentGreyButton } from '../Button'
+import { GreyButton } from '../Button'
 import { CustomPopper, PopperBody, SeparatorLine } from '../Popper'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const CollaboratorInitial = styled.span`
   margin-right: 4px;
@@ -16,10 +18,11 @@ const CollaboratorInitial = styled.span`
 const CollaboratorName = styled.div`
   text-align: center;
   font-size: 120%;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
   font-weight: 600;
   padding-bottom: 13px;
 `
+
 const AvatarStyle = styled.div`
   display: flex;
   justify-content: center;
@@ -28,14 +31,15 @@ const AvatarStyle = styled.div`
 `
 
 const Action = styled.div`
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
   font-weight: 600;
   padding-left: 5px;
 `
+
 const Message = styled.div`
   display: flex;
   justify-content: center;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
   padding-bottom: 15px;
 `
 
@@ -76,12 +80,8 @@ const AuthorRemovePopper: React.FunctionComponent<Props> = ({
         <Message>from the Authors list?</Message>
         <SeparatorLine />
         <ButtonsContainer>
-          <TransparentBlackButton onClick={openPopper}>
-            Cancel
-          </TransparentBlackButton>
-          <TransparentGreyButton onClick={removeAuthor}>
-            Remove
-          </TransparentGreyButton>
+          <GreyButton onClick={openPopper}>Cancel</GreyButton>
+          <GreyButton onClick={removeAuthor}>Remove</GreyButton>
         </ButtonsContainer>
       </PopperBody>
     </CustomPopper>

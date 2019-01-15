@@ -22,7 +22,7 @@ const AddButton = styled.button`
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.2px;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
   cursor: pointer;
   background: none;
   border: none;
@@ -38,7 +38,8 @@ const AddButton = styled.button`
 `
 
 const Sidebar = styled.div`
-  background-color: #f8fbfe;
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.colors.sidebar.background.default};
   border-top-left-radius: ${props => props.theme.radius}px;
   border-bottom-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
   padding-bottom: 16px;
@@ -60,7 +61,7 @@ const SidebarTitle = styled.div`
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.5px;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
 `
 
 const SidebarAction = styled.div`
@@ -69,6 +70,7 @@ const SidebarAction = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
 `
+
 const SidebarList = styled.div`
   flex: 1;
   overflow-y: auto;

@@ -11,6 +11,7 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import { salomieYellow } from '../../colors'
 import { buildCommentTree, buildName } from '../../lib/comments'
 import { styled } from '../../theme'
 import { Avatar } from '../Avatar'
@@ -35,7 +36,8 @@ const Container = styled.div<ContainerProps>`
   padding: 16px 0 8px;
   background: white;
   border: 1px solid #edf1f4;
-  border-left: 4px solid ${props => (props.isSelected ? '#ffe08b' : '#edf1f4')};
+  border-left: 4px solid
+    ${props => (props.isSelected ? salomieYellow : '#edf1f4')};
 `
 
 const CommentThread = styled.div`

@@ -1,7 +1,8 @@
 import { BibliographicName } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import { dustyGrey } from '../../colors'
 import { initials } from '../../lib/name'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 
 interface Props {
   name: BibliographicName
@@ -15,7 +16,8 @@ const NameParts = styled.span`
   line-height: 35px;
   font-size: 18px;
   letter-spacing: -0.3px;
-  color: ${(props: NamePartsProps) => props.color || '#353535'};
+  color: ${(props: NamePartsProps & ThemedProps<HTMLDivElement>) =>
+    props.color || props.theme.colors.global.text.primary};
 `
 
 const buildNameLiteral = (name: BibliographicName) =>
@@ -23,7 +25,7 @@ const buildNameLiteral = (name: BibliographicName) =>
 
 export const AuthorName: React.FunctionComponent<Props> = ({ name }) =>
   !name.given && !name.family ? (
-    <NameParts color={'#949494'}>Unknown Author</NameParts>
+    <NameParts color={dustyGrey}>Unknown Author</NameParts>
   ) : (
     <NameParts>{buildNameLiteral(name)}</NameParts>
   )

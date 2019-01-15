@@ -1,9 +1,9 @@
 import React from 'react'
-import { altoGrey, dustyGrey } from '../../colors'
+import { altoGrey, butteryYellow } from '../../colors'
 import config from '../../config'
 import AttentionError from '../../icons/attention-error'
 import { styled } from '../../theme'
-import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { GreyButton, PrimaryButton } from '../Button'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
 
 const Message: React.FunctionComponent<{
@@ -20,7 +20,7 @@ const Message: React.FunctionComponent<{
 
 const Icon = styled(AttentionError)`
   margin-right: 8px;
-  color: #fffceb;
+  color: ${butteryYellow};
 `
 
 const ModalBody = styled.div`
@@ -42,7 +42,7 @@ const Body = styled.div`
   max-width: 300px;
   min-height: 100px;
   font-size: 16px;
-  color: ${dustyGrey};
+  color: ${props => props.theme.colors.dialog.text};
   padding: 0 16px;
 
   & a {
@@ -90,11 +90,9 @@ export const ReloadDialog: React.FunctionComponent<Props> = ({ message }) => (
       </Body>
 
       <Actions>
-        <TransparentGreyButton onClick={navigateToProjectsList}>
-          View projects
-        </TransparentGreyButton>
+        <GreyButton onClick={navigateToProjectsList}>View projects</GreyButton>
 
-        <ManuscriptBlueButton onClick={reloadPage}>Retry</ManuscriptBlueButton>
+        <PrimaryButton onClick={reloadPage}>Retry</PrimaryButton>
       </Actions>
     </ModalBody>
   </StyledModal>

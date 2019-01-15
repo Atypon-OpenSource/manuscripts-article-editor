@@ -1,6 +1,7 @@
 import React from 'react'
+import { altoGrey } from '../../colors'
 import { styled } from '../../theme'
-import { ManuscriptBlueButton } from '../Button'
+import { PrimaryButton } from '../Button'
 import { IndicatorKind, ProgressIndicator } from '../ProgressIndicator'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
 
@@ -9,7 +10,7 @@ const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 #d8d8d8;
+  box-shadow: 0 4px 9px 0 ${altoGrey};
   background: #fff;
 `
 
@@ -60,9 +61,9 @@ export const ProgressModal: React.FunctionComponent<Props> = ({
         <ModalStatus>{status}</ModalStatus>
       </ModalMain>
       <ModalFooter>
-        <ManuscriptBlueButton onClick={handleCancel} disabled={!canCancel}>
+        <PrimaryButton onClick={handleCancel} disabled={!canCancel}>
           Cancel
-        </ManuscriptBlueButton>
+        </PrimaryButton>
       </ModalFooter>
     </ModalBody>
   </StyledModal>

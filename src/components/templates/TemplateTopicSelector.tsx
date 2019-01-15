@@ -16,7 +16,7 @@ const Title = styled.div`
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.5px;
-  color: ${props => props.theme.colors.primary.grey};
+  color: ${props => props.theme.colors.sidebar.text.primary};
   margin-right: 8px;
 `
 

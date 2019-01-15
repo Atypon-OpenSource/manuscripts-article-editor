@@ -1,18 +1,17 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { manuscriptsGrey } from '../../colors'
 import { isOwner } from '../../lib/roles'
 import { styled, ThemedProps } from '../../theme'
-import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { GreyButton, PrimaryButton } from '../Button'
 import { PopperBody } from '../Popper'
 import { InvitationForm, InvitationValues } from './InvitationForm'
 
-const LinkButton = styled(TransparentGreyButton)`
+const LinkButton = styled(GreyButton)`
   width: 70px;
   text-transform: none;
 `
 
-const InviteButton = styled(ManuscriptBlueButton)`
+const InviteButton = styled(PrimaryButton)`
   width: 70px;
   text-transform: none;
 `
@@ -30,7 +29,7 @@ export const ShareProjectTitle = styled.div`
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.9px;
-  color: ${manuscriptsGrey};
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
   display: inline-block;
   padding-right: 20px;
   font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};

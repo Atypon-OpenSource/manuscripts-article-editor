@@ -2,10 +2,12 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
 import { darkGrey } from '../../colors'
 import { initials } from '../../lib/name'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'
-import { TransparentBlackButton, TransparentGreyButton } from '../Button'
+import { GreyButton } from '../Button'
 import { PopperBody, SeparatorLine } from '../Popper'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const CollaboratorInitial = styled.span`
   margin-right: 4px;
@@ -15,10 +17,11 @@ const CollaboratorInitial = styled.span`
 const CollaboratorName = styled.div`
   text-align: center;
   font-size: 120%;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
   font-weight: 600;
   padding-bottom: 13px;
 `
+
 const AvatarStyle = styled.div`
   display: flex;
   justify-content: center;
@@ -27,21 +30,23 @@ const AvatarStyle = styled.div`
 `
 
 const Action = styled.div`
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
   font-weight: 600;
   padding-left: 5px;
 `
+
 const Message = styled.div`
   display: flex;
   justify-content: center;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
   padding-bottom: 15px;
 `
+
 const Description = styled.div`
   display: flex;
   padding-bottom: 10px;
   font-size: 14px;
-  color: #949494;
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.secondary};
   text-align: center;
   white-space: normal;
 `
@@ -83,12 +88,8 @@ export const RemoveCollaboratorPopper: React.FunctionComponent<Props> = ({
       </Description>
       <SeparatorLine />
       <ButtonsContainer>
-        <TransparentBlackButton onClick={switchMode}>
-          Cancel
-        </TransparentBlackButton>
-        <TransparentGreyButton onClick={handleRemove}>
-          Remove
-        </TransparentGreyButton>
+        <GreyButton onClick={switchMode}>Cancel</GreyButton>
+        <GreyButton onClick={handleRemove}>Remove</GreyButton>
       </ButtonsContainer>
     </PopperBody>
   )

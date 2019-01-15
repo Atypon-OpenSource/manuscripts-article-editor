@@ -4,6 +4,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
+import { mayaBlue } from '../../colors'
 import Bookmark from '../../icons/bookmark'
 import { issuedYear } from '../../lib/library'
 import { styled } from '../../theme'
@@ -28,10 +29,6 @@ const Container = styled.div`
   padding: 8px 16px;
   display: flex;
   transition: background-color 0.1s;
-
-  //&:hover {
-  //  background: #eee;
-  //}
 `
 
 const LibraryItemTitle = styled(Title)`
@@ -64,7 +61,7 @@ export const LibraryItem: React.FunctionComponent<LibraryItemProps> = ({
   >
     <div>
       <AddIcon>
-        <Bookmark color={hasItem(item) ? '#65a3ff' : '#444'} size={24} />
+        <Bookmark color={hasItem(item) ? mayaBlue : '#444'} size={24} />
       </AddIcon>
     </div>
 

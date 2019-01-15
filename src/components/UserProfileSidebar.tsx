@@ -2,10 +2,12 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
 import { FormattedDate } from 'react-intl'
 import { darkGrey, dustyGrey } from '../colors'
-import { styled } from '../theme'
+import { styled, ThemedProps } from '../theme'
 import { Avatar } from './Avatar'
-import { ManuscriptBlueButton, TransparentGreyButton } from './Button'
+import { GreyButton, PrimaryButton } from './Button'
 import { Sidebar, SidebarContent } from './Sidebar'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const UserEmail = styled.div`
   font-weight: 500;
@@ -20,12 +22,12 @@ const MemberSince = styled.div`
   margin-bottom: 40px;
 `
 
-const EditButton = styled(ManuscriptBlueButton)`
+const EditButton = styled(PrimaryButton)`
   padding-left: 7px;
   padding-right: 7px;
 
   &:hover {
-    background: #fff;
+    background: white;
   }
 `
 
@@ -37,17 +39,18 @@ const AvatarContainer = styled.div`
 const RoundedBorders = styled.div`
   width: 150px;
   height: 150px;
-  background-color: #f8fbfe;
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.colors.sidebar.background.default};
   border: solid 1px ${dustyGrey};
   border-radius: 50%;
 `
 
-const ChangePasswordButton = styled(ManuscriptBlueButton)`
+const ChangePasswordButton = styled(PrimaryButton)`
   width: 100%;
   margin-bottom: 10px;
 `
 
-const DeleteAccountButton = styled(TransparentGreyButton)`
+const DeleteAccountButton = styled(GreyButton)`
   width: 100%;
 `
 
@@ -92,11 +95,11 @@ const UserProfileSidebar: React.FunctionComponent<Props> = ({
 
       {!userWithAvatar.avatar ? (
         <AddProfileButtonContainer>
-          <EditButton onClick={handleEditAvatar}>{'Add Picture'}</EditButton>
+          <EditButton onClick={handleEditAvatar}>Add Picture</EditButton>
         </AddProfileButtonContainer>
       ) : (
         <EditButtonContainer>
-          <EditButton onClick={handleEditAvatar}>{'Edit'}</EditButton>
+          <EditButton onClick={handleEditAvatar}>Edit</EditButton>
         </EditButtonContainer>
       )}
 

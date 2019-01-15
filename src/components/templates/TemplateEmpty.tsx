@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '../../theme'
-import { ManuscriptBlueButton } from '../Button'
+import { PrimaryButton } from '../Button'
 
 const SadAnimal = React.lazy(() => import('./SadAnimal'))
 
@@ -22,7 +22,7 @@ const Container = styled.div`
 const TextContainer = styled.div`
   font-size: 20px;
   font-weight: 500;
-  color: ${props => props.theme.colors.primary.grey};
+  color: ${props => props.theme.colors.global.text.primary};
   padding-left: 20px;
   padding-right: 20px;
   margin-top: 20px;
@@ -55,9 +55,9 @@ export const TemplateEmpty: React.FunctionComponent<Props> = ({
       </TextContainer>
     )}
     <CreateButtonContainer>
-      <ManuscriptBlueButton onClick={createEmpty}>
+      <PrimaryButton onClick={createEmpty}>
         Create empty manuscript
-      </ManuscriptBlueButton>
+      </PrimaryButton>
     </CreateButtonContainer>
   </Container>
 )

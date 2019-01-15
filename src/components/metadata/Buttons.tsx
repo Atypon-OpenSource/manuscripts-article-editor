@@ -1,12 +1,14 @@
-import { jellyBeanBlue, manuscriptsBlue } from '../../colors'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const EditButton = styled.button`
   border-radius: 5px;
-  border: none;
-  background: ${manuscriptsBlue};
+  border: solid 1px
+    ${(props: ThemedDivProps) => props.theme.colors.button.primary};
+  background: ${(props: ThemedDivProps) => props.theme.colors.button.primary};
   color: white;
-  padding: 2px 8px;
+  padding: 1px 7px;
   margin-left: 8px;
   cursor: pointer;
   font-size: 12px;
@@ -17,6 +19,7 @@ export const EditButton = styled.button`
   }
 
   &:hover {
-    background: ${jellyBeanBlue};
+    background: transparent;
+    color: ${(props: ThemedDivProps) => props.theme.colors.button.primary};
   }
 `

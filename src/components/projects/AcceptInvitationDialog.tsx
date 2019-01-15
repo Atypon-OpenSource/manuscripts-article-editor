@@ -1,13 +1,13 @@
 import React from 'react'
-import { altoGrey, dustyGrey } from '../../colors'
+import { altoGrey, butteryYellow } from '../../colors'
 import AttentionInfo from '../../icons/attention-info'
 import { styled } from '../../theme'
-import { ManuscriptBlueButton } from '../Button'
+import { PrimaryButton } from '../Button'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
 
 const Icon = styled(AttentionInfo)`
   margin-right: 8px;
-  color: #fffceb;
+  color: ${butteryYellow};
 `
 
 const ModalBody = styled.div`
@@ -29,7 +29,7 @@ const Body = styled.div`
   width: 300px;
   height: 100px;
   font-size: 16px;
-  color: ${dustyGrey};
+  color: ${props => props.theme.colors.dialog.text};
   padding: 0 16px;
 
   & a {
@@ -70,9 +70,7 @@ export const AcceptInvitationDialog: React.FunctionComponent<Props> = ({
       <Body>{message}</Body>
 
       <Actions>
-        <ManuscriptBlueButton onClick={closeDialog}>
-          Dismiss
-        </ManuscriptBlueButton>
+        <PrimaryButton onClick={closeDialog}>Dismiss</PrimaryButton>
       </Actions>
     </ModalBody>
   </StyledModal>

@@ -1,5 +1,6 @@
 import React from 'react'
 import Modal from 'react-modal'
+import { lightGrey } from '../colors'
 import Close from '../icons/close'
 import { styled, ThemedProps } from '../theme'
 
@@ -39,7 +40,7 @@ export const ModalMain = styled.div`
   flex: 1;
   flex-direction: column;
   border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  border: 1px solid #d6d6d6;
+  border: 1px solid ${lightGrey};
   box-shadow: 0 10px 20px 0 rgba(107, 134, 164, 0.19);
   background: #fff;
 `

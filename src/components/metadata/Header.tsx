@@ -1,4 +1,5 @@
-import { styled } from '../../theme'
+import { mercuryGrey } from '../../colors'
+import { styled, ThemedProps } from '../../theme'
 
 export const HeaderContainer = styled.header`
   padding: 0 32px;
@@ -7,8 +8,9 @@ export const HeaderContainer = styled.header`
 export const Header = styled.div`
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   font-size: 18px;
-  color: #353535;
-  border-bottom: 1px solid #e2e2e2;
+  color: ${(props: ThemedProps<HTMLDivElement>) =>
+    props.theme.colors.global.text.primary};
+  border-bottom: 1px solid ${mercuryGrey};
   padding: 16px 0;
   margin-bottom: 16px;
 

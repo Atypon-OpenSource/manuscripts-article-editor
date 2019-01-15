@@ -1,7 +1,8 @@
 import React from 'react'
+import { altoGrey, butteryYellow } from '../colors'
 import AttentionError from '../icons/attention-error'
 import { styled, ThemedProps } from '../theme'
-import { ManuscriptBlueButton, TransparentGreyButton } from './Button'
+import { GreyButton, PrimaryButton } from './Button'
 import { StyledModal, totalTransitionTime } from './StyledModal'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
@@ -14,12 +15,13 @@ const Container = styled.div`
 `
 const Icon = styled.div`
   margin-right: 6px;
-  color: #fffceb;
+  color: ${butteryYellow};
 `
 const ModalBody = styled.div`
   border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 #d8d8d8;
-  background: #fff;
+  box-shadow: 0 4px 9px 0 ${altoGrey};
+  background: ${(props: ThemedDivProps) =>
+    props.theme.colors.dialog.background};
   min-width: 200px;
 `
 
@@ -28,7 +30,7 @@ const MessageContainer = styled.div`
   min-height: 95px;
   font-family: Barlow;
   font-size: 16px;
-  color: #949494;
+  color: ${(props: ThemedDivProps) => props.theme.colors.dialog.text};
   margin-top: 15px;
   margin-left: 20px;
   margin-right: 20px;
@@ -98,31 +100,31 @@ export const Dialog: React.FunctionComponent<DialogProps> = ({
         {category === Category.confirmation && actions.secondary ? (
           !actions.secondary.isDestructive ? (
             <Container>
-              <TransparentGreyButton onClick={actions.primary.action}>
+              <GreyButton onClick={actions.primary.action}>
                 {actions.primary.title || 'Dismiss'}
-              </TransparentGreyButton>
+              </GreyButton>
               <ButtonContainer>
-                <ManuscriptBlueButton onClick={actions.secondary.action}>
+                <PrimaryButton onClick={actions.secondary.action}>
                   {actions.secondary.title}
-                </ManuscriptBlueButton>
+                </PrimaryButton>
               </ButtonContainer>
             </Container>
           ) : (
             <Container>
-              <TransparentGreyButton onClick={actions.secondary.action}>
+              <GreyButton onClick={actions.secondary.action}>
                 {actions.secondary.title}
-              </TransparentGreyButton>
+              </GreyButton>
               <ButtonContainer>
-                <ManuscriptBlueButton onClick={actions.primary.action}>
+                <PrimaryButton onClick={actions.primary.action}>
                   {actions.primary.title || 'Dismiss'}
-                </ManuscriptBlueButton>
+                </PrimaryButton>
               </ButtonContainer>
             </Container>
           )
         ) : (
-          <ManuscriptBlueButton onClick={actions.primary.action}>
+          <PrimaryButton onClick={actions.primary.action}>
             {actions.primary.title || 'Dismiss'}
-          </ManuscriptBlueButton>
+          </PrimaryButton>
         )}
       </ButtonsContainer>
     </ModalBody>

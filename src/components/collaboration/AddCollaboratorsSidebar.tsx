@@ -4,12 +4,12 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { darkGrey } from '../../colors'
+import { darkGrey, powderBlue } from '../../colors'
 import AddedIcon from '../../icons/added-icon'
 import SearchIcon from '../../icons/search'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'
-import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { GreyButton, PrimaryButton } from '../Button'
 import {
   Sidebar,
   SidebarContent,
@@ -23,6 +23,8 @@ import {
 import AddCollaboratorButton from './AddCollaboratorButton'
 import SearchCollaboratorsSidebar from './SearchCollaboratorsSidebar'
 
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+
 const PersonInitial = styled.span`
   margin-right: 4px;
   font-weight: 300;
@@ -30,14 +32,10 @@ const PersonInitial = styled.span`
 
 const PersonName = styled.div`
   font-size: 120%;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
   font-weight: 500;
   white-space: nowrap;
   text-overflow: ellipsis;
-`
-
-const PeopleSidebar = styled(Sidebar)`
-  background-color: #f8fbfe;
 `
 
 const PersonData = styled.div`
@@ -54,7 +52,7 @@ const UserDataContainer = styled.div`
 const Invited = styled.div`
   display: flex;
   font-size: 12px;
-  color: #7fb5d5;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.label};
 `
 
 const InvitedContainer = styled.div`
@@ -111,18 +109,14 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
     const { searchResults, searchText, isSearching } = this.state
 
     return (
-      <PeopleSidebar>
+      <Sidebar>
         <SidebarHeader>
           <SidebarTitle>Add Collaborators</SidebarTitle>
 
           {!numberOfAddedCollaborators ? (
-            <TransparentGreyButton onClick={handleDoneCancel}>
-              Cancel
-            </TransparentGreyButton>
+            <GreyButton onClick={handleDoneCancel}>Cancel</GreyButton>
           ) : (
-            <ManuscriptBlueButton onClick={handleDoneCancel}>
-              Done
-            </ManuscriptBlueButton>
+            <PrimaryButton onClick={handleDoneCancel}>Done</PrimaryButton>
           )}
         </SidebarHeader>
 
@@ -131,7 +125,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
           onBlur={this.handleSearchFocus}
         >
           <SidebarSearchIconContainer>
-            {isSearching ? <SearchIcon color={'#e0eef9'} /> : <SearchIcon />}
+            {isSearching ? <SearchIcon color={powderBlue} /> : <SearchIcon />}
           </SidebarSearchIconContainer>
 
           <SidebarSearchText
@@ -146,7 +140,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
             {invitations.map(invitation => (
               <SidebarPersonContainer key={invitation._id}>
                 <UserDataContainer>
-                  <Avatar size={45} color={'#585858'} />
+                  <Avatar size={45} color={darkGrey} />
                   <PersonData>
                     <PersonName>{invitation.invitedUserName}</PersonName>
                   </PersonData>
@@ -190,7 +184,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
             searchResults={searchResults}
           />
         )}
-      </PeopleSidebar>
+      </Sidebar>
     )
   }
 

@@ -1,11 +1,6 @@
 import React, { InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
-import {
-  dustyGrey,
-  manuscriptsBlue,
-  manuscriptsGrey,
-  mercuryGrey,
-} from '../colors'
+import { dustyGrey } from '../colors'
 
 const CustomRadioButton = styled.div`
   position: absolute;
@@ -29,7 +24,7 @@ const TextHint = styled.span`
   line-height: normal;
   letter-spacing: -0.2px;
   text-align: left;
-  color: ${dustyGrey};
+  color: ${props => props.theme.colors.radioButton.hint};
   clear: both;
   display: block;
   padding-bottom: 10px;
@@ -43,7 +38,6 @@ const Control = styled.label`
   display: block;
   line-height: 1.06;
   letter-spacing: normal;
-  color: ${manuscriptsGrey};
   padding-left: 30px;
   cursor: pointer;
 
@@ -54,15 +48,18 @@ const Control = styled.label`
   }
 
   &:hover input ~ ${CustomRadioButton} {
-    background-color: #e0eef9;
+    background-color: ${props =>
+      props.theme.colors.radioButton.enabled.hovered};
   }
 
   &:hover input:checked:enabled ~ ${CustomRadioButton} {
-    background-color: ${manuscriptsBlue};
+    background-color: ${props =>
+      props.theme.colors.radioButton.enabled.checked};
   }
 
   & input:disabled ~ ${CustomRadioButton} {
-    background-color: ${mercuryGrey};
+    background-color: ${props =>
+      props.theme.colors.radioButton.disabled.unchecked};
   }
 
   & ${CustomRadioButton}:after {
@@ -71,7 +68,7 @@ const Control = styled.label`
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: ${manuscriptsBlue};
+    background: ${props => props.theme.colors.radioButton.enabled.checked};
   }
 
   & input:checked ~ ${CustomRadioButton}:after {
@@ -79,7 +76,7 @@ const Control = styled.label`
   }
 
   & input:checked:disabled ~ ${CustomRadioButton}:after {
-    background: ${dustyGrey};
+    background: ${props => props.theme.colors.radioButton.disabled.checked};
   }
 
   & ${TextHint} {

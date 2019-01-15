@@ -1,6 +1,7 @@
 import { TitleField } from '@manuscripts/title-editor'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
+import { dustyGrey } from '../../colors'
 import { styled } from '../../theme'
 import { PrimaryButton } from '../Button'
 import { FormError, FormErrors } from '../Form'
@@ -23,7 +24,7 @@ const StyledTitleField = styled(TitleField)`
     }
 
     &.empty-node:hover::before {
-      color: #999;
+      color: ${dustyGrey};
     }
   }
 `

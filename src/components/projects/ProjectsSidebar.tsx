@@ -7,7 +7,7 @@ import UsersData from '../../data/UsersData'
 import Add from '../../icons/add'
 import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { ModalProps, withModal } from '../ModalProvider'
 import {
   Sidebar,
@@ -17,6 +17,8 @@ import {
 } from '../Sidebar'
 import { TemplateSelector } from '../templates/TemplateSelector'
 import { ProjectsList } from './ProjectsList'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Container = styled(Sidebar)`
   background: white;
@@ -37,7 +39,7 @@ const SidebarActionTitle = styled.span`
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.2px;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
 `
 
 const AddButton = styled.button`

@@ -3,11 +3,13 @@ import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey } from '../../colors'
 import { buildAuthorPriority } from '../../lib/authors'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'
-import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { GreyButton, PrimaryButton } from '../Button'
 import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
 import AddAuthorButton from './AddAuthorButton'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const PersonInitial = styled.span`
   margin-right: 4px;
@@ -16,7 +18,7 @@ const PersonInitial = styled.span`
 
 const PersonName = styled.div`
   font-size: 120%;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
   font-weight: 500;
 `
 
@@ -88,7 +90,7 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
             </SidebarText>
 
             <SidebarButtonContainer>
-              <TransparentGreyButton
+              <GreyButton
                 onClick={() =>
                   !isAuthorExist()
                     ? createAuthor(
@@ -100,12 +102,12 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
                 }
               >
                 Create
-              </TransparentGreyButton>
+              </GreyButton>
 
               <Container>
-                <ManuscriptBlueButton onClick={() => handleInvite(searchText)}>
+                <PrimaryButton onClick={() => handleInvite(searchText)}>
                   Invite
-                </ManuscriptBlueButton>
+                </PrimaryButton>
               </Container>
             </SidebarButtonContainer>
           </span>
@@ -121,9 +123,9 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
             </SidebarText>
             <SidebarButtonContainer>
               <Container>
-                <ManuscriptBlueButton onClick={() => handleInvite(searchText)}>
+                <PrimaryButton onClick={() => handleInvite(searchText)}>
                   Invite
-                </ManuscriptBlueButton>
+                </PrimaryButton>
               </Container>
             </SidebarButtonContainer>
           </span>

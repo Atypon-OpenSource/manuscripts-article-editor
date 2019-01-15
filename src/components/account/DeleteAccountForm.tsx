@@ -2,12 +2,14 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
-import { styled } from '../../theme'
-import { PrimaryButton } from '../Button'
+import { styled, ThemedProps } from '../../theme'
+import { DangerButton } from '../Button'
 import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
 import { TextField } from '../TextField'
 import { TextFieldContainer } from '../TextFieldContainer'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export interface DeleteAccountValues {
   password: string
@@ -20,7 +22,7 @@ interface DeleteAccountProps {
 const MessageContainer = styled.div`
   font-family: Barlow;
   font-size: 16px;
-  color: #949494;
+  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
   margin-top: 15px;
   margin-left: 20px;
 `
@@ -57,9 +59,9 @@ export const DeleteAccountForm: React.FunctionComponent<
         </MessageContainer>
       )}
     <ModalFormActions>
-      <PrimaryButton type={'submit'} disabled={isSubmitting}>
+      <DangerButton type={'submit'} disabled={isSubmitting}>
         Delete Account
-      </PrimaryButton>
+      </DangerButton>
     </ModalFormActions>
   </Form>
 )

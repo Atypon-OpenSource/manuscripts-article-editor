@@ -9,7 +9,7 @@ import { darkGrey, salomieYellow } from '../../colors'
 import AddAuthor from '../../icons/add-author'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'
 import Panel from '../Panel'
 import {
@@ -22,6 +22,8 @@ import {
 import CollaboratorSettingsButton from './CollaboratorSettingsButton'
 import InvitedCollaboratorSettingsButton from './InvitedCollaboratorSettingsButton'
 
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+
 const CollaboratorInitial = styled.span`
   margin-right: 4px;
   font-weight: 300;
@@ -29,17 +31,14 @@ const CollaboratorInitial = styled.span`
 
 const CollaboratorName = styled.div`
   font-size: 120%;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
   font-weight: 500;
 `
 
 const CollaboratorRole = styled.div`
   font-size: 14px;
-  color: #949494;
-`
-
-const CollaboratorSidebar = styled(Sidebar)`
-  background-color: #f8fbfe;
+  color: ${(props: ThemedDivProps) =>
+    props.theme.colors.sidebar.text.secondary};
 `
 
 const AddCollaboratorButton = styled.button`
@@ -74,7 +73,7 @@ const UserDataContainer = styled.div`
 const Invited = styled.div`
   display: flex;
   font-size: 12px;
-  color: #7fb5d5;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.label};
 `
 
 const InvitedContainer = styled.div`
@@ -133,7 +132,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
         side={'end'}
         minSize={250}
       >
-        <CollaboratorSidebar>
+        <Sidebar>
           <SidebarHeader>
             <SidebarTitle>Collaborators</SidebarTitle>
           </SidebarHeader>
@@ -154,7 +153,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                 onMouseLeave={() => this.handleHover()}
               >
                 <UserDataContainer>
-                  <Avatar size={45} color={'#585858'} />
+                  <Avatar size={45} color={darkGrey} />
                   <CollaboratorData>
                     <CollaboratorName>
                       {invitation.invitedUserName ||
@@ -222,7 +221,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                 </SidebarPersonContainer>
               ))}
           </SidebarContent>
-        </CollaboratorSidebar>
+        </Sidebar>
       </Panel>
     )
   }

@@ -1,18 +1,21 @@
 import NavIcon from '@manuscripts/assets/react/NavIcon'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { jellyBeanBlue, manuscriptsBlue } from '../../colors'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { Tip } from '../Tip'
 import ProjectsDropdownButton from './ProjectsDropdownButton'
 import UserContainer from './UserContainer'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+type ThemedNavLinkProps = ThemedProps<NavLink>
+type ThemedButtonProps = ThemedProps<HTMLButtonElement>
 
 export const MenuContainer = styled.div`
   display: flex;
   flex-shrink: 0;
   width: 100%;
   align-items: center;
-  color: #949494;
+  color: ${(props: ThemedDivProps) => props.theme.colors.menu.text};
   font-family: ${props => props.theme.fontFamily};
   font-weight: 500;
   font-size: 16px;
@@ -29,7 +32,6 @@ export const MenuBarIcon = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #7fb5d5;
   font-size: inherit;
 
   &:focus {
@@ -53,30 +55,36 @@ export const MenuSection = styled.div`
 export const MenuLink = styled(NavLink)`
   display: inline-flex;
   align-items: center;
-  padding: 5px 10px;
+  padding: 3px 8px;
   text-decoration: none;
   color: inherit;
+  border: solid 2px
+    ${(props: ThemedNavLinkProps) => props.theme.colors.menu.button};
   border-radius: 4px;
   margin-left: 20px;
 
   &.active {
-    background: ${manuscriptsBlue};
+    background: ${(props: ThemedNavLinkProps) =>
+      props.theme.colors.menu.button};
     color: white;
   }
 
   &:hover {
-    background: ${jellyBeanBlue};
-    color: white;
+    background: white;
+    color: ${(props: ThemedNavLinkProps) => props.theme.colors.menu.button};
+    border: solid 2px
+      ${(props: ThemedNavLinkProps) => props.theme.colors.menu.button};
   }
 `
 
 export const FilledMenuBarIcon = styled(MenuBarIcon)`
   & path {
-    fill: ${manuscriptsBlue};
+    fill: ${(props: ThemedButtonProps) => props.theme.colors.menu.icon.default};
   }
 
   &:hover path {
-    fill: ${jellyBeanBlue};
+    fill: ${(props: ThemedButtonProps) =>
+      props.theme.colors.menu.icon.selected};
   }
 `
 

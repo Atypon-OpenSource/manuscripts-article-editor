@@ -6,10 +6,10 @@ import {
   Publisher,
   TemplateData,
 } from '../../types/templates'
-import { ManuscriptBlueButton } from '../Button'
+import { PrimaryButton } from '../Button'
 import { TemplateInfoLink } from './TemplateInfoLink'
 
-const CreateButton = styled(ManuscriptBlueButton)`
+const CreateButton = styled(PrimaryButton)`
   padding: 0 4px;
   font-size: 14px;
 
@@ -26,7 +26,7 @@ const Heading = styled.div<{ selected?: boolean }>`
 `
 
 const Title = styled.div<{ selected?: boolean }>`
-  color: ${props => props.theme.colors.primary.grey};
+  color: ${props => props.theme.colors.global.text.primary};
   white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
   text-overflow: ellipsis;
   overflow-x: hidden;
@@ -36,7 +36,7 @@ const Title = styled.div<{ selected?: boolean }>`
 `
 
 const Description = styled.div<{ selected?: boolean }>`
-  color: #777;
+  color: ${props => props.theme.colors.global.text.secondary};
   font-size: 90%;
   white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
   text-overflow: ellipsis;

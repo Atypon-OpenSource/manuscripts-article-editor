@@ -3,7 +3,7 @@ import React from 'react'
 import AddIconInverted from '../../icons/add-icon-inverted'
 import AddedIcon from '../../icons/added-icon'
 import { buildAuthorPriority } from '../../lib/authors'
-import { styled } from '../../theme'
+import { styled, theme } from '../../theme'
 import { IconButton } from '../Button'
 
 const AddIconButton = styled(IconButton)`
@@ -56,7 +56,7 @@ class AddAuthorButton extends React.Component<Props, State> {
 
     return (
       <AddIconButton onClick={this.handleSelected}>
-        <AddIconInverted color={'#7fb5d5'} />
+        <AddIconInverted color={theme.colors.icon.primary} />
       </AddIconButton>
     )
   }

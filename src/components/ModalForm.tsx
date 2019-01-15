@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from 'react-modal'
 import { RouteComponentProps, withRouter } from 'react-router'
 import Close from '../icons/close'
-import { styled, ThemedProps } from '../theme'
+import { styled, theme, ThemedProps } from '../theme'
 
 Modal.setAppElement('#root')
 
@@ -73,7 +73,7 @@ const modalStyle = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: '#edf2f5',
+    backgroundColor: theme.colors.modal.overlay,
     zIndex: 1000,
     display: 'flex',
     justifyContent: 'center',

@@ -3,7 +3,7 @@ import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import SettingsInverted from '../../icons/settings-inverted-icon'
 import { ProjectRole } from '../../lib/roles'
-import { styled } from '../../theme'
+import { styled, theme } from '../../theme'
 import { IconButton } from '../Button'
 import CollaboratorSettingsPopperContainer from './CollaboratorSettingsPopperContainer'
 
@@ -54,7 +54,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
               ref={ref}
               onClick={this.togglePopper}
             >
-              <SettingsInverted color={'#7fb5d5'} />
+              <SettingsInverted color={theme.colors.icon.primary} />
             </AddIconButton>
           )}
         </Reference>

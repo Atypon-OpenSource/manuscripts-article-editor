@@ -1,7 +1,7 @@
 import qs from 'qs'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { jellyBeanBlue, manuscriptsBlue } from '../../colors'
+import { manuscriptsBlue } from '../../colors'
 import { LibrarySource } from '../../lib/sources'
 import { styled } from '../../theme'
 import Panel from '../Panel'
@@ -21,7 +21,8 @@ const SourceLink = styled(NavLink)`
   margin: 0 -20px;
 
   &:hover {
-    color: ${jellyBeanBlue};
+    background-color: ${props =>
+      props.theme.colors.sidebar.background.selected};
   }
 `
 

@@ -1,4 +1,4 @@
-export const white = '#fffff'
+export const white = '#fff'
 export const black = '#000'
 
 // greys
@@ -8,6 +8,8 @@ export const altoGrey = '#d8d8d8'
 export const mercuryGrey = '#e2e2e2'
 export const seashellGrey = '#f1f1f1'
 export const darkGrey = '#585858'
+export const lightGrey = '#d6d6d6'
+export const towerGrey = '#adbec6'
 
 // blues
 export const jellyBeanBlue = '#2a6f9d'
@@ -16,6 +18,9 @@ export const linkWaterBlue = '#d9e0f3'
 export const iceBlue = '#d8edf8'
 export const powderBlue = '#e0eef9'
 export const aliceBlue = '#f1f8ff'
+export const lightBlue = '#e2e8ee'
+export const mayaBlue = '#65a3ff'
+export const aquaHaze = '#edf2f5'
 
 // reds
 export const punchRed = '#dc5030'
@@ -23,6 +28,7 @@ export const sungloRed = '#e26969'
 export const eunryRed = '#d2a1a1'
 export const mandysRed = '#f5c1b7'
 export const chablisRed = '#fff1f0'
+export const darkCoral = '#cd593c'
 
 // oranges
 export const zestOrange = '#e28327'

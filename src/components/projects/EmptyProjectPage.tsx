@@ -2,7 +2,6 @@ import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { manuscriptsGrey } from '../../colors'
 import ProjectPlaceholder from '../../icons/project-placeholder'
 import { styled } from '../../theme'
 import { Page } from '../Page'
@@ -30,7 +29,7 @@ const ProjectTitle = styled(Title)`
   font-size: 18px;
   font-weight: 300;
   padding: 15px 0;
-  color: #949494;
+  color: ${props => props.theme.colors.global.text.secondary};
 `
 
 const Action = styled.div`
@@ -51,7 +50,7 @@ const AddManuscriptButton = styled.button`
   border: none;
   padding: 2px 8px;
   letter-spacing: -0.3px;
-  color: ${manuscriptsGrey};
+  color: ${props => props.theme.colors.global.text.primary};
   white-space: nowrap;
   text-overflow: ellipsis;
 `
@@ -60,7 +59,7 @@ const Message = styled.div`
   font-size: 21px;
   padding: 15px 0;
   font-weight: 300;
-  color: #949494;
+  color: ${props => props.theme.colors.global.text.secondary};
   max-width: 600px;
 
   @media (max-width: 850px) {

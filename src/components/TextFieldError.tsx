@@ -1,5 +1,7 @@
 import React from 'react'
-import { styled } from '../theme'
+import { styled, ThemedProps } from '../theme'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Arrow = styled.div`
   width: 0;
@@ -8,15 +10,17 @@ const Arrow = styled.div`
   border: 5px solid transparent;
   top: -5px;
   left: calc(16px);
-  border-bottom-color: #fdf2f0;
+  border-bottom-color: ${(props: ThemedDivProps) =>
+    props.theme.colors.alertMessage.error.background};
   border-top-width: 0;
   margin: 0 5px;
 `
 
 const Container = styled.div`
-  background: #fdf2f0;
-  color: #cd593c;
-  //border: 1px solid #e7cdd1;
+  background: ${(props: ThemedDivProps) =>
+    props.theme.colors.alertMessage.error.background};
+  color: ${(props: ThemedDivProps) =>
+    props.theme.colors.alertMessage.error.text};
   border-radius: 2px;
   margin-top: 5px;
   margin-bottom: 5px;

@@ -1,12 +1,8 @@
 import React from 'react'
 import { styled } from '../../theme'
-import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { GreyButton, PrimaryButton } from '../Button'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import { InvitationForm, InvitationValues } from './InvitationForm'
-
-const CollaboratorSidebar = styled(Sidebar)`
-  background-color: #f8fbfe;
-`
 
 const FormContainer = styled.div`
   padding: 20px;
@@ -28,17 +24,15 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
   handleSubmit,
   invitationSent,
 }) => (
-  <CollaboratorSidebar>
+  <Sidebar>
     <SidebarHeader>
       <SidebarTitle>Invite</SidebarTitle>
       {!invitationSent ? (
         <Container>
-          <TransparentGreyButton onClick={handleCancel}>
-            Cancel
-          </TransparentGreyButton>
+          <GreyButton onClick={handleCancel}>Cancel</GreyButton>
         </Container>
       ) : (
-        <ManuscriptBlueButton onClick={handleCancel}>Done</ManuscriptBlueButton>
+        <PrimaryButton onClick={handleCancel}>Done</PrimaryButton>
       )}
     </SidebarHeader>
     <FormContainer>
@@ -48,7 +42,7 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
         handleSubmit={handleSubmit}
       />
     </FormContainer>
-  </CollaboratorSidebar>
+  </Sidebar>
 )
 
 export default InviteCollaboratorsSidebar

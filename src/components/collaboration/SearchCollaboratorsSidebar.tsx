@@ -2,11 +2,13 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey } from '../../colors'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'
-import { ManuscriptBlueButton } from '../Button'
+import { PrimaryButton } from '../Button'
 import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
 import AddCollaboratorButton from './AddCollaboratorButton'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const PersonInitial = styled.span`
   margin-right: 4px;
@@ -15,7 +17,7 @@ const PersonInitial = styled.span`
 
 const PersonName = styled.div`
   font-size: 120%;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
   font-weight: 500;
 `
 
@@ -65,9 +67,9 @@ const SearchCollaboratorsSidebar: React.FunctionComponent<
           Do you want to <b>invite</b> {searchText}?
         </SidebarText>
         <SidebarButtonContainer>
-          <ManuscriptBlueButton onClick={() => handleInvite(searchText)}>
+          <PrimaryButton onClick={() => handleInvite(searchText)}>
             Invite
-          </ManuscriptBlueButton>
+          </PrimaryButton>
         </SidebarButtonContainer>
       </SidebarContent>
     ) : (

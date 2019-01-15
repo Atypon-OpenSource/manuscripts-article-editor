@@ -12,8 +12,8 @@ const DropdownAction = styled.div`
   cursor: pointer;
 
   &:hover {
-    background: #7fb5d5;
-    color: white;
+    background: ${props => props.theme.colors.dropdown.background.hovered};
+    color: ${props => props.theme.colors.dropdown.text.hovered};
   }
 `
 

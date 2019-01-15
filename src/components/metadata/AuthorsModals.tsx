@@ -5,6 +5,7 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import { altoGrey } from '../../colors'
 import { AffiliationMap } from '../../lib/authors'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { styled, ThemedProps } from '../../theme'
@@ -26,7 +27,7 @@ const ModalBody = styled.div`
   flex: 1;
   display: flex;
   border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 #d8d8d8;
+  box-shadow: 0 4px 9px 0 ${altoGrey};
   background: #fff;
 `
 

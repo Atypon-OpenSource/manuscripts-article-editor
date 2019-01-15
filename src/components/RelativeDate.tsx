@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedRelative } from 'react-intl'
+import { dustyGrey } from '../colors'
 import { styled } from '../theme'
 
 interface Props {
@@ -12,6 +13,6 @@ export const RelativeDate: React.FunctionComponent<Props> = ({ createdAt }) =>
 
 export const LightRelativeDate = styled(RelativeDate)`
   font-size: 12px;
-  color: #949494;
+  color: ${dustyGrey};
   letter-spacing: -0.2px;
 `

@@ -6,7 +6,7 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { dustyGrey } from '../../colors'
+import { aliceBlue, aquaHaze, dustyGrey } from '../../colors'
 import { buildCollaborators } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
 import { styled } from '../../theme'
@@ -22,8 +22,8 @@ const SidebarProject = styled.div`
   border-radius: 4px;
 
   &:hover {
-    background-color: #f1f8ff;
-    border-color: #edf2f5;
+    background-color: ${aliceBlue};
+    border-color: ${aquaHaze};
   }
 
   @media (max-width: 450px) {

@@ -2,9 +2,11 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { Affiliation, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey } from '../../colors'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { Avatar } from '../Avatar'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const DetailsContainer = styled.div`
   padding: 14px 0px 0px 40px;
@@ -21,7 +23,7 @@ const NameField = styled.div`
   display: inline-flex;
   font-size: 24px;
   font-weight: normal;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.primary};
   margin-bottom: 26px;
 `
 
@@ -46,16 +48,16 @@ const Legend = styled.div`
 
 const EmptyFieldText = styled.div`
   font-size: 16px;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.primary};
   opacity: 0.3;
   padding-left: 1px;
 `
 
 const AffiliationLabel = styled.div`
   font-size: 16px;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.label.text};
   padding: 3px 5px;
-  background: #e2e8ee;
+  background: ${(props: ThemedDivProps) => props.theme.colors.label.primary};
   border-radius: 4px;
   display: inline-flex;
   margin-right: 7px;

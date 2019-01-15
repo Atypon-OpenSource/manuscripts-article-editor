@@ -1,11 +1,12 @@
 import React from 'react'
+import { theme } from '../theme'
 import { IconProps } from './types'
 
 const ProjectsList = (props: IconProps) => (
   <svg width={18} height={19} {...props}>
     <g
       transform="translate(3 3)"
-      stroke={props.color || '#7FB5D5'}
+      stroke={props.color || theme.colors.icon.primary}
       fill="none"
       fillRule="evenodd"
     >

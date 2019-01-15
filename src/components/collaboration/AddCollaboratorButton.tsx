@@ -1,11 +1,10 @@
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import { manuscriptsBlue } from '../../colors'
 import AddIconActive from '../../icons/add-icon-active'
 import AddIconInverted from '../../icons/add-icon-inverted'
 import AddedIcon from '../../icons/added-icon'
-import { styled } from '../../theme'
+import { styled, theme } from '../../theme'
 import { IconButton } from '../Button'
 import AddCollaboratorPopperContainer from './AddCollaboratorPopperContainer'
 
@@ -20,6 +19,8 @@ const AddIconButton = styled(IconButton)`
     outline: none;
   }
 `
+
+const iconColor = theme.colors.icon.primary
 
 interface State {
   isOpen: boolean
@@ -70,9 +71,9 @@ class AddCollaboratorButton extends React.Component<Props, State> {
               onClick={this.togglePopper}
             >
               {isOpen ? (
-                <AddIconActive color={manuscriptsBlue} />
+                <AddIconActive color={iconColor} />
               ) : (
-                <AddIconInverted color={manuscriptsBlue} />
+                <AddIconInverted color={iconColor} />
               )}
             </AddIconButton>
           )}

@@ -1,6 +1,6 @@
 import { Contributor } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { ManuscriptBlueButton } from '../../components/Button'
+import { PrimaryButton } from '../../components/Button'
 import { Category, Dialog } from '../../components/Dialog'
 import { initials } from '../../lib/name'
 
@@ -28,9 +28,7 @@ class RemoveAuthorButton extends React.Component<Props> {
     }
     return (
       <React.Fragment>
-        <ManuscriptBlueButton onClick={this.props.handleOpen}>
-          Delete
-        </ManuscriptBlueButton>
+        <PrimaryButton onClick={this.props.handleOpen}>Delete</PrimaryButton>
         {isOpen && (
           <Dialog
             isOpen={isOpen}

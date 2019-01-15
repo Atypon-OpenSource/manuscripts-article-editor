@@ -46,7 +46,9 @@ export class TemplateSearchInput extends React.Component<Props, State> {
           type={'search'}
           value={this.props.value}
           placeholder={'Search'}
-          onChange={event => this.props.handleChange(event.currentTarget.value)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            this.props.handleChange(event.currentTarget.value)
+          }
         />
       </SidebarSearchField>
     )

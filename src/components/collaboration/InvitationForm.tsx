@@ -9,7 +9,6 @@ import {
 } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
-import { manuscriptsBlue } from '../../colors'
 import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme'
 import { projectInvitationSchema } from '../../validation'
@@ -21,26 +20,7 @@ import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 
 const SendInvitationButton = styled(PrimaryButton)`
-  background-color: ${manuscriptsBlue};
   width: 100%;
-
-  &:hover {
-    border-color: ${manuscriptsBlue};
-    color: ${manuscriptsBlue};
-  }
-
-  &:active {
-    background-color: ${manuscriptsBlue};
-    border-color: white;
-    color: white;
-  }
-
-  &:hover:disabled {
-    border-color: ${manuscriptsBlue};
-    color: white;
-    background-color: ${manuscriptsBlue};
-    cursor: unset;
-  }
 `
 
 const RadioButtonsContainer = styled.div`

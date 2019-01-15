@@ -1,11 +1,11 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { darkGrey } from '../../colors'
+import { darkGrey, powderBlue } from '../../colors'
 import SearchIcon from '../../icons/search'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'
-import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { GreyButton, PrimaryButton } from '../Button'
 import {
   Sidebar,
   SidebarContent,
@@ -20,6 +20,8 @@ import AddAuthorButton from './AddAuthorButton'
 import CreateAuthorPageContainer from './CreateAuthorPageContainer'
 import SearchAuthorsSidebar from './SearchAuthorsSidebar'
 
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+
 const PersonInitial = styled.span`
   margin-right: 4px;
   font-weight: 300;
@@ -27,12 +29,8 @@ const PersonInitial = styled.span`
 
 const PersonName = styled.div`
   font-size: 120%;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
   font-weight: 500;
-`
-
-const PeopleSidebar = styled(Sidebar)`
-  background-color: #f8fbfe;
 `
 
 const PersonData = styled.div`
@@ -43,9 +41,11 @@ const UserDataContainer = styled.div`
   display: flex;
   align-items: center;
 `
+
 const Container = styled.div`
   padding-top: 5px;
 `
+
 interface Props {
   nonAuthors: UserProfile[]
   numberOfAddedAuthors: number
@@ -87,20 +87,16 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
   handleCreateAuthor,
 }) => {
   return (
-    <PeopleSidebar>
+    <Sidebar>
       <SidebarHeader>
         <SidebarTitle>Add Author</SidebarTitle>
 
         {!numberOfAddedAuthors ? (
           <Container>
-            <TransparentGreyButton onClick={handleDoneCancel}>
-              Cancel
-            </TransparentGreyButton>
+            <GreyButton onClick={handleDoneCancel}>Cancel</GreyButton>
           </Container>
         ) : (
-          <ManuscriptBlueButton onClick={handleDoneCancel}>
-            Done
-          </ManuscriptBlueButton>
+          <PrimaryButton onClick={handleDoneCancel}>Done</PrimaryButton>
         )}
       </SidebarHeader>
 
@@ -109,7 +105,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
         onBlur={handleSearchFocus}
       >
         <SidebarSearchIconContainer>
-          {isSearching ? <SearchIcon color={'#e0eef9'} /> : <SearchIcon />}
+          {isSearching ? <SearchIcon color={powderBlue} /> : <SearchIcon />}
         </SidebarSearchIconContainer>
 
         <SidebarSearchText
@@ -163,7 +159,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
           handleCreateAuthor={handleCreateAuthor}
         />
       )}
-    </PeopleSidebar>
+    </Sidebar>
   )
 }
 

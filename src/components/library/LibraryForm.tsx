@@ -15,7 +15,7 @@ import { OptionsType } from 'react-select/lib/types'
 import ProjectKeywordsData from '../../data/ProjectKeywordsData'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled } from '../../theme'
-import { DeleteButton, PrimaryButton, ThemedButtonProps } from '../Button'
+import { DangerButton, PrimaryButton, ThemedButtonProps } from '../Button'
 
 const Fields = styled.div`
   padding: 10px;
@@ -70,7 +70,7 @@ const StyledTitleField = styled(TitleField)`
 
 const Button = styled.button`
   background-color: transparent;
-  color: ${(props: ThemedButtonProps) => props.theme.colors.primary.blue};
+  color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
   border: 2px solid transparent;
   border-radius: 4px;
   text-transform: uppercase;
@@ -88,15 +88,16 @@ const Button = styled.button`
 
   &:hover {
     background-color: #fff;
-    color: ${(props: ThemedButtonProps) => props.theme.colors.primary.blue};
-    border-color: #4489d8;
+    color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
+    border-color: ${(props: ThemedButtonProps) =>
+      props.theme.colors.button.primary};
   }
 
   &:active {
     background-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.primary.blue};
+      props.theme.colors.button.primary};
     border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.primary.blue};
+      props.theme.colors.button.primary};
     color: white;
   }
 `
@@ -304,9 +305,9 @@ const LibraryForm: React.FunctionComponent<Props & ModelsProps> = ({
                 </ActionsGroup>
 
                 {handleDelete && (
-                  <DeleteButton onClick={() => handleDelete(item)}>
+                  <DangerButton onClick={() => handleDelete(item)}>
                     Delete
-                  </DeleteButton>
+                  </DangerButton>
                 )}
               </Actions>
             </Fields>

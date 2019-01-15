@@ -1,14 +1,16 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { altoGrey, dustyGrey, manuscriptsBlue } from '../../colors'
+import { altoGrey } from '../../colors'
 import { isOwner } from '../../lib/roles'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-import { Button, ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { Button, GreyButton, PrimaryButton } from '../Button'
 import { PopperBody } from '../Popper'
 import { RadioButton } from '../RadioButton'
 import { TextField } from '../TextField'
 import { ShareProjectHeader, ShareProjectTitle } from './InvitationPopper'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const URIFieldContainer = styled.div`
   display: flex;
@@ -23,7 +25,7 @@ const URIFieldContainer = styled.div`
   }
 
   & ${Button} {
-    color: ${manuscriptsBlue};
+    color: ${props => props.theme.colors.button.primary};
     border-color: ${altoGrey};
     border-width: thin;
     border-left: transparent;
@@ -33,7 +35,7 @@ const URIFieldContainer = styled.div`
   }
 
   & ${Button}:active {
-    color: ${dustyGrey};
+    color: ${props => props.theme.colors.button.secondary};
     background-color: white;
   }
 `
@@ -42,12 +44,12 @@ const AlertMessageContainer = styled.div`
   margin-bottom: 9px;
 `
 
-const LinkButton = styled(ManuscriptBlueButton)`
+const LinkButton = styled(PrimaryButton)`
   width: 70px;
   text-transform: none;
 `
 
-const InviteButton = styled(TransparentGreyButton)`
+const InviteButton = styled(GreyButton)`
   width: 70px;
   text-transform: none;
 `
@@ -56,7 +58,7 @@ export const MiniText = styled.span`
   font-size: 14px;
   letter-spacing: -0.3px;
   text-align: left;
-  color: ${dustyGrey};
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.secondary};
   clear: both;
   display: block;
   margin-bottom: 11px;

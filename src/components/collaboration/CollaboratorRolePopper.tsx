@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled } from '../../theme'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-import { ManuscriptBlueButton, TransparentGreyButton } from '../Button'
+import { GreyButton, PrimaryButton } from '../Button'
 import { PopperBody, SeparatorLine } from '../Popper'
 import { CollaboratorRolesInput } from './CollaboratorRolesInput'
 import { Mode } from './InviteCollaboratorPopper'
@@ -70,14 +70,12 @@ export const CollaboratorRolePopper: React.FunctionComponent<Props> = ({
     />
     <SeparatorLine />
     <Container>
-      <TransparentGreyButton onClick={switchMode} disabled={isOnlyOwner}>
+      <GreyButton onClick={switchMode} disabled={isOnlyOwner}>
         {removeText}
-      </TransparentGreyButton>
+      </GreyButton>
       {selectedMode === 'invite' && (
         <ButtonContainer>
-          <ManuscriptBlueButton onClick={resendInvitation}>
-            Resend
-          </ManuscriptBlueButton>
+          <PrimaryButton onClick={resendInvitation}>Resend</PrimaryButton>
         </ButtonContainer>
       )}
     </Container>

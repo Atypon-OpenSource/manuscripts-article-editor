@@ -9,7 +9,7 @@ import AddedIcon from '../../icons/added-icon'
 import ContributorDetails from '../../icons/contributor-details-placeholder'
 import InvitationPlaceholder from '../../icons/invitation-placeholder'
 import { isOwner } from '../../lib/roles'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import {
   AddAuthorsMessage,
   AddCollaboratorsMessage,
@@ -21,6 +21,8 @@ import {
   SelectCollaboratorMessage,
 } from '../Messages'
 import { CollaboratorForm } from './CollaboratorForm'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const OuterContainer = styled.div`
   display: flex;
@@ -52,7 +54,7 @@ const ProjectTitle = styled.div`
   font-size: 18px;
   font-weight: 300;
   padding: 15px 0;
-  color: #949494;
+  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
 `
 
 const Action = styled.div`
@@ -81,14 +83,14 @@ const ActionButton = styled.button`
 const ActionButtonText = styled.div`
   font-weight: 500;
   font-size: 26px;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.primary};
 `
 
 const Message = styled.div`
   font-size: 21px;
   padding: 15px 0;
   font-weight: 300;
-  color: #949494;
+  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
 
   @media (max-width: 850px) {
     margin-right: 20px;

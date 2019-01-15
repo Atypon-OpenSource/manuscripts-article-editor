@@ -6,6 +6,7 @@ import AttentionInfo from '../icons/attention-info'
 import AttentionWarning from '../icons/attention-warning'
 import CloseAlert from '../icons/close-alert'
 import SuccessGreen from '../icons/success'
+import { theme } from '../theme'
 
 export const TextButton = styled.span`
   border: none;
@@ -20,14 +21,17 @@ export const TextButton = styled.span`
   top: 1px;
   white-space: nowrap;
 `
+
 const WideContainerButton = styled(TextButton)`
   padding-left: 10px;
 `
+
 const SmallContainerButton = styled(TextButton)`
   position: absolute;
   right: 10px;
   top: unset;
 `
+
 const CloseIcon = styled.div`
   display: flex;
   cursor: pointer;
@@ -48,10 +52,12 @@ const InnerContainer = styled.div`
   align-items: center;
   padding: 13px 0px;
 `
+
 const CloseContainer = styled.div`
   position: absolute;
   right: 10px;
 `
+
 interface AlertProps {
   color: string
   backgroundColor: string
@@ -102,8 +108,7 @@ class AlertMessage extends React.Component<Props, State> {
   }
 
   public render() {
-    const alertAttributes = this.getByType()
-    const { hideCloseButton, dismissButton, children } = this.props
+    const { hideCloseButton, dismissButton, children, type } = this.props
     const { isOpen } = this.state
 
     return (
@@ -111,13 +116,13 @@ class AlertMessage extends React.Component<Props, State> {
         <SizeMe>
           {({ size }) => (
             <AlertContainer
-              color={alertAttributes.color}
-              backgroundColor={alertAttributes.backgroundColor}
-              borderColor={alertAttributes.borderColor}
+              color={theme.colors.alertMessage[type].text}
+              backgroundColor={theme.colors.alertMessage[type].background}
+              borderColor={theme.colors.alertMessage[type].border}
               className={'alert-message'}
             >
               <InnerContainer>
-                <InformativeIcon>{alertAttributes.icon}</InformativeIcon>
+                <InformativeIcon>{this.getIcon()}</InformativeIcon>
                 <TextContainer>
                   {children}
                   {dismissButton &&
@@ -148,7 +153,9 @@ class AlertMessage extends React.Component<Props, State> {
                 ((size.width! >= 900 || !dismissButton) && (
                   <CloseContainer>
                     <CloseIcon onClick={this.handleClose}>
-                      {alertAttributes.closeButton}
+                      <CloseAlert
+                        color={theme.colors.alertMessage[type].dismiss}
+                      />
                     </CloseIcon>
                   </CloseContainer>
                 ))}
@@ -163,40 +170,17 @@ class AlertMessage extends React.Component<Props, State> {
     this.setState({ isOpen: false })
   }
 
-  private getByType() {
+  private getIcon() {
     switch (this.props.type) {
       case AlertMessageType.success:
-        return {
-          icon: <SuccessGreen />,
-          closeButton: <CloseAlert color={'#b2c0ac'} />,
-          color: '#3a773a',
-          backgroundColor: '#dff0d7',
-          borderColor: '#b2c0ac',
-        }
+        return <SuccessGreen />
       case AlertMessageType.error:
-        return {
-          icon: <AttentionError />,
-          closeButton: <CloseAlert color={'#f5c1b7'} />,
-          backgroundColor: '#fff1f0',
-          color: '#dc5030',
-          borderColor: '#f5c1b7',
-        }
+        return <AttentionError />
+
       case AlertMessageType.info:
-        return {
-          icon: <AttentionInfo />,
-          closeButton: <CloseAlert color={'#adbec6'} />,
-          backgroundColor: '#e0eef9',
-          color: '#2a6f9d',
-          borderColor: '#7fb5d5',
-        }
+        return <AttentionInfo />
       default:
-        return {
-          icon: <AttentionWarning />,
-          closeButton: <CloseAlert color={'#f7d7b2'} />,
-          backgroundColor: '#fffceb',
-          color: '#e28327',
-          borderColor: '#f7d7b2',
-        }
+        return <AttentionWarning />
     }
   }
 }

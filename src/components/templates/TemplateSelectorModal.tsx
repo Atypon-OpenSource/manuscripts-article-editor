@@ -5,7 +5,7 @@ import { altoGrey } from '../../colors'
 import Close from '../../icons/close'
 import { styled, ThemedProps } from '../../theme'
 import { ResearchField, TemplateData } from '../../types/templates'
-import { ManuscriptBlueButton } from '../Button'
+import { PrimaryButton } from '../Button'
 import { CloseButton } from '../SimpleModal'
 import { TemplateCategorySelector } from './TemplateCategorySelector'
 import { TemplateEmpty } from './TemplateEmpty'
@@ -51,7 +51,8 @@ const ModalSidebar = styled.div`
   flex-direction: column;
   border-top-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
   border-bottom-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  background-color: #f8fbfe;
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.colors.sidebar.background.default};
 `
 
 const ModalMain = styled.div`
@@ -137,9 +138,9 @@ export class TemplateSelectorModal extends Component<Props, State> {
             />
 
             <SidebarFooter>
-              <ManuscriptBlueButton onClick={createEmpty}>
+              <PrimaryButton onClick={createEmpty}>
                 Create empty manuscript
-              </ManuscriptBlueButton>
+              </PrimaryButton>
             </SidebarFooter>
           </ModalSidebar>
 

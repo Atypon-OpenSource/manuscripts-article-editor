@@ -4,8 +4,8 @@ type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const Story = styled.div`
   background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.primary.white};
-  color: ${(props: ThemedDivProps) => props.theme.colors.primary.black};
+    props.theme.colors.global.background.default};
+  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.primary};
   font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
   padding: 3rem;
 `

@@ -9,8 +9,8 @@ import {
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import * as React from 'react'
-import { manuscriptsBlue, manuscriptsGrey, powderBlue } from '../../colors'
-import { styled } from '../../theme'
+import { manuscriptsBlue, powderBlue } from '../../colors'
+import { styled, ThemedProps } from '../../theme'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import Panel from '../Panel'
 import {
@@ -21,8 +21,10 @@ import {
   SidebarTitle,
 } from '../Sidebar'
 
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+
 const ProjectTitle = styled(SidebarTitle)`
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
   border: 1px solid transparent;
   padding: 4px;
   margin: -4px 0 -4px;
@@ -67,7 +69,7 @@ const AddManuscriptButton = styled.button`
   border: none;
   padding: 2px 8px;
   letter-spacing: -0.3px;
-  color: ${manuscriptsGrey};
+  color: ${props => props.theme.colors.global.text.primary};
   white-space: nowrap;
   text-overflow: ellipsis;
 `

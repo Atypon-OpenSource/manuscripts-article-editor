@@ -4,7 +4,6 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
-import { manuscriptsBlue } from '../colors'
 import ProjectContributors from '../icons/project-contributors'
 import ProjectEdit from '../icons/project-edit'
 import ProjectLibrary from '../icons/project-library'
@@ -32,7 +31,7 @@ const PageContainer = styled.div`
   display: flex;
   height: 100vh;
   box-sizing: border-box;
-  color: ${(props: ThemedDivProps) => props.theme.colors.primary.black};
+  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.primary};
   font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
 `
 
@@ -43,7 +42,7 @@ const ViewsBar = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.primary.blue};
+    props.theme.colors.iconBar.background.default};
 `
 
 const IconBar = styled.div`
@@ -53,7 +52,7 @@ const IconBar = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.primary.blue};
+    props.theme.colors.iconBar.background.default};
 `
 
 const ViewLink = styled(NavLink)`
@@ -69,8 +68,10 @@ const ViewLink = styled(NavLink)`
 
   &:hover,
   &.active {
-    background: #fff;
-    color: ${manuscriptsBlue};
+    background: ${(props: ThemedDivProps) =>
+      props.theme.colors.iconBar.background.selected};
+    color: ${(props: ThemedDivProps) =>
+      props.theme.colors.iconBar.background.default};
   }
 `
 

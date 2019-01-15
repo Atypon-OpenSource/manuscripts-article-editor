@@ -14,7 +14,7 @@ import {
   DropTargetSpec,
 } from 'react-dnd'
 import { findDOMNode } from 'react-dom'
-import { manuscriptsBlue } from '../../colors'
+import { darkGrey, manuscriptsBlue } from '../../colors'
 import CorrespondingAuthorBadge from '../../icons/corresponding-author-badge'
 import JointFirstAuthorBadge from '../../icons/joint-first-author-badge'
 import VerticalEllipsis from '../../icons/vertical-ellipsis'
@@ -27,9 +27,11 @@ import {
   DropHandler,
   DropSide,
 } from '../../lib/drag-drop-authors'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'
 import { AuthorName } from './AuthorName'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 interface OpacityProps {
   opacity: number
@@ -46,7 +48,8 @@ const AuthorItemComponent = styled.div`
 
   &:hover,
   &.active {
-    background: #e0eef9;
+    background: ${(props: ThemedDivProps) =>
+      props.theme.colors.sidebar.background.selected};
   }
 `
 
@@ -84,7 +87,7 @@ const AuthorNameSpace = styled.span`
 const Invited = styled.div`
   display: flex;
   font-size: 12px;
-  color: #7fb5d5;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.label};
 `
 
 const InvitedContainer = styled.div`
@@ -94,7 +97,7 @@ const InvitedContainer = styled.div`
 
 const AuthorDropPreview = styled.div`
   width: 100%;
-  background: #65a3ff;
+  background: ${(props: ThemedDivProps) => props.theme.colors.sidebar.dropLine};
   height: 1px;
   position: relative;
 `
@@ -219,7 +222,7 @@ class AuthorComponent extends React.Component<Props & ConnectedProps, State> {
             >
               <AuthorMetadata>
                 <AvatarContainer>
-                  <Avatar src={user.avatar} size={48} color={'#788faa'} />
+                  <Avatar src={user.avatar} size={48} color={darkGrey} />
                   <AuthorNotes>
                     {author.isCorresponding && (
                       <AuthorBadge>

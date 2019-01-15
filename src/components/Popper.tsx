@@ -11,11 +11,11 @@ export const PopperBodyContainer = styled.div`
   min-width: 150px;
   white-space: nowrap;
   box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
-  border: solid 1px #d6d6d6;
+  border: solid 1px ${props => props.theme.colors.popper.border};
   border-radius: 5px;
   color: #444;
   padding: 4px 0;
-  background: white;
+  background: ${props => props.theme.colors.popper.background};
   z-index: 10;
 
   &[data-placement='bottom-start'] {
@@ -34,7 +34,7 @@ const ArrowUp = styled.div`
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid #d6d6d6;
+  border-bottom: 8px solid ${props => props.theme.colors.popper.border};
   top: 1px;
 `
 
@@ -44,13 +44,13 @@ const ArrowDown = styled.div`
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid #d6d6d6;
+  border-top: 8px solid ${props => props.theme.colors.popper.border};
   bottom: 1px;
 `
 
 export const SeparatorLine = styled.div`
   margin: 10px 0 25px;
-  background-color: #e6e6e6;
+  background-color: ${props => props.theme.colors.popper.separator};
   height: 1px;
 `
 

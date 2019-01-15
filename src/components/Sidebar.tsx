@@ -1,5 +1,6 @@
-import { aliceBlue } from '../colors'
-import { styled } from '../theme'
+import { styled, ThemedProps } from '../theme'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const Sidebar = styled.div`
   overflow-x: hidden;
@@ -9,7 +10,8 @@ export const Sidebar = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: ${aliceBlue};
+  background: ${(props: ThemedDivProps) =>
+    props.theme.colors.sidebar.background.default};
 `
 
 export const SidebarHeader = styled.div`
@@ -32,7 +34,7 @@ export const SidebarFooter = styled.div`
 export const SidebarTitle = styled.div`
   font-size: 20px;
   font-weight: 600;
-  color: #353535;
+  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
   flex: 1;
   white-space: nowrap;
 `
@@ -48,18 +50,19 @@ interface SidebarPersonContainerProps {
   selected?: boolean
 }
 
-export const SidebarPersonContainer = styled.div`
+export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
   display: flex;
   margin: 0 -22px;
   padding: 10px 20px;
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
-  background-color: ${(props: SidebarPersonContainerProps) =>
-    props.selected ? ' #e0eef9' : 'unset'};
+  background-color: ${props =>
+    props.selected ? props.theme.colors.sidebar.background.selected : 'unset'};
 
   & :hover {
-    background-color: #e0eef9;
+    background-color: ${(props: ThemedDivProps) =>
+      props.theme.colors.sidebar.background.selected};
   }
 `
 
@@ -86,7 +89,8 @@ export const SidebarSearchText = styled.input`
 
   &:hover,
   &:focus {
-    background-color: #e0eef9;
+    background-color: ${(props: ThemedDivProps) =>
+      props.theme.colors.sidebar.background.selected};
     outline: none;
   }
 

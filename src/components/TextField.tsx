@@ -7,7 +7,11 @@ export const TextField = styled.input<ErrorProps>`
   padding: 10px 15px;
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid ${props => (props.error ? '#D47666' : '#aaa')};
+  border: 1px solid
+    ${props =>
+      props.error
+        ? props.theme.colors.textField.border.error
+        : props.theme.colors.textField.border.default};
   border-radius: 5px;
   z-index: ${props => (props.error ? 2 : 1)};
   position: relative;
@@ -21,12 +25,12 @@ export const TextField = styled.input<ErrorProps>`
   }
 
   &::placeholder {
-    color: #aaa;
+    color: ${props => props.theme.colors.textField.placeholder.default};
   }
 
   &:hover {
     &::placeholder {
-      color: #777;
+      color: ${props => props.theme.colors.textField.placeholder.hovered};
     }
   }
 `
@@ -58,7 +62,7 @@ export const TextArea = styled.textarea`
   padding: 10px 15px;
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid #aaa;
+  border: 1px solid ${props => props.theme.colors.textField.border.default};
   border-radius: 5px;
   height: 170px;
 
@@ -67,12 +71,12 @@ export const TextArea = styled.textarea`
   }
 
   &::placeholder {
-    color: #aaa;
+    color: ${props => props.theme.colors.textField.placeholder.default};
   }
 
   &:hover {
     &::placeholder {
-      color: #777;
+      color: ${props => props.theme.colors.textField.placeholder.hovered};
     }
   }
 `

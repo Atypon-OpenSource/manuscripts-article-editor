@@ -1,13 +1,19 @@
 import React from 'react'
+import { styled, ThemedProps } from '../../theme'
 import { RadioButton } from '../RadioButton'
 
 type Props = React.InputHTMLAttributes<HTMLInputElement>
+type ThemedDivProps = ThemedProps<HTMLDivElement>
+
+const Container = styled.div`
+  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
+`
 
 export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({
   value,
   ...rest
 }) => (
-  <React.Fragment>
+  <Container>
     <RadioButton
       checked={value === 'Owner'}
       value={'Owner'}
@@ -38,5 +44,5 @@ export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({
     >
       Viewer
     </RadioButton>
-  </React.Fragment>
+  </Container>
 )

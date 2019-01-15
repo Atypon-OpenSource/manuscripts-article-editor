@@ -1,6 +1,8 @@
 import { Form } from 'formik'
 import { Link } from 'react-router-dom'
-import { styled } from '../theme'
+import { styled, ThemedProps } from '../theme'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const CenteredForm = styled(Form)`
   width: 100%;
@@ -27,13 +29,14 @@ export const FormActions = styled.div`
 export const FormLink = styled(Link)`
   text-transform: uppercase;
   text-decoration: none;
-  color: #5e8fcf;
+  color: ${props => props.theme.colors.global.text.link};
   font-size: 90%;
 `
 
 export const FormError = styled.div`
-  background: #fdf2f0;
-  color: #cd593c;
+  background: ${(props: ThemedDivProps) =>
+    props.theme.colors.global.background.error};
+  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
   border-radius: 2px;
   margin-top: 5px;
   margin-bottom: 5px;
