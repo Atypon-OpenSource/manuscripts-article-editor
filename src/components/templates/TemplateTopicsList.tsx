@@ -67,7 +67,7 @@ export const TemplateTopicsList: React.FunctionComponent<Props> = ({
   options,
   value,
 }) => (
-  <ListContainer>
+  <ListContainer data-cy={'template-topics-list'}>
     <List>
       <ListSection onClick={() => handleChange(null)}>
         <Added visible={!value} />

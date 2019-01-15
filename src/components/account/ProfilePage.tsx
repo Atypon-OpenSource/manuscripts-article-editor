@@ -64,7 +64,7 @@ const ProfilePage: React.FunctionComponent<Props> = ({
       closeTimeoutMS={totalTransitionTime}
     >
       <ModalHeader>
-        <CloseButton onClick={handleClose}>
+        <CloseButton onClick={handleClose} data-cy={'modal-close-button'}>
           <Close size={24} />
         </CloseButton>
       </ModalHeader>

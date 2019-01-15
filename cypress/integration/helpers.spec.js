@@ -64,7 +64,7 @@ export const createProjectWithTitle = () => {
         min: 2,
       })
     )
-    cy.get('#create-project').click()
+    createProject()
     cy.get('#manuscript-title-field .title-editor').type(manuscriptTitle)
     cy.get('#project-title-field .title-editor').type(projectTitle)
     cy.get('#manuscript-title-field .title-editor').contains(manuscriptTitle)
@@ -75,4 +75,10 @@ export const generateParagraph = (wordCount) => {
   const sentence = faker.lorem.words(wordCount)
 
   return sentence.charAt(0).toUpperCase() + sentence.slice(1)
+}
+
+export const createProject = () => {
+  cy.get('#create-project').click()
+  cy.wait(1000)
+  cy.get('button').contains('Create empty manuscript').click()
 }

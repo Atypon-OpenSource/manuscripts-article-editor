@@ -110,14 +110,21 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
 
         {articleType &&
           articleType !== title && (
-            <ArticleType selected={selected}>{articleType}</ArticleType>
+            <ArticleType selected={selected} data-cy={'article-type'}>
+              {articleType}
+            </ArticleType>
           )}
 
         {selected && <TemplateInfoLink bundle={item.bundle} />}
       </Title>
 
       <TemplateActions selected={selected}>
-        <CreateButton onClick={() => selectTemplate(item)}>Create</CreateButton>
+        <CreateButton
+          onClick={() => selectTemplate(item)}
+          data-cy={'create-button'}
+        >
+          Create
+        </CreateButton>
       </TemplateActions>
     </Heading>
 

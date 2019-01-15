@@ -1,4 +1,4 @@
-import { generateUser, login, signup, generateParagraph } from './helpers.spec'
+import { generateUser, login, signup, createProject } from './helpers.spec'
 
 describe('Lists', () => {
     const user = generateUser()
@@ -11,7 +11,7 @@ describe('Lists', () => {
 
         login(user, true)
 
-        cy.get('#create-project').click()
+        createProject()
         cy.get('.manuscript-editor').type('{enter}')
         cy.wait(500)
         cy.get('.manuscript-editor').type('apple pie')
@@ -25,7 +25,7 @@ describe('Lists', () => {
 
         login(user, true)
 
-        cy.get('#create-project').click()
+        createProject()
         cy.get('.manuscript-editor').type('{enter}')
         cy.wait(500)
         cy.get('.manuscript-editor').type('banana split')

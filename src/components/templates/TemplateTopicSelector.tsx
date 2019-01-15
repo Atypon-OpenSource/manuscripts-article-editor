@@ -44,7 +44,11 @@ export class TemplateTopicSelector extends React.Component<Props, State> {
         <Header onClick={() => this.setState({ isOpen: !isOpen })}>
           <Title>{value ? value.name : 'All Topics'}</Title>
 
-          {isOpen ? <ArrowUpBlue /> : <ArrowDownBlue />}
+          {isOpen ? (
+            <ArrowUpBlue data-cy={'arrow-up'} />
+          ) : (
+            <ArrowDownBlue data-cy={'arrow-down'} />
+          )}
         </Header>
 
         {isOpen && (

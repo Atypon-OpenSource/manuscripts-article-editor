@@ -1,4 +1,4 @@
-import { generateUser, login, signup, createProjectWithTitle } from './helpers.spec'
+import { generateUser, login, signup, createProjectWithTitle, createProject } from './helpers.spec'
 
 describe('Projects', () => {
     const user = generateUser()
@@ -8,7 +8,7 @@ describe('Projects', () => {
     })
     it('Can create a new project', () => {
         login(user, true)
-        cy.get('#create-project').click()
+        createProject()
         cy.get('#manuscript-title-field .title-editor', { timeout: 10000 })
         cy.get('#project-title-field .title-editor', { timeout: 10000 })
     })
