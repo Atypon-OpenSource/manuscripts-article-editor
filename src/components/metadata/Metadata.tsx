@@ -124,7 +124,6 @@ interface Props {
   invitationValues: InvitationValues
   invitationSent: boolean
   openAddAuthors: () => void
-  checkInvitations: (author: Contributor) => boolean
   handleAddingDoneCancel: () => void
   handleInvite: (searchText: string) => void
   handleInviteCancel: () => void

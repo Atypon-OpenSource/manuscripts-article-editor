@@ -141,7 +141,6 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
                           addedAuthors={addedAuthors}
                           isInvite={isInvite}
                           invitationValues={invitationValues}
-                          checkInvitations={this.checkInvitations}
                           handleAddingDoneCancel={this.handleAddingDoneCancel}
                           handleInvite={this.handleInvite}
                           handleInviteCancel={this.handleInviteCancel}
@@ -465,15 +464,6 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
       authors[idx].priority = Number(authors[idx].priority) - 1
       await this.props.saveModel<Contributor>(authors[idx])
     }
-  }
-
-  private checkInvitations = (author: Contributor) => {
-    for (const invitation of this.state.invitations) {
-      if (invitation._id === author.invitationID) {
-        return !invitation.acceptedAt
-      }
-    }
-    return false
   }
 
   private getInvitation = (

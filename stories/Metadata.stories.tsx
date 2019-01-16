@@ -72,7 +72,6 @@ storiesOf('Metadata', module)
       handleInviteCancel={action('stop invite')}
       handleInvitationSubmit={action('invite author')}
       invitationValues={invitationValues}
-      checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
       handleSectionChange={action('section change')}
       updateAuthor={action(
@@ -114,7 +113,6 @@ storiesOf('Metadata', module)
       handleInviteCancel={action('stop invite')}
       handleInvitationSubmit={action('invite author')}
       invitationValues={invitationValues}
-      checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
       handleSectionChange={action('section change')}
       updateAuthor={action(
@@ -156,7 +154,6 @@ storiesOf('Metadata', module)
       handleInviteCancel={action('stop invite')}
       handleInvitationSubmit={action('invite author')}
       invitationValues={invitationValues}
-      checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
       handleSectionChange={action('section change')}
       updateAuthor={action(

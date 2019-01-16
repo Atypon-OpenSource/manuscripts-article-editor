@@ -30,7 +30,6 @@ interface Props {
   updateAuthor: (author: Contributor, email: string) => void
   openAddAuthors: () => void
   createAffiliation: (name: string) => Promise<Affiliation>
-  checkInvitations: (author: Contributor) => boolean
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
   handleDrop: (
     source: AuthorItem,
@@ -56,7 +55,6 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       selectedAuthor,
       project,
       updateAuthor,
-      checkInvitations,
       createAffiliation,
       handleDrop,
       handleSaveAuthor,
@@ -73,7 +71,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         isHovered={isHovered}
         isRemoveAuthorOpen={isRemoveAuthorOpen}
         updateAuthor={updateAuthor}
-        checkInvitations={checkInvitations}
+        checkInvitations={this.checkInvitations}
         createAffiliation={createAffiliation}
         handleDrop={handleDrop}
         handleSaveAuthor={handleSaveAuthor}
@@ -115,6 +113,15 @@ class AuthorsModalContainer extends React.Component<Props, State> {
     }
 
     return true
+  }
+
+  private checkInvitations = (author: Contributor) => {
+    for (const invitation of this.props.invitations) {
+      if (invitation._id === author.invitationID) {
+        return !invitation.acceptedAt
+      }
+    }
+    return false
   }
 }
 
