@@ -120,12 +120,8 @@ export class TemplateSelectorList extends React.Component<Props, State> {
   private calculateItemSize = (item: TemplateData) => {
     let size = 46
 
-    if (item.publisher && item.publisher.name) {
-      size += 19
-    }
-
     if (item.template && item.template.desc) {
-      size += 19
+      size += 17
     }
 
     return size

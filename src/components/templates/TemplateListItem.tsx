@@ -43,10 +43,9 @@ const Description = styled.div<{ selected?: boolean }>`
   overflow-x: hidden;
 `
 
-const PublisherName = styled.div<{ selected?: boolean }>`
+const PublisherName = styled.div`
   font-size: 90%;
   margin-bottom: 2px;
-  white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
   text-overflow: ellipsis;
   overflow-x: hidden;
 `
@@ -93,6 +92,7 @@ interface Props {
   title: string
 }
 
+// tslint:disable:cyclomatic-complexity
 export const TemplateListItem: React.FunctionComponent<Props> = ({
   articleType,
   item,
@@ -128,10 +128,9 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
       </TemplateActions>
     </Heading>
 
-    {publisher &&
-      publisher.name && (
-        <PublisherName selected={selected}>{publisher.name}</PublisherName>
-      )}
+    {selected &&
+      publisher &&
+      publisher.name && <PublisherName>{publisher.name}</PublisherName>}
 
     {template &&
       template.desc && (
