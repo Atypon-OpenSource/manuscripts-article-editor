@@ -9,7 +9,7 @@ import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import { Category, Dialog } from '../Dialog'
 import { ModalProps, withModal } from '../ModalProvider'
-import { Dropdown, DropdownContainer, DropdownElement } from '../nav/Dropdown'
+import { Dropdown, DropdownElement } from '../nav/Dropdown'
 import RenameProject from '../projects/RenameProject'
 
 const EditIconButton = styled(IconButton)`
@@ -21,6 +21,11 @@ const EditIconButton = styled(IconButton)`
   }
 `
 
+const DropdownContainer = styled.div`
+  display: inline-flex;
+  align-items: center;
+  position: absolute;
+`
 interface State {
   isOpen: boolean
   confirmDeleteIsOpen: boolean
