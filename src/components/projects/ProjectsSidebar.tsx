@@ -106,7 +106,7 @@ const ProjectsSidebar: React.FunctionComponent<Props> = props => (
               id={'create-project'}
             >
               <Add size={32} />
-              <SidebarActionTitle>Add New Project</SidebarActionTitle>
+              <SidebarActionTitle>New Project</SidebarActionTitle>
             </AddButton>
           )}
         </UserData>

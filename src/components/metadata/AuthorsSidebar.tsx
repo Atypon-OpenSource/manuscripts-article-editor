@@ -123,7 +123,7 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
             <AddAuthor size={38} />
           )}
         </AddIcon>
-        Add new author
+        New Author
       </AddButton>
     </SidebarAction>
 

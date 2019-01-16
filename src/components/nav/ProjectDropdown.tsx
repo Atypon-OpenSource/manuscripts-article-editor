@@ -229,7 +229,7 @@ export const AllProjectsDropdownSection: React.FunctionComponent<
       <DropdownIcon>
         <ProjectsList />
       </DropdownIcon>
-      View all projects
+      View All Projects
     </ProjectNameContainer>
   </DropdownLink>
 )

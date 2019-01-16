@@ -63,7 +63,7 @@ export const ChangePasswordMessage = () => (
   <FormattedMessage
     id={'change_password'}
     description={'Title of change password page'}
-    defaultMessage={'Change password'}
+    defaultMessage={'Change Password'}
   />
 )
 
@@ -71,7 +71,7 @@ export const DeleteAccountMessage = () => (
   <FormattedMessage
     id={'delete_account'}
     description={'Title of delete account page'}
-    defaultMessage={'Delete account'}
+    defaultMessage={'Delete Account'}
   />
 )
 
@@ -182,6 +182,6 @@ export const ProjectRenameMessage = () => (
   <FormattedMessage
     id={'rename_project'}
     description={'Title of rename project form'}
-    defaultMessage={'Rename project'}
+    defaultMessage={'Rename Project'}
   />
 )

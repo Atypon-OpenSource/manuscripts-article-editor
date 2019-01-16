@@ -141,7 +141,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
             <AddCollaboratorButton onClick={handleAddCollaborator}>
               <AddAuthor />
 
-              <AddCollaboratorText>Add new collaborator</AddCollaboratorText>
+              <AddCollaboratorText>New Collaborator</AddCollaboratorText>
             </AddCollaboratorButton>
           )}
 

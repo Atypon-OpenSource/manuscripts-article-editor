@@ -78,7 +78,7 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
       {!!projects.length && <DropdownSeparator />}
 
       <DropdownSection onClick={addProject} icon={<AddAuthor size={18} />}>
-        Add new project
+        New Project
       </DropdownSection>
     </React.Fragment>
   )

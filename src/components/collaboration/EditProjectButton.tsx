@@ -107,7 +107,7 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
                   }
                   style={{ width: 140 }}
                 >
-                  Rename project
+                  Rename Project
                 </DropdownElement>
                 <DropdownElement
                   onClick={() =>
@@ -117,7 +117,7 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
                   }
                   style={{ width: 140 }}
                 >
-                  Delete project
+                  Delete Project
                 </DropdownElement>
               </div>
             </Dropdown>
@@ -128,7 +128,7 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
             isOpen={confirmDeleteIsOpen}
             actions={actions}
             category={Category.confirmation}
-            header={'Delete project'}
+            header={'Delete Project'}
             message={message}
           />
         )}
