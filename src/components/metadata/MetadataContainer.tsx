@@ -53,7 +53,6 @@ interface State {
   addedAuthors: string[]
   isInvite: boolean
   invitationValues: InvitationValues
-  invitations: ProjectInvitation[]
   invitationSent: boolean
 }
 
@@ -66,7 +65,6 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
     nonAuthors: [],
     numberOfAddedAuthors: 0,
     addedAuthors: [],
-    invitations: [],
     isInvite: false,
     invitationSent: false,
     invitationValues: {
@@ -146,7 +144,8 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
                           handleInvite={this.handleInvite}
                           handleInviteCancel={this.handleInviteCancel}
                           handleInvitationSubmit={this.handleInvitationSubmit(
-                            user
+                            user,
+                            invitations
                           )}
                           handleDrop={this.handleDrop}
                           handleSectionChange={this.props.handleSectionChange}
@@ -309,16 +308,17 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
   private handleInviteCancel = () =>
     this.setState({ isInvite: false, invitationSent: false })
 
-  private handleInvitationSubmit = (invitingUser: UserProfile) => async (
-    values: InvitationValues
-  ): Promise<void> => {
+  private handleInvitationSubmit = (
+    invitingUser: UserProfile,
+    invitations: ProjectInvitation[]
+  ) => async (values: InvitationValues): Promise<void> => {
     const { email, name, role } = values
 
     const projectID = this.props.manuscript.containerID
     const invitingID = invitingUser.userID
 
     let create = true
-    for (const invitation of this.state.invitations) {
+    for (const invitation of invitations) {
       if (
         invitation.projectID === projectID &&
         invitation.invitedUserEmail === email
