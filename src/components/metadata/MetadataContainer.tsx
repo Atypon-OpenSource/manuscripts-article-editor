@@ -134,7 +134,8 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
                           user={user}
                           addingAuthors={addingAuthors}
                           openAddAuthors={this.startAddingAuthors(
-                            collaborators
+                            collaborators,
+                            invitations
                           )}
                           numberOfAddedAuthors={numberOfAddedAuthors}
                           nonAuthors={nonAuthors}
@@ -276,11 +277,14 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
     }
   }
 
-  private startAddingAuthors = (collaborators: UserProfile[]) => () => {
+  private startAddingAuthors = (
+    collaborators: UserProfile[],
+    invitations: ProjectInvitation[]
+  ) => () => {
     this.setState({ addingAuthors: true })
 
     const authors = buildSortedAuthors(this.props.modelMap)
-    this.buildNonAuthors(authors, collaborators)
+    this.buildNonAuthors(authors, collaborators, invitations)
   }
 
   private handleAddingDoneCancel = () =>
@@ -365,9 +369,12 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
       })
   }
 
-  private buildInvitedAuthorsEmail = (authorInvitationIDs: string[]) => {
+  private buildInvitedAuthorsEmail = (
+    authorInvitationIDs: string[],
+    invitations: ProjectInvitation[]
+  ) => {
     const invitedAuthorsEmail: string[] = []
-    for (const invitation of this.state.invitations) {
+    for (const invitation of invitations) {
       if (authorInvitationIDs.includes(invitation._id)) {
         invitedAuthorsEmail.push(invitation.invitedUserEmail)
       }
@@ -377,13 +384,15 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
 
   private buildNonAuthors = (
     authors: Contributor[],
-    collaborators: UserProfile[]
+    collaborators: UserProfile[],
+    invitations: ProjectInvitation[]
   ) => {
     const userIDs: string[] = authors.map(author => author.userID as string)
     const invitationsID: string[] = authors.map(author => author.invitationID!)
 
     const invitedAuthorsEmail: string[] = this.buildInvitedAuthorsEmail(
-      invitationsID
+      invitationsID,
+      invitations
     )
 
     const nonAuthors: UserProfile[] = collaborators.filter(
