@@ -1,3 +1,6 @@
+import CorrespondingAuthorBadge from '@manuscripts/assets/react/CorrespondingAuthorBadge'
+import JointFirstAuthorBadge from '@manuscripts/assets/react/FirstAuthorBadge'
+import VerticalEllipsis from '@manuscripts/assets/react/VerticalEllipsis'
 import {
   UserProfileWithAvatar,
   withDragDropContext,
@@ -15,9 +18,6 @@ import {
 } from 'react-dnd'
 import { findDOMNode } from 'react-dom'
 import { darkGrey, manuscriptsBlue } from '../../colors'
-import CorrespondingAuthorBadge from '../../icons/corresponding-author-badge'
-import JointFirstAuthorBadge from '../../icons/joint-first-author-badge'
-import VerticalEllipsis from '../../icons/vertical-ellipsis'
 import { isJointFirstAuthor } from '../../lib/authors'
 import {
   AuthorItem,

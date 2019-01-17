@@ -13,7 +13,6 @@ import { AuthorValues } from './AuthorForm'
 import { AuthorsModal } from './AuthorsModals'
 
 interface State {
-  isHovered: boolean
   isRemoveAuthorOpen: boolean
 }
 
@@ -41,12 +40,11 @@ interface Props {
 
 class AuthorsModalContainer extends React.Component<Props, State> {
   public state = {
-    isHovered: false,
     isRemoveAuthorOpen: false,
   }
 
   public render() {
-    const { isRemoveAuthorOpen, isHovered } = this.state
+    const { isRemoveAuthorOpen } = this.state
     const {
       authors,
       authorAffiliations,
@@ -68,7 +66,6 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         authorAffiliations={authorAffiliations}
         affiliations={affiliations}
         selectedAuthor={selectedAuthor}
-        isHovered={isHovered}
         isRemoveAuthorOpen={isRemoveAuthorOpen}
         updateAuthor={updateAuthor}
         checkInvitations={this.checkInvitations}
@@ -80,14 +77,10 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         isRejected={this.isRejected}
         removeAuthor={this.removeAuthor}
         getAuthorName={this.getAuthorName}
-        handleHover={this.handleHover}
         handleRemoveAuthor={this.handleRemoveAuthor}
       />
     )
   }
-
-  private handleHover = () =>
-    this.setState({ isHovered: !this.state.isHovered })
 
   private handleRemoveAuthor = () =>
     this.setState({ isRemoveAuthorOpen: !this.state.isRemoveAuthorOpen })

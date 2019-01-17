@@ -1,7 +1,7 @@
+import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import React from 'react'
 import Modal from 'react-modal'
 import { RouteComponentProps, withRouter } from 'react-router'
-import Close from '../icons/close'
 import { styled, theme, ThemedProps } from '../theme'
 
 Modal.setAppElement('#root')
@@ -109,7 +109,7 @@ class ModalForm extends React.Component<Props & RouteComponentProps> {
         <ModalContainer>
           <ModalHeader>
             <CloseButton onClick={this.handleClose}>
-              <Close size={24} />
+              <CloseIconDark />
             </CloseButton>
           </ModalHeader>
           <ModalMain>

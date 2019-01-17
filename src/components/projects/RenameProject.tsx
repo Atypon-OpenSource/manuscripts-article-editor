@@ -1,7 +1,7 @@
+import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
 import { Formik, FormikActions, FormikErrors } from 'formik'
 import React from 'react'
-import Close from '../../icons/close'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled, ThemedProps } from '../../theme'
 import { RenameProjectForm, Values } from '../collaboration/RenameProjectForm'
@@ -65,7 +65,7 @@ class RenameProject extends React.Component<CombinedProps> {
       <ModalContainer>
         <ModalHeader>
           <CloseButton onClick={() => this.props.handleComplete()}>
-            <Close size={24} />
+            <CloseIconDark />
           </CloseButton>
         </ModalHeader>
         <ModalMain>

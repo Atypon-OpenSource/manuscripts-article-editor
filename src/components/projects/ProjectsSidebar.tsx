@@ -1,10 +1,10 @@
+import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import ProjectsData from '../../data/ProjectsData'
 import UserData from '../../data/UserData'
 import UsersData from '../../data/UsersData'
-import Add from '../../icons/add'
 import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled, ThemedProps } from '../../theme'
@@ -22,7 +22,6 @@ type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Container = styled(Sidebar)`
   background: white;
-  height: unset;
 `
 
 const Header = styled(SidebarHeader)`
@@ -105,7 +104,7 @@ const ProjectsSidebar: React.FunctionComponent<Props> = props => (
               onClick={openTemplateSelector(props, user)}
               id={'create-project'}
             >
-              <Add size={32} />
+              <AddIcon />
               <SidebarActionTitle>New Project</SidebarActionTitle>
             </AddButton>
           )}

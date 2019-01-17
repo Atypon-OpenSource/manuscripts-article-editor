@@ -1,4 +1,3 @@
-// import AnnotationEdit from '@manuscripts/assets/react/AnnotationEdit'
 import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'

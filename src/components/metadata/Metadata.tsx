@@ -1,3 +1,5 @@
+import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
+import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import {
   Affiliation,
   Contributor,
@@ -9,8 +11,6 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import React from 'react'
-import Close from '../../icons/close'
-import Expander from '../../icons/expander'
 import { AffiliationMap } from '../../lib/authors'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { isOwner } from '../../lib/roles'
@@ -159,7 +159,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
             transform: props.expanded ? 'rotate(180deg)' : 'rotate(0deg)',
           }}
         >
-          <Expander />
+          <ArrowDownBlue />
         </ExpanderButton>
       </TitleContainer>
 
@@ -186,7 +186,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
         <ModalContainer>
           <ModalHeader>
             <CloseButton onClick={props.stopEditing}>
-              <Close size={24} />
+              <CloseIconDark />
             </CloseButton>
           </ModalHeader>
 

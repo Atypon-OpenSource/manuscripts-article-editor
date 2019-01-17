@@ -1,3 +1,4 @@
+import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import {
   ProjectInvitation,
@@ -5,7 +6,6 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey, powderBlue } from '../../colors'
-import AddedIcon from '../../icons/added-icon'
 import SearchIcon from '../../icons/search'
 import { styled, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'

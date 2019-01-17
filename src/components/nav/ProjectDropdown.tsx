@@ -1,3 +1,4 @@
+import ProjectsList from '@manuscripts/assets/react/ProjectsList'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import {
   Project,
@@ -8,7 +9,6 @@ import React from 'react'
 import { dustyGrey } from '../../colors'
 import ProjectIcon from '../../icons/project'
 import ProjectNotification from '../../icons/project-notification'
-import ProjectsList from '../../icons/projects-list'
 import TickMark from '../../icons/tick-mark'
 import { styled, theme, ThemedProps } from '../../theme'
 import { Avatar } from '../Avatar'

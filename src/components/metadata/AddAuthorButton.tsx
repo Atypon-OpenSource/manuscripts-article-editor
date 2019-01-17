@@ -1,7 +1,7 @@
+import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AddIconInverted from '../../icons/add-icon-inverted'
-import AddedIcon from '../../icons/added-icon'
 import { buildAuthorPriority } from '../../lib/authors'
 import { styled, theme } from '../../theme'
 import { IconButton } from '../Button'

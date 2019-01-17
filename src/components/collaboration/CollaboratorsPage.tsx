@@ -1,13 +1,13 @@
+import AddAuthor from '@manuscripts/assets/react/AddAuthor'
+import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
+import ContributorDetails from '@manuscripts/assets/react/ContributorDetailsPlaceholder'
 import ContributorSearchPlaceholder from '@manuscripts/assets/react/ContributorSearchPlaceholder'
 import ContributorsPlaceholder from '@manuscripts/assets/react/ContributorsPlaceholder'
+import InvitationPlaceholder from '@manuscripts/assets/react/InvitationPlaceholder'
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { salomieYellow } from '../../colors'
-import AddAuthor from '../../icons/add-author'
-import AddedIcon from '../../icons/added-icon'
-import ContributorDetails from '../../icons/contributor-details-placeholder'
-import InvitationPlaceholder from '../../icons/invitation-placeholder'
 import { isOwner } from '../../lib/roles'
 import { styled, ThemedProps } from '../../theme'
 import {
@@ -75,7 +75,7 @@ const ActionButton = styled.button`
   font-size: inherit;
   white-space: nowrap;
 
-  &:hover .add-author-path {
+  &:hover use {
     fill: ${salomieYellow};
   }
 `
@@ -139,7 +139,7 @@ export const CollaboratorDetailsPage: React.FunctionComponent<
           {collaboratorsCount > 1 || !isOwner(project, user.userID) ? (
             <InnerContainer>
               <Placeholder>
-                <ContributorDetails size={500} />
+                <ContributorDetails />
               </Placeholder>
 
               <ProjectTitle>{project.title}</ProjectTitle>
@@ -263,7 +263,7 @@ export const AuthorDetailsPage: React.FunctionComponent = () => (
   <OuterContainerModal>
     <InnerContainer>
       <Placeholder>
-        <ContributorDetails size={500} />
+        <ContributorDetails />
       </Placeholder>
 
       <React.Fragment>
@@ -286,7 +286,7 @@ export const InviteCollaboratorsPage: React.FunctionComponent<
   <OuterContainer>
     <InnerContainer>
       <Placeholder>
-        <InvitationPlaceholder size={500} />
+        <InvitationPlaceholder />
       </Placeholder>
 
       <ProjectTitle>{project.title}</ProjectTitle>
@@ -306,7 +306,7 @@ export const InviteCollaboratorsModal: React.FunctionComponent<
   <OuterContainerModal>
     <InnerContainer>
       <Placeholder>
-        <InvitationPlaceholder size={500} />
+        <InvitationPlaceholder />
       </Placeholder>
 
       <ProjectTitle>{project.title}</ProjectTitle>

@@ -1,7 +1,7 @@
+import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { lightGrey } from '../../colors'
-import DropdownToggle from '../../icons/dropdown-toggle'
 import { styled, ThemedProps } from '../../theme'
 import { Badge } from '../Badge'
 import { InvitedBy, PlaceholderTitle } from './ProjectDropdown'
@@ -93,8 +93,21 @@ interface DropdownProps {
   isOpen: boolean
 }
 
-const StyledDropdownToggle = styled(DropdownToggle)`
+const DropdownToggle = styled(ArrowDownUp)`
   margin-left: 6px;
+  transform: rotate(180deg);
+
+  & path {
+    stroke: currentColor;
+  }
+
+  &.open {
+    transform: rotate(0deg);
+
+    & path {
+      stroke: white;
+    }
+  }
 `
 
 const NotificationsBadge = styled(Badge)<DropdownProps>`
@@ -163,9 +176,6 @@ export const DropdownButton: React.FunctionComponent<DropdownButtonProps> = ({
         {notificationsCount}
       </NotificationsBadge>
     )}
-    <StyledDropdownToggle
-      color={isOpen ? 'white' : 'currentColor'}
-      transform={isOpen ? 'rotate(180)' : 'rotate(0)'}
-    />
+    <DropdownToggle className={isOpen ? 'open' : ''} />
   </DropdownButtonContainer>
 )

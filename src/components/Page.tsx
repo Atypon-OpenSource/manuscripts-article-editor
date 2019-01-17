@@ -1,12 +1,12 @@
+import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
+import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
 import NavIconFillCut from '@manuscripts/assets/react/NavIconFillCut'
 import NavIconOutline from '@manuscripts/assets/react/NavIconOutline'
+import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
-import ProjectContributors from '../icons/project-contributors'
-import ProjectEdit from '../icons/project-edit'
-import ProjectLibrary from '../icons/project-library'
 import { GlobalStyle, styled, ThemedProps } from '../theme'
 import MenuBar from './nav/MenuBar'
 import { Tip } from './Tip'
@@ -101,6 +101,28 @@ const ViewsSeparator = styled.div`
   margin-bottom: 4px;
 `
 
+const StyledEditProjectIcon = styled(EditProjectIcon)`
+  g {
+    stroke: currentColor;
+  }
+`
+
+const ProjectLibraryIcon = styled(ReferenceLibraryIcon)`
+  path {
+    stroke: currentColor;
+  }
+`
+
+const ProjectContributorsIcon = styled(ContributorsIcon)`
+  path {
+    stroke: currentColor;
+  }
+
+  circle {
+    stroke: currentColor;
+  }
+`
+
 interface Props {
   project?: Project
 }
@@ -138,13 +160,13 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
                 /^\/projects\/.+?\/manuscripts\/.+/.test(location.pathname)
               }
             >
-              <ProjectEdit />
+              <StyledEditProjectIcon />
             </ViewLink>
           </Tip>
 
           <Tip title={'Library'} placement={'right'}>
             <ViewLink to={`/projects/${project._id}/library`} exact={true}>
-              <ProjectLibrary />
+              <ProjectLibraryIcon />
             </ViewLink>
           </Tip>
 
@@ -153,7 +175,7 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
               to={`/projects/${project._id}/collaborators`}
               exact={true}
             >
-              <ProjectContributors />
+              <ProjectContributorsIcon />
             </ViewLink>
           </Tip>
         </IconBar>

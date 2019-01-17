@@ -1,11 +1,14 @@
+import AttentionBlue from '@manuscripts/assets/react/AttentionBlue'
+import AttentionOrange from '@manuscripts/assets/react/AttentionOrange'
+import AttentionRed from '@manuscripts/assets/react/AttentionRed'
+import Closeblue from '@manuscripts/assets/react/Closeblue'
+import Closegreen from '@manuscripts/assets/react/Closegreen'
+import Closeorange from '@manuscripts/assets/react/Closeorange'
+import Closered from '@manuscripts/assets/react/Closered'
+import SuccessGreen from '@manuscripts/assets/react/SuccessGreen'
 import React from 'react'
 import { SizeMe } from 'react-sizeme'
 import styled from 'styled-components'
-import AttentionError from '../icons/attention-error'
-import AttentionInfo from '../icons/attention-info'
-import AttentionWarning from '../icons/attention-warning'
-import CloseAlert from '../icons/close-alert'
-import SuccessGreen from '../icons/success'
 import { theme } from '../theme'
 
 export const TextButton = styled.span`
@@ -80,6 +83,10 @@ const TextContainer = styled.div`
   padding-right: 20px;
 `
 
+const SuccessIcon = styled(SuccessGreen)`
+  transform: scale(0.75, 0.75);
+`
+
 interface State {
   isOpen: boolean
 }
@@ -102,6 +109,36 @@ interface Props {
   hideCloseButton?: boolean
 }
 
+const AlertIcon: React.FunctionComponent<{ type: AlertMessageType }> = ({
+  type,
+}) => {
+  switch (type) {
+    case AlertMessageType.success:
+      return <SuccessIcon />
+    case AlertMessageType.error:
+      return <AttentionRed />
+    case AlertMessageType.info:
+      return <AttentionBlue />
+    default:
+      return <AttentionOrange />
+  }
+}
+
+const AlertDismissButton: React.FunctionComponent<{
+  type: AlertMessageType
+}> = ({ type }) => {
+  switch (type) {
+    case AlertMessageType.success:
+      return <Closegreen />
+    case AlertMessageType.error:
+      return <Closered />
+    case AlertMessageType.info:
+      return <Closeblue />
+    default:
+      return <Closeorange />
+  }
+}
+
 class AlertMessage extends React.Component<Props, State> {
   public state: State = {
     isOpen: true,
@@ -122,7 +159,7 @@ class AlertMessage extends React.Component<Props, State> {
               className={'alert-message'}
             >
               <InnerContainer>
-                <InformativeIcon>{this.getIcon()}</InformativeIcon>
+                <InformativeIcon>{<AlertIcon type={type} />}</InformativeIcon>
                 <TextContainer>
                   {children}
                   {dismissButton &&
@@ -153,9 +190,7 @@ class AlertMessage extends React.Component<Props, State> {
                 ((size.width! >= 900 || !dismissButton) && (
                   <CloseContainer>
                     <CloseIcon onClick={this.handleClose}>
-                      <CloseAlert
-                        color={theme.colors.alertMessage[type].dismiss}
-                      />
+                      <AlertDismissButton type={type} />
                     </CloseIcon>
                   </CloseContainer>
                 ))}
@@ -168,20 +203,6 @@ class AlertMessage extends React.Component<Props, State> {
 
   private handleClose = () => {
     this.setState({ isOpen: false })
-  }
-
-  private getIcon() {
-    switch (this.props.type) {
-      case AlertMessageType.success:
-        return <SuccessGreen />
-      case AlertMessageType.error:
-        return <AttentionError />
-
-      case AlertMessageType.info:
-        return <AttentionInfo />
-      default:
-        return <AttentionWarning />
-    }
   }
 }
 

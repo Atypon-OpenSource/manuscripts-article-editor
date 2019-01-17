@@ -1,7 +1,7 @@
+import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { salomieYellow } from '../../colors'
-import AddAuthor from '../../icons/add-author'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { styled, ThemedProps } from '../../theme'
 import { AuthorAffiliation } from './Author'
@@ -34,6 +34,10 @@ const AddButton = styled.button`
 
   &:focus {
     outline: none;
+  }
+
+  &:hover use {
+    fill: ${salomieYellow};
   }
 `
 
@@ -80,11 +84,9 @@ interface Props {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   selectedAuthor: Contributor | null
-  isHovered: boolean
   checkInvitations: (author: Contributor) => boolean
   selectAuthor: (item: Contributor) => void
   openAddAuthors: () => void
-  handleHover: () => void
   handleDrop: (
     source: AuthorItem,
     target: AuthorItem,
@@ -100,8 +102,6 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
   openAddAuthors,
   handleDrop,
   checkInvitations,
-  handleHover,
-  isHovered,
 }) => (
   <Sidebar>
     <SidebarHeader>
@@ -113,15 +113,9 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
         onClick={() => {
           openAddAuthors()
         }}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleHover}
       >
         <AddIcon>
-          {isHovered ? (
-            <AddAuthor size={38} color={salomieYellow} />
-          ) : (
-            <AddAuthor size={38} />
-          )}
+          <AddAuthor />
         </AddIcon>
         New Author
       </AddButton>

@@ -49,7 +49,6 @@ interface AuthorsProps {
   affiliations: AffiliationMap
   selectedAuthor: Contributor | null
   isRemoveAuthorOpen: boolean
-  isHovered: boolean
   project: Project
   removeAuthor: (data: Contributor) => void
   selectAuthor: (data: Contributor) => void
@@ -60,7 +59,6 @@ interface AuthorsProps {
   isRejected: (invitationID: string) => boolean
   getAuthorName: (author: Contributor) => string
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
-  handleHover: () => void
   handleRemoveAuthor: () => void
   handleDrop: (
     source: AuthorItem,
@@ -85,8 +83,6 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   isRemoveAuthorOpen,
   handleRemoveAuthor,
   isRejected,
-  handleHover,
-  isHovered,
   project,
   updateAuthor,
   getAuthorName,
@@ -101,8 +97,6 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
         openAddAuthors={openAddAuthors}
         handleDrop={handleDrop}
         checkInvitations={checkInvitations}
-        handleHover={handleHover}
-        isHovered={isHovered}
       />
     </ModalSidebar>
     <ModalMain>

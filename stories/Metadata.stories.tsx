@@ -235,9 +235,7 @@ storiesOf('Metadata', module)
       selectedAuthor={null}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      isHovered={false}
       openAddAuthors={action('start adding')}
-      handleHover={action('handle hover over add author button')}
     />
   ))
   .add('Authors Sidebar', () => (
@@ -249,8 +247,6 @@ storiesOf('Metadata', module)
       openAddAuthors={action('start adding')}
       checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
-      isHovered={false}
-      handleHover={action('handle hover over add author button')}
     />
   ))
   .add('Author Form', () => (

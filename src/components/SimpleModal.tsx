@@ -1,7 +1,7 @@
+import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import React from 'react'
 import Modal from 'react-modal'
 import { lightGrey } from '../colors'
-import Close from '../icons/close'
 import { styled, ThemedProps } from '../theme'
 
 Modal.setAppElement('#root')
@@ -82,7 +82,7 @@ export const SimpleModal: React.FunctionComponent<Props> = ({
     <ModalContainer>
       <ModalHeader>
         <CloseButton onClick={handleClose}>
-          <Close size={24} />
+          <CloseIconDark />
         </CloseButton>
       </ModalHeader>
       <ModalMain>{children}</ModalMain>

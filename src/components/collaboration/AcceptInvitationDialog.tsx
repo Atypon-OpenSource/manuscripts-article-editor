@@ -1,11 +1,11 @@
+import AttentionBlue from '@manuscripts/assets/react/AttentionBlue'
 import React from 'react'
 import { altoGrey, butteryYellow } from '../../colors'
-import AttentionInfo from '../../icons/attention-info'
 import { styled } from '../../theme'
 import { PrimaryButton } from '../Button'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
 
-const Icon = styled(AttentionInfo)`
+const Icon = styled(AttentionBlue)`
   margin-right: 8px;
   color: ${butteryYellow};
 `

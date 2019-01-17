@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { acceptProjectInvitationToken } from '../../lib/api'
-import { AcceptInvitationDialog } from '../projects/AcceptInvitationDialog'
+import { AcceptInvitationDialog } from '../collaboration/AcceptInvitationDialog'
 import { Spinner } from '../Spinner'
 
 interface State {

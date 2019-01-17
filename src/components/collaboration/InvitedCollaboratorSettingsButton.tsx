@@ -1,7 +1,7 @@
+import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
 import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import SettingsInverted from '../../icons/settings-inverted-icon'
 import { styled, theme } from '../../theme'
 import { IconButton } from '../Button'
 import InviteCollaboratorPopperContainer from './InviteCollaboratorPopperContainer'
@@ -13,6 +13,12 @@ const AddIconButton = styled(IconButton)`
 
   &:focus {
     outline: none;
+  }
+`
+
+const SettingsInvertedIcon = styled(SettingsInverted)`
+  g {
+    stroke: ${props => props.theme.colors.icon.primary};
   }
 `
 
@@ -58,7 +64,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
               ref={ref}
               onClick={this.openPopper}
             >
-              <SettingsInverted color={theme.colors.icon.primary} />
+              <SettingsInvertedIcon color={theme.colors.icon.primary} />
             </AddIconButton>
           )}
         </Reference>

@@ -1,7 +1,7 @@
+import AttentionRed from '@manuscripts/assets/react/AttentionRed'
 import React from 'react'
 import { altoGrey, butteryYellow } from '../../colors'
 import config from '../../config'
-import AttentionError from '../../icons/attention-error'
 import { styled } from '../../theme'
 import { GreyButton, PrimaryButton } from '../Button'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
@@ -18,7 +18,7 @@ const Message: React.FunctionComponent<{
   </div>
 )
 
-const Icon = styled(AttentionError)`
+const Icon = styled(AttentionRed)`
   margin-right: 8px;
   color: ${butteryYellow};
 `

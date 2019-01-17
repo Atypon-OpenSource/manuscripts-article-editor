@@ -1,9 +1,9 @@
+import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import SettingsInverted from '../../icons/settings-inverted-icon'
 import { ProjectRole } from '../../lib/roles'
-import { styled, theme } from '../../theme'
+import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import CollaboratorSettingsPopperContainer from './CollaboratorSettingsPopperContainer'
 
@@ -14,6 +14,12 @@ const AddIconButton = styled(IconButton)`
 
   &:focus {
     outline: none;
+  }
+`
+
+const SettingsInvertedIcon = styled(SettingsInverted)`
+  g {
+    stroke: ${props => props.theme.colors.icon.primary};
   }
 `
 
@@ -54,7 +60,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
               ref={ref}
               onClick={this.togglePopper}
             >
-              <SettingsInverted color={theme.colors.icon.primary} />
+              <SettingsInvertedIcon />
             </AddIconButton>
           )}
         </Reference>

@@ -1,3 +1,4 @@
+import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import {
   Project,
@@ -6,7 +7,6 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { darkGrey, salomieYellow } from '../../colors'
-import AddAuthor from '../../icons/add-author'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
 import { styled, ThemedProps } from '../../theme'
@@ -51,7 +51,7 @@ const AddCollaboratorButton = styled.button`
   border: none;
   padding: 2px 8px;
 
-  &:hover .add-author-path {
+  &:hover use {
     fill: ${salomieYellow};
   }
 `

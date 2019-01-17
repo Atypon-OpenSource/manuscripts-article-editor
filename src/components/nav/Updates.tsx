@@ -2,6 +2,7 @@ import AppIcon from '@manuscripts/assets/react/AppIcon'
 import { sanitize } from 'dompurify'
 import React from 'react'
 import { FormattedRelative } from 'react-intl'
+import { darkGrey } from '../../colors'
 import { BackArrow } from '../../icons/back-arrow'
 import { styled } from '../../theme'
 
@@ -208,7 +209,7 @@ export class Updates extends React.Component<Props, State> {
             <UpdatesContent>
               <Header onClick={() => this.selectTopic(null)}>
                 <Back>
-                  <BackArrow size={15} color={'#585858'} /> Back to Latest
+                  <BackArrow size={15} color={darkGrey} /> Back to Latest
                   Updates
                 </Back>
               </Header>

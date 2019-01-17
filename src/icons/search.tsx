@@ -1,7 +1,7 @@
 import React from 'react'
 import { IconProps } from './types'
 
-const searchIcon = (props: IconProps) => (
+const SearchIcon = (props: IconProps) => (
   <svg height={50.667} width={50.667} {...props}>
     <defs>
       <clipPath id="a" clipPathUnits="userSpaceOnUse">
@@ -109,4 +109,4 @@ const searchIcon = (props: IconProps) => (
   </svg>
 )
 
-export default searchIcon
+export default SearchIcon

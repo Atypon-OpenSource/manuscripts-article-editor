@@ -1,8 +1,8 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
+import ProjectPlaceholder from '@manuscripts/assets/react/ProjectPlaceholder'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import ProjectPlaceholder from '../../icons/project-placeholder'
 import { styled } from '../../theme'
 import { Page } from '../Page'
 

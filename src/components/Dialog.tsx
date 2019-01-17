@@ -1,6 +1,6 @@
+import AttentionRed from '@manuscripts/assets/react/AttentionRed'
 import React from 'react'
 import { altoGrey, butteryYellow } from '../colors'
-import AttentionError from '../icons/attention-error'
 import { styled, ThemedProps } from '../theme'
 import { GreyButton, PrimaryButton } from './Button'
 import { StyledModal, totalTransitionTime } from './StyledModal'
@@ -90,7 +90,7 @@ export const Dialog: React.FunctionComponent<DialogProps> = ({
       <HeaderContainer>
         {category === Category.error && (
           <Icon>
-            <AttentionError />
+            <AttentionRed />
           </Icon>
         )}
         {header}

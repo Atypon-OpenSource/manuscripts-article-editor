@@ -1,8 +1,8 @@
+import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { ManuscriptCategory } from '@manuscripts/manuscripts-json-schema'
 import React, { Component } from 'react'
 import { VariableSizeList } from 'react-window'
 import { altoGrey } from '../../colors'
-import Close from '../../icons/close'
 import { styled, ThemedProps } from '../../theme'
 import { ResearchField, TemplateData } from '../../types/templates'
 import { PrimaryButton } from '../Button'
@@ -118,7 +118,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
       <ModalBody>
         <ModalHeader>
           <CloseButton onClick={handleComplete}>
-            <Close size={24} />
+            <CloseIconDark />
           </CloseButton>
         </ModalHeader>
         <ModalContainer>
