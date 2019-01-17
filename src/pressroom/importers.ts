@@ -108,6 +108,8 @@ const importers: Importers = {
   '.html': importConvertedFile,
   '.md': importConvertedFile,
   '.manuproj': importProjectBundle,
+  '.tex': importConvertedFile,
+  '.zip': importConvertedFile,
 }
 
 export const openFilePicker = (): Promise<File> =>
