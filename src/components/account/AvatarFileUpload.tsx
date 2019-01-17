@@ -1,7 +1,9 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor/dist/types'
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
-import { altoGrey } from '../../colors'
+import { altoGrey, darkGrey, dustyGrey } from '../../colors'
 import { styled, ThemedProps } from '../../theme'
+import { Avatar } from '../Avatar'
 import { GreyButton, PrimaryButton } from '../Button'
 import { ImportProps } from '../ImportContainer'
 import { Sidebar, SidebarContent } from '../Sidebar'
@@ -96,35 +98,58 @@ const RangeInput = styled.input.attrs({
   type: 'range',
 })``
 
+const RoundedBorders = styled.div`
+  width: 150px;
+  height: 150px;
+  background-color: ${(props: ThemedDivProps) =>
+    props.theme.colors.sidebar.background.default};
+  border: solid 1px ${dustyGrey};
+  border-radius: 50%;
+`
+
 export interface AvatarFileUploadProps {
-  avatar: AvatarProps | null
+  newAvatar: AvatarProps | null
   avatarZoom: number
   avatarEditorRef: React.RefObject<AvatarEditor>
+  userWithAvatar: UserProfileWithAvatar
   importAvatar: (avatar: File) => void
   handleCancel: () => void
-  handleSaveAvatar: () => void
+  handleSaveAvatar: () => Promise<void>
+  handleDeleteAvatar: () => Promise<void>
   handleAvatarZoom: (event: React.FormEvent<HTMLInputElement>) => void
 }
 
 export const AvatarFileUpload: React.FunctionComponent<
   AvatarFileUploadProps
 > = ({
-  avatar,
+  newAvatar,
   avatarZoom,
   avatarEditorRef,
+  userWithAvatar,
   importAvatar,
   handleCancel,
   handleSaveAvatar,
+  handleDeleteAvatar,
   handleAvatarZoom,
 }) => (
   <Sidebar>
     <SidebarContent>
-      {!avatar ? (
+      {!newAvatar ? (
         <ImportAvatarContainer
           importAvatar={importAvatar}
           render={({ isImporting, isOver }: ImportProps) => (
             <UploadContainer isOver={isOver}>
-              <DropZone />
+              {userWithAvatar.avatar ? (
+                <RoundedBorders>
+                  <Avatar
+                    size={150}
+                    color={darkGrey}
+                    src={userWithAvatar.avatar}
+                  />
+                </RoundedBorders>
+              ) : (
+                <DropZone />
+              )}
               <UploadBox>
                 {isImporting ? (
                   <UploadLabel>Importing…</UploadLabel>
@@ -133,6 +158,7 @@ export const AvatarFileUpload: React.FunctionComponent<
                     <UploadLabel>Drag file above</UploadLabel>
                     <UploadBoxInnerText>
                       or <UploadBoxBrowse>browse</UploadBoxBrowse> for a file
+                      {userWithAvatar.avatar && <div>to replace the image</div>}
                     </UploadBoxInnerText>
                   </React.Fragment>
                 )}
@@ -144,7 +170,7 @@ export const AvatarFileUpload: React.FunctionComponent<
         <AvatarContainer>
           <AvatarEditor
             ref={avatarEditorRef}
-            image={avatar.src}
+            image={newAvatar.src}
             width={150}
             height={150}
             color={[148, 148, 148, 0.6]}
@@ -161,9 +187,14 @@ export const AvatarFileUpload: React.FunctionComponent<
         </AvatarContainer>
       )}
       <ButtonsContainer>
-        <SaveAvatarButton onClick={handleSaveAvatar} disabled={!avatar}>
+        <SaveAvatarButton onClick={handleSaveAvatar} disabled={!newAvatar}>
           Save Avatar
         </SaveAvatarButton>
+        {userWithAvatar.avatar && (
+          <SaveAvatarButton onClick={handleDeleteAvatar} disabled={!!newAvatar}>
+            Remove Avatar
+          </SaveAvatarButton>
+        )}
         <CancelButton onClick={handleCancel}>Cancel</CancelButton>
       </ButtonsContainer>
     </SidebarContent>

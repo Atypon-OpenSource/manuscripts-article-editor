@@ -24,20 +24,21 @@ export interface AvatarProps {
 interface Props {
   userWithAvatar: UserProfileWithAvatar
   saveUserProfileAvatar: (data: Blob) => Promise<void>
+  deleteUserProfileAvatar: () => Promise<void>
   handleChangePassword: () => void
   handleDeleteAccount: () => void
 }
 
 interface State {
   editAvatar: boolean
-  avatar: AvatarProps | null
+  newAvatar: AvatarProps | null
   avatarZoom: number
 }
 
 class ProfilePageSidebar extends React.Component<Props, State> {
   public state: Readonly<State> = {
     editAvatar: false,
-    avatar: null,
+    newAvatar: null,
     avatarZoom: 1,
   }
 
@@ -49,18 +50,20 @@ class ProfilePageSidebar extends React.Component<Props, State> {
       handleChangePassword,
       handleDeleteAccount,
     } = this.props
-    const { editAvatar, avatar, avatarZoom } = this.state
+    const { editAvatar, newAvatar, avatarZoom } = this.state
 
     return (
       <ModalSidebar>
         {editAvatar ? (
           <AvatarFileUpload
-            avatar={avatar}
+            newAvatar={newAvatar}
             avatarZoom={avatarZoom}
             avatarEditorRef={this.avatarEditorRef}
+            userWithAvatar={userWithAvatar}
             importAvatar={this.importAvatar}
             handleCancel={this.closeEditor}
             handleSaveAvatar={this.handleSaveAvatar}
+            handleDeleteAvatar={this.handleDeleteAvatar}
             handleAvatarZoom={this.handleAvatarZoom}
           />
         ) : (
@@ -78,7 +81,7 @@ class ProfilePageSidebar extends React.Component<Props, State> {
 
   private openEditor = () => {
     this.setState({
-      avatar: null,
+      newAvatar: null,
       editAvatar: true,
       avatarZoom: 1,
     })
@@ -94,6 +97,11 @@ class ProfilePageSidebar extends React.Component<Props, State> {
     const canvasElement = this.avatarEditorRef.current!.getImage()
     const blob = await this.canvasToBlob(canvasElement)
     await this.props.saveUserProfileAvatar(blob)
+    this.closeEditor()
+  }
+
+  private handleDeleteAvatar = async () => {
+    await this.props.deleteUserProfileAvatar()
     this.closeEditor()
   }
 
@@ -123,7 +131,7 @@ class ProfilePageSidebar extends React.Component<Props, State> {
         }
 
         this.setState({
-          avatar: { src: fileReader.result as string, width, height, file },
+          newAvatar: { src: fileReader.result as string, width, height, file },
         })
       }
 

@@ -33,6 +33,7 @@ class ProfilePageContainer extends React.Component<
                 handleDeleteAccount={this.handleDeleteAccount}
                 handleClose={this.handleClose}
                 saveUserProfileAvatar={this.saveUserProfileAvatar(user._id)}
+                deleteUserProfileAvatar={this.deleteUserProfileAvatar(user._id)}
                 createAffiliation={this.createAffiliation(user._id)}
               />
             )}
@@ -104,6 +105,10 @@ class ProfilePageContainer extends React.Component<
       type: data.type,
       data,
     })
+  }
+
+  private deleteUserProfileAvatar = (id: string) => async () => {
+    await this.props.models.deleteAttachment(id)
   }
 }
 

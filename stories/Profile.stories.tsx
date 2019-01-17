@@ -63,6 +63,7 @@ storiesOf('Account/Modals', module).add('Profile', () => (
     handleDeleteAccount={action('open delete account modal')}
     handleClose={action('close profile page')}
     saveUserProfileAvatar={action('save user avatar')}
+    deleteUserProfileAvatar={action('delete user profile')}
     createAffiliation={action('create new affiliation')}
   />
 ))
@@ -79,26 +80,45 @@ storiesOf('Account/Profile', module)
   .add('AvatarFileUpload', () => (
     <SidebarStory>
       <AvatarFileUpload
-        avatar={null}
+        newAvatar={null}
         avatarZoom={2}
         avatarEditorRef={React.createRef()}
         importAvatar={action('import avatar')}
         handleAvatarZoom={action('zoom avatar')}
         handleCancel={action('cancel')}
         handleSaveAvatar={action('save avatar')}
+        handleDeleteAvatar={action('delete avatar')}
+        userWithAvatar={user}
       />
     </SidebarStory>
   ))
-  .add('AvatarFileUpload - with Avatar', () => (
+  .add('AvatarFileUpload - with old Avatar', () => (
     <SidebarStory>
       <AvatarFileUpload
-        avatar={avatar}
+        newAvatar={null}
+        avatarZoom={2}
+        avatarEditorRef={React.createRef()}
+        importAvatar={action('import avatar')}
+        handleAvatarZoom={action('zoom avatar')}
+        handleCancel={action('cancel')}
+        handleSaveAvatar={action('save avatar')}
+        handleDeleteAvatar={action('delete avatar')}
+        userWithAvatar={people[0]}
+      />
+    </SidebarStory>
+  ))
+  .add('AvatarFileUpload - with new Avatar', () => (
+    <SidebarStory>
+      <AvatarFileUpload
+        newAvatar={avatar}
         avatarZoom={1}
         avatarEditorRef={React.createRef()}
         importAvatar={action('import avatar')}
         handleAvatarZoom={action('zoom avatar')}
         handleCancel={action('cancel')}
         handleSaveAvatar={action('save avatar')}
+        handleDeleteAvatar={action('delete avatar')}
+        userWithAvatar={people[0]}
       />
     </SidebarStory>
   ))

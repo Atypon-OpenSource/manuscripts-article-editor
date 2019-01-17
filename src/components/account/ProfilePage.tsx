@@ -37,6 +37,7 @@ interface Props {
   affiliationsMap: Map<string, UserProfileAffiliation>
   createAffiliation: (institution: string) => Promise<UserProfileAffiliation>
   saveUserProfileAvatar: (data: Blob) => Promise<void>
+  deleteUserProfileAvatar: () => Promise<void>
   handleChangePassword: () => void
   handleDeleteAccount: () => void
   handleClose: () => void
@@ -54,6 +55,7 @@ const ProfilePage: React.FunctionComponent<Props> = ({
   handleDeleteAccount,
   handleClose,
   saveUserProfileAvatar,
+  deleteUserProfileAvatar,
   createAffiliation,
 }) => {
   return (
@@ -73,6 +75,7 @@ const ProfilePage: React.FunctionComponent<Props> = ({
           handleChangePassword={handleChangePassword}
           handleDeleteAccount={handleDeleteAccount}
           saveUserProfileAvatar={saveUserProfileAvatar}
+          deleteUserProfileAvatar={deleteUserProfileAvatar}
           userWithAvatar={userWithAvatar}
         />
         <ModalMain>

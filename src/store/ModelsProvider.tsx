@@ -34,6 +34,7 @@ export interface ModelsProviderContext extends DataProviderContext {
     id: string,
     attachment: RxAttachmentCreator
   ) => Promise<RxAttachment<T>>
+  deleteAttachment: (id: string) => Promise<void>
 }
 
 export interface ModelsProps {
@@ -84,6 +85,7 @@ class ModelsProvider extends DataProvider {
       saveModel: this.saveModel,
       deleteModel: this.deleteModel,
       putAttachment: this.putAttachment,
+      deleteAttachment: this.deleteAttachment,
     }
 
     return (
@@ -188,6 +190,20 @@ class ModelsProvider extends DataProvider {
     }
 
     return doc.putAttachment(attachment)
+  }
+
+  private deleteAttachment = async <T extends ContainedModel>(id: string) => {
+    const collection = this.state.collection as RxCollection<T>
+
+    const doc = await collection.findOne(id).exec()
+
+    if (!doc) {
+      throw new Error('Document not found')
+    }
+
+    const attachment = await doc.getAttachment('image')
+
+    return attachment.remove()
   }
 }
 
