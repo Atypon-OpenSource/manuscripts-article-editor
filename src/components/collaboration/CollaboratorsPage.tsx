@@ -87,6 +87,7 @@ const ActionButtonText = styled.div`
 `
 
 const Message = styled.div`
+  max-width: 400px;
   font-size: 21px;
   padding: 15px 0;
   font-weight: 300;
