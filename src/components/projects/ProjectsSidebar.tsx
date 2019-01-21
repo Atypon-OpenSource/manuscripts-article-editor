@@ -9,6 +9,7 @@ import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled, ThemedProps } from '../../theme'
 import { ModalProps, withModal } from '../ModalProvider'
+import ProjectsDropdownButton from '../nav/ProjectsDropdownButton'
 import {
   Sidebar,
   SidebarContent,
@@ -22,6 +23,7 @@ type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Container = styled(Sidebar)`
   background: white;
+  width: fit-content;
 `
 
 const Header = styled(SidebarHeader)`
@@ -110,6 +112,7 @@ const ProjectsSidebar: React.FunctionComponent<Props> = props => (
           )}
         </UserData>
       </SidebarAction>
+      <ProjectsDropdownButton renderInvitations={true} />
       <SidebarContent>
         <UsersData>
           {users => (

@@ -26,7 +26,10 @@ interface State {
   handledInvitations: Set<string>
 }
 
-class ProjectsDropdownButton extends React.Component<{}, State> {
+interface Props {
+  renderInvitations?: boolean
+}
+class ProjectsDropdownButton extends React.Component<Props, State> {
   public state: Readonly<State> = {
     handledInvitations: new Set(),
   }
@@ -47,7 +50,14 @@ class ProjectsDropdownButton extends React.Component<{}, State> {
                         users
                       )
 
-                      return (
+                      return this.props.renderInvitations ? (
+                        <ProjectsMenu
+                          invitationsData={invitationsData}
+                          projects={projects}
+                          removeInvitationData={this.removeInvitationData}
+                          renderInvitations={this.props.renderInvitations}
+                        />
+                      ) : (
                         <MenuDropdown
                           buttonContents={'Projects'}
                           notificationsCount={invitationsData.length}
