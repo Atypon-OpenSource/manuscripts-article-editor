@@ -23,9 +23,9 @@ export const InvitationsList: React.FunctionComponent<Props> = ({
   acceptError,
 }) => {
   return (
-    <React.Fragment>
+    <div>
       {invitationsData.map(({ invitation, invitingUserProfile }) => (
-        <React.Fragment>
+        <React.Fragment key={invitation._id}>
           {acceptError &&
             acceptError.invitationId === invitation._id && (
               <AlertMessage type={AlertMessageType.error}>
@@ -41,6 +41,6 @@ export const InvitationsList: React.FunctionComponent<Props> = ({
           />
         </React.Fragment>
       ))}
-    </React.Fragment>
+    </div>
   )
 }

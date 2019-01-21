@@ -49,7 +49,7 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
       {!!hasContent && <DropdownSeparator />}
 
       {invitationsData.map(({ invitation, invitingUserProfile }) => (
-        <React.Fragment>
+        <React.Fragment key={invitation._id}>
           {acceptError &&
             acceptError.invitationId === invitation._id && (
               <AlertMessage type={AlertMessageType.error}>
