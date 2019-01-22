@@ -9,10 +9,10 @@ import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import { Category, Dialog } from '../Dialog'
 import { ModalProps, withModal } from '../ModalProvider'
-import { Dropdown, DropdownElement } from '../nav/Dropdown'
-import RenameProject from '../projects/RenameProject'
+import { Dropdown, DropdownElement, DropdownLink } from '../nav/Dropdown'
+import RenameProject from './RenameProject'
 
-const EditIconButton = styled(IconButton)`
+const ContextMenuIconButton = styled(IconButton)`
   height: unset;
   width: unset;
 
@@ -38,7 +38,7 @@ interface Props {
 
 type CombinedProps = Props & ModelsProps & ModalProps
 
-class EditProjectButton extends React.Component<CombinedProps, State> {
+class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
   public state: State = {
     isOpen: false,
     confirmDeleteIsOpen: false,
@@ -88,13 +88,13 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
       <Manager>
         <Reference>
           {({ ref }) => (
-            <EditIconButton
+            <ContextMenuIconButton
               // @ts-ignore: styled
               ref={ref}
               onClick={this.openDropdown}
             >
               <HorizontalEllipsis color={manuscriptsBlue} />
-            </EditIconButton>
+            </ContextMenuIconButton>
           )}
         </Reference>
         {isOpen && (
@@ -104,6 +104,12 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
           >
             <Dropdown style={{ right: 0, left: 'auto' }}>
               <div ref={(node: HTMLDivElement) => (this.node = node)}>
+                <DropdownLink
+                  to={`/projects/${this.props.project._id}`}
+                  style={{ width: 140 }}
+                >
+                  Open
+                </DropdownLink>
                 <DropdownElement
                   onClick={() =>
                     this.setState({
@@ -112,7 +118,7 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
                   }
                   style={{ width: 140 }}
                 >
-                  Rename Project
+                  Rename
                 </DropdownElement>
                 <DropdownElement
                   onClick={() =>
@@ -122,7 +128,7 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
                   }
                   style={{ width: 140 }}
                 >
-                  Delete Project
+                  Delete
                 </DropdownElement>
               </div>
             </Dropdown>
@@ -168,4 +174,4 @@ class EditProjectButton extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withModal<Props>(withModels(EditProjectButton))
+export default withModal<Props>(withModels(ProjectContextMenuButton))
