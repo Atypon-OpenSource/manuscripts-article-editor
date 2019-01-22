@@ -172,7 +172,9 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       collaborators.push(...otherCollaborators)
     }
 
-    return difference(collaborators, projectCollaborators)
+    const uniqueCollaborators = [...new Set(collaborators)]
+
+    return difference(uniqueCollaborators, projectCollaborators)
   }
 
   private addCollaborator = async (
