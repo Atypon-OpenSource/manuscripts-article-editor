@@ -28,6 +28,7 @@ export const convert = async (
     responseType,
     headers: {
       'Pressroom-Target-File-Extension': format.replace(/^\./, ''),
+      'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
     },
   })
 

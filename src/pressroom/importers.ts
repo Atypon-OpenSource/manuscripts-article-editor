@@ -107,7 +107,7 @@ const importers: Importers = {
   '.docx': importConvertedFile,
   '.html': importConvertedFile,
   '.md': importConvertedFile,
-  '.manuproj': importProjectBundle,
+  '.manuproj': importConvertedFile,
   '.tex': importConvertedFile,
   '.zip': importConvertedFile,
 }
