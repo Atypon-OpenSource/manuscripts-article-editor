@@ -10,8 +10,8 @@ import { aliceBlue, aquaHaze, dustyGrey } from '../../colors'
 import { buildCollaborators } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
 import { styled } from '../../theme'
-import EditProjectButton from '../collaboration/EditProjectButton'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
+import ProjectContextMenuButton from './ProjectContextMenuButton'
 
 const SidebarProject = styled.div`
   padding: 16px;
@@ -97,7 +97,7 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
             )}
           </ProjectTitle>
           <Edit>
-            <EditProjectButton project={project} />
+            <ProjectContextMenuButton project={project} />
           </Edit>
           <ShareProjectButton project={project} />
         </SidebarProjectHeader>

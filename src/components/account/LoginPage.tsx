@@ -7,10 +7,15 @@ import { AuthenticationContainer, GoogleLogin } from './Authentication'
 import FooterContainer from './FooterContainer'
 import { LoginForm, LoginValues } from './LoginForm'
 
-const LoginPage: React.FunctionComponent<FormikConfig<LoginValues>> = ({
+interface Props {
+  submitErrorType: string | null
+}
+
+const LoginPage: React.FunctionComponent<FormikConfig<LoginValues> & Props> = ({
   initialValues,
   validationSchema,
   onSubmit,
+  submitErrorType,
 }) => (
   <Centered>
     <Formik
@@ -20,7 +25,9 @@ const LoginPage: React.FunctionComponent<FormikConfig<LoginValues>> = ({
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={onSubmit}
-      component={LoginForm}
+      render={formikProps => (
+        <LoginForm {...formikProps} submitErrorType={submitErrorType} />
+      )}
     />
 
     <AuthenticationContainer>

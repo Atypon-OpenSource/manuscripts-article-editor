@@ -35,9 +35,10 @@ export const FormLink = styled(Link)`
 
 export const FormError = styled.div`
   background: ${(props: ThemedDivProps) =>
-    props.theme.colors.global.background.error};
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
-  border-radius: 2px;
+    props.theme.colors.alertMessage.error.background};
+  color: ${(props: ThemedDivProps) =>
+    props.theme.colors.alertMessage.error.text};
+  border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
   margin-top: 5px;
   margin-bottom: 5px;
   position: relative;

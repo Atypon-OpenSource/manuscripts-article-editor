@@ -14,6 +14,7 @@ import {
 import { Hero, SubHero } from '../Hero'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
+import { ErrorName } from './LoginPageContainer'
 
 type ThemedLinkProps = ThemedProps<Link>
 
@@ -37,9 +38,13 @@ const RecoverLink = styled(Link)`
   color: ${(props: ThemedLinkProps) => props.theme.colors.global.text.error};
 `
 
+interface Props {
+  submitErrorType: string | null
+}
+
 export const LoginForm: React.FunctionComponent<
-  FormikProps<LoginValues & FormErrors>
-> = ({ errors, isSubmitting }) => (
+  FormikProps<LoginValues & FormErrors> & Props
+> = ({ errors, isSubmitting, submitErrorType }) => (
   <CenteredForm id={'login-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Welcome to</SubHero>
@@ -50,7 +55,12 @@ export const LoginForm: React.FunctionComponent<
       <FormError>
         <Container>
           {errors.submit}
-          <RecoverLink to={'/recover'}>Forgot password?</RecoverLink>{' '}
+          {submitErrorType === ErrorName.AccountNotFoundError && (
+            <RecoverLink to={'/signup'}>Sign up</RecoverLink>
+          )}
+          {submitErrorType === ErrorName.InvalidCredentialsError && (
+            <RecoverLink to={'/recover'}>Forgot password?</RecoverLink>
+          )}
         </Container>
       </FormError>
     )}
@@ -92,6 +102,9 @@ export const LoginForm: React.FunctionComponent<
       <ManuscriptLinks>
         <div>
           No account? <FormLink to={'/signup'}>Sign up</FormLink>
+        </div>
+        <div>
+          Forgot password? <FormLink to={'/recover'}>Reset Password</FormLink>
         </div>
       </ManuscriptLinks>
 
