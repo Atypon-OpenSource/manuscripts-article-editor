@@ -4,6 +4,7 @@ import * as HttpStatusCodes from 'http-status-codes'
 import { parse } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+import config from '../../config'
 import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
 import { databaseCreator } from '../../lib/db'
@@ -32,8 +33,16 @@ interface ResendVerificationData {
 
 type AlertFunction = () => void
 
+export enum ErrorName {
+  GatewayInaccessibleError = 'GatewayInaccessibleError',
+  AccountNotFoundError = 'AccountNotFoundError',
+  InvalidClientApplicationError = 'InvalidClientApplicationError',
+  InvalidCredentialsError = 'InvalidCredentialsError',
+}
+
 interface State {
   message: null | AlertFunction
+  submitErrorType: string | null
 }
 
 interface ErrorMessage {
@@ -62,6 +71,7 @@ class LoginPageContainer extends React.Component<
 > {
   public state: Readonly<State> = {
     message: null,
+    submitErrorType: null,
   }
 
   private initialValues: LoginValues = {
@@ -133,7 +143,7 @@ class LoginPageContainer extends React.Component<
   }
 
   public render() {
-    const { message } = this.state
+    const { message, submitErrorType } = this.state
 
     return (
       <Page>
@@ -143,6 +153,7 @@ class LoginPageContainer extends React.Component<
             initialValues={this.initialValues}
             validationSchema={loginSchema}
             onSubmit={this.handleSubmit}
+            submitErrorType={submitErrorType}
           />
         </Main>
       </Page>
@@ -170,20 +181,21 @@ class LoginPageContainer extends React.Component<
 
       if (error.response) {
         const { data } = error.response
-        if (
-          data &&
-          data.error &&
-          JSON.parse(data.error).name === 'GatewayInaccessibleError'
-        ) {
+        const errorName = JSON.parse(data.error).name as string
+
+        if (errorName === ErrorName.GatewayInaccessibleError) {
           this.setState({
             message: () => gatewayInaccessibleErrorMessage(),
           })
         } else {
           errors.submit = this.errorResponseMessage(
             error.response.status,
-            values
+            values,
+            errorName
           )
           setErrors(errors)
+
+          this.setState({ submitErrorType: errorName })
         }
       } else {
         this.setState({
@@ -193,13 +205,25 @@ class LoginPageContainer extends React.Component<
     }
   }
 
-  private errorResponseMessage = (status: number, values: LoginValues) => {
+  private errorResponseMessage = (
+    status: number,
+    values: LoginValues,
+    errorName: string
+  ) => {
     switch (status) {
       case HttpStatusCodes.BAD_REQUEST:
         return 'Invalid operation'
 
       case HttpStatusCodes.UNAUTHORIZED:
-        return 'Invalid username or password'
+        if (errorName === ErrorName.AccountNotFoundError) {
+          return 'No user exists with this email address.'
+        } else if (errorName === ErrorName.InvalidClientApplicationError) {
+          return `Client and server configuration do not match. Please report this to ${
+            config.support.email
+          }.`
+        } else {
+          return 'Invalid password.'
+        }
 
       case HttpStatusCodes.FORBIDDEN:
         const resendVerificationData: ResendVerificationData = {

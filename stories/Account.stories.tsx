@@ -30,6 +30,7 @@ storiesOf('Account/Pages', module)
       initialValues={{ email: '', password: '' }}
       validationSchema={loginSchema}
       onSubmit={action('login')}
+      submitErrorType={null}
     />
   ))
   .add('Recover', () => (
