@@ -19,6 +19,9 @@ const Container = styled.div`
   margin-right: 5px;
 `
 
+const ButtonsContainer = styled(Container)`
+  margin-top: -10px;
+`
 const ProjectNameContainer = styled.div`
   display: flex;
   align-items: center;
@@ -59,9 +62,9 @@ const RejectButton = styled(Button)`
 
   &:hover {
     color: ${(props: ThemedDivProps) =>
-      props.theme.colors.dropdown.button.secondary};
+      props.theme.colors.dropdown.button.primary};
     border-color: ${(props: ThemedDivProps) =>
-      props.theme.colors.dropdown.button.secondary};
+      props.theme.colors.dropdown.button.primary};
   }
 `
 const AvatarContainer = styled.div`
@@ -156,7 +159,7 @@ export const Invitation: React.FunctionComponent<InvitationProps> = ({
         </InvitedBy>
       </Container>
     </ProjectNameContainer>
-    <Container>
+    <ButtonsContainer>
       <AcceptButton onClick={() => acceptInvitation(invitation)}>
         Accept
       </AcceptButton>
@@ -165,6 +168,6 @@ export const Invitation: React.FunctionComponent<InvitationProps> = ({
       >
         Reject
       </RejectButton>
-    </Container>
+    </ButtonsContainer>
   </InvitationElement>
 )
