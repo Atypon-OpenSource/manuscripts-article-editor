@@ -124,14 +124,17 @@ interface InvitationProps {
   invitation: ProjectInvitation
   invitingUserProfile: UserProfileWithAvatar
   acceptInvitation: (invitation: ProjectInvitation) => void
-  rejectInvitation: (invitation: ProjectInvitation) => void
+  confirmReject: (
+    invitingUserProfile: UserProfileWithAvatar,
+    invitation: ProjectInvitation
+  ) => void
 }
 
 export const Invitation: React.FunctionComponent<InvitationProps> = ({
   invitation,
   invitingUserProfile,
   acceptInvitation,
-  rejectInvitation,
+  confirmReject,
 }) => (
   <InvitationElement>
     <ProjectNameContainer>
@@ -157,7 +160,9 @@ export const Invitation: React.FunctionComponent<InvitationProps> = ({
       <AcceptButton onClick={() => acceptInvitation(invitation)}>
         Accept
       </AcceptButton>
-      <RejectButton onClick={() => rejectInvitation(invitation)}>
+      <RejectButton
+        onClick={() => confirmReject(invitingUserProfile, invitation)}
+      >
         Reject
       </RejectButton>
     </Container>

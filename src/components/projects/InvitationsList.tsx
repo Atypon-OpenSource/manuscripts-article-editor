@@ -1,8 +1,8 @@
 import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor/dist/types'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-
 import { InvitationData } from '../nav/ProjectsDropdownButton'
 import { Invitation } from './InvitationElement'
 
@@ -13,14 +13,17 @@ interface Props {
     errorMessage: string
   } | null
   acceptInvitation: (invitation: ProjectInvitation) => void
-  rejectInvitation: (invitation: ProjectInvitation) => void
+  confirmReject: (
+    invitingUserProfile: UserProfileWithAvatar,
+    invitation: ProjectInvitation
+  ) => void
 }
 
 export const InvitationsList: React.FunctionComponent<Props> = ({
   invitationsData,
   acceptInvitation,
-  rejectInvitation,
   acceptError,
+  confirmReject,
 }) => {
   return (
     <div>
@@ -37,7 +40,7 @@ export const InvitationsList: React.FunctionComponent<Props> = ({
             invitation={invitation}
             invitingUserProfile={invitingUserProfile}
             acceptInvitation={acceptInvitation}
-            rejectInvitation={rejectInvitation}
+            confirmReject={confirmReject}
           />
         </React.Fragment>
       ))}
