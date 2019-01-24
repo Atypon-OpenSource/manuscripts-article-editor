@@ -35,7 +35,7 @@ const InvitedBy = styled.div`
   color: ${(props: ThemedDivProps) =>
     props.theme.colors.dropdown.text.secondary};
   clear: both;
-  margin-top: 20px;
+  margin-top: 15px;
 `
 
 const AcceptButton = styled(PrimaryButton)`
@@ -68,13 +68,7 @@ const RejectButton = styled(Button)`
   }
 `
 const AvatarContainer = styled.div`
-  display: flex;
   margin-left: 6px;
-  align-items: center;
-`
-
-const InvitedByText = styled.div`
-  height: 20px;
 `
 
 const InvitationElement = styled.div`
@@ -151,7 +145,7 @@ export const Invitation: React.FunctionComponent<InvitationProps> = ({
         </InvitationTitle>
         <InvitedBy>
           <NotificationsBadge> ! </NotificationsBadge>
-          <InvitedByText>Invited by</InvitedByText>
+          Invited by
           <AvatarContainer>
             {buildNameLiteral(invitingUserProfile.bibliographicName)} (
             {invitingUserProfile.email})
