@@ -10,7 +10,6 @@ import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { ModalProps, withModal } from '../ModalProvider'
-import { InvitationsList } from '../projects/InvitationsList'
 import { TemplateSelector } from '../templates/TemplateSelector'
 import { InvitationData } from './ProjectsDropdownButton'
 import { ProjectsDropdownList } from './ProjectsDropdownList'
@@ -20,8 +19,6 @@ interface Props {
   projects: Project[]
   removeInvitationData: (id: string) => void
   handleClose?: React.MouseEventHandler<HTMLElement>
-  renderInvitations?: boolean
-
   acceptedInvitations: string[]
   rejectedInvitations: string[]
   acceptError: {
@@ -43,7 +40,6 @@ class ProjectsMenu extends React.Component<
       handleClose,
       invitationsData,
       projects,
-      renderInvitations,
       acceptedInvitations,
       rejectedInvitations,
       acceptError,
@@ -59,28 +55,19 @@ class ProjectsMenu extends React.Component<
 
     return (
       <UserData userID={getCurrentUserId()!}>
-        {user =>
-          renderInvitations ? (
-            <InvitationsList
-              invitationsData={filteredInvitationsData}
-              acceptInvitation={acceptInvitation}
-              acceptError={acceptError}
-              confirmReject={confirmReject}
-            />
-          ) : (
-            <ProjectsDropdownList
-              handleClose={handleClose}
-              projects={projects}
-              addProject={this.openTemplateSelector(user)}
-              invitationsData={filteredInvitationsData}
-              acceptedInvitations={acceptedInvitations}
-              rejectedInvitations={rejectedInvitations}
-              acceptInvitation={acceptInvitation}
-              confirmReject={confirmReject}
-              acceptError={acceptError}
-            />
-          )
-        }
+        {user => (
+          <ProjectsDropdownList
+            handleClose={handleClose}
+            projects={projects}
+            addProject={this.openTemplateSelector(user)}
+            invitationsData={filteredInvitationsData}
+            acceptedInvitations={acceptedInvitations}
+            rejectedInvitations={rejectedInvitations}
+            acceptInvitation={acceptInvitation}
+            confirmReject={confirmReject}
+            acceptError={acceptError}
+          />
+        )}
       </UserData>
     )
   }

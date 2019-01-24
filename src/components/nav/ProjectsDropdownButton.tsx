@@ -12,6 +12,7 @@ import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme'
 import { Category, Dialog } from '../Dialog'
+import { InvitationsList } from '../projects/InvitationsList'
 import MenuDropdown from './MenuDropdown'
 import ProjectsMenu from './ProjectsMenu'
 
@@ -93,17 +94,20 @@ class ProjectsDropdownButton extends React.Component<Props, State> {
                             user,
                             users
                           )
+                          const projectsIDs = projects.map(
+                            project => project._id
+                          )
+                          const filteredInvitationsData = invitationsData.filter(
+                            invitationData =>
+                              projectsIDs.indexOf(invitationData.project._id) <
+                              0
+                          )
 
                           return this.props.renderInvitations ? (
-                            <ProjectsMenu
-                              invitationsData={invitationsData}
-                              projects={projects}
-                              removeInvitationData={this.removeInvitationData}
-                              renderInvitations={this.props.renderInvitations}
-                              acceptedInvitations={acceptedInvitations}
-                              rejectedInvitations={rejectedInvitations}
-                              acceptError={acceptError}
+                            <InvitationsList
+                              invitationsData={filteredInvitationsData}
                               acceptInvitation={this.acceptInvitation}
+                              acceptError={acceptError}
                               confirmReject={this.confirmReject}
                             />
                           ) : (
