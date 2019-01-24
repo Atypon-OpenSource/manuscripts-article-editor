@@ -7,11 +7,14 @@ import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { aliceBlue, aquaHaze, dustyGrey } from '../../colors'
+import TickMark from '../../icons/tick-mark'
 import { buildCollaborators } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
-import { styled } from '../../theme'
+import { styled, ThemedProps } from '../../theme'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import ProjectContextMenuButton from './ProjectContextMenuButton'
+
+type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const SidebarProject = styled.div`
   padding: 16px;
@@ -67,7 +70,28 @@ const ProjectContributor = styled.span``
 const Edit = styled.div`
   margin-bottom: 5px;
 `
+const AcceptedLabel = styled.div`
+  display: flex;
+  align-items: center;
+  color: white;
+  background: ${(props: ThemedDivProps) => props.theme.colors.label.success};
+  padding: 2px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-right: 7px;
+`
+const TickMarkContainer = styled.div`
+  display: flex;
+  padding-right: 3px;
+`
 
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  @media (max-width: 450px) {
+    margin-left: 7px;
+  }
+`
 const initials = (name: BibliographicName): string =>
   name.given
     ? name.given
@@ -79,11 +103,13 @@ const initials = (name: BibliographicName): string =>
 interface Props {
   projects: Project[]
   users: Map<string, UserProfileWithAvatar>
+  acceptedInvitations: string[]
 }
 
 export const ProjectsList: React.FunctionComponent<Props> = ({
   projects,
   users,
+  acceptedInvitations,
 }) => (
   <div>
     {projects.sort(projectListCompare).map(project => (
@@ -96,10 +122,20 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
               <PlaceholderTitle value={'Untitled Project'} />
             )}
           </ProjectTitle>
-          <Edit>
-            <ProjectContextMenuButton project={project} />
-          </Edit>
-          <ShareProjectButton project={project} />
+          {acceptedInvitations.includes(project._id) && (
+            <AcceptedLabel>
+              <TickMarkContainer>
+                <TickMark />
+              </TickMarkContainer>
+              Accepted
+            </AcceptedLabel>
+          )}
+          <Container>
+            <Edit>
+              <ProjectContextMenuButton project={project} />
+            </Edit>
+            <ShareProjectButton project={project} />
+          </Container>
         </SidebarProjectHeader>
 
         <ProjectContributors>

@@ -18,7 +18,7 @@ for (const person of people) {
 
 storiesOf('Projects', module)
   .add('Projects Page', () => (
-    <ProjectsList projects={projects} users={users} />
+    <ProjectsList projects={projects} users={users} acceptedInvitations={[]} />
   ))
   .add('Projects Page - Empty', () => (
     <EmptyProjectPage

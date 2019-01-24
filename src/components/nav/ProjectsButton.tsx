@@ -13,6 +13,8 @@ import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme'
 import { Category, Dialog } from '../Dialog'
 import { InvitationsList } from '../projects/InvitationsList'
+import { ProjectsList } from '../projects/ProjectsList'
+import { SidebarContent } from '../Sidebar'
 import MenuDropdown from './MenuDropdown'
 import ProjectsMenu from './ProjectsMenu'
 
@@ -43,9 +45,9 @@ interface State {
 }
 
 interface Props {
-  renderInvitations?: boolean
+  isDropdown: boolean
 }
-class ProjectsDropdownButton extends React.Component<Props, State> {
+class ProjectsButton extends React.Component<Props, State> {
   public state: Readonly<State> = {
     handledInvitations: new Set(),
     acceptedInvitations: [],
@@ -103,13 +105,32 @@ class ProjectsDropdownButton extends React.Component<Props, State> {
                               0
                           )
 
-                          return this.props.renderInvitations ? (
-                            <InvitationsList
-                              invitationsData={filteredInvitationsData}
-                              acceptInvitation={this.acceptInvitation}
-                              acceptError={acceptError}
-                              confirmReject={this.confirmReject}
-                            />
+                          return !this.props.isDropdown ? (
+                            <div>
+                              <InvitationsList
+                                invitationsData={filteredInvitationsData}
+                                acceptInvitation={this.acceptInvitation}
+                                acceptError={acceptError}
+                                confirmReject={this.confirmReject}
+                              />
+                              <SidebarContent>
+                                <UsersData>
+                                  {users => (
+                                    <ProjectsData>
+                                      {projects => (
+                                        <ProjectsList
+                                          projects={projects}
+                                          users={users}
+                                          acceptedInvitations={
+                                            acceptedInvitations
+                                          }
+                                        />
+                                      )}
+                                    </ProjectsData>
+                                  )}
+                                </UsersData>
+                              </SidebarContent>
+                            </div>
                           ) : (
                             <MenuDropdown
                               buttonContents={'Projects'}
@@ -254,4 +275,4 @@ class ProjectsDropdownButton extends React.Component<Props, State> {
   }
 }
 
-export default ProjectsDropdownButton
+export default ProjectsButton

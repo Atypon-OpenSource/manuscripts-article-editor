@@ -3,7 +3,7 @@ import React from 'react'
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor/dist/types'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-import { InvitationData } from '../nav/ProjectsDropdownButton'
+import { InvitationData } from '../nav/ProjectsButton'
 import { Invitation } from './InvitationElement'
 
 interface Props {

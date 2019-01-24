@@ -4,7 +4,7 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { InvitationData } from '../../src/components/nav/ProjectsDropdownButton'
+import { InvitationData } from '../../src/components/nav/ProjectsButton'
 
 export const invitations: ProjectInvitation[] = [
   {

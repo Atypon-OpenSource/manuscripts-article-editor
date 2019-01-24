@@ -2,22 +2,14 @@ import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
-import ProjectsData from '../../data/ProjectsData'
 import UserData from '../../data/UserData'
-import UsersData from '../../data/UsersData'
 import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled, ThemedProps } from '../../theme'
 import { ModalProps, withModal } from '../ModalProvider'
-import ProjectsDropdownButton from '../nav/ProjectsDropdownButton'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarTitle,
-} from '../Sidebar'
+import ProjectsButton from '../nav/ProjectsButton'
+import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import { TemplateSelector } from '../templates/TemplateSelector'
-import { ProjectsList } from './ProjectsList'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -112,16 +104,7 @@ const ProjectsSidebar: React.FunctionComponent<Props> = props => (
           )}
         </UserData>
       </SidebarAction>
-      <ProjectsDropdownButton renderInvitations={true} />
-      <SidebarContent>
-        <UsersData>
-          {users => (
-            <ProjectsData>
-              {projects => <ProjectsList projects={projects} users={users} />}
-            </ProjectsData>
-          )}
-        </UsersData>
-      </SidebarContent>
+      <ProjectsButton isDropdown={false} />
     </ProjectsContainer>
   </Container>
 )

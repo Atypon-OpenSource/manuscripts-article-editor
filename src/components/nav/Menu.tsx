@@ -3,7 +3,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { styled, ThemedProps } from '../../theme'
 import { Tip } from '../Tip'
-import ProjectsDropdownButton from './ProjectsDropdownButton'
+import ProjectsButton from './ProjectsButton'
 import UserContainer from './UserContainer'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
@@ -106,7 +106,7 @@ export const Menu: React.FunctionComponent<Props> = ({
 
     <MenuSections>
       <MenuSection>
-        <ProjectsDropdownButton />
+        <ProjectsButton isDropdown={true} />
       </MenuSection>
 
       <MenuSection>

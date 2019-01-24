@@ -11,7 +11,7 @@ import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { ModalProps, withModal } from '../ModalProvider'
 import { TemplateSelector } from '../templates/TemplateSelector'
-import { InvitationData } from './ProjectsDropdownButton'
+import { InvitationData } from './ProjectsButton'
 import { ProjectsDropdownList } from './ProjectsDropdownList'
 
 interface Props {

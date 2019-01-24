@@ -14,7 +14,7 @@ import {
   InvitationDropdownSection,
   ProjectDropdownSection,
 } from './ProjectDropdown'
-import { InvitationData } from './ProjectsDropdownButton'
+import { InvitationData } from './ProjectsButton'
 
 interface Props {
   handleClose?: React.MouseEventHandler<HTMLElement>

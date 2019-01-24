@@ -7,7 +7,7 @@ import {
   MenuSection,
   MenuSections,
 } from './Menu'
-import ProjectsDropdownButton from './ProjectsDropdownButton'
+import ProjectsButton from './ProjectsButton'
 import { UpdatesContainer } from './UpdatesContainer'
 import UserContainer from './UserContainer'
 
@@ -27,7 +27,7 @@ export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
         {active === 'projects' ? (
           <MenuLink to={'/projects'}>Projects</MenuLink>
         ) : (
-          <ProjectsDropdownButton />
+          <ProjectsButton isDropdown={true} />
         )}
 
         {/* <MenuLink to={`/people`}>People</MenuLink> */}
