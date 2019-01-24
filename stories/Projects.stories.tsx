@@ -43,5 +43,10 @@ storiesOf('Projects', module)
       invitationsData={[]}
       removeInvitationData={action('remove')}
       projects={projects}
+      acceptedInvitations={[]}
+      rejectedInvitations={[]}
+      acceptError={null}
+      acceptInvitation={action('accept invitation')}
+      confirmReject={action('show dialog to confirm invitation rejection')}
     />
   ))

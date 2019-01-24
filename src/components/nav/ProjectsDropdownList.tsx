@@ -1,3 +1,4 @@
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor/dist/types'
 import {
   Project,
   ProjectInvitation,
@@ -26,7 +27,10 @@ interface Props {
     errorMessage: string
   } | null
   acceptInvitation: (invitation: ProjectInvitation) => void
-  rejectInvitation: (invitation: ProjectInvitation) => void
+  confirmReject: (
+    invitingUserProfile: UserProfileWithAvatar,
+    invitation: ProjectInvitation
+  ) => void
   addProject: () => void
 }
 
@@ -36,7 +40,7 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
   invitationsData,
   acceptedInvitations,
   acceptInvitation,
-  rejectInvitation,
+  confirmReject,
   handleClose,
   acceptError,
 }) => {
@@ -61,7 +65,7 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
             invitation={invitation}
             invitingUserProfile={invitingUserProfile}
             acceptInvitation={acceptInvitation}
-            rejectInvitation={rejectInvitation}
+            confirmReject={confirmReject}
           />
         </React.Fragment>
       ))}

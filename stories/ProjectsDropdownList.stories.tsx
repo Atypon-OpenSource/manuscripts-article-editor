@@ -13,9 +13,9 @@ storiesOf('Nav/Projects Dropdown List', module)
       acceptedInvitations={[]}
       rejectedInvitations={[]}
       acceptInvitation={action('accept invitation')}
-      rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
       acceptError={null}
+      confirmReject={action('show dialog to confirm invitation rejection')}
     />
   ))
   .add('With projects', () => (
@@ -25,9 +25,9 @@ storiesOf('Nav/Projects Dropdown List', module)
       acceptedInvitations={[]}
       rejectedInvitations={[]}
       acceptInvitation={action('accept invitation')}
-      rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
       acceptError={null}
+      confirmReject={action('show dialog to confirm invitation rejection')}
     />
   ))
   .add('With only invitations', () => (
@@ -39,9 +39,9 @@ storiesOf('Nav/Projects Dropdown List', module)
       ]}
       rejectedInvitations={[]}
       acceptInvitation={action('accept invitation')}
-      rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
       acceptError={null}
+      confirmReject={action('show dialog to confirm invitation rejection')}
     />
   ))
   .add('With projects and invitations', () => (
@@ -53,9 +53,9 @@ storiesOf('Nav/Projects Dropdown List', module)
       ]}
       rejectedInvitations={[]}
       acceptInvitation={action('accept invitation')}
-      rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
       acceptError={null}
+      confirmReject={action('show dialog to confirm invitation rejection')}
     />
   ))
   .add('With rejected invitations', () => (
@@ -69,8 +69,8 @@ storiesOf('Nav/Projects Dropdown List', module)
         'ProjectInvitation|2da9a8bc004083daea2b2746a5414b18f318f547',
       ]}
       acceptInvitation={action('accept invitation')}
-      rejectInvitation={action('reject invitation')}
       addProject={action('add project')}
       acceptError={null}
+      confirmReject={action('show dialog to confirm invitation rejection')}
     />
   ))
