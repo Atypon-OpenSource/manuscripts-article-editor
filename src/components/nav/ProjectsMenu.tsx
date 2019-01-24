@@ -10,6 +10,7 @@ import UserData from '../../data/UserData'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
 import { getCurrentUserId } from '../../lib/user'
 import { ModelsProps, withModels } from '../../store/ModelsProvider'
+import { styled } from '../../theme'
 import { Category, Dialog } from '../Dialog'
 import { ModalProps, withModal } from '../ModalProvider'
 import { InvitationsList } from '../projects/InvitationsList'
@@ -17,6 +18,9 @@ import { TemplateSelector } from '../templates/TemplateSelector'
 import { InvitationData } from './ProjectsDropdownButton'
 import { ProjectsDropdownList } from './ProjectsDropdownList'
 
+const Container = styled.div`
+  font-weight: 500;
+`
 interface State {
   acceptedInvitations: string[]
   rejectedInvitations: string[]
@@ -119,11 +123,21 @@ class ProjectsMenu extends React.Component<
             actions={actions}
             category={Category.confirmation}
             header={'Reject Project Invitation'}
-            message={`Are you sure you want to reject invitation from ${
-              this.state.invitingUserProfile!.bibliographicName.given
-            } ${this.state.invitingUserProfile!.bibliographicName.family}(${
-              this.state.invitingUserProfile!.email
-            })?`}
+            message={
+              <div>
+                <div>Are you sure you want to reject invitation from</div>
+                <br />{' '}
+                <Container>
+                  {this.state.invitingUserProfile!.bibliographicName.given! +
+                    ' ' +
+                    this.state.invitingUserProfile!.bibliographicName.family!}
+                </Container>
+                <Container>
+                  ({this.state.invitingUserProfile!.email}
+                  )?
+                </Container>{' '}
+              </div>
+            }
           />
         )}
       </React.Fragment>

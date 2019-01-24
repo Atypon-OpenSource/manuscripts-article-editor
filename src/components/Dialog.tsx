@@ -12,6 +12,7 @@ const ButtonContainer = styled.div`
 `
 const Container = styled.div`
   display: flex;
+  margin-top: 20px;
 `
 const Icon = styled.div`
   margin-right: 6px;
@@ -65,7 +66,7 @@ interface DialogProps {
   }
   category: Category
   header: string
-  message: string
+  message: string | React.ReactElement<{}>
 }
 
 export enum Category {
