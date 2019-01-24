@@ -888,9 +888,9 @@
   integrity sha512-HAXikcX6+dwxhGFvzE51UNm9W/bE7ano1QXGJ4ZhTC6Q/AuozOe0RWBb50ykX1VTpzYwFJtAD1fPoVagG2TP9A==
 
 "@manuscripts/comment-editor@^0.1.0":
-  version "0.1.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fcomment-editor/-/comment-editor-0.1.0.tgz#18455d483dc4ef9fca4889d395fe70801736a367"
-  integrity sha512-c2Y4JeR+TUFffSxlLlTNo4yblxErKfJW8OC392RC8pcxrILHZ62hMRdgKHTTziSjFm9LX27af1wFvhGFiwYeJA==
+  version "0.1.1"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fcomment-editor/-/comment-editor-0.1.1.tgz#1f432213b4084061827215bdebd219c14adb6af6"
+  integrity sha512-XmAfKnfr/QXPgY0DmBJeOvZCZ2Piv+n73QyQ3xnWS27+ieIGoMIvPnEi3v4vJPuTWcWTAOoT1Ci21PiawozANw==
   dependencies:
     prosemirror-commands "^1.0.4"
     prosemirror-history "^1.0.0"
@@ -907,9 +907,9 @@
   integrity sha512-kctNmYWfzk0M3Rxe5+UNdnMYM5pGL1ZFwE0+izMfpVegm3744Sbeg/0JUXrHXvaHIwT8JOzdOCi6WO6oBlejlA==
 
 "@manuscripts/manuscript-editor@^0.7.1":
-  version "0.7.1"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.7.1.tgz#ee84b6ce1c5c825011b9d22bb7df7238dd86033c"
-  integrity sha512-ftU1AXuzzttWSC80vinS9VzR0lRAw2alrVNIYRzFKZ57hyw57D+V0xE1uVUCENLHfClhZLP/SYmzcwVOFl1lVA==
+  version "0.7.2"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.7.2.tgz#4520c97defa6ea0b8f1798d796343644d990e927"
+  integrity sha512-Dsc1r0JuL4HJRROhQyQY01W17YuIp++dWFfLieo1uv3J/g8sZVFCpRpNA4RglA32AysUV2sshYlDPJoWBqZfWA==
   dependencies:
     "@manuscripts/assets" "^0.1.13"
     "@manuscripts/examples" "^0.0.2"
@@ -988,9 +988,9 @@
   integrity sha512-ZZ9juGIbBP+OdIO/ZadI/skR1pT+uJoSEU4orf8lneuTMwrRmOydC9xrFhC3PUkCtojETocmsaERk0np04Zhbw==
 
 "@manuscripts/title-editor@^0.1.0":
-  version "0.1.2"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.1.2.tgz#daf275de146cc162bb8a1e0b8e41a6233b69ad65"
-  integrity sha512-qovrCUhP0e4tpEm2dByFOZVyAunY67uEnocNuFofIbcNKglbi1OpnxSNBNH6zJBsbBMKoMiWRjcdKnyOkyQvvA==
+  version "0.1.4"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.1.4.tgz#be8ba1e3e1fc125dc4d9ec00698b966182575c37"
+  integrity sha512-jXWB0isB2uIEMR6ltaGBj/3zNHFSPKiC/84IDdMv7eZVPyRizjTenVOpqAV7mFQyeZHUu2VcjutqvLLRxhNn9g==
   dependencies:
     prosemirror-commands "^1.0.4"
     prosemirror-history "^1.0.0"
@@ -1589,9 +1589,9 @@
   integrity sha512-ZBFR7TROLVzCkswA3Fmqq+IIJt62/T7aY/Dmz+QkU7CaW2QFqAitCE8Ups7IzmGhcN1YWMBT4Qcoc07jU9hOJQ==
 
 "@types/prosemirror-model@*", "@types/prosemirror-model@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.npmjs.org/@types/prosemirror-model/-/prosemirror-model-1.5.0.tgz#a37548559ec32dc77b179ca8738df44ef261a3ef"
-  integrity sha512-XD0l4i8TDkhyqT5mMAHOQkbEuG1MJKvdHqNnzP59HRaNrJMwQ90V1LQUABLtnjhnA1MuHCJPMcmBSQQRsljozQ==
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/@types/prosemirror-model/-/prosemirror-model-1.5.1.tgz#253fc885dd4a10c8868be324f1ecee6a239c3fd2"
+  integrity sha512-rI7jIK5WCwfrF3bTC+hYEmPOzjgFbSI4r5tkilKEfS043zCMYhn02dXLryUa996G+diMxYB1XWjrb1bZalwhqA==
   dependencies:
     "@types/orderedmap" "*"
 
@@ -1612,9 +1612,9 @@
     "@types/prosemirror-state" "*"
 
 "@types/prosemirror-state@*", "@types/prosemirror-state@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@types/prosemirror-state/-/prosemirror-state-1.2.0.tgz#c758204e8de51c9d3e3d657619258442a809a679"
-  integrity sha512-zjUqxpW446xIU/aH9Y/C8roa1mugOHE9vQHp9nBB48WbuNSQnBRh3j0BdBSBEu3nOd9i7nSBdLt3f9coKJ7teA==
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/@types/prosemirror-state/-/prosemirror-state-1.2.1.tgz#4294459d4c31beea2280231302312f8edb09bfb3"
+  integrity sha512-tE/p/YSzxCKyNDl2C8pElQiWQH9jLt8zvOnn3ZG5iKNW1XtWnKqXnaM5BU5yVSOQ9f8W9y0T+JB3lYEry9y/8w==
   dependencies:
     "@types/prosemirror-model" "*"
     "@types/prosemirror-transform" "*"
@@ -2528,9 +2528,9 @@ attempt-x@^1.1.0, attempt-x@^1.1.1:
   integrity sha512-y/+ek8IjxVpTbj/phC87jK5YRhlP5Uu7FlQdCmYuut1DTjNruyrGqUWi5bcX1VKsQX1B0FX16A1hqHomKpHv3A==
 
 autobind-decorator@^2.1.0:
-  version "2.2.1"
-  resolved "https://registry.npmjs.org/autobind-decorator/-/autobind-decorator-2.2.1.tgz#acabfddec272b9c98323dab5dc94f63c61b35855"
-  integrity sha512-XXC/B4Cm5X/Rv8etlFcpxUHdIhcs4U3tf8bsg50gUV8J6kq1Uij25xeBoSeuUwdKs2NMhwy+p9T4VNS8/ujp9w==
+  version "2.4.0"
+  resolved "https://registry.npmjs.org/autobind-decorator/-/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
+  integrity sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==
 
 autoprefixer@^9.2.1:
   version "9.3.1"
@@ -4236,9 +4236,9 @@ circular-json-es6@^2.0.1:
   integrity sha512-ODYONMMNb3p658Zv+Pp+/XPa5s6q7afhz3Tzyvo+VRh9WIrJ64J76ZC4GQxnlye/NesTn09jvOiuE8+xxfpwhQ==
 
 citeproc@^2.1.210:
-  version "2.1.210"
-  resolved "https://registry.npmjs.org/citeproc/-/citeproc-2.1.210.tgz#2d8475c3ecd051e5ec6770ad5c2d33eb8e80300c"
-  integrity sha512-6hBVPAee7lVv8iCXs+GYoKiX+AjH7BqYsoe7hFeoIQV1ZqnXEJIR1Ehdv9iQPAalfMyhHkHJDXRyd/UFaMTh6A==
+  version "2.1.212"
+  resolved "https://registry.npmjs.org/citeproc/-/citeproc-2.1.212.tgz#b4ab2e498d31ea8d47c8f0aec1225c739e6e5b95"
+  integrity sha512-cPr5dXEqiZ0IwlbVURD8F75VFK6PEPmBjNZFLmay0Blk1X0+RxSXoR3MAq27Vln1ZFgMnxykUFbCRVUd9vUmcA==
 
 class-utils@^0.3.5:
   version "0.3.6"
@@ -4370,9 +4370,9 @@ code-point-at@^1.0.0:
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
 codemirror@^5.40.2:
-  version "5.41.0"
-  resolved "https://registry.npmjs.org/codemirror/-/codemirror-5.41.0.tgz#57e245be197643c39440d2840236d3edc4bb1162"
-  integrity sha512-mkCwbneCx2WHg1MNCYrI+8Zuq0KMMaZ5yTFpQlAZazy3yxME8bHcuSc9WUFzgPZ114WqWu1FIHlx8CavLzBDIg==
+  version "5.43.0"
+  resolved "https://registry.npmjs.org/codemirror/-/codemirror-5.43.0.tgz#2454b5e0f7005dc9945ab7b0d9594ccf233da040"
+  integrity sha512-mljwQWUaWIf85I7QwTBryF2ASaIvmYAL4s5UCanCJFfKeXOKhrqdHWdHiZWAMNT+hjLTCnVx2S/SYTORIgxsgA==
 
 coffeescript@^2.3.1:
   version "2.3.2"
@@ -5439,10 +5439,15 @@ domhandler@^2.3.0:
   dependencies:
     domelementtype "1"
 
-dompurify@^1.0.7, dompurify@^1.0.8:
+dompurify@^1.0.7:
   version "1.0.8"
   resolved "https://registry.npmjs.org/dompurify/-/dompurify-1.0.8.tgz#3fa0d91fde3827d6509d83b43444da56a2796795"
   integrity sha512-vetRFbN1SXSPfP3ClIiYnxTrXquSqakBEOoB5JESn0SVcSYzpu6ougjakpKnskGctYdlNpwf+riUHSkG7d4XUw==
+
+dompurify@^1.0.8:
+  version "1.0.9"
+  resolved "https://registry.npmjs.org/dompurify/-/dompurify-1.0.9.tgz#9d5623df2ec670853e37ff11a5e19bc8990b3b22"
+  integrity sha512-lt9f3A3RO1OCNaWdA+s/k7YVn0Typ5MbAKmX94PLCZbs8wLNccX3Bj4xXA7GLKOoDb/MeVoAoeIJarZD1JUnjg==
 
 domutils@1.1:
   version "1.1.6"
@@ -5832,9 +5837,9 @@ eslint-scope@^4.0.0:
     estraverse "^4.1.1"
 
 esm@^3.0.34:
-  version "3.0.84"
-  resolved "https://registry.npmjs.org/esm/-/esm-3.0.84.tgz#bb108989f4673b32d4f62406869c28eed3815a63"
-  integrity sha512-SzSGoZc17S7P+12R9cg21Bdb7eybX25RnIeRZ80xZs+VZ3kdQKzqTp2k4hZJjR7p9l0186TTXSgrxzlMDBktlw==
+  version "3.1.1"
+  resolved "https://registry.npmjs.org/esm/-/esm-3.1.1.tgz#810d1144522547801a58a8ea01d6566d61578223"
+  integrity sha512-Md2pR4IbR37UqubbgbA4+wiBorOEFB05Oo+g4WJW7W2ajiOhUfjZt77NzzCoQdrCb40GdKcflitm+XHDF053OQ==
 
 esmangle-evaluator@^1.0.0:
   version "1.0.1"
@@ -9615,9 +9620,9 @@ math-sign-x@^3.0.0:
     to-number-x "^2.0.0"
 
 mathjax3@^3.0.0-beta.2:
-  version "3.0.0-beta.2"
-  resolved "https://registry.npmjs.org/mathjax3/-/mathjax3-3.0.0-beta.2.tgz#edf3b03f75728274b44f131bd68f94435888c148"
-  integrity sha512-xBr1MxP2JKQxGmrCafxVmEb5akQOB7mHQ44rHD5FrpCTpdb4x7xsxwIoGblleel5gOFRJSAwpRe08Azyx1VQgQ==
+  version "3.0.0-beta.3"
+  resolved "https://registry.npmjs.org/mathjax3/-/mathjax3-3.0.0-beta.3.tgz#c3072a59304b4b612aa9516eb672b07000c9a3d5"
+  integrity sha512-MgXK56KOLk5b8/Y01RXB/C0+QgC2Kc+SJmKBilP+Jwxout/4SdV8AjsPp+WMzlotnAacQWFpn24CPdLkdej9AA==
   dependencies:
     esm "^3.0.34"
 
@@ -11003,10 +11008,15 @@ pngjs@^3.0.0, pngjs@^3.2.0, pngjs@^3.3.1:
   resolved "https://registry.npmjs.org/pngjs/-/pngjs-3.3.3.tgz#85173703bde3edac8998757b96e5821d0966a21b"
   integrity sha512-1n3Z4p3IOxArEs1VRXnZ/RXdfEniAUS9jb68g58FIXMNkPJeZd+Qh4Uq7/e0LVxAQGos1eIUrqrt4FpjdnEd+Q==
 
-popper.js@^1.0.2, popper.js@^1.14.1, popper.js@^1.14.4:
+popper.js@^1.0.2, popper.js@^1.14.1:
   version "1.14.4"
   resolved "https://registry.npmjs.org/popper.js/-/popper.js-1.14.4.tgz#8eec1d8ff02a5a3a152dd43414a15c7b79fd69b6"
   integrity sha1-juwdj/AqWjoVLdQ0FKFce3n9abY=
+
+popper.js@^1.14.4:
+  version "1.14.6"
+  resolved "https://registry.npmjs.org/popper.js/-/popper.js-1.14.6.tgz#ab20dd4edf9288b8b3b6531c47c361107b60b4b0"
+  integrity sha512-AGwHGQBKumlk/MDfrSOf0JHhJCImdDMcGNoqKmKkU+68GFazv3CQ6q9r7Ja1sKDZmYWTckY/uLyEznheTDycnA==
 
 portfinder@^1.0.9:
   version "1.0.19"
@@ -11751,9 +11761,9 @@ property-is-enumerable-x@^1.1.0:
     to-property-key-x "^2.0.1"
 
 prosemirror-changeset@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/prosemirror-changeset/-/prosemirror-changeset-1.0.5.tgz#aa2cf6491f334bc12d9c6ba1ef64e726bb02b94a"
-  integrity sha512-r6Wzq9xWERAknivbVrqNxHOZ4LNz1Jb6/xnVDtNDLlqsPfbEG2Ua6KWnRbHpmfBIDs6orasUbqsyEWc5JLSBqA==
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/prosemirror-changeset/-/prosemirror-changeset-1.2.1.tgz#caa34b18c87174fc0c5830754aadf23ccbf77404"
+  integrity sha512-qqwG1z8z+KkM3PZWmANYhqvoZdstFmzfkr7FPJ6suBwKs/UvZbvnRvDBvJC5eDbXbE7MhIGO+LY1Dq29zBAbIw==
   dependencies:
     prosemirror-transform "^1.0.0"
 
@@ -11836,9 +11846,9 @@ prosemirror-menu@^1.0.0:
     prosemirror-state "^1.0.0"
 
 prosemirror-model@^1.0.0, prosemirror-model@^1.1.0, prosemirror-model@^1.6.1, prosemirror-model@^1.6.2:
-  version "1.6.3"
-  resolved "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.6.3.tgz#9a416f907f5f650dfd6062643ce014bf0d0e8931"
-  integrity sha512-iqIml664X9MUVGLz2nzK4xfAofX8+o7gs2mi2/k+pVD0qZ7th1Jm5eG3AsqWoEUIZuWeaOWCKpBl/dPnhIIWew==
+  version "1.6.4"
+  resolved "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.6.4.tgz#2ac37a629448a7dbfd1635450e2fdd63c3450d7d"
+  integrity sha512-C2ALle8fZsAza+6stUF9Gv28jH9XtpNeczb33bowGlnb2cpNI4FZf1HHUyZjf6ou4cEvOlbt6fAYsT4NCKmlcQ==
   dependencies:
     orderedmap "^1.0.0"
 
@@ -11866,9 +11876,9 @@ prosemirror-state@^1.0.0, prosemirror-state@^1.2.2:
     prosemirror-transform "^1.0.0"
 
 prosemirror-tables@^0.7.9:
-  version "0.7.9"
-  resolved "https://registry.npmjs.org/prosemirror-tables/-/prosemirror-tables-0.7.9.tgz#fb82d1e5d8cc4661820fdb956b76f2192bcd2127"
-  integrity sha512-wCYnDdYMJPD3OdbBqn+Lv+lr4jL4scUTdP+ICSQpqLuvj7seFcTIRBw2o5yUW/ZaMQ5v9TqhFbicb8k/3wj8eg==
+  version "0.7.10"
+  resolved "https://registry.npmjs.org/prosemirror-tables/-/prosemirror-tables-0.7.10.tgz#4b0f623422b4b8f84cdc9c559f8a87579846b3ba"
+  integrity sha512-VIu7UGS9keYEHs0Y6AEOTGbNE9QI2rL1OKng4vV6yoTshW/lYcb+s3hGXI12i+WLMjDVm7ujhfdWrpKpvFZOkQ==
   dependencies:
     prosemirror-keymap "^1.0.0"
     prosemirror-model "^1.0.0"
@@ -11889,9 +11899,9 @@ prosemirror-utils@^0.6.7:
   integrity sha512-nOKcfqyfZBhsephi9HCvEcF6qof7NcbKthnWhXAHJvca5YTaKh6h5mjGSRndm91CnbvRrwlG/BCC0BTu790fDA==
 
 prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.5.3, prosemirror-view@^1.6.3:
-  version "1.6.5"
-  resolved "https://registry.npmjs.org/prosemirror-view/-/prosemirror-view-1.6.5.tgz#0427775fd68006a2270dfad549707e5a3d9880db"
-  integrity sha512-brg8fExNrmklbLs8VJ7uvmo/Lh93EHErH47alI55hkJ12EF73K+t2+IyrlkJF84tt5wFBJ20LeSxF8HlJHXiYg==
+  version "1.6.8"
+  resolved "https://registry.npmjs.org/prosemirror-view/-/prosemirror-view-1.6.8.tgz#33fc1a6e2731633e5d6dc1af1967378f15810b74"
+  integrity sha512-YWX3rfji77xsU5EErt4ZoecVytYW9/4oHBYhV1MUHGMYIcppe+QZEBgRlyPMBUuu0lxdZX4m3sq7fCsDvv/MlQ==
   dependencies:
     prosemirror-model "^1.1.0"
     prosemirror-state "^1.0.0"
@@ -11999,10 +12009,15 @@ qs@6.5.1:
   resolved "https://registry.npmjs.org/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
   integrity sha512-eRzhrN1WSINYCDCbrz796z37LOe3m5tmW7RQf6oBntukAG1nmovJvhnwHHRMAfeoItc1m2Hk02WER2aQ/iqs+A==
 
-qs@6.5.2, qs@^6.5.1, qs@^6.5.2, qs@~6.5.1, qs@~6.5.2:
+qs@6.5.2, qs@^6.5.1, qs@~6.5.1, qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.npmjs.org/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
+
+qs@^6.5.2:
+  version "6.6.0"
+  resolved "https://registry.npmjs.org/qs/-/qs-6.6.0.tgz#a99c0f69a8d26bf7ef012f871cdabb0aee4424c2"
+  integrity sha512-KIJqT9jQJDQx5h5uAVPimw6yVg2SekOKu959OCtktD3FjzbpvaPr8i4zzg07DOMz+igA4W/aNM7OV8H37pFYfA==
 
 querystring-es3@^0.2.0:
   version "0.2.1"
@@ -12295,10 +12310,20 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-modal@^3.1.11, react-modal@^3.6.1:
+react-modal@^3.1.11:
   version "3.6.1"
   resolved "https://registry.npmjs.org/react-modal/-/react-modal-3.6.1.tgz#54d27a1ec2b493bbc451c7efaa3557b6af82332d"
   integrity sha512-vAhnawahH1fz8A5x/X/1X20KHMe6Q0mkfU5BKPgKSVPYhMhsxtRbNHSitsoJ7/oP27xZo3naZZlwYuuzuSO1xw==
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    react-lifecycles-compat "^3.0.0"
+    warning "^3.0.0"
+
+react-modal@^3.6.1:
+  version "3.8.1"
+  resolved "https://registry.npmjs.org/react-modal/-/react-modal-3.8.1.tgz#7300f94a6f92a2e17994de0be6ccb61734464c9e"
+  integrity sha512-aLKeZM9pgXpIKVwopRHMuvqKWiBajkqisDA8UzocdCF6S4fyKVfLWmZR5G1Q0ODBxxxxf2XIwiCP8G/11GJAuw==
   dependencies:
     exenv "^1.2.0"
     prop-types "^15.5.10"
@@ -15089,9 +15114,9 @@ w3c-keyname@^1.1.8:
   integrity sha512-2HAdug8GTiu3b4NYhssdtY8PXRue3ICnh1IlxvZYl+hiINRq0GfNWei3XOPDg8L0PsxbmYjWVLuLj6BMRR/9vA==
 
 w3c-xmlserializer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/w3c-xmlserializer/-/w3c-xmlserializer-1.0.0.tgz#d23e20de595b892056f20a359fc2622908d48695"
-  integrity sha512-0et1+9uXYiIRAecx1D5Z1nk60+vimniGdIKl4XjeqkWi6acoHNlXMv1VR5jV+jF4ooeO08oWbYxeAJOcon1oMA==
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/w3c-xmlserializer/-/w3c-xmlserializer-1.0.1.tgz#054cdcd359dc5d1f3ec9be4e272c756af4b21d39"
+  integrity sha512-XZGI1OH/OLQr/NaJhhPmzhngwcAnZDLytsvXnRmlYeRkmbb0I7sqFFA22erq4WQR0sUu17ZSQOAV9mFwCqKRNg==
   dependencies:
     domexception "^1.0.1"
     webidl-conversions "^4.0.2"
