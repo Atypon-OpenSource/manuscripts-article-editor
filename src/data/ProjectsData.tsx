@@ -1,56 +1,53 @@
 import { ObjectTypes, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { Spinner } from '../components/Spinner'
-import { ModelsProps, withModels } from '../store/ModelsProvider'
+import { Collection } from '../sync/Collection'
+import CollectionManager from '../sync/CollectionManager'
+import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (projects: Project[]) => React.ReactNode
+  children: (
+    data: Project[],
+    collection: Collection<Project>
+  ) => React.ReactNode
 }
 
 interface State {
-  projects?: Project[]
+  data?: Project[]
 }
 
-class ProjectsData extends React.Component<ModelsProps & Props, State> {
-  public state: Readonly<State> = {}
+class ProjectsData extends DataComponent<Project, Props, State> {
+  public constructor(props: Props) {
+    super(props)
 
-  private sub: Subscription
+    this.state = {}
+
+    this.collection = CollectionManager.getCollection<Project>(
+      'user' /* 'projects' */
+    )
+  }
 
   public componentDidMount() {
-    this.sub = this.loadProjects()
+    this.collection.addEventListener('complete', this.handleComplete)
+    this.sub = this.subscribe()
   }
 
   public componentWillUnmount() {
+    this.collection.removeEventListener('complete', this.handleComplete)
     this.sub.unsubscribe()
   }
 
-  public render() {
-    const { projects } = this.state
-
-    if (!projects) {
-      return <Spinner />
-    }
-
-    return this.props.children(projects)
-  }
-
-  private loadProjects = () => {
-    const collection = this.props.models.collection as RxCollection<Project>
-
-    return collection
+  private subscribe = () =>
+    this.collection
       .find({
         objectType: ObjectTypes.Project,
       })
       .$.subscribe(docs => {
         if (docs) {
           this.setState({
-            projects: docs.map(doc => doc.toJSON()),
+            data: docs.map(doc => doc.toJSON()),
           })
         }
       })
-  }
 }
 
-export default withModels<Props>(ProjectsData)
+export default ProjectsData

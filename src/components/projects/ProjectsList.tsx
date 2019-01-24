@@ -77,19 +77,27 @@ const initials = (name: BibliographicName): string =>
     : ''
 
 interface Props {
+  deleteProject: (project: Project) => () => Promise<string>
   projects: Project[]
-  users: Map<string, UserProfileWithAvatar>
+  saveProjectTitle: (project: Project) => (title: string) => Promise<Project>
+  collaborators: Map<string, UserProfileWithAvatar>
+  user: UserProfileWithAvatar
+  closeModal?: () => void
 }
 
 export const ProjectsList: React.FunctionComponent<Props> = ({
+  closeModal,
+  collaborators,
+  deleteProject,
   projects,
-  users,
+  saveProjectTitle,
+  user,
 }) => (
   <div>
     {projects.sort(projectListCompare).map(project => (
       <SidebarProject key={project._id}>
         <SidebarProjectHeader>
-          <ProjectTitle to={`/projects/${project._id}`}>
+          <ProjectTitle to={`/projects/${project._id}`} onClick={closeModal}>
             {project.title ? (
               <Title value={project.title} />
             ) : (
@@ -97,21 +105,27 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
             )}
           </ProjectTitle>
           <Edit>
-            <ProjectContextMenuButton project={project} />
+            <ProjectContextMenuButton
+              project={project}
+              deleteProject={deleteProject(project)}
+              saveProjectTitle={saveProjectTitle(project)}
+            />
           </Edit>
-          <ShareProjectButton project={project} />
+          <ShareProjectButton project={project} user={user} />
         </SidebarProjectHeader>
 
         <ProjectContributors>
-          {buildCollaborators(project, users).map((collaborator, index) => (
-            <React.Fragment key={collaborator._id}>
-              {!!index && ', '}
-              <ProjectContributor key={collaborator._id}>
-                {initials(collaborator.bibliographicName)}{' '}
-                {collaborator.bibliographicName.family}
-              </ProjectContributor>
-            </React.Fragment>
-          ))}
+          {buildCollaborators(project, collaborators).map(
+            (collaborator, index) => (
+              <React.Fragment key={collaborator._id}>
+                {!!index && ', '}
+                <ProjectContributor key={collaborator._id}>
+                  {initials(collaborator.bibliographicName)}{' '}
+                  {collaborator.bibliographicName.family}
+                </ProjectContributor>
+              </React.Fragment>
+            )
+          )}
         </ProjectContributors>
       </SidebarProject>
     ))}

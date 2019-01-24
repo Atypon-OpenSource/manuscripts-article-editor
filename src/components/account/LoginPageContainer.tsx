@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import { LocationState } from 'history'
 import * as HttpStatusCodes from 'http-status-codes'
@@ -5,12 +6,12 @@ import { parse } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import config from '../../config'
+import { TokenActions } from '../../data/TokenData'
 import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
-import { databaseCreator } from '../../lib/db'
-import token, { Token } from '../../lib/token'
 import { loginSchema } from '../../validation'
 import { AlertMessageType } from '../AlertMessage'
+import { DatabaseContext } from '../DatabaseProvider'
 import { FormErrors } from '../Form'
 import { Main, Page } from '../Page'
 import { LoginValues } from './LoginForm'
@@ -53,6 +54,10 @@ interface Action {
   action: string
 }
 
+interface Token {
+  access_token: string
+}
+
 interface VerificationData {
   token: string
   email: string
@@ -65,8 +70,12 @@ interface RouteLocationState {
   infoLoginMessage?: string
 }
 
+interface Props {
+  tokenActions: TokenActions
+}
+
 class LoginPageContainer extends React.Component<
-  RouteComponentProps<{}, {}, RouteLocationState>,
+  Props & RouteComponentProps<{}, {}, RouteLocationState>,
   State
 > {
   public state: Readonly<State> = {
@@ -124,20 +133,24 @@ class LoginPageContainer extends React.Component<
     hashData: Token & ErrorMessage & VerificationData & Action
   ) => {
     if (hashData && Object.keys(hashData).length) {
-      if (hashData.error) {
+      const { error, access_token: token, action } = hashData
+
+      if (error) {
         this.setState({
-          message: () => identityProviderErrorMessage(hashData.error),
+          message: () => identityProviderErrorMessage(error),
         })
-      } else if (hashData.access_token) {
-        token.set(hashData)
+      } else if (token) {
+        this.props.tokenActions.update(token)
 
         window.location.href = '/'
       }
-      if (hashData.action === 'logout') {
+
+      if (action === 'logout') {
         this.setState({
           message: () => infoLoginMessage('You have been logged out.'),
         })
       }
+
       window.location.hash = ''
     }
   }
@@ -149,60 +162,92 @@ class LoginPageContainer extends React.Component<
       <Page>
         <Main>
           {message && message()}
-          <LoginPage
-            initialValues={this.initialValues}
-            validationSchema={loginSchema}
-            onSubmit={this.handleSubmit}
-            submitErrorType={submitErrorType}
-          />
+
+          <DatabaseContext.Consumer>
+            {db => (
+              <LoginPage
+                initialValues={this.initialValues}
+                validationSchema={loginSchema}
+                submitErrorType={submitErrorType}
+                onSubmit={async (values, actions) => {
+                  this.props.tokenActions.delete()
+
+                  try {
+                    const token = await login(values.email, values.password, db)
+
+                    this.props.tokenActions.update(token)
+
+                    this.redirectAfterLogin()
+                  } catch (error) {
+                    console.error(error) // tslint:disable-line:no-console
+
+                    if (error.response) {
+                      this.handleErrorResponse(error.response, values, actions)
+                    } else {
+                      this.setState({
+                        message: networkErrorMessage,
+                      })
+                    }
+
+                    actions.setSubmitting(false)
+                  }
+                }}
+              />
+            )}
+          </DatabaseContext.Consumer>
         </Main>
       </Page>
     )
   }
 
-  private handleSubmit = async (
+  private handleErrorResponse = (
+    response: AxiosResponse,
     values: LoginValues,
-    { setSubmitting, setErrors }: FormikActions<LoginValues & FormErrors>
+    actions: FormikActions<LoginValues>
   ) => {
-    try {
-      const db = await databaseCreator
+    const errorName = this.errorName(response)
 
-      await login(values.email, values.password, db)
-
-      const { state } = this.props.location
-
-      // redirect if the user tried before login to access an authenticated route
-      // (e.g. a bookmarked project, or a project invitation link)
-      window.location.href = state && state.from ? state.from.pathname : '/'
-    } catch (error) {
-      setSubmitting(false)
-
-      const errors: FormikErrors<FormErrors> = {}
-
-      if (error.response) {
-        const { data } = error.response
-        const errorName = JSON.parse(data.error).name as string
-
-        if (errorName === ErrorName.GatewayInaccessibleError) {
-          this.setState({
-            message: () => gatewayInaccessibleErrorMessage(),
-          })
-        } else {
-          errors.submit = this.errorResponseMessage(
-            error.response.status,
-            values,
-            errorName
-          )
-          setErrors(errors)
-
-          this.setState({ submitErrorType: errorName })
-        }
-      } else {
+    switch (errorName) {
+      case ErrorName.GatewayInaccessibleError:
         this.setState({
-          message: () => networkErrorMessage(),
+          message: gatewayInaccessibleErrorMessage,
         })
-      }
+        return
+
+      case ErrorName.InvalidCredentialsError:
+      default:
+        const errors: FormikErrors<LoginValues & FormErrors> = {
+          submit: this.errorResponseMessage(response.status, values, errorName),
+        }
+
+        actions.setErrors(errors)
+
+        this.setState({
+          submitErrorType: errorName,
+        })
+
+        return
     }
+  }
+
+  // redirect if the user tried before login to access an authenticated route
+  // (e.g. a bookmarked project, or a project invitation link)
+  private redirectAfterLogin = () => {
+    const { state } = this.props.location
+
+    window.location.href = state && state.from ? state.from.pathname : '/'
+  }
+
+  private errorName = (response: AxiosResponse) => {
+    const { data } = response
+
+    if (!data) return null
+
+    if (!data.error) return null
+
+    const error = JSON.parse(data.error)
+
+    return error ? error.name : null
   }
 
   private errorResponseMessage = (

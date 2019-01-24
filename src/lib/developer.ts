@@ -1,38 +1,56 @@
-import { timestamp } from '@manuscripts/manuscript-editor'
+import { Build } from '@manuscripts/manuscript-editor'
 import {
   BibliographicName,
   ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { databaseCreator } from './db'
-import token from './token'
+import decode from 'jwt-decode'
+import uuid from 'uuid/v4'
+import { Database } from '../components/DatabaseProvider'
+import CollectionManager from '../sync/CollectionManager'
+import tokenHandler from './token'
+import { TokenPayload } from './user'
 
-export const createToken = (userId: string) => {
-  token.set({
-    access_token: ['', btoa(JSON.stringify({ userId })), ''].join('.'),
-  })
+export const createToken = () => {
+  const data: TokenPayload = {
+    expiry: +new Date() + 10000,
+    userId: 'developer@example.com',
+    userProfileId: `${ObjectTypes.UserProfile}:${uuid()}`,
+  }
+
+  const token = ['', btoa(JSON.stringify(data)), ''].join('.')
+
+  tokenHandler.set(token)
 }
 
-export const createUserProfile = /* istanbul ignore next */ async (
-  userId: string,
-  bibliographicName: Partial<BibliographicName>
-) => {
-  if (!userId) {
-    alert('Create a token first')
+export const createUserProfile = async (db: Database) => {
+  createToken()
+
+  const token = tokenHandler.get()
+
+  const { userId: userID, userProfileId: userProfileID } = decode<TokenPayload>(
+    token!
+  )
+
+  const bibliographicName: BibliographicName = {
+    _id: 'MPBibliographicName:developer',
+    objectType: ObjectTypes.BibliographicName,
+    given: 'Developer',
+    family: 'User',
   }
 
-  const db = await databaseCreator
-
-  const createdAt = timestamp()
-
-  const profile: Partial<UserProfile> = {
-    _id: `${ObjectTypes.UserProfile}:${userId.replace('_', '|')}`,
+  const profile: Build<UserProfile> = {
+    _id: userProfileID,
     objectType: ObjectTypes.UserProfile,
-    userID: userId,
-    bibliographicName: bibliographicName as BibliographicName,
-    createdAt,
-    updatedAt: createdAt,
+    userID,
+    bibliographicName,
   }
 
-  await db.projects.upsert(profile)
+  const userCollection = await CollectionManager.createCollection<UserProfile>({
+    collection: 'user',
+    channels: [],
+    db,
+  })
+
+  await userCollection.create(profile)
 }

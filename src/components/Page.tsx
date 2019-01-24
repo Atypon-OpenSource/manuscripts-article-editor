@@ -7,7 +7,7 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
-import { GlobalStyle, styled, ThemedProps } from '../theme'
+import { styled, ThemedProps } from '../theme'
 import MenuBar from './nav/MenuBar'
 import { Tip } from './Tip'
 
@@ -129,8 +129,6 @@ interface Props {
 
 export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
   <PageContainer>
-    <GlobalStyle />
-
     <Helmet>
       {project ? (
         <title>Manuscripts.io: {project.title || 'Untitled Project'}</title>

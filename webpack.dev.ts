@@ -67,6 +67,7 @@ const configuration: webpack.Configuration = merge(common, {
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   watchOptions: {
+    aggregateTimeout: 1000,
     ignored: /node_modules\/(?!@manuscripts\/)/,
   },
 })

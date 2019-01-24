@@ -12,7 +12,7 @@ const SignupPage: React.FunctionComponent<FormikConfig<SignupValues>> = ({
   onSubmit,
 }) => (
   <Centered>
-    <Formik
+    <Formik<SignupValues>
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={true}

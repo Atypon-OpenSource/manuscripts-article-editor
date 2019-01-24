@@ -5,9 +5,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { RxDocument } from 'rxdb'
 import { sources } from '../../lib/sources'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
-
-import { Page } from '../Page'
+import { Collection } from '../../sync/Collection'
 import LibraryContainer from './LibraryContainer'
 import LibrarySidebar from './LibrarySidebar'
 import LibrarySourceContainer from './LibrarySourceContainer'
@@ -21,14 +19,14 @@ interface State {
 
 interface Props {
   library: Map<string, BibliographyItem>
+  libraryCollection: Collection<BibliographyItem>
   project: Project
 }
 
 type CombinedProps = Props &
   RouteComponentProps<{
     projectID: string
-  }> &
-  ModelsProps
+  }>
 
 class LibraryPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
@@ -57,7 +55,7 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
     if (!librarySource) return null
 
     return (
-      <Page project={project}>
+      <>
         <LibrarySidebar projectID={project._id} sources={sources} />
 
         {source === 'library' ? (
@@ -74,7 +72,7 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
             hasItem={this.hasItem}
           />
         )}
-      </Page>
+      </>
     )
   }
 
@@ -91,21 +89,17 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
 
     const item = buildBibliographyItem(data)
 
-    await this.props.models.saveModel<BibliographyItem>(item, {
-      projectID,
+    await this.props.libraryCollection.create(item, {
+      containerID: projectID,
     })
   }
 
   private handleSave = (item: BibliographyItem) => {
-    const { projectID } = this.props.match.params
-
-    return this.props.models.saveModel<BibliographyItem>(item, {
-      projectID,
-    })
+    return this.props.libraryCollection.update(item._id, item)
   }
 
   private handleDelete = async (item: BibliographyItem): Promise<string> => {
-    await this.props.models.deleteModel(item._id)
+    await this.props.libraryCollection.delete(item._id)
 
     this.setState({
       item: null,
@@ -125,4 +119,4 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withModels<Props>(LibraryPageContainer)
+export default LibraryPageContainer

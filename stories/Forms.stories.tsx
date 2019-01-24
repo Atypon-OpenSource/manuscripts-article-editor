@@ -24,7 +24,7 @@ import {
   RecoverValues,
 } from '../src/components/account/RecoverForm'
 import { SignupForm, SignupValues } from '../src/components/account/SignupForm'
-import ModalForm from '../src/components/ModalForm'
+import { ModalForm } from '../src/components/ModalForm'
 import {
   changePasswordSchema,
   deleteAccountSchema,
@@ -90,7 +90,7 @@ storiesOf('Account/Forms/Pages', module)
 
 storiesOf('Account/Forms/Modal', module)
   .add('Change password', () => (
-    <ModalForm title={'Change Password'}>
+    <ModalForm title={'Change Password'} handleClose={action('close')}>
       <Formik<ChangePasswordValues>
         initialValues={{ currentPassword: '', newPassword: '' }}
         validationSchema={changePasswordSchema}
@@ -103,7 +103,7 @@ storiesOf('Account/Forms/Modal', module)
     </ModalForm>
   ))
   .add('Delete account', () => (
-    <ModalForm title={'Delete account'}>
+    <ModalForm title={'Delete account'} handleClose={action('close')}>
       <Formik<DeleteAccountValues>
         initialValues={{ password: '' }}
         validationSchema={deleteAccountSchema}
@@ -117,7 +117,7 @@ storiesOf('Account/Forms/Modal', module)
   ))
 
 storiesOf('Feedback', module).add('Feedback', () => (
-  <ModalForm title={'feedback'}>
+  <ModalForm title={'Feedback'} handleClose={action('close')}>
     <Formik<FeedbackValues>
       initialValues={{
         message: '',

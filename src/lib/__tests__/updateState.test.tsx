@@ -5,8 +5,8 @@ import { createMemoryHistory } from 'history'
 import PouchDBMemoryAdapter from 'pouchdb-adapter-memory'
 import React from 'react'
 import LoginPageContainer from '../../components/account/LoginPageContainer'
+import { TokenActions } from '../../data/TokenData'
 import RxDB from '../rxdb'
-import token from '../token'
 
 RxDB.plugin(PouchDBMemoryAdapter)
 
@@ -20,7 +20,14 @@ const props = {
 
 describe('Update state', () => {
   test('call identityProviderErrorMessage method', async () => {
-    const wrapper = shallow(<LoginPageContainer {...props} />)
+    const tokenActions: TokenActions = {
+      update: jest.fn(),
+      delete: jest.fn(),
+    }
+
+    const wrapper = shallow(
+      <LoginPageContainer {...props} tokenActions={tokenActions} />
+    )
 
     expect(wrapper.state('message')).toBeNull()
 
@@ -33,7 +40,14 @@ describe('Update state', () => {
   })
 
   test('call infoLoginMessage method', async () => {
-    const wrapper = shallow(<LoginPageContainer {...props} />)
+    const tokenActions: TokenActions = {
+      update: jest.fn(),
+      delete: jest.fn(),
+    }
+
+    const wrapper = shallow(
+      <LoginPageContainer {...props} tokenActions={tokenActions} />
+    )
 
     expect(wrapper.state('message')).toBeNull()
 
@@ -46,18 +60,28 @@ describe('Update state', () => {
   })
 
   test('set token', async () => {
-    token.remove()
-    expect(token.get()).toBe(null)
+    let token = ''
 
-    const wrapper = shallow(<LoginPageContainer {...props} />)
+    const tokenActions: TokenActions = {
+      update: (value: string) => {
+        token = value
+      },
+      delete: () => {
+        token = ''
+      },
+    }
+
+    const wrapper = shallow(
+      <LoginPageContainer {...props} tokenActions={tokenActions} />
+    )
 
     // tslint:disable-next-line:no-any
     const instance = wrapper.instance() as any
 
     await instance.updateState({ access_token: 'xyz' })
-    expect(token.get()).toEqual({
-      access_token: 'xyz',
-    })
+
+    expect(token).toEqual('xyz')
+
     expect(window.location.hash).toEqual('')
   })
 })

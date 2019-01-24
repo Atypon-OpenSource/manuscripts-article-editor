@@ -1,9 +1,7 @@
-import { Token } from '../token'
-
-let token: Token | null = null
+let token: string | null = null
 
 export default {
   get: () => token,
-  set: (data: Token) => (token = data),
+  set: (data: string) => (token = data),
   remove: () => (token = null),
 }

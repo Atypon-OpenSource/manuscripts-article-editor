@@ -83,7 +83,7 @@ const InvitedContainer = styled.div`
 
 interface Props {
   project: Project
-  collaborators: UserProfile[]
+  projectCollaborators: UserProfile[]
   invitations: ProjectInvitation[]
   user: UserProfile
   projectInvite: (
@@ -114,7 +114,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
   public render() {
     const {
       project,
-      collaborators,
+      projectCollaborators,
       invitations,
       user,
       updateUserRole,
@@ -177,49 +177,51 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                 </InvitedContainer>
               </SidebarPersonContainer>
             ))}
-            {!!collaborators &&
-              collaborators.map((collaborator: UserProfileWithAvatar) => (
-                <SidebarPersonContainer
-                  key={collaborator._id}
-                  selected={selectedID === collaborator.userID}
-                  onMouseEnter={() => this.handleHover(collaborator.userID)}
-                  onMouseLeave={() => this.handleHover()}
-                  onClick={() => this.handleClickCollaborator(collaborator)}
-                >
-                  <UserDataContainer>
-                    <Avatar
-                      src={collaborator.avatar}
-                      size={45}
-                      color={darkGrey}
-                    />
-                    <CollaboratorData>
-                      {user.userID !== collaborator.userID ? (
-                        <CollaboratorName>
-                          <CollaboratorInitial>
-                            {initials(collaborator.bibliographicName)}
-                          </CollaboratorInitial>
-                          {collaborator.bibliographicName.family}
-                        </CollaboratorName>
-                      ) : (
-                        <CollaboratorName>You</CollaboratorName>
-                      )}
-                      <CollaboratorRole>
-                        {getUserRole(project, collaborator.userID)}
-                      </CollaboratorRole>
-                    </CollaboratorData>
-                  </UserDataContainer>
-                  {(hoveredID === collaborator.userID ||
-                    selectedID === collaborator.userID) &&
-                    isOwner(project, user.userID) && (
-                      <CollaboratorSettingsButton
-                        project={project}
-                        collaborator={collaborator}
-                        openPopper={this.openPopper}
-                        updateUserRole={updateUserRole}
+            {!!projectCollaborators &&
+              projectCollaborators.map(
+                (collaborator: UserProfileWithAvatar) => (
+                  <SidebarPersonContainer
+                    key={collaborator._id}
+                    selected={selectedID === collaborator.userID}
+                    onMouseEnter={() => this.handleHover(collaborator.userID)}
+                    onMouseLeave={() => this.handleHover()}
+                    onClick={() => this.handleClickCollaborator(collaborator)}
+                  >
+                    <UserDataContainer>
+                      <Avatar
+                        src={collaborator.avatar}
+                        size={45}
+                        color={darkGrey}
                       />
-                    )}
-                </SidebarPersonContainer>
-              ))}
+                      <CollaboratorData>
+                        {user.userID !== collaborator.userID ? (
+                          <CollaboratorName>
+                            <CollaboratorInitial>
+                              {initials(collaborator.bibliographicName)}
+                            </CollaboratorInitial>
+                            {collaborator.bibliographicName.family}
+                          </CollaboratorName>
+                        ) : (
+                          <CollaboratorName>You</CollaboratorName>
+                        )}
+                        <CollaboratorRole>
+                          {getUserRole(project, collaborator.userID)}
+                        </CollaboratorRole>
+                      </CollaboratorData>
+                    </UserDataContainer>
+                    {(hoveredID === collaborator.userID ||
+                      selectedID === collaborator.userID) &&
+                      isOwner(project, user.userID) && (
+                        <CollaboratorSettingsButton
+                          project={project}
+                          collaborator={collaborator}
+                          openPopper={this.openPopper}
+                          updateUserRole={updateUserRole}
+                        />
+                      )}
+                  </SidebarPersonContainer>
+                )
+              )}
           </SidebarContent>
         </Sidebar>
       </Panel>

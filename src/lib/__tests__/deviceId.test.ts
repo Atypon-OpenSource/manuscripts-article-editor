@@ -1,4 +1,4 @@
-import deviceID from '../deviceId'
+import deviceID from '../device-id'
 
 describe('device ID', () => {
   it('should be set when ../deviceId is imported', () => {

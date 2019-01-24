@@ -1,24 +1,32 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+import { TokenActions } from '../../data/TokenData'
 import { logout } from '../../lib/account'
-import { databaseCreator } from '../../lib/db'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
+import { DatabaseProps, withDatabase } from '../DatabaseProvider'
 import { Main, Page } from '../Page'
 
-interface State {
-  error: string | null
+interface Props {
+  tokenActions: TokenActions
 }
 
-class LogoutPageContainer extends React.Component<RouteComponentProps, State> {
+interface State {
+  error: Error | null
+}
+
+class LogoutPageContainer extends React.Component<
+  Props & DatabaseProps & RouteComponentProps,
+  State
+> {
   public state: Readonly<State> = {
     error: null,
   }
 
   public async componentDidMount() {
     try {
-      const db = await databaseCreator
+      await logout(this.props.db)
 
-      await logout(db)
+      this.props.tokenActions.delete()
 
       // this.props.history.push('/')
       window.location.href = '/login#action=logout'
@@ -34,7 +42,9 @@ class LogoutPageContainer extends React.Component<RouteComponentProps, State> {
       <Page>
         <Main>
           {error && (
-            <AlertMessage type={AlertMessageType.error}>{error}</AlertMessage>
+            <AlertMessage type={AlertMessageType.error}>
+              {error.message}
+            </AlertMessage>
           )}
         </Main>
       </Page>
@@ -42,4 +52,4 @@ class LogoutPageContainer extends React.Component<RouteComponentProps, State> {
   }
 }
 
-export default LogoutPageContainer
+export default withDatabase<Props>(LogoutPageContainer)

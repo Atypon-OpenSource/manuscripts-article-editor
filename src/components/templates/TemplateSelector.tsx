@@ -3,16 +3,29 @@ import {
   buildContributor,
   buildManuscript,
   buildProject,
+  buildSection,
+  ContainedModel,
   DEFAULT_BUNDLE,
+  generateID,
+  isManuscriptModel,
+  ManuscriptModel,
+  ModelAttachment,
+  ObjectType,
 } from '@manuscripts/manuscript-editor'
 import {
   Bundle,
+  Contributor,
+  Manuscript,
   ManuscriptCategory,
   Model,
+  ObjectTypes,
+  ParagraphElement,
+  Project,
+  Section,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { History } from 'history'
 import React from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import config from '../../config'
 import { ContributorRole } from '../../lib/roles'
 import {
@@ -20,26 +33,29 @@ import {
   buildItems,
   buildManuscriptTitle,
   buildResearchFields,
+  buildSectionFromDescription,
   categoriseSectionRequirements,
-  createEmptyManuscriptSections,
-  createExtraManuscripts,
+  chooseSectionTitle,
+  createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
+  createMergedTemplate,
   fetchSharedData,
   findBundle,
   prepareRequirements,
-  saveCategory,
-  saveParentTemplates,
-  saveTemplate,
 } from '../../lib/templates'
-import { ModelIDs } from '../../store/ModelsProvider'
+import { Collection } from '../../sync/Collection'
+// import { Collection } from '../../sync/Collection'
+import CollectionManager from '../../sync/CollectionManager'
 import {
   ManuscriptTemplate,
   Publisher,
+  RequirementType,
   ResearchField,
   SectionCategory,
   TemplateData,
   TemplatesDataType,
 } from '../../types/templates'
+import { Database, DatabaseContext } from '../DatabaseProvider'
 import { Category, Dialog } from '../Dialog'
 import { ProgressModal } from '../projects/ProgressModal'
 import { TemplateSelectorModal } from './TemplateSelectorModal'
@@ -48,8 +64,6 @@ interface Props {
   handleComplete: () => void
   user: UserProfile
   projectID?: string
-  saveModel: <T extends Model>(model: Build<T>, ids: ModelIDs) => Promise<T>
-  history: History
 }
 
 interface State {
@@ -64,7 +78,10 @@ interface State {
   researchFields?: Map<string, ResearchField>
 }
 
-export class TemplateSelector extends React.Component<Props, State> {
+class TemplateSelector extends React.Component<
+  Props & RouteComponentProps,
+  State
+> {
   public state: Readonly<State> = {}
 
   public async componentDidMount() {
@@ -120,15 +137,20 @@ export class TemplateSelector extends React.Component<Props, State> {
     }
 
     return (
-      <TemplateSelectorModal
-        categories={buildCategories(manuscriptCategories)}
-        researchFields={buildResearchFields(researchFields)}
-        createEmpty={this.createEmpty}
-        handleComplete={this.props.handleComplete}
-        items={buildItems(manuscriptTemplates, bundles, publishers)}
-        selectTemplate={this.selectTemplate}
-        projectID={this.props.projectID}
-      />
+      <DatabaseContext.Consumer>
+        {db => (
+          <TemplateSelectorModal
+            categories={buildCategories(manuscriptCategories)}
+            researchFields={buildResearchFields(researchFields)}
+            createEmpty={this.createEmpty(db)}
+            importManuscript={this.importManuscript(db)}
+            handleComplete={this.props.handleComplete}
+            items={buildItems(manuscriptTemplates, bundles, publishers)}
+            selectTemplate={this.selectTemplate(db)}
+            projectID={this.props.projectID}
+          />
+        )}
+      </DatabaseContext.Consumer>
     )
   }
 
@@ -189,7 +211,7 @@ export class TemplateSelector extends React.Component<Props, State> {
     })
   }
 
-  private createEmpty = async () => {
+  private createEmpty = (db: Database) => async () => {
     const {
       handleComplete,
       history,
@@ -199,21 +221,24 @@ export class TemplateSelector extends React.Component<Props, State> {
 
     const newProject = possibleProjectID ? null : buildProject(user.userID)
 
-    const projectID = newProject
-      ? newProject._id
-      : (possibleProjectID as string)
+    const projectID = newProject ? newProject._id : possibleProjectID!
+
+    if (newProject) {
+      const projectsCollection = this.openProjectsCollection()
+      await projectsCollection.create(newProject)
+    }
+
+    const collection = await this.createProjectCollection(db, projectID)
+
+    const nextManuscriptPriority = await this.nextManuscriptPriority(
+      collection as Collection<Manuscript>
+    )
 
     const manuscript = {
       ...buildManuscript(undefined),
       bundle: DEFAULT_BUNDLE,
+      priority: nextManuscriptPriority,
     }
-
-    const manuscriptID = manuscript._id
-
-    const saveModelWithIDs = this.saveModelWithIDs({
-      projectID,
-      manuscriptID,
-    })
 
     const contributor = buildContributor(
       user.bibliographicName,
@@ -222,42 +247,55 @@ export class TemplateSelector extends React.Component<Props, State> {
       user.userID
     )
 
-    if (newProject) {
-      await this.props.saveModel(newProject, {})
-    }
+    const saveContainedModel = <T extends Model>(data: Build<T>) =>
+      collection.create(data, {
+        containerID: projectID,
+      })
 
-    await saveModelWithIDs(contributor)
-    await saveModelWithIDs(manuscript)
+    const saveManuscriptModel = <T extends Model>(data: Build<T>) =>
+      collection.create(data, {
+        containerID: projectID,
+        manuscriptID: manuscript._id,
+      })
 
-    // TODO: copy CSL file, more shared data?
+    await saveManuscriptModel<Contributor>(contributor)
+    await saveContainedModel<Manuscript>(manuscript)
 
-    history.push(`/projects/${projectID}/manuscripts/${manuscriptID}`)
+    history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
 
     handleComplete()
   }
 
-  private saveModelWithIDs = (ids: ModelIDs) => (model: Build<Model>) =>
-    this.props.saveModel(model, ids)
-
-  private buildNewProject = () => {
+  private buildNewProject = (): Build<Project> | undefined => {
     const { projectID, user } = this.props
 
     return projectID ? undefined : buildProject(user.userID)
   }
 
-  private selectTemplate = async (item: TemplateData) => {
-    const {
-      templatesData,
-      manuscriptCategories,
-      sectionCategories,
-      manuscriptTemplates,
-    } = this.state
+  private createProjectCollection = (db: Database, projectID: string) =>
+    CollectionManager.createCollection<ContainedModel | ManuscriptModel>({
+      collection: `project-${projectID}`,
+      channels: [`${projectID}-read`, `${projectID}-readwrite`],
+      db,
+    })
 
-    const { handleComplete, history, user, saveModel } = this.props
+  private openProjectsCollection = () =>
+    CollectionManager.getCollection<Project>('user' /* 'projects' */)
+
+  // tslint:disable:cyclomatic-complexity
+  private selectTemplate = (db: Database) => async (item: TemplateData) => {
+    const { templatesData, sectionCategories, manuscriptTemplates } = this.state
+
+    const { handleComplete, history, user } = this.props
 
     const title = buildManuscriptTitle(item)
 
     const newProject = this.buildNewProject()
+
+    if (newProject) {
+      const projectsCollection = this.openProjectsCollection()
+      await projectsCollection.create(newProject)
+    }
 
     const projectID: string = newProject
       ? newProject._id
@@ -265,17 +303,28 @@ export class TemplateSelector extends React.Component<Props, State> {
 
     const bundle = findBundle(item.template)
 
-    const manuscript = {
+    const collection = await this.createProjectCollection(db, projectID)
+
+    let nextManuscriptPriority = await this.nextManuscriptPriority(
+      collection as Collection<Manuscript>
+    )
+
+    const manuscript: Build<Manuscript> = {
       ...buildManuscript(title),
       bundle,
+      priority: nextManuscriptPriority++,
     }
 
-    const manuscriptID = manuscript._id
+    const saveContainedModel = <T extends Model>(data: Build<T>) =>
+      collection.create(data, {
+        containerID: projectID,
+      })
 
-    const saveModelWithIDs = this.saveModelWithIDs({
-      projectID,
-      manuscriptID,
-    })
+    const saveManuscriptModel = <T extends Model>(data: Build<T>) =>
+      collection.create(data, {
+        containerID: projectID,
+        manuscriptID: manuscript._id,
+      })
 
     const contributor = buildContributor(
       user.bibliographicName,
@@ -284,21 +333,27 @@ export class TemplateSelector extends React.Component<Props, State> {
       user.userID
     )
 
-    if (newProject) {
-      await this.props.saveModel(newProject, {})
-    }
-
-    await saveModelWithIDs(contributor)
-
-    // save the bundle
-    if (item.bundle) {
-      await this.props.saveModel(item.bundle, {})
-    }
+    await saveManuscriptModel<Contributor>(contributor)
 
     if (item.template) {
-      const requirements = prepareRequirements(item.template, templatesData)
+      // merge the templates
+      const mergedTemplate = createMergedTemplate(
+        item.template,
+        manuscriptTemplates
+      )
 
-      await Promise.all(requirements.map(saveModelWithIDs))
+      // save the requirements
+      // TODO: build a new requirements object and save it to the template, or re-use the existing one?
+
+      const requirements = prepareRequirements(mergedTemplate, templatesData)
+
+      mergedTemplate.requirementIDs = await Promise.all(
+        requirements.map(async requirement => {
+          requirement._id = generateID(requirement.objectType as ObjectType)
+          await saveManuscriptModel<RequirementType>(requirement)
+          return requirement._id
+        })
+      )
 
       const {
         requiredSections,
@@ -306,45 +361,155 @@ export class TemplateSelector extends React.Component<Props, State> {
       } = categoriseSectionRequirements(requirements)
 
       if (requiredSections.length && sectionCategories) {
-        await createManuscriptSectionsFromTemplate(
+        const items = createManuscriptSectionsFromTemplate(
           requiredSections,
-          sectionCategories,
-          saveModelWithIDs
+          sectionCategories
         )
+
+        for (const item of items) {
+          await saveManuscriptModel(item)
+        }
       } else {
-        await createEmptyManuscriptSections(saveModelWithIDs)
+        const paragraph = createEmptyParagraph()
+
+        await saveManuscriptModel<ParagraphElement>(paragraph)
+
+        await saveManuscriptModel<Section>({
+          ...buildSection(),
+          elementIDs: [paragraph._id],
+        })
       }
 
-      // save the category
-      await saveCategory(item.template, saveModelWithIDs, manuscriptCategories)
+      await saveManuscriptModel(mergedTemplate)
 
-      // save the template
-      await saveTemplate(item.template, saveModelWithIDs, manuscriptTemplates)
+      // save any extra manuscripts
+      for (const sectionDescription of manuscriptSections) {
+        const sectionCategory = sectionCategories!.get(
+          sectionDescription.sectionCategory
+        )
 
-      // TODO: build/use the requirements object or merged template instead of dealing with parent templates?
+        const manuscriptTitle = chooseSectionTitle(
+          sectionDescription,
+          sectionCategory
+        )
 
-      // save the parent templates
-      await saveParentTemplates(
-        item.template,
-        saveModelWithIDs,
-        manuscriptTemplates
-      )
+        const extraManuscript = buildManuscript(manuscriptTitle)
 
-      // save any extra manuscript
-      await createExtraManuscripts(
-        manuscriptSections,
-        saveModel,
-        projectID,
-        item.template
-      )
+        const containerIDs = {
+          containerID: projectID,
+          manuscriptID: extraManuscript._id,
+        }
+
+        const { section, dependencies } = buildSectionFromDescription(
+          sectionDescription,
+          1,
+          sectionCategory
+        )
+
+        for (const dependency of dependencies) {
+          await collection.save(dependency, containerIDs)
+        }
+
+        await collection.save(section, containerIDs)
+
+        await saveContainedModel<Manuscript>({
+          ...extraManuscript,
+          bundle,
+          priority: nextManuscriptPriority++,
+        })
+      }
     }
 
-    await saveModelWithIDs(manuscript)
+    // save the manuscript
+    await saveContainedModel<Manuscript>(manuscript)
 
-    // TODO: copy CSL file, more shared data?
+    // NOTE: not saving the shared data to the project
+
+    history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
+
+    handleComplete()
+  }
+
+  private nextManuscriptPriority = async (
+    collection: Collection<Manuscript>
+  ): Promise<number> => {
+    const docs = await collection
+      .collection!.find({
+        objectType: ObjectTypes.Manuscript,
+      })
+      .exec()
+
+    const manuscripts = docs.map(doc => doc.toJSON())
+
+    const priority: number = manuscripts.length
+      ? Math.max(...manuscripts.map(manuscript => manuscript.priority || 1))
+      : 0
+
+    return priority + 1
+  }
+
+  private importManuscript = (db: Database) => async (models: Model[]) => {
+    const {
+      handleComplete,
+      history,
+      user,
+      projectID: possibleProjectID,
+    } = this.props
+
+    const newProject = possibleProjectID ? null : buildProject(user.userID)
+
+    const projectID = newProject ? newProject._id : possibleProjectID!
+
+    const collection = await this.createProjectCollection(db, projectID)
+
+    const manuscriptID = generateID(ObjectTypes.Manuscript)
+
+    // NOTE: using save rather than create until everything has a unique id
+    const saveContainedModel = <T extends Model>(data: Build<T>) =>
+      collection.save(data, {
+        containerID: projectID,
+      })
+
+    // NOTE: using save rather than create until everything has a unique id
+    const saveManuscriptModel = <T extends Model>(data: Build<T>) =>
+      collection.save(data, {
+        containerID: projectID,
+        manuscriptID,
+      })
+
+    if (newProject) {
+      const projectsCollection = this.openProjectsCollection()
+      await projectsCollection.create(newProject)
+    }
+
+    // TODO: save dependencies first, then the manuscript
+    // TODO: handle multiple manuscripts in a project bundle
+    for (const model of models) {
+      if (this.isManuscript(model)) {
+        model._id = manuscriptID
+        model.priority = await this.nextManuscriptPriority(
+          collection as Collection<Manuscript>
+        )
+      }
+
+      const { attachment, ...data } = model as Model & ModelAttachment
+
+      const result = isManuscriptModel(model)
+        ? await saveManuscriptModel<ManuscriptModel>(data)
+        : await saveContainedModel<ContainedModel>(data)
+
+      if (attachment) {
+        await collection.attach(result._id, attachment)
+      }
+    }
 
     history.push(`/projects/${projectID}/manuscripts/${manuscriptID}`)
 
     handleComplete()
   }
+
+  private isManuscript = (model: Model): model is Manuscript =>
+    model.objectType === ObjectTypes.Manuscript
 }
+
+export default withRouter(TemplateSelector)

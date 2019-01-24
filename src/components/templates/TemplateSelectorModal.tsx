@@ -1,11 +1,13 @@
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
-import { ManuscriptCategory } from '@manuscripts/manuscripts-json-schema'
+import { ManuscriptCategory, Model } from '@manuscripts/manuscripts-json-schema'
 import React, { Component } from 'react'
 import { VariableSizeList } from 'react-window'
 import { altoGrey } from '../../colors'
 import { styled, ThemedProps } from '../../theme'
 import { ResearchField, TemplateData } from '../../types/templates'
-import { PrimaryButton } from '../Button'
+import { Button, PrimaryButton } from '../Button'
+import { ModalContext } from '../ModalProvider'
+import { Importer } from '../projects/Importer'
 import { CloseButton } from '../SimpleModal'
 import { TemplateCategorySelector } from './TemplateCategorySelector'
 import { TemplateEmpty } from './TemplateEmpty'
@@ -69,8 +71,13 @@ const ModalBody = styled.div`
 
 const SidebarFooter = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   padding: 20px;
+
+  & button {
+    margin: 4px 0;
+    display: flex;
+  }
 `
 
 interface Props {
@@ -79,6 +86,7 @@ interface Props {
   researchFields: ResearchField[]
   projectID?: string
   handleComplete: () => void
+  importManuscript: (models: Model[]) => Promise<void>
   selectTemplate: (template?: TemplateData) => void
   createEmpty: () => void
 }
@@ -103,6 +111,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
       categories,
       createEmpty,
       handleComplete,
+      importManuscript,
       researchFields,
       selectTemplate,
     } = this.props
@@ -138,6 +147,23 @@ export class TemplateSelectorModal extends Component<Props, State> {
             />
 
             <SidebarFooter>
+              <ModalContext.Consumer>
+                {({ addModal }) => (
+                  <Button
+                    onClick={() =>
+                      addModal('importer', ({ handleClose }) => (
+                        <Importer
+                          handleComplete={handleClose}
+                          importManuscript={importManuscript}
+                        />
+                      ))
+                    }
+                  >
+                    Import manuscript from file
+                  </Button>
+                )}
+              </ModalContext.Consumer>
+
               <PrimaryButton onClick={createEmpty}>
                 Create empty manuscript
               </PrimaryButton>

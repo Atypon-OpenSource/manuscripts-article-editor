@@ -31,20 +31,22 @@ const Results = styled.div`
   overflow-y: auto;
 `
 
-interface LibraryItemsProps {
+interface Props {
   query: string
   handleQuery: (query: string) => void
   handleSelect: (item: BibliographyItem) => void
   hasItem: (item: BibliographyItem) => boolean
   items: BibliographyItem[]
+  projectID: string
 }
 
-export const LibraryItems: React.FunctionComponent<LibraryItemsProps> = ({
+export const LibraryItems: React.FunctionComponent<Props> = ({
   query,
   handleQuery,
   handleSelect,
   hasItem,
   items,
+  projectID,
 }) => (
   <Container>
     <SearchContainer>
@@ -57,7 +59,11 @@ export const LibraryItems: React.FunctionComponent<LibraryItemsProps> = ({
       />
     </SearchContainer>
 
-    <LibraryKeywords items={items} handleQuery={handleQuery} />
+    <LibraryKeywords
+      items={items}
+      handleQuery={handleQuery}
+      projectID={projectID}
+    />
 
     <Results>
       {items

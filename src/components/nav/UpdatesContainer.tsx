@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { CancelTokenSource } from 'axios'
 import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import config from '../../config'
@@ -41,6 +41,8 @@ export class UpdatesContainer extends React.Component<{}, State> {
 
   private requestInterval: number
 
+  private cancelSource: CancelTokenSource = axios.CancelToken.source()
+
   private nodeRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   public componentDidMount() {
@@ -54,6 +56,7 @@ export class UpdatesContainer extends React.Component<{}, State> {
   public componentWillUnmount() {
     window.clearInterval(this.requestInterval)
     this.removeClickListener()
+    this.cancelSource.cancel()
   }
 
   public render() {
@@ -107,24 +110,21 @@ export class UpdatesContainer extends React.Component<{}, State> {
   private fetchData = async () => {
     if (!config.discourse.host) return
 
-    try {
-      const response = await axios.get<{
-        posts: Post[]
-        topics: Topic[]
-      }>(`${config.discourse.host}/search.json`, {
-        params: {
-          q: 'category:updates order:latest_topic',
-        },
-      })
+    const response = await axios.get<{
+      posts: Post[]
+      topics: Topic[]
+    }>(`${config.discourse.host}/search.json`, {
+      params: {
+        q: 'category:updates order:latest_topic',
+      },
+      cancelToken: this.cancelSource.token,
+    })
 
-      if (response.data) {
-        const { posts, topics } = response.data
-        this.setState({ posts, topics, loaded: true })
-      } else {
-        this.setState({ error: 'No response' })
-      }
-    } catch (error) {
-      this.setState({ error })
+    if (response.data) {
+      const { posts, topics } = response.data
+      this.setState({ posts, topics, loaded: true })
+    } else {
+      this.setState({ error: 'No response' })
     }
   }
 

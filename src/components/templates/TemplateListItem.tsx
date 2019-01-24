@@ -120,7 +120,10 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
 
       <TemplateActions selected={selected}>
         <CreateButton
-          onClick={() => selectTemplate(item)}
+          onClick={event => {
+            event.stopPropagation()
+            selectTemplate(item)
+          }}
           data-cy={'create-button'}
         >
           Create

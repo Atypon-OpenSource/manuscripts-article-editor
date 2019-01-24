@@ -3,10 +3,10 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import CollaboratorsData from '../../data/CollaboratorsData'
 import InvitationsData from '../../data/InvitationsData'
 import ProjectsData from '../../data/ProjectsData'
 import UserData from '../../data/UserData'
-import UsersData from '../../data/UsersData'
 import { getCurrentUserId } from '../../lib/user'
 import MenuDropdown from './MenuDropdown'
 import ProjectsMenu from './ProjectsMenu'
@@ -35,8 +35,8 @@ class ProjectsDropdownButton extends React.Component<{}, State> {
     return (
       <UserData userID={getCurrentUserId()!}>
         {user => (
-          <UsersData>
-            {users => (
+          <CollaboratorsData>
+            {collaborators => (
               <ProjectsData>
                 {projects => (
                   <InvitationsData>
@@ -44,7 +44,7 @@ class ProjectsDropdownButton extends React.Component<{}, State> {
                       const invitationsData = this.buildInvitationData(
                         invitations,
                         user,
-                        users
+                        collaborators
                       )
 
                       return (
@@ -57,6 +57,7 @@ class ProjectsDropdownButton extends React.Component<{}, State> {
                             invitationsData={invitationsData}
                             projects={projects}
                             removeInvitationData={this.removeInvitationData}
+                            user={user}
                           />
                         </MenuDropdown>
                       )
@@ -65,7 +66,7 @@ class ProjectsDropdownButton extends React.Component<{}, State> {
                 )}
               </ProjectsData>
             )}
-          </UsersData>
+          </CollaboratorsData>
         )}
       </UserData>
     )
@@ -74,7 +75,7 @@ class ProjectsDropdownButton extends React.Component<{}, State> {
   private buildInvitationData = (
     invitations: ProjectInvitation[],
     user: UserProfile,
-    users: Map<string, UserProfile>
+    collaborators: Map<string, UserProfile>
   ) => {
     const { handledInvitations } = this.state
 
@@ -85,7 +86,7 @@ class ProjectsDropdownButton extends React.Component<{}, State> {
       if (invitation.invitingUserID === user.userID) continue // ignore invitee invitations
       if (handledInvitations.has(invitation._id)) continue // ignore handled invitations
 
-      const invitingUserProfile = users.get(invitation.invitingUserID)
+      const invitingUserProfile = collaborators.get(invitation.invitingUserID)
       if (!invitingUserProfile) continue // ignore missing invitee
 
       invitationsData.push({

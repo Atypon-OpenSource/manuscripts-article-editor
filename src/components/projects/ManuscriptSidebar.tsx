@@ -5,9 +5,11 @@ import {
   ManuscriptNode,
   OutlineManuscript,
   Selected,
+  UserProfileWithAvatar,
 } from '@manuscripts/manuscript-editor'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
+import { debounce } from 'lodash-es'
 import * as React from 'react'
 import { dustyGrey, manuscriptsBlue, powderBlue } from '../../colors'
 import { styled, ThemedProps } from '../../theme'
@@ -80,15 +82,24 @@ const StyledAddIcon = styled(AddIcon)`
   flex-shrink: 0;
 `
 
+const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
+  if (a.priority === b.priority) {
+    return a.createdAt - b.createdAt
+  }
+
+  return Number(a.priority) - Number(b.priority)
+}
+
 interface Props {
   openTemplateSelector: () => void
   manuscript: Manuscript
   manuscripts: Manuscript[]
   project: Project
-  saveProject: (project: Project) => Promise<void>
+  saveProjectTitle: (title: string) => Promise<Project>
   selected: Selected | null
-  view: ManuscriptEditorView | null
-  doc: ManuscriptNode | null
+  view?: ManuscriptEditorView
+  doc?: ManuscriptNode
+  user: UserProfileWithAvatar
 }
 
 const ManuscriptSidebar: React.FunctionComponent<Props> = ({
@@ -98,8 +109,9 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   manuscripts,
   view,
   project,
-  saveProject,
+  saveProjectTitle,
   selected,
+  user,
 }) => (
   <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
     <Sidebar>
@@ -108,22 +120,22 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
           <TitleField
             id={'project-title-field'}
             value={project.title || ''}
-            handleChange={async title => {
-              await saveProject({ ...project, title })
-            }}
+            handleChange={debounce(async title => {
+              await saveProjectTitle(title)
+            }, 1000)}
           />
         </ProjectTitle>
-        <ShareProjectButton project={project} />
+        <ShareProjectButton project={project} user={user} />
       </SidebarHeader>
 
       <SidebarContent>
-        {manuscripts.map(item => (
+        {manuscripts.sort(lowestPriorityFirst).map(item => (
           <SidebarManuscript key={item._id}>
             {item._id === manuscript._id ? (
               <DebouncedManuscriptOutlineContainer
                 manuscript={manuscript}
-                doc={doc}
-                view={view}
+                doc={doc || null}
+                view={view || null}
                 selected={selected}
               />
             ) : (

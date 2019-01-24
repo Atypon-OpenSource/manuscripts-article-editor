@@ -2,25 +2,27 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
+import DatabaseProvider from './components/DatabaseProvider'
+import IntlProvider from './components/IntlProvider'
 import { ModalProvider } from './components/ModalProvider'
+import { databaseCreator } from './lib/db'
 import './lib/fonts'
 import './lib/sentry'
 import './lib/service-worker'
-import IntlProvider from './store/IntlProvider'
-import ModelsProvider from './store/ModelsProvider'
-import { ThemeProvider } from './theme'
+import { GlobalStyle, ThemeProvider } from './theme'
 
 ReactDOM.render(
-  <ModelsProvider>
-    <IntlProvider>
-      <ThemeProvider>
-        <BrowserRouter>
+  <IntlProvider>
+    <ThemeProvider>
+      <BrowserRouter>
+        <DatabaseProvider databaseCreator={databaseCreator}>
           <ModalProvider>
+            <GlobalStyle />
             <App />
           </ModalProvider>
-        </BrowserRouter>
-      </ThemeProvider>
-    </IntlProvider>
-  </ModelsProvider>,
+        </DatabaseProvider>
+      </BrowserRouter>
+    </ThemeProvider>
+  </IntlProvider>,
   document.getElementById('root')
 )

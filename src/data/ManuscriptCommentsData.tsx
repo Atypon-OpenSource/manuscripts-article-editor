@@ -3,36 +3,43 @@ import {
   CommentAnnotation,
 } from '@manuscripts/manuscript-editor'
 import React from 'react'
-import { RxCollection } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { Spinner } from '../components/Spinner'
-import { ModelsProps, withModels } from '../store/ModelsProvider'
+import CollectionManager from '../sync/CollectionManager'
+import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (comments: CommentAnnotation[]) => React.ReactNode
+  children: (data: CommentAnnotation[]) => React.ReactNode
   manuscriptID: string
   projectID: string
 }
 
 interface State {
-  comments?: CommentAnnotation[]
+  data?: CommentAnnotation[]
 }
 
-class ManuscriptCommentsData extends React.Component<
-  Props & ModelsProps,
+class ManuscriptCommentsData extends DataComponent<
+  CommentAnnotation,
+  Props,
   State
 > {
-  public state: Readonly<State> = {}
+  public constructor(props: Props) {
+    super(props)
 
-  private sub: Subscription
+    this.state = {}
+
+    this.collection = CollectionManager.getCollection<CommentAnnotation>(
+      `project-${props.projectID}`
+    )
+  }
 
   public componentDidMount() {
     const { projectID, manuscriptID } = this.props
 
-    this.sub = this.loadComments(projectID, manuscriptID)
+    this.collection.addEventListener('complete', this.handleComplete)
+
+    this.sub = this.subscribe(projectID, manuscriptID)
   }
 
-  public componentWillReceiveProps(nextProps: Props & ModelsProps) {
+  public componentWillReceiveProps(nextProps: Props) {
     const { projectID, manuscriptID } = nextProps
 
     if (
@@ -40,31 +47,27 @@ class ManuscriptCommentsData extends React.Component<
       projectID !== this.props.projectID
     ) {
       this.sub.unsubscribe()
-      this.setState({ comments: undefined })
-      this.sub = this.loadComments(projectID, manuscriptID)
+      this.setState({ data: undefined })
+
+      if (projectID !== this.props.projectID) {
+        this.collection.removeEventListener('complete', this.handleComplete)
+        this.collection = CollectionManager.getCollection<CommentAnnotation>(
+          `project-${projectID}`
+        )
+        this.collection.addEventListener('complete', this.handleComplete)
+      }
+
+      this.sub = this.subscribe(projectID, manuscriptID)
     }
   }
 
   public componentWillUnmount() {
+    this.collection.removeEventListener('complete', this.handleComplete)
     this.sub.unsubscribe()
   }
 
-  public render() {
-    const { comments } = this.state
-
-    if (!comments) {
-      return <Spinner />
-    }
-
-    return this.props.children(comments)
-  }
-
-  private loadComments = (containerID: string, manuscriptID: string) => {
-    const collection = this.props.models.collection as RxCollection<
-      CommentAnnotation
-    >
-
-    return collection
+  private subscribe = (containerID: string, manuscriptID: string) =>
+    this.collection
       .find({
         containerID,
         manuscriptID,
@@ -74,11 +77,10 @@ class ManuscriptCommentsData extends React.Component<
       .$.subscribe(docs => {
         if (docs) {
           this.setState({
-            comments: docs.map(doc => doc.toJSON()),
+            data: docs.map(doc => doc.toJSON()),
           })
         }
       })
-  }
 }
 
-export default withModels<Props>(ManuscriptCommentsData)
+export default ManuscriptCommentsData

@@ -1,7 +1,4 @@
-import {
-  buildUserProfileAffiliation,
-  UserProfileWithAvatar,
-} from '@manuscripts/manuscript-editor'
+import { buildUserProfileAffiliation } from '@manuscripts/manuscript-editor'
 import {
   UserProfile,
   UserProfileAffiliation,
@@ -12,29 +9,40 @@ import { RouteComponentProps } from 'react-router'
 import UserAffiliationsData from '../../data/UserAffiliationsData'
 import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
+import { Collection } from '../../sync/Collection'
 import { ProfileErrors, ProfileValues } from './ProfileForm'
 import ProfilePage from './ProfilePage'
 
-class ProfilePageContainer extends React.Component<
-  RouteComponentProps & ModelsProps
-> {
+class ProfilePageContainer extends React.Component<RouteComponentProps> {
   public render() {
     return (
       <UserData userID={getCurrentUserId()!}>
-        {user => (
+        {(user, userCollection) => (
           <UserAffiliationsData profileID={user._id}>
-            {affiliations => (
+            {(affiliations, affiliationsCollection) => (
               <ProfilePage
                 userWithAvatar={user}
                 affiliationsMap={affiliations}
-                handleSave={this.handleSave(user)}
+                handleSave={this.handleSave(
+                  user,
+                  userCollection,
+                  affiliationsCollection
+                )}
                 handleChangePassword={this.handleChangePassword}
                 handleDeleteAccount={this.handleDeleteAccount}
                 handleClose={this.handleClose}
-                saveUserProfileAvatar={this.saveUserProfileAvatar(user._id)}
-                deleteUserProfileAvatar={this.deleteUserProfileAvatar(user._id)}
-                createAffiliation={this.createAffiliation(user._id)}
+                saveUserProfileAvatar={this.saveUserProfileAvatar(
+                  user._id,
+                  userCollection
+                )}
+                deleteUserProfileAvatar={this.deleteUserProfileAvatar(
+                  user._id,
+                  userCollection
+                )}
+                createAffiliation={this.createAffiliation(
+                  user._id,
+                  affiliationsCollection
+                )}
               />
             )}
           </UserAffiliationsData>
@@ -43,27 +51,28 @@ class ProfilePageContainer extends React.Component<
     )
   }
 
-  private handleSave = (user: UserProfile) => async (
+  private handleSave = (
+    user: UserProfile,
+    userCollection: Collection<UserProfile>,
+    affiliationsCollection: Collection<UserProfileAffiliation>
+  ) => async (
     values: ProfileValues,
     { setSubmitting, setErrors }: FormikActions<ProfileValues | ProfileErrors>
   ) => {
-    await Promise.all(
-      values.affiliations.map((item: UserProfileAffiliation) =>
-        this.props.models.saveModel<UserProfileAffiliation>(item, {
-          userProfileID: user._id,
-        })
-      )
-    )
+    // await Promise.all(
+    //   values.affiliations.map((item: UserProfileAffiliation) =>
+    //     affiliationsCollection.save(item, {
+    //       containerID: user._id,
+    //     })
+    //   )
+    // )
 
-    // TODO: remove avatar property?
-
-    const userProfile = {
-      ...user,
+    const data = {
       ...values,
       affiliations: values.affiliations.map(item => item._id),
     }
 
-    this.props.models.saveModel<UserProfileWithAvatar>(userProfile, {}).then(
+    userCollection.update(user._id, data).then(
       () => setSubmitting(false),
       error => {
         setSubmitting(false)
@@ -86,30 +95,41 @@ class ProfilePageContainer extends React.Component<
 
   private handleClose = () => this.props.history.goBack()
 
-  private createAffiliation = (userProfileID: string) => async (
-    institution: string
-  ) => {
+  private createAffiliation = (
+    containerID: string,
+    affiliationsCollection: Collection<UserProfileAffiliation>
+  ) => (institution: string) => {
     const userProfileAffiliation = buildUserProfileAffiliation(institution)
 
-    return this.props.models.saveModel<UserProfileAffiliation>(
-      userProfileAffiliation,
-      {
-        userProfileID,
-      }
-    )
+    return affiliationsCollection.create(userProfileAffiliation, {
+      containerID,
+    })
   }
 
-  private saveUserProfileAvatar = (id: string) => async (data: Blob) => {
-    await this.props.models.putAttachment(id, {
+  private saveUserProfileAvatar = (
+    id: string,
+    userCollection: Collection<UserProfile>
+  ) => (data: Blob) =>
+    userCollection.attach(id, {
       id: 'image',
       type: data.type,
       data,
     })
-  }
 
-  private deleteUserProfileAvatar = (id: string) => async () => {
-    await this.props.models.deleteAttachment(id)
+  private deleteUserProfileAvatar = (
+    id: string,
+    userCollection: Collection<UserProfile>
+  ) => async () => {
+    const doc = await userCollection.findOne(id).exec()
+
+    if (!doc) {
+      throw new Error('Document not found')
+    }
+
+    const attachment = await doc.getAttachment('image')
+
+    return attachment.remove()
   }
 }
 
-export default withModels(ProfilePageContainer)
+export default ProfilePageContainer

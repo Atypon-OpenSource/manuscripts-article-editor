@@ -1,7 +1,7 @@
 import { stringify } from 'qs'
 import config from '../../config'
 import client from '../client'
-import deviceId from '../deviceId'
+import deviceId from '../device-id'
 
 export const signup = (
   name: string,

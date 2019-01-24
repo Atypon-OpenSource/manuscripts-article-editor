@@ -3,59 +3,50 @@ import {
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { Spinner } from '../components/Spinner'
-import { ModelsProps, withModels } from '../store/ModelsProvider'
+import CollectionManager from '../sync/CollectionManager'
+import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (invitations: ProjectInvitation[]) => React.ReactNode
+  children: (data: ProjectInvitation[]) => React.ReactNode
 }
 
 interface State {
-  invitations?: ProjectInvitation[]
+  data?: ProjectInvitation[]
 }
 
-class InvitationsData extends React.Component<ModelsProps & Props, State> {
-  public state: Readonly<State> = {}
+class InvitationsData extends DataComponent<ProjectInvitation, Props, State> {
+  public constructor(props: Props) {
+    super(props)
 
-  private sub: Subscription
+    this.state = {}
+
+    this.collection = CollectionManager.getCollection<ProjectInvitation>(
+      'user' /* 'invitations' */
+    )
+  }
 
   public componentDidMount() {
-    this.sub = this.loadInvitations()
+    this.collection.addEventListener('complete', this.handleComplete)
+    this.sub = this.subscribe()
   }
 
   public componentWillUnmount() {
+    this.collection.removeEventListener('complete', this.handleComplete)
     this.sub.unsubscribe()
   }
 
-  public render() {
-    const { invitations } = this.state
-
-    if (!invitations) {
-      return <Spinner />
-    }
-
-    return this.props.children(invitations)
-  }
-
-  private loadInvitations = () => {
-    const collection = this.props.models.collection as RxCollection<
-      ProjectInvitation
-    >
-
-    return collection
+  private subscribe = () =>
+    this.collection
       .find({
         objectType: ObjectTypes.ProjectInvitation,
       })
       .$.subscribe(docs => {
         if (docs) {
           this.setState({
-            invitations: docs.map(doc => doc.toJSON()),
+            data: docs.map(doc => doc.toJSON()),
           })
         }
       })
-  }
 }
 
-export default withModels<Props>(InvitationsData)
+export default InvitationsData

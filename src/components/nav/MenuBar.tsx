@@ -58,7 +58,7 @@ class MenuBar extends React.Component<Props, State> {
           style={modalStyle}
         >
           <Menu handleClose={this.handleClose} projectID={projectID} />
-          <ProjectsSidebar />
+          <ProjectsSidebar closeModal={this.handleClose} />
         </Modal>
       </React.Fragment>
     )

@@ -6,6 +6,7 @@ import { InvitationPopper } from '../src/components/collaboration/InvitationPopp
 import ShareProjectButton from '../src/components/collaboration/ShareProjectButton'
 import { ShareURIPopper } from '../src/components/collaboration/ShareURIPopper'
 import { styled } from '../src/theme'
+import { user } from './data/contributors'
 
 const PopperStory = styled.div`
   width: 400px;
@@ -42,7 +43,7 @@ storiesOf('Collaboration/Invitation', module)
     </PopperStory>
   ))
   .add('Share Project Button', () => (
-    <ShareProjectButton project={project as Project} />
+    <ShareProjectButton project={project as Project} user={user} />
   ))
   .add('Share Link: loading', () => (
     <PopperStory>

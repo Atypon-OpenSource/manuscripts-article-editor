@@ -3,77 +3,84 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { Spinner } from '../components/Spinner'
-import { ModelsProps, withModels } from '../store/ModelsProvider'
+import { Collection } from '../sync/Collection'
+import CollectionManager from '../sync/CollectionManager'
+import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (items: Map<string, BibliographyItem>) => React.ReactNode
+  children: (
+    data: Map<string, BibliographyItem>,
+    collection: Collection<BibliographyItem>
+  ) => React.ReactNode
   projectID: string
 }
 
 interface State {
-  items?: Map<string, BibliographyItem>
+  data?: Map<string, BibliographyItem>
 }
 
-class ProjectLibraryData extends React.Component<ModelsProps & Props, State> {
-  public state: Readonly<State> = {}
+class ProjectLibraryData extends DataComponent<BibliographyItem, Props, State> {
+  public constructor(props: Props) {
+    super(props)
 
-  private sub: Subscription
+    this.state = {}
+
+    this.collection = CollectionManager.getCollection<BibliographyItem>(
+      `project-${props.projectID}`
+    )
+  }
 
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.sub = this.loadItems(projectID)
+    this.collection.addEventListener('complete', this.handleComplete)
+
+    this.sub = this.subscribe(projectID)
   }
 
-  public componentWillReceiveProps(nextProps: Props & ModelsProps) {
+  public componentWillReceiveProps(nextProps: Props) {
     const { projectID } = nextProps
 
     if (projectID !== this.props.projectID) {
       this.sub.unsubscribe()
-      this.setState({ items: undefined })
-      this.sub = this.loadItems(projectID)
+
+      this.setState({ data: undefined })
+
+      this.collection.addEventListener('complete', this.handleComplete)
+
+      this.collection = CollectionManager.getCollection<BibliographyItem>(
+        `project-${projectID}`
+      )
+
+      this.collection.removeEventListener('complete', this.handleComplete)
+
+      this.sub = this.subscribe(projectID)
     }
   }
 
   public componentWillUnmount() {
+    this.collection.removeEventListener('complete', this.handleComplete)
+
     this.sub.unsubscribe()
   }
 
-  public render() {
-    const { items } = this.state
-
-    if (!items) {
-      return <Spinner />
-    }
-
-    return this.props.children(items)
-  }
-
-  private loadItems = (containerID: string) => {
-    const collection = this.props.models.collection as RxCollection<
-      BibliographyItem
-    >
-
-    return collection
+  private subscribe = (containerID: string) =>
+    this.collection
       .find({
         containerID,
         objectType: ObjectTypes.BibliographyItem,
       })
       .$.subscribe(docs => {
         if (docs) {
-          const items: Map<string, BibliographyItem> = new Map()
+          const data: Map<string, BibliographyItem> = new Map()
 
           for (const doc of docs) {
-            items.set(doc._id, doc.toJSON())
+            data.set(doc._id, doc.toJSON())
           }
 
-          this.setState({ items })
+          this.setState({ data })
         }
       })
-  }
 }
 
-export default withModels<Props>(ProjectLibraryData)
+export default ProjectLibraryData

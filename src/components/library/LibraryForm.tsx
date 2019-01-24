@@ -1,19 +1,15 @@
 import { buildKeyword } from '@manuscripts/manuscript-editor'
-import { BibliographyItem, Keyword } from '@manuscripts/manuscripts-json-schema'
-import { TitleField } from '@manuscripts/title-editor'
 import {
-  Field,
-  FieldArray,
-  FieldProps,
-  Form,
-  Formik,
-  FormikProps,
-} from 'formik'
+  BibliographicName,
+  BibliographyItem,
+  Keyword,
+} from '@manuscripts/manuscripts-json-schema'
+import { TitleField } from '@manuscripts/title-editor'
+import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import * as React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
 import ProjectKeywordsData from '../../data/ProjectKeywordsData'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled } from '../../theme'
 import { DangerButton, PrimaryButton, ThemedButtonProps } from '../Button'
 
@@ -142,8 +138,8 @@ interface OptionType {
 
 interface Props {
   item: BibliographyItem
-  handleDelete?: (item: Partial<BibliographyItem>) => void
-  handleSave: (item: Partial<BibliographyItem>) => void
+  handleDelete?: (item: BibliographyItem) => void
+  handleSave: (item: BibliographyItem) => void
   projectID: string
 }
 
@@ -160,9 +156,15 @@ const buildOptions = (data: Map<string, Keyword>) => {
   return options
 }
 
-const buildInitialValues = (
-  item: BibliographyItem
-): Partial<BibliographyItem> => ({
+interface LibraryFormValues {
+  _id: string
+  title?: string
+  author?: BibliographicName[]
+  keywordIDs?: string[]
+  DOI?: string
+}
+
+const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
   _id: item._id,
   title: item.title,
   author: item.author,
@@ -172,31 +174,26 @@ const buildInitialValues = (
 
 // TODO: a "manage tags" page, where old tags can be deleted
 
-const LibraryForm: React.FunctionComponent<Props & ModelsProps> = ({
+const LibraryForm: React.FunctionComponent<Props> = ({
   item,
   handleSave,
   handleDelete,
-  models,
   projectID,
 }) => (
   <ProjectKeywordsData projectID={projectID}>
-    {keywords => (
-      <Formik
+    {(keywords, keywordActions) => (
+      <Formik<LibraryFormValues>
         initialValues={buildInitialValues(item)}
         onSubmit={handleSave}
         enableReinitialize={true}
       >
-        {({
-          values,
-          setFieldValue,
-          handleChange,
-        }: FormikProps<BibliographyItem>) => (
+        {({ values, setFieldValue, handleChange }) => (
           <Form>
             <Fields>
               <TitleContainer>
                 <StyledTitleField
                   value={values.title || ''}
-                  handleChange={(data: string) => setFieldValue('title', data)}
+                  handleChange={data => setFieldValue('title', data)}
                 />
               </TitleContainer>
 
@@ -269,8 +266,8 @@ const LibraryForm: React.FunctionComponent<Props & ModelsProps> = ({
 
                               const keyword = buildKeyword(String(option.label))
 
-                              await models.saveModel<Keyword>(keyword, {
-                                projectID,
+                              await keywordActions.create(keyword, {
+                                containerID: projectID,
                               })
 
                               return keyword._id
@@ -279,10 +276,10 @@ const LibraryForm: React.FunctionComponent<Props & ModelsProps> = ({
                         )
                       }}
                       options={buildOptions(keywords)}
-                      value={(props.field.value || [])
-                        .filter((id: string) => keywords.has(id))
-                        .map((id: string) => keywords.get(id))
-                        .map((item: Keyword) => ({
+                      value={(props.field.value as string[])
+                        .filter(id => keywords.has(id))
+                        .map(id => keywords.get(id)!)
+                        .map(item => ({
                           value: item._id,
                           label: item.name,
                         }))}
@@ -318,4 +315,4 @@ const LibraryForm: React.FunctionComponent<Props & ModelsProps> = ({
   </ProjectKeywordsData>
 )
 
-export default withModels<Props>(LibraryForm)
+export default LibraryForm

@@ -10,8 +10,7 @@ import { Redirect, RouteComponentProps } from 'react-router'
 import { addProjectUser, projectInvite } from '../../lib/api'
 import { buildCollaborators } from '../../lib/collaborators'
 import { isOwner } from '../../lib/roles'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { Main, Page } from '../Page'
+import { Main } from '../Page'
 import Panel from '../Panel'
 import AddCollaboratorsSidebar from './AddCollaboratorsSidebar'
 import {
@@ -37,11 +36,10 @@ interface Props {
   project: Project
   projects: Project[]
   user: UserProfileWithAvatar
-  users: Map<string, UserProfileWithAvatar>
+  collaborators: Map<string, UserProfileWithAvatar>
 }
 
 type CombinedProps = Props &
-  ModelsProps &
   RouteComponentProps<{
     projectID: string
   }>
@@ -90,7 +88,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     }
 
     return (
-      <Page project={project}>
+      <>
         <Panel
           name={'collaborators-sidebar'}
           direction={'row'}
@@ -107,7 +105,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
         <Main>
           <InviteCollaboratorsPage project={project} />
         </Main>
-      </Page>
+      </>
     )
   }
 
@@ -119,7 +117,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     const { addedCollaboratorsCount, searchText, addedUsers } = this.state
 
     return (
-      <Page project={project}>
+      <>
         <Panel
           name={'add-collaborators-sidebar'}
           direction={'row'}
@@ -151,28 +149,28 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
             />
           )}
         </Main>
-      </Page>
+      </>
     )
   }
 
   private buildPeople = () => {
     const { projectID } = this.props.match.params
 
-    const { project, projects, users } = this.props
+    const { project, projects, collaborators } = this.props
 
     const otherProjects = projects.filter(project => project._id !== projectID)
 
-    const projectCollaborators = buildCollaborators(project, users)
+    const projectCollaborators = buildCollaborators(project, collaborators)
 
-    const collaborators: UserProfile[] = []
+    const otherProjectCollaborators: UserProfile[] = []
 
     for (const otherProject of otherProjects) {
-      const otherCollaborators = buildCollaborators(otherProject, users)
+      const otherCollaborators = buildCollaborators(otherProject, collaborators)
 
-      collaborators.push(...otherCollaborators)
+      otherProjectCollaborators.push(...otherCollaborators)
     }
 
-    return difference(collaborators, projectCollaborators)
+    return difference(otherProjectCollaborators, projectCollaborators)
   }
 
   private addCollaborator = async (
@@ -226,4 +224,4 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withModels<Props>(CollaboratorPageContainer)
+export default CollaboratorPageContainer

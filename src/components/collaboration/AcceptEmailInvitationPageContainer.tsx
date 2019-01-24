@@ -1,22 +1,23 @@
 import { parse } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
-import Spinner from '../../icons/spinner'
+import invitationTokenHandler from '../../lib/invitation-token'
+import { Loading } from '../Loading'
+
+// TODO: what if the user's already signed in?
 
 class AcceptEmailInvitationPageContainer extends React.Component<
   RouteComponentProps
 > {
   public componentDidMount() {
-    window.localStorage.setItem('invitationToken', this.getInvitationToken())
+    const { token } = parse(window.location.hash.substr(1))
+    invitationTokenHandler.set(token)
     this.props.history.push('/signup')
   }
 
   public render() {
-    return <Spinner />
+    return <Loading />
   }
-
-  private getInvitationToken = (): string =>
-    parse(window.location.hash.substr(1)).token
 }
 
 export default AcceptEmailInvitationPageContainer

@@ -76,7 +76,7 @@ export const ProfileForm: React.FunctionComponent<Props> = ({
   handleSave,
   createAffiliation,
 }) => (
-  <Formik
+  <Formik<ProfileValues>
     initialValues={buildProfileValues(userWithAvatar, affiliationsMap)}
     onSubmit={handleSave}
   >

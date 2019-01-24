@@ -3,7 +3,6 @@ import React from 'react'
 import UserData from '../../data/UserData'
 import { isOwner, isWriter } from '../../lib/roles'
 import { getCurrentUserId } from '../../lib/user'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { ModalProps, withModal } from '../ModalProvider'
 import {
   DropdownElement,
@@ -17,9 +16,11 @@ interface Props {
   renameProject: () => void
 }
 
-const ProjectContextMenu: React.FunctionComponent<
-  Props & ModelsProps & ModalProps
-> = ({ project, deleteProject, renameProject }) => (
+const ProjectContextMenu: React.FunctionComponent<Props & ModalProps> = ({
+  project,
+  deleteProject,
+  renameProject,
+}) => (
   <UserData userID={getCurrentUserId()!}>
     {user => {
       const owner = isOwner(project, user.userID)
@@ -44,4 +45,4 @@ const ProjectContextMenu: React.FunctionComponent<
   </UserData>
 )
 
-export default withModal<Props>(withModels(ProjectContextMenu))
+export default withModal<Props>(ProjectContextMenu)

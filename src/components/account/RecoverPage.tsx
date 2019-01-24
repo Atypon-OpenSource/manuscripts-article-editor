@@ -10,7 +10,7 @@ const RecoverPage: React.FunctionComponent<FormikConfig<RecoverValues>> = ({
   onSubmit,
 }) => (
   <Centered>
-    <Formik
+    <Formik<RecoverValues>
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={true}

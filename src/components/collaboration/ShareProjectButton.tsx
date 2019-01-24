@@ -1,9 +1,8 @@
 import ShareProjectIcon from '@manuscripts/assets/react/Share'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import UserData from '../../data/UserData'
-import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
@@ -23,6 +22,7 @@ interface State {
 
 interface Props {
   project: Project
+  user: UserProfileWithAvatar
 }
 
 class ShareProjectButton extends React.Component<Props, State> {
@@ -37,6 +37,7 @@ class ShareProjectButton extends React.Component<Props, State> {
   }
 
   public render() {
+    const { project, user } = this.props
     const { isOpen } = this.state
 
     return (
@@ -59,15 +60,11 @@ class ShareProjectButton extends React.Component<Props, State> {
           >
             {(popperProps: PopperChildrenProps) => (
               <div ref={(node: HTMLDivElement) => (this.node = node)}>
-                <UserData userID={getCurrentUserId()!}>
-                  {user => (
-                    <ShareProjectPopperContainer
-                      project={this.props.project}
-                      popperProps={popperProps}
-                      user={user}
-                    />
-                  )}
-                </UserData>
+                <ShareProjectPopperContainer
+                  project={project}
+                  popperProps={popperProps}
+                  user={user}
+                />
               </div>
             )}
           </Popper>

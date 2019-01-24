@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Intl from 'react-intl'
-import Spinner from '../icons/spinner'
 import preferences from '../lib/preferences'
+import { Loading } from './Loading'
 
 // import client from './lib/client'
 
@@ -63,15 +63,18 @@ export interface IntlProps {
   intl: IntlProviderContext
 }
 
-export const IntlContext = React.createContext<IntlProviderContext | null>(null)
+export const IntlContext = React.createContext<IntlProviderContext>(
+  // tslint:disable-next-line:no-object-literal-type-assertion
+  {} as IntlProviderContext
+)
 
-export const withIntl = (
-  // tslint:disable-next-line:no-any
-  Component: React.ComponentType<any>
-  // tslint:disable-next-line:no-any
-): React.ComponentType<any> => (props: object) => (
+export const withIntl = <Props extends {}>(
+  Component: React.ComponentType<IntlProps>
+): React.ComponentType<Pick<Props, Exclude<keyof Props, IntlProps>>> => (
+  props: Props
+) => (
   <IntlContext.Consumer>
-    {value => <Component {...props} intl={value as IntlProviderContext} />}
+    {value => <Component {...props} intl={value} />}
   </IntlContext.Consumer>
 )
 
@@ -95,7 +98,7 @@ class IntlProvider extends React.Component<{}, State> {
     }
 
     if (loading) {
-      return <Spinner />
+      return <Loading />
     }
 
     const value = {

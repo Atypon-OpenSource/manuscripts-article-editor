@@ -18,7 +18,9 @@ export const ModalContext = React.createContext<ModalProps>({
 
 export const withModal = <Props extends {}>(
   Component: React.ComponentType<ModalProps>
-): React.ComponentType<Props> => (props: Props) => (
+): React.ComponentType<Pick<Props, Exclude<keyof Props, ModalProps>>> => (
+  props: Props
+) => (
   <ModalContext.Consumer>
     {value => <Component {...props} {...value} />}
   </ModalContext.Consumer>
@@ -39,24 +41,26 @@ const ModalContainer = styled.div`
 
 interface State {
   modals: Array<{ id: string; modal: ModalComponent }>
-  value: ModalProps
 }
 
 export class ModalProvider extends React.Component<{}, State> {
+  private value: ModalProps
+
   public constructor(props: {}) {
     super(props)
 
+    this.value = {
+      addModal: this.addModal,
+    }
+
     this.state = {
       modals: [],
-      value: {
-        addModal: this.addModal,
-      },
     }
   }
 
   public render() {
     return (
-      <ModalContext.Provider value={this.state.value}>
+      <ModalContext.Provider value={this.value}>
         {this.props.children}
         {this.renderModal()}
       </ModalContext.Provider>
@@ -78,20 +82,12 @@ export class ModalProvider extends React.Component<{}, State> {
   }
 
   private renderModal = () => {
-    const { modals } = this.state
-
-    if (!modals.length) {
-      return null
-    }
-
-    const { id, modal } = modals[modals.length - 1]
-
-    return (
-      <ModalContainer>
+    return this.state.modals.map(({ id, modal }) => (
+      <ModalContainer key={id}>
         {modal({
           handleClose: () => this.closeModal(id),
         })}
       </ModalContainer>
-    )
+    ))
   }
 }

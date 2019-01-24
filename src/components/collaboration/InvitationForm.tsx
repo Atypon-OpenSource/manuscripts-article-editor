@@ -3,7 +3,6 @@ import {
   FieldProps,
   Form,
   Formik,
-  FormikActions,
   FormikErrors,
   FormikProps,
 } from 'formik'
@@ -32,10 +31,26 @@ const AlertMessageContainer = styled.div`
   margin-bottom: 9px;
 `
 
+const errorResponseMessage = (status: number) => {
+  switch (status) {
+    case HttpStatusCodes.BAD_REQUEST:
+      return 'You are already a collaborator on this project.'
+
+    case HttpStatusCodes.CONFLICT:
+      return 'The invited user is already a collaborator on this project.'
+    default:
+      return 'Sending invitation failed.'
+  }
+}
+
 export interface InvitationValues {
   name: string
   email: string
   role: string
+}
+
+interface InvitationErrors {
+  submit?: string
 }
 
 interface Props {
@@ -46,10 +61,6 @@ interface Props {
 
 interface State {
   invitationSent: boolean
-}
-
-export interface InvitationErrors {
-  submit?: string
 }
 
 export class InvitationForm extends React.Component<Props, State> {
@@ -64,13 +75,28 @@ export class InvitationForm extends React.Component<Props, State> {
   }
 
   public render() {
-    const { allowSubmit, invitationValues } = this.props
+    const { allowSubmit, handleSubmit, invitationValues } = this.props
 
     const { invitationSent } = this.state
 
     return (
-      <Formik
-        onSubmit={this.handleSubmit}
+      <Formik<InvitationValues>
+        onSubmit={async (values, actions) => {
+          try {
+            await handleSubmit(values)
+            this.setState({ invitationSent: true })
+          } catch (error) {
+            const errors: FormikErrors<InvitationValues & InvitationErrors> = {}
+
+            errors.submit = error.response
+              ? errorResponseMessage(error.response.status)
+              : 'There was an error submitting the form.'
+
+            actions.setErrors(errors)
+          } finally {
+            actions.setSubmitting(false)
+          }
+        }}
         initialValues={invitationValues || this.initialValues}
         isInitialValid={true}
         validateOnChange={false}
@@ -220,37 +246,9 @@ export class InvitationForm extends React.Component<Props, State> {
     )
   }
 
-  private dismissSuccessAlert = () => this.setState({ invitationSent: false })
-
-  private handleSubmit = async (
-    values: InvitationValues,
-    actions: FormikActions<InvitationValues | InvitationErrors>
-  ) => {
-    try {
-      await this.props.handleSubmit(values)
-      this.setState({ invitationSent: true })
-    } catch (error) {
-      const errors: FormikErrors<InvitationErrors> = {}
-
-      if (error.response) {
-        errors.submit = this.errorResponseMessage(error.response.status)
-      }
-
-      actions.setErrors(errors)
-    } finally {
-      actions.setSubmitting(false)
-    }
-  }
-
-  private errorResponseMessage = (status: number) => {
-    switch (status) {
-      case HttpStatusCodes.BAD_REQUEST:
-        return 'You are already a collaborator on this project.'
-
-      case HttpStatusCodes.CONFLICT:
-        return 'The invited user is already a collaborator on this project.'
-      default:
-        return 'Sending invitation failed.'
-    }
+  private dismissSuccessAlert = () => {
+    this.setState({
+      invitationSent: false,
+    })
   }
 }

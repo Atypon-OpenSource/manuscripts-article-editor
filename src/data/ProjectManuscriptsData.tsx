@@ -1,61 +1,64 @@
 import { Manuscript, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { Spinner } from '../components/Spinner'
-import { ModelsProps, withModels } from '../store/ModelsProvider'
+import CollectionManager from '../sync/CollectionManager'
+import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (manuscripts: Manuscript[]) => React.ReactNode
+  children: (data: Manuscript[]) => React.ReactNode
   projectID: string
 }
 
 interface State {
-  manuscripts?: Manuscript[]
+  data?: Manuscript[]
 }
 
-class ProjectManuscriptsData extends React.Component<
-  ModelsProps & Props,
-  State
-> {
-  public state: Readonly<State> = {}
+class ProjectManuscriptsData extends DataComponent<Manuscript, Props, State> {
+  public constructor(props: Props) {
+    super(props)
 
-  private sub: Subscription
+    this.state = {}
+
+    this.collection = CollectionManager.getCollection<Manuscript>(
+      `project-${props.projectID}`
+    )
+  }
 
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.sub = this.loadManuscripts(projectID)
+    this.collection.addEventListener('complete', this.handleComplete)
+
+    this.sub = this.subscribe(projectID)
   }
 
-  public componentWillReceiveProps(nextProps: Props & ModelsProps) {
+  public componentWillReceiveProps(nextProps: Props) {
     const { projectID } = nextProps
 
     if (projectID !== this.props.projectID) {
       this.sub.unsubscribe()
-      this.setState({ manuscripts: undefined })
-      this.sub = this.loadManuscripts(projectID)
+
+      this.setState({ data: undefined })
+
+      this.collection.removeEventListener('complete', this.handleComplete)
+
+      this.collection = CollectionManager.getCollection<Manuscript>(
+        `project-${projectID}`
+      )
+
+      this.collection.addEventListener('complete', this.handleComplete)
+
+      this.sub = this.subscribe(projectID)
     }
   }
 
   public componentWillUnmount() {
+    this.collection.removeEventListener('complete', this.handleComplete)
+
     this.sub.unsubscribe()
   }
 
-  public render() {
-    const { manuscripts } = this.state
-
-    if (!manuscripts) {
-      return <Spinner />
-    }
-
-    return this.props.children(manuscripts)
-  }
-
-  private loadManuscripts = (containerID: string) => {
-    const collection = this.props.models.collection as RxCollection<Manuscript>
-
-    return collection
+  private subscribe = (containerID: string) =>
+    this.collection
       .find({
         containerID,
         objectType: ObjectTypes.Manuscript,
@@ -63,11 +66,10 @@ class ProjectManuscriptsData extends React.Component<
       .$.subscribe(docs => {
         if (docs) {
           this.setState({
-            manuscripts: docs.map(doc => doc.toJSON()),
+            data: docs.map(doc => doc.toJSON()),
           })
         }
       })
-  }
 }
 
-export default withModels<Props>(ProjectManuscriptsData)
+export default ProjectManuscriptsData

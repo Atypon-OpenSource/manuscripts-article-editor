@@ -1,7 +1,7 @@
 import { stringify } from 'qs'
 import React from 'react'
 import config from '../../config'
-import deviceId from '../../lib/deviceId'
+import deviceId from '../../lib/device-id'
 import { AuthenticationButtonProps } from './Authentication'
 
 export type AuthProvider = 'google' | 'orcid'

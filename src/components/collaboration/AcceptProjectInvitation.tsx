@@ -1,8 +1,6 @@
-import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection } from 'rxdb'
 import { acceptProjectInvitation } from '../../lib/api'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
+import invitationTokenHandler from '../../lib/invitation-token'
 import {
   AcceptInvitationError,
   AcceptInvitationSuccess,
@@ -10,56 +8,43 @@ import {
 
 interface State {
   accepted?: boolean
+  error?: Error
 }
 
-class AcceptProjectInvitation extends React.Component<ModelsProps, State> {
+// TODO: require a button press to accept the invitation?
+// TODO: allow the invitation to be declined?
+// TODO: allow retry if there's an error?
+
+class AcceptProjectInvitation extends React.Component<{}, State> {
   public state: Readonly<State> = {}
 
   public async componentDidMount() {
-    const invitationId = window.localStorage.getItem('invitationToken')
+    const invitationId = invitationTokenHandler.get()
 
     if (invitationId) {
-      const invitation = await this.loadInvitation(invitationId)
+      invitationTokenHandler.remove()
 
-      window.localStorage.removeItem('invitationToken')
+      try {
+        await acceptProjectInvitation(invitationId)
 
-      if (invitation) {
-        try {
-          await acceptProjectInvitation(invitation._id)
-
-          this.setState({
-            accepted: true,
-          })
-        } catch {
-          this.setState({
-            accepted: false,
-          })
-        }
-      } else {
         this.setState({
-          accepted: false,
+          accepted: true,
         })
+      } catch (error) {
+        this.setState({ error })
       }
     }
   }
 
   public render() {
-    const { accepted } = this.state
+    const { accepted, error } = this.state
 
-    if (accepted === undefined) return null
+    if (error) {
+      return <AcceptInvitationError />
+    }
 
-    return accepted ? <AcceptInvitationSuccess /> : <AcceptInvitationError />
-  }
-
-  private loadInvitation = async (id: string) => {
-    const collection = this.props.models.collection as RxCollection<
-      ProjectInvitation
-    >
-
-    const doc = await collection.findOne(id).exec()
-
-    return doc ? doc.toJSON() : null
+    return accepted ? <AcceptInvitationSuccess /> : null
   }
 }
 
-export default withModels<{}>(AcceptProjectInvitation)
+export default AcceptProjectInvitation

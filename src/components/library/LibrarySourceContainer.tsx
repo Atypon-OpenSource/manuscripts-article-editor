@@ -1,7 +1,6 @@
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Field, Form, Formik } from 'formik'
 import React, { CSSProperties } from 'react'
-import { RouteProps } from 'react-router'
 import { LibrarySource } from '../../lib/sources'
 import { styled } from '../../theme'
 import { PrimaryButton } from '../Button'
@@ -50,10 +49,7 @@ interface Props {
   hasItem: (item: BibliographyItem) => boolean
 }
 
-class LibrarySourceContainer extends React.Component<
-  Props & RouteProps,
-  State
-> {
+class LibrarySourceContainer extends React.Component<Props, State> {
   public state: Readonly<State> = {
     items: [],
     query: '',
@@ -62,13 +58,28 @@ class LibrarySourceContainer extends React.Component<
   public render() {
     const { items, query } = this.state
 
-    const initialValues: Values = { query }
-
     return (
       <React.Fragment>
         <Main>
           <Container>
-            <Formik initialValues={initialValues} onSubmit={this.handleSearch}>
+            <Formik<Values>
+              initialValues={{ query }}
+              onSubmit={async values => {
+                const { query } = values
+
+                this.setState({ query })
+
+                const { source } = this.props
+
+                if (!source.search) {
+                  throw new Error('No search function defined')
+                }
+
+                const { items } = await source.search(query, 25)
+
+                this.setState({ items })
+              }}
+            >
               <Form>
                 <SearchContainer>
                   <Field
@@ -98,24 +109,6 @@ class LibrarySourceContainer extends React.Component<
         </Main>
       </React.Fragment>
     )
-  }
-
-  private handleSearch = async (values: Values) => {
-    const { query } = values
-
-    this.setState({ query })
-
-    const { source } = this.props
-
-    if (!source.search) {
-      throw new Error('No search function defined')
-    }
-
-    const { items } = await source.search(query, 25)
-
-    this.setState({
-      items,
-    })
   }
 
   private handleAdd = (item: BibliographyItem) => {

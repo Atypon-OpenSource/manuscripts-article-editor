@@ -16,10 +16,10 @@ import {
 import { debounce } from 'lodash-es'
 import React from 'react'
 import { RxCollection } from 'rxdb'
+import CollaboratorsData from '../../data/CollaboratorsData'
 import ProjectData from '../../data/ProjectData'
 import ProjectInvitationsData from '../../data/ProjectInvitationsData'
 import UserData from '../../data/UserData'
-import UsersData from '../../data/UsersData'
 import { projectInvite } from '../../lib/api'
 import {
   buildAuthorPriority,
@@ -29,16 +29,16 @@ import {
 import { buildCollaborators } from '../../lib/collaborators'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { getCurrentUserId } from '../../lib/user'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { AuthorValues } from './AuthorForm'
 import { Metadata } from './Metadata'
 
 interface Props {
+  collection: RxCollection<Model>
   manuscript: Manuscript
   modelMap: Map<string, Model>
   saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
-  saveModel: <T extends Model>(model: Build<T>) => Promise<T>
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
   handleSectionChange: (section: string) => void
 }
@@ -56,7 +56,7 @@ interface State {
   invitationSent: boolean
 }
 
-class MetadataContainer extends React.Component<Props & ModelsProps, State> {
+class MetadataContainer extends React.PureComponent<Props, State> {
   public state: Readonly<State> = {
     editing: false,
     expanded: true,
@@ -98,16 +98,14 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
     // TODO: editable prop
 
     return (
-      <UsersData>
-        {users => (
+      <CollaboratorsData>
+        {collaborators => (
           <UserData userID={getCurrentUserId()!}>
             {user => (
               <ProjectData projectID={manuscript.containerID}>
                 {project => (
                   <ProjectInvitationsData projectID={manuscript.containerID}>
                     {invitations => {
-                      const collaborators = buildCollaborators(project, users)
-
                       return (
                         <Metadata
                           modelMap={modelMap}
@@ -132,7 +130,7 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
                           user={user}
                           addingAuthors={addingAuthors}
                           openAddAuthors={this.startAddingAuthors(
-                            collaborators,
+                            buildCollaborators(project, collaborators),
                             invitations
                           )}
                           numberOfAddedAuthors={numberOfAddedAuthors}
@@ -160,7 +158,7 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
             )}
           </UserData>
         )}
-      </UsersData>
+      </CollaboratorsData>
     )
   }
 
@@ -170,7 +168,7 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
   ) => {
     const invitation = await this.getInvitation(invitingUser, invitedEmail)
 
-    const updatedAuthor = await this.props.saveModel<Contributor>({
+    const updatedAuthor: Contributor = await this.props.saveModel({
       ...author,
       invitationID: invitation._id,
     })
@@ -222,7 +220,7 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
         ? buildContributor(bibName, 'author', priority, undefined, invitationID)
         : buildContributor(bibName, 'author', priority)
 
-      await this.props.saveModel<Contributor>(author as Contributor)
+      await this.props.saveModel(author)
 
       this.setState({
         numberOfAddedAuthors: this.state.numberOfAddedAuthors + 1,
@@ -237,9 +235,7 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
         person.userID
       )
 
-      const createdAuthor = await this.props.saveModel<Contributor>(
-        author as Contributor
-      )
+      const createdAuthor: Contributor = await this.props.saveModel(author)
 
       this.setState({
         addedAuthors: this.state.addedAuthors.concat(author.userID as string),
@@ -253,7 +249,7 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
   private createAffiliation = async (name: string): Promise<Affiliation> => {
     const affiliation = buildAffiliation(name)
 
-    return this.props.saveModel<Affiliation>(affiliation)
+    return this.props.saveModel(affiliation)
   }
 
   private selectAuthor = (selectedAuthor: Contributor) => {
@@ -317,21 +313,16 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
     const projectID = this.props.manuscript.containerID
     const invitingID = invitingUser.userID
 
-    let create = true
-    for (const invitation of invitations) {
-      if (
+    const alreadyInvited = invitations.some(
+      invitation =>
         invitation.projectID === projectID &&
         invitation.invitedUserEmail === email
-      ) {
-        create = false
-        break
-      }
-    }
+    )
 
     await projectInvite(projectID, [{ email, name }], role)
     this.setState({ invitationSent: true })
 
-    if (create) {
+    if (!alreadyInvited) {
       this.createInvitedAuthor(email, invitingID, name)
     }
   }
@@ -341,9 +332,7 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
     invitingID: string,
     name: string
   ) => {
-    const collection = this.props.models.collection as RxCollection<
-      ProjectInvitation
-    >
+    const collection = this.props.collection as RxCollection<ProjectInvitation>
 
     const sub = collection
       .findOne({
@@ -412,9 +401,7 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
     // TODO: only save affiliations and grants that have changed
 
     await Promise.all(
-      values.affiliations.map((item: Affiliation) =>
-        this.props.saveModel<Affiliation>(item)
-      )
+      values.affiliations.map(item => this.props.saveModel(item))
     )
 
     const author = {
@@ -480,7 +467,7 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
     invitedEmail: string
   ): Promise<ProjectInvitation> => {
     return new Promise(resolve => {
-      const collection = this.props.models.collection as RxCollection<
+      const collection = this.props.collection as RxCollection<
         ProjectInvitation
       >
 
@@ -501,4 +488,4 @@ class MetadataContainer extends React.Component<Props & ModelsProps, State> {
   }
 }
 
-export default withModels<Props>(MetadataContainer)
+export default MetadataContainer
