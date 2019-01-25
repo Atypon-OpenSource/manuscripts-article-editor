@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { FormikActions, FormikErrors } from 'formik'
+import { FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse, stringify } from 'qs'
 import React from 'react'
@@ -20,27 +20,29 @@ import {
 } from './SignupMessages'
 import SignupPage from './SignupPage'
 
-type AlertFunction = () => void
+const errorResponseMessage = (status: number) => {
+  switch (status) {
+    case HttpStatusCodes.BAD_REQUEST:
+      return 'Invalid operation'
+
+    case HttpStatusCodes.CONFLICT:
+      return 'The email address is already registered'
+
+    default:
+      return 'An error occurred.'
+  }
+}
+
 interface State {
-  message: null | AlertFunction
-  email: string | null
+  message?: () => void
+  email?: string
 }
 
 class SignupPageContainer extends React.Component<
   RouteComponentProps<{}>,
   State
 > {
-  public state: Readonly<State> = {
-    message: null,
-    email: null,
-  }
-
-  private initialValues: SignupValues = {
-    email: '',
-    password: '',
-    name: '',
-    allowsTracking: false,
-  }
+  public state: Readonly<State> = {}
 
   public async componentDidMount() {
     const { token, email } = parse(window.location.hash.substr(1))
@@ -68,8 +70,31 @@ class SignupPageContainer extends React.Component<
         <Main>
           {message && message()}
           <SignupPage
-            initialValues={this.initialValues}
-            onSubmit={this.handleSubmit}
+            initialValues={{
+              email: '',
+              password: '',
+              name: '',
+              allowsTracking: false,
+            }}
+            onSubmit={async (values, actions) => {
+              const { name, email, password, allowsTracking } = values
+
+              try {
+                await signup(name, email, password, allowsTracking)
+
+                actions.setSubmitting(false)
+
+                this.setState({
+                  message: () =>
+                    signupVerifyMessage(email, this.resendVerificationEmail),
+                  email,
+                })
+              } catch (error) {
+                actions.setSubmitting(false)
+
+                await this.handleError(error, actions.setErrors, email)
+              }
+            }}
             validationSchema={signupSchema}
           />
         </Main>
@@ -77,33 +102,9 @@ class SignupPageContainer extends React.Component<
     )
   }
 
-  private handleSubmit = async (
-    values: SignupValues,
-    { setSubmitting, setErrors }: FormikActions<SignupValues | SignupErrors>
-  ) => {
-    const { name, email, password, allowsTracking } = values
-
-    try {
-      await signup(name, email, password, allowsTracking)
-
-      setSubmitting(false)
-
-      this.setState({
-        message: () => signupVerifyMessage(email, this.resendVerificationEmail),
-        email,
-      })
-    } catch (error) {
-      setSubmitting(false)
-
-      await this.handleError(error, setErrors, email)
-    }
-  }
-
   private handleError = async (
     error: AxiosError,
-    setErrors: (
-      errors: FormikErrors<SignupValues> | FormikErrors<SignupErrors>
-    ) => void,
+    setErrors: (errors: FormikErrors<SignupValues & SignupErrors>) => void,
     email: string
   ) => {
     const errors: FormikErrors<SignupErrors> = {}
@@ -119,7 +120,7 @@ class SignupPageContainer extends React.Component<
       ) {
         this.setState({
           message: () => signupVerifyConflictMessage(email),
-          email: null,
+          email: undefined,
         })
 
         await resendVerificationEmail(email)
@@ -128,7 +129,7 @@ class SignupPageContainer extends React.Component<
           message: () => gatewayInaccessibleErrorMessage(),
         })
       } else {
-        errors.submit = this.errorResponseMessage(error.response.status)
+        errors.submit = errorResponseMessage(error.response.status)
 
         setErrors(errors)
       }
@@ -155,19 +156,6 @@ class SignupPageContainer extends React.Component<
         message: () =>
           signupVerifyResendFailureMessage(email, this.resendVerificationEmail),
       })
-    }
-  }
-
-  private errorResponseMessage = (status: number) => {
-    switch (status) {
-      case HttpStatusCodes.BAD_REQUEST:
-        return 'Invalid operation'
-
-      case HttpStatusCodes.CONFLICT:
-        return 'The email address is already registered'
-
-      default:
-        return 'An error occurred.'
     }
   }
 }

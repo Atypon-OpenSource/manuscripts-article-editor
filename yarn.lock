@@ -956,6 +956,15 @@
     deepmerge "^2.0.1"
     js-beautify "^1.7.5"
 
+"@manuscripts/manuscripts-json-schema@^1.7.3":
+  version "1.7.3"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscripts-json-schema/-/manuscripts-json-schema-1.7.3.tgz#97355750ded10ccb20d499dad366e493d71f8db7"
+  integrity sha512-Y9yGfProMQ/KLxa4jwmykNFJkb9Z8rpVKMTK8QRjDuXRUwWUaH7rjqN3CesohyuSI2rBqPoZ6aX+F/8XcSHXUg==
+  dependencies:
+    ajv "^6.5.0"
+    deepmerge "^2.0.1"
+    js-beautify "^1.7.5"
+
 "@manuscripts/prosemirror-recreate-steps@^0.1.3":
   version "0.1.3"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fprosemirror-recreate-steps/-/prosemirror-recreate-steps-0.1.3.tgz#b8f40363b5a47acbbbc2c21c7c6c3f02e9e27440"
@@ -1529,6 +1538,11 @@
   resolved "https://registry.npmjs.org/@types/mocha/-/mocha-2.2.44.tgz#1d4a798e53f35212fd5ad4d04050620171cd5b5e"
   integrity sha512-k2tWTQU8G4+iSMvqKi0Q9IIsWAp/n8xzdZS4Q4YVIltApoMA00wFBFdlJnmoaK1/z7B0Cy0yPe6GgXteSmdUNw==
 
+"@types/mousetrap@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.npmjs.org/@types/mousetrap/-/mousetrap-1.6.1.tgz#2016a2e68a12e5a8d693715c28d5dc26f2f7e00b"
+  integrity sha512-OB0WDTEzIi2sXIySkGEEFvYnH9et3hXXJnn74lKO0xZgGFdCNxQqVRbwcYHc9Q07h9yqFLJFEA5zvdAd7nf8Vg==
+
 "@types/node-fetch@*":
   version "2.1.2"
   resolved "https://registry.npmjs.org/@types/node-fetch/-/node-fetch-2.1.2.tgz#8c5da14d70321e4c4ecd5db668e3f93cf6c7399f"
@@ -1536,7 +1550,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^10.11.7", "@types/node@^10.3.4":
+"@types/node@*":
+  version "10.12.18"
+  resolved "https://registry.npmjs.org/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
+  integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
+
+"@types/node@^10.11.7", "@types/node@^10.3.4":
   version "10.12.2"
   resolved "https://registry.npmjs.org/@types/node/-/node-10.12.2.tgz#d77f9faa027cadad9c912cd47f4f8b07b0fb0864"
   integrity sha512-53ElVDSnZeFUUFIYzI8WLQ25IhWzb6vbddNp8UHlXQyU0ET2RhV5zg0NfubzU7iNMh5bBXb0htCzfvrSVNgzaQ==
@@ -1583,7 +1602,12 @@
   dependencies:
     "@types/pouchdb-core" "*"
 
-"@types/prop-types@*", "@types/prop-types@^15.5.2":
+"@types/prop-types@*":
+  version "15.5.8"
+  resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.5.8.tgz#8ae4e0ea205fe95c3901a5a1df7f66495e3a56ce"
+  integrity sha512-3AQoUxQcQtLHsK25wtTWIoIpgYjH3vSDroZOUr7PpCHw/jLY1RB9z9E8dBT/OSmwStVgkRNvdh+ZHNiomRieaw==
+
+"@types/prop-types@^15.5.2":
   version "15.5.6"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
   integrity sha512-ZBFR7TROLVzCkswA3Fmqq+IIJt62/T7aY/Dmz+QkU7CaW2QFqAitCE8Ups7IzmGhcN1YWMBT4Qcoc07jU9hOJQ==
@@ -1721,9 +1745,9 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "16.4.18"
-  resolved "https://registry.npmjs.org/@types/react/-/react-16.4.18.tgz#2e28a2e7f92d3fa7d6a65f2b73275c3e3138a13d"
-  integrity sha512-eFzJKEg6pdeaukVLVZ8Xb79CTl/ysX+ExmOfAAqcFlCCK5TgFDD9kWR0S18sglQ3EmM8U+80enjUqbfnUyqpdA==
+  version "16.7.20"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.7.20.tgz#13ae752c012710d0fa800985ca809814b51d3b58"
+  integrity sha512-Qd5RWkwl6SL7R2XzLk/cicjVQm1Mhc6HqXY5Ei4pWd1Vi8Fkbd5O0sA398x8fRSTPAuHdDYD9nrWmJMYTJI0vQ==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -1809,13 +1833,14 @@
   resolved "https://registry.npmjs.org/@types/string-hash/-/string-hash-1.1.1.tgz#4c336e61d1e13ce2d3efaaa5910005fd080e106b"
   integrity sha512-ijt3zdHi2DmZxQpQTmozXszzDo78V4R3EdvX0jFMfnMH2ZzQSmCbaWOMPGXFUYSzSIdStv78HDjg32m5dxc+tA==
 
-"@types/styled-components@^4.0.1":
-  version "4.0.3"
-  resolved "https://registry.npmjs.org/@types/styled-components/-/styled-components-4.0.3.tgz#8287e54e446302369eecc521243a2f32cf9122ee"
-  integrity sha512-LzntHlOKEOxUxMkVmQPNG88TsldeHO2NlwNkzHnw4wL8qhHQgd7u+u3yw84hZgoFh4ugsLCbFtjYcbP7v5WC5Q==
+"@types/styled-components@^4.1.6":
+  version "4.1.6"
+  resolved "https://registry.npmjs.org/@types/styled-components/-/styled-components-4.1.6.tgz#9aa1d47dbc6bae540083869bcc6c639c6e9af0fe"
+  integrity sha512-w/ra/Tk9oPMvWpWId7esZNY1MOa6E9BYUPLl4scVJdYnrYuy5ITLbku8dGDCVH/vjjuegrHBCRYvFLQOYJ+uHg==
   dependencies:
     "@types/node" "*"
     "@types/react" "*"
+    csstype "^2.2.0"
 
 "@types/tapable@*":
   version "1.0.4"
@@ -4960,7 +4985,12 @@ cssstyle@^1.0.0, cssstyle@^1.1.1:
   dependencies:
     cssom "0.3.x"
 
-csstype@^2.2.0, csstype@^2.5.2:
+csstype@^2.2.0:
+  version "2.6.1"
+  resolved "https://registry.npmjs.org/csstype/-/csstype-2.6.1.tgz#4cfbf637a577497036ebcd7e32647ef19a0b8076"
+  integrity sha512-wv7IRqCGsL7WGKB8gPvrl+++HlFM9kxAM6jL1EXNPNTshEJYilMkbfS2SnuHha77uosp/YVK0wAp2jmlBzn1tg==
+
+csstype@^2.5.2:
   version "2.5.7"
   resolved "https://registry.npmjs.org/csstype/-/csstype-2.5.7.tgz#bf9235d5872141eccfb2d16d82993c6b149179ff"
   integrity sha512-Nt5VDyOTIIV4/nRFswoCKps1R5CD1hkiyjBE9/thNaNZILLEviVw9yWQw15+O+CpNjQKB/uvdcxFFOrSflY3Yw==
@@ -9951,6 +9981,11 @@ moo@^0.4.3:
   version "0.4.3"
   resolved "https://registry.npmjs.org/moo/-/moo-0.4.3.tgz#3f847a26f31cf625a956a87f2b10fbc013bfd10e"
   integrity sha512-gFD2xGCl8YFgGHsqJ9NKRVdwlioeW3mI1iqfLNYQOv0+6JRwG58Zk9DIGQgyIaffSYaO1xsKnMaYzzNr1KyIAw==
+
+mousetrap@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.npmjs.org/mousetrap/-/mousetrap-1.6.2.tgz#caadd9cf886db0986fb2fee59a82f6bd37527587"
+  integrity sha512-jDjhi7wlHwdO6q6DS7YRmSHcuI+RVxadBkLt3KHrhd3C2b+w5pKefg3oj5beTcHZyVFA9Aksf+yEE1y5jxUjVA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"

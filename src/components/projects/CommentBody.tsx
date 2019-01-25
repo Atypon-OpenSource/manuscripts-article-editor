@@ -13,17 +13,10 @@ import {
   Model,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import {
-  Field,
-  FieldProps,
-  Form,
-  Formik,
-  FormikActions,
-  FormikProps,
-} from 'formik'
+import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
 import { styled } from '../../theme'
-import { Button, PrimaryButton } from '../Button'
+import { Button, PrimarySubmitButton } from '../Button'
 import { FormError } from '../Form'
 
 const CommentFooter = styled.div`
@@ -162,12 +155,25 @@ class CommentBody extends React.Component<Props, State> {
     } = this.props
 
     return editing ? (
-      <Formik initialValues={comment} onSubmit={this.handleSubmit}>
-        {({
-          errors,
-          values,
-          setFieldValue,
-        }: FormikProps<CommentAnnotation>) => (
+      <Formik<CommentAnnotation>
+        initialValues={comment}
+        onSubmit={(values, actions) => {
+          actions.setSubmitting(true)
+
+          this.props
+            .saveComment(values)
+            .then(() => {
+              this.setEditing(false)
+            })
+            .catch(error => {
+              actions.setErrors({
+                contents: error.message,
+              })
+              actions.setSubmitting(false)
+            })
+        }}
+      >
+        {({ errors, values, setFieldValue }) => (
           <Form>
             {errors.contents && <FormError>{errors.contents}</FormError>}
 
@@ -189,7 +195,7 @@ class CommentBody extends React.Component<Props, State> {
 
             <EditingCommentFooter>
               <Button onClick={this.cancelEditing}>Cancel</Button>
-              <PrimaryButton type={'submit'}>Save</PrimaryButton>
+              <PrimarySubmitButton>Save</PrimarySubmitButton>
             </EditingCommentFooter>
           </Form>
         )}
@@ -235,25 +241,6 @@ class CommentBody extends React.Component<Props, State> {
     const { comment } = this.props
 
     return Date.now() / 1000 - comment.createdAt < 60 // created < 1 min ago
-  }
-
-  private handleSubmit = (
-    values: CommentAnnotation,
-    formikActions: FormikActions<CommentAnnotation>
-  ) => {
-    formikActions.setSubmitting(true)
-
-    this.props
-      .saveComment(values)
-      .then(() => {
-        this.setEditing(false)
-      })
-      .catch(error => {
-        formikActions.setErrors({
-          contents: error.message,
-        })
-        formikActions.setSubmitting(false)
-      })
   }
 
   private setEditing = (editing: boolean) => {

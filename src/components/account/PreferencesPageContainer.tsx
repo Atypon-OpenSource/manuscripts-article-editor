@@ -1,58 +1,45 @@
-import { Formik, FormikActions } from 'formik'
+import { Formik } from 'formik'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import preferences from '../../lib/preferences'
-import { IntlProps, withIntl } from '../../store/IntlProvider'
 import { preferencesSchema } from '../../validation'
+import { IntlContext } from '../IntlProvider'
 import { PreferencesMessage } from '../Messages'
-import ModalForm from '../ModalForm'
-import {
-  PreferencesErrors,
-  PreferencesForm,
-  PreferencesValues,
-} from './PreferencesForm'
+import { ModalForm } from '../ModalForm'
+import { PreferencesForm, PreferencesValues } from './PreferencesForm'
 
-class PreferencesPageContainer extends React.Component<
-  RouteComponentProps<{}> & IntlProps
-> {
-  public render() {
-    const initialValues = preferences.get()
-
-    return (
-      <ModalForm title={<PreferencesMessage />}>
-        <Formik
-          initialValues={initialValues}
+export const PreferencesPageContainer: React.FunctionComponent<
+  RouteComponentProps
+> = ({ history }) => (
+  <IntlContext.Consumer>
+    {intl => (
+      <ModalForm
+        title={<PreferencesMessage />}
+        handleClose={() => history.goBack()}
+      >
+        <Formik<PreferencesValues>
+          initialValues={preferences.get()}
           validationSchema={preferencesSchema}
           isInitialValid={true}
           validateOnChange={false}
           validateOnBlur={false}
-          onSubmit={this.handleSubmit}
+          onSubmit={(values, actions) => {
+            actions.setErrors({})
+
+            preferences.set({
+              ...preferences.get(),
+              ...values,
+            })
+
+            intl.setLocale(values.locale)
+
+            actions.setSubmitting(false)
+
+            history.push('/')
+          }}
           component={PreferencesForm}
         />
       </ModalForm>
-    )
-  }
-
-  private handleSubmit = (
-    values: PreferencesValues,
-    {
-      setSubmitting,
-      setErrors,
-    }: FormikActions<PreferencesValues | PreferencesErrors>
-  ) => {
-    setErrors({})
-
-    preferences.set({
-      ...preferences.get(),
-      ...values,
-    })
-
-    this.props.intl.setLocale(values.locale)
-
-    setSubmitting(false)
-
-    this.props.history.push('/')
-  }
-}
-
-export default withIntl(PreferencesPageContainer)
+    )}
+  </IntlContext.Consumer>
+)

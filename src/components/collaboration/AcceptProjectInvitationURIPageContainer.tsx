@@ -1,8 +1,8 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { acceptProjectInvitationToken } from '../../lib/api'
-import { AcceptInvitationDialog } from '../collaboration/AcceptInvitationDialog'
-import { Spinner } from '../Spinner'
+import { Loading } from '../Loading'
+import { AcceptInvitationDialog } from './AcceptInvitationDialog'
 
 interface State {
   data?: {
@@ -37,7 +37,7 @@ class AcceptInvitationURIContainer extends React.Component<
   public render() {
     const { data } = this.state
 
-    if (!data) return <Spinner />
+    if (!data) return <Loading />
 
     return (
       <AcceptInvitationDialog

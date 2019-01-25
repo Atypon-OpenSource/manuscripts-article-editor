@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from 'react-modal'
-import { styled, ThemedOuterProps } from '../theme'
+import { styled, ThemedProps } from '../theme'
 
 Modal.setAppElement('#root')
 
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const ReactModalAdapter: React.FunctionComponent<
-  Modal.Props & ThemedOuterProps<ReactModal> & Props
+  Modal.Props & ThemedProps<ReactModal> & Props
 > = ({ className, modalClassName, ...props }) => (
   <Modal className={modalClassName} portalClassName={className} {...props} />
 )

@@ -1,6 +1,6 @@
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
-import { PrimaryButton } from '../Button'
+import { PrimarySubmitButton } from '../Button'
 import {
   CenteredForm,
   FormActions,
@@ -103,9 +103,7 @@ export const SignupForm: React.FunctionComponent<
         Have an account? <FormLink to={'/login'}>Sign In</FormLink>
       </div>
 
-      <PrimaryButton type={'submit'} disabled={isSubmitting}>
-        Sign up
-      </PrimaryButton>
+      <PrimarySubmitButton disabled={isSubmitting}>Sign up</PrimarySubmitButton>
     </FormActions>
   </CenteredForm>
 )

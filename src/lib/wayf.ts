@@ -1,5 +1,7 @@
 import axios from 'axios'
+import decode from 'jwt-decode'
 import { WayfConfiguration } from '../config'
+import { TokenPayload } from './user'
 
 export const registerWayfId = async (
   token: string,
@@ -9,12 +11,13 @@ export const registerWayfId = async (
     return null
   }
 
-  const localId = JSON.parse(atob(token.split('.')[1])).wayfLocal
-  if (!localId) {
+  const { wayfLocal } = decode<TokenPayload>(token)
+
+  if (!wayfLocal) {
     return null
   }
 
-  return axios.patch(config.url + localId, null, {
+  return axios.patch(config.url + wayfLocal, null, {
     headers: {
       Authorization: `Bearer ${config.key}`,
     },

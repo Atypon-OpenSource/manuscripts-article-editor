@@ -4,7 +4,7 @@ import {
   Contributor,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
-import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
+import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
 import AlertMessage, { AlertMessageType } from '../../components/AlertMessage'
 import { AffiliationMap } from '../../lib/authors'
@@ -166,11 +166,11 @@ export const AuthorForm: React.FunctionComponent<AuthorProps> = ({
   getAuthorName,
 }) => (
   <React.Fragment>
-    <Formik
+    <Formik<AuthorValues>
       initialValues={buildInitialValues(author, authorAffiliations)}
       onSubmit={handleSave}
     >
-      {({ values }: FormikProps<AuthorValues>) => (
+      {({ values }) => (
         <Form>
           <Fields>
             <Fieldset>

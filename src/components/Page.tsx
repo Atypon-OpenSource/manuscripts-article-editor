@@ -7,8 +7,9 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
-import { GlobalStyle, styled, ThemedProps } from '../theme'
+import { styled, ThemedProps } from '../theme'
 import MenuBar from './nav/MenuBar'
+import ProjectNavigator from './ProjectNavigator'
 import { Tip } from './Tip'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
@@ -129,8 +130,6 @@ interface Props {
 
 export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
   <PageContainer>
-    <GlobalStyle />
-
     <Helmet>
       {project ? (
         <title>Manuscripts.io: {project.title || 'Untitled Project'}</title>
@@ -141,6 +140,8 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
 
     {project && (
       <ViewsBar>
+        <ProjectNavigator />
+
         <MenuBar projectID={project._id}>
           <Tip title={'Home'} placement={'right'}>
             <NavIconContainer>
@@ -153,7 +154,7 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
         <ViewsSeparator />
 
         <IconBar>
-          <Tip title={'Edit'} placement={'right'}>
+          <Tip title={'Edit ⌥⌘3'} placement={'right'}>
             <ViewLink
               to={`/projects/${project._id}`}
               isActive={(match, location) =>
@@ -164,13 +165,13 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
             </ViewLink>
           </Tip>
 
-          <Tip title={'Library'} placement={'right'}>
+          <Tip title={'Library ⌥⌘4'} placement={'right'}>
             <ViewLink to={`/projects/${project._id}/library`} exact={true}>
               <ProjectLibraryIcon />
             </ViewLink>
           </Tip>
 
-          <Tip title={'Collaborators'} placement={'right'}>
+          <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
             <ViewLink
               to={`/projects/${project._id}/collaborators`}
               exact={true}

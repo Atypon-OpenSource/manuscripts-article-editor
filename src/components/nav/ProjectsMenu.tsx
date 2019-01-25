@@ -1,16 +1,11 @@
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor/dist/types'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import {
   Project,
   ProjectInvitation,
-  UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
-import UserData from '../../data/UserData'
-import { getCurrentUserId } from '../../lib/user'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { ModalProps, withModal } from '../ModalProvider'
-import { TemplateSelector } from '../templates/TemplateSelector'
+import TemplateSelector from '../templates/TemplateSelector'
 import { InvitationData } from './ProjectsButton'
 import { ProjectsDropdownList } from './ProjectsDropdownList'
 
@@ -30,10 +25,12 @@ interface Props {
     invitingUserProfile: UserProfileWithAvatar,
     invitation: ProjectInvitation
   ) => void
+  user: UserProfileWithAvatar
+
 }
 
 class ProjectsMenu extends React.Component<
-  Props & ModelsProps & RouteComponentProps & ModalProps
+  Props & ModalProps
 > {
   public render() {
     const {
@@ -54,38 +51,27 @@ class ProjectsMenu extends React.Component<
     )
 
     return (
-      <UserData userID={getCurrentUserId()!}>
-        {user => (
-          <ProjectsDropdownList
-            handleClose={handleClose}
-            projects={projects}
-            addProject={this.openTemplateSelector(user)}
-            invitationsData={filteredInvitationsData}
-            acceptedInvitations={acceptedInvitations}
-            rejectedInvitations={rejectedInvitations}
-            acceptInvitation={acceptInvitation}
-            confirmReject={confirmReject}
-            acceptError={acceptError}
-          />
-        )}
-      </UserData>
+      <ProjectsDropdownList
+        handleClose={handleClose}
+        projects={projects}
+        addProject={this.openTemplateSelector}
+        invitationsData={filteredInvitationsData}
+        acceptedInvitations={acceptedInvitations}
+        rejectedInvitations={rejectedInvitations}
+        acceptInvitation={acceptInvitation}
+        confirmReject={confirmReject}
+        acceptError={acceptError}
+      />
     )
   }
 
-  private openTemplateSelector = (user: UserProfile) => () => {
-    const { addModal, history, models } = this.props
+  private openTemplateSelector = () => {
+    const { addModal, user } = this.props
 
     addModal('template-selector', ({ handleClose }) => (
-      <TemplateSelector
-        history={history}
-        saveModel={models.saveModel}
-        user={user}
-        handleComplete={handleClose}
-      />
+      <TemplateSelector user={user} handleComplete={handleClose} />
     ))
   }
 }
 
-export default withRouter<Props & RouteComponentProps>(
-  withModal(withModels(ProjectsMenu))
-)
+export default withModal<Props>(ProjectsMenu)

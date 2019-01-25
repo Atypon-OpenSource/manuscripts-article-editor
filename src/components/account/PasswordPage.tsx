@@ -10,7 +10,7 @@ const PasswordPage: React.FunctionComponent<FormikConfig<PasswordValues>> = ({
   onSubmit,
 }) => (
   <Centered>
-    <Formik
+    <Formik<PasswordValues>
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={true}

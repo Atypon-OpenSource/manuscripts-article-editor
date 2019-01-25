@@ -68,17 +68,8 @@ export const CustomPopper: React.FunctionComponent<Props> = ({
   children,
   popperProps: { ref, style, placement, arrowProps },
 }) => (
-  <Container
-    // @ts-ignore: styled
-    ref={ref}
-    style={style}
-    data-placement={placement}
-  >
-    <ArrowUp
-      // @ts-ignore: styled
-      ref={arrowProps.ref}
-      style={arrowProps.style}
-    />
+  <Container ref={ref} style={style} data-placement={placement}>
+    <ArrowUp ref={arrowProps.ref} style={arrowProps.style} />
     <PopperBodyContainer>{children}</PopperBodyContainer>
   </Container>
 )
@@ -87,17 +78,8 @@ export const CustomUpPopper: React.FunctionComponent<Props> = ({
   children,
   popperProps: { ref, style, placement, arrowProps },
 }) => (
-  <Container
-    // @ts-ignore: styled
-    ref={ref}
-    style={style}
-    data-placement={placement}
-  >
+  <Container ref={ref} style={style} data-placement={placement}>
     <PopperBodyContainer>{children}</PopperBodyContainer>
-    <ArrowDown
-      // @ts-ignore: styled
-      ref={arrowProps.ref}
-      style={arrowProps.style}
-    />
+    <ArrowDown ref={arrowProps.ref} style={arrowProps.style} />
   </Container>
 )

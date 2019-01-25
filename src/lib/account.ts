@@ -1,20 +1,10 @@
-import { RxDatabase } from 'rxdb'
+import { Database } from '../components/DatabaseProvider'
 import config from '../config'
 import * as api from './api'
-import tokenHandler from './token'
 import { registerWayfId } from './wayf'
 
-export const login = async (
-  email: string,
-  password: string,
-  db: RxDatabase
-) => {
-  try {
-    tokenHandler.remove()
-  } catch (e) {
-    console.error(e) // tslint:disable-line:no-console
-    // TODO: removing the token from localStorage failed
-  }
+export const login = async (email: string, password: string, db: Database) => {
+  // TODO: decide whether to remove the local database at login
 
   try {
     await db.remove()
@@ -24,27 +14,20 @@ export const login = async (
   }
 
   const {
-    data: { token: accessToken },
+    data: { token },
   } = await api.login(email, password)
 
-  tokenHandler.set({ access_token: accessToken })
+  await registerWayfId(token, config.wayf)
 
-  await registerWayfId(accessToken, config.wayf)
+  return token
 }
 
-export const logout = async (db: RxDatabase) => {
+export const logout = async (db: Database) => {
   try {
     await api.logout()
   } catch (e) {
     console.error(e) // tslint:disable-line:no-console
     // TODO: request to the API server failed
-  }
-
-  try {
-    tokenHandler.remove()
-  } catch (e) {
-    console.error(e) // tslint:disable-line:no-console
-    // TODO: removing the token from localStorage failed
   }
 
   try {
@@ -57,14 +40,15 @@ export const logout = async (db: RxDatabase) => {
   // TODO: clear localStorage
 }
 
-export const resetPassword = async (password: string, token: string) => {
+export const resetPassword = async (
+  password: string,
+  verificationToken: string
+) => {
   const {
-    data: { token: accessToken },
-  } = await api.resetPassword(password, token)
+    data: { token },
+  } = await api.resetPassword(password, verificationToken)
 
-  tokenHandler.set({
-    access_token: accessToken,
-  })
+  await registerWayfId(token, config.wayf)
 
-  await registerWayfId(accessToken, config.wayf)
+  return token
 }

@@ -1,6 +1,6 @@
 import { stringify } from 'qs'
 import client from '../../client'
-import deviceId from '../../deviceId'
+import deviceId from '../../device-id'
 import {
   changePassword,
   deleteAccount,
@@ -15,7 +15,7 @@ import {
   verify,
 } from '../authentication'
 
-jest.mock('../../deviceId')
+jest.mock('../../device-id')
 
 jest.mock('../../client', () => ({
   post: jest.fn(),

@@ -5,7 +5,9 @@ import React from 'react'
 import {
   Button,
   DangerButton,
+  GreyButton,
   IconButton,
+  MiniButton,
   PrimaryButton,
   PrimaryMiniButton,
 } from '../src/components/Button'
@@ -16,8 +18,14 @@ storiesOf('Buttons', module)
   .add('Primary Button', () => (
     <PrimaryButton onClick={action('clicked')}>Done</PrimaryButton>
   ))
-  .add('Delete Button', () => (
+  .add('Danger Button', () => (
     <DangerButton onClick={action('clicked')}>Delete</DangerButton>
+  ))
+  .add('Grey Button', () => (
+    <GreyButton onClick={action('clicked')}>Example</GreyButton>
+  ))
+  .add('Mini Button', () => (
+    <MiniButton onClick={action('clicked')}>Click</MiniButton>
   ))
   .add('Primary Mini Button', () => (
     <PrimaryMiniButton onClick={action('clicked')}>Click</PrimaryMiniButton>

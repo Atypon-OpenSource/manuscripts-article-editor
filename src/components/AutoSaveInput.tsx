@@ -4,7 +4,7 @@ import React, { InputHTMLAttributes } from 'react'
 import { submitEvent } from './Form'
 
 interface AutoSaveInputProps {
-  component: React.ComponentClass<InputHTMLAttributes<HTMLInputElement>>
+  component: React.ComponentType<InputHTMLAttributes<HTMLInputElement>>
   saveOn: 'change' | 'blur'
   // inputProps?: Exclude<InputHTMLAttributes<HTMLInputElement>, FieldProps>
   placeholder?: string

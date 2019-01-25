@@ -1,6 +1,6 @@
 import { BibliographyItem, Keyword } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import KeywordsData from '../../data/KeywordsData'
+import ProjectKeywordsData from '../../data/ProjectKeywordsData'
 import { styled } from '../../theme'
 
 const buildCounts = (items: BibliographyItem[]) => {
@@ -64,13 +64,15 @@ const LibraryKeyword = styled.span`
 interface Props {
   items: BibliographyItem[]
   handleQuery: (query: string) => void
+  projectID: string
 }
 
 const LibraryKeywords: React.FunctionComponent<Props> = ({
   items,
   handleQuery,
+  projectID,
 }) => (
-  <KeywordsData>
+  <ProjectKeywordsData projectID={projectID}>
     {keywords => {
       const counts = buildCounts(items)
 
@@ -101,7 +103,7 @@ const LibraryKeywords: React.FunctionComponent<Props> = ({
         </Container>
       )
     }}
-  </KeywordsData>
+  </ProjectKeywordsData>
 )
 
 export default LibraryKeywords

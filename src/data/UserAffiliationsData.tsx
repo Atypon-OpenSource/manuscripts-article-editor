@@ -3,79 +3,80 @@ import {
   UserProfileAffiliation,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { Spinner } from '../components/Spinner'
-import { ModelsProps, withModels } from '../store/ModelsProvider'
+import { Collection } from '../sync/Collection'
+import CollectionManager from '../sync/CollectionManager'
+import { DataComponent } from './DataComponent'
 
 interface Props {
   children: (
-    affiliations: Map<string, UserProfileAffiliation>
+    data: Map<string, UserProfileAffiliation>,
+    collection: Collection<UserProfileAffiliation>
   ) => React.ReactNode
   profileID: string
 }
 
 interface State {
-  affiliations?: Map<string, UserProfileAffiliation>
+  data?: Map<string, UserProfileAffiliation>
 }
 
-class UserAffiliationsData extends React.Component<ModelsProps & Props, State> {
-  public state: Readonly<State> = {}
+class UserAffiliationsData extends DataComponent<
+  UserProfileAffiliation,
+  Props,
+  State
+> {
+  public constructor(props: Props) {
+    super(props)
 
-  private sub: Subscription
+    this.state = {}
+
+    this.collection = CollectionManager.getCollection<UserProfileAffiliation>(
+      'user'
+    )
+  }
 
   public componentDidMount() {
     const { profileID } = this.props
 
-    this.sub = this.loadAffiliations(profileID)
+    this.collection.addEventListener('complete', this.handleComplete)
+
+    this.sub = this.subscribe(profileID)
   }
 
-  public componentWillReceiveProps(nextProps: Props & ModelsProps) {
+  public componentWillReceiveProps(nextProps: Props) {
     const { profileID } = nextProps
 
     if (profileID !== this.props.profileID) {
       this.sub.unsubscribe()
-      this.setState({ affiliations: undefined })
-      this.sub = this.loadAffiliations(profileID)
+
+      this.setState({ data: undefined })
+
+      this.sub = this.subscribe(profileID)
     }
   }
 
   public componentWillUnmount() {
+    this.collection.addEventListener('complete', this.handleComplete)
+
     this.sub.unsubscribe()
   }
 
-  public render() {
-    const { affiliations } = this.state
-
-    if (!affiliations) {
-      return <Spinner />
-    }
-
-    return this.props.children(affiliations)
-  }
-
-  private loadAffiliations = (containerID: string) => {
-    const collection = this.props.models.collection as RxCollection<
-      UserProfileAffiliation
-    >
-
-    return collection
+  private subscribe = (containerID: string) =>
+    this.collection
       .find({
         containerID,
         objectType: ObjectTypes.UserProfileAffiliation,
       })
       .$.subscribe(docs => {
         if (docs) {
-          const affiliations = new Map()
+          const data = new Map()
 
           for (const doc of docs) {
-            affiliations.set(doc._id, doc.toJSON())
+            data.set(doc._id, doc.toJSON())
           }
 
-          this.setState({ affiliations })
+          this.setState({ data })
         }
       })
-  }
 }
 
-export default withModels<Props>(UserAffiliationsData)
+export default UserAffiliationsData

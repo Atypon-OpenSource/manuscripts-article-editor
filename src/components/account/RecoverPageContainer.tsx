@@ -3,6 +3,7 @@ import * as HttpStatusCodes from 'http-status-codes'
 import { parse, stringify } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+import { TokenActions } from '../../data/TokenData'
 import { resetPassword } from '../../lib/account'
 import { sendPasswordRecovery } from '../../lib/api'
 import { passwordSchema, recoverSchema } from '../../validation'
@@ -13,12 +14,18 @@ import PasswordPage from './PasswordPage'
 import { RecoverErrors, RecoverValues } from './RecoverForm'
 import RecoverPage from './RecoverPage'
 
+interface Props {
+  tokenActions: TokenActions
+}
+
 interface State {
   sent: string | null
   token: string
 }
 
-class RecoverPageContainer extends React.Component<RouteComponentProps<{}>> {
+class RecoverPageContainer extends React.Component<
+  Props & RouteComponentProps
+> {
   public state: Readonly<State> = {
     sent: null,
     token: '',
@@ -76,7 +83,9 @@ class RecoverPageContainer extends React.Component<RouteComponentProps<{}>> {
     { setSubmitting, setErrors }: FormikActions<PasswordValues | PasswordErrors>
   ) => {
     try {
-      await resetPassword(values.password, this.state.token)
+      const token = await resetPassword(values.password, this.state.token)
+
+      this.props.tokenActions.update(token)
 
       setSubmitting(false)
 

@@ -4,7 +4,6 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { styled } from '../../theme'
-import { Page } from '../Page'
 
 const OuterContainer = styled.div`
   display: flex;
@@ -82,23 +81,21 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
   project,
   openTemplateSelector,
 }) => (
-  <Page project={project}>
-    <OuterContainer>
-      <Placeholder>
-        <ProjectPlaceholder />
-      </Placeholder>
+  <OuterContainer>
+    <Placeholder>
+      <ProjectPlaceholder />
+    </Placeholder>
 
-      <ProjectTitle value={project.title || 'Untitled Project'} />
+    <ProjectTitle value={project.title || 'Untitled Project'} />
 
-      <Message>
-        This project is empty. Create a manuscript to get started.
-      </Message>
-      <Action>
-        <AddManuscriptButton onClick={openTemplateSelector}>
-          <AddIcon />
-          <ButtonText>New Manuscript</ButtonText>
-        </AddManuscriptButton>
-      </Action>
-    </OuterContainer>
-  </Page>
+    <Message>
+      This project is empty. Create a manuscript to get started.
+    </Message>
+    <Action>
+      <AddManuscriptButton onClick={openTemplateSelector}>
+        <AddIcon />
+        <ButtonText>New Manuscript</ButtonText>
+      </AddManuscriptButton>
+    </Action>
+  </OuterContainer>
 )

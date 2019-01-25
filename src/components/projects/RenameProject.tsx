@@ -1,21 +1,17 @@
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
-import { Formik, FormikActions, FormikErrors } from 'formik'
+import { Formik, FormikErrors } from 'formik'
 import React from 'react'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled, ThemedProps } from '../../theme'
-import { RenameProjectForm, Values } from '../collaboration/RenameProjectForm'
+import {
+  RenameProjectForm,
+  RenameProjectValues,
+} from '../collaboration/RenameProjectForm'
 import { FormErrors } from '../Form'
 import { ProjectRenameMessage } from '../Messages'
 import { CloseButton } from '../SimpleModal'
 
-interface Props {
-  project: Project
-  handleComplete: () => void
-}
 type ThemedDivProps = ThemedProps<HTMLDivElement>
-
-type CombinedProps = Props & ModelsProps
 
 const ModalContainer = styled.div`
   display: flex;
@@ -53,69 +49,59 @@ const ModalTitle = styled.div`
 const ModalBody = styled.div`
   padding: 16px;
 `
-class RenameProject extends React.Component<CombinedProps> {
-  public render() {
-    const title = this.props.project.title
 
-    const initialValues = {
-      projectTitle: title,
-    }
-
-    return (
-      <ModalContainer>
-        <ModalHeader>
-          <CloseButton onClick={() => this.props.handleComplete()}>
-            <CloseIconDark />
-          </CloseButton>
-        </ModalHeader>
-        <ModalMain>
-          <ModalTitle>{<ProjectRenameMessage />}</ModalTitle>
-          <ModalBody>
-            {
-              <Formik
-                initialValues={initialValues}
-                isInitialValid={true}
-                validateOnChange={false}
-                validateOnBlur={false}
-                onSubmit={this.handleSubmit}
-                component={RenameProjectForm}
-              />
-            }
-          </ModalBody>
-        </ModalMain>
-      </ModalContainer>
-    )
-  }
-
-  private saveProject = async (project: Project) => {
-    await this.props.models.saveModel(project, {
-      projectID: project._id,
-    })
-  }
-
-  private handleSubmit = async (
-    values: Values,
-    { setSubmitting, setErrors }: FormikActions<Values | FormErrors>
-  ) => {
-    setErrors({})
-
-    try {
-      await this.saveProject({
-        ...this.props.project,
-        title: values.projectTitle,
-      })
-      setSubmitting(false)
-      this.props.handleComplete()
-    } catch (error) {
-      setSubmitting(false)
-
-      const errors: FormikErrors<FormErrors> = {
-        submit: error.response && 'There was an error',
-      }
-
-      setErrors(errors)
-    }
-  }
+interface Props {
+  handleComplete: () => void
+  project: Project
+  saveProjectTitle: (title: string) => Promise<Project>
 }
 
-export default withModels(RenameProject)
+const RenameProject: React.FunctionComponent<Props> = ({
+  handleComplete,
+  project,
+  saveProjectTitle,
+}) => (
+  <ModalContainer>
+    <ModalHeader>
+      <CloseButton onClick={() => handleComplete()}>
+        <CloseIconDark />
+      </CloseButton>
+    </ModalHeader>
+    <ModalMain>
+      <ModalTitle>{<ProjectRenameMessage />}</ModalTitle>
+      <ModalBody>
+        {
+          <Formik<RenameProjectValues>
+            initialValues={{
+              title: project.title || '',
+            }}
+            isInitialValid={true}
+            validateOnChange={false}
+            validateOnBlur={false}
+            onSubmit={async (values, actions) => {
+              actions.setErrors({})
+
+              try {
+                await saveProjectTitle(values.title)
+
+                actions.setSubmitting(false)
+                handleComplete()
+              } catch (error) {
+                actions.setSubmitting(false)
+
+                const errors: FormikErrors<RenameProjectValues & FormErrors> = {
+                  submit: error.response && 'There was an error',
+                }
+
+                actions.setErrors(errors)
+              }
+            }}
+            component={RenameProjectForm}
+          />
+        }
+      </ModalBody>
+    </ModalMain>
+  </ModalContainer>
+)
+
+export default RenameProject

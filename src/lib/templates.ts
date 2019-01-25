@@ -1,9 +1,11 @@
 import {
   Build,
-  buildManuscript,
   buildParagraph,
   buildSection,
   DEFAULT_BUNDLE,
+  generateID,
+  ManuscriptModel,
+  ObjectType,
 } from '@manuscripts/manuscript-editor'
 import {
   Bundle,
@@ -11,8 +13,8 @@ import {
   Model,
 } from '@manuscripts/manuscripts-json-schema'
 import axios from 'axios'
+import { mergeWith } from 'lodash-es'
 import config from '../config'
-import { ModelIDs } from '../store/ModelsProvider'
 import {
   MandatorySubsectionsRequirement,
   ManuscriptTemplate,
@@ -104,109 +106,179 @@ export const categoriseSectionRequirements = (
   return { requiredSections, manuscriptSections }
 }
 
-export const createManuscriptSectionsFromTemplate = async (
-  requiredSections: SectionDescription[],
-  sectionCategories: Map<string, SectionCategory>,
-  saveModelWithIDs: (model: Build<Model>) => Promise<Model>
-) => {
-  let previousPriority = -1
+export const chooseSectionTitle = (
+  sectionDescription: SectionDescription,
+  sectionCategory?: SectionCategory
+): string => {
+  if (sectionDescription) {
+    if (sectionDescription.title) {
+      return sectionDescription.title
+    }
 
-  await Promise.all(
-    requiredSections.map(async sectionDescription => {
-      const sectionCategory = sectionCategories.get(
-        sectionDescription.sectionCategory
-      )
+    if (sectionDescription.titles && sectionDescription.titles[0]) {
+      return sectionDescription.titles[0]
+    }
+  }
 
-      const priority =
-        sectionCategory && sectionCategory.priority
-          ? sectionCategory.priority
-          : previousPriority + 1
+  if (sectionCategory) {
+    return sectionCategory.name
+  }
 
-      previousPriority = priority
-
-      const section = buildSection(priority)
-      section.elementIDs = []
-
-      const sectionTitle =
-        sectionDescription.title ||
-        sectionCategory!.titles[0] ||
-        sectionCategory!.name
-
-      section.title =
-        sectionTitle.substr(0, 1).toUpperCase() + sectionTitle.substr(1)
-
-      const choosePlaceholder = (): string | undefined => {
-        if (sectionDescription.placeholder) {
-          return sectionDescription.placeholder
-        }
-
-        if (sectionCategory && sectionCategory.desc) {
-          return sectionCategory.desc
-        }
-      }
-
-      const placeholder = choosePlaceholder()
-
-      if (placeholder) {
-        const paragraph = buildParagraph(
-          `<p data-placeholder-text="${placeholder}"></p>`
-        )
-
-        paragraph.placeholderInnerHTML = placeholder
-
-        await saveModelWithIDs(paragraph)
-
-        section.elementIDs.push(paragraph._id)
-      } else if (!sectionDescription.subsections) {
-        const paragraph = buildParagraph('<p></p>')
-
-        await saveModelWithIDs(paragraph)
-
-        section.elementIDs.push(paragraph._id)
-      }
-
-      if (sectionDescription.subsections) {
-        await Promise.all(
-          sectionDescription.subsections.map(
-            async (subsectionDescription, index) => {
-              const subsection = buildSection(index, [section._id])
-              subsection.title = subsectionDescription.title
-
-              if (subsectionDescription.placeholder) {
-                const paragraph = buildParagraph(
-                  `<p data-placeholder-text="${
-                    subsectionDescription.placeholder
-                  }"></p>`
-                )
-
-                paragraph.placeholderInnerHTML =
-                  subsectionDescription.placeholder
-
-                await saveModelWithIDs(paragraph)
-
-                subsection.elementIDs = [paragraph._id]
-              } else {
-                const paragraph = buildParagraph('<p></p>')
-
-                await saveModelWithIDs(paragraph)
-
-                subsection.elementIDs = [paragraph._id]
-              }
-
-              await saveModelWithIDs(subsection)
-            }
-          )
-        )
-      }
-
-      await saveModelWithIDs(section)
-    })
-  )
+  return ''
 }
 
-export const createEmptyManuscriptSections = async (
-  saveModelWithIDs: (model: Build<Model>) => Promise<Model>
+export const buildSectionFromDescription = (
+  sectionDescription: SectionDescription,
+  priority: number,
+  sectionCategory?: SectionCategory
 ) => {
+  const dependencies = []
+
+  const section = buildSection(priority)
+  section.elementIDs = []
+
+  const sectionTitle = chooseSectionTitle(sectionDescription, sectionCategory)
+
+  section.title =
+    sectionTitle.substr(0, 1).toUpperCase() + sectionTitle.substr(1)
+
+  const choosePlaceholder = (): string | undefined => {
+    if (sectionDescription.placeholder) {
+      return sectionDescription.placeholder
+    }
+
+    if (sectionCategory && sectionCategory.desc) {
+      return sectionCategory.desc
+    }
+  }
+
+  const placeholder = choosePlaceholder()
+
+  if (placeholder) {
+    const paragraph = buildParagraph(
+      `<p data-placeholder-text="${placeholder}"></p>`
+    )
+
+    paragraph.placeholderInnerHTML = placeholder
+
+    dependencies.push(paragraph)
+
+    section.elementIDs.push(paragraph._id)
+  } else if (!sectionDescription.subsections) {
+    const paragraph = buildParagraph('<p></p>')
+
+    dependencies.push(paragraph)
+
+    section.elementIDs.push(paragraph._id)
+  }
+
+  if (sectionDescription.subsections) {
+    sectionDescription.subsections.map((subsectionDescription, index) => {
+      const subsection = buildSection(index, [section._id])
+      subsection.title = subsectionDescription.title
+
+      if (subsectionDescription.placeholder) {
+        const paragraph = buildParagraph(
+          `<p data-placeholder-text="${subsectionDescription.placeholder}"></p>`
+        )
+
+        paragraph.placeholderInnerHTML = subsectionDescription.placeholder
+
+        dependencies.push(paragraph)
+
+        subsection.elementIDs = [paragraph._id]
+      } else {
+        const paragraph = buildParagraph('<p></p>')
+
+        dependencies.push(paragraph)
+
+        subsection.elementIDs = [paragraph._id]
+      }
+
+      dependencies.push(subsection)
+    })
+  }
+
+  return { section, dependencies }
+}
+
+export const createManuscriptSectionsFromTemplate = (
+  requiredSections: SectionDescription[],
+  sectionCategories: Map<string, SectionCategory>
+): Array<Build<ManuscriptModel>> => {
+  let priority = 1
+
+  const items: Array<Build<ManuscriptModel>> = []
+
+  requiredSections.forEach(sectionDescription => {
+    const sectionCategory = sectionCategories.get(
+      sectionDescription.sectionCategory
+    )
+
+    const { section, dependencies } = buildSectionFromDescription(
+      sectionDescription,
+      priority++,
+      sectionCategory
+    )
+
+    items.push(...dependencies)
+    items.push(section)
+  })
+
+  return items
+}
+
+export const fromPrototype = <T extends Model>(model: T): T => {
+  const output = {
+    ...model,
+    prototype: model._id,
+    _id: generateID(model.objectType as ObjectType),
+  }
+
+  return output as T // TODO: add prototype to Model schema
+}
+
+export const createMergedTemplate = (
+  template: ManuscriptTemplate,
+  manuscriptTemplates?: Map<string, ManuscriptTemplate>
+) => {
+  if (!manuscriptTemplates) {
+    return template
+  }
+
+  let mergedTemplate = { ...template }
+
+  let parentTemplateID = mergedTemplate.parent
+
+  while (parentTemplateID) {
+    const parentTemplate = manuscriptTemplates.get(parentTemplateID)
+
+    if (!parentTemplate) {
+      break
+    }
+
+    mergedTemplate = mergeWith(
+      mergedTemplate,
+      parentTemplate,
+      (objValue, srcValue) => {
+        if (Array.isArray(objValue)) {
+          // TODO: only merge requirementIDs?
+          return objValue.concat(srcValue) // merge arrays
+        }
+
+        return objValue === undefined ? srcValue : objValue
+      }
+    )
+
+    parentTemplateID = parentTemplate.parent
+  }
+
+  delete mergedTemplate.parent
+
+  return fromPrototype<ManuscriptTemplate>(mergedTemplate)
+}
+
+export const createEmptyParagraph = () => {
   const placeholderText =
     'Start from here. Enjoy writing! - the Manuscripts Team.'
 
@@ -216,87 +288,7 @@ export const createEmptyManuscriptSections = async (
 
   paragraph.placeholderInnerHTML = placeholderText
 
-  await saveModelWithIDs(paragraph)
-
-  const section = buildSection()
-
-  section.elementIDs = [paragraph._id]
-
-  await saveModelWithIDs(section)
-}
-
-export const saveParentTemplates = async (
-  template: ManuscriptTemplate,
-  saveModelWithIDs: (model: Build<Model>) => Promise<Model>,
-  manuscriptTemplates?: Map<string, ManuscriptTemplate>
-) => {
-  if (!manuscriptTemplates) return
-
-  let parentTemplateID = template.parent
-
-  while (parentTemplateID) {
-    const parentTemplate = manuscriptTemplates.get(parentTemplateID)
-
-    if (!parentTemplate) {
-      break
-    }
-
-    await saveModelWithIDs(parentTemplate)
-
-    parentTemplateID = parentTemplate.parent
-  }
-}
-
-export const saveTemplate = async (
-  template: ManuscriptTemplate,
-  saveModelWithIDs: (model: Build<Model>) => Promise<Model>,
-  manuscriptTemplates?: Map<string, ManuscriptTemplate>
-) => {
-  if (!manuscriptTemplates) return
-
-  const data = manuscriptTemplates.get(template._id)
-
-  if (!data) return
-
-  await saveModelWithIDs(data)
-}
-
-export const saveCategory = async (
-  template: ManuscriptTemplate,
-  saveModelWithIDs: (model: Build<Model>) => Promise<Model>,
-  manuscriptCategories?: Map<string, ManuscriptCategory>
-) => {
-  if (!manuscriptCategories) return
-
-  const categoryID = template.category
-
-  if (categoryID) {
-    const category = manuscriptCategories.get(categoryID)
-
-    if (category) {
-      await saveModelWithIDs(category)
-    }
-  }
-}
-
-export const createExtraManuscripts = async (
-  manuscriptSections: SectionDescription[],
-  saveModel: <T extends Model>(model: Build<T>, ids: ModelIDs) => Promise<T>,
-  projectID: string,
-  template?: ManuscriptTemplate
-) => {
-  for (const sectionDescription of manuscriptSections) {
-    const extraManuscript = buildManuscript(sectionDescription.title)
-
-    if (template && template.bundle) {
-      extraManuscript.bundle = template.bundle
-    }
-
-    await saveModel(extraManuscript, {
-      manuscriptID: extraManuscript._id,
-      projectID,
-    })
-  }
+  return paragraph
 }
 
 export const buildCategories = (items: Map<string, ManuscriptCategory>) =>

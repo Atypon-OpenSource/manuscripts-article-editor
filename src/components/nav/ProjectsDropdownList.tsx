@@ -61,7 +61,6 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
               </AlertMessage>
             )}
           <InvitationDropdownSection
-            key={invitation._id}
             invitation={invitation}
             invitingUserProfile={invitingUserProfile}
             acceptInvitation={acceptInvitation}

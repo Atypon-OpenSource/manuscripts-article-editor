@@ -9,8 +9,7 @@ import { RouteComponentProps } from 'react-router'
 import { projectInvite, projectUninvite, updateUserRole } from '../../lib/api'
 import { buildCollaborators } from '../../lib/collaborators'
 import { ProjectRole } from '../../lib/roles'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
-import { Main, Page } from '../Page'
+import { Main } from '../Page'
 import { CollaboratorDetailsPage } from './CollaboratorsPage'
 import CollaboratorsSidebar from './CollaboratorsSidebar'
 
@@ -23,16 +22,15 @@ interface Props {
   invitations: ProjectInvitation[]
   project: Project
   user: UserProfileWithAvatar
-  users: Map<string, UserProfileWithAvatar>
+  collaborators: Map<string, UserProfileWithAvatar>
 }
 
 type CombinedProps = Props &
-  ModelsProps &
   RouteComponentProps<{
     projectID: string
   }>
 
-class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
+class CollaboratorsPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
     error: null,
     selectedCollaborator: null,
@@ -40,18 +38,18 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
   public render() {
     const { selectedCollaborator } = this.state
-    const { invitations, project, user, users } = this.props
+    const { invitations, project, user, collaborators } = this.props
 
     const acceptedInvitations = invitations.filter(
       invitation => !invitation.acceptedAt
     )
 
-    const collaborators = buildCollaborators(project, users)
+    const projectCollaborators = buildCollaborators(project, collaborators)
 
     return (
-      <Page project={project}>
+      <>
         <CollaboratorsSidebar
-          collaborators={collaborators}
+          projectCollaborators={projectCollaborators}
           invitations={acceptedInvitations}
           project={project}
           user={user}
@@ -65,13 +63,15 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           <CollaboratorDetailsPage
             project={project}
             user={user}
-            collaboratorsCount={collaborators.length + invitations.length}
+            collaboratorsCount={
+              projectCollaborators.length + invitations.length
+            }
             handleAddCollaborator={this.handleAddCollaborator}
             selectedCollaborator={selectedCollaborator}
             manageProfile={this.manageProfile}
           />
         </Main>
-      </Page>
+      </>
     )
   }
 
@@ -122,4 +122,4 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
   private manageProfile = () => this.props.history.push('/profile')
 }
 
-export default withModels<Props>(CollaboratorPageContainer)
+export default CollaboratorsPageContainer

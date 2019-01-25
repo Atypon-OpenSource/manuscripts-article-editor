@@ -1,7 +1,7 @@
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { styled, ThemedProps } from '../../theme'
-import { PrimaryButton } from '../Button'
+import { PrimarySubmitButton } from '../Button'
 import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
 import { TextArea, TextField } from '../TextField'
@@ -60,9 +60,7 @@ export const FeedbackForm: React.FunctionComponent<
     {errors.submit && <FormError>{errors.submit}</FormError>}
 
     <ModalFormActions>
-      <PrimaryButton type={'submit'} disabled={isSubmitting}>
-        Submit
-      </PrimaryButton>
+      <PrimarySubmitButton disabled={isSubmitting}>Submit</PrimarySubmitButton>
     </ModalFormActions>
   </Form>
 )

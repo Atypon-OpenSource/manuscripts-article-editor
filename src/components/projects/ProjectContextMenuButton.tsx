@@ -2,7 +2,7 @@ import HorizontalEllipsis from '@manuscripts/assets/react/HorizontalEllipsis'
 import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import React from 'react'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { styled } from '../../theme'
 import { IconButton } from '../Button'
 import { Category, Dialog } from '../Dialog'
@@ -27,10 +27,12 @@ interface State {
 }
 
 interface Props {
+  deleteProject: () => Promise<string>
   project: Project
+  saveProjectTitle: (title: string) => Promise<Project>
 }
 
-type CombinedProps = Props & ModelsProps & ModalProps
+type CombinedProps = Props & ModalProps & RouteComponentProps
 
 class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
   public state: State = {
@@ -47,7 +49,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
 
   public render() {
     const { isOpen, isConfirmDeleteOpen, isRenameOpen } = this.state
-    const { project } = this.props
+    const { deleteProject, history, project } = this.props
 
     const actions = {
       primary: {
@@ -58,7 +60,11 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
         title: 'Cancel',
       },
       secondary: {
-        action: () => this.props.models.deleteModel(this.props.project._id),
+        action: async () => {
+          await deleteProject()
+          // TODO: delete project models and collection
+          history.push('/projects')
+        },
         title: 'Delete',
         isDestructive: true,
       },
@@ -76,10 +82,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
       : 'Are you sure you wish to delete this untitled project?'
 
     return (
-      <DropdownContainer
-        // @ts-ignore: styled
-        ref={this.nodeRef}
-      >
+      <DropdownContainer ref={this.nodeRef}>
         <ContextMenuIconButton onClick={() => this.setOpen(!isOpen)}>
           <HorizontalEllipsis />
         </ContextMenuIconButton>
@@ -105,6 +108,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
           this.props.addModal('rename-project', ({ handleClose }) => (
             <RenameProject
               project={this.props.project}
+              saveProjectTitle={this.props.saveProjectTitle}
               handleComplete={() => {
                 handleClose()
                 this.setState({
@@ -144,7 +148,10 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
       isConfirmDeleteOpen: true,
     })
 
-  private renameProject = () => this.setState({ isRenameOpen: true })
+  private renameProject = () =>
+    this.setState({
+      isRenameOpen: true,
+    })
 }
 
-export default withModal<Props>(withModels(ProjectContextMenuButton))
+export default withModal<Props>(withRouter(ProjectContextMenuButton))

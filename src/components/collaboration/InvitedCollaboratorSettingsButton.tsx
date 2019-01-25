@@ -59,11 +59,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
       <Manager>
         <Reference>
           {({ ref }) => (
-            <AddIconButton
-              // @ts-ignore: styled
-              ref={ref}
-              onClick={this.openPopper}
-            >
+            <AddIconButton ref={ref} onClick={this.openPopper}>
               <SettingsInvertedIcon color={theme.colors.icon.primary} />
             </AddIconButton>
           )}

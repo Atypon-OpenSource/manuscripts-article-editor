@@ -37,11 +37,7 @@ class InviteAuthorButton extends React.Component<Props, State> {
       <Manager>
         <Reference>
           {({ ref }) => (
-            <Button
-              // @ts-ignore: styled
-              ref={ref}
-              onClick={this.togglePopper}
-            >
+            <Button ref={ref} onClick={this.togglePopper}>
               Invite as Collaborator
             </Button>
           )}

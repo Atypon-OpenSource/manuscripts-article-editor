@@ -1,4 +1,4 @@
-import { Formik, FormikActions, FormikErrors } from 'formik'
+import { Formik, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
@@ -6,62 +6,51 @@ import { changePassword } from '../../lib/api'
 import { changePasswordSchema } from '../../validation'
 import { FormErrors } from '../Form'
 import { ChangePasswordMessage } from '../Messages'
-import ModalForm from '../ModalForm'
+import { ModalForm } from '../ModalForm'
 import { ChangePasswordForm, ChangePasswordValues } from './ChangePasswordForm'
 
-const initialValues = {
-  currentPassword: '',
-  newPassword: '',
-}
+const ChangePasswordPageContainer: React.FunctionComponent<
+  RouteComponentProps
+> = ({ history }) => (
+  <ModalForm
+    title={<ChangePasswordMessage />}
+    handleClose={() => history.goBack()}
+  >
+    <Formik<ChangePasswordValues>
+      initialValues={{
+        currentPassword: '',
+        newPassword: '',
+      }}
+      validationSchema={changePasswordSchema}
+      isInitialValid={true}
+      validateOnChange={false}
+      validateOnBlur={false}
+      onSubmit={async (values, actions) => {
+        actions.setErrors({})
 
-class ChangePasswordPageContainer extends React.Component<
-  RouteComponentProps<{}>
-> {
-  public render() {
-    return (
-      <ModalForm title={<ChangePasswordMessage />}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={changePasswordSchema}
-          isInitialValid={true}
-          validateOnChange={false}
-          validateOnBlur={false}
-          onSubmit={this.handleSubmit}
-          component={ChangePasswordForm}
-        />
-      </ModalForm>
-    )
-  }
+        try {
+          await changePassword(values.currentPassword, values.newPassword)
 
-  private handleSubmit = async (
-    values: ChangePasswordValues,
-    {
-      setSubmitting,
-      setErrors,
-    }: FormikActions<ChangePasswordValues | FormErrors>
-  ) => {
-    setErrors({})
+          actions.setSubmitting(false)
 
-    try {
-      await changePassword(values.currentPassword, values.newPassword)
+          history.push('/')
+        } catch (error) {
+          actions.setSubmitting(false)
 
-      setSubmitting(false)
+          const errors: FormikErrors<ChangePasswordValues & FormErrors> = {
+            submit:
+              error.response &&
+              error.response.status === HttpStatusCodes.UNAUTHORIZED
+                ? 'The password entered is incorrect'
+                : 'There was an error',
+          }
 
-      this.props.history.push('/')
-    } catch (error) {
-      setSubmitting(false)
-
-      const errors: FormikErrors<FormErrors> = {
-        submit:
-          error.response &&
-          error.response.status === HttpStatusCodes.UNAUTHORIZED
-            ? 'The password entered is incorrect'
-            : 'There was an error',
-      }
-
-      setErrors(errors)
-    }
-  }
-}
+          actions.setErrors(errors)
+        }
+      }}
+      component={ChangePasswordForm}
+    />
+  </ModalForm>
+)
 
 export default ChangePasswordPageContainer

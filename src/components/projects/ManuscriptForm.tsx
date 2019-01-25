@@ -6,7 +6,7 @@ import { OptionsType } from 'react-select/lib/types'
 import config from '../../config'
 import { styled } from '../../theme'
 import { ImmediateSelectField } from '../ImmediateSelectField'
-import { Spinner } from '../Spinner'
+import { Loading } from '../Loading'
 
 const StyledForm = styled(Form)`
   padding: 20px;
@@ -77,17 +77,15 @@ class ManuscriptForm extends React.Component<Props, State> {
     const { styles, locales } = this.state
 
     if (!styles || !locales) {
-      return <Spinner />
-    }
-
-    const initialValues: ManuscriptValues = {
-      bundle: manuscript.bundle || DEFAULT_BUNDLE,
-      primaryLanguageCode: manuscript.primaryLanguageCode || 'en-GB',
+      return <Loading />
     }
 
     return (
       <Formik<ManuscriptValues>
-        initialValues={initialValues}
+        initialValues={{
+          bundle: manuscript.bundle || DEFAULT_BUNDLE,
+          primaryLanguageCode: manuscript.primaryLanguageCode || 'en-GB',
+        }}
         onSubmit={saveManuscript}
         enableReinitialize={true}
       >

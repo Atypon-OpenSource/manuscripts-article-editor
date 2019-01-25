@@ -151,7 +151,7 @@ storiesOf('Collaboration/Sidebars', module)
         owners: [people[0].userID],
         viewers: [people[1].userID, people[2].userID],
       }}
-      collaborators={people}
+      projectCollaborators={people}
       invitations={invitations}
       user={people[0]}
       projectInvite={action('invitation send')}
@@ -168,7 +168,7 @@ storiesOf('Collaboration/Sidebars', module)
         owners: [people[1].userID],
         viewers: [people[0].userID, people[2].userID],
       }}
-      collaborators={people}
+      projectCollaborators={people}
       invitations={invitations}
       user={people[0]}
       projectInvite={action('invitation send')}

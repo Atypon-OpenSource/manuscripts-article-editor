@@ -10,10 +10,10 @@ interface Config {
   discourse: {
     host: string
   }
-  gateway: {
+  data: {
     url: string
   }
-  data: {
+  gateway: {
     url: string
   }
   pressroom: {
@@ -66,14 +66,14 @@ const config = {
       'manuscripts-app-id': process.env.API_APPLICATION_ID,
     },
   },
+  data: {
+    url: normalizeURL(process.env.DATA_URL),
+  },
   discourse: {
     host: normalizeURL(process.env.DISCOURSE_HOST),
   },
   gateway: {
     url: normalizeURL(process.env.SYNC_GATEWAY_URL),
-  },
-  data: {
-    url: normalizeURL(process.env.DATA_URL),
   },
   pressroom: {
     key: process.env.PRESSROOM_KEY,

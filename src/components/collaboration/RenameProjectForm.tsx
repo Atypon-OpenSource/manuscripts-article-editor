@@ -1,9 +1,9 @@
 import { TitleField } from '@manuscripts/title-editor'
-import { Field, FieldProps, Form, FormikProps } from 'formik'
+import { Form, FormikProps } from 'formik'
 import React from 'react'
 import { dustyGrey } from '../../colors'
 import { styled } from '../../theme'
-import { PrimaryButton } from '../Button'
+import { PrimarySubmitButton } from '../Button'
 import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
 
@@ -28,33 +28,24 @@ const StyledTitleField = styled(TitleField)`
     }
   }
 `
-export interface Values {
-  projectTitle: string | undefined
+export interface RenameProjectValues {
+  title: string
 }
 
 export const RenameProjectForm: React.FunctionComponent<
-  FormikProps<Values & FormErrors>
-> = ({ errors, isSubmitting, values }) => (
-  <Form id={'rename-project-form'} noValidate={true}>
-    <Field name={'Title'}>
-      {(field: FieldProps) => (
-        <StyledTitleField
-          id={'project-title-field'}
-          value={values.projectTitle}
-          handleChange={(data: string) =>
-            field.form.setFieldValue('projectTitle', data)
-          }
-          autoFocus={true}
-        />
-      )}
-    </Field>
+  FormikProps<RenameProjectValues & FormErrors>
+> = ({ errors, isSubmitting, values, setFieldValue }) => (
+  <Form noValidate={true}>
+    <StyledTitleField
+      value={values.title || ''}
+      handleChange={(data: string) => setFieldValue('title', data)}
+      autoFocus={true}
+    />
 
     {errors.submit && <FormError>{errors.submit}</FormError>}
 
     <ModalFormActions>
-      <PrimaryButton type={'submit'} disabled={isSubmitting}>
-        Rename
-      </PrimaryButton>
+      <PrimarySubmitButton disabled={isSubmitting}>Rename</PrimarySubmitButton>
     </ModalFormActions>
   </Form>
 )

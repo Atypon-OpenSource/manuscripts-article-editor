@@ -76,6 +76,7 @@ export interface SectionDescription extends EmbeddedModel {
   required?: boolean
   sectionCategory: string // SectionCategory id
   title?: string
+  titles?: string[]
   placeholder?: string
   subsections?: Array<{ title: string; placeholder?: string }>
   maxWordCount?: number

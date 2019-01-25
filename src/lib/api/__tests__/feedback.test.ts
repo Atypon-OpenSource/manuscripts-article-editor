@@ -1,7 +1,7 @@
 import client from '../../client'
 import { feedback } from '../feedback'
 
-jest.mock('../../deviceId')
+jest.mock('../../device-id')
 
 jest.mock('../../client', () => ({
   post: jest.fn(),

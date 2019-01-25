@@ -1,6 +1,5 @@
 import { Formik, FormikConfig } from 'formik'
 import React from 'react'
-
 import { Centered } from '../Page'
 import AuthButtonContainer from './AuthButtonContainer'
 import { AuthenticationContainer, GoogleLogin } from './Authentication'
@@ -18,7 +17,7 @@ const LoginPage: React.FunctionComponent<FormikConfig<LoginValues> & Props> = ({
   submitErrorType,
 }) => (
   <Centered>
-    <Formik
+    <Formik<LoginValues>
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={true}

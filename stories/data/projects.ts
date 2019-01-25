@@ -18,18 +18,18 @@ const projects: Project[] = [
     title: 'Another example project',
     createdAt: Math.floor(new Date('2018-02-22T08:00:00Z').getTime() / 1000),
     updatedAt: Math.floor(new Date('2018-02-22T08:00:00Z').getTime() / 1000),
-    owners: [],
-    writers: [],
-    viewers: [],
+    owners: ['user_3'],
+    writers: ['user_1'],
+    viewers: ['user_2'],
   },
   {
     _id: 'project-3',
     objectType: 'MPProject',
     createdAt: Math.floor(new Date('2018-02-22T08:00:00Z').getTime() / 1000),
     updatedAt: Math.floor(new Date('2018-02-22T08:00:00Z').getTime() / 1000),
-    owners: [],
+    owners: ['user_2'],
     writers: [],
-    viewers: [],
+    viewers: ['user_1', 'user_3'],
   },
 ]
 

@@ -3,16 +3,20 @@ const React = require('react')
 const { MemoryRouter } = require('react-router-dom')
 const { Story } = require('../components/Story')
 const { GlobalStyle, ThemeProvider } = require('../../src/theme')
-const IntlProvider = require('../../src/store/IntlProvider').default
+const IntlProvider = require('../../src/components/IntlProvider').default
+const { ModalProvider } = require('../../src/components/ModalProvider')
+const { databaseCreator } = require('../../src/lib/__mocks__/db')
 
 addDecorator(story => (
   <IntlProvider>
     <ThemeProvider>
       <MemoryRouter initialEntries={['/']}>
-        <Story>
-          <GlobalStyle />
-          <div>{story()}</div>
-        </Story>
+        <ModalProvider>
+          <Story>
+            <GlobalStyle suppressMultiMountWarning/>
+            <div>{story()}</div>
+          </Story>
+        </ModalProvider>
       </MemoryRouter>
     </ThemeProvider>
   </IntlProvider>

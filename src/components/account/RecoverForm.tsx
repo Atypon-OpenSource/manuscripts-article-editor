@@ -1,6 +1,6 @@
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
-import { PrimaryButton } from '../Button'
+import { PrimarySubmitButton } from '../Button'
 import { CenteredForm, FormActions, FormHeader } from '../Form'
 import { SubHero } from '../Hero'
 import { TextField } from '../TextField'
@@ -44,9 +44,9 @@ export const RecoverForm: React.FunctionComponent<
     <FormActions>
       <div />
       <div>
-        <PrimaryButton type={'submit'} disabled={isSubmitting}>
+        <PrimarySubmitButton disabled={isSubmitting}>
           Send password reset
-        </PrimaryButton>
+        </PrimarySubmitButton>
       </div>
     </FormActions>
   </CenteredForm>

@@ -4,10 +4,10 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import CollaboratorsData from '../../data/CollaboratorsData'
 import InvitationsData from '../../data/InvitationsData'
 import ProjectsData from '../../data/ProjectsData'
 import UserData from '../../data/UserData'
-import UsersData from '../../data/UsersData'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme'
@@ -85,8 +85,8 @@ class ProjectsButton extends React.Component<Props, State> {
         {
           <UserData userID={getCurrentUserId()!}>
             {user => (
-              <UsersData>
-                {users => (
+              <CollaboratorsData>
+                {collaborators => (
                   <ProjectsData>
                     {projects => (
                       <InvitationsData>
@@ -94,7 +94,7 @@ class ProjectsButton extends React.Component<Props, State> {
                           const invitationsData = this.buildInvitationData(
                             invitations,
                             user,
-                            users
+                            collaborators
                           )
                           const projectsIDs = projects.map(
                             project => project._id
@@ -114,21 +114,11 @@ class ProjectsButton extends React.Component<Props, State> {
                                 confirmReject={this.confirmReject}
                               />
                               <SidebarContent>
-                                <UsersData>
-                                  {users => (
-                                    <ProjectsData>
-                                      {projects => (
-                                        <ProjectsList
-                                          projects={projects}
-                                          users={users}
-                                          acceptedInvitations={
-                                            acceptedInvitations
-                                          }
-                                        />
-                                      )}
-                                    </ProjectsData>
-                                  )}
-                                </UsersData>
+                                <ProjectsList
+                                  projects={projects}
+                                  collaborators={collaborators}
+                                  acceptedInvitations={acceptedInvitations}
+                                />
                               </SidebarContent>
                             </div>
                           ) : (
@@ -146,6 +136,7 @@ class ProjectsButton extends React.Component<Props, State> {
                                 acceptError={acceptError}
                                 acceptInvitation={this.acceptInvitation}
                                 confirmReject={this.confirmReject}
+                                user={user}
                               />
                             </MenuDropdown>
                           )
@@ -154,7 +145,7 @@ class ProjectsButton extends React.Component<Props, State> {
                     )}
                   </ProjectsData>
                 )}
-              </UsersData>
+              </CollaboratorsData>
             )}
           </UserData>
         }
@@ -189,7 +180,7 @@ class ProjectsButton extends React.Component<Props, State> {
   private buildInvitationData = (
     invitations: ProjectInvitation[],
     user: UserProfile,
-    users: Map<string, UserProfile>
+    collaborators: Map<string, UserProfile>
   ) => {
     const { handledInvitations } = this.state
 
@@ -200,7 +191,7 @@ class ProjectsButton extends React.Component<Props, State> {
       if (invitation.invitingUserID === user.userID) continue // ignore invitee invitations
       if (handledInvitations.has(invitation._id)) continue // ignore handled invitations
 
-      const invitingUserProfile = users.get(invitation.invitingUserID)
+      const invitingUserProfile = collaborators.get(invitation.invitingUserID)
       if (!invitingUserProfile) continue // ignore missing invitee
 
       invitationsData.push({

@@ -1,15 +1,22 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
+import CollaboratorsData from '../../data/CollaboratorsData'
+import ProjectsData from '../../data/ProjectsData'
 import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { styled, ThemedProps } from '../../theme'
 import { ModalProps, withModal } from '../ModalProvider'
 import ProjectsButton from '../nav/ProjectsButton'
-import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
-import { TemplateSelector } from '../templates/TemplateSelector'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarTitle,
+} from '../Sidebar'
+import TemplateSelector from '../templates/TemplateSelector'
+import { ProjectsList } from './ProjectsList'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -69,31 +76,28 @@ const ProjectsContainer = styled.div`
   }
 `
 
-type Props = ModelsProps & RouteComponentProps & ModalProps
-
 const openTemplateSelector = (
-  props: Props,
+  props: ModalProps,
   user: UserProfileWithAvatar
 ) => () => {
   props.addModal('template-selector', ({ handleClose }) => (
-    <TemplateSelector
-      history={props.history}
-      saveModel={props.models.saveModel}
-      user={user}
-      handleComplete={handleClose}
-    />
+    <TemplateSelector user={user} handleComplete={handleClose} />
   ))
 }
 
-const ProjectsSidebar: React.FunctionComponent<Props> = props => (
+interface Props {
+  closeModal?: () => void
+}
+
+const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
   <Container id={'projects-sidebar'}>
-    <ProjectsContainer>
-      <Header>
-        <SidebarTitle className={'sidebar-title'}>Projects</SidebarTitle>
-      </Header>
-      <SidebarAction>
-        <UserData userID={getCurrentUserId()!}>
-          {user => (
+    <UserData userID={getCurrentUserId()!}>
+      {user => (
+        <ProjectsContainer>
+          <Header>
+            <SidebarTitle className={'sidebar-title'}>Projects</SidebarTitle>
+          </Header>
+          <SidebarAction>
             <AddButton
               onClick={openTemplateSelector(props, user)}
               id={'create-project'}
@@ -101,12 +105,12 @@ const ProjectsSidebar: React.FunctionComponent<Props> = props => (
               <AddIcon />
               <SidebarActionTitle>New Project</SidebarActionTitle>
             </AddButton>
-          )}
-        </UserData>
-      </SidebarAction>
-      <ProjectsButton isDropdown={false} />
-    </ProjectsContainer>
+          </SidebarAction>
+          <ProjectsButton isDropdown={false} />
+        </ProjectsContainer>
+      )}
+    </UserData>
   </Container>
 )
 
-export default withRouter(withModal(withModels(ProjectsSidebar)))
+export default withModal<Props>(ProjectsSidebar)

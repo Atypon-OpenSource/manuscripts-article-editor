@@ -1,19 +1,13 @@
 const storage = window.localStorage
 
-export interface Token {
-  access_token: string
-}
+export const TOKEN_KEY = 'token'
 
 export default {
-  get: (): Token | null => {
-    const token = storage.getItem('token')
+  get: () => storage.getItem(TOKEN_KEY),
+  set: (token: string) => {
+    storage.setItem(TOKEN_KEY, token)
 
-    return token ? JSON.parse(token) : null
+    return token
   },
-  set: (data: Token): Token => {
-    storage.setItem('token', JSON.stringify(data))
-
-    return data
-  },
-  remove: () => storage.removeItem('token'),
+  remove: () => storage.removeItem(TOKEN_KEY),
 }

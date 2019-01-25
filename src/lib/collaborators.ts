@@ -3,9 +3,9 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 
 export const buildCollaborators = (
   project: Project,
-  users: Map<string, UserProfileWithAvatar>
+  collaborators: Map<string, UserProfileWithAvatar>
 ): UserProfileWithAvatar[] => {
-  const getCollaborator = (id: string) => users.get(id)!
+  const getCollaborator = (id: string) => collaborators.get(id)!
 
   return [
     ...project.owners.map(getCollaborator),

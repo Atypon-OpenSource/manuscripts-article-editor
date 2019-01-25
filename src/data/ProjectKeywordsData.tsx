@@ -1,74 +1,83 @@
 import { Keyword, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { Spinner } from '../components/Spinner'
-import { ModelsProps, withModels } from '../store/ModelsProvider'
+import { Collection } from '../sync/Collection'
+import CollectionManager from '../sync/CollectionManager'
+import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (keywords: Map<string, Keyword>) => React.ReactNode
+  children: (
+    data: Map<string, Keyword>,
+    collection: Collection<Keyword>
+  ) => React.ReactNode
   projectID: string
 }
 
 interface State {
-  keywords?: Map<string, Keyword>
+  data?: Map<string, Keyword>
 }
 
-class ProjectKeywordsData extends React.Component<ModelsProps & Props, State> {
-  public state: Readonly<State> = {}
+class ProjectKeywordsData extends DataComponent<Keyword, Props, State> {
+  public constructor(props: Props) {
+    super(props)
 
-  private sub: Subscription
+    this.state = {}
+
+    this.collection = CollectionManager.getCollection<Keyword>(
+      `project-${props.projectID}`
+    )
+  }
 
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.sub = this.loadKeywords(projectID)
+    this.collection.addEventListener('complete', this.handleComplete)
+
+    this.sub = this.subscribe(projectID)
   }
 
-  public componentWillReceiveProps(nextProps: Props & ModelsProps) {
+  public componentWillReceiveProps(nextProps: Props) {
     const { projectID } = nextProps
 
     if (projectID !== this.props.projectID) {
       this.sub.unsubscribe()
-      this.setState({ keywords: undefined })
-      this.sub = this.loadKeywords(projectID)
+
+      this.setState({ data: undefined })
+
+      this.collection.removeEventListener('complete', this.handleComplete)
+
+      this.collection = CollectionManager.getCollection<Keyword>(
+        `project-${projectID}`
+      )
+
+      this.collection.addEventListener('complete', this.handleComplete)
+
+      this.sub = this.subscribe(projectID)
     }
   }
 
   public componentWillUnmount() {
+    this.collection.removeEventListener('complete', this.handleComplete)
+
     this.sub.unsubscribe()
   }
 
-  public render() {
-    const { keywords } = this.state
-
-    if (!keywords) {
-      return <Spinner />
-    }
-
-    return this.props.children(keywords)
-  }
-
-  private loadKeywords = (containerID: string) => {
-    const collection = this.props.models.collection as RxCollection<Keyword>
-
-    return collection
+  private subscribe = (containerID: string) =>
+    this.collection
       .find({
         containerID,
         objectType: ObjectTypes.Keyword,
       })
       .$.subscribe(docs => {
         if (docs) {
-          const keywords: Map<string, Keyword> = new Map()
+          const data: Map<string, Keyword> = new Map()
 
           for (const doc of docs) {
-            keywords.set(doc._id, doc.toJSON())
+            data.set(doc._id, doc.toJSON())
           }
 
-          this.setState({ keywords })
+          this.setState({ data })
         }
       })
-  }
 }
 
-export default withModels<Props>(ProjectKeywordsData)
+export default ProjectKeywordsData

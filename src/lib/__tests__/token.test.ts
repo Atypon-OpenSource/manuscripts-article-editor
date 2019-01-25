@@ -6,11 +6,11 @@ describe('token', () => {
   it('get and set', () => {
     expect(TokenStore.get()).toBeFalsy()
 
-    const token = { access_token: 'bar' }
+    const token = 'bar'
     expect(TokenStore.set(token)).toEqual(token)
     expect(TokenStore.get()).toEqual(token)
 
     TokenStore.remove()
-    expect(TokenStore.get()).toBeFalsy()
+    expect(TokenStore.get()).toBe(null)
   })
 })

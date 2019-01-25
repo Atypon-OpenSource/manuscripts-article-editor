@@ -1,73 +1,72 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { ObjectTypes, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { Spinner } from '../components/Spinner'
 import { buildUser } from '../lib/data'
-import { ModelsProps, withModels } from '../store/ModelsProvider'
+import { Collection } from '../sync/Collection'
+import CollectionManager from '../sync/CollectionManager'
+import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (user: UserProfileWithAvatar) => React.ReactNode
+  children: (
+    data: UserProfileWithAvatar,
+    collection: Collection<UserProfileWithAvatar>
+  ) => React.ReactNode
+  placeholder?: React.ReactNode
   userID: string
 }
 
 interface State {
-  user?: UserProfileWithAvatar
+  data?: UserProfileWithAvatar
 }
 
-class UserData extends React.Component<ModelsProps & Props, State> {
-  public state: Readonly<State> = {}
+class UserData extends DataComponent<UserProfile, Props, State> {
+  public constructor(props: Props) {
+    super(props)
 
-  private sub: Subscription
+    this.state = {}
+
+    this.collection = CollectionManager.getCollection<UserProfile>('user')
+  }
 
   public componentDidMount() {
     const { userID } = this.props
 
-    this.sub = this.loadUser(userID)
+    this.collection.addEventListener('complete', this.handleComplete)
+
+    this.sub = this.subscribe(userID)
   }
 
-  public componentWillReceiveProps(nextProps: ModelsProps & Props) {
+  public componentWillReceiveProps(nextProps: Props) {
     const { userID } = nextProps
 
     if (userID !== this.props.userID) {
       this.sub.unsubscribe()
-      this.setState({ user: undefined })
-      this.sub = this.loadUser(userID)
+
+      this.setState({ data: undefined })
+
+      this.sub = this.subscribe(userID)
     }
   }
 
   public componentWillUnmount() {
+    this.collection.removeEventListener('complete', this.handleComplete)
+
     this.sub.unsubscribe()
   }
 
-  public render() {
-    const { user } = this.state
-
-    if (!user) {
-      return <Spinner />
-    }
-
-    return this.props.children(user)
-  }
-
-  private loadUser = (userID: string) => {
-    const collection = this.props.models.collection as RxCollection<UserProfile>
-
-    // NOTE: finding by `userID` not `_id`
-    return collection
+  private subscribe = (userID: string) =>
+    this.collection
       .findOne({
-        userID,
+        userID, // NOTE: finding by `userID` not `_id`
         objectType: ObjectTypes.UserProfile,
       })
       .$.subscribe(async doc => {
         if (doc) {
           this.setState({
-            user: await buildUser(doc),
+            data: await buildUser(doc),
           })
         }
       })
-  }
 }
 
-export default withModels<Props>(UserData)
+export default UserData

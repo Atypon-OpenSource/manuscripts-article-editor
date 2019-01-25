@@ -6,6 +6,7 @@ import ProjectsMenu from '../src/components/nav/ProjectsMenu'
 import { EmptyProjectPage } from '../src/components/projects/EmptyProjectPage'
 import ManuscriptSidebar from '../src/components/projects/ManuscriptSidebar'
 import { ProjectsList } from '../src/components/projects/ProjectsList'
+import { user } from './data/contributors'
 import manuscripts from './data/manuscripts'
 import { people } from './data/people'
 import projects from './data/projects'
@@ -18,7 +19,14 @@ for (const person of people) {
 
 storiesOf('Projects', module)
   .add('Projects Page', () => (
-    <ProjectsList projects={projects} users={users} acceptedInvitations={[]} />
+    <ProjectsList
+      projects={projects}
+      collaborators={users}
+      deleteProject={action('delete project')}
+      saveProjectTitle={action('save project title')}
+      user={user}
+      acceptedInvitations={[]}
+    />
   ))
   .add('Projects Page - Empty', () => (
     <EmptyProjectPage
@@ -32,10 +40,9 @@ storiesOf('Projects', module)
       manuscript={manuscripts[0]}
       manuscripts={manuscripts}
       project={projects[0]}
-      saveProject={action('save')}
+      saveProjectTitle={action('save title')}
       selected={null}
-      view={null}
-      doc={null}
+      user={user}
     />
   ))
   .add('Projects Menu', () => (
@@ -48,5 +55,6 @@ storiesOf('Projects', module)
       acceptError={null}
       acceptInvitation={action('accept invitation')}
       confirmReject={action('show dialog to confirm invitation rejection')}
+      user={user}
     />
   ))

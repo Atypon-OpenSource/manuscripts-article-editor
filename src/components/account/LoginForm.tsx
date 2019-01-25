@@ -2,7 +2,7 @@ import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { styled, ThemedProps } from '../../theme'
-import { PrimaryButton } from '../Button'
+import { PrimarySubmitButton } from '../Button'
 import {
   CenteredForm,
   FormActions,
@@ -109,9 +109,9 @@ export const LoginForm: React.FunctionComponent<
       </ManuscriptLinks>
 
       <div>
-        <PrimaryButton type={'submit'} disabled={isSubmitting}>
+        <PrimarySubmitButton disabled={isSubmitting}>
           Sign in
-        </PrimaryButton>
+        </PrimarySubmitButton>
       </div>
     </FormActions>
   </CenteredForm>

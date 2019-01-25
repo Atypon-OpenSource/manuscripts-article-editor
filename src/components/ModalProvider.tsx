@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from '../theme'
+import { StyledModal, totalTransitionTime } from './StyledModal'
 
 type ModalComponent = React.FunctionComponent<{
   handleClose: CloseModal
@@ -18,45 +18,36 @@ export const ModalContext = React.createContext<ModalProps>({
 
 export const withModal = <Props extends {}>(
   Component: React.ComponentType<ModalProps>
-): React.ComponentType<Props> => (props: Props) => (
+): React.ComponentType<Pick<Props, Exclude<keyof Props, ModalProps>>> => (
+  props: Props
+) => (
   <ModalContext.Consumer>
     {value => <Component {...props} {...value} />}
   </ModalContext.Consumer>
 )
 
-const ModalContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(235, 235, 235, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
 interface State {
   modals: Array<{ id: string; modal: ModalComponent }>
-  value: ModalProps
 }
 
 export class ModalProvider extends React.Component<{}, State> {
+  private value: ModalProps
+
   public constructor(props: {}) {
     super(props)
 
+    this.value = {
+      addModal: this.addModal,
+    }
+
     this.state = {
       modals: [],
-      value: {
-        addModal: this.addModal,
-      },
     }
   }
 
   public render() {
     return (
-      <ModalContext.Provider value={this.state.value}>
+      <ModalContext.Provider value={this.value}>
         {this.props.children}
         {this.renderModal()}
       </ModalContext.Provider>
@@ -78,20 +69,21 @@ export class ModalProvider extends React.Component<{}, State> {
   }
 
   private renderModal = () => {
-    const { modals } = this.state
+    const lastIndex = this.state.modals.length - 1
 
-    if (!modals.length) {
-      return null
-    }
+    return this.state.modals.map(({ id, modal }, index) => {
+      const handleClose = () => this.closeModal(id)
 
-    const { id, modal } = modals[modals.length - 1]
-
-    return (
-      <ModalContainer>
-        {modal({
-          handleClose: () => this.closeModal(id),
-        })}
-      </ModalContainer>
-    )
+      return (
+        <StyledModal
+          key={id}
+          isOpen={index === lastIndex}
+          onRequestClose={handleClose}
+          closeTimeoutMS={totalTransitionTime}
+        >
+          {modal({ handleClose })}
+        </StyledModal>
+      )
+    })
   }
 }

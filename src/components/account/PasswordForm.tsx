@@ -1,6 +1,6 @@
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
-import { PrimaryButton } from '../Button'
+import { PrimarySubmitButton } from '../Button'
 import { CenteredForm, FormHeader } from '../Form'
 import { SubHero } from '../Hero'
 import { ModalFormActions } from '../ModalForm'
@@ -41,9 +41,9 @@ export const PasswordForm: React.FunctionComponent<
     {errors.submit && <div>{errors.submit}</div>}
 
     <ModalFormActions>
-      <PrimaryButton type={'submit'} disabled={isSubmitting}>
+      <PrimarySubmitButton disabled={isSubmitting}>
         Save Password
-      </PrimaryButton>
+      </PrimarySubmitButton>
     </ModalFormActions>
   </CenteredForm>
 )

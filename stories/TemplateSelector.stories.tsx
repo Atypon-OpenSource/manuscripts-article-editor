@@ -24,6 +24,7 @@ storiesOf('Template Selector', module)
       categories={manuscriptCategories}
       researchFields={researchFields}
       handleComplete={action('complete')}
+      importManuscript={action('import manuscript')}
       selectTemplate={action('select template')}
       createEmpty={action('create empty')}
       projectID={'MPProject:story'}

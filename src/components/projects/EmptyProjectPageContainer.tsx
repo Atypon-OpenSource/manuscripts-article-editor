@@ -1,10 +1,8 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
-import { ModelsProps, withModels } from '../../store/ModelsProvider'
 import { ModalProps, withModal } from '../ModalProvider'
-import { TemplateSelector } from '../templates/TemplateSelector'
+import TemplateSelector from '../templates/TemplateSelector'
 import { EmptyProjectPage } from './EmptyProjectPage'
 
 interface Props {
@@ -12,9 +10,7 @@ interface Props {
   user: UserProfileWithAvatar
 }
 
-class EmptyProjectPageContainer extends React.Component<
-  Props & ModalProps & RouteComponentProps<{ projectID: string }> & ModelsProps
-> {
+class EmptyProjectPageContainer extends React.Component<Props & ModalProps> {
   public render() {
     const { project } = this.props
 
@@ -27,20 +23,16 @@ class EmptyProjectPageContainer extends React.Component<
   }
 
   private openTemplateSelector = () => {
-    const { addModal, history, match, models, user } = this.props
+    const { addModal, project, user } = this.props
 
     addModal('template-selector', ({ handleClose }) => (
       <TemplateSelector
         handleComplete={handleClose}
-        history={history}
-        projectID={match.params.projectID}
-        saveModel={models.saveModel}
+        projectID={project._id}
         user={user}
       />
     ))
   }
 }
 
-export default withRouter<Props & RouteComponentProps<{ projectID: string }>>(
-  withModal(withModels(EmptyProjectPageContainer))
-)
+export default withModal<Props>(EmptyProjectPageContainer)

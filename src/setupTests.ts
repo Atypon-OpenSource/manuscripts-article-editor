@@ -2,7 +2,7 @@ import registerRequireContextHook from 'babel-plugin-require-context-hook/regist
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { JSDOM } from 'jsdom'
-import uuid from 'uuid'
+import uuid from 'uuid/v4'
 
 registerRequireContextHook()
 
@@ -30,6 +30,6 @@ Object.defineProperty(document, 'createRange', {
 
 if (!window.URL.createObjectURL) {
   Object.defineProperty(window.URL, 'createObjectURL', {
-    value: jest.fn(() => 'blob:https://localhost/' + uuid.v4()),
+    value: jest.fn(() => 'blob:https://localhost/' + uuid()),
   })
 }

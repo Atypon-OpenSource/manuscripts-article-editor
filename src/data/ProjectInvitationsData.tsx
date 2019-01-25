@@ -3,64 +3,69 @@ import {
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { RxCollection } from 'rxdb'
-import { Subscription } from 'rxjs'
-import { Spinner } from '../components/Spinner'
-import { ModelsProps, withModels } from '../store/ModelsProvider'
+import CollectionManager from '../sync/CollectionManager'
+import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (invitations: ProjectInvitation[]) => React.ReactNode
+  children: (data: ProjectInvitation[]) => React.ReactNode
   projectID: string
 }
 
 interface State {
-  invitations?: ProjectInvitation[]
+  data?: ProjectInvitation[]
 }
 
-class ProjectInvitationsData extends React.Component<
-  ModelsProps & Props,
+class ProjectInvitationsData extends DataComponent<
+  ProjectInvitation,
+  Props,
   State
 > {
-  public state: Readonly<State> = {}
+  public constructor(props: Props) {
+    super(props)
 
-  private sub: Subscription
+    this.state = {}
+
+    this.collection = CollectionManager.getCollection<ProjectInvitation>(
+      `project-${props.projectID}`
+    )
+  }
 
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.sub = this.loadInvitations(projectID)
+    this.collection.addEventListener('complete', this.handleComplete)
+
+    this.sub = this.subscribe(projectID)
   }
 
-  public componentWillReceiveProps(nextProps: Props & ModelsProps) {
+  public componentWillReceiveProps(nextProps: Props) {
     const { projectID } = nextProps
 
     if (projectID !== this.props.projectID) {
       this.sub.unsubscribe()
-      this.setState({ invitations: undefined })
-      this.sub = this.loadInvitations(projectID)
+
+      this.setState({ data: undefined })
+
+      this.collection.addEventListener('complete', this.handleComplete)
+
+      this.collection = CollectionManager.getCollection<ProjectInvitation>(
+        `project-${projectID}`
+      )
+
+      this.collection.removeEventListener('complete', this.handleComplete)
+
+      this.sub = this.subscribe(projectID)
     }
   }
 
   public componentWillUnmount() {
+    this.collection.removeEventListener('complete', this.handleComplete)
+
     this.sub.unsubscribe()
   }
 
-  public render() {
-    const { invitations } = this.state
-
-    if (!invitations) {
-      return <Spinner />
-    }
-
-    return this.props.children(invitations)
-  }
-
-  private loadInvitations = (projectID: string) => {
-    const collection = this.props.models.collection as RxCollection<
-      ProjectInvitation
-    >
-
-    return collection
+  private subscribe = (projectID: string) =>
+    this.collection
       .find({
         projectID,
         objectType: ObjectTypes.ProjectInvitation,
@@ -68,11 +73,10 @@ class ProjectInvitationsData extends React.Component<
       .$.subscribe(docs => {
         if (docs) {
           this.setState({
-            invitations: docs.map(doc => doc.toJSON()),
+            data: docs.map(doc => doc.toJSON()),
           })
         }
       })
-  }
 }
 
-export default withModels<Props>(ProjectInvitationsData)
+export default ProjectInvitationsData

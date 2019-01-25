@@ -1,7 +1,6 @@
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import React from 'react'
 import Modal from 'react-modal'
-import { RouteComponentProps, withRouter } from 'react-router'
 import { styled, theme, ThemedProps } from '../theme'
 
 Modal.setAppElement('#root')
@@ -92,36 +91,31 @@ const modalStyle = {
 }
 
 interface Props {
+  handleClose: () => void
   title: string | React.ReactNode
 }
 
-class ModalForm extends React.Component<Props & RouteComponentProps> {
-  public render() {
-    const { title, children } = this.props
-
-    return (
-      <ResponsiveModal
-        isOpen={true}
-        onRequestClose={this.handleClose}
-        shouldCloseOnOverlayClick={true}
-        style={modalStyle}
-      >
-        <ModalContainer>
-          <ModalHeader>
-            <CloseButton onClick={this.handleClose}>
-              <CloseIconDark />
-            </CloseButton>
-          </ModalHeader>
-          <ModalMain>
-            <ModalTitle>{title}</ModalTitle>
-            <ModalBody>{children}</ModalBody>
-          </ModalMain>
-        </ModalContainer>
-      </ResponsiveModal>
-    )
-  }
-
-  private handleClose = () => this.props.history.push('/')
-}
-
-export default withRouter(ModalForm)
+export const ModalForm: React.FunctionComponent<Props> = ({
+  children,
+  handleClose,
+  title,
+}) => (
+  <ResponsiveModal
+    isOpen={true}
+    onRequestClose={handleClose}
+    shouldCloseOnOverlayClick={true}
+    style={modalStyle}
+  >
+    <ModalContainer>
+      <ModalHeader>
+        <CloseButton onClick={handleClose}>
+          <CloseIconDark />
+        </CloseButton>
+      </ModalHeader>
+      <ModalMain>
+        <ModalTitle>{title}</ModalTitle>
+        <ModalBody>{children}</ModalBody>
+      </ModalMain>
+    </ModalContainer>
+  </ResponsiveModal>
+)

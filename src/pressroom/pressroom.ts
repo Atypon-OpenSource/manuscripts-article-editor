@@ -1,18 +1,18 @@
 import axios from 'axios'
 import config from '../config'
-import token from '../lib/token'
+import tokenHandler from '../lib/token'
 
 const client = axios.create({
   baseURL: config.pressroom.url,
 })
 
 client.interceptors.request.use(requestConfig => {
-  const tokenData = token.get()
+  const token = tokenHandler.get()
 
   if (config.pressroom.key) {
     requestConfig.headers['Pressroom-API-Key'] = config.pressroom.key
-  } else if (tokenData && tokenData.access_token) {
-    requestConfig.headers.Authorization = 'Bearer ' + tokenData.access_token
+  } else if (token) {
+    requestConfig.headers.Authorization = 'Bearer ' + token
   }
 
   return requestConfig

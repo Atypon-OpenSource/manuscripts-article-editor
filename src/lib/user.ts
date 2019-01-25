@@ -1,27 +1,19 @@
 import decode from 'jwt-decode'
-import token from './token'
+import tokenHandler from './token'
 
-interface Payload {
+export interface TokenPayload {
   expiry: number
   userId: string
   userProfileId: string
   wayfLocal?: string
 }
 
-const getAccessToken = () => {
-  const tokenData = token.get() // TODO: listen for changes?
-
-  if (!tokenData) return null
-
-  return tokenData.access_token
-}
-
 export const getCurrentUserId = () => {
-  const accessToken = getAccessToken()
+  const token = tokenHandler.get()
 
-  if (!accessToken) return null
+  if (!token) return null
 
-  const { userId } = decode<Payload>(accessToken)
+  const { userId } = decode<TokenPayload>(token)
 
   return userId.replace('|', '_')
 }
