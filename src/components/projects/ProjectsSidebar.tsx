@@ -1,22 +1,13 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
-import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import CollaboratorsData from '../../data/CollaboratorsData'
-import ProjectsData from '../../data/ProjectsData'
 import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
 import { styled, ThemedProps } from '../../theme'
 import { ModalProps, withModal } from '../ModalProvider'
 import ProjectsButton from '../nav/ProjectsButton'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarTitle,
-} from '../Sidebar'
+import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import TemplateSelector from '../templates/TemplateSelector'
-import { ProjectsList } from './ProjectsList'
 
 type ThemedDivProps = ThemedProps<HTMLDivElement>
 
@@ -106,7 +97,7 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
               <SidebarActionTitle>New Project</SidebarActionTitle>
             </AddButton>
           </SidebarAction>
-          <ProjectsButton isDropdown={false} />
+          <ProjectsButton isDropdown={false} closeModal={props.closeModal} />
         </ProjectsContainer>
       )}
     </UserData>

@@ -1,5 +1,6 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor/dist/types'
 import {
+  Project,
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -46,6 +47,7 @@ interface State {
 
 interface Props {
   isDropdown: boolean
+  closeModal?: () => void
 }
 class ProjectsButton extends React.Component<Props, State> {
   public state: Readonly<State> = {
@@ -58,6 +60,8 @@ class ProjectsButton extends React.Component<Props, State> {
   }
 
   public render() {
+    const { closeModal } = this.props
+
     const {
       acceptedInvitations,
       rejectedInvitations,
@@ -88,7 +92,7 @@ class ProjectsButton extends React.Component<Props, State> {
               <CollaboratorsData>
                 {collaborators => (
                   <ProjectsData>
-                    {projects => (
+                    {(projects, projectsCollection) => (
                       <InvitationsData>
                         {invitations => {
                           const invitationsData = this.buildInvitationData(
@@ -118,6 +122,16 @@ class ProjectsButton extends React.Component<Props, State> {
                                   projects={projects}
                                   collaborators={collaborators}
                                   acceptedInvitations={acceptedInvitations}
+                                  deleteProject={(project: Project) => () =>
+                                    projectsCollection.delete(project._id)}
+                                  saveProjectTitle={(project: Project) => (
+                                    title: string
+                                  ) =>
+                                    projectsCollection.update(project._id, {
+                                      title,
+                                    })}
+                                  closeModal={closeModal}
+                                  user={user}
                                 />
                               </SidebarContent>
                             </div>
