@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from '../theme'
+import { StyledModal, totalTransitionTime } from './StyledModal'
 
 type ModalComponent = React.FunctionComponent<{
   handleClose: CloseModal
@@ -25,19 +25,6 @@ export const withModal = <Props extends {}>(
     {value => <Component {...props} {...value} />}
   </ModalContext.Consumer>
 )
-
-const ModalContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(235, 235, 235, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
 
 interface State {
   modals: Array<{ id: string; modal: ModalComponent }>
@@ -82,12 +69,21 @@ export class ModalProvider extends React.Component<{}, State> {
   }
 
   private renderModal = () => {
-    return this.state.modals.map(({ id, modal }) => (
-      <ModalContainer key={id}>
-        {modal({
-          handleClose: () => this.closeModal(id),
-        })}
-      </ModalContainer>
-    ))
+    const lastIndex = this.state.modals.length - 1
+
+    return this.state.modals.map(({ id, modal }, index) => {
+      const handleClose = () => this.closeModal(id)
+
+      return (
+        <StyledModal
+          key={id}
+          isOpen={index === lastIndex}
+          onRequestClose={handleClose}
+          closeTimeoutMS={totalTransitionTime}
+        >
+          {modal({ handleClose })}
+        </StyledModal>
+      )
+    })
   }
 }
