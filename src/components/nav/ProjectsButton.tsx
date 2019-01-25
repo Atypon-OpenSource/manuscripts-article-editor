@@ -100,9 +100,11 @@ class ProjectsButton extends React.Component<Props, State> {
                             user,
                             collaborators
                           )
+
                           const projectsIDs = projects.map(
                             project => project._id
                           )
+
                           const filteredInvitationsData = invitationsData.filter(
                             invitationData =>
                               projectsIDs.indexOf(invitationData.project._id) <

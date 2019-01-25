@@ -26,12 +26,9 @@ interface Props {
     invitation: ProjectInvitation
   ) => void
   user: UserProfileWithAvatar
-
 }
 
-class ProjectsMenu extends React.Component<
-  Props & ModalProps
-> {
+class ProjectsMenu extends React.Component<Props & ModalProps> {
   public render() {
     const {
       handleClose,
