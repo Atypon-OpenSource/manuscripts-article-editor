@@ -30,6 +30,7 @@ interface Props {
   deleteProject: () => Promise<string>
   project: Project
   saveProjectTitle: (title: string) => Promise<Project>
+  closeModal?: () => void
 }
 
 type CombinedProps = Props & ModalProps & RouteComponentProps
@@ -49,7 +50,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
 
   public render() {
     const { isOpen, isConfirmDeleteOpen, isRenameOpen } = this.state
-    const { deleteProject, history, project } = this.props
+    const { closeModal, deleteProject, history, project } = this.props
 
     const actions = {
       primary: {
@@ -92,6 +93,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
               project={project}
               deleteProject={this.deleteProject}
               renameProject={this.renameProject}
+              closeModal={closeModal}
             />
           </Dropdown>
         )}

@@ -11,14 +11,16 @@ import {
 } from '../nav/Dropdown'
 
 interface Props {
-  project: Project
+  closeModal?: () => void
   deleteProject: () => void
+  project: Project
   renameProject: () => void
 }
 
 const ProjectContextMenu: React.FunctionComponent<Props & ModalProps> = ({
-  project,
+  closeModal,
   deleteProject,
+  project,
   renameProject,
 }) => (
   <UserData userID={getCurrentUserId()!}>
@@ -28,7 +30,9 @@ const ProjectContextMenu: React.FunctionComponent<Props & ModalProps> = ({
 
       return (
         <React.Fragment>
-          <DropdownLink to={`/projects/${project._id}`}>Open</DropdownLink>
+          <DropdownLink to={`/projects/${project._id}`} onClick={closeModal}>
+            Open
+          </DropdownLink>
           <DropdownElement
             disabled={!(owner || writer)}
             onClick={renameProject}

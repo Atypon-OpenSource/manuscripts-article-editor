@@ -144,6 +144,7 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
                 project={project}
                 deleteProject={deleteProject(project)}
                 saveProjectTitle={saveProjectTitle(project)}
+                closeModal={closeModal}
               />
             </Edit>
             <ShareProjectButton project={project} user={user} />
