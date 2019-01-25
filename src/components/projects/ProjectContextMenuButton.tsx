@@ -82,10 +82,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
       : 'Are you sure you wish to delete this untitled project?'
 
     return (
-      <DropdownContainer
-        // @ts-ignore: styled
-        ref={this.nodeRef}
-      >
+      <DropdownContainer ref={this.nodeRef}>
         <ContextMenuIconButton onClick={() => this.setOpen(!isOpen)}>
           <HorizontalEllipsis />
         </ContextMenuIconButton>

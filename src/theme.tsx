@@ -16,11 +16,6 @@ export type ThemedProps<V> = styledComponents.ThemedStyledProps<
   Theme
 >
 
-export type ThemedOuterProps<V> = styledComponents.ThemedOuterStyledProps<
-  React.HTMLProps<V>,
-  Theme
->
-
 export const theme: Theme = {
   colors: themeColors,
   // tslint:disable-next-line:max-line-length
@@ -37,7 +32,9 @@ const {
   ThemeProvider: StyledThemeProvider,
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<Theme>
 
-export const ThemeProvider: React.FunctionComponent = props => (
+export const ThemeProvider: React.FunctionComponent<{
+  children: React.ReactChild
+}> = props => (
   <StyledThemeProvider theme={theme}>{props.children}</StyledThemeProvider>
 )
 

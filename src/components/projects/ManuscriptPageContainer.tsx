@@ -1256,7 +1256,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   // TODO: unmount
   private renderReactComponent = (
-    child: React.ReactNode,
+    child: React.ReactChild,
     container: HTMLElement
   ) => {
     ReactDOM.render(

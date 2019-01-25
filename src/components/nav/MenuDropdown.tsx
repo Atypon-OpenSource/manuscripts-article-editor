@@ -35,11 +35,7 @@ class MenuDropdown extends React.Component<Props, State> {
     const { isOpen } = this.state
 
     return (
-      <DropdownContainer
-        id={id}
-        // @ts-ignore: styled
-        ref={this.nodeRef}
-      >
+      <DropdownContainer id={id} ref={this.nodeRef}>
         <DropdownButton
           isOpen={isOpen}
           notificationsCount={notificationsCount}

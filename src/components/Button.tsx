@@ -1,8 +1,6 @@
-import { ButtonHTMLAttributes } from 'react'
-import { styled, ThemedOuterProps, ThemedProps } from '../theme'
+import { styled, ThemedProps } from '../theme'
 
 export type ThemedButtonProps = ThemedProps<HTMLButtonElement>
-type ThemedOuterButtonProps = ThemedOuterProps<HTMLButtonElement>
 
 interface IconButtonProps extends ThemedButtonProps {
   size?: number
@@ -10,7 +8,7 @@ interface IconButtonProps extends ThemedButtonProps {
 
 export const Button = styled.button.attrs({
   type: 'button',
-})<{ type?: string }>`
+})`
   background-color: transparent;
   color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
   border: 2px solid transparent;
@@ -51,9 +49,7 @@ export const Button = styled.button.attrs({
   }
 `
 
-export const PrimaryButton = styled(Button)<
-  ButtonHTMLAttributes<HTMLButtonElement>
->`
+export const PrimaryButton = styled(Button)`
   background-color: ${(props: ThemedButtonProps) =>
     props.theme.colors.button.primary};
   color: white;
@@ -72,6 +68,10 @@ export const PrimaryButton = styled(Button)<
     cursor: unset;
   }
 `
+
+export const PrimarySubmitButton = styled(PrimaryButton).attrs({
+  type: 'submit',
+})``
 
 export const DangerButton = styled(Button)`
   border-color: ${(props: ThemedButtonProps) =>
@@ -101,6 +101,10 @@ export const DangerButton = styled(Button)`
   }
 `
 
+export const DangerSubmitButton = styled(DangerButton).attrs({
+  type: 'submit',
+})``
+
 export const GreyButton = styled(Button)`
   color: ${(props: ThemedButtonProps) => props.theme.colors.button.secondary};
   background-color: transparent;
@@ -124,7 +128,7 @@ export const GreyButton = styled(Button)`
   }
 `
 
-export const IconButton = styled.button<ThemedOuterButtonProps>`
+export const IconButton = styled.button<ThemedButtonProps>`
   border: none;
   background: none;
   cursor: pointer;

@@ -18,7 +18,9 @@ import { RadioButton } from '../RadioButton'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 
-const SendInvitationButton = styled(PrimaryButton)`
+const SendInvitationButton = styled(PrimaryButton).attrs({
+  type: 'submit',
+})`
   width: 100%;
 `
 
@@ -234,10 +236,7 @@ export class InvitationForm extends React.Component<Props, State> {
               {errors.role && <FormError>{errors.role}</FormError>}
             </RadioButtonsContainer>
 
-            <SendInvitationButton
-              type={'submit'}
-              disabled={isSubmitting || !allowSubmit}
-            >
+            <SendInvitationButton disabled={isSubmitting || !allowSubmit}>
               Send Invitation
             </SendInvitationButton>
           </Form>

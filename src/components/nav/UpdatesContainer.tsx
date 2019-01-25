@@ -70,11 +70,7 @@ export class UpdatesContainer extends React.Component<{}, State> {
         <Manager>
           <Reference>
             {({ ref }) => (
-              <Wrapper
-                // @ts-ignore: styled
-                ref={ref}
-                onClick={this.toggleOpen}
-              >
+              <Wrapper ref={ref} onClick={this.toggleOpen}>
                 {this.hasUpdates() && <Notification />}
                 {children}
               </Wrapper>

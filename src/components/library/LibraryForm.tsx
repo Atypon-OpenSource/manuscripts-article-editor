@@ -11,7 +11,7 @@ import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
 import ProjectKeywordsData from '../../data/ProjectKeywordsData'
 import { styled } from '../../theme'
-import { DangerButton, PrimaryButton, ThemedButtonProps } from '../Button'
+import { DangerButton, PrimarySubmitButton, ThemedButtonProps } from '../Button'
 
 const Fields = styled.div`
   padding: 10px;
@@ -290,7 +290,7 @@ const LibraryForm: React.FunctionComponent<Props> = ({
 
               <Actions>
                 <ActionsGroup>
-                  <PrimaryButton type={'submit'}>Save</PrimaryButton>
+                  <PrimarySubmitButton>Save</PrimarySubmitButton>
 
                   <TitleLink
                     href={`https://doi.org/${values.DOI}`}

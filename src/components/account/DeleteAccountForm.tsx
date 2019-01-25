@@ -3,7 +3,7 @@ import { Title } from '@manuscripts/title-editor'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { styled, ThemedProps } from '../../theme'
-import { DangerButton } from '../Button'
+import { DangerSubmitButton } from '../Button'
 import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
 import { TextField } from '../TextField'
@@ -59,9 +59,9 @@ export const DeleteAccountForm: React.FunctionComponent<
         </MessageContainer>
       )}
     <ModalFormActions>
-      <DangerButton type={'submit'} disabled={isSubmitting}>
+      <DangerSubmitButton disabled={isSubmitting}>
         Delete Account
-      </DangerButton>
+      </DangerSubmitButton>
     </ModalFormActions>
   </Form>
 )

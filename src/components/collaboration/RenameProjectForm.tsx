@@ -3,7 +3,7 @@ import { Form, FormikProps } from 'formik'
 import React from 'react'
 import { dustyGrey } from '../../colors'
 import { styled } from '../../theme'
-import { PrimaryButton } from '../Button'
+import { PrimarySubmitButton } from '../Button'
 import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
 
@@ -45,9 +45,7 @@ export const RenameProjectForm: React.FunctionComponent<
     {errors.submit && <FormError>{errors.submit}</FormError>}
 
     <ModalFormActions>
-      <PrimaryButton type={'submit'} disabled={isSubmitting}>
-        Rename
-      </PrimaryButton>
+      <PrimarySubmitButton disabled={isSubmitting}>Rename</PrimarySubmitButton>
     </ModalFormActions>
   </Form>
 )

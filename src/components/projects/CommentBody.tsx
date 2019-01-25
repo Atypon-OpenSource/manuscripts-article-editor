@@ -16,7 +16,7 @@ import {
 import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
 import { styled } from '../../theme'
-import { Button, PrimaryButton } from '../Button'
+import { Button, PrimarySubmitButton } from '../Button'
 import { FormError } from '../Form'
 
 const CommentFooter = styled.div`
@@ -195,7 +195,7 @@ class CommentBody extends React.Component<Props, State> {
 
             <EditingCommentFooter>
               <Button onClick={this.cancelEditing}>Cancel</Button>
-              <PrimaryButton type={'submit'}>Save</PrimaryButton>
+              <PrimarySubmitButton>Save</PrimarySubmitButton>
             </EditingCommentFooter>
           </Form>
         )}

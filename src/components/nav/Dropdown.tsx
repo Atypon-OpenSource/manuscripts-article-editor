@@ -216,19 +216,13 @@ export class DropdownElementWithSubmenu extends React.Component<Props, State> {
         >
           <Reference>
             {({ ref }) => (
-              <DropdownElement
-                // @ts-ignore: styled
-                ref={ref}
-              >
-                {this.props.label}
-              </DropdownElement>
+              <DropdownElement ref={ref}>{this.props.label}</DropdownElement>
             )}
           </Reference>
           {showSubmenu && (
             <Popper placement="right-start">
               {({ ref, style, placement }) => (
                 <ContextMenuDropdown
-                  // @ts-ignore: styled
                   ref={ref}
                   style={style}
                   data-placement={placement}
