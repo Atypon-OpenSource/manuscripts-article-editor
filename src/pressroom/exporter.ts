@@ -1,4 +1,5 @@
 import {
+  Attachments,
   ModelAttachment,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-editor'
@@ -32,16 +33,14 @@ const createProjectDump = (
         model._id === manuscriptID
       )
     })
-    .map((data: Model) => {
-      const model = data as JsonModel
-
-      delete model._attachments
-      delete model.attachment
-      delete model.src
+    .map(data => {
+      const { _attachments, attachment, src, ...model } = data as Model &
+        ModelAttachment &
+        Attachments
 
       removeEmptyStyles(model)
 
-      return model
+      return model as JsonModel
     }),
 })
 
@@ -73,10 +72,26 @@ const fetchAttachment = (
 
 export const generateAttachmentFilename = (id: string) => id.replace(':', '_')
 
+const buildAttachments = (modelMap: Map<string, Model>) => {
+  const attachments: Map<string, Promise<Blob>> = new Map()
+
+  for (const [id, model] of modelMap.entries()) {
+    const attachment = fetchAttachment(model)
+
+    if (attachment) {
+      attachments.set(id, attachment)
+    }
+  }
+
+  return attachments
+}
+
 const buildProjectBundle = (
   modelMap: Map<string, Model>,
   manuscriptID: string
 ) => {
+  const attachments = buildAttachments(modelMap)
+
   const data = createProjectDump(modelMap, manuscriptID)
 
   const zip = new JSZip()
@@ -84,7 +99,7 @@ const buildProjectBundle = (
   zip.file<'string'>('index.manuscript-json', JSON.stringify(data))
 
   for (const model of modelMap.values()) {
-    const attachment = fetchAttachment(model)
+    const attachment = attachments.get(model._id)
 
     if (attachment) {
       const filename = generateAttachmentFilename((model as JsonModel)._id)
