@@ -1,6 +1,6 @@
-import { generateUser, login, signup } from './helpers.spec'
+import { generateUser, login, signup } from './helpers'
 
-describe('Citations', () => {
+describe('Template picker', () => {
     const user = generateUser()
     
     before(() => {
@@ -38,7 +38,7 @@ describe('Citations', () => {
         cy.get('h1').contains('Materials and Methods')
         cy.get('h1').contains('Results')
         cy.get('h1').contains('Discussion')
-        cy.get('h1').contains('Acknowledgement')
+        cy.get('h1').contains('Acknowledgments')
     })
 
     it('Can create a document with a placeholder from a template', () => {
@@ -74,7 +74,7 @@ describe('Citations', () => {
         login(user, true)
 
         cy.get('#create-project').click()
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('button').contains('Create empty manuscript').click()
         cy.get('#manuscript-title-field .title-editor', { timeout: 10000 })
         cy.get('h1[data-placeholder="Section heading"]')

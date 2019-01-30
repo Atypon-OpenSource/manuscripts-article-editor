@@ -13,7 +13,7 @@ addDecorator(story => (
       <MemoryRouter initialEntries={['/']}>
         <ModalProvider>
           <Story>
-            <GlobalStyle suppressMultiMountWarning/>
+            <GlobalStyle suppressMultiMountWarning />
             <div>{story()}</div>
           </Story>
         </ModalProvider>

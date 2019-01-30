@@ -1,4 +1,4 @@
-import { generateUser, login, signup, createProject } from './helpers.spec'
+import { generateUser, login, signup, createProject } from './helpers'
 
 describe('Citations', () => {
     const user = generateUser()

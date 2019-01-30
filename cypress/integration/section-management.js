@@ -1,4 +1,4 @@
-import { generateUser, login, signup, generateParagraph, createProject } from './helpers.spec'
+import { generateUser, login, signup, generateParagraph, createProject } from './helpers'
 
 describe('Text decoration', () => {
     const user = generateUser()
@@ -16,8 +16,8 @@ describe('Text decoration', () => {
         createProject()
         cy.get('.manuscript-editor').type('{enter}')
         cy.get('[title="Toggle bold"]').click()
-        cy.get('.manuscript-editor').type(paragraph)
-        cy.get('b').should('any', paragraph) 
+        cy.get('.manuscript-editor').type(' ' + paragraph)
+        cy.get('p').contains(paragraph) 
         //this test is using any as Cypress randomly leaves out the first character when typing
     })
 
@@ -30,8 +30,8 @@ describe('Text decoration', () => {
         createProject()
         cy.get('.manuscript-editor').type('{enter}')
         cy.get('[title="Toggle italic"]').click()
-        cy.get('.manuscript-editor').type(paragraph)
-        cy.get('p').should('any', paragraph)
+        cy.get('.manuscript-editor').type(' ' + paragraph)
+        cy.get('p').contains(paragraph) 
     })
 
     it('Can enter underlined text', () => {
@@ -43,8 +43,8 @@ describe('Text decoration', () => {
         createProject()
         cy.get('.manuscript-editor').type('{enter}')
         cy.get('[title="Toggle underline"]').click()
-        cy.get('.manuscript-editor').type(paragraph)
-        cy.get('p').should('any', paragraph)
+        cy.get('.manuscript-editor').type(' ' + paragraph)
+        cy.get('p').contains(paragraph) 
     })
 
     it('Can enter subscript text', () => {

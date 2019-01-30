@@ -35,6 +35,19 @@ export const login = (user, confirm) => {
     cy.get('#user-dropdown')
   }
 }
+
+export const logout = () => {
+  cy.get('#user-dropdown').find('.dropdown-toggle').find('a')
+  .withAttribute('href', '/signout').click()
+  cy.get('input[name=email]').type(user.email)
+  cy.get('input[name=password]').type(user.password)
+  cy.get('button[type=submit]').click()
+
+if (confirm) {
+  cy.url({timeout: 3000}).should('includes', '/projects')
+  cy.get('#user-dropdown')
+}
+}
    
 export const loginAsNewUser = () => {
     const user = generateUser()
@@ -79,6 +92,7 @@ export const generateParagraph = (wordCount) => {
 
 export const createProject = () => {
   cy.get('#create-project').click()
-  cy.wait(1000)
+  cy.wait(2000)
   cy.get('button').contains('Create empty manuscript').click()
+  cy.wait(1000)
 }

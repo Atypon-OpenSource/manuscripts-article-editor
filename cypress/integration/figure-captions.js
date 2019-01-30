@@ -1,4 +1,4 @@
-import { generateUser, login, signup, createProject } from './helpers.spec'
+import { generateUser, login, signup, createProject } from './helpers'
 
 describe('Figures', () => {
     const user = generateUser()
@@ -6,20 +6,7 @@ describe('Figures', () => {
     before(() => {
         signup(user, true)
     })
-
-    it('Can insert and exit a figure caption with enter', () => {
-        login(user, true)
-
-        createProject()
-        cy.get('.manuscript-editor').type('{enter}')
-        cy.get('[title="Insert figure"]').click()
-        cy.get('.figure-panel').should('exist')
-        cy.get('[tabindex="2"]').type('{enter}')
-        cy.get('p').last()
-        cy.get('[tabindex="2"]').type('hi')
-        cy.get('p').last().should('have.text', 'hi')
-    })
-
+    
     it('Can delete a figure panel', () => {
         login(user, true)
 
@@ -30,6 +17,4 @@ describe('Figures', () => {
         cy.get(':nth-child(3) > .menu-item').click()
         cy.get('.figure-panel').should('not.exist')
     })
-
-    
 })
