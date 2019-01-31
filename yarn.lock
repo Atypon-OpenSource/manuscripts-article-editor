@@ -906,10 +906,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.2.tgz#bc7354d1dc704bf03c4b9d4e0f4c1054c70bbc73"
   integrity sha512-kctNmYWfzk0M3Rxe5+UNdnMYM5pGL1ZFwE0+izMfpVegm3744Sbeg/0JUXrHXvaHIwT8JOzdOCi6WO6oBlejlA==
 
-"@manuscripts/manuscript-editor@^0.7.3":
-  version "0.7.3"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.7.3.tgz#fd89c4fa7aa3e9493f9cbc977e0aee8f0ad5c405"
-  integrity sha512-u7VWx0LfkuhsgwsdLVJsC/B/UISO79zTcFprQQR9vK9ycf0mCoJ9xrUTdTZbZKVMbsuLpewZVMFax8RJ2gKWRg==
+"@manuscripts/manuscript-editor@^0.7.4":
+  version "0.7.4"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.7.4.tgz#cb3e5f85af130218f5cdde7e8399e64061b26227"
+  integrity sha512-+kqwLTRqXmXdaf5cI0mfNI/4+z1Pq/uswTSAB73nqSqhV14MEJKK0er8Us/yZSWAiJQZ8oX77K+o9zjr6zPMDw==
   dependencies:
     "@manuscripts/assets" "^0.1.13"
     "@manuscripts/examples" "^0.0.2"
@@ -922,7 +922,7 @@
     dompurify "^1.0.8"
     history "^4.7.2"
     lodash-es "^4.17.11"
-    mathjax3 "^3.0.0-beta.2"
+    mathjax3 "3.0.0-beta.3"
     popper.js "^1.14.4"
     prosemirror-commands "^1.0.4"
     prosemirror-dropcursor "^1.1.1"
@@ -9657,7 +9657,7 @@ math-sign-x@^3.0.0:
     is-nan-x "^1.0.1"
     to-number-x "^2.0.0"
 
-mathjax3@^3.0.0-beta.2:
+mathjax3@3.0.0-beta.3:
   version "3.0.0-beta.3"
   resolved "https://registry.npmjs.org/mathjax3/-/mathjax3-3.0.0-beta.3.tgz#c3072a59304b4b612aa9516eb672b07000c9a3d5"
   integrity sha512-MgXK56KOLk5b8/Y01RXB/C0+QgC2Kc+SJmKBilP+Jwxout/4SdV8AjsPp+WMzlotnAacQWFpn24CPdLkdej9AA==
