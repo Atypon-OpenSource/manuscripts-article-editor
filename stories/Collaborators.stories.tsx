@@ -19,7 +19,7 @@ import InviteCollaboratorsSidebar from '../src/components/collaboration/InviteCo
 import { RemoveCollaboratorPopper } from '../src/components/collaboration/RemoveCollaboratorPopper'
 import SearchCollaboratorsSidebar from '../src/components/collaboration/SearchCollaboratorsSidebar'
 import { UninviteCollaboratorPopper } from '../src/components/collaboration/UninviteCollaboratorPopper'
-import { styled } from '../src/theme'
+import { styled } from '../src/theme/styled-components'
 import { user } from './data/contributors'
 import { invitations } from './data/invitations-data'
 import { people } from './data/people'

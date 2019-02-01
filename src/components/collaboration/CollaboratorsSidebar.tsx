@@ -6,10 +6,9 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { darkGrey, salomieYellow } from '../../colors'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Avatar } from '../Avatar'
 import Panel from '../Panel'
 import {
@@ -22,8 +21,6 @@ import {
 import CollaboratorSettingsButton from './CollaboratorSettingsButton'
 import InvitedCollaboratorSettingsButton from './InvitedCollaboratorSettingsButton'
 
-type ThemedDivProps = ThemedProps<HTMLDivElement>
-
 const CollaboratorInitial = styled.span`
   margin-right: 4px;
   font-weight: 300;
@@ -31,14 +28,13 @@ const CollaboratorInitial = styled.span`
 
 const CollaboratorName = styled.div`
   font-size: 120%;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.sidebar.text.primary};
   font-weight: 500;
 `
 
 const CollaboratorRole = styled.div`
   font-size: 14px;
-  color: ${(props: ThemedDivProps) =>
-    props.theme.colors.sidebar.text.secondary};
+  color: ${props => props.theme.colors.sidebar.text.secondary};
 `
 
 const AddCollaboratorButton = styled.button`
@@ -52,7 +48,7 @@ const AddCollaboratorButton = styled.button`
   padding: 2px 8px;
 
   &:hover use {
-    fill: ${salomieYellow};
+    fill: ${props => props.theme.colors.collaborators.addButton};
   }
 `
 
@@ -73,7 +69,7 @@ const UserDataContainer = styled.div`
 const Invited = styled.div`
   display: flex;
   font-size: 12px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.label};
+  color: ${props => props.theme.colors.sidebar.label};
 `
 
 const InvitedContainer = styled.div`
@@ -153,7 +149,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                 onMouseLeave={() => this.handleHover()}
               >
                 <UserDataContainer>
-                  <Avatar size={45} color={darkGrey} />
+                  <Avatar size={45} />
                   <CollaboratorData>
                     <CollaboratorName>
                       {invitation.invitedUserName ||
@@ -188,11 +184,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                     onClick={() => this.handleClickCollaborator(collaborator)}
                   >
                     <UserDataContainer>
-                      <Avatar
-                        src={collaborator.avatar}
-                        size={45}
-                        color={darkGrey}
-                      />
+                      <Avatar src={collaborator.avatar} size={45} />
                       <CollaboratorData>
                         {user.userID !== collaborator.userID ? (
                           <CollaboratorName>

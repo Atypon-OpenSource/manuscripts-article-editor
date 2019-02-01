@@ -1,16 +1,15 @@
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import React from 'react'
 import Modal from 'react-modal'
-import { styled, theme, ThemedProps } from '../theme'
+import { styled } from '../theme/styled-components'
+import { theme } from '../theme/theme'
 
 Modal.setAppElement('#root')
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
+  font-family: ${props => props.theme.fontFamily};
   width: 480px;
   max-width: 70vw;
 

@@ -1,5 +1,5 @@
 import { debounceRender } from '@manuscripts/manuscript-editor'
-import { styled } from '../theme'
+import { styled } from '../theme/styled-components'
 
 export const Inspector = styled.div`
   height: 100%;

@@ -2,14 +2,12 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { DangerSubmitButton } from '../Button'
 import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
 import { TextField } from '../TextField'
 import { TextFieldContainer } from '../TextFieldContainer'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export interface DeleteAccountValues {
   password: string
@@ -22,7 +20,7 @@ interface DeleteAccountProps {
 const MessageContainer = styled.div`
   font-family: Barlow;
   font-size: 16px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.global.text.secondary};
   margin-top: 15px;
   margin-left: 20px;
 `

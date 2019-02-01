@@ -1,4 +1,4 @@
-import { styled } from '../theme'
+import { styled } from '../theme/styled-components'
 import { ErrorProps } from './Form'
 
 export const TextField = styled.input<ErrorProps>`

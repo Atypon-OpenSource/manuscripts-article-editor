@@ -1,21 +1,17 @@
 import NavIcon from '@manuscripts/assets/react/NavIcon'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Tip } from '../Tip'
 import ProjectsButton from './ProjectsButton'
 import UserContainer from './UserContainer'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
-type ThemedNavLinkProps = ThemedProps<NavLink>
-type ThemedButtonProps = ThemedProps<HTMLButtonElement>
 
 export const MenuContainer = styled.div`
   display: flex;
   flex-shrink: 0;
   width: 100%;
   align-items: center;
-  color: ${(props: ThemedDivProps) => props.theme.colors.menu.text};
+  color: ${props => props.theme.colors.menu.text};
   font-family: ${props => props.theme.fontFamily};
   font-weight: 500;
   font-size: 16px;
@@ -58,33 +54,29 @@ export const MenuLink = styled(NavLink)`
   padding: 3px 8px;
   text-decoration: none;
   color: inherit;
-  border: solid 2px
-    ${(props: ThemedNavLinkProps) => props.theme.colors.menu.button};
+  border: solid 2px ${props => props.theme.colors.menu.button};
   border-radius: 4px;
   margin-left: 20px;
 
   &.active {
-    background: ${(props: ThemedNavLinkProps) =>
-      props.theme.colors.menu.button};
+    background: ${props => props.theme.colors.menu.button};
     color: white;
   }
 
   &:hover {
     background: white;
-    color: ${(props: ThemedNavLinkProps) => props.theme.colors.menu.button};
-    border: solid 2px
-      ${(props: ThemedNavLinkProps) => props.theme.colors.menu.button};
+    color: ${props => props.theme.colors.menu.button};
+    border: solid 2px ${props => props.theme.colors.menu.button};
   }
 `
 
 export const FilledMenuBarIcon = styled(MenuBarIcon)`
   & path {
-    fill: ${(props: ThemedButtonProps) => props.theme.colors.menu.icon.default};
+    fill: ${props => props.theme.colors.menu.icon.default};
   }
 
   &:hover path {
-    fill: ${(props: ThemedButtonProps) =>
-      props.theme.colors.menu.icon.selected};
+    fill: ${props => props.theme.colors.menu.icon.selected};
   }
 `
 

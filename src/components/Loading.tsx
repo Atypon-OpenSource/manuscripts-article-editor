@@ -1,4 +1,4 @@
-import { styled } from '../theme'
+import { styled } from '../theme/styled-components'
 
 export const Loading = styled.div`
   width: 100%;

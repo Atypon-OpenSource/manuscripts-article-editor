@@ -2,10 +2,8 @@ import axios, { CancelTokenSource } from 'axios'
 import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import config from '../../config'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { newestFirst, Popup, Post, Topic, Updates } from './Updates'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Wrapper = styled.div`
   position: relative;
@@ -18,8 +16,7 @@ const Notification = styled.div`
   position: absolute;
   top: 10px;
   right: 0;
-  background: ${(props: ThemedDivProps) =>
-    props.theme.colors.dropdown.notification.default};
+  background: ${props => props.theme.colors.dropdown.notification.default};
 `
 
 interface State {

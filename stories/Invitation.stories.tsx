@@ -5,7 +5,7 @@ import React from 'react'
 import { InvitationPopper } from '../src/components/collaboration/InvitationPopper'
 import ShareProjectButton from '../src/components/collaboration/ShareProjectButton'
 import { ShareURIPopper } from '../src/components/collaboration/ShareURIPopper'
-import { styled } from '../src/theme'
+import { styled } from '../src/theme/styled-components'
 import { user } from './data/contributors'
 
 const PopperStory = styled.div`

@@ -1,18 +1,17 @@
 import AttentionBlue from '@manuscripts/assets/react/AttentionBlue'
 import React from 'react'
-import { altoGrey, butteryYellow } from '../../colors'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { PrimaryButton } from '../Button'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
 
 const Icon = styled(AttentionBlue)`
   margin-right: 8px;
-  color: ${butteryYellow};
+  color: ${props => props.theme.colors.acceptInvitation.icon};
 `
 
 const ModalBody = styled.div`
   border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 8px 0 ${altoGrey};
+  box-shadow: 0 4px 8px 0 ${props => props.theme.colors.modal.shadow};
   background: #fff;
   font-family: ${props => props.theme.fontFamily};
 `

@@ -1,8 +1,7 @@
 import { Build } from '@manuscripts/manuscript-editor'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { manuscriptsBlue } from '../../colors'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Button } from '../Button'
 import { CitationSearchResults } from './CitationSearchResults'
 
@@ -25,7 +24,7 @@ const MoreButton = styled(Button)`
   text-transform: none;
   text-decoration: underline;
   margin-left: 28px;
-  color: ${manuscriptsBlue};
+  color: ${props => props.theme.colors.citationSearch.more};
 `
 
 interface Props {

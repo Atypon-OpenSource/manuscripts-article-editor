@@ -1,7 +1,7 @@
 import React from 'react'
 import GoogleLogo from '../../icons/google'
 import OrcidLogo from '../../icons/orcid'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { IconButton } from '../Button'
 import { AuthProvider } from './AuthButtonContainer'
 

@@ -1,13 +1,10 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
 import { FormattedDate } from 'react-intl'
-import { darkGrey, dustyGrey } from '../colors'
-import { styled, ThemedProps } from '../theme'
+import { styled } from '../theme/styled-components'
 import { Avatar } from './Avatar'
 import { GreyButton, PrimaryButton } from './Button'
 import { Sidebar, SidebarContent } from './Sidebar'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const UserEmail = styled.div`
   font-weight: 500;
@@ -17,7 +14,7 @@ const UserEmail = styled.div`
 const MemberSince = styled.div`
   font-size: 14px;
   text-align: center;
-  color: ${dustyGrey};
+  color: ${props => props.theme.colors.profile.date};
   margin-top: 10px;
   margin-bottom: 40px;
 `
@@ -39,9 +36,8 @@ const AvatarContainer = styled.div`
 const RoundedBorders = styled.div`
   width: 150px;
   height: 150px;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.sidebar.background.default};
-  border: solid 1px ${dustyGrey};
+  background-color: ${props => props.theme.colors.sidebar.background.default};
+  border: solid 1px ${props => props.theme.colors.sidebar.border};
   border-radius: 50%;
 `
 
@@ -85,10 +81,10 @@ const UserProfileSidebar: React.FunctionComponent<Props> = ({
     <SidebarContent>
       <AvatarContainer>
         {!userWithAvatar.avatar ? (
-          <Avatar size={150} color={darkGrey} />
+          <Avatar size={150} />
         ) : (
           <RoundedBorders>
-            <Avatar size={150} color={darkGrey} src={userWithAvatar.avatar} />
+            <Avatar size={150} src={userWithAvatar.avatar} />
           </RoundedBorders>
         )}
       </AvatarContainer>

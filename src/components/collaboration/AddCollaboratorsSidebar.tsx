@@ -5,9 +5,9 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { darkGrey, powderBlue } from '../../colors'
 import SearchIcon from '../../icons/search'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
+import { theme } from '../../theme/theme'
 import { Avatar } from '../Avatar'
 import { GreyButton, PrimaryButton } from '../Button'
 import {
@@ -23,8 +23,6 @@ import {
 import AddCollaboratorButton from './AddCollaboratorButton'
 import SearchCollaboratorsSidebar from './SearchCollaboratorsSidebar'
 
-type ThemedDivProps = ThemedProps<HTMLDivElement>
-
 const PersonInitial = styled.span`
   margin-right: 4px;
   font-weight: 300;
@@ -32,7 +30,7 @@ const PersonInitial = styled.span`
 
 const PersonName = styled.div`
   font-size: 120%;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.sidebar.text.primary};
   font-weight: 500;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -52,7 +50,7 @@ const UserDataContainer = styled.div`
 const Invited = styled.div`
   display: flex;
   font-size: 12px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.label};
+  color: ${props => props.theme.colors.sidebar.label};
 `
 
 const InvitedContainer = styled.div`
@@ -125,7 +123,11 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
           onBlur={this.handleSearchFocus}
         >
           <SidebarSearchIconContainer>
-            {isSearching ? <SearchIcon color={powderBlue} /> : <SearchIcon />}
+            {isSearching ? (
+              <SearchIcon color={theme.colors.collaborators.searchIcon} />
+            ) : (
+              <SearchIcon />
+            )}
           </SidebarSearchIconContainer>
 
           <SidebarSearchText
@@ -140,7 +142,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
             {invitations.map(invitation => (
               <SidebarPersonContainer key={invitation._id}>
                 <UserDataContainer>
-                  <Avatar size={45} color={darkGrey} />
+                  <Avatar size={45} />
                   <PersonData>
                     <PersonName>{invitation.invitedUserName}</PersonName>
                   </PersonData>
@@ -156,7 +158,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
             {people.map((person: UserProfileWithAvatar) => (
               <SidebarPersonContainer key={person._id}>
                 <UserDataContainer>
-                  <Avatar src={person.avatar} size={45} color={darkGrey} />
+                  <Avatar size={45} src={person.avatar} />
                   <PersonData>
                     <PersonName>
                       <PersonInitial>

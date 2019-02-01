@@ -3,7 +3,7 @@ import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { issuedYear, shortAuthorsString } from '../../lib/library'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { PrimaryButton } from '../Button'
 import { CitationSearch } from './CitationSearch'
 

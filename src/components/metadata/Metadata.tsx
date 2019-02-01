@@ -14,7 +14,7 @@ import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { isOwner } from '../../lib/roles'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { CloseButton } from '../SimpleModal'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
@@ -27,12 +27,10 @@ import AuthorsModalContainer from './AuthorsModalContainer'
 import { InviteAuthorsModal } from './AuthorsModals'
 import { Header, HeaderContainer } from './Header'
 
-type ThemedDivProps = ThemedProps<HTMLDivElement>
-
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
+  font-family: ${props => props.theme.fontFamily};
   width: 800px;
   max-width: 100%;
   margin: auto;

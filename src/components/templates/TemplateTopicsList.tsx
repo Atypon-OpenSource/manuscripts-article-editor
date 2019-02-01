@@ -1,7 +1,6 @@
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import React from 'react'
-import { lightGrey } from '../../colors'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { ResearchField } from '../../types/templates'
 
 const ListContainer = styled.div`
@@ -11,10 +10,12 @@ const ListContainer = styled.div`
 `
 
 const List = styled.div`
-  border: 1px solid ${lightGrey};
+  border: 1px solid
+    ${props => props.theme.colors.templateSelector.topicsList.border};
   border-radius: 8px;
   box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
-  background: ${props => props.theme.colors.list.background};
+  background: ${props =>
+    props.theme.colors.templateSelector.topicsList.background};
   max-height: 50vh;
   overflow-y: auto;
   margin: 0 20px;
@@ -28,18 +29,20 @@ const ListSection = styled.div`
   padding: 8px;
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.colors.list.text};
+  color: ${props => props.theme.colors.templateSelector.topicsList.text};
   cursor: pointer;
 
   &:hover {
-    background-color: ${props => props.theme.colors.list.hovered};
+    background-color: ${props =>
+      props.theme.colors.templateSelector.topicsList.hovered};
   }
 `
 
 const Separator = styled.div`
   height: 1px;
   opacity: 0.23;
-  background-color: ${props => props.theme.colors.list.separator};
+  background-color: ${props =>
+    props.theme.colors.templateSelector.topicsList.separator};
 `
 
 const AddedIconContainer = styled.span`

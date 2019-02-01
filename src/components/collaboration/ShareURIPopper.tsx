@@ -1,8 +1,7 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { altoGrey } from '../../colors'
 import { isOwner } from '../../lib/roles'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { Button, GreyButton, PrimaryButton } from '../Button'
 import { PopperBody } from '../Popper'
@@ -10,14 +9,12 @@ import { RadioButton } from '../RadioButton'
 import { TextField } from '../TextField'
 import { ShareProjectHeader, ShareProjectTitle } from './InvitationPopper'
 
-type ThemedDivProps = ThemedProps<HTMLDivElement>
-
 const URIFieldContainer = styled.div`
   display: flex;
   margin-bottom: 21px;
 
   & ${TextField} {
-    border-color: ${altoGrey};
+    border-color: ${props => props.theme.colors.shareURI.textField.border};
     border-right: transparent;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
@@ -26,7 +23,7 @@ const URIFieldContainer = styled.div`
 
   & ${Button} {
     color: ${props => props.theme.colors.button.primary};
-    border-color: ${altoGrey};
+    border-color: ${props => props.theme.colors.shareURI.button.border};
     border-width: thin;
     border-left: transparent;
     border-bottom-left-radius: 0;
@@ -58,7 +55,7 @@ export const MiniText = styled.span`
   font-size: 14px;
   letter-spacing: -0.3px;
   text-align: left;
-  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.secondary};
+  color: ${props => props.theme.colors.popper.text.secondary};
   clear: both;
   display: block;
   margin-bottom: 11px;

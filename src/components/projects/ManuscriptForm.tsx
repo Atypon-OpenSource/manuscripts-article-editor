@@ -4,7 +4,7 @@ import { Field, Form, Formik } from 'formik'
 import React from 'react'
 import { OptionsType } from 'react-select/lib/types'
 import config from '../../config'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { ImmediateSelectField } from '../ImmediateSelectField'
 import { Loading } from '../Loading'
 

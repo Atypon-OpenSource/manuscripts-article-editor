@@ -2,8 +2,7 @@ import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { ManuscriptCategory, Model } from '@manuscripts/manuscripts-json-schema'
 import React, { Component } from 'react'
 import { VariableSizeList } from 'react-window'
-import { altoGrey } from '../../colors'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { ResearchField, TemplateData } from '../../types/templates'
 import { Button, PrimaryButton } from '../Button'
 import { ModalContext } from '../ModalProvider'
@@ -14,8 +13,6 @@ import { TemplateEmpty } from './TemplateEmpty'
 import { TemplateSearchInput } from './TemplateSearchInput'
 import { TemplateSelectorList } from './TemplateSelectorList'
 import { TemplateTopicSelector } from './TemplateTopicSelector'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const ListContainer = styled.div`
   flex: 1;
@@ -35,9 +32,9 @@ const ModalContainer = styled.div`
   display: flex;
   background: white;
   opacity: 1;
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
-  border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${altoGrey};
+  font-family: ${props => props.theme.fontFamily};
+  border-radius: ${props => props.theme.radius}px;
+  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
 `
 
 const ModalHeader = styled.div`
@@ -51,10 +48,9 @@ const ModalHeader = styled.div`
 const ModalSidebar = styled.div`
   display: flex;
   flex-direction: column;
-  border-top-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  border-bottom-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.sidebar.background.default};
+  border-top-left-radius: ${props => props.theme.radius}px;
+  border-bottom-left-radius: ${props => props.theme.radius}px;
+  background-color: ${props => props.theme.colors.sidebar.background.default};
 `
 
 const ModalMain = styled.div`

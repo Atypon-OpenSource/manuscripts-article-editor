@@ -1,12 +1,9 @@
-import { styled, ThemedProps } from '../../theme'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
+import { styled } from '../../theme/styled-components'
 
 export const EditButton = styled.button`
   border-radius: 5px;
-  border: solid 1px
-    ${(props: ThemedDivProps) => props.theme.colors.button.primary};
-  background: ${(props: ThemedDivProps) => props.theme.colors.button.primary};
+  border: solid 1px ${props => props.theme.colors.button.primary};
+  background: ${props => props.theme.colors.button.primary};
   color: white;
   padding: 1px 7px;
   margin-left: 8px;
@@ -20,6 +17,6 @@ export const EditButton = styled.button`
 
   &:hover {
     background: transparent;
-    color: ${(props: ThemedDivProps) => props.theme.colors.button.primary};
+    color: ${props => props.theme.colors.button.primary};
   }
 `

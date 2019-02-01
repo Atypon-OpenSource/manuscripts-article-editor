@@ -12,14 +12,12 @@ import {
   FormikProps,
 } from 'formik'
 import React from 'react'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import AutoSaveInput from '../AutoSaveInput'
 import { FormError } from '../Form'
 import { AffiliationsSelect } from '../metadata/AffiliationsSelect'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Fields = styled.div`
   padding: 16px;
@@ -32,7 +30,7 @@ const Fieldset = styled.fieldset`
 const Legend = styled.legend`
   font-size: 20px;
   letter-spacing: -0.4px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.global.text.secondary};
 `
 
 const Label = styled.label`

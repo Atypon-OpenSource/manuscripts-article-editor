@@ -6,7 +6,7 @@ import {
 } from '@manuscripts/manuscript-editor'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Button, PrimaryButton } from '../Button'
 import { CitationSearchSection } from './CitationSearchSection'
 

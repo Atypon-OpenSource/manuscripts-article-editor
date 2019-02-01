@@ -1,12 +1,11 @@
 import React from 'react'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { RadioButton } from '../RadioButton'
 
 type Props = React.InputHTMLAttributes<HTMLInputElement>
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Container = styled.div`
-  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
+  color: ${props => props.theme.colors.popper.text.primary};
 `
 
 export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({

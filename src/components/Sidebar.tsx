@@ -1,6 +1,4 @@
-import { styled, ThemedProps } from '../theme'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
+import { styled } from '../theme/styled-components'
 
 export const Sidebar = styled.div`
   overflow-x: hidden;
@@ -10,8 +8,7 @@ export const Sidebar = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: ${(props: ThemedDivProps) =>
-    props.theme.colors.sidebar.background.default};
+  background: ${props => props.theme.colors.sidebar.background.default};
 `
 
 export const SidebarHeader = styled.div`
@@ -34,7 +31,7 @@ export const SidebarFooter = styled.div`
 export const SidebarTitle = styled.div`
   font-size: 20px;
   font-weight: 600;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.sidebar.text.primary};
   flex: 1;
   white-space: nowrap;
 `
@@ -61,7 +58,7 @@ export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
     props.selected ? props.theme.colors.sidebar.background.selected : 'unset'};
 
   & :hover {
-    background-color: ${(props: ThemedDivProps) =>
+    background-color: ${props =>
       props.theme.colors.sidebar.background.selected};
   }
 `
@@ -89,7 +86,7 @@ export const SidebarSearchText = styled.input`
 
   &:hover,
   &:focus {
-    background-color: ${(props: ThemedDivProps) =>
+    background-color: ${props =>
       props.theme.colors.sidebar.background.selected};
     outline: none;
   }

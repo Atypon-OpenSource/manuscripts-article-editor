@@ -9,7 +9,6 @@ import SuccessGreen from '@manuscripts/assets/react/SuccessGreen'
 import React from 'react'
 import { SizeMe } from 'react-sizeme'
 import styled from 'styled-components'
-import { theme } from '../theme'
 
 export const TextButton = styled.span`
   border: none;
@@ -61,17 +60,15 @@ const CloseContainer = styled.div`
   right: 10px;
 `
 
-interface AlertProps {
-  color: string
-  backgroundColor: string
-  borderColor: string
-}
-
-const AlertContainer = styled.div`
+const AlertContainer = styled.div<{
+  type: string
+}>`
   display: flex;
-  color: ${(props: AlertProps) => props.color};
-  background-color: ${(props: AlertProps) => props.backgroundColor};
-  border: solid 1px ${(props: AlertProps) => props.borderColor};
+  color: ${props => props.theme.colors.alertMessage[props.type].text};
+  background-color: ${props =>
+    props.theme.colors.alertMessage[props.type].background};
+  border: solid 1px
+    ${props => props.theme.colors.alertMessage[props.type].border};
   border-radius: 3px;
   align-items: center;
   white-space: normal;
@@ -152,12 +149,7 @@ class AlertMessage extends React.Component<Props, State> {
       isOpen && (
         <SizeMe>
           {({ size }) => (
-            <AlertContainer
-              color={theme.colors.alertMessage[type].text}
-              backgroundColor={theme.colors.alertMessage[type].background}
-              borderColor={theme.colors.alertMessage[type].border}
-              className={'alert-message'}
-            >
+            <AlertContainer type={type} className={'alert-message'}>
               <InnerContainer>
                 <InformativeIcon>{<AlertIcon type={type} />}</InformativeIcon>
                 <TextContainer>

@@ -3,7 +3,7 @@ import ProjectPlaceholder from '@manuscripts/assets/react/ProjectPlaceholder'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 
 const OuterContainer = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
 import { BibliographyItem, Keyword } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import ProjectKeywordsData from '../../data/ProjectKeywordsData'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 
 const buildCounts = (items: BibliographyItem[]) => {
   const counts: Map<string, number> = new Map()

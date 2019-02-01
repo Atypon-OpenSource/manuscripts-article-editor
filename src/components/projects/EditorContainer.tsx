@@ -1,4 +1,4 @@
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 
 export const EditorContainer = styled.div`
   display: flex;

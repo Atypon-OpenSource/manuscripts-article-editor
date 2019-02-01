@@ -1,6 +1,6 @@
 import { Form, FormikProps } from 'formik'
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 
 const LocaleSelectorLabel = styled.label`
   display: block;

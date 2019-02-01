@@ -5,14 +5,11 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { aliceBlue, aquaHaze } from '../../colors'
 import { initials } from '../../lib/name'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Badge } from '../Badge'
 import { Button, PrimaryButton } from '../Button'
 import { PlaceholderTitle } from '../nav/ProjectDropdown'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Container = styled.div`
   display: grid;
@@ -32,8 +29,7 @@ const InvitedBy = styled.div`
   align-items: center;
   font-size: 14px;
   letter-spacing: -0.3px;
-  color: ${(props: ThemedDivProps) =>
-    props.theme.colors.dropdown.text.secondary};
+  color: ${props => props.theme.colors.dropdown.text.secondary};
   clear: both;
   margin-top: 15px;
 `
@@ -41,15 +37,12 @@ const InvitedBy = styled.div`
 const AcceptButton = styled(PrimaryButton)`
   font-size: 14px;
   font-weight: 500;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.dropdown.button.primary};
+  background-color: ${props => props.theme.colors.dropdown.button.primary};
   padding: 0 8px;
 
   &:hover {
-    color: ${(props: ThemedDivProps) =>
-      props.theme.colors.dropdown.button.primary};
-    border-color: ${(props: ThemedDivProps) =>
-      props.theme.colors.dropdown.button.primary};
+    color: ${props => props.theme.colors.dropdown.button.primary};
+    border-color: ${props => props.theme.colors.dropdown.button.primary};
   }
 `
 
@@ -57,14 +50,11 @@ const RejectButton = styled(Button)`
   font-size: 14px;
   font-weight: 500;
   padding: 0 8px;
-  color: ${(props: ThemedDivProps) =>
-    props.theme.colors.dropdown.button.secondary};
+  color: ${props => props.theme.colors.dropdown.button.secondary};
 
   &:hover {
-    color: ${(props: ThemedDivProps) =>
-      props.theme.colors.dropdown.button.primary};
-    border-color: ${(props: ThemedDivProps) =>
-      props.theme.colors.dropdown.button.primary};
+    color: ${props => props.theme.colors.dropdown.button.primary};
+    border-color: ${props => props.theme.colors.dropdown.button.primary};
   }
 `
 const AvatarContainer = styled.div`
@@ -83,8 +73,9 @@ const InvitationElement = styled.div`
   border-radius: 4px;
 
   &:hover {
-    background-color: ${aliceBlue};
-    border-color: ${aquaHaze};
+    background-color: ${props =>
+      props.theme.colors.invitation.background.hovered};
+    border-color: ${props => props.theme.colors.invitation.border.hovered};
   }
 
   @media (max-width: 450px) {

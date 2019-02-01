@@ -2,7 +2,7 @@ import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
 import { Formik, FormikErrors } from 'formik'
 import React from 'react'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import {
   RenameProjectForm,
   RenameProjectValues,
@@ -11,12 +11,10 @@ import { FormErrors } from '../Form'
 import { ProjectRenameMessage } from '../Messages'
 import { CloseButton } from '../SimpleModal'
 
-type ThemedDivProps = ThemedProps<HTMLDivElement>
-
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
+  font-family: ${props => props.theme.fontFamily};
   width: 480px;
   max-width: 70vw;
 

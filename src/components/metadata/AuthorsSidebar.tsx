@@ -1,13 +1,10 @@
 import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { salomieYellow } from '../../colors'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { AuthorAffiliation } from './Author'
 import DraggableAuthorItem from './DraggableAuthorItem'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const AddIcon = styled.span`
   display: inline-flex;
@@ -22,7 +19,7 @@ const AddButton = styled.button`
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.2px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.sidebar.text.primary};
   cursor: pointer;
   background: none;
   border: none;
@@ -37,15 +34,14 @@ const AddButton = styled.button`
   }
 
   &:hover use {
-    fill: ${salomieYellow};
+    fill: ${props => props.theme.colors.authors.add.hovered};
   }
 `
 
 const Sidebar = styled.div`
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.sidebar.background.default};
+  background-color: ${props => props.theme.colors.sidebar.background.default};
   border-top-left-radius: ${props => props.theme.radius}px;
-  border-bottom-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
+  border-bottom-left-radius: ${props => props.theme.radius}px;
   padding-bottom: 16px;
   height: 100%;
   box-sizing: border-box;
@@ -65,7 +61,7 @@ const SidebarTitle = styled.div`
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.5px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.sidebar.text.primary};
 `
 
 const SidebarAction = styled.div`

@@ -3,7 +3,8 @@ import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AddIconInverted from '../../icons/add-icon-inverted'
 import { buildAuthorPriority } from '../../lib/authors'
-import { styled, theme } from '../../theme'
+import { styled } from '../../theme/styled-components'
+import { theme } from '../../theme/theme'
 import { IconButton } from '../Button'
 
 const AddIconButton = styled(IconButton)`

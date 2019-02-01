@@ -1,7 +1,7 @@
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import ArrowUpBlue from '@manuscripts/assets/react/ArrowUpBlue'
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { ResearchField } from '../../types/templates'
 import { TemplateTopicsList } from './TemplateTopicsList'
 

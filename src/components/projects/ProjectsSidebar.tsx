@@ -3,13 +3,11 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
 import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { ModalProps, withModal } from '../ModalProvider'
 import ProjectsButton from '../nav/ProjectsButton'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import TemplateSelector from '../templates/TemplateSelector'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Container = styled(Sidebar)`
   background: white;
@@ -30,7 +28,7 @@ const SidebarActionTitle = styled.span`
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.2px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.sidebar.text.primary};
 `
 
 const AddButton = styled.button`

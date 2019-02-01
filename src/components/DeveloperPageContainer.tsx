@@ -1,7 +1,7 @@
 import React from 'react'
 import config from '../config'
 import { createToken, createUserProfile } from '../lib/developer'
-import { styled } from '../theme'
+import { styled } from '../theme/styled-components'
 import { DatabaseContext } from './DatabaseProvider'
 
 const DropdownAction = styled.div`

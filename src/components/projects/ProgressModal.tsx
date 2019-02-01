@@ -1,6 +1,5 @@
 import React from 'react'
-import { altoGrey } from '../../colors'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { PrimaryButton } from '../Button'
 import { IndicatorKind, ProgressIndicator } from '../ProgressIndicator'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
@@ -10,7 +9,7 @@ const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${altoGrey};
+  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
   background: #fff;
 `
 

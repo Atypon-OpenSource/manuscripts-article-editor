@@ -9,7 +9,7 @@ import React from 'react'
 import { AvatarFileUpload } from '../src/components/account/AvatarFileUpload'
 import ProfilePage from '../src/components/account/ProfilePage'
 import { AvatarProps } from '../src/components/account/ProfilePageSidebar'
-import { styled } from '../src/theme'
+import { styled } from '../src/theme/styled-components'
 import { people } from './data/people'
 
 const bibliographicName: BibliographicName = {

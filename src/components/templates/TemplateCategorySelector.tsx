@@ -7,7 +7,7 @@ import ManualIcon from '@manuscripts/assets/react/TemplateCategoryManual'
 import ResearchIcon from '@manuscripts/assets/react/TemplateCategoryResearchArticle'
 import { ManuscriptCategory } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 
 const Categories = styled.div`
   flex: 1;

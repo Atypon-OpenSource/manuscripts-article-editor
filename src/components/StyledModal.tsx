@@ -1,6 +1,7 @@
 import React from 'react'
 import Modal from 'react-modal'
-import { styled, ThemedProps } from '../theme'
+import { styled } from '../theme/styled-components'
+import { ThemedProps } from '../theme/types'
 
 Modal.setAppElement('#root')
 

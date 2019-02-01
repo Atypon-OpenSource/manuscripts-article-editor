@@ -1,15 +1,12 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { darkGrey } from '../../colors'
 import { buildAuthorPriority } from '../../lib/authors'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Avatar } from '../Avatar'
 import { GreyButton, PrimaryButton } from '../Button'
 import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
 import AddAuthorButton from './AddAuthorButton'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const PersonInitial = styled.span`
   margin-right: 4px;
@@ -18,7 +15,7 @@ const PersonInitial = styled.span`
 
 const PersonName = styled.div`
   font-size: 120%;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.sidebar.text.primary};
   font-weight: 500;
 `
 
@@ -136,7 +133,7 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
         {searchResults.map((person: UserProfileWithAvatar) => (
           <SidebarPersonContainer key={person._id}>
             <UserDataContainer>
-              <Avatar src={person.avatar} size={45} color={darkGrey} />
+              <Avatar src={person.avatar} size={45} />
               <PeopleData>
                 <PersonName>
                   <PersonInitial>

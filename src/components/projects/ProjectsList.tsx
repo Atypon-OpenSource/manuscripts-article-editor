@@ -6,15 +6,12 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { aliceBlue, aquaHaze, dustyGrey } from '../../colors'
 import TickMark from '../../icons/tick-mark'
 import { buildCollaborators } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import ProjectContextMenuButton from './ProjectContextMenuButton'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const SidebarProject = styled.div`
   padding: 16px;
@@ -25,8 +22,9 @@ const SidebarProject = styled.div`
   border-radius: 4px;
 
   &:hover {
-    background-color: ${aliceBlue};
-    border-color: ${aquaHaze};
+    background-color: ${props =>
+      props.theme.colors.projects.background.hovered};
+    border-color: ${props => props.theme.colors.projects.border.hovered};
   }
 
   @media (max-width: 450px) {
@@ -62,7 +60,7 @@ const ProjectContributors = styled.div`
 `
 
 const PlaceholderTitle = styled(Title)`
-  color: ${dustyGrey};
+  color: ${props => props.theme.colors.title.placeholder};
 `
 
 const ProjectContributor = styled.span``
@@ -74,7 +72,7 @@ const AcceptedLabel = styled.div`
   display: flex;
   align-items: center;
   color: white;
-  background: ${(props: ThemedDivProps) => props.theme.colors.label.success};
+  background: ${props => props.theme.colors.label.success};
   padding: 2px 10px;
   border-radius: 4px;
   text-transform: uppercase;

@@ -11,11 +11,10 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { salomieYellow } from '../../colors'
 import { buildCommentTree, buildName } from '../../lib/comments'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Avatar } from '../Avatar'
-import { LightRelativeDate } from '../RelativeDate'
+import { RelativeDate } from '../RelativeDate'
 import CommentBody from './CommentBody'
 import { CommentTarget } from './CommentTarget'
 
@@ -37,7 +36,10 @@ const Container = styled.div<ContainerProps>`
   background: white;
   border: 1px solid #edf1f4;
   border-left: 4px solid
-    ${props => (props.isSelected ? salomieYellow : '#edf1f4')};
+    ${props =>
+      props.isSelected
+        ? props.theme.colors.comment.border.selected
+        : props.theme.colors.comment.border.default};
 `
 
 const CommentThread = styled.div`
@@ -68,6 +70,12 @@ const Reply = styled.div`
   margin-left: 16px;
   border: 1px solid #edf1f4;
   border-top: none;
+`
+
+const LightRelativeDate = styled(RelativeDate)`
+  font-size: 12px;
+  color: ${props => props.theme.colors.comment.date};
+  letter-spacing: -0.2px;
 `
 
 const CommentUser: React.FunctionComponent<UserProps> = ({ user }) =>

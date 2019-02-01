@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import AcceptProjectInvitation from '../collaboration/AcceptProjectInvitation'
 import MessageBanner from '../MessageBanner'
 import { GlobalMenu } from '../nav/GlobalMenu'

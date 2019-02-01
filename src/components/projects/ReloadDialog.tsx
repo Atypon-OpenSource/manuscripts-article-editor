@@ -1,8 +1,7 @@
 import AttentionRed from '@manuscripts/assets/react/AttentionRed'
 import React from 'react'
-import { altoGrey, butteryYellow } from '../../colors'
 import config from '../../config'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { GreyButton, PrimaryButton } from '../Button'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
 
@@ -20,12 +19,12 @@ const Message: React.FunctionComponent<{
 
 const Icon = styled(AttentionRed)`
   margin-right: 8px;
-  color: ${butteryYellow};
+  color: ${props => props.theme.colors.reload.icon};
 `
 
 const ModalBody = styled.div`
   border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 8px 0 ${altoGrey};
+  box-shadow: 0 4px 8px 0 ${props => props.theme.colors.modal.shadow};
   background: #fff;
   font-family: ${props => props.theme.fontFamily};
 `

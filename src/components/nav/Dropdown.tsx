@@ -2,14 +2,9 @@ import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
 import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import { NavLink } from 'react-router-dom'
-import { lightGrey } from '../../colors'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Badge } from '../Badge'
 import { InvitedBy, PlaceholderTitle } from './ProjectDropdown'
-
-type ThemedButtonProps = ThemedProps<HTMLButtonElement>
-type ThemedAnchorProps = ThemedProps<HTMLAnchorElement>
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const DropdownContainer = styled.div`
   position: relative;
@@ -21,11 +16,10 @@ export const Dropdown = styled.div`
   position: absolute;
   top: 32px;
   left: 5px;
-  border: 1px solid ${lightGrey};
+  border: 1px solid ${props => props.theme.colors.dropdown.border};
   border-radius: 4px;
   box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
-  background: ${(props: ThemedDivProps) =>
-    props.theme.colors.dropdown.background.default};
+  background: ${props => props.theme.colors.dropdown.background.default};
   color: #000;
   font-size: 14px;
   font-weight: normal;
@@ -47,10 +41,8 @@ export const DropdownLink = styled(NavLink)<{ disabled?: boolean }>`
 
   &:hover,
   &:hover ${PlaceholderTitle} {
-    background: ${(props: ThemedAnchorProps) =>
-      props.theme.colors.dropdown.background.hovered};
-    color: ${(props: ThemedAnchorProps) =>
-      props.theme.colors.dropdown.text.hovered};
+    background: ${props => props.theme.colors.dropdown.background.hovered};
+    color: ${props => props.theme.colors.dropdown.text.hovered};
   }
 `
 
@@ -69,10 +61,8 @@ export const DropdownElement = styled.div<{ disabled?: boolean }>`
   pointer-events: ${props => (props.disabled ? 'none' : 'unset')};
 
   &:hover {
-    background: ${(props: ThemedDivProps) =>
-      props.theme.colors.dropdown.background.hovered};
-    color: ${(props: ThemedDivProps) =>
-      props.theme.colors.dropdown.text.hovered};
+    background: ${props => props.theme.colors.dropdown.background.hovered};
+    color: ${props => props.theme.colors.dropdown.text.hovered};
   }
 
   &:hover .user-icon-path {
@@ -80,8 +70,7 @@ export const DropdownElement = styled.div<{ disabled?: boolean }>`
   }
 
   &:hover ${InvitedBy} {
-    color: ${(props: ThemedDivProps) =>
-      props.theme.colors.dropdown.text.hovered};
+    color: ${props => props.theme.colors.dropdown.text.hovered};
   }
 `
 
@@ -89,8 +78,7 @@ export const DropdownSeparator = styled.div`
   height: 1px;
   width: 100%;
   opacity: 0.23;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.dropdown.separator};
+  background-color: ${props => props.theme.colors.dropdown.separator};
 `
 
 const DropdownButtonText = styled.div`
@@ -151,14 +139,13 @@ const DropdownButtonContainer = styled.button<DropdownProps>`
   }
 
   &:hover {
-    background-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
+    background-color: ${props => props.theme.colors.button.primary};
     color: white;
   }
 
   &:hover ${NotificationsBadge} {
     background-color: white;
-    color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
+    color: ${props => props.theme.colors.button.primary};
   }
 `
 

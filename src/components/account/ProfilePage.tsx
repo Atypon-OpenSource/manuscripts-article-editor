@@ -3,14 +3,11 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { UserProfileAffiliation } from '@manuscripts/manuscripts-json-schema'
 import { FormikActions } from 'formik'
 import React from 'react'
-import { altoGrey } from '../../colors'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { CloseButton } from '../SimpleModal'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
 import { ProfileErrors, ProfileForm, ProfileValues } from './ProfileForm'
 import ProfilePageSidebar from './ProfilePageSidebar'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 // TODO: Try to remove the fixed numbers
 const ModalMain = styled.div`
@@ -26,9 +23,9 @@ const ModalHeader = styled.div`
 
 const ModalContainer = styled.div`
   display: flex;
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
-  border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${altoGrey};
+  font-family: ${props => props.theme.fontFamily};
+  border-radius: ${props => props.theme.radius}px;
+  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
   background: #fff;
 `
 

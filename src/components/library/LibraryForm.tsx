@@ -10,8 +10,8 @@ import * as React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
 import ProjectKeywordsData from '../../data/ProjectKeywordsData'
-import { styled } from '../../theme'
-import { DangerButton, PrimarySubmitButton, ThemedButtonProps } from '../Button'
+import { styled } from '../../theme/styled-components'
+import { DangerButton, PrimarySubmitButton } from '../Button'
 
 const Fields = styled.div`
   padding: 10px;
@@ -66,7 +66,7 @@ const StyledTitleField = styled(TitleField)`
 
 const Button = styled.button`
   background-color: transparent;
-  color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
+  color: ${props => props.theme.colors.button.primary};
   border: 2px solid transparent;
   border-radius: 4px;
   text-transform: uppercase;
@@ -74,26 +74,22 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   padding: 1px 10px 3px;
-  font-family: ${(props: ThemedButtonProps) => props.theme.fontFamily};
+  font-family: ${props => props.theme.fontFamily};
   font-size: 14px;
   font-weight: 600;
-  cursor: ${(props: ThemedButtonProps) =>
-    props.disabled ? 'text' : 'pointer'};
-  opacity: ${(props: ThemedButtonProps) => (props.disabled ? '0.5' : '1.0')};
+  cursor: ${props => (props.disabled ? 'text' : 'pointer')};
+  opacity: ${props => (props.disabled ? '0.5' : '1.0')};
   transition: border 0.1s, color 0.1s, background-color 0.1s;
 
   &:hover {
     background-color: #fff;
-    color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
+    color: ${props => props.theme.colors.button.primary};
+    border-color: ${props => props.theme.colors.button.primary};
   }
 
   &:active {
-    background-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
+    background-color: ${props => props.theme.colors.button.primary};
+    border-color: ${props => props.theme.colors.button.primary};
     color: white;
   }
 `

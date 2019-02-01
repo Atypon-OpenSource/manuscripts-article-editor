@@ -6,16 +6,14 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { dustyGrey } from '../../colors'
 import ProjectIcon from '../../icons/project'
 import ProjectNotification from '../../icons/project-notification'
 import TickMark from '../../icons/tick-mark'
-import { styled, theme, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
+import { theme } from '../../theme/theme'
 import { Avatar } from '../Avatar'
 import { Button, PrimaryButton } from '../Button'
 import { DropdownElement, DropdownLink } from './Dropdown'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const activeStyle = {
   fontWeight: 600,
@@ -45,8 +43,7 @@ export const InvitedBy = styled.div`
   align-items: center;
   font-size: 14px;
   letter-spacing: -0.3px;
-  color: ${(props: ThemedDivProps) =>
-    props.theme.colors.dropdown.text.secondary};
+  color: ${props => props.theme.colors.dropdown.text.secondary};
   clear: both;
   margin-top: 6px;
 `
@@ -54,8 +51,7 @@ export const InvitedBy = styled.div`
 const AcceptButton = styled(PrimaryButton)`
   font-size: 14px;
   font-weight: 500;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.dropdown.button.primary};
+  background-color: ${props => props.theme.colors.dropdown.button.primary};
   padding: 0 8px;
 
   &:hover {
@@ -68,8 +64,7 @@ const RejectButton = styled(Button)`
   font-size: 14px;
   font-weight: 500;
   padding: 0 8px;
-  color: ${(props: ThemedDivProps) =>
-    props.theme.colors.dropdown.button.secondary};
+  color: ${props => props.theme.colors.dropdown.button.secondary};
 
   &:hover {
     color: white;
@@ -81,7 +76,7 @@ const AcceptedLabel = styled.div`
   display: flex;
   align-items: center;
   color: white;
-  background: ${(props: ThemedDivProps) => props.theme.colors.label.success};
+  background: ${props => props.theme.colors.label.success};
   padding: 2px 10px;
   border-radius: 4px;
   text-transform: uppercase;
@@ -102,8 +97,6 @@ const TickMarkContainer = styled.div`
   padding-right: 3px;
 `
 
-const iconColor = theme.colors.icon.primary
-
 interface InvitationProps {
   invitation: ProjectInvitation
   invitingUserProfile: UserProfileWithAvatar
@@ -120,7 +113,7 @@ export const InvitationDropdownSection: React.FunctionComponent<
   <DropdownElement>
     <ProjectNameContainer>
       <DropdownWithNotificationIcon>
-        <ProjectNotification color={iconColor} />
+        <ProjectNotification color={theme.colors.icon.primary} />
       </DropdownWithNotificationIcon>
       <ButtonsContainer>
         <Title value={invitation.projectTitle || 'Untitled Invitation'} />
@@ -130,7 +123,7 @@ export const InvitationDropdownSection: React.FunctionComponent<
             <Avatar
               size={20}
               src={invitingUserProfile.avatar}
-              color={iconColor}
+              color={theme.colors.icon.primary}
             />
           </AvatarContainer>
         </InvitedBy>
@@ -150,7 +143,7 @@ export const InvitationDropdownSection: React.FunctionComponent<
 )
 
 export const PlaceholderTitle = styled(Title)`
-  color: ${dustyGrey};
+  color: ${props => props.theme.colors.title.placeholder};
 `
 
 interface ProjectSectionProps {
@@ -172,7 +165,7 @@ export const ProjectDropdownSection: React.FunctionComponent<
   >
     <ProjectNameContainer>
       <DropdownIcon>
-        <ProjectIcon color={iconColor} />
+        <ProjectIcon color={theme.colors.icon.primary} />
       </DropdownIcon>
       {project.title ? (
         <Title value={project.title} />

@@ -1,7 +1,7 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { isOwner } from '../../lib/roles'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { GreyButton, PrimaryButton } from '../Button'
 import { PopperBody } from '../Popper'
 import { InvitationForm, InvitationValues } from './InvitationForm'
@@ -22,17 +22,15 @@ export const ShareProjectHeader = styled.div`
   justify-content: space-between;
 `
 
-type ThemedDivProps = ThemedProps<HTMLDivElement>
-
 export const ShareProjectTitle = styled.div`
   font-size: 20px;
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.9px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
+  color: ${props => props.theme.colors.popper.text.primary};
   display: inline-block;
   padding-right: 20px;
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
+  font-family: ${props => props.theme.fontFamily};
 `
 
 interface Props {

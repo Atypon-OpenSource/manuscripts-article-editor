@@ -9,7 +9,8 @@ import { databaseCreator } from './lib/db'
 import './lib/fonts'
 import './lib/sentry'
 import './lib/service-worker'
-import { GlobalStyle, ThemeProvider } from './theme'
+import { GlobalStyle } from './theme/theme'
+import { ThemeProvider } from './theme/ThemeProvider'
 
 ReactDOM.render(
   <IntlProvider>

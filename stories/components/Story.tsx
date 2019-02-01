@@ -1,11 +1,8 @@
-import { styled, ThemedProps } from '../../src/theme'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
+import { styled } from '../../src/theme/styled-components'
 
 export const Story = styled.div`
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.global.background.default};
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.primary};
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
+  background-color: ${props => props.theme.colors.global.background.default};
+  color: ${props => props.theme.colors.global.text.primary};
+  font-family: ${props => props.theme.fontFamily};
   padding: 3rem;
 `

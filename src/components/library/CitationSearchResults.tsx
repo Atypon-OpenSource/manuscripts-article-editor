@@ -3,9 +3,8 @@ import { Build } from '@manuscripts/manuscript-editor'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { altoGrey, manuscriptsBlue } from '../../colors'
 import { estimateID, issuedYear, shortAuthorsString } from '../../lib/library'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 
 const SearchResult = styled.div`
   padding: 0 8px;
@@ -35,6 +34,11 @@ const SearchResultAuthors = styled.div`
   overflow: hidden;
 `
 
+const SearchResultAuthorsPlaceholder = styled(SearchResultAuthors)`
+  background: ${props => props.theme.colors.citationSearch.placeholder};
+  height: 1.2em;
+`
+
 const Container = styled.div`
   //height: 200px;
 `
@@ -44,14 +48,17 @@ const ResultMetadata = styled.div`
   overflow: hidden;
 `
 
-const StyledPlusIcon = styled(PlusIcon)<{ selected: boolean }>`
+const StatusIcon = styled(PlusIcon)<{ selected: boolean }>`
   flex-shrink: 1;
   width: 24px;
   height: 24px;
   margin-right: 16px;
 
   & path {
-    fill: ${props => (props.selected ? manuscriptsBlue : 'transparent')};
+    fill: ${props =>
+      props.selected
+        ? props.theme.colors.citationSearch.status.fill.selected
+        : props.theme.colors.citationSearch.status.fill.default};
   }
 `
 
@@ -61,7 +68,7 @@ const ResultPlaceholder = () => (
 
     <ResultMetadata>
       <div style={{ background: '#aaa', height: '1.2em' }} />
-      <SearchResultAuthors style={{ background: altoGrey, height: '1.2em' }} />
+      <SearchResultAuthorsPlaceholder />
     </ResultMetadata>
   </SearchResult>
 )
@@ -109,7 +116,7 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
 
         return (
           <SearchResult onClick={() => addToSelection(id, item)} key={id}>
-            <StyledPlusIcon data-cy={'plus-icon'} selected={selected.has(id)} />
+            <StatusIcon data-cy={'plus-icon'} selected={selected.has(id)} />
 
             <ResultMetadata>
               <SearchResultTitle

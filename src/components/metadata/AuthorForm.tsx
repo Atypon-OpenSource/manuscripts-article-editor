@@ -8,7 +8,7 @@ import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
 import AlertMessage, { AlertMessageType } from '../../components/AlertMessage'
 import { AffiliationMap } from '../../lib/authors'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import AutoSaveInput from '../AutoSaveInput'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
@@ -16,8 +16,6 @@ import { AffiliationsSelect } from './AffiliationsSelect'
 import { AuthorAffiliation } from './Author'
 import InviteAuthorButton from './InviteAuthorButton'
 import RemoveAuthorButton from './RemoveAuthorButton'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const Fields = styled.div`
   padding: 16px;
@@ -32,7 +30,7 @@ const Label = styled.label`
 const LabelText = styled.div`
   font-size: 14px;
   letter-spacing: -0.2px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.primary};
+  color: ${props => props.theme.colors.global.text.primary};
 `
 
 const CheckboxField = styled.input.attrs({
@@ -63,7 +61,7 @@ const Fieldset = styled.fieldset`
 const Legend = styled.legend`
   font-size: 20px;
   letter-spacing: -0.4px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.global.text.secondary};
 `
 
 const Container = styled.div`

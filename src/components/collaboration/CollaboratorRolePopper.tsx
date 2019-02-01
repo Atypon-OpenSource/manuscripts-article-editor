@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { GreyButton, PrimaryButton } from '../Button'
 import { PopperBody, SeparatorLine } from '../Popper'

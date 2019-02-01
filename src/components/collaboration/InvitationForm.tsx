@@ -9,7 +9,7 @@ import {
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { ProjectRole } from '../../lib/roles'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { projectInvitationSchema } from '../../validation'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { PrimaryButton } from '../Button'

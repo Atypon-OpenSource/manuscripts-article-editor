@@ -1,14 +1,11 @@
 import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
-import { styled, ThemedProps } from '../../theme'
-
-type ThemedTableProps = ThemedProps<HTMLTableElement>
+import { styled } from '../../theme/styled-components'
 
 const Container = styled.table`
   border: none;
   margin-top: 16px;
-  color: ${(props: ThemedTableProps) =>
-    props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.global.text.secondary};
   font-size: 15px;
   line-height: 1.73;
   letter-spacing: -0.1px;

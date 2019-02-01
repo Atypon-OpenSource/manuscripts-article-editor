@@ -4,7 +4,8 @@ import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import AddIconActive from '../../icons/add-icon-active'
 import AddIconInverted from '../../icons/add-icon-inverted'
-import { styled, theme } from '../../theme'
+import { styled } from '../../theme/styled-components'
+import { theme } from '../../theme/theme'
 import { IconButton } from '../Button'
 import AddCollaboratorPopperContainer from './AddCollaboratorPopperContainer'
 
@@ -19,8 +20,6 @@ const AddIconButton = styled(IconButton)`
     outline: none;
   }
 `
-
-const iconColor = theme.colors.icon.primary
 
 interface State {
   isOpen: boolean
@@ -67,9 +66,9 @@ class AddCollaboratorButton extends React.Component<Props, State> {
           {({ ref }) => (
             <AddIconButton ref={ref} onClick={this.togglePopper}>
               {isOpen ? (
-                <AddIconActive color={iconColor} />
+                <AddIconActive color={theme.colors.icon.primary} />
               ) : (
-                <AddIconInverted color={iconColor} />
+                <AddIconInverted color={theme.colors.icon.primary} />
               )}
             </AddIconButton>
           )}

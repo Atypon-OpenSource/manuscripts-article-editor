@@ -1,6 +1,5 @@
 import React from 'react'
-import { aliceBlue } from '../../colors'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import {
   ManuscriptTemplate,
   Publisher,
@@ -55,7 +54,8 @@ const TemplateActions = styled.div<{ selected?: boolean }>`
   position: absolute;
   top: 0;
   right: 0;
-  background: ${aliceBlue};
+  background: ${props =>
+    props.theme.colors.templateSelector.item.actions.background};
   padding: 8px;
 `
 
@@ -70,10 +70,14 @@ const Container = styled.div<{ selected?: boolean }>`
   border-bottom: 1px solid #eee;
   cursor: pointer;
   position: relative;
-  background-color: ${props => (props.selected ? aliceBlue : 'transparent')};
+  background-color: ${props =>
+    props.selected
+      ? props.theme.colors.templateSelector.item.container.background.selected
+      : props.theme.colors.templateSelector.item.container.background.default};
 
   &:hover {
-    background-color: ${aliceBlue};
+    background-color: ${props =>
+      props.theme.colors.templateSelector.item.container.background.hovered};
   }
 `
 

@@ -17,7 +17,6 @@ import {
   DropTargetSpec,
 } from 'react-dnd'
 import { findDOMNode } from 'react-dom'
-import { darkGrey, manuscriptsBlue } from '../../colors'
 import { isJointFirstAuthor } from '../../lib/authors'
 import {
   AuthorItem,
@@ -27,29 +26,24 @@ import {
   DropHandler,
   DropSide,
 } from '../../lib/drag-drop-authors'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Avatar } from '../Avatar'
 import { AuthorName } from './AuthorName'
 
-type ThemedDivProps = ThemedProps<HTMLDivElement>
-
-interface OpacityProps {
+const AuthorItemComponent = styled.div<{
   opacity: number
-}
-
-const AuthorItemComponent = styled.div`
+}>`
   padding: 4px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: background-color 0.25s;
-  opacity: ${(props: OpacityProps) => props.opacity};
+  opacity: ${props => props.opacity};
 
   &:hover,
   &.active {
-    background: ${(props: ThemedDivProps) =>
-      props.theme.colors.sidebar.background.selected};
+    background: ${props => props.theme.colors.sidebar.background.selected};
   }
 `
 
@@ -87,7 +81,7 @@ const AuthorNameSpace = styled.span`
 const Invited = styled.div`
   display: flex;
   font-size: 12px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.label};
+  color: ${props => props.theme.colors.sidebar.label};
 `
 
 const InvitedContainer = styled.div`
@@ -97,7 +91,7 @@ const InvitedContainer = styled.div`
 
 const AuthorDropPreview = styled.div`
   width: 100%;
-  background: ${(props: ThemedDivProps) => props.theme.colors.sidebar.dropLine};
+  background: ${props => props.theme.colors.sidebar.dropLine};
   height: 1px;
   position: relative;
 `
@@ -222,7 +216,7 @@ class AuthorComponent extends React.Component<Props & ConnectedProps, State> {
             >
               <AuthorMetadata>
                 <AvatarContainer>
-                  <Avatar src={user.avatar} size={48} color={darkGrey} />
+                  <Avatar src={user.avatar} size={48} />
                   <AuthorNotes>
                     {author.isCorresponding && (
                       <AuthorBadge>
@@ -246,7 +240,7 @@ class AuthorComponent extends React.Component<Props & ConnectedProps, State> {
                 {checkInvitations(author) && <Invited>Invited</Invited>}
                 {this.selectedAuthorClass() && (
                   <DragHandle>
-                    <VerticalEllipsis color={manuscriptsBlue} />
+                    <VerticalEllipsis />
                   </DragHandle>
                 )}
               </InvitedContainer>

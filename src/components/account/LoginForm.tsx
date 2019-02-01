@@ -1,7 +1,7 @@
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { PrimarySubmitButton } from '../Button'
 import {
   CenteredForm,
@@ -15,8 +15,6 @@ import { Hero, SubHero } from '../Hero'
 import { TextField } from '../TextField'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 import { ErrorName } from './LoginPageContainer'
-
-type ThemedLinkProps = ThemedProps<Link>
 
 export interface LoginValues {
   email: string
@@ -35,7 +33,7 @@ const Container = styled.div`
 
 const RecoverLink = styled(Link)`
   text-decoration: underline;
-  color: ${(props: ThemedLinkProps) => props.theme.colors.global.text.error};
+  color: ${props => props.theme.colors.global.text.error};
 `
 
 interface Props {

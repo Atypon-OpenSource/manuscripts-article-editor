@@ -7,12 +7,10 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
-import { styled, ThemedProps } from '../theme'
+import { styled } from '../theme/styled-components'
 import MenuBar from './nav/MenuBar'
 import ProjectNavigator from './ProjectNavigator'
 import { Tip } from './Tip'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const Main = styled.main`
   height: 100vh;
@@ -32,8 +30,8 @@ const PageContainer = styled.div`
   display: flex;
   height: 100vh;
   box-sizing: border-box;
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.primary};
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
+  color: ${props => props.theme.colors.global.text.primary};
+  font-family: ${props => props.theme.fontFamily};
 `
 
 const ViewsBar = styled.div`
@@ -42,8 +40,7 @@ const ViewsBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.iconBar.background.default};
+  background-color: ${props => props.theme.colors.iconBar.background.default};
 `
 
 const IconBar = styled.div`
@@ -52,8 +49,7 @@ const IconBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${(props: ThemedDivProps) =>
-    props.theme.colors.iconBar.background.default};
+  background-color: ${props => props.theme.colors.iconBar.background.default};
 `
 
 const ViewLink = styled(NavLink)`
@@ -69,10 +65,8 @@ const ViewLink = styled(NavLink)`
 
   &:hover,
   &.active {
-    background: ${(props: ThemedDivProps) =>
-      props.theme.colors.iconBar.background.selected};
-    color: ${(props: ThemedDivProps) =>
-      props.theme.colors.iconBar.background.default};
+    background: ${props => props.theme.colors.iconBar.background.selected};
+    color: ${props => props.theme.colors.iconBar.background.default};
   }
 `
 

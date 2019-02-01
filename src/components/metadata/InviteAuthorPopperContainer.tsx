@@ -2,7 +2,7 @@ import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import { projectInvite } from '../../lib/api/collaboration'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import {
   InvitationForm,

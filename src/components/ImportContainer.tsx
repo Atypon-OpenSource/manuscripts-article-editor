@@ -1,7 +1,7 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import * as React from 'react'
 import { importFile, openFilePicker } from '../pressroom/importers'
-import { styled } from '../theme'
+import { styled } from '../theme/styled-components'
 
 export interface ImportProps {
   isImporting: boolean

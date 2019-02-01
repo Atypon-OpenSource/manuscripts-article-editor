@@ -1,7 +1,7 @@
 import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { TextButton } from '../AlertMessage'
 import InviteAuthorPopperContainer from './InviteAuthorPopperContainer'
 

@@ -11,8 +11,7 @@ import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
 import * as React from 'react'
-import { dustyGrey, manuscriptsBlue, powderBlue } from '../../colors'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import Panel from '../Panel'
 import {
@@ -23,18 +22,16 @@ import {
   SidebarTitle,
 } from '../Sidebar'
 
-type ThemedDivProps = ThemedProps<HTMLDivElement>
-
 const ProjectTitle = styled(SidebarTitle)`
-  color: ${(props: ThemedDivProps) => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.sidebar.text.primary};
   font-weight: 450;
   border: 1px solid transparent;
   padding: 4px;
   margin: -4px 0 -4px;
 
   &:hover {
-    border-color: ${manuscriptsBlue};
-    background: ${powderBlue};
+    border-color: ${props => props.theme.colors.title.border.hovered};
+    background: ${props => props.theme.colors.title.background.hovered};
   }
 
   & .ProseMirror {
@@ -46,14 +43,14 @@ const ProjectTitle = styled(SidebarTitle)`
 
     &.empty-node::before {
       position: absolute;
-      color: #bbb;
+      color: ${props => props.theme.colors.editor.placeholder.default};
       cursor: text;
       content: 'Untitled Project';
       pointer-events: none;
     }
 
     &.empty-node:hover::before {
-      color: ${dustyGrey};
+      color: ${props => props.theme.colors.editor.placeholder.hovered};
     }
   }
 `

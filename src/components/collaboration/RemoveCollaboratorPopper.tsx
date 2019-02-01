@@ -1,13 +1,10 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
-import { darkGrey } from '../../colors'
 import { initials } from '../../lib/name'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Avatar } from '../Avatar'
 import { GreyButton } from '../Button'
 import { PopperBody, SeparatorLine } from '../Popper'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const CollaboratorInitial = styled.span`
   margin-right: 4px;
@@ -17,7 +14,7 @@ const CollaboratorInitial = styled.span`
 const CollaboratorName = styled.div`
   text-align: center;
   font-size: 120%;
-  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
+  color: ${props => props.theme.colors.popper.text.primary};
   font-weight: 600;
   padding-bottom: 13px;
 `
@@ -30,7 +27,7 @@ const AvatarStyle = styled.div`
 `
 
 const Action = styled.div`
-  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
+  color: ${props => props.theme.colors.popper.text.primary};
   font-weight: 600;
   padding-left: 5px;
 `
@@ -38,7 +35,7 @@ const Action = styled.div`
 const Message = styled.div`
   display: flex;
   justify-content: center;
-  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.primary};
+  color: ${props => props.theme.colors.popper.text.primary};
   padding-bottom: 15px;
 `
 
@@ -46,7 +43,7 @@ const Description = styled.div`
   display: flex;
   padding-bottom: 10px;
   font-size: 14px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.popper.text.secondary};
+  color: ${props => props.theme.colors.popper.text.secondary};
   text-align: center;
   white-space: normal;
 `
@@ -75,7 +72,7 @@ export const RemoveCollaboratorPopper: React.FunctionComponent<Props> = ({
         Are you sure you want to <Action>remove</Action>
       </Message>
       <AvatarStyle>
-        <Avatar src={avatar} size={45} color={darkGrey} />
+        <Avatar src={avatar} size={45} />
       </AvatarStyle>
       <CollaboratorName>
         <CollaboratorInitial>{initials(bibliographicName)}</CollaboratorInitial>

@@ -1,8 +1,6 @@
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { styled, ThemedProps } from '../../theme'
-
-type ThemedAnchorProps = ThemedProps<HTMLAnchorElement>
+import { styled } from '../../theme/styled-components'
 
 const InfoLink = styled.a.attrs({
   target: '_blank',
@@ -11,7 +9,7 @@ const InfoLink = styled.a.attrs({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: ${(props: ThemedAnchorProps) => props.theme.colors.icon.primary};
+  color: ${props => props.theme.colors.icon.primary};
   margin: 0.5ch;
   line-height: 0;
   text-decoration: none;

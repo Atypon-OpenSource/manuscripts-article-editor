@@ -1,6 +1,7 @@
 import React from 'react'
 import UserIcon from '../icons/user'
-import { styled } from '../theme'
+import { styled } from '../theme/styled-components'
+import { theme } from '../theme/theme'
 
 interface AvatarProps {
   src?: string
@@ -15,9 +16,9 @@ const AvatarContainer = styled.div`
   position: relative;
 `
 
-const RoundedImage = styled.img`
-  width: ${(props: AvatarProps) => props.size}px;
-  height: ${(props: AvatarProps) => props.size}px;
+const RoundedImage = styled.img<{ size: number }>`
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
   border-radius: 50%;
   align-items: center;
   justify-content: center;
@@ -25,6 +26,10 @@ const RoundedImage = styled.img`
 
 export const Avatar: React.FunctionComponent<AvatarProps> = props => (
   <AvatarContainer>
-    {props.src ? <RoundedImage {...props} /> : <UserIcon {...props} />}
+    {props.src ? (
+      <RoundedImage {...props} />
+    ) : (
+      <UserIcon {...props} color={props.color || theme.colors.profile.avatar} />
+    )}
   </AvatarContainer>
 )

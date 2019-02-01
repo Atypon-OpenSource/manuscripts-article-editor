@@ -1,16 +1,10 @@
-import { styled, ThemedProps } from '../theme'
-
-export type ThemedButtonProps = ThemedProps<HTMLButtonElement>
-
-interface IconButtonProps extends ThemedButtonProps {
-  size?: number
-}
+import { styled } from '../theme/styled-components'
 
 export const Button = styled.button.attrs({
   type: 'button',
 })`
   background-color: transparent;
-  color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
+  color: ${props => props.theme.colors.button.primary};
   border: 2px solid transparent;
   border-radius: 4px;
   text-transform: uppercase;
@@ -18,53 +12,45 @@ export const Button = styled.button.attrs({
   align-items: center;
   justify-content: center;
   padding: 1px 10px 3px;
-  font-family: ${(props: ThemedButtonProps) => props.theme.fontFamily};
+  font-family: ${props => props.theme.fontFamily};
   font-size: 16px;
   font-weight: 600;
-  cursor: ${(props: ThemedButtonProps) =>
-    props.disabled ? 'text' : 'pointer'};
-  opacity: ${(props: ThemedButtonProps) => (props.disabled ? '0.5' : '1.0')};
+  cursor: ${props => (props.disabled ? 'text' : 'pointer')};
+  opacity: ${props => (props.disabled ? '0.5' : '1.0')};
   transition: border 0.1s, color 0.1s, background-color 0.1s;
   white-space: nowrap;
 
   &:hover:disabled {
     background-color: transparent;
-    color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
+    color: ${props => props.theme.colors.button.primary};
     border-color: transparent;
   }
 
   &:hover {
     background-color: transparent;
-    color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
+    color: ${props => props.theme.colors.button.primary};
+    border-color: ${props => props.theme.colors.button.primary};
   }
 
   &:active {
-    background-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
+    background-color: ${props => props.theme.colors.button.primary};
+    border-color: ${props => props.theme.colors.button.primary};
     color: white;
   }
 `
 
 export const PrimaryButton = styled(Button)`
-  background-color: ${(props: ThemedButtonProps) =>
-    props.theme.colors.button.primary};
+  background-color: ${props => props.theme.colors.button.primary};
   color: white;
 
   &:hover {
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
+    border-color: ${props => props.theme.colors.button.primary};
   }
 
   &:hover:disabled {
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
+    border-color: ${props => props.theme.colors.button.primary};
     color: white;
-    background-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
+    background-color: ${props => props.theme.colors.button.primary};
     cursor: unset;
   }
 `
@@ -74,30 +60,24 @@ export const PrimarySubmitButton = styled(PrimaryButton).attrs({
 })``
 
 export const DangerButton = styled(Button)`
-  border-color: ${(props: ThemedButtonProps) =>
-    props.theme.colors.button.danger};
-  color: ${(props: ThemedButtonProps) => props.theme.colors.button.danger};
+  border-color: ${props => props.theme.colors.button.danger};
+  color: ${props => props.theme.colors.button.danger};
 
   &:hover {
-    background-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.danger};
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.danger};
+    background-color: ${props => props.theme.colors.button.danger};
+    border-color: ${props => props.theme.colors.button.danger};
     color: white;
   }
 
   &:active {
-    background-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.danger};
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.danger};
+    background-color: ${props => props.theme.colors.button.danger};
+    border-color: ${props => props.theme.colors.button.danger};
     color: transparent;
   }
 
   &:hover:disabled {
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.danger};
-    color: ${(props: ThemedButtonProps) => props.theme.colors.button.danger};
+    border-color: ${props => props.theme.colors.button.danger};
+    color: ${props => props.theme.colors.button.danger};
   }
 `
 
@@ -106,35 +86,34 @@ export const DangerSubmitButton = styled(DangerButton).attrs({
 })``
 
 export const GreyButton = styled(Button)`
-  color: ${(props: ThemedButtonProps) => props.theme.colors.button.secondary};
+  color: ${props => props.theme.colors.button.secondary};
   background-color: transparent;
 
   &:hover {
     background-color: transparent;
-    border-color: ${(props: ThemedButtonProps) =>
-      props.theme.colors.button.primary};
-    color: ${(props: ThemedButtonProps) => props.theme.colors.button.primary};
+    border-color: ${props => props.theme.colors.button.primary};
+    color: ${props => props.theme.colors.button.primary};
   }
 
   &:active {
     border-color: transparent;
     background-color: transparent;
-    color: ${(props: ThemedButtonProps) => props.theme.colors.button.secondary};
+    color: ${props => props.theme.colors.button.secondary};
   }
 
   &:hover:disabled {
-    color: ${(props: ThemedButtonProps) => props.theme.colors.button.secondary};
+    color: ${props => props.theme.colors.button.secondary};
     background-color: transparent;
   }
 `
 
-export const IconButton = styled.button<ThemedButtonProps>`
+export const IconButton = styled.button<{ size?: number }>`
   border: none;
   background: none;
   cursor: pointer;
 
-  width: ${(props: IconButtonProps) => props.size || 64}px;
-  height: ${(props: IconButtonProps) => props.size || 64}px;
+  width: ${props => props.size || 64}px;
+  height: ${props => props.size || 64}px;
 
   & img {
     width: 100%;

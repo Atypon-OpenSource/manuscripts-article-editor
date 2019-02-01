@@ -15,7 +15,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { Button, PrimarySubmitButton } from '../Button'
 import { FormError } from '../Form'
 

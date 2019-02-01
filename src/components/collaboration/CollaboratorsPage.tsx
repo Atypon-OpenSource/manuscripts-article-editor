@@ -7,9 +7,8 @@ import ContributorsPlaceholder from '@manuscripts/assets/react/ContributorsPlace
 import InvitationPlaceholder from '@manuscripts/assets/react/InvitationPlaceholder'
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { salomieYellow } from '../../colors'
 import { isOwner } from '../../lib/roles'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import {
   AddAuthorsMessage,
   AddCollaboratorsMessage,
@@ -21,8 +20,6 @@ import {
   SelectCollaboratorMessage,
 } from '../Messages'
 import { CollaboratorForm } from './CollaboratorForm'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const OuterContainer = styled.div`
   display: flex;
@@ -54,7 +51,7 @@ const ProjectTitle = styled.div`
   font-size: 18px;
   font-weight: 300;
   padding: 15px 0;
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.global.text.secondary};
 `
 
 const Action = styled.div`
@@ -76,14 +73,14 @@ const ActionButton = styled.button`
   white-space: nowrap;
 
   &:hover use {
-    fill: ${salomieYellow};
+    fill: ${props => props.theme.colors.collaborators.actionButton};
   }
 `
 
 const ActionButtonText = styled.div`
   font-weight: 500;
   font-size: 26px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.primary};
+  color: ${props => props.theme.colors.global.text.primary};
 `
 
 const Message = styled.div`
@@ -91,7 +88,7 @@ const Message = styled.div`
   font-size: 21px;
   padding: 15px 0;
   font-weight: 300;
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.global.text.secondary};
 
   @media (max-width: 850px) {
     margin-right: 20px;

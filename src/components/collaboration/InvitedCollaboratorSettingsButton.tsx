@@ -2,7 +2,7 @@ import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
 import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
-import { styled, theme } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { IconButton } from '../Button'
 import InviteCollaboratorPopperContainer from './InviteCollaboratorPopperContainer'
 
@@ -60,7 +60,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
         <Reference>
           {({ ref }) => (
             <AddIconButton ref={ref} onClick={this.openPopper}>
-              <SettingsInvertedIcon color={theme.colors.icon.primary} />
+              <SettingsInvertedIcon />
             </AddIconButton>
           )}
         </Reference>

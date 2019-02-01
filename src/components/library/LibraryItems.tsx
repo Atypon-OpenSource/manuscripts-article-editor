@@ -1,6 +1,6 @@
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { LibraryItem } from './LibraryItem'
 import LibraryKeywords from './LibraryKeywords'
 

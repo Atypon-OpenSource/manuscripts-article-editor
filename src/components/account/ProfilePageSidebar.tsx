@@ -1,17 +1,15 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import UserProfileSidebar from '../UserProfileSidebar'
 import { AvatarFileUpload } from './AvatarFileUpload'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 const ModalSidebar = styled.div`
   width: 300px;
   overflow: hidden;
-  border-top-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  border-bottom-left-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
+  border-top-left-radius: ${props => props.theme.radius}px;
+  border-bottom-left-radius: ${props => props.theme.radius}px;
 `
 
 export interface AvatarProps {

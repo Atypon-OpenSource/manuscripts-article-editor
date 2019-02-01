@@ -1,17 +1,14 @@
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import React from 'react'
 import Modal from 'react-modal'
-import { lightGrey } from '../colors'
-import { styled, ThemedProps } from '../theme'
+import { styled } from '../theme/styled-components'
 
 Modal.setAppElement('#root')
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: ${(props: ThemedDivProps) => props.theme.fontFamily};
+  font-family: ${props => props.theme.fontFamily};
   width: 800px;
   max-width: 100%;
   margin: auto;
@@ -39,8 +36,8 @@ export const CloseButton = styled.button`
 export const ModalMain = styled.div`
   flex: 1;
   flex-direction: column;
-  border-radius: ${(props: ThemedDivProps) => props.theme.radius}px;
-  border: 1px solid ${lightGrey};
+  border-radius: ${props => props.theme.radius}px;
+  border: 1px solid ${props => props.theme.colors.modal.border};
   box-shadow: 0 10px 20px 0 rgba(107, 134, 164, 0.19);
   background: #fff;
 `

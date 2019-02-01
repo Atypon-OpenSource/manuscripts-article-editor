@@ -1,6 +1,5 @@
 import React, { InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
-import { dustyGrey } from '../colors'
 
 const CustomRadioButton = styled.div`
   position: absolute;
@@ -10,7 +9,7 @@ const CustomRadioButton = styled.div`
   height: 16px;
   background: white;
   border-radius: 50%;
-  border: solid 1px ${dustyGrey};
+  border: solid 1px ${props => props.theme.colors.radioButton.border};
 
   &:after {
     position: absolute;

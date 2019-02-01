@@ -2,9 +2,9 @@ import AppIcon from '@manuscripts/assets/react/AppIcon'
 import { sanitize } from 'dompurify'
 import React from 'react'
 import { FormattedRelative } from 'react-intl'
-import { darkGrey } from '../../colors'
 import { BackArrow } from '../../icons/back-arrow'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
+import { theme } from '../../theme/theme'
 
 export const Popup = styled.div`
   background: white;
@@ -209,8 +209,8 @@ export class Updates extends React.Component<Props, State> {
             <UpdatesContent>
               <Header onClick={() => this.selectTopic(null)}>
                 <Back>
-                  <BackArrow size={15} color={darkGrey} /> Back to Latest
-                  Updates
+                  <BackArrow size={15} color={theme.colors.updates.back} /> Back
+                  to Latest Updates
                 </Back>
               </Header>
 

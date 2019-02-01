@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { PrimaryButton } from '../Button'
 
 const SadAnimal = React.lazy(() => import('./SadAnimal'))

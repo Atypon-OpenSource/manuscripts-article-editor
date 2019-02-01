@@ -1,14 +1,12 @@
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
-import { styled, ThemedProps } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import { PrimarySubmitButton } from '../Button'
 import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
 import { TextArea, TextField } from '../TextField'
 import { TextFieldContainer } from '../TextFieldContainer'
 import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
-
-type ThemedDivProps = ThemedProps<HTMLDivElement>
 
 export interface FeedbackValues {
   message: string
@@ -17,7 +15,7 @@ export interface FeedbackValues {
 
 const Container = styled.div`
   margin-top: 10px;
-  color: ${(props: ThemedDivProps) => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.global.text.secondary};
 `
 
 export const FeedbackForm: React.FunctionComponent<

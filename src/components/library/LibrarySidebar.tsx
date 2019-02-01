@@ -1,9 +1,8 @@
 import qs from 'qs'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { manuscriptsBlue } from '../../colors'
 import { LibrarySource } from '../../lib/sources'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 import Panel from '../Panel'
 import {
   Sidebar,
@@ -49,8 +48,8 @@ const LibrarySidebar: React.FunctionComponent<Props> = ({
               search: qs.stringify({ source: source.id }),
             }}
             activeStyle={{
-              background: manuscriptsBlue,
-              color: 'white',
+              background: '#7fb5d5',
+              color: '#fff',
             }}
             isActive={(match, location) => {
               const query = qs.parse(location.search.substr(1))

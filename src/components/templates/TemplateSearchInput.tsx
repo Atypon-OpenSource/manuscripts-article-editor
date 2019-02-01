@@ -1,6 +1,6 @@
 import React from 'react'
-import { powderBlue } from '../../colors'
 import SearchIcon from '../../icons/search'
+import { theme } from '../../theme/theme'
 import {
   SidebarSearchField,
   SidebarSearchIconContainer,
@@ -37,7 +37,9 @@ export class TemplateSearchInput extends React.Component<Props, State> {
       >
         <SidebarSearchIconContainer>
           {this.state.searching ? (
-            <SearchIcon color={powderBlue} />
+            <SearchIcon
+              color={theme.colors.templateSelector.search.icon.searching}
+            />
           ) : (
             <SearchIcon />
           )}

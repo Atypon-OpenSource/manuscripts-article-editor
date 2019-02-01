@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { openImagePicker } from '../../lib/images'
-import { styled } from '../../theme'
+import { styled } from '../../theme/styled-components'
 
 export interface ImportProps {
   isImporting: boolean
