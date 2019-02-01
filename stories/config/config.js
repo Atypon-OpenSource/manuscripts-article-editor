@@ -6,7 +6,7 @@ const { GlobalStyle } = require('../../src/theme/theme')
 const { ThemeProvider } = require('../../src/theme/ThemeProvider')
 const IntlProvider = require('../../src/components/IntlProvider').default
 const { ModalProvider } = require('../../src/components/ModalProvider')
-const { databaseCreator } = require('../../src/lib/__mocks__/db')
+const { databaseCreator } = require('../../src/lib/__mocks__/adapter')
 
 addDecorator(story => (
   <IntlProvider>

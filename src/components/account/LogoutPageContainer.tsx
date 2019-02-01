@@ -24,12 +24,16 @@ class LogoutPageContainer extends React.Component<
 
   public async componentDidMount() {
     try {
-      await logout(this.props.db)
+      await logout()
 
       this.props.tokenActions.delete()
 
-      // this.props.history.push('/')
-      window.location.href = '/login#action=logout'
+      this.props.history.push({
+        pathname: '/login',
+        state: {
+          infoLoginMessage: 'You have been logged out.',
+        },
+      })
     } catch (error) {
       this.setState({ error })
     }

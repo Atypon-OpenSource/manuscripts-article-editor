@@ -1,13 +1,13 @@
-import { Database } from '../components/DatabaseProvider'
 import config from '../config'
 import * as api from './api'
+import { recreateDatabase, removeDatabase } from './db'
 import { registerWayfId } from './wayf'
 
-export const login = async (email: string, password: string, db: Database) => {
+export const login = async (email: string, password: string) => {
   // TODO: decide whether to remove the local database at login
 
   try {
-    await db.remove()
+    await recreateDatabase()
   } catch (e) {
     console.error(e) // tslint:disable-line:no-console
     // TODO: removing the local database failed
@@ -22,7 +22,7 @@ export const login = async (email: string, password: string, db: Database) => {
   return token
 }
 
-export const logout = async (db: Database) => {
+export const logout = async () => {
   try {
     await api.logout()
   } catch (e) {
@@ -31,7 +31,7 @@ export const logout = async (db: Database) => {
   }
 
   try {
-    await db.remove()
+    await removeDatabase()
   } catch (e) {
     console.error(e) // tslint:disable-line:no-console
     // TODO: removing the local database failed

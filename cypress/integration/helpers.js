@@ -31,8 +31,8 @@ export const login = (user, confirm) => {
     cy.get('button[type=submit]').click()
 
   if (confirm) {
-    cy.url({timeout: 3000}).should('includes', '/projects')
-    cy.get('#user-dropdown')
+    cy.url({timeout: 10000}).should('includes', '/projects')
+    cy.get('#user-dropdown', {timeout: 3000})
   }
 }
 
@@ -44,7 +44,7 @@ export const logout = () => {
   cy.get('button[type=submit]').click()
 
 if (confirm) {
-  cy.url({timeout: 3000}).should('includes', '/projects')
+  cy.url({timeout: 10000}).should('includes', '/projects')
   cy.get('#user-dropdown')
 }
 }
@@ -91,8 +91,11 @@ export const generateParagraph = (wordCount) => {
 }
 
 export const createProject = () => {
-  cy.get('#create-project').click()
-  cy.wait(2000)
-  cy.get('button').contains('Create empty manuscript').click()
-  cy.wait(1000)
+  cy.contains('New Project').click()
+  cy.contains('Create empty manuscript', {
+    timeout: 30000
+  }).click()
+  cy.get('#project-title-field', {
+    timeout: 30000
+  })
 }

@@ -18,7 +18,6 @@ import {
   Manuscript,
   ManuscriptCategory,
   Model,
-  ObjectTypes,
   ParagraphElement,
   Project,
   Section,
@@ -27,6 +26,8 @@ import {
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import config from '../../config'
+import { BulkCreateError } from '../../lib/errors'
+import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
 import { ContributorRole } from '../../lib/roles'
 import {
   buildCategories,
@@ -43,7 +44,7 @@ import {
   findBundle,
   prepareRequirements,
 } from '../../lib/templates'
-import { Collection } from '../../sync/Collection'
+import { Collection, isBulkDocsError } from '../../sync/Collection'
 // import { Collection } from '../../sync/Collection'
 import CollectionManager from '../../sync/CollectionManager'
 import {
@@ -67,7 +68,7 @@ interface Props {
 }
 
 interface State {
-  error?: Error
+  loadingError?: Error
   bundles?: Map<string, Bundle>
   loading?: string
   manuscriptCategories?: Map<string, ManuscriptCategory>
@@ -85,15 +86,15 @@ class TemplateSelector extends React.Component<
   public state: Readonly<State> = {}
 
   public async componentDidMount() {
-    this.loadData().catch(error => {
-      this.setState({ error })
+    this.loadData().catch(loadingError => {
+      this.setState({ loadingError })
     })
   }
 
   public render() {
     const {
       bundles,
-      error,
+      loadingError,
       loading,
       manuscriptCategories,
       manuscriptTemplates,
@@ -101,7 +102,7 @@ class TemplateSelector extends React.Component<
       researchFields,
     } = this.state
 
-    if (error) {
+    if (loadingError) {
       return (
         <Dialog
           isOpen={true}
@@ -230,14 +231,14 @@ class TemplateSelector extends React.Component<
 
     const collection = await this.createProjectCollection(db, projectID)
 
-    const nextManuscriptPriority = await this.nextManuscriptPriority(
-      collection as Collection<Manuscript>
-    )
+    const priority = await nextManuscriptPriority(collection as Collection<
+      Manuscript
+    >)
 
     const manuscript = {
       ...buildManuscript(undefined),
       bundle: DEFAULT_BUNDLE,
-      priority: nextManuscriptPriority,
+      priority,
     }
 
     const contributor = buildContributor(
@@ -305,14 +306,14 @@ class TemplateSelector extends React.Component<
 
     const collection = await this.createProjectCollection(db, projectID)
 
-    let nextManuscriptPriority = await this.nextManuscriptPriority(
-      collection as Collection<Manuscript>
-    )
+    let priority = await nextManuscriptPriority(collection as Collection<
+      Manuscript
+    >)
 
     const manuscript: Build<Manuscript> = {
       ...buildManuscript(title),
       bundle,
-      priority: nextManuscriptPriority++,
+      priority: priority++,
     }
 
     const saveContainedModel = <T extends Model>(data: Build<T>) =>
@@ -415,7 +416,7 @@ class TemplateSelector extends React.Component<
         await saveContainedModel<Manuscript>({
           ...extraManuscript,
           bundle,
-          priority: nextManuscriptPriority++,
+          priority: priority++,
         })
       }
     }
@@ -428,24 +429,6 @@ class TemplateSelector extends React.Component<
     history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
 
     handleComplete()
-  }
-
-  private nextManuscriptPriority = async (
-    collection: Collection<Manuscript>
-  ): Promise<number> => {
-    const docs = await collection
-      .collection!.find({
-        objectType: ObjectTypes.Manuscript,
-      })
-      .exec()
-
-    const manuscripts = docs.map(doc => doc.toJSON())
-
-    const priority: number = manuscripts.length
-      ? Math.max(...manuscripts.map(manuscript => manuscript.priority || 1))
-      : 0
-
-    return priority + 1
   }
 
   private importManuscript = (db: Database) => async (models: Model[]) => {
@@ -462,54 +445,48 @@ class TemplateSelector extends React.Component<
 
     const collection = await this.createProjectCollection(db, projectID)
 
-    const manuscriptID = generateID(ObjectTypes.Manuscript)
-
-    // NOTE: using save rather than create until everything has a unique id
-    const saveContainedModel = <T extends Model>(data: Build<T>) =>
-      collection.save(data, {
-        containerID: projectID,
-      })
-
-    // NOTE: using save rather than create until everything has a unique id
-    const saveManuscriptModel = <T extends Model>(data: Build<T>) =>
-      collection.save(data, {
-        containerID: projectID,
-        manuscriptID,
-      })
-
     if (newProject) {
       const projectsCollection = this.openProjectsCollection()
       await projectsCollection.create(newProject)
     }
 
+    const manuscript = models.find(isManuscript)
+
+    if (!manuscript) {
+      throw new Error('No manuscript found')
+    }
+
+    manuscript.priority = await nextManuscriptPriority(collection as Collection<
+      Manuscript
+    >)
+
     // TODO: save dependencies first, then the manuscript
     // TODO: handle multiple manuscripts in a project bundle
-    for (const model of models) {
-      if (this.isManuscript(model)) {
-        model._id = manuscriptID
-        model.priority = await this.nextManuscriptPriority(
-          collection as Collection<Manuscript>
-        )
-      }
 
-      const { attachment, ...data } = model as Model & ModelAttachment
+    const items = models.map(model => ({
+      ...model,
+      containerID: projectID,
+      manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
+    }))
 
-      const result = isManuscriptModel(model)
-        ? await saveManuscriptModel<ManuscriptModel>(data)
-        : await saveContainedModel<ContainedModel>(data)
+    const results = await collection.bulkCreate(items)
 
-      if (attachment) {
-        await collection.attach(result._id, attachment)
+    for (const model of models as Array<Model & ModelAttachment>) {
+      if (model.attachment) {
+        await collection.attach(model._id, model.attachment)
       }
     }
 
-    history.push(`/projects/${projectID}/manuscripts/${manuscriptID}`)
+    const failures = results.filter(isBulkDocsError)
+
+    if (failures.length) {
+      throw new BulkCreateError(failures)
+    }
+
+    history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
 
     handleComplete()
   }
-
-  private isManuscript = (model: Model): model is Manuscript =>
-    model.objectType === ObjectTypes.Manuscript
 }
 
 export default withRouter(TemplateSelector)

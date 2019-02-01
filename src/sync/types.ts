@@ -27,3 +27,15 @@ export interface PouchReplicationError {
 }
 
 export type Replications = { [key in Direction]: RxReplicationState | null }
+
+export interface BulkDocsSuccess {
+  ok: boolean
+}
+
+export interface BulkDocsError {
+  status: number
+  name: string
+  message: string
+  error: boolean
+  id: string
+}

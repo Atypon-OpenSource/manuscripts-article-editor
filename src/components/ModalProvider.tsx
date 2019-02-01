@@ -69,15 +69,13 @@ export class ModalProvider extends React.Component<{}, State> {
   }
 
   private renderModal = () => {
-    const lastIndex = this.state.modals.length - 1
-
     return this.state.modals.map(({ id, modal }, index) => {
       const handleClose = () => this.closeModal(id)
 
       return (
         <StyledModal
           key={id}
-          isOpen={index === lastIndex}
+          isOpen={true}
           onRequestClose={handleClose}
           closeTimeoutMS={totalTransitionTime}
         >

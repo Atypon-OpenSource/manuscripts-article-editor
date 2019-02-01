@@ -1,11 +1,27 @@
-import PouchDBIDBAdapter from 'pouchdb-adapter-idb'
 import { Collections } from '../collections'
+import { adapter } from './adapter'
 import RxDB from './rxdb'
 
-RxDB.plugin(PouchDBIDBAdapter)
+const createDatabase = () =>
+  RxDB.create<Collections>({
+    name: 'manuscriptsdb',
+    adapter,
+    // queryChangeDetection: true,
+  })
 
-export const databaseCreator = RxDB.create<Collections>({
-  name: 'manuscriptsdb',
-  adapter: 'idb',
-  // queryChangeDetection: true,
-})
+export let databaseCreator = createDatabase()
+
+export const removeDatabase = async () => {
+  const db = await databaseCreator
+
+  await db.destroy()
+  await db.remove()
+}
+
+export const recreateDatabase = async () => {
+  await removeDatabase()
+
+  databaseCreator = createDatabase()
+
+  return databaseCreator
+}

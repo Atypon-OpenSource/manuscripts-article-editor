@@ -7,7 +7,7 @@ import FooterContainer from './FooterContainer'
 import { LoginForm, LoginValues } from './LoginForm'
 
 interface Props {
-  submitErrorType: string | null
+  submitErrorType?: string
 }
 
 const LoginPage: React.FunctionComponent<FormikConfig<LoginValues> & Props> = ({

@@ -22,7 +22,6 @@ import {
   elementObjects,
   encode,
   findParentNodeWithIdValue,
-  generateID,
   getImageAttachment,
   getRevNumber,
   hydrateConflictNodes,
@@ -65,6 +64,7 @@ import { Prompt, RouteComponentProps } from 'react-router'
 import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
 import { filterLibrary } from '../../lib/library'
+import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/session-id'
 import { Collection, ContainerIDs } from '../../sync/Collection'
@@ -644,27 +644,28 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private importManuscript = async (models: Model[]) => {
     const { projectID } = this.props.match.params
 
-    const manuscriptID = generateID(ObjectTypes.Manuscript)
+    const manuscript = models.find(isManuscript)
 
-    for (const model of models) {
-      if (model.objectType === ObjectTypes.Manuscript) {
-        model._id = manuscriptID
-      }
-
-      const { attachment, ...data } = model as Model & ModelAttachment
-
-      const result = await this.collection.create(data, {
-        containerID: projectID,
-        manuscriptID,
-      })
-
-      if (attachment) {
-        await this.collection.attach(result._id, attachment)
-      }
+    if (!manuscript) {
+      throw new Error('No manuscript found')
     }
 
+    manuscript.priority = await nextManuscriptPriority(this
+      .collection as Collection<Manuscript>)
+
+    // TODO: save dependencies first, then the manuscript
+    // TODO: handle multiple manuscripts in a project bundle
+
+    const items = models.map(model => ({
+      ...model,
+      containerID: projectID,
+      manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
+    }))
+
+    await this.collection.bulkCreate(items)
+
     this.props.history.push(
-      `/projects/${projectID}/manuscripts/${manuscriptID}`
+      `/projects/${projectID}/manuscripts/${manuscript._id}`
     )
   }
 

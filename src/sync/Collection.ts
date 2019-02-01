@@ -2,6 +2,7 @@ import {
   Build,
   // ContainedModel,
   handleConflicts,
+  ModelAttachment,
   // isManuscriptModel,
   saveSyncState,
   timestamp,
@@ -22,6 +23,8 @@ import config from '../config'
 import { refreshSyncSessions } from '../lib/api'
 import sessionID from '../lib/session-id'
 import {
+  BulkDocsError,
+  BulkDocsSuccess,
   CollectionEventListener,
   Direction,
   EventListeners,
@@ -47,6 +50,18 @@ export const initialReplicationStatus = {
 export interface ContainerIDs {
   containerID?: string
   manuscriptID?: string
+}
+
+export const isBulkDocsSuccess = (
+  item: BulkDocsSuccess | BulkDocsError
+): item is BulkDocsSuccess => {
+  return 'ok' in item && item.ok === true
+}
+
+export const isBulkDocsError = (
+  item: BulkDocsSuccess | BulkDocsError
+): item is BulkDocsError => {
+  return 'error' in item && item.error
 }
 
 const fetchWithCredentials: Fetch = (url, opts = {}) =>
@@ -110,7 +125,7 @@ export class Collection<T extends Model> implements EventTarget {
     return false // the listeners don't call event.preventDefault
   }
 
-  public async initialize() {
+  public async initialize(startSyncing = true) {
     this.collection = await this.openCollection(this.collectionName)
 
     const pouch = this.collection.pouch as PouchDB & EventEmitter
@@ -118,9 +133,11 @@ export class Collection<T extends Model> implements EventTarget {
 
     this.status = { ...initialReplicationStatus }
 
-    this.startSyncing().catch(error => {
-      console.error(error) // tslint:disable-line:no-console
-    })
+    if (startSyncing) {
+      this.startSyncing().catch(error => {
+        console.error(error) // tslint:disable-line:no-console
+      })
+    }
   }
 
   public async startSyncing() {
@@ -187,15 +204,21 @@ export class Collection<T extends Model> implements EventTarget {
       : this.create(data as Build<T>, ids)
   }
 
-  public async create(data: Build<T>, ids?: ContainerIDs) {
+  public requiredFields(): Partial<Model> {
     const createdAt = timestamp()
 
-    const model: T = {
-      ...(data as T),
-      ...ids,
+    return {
       createdAt,
       updatedAt: createdAt,
       sessionID,
+    }
+  }
+
+  public async create(data: Build<T>, ids?: ContainerIDs) {
+    const model: T = {
+      ...(data as T),
+      ...this.requiredFields(),
+      ...ids,
     }
 
     const result = await this.getCollection().insert(model)
@@ -241,6 +264,43 @@ export class Collection<T extends Model> implements EventTarget {
     }
 
     await doc.putAttachment(attachment)
+  }
+
+  public async bulkCreate(
+    models: Array<Build<T> & ContainerIDs & ModelAttachment>
+  ): Promise<Array<BulkDocsSuccess | BulkDocsError>> {
+    const requiredFields = this.requiredFields()
+
+    // save the models
+    const items: T[] = []
+
+    for (const model of models) {
+      const { attachment, ...data } = model
+
+      const item = {
+        ...data,
+        ...requiredFields,
+      }
+
+      items.push(item as T & ContainerIDs)
+    }
+
+    const results = await this.bulkDocs(items)
+
+    // attach attachments
+    for (const model of models) {
+      if (model.attachment) {
+        await this.attach(model._id, model.attachment)
+      }
+    }
+
+    return results
+  }
+
+  private bulkDocs(
+    docs: Array<T & ContainerIDs>
+  ): Promise<Array<BulkDocsSuccess | BulkDocsError>> {
+    return this.getCollection().pouch.bulkDocs(docs)
   }
 
   private openCollection = async (name: string): Promise<RxCollection<T>> => {

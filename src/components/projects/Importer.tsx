@@ -1,6 +1,7 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import config from '../../config'
+import { BulkCreateError } from '../../lib/errors'
 import { importFile, openFilePicker } from '../../pressroom/importers'
 import { Category, Dialog } from '../Dialog'
 import { ProgressModal } from './ProgressModal'
@@ -13,16 +14,14 @@ interface Props {
 interface State {
   canCancel: boolean
   cancelled: boolean
-  status: string | null
-  error: Error | null
+  status?: string
+  error?: Error
 }
 
 export class Importer extends React.Component<Props, State> {
   public state: Readonly<State> = {
     canCancel: false,
     cancelled: false,
-    error: null,
-    status: null,
   }
 
   public async componentDidMount() {
@@ -56,7 +55,7 @@ export class Importer extends React.Component<Props, State> {
       await this.props.importManuscript(models)
 
       this.setState({
-        status: null,
+        status: undefined,
       })
 
       this.props.handleComplete()
@@ -76,9 +75,7 @@ export class Importer extends React.Component<Props, State> {
           isOpen={true}
           category={Category.error}
           header={'Import error'}
-          message={`There was an error importing the manuscript. Please contact ${
-            config.support.email
-          } if this persists.`}
+          message={this.buildErrorMessage(error)}
           actions={{
             primary: {
               action: this.handleCancel,
@@ -99,6 +96,37 @@ export class Importer extends React.Component<Props, State> {
         handleCancel={this.handleCancel}
         status={status}
       />
+    )
+  }
+
+  private buildErrorMessage = (error: Error) => {
+    const contactMessage = (
+      <p>Please contact {config.support.email} if this persists.</p>
+    )
+
+    if (error instanceof BulkCreateError) {
+      return (
+        <div>
+          <p>There was an error saving one or more items.</p>
+
+          {contactMessage}
+
+          <ul>
+            {error.failures.map(failure => (
+              <li>
+                {failure.name}: {failure.id}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+    return (
+      <div>
+        <p>There was an error importing the manuscript.</p>
+        {contactMessage}
+      </div>
     )
   }
 

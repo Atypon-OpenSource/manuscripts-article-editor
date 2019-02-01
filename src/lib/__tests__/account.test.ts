@@ -1,11 +1,9 @@
 jest.mock('../api/authentication')
+jest.mock('../adapter')
 
-import PouchDBMemoryAdapter from 'pouchdb-adapter-memory'
-import uuid from 'uuid/v4'
 import { login, logout, resetPassword } from '../account'
-import RxDB from '../rxdb'
-
-RxDB.plugin(PouchDBMemoryAdapter)
+import { clearChannelFolder } from '../broadcast-channel'
+import { databaseCreator, recreateDatabase } from '../db'
 
 const schema = {
   version: 0,
@@ -21,15 +19,13 @@ const schema = {
   },
 }
 
-// must be different _every_ time
-const generateDbName = (prefix: string) => prefix + uuid().replace(/-/g, '_')
-
 describe('Account', () => {
+  beforeEach(recreateDatabase)
+  afterAll(clearChannelFolder)
+  beforeAll(clearChannelFolder)
+
   test('login', async () => {
-    const db = await RxDB.create({
-      name: generateDbName('login'),
-      adapter: 'memory',
-    })
+    const db = await databaseCreator
 
     await db.collection({
       name: 'projects',
@@ -38,20 +34,30 @@ describe('Account', () => {
 
     expect(typeof db.projects).toBe('object')
 
-    const token = await login('test@example.com', 'password', db)
+    const token = await login('test@example.com', 'password')
 
     expect(token).toEqual('123')
 
     expect(db.destroyed).toBe(true)
 
     expect(typeof db.projects).toBe('undefined')
+
+    const afterDB = await databaseCreator
+
+    expect(afterDB.destroyed).toBe(false)
+
+    expect(typeof afterDB.projects).toBe('undefined')
+
+    await afterDB.collection({
+      name: 'projects',
+      schema,
+    })
+
+    expect(typeof afterDB.projects).toBe('object')
   })
 
   test('logout', async () => {
-    const db = await RxDB.create({
-      name: generateDbName('logout'),
-      adapter: 'memory',
-    })
+    const db = await databaseCreator
 
     await db.collection({
       name: 'projects',
@@ -60,7 +66,7 @@ describe('Account', () => {
 
     expect(typeof db.projects).toBe('object')
 
-    await logout(db)
+    await logout()
 
     expect(db.destroyed).toBe(true)
 

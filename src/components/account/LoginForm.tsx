@@ -37,7 +37,7 @@ const RecoverLink = styled(Link)`
 `
 
 interface Props {
-  submitErrorType: string | null
+  submitErrorType?: string
 }
 
 export const LoginForm: React.FunctionComponent<

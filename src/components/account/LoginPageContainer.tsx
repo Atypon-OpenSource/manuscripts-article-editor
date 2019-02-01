@@ -11,19 +11,10 @@ import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
 import { loginSchema } from '../../validation'
 import { AlertMessageType } from '../AlertMessage'
-import { DatabaseContext } from '../DatabaseProvider'
 import { FormErrors } from '../Form'
 import { Main, Page } from '../Page'
 import { LoginValues } from './LoginForm'
-import {
-  gatewayInaccessibleErrorMessage,
-  identityProviderErrorMessage,
-  infoLoginMessage,
-  networkErrorMessage,
-  resendVerificationDataMessage,
-  verificationMessage,
-  warningLoginMessage,
-} from './LoginMessages'
+import * as messages from './LoginMessages'
 import LoginPage from './LoginPage'
 
 interface ResendVerificationData {
@@ -32,7 +23,7 @@ interface ResendVerificationData {
   type: AlertMessageType
 }
 
-type AlertFunction = () => void
+type AlertFunction = React.FunctionComponent
 
 export enum ErrorName {
   GatewayInaccessibleError = 'GatewayInaccessibleError',
@@ -42,29 +33,20 @@ export enum ErrorName {
 }
 
 interface State {
-  message: null | AlertFunction
-  submitErrorType: string | null
+  message?: AlertFunction
+  submitErrorType?: string
 }
 
-interface ErrorMessage {
-  error: string
-}
-
-interface Action {
-  action: string
-}
-
-interface Token {
-  access_token: string
-}
-
-interface VerificationData {
-  token: string
-  email: string
+interface HashData {
+  error?: string
+  access_token?: string
+  token?: string
+  email?: string
 }
 
 interface RouteLocationState {
   from?: LocationState
+  action?: string
   loginMessage?: string
   verificationMessage?: string
   infoLoginMessage?: string
@@ -78,26 +60,24 @@ class LoginPageContainer extends React.Component<
   Props & RouteComponentProps<{}, {}, RouteLocationState>,
   State
 > {
-  public state: Readonly<State> = {
-    message: null,
-    submitErrorType: null,
-  }
+  public state: Readonly<State> = {}
 
   private initialValues: LoginValues = {
     email: '',
     password: '',
   }
 
-  public async componentDidMount() {
-    // TODO: needs state
-    const hashData: Token & ErrorMessage & VerificationData & Action = parse(
-      window.location.hash.substr(1)
-    )
+  public componentDidMount() {
+    const {
+      location: { hash, state, search },
+    } = this.props
 
-    this.updateState(hashData)
+    if (hash.length > 1) {
+      this.handleHash(hash.substr(1))
+    }
 
     const { email, error_description: errorDescription } = parse(
-      this.props.location.search.substr(1)
+      search.substr(1)
     )
 
     if (email) {
@@ -108,96 +88,86 @@ class LoginPageContainer extends React.Component<
       // TODO: do something
     }
 
-    const { state } = this.props.location
-
     if (state) {
-      if (state.loginMessage) {
-        this.setState({
-          message: () => warningLoginMessage(state.loginMessage!),
-        })
-      }
-      if (state.verificationMessage) {
-        this.setState({
-          message: () => verificationMessage(state.verificationMessage!),
-        })
-      }
-      if (state.infoLoginMessage) {
-        this.setState({
-          message: () => infoLoginMessage(state.infoLoginMessage!),
-        })
-      }
-    }
-  }
-
-  public updateState = (
-    hashData: Token & ErrorMessage & VerificationData & Action
-  ) => {
-    if (hashData && Object.keys(hashData).length) {
-      const { error, access_token: token, action } = hashData
-
-      if (error) {
-        this.setState({
-          message: () => identityProviderErrorMessage(error),
-        })
-      } else if (token) {
-        this.props.tokenActions.update(token)
-
-        window.location.href = '/'
-      }
-
-      if (action === 'logout') {
-        this.setState({
-          message: () => infoLoginMessage('You have been logged out.'),
-        })
-      }
-
-      window.location.hash = ''
+      this.handleState(state)
     }
   }
 
   public render() {
-    const { message, submitErrorType } = this.state
+    const { message: Message, submitErrorType } = this.state
 
     return (
       <Page>
         <Main>
-          {message && message()}
+          {Message && <Message />}
 
-          <DatabaseContext.Consumer>
-            {db => (
-              <LoginPage
-                initialValues={this.initialValues}
-                validationSchema={loginSchema}
-                submitErrorType={submitErrorType}
-                onSubmit={async (values, actions) => {
-                  this.props.tokenActions.delete()
+          <LoginPage
+            initialValues={this.initialValues}
+            validationSchema={loginSchema}
+            submitErrorType={submitErrorType}
+            onSubmit={async (values, actions) => {
+              this.props.tokenActions.delete()
 
-                  try {
-                    const token = await login(values.email, values.password, db)
+              try {
+                const token = await login(values.email, values.password)
 
-                    this.props.tokenActions.update(token)
+                this.props.tokenActions.update(token)
 
-                    this.redirectAfterLogin()
-                  } catch (error) {
-                    console.error(error) // tslint:disable-line:no-console
+                this.redirectAfterLogin()
+              } catch (error) {
+                console.error(error) // tslint:disable-line:no-console
 
-                    if (error.response) {
-                      this.handleErrorResponse(error.response, values, actions)
-                    } else {
-                      this.setState({
-                        message: networkErrorMessage,
-                      })
-                    }
+                if (error.response) {
+                  this.handleErrorResponse(error.response, values, actions)
+                } else {
+                  this.setState({
+                    message: messages.networkErrorMessage,
+                  })
+                }
 
-                    actions.setSubmitting(false)
-                  }
-                }}
-              />
-            )}
-          </DatabaseContext.Consumer>
+                actions.setSubmitting(false)
+              }
+            }}
+          />
         </Main>
       </Page>
     )
+  }
+
+  private handleHash = (hash: string) => {
+    const { error, access_token: token }: HashData = parse(hash)
+
+    if (error) {
+      this.setState({
+        message: () => messages.identityProviderErrorMessage(error),
+      })
+    } else if (token) {
+      this.props.tokenActions.update(token)
+
+      window.location.href = '/'
+    }
+
+    window.location.hash = ''
+  }
+
+  private handleState = (state: RouteLocationState) => {
+    const { infoLoginMessage, loginMessage, verificationMessage } = state
+
+    // TODO: pass message and messageType in state
+
+    if (loginMessage) {
+      this.setState({
+        message: () => messages.warningLoginMessage(loginMessage),
+      })
+    } else if (verificationMessage) {
+      this.setState({
+        message: () => messages.verificationMessage(verificationMessage),
+      })
+    } else if (infoLoginMessage) {
+      this.setState({
+        message: () => messages.infoLoginMessage(infoLoginMessage),
+      })
+    }
   }
 
   private handleErrorResponse = (
@@ -210,7 +180,7 @@ class LoginPageContainer extends React.Component<
     switch (errorName) {
       case ErrorName.GatewayInaccessibleError:
         this.setState({
-          message: gatewayInaccessibleErrorMessage,
+          message: messages.gatewayInaccessibleErrorMessage,
         })
         return
 
@@ -279,7 +249,7 @@ class LoginPageContainer extends React.Component<
 
         this.setState({
           message: () =>
-            resendVerificationDataMessage(resendVerificationData, () =>
+            messages.resendVerificationDataMessage(resendVerificationData, () =>
               this.resendVerificationEmail(values.email)
             ),
         })
@@ -294,7 +264,7 @@ class LoginPageContainer extends React.Component<
       await resendVerificationEmail(email)
 
       this.setState({
-        message: null,
+        message: undefined,
       })
     } catch (error) {
       const resendVerificationData: ResendVerificationData = {
@@ -304,7 +274,7 @@ class LoginPageContainer extends React.Component<
       }
       this.setState({
         message: () =>
-          resendVerificationDataMessage(resendVerificationData, () =>
+          messages.resendVerificationDataMessage(resendVerificationData, () =>
             this.resendVerificationEmail(email)
           ),
       })
