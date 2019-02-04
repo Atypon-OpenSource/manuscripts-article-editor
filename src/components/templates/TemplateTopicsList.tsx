@@ -55,7 +55,7 @@ const AddedIconContainer = styled.span`
 
 const Added: React.FunctionComponent<{ visible: boolean }> = ({ visible }) => (
   <AddedIconContainer>
-    {visible && <AddedIcon width={16} height={16} viewBox={'0 0 32 34'} />}
+    {visible && <AddedIcon width={16} height={16} />}
   </AddedIconContainer>
 )
 
