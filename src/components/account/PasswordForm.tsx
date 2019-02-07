@@ -1,6 +1,6 @@
+import { PrimarySubmitButton } from '@manuscripts/style-guide'
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
-import { PrimarySubmitButton } from '../Button'
 import { CenteredForm, FormHeader } from '../Form'
 import { SubHero } from '../Hero'
 import { ModalFormActions } from '../ModalForm'

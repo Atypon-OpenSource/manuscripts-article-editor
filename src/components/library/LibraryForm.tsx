@@ -4,6 +4,7 @@ import {
   BibliographyItem,
   Keyword,
 } from '@manuscripts/manuscripts-json-schema'
+import { DangerButton, PrimarySubmitButton } from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import * as React from 'react'
@@ -11,7 +12,6 @@ import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
 import ProjectKeywordsData from '../../data/ProjectKeywordsData'
 import { styled } from '../../theme/styled-components'
-import { DangerButton, PrimarySubmitButton } from '../Button'
 
 const Fields = styled.div`
   padding: 10px;

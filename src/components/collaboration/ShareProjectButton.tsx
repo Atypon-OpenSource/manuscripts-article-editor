@@ -1,10 +1,10 @@
 import ShareProjectIcon from '@manuscripts/assets/react/Share'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { Project } from '@manuscripts/manuscripts-json-schema'
+import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import { styled } from '../../theme/styled-components'
-import { IconButton } from '../Button'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
 
 const ShareIconButton = styled(IconButton)`

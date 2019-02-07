@@ -1,6 +1,6 @@
+import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { GreyButton, PrimaryButton } from '../Button'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import { InvitationForm, InvitationValues } from './InvitationForm'
 

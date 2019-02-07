@@ -1,12 +1,12 @@
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import AddIconActive from '../../icons/add-icon-active'
 import AddIconInverted from '../../icons/add-icon-inverted'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
-import { IconButton } from '../Button'
 import AddCollaboratorPopperContainer from './AddCollaboratorPopperContainer'
 
 const AddIconButton = styled(IconButton)`

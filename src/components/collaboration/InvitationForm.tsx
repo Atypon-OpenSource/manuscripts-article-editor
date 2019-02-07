@@ -1,3 +1,4 @@
+import { PrimaryButton } from '@manuscripts/style-guide'
 import {
   Field,
   FieldProps,
@@ -12,7 +13,6 @@ import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { projectInvitationSchema } from '../../validation'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-import { PrimaryButton } from '../Button'
 import { FormError } from '../Form'
 import { RadioButton } from '../RadioButton'
 import { TextField } from '../TextField'

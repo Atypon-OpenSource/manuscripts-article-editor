@@ -1,8 +1,8 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
-import { GreyButton, PrimaryButton } from '../Button'
 import { PopperBody } from '../Popper'
 import { InvitationForm, InvitationValues } from './InvitationForm'
 

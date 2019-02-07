@@ -1,10 +1,10 @@
 import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { PrimaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { issuedYear, shortAuthorsString } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
-import { PrimaryButton } from '../Button'
 import { CitationSearch } from './CitationSearch'
 
 const CitedItem = styled.div`

@@ -1,6 +1,5 @@
-// https://www.styled-components.com/docs/api#typescript
+import { Palette as StyleGuidePalette } from '@manuscripts/style-guide'
 import React from 'react'
-import * as styledComponents from 'styled-components'
 
 export interface Theme {
   colors: Palette
@@ -8,11 +7,6 @@ export interface Theme {
   radius: number
   spacing: number
 }
-
-export type ThemedProps<V> = styledComponents.ThemedStyledProps<
-  React.HTMLProps<V>,
-  Theme
->
 
 interface PrimaryColorStyle {
   primary: string
@@ -62,12 +56,7 @@ interface AlertMessageColorStyle {
 
 type ButtonColorStyle = PrimaryColorStyle & SecondaryColorStyle
 
-export interface Palette {
-  global: {
-    background: DefaultColorStyle & ErrorColorStyle
-    text: TextColorStyle & ErrorColorStyle & LinkColorStyle
-  }
-  button: ButtonColorStyle & DangerColorStyle
+export interface Palette extends StyleGuidePalette {
   sidebar: {
     background: DefaultColorStyle & SelectableColorStyle
     text: TextColorStyle & LinkColorStyle

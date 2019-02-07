@@ -1,6 +1,6 @@
 import { Contributor } from '@manuscripts/manuscripts-json-schema'
+import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
-import { PrimaryButton } from '../../components/Button'
 import { Category, Dialog } from '../../components/Dialog'
 import { initials } from '../../lib/name'
 

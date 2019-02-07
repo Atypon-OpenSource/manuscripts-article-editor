@@ -1,8 +1,8 @@
+import { PrimarySubmitButton } from '@manuscripts/style-guide'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Field, Form, Formik } from 'formik'
 import React from 'react'
-import { PrimarySubmitButton } from '../src/components/Button'
 import { ImmediateSelectField } from '../src/components/ImmediateSelectField'
 import { SelectField } from '../src/components/SelectField'
 

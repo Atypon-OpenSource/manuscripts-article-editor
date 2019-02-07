@@ -1,9 +1,9 @@
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { PrimarySubmitButton } from '@manuscripts/style-guide'
 import { Field, Form, Formik } from 'formik'
 import React, { CSSProperties } from 'react'
 import { LibrarySource } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
-import { PrimarySubmitButton } from '../Button'
 import { Main } from '../Page'
 import { LibraryItem } from './LibraryItem'
 

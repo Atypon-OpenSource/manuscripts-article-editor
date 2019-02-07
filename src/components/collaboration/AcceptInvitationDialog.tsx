@@ -1,7 +1,7 @@
 import AttentionBlue from '@manuscripts/assets/react/AttentionBlue'
+import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { PrimaryButton } from '../Button'
 import { StyledModal, totalTransitionTime } from '../StyledModal'
 
 const Icon = styled(AttentionBlue)`

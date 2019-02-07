@@ -1,9 +1,9 @@
 import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
 import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
+import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import { styled } from '../../theme/styled-components'
-import { IconButton } from '../Button'
 import InviteCollaboratorPopperContainer from './InviteCollaboratorPopperContainer'
 
 const AddIconButton = styled(IconButton)`

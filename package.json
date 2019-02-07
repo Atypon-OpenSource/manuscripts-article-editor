@@ -41,6 +41,7 @@
     "@manuscripts/manuscript-editor": "^0.7.4",
     "@manuscripts/manuscripts-json-schema": "^1.7.3",
     "@manuscripts/resizer": "^0.0.1",
+    "@manuscripts/style-guide": "^0.0.1",
     "@manuscripts/title-editor": "^0.1.0",
     "@types/clean-webpack-plugin": "^0.1.2",
     "@types/codemirror": "^0.0.63",

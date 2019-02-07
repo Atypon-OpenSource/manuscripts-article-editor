@@ -1,9 +1,9 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { Avatar } from '../Avatar'
-import { PrimaryButton } from '../Button'
 import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
 import AddCollaboratorButton from './AddCollaboratorButton'
 

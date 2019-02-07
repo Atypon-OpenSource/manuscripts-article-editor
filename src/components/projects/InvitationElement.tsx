@@ -3,12 +3,12 @@ import {
   BibliographicName,
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
+import { Button, PrimaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { initials } from '../../lib/name'
 import { styled } from '../../theme/styled-components'
 import { Badge } from '../Badge'
-import { Button, PrimaryButton } from '../Button'
 import { PlaceholderTitle } from '../nav/ProjectDropdown'
 
 const Container = styled.div`

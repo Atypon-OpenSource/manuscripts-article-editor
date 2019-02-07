@@ -1,7 +1,7 @@
+import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-import { GreyButton, PrimaryButton } from '../Button'
 import { PopperBody, SeparatorLine } from '../Popper'
 import { CollaboratorRolesInput } from './CollaboratorRolesInput'
 import { Mode } from './InviteCollaboratorPopper'

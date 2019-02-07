@@ -5,9 +5,9 @@ import {
   crossref,
 } from '@manuscripts/manuscript-editor'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { Button, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { Button, PrimaryButton } from '../Button'
 import { CitationSearchSection } from './CitationSearchSection'
 
 const Search = styled.input`

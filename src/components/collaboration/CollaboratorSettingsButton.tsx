@@ -1,10 +1,10 @@
 import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
-import { IconButton } from '../Button'
 import CollaboratorSettingsPopperContainer from './CollaboratorSettingsPopperContainer'
 
 const AddIconButton = styled(IconButton)`

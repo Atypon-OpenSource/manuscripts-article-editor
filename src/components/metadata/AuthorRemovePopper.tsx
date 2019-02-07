@@ -1,10 +1,10 @@
 import { Contributor } from '@manuscripts/manuscripts-json-schema'
+import { GreyButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import { initials } from '../../lib/name'
 import { styled } from '../../theme/styled-components'
 import { Avatar } from '../Avatar'
-import { GreyButton } from '../Button'
 import { CustomPopper, PopperBody, SeparatorLine } from '../Popper'
 
 const CollaboratorInitial = styled.span`

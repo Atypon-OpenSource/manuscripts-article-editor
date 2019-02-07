@@ -1,7 +1,7 @@
+import { PrimarySubmitButton } from '@manuscripts/style-guide'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { PrimarySubmitButton } from '../Button'
 import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
 import { TextArea, TextField } from '../TextField'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledThemeProvider } from './styled-components'
+import { ThemeProvider as StyledThemeProvider } from './styled-components'
 import { theme } from './theme'
 
 export const ThemeProvider: React.FunctionComponent<{

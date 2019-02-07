@@ -1,8 +1,8 @@
 import { Build } from '@manuscripts/manuscript-editor'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { Button } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { Button } from '../Button'
 import { CitationSearchResults } from './CitationSearchResults'
 
 const ResultsSection = styled.div`

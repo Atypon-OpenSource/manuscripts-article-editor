@@ -1,7 +1,7 @@
+import { Button } from '@manuscripts/style-guide'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { styled } from '../theme/styled-components'
-import { Button } from './Button'
 
 export const FooterBlock = styled('footer')`
   position: absolute;

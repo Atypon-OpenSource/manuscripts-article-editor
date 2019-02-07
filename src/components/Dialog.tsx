@@ -1,7 +1,7 @@
 import AttentionRed from '@manuscripts/assets/react/AttentionRed'
+import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../theme/styled-components'
-import { GreyButton, PrimaryButton } from './Button'
 import { StyledModal, totalTransitionTime } from './StyledModal'
 
 const ButtonContainer = styled.div`

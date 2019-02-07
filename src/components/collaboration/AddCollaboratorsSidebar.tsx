@@ -4,12 +4,12 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import SearchIcon from '../../icons/search'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 import { Avatar } from '../Avatar'
-import { GreyButton, PrimaryButton } from '../Button'
 import {
   Sidebar,
   SidebarContent,

@@ -13,10 +13,10 @@ import {
   Model,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { Button, PrimarySubmitButton } from '@manuscripts/style-guide'
 import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { Button, PrimarySubmitButton } from '../Button'
 import { FormError } from '../Form'
 
 const CommentFooter = styled.div`

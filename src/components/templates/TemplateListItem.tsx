@@ -1,3 +1,4 @@
+import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import {
@@ -5,7 +6,6 @@ import {
   Publisher,
   TemplateData,
 } from '../../types/templates'
-import { PrimaryButton } from '../Button'
 import { TemplateInfoLink } from './TemplateInfoLink'
 
 const CreateButton = styled(PrimaryButton)`

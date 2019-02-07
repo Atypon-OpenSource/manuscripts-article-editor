@@ -1,6 +1,6 @@
+import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { PrimaryButton } from '../Button'
 
 const SadAnimal = React.lazy(() => import('./SadAnimal'))
 

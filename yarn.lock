@@ -998,6 +998,11 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fresizer/-/resizer-0.0.1.tgz#b719bec2cd06e32c69ce8a033f7948e580c34a9c"
   integrity sha512-hSXuz0ZGBemjDTS2CYEc5D3iOaxkWYoeTmj/p+sJT57IyJgxYBE9U58POHUQcsxM26MedJU0ar+XVmBNh4BMSg==
 
+"@manuscripts/style-guide@^0.0.1":
+  version "0.0.1"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.0.1.tgz#7d507fa350fe6e6af8b353977a30dfff6f0151c2"
+  integrity sha512-l8tFk0ras9aism+rHjb64+SNlGHxpnAnNrhnQSylrVq1v3EhEmNGJaVQmgKw0xTjzkCaXOWpuVoWELfl4FoedA==
+
 "@manuscripts/title-editor@^0.0.3":
   version "0.0.3"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.0.3.tgz#34da29118b7b517855985790574f082df18c75f5"
