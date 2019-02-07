@@ -101,7 +101,13 @@ const UserProfileSidebar: React.FunctionComponent<Props> = ({
 
       <UserEmail>{userWithAvatar.email}</UserEmail>
       <MemberSince>
-        Member since <FormattedDate value={userWithAvatar.createdAt * 1000} />
+        Member since{' '}
+        <FormattedDate
+          value={userWithAvatar.createdAt * 1000}
+          year={'numeric'}
+          month={'short'}
+          day={'numeric'}
+        />
       </MemberSince>
       <ChangePasswordButton onClick={handleChangePassword}>
         Change Password
