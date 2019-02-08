@@ -4,10 +4,11 @@ import AcceptProjectInvitation from '../collaboration/AcceptProjectInvitation'
 import MessageBanner from '../MessageBanner'
 import { GlobalMenu } from '../nav/GlobalMenu'
 import { Main, Page } from '../Page'
-import ProjectsSidebar from './ProjectsSidebar'
+import ProjectsSidebarContainer from './ProjectsSidebarContainer'
 
 const Container = styled.div`
-  height: 100vh;
+  flex: 1;
+  display: flex;
   flex-direction: column;
   position: relative;
   box-sizing: border-box;
@@ -20,7 +21,7 @@ const ProjectsPageContainer: React.FunctionComponent = () => (
         <GlobalMenu active={'projects'} />
         <MessageBanner />
         <AcceptProjectInvitation />
-        <ProjectsSidebar />
+        <ProjectsSidebarContainer />
       </Container>
     </Main>
   </Page>

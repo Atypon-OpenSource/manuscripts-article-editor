@@ -4,7 +4,6 @@ import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import { styled } from '../../theme/styled-components'
 import { Avatar } from '../Avatar'
-import { ImportProps } from '../ImportContainer'
 import { Sidebar, SidebarContent } from '../Sidebar'
 import ImportAvatarContainer from './ImportAvatarContainer'
 import { AvatarProps } from './ProfilePageSidebar'
@@ -130,7 +129,7 @@ export const AvatarFileUpload: React.FunctionComponent<
       {!newAvatar ? (
         <ImportAvatarContainer
           importAvatar={importAvatar}
-          render={({ isImporting, isOver }: ImportProps) => (
+          render={({ isImporting, isOver }) => (
             <UploadContainer isOver={isOver}>
               {userWithAvatar.avatar ? (
                 <RoundedBorders>

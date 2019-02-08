@@ -112,11 +112,13 @@ const importers: Importers = {
   '.zip': importConvertedFile,
 }
 
+export const accept = Object.keys(importers).join(',')
+
 export const openFilePicker = (): Promise<File> =>
   new Promise((resolve, reject) => {
     const input = document.createElement('input')
     input.type = 'file'
-    input.accept = Object.keys(importers).join(',')
+    input.accept = accept
     input.addEventListener('change', () => {
       if (input.files && input.files.length) {
         resolve(input.files[0])

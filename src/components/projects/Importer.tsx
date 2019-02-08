@@ -1,14 +1,14 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import config from '../../config'
-import { BulkCreateError } from '../../lib/errors'
 import { importFile, openFilePicker } from '../../pressroom/importers'
 import { Category, Dialog } from '../Dialog'
+import { buildImportErrorMessage } from '../Messages'
 import { ProgressModal } from './ProgressModal'
 
 interface Props {
   importManuscript: (models: Model[]) => Promise<void>
   handleComplete: () => void
+  file?: File
 }
 
 interface State {
@@ -30,7 +30,7 @@ export class Importer extends React.Component<Props, State> {
         canCancel: true,
       })
 
-      const data = await openFilePicker()
+      const data = this.props.file ? this.props.file : await openFilePicker()
 
       if (!data) {
         this.props.handleComplete()
@@ -75,7 +75,7 @@ export class Importer extends React.Component<Props, State> {
           isOpen={true}
           category={Category.error}
           header={'Import error'}
-          message={this.buildErrorMessage(error)}
+          message={buildImportErrorMessage(error)}
           actions={{
             primary: {
               action: this.handleCancel,
@@ -96,37 +96,6 @@ export class Importer extends React.Component<Props, State> {
         handleCancel={this.handleCancel}
         status={status}
       />
-    )
-  }
-
-  private buildErrorMessage = (error: Error) => {
-    const contactMessage = (
-      <p>Please contact {config.support.email} if this persists.</p>
-    )
-
-    if (error instanceof BulkCreateError) {
-      return (
-        <div>
-          <p>There was an error saving one or more items.</p>
-
-          {contactMessage}
-
-          <ul>
-            {error.failures.map(failure => (
-              <li>
-                {failure.name}: {failure.id}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    return (
-      <div>
-        <p>There was an error importing the manuscript.</p>
-        {contactMessage}
-      </div>
     )
   }
 

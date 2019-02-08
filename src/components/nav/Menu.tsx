@@ -9,7 +9,6 @@ import UserContainer from './UserContainer'
 export const MenuContainer = styled.div`
   display: flex;
   flex-shrink: 0;
-  width: 100%;
   align-items: center;
   color: ${props => props.theme.colors.menu.text};
   font-family: ${props => props.theme.fontFamily};

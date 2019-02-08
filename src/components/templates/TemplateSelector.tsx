@@ -4,12 +4,8 @@ import {
   buildManuscript,
   buildProject,
   buildSection,
-  ContainedModel,
   DEFAULT_BUNDLE,
   generateID,
-  isManuscriptModel,
-  ManuscriptModel,
-  ModelAttachment,
   ObjectType,
 } from '@manuscripts/manuscript-editor'
 import {
@@ -26,8 +22,7 @@ import {
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import config from '../../config'
-import { BulkCreateError } from '../../lib/errors'
-import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
+import { nextManuscriptPriority } from '../../lib/manuscript'
 import { ContributorRole } from '../../lib/roles'
 import {
   buildCategories,
@@ -44,9 +39,7 @@ import {
   findBundle,
   prepareRequirements,
 } from '../../lib/templates'
-import { Collection, isBulkDocsError } from '../../sync/Collection'
-// import { Collection } from '../../sync/Collection'
-import CollectionManager from '../../sync/CollectionManager'
+import { Collection } from '../../sync/Collection'
 import {
   ManuscriptTemplate,
   Publisher,
@@ -58,6 +51,11 @@ import {
 } from '../../types/templates'
 import { Database, DatabaseContext } from '../DatabaseProvider'
 import { Category, Dialog } from '../Dialog'
+import {
+  createProjectCollection,
+  importManuscript,
+  openProjectsCollection,
+} from '../projects/ImportManuscript'
 import { ProgressModal } from '../projects/ProgressModal'
 import { TemplateSelectorModal } from './TemplateSelectorModal'
 
@@ -102,6 +100,8 @@ class TemplateSelector extends React.Component<
       researchFields,
     } = this.state
 
+    const { history, handleComplete, user, projectID } = this.props
+
     if (loadingError) {
       return (
         <Dialog
@@ -144,7 +144,13 @@ class TemplateSelector extends React.Component<
             categories={buildCategories(manuscriptCategories)}
             researchFields={buildResearchFields(researchFields)}
             createEmpty={this.createEmpty(db)}
-            importManuscript={this.importManuscript(db)}
+            importManuscript={importManuscript(
+              db,
+              history,
+              user,
+              handleComplete,
+              projectID
+            )}
             handleComplete={this.props.handleComplete}
             items={buildItems(manuscriptTemplates, bundles, publishers)}
             selectTemplate={this.selectTemplate(db)}
@@ -225,11 +231,11 @@ class TemplateSelector extends React.Component<
     const projectID = newProject ? newProject._id : possibleProjectID!
 
     if (newProject) {
-      const projectsCollection = this.openProjectsCollection()
+      const projectsCollection = openProjectsCollection()
       await projectsCollection.create(newProject)
     }
 
-    const collection = await this.createProjectCollection(db, projectID)
+    const collection = await createProjectCollection(db, projectID)
 
     const priority = await nextManuscriptPriority(collection as Collection<
       Manuscript
@@ -273,16 +279,6 @@ class TemplateSelector extends React.Component<
     return projectID ? undefined : buildProject(user.userID)
   }
 
-  private createProjectCollection = (db: Database, projectID: string) =>
-    CollectionManager.createCollection<ContainedModel | ManuscriptModel>({
-      collection: `project-${projectID}`,
-      channels: [`${projectID}-read`, `${projectID}-readwrite`],
-      db,
-    })
-
-  private openProjectsCollection = () =>
-    CollectionManager.getCollection<Project>('user' /* 'projects' */)
-
   // tslint:disable:cyclomatic-complexity
   private selectTemplate = (db: Database) => async (item: TemplateData) => {
     const { templatesData, sectionCategories, manuscriptTemplates } = this.state
@@ -294,7 +290,7 @@ class TemplateSelector extends React.Component<
     const newProject = this.buildNewProject()
 
     if (newProject) {
-      const projectsCollection = this.openProjectsCollection()
+      const projectsCollection = openProjectsCollection()
       await projectsCollection.create(newProject)
     }
 
@@ -304,7 +300,7 @@ class TemplateSelector extends React.Component<
 
     const bundle = findBundle(item.template)
 
-    const collection = await this.createProjectCollection(db, projectID)
+    const collection = await createProjectCollection(db, projectID)
 
     let priority = await nextManuscriptPriority(collection as Collection<
       Manuscript
@@ -425,63 +421,6 @@ class TemplateSelector extends React.Component<
     await saveContainedModel<Manuscript>(manuscript)
 
     // NOTE: not saving the shared data to the project
-
-    history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
-
-    handleComplete()
-  }
-
-  private importManuscript = (db: Database) => async (models: Model[]) => {
-    const {
-      handleComplete,
-      history,
-      user,
-      projectID: possibleProjectID,
-    } = this.props
-
-    const newProject = possibleProjectID ? null : buildProject(user.userID)
-
-    const projectID = newProject ? newProject._id : possibleProjectID!
-
-    const collection = await this.createProjectCollection(db, projectID)
-
-    if (newProject) {
-      const projectsCollection = this.openProjectsCollection()
-      await projectsCollection.create(newProject)
-    }
-
-    const manuscript = models.find(isManuscript)
-
-    if (!manuscript) {
-      throw new Error('No manuscript found')
-    }
-
-    manuscript.priority = await nextManuscriptPriority(collection as Collection<
-      Manuscript
-    >)
-
-    // TODO: save dependencies first, then the manuscript
-    // TODO: handle multiple manuscripts in a project bundle
-
-    const items = models.map(model => ({
-      ...model,
-      containerID: projectID,
-      manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
-    }))
-
-    const results = await collection.bulkCreate(items)
-
-    for (const model of models as Array<Model & ModelAttachment>) {
-      if (model.attachment) {
-        await collection.attach(model._id, model.attachment)
-      }
-    }
-
-    const failures = results.filter(isBulkDocsError)
-
-    if (failures.length) {
-      throw new BulkCreateError(failures)
-    }
 
     history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
 

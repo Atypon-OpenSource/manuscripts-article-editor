@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import config from '../config'
+import { BulkCreateError } from '../lib/errors'
 
 export const SignInMessage = () => (
   <FormattedMessage
@@ -185,3 +187,34 @@ export const ProjectRenameMessage = () => (
     defaultMessage={'Rename Project'}
   />
 )
+
+export const buildImportErrorMessage = (error: Error) => {
+  const contactMessage = (
+    <p>Please contact {config.support.email} if this persists.</p>
+  )
+
+  if (error instanceof BulkCreateError) {
+    return (
+      <div>
+        <p>There was an error saving one or more items.</p>
+
+        {contactMessage}
+
+        <ul>
+          {error.failures.map(failure => (
+            <li>
+              {failure.name}: {failure.id}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <p>There was an error importing the manuscript.</p>
+      {contactMessage}
+    </div>
+  )
+}

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { openImagePicker } from '../../lib/images'
 import { styled } from '../../theme/styled-components'
 
-export interface ImportProps {
+export interface ImportAvatarProps {
   isImporting: boolean
   isOver: boolean
 }
@@ -17,7 +17,7 @@ const Container = styled.div`
 
 interface Props {
   importAvatar: (avatar: File) => void
-  render: (props: ImportProps) => React.ReactNode
+  render: (props: ImportAvatarProps) => React.ReactNode
 }
 
 interface State {

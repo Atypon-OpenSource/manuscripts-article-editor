@@ -1,13 +1,17 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { Model } from '@manuscripts/manuscripts-json-schema/dist/types'
 import React from 'react'
+import ProjectsData from '../../data/ProjectsData'
 import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme/styled-components'
+import ImportContainer, { ImportProps } from '../ImportContainer'
 import { ModalProps, withModal } from '../ModalProvider'
 import ProjectsButton from '../nav/ProjectsButton'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import TemplateSelector from '../templates/TemplateSelector'
+import { ProjectsListPlaceholder } from './ProjectsListPlaceholder'
 
 const Container = styled(Sidebar)`
   background: white;
@@ -76,30 +80,53 @@ const openTemplateSelector = (
 
 interface Props {
   closeModal?: () => void
+  importManuscript?: (models: Model[]) => Promise<void>
 }
 
 const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
-  <Container id={'projects-sidebar'}>
-    <UserData userID={getCurrentUserId()!}>
-      {user => (
-        <ProjectsContainer>
-          <Header>
-            <SidebarTitle className={'sidebar-title'}>Projects</SidebarTitle>
-          </Header>
-          <SidebarAction>
-            <AddButton
-              onClick={openTemplateSelector(props, user)}
-              id={'create-project'}
-            >
-              <AddIcon />
-              <SidebarActionTitle>New Project</SidebarActionTitle>
-            </AddButton>
-          </SidebarAction>
-          <ProjectsButton isDropdown={false} closeModal={props.closeModal} />
-        </ProjectsContainer>
-      )}
-    </UserData>
-  </Container>
+  <UserData userID={getCurrentUserId()!}>
+    {user => (
+      <ProjectsData>
+        {projects =>
+          projects.length ? (
+            <Container id={'projects-sidebar'}>
+              <ProjectsContainer>
+                <Header>
+                  <SidebarTitle className={'sidebar-title'}>
+                    Projects
+                  </SidebarTitle>
+                </Header>
+                <SidebarAction>
+                  <AddButton
+                    onClick={openTemplateSelector(props, user)}
+                    id={'create-project'}
+                  >
+                    <AddIcon />
+                    <SidebarActionTitle>New Project</SidebarActionTitle>
+                  </AddButton>
+                </SidebarAction>
+                <ProjectsButton
+                  isDropdown={false}
+                  closeModal={props.closeModal}
+                />
+              </ProjectsContainer>
+            </Container>
+          ) : (
+            <ImportContainer
+              importManuscript={props.importManuscript!}
+              render={({ handleClick, isDragActive }: ImportProps) => (
+                <ProjectsListPlaceholder
+                  handleClick={handleClick}
+                  isDragActive={isDragActive}
+                  openTemplateSelector={openTemplateSelector(props, user)}
+                />
+              )}
+            />
+          )
+        }
+      </ProjectsData>
+    )}
+  </UserData>
 )
 
 export default withModal<Props>(ProjectsSidebar)
