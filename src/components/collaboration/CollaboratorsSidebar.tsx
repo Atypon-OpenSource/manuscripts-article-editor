@@ -128,7 +128,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
         side={'end'}
         minSize={250}
       >
-        <Sidebar>
+        <Sidebar data-cy={'sidebar'}>
           <SidebarHeader>
             <SidebarTitle>Collaborators</SidebarTitle>
           </SidebarHeader>

@@ -132,7 +132,7 @@ export const CollaboratorDetailsPage: React.FunctionComponent<
         affiliations={null}
       />
     ) : (
-      <OuterContainer>
+      <OuterContainer data-cy={'collaborators-page'}>
         <InnerContainer>
           {collaboratorsCount > 1 || !isOwner(project, user.userID) ? (
             <InnerContainer>

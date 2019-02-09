@@ -170,7 +170,7 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
               to={`/projects/${project._id}/collaborators`}
               exact={true}
             >
-              <ProjectContributorsIcon />
+              <ProjectContributorsIcon data-cy={'collaborators'} />
             </ViewLink>
           </Tip>
         </IconBar>

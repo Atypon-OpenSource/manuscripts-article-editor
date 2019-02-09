@@ -107,7 +107,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
     const { searchResults, searchText, isSearching } = this.state
 
     return (
-      <Sidebar>
+      <Sidebar data-cy={'sidebar'}>
         <SidebarHeader>
           <SidebarTitle>Add Collaborators</SidebarTitle>
 
