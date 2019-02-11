@@ -73,7 +73,7 @@ storiesOf('Metadata', module)
       handleInvitationSubmit={action('invite author')}
       invitationValues={invitationValues}
       handleDrop={action('dropped the user')}
-      handleSectionChange={action('section change')}
+      handleTitleStateChange={action('title state change')}
       updateAuthor={action(
         'update author after inviting him to collaborate on project'
       )}
@@ -114,7 +114,7 @@ storiesOf('Metadata', module)
       handleInvitationSubmit={action('invite author')}
       invitationValues={invitationValues}
       handleDrop={action('dropped the user')}
-      handleSectionChange={action('section change')}
+      handleTitleStateChange={action('title state change')}
       updateAuthor={action(
         'update author after inviting him to collaborate on project'
       )}
@@ -155,7 +155,7 @@ storiesOf('Metadata', module)
       handleInvitationSubmit={action('invite author')}
       invitationValues={invitationValues}
       handleDrop={action('dropped the user')}
-      handleSectionChange={action('section change')}
+      handleTitleStateChange={action('title state change')}
       updateAuthor={action(
         'update author after inviting him to collaborate on project'
       )}

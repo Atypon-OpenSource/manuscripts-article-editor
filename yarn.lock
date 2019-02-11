@@ -913,14 +913,14 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.2.tgz#bc7354d1dc704bf03c4b9d4e0f4c1054c70bbc73"
   integrity sha512-kctNmYWfzk0M3Rxe5+UNdnMYM5pGL1ZFwE0+izMfpVegm3744Sbeg/0JUXrHXvaHIwT8JOzdOCi6WO6oBlejlA==
 
-"@manuscripts/manuscript-editor@^0.7.4":
-  version "0.7.4"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.7.4.tgz#cb3e5f85af130218f5cdde7e8399e64061b26227"
-  integrity sha512-+kqwLTRqXmXdaf5cI0mfNI/4+z1Pq/uswTSAB73nqSqhV14MEJKK0er8Us/yZSWAiJQZ8oX77K+o9zjr6zPMDw==
+"@manuscripts/manuscript-editor@^0.9.0":
+  version "0.9.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.9.0.tgz#09d6896be030b3135588784cc3a24589f8994a3b"
+  integrity sha512-wIgx5ADFRkdsFzhjHVHUMRYgDOVHlNURxt+pKjz67oTDnkc3EnCgvt37m00ppmG/hd9XupUsUPWrGskaXGLXsA==
   dependencies:
     "@manuscripts/assets" "^0.1.13"
     "@manuscripts/examples" "^0.0.2"
-    "@manuscripts/manuscripts-json-schema" "^1.7.1"
+    "@manuscripts/manuscripts-json-schema" "^1.7.3"
     "@manuscripts/prosemirror-recreate-steps" "^0.1.3"
     "@manuscripts/title-editor" "^0.0.3"
     axios "^0.18.0"
@@ -953,15 +953,6 @@
     react-select "^2.1.0"
     uuid "^3.3.2"
     w3c-xmlserializer "^1.0.0"
-
-"@manuscripts/manuscripts-json-schema@^1.7.1":
-  version "1.7.1"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscripts-json-schema/-/manuscripts-json-schema-1.7.1.tgz#016ca3bb13f50b65d9be76d1d6afc7257a61fe1e"
-  integrity sha512-lPwCS6wqkMNwtZ+lt3cp7lDluxWJ6MY8AqKm/Zrq2Ym0TYKRRmQv4Uv9tQSYCj3oeMlI34WFfeHydfoO2MSzjA==
-  dependencies:
-    ajv "^6.5.0"
-    deepmerge "^2.0.1"
-    js-beautify "^1.7.5"
 
 "@manuscripts/manuscripts-json-schema@^1.7.3":
   version "1.7.3"
@@ -1008,11 +999,12 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.0.3.tgz#34da29118b7b517855985790574f082df18c75f5"
   integrity sha512-ZZ9juGIbBP+OdIO/ZadI/skR1pT+uJoSEU4orf8lneuTMwrRmOydC9xrFhC3PUkCtojETocmsaERk0np04Zhbw==
 
-"@manuscripts/title-editor@^0.1.0":
-  version "0.1.4"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.1.4.tgz#be8ba1e3e1fc125dc4d9ec00698b966182575c37"
-  integrity sha512-jXWB0isB2uIEMR6ltaGBj/3zNHFSPKiC/84IDdMv7eZVPyRizjTenVOpqAV7mFQyeZHUu2VcjutqvLLRxhNn9g==
+"@manuscripts/title-editor@^0.3.0":
+  version "0.3.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.3.0.tgz#f6a8eb04ec48c7d2c61b2c51cd040b2c6df8eae3"
+  integrity sha512-+5awvKXOl/3JVHVR8Jw6mlP9a+8GI0r1ElaWDBd+HG05pkZh6xaoBQ0b5wEVncMdY+Vmidx3OnRFIj7eedAWEg==
   dependencies:
+    "@manuscripts/assets" "^0.3.0"
     prosemirror-commands "^1.0.4"
     prosemirror-history "^1.0.0"
     prosemirror-keymap "^1.0.0"

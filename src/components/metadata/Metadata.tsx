@@ -9,7 +9,7 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { TitleField } from '@manuscripts/title-editor'
+import { TitleEditorView, TitleField } from '@manuscripts/title-editor'
 import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
 import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
@@ -132,8 +132,8 @@ interface Props {
     position: DropSide,
     authors: Contributor[]
   ) => void
-  handleSectionChange: (section: string) => void
   updateAuthor: (author: Contributor, email: string) => void
+  handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
 }
 
 export const Metadata: React.FunctionComponent<Props> = props => (
@@ -145,10 +145,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
           value={props.manuscript.title}
           autoFocus={!props.manuscript.title}
           handleChange={props.saveTitle}
-          handleFocus={() => {
-            props.handleSectionChange('title')
-            return false
-          }}
+          handleStateChange={props.handleTitleStateChange}
           tabIndex={1}
         />
         <ExpanderButton

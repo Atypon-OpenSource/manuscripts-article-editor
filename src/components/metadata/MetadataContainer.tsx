@@ -13,6 +13,7 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { TitleEditorView } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
 import React from 'react'
 import { RxCollection } from 'rxdb'
@@ -40,7 +41,7 @@ interface Props {
   saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
-  handleSectionChange: (section: string) => void
+  handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
 }
 
 interface State {
@@ -87,7 +88,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
       invitationValues,
       invitationSent,
     } = this.state
-    const { manuscript, modelMap } = this.props
+    const { manuscript, modelMap, handleTitleStateChange } = this.props
 
     const {
       affiliations,
@@ -146,9 +147,9 @@ class MetadataContainer extends React.PureComponent<Props, State> {
                             invitations
                           )}
                           handleDrop={this.handleDrop}
-                          handleSectionChange={this.props.handleSectionChange}
                           updateAuthor={this.updateAuthor(user)}
                           invitationSent={invitationSent}
+                          handleTitleStateChange={handleTitleStateChange}
                         />
                       )
                     }}

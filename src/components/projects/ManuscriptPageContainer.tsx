@@ -42,8 +42,6 @@ import {
   SYNC_ERROR_LOCAL_DOC_ID,
   SyncErrors,
   syncErrorsKey,
-  Toolbar,
-  toolbar,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-editor'
 import '@manuscripts/manuscript-editor/styles/Editor.css'
@@ -84,6 +82,11 @@ import { CommentList } from './CommentList'
 import { EditorBody, EditorContainer, EditorHeader } from './EditorContainer'
 import { Exporter } from './Exporter'
 import { Importer } from './Importer'
+import {
+  EditorType,
+  EditorViewType,
+  ManuscriptPageToolbar,
+} from './ManuscriptPageToolbar'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ReloadDialog } from './ReloadDialog'
 import RenameProject from './RenameProject'
@@ -107,6 +110,10 @@ interface State {
   processor?: Citeproc.Processor
   selected: Selected | null
   view?: ManuscriptEditorView
+  activeEditor?: {
+    editor: string
+    view: EditorViewType
+  }
 }
 
 interface Props {
@@ -219,7 +226,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       dirty,
       modelMap,
       doc,
-
+      activeEditor,
       popper,
       selected,
       view,
@@ -283,7 +290,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                     view={view}
                   />
 
-                  <Toolbar toolbar={toolbar} view={view} />
+                  {activeEditor && (
+                    <ManuscriptPageToolbar
+                      editor={activeEditor.editor}
+                      view={activeEditor.view}
+                      state={activeEditor.view.state}
+                    />
+                  )}
                 </EditorHeader>
               )}
 
@@ -295,7 +308,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                 manuscript={manuscript}
                 saveModel={this.saveModel}
                 deleteModel={this.deleteModel}
-                handleSectionChange={this.handleSectionChange}
+                handleTitleStateChange={this.handleEditorStateChange(
+                  EditorType.title
+                )}
               />
 
               <Editor
@@ -318,16 +333,17 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                 history={this.props.history}
                 locale={locale}
                 manuscript={manuscript}
-                onChange={this.handleChange}
                 modelMap={modelMap!}
                 popper={popper}
                 projectID={projectID}
                 subscribe={this.handleSubscribe}
                 setView={this.setView}
                 attributes={attributes}
-                handleSectionChange={this.handleSectionChange}
                 retrySync={this.retrySync}
                 renderReactComponent={this.renderReactComponent}
+                handleStateChange={this.handleEditorStateChange(
+                  EditorType.manuscript
+                )}
                 CitationEditor={CitationEditor}
               />
             </EditorBody>
@@ -363,6 +379,30 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         </Panel>
       </>
     )
+  }
+
+  public handleEditorStateChange = (editor: string) => (
+    view: EditorViewType,
+    docChanged: boolean
+  ): void => {
+    this.setState({
+      activeEditor: { editor, view },
+    })
+
+    switch (editor) {
+      case EditorType.manuscript:
+        this.handleManuscriptEditorStateChange(
+          (view as ManuscriptEditorView).state,
+          docChanged
+        )
+        break
+
+      default:
+        this.setState({
+          selected: null,
+        })
+        break
+    }
   }
 
   private prepare = async (projectID: string, manuscriptID: string) => {
@@ -1040,7 +1080,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return false
   }
 
-  private handleChange = (
+  private handleManuscriptEditorStateChange = (
     state: ManuscriptEditorState,
     docChanged: boolean
   ) => {
@@ -1248,12 +1288,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private createKeyword = (name: string) => this.saveModel(buildKeyword(name))
 
   private getCollaborator = (id: string) => this.props.collaborators.get(id)
-
-  private handleSectionChange = (section: string) => {
-    if (section !== 'manuscript') {
-      this.setState({ selected: null })
-    }
-  }
 
   // TODO: unmount
   private renderReactComponent = (
