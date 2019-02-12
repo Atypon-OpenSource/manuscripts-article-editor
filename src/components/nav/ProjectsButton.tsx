@@ -128,7 +128,7 @@ class ProjectsButton extends React.Component<Props, State> {
                           )
 
                           return !this.props.isDropdown ? (
-                            <div>
+                            <React.Fragment>
                               <InvitationsList
                                 invitationsData={filteredInvitationsData}
                                 acceptInvitation={this.acceptInvitation}
@@ -152,7 +152,7 @@ class ProjectsButton extends React.Component<Props, State> {
                                   user={user}
                                 />
                               </SidebarContent>
-                            </div>
+                            </React.Fragment>
                           ) : (
                             <MenuDropdown
                               buttonContents={'Projects'}

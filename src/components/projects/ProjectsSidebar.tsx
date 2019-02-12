@@ -18,6 +18,7 @@ import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
 import { Model } from '@manuscripts/manuscripts-json-schema/dist/types'
 import React from 'react'
+import InvitationsData from '../../data/InvitationsData'
 import ProjectsData from '../../data/ProjectsData'
 import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
@@ -103,43 +104,53 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
   <UserData userID={getCurrentUserId()!}>
     {user => (
       <ProjectsData>
-        {projects =>
-          projects.length ? (
-            <Container id={'projects-sidebar'}>
-              <ProjectsContainer>
-                <Header>
-                  <SidebarTitle className={'sidebar-title'}>
-                    Projects
-                  </SidebarTitle>
-                </Header>
-                <SidebarAction>
-                  <AddButton
-                    onClick={openTemplateSelector(props, user)}
-                    id={'create-project'}
-                  >
-                    <AddIcon />
-                    <SidebarActionTitle>New Project</SidebarActionTitle>
-                  </AddButton>
-                </SidebarAction>
-                <ProjectsButton
-                  isDropdown={false}
-                  closeModal={props.closeModal}
+        {projects => (
+          <InvitationsData>
+            {invitations => {
+              const invitationReceived = invitations.filter(
+                invitation =>
+                  invitation.invitedUserEmail === user.email &&
+                  !invitation.acceptedAt
+              )
+
+              return projects.length || invitationReceived.length ? (
+                <Container id={'projects-sidebar'}>
+                  <ProjectsContainer>
+                    <Header>
+                      <SidebarTitle className={'sidebar-title'}>
+                        Projects
+                      </SidebarTitle>
+                    </Header>
+                    <SidebarAction>
+                      <AddButton
+                        onClick={openTemplateSelector(props, user)}
+                        id={'create-project'}
+                      >
+                        <AddIcon />
+                        <SidebarActionTitle>New Project</SidebarActionTitle>
+                      </AddButton>
+                    </SidebarAction>
+                    <ProjectsButton
+                      isDropdown={false}
+                      closeModal={props.closeModal}
+                    />
+                  </ProjectsContainer>
+                </Container>
+              ) : (
+                <ImportContainer
+                  importManuscript={props.importManuscript!}
+                  render={({ handleClick, isDragActive }: ImportProps) => (
+                    <ProjectsListPlaceholder
+                      handleClick={handleClick}
+                      isDragActive={isDragActive}
+                      openTemplateSelector={openTemplateSelector(props, user)}
+                    />
+                  )}
                 />
-              </ProjectsContainer>
-            </Container>
-          ) : (
-            <ImportContainer
-              importManuscript={props.importManuscript!}
-              render={({ handleClick, isDragActive }: ImportProps) => (
-                <ProjectsListPlaceholder
-                  handleClick={handleClick}
-                  isDragActive={isDragActive}
-                  openTemplateSelector={openTemplateSelector(props, user)}
-                />
-              )}
-            />
-          )
-        }
+              )
+            }}
+          </InvitationsData>
+        )}
       </ProjectsData>
     )}
   </UserData>
