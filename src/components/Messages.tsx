@@ -106,7 +106,7 @@ export const AddCollaboratorsMessage = () => (
   <FormattedMessage
     id={'add_collaborators'}
     defaultMessage={
-      'You can add collaborators from the people list or send out invitation mails to those not yet in the list.'
+      'You can add collaborators from the list or send out invitation mails to those not yet in the list.'
     }
   />
 )

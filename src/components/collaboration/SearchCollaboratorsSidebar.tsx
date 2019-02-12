@@ -75,7 +75,7 @@ const SearchCollaboratorsSidebar: React.FunctionComponent<
     {!searchResults.length ? (
       <SidebarContent>
         <SidebarText data-cy={'sidebar-text'}>
-          No matches in the People list.
+          No matches found.
           <br />
           Do you want to <b>invite</b> {searchText}?
         </SidebarText>

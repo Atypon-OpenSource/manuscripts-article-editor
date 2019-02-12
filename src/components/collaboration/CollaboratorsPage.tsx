@@ -350,7 +350,7 @@ export const SearchCollaboratorsPage: React.FunctionComponent<
 
       <ProjectTitle>{project.title}</ProjectTitle>
 
-      <Message>No matches in the People list</Message>
+      <Message>No matches found</Message>
 
       <Message>
         <CheckCollaboratorsSearchMessage searchText={searchText} />
