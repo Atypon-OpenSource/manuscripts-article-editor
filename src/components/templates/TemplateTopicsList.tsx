@@ -95,12 +95,14 @@ export const TemplateTopicsList: React.FunctionComponent<Props> = ({
 
       <Separator />
 
-      {options.sort((a, b) => a.name.localeCompare(b.name)).map(topic => (
-        <ListSection key={topic._id} onClick={() => handleChange(topic)}>
-          <Added visible={value ? value._id === topic._id : false} />
-          {topic.name}
-        </ListSection>
-      ))}
+      {options
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(topic => (
+          <ListSection key={topic._id} onClick={() => handleChange(topic)}>
+            <Added visible={value ? value._id === topic._id : false} />
+            {topic.name}
+          </ListSection>
+        ))}
     </List>
   </ListContainer>
 )

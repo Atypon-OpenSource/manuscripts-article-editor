@@ -128,12 +128,11 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
       <Title selected={selected}>
         <BundleTitle>{title}</BundleTitle>
 
-        {articleType &&
-          articleType !== title && (
-            <ArticleType selected={selected} data-cy={'article-type'}>
-              {articleType}
-            </ArticleType>
-          )}
+        {articleType && articleType !== title && (
+          <ArticleType selected={selected} data-cy={'article-type'}>
+            {articleType}
+          </ArticleType>
+        )}
 
         {selected && <TemplateInfoLink bundle={item.bundle} />}
       </Title>
@@ -151,13 +150,12 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
       </TemplateActions>
     </Heading>
 
-    {selected &&
-      publisher &&
-      publisher.name && <PublisherName>{publisher.name}</PublisherName>}
+    {selected && publisher && publisher.name && (
+      <PublisherName>{publisher.name}</PublisherName>
+    )}
 
-    {template &&
-      template.desc && (
-        <Description selected={selected}>{template.desc}</Description>
-      )}
+    {template && template.desc && (
+      <Description selected={selected}>{template.desc}</Description>
+    )}
   </Container>
 )

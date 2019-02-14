@@ -17,10 +17,8 @@
 import CorrespondingAuthorBadge from '@manuscripts/assets/react/CorrespondingAuthorBadge'
 import JointFirstAuthorBadge from '@manuscripts/assets/react/FirstAuthorBadge'
 import VerticalEllipsis from '@manuscripts/assets/react/VerticalEllipsis'
-import {
-  UserProfileWithAvatar,
-  withDragDropContext,
-} from '@manuscripts/manuscript-editor'
+import { withDragDropContext } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Contributor } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import {

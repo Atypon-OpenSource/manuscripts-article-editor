@@ -15,7 +15,7 @@
  */
 
 import projectDump from '@manuscripts/examples/data/project-dump.json'
-import { Decoder } from '@manuscripts/manuscript-editor'
+import { Decoder } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
 
 export const modelMap = new Map()

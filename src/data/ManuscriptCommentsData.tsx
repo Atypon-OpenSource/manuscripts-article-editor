@@ -15,9 +15,9 @@
  */
 
 import {
-  COMMENT_ANNOTATION,
   CommentAnnotation,
-} from '@manuscripts/manuscript-editor'
+  ExtraObjectTypes,
+} from '@manuscripts/manuscript-transform'
 import React from 'react'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
@@ -87,8 +87,7 @@ class ManuscriptCommentsData extends DataComponent<
       .find({
         containerID,
         manuscriptID,
-        objectType: COMMENT_ANNOTATION,
-        // objectType: ObjectTypes.CommentAnnotation, // TODO
+        objectType: ExtraObjectTypes.CommentAnnotation,
       })
       .$.subscribe(docs => {
         if (docs) {

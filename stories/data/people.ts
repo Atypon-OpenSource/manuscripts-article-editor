@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import imageFile from '../assets/melnitz.jpg'
 
 export const people: UserProfileWithAvatar[] = [

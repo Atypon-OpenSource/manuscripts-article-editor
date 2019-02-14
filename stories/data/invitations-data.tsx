@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { timestamp } from '@manuscripts/manuscript-editor'
+import { timestamp } from '@manuscripts/manuscript-transform'
 import {
   Project,
   ProjectInvitation,

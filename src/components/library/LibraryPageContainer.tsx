@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { buildBibliographyItem } from '@manuscripts/manuscript-editor'
+import { buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem, Project } from '@manuscripts/manuscripts-json-schema'
 import qs from 'qs'
 import React from 'react'

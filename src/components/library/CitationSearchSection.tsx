@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Build } from '@manuscripts/manuscript-editor'
+import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Button } from '@manuscripts/style-guide'
 import React from 'react'
@@ -119,15 +119,14 @@ export class CitationSearchSection extends React.Component<Props, State> {
           selected={selected}
         />
 
-        {results &&
-          results.total > rows && (
-            <MoreButton
-              onClick={() => selectSource(source.id)}
-              data-cy={'more-button'}
-            >
-              Show more
-            </MoreButton>
-          )}
+        {results && results.total > rows && (
+          <MoreButton
+            onClick={() => selectSource(source.id)}
+            data-cy={'more-button'}
+          >
+            Show more
+          </MoreButton>
+        )}
       </ResultsSection>
     )
   }

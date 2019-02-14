@@ -21,12 +21,12 @@ import {
   DEFAULT_BUNDLE,
   generateID,
   ManuscriptModel,
-  ObjectType,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import {
   Bundle,
   ManuscriptCategory,
   Model,
+  ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import axios from 'axios'
 import { mergeWith } from 'lodash-es'
@@ -248,7 +248,7 @@ export const fromPrototype = <T extends Model>(model: T): T => {
   const output = {
     ...model,
     prototype: model._id,
-    _id: generateID(model.objectType as ObjectType),
+    _id: generateID(model.objectType as ObjectTypes),
   }
 
   return output as T // TODO: add prototype to Model schema

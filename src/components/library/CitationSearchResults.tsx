@@ -15,7 +15,7 @@
  */
 
 import PlusIcon from '@manuscripts/assets/react/PlusIcon'
-import { Build } from '@manuscripts/manuscript-editor'
+import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'

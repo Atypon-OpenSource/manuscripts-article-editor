@@ -18,7 +18,7 @@ import {
   Attachments,
   ManuscriptModel,
   ModelAttachment,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import {
   Figure,
   Model,

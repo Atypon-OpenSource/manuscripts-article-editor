@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { ObjectTypes, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { buildUser } from '../lib/data'

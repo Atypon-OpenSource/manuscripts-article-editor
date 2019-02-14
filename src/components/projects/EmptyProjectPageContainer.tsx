@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { ModalProps, withModal } from '../ModalProvider'

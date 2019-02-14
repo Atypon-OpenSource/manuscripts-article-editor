@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
+import { ManuscriptToolbar } from '@manuscripts/manuscript-editor'
 import {
   ManuscriptEditorState,
   ManuscriptEditorView,
-  ManuscriptToolbar,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import {
   TitleEditorState,
   TitleEditorView,

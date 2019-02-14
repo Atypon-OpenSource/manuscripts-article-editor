@@ -23,7 +23,7 @@ import {
   Build,
   buildComment,
   CommentAnnotation,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import {
   Keyword,
   Model,

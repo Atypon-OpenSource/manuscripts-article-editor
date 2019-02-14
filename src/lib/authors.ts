@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { getModelsByType } from '@manuscripts/manuscript-editor'
+import { getModelsByType } from '@manuscripts/manuscript-transform'
 import {
   Affiliation,
   Contributor,

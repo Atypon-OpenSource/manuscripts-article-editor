@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { CitationManager, DEFAULT_BUNDLE } from '@manuscripts/manuscript-editor'
+import { CitationManager } from '@manuscripts/manuscript-editor'
+import { DEFAULT_BUNDLE } from '@manuscripts/manuscript-transform'
 import { Manuscript } from '@manuscripts/manuscripts-json-schema'
 import { Field, Form, Formik } from 'formik'
 import React from 'react'

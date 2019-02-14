@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { buildUserProfileAffiliation } from '@manuscripts/manuscript-editor'
+import { buildUserProfileAffiliation } from '@manuscripts/manuscript-transform'
 import {
   UserProfile,
   UserProfileAffiliation,

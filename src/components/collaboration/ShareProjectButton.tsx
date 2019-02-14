@@ -15,7 +15,7 @@
  */
 
 import ShareProjectIcon from '@manuscripts/assets/react/Share'
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'

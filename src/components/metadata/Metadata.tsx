@@ -201,11 +201,13 @@ export const Metadata: React.FunctionComponent<Props> = props => (
             </CloseButton>
           </ModalHeader>
 
-          {!props.isInvite &&
-            !props.addingAuthors && <AuthorsModalContainer {...props} />}
+          {!props.isInvite && !props.addingAuthors && (
+            <AuthorsModalContainer {...props} />
+          )}
 
-          {!props.isInvite &&
-            props.addingAuthors && <AddAuthorsModalContainer {...props} />}
+          {!props.isInvite && props.addingAuthors && (
+            <AddAuthorsModalContainer {...props} />
+          )}
 
           {props.isInvite && <InviteAuthorsModal {...props} />}
         </ModalContainer>

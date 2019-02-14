@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Affiliation, Contributor } from '@manuscripts/manuscripts-json-schema'
 import imageFile from '../assets/melnitz.jpg'
 

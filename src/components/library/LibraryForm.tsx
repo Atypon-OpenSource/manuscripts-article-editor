@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { buildKeyword } from '@manuscripts/manuscript-editor'
+import { buildKeyword } from '@manuscripts/manuscript-transform'
 import {
   BibliographicName,
   BibliographyItem,

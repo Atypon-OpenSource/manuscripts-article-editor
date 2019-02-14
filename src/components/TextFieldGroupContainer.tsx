@@ -36,19 +36,18 @@ export const TextFieldGroupContainer: React.FunctionComponent<
     <TextFieldGroup>
       {children}
 
-      {errors &&
-        hasErrors(errors) && (
-          <TextFieldError>
-            {Object.entries(errors).map(
-              ([key, error]) =>
-                error && (
-                  <TextFieldErrorItem id={`${key}-text-field-error`} key={key}>
-                    {error}
-                  </TextFieldErrorItem>
-                )
-            )}
-          </TextFieldError>
-        )}
+      {errors && hasErrors(errors) && (
+        <TextFieldError>
+          {Object.entries(errors).map(
+            ([key, error]) =>
+              error && (
+                <TextFieldErrorItem id={`${key}-text-field-error`} key={key}>
+                  {error}
+                </TextFieldErrorItem>
+              )
+          )}
+        </TextFieldError>
+      )}
     </TextFieldGroup>
   )
 }

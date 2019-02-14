@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor/dist/types'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'

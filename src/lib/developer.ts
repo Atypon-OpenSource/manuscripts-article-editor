@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Build } from '@manuscripts/manuscript-editor'
+import { Build } from '@manuscripts/manuscript-transform'
 import {
   BibliographicName,
   ObjectTypes,

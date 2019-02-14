@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Affiliation, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { styled } from '../../theme/styled-components'

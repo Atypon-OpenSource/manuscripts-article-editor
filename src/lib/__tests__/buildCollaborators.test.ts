@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { people } from '../../../stories/data/people'
 import { project } from '../../../stories/data/projects'
 import { buildCollaborators } from '../collaborators'

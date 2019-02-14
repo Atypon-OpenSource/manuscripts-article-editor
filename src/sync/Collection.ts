@@ -15,14 +15,17 @@
  */
 
 import {
-  Build,
   // ContainedModel,
   handleConflicts,
-  ModelAttachment,
   // isManuscriptModel,
   saveSyncState,
-  timestamp,
 } from '@manuscripts/manuscript-editor'
+import {
+  Build,
+  ModelAttachment,
+  // isManuscriptModel,
+  timestamp,
+} from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import * as HttpStatusCodes from 'http-status-codes'
 import {

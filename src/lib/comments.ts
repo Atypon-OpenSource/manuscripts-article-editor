@@ -17,7 +17,7 @@
 import {
   CommentAnnotation,
   ManuscriptNode,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import { BibliographicName } from '@manuscripts/manuscripts-json-schema'
 
 interface CommentData {

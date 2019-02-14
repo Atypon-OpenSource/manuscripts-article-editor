@@ -20,7 +20,7 @@ import {
   ManuscriptNode,
   Selected,
   UserProfileWithAvatar,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import {
   Keyword,
   Model,

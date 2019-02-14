@@ -18,50 +18,52 @@ import {
   ApplicationMenu,
   applyLocalStep,
   applyRemoteStep,
+  ChangeReceiver,
+  CitationManager,
+  Conflict,
+  conflictsKey,
+  createMerge,
+  Editor,
+  findParentNodeWithIdValue,
+  getRevNumber,
+  hydrateConflictNodes,
+  iterateConflicts,
+  LocalConflicts,
+  menus,
+  PopperManager,
+  removeConflictLocally,
+  SYNC_ERROR_LOCAL_DOC_ID,
+  SyncErrors,
+  syncErrorsKey,
+} from '@manuscripts/manuscript-editor'
+import '@manuscripts/manuscript-editor/styles/Editor.css'
+import '@manuscripts/manuscript-editor/styles/popper.css'
+import {
   Build,
   buildContributor,
   buildKeyword,
   buildManuscript,
   buildModelMap,
-  ChangeReceiver,
-  CitationManager,
   CommentAnnotation,
-  Conflict,
-  conflictsKey,
   ContainedModel,
   ContainedProps,
-  createMerge,
   Decoder,
   DEFAULT_BUNDLE,
   documentObjectTypes,
-  Editor,
   elementObjects,
   encode,
-  findParentNodeWithIdValue,
   getImageAttachment,
-  getRevNumber,
-  hydrateConflictNodes,
   isFigure,
   isManuscriptModel,
   isUserProfile,
-  iterateConflicts,
-  LocalConflicts,
   ManuscriptEditorState,
   ManuscriptEditorView,
   ManuscriptModel,
   ManuscriptNode,
-  menus,
   ModelAttachment,
-  PopperManager,
-  removeConflictLocally,
   Selected,
-  SYNC_ERROR_LOCAL_DOC_ID,
-  SyncErrors,
-  syncErrorsKey,
   UserProfileWithAvatar,
-} from '@manuscripts/manuscript-editor'
-import '@manuscripts/manuscript-editor/styles/Editor.css'
-import '@manuscripts/manuscript-editor/styles/popper.css'
+} from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Keyword,
@@ -287,34 +289,34 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         <Main>
           <EditorContainer>
-            {view &&
-              !config.native && (
-                <EditorHeader>
-                  <ApplicationMenu
-                    menus={menus({
-                      manuscript,
-                      project,
-                      addManuscript: this.addManuscript,
-                      openTemplateSelector: this.openTemplateSelector,
-                      deleteManuscript: this.deleteManuscript,
-                      deleteModel: this.deleteModel,
-                      history: this.props.history,
-                      openExporter: this.openExporter,
-                      openImporter: this.openImporter,
-                      openRenameProject: this.openRenameProject,
-                    })}
-                    view={view}
-                  />
+            {view && !config.native && (
+              <EditorHeader>
+                <ApplicationMenu
+                  menus={menus({
+                    manuscript,
+                    project,
+                    getModelMap: this.getModelMap,
+                    addManuscript: this.addManuscript,
+                    openTemplateSelector: this.openTemplateSelector,
+                    deleteManuscript: this.deleteManuscript,
+                    deleteModel: this.deleteModel,
+                    history: this.props.history,
+                    openExporter: this.openExporter,
+                    openImporter: this.openImporter,
+                    openRenameProject: this.openRenameProject,
+                  })}
+                  view={view}
+                />
 
-                  {activeEditor && (
-                    <ManuscriptPageToolbar
-                      editor={activeEditor.editor}
-                      view={activeEditor.view}
-                      state={activeEditor.view.state}
-                    />
-                  )}
-                </EditorHeader>
-              )}
+                {activeEditor && (
+                  <ManuscriptPageToolbar
+                    editor={activeEditor.editor}
+                    view={activeEditor.view}
+                    state={activeEditor.view.state}
+                  />
+                )}
+              </EditorHeader>
+            )}
 
             <EditorBody>
               <MetadataContainer
@@ -374,24 +376,23 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           direction={'row'}
           side={'start'}
         >
-          {this.state.view &&
-            comments && (
-              <DebouncedInspector>
-                <CommentList
-                  comments={comments}
-                  doc={doc}
-                  getCurrentUser={this.getCurrentUser}
-                  selected={selected}
-                  createKeyword={this.createKeyword}
-                  deleteComment={this.deleteModel}
-                  getCollaborator={this.getCollaborator}
-                  getKeyword={this.getKeyword}
-                  listCollaborators={this.listCollaborators}
-                  listKeywords={this.listKeywords}
-                  saveComment={this.saveModel}
-                />
-              </DebouncedInspector>
-            )}
+          {this.state.view && comments && (
+            <DebouncedInspector>
+              <CommentList
+                comments={comments}
+                doc={doc}
+                getCurrentUser={this.getCurrentUser}
+                selected={selected}
+                createKeyword={this.createKeyword}
+                deleteComment={this.deleteModel}
+                getCollaborator={this.getCollaborator}
+                getKeyword={this.getKeyword}
+                listCollaborators={this.listCollaborators}
+                listKeywords={this.listKeywords}
+                saveComment={this.saveModel}
+              />
+            </DebouncedInspector>
+          )}
         </Panel>
       </>
     )
@@ -768,7 +769,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private addLibraryItem = (item: BibliographyItem) =>
     this.props.library.set(item._id, item) // TODO: move this to the provider?
 
-  private getLibraryItem = (id: string) => this.props.library.get(id)
+  private getLibraryItem = (id: string) => this.props.library.get(id)!
 
   private filterLibraryItems = (query: string) =>
     filterLibrary(this.props.library, query)
@@ -937,7 +938,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         if (conflict) {
           try {
-            const updatedRevNumber = getRevNumber(modelDocument._rev)
+            const updatedRevNumber = getRevNumber(modelDocument._rev!)
             const remoteConflictRevNumber = getRevNumber(conflict.remote._rev)
 
             // Check to see if the node is either the one we initially conflicted
@@ -1128,7 +1129,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     for (const model of modelMap.values()) {
       if (isManuscriptModel(model)) {
-        const type = documentObjectTypes.includes(model.objectType)
+        const type = documentObjectTypes.includes(
+          model.objectType as ObjectTypes
+        )
           ? 'document'
           : 'data'
 
@@ -1177,7 +1180,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       const changedModelsByType = changedModels.reduce((output, model) => {
         if (model.objectType === ObjectTypes.Section) {
           output.sections.push(model)
-        } else if (elementObjects.includes(model.objectType)) {
+        } else if (elementObjects.includes(model.objectType as ObjectTypes)) {
           output.elements.push(model)
         } else {
           output.dependencies.push(model)
@@ -1290,6 +1293,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     view.dispatch(tr)
   }
+
+  private getModelMap = (): Map<string, Model> => this.state.modelMap!
 
   private getCurrentUser = (): UserProfile => this.props.user
 

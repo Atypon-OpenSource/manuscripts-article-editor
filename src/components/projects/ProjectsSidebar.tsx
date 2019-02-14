@@ -15,7 +15,7 @@
  */
 
 import AddIcon from '@manuscripts/assets/react/AddIcon'
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema/dist/types'
 import React from 'react'
 import InvitationsData from '../../data/InvitationsData'

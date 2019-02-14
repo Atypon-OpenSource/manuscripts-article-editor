@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-import { ContainedModel, ManuscriptModel } from '@manuscripts/manuscript-editor'
+import {
+  ContainedModel,
+  ManuscriptModel,
+} from '@manuscripts/manuscript-transform'
 import { Manuscript, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Collection } from '../sync/Collection'

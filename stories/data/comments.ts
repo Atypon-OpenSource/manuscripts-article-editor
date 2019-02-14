@@ -15,14 +15,14 @@
  */
 
 import {
-  COMMENT_ANNOTATION,
   CommentAnnotation,
-} from '@manuscripts/manuscript-editor'
+  ExtraObjectTypes,
+} from '@manuscripts/manuscript-transform'
 
 export const comments: CommentAnnotation[] = [
   {
     _id: 'comment-1',
-    objectType: COMMENT_ANNOTATION,
+    objectType: ExtraObjectTypes.CommentAnnotation,
     containerID: 'project-1',
     manuscriptID: 'manuscript-1',
     userID: 'user-1',

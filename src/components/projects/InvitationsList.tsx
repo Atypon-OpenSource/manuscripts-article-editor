@@ -17,7 +17,7 @@
 import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor/dist/types'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { InvitationData } from '../nav/ProjectsButton'
 import { Invitation } from './InvitationElement'
@@ -45,12 +45,11 @@ export const InvitationsList: React.FunctionComponent<Props> = ({
     <div>
       {invitationsData.map(({ invitation, invitingUserProfile }) => (
         <React.Fragment key={invitation._id}>
-          {acceptError &&
-            acceptError.invitationId === invitation._id && (
-              <AlertMessage type={AlertMessageType.error}>
-                {acceptError.errorMessage}
-              </AlertMessage>
-            )}
+          {acceptError && acceptError.invitationId === invitation._id && (
+            <AlertMessage type={AlertMessageType.error}>
+              {acceptError.errorMessage}
+            </AlertMessage>
+          )}
           <Invitation
             key={invitation._id}
             invitation={invitation}

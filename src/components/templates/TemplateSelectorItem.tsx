@@ -37,7 +37,7 @@ export const TemplateSelectorItem: React.FunctionComponent<
 
   const { bundle, template, title, articleType, publisher } = item
 
-  const key = template ? template._id : bundle!._id
+  const key = template ? template._id : bundle._id
 
   style = {
     ...style,

@@ -15,11 +15,8 @@
  */
 
 import SearchIcon from '@manuscripts/assets/react/SearchIcon'
-import {
-  Build,
-  buildBibliographyItem,
-  crossref,
-} from '@manuscripts/manuscript-editor'
+import { crossref } from '@manuscripts/manuscript-editor'
+import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Button, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
@@ -112,17 +109,21 @@ export class CitationSearch extends React.Component<Props, State> {
         </SearchContainer>
 
         <Results>
-          {sources.filter(source => source.always || query).map(source => (
-            <CitationSearchSection
-              key={source.id}
-              source={source}
-              addToSelection={this.addToSelection}
-              selectSource={() => this.setState({ selectedSource: source.id })}
-              selected={selected}
-              query={query}
-              rows={selectedSource === source.id ? 25 : 3}
-            />
-          ))}
+          {sources
+            .filter(source => source.always || query)
+            .map(source => (
+              <CitationSearchSection
+                key={source.id}
+                source={source}
+                addToSelection={this.addToSelection}
+                selectSource={() =>
+                  this.setState({ selectedSource: source.id })
+                }
+                selected={selected}
+                query={query}
+                rows={selectedSource === source.id ? 25 : 3}
+              />
+            ))}
         </Results>
 
         <Actions>

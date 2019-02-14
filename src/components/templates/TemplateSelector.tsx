@@ -22,14 +22,14 @@ import {
   buildSection,
   DEFAULT_BUNDLE,
   generateID,
-  ObjectType,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import {
   Bundle,
   Contributor,
   Manuscript,
   ManuscriptCategory,
   Model,
+  ObjectTypes,
   ParagraphElement,
   Project,
   Section,
@@ -362,7 +362,7 @@ class TemplateSelector extends React.Component<
 
       mergedTemplate.requirementIDs = await Promise.all(
         requirements.map(async requirement => {
-          requirement._id = generateID(requirement.objectType as ObjectType)
+          requirement._id = generateID(requirement.objectType as ObjectTypes)
           await saveManuscriptModel<RequirementType>(requirement)
           return requirement._id
         })

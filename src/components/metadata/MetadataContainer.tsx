@@ -19,7 +19,7 @@ import {
   buildAffiliation,
   buildBibliographicName,
   buildContributor,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import {
   Affiliation,
   Contributor,

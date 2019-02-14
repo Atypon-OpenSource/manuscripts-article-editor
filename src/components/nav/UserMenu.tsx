@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import React from 'react'
 import { Avatar } from '../Avatar'
 import MenuDropdown from './MenuDropdown'

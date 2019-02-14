@@ -38,7 +38,8 @@
     "@ibm/plex": "^1.1.6",
     "@manuscripts/assets": "^0.3.0",
     "@manuscripts/comment-editor": "^0.1.0",
-    "@manuscripts/manuscript-editor": "^0.9.0",
+    "@manuscripts/manuscript-editor": "^0.10.0",
+    "@manuscripts/manuscript-transform": "^0.1.2",
     "@manuscripts/manuscripts-json-schema": "^1.7.3",
     "@manuscripts/resizer": "^0.0.1",
     "@manuscripts/style-guide": "^0.0.1",
@@ -187,8 +188,8 @@
   "resolutions": {
     "rxdb/pouchdb-replication": "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master",
     "pouchdb-adapter-leveldb-core": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#master",
-    "rxjs": "6.2.2",
-    "rxjs-compat": "6.2.2",
+    "rxjs": "6.4.0",
+    "rxjs-compat": "6.4.0",
     "styled-components": "^4.0.2",
     "memdown": "^3.0.0"
   }

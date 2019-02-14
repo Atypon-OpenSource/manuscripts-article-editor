@@ -59,19 +59,18 @@ export const DeleteAccountForm: React.FunctionComponent<
       )}
     </Field>
     {errors.submit && <FormError>{errors.submit}</FormError>}
-    {deletedProjects &&
-      deletedProjects.length !== 0 && (
-        <MessageContainer>
-          {'Deleting your account will also delete these projects'}
-          <ul>
-            {deletedProjects.map(project => (
-              <li key={project._id}>
-                <Title value={project.title || 'Untitled Project'} />
-              </li>
-            ))}
-          </ul>
-        </MessageContainer>
-      )}
+    {deletedProjects && deletedProjects.length !== 0 && (
+      <MessageContainer>
+        {'Deleting your account will also delete these projects'}
+        <ul>
+          {deletedProjects.map(project => (
+            <li key={project._id}>
+              <Title value={project.title || 'Untitled Project'} />
+            </li>
+          ))}
+        </ul>
+      </MessageContainer>
+    )}
     <ModalFormActions>
       <DangerSubmitButton disabled={isSubmitting}>
         Delete Account

@@ -15,7 +15,7 @@
  */
 
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { UserProfileAffiliation } from '@manuscripts/manuscripts-json-schema'
 import { FormikActions } from 'formik'
 import React from 'react'

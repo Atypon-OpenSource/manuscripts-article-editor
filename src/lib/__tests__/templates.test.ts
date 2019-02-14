@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { DEFAULT_BUNDLE } from '@manuscripts/manuscript-editor'
+import { DEFAULT_BUNDLE } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
   ManuscriptCategory,

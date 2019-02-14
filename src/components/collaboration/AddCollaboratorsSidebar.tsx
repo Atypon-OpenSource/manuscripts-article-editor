@@ -15,7 +15,7 @@
  */
 
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
   ProjectInvitation,
   UserProfile,

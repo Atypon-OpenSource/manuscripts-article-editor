@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor/dist/types'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
   Project,
   ProjectInvitation,
@@ -70,12 +70,11 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
 
       {invitationsData.map(({ invitation, invitingUserProfile }) => (
         <React.Fragment key={invitation._id}>
-          {acceptError &&
-            acceptError.invitationId === invitation._id && (
-              <AlertMessage type={AlertMessageType.error}>
-                {acceptError.errorMessage}
-              </AlertMessage>
-            )}
+          {acceptError && acceptError.invitationId === invitation._id && (
+            <AlertMessage type={AlertMessageType.error}>
+              {acceptError.errorMessage}
+            </AlertMessage>
+          )}
           <InvitationDropdownSection
             invitation={invitation}
             invitingUserProfile={invitingUserProfile}

@@ -15,7 +15,7 @@
  */
 
 import AddAuthor from '@manuscripts/assets/react/AddAuthor'
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
   Project,
   ProjectInvitation,

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { timestamp } from '@manuscripts/manuscript-editor'
+import { timestamp } from '@manuscripts/manuscript-transform'
 
 describe('timestamp', () => {
   it('function should divide by 1000', () => {

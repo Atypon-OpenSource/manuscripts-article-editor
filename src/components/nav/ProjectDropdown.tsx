@@ -15,7 +15,7 @@
  */
 
 import ProjectsList from '@manuscripts/assets/react/ProjectsList'
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
   Project,
   ProjectInvitation,

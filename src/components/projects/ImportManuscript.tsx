@@ -20,7 +20,7 @@ import {
   isManuscriptModel,
   ManuscriptModel,
   ModelAttachment,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   Model,

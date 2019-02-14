@@ -18,7 +18,7 @@ import {
   Attachments,
   ModelAttachment,
   UserProfileWithAvatar,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import {
   Figure,
   Model,
@@ -150,7 +150,7 @@ export const exportProject = async (
   format: string
 ) => {
   const file = await buildProjectBundle(modelMap, manuscriptID)
-  // download(file, 'manuscript.manuproj.zip')
+  // download(file, 'manuscript.manuproj')
 
   const form = new FormData()
   form.append('file', file, 'export.manuproj')

@@ -299,33 +299,31 @@ export const AuthorForm: React.FunctionComponent<AuthorProps> = ({
         </Form>
       )}
     </Formik>
-    {!author.userID &&
-      !author.invitationID && (
-        <FormMessage>
-          <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
-            {getAuthorName(author) + ' '}
-            does not have access to the project.
-            <InviteAuthorButton
-              author={author}
-              project={project}
-              updateAuthor={updateAuthor}
-            />
-          </AlertMessage>
-        </FormMessage>
-      )}
-    {author.invitationID &&
-      isRejected(author.invitationID) && (
-        <FormMessage>
-          <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
-            {getAuthorName(author) + ' '}
-            does not have access to the project.
-            <InviteAuthorButton
-              author={author}
-              project={project}
-              updateAuthor={updateAuthor}
-            />
-          </AlertMessage>
-        </FormMessage>
-      )}
+    {!author.userID && !author.invitationID && (
+      <FormMessage>
+        <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
+          {getAuthorName(author) + ' '}
+          does not have access to the project.
+          <InviteAuthorButton
+            author={author}
+            project={project}
+            updateAuthor={updateAuthor}
+          />
+        </AlertMessage>
+      </FormMessage>
+    )}
+    {author.invitationID && isRejected(author.invitationID) && (
+      <FormMessage>
+        <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
+          {getAuthorName(author) + ' '}
+          does not have access to the project.
+          <InviteAuthorButton
+            author={author}
+            project={project}
+            updateAuthor={updateAuthor}
+          />
+        </AlertMessage>
+      </FormMessage>
+    )}
   </React.Fragment>
 )

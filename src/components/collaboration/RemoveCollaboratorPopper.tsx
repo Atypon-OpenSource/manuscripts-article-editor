@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { GreyButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { initials } from '../../lib/name'

@@ -17,12 +17,14 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
 import {
   DebouncedManuscriptOutlineContainer,
+  OutlineManuscript,
+} from '@manuscripts/manuscript-editor'
+import {
   ManuscriptEditorView,
   ManuscriptNode,
-  OutlineManuscript,
   Selected,
   UserProfileWithAvatar,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
