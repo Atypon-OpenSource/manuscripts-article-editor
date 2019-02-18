@@ -16,7 +16,9 @@
 
 import {
   Attachments,
+  Decoder,
   ModelAttachment,
+  serializeToJATS,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -105,7 +107,7 @@ const buildAttachments = (modelMap: Map<string, Model>) => {
 const buildProjectBundle = (
   modelMap: Map<string, Model>,
   manuscriptID: string
-) => {
+): JSZip => {
   const attachments = buildAttachments(modelMap)
 
   const data = createProjectDump(modelMap, manuscriptID)
@@ -123,7 +125,7 @@ const buildProjectBundle = (
     }
   }
 
-  return zip.generateAsync({ type: 'blob' })
+  return zip
 }
 
 export const generateDownloadFilename = (title: string) =>
@@ -144,16 +146,35 @@ export const downloadExtension = (format: string): string => {
   }
 }
 
+const convertToXML = async (zip: JSZip, modelMap: Map<string, Model>) => {
+  zip.remove('index.manuscript-json')
+
+  const decoder = new Decoder(modelMap)
+  const doc = decoder.createArticleNode()
+
+  zip.file('manuscript.xml', serializeToJATS(doc.content, modelMap))
+
+  return zip.generateAsync({ type: 'blob' })
+}
+
 export const exportProject = async (
   modelMap: Map<string, Model>,
   manuscriptID: string,
   format: string
-) => {
-  const file = await buildProjectBundle(modelMap, manuscriptID)
-  // download(file, 'manuscript.manuproj')
+): Promise<Blob> => {
+  const zip = buildProjectBundle(modelMap, manuscriptID)
 
-  const form = new FormData()
-  form.append('file', file, 'export.manuproj')
+  switch (format) {
+    case '.xml':
+      return convertToXML(zip, modelMap)
 
-  return convert(form, format)
+    default:
+      const file = await zip.generateAsync({ type: 'blob' })
+      // download(file, 'manuscript.manuproj')
+
+      const form = new FormData()
+      form.append('file', file, 'export.manuproj')
+
+      return convert(form, format)
+  }
 }
