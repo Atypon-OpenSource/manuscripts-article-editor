@@ -113,6 +113,9 @@ const configuration: webpack.Configuration = {
   })(),
   resolve: {
     alias: {
+      '@manuscripts/manuscript-transform': require.resolve(
+        '@manuscripts/manuscript-transform'
+      ),
       react: require.resolve('react'),
       'react-dnd': require.resolve('react-dnd'),
       'react-dom': require.resolve('react-dom'),
