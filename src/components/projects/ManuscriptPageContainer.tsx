@@ -97,7 +97,12 @@ import Panel from '../Panel'
 import { ManuscriptPlaceholder } from '../Placeholders'
 import TemplateSelector from '../templates/TemplateSelector'
 import { CommentList } from './CommentList'
-import { EditorBody, EditorContainer, EditorHeader } from './EditorContainer'
+import {
+  EditorBody,
+  EditorContainer,
+  EditorContainerInner,
+  EditorHeader,
+} from './EditorContainer'
 import { Exporter } from './Exporter'
 import { Importer } from './Importer'
 import {
@@ -289,82 +294,84 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         <Main>
           <EditorContainer>
-            {view && !config.native && (
-              <EditorHeader>
-                <ApplicationMenu
-                  menus={menus({
-                    manuscript,
-                    project,
-                    getModelMap: this.getModelMap,
-                    addManuscript: this.addManuscript,
-                    openTemplateSelector: this.openTemplateSelector,
-                    deleteManuscript: this.deleteManuscript,
-                    deleteModel: this.deleteModel,
-                    history: this.props.history,
-                    openExporter: this.openExporter,
-                    openImporter: this.openImporter,
-                    openRenameProject: this.openRenameProject,
-                  })}
-                  view={view}
+            <EditorContainerInner>
+              {view && !config.native && (
+                <EditorHeader>
+                  <ApplicationMenu
+                    menus={menus({
+                      manuscript,
+                      project,
+                      getModelMap: this.getModelMap,
+                      addManuscript: this.addManuscript,
+                      openTemplateSelector: this.openTemplateSelector,
+                      deleteManuscript: this.deleteManuscript,
+                      deleteModel: this.deleteModel,
+                      history: this.props.history,
+                      openExporter: this.openExporter,
+                      openImporter: this.openImporter,
+                      openRenameProject: this.openRenameProject,
+                    })}
+                    view={view}
+                  />
+
+                  {activeEditor && (
+                    <ManuscriptPageToolbar
+                      editor={activeEditor.editor}
+                      view={activeEditor.view}
+                      state={activeEditor.view.state}
+                    />
+                  )}
+                </EditorHeader>
+              )}
+
+              <EditorBody>
+                <MetadataContainer
+                  collection={collection}
+                  modelMap={modelMap!}
+                  saveManuscript={this.saveManuscript}
+                  manuscript={manuscript}
+                  saveModel={this.saveModel}
+                  deleteModel={this.deleteModel}
+                  handleTitleStateChange={this.handleEditorStateChange(
+                    EditorType.title
+                  )}
                 />
 
-                {activeEditor && (
-                  <ManuscriptPageToolbar
-                    editor={activeEditor.editor}
-                    view={activeEditor.view}
-                    state={activeEditor.view.state}
-                  />
-                )}
-              </EditorHeader>
-            )}
-
-            <EditorBody>
-              <MetadataContainer
-                collection={collection}
-                modelMap={modelMap!}
-                saveManuscript={this.saveManuscript}
-                manuscript={manuscript}
-                saveModel={this.saveModel}
-                deleteModel={this.deleteModel}
-                handleTitleStateChange={this.handleEditorStateChange(
-                  EditorType.title
-                )}
-              />
-
-              <Editor
-                autoFocus={!!manuscript.title}
-                getCitationProcessor={this.getCitationProcessor}
-                doc={doc}
-                editable={true}
-                getModel={this.getModel}
-                saveModel={this.saveModel}
-                deleteModel={this.deleteModel}
-                applyLocalStep={applyLocalStep(collection)}
-                applyRemoteStep={applyRemoteStep(collection)}
-                addLibraryItem={this.addLibraryItem}
-                getLibraryItem={this.getLibraryItem}
-                filterLibraryItems={this.filterLibraryItems}
-                getManuscript={this.getManuscript}
-                saveManuscript={this.saveManuscript}
-                deleteManuscript={this.deleteManuscript}
-                getCurrentUser={this.getCurrentUser}
-                history={this.props.history}
-                locale={locale}
-                manuscript={manuscript}
-                modelMap={modelMap!}
-                popper={popper}
-                projectID={projectID}
-                subscribe={this.handleSubscribe}
-                setView={this.setView}
-                attributes={attributes}
-                retrySync={this.retrySync}
-                renderReactComponent={this.renderReactComponent}
-                handleStateChange={this.handleEditorStateChange(
-                  EditorType.manuscript
-                )}
-                CitationEditor={CitationEditor}
-              />
-            </EditorBody>
+                <Editor
+                  autoFocus={!!manuscript.title}
+                  getCitationProcessor={this.getCitationProcessor}
+                  doc={doc}
+                  editable={true}
+                  getModel={this.getModel}
+                  saveModel={this.saveModel}
+                  deleteModel={this.deleteModel}
+                  applyLocalStep={applyLocalStep(collection)}
+                  applyRemoteStep={applyRemoteStep(collection)}
+                  addLibraryItem={this.addLibraryItem}
+                  getLibraryItem={this.getLibraryItem}
+                  filterLibraryItems={this.filterLibraryItems}
+                  getManuscript={this.getManuscript}
+                  saveManuscript={this.saveManuscript}
+                  deleteManuscript={this.deleteManuscript}
+                  getCurrentUser={this.getCurrentUser}
+                  history={this.props.history}
+                  locale={locale}
+                  manuscript={manuscript}
+                  modelMap={modelMap!}
+                  popper={popper}
+                  projectID={projectID}
+                  subscribe={this.handleSubscribe}
+                  setView={this.setView}
+                  attributes={attributes}
+                  retrySync={this.retrySync}
+                  renderReactComponent={this.renderReactComponent}
+                  handleStateChange={this.handleEditorStateChange(
+                    EditorType.manuscript
+                  )}
+                  CitationEditor={CitationEditor}
+                />
+              </EditorBody>
+            </EditorContainerInner>
           </EditorContainer>
 
           <Prompt when={dirty} message={() => false} />

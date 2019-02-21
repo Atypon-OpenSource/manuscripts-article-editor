@@ -19,6 +19,7 @@ import { styled } from '../../theme/styled-components'
 export const EditorContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -26,6 +27,15 @@ export const EditorContainer = styled.div`
   right: 16px;
   overflow: hidden;
   padding-left: 30px;
+`
+
+export const EditorContainerInner = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 1100px;
+  max-width: 100%;
 `
 
 export const EditorHeader = styled.div`
