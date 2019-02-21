@@ -32,7 +32,6 @@ import { ProjectsListPlaceholder } from './ProjectsListPlaceholder'
 
 const Container = styled(Sidebar)`
   background: white;
-  width: fit-content;
 `
 
 const Header = styled(SidebarHeader)`

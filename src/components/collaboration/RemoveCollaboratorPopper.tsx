@@ -83,7 +83,7 @@ export const RemoveCollaboratorPopper: React.FunctionComponent<Props> = ({
   const { bibliographicName, avatar } = collaborator
 
   return (
-    <PopperBody>
+    <PopperBody size={250}>
       <Message>
         Are you sure you want to <Action>remove</Action>
       </Message>
