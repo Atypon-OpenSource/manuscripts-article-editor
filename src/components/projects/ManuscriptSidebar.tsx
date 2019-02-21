@@ -46,6 +46,8 @@ const ProjectTitle = styled(SidebarTitle)`
   border: 1px solid transparent;
   padding: 4px;
   margin: -4px 0 -4px;
+  overflow: hidden;
+  flex: 1;
 
   &:hover {
     border-color: ${props => props.theme.colors.title.border.hovered};
@@ -54,6 +56,9 @@ const ProjectTitle = styled(SidebarTitle)`
 
   & .ProseMirror {
     cursor: text;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     &:focus {
       outline: none;
