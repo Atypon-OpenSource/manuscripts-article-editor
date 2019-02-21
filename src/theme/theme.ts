@@ -148,6 +148,7 @@ export const theme: Theme = {
       overlay: colors.aquaHaze,
       border: colors.lightGrey,
       shadow: colors.altoGrey,
+      background: colors.white,
     },
     icon: {
       primary: colors.manuscriptsBlue,

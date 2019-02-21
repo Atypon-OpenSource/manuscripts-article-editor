@@ -42,6 +42,7 @@ export const TemplateSelectorItem: React.FunctionComponent<
   style = {
     ...style,
     transition: 'all 200ms ease-in-out',
+    paddingBottom: '30px',
   }
 
   return (

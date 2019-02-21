@@ -101,6 +101,11 @@ const ArticleType = styled.span<{ selected?: boolean }>`
   white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
 `
 
+const InfoLinkContainer = styled.div`
+  position: relative;
+  bottom: 0.1rem;
+`
+
 interface Props {
   articleType?: string
   item: TemplateData
@@ -134,7 +139,11 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
           </ArticleType>
         )}
 
-        {selected && <TemplateInfoLink bundle={item.bundle} />}
+        {selected && (
+          <InfoLinkContainer>
+            <TemplateInfoLink bundle={item.bundle} />
+          </InfoLinkContainer>
+        )}
       </Title>
 
       <TemplateActions selected={selected}>

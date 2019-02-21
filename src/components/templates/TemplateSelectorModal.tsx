@@ -36,6 +36,18 @@ const ListContainer = styled.div`
   max-width: 100%;
 `
 
+const FadingEdge = styled.div`
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background-image: linear-gradient(
+    transparent,
+    ${props => props.theme.colors.modal.background}
+  );
+`
+
 const TemplateSearch = styled.div`
   margin-left: 8px;
   flex-shrink: 0;
@@ -200,6 +212,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
                   selectTemplate={selectTemplate}
                   resetList={this.resetList}
                 />
+                <FadingEdge />
               </ListContainer>
             ) : (
               <TemplateEmpty

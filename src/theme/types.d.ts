@@ -111,6 +111,7 @@ export interface Palette extends StyleGuidePalette {
     overlay: string
     border: string
     shadow: string
+    background: string
   }
   icon: PrimaryColorStyle
   label: {

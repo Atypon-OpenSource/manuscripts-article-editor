@@ -72,7 +72,7 @@ import {
   importManuscript,
   openProjectsCollection,
 } from '../projects/ImportManuscript'
-import { ProgressModal } from '../projects/ProgressModal'
+import { TemplateLoadingModal } from './TemplateLoadingModal'
 import { TemplateSelectorModal } from './TemplateSelectorModal'
 
 interface Props {
@@ -84,7 +84,6 @@ interface Props {
 interface State {
   loadingError?: Error
   bundles?: Map<string, Bundle>
-  loading?: string
   manuscriptCategories?: Map<string, ManuscriptCategory>
   sectionCategories?: Map<string, SectionCategory>
   manuscriptTemplates?: Map<string, ManuscriptTemplate>
@@ -109,7 +108,6 @@ class TemplateSelector extends React.Component<
     const {
       bundles,
       loadingError,
-      loading,
       manuscriptCategories,
       manuscriptTemplates,
       publishers,
@@ -145,10 +143,9 @@ class TemplateSelector extends React.Component<
       !researchFields
     ) {
       return (
-        <ProgressModal
-          canCancel={true}
+        <TemplateLoadingModal
           handleCancel={this.props.handleComplete}
-          status={`Loading ${loading}…`}
+          status={'Thinking hard…'}
         />
       )
     }
@@ -178,7 +175,7 @@ class TemplateSelector extends React.Component<
   }
 
   private async loadData() {
-    this.setState({ loading: 'categories' })
+    // this.setState({ loading: 'categories' })
 
     const manuscriptCategories = await fetchSharedData<ManuscriptCategory>(
       'manuscript-categories'
@@ -188,11 +185,11 @@ class TemplateSelector extends React.Component<
       'section-categories'
     )
 
-    this.setState({ loading: 'publishers' })
+    // this.setState({ loading: 'publishers' })
 
     const publishers = await fetchSharedData<Publisher>('publishers')
 
-    this.setState({ loading: 'fields' })
+    // this.setState({ loading: 'fields' })
 
     const keywords = await fetchSharedData<ResearchField>('keywords')
 
@@ -204,11 +201,11 @@ class TemplateSelector extends React.Component<
       }
     }
 
-    this.setState({ loading: 'styles' })
+    // this.setState({ loading: 'styles' })
 
     const bundles = await fetchSharedData<Bundle>('bundles')
 
-    this.setState({ loading: 'templates' })
+    // this.setState({ loading: 'templates' })
 
     const templatesData = await fetchSharedData<TemplatesDataType>(
       'templates-v2'
@@ -230,7 +227,7 @@ class TemplateSelector extends React.Component<
       publishers,
       templatesData,
       researchFields,
-      loading: undefined,
+      // loading: undefined,
     })
   }
 
