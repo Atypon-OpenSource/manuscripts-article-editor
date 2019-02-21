@@ -12050,7 +12050,7 @@ pouchdb-abstract-mapreduce@7.0.0:
     pouchdb-merge "7.0.0"
     pouchdb-utils "7.0.0"
 
-pouchdb-adapter-leveldb-core@7.0.0, "pouchdb-adapter-leveldb-core@git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#master":
+pouchdb-adapter-leveldb-core@7.0.0:
   version "7.0.0"
   resolved "git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#a86fea6a55a234c486735d8fcb9cd2b5492addc6"
   dependencies:

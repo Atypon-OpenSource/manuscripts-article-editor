@@ -104,7 +104,6 @@
     "popper.js": "^1.14.1",
     "pouchdb-adapter-http": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-http.git#master",
     "pouchdb-adapter-idb": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-idb.git#master",
-    "pouchdb-adapter-leveldb-core": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#master",
     "pouchdb-replication": "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master",
     "qs": "^6.5.1",
     "raven-js": "^3.24.2",
@@ -187,7 +186,6 @@
   },
   "resolutions": {
     "rxdb/pouchdb-replication": "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master",
-    "pouchdb-adapter-leveldb-core": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#master",
     "rxjs": "6.4.0",
     "rxjs-compat": "6.4.0",
     "styled-components": "^4.0.2",
