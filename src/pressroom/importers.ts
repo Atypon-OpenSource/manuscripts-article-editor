@@ -25,16 +25,10 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
-import { extname } from 'path'
+import { flatMap } from 'lodash-es'
 import { cleanItem } from './clean-item'
 import { generateAttachmentFilename } from './exporter'
 import { convert } from './pressroom'
-
-type Importer = (file: File) => Promise<Model[]>
-
-interface Importers {
-  [key: string]: Importer
-}
 
 export interface JsonModel
   extends ManuscriptModel,
@@ -108,7 +102,7 @@ const importProjectBundle = async (result: Blob) => {
   return items
 }
 
-const importConvertedFile: Importer = async (file: File) => {
+const importConvertedFile = async (file: File) => {
   const form = new FormData()
   form.append('file', file)
 
@@ -119,22 +113,86 @@ const importConvertedFile: Importer = async (file: File) => {
   return importProjectBundle(result)
 }
 
-const importers: Importers = {
-  '.docx': importConvertedFile,
-  '.html': importConvertedFile,
-  '.md': importConvertedFile,
-  '.manuproj': importConvertedFile,
-  '.tex': importConvertedFile,
-  '.zip': importConvertedFile,
+interface FileType {
+  extension: string
+  mimetypes: string[]
+  description: string
 }
 
-export const accept = Object.keys(importers).join(',')
+const fileTypes: FileType[] = [
+  {
+    extension: '.docx',
+    mimetypes: [
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ],
+    description: 'DOCX (Microsoft Word)',
+  },
+  {
+    extension: '.doc',
+    mimetypes: ['application/msword'],
+    description: 'DOC (Microsoft Word)',
+  },
+  {
+    extension: '.html',
+    mimetypes: ['text/html'],
+    description: 'HTML',
+  },
+  {
+    extension: '.md',
+    mimetypes: ['text/markdown', 'text/plain'],
+    description: 'Markdown',
+  },
+  {
+    extension: '.manuproj',
+    mimetypes: ['application/zip'],
+    description: 'Manuscripts Project Bundle',
+  },
+  {
+    extension: '.latex',
+    mimetypes: [
+      'application/x-latex',
+      'application/latex',
+      'text/x-latex',
+      'text/latex',
+      'text/plain',
+    ],
+    description: 'LaTeX',
+  },
+  {
+    extension: '.tex',
+    mimetypes: [
+      'application/x-tex',
+      'application/tex',
+      'text/x-tex',
+      'text/tex',
+      'text/plain',
+    ],
+    description: 'TeX',
+  },
+  {
+    extension: '.zip',
+    mimetypes: ['application/zip'],
+    description: 'ZIP (containing Markdown or LaTeX)',
+  },
+]
+
+export const acceptedFileExtensions = () => {
+  return fileTypes.map(item => item.extension)
+}
+
+export const acceptedFileDescription = () => {
+  return fileTypes.map(item => item.description)
+}
+
+export const acceptedMimeTypes = () => {
+  return flatMap(fileTypes, item => item.mimetypes)
+}
 
 export const openFilePicker = (): Promise<File> =>
   new Promise((resolve, reject) => {
     const input = document.createElement('input')
     input.type = 'file'
-    input.accept = accept
+    input.accept = acceptedFileExtensions().join(',')
     input.addEventListener('change', () => {
       if (input.files && input.files.length) {
         resolve(input.files[0])
@@ -146,7 +204,5 @@ export const openFilePicker = (): Promise<File> =>
   })
 
 export const importFile = async (file: File) => {
-  const extension = extname(file.name)
-
-  return importers[extension](file)
+  return importConvertedFile(file)
 }

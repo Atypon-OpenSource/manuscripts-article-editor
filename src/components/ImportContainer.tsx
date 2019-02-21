@@ -15,21 +15,33 @@
  */
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
+import JSZip from 'jszip'
+import { extname } from 'path'
 import * as React from 'react'
 import Dropzone, { DropFilesEventHandler } from 'react-dropzone'
-import { accept } from '../pressroom/importers'
+import {
+  acceptedFileDescription,
+  acceptedFileExtensions,
+  acceptedMimeTypes,
+} from '../pressroom/importers'
 import { styled } from '../theme/styled-components'
+import { Category, Dialog } from './Dialog'
 import { ModalProps, withModal } from './ModalProvider'
 import { Importer } from './projects/Importer'
 
 const StyledDropArea = styled.div`
   flex: 1;
   display: flex;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 export interface ImportProps {
   handleClick: (event: React.MouseEvent<HTMLDivElement>) => Promise<void>
   isDragActive: boolean
+  isDragAccept: boolean
 }
 
 interface Props {
@@ -37,20 +49,66 @@ interface Props {
   render: (props: ImportProps) => JSX.Element
 }
 
-class ImportContainer extends React.Component<Props & ModalProps> {
+interface State {
+  rejected: File | null
+}
+
+class ImportContainer extends React.Component<Props & ModalProps & State> {
+  public state: Readonly<State> = {
+    rejected: null,
+  }
   public render() {
+    const rejected = this.state.rejected
+
+    if (rejected) {
+      return (
+        <Dialog
+          isOpen={true}
+          category={Category.error}
+          header={'Import error'}
+          message={
+            <div>
+              <div>
+                Files you dropped in could not be imported.
+                {<ul>{<li key={rejected.name}>{rejected.name}</li>}</ul>}
+              </div>
+              <div>
+                The following file formats are supported:
+                {
+                  <ul>
+                    {acceptedFileDescription().map(description => (
+                      <li key={description}>{description}</li>
+                    ))}
+                  </ul>
+                }
+              </div>
+            </div>
+          }
+          actions={{
+            primary: {
+              action: this.handleCancel,
+              title: 'OK',
+            },
+          }}
+        />
+      )
+    }
     return (
       <Dropzone
         onDrop={this.handleDrop}
-        accept={accept}
+        accept={[
+          acceptedMimeTypes().join(','),
+          acceptedFileExtensions().join(','),
+        ].join(',')}
         disableClick={true}
         multiple={false}
       >
-        {({ isDragActive, getRootProps }) => (
+        {({ isDragActive, isDragAccept, getRootProps }) => (
           <StyledDropArea {...getRootProps()}>
             {this.props.render({
               handleClick: this.handleClick,
               isDragActive,
+              isDragAccept,
             })}
           </StyledDropArea>
         )}
@@ -69,18 +127,43 @@ class ImportContainer extends React.Component<Props & ModalProps> {
     ))
   }
 
-  private handleDrop: DropFilesEventHandler = (
+  private handleDrop: DropFilesEventHandler = async (
     acceptedFiles,
     rejectedFiles
   ) => {
-    if (acceptedFiles) {
-      this.props.addModal('importer', ({ handleClose }) => (
-        <Importer
-          handleComplete={handleClose}
-          importManuscript={this.props.importManuscript}
-          file={acceptedFiles[0]}
-        />
-      ))
+    if (acceptedFiles.length) {
+      if (acceptedFiles[0].name.endsWith('.zip')) {
+        await this.handleZipFile(acceptedFiles[0])
+      }
+
+      if (!this.state.rejected) {
+        this.props.addModal('importer', ({ handleClose }) => (
+          <Importer
+            handleComplete={handleClose}
+            importManuscript={this.props.importManuscript}
+            file={acceptedFiles[0]}
+          />
+        ))
+      }
+    }
+  }
+
+  private handleCancel = () => {
+    this.setState({ rejected: null })
+  }
+
+  private handleZipFile = async (file: File) => {
+    const zip = await new JSZip().loadAsync(file)
+
+    // file extensions to look for in a ZIP archive
+    const extensions = ['.md', '.tex', '.latex']
+
+    const isAccepted = Object.keys(zip.files).some(name =>
+      extensions.includes(extname(name))
+    )
+
+    if (!isAccepted) {
+      this.setState({ rejected: file })
     }
   }
 }

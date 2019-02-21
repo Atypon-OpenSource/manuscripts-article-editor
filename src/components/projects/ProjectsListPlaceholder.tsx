@@ -71,22 +71,21 @@ const OuterContainer = styled.div`
 `
 
 const FontStyle = styled.div`
-  font-family: Barlow;
-  font-size: 17px;
-  font-weight: normal;
+  font-size: 21px;
+  font-weight: 300px;
 `
 const Text = styled(FontStyle)`
   padding-top: 25px;
-  width: 600px;
-  height: 61px;
   color: #aaa;
+  max-width: 400px;
 `
 
 const InnerText = styled(FontStyle)`
-  width: 552px;
-  height: 35px;
-  padding-left: 20px;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.8px;
+  max-width: 400px;
+`
+const OuterText = styled(FontStyle)`
+  padding-bottom: 6px;
 `
 
 const UploadFileType = styled.span`
@@ -95,14 +94,14 @@ const UploadFileType = styled.span`
 `
 
 const UploadFileTypes = styled.div`
-  margin-top: 50px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
 `
 
 const BrowseLink = styled.span`
   margin: 0 2px;
-  font-size: 16px;
+  font-size: 20px;
   color: ${props => props.theme.colors.global.text.link};
 
   cursor: pointer;
@@ -112,6 +111,7 @@ const BrowseLink = styled.span`
 export interface Props {
   handleClick: (event: React.MouseEvent<HTMLDivElement>) => Promise<void>
   isDragActive: boolean
+  isDragAccept: boolean
   openTemplateSelector: () => void
 }
 
@@ -119,25 +119,31 @@ export const ProjectsListPlaceholder: React.FunctionComponent<Props> = ({
   handleClick,
   isDragActive,
   openTemplateSelector,
+  isDragAccept,
 }) => (
-  <OuterContainer
-    style={{ background: isDragActive ? '#edf2f5' : 'transparent' }}
-  >
+  <OuterContainer>
     <Placeholder>
       <ProjectPlaceholder />
     </Placeholder>
-    <AddButton onClick={openTemplateSelector} id={'create-project'}>
-      <AddIcon width={40} height={40} />
-      <Title>Create Project</Title>
-    </AddButton>
-    <Text>
-      You can opt for a blank project or choose one of the many templates
-      available.
-      <InnerText>
-        You can also import a project by dragging a file to this window or
-        <BrowseLink onClick={handleClick}>browsing</BrowseLink> for it.
-      </InnerText>
-    </Text>
+    {!isDragAccept ? (
+      <AddButton onClick={openTemplateSelector} id={'create-project'}>
+        <AddIcon width={40} height={40} />
+        <Title>Create Project</Title>
+      </AddButton>
+    ) : (
+      <Title>Drop File to Import</Title>
+    )}
+    {!isDragAccept ? (
+      <Text>
+        <OuterText>Click above to create your first project.</OuterText>
+        <InnerText>
+          You can also import a project by dragging a file to this window or by
+          <BrowseLink onClick={handleClick}> browsing</BrowseLink> for it.
+        </InnerText>
+      </Text>
+    ) : (
+      <Text>Create a new project from the file by dropping it here.</Text>
+    )}
     <UploadFileTypes>
       <UploadFileType>
         <TeXIcon />
