@@ -345,6 +345,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   getModel={this.getModel}
                   saveModel={this.saveModel}
                   deleteModel={this.deleteModel}
+                  allAttachments={this.collection.allAttachments}
+                  putAttachment={this.collection.putAttachment}
+                  removeAttachment={this.collection.removeAttachment}
                   applyLocalStep={applyLocalStep(collection)}
                   applyRemoteStep={applyRemoteStep(collection)}
                   addLibraryItem={this.addLibraryItem}
@@ -824,7 +827,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
 
     if (attachment) {
-      await this.collection.attach(result._id, attachment)
+      await this.collection.putAttachment(result._id, attachment)
     }
 
     return result as T

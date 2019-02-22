@@ -79,7 +79,7 @@ export const importManuscript = (
 
   for (const model of models as Array<Model & ModelAttachment>) {
     if (model.attachment) {
-      await collection.attach(model._id, model.attachment)
+      await collection.putAttachment(model._id, model.attachment)
     }
   }
 

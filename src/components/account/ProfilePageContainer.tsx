@@ -125,12 +125,13 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
   private saveUserProfileAvatar = (
     id: string,
     userCollection: Collection<UserProfile>
-  ) => (data: Blob) =>
-    userCollection.attach(id, {
+  ) => async (data: Blob) => {
+    await userCollection.putAttachment(id, {
       id: 'image',
       type: data.type,
       data,
     })
+  }
 
   private deleteUserProfileAvatar = (
     id: string,

@@ -210,13 +210,21 @@ export class Collection<T extends Model> implements EventTarget {
     return this.getCollection().findOne(queryObj)
   }
 
+  public async findDoc(id: string) {
+    const doc = await this.findOne(id).exec()
+
+    if (!doc) {
+      throw new Error('Document not found')
+    }
+
+    return doc
+  }
+
   public async save(
     data: T | Partial<T> | Build<T>,
     ids?: ContainerIDs
   ): Promise<T> {
-    const doc = await this.getCollection()
-      .findOne(data._id)
-      .exec()
+    const doc = data._id ? await this.findOne(data._id).exec() : null
 
     return doc
       ? this.update(doc._id, data as Partial<T>)
@@ -246,13 +254,7 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   public async update(id: string, data: Partial<T>): Promise<T> {
-    const doc = await this.getCollection()
-      .findOne(id)
-      .exec()
-
-    if (!doc) {
-      throw new Error('Document not found')
-    }
+    const doc = await this.findDoc(id)
 
     const result = await this.atomicUpdate<T>(doc, data)
 
@@ -260,29 +262,48 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   public async delete(id: string) {
-    const doc = await this.getCollection()
-      .findOne(id)
-      .exec()
-
-    if (!doc) {
-      throw new Error('Document not found')
-    }
+    const doc = await this.findDoc(id)
 
     await doc.remove()
 
     return id
   }
 
-  public async attach(id: string, attachment: RxAttachmentCreator) {
-    const doc = await this.getCollection()
-      .findOne(id)
-      .exec()
+  public allAttachments = async (id: string) => {
+    const doc = await this.findDoc(id)
 
-    if (!doc) {
-      throw new Error('Document not found')
+    try {
+      return doc.allAttachments()
+    } catch {
+      return [] // RxDB throws an error if there aren't any attachments
+    }
+  }
+
+  public putAttachment = async (
+    id: string,
+    attachment: RxAttachmentCreator
+  ) => {
+    const doc = await this.findDoc(id)
+
+    return doc.putAttachment(attachment)
+  }
+
+  public getAttachment = async (id: string, attachmentID: string) => {
+    const doc = await this.findDoc(id)
+
+    const attachment = await doc.getAttachment(attachmentID)
+
+    if (!attachment) {
+      throw new Error('Attachment not found')
     }
 
-    await doc.putAttachment(attachment)
+    return attachment
+  }
+
+  public removeAttachment = async (id: string, attachmentID: string) => {
+    const attachment = await this.getAttachment(id, attachmentID)
+
+    return attachment.remove()
   }
 
   public async bulkCreate(
@@ -309,7 +330,7 @@ export class Collection<T extends Model> implements EventTarget {
     // attach attachments
     for (const model of models) {
       if (model.attachment) {
-        await this.attach(model._id, model.attachment)
+        await this.putAttachment(model._id, model.attachment)
       }
     }
 

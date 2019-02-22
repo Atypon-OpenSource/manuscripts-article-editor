@@ -1083,11 +1083,6 @@
     archiver "^3.0.0"
     git-branch "^2.0.1"
 
-"@manuscripts/assets@^0.1.13":
-  version "0.1.13"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.1.13.tgz#96220fc8289bbc8c285337e2dc92641f60a50b02"
-  integrity sha512-i3QCwdsQTYjWH8NXJZ7a+CbwVsMlyJLzUibVvhPQPHLeiW4QDopn7I3FUx6OOFusCXVuCfjeAmhIbP0aLD05kA==
-
 "@manuscripts/assets@^0.3.0":
   version "0.3.0"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.0.tgz#2f1937a7256b2550610228f2514d9c5f6d1c033d"
@@ -1112,20 +1107,21 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.2.tgz#bc7354d1dc704bf03c4b9d4e0f4c1054c70bbc73"
   integrity sha512-kctNmYWfzk0M3Rxe5+UNdnMYM5pGL1ZFwE0+izMfpVegm3744Sbeg/0JUXrHXvaHIwT8JOzdOCi6WO6oBlejlA==
 
-"@manuscripts/manuscript-editor@^0.11.2":
-  version "0.11.2"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.11.2.tgz#b843579cf6317655979d7cbfc46e622a8337c81a"
-  integrity sha512-jy9EdW7GGyi4VxIYaRdLCRB4f+J/5v/XWxcsOOXlAum2K6MGyjO2DU4bQWD7mBUDeRztRPsLSLvBJeu9FuyqcQ==
+"@manuscripts/manuscript-editor@^0.12.0":
+  version "0.12.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.12.0.tgz#386af1f180786d6ea8eb73dccbe52e6149b77ac5"
+  integrity sha512-CSqMPIiYMjd5ASLX94JCjFbwTDfP5miiWy8l9crsAk6Ub7YUsB+fbe+f8H6JHpvCbwy2/Npfb8mg9GmcB+SYbQ==
   dependencies:
-    "@manuscripts/assets" "^0.1.13"
+    "@manuscripts/assets" "^0.3.0"
     "@manuscripts/examples" "^0.0.2"
-    "@manuscripts/manuscript-transform" "^0.3.0"
+    "@manuscripts/manuscript-transform" "^0.4.0"
     "@manuscripts/manuscripts-json-schema" "^1.7.3"
     "@manuscripts/prosemirror-recreate-steps" "^0.1.3"
-    "@manuscripts/title-editor" "^0.0.3"
+    "@manuscripts/title-editor" "^0.3.0"
     axios "^0.18.0"
     citeproc "^2.1.210"
     codemirror "^5.40.2"
+    csstype "^2.6.2"
     dompurify "^1.0.8"
     history "^4.7.2"
     lodash-es "^4.17.11"
@@ -1145,18 +1141,18 @@
     prosemirror-utils "^0.7.6"
     prosemirror-view "^1.7.1"
     qs "^6.5.2"
-    react-dnd "^5.0.0"
-    react-dnd-html5-backend "^5.0.1"
+    react-dnd "^7.0.2"
+    react-dnd-html5-backend "^7.0.2"
     react-modal "^3.6.1"
     react-popper "^1.0.2"
     react-router-dom "^4.3.1"
     react-select "^2.1.0"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.3.0":
-  version "0.3.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-transform/-/manuscript-transform-0.3.0.tgz#bdba2a05f4edd13042fa5c8b337685bb54ea6942"
-  integrity sha512-QTVMBHhOpt573p9boDsqyjEPvFUFMvLnb/yltzSqO8DdRvisC0RUgAa2IZvNJD7a2yEY6uw8zy4aUELNcA46pw==
+"@manuscripts/manuscript-transform@^0.4.0":
+  version "0.4.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-transform/-/manuscript-transform-0.4.0.tgz#00dbacfe892d9596ff6c91f774a3e6ea3cf76e16"
+  integrity sha512-NawbkrcSEfYsQboLqi/HdVzv101vlUXcBuKG8HEYB98M/qLcYyXC7hNuV+P17gG6YyGiS1vIUkUJmMpbQD4YEA==
   dependencies:
     prosemirror-model "^1.7.0"
     uuid "^3.3.2"
@@ -1201,11 +1197,6 @@
   version "0.0.1"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.0.1.tgz#7d507fa350fe6e6af8b353977a30dfff6f0151c2"
   integrity sha512-l8tFk0ras9aism+rHjb64+SNlGHxpnAnNrhnQSylrVq1v3EhEmNGJaVQmgKw0xTjzkCaXOWpuVoWELfl4FoedA==
-
-"@manuscripts/title-editor@^0.0.3":
-  version "0.0.3"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.0.3.tgz#34da29118b7b517855985790574f082df18c75f5"
-  integrity sha512-ZZ9juGIbBP+OdIO/ZadI/skR1pT+uJoSEU4orf8lneuTMwrRmOydC9xrFhC3PUkCtojETocmsaERk0np04Zhbw==
 
 "@manuscripts/title-editor@^0.3.0":
   version "0.3.0"
@@ -2983,11 +2974,6 @@ attr-accept@^1.1.3:
   integrity sha512-iT40nudw8zmCweivz6j58g+RT33I4KbaIvRUhjNmDwO2WmsQUxFEZZYZ5w3vXe5x5MX9D7mfvA/XaLOZYFR9EQ==
   dependencies:
     core-js "^2.5.0"
-
-autobind-decorator@^2.1.0:
-  version "2.4.0"
-  resolved "https://registry.npmjs.org/autobind-decorator/-/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
-  integrity sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==
 
 autoprefixer@^9.3.1:
   version "9.4.7"
@@ -5647,7 +5633,7 @@ cssstyle@^1.0.0, cssstyle@^1.1.1:
   dependencies:
     cssom "0.3.x"
 
-csstype@^2.2.0, csstype@^2.5.2:
+csstype@^2.2.0, csstype@^2.5.2, csstype@^2.6.2:
   version "2.6.2"
   resolved "https://registry.npmjs.org/csstype/-/csstype-2.6.2.tgz#3043d5e065454579afc7478a18de41909c8a2f01"
   integrity sha512-Rl7PvTae0pflc1YtxtKbiSqq20Ts6vpIYOD5WBafl4y123DyHUeLrRdQP66sQW8/6gmX8jrYJLXwNeMqYVJcow==
@@ -6025,6 +6011,16 @@ dnd-core@^4.0.5:
     invariant "^2.2.4"
     lodash "^4.17.10"
     redux "^4.0.0"
+
+dnd-core@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.npmjs.org/dnd-core/-/dnd-core-7.0.2.tgz#6c080eb57243fa0372fd083b3db242d9eb525010"
+  integrity sha512-InwRBi6zTndtE3+3nTYpLJkYMEr7utSR7OziAoSFhtQsbUfJE1KeqxM+ZFRIMKn6ehxUTAC+QU6QC7IG9u86Mg==
+  dependencies:
+    asap "^2.0.6"
+    invariant "^2.2.4"
+    lodash "^4.17.11"
+    redux "^4.0.1"
 
 dns-equal@^1.0.0:
   version "1.0.0"
@@ -8024,6 +8020,13 @@ hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0, hoist-non-react-
   version "2.5.5"
   resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
+
+hoist-non-react-statics@^3.1.0:
+  version "3.3.0"
+  resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.0.tgz#b09178f0122184fb95acf525daaecb4d8f45958b"
+  integrity sha512-0XsbTXxgiaCDYDIWFcwkmerZPSwywfUqYmwT4jzewKTQSWoE6FCMoUVOeBJWK3E/CrWbxRG3m5GzY4lnIwGRBA==
+  dependencies:
+    react-is "^16.7.0"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -13095,15 +13098,13 @@ react-dev-utils@^6.1.0:
     strip-ansi "4.0.0"
     text-table "0.2.0"
 
-react-dnd-html5-backend@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-5.0.1.tgz#0b578d79c5c01317c70414c8d717f632b919d4f1"
-  integrity sha1-C1eNecXAExfHBBTI1xf2MrkZ1PE=
+react-dnd-html5-backend@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-7.0.2.tgz#f74181ca0ff05be13eb6094629c5ad560f558a7e"
+  integrity sha512-BPhmHeQjvhPXRykHvFLbM+TJFrrarcuf/mIArNEmXzZuNhLfbOnHtMSzR8lPwodABcDAYj7hEF7vTABXX298vA==
   dependencies:
-    autobind-decorator "^2.1.0"
-    dnd-core "^4.0.5"
-    lodash "^4.17.10"
-    shallowequal "^1.0.2"
+    dnd-core "^7.0.2"
+    lodash "^4.17.11"
 
 react-dnd@^5.0.0:
   version "5.0.0"
@@ -13116,6 +13117,18 @@ react-dnd@^5.0.0:
     lodash "^4.17.10"
     recompose "^0.27.1"
     shallowequal "^1.0.2"
+
+react-dnd@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.npmjs.org/react-dnd/-/react-dnd-7.0.2.tgz#8f5611a6e877592932c082d6280c64d1c817f420"
+  integrity sha512-nJnHJo/tNQjyod234+hPNopWHPvgH0gujf3pcdJWRe3l0GL+jSXXwXJ2SFwIHkVmxPYrx8+gbKU3+Pq26p6fkg==
+  dependencies:
+    dnd-core "^7.0.2"
+    hoist-non-react-statics "^3.1.0"
+    invariant "^2.1.0"
+    lodash "^4.17.11"
+    recompose "^0.30.0"
+    shallowequal "^1.1.0"
 
 react-docgen@^3.0.0:
   version "3.0.0"
@@ -13579,6 +13592,18 @@ recompose@^0.27.1:
   integrity sha512-p7xsyi/rfNjHfdP7vPU02uSFa+Q1eHhjKrvO+3+kRP4Ortj+MxEmpmd+UQtBGM2D2iNAjzNI5rCyBKp9Ob5McA==
   dependencies:
     babel-runtime "^6.26.0"
+    change-emitter "^0.1.2"
+    fbjs "^0.8.1"
+    hoist-non-react-statics "^2.3.1"
+    react-lifecycles-compat "^3.0.2"
+    symbol-observable "^1.0.4"
+
+recompose@^0.30.0:
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/recompose/-/recompose-0.30.0.tgz#82773641b3927e8c7d24a0d87d65aeeba18aabd0"
+  integrity sha512-ZTrzzUDa9AqUIhRk4KmVFihH0rapdCSMFXjhHbNrjAWxBuUD/guYlyysMnuHjlZC/KRiOKRtB4jf96yYSkKE8w==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
     change-emitter "^0.1.2"
     fbjs "^0.8.1"
     hoist-non-react-statics "^2.3.1"
