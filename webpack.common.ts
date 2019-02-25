@@ -22,11 +22,6 @@ import config from './src/config'
 
 const configuration: webpack.Configuration = {
   entry: './src/index.tsx',
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
   output: {
     publicPath: '/',
   },
