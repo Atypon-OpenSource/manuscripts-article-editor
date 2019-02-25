@@ -166,7 +166,7 @@ services:
           - testcafe.manuscripts.io
 
   data:
-    image: registry.gitlab.com/mpapp-private/manuscripts-data/manuscripts-data
+    image: registry.gitlab.com/mpapp-public/manuscripts-data/manuscripts-data
     ports:
       - 8020:8020
     networks:
