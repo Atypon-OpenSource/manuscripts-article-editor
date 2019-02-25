@@ -17,9 +17,12 @@
 import { PrimarySubmitButton } from '@manuscripts/style-guide'
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
-import { CenteredForm, FormActions, FormHeader } from '../Form'
+import { Link } from 'react-router-dom'
+import { styled } from '../../theme/styled-components'
+import { CenteredForm, FormActions, FormError, FormHeader } from '../Form'
 import { SubHero } from '../Hero'
 import { TextField } from '../TextField'
+import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 
 export interface RecoverValues {
   email: string
@@ -30,6 +33,16 @@ export interface RecoverErrors {
   submit: string
 }
 
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+const SignupLink = styled(Link)`
+  text-decoration: underline;
+  color: ${props => props.theme.colors.global.text.error};
+`
+
 export const RecoverForm: React.FunctionComponent<
   FormikProps<RecoverValues & RecoverErrors>
 > = ({ values, errors, isSubmitting }) => (
@@ -37,23 +50,36 @@ export const RecoverForm: React.FunctionComponent<
     <FormHeader>
       <SubHero>Reset Password</SubHero>
     </FormHeader>
-
-    <Field name={'email'}>
-      {({ field }: FieldProps) => (
-        <TextField
-          {...field}
-          type={'email'}
-          placeholder={'email'}
-          autoFocus={true}
-          required={true}
-          autoComplete={'username email'}
-        />
-      )}
-    </Field>
+    <TextFieldGroupContainer
+      errors={{
+        name: errors.email,
+      }}
+    >
+      <Field name={'email'}>
+        {({ field }: FieldProps) => (
+          <TextField
+            {...field}
+            type={'email'}
+            placeholder={'email'}
+            autoFocus={true}
+            required={true}
+            autoComplete={'username email'}
+            error={errors.email as string}
+          />
+        )}
+      </Field>
+    </TextFieldGroupContainer>
 
     {/*{touched.email && errors.email && <div>{errors.email}</div>}*/}
 
-    {errors.notFound && <div>Email address not found</div>}
+    {errors.notFound && (
+      <FormError className="form-error">
+        <Container>
+          Email address not found.
+          <SignupLink to={'/signup'}>Sign up?</SignupLink>
+        </Container>
+      </FormError>
+    )}
 
     {errors.submit && <div>{errors.submit}</div>}
 
