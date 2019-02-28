@@ -15,18 +15,13 @@
  */
 
 import {
-  // ContainedModel,
-  handleConflicts,
-  // isManuscriptModel,
-  saveSyncState,
-} from '@manuscripts/manuscript-editor'
-import {
   Build,
   ModelAttachment,
   // isManuscriptModel,
   timestamp,
 } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
+import { ConflictManager } from '@manuscripts/sync-client'
 import * as HttpStatusCodes from 'http-status-codes'
 import {
   PouchDB,
@@ -100,6 +95,7 @@ export class Collection<T extends Model> implements EventTarget {
   public props: CollectionProps
 
   public collection?: RxCollection<T>
+  public conflictManager?: ConflictManager
 
   public collectionName: string
 
@@ -146,6 +142,7 @@ export class Collection<T extends Model> implements EventTarget {
 
   public async initialize(startSyncing = true) {
     this.collection = await this.openCollection(this.collectionName)
+    this.conflictManager = new ConflictManager(this.collection)
 
     const pouch = this.collection.pouch as PouchDB & EventEmitter
     pouch.setMaxListeners(50)
@@ -476,7 +473,7 @@ export class Collection<T extends Model> implements EventTarget {
     replicationState.change$.subscribe(changeInfo => {
       const { docs, errors } = changeInfo
 
-      saveSyncState(this.getCollection(), errors, docs).catch(error => {
+      this.conflictManager!.saveSyncState(errors, docs).catch(error => {
         throw error
       })
     })
@@ -491,7 +488,7 @@ export class Collection<T extends Model> implements EventTarget {
 
     // When pouch tries to replicate a single document
     replicationState.denied$.subscribe(error => {
-      saveSyncState(this.getCollection(), [error], []).catch(error => {
+      this.conflictManager!.saveSyncState([error], []).catch(error => {
         throw error
       })
     })
@@ -540,7 +537,7 @@ export class Collection<T extends Model> implements EventTarget {
           .filter(e => e.error === 'conflict')
           .map(({ id, rev }) => ({ id, rev }))
 
-        return handleConflicts(this.getCollection(), conflicts)
+        return this.conflictManager!.handleConflicts(conflicts)
       }
     }
 
