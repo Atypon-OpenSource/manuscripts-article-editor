@@ -64,11 +64,22 @@ const ResultMetadata = styled.div`
   overflow: hidden;
 `
 
-const StatusIcon = styled(PlusIcon)<{ selected: boolean }>`
+const StatusIcon = styled(PlusIcon)<{ selected?: 'true'; fetching?: 'true' }>`
   flex-shrink: 1;
   width: 24px;
   height: 24px;
   margin-right: 16px;
+
+  animation: ${props => (props.fetching ? 'spin 4s infinite linear' : 'none')};
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 
   & path {
     fill: ${props =>
@@ -98,6 +109,7 @@ interface Props {
   } | null
   addToSelection: (id: string, item: Build<BibliographyItem>) => void
   selected: Map<string, Build<BibliographyItem>>
+  fetching: Set<string>
 }
 
 export const CitationSearchResults: React.FunctionComponent<Props> = ({
@@ -106,6 +118,7 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
   results,
   addToSelection,
   selected,
+  fetching,
 }) => {
   if (error) {
     return <div>{error}</div>
@@ -132,7 +145,11 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
 
         return (
           <SearchResult onClick={() => addToSelection(id, item)} key={id}>
-            <StatusIcon data-cy={'plus-icon'} selected={selected.has(id)} />
+            <StatusIcon
+              data-cy={'plus-icon'}
+              selected={selected.has(id) ? 'true' : undefined}
+              fetching={fetching.has(id) ? 'true' : undefined}
+            />
 
             <ResultMetadata>
               <SearchResultTitle

@@ -18,6 +18,7 @@ import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Button } from '@manuscripts/style-guide'
 import React from 'react'
+import config from '../../config'
 import { styled } from '../../theme/styled-components'
 import { CitationSearchResults } from './CitationSearchResults'
 
@@ -49,7 +50,8 @@ interface Props {
     id: string
     search: (
       query: string | null,
-      params: { rows: number; sort?: string }
+      params: { rows: number; sort?: string },
+      mailto: string
     ) => Promise<{ items: BibliographyItem[]; total: number }>
     title: string
   }
@@ -57,6 +59,7 @@ interface Props {
   selectSource: (id: string) => void
   rows: number
   selected: Map<string, Build<BibliographyItem>>
+  fetching: Set<string>
 }
 
 interface State {
@@ -77,6 +80,8 @@ export class CitationSearchSection extends React.Component<Props, State> {
     searching: false,
   }
 
+  private searchTimeout: number
+
   public async componentDidMount() {
     const { query, rows } = this.props
 
@@ -93,7 +98,14 @@ export class CitationSearchSection extends React.Component<Props, State> {
 
   public render() {
     const { error, expanded, results, searching } = this.state
-    const { source, addToSelection, selectSource, selected, rows } = this.props
+    const {
+      source,
+      addToSelection,
+      selectSource,
+      selected,
+      fetching,
+      rows,
+    } = this.props
 
     if (!expanded) {
       return (
@@ -117,6 +129,7 @@ export class CitationSearchSection extends React.Component<Props, State> {
           searching={searching}
           addToSelection={addToSelection}
           selected={selected}
+          fetching={fetching}
         />
 
         {results && results.total > rows && (
@@ -144,20 +157,36 @@ export class CitationSearchSection extends React.Component<Props, State> {
 
     const { source } = this.props
 
-    try {
-      const results = await source.search(query, { rows })
+    const searchHandler = async () => {
+      try {
+        const results = await source.search(
+          query,
+          { rows },
+          config.support.email
+        )
 
-      if (query === this.props.query) {
+        if (query === this.props.query) {
+          this.setState({
+            searching: false,
+            results,
+          })
+        }
+      } catch (error) {
         this.setState({
+          error: error.message,
           searching: false,
-          results,
         })
       }
-    } catch (error) {
-      this.setState({
-        error: error.message,
-        searching: false,
-      })
+    }
+
+    if (source.id === 'library') {
+      await searchHandler()
+    } else {
+      if (this.searchTimeout) {
+        window.clearTimeout(this.searchTimeout)
+      }
+
+      this.searchTimeout = window.setTimeout(searchHandler, 500)
     }
   }
 }

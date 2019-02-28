@@ -18,6 +18,7 @@ import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { PrimarySubmitButton } from '@manuscripts/style-guide'
 import { Field, Form, Formik } from 'formik'
 import React, { CSSProperties } from 'react'
+import config from '../../config'
 import { LibrarySource } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
 import { Main } from '../Page'
@@ -91,7 +92,11 @@ class LibrarySourceContainer extends React.Component<Props, State> {
                   throw new Error('No search function defined')
                 }
 
-                const { items } = await source.search(query, 25)
+                const { items } = await source.search(
+                  query,
+                  25,
+                  config.support.email
+                )
 
                 this.setState({ items })
               }}
@@ -135,12 +140,16 @@ class LibrarySourceContainer extends React.Component<Props, State> {
       return
     }
 
+    if (!item.DOI) {
+      throw new Error('No DOI available')
+    }
+
     if (!source.fetch) {
       throw new Error('No fetch function defined')
     }
 
     source
-      .fetch(item)
+      .fetch(item.DOI, config.support.email)
       .then(this.props.handleAdd)
       .then(() => {
         // TODO: 'adding' state

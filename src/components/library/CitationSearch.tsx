@@ -20,6 +20,7 @@ import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Button, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
+import config from '../../config'
 import { styled } from '../../theme/styled-components'
 import { CitationSearchSection } from './CitationSearchSection'
 
@@ -75,6 +76,7 @@ interface State {
   selectedSource: string | null
   query: string
   selected: Map<string, Build<BibliographyItem>>
+  fetching: Set<string>
 }
 
 export class CitationSearch extends React.Component<Props, State> {
@@ -85,11 +87,12 @@ export class CitationSearch extends React.Component<Props, State> {
       selectedSource: null,
       query: props.query || '',
       selected: new Map(),
+      fetching: new Set(),
     }
   }
 
   public render() {
-    const { query, selected, selectedSource } = this.state
+    const { query, fetching, selected, selectedSource } = this.state
 
     const sources = this.buildSources()
 
@@ -120,6 +123,7 @@ export class CitationSearch extends React.Component<Props, State> {
                   this.setState({ selectedSource: source.id })
                 }
                 selected={selected}
+                fetching={fetching}
                 query={query}
                 rows={selectedSource === source.id ? 25 : 3}
               />
@@ -155,7 +159,7 @@ export class CitationSearch extends React.Component<Props, State> {
           params: { rows: number; sort?: string }
         ) =>
           query
-            ? crossref.search(query, params.rows)
+            ? crossref.search(query, params.rows, config.support.email)
             : {
                 items: [],
                 total: 0,
@@ -178,20 +182,38 @@ export class CitationSearch extends React.Component<Props, State> {
     ]
   }
 
-  private addToSelection = (id: string, data: Build<BibliographyItem>) => {
-    const { selected } = this.state
+  private addToSelection = async (
+    id: string,
+    data: Build<BibliographyItem>
+  ) => {
+    const { selected, fetching } = this.state
 
     if (selected.has(id)) {
-      selected.delete(id)
+      selected.delete(id) // remove item
+    } else if (data._id) {
+      selected.set(id, data) // re-use existing data model
     } else {
-      // TODO: move this to Crossref handler?
-      // TODO: pick the exact fields
+      const { DOI } = data
 
-      if (Array.isArray(data.title)) {
-        data.title = data.title[0]
+      if (!DOI) {
+        throw new Error('No DOI')
       }
 
-      selected.set(id, data._id ? data : buildBibliographyItem(data))
+      fetching.add(DOI)
+      this.setState({ fetching })
+
+      // fetch Citeproc JSON
+      const result = await crossref.fetch(DOI, config.support.email)
+
+      // remove DOI URLs
+      if (result.URL && result.URL.match(/^https?:\/\/(dx\.)?doi\.org\//)) {
+        delete result.URL
+      }
+
+      selected.set(id, buildBibliographyItem(result))
+
+      fetching.delete(DOI)
+      this.setState({ fetching })
     }
 
     this.setState({ selected })
@@ -199,6 +221,7 @@ export class CitationSearch extends React.Component<Props, State> {
 
   private handleCite = async () => {
     const items = Array.from(this.state.selected.values())
+
     await this.props.handleCite(items)
   }
 

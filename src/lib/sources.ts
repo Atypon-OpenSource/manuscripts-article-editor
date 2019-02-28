@@ -20,10 +20,11 @@ import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 export interface LibrarySource {
   id: string
   name: string
-  fetch?: (item: BibliographyItem) => Promise<Partial<BibliographyItem>>
+  fetch?: (doi: string, mailto: string) => Promise<Partial<BibliographyItem>>
   search?: (
     query: string,
-    limit: number
+    limit: number,
+    mailto: string
   ) => Promise<{
     items: Array<Partial<BibliographyItem>>
     total: number
