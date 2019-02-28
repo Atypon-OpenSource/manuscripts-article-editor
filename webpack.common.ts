@@ -50,12 +50,12 @@ const configuration: webpack.Configuration = {
         'WAYF_KEY',
         'WAYF_URL',
       ]),
-      new CopyWebpackPlugin(['public/landing.html']),
+      new CopyWebpackPlugin(['public/landing.html', 'public/screenshot.png']),
       new HtmlWebpackPlugin({
         template: 'public/index.html',
         title: 'Manuscripts.io',
+        url: config.url,
       }),
-      // tslint:disable-next-line:deprecation (typing bug)
       new webpack.NormalModuleReplacementPlugin(
         /AsyncLoad\.js/,
         // tslint:disable-next-line:no-any
