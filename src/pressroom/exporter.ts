@@ -168,9 +168,11 @@ export const exportProject = async (
     case '.xml':
       return convertToXML(zip, modelMap)
 
+    case '.manuproj':
+      return zip.generateAsync({ type: 'blob' })
+
     default:
       const file = await zip.generateAsync({ type: 'blob' })
-      // download(file, 'manuscript.manuproj')
 
       const form = new FormData()
       form.append('file', file, 'export.manuproj')

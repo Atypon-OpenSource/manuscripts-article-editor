@@ -38,7 +38,7 @@
     "@ibm/plex": "^1.1.6",
     "@manuscripts/assets": "^0.3.0",
     "@manuscripts/comment-editor": "^0.1.0",
-    "@manuscripts/manuscript-editor": "^0.15.0",
+    "@manuscripts/manuscript-editor": "^0.16.1",
     "@manuscripts/manuscript-transform": "^0.5.1",
     "@manuscripts/manuscripts-json-schema": "^1.7.3",
     "@manuscripts/resizer": "^0.0.1",
