@@ -136,7 +136,7 @@ export class TemplateSelectorList extends React.Component<Props, State> {
   private calculateItemSize = (item: TemplateData) => {
     let size = 46
 
-    if (item.template && item.template.desc) {
+    if (item.template && (item.template.aim || item.template.desc)) {
       size += 17
     }
 

@@ -163,8 +163,10 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
       <PublisherName>{publisher.name}</PublisherName>
     )}
 
-    {template && template.desc && (
-      <Description selected={selected}>{template.desc}</Description>
+    {template && (template.desc || template.aim) && (
+      <Description selected={selected}>
+        {template.desc || template.aim}
+      </Description>
     )}
   </Container>
 )
