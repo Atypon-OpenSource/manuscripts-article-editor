@@ -167,6 +167,7 @@ export class CitationSearchSection extends React.Component<Props, State> {
 
         if (query === this.props.query) {
           this.setState({
+            error: null,
             searching: false,
             results,
           })
