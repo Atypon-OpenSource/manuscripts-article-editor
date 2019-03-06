@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import PlusIcon from '@manuscripts/assets/react/PlusIcon'
+import AddedIcon from '@manuscripts/assets/react/AddedIcon'
+import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
@@ -64,28 +65,28 @@ const ResultMetadata = styled.div`
   overflow: hidden;
 `
 
-const StatusIcon = styled(PlusIcon)<{ selected?: 'true'; fetching?: 'true' }>`
+const StatusIcon = styled.span<{ isFetching?: boolean }>`
   flex-shrink: 1;
-  width: 24px;
-  height: 24px;
   margin-right: 16px;
+  position: relative;
+  top: 2px;
 
-  animation: ${props => (props.fetching ? 'spin 4s infinite linear' : 'none')};
+  & svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  transform-origin: 51% 29%;
+  animation: ${props =>
+    props.isFetching ? 'spin 4s infinite linear' : 'none'};
 
   @keyframes spin {
     from {
-      transform: rotate(0deg);
+      transform: rotateY(0deg);
     }
     to {
-      transform: rotate(360deg);
+      transform: rotateY(360deg);
     }
-  }
-
-  & path {
-    fill: ${props =>
-      props.selected
-        ? props.theme.colors.citationSearch.status.fill.selected
-        : props.theme.colors.citationSearch.status.fill.default};
   }
 `
 
@@ -145,11 +146,13 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
 
         return (
           <SearchResult onClick={() => addToSelection(id, item)} key={id}>
-            <StatusIcon
-              data-cy={'plus-icon'}
-              selected={selected.has(id) ? 'true' : undefined}
-              fetching={fetching.has(id) ? 'true' : undefined}
-            />
+            <StatusIcon isFetching={fetching.has(id)}>
+              {selected.has(id) ? (
+                <AddedIcon />
+              ) : (
+                <AddIcon data-cy={'plus-icon'} />
+              )}
+            </StatusIcon>
 
             <ResultMetadata>
               <SearchResultTitle
