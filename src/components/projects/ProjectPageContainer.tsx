@@ -91,7 +91,11 @@ class ProjectPageContainer extends React.Component<
                                       {...props}
                                     >
                                       {manuscripts => {
-                                        if (!manuscripts.length) {
+                                        if (
+                                          !manuscripts.length ||
+                                          (props.location.state &&
+                                            props.location.state.empty)
+                                        ) {
                                           return (
                                             <EmptyProjectPageContainer
                                               project={project}

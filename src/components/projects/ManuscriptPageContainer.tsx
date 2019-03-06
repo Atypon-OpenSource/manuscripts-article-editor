@@ -621,9 +621,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       this.props.history.push(
         `/projects/${project._id}/manuscripts/${prevManuscript._id}`
       )
+    } else {
+      this.props.history.push(`/projects/${project._id}`, {
+        empty: true,
+      })
     }
-
-    this.props.history.push(`/projects/${project._id}`)
   }
 
   private shouldUpdateCitationProcessor = (
