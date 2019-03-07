@@ -139,6 +139,7 @@ export const downloadExtension = (format: string): string => {
   switch (format) {
     case '.docx':
     case '.pdf':
+    case '.manuproj':
       return format
 
     default:
