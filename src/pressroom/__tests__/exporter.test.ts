@@ -20,6 +20,7 @@ import data from '@manuscripts/examples/data/project-dump.json'
 import {
   Manuscript,
   ParagraphElement,
+  Project,
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import {
@@ -75,7 +76,7 @@ describe('exporter', () => {
     expect(model.paragraphStyle).toBeUndefined()
   })
 
-  test('exports a manuscript', async () => {
+  test('exports a manuscript as docx', async () => {
     const modelMap = buildModelMap(data as ProjectDump)
     const manuscriptID = 'MPManuscript:8EB79C14-9F61-483A-902F-A0B8EF5973C9'
 
@@ -95,7 +96,7 @@ describe('exporter', () => {
     )
 
     // `result` is the blob that would be sent for conversion, echoed back
-    const result = await exportProject(modelMap, manuscriptID, 'docx')
+    const result = await exportProject(modelMap, manuscriptID, '.docx')
     expect(result).toBeInstanceOf(Blob)
 
     const zip = await new JSZip().loadAsync(result)
@@ -104,5 +105,57 @@ describe('exporter', () => {
     expect(manuscript.version).toBe('2.0')
     expect(manuscript.data).toHaveLength(137)
     expect(manuscript).toMatchSnapshot('exported-manuscript')
+  })
+
+  test('exports a manuscript as manuproj', async () => {
+    const modelMap = buildModelMap(data as ProjectDump)
+    const manuscriptID = 'MPManuscript:8EB79C14-9F61-483A-902F-A0B8EF5973C9'
+
+    const anotherManuscript: Partial<Manuscript> = {
+      _id: 'MPManuscript:TEST',
+      _rev: 'someRev',
+      createdAt: 1538472121.690101,
+      objectType: 'MPManuscript',
+      sessionID: 'fb8b3d44-9515-4747-c7d8-a30fb1bc188b',
+      title: 'Example Manuscript',
+      updatedAt: 1538472121.690101,
+    }
+
+    const project: Project = {
+      _id: 'MPProject:TEST',
+      title: 'Example Project',
+      createdAt: 0,
+      updatedAt: 0,
+      objectType: 'MPProject',
+      owners: ['owner@example.com'],
+      writers: [],
+      viewers: [],
+    }
+
+    modelMap.set(
+      (anotherManuscript as Manuscript)._id,
+      anotherManuscript as Manuscript
+    )
+
+    // `result` is the blob that would be sent for conversion, echoed back
+    const result = await exportProject(
+      modelMap,
+      manuscriptID,
+      '.manuproj',
+      project
+    )
+    expect(result).toBeInstanceOf(Blob)
+
+    const zip = await new JSZip().loadAsync(result)
+    const json = await zip.file('containers.json').async('text')
+
+    const containers = JSON.parse(json)
+    expect(containers).toHaveLength(1)
+
+    const [container] = containers
+    expect(container._id).toEqual(project._id)
+
+    // const manuscript = await readManuscriptFromBundle(zip)
+    // expect(manuscript.data).toHaveLength(138)
   })
 })

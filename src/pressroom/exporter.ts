@@ -17,6 +17,7 @@
 import {
   Attachments,
   Decoder,
+  getModelData,
   ModelAttachment,
   serializeToJATS,
   UserProfileWithAvatar,
@@ -25,6 +26,7 @@ import {
   Figure,
   Model,
   ObjectTypes,
+  Project,
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { JsonModel, ProjectDump } from './importers'
@@ -158,11 +160,22 @@ const convertToXML = async (zip: JSZip, modelMap: Map<string, Model>) => {
   return zip.generateAsync({ type: 'blob' })
 }
 
+const addContainersFile = async (zip: JSZip, project: Project) => {
+  const container = getModelData(project)
+
+  zip.file<'string'>('containers.json', JSON.stringify([container]))
+}
+
 export const exportProject = async (
   modelMap: Map<string, Model>,
   manuscriptID: string,
-  format: string
+  format: string,
+  project?: Project
 ): Promise<Blob> => {
+  // if (project) {
+  //   modelMap.set(project._id, project)
+  // }
+
   const zip = buildProjectBundle(modelMap, manuscriptID)
 
   switch (format) {
@@ -170,6 +183,10 @@ export const exportProject = async (
       return convertToXML(zip, modelMap)
 
     case '.manuproj':
+      if (project) {
+        await addContainersFile(zip, project)
+      }
+
       return zip.generateAsync({ type: 'blob' })
 
     default:

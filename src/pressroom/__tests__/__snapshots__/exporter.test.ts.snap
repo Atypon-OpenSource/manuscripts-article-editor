@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`exporter exports a manuscript: exported-manuscript 1`] = `
+exports[`exporter exports a manuscript as docx: exported-manuscript 1`] = `
 Object {
   "data": Array [
     Object {

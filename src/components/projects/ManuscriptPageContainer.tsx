@@ -699,7 +699,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private openExporter = (format: string) => {
-    const { addModal, match } = this.props
+    const { addModal, match, project } = this.props
 
     addModal('exporter', ({ handleClose }) => (
       <Exporter
@@ -707,6 +707,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         handleComplete={handleClose}
         modelMap={this.state.modelMap!}
         manuscriptID={match.params.manuscriptID}
+        project={project}
       />
     ))
   }

@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-import {
-  Attachments,
-  ManuscriptModel,
-  ModelAttachment,
-} from '@manuscripts/manuscript-transform'
+import { ModelAttachment } from '@manuscripts/manuscript-transform'
 import {
   Figure,
   Model,
@@ -30,14 +26,11 @@ import { cleanItem } from './clean-item'
 import { generateAttachmentFilename } from './exporter'
 import { convert } from './pressroom'
 
-export interface JsonModel
-  extends ManuscriptModel,
-    Attachments,
-    ModelAttachment {
+export interface JsonModel extends Model, ModelAttachment {
   _id: string
-  bundled: boolean
-  collection: string
-  contentType: string
+  bundled?: boolean
+  collection?: string
+  contentType?: string
 }
 
 export interface ProjectDump {
@@ -82,7 +75,7 @@ const importProjectBundle = async (result: Blob) => {
   await Promise.all(
     items
       .filter(modelHasObjectType<Figure>(ObjectTypes.Figure))
-      .map(async item => {
+      .map(async (item: JsonModel) => {
         const filename = generateAttachmentFilename(item._id)
 
         try {

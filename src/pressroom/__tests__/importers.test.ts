@@ -95,7 +95,7 @@ describe('Import', () => {
     const manuscriptID = 'MPManuscript:8EB79C14-9F61-483A-902F-A0B8EF5973C9'
 
     // `result` is the blob that would be sent for conversion, echoed back
-    const result = await exportProject(modelMap, manuscriptID, 'docx')
+    const result = await exportProject(modelMap, manuscriptID, '.docx')
 
     const file = new File([result], 'manuscript.docx', {
       type:

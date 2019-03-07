@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-import { Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  Manuscript,
+  Model,
+  Project,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import config from '../../config'
 import { download } from '../../lib/download'
@@ -31,6 +35,7 @@ interface Props {
   handleComplete: () => void
   manuscriptID: string
   modelMap: Map<string, Model>
+  project: Project
 }
 
 interface State {
@@ -49,7 +54,7 @@ export class Exporter extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    const { modelMap, manuscriptID, format } = this.props
+    const { modelMap, manuscriptID, format, project } = this.props
 
     try {
       this.setState({
@@ -58,7 +63,7 @@ export class Exporter extends React.Component<Props, State> {
         status: 'Exporting manuscript…',
       })
 
-      const blob = await exportProject(modelMap, manuscriptID, format)
+      const blob = await exportProject(modelMap, manuscriptID, format, project)
 
       if (this.state.cancelled) {
         return
