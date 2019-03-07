@@ -70,6 +70,7 @@ import {
   SyncErrors,
   syncErrorsKey,
 } from '@manuscripts/sync-client'
+import CiteProc from 'citeproc'
 import debounce from 'lodash-es/debounce'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -130,7 +131,7 @@ interface State {
   modelMap?: Map<string, Model>
   plugins?: ManuscriptPlugin[]
   popper: PopperManager
-  processor?: Citeproc.Processor
+  processor?: CiteProc.Engine
   selected: Selected | null
   view?: ManuscriptEditorView
   activeEditor?: {
@@ -765,7 +766,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private getCitationProcessor = () => {
-    return this.state.processor as Citeproc.Processor
+    return this.state.processor as CiteProc.Engine
   }
 
   private loadModels = (containerID: string, manuscriptID: string) =>
