@@ -23,6 +23,7 @@ import {
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { ConflictManager } from '@manuscripts/sync-client'
 import * as HttpStatusCodes from 'http-status-codes'
+import { cloneDeep } from 'lodash-es'
 import {
   PouchDB,
   PouchReplicationOptions,
@@ -104,7 +105,7 @@ export class Collection<T extends Model> implements EventTarget {
     push: null,
   }
 
-  public status: ReplicationStatus = { ...initialReplicationStatus }
+  public status: ReplicationStatus = cloneDeep(initialReplicationStatus)
 
   public listeners: EventListeners = {
     active: [],
@@ -147,7 +148,7 @@ export class Collection<T extends Model> implements EventTarget {
     const pouch = this.collection.pouch as PouchDB & EventEmitter
     pouch.setMaxListeners(50)
 
-    this.status = { ...initialReplicationStatus }
+    this.status = cloneDeep(initialReplicationStatus)
 
     if (startSyncing) {
       this.startSyncing().catch(error => {
@@ -406,7 +407,6 @@ export class Collection<T extends Model> implements EventTarget {
       replicationState.complete$.subscribe(async complete => {
         if (complete) {
           this.replications[direction] = null
-          // successfully handled sync error but failed again, move on
           this.setStatus(direction, 'complete', true)
           resolve()
         }
