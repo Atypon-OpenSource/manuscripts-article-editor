@@ -279,6 +279,16 @@ class TemplateSelector extends React.Component<
       })
 
     await saveManuscriptModel<Contributor>(contributor)
+
+    const paragraph = createEmptyParagraph()
+
+    await saveManuscriptModel<ParagraphElement>(paragraph)
+
+    await saveManuscriptModel<Section>({
+      ...buildSection(),
+      elementIDs: [paragraph._id],
+    })
+
     await saveContainedModel<Manuscript>(manuscript)
 
     history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
