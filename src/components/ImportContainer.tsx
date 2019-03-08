@@ -15,6 +15,7 @@
  */
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
+import { Category, Dialog } from '@manuscripts/style-guide'
 import JSZip from 'jszip'
 import { extname } from 'path'
 import * as React from 'react'
@@ -25,7 +26,6 @@ import {
   acceptedMimeTypes,
 } from '../pressroom/importers'
 import { styled } from '../theme/styled-components'
-import { Category, Dialog } from './Dialog'
 import { ModalProps, withModal } from './ModalProvider'
 import { Importer } from './projects/Importer'
 

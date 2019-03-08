@@ -110,3 +110,16 @@ export const isJointFirstAuthor = (authors: Contributor[], index: number) => {
 
   return Boolean(author.isJointContributor)
 }
+
+export const reorderAuthors = (
+  authors: Contributor[],
+  oldIndex: number,
+  newIndex: number
+) => {
+  const clonedAuthors = authors.slice(0)
+  const order = authors.map((_, i) => (i === oldIndex ? newIndex : i))
+  clonedAuthors.sort((a, b) => {
+    return order[authors.indexOf(a)] - order[authors.indexOf(b)]
+  })
+  return clonedAuthors
+}

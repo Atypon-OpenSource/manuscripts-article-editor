@@ -17,11 +17,10 @@
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { UserProfileAffiliation } from '@manuscripts/manuscripts-json-schema'
+import { CloseButton, StyledModal } from '@manuscripts/style-guide'
 import { FormikActions } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { CloseButton } from '../SimpleModal'
-import { StyledModal, totalTransitionTime } from '../StyledModal'
 import { ProfileErrors, ProfileForm, ProfileValues } from './ProfileForm'
 import ProfilePageSidebar from './ProfilePageSidebar'
 
@@ -76,7 +75,6 @@ const ProfilePage: React.FunctionComponent<Props> = ({
       isOpen={true}
       onRequestClose={handleClose}
       shouldCloseOnOverlayClick={true}
-      closeTimeoutMS={totalTransitionTime}
     >
       <ModalHeader>
         <CloseButton onClick={handleClose} data-cy={'modal-close-button'}>

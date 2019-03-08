@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
-import { Category, Dialog } from '../Dialog'
 
 interface Props {
   selectedRole: string

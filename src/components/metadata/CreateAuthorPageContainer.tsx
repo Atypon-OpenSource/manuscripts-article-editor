@@ -15,9 +15,9 @@
  */
 
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import { buildAuthorPriority } from '../../lib/authors'
-import { Category, Dialog } from '../Dialog'
 
 interface Props {
   authors: Contributor[]

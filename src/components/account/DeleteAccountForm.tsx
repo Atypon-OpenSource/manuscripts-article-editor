@@ -15,15 +15,18 @@
  */
 
 import { Project } from '@manuscripts/manuscripts-json-schema'
-import { DangerSubmitButton } from '@manuscripts/style-guide'
+import {
+  DangerSubmitButton,
+  FormError,
+  FormErrors,
+  TextField,
+  TextFieldContainer,
+} from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
-import { TextField } from '../TextField'
-import { TextFieldContainer } from '../TextFieldContainer'
 
 export interface DeleteAccountValues {
   password: string

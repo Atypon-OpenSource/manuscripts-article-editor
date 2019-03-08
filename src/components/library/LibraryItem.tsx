@@ -18,9 +18,9 @@ import {
   BibliographicName,
   BibliographyItem,
 } from '@manuscripts/manuscripts-json-schema'
+import { BookmarkIcon } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import Bookmark from '../../icons/bookmark'
 import { issuedYear } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
 
@@ -76,7 +76,7 @@ export const LibraryItem: React.FunctionComponent<LibraryItemProps> = ({
   >
     <div>
       <AddIcon>
-        <Bookmark color={hasItem(item) ? '#65a3ff' : '#444'} size={24} />
+        <BookmarkIcon color={hasItem(item) ? '#65a3ff' : '#444'} size={24} />
       </AddIcon>
     </div>
 

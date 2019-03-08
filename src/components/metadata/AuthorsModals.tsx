@@ -20,9 +20,9 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
-import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { styled } from '../../theme/styled-components'
 import {
   AddAuthorsPage,
@@ -32,8 +32,7 @@ import {
 import { InvitationValues } from '../collaboration/InvitationForm'
 import InviteCollaboratorsSidebar from '../collaboration/InviteCollaboratorsSidebar'
 import AddAuthorsSidebar from './AddAuthorsSidebar'
-import { AuthorAffiliation } from './Author'
-import { AuthorForm, AuthorValues } from './AuthorForm'
+import { AuthorFormContainer } from './AuthorFormContainer'
 import AuthorsSidebar from './AuthorsSidebar'
 
 const ModalBody = styled.div`
@@ -68,17 +67,12 @@ interface AuthorsProps {
   updateAuthor: (author: Contributor, email: string) => void
   openAddAuthors: () => void
   createAffiliation: (name: string) => Promise<Affiliation>
-  checkInvitations: (author: Contributor) => boolean
   isRejected: (invitationID: string) => boolean
   getAuthorName: (author: Contributor) => string
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
   handleRemoveAuthor: () => void
-  handleDrop: (
-    source: AuthorItem,
-    target: AuthorItem,
-    position: DropSide,
-    authors: Contributor[]
-  ) => void
+  handleDrop: (oldIndex: number, newIndex: number) => void
+  getSidebarItemDecorator?: (authorID: string) => JSX.Element | null
 }
 
 export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
@@ -92,7 +86,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   handleSaveAuthor,
   createAffiliation,
   handleDrop,
-  checkInvitations,
+  getSidebarItemDecorator,
   isRemoveAuthorOpen,
   handleRemoveAuthor,
   isRejected,
@@ -109,12 +103,12 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
         selectedAuthor={selectedAuthor}
         openAddAuthors={openAddAuthors}
         handleDrop={handleDrop}
-        checkInvitations={checkInvitations}
+        getSidebarItemDecorator={getSidebarItemDecorator}
       />
     </ModalSidebar>
     <ModalMain>
       {selectedAuthor ? (
-        <AuthorForm
+        <AuthorFormContainer
           author={selectedAuthor}
           affiliations={affiliations}
           authorAffiliations={

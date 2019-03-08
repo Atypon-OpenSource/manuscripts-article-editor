@@ -15,11 +15,14 @@
  */
 
 import AttentionRed from '@manuscripts/assets/react/AttentionRed'
-import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
+import {
+  GreyButton,
+  PrimaryButton,
+  StyledModal,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import config from '../../config'
 import { styled } from '../../theme/styled-components'
-import { StyledModal, totalTransitionTime } from '../StyledModal'
 
 const Message: React.FunctionComponent<{
   message: string
@@ -93,7 +96,6 @@ export const ReloadDialog: React.FunctionComponent<Props> = ({ message }) => (
     isOpen={true}
     onRequestClose={navigateToProjectsList}
     shouldCloseOnOverlayClick={true}
-    closeTimeoutMS={totalTransitionTime}
   >
     <ModalBody>
       <Header>

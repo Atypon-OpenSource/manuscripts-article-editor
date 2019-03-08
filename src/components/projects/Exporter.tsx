@@ -19,6 +19,7 @@ import {
   Model,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
+import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import config from '../../config'
 import { download } from '../../lib/download'
@@ -27,7 +28,6 @@ import {
   exportProject,
   generateDownloadFilename,
 } from '../../pressroom/exporter'
-import { Category, Dialog } from '../Dialog'
 import { ProgressModal } from './ProgressModal'
 
 interface Props {

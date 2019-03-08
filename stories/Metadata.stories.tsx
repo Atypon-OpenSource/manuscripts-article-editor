@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { AuthorAffiliation } from '@manuscripts/style-guide'
 import { Title, TitleField } from '@manuscripts/title-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
@@ -24,10 +25,7 @@ import {
 } from '../src/components/collaboration/CollaboratorsPage'
 import AddAuthorButton from '../src/components/metadata/AddAuthorButton'
 import AddAuthorsSidebar from '../src/components/metadata/AddAuthorsSidebar'
-import { Affiliations } from '../src/components/metadata/Affiliations'
-import { Author, AuthorAffiliation } from '../src/components/metadata/Author'
-import { AuthorForm } from '../src/components/metadata/AuthorForm'
-import Authors from '../src/components/metadata/Authors'
+import { AuthorFormContainer } from '../src/components/metadata/AuthorFormContainer'
 import { AuthorsModal } from '../src/components/metadata/AuthorsModals'
 import AuthorsSidebar from '../src/components/metadata/AuthorsSidebar'
 import { Metadata } from '../src/components/metadata/Metadata'
@@ -192,43 +190,6 @@ storiesOf('Metadata', module)
       }
     />
   ))
-  .add('Authors with edit button', () => (
-    <Authors
-      authors={authors}
-      authorAffiliations={authorAffiliations}
-      startEditing={action('start editing')}
-      showEditButton={true}
-      selectAuthor={action('select author')}
-    />
-  ))
-  .add('Authors with no edit button', () => (
-    <Authors
-      authors={authors}
-      authorAffiliations={authorAffiliations}
-      startEditing={action('start editing')}
-      showEditButton={false}
-      selectAuthor={action('select author')}
-    />
-  ))
-  .add('Author is joint first author', () => (
-    <Author
-      author={authors[0]}
-      startEditing={action('start editing')}
-      showEditButton={false}
-      selectAuthor={action('select author')}
-      jointFirstAuthor={true}
-    />
-  ))
-  .add('Author is corresponding', () => (
-    <Author
-      author={authors[1]}
-      startEditing={action('start editing')}
-      showEditButton={false}
-      selectAuthor={action('select author')}
-      jointFirstAuthor={true}
-    />
-  ))
-  .add('Affiliations', () => <Affiliations affiliations={affiliations} />)
   .add('Authors Modal', () => (
     <AuthorsModal
       affiliations={affiliations}
@@ -249,7 +210,6 @@ storiesOf('Metadata', module)
       authors={authors}
       selectAuthor={action('select author')}
       selectedAuthor={null}
-      checkInvitations={action('check invitation existence')}
       handleDrop={action('dropped the user')}
       openAddAuthors={action('start adding')}
     />
@@ -261,12 +221,22 @@ storiesOf('Metadata', module)
       selectAuthor={action('select author')}
       selectedAuthor={null}
       openAddAuthors={action('start adding')}
-      checkInvitations={action('check invitation existence')}
+      handleDrop={action('dropped the user')}
+    />
+  ))
+  .add('Authors Sidebar with decorations', () => (
+    <AuthorsSidebar
+      authors={authors}
+      authorAffiliations={authorAffiliations}
+      selectAuthor={action('select author')}
+      selectedAuthor={null}
+      getSidebarItemDecorator={() => <span>Ain't Afraid</span>}
+      openAddAuthors={action('start adding')}
       handleDrop={action('dropped the user')}
     />
   ))
   .add('Author Form', () => (
-    <AuthorForm
+    <AuthorFormContainer
       author={authors[0]}
       affiliations={affiliations}
       authorAffiliations={

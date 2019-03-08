@@ -19,8 +19,8 @@ import {
   Project,
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
+import { AddAuthor } from '@manuscripts/style-guide'
 import React from 'react'
-import AddAuthor from '../../icons/add-author'
 import { projectListCompare } from '../../lib/projects'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { DropdownSeparator } from './Dropdown'

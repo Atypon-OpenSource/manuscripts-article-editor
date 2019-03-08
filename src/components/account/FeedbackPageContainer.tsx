@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
+import { FormErrors } from '@manuscripts/style-guide'
 import { Formik, FormikErrors } from 'formik'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { feedback } from '../../lib/api/feedback'
 import { feedbackSchema } from '../../validation'
-import { FormErrors } from '../Form'
 import { FeedbackMessage } from '../Messages'
 import { ModalForm } from '../ModalForm'
 import { FeedbackForm, FeedbackValues } from './FeedbackForm'

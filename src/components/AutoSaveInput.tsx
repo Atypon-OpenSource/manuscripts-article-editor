@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
+import { submitEvent } from '@manuscripts/style-guide'
 import { FieldProps } from 'formik'
 import { debounce } from 'lodash-es'
 import React, { InputHTMLAttributes } from 'react'
-import { submitEvent } from './Form'
 
 interface AutoSaveInputProps {
   component: React.ComponentType<InputHTMLAttributes<HTMLInputElement>>

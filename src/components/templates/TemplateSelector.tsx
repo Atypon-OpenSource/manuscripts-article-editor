@@ -35,6 +35,7 @@ import {
   Section,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import config from '../../config'
@@ -66,7 +67,6 @@ import {
   TemplatesDataType,
 } from '../../types/templates'
 import { Database, DatabaseContext } from '../DatabaseProvider'
-import { Category, Dialog } from '../Dialog'
 import {
   createProjectCollection,
   importManuscript,

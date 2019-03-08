@@ -15,10 +15,9 @@
  */
 
 import AttentionBlue from '@manuscripts/assets/react/AttentionBlue'
-import { PrimaryButton } from '@manuscripts/style-guide'
+import { PrimaryButton, StyledModal } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { StyledModal, totalTransitionTime } from '../StyledModal'
 
 const Icon = styled(AttentionBlue)`
   margin-right: 8px;
@@ -75,7 +74,6 @@ export const AcceptInvitationDialog: React.FunctionComponent<Props> = ({
     isOpen={!!message}
     onRequestClose={closeDialog}
     shouldCloseOnOverlayClick={true}
-    closeTimeoutMS={totalTransitionTime}
   >
     <ModalBody>
       <Header>

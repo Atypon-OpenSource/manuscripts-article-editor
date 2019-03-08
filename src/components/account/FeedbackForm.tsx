@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-import { PrimarySubmitButton } from '@manuscripts/style-guide'
+import {
+  FormError,
+  FormErrors,
+  PrimarySubmitButton,
+  TextArea,
+  TextField,
+  TextFieldContainer,
+  TextFieldGroupContainer,
+} from '@manuscripts/style-guide'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
-import { TextArea, TextField } from '../TextField'
-import { TextFieldContainer } from '../TextFieldContainer'
-import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 
 export interface FeedbackValues {
   message: string

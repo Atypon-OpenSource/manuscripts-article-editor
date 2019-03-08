@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-import { PrimarySubmitButton } from '@manuscripts/style-guide'
+import {
+  FormError,
+  FormErrors,
+  PrimarySubmitButton,
+} from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
 import { Form, FormikProps } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { FormError, FormErrors } from '../Form'
 import { ModalFormActions } from '../ModalForm'
 
 const StyledTitleField = styled(TitleField)`

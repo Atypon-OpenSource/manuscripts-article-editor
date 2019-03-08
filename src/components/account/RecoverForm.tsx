@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-import { PrimarySubmitButton } from '@manuscripts/style-guide'
+import {
+  CenteredForm,
+  FormActions,
+  FormError,
+  FormHeader,
+  PrimarySubmitButton,
+  TextField,
+  TextFieldGroupContainer,
+} from '@manuscripts/style-guide'
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { styled } from '../../theme/styled-components'
-import { CenteredForm, FormActions, FormError, FormHeader } from '../Form'
 import { SubHero } from '../Hero'
-import { TextField } from '../TextField'
-import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 
 export interface RecoverValues {
   email: string

@@ -16,10 +16,10 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Affiliation, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-import { Avatar } from '../Avatar'
 
 const DetailsContainer = styled.div`
   padding: 14px 0px 0px 40px;

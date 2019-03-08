@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import { StyledModal } from '@manuscripts/style-guide'
 import React from 'react'
-import { StyledModal, totalTransitionTime } from './StyledModal'
 
 type ModalComponent = React.FunctionComponent<{
   handleClose: CloseModal
@@ -85,16 +85,11 @@ export class ModalProvider extends React.Component<{}, State> {
   }
 
   private renderModal = () => {
-    return this.state.modals.map(({ id, modal }, index) => {
+    return this.state.modals.map(({ id, modal }) => {
       const handleClose = () => this.closeModal(id)
 
       return (
-        <StyledModal
-          key={id}
-          isOpen={true}
-          onRequestClose={handleClose}
-          closeTimeoutMS={totalTransitionTime}
-        >
+        <StyledModal key={id} isOpen={true} onRequestClose={handleClose}>
           {modal({ handleClose })}
         </StyledModal>
       )

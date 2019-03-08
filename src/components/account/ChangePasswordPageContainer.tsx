@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
+import { FormErrors } from '@manuscripts/style-guide'
 import { Formik, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { changePassword } from '../../lib/api'
 import { changePasswordSchema } from '../../validation'
-import { FormErrors } from '../Form'
 import { ChangePasswordMessage } from '../Messages'
 import { ModalForm } from '../ModalForm'
 import { ChangePasswordForm, ChangePasswordValues } from './ChangePasswordForm'

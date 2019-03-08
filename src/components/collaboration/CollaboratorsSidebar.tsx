@@ -21,11 +21,11 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
-import { Avatar } from '../Avatar'
 import Panel from '../Panel'
 import {
   Sidebar,

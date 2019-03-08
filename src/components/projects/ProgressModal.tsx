@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import { PrimaryButton } from '@manuscripts/style-guide'
+import { PrimaryButton, StyledModal } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { IndicatorKind, ProgressIndicator } from '../ProgressIndicator'
-import { StyledModal, totalTransitionTime } from '../StyledModal'
 
 const ModalBody = styled.div`
   flex: 1;
@@ -68,7 +67,6 @@ export const ProgressModal: React.FunctionComponent<Props> = ({
     isOpen={true}
     onRequestClose={handleCancel}
     shouldCloseOnOverlayClick={false}
-    closeTimeoutMS={totalTransitionTime}
   >
     <ModalBody>
       <ModalMain>

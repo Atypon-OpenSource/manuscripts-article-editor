@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-import { PrimarySubmitButton } from '@manuscripts/style-guide'
+import {
+  CenteredForm,
+  FormHeader,
+  PrimarySubmitButton,
+  TextField,
+  TextFieldContainer,
+} from '@manuscripts/style-guide'
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
-import { CenteredForm, FormHeader } from '../Form'
 import { SubHero } from '../Hero'
 import { ModalFormActions } from '../ModalForm'
-import { TextField } from '../TextField'
-import { TextFieldContainer } from '../TextFieldContainer'
 
 export interface PasswordValues {
   password: string

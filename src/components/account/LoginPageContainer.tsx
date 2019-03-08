@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { FormErrors } from '@manuscripts/style-guide'
 import { AxiosResponse } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import { LocationState } from 'history'
@@ -27,7 +28,6 @@ import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
 import { loginSchema } from '../../validation'
 import { AlertMessageType } from '../AlertMessage'
-import { FormErrors } from '../Form'
 import { Main, Page } from '../Page'
 import { LoginValues } from './LoginForm'
 import * as messages from './LoginMessages'

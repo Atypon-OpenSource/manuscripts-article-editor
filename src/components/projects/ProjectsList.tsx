@@ -19,10 +19,10 @@ import {
   BibliographicName,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
+import { TickMarkIcon } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import TickMark from '../../icons/tick-mark'
 import { buildCollaborators } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
 import { styled } from '../../theme/styled-components'
@@ -147,7 +147,7 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
           {acceptedInvitations.includes(project._id) && (
             <AcceptedLabel>
               <TickMarkContainer>
-                <TickMark />
+                <TickMarkIcon />
               </TickMarkContainer>
               Accepted
             </AcceptedLabel>

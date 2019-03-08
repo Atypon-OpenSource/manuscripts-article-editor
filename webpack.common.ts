@@ -111,6 +111,8 @@ const configuration: webpack.Configuration = {
       '@manuscripts/manuscript-transform': require.resolve(
         '@manuscripts/manuscript-transform'
       ),
+      '@manuscripts/style-guide': require.resolve('@manuscripts/style-guide'),
+      formik: require.resolve('formik'),
       react: require.resolve('react'),
       'react-dnd': require.resolve('react-dnd'),
       'react-dom': require.resolve('react-dom'),

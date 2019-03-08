@@ -15,9 +15,9 @@
  */
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
+import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import { importFile, openFilePicker } from '../../pressroom/importers'
-import { Category, Dialog } from '../Dialog'
 import { buildImportErrorMessage } from '../Messages'
 import { ProgressModal } from './ProgressModal'
 

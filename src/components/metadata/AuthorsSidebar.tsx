@@ -15,12 +15,10 @@
  */
 
 import AddAuthor from '@manuscripts/assets/react/AddAuthor'
-import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { Contributor } from '@manuscripts/manuscripts-json-schema'
+import { AuthorAffiliation, AuthorsDND } from '@manuscripts/style-guide'
 import React from 'react'
-import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { styled } from '../../theme/styled-components'
-import { AuthorAffiliation } from './Author'
-import DraggableAuthorItem from './DraggableAuthorItem'
 
 const AddIcon = styled.span`
   display: inline-flex;
@@ -87,24 +85,14 @@ const SidebarAction = styled.div`
   margin-bottom: 20px;
 `
 
-const SidebarList = styled.div`
-  flex: 1;
-  overflow-y: auto;
-`
-
 interface Props {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   selectedAuthor: Contributor | null
-  checkInvitations: (author: Contributor) => boolean
   selectAuthor: (item: Contributor) => void
   openAddAuthors: () => void
-  handleDrop: (
-    source: AuthorItem,
-    target: AuthorItem,
-    position: DropSide,
-    authors: Contributor[]
-  ) => void
+  handleDrop: (oldIndex: number, newIndex: number) => void
+  getSidebarItemDecorator?: (authorID: string) => JSX.Element | null
 }
 
 const AuthorsSidebar: React.FunctionComponent<Props> = ({
@@ -113,7 +101,7 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
   selectedAuthor,
   openAddAuthors,
   handleDrop,
-  checkInvitations,
+  getSidebarItemDecorator,
 }) => (
   <Sidebar>
     <SidebarHeader>
@@ -133,36 +121,13 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
       </AddButton>
     </SidebarAction>
 
-    <SidebarList>
-      {authors.map((author, index) => {
-        // const affiliations = authorAffiliations.get(author._id)
-        // const user = users.findOne(author.userID) // TODO
-
-        const user: Partial<UserProfile> = {
-          _id: author.userID,
-        }
-
-        const authorItem = {
-          _id: author._id,
-          priority: author.priority || null,
-          index,
-        }
-
-        return (
-          <DraggableAuthorItem
-            key={author._id}
-            authorItem={authorItem}
-            onDrop={handleDrop}
-            author={author}
-            authors={authors}
-            user={user}
-            selectedAuthor={selectedAuthor}
-            selectAuthor={selectAuthor}
-            checkInvitations={checkInvitations}
-          />
-        )
-      })}
-    </SidebarList>
+    <AuthorsDND
+      authors={authors}
+      selectAuthor={selectAuthor}
+      selectedAuthor={selectedAuthor}
+      handleDrop={handleDrop}
+      getSidebarItemDecorator={getSidebarItemDecorator}
+    />
   </Sidebar>
 )
 

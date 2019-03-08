@@ -16,6 +16,7 @@
 
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
+import { CloseButton, FormErrors } from '@manuscripts/style-guide'
 import { Formik, FormikErrors } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
@@ -23,9 +24,7 @@ import {
   RenameProjectForm,
   RenameProjectValues,
 } from '../collaboration/RenameProjectForm'
-import { FormErrors } from '../Form'
 import { ProjectRenameMessage } from '../Messages'
-import { CloseButton } from '../SimpleModal'
 
 const ModalContainer = styled.div`
   display: flex;

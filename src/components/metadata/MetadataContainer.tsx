@@ -29,6 +29,7 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { AuthorValues } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
 import React from 'react'
@@ -42,12 +43,11 @@ import {
   buildAuthorPriority,
   buildAuthorsAndAffiliations,
   buildSortedAuthors,
+  reorderAuthors,
 } from '../../lib/authors'
 import { buildCollaborators } from '../../lib/collaborators'
-import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { getCurrentUserId } from '../../lib/user'
 import { InvitationValues } from '../collaboration/InvitationForm'
-import { AuthorValues } from './AuthorForm'
 import { Metadata } from './Metadata'
 
 interface Props {
@@ -71,6 +71,7 @@ interface State {
   isInvite: boolean
   invitationValues: InvitationValues
   invitationSent: boolean
+  authorListError?: string
 }
 
 class MetadataContainer extends React.PureComponent<Props, State> {
@@ -432,51 +433,21 @@ class MetadataContainer extends React.PureComponent<Props, State> {
     await this.props.saveModel<Contributor>(author)
   }
 
-  private handleDrop = async (
-    source: AuthorItem,
-    target: AuthorItem,
-    side: DropSide,
-    authors: Contributor[]
-  ) => {
-    if (source.index > target.index) {
-      const addIndex = side === 'after' ? 1 : 0
-
-      authors[source.index].priority = (target.priority as number) + addIndex
-
-      await this.props.saveModel<Contributor>(authors[source.index])
-      await this.decreasePriority(source, target, authors, addIndex)
-    } else if (source.index < target.index) {
-      const subIndex = side === 'before' ? 1 : 0
-
-      authors[source.index].priority = (target.priority as number) - subIndex
-
-      await this.props.saveModel<Contributor>(authors[source.index])
-      await this.increasePriority(source, target, authors, subIndex)
-    }
-  }
-
-  private async decreasePriority(
-    source: AuthorItem,
-    target: AuthorItem,
-    authors: Contributor[],
-    addIndex: number
-  ) {
-    for (let idx = source.index - 1; idx >= target.index + addIndex; idx--) {
-      authors[idx].priority = Number(authors[idx].priority) + 1
-      await this.props.saveModel<Contributor>(authors[idx])
-    }
-  }
-
-  private async increasePriority(
-    source: AuthorItem,
-    target: AuthorItem,
-    authors: Contributor[],
-    subIndex: number
-  ) {
-    for (let idx = source.index + 1; idx <= target.index - subIndex; idx++) {
-      authors[idx].priority = Number(authors[idx].priority) - 1
-      await this.props.saveModel<Contributor>(authors[idx])
-    }
+  private handleDrop = (oldIndex: number, newIndex: number) => {
+    const { authors } = buildAuthorsAndAffiliations(this.props.modelMap)
+    const reorderedAuthors = reorderAuthors(authors, oldIndex, newIndex)
+    Promise.all(
+      reorderedAuthors.map((author, i) => {
+        author.priority = i
+        return this.props.saveModel<Contributor>(author)
+      })
+    )
+      .then(() => {
+        this.setState({ authorListError: '' })
+      })
+      .catch(() => {
+        this.setState({ authorListError: 'There was an error saving authors' })
+      })
   }
 
   private getInvitation = (

@@ -21,12 +21,17 @@ import {
   Project,
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
+import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
-import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
-import { AuthorAffiliation } from './Author'
-import { AuthorValues } from './AuthorForm'
+import { styled } from '../../theme/styled-components'
 import { AuthorsModal } from './AuthorsModals'
+
+const Invited = styled.div`
+  display: flex;
+  font-size: 12px;
+  color: ${props => props.theme.colors.sidebar.label};
+`
 
 interface State {
   isRemoveAuthorOpen: boolean
@@ -46,12 +51,7 @@ interface Props {
   openAddAuthors: () => void
   createAffiliation: (name: string) => Promise<Affiliation>
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
-  handleDrop: (
-    source: AuthorItem,
-    target: AuthorItem,
-    position: DropSide,
-    authors: Contributor[]
-  ) => void
+  handleDrop: (oldIndex: number, newIndex: number) => void
 }
 
 class AuthorsModalContainer extends React.Component<Props, State> {
@@ -84,8 +84,8 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         selectedAuthor={selectedAuthor}
         isRemoveAuthorOpen={isRemoveAuthorOpen}
         updateAuthor={updateAuthor}
-        checkInvitations={this.checkInvitations}
         createAffiliation={createAffiliation}
+        getSidebarItemDecorator={this.getSidebarItemDecorator}
         handleDrop={handleDrop}
         handleSaveAuthor={handleSaveAuthor}
         openAddAuthors={openAddAuthors}
@@ -124,13 +124,18 @@ class AuthorsModalContainer extends React.Component<Props, State> {
     return true
   }
 
-  private checkInvitations = (author: Contributor) => {
-    for (const invitation of this.props.invitations) {
-      if (invitation._id === author.invitationID) {
-        return !invitation.acceptedAt
-      }
-    }
-    return false
+  private getSidebarItemDecorator = (authorID: string) => {
+    const { invitations } = this.props
+    if (!invitations) return null
+
+    const author = this.props.authors.find(author => author._id === authorID)
+    if (!author) return null
+
+    return invitations.find(
+      invitation => author.invitationID === invitation._id
+    ) ? (
+      <Invited>Invited</Invited>
+    ) : null
   }
 }
 

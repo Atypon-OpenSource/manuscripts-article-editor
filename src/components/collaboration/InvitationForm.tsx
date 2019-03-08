@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-import { PrimaryButton } from '@manuscripts/style-guide'
+import {
+  FormError,
+  PrimaryButton,
+  TextField,
+  TextFieldGroupContainer,
+} from '@manuscripts/style-guide'
 import {
   Field,
   FieldProps,
@@ -29,10 +34,7 @@ import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { projectInvitationSchema } from '../../validation'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
-import { FormError } from '../Form'
 import { RadioButton } from '../RadioButton'
-import { TextField } from '../TextField'
-import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 
 const SendInvitationButton = styled(PrimaryButton).attrs({
   type: 'submit',

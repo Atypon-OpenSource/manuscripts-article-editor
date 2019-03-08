@@ -25,20 +25,21 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import {
+  AffiliationsList,
+  AuthorAffiliation,
+  AuthorsList,
+  AuthorValues,
+  CloseButton,
+  StyledModal,
+} from '@manuscripts/style-guide'
 import { TitleEditorView, TitleField } from '@manuscripts/title-editor'
 import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
-import { AuthorItem, DropSide } from '../../lib/drag-drop-authors'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { InvitationValues } from '../collaboration/InvitationForm'
-import { CloseButton } from '../SimpleModal'
-import { StyledModal, totalTransitionTime } from '../StyledModal'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
-import { Affiliations } from './Affiliations'
-import { AuthorAffiliation } from './Author'
-import { AuthorValues } from './AuthorForm'
-import Authors from './Authors'
 import AuthorsModalContainer from './AuthorsModalContainer'
 import { InviteAuthorsModal } from './AuthorsModals'
 import { Header, HeaderContainer } from './Header'
@@ -142,12 +143,7 @@ interface Props {
   handleInvite: (searchText: string) => void
   handleInviteCancel: () => void
   handleInvitationSubmit: (values: InvitationValues) => Promise<void>
-  handleDrop: (
-    source: AuthorItem,
-    target: AuthorItem,
-    position: DropSide,
-    authors: Contributor[]
-  ) => void
+  handleDrop: (oldIndex: number, newIndex: number) => void
   updateAuthor: (author: Contributor, email: string) => void
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
 }
@@ -176,7 +172,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
 
       {props.expanded && (
         <AuthorsContainer>
-          <Authors
+          <AuthorsList
             authors={props.authors}
             authorAffiliations={props.authorAffiliations}
             startEditing={props.startEditing}
@@ -184,7 +180,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
             selectAuthor={props.selectAuthor}
           />
 
-          <Affiliations affiliations={props.affiliations} />
+          <AffiliationsList affiliations={props.affiliations} />
         </AuthorsContainer>
       )}
 
@@ -192,7 +188,6 @@ export const Metadata: React.FunctionComponent<Props> = props => (
         isOpen={props.editing}
         onRequestClose={props.stopEditing}
         shouldCloseOnOverlayClick={true}
-        closeTimeoutMS={totalTransitionTime}
       >
         <ModalContainer>
           <ModalHeader>

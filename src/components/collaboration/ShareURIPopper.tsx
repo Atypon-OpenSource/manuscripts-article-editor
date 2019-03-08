@@ -15,14 +15,18 @@
  */
 
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { Button, GreyButton, PrimaryButton } from '@manuscripts/style-guide'
+import {
+  Button,
+  GreyButton,
+  PrimaryButton,
+  TextField,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { PopperBody } from '../Popper'
 import { RadioButton } from '../RadioButton'
-import { TextField } from '../TextField'
 import { ShareProjectHeader, ShareProjectTitle } from './InvitationPopper'
 
 const URIFieldContainer = styled.div`

@@ -20,6 +20,13 @@ import {
   UserProfileAffiliation,
 } from '@manuscripts/manuscripts-json-schema'
 import {
+  AffiliationsSelect,
+  AutoSaveInput,
+  FormError,
+  TextField,
+  TextFieldGroupContainer,
+} from '@manuscripts/style-guide'
+import {
   Field,
   FieldProps,
   Form,
@@ -29,11 +36,6 @@ import {
 } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import AutoSaveInput from '../AutoSaveInput'
-import { FormError } from '../Form'
-import { AffiliationsSelect } from '../metadata/AffiliationsSelect'
-import { TextField } from '../TextField'
-import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 
 const Fields = styled.div`
   padding: 16px;

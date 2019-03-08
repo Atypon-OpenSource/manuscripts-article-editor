@@ -15,10 +15,10 @@
  */
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
+import { BackArrowIcon } from '@manuscripts/style-guide'
 import { sanitize } from 'dompurify'
 import React from 'react'
 import { FormattedRelative } from 'react-intl'
-import { BackArrow } from '../../icons/back-arrow'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 
@@ -225,8 +225,8 @@ export class Updates extends React.Component<Props, State> {
             <UpdatesContent>
               <Header onClick={() => this.selectTopic(null)}>
                 <Back>
-                  <BackArrow size={15} color={theme.colors.updates.back} /> Back
-                  to Latest Updates
+                  <BackArrowIcon size={15} color={theme.colors.updates.back} />{' '}
+                  Back to Latest Updates
                 </Back>
               </Header>
 

@@ -16,12 +16,11 @@
 
 import HorizontalEllipsis from '@manuscripts/assets/react/HorizontalEllipsis'
 import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
-import { IconButton } from '@manuscripts/style-guide'
+import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { styled } from '../../theme/styled-components'
-import { Category, Dialog } from '../Dialog'
 import { ModalProps, withModal } from '../ModalProvider'
 import { Dropdown, DropdownContainer } from '../nav/Dropdown'
 import ProjectContextMenu from './ProjectContextMenu'

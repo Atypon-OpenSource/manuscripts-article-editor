@@ -15,8 +15,8 @@
  */
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
+import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
-import { Avatar } from '../Avatar'
 import MenuDropdown from './MenuDropdown'
 import { UserInfo } from './UserInfo'
 

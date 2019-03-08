@@ -20,6 +20,7 @@ import {
   ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import CollaboratorsData from '../../data/CollaboratorsData'
 import InvitationsData from '../../data/InvitationsData'
@@ -28,7 +29,6 @@ import UserData from '../../data/UserData'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme/styled-components'
-import { Category, Dialog } from '../Dialog'
 import { InvitationsList } from '../projects/InvitationsList'
 import { ProjectsList } from '../projects/ProjectsList'
 import { SidebarContent } from '../Sidebar'

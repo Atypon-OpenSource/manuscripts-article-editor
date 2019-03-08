@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-import { PrimarySubmitButton } from '@manuscripts/style-guide'
-import { Field, FieldProps, FormikProps } from 'formik'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { styled } from '../../theme/styled-components'
 import {
   CenteredForm,
   FormActions,
   FormError,
   FormErrors,
   FormHeader,
-  FormLink,
-} from '../Form'
+  PrimarySubmitButton,
+  TextField,
+  TextFieldGroupContainer,
+} from '@manuscripts/style-guide'
+import { Field, FieldProps, FormikProps } from 'formik'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { styled } from '../../theme/styled-components'
+import { FormLink } from '../Form'
 import { Hero, SubHero } from '../Hero'
-import { TextField } from '../TextField'
-import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 import { ErrorName } from './LoginPageContainer'
 
 export interface LoginValues {

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-import { PrimarySubmitButton } from '@manuscripts/style-guide'
-import { Field, FieldProps, FormikProps } from 'formik'
-import React from 'react'
 import {
   CenteredForm,
   FormActions,
   FormError,
   FormHeader,
-  FormLink,
-} from '../Form'
+  PrimarySubmitButton,
+  TextField,
+  TextFieldGroupContainer,
+} from '@manuscripts/style-guide'
+import { Field, FieldProps, FormikProps } from 'formik'
+import React from 'react'
+import { FormLink } from '../Form'
 import { Hero, SubHero } from '../Hero'
-import { TextField } from '../TextField'
-import { TextFieldGroupContainer } from '../TextFieldGroupContainer'
 
 export interface SignupValues {
   name: string

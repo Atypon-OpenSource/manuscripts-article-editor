@@ -1123,10 +1123,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.2.tgz#bc7354d1dc704bf03c4b9d4e0f4c1054c70bbc73"
   integrity sha512-kctNmYWfzk0M3Rxe5+UNdnMYM5pGL1ZFwE0+izMfpVegm3744Sbeg/0JUXrHXvaHIwT8JOzdOCi6WO6oBlejlA==
 
-"@manuscripts/manuscript-editor@^0.17.0":
-  version "0.17.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.17.0.tgz#55ab13ba1012f74f4d7b3ca2970c54d883bb32fb"
-  integrity sha512-32XRlw2FEAaXkC7sdw8jQmCmyGzGV5XKwvEFWMFYZNT+C7cVeRkvuf8L+WfB6YqfwuUtpXMlz4u8of/ND0/FNA==
+"@manuscripts/manuscript-editor@^0.18.0":
+  version "0.18.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.18.0.tgz#6df4a1a370324d6c5924d4bb5639db0ddd741492"
+  integrity sha512-oXIJDEyObeXKZ9mo89sb2HgCr9FSZeS5/uYPVUO5yGZJ+unUTk02zF4gtvGeVV6VXVKDj2mmcNpqXGRiVhBzoA==
   dependencies:
     "@manuscripts/assets" "^0.3.0"
     "@manuscripts/examples" "^0.0.2"
@@ -1219,10 +1219,17 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fresizer/-/resizer-0.0.1.tgz#b719bec2cd06e32c69ce8a033f7948e580c34a9c"
   integrity sha512-hSXuz0ZGBemjDTS2CYEc5D3iOaxkWYoeTmj/p+sJT57IyJgxYBE9U58POHUQcsxM26MedJU0ar+XVmBNh4BMSg==
 
-"@manuscripts/style-guide@^0.0.1":
-  version "0.0.1"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.0.1.tgz#7d507fa350fe6e6af8b353977a30dfff6f0151c2"
-  integrity sha512-l8tFk0ras9aism+rHjb64+SNlGHxpnAnNrhnQSylrVq1v3EhEmNGJaVQmgKw0xTjzkCaXOWpuVoWELfl4FoedA==
+"@manuscripts/style-guide@^0.3.2":
+  version "0.3.2"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.3.2.tgz#65252ff4c1bf009a1ba07e666ea5dff34c0a9994"
+  integrity sha512-/Ir7cvZ9aa2yRbOlHGjt4PeeXBAfTMCZfRL3Uq8nKyswEjIaj6gUGMp2aDejBTOOKz8tIlikhzQKoiTRKb2J+A==
+  dependencies:
+    "@manuscripts/assets" "^0.3.0"
+    lodash-es "^4.17.11"
+    react-dnd "^7.0.2"
+    react-dnd-html5-backend "^7.0.2"
+    react-modal "^3.8.1"
+    react-select "^2.1.0"
 
 "@manuscripts/sync-client@^0.0.4":
   version "0.0.4"
@@ -13340,7 +13347,7 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-modal@^3.1.11, react-modal@^3.6.1:
+react-modal@^3.1.11, react-modal@^3.6.1, react-modal@^3.8.1:
   version "3.8.1"
   resolved "https://registry.npmjs.org/react-modal/-/react-modal-3.8.1.tgz#7300f94a6f92a2e17994de0be6ccb61734464c9e"
   integrity sha512-aLKeZM9pgXpIKVwopRHMuvqKWiBajkqisDA8UzocdCF6S4fyKVfLWmZR5G1Q0ODBxxxxf2XIwiCP8G/11GJAuw==

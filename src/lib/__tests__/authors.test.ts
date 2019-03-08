@@ -30,6 +30,7 @@ import {
   buildAuthorsAndAffiliations,
   buildSortedAuthors,
   isJointFirstAuthor,
+  reorderAuthors,
 } from '../authors'
 
 const modelMap = (models: Model[]): Map<string, Model> => {
@@ -317,5 +318,56 @@ describe('author and affiliation helpers', () => {
 
   it('buildAffiliationIDs', () => {
     expect(buildAffiliationIDs(contribs)).toEqual(['MPAffiliation:X'])
+  })
+})
+
+describe('reorderAuthors', () => {
+  const authors: Contributor[] = [
+    {
+      _id: 'MPContributor:author-1',
+      objectType: ObjectTypes.Contributor,
+      manuscriptID: 'MPManuscript:manuscript-1',
+      containerID: 'MPProject:project-1',
+      bibliographicName: {
+        _id: 'MPBibliographicName:author-1',
+        objectType: 'MPBibliographicName',
+      },
+      isJointContributor: false,
+      sessionID: 'test',
+      createdAt: 0,
+      updatedAt: 0,
+      priority: 0,
+    },
+    {
+      _id: 'MPContributor:author-2',
+      objectType: ObjectTypes.Contributor,
+      manuscriptID: 'MPManuscript:manuscript-1',
+      containerID: 'MPProject:project-1',
+      bibliographicName: {
+        _id: 'MPBibliographicName:author-2',
+        objectType: 'MPBibliographicName',
+      },
+      sessionID: 'test',
+      createdAt: 0,
+      updatedAt: 0,
+      priority: 1,
+    },
+  ]
+
+  it('should reorder authors based on a source and destination index', () => {
+    const result = reorderAuthors(authors, 1, -0.5)
+    expect(result).toHaveLength(2)
+    expect(result[0]).toEqual(authors[1])
+  })
+
+  it('should reorder authors in either direction', () => {
+    const result = reorderAuthors(authors, 0, 1.5)
+    expect(result).toHaveLength(2)
+    expect(result[0]).toEqual(authors[1])
+  })
+
+  it('should not reorder authors if the new index puts it in the same order', () => {
+    const result = reorderAuthors(authors, 0, 0.5)
+    expect(result).toEqual(authors)
   })
 })

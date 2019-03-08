@@ -15,11 +15,10 @@
  */
 
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
+import { CloseButton, StyledModal } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { IndicatorKind, ProgressIndicator } from '../ProgressIndicator'
-import { CloseButton } from '../SimpleModal'
-import { StyledModal, totalTransitionTime } from '../StyledModal'
 
 const ModalBody = styled.div`
   flex: 1;
@@ -73,7 +72,6 @@ export const TemplateLoadingModal: React.FunctionComponent<Props> = ({
     isOpen={true}
     onRequestClose={handleCancel}
     shouldCloseOnOverlayClick={false}
-    closeTimeoutMS={totalTransitionTime}
   >
     <ModalHeader>
       <CloseButton onClick={handleCancel}>

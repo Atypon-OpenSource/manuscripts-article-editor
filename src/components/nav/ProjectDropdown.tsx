@@ -20,15 +20,18 @@ import {
   Project,
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
-import { Button, PrimaryButton } from '@manuscripts/style-guide'
+import {
+  Avatar,
+  Button,
+  PrimaryButton,
+  ProjectIcon,
+  ProjectNotificationIcon,
+  TickMarkIcon,
+} from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import ProjectIcon from '../../icons/project'
-import ProjectNotification from '../../icons/project-notification'
-import TickMark from '../../icons/tick-mark'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
-import { Avatar } from '../Avatar'
 import { DropdownElement, DropdownLink } from './Dropdown'
 
 const activeStyle = {
@@ -129,7 +132,7 @@ export const InvitationDropdownSection: React.FunctionComponent<
   <DropdownElement>
     <ProjectNameContainer>
       <DropdownWithNotificationIcon>
-        <ProjectNotification color={theme.colors.icon.primary} />
+        <ProjectNotificationIcon color={theme.colors.icon.primary} />
       </DropdownWithNotificationIcon>
       <ButtonsContainer>
         <Title value={invitation.projectTitle || 'Untitled Invitation'} />
@@ -192,7 +195,7 @@ export const ProjectDropdownSection: React.FunctionComponent<
     {accepted && (
       <AcceptedLabel>
         <TickMarkContainer>
-          <TickMark />
+          <TickMarkIcon />
         </TickMarkContainer>
         Accepted
       </AcceptedLabel>

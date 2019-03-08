@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { FormErrors } from '@manuscripts/style-guide'
 import { Formik, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
@@ -26,7 +27,6 @@ import { deleteAccount } from '../../lib/api'
 import { isOwner } from '../../lib/roles'
 import { getCurrentUserId } from '../../lib/user'
 import { deleteAccountSchema } from '../../validation'
-import { FormErrors } from '../Form'
 import { DeleteAccountMessage } from '../Messages'
 import { ModalForm } from '../ModalForm'
 import { DeleteAccountForm, DeleteAccountValues } from './DeleteAccountForm'

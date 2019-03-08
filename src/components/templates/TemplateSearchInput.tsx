@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import { SearchIcon } from '@manuscripts/style-guide'
 import React from 'react'
-import SearchIcon from '../../icons/search'
 import { theme } from '../../theme/theme'
 import {
   SidebarSearchField,
