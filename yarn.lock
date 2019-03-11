@@ -1123,10 +1123,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.2.tgz#bc7354d1dc704bf03c4b9d4e0f4c1054c70bbc73"
   integrity sha512-kctNmYWfzk0M3Rxe5+UNdnMYM5pGL1ZFwE0+izMfpVegm3744Sbeg/0JUXrHXvaHIwT8JOzdOCi6WO6oBlejlA==
 
-"@manuscripts/manuscript-editor@^0.18.0":
-  version "0.18.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.18.0.tgz#6df4a1a370324d6c5924d4bb5639db0ddd741492"
-  integrity sha512-oXIJDEyObeXKZ9mo89sb2HgCr9FSZeS5/uYPVUO5yGZJ+unUTk02zF4gtvGeVV6VXVKDj2mmcNpqXGRiVhBzoA==
+"@manuscripts/manuscript-editor@^0.19.0":
+  version "0.19.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.19.0.tgz#2bfe41dc4ec448bf3be1154306d9b275f8bcd81b"
+  integrity sha512-yVhGZGeXQqvlKVM1VvzWeLQ3KvG0xbngMV2h3aSlnWZw2m85s8kK7RInqf2Uwd9n7txjomhKniCLA7c66I/a/w==
   dependencies:
     "@manuscripts/assets" "^0.3.0"
     "@manuscripts/examples" "^0.0.2"

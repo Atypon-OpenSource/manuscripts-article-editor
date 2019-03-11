@@ -20,7 +20,8 @@ import {
   CitationManager,
   Editor,
   findParentNodeWithIdValue,
-  menus,
+  MenuItem,
+  menus as editorMenus,
   PopperManager,
 } from '@manuscripts/manuscript-editor'
 import '@manuscripts/manuscript-editor/styles/Editor.css'
@@ -80,6 +81,7 @@ import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
 import { filterLibrary } from '../../lib/library'
 import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
+import { buildProjectMenu, RecentProject } from '../../lib/project-menu'
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/session-id'
 import { Collection, ContainerIDs } from '../../sync/Collection'
@@ -299,22 +301,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             <EditorContainerInner>
               {view && !config.native && (
                 <EditorHeader>
-                  <ApplicationMenu
-                    menus={menus({
-                      manuscript,
-                      project,
-                      getModelMap: this.getModelMap,
-                      addManuscript: this.addManuscript,
-                      openTemplateSelector: this.openTemplateSelector,
-                      deleteManuscript: this.deleteManuscript,
-                      deleteModel: this.deleteModel,
-                      history: this.props.history,
-                      openExporter: this.openExporter,
-                      openImporter: this.openImporter,
-                      openRenameProject: this.openRenameProject,
-                    })}
-                    view={view}
-                  />
+                  <ApplicationMenu menus={this.buildMenus()} view={view} />
 
                   {activeEditor && (
                     <ManuscriptPageToolbar
@@ -1235,7 +1222,30 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     view.dispatch(view.state.tr.setMeta(conflictsKey, updatedConflicts))
   }
 
-  private getModelMap = (): Map<string, Model> => this.state.modelMap!
+  private buildMenus = (): MenuItem[] => {
+    const { manuscript, project } = this.props
+    const { view } = this.state
+
+    const projectMenu = buildProjectMenu({
+      manuscript,
+      project,
+      addManuscript: this.addManuscript,
+      openTemplateSelector: this.openTemplateSelector,
+      deleteManuscript: this.deleteManuscript,
+      deleteModel: this.deleteModel,
+      history: this.props.history,
+      openExporter: this.openExporter,
+      openImporter: this.openImporter,
+      openRenameProject: this.openRenameProject,
+      getRecentProjects: this.getRecentProjects,
+    })
+
+    const menus: MenuItem[] = [projectMenu]
+
+    return view && view.hasFocus() ? menus.concat(editorMenus) : menus
+  }
+
+  private getRecentProjects = (): RecentProject[] => [] // TODO
 
   private getCurrentUser = (): UserProfile => this.props.user
 
