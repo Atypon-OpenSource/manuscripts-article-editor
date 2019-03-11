@@ -19,13 +19,7 @@ import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import { History } from 'history'
 import React from 'react'
-
-export interface RecentProject {
-  projectID: string
-  manuscriptID: string
-  projectTitle?: string
-  sectionID?: string
-}
+import { RecentProject } from './user-project'
 
 interface Props {
   project: Project

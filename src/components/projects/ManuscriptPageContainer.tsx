@@ -51,6 +51,7 @@ import {
   ManuscriptPlugin,
   ModelAttachment,
   Selected,
+  timestamp,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -61,6 +62,7 @@ import {
   ObjectTypes,
   Project,
   UserProfile,
+  UserProject,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   ConflictManager,
@@ -79,11 +81,17 @@ import { Prompt, RouteComponentProps } from 'react-router'
 import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
+import deviceId from '../../lib/device-id'
 import { filterLibrary } from '../../lib/library'
 import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
-import { buildProjectMenu, RecentProject } from '../../lib/project-menu'
+import { buildProjectMenu } from '../../lib/project-menu'
 import { ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/session-id'
+import {
+  buildRecentProjects,
+  buildUserProject,
+  RecentProject,
+} from '../../lib/user-project'
 import { Collection, ContainerIDs } from '../../sync/Collection'
 import CollectionManager from '../../sync/CollectionManager'
 // import { newestFirst, oldestFirst } from '../../lib/sort'
@@ -149,9 +157,12 @@ interface Props {
   manuscripts: Manuscript[]
   manuscript: Manuscript
   project: Project
+  projects: Project[]
   user: UserProfileWithAvatar
   collaborators: Map<string, UserProfileWithAvatar>
   projectsCollection: Collection<Project>
+  userProjects: UserProject[]
+  userProjectsCollection: Collection<UserProject>
 }
 
 interface RouteParams {
@@ -420,6 +431,34 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
+  private saveUserProject = async (projectID: string, manuscriptID: string) => {
+    const {
+      userProjects,
+      userProjectsCollection,
+      user: { userID },
+    } = this.props
+
+    const userProject = userProjects.find(
+      userProject => userProject.projectID === projectID
+    )
+
+    if (!userProject) {
+      await userProjectsCollection.create(
+        buildUserProject(userID, projectID, manuscriptID, deviceId)
+      )
+    } else {
+      await userProjectsCollection.update(userProject._id, {
+        lastOpened: {
+          ...userProject.lastOpened,
+          [deviceId]: {
+            timestamp: timestamp(),
+            manuscriptID,
+          },
+        },
+      })
+    }
+  }
+
   private prepare = async (projectID: string, manuscriptID: string) => {
     try {
       const conflictManager = new ConflictManager(
@@ -476,6 +515,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           'Failed to open project for editing due to an error during data preparation.'
         )
       }
+
+      await this.saveUserProject(projectID, manuscriptID)
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
       this.setState({
@@ -624,6 +665,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       previousManuscript.bundle !== manuscript.bundle ||
       previousManuscript.primaryLanguageCode !== manuscript.primaryLanguageCode
     )
+  }
+
+  private getRecentProjects = (): RecentProject[] => {
+    const { projects, userProjects } = this.props
+    const { projectID } = this.props.match.params
+
+    return buildRecentProjects(projectID, userProjects, projects, deviceId)
   }
 
   private dispatchUpdate = () => {
@@ -1244,8 +1292,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     return view && view.hasFocus() ? menus.concat(editorMenus) : menus
   }
-
-  private getRecentProjects = (): RecentProject[] => [] // TODO
 
   private getCurrentUser = (): UserProfile => this.props.user
 

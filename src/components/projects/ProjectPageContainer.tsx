@@ -27,6 +27,7 @@ import ProjectLibraryData from '../../data/ProjectLibraryData'
 import ProjectManuscriptsData from '../../data/ProjectManuscriptsData'
 import ProjectsData from '../../data/ProjectsData'
 import UserData from '../../data/UserData'
+import UserProjectsData from '../../data/UserProjectsData'
 import { getCurrentUserId } from '../../lib/user'
 import Sync from '../../sync/Sync'
 import AddCollaboratorsPageContainer from '../collaboration/AddCollaboratorsPageContainer'
@@ -164,36 +165,60 @@ class ProjectPageContainer extends React.Component<
                                                         projectID={projectID}
                                                       >
                                                         {comments => (
-                                                          <React.Suspense
-                                                            fallback={
-                                                              <ProjectPlaceholder />
+                                                          <UserProjectsData
+                                                            projectID={
+                                                              projectID
                                                             }
                                                           >
-                                                            <ManuscriptPageContainer
-                                                              {...props}
-                                                              comments={
-                                                                comments
-                                                              }
-                                                              keywords={
-                                                                keywords
-                                                              }
-                                                              library={library}
-                                                              manuscript={
-                                                                manuscript
-                                                              }
-                                                              manuscripts={
-                                                                manuscripts
-                                                              }
-                                                              project={project}
-                                                              projectsCollection={
-                                                                projectsCollection
-                                                              }
-                                                              user={user}
-                                                              collaborators={
-                                                                collaborators
-                                                              }
-                                                            />
-                                                          </React.Suspense>
+                                                            {(
+                                                              userProjects,
+                                                              userProjectCollection
+                                                            ) => (
+                                                              <React.Suspense
+                                                                fallback={
+                                                                  <ProjectPlaceholder />
+                                                                }
+                                                              >
+                                                                <ManuscriptPageContainer
+                                                                  {...props}
+                                                                  comments={
+                                                                    comments
+                                                                  }
+                                                                  keywords={
+                                                                    keywords
+                                                                  }
+                                                                  library={
+                                                                    library
+                                                                  }
+                                                                  manuscript={
+                                                                    manuscript
+                                                                  }
+                                                                  manuscripts={
+                                                                    manuscripts
+                                                                  }
+                                                                  project={
+                                                                    project
+                                                                  }
+                                                                  projects={
+                                                                    projects
+                                                                  }
+                                                                  projectsCollection={
+                                                                    projectsCollection
+                                                                  }
+                                                                  user={user}
+                                                                  collaborators={
+                                                                    collaborators
+                                                                  }
+                                                                  userProjects={
+                                                                    userProjects
+                                                                  }
+                                                                  userProjectsCollection={
+                                                                    userProjectCollection
+                                                                  }
+                                                                />
+                                                              </React.Suspense>
+                                                            )}
+                                                          </UserProjectsData>
                                                         )}
                                                       </ManuscriptCommentsData>
                                                     )}
