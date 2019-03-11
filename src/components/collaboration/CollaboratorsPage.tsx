@@ -252,7 +252,7 @@ export const AddAuthorsPage: React.FunctionComponent<AddAuthorsPageProps> = ({
       </Placeholder>
 
       {addedAuthorsCount ? (
-        <MessageContainer>
+        <MessageContainer data-cy={'add-author-message'}>
           <IconContainer>
             <AddedIcon />
           </IconContainer>
@@ -274,7 +274,7 @@ export const AddAuthorsPage: React.FunctionComponent<AddAuthorsPageProps> = ({
 )
 
 export const AuthorDetailsPage: React.FunctionComponent = () => (
-  <OuterContainerModal>
+  <OuterContainerModal data-cy={'author-details'}>
     <InnerContainer>
       <Placeholder>
         <ContributorDetails />

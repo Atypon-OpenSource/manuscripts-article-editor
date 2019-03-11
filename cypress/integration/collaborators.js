@@ -1,4 +1,4 @@
-import { generateUser, login, signup, createProject } from './helpers'
+import { generateUser, login, signup, createProject, generateName } from './helpers'
 import faker from 'faker'
 
 describe('Collaborators', () => {
@@ -33,21 +33,21 @@ describe('Collaborators', () => {
     it('Shows a message when a collaborator does not exists yet and asks to invite them', () => {
         login(user, true)
 
-        const collaborator = faker.name.findName()
+        const collaborator = generateName()
 
         createProject()
         cy.wait(1500)
         cy.get('body').type('{option}{cmd}5', { release: false })
         cy.get('[data-cy="sidebar"]').contains('New Collaborator').click()
         cy.get('input').type(collaborator)
-        cy.get('[data-cy="sidebar-text"]').contains('No matches in the People list.')
+        cy.get('[data-cy="sidebar-text"]').contains('No matches found.')
         cy.get('[data-cy="sidebar-text"]').contains(`Do you want to invite ${collaborator}?`)
     })
 
     it('Can click on Invite to invite a new collaborator', () => {
         login(user, true)
 
-        const collaborator = faker.name.findName()
+        const collaborator = generateName()
 
         createProject()
         cy.wait(1500)
@@ -63,7 +63,7 @@ describe('Collaborators', () => {
     it('Can cancel the search for a collaborator', () => {
         login(user, true)
 
-        const collaborator = faker.name.findName()
+        const collaborator = generateName()
 
         createProject()
         cy.wait(1500)
@@ -77,7 +77,7 @@ describe('Collaborators', () => {
     it('Email field cannot be blank when inviting a collaborator', () => {
         login(user, true)
 
-        const collaborator = faker.name.findName()
+        const collaborator = generateName()
 
         createProject()
         cy.wait(1500)
@@ -91,7 +91,7 @@ describe('Collaborators', () => {
     it('Can make a collaborator an owner of a project', () => {
         login(user, true)
 
-        const collaborator = faker.name.findName()
+        const collaborator = generateName()
 
         createProject()
         cy.wait(1500)
@@ -106,7 +106,7 @@ describe('Collaborators', () => {
     it('Can make a collaborator a reader of a project', () => {
         login(user, true)
 
-        const collaborator = faker.name.findName()
+        const collaborator = generateName()
 
         createProject()
         cy.wait(1500)

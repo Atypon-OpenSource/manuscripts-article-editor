@@ -103,7 +103,7 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
   handleDrop,
   getSidebarItemDecorator,
 }) => (
-  <Sidebar>
+  <Sidebar data-cy={'authors-sidebar'}>
     <SidebarHeader>
       <SidebarTitle>Authors</SidebarTitle>
     </SidebarHeader>

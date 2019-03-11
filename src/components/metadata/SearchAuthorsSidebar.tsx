@@ -93,7 +93,7 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
       <SidebarContent>
         {!searchText.includes('@') ? (
           <span>
-            <SidebarText>
+            <SidebarText data-cy={'sidebar-text'}>
               No matches found.
               <br />
               Do you want to <Action>create</Action> a new author or

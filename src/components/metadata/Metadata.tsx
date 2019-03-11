@@ -165,13 +165,14 @@ export const Metadata: React.FunctionComponent<Props> = props => (
           style={{
             transform: props.expanded ? 'rotate(180deg)' : 'rotate(0deg)',
           }}
+          data-cy={'expander-button'}
         >
           <ArrowDownBlue />
         </ExpanderButton>
       </TitleContainer>
 
       {props.expanded && (
-        <AuthorsContainer>
+        <AuthorsContainer data-cy={'author-container'}>
           <AuthorsList
             authors={props.authors}
             authorAffiliations={props.authorAffiliations}
@@ -191,7 +192,10 @@ export const Metadata: React.FunctionComponent<Props> = props => (
       >
         <ModalContainer>
           <ModalHeader>
-            <CloseButton onClick={props.stopEditing}>
+            <CloseButton
+              onClick={props.stopEditing}
+              data-cy={'modal-close-button'}
+            >
               <CloseIconDark />
             </CloseButton>
           </ModalHeader>

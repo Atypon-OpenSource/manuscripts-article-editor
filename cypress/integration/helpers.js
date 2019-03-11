@@ -6,9 +6,13 @@ const timestamp = () => Math.floor(Date.now() / 1000)
 
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
+export const generateName = () => {
+  return (faker.name.firstName() + ' ' + faker.name.lastName())
+}
+
 export const generateUser = () => ({
   email: timestamp() + '-' + faker.internet.email(),
-  name: faker.name.findName(),
+  name: generateName(),
   password: faker.internet.password(),
 })
 
@@ -31,8 +35,8 @@ export const login = (user, confirm) => {
     cy.get('button[type=submit]').click()
 
   if (confirm) {
-    cy.url({timeout: 10000}).should('includes', '/projects')
-    cy.get('#user-dropdown', {timeout: 3000})
+    cy.url({timeout: 10000}).should('include', '/projects')
+    cy.get('#user-dropdown').should('be.visible')
   }
 }
 
@@ -91,11 +95,8 @@ export const generateParagraph = (wordCount) => {
 }
 
 export const createProject = () => {
-  cy.contains('New Project').click()
-  cy.contains('Create empty manuscript', {
-    timeout: 30000
-  }).click()
-  cy.get('#project-title-field', {
-    timeout: 30000
-  })
+  cy.get('#create-project').should('be.visible').click()
+  cy.get('[data-cy="arrow-down"]', { timeout: 6000 })
+  cy.get('button').contains('Create empty manuscript').click()
+  cy.get('#project-title-field').should('be.visible', {timeout: 6000})
 }
