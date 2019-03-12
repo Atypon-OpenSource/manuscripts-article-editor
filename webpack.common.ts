@@ -67,10 +67,6 @@ const configuration: webpack.Configuration = {
         }
       ),
       new webpack.ContextReplacementPlugin(
-        /codemirror[\/\\]mode$/,
-        /javascript|stex/ // TODO: all the modes needed for the listing format switcher
-      ),
-      new webpack.ContextReplacementPlugin(
         /react-intl[\/\\]locale-data$/,
         /en/ // TODO: all the locales needed for the locale switcher
       ),
@@ -78,28 +74,24 @@ const configuration: webpack.Configuration = {
 
     if (config.serviceworker) {
       plugins.push(
+        // @ts-ignore (types version)
         new GenerateSW({
-          cacheId: 'manuscripts.io',
-          // clientsClaim: true,
-          dontCacheBustUrlsMatching: /\.[a-f0-9]{8}\./, // hash in filename
-          exclude: [
-            // /^\d+\./
-            // TODO: cache locales + codemirror languages as they're loaded
-            config.api.url && new RegExp(config.api.url),
-            config.gateway.url && new RegExp(config.gateway.url),
-            new RegExp('http://127.0.0.1'),
-          ],
-          importWorkboxFrom: 'local',
+          cacheId: 'manuscripts-io',
+          // @ts-ignore (types version)
+          dontCacheBustURLsMatching: /\.\w{8}\./, // hash in filename
+          // TODO: cache locales as they're loaded?
+          importWorkboxFrom: 'local', // load workbox from local files
           navigateFallback: '/index.html',
-          navigateFallbackBlacklist: [/^\/data\//],
-          // runtimeCaching: [
-          //   {
-          //     handler: 'cacheFirst',
-          //     // handler: 'staleWhileRevalidate',
-          //     urlPattern: new RegExp(appConfig.csl.url),
-          //   },
-          // ],
-          // skipWaiting: true,
+          navigateFallbackBlacklist: [/^\/data\//], // shared data can be under /data
+          // offlineGoogleAnalytics: true,
+          runtimeCaching: [
+            // cache shared data
+            {
+              urlPattern: new RegExp('^' + config.data.url),
+              handler: 'CacheFirst',
+            },
+          ],
+          // skipWaiting: true, // start running immediately
         })
       )
     }
