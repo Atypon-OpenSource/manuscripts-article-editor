@@ -17,7 +17,7 @@
 process.env.NODE_ENV = 'production'
 
 import CleanWebpackPlugin from 'clean-webpack-plugin'
-import FaviconsWebpackPlugin from 'favicons-webpack-plugin'
+import WebappWebpackPlugin from 'webapp-webpack-plugin'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
 // import ExtractTextPlugin from 'extract-text-webpack-plugin'
@@ -79,19 +79,27 @@ const configuration: webpack.Configuration = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
-    new FaviconsWebpackPlugin({
-      background: '#fff',
-      inject: true,
+    new WebappWebpackPlugin({
       logo: './public/favicon.png',
-      theme_color: '#fff',
-      title: 'Manuscripts.io',
-      icons: {
-        android: true,
-        appleIcon: true,
-        appleStartup: false,
-        favicons: true,
-        firefox: true,
-        windows: true,
+      cache: true,
+      prefix: 'webapp/[hash:8]',
+      inject: true,
+      favicons: {
+        appName: 'Manuscripts.io',
+        appShortName: 'Manuscripts',
+        developerName: null,
+        developerURL: null,
+        version: null,
+        background: '#fff',
+        theme_color: '#fff',
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: false,
+          favicons: true,
+          firefox: true,
+          windows: true,
+        },
       },
     }),
     // new ExtractTextPlugin({
