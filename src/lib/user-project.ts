@@ -77,7 +77,9 @@ export const buildRecentProjects = (
   return userProjects
     .filter(
       userProject =>
-        projectID !== userProject.projectID && userProject.lastOpened[deviceID]
+        projectID !== userProject.projectID &&
+        userProject.lastOpened[deviceID] &&
+        projectsMap.get(userProject.projectID)
     )
     .sort(compareTimestamp(deviceID))
     .splice(0, numberOfProjects)
