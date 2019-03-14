@@ -56,9 +56,12 @@ const ProjectTitle = styled(SidebarTitle)`
 
   & .ProseMirror {
     cursor: text;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+
+    &:not(.ProseMirror-focused) {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
 
     &:focus {
       outline: none;
