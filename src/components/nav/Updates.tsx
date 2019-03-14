@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import AppIcon from '@manuscripts/assets/react/AppIcon'
 import { BackArrowIcon } from '@manuscripts/style-guide'
 import { sanitize } from 'dompurify'
 import React from 'react'
@@ -23,13 +22,13 @@ import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 
 export const Popup = styled.div`
-  background: white;
-  box-shadow: 0 2px 2px #777;
+  background: #fff;
+  border-radius: ${props => props.theme.radius}px;
+  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
   font-family: Barlow, sans-serif;
   font-size: 10pt;
   font-weight: normal;
   color: #000;
-  padding: 20px;
   max-width: 500px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -52,9 +51,15 @@ const Link = styled.a`
   text-decoration: none;
 `
 
+const FooterLink = styled(Link)`
+  padding: 6px 24px 12px;
+  border-top: 1px solid #eee;
+  margin-top: 12px;
+`
+
 const Title = styled.div`
   font-size: 1.1em;
-  color: #585858;
+  font-weight: 600;
   cursor: pointer;
   flex: 1;
 
@@ -63,11 +68,14 @@ const Title = styled.div`
   }
 `
 
+const Container = styled.div``
+
 const Header = styled.div`
-  font-size: 1.5em;
-  font-weight: 600;
-  color: #585858;
-  margin-bottom: 10px;
+  font-size: 1.6em;
+  font-weight: 200;
+  margin: 0 0 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #eee;
 `
 
 const Heading = styled.div`
@@ -105,19 +113,17 @@ const Timestamp = styled.span`
   margin-left: 6px;
 `
 
-const Container = styled.div`
-  display: flex;
-`
-
 const TopicItem = styled.div`
-  margin-bottom: 20px;
   cursor: pointer;
+  font-weight: 400;
+  padding: 6px 24px;
 
-  * p {
+  & p {
     margin-top: 0.5em;
     margin-bottom: 0.8em;
   }
-  * img {
+
+  & img {
     max-width: 70%;
     margin: 0;
     padding: 10pt;
@@ -132,15 +138,18 @@ const Back = styled.div`
   }
 `
 
-const Logo = styled.div`
-  flex-shrink: 0;
-  margin-right: 26px;
+const IndividualTopic = styled.div`
+  padding: 0 24px;
+
+  & ${TopicItem} {
+    padding: 0;
+  }
 `
 
 const LoginLink: React.FunctionComponent<{ host: string }> = ({ host }) => (
-  <Link href={`${host}/login`} target={'_blank'}>
+  <FooterLink href={`${host}/login`} target={'_blank'}>
     &#128279; Manuscripts.io community
-  </Link>
+  </FooterLink>
 )
 
 const oldestFirst = (a: Post, b: Post) => {
@@ -216,32 +225,26 @@ export class Updates extends React.Component<Props, State> {
 
     return (
       <Container>
-        <Logo>
-          <AppIcon />
-        </Logo>
+        {selectedTopic ? (
+          <UpdatesContent>
+            <Header onClick={() => this.selectTopic(null)}>
+              <Back>
+                <BackArrowIcon size={15} color={theme.colors.updates.back} />{' '}
+                Back to Latest Updates
+              </Back>
+            </Header>
 
-        <div>
-          {selectedTopic ? (
-            <UpdatesContent>
-              <Header onClick={() => this.selectTopic(null)}>
-                <Back>
-                  <BackArrowIcon size={15} color={theme.colors.updates.back} />{' '}
-                  Back to Latest Updates
-                </Back>
-              </Header>
+            {this.renderTopic(selectedTopic)}
+          </UpdatesContent>
+        ) : (
+          <UpdatesContent>
+            <Header>Latest Updates</Header>
 
-              {this.renderTopic(selectedTopic)}
-            </UpdatesContent>
-          ) : (
-            <UpdatesContent>
-              <Header>Latest Updates</Header>
+            {this.renderTopics()}
+          </UpdatesContent>
+        )}
 
-              {this.renderTopics()}
-            </UpdatesContent>
-          )}
-
-          <LoginLink host={host} />
-        </div>
+        <LoginLink host={host} />
       </Container>
     )
   }
@@ -296,7 +299,7 @@ export class Updates extends React.Component<Props, State> {
     const post = this.postForTopic(topic)
 
     return (
-      <React.Fragment>
+      <IndividualTopic>
         <Heading>
           <Title>
             <Link
@@ -316,7 +319,7 @@ export class Updates extends React.Component<Props, State> {
         </Heading>
 
         <TopicItem>{sanitizedContent(post.cooked)}</TopicItem>
-      </React.Fragment>
+      </IndividualTopic>
     )
   }
 
