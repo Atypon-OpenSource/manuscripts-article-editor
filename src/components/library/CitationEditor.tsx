@@ -79,13 +79,13 @@ const Actions = styled.div`
 
 interface Props {
   filterLibraryItems: (query: string) => BibliographyItem[]
+  handleCancel: () => void
   handleCite: (items: BibliographyItem[], query?: string) => Promise<void>
   handleRemove: (id: string) => void
-  handleUpdate: (id: string, data: Partial<BibliographyItem>) => void
   items: BibliographyItem[]
   projectID: string
-  selectedText: string
   scheduleUpdate: () => void
+  selectedText: string
 }
 
 interface State {
@@ -107,13 +107,25 @@ class CitationEditor extends React.Component<Props, State> {
       return <div>TODO…</div>
     }*/
 
-    if (searching || !items.length) {
+    if (searching) {
       return (
         <CitationSearch
           query={selectedText}
           filterLibraryItems={this.props.filterLibraryItems}
           handleCite={handleCite}
           handleCancel={() => this.setState({ searching: false })}
+          scheduleUpdate={scheduleUpdate}
+        />
+      )
+    }
+
+    if (!items.length) {
+      return (
+        <CitationSearch
+          query={selectedText}
+          filterLibraryItems={this.props.filterLibraryItems}
+          handleCite={handleCite}
+          handleCancel={this.props.handleCancel}
           scheduleUpdate={scheduleUpdate}
         />
       )
