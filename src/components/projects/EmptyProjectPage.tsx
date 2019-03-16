@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-import AddIcon from '@manuscripts/assets/react/AddIcon'
 import ProjectPlaceholder from '@manuscripts/assets/react/ProjectPlaceholder'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import {
+  AddIconContainer,
+  AddIconHover,
+  RegularAddIcon,
+} from './ProjectsListPlaceholder'
 
 const OuterContainer = styled.div`
   display: flex;
@@ -83,11 +87,9 @@ const Message = styled.div`
     max-width: 350px;
   }
 `
-
-const ButtonText = styled.span`
-  margin-left: 4px;
+const TextContainer = styled.div`
+  padding-left: 10px;
 `
-
 interface Props {
   project: Project
   openTemplateSelector: () => void
@@ -109,8 +111,11 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
     </Message>
     <Action>
       <AddManuscriptButton onClick={openTemplateSelector}>
-        <AddIcon />
-        <ButtonText>New Manuscript</ButtonText>
+        <AddIconContainer>
+          <RegularAddIcon />
+          <AddIconHover />
+          <TextContainer>New Manuscript</TextContainer>
+        </AddIconContainer>
       </AddManuscriptButton>
     </Action>
   </OuterContainer>

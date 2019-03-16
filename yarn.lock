@@ -1442,6 +1442,11 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.4.tgz#0ffaab28e15a84a8cb9691f3e71ee27d56cad055"
   integrity sha512-d2vVWsmK4zQCMY8g2QlQfBeBb7jMBHXpFizKsll/QuJcy4eM+quGno4AqLvQVjnIL1YIwj1u/fdYqNh4O0WtoA==
 
+"@manuscripts/assets@^0.3.6":
+  version "0.3.6"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.6.tgz#191daa9571debc3a60a5172fe45818ec21101e79"
+  integrity sha512-haS4y4VPWw/JSkmkCyaEERoYUbv8xEl0PhfCCXXc0gN4e13VAZual+nXwRXUfqZyQ7Y38EXPn3okyylK9zr1nQ==
+
 "@manuscripts/comment-editor@^0.1.0":
   version "0.1.1"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fcomment-editor/-/comment-editor-0.1.1.tgz#1f432213b4084061827215bdebd219c14adb6af6"
@@ -12595,6 +12600,7 @@ pouchdb-abstract-mapreduce@7.0.0:
 pouchdb-adapter-leveldb-core@7.0.0:
   version "7.0.0"
   resolved "git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#a86fea6a55a234c486735d8fcb9cd2b5492addc6"
+  integrity sha512-LL5bjUXJSMW33F58MAZ0MbihWeHCEjx0uoZjIGRBnpq74bsUQwJVtFSP0TqR/cXCuimCt1ATNBStRc9pr5Avrg==
   dependencies:
     argsarray "0.0.1"
     buffer-from "1.1.0"

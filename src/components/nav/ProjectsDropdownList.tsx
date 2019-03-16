@@ -19,7 +19,6 @@ import {
   Project,
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
-import { AddAuthor } from '@manuscripts/style-guide'
 import React from 'react'
 import { projectListCompare } from '../../lib/projects'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
@@ -95,9 +94,7 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
 
       {!!projects.length && <DropdownSeparator />}
 
-      <DropdownSection onClick={addProject} icon={<AddAuthor size={18} />}>
-        New Project
-      </DropdownSection>
+      <DropdownSection onClick={addProject}>New Project</DropdownSection>
     </React.Fragment>
   )
 }

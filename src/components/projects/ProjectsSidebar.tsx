@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema/dist/types'
 import React from 'react'
@@ -28,7 +27,12 @@ import { ModalProps, withModal } from '../ModalProvider'
 import ProjectsButton from '../nav/ProjectsButton'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import TemplateSelector from '../templates/TemplateSelector'
-import { ProjectsListPlaceholder } from './ProjectsListPlaceholder'
+import {
+  AddIconContainer,
+  AddIconHover,
+  ProjectsListPlaceholder,
+  RegularAddIcon,
+} from './ProjectsListPlaceholder'
 
 const Container = styled(Sidebar)`
   background: white;
@@ -43,8 +47,8 @@ const Header = styled(SidebarHeader)`
 const SidebarActionTitle = styled.span`
   display: flex;
   align-items: center;
-  padding-left: 11px;
   padding-bottom: 2px;
+  padding-left: 10px;
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.2px;
@@ -125,8 +129,11 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
                         onClick={openTemplateSelector(props, user)}
                         id={'create-project'}
                       >
-                        <AddIcon />
-                        <SidebarActionTitle>New Project</SidebarActionTitle>
+                        <AddIconContainer>
+                          <RegularAddIcon />
+                          <AddIconHover />
+                          <SidebarActionTitle>New Project</SidebarActionTitle>
+                        </AddIconContainer>
                       </AddButton>
                     </SidebarAction>
                     <ProjectsButton

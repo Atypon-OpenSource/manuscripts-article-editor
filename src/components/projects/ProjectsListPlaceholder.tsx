@@ -15,6 +15,7 @@
  */
 
 import AddIcon from '@manuscripts/assets/react/AddIcon'
+import AddIconHighlight from '@manuscripts/assets/react/AddIconHighlight'
 import DocIcon from '@manuscripts/assets/react/DocIcon'
 import MarkdownIcon from '@manuscripts/assets/react/MarkdownIcon'
 import TeXIcon from '@manuscripts/assets/react/TeXIcon'
@@ -35,9 +36,9 @@ const SidebarActionTitle = styled.span`
 const Title = styled.div`
   font-size: 24px;
   font-weight: 500;
-  padding-left: 11px;
   padding-bottom: 2px;
   letter-spacing: -0.5px;
+  padding-left: 11px;
 `
 
 const AddButton = styled.button`
@@ -108,6 +109,26 @@ const BrowseLink = styled.span`
   font-weight: 500;
 `
 
+export const RegularAddIcon = styled(AddIcon)`
+  display: block;
+`
+
+export const AddIconHover = styled(AddIconHighlight)`
+  display: none;
+`
+
+export const AddIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  &:hover ${RegularAddIcon} {
+    display: none;
+  }
+
+  &:hover ${AddIconHover} {
+    display: block;
+  }
+`
+
 export interface Props {
   handleClick: (event: React.MouseEvent<HTMLDivElement>) => Promise<void>
   isDragActive: boolean
@@ -127,8 +148,11 @@ export const ProjectsListPlaceholder: React.FunctionComponent<Props> = ({
     </Placeholder>
     {!isDragAccept ? (
       <AddButton onClick={openTemplateSelector} id={'create-project'}>
-        <AddIcon width={40} height={40} />
-        <Title>Create Project</Title>
+        <AddIconContainer>
+          <RegularAddIcon width={40} height={40} />
+          <AddIconHover width={40} height={40} />
+          <Title>Create Project</Title>
+        </AddIconContainer>
       </AddButton>
     ) : (
       <Title>Drop File to Import</Title>

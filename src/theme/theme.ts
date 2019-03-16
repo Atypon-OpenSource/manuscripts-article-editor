@@ -216,7 +216,7 @@ export const theme: Theme = {
       add: {
         hovered: colors.salomieYellow,
       },
-      searchIcon: colors.manuscriptsBlue,
+      searchIcon: colors.powderBlue,
     },
     projects: {
       background: {

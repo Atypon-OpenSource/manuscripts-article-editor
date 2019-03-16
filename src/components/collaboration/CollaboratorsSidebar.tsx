@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
   Project,
@@ -27,6 +26,11 @@ import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import Panel from '../Panel'
+import {
+  AddIconContainer,
+  AddIconHover,
+  RegularAddIcon,
+} from '../projects/ProjectsListPlaceholder'
 import {
   Sidebar,
   SidebarContent,
@@ -55,26 +59,21 @@ const CollaboratorRole = styled.div`
 
 const AddCollaboratorButton = styled.button`
   display: flex;
-  margin: 8px 0px 8px 4px;
+  margin: 8px 0px 8px 3px;
   font-size: 14px;
   align-items: center;
   cursor: pointer;
   background: transparent;
   border: none;
   padding: 2px 8px;
-
-  &:hover use {
-    fill: ${props => props.theme.colors.collaborators.addButton};
-  }
 `
 
 const AddCollaboratorText = styled.div`
-  padding-left: 8px;
-  font-weight: 500;
+  padding-left: 10px;
 `
 
 const CollaboratorData = styled.div`
-  padding-left: 8px;
+  padding-left: 9px;
 `
 
 const UserDataContainer = styled.div`
@@ -151,9 +150,11 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
 
           {isOwner(project, user.userID) && (
             <AddCollaboratorButton onClick={handleAddCollaborator}>
-              <AddAuthor />
-
-              <AddCollaboratorText>New Collaborator</AddCollaboratorText>
+              <AddIconContainer>
+                <RegularAddIcon width={36} height={36} />
+                <AddIconHover width={36} height={36} />
+                <AddCollaboratorText>New Collaborator</AddCollaboratorText>
+              </AddIconContainer>
             </AddCollaboratorButton>
           )}
 
@@ -165,7 +166,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                 onMouseLeave={() => this.handleHover()}
               >
                 <UserDataContainer>
-                  <Avatar size={45} />
+                  <Avatar size={36} />
                   <CollaboratorData>
                     <CollaboratorName>
                       {invitation.invitedUserName ||
@@ -200,7 +201,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                     onClick={() => this.handleClickCollaborator(collaborator)}
                   >
                     <UserDataContainer>
-                      <Avatar src={collaborator.avatar} size={45} />
+                      <Avatar src={collaborator.avatar} size={36} />
                       <CollaboratorData>
                         {user.userID !== collaborator.userID ? (
                           <CollaboratorName>

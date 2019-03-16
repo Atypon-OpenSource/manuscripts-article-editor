@@ -16,10 +16,10 @@
 
 import NavIcon from '@manuscripts/assets/react/NavIcon'
 import React from 'react'
+import { styled } from '../../theme/styled-components'
 import {
   FilledMenuBarIcon,
   MenuContainer,
-  MenuLink,
   MenuSection,
   MenuSections,
 } from './Menu'
@@ -31,6 +31,11 @@ interface Props {
   active: string
 }
 
+const Container = styled.div`
+  padding: 5px 10px;
+  margin-left: 20px;
+`
+
 export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
   <MenuContainer>
     <UpdatesContainer>
@@ -41,7 +46,7 @@ export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
     <MenuSections>
       <MenuSection>
         {active === 'projects' ? (
-          <MenuLink to={'/projects'}>Projects</MenuLink>
+          <Container>Projects</Container>
         ) : (
           <ProjectsButton isDropdown={true} />
         )}

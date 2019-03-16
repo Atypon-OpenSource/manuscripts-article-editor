@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import { Contributor } from '@manuscripts/manuscripts-json-schema'
 import { AuthorAffiliation, AuthorsDND } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import {
+  AddIconContainer,
+  AddIconHover,
+  RegularAddIcon,
+} from '../projects/ProjectsListPlaceholder'
 
-const AddIcon = styled.span`
+const AddAuthorIcon = styled.span`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 0 16px 0 20px;
+  margin: 0 16px 0 18px;
 `
 
 const AddButton = styled.button`
@@ -68,7 +72,7 @@ const SidebarHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  padding: 16px 20px;
 `
 
 const SidebarTitle = styled.div`
@@ -83,6 +87,9 @@ const SidebarAction = styled.div`
   align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
+`
+const AddCollaboratorText = styled.div`
+  padding-left: 14px;
 `
 
 interface Props {
@@ -114,10 +121,13 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
           openAddAuthors()
         }}
       >
-        <AddIcon>
-          <AddAuthor />
-        </AddIcon>
-        New Author
+        <AddAuthorIcon>
+          <AddIconContainer>
+            <RegularAddIcon width={32} height={34} />
+            <AddIconHover width={32} height={34} />
+            <AddCollaboratorText> New Author </AddCollaboratorText>
+          </AddIconContainer>
+        </AddAuthorIcon>
       </AddButton>
     </SidebarAction>
 

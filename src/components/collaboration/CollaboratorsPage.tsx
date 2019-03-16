@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
 import ContributorDetails from '@manuscripts/assets/react/ContributorDetailsPlaceholder'
@@ -35,6 +34,11 @@ import {
   SelectAuthorMessage,
   SelectCollaboratorMessage,
 } from '../Messages'
+import {
+  AddIconContainer,
+  AddIconHover,
+  RegularAddIcon,
+} from '../projects/ProjectsListPlaceholder'
 import { CollaboratorForm } from './CollaboratorForm'
 
 const OuterContainer = styled.div`
@@ -79,24 +83,19 @@ const Action = styled.div`
 `
 
 const ActionButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   background: none;
   border: none;
   font-size: inherit;
   white-space: nowrap;
-
-  &:hover use {
-    fill: ${props => props.theme.colors.collaborators.actionButton};
-  }
 `
 
 const ActionButtonText = styled.div`
   font-weight: 500;
-  font-size: 26px;
+  font-size: 24px;
+  letter-spacing: -0.5px;
   color: ${props => props.theme.colors.global.text.primary};
+  padding-left: 10px;
 `
 
 const Message = styled.div`
@@ -111,13 +110,6 @@ const Message = styled.div`
     margin-left: 20px;
     max-width: 350px;
   }
-`
-
-const AddButtonIcon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
 `
 
 interface CollaboratorDetailsPageProps {
@@ -174,10 +166,11 @@ export const CollaboratorDetailsPage: React.FunctionComponent<
 
               <Action>
                 <ActionButton onClick={handleAddCollaborator}>
-                  <AddButtonIcon>
-                    <AddAuthor />
-                  </AddButtonIcon>
-                  <ActionButtonText>Add Collaborator</ActionButtonText>
+                  <AddIconContainer>
+                    <RegularAddIcon width={40} height={40} />
+                    <AddIconHover width={40} height={40} />
+                    <ActionButtonText>Add Collaborator</ActionButtonText>
+                  </AddIconContainer>
                 </ActionButton>
               </Action>
 

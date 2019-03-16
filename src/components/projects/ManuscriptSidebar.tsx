@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import AddIcon from '@manuscripts/assets/react/AddIcon'
 import {
   DebouncedManuscriptOutlineContainer,
   OutlineManuscript,
@@ -39,6 +38,11 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../Sidebar'
+import {
+  AddIconContainer,
+  AddIconHover,
+  RegularAddIcon,
+} from './ProjectsListPlaceholder'
 
 const ProjectTitle = styled(SidebarTitle)`
   color: ${props => props.theme.colors.sidebar.text.primary};
@@ -100,9 +104,8 @@ const AddManuscriptButton = styled.button`
   text-overflow: ellipsis;
 `
 
-const StyledAddIcon = styled(AddIcon)`
-  transform: scale(0.6);
-  flex-shrink: 0;
+const ManuscriptAdd = styled.div`
+  padding-left: 10px;
 `
 
 const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
@@ -170,8 +173,11 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
 
       <SidebarFooter>
         <AddManuscriptButton onClick={openTemplateSelector}>
-          <StyledAddIcon />
-          New Manuscript
+          <AddIconContainer>
+            <RegularAddIcon width={20} height={21} />
+            <AddIconHover width={20} height={21} />
+            <ManuscriptAdd>New Manuscript</ManuscriptAdd>
+          </AddIconContainer>
         </AddManuscriptButton>
       </SidebarFooter>
     </Sidebar>

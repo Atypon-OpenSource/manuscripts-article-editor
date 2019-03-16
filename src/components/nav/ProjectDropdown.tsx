@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import ProjectIcon from '@manuscripts/assets/react/ProjectIcon'
 import ProjectsList from '@manuscripts/assets/react/ProjectsList'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
@@ -24,7 +25,6 @@ import {
   Avatar,
   Button,
   PrimaryButton,
-  ProjectIcon,
   ProjectNotificationIcon,
   TickMarkIcon,
 } from '@manuscripts/style-guide'
@@ -32,6 +32,11 @@ import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
+import {
+  AddIconContainer,
+  AddIconHover,
+  RegularAddIcon,
+} from '../projects/ProjectsListPlaceholder'
 import { DropdownElement, DropdownLink } from './Dropdown'
 
 const activeStyle = {
@@ -50,6 +55,12 @@ const DropdownWithNotificationIcon = styled.div`
 
 const ButtonsContainer = styled.div`
   display: grid;
+  padding-left: 7px;
+`
+
+const TextContainer = styled.div`
+  padding-left: 10px;
+  padding-bottom: 2px;
 `
 
 const ProjectNameContainer = styled.div`
@@ -205,19 +216,18 @@ export const ProjectDropdownSection: React.FunctionComponent<
 
 interface DropdownSectionProps {
   onClick?: React.MouseEventHandler
-  icon: JSX.Element
 }
 
 export const DropdownSection: React.FunctionComponent<DropdownSectionProps> = ({
   children,
   onClick,
-  icon,
 }) => (
   <DropdownElement onClick={onClick}>
-    <ProjectNameContainer>
-      <DropdownIcon>{icon}</DropdownIcon>
-      {children}
-    </ProjectNameContainer>
+    <AddIconContainer>
+      <RegularAddIcon width={24} height={26} />
+      <AddIconHover width={24} height={26} />
+      <TextContainer>{children}</TextContainer>
+    </AddIconContainer>
   </DropdownElement>
 )
 
@@ -239,7 +249,7 @@ export const AllProjectsDropdownSection: React.FunctionComponent<
   >
     <ProjectNameContainer>
       <DropdownIcon>
-        <ProjectsList />
+        <ProjectsList width={24} height={26} />
       </DropdownIcon>
       View All Projects
     </ProjectNameContainer>
