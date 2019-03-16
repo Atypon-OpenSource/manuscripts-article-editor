@@ -50,7 +50,11 @@ const configuration: webpack.Configuration = {
         'WAYF_KEY',
         'WAYF_URL',
       ]),
-      new CopyWebpackPlugin(['public/landing.html', 'public/screenshot.png']),
+      new CopyWebpackPlugin([
+        'public/landing.html',
+        'public/screenshot.png',
+        'public/modernizr.js',
+      ]),
       new HtmlWebpackPlugin({
         template: 'public/index.html',
         title: 'Manuscripts.io',
