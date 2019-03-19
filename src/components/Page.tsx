@@ -78,10 +78,10 @@ const ViewLink = styled(NavLink)`
   width: 30px;
   height: 30px;
   color: ${props => props.theme.colors.iconBar.background.default};
+  border: 1.5px solid transparent;
 
   &.active {
-    border: 1.5px solid
-      ${props => props.theme.colors.iconBar.background.default};
+    border-color: ${props => props.theme.colors.iconBar.background.default};
   }
 `
 
