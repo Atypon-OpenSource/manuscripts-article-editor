@@ -92,6 +92,13 @@ const InvitedContainer = styled.div`
   align-items: center;
 `
 
+const StyledSidebar = styled(Sidebar)`
+  background: white;
+  border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
+  border-bottom: none;
+  border-top: none;
+`
+
 interface Props {
   project: Project
   projectCollaborators: UserProfile[]
@@ -143,7 +150,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
         side={'end'}
         minSize={250}
       >
-        <Sidebar data-cy={'sidebar'}>
+        <StyledSidebar data-cy={'sidebar'}>
           <SidebarHeader>
             <SidebarTitle>Collaborators</SidebarTitle>
           </SidebarHeader>
@@ -232,7 +239,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                 )
               )}
           </SidebarContent>
-        </Sidebar>
+        </StyledSidebar>
       </Panel>
     )
   }

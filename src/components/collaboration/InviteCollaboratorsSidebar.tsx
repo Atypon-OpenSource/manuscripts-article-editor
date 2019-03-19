@@ -27,6 +27,13 @@ const Container = styled.div`
   padding-top: 5px;
 `
 
+const StyledSidebar = styled(Sidebar)`
+  background: white;
+  border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
+  border-bottom: none;
+  border-top: none;
+`
+
 interface Props {
   invitationValues: InvitationValues
   handleCancel: () => void
@@ -40,7 +47,7 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
   handleSubmit,
   invitationSent,
 }) => (
-  <Sidebar>
+  <StyledSidebar>
     <SidebarHeader>
       <SidebarTitle>Invite</SidebarTitle>
       {!invitationSent ? (
@@ -58,7 +65,7 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
         handleSubmit={handleSubmit}
       />
     </FormContainer>
-  </Sidebar>
+  </StyledSidebar>
 )
 
 export default InviteCollaboratorsSidebar

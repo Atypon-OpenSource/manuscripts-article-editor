@@ -40,6 +40,12 @@ const SourceLink = styled(NavLink)`
       props.theme.colors.sidebar.background.selected};
   }
 `
+const StyledSidebar = styled(Sidebar)`
+  background: white;
+  border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
+  border-bottom: none;
+  border-top: none;
+`
 
 interface Props {
   projectID: string
@@ -51,7 +57,7 @@ const LibrarySidebar: React.FunctionComponent<Props> = ({
   sources,
 }) => (
   <Panel name={'librarySidebar'} minSize={200} direction={'row'} side={'end'}>
-    <Sidebar>
+    <StyledSidebar>
       <SidebarHeader>
         <SidebarTitle>Library</SidebarTitle>
       </SidebarHeader>
@@ -77,7 +83,7 @@ const LibrarySidebar: React.FunctionComponent<Props> = ({
           </SourceLink>
         ))}
       </SidebarContent>
-    </Sidebar>
+    </StyledSidebar>
   </Panel>
 )
 
