@@ -1,8 +1,3 @@
-const coverageThreshold = (target, gradient = 1) => Math.min(
-  ((new Date() - new Date('2018-07-01')) * gradient) / (1000 * 60 * 60 * 24),
-  target
-)
-
 module.exports = {
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}', 
@@ -17,9 +12,9 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      branches: coverageThreshold(50, 0.1),
-      functions: coverageThreshold(50, 0.1),
-      lines: coverageThreshold(50, 0.1),
+      branches: 25,
+      functions: 35,
+      lines: 35,
     }
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
