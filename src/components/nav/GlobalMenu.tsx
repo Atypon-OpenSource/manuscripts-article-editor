@@ -34,6 +34,11 @@ interface Props {
 const Container = styled.div`
   padding: 5px 10px;
   margin-left: 20px;
+  user-select: none;
+
+  &:hover {
+    cursor: default;
+  }
 `
 
 export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
