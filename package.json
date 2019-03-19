@@ -41,7 +41,7 @@
     "@manuscripts/manuscript-editor": "^0.21.1",
     "@manuscripts/manuscript-transform": "^0.6.3",
     "@manuscripts/manuscripts-json-schema": "^1.7.8",
-    "@manuscripts/resizer": "^0.0.1",
+    "@manuscripts/resizer": "^0.0.2",
     "@manuscripts/style-guide": "^0.3.2",
     "@manuscripts/sync-client": "^0.0.4",
     "@manuscripts/title-editor": "^0.3.0",

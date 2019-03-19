@@ -1566,10 +1566,10 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/resizer@^0.0.1":
-  version "0.0.1"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fresizer/-/resizer-0.0.1.tgz#b719bec2cd06e32c69ce8a033f7948e580c34a9c"
-  integrity sha512-hSXuz0ZGBemjDTS2CYEc5D3iOaxkWYoeTmj/p+sJT57IyJgxYBE9U58POHUQcsxM26MedJU0ar+XVmBNh4BMSg==
+"@manuscripts/resizer@^0.0.2":
+  version "0.0.2"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fresizer/-/resizer-0.0.2.tgz#dd7a98bf5a21b234efc2d742f27299924a925c8d"
+  integrity sha512-4mopT++nGNTvExWrPea4dKktcxt7AiJpIKbWwtPEYrFdytfrmv3AsewN4qvkqwBkze/0R+KHcIcO7ZUIMAvZ1w==
 
 "@manuscripts/style-guide@^0.3.2":
   version "0.3.2"
