@@ -27,7 +27,6 @@ export const EditorContainer = styled.div`
   left: 0;
   right: 16px;
   overflow: hidden;
-  padding-left: 30px;
   background: ${lightAliceBlue};
 `
 
@@ -39,6 +38,7 @@ export const EditorContainerInner = styled.div`
   width: 1100px;
   max-width: 100%;
   background: white;
+  padding-left: 30px;
 `
 
 export const EditorHeader = styled.div`
