@@ -25,7 +25,7 @@ import React from 'react'
 import { initials } from '../../lib/name'
 import { styled } from '../../theme/styled-components'
 import { Badge } from '../Badge'
-import { PlaceholderTitle } from '../nav/ProjectDropdown'
+import { PlaceholderTitle } from '../nav/Dropdown'
 
 const Container = styled.div`
   display: grid;

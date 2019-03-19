@@ -37,7 +37,12 @@ import {
   AddIconHover,
   RegularAddIcon,
 } from '../projects/ProjectsListPlaceholder'
-import { DropdownElement, DropdownLink } from './Dropdown'
+import {
+  DropdownElement,
+  DropdownLink,
+  InvitedBy,
+  PlaceholderTitle,
+} from './Dropdown'
 
 const activeStyle = {
   fontWeight: 600,
@@ -66,16 +71,6 @@ const TextContainer = styled.div`
 const ProjectNameContainer = styled.div`
   display: flex;
   align-items: center;
-`
-
-export const InvitedBy = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.dropdown.text.secondary};
-  clear: both;
-  margin-top: 6px;
 `
 
 const AcceptButton = styled(PrimaryButton)`
@@ -171,10 +166,6 @@ export const InvitationDropdownSection: React.FunctionComponent<
     </ButtonsContainer>
   </DropdownElement>
 )
-
-export const PlaceholderTitle = styled(Title)`
-  color: ${props => props.theme.colors.title.placeholder};
-`
 
 interface ProjectSectionProps {
   project: Partial<Project>

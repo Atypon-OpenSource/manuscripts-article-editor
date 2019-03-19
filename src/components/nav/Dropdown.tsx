@@ -15,12 +15,12 @@
  */
 
 import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
+import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import { NavLink } from 'react-router-dom'
 import { styled } from '../../theme/styled-components'
 import { Badge } from '../Badge'
-import { InvitedBy, PlaceholderTitle } from './ProjectDropdown'
 
 export const DropdownContainer = styled.div`
   position: relative;
@@ -40,6 +40,20 @@ export const Dropdown = styled.div`
   font-size: 14px;
   font-weight: normal;
   z-index: 10;
+`
+
+export const PlaceholderTitle = styled(Title)`
+  color: ${props => props.theme.colors.title.placeholder};
+`
+
+export const InvitedBy = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  letter-spacing: -0.3px;
+  color: ${props => props.theme.colors.dropdown.text.secondary};
+  clear: both;
+  margin-top: 6px;
 `
 
 export const DropdownLink = styled(NavLink)<{ disabled?: boolean }>`
