@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { lightAliceBlue } from '../../theme/colors'
 import { styled } from '../../theme/styled-components'
 
 export const EditorContainer = styled.div`
@@ -27,6 +28,7 @@ export const EditorContainer = styled.div`
   right: 16px;
   overflow: hidden;
   padding-left: 30px;
+  background: ${lightAliceBlue};
 `
 
 export const EditorContainerInner = styled.div`
@@ -36,6 +38,7 @@ export const EditorContainerInner = styled.div`
   overflow: hidden;
   width: 1100px;
   max-width: 100%;
+  background: white;
 `
 
 export const EditorHeader = styled.div`

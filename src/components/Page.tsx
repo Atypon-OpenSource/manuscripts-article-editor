@@ -16,14 +16,15 @@
 
 import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
-import NavIconFillCut from '@manuscripts/assets/react/NavIconFillCut'
-import NavIconOutline from '@manuscripts/assets/react/NavIconOutline'
+import NavIcon from '@manuscripts/assets/react/NavIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
+import { linkWaterBlue } from '../theme/colors'
 import { styled } from '../theme/styled-components'
+import { FilledMenuBarIcon } from './nav/Menu'
 import MenuBar from './nav/MenuBar'
 import ProjectNavigator from './ProjectNavigator'
 import { Tip } from './Tip'
@@ -56,7 +57,7 @@ const ViewsBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${props => props.theme.colors.iconBar.background.default};
+  background-color: white;
 `
 
 const IconBar = styled.div`
@@ -65,7 +66,7 @@ const IconBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${props => props.theme.colors.iconBar.background.default};
+  background-color: white;
 `
 
 const ViewLink = styled(NavLink)`
@@ -76,40 +77,17 @@ const ViewLink = styled(NavLink)`
   border-radius: 4px;
   width: 30px;
   height: 30px;
-  background: none;
-  color: white;
+  color: ${props => props.theme.colors.iconBar.background.default};
 
-  &:hover,
   &.active {
-    background: ${props => props.theme.colors.iconBar.background.selected};
-    color: ${props => props.theme.colors.iconBar.background.default};
-  }
-`
-
-const NavIcon = styled(NavIconOutline)`
-  display: block;
-`
-
-const NavIconHover = styled(NavIconFillCut)`
-  display: none;
-`
-
-const NavIconContainer = styled.div`
-  &:hover ${NavIcon} {
-    display: none;
-  }
-
-  &:hover ${NavIconHover} {
-    display: block;
+    border: 1.5px solid
+      ${props => props.theme.colors.iconBar.background.default};
   }
 `
 
 const ViewsSeparator = styled.div`
-  height: 2px;
-  border-radius: 2px;
+  border: solid 0.5px ${linkWaterBlue};
   width: 30px;
-  background: rgba(255, 255, 255, 0.5);
-  margin-bottom: 4px;
 `
 
 const StyledEditProjectIcon = styled(EditProjectIcon)`
@@ -154,10 +132,9 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
 
         <MenuBar projectID={project._id}>
           <Tip title={'Home'} placement={'right'}>
-            <NavIconContainer>
+            <FilledMenuBarIcon>
               <NavIcon />
-              <NavIconHover />
-            </NavIconContainer>
+            </FilledMenuBarIcon>
           </Tip>
         </MenuBar>
 

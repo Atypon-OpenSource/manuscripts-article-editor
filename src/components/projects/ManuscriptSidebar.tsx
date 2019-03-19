@@ -44,6 +44,10 @@ import {
   RegularAddIcon,
 } from './ProjectsListPlaceholder'
 
+const StyledSidebar = styled(Sidebar)`
+  background: white;
+  border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
+`
 const ProjectTitle = styled(SidebarTitle)`
   color: ${props => props.theme.colors.sidebar.text.primary};
   font-weight: 450;
@@ -140,7 +144,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   user,
 }) => (
   <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
-    <Sidebar>
+    <StyledSidebar>
       <SidebarHeader>
         <ProjectTitle>
           <TitleField
@@ -180,7 +184,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
           </AddIconContainer>
         </AddManuscriptButton>
       </SidebarFooter>
-    </Sidebar>
+    </StyledSidebar>
   </Panel>
 )
 
