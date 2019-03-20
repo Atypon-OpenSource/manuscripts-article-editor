@@ -19,9 +19,10 @@ import React from 'react'
 import {
   ChangePasswordMessage,
   DeleteAccountMessage,
+  FeedbackMessage,
   SignOutMessage,
 } from '../Messages'
-import { DropdownLink } from './Dropdown'
+import { DropdownLink, DropdownSeparator } from './Dropdown'
 
 interface UserProps {
   user: UserProfile
@@ -57,6 +58,11 @@ export const UserInfo: React.FunctionComponent<UserProps> = ({ user }) => (
     <DropdownLink to={'/delete-account'}>
       <DeleteAccountMessage />
     </DropdownLink>
+    <DropdownSeparator />
+    <DropdownLink to={'/feedback'}>
+      <FeedbackMessage />
+    </DropdownLink>
+    <DropdownSeparator />
     {/*<DropdownLink to={'/preferences'}>
       <PreferencesMessage />
     </DropdownLink>*/}

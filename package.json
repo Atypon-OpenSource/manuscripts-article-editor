@@ -36,7 +36,7 @@
     "@babel/preset-typescript": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "@ibm/plex": "^1.1.6",
-    "@manuscripts/assets": "^0.3.6",
+    "@manuscripts/assets": "^0.3.7",
     "@manuscripts/comment-editor": "^0.1.0",
     "@manuscripts/manuscript-editor": "^0.21.1",
     "@manuscripts/manuscript-transform": "^0.6.3",

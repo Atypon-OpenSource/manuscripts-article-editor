@@ -1442,10 +1442,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.4.tgz#0ffaab28e15a84a8cb9691f3e71ee27d56cad055"
   integrity sha512-d2vVWsmK4zQCMY8g2QlQfBeBb7jMBHXpFizKsll/QuJcy4eM+quGno4AqLvQVjnIL1YIwj1u/fdYqNh4O0WtoA==
 
-"@manuscripts/assets@^0.3.6":
-  version "0.3.6"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.6.tgz#191daa9571debc3a60a5172fe45818ec21101e79"
-  integrity sha512-haS4y4VPWw/JSkmkCyaEERoYUbv8xEl0PhfCCXXc0gN4e13VAZual+nXwRXUfqZyQ7Y38EXPn3okyylK9zr1nQ==
+"@manuscripts/assets@^0.3.7":
+  version "0.3.7"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.7.tgz#2d7183c1a554f490b0e289af8e8156bcf0954223"
+  integrity sha512-IAj8+PCscmqU1XEXtbBbEYYnL9sbU57t+2JvuI5EJY+v3JURWczZi5Gx+fNXaHLV4znkmcNEtO57V19pC1ll3Q==
 
 "@manuscripts/comment-editor@^0.1.0":
   version "0.1.1"

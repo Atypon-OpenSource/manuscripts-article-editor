@@ -16,6 +16,7 @@
 
 import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
+import FeedbackIcon from '@manuscripts/assets/react/FeedbackIcon'
 import NavIcon from '@manuscripts/assets/react/NavIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
@@ -110,7 +111,18 @@ const ProjectContributorsIcon = styled(ContributorsIcon)`
     stroke: currentColor;
   }
 `
+const StyledFeedbackIcon = styled(FeedbackIcon)`
+  path {
+    stroke: currentColor;
+  }
 
+  text {
+    fill: currentColor;
+  }
+`
+const Container = styled.div`
+  margin-bottom: 2px;
+`
 const StyledIcon = styled(NavIcon)`
   & path {
     fill: ${props => props.theme.colors.menu.icon.default};
@@ -174,6 +186,13 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
             </ViewLink>
           </Tip>
         </IconBar>
+        <Container>
+          <Tip title={'Post Feedback'} placement={'right'}>
+            <ViewLink to={`/feedback`} exact={true}>
+              <StyledFeedbackIcon />
+            </ViewLink>
+          </Tip>
+        </Container>
       </ViewsBar>
     )}
 
