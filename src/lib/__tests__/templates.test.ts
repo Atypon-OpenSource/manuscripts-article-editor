@@ -44,11 +44,11 @@ import {
   buildResearchFields,
   buildSectionFromDescription,
   categoriseSectionRequirements,
+  chooseBundleID,
   chooseSectionTitle,
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
-  findBundle,
   fromPrototype,
   prepareRequirements,
 } from '../templates'
@@ -97,13 +97,13 @@ describe('templates', () => {
   test('find bundle', () => {
     const template = exampleTemplate()
 
-    expect(findBundle(template)).toBe(
+    expect(chooseBundleID(template)).toBe(
       'MPBundle:www-zotero-org-styles-nonlinear-dynamics'
     )
 
     delete template.bundle
 
-    expect(findBundle(template)).toBe(DEFAULT_BUNDLE)
+    expect(chooseBundleID(template)).toBe(DEFAULT_BUNDLE)
   })
 
   test('build manuscript title', () => {

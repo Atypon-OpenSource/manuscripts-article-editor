@@ -56,6 +56,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
+  Bundle,
   Keyword,
   Manuscript,
   Model,
@@ -475,15 +476,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         ),
       })
 
-      try {
-        await this.createCitationProcessor(this.props.manuscript)
-      } catch (error) {
-        console.error(error) // tslint:disable-line:no-console
-        throw new Error(
-          'Failed to open project for editing due to the citation processor failing to start.'
-        )
-      }
-
       const models = await this.loadModels(projectID, manuscriptID)
 
       // console.log(models.map(doc => [doc.objectType, doc.toJSON()]))
@@ -495,6 +487,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       }
 
       const modelMap = await buildModelMap(models)
+
+      try {
+        await this.createCitationProcessor(this.props.manuscript, modelMap)
+      } catch (error) {
+        console.error(error) // tslint:disable-line:no-console
+      }
 
       const decoder = new Decoder(modelMap)
 
@@ -632,7 +630,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     await this.saveModel(manuscript)
 
     if (this.shouldUpdateCitationProcessor(manuscript, previousManuscript)) {
-      await this.createCitationProcessor(manuscript)
+      await this.createCitationProcessor(manuscript, this.state.modelMap!)
 
       this.dispatchUpdate()
     }
@@ -787,14 +785,34 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  private createCitationProcessor = async (manuscript: Manuscript) => {
+  private loadCitationStyle = async (
+    bundle: Bundle
+  ): Promise<string | undefined> => {
+    const attachment = await this.collection.getAttachment(bundle._id, 'csl')
+
+    return attachment ? attachment.getStringData() : undefined
+  }
+
+  private createCitationProcessor = async (
+    manuscript: Manuscript,
+    modelMap: Map<string, Model>
+  ) => {
     const citationManager = new CitationManager(config.data.url)
+
+    const bundleID = manuscript.bundle || DEFAULT_BUNDLE
+    const bundle = modelMap.get(bundleID) as Bundle | undefined
+
+    const citationStyleData = bundle
+      ? await this.loadCitationStyle(bundle)
+      : undefined
 
     // TODO: move defaults into method?
     const processor = await citationManager.createProcessor(
-      manuscript.bundle || DEFAULT_BUNDLE,
+      bundleID,
       manuscript.primaryLanguageCode || 'en-GB',
-      this.getLibraryItem
+      this.getLibraryItem,
+      bundle,
+      citationStyleData
     )
 
     this.setState({ processor })

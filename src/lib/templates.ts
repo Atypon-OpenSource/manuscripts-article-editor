@@ -251,7 +251,7 @@ export const fromPrototype = <T extends Model>(model: T): T => {
     _id: generateID(model.objectType as ObjectTypes),
   }
 
-  return output as T // TODO: add prototype to Model schema
+  return output as T
 }
 
 export const createMergedTemplate = (
@@ -433,5 +433,5 @@ export const buildManuscriptTitle = (item: TemplateData): string =>
     .filter(_ => _)
     .join(' ')
 
-export const findBundle = (template?: ManuscriptTemplate) =>
+export const chooseBundleID = (template?: ManuscriptTemplate) =>
   template && template.bundle ? template.bundle : DEFAULT_BUNDLE

@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
+import { CitationManager } from '@manuscripts/manuscript-editor'
 import {
   Build,
   buildContributor,
   buildManuscript,
   buildProject,
   buildSection,
+  ContainedModel,
   DEFAULT_BUNDLE,
   generateID,
 } from '@manuscripts/manuscript-transform'
@@ -48,12 +50,13 @@ import {
   buildResearchFields,
   buildSectionFromDescription,
   categoriseSectionRequirements,
+  chooseBundleID,
   chooseSectionTitle,
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
   fetchSharedData,
-  findBundle,
+  fromPrototype,
   prepareRequirements,
 } from '../../lib/templates'
 import { Collection } from '../../sync/Collection'
@@ -239,6 +242,8 @@ class TemplateSelector extends React.Component<
       projectID: possibleProjectID,
     } = this.props
 
+    const { bundles } = this.state
+
     const newProject = possibleProjectID ? null : buildProject(user.userID)
 
     const projectID = newProject ? newProject._id : possibleProjectID!
@@ -254,9 +259,11 @@ class TemplateSelector extends React.Component<
       Manuscript
     >)
 
+    const newBundle = this.createNewBundle(DEFAULT_BUNDLE, bundles)
+
     const manuscript = {
       ...buildManuscript(undefined),
-      bundle: DEFAULT_BUNDLE,
+      bundle: newBundle._id,
       priority,
     }
 
@@ -277,6 +284,10 @@ class TemplateSelector extends React.Component<
         containerID: projectID,
         manuscriptID: manuscript._id,
       })
+
+    await saveContainedModel<Bundle>(newBundle)
+
+    await this.attachStyle(newBundle, collection)
 
     await saveManuscriptModel<Contributor>(contributor)
 
@@ -302,9 +313,47 @@ class TemplateSelector extends React.Component<
     return projectID ? undefined : buildProject(user.userID)
   }
 
+  private createNewBundle = (
+    bundleID: string,
+    bundles?: Map<string, Bundle>
+  ) => {
+    if (!bundles) {
+      throw new Error('Bundles not found')
+    }
+
+    const bundle = bundles.get(bundleID)
+
+    if (!bundle) {
+      throw new Error('Bundle not found')
+    }
+
+    return fromPrototype(bundle)
+  }
+
+  private attachStyle = async (
+    newBundle: Bundle,
+    collection: Collection<ContainedModel>
+  ) => {
+    if (newBundle.csl && newBundle.csl.cslIdentifier) {
+      const citationManager = new CitationManager(config.data.url)
+      const cslStyle = await citationManager.fetchCitationStyleString(newBundle)
+
+      await collection.putAttachment(newBundle._id, {
+        id: 'csl',
+        data: cslStyle,
+        type: 'application/vnd.citationstyles.style+xml',
+      })
+    }
+  }
+
   // tslint:disable:cyclomatic-complexity
   private selectTemplate = (db: Database) => async (item: TemplateData) => {
-    const { templatesData, sectionCategories, manuscriptTemplates } = this.state
+    const {
+      bundles,
+      templatesData,
+      sectionCategories,
+      manuscriptTemplates,
+    } = this.state
 
     const { handleComplete, history, user } = this.props
 
@@ -321,7 +370,10 @@ class TemplateSelector extends React.Component<
       ? newProject._id
       : this.props.projectID!
 
-    const bundle = findBundle(item.template)
+    const newBundle = this.createNewBundle(
+      chooseBundleID(item.template),
+      bundles
+    )
 
     const collection = await createProjectCollection(db, projectID)
 
@@ -331,7 +383,7 @@ class TemplateSelector extends React.Component<
 
     const manuscript: Build<Manuscript> = {
       ...buildManuscript(title),
-      bundle,
+      bundle: newBundle._id,
       priority: priority++,
     }
 
@@ -345,6 +397,10 @@ class TemplateSelector extends React.Component<
         containerID: projectID,
         manuscriptID: manuscript._id,
       })
+
+    await saveContainedModel<Bundle>(newBundle)
+
+    await this.attachStyle(newBundle, collection)
 
     const contributor = buildContributor(
       user.bibliographicName,
@@ -434,7 +490,7 @@ class TemplateSelector extends React.Component<
 
         await saveContainedModel<Manuscript>({
           ...extraManuscript,
-          bundle,
+          bundle: newBundle._id,
           priority: priority++,
         })
       }
