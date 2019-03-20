@@ -24,7 +24,6 @@ import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
 import { linkWaterBlue } from '../theme/colors'
 import { styled } from '../theme/styled-components'
-import { FilledMenuBarIcon } from './nav/Menu'
 import MenuBar from './nav/MenuBar'
 import ProjectNavigator from './ProjectNavigator'
 import { Tip } from './Tip'
@@ -112,6 +111,16 @@ const ProjectContributorsIcon = styled(ContributorsIcon)`
   }
 `
 
+const StyledIcon = styled(NavIcon)`
+  & path {
+    fill: ${props => props.theme.colors.menu.icon.default};
+  }
+
+  &:hover path {
+    fill: ${props => props.theme.colors.menu.icon.selected};
+  }
+`
+
 interface Props {
   project?: Project
 }
@@ -132,9 +141,7 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
 
         <MenuBar projectID={project._id}>
           <Tip title={'Home'} placement={'right'}>
-            <FilledMenuBarIcon>
-              <NavIcon />
-            </FilledMenuBarIcon>
+            <StyledIcon />
           </Tip>
         </MenuBar>
 
