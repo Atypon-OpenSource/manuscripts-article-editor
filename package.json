@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "start": "TS_NODE_FILES=true webpack-dev-server --open --config webpack.dev.ts",
-    "build": "TS_NODE_FILES=true webpack --config webpack.prod.ts",
+    "build": "TS_NODE_FILES=true NODE_OPTIONS=--max_old_space_size=2048 webpack --config webpack.prod.ts",
     "cypress:open": "cypress open",
     "docker-compose:client": "docker-compose -p manuscripts_client -f docker/client/development/docker-compose.yml",
     "docker-compose:server": "docker-compose -p manuscripts_server -f docker/server/docker-compose.yml",
@@ -24,7 +24,7 @@
     "typecheck": "tsc --noEmit",
     "prettier": "prettier --write \"{src,stories,tests}/**/*.{js,ts,tsx,css}\"",
     "storybook": "start-storybook --config-dir stories/config --port 6006",
-    "build-storybook": "build-storybook --config-dir stories/config"
+    "build-storybook": "NODE_OPTIONS=--max_old_space_size=2048 build-storybook --config-dir stories/config"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
