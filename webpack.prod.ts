@@ -91,7 +91,7 @@ const configuration: webpack.Configuration = merge(common, {
         developerURL: null,
         version: null,
         background: '#fff',
-        theme_color: '#7fb5d5',
+        theme_color: '#fff',
         icons: {
           android: true,
           appleIcon: true,
