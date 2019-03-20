@@ -7,7 +7,7 @@ describe('Citations', () => {
         signup(user, true)
     })
 
-    it('Can open the Citation editor', () => {
+    it.skip('Can open the Citation editor', () => {
 
         login(user, true)
 
@@ -17,7 +17,7 @@ describe('Citations', () => {
         cy.get('.citation-editor').should('exist')
     })
 
-    it('Can search and insert a citation from external sources', () => {
+    it.skip('Can search and insert a citation from external sources', () => {
 
         login(user, true)
 
@@ -33,7 +33,7 @@ describe('Citations', () => {
         cy.get('sup').contains('1')
     })
 
-    it('Can insert multiple citations from external sources', () => {
+    it.skip('Can insert multiple citations from external sources', () => {
 
         login(user, true)
 
@@ -51,7 +51,7 @@ describe('Citations', () => {
         cy.get('sup').contains("1–3")
     })
 
-    it('Can view inserted citations', () => {
+    it.skip('Can view inserted citations', () => {
 
         login(user, true)
 
@@ -70,7 +70,7 @@ describe('Citations', () => {
         cy.get('.citation-editor').should('exist')
     })
 
-    it('Inserted references are shown in the Bibliogprahy', () => {
+    it.skip('Inserted references are shown in the Bibliogprahy', () => {
 
         login(user, true)
 
@@ -89,7 +89,7 @@ describe('Citations', () => {
         })
     })
 
-    it('Cited references are available in the users library', () => {
+    it.skip('Cited references are available in the users library', () => {
 
         login(user, true)
 
@@ -104,7 +104,7 @@ describe('Citations', () => {
         cy.get('[data-cy="search-result-author"]').contains('Piipari')
     })
 
-    it('Can show more references from external sources', () => {
+    it.skip('Can show more references from external sources', () => {
 
         login(user, true)
 

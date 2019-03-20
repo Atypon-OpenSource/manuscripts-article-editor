@@ -96,7 +96,14 @@ export const generateParagraph = (wordCount) => {
 
 export const createProject = () => {
   cy.get('#create-project').should('be.visible').click()
-  cy.get('[data-cy="arrow-down"]', { timeout: 6000 })
+  cy.getCookie('name', {log: true})
+  cy.get('[data-cy="arrow-down"]', { timeout: 8000 })
   cy.get('button').contains('Create empty manuscript').click()
-  cy.get('#project-title-field').should('be.visible', {timeout: 6000})
+  cy.get('#project-title-field', {timeout: 30000})
+}
+
+export const insertParagraph = (paragraph) => {
+  cy.get('.manuscript-editor').type('{enter}')
+  cy.get('.manuscript-editor').type(' ' + paragraph)
+  cy.get('p').contains(paragraph) 
 }

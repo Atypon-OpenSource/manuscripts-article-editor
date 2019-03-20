@@ -15,9 +15,9 @@ describe('Text decoration', () => {
 
         createProject()
         cy.get('.manuscript-editor').type('{enter}')
-        cy.get('[title="Toggle bold"]').click()
+        cy.get('.manuscript-editor').type('{cmd}b')
         cy.get('.manuscript-editor').type(' ' + paragraph)
-        cy.get('p').contains(paragraph) 
+        cy.get('b').contains(paragraph) 
         //this test is using any as Cypress randomly leaves out the first character when typing
     })
 
@@ -29,9 +29,9 @@ describe('Text decoration', () => {
 
         createProject()
         cy.get('.manuscript-editor').type('{enter}')
-        cy.get('[title="Toggle italic"]').click()
+        cy.get('.manuscript-editor').type('{cmd}i')
         cy.get('.manuscript-editor').type(' ' + paragraph)
-        cy.get('p').contains(paragraph) 
+        cy.get('i').contains(paragraph) 
     })
 
     it('Can enter underlined text', () => {
@@ -42,9 +42,9 @@ describe('Text decoration', () => {
 
         createProject()
         cy.get('.manuscript-editor').type('{enter}')
-        cy.get('[title="Toggle underline"]').click()
+        cy.get('.manuscript-editor').type('{cmd}u')
         cy.get('.manuscript-editor').type(' ' + paragraph)
-        cy.get('p').contains(paragraph) 
+        cy.get('u').contains(paragraph) 
     })
 
     it('Can enter subscript text', () => {

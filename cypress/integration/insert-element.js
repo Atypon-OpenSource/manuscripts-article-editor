@@ -11,6 +11,7 @@ describe('Figures', () => {
         login(user, true)
 
         createProject()
+        cy.get('.manuscript-editor').type(' ')
         cy.get('.manuscript-editor').type('{enter}')
         cy.get('[title="Insert table"]').click()
         cy.get('table').should('exist')
@@ -20,6 +21,7 @@ describe('Figures', () => {
         login(user, true)
 
         createProject()
+        cy.get('.manuscript-editor').type(' ')
         cy.get('.manuscript-editor').type('{enter}')
         cy.get('[title="Insert equation"]').click()
         cy.get('.block-equation_element').should('exist')
@@ -30,9 +32,10 @@ describe('Figures', () => {
         login(user, true)
 
         createProject()
+        cy.get('.manuscript-editor').type(' ')
         cy.get('.manuscript-editor').type('{enter}')
         cy.get('[title="Insert figure"]').click()
         cy.get('figure').should('exist')
-        cy.get('.figure-panel > div').contains('Click or drop an image here')
+        //cy.get('.figure-panel > div').contains('Click or drop an image here')
     })
 })
