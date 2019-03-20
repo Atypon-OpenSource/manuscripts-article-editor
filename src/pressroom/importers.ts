@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-import { ModelAttachment } from '@manuscripts/manuscript-transform'
+import {
+  generateAttachmentFilename,
+  ModelAttachment,
+} from '@manuscripts/manuscript-transform'
 import {
   Figure,
   Model,
@@ -23,7 +26,6 @@ import {
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
 import { cleanItem } from './clean-item'
-import { generateAttachmentFilename } from './exporter'
 import { convert } from './pressroom'
 
 export interface JsonModel extends Model, ModelAttachment {

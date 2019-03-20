@@ -17,6 +17,7 @@
 import {
   Attachments,
   Decoder,
+  generateAttachmentFilename,
   getModelData,
   ModelAttachment,
   serializeToJATS,
@@ -90,8 +91,6 @@ const fetchAttachment = (
   return null
 }
 
-export const generateAttachmentFilename = (id: string) => id.replace(':', '_')
-
 const buildAttachments = (modelMap: Map<string, Model>) => {
   const attachments: Map<string, Promise<Blob>> = new Map()
 
@@ -106,10 +105,11 @@ const buildAttachments = (modelMap: Map<string, Model>) => {
   return attachments
 }
 
-const buildProjectBundle = (
+const buildProjectBundle = async (
   modelMap: Map<string, Model>,
-  manuscriptID: string
-): JSZip => {
+  manuscriptID: string,
+  format: string
+): Promise<JSZip> => {
   const attachments = buildAttachments(modelMap)
 
   const data = createProjectDump(modelMap, manuscriptID)
@@ -119,11 +119,29 @@ const buildProjectBundle = (
   zip.file<'string'>('index.manuscript-json', JSON.stringify(data))
 
   for (const model of modelMap.values()) {
-    const attachment = attachments.get(model._id)
+    const attachmentPromise = attachments.get(model._id)
 
-    if (attachment) {
-      const filename = generateAttachmentFilename((model as JsonModel)._id)
-      zip.file<'blob'>('Data/' + filename, attachment)
+    if (attachmentPromise) {
+      const attachment = await attachmentPromise
+
+      switch (format) {
+        case '.xml': {
+          // add file extension for JATS export
+          const filename = generateAttachmentFilename(
+            model._id,
+            attachment.type
+          )
+          // TODO: change folder name?
+          zip.file<'blob'>('Data/' + filename, attachment)
+          break
+        }
+
+        default: {
+          const filename = generateAttachmentFilename(model._id)
+          zip.file<'blob'>('Data/' + filename, attachment)
+          break
+        }
+      }
     }
   }
 
@@ -176,7 +194,7 @@ export const exportProject = async (
   //   modelMap.set(project._id, project)
   // }
 
-  const zip = buildProjectBundle(modelMap, manuscriptID)
+  const zip = await buildProjectBundle(modelMap, manuscriptID, format)
 
   switch (format) {
     case '.xml':

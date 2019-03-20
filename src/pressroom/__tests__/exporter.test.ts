@@ -26,7 +26,6 @@ import JSZip from 'jszip'
 import {
   downloadExtension,
   exportProject,
-  generateAttachmentFilename,
   generateDownloadFilename,
   removeEmptyStyles,
 } from '../exporter'
@@ -34,11 +33,6 @@ import { ProjectDump, readManuscriptFromBundle } from '../importers'
 import { buildModelMap } from './util'
 
 describe('exporter', () => {
-  test('generates a filename for an attachment', () => {
-    const result = generateAttachmentFilename('MPFigure:1234-ABCD-EFGH-1234')
-    expect(result).toBe('MPFigure_1234-ABCD-EFGH-1234')
-  })
-
   test('generates a filename for a manuscript title', () => {
     const result = generateDownloadFilename('An example manuscript')
     expect(result).toBe('AnExampleManuscript')
