@@ -27,6 +27,7 @@ export const EditorContainer = styled.div`
   left: 0;
   right: 16px;
   overflow: hidden;
+  padding-left: 16px;
   background: ${lightAliceBlue};
   border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
   border-bottom: none;
@@ -38,10 +39,10 @@ export const EditorContainerInner = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 1100px;
+  width: 950px;
   max-width: 100%;
+  padding-left: 12px;
   background: white;
-  padding-left: 30px;
   border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
   border-bottom: none;
   border-top: none;

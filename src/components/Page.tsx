@@ -49,6 +49,8 @@ const PageContainer = styled.div`
   box-sizing: border-box;
   color: ${props => props.theme.colors.global.text.primary};
   font-family: ${props => props.theme.fontFamily};
+  border-top: 1px solid
+    ${props => props.theme.colors.sidebar.background.selected};
 `
 
 const ViewsBar = styled.div`
