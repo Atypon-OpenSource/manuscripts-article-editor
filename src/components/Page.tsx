@@ -60,6 +60,8 @@ const ViewsBar = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: white;
+  border-right: 1px solid
+    ${props => props.theme.colors.sidebar.background.selected};
 `
 
 const IconBar = styled.div`

@@ -17,10 +17,16 @@
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { filterLibrary } from '../../lib/library'
+import { styled } from '../../theme/styled-components'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
+
+const StyledMain = styled(Main)`
+  border-right: 1px solid
+    ${props => props.theme.colors.sidebar.background.selected};
+`
 
 interface Props {
   library: Map<string, BibliographyItem>
@@ -48,7 +54,7 @@ class LibraryContainer extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <Main>
+        <StyledMain>
           <LibraryItems
             query={query}
             handleQuery={value => {
@@ -63,7 +69,7 @@ class LibraryContainer extends React.Component<Props, State> {
             items={filterLibrary(library, query)}
             projectID={projectID}
           />
-        </Main>
+        </StyledMain>
 
         <Panel
           name={'libraryItem'}

@@ -46,7 +46,7 @@ import {
 
 const StyledSidebar = styled(Sidebar)`
   background: white;
-  border-left: 1px solid
+  border-right: 1px solid
     ${props => props.theme.colors.sidebar.background.selected};
 `
 const ProjectTitle = styled(SidebarTitle)`

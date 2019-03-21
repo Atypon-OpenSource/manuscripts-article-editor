@@ -221,6 +221,7 @@ export const InviteAuthorsModal: React.FunctionComponent<
         handleCancel={handleInviteCancel}
         handleSubmit={handleInvitationSubmit}
         invitationSent={invitationSent}
+        isModal={true}
       />
     </ModalSidebar>
     <ModalMain>

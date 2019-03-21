@@ -27,11 +27,16 @@ const Container = styled.div`
   padding-top: 5px;
 `
 
-const StyledSidebar = styled(Sidebar)`
-  background: white;
-  border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
-  border-bottom: none;
-  border-top: none;
+const StyledSidebar = styled(Sidebar)<{ isModal?: boolean }>`
+  background: ${props =>
+    props.isModal
+      ? ` ${props.theme.colors.sidebar.background.default}`
+      : `white`};
+  border-right: ${props =>
+    props.isModal
+      ? `none`
+      : `1px solid
+      ${props.theme.colors.sidebar.background.selected}`};
 `
 
 interface Props {
@@ -39,6 +44,7 @@ interface Props {
   handleCancel: () => void
   handleSubmit: (values: InvitationValues) => Promise<void>
   invitationSent: boolean
+  isModal?: boolean
 }
 
 const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
@@ -46,8 +52,9 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
   handleCancel,
   handleSubmit,
   invitationSent,
+  isModal,
 }) => (
-  <StyledSidebar>
+  <StyledSidebar isModal={isModal}>
     <SidebarHeader>
       <SidebarTitle>Invite</SidebarTitle>
       {!invitationSent ? (

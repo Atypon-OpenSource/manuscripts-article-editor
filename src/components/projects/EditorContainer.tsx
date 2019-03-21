@@ -29,9 +29,8 @@ export const EditorContainer = styled.div`
   overflow: hidden;
   padding-left: 16px;
   background: ${lightAliceBlue};
-  border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
-  border-bottom: none;
-  border-top: none;
+  border-right: 1px solid
+    ${props => props.theme.colors.sidebar.background.selected};
 `
 
 export const EditorContainerInner = styled.div`

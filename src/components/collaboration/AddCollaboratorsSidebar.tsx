@@ -87,9 +87,8 @@ const AddedIconContainer = styled.div`
 `
 const StyledSidebar = styled(Sidebar)`
   background: white;
-  border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
-  border-bottom: none;
-  border-top: none;
+  border-right: 1px solid
+    ${props => props.theme.colors.sidebar.background.selected};
 `
 
 interface Props {
