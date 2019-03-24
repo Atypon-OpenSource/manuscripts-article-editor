@@ -316,6 +316,12 @@ describe('author and affiliation helpers', () => {
     expect(buildAuthorPriority(authors)).toBe(2)
   })
 
+  it('buildAuthorPriority', () => {
+    const authors: Contributor[] = []
+
+    expect(buildAuthorPriority(authors)).toBe(0)
+  })
+
   it('buildAffiliationIDs', () => {
     expect(buildAffiliationIDs(contribs)).toEqual(['MPAffiliation:X'])
   })

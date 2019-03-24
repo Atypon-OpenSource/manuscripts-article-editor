@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import AlertMessage, { AlertMessageType } from '../src/components/AlertMessage'
@@ -51,4 +52,17 @@ storiesOf('AlertMessage', module)
     >
       Example of overall warning message. Lorem ipsum dolor sit amet.
     </AlertMessage>
+  ))
+  .add('with static width', () => (
+    <div style={{ width: 800 }}>
+      <AlertMessage
+        type={AlertMessageType.info}
+        dismissButton={{
+          action: action('button clicked'),
+          text: 'Click Here',
+        }}
+      >
+        Example of overall warning message. Lorem ipsum dolor sit amet.
+      </AlertMessage>
+    </div>
   ))

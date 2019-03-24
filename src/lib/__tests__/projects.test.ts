@@ -31,7 +31,6 @@ describe('projects', () => {
       {
         _id: 'project-1a',
         objectType: 'MPProject',
-        title: 'Project 1',
         createdAt: createdAt('2018-01-28T08:00:00Z'),
         updatedAt: createdAt('2018-01-28T08:00:00Z'),
         ...roles,
@@ -54,7 +53,7 @@ describe('projects', () => {
       },
     ]
 
-    const result = [projects[2], projects[1], projects[0]].sort(
+    const result = [projects[0], projects[2], projects[1]].sort(
       projectListCompare
     )
 

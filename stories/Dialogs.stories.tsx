@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-import { user } from '../../../stories/data/contributors'
-import { invitations } from '../../../stories/data/invitations-data'
-import projects from '../../../stories/data/projects'
-import { buildCollaboratorChannels } from '../channels'
+import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react'
+import React from 'react'
+import { AcceptInvitationDialog } from '../src/components/collaboration/AcceptInvitationDialog'
 
-describe('channels', () => {
-  test('buildCollaboratorChannels', async () => {
-    const result = buildCollaboratorChannels(user.userID, projects, invitations)
-
-    const expected = [
-      'user_1-read',
-      'user_3-read',
-      'user_2-read',
-      'User|pcoutinho@atypon.com-read',
-    ]
-
-    expect(result).toEqual(expected)
-  })
-})
+storiesOf('Dialogs', module).add('Invitation acceptance', () => (
+  <AcceptInvitationDialog
+    message={'Invitation Dialog!'}
+    closeDialog={action('dialog dismissed')}
+  />
+))

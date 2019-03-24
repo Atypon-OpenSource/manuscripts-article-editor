@@ -15,7 +15,12 @@
  */
 
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { filterLibrary } from '../library'
+import {
+  estimateID,
+  filterLibrary,
+  issuedYear,
+  shortAuthorsString,
+} from '../library'
 
 describe('library filtering', () => {
   it('filterLibrary', () => {
@@ -46,5 +51,114 @@ describe('library filtering', () => {
     expect(filterLibrary(map, null).sort()).toMatchObject([x, y].sort())
     expect(filterLibrary(map, 'keyword:MPKeyword:derp')).toMatchObject([x])
     expect(filterLibrary(map, 'yuv')).toMatchObject([y])
+  })
+})
+
+describe('issued year', () => {
+  it('issuedYear', () => {
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    const item = {
+      issued: {
+        ['date-parts']: [['2019']],
+      },
+    } as BibliographyItem
+
+    expect(issuedYear(item)).toBe('(2019) ')
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    expect(issuedYear({} as BibliographyItem)).toBeNull()
+  })
+})
+
+describe('estimate ID', () => {
+  it('estimateID - DOI exists', () => {
+    const item = {
+      DOI: 'valid-doi',
+    }
+    expect(estimateID(item)).toBe('valid-doi')
+  })
+
+  it('estimateID - DOI does not exist', () => {
+    const item = {
+      title: 'title',
+      issued: {
+        ['date-parts']: [['2019']],
+      },
+    }
+
+    expect(estimateID(item as BibliographyItem)).toBe(
+      JSON.stringify({
+        title: 'title',
+        author: null,
+        year: '(2019) ',
+      })
+    )
+
+    expect(
+      estimateID(({ author: [], ...item } as unknown) as BibliographyItem)
+    ).toBe(
+      JSON.stringify({
+        title: 'title',
+        author: null,
+        year: '(2019) ',
+      })
+    )
+
+    const author = [
+      {
+        family: 'family',
+        literal: 'L',
+        given: 'given',
+      },
+      // tslint:disable-next-line:no-any
+    ] as any
+
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    expect(estimateID({ ...item, author } as BibliographyItem)).toBe(
+      JSON.stringify({
+        title: 'title',
+        author: 'family',
+        year: '(2019) ',
+      })
+    )
+  })
+})
+
+describe('short authors string', () => {
+  it('shortAuthorsString - 1 author', () => {
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    const item = {
+      author: [
+        {
+          family: 'family',
+          literal: 'L',
+          given: 'given',
+        },
+      ],
+    } as BibliographyItem
+
+    expect(shortAuthorsString(item)).toBe('family')
+  })
+
+  it('shortAuthorsString - 2 author', () => {
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    const item = {
+      author: [{ family: 'family' }, { literal: 'L' }],
+    } as BibliographyItem
+
+    expect(shortAuthorsString(item)).toBe('family & L')
+  })
+
+  it('shortAuthorsString - 4 author', () => {
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    const item = {
+      author: [
+        { family: 'family' },
+        { literal: 'L' },
+        { given: 'given' },
+        { family: 'family2' },
+      ],
+    } as BibliographyItem
+
+    expect(shortAuthorsString(item)).toBe('family, L & family2')
   })
 })

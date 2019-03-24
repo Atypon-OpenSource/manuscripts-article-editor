@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-import { user } from '../../../stories/data/contributors'
-import { invitations } from '../../../stories/data/invitations-data'
-import projects from '../../../stories/data/projects'
-import { buildCollaboratorChannels } from '../channels'
+import InvitationTokenStore from '../invitation-token'
 
-describe('channels', () => {
-  test('buildCollaboratorChannels', async () => {
-    const result = buildCollaboratorChannels(user.userID, projects, invitations)
+describe('token', () => {
+  // all of get, set, remove all in one test call
+  // such as to make test ordering not be a factor in success.
+  it('get and set', () => {
+    expect(InvitationTokenStore.get()).toBeFalsy()
 
-    const expected = [
-      'user_1-read',
-      'user_3-read',
-      'user_2-read',
-      'User|pcoutinho@atypon.com-read',
-    ]
+    const token = 'bar'
+    expect(InvitationTokenStore.set(token)).toEqual(token)
+    expect(InvitationTokenStore.get()).toEqual(token)
 
-    expect(result).toEqual(expected)
+    InvitationTokenStore.remove()
+    expect(InvitationTokenStore.get()).toBe(null)
   })
 })

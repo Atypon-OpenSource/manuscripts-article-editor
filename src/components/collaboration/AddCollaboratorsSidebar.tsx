@@ -168,7 +168,10 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
                 <UserDataContainer>
                   <Avatar size={45} />
                   <PersonData>
-                    <PersonName>{invitation.invitedUserName}</PersonName>
+                    <PersonName>
+                      {invitation.invitedUserName ||
+                        invitation.invitedUserEmail}
+                    </PersonName>
                   </PersonData>
                 </UserDataContainer>
                 <InvitedContainer>

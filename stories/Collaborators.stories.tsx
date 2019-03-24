@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { Affiliation, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -52,6 +52,18 @@ storiesOf('Collaboration/Poppers', module)
     </PopperStory>
   ))
   .add('Settings and Remove', () => (
+    <PopperStory>
+      <CollaboratorSettingsPopper
+        project={{ ...project, owners: [user.userID, 'User_foobar'] }}
+        collaborator={user}
+        handleUpdateRole={action('update role')}
+        handleRemove={action('remove')}
+        handleOpenModal={action('open update role confirmation modal')}
+        updateRoleIsOpen={false}
+      />
+    </PopperStory>
+  ))
+  .add('Settings and Remove - only owner', () => (
     <PopperStory>
       <CollaboratorSettingsPopper
         project={project}
@@ -146,6 +158,34 @@ storiesOf('Collaboration/Pages', module)
       affiliations={null}
     />
   ))
+  .add('Collaborator Details page - with affiliations', () => (
+    <CollaboratorForm
+      collaborator={collaborator}
+      user={user}
+      manageProfile={action('manage your profile')}
+      affiliations={[
+        ({
+          _id: 'MPAffiliation:foo-bar',
+          containerID: 'MPProject:foo-bar',
+          createdAt: 123123123,
+          updatedAt: 123123123,
+          manuscriptID: 'MPManuscript:foo-bar',
+          sessionID: 123,
+          objectType: 'MPAffiliation',
+          priority: 1,
+          institution: 'Bla bla',
+        } as unknown) as Affiliation,
+      ]}
+    />
+  ))
+  .add('Collaborator Details page - for the user', () => (
+    <CollaboratorForm
+      collaborator={user}
+      user={user}
+      manageProfile={action('manage your profile')}
+      affiliations={null}
+    />
+  ))
   .add('Add collaborators', () => (
     <AddCollaboratorsPage project={project} addedCollaboratorsCount={3} />
   ))
@@ -198,6 +238,32 @@ storiesOf('Collaboration/Sidebars', module)
     <AddCollaboratorsSidebar
       people={people}
       invitations={[]}
+      addCollaborator={action('add collaborator')}
+      handleInvite={action('invite')}
+      numberOfAddedCollaborators={0}
+      countAddedCollaborators={() => 0}
+      addedUsers={[]}
+      setSearchText={action('set search text')}
+      handleDoneCancel={action('handle done/cancel')}
+    />
+  ))
+  .add('Add Collaborator - few have been added', () => (
+    <AddCollaboratorsSidebar
+      people={people}
+      invitations={[]}
+      addCollaborator={action('add collaborator')}
+      handleInvite={action('invite')}
+      numberOfAddedCollaborators={1}
+      countAddedCollaborators={() => 1}
+      addedUsers={[people[0].userID]}
+      setSearchText={action('set search text')}
+      handleDoneCancel={action('handle done/cancel')}
+    />
+  ))
+  .add('Add Collaborator - with invitations', () => (
+    <AddCollaboratorsSidebar
+      people={people}
+      invitations={invitations}
       addCollaborator={action('add collaborator')}
       handleInvite={action('invite')}
       numberOfAddedCollaborators={0}

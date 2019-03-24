@@ -34,5 +34,13 @@ describe('user', () => {
     const result = getCurrentUserId()
 
     expect(result).toBe('User_test@example.com')
+
+    tokenHandler.remove()
+  })
+
+  test('get current user id', () => {
+    const result = getCurrentUserId()
+
+    expect(result).toBeNull()
   })
 })

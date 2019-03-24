@@ -37,6 +37,7 @@ import {
   AcceptInvitationError,
   AcceptInvitationSuccess,
 } from '../src/components/collaboration/AcceptInvitationMessages'
+import MessageBanner from '../src/components/MessageBanner'
 import {
   AcceptedInvitationFailureMessage,
   AcceptedInvitationSuccessMessage,
@@ -125,3 +126,7 @@ storiesOf('Messages', module)
   .add('AcceptedInvitationFailureMessage', () => (
     <AcceptedInvitationFailureMessage />
   ))
+  .add('MessageBanner', () => {
+    window.location.hash = '#action=reset-password'
+    return <MessageBanner />
+  })

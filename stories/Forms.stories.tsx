@@ -36,6 +36,10 @@ import {
   PasswordValues,
 } from '../src/components/account/PasswordForm'
 import {
+  PreferencesForm,
+  PreferencesValues,
+} from '../src/components/account/PreferencesForm'
+import {
   RecoverForm,
   RecoverValues,
 } from '../src/components/account/RecoverForm'
@@ -47,9 +51,11 @@ import {
   feedbackSchema,
   loginSchema,
   passwordSchema,
+  preferencesSchema,
   recoverSchema,
   signupSchema,
 } from '../src/validation'
+import { project } from './data/projects'
 
 storiesOf('Account/Forms/Pages', module)
   .add('Sign up', () => (
@@ -131,13 +137,33 @@ storiesOf('Account/Forms/Modal', module)
       />
     </ModalForm>
   ))
+  .add('Delete account with projects', () => (
+    <ModalForm title={'Delete account'} handleClose={action('close')}>
+      <Formik<DeleteAccountValues>
+        initialValues={{ password: '' }}
+        validationSchema={deleteAccountSchema}
+        isInitialValid={true}
+        validateOnChange={false}
+        validateOnBlur={false}
+        onSubmit={action('submit')}
+        render={props => (
+          <DeleteAccountForm
+            {...props}
+            deletedProjects={[
+              project,
+              { ...project, title: undefined, _id: 'project-id-2' },
+            ]}
+          />
+        )}
+      />
+    </ModalForm>
+  ))
 
 storiesOf('Feedback', module).add('Feedback', () => (
   <ModalForm title={'Feedback'} handleClose={action('close')}>
     <Formik<FeedbackValues>
       initialValues={{
         message: '',
-
         title: '',
       }}
       validationSchema={feedbackSchema}
@@ -148,4 +174,18 @@ storiesOf('Feedback', module).add('Feedback', () => (
       component={FeedbackForm}
     />
   </ModalForm>
+))
+
+storiesOf('Preferences', module).add('Preferences', () => (
+  <Formik<PreferencesValues>
+    initialValues={{
+      locale: 'en',
+    }}
+    validationSchema={preferencesSchema}
+    isInitialValid={true}
+    validateOnChange={false}
+    validateOnBlur={false}
+    onSubmit={action('submit')}
+    component={PreferencesForm}
+  />
 ))
