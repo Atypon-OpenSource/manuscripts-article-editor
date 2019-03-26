@@ -47,10 +47,12 @@ services:
       - INITIALIZE_DATABASE
       - NODE_ENV=development
 
-  data:
-    image: registry.gitlab.com/mpapp-public/manuscripts-data/manuscripts-data
+  jupyter:
+    build:
+      context: ../jupyter
     ports:
-      - 8020:8020
+      - 8888:8888
+    command: "start-notebook.sh --NotebookApp.allow_origin=* --NotebookApp.token=${JUPYTER_TOKEN} --NotebookApp.disable_check_xsrf=True"
 
 volumes:
   couchbase-data:

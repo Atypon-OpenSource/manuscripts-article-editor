@@ -40,7 +40,7 @@ import {
   documentObjectTypes,
   elementObjects,
   encode,
-  getImageAttachment,
+  getAttachment,
   isFigure,
   isManuscriptModel,
   isUserProfile,
@@ -372,6 +372,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                     EditorType.manuscript
                   )}
                   CitationEditor={CitationEditor}
+                  jupyterConfig={config.jupyter}
                 />
               </EditorBody>
             </EditorContainerInner>
@@ -1006,10 +1007,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         const model = modelDocument.toJSON()
 
         if (isFigure(model)) {
-          model.src = await getImageAttachment(modelDocument)
+          model.src = await getAttachment(modelDocument, 'image')
         } else if (isUserProfile(model)) {
-          ;(model as UserProfileWithAvatar).avatar = await getImageAttachment(
-            modelDocument
+          ;(model as UserProfileWithAvatar).avatar = await getAttachment(
+            modelDocument,
+            'image'
           )
         }
 

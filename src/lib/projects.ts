@@ -29,6 +29,10 @@ export const projectListCompare = (
     return b.title ? -1 : Number(b.createdAt) - Number(a.createdAt)
   }
 
+  if (!b.title) {
+    return 1
+  }
+
   return (
     String(a.title).localeCompare(String(b.title)) ||
     Number(b.createdAt) - Number(a.createdAt)

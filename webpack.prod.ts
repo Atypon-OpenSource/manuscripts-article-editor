@@ -25,7 +25,7 @@ import common from './webpack.common'
 
 const configuration: webpack.Configuration = merge(common, {
   bail: true,
-  devtool: 'source-map',
+  // devtool: 'source-map',
   mode: 'production',
   module: {
     rules: [
@@ -78,7 +78,7 @@ const configuration: webpack.Configuration = merge(common, {
     filename: 'js/[name].[chunkhash:8].js',
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     new WebappWebpackPlugin({
       logo: './public/favicon.png',
       cache: true,

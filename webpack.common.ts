@@ -36,6 +36,8 @@ const configuration: webpack.Configuration = {
         'DISCOURSE_HOST',
         'GIT_COMMIT_HASH',
         'GIT_VERSION',
+        'JUPYTER_TOKEN',
+        'JUPYTER_URL',
         'NATIVE',
         'NODE_ENV',
         'PRESSROOM_KEY',

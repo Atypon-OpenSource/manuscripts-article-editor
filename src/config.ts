@@ -56,6 +56,10 @@ interface Config {
   buckets: {
     projects: string
   }
+  jupyter: {
+    url: string
+    token: string
+  }
 }
 
 const isTrue = (value: string | undefined) => {
@@ -114,6 +118,10 @@ const config = {
   },
   buckets: {
     projects: process.env.PROJECTS_BUCKET,
+  },
+  jupyter: {
+    url: normalizeURL(process.env.JUPYTER_URL),
+    token: process.env.JUPYTER_TOKEN,
   },
 }
 
