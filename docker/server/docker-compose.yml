@@ -47,6 +47,11 @@ services:
       - INITIALIZE_DATABASE
       - NODE_ENV=development
 
+  data:
+    image: registry.gitlab.com/mpapp-public/manuscripts-data/manuscripts-data
+    ports:
+      - 8020:8020
+
   jupyter:
     build:
       context: ../jupyter
