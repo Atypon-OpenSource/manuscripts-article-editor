@@ -154,6 +154,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
         <ProjectTitle>
           <TitleField
             id={'project-title-field'}
+            tabIndex={1}
             value={project.title || ''}
             handleChange={debounce(async title => {
               await saveProjectTitle(title)

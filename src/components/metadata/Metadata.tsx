@@ -158,7 +158,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
           autoFocus={!props.manuscript.title}
           handleChange={props.saveTitle}
           handleStateChange={props.handleTitleStateChange}
-          tabIndex={1}
+          tabIndex={2}
         />
         <ExpanderButton
           onClick={props.toggleExpanded}
