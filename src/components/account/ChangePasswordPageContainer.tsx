@@ -56,7 +56,7 @@ const ChangePasswordPageContainer: React.FunctionComponent<
           const errors: FormikErrors<ChangePasswordValues & FormErrors> = {
             submit:
               error.response &&
-              error.response.status === HttpStatusCodes.UNAUTHORIZED
+              error.response.status === HttpStatusCodes.FORBIDDEN
                 ? 'The password entered is incorrect'
                 : 'There was an error',
           }
