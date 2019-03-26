@@ -45,7 +45,7 @@ export const Centered = styled(Main)`
 
 const PageContainer = styled.div`
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 1px); /* allow 1px for the top border */
   box-sizing: border-box;
   color: ${props => props.theme.colors.global.text.primary};
   font-family: ${props => props.theme.fontFamily};

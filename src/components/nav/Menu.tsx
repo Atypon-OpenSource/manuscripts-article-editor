@@ -31,7 +31,8 @@ export const MenuContainer = styled.div`
   font-weight: 500;
   font-size: 16px;
   white-space: nowrap;
-  border-bottom: solid 1px #ddd;
+  border-bottom: 1px solid
+    ${props => props.theme.colors.sidebar.background.selected};
 `
 
 export const MenuBarIcon = styled.button`
