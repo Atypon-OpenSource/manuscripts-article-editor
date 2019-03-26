@@ -89,10 +89,6 @@ const Message = styled.div`
 `
 const TextContainer = styled.div`
   padding-left: 10px;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `
 interface Props {
   project: Project

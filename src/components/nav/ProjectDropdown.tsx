@@ -33,7 +33,6 @@ import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 import {
-  AddIconContainer,
   AddIconHover,
   RegularAddIcon,
 } from '../projects/ProjectsListPlaceholder'
@@ -66,10 +65,6 @@ const ButtonsContainer = styled.div`
 const TextContainer = styled.div`
   padding-left: 10px;
   padding-bottom: 2px;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `
 
 const ProjectNameContainer = styled.div`
@@ -124,6 +119,24 @@ const InvitedByText = styled.div`
 const TickMarkContainer = styled.div`
   display: flex;
   padding-right: 3px;
+`
+
+const StyledDropdownElement = styled(DropdownElement)`
+  &:hover ${RegularAddIcon} {
+    display: none;
+  }
+
+  &:hover ${AddIconHover} {
+    display: block;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+const Container = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 interface InvitationProps {
@@ -217,13 +230,13 @@ export const DropdownSection: React.FunctionComponent<DropdownSectionProps> = ({
   children,
   onClick,
 }) => (
-  <DropdownElement onClick={onClick}>
-    <AddIconContainer>
+  <StyledDropdownElement onClick={onClick}>
+    <Container>
       <RegularAddIcon width={24} height={26} />
       <AddIconHover width={24} height={26} />
       <TextContainer>{children}</TextContainer>
-    </AddIconContainer>
-  </DropdownElement>
+    </Container>
+  </StyledDropdownElement>
 )
 
 interface AllProjectsSectionProps {

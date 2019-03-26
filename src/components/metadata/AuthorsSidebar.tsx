@@ -90,10 +90,6 @@ const SidebarAction = styled.div`
 `
 const AddCollaboratorText = styled.div`
   padding-left: 14px;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `
 
 interface Props {

@@ -40,11 +40,7 @@ const Title = styled.div`
   letter-spacing: -0.5px;
   padding-left: 11px;
 `
-const ActionTitle = styled(Title)`
-  &:hover {
-    text-decoration: underline;
-  }
-`
+
 const AddButton = styled.button`
   display: flex;
   align-items: center;
@@ -135,6 +131,10 @@ export const AddIconContainer = styled.div`
   &:hover ${AddIconHover} {
     display: block;
   }
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 export interface Props {
@@ -159,7 +159,7 @@ export const ProjectsListPlaceholder: React.FunctionComponent<Props> = ({
         <AddIconContainer>
           <RegularAddIcon width={40} height={40} />
           <AddIconHover width={40} height={40} />
-          <ActionTitle>Create Project</ActionTitle>
+          <Title>Create Project</Title>
         </AddIconContainer>
       </AddButton>
     ) : (

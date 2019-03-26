@@ -111,10 +111,6 @@ const AddManuscriptButton = styled.button`
 
 const ManuscriptAdd = styled.div`
   padding-left: 10px;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `
 
 const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
