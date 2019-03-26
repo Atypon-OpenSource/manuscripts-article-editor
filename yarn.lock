@@ -1442,7 +1442,7 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.4.tgz#0ffaab28e15a84a8cb9691f3e71ee27d56cad055"
   integrity sha512-d2vVWsmK4zQCMY8g2QlQfBeBb7jMBHXpFizKsll/QuJcy4eM+quGno4AqLvQVjnIL1YIwj1u/fdYqNh4O0WtoA==
 
-"@manuscripts/assets@^0.3.7":
+"@manuscripts/assets@^0.3.6", "@manuscripts/assets@^0.3.7":
   version "0.3.7"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.7.tgz#2d7183c1a554f490b0e289af8e8156bcf0954223"
   integrity sha512-IAj8+PCscmqU1XEXtbBbEYYnL9sbU57t+2JvuI5EJY+v3JURWczZi5Gx+fNXaHLV4znkmcNEtO57V19pC1ll3Q==
@@ -1569,17 +1569,17 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fresizer/-/resizer-0.0.2.tgz#dd7a98bf5a21b234efc2d742f27299924a925c8d"
   integrity sha512-4mopT++nGNTvExWrPea4dKktcxt7AiJpIKbWwtPEYrFdytfrmv3AsewN4qvkqwBkze/0R+KHcIcO7ZUIMAvZ1w==
 
-"@manuscripts/style-guide@^0.3.2":
-  version "0.3.2"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.3.2.tgz#65252ff4c1bf009a1ba07e666ea5dff34c0a9994"
-  integrity sha512-/Ir7cvZ9aa2yRbOlHGjt4PeeXBAfTMCZfRL3Uq8nKyswEjIaj6gUGMp2aDejBTOOKz8tIlikhzQKoiTRKb2J+A==
+"@manuscripts/style-guide@^0.4.1":
+  version "0.4.1"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.4.1.tgz#3d94ebf3f3bfe21c39d5719e19aa414049d8746b"
+  integrity sha512-vOA2iskma+06AbWedteY+pX16SH9AJe+CHBRnHrximdk2EZPzbEmSJGAKV1w4w+yavBjvMyiYx73zM7uyu1Gpg==
   dependencies:
-    "@manuscripts/assets" "^0.3.0"
+    "@manuscripts/assets" "^0.3.6"
     lodash-es "^4.17.11"
     react-dnd "^7.0.2"
     react-dnd-html5-backend "^7.0.2"
     react-modal "^3.8.1"
-    react-select "^2.1.0"
+    react-select "^2.4.1"
 
 "@manuscripts/sync-client@^0.0.4":
   version "0.0.4"
@@ -13689,7 +13689,7 @@ react-router@^4.2.0, react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-select@^2.1.0:
+react-select@^2.1.0, react-select@^2.4.1:
   version "2.4.2"
   resolved "https://registry.npmjs.org/react-select/-/react-select-2.4.2.tgz#27da80e3880e92b081be607207bebdf63bcf4f3a"
   integrity sha512-5xFOQ6JJktkY5NTaHrc6x9mKwIjhNIiBkGic1j71uyY+ulFpRFra6f4WKLd9fuCylk4WjLpO5zDhdF4CAcwFzA==

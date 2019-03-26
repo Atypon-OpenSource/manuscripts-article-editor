@@ -70,6 +70,10 @@ const AddCollaboratorButton = styled.button`
 
 const AddCollaboratorText = styled.div`
   padding-left: 10px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const CollaboratorData = styled.div`

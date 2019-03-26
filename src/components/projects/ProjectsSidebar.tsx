@@ -53,6 +53,10 @@ const SidebarActionTitle = styled.span`
   font-size: 14px;
   letter-spacing: -0.2px;
   color: ${props => props.theme.colors.sidebar.text.primary};
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const AddButton = styled.button`

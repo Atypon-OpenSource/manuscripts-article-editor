@@ -96,6 +96,10 @@ const ActionButtonText = styled.div`
   letter-spacing: -0.5px;
   color: ${props => props.theme.colors.global.text.primary};
   padding-left: 10px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const Message = styled.div`

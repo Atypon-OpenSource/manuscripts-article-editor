@@ -66,6 +66,10 @@ const ButtonsContainer = styled.div`
 const TextContainer = styled.div`
   padding-left: 10px;
   padding-bottom: 2px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const ProjectNameContainer = styled.div`

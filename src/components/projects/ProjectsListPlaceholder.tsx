@@ -40,7 +40,11 @@ const Title = styled.div`
   letter-spacing: -0.5px;
   padding-left: 11px;
 `
-
+const ActionTitle = styled(Title)`
+  &:hover {
+    text-decoration: underline;
+  }
+`
 const AddButton = styled.button`
   display: flex;
   align-items: center;
@@ -107,6 +111,10 @@ const BrowseLink = styled.span`
 
   cursor: pointer;
   font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 export const RegularAddIcon = styled(AddIcon)`
@@ -151,7 +159,7 @@ export const ProjectsListPlaceholder: React.FunctionComponent<Props> = ({
         <AddIconContainer>
           <RegularAddIcon width={40} height={40} />
           <AddIconHover width={40} height={40} />
-          <Title>Create Project</Title>
+          <ActionTitle>Create Project</ActionTitle>
         </AddIconContainer>
       </AddButton>
     ) : (
