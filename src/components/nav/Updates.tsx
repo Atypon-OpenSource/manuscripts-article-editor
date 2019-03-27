@@ -147,7 +147,7 @@ const IndividualTopic = styled.div`
 `
 
 const LoginLink: React.FunctionComponent<{ host: string }> = ({ host }) => (
-  <FooterLink href={`${host}/login`} target={'_blank'}>
+  <FooterLink href={`${host}/login`}>
     &#128279; Manuscripts.io community
   </FooterLink>
 )
