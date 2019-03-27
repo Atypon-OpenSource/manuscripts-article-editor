@@ -25,7 +25,13 @@ const createDatabase = () =>
     // queryChangeDetection: true,
   })
 
-export let databaseCreator = createDatabase()
+export let databaseCreator = (() => {
+  try {
+    return createDatabase()
+  } catch (e) {
+    return Promise.reject(e)
+  }
+})()
 
 export const removeDatabase = async () => {
   const db = await databaseCreator
