@@ -106,11 +106,11 @@ export const Menu: React.FunctionComponent<Props> = ({
   projectID,
 }) => (
   <MenuContainer>
-    <Tip title={'Back to Editor'} placement={'bottom-end'}>
-      <FilledMenuBarIcon onClick={handleClose}>
+    <FilledMenuBarIcon onClick={handleClose}>
+      <Tip title={'Back to Editor'} placement={'bottom-end'}>
         <NavIcon />
-      </FilledMenuBarIcon>
-    </Tip>
+      </Tip>
+    </FilledMenuBarIcon>
 
     <MenuSections>
       <MenuSection>
