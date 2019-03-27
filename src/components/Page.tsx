@@ -30,7 +30,7 @@ import ProjectNavigator from './ProjectNavigator'
 import { Tip } from './Tip'
 
 export const Main = styled.main`
-  height: 100vh;
+  height: 100%;
   flex: 1;
   position: relative;
   box-sizing: border-box;
@@ -54,8 +54,7 @@ const PageContainer = styled.div`
 `
 
 const ViewsBar = styled.div`
-  height: 100vh;
-  width: 56px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +65,6 @@ const ViewsBar = styled.div`
 
 const IconBar = styled.div`
   flex: 1;
-  width: 56px;
   display: flex;
   flex-direction: column;
   align-items: center;

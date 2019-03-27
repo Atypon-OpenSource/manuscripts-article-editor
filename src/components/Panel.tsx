@@ -62,7 +62,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
     const style: PanelStyle = {
       position: 'relative',
       width: direction === 'row' ? size : '100%',
-      height: direction === 'row' ? '100vh' : size,
+      height: direction === 'row' ? '100%' : size,
     }
 
     const resizer = (

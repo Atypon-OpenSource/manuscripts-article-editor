@@ -38,6 +38,8 @@ export const MenuContainer = styled.div`
 export const MenuBarIcon = styled.button`
   height: 58px;
   width: 58px;
+  padding: 0;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -96,6 +98,11 @@ export const FilledMenuBarIcon = styled(MenuBarIcon)`
   }
 `
 
+const MenuContainerWithBorder = styled(MenuContainer)`
+  border-top: 1px solid
+    ${props => props.theme.colors.sidebar.background.selected};
+`
+
 interface Props {
   handleClose: React.MouseEventHandler<HTMLElement>
   projectID: string
@@ -105,7 +112,7 @@ export const Menu: React.FunctionComponent<Props> = ({
   handleClose,
   projectID,
 }) => (
-  <MenuContainer>
+  <MenuContainerWithBorder>
     <FilledMenuBarIcon onClick={handleClose}>
       <Tip title={'Back to Editor'} placement={'bottom-end'}>
         <NavIcon />
@@ -121,5 +128,5 @@ export const Menu: React.FunctionComponent<Props> = ({
         <UserContainer />
       </MenuSection>
     </MenuSections>
-  </MenuContainer>
+  </MenuContainerWithBorder>
 )
