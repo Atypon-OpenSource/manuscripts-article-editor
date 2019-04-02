@@ -48,8 +48,14 @@ export const EditorContainerInner = styled.div`
 `
 
 export const EditorHeader = styled.div`
-  padding: 5px 24px;
+  padding: 4px 24px 20px;
   background: white;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 1) 16px
+  );
+  z-index: 5;
 `
 
 export const EditorBody = styled.div`
@@ -57,4 +63,6 @@ export const EditorBody = styled.div`
   overflow-y: auto;
   padding-bottom: 20px;
   padding-right: 8px;
+  margin-top: -16px;
+  padding-top: 16px;
 `
