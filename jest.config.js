@@ -1,6 +1,6 @@
 module.exports = {
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}', 
+    'src/**/*.{ts,tsx}',
     '!**/*.d.ts',
     '!/**/__tests__',
     '!/**/__mocks__',
@@ -25,7 +25,7 @@ module.exports = {
     '^.+\\.xml$': '<rootDir>/src/__mocks__/rawMock.ts',
   },
   setupFiles: ['./src/setupTests.ts'],
-  setupTestFrameworkScriptFile: './node_modules/jest-enzyme/lib/index.js',
+  setupFilesAfterEnv: ['<rootDir>/node_modules/jest-enzyme/lib/index.js'],
   testPathIgnorePatterns: ['/node_modules/'],
   testRegex: '__tests__.*\\.test\\.tsx?$',
   testURL: "https://localhost",

@@ -19,7 +19,7 @@ import { Category, Dialog } from '@manuscripts/style-guide'
 import JSZip from 'jszip'
 import { extname } from 'path'
 import * as React from 'react'
-import Dropzone, { DropFilesEventHandler } from 'react-dropzone'
+import Dropzone from 'react-dropzone'
 import {
   acceptedFileDescription,
   acceptedFileExtensions,
@@ -100,7 +100,7 @@ class ImportContainer extends React.Component<Props & ModalProps & State> {
           acceptedMimeTypes().join(','),
           acceptedFileExtensions().join(','),
         ].join(',')}
-        disableClick={true}
+        noClick={true}
         multiple={false}
       >
         {({ isDragActive, isDragAccept, getRootProps }) => (
@@ -127,10 +127,7 @@ class ImportContainer extends React.Component<Props & ModalProps & State> {
     ))
   }
 
-  private handleDrop: DropFilesEventHandler = async (
-    acceptedFiles,
-    rejectedFiles
-  ) => {
+  private handleDrop = async (acceptedFiles: File[], rejectedFiles: File[]) => {
     if (acceptedFiles.length) {
       if (acceptedFiles[0].name.endsWith('.zip')) {
         await this.handleZipFile(acceptedFiles[0])

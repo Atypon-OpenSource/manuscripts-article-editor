@@ -32,7 +32,13 @@ const items = (projectDump.data as Model[]).map(item => {
 const generateDbName = (prefix: string) => prefix + uuid().replace(/-/g, '_')
 
 describe('Collection', () => {
-  beforeAll(clearChannelFolder)
+  beforeAll(async () => {
+    try {
+      await clearChannelFolder()
+    } catch {
+      // ignore if the folder doesn't exist
+    }
+  })
   afterAll(clearChannelFolder)
 
   test('new collection', async () => {
