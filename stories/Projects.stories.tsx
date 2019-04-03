@@ -59,6 +59,9 @@ storiesOf('Projects', module)
       saveProjectTitle={action('save title')}
       selected={null}
       user={user}
+      permissions={{
+        write: true,
+      }}
     />
   ))
   .add('Projects Menu', () => (

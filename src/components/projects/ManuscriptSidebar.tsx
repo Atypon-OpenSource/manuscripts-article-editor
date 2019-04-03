@@ -29,6 +29,7 @@ import { TitleField } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
 import * as React from 'react'
 import { styled } from '../../theme/styled-components'
+import { Permissions } from '../../types/permissions'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import Panel from '../Panel'
 import {
@@ -131,6 +132,7 @@ interface Props {
   view?: ManuscriptEditorView
   doc?: ManuscriptNode
   user: UserProfileWithAvatar
+  permissions: Permissions
 }
 
 const ManuscriptSidebar: React.FunctionComponent<Props> = ({
@@ -139,6 +141,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   manuscript,
   manuscripts,
   view,
+  permissions,
   project,
   saveProjectTitle,
   selected,
@@ -151,6 +154,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
           <TitleField
             id={'project-title-field'}
             tabIndex={1}
+            editable={permissions.write}
             value={project.title || ''}
             handleChange={debounce(async title => {
               await saveProjectTitle(title)
@@ -178,13 +182,15 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
       </SidebarContent>
 
       <SidebarFooter>
-        <AddManuscriptButton onClick={openTemplateSelector}>
-          <AddIconContainer>
-            <RegularAddIcon width={20} height={21} />
-            <AddIconHover width={20} height={21} />
-            <ManuscriptAdd>New Manuscript</ManuscriptAdd>
-          </AddIconContainer>
-        </AddManuscriptButton>
+        {permissions.write && (
+          <AddManuscriptButton onClick={openTemplateSelector}>
+            <AddIconContainer>
+              <RegularAddIcon width={20} height={21} />
+              <AddIconHover width={20} height={21} />
+              <ManuscriptAdd>New Manuscript</ManuscriptAdd>
+            </AddIconContainer>
+          </AddManuscriptButton>
+        )}
       </SidebarFooter>
     </StyledSidebar>
   </Panel>

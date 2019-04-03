@@ -92,6 +92,9 @@ storiesOf('Metadata', module)
         'update author after inviting him to collaborate on project'
       )}
       invitationSent={false}
+      permissions={{
+        write: true,
+      }}
     />
   ))
   .add('Edit authors', () => (
@@ -133,6 +136,9 @@ storiesOf('Metadata', module)
         'update author after inviting him to collaborate on project'
       )}
       invitationSent={false}
+      permissions={{
+        write: true,
+      }}
     />
   ))
   .add('Collapsed', () => (
@@ -174,6 +180,9 @@ storiesOf('Metadata', module)
         'update author after inviting him to collaborate on project'
       )}
       invitationSent={false}
+      permissions={{
+        write: true,
+      }}
     />
   ))
   .add('Title: read-only', () => (

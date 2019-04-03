@@ -86,7 +86,7 @@ import deviceId from '../../lib/device-id'
 import { filterLibrary } from '../../lib/library'
 import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
 import { buildProjectMenu } from '../../lib/project-menu'
-import { ContributorRole } from '../../lib/roles'
+import { canWrite, ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/session-id'
 import {
   buildRecentProjects,
@@ -97,6 +97,7 @@ import { Collection, ContainerIDs } from '../../sync/Collection'
 import CollectionManager from '../../sync/CollectionManager'
 // import { newestFirst, oldestFirst } from '../../lib/sort'
 import { ThemeProvider } from '../../theme/ThemeProvider'
+import { Permissions } from '../../types/permissions'
 import { DebouncedInspector } from '../Inspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
@@ -143,6 +144,7 @@ interface State {
   plugins?: ManuscriptPlugin[]
   popper: PopperManager
   processor?: CiteProc.Engine
+  permissions?: Permissions
   selected: Selected | null
   view?: ManuscriptEditorView
   activeEditor?: {
@@ -225,6 +227,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       `project-${projectID}`
     )
 
+    this.setPermissions(this.props)
+
     await this.prepare(projectID, manuscriptID)
   }
 
@@ -248,6 +252,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         await this.prepare(nextParams.projectID, nextParams.manuscriptID)
       })
     }
+
+    if (
+      this.props.project !== nextProps.project ||
+      this.props.user !== nextProps.user
+    ) {
+      this.setPermissions(nextProps)
+    }
   }
 
   public componentWillUnmount() {
@@ -270,6 +281,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       view,
       error,
       plugins,
+      permissions,
     } = this.state
 
     const { comments, manuscripts, manuscript, project, user } = this.props
@@ -278,7 +290,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       return <ReloadDialog message={error} />
     }
 
-    if (!doc || !manuscript || !project || !comments || !plugins) {
+    if (
+      !doc ||
+      !manuscript ||
+      !project ||
+      !comments ||
+      !plugins ||
+      !permissions
+    ) {
       return <ManuscriptPlaceholder />
     }
 
@@ -306,12 +325,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           saveProjectTitle={this.saveProjectTitle}
           selected={selected}
           user={user}
+          permissions={permissions}
         />
 
         <Main>
           <EditorContainer>
             <EditorContainerInner>
-              {view && !config.native && (
+              {view && permissions.write && !config.native && (
                 <EditorHeader>
                   <ApplicationMenu menus={this.buildMenus()} view={view} />
 
@@ -333,6 +353,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   manuscript={manuscript}
                   saveModel={this.saveModel}
                   deleteModel={this.deleteModel}
+                  permissions={permissions}
                   handleTitleStateChange={this.handleEditorStateChange(
                     EditorType.title
                   )}
@@ -373,6 +394,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   )}
                   CitationEditor={CitationEditor}
                   jupyterConfig={config.jupyter}
+                  permissions={permissions}
                 />
               </EditorBody>
             </EditorContainerInner>
@@ -431,6 +453,16 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         })
         break
     }
+  }
+
+  private setPermissions = (props: Props) => {
+    const { project, user } = props
+
+    this.setState({
+      permissions: {
+        write: canWrite(project, user.userID),
+      },
+    })
   }
 
   private saveUserProject = async (projectID: string, manuscriptID: string) => {

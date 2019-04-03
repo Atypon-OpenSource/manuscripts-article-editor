@@ -16,6 +16,10 @@
 
 import { Project } from '@manuscripts/manuscripts-json-schema'
 
+export enum ContributorRole {
+  author = 'author',
+}
+
 export enum ProjectRole {
   owner = 'Owner',
   writer = 'Writer',
@@ -47,6 +51,6 @@ export const getUserRole = (project: Project, userID: string) => {
   return null
 }
 
-export enum ContributorRole {
-  author = 'author',
+export const canWrite = (project: Project, userID: string) => {
+  return isOwner(project, userID) || isWriter(project, userID)
 }

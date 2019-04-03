@@ -38,6 +38,7 @@ import React from 'react'
 import { AffiliationMap } from '../../lib/authors'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
+import { Permissions } from '../../types/permissions'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import AuthorsModalContainer from './AuthorsModalContainer'
@@ -146,6 +147,7 @@ interface Props {
   handleDrop: (oldIndex: number, newIndex: number) => void
   updateAuthor: (author: Contributor, email: string) => void
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
+  permissions: Permissions
 }
 
 export const Metadata: React.FunctionComponent<Props> = props => (
@@ -159,6 +161,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
           handleChange={props.saveTitle}
           handleStateChange={props.handleTitleStateChange}
           tabIndex={2}
+          editable={props.permissions.write}
         />
         <ExpanderButton
           onClick={props.toggleExpanded}

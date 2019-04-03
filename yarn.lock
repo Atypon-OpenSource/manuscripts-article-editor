@@ -1591,12 +1591,7 @@
     "@phosphor/disposable" "^1.1.2"
     "@phosphor/signaling" "^1.2.2"
 
-"@manuscripts/assets@^0.3.0":
-  version "0.3.4"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.4.tgz#0ffaab28e15a84a8cb9691f3e71ee27d56cad055"
-  integrity sha512-d2vVWsmK4zQCMY8g2QlQfBeBb7jMBHXpFizKsll/QuJcy4eM+quGno4AqLvQVjnIL1YIwj1u/fdYqNh4O0WtoA==
-
-"@manuscripts/assets@^0.3.6", "@manuscripts/assets@^0.3.7":
+"@manuscripts/assets@^0.3.0", "@manuscripts/assets@^0.3.6", "@manuscripts/assets@^0.3.7":
   version "0.3.7"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fassets/-/assets-0.3.7.tgz#2d7183c1a554f490b0e289af8e8156bcf0954223"
   integrity sha512-IAj8+PCscmqU1XEXtbBbEYYnL9sbU57t+2JvuI5EJY+v3JURWczZi5Gx+fNXaHLV4znkmcNEtO57V19pC1ll3Q==
@@ -1620,10 +1615,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.5.tgz#335d4fefaf9b4cdc64e59f03c45818cd8fed904d"
   integrity sha512-oTAMMrSHmBXXUnmOK4jBw94r1snEVRcUXeMcC2tGOBKKqeEEP5oGYU50qKnfgcN+N1xZ2p6HZ6Zp0wjTeLvH1A==
 
-"@manuscripts/manuscript-editor@^0.23.0":
-  version "0.23.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.23.0.tgz#e27634f034f52ab2c339579554833d2465ad5450"
-  integrity sha512-lOjKogUa2rcdqM4M3oh6fMODZOjyq5aK+bhl1pKLbL9kqANHa+fRUZxrElMyl6rMPNJt3evWF6QAn7s42QEHrw==
+"@manuscripts/manuscript-editor@^0.24.0":
+  version "0.24.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.24.0.tgz#22a63e9c287bf52459c7eb52c68d45a23088617c"
+  integrity sha512-B0s2zUtejdN8TmxkvbAmTR63ZpKgGYCh6p3orI3C22tQOk4rmcWzrjEuFCCviTjisGgXnJSvR1ka+CmcYA8rBw==
   dependencies:
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.3.7"
@@ -1742,10 +1737,10 @@
     prosemirror-utils "^0.7.6"
     prosemirror-view "^1.8.1"
 
-"@manuscripts/title-editor@^0.3.0":
-  version "0.3.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.3.0.tgz#f6a8eb04ec48c7d2c61b2c51cd040b2c6df8eae3"
-  integrity sha512-+5awvKXOl/3JVHVR8Jw6mlP9a+8GI0r1ElaWDBd+HG05pkZh6xaoBQ0b5wEVncMdY+Vmidx3OnRFIj7eedAWEg==
+"@manuscripts/title-editor@^0.3.0", "@manuscripts/title-editor@^0.3.1":
+  version "0.3.1"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2ftitle-editor/-/title-editor-0.3.1.tgz#79bbe02121d389c0fb3ee9c13e1d53181edb1b58"
+  integrity sha512-QHnlrbhn/+2BaJuIqEWWzrqB5KxENuy/NC4z6DwFeQrFaqz41lDuR3oOrYDtSzDoqYda/rt2K8RsoGLi1glvsw==
   dependencies:
     "@manuscripts/assets" "^0.3.0"
     prosemirror-commands "^1.0.4"
@@ -13831,16 +13826,7 @@ prosemirror-gapcursor@^1.0.0, prosemirror-gapcursor@^1.0.3:
     prosemirror-state "^1.0.0"
     prosemirror-view "^1.0.0"
 
-prosemirror-history@^1.0.0:
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/prosemirror-history/-/prosemirror-history-1.0.3.tgz#5fb8591adfc272afaaf0b41bec64ee7d9522a118"
-  integrity sha512-IfFGbhafSx+R3aq7nLJGkXeu2iaUiP8mkU3aRu2uQcIIjU8Fq7RJfuvhIOJ2RNUoSyqF/ANkdTjnZ74F5eHs1Q==
-  dependencies:
-    prosemirror-state "^1.2.2"
-    prosemirror-transform "^1.0.0"
-    rope-sequence "^1.2.0"
-
-prosemirror-history@^1.0.3:
+prosemirror-history@^1.0.0, prosemirror-history@^1.0.3:
   version "1.0.4"
   resolved "https://registry.npmjs.org/prosemirror-history/-/prosemirror-history-1.0.4.tgz#313a15489a78795321f3a37d53d8c68610c5adb6"
   integrity sha512-Kk2UisC9EzYcsNv+ILiQJWpsu0rbT6+oAAkvseFUHnudtfkmYAJu1+Xp3F0xTTCVmQdSqSLVk8qydllXUUOU4Q==
@@ -13928,7 +13914,7 @@ prosemirror-utils@^0.7.6:
   resolved "https://registry.npmjs.org/prosemirror-utils/-/prosemirror-utils-0.7.7.tgz#a9bda2468113d34f3721ba15eaa2fd04b81d7dc8"
   integrity sha512-0cSWive9oCOr4nnTlEQ9scr8g8kj126glAigb6cKLB4sq/eSyumVu8Ogqus6KEoLInBy6WONXJbgm/2xJ8MShw==
 
-prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.7.1:
+prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.6.3, prosemirror-view@^1.7.1:
   version "1.8.4"
   resolved "https://registry.npmjs.org/prosemirror-view/-/prosemirror-view-1.8.4.tgz#6931c0610dba427eb7bb0c4686915affb66b5ea8"
   integrity sha512-d0aUs9TYFvRb1jmnZ4+zXtm4hegtSlZ1xgzRDfzFGRjKtgvb7j7qcHAHKRhfuWrgwf8eGjlO2zo5ksmV/t0bQw==
@@ -13937,7 +13923,7 @@ prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.7.1:
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.1.0"
 
-prosemirror-view@^1.5.3, prosemirror-view@^1.6.3:
+prosemirror-view@^1.5.3:
   version "1.7.1"
   resolved "https://registry.npmjs.org/prosemirror-view/-/prosemirror-view-1.7.1.tgz#f0ea75faa6d7bd25ea22897dd5bae35708c59a28"
   integrity sha512-UFY/h4i5H1Yen8u2ZTve0WL+nh/y1qU3geC3SrWl5yIKSgGbvllD5vr5LxmeRgVsY8hb+oDXRHk5KvLwqmu7Lg==

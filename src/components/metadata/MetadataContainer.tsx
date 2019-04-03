@@ -47,6 +47,7 @@ import {
 } from '../../lib/authors'
 import { buildCollaborators } from '../../lib/collaborators'
 import { getCurrentUserId } from '../../lib/user'
+import { Permissions } from '../../types/permissions'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { Metadata } from './Metadata'
 
@@ -58,6 +59,7 @@ interface Props {
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
+  permissions: Permissions
 }
 
 interface State {
@@ -105,7 +107,12 @@ class MetadataContainer extends React.PureComponent<Props, State> {
       invitationValues,
       invitationSent,
     } = this.state
-    const { manuscript, modelMap, handleTitleStateChange } = this.props
+    const {
+      manuscript,
+      modelMap,
+      handleTitleStateChange,
+      permissions,
+    } = this.props
 
     const {
       affiliations,
@@ -167,6 +174,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
                           updateAuthor={this.updateAuthor(user)}
                           invitationSent={invitationSent}
                           handleTitleStateChange={handleTitleStateChange}
+                          permissions={permissions}
                         />
                       )
                     }}
