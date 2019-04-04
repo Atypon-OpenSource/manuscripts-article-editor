@@ -20,6 +20,7 @@ import {
   Project,
   UserProject,
 } from '@manuscripts/manuscripts-json-schema'
+import deviceID from './device-id'
 
 export interface RecentProject {
   projectID: string
@@ -65,7 +66,6 @@ export const buildRecentProjects = (
   projectID: string,
   userProjects: UserProject[],
   projects: Project[],
-  deviceID: string,
   numberOfProjects: number = 5
 ): RecentProject[] => {
   const projectsMap = new Map<string, Project>()
@@ -89,4 +89,25 @@ export const buildRecentProjects = (
       manuscriptID: lastOpened[deviceID].manuscriptID,
       sectionID: lastOpened[deviceID].sectionID,
     }))
+}
+
+export const lastOpenedManuscriptID = (
+  projectID: string,
+  userProjects: UserProject[]
+): string | null => {
+  const userProject = userProjects.find(
+    userProject => userProject.projectID === projectID
+  )
+
+  if (!userProject) {
+    return null
+  }
+
+  const lastOpened = userProject.lastOpened[deviceID]
+
+  if (!lastOpened) {
+    return null
+  }
+
+  return lastOpened.manuscriptID
 }

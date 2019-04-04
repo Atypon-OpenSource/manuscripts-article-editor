@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
+jest.mock('../device-id')
+
 import { Project, UserProject } from '@manuscripts/manuscripts-json-schema'
+import deviceID from '../device-id'
 import { buildRecentProjects, buildUserProject } from '../user-project'
 
 describe('user project', () => {
   test('buildUserProject', () => {
     expect(
-      buildUserProject('User_id', 'MPProject:id', 'MPManuscript:id', 'deviceId')
-        .lastOpened.deviceId.manuscriptID
+      buildUserProject('User_id', 'MPProject:id', 'MPManuscript:id', deviceID)
+        .lastOpened[deviceID].manuscriptID
     ).toBe('MPManuscript:id')
   })
 
@@ -32,7 +35,7 @@ describe('user project', () => {
         createdAt: 123123123,
         updatedAt: 123123123,
         lastOpened: {
-          deviceId: {
+          [deviceID]: {
             manuscriptID: 'MPManuscript:id1',
             timestamp: 123123129,
           },
@@ -46,7 +49,7 @@ describe('user project', () => {
         createdAt: 123123123,
         updatedAt: 123123123,
         lastOpened: {
-          deviceId: {
+          [deviceID]: {
             manuscriptID: 'MPManuscript:id1',
             timestamp: 123123123,
           },
@@ -60,7 +63,7 @@ describe('user project', () => {
         createdAt: 123123123,
         updatedAt: 123123123,
         lastOpened: {
-          deviceId: {
+          [deviceID]: {
             manuscriptID: 'MPManuscript:id3',
             timestamp: 123123128,
           },
@@ -74,7 +77,7 @@ describe('user project', () => {
         createdAt: 123123123,
         updatedAt: 123123123,
         lastOpened: {
-          deviceId: {
+          [deviceID]: {
             manuscriptID: 'MPManuscript:id2',
             timestamp: 123123128,
           },
@@ -88,7 +91,7 @@ describe('user project', () => {
         createdAt: 123123123,
         updatedAt: 123123123,
         lastOpened: {
-          deviceId: {
+          [deviceID]: {
             manuscriptID: 'MPManuscript:id1',
             timestamp: 123123123,
           },
@@ -134,8 +137,7 @@ describe('user project', () => {
     const recentProjects = buildRecentProjects(
       'MPProject:id3',
       userProjects,
-      projects,
-      'deviceId'
+      projects
     )
 
     const expected = [

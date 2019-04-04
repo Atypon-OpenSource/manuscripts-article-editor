@@ -702,7 +702,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const { projects, userProjects } = this.props
     const { projectID } = this.props.match.params
 
-    return buildRecentProjects(projectID, userProjects, projects, deviceId)
+    return buildRecentProjects(projectID, userProjects, projects)
   }
 
   private dispatchUpdate = () => {
