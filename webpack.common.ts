@@ -25,6 +25,10 @@ const configuration: webpack.Configuration = {
   output: {
     publicPath: '/',
   },
+  performance: {
+    maxEntrypointSize: 5000000,
+    maxAssetSize: 5000000,
+  },
   plugins: (() => {
     const plugins = [
       new webpack.EnvironmentPlugin([
@@ -105,18 +109,6 @@ const configuration: webpack.Configuration = {
     return plugins
   })(),
   resolve: {
-    alias: {
-      '@manuscripts/manuscript-transform': require.resolve(
-        '@manuscripts/manuscript-transform'
-      ),
-      '@manuscripts/style-guide': require.resolve('@manuscripts/style-guide'),
-      formik: require.resolve('formik'),
-      react: require.resolve('react'),
-      'react-dnd': require.resolve('react-dnd'),
-      'react-dom': require.resolve('react-dom'),
-      'react-hot-loader': require.resolve('react-hot-loader'),
-      'styled-components': require.resolve('styled-components'),
-    },
     extensions: ['.tsx', '.ts', '.js', '.json'],
   },
 }

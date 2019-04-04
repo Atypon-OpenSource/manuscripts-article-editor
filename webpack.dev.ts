@@ -78,10 +78,17 @@ const configuration: webpack.Configuration = merge(common, {
       },
     ],
   },
-  performance: {
-    hints: false,
-  },
   plugins: [new webpack.HotModuleReplacementPlugin()],
+  resolve: {
+    alias: {
+      formik: require.resolve('formik'),
+      react: require.resolve('react'),
+      'react-dnd': require.resolve('react-dnd'),
+      'react-dom': require.resolve('react-dom'),
+      'react-hot-loader': require.resolve('react-hot-loader'),
+      'styled-components': require.resolve('styled-components'),
+    },
+  },
   watchOptions: {
     aggregateTimeout: 1000,
     ignored: /node_modules\/(?!@manuscripts\/)/,

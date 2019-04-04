@@ -391,6 +391,13 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
+"@babel/plugin-syntax-dynamic-import@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.2.0.tgz#69c159ffaf4998122161ad8ebc5e6d1f55df8612"
+  integrity sha512-mVxuJ0YroI/h/tbFTPGZR8cv6ai+STMKNBq0f8hFxsxWjl94qqhsb+wXbpNMDPU3cfR1TIsVFzU3nXyZMqyK4w==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+
 "@babel/plugin-syntax-flow@^7.0.0", "@babel/plugin-syntax-flow@^7.2.0":
   version "7.2.0"
   resolved "https://registry.npmjs.org/@babel/plugin-syntax-flow/-/plugin-syntax-flow-7.2.0.tgz#a765f061f803bc48f240c26f8747faf97c26bf7c"
@@ -1615,14 +1622,14 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.5.tgz#335d4fefaf9b4cdc64e59f03c45818cd8fed904d"
   integrity sha512-oTAMMrSHmBXXUnmOK4jBw94r1snEVRcUXeMcC2tGOBKKqeEEP5oGYU50qKnfgcN+N1xZ2p6HZ6Zp0wjTeLvH1A==
 
-"@manuscripts/manuscript-editor@^0.24.0":
-  version "0.24.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.24.0.tgz#22a63e9c287bf52459c7eb52c68d45a23088617c"
-  integrity sha512-B0s2zUtejdN8TmxkvbAmTR63ZpKgGYCh6p3orI3C22tQOk4rmcWzrjEuFCCviTjisGgXnJSvR1ka+CmcYA8rBw==
+"@manuscripts/manuscript-editor@^0.24.3":
+  version "0.24.3"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.24.3.tgz#589d7fa67a39c267134e9c5873a38b9d6821b5a5"
+  integrity sha512-ZOvffme9PtHkSfwsLPdusXqxKkA0vKy1iBiPHA/FhrNvThEvAUDvyO5/b3HYWiXUB5XfvHPeU2jzyKEy2L9N5Q==
   dependencies:
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.3.7"
-    "@manuscripts/manuscript-transform" "^0.8.0"
+    "@manuscripts/manuscript-transform" "^0.9.1"
     "@manuscripts/manuscripts-json-schema" "^1.7.3"
     "@manuscripts/title-editor" "^0.3.0"
     axios "^0.18.0"
@@ -1668,10 +1675,10 @@
     uuid "^3.3.2"
     w3c-xmlserializer "^1.0.1"
 
-"@manuscripts/manuscript-transform@^0.8.0":
-  version "0.8.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-transform/-/manuscript-transform-0.8.0.tgz#9c8cb7da145edb6faa89bd2b93f250e87eee00a2"
-  integrity sha512-63G4GgYZSNQcI8pU0eALY95NhWGLeE8IZwPosjBvLj+eHD796Q10HIMmq2BeK3MEcnIPfWyvFFlyjtRy7YWFJQ==
+"@manuscripts/manuscript-transform@^0.9.1":
+  version "0.9.1"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-transform/-/manuscript-transform-0.9.1.tgz#96979872ad35653e951f2043cf19135cec5b0499"
+  integrity sha512-rrq7mPORfQhXGv/Td/t65+qKk3JhilBCqc3KY9mVk9+AJ7n5/ET+hT4d0FyTcfiR2YiG8S5okwGxILYQTZw6oQ==
   dependencies:
     prosemirror-model "^1.7.0"
     uuid "^3.3.2"
