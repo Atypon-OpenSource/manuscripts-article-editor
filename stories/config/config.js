@@ -1,6 +1,7 @@
 const { addDecorator, configure } = require('@storybook/react')
 const React = require('react')
 const { DragDropContextProvider } = require('react-dnd')
+const HTML5Backend = require('react-dnd-html5-backend').default
 const { MemoryRouter } = require('react-router-dom')
 const { Story } = require('../components/Story')
 const { GlobalStyle } = require('../../src/theme/theme')
@@ -8,7 +9,6 @@ const { ThemeProvider } = require('../../src/theme/ThemeProvider')
 const IntlProvider = require('../../src/components/IntlProvider').default
 const { ModalProvider } = require('../../src/components/ModalProvider')
 const { databaseCreator } = require('../../src/lib/__mocks__/adapter')
-const HTML5Backend = require('../../src/lib/dnd').default
 
 addDecorator(story => (
   <DragDropContextProvider backend={HTML5Backend}>
