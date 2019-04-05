@@ -253,12 +253,18 @@ class ProjectPageContainer extends React.Component<
                                       path={'/projects/:projectID/library'}
                                       exact={true}
                                       render={props => (
-                                        <LibraryPageContainer
-                                          {...props}
-                                          project={project}
-                                          library={library}
-                                          libraryCollection={libraryCollection}
-                                        />
+                                        <React.Suspense
+                                          fallback={<ProjectPlaceholder />}
+                                        >
+                                          <LibraryPageContainer
+                                            {...props}
+                                            project={project}
+                                            library={library}
+                                            libraryCollection={
+                                              libraryCollection
+                                            }
+                                          />
+                                        </React.Suspense>
                                       )}
                                     />
 
