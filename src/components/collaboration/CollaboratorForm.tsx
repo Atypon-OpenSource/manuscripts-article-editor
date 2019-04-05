@@ -112,7 +112,9 @@ export const CollaboratorForm: React.FunctionComponent<CollaboratorProps> = ({
     ) : (
       <AffiliationGroupContainer>
         {affiliations.map(affiliation => (
-          <AffiliationLabel>{affiliation.institution}</AffiliationLabel>
+          <AffiliationLabel key={affiliation._id}>
+            {affiliation.institution}
+          </AffiliationLabel>
         ))}
       </AffiliationGroupContainer>
     )}
