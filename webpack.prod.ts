@@ -34,14 +34,7 @@ const configuration: webpack.Configuration = merge(common, {
           {
             exclude: /node_modules/,
             test: /\.tsx?$/,
-            use: [
-              {
-                loader: 'babel-loader',
-                options: {
-                  cacheDirectory: true,
-                },
-              },
-            ],
+            use: 'babel-loader',
           },
           {
             test: /\.css$/,
