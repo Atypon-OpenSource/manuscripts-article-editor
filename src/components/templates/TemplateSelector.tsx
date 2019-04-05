@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { CitationManager } from '@manuscripts/manuscript-editor'
 import {
   Build,
   buildContributor,
@@ -335,6 +334,8 @@ class TemplateSelector extends React.Component<
     collection: Collection<ContainedModel>
   ) => {
     if (newBundle.csl && newBundle.csl.cslIdentifier) {
+      const { CitationManager } = await import('@manuscripts/manuscript-editor')
+
       const citationManager = new CitationManager(config.data.url)
       const cslStyle = await citationManager.fetchCitationStyleString(newBundle)
 

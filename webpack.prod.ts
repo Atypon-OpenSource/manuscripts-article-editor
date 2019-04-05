@@ -77,6 +77,10 @@ const configuration: webpack.Configuration = merge(common, {
     chunkFilename: 'js/[name].[chunkhash:8].js',
     filename: 'js/[name].[chunkhash:8].js',
   },
+  performance: {
+    maxEntrypointSize: 3000000,
+    maxAssetSize: 3000000,
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new WebappWebpackPlugin({

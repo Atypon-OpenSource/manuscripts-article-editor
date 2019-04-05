@@ -34,14 +34,19 @@ import Sync from '../../sync/Sync'
 import AddCollaboratorsPageContainer from '../collaboration/AddCollaboratorsPageContainer'
 import CollaboratorsPageContainer from '../collaboration/CollaboratorsPageContainer'
 import { DatabaseContext } from '../DatabaseProvider'
-import LibraryPageContainer from '../library/LibraryPageContainer'
+import { LibraryPageContainerComponent } from '../library/LibraryPageContainer'
 import { Page } from '../Page'
 import { ProjectPlaceholder } from '../Placeholders'
 import EmptyProjectPageContainer from './EmptyProjectPageContainer'
-// import ManuscriptPageContainer from './ManuscriptPageContainer'
+import { ManuscriptPageContainerComponent } from './ManuscriptPageContainer'
 
-const ManuscriptPageContainer = React.lazy(() =>
-  import(/* webpackChunkName:"manuscript" */ './ManuscriptPageContainer')
+const LibraryPageContainer = React.lazy<LibraryPageContainerComponent>(() =>
+  import(/* webpackChunkName:"library-page" */ '../library/LibraryPageContainer')
+)
+
+const ManuscriptPageContainer = React.lazy<ManuscriptPageContainerComponent>(
+  () =>
+    import(/* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainer')
 )
 
 interface State {

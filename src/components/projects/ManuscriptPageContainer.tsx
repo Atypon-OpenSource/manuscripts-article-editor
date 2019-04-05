@@ -178,6 +178,8 @@ type CombinedProps = Props &
   IntlProps &
   ModalProps
 
+export type ManuscriptPageContainerComponent = React.ComponentType<Props>
+
 class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private readonly initialState: Readonly<State>
 

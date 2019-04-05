@@ -25,10 +25,6 @@ const configuration: webpack.Configuration = {
   output: {
     publicPath: '/',
   },
-  performance: {
-    maxEntrypointSize: 5000000,
-    maxAssetSize: 5000000,
-  },
   plugins: (() => {
     const plugins = [
       new webpack.EnvironmentPlugin([
@@ -80,6 +76,7 @@ const configuration: webpack.Configuration = {
         /react-intl[\/\\]locale-data$/,
         /en/ // TODO: all the locales needed for the locale switcher
       ),
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     ]
 
     if (config.serviceworker) {

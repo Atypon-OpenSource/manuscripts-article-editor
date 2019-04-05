@@ -57,3 +57,7 @@ Run `yarn build` to build the app to the `dist` folder, from where it can be dep
 ## Development
 
 See the [`manuscripts-frontend` wiki](https://gitlab.com/mpapp-private/manuscripts-frontend/wikis/) for more information.
+
+## Analysis
+
+Run `yarn stats` to generate a `stats.json` file, then `yarn analyze` to open `webpack-bundle-analyzer`'s visualization of the webpack bundle.

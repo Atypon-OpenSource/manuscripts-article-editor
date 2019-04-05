@@ -27,7 +27,11 @@ import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
 import { Collection } from '../../sync/Collection'
 import { ProfileErrors, ProfileValues } from './ProfileForm'
-import ProfilePage from './ProfilePage'
+import { ProfilePageComponent } from './ProfilePage'
+
+const ProfilePage = React.lazy<ProfilePageComponent>(() =>
+  import('./ProfilePage')
+)
 
 class ProfilePageContainer extends React.Component<RouteComponentProps> {
   public render() {

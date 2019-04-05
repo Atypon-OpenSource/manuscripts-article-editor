@@ -44,6 +44,8 @@ type CombinedProps = Props &
     projectID: string
   }>
 
+export type LibraryPageContainerComponent = React.ComponentType<Props>
+
 class LibraryPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
     item: null,

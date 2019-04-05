@@ -59,7 +59,9 @@ interface Props {
   ) => void
 }
 
-const ProfilePage: React.FunctionComponent<Props> = ({
+export type ProfilePageComponent = React.ComponentType<Props>
+
+const ProfilePage: ProfilePageComponent = ({
   userWithAvatar,
   affiliationsMap,
   handleSave,
