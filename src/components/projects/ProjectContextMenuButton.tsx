@@ -98,8 +98,11 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
       : 'Are you sure you wish to delete this untitled project?'
 
     return (
-      <DropdownContainer ref={this.nodeRef}>
-        <ContextMenuIconButton onClick={() => this.setOpen(!isOpen)}>
+      <DropdownContainer
+        ref={this.nodeRef}
+        onClick={event => event.stopPropagation()}
+      >
+        <ContextMenuIconButton onClick={this.toggleOpen}>
           <HorizontalEllipsis />
         </ContextMenuIconButton>
         {isOpen && (
@@ -136,6 +139,10 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
           ))}
       </DropdownContainer>
     )
+  }
+
+  private toggleOpen = () => {
+    this.setOpen(!this.state.isOpen)
   }
 
   private setOpen = (isOpen: boolean) => {

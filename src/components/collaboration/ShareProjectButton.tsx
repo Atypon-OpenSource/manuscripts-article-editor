@@ -46,7 +46,7 @@ class ShareProjectButton extends React.Component<Props, State> {
     isOpen: false,
   }
 
-  private node: Node
+  private nodeRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   public componentDidMount() {
     this.updateListener(this.state.isOpen)
@@ -57,44 +57,48 @@ class ShareProjectButton extends React.Component<Props, State> {
     const { isOpen } = this.state
 
     return (
-      <Manager>
-        <Reference>
-          {({ ref }) => (
-            <ShareIconButton ref={ref} onClick={this.togglePopper}>
-              <ShareProjectIcon />
-            </ShareIconButton>
-          )}
-        </Reference>
-        {isOpen && (
-          <Popper
-            placement={'bottom'}
-            innerRef={(node: HTMLDivElement) => (this.node = node)}
-          >
-            {(popperProps: PopperChildrenProps) => (
-              <div ref={(node: HTMLDivElement) => (this.node = node)}>
-                <ShareProjectPopperContainer
-                  project={project}
-                  popperProps={popperProps}
-                  user={user}
-                />
-              </div>
+      <div ref={this.nodeRef} onClick={event => event.stopPropagation()}>
+        <Manager>
+          <Reference>
+            {({ ref }) => (
+              <ShareIconButton ref={ref} onClick={this.toggleOpen}>
+                <ShareProjectIcon />
+              </ShareIconButton>
             )}
-          </Popper>
-        )}
-      </Manager>
+          </Reference>
+          {isOpen && (
+            <Popper placement={'bottom'}>
+              {(popperProps: PopperChildrenProps) => (
+                <div>
+                  <ShareProjectPopperContainer
+                    project={project}
+                    popperProps={popperProps}
+                    user={user}
+                  />
+                </div>
+              )}
+            </Popper>
+          )}
+        </Manager>
+      </div>
     )
   }
 
-  private togglePopper = () => {
-    this.updateListener(!this.state.isOpen)
-    this.setState({
-      isOpen: !this.state.isOpen,
-    })
+  private toggleOpen = () => {
+    this.setOpen(!this.state.isOpen)
+  }
+
+  private setOpen = (isOpen: boolean) => {
+    this.setState({ isOpen })
+    this.updateListener(isOpen)
   }
 
   private handleClickOutside: EventListener = (event: Event) => {
-    if (this.node && !this.node.contains(event.target as Node)) {
-      this.togglePopper()
+    if (
+      this.nodeRef.current &&
+      !this.nodeRef.current.contains(event.target as Node)
+    ) {
+      this.setOpen(false)
     }
   }
 

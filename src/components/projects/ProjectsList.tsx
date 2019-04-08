@@ -22,25 +22,38 @@ import {
 import { TickMarkIcon } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { buildCollaborators } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
 import { styled } from '../../theme/styled-components'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import ProjectContextMenuButton from './ProjectContextMenuButton'
 
-const SidebarProject = styled.div`
+const SidebarProject = styled.div<{ isActive: boolean }>`
   padding: 16px;
   margin: 0 -16px;
-  border: 1px solid transparent;
-  border-bottom-color: #eaecee;
   width: 500px;
-  border-radius: 4px;
+  border-radius: ${props => (props.isActive ? '4px' : 0)};
+  cursor: pointer;
+
+  background-color: ${props =>
+    props.isActive
+      ? props.theme.colors.projects.background.hovered
+      : 'transparent'};
+
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${props =>
+    props.isActive
+      ? props.theme.colors.projects.border.hovered
+      : 'transparent'};
+  border-bottom-color: #eaecee;
 
   &:hover {
     background-color: ${props =>
       props.theme.colors.projects.background.hovered};
     border-color: ${props => props.theme.colors.projects.border.hovered};
+    border-radius: 4px;
   }
 
   @media (max-width: 450px) {
@@ -56,14 +69,11 @@ const SidebarProjectHeader = styled.div`
   }
 `
 
-const ProjectTitle = styled(NavLink)`
+const ProjectTitle = styled.div`
   font-size: 19px;
   font-weight: 500;
   font-style: normal;
   flex: 1;
-  color: inherit;
-  text-decoration: none;
-  display: block;
 `
 
 const ProjectContributors = styled.div`
@@ -134,51 +144,71 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
   acceptedInvitations,
 }) => (
   <div>
-    {projects.sort(projectListCompare).map(project => (
-      <SidebarProject key={project._id}>
-        <SidebarProjectHeader>
-          <ProjectTitle to={`/projects/${project._id}`} onClick={closeModal}>
-            {project.title ? (
-              <Title value={project.title} />
-            ) : (
-              <PlaceholderTitle value={'Untitled Project'} />
-            )}
-          </ProjectTitle>
-          {acceptedInvitations.includes(project._id) && (
-            <AcceptedLabel>
-              <TickMarkContainer>
-                <TickMarkIcon />
-              </TickMarkContainer>
-              Accepted
-            </AcceptedLabel>
-          )}
-          <Container>
-            <Edit>
-              <ProjectContextMenuButton
-                project={project}
-                deleteProject={deleteProject(project)}
-                saveProjectTitle={saveProjectTitle(project)}
-                closeModal={closeModal}
-              />
-            </Edit>
-            <ShareProjectButton project={project} user={user} />
-          </Container>
-        </SidebarProjectHeader>
+    {projects.sort(projectListCompare).map(project => {
+      const path = `/projects/${project._id}`
 
-        <ProjectContributors>
-          {buildCollaborators(project, collaborators).map(
-            (collaborator, index) => (
-              <React.Fragment key={collaborator._id}>
-                {!!index && ', '}
-                <ProjectContributor key={collaborator._id}>
-                  {initials(collaborator.bibliographicName)}{' '}
-                  {collaborator.bibliographicName.family}
-                </ProjectContributor>
-              </React.Fragment>
+      return (
+        <Route
+          path={path}
+          exact={false}
+          key={project._id}
+          children={({ history, match }) => {
+            return (
+              <SidebarProject
+                key={project._id}
+                isActive={match !== null}
+                onClick={event => {
+                  closeModal && closeModal()
+                  history.push(path)
+                }}
+              >
+                <SidebarProjectHeader>
+                  <ProjectTitle>
+                    {project.title ? (
+                      <Title value={project.title} />
+                    ) : (
+                      <PlaceholderTitle value={'Untitled Project'} />
+                    )}
+                  </ProjectTitle>
+                  {acceptedInvitations.includes(project._id) && (
+                    <AcceptedLabel>
+                      <TickMarkContainer>
+                        <TickMarkIcon />
+                      </TickMarkContainer>
+                      Accepted
+                    </AcceptedLabel>
+                  )}
+                  <Container>
+                    <Edit>
+                      <ProjectContextMenuButton
+                        project={project}
+                        deleteProject={deleteProject(project)}
+                        saveProjectTitle={saveProjectTitle(project)}
+                        closeModal={closeModal}
+                      />
+                    </Edit>
+                    <ShareProjectButton project={project} user={user} />
+                  </Container>
+                </SidebarProjectHeader>
+
+                <ProjectContributors>
+                  {buildCollaborators(project, collaborators).map(
+                    (collaborator, index) => (
+                      <React.Fragment key={collaborator._id}>
+                        {!!index && ', '}
+                        <ProjectContributor key={collaborator._id}>
+                          {initials(collaborator.bibliographicName)}{' '}
+                          {collaborator.bibliographicName.family}
+                        </ProjectContributor>
+                      </React.Fragment>
+                    )
+                  )}
+                </ProjectContributors>
+              </SidebarProject>
             )
-          )}
-        </ProjectContributors>
-      </SidebarProject>
-    ))}
+          }}
+        />
+      )
+    })}
   </div>
 )
