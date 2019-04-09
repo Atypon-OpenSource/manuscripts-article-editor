@@ -46,7 +46,7 @@ RUN yarn build
 
 FROM nginx:stable-alpine
 
-COPY docker/client/production/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/client/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 8080

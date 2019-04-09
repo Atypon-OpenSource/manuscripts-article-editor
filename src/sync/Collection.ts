@@ -451,7 +451,7 @@ export class Collection<T extends Model> implements EventTarget {
     console.log(`Syncing ${this.collectionName}`, { direction, options })
 
     const replicationState = this.getCollection().sync({
-      remote: config.gateway.url + '/projects',
+      remote: `${config.gateway.url}/${config.buckets.projects}`,
       direction: {
         pull: direction === 'pull',
         push: direction === 'push',
