@@ -125,6 +125,7 @@
     "react-router-dom": "^4.2.2",
     "react-select": "^2.1.0",
     "react-sizeme": "^2.5.2",
+    "react-spring": "^8.0.19",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.3.1",
     "rxdb": "git+https://gitlab.com/mpapp-public/rxdb.git#master",
@@ -143,6 +144,7 @@
     "webpack-cli": "^3.0.8",
     "webpack-merge": "^4.1.2",
     "workbox-webpack-plugin": "^4.1.0",
+    "workbox-window": "^4.2.0",
     "yup": "^0.27.0"
   },
   "devDependencies": {

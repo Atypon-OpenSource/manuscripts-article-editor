@@ -81,11 +81,9 @@ const configuration: webpack.Configuration = {
 
     if (config.serviceworker) {
       plugins.push(
-        // @ts-ignore (types version)
         new GenerateSW({
           cacheId: 'manuscripts-io',
-          // @ts-ignore (types version)
-          dontCacheBustURLsMatching: /\.\w{8}\./, // hash in filename
+          // dontCacheBustURLsMatching: /\.\w{8}\./, // hash in filename
           // TODO: cache locales as they're loaded?
           importWorkboxFrom: 'local', // load workbox from local files
           navigateFallback: '/index.html',
@@ -98,7 +96,6 @@ const configuration: webpack.Configuration = {
               handler: 'CacheFirst',
             },
           ],
-          // skipWaiting: true, // start running immediately
         })
       )
     }

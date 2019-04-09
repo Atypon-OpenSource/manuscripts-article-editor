@@ -23,10 +23,11 @@ import App from './App'
 import DatabaseProvider from './components/DatabaseProvider'
 import IntlProvider from './components/IntlProvider'
 import { ModalProvider } from './components/ModalProvider'
+import { NotificationProvider } from './components/NotificationProvider'
+import { ServiceWorker } from './components/ServiceWorker'
 import { databaseCreator } from './lib/db'
 import './lib/fonts'
 import './lib/sentry'
-import './lib/service-worker'
 import { GlobalStyle } from './theme/theme'
 import { ThemeProvider } from './theme/ThemeProvider'
 
@@ -34,14 +35,17 @@ ReactDOM.render(
   <IntlProvider>
     <DragDropContextProvider backend={HTML5Backend}>
       <ThemeProvider>
-        <BrowserRouter>
-          <DatabaseProvider databaseCreator={databaseCreator}>
-            <ModalProvider>
-              <GlobalStyle />
-              <App />
-            </ModalProvider>
-          </DatabaseProvider>
-        </BrowserRouter>
+        <DatabaseProvider databaseCreator={databaseCreator}>
+          <GlobalStyle />
+          <NotificationProvider>
+            <ServiceWorker />
+            <BrowserRouter>
+              <ModalProvider>
+                <App />
+              </ModalProvider>
+            </BrowserRouter>
+          </NotificationProvider>
+        </DatabaseProvider>
       </ThemeProvider>
     </DragDropContextProvider>
   </IntlProvider>,
