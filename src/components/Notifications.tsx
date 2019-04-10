@@ -71,6 +71,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 100;
 `
 
 export const NotificationPrompt = styled.div`
