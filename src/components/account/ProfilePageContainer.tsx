@@ -40,30 +40,32 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
         {(user, userCollection) => (
           <UserAffiliationsData profileID={user._id}>
             {(affiliations, affiliationsCollection) => (
-              <ProfilePage
-                userWithAvatar={user}
-                affiliationsMap={affiliations}
-                handleSave={this.handleSave(
-                  user,
-                  userCollection,
-                  affiliationsCollection
-                )}
-                handleChangePassword={this.handleChangePassword}
-                handleDeleteAccount={this.handleDeleteAccount}
-                handleClose={this.handleClose}
-                saveUserProfileAvatar={this.saveUserProfileAvatar(
-                  user._id,
-                  userCollection
-                )}
-                deleteUserProfileAvatar={this.deleteUserProfileAvatar(
-                  user._id,
-                  userCollection
-                )}
-                createAffiliation={this.createAffiliation(
-                  user._id,
-                  affiliationsCollection
-                )}
-              />
+              <React.Suspense fallback={null}>
+                <ProfilePage
+                  userWithAvatar={user}
+                  affiliationsMap={affiliations}
+                  handleSave={this.handleSave(
+                    user,
+                    userCollection,
+                    affiliationsCollection
+                  )}
+                  handleChangePassword={this.handleChangePassword}
+                  handleDeleteAccount={this.handleDeleteAccount}
+                  handleClose={this.handleClose}
+                  saveUserProfileAvatar={this.saveUserProfileAvatar(
+                    user._id,
+                    userCollection
+                  )}
+                  deleteUserProfileAvatar={this.deleteUserProfileAvatar(
+                    user._id,
+                    userCollection
+                  )}
+                  createAffiliation={this.createAffiliation(
+                    user._id,
+                    affiliationsCollection
+                  )}
+                />
+              </React.Suspense>
             )}
           </UserAffiliationsData>
         )}
