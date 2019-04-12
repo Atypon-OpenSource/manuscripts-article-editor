@@ -72,7 +72,13 @@ storiesOf('Metadata', module)
       selectAuthor={action('select author')}
       removeAuthor={action('remove author')}
       createAuthor={action('create author')}
-      createAffiliation={action('create affiliation')}
+      addAuthorAffiliation={action(
+        'add affiliation to select author (if string: create it)'
+      )}
+      removeAuthorAffiliation={action(
+        'remove affiliation from selected author'
+      )}
+      updateAffiliation={action('upate the affiliation')}
       handleSaveAuthor={action('save author')}
       stopEditing={action('stop editing')}
       expanded={true}
@@ -113,7 +119,13 @@ storiesOf('Metadata', module)
       selectAuthor={action('select author')}
       removeAuthor={action('remove author')}
       createAuthor={action('create author')}
-      createAffiliation={action('create affiliation')}
+      addAuthorAffiliation={action(
+        'add affiliation to select author (if string: create it)'
+      )}
+      removeAuthorAffiliation={action(
+        'remove affiliation from selected author'
+      )}
+      updateAffiliation={action('upate the affiliation')}
       handleSaveAuthor={action('save author')}
       stopEditing={action('stop editing')}
       expanded={true}
@@ -157,7 +169,13 @@ storiesOf('Metadata', module)
       selectAuthor={action('select author')}
       removeAuthor={action('remove author')}
       createAuthor={action('create author')}
-      createAffiliation={action('create affiliation')}
+      addAuthorAffiliation={action(
+        'add affiliation to select author (if string: create it)'
+      )}
+      removeAuthorAffiliation={action(
+        'remove affiliation from selected author'
+      )}
+      updateAffiliation={action('upate the affiliation')}
       handleSaveAuthor={action('save author')}
       stopEditing={action('stop editing')}
       expanded={false}
@@ -204,7 +222,13 @@ storiesOf('Metadata', module)
       affiliations={affiliations}
       authorAffiliations={authorAffiliations}
       handleSaveAuthor={action('save author')}
-      createAffiliation={action('create affiliation')}
+      addAuthorAffiliation={action(
+        'add affiliation to select author (if string: create it)'
+      )}
+      removeAuthorAffiliation={action(
+        'remove affiliation from selected author'
+      )}
+      updateAffiliation={action('upate the affiliation')}
       isRemoveAuthorOpen={false}
       removeAuthor={action('remove author')}
       handleRemoveAuthor={action(
@@ -252,7 +276,13 @@ storiesOf('Metadata', module)
         authorAffiliations.get(authors[0]._id) as AuthorAffiliation[]
       }
       handleSave={action('save author')}
-      createAffiliation={action('create affiliation')}
+      addAuthorAffiliation={action(
+        'add affiliation to select author (if string: create it)'
+      )}
+      removeAuthorAffiliation={action(
+        'remove affiliation from selected author'
+      )}
+      updateAffiliation={action('upate the affiliation')}
       isRemoveAuthorOpen={false}
       removeAuthor={action('remove author')}
       handleRemoveAuthor={action(

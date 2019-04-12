@@ -66,7 +66,9 @@ interface AuthorsProps {
   selectAuthor: (data: Contributor) => void
   updateAuthor: (author: Contributor, email: string) => void
   openAddAuthors: () => void
-  createAffiliation: (name: string) => Promise<Affiliation>
+  addAuthorAffiliation: (affiliation: Affiliation | string) => void
+  removeAuthorAffiliation: (affiliation: Affiliation) => void
+  updateAffiliation: (affiliation: Affiliation) => void
   isRejected: (invitationID: string) => boolean
   getAuthorName: (author: Contributor) => string
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
@@ -84,7 +86,9 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   selectedAuthor,
   openAddAuthors,
   handleSaveAuthor,
-  createAffiliation,
+  addAuthorAffiliation,
+  removeAuthorAffiliation,
+  updateAffiliation,
   handleDrop,
   getSidebarItemDecorator,
   isRemoveAuthorOpen,
@@ -115,7 +119,9 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
             authorAffiliations.get(selectedAuthor._id) as AuthorAffiliation[]
           }
           handleSave={handleSaveAuthor}
-          createAffiliation={createAffiliation}
+          addAuthorAffiliation={addAuthorAffiliation}
+          removeAuthorAffiliation={removeAuthorAffiliation}
+          updateAffiliation={updateAffiliation}
           isRemoveAuthorOpen={isRemoveAuthorOpen}
           handleRemoveAuthor={handleRemoveAuthor}
           removeAuthor={removeAuthor}

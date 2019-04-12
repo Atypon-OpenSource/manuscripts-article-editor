@@ -144,7 +144,9 @@ class MetadataContainer extends React.PureComponent<Props, State> {
                           selectAuthor={this.selectAuthor}
                           removeAuthor={this.removeAuthor}
                           createAuthor={this.createAuthor}
-                          createAffiliation={this.createAffiliation}
+                          addAuthorAffiliation={this.addAuthorAffiliation}
+                          removeAuthorAffiliation={this.removeAuthorAffiliation}
+                          updateAffiliation={this.updateAffiliation}
                           handleSaveAuthor={this.handleSaveAuthor}
                           manuscript={manuscript}
                           selectedAuthor={selectedAuthor}
@@ -270,12 +272,6 @@ class MetadataContainer extends React.PureComponent<Props, State> {
 
       this.selectAuthor(createdAuthor)
     }
-  }
-
-  private createAffiliation = async (name: string): Promise<Affiliation> => {
-    const affiliation = buildAffiliation(name)
-
-    return this.props.saveModel(affiliation)
   }
 
   private selectAuthor = (selectedAuthor: Contributor) => {
@@ -424,21 +420,64 @@ class MetadataContainer extends React.PureComponent<Props, State> {
 
     if (!selectedAuthor) return
 
-    // TODO: only save affiliations and grants that have changed
-
-    await Promise.all(
-      values.affiliations.map(item => this.props.saveModel(item))
-    )
-
     const author = {
       ...selectedAuthor,
       ...values,
-      affiliations: values.affiliations.map(item => item._id),
+      affiliations: selectedAuthor.affiliations,
     }
 
     delete author.containerID
 
     await this.props.saveModel<Contributor>(author)
+  }
+
+  private addAuthorAffiliation = async (affiliation: Affiliation | string) => {
+    const { selectedAuthor } = this.state
+
+    if (!selectedAuthor) return
+
+    let affiliationObj
+    if (typeof affiliation === 'string') {
+      affiliationObj = await this.props.saveModel<Affiliation>(
+        buildAffiliation(affiliation)
+      )
+    } else {
+      affiliationObj = affiliation
+    }
+
+    const author = {
+      ...selectedAuthor,
+      affiliations: (selectedAuthor.affiliations || []).concat(
+        affiliationObj._id
+      ),
+    }
+
+    this.setState({
+      selectedAuthor: author,
+    })
+    await this.props.saveModel<Contributor>(author)
+  }
+
+  private removeAuthorAffiliation = async (affiliation: Affiliation) => {
+    const { selectedAuthor } = this.state
+
+    if (!selectedAuthor) return
+
+    const nextAuthor = {
+      ...selectedAuthor,
+      affiliations: (selectedAuthor.affiliations || []).filter(
+        aff => aff !== affiliation._id
+      ),
+    }
+
+    this.setState({
+      selectedAuthor: nextAuthor,
+    })
+    await this.props.saveModel<Contributor>(nextAuthor)
+  }
+
+  private updateAffiliation = async (affiliation: Affiliation) => {
+    await this.props.saveModel<Affiliation>(affiliation)
   }
 
   private handleDrop = (oldIndex: number, newIndex: number) => {

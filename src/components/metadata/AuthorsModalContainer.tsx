@@ -49,7 +49,9 @@ interface Props {
   selectAuthor: (data: Contributor) => void
   updateAuthor: (author: Contributor, email: string) => void
   openAddAuthors: () => void
-  createAffiliation: (name: string) => Promise<Affiliation>
+  addAuthorAffiliation: (affiliation: Affiliation | string) => void
+  removeAuthorAffiliation: (affiliation: Affiliation) => void
+  updateAffiliation: (affiliation: Affiliation) => void
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
   handleDrop: (oldIndex: number, newIndex: number) => void
 }
@@ -69,7 +71,9 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       selectedAuthor,
       project,
       updateAuthor,
-      createAffiliation,
+      addAuthorAffiliation,
+      removeAuthorAffiliation,
+      updateAffiliation,
       handleDrop,
       handleSaveAuthor,
       openAddAuthors,
@@ -84,7 +88,9 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         selectedAuthor={selectedAuthor}
         isRemoveAuthorOpen={isRemoveAuthorOpen}
         updateAuthor={updateAuthor}
-        createAffiliation={createAffiliation}
+        addAuthorAffiliation={addAuthorAffiliation}
+        removeAuthorAffiliation={removeAuthorAffiliation}
+        updateAffiliation={updateAffiliation}
         getSidebarItemDecorator={this.getSidebarItemDecorator}
         handleDrop={handleDrop}
         handleSaveAuthor={handleSaveAuthor}

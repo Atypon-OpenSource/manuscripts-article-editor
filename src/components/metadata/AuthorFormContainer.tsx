@@ -20,6 +20,7 @@ import {
   Project,
 } from '@manuscripts/manuscripts-json-schema'
 import {
+  AffiliationsEditor,
   AuthorAffiliation,
   AuthorForm,
   AuthorValues,
@@ -43,7 +44,9 @@ interface AuthorProps {
   affiliations: AffiliationMap
   authorAffiliations: AuthorAffiliation[]
   isRemoveAuthorOpen: boolean
-  createAffiliation: (name: string) => Promise<Affiliation>
+  addAuthorAffiliation: (affiliation: Affiliation | string) => void
+  removeAuthorAffiliation: (affiliation: Affiliation) => void
+  updateAffiliation: (affiliation: Affiliation) => void
   removeAuthor: (data: Contributor) => void
   isRejected: (invitationID: string) => boolean
   updateAuthor: (author: Contributor, email: string) => void
@@ -57,7 +60,9 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
   affiliations,
   authorAffiliations,
   handleSave,
-  createAffiliation,
+  addAuthorAffiliation,
+  removeAuthorAffiliation,
+  updateAffiliation,
   removeAuthor,
   isRemoveAuthorOpen,
   handleRemoveAuthor,
@@ -73,9 +78,15 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
       authorAffiliations={authorAffiliations}
       handleSave={handleSave}
       isRemoveAuthorOpen={isRemoveAuthorOpen}
-      createAffiliation={createAffiliation}
       removeAuthor={removeAuthor}
       handleRemoveAuthor={handleRemoveAuthor}
+    />
+    <AffiliationsEditor
+      affiliations={affiliations}
+      authorAffiliations={authorAffiliations}
+      addAuthorAffiliation={addAuthorAffiliation}
+      removeAuthorAffiliation={removeAuthorAffiliation}
+      updateAffiliation={updateAffiliation}
     />
     {!author.userID && !author.invitationID && (
       <FormMessage>

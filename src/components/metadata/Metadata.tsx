@@ -127,7 +127,9 @@ interface Props {
   selectAuthor: (data: Contributor) => void
   selectedAuthor: Contributor | null
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
-  createAffiliation: (name: string) => Promise<Affiliation>
+  addAuthorAffiliation: (affiliation: Affiliation | string) => void
+  removeAuthorAffiliation: (affiliation: Affiliation) => void
+  updateAffiliation: (affiliation: Affiliation) => void
   expanded: boolean
   toggleExpanded: () => void
   addingAuthors: boolean

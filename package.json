@@ -194,6 +194,7 @@
   },
   "resolutions": {
     "rxdb/pouchdb-replication": "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master",
+    "pouchdb-adapter-leveldb-core": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#master",
     "rxjs": "6.4.0",
     "rxjs-compat": "6.4.0",
     "styled-components": "^4.0.2",
