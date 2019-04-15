@@ -1783,6 +1783,25 @@
   dependencies:
     "@phosphor/algorithm" "^1.1.2"
 
+"@reach/auto-id@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/@reach/auto-id/-/auto-id-0.2.0.tgz#97f9e48fe736aa5c6f4f32cf73c1f19d005f8550"
+  integrity sha512-lVK/svL2HuQdp7jgvlrLkFsUx50Az9chAhxpiPwBqcS83I2pVWvXp98FOcSCCJCV++l115QmzHhFd+ycw1zLBg==
+
+"@reach/tabs@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/@reach/tabs/-/tabs-0.1.2.tgz#3b33d4883c5b7dd2b0599356f3700382eef22b13"
+  integrity sha512-H7L2ydgT2ZDeZ3iSSZcVYUYfwhB7VmTANWmnG+gO+3aSW/Yksa0kdo7Je9g42q35ptYbyectu1T6qR2RiKIwzA==
+  dependencies:
+    "@reach/auto-id" "^0.2.0"
+    "@reach/utils" "^0.2.0"
+    warning "^4.0.2"
+
+"@reach/utils@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/@reach/utils/-/utils-0.2.0.tgz#504e84613b4aed7adf189aaa6b9d110b282ec523"
+  integrity sha512-AIfX18Ska78d4SjLt4awYHsgXEIVHhOUxLtxze2XT0D5aPOPx1XJl0seRZfQI0EVod4K1KVvHJnskEYSXqKQQg==
+
 "@storybook/addon-actions@^4.0.0":
   version "4.1.16"
   resolved "https://registry.npmjs.org/@storybook/addon-actions/-/addon-actions-4.1.16.tgz#ff13e893725e4782920a2fa9d950b75f7755634f"
@@ -8035,6 +8054,11 @@ fuse.js@^3.0.1, fuse.js@^3.3.0:
   version "3.4.4"
   resolved "https://registry.npmjs.org/fuse.js/-/fuse.js-3.4.4.tgz#f98f55fcb3b595cf6a3e629c5ffaf10982103e95"
   integrity sha512-pyLQo/1oR5Ywf+a/tY8z4JygnIglmRxVUOiyFAbd11o9keUDpUJSMGRWJngcnkURj30kDHPmhoKY8ChJiz3EpQ==
+
+fuzzysort@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.npmjs.org/fuzzysort/-/fuzzysort-1.1.4.tgz#a0510206ed44532cbb52cf797bf5a3cb12acd4ba"
+  integrity sha512-JzK/lHjVZ6joAg3OnCjylwYXYVjRiwTY6Yb25LvfpJHK8bjisfnZJ5bY8aVWwTwCXgxPNgLAtmHL+Hs5q1ddLQ==
 
 gar@^1.0.4:
   version "1.0.4"

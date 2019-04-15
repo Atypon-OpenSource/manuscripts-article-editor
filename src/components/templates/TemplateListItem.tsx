@@ -139,7 +139,7 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
           </ArticleType>
         )}
 
-        {selected && (
+        {selected && item.bundle && (
           <InfoLinkContainer>
             <TemplateInfoLink bundle={item.bundle} />
           </InfoLinkContainer>

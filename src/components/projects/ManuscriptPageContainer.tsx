@@ -74,6 +74,8 @@ import {
   SyncErrors,
   syncErrorsKey,
 } from '@manuscripts/sync-client'
+import { TabPanel, TabPanels, Tabs } from '@reach/tabs'
+import '@reach/tabs/styles.css'
 import CiteProc from 'citeproc'
 import debounce from 'lodash-es/debounce'
 import React from 'react'
@@ -98,7 +100,11 @@ import CollectionManager from '../../sync/CollectionManager'
 // import { newestFirst, oldestFirst } from '../../lib/sort'
 import { ThemeProvider } from '../../theme/ThemeProvider'
 import { Permissions } from '../../types/permissions'
-import { DebouncedInspector } from '../Inspector'
+import {
+  DebouncedInspector,
+  InspectorTab,
+  InspectorTabList,
+} from '../Inspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
 import MetadataContainer from '../metadata/MetadataContainer'
@@ -106,6 +112,7 @@ import { ModalProps, withModal } from '../ModalProvider'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import { ManuscriptPlaceholder } from '../Placeholders'
+import CitationStyleSelector from '../templates/CitationStyleSelector'
 import TemplateSelector from '../templates/TemplateSelector'
 import { CommentList } from './CommentList'
 import {
@@ -116,6 +123,7 @@ import {
 } from './EditorContainer'
 import { Exporter } from './Exporter'
 import { Importer } from './Importer'
+import { ManuscriptInspector } from './ManuscriptInspector'
 import {
   EditorType,
   EditorViewType,
@@ -407,25 +415,45 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         <Panel
           name={'inspector'}
-          minSize={200}
+          minSize={400}
           direction={'row'}
           side={'start'}
         >
           {this.state.view && comments && (
             <DebouncedInspector>
-              <CommentList
-                comments={comments}
-                doc={doc}
-                getCurrentUser={this.getCurrentUser}
-                selected={selected}
-                createKeyword={this.createKeyword}
-                deleteComment={this.deleteModel}
-                getCollaborator={this.getCollaborator}
-                getKeyword={this.getKeyword}
-                listCollaborators={this.listCollaborators}
-                listKeywords={this.listKeywords}
-                saveComment={this.saveModel}
-              />
+              <Tabs>
+                <InspectorTabList>
+                  <InspectorTab>Content</InspectorTab>
+                  <InspectorTab>Style</InspectorTab>
+                  <InspectorTab>Comments</InspectorTab>
+                </InspectorTabList>
+
+                <TabPanels>
+                  <TabPanel />
+                  <TabPanel>
+                    <ManuscriptInspector
+                      manuscript={manuscript}
+                      bundle={this.findBundle()}
+                      openCitationStyleSelector={this.openCitationStyleSelector}
+                    />
+                  </TabPanel>
+                  <TabPanel>
+                    <CommentList
+                      comments={comments}
+                      doc={doc}
+                      getCurrentUser={this.getCurrentUser}
+                      selected={selected}
+                      createKeyword={this.createKeyword}
+                      deleteComment={this.deleteModel}
+                      getCollaborator={this.getCollaborator}
+                      getKeyword={this.getKeyword}
+                      listCollaborators={this.listCollaborators}
+                      listKeywords={this.listKeywords}
+                      saveComment={this.saveModel}
+                    />
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
             </DebouncedInspector>
           )}
         </Panel>
@@ -454,6 +482,17 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           selected: null,
         })
         break
+    }
+  }
+
+  private findBundle = (): Bundle | undefined => {
+    const { manuscript } = this.props
+    const { modelMap } = this.state
+
+    if (modelMap) {
+      return modelMap.get(manuscript.bundle || DEFAULT_BUNDLE) as
+        | Bundle
+        | undefined
     }
   }
 
@@ -751,6 +790,29 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         projectID={project._id}
         user={user}
         handleComplete={handleClose}
+      />
+    ))
+  }
+
+  private openCitationStyleSelector = () => {
+    const { addModal, manuscript, project } = this.props
+
+    addModal('citation-style-selector', ({ handleClose }) => (
+      <CitationStyleSelector
+        collection={this.collection as Collection<Manuscript>}
+        manuscript={manuscript}
+        project={project}
+        handleComplete={async (newBundle?: Bundle) => {
+          if (newBundle) {
+            this.setState({
+              modelMap: this.state.modelMap!.set(newBundle._id, newBundle),
+            })
+
+            await this.saveManuscript({ bundle: newBundle._id })
+          }
+
+          handleClose()
+        }}
       />
     ))
   }

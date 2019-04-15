@@ -31,9 +31,9 @@ const InfoLink = styled.a.attrs({
   text-decoration: none;
 `
 
-export const TemplateInfoLink: React.FunctionComponent<{ bundle?: Bundle }> = ({
+export const TemplateInfoLink: React.FunctionComponent<{ bundle: Bundle }> = ({
   bundle,
 }) =>
-  bundle && bundle.csl && bundle.csl['documentation-URL'] ? (
+  bundle.csl && bundle.csl['documentation-URL'] ? (
     <InfoLink href={bundle.csl['documentation-URL']}>ⓘ</InfoLink>
   ) : null
