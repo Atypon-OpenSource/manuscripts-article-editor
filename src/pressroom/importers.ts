@@ -189,12 +189,12 @@ export const openFilePicker = (): Promise<File> =>
     input.type = 'file'
     input.accept = acceptedFileExtensions().join(',')
 
-    const handleFocus = () => {
-      window.removeEventListener('focus', handleFocus)
-      resolve()
-    }
-
-    window.addEventListener('focus', handleFocus)
+    // const handleFocus = () => {
+    //   window.removeEventListener('focus', handleFocus)
+    //   resolve()
+    // }
+    //
+    // window.addEventListener('focus', handleFocus)
 
     input.addEventListener('change', () => {
       if (input.files && input.files.length) {
