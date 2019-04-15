@@ -15,7 +15,7 @@ describe('Figures', () => {
         cy.get('.manuscript-editor').type('{enter}')
         cy.get('[title="Insert figure"]').click()
         cy.get('figure').should('exist')
-        cy.get('.block-figure_element > .block-gutter > .edit-block > svg').click()
+        cy.get('.block-figure_element > .block-gutter > .edit-block').click()
         cy.get(':nth-child(3) > .menu-item').click()
         cy.get('.figure-panel').should('not.exist')
     })
