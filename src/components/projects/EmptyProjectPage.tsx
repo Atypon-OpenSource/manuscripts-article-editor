@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import ProjectPlaceholder from '@manuscripts/assets/react/ProjectPlaceholder'
 import { Project } from '@manuscripts/manuscripts-json-schema'
-import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import { ProjectPlaceholder } from '../Placeholders'
 import {
   AddIconContainer,
   AddIconHover,
@@ -44,19 +43,10 @@ const Placeholder = styled.div`
   margin-top: 50px;
 `
 
-const ProjectTitle = styled(Title)`
-  font-size: 18px;
-  font-weight: 300;
-  padding: 15px 0;
-  color: ${props => props.theme.colors.global.text.secondary};
-`
-
 const Action = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
 `
 
 const AddManuscriptButton = styled.button`
@@ -76,9 +66,9 @@ const AddManuscriptButton = styled.button`
 
 const Message = styled.div`
   font-size: 21px;
-  padding: 15px 0;
-  font-weight: 300;
-  color: ${props => props.theme.colors.global.text.secondary};
+  margin-top: 25px;
+  font-weight: 300px;
+  color: ${props => props.theme.colors.textField.placeholder.default};
   max-width: 600px;
 
   @media (max-width: 850px) {
@@ -87,8 +77,18 @@ const Message = styled.div`
     max-width: 350px;
   }
 `
+
+const ActionTitle = styled.div`
+  font-size: 24px;
+  font-weight: 500;
+  padding-bottom: 2px;
+  letter-spacing: -0.5px;
+  padding-left: 11px;
+`
+
 const TextContainer = styled.div`
-  padding-left: 10px;
+  letter-spacing: -0.8px;
+  padding-top: 6px;
 `
 interface Props {
   project: Project
@@ -104,19 +104,20 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
       <ProjectPlaceholder />
     </Placeholder>
 
-    <ProjectTitle value={project.title || 'Untitled Project'} />
-
-    <Message>
-      This project is empty. Create a manuscript to get started.
-    </Message>
     <Action>
       <AddManuscriptButton onClick={openTemplateSelector}>
         <AddIconContainer>
-          <RegularAddIcon />
-          <AddIconHover />
-          <TextContainer>New Manuscript</TextContainer>
+          <RegularAddIcon width={40} height={40} />
+          <AddIconHover width={40} height={40} />
+          <ActionTitle>New Manuscript</ActionTitle>
         </AddIconContainer>
       </AddManuscriptButton>
     </Action>
+
+    <Message>
+      This project is empty.
+      <br />
+      <TextContainer>Create a manuscript to get started.</TextContainer>
+    </Message>
   </OuterContainer>
 )

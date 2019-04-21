@@ -65,21 +65,16 @@ const Placeholder = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 50px;
-`
-
-const ProjectTitle = styled.div`
-  font-size: 18px;
-  font-weight: 300;
-  padding: 15px 0;
-  color: ${props => props.theme.colors.global.text.secondary};
+  margin-bottom: 20px;
 `
 
 const Action = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
 `
 
 const ActionButton = styled.button`
@@ -101,9 +96,9 @@ const ActionButtonText = styled.div`
 const Message = styled.div`
   max-width: 400px;
   font-size: 21px;
-  padding: 15px 0;
-  font-weight: 300;
-  color: ${props => props.theme.colors.global.text.secondary};
+  margin-top: 25px;
+  font-weight: 300px;
+  color: ${props => props.theme.colors.textField.placeholder.default};
 
   @media (max-width: 850px) {
     margin-right: 20px;
@@ -111,7 +106,9 @@ const Message = styled.div`
     max-width: 350px;
   }
 `
-
+const InfoMessage = styled(Message)`
+  margin-top: 0px;
+`
 interface CollaboratorDetailsPageProps {
   user: UserProfile
   project: Project
@@ -148,8 +145,6 @@ export const CollaboratorDetailsPage: React.FunctionComponent<
                 <ContributorDetails />
               </Placeholder>
 
-              <ProjectTitle>{project.title}</ProjectTitle>
-
               <Action>Collaborator Details</Action>
 
               <Message>
@@ -161,8 +156,6 @@ export const CollaboratorDetailsPage: React.FunctionComponent<
               <Placeholder>
                 <ContributorsPlaceholder />
               </Placeholder>
-
-              <ProjectTitle>{project.title}</ProjectTitle>
 
               <Action>
                 <ActionButton onClick={handleAddCollaborator}>
@@ -203,8 +196,6 @@ export const AddCollaboratorsPage: React.FunctionComponent<
         <ContributorsPlaceholder />
       </Placeholder>
 
-      <ProjectTitle>{project.title}</ProjectTitle>
-
       {addedCollaboratorsCount ? (
         <React.Fragment>
           <Action>Add Collaborator</Action>
@@ -215,9 +206,9 @@ export const AddCollaboratorsPage: React.FunctionComponent<
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Message>
+          <InfoMessage>
             <AddCollaboratorsMessage />
-          </Message>
+          </InfoMessage>
         </React.Fragment>
       )}
     </InnerContainer>
@@ -296,8 +287,6 @@ export const InviteCollaboratorsPage: React.FunctionComponent<
         <InvitationPlaceholder />
       </Placeholder>
 
-      <ProjectTitle>{project.title}</ProjectTitle>
-
       <Action>Invite New Collaborator</Action>
 
       <Message>
@@ -315,8 +304,6 @@ export const InviteCollaboratorsModal: React.FunctionComponent<
       <Placeholder>
         <InvitationPlaceholder />
       </Placeholder>
-
-      <ProjectTitle>{project.title}</ProjectTitle>
 
       <Action>Invite New Collaborator</Action>
 
@@ -341,9 +328,7 @@ export const SearchCollaboratorsPage: React.FunctionComponent<
         <ContributorSearchPlaceholder />
       </Placeholder>
 
-      <ProjectTitle>{project.title}</ProjectTitle>
-
-      <Message>No matches found</Message>
+      <InfoMessage>No matches found</InfoMessage>
 
       <Message>
         <CheckCollaboratorsSearchMessage searchText={searchText} />

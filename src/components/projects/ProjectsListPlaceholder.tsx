@@ -77,7 +77,7 @@ const FontStyle = styled.div`
 `
 const Text = styled(FontStyle)`
   padding-top: 25px;
-  color: #aaa;
+  color: ${props => props.theme.colors.textField.placeholder.default};
   max-width: 400px;
 `
 
