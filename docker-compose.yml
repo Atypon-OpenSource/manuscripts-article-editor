@@ -3,6 +3,8 @@ version: '3'
 services:
   couchbase:
     image: registry.gitlab.com/mpapp-private/manuscripts-sync/couchbase
+    environment:
+      - COUCHBASE_INITIALIZE
     env_file:
       - docker/server/defaults.env
       - docker/server/.env
@@ -44,6 +46,8 @@ services:
     ports:
       - 3000:3000
     environment:
+      - APP_INITIALIZE
+      - APP_RUN_AFTER_INITIALIZE
       - INITIALIZE_DATABASE
       - NODE_ENV=development
 

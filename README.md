@@ -30,8 +30,9 @@ Open <http://localhost:8080/developer> to create a dummy user profile.
 
 1. Add any environment variables needed for the API server in `docker/server/.env`.
 1. `docker login registry.gitlab.com` to log in to GitLab’s Container Registry using your GitLab username and password (or a deploy token for read-only access to the registry images).
-1. Run `docker-compose pull --no-parallel` to pull the latest server Docker images.
-1. Run `docker-compose up api` to start the API server in Docker.
+1. Run `docker-compose pull` to pull the latest server Docker images.
+1. [first run] Initialize the backend services: `scripts/api/initialize.sh`
+1. [subsequent runs] Start the backend services: `docker-compose up api`
 1. Run `docker-compose up data jupyter` to start the additional services.
 1. To stop the service, run `docker-compose down`. Add an optional `-v` flag to delete the data volumes.
 
@@ -52,11 +53,22 @@ Run `yarn test` to run the unit tests in Jest.
 ### Running tests with Cypress
 
 1. Run `yarn run cypress:open` to launch the Cypress runner.
-3. From the Cypress runner, select an individual test to run or select `Run all specs`
+1. From the Cypress runner, select an individual test to run or select `Run all specs`
 
 ## Development
 
 See the [`manuscripts-frontend` wiki](https://gitlab.com/mpapp-private/manuscripts-frontend/wikis/) for more information.
+
+# Developing manuscripts-api
+
+1. If needed, initialize the backend services: `scripts/api/initialize.sh`
+1. Start the other backend services in Docker: `docker-compose up sync_gateway data jupyter`
+1. Start the API: `scripts/api/start-local.sh`
+
+## Developing @manuscripts/style-guide
+
+1. Clone [`@manuscripts/style-guide`](https://gitlab.com/mpapp-private/manuscripts-style-guide) to a folder alongside this one, run `yarn install` to install its dependencies, run `yarn link` to make it available as a local dependency, then run `yarn dev` in that folder to start building it.
+1. In this folder, run `yarn link @manuscripts/style-guide` to use the linked module as a local dependency.
 
 ## Analysis
 
