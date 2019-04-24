@@ -15,7 +15,7 @@
  */
 
 import projectDump from '@manuscripts/examples/data/project-dump.json'
-import { Model } from '@manuscripts/manuscripts-json-schema/dist/types'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import uuid from 'uuid/v4'
 import { clearChannelFolder } from '../../lib/broadcast-channel'
 import { databaseCreator } from '../../lib/db'

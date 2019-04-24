@@ -26,7 +26,7 @@ import {
   Model,
   Project,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema/dist/types'
+} from '@manuscripts/manuscripts-json-schema'
 import { History } from 'history'
 import { BulkCreateError } from '../../lib/errors'
 import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'

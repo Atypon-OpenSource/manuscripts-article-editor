@@ -15,7 +15,7 @@
  */
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema/dist/types'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import InvitationsData from '../../data/InvitationsData'
 import ProjectsData from '../../data/ProjectsData'

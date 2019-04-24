@@ -15,7 +15,7 @@
  */
 
 import HorizontalEllipsis from '@manuscripts/assets/react/HorizontalEllipsis'
-import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
+import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import React from 'react'

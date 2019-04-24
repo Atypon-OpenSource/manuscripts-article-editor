@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Bundle } from '@manuscripts/manuscripts-json-schema/dist/types'
+import { Bundle } from '@manuscripts/manuscripts-json-schema'
 
 export const bundles: Bundle[] = [
   {

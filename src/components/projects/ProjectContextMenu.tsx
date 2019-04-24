@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
+import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import UserData from '../../data/UserData'
 import { isOwner, isWriter } from '../../lib/roles'

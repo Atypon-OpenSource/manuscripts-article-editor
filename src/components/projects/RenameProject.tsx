@@ -15,7 +15,7 @@
  */
 
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
-import { Project } from '@manuscripts/manuscripts-json-schema/dist/types'
+import { Project } from '@manuscripts/manuscripts-json-schema'
 import { CloseButton, FormErrors } from '@manuscripts/style-guide'
 import { Formik, FormikErrors } from 'formik'
 import React from 'react'
