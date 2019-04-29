@@ -109,7 +109,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           name={'collaborators-sidebar'}
           direction={'row'}
           side={'end'}
-          minSize={250}
+          minSize={300}
         >
           <InviteCollaboratorsSidebar
             invitationValues={invitationValues}
@@ -138,7 +138,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           name={'add-collaborators-sidebar'}
           direction={'row'}
           side={'end'}
-          minSize={250}
+          minSize={300}
         >
           <AddCollaboratorsSidebar
             people={people}

@@ -168,31 +168,35 @@ class AlertMessage extends React.Component<Props, State> {
             <AlertContainer type={type} className={'alert-message'}>
               <InnerContainer>
                 <InformativeIcon>{<AlertIcon type={type} />}</InformativeIcon>
-                <TextContainer>
-                  {children}
-                  {dismissButton &&
-                    (size.width! < 900 ? (
-                      <SmallContainerButton
-                        onClick={
-                          dismissButton.action
-                            ? dismissButton.action
-                            : this.handleClose
-                        }
-                      >
-                        {dismissButton.text}
-                      </SmallContainerButton>
-                    ) : (
-                      <WideContainerButton
-                        onClick={
-                          dismissButton.action
-                            ? dismissButton.action
-                            : this.handleClose
-                        }
-                      >
-                        {dismissButton.text}
-                      </WideContainerButton>
-                    ))}
-                </TextContainer>
+                {!dismissButton ? (
+                  <TextContainer>{children}</TextContainer>
+                ) : size.width! < 900 ? (
+                  <>
+                    <TextContainer>{children}</TextContainer>
+                    <SmallContainerButton
+                      onClick={
+                        dismissButton.action
+                          ? dismissButton.action
+                          : this.handleClose
+                      }
+                    >
+                      {dismissButton.text}
+                    </SmallContainerButton>
+                  </>
+                ) : (
+                  <TextContainer>
+                    {children}
+                    <WideContainerButton
+                      onClick={
+                        dismissButton.action
+                          ? dismissButton.action
+                          : this.handleClose
+                      }
+                    >
+                      {dismissButton.text}
+                    </WideContainerButton>
+                  </TextContainer>
+                )}
               </InnerContainer>
               {!hideCloseButton &&
                 ((size.width! >= 900 || !dismissButton) && (

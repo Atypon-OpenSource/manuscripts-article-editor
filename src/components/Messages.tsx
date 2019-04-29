@@ -174,7 +174,7 @@ export const AcceptedInvitationSuccessMessage: React.FunctionComponent = () => (
   <FormattedMessage
     id={'accepted_invitation_success'}
     defaultMessage={
-      'An invitation was accepted successfully, you can find the project in the projects list.'
+      'An invitation was accepted, you can find the project in the projects list.'
     }
   />
 )

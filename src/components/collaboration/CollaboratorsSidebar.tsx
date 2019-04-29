@@ -147,7 +147,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
         name={'collaborators-sidebar'}
         direction={'row'}
         side={'end'}
-        minSize={250}
+        minSize={300}
       >
         <StyledSidebar data-cy={'sidebar'}>
           <SidebarHeader>

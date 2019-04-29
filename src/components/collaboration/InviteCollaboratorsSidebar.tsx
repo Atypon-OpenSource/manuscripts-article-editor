@@ -21,7 +21,7 @@ import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import { InvitationForm, InvitationValues } from './InvitationForm'
 
 const FormContainer = styled.div`
-  padding: 20px;
+  padding: 12px;
 `
 const Container = styled.div`
   padding-top: 5px;

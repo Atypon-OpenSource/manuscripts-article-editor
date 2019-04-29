@@ -161,7 +161,7 @@ export class InvitationForm extends React.Component<Props, State> {
                     },
                   }}
                 >
-                  Invitation was sent successfully.
+                  Invitation was sent.
                 </AlertMessage>
               </AlertMessageContainer>
             )}
