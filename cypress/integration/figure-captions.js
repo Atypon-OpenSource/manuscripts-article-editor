@@ -7,7 +7,7 @@ describe('Figures', () => {
         signup(user, true)
     })
     
-    it('Can delete a figure panel', () => {
+    it.skip('Can delete a figure panel', () => {
         login(user, true)
 
         createProject()

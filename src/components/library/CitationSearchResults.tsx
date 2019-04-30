@@ -148,7 +148,7 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
           <SearchResult onClick={() => addToSelection(id, item)} key={id}>
             <StatusIcon isFetching={fetching.has(id)}>
               {selected.has(id) ? (
-                <AddedIcon />
+                <AddedIcon data-cy={'plus-icon-ok'} />
               ) : (
                 <AddIcon data-cy={'plus-icon'} />
               )}

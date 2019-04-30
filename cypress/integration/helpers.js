@@ -70,7 +70,7 @@ export const createProjectWithTitle = () => {
   
     const manuscriptTitle = generateTitle(
       faker.random.number({
-        max: 10,
+        max: 4,
         min: 3,
       })
     )
@@ -82,6 +82,7 @@ export const createProjectWithTitle = () => {
       })
     )
     createProject()
+    cy.get('#manuscript-title-field .title-editor').should('exist')
     cy.get('#manuscript-title-field .title-editor').type(manuscriptTitle)
     cy.get('#project-title-field .title-editor').type(projectTitle)
     //cy.get('#manuscript-title-field .title-editor').contains(manuscriptTitle)
@@ -96,10 +97,9 @@ export const generateParagraph = (wordCount) => {
 
 export const createProject = () => {
   cy.get('#create-project').should('be.visible').click()
-  cy.getCookie('name', {log: true})
-  cy.get('[data-cy="arrow-down"]', { timeout: 8000 })
+  cy.get('[data-cy="arrow-down"]', {timeout: 10000})
   cy.get('button').contains('Create empty manuscript').click()
-  cy.get('#project-title-field', {timeout: 30000})
+  cy.get('#project-title-field', {timeout: 50000})
 }
 
 export const insertParagraph = (paragraph) => {

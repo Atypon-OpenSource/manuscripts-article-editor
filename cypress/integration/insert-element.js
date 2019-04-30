@@ -1,6 +1,6 @@
 import { generateUser, login, signup, createProject } from './helpers'
 
-describe('Figures', () => {
+describe('Elements', () => {
     const user = generateUser()
     
     before(() => {
