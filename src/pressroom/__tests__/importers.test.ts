@@ -87,7 +87,7 @@ describe('Import', () => {
         return element
       })
 
-    await expect(openFilePicker()).rejects.toThrowError('No file was received')
+    await expect(openFilePicker()).resolves.toBeUndefined()
   })
 
   test('Import a manuscript from a DOCX file', async () => {

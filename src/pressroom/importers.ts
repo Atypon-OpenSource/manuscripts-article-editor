@@ -189,20 +189,30 @@ export const openFilePicker = (): Promise<File> =>
     input.type = 'file'
     input.accept = acceptedFileExtensions().join(',')
 
-    // const handleFocus = () => {
-    //   window.removeEventListener('focus', handleFocus)
-    //   resolve()
-    // }
-    //
-    // window.addEventListener('focus', handleFocus)
+    const handleFocus = () => {
+      window.removeEventListener('focus', handleFocus)
+
+      // This event is fired before the input's change event,
+      // and before the input's FileList has been populated,
+      // so a delay is needed.
+      window.setTimeout(() => {
+        if (!input.files || !input.files.length) {
+          resolve()
+        }
+      }, 1000)
+    }
+
+    // window "focus" event, fired even if the file picker is cancelled.
+    window.addEventListener('focus', handleFocus)
 
     input.addEventListener('change', () => {
       if (input.files && input.files.length) {
         resolve(input.files[0])
       } else {
-        reject(new Error('No file was received'))
+        resolve()
       }
     })
+
     input.click()
   })
 
