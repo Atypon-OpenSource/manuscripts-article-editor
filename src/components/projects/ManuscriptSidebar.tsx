@@ -28,6 +28,7 @@ import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
 import * as React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import { Permissions } from '../../types/permissions'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
@@ -133,6 +134,7 @@ interface Props {
   doc?: ManuscriptNode
   user: UserProfileWithAvatar
   permissions: Permissions
+  tokenActions: TokenActions
 }
 
 const ManuscriptSidebar: React.FunctionComponent<Props> = ({
@@ -146,6 +148,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   saveProjectTitle,
   selected,
   user,
+  tokenActions,
 }) => (
   <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
     <StyledSidebar>
@@ -161,7 +164,11 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
             }, 1000)}
           />
         </ProjectTitle>
-        <ShareProjectButton project={project} user={user} />
+        <ShareProjectButton
+          project={project}
+          user={user}
+          tokenActions={tokenActions}
+        />
       </SidebarHeader>
 
       <SidebarContent>

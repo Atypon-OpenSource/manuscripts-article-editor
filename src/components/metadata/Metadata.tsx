@@ -35,6 +35,7 @@ import {
 } from '@manuscripts/style-guide'
 import { TitleEditorView, TitleField } from '@manuscripts/title-editor'
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
@@ -150,6 +151,7 @@ interface Props {
   updateAuthor: (author: Contributor, email: string) => void
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
+  tokenActions: TokenActions
 }
 
 export const Metadata: React.FunctionComponent<Props> = props => (

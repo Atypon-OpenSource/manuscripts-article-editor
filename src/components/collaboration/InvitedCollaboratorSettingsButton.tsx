@@ -16,9 +16,12 @@
 
 import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
 import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
-import { IconButton } from '@manuscripts/style-guide'
+import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
+import { AxiosError } from 'axios'
+import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import InviteCollaboratorPopperContainer from './InviteCollaboratorPopperContainer'
 
@@ -41,6 +44,8 @@ const SettingsInvertedIcon = styled(SettingsInverted)`
 interface State {
   isOpen: boolean
   isUpdateRoleOpen: boolean
+  error: { data: AxiosError; message: string } | null
+  resendSucceed: boolean | null
 }
 
 interface Props {
@@ -53,12 +58,15 @@ interface Props {
     message?: string
   ) => Promise<void>
   projectUninvite: (invitationID: string) => Promise<void>
+  tokenActions: TokenActions
 }
 
 class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
   public state: State = {
     isOpen: false,
     isUpdateRoleOpen: false,
+    error: null,
+    resendSucceed: null,
   }
 
   private node: Node
@@ -68,8 +76,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isOpen, isUpdateRoleOpen } = this.state
-    const { projectInvite, projectUninvite } = this.props
+    const { isOpen, isUpdateRoleOpen, resendSucceed } = this.state
 
     return (
       <Manager>
@@ -89,14 +96,34 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
               <InviteCollaboratorPopperContainer
                 invitation={this.props.invitation}
                 popperProps={popperProps}
-                projectInvite={projectInvite}
-                projectUninvite={projectUninvite}
-                openPopper={this.openPopper}
                 isUpdateRoleOpen={isUpdateRoleOpen}
                 handleOpenModal={this.handleOpenModal}
+                handleUpdateRole={this.handleUpdateRole}
+                handleUninvite={this.handleUninvite}
+                resendInvitation={this.resendInvitation}
+                resendSucceed={resendSucceed}
               />
             )}
           </Popper>
+        )}
+        {this.state.error && (
+          <Dialog
+            isOpen={true}
+            category={Category.error}
+            header={this.state.error.message}
+            message={
+              this.state.error.data.response!.status ===
+              HttpStatusCodes.SERVICE_UNAVAILABLE
+                ? 'Trouble reaching manuscripts.io servers. Please try again later.'
+                : 'An error occurred.'
+            }
+            actions={{
+              primary: {
+                action: this.handleCancel,
+                title: 'OK',
+              },
+            }}
+          />
         )}
       </Manager>
     )
@@ -132,6 +159,78 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
     } else {
       document.removeEventListener('mousedown', this.handleClickOutside)
     }
+  }
+
+  private handleUpdateRole = async (role: string) => {
+    const {
+      invitedUserEmail: email,
+      invitedUserName: name,
+      message,
+    } = this.props.invitation
+
+    const { projectInvite } = this.props
+
+    try {
+      await projectInvite(email, role, name, message)
+      this.openPopper()
+    } catch (error) {
+      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+        this.props.tokenActions.delete()
+      } else {
+        this.setState({
+          error: { data: error, message: 'Failed to update invitation role' },
+        })
+      }
+    }
+  }
+
+  private resendInvitation = async () => {
+    const {
+      invitedUserEmail: email,
+      invitedUserName: name,
+      message,
+      role,
+    } = this.props.invitation
+
+    const { projectInvite } = this.props
+
+    try {
+      await projectInvite(email, role, name, message)
+      this.setState({
+        resendSucceed: true,
+      })
+    } catch (error) {
+      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+        this.props.tokenActions.delete()
+      } else {
+        this.setState({
+          resendSucceed: false,
+        })
+      }
+    }
+  }
+
+  private handleUninvite = async () => {
+    const { invitation, projectUninvite } = this.props
+
+    try {
+      await projectUninvite(invitation._id)
+      this.openPopper()
+    } catch (error) {
+      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+        this.props.tokenActions.delete()
+      } else {
+        this.setState({
+          error: { data: error, message: 'Uninvite user failed' },
+        })
+      }
+    }
+  }
+
+  private handleCancel = () => {
+    this.setState({
+      error: null,
+    })
   }
 }
 

@@ -16,17 +16,24 @@
 
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
+import { TokenActions } from '../../data/TokenData'
 import { DatabaseContext } from '../DatabaseProvider'
 import { importManuscript } from './ImportManuscript'
 import ProjectsSidebar from './ProjectsSidebar'
 
-class ProjectsSidebarContainer extends React.Component<RouteComponentProps> {
+interface Props {
+  tokenActions: TokenActions
+}
+class ProjectsSidebarContainer extends React.Component<
+  RouteComponentProps & Props
+> {
   public render() {
     return (
       <DatabaseContext.Consumer>
         {db => (
           <ProjectsSidebar
             importManuscript={importManuscript(db, this.props.history)}
+            tokenActions={this.props.tokenActions}
           />
         )}
       </DatabaseContext.Consumer>

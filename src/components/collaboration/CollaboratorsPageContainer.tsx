@@ -22,6 +22,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+import { TokenActions } from '../../data/TokenData'
 import { projectInvite, projectUninvite, updateUserRole } from '../../lib/api'
 import { buildCollaborators } from '../../lib/collaborators'
 import { ProjectRole } from '../../lib/roles'
@@ -39,6 +40,7 @@ interface Props {
   project: Project
   user: UserProfileWithAvatar
   collaborators: Map<string, UserProfileWithAvatar>
+  tokenActions: TokenActions
 }
 
 type CombinedProps = Props &
@@ -54,7 +56,13 @@ class CollaboratorsPageContainer extends React.Component<CombinedProps, State> {
 
   public render() {
     const { selectedCollaborator } = this.state
-    const { invitations, project, user, collaborators } = this.props
+    const {
+      invitations,
+      project,
+      user,
+      collaborators,
+      tokenActions,
+    } = this.props
 
     const acceptedInvitations = invitations.filter(
       invitation => !invitation.acceptedAt
@@ -74,6 +82,7 @@ class CollaboratorsPageContainer extends React.Component<CombinedProps, State> {
           projectUninvite={this.projectUninvite}
           handleAddCollaborator={this.handleAddCollaborator}
           handleClickCollaborator={this.handleClickCollaborator}
+          tokenActions={tokenActions}
         />
         <Main>
           <CollaboratorDetailsPage

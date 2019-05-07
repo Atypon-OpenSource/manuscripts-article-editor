@@ -19,6 +19,7 @@ import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import InvitationsData from '../../data/InvitationsData'
 import ProjectsData from '../../data/ProjectsData'
+import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme/styled-components'
@@ -101,6 +102,7 @@ const openTemplateSelector = (
 interface Props {
   closeModal?: () => void
   importManuscript?: (models: Model[]) => Promise<void>
+  tokenActions: TokenActions
 }
 
 const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
@@ -139,6 +141,7 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
                     <ProjectsButton
                       isDropdown={false}
                       closeModal={props.closeModal}
+                      tokenActions={props.tokenActions}
                     />
                   </ProjectsContainer>
                 </Container>

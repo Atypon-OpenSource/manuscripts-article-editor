@@ -16,6 +16,7 @@
 
 import React from 'react'
 import Modal from 'react-modal'
+import { TokenActions } from '../../data/TokenData'
 import ProjectsSidebar from '../projects/ProjectsSidebar'
 import { Menu, MenuBarIcon } from './Menu'
 
@@ -52,6 +53,7 @@ interface State {
 
 interface Props {
   projectID: string
+  tokenActions: TokenActions
 }
 
 class MenuBar extends React.Component<Props, State> {
@@ -60,7 +62,7 @@ class MenuBar extends React.Component<Props, State> {
   }
 
   public render() {
-    const { children, projectID } = this.props
+    const { children, projectID, tokenActions } = this.props
 
     return (
       <React.Fragment>
@@ -74,7 +76,10 @@ class MenuBar extends React.Component<Props, State> {
           style={modalStyle}
         >
           <Menu handleClose={this.handleClose} projectID={projectID} />
-          <ProjectsSidebar closeModal={this.handleClose} />
+          <ProjectsSidebar
+            closeModal={this.handleClose}
+            tokenActions={tokenActions}
+          />
         </Modal>
       </React.Fragment>
     )

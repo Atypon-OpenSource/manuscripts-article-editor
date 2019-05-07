@@ -27,6 +27,7 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import AlertMessage, { AlertMessageType } from '../../components/AlertMessage'
+import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme/styled-components'
 import InviteAuthorButton from './InviteAuthorButton'
@@ -53,6 +54,7 @@ interface AuthorProps {
   getAuthorName: (author: Contributor) => string
   handleSave: (values: AuthorValues) => Promise<void>
   handleRemoveAuthor: () => void
+  tokenActions: TokenActions
 }
 
 export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
@@ -70,6 +72,7 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
   project,
   updateAuthor,
   getAuthorName,
+  tokenActions,
 }) => (
   <React.Fragment>
     <AuthorForm
@@ -97,6 +100,7 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
             author={author}
             project={project}
             updateAuthor={updateAuthor}
+            tokenActions={tokenActions}
           />
         </AlertMessage>
       </FormMessage>
@@ -110,6 +114,7 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
             author={author}
             project={project}
             updateAuthor={updateAuthor}
+            tokenActions={tokenActions}
           />
         </AlertMessage>
       </FormMessage>

@@ -23,6 +23,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme/styled-components'
 import { AuthorsModal } from './AuthorsModals'
@@ -54,6 +55,7 @@ interface Props {
   updateAffiliation: (affiliation: Affiliation) => void
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
   handleDrop: (oldIndex: number, newIndex: number) => void
+  tokenActions: TokenActions
 }
 
 class AuthorsModalContainer extends React.Component<Props, State> {
@@ -77,6 +79,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       handleDrop,
       handleSaveAuthor,
       openAddAuthors,
+      tokenActions,
     } = this.props
 
     return (
@@ -100,6 +103,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         removeAuthor={this.removeAuthor}
         getAuthorName={this.getAuthorName}
         handleRemoveAuthor={this.handleRemoveAuthor}
+        tokenActions={tokenActions}
       />
     )
   }

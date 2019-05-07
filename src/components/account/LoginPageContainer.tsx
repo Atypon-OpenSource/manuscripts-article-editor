@@ -19,6 +19,7 @@ import { AxiosResponse } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import { LocationState } from 'history'
 import * as HttpStatusCodes from 'http-status-codes'
+import decode from 'jwt-decode'
 import { parse } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
@@ -26,6 +27,8 @@ import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
+import { TokenPayload } from '../../lib/user'
+import userID from '../../lib/user-id'
 import { loginSchema } from '../../validation'
 import { AlertMessageType } from '../AlertMessage'
 import { Main, Page } from '../Page'
@@ -128,6 +131,10 @@ class LoginPageContainer extends React.Component<
                 const token = await login(values.email, values.password)
 
                 this.props.tokenActions.update(token)
+
+                const { userId } = decode<TokenPayload>(token)
+
+                userID.set(userId)
 
                 this.redirectAfterLogin()
               } catch (error) {

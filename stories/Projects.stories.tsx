@@ -42,6 +42,10 @@ storiesOf('Projects', module)
       saveProjectTitle={action('save project title')}
       user={user}
       acceptedInvitations={[]}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Projects Page - Empty', () => (
@@ -61,6 +65,10 @@ storiesOf('Projects', module)
       user={user}
       permissions={{
         write: true,
+      }}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
       }}
     />
   ))

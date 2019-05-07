@@ -27,6 +27,7 @@ import {
   SearchIcon,
 } from '@manuscripts/style-guide'
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 import {
@@ -101,6 +102,7 @@ interface Props {
   handleInvite: () => void
   addCollaborator: (userID: string, role: string) => Promise<void>
   setSearchText: (searchText: string) => void
+  tokenActions: TokenActions
 }
 
 interface State {
@@ -126,6 +128,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
       handleDoneCancel,
       handleInvite,
       addCollaborator,
+      tokenActions,
     } = this.props
 
     const { searchResults, searchText, isSearching } = this.state
@@ -200,6 +203,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
                   isSelected={addedUsers.includes(person.userID)}
                   addCollaborator={addCollaborator}
                   countAddedCollaborators={countAddedCollaborators}
+                  tokenActions={tokenActions}
                 />
               </SidebarPersonContainer>
             ))}
@@ -211,6 +215,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
             countAddedCollaborators={countAddedCollaborators}
             addCollaborator={addCollaborator}
             searchResults={searchResults}
+            tokenActions={tokenActions}
           />
         )}
       </StyledSidebar>

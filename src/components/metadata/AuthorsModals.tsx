@@ -22,6 +22,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme/styled-components'
 import {
@@ -75,6 +76,7 @@ interface AuthorsProps {
   handleRemoveAuthor: () => void
   handleDrop: (oldIndex: number, newIndex: number) => void
   getSidebarItemDecorator?: (authorID: string) => JSX.Element | null
+  tokenActions: TokenActions
 }
 
 export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
@@ -97,6 +99,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   project,
   updateAuthor,
   getAuthorName,
+  tokenActions,
 }) => (
   <ModalBody>
     <ModalSidebar>
@@ -129,6 +132,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
           project={project}
           updateAuthor={updateAuthor}
           getAuthorName={getAuthorName}
+          tokenActions={tokenActions}
         />
       ) : (
         <AuthorDetailsPage />
@@ -209,6 +213,7 @@ interface InviteAuthorsProps {
   handleInviteCancel: () => void
   handleInvitationSubmit: (values: InvitationValues) => Promise<void>
   invitationSent: boolean
+  tokenActions: TokenActions
 }
 
 export const InviteAuthorsModal: React.FunctionComponent<
@@ -219,6 +224,7 @@ export const InviteAuthorsModal: React.FunctionComponent<
   handleInviteCancel,
   handleInvitationSubmit,
   invitationSent,
+  tokenActions,
 }) => (
   <ModalBody>
     <ModalSidebar>
@@ -228,6 +234,7 @@ export const InviteAuthorsModal: React.FunctionComponent<
         handleSubmit={handleInvitationSubmit}
         invitationSent={invitationSent}
         isModal={true}
+        tokenActions={tokenActions}
       />
     </ModalSidebar>
     <ModalMain>

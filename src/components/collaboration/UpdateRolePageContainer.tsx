@@ -49,12 +49,8 @@ class UpdateRolePageContainer extends React.Component<Props> {
   }
 
   private handleUpdate = () => {
-    try {
-      this.props.handleUpdateRole(this.props.selectedRole)
-      this.props.handleCancel()
-    } catch (error) {
-      alert(error)
-    }
+    this.props.handleUpdateRole(this.props.selectedRole)
+    this.props.handleCancel()
   }
 }
 

@@ -23,6 +23,7 @@ import { TickMarkIcon } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { Route } from 'react-router-dom'
+import { TokenActions } from '../../data/TokenData'
 import { buildCollaborators } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
 import { styled } from '../../theme/styled-components'
@@ -132,6 +133,7 @@ interface Props {
   user: UserProfileWithAvatar
   closeModal?: () => void
   acceptedInvitations: string[]
+  tokenActions: TokenActions
 }
 
 export const ProjectsList: React.FunctionComponent<Props> = ({
@@ -142,6 +144,7 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
   saveProjectTitle,
   user,
   acceptedInvitations,
+  tokenActions,
 }) => (
   <div>
     {projects.sort(projectListCompare).map(project => {
@@ -187,7 +190,11 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
                         closeModal={closeModal}
                       />
                     </Edit>
-                    <ShareProjectButton project={project} user={user} />
+                    <ShareProjectButton
+                      project={project}
+                      user={user}
+                      tokenActions={tokenActions}
+                    />
                   </Container>
                 </SidebarProjectHeader>
 

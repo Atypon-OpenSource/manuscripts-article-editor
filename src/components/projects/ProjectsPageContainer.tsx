@@ -15,6 +15,7 @@
  */
 
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import AcceptProjectInvitation from '../collaboration/AcceptProjectInvitation'
 import MessageBanner from '../MessageBanner'
@@ -32,14 +33,20 @@ const Container = styled.div`
   overflow-y: auto;
 `
 
-const ProjectsPageContainer: React.FunctionComponent = () => (
+interface Props {
+  tokenActions: TokenActions
+}
+
+const ProjectsPageContainer: React.FunctionComponent<Props> = ({
+  tokenActions,
+}) => (
   <Page>
     <Main>
       <Container>
         <GlobalMenu active={'projects'} />
         <MessageBanner />
         <AcceptProjectInvitation />
-        <ProjectsSidebarContainer />
+        <ProjectsSidebarContainer tokenActions={tokenActions} />
       </Container>
     </Main>
   </Page>

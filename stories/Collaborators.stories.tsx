@@ -96,6 +96,7 @@ storiesOf('Collaboration/Poppers', module)
         handleOpenModal={action('open update role confirmation modal')}
         isUpdateRoleOpen={false}
         resendInvitation={action('re-send invitation')}
+        resendSucceed={null}
       />
     </PopperStory>
   ))
@@ -109,13 +110,21 @@ storiesOf('Collaboration/Poppers', module)
         handleOpenModal={action('open update role confirmation modal')}
         isUpdateRoleOpen={true}
         resendInvitation={action('re-send invitation')}
+        resendSucceed={null}
       />
     </PopperStory>
   ))
 
 storiesOf('Collaboration/Forms', module).add('Invite', () => (
   <PopperStory>
-    <InvitationForm allowSubmit={true} handleSubmit={action('submit')} />
+    <InvitationForm
+      allowSubmit={true}
+      handleSubmit={action('submit')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
+    />
   </PopperStory>
 ))
 
@@ -215,6 +224,10 @@ storiesOf('Collaboration/Sidebars', module)
       updateUserRole={action('update user role')}
       handleAddCollaborator={action('add collaborator')}
       handleClickCollaborator={action('selected collaborator')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Collaborators - Non-owner', () => (
@@ -232,6 +245,10 @@ storiesOf('Collaboration/Sidebars', module)
       updateUserRole={action('update user role')}
       handleAddCollaborator={action('add collaborator')}
       handleClickCollaborator={action('selected collaborator')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Add Collaborator', () => (
@@ -245,6 +262,10 @@ storiesOf('Collaboration/Sidebars', module)
       addedUsers={[]}
       setSearchText={action('set search text')}
       handleDoneCancel={action('handle done/cancel')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Add Collaborator - few have been added', () => (
@@ -258,6 +279,10 @@ storiesOf('Collaboration/Sidebars', module)
       addedUsers={[people[0].userID]}
       setSearchText={action('set search text')}
       handleDoneCancel={action('handle done/cancel')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Add Collaborator - with invitations', () => (
@@ -271,6 +296,10 @@ storiesOf('Collaboration/Sidebars', module)
       addedUsers={[]}
       setSearchText={action('set search text')}
       handleDoneCancel={action('handle done/cancel')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Invite Collaborators', () => (
@@ -279,6 +308,10 @@ storiesOf('Collaboration/Sidebars', module)
       handleCancel={action('cancel')}
       handleSubmit={action('submit')}
       invitationSent={false}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Search Collaborators', () => (
@@ -288,6 +321,10 @@ storiesOf('Collaboration/Sidebars', module)
       handleInvite={action('invite')}
       searchResults={people}
       searchText={'ego'}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Search Collaborators - Empty', () => (
@@ -297,6 +334,10 @@ storiesOf('Collaboration/Sidebars', module)
       handleInvite={action('invite')}
       searchResults={[]}
       searchText={'ego'}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Uninvite Collaborators', () => (

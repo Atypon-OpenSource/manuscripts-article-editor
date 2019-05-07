@@ -18,6 +18,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { TokenActions } from '../../data/TokenData'
 import { logout } from '../../lib/account'
+import userID from '../../lib/user-id'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { DatabaseProps, withDatabase } from '../DatabaseProvider'
 import { Main, Page } from '../Page'
@@ -43,6 +44,7 @@ class LogoutPageContainer extends React.Component<
       await logout()
 
       this.props.tokenActions.delete()
+      userID.remove()
 
       this.props.history.push({
         pathname: '/login',

@@ -17,6 +17,7 @@
 import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import { TextButton } from '../AlertMessage'
 import InviteAuthorPopperContainer from './InviteAuthorPopperContainer'
@@ -29,6 +30,7 @@ interface Props {
   author: Contributor
   project: Project
   updateAuthor: (author: Contributor, email: string) => void
+  tokenActions: TokenActions
 }
 
 const Button = styled(TextButton)`
@@ -69,6 +71,7 @@ class InviteAuthorButton extends React.Component<Props, State> {
                 project={this.props.project}
                 author={this.props.author}
                 updateAuthor={this.props.updateAuthor}
+                tokenActions={this.props.tokenActions}
               />
             )}
           </Popper>

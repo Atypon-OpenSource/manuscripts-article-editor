@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
+import { ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import uuid from 'uuid/v4'
+import { TokenPayload } from '../../user'
+
 export const login = async (email: string, password: string) => {
   // mock login request: respond with token
+  const data: TokenPayload = {
+    expiry: +new Date() + 10000,
+    userId: 'User|test@example.com',
+    userProfileId: `${ObjectTypes.UserProfile}:${uuid()}`,
+  }
 
   return {
     data: {
-      token: '123',
+      token: ['', btoa(JSON.stringify(data)), ''].join('.'),
     },
   }
 }

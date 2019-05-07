@@ -33,6 +33,10 @@ storiesOf('Collaboration/Popper Buttons', module)
       collaborator={people[0]}
       updateUserRole={action('update role')}
       openPopper={action('open popper')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('InvitedCollaboratorSettingsButton', () => (
@@ -41,6 +45,10 @@ storiesOf('Collaboration/Popper Buttons', module)
       openPopper={action('open popper')}
       projectInvite={action('project invite')}
       projectUninvite={action('project uninvite')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('AddCollaboratorButton', () => (
@@ -48,6 +56,10 @@ storiesOf('Collaboration/Popper Buttons', module)
       collaborator={people[0]}
       countAddedCollaborators={action('count collaborators')}
       addCollaborator={action('add collaborator')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
 
@@ -56,5 +68,9 @@ storiesOf('Metadata/Popper Buttons', module).add('InviteAuthorButton', () => (
     author={authors[0]}
     project={project}
     updateAuthor={action('update author')}
+    tokenActions={{
+      delete: action('delete token'),
+      update: action('update token'),
+    }}
   />
 ))

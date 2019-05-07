@@ -17,9 +17,11 @@
 jest.mock('../api/authentication')
 jest.mock('../adapter')
 
+import decode from 'jwt-decode'
 import { login, logout, resetPassword } from '../account'
 import { clearChannelFolder } from '../broadcast-channel'
 import { databaseCreator, recreateDatabase } from '../db'
+import { TokenPayload } from '../user'
 
 const schema = {
   version: 0,
@@ -52,7 +54,9 @@ describe('Account', () => {
 
     const token = await login('test@example.com', 'password')
 
-    expect(token).toEqual('123')
+    const { userId } = decode<TokenPayload>(token)
+
+    expect(userId).toEqual('User|test@example.com')
 
     expect(db.destroyed).toBe(true)
 

@@ -17,6 +17,7 @@
 import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
+import { TokenActions } from '../../data/TokenData'
 import { projectInvite } from '../../lib/api/collaboration'
 import { styled } from '../../theme/styled-components'
 import AlertMessage, { AlertMessageType } from '../AlertMessage'
@@ -31,6 +32,7 @@ interface Props {
   project: Project
   author: Contributor
   updateAuthor: (author: Contributor, email: string) => void
+  tokenActions: TokenActions
 }
 
 interface State {
@@ -47,7 +49,7 @@ class InviteAuthorPopperContainer extends React.Component<Props> {
   }
 
   public render() {
-    const { popperProps, author } = this.props
+    const { popperProps, author, tokenActions } = this.props
     const { invitationError } = this.state
     return (
       <CustomUpPopper popperProps={popperProps}>
@@ -73,6 +75,7 @@ class InviteAuthorPopperContainer extends React.Component<Props> {
             }}
             handleSubmit={this.handleInvitationSubmit}
             allowSubmit={true}
+            tokenActions={tokenActions}
           />
         </PopperBody>
       </CustomUpPopper>

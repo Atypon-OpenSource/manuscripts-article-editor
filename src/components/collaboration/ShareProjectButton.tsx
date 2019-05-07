@@ -20,6 +20,7 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
 
@@ -39,6 +40,7 @@ interface State {
 interface Props {
   project: Project
   user: UserProfileWithAvatar
+  tokenActions: TokenActions
 }
 
 class ShareProjectButton extends React.Component<Props, State> {
@@ -53,7 +55,7 @@ class ShareProjectButton extends React.Component<Props, State> {
   }
 
   public render() {
-    const { project, user } = this.props
+    const { project, user, tokenActions } = this.props
     const { isOpen } = this.state
 
     return (
@@ -74,6 +76,7 @@ class ShareProjectButton extends React.Component<Props, State> {
                     project={project}
                     popperProps={popperProps}
                     user={user}
+                    tokenActions={tokenActions}
                   />
                 </div>
               )}

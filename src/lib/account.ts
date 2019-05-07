@@ -14,24 +14,32 @@
  * limitations under the License.
  */
 
+import decode from 'jwt-decode'
 import config from '../config'
+import userID from '../lib/user-id'
 import * as api from './api'
 import { recreateDatabase, removeDatabase } from './db'
+import { TokenPayload } from './user'
 import { registerWayfId } from './wayf'
 
 export const login = async (email: string, password: string) => {
   // TODO: decide whether to remove the local database at login
 
+  const {
+    data: { token },
+  } = await api.login(email, password)
+
   try {
-    await recreateDatabase()
+    const oldUserId = userID.get()
+    const { userId } = decode<TokenPayload>(token)
+
+    if (oldUserId !== userId) {
+      await recreateDatabase()
+    }
   } catch (e) {
     console.error(e) // tslint:disable-line:no-console
     // TODO: removing the local database failed
   }
-
-  const {
-    data: { token },
-  } = await api.login(email, password)
 
   await registerWayfId(token, config.wayf)
 

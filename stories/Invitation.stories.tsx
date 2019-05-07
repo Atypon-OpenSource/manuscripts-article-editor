@@ -45,6 +45,10 @@ storiesOf('Collaboration/Invitation', module)
         handleSwitching={action('switch')}
         project={project as Project}
         user={owner as UserProfile}
+        tokenActions={{
+          delete: action('delete token'),
+          update: action('update token'),
+        }}
       />
     </PopperStory>
   ))
@@ -55,11 +59,22 @@ storiesOf('Collaboration/Invitation', module)
         handleSwitching={action('switch')}
         project={project as Project}
         user={notOwner as UserProfile}
+        tokenActions={{
+          delete: action('delete token'),
+          update: action('update token'),
+        }}
       />
     </PopperStory>
   ))
   .add('Share Project Button', () => (
-    <ShareProjectButton project={project as Project} user={user} />
+    <ShareProjectButton
+      project={project as Project}
+      user={user}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
+    />
   ))
   .add('Share Link: loading', () => (
     <PopperStory>

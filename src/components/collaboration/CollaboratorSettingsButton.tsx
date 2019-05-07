@@ -16,9 +16,12 @@
 
 import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { IconButton } from '@manuscripts/style-guide'
+import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
+import { AxiosError } from 'axios'
+import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import { TokenActions } from '../../data/TokenData'
 import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import CollaboratorSettingsPopperContainer from './CollaboratorSettingsPopperContainer'
@@ -42,6 +45,7 @@ const SettingsInvertedIcon = styled(SettingsInverted)`
 interface State {
   isOpen: boolean
   updateRoleIsOpen: boolean
+  error: { data: AxiosError; message: string } | null
 }
 
 interface Props {
@@ -49,12 +53,14 @@ interface Props {
   collaborator: UserProfile
   openPopper: (isOpen: boolean) => void
   updateUserRole: (role: ProjectRole | null, userID: string) => Promise<void>
+  tokenActions: TokenActions
 }
 
 class CollaboratorSettingsButton extends React.Component<Props, State> {
   public state: State = {
     isOpen: false,
     updateRoleIsOpen: false,
+    error: null,
   }
 
   private node: Node
@@ -65,7 +71,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
 
   public render() {
     const { isOpen } = this.state
-    const { project, collaborator, updateUserRole } = this.props
+    const { project, collaborator } = this.props
 
     return (
       <Manager>
@@ -89,10 +95,30 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
                 openPopper={this.togglePopper}
                 handleOpenModal={this.handleOpenModal}
                 updateRoleIsOpen={this.state.updateRoleIsOpen}
-                updateUserRole={updateUserRole}
+                updateUserRole={this.handleUpdateRole}
+                handleRemove={this.handleRemove}
               />
             )}
           </Popper>
+        )}
+        {this.state.error && (
+          <Dialog
+            isOpen={true}
+            category={Category.error}
+            header={this.state.error.message}
+            message={
+              this.state.error.data.response!.status ===
+              HttpStatusCodes.SERVICE_UNAVAILABLE
+                ? 'Trouble reaching manuscripts.io servers. Please try again later.'
+                : 'An error occurred.'
+            }
+            actions={{
+              primary: {
+                action: this.handleCancel,
+                title: 'OK',
+              },
+            }}
+          />
         )}
       </Manager>
     )
@@ -128,6 +154,46 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
     } else {
       document.removeEventListener('mousedown', this.handleClickOutside)
     }
+  }
+
+  private handleUpdateRole = async (selectedRole: string) => {
+    const { collaborator, updateUserRole } = this.props
+
+    try {
+      await updateUserRole(selectedRole as ProjectRole, collaborator.userID)
+      this.togglePopper()
+    } catch (error) {
+      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+        this.props.tokenActions.delete()
+      } else {
+        this.setState({
+          error: { data: error, message: 'Failed to update collaborator role' },
+        })
+      }
+    }
+  }
+
+  private handleRemove = async () => {
+    const { collaborator, updateUserRole } = this.props
+
+    try {
+      await updateUserRole(null, collaborator.userID)
+      this.togglePopper()
+    } catch (error) {
+      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+        this.props.tokenActions.delete()
+      } else {
+        this.setState({
+          error: { data: error, message: 'Failed to remove collaborator' },
+        })
+      }
+    }
+  }
+
+  private handleCancel = () => {
+    this.setState({
+      error: null,
+    })
   }
 }
 

@@ -35,11 +35,7 @@ class AddCollaboratorPopper extends React.Component<Props, State> {
     const { selectedRole } = this.state
 
     if (selectedRole) {
-      try {
-        await this.props.addCollaborator(selectedRole)
-      } catch (error) {
-        alert(error)
-      }
+      await this.props.addCollaborator(selectedRole)
     }
   }
 

@@ -132,7 +132,10 @@ const App: React.FunctionComponent = () => (
                                 exact={true}
                                 render={props =>
                                   user ? (
-                                    <ChangePasswordPageContainer {...props} />
+                                    <ChangePasswordPageContainer
+                                      {...props}
+                                      tokenActions={tokenActions}
+                                    />
                                   ) : (
                                     <RequireLogin {...props} />
                                   )
@@ -186,7 +189,10 @@ const App: React.FunctionComponent = () => (
                                 path={'/feedback'}
                                 render={props =>
                                   user ? (
-                                    <FeedbackPageContainer {...props} />
+                                    <FeedbackPageContainer
+                                      tokenActions={tokenActions}
+                                      {...props}
+                                    />
                                   ) : (
                                     <RequireLogin {...props} />
                                   )
@@ -208,13 +214,21 @@ const App: React.FunctionComponent = () => (
                                       <Route
                                         path={'/projects/:projectID'}
                                         render={props => (
-                                          <ProjectPageContainer {...props} />
+                                          <ProjectPageContainer
+                                            {...props}
+                                            tokenActions={tokenActions}
+                                          />
                                         )}
                                       />
 
                                       <Route
                                         path={'/projects'}
-                                        component={ProjectsPageContainer}
+                                        render={props => (
+                                          <ProjectsPageContainer
+                                            {...props}
+                                            tokenActions={tokenActions}
+                                          />
+                                        )}
                                       />
                                     </Switch>
                                   ) : (
@@ -321,7 +335,11 @@ const App: React.FunctionComponent = () => (
               <Route
                 path={'/change-password'}
                 exact={true}
-                render={props => <ChangePasswordPageContainer {...props} />}
+                render={props => (
+                  <RequireLogin {...props}>
+                    You must sign in first to change your password.
+                  </RequireLogin>
+                )}
               />
 
               <Route
@@ -339,19 +357,34 @@ const App: React.FunctionComponent = () => (
               <Route
                 path={'/delete-account'}
                 exact={true}
-                component={RequireLogin}
+                render={props => (
+                  <RequireLogin {...props}>
+                    You must sign in first to delete your account.
+                  </RequireLogin>
+                )}
               />
 
               <Route path={'/profile'} exact={true} component={RequireLogin} />
 
-              <Route path={'/feedback'} component={RequireLogin} />
+              <Route
+                path={'/feedback'}
+                render={props => (
+                  <RequireLogin {...props}>
+                    You must sign in first.
+                  </RequireLogin>
+                )}
+              />
 
               <Route path={'/projects'}>
                 <Switch>
                   <Route
                     path={'/projects'}
                     exact={true}
-                    component={RequireLogin}
+                    render={props => (
+                      <RequireLogin {...props}>
+                        You must sign in first.
+                      </RequireLogin>
+                    )}
                   />
 
                   <Route
@@ -360,6 +393,24 @@ const App: React.FunctionComponent = () => (
                     render={props => (
                       <RequireLogin {...props}>
                         You must sign in first to access the shared project.
+                      </RequireLogin>
+                    )}
+                  />
+
+                  <Route
+                    path={'/projects/:projectID/collaborators/add'}
+                    render={props => (
+                      <RequireLogin {...props}>
+                        You must sign in first.
+                      </RequireLogin>
+                    )}
+                  />
+
+                  <Route
+                    path={'/projects/:projectID/collaborators'}
+                    render={props => (
+                      <RequireLogin {...props}>
+                        You must sign in first.
                       </RequireLogin>
                     )}
                   />

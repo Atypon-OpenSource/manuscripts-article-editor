@@ -18,6 +18,7 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Avatar, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
 import AddCollaboratorButton from './AddCollaboratorButton'
@@ -59,6 +60,7 @@ interface SearchSidebarProps {
   addCollaborator: (userID: string, role: string) => Promise<void>
   countAddedCollaborators: () => void
   handleInvite: (searchText: string) => void
+  tokenActions: TokenActions
 }
 
 const SearchCollaboratorsSidebar: React.FunctionComponent<
@@ -69,6 +71,7 @@ const SearchCollaboratorsSidebar: React.FunctionComponent<
   handleInvite,
   searchText,
   searchResults,
+  tokenActions,
 }) => (
   <React.Fragment>
     {!searchResults.length ? (
@@ -103,6 +106,7 @@ const SearchCollaboratorsSidebar: React.FunctionComponent<
               collaborator={person}
               addCollaborator={addCollaborator}
               countAddedCollaborators={countAddedCollaborators}
+              tokenActions={tokenActions}
             />
           </SidebarPersonContainer>
         ))}

@@ -37,6 +37,7 @@ import { RxCollection } from 'rxdb'
 import CollaboratorsData from '../../data/CollaboratorsData'
 import ProjectData from '../../data/ProjectData'
 import ProjectInvitationsData from '../../data/ProjectInvitationsData'
+import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import { projectInvite } from '../../lib/api'
 import {
@@ -60,6 +61,7 @@ interface Props {
   deleteModel: (id: string) => Promise<string>
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
+  tokenActions: TokenActions
 }
 
 interface State {
@@ -112,6 +114,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
       modelMap,
       handleTitleStateChange,
       permissions,
+      tokenActions,
     } = this.props
 
     const {
@@ -177,6 +180,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
                           invitationSent={invitationSent}
                           handleTitleStateChange={handleTitleStateChange}
                           permissions={permissions}
+                          tokenActions={tokenActions}
                         />
                       )
                     }}

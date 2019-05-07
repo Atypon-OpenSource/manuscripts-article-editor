@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import { Redirect, RouteComponentProps } from 'react-router'
+const storage = window.localStorage
 
-export const RequireLogin: React.FunctionComponent<RouteComponentProps> = ({
-  children: message,
-  location: from,
-}) => (
-  <Redirect
-    to={{
-      pathname: '/login',
-      state: { from, infoLoginMessage: message },
-    }}
-  />
-)
+export const USER_ID_KEY = 'userID'
+
+export default {
+  get: () => storage.getItem(USER_ID_KEY),
+  set: (userID: string) => {
+    storage.setItem(USER_ID_KEY, userID)
+
+    return userID
+  },
+  remove: () => storage.removeItem(USER_ID_KEY),
+}

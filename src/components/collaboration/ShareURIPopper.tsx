@@ -249,7 +249,21 @@ export const ShareURIPopper: React.FunctionComponent<Props> = ({
           />
         </React.Fragment>
       ) : (
-        <div>Thinking...</div>
+        <React.Fragment>
+          {loadingURIError ? (
+            <AlertMessageContainer>
+              <AlertMessage
+                type={AlertMessageType.error}
+                hideCloseButton={true}
+              >
+                Retrieving sharing link failed.
+                <ClickableText onClick={requestURI}>Retry.</ClickableText>
+              </AlertMessage>
+            </AlertMessageContainer>
+          ) : (
+            <div>Thinking...</div>
+          )}
+        </React.Fragment>
       )}
     </PopperBody>
   )

@@ -19,15 +19,20 @@ import { Formik, FormikErrors } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+import { TokenActions } from '../../data/TokenData'
 import { changePassword } from '../../lib/api'
 import { changePasswordSchema } from '../../validation'
 import { ChangePasswordMessage } from '../Messages'
 import { ModalForm } from '../ModalForm'
 import { ChangePasswordForm, ChangePasswordValues } from './ChangePasswordForm'
 
+interface Props {
+  tokenActions: TokenActions
+}
+
 const ChangePasswordPageContainer: React.FunctionComponent<
-  RouteComponentProps
-> = ({ history }) => (
+  RouteComponentProps & Props
+> = ({ history, tokenActions }) => (
   <ModalForm
     title={<ChangePasswordMessage />}
     handleClose={() => history.goBack()}
@@ -60,8 +65,11 @@ const ChangePasswordPageContainer: React.FunctionComponent<
                 ? 'The password entered is incorrect'
                 : 'There was an error',
           }
-
-          actions.setErrors(errors)
+          if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+            tokenActions.delete()
+          } else {
+            actions.setErrors(errors)
+          }
         }
       }}
       component={ChangePasswordForm}

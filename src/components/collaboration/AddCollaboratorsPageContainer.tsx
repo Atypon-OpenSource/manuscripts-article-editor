@@ -23,6 +23,7 @@ import {
 import { difference } from 'lodash-es'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
+import { TokenActions } from '../../data/TokenData'
 import { addProjectUser, projectInvite } from '../../lib/api'
 import { buildCollaborators } from '../../lib/collaborators'
 import { isOwner } from '../../lib/roles'
@@ -53,6 +54,7 @@ interface Props {
   projects: Project[]
   user: UserProfileWithAvatar
   collaborators: Map<string, UserProfileWithAvatar>
+  tokenActions: TokenActions
 }
 
 type CombinedProps = Props &
@@ -116,6 +118,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
             handleCancel={this.handleCancel}
             handleSubmit={this.handleInvitationSubmit}
             invitationSent={invitationSent}
+            tokenActions={this.props.tokenActions}
           />
         </Panel>
         <Main>
@@ -150,6 +153,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
             handleDoneCancel={this.handleDoneCancel}
             handleInvite={this.handleInvite}
             setSearchText={this.setSearchText}
+            tokenActions={this.props.tokenActions}
           />
         </Panel>
         <Main>

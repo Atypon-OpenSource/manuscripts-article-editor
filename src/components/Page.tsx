@@ -23,6 +23,7 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
+import { TokenActions } from '../data/TokenData'
 import { linkWaterBlue } from '../theme/colors'
 import { styled } from '../theme/styled-components'
 import MenuBar from './nav/MenuBar'
@@ -137,9 +138,14 @@ const StyledIcon = styled(NavIcon)`
 
 interface Props {
   project?: Project
+  tokenActions?: TokenActions
 }
 
-export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
+export const Page: React.FunctionComponent<Props> = ({
+  children,
+  project,
+  tokenActions,
+}) => (
   <PageContainer>
     <Helmet>
       {project ? (
@@ -153,7 +159,7 @@ export const Page: React.FunctionComponent<Props> = ({ children, project }) => (
       <ViewsBar>
         <ProjectNavigator />
 
-        <MenuBar projectID={project._id}>
+        <MenuBar projectID={project._id} tokenActions={tokenActions!}>
           <Tip title={'Home'} placement={'right'}>
             <StyledIcon />
           </Tip>

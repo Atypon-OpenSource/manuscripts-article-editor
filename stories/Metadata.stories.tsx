@@ -101,6 +101,10 @@ storiesOf('Metadata', module)
       permissions={{
         write: true,
       }}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Edit authors', () => (
@@ -150,6 +154,10 @@ storiesOf('Metadata', module)
       invitationSent={false}
       permissions={{
         write: true,
+      }}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
       }}
     />
   ))
@@ -201,6 +209,10 @@ storiesOf('Metadata', module)
       permissions={{
         write: true,
       }}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Title: read-only', () => (
@@ -245,6 +257,10 @@ storiesOf('Metadata', module)
       selectedAuthor={null}
       handleDrop={action('dropped the user')}
       openAddAuthors={action('start adding')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Authors Sidebar', () => (
@@ -294,6 +310,10 @@ storiesOf('Metadata', module)
         'update author after inviting him to collaborate on project'
       )}
       getAuthorName={action('get the author name')}
+      tokenActions={{
+        delete: action('delete token'),
+        update: action('update token'),
+      }}
     />
   ))
   .add('Add Authors Sidebar', () => (

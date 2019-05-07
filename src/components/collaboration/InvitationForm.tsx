@@ -30,6 +30,7 @@ import {
 } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { projectInvitationSchema } from '../../validation'
@@ -77,6 +78,7 @@ interface Props {
   allowSubmit: boolean
   invitationValues?: InvitationValues
   handleSubmit: (values: InvitationValues) => Promise<void>
+  tokenActions: TokenActions
 }
 
 interface State {
@@ -95,10 +97,14 @@ export class InvitationForm extends React.Component<Props, State> {
   }
 
   public render() {
-    const { allowSubmit, handleSubmit, invitationValues } = this.props
+    const {
+      allowSubmit,
+      handleSubmit,
+      invitationValues,
+      tokenActions,
+    } = this.props
 
     const { invitationSent } = this.state
-
     return (
       <Formik<InvitationValues>
         onSubmit={async (values, actions) => {
@@ -112,7 +118,11 @@ export class InvitationForm extends React.Component<Props, State> {
               ? errorResponseMessage(error.response.status)
               : 'There was an error submitting the form.'
 
-            actions.setErrors(errors)
+            if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+              tokenActions.delete()
+            } else {
+              actions.setErrors(errors)
+            }
           } finally {
             actions.setSubmitting(false)
           }

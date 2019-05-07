@@ -94,16 +94,12 @@ class CollaboratorSettingsPopper extends React.Component<Props, State> {
   }
 
   private handleRemove = async () => {
-    try {
-      await this.props.handleRemove()
+    await this.props.handleRemove()
 
-      this.setState({
-        selectedMode: 'role',
-        selectedRole: '',
-      })
-    } catch (error) {
-      alert(error)
-    }
+    this.setState({
+      selectedMode: 'role',
+      selectedRole: '',
+    })
   }
 }
 

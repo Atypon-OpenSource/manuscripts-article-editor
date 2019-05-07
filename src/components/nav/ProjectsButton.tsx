@@ -25,6 +25,7 @@ import React from 'react'
 import CollaboratorsData from '../../data/CollaboratorsData'
 import InvitationsData from '../../data/InvitationsData'
 import ProjectsData from '../../data/ProjectsData'
+import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
 import { getCurrentUserId } from '../../lib/user'
@@ -64,6 +65,7 @@ interface State {
 interface Props {
   isDropdown: boolean
   closeModal?: () => void
+  tokenActions?: TokenActions
 }
 class ProjectsButton extends React.Component<Props, State> {
   public state: Readonly<State> = {
@@ -76,7 +78,7 @@ class ProjectsButton extends React.Component<Props, State> {
   }
 
   public render() {
-    const { closeModal } = this.props
+    const { closeModal, tokenActions } = this.props
 
     const {
       acceptedInvitations,
@@ -150,6 +152,7 @@ class ProjectsButton extends React.Component<Props, State> {
                                     })}
                                   closeModal={closeModal}
                                   user={user}
+                                  tokenActions={tokenActions!}
                                 />
                               </SidebarContent>
                             </React.Fragment>

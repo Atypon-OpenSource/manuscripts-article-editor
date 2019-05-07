@@ -16,9 +16,11 @@
 
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import copyToClipboard from 'clipboard-copy'
+import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import config from '../../config'
+import { TokenActions } from '../../data/TokenData'
 import { projectInvite, requestProjectInvitationToken } from '../../lib/api'
 import { isOwner } from '../../lib/roles'
 import { CustomPopper } from '../Popper'
@@ -48,6 +50,7 @@ interface Props {
   project: Project
   popperProps: PopperChildrenProps
   user: UserProfile
+  tokenActions: TokenActions
 }
 
 class ShareProjectPopperContainer extends React.Component<Props, State> {
@@ -74,7 +77,7 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const { popperProps, user, project } = this.props
+    const { popperProps, user, project, tokenActions } = this.props
 
     const {
       isCopied,
@@ -93,6 +96,7 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
             handleSwitching={this.handleSwitching}
             project={project}
             user={user}
+            tokenActions={tokenActions}
           />
         </CustomPopper>
       )
@@ -127,7 +131,11 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
         })
       })
       .catch(error => {
-        this.setState({ loadingURIError: error })
+        if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+          this.props.tokenActions.delete()
+        } else {
+          this.setState({ loadingURIError: error })
+        }
       })
   }
 

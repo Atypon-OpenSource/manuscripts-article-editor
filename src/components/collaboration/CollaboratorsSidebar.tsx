@@ -22,6 +22,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
@@ -103,6 +104,7 @@ interface Props {
   projectCollaborators: UserProfile[]
   invitations: ProjectInvitation[]
   user: UserProfile
+  tokenActions: TokenActions
   projectInvite: (
     email: string,
     role: string,
@@ -138,6 +140,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
       projectInvite,
       projectUninvite,
       handleAddCollaborator,
+      tokenActions,
     } = this.props
 
     const { hoveredID, selectedID } = this.state
@@ -191,6 +194,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                         projectInvite={projectInvite}
                         projectUninvite={projectUninvite}
                         openPopper={this.openPopper}
+                        tokenActions={tokenActions}
                       />
                     )}
                 </InvitedContainer>
@@ -232,6 +236,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
                           collaborator={collaborator}
                           openPopper={this.openPopper}
                           updateUserRole={updateUserRole}
+                          tokenActions={tokenActions}
                         />
                       )}
                   </SidebarPersonContainer>

@@ -80,7 +80,11 @@ const DeleteAccountPageContainer: React.FunctionComponent<
                         : 'There was an error',
                   }
 
-                  actions.setErrors(errors)
+                  if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+                    tokenActions.delete()
+                  } else {
+                    actions.setErrors(errors)
+                  }
                 }
               }}
               render={props => (

@@ -26,6 +26,7 @@ import ProjectKeywordsData from '../../data/ProjectKeywordsData'
 import ProjectLibraryData from '../../data/ProjectLibraryData'
 import ProjectManuscriptsData from '../../data/ProjectManuscriptsData'
 import ProjectsData from '../../data/ProjectsData'
+import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import UserProjectsData from '../../data/UserProjectsData'
 import { getCurrentUserId } from '../../lib/user'
@@ -55,12 +56,15 @@ interface State {
   error: string | null
 }
 
-class ProjectPageContainer extends React.Component<
+interface Props {
+  tokenActions: TokenActions
+}
+
+type CombinedProps = Props &
   RouteComponentProps<{
     projectID: string
-  }>,
-  State
-> {
+  }>
+class ProjectPageContainer extends React.Component<CombinedProps, State> {
   public render() {
     const {
       match: {
@@ -73,7 +77,7 @@ class ProjectPageContainer extends React.Component<
         {db => (
           <ProjectData projectID={projectID}>
             {project => (
-              <Page project={project}>
+              <Page project={project} tokenActions={this.props.tokenActions}>
                 <UserData userID={getCurrentUserId()!}>
                   {user => (
                     <CollaboratorsData>
@@ -233,6 +237,10 @@ class ProjectPageContainer extends React.Component<
                                                                   userProjectsCollection={
                                                                     userProjectCollection
                                                                   }
+                                                                  tokenActions={
+                                                                    this.props
+                                                                      .tokenActions
+                                                                  }
                                                                 />
                                                               </React.Suspense>
                                                             )}
@@ -285,6 +293,9 @@ class ProjectPageContainer extends React.Component<
                                               project={project}
                                               user={user}
                                               collaborators={collaborators}
+                                              tokenActions={
+                                                this.props.tokenActions
+                                              }
                                             />
                                           )}
                                         </ProjectInvitationsData>
@@ -311,6 +322,9 @@ class ProjectPageContainer extends React.Component<
                                                   projects={projects}
                                                   user={user}
                                                   collaborators={collaborators}
+                                                  tokenActions={
+                                                    this.props.tokenActions
+                                                  }
                                                 />
                                               )}
                                             </ProjectsData>

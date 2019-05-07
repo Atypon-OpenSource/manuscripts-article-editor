@@ -19,10 +19,15 @@ import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import {
   AddIconActive,
   AddIconInverted,
+  Category,
+  Dialog,
   IconButton,
 } from '@manuscripts/style-guide'
+import { AxiosError } from 'axios'
+import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 import AddCollaboratorPopperContainer from './AddCollaboratorPopperContainer'
@@ -42,6 +47,7 @@ const AddIconButton = styled(IconButton)`
 interface State {
   isOpen: boolean
   isSelected: boolean
+  error: AxiosError | null
 }
 
 interface Props {
@@ -49,12 +55,14 @@ interface Props {
   isSelected?: boolean
   countAddedCollaborators: () => void
   addCollaborator: (userID: string, role: string) => Promise<void>
+  tokenActions: TokenActions
 }
 
 class AddCollaboratorButton extends React.Component<Props, State> {
   public state: State = {
     isOpen: false,
     isSelected: false,
+    error: null,
   }
 
   private node: Node
@@ -67,8 +75,8 @@ class AddCollaboratorButton extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isOpen, isSelected } = this.state
-    const { addCollaborator, collaborator } = this.props
+    const { isOpen, isSelected, error } = this.state
+    const { collaborator } = this.props
 
     if (isSelected) {
       return (
@@ -100,11 +108,29 @@ class AddCollaboratorButton extends React.Component<Props, State> {
               <AddCollaboratorPopperContainer
                 userID={collaborator.userID}
                 popperProps={popperProps}
-                addCollaborator={addCollaborator}
+                addCollaborator={this.addCollaborator}
                 handleIsRoleSelected={this.handleIsRoleSelected}
               />
             )}
           </Popper>
+        )}
+        {error && (
+          <Dialog
+            isOpen={true}
+            category={Category.error}
+            header={'Add collaborator failed'}
+            message={
+              error.response!.status === HttpStatusCodes.SERVICE_UNAVAILABLE
+                ? 'Trouble reaching manuscripts.io servers. Please try again later.'
+                : 'An error occurred.'
+            }
+            actions={{
+              primary: {
+                action: this.handleCancel,
+                title: 'OK',
+              },
+            }}
+          />
         )}
       </Manager>
     )
@@ -136,6 +162,27 @@ class AddCollaboratorButton extends React.Component<Props, State> {
       document.addEventListener('mousedown', this.handleClickOutside)
     } else {
       document.removeEventListener('mousedown', this.handleClickOutside)
+    }
+  }
+
+  private handleCancel = () => {
+    this.setState({
+      error: null,
+    })
+  }
+
+  private addCollaborator = async (role: string) => {
+    const { collaborator, addCollaborator, tokenActions } = this.props
+
+    try {
+      await addCollaborator(collaborator.userID, role)
+      this.handleIsRoleSelected()
+    } catch (error) {
+      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+        tokenActions.delete()
+      } else {
+        this.setState({ error })
+      }
     }
   }
 }

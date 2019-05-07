@@ -84,6 +84,7 @@ import { Prompt, RouteComponentProps } from 'react-router'
 import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
+import { TokenActions } from '../../data/TokenData'
 import deviceId from '../../lib/device-id'
 import { filterLibrary } from '../../lib/library'
 import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
@@ -174,6 +175,7 @@ interface Props {
   projectsCollection: Collection<Project>
   userProjects: UserProject[]
   userProjectsCollection: Collection<UserProject>
+  tokenActions: TokenActions
 }
 
 interface RouteParams {
@@ -294,7 +296,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       permissions,
     } = this.state
 
-    const { comments, manuscripts, manuscript, project, user } = this.props
+    const {
+      comments,
+      manuscripts,
+      manuscript,
+      project,
+      user,
+      tokenActions,
+    } = this.props
 
     if (error) {
       return <ReloadDialog message={error} />
@@ -336,6 +345,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           selected={selected}
           user={user}
           permissions={permissions}
+          tokenActions={tokenActions}
         />
 
         <Main>
@@ -367,6 +377,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   handleTitleStateChange={this.handleEditorStateChange(
                     EditorType.title
                   )}
+                  tokenActions={this.props.tokenActions}
                 />
 
                 <Editor

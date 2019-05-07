@@ -17,6 +17,7 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { PopperBody } from '../Popper'
@@ -54,6 +55,7 @@ interface Props {
   user: UserProfile
   handleInvitationSubmit: (values: InvitationValues) => Promise<void>
   handleSwitching: (page: boolean) => void
+  tokenActions: TokenActions
 }
 
 export const InvitationPopper: React.FunctionComponent<Props> = ({
@@ -61,6 +63,7 @@ export const InvitationPopper: React.FunctionComponent<Props> = ({
   project,
   handleSwitching,
   handleInvitationSubmit,
+  tokenActions,
 }) => {
   const isProjectOwner = isOwner(project, user.userID)
 
@@ -76,6 +79,7 @@ export const InvitationPopper: React.FunctionComponent<Props> = ({
       <InvitationForm
         allowSubmit={isProjectOwner}
         handleSubmit={handleInvitationSubmit}
+        tokenActions={tokenActions}
       />
     </PopperBody>
   )

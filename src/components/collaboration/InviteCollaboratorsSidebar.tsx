@@ -16,6 +16,7 @@
 
 import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
+import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import { InvitationForm, InvitationValues } from './InvitationForm'
@@ -45,6 +46,7 @@ interface Props {
   handleSubmit: (values: InvitationValues) => Promise<void>
   invitationSent: boolean
   isModal?: boolean
+  tokenActions: TokenActions
 }
 
 const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
@@ -53,6 +55,7 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
   handleSubmit,
   invitationSent,
   isModal,
+  tokenActions,
 }) => (
   <StyledSidebar isModal={isModal}>
     <SidebarHeader>
@@ -70,6 +73,7 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
         allowSubmit={true}
         invitationValues={invitationValues}
         handleSubmit={handleSubmit}
+        tokenActions={tokenActions}
       />
     </FormContainer>
   </StyledSidebar>

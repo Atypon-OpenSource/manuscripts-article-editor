@@ -24,15 +24,11 @@ interface Props {
   invitation: ProjectInvitation
   popperProps: PopperChildrenProps
   isUpdateRoleOpen: boolean
-  openPopper: () => void
   handleOpenModal: () => void
-  projectInvite: (
-    email: string,
-    role: string,
-    name?: string,
-    message?: string
-  ) => Promise<void>
-  projectUninvite: (invitationID: string) => Promise<void>
+  handleUpdateRole: (role: string) => Promise<void>
+  handleUninvite: () => Promise<void>
+  resendInvitation: () => Promise<void>
+  resendSucceed: boolean | null
 }
 
 class InviteCollaboratorPopperContainer extends React.Component<Props> {
@@ -42,55 +38,25 @@ class InviteCollaboratorPopperContainer extends React.Component<Props> {
       popperProps,
       isUpdateRoleOpen,
       handleOpenModal,
+      resendSucceed,
+      handleUpdateRole,
+      handleUninvite,
+      resendInvitation,
     } = this.props
 
     return (
       <CustomPopper popperProps={popperProps}>
         <InviteCollaboratorPopper
           invitation={invitation}
-          handleUpdateRole={this.handleUpdateRole}
-          handleUninvite={this.handleUninvite}
+          handleUpdateRole={handleUpdateRole}
+          handleUninvite={handleUninvite}
           isUpdateRoleOpen={isUpdateRoleOpen}
           handleOpenModal={handleOpenModal}
-          resendInvitation={this.resendInvitation}
+          resendInvitation={resendInvitation}
+          resendSucceed={resendSucceed}
         />
       </CustomPopper>
     )
-  }
-
-  private handleUpdateRole = async (role: string) => {
-    const {
-      invitedUserEmail: email,
-      invitedUserName: name,
-      message,
-    } = this.props.invitation
-
-    const { projectInvite, openPopper } = this.props
-
-    await projectInvite(email, role, name, message)
-
-    openPopper()
-  }
-
-  private resendInvitation = async () => {
-    const {
-      invitedUserEmail: email,
-      invitedUserName: name,
-      message,
-      role,
-    } = this.props.invitation
-
-    const { projectInvite } = this.props
-
-    await projectInvite(email, role, name, message)
-  }
-
-  private handleUninvite = async () => {
-    const { openPopper, invitation, projectUninvite } = this.props
-
-    await projectUninvite(invitation._id)
-
-    openPopper()
   }
 }
 
