@@ -48,21 +48,79 @@ const buildTextMatches = (
   return output
 }
 
+const mergeKeywordAndQueryMatches = (
+  query: string | null,
+  keywordMatches: Set<BibliographyItem>,
+  queryMatches: Set<BibliographyItem>,
+  library: Map<string, BibliographyItem> | null,
+  keywords?: Set<string>
+): Set<BibliographyItem> => {
+  let mergedSet: Set<BibliographyItem> = new Set<BibliographyItem>()
+  const isQueryUsed = query && query.length > 0
+  const isKeywordsUsed = keywords && keywords.size > 0
+
+  if (isQueryUsed) {
+    if (isKeywordsUsed) {
+      queryMatches.forEach(match => {
+        if (keywordMatches.has(match)) {
+          mergedSet.add(match)
+        }
+      })
+    } else {
+      mergedSet = queryMatches
+    }
+  } else {
+    if (isKeywordsUsed) {
+      keywordMatches.forEach(value => {
+        mergedSet.add(value)
+      })
+    } else {
+      if (library) {
+        Array.from(library.values()).forEach(value => {
+          mergedSet.add(value)
+        })
+      }
+    }
+  }
+  return mergedSet
+}
+
 export const filterLibrary = (
   library: Map<string, BibliographyItem> | null,
-  query: string | null
+  query: string | null,
+  keywords?: Set<string>
 ): BibliographyItem[] => {
   if (!library) return []
 
-  if (!query) return Array.from(library.values())
+  if (!query && !keywords) return Array.from(library.values())
 
-  const matches = query.match(/^keyword:(.+)/)
+  const queryMatches: Set<BibliographyItem> = new Set<BibliographyItem>()
+  const keywordMatches: Set<BibliographyItem> = new Set<BibliographyItem>()
 
-  if (matches) {
-    return buildKeywordMatches(matches[1], library)
+  if (query) {
+    buildTextMatches(query.toLowerCase(), library).forEach(match =>
+      queryMatches.add(match)
+    )
   }
 
-  return buildTextMatches(query.toLowerCase(), library)
+  if (keywords) {
+    keywords.forEach(value => {
+      const matches: BibliographyItem[] = buildKeywordMatches(value, library)
+      matches.forEach(match => {
+        keywordMatches.add(match)
+      })
+    })
+  }
+
+  return Array.from(
+    mergeKeywordAndQueryMatches(
+      query,
+      keywordMatches,
+      queryMatches,
+      library,
+      keywords
+    )
+  )
 }
 
 export const issuedYear = (item: Partial<BibliographyItem>): string | null => {

@@ -17,22 +17,19 @@
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { filterLibrary } from '../../lib/library'
-import { styled } from '../../theme/styled-components'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
 
-const StyledMain = styled(Main)`
-  border-right: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
-`
-
 interface Props {
   library: Map<string, BibliographyItem>
   handleDelete: (item: BibliographyItem) => Promise<string>
+  handleQuery: (query: string) => void
   handleSave: (item: BibliographyItem) => Promise<BibliographyItem>
   projectID: string
+  query: string | null
+  selectedKeywords?: Set<string>
 }
 
 interface State {
@@ -49,27 +46,30 @@ class LibraryContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const { library, projectID } = this.props
-    const { item, query } = this.state
+    const {
+      library,
+      projectID,
+      query,
+      handleQuery,
+      selectedKeywords,
+    } = this.props
+    const { item } = this.state
 
     return (
       <React.Fragment>
-        <StyledMain>
+        <Main>
           <LibraryItems
             query={query}
-            handleQuery={value => {
-              this.setState({
-                query: value === query ? '' : value,
-              })
-            }}
+            handleQuery={handleQuery}
             handleSelect={item => {
               this.setState({ item })
             }}
             hasItem={() => true}
-            items={filterLibrary(library, query)}
+            items={filterLibrary(library, query, selectedKeywords)}
             projectID={projectID}
+            selectedKeywords={selectedKeywords}
           />
-        </StyledMain>
+        </Main>
 
         <Panel
           name={'libraryItem'}

@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
+import SearchIcon from '@manuscripts/assets/react/SearchIcon'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import ProjectKeywordsData from '../../data/ProjectKeywordsData'
 import { styled } from '../../theme/styled-components'
-import { LibraryItem } from './LibraryItem'
-import LibraryKeywords from './LibraryKeywords'
+import LibraryItem from './LibraryItem'
 
 const Container = styled.div`
   display: flex;
@@ -38,8 +39,7 @@ const Search = styled.input`
   font-size: 0.9em;
   flex: 1;
   -webkit-appearance: none;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: none;
 `
 
 const Results = styled.div`
@@ -48,50 +48,55 @@ const Results = styled.div`
 `
 
 interface Props {
-  query: string
+  query: string | null
   handleQuery: (query: string) => void
   handleSelect: (item: BibliographyItem) => void
   hasItem: (item: BibliographyItem) => boolean
   items: BibliographyItem[]
   projectID: string
+  selectedKeywords?: Set<string>
 }
 
-export const LibraryItems: React.FunctionComponent<Props> = ({
+export const LibraryItems: React.FC<Props> = ({
   query,
   handleQuery,
   handleSelect,
   hasItem,
   items,
   projectID,
+  selectedKeywords,
 }) => (
-  <Container>
-    <SearchContainer>
-      <Search
-        type={'search'}
-        value={query || ''}
-        onChange={e => handleQuery(e.target.value)}
-        placeholder={'Search library…'}
-        autoComplete={'off'}
-      />
-    </SearchContainer>
+  <ProjectKeywordsData projectID={projectID}>
+    {keywordIdMap => {
+      return (
+        <Container>
+          <SearchContainer>
+            <SearchIcon />
+            <Search
+              type={'search'}
+              value={query || ''}
+              onChange={e => handleQuery(e.target.value)}
+              placeholder={'Search library…'}
+              autoComplete={'off'}
+            />
+          </SearchContainer>
 
-    <LibraryKeywords
-      items={items}
-      handleQuery={handleQuery}
-      projectID={projectID}
-    />
-
-    <Results>
-      {items
-        .sort((a, b) => Number(b.updatedAt) - Number(a.updatedAt))
-        .map((item: BibliographyItem) => (
-          <LibraryItem
-            key={item._id}
-            item={item}
-            handleSelect={handleSelect}
-            hasItem={hasItem}
-          />
-        ))}
-    </Results>
-  </Container>
+          <Results>
+            {items
+              .sort((a, b) => Number(b.updatedAt) - Number(a.updatedAt))
+              .map((item: BibliographyItem) => (
+                <LibraryItem
+                  key={item._id}
+                  item={item}
+                  handleSelect={handleSelect}
+                  hasItem={hasItem}
+                  selectedKeywords={selectedKeywords}
+                  keywordIdMap={keywordIdMap}
+                />
+              ))}
+          </Results>
+        </Container>
+      )
+    }}
+  </ProjectKeywordsData>
 )

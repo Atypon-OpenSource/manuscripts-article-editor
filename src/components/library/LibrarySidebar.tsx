@@ -14,72 +14,187 @@
  * limitations under the License.
  */
 
-import qs from 'qs'
+import TriangleExpanded from '@manuscripts/assets/react/TriangleExpanded'
+import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { LocationDescriptor } from 'history'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { filterLibrary } from '../../lib/library'
 import { LibrarySource } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
 import Panel from '../Panel'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarTitle,
-} from '../Sidebar'
+import { Sidebar, SidebarContent } from '../Sidebar'
+import LibraryLists from './LibraryLists'
+
+const StyledTriangleExpanded = styled(TriangleExpanded)<{ isVisible: boolean }>`
+  display: inline-block;
+  visibility: ${props => (props.isVisible ? 'visible' : 'hidden')};
+`
+
+const BlockWrapper = styled.div`
+  display: none;
+`
 
 const SourceLink = styled(NavLink)`
   display: block;
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 5px 0px 0px 20px;
   cursor: pointer;
-  color: inherit;
   margin: 0 -20px;
+  font-size: 18px;
+  height: 25px;
+  color: ${props => props.theme.colors.sidebar.text.primary};
+  flex: 1;
+  white-space: nowrap;
 
   &:hover {
     background-color: ${props =>
-      props.theme.colors.sidebar.background.selected};
+      props.theme.colors.library.sidebar.background.selected};
+  }
+
+  &.active {
+    background-color: ${props =>
+      props.theme.colors.library.sidebar.background.selected};
+    color: #000000;
+  }
+
+  &.active ${StyledTriangleExpanded} {
+    visibility: visible;
+  }
+
+  &.active + ${BlockWrapper} {
+    display: block;
   }
 `
-const StyledSidebar = styled(Sidebar)`
-  background: white;
-  border-right: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
+const NavIcon = styled.div<{ source: LibrarySource }>`
+  padding-right: 5px;
+  padding-left: ${props => (props.source.parent ? '35px' : '5px')};
+  display: inline-block;
 `
+
+const StyledSidebar = styled(Sidebar)`
+  background: ${props => props.theme.colors.global.background.default};
+`
+
+interface NavProps {
+  projectID: string
+  source: LibrarySource
+  clearKeywords: () => void
+  sources: LibrarySource[]
+  handleQuery: (query: string) => void
+  handleKeyword: (keyword: string) => void
+  library: Map<string, BibliographyItem>
+  selectedKeywords?: Set<string>
+  searchType?: string
+  isSearch: boolean
+}
+
+const createLocation = (source: LibrarySource, projectID: string) => {
+  const location: LocationDescriptor = {}
+  const pathname = source.parent
+    ? `/projects/${projectID}/library/search/${source.id}`
+    : `/projects/${projectID}/library/${source.id}`
+  location.pathname = pathname
+  return location
+}
+
+const NavElement: React.FC<NavProps> = ({
+  projectID,
+  source,
+  clearKeywords,
+  sources,
+  handleQuery,
+  handleKeyword,
+  library,
+  selectedKeywords,
+  isSearch,
+}) => {
+  let libraryLists = <div />
+  if (source.id === 'library') {
+    libraryLists = (
+      <BlockWrapper>
+        <LibraryLists
+          items={filterLibrary(library, '')}
+          projectID={projectID}
+          handleQuery={handleQuery}
+          handleKeyword={handleKeyword}
+          selectedKeywords={selectedKeywords}
+        />
+      </BlockWrapper>
+    )
+  }
+
+  const sourceLink = (
+    <SourceLink
+      to={createLocation(source, projectID)}
+      isActive={(match, location) => {
+        if (source.id === 'crossref') {
+          return (
+            !!match ||
+            location.pathname.endsWith(source.id) ||
+            location.pathname.endsWith('search')
+          )
+        }
+        return !!match || location.pathname.endsWith(source.id)
+      }}
+      onClick={() => {
+        clearKeywords()
+      }}
+      exact={false}
+    >
+      {(source.id === 'library' || source.id === 'search') && (
+        <StyledTriangleExpanded isVisible={false} />
+      )}
+      <NavIcon source={source}>{source.icon && <source.icon />}</NavIcon>
+      {source.name}
+    </SourceLink>
+  )
+  return (
+    <div style={{ width: '200px' }}>
+      {(source.id === 'library' || source.id === 'search' || isSearch) &&
+        sourceLink}
+      {libraryLists}
+    </div>
+  )
+}
 
 interface Props {
   projectID: string
   sources: LibrarySource[]
+  handleQuery: (query: string) => void
+  clearKeywords: () => void
+  handleKeyword: (keyword: string) => void
+  library: Map<string, BibliographyItem>
+  selectedKeywords?: Set<string>
+  isSearch: boolean
 }
 
-const LibrarySidebar: React.FunctionComponent<Props> = ({
+const LibrarySidebar: React.FC<Props> = ({
   projectID,
   sources,
+  handleQuery,
+  clearKeywords,
+  handleKeyword,
+  library,
+  selectedKeywords,
+  isSearch,
 }) => (
   <Panel name={'librarySidebar'} minSize={200} direction={'row'} side={'end'}>
     <StyledSidebar>
-      <SidebarHeader>
-        <SidebarTitle>Library</SidebarTitle>
-      </SidebarHeader>
       <SidebarContent>
         {sources.map(source => (
-          <SourceLink
+          <NavElement
             key={source.id}
-            to={{
-              pathname: `/projects/${projectID}/library`,
-              search: qs.stringify({ source: source.id }),
-            }}
-            activeStyle={{
-              background: '#7fb5d5',
-              color: '#fff',
-            }}
-            isActive={(match, location) => {
-              const query = qs.parse(location.search.substr(1))
-              if (!query.source) return source.id === 'library'
-              return query.source === source.id
-            }}
-          >
-            {source.name}
-          </SourceLink>
+            projectID={projectID}
+            source={source}
+            clearKeywords={clearKeywords}
+            sources={sources}
+            handleQuery={handleQuery}
+            handleKeyword={handleKeyword}
+            library={library}
+            selectedKeywords={selectedKeywords}
+            isSearch={isSearch}
+          />
         ))}
       </SidebarContent>
     </StyledSidebar>

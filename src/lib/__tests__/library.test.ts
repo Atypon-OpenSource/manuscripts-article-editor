@@ -46,10 +46,12 @@ describe('library filtering', () => {
     }
     map.set('MPBibliographyItem:x', x)
     map.set('MPBibliographyItem:y', y)
+    const keywords: Set<string> = new Set<string>()
+    keywords.add('MPKeyword:derp')
 
     expect(filterLibrary(null, 'foo')).toMatchObject([])
     expect(filterLibrary(map, null).sort()).toMatchObject([x, y].sort())
-    expect(filterLibrary(map, 'keyword:MPKeyword:derp')).toMatchObject([x])
+    expect(filterLibrary(map, null, keywords)).toMatchObject([x])
     expect(filterLibrary(map, 'yuv')).toMatchObject([y])
   })
 })

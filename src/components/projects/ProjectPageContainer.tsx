@@ -259,7 +259,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
 
                                     <Route
                                       path={'/projects/:projectID/library'}
-                                      exact={true}
+                                      exact={false}
                                       render={props => (
                                         <React.Suspense
                                           fallback={<ProjectPlaceholder />}

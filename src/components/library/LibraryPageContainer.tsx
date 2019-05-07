@@ -16,9 +16,8 @@
 
 import { buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem, Project } from '@manuscripts/manuscripts-json-schema'
-import qs from 'qs'
 import React from 'react'
-import { RouteComponentProps } from 'react-router'
+import { Route, RouteComponentProps, Switch } from 'react-router'
 import { RxDocument } from 'rxdb'
 import { sources } from '../../lib/sources'
 import { Collection } from '../../sync/Collection'
@@ -31,6 +30,7 @@ interface State {
   items: BibliographyItem[] | null
   query: string | null
   source: string
+  selectedKeywords: Set<string>
 }
 
 interface Props {
@@ -52,6 +52,7 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
     items: null,
     query: null,
     source: 'library',
+    selectedKeywords: new Set<string>(),
   }
 
   public componentDidMount() {
@@ -63,7 +64,7 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
   }
 
   public render() {
-    const { source } = this.state
+    const { source, query, selectedKeywords } = this.state
     const { library, project } = this.props
 
     if (!source || !project) return null
@@ -74,14 +75,90 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
 
     return (
       <>
-        <LibrarySidebar projectID={project._id} sources={sources} />
-
+        <Switch>
+          <Route
+            path={'/projects/:projectID/library/library'}
+            exact={true}
+            render={props => (
+              <LibrarySidebar
+                projectID={project._id}
+                sources={sources}
+                library={library}
+                handleQuery={value => {
+                  this.setState({
+                    query: value === query ? '' : value,
+                    selectedKeywords: new Set<string>(),
+                  })
+                }}
+                handleKeyword={value => {
+                  if (value) {
+                    if (selectedKeywords.has(value)) {
+                      selectedKeywords.delete(value)
+                    } else {
+                      selectedKeywords.add(value)
+                    }
+                    this.setState({
+                      selectedKeywords,
+                    })
+                  }
+                }}
+                clearKeywords={() => {
+                  selectedKeywords.clear()
+                }}
+                selectedKeywords={selectedKeywords}
+                isSearch={false}
+              />
+            )}
+          />
+          <Route
+            path={'/projects/:projectID/library/search'}
+            exact={false}
+            render={props => (
+              <LibrarySidebar
+                projectID={project._id}
+                sources={sources}
+                library={library}
+                handleQuery={value => {
+                  this.setState({
+                    query: value === query ? '' : value,
+                    selectedKeywords: new Set<string>(),
+                  })
+                }}
+                handleKeyword={value => {
+                  if (value) {
+                    if (selectedKeywords.has(value)) {
+                      selectedKeywords.delete(value)
+                    } else {
+                      selectedKeywords.add(value)
+                    }
+                    this.setState({
+                      selectedKeywords,
+                    })
+                  }
+                }}
+                clearKeywords={() => {
+                  selectedKeywords.clear()
+                }}
+                selectedKeywords={selectedKeywords}
+                isSearch={true}
+              />
+            )}
+          />
+        </Switch>
         {source === 'library' ? (
           <LibraryContainer
             library={library}
+            handleQuery={value => {
+              this.setState({
+                query: value === query ? '' : value,
+                selectedKeywords: new Set<string>(),
+              })
+            }}
             handleSave={this.handleSave}
             handleDelete={this.handleDelete}
             projectID={project._id}
+            query={this.state.query}
+            selectedKeywords={this.state.selectedKeywords}
           />
         ) : (
           <LibrarySourceContainer
@@ -96,10 +173,13 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
 
   private setSource(props: CombinedProps) {
     const location = props.location
-    const query = qs.parse(location.search.substr(1))
-    this.setState({
-      source: query.source || 'library',
-    })
+    if (location && location.pathname && location.pathname.lastIndexOf('/')) {
+      this.setState({
+        source:
+          location.pathname.substring(location.pathname.lastIndexOf('/') + 1) ||
+          'library',
+      })
+    }
   }
 
   private handleAdd = async (data: Partial<BibliographyItem>) => {

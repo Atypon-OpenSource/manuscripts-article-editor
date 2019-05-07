@@ -14,24 +14,42 @@
  * limitations under the License.
  */
 
+import SearchIcon from '@manuscripts/assets/react/SearchIcon'
+import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { PrimarySubmitButton } from '@manuscripts/style-guide'
-import { Field, Form, Formik } from 'formik'
-import React, { CSSProperties } from 'react'
+import React from 'react'
 import config from '../../config'
+import { estimateID } from '../../lib/library'
 import { LibrarySource } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
-import { Main } from '../Page'
-import { LibraryItem } from './LibraryItem'
+import { LibrarySearchSection } from './LibrarySearchSection'
+
+interface State {
+  items: Array<Partial<BibliographyItem>>
+  query: string
+  isSearching: boolean
+  selectedSource: string | null
+  fetching: Set<string>
+  selected: Map<string, Build<BibliographyItem>>
+  shouldSearch: boolean
+}
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  font-family: ${props => props.theme.fontFamily};
+  flex: 1;
+`
+const Search = styled.input`
+  margin: 4px;
+  padding: 8px;
+  flex: 1;
+  font-size: 1em;
+  border: none;
+  width: 500px;
+  -webkit-appearance: none;
+  outline: none;
 `
 
 const Results = styled.div`
-  flex: 1;
   overflow-y: auto;
 `
 
@@ -41,25 +59,6 @@ const SearchContainer = styled.div`
   align-items: center;
 `
 
-const searchStyle: CSSProperties = {
-  padding: 4,
-  margin: 5,
-  fontSize: '0.9em',
-  flex: 1,
-  WebkitAppearance: 'none',
-  border: '1px solid #ccc',
-  borderRadius: 5,
-}
-
-interface Values {
-  query: string
-}
-
-interface State {
-  items: Array<Partial<BibliographyItem>>
-  query: string
-}
-
 interface Props {
   source: LibrarySource
   handleAdd: (item: BibliographyItem) => void
@@ -68,72 +67,52 @@ interface Props {
 
 class LibrarySourceContainer extends React.Component<Props, State> {
   public state: Readonly<State> = {
+    fetching: new Set<string>(),
+    selected: new Map(),
+    selectedSource: '',
     items: [],
     query: '',
+    isSearching: false,
+    shouldSearch: false,
   }
 
   public render() {
-    const { items, query } = this.state
-
+    const { query, fetching, selected, shouldSearch } = this.state
+    const { source, hasItem } = this.props
     return (
-      <React.Fragment>
-        <Main>
-          <Container>
-            <Formik<Values>
-              initialValues={{ query }}
-              onSubmit={async values => {
-                const { query } = values
-
-                this.setState({ query })
-
-                const { source } = this.props
-
-                if (!source.search) {
-                  throw new Error('No search function defined')
-                }
-
-                const { items } = await source.search(
-                  query,
-                  25,
-                  config.support.email
-                )
-
-                this.setState({ items })
-              }}
-            >
-              <Form>
-                <SearchContainer>
-                  <Field
-                    type={'search'}
-                    name={'query'}
-                    placeholder={'Search terms…'}
-                    style={searchStyle}
-                    autoComplete={'off'}
-                    autoFocus={true}
-                  />
-                  <PrimarySubmitButton>Search</PrimarySubmitButton>
-                </SearchContainer>
-              </Form>
-            </Formik>
-
-            <Results>
-              {items.map((item: BibliographyItem) => (
-                <LibraryItem
-                  key={item.DOI}
-                  handleSelect={this.handleAdd}
-                  hasItem={this.props.hasItem}
-                  item={item}
-                />
-              ))}
-            </Results>
-          </Container>
-        </Main>
-      </React.Fragment>
+      <Container>
+        <SearchContainer>
+          <SearchIcon />
+          <Search
+            autoComplete={'off'}
+            autoFocus={true}
+            onChange={this.handleQuery}
+            placeholder={'Search external sources'}
+            type={'search'}
+            value={query || ''}
+          />
+        </SearchContainer>
+        <Results>
+          <LibrarySearchSection
+            key={source.id}
+            source={source}
+            addToLibrary={this.handleAdd}
+            selectSource={() => this.setState({ selectedSource: source.id })}
+            query={query}
+            rows={25}
+            fetching={fetching}
+            hasItem={hasItem}
+            selected={selected}
+            shouldSearch={shouldSearch}
+          />
+        </Results>
+      </Container>
     )
   }
 
-  private handleAdd = (item: BibliographyItem) => {
+  private handleAdd = (id: string, item: BibliographyItem) => {
     const { source, hasItem } = this.props
+    const { fetching, selected } = this.state
 
     if (hasItem(item)) {
       alert('Already added')
@@ -148,9 +127,18 @@ class LibrarySourceContainer extends React.Component<Props, State> {
       throw new Error('No fetch function defined')
     }
 
+    fetching.add(estimateID(item))
+    this.setState({ fetching })
     source
       .fetch(item.DOI, config.support.email)
       .then(this.props.handleAdd)
+      .then(() => {
+        if (item.DOI) {
+          fetching.delete(estimateID(item))
+          selected.set(estimateID(item), item)
+          this.setState({ fetching, selected })
+        }
+      })
       .then(() => {
         // TODO: 'adding' state
         console.log('added') // tslint:disable-line:no-console
@@ -159,6 +147,15 @@ class LibrarySourceContainer extends React.Component<Props, State> {
         // TODO: 'failed' state
         console.error('failed to add', error) // tslint:disable-line:no-console
       })
+  }
+
+  private handleQuery: React.ChangeEventHandler<
+    HTMLInputElement
+  > = async event => {
+    const query = event.target.value
+    if (query && query !== '') {
+      this.setState({ query })
+    }
   }
 }
 

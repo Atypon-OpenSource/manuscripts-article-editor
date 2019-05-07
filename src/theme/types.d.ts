@@ -180,6 +180,15 @@ export interface Palette extends StyleGuidePalette {
     placeholder: string
     more: string
   }
+  library: {
+    sidebar: {
+      background: DefaultColorStyle & SelectableColorStyle
+      field: {
+        label: string
+        border: string
+      }
+    }
+  }
   authorName: {
     default: string
     placeholder: string

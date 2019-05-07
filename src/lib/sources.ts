@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
+import CitationSourceDatabase from '@manuscripts/assets/react/CitationSourceDatabase'
+import CitationSourceLIbrary from '@manuscripts/assets/react/CitationSourceLIbrary'
 import { crossref, datacite } from '@manuscripts/manuscript-editor'
+import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { FunctionComponent } from 'react'
 
 export interface LibrarySource {
   id: string
   name: string
+  parent: string | null
+  icon?: FunctionComponent
   fetch?: (doi: string, mailto: string) => Promise<Partial<BibliographyItem>>
   search?: (
     query: string,
     limit: number,
     mailto: string
   ) => Promise<{
-    items: Array<Partial<BibliographyItem>>
+    items: Array<Build<BibliographyItem>>
     total: number
   }>
 }
@@ -35,16 +41,28 @@ export const sources: LibrarySource[] = [
   {
     id: 'library',
     name: 'Library',
+    parent: null,
+    icon: CitationSourceLIbrary,
+  },
+  {
+    id: 'search',
+    name: 'Search',
+    parent: null,
+    search: crossref.search,
+    fetch: crossref.fetch,
+    icon: CitationSourceDatabase,
   },
   {
     id: 'crossref',
     name: 'Crossref',
+    parent: 'search',
     search: crossref.search,
     fetch: crossref.fetch,
   },
   {
     id: 'datacite',
     name: 'DataCite',
+    parent: 'search',
     search: datacite.search,
     fetch: datacite.fetch,
   },

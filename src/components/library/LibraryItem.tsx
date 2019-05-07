@@ -17,42 +17,52 @@
 import {
   BibliographicName,
   BibliographyItem,
+  Keyword,
 } from '@manuscripts/manuscripts-json-schema'
-import { BookmarkIcon } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { issuedYear } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
 
-const AddIcon = styled.button`
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 2px;
+const ListItem = styled.div`
   cursor: pointer;
-  margin-right: 8px;
-  background: none;
-
-  &:focus {
-    outline: none;
+  display: flex;
+  flex-direction: row;
+  transition: background-color 0.1s;
+  padding: 8px 0px 8px 16px;
+`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.1s;
+  &:not(:last-child) ${ListItem} {
+    border-bottom: 1px solid ${props => props.theme.colors.popper.border};
   }
 `
 
-const Container = styled.div`
-  cursor: pointer;
-  padding: 8px 16px;
-  display: flex;
-  transition: background-color 0.1s;
-`
-
 const LibraryItemTitle = styled(Title)`
-  font-weight: bold;
+  font-family: Barlow;
+  font-size: 18px;
+  margin-top: -4px;
+  padding-left: 3px;
 `
 
 const LibraryItemAuthors = styled.div`
   margin-top: 4px;
   color: #777;
+`
+
+interface ListNameProps {
+  bgColor?: string
+}
+
+const ListName = styled.div<ListNameProps>`
+  height: 20px;
+  border-radius: 4px;
+  background-color: ${props => (props.bgColor ? props.bgColor : 'none')};
+  display: inline-block;
+  padding: 0px 2px 0px 2px;
+  margin-left: 2px;
 `
 
 const LibraryItemAuthor = styled.span``
@@ -61,39 +71,59 @@ interface LibraryItemProps {
   item: BibliographyItem
   handleSelect: (item: BibliographyItem) => void
   hasItem: (item: BibliographyItem) => boolean
+  selectedKeywords?: Set<string>
+  keywordIdMap?: Map<string, Keyword>
 }
 
-export const LibraryItem: React.FunctionComponent<LibraryItemProps> = ({
-  item,
-  handleSelect,
-  hasItem,
-}) => (
-  <Container
-    onMouseDown={event => {
-      event.preventDefault()
-      handleSelect(item)
-    }}
-  >
-    <div>
-      <AddIcon>
-        <BookmarkIcon color={hasItem(item) ? '#65a3ff' : '#444'} size={24} />
-      </AddIcon>
-    </div>
+interface LibraryItemState {
+  isLoading: boolean
+}
 
-    <div>
-      <LibraryItemTitle value={item.title || 'Untitled'} />
+class LibraryItem extends React.Component<LibraryItemProps, LibraryItemState> {
+  public state: LibraryItemState = {
+    isLoading: false,
+  }
 
-      <LibraryItemAuthors>
-        <span>{issuedYear(item)}</span>
+  public render() {
+    const { item, keywordIdMap, handleSelect } = this.props
+    return (
+      <Container>
+        <ListItem
+          onMouseDown={event => {
+            event.preventDefault()
+            this.setState({ isLoading: true })
+            handleSelect(item)
+          }}
+        >
+          <div>
+            <LibraryItemTitle value={item.title || 'Untitled'} />
 
-        {item.author &&
-          item.author.map((author: BibliographicName, index: number) => (
-            <LibraryItemAuthor key={`author.${index}`}>
-              {!!index && ', '}
-              {author.literal || [author.given, author.family].join(' ')}
-            </LibraryItemAuthor>
-          ))}
-      </LibraryItemAuthors>
-    </div>
-  </Container>
-)
+            <LibraryItemAuthors>
+              <span>{issuedYear(item)}</span>
+
+              {item.author &&
+                item.author.map((author: BibliographicName, index: number) => (
+                  <LibraryItemAuthor key={`author.${index}`}>
+                    {!!index && ', '}
+                    {author.literal || [author.given, author.family].join(' ')}
+                  </LibraryItemAuthor>
+                ))}
+              {item &&
+                item.keywordIDs &&
+                item.keywordIDs.map(keyword => {
+                  const name: string = keywordIdMap!.get(keyword)!.name || ''
+                  return (
+                    <ListName key={name} bgColor={'#dcdcdc'}>
+                      {name}
+                    </ListName>
+                  )
+                })}
+            </LibraryItemAuthors>
+          </div>
+        </ListItem>
+      </Container>
+    )
+  }
+}
+
+export default LibraryItem

@@ -55,6 +55,7 @@ const Actions = styled.div`
 
 const Container = styled.div`
   font-family: ${props => props.theme.fontFamily};
+  flex: 1;
 `
 
 export interface SearchValues {
@@ -93,7 +94,6 @@ export class CitationSearch extends React.Component<Props, State> {
 
   public render() {
     const { query, fetching, selected, selectedSource } = this.state
-
     const sources = this.buildSources()
 
     return (

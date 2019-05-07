@@ -16,9 +16,10 @@
 
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { Button } from '@manuscripts/style-guide'
 import React from 'react'
 import config from '../../config'
+import { estimateID } from '../../lib/library'
+import { LibrarySource } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
 import { SearchResults } from './SearchResults'
 
@@ -26,45 +27,20 @@ const ResultsSection = styled.div`
   margin: 8px 16px;
 `
 
-const SearchSource = styled.div`
-  margin-bottom: 8px;
-  color: #777;
-  cursor: pointer;
-
-  &:hover {
-    color: #777;
-  }
-`
-
-const MoreButton = styled(Button)`
-  font-size: inherit;
-  text-transform: none;
-  text-decoration: underline;
-  margin-left: 28px;
-  color: ${props => props.theme.colors.citationSearch.more};
-`
-
 interface Props {
   query: string | null
-  source: {
-    id: string
-    search: (
-      query: string | null,
-      params: { rows: number; sort?: string },
-      mailto: string
-    ) => Promise<{ items: BibliographyItem[]; total: number }>
-    title: string
-  }
-  addToSelection: (id: string, item: Build<BibliographyItem>) => void
+  source: LibrarySource
+  addToLibrary: (id: string, item: Build<BibliographyItem>) => void
   selectSource: (id: string) => void
-  rows: number
-  selected: Map<string, Build<BibliographyItem>>
   fetching: Set<string>
+  selected: Map<string, Build<BibliographyItem>>
+  rows: number
+  hasItem: (item: BibliographyItem) => boolean
+  shouldSearch: boolean
 }
 
 interface State {
   error: string | null
-  expanded: boolean
   results: {
     items: Array<Build<BibliographyItem>>
     total: number
@@ -72,10 +48,9 @@ interface State {
   searching: boolean
 }
 
-export class CitationSearchSection extends React.Component<Props, State> {
+export class LibrarySearchSection extends React.Component<Props, State> {
   public state: Readonly<State> = {
     error: null,
-    expanded: true,
     results: null,
     searching: false,
   }
@@ -83,69 +58,52 @@ export class CitationSearchSection extends React.Component<Props, State> {
   private searchTimeout: number
 
   public async componentDidMount() {
-    const { query, rows } = this.props
-
-    await this.runSearch(query, rows)
+    const { query, rows, hasItem, selected } = this.props
+    await this.runSearch(query || '', rows, hasItem, selected)
   }
 
   public async componentWillReceiveProps(nextProps: Props) {
-    const { query, rows } = nextProps
+    const { query, rows, hasItem, selected } = nextProps
 
     if (query !== this.props.query || rows !== this.props.rows) {
-      await this.runSearch(query, rows)
+      await this.runSearch(query || '', rows, hasItem, selected)
     }
   }
 
   public render() {
-    const { error, expanded, results, searching } = this.state
-    const {
-      source,
-      addToSelection,
-      selectSource,
-      selected,
-      fetching,
-      rows,
-    } = this.props
-
-    if (!expanded) {
-      return (
-        <ResultsSection>
-          <SearchSource onClick={() => this.setState({ expanded: true })}>
-            {'▶ ' + source.title}
-          </SearchSource>
-        </ResultsSection>
-      )
-    }
+    const { error, results, searching } = this.state
+    const { addToLibrary, selected, fetching } = this.props
 
     return (
       <ResultsSection>
-        <SearchSource onClick={() => this.setState({ expanded: false })}>
-          {'▼ ' + source.title}
-        </SearchSource>
-
         <SearchResults
           error={error}
           results={results}
           searching={searching}
-          addToSelection={addToSelection}
+          addToSelection={addToLibrary}
           selected={selected}
           fetching={fetching}
+          whiteSpace={'normal'}
         />
-
-        {results && results.total > rows && (
-          <MoreButton
-            onClick={() => selectSource(source.id)}
-            data-cy={'more-button'}
-          >
-            Show more
-          </MoreButton>
-        )}
       </ResultsSection>
     )
   }
 
-  private runSearch = async (query: string | null, rows: number) => {
-    if (!this.state.expanded) {
+  private runSearch = async (
+    query: string,
+    rows: number,
+    hasItem: (item: BibliographyItem) => boolean,
+    selected: Map<string, Build<BibliographyItem>>
+  ) => {
+    if (!query || query === '') {
+      this.setState({
+        error: null,
+        searching: false,
+        results: {
+          items: [],
+          total: 0,
+        },
+      })
       return
     }
 
@@ -158,12 +116,20 @@ export class CitationSearchSection extends React.Component<Props, State> {
     const { source } = this.props
 
     const searchHandler = async () => {
+      if (!source.search) {
+        return
+      }
+
       try {
-        const results = await source.search(
-          query,
-          { rows },
-          config.support.email
-        )
+        const results = await source.search(query, rows, config.support.email)
+
+        results &&
+          results.items &&
+          results.items.forEach(item => {
+            if (hasItem(item as BibliographyItem)) {
+              selected.set(estimateID(item), item)
+            }
+          })
 
         if (query === this.props.query) {
           this.setState({

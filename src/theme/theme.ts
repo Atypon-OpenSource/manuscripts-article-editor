@@ -216,7 +216,7 @@ export const theme: Theme = {
       add: {
         hovered: colors.salomieYellow,
       },
-      searchIcon: colors.powderBlue,
+      searchIcon: colors.manuscriptsBlue,
     },
     projects: {
       background: {
@@ -246,6 +246,18 @@ export const theme: Theme = {
       },
       placeholder: colors.altoGrey,
       more: colors.manuscriptsBlue,
+    },
+    library: {
+      sidebar: {
+        background: {
+          default: colors.aliceBlue,
+          selected: colors.powderBlue,
+        },
+        field: {
+          label: colors.altoGrey,
+          border: colors.altoGrey,
+        },
+      },
     },
     authorName: {
       default: colors.manuscriptsGrey,

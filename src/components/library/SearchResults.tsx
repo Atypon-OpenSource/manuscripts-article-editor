@@ -34,19 +34,19 @@ const SearchResult = styled.div`
   }
 `
 
-const SearchResultTitle = styled(Title)`
+const SearchResultTitle = styled(Title)<{ whiteSpace: string }>`
   & .ProseMirror {
-    white-space: nowrap;
+    white-space: ${props => props.whiteSpace};
     overflow: hidden;
     text-overflow: ellipsis;
   }
 `
 
-const SearchResultAuthors = styled.div`
+const SearchResultAuthors = styled.div<{ whiteSpace: string }>`
   margin-top: 4px;
   color: #777;
   flex: 1;
-  white-space: nowrap;
+  white-space: ${props => props.whiteSpace};
   text-overflow: ellipsis;
   overflow: hidden;
 `
@@ -65,38 +65,55 @@ const ResultMetadata = styled.div`
   overflow: hidden;
 `
 
-const StatusIcon = styled.span<{ isFetching?: boolean }>`
+const StatusIcon = styled.span<{ color: string }>`
   flex-shrink: 1;
   margin-right: 16px;
   position: relative;
   top: 2px;
+  height: 24px;
+  width: 24px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: white;
 
   & svg {
     width: 24px;
     height: 24px;
   }
 
-  transform-origin: 51% 29%;
-  animation: ${props =>
-    props.isFetching ? 'spin 4s infinite linear' : 'none'};
+  &.active:before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    border: 1px dashed ${props => props.color};
+    top: -1px;
+    left: -1px;
+    border-radius: inherit;
+    animation: spin 10s linear infinite;
+  }
 
   @keyframes spin {
-    from {
-      transform: rotateY(0deg);
-    }
-    to {
-      transform: rotateY(360deg);
+    100% {
+      transform: rotateZ(360deg);
     }
   }
 `
 
-const ResultPlaceholder = () => (
+const ResultPlaceholder: React.FC<{ whiteSpace: string }> = ({
+  whiteSpace,
+}) => (
   <SearchResult style={{ opacity: 0.2 }}>
     <div style={{ width: 40 }}>…</div>
 
     <ResultMetadata>
       <div style={{ background: '#aaa', height: '1.2em' }} />
-      <SearchResultAuthorsPlaceholder />
+      <SearchResultAuthorsPlaceholder whiteSpace={whiteSpace} />
     </ResultMetadata>
   </SearchResult>
 )
@@ -111,15 +128,17 @@ interface Props {
   addToSelection: (id: string, item: Build<BibliographyItem>) => void
   selected: Map<string, Build<BibliographyItem>>
   fetching: Set<string>
+  whiteSpace?: string
 }
 
-export const CitationSearchResults: React.FunctionComponent<Props> = ({
+export const SearchResults: React.FunctionComponent<Props> = ({
   error,
   searching,
   results,
   addToSelection,
   selected,
   fetching,
+  whiteSpace = 'nowrap',
 }) => {
   if (error) {
     return <div>{error}</div>
@@ -128,9 +147,9 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
   if (searching) {
     return (
       <Container>
-        <ResultPlaceholder />
-        <ResultPlaceholder />
-        <ResultPlaceholder />
+        <ResultPlaceholder whiteSpace={whiteSpace} />
+        <ResultPlaceholder whiteSpace={whiteSpace} />
+        <ResultPlaceholder whiteSpace={whiteSpace} />
       </Container>
     )
   }
@@ -146,7 +165,10 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
 
         return (
           <SearchResult onClick={() => addToSelection(id, item)} key={id}>
-            <StatusIcon isFetching={fetching.has(id)}>
+            <StatusIcon
+              color="#7fb5db"
+              className={fetching.has(id) ? 'active' : ''}
+            >
               {selected.has(id) ? (
                 <AddedIcon data-cy={'plus-icon-ok'} />
               ) : (
@@ -156,11 +178,15 @@ export const CitationSearchResults: React.FunctionComponent<Props> = ({
 
             <ResultMetadata>
               <SearchResultTitle
+                whiteSpace={whiteSpace}
                 value={item.title || 'Untitled'}
                 title={item.title}
               />
 
-              <SearchResultAuthors data-cy={'search-result-author'}>
+              <SearchResultAuthors
+                data-cy={'search-result-author'}
+                whiteSpace={whiteSpace}
+              >
                 {shortAuthorsString(item)}{' '}
                 {issuedYear(item as BibliographyItem)}
               </SearchResultAuthors>
