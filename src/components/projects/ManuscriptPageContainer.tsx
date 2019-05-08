@@ -171,7 +171,7 @@ interface Props {
   project: Project
   projects: Project[]
   user: UserProfileWithAvatar
-  collaborators: Map<string, UserProfileWithAvatar>
+  collaborators: Map<string, UserProfile>
   projectsCollection: Collection<Project>
   userProjects: UserProject[]
   userProjectsCollection: Collection<UserProject>
@@ -1422,7 +1422,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private getCurrentUser = (): UserProfile => this.props.user
 
-  private listCollaborators = (): UserProfileWithAvatar[] =>
+  private listCollaborators = (): UserProfile[] =>
     Array.from(this.props.collaborators.values())
 
   private getKeyword = (id: string) => this.props.keywords.get(id)

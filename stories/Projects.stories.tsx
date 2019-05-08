@@ -37,7 +37,6 @@ storiesOf('Projects', module)
   .add('Projects Page', () => (
     <ProjectsList
       projects={projects}
-      collaborators={users}
       deleteProject={action('delete project')}
       saveProjectTitle={action('save project title')}
       user={user}

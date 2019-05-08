@@ -33,6 +33,7 @@ const configuration: webpack.Configuration = {
         'BASE_URL',
         'CI_ENVIRONMENT_NAME',
         'DATA_URL',
+        'DERIVED_DATA_BUCKET',
         'DISCOURSE_HOST',
         'GIT_COMMIT_HASH',
         'GIT_VERSION',

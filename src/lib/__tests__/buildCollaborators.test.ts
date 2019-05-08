@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { people } from '../../../stories/data/people'
+import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { collaborators } from '../../../stories/data/collaborators'
 import { project } from '../../../stories/data/projects'
 import { buildCollaborators } from '../collaborators'
 
-const collaboratorsMap: Map<string, UserProfileWithAvatar> = new Map()
+const collaboratorsMap: Map<string, UserProfile> = new Map()
 
-for (const item of people) {
-  collaboratorsMap.set(item.userID, item)
+for (const item of collaborators) {
+  collaboratorsMap.set(
+    item.collaboratorProfile.userID,
+    item.collaboratorProfile
+  )
 }
 
 describe('collaborators', () => {

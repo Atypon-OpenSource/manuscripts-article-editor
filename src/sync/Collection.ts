@@ -423,6 +423,16 @@ export class Collection<T extends Model> implements EventTarget {
     })
   }
 
+  private get bucketName() {
+    switch (this.collectionName) {
+      case 'collaborators':
+        return config.buckets.derived_data
+
+      default:
+        return config.buckets.projects
+    }
+  }
+
   private sync(
     direction: Direction,
     options: PouchReplicationOptions & { fetch?: Fetch } = {},
@@ -447,11 +457,17 @@ export class Collection<T extends Model> implements EventTarget {
 
     options.fetch = fetchWithCredentials
 
+    const remote = `${config.gateway.url}/${this.bucketName}`
+
     // tslint:disable-next-line:no-console
-    console.log(`Syncing ${this.collectionName}`, { direction, options })
+    console.log(`Syncing ${this.collectionName}`, {
+      direction,
+      options,
+      remote,
+    })
 
     const replicationState = this.getCollection().sync({
-      remote: `${config.gateway.url}/${config.buckets.projects}`,
+      remote,
       direction: {
         pull: direction === 'pull',
         push: direction === 'push',

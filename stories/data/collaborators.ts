@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-import { user } from '../../../stories/data/contributors'
-import { invitations } from '../../../stories/data/invitations-data'
-import projects from '../../../stories/data/projects'
-import { buildCollaboratorChannels } from '../channels'
+import {
+  ObjectTypes,
+  UserCollaborator,
+} from '@manuscripts/manuscripts-json-schema'
+import { people } from './people'
 
-describe('channels', () => {
-  test('buildCollaboratorChannels', async () => {
-    const result = buildCollaboratorChannels(user.userID, projects, invitations)
+export const collaborators: UserCollaborator[] = people.map(
+  (collaboratorProfile, index) => {
+    const objectType = ObjectTypes.UserCollaborator
+    const collaboratorID = `${objectType}:${index}`
 
-    const expected = [
-      'user_1-read',
-      'user_3-read',
-      'user_2-read',
-      'User|pcoutinho@atypon.com-read',
-    ]
-
-    expect(result).toEqual(expected)
-  })
-})
+    return {
+      _id: collaboratorID,
+      objectType: objectType as 'MPUserCollaborator',
+      collaboratorID,
+      collaboratorProfile,
+      userID: 'MPUserProfile:1',
+      projects: [],
+      createdAt: 0,
+      updatedAt: 0,
+    }
+  }
+)

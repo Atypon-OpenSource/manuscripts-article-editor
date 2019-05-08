@@ -22,7 +22,6 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
-import CollaboratorsData from '../../data/CollaboratorsData'
 import InvitationsData from '../../data/InvitationsData'
 import ProjectsData from '../../data/ProjectsData'
 import { TokenActions } from '../../data/TokenData'
@@ -107,80 +106,71 @@ class ProjectsButton extends React.Component<Props, State> {
         {
           <UserData userID={getCurrentUserId()!}>
             {user => (
-              <CollaboratorsData>
-                {collaborators => (
-                  <ProjectsData>
-                    {(projects, projectsCollection) => (
-                      <InvitationsData>
-                        {invitations => {
-                          const invitationsData = this.buildInvitationData(
-                            invitations,
-                            user,
-                            collaborators
-                          )
+              <ProjectsData>
+                {(projects, projectsCollection) => (
+                  <InvitationsData>
+                    {invitations => {
+                      const invitationsData = this.buildInvitationData(
+                        invitations,
+                        user
+                      )
 
-                          const projectsIDs = projects.map(
-                            project => project._id
-                          )
+                      const projectsIDs = projects.map(project => project._id)
 
-                          const filteredInvitationsData = invitationsData.filter(
-                            invitationData =>
-                              projectsIDs.indexOf(invitationData.project._id) <
-                              0
-                          )
+                      const filteredInvitationsData = invitationsData.filter(
+                        invitationData =>
+                          projectsIDs.indexOf(invitationData.project._id) < 0
+                      )
 
-                          return !this.props.isDropdown ? (
-                            <React.Fragment>
-                              <InvitationsList
-                                invitationsData={filteredInvitationsData}
-                                acceptInvitation={this.acceptInvitation}
-                                acceptError={acceptError}
-                                confirmReject={this.confirmReject}
-                              />
-                              <SidebarContent>
-                                <ProjectsList
-                                  projects={projects}
-                                  collaborators={collaborators}
-                                  acceptedInvitations={acceptedInvitations}
-                                  deleteProject={(project: Project) => () =>
-                                    projectsCollection.delete(project._id)}
-                                  saveProjectTitle={(project: Project) => (
-                                    title: string
-                                  ) =>
-                                    projectsCollection.update(project._id, {
-                                      title,
-                                    })}
-                                  closeModal={closeModal}
-                                  user={user}
-                                  tokenActions={tokenActions!}
-                                />
-                              </SidebarContent>
-                            </React.Fragment>
-                          ) : (
-                            <MenuDropdown
-                              buttonContents={'Projects'}
-                              notificationsCount={invitationsData.length}
-                              dropdownStyle={{ width: 342, left: 20 }}
-                            >
-                              <ProjectsMenu
-                                invitationsData={invitationsData}
-                                projects={projects}
-                                removeInvitationData={this.removeInvitationData}
-                                acceptedInvitations={acceptedInvitations}
-                                rejectedInvitations={rejectedInvitations}
-                                acceptError={acceptError}
-                                acceptInvitation={this.acceptInvitation}
-                                confirmReject={this.confirmReject}
-                                user={user}
-                              />
-                            </MenuDropdown>
-                          )
-                        }}
-                      </InvitationsData>
-                    )}
-                  </ProjectsData>
+                      return !this.props.isDropdown ? (
+                        <React.Fragment>
+                          <InvitationsList
+                            invitationsData={filteredInvitationsData}
+                            acceptInvitation={this.acceptInvitation}
+                            acceptError={acceptError}
+                            confirmReject={this.confirmReject}
+                          />
+                          <SidebarContent>
+                            <ProjectsList
+                              projects={projects}
+                              acceptedInvitations={acceptedInvitations}
+                              deleteProject={(project: Project) => () =>
+                                projectsCollection.delete(project._id)}
+                              saveProjectTitle={(project: Project) => (
+                                title: string
+                              ) =>
+                                projectsCollection.update(project._id, {
+                                  title,
+                                })}
+                              closeModal={closeModal}
+                              user={user}
+                              tokenActions={tokenActions!}
+                            />
+                          </SidebarContent>
+                        </React.Fragment>
+                      ) : (
+                        <MenuDropdown
+                          buttonContents={'Projects'}
+                          notificationsCount={invitationsData.length}
+                          dropdownStyle={{ width: 342, left: 20 }}
+                        >
+                          <ProjectsMenu
+                            invitationsData={invitationsData}
+                            projects={projects}
+                            removeInvitationData={this.removeInvitationData}
+                            acceptedInvitations={acceptedInvitations}
+                            rejectedInvitations={rejectedInvitations}
+                            acceptError={acceptError}
+                            acceptInvitation={this.acceptInvitation}
+                            confirmReject={this.confirmReject}
+                            user={user}
+                          />
+                        </MenuDropdown>
+                      )
+                    }}
+                  </InvitationsData>
                 )}
-              </CollaboratorsData>
+              </ProjectsData>
             )}
           </UserData>
         }
@@ -214,20 +204,22 @@ class ProjectsButton extends React.Component<Props, State> {
 
   private buildInvitationData = (
     invitations: ProjectInvitation[],
-    user: UserProfile,
-    collaborators: Map<string, UserProfile>
+    user: UserProfile
   ) => {
     const { handledInvitations } = this.state
 
     const invitationsData: InvitationData[] = []
 
     for (const invitation of invitations) {
-      if (invitation.acceptedAt) continue // ignore accepted invitations
-      if (invitation.invitingUserID === user.userID) continue // ignore invitee invitations
-      if (handledInvitations.has(invitation._id)) continue // ignore handled invitations
+      const { acceptedAt, invitingUserProfile } = invitation
 
-      const invitingUserProfile = collaborators.get(invitation.invitingUserID)
-      if (!invitingUserProfile) continue // ignore missing invitee
+      if (acceptedAt) continue // ignore accepted invitations
+
+      if (!invitingUserProfile) continue // inviting profile is needed
+
+      if (invitingUserProfile._id === user._id) continue // ignore invitations sent by this user
+
+      if (handledInvitations.has(invitation._id)) continue // ignore handled invitations
 
       invitationsData.push({
         invitation,

@@ -29,6 +29,7 @@ import ProjectsData from '../../data/ProjectsData'
 import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import UserProjectsData from '../../data/UserProjectsData'
+import { buildCollaboratorProfiles } from '../../lib/collaborators'
 import { getCurrentUserId } from '../../lib/user'
 import { lastOpenedManuscriptID } from '../../lib/user-project'
 import Sync from '../../sync/Sync'
@@ -228,9 +229,10 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                                                     projectsCollection
                                                                   }
                                                                   user={user}
-                                                                  collaborators={
-                                                                    collaborators
-                                                                  }
+                                                                  collaborators={buildCollaboratorProfiles(
+                                                                    collaborators,
+                                                                    user
+                                                                  )}
                                                                   userProjects={
                                                                     userProjects
                                                                   }
@@ -292,7 +294,10 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                               invitations={invitations}
                                               project={project}
                                               user={user}
-                                              collaborators={collaborators}
+                                              collaborators={buildCollaboratorProfiles(
+                                                collaborators,
+                                                user
+                                              )}
                                               tokenActions={
                                                 this.props.tokenActions
                                               }
@@ -321,7 +326,10 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                                   project={project}
                                                   projects={projects}
                                                   user={user}
-                                                  collaborators={collaborators}
+                                                  collaborators={buildCollaboratorProfiles(
+                                                    collaborators,
+                                                    user
+                                                  )}
                                                   tokenActions={
                                                     this.props.tokenActions
                                                   }

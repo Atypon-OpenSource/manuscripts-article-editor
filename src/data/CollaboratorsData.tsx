@@ -14,29 +14,30 @@
  * limitations under the License.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { ObjectTypes, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import {
+  ObjectTypes,
+  UserCollaborator,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { buildUserMap } from '../lib/data'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (data: Map<string, UserProfileWithAvatar>) => React.ReactNode
+  children: (data: Map<string, UserCollaborator>) => React.ReactNode
   placeholder?: React.ReactNode
 }
 
 interface State {
-  data?: Map<string, UserProfileWithAvatar>
+  data?: Map<string, UserCollaborator>
 }
 
-class CollaboratorsData extends DataComponent<UserProfile, Props, State> {
+class CollaboratorsData extends DataComponent<UserCollaborator, Props, State> {
   public constructor(props: Props) {
     super(props)
 
     this.state = {}
 
-    this.collection = CollectionManager.getCollection<UserProfile>(
+    this.collection = CollectionManager.getCollection<UserCollaborator>(
       'collaborators'
     )
   }
@@ -56,13 +57,17 @@ class CollaboratorsData extends DataComponent<UserProfile, Props, State> {
   private subscribe = () =>
     this.collection
       .find({
-        objectType: ObjectTypes.UserProfile,
+        objectType: ObjectTypes.UserCollaborator,
       })
       .$.subscribe(async docs => {
         if (docs) {
-          this.setState({
-            data: await buildUserMap(docs),
-          })
+          const data = new Map<string, UserCollaborator>()
+
+          for (const doc of docs) {
+            data.set(doc._id, doc.toJSON())
+          }
+
+          this.setState({ data })
         }
       })
 }

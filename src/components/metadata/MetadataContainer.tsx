@@ -46,7 +46,10 @@ import {
   buildSortedAuthors,
   reorderAuthors,
 } from '../../lib/authors'
-import { buildCollaborators } from '../../lib/collaborators'
+import {
+  buildCollaboratorProfiles,
+  buildCollaborators,
+} from '../../lib/collaborators'
 import { getCurrentUserId } from '../../lib/user'
 import { Permissions } from '../../types/permissions'
 import { InvitationValues } from '../collaboration/InvitationForm'
@@ -160,7 +163,10 @@ class MetadataContainer extends React.PureComponent<Props, State> {
                           user={user}
                           addingAuthors={addingAuthors}
                           openAddAuthors={this.startAddingAuthors(
-                            buildCollaborators(project, collaborators),
+                            buildCollaborators(
+                              project,
+                              buildCollaboratorProfiles(collaborators, user)
+                            ),
                             invitations
                           )}
                           numberOfAddedAuthors={numberOfAddedAuthors}

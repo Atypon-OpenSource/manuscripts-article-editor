@@ -15,12 +15,16 @@
  */
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { Project } from '@manuscripts/manuscripts-json-schema'
+import {
+  Project,
+  UserCollaborator,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 
 export const buildCollaborators = (
   project: Project,
-  collaborators: Map<string, UserProfileWithAvatar>
-): UserProfileWithAvatar[] => {
+  collaborators: Map<string, UserProfile>
+): UserProfile[] => {
   const getCollaborator = (id: string) => collaborators.get(id)!
 
   return [
@@ -28,4 +32,20 @@ export const buildCollaborators = (
     ...project.writers.map(getCollaborator),
     ...project.viewers.map(getCollaborator),
   ].filter(_ => _)
+}
+
+export const buildCollaboratorProfiles = (
+  collaborators: Map<string, UserCollaborator>,
+  user: UserProfileWithAvatar
+) => {
+  const profiles: Map<string, UserProfile> = new Map()
+
+  for (const collaborator of collaborators.values()) {
+    profiles.set(
+      collaborator.collaboratorProfile.userID,
+      collaborator.collaboratorProfile
+    )
+  }
+  profiles.set(user.userID, user)
+  return profiles
 }

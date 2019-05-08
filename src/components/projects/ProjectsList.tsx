@@ -23,8 +23,12 @@ import { TickMarkIcon } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { Route } from 'react-router-dom'
+import CollaboratorsData from '../../data/CollaboratorsData'
 import { TokenActions } from '../../data/TokenData'
-import { buildCollaborators } from '../../lib/collaborators'
+import {
+  buildCollaboratorProfiles,
+  buildCollaborators,
+} from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
 import { styled } from '../../theme/styled-components'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
@@ -129,7 +133,6 @@ interface Props {
   deleteProject: (project: Project) => () => Promise<string>
   projects: Project[]
   saveProjectTitle: (project: Project) => (title: string) => Promise<Project>
-  collaborators: Map<string, UserProfileWithAvatar>
   user: UserProfileWithAvatar
   closeModal?: () => void
   acceptedInvitations: string[]
@@ -138,7 +141,6 @@ interface Props {
 
 export const ProjectsList: React.FunctionComponent<Props> = ({
   closeModal,
-  collaborators,
   deleteProject,
   projects,
   saveProjectTitle,
@@ -146,76 +148,87 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
   acceptedInvitations,
   tokenActions,
 }) => (
-  <div>
-    {projects.sort(projectListCompare).map(project => {
-      const path = `/projects/${project._id}`
+  <CollaboratorsData>
+    {collaborators => {
+      const collaboratorProfiles = buildCollaboratorProfiles(
+        collaborators,
+        user
+      )
 
       return (
-        <Route
-          path={path}
-          exact={false}
-          key={project._id}
-          children={({ history, match }) => {
-            return (
-              <SidebarProject
-                key={project._id}
-                isActive={match !== null}
-                onClick={event => {
-                  closeModal && closeModal()
-                  history.push(path)
-                }}
-              >
-                <SidebarProjectHeader>
-                  <ProjectTitle>
-                    {project.title ? (
-                      <Title value={project.title} />
-                    ) : (
-                      <PlaceholderTitle value={'Untitled Project'} />
-                    )}
-                  </ProjectTitle>
-                  {acceptedInvitations.includes(project._id) && (
-                    <AcceptedLabel>
-                      <TickMarkContainer>
-                        <TickMarkIcon />
-                      </TickMarkContainer>
-                      Accepted
-                    </AcceptedLabel>
-                  )}
-                  <Container>
-                    <Edit>
-                      <ProjectContextMenuButton
-                        project={project}
-                        deleteProject={deleteProject(project)}
-                        saveProjectTitle={saveProjectTitle(project)}
-                        closeModal={closeModal}
-                      />
-                    </Edit>
-                    <ShareProjectButton
-                      project={project}
-                      user={user}
-                      tokenActions={tokenActions}
-                    />
-                  </Container>
-                </SidebarProjectHeader>
+        <div>
+          {projects.sort(projectListCompare).map(project => {
+            const path = `/projects/${project._id}`
 
-                <ProjectContributors>
-                  {buildCollaborators(project, collaborators).map(
-                    (collaborator, index) => (
-                      <React.Fragment key={collaborator._id}>
-                        {!!index && ', '}
-                        <ProjectContributor key={collaborator._id}>
-                          {initials(collaborator.bibliographicName)}{' '}
-                          {collaborator.bibliographicName.family}
-                        </ProjectContributor>
-                      </React.Fragment>
-                    )
-                  )}
-                </ProjectContributors>
-              </SidebarProject>
+            return (
+              <Route
+                path={path}
+                exact={false}
+                key={project._id}
+                children={({ history, match }) => {
+                  return (
+                    <SidebarProject
+                      key={project._id}
+                      isActive={match !== null}
+                      onClick={event => {
+                        closeModal && closeModal()
+                        history.push(path)
+                      }}
+                    >
+                      <SidebarProjectHeader>
+                        <ProjectTitle>
+                          {project.title ? (
+                            <Title value={project.title} />
+                          ) : (
+                            <PlaceholderTitle value={'Untitled Project'} />
+                          )}
+                        </ProjectTitle>
+                        {acceptedInvitations.includes(project._id) && (
+                          <AcceptedLabel>
+                            <TickMarkContainer>
+                              <TickMarkIcon />
+                            </TickMarkContainer>
+                            Accepted
+                          </AcceptedLabel>
+                        )}
+                        <Container>
+                          <Edit>
+                            <ProjectContextMenuButton
+                              project={project}
+                              deleteProject={deleteProject(project)}
+                              saveProjectTitle={saveProjectTitle(project)}
+                              closeModal={closeModal}
+                            />
+                          </Edit>
+                          <ShareProjectButton
+                            project={project}
+                            user={user}
+                            tokenActions={tokenActions}
+                          />
+                        </Container>
+                      </SidebarProjectHeader>
+
+                      <ProjectContributors>
+                        {buildCollaborators(project, collaboratorProfiles).map(
+                          (collaborator, index) => (
+                            <React.Fragment key={collaborator._id}>
+                              {!!index && ', '}
+                              <ProjectContributor key={collaborator._id}>
+                                {initials(collaborator.bibliographicName)}{' '}
+                                {collaborator.bibliographicName.family}
+                              </ProjectContributor>
+                            </React.Fragment>
+                          )
+                        )}
+                      </ProjectContributors>
+                    </SidebarProject>
+                  )
+                }}
+              />
             )
-          }}
-        />
+          })}
+        </div>
       )
-    })}
-  </div>
+    }}
+  </CollaboratorsData>
 )

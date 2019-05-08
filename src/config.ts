@@ -54,6 +54,7 @@ interface Config {
     commit: string
   }
   buckets: {
+    derived_data: string
     projects: string
   }
   jupyter: {
@@ -117,6 +118,7 @@ const config = {
     commit: process.env.GIT_COMMIT_HASH,
   },
   buckets: {
+    derived_data: process.env.DERIVED_DATA_BUCKET,
     projects: process.env.PROJECTS_BUCKET,
   },
   jupyter: {
