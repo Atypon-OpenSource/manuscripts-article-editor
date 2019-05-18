@@ -43,7 +43,9 @@ import EmptyProjectPageContainer from './EmptyProjectPageContainer'
 import { ManuscriptPageContainerComponent } from './ManuscriptPageContainer'
 
 const LibraryPageContainer = React.lazy<LibraryPageContainerComponent>(() =>
-  import(/* webpackChunkName:"library-page" */ '../library/LibraryPageContainer')
+  import(
+    /* webpackChunkName:"library-page" */ '../library/LibraryPageContainer'
+  )
 )
 
 const ManuscriptPageContainer = React.lazy<ManuscriptPageContainerComponent>(

@@ -350,7 +350,7 @@ interface Props {
 }
 
 const buildOptions = (data: Map<string, Keyword>) => {
-  const options: OptionsType<OptionType> = []
+  const options: OptionType[] = []
 
   for (const keyword of data.values()) {
     options.push({

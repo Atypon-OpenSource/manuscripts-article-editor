@@ -108,6 +108,7 @@ import {
 } from '../Inspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
+import { CitationViewer } from '../library/CitationViewer'
 import MetadataContainer from '../metadata/MetadataContainer'
 import { ModalProps, withModal } from '../ModalProvider'
 import { Main } from '../Page'
@@ -384,7 +385,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   autoFocus={!!manuscript.title}
                   getCitationProcessor={this.getCitationProcessor}
                   doc={doc}
-                  editable={true}
                   getModel={this.getModel}
                   saveModel={this.saveModel}
                   deleteModel={this.deleteModel}
@@ -395,8 +395,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   getLibraryItem={this.getLibraryItem}
                   filterLibraryItems={this.filterLibraryItems}
                   getManuscript={this.getManuscript}
-                  saveManuscript={this.saveManuscript}
-                  deleteManuscript={this.deleteManuscript}
                   getCurrentUser={this.getCurrentUser}
                   history={this.props.history}
                   locale={locale}
@@ -410,10 +408,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   attributes={attributes}
                   retrySync={this.retrySync}
                   renderReactComponent={this.renderReactComponent}
+                  unmountReactComponent={this.unmountReactComponent}
                   handleStateChange={this.handleEditorStateChange(
                     EditorType.manuscript
                   )}
-                  CitationEditor={CitationEditor}
+                  components={{
+                    CitationEditor,
+                    CitationViewer,
+                  }}
                   jupyterConfig={config.jupyter}
                   permissions={permissions}
                 />
@@ -1434,7 +1436,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private getCollaborator = (id: string) => this.props.collaborators.get(id)
 
-  // TODO: unmount
   private renderReactComponent = (
     child: React.ReactChild,
     container: HTMLElement
@@ -1445,6 +1446,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       </IntlProvider>,
       container
     )
+  }
+
+  private unmountReactComponent = (container: HTMLElement) => {
+    ReactDOM.unmountComponentAtNode(container)
   }
 }
 
