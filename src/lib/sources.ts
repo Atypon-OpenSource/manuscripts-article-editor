@@ -21,20 +21,22 @@ import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { FunctionComponent } from 'react'
 
+type SearchInterface = (
+  query: string,
+  limit: number,
+  mailto: string
+) => Promise<{
+  items: Array<Build<BibliographyItem>>
+  total: number
+}>
+
 export interface LibrarySource {
   id: string
   name: string
   parent: string | null
   icon?: FunctionComponent
   fetch?: (doi: string, mailto: string) => Promise<Partial<BibliographyItem>>
-  search?: (
-    query: string,
-    limit: number,
-    mailto: string
-  ) => Promise<{
-    items: Array<Build<BibliographyItem>>
-    total: number
-  }>
+  search?: SearchInterface
 }
 
 export const sources: LibrarySource[] = [
@@ -63,7 +65,7 @@ export const sources: LibrarySource[] = [
     id: 'datacite',
     name: 'DataCite',
     parent: 'search',
-    search: datacite.search,
+    search: datacite.search as SearchInterface,
     fetch: datacite.fetch,
   },
 ]

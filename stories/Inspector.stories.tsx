@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { Bundle, Manuscript } from '@manuscripts/manuscripts-json-schema'
+import data from '@manuscripts/examples/data/project-dump.json'
+import { Manuscript } from '@manuscripts/manuscripts-json-schema'
 import { TabPanel, TabPanels, Tabs } from '@reach/tabs'
 import '@reach/tabs/styles.css'
 import { action } from '@storybook/addon-actions'
@@ -22,16 +23,8 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { InspectorTab, InspectorTabList } from '../src/components/Inspector'
 import { ManuscriptInspector } from '../src/components/projects/ManuscriptInspector'
-
-const bundle: Bundle = {
-  _id: 'MPBundle:1',
-  objectType: 'MPBundle',
-  createdAt: 0,
-  updatedAt: 0,
-  csl: {
-    title: 'Example Journal',
-  },
-}
+import { buildModelMap } from '../src/pressroom/__tests__/util'
+import { ProjectDump } from '../src/pressroom/importers'
 
 const manuscript: Manuscript = {
   _id: 'MPManuscript:1',
@@ -40,6 +33,8 @@ const manuscript: Manuscript = {
   createdAt: 0,
   updatedAt: 0,
 }
+
+const modelMap = buildModelMap(data as ProjectDump)
 
 storiesOf('Inspector', module).add('tabs', () => (
   <div style={{ width: 500 }}>
@@ -63,17 +58,18 @@ storiesOf('Inspector/Manuscript Inspector', module)
   .add('with bundle', () => (
     <div style={{ width: 500 }}>
       <ManuscriptInspector
-        bundle={bundle}
+        modelMap={modelMap}
         manuscript={manuscript}
-        openCitationStyleSelector={action('open selector')}
+        saveModel={action('save')}
       />
     </div>
   ))
   .add('without bundle', () => (
     <div style={{ width: 500 }}>
       <ManuscriptInspector
+        modelMap={modelMap}
         manuscript={manuscript}
-        openCitationStyleSelector={action('open selector')}
+        saveModel={action('save')}
       />
     </div>
   ))

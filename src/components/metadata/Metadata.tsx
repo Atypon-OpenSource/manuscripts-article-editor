@@ -170,7 +170,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
         <ExpanderButton
           onClick={props.toggleExpanded}
           style={{
-            transform: props.expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            transform: props.expanded ? 'rotate(0deg)' : 'rotate(180deg)',
           }}
           data-cy={'expander-button'}
         >

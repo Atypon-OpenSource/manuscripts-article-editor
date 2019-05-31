@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
-import { MiniButton } from '@manuscripts/style-guide'
+import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import React, { useState } from 'react'
 import { styled } from '../theme/styled-components'
 
 const Section = styled.div`
-  border-bottom: 1px solid #e2e2e2;
   border-top: 1px solid #e2e2e2;
   padding: 16px 0;
   font-size: 14px;
+
+  &:last-child {
+    border-bottom: 1px solid #e2e2e2;
+  }
 `
 
 const Heading = styled.div`
@@ -33,9 +35,18 @@ const Heading = styled.div`
 `
 
 const HeadingText = styled.div`
-  font-weight: bold;
-  font-size: 14px;
+  font-size: 18px;
+  color: #777;
   flex: 1;
+`
+
+export const Subheading = styled(HeadingText)`
+  font-size: 16px;
+  margin-bottom: 16px;
+`
+
+export const Field = styled.div`
+  margin-bottom: 16px;
 `
 
 const ExpanderButton = styled.button`
@@ -52,32 +63,6 @@ const Content = styled.div`
   padding: 8px;
 `
 
-export const InspectorField = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-`
-
-export const InspectorLabel = styled.div`
-  flex-shrink: 0;
-  width: 100px;
-  color: ${props => props.theme.colors.global.text.secondary};
-`
-
-export const InspectorValue = styled.div`
-  padding-left: 20px;
-  position: relative;
-  font-size: 90%;
-  flex: 1;
-  display: flex;
-
-  ${MiniButton} {
-    position: absolute;
-    right: 0px;
-    top: 1px;
-  }
-`
-
 interface Props {
   title: React.ReactNode
 }
@@ -91,10 +76,10 @@ export const InspectorSection: React.FC<Props> = ({ title, children }) => {
         <HeadingText>{title}</HeadingText>
         <ExpanderButton
           style={{
-            transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
           }}
         >
-          <ArrowDownUp />
+          <ArrowDownBlue />
         </ExpanderButton>
       </Heading>
       {expanded && <Content>{children}</Content>}

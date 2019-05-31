@@ -15,10 +15,11 @@
  */
 
 import NavIcon from '@manuscripts/assets/react/NavIcon'
+import { Tip } from '@manuscripts/style-guide'
+import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { styled } from '../../theme/styled-components'
-import { Tip } from '../Tip'
 import ProjectsButton from './ProjectsButton'
 import UserContainer from './UserContainer'
 

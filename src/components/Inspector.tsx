@@ -22,7 +22,7 @@ export const Inspector = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  min-width: 400px;
+  min-width: 300px;
   padding-right: 16px;
 `
 

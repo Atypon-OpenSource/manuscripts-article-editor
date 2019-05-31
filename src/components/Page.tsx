@@ -20,6 +20,8 @@ import FeedbackIcon from '@manuscripts/assets/react/FeedbackIcon'
 import NavIcon from '@manuscripts/assets/react/NavIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
+import { Tip } from '@manuscripts/style-guide'
+import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
@@ -28,7 +30,6 @@ import { linkWaterBlue } from '../theme/colors'
 import { styled } from '../theme/styled-components'
 import MenuBar from './nav/MenuBar'
 import ProjectNavigator from './ProjectNavigator'
-import { Tip } from './Tip'
 
 export const Main = styled.main`
   height: 100%;

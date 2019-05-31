@@ -14,48 +14,174 @@
  * limitations under the License.
  */
 
-import { Bundle, Manuscript } from '@manuscripts/manuscripts-json-schema'
-import { MiniButton } from '@manuscripts/style-guide'
-import React from 'react'
-import { styled } from '../../theme/styled-components'
+import { Build, generateID } from '@manuscripts/manuscript-transform'
 import {
-  InspectorField,
-  InspectorLabel,
-  InspectorSection,
-  InspectorValue,
-} from '../InspectorSection'
+  CountRequirement,
+  Manuscript,
+  MaximumManuscriptCharacterCountRequirement,
+  MaximumManuscriptWordCountRequirement,
+  MinimumManuscriptCharacterCountRequirement,
+  MinimumManuscriptWordCountRequirement,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
+import { InspectorSection, Subheading } from '../InspectorSection'
+import { CountInput } from './CountInput'
+
+type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
+
+type Buildable<T> = T | Build<T>
 
 interface Props {
-  bundle?: Bundle
   manuscript: Manuscript
-  openCitationStyleSelector: () => void
+  modelMap: Map<string, Model>
+  saveModel: SaveModel
 }
 
-const CitationStyle = styled.input.attrs({ readOnly: true })`
-  font-size: 14px;
-  font-family: Barlow, sans-serif;
-  padding: 2px 60px 2px 13px;
-  display: flex;
-  flex: 1;
-  border: 1px solid #d6d6d6;
-  border-radius: 4px;
-  cursor: pointer;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`
+export interface ManuscriptCountRequirements {
+  minWordCount: Buildable<MinimumManuscriptWordCountRequirement>
+  maxWordCount: Buildable<MaximumManuscriptWordCountRequirement>
+  minCharacterCount: Buildable<MinimumManuscriptCharacterCountRequirement>
+  maxCharacterCount: Buildable<MaximumManuscriptCharacterCountRequirement>
+}
+
+const buildCountRequirement = <T extends CountRequirement>(
+  objectType: ObjectTypes,
+  count?: number,
+  ignored?: boolean,
+  severity: number = 0
+): Build<T> => {
+  const item = {
+    _id: generateID(objectType),
+    objectType,
+    count,
+    ignored,
+    severity,
+  }
+
+  return item as Build<T>
+}
 
 export const ManuscriptInspector: React.FC<Props> = ({
-  bundle,
   manuscript,
-  openCitationStyleSelector,
-}) => (
-  <InspectorSection title={'Manuscript'}>
-    <InspectorField>
-      <InspectorLabel>Citation Style</InspectorLabel>
-      <InspectorValue onClick={openCitationStyleSelector}>
-        <CitationStyle value={bundle ? bundle.csl!.title : ''} />
-        <MiniButton>Choose</MiniButton>
-      </InspectorValue>
-    </InspectorField>
-  </InspectorSection>
-)
+  modelMap,
+  saveModel,
+  // pageLayout,
+}) => {
+  const getOrBuildRequirement = <T extends CountRequirement>(
+    objectType: ObjectTypes,
+    id?: string
+  ): T | Build<T> => {
+    if (id && modelMap.has(id)) {
+      return modelMap.get(id) as T
+    }
+
+    return buildCountRequirement<T>(objectType)
+  }
+
+  const requirements: ManuscriptCountRequirements = {
+    minWordCount: getOrBuildRequirement<MinimumManuscriptWordCountRequirement>(
+      ObjectTypes.MinimumManuscriptWordCountRequirement,
+      manuscript.minWordCountRequirement
+    ),
+    maxWordCount: getOrBuildRequirement<MaximumManuscriptWordCountRequirement>(
+      ObjectTypes.MaximumManuscriptWordCountRequirement,
+      manuscript.maxWordCountRequirement
+    ),
+    minCharacterCount: getOrBuildRequirement<
+      MinimumManuscriptCharacterCountRequirement
+    >(
+      ObjectTypes.MinimumManuscriptCharacterCountRequirement,
+      manuscript.minCharacterCountRequirement
+    ),
+    maxCharacterCount: getOrBuildRequirement<
+      MaximumManuscriptCharacterCountRequirement
+    >(
+      ObjectTypes.MaximumManuscriptCharacterCountRequirement,
+      manuscript.maxCharacterCountRequirement
+    ),
+  }
+
+  return (
+    <InspectorSection title={'Manuscript'}>
+      <Subheading>Requirements</Subheading>
+
+      <CountInput
+        label={'Min word count'}
+        placeholder={'Minimum'}
+        value={requirements.minWordCount}
+        handleChange={async (
+          requirement: Buildable<MinimumManuscriptWordCountRequirement>
+        ) => {
+          await saveModel<MinimumManuscriptWordCountRequirement>(requirement)
+
+          if (requirement._id !== manuscript.minWordCountRequirement) {
+            await saveModel<Manuscript>({
+              ...manuscript,
+              minWordCountRequirement: requirement._id,
+            })
+          }
+        }}
+      />
+
+      <CountInput
+        label={'Max word count'}
+        placeholder={'Maximum'}
+        value={requirements.maxWordCount}
+        handleChange={async (
+          requirement: Buildable<MaximumManuscriptWordCountRequirement>
+        ) => {
+          await saveModel<MaximumManuscriptWordCountRequirement>(requirement)
+
+          if (requirement._id !== manuscript.maxWordCountRequirement) {
+            await saveModel<Manuscript>({
+              ...manuscript,
+              maxWordCountRequirement: requirement._id,
+            })
+          }
+        }}
+      />
+
+      <CountInput
+        label={'Min character count'}
+        placeholder={'Minimum'}
+        value={requirements.minCharacterCount}
+        handleChange={async (
+          requirement: Buildable<MinimumManuscriptCharacterCountRequirement>
+        ) => {
+          await saveModel<MinimumManuscriptCharacterCountRequirement>(
+            requirement
+          )
+
+          if (requirement._id !== manuscript.minCharacterCountRequirement) {
+            await saveModel<Manuscript>({
+              ...manuscript,
+              minCharacterCountRequirement: requirement._id,
+            })
+          }
+        }}
+      />
+
+      <CountInput
+        label={'Max character count'}
+        placeholder={'Maximum'}
+        value={requirements.maxCharacterCount}
+        handleChange={async (
+          requirement: Buildable<MaximumManuscriptCharacterCountRequirement>
+        ) => {
+          await saveModel<MaximumManuscriptCharacterCountRequirement>(
+            requirement
+          )
+
+          if (requirement._id !== manuscript.maxCharacterCountRequirement) {
+            await saveModel<Manuscript>({
+              ...manuscript,
+              maxCharacterCountRequirement: requirement._id,
+            })
+          }
+        }}
+      />
+    </InspectorSection>
+  )
+}

@@ -23,6 +23,7 @@ import {
   MenuItem,
   menus as editorMenus,
   PopperManager,
+  RequirementsProvider,
 } from '@manuscripts/manuscript-editor'
 import '@manuscripts/manuscript-editor/styles/Editor.css'
 import '@manuscripts/manuscript-editor/styles/popper.css'
@@ -132,6 +133,8 @@ import {
   ManuscriptPageToolbar,
 } from './ManuscriptPageToolbar'
 import ManuscriptSidebar from './ManuscriptSidebar'
+import { ManuscriptStatisticsInspector } from './ManuscriptStatisticsInspector'
+import { ManuscriptStyleInspector } from './ManuscriptStyleInspector'
 import { ReloadDialog } from './ReloadDialog'
 import RenameProject from './RenameProject'
 
@@ -316,7 +319,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       !project ||
       !comments ||
       !plugins ||
-      !permissions
+      !permissions ||
+      !modelMap
     ) {
       return <ManuscriptPlaceholder />
     }
@@ -334,7 +338,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const collection = this.collection.getCollection()
 
     return (
-      <>
+      <RequirementsProvider modelMap={modelMap}>
         <ManuscriptSidebar
           openTemplateSelector={this.openTemplateSelector}
           manuscript={manuscript}
@@ -369,7 +373,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               <EditorBody>
                 <MetadataContainer
                   collection={collection}
-                  modelMap={modelMap!}
+                  modelMap={modelMap}
                   saveManuscript={this.saveManuscript}
                   manuscript={manuscript}
                   saveModel={this.saveModel}
@@ -399,7 +403,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   history={this.props.history}
                   locale={locale}
                   manuscript={manuscript}
-                  modelMap={modelMap!}
+                  modelMap={modelMap}
                   plugins={plugins}
                   popper={popper}
                   projectID={projectID}
@@ -428,7 +432,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         <Panel
           name={'inspector'}
-          minSize={400}
+          minSize={300}
           direction={'row'}
           side={'start'}
         >
@@ -442,10 +446,16 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                 </InspectorTabList>
 
                 <TabPanels>
-                  <TabPanel />
                   <TabPanel>
+                    <ManuscriptStatisticsInspector doc={doc} />
                     <ManuscriptInspector
                       manuscript={manuscript}
+                      modelMap={modelMap}
+                      saveModel={this.saveModel}
+                    />
+                  </TabPanel>
+                  <TabPanel>
+                    <ManuscriptStyleInspector
                       bundle={this.findBundle()}
                       openCitationStyleSelector={this.openCitationStyleSelector}
                     />
@@ -470,7 +480,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             </DebouncedInspector>
           )}
         </Panel>
-      </>
+      </RequirementsProvider>
     )
   }
 
@@ -502,10 +512,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const { manuscript } = this.props
     const { modelMap } = this.state
 
-    if (modelMap) {
-      return modelMap.get(manuscript.bundle || DEFAULT_BUNDLE) as
-        | Bundle
-        | undefined
+    if (modelMap && manuscript.bundle) {
+      return modelMap.get(manuscript.bundle) as Bundle
     }
   }
 

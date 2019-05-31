@@ -933,10 +933,17 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4":
   version "7.4.4"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.4.4.tgz#dc2e34982eb236803aa27a07fea6857af1b9171d"
   integrity sha512-w0+uT71b6Yi7i5SE0co4NioIpSYS6lLiXvCzWzGSKvpK5vdQtCbICHMj+gbAKAOtxiV6HsVh/MBdaF9EQ6faSg==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.4.2":
+  version "7.4.5"
+  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.4.5.tgz#582bb531f5f9dc67d2fcb682979894f75e253f12"
+  integrity sha512-TuI4qpWZP6lGOGIuGWtp9sPluqYICmbk8T/1vpSysqJxRPkudh/ofFWyqdcMsDf2s7KvDL4/YHgKyvcS3g9CJQ==
   dependencies:
     regenerator-runtime "^0.13.2"
 
@@ -1157,6 +1164,11 @@
   integrity sha512-gZDI/eXOIk8kP2PkUKjWu9RW8GGVd2Hkgjxyr/S7Z+JF+0mr7bAlbw+DkTRxnD580o8Kqxlnba9wvqp5aOHBww==
   dependencies:
     "@hapi/hoek" "6.x.x"
+
+"@iarna/word-count@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/@iarna/word-count/-/word-count-1.1.2.tgz#e4a82b4fa8df0fe8b31e07263a175b5390925713"
+  integrity sha512-kHU3aSVe9u3uAnBHGmEJ+Pj1aDJTAJMgiG2H3GIBrKgZkAKCMEB8AzLMeYzyLoldB45KbK6C+aB8I3rbSoxioQ==
 
 "@ibm/plex@^1.3.1":
   version "1.4.1"
@@ -1624,15 +1636,17 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.5.tgz#335d4fefaf9b4cdc64e59f03c45818cd8fed904d"
   integrity sha512-oTAMMrSHmBXXUnmOK4jBw94r1snEVRcUXeMcC2tGOBKKqeEEP5oGYU50qKnfgcN+N1xZ2p6HZ6Zp0wjTeLvH1A==
 
-"@manuscripts/manuscript-editor@^0.25.0":
-  version "0.25.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.25.0.tgz#6284d413220af9baba3e4b9aa8a37634ac6e78ea"
-  integrity sha512-BAK1OHV35mj7BRBDwQr6sx4D2ohdMsK6X0AH1fVYmBptlJpS+EpxNB6Qti1wFadkcd2uXEKazfhjQmuzL8yIew==
+"@manuscripts/manuscript-editor@^0.26.1":
+  version "0.26.1"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.26.1.tgz#1cd4fb6de790e0bcd169a6bdecac565d3d68d472"
+  integrity sha512-YV1iKZRHkt5hrmmcsCDSnc4S7MgfQiOMUnSjyuTfgI7mzjYU5sUsujyYddHIa8/tIYX1B3IcS0CbJTHibnBh5g==
   dependencies:
+    "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.3.8"
-    "@manuscripts/manuscript-transform" "^0.10.2"
-    "@manuscripts/manuscripts-json-schema" "^1.11.1"
+    "@manuscripts/manuscript-transform" "^0.12.0"
+    "@manuscripts/manuscripts-json-schema" "^1.12.0"
+    "@manuscripts/style-guide" "^0.7.0"
     "@manuscripts/title-editor" "^0.3.1"
     axios "^0.18.0"
     blob-util "^2.0.2"
@@ -1640,6 +1654,7 @@
     codemirror "^5.46.0"
     crypto-hash "^1.2.0"
     dompurify "^1.0.8"
+    grapheme-splitter "^1.0.4"
     lodash-es "^4.17.11"
     mathjax3 "3.0.0-beta.3"
     popper.js "^1.15.0"
@@ -1657,7 +1672,6 @@
     prosemirror-transform "^1.1.3"
     prosemirror-utils "^0.8.1"
     prosemirror-view "^1.9.5"
-    qs "^6.5.2"
     react-dnd "^7.4.5"
     react-modal "^3.6.1"
     react-popper "^1.0.2"
@@ -1675,10 +1689,19 @@
     uuid "^3.3.2"
     w3c-xmlserializer "^1.1.2"
 
-"@manuscripts/manuscripts-json-schema@^1.11.0", "@manuscripts/manuscripts-json-schema@^1.11.1":
-  version "1.11.1"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscripts-json-schema/-/manuscripts-json-schema-1.11.1.tgz#cf297072c27ef27d51a1097cfa0b5fc4c3101b96"
-  integrity sha512-dSEsI0+RPdzNzaheL4UJWN/irnvV/8nPCpu5wikHI7WTit4Z61VRLlQa+OvxOuhLdV9dBOj38JlCUhTs8jjjAg==
+"@manuscripts/manuscript-transform@^0.12.0":
+  version "0.12.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-transform/-/manuscript-transform-0.12.0.tgz#dd0c880f5aaa37ebb0cebb68f39dcff5a4280249"
+  integrity sha512-CPb29EU+Sb1XzLGwBiHo+zGBL158bPBfkluWRrEY/rn5z1V/m75RK5Vx8t8d1guN4ZsXnyvg2TvKyYy0jBtJyg==
+  dependencies:
+    prosemirror-model "^1.7.0"
+    uuid "^3.3.2"
+    w3c-xmlserializer "^1.1.2"
+
+"@manuscripts/manuscripts-json-schema@^1.12.0":
+  version "1.12.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscripts-json-schema/-/manuscripts-json-schema-1.12.0.tgz#3c5b24b5ffc426e93ae440f4d631c1154c4e3bc2"
+  integrity sha512-aWlqDQkg0I8p8hQ/aTTxO8xoXVwtrQohtsl0ApPXpO2lDOXcLzo4KtmTP5wQ6DlXlMKiQSb31NH/7ZJe75Kcog==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"
@@ -1710,16 +1733,17 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fresizer/-/resizer-0.0.2.tgz#dd7a98bf5a21b234efc2d742f27299924a925c8d"
   integrity sha512-4mopT++nGNTvExWrPea4dKktcxt7AiJpIKbWwtPEYrFdytfrmv3AsewN4qvkqwBkze/0R+KHcIcO7ZUIMAvZ1w==
 
-"@manuscripts/style-guide@^0.6.0":
-  version "0.6.1"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.6.1.tgz#64c03df8063919bebc8cf23204330281e7807787"
-  integrity sha512-YNvdL6/XtFi1Q4IyZG8J4Zx/iKs1IMYqjxKu7GOpsirlgvSGcdtXLA6YZDYnyrszr9McSx9QZy4jcyxDIU5fVg==
+"@manuscripts/style-guide@^0.7.0":
+  version "0.7.0"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.7.0.tgz#c6ea909f7c5ad8a3ff21ab5c2eeee98c44b581f1"
+  integrity sha512-fkDkuo8hPwPzdEYMgxkX4Bw6rl/HoglSuPAoNIo9nE1XQQd94Zu+kqZESk5fj0YSGwyRkbW7pSJCi2dJ6f5Low==
   dependencies:
     "@manuscripts/assets" "^0.3.6"
     lodash-es "^4.17.11"
     react-dnd "^7.4.3"
     react-modal "^3.8.1"
     react-select "^2.4.1"
+    tooltip.js "^1.3.2"
 
 "@manuscripts/sync-client@^0.0.5":
   version "0.0.5"
@@ -2724,10 +2748,18 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.8.10":
+"@types/react@*":
   version "16.8.17"
   resolved "https://registry.npmjs.org/@types/react/-/react-16.8.17.tgz#f287b76a5badb93bc9aa3f54521a3eb53d6c2374"
   integrity sha512-pln3mgc6VfkNg92WXODul/ONo140huK9OMsx62GlBlZ2lvjNK86PQJhYMPLO1i66aF5O9OPyZefogvNltBIszA==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
+
+"@types/react@^16.8.18":
+  version "16.8.18"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.8.18.tgz#fe66fb748b0b6ca9709d38b87b2d1356d960a511"
+  integrity sha512-lUXdKzRqWR4FebR5tGHkLCqnvQJS4fdXKCBrNGGbglqZg2gpU+J82pMONevQODUotATs9fc9k66bx3/St8vReg==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -3984,7 +4016,16 @@ babel-plugin-macros@2.4.2:
     cosmiconfig "^5.0.5"
     resolve "^1.8.1"
 
-babel-plugin-macros@^2.0.0, babel-plugin-macros@^2.4.2:
+babel-plugin-macros@^2.0.0:
+  version "2.6.0"
+  resolved "https://registry.npmjs.org/babel-plugin-macros/-/babel-plugin-macros-2.6.0.tgz#1840d0778f27698e5ceaf1a831293b2a57fc26ae"
+  integrity sha512-6hrXm6NIoSp+JiqhHZ6tUemhClnu//vjx9fAU5tkRCztTKxgiUpFpMDBX4yZiJIco7qkf0CPX2u4Ax3x6GCiUg==
+  dependencies:
+    "@babel/runtime" "^7.4.2"
+    cosmiconfig "^5.2.0"
+    resolve "^1.10.0"
+
+babel-plugin-macros@^2.4.2:
   version "2.5.1"
   resolved "https://registry.npmjs.org/babel-plugin-macros/-/babel-plugin-macros-2.5.1.tgz#4a119ac2c2e19b458c259b9accd7ee34fd57ec6f"
   integrity sha512-xN3KhAxPzsJ6OQTktCanNpIFnnMsCV+t8OloKxIL72D6+SUZYFn9qfklPgef5HyyDtzYZqqb+fs1S12+gQY82Q==
@@ -6330,10 +6371,15 @@ cssstyle@^1.0.0, cssstyle@^1.1.1:
   dependencies:
     cssom "0.3.x"
 
-csstype@^2.2.0, csstype@^2.5.2:
+csstype@^2.2.0:
   version "2.6.4"
   resolved "https://registry.npmjs.org/csstype/-/csstype-2.6.4.tgz#d585a6062096e324e7187f80e04f92bd0f00e37f"
   integrity sha512-lAJUJP3M6HxFXbqtGRc0iZrdyeN+WzOWeY0q/VnFzI+kqVrYIzC7bWlKqCW7oCIdzoPkvfp82EVvrTlQ8zsWQg==
+
+csstype@^2.5.2:
+  version "2.6.5"
+  resolved "https://registry.npmjs.org/csstype/-/csstype-2.6.5.tgz#1cd1dff742ebf4d7c991470ae71e12bb6751e034"
+  integrity sha512-JsTaiksRsel5n7XwqPAfB0l3TFKdpjW/kgAELf9vrb5adGA7UCPLajKK5s3nFrcFm3Rkyp/Qkgl73ENc1UY3cA==
 
 custom-idle-queue@2.1.2:
   version "2.1.2"
@@ -8409,6 +8455,11 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   version "4.1.15"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
   integrity sha512-6uHUhOPEBgQ24HM+r6b/QwWfZq+yiFcipKFrOFiBEnWdy5sdzYoi+pJeQaPI5qOLRFqWmAXUPQNsielzdLoecA==
+
+grapheme-splitter@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
+  integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
 graphlib@^2.1.5:
   version "2.1.7"
@@ -14392,10 +14443,23 @@ react-router@^4.2.0, react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-select@^2.1.0, react-select@^2.4.1, react-select@^2.4.3:
+react-select@^2.1.0, react-select@^2.4.3:
   version "2.4.3"
   resolved "https://registry.npmjs.org/react-select/-/react-select-2.4.3.tgz#62efdf76d7e33e9bde22d907a0cc8abd0aeab656"
   integrity sha512-cmxNaiHpviRYkojeW9rGEUJ4jpX7QTmPe2wcscwA4d1lStzw/cJtr4ft5H2O/YhfpkrcwaLghu3XmEYdXhBo8Q==
+  dependencies:
+    classnames "^2.2.5"
+    emotion "^9.1.2"
+    memoize-one "^5.0.0"
+    prop-types "^15.6.0"
+    raf "^3.4.0"
+    react-input-autosize "^2.2.1"
+    react-transition-group "^2.2.1"
+
+react-select@^2.4.1:
+  version "2.4.4"
+  resolved "https://registry.npmjs.org/react-select/-/react-select-2.4.4.tgz#ba72468ef1060c7d46fbb862b0748f96491f1f73"
+  integrity sha512-C4QPLgy9h42J/KkdrpVxNmkY6p4lb49fsrbDk/hRcZpX7JvZPNb6mGj+c5SzyEtBv1DmQ9oPH4NmhAFvCrg8Jw==
   dependencies:
     classnames "^2.2.5"
     emotion "^9.1.2"
@@ -16701,7 +16765,7 @@ toidentifier@1.0.0:
   resolved "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-tooltip.js@^1.3.0:
+tooltip.js@^1.3.2:
   version "1.3.2"
   resolved "https://registry.npmjs.org/tooltip.js/-/tooltip.js-1.3.2.tgz#ccfe450ffd7332ce5f254033778649526c1db542"
   integrity sha512-DeDr9JxYx/lSvQ53ZCRFLxXrmrSyU3fLz6k+ITUTw69AIYtpWij/NmOJQscJ7BwY5lcEwWJWSfqqQWVvTMYZiw==
