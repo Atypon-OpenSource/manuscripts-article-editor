@@ -20,6 +20,7 @@ import {
   generateAttachmentFilename,
   getModelData,
   ModelAttachment,
+  serializeToHTML,
   serializeToJATS,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
@@ -125,8 +126,9 @@ const buildProjectBundle = async (
       const attachment = await attachmentPromise
 
       switch (format) {
+        case '.html':
         case '.xml': {
-          // add file extension for JATS export
+          // add file extension for JATS/HTML export
           const filename = generateAttachmentFilename(
             model._id,
             attachment.type
@@ -167,6 +169,17 @@ export const downloadExtension = (format: string): string => {
   }
 }
 
+const convertToHTML = async (zip: JSZip, modelMap: Map<string, Model>) => {
+  zip.remove('index.manuscript-json')
+
+  const decoder = new Decoder(modelMap)
+  const doc = decoder.createArticleNode()
+
+  zip.file('index.html', serializeToHTML(doc.content, modelMap))
+
+  return zip.generateAsync({ type: 'blob' })
+}
+
 const convertToXML = async (zip: JSZip, modelMap: Map<string, Model>) => {
   zip.remove('index.manuscript-json')
 
@@ -199,6 +212,9 @@ export const exportProject = async (
   switch (format) {
     case '.xml':
       return convertToXML(zip, modelMap)
+
+    case '.html':
+      return convertToHTML(zip, modelMap)
 
     case '.manuproj':
       if (project) {

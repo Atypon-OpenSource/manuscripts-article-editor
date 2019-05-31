@@ -139,6 +139,10 @@ export const buildProjectMenu = (props: Props): MenuItem => ({
           run: () => props.openExporter('.xml'),
         },
         {
+          label: () => 'HTML',
+          run: () => props.openExporter('.html'),
+        },
+        {
           label: () => 'Manuscripts Archive',
           run: () => props.openExporter('.manuproj'),
         },
