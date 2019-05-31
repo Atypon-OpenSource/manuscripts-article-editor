@@ -15,7 +15,7 @@
  */
 
 import data from '@manuscripts/examples/data/project-dump.json'
-import { Manuscript } from '@manuscripts/manuscripts-json-schema'
+import { Manuscript, Section } from '@manuscripts/manuscripts-json-schema'
 import { TabPanel, TabPanels, Tabs } from '@reach/tabs'
 import '@reach/tabs/styles.css'
 import { action } from '@storybook/addon-actions'
@@ -23,6 +23,7 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { InspectorTab, InspectorTabList } from '../src/components/Inspector'
 import { ManuscriptInspector } from '../src/components/projects/ManuscriptInspector'
+import { SectionInspector } from '../src/components/projects/SectionInspector'
 import { buildModelMap } from '../src/pressroom/__tests__/util'
 import { ProjectDump } from '../src/pressroom/importers'
 
@@ -32,6 +33,18 @@ const manuscript: Manuscript = {
   objectType: 'MPManuscript',
   createdAt: 0,
   updatedAt: 0,
+}
+
+const section: Section = {
+  _id: 'MPSection:1',
+  containerID: 'MPProject:1',
+  manuscriptID: 'MPManuscript:1',
+  objectType: 'MPSection',
+  createdAt: 0,
+  updatedAt: 0,
+  sessionID: '1',
+  priority: 1,
+  path: ['MPSection:1'],
 }
 
 const modelMap = buildModelMap(data as ProjectDump)
@@ -54,8 +67,9 @@ storiesOf('Inspector', module).add('tabs', () => (
   </div>
 ))
 
-storiesOf('Inspector/Manuscript Inspector', module)
-  .add('with bundle', () => (
+storiesOf('Inspector/Manuscript Inspector', module).add(
+  'without requirements',
+  () => (
     <div style={{ width: 500 }}>
       <ManuscriptInspector
         modelMap={modelMap}
@@ -63,13 +77,18 @@ storiesOf('Inspector/Manuscript Inspector', module)
         saveModel={action('save')}
       />
     </div>
-  ))
-  .add('without bundle', () => (
+  )
+)
+
+storiesOf('Inspector/Section Inspector', module).add(
+  'without requirements',
+  () => (
     <div style={{ width: 500 }}>
-      <ManuscriptInspector
+      <SectionInspector
         modelMap={modelMap}
-        manuscript={manuscript}
+        section={section}
         saveModel={action('save')}
       />
     </div>
-  ))
+  )
+)

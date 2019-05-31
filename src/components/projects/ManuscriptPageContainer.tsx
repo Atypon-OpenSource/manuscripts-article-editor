@@ -20,6 +20,7 @@ import {
   CitationManager,
   Editor,
   findParentNodeWithIdValue,
+  findParentSection,
   MenuItem,
   menus as editorMenus,
   PopperManager,
@@ -28,6 +29,7 @@ import {
 import '@manuscripts/manuscript-editor/styles/Editor.css'
 import '@manuscripts/manuscript-editor/styles/popper.css'
 import {
+  ActualManuscriptNode,
   Build,
   buildContributor,
   buildKeyword,
@@ -48,9 +50,9 @@ import {
   ManuscriptEditorState,
   ManuscriptEditorView,
   ManuscriptModel,
-  ManuscriptNode,
   ManuscriptPlugin,
   ModelAttachment,
+  SectionNode,
   Selected,
   timestamp,
   UserProfileWithAvatar,
@@ -63,6 +65,7 @@ import {
   Model,
   ObjectTypes,
   Project,
+  Section,
   UserProfile,
   UserProject,
 } from '@manuscripts/manuscripts-json-schema'
@@ -75,7 +78,6 @@ import {
   SyncErrors,
   syncErrorsKey,
 } from '@manuscripts/sync-client'
-import { TabPanel, TabPanels, Tabs } from '@reach/tabs'
 import '@reach/tabs/styles.css'
 import CiteProc from 'citeproc'
 import debounce from 'lodash-es/debounce'
@@ -88,7 +90,11 @@ import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import deviceId from '../../lib/device-id'
 import { filterLibrary } from '../../lib/library'
-import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
+import {
+  isManuscript,
+  isSection,
+  nextManuscriptPriority,
+} from '../../lib/manuscript'
 import { buildProjectMenu } from '../../lib/project-menu'
 import { canWrite, ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/session-id'
@@ -106,6 +112,9 @@ import {
   DebouncedInspector,
   InspectorTab,
   InspectorTabList,
+  InspectorTabPanel,
+  InspectorTabPanels,
+  InspectorTabs,
 } from '../Inspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
@@ -133,10 +142,11 @@ import {
   ManuscriptPageToolbar,
 } from './ManuscriptPageToolbar'
 import ManuscriptSidebar from './ManuscriptSidebar'
-import { ManuscriptStatisticsInspector } from './ManuscriptStatisticsInspector'
 import { ManuscriptStyleInspector } from './ManuscriptStyleInspector'
 import { ReloadDialog } from './ReloadDialog'
 import RenameProject from './RenameProject'
+import { SectionInspector } from './SectionInspector'
+import { StatisticsInspector } from './StatisticsInspector'
 
 interface ModelObject {
   // [key: string]: ModelObject[keyof ModelObject]
@@ -147,7 +157,7 @@ interface State {
   conflictManager?: ConflictManager
   conflicts: LocalConflicts | null
   dirty: boolean
-  doc?: ManuscriptNode
+  doc?: ActualManuscriptNode
   error?: string
   manuscript: Manuscript
   modelIds: {
@@ -159,6 +169,7 @@ interface State {
   processor?: CiteProc.Engine
   permissions?: Permissions
   selected: Selected | null
+  selectedSection?: Selected
   view?: ManuscriptEditorView
   activeEditor?: {
     editor: string
@@ -202,6 +213,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private collection: Collection<Model>
 
   private readonly debouncedSaveModels: (state: ManuscriptEditorState) => void
+
+  private requirementFields: string[] = [
+    'minWordCountRequirement',
+    'maxWordCountRequirement',
+    'minCharacterCountRequirement',
+    'maxCharacterCountRequirement',
+  ]
 
   public constructor(props: CombinedProps) {
     super(props)
@@ -298,6 +316,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       error,
       plugins,
       permissions,
+      selectedSection,
     } = this.state
 
     const {
@@ -324,6 +343,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     ) {
       return <ManuscriptPlaceholder />
     }
+
+    const section = selectedSection
+      ? this.getModel<Section>(selectedSection.node.attrs.id)
+      : undefined
 
     const locale = this.getLocale(manuscript)
 
@@ -438,29 +461,43 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         >
           {this.state.view && comments && (
             <DebouncedInspector>
-              <Tabs>
+              <InspectorTabs>
                 <InspectorTabList>
                   <InspectorTab>Content</InspectorTab>
                   <InspectorTab>Style</InspectorTab>
                   <InspectorTab>Comments</InspectorTab>
                 </InspectorTabList>
 
-                <TabPanels>
-                  <TabPanel>
-                    <ManuscriptStatisticsInspector doc={doc} />
+                <InspectorTabPanels>
+                  <InspectorTabPanel>
+                    <StatisticsInspector
+                      manuscriptNode={doc}
+                      sectionNode={
+                        selectedSection
+                          ? (selectedSection.node as SectionNode)
+                          : undefined
+                      }
+                    />
                     <ManuscriptInspector
                       manuscript={manuscript}
                       modelMap={modelMap}
                       saveModel={this.saveModel}
                     />
-                  </TabPanel>
-                  <TabPanel>
+                    {section && (
+                      <SectionInspector
+                        section={section}
+                        modelMap={modelMap}
+                        saveModel={this.saveModel}
+                      />
+                    )}
+                  </InspectorTabPanel>
+                  <InspectorTabPanel>
                     <ManuscriptStyleInspector
                       bundle={this.findBundle()}
                       openCitationStyleSelector={this.openCitationStyleSelector}
                     />
-                  </TabPanel>
-                  <TabPanel>
+                  </InspectorTabPanel>
+                  <InspectorTabPanel>
                     <CommentList
                       comments={comments}
                       doc={doc}
@@ -474,9 +511,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                       listKeywords={this.listKeywords}
                       saveComment={this.saveModel}
                     />
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
+                  </InspectorTabPanel>
+                </InspectorTabPanels>
+              </InspectorTabs>
             </DebouncedInspector>
           )}
         </Panel>
@@ -592,7 +629,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       const decoder = new Decoder(modelMap)
 
       try {
-        const doc = decoder.createArticleNode()
+        const doc = decoder.createArticleNode() as ActualManuscriptNode
         doc.check()
 
         // encode again here to get doc model ids for comparison
@@ -1205,6 +1242,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       'owners',
       'manuscriptID',
       'containerID',
+      ...this.requirementFields,
     ]
 
     return Object.keys(model).filter(key => !excludedKeys.includes(key))
@@ -1242,12 +1280,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     docChanged: boolean
   ) => {
     const selected = findParentNodeWithIdValue(state.selection) || null
+    const selectedSection = findParentSection(state.selection)
 
     this.setState(prevState => ({
       ...prevState,
       dirty: prevState.dirty || docChanged,
-      doc: state.doc,
+      doc: state.doc as ActualManuscriptNode,
       selected,
+      selectedSection,
     }))
 
     if (docChanged) {
@@ -1282,6 +1322,18 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return output
   }
 
+  private copyRequirements = <T extends Model>(model: T) => {
+    const previousModel = this.getModel<T>(model._id)
+
+    if (!previousModel) {
+      return
+    }
+
+    for (const field of this.requirementFields as Array<keyof T>) {
+      model[field] = previousModel[field]
+    }
+  }
+
   private saveModels = async (state: ManuscriptEditorState) => {
     // TODO: return/queue if already saving?
     const { manuscriptID, projectID } = this.props.match.params
@@ -1301,6 +1353,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       for (const model of encodedModelMap.values()) {
         if (this.hasChanged(model)) {
           changedModels.push(model)
+
+          if (isManuscript(model)) {
+            this.copyRequirements<Manuscript>(model)
+          } else if (isSection(model)) {
+            this.copyRequirements<Section>(model)
+          }
+
           modelMap!.set(model._id, model)
         }
       }

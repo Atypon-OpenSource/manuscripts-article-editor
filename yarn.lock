@@ -1636,10 +1636,10 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fexamples/-/examples-0.0.5.tgz#335d4fefaf9b4cdc64e59f03c45818cd8fed904d"
   integrity sha512-oTAMMrSHmBXXUnmOK4jBw94r1snEVRcUXeMcC2tGOBKKqeEEP5oGYU50qKnfgcN+N1xZ2p6HZ6Zp0wjTeLvH1A==
 
-"@manuscripts/manuscript-editor@^0.26.1":
-  version "0.26.1"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.26.1.tgz#1cd4fb6de790e0bcd169a6bdecac565d3d68d472"
-  integrity sha512-YV1iKZRHkt5hrmmcsCDSnc4S7MgfQiOMUnSjyuTfgI7mzjYU5sUsujyYddHIa8/tIYX1B3IcS0CbJTHibnBh5g==
+"@manuscripts/manuscript-editor@^0.26.2":
+  version "0.26.2"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-editor/-/manuscript-editor-0.26.2.tgz#1d05a424e4e6ebc691800eea269b3478c40d74d7"
+  integrity sha512-M7xFFwBfn+SEkXnHfLYyWv4INnsqfKAnU92pcs4zafKS6Y8LAAKl1cfdmg5mopM3EQhdF/I4NYxa7zWEDj9+tw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"

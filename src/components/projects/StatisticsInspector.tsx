@@ -15,18 +15,41 @@
  */
 
 import { Statistics } from '@manuscripts/manuscript-editor'
-import { ManuscriptNode } from '@manuscripts/manuscript-transform'
+import {
+  ActualManuscriptNode,
+  SectionNode,
+} from '@manuscripts/manuscript-transform'
 import React from 'react'
+import { styled } from '../../theme/styled-components'
 import { InspectorSection, Subheading } from '../InspectorSection'
 
-export const ManuscriptStatisticsInspector: React.FC<{
-  doc: ManuscriptNode
-}> = ({ doc }) => {
+const InspectorSubsection = styled.div`
+  margin-left: 8px;
+
+  :not(:first-child) {
+    margin-top: 16px;
+  }
+`
+
+export const StatisticsInspector: React.FC<{
+  manuscriptNode: ActualManuscriptNode
+  sectionNode?: SectionNode
+}> = ({ manuscriptNode, sectionNode }) => {
   return (
     <InspectorSection title={'Statistics'}>
-      <Subheading>Manuscript</Subheading>
+      <InspectorSubsection>
+        <Subheading>Manuscript</Subheading>
 
-      <Statistics node={doc} />
+        <Statistics node={manuscriptNode} />
+      </InspectorSubsection>
+
+      {sectionNode && (
+        <InspectorSubsection>
+          <Subheading>Section</Subheading>
+
+          <Statistics node={sectionNode} />
+        </InspectorSubsection>
+      )}
     </InspectorSection>
   )
 }

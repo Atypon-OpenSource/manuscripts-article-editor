@@ -15,7 +15,7 @@
  */
 
 import { debounceRender } from '@manuscripts/manuscript-editor'
-import { Tab, TabList } from '@reach/tabs'
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs'
 import { styled } from '../theme/styled-components'
 
 export const Inspector = styled.div`
@@ -31,6 +31,11 @@ export const DebouncedInspector = debounceRender(Inspector, 100, {
   maxWait: 500,
 })
 
+export const InspectorTabs = styled(Tabs)`
+  display: flex;
+  flex-direction: column;
+`
+
 export const InspectorTabList = styled(TabList)`
   && {
     background: none;
@@ -38,6 +43,13 @@ export const InspectorTabList = styled(TabList)`
     font-size: 14px;
   }
 `
+
+export const InspectorTabPanels = styled(TabPanels)`
+  flex: 1;
+  overflow-y: auto;
+`
+
+export const InspectorTabPanel = styled(TabPanel)``
 
 export const InspectorTab = styled(Tab)`
   && {

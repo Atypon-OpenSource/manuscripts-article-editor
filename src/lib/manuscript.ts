@@ -18,11 +18,15 @@ import {
   Manuscript,
   Model,
   ObjectTypes,
+  Section,
 } from '@manuscripts/manuscripts-json-schema'
 import { Collection } from '../sync/Collection'
 
 export const isManuscript = (model: Model): model is Manuscript =>
   model.objectType === ObjectTypes.Manuscript
+
+export const isSection = (model: Model): model is Section =>
+  model.objectType === ObjectTypes.Section
 
 export const nextManuscriptPriority = async (
   collection: Collection<Manuscript>

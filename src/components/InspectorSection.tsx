@@ -42,7 +42,15 @@ const HeadingText = styled.div`
 
 export const Subheading = styled(HeadingText)`
   font-size: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+
+  &:not(:first-child) {
+    margin-top: 24px;
+  }
+`
+
+export const IndentedSubheading = styled(Subheading)`
+  margin-left: 8px;
 `
 
 export const Field = styled.div`
