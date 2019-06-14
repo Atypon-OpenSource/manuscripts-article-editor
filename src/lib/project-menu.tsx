@@ -25,7 +25,7 @@ interface Props {
   project: Project
   manuscript: Manuscript
   getRecentProjects: () => RecentProject[]
-  openTemplateSelector: () => void
+  openTemplateSelector: (newProject?: boolean) => void
   addManuscript: () => void
   deleteManuscript: (id: string) => Promise<void>
   deleteModel: (id: string) => Promise<string>
@@ -75,12 +75,12 @@ export const buildProjectMenu = (props: Props): MenuItem => ({
       label: () => 'New',
       submenu: [
         {
-          label: () => 'Manuscript with Template…',
-          run: props.openTemplateSelector,
+          label: () => 'Project…',
+          run: () => props.openTemplateSelector(true),
         },
         {
-          label: () => 'Manuscript',
-          run: props.addManuscript,
+          label: () => 'Manuscript…',
+          run: () => props.openTemplateSelector(false),
         },
       ],
     },

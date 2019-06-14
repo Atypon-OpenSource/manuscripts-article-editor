@@ -840,12 +840,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  private openTemplateSelector = () => {
+  private openTemplateSelector = (newProject?: boolean) => {
     const { addModal, project, user } = this.props
 
     addModal('template-selector', ({ handleClose }) => (
       <TemplateSelector
-        projectID={project._id}
+        projectID={newProject ? undefined : project._id}
         user={user}
         handleComplete={handleClose}
       />
