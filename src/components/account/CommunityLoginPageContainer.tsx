@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
+import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import qs from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import config from '../../config'
 import client from '../../lib/client'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 
 type Props = RouteComponentProps<{
   sig: string

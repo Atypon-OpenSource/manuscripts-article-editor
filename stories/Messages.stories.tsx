@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { AlertMessageType } from '@manuscripts/style-guide'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -32,7 +33,6 @@ import {
   signupVerifyResendFailureMessage,
   signupVerifyResendSuccessMessage,
 } from '../src/components/account/SignupMessages'
-import { AlertMessageType } from '../src/components/AlertMessage'
 import {
   AcceptInvitationError,
   AcceptInvitationSuccess,

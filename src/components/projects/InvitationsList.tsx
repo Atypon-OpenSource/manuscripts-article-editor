@@ -15,10 +15,10 @@
  */
 
 import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
+import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { InvitationData } from '../nav/ProjectsButton'
 import { Invitation } from './InvitationElement'
 

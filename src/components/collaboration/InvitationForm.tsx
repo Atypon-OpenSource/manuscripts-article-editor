@@ -15,6 +15,8 @@
  */
 
 import {
+  AlertMessage,
+  AlertMessageType,
   FormError,
   PrimaryButton,
   TextField,
@@ -34,7 +36,6 @@ import { TokenActions } from '../../data/TokenData'
 import { ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { projectInvitationSchema } from '../../validation'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { RadioButton } from '../RadioButton'
 
 const SendInvitationButton = styled(PrimaryButton).attrs({

@@ -15,12 +15,12 @@
  */
 
 import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
+import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import { TokenActions } from '../../data/TokenData'
 import { projectInvite } from '../../lib/api/collaboration'
 import { styled } from '../../theme/styled-components'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import {
   InvitationForm,
   InvitationValues,

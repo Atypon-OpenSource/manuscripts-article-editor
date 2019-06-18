@@ -21,12 +21,13 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import {
   AffiliationsEditor,
+  AlertMessage,
+  AlertMessageType,
   AuthorAffiliation,
   AuthorForm,
   AuthorValues,
 } from '@manuscripts/style-guide'
 import React from 'react'
-import AlertMessage, { AlertMessageType } from '../../components/AlertMessage'
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme/styled-components'

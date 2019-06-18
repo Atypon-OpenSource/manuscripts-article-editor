@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import { parse } from 'qs'
 import React from 'react'
-import AlertMessage, { AlertMessageType } from './AlertMessage'
 
 export enum MessageBannerAction {
   resetPassword = 'reset-password',

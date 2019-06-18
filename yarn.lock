@@ -1733,6 +1733,19 @@
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fresizer/-/resizer-0.0.2.tgz#dd7a98bf5a21b234efc2d742f27299924a925c8d"
   integrity sha512-4mopT++nGNTvExWrPea4dKktcxt7AiJpIKbWwtPEYrFdytfrmv3AsewN4qvkqwBkze/0R+KHcIcO7ZUIMAvZ1w==
 
+"@manuscripts/style-guide@0.8.4":
+  version "0.8.4"
+  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.8.4.tgz#940d270b1c68d54a19ceb41fdec182f01bf8d369"
+  integrity sha512-KKsbyYBNkGh2z8z4WWJHlRQ1uXvB29vg6nw0vsY/ni5eZPApp+en/qSLA2gAAiLlDv1EpixTJDWmtzouKGH9aw==
+  dependencies:
+    "@manuscripts/assets" "^0.3.6"
+    lodash-es "^4.17.11"
+    react-dnd "^7.4.3"
+    react-modal "^3.8.1"
+    react-select "^2.4.1"
+    react-sizeme "^2.6.7"
+    tooltip.js "^1.3.2"
+
 "@manuscripts/style-guide@^0.7.0":
   version "0.7.0"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fstyle-guide/-/style-guide-0.7.0.tgz#c6ea909f7c5ad8a3ff21ab5c2eeee98c44b581f1"
@@ -14477,7 +14490,7 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
-react-sizeme@^2.5.2:
+react-sizeme@^2.5.2, react-sizeme@^2.6.7:
   version "2.6.7"
   resolved "https://registry.npmjs.org/react-sizeme/-/react-sizeme-2.6.7.tgz#231339ce8821ac2c26424c791e0027f89dae3e90"
   integrity sha512-xCjPoBP5jmeW58TxIkcviMZqabZis7tTvDFWf0/Wa5XCgVWQTIe74NQBes2N1Kmp64GRLkpm60BaP0kk+v8aCQ==

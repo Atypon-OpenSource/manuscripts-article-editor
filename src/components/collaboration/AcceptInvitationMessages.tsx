@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import {
   AcceptedInvitationFailureMessage,
   AcceptedInvitationSuccessMessage,

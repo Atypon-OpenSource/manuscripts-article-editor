@@ -15,11 +15,11 @@
  */
 
 import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
+import { TextButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
-import { TextButton } from '../AlertMessage'
 import InviteAuthorPopperContainer from './InviteAuthorPopperContainer'
 
 interface State {

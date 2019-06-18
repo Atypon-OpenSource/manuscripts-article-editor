@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
 import config from '../../config'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 
 export const signupVerifyMessage = (
   email: string,

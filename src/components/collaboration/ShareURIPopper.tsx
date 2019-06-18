@@ -16,6 +16,8 @@
 
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import {
+  AlertMessage,
+  AlertMessageType,
   Button,
   GreyButton,
   PrimaryButton,
@@ -24,7 +26,6 @@ import {
 import React from 'react'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { PopperBody } from '../Popper'
 import { RadioButton } from '../RadioButton'
 import { ShareProjectHeader, ShareProjectTitle } from './InvitationPopper'

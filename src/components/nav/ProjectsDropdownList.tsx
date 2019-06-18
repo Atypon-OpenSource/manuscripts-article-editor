@@ -19,9 +19,9 @@ import {
   Project,
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
+import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
 import { projectListCompare } from '../../lib/projects'
-import AlertMessage, { AlertMessageType } from '../AlertMessage'
 import { DropdownSeparator } from './Dropdown'
 import {
   AllProjectsDropdownSection,
