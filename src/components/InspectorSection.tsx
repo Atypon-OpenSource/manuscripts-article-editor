@@ -49,10 +49,6 @@ export const Subheading = styled(HeadingText)`
   }
 `
 
-export const IndentedSubheading = styled(Subheading)`
-  margin-left: 8px;
-`
-
 export const Field = styled.div`
   margin-bottom: 16px;
 `

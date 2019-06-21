@@ -28,14 +28,7 @@ interface Props {
 
 class EmptyProjectPageContainer extends React.Component<Props & ModalProps> {
   public render() {
-    const { project } = this.props
-
-    return (
-      <EmptyProjectPage
-        project={project}
-        openTemplateSelector={this.openTemplateSelector}
-      />
-    )
+    return <EmptyProjectPage openTemplateSelector={this.openTemplateSelector} />
   }
 
   private openTemplateSelector = () => {

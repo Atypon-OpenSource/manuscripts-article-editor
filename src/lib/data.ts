@@ -31,15 +31,3 @@ export const buildUser = async (
 
   return item
 }
-
-export const buildUserMap = async (docs: Array<RxDocument<UserProfile>>) => {
-  const output: Map<string, UserProfileWithAvatar> = new Map()
-
-  for (const doc of docs) {
-    const item = await buildUser(doc)
-
-    output.set(item.userID, item)
-  }
-
-  return output
-}

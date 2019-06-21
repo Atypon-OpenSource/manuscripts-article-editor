@@ -170,7 +170,7 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
                     <SidebarProject
                       key={project._id}
                       isActive={match !== null}
-                      onClick={event => {
+                      onClick={() => {
                         closeModal && closeModal()
                         history.push(path)
                       }}

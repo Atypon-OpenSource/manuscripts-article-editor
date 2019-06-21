@@ -106,13 +106,9 @@ const MenuContainerWithBorder = styled(MenuContainer)`
 
 interface Props {
   handleClose: React.MouseEventHandler<HTMLElement>
-  projectID: string
 }
 
-export const Menu: React.FunctionComponent<Props> = ({
-  handleClose,
-  projectID,
-}) => (
+export const Menu: React.FunctionComponent<Props> = ({ handleClose }) => (
   <MenuContainerWithBorder>
     <FilledMenuBarIcon onClick={handleClose}>
       <Tip title={'Back to Editor'} placement={'bottom-end'}>

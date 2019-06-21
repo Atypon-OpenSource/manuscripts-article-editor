@@ -52,7 +52,6 @@ interface State {
 }
 
 interface Props {
-  projectID: string
   tokenActions: TokenActions
 }
 
@@ -62,7 +61,7 @@ class MenuBar extends React.Component<Props, State> {
   }
 
   public render() {
-    const { children, projectID, tokenActions } = this.props
+    const { children, tokenActions } = this.props
 
     return (
       <React.Fragment>
@@ -75,7 +74,7 @@ class MenuBar extends React.Component<Props, State> {
           onRequestClose={this.handleClose}
           style={modalStyle}
         >
-          <Menu handleClose={this.handleClose} projectID={projectID} />
+          <Menu handleClose={this.handleClose} />
           <ProjectsSidebar
             closeModal={this.handleClose}
             tokenActions={tokenActions}

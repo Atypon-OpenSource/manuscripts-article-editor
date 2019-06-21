@@ -179,7 +179,6 @@ export const CollaboratorDetailsPage: React.FunctionComponent<
 )
 
 interface AddCollaboratorsPageProps {
-  project: Project
   addedCollaboratorsCount: number
 }
 
@@ -189,7 +188,7 @@ interface AddAuthorsPageProps {
 
 export const AddCollaboratorsPage: React.FunctionComponent<
   AddCollaboratorsPageProps
-> = ({ project, addedCollaboratorsCount }) => (
+> = ({ addedCollaboratorsCount }) => (
   <OuterContainer>
     <InnerContainer>
       <Placeholder>
@@ -274,13 +273,7 @@ export const AuthorDetailsPage: React.FunctionComponent = () => (
   </OuterContainerModal>
 )
 
-interface InviteCollaboratorsPageProps {
-  project: Project
-}
-
-export const InviteCollaboratorsPage: React.FunctionComponent<
-  InviteCollaboratorsPageProps
-> = ({ project }) => (
+export const InviteCollaboratorsPage: React.FunctionComponent = () => (
   <OuterContainer>
     <InnerContainer>
       <Placeholder>
@@ -296,9 +289,7 @@ export const InviteCollaboratorsPage: React.FunctionComponent<
   </OuterContainer>
 )
 
-export const InviteCollaboratorsModal: React.FunctionComponent<
-  InviteCollaboratorsPageProps
-> = ({ project }) => (
+export const InviteCollaboratorsModal: React.FunctionComponent = () => (
   <OuterContainerModal>
     <InnerContainer>
       <Placeholder>
@@ -315,13 +306,12 @@ export const InviteCollaboratorsModal: React.FunctionComponent<
 )
 
 interface SearchCollaboratorsPageProps {
-  project: Project
   searchText: string
 }
 
 export const SearchCollaboratorsPage: React.FunctionComponent<
   SearchCollaboratorsPageProps
-> = ({ project, searchText }) => (
+> = ({ searchText }) => (
   <OuterContainer>
     <InnerContainer>
       <Placeholder>

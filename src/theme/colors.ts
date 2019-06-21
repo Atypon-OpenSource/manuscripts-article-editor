@@ -38,7 +38,6 @@ export const lightAliceBlue = '#f8fbfe'
 export const lightBlue = '#e2e8ee'
 export const mayaBlue = '#65a3ff'
 export const aquaHaze = '#edf2f5'
-export const selago = '#e1edfa'
 
 // reds
 export const punchRed = '#dc5030'

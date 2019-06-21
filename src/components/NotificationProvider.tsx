@@ -40,16 +40,6 @@ export const NotificationContext = React.createContext<NotificationProps>(
   {} as NotificationProps // tslint:disable-line:no-object-literal-type-assertion
 )
 
-export const withNotification = <Props extends {}>(
-  Component: React.ComponentType<NotificationProps>
-): React.ComponentType<
-  Pick<Props, Exclude<keyof Props, NotificationProps>>
-> => (props: Props) => (
-  <NotificationContext.Consumer>
-    {value => <Component {...props} {...value} />}
-  </NotificationContext.Consumer>
-)
-
 interface State {
   notifications: NotificationItem[]
 }

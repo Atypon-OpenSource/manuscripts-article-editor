@@ -148,14 +148,9 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
               ) : (
                 <ImportContainer
                   importManuscript={props.importManuscript!}
-                  render={({
-                    handleClick,
-                    isDragActive,
-                    isDragAccept,
-                  }: ImportProps) => (
+                  render={({ handleClick, isDragAccept }: ImportProps) => (
                     <ProjectsListPlaceholder
                       handleClick={handleClick}
-                      isDragActive={isDragActive}
                       openTemplateSelector={openTemplateSelector(props, user)}
                       isDragAccept={isDragAccept}
                     />

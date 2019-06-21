@@ -49,7 +49,6 @@ storiesOf('Projects', module)
   ))
   .add('Projects Page - Empty', () => (
     <EmptyProjectPage
-      project={projects[0]}
       openTemplateSelector={action('open template selector ')}
     />
   ))

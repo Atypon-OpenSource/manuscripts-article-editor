@@ -37,16 +37,6 @@ const DropdownInfo = styled.div`
   white-space: nowrap;
 `
 
-export const MenuLabel = styled.div`
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 10px;
-  text-decoration: none;
-  color: inherit;
-  border-radius: 4px;
-  margin-left: 20px;
-`
-
 const PlainLink = styled.a`
   color: inherit;
   text-decoration: none;

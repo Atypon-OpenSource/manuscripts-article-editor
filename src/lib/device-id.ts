@@ -16,10 +16,6 @@
 
 import uuid from 'uuid/v4'
 
-export interface DeviceValues {
-  deviceId: string
-}
-
 const storage = window.localStorage
 
 if (!storage.getItem('deviceId')) {

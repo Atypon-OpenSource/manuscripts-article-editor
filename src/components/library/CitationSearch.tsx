@@ -58,10 +58,6 @@ const Container = styled.div`
   flex: 1;
 `
 
-export interface SearchValues {
-  query: string
-}
-
 interface Props {
   filterLibraryItems: (query: string | null) => BibliographyItem[]
   handleCite: (

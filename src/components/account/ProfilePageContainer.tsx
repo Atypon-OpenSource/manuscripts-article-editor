@@ -46,8 +46,8 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
                   affiliationsMap={affiliations}
                   handleSave={this.handleSave(
                     user,
-                    userCollection,
-                    affiliationsCollection
+                    userCollection
+                    // affiliationsCollection
                   )}
                   handleChangePassword={this.handleChangePassword}
                   handleDeleteAccount={this.handleDeleteAccount}
@@ -75,8 +75,8 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
 
   private handleSave = (
     user: UserProfile,
-    userCollection: Collection<UserProfile>,
-    affiliationsCollection: Collection<UserProfileAffiliation>
+    userCollection: Collection<UserProfile>
+    // affiliationsCollection: Collection<UserProfileAffiliation>
   ) => async (
     values: ProfileValues,
     { setSubmitting, setErrors }: FormikActions<ProfileValues | ProfileErrors>

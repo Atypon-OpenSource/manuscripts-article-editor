@@ -196,16 +196,14 @@ storiesOf('Collaboration/Pages', module)
     />
   ))
   .add('Add collaborators', () => (
-    <AddCollaboratorsPage project={project} addedCollaboratorsCount={3} />
+    <AddCollaboratorsPage addedCollaboratorsCount={3} />
   ))
-  .add('Invite collaborators', () => (
-    <InviteCollaboratorsPage project={project} />
-  ))
+  .add('Invite collaborators', () => <InviteCollaboratorsPage />)
   .add('Search collaborators by name', () => (
-    <SearchCollaboratorsPage project={project} searchText={'bob'} />
+    <SearchCollaboratorsPage searchText={'bob'} />
   ))
   .add('Search collaborators by email', () => (
-    <SearchCollaboratorsPage project={project} searchText={'bob@example.com'} />
+    <SearchCollaboratorsPage searchText={'bob@example.com'} />
   ))
 
 storiesOf('Collaboration/Sidebars', module)

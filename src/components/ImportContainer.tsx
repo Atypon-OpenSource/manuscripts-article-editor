@@ -127,7 +127,7 @@ class ImportContainer extends React.Component<Props & ModalProps & State> {
     ))
   }
 
-  private handleDrop = async (acceptedFiles: File[], rejectedFiles: File[]) => {
+  private handleDrop = async (acceptedFiles: File[]) => {
     if (acceptedFiles.length) {
       if (acceptedFiles[0].name.endsWith('.zip')) {
         await this.handleZipFile(acceptedFiles[0])

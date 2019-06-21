@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { ProjectPlaceholder } from '../Placeholders'
@@ -91,12 +90,10 @@ const TextContainer = styled.div`
   padding-top: 6px;
 `
 interface Props {
-  project: Project
   openTemplateSelector: () => void
 }
 
 export const EmptyProjectPage: React.FunctionComponent<Props> = ({
-  project,
   openTemplateSelector,
 }) => (
   <OuterContainer>

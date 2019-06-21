@@ -185,7 +185,7 @@ class IntlProvider extends React.Component<{}, State> {
           messages: translations[locale],
         })
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({
           loading: false,
           error: true,

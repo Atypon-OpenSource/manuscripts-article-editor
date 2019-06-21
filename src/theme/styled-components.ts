@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import React from 'react'
 import * as styledComponents from 'styled-components'
 import { Theme } from './types'
 
@@ -28,8 +27,3 @@ const {
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<Theme>
 
 export { createGlobalStyle, css, styled, ThemeProvider }
-
-export type ThemedProps<V> = styledComponents.ThemedStyledProps<
-  React.HTMLProps<V>,
-  Theme
->

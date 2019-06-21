@@ -41,7 +41,7 @@ export interface SignupErrors {
 
 export const SignupForm: React.FunctionComponent<
   FormikProps<SignupValues & SignupErrors>
-> = ({ errors, isSubmitting, initialValues }) => (
+> = ({ errors, isSubmitting }) => (
   <CenteredForm id={'signup-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Manuscripts.io</SubHero>

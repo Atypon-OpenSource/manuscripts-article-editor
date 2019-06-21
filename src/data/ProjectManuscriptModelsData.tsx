@@ -97,6 +97,7 @@ class ProjectManuscriptModelsData extends DataComponent<
     this.collection
       .find({
         containerID,
+        manuscriptID,
         objectType: ObjectTypes.Manuscript,
       })
       .$.subscribe(docs => {

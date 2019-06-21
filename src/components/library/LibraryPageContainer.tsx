@@ -79,17 +79,11 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
           <Route
             path={'/projects/:projectID/library/library'}
             exact={true}
-            render={props => (
+            render={() => (
               <LibrarySidebar
                 projectID={project._id}
                 sources={sources}
                 library={library}
-                handleQuery={value => {
-                  this.setState({
-                    query: value === query ? '' : value,
-                    selectedKeywords: new Set<string>(),
-                  })
-                }}
                 handleKeyword={value => {
                   if (value) {
                     if (selectedKeywords.has(value)) {
@@ -113,17 +107,11 @@ class LibraryPageContainer extends React.Component<CombinedProps, State> {
           <Route
             path={'/projects/:projectID/library/search'}
             exact={false}
-            render={props => (
+            render={() => (
               <LibrarySidebar
                 projectID={project._id}
                 sources={sources}
                 library={library}
-                handleQuery={value => {
-                  this.setState({
-                    query: value === query ? '' : value,
-                    selectedKeywords: new Set<string>(),
-                  })
-                }}
                 handleKeyword={value => {
                   if (value) {
                     if (selectedKeywords.has(value)) {

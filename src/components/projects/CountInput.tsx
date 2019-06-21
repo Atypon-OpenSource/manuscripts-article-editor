@@ -48,7 +48,7 @@ export const CountInput: React.FC<{
       <label>
         <Checkbox
           checked={requirement.ignored === false}
-          onChange={async event => {
+          onChange={async () => {
             const value = {
               ...requirement,
               ignored: requirement.ignored === false ? true : false,

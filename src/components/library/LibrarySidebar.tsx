@@ -80,8 +80,6 @@ interface NavProps {
   projectID: string
   source: LibrarySource
   clearKeywords: () => void
-  sources: LibrarySource[]
-  handleQuery: (query: string) => void
   handleKeyword: (keyword: string) => void
   library: Map<string, BibliographyItem>
   selectedKeywords?: Set<string>
@@ -102,8 +100,6 @@ const NavElement: React.FC<NavProps> = ({
   projectID,
   source,
   clearKeywords,
-  sources,
-  handleQuery,
   handleKeyword,
   library,
   selectedKeywords,
@@ -116,7 +112,6 @@ const NavElement: React.FC<NavProps> = ({
         <LibraryLists
           items={filterLibrary(library, '')}
           projectID={projectID}
-          handleQuery={handleQuery}
           handleKeyword={handleKeyword}
           selectedKeywords={selectedKeywords}
         />
@@ -161,7 +156,6 @@ const NavElement: React.FC<NavProps> = ({
 interface Props {
   projectID: string
   sources: LibrarySource[]
-  handleQuery: (query: string) => void
   clearKeywords: () => void
   handleKeyword: (keyword: string) => void
   library: Map<string, BibliographyItem>
@@ -172,7 +166,6 @@ interface Props {
 const LibrarySidebar: React.FC<Props> = ({
   projectID,
   sources,
-  handleQuery,
   clearKeywords,
   handleKeyword,
   library,
@@ -188,8 +181,6 @@ const LibrarySidebar: React.FC<Props> = ({
             projectID={projectID}
             source={source}
             clearKeywords={clearKeywords}
-            sources={sources}
-            handleQuery={handleQuery}
             handleKeyword={handleKeyword}
             library={library}
             selectedKeywords={selectedKeywords}

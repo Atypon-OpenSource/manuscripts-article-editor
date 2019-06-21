@@ -25,6 +25,4 @@ storiesOf('Menu', module)
   .add('Global Menu with projects dropdown', () => (
     <GlobalMenu active={'people'} />
   ))
-  .add('Project Menu', () => (
-    <Menu projectID={'project-1'} handleClose={action('close')} />
-  ))
+  .add('Project Menu', () => <Menu handleClose={action('close')} />)

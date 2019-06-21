@@ -139,14 +139,12 @@ export const AddIconContainer = styled.div`
 
 export interface Props {
   handleClick: (event: React.MouseEvent<HTMLDivElement>) => Promise<void>
-  isDragActive: boolean
   isDragAccept: boolean
   openTemplateSelector: () => void
 }
 
 export const ProjectsListPlaceholder: React.FunctionComponent<Props> = ({
   handleClick,
-  isDragActive,
   openTemplateSelector,
   isDragAccept,
 }) => (

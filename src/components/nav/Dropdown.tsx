@@ -17,7 +17,6 @@
 import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { Manager, Popper, Reference } from 'react-popper'
 import { NavLink } from 'react-router-dom'
 import { styled } from '../../theme/styled-components'
 import { Badge } from '../Badge'
@@ -205,52 +204,3 @@ export const DropdownButton: React.FunctionComponent<DropdownButtonProps> = ({
     <DropdownToggle className={isOpen ? 'open' : ''} />
   </DropdownButtonContainer>
 )
-
-interface State {
-  showSubmenu: boolean
-}
-
-interface Props {
-  label: string
-}
-
-const ContextMenuDropdown = styled(Dropdown)`
-  width: 160px;
-`
-export class DropdownElementWithSubmenu extends React.Component<Props, State> {
-  public state: Readonly<State> = {
-    showSubmenu: false,
-  }
-
-  public render() {
-    const { showSubmenu } = this.state
-
-    return (
-      <Manager>
-        <div
-          onMouseLeave={() => this.setState({ showSubmenu: false })}
-          onMouseEnter={() => this.setState({ showSubmenu: true })}
-        >
-          <Reference>
-            {({ ref }) => (
-              <DropdownElement ref={ref}>{this.props.label}</DropdownElement>
-            )}
-          </Reference>
-          {showSubmenu && (
-            <Popper placement="right-start">
-              {({ ref, style, placement }) => (
-                <ContextMenuDropdown
-                  ref={ref}
-                  style={style}
-                  data-placement={placement}
-                >
-                  {this.props.children}
-                </ContextMenuDropdown>
-              )}
-            </Popper>
-          )}
-        </div>
-      </Manager>
-    )
-  }
-}

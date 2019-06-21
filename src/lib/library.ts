@@ -167,7 +167,7 @@ export const estimateID = (item: Partial<BibliographyItem>) => {
 
 export const shortAuthorsString = (item: Partial<BibliographyItem>) => {
   const authors = (item.author || []).map(
-    (author, index) => author.family || author.literal || author.given
+    author => author.family || author.literal || author.given
   )
 
   if (authors.length > 1) {

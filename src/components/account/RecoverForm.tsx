@@ -50,7 +50,7 @@ const SignupLink = styled(Link)`
 
 export const RecoverForm: React.FunctionComponent<
   FormikProps<RecoverValues & RecoverErrors>
-> = ({ values, errors, isSubmitting }) => (
+> = ({ errors, isSubmitting }) => (
   <CenteredForm noValidate={true}>
     <FormHeader>
       <SubHero>Reset Password</SubHero>

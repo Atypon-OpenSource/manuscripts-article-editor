@@ -238,7 +238,7 @@ export const InviteAuthorsModal: React.FunctionComponent<
       />
     </ModalSidebar>
     <ModalMain>
-      <InviteCollaboratorsModal project={project} />
+      <InviteCollaboratorsModal />
     </ModalMain>
   </ModalBody>
 )

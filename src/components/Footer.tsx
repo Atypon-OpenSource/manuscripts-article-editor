@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { Button } from '@manuscripts/style-guide'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { styled } from '../theme/styled-components'
@@ -45,21 +44,12 @@ export const FooterLinkSeparator = styled.span`
   padding: 0 5px;
 `
 
-export const FooterTextButton = styled(Button)`
-  background: transparent;
-  color: white;
-`
-
-interface FooterLink {
-  url: string
-  text: string
-}
-
-interface FooterProps {
-  links: FooterLink[]
-}
-
-export const Footer: React.FunctionComponent<FooterProps> = ({ links }) => (
+export const Footer: React.FunctionComponent<{
+  links: Array<{
+    url: string
+    text: string
+  }>
+}> = ({ links }) => (
   <FooterBlock>
     <FooterLinks>
       {links.map((link, index) => (

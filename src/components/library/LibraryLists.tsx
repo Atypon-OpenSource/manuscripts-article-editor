@@ -78,7 +78,6 @@ const TagContainer = styled.div<{
 `
 interface Props {
   items: BibliographyItem[]
-  handleQuery: (query: string) => void
   handleKeyword: (keyword: string) => void
   projectID: string
   selectedKeywords?: Set<string>
@@ -86,7 +85,6 @@ interface Props {
 
 const LibraryLists: React.FC<Props> = ({
   items,
-  handleQuery,
   handleKeyword,
   projectID,
   selectedKeywords,

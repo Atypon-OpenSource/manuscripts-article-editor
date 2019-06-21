@@ -160,7 +160,7 @@ export const Page: React.FunctionComponent<Props> = ({
       <ViewsBar>
         <ProjectNavigator />
 
-        <MenuBar projectID={project._id} tokenActions={tokenActions!}>
+        <MenuBar tokenActions={tokenActions!}>
           <Tip title={'Home'} placement={'right'}>
             <StyledIcon />
           </Tip>

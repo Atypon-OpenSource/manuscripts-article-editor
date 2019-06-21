@@ -56,12 +56,12 @@ const App: React.FunctionComponent = () => (
             >
               <Sync collection={'collaborators'} db={db}>
                 <OptionalUserData userProfileID={userProfileID!}>
-                  {(user, userCollection) => (
+                  {user => (
                     <Switch>
                       <Route
                         path={'/'}
                         exact={true}
-                        render={props =>
+                        render={() =>
                           user ? (
                             <Redirect to={'/projects'} />
                           ) : (
@@ -413,7 +413,7 @@ const App: React.FunctionComponent = () => (
               <Route
                 path={'/logout'}
                 exact={true}
-                render={props => <Redirect to={'/'} />}
+                render={() => <Redirect to={'/'} />}
               />
 
               <Route

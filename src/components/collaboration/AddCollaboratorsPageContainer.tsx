@@ -91,7 +91,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
     const people = this.buildPeople()
 
-    return this.renderAddCollaboratorsPage(project, people, acceptedInvitations)
+    return this.renderAddCollaboratorsPage(people, acceptedInvitations)
   }
 
   private renderInviteCollaboratorPage(project: Project) {
@@ -122,14 +122,13 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           />
         </Panel>
         <Main>
-          <InviteCollaboratorsPage project={project} />
+          <InviteCollaboratorsPage />
         </Main>
       </>
     )
   }
 
   private renderAddCollaboratorsPage(
-    project: Project,
     people: UserProfile[],
     acceptedInvitations: ProjectInvitation[]
   ) {
@@ -159,14 +158,10 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
         <Main>
           {!searchText.length ? (
             <AddCollaboratorsPage
-              project={project}
               addedCollaboratorsCount={addedCollaboratorsCount}
             />
           ) : (
-            <SearchCollaboratorsPage
-              project={project}
-              searchText={searchText}
-            />
+            <SearchCollaboratorsPage searchText={searchText} />
           )}
         </Main>
       </>

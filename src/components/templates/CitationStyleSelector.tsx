@@ -26,7 +26,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import config from '../../config'
 import { fetchSharedData, fromPrototype } from '../../lib/templates'
 import { Collection } from '../../sync/Collection'
-import { Database, DatabaseContext } from '../DatabaseProvider'
+import { DatabaseContext } from '../DatabaseProvider'
 import { CitationStyleSelectorModal } from './CitationStyleSelectorModal'
 import { TemplateLoadingModal } from './TemplateLoadingModal'
 
@@ -94,7 +94,7 @@ class CitationStyleSelector extends React.Component<
           <CitationStyleSelectorModal
             handleComplete={handleComplete}
             items={bundles}
-            selectBundle={this.selectBundle(db)}
+            selectBundle={this.selectBundle}
           />
         )}
       </DatabaseContext.Consumer>
@@ -132,7 +132,7 @@ class CitationStyleSelector extends React.Component<
     }
   }
 
-  private selectBundle = (db: Database) => async (item: Bundle) => {
+  private selectBundle = async (item: Bundle) => {
     const { handleComplete, manuscript, project, collection } = this.props
 
     const newBundle = fromPrototype(item)
