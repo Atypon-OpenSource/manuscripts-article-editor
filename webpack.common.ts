@@ -94,7 +94,7 @@ const configuration: webpack.Configuration = {
             // cache shared data
             {
               urlPattern: new RegExp('^' + config.data.url),
-              handler: 'CacheFirst',
+              handler: 'StaleWhileRevalidate',
             },
           ],
         })
