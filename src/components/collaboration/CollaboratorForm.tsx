@@ -99,9 +99,7 @@ export const CollaboratorForm: React.FunctionComponent<CollaboratorProps> = ({
 }) => (
   <DetailsContainer>
     <NameField>
-      {`${collaborator.bibliographicName.given} ${
-        collaborator.bibliographicName.family
-      }`}
+      {`${collaborator.bibliographicName.given} ${collaborator.bibliographicName.family}`}
     </NameField>
     <CollaboratorInformationContainer>
       <Avatar size={74} src={collaborator.avatar} />

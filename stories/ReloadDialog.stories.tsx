@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-import projectDump from '@manuscripts/examples/data/project-dump-2.json'
-import { Decoder } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { storiesOf } from '@storybook/react'
+import React from 'react'
+import { ReloadDialog } from '../src/components/projects/ReloadDialog'
 
-export const modelMap = new Map()
-
-projectDump.data.forEach((model: Model) => {
-  modelMap.set(model._id, model)
-})
-
-const decoder = new Decoder(modelMap)
-
-export const doc = decoder.createArticleNode()
+storiesOf('Reload Dialog', module).add('with message', () => (
+  <ReloadDialog message={'There was an error during data preparation.'} />
+))

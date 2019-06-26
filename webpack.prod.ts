@@ -16,7 +16,7 @@
 
 process.env.NODE_ENV = 'production'
 
-import CleanWebpackPlugin from 'clean-webpack-plugin'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import WebappWebpackPlugin from 'webapp-webpack-plugin'
 import webpack from 'webpack'
 import merge from 'webpack-merge'

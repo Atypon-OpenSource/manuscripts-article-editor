@@ -27,10 +27,14 @@ module.exports = {
     '@babel/syntax-dynamic-import',
   ],
   presets: [
-    ['@babel/env', {
-      corejs: 2,
-      useBuiltIns: 'usage',
-    }],
+    [
+      '@babel/env',
+      {
+        corejs: 3,
+        targets: 'last 2 years',
+        useBuiltIns: 'usage',
+      },
+    ],
     '@babel/react',
     '@babel/typescript',
   ],

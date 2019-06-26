@@ -214,7 +214,7 @@ const StyledCollapsibleItem = styled.div<{ isExpanded?: boolean }>`
 
 const StyledTitleField = styled(TitleField)`
   flex: 1;
-  ${baseTextStyleMixin}
+  ${baseTextStyleMixin};
   line-height: 1.31;
   letter-spacing: -0.3px;
   color: ${props => props.theme.colors.label.text};
@@ -229,7 +229,7 @@ const StyledTitleField = styled(TitleField)`
 const YearField = styled(Field)`
   font-family: ${props => props.theme.fontFamily};
   padding-left: 5px;
-  ${baseTextStyleMixin}
+  ${baseTextStyleMixin};
   line-height: 1.31;
   letter-spacing: -0.3px;
   color: ${props => props.theme.colors.label.text};
@@ -270,7 +270,7 @@ const Button = styled.button`
   }
 `
 const BaseButton = styled.button`
-  ${baseTextStyleMixin}
+  ${baseTextStyleMixin};
   background-color: ${props =>
     props.theme.colors.library.sidebar.background.default};
   border: none;
@@ -327,7 +327,7 @@ const TitleContainer = styled.div`
 `
 
 const TitleLink = styled.a`
-  ${baseTextStyleMixin}
+  ${baseTextStyleMixin};
   text-decoration: none;
   border: none;
   cursor: pointer;
@@ -421,7 +421,7 @@ const LibraryForm: React.FC<Props> = ({
                       <div
                         style={{
                           display: 'flex',
-                          'justify-content': 'space-between',
+                          justifyContent: 'space-between',
                         }}
                       >
                         <Label floatStyle="left" marginBottom="5">

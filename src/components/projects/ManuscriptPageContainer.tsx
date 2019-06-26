@@ -1302,7 +1302,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private buildManuscriptModelIds = (modelMap: Map<string, Model>) => {
-    const output = {
+    const output: { [key: string]: Set<string> } = {
       document: new Set(),
       data: new Set(),
     }

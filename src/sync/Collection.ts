@@ -440,9 +440,7 @@ export class Collection<T extends Model> implements EventTarget {
   ) {
     if (this.replications[direction]) {
       throw new Error(
-        `Existing ${direction} replication in progress for ${
-          this.collectionName
-        }`
+        `Existing ${direction} replication in progress for ${this.collectionName}`
       )
     }
 
@@ -576,10 +574,10 @@ export class Collection<T extends Model> implements EventTarget {
   ): Promise<RxDocument<T>> => {
     const update = this.prepareUpdate<T>(data)
 
-    // tslint:disable-next-line:no-any
-    return prev.atomicUpdate((doc: RxDocument<T> & { [key: string]: any }) => {
+    return prev.atomicUpdate((doc: RxDocument<T>) => {
       Object.entries(update).forEach(([key, value]) => {
-        doc[key] = value
+        // tslint:disable-next-line:no-any
+        ;(doc as { [key: string]: any })[key] = value
       })
 
       return doc

@@ -88,9 +88,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
 
     const confirmDeleteProjectMessage = (title: string) => {
       const node = parseTitle(title)
-      return `Are you sure you wish to delete the project with title "${
-        node.textContent
-      }"?`
+      return `Are you sure you wish to delete the project with title "${node.textContent}"?`
     }
 
     const message = this.props.project.title

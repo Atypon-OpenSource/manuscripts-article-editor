@@ -128,9 +128,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                             if (manuscriptID) {
                                               return (
                                                 <Redirect
-                                                  to={`/projects/${
-                                                    project._id
-                                                  }/manuscripts/${manuscriptID}`}
+                                                  to={`/projects/${project._id}/manuscripts/${manuscriptID}`}
                                                 />
                                               )
                                             }
@@ -143,11 +141,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
 
                                             return (
                                               <Redirect
-                                                to={`/projects/${
-                                                  project._id
-                                                }/manuscripts/${
-                                                  manuscripts[0]._id
-                                                }`}
+                                                to={`/projects/${project._id}/manuscripts/${manuscripts[0]._id}`}
                                               />
                                             )
                                           }}

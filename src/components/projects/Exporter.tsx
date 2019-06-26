@@ -98,9 +98,7 @@ export class Exporter extends React.Component<Props, State> {
           isOpen={true}
           category={Category.error}
           header={'Export error'}
-          message={`There was an error importing the manuscript. Please contact ${
-            config.support.email
-          } if this persists.`}
+          message={`There was an error importing the manuscript. Please contact ${config.support.email} if this persists.`}
           actions={{
             primary: {
               action: this.handleCancel,

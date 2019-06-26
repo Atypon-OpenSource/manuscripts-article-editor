@@ -49,21 +49,15 @@ export const identityProviderErrorMessage = (message: string) => {
   let alertMessage: string
   switch (message) {
     case 'user-not-found':
-      alertMessage = `A user record matching your identity at Google was unexpectedly not found. Please contact ${
-        config.support.email
-      } if this persists.`
+      alertMessage = `A user record matching your identity at Google was unexpectedly not found. Please contact ${config.support.email} if this persists.`
       break
 
     case 'validation-error':
-      alertMessage = `An invalid request was made when attempting to log in via Google. Please contact ${
-        config.support.email
-      } if this persists.`
+      alertMessage = `An invalid request was made when attempting to log in via Google. Please contact ${config.support.email} if this persists.`
       break
 
     default:
-      alertMessage = `An error occurred while logging in with Google, please contact ${
-        config.support.email
-      }`
+      alertMessage = `An error occurred while logging in with Google, please contact ${config.support.email}`
   }
 
   return (
@@ -82,9 +76,7 @@ export const gatewayInaccessibleErrorMessage = () => {
 export const networkErrorMessage = () => {
   return (
     <AlertMessage type={AlertMessageType.error}>
-      {`Failed to connect to service. Please check your network connection before trying again, and if the problem persists contact ${
-        config.support.email
-      }.`}
+      {`Failed to connect to service. Please check your network connection before trying again, and if the problem persists contact ${config.support.email}.`}
     </AlertMessage>
   )
 }

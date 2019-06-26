@@ -55,17 +55,13 @@ const deleteManuscriptLabel = (title: string) => {
 const confirmDeleteManuscriptMessage = (title: string) => {
   const node = parseTitle(title)
 
-  return `Are you sure you wish to delete the manuscript with title "${
-    node.textContent
-  }"?`
+  return `Are you sure you wish to delete the manuscript with title "${node.textContent}"?`
 }
 
 const confirmDeleteProjectMessage = (title: string) => {
   const node = parseTitle(title)
 
-  return `Are you sure you wish to delete the project with title "${
-    node.textContent
-  }"?`
+  return `Are you sure you wish to delete the project with title "${node.textContent}"?`
 }
 
 export const buildProjectMenu = (props: Props): MenuItem => ({

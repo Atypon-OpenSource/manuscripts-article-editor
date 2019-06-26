@@ -146,6 +146,10 @@ const IndividualTopic = styled.div`
   }
 `
 
+const Message = styled.div`
+  padding: 0 24px;
+`
+
 const LoginLink: React.FunctionComponent<{ host: string }> = ({ host }) => (
   <FooterLink href={`${host}/login`}>
     &#128279; Manuscripts.io community
@@ -253,19 +257,19 @@ export class Updates extends React.Component<Props, State> {
     const { error, loaded, posts, topics } = this.props
 
     if (error) {
-      return <div>{error}</div>
+      return <Message>{error}</Message>
     }
 
     if (!loaded) {
-      return <div>Loading…</div>
+      return <Message>Loading…</Message>
     }
 
     if (!topics || !topics.length) {
-      return <div>No topics.</div>
+      return <Message>No topics.</Message>
     }
 
     if (!posts || !posts.length) {
-      return <div>No posts.</div>
+      return <Message>No posts.</Message>
     }
 
     return topics.sort(newestFirst).map(topic => {

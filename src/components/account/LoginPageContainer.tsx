@@ -257,9 +257,7 @@ class LoginPageContainer extends React.Component<
         if (errorName === ErrorName.AccountNotFoundError) {
           return 'No user exists with this email address.'
         } else if (errorName === ErrorName.InvalidClientApplicationError) {
-          return `Client and server configuration do not match. Please report this to ${
-            config.support.email
-          }.`
+          return `Client and server configuration do not match. Please report this to ${config.support.email}.`
         } else {
           return 'Invalid password.'
         }

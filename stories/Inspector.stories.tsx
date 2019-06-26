@@ -15,7 +15,15 @@
  */
 
 import data from '@manuscripts/examples/data/project-dump.json'
-import { Manuscript, Section } from '@manuscripts/manuscripts-json-schema'
+import {
+  ActualManuscriptNode,
+  SectionNode,
+} from '@manuscripts/manuscript-transform'
+import {
+  Bundle,
+  Manuscript,
+  Section,
+} from '@manuscripts/manuscripts-json-schema'
 import { TabPanel, TabPanels, Tabs } from '@reach/tabs'
 import '@reach/tabs/styles.css'
 import { action } from '@storybook/addon-actions'
@@ -23,9 +31,12 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { InspectorTab, InspectorTabList } from '../src/components/Inspector'
 import { ManuscriptInspector } from '../src/components/projects/ManuscriptInspector'
+import { ManuscriptStyleInspector } from '../src/components/projects/ManuscriptStyleInspector'
 import { SectionInspector } from '../src/components/projects/SectionInspector'
+import { StatisticsInspector } from '../src/components/projects/StatisticsInspector'
 import { buildModelMap } from '../src/pressroom/__tests__/util'
 import { ProjectDump } from '../src/pressroom/importers'
+import { doc } from './data/doc'
 
 const manuscript: Manuscript = {
   _id: 'MPManuscript:1',
@@ -45,6 +56,17 @@ const section: Section = {
   sessionID: '1',
   priority: 1,
   path: ['MPSection:1'],
+}
+
+const bundle: Bundle = {
+  _id: 'MPBundle:1',
+  containerID: 'MPProject:1',
+  objectType: 'MPBundle',
+  csl: {
+    title: 'Nature',
+  },
+  createdAt: 0,
+  updatedAt: 0,
 }
 
 const modelMap = buildModelMap(data as ProjectDump)
@@ -92,3 +114,39 @@ storiesOf('Inspector/Section Inspector', module).add(
     </div>
   )
 )
+
+storiesOf('Inspector/Manuscript Style Inspector', module)
+  .add('without bundle', () => (
+    <div style={{ width: 500 }}>
+      <ManuscriptStyleInspector
+        bundle={undefined}
+        openCitationStyleSelector={action('open citation style inspector')}
+      />
+    </div>
+  ))
+  .add('with bundle', () => (
+    <div style={{ width: 500 }}>
+      <ManuscriptStyleInspector
+        bundle={bundle}
+        openCitationStyleSelector={action('open citation style inspector')}
+      />
+    </div>
+  ))
+
+const manuscriptNode = doc as ActualManuscriptNode
+const sectionNode = doc.child(0) as SectionNode
+
+storiesOf('Inspector/Statistics Inspector', module)
+  .add('without section', () => (
+    <div style={{ width: 500 }}>
+      <StatisticsInspector manuscriptNode={manuscriptNode} />
+    </div>
+  ))
+  .add('with section', () => (
+    <div style={{ width: 500 }}>
+      <StatisticsInspector
+        manuscriptNode={manuscriptNode}
+        sectionNode={sectionNode}
+      />
+    </div>
+  ))
