@@ -191,6 +191,7 @@
     "whatwg-fetch": "^3.0.0"
   },
   "resolutions": {
+    "@manuscripts/manuscript-transform": "^0.13.1",
     "rxdb/pouchdb-replication": "git+https://gitlab.com/mpapp-public/pouchdb-replication.git#master",
     "pouchdb-adapter-leveldb-core": "git+https://gitlab.com/mpapp-public/pouchdb-adapter-leveldb-core.git#master",
     "rxjs": "6.5.2",

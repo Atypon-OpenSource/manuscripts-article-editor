@@ -1660,25 +1660,7 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.10.2":
-  version "0.10.2"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-transform/-/manuscript-transform-0.10.2.tgz#1d417b52cb5fcc52e356866f84d569caafd6b23d"
-  integrity sha512-JR0OhvWPJcM3eGG3t1XRZFhencp5IQRLD+W/reRGWT0DcxXZqdctBlif7WOLTFn9Y4NOIvlYo1mO/6B7iz3i1g==
-  dependencies:
-    prosemirror-model "^1.7.0"
-    uuid "^3.3.2"
-    w3c-xmlserializer "^1.1.2"
-
-"@manuscripts/manuscript-transform@^0.12.0":
-  version "0.12.0"
-  resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-transform/-/manuscript-transform-0.12.0.tgz#dd0c880f5aaa37ebb0cebb68f39dcff5a4280249"
-  integrity sha512-CPb29EU+Sb1XzLGwBiHo+zGBL158bPBfkluWRrEY/rn5z1V/m75RK5Vx8t8d1guN4ZsXnyvg2TvKyYy0jBtJyg==
-  dependencies:
-    prosemirror-model "^1.7.0"
-    uuid "^3.3.2"
-    w3c-xmlserializer "^1.1.2"
-
-"@manuscripts/manuscript-transform@^0.13.1":
+"@manuscripts/manuscript-transform@^0.10.2", "@manuscripts/manuscript-transform@^0.12.0", "@manuscripts/manuscript-transform@^0.13.1":
   version "0.13.1"
   resolved "https://atypon-npm-registry.herokuapp.com/@manuscripts%2fmanuscript-transform/-/manuscript-transform-0.13.1.tgz#d594577df14de70948b6c27368fe4e85587dbbbb"
   integrity sha512-E4ltL1u1PHk5g5atJH5KyuzK2lis/JoQW73duNkWZwTMkMlsb6N5EXTXPtp8DySXoEZy6Seo0sDpjqWmgwWLxw==
