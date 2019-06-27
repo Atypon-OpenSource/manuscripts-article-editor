@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
@@ -27,6 +28,7 @@ const configuration: webpack.Configuration = {
   },
   plugins: (() => {
     const plugins = [
+      new CleanWebpackPlugin(),
       new webpack.EnvironmentPlugin([
         'API_APPLICATION_ID',
         'API_BASE_URL',

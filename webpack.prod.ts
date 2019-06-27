@@ -16,7 +16,6 @@
 
 process.env.NODE_ENV = 'production'
 
-import CleanWebpackPlugin from 'clean-webpack-plugin'
 import WebappWebpackPlugin from 'webapp-webpack-plugin'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
@@ -75,7 +74,6 @@ const configuration: webpack.Configuration = merge(common, {
     maxAssetSize: 3000000,
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new WebappWebpackPlugin({
       logo: './public/favicon.png',
       cache: true,
