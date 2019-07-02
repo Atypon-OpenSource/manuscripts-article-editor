@@ -12,9 +12,6 @@ COPY .yarnrc package.json yarn.lock /app/
 
 ARG YARN_CACHE_FOLDER=/cache/yarn
 
-ARG NPM_TOKEN
-RUN npm config set always-auth true
-RUN npm config set '//atypon-npm-registry.herokuapp.com/:_authToken' ${NPM_TOKEN}
 RUN yarn install --frozen-lockfile --non-interactive --production
 
 # build

@@ -19,9 +19,9 @@ import {
   Decoder,
   generateAttachmentFilename,
   getModelData,
+  HTMLTransformer,
+  JATSTransformer,
   ModelAttachment,
-  serializeToHTML,
-  serializeToJATS,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -175,7 +175,9 @@ const convertToHTML = async (zip: JSZip, modelMap: Map<string, Model>) => {
   const decoder = new Decoder(modelMap)
   const doc = decoder.createArticleNode()
 
-  zip.file('index.html', serializeToHTML(doc.content, modelMap))
+  const transformer = new HTMLTransformer()
+
+  zip.file('index.html', transformer.serializeToHTML(doc.content, modelMap))
 
   return zip.generateAsync({ type: 'blob' })
 }
@@ -186,7 +188,9 @@ const convertToXML = async (zip: JSZip, modelMap: Map<string, Model>) => {
   const decoder = new Decoder(modelMap)
   const doc = decoder.createArticleNode()
 
-  zip.file('manuscript.xml', serializeToJATS(doc.content, modelMap))
+  const transformer = new JATSTransformer()
+
+  zip.file('manuscript.xml', transformer.serializeToJATS(doc.content, modelMap))
 
   return zip.generateAsync({ type: 'blob' })
 }

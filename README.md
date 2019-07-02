@@ -67,7 +67,7 @@ See the [`manuscripts-frontend` wiki](https://gitlab.com/mpapp-private/manuscrip
 
 ## Developing @manuscripts/style-guide
 
-1. Clone [`@manuscripts/style-guide`](https://gitlab.com/mpapp-private/manuscripts-style-guide) to a folder alongside this one, run `yarn install` to install its dependencies, run `yarn link` to make it available as a local dependency, then run `yarn dev` in that folder to start building it.
+1. Clone [`@manuscripts/style-guide`](https://gitlab.com/mpapp-public/manuscripts-style-guide) to a folder alongside this one, run `yarn install` to install its dependencies, run `yarn link` to make it available as a local dependency, then run `yarn dev` in that folder to start building it.
 1. In this folder, run `yarn link @manuscripts/style-guide` to use the linked module as a local dependency.
 
 ## Analysis

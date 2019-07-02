@@ -1,4 +1,4 @@
-image: registry.gitlab.com/mpapp-private/manuscripts-frontend/node8-aws
+#image: registry.gitlab.com/mpapp-private/manuscripts-frontend/node8-aws
 
 # Environment variables needed:
 #
@@ -13,7 +13,6 @@ image: registry.gitlab.com/mpapp-private/manuscripts-frontend/node8-aws
 
 before_script:
   - . scripts/export-variables.sh
-  - npm config set //atypon-npm-registry.herokuapp.com/:_authToken ${NPM_TOKEN}
 
 stages:
   - test
