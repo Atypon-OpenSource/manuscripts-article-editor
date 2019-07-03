@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-import { data } from '@manuscripts/examples/data/project-dump.json'
-import { ProjectDump } from '../../src/pressroom/importers'
+import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react'
+import React from 'react'
+import { ColorSelector } from '../src/components/projects/ColorSelector'
 
-export default data as ProjectDump
+storiesOf('Color Selector', module).add('Selector', () => (
+  <ColorSelector handleChange={action('change')} />
+))

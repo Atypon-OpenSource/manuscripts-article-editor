@@ -30,10 +30,14 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { InspectorTab, InspectorTabList } from '../src/components/Inspector'
+import { ManuscriptStyleInspector } from '../src/components/inspector/ManuscriptStyleInspector'
+import { ParagraphStyles } from '../src/components/inspector/ParagraphStyles'
+import { SectionInspector } from '../src/components/inspector/SectionInspector'
+import { SectionStyles } from '../src/components/inspector/SectionStyles'
+import { StatisticsInspector } from '../src/components/inspector/StatisticsInspector'
 import { ManuscriptInspector } from '../src/components/projects/ManuscriptInspector'
-import { ManuscriptStyleInspector } from '../src/components/projects/ManuscriptStyleInspector'
-import { SectionInspector } from '../src/components/projects/SectionInspector'
-import { StatisticsInspector } from '../src/components/projects/StatisticsInspector'
+import { buildColors } from '../src/lib/colors'
+import { findBodyTextParagraphStyles } from '../src/lib/styles'
 import { buildModelMap } from '../src/pressroom/__tests__/util'
 import { ProjectDump } from '../src/pressroom/importers'
 import { doc } from './data/doc'
@@ -51,6 +55,8 @@ const section: Section = {
   containerID: 'MPProject:1',
   manuscriptID: 'MPManuscript:1',
   objectType: 'MPSection',
+  title:
+    'Acetic acid activates distinct taste pathways in <i>Drosophila</i> to elicit opposing, state-dependent feeding responses',
   createdAt: 0,
   updatedAt: 0,
   sessionID: '1',
@@ -70,6 +76,12 @@ const bundle: Bundle = {
 }
 
 const modelMap = buildModelMap(data as ProjectDump)
+const { colors, colorScheme } = buildColors(modelMap)
+const bodyTextParagraphStyles = findBodyTextParagraphStyles(modelMap)
+
+const defaultParagraphStyle = bodyTextParagraphStyles.find(
+  style => style.kind === 'body'
+)!
 
 storiesOf('Inspector', module).add('tabs', () => (
   <div style={{ width: 500 }}>
@@ -110,6 +122,7 @@ storiesOf('Inspector/Section Inspector', module).add(
         modelMap={modelMap}
         section={section}
         saveModel={action('save')}
+        dispatchNodeAttrs={action('dispatch node attributes')}
       />
     </div>
   )
@@ -150,3 +163,40 @@ storiesOf('Inspector/Statistics Inspector', module)
       />
     </div>
   ))
+
+storiesOf('Inspector/Paragraph Styles', module).add('with bundle', () => (
+  <div style={{ width: 500 }}>
+    <ParagraphStyles
+      bodyTextParagraphStyles={bodyTextParagraphStyles}
+      colors={colors}
+      colorScheme={colorScheme!}
+      defaultParagraphStyle={defaultParagraphStyle}
+      deleteParagraphStyle={action('delete paragraph style')}
+      duplicateParagraphStyle={action('duplicate paragraph style')}
+      error={undefined}
+      paragraphStyle={defaultParagraphStyle}
+      renameParagraphStyle={action('rename paragraph style')}
+      saveDebouncedParagraphStyle={action('save debounced paragraph style')}
+      saveModel={action('save model')}
+      saveParagraphStyle={action('save paragraph style')}
+      setElementParagraphStyle={action('set element paragraph style')}
+      setError={action('set error')}
+    />
+  </div>
+))
+
+storiesOf('Inspector/Section Styles', module).add('with bundle', () => (
+  <div style={{ width: 500 }}>
+    <SectionStyles
+      colors={colors}
+      colorScheme={colorScheme!}
+      error={undefined}
+      paragraphStyle={defaultParagraphStyle}
+      saveDebouncedParagraphStyle={action('save debounced paragraph style')}
+      saveModel={action('save model')}
+      saveParagraphStyle={action('save paragraph style')}
+      setError={action('set error')}
+      title={'Section Heading Styles'}
+    />
+  </div>
+))

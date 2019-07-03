@@ -19,6 +19,7 @@ import {
   ChangeReceiver,
   CitationManager,
   Editor,
+  findParentElement,
   findParentNodeWithIdValue,
   findParentSection,
   MenuItem,
@@ -109,13 +110,21 @@ import CollectionManager from '../../sync/CollectionManager'
 import { ThemeProvider } from '../../theme/ThemeProvider'
 import { Permissions } from '../../types/permissions'
 import {
-  DebouncedInspector,
+  Inspector,
   InspectorTab,
   InspectorTabList,
   InspectorTabPanel,
   InspectorTabPanels,
   InspectorTabs,
 } from '../Inspector'
+import {
+  AnyElement,
+  ElementStyleInspector,
+} from '../inspector/ElementStyleInspector'
+import { ManuscriptStyleInspector } from '../inspector/ManuscriptStyleInspector'
+import { SectionInspector } from '../inspector/SectionInspector'
+import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
+import { StatisticsInspector } from '../inspector/StatisticsInspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
 import { CitationViewer } from '../library/CitationViewer'
@@ -133,6 +142,7 @@ import {
   EditorContainerInner,
   EditorHeader,
 } from './EditorContainer'
+import { EditorStyles } from './EditorStyles'
 import { Exporter } from './Exporter'
 import { Importer } from './Importer'
 import { ManuscriptInspector } from './ManuscriptInspector'
@@ -142,11 +152,8 @@ import {
   ManuscriptPageToolbar,
 } from './ManuscriptPageToolbar'
 import ManuscriptSidebar from './ManuscriptSidebar'
-import { ManuscriptStyleInspector } from './ManuscriptStyleInspector'
 import { ReloadDialog } from './ReloadDialog'
 import RenameProject from './RenameProject'
-import { SectionInspector } from './SectionInspector'
-import { StatisticsInspector } from './StatisticsInspector'
 
 interface ModelObject {
   // [key: string]: ModelObject[keyof ModelObject]
@@ -169,6 +176,7 @@ interface State {
   processor?: CiteProc.Engine
   permissions?: Permissions
   selected: Selected | null
+  selectedElement?: Selected
   selectedSection?: Selected
   view?: ManuscriptEditorView
   activeEditor?: {
@@ -316,6 +324,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       error,
       plugins,
       permissions,
+      selectedElement,
       selectedSection,
     } = this.state
 
@@ -346,6 +355,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const section = selectedSection
       ? this.getModel<Section>(selectedSection.node.attrs.id)
+      : undefined
+
+    const element = selectedElement
+      ? this.getModel<AnyElement>(selectedElement.node.attrs.id)
       : undefined
 
     const locale = this.getLocale(manuscript)
@@ -408,44 +421,46 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   tokenActions={this.props.tokenActions}
                 />
 
-                <Editor
-                  autoFocus={!!manuscript.title}
-                  getCitationProcessor={this.getCitationProcessor}
-                  doc={doc}
-                  getModel={this.getModel}
-                  saveModel={this.saveModel}
-                  deleteModel={this.deleteModel}
-                  allAttachments={this.collection.allAttachments}
-                  putAttachment={this.collection.putAttachment}
-                  removeAttachment={this.collection.removeAttachment}
-                  addLibraryItem={this.addLibraryItem}
-                  getLibraryItem={this.getLibraryItem}
-                  filterLibraryItems={this.filterLibraryItems}
-                  getManuscript={this.getManuscript}
-                  getCurrentUser={this.getCurrentUser}
-                  history={this.props.history}
-                  locale={locale}
-                  manuscript={manuscript}
-                  modelMap={modelMap}
-                  plugins={plugins}
-                  popper={popper}
-                  projectID={projectID}
-                  subscribe={this.handleSubscribe}
-                  setView={this.setView}
-                  attributes={attributes}
-                  retrySync={this.retrySync}
-                  renderReactComponent={this.renderReactComponent}
-                  unmountReactComponent={this.unmountReactComponent}
-                  handleStateChange={this.handleEditorStateChange(
-                    EditorType.manuscript
-                  )}
-                  components={{
-                    CitationEditor,
-                    CitationViewer,
-                  }}
-                  jupyterConfig={config.jupyter}
-                  permissions={permissions}
-                />
+                <EditorStyles modelMap={modelMap}>
+                  <Editor
+                    autoFocus={!!manuscript.title}
+                    getCitationProcessor={this.getCitationProcessor}
+                    doc={doc}
+                    getModel={this.getModel}
+                    saveModel={this.saveModel}
+                    deleteModel={this.deleteModel}
+                    allAttachments={this.collection.allAttachments}
+                    putAttachment={this.collection.putAttachment}
+                    removeAttachment={this.collection.removeAttachment}
+                    addLibraryItem={this.addLibraryItem}
+                    getLibraryItem={this.getLibraryItem}
+                    filterLibraryItems={this.filterLibraryItems}
+                    getManuscript={this.getManuscript}
+                    getCurrentUser={this.getCurrentUser}
+                    history={this.props.history}
+                    locale={locale}
+                    manuscript={manuscript}
+                    modelMap={modelMap}
+                    plugins={plugins}
+                    popper={popper}
+                    projectID={projectID}
+                    subscribe={this.handleSubscribe}
+                    setView={this.setView}
+                    attributes={attributes}
+                    retrySync={this.retrySync}
+                    renderReactComponent={this.renderReactComponent}
+                    unmountReactComponent={this.unmountReactComponent}
+                    handleStateChange={this.handleEditorStateChange(
+                      EditorType.manuscript
+                    )}
+                    components={{
+                      CitationEditor,
+                      CitationViewer,
+                    }}
+                    jupyterConfig={config.jupyter}
+                    permissions={permissions}
+                  />
+                </EditorStyles>
               </EditorBody>
             </EditorContainerInner>
           </EditorContainer>
@@ -460,7 +475,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           side={'start'}
         >
           {this.state.view && comments && (
-            <DebouncedInspector>
+            <Inspector>
               <InspectorTabs>
                 <InspectorTabList>
                   <InspectorTab>Content</InspectorTab>
@@ -483,11 +498,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                       modelMap={modelMap}
                       saveModel={this.saveModel}
                     />
-                    {section && (
+                    {section && view && (
                       <SectionInspector
                         section={section}
                         modelMap={modelMap}
                         saveModel={this.saveModel}
+                        dispatchNodeAttrs={this.dispatchNodeAttrs}
                       />
                     )}
                   </InspectorTabPanel>
@@ -496,6 +512,24 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                       bundle={this.findBundle()}
                       openCitationStyleSelector={this.openCitationStyleSelector}
                     />
+                    {element && view && (
+                      <ElementStyleInspector
+                        manuscript={manuscript}
+                        element={element}
+                        modelMap={modelMap}
+                        saveModel={this.saveModel}
+                        deleteModel={this.deleteModel}
+                        view={view}
+                      />
+                    )}
+                    {section && (
+                      <SectionStyleInspector
+                        manuscript={manuscript}
+                        section={section}
+                        modelMap={modelMap}
+                        saveModel={this.saveModel}
+                      />
+                    )}
                   </InspectorTabPanel>
                   <InspectorTabPanel>
                     <CommentList
@@ -514,7 +548,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   </InspectorTabPanel>
                 </InspectorTabPanels>
               </InspectorTabs>
-            </DebouncedInspector>
+            </Inspector>
           )}
         </Panel>
       </RequirementsProvider>
@@ -810,6 +844,27 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     if (view) {
       view.dispatch(view.state.tr.setMeta('update', true))
     }
+  }
+
+  private dispatchNodeAttrs = (id: string, attrs: object) => {
+    const { view } = this.state
+
+    if (!view) {
+      throw new Error('No view!')
+    }
+
+    const { tr, doc } = view.state
+
+    doc.descendants((node, pos) => {
+      if (node.attrs.id === id) {
+        tr.setNodeMarkup(pos, undefined, {
+          ...node.attrs,
+          ...attrs,
+        })
+
+        view.dispatch(tr)
+      }
+    })
   }
 
   private addManuscript = async () => {
@@ -1281,6 +1336,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   ) => {
     const selected = findParentNodeWithIdValue(state.selection) || null
     const selectedSection = findParentSection(state.selection)
+    const selectedElement = findParentElement(state.selection)
 
     this.setState(prevState => ({
       ...prevState,
@@ -1288,6 +1344,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       doc: state.doc as ActualManuscriptNode,
       selected,
       selectedSection,
+      selectedElement,
     }))
 
     if (docChanged) {

@@ -23,7 +23,7 @@ export const buildUser = async (
 ): Promise<UserProfileWithAvatar> => {
   const item = doc.toJSON() as UserProfileWithAvatar
 
-  const attachment = await doc.getAttachment('image')
+  const attachment = doc.getAttachment('image')
 
   if (attachment) {
     item.avatar = window.URL.createObjectURL(await attachment.getData())

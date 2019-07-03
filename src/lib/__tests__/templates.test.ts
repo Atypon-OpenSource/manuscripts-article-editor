@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-import { DEFAULT_BUNDLE } from '@manuscripts/manuscript-transform'
+import { DEFAULT_BUNDLE, generateID } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
   ManuscriptCategory,
   Model,
   ObjectTypes,
+  PageLayout,
 } from '@manuscripts/manuscripts-json-schema'
 import { orderBy } from 'lodash-es'
 import {
@@ -347,7 +348,27 @@ describe('templates', () => {
   })
 
   test('create empty paragraph', () => {
-    const result = createEmptyParagraph()
+    const pageLayout: PageLayout = {
+      _id: generateID(ObjectTypes.PageLayout),
+      objectType: ObjectTypes.PageLayout,
+      defaultParagraphStyle: generateID(ObjectTypes.ParagraphStyle),
+      manuscriptID: generateID(ObjectTypes.Manuscript),
+      containerID: generateID(ObjectTypes.Project),
+      sessionID: 'test',
+      createdAt: 0,
+      updatedAt: 0,
+      priority: 0,
+      mirrorPagesHorizontally: false,
+      beginChaptersOnRightHandPages: false,
+      topMargin: 0,
+      rightMargin: 0,
+      bottomMargin: 0,
+      leftMargin: 0,
+      displayUnits: 'pt',
+      pageSize: 'a4',
+    }
+
+    const result = createEmptyParagraph(pageLayout)
 
     expect(result.objectType).toBe(ObjectTypes.ParagraphElement)
   })

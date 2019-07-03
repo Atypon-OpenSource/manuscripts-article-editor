@@ -25,19 +25,15 @@ import {
   ObjectTypes,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
-import React from 'react'
+import { Title } from '@manuscripts/title-editor'
+import React, { useCallback } from 'react'
+import { styled } from '../../theme/styled-components'
 import { InspectorSection, Subheading } from '../InspectorSection'
-import { CountInput } from './CountInput'
+import { CountInput } from '../projects/CountInput'
 
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
 type Buildable<T> = T | Build<T>
-
-interface Props {
-  section: Section
-  modelMap: Map<string, Model>
-  saveModel: SaveModel
-}
 
 export interface SectionCountRequirements {
   minWordCount: Buildable<MinimumSectionWordCountRequirement>
@@ -63,12 +59,19 @@ const buildCountRequirement = <T extends CountRequirement>(
   return item as Build<T>
 }
 
-export const SectionInspector: React.FC<Props> = ({
-  section,
-  modelMap,
-  saveModel,
-  // pageLayout,
-}) => {
+export const SectionInspector: React.FC<{
+  dispatchNodeAttrs: (id: string, attrs: object) => void
+  section: Section
+  modelMap: Map<string, Model>
+  saveModel: SaveModel
+}> = ({ dispatchNodeAttrs, section, modelMap, saveModel }) => {
+  const setTitleSuppressed = useCallback(
+    (titleSuppressed: boolean) => {
+      dispatchNodeAttrs(section._id, { titleSuppressed })
+    },
+    [section, dispatchNodeAttrs]
+  )
+
   const getOrBuildRequirement = <T extends CountRequirement>(
     objectType: ObjectTypes,
     id?: string
@@ -105,6 +108,21 @@ export const SectionInspector: React.FC<Props> = ({
 
   return (
     <InspectorSection title={'Section'}>
+      <StyledTitle value={section.title} />
+
+      <div>
+        <label>
+          <input
+            type={'checkbox'}
+            checked={!section.titleSuppressed}
+            onChange={event => {
+              setTitleSuppressed(!event.target.checked)
+            }}
+          />{' '}
+          Title is shown
+        </label>
+      </div>
+
       <Subheading>Requirements</Subheading>
 
       <CountInput
@@ -181,3 +199,8 @@ export const SectionInspector: React.FC<Props> = ({
     </InspectorSection>
   )
 }
+
+const StyledTitle = styled(Title)`
+  font-size: 16px;
+  margin: 4px 0;
+`

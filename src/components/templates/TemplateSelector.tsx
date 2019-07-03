@@ -22,6 +22,7 @@ import {
   buildSection,
   ContainedModel,
   DEFAULT_BUNDLE,
+  DEFAULT_PAGE_LAYOUT,
   generateID,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -31,7 +32,9 @@ import {
   ManuscriptCategory,
   Model,
   ObjectTypes,
+  PageLayout,
   ParagraphElement,
+  ParagraphStyle,
   Project,
   Section,
   UserProfile,
@@ -86,6 +89,7 @@ interface Props {
 interface State {
   loadingError?: Error
   bundles?: Map<string, Bundle>
+  styles?: Map<string, Model>
   manuscriptCategories?: Map<string, ManuscriptCategory>
   sectionCategories?: Map<string, SectionCategory>
   manuscriptTemplates?: Map<string, ManuscriptTemplate>
@@ -114,6 +118,7 @@ class TemplateSelector extends React.Component<
       manuscriptTemplates,
       publishers,
       researchFields,
+      styles,
     } = this.state
 
     const { history, handleComplete, user, projectID } = this.props
@@ -140,6 +145,7 @@ class TemplateSelector extends React.Component<
       !manuscriptCategories ||
       !bundles ||
       !publishers ||
+      !styles ||
       !researchFields
     ) {
       return (
@@ -201,9 +207,13 @@ class TemplateSelector extends React.Component<
       }
     }
 
-    // this.setState({ loading: 'styles' })
+    // this.setState({ loading: 'bundles' })
 
     const bundles = await fetchSharedData<Bundle>('bundles')
+
+    // this.setState({ loading: 'styles' })
+
+    const styles = await fetchSharedData<Model>('styles')
 
     // this.setState({ loading: 'templates' })
 
@@ -221,6 +231,7 @@ class TemplateSelector extends React.Component<
 
     this.setState({
       bundles,
+      styles,
       manuscriptCategories,
       sectionCategories,
       manuscriptTemplates,
@@ -231,6 +242,7 @@ class TemplateSelector extends React.Component<
     })
   }
 
+  // tslint:disable-next-line:cyclomatic-complexity
   private createEmpty = (db: Database) => async () => {
     const {
       handleComplete,
@@ -239,7 +251,15 @@ class TemplateSelector extends React.Component<
       projectID: possibleProjectID,
     } = this.props
 
-    const { bundles } = this.state
+    const { bundles, styles } = this.state
+
+    if (!bundles) {
+      throw new Error('Bundles not found')
+    }
+
+    if (!styles) {
+      throw new Error('Styles not found')
+    }
 
     const newProject = possibleProjectID ? null : buildProject(user.userID)
 
@@ -258,9 +278,17 @@ class TemplateSelector extends React.Component<
 
     const newBundle = this.createNewBundle(DEFAULT_BUNDLE, bundles)
 
+    const newStyles = this.createNewStyles(styles)
+
+    const newPageLayout = this.updatedPageLayout(newStyles)
+
+    // const colorScheme = this.findDefaultColorScheme(newStyles)
+
     const manuscript = {
       ...buildManuscript(undefined),
       bundle: newBundle._id,
+      pageLayout: newPageLayout._id,
+      // colorScheme: colorScheme ? colorScheme._id : DEFAULT_COLOR_SCHEME,
       priority,
     }
 
@@ -286,9 +314,13 @@ class TemplateSelector extends React.Component<
 
     await this.attachStyle(newBundle, collection)
 
+    for (const newStyle of newStyles.values()) {
+      await saveManuscriptModel<Model>(newStyle)
+    }
+
     await saveManuscriptModel<Contributor>(contributor)
 
-    const paragraph = createEmptyParagraph()
+    const paragraph = createEmptyParagraph(newPageLayout)
 
     await saveManuscriptModel<ParagraphElement>(paragraph)
 
@@ -310,14 +342,87 @@ class TemplateSelector extends React.Component<
     return projectID ? undefined : buildProject(user.userID)
   }
 
-  private createNewBundle = (
-    bundleID: string,
-    bundles?: Map<string, Bundle>
-  ) => {
-    if (!bundles) {
-      throw new Error('Bundles not found')
+  private getByPrototype = <T extends Model>(
+    prototype: string,
+    modelMap: Map<string, Model>
+  ): T | undefined => {
+    for (const model of modelMap.values()) {
+      if (model.prototype === prototype) {
+        return model as T
+      }
+    }
+  }
+
+  private updatedPageLayout = (newStyles: Map<string, Model>) => {
+    const newPageLayout = this.getByPrototype<PageLayout>(
+      DEFAULT_PAGE_LAYOUT,
+      newStyles
+    )
+
+    if (!newPageLayout) {
+      throw new Error('Default page layout not found')
     }
 
+    const newDefaultParagraphStyle = this.getByPrototype<ParagraphStyle>(
+      newPageLayout.defaultParagraphStyle,
+      newStyles
+    )
+
+    if (!newDefaultParagraphStyle) {
+      throw new Error('Default paragraph style not found')
+    }
+
+    newPageLayout.defaultParagraphStyle = newDefaultParagraphStyle._id
+
+    // newStyles.set(newPageLayout._id, newPageLayout)
+
+    return newPageLayout
+  }
+
+  private createNewStyles = (styles: Map<string, Model>) => {
+    const newStyles = new Map<string, Model>()
+
+    const prototypeMap = new Map<string, string>()
+
+    for (const style of styles.values()) {
+      const newStyle = fromPrototype(style)
+      newStyles.set(newStyle._id, newStyle)
+
+      prototypeMap.set(newStyle.prototype, newStyle._id)
+    }
+
+    // this.fixReferencedStyleIds(newStyles, prototypeMap)
+
+    return newStyles
+  }
+
+  // private fixReferencedStyleIds = (
+  //   newStyles: Map<string, Model>,
+  //   prototypeMap: Map<string, string>
+  // ) => {
+  //   for (const style of newStyles.values()) {
+  //     if (isColorScheme(style)) {
+  //       style.colors = (style.colors || [])
+  //         .map(id => prototypeMap.get(id))
+  //         .filter(Boolean) as Color[]
+  //     }
+  //   }
+  // }
+
+  // private findDefaultColorScheme = (newStyles: Map<string, Model>) => {
+  //   for (const style of newStyles.values()) {
+  //     if (isColorScheme(style)) {
+  //       if (style.prototype === DEFAULT_COLOR_SCHEME) {
+  //         return style
+  //       }
+  //     }
+  //   }
+  // }
+
+  private createNewBundle = (
+    bundleID: string,
+    bundles: Map<string, Bundle>
+  ) => {
     const bundle = bundles.get(bundleID)
 
     if (!bundle) {
@@ -349,10 +454,19 @@ class TemplateSelector extends React.Component<
   private selectTemplate = (db: Database) => async (item: TemplateData) => {
     const {
       bundles,
+      styles,
       templatesData,
       sectionCategories,
       manuscriptTemplates,
     } = this.state
+
+    if (!bundles) {
+      throw new Error('Bundles not found')
+    }
+
+    if (!styles) {
+      throw new Error('Styles not found')
+    }
 
     const { handleComplete, history, user } = this.props
 
@@ -380,10 +494,18 @@ class TemplateSelector extends React.Component<
       Manuscript
     >)
 
+    const newStyles = this.createNewStyles(styles)
+
+    const newPageLayout = this.updatedPageLayout(newStyles)
+
+    // const colorScheme = this.findDefaultColorScheme(newStyles)
+
     const manuscript: Build<Manuscript> = {
       ...buildManuscript(title),
       bundle: newBundle._id,
+      pageLayout: newPageLayout._id,
       priority: priority++,
+      // colorScheme: colorScheme ? colorScheme._id : DEFAULT_COLOR_SCHEME,
     }
 
     const saveContainedModel = <T extends Model>(data: Build<T>) =>
@@ -400,6 +522,10 @@ class TemplateSelector extends React.Component<
     await saveContainedModel<Bundle>(newBundle)
 
     await this.attachStyle(newBundle, collection)
+
+    for (const newStyle of newStyles.values()) {
+      await saveManuscriptModel<Model>(newStyle)
+    }
 
     const contributor = buildContributor(
       user.bibliographicName,
@@ -445,7 +571,7 @@ class TemplateSelector extends React.Component<
           await saveManuscriptModel(item)
         }
       } else {
-        const paragraph = createEmptyParagraph()
+        const paragraph = createEmptyParagraph(newPageLayout)
 
         await saveManuscriptModel<ParagraphElement>(paragraph)
 

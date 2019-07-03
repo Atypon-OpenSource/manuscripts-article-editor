@@ -41,20 +41,20 @@ const ChooseButton = styled(MiniButton)`
   top: 0;
 `
 
-const InspectorField = styled.div`
+export const InspectorField = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   margin-bottom: 16px;
 `
 
-const InspectorLabel = styled.div`
+export const InspectorLabel = styled.div`
   flex-shrink: 0;
   width: 100px;
   color: ${props => props.theme.colors.global.text.secondary};
 `
 
-const InspectorValue = styled.div`
+export const InspectorValue = styled.div`
   padding-left: 20px;
   position: relative;
   font-size: 90%;

@@ -27,6 +27,7 @@ import {
   ManuscriptCategory,
   Model,
   ObjectTypes,
+  PageLayout,
 } from '@manuscripts/manuscripts-json-schema'
 import axios from 'axios'
 import { mergeWith } from 'lodash-es'
@@ -244,14 +245,14 @@ export const createManuscriptSectionsFromTemplate = (
   return items
 }
 
-export const fromPrototype = <T extends Model>(model: T): T => {
+export const fromPrototype = <T extends Model>(model: T) => {
   const output = {
     ...model,
     prototype: model._id,
     _id: generateID(model.objectType as ObjectTypes),
   }
 
-  return output as T
+  return output as T & { prototype: string }
 }
 
 export const createMergedTemplate = (
@@ -294,7 +295,7 @@ export const createMergedTemplate = (
   return fromPrototype<ManuscriptTemplate>(mergedTemplate)
 }
 
-export const createEmptyParagraph = () => {
+export const createEmptyParagraph = (pageLayout: PageLayout) => {
   const placeholderText =
     'Start from here. Enjoy writing! - the Manuscripts Team.'
 
@@ -303,6 +304,7 @@ export const createEmptyParagraph = () => {
   )
 
   paragraph.placeholderInnerHTML = placeholderText
+  paragraph.paragraphStyle = pageLayout.defaultParagraphStyle
 
   return paragraph
 }

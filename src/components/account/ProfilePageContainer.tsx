@@ -149,7 +149,7 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
       throw new Error('Document not found')
     }
 
-    const attachment = await doc.getAttachment('image')
+    const attachment = doc.getAttachment('image')
 
     return attachment.remove()
   }

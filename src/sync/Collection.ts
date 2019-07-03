@@ -143,7 +143,9 @@ export class Collection<T extends Model> implements EventTarget {
 
   public async initialize(startSyncing = true) {
     this.collection = await this.openCollection(this.collectionName)
-    this.conflictManager = new ConflictManager(this.collection)
+    this.conflictManager = new ConflictManager(this.collection as RxCollection<
+      Model
+    >)
 
     const pouch = this.collection.pouch as PouchDB & EventEmitter
     pouch.setMaxListeners(50)
@@ -289,7 +291,7 @@ export class Collection<T extends Model> implements EventTarget {
   public getAttachment = async (id: string, attachmentID: string) => {
     const doc = await this.findDoc(id)
 
-    const attachment = await doc.getAttachment(attachmentID)
+    const attachment = doc.getAttachment(attachmentID)
 
     if (!attachment) {
       throw new Error('Attachment not found')
