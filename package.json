@@ -42,7 +42,7 @@
     "@manuscripts/resizer": "^0.0.3",
     "@manuscripts/style-guide": "^0.8.4",
     "@manuscripts/sync-client": "^0.1.1",
-    "@manuscripts/title-editor": "^0.3.1",
+    "@manuscripts/title-editor": "^0.3.2",
     "@reach/tabs": "^0.1.6",
     "@types/codemirror": "^0.0.76",
     "@types/copy-webpack-plugin": "^5.0.0",

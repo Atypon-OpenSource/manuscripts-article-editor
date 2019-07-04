@@ -31,7 +31,6 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { AuthorValues } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
-import { debounce } from 'lodash-es'
 import React from 'react'
 import { RxCollection } from 'rxdb'
 import CollaboratorsData from '../../data/CollaboratorsData'
@@ -140,7 +139,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
                       return (
                         <Metadata
                           modelMap={modelMap}
-                          saveTitle={debounce(this.saveTitle, 1000)}
+                          saveTitle={this.saveTitle}
                           authors={authors}
                           invitations={invitations}
                           editing={editing}

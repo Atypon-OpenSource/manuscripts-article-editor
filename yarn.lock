@@ -1745,10 +1745,10 @@
     prosemirror-utils "^0.9.2"
     prosemirror-view "^1.9.11"
 
-"@manuscripts/title-editor@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.npmjs.org/@manuscripts/title-editor/-/title-editor-0.3.1.tgz#eae65b60f1ecce1d55ea087f60b6cecf71f478fb"
-  integrity sha512-V3GjFF24oit5tJn+F2AyIBteSgnZKs0SI/Fubn0BO7LUqppWwjWQcZhNpa0+MEHfF1wNpLhormYilC++Q1JRQg==
+"@manuscripts/title-editor@^0.3.1", "@manuscripts/title-editor@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.npmjs.org/@manuscripts/title-editor/-/title-editor-0.3.2.tgz#0143ba9c6c991a4e5a6d73c0085ad51bc38bf54b"
+  integrity sha512-mVr7eFfBT3h9fkp9LxnZF5xiYMSIjPWaD2WO8kjYaUtbFuq9NkdrFz1NXVorDVt2/kpm6rhyLutyJUUk2fUw0g==
   dependencies:
     "@manuscripts/assets" "^0.3.9"
     prosemirror-commands "^1.0.4"

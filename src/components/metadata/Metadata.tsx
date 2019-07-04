@@ -33,7 +33,7 @@ import {
   CloseButton,
   StyledModal,
 } from '@manuscripts/style-guide'
-import { TitleEditorView, TitleField } from '@manuscripts/title-editor'
+import { TitleEditorView } from '@manuscripts/title-editor'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
@@ -45,6 +45,7 @@ import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import AuthorsModalContainer from './AuthorsModalContainer'
 import { InviteAuthorsModal } from './AuthorsModals'
 import { Header, HeaderContainer } from './Header'
+import { TitleFieldContainer } from './TitleFieldContainer'
 
 const ModalContainer = styled.div`
   display: flex;
@@ -78,32 +79,6 @@ const ExpanderButton = styled.button`
 
   &:focus {
     outline: none;
-  }
-`
-
-const StyledTitleField = styled(TitleField)`
-  flex: 1;
-
-  & .ProseMirror {
-    cursor: text;
-    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
-    line-height: 1.3;
-
-    &:focus {
-      outline: none;
-    }
-
-    &.empty-node::before {
-      position: absolute;
-      color: #ccc;
-      cursor: text;
-      content: 'Untitled Manuscript';
-      pointer-events: none;
-    }
-
-    &.empty-node:hover::before {
-      color: #999;
-    }
   }
 `
 
@@ -154,24 +129,35 @@ interface Props {
   tokenActions: TokenActions
 }
 
+const expanderStyle = (expanded: boolean) => ({
+  transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
+})
+
+const authorsModal = (props: Props) => {
+  if (props.isInvite) {
+    return <InviteAuthorsModal {...props} />
+  }
+
+  return props.addingAuthors ? (
+    <AddAuthorsModalContainer {...props} />
+  ) : (
+    <AuthorsModalContainer {...props} />
+  )
+}
+
 export const Metadata: React.FunctionComponent<Props> = props => (
   <HeaderContainer>
     <Header>
       <TitleContainer>
-        <StyledTitleField
-          id={'manuscript-title-field'}
-          value={props.manuscript.title}
-          autoFocus={!props.manuscript.title}
+        <TitleFieldContainer
+          title={props.manuscript.title || ''}
           handleChange={props.saveTitle}
           handleStateChange={props.handleTitleStateChange}
-          tabIndex={2}
           editable={props.permissions.write}
         />
         <ExpanderButton
           onClick={props.toggleExpanded}
-          style={{
-            transform: props.expanded ? 'rotate(0deg)' : 'rotate(180deg)',
-          }}
+          style={expanderStyle(props.expanded)}
           data-cy={'expander-button'}
         >
           <ArrowDownBlue />
@@ -207,15 +193,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
             </CloseButton>
           </ModalHeader>
 
-          {!props.isInvite && !props.addingAuthors && (
-            <AuthorsModalContainer {...props} />
-          )}
-
-          {!props.isInvite && props.addingAuthors && (
-            <AddAuthorsModalContainer {...props} />
-          )}
-
-          {props.isInvite && <InviteAuthorsModal {...props} />}
+          {authorsModal(props)}
         </ModalContainer>
       </StyledModal>
     </Header>
