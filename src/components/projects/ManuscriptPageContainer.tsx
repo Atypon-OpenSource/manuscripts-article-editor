@@ -229,6 +229,16 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     'maxCharacterCountRequirement',
   ]
 
+  private readonly preparedManuscriptEditorStateChange: (
+    view: EditorViewType,
+    docChanged: boolean
+  ) => void
+
+  private readonly preparedTitleEditorStateChange: (
+    view: EditorViewType,
+    docChanged: boolean
+  ) => void
+
   public constructor(props: CombinedProps) {
     super(props)
 
@@ -254,6 +264,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     this.debouncedSaveModels = debounce(this.saveModels, 1000, {
       maxWait: 5000,
     })
+
+    this.preparedTitleEditorStateChange = this.handleEditorStateChange(
+      EditorType.title
+    )
+
+    this.preparedManuscriptEditorStateChange = this.handleEditorStateChange(
+      EditorType.manuscript
+    )
   }
 
   public async componentDidMount() {
@@ -415,9 +433,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   saveModel={this.saveModel}
                   deleteModel={this.deleteModel}
                   permissions={permissions}
-                  handleTitleStateChange={this.handleEditorStateChange(
-                    EditorType.title
-                  )}
+                  handleTitleStateChange={this.preparedTitleEditorStateChange}
                   tokenActions={this.props.tokenActions}
                 />
 
@@ -450,9 +466,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                     retrySync={this.retrySync}
                     renderReactComponent={this.renderReactComponent}
                     unmountReactComponent={this.unmountReactComponent}
-                    handleStateChange={this.handleEditorStateChange(
-                      EditorType.manuscript
-                    )}
+                    handleStateChange={this.preparedManuscriptEditorStateChange}
                     components={{
                       CitationEditor,
                       CitationViewer,
