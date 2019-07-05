@@ -44,13 +44,14 @@ storiesOf('Projects/Comments', module).add('with comments', () => (
       doc={doc}
       getCurrentUser={() => people[0]}
       getCollaborator={(id: string) => userMap.get(id)}
-      deleteComment={async () => action('delete model')}
-      saveComment={async () => action('save model')}
+      deleteModel={async () => action('delete model')}
+      saveModel={async () => action('save model')}
       listCollaborators={() => people}
       createKeyword={async () => action('create keyword')}
       getKeyword={(id: string) => keywordMap.get(id)}
       listKeywords={() => keywords}
       selected={null}
+      setCommentTarget={action('set comment target')}
     />
   </div>
 ))

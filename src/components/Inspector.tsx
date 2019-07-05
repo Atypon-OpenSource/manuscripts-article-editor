@@ -17,7 +17,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs'
 import { styled } from '../theme/styled-components'
 
-export const Inspector = styled.div`
+export const InspectorContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;

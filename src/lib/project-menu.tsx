@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MenuItem } from '@manuscripts/manuscript-editor/dist/types/components/menu/ApplicationMenu'
+import { MenuItem } from '@manuscripts/manuscript-editor'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import { History } from 'history'

@@ -29,7 +29,7 @@ import React from 'react'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CountInput } from './CountInput'
 
-type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
+export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
 type Buildable<T> = T | Build<T>
 

@@ -53,7 +53,6 @@ import {
   ManuscriptModel,
   ManuscriptPlugin,
   ModelAttachment,
-  SectionNode,
   Selected,
   timestamp,
   UserProfileWithAvatar,
@@ -109,22 +108,8 @@ import CollectionManager from '../../sync/CollectionManager'
 // import { newestFirst, oldestFirst } from '../../lib/sort'
 import { ThemeProvider } from '../../theme/ThemeProvider'
 import { Permissions } from '../../types/permissions'
-import {
-  Inspector,
-  InspectorTab,
-  InspectorTabList,
-  InspectorTabPanel,
-  InspectorTabPanels,
-  InspectorTabs,
-} from '../Inspector'
-import {
-  AnyElement,
-  ElementStyleInspector,
-} from '../inspector/ElementStyleInspector'
-import { ManuscriptStyleInspector } from '../inspector/ManuscriptStyleInspector'
-import { SectionInspector } from '../inspector/SectionInspector'
-import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
-import { StatisticsInspector } from '../inspector/StatisticsInspector'
+
+import { AnyElement } from '../inspector/ElementStyleInspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
 import { CitationViewer } from '../library/CitationViewer'
@@ -135,7 +120,6 @@ import Panel from '../Panel'
 import { ManuscriptPlaceholder } from '../Placeholders'
 import CitationStyleSelector from '../templates/CitationStyleSelector'
 import TemplateSelector from '../templates/TemplateSelector'
-import { CommentList } from './CommentList'
 import {
   EditorBody,
   EditorContainer,
@@ -145,7 +129,7 @@ import {
 import { EditorStyles } from './EditorStyles'
 import { Exporter } from './Exporter'
 import { Importer } from './Importer'
-import { ManuscriptInspector } from './ManuscriptInspector'
+import { Inspector } from './Inspector'
 import {
   EditorType,
   EditorViewType,
@@ -163,6 +147,7 @@ interface ModelObject {
 interface State {
   conflictManager?: ConflictManager
   conflicts: LocalConflicts | null
+  commentTarget?: string
   dirty: boolean
   doc?: ActualManuscriptNode
   error?: string
@@ -344,6 +329,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       permissions,
       selectedElement,
       selectedSection,
+      commentTarget,
     } = this.state
 
     const {
@@ -388,6 +374,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       spellcheck: 'true',
       tabindex: '2',
     }
+
+    const bundle = this.findBundle()
 
     const collection = this.collection.getCollection()
 
@@ -473,6 +461,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                     }}
                     jupyterConfig={config.jupyter}
                     permissions={permissions}
+                    setCommentTarget={this.setCommentTarget}
                   />
                 </EditorStyles>
               </EditorBody>
@@ -489,80 +478,30 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           side={'start'}
         >
           {this.state.view && comments && (
-            <Inspector>
-              <InspectorTabs>
-                <InspectorTabList>
-                  <InspectorTab>Content</InspectorTab>
-                  <InspectorTab>Style</InspectorTab>
-                  <InspectorTab>Comments</InspectorTab>
-                </InspectorTabList>
-
-                <InspectorTabPanels>
-                  <InspectorTabPanel>
-                    <StatisticsInspector
-                      manuscriptNode={doc}
-                      sectionNode={
-                        selectedSection
-                          ? (selectedSection.node as SectionNode)
-                          : undefined
-                      }
-                    />
-                    <ManuscriptInspector
-                      manuscript={manuscript}
-                      modelMap={modelMap}
-                      saveModel={this.saveModel}
-                    />
-                    {section && view && (
-                      <SectionInspector
-                        section={section}
-                        modelMap={modelMap}
-                        saveModel={this.saveModel}
-                        dispatchNodeAttrs={this.dispatchNodeAttrs}
-                      />
-                    )}
-                  </InspectorTabPanel>
-                  <InspectorTabPanel>
-                    <ManuscriptStyleInspector
-                      bundle={this.findBundle()}
-                      openCitationStyleSelector={this.openCitationStyleSelector}
-                    />
-                    {element && view && (
-                      <ElementStyleInspector
-                        manuscript={manuscript}
-                        element={element}
-                        modelMap={modelMap}
-                        saveModel={this.saveModel}
-                        deleteModel={this.deleteModel}
-                        view={view}
-                      />
-                    )}
-                    {section && (
-                      <SectionStyleInspector
-                        manuscript={manuscript}
-                        section={section}
-                        modelMap={modelMap}
-                        saveModel={this.saveModel}
-                      />
-                    )}
-                  </InspectorTabPanel>
-                  <InspectorTabPanel>
-                    <CommentList
-                      comments={comments}
-                      doc={doc}
-                      getCurrentUser={this.getCurrentUser}
-                      selected={selected}
-                      createKeyword={this.createKeyword}
-                      deleteComment={this.deleteModel}
-                      getCollaborator={this.getCollaborator}
-                      getKeyword={this.getKeyword}
-                      listCollaborators={this.listCollaborators}
-                      listKeywords={this.listKeywords}
-                      saveComment={this.saveModel}
-                    />
-                  </InspectorTabPanel>
-                </InspectorTabPanels>
-              </InspectorTabs>
-            </Inspector>
+            <Inspector
+              bundle={bundle}
+              comments={comments}
+              commentTarget={commentTarget}
+              createKeyword={this.createKeyword}
+              deleteModel={this.deleteModel}
+              dispatchNodeAttrs={this.dispatchNodeAttrs}
+              doc={doc}
+              element={element}
+              getCollaborator={this.getCollaborator}
+              getCurrentUser={this.getCurrentUser}
+              getKeyword={this.getKeyword}
+              listCollaborators={this.listCollaborators}
+              listKeywords={this.listKeywords}
+              manuscript={manuscript}
+              modelMap={modelMap}
+              openCitationStyleSelector={this.openCitationStyleSelector}
+              saveModel={this.saveModel}
+              section={section}
+              selected={selected}
+              selectedSection={selectedSection}
+              setCommentTarget={this.setCommentTarget}
+              view={view}
+            />
           )}
         </Panel>
       </RequirementsProvider>
@@ -1588,6 +1527,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private unmountReactComponent = (container: HTMLElement) => {
     ReactDOM.unmountComponentAtNode(container)
+  }
+
+  private setCommentTarget = (commentTarget?: string) => {
+    this.setState({ commentTarget })
   }
 }
 

@@ -17,18 +17,10 @@
 import AnnotationEdit from '@manuscripts/assets/react/AnnotationEdit'
 import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import AnnotationReply from '@manuscripts/assets/react/AnnotationReply'
-import AnnotationShare from '@manuscripts/assets/react/AnnotationShare'
+// import AnnotationShare from '@manuscripts/assets/react/AnnotationShare'
 import { Comment, CommentField } from '@manuscripts/comment-editor'
-import {
-  Build,
-  buildComment,
-  CommentAnnotation,
-} from '@manuscripts/manuscript-transform'
-import {
-  Keyword,
-  Model,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+import { CommentAnnotation } from '@manuscripts/manuscript-transform'
+import { Keyword, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import {
   Button,
   FormError,
@@ -136,14 +128,15 @@ const StyledCommentViewer = styled(Comment)`
 interface Props {
   comment: CommentAnnotation
   createKeyword: (name: string) => Promise<Keyword>
-  getCurrentUser: () => UserProfile
   getCollaborator: (id: string) => UserProfile | undefined
   getKeyword: (id: string) => Keyword | undefined
   listCollaborators: () => UserProfile[]
   listKeywords: () => Keyword[]
-  saveComment: <T extends Model>(model: Build<T>) => Promise<T>
-  deleteComment: (id: string) => Promise<string>
+  saveComment: (comment: CommentAnnotation) => Promise<CommentAnnotation>
+  deleteComment: (id: string) => Promise<string | void>
   isReply?: boolean
+  isNew: boolean
+  setCommentTarget: (commentTarget?: string) => void
 }
 
 interface State {
@@ -156,7 +149,7 @@ class CommentBody extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    if (this.isNew()) {
+    if (this.props.isNew) {
       this.startEditing()
     }
   }
@@ -200,6 +193,7 @@ class CommentBody extends React.Component<Props, State> {
               {(props: FieldProps) => (
                 <CommentContent>
                   <StyledCommentField
+                    autoFocus={editing}
                     value={values.contents}
                     handleChange={(data: string) =>
                       setFieldValue(props.field.name, data)
@@ -231,35 +225,30 @@ class CommentBody extends React.Component<Props, State> {
 
         <CommentFooter>
           <span>
-            <ActionButton onClick={this.startEditing}>
+            <ActionButton onClick={this.startEditing} title={'Edit comment'}>
               <AnnotationEdit />
             </ActionButton>
-            <ActionButton
-              onClick={() => this.confirmThenDeleteComment(comment._id)}
-            >
-              <AnnotationRemove />
-            </ActionButton>
-          </span>
-
-          <span>
-            <ActionButton onClick={this.openSharing}>
-              <AnnotationShare />
-            </ActionButton>
             {!isReply && (
-              <ActionButton onClick={() => this.createReply(comment._id)}>
+              <ActionButton onClick={this.createReply} title={'Reply'}>
                 <AnnotationReply />
               </ActionButton>
             )}
           </span>
+
+          <span>
+            {/*<ActionButton onClick={this.openSharing}>
+              <AnnotationShare />
+            </ActionButton>*/}
+            <ActionButton
+              onClick={this.confirmThenDeleteComment}
+              title={'Delete comment'}
+            >
+              <AnnotationRemove />
+            </ActionButton>
+          </span>
         </CommentFooter>
       </div>
     )
-  }
-
-  private isNew = () => {
-    const { comment } = this.props
-
-    return Date.now() / 1000 - comment.createdAt < 60 // created < 1 min ago
   }
 
   private setEditing = (editing: boolean) => {
@@ -270,30 +259,34 @@ class CommentBody extends React.Component<Props, State> {
     this.setEditing(true)
   }
 
-  private cancelEditing = () => {
+  private cancelEditing = async () => {
+    const { comment, isNew, deleteComment } = this.props
+
     this.setEditing(false)
+
+    if (isNew) {
+      await deleteComment(comment._id)
+    }
   }
 
-  private confirmThenDeleteComment = (id: string) => {
+  private confirmThenDeleteComment = () => {
+    const { comment, deleteComment } = this.props
+
     if (confirm('Delete this comment?')) {
-      this.props.deleteComment(id).catch(error => {
+      deleteComment(comment._id).catch(error => {
         console.error(error) // tslint:disable-line:no-console
       })
     }
   }
 
-  private openSharing = () => {
-    // TODO
-  }
+  // private openSharing = () => {
+  //   // TODO
+  // }
 
-  private createReply = async (id: string) => {
-    const { getCurrentUser, saveComment } = this.props
+  private createReply = () => {
+    const { comment, setCommentTarget } = this.props
 
-    const user = getCurrentUser()
-
-    const comment = buildComment(user._id, id)
-
-    await saveComment<CommentAnnotation>(comment)
+    setCommentTarget(comment._id)
   }
 }
 

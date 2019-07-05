@@ -20,7 +20,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import { BibliographicName } from '@manuscripts/manuscripts-json-schema'
 
-interface CommentData {
+export interface CommentData {
   comment: CommentAnnotation
   children: CommentAnnotation[]
 }

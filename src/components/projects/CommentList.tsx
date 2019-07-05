@@ -15,20 +15,16 @@
  */
 
 import {
-  Build,
+  buildComment,
   CommentAnnotation,
   ManuscriptNode,
   Selected,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
-import {
-  Keyword,
-  Model,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+import { Keyword, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
-import React from 'react'
-import { buildCommentTree, buildName } from '../../lib/comments'
+import React, { useCallback, useEffect, useState } from 'react'
+import { buildCommentTree, buildName, CommentData } from '../../lib/comments'
 import { styled } from '../../theme/styled-components'
 import { RelativeDate } from '../RelativeDate'
 import CommentBody from './CommentBody'
@@ -105,47 +101,103 @@ const CommentUser: React.FunctionComponent<UserProps> = ({ user }) =>
 interface Props {
   comments: CommentAnnotation[]
   createKeyword: (name: string) => Promise<Keyword>
-  deleteComment: (id: string) => Promise<string>
+  saveModel: (model: CommentAnnotation) => Promise<CommentAnnotation>
+  deleteModel: (id: string) => Promise<string>
   doc: ManuscriptNode
   getCollaborator: (id: string) => UserProfile | undefined
   getCurrentUser: () => UserProfile
   getKeyword: (id: string) => Keyword | undefined
   listCollaborators: () => UserProfile[]
   listKeywords: () => Keyword[]
-  saveComment: <T extends Model>(model: Build<T>) => Promise<T>
   selected: Selected | null
+  commentTarget?: string
+  setCommentTarget: (commentTarget?: string) => void
 }
 
-export class CommentList extends React.Component<Props> {
-  public componentWillReceiveProps(nextProps: Props) {
-    const { selected } = nextProps
+export const CommentList: React.FC<Props> = React.memo(
+  ({
+    comments,
+    deleteModel,
+    doc,
+    getCurrentUser,
+    saveModel,
+    selected,
+    createKeyword,
+    getCollaborator,
+    getKeyword,
+    listCollaborators,
+    listKeywords,
+    commentTarget,
+    setCommentTarget,
+  }) => {
+    const [items, setItems] = useState<Array<[string, CommentData[]]>>()
 
-    if (selected) {
-      const { id } = selected.node.attrs
+    const [newComment, setNewComment] = useState<CommentAnnotation>()
 
-      if (!this.props.selected || id !== this.props.selected.node.attrs.id) {
-        // scroll into view and expand
+    const saveComment = useCallback(
+      (comment: CommentAnnotation) => {
+        return saveModel(comment).then(comment => {
+          if (newComment && newComment._id === comment._id) {
+            setCommentTarget(undefined)
+          }
+
+          return comment
+        })
+      },
+      [newComment, setCommentTarget, saveModel]
+    )
+
+    const deleteComment = useCallback(
+      (id: string) => {
+        if (newComment && newComment._id === id) {
+          setCommentTarget(undefined)
+          return Promise.resolve()
+        } else {
+          return deleteModel(id)
+        }
+      },
+      [deleteModel, newComment, setCommentTarget]
+    )
+
+    const isNew = useCallback(
+      (comment: CommentAnnotation): boolean => {
+        return newComment ? newComment._id === comment._id : false
+      },
+      [newComment]
+    )
+
+    useEffect(() => {
+      if (commentTarget) {
+        const currentUser = getCurrentUser()
+
+        const newComment = buildComment(
+          currentUser.userID,
+          commentTarget
+        ) as CommentAnnotation
+
+        setNewComment(newComment)
+      } else {
+        setNewComment(undefined)
       }
+    }, [commentTarget, getCurrentUser])
+
+    useEffect(() => {
+      const combinedComments = [...comments]
+
+      if (newComment) {
+        combinedComments.push(newComment)
+      }
+
+      const commentsTreeMap = buildCommentTree(doc, combinedComments)
+
+      const items = Array.from(commentsTreeMap.entries())
+
+      setItems(items)
+    }, [comments, newComment])
+
+    if (!items) {
+      return null
     }
-  }
-
-  public render() {
-    const {
-      comments,
-      deleteComment,
-      doc,
-      getCurrentUser,
-      saveComment,
-      selected,
-      createKeyword,
-      getCollaborator,
-      getKeyword,
-      listCollaborators,
-      listKeywords,
-    } = this.props
-
-    const commentsTreeMap = buildCommentTree(doc, comments)
-    const items = Array.from(commentsTreeMap.entries())
 
     return (
       <CommentListContainer>
@@ -169,11 +221,12 @@ export class CommentList extends React.Component<Props> {
                       createKeyword={createKeyword}
                       deleteComment={deleteComment}
                       getCollaborator={getCollaborator}
-                      getCurrentUser={getCurrentUser}
                       getKeyword={getKeyword}
                       listCollaborators={listCollaborators}
                       listKeywords={listKeywords}
                       saveComment={saveComment}
+                      setCommentTarget={setCommentTarget}
+                      isNew={isNew(comment)}
                     />
                   </Container>
 
@@ -189,12 +242,13 @@ export class CommentList extends React.Component<Props> {
                         createKeyword={createKeyword}
                         deleteComment={deleteComment}
                         getCollaborator={getCollaborator}
-                        getCurrentUser={getCurrentUser}
                         getKeyword={getKeyword}
                         isReply={true}
                         listCollaborators={listCollaborators}
                         listKeywords={listKeywords}
                         saveComment={saveComment}
+                        setCommentTarget={setCommentTarget}
+                        isNew={isNew(comment)}
                       />
                     </Reply>
                   ))}
@@ -206,4 +260,4 @@ export class CommentList extends React.Component<Props> {
       </CommentListContainer>
     )
   }
-}
+)
