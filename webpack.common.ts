@@ -19,6 +19,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
 import { GenerateSW } from 'workbox-webpack-plugin'
+import WorkerPlugin from 'worker-plugin'
 import config from './src/config'
 
 const configuration: webpack.Configuration = {
@@ -80,6 +81,7 @@ const configuration: webpack.Configuration = {
         /en/ // TODO: all the locales needed for the locale switcher
       ),
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+      new WorkerPlugin(),
     ]
 
     if (config.serviceworker) {

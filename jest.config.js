@@ -25,7 +25,7 @@ module.exports = {
     '^.+\\.css$': '<rootDir>/src/__mocks__/styleMock.ts',
     '^.+\\.xml$': '<rootDir>/src/__mocks__/rawMock.ts',
   },
-  setupFiles: ['./src/setupTests.ts'],
+  setupFiles: ['./src/setupTests.ts', 'jsdom-worker'],
   setupFilesAfterEnv: ['<rootDir>/node_modules/jest-enzyme/lib/index.js'],
   testPathIgnorePatterns: ['/node_modules/'],
   testRegex: '__tests__.*\\.test\\.tsx?$',
