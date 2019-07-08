@@ -17,7 +17,7 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
   BibliographicName,
-  ProjectInvitation,
+  ContainerInvitation,
 } from '@manuscripts/manuscripts-json-schema'
 import { Button, PrimaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
@@ -125,12 +125,12 @@ const buildNameLiteral = (name: BibliographicName) =>
   [initials(name), name.family, name.suffix].filter(part => part).join(' ')
 
 interface InvitationProps {
-  invitation: ProjectInvitation
+  invitation: ContainerInvitation
   invitingUserProfile: UserProfileWithAvatar
-  acceptInvitation: (invitation: ProjectInvitation) => void
+  acceptInvitation: (invitation: ContainerInvitation) => void
   confirmReject: (
     invitingUserProfile: UserProfileWithAvatar,
-    invitation: ProjectInvitation
+    invitation: ContainerInvitation
   ) => void
 }
 
@@ -144,8 +144,8 @@ export const Invitation: React.FunctionComponent<InvitationProps> = ({
     <ProjectNameContainer>
       <Container>
         <InvitationTitle>
-          {invitation.projectTitle ? (
-            <Title value={invitation.projectTitle} />
+          {invitation.containerTitle ? (
+            <Title value={invitation.containerTitle} />
           ) : (
             <PlaceholderTitle value={'Untitled Invitation'} />
           )}

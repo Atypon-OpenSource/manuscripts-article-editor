@@ -16,10 +16,10 @@
 
 import {
   Affiliation,
+  ContainerInvitation,
   Contributor,
   Manuscript,
   Project,
-  ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
@@ -42,7 +42,7 @@ interface Props {
   project: Project
   manuscript: Manuscript
   authors: Contributor[]
-  invitations: ProjectInvitation[]
+  invitations: ContainerInvitation[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   affiliations: AffiliationMap
   selectedAuthor: Contributor | null
@@ -142,7 +142,8 @@ class AuthorsModalContainer extends React.Component<Props, State> {
     if (!author) return null
 
     return invitations.find(
-      invitation => author.invitationID === invitation._id
+      invitation =>
+        author.invitationID === invitation._id && !invitation.acceptedAt
     ) ? (
       <Invited>Invited</Invited>
     ) : null

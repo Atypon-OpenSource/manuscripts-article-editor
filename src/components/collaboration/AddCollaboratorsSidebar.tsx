@@ -17,7 +17,7 @@
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
-  ProjectInvitation,
+  ContainerInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
@@ -94,7 +94,7 @@ const StyledSidebar = styled(Sidebar)`
 
 interface Props {
   people: UserProfile[]
-  invitations: ProjectInvitation[]
+  invitations: ContainerInvitation[]
   numberOfAddedCollaborators: number
   addedUsers: string[]
   countAddedCollaborators: () => void

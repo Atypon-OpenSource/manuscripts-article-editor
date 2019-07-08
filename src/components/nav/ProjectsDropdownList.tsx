@@ -16,8 +16,8 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
+  ContainerInvitation,
   Project,
-  ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
@@ -41,10 +41,10 @@ interface Props {
     invitationId: string
     errorMessage: string
   } | null
-  acceptInvitation: (invitation: ProjectInvitation) => void
+  acceptInvitation: (invitation: ContainerInvitation) => void
   confirmReject: (
     invitingUserProfile: UserProfileWithAvatar,
-    invitation: ProjectInvitation
+    invitation: ContainerInvitation
   ) => void
   addProject: () => void
 }

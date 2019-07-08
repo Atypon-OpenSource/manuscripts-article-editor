@@ -16,17 +16,19 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
+  ContainerInvitation,
   Project,
-  ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
-import InvitationsData from '../../data/InvitationsData'
+import ContainersInvitationsData from '../../data/ContainersInvitationsData'
 import ProjectsData from '../../data/ProjectsData'
+import ProjectsInvitationsData from '../../data/ProjectsInvitationsData'
 import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
+import { buildContainerInvitations } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme/styled-components'
 import { InvitationsList } from '../projects/InvitationsList'
@@ -38,15 +40,15 @@ import ProjectsMenu from './ProjectsMenu'
 const Container = styled.div`
   font-weight: 500;
 `
-export interface InvitationDataProject {
+export interface InvitationDataContainer {
   _id: string
   title?: string
 }
 
 export interface InvitationData {
-  invitation: ProjectInvitation
+  invitation: ContainerInvitation
   invitingUserProfile: UserProfile
-  project: InvitationDataProject
+  container: InvitationDataContainer
 }
 
 interface State {
@@ -57,7 +59,7 @@ interface State {
     invitationId: string
     errorMessage: string
   } | null
-  rejectedInvitation: ProjectInvitation | null
+  rejectedInvitation: ContainerInvitation | null
   invitingUserProfile: UserProfileWithAvatar | null
 }
 
@@ -108,67 +110,87 @@ class ProjectsButton extends React.Component<Props, State> {
             {user => (
               <ProjectsData>
                 {(projects, projectsCollection) => (
-                  <InvitationsData>
-                    {invitations => {
-                      const invitationsData = this.buildInvitationData(
-                        invitations,
-                        user
-                      )
+                  <ContainersInvitationsData>
+                    {invitations => (
+                      <ProjectsInvitationsData>
+                        {projectsInvitations => {
+                          const containerInvitations: ContainerInvitation[] = buildContainerInvitations(
+                            projectsInvitations
+                          )
+                          const allInvitations: ContainerInvitation[] = [
+                            ...invitations,
+                            ...containerInvitations,
+                          ].filter(invitation =>
+                            invitation.containerID.startsWith('MPProject')
+                          )
 
-                      const projectsIDs = projects.map(project => project._id)
+                          const invitationsData = this.buildInvitationData(
+                            allInvitations,
+                            user
+                          )
 
-                      const filteredInvitationsData = invitationsData.filter(
-                        invitationData =>
-                          projectsIDs.indexOf(invitationData.project._id) < 0
-                      )
+                          const projectsIDs = projects.map(
+                            project => project._id
+                          )
 
-                      return !this.props.isDropdown ? (
-                        <React.Fragment>
-                          <InvitationsList
-                            invitationsData={filteredInvitationsData}
-                            acceptInvitation={this.acceptInvitation}
-                            acceptError={acceptError}
-                            confirmReject={this.confirmReject}
-                          />
-                          <SidebarContent>
-                            <ProjectsList
-                              projects={projects}
-                              acceptedInvitations={acceptedInvitations}
-                              deleteProject={(project: Project) => () =>
-                                projectsCollection.delete(project._id)}
-                              saveProjectTitle={(project: Project) => (
-                                title: string
-                              ) =>
-                                projectsCollection.update(project._id, {
-                                  title,
-                                })}
-                              closeModal={closeModal}
-                              user={user}
-                              tokenActions={tokenActions!}
-                            />
-                          </SidebarContent>
-                        </React.Fragment>
-                      ) : (
-                        <MenuDropdown
-                          buttonContents={'Projects'}
-                          notificationsCount={invitationsData.length}
-                          dropdownStyle={{ width: 342, left: 20 }}
-                        >
-                          <ProjectsMenu
-                            invitationsData={invitationsData}
-                            projects={projects}
-                            removeInvitationData={this.removeInvitationData}
-                            acceptedInvitations={acceptedInvitations}
-                            rejectedInvitations={rejectedInvitations}
-                            acceptError={acceptError}
-                            acceptInvitation={this.acceptInvitation}
-                            confirmReject={this.confirmReject}
-                            user={user}
-                          />
-                        </MenuDropdown>
-                      )
-                    }}
-                  </InvitationsData>
+                          const filteredInvitationsData = invitationsData.filter(
+                            invitationData =>
+                              projectsIDs.indexOf(
+                                invitationData.container._id
+                              ) < 0
+                          )
+
+                          return !this.props.isDropdown ? (
+                            <React.Fragment>
+                              <InvitationsList
+                                invitationsData={filteredInvitationsData}
+                                acceptInvitation={this.acceptInvitation}
+                                acceptError={acceptError}
+                                confirmReject={this.confirmReject}
+                              />
+                              <SidebarContent>
+                                <ProjectsList
+                                  projects={projects}
+                                  acceptedInvitations={acceptedInvitations}
+                                  deleteProject={(project: Project) => () =>
+                                    projectsCollection.delete(project._id)}
+                                  saveProjectTitle={(project: Project) => (
+                                    title: string
+                                  ) =>
+                                    projectsCollection.update(project._id, {
+                                      title,
+                                    })}
+                                  closeModal={closeModal}
+                                  user={user}
+                                  tokenActions={tokenActions!}
+                                />
+                              </SidebarContent>
+                            </React.Fragment>
+                          ) : (
+                            <MenuDropdown
+                              buttonContents={'Projects'}
+                              notificationsCount={
+                                filteredInvitationsData.length
+                              }
+                              dropdownStyle={{ width: 342, left: 20 }}
+                            >
+                              <ProjectsMenu
+                                invitationsData={invitationsData}
+                                projects={projects}
+                                removeInvitationData={this.removeInvitationData}
+                                acceptedInvitations={acceptedInvitations}
+                                rejectedInvitations={rejectedInvitations}
+                                acceptError={acceptError}
+                                acceptInvitation={this.acceptInvitation}
+                                confirmReject={this.confirmReject}
+                                user={user}
+                              />
+                            </MenuDropdown>
+                          )
+                        }}
+                      </ProjectsInvitationsData>
+                    )}
+                  </ContainersInvitationsData>
                 )}
               </ProjectsData>
             )}
@@ -203,7 +225,7 @@ class ProjectsButton extends React.Component<Props, State> {
   }
 
   private buildInvitationData = (
-    invitations: ProjectInvitation[],
+    invitations: ContainerInvitation[],
     user: UserProfile
   ) => {
     const { handledInvitations } = this.state
@@ -224,9 +246,9 @@ class ProjectsButton extends React.Component<Props, State> {
       invitationsData.push({
         invitation,
         invitingUserProfile,
-        project: {
-          _id: invitation.projectID,
-          title: invitation.projectTitle,
+        container: {
+          _id: invitation.containerID,
+          title: invitation.containerTitle,
         },
       })
     }
@@ -242,12 +264,12 @@ class ProjectsButton extends React.Component<Props, State> {
     this.setState({ handledInvitations })
   }
 
-  private acceptInvitation = async (invitation: ProjectInvitation) => {
+  private acceptInvitation = async (invitation: ContainerInvitation) => {
     try {
       await acceptProjectInvitation(invitation._id)
 
       const acceptedInvitations = this.state.acceptedInvitations.concat(
-        invitation.projectID
+        invitation.containerID
       )
 
       this.setState({ acceptedInvitations })
@@ -267,7 +289,7 @@ class ProjectsButton extends React.Component<Props, State> {
 
   private confirmReject = async (
     invitingUserProfile: UserProfileWithAvatar,
-    invitation: ProjectInvitation
+    invitation: ContainerInvitation
   ) => {
     this.setState({
       invitingUserProfile,
@@ -275,11 +297,11 @@ class ProjectsButton extends React.Component<Props, State> {
     })
   }
 
-  private rejectInvitation = async (invitation: ProjectInvitation) => {
+  private rejectInvitation = async (invitation: ContainerInvitation) => {
     await rejectProjectInvitation(invitation._id)
 
     const rejectedInvitations = this.state.rejectedInvitations.concat(
-      invitation.projectID
+      invitation.containerID
     )
 
     this.setState({ rejectedInvitations })

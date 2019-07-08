@@ -18,8 +18,8 @@ import ProjectIcon from '@manuscripts/assets/react/ProjectIcon'
 import ProjectsList from '@manuscripts/assets/react/ProjectsList'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
+  ContainerInvitation,
   Project,
-  ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   Avatar,
@@ -140,12 +140,12 @@ const Container = styled.div`
 `
 
 interface InvitationProps {
-  invitation: ProjectInvitation
+  invitation: ContainerInvitation
   invitingUserProfile: UserProfileWithAvatar
-  acceptInvitation: (invitation: ProjectInvitation) => void
+  acceptInvitation: (invitation: ContainerInvitation) => void
   confirmReject: (
     invitingUserProfile: UserProfileWithAvatar,
-    invitation: ProjectInvitation
+    invitation: ContainerInvitation
   ) => void
 }
 
@@ -158,7 +158,7 @@ export const InvitationDropdownSection: React.FunctionComponent<
         <ProjectNotificationIcon color={theme.colors.icon.primary} />
       </DropdownWithNotificationIcon>
       <ButtonsContainer>
-        <Title value={invitation.projectTitle || 'Untitled Invitation'} />
+        <Title value={invitation.containerTitle || 'Untitled Invitation'} />
         <InvitedBy>
           <InvitedByText>Invited by</InvitedByText>
           <AvatarContainer>

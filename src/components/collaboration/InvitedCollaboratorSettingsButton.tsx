@@ -15,7 +15,7 @@
  */
 
 import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
-import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
+import { ContainerInvitation } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
 import { AxiosError } from 'axios'
 import * as HttpStatusCodes from 'http-status-codes'
@@ -49,7 +49,7 @@ interface State {
 }
 
 interface Props {
-  invitation: ProjectInvitation
+  invitation: ContainerInvitation
   openPopper: (isOpen: boolean) => void
   projectInvite: (
     email: string,

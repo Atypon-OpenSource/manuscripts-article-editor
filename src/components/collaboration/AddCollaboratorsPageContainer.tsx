@@ -16,8 +16,8 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
+  ContainerInvitation,
   Project,
-  ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { difference } from 'lodash-es'
@@ -49,7 +49,7 @@ interface State {
 }
 
 interface Props {
-  invitations: ProjectInvitation[]
+  invitations: ContainerInvitation[]
   project: Project
   projects: Project[]
   user: UserProfileWithAvatar
@@ -75,7 +75,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
   public render() {
     const { isInvite } = this.state
-    const { invitations, project, user } = this.props
+    const { invitations, project, user, collaborators } = this.props
 
     if (!isOwner(project, user.userID)) {
       return <Redirect to={`/projects/${project._id}/collaborators`} />
@@ -91,7 +91,19 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
     const people = this.buildPeople()
 
-    return this.renderAddCollaboratorsPage(people, acceptedInvitations)
+    const collaboratorEmails: string[] = []
+
+    const projectCollaborators = buildCollaborators(project, collaborators)
+
+    for (const collaborator of projectCollaborators.values()) {
+      collaboratorEmails.push(collaborator.userID.replace('User_', ''))
+    }
+
+    const filteredInvitations = acceptedInvitations.filter(
+      invitation => !collaboratorEmails.includes(invitation.invitedUserEmail)
+    )
+
+    return this.renderAddCollaboratorsPage(people, filteredInvitations)
   }
 
   private renderInviteCollaboratorPage(project: Project) {
@@ -130,7 +142,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
   private renderAddCollaboratorsPage(
     people: UserProfile[],
-    acceptedInvitations: ProjectInvitation[]
+    acceptedInvitations: ContainerInvitation[]
   ) {
     const { addedCollaboratorsCount, searchText, addedUsers } = this.state
 

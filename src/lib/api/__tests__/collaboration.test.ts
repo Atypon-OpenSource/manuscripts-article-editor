@@ -41,7 +41,7 @@ describe('collaboration', () => {
     await projectInvite(projectID, invitedUsers, role)
 
     expect(client.post).toBeCalledWith(
-      `/invitation/project/${encodeURIComponent(projectID)}/invite`,
+      `/invitation/${encodeURIComponent(projectID)}/invite`,
       {
         invitedUsers,
         role,
@@ -57,7 +57,7 @@ describe('collaboration', () => {
     await addProjectUser(projectID, role, userId)
 
     expect(client.post).toBeCalledWith(
-      `/project/${encodeURIComponent(projectID)}/addUser`,
+      `/${encodeURIComponent(projectID)}/addUser`,
       {
         role,
         userId,
@@ -72,7 +72,7 @@ describe('collaboration', () => {
     await updateUserRole(projectID, newRole, userId)
 
     expect(client.post).toBeCalledWith(
-      `/project/${encodeURIComponent(projectID)}/roles`,
+      `/${encodeURIComponent(projectID)}/roles`,
       {
         newRole,
         managedUserId: userId,
@@ -114,9 +114,7 @@ describe('collaboration', () => {
     await requestProjectInvitationToken(projectID, role)
 
     expect(client.get).toBeCalledWith(
-      `/invitation/project/${encodeURIComponent(
-        projectID
-      )}/${encodeURIComponent(role)}`
+      `/invitation/${encodeURIComponent(projectID)}/${encodeURIComponent(role)}`
     )
   })
 

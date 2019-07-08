@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
+import { ContainerInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import { CustomPopper } from '../Popper'
 import InviteCollaboratorPopper from './InviteCollaboratorPopper'
 
 interface Props {
-  invitation: ProjectInvitation
+  invitation: ContainerInvitation
   popperProps: PopperChildrenProps
   isUpdateRoleOpen: boolean
   handleOpenModal: () => void

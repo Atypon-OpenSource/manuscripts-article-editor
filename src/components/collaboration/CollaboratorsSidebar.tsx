@@ -16,8 +16,8 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
+  ContainerInvitation,
   Project,
-  ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
@@ -102,7 +102,7 @@ const StyledSidebar = styled(Sidebar)`
 interface Props {
   project: Project
   projectCollaborators: UserProfile[]
-  invitations: ProjectInvitation[]
+  invitations: ContainerInvitation[]
   user: UserProfile
   tokenActions: TokenActions
   projectInvite: (
@@ -145,6 +145,14 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
 
     const { hoveredID, selectedID } = this.state
 
+    const collaboratorEmails = projectCollaborators.map(collaborator =>
+      collaborator.userID.replace('User_', '')
+    )
+
+    const filteredInvitations = invitations.filter(
+      invitation => !collaboratorEmails.includes(invitation.invitedUserEmail)
+    )
+
     return (
       <Panel
         name={'collaborators-sidebar'}
@@ -168,7 +176,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
           )}
 
           <SidebarContent>
-            {invitations.map(invitation => (
+            {filteredInvitations.map(invitation => (
               <SidebarPersonContainer
                 key={invitation._id}
                 onMouseEnter={() => this.handleHover(invitation._id)}

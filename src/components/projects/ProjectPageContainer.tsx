@@ -18,6 +18,7 @@ import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
 import CollaboratorsData from '../../data/CollaboratorsData'
+import ContainerInvitationsData from '../../data/ContainerInvitationsData'
 import ManuscriptCommentsData from '../../data/ManuscriptCommentsData'
 import ManuscriptData from '../../data/ManuscriptData'
 import ProjectData from '../../data/ProjectData'
@@ -30,6 +31,7 @@ import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import UserProjectsData from '../../data/UserProjectsData'
 import { buildCollaboratorProfiles } from '../../lib/collaborators'
+import { buildContainerInvitations } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
 import { lastOpenedManuscriptID } from '../../lib/user-project'
 import Sync from '../../sync/Sync'
@@ -285,19 +287,35 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                           {...props}
                                         >
                                           {invitations => (
-                                            <CollaboratorsPageContainer
+                                            <ContainerInvitationsData
+                                              containerID={projectID}
                                               {...props}
-                                              invitations={invitations}
-                                              project={project}
-                                              user={user}
-                                              collaborators={buildCollaboratorProfiles(
-                                                collaborators,
-                                                user
+                                            >
+                                              {containerInvitations => (
+                                                <CollaboratorsPageContainer
+                                                  {...props}
+                                                  invitations={[
+                                                    ...buildContainerInvitations(
+                                                      invitations
+                                                    ),
+                                                    ...containerInvitations,
+                                                  ].filter(invitation =>
+                                                    invitation.containerID.startsWith(
+                                                      'MPProject'
+                                                    )
+                                                  )}
+                                                  project={project}
+                                                  user={user}
+                                                  collaborators={buildCollaboratorProfiles(
+                                                    collaborators,
+                                                    user
+                                                  )}
+                                                  tokenActions={
+                                                    this.props.tokenActions
+                                                  }
+                                                />
                                               )}
-                                              tokenActions={
-                                                this.props.tokenActions
-                                              }
-                                            />
+                                            </ContainerInvitationsData>
                                           )}
                                         </ProjectInvitationsData>
                                       )}
@@ -314,24 +332,40 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                           {...props}
                                         >
                                           {invitations => (
-                                            <ProjectsData>
-                                              {projects => (
-                                                <AddCollaboratorsPageContainer
-                                                  {...props}
-                                                  invitations={invitations}
-                                                  project={project}
-                                                  projects={projects}
-                                                  user={user}
-                                                  collaborators={buildCollaboratorProfiles(
-                                                    collaborators,
-                                                    user
+                                            <ContainerInvitationsData
+                                              containerID={projectID}
+                                              {...props}
+                                            >
+                                              {containerInvitations => (
+                                                <ProjectsData>
+                                                  {projects => (
+                                                    <AddCollaboratorsPageContainer
+                                                      {...props}
+                                                      invitations={[
+                                                        ...buildContainerInvitations(
+                                                          invitations
+                                                        ),
+                                                        ...containerInvitations,
+                                                      ].filter(invitation =>
+                                                        invitation.containerID.startsWith(
+                                                          'MPProject'
+                                                        )
+                                                      )}
+                                                      project={project}
+                                                      projects={projects}
+                                                      user={user}
+                                                      collaborators={buildCollaboratorProfiles(
+                                                        collaborators,
+                                                        user
+                                                      )}
+                                                      tokenActions={
+                                                        this.props.tokenActions
+                                                      }
+                                                    />
                                                   )}
-                                                  tokenActions={
-                                                    this.props.tokenActions
-                                                  }
-                                                />
+                                                </ProjectsData>
                                               )}
-                                            </ProjectsData>
+                                            </ContainerInvitationsData>
                                           )}
                                         </ProjectInvitationsData>
                                       )}

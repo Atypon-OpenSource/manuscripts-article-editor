@@ -29,11 +29,7 @@ export const requestProjectInvitationToken = (
 ) =>
   client.get<{
     token: string
-  }>(
-    `/invitation/project/${encodeURIComponent(projectID)}/${encodeURIComponent(
-      role
-    )}`
-  )
+  }>(`/invitation/${encodeURIComponent(projectID)}/${encodeURIComponent(role)}`)
 
 export const acceptProjectInvitationToken = (token: string) =>
   client.post<{
@@ -48,7 +44,7 @@ export const addProjectUser = (
   role: string,
   userID: string
 ) =>
-  client.post(`/project/${encodeURIComponent(projectID)}/addUser`, {
+  client.post(`/${encodeURIComponent(projectID)}/addUser`, {
     role,
     userId: convertUserID(userID),
   })
@@ -59,7 +55,7 @@ export const projectInvite = (
   role: string,
   message: string = 'message'
 ) =>
-  client.post(`/invitation/project/${encodeURIComponent(projectID)}/invite`, {
+  client.post(`/invitation/${encodeURIComponent(projectID)}/invite`, {
     invitedUsers,
     role,
     message,
@@ -70,7 +66,7 @@ export const updateUserRole = (
   newRole: string | null,
   userID: string
 ) =>
-  client.post(`/project/${encodeURIComponent(projectID)}/roles`, {
+  client.post(`/${encodeURIComponent(projectID)}/roles`, {
     newRole,
     managedUserId: convertUserID(userID),
   })

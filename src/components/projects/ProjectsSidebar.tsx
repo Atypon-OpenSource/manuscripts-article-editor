@@ -15,12 +15,17 @@
  */
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  ContainerInvitation,
+  Model,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import InvitationsData from '../../data/InvitationsData'
+import ContainersInvitationsData from '../../data/ContainersInvitationsData'
 import ProjectsData from '../../data/ProjectsData'
+import ProjectsInvitationsData from '../../data/ProjectsInvitationsData'
 import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
+import { buildContainerInvitations } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme/styled-components'
 import ImportContainer, { ImportProps } from '../ImportContainer'
@@ -110,55 +115,74 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
     {user => (
       <ProjectsData>
         {projects => (
-          <InvitationsData>
-            {invitations => {
-              const invitationReceived = invitations.filter(
-                invitation =>
-                  invitation.invitedUserEmail === user.email &&
-                  !invitation.acceptedAt
-              )
+          <ContainersInvitationsData>
+            {invitations => (
+              <ProjectsInvitationsData>
+                {projectsInvitations => {
+                  const containerInvitations: ContainerInvitation[] = buildContainerInvitations(
+                    projectsInvitations
+                  )
 
-              return projects.length || invitationReceived.length ? (
-                <Container id={'projects-sidebar'}>
-                  <ProjectsContainer>
-                    <Header>
-                      <SidebarTitle className={'sidebar-title'}>
-                        Projects
-                      </SidebarTitle>
-                    </Header>
-                    <SidebarAction>
-                      <AddButton
-                        onClick={openTemplateSelector(props, user)}
-                        id={'create-project'}
-                      >
-                        <AddIconContainer>
-                          <RegularAddIcon />
-                          <AddIconHover />
-                          <SidebarActionTitle>New Project</SidebarActionTitle>
-                        </AddIconContainer>
-                      </AddButton>
-                    </SidebarAction>
-                    <ProjectsButton
-                      isDropdown={false}
-                      closeModal={props.closeModal}
-                      tokenActions={props.tokenActions}
+                  const allInvitations: ContainerInvitation[] = [
+                    ...invitations,
+                    ...containerInvitations,
+                  ]
+
+                  const invitationReceived = allInvitations.filter(
+                    invitation =>
+                      invitation.invitedUserEmail === user.email &&
+                      !invitation.acceptedAt &&
+                      invitation.containerID.startsWith('MPProject')
+                  )
+
+                  return projects.length || invitationReceived.length ? (
+                    <Container id={'projects-sidebar'}>
+                      <ProjectsContainer>
+                        <Header>
+                          <SidebarTitle className={'sidebar-title'}>
+                            Projects
+                          </SidebarTitle>
+                        </Header>
+                        <SidebarAction>
+                          <AddButton
+                            onClick={openTemplateSelector(props, user)}
+                            id={'create-project'}
+                          >
+                            <AddIconContainer>
+                              <RegularAddIcon />
+                              <AddIconHover />
+                              <SidebarActionTitle>
+                                New Project
+                              </SidebarActionTitle>
+                            </AddIconContainer>
+                          </AddButton>
+                        </SidebarAction>
+                        <ProjectsButton
+                          isDropdown={false}
+                          closeModal={props.closeModal}
+                          tokenActions={props.tokenActions}
+                        />
+                      </ProjectsContainer>
+                    </Container>
+                  ) : (
+                    <ImportContainer
+                      importManuscript={props.importManuscript!}
+                      render={({ handleClick, isDragAccept }: ImportProps) => (
+                        <ProjectsListPlaceholder
+                          handleClick={handleClick}
+                          openTemplateSelector={openTemplateSelector(
+                            props,
+                            user
+                          )}
+                          isDragAccept={isDragAccept}
+                        />
+                      )}
                     />
-                  </ProjectsContainer>
-                </Container>
-              ) : (
-                <ImportContainer
-                  importManuscript={props.importManuscript!}
-                  render={({ handleClick, isDragAccept }: ImportProps) => (
-                    <ProjectsListPlaceholder
-                      handleClick={handleClick}
-                      openTemplateSelector={openTemplateSelector(props, user)}
-                      isDragAccept={isDragAccept}
-                    />
-                  )}
-                />
-              )
-            }}
-          </InvitationsData>
+                  )
+                }}
+              </ProjectsInvitationsData>
+            )}
+          </ContainersInvitationsData>
         )}
       </ProjectsData>
     )}

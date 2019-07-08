@@ -23,7 +23,7 @@ import { AcceptInvitationDialog } from './AcceptInvitationDialog'
 interface State {
   data?: {
     message: string
-    projectId: string
+    containerID: string
   }
 }
 
@@ -59,7 +59,7 @@ class AcceptInvitationURIContainer extends React.Component<
       <AcceptInvitationDialog
         message={data.message}
         closeDialog={() => {
-          this.props.history.push(`/projects/${data.projectId}`)
+          this.props.history.push(`/projects/${data.containerID}`)
         }}
       />
     )

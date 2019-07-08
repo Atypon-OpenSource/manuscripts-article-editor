@@ -16,8 +16,8 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
+  ContainerInvitation,
   Project,
-  ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { ModalProps, withModal } from '../ModalProvider'
@@ -36,10 +36,10 @@ interface Props {
     invitationId: string
     errorMessage: string
   } | null
-  acceptInvitation: (invitation: ProjectInvitation) => void
+  acceptInvitation: (invitation: ContainerInvitation) => void
   confirmReject: (
     invitingUserProfile: UserProfileWithAvatar,
-    invitation: ProjectInvitation
+    invitation: ContainerInvitation
   ) => void
   user: UserProfileWithAvatar
 }
@@ -60,7 +60,7 @@ class ProjectsMenu extends React.Component<Props & ModalProps> {
     const projectsIDs = projects.map(project => project._id)
 
     const filteredInvitationsData = invitationsData.filter(
-      invitationData => projectsIDs.indexOf(invitationData.project._id) < 0
+      invitationData => projectsIDs.indexOf(invitationData.container._id) < 0
     )
 
     return (

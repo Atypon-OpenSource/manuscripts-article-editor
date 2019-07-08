@@ -18,11 +18,11 @@ import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import {
   Affiliation,
+  ContainerInvitation,
   Contributor,
   Manuscript,
   Model,
   Project,
-  ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
@@ -87,7 +87,7 @@ interface Props {
   saveTitle: (title: string) => void
   manuscript: Manuscript
   authors: Contributor[]
-  invitations: ProjectInvitation[]
+  invitations: ContainerInvitation[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   affiliations: AffiliationMap
   startEditing: () => void

@@ -30,7 +30,11 @@ interface State {
   data?: ProjectInvitation[]
 }
 
-class InvitationsData extends DataComponent<ProjectInvitation, Props, State> {
+class ProjectsInvitationsData extends DataComponent<
+  ProjectInvitation,
+  Props,
+  State
+> {
   public constructor(props: Props) {
     super(props)
 
@@ -65,4 +69,4 @@ class InvitationsData extends DataComponent<ProjectInvitation, Props, State> {
       })
 }
 
-export default InvitationsData
+export default ProjectsInvitationsData

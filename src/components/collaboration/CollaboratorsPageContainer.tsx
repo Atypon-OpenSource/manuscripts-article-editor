@@ -16,8 +16,8 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
+  ContainerInvitation,
   Project,
-  ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
@@ -36,7 +36,7 @@ interface State {
 }
 
 interface Props {
-  invitations: ProjectInvitation[]
+  invitations: ContainerInvitation[]
   project: Project
   user: UserProfileWithAvatar
   collaborators: Map<string, UserProfileWithAvatar>

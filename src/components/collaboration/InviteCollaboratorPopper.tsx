@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ProjectInvitation } from '@manuscripts/manuscripts-json-schema'
+import { ContainerInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { CollaboratorRolePopper } from './CollaboratorRolePopper'
 import { UninviteCollaboratorPopper } from './UninviteCollaboratorPopper'
@@ -28,7 +28,7 @@ interface State {
 }
 
 interface Props {
-  invitation: ProjectInvitation
+  invitation: ContainerInvitation
   handleUpdateRole: (role: string) => Promise<void>
   handleUninvite: () => Promise<void>
   handleOpenModal: () => void

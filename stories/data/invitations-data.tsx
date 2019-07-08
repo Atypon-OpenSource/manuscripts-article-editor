@@ -16,15 +16,15 @@
 
 import { timestamp } from '@manuscripts/manuscript-transform'
 import {
+  ContainerInvitation,
   Project,
-  ProjectInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { InvitationData } from '../../src/components/nav/ProjectsButton'
 
-export const invitations: ProjectInvitation[] = [
+export const invitations: ContainerInvitation[] = [
   {
-    _id: 'ProjectInvitation|2da9a8bc004083daea2b2746a5414b18f318f845',
+    _id: 'ContainerInvitation|2da9a8bc004083daea2b2746a5414b18f318f845',
     invitedUserEmail: 'lmessi@atypon.com',
     invitedUserName: 'Lionel Messi',
     invitingUserID: 'User|pcoutinho@atypon.com',
@@ -41,16 +41,16 @@ export const invitations: ProjectInvitation[] = [
       createdAt: timestamp(),
       updatedAt: timestamp(),
     },
-    projectID: 'MPProject:2D9BC3CE-D75D-429F-AE8B-3459269785D5',
-    projectTitle: 'Breadth First Search Algorithm',
+    containerID: 'MPProject:2D9BC3CE-D75D-429F-AE8B-3459269785D5',
+    containerTitle: 'Breadth First Search Algorithm',
     message: 'message',
     role: 'Writer',
-    objectType: 'MPProjectInvitation',
+    objectType: 'MPContainerInvitation',
     createdAt: timestamp(),
     updatedAt: timestamp(),
   },
   {
-    _id: 'ProjectInvitation|2da9a8bc004083daea2b2746a5414b18f318f547',
+    _id: 'ContainerInvitation|2da9a8bc004083daea2b2746a5414b18f318f547',
     invitedUserEmail: 'lmessi@atypon.com',
     invitingUserID: 'User|pcoutinho@atypon.com',
     invitingUserProfile: {
@@ -66,10 +66,10 @@ export const invitations: ProjectInvitation[] = [
       createdAt: timestamp(),
       updatedAt: timestamp(),
     },
-    projectID: 'MPProject:C8C7A84A-0927-4240-B83E-F5290C829BDB',
+    containerID: 'MPProject:C8C7A84A-0927-4240-B83E-F5290C829BDB',
     message: 'message',
     role: 'Writer',
-    objectType: 'MPProjectInvitation',
+    objectType: 'MPContainerInvitation',
     createdAt: timestamp(),
     updatedAt: timestamp(),
   },
@@ -93,22 +93,22 @@ const userProfiles: UserProfile[] = [
 
 const projects: Project[] = [
   {
-    _id: invitations[0].projectID,
+    _id: invitations[0].containerID,
     objectType: 'MPProject',
     owners: [],
     viewers: [],
     writers: [],
-    title: invitations[0].projectTitle || 'Untitled Project',
+    title: invitations[0].containerTitle || 'Untitled Project',
     createdAt: timestamp(),
     updatedAt: timestamp(),
   },
   {
-    _id: invitations[1].projectID,
+    _id: invitations[1].containerID,
     objectType: 'MPProject',
     owners: [],
     viewers: [],
     writers: [],
-    title: invitations[1].projectTitle || 'Untitled Project',
+    title: invitations[1].containerTitle || 'Untitled Project',
     createdAt: timestamp(),
     updatedAt: timestamp(),
   },
@@ -118,12 +118,12 @@ const invitationsData: InvitationData[] = [
   {
     invitation: invitations[0],
     invitingUserProfile: userProfiles[0],
-    project: projects[0],
+    container: projects[0],
   },
   {
     invitation: invitations[1],
     invitingUserProfile: userProfiles[0],
-    project: projects[1],
+    container: projects[1],
   },
 ]
 
