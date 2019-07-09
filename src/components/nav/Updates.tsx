@@ -293,7 +293,7 @@ export class Updates extends React.Component<Props, State> {
             </div>
           </Heading>
 
-          <Blurb>{sanitizedContent(post.cooked, 64)}</Blurb>
+          {post.cooked && <Blurb>{sanitizedContent(post.cooked, 64)}</Blurb>}
         </TopicItem>
       )
     })
@@ -322,7 +322,7 @@ export class Updates extends React.Component<Props, State> {
           </div>
         </Heading>
 
-        <TopicItem>{sanitizedContent(post.cooked)}</TopicItem>
+        {post.cooked && <TopicItem>{sanitizedContent(post.cooked)}</TopicItem>}
       </IndividualTopic>
     )
   }
