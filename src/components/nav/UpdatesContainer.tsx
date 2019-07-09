@@ -44,6 +44,10 @@ interface State {
 }
 
 export class UpdatesContainer extends React.Component<{}, State> {
+  public static getDerivedStateFromError = (error: Error) => ({
+    error: 'The latest updates could not be displayed.',
+  })
+
   public state: Readonly<State> = {
     error: null,
     isOpen: false,
@@ -57,6 +61,11 @@ export class UpdatesContainer extends React.Component<{}, State> {
   private cancelSource: CancelTokenSource = axios.CancelToken.source()
 
   private nodeRef: React.RefObject<HTMLDivElement> = React.createRef()
+
+  public componentDidCatch(error: Error) {
+    // tslint:disable-next-line:no-console
+    console.error(error)
+  }
 
   public componentDidMount() {
     this.fetchData().catch(() => {
