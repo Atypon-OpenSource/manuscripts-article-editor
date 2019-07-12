@@ -45,10 +45,10 @@ export const ManuscriptPageToolbar: React.FunctionComponent<Props> = React.memo(
   ({ editor, view }) => {
     switch (editor) {
       case EditorType.manuscript:
-        return <ManuscriptToolbar view={view} />
+        return <ManuscriptToolbar view={view as ManuscriptEditorView} />
 
       case EditorType.title:
-        return <TitleToolbar view={view} />
+        return <TitleToolbar view={view as TitleEditorView} />
 
       default:
         return null

@@ -1633,10 +1633,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.30.0":
-  version "0.30.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.30.0.tgz#ccf9b9d65afcfad2b7b4a68f40d1aa37de80e82a"
-  integrity sha512-JEjabJ8Lp4XwWRcv+bHFFl6hZcmY0JDDCMpXIHzu487/EXMkrGqL18RBdqd+2ZA3ztDvAKfGjwrIkUPM8/CE4g==
+"@manuscripts/manuscript-editor@^0.30.2":
+  version "0.30.2"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.30.2.tgz#357d6b69edcf8310f496f283b82365a927e74ca0"
+  integrity sha512-Bk+ddOfJotlIHTHHjk5KVhrsGdAQJd49D2AGFlYI2ezygmaPAQU02lnc2hO6IbYNAz3zPeEp//D8ViFXLpNV0A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1745,10 +1745,10 @@
     prosemirror-utils "^0.9.2"
     prosemirror-view "^1.9.11"
 
-"@manuscripts/title-editor@^0.3.1", "@manuscripts/title-editor@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.npmjs.org/@manuscripts/title-editor/-/title-editor-0.3.2.tgz#0143ba9c6c991a4e5a6d73c0085ad51bc38bf54b"
-  integrity sha512-mVr7eFfBT3h9fkp9LxnZF5xiYMSIjPWaD2WO8kjYaUtbFuq9NkdrFz1NXVorDVt2/kpm6rhyLutyJUUk2fUw0g==
+"@manuscripts/title-editor@^0.3.1", "@manuscripts/title-editor@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.npmjs.org/@manuscripts/title-editor/-/title-editor-0.3.3.tgz#99f3c1cb303d29bfd7fe499a7d17c1e6d95995c1"
+  integrity sha512-dV6yMCJe5pvyI21hN6/YIOsupviEFbardUGw8RiawrFIGS9xmVVUO5e4Nxazcu+CXyVsksPgUQTtHeE+TBs5kw==
   dependencies:
     "@manuscripts/assets" "^0.3.9"
     prosemirror-commands "^1.0.4"

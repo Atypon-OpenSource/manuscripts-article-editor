@@ -95,6 +95,13 @@ import {
   isSection,
   nextManuscriptPriority,
 } from '../../lib/manuscript'
+import {
+  createDispatchManuscriptToolbarAction,
+  createDispatchTitleToolbarAction,
+  manuscriptToolbarState,
+  postWebkitMessage,
+  titleToolbarState,
+} from '../../lib/native'
 import { buildProjectMenu } from '../../lib/project-menu'
 import { canWrite, ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/session-id'
@@ -109,6 +116,7 @@ import CollectionManager from '../../sync/CollectionManager'
 import { ThemeProvider } from '../../theme/ThemeProvider'
 import { Permissions } from '../../types/permissions'
 
+import { TitleEditorState, TitleEditorView } from '@manuscripts/title-editor'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
@@ -524,10 +532,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         )
         break
 
-      default:
-        this.setState({
-          selected: null,
-        })
+      case EditorType.title:
+        this.handleTitleEditorStateChange((view as TitleEditorView).state)
         break
     }
   }
@@ -1283,6 +1289,23 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     return false
   }
 
+  private handleTitleEditorStateChange = (state: TitleEditorState) => {
+    this.setState({
+      selected: null,
+    })
+
+    if (config.native && this.state.activeEditor) {
+      window.dispatchToolbarAction = createDispatchTitleToolbarAction(this.state
+        .activeEditor.view as TitleEditorView)
+
+      postWebkitMessage('toolbar', {
+        title: {
+          toolbar: titleToolbarState(state),
+        },
+      })
+    }
+  }
+
   private handleManuscriptEditorStateChange = (
     state: ManuscriptEditorState,
     docChanged: boolean
@@ -1301,13 +1324,18 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }))
 
     if (docChanged) {
-      if (window.requestIdleCallback) {
-        window.requestIdleCallback(() => this.debouncedSaveModels(state), {
-          timeout: 5000, // maximum wait for idle
-        })
-      } else {
-        this.debouncedSaveModels(state)
-      }
+      this.debouncedSaveModels(state)
+    }
+
+    if (config.native && this.state.activeEditor) {
+      window.dispatchToolbarAction = createDispatchManuscriptToolbarAction(this
+        .state.activeEditor.view as ManuscriptEditorView)
+
+      postWebkitMessage('toolbar', {
+        manuscript: {
+          toolbar: manuscriptToolbarState(state),
+        },
+      })
     }
   }
 
