@@ -33,12 +33,6 @@ import {
 
 jest.mock('../../device-id')
 
-jest.mock('../../client', () => ({
-  post: jest.fn(),
-  delete: jest.fn(),
-  request: jest.fn(),
-}))
-
 jest.mock('../../../config', () => ({
   api: { headers: { 'manuscripts-app-id': 'test-app' } },
 }))

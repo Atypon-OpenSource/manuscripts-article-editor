@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-import axios from 'axios'
-import config from '../config'
-import { authorizationInterceptor } from './authorization'
+import { AxiosRequestConfig } from 'axios'
+import tokenHandler from './token'
 
-const client = axios.create({
-  baseURL: config.api.url,
-})
+const anonymousRoutes = ['/auth/login', '/registration/signup']
 
-client.interceptors.request.use(config => {
-  config.headers.Accept = 'application/json'
-  config.headers['Content-Type'] = 'application/json'
+const isAuthenticatedRoute = (url?: string) =>
+  url ? !anonymousRoutes.includes(url) : true
+
+export const authorizationInterceptor = (config: AxiosRequestConfig) => {
+  if (isAuthenticatedRoute(config.url)) {
+    const token = tokenHandler.get()
+
+    if (token) {
+      config.headers.authorization = 'Bearer ' + token
+    }
+  }
 
   return config
-})
-
-client.interceptors.request.use(authorizationInterceptor)
-
-export default client
+}

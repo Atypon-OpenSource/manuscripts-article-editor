@@ -14,21 +14,10 @@
  * limitations under the License.
  */
 
-import axios from 'axios'
-import config from '../config'
-import { authorizationInterceptor } from './authorization'
+import { AxiosStatic } from 'axios'
 
-const client = axios.create({
-  baseURL: config.api.url,
-})
+const mockAxios: AxiosStatic = jest.genMockFromModule('axios')
 
-client.interceptors.request.use(config => {
-  config.headers.Accept = 'application/json'
-  config.headers['Content-Type'] = 'application/json'
+mockAxios.create = jest.fn(() => mockAxios)
 
-  return config
-})
-
-client.interceptors.request.use(authorizationInterceptor)
-
-export default client
+export default mockAxios
