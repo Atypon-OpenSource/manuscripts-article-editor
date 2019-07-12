@@ -24,7 +24,9 @@ export const signup = (user, confirm) => {
   cy.get('button[type=submit]').click()
 
   if (confirm) {
-    cy.contains('Thanks for signing up!')
+    cy.contains('Thanks for signing up!', {
+      timeout: 30000
+    })
   }
 }
 
@@ -52,29 +54,29 @@ if (confirm) {
   cy.get('#user-dropdown')
 }
 }
-   
+
 export const loginAsNewUser = () => {
     const user = generateUser()
     signup(user, true)
     login(user, true)
-  
+
     return user
 }
 
 export const generateTitle = wordCount => {
     const sentence = faker.lorem.words(wordCount)
-  
+
     return sentence.charAt(0).toUpperCase() + sentence.slice(1)
 }
 export const createProjectWithTitle = () => {
-  
+
     const manuscriptTitle = generateTitle(
       faker.random.number({
         max: 4,
         min: 3,
       })
     )
-  
+
     const projectTitle = generateTitle(
       faker.random.number({
         max: 3,
@@ -95,7 +97,7 @@ export const generateParagraph = (wordCount) => {
 
 export const createProject = () => {
   cy.get('#create-project').should('be.visible').click()
-  cy.get('[data-cy="arrow-down"]', {timeout: 10000})
+  cy.get('[data-cy="arrow-down"]', {timeout: 60000})
   cy.get('button').contains('Create empty manuscript').click()
   cy.get('#project-title-field', {timeout: 50000})
 }
@@ -103,5 +105,5 @@ export const createProject = () => {
 export const insertParagraph = (paragraph) => {
   cy.get('.manuscript-editor').type('{enter}')
   cy.get('.manuscript-editor').type(' ' + paragraph)
-  cy.get('p').contains(paragraph) 
+  cy.get('p').contains(paragraph)
 }
