@@ -64,11 +64,7 @@ class DatabaseProvider extends React.Component<Props, State> {
     const { db, error } = this.state
 
     if (error) {
-      return error.name === 'RxError' ? (
-        <DatabaseError />
-      ) : (
-        <div>{error.message}</div>
-      )
+      return <DatabaseError />
     }
 
     if (!db) {

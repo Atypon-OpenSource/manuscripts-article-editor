@@ -16,19 +16,38 @@
 
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
+import { StorageInfo } from '../components/diagnostics/StorageInfo'
 import { logout } from '../lib/account'
+import { styled } from '../theme/styled-components'
 
-export const DatabaseError: React.FunctionComponent = () => (
-  <Dialog
-    isOpen={true}
-    category={Category.error}
-    header={'Database error'}
-    message={'There was an unrecoverable error opening the local database.'}
-    actions={{
-      primary: {
-        title: 'Sign out and try again',
-        action: logout,
-      },
-    }}
-  />
-)
+export const DatabaseError: React.FC = () => {
+  return (
+    <Dialog
+      isOpen={true}
+      category={Category.error}
+      header={'Database error'}
+      message={
+        <div>
+          <div>
+            There was an unrecoverable error opening the local database.
+          </div>
+
+          <Diagnostics open={true}>
+            <summary>Diagnostics</summary>
+            <StorageInfo />
+          </Diagnostics>
+        </div>
+      }
+      actions={{
+        primary: {
+          title: 'Sign out and try again',
+          action: logout,
+        },
+      }}
+    />
+  )
+}
+
+const Diagnostics = styled.details`
+  margin: 16px 0;
+`

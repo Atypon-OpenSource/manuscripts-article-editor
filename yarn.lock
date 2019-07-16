@@ -1720,10 +1720,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/resizer/-/resizer-0.0.3.tgz#79f560c4e5047d695f848940ffd0dd19f67dc814"
   integrity sha512-nSbugjavTq4TPQpj1rOoHX58CCTD6ZqROM+06UXDu8tOa7qPQQcoRb12H38rQ7HvZIWAV/PTf4nf42/Jl52f/g==
 
-"@manuscripts/style-guide@^0.8.4":
-  version "0.8.5"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.8.5.tgz#1309aae505153177433cd9290ee45f6e89a8d71b"
-  integrity sha512-JDPFc2qBy4fscSMK29cTLKwTDILqB7gvRHWgxk8j5qlVpci/cUCCMeuiPnLo9e4vz5hEc4gxZ+aQFDLvwgZ72g==
+"@manuscripts/style-guide@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.9.1.tgz#eb4771ffab7ce51e43954c9fe7f14e12af7249f2"
+  integrity sha512-TAruJbYkh/oEBiNtDwsA/kT6BjazZ+B0kiwf4z3Dt5BhRYHBeAPtoZAZmKaXBDMLEWivTfbuIozlcQZM74TIxg==
   dependencies:
     "@manuscripts/assets" "^0.3.9"
     lodash-es "^4.17.11"
@@ -2659,6 +2659,11 @@
   integrity sha512-yT959pA3JgQns4Z9mlmuuUd6kEg7mSgRnF+XVN/EjFjuhZjKgR79+ia2R/UtUPKLtsm63IX6uHZFSPvkDhU/rA==
   dependencies:
     "@types/pouchdb-core" "*"
+
+"@types/pretty-bytes@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.npmjs.org/@types/pretty-bytes/-/pretty-bytes-5.1.0.tgz#1df59db5c7def05dbbb0df2ad80b46863d9fafda"
+  integrity sha512-rc7x/HkZyguytBsCUVvcdARplUf0DsrRXqv3yO0v0CIgXuuwNlgYZRfYGCFHxr1CTnKHjCIJ13tB9t49ZixOIw==
 
 "@types/prop-types@*", "@types/prop-types@^15.5.2":
   version "15.7.1"
@@ -14294,12 +14299,7 @@ prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0, prosemirror-transfor
   dependencies:
     prosemirror-model "^1.0.0"
 
-prosemirror-utils@^0.9.2:
-  version "0.9.2"
-  resolved "https://registry.npmjs.org/prosemirror-utils/-/prosemirror-utils-0.9.2.tgz#1d0c9134a7dae12516e81e7d232dbb9290567a11"
-  integrity sha512-k9WXksx+MMwZ5hrMCvD/k8O1trCohDFhBp8g0e3yZIQ83ZAK0FsApEH8fHidMuUdTZPrkleHr6HNlFVH1FemHg==
-
-prosemirror-utils@^0.9.4:
+prosemirror-utils@^0.9.2, prosemirror-utils@^0.9.4:
   version "0.9.4"
   resolved "https://registry.npmjs.org/prosemirror-utils/-/prosemirror-utils-0.9.4.tgz#9de3c638040070cf312a5adcf76fd58cf94e7a7d"
   integrity sha512-6R3AqS+g3ohnWvgWb/eE1v+Kl1Hp0q/FXflJk8/tHEzXHCxjPXJrU8onf458kANSbB+g8yaCRjd7+3/Gne1LKA==
