@@ -51,6 +51,7 @@ import {
   ManuscriptEditorState,
   ManuscriptEditorView,
   ManuscriptModel,
+  ManuscriptNode,
   ManuscriptPlugin,
   ModelAttachment,
   Selected,
@@ -1497,7 +1498,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const updatedConflicts = conflictManager!.updateConflicts(
       conflicts,
       view.state.doc,
-      decoder.decode
+      decoder.decode as (model: Model) => ManuscriptNode // TODO: update types then remove this
     )
 
     // send remaining/updated conflict state to editor plugin

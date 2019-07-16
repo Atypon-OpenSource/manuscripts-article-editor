@@ -1633,10 +1633,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.30.2":
-  version "0.30.2"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.30.2.tgz#357d6b69edcf8310f496f283b82365a927e74ca0"
-  integrity sha512-Bk+ddOfJotlIHTHHjk5KVhrsGdAQJd49D2AGFlYI2ezygmaPAQU02lnc2hO6IbYNAz3zPeEp//D8ViFXLpNV0A==
+"@manuscripts/manuscript-editor@^0.31.2":
+  version "0.31.2"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.31.2.tgz#fc5cbec43107497a1bcac04a0bebbc8cceea3ff6"
+  integrity sha512-cpaYfZSPJ3IokbSaSEsCzT1WZxTis3kO6I9PKbVR+YAhi4Vlr1IUQOH38MMVV7vcgA/EXfD1z3YEygP8sfBoBw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1675,11 +1675,12 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.14.1":
-  version "0.14.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.14.1.tgz#bb93f8d6a0ffa1006f3afd122cf65f865b05972d"
-  integrity sha512-Ex69XJqjLBDq2OkIf9A1pa5LD3eBSC/nx7+U+QNlp+lSzul5OzXjZpggFEx/YDh3zhV3KY9m9Z7VZXTWNhMM2Q==
+"@manuscripts/manuscript-transform@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.16.0.tgz#fba4607f2a6c3c1d2689c886f6db249896f5a012"
+  integrity sha512-3u9OSk3gtbT2zE8kJRyhVlpCfwaCDIUMAGrKV2de3urVg0avIDILbBCZHg3Zohf1r04JqdxatLDiTHVV2g+Sog==
   dependencies:
+    debug "^4.1.1"
     prosemirror-model "^1.7.1"
     uuid "^3.3.2"
     w3c-xmlserializer "^1.1.2"
@@ -1732,17 +1733,17 @@
     react-sizeme "^2.6.7"
     tooltip.js "^1.3.2"
 
-"@manuscripts/sync-client@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.1.1.tgz#8100ebb76f6b4cb6d28b5d05c8f0444f77850d88"
-  integrity sha512-PNN2qHMBZDe1IWkyFVmUs/BcgNCFqkTevNd5OEzc2Opm98B96bMFIz1AKfOxO1e6XrhylEuRCWC3IUJJMjUarA==
+"@manuscripts/sync-client@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.1.2.tgz#b0807b19a7ba960da70f567dcc98618fba1a9fb9"
+  integrity sha512-Pi2myv395vSHjR5FBgyWNkW8CJPaSnNbaG0rP5ZRxQ70LcmN4lUaqZ0YiIYiRuNAFqHFa14wSpm6s7pglmeUFg==
   dependencies:
     "@manuscripts/prosemirror-recreate-steps" "^0.1.4"
     prosemirror-model "^1.7.1"
     prosemirror-state "^1.2.3"
     prosemirror-tables "^0.8.1"
     prosemirror-transform "^1.1.3"
-    prosemirror-utils "^0.9.2"
+    prosemirror-utils "^0.9.4"
     prosemirror-view "^1.9.11"
 
 "@manuscripts/title-editor@^0.3.1", "@manuscripts/title-editor@^0.3.3":
@@ -14297,6 +14298,11 @@ prosemirror-utils@^0.9.2:
   version "0.9.2"
   resolved "https://registry.npmjs.org/prosemirror-utils/-/prosemirror-utils-0.9.2.tgz#1d0c9134a7dae12516e81e7d232dbb9290567a11"
   integrity sha512-k9WXksx+MMwZ5hrMCvD/k8O1trCohDFhBp8g0e3yZIQ83ZAK0FsApEH8fHidMuUdTZPrkleHr6HNlFVH1FemHg==
+
+prosemirror-utils@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.npmjs.org/prosemirror-utils/-/prosemirror-utils-0.9.4.tgz#9de3c638040070cf312a5adcf76fd58cf94e7a7d"
+  integrity sha512-6R3AqS+g3ohnWvgWb/eE1v+Kl1Hp0q/FXflJk8/tHEzXHCxjPXJrU8onf458kANSbB+g8yaCRjd7+3/Gne1LKA==
 
 prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.5.3, prosemirror-view@^1.6.3, prosemirror-view@^1.9.10, prosemirror-view@^1.9.11:
   version "1.9.11"

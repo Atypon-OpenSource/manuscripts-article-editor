@@ -48,7 +48,7 @@ export const EditorContainerInner = styled.div`
 `
 
 export const EditorHeader = styled.div`
-  padding: 4px 24px 20px;
+  padding: 4px 56px 20px;
   background: white;
   background: linear-gradient(
     0deg,
