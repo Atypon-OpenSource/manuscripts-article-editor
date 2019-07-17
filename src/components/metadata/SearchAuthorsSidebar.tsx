@@ -16,7 +16,7 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { Avatar, GreyButton, PrimaryButton } from '@manuscripts/style-guide'
+import { Avatar, Button, PrimaryButton, Tip } from '@manuscripts/style-guide'
 import React from 'react'
 import { buildAuthorPriority } from '../../lib/authors'
 import { styled } from '../../theme/styled-components'
@@ -44,22 +44,33 @@ const UserDataContainer = styled.div`
 `
 
 const SidebarText = styled.div`
-  padding-left: 20px;
+  padding-left: 10px;
   font-size: 20px;
   margin-bottom: 30px;
   margin-top: 30px;
 `
 
-const SidebarButtonContainer = styled.div`
-  display: flex;
-  padding-left: 5px;
+const Name = styled.span`
+  font-weight: 600;
 `
 
-const Container = styled.div`
-  padding-left: 10px;
+const SidebarFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  align-items: center;
+
+  & button {
+    margin: 4px 0;
+    display: flex;
+  }
 `
-const Action = styled.span`
-  font-weight: 600;
+
+const AddButton = styled(Button)`
+  width: 260px;
+`
+const InviteButton = styled(PrimaryButton)`
+  width: 260px;
 `
 
 interface SearchSidebarProps {
@@ -96,50 +107,59 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
             <SidebarText data-cy={'sidebar-text'}>
               No matches found.
               <br />
-              Do you want to <Action>create</Action> a new author or
-              <Action> invite</Action> a new Collaborator to be added to the
-              author list?
+              <br />
+              Do you want to invite <Name>{searchText}</Name> as a collaborator?
+              <br />
             </SidebarText>
 
-            <SidebarButtonContainer>
-              <GreyButton
-                onClick={() =>
-                  !isAuthorExist()
-                    ? createAuthor(
-                        buildAuthorPriority(authors),
-                        null,
-                        searchText
-                      )
-                    : handleCreateAuthor()
-                }
+            <SidebarFooter>
+              <Tip
+                title={`Add ${searchText} to the author list.`}
+                placement={'left'}
               >
-                Create
-              </GreyButton>
+                <AddButton
+                  onClick={() =>
+                    !isAuthorExist()
+                      ? createAuthor(
+                          buildAuthorPriority(authors),
+                          null,
+                          searchText
+                        )
+                      : handleCreateAuthor()
+                  }
+                >
+                  Add to Author List
+                </AddButton>
+              </Tip>
 
-              <Container>
-                <PrimaryButton onClick={() => handleInvite(searchText)}>
-                  Invite
-                </PrimaryButton>
-              </Container>
-            </SidebarButtonContainer>
+              <Tip
+                title={`Add ${searchText} to the author list, and send an invitation to grant access to the project.`}
+                placement={'left'}
+              >
+                <InviteButton onClick={() => handleInvite(searchText)}>
+                  Add + Invite as Collaborator
+                </InviteButton>
+              </Tip>
+            </SidebarFooter>
           </span>
         ) : (
           <span>
             <SidebarText>
               No matches found.
               <br />
-              Do you want to <Action>invite</Action> a new Collaborator to be
-              added to
               <br />
-              the author list?
+              Do you want to invite a new collaborator?
             </SidebarText>
-            <SidebarButtonContainer>
-              <Container>
-                <PrimaryButton onClick={() => handleInvite(searchText)}>
-                  Invite
-                </PrimaryButton>
-              </Container>
-            </SidebarButtonContainer>
+            <SidebarFooter>
+              <Tip
+                title={`Send an invitation to ${searchText} to grant access to the project.`}
+                placement={'left'}
+              >
+                <InviteButton onClick={() => handleInvite(searchText)}>
+                  Invite as Collaborator
+                </InviteButton>
+              </Tip>
+            </SidebarFooter>
           </span>
         )}
       </SidebarContent>
