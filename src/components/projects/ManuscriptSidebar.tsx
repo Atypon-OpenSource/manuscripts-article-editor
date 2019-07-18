@@ -27,7 +27,7 @@ import {
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
-import * as React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import { Permissions } from '../../types/permissions'
@@ -124,7 +124,7 @@ const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
 }
 
 interface Props {
-  openTemplateSelector: () => void
+  openTemplateSelector: (newProject: boolean) => void
   manuscript: Manuscript
   manuscripts: Manuscript[]
   project: Project
@@ -149,58 +149,74 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   selected,
   user,
   tokenActions,
-}) => (
-  <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
-    <StyledSidebar>
-      <SidebarHeader>
-        <ProjectTitle>
-          <TitleField
-            id={'project-title-field'}
-            tabIndex={1}
-            editable={permissions.write}
-            value={project.title || ''}
-            handleChange={debounce(async title => {
-              await saveProjectTitle(title)
-            }, 1000)}
+}) => {
+  const [sortedManuscripts, setSortedManuscripts] = useState<Manuscript[]>()
+
+  useEffect(() => {
+    setSortedManuscripts(manuscripts.sort(lowestPriorityFirst))
+  }, [manuscript])
+
+  const handleNewManuscript = useCallback(() => {
+    openTemplateSelector(false)
+  }, [])
+
+  const handleTitleChange = useCallback(debounce(saveProjectTitle, 1000), [])
+
+  if (!sortedManuscripts) {
+    return null
+  }
+
+  return (
+    <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
+      <StyledSidebar>
+        <SidebarHeader>
+          <ProjectTitle>
+            <TitleField
+              id={'project-title-field'}
+              tabIndex={1}
+              editable={permissions.write}
+              value={project.title || ''}
+              handleChange={handleTitleChange}
+            />
+          </ProjectTitle>
+          <ShareProjectButton
+            project={project}
+            user={user}
+            tokenActions={tokenActions}
           />
-        </ProjectTitle>
-        <ShareProjectButton
-          project={project}
-          user={user}
-          tokenActions={tokenActions}
-        />
-      </SidebarHeader>
+        </SidebarHeader>
 
-      <SidebarContent>
-        {manuscripts.sort(lowestPriorityFirst).map(item => (
-          <SidebarManuscript key={item._id}>
-            {item._id === manuscript._id ? (
-              <DebouncedManuscriptOutlineContainer
-                manuscript={manuscript}
-                doc={doc || null}
-                view={view || null}
-                selected={selected}
-              />
-            ) : (
-              <OutlineManuscript project={project} manuscript={item} />
-            )}
-          </SidebarManuscript>
-        ))}
-      </SidebarContent>
+        <SidebarContent>
+          {sortedManuscripts.map(item => (
+            <SidebarManuscript key={item._id}>
+              {item._id === manuscript._id ? (
+                <DebouncedManuscriptOutlineContainer
+                  manuscript={manuscript}
+                  doc={doc || null}
+                  view={view || null}
+                  selected={selected}
+                />
+              ) : (
+                <OutlineManuscript project={project} manuscript={item} />
+              )}
+            </SidebarManuscript>
+          ))}
+        </SidebarContent>
 
-      <SidebarFooter>
-        {permissions.write && (
-          <AddManuscriptButton onClick={openTemplateSelector}>
-            <AddIconContainer>
-              <RegularAddIcon width={20} height={21} />
-              <AddIconHover width={20} height={21} />
-              <ManuscriptAdd>New Manuscript</ManuscriptAdd>
-            </AddIconContainer>
-          </AddManuscriptButton>
-        )}
-      </SidebarFooter>
-    </StyledSidebar>
-  </Panel>
-)
+        <SidebarFooter>
+          {permissions.write && (
+            <AddManuscriptButton onClick={handleNewManuscript}>
+              <AddIconContainer>
+                <RegularAddIcon width={20} height={21} />
+                <AddIconHover width={20} height={21} />
+                <ManuscriptAdd>New Manuscript</ManuscriptAdd>
+              </AddIconContainer>
+            </AddManuscriptButton>
+          )}
+        </SidebarFooter>
+      </StyledSidebar>
+    </Panel>
+  )
+}
 
 export default ManuscriptSidebar
