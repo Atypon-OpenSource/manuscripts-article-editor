@@ -17,6 +17,7 @@
 jest.mock('../pressroom')
 
 import data from '@manuscripts/examples/data/project-dump.json'
+import { ManuscriptModel } from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   ParagraphElement,
@@ -151,5 +152,30 @@ describe('exporter', () => {
 
     // const manuscript = await readManuscriptFromBundle(zip)
     // expect(manuscript.data).toHaveLength(138)
+  })
+
+  test('removes container ids', async () => {
+    const modelMap = buildModelMap(data as ProjectDump)
+    const manuscriptID = 'MPManuscript:8EB79C14-9F61-483A-902F-A0B8EF5973C9'
+
+    for (const [key, value] of modelMap.entries()) {
+      const model = value as ManuscriptModel
+      model.containerID = 'MPProject:1'
+      model.manuscriptID = 'MPManuscript:1'
+      modelMap.set(key, model)
+    }
+
+    // `result` is the blob that would be sent for conversion, echoed back
+    const result = await exportProject(modelMap, manuscriptID, '.docx')
+    expect(result).toBeInstanceOf(Blob)
+
+    const zip = await new JSZip().loadAsync(result)
+    const bundle = await readManuscriptFromBundle(zip)
+
+    for (const value of bundle.data) {
+      const model = value as ManuscriptModel
+      expect(model.containerID).toBeUndefined()
+      expect(model.manuscriptID).toBeUndefined()
+    }
   })
 })

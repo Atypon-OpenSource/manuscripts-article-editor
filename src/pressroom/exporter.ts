@@ -21,6 +21,7 @@ import {
   getModelData,
   HTMLTransformer,
   JATSTransformer,
+  ManuscriptModel,
   ModelAttachment,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
@@ -41,6 +42,20 @@ export const removeEmptyStyles = (model: { [key: string]: any }) => {
       delete model[key]
     }
   })
+}
+
+export const removeContainerIDs = async (zip: JSZip) => {
+  const path = 'index.manuscript-json'
+
+  const json = await zip.file(path).async('text')
+  const bundle = JSON.parse(json) as ProjectDump
+
+  bundle.data.forEach((model: ManuscriptModel) => {
+    delete model.containerID
+    delete model.manuscriptID
+  })
+
+  zip.file(path, JSON.stringify(bundle))
 }
 
 const createProjectDump = (
@@ -228,6 +243,10 @@ export const exportProject = async (
       return zip.generateAsync({ type: 'blob' })
 
     default:
+      // remove this once it's no longer needed:
+      // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/671
+      await removeContainerIDs(zip)
+
       const file = await zip.generateAsync({ type: 'blob' })
 
       const form = new FormData()
