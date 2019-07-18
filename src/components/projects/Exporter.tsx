@@ -20,9 +20,9 @@ import {
   Project,
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
+import { saveAs } from 'file-saver'
 import React from 'react'
 import config from '../../config'
-import { download } from '../../lib/download'
 import {
   downloadExtension,
   exportProject,
@@ -75,7 +75,7 @@ export class Exporter extends React.Component<Props, State> {
         generateDownloadFilename(manuscript.title || 'Untitled') +
         downloadExtension(format)
 
-      download(blob, filename)
+      saveAs(blob, filename)
 
       this.setState({
         status: null,

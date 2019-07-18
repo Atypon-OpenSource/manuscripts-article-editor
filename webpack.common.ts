@@ -65,6 +65,7 @@ const configuration: webpack.Configuration = {
         template: 'public/index.html',
         title: 'Manuscripts.io',
         url: config.url,
+        featureTest: !config.native,
       }),
       new webpack.NormalModuleReplacementPlugin(
         /AsyncLoad\.js/,

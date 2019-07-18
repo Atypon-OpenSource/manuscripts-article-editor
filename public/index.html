@@ -22,7 +22,7 @@
 </noscript>
 
 <!--[if IE]>
-<div class="support" style="z-index:101;">Internet Explorer is not supported - please use <a href="http://outdatedbrowser.com">a newer browser</a>.</div>
+<div class="support" style="z-index:101;">Internet Explorer is not supported - please use a newer browser.</div>
 <![endif]-->
 
 <!-- containers -->
@@ -31,6 +31,7 @@
 <div id="notifications"></div>
 <div id="size"></div>
 
+<% if (htmlWebpackPlugin.options.featureTest) { %>
 <!-- feature support -->
 <div class="support" id="feature-support" style="display:none">Some features used by this app are not supported by your browser, so it may not be fully functional.</div>
 
@@ -51,6 +52,7 @@
     }
   })();
 </script>
+<% } %>
 
 <!-- main script is inserted here -->
 </body>
