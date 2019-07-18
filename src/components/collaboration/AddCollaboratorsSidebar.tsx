@@ -80,7 +80,7 @@ const InvitedContainer = styled.div`
 
 const AddedIconContainer = styled.div`
   display: flex;
-  padding: 0 10px;
+  padding: 1px 6px;
 
   &:focus {
     outline: none;

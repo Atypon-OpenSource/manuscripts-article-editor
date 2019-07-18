@@ -73,7 +73,7 @@ export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
   background-color: ${props =>
     props.selected ? props.theme.colors.sidebar.background.selected : 'unset'};
 
-  & :hover {
+  &:hover {
     background-color: ${props =>
       props.theme.colors.sidebar.background.selected};
   }

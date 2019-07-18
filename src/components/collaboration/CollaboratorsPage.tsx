@@ -109,6 +109,10 @@ const Message = styled.div`
 const InfoMessage = styled(Message)`
   margin-top: 0px;
 `
+
+const AddedMessage = styled(Message)`
+  margin-top: 2px;
+`
 interface CollaboratorDetailsPageProps {
   user: UserProfile
   project: Project
@@ -240,9 +244,9 @@ export const AddAuthorsPage: React.FunctionComponent<AddAuthorsPageProps> = ({
             <AddedIcon />
           </IconContainer>
 
-          <Message>
+          <AddedMessage>
             <AddedAuthorsMessage addedCount={addedAuthorsCount} />
-          </Message>
+          </AddedMessage>
         </MessageContainer>
       ) : (
         <React.Fragment>

@@ -39,7 +39,7 @@ import { InvitationValues } from './InvitationForm'
 import InviteCollaboratorsSidebar from './InviteCollaboratorsSidebar'
 
 interface State {
-  people: UserProfile[] | null
+  people: UserProfile[]
   collaborators: UserProfile[]
   isInvite: boolean
   searchText: string
@@ -73,6 +73,11 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     invitationSent: false,
   }
 
+  public componentDidMount() {
+    const people = this.buildPeople()
+    this.setState({ people })
+  }
+
   public render() {
     const { isInvite } = this.state
     const { invitations, project, user, collaborators } = this.props
@@ -89,8 +94,6 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       invitation => !invitation.acceptedAt
     )
 
-    const people = this.buildPeople()
-
     const collaboratorEmails: string[] = []
 
     const projectCollaborators = buildCollaborators(project, collaborators)
@@ -103,7 +106,10 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       invitation => !collaboratorEmails.includes(invitation.invitedUserEmail)
     )
 
-    return this.renderAddCollaboratorsPage(people, filteredInvitations)
+    return this.renderAddCollaboratorsPage(
+      this.state.people,
+      filteredInvitations
+    )
   }
 
   private renderInviteCollaboratorPage(project: Project) {
