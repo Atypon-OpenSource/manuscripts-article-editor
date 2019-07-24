@@ -376,7 +376,12 @@ export class Collection<T extends Model> implements EventTarget {
     return type in this.listeners
   }
 
-  private setStatus(direction: Direction, type: EventType, value: boolean) {
+  private setStatus(
+    direction: Direction,
+    type: EventType,
+    value: boolean,
+    status?: number
+  ) {
     // tslint:disable-next-line:no-console
     console.log('Sync', this.collectionName, {
       direction,
@@ -388,7 +393,7 @@ export class Collection<T extends Model> implements EventTarget {
 
     this.dispatchEvent(
       new CustomEvent(type, {
-        detail: { direction, value },
+        detail: { direction, value, status },
       })
     )
   }
@@ -519,7 +524,7 @@ export class Collection<T extends Model> implements EventTarget {
             `${this.collectionName} ${direction} sync failed, giving up`
           )
 
-          this.setStatus(direction, 'error', true)
+          this.setStatus(direction, 'error', true, error.status)
         } else {
           // cancel this replication
           await this.cancelReplication(direction, replicationState)
@@ -533,10 +538,14 @@ export class Collection<T extends Model> implements EventTarget {
           this.sync(direction, options, true)
         }
       } catch (error) {
+        // FIXME: We currently get "Creating a DB over the public API is unsupported"
+        // on every startup. Fix this and eliminate next line.
+        if (error.status === 403) return
+
         // tslint:disable-next-line:no-console
         console.error(`${this.collectionName} ${direction} sync failed:`, error)
 
-        this.setStatus(direction, 'error', true)
+        this.setStatus(direction, 'error', true, error.status)
         // this.setStatus(direction, 'complete', true)
       }
     })

@@ -15,16 +15,35 @@
  */
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
+import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
+import * as HttpStatusCodes from 'http-status-codes'
 import { isEqual } from 'lodash-es'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { ModalProps, withModal } from '../components/ModalProvider'
+import { refreshSyncSessions } from '../lib/api'
+import { styled } from '../theme/styled-components'
 import { Collection, CollectionProps } from './Collection'
 import CollectionManager from './CollectionManager'
 import { DatabaseError } from './DatabaseError'
 
+const Toast = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+`
+
+const StyledLink = styled(Link)`
+  padding: 2rem;
+  color: inherit;
+`
+
 interface State<T extends Model> {
   collection?: Collection<T>
-  error?: Error
+  error?: Error | null
+  errorStatusCode?: number | null
 }
 
 class Sync<T extends Model> extends React.PureComponent<
@@ -35,13 +54,25 @@ class Sync<T extends Model> extends React.PureComponent<
     super(props)
 
     this.state = {}
+
+    this.refreshSync = this.refreshSync.bind(this)
   }
 
   public async componentDidMount() {
     try {
-      this.setState({
-        collection: await CollectionManager.createCollection<T>(this.props),
-      })
+      this.setState(
+        {
+          collection: await CollectionManager.createCollection<T>(this.props),
+        },
+        () => {
+          this.state.collection!.addEventListener('error', e => {
+            this.setState({
+              error: new Error(e.type),
+              errorStatusCode: e.detail.status || null,
+            })
+          })
+        }
+      )
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
 
@@ -103,12 +134,35 @@ class Sync<T extends Model> extends React.PureComponent<
   }
 
   public render() {
-    const { collection, error } = this.state
-
-    // TODO: display sync connection errors, or handle them silently?
+    const { collection, error, errorStatusCode } = this.state
 
     if (error) {
-      return null
+      return (
+        <React.Fragment>
+          {this.props.children}
+          <Toast>
+            {errorStatusCode === HttpStatusCodes.UNAUTHORIZED ? (
+              <AlertMessage
+                type={AlertMessageType.warning}
+                hideCloseButton={true}
+              >
+                <span>Please log in again to sync your changes</span>
+                <StyledLink to="/">Log in again</StyledLink>
+              </AlertMessage>
+            ) : (
+              <AlertMessage
+                type={AlertMessageType.warning}
+                dismissButton={{
+                  text: 'Retry',
+                  action: this.refreshSync,
+                }}
+              >
+                Syncing your changes failed
+              </AlertMessage>
+            )}
+          </Toast>
+        </React.Fragment>
+      )
     }
 
     if (!collection) {
@@ -116,6 +170,17 @@ class Sync<T extends Model> extends React.PureComponent<
     }
 
     return this.props.children
+  }
+
+  private refreshSync() {
+    if (!this.state.collection) return
+    this.setState({
+      error: null,
+    })
+
+    // error listener is already bound, no need to catch
+    // tslint:disable-next-line:no-floating-promises
+    return refreshSyncSessions()
   }
 }
 
