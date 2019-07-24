@@ -40,6 +40,7 @@ const configuration: webpack.Configuration = {
         'DISCOURSE_HOST',
         'GIT_COMMIT_HASH',
         'GIT_VERSION',
+        'GOOGLE_ANALYTICS_ID',
         'JUPYTER_TOKEN',
         'JUPYTER_URL',
         'NATIVE',
@@ -94,7 +95,7 @@ const configuration: webpack.Configuration = {
           importWorkboxFrom: 'local', // load workbox from local files
           navigateFallback: '/index.html',
           navigateFallbackBlacklist: [/^\/data\//], // shared data can be under /data
-          // offlineGoogleAnalytics: true,
+          offlineGoogleAnalytics: true,
           runtimeCaching: [
             // cache shared data
             {

@@ -19,6 +19,9 @@ interface Config {
   environment: string
   native: boolean
   serviceworker: boolean
+  analytics: {
+    id?: string
+  }
   api: {
     url: string
     headers: object
@@ -81,6 +84,9 @@ const config = {
   environment: process.env.NODE_ENV,
   native: isTrue(process.env.NATIVE),
   serviceworker: isTrue(process.env.SERVICEWORKER_ENABLED),
+  analytics: {
+    id: process.env.GOOGLE_ANALYTICS_ID,
+  },
   api: {
     url: normalizeURL(process.env.API_BASE_URL),
     headers: {

@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
-import Raven from 'raven-js'
+import config from '../config'
+import { GoogleAnalyticsConfig } from './google-analytics'
+import { SentryConfig } from './sentry'
 
-export interface SentryConfig {
-  dsn: string
-  environment: string
-  release: string | undefined
+if (config.analytics.id) {
+  import('./google-analytics')
+    .then(({ init }) => {
+      init(config.analytics as GoogleAnalyticsConfig)
+    })
+    .catch(error => {
+      // tslint:disable-next-line:no-console
+      console.error(error)
+    })
 }
 
-export const init = ({ dsn, environment, release }: SentryConfig) => {
-  Raven.config(dsn, { environment, release }).install()
+if (config.sentry.dsn) {
+  import('./sentry')
+    .then(({ init }) => {
+      init(config.sentry as SentryConfig)
+    })
+    .catch(error => {
+      // tslint:disable-next-line:no-console
+      console.error(error)
+    })
 }
