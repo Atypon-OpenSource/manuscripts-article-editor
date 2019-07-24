@@ -15,11 +15,11 @@
  */
 
 import { BackArrowIcon } from '@manuscripts/style-guide'
-import { sanitize } from 'dompurify'
 import React from 'react'
 import { FormattedRelative } from 'react-intl'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
+import { TopicView } from './TopicView'
 
 export const Popup = styled.div`
   background: #fff;
@@ -45,7 +45,7 @@ export const Popup = styled.div`
   }
 `
 
-const Link = styled.a`
+export const Link = styled.a`
   color: inherit;
   display: block;
   text-decoration: none;
@@ -54,12 +54,11 @@ const Link = styled.a`
 const FooterLink = styled(Link)`
   padding: 6px 24px 12px;
   border-top: 1px solid #eee;
-  margin-top: 12px;
 `
 
-const Title = styled.div`
+export const Title = styled.div`
   font-size: 1.1em;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   flex: 1;
 
@@ -73,14 +72,13 @@ const Container = styled.div``
 const Header = styled.div`
   font-size: 1.6em;
   font-weight: 200;
-  margin: 0 0 16px;
   padding: 16px 24px;
   border-bottom: 1px solid #eee;
 `
 
-const Heading = styled.div`
+export const Heading = styled.div`
   font-size: 1.05em;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 2px;
   display: flex;
   justify-content: space-between;
@@ -91,16 +89,7 @@ const UpdatesContent = styled.div`
   overflow-y: auto;
 `
 
-const Blurb = styled.div`
-  margin: 0pt;
-
-  * p {
-    margin-top: 0.3em;
-    margin-bottom: 1em;
-  }
-`
-
-const Timestamp = styled.span`
+export const Timestamp = styled.span`
   color: #585858;
   font-size: 8pt;
   font-weight: normal;
@@ -113,10 +102,14 @@ const Timestamp = styled.span`
   margin-left: 6px;
 `
 
-const TopicItem = styled.div`
+export const TopicItem = styled.div`
   cursor: pointer;
   font-weight: 400;
-  padding: 6px 24px;
+  padding: 12px 24px;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid #eee;
+  }
 
   & p {
     margin-top: 0.5em;
@@ -130,19 +123,19 @@ const TopicItem = styled.div`
   }
 `
 
+export const IndividualTopic = styled.div`
+  padding: 12px 24px;
+
+  & ${TopicItem} {
+    padding: 0;
+  }
+`
+
 const Back = styled.div`
   cursor: pointer;
 
   &:hover {
     text-decoration: underline;
-  }
-`
-
-const IndividualTopic = styled.div`
-  padding: 0 24px;
-
-  & ${TopicItem} {
-    padding: 0;
   }
 `
 
@@ -156,7 +149,7 @@ const LoginLink: React.FunctionComponent<{ host: string }> = ({ host }) => (
   </FooterLink>
 )
 
-const oldestFirst = (a: Post, b: Post) => {
+export const oldestFirst = (a: Post, b: Post) => {
   if (a.created_at === b.created_at) return 0
 
   return a.created_at > b.created_at ? 1 : -1
@@ -166,30 +159,6 @@ export const newestFirst = (a: Topic, b: Topic) => {
   if (a.created_at === b.created_at) return 0
 
   return a.created_at > b.created_at ? -1 : 1
-}
-
-const ALLOWED_TAGS = [
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'p',
-  'div',
-  'span',
-  'img',
-  'ul',
-  'ol',
-  'li',
-]
-
-const sanitizedContent = (html: string, max?: number) => {
-  const content = max && html.length > max ? html.substring(0, max) + '…' : html
-
-  const output = sanitize(content, { ALLOWED_TAGS })
-
-  return <div dangerouslySetInnerHTML={{ __html: output }} />
 }
 
 export interface Topic {
@@ -238,7 +207,7 @@ export class Updates extends React.Component<Props, State> {
               </Back>
             </Header>
 
-            {this.renderTopic(selectedTopic)}
+            <TopicView topic={selectedTopic} host={host} />
           </UpdatesContent>
         ) : (
           <UpdatesContent>
@@ -272,48 +241,16 @@ export class Updates extends React.Component<Props, State> {
       return <Message>No posts.</Message>
     }
 
-    return topics.sort(newestFirst).map(topic => {
-      const post = this.postForTopic(topic)
-
-      return (
-        <TopicItem
-          key={topic.id}
-          onClick={event => {
-            event.preventDefault()
-            this.selectTopic(topic)
-          }}
-        >
-          <Heading>
-            <Title>{topic.title}</Title>
-
-            <div>
-              <Timestamp>
-                <FormattedRelative value={topic.created_at} />
-              </Timestamp>
-            </div>
-          </Heading>
-
-          {post.cooked && <Blurb>{sanitizedContent(post.cooked, 64)}</Blurb>}
-        </TopicItem>
-      )
-    })
-  }
-
-  private renderTopic = (topic: Topic) => {
-    const post = this.postForTopic(topic)
-
-    return (
-      <IndividualTopic>
+    return topics.sort(newestFirst).map(topic => (
+      <TopicItem
+        key={topic.id}
+        onClick={event => {
+          event.preventDefault()
+          this.selectTopic(topic)
+        }}
+      >
         <Heading>
-          <Title>
-            <Link
-              href={`${this.props.host}/t/${topic.id}`}
-              title={`Read more about "${topic.title}" at ${this.props.host}`}
-              target={'_blank'}
-            >
-              {topic.title}
-            </Link>
-          </Title>
+          <Title>{topic.title}</Title>
 
           <div>
             <Timestamp>
@@ -321,16 +258,9 @@ export class Updates extends React.Component<Props, State> {
             </Timestamp>
           </div>
         </Heading>
-
-        {post.cooked && <TopicItem>{sanitizedContent(post.cooked)}</TopicItem>}
-      </IndividualTopic>
-    )
+      </TopicItem>
+    ))
   }
-
-  private postForTopic = (topic: Topic): Post =>
-    this.props
-      .posts!.filter(post => post.topic_id === topic.id)
-      .sort(oldestFirst)[0]
 
   private selectTopic = (selectedTopic: Topic | null) => {
     this.setState({ selectedTopic })
