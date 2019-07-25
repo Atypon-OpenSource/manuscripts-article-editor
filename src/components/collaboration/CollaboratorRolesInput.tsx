@@ -44,7 +44,7 @@ export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({
       name={name}
       checked={value === 'Writer'}
       value={'Writer'}
-      textHint={'Can only review projects without modifying it'}
+      textHint={'Can modify project contents'}
       {...rest}
     >
       Writer
@@ -54,7 +54,7 @@ export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({
       name={name}
       checked={value === 'Viewer'}
       value={'Viewer'}
-      textHint={'Can modify project contents'}
+      textHint={'Can only review projects without modifying it'}
       {...rest}
     >
       Viewer
