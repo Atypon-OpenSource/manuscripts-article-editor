@@ -24,6 +24,7 @@ import {
   acceptedFileDescription,
   acceptedFileExtensions,
   acceptedMimeTypes,
+  openFilePicker,
 } from '../pressroom/importers'
 import { styled } from '../theme/styled-components'
 import { ModalProps, withModal } from './ModalProvider'
@@ -119,12 +120,17 @@ class ImportContainer extends React.Component<Props & ModalProps & State> {
   private handleClick = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
 
-    this.props.addModal('importer', ({ handleClose }) => (
-      <Importer
-        handleComplete={handleClose}
-        importManuscript={this.props.importManuscript}
-      />
-    ))
+    const file = await openFilePicker()
+
+    if (file) {
+      this.props.addModal('importer', ({ handleClose }) => (
+        <Importer
+          handleComplete={handleClose}
+          importManuscript={this.props.importManuscript}
+          file={file}
+        />
+      ))
+    }
   }
 
   private handleDrop = async (acceptedFiles: File[]) => {
