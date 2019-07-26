@@ -112,8 +112,7 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
     </Action>
 
     <Message>
-      This project is empty.
-      <br />
+      <TextContainer>This project is empty.</TextContainer>
       <TextContainer>Create a manuscript to get started.</TextContainer>
     </Message>
   </OuterContainer>
