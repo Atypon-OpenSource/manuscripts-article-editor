@@ -24,9 +24,11 @@ import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
+import config from '../config'
 import { TokenActions } from '../data/TokenData'
 import { linkWaterBlue } from '../theme/colors'
 import { styled } from '../theme/styled-components'
+import { Chatbox } from './Chatbox'
 import MenuBar from './nav/MenuBar'
 import ProjectNavigator from './ProjectNavigator'
 import { Support } from './Support'
@@ -193,6 +195,8 @@ export const Page: React.FunctionComponent<Props> = ({
         <Support />
       </ViewsBar>
     )}
+
+    {config.crisp.id && <Chatbox />}
 
     {children}
   </PageContainer>

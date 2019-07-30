@@ -64,6 +64,9 @@ interface Config {
     url: string
     token: string
   }
+  crisp: {
+    id?: string
+  }
 }
 
 const isTrue = (value: string | undefined) => {
@@ -130,6 +133,9 @@ const config = {
   jupyter: {
     url: normalizeURL(process.env.JUPYTER_URL),
     token: process.env.JUPYTER_TOKEN,
+  },
+  crisp: {
+    id: process.env.CRISP_WEBSITE_ID,
   },
 }
 

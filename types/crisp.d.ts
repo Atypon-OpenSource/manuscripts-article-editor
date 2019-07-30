@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-interface RxDB {
-  removeDatabase: (name: string, adapter: string) => void
-}
-
-interface WebKit {
-  messageHandlers: {
-    [key: string]: {
-      postMessage: (message: object) => void
-    }
-  }
-}
-
 declare interface Window {
-  RxDB: RxDB
-  requestIdleCallback: (T: () => void, options: object) => string
-  webkit: WebKit
-  dispatchToolbarAction?: (key: string) => void
+  CRISP_READY_TRIGGER?: () => void
+  $crisp: {
+    is?: (namespace: string) => boolean
+    push: (
+      value: [string, string] | [string, string, (value?: unknown) => void]
+    ) => void
+  }
 }

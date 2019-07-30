@@ -35,6 +35,7 @@ const configuration: webpack.Configuration = {
         'API_BASE_URL',
         'BASE_URL',
         'CI_ENVIRONMENT_NAME',
+        'CRISP_WEBSITE_ID',
         'DATA_URL',
         'DERIVED_DATA_BUCKET',
         'DISCOURSE_HOST',
@@ -67,6 +68,7 @@ const configuration: webpack.Configuration = {
         title: 'Manuscripts.io',
         url: config.url,
         featureTest: !config.native,
+        crisp: config.crisp.id,
       }),
       new webpack.NormalModuleReplacementPlugin(
         /AsyncLoad\.js/,
