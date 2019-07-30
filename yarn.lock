@@ -1609,7 +1609,12 @@
     "@phosphor/disposable" "^1.1.2"
     "@phosphor/signaling" "^1.2.2"
 
-"@manuscripts/assets@^0.3.7", "@manuscripts/assets@^0.3.9":
+"@manuscripts/assets@^0.3.15":
+  version "0.3.15"
+  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.15.tgz#ae694f0425aff1d72388e2885d90c99e1f0c2bac"
+  integrity sha512-HdUeZMqLLHHM0uY46lLswKo6yFcnKHMm96EFY9YPutg0YMLsonwW0M+vq5DPXaIFKlvMo56tlBk7O7LV3+CFvg==
+
+"@manuscripts/assets@^0.3.9":
   version "0.3.11"
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.11.tgz#79705c2850f06222ccd0850cf777bb7d335ee0cf"
   integrity sha512-eC+RtHYq0Di8iHJsLsMNTokzGY6Mwt00qtJjLugqRnmiUzQvTkfxloUpzxsfjQV+ta6KL83fYdP3N717VBc5pw==

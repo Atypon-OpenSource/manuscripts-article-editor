@@ -16,7 +16,6 @@
 
 import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
-import FeedbackIcon from '@manuscripts/assets/react/FeedbackIcon'
 import NavIcon from '@manuscripts/assets/react/NavIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
@@ -30,6 +29,7 @@ import { linkWaterBlue } from '../theme/colors'
 import { styled } from '../theme/styled-components'
 import MenuBar from './nav/MenuBar'
 import ProjectNavigator from './ProjectNavigator'
+import { Support } from './Support'
 
 export const Main = styled.main`
   height: 100%;
@@ -115,19 +115,8 @@ const ProjectContributorsIcon = styled(ContributorsIcon)`
     stroke: currentColor;
   }
 `
-const StyledFeedbackIcon = styled(FeedbackIcon)`
-  path {
-    stroke: currentColor;
-  }
 
-  text {
-    fill: currentColor;
-  }
-`
-const Container = styled.div`
-  margin-bottom: 2px;
-`
-const StyledIcon = styled(NavIcon)`
+const StyledNavIcon = styled(NavIcon)`
   & path {
     fill: ${props => props.theme.colors.menu.icon.default};
   }
@@ -162,7 +151,7 @@ export const Page: React.FunctionComponent<Props> = ({
 
         <MenuBar tokenActions={tokenActions!}>
           <Tip title={'Home'} placement={'right'}>
-            <StyledIcon />
+            <StyledNavIcon />
           </Tip>
         </MenuBar>
 
@@ -200,13 +189,8 @@ export const Page: React.FunctionComponent<Props> = ({
             </ViewLink>
           </Tip>
         </IconBar>
-        <Container>
-          <Tip title={'Post Feedback'} placement={'right'}>
-            <ViewLink to={`/feedback`} exact={true}>
-              <StyledFeedbackIcon />
-            </ViewLink>
-          </Tip>
-        </Container>
+
+        <Support />
       </ViewsBar>
     )}
 

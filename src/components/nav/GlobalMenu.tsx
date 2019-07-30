@@ -17,6 +17,7 @@
 import NavIcon from '@manuscripts/assets/react/NavIcon'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import { Support } from '../Support'
 import {
   FilledMenuBarIcon,
   MenuContainer,
@@ -60,6 +61,7 @@ export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
       </MenuSection>
 
       <MenuSection>
+        <Support />
         <UserContainer />
       </MenuSection>
     </MenuSections>

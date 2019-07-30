@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const WorkerPlugin = require('worker-plugin')
 
 module.exports = ({ config, mode }) => {
   console.log(mode) // tslint:disable-line:no-console
@@ -67,6 +68,8 @@ module.exports = ({ config, mode }) => {
       /en|ar|zh/ // TODO: all the locales needed for the locale switcher
     )
   )
+
+  config.plugins.push(new WorkerPlugin())
 
   config.resolve.extensions.push('.ts', '.tsx')
 
