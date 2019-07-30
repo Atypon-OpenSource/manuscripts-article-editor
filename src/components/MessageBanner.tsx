@@ -21,9 +21,18 @@ import React from 'react'
 export enum MessageBannerAction {
   resetPassword = 'reset-password',
 }
+interface Props {
+  errorMessage?: string
+}
 
-const MessageBanner: React.FunctionComponent = () => {
+const MessageBanner: React.FunctionComponent<Props> = ({ errorMessage }) => {
   const { action } = parse(window.location.hash.substr(1))
+
+  if (errorMessage) {
+    return (
+      <AlertMessage type={AlertMessageType.error}>{errorMessage}</AlertMessage>
+    )
+  }
 
   switch (action) {
     case MessageBannerAction.resetPassword:

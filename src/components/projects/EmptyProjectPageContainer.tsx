@@ -24,11 +24,18 @@ import { EmptyProjectPage } from './EmptyProjectPage'
 interface Props {
   project: Project
   user: UserProfileWithAvatar
+  message: string
 }
 
 class EmptyProjectPageContainer extends React.Component<Props & ModalProps> {
   public render() {
-    return <EmptyProjectPage openTemplateSelector={this.openTemplateSelector} />
+    return (
+      <EmptyProjectPage
+        openTemplateSelector={this.openTemplateSelector}
+        message={this.props.message}
+        project={this.props.project}
+      />
+    )
   }
 
   private openTemplateSelector = () => {

@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
+import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import { Notification } from '../NotificationMessage'
 import { ProjectPlaceholder } from '../Placeholders'
 import {
   AddIconContainer,
@@ -91,12 +93,17 @@ const TextContainer = styled.div`
 `
 interface Props {
   openTemplateSelector: () => void
+  message?: string
+  project: Project
 }
 
 export const EmptyProjectPage: React.FunctionComponent<Props> = ({
   openTemplateSelector,
+  message,
+  project,
 }) => (
   <OuterContainer>
+    {message && <Notification message={message} id={project._id} />}
     <Placeholder>
       <ProjectPlaceholder />
     </Placeholder>

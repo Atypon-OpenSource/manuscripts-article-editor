@@ -50,6 +50,7 @@ storiesOf('Projects', module)
   .add('Projects Page - Empty', () => (
     <EmptyProjectPage
       openTemplateSelector={action('open template selector ')}
+      project={projects[0]}
     />
   ))
   .add('Manuscript Sidebar', () => (

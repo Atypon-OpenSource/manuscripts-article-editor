@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
+import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
-import { RouteComponentProps } from 'react-router'
+import { Redirect, RouteComponentProps } from 'react-router'
 import { acceptProjectInvitationToken } from '../../lib/api'
 import { Loading } from '../Loading'
-import { AcceptInvitationDialog } from './AcceptInvitationDialog'
 
 interface State {
   data?: {
@@ -43,9 +43,24 @@ class AcceptInvitationURIContainer extends React.Component<
       ({ data }) => {
         this.setState({ data })
       },
-      () => {
-        // TODO: display an error message?
-        this.props.history.push('/projects')
+      error => {
+        let errorMessage
+        if (error.response) {
+          if (error.response.status === HttpStatusCodes.GONE) {
+            errorMessage = 'Invitation is no longer valid.'
+          } else if (error.response.status === HttpStatusCodes.NOT_FOUND) {
+            errorMessage = 'Project no longer exists.'
+          } else {
+            errorMessage = 'There was an error accepting the invitation'
+          }
+        }
+
+        this.props.history.push({
+          pathname: '/projects',
+          state: {
+            errorMessage,
+          },
+        })
       }
     )
   }
@@ -56,10 +71,12 @@ class AcceptInvitationURIContainer extends React.Component<
     if (!data) return <Loading />
 
     return (
-      <AcceptInvitationDialog
-        message={data.message}
-        closeDialog={() => {
-          this.props.history.push(`/projects/${data.containerID}`)
+      <Redirect
+        to={{
+          pathname: `/projects/${data.containerID}`,
+          state: {
+            infoMessage: data.message,
+          },
         }}
       />
     )

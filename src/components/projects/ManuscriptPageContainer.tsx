@@ -124,6 +124,7 @@ import CitationEditor from '../library/CitationEditor'
 import { CitationViewer } from '../library/CitationViewer'
 import MetadataContainer from '../metadata/MetadataContainer'
 import { ModalProps, withModal } from '../ModalProvider'
+import { Notification } from '../NotificationMessage'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import { ManuscriptPlaceholder } from '../Placeholders'
@@ -354,6 +355,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       return <ReloadDialog message={error} />
     }
 
+    const message = this.props.location.state
+      ? this.props.location.state.infoMessage
+      : null
+
     if (
       !doc ||
       !manuscript ||
@@ -478,6 +483,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           </EditorContainer>
 
           <Prompt when={dirty} message={() => false} />
+
+          {message && <Notification message={message} id={manuscript._id} />}
         </Main>
 
         <Panel

@@ -212,6 +212,11 @@ const App: React.FunctionComponent = () => (
                                   <ProjectsPageContainer
                                     {...props}
                                     tokenActions={tokenActions}
+                                    errorMessage={
+                                      props.location.state
+                                        ? props.location.state.errorMessage
+                                        : null
+                                    }
                                   />
                                 )}
                               />

@@ -77,6 +77,10 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
       },
     } = this.props
 
+    const message = this.props.location.state
+      ? this.props.location.state.infoMessage
+      : null
+
     return (
       <DatabaseContext.Consumer>
         {db => (
@@ -118,6 +122,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                                 <EmptyProjectPageContainer
                                                   project={project}
                                                   user={user}
+                                                  message={message}
                                                 />
                                               )
                                             }
@@ -130,7 +135,12 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                             if (manuscriptID) {
                                               return (
                                                 <Redirect
-                                                  to={`/projects/${project._id}/manuscripts/${manuscriptID}`}
+                                                  to={{
+                                                    pathname: `/projects/${project._id}/manuscripts/${manuscriptID}`,
+                                                    state: {
+                                                      infoMessage: message,
+                                                    },
+                                                  }}
                                                 />
                                               )
                                             }
@@ -143,7 +153,12 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
 
                                             return (
                                               <Redirect
-                                                to={`/projects/${project._id}/manuscripts/${manuscripts[0]._id}`}
+                                                to={{
+                                                  pathname: `/projects/${project._id}/manuscripts/${manuscripts[0]._id}`,
+                                                  state: {
+                                                    infoMessage: message,
+                                                  },
+                                                }}
                                               />
                                             )
                                           }}

@@ -35,16 +35,18 @@ const Container = styled.div`
 
 interface Props {
   tokenActions: TokenActions
+  errorMessage: string
 }
 
 const ProjectsPageContainer: React.FunctionComponent<Props> = ({
   tokenActions,
+  errorMessage,
 }) => (
   <Page>
     <Main>
       <Container>
         <GlobalMenu active={'projects'} />
-        <MessageBanner />
+        <MessageBanner errorMessage={errorMessage} />
         <AcceptProjectInvitation />
         <ProjectsSidebarContainer tokenActions={tokenActions} />
       </Container>
