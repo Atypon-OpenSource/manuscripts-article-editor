@@ -22,6 +22,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { ConflictManager } from '@manuscripts/sync-client'
+import { AxiosError } from 'axios'
 import * as HttpStatusCodes from 'http-status-codes'
 import { cloneDeep } from 'lodash-es'
 import {
@@ -40,6 +41,8 @@ import sessionID from '../lib/session-id'
 import {
   BulkDocsError,
   BulkDocsSuccess,
+  CollectionEvent,
+  CollectionEventDetails,
   CollectionEventListener,
   Direction,
   EventListeners,
@@ -77,6 +80,23 @@ export const isBulkDocsError = (
   item: BulkDocsSuccess | BulkDocsError
 ): item is BulkDocsError => {
   return 'error' in item && item.error
+}
+
+export const isAxiosError = (
+  error: Error | PouchReplicationError | AxiosError
+): error is AxiosError => {
+  return 'isAxiosError' in error && error.isAxiosError
+}
+
+export const isReplicationError = (
+  error: Error | PouchReplicationError | AxiosError
+): error is PouchReplicationError => {
+  return Boolean(
+    'result' in error &&
+      error.result &&
+      'status' in error.result &&
+      error.result.status
+  )
 }
 
 const fetchWithCredentials: Fetch = (url, opts = {}) =>
@@ -131,7 +151,7 @@ export class Collection<T extends Model> implements EventTarget {
     )
   }
 
-  public dispatchEvent(event: CustomEvent) {
+  public dispatchEvent(event: CollectionEvent) {
     if (this.isSupportedEventType(event.type)) {
       for (const listener of this.listeners[event.type]) {
         listener(event)
@@ -380,7 +400,7 @@ export class Collection<T extends Model> implements EventTarget {
     direction: Direction,
     type: EventType,
     value: boolean,
-    status?: number
+    error?: Error | AxiosError | PouchReplicationError
   ) {
     // tslint:disable-next-line:no-console
     console.log('Sync', this.collectionName, {
@@ -392,8 +412,8 @@ export class Collection<T extends Model> implements EventTarget {
     this.status[direction][type] = value
 
     this.dispatchEvent(
-      new CustomEvent(type, {
-        detail: { direction, value, status },
+      new CustomEvent<CollectionEventDetails>(type, {
+        detail: { direction, value, error },
       })
     )
   }
@@ -524,7 +544,7 @@ export class Collection<T extends Model> implements EventTarget {
             `${this.collectionName} ${direction} sync failed, giving up`
           )
 
-          this.setStatus(direction, 'error', true, error.status)
+          this.setStatus(direction, 'error', true, error)
         } else {
           // cancel this replication
           await this.cancelReplication(direction, replicationState)
@@ -538,14 +558,10 @@ export class Collection<T extends Model> implements EventTarget {
           this.sync(direction, options, true)
         }
       } catch (error) {
-        // FIXME: We currently get "Creating a DB over the public API is unsupported"
-        // on every startup. Fix this and eliminate next line.
-        if (error.status === 403) return
-
         // tslint:disable-next-line:no-console
         console.error(`${this.collectionName} ${direction} sync failed:`, error)
 
-        this.setStatus(direction, 'error', true, error.status)
+        this.setStatus(direction, 'error', true, error)
         // this.setStatus(direction, 'complete', true)
       }
     })

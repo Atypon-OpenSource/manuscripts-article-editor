@@ -28,11 +28,9 @@ export interface DatabaseProps {
   db: Database
 }
 
-export const withDatabase = <Props extends {}>(
-  Component: React.ComponentType<DatabaseProps>
-): React.ComponentType<Pick<Props, Exclude<keyof Props, DatabaseProps>>> => (
-  props: Props
-) => (
+export const withDatabase = <Props extends DatabaseProps>(
+  Component: React.ComponentType<Props>
+): React.ComponentType<Omit<Props, keyof DatabaseProps>> => (props: Props) => (
   <DatabaseContext.Consumer>
     {value => <Component {...props} db={value} />}
   </DatabaseContext.Consumer>

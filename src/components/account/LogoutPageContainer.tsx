@@ -74,4 +74,4 @@ class LogoutPageContainer extends React.Component<
   }
 }
 
-export default withDatabase<Props>(LogoutPageContainer)
+export default withDatabase(LogoutPageContainer)

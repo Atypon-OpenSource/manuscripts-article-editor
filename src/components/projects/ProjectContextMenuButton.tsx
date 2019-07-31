@@ -176,4 +176,4 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
     })
 }
 
-export default withModal<Props>(withRouter(ProjectContextMenuButton))
+export default withModal(withRouter(ProjectContextMenuButton))

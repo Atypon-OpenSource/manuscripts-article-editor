@@ -1570,6 +1570,4 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 }
 
-export default withModal<Props>(
-  withIntl<Props & ModalProps>(ManuscriptPageContainer)
-)
+export default withModal(withIntl(ManuscriptPageContainer))

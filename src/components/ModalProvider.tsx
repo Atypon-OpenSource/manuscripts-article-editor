@@ -32,11 +32,9 @@ export const ModalContext = React.createContext<ModalProps>({
   addModal: () => '',
 })
 
-export const withModal = <Props extends {}>(
-  Component: React.ComponentType<ModalProps>
-): React.ComponentType<Pick<Props, Exclude<keyof Props, ModalProps>>> => (
-  props: Props
-) => (
+export const withModal = <Props extends ModalProps>(
+  Component: React.ComponentType<Props>
+): React.ComponentType<Omit<Props, keyof ModalProps>> => (props: Props) => (
   <ModalContext.Consumer>
     {value => <Component {...props} {...value} />}
   </ModalContext.Consumer>

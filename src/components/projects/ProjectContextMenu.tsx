@@ -65,4 +65,4 @@ const ProjectContextMenu: React.FunctionComponent<Props & ModalProps> = ({
   </UserData>
 )
 
-export default withModal<Props>(ProjectContextMenu)
+export default withModal(ProjectContextMenu)

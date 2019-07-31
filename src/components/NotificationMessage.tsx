@@ -15,7 +15,7 @@
  */
 
 import { Button } from '@manuscripts/style-guide'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import {
   NotificationComponent,
   NotificationContext,
@@ -29,13 +29,13 @@ import {
   NotificationTitle,
 } from './Notifications'
 
-interface CreateNotificationProps {
-  message: string
-}
-
 export const createNotification = ({
+  id,
   message,
-}: CreateNotificationProps): NotificationComponent => props => (
+}: {
+  id: string
+  message: string
+}): NotificationComponent => props => (
   <NotificationPrompt>
     <NotificationHead>
       <NotificationIcon />
@@ -49,20 +49,21 @@ export const createNotification = ({
   </NotificationPrompt>
 )
 
-interface Props {
+export const Notification: React.FC<{
   message: string
   id: string
-}
-
-export const Notification: React.FC<Props> = ({ children, message, id }) => {
-  const { showNotification } = useContext(NotificationContext)
-
-  showNotification(
-    id,
-    createNotification({
-      message,
-    })
+}> = ({ children, message, id }) => {
+  const { removeNotification, showNotification } = useContext(
+    NotificationContext
   )
+
+  useEffect(() => {
+    showNotification(id, createNotification({ id, message }))
+
+    return () => {
+      removeNotification(id)
+    }
+  }, [id, message])
 
   return <>{children}</>
 }

@@ -16,18 +16,26 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { Notifications } from './Notifications'
 
-export type NotificationComponent = React.FunctionComponent<{
-  removeNotification: () => void
-}>
+export type NotificationComponent<P = {}> = React.ComponentType<
+  NotificationProps & P
+>
 
 export type ShowNotification = (
   id: string,
   component: NotificationComponent
 ) => void
 
+export type RemoveNotification = (id: string) => void
+
 export interface NotificationProps {
+  removeNotification: () => void
+}
+
+export interface NotificationValue {
+  removeNotification: RemoveNotification
   showNotification: ShowNotification
 }
 
@@ -36,8 +44,8 @@ export interface NotificationItem {
   notification: NotificationComponent
 }
 
-export const NotificationContext = React.createContext<NotificationProps>(
-  {} as NotificationProps // tslint:disable-line:no-object-literal-type-assertion
+export const NotificationContext = React.createContext<NotificationValue>(
+  {} as NotificationValue // tslint:disable-line:no-object-literal-type-assertion
 )
 
 interface State {
@@ -45,12 +53,13 @@ interface State {
 }
 
 export class NotificationProvider extends React.Component<{}, State> {
-  private value: NotificationProps
+  private value: NotificationValue
 
   public constructor(props: {}) {
     super(props)
 
     this.value = {
+      removeNotification: this.removeNotification,
       showNotification: this.showNotification,
     }
 
@@ -95,10 +104,12 @@ export class NotificationProvider extends React.Component<{}, State> {
     if (!notifications.length) return null
 
     return ReactDOM.createPortal(
-      <Notifications
-        items={notifications}
-        removeNotification={this.removeNotification}
-      />,
+      <BrowserRouter>
+        <Notifications
+          items={notifications}
+          removeNotification={this.removeNotification}
+        />
+      </BrowserRouter>,
       document.getElementById('notifications')!
     )
   }

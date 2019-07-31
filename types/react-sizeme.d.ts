@@ -1,8 +1,6 @@
 declare module 'react-sizeme' {
   import { Component, ComponentType } from 'react'
 
-  type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
-
   interface SizeMeProps {
     size: {
       width: number | null

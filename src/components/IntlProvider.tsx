@@ -84,11 +84,9 @@ export const IntlContext = React.createContext<IntlProviderContext>(
   {} as IntlProviderContext
 )
 
-export const withIntl = <Props extends {}>(
-  Component: React.ComponentType<IntlProps>
-): React.ComponentType<Pick<Props, Exclude<keyof Props, IntlProps>>> => (
-  props: Props
-) => (
+export const withIntl = <Props extends IntlProps>(
+  Component: React.ComponentType<Props>
+): React.ComponentType<Omit<Props, keyof IntlProps>> => (props: Props) => (
   <IntlContext.Consumer>
     {value => <Component {...props} intl={value} />}
   </IntlContext.Consumer>

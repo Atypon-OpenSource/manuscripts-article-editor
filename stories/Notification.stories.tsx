@@ -25,15 +25,24 @@ storiesOf('Notification', module).add('ServiceWorker', () => (
     items={[
       {
         id: 'update-ready',
-        notification: createUpdateReadyNotification(action('accept')),
+        notification: createUpdateReadyNotification({
+          handleAccept: action('accept'),
+          id: 'story',
+        }),
       },
       {
         id: 'update-ready',
-        notification: createUpdateReadyNotification(action('accept')),
+        notification: createUpdateReadyNotification({
+          handleAccept: action('accept'),
+          id: 'story',
+        }),
       },
       {
         id: 'update-ready',
-        notification: createUpdateReadyNotification(action('accept')),
+        notification: createUpdateReadyNotification({
+          handleAccept: action('accept'),
+          id: 'story',
+        }),
       },
     ]}
     removeNotification={action('dismiss')}

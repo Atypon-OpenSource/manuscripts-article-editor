@@ -17,7 +17,6 @@
 import { Button, PrimaryButton } from '@manuscripts/style-guide'
 import React, { MouseEventHandler, useContext } from 'react'
 import { Workbox } from 'workbox-window'
-import { version } from '../../package.json'
 import config from '../config'
 import {
   NotificationComponent,
@@ -48,10 +47,12 @@ export const ServiceWorker: React.FC = ({ children }) => {
 
     // Show a notification when a new version is waiting to take control
     wb.addEventListener('waiting', () => {
+      const id = 'sw-active'
+
       showNotification(
-        'sw-active',
+        id,
         createUpdateReadyNotification({
-          version,
+          id,
           handleAccept: () => {
             wb.addEventListener('controlling', () => {
               window.location.reload()
@@ -85,12 +86,12 @@ export const ServiceWorker: React.FC = ({ children }) => {
 
 interface CreateUpdateReadyNotificationProps {
   handleAccept: MouseEventHandler
-  version: string
+  id: string
 }
 
 export const createUpdateReadyNotification = ({
   handleAccept,
-  version,
+  id,
 }: CreateUpdateReadyNotificationProps): NotificationComponent => props => (
   <NotificationPrompt>
     <NotificationHead>

@@ -53,8 +53,13 @@ const App: React.FunctionComponent = () => (
                 `${userID}-projects`, // projects
               ]}
               db={db}
+              tokenActions={tokenActions}
             >
-              <Sync collection={'collaborators'} db={db}>
+              <Sync
+                collection={'collaborators'}
+                db={db}
+                tokenActions={tokenActions}
+              >
                 <OptionalUserData userProfileID={userProfileID!}>
                   {user => (
                     <Switch>

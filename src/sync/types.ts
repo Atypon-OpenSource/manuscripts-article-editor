@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
+import { AxiosError } from 'axios'
 import { RxReplicationState } from 'rxdb'
 
-export type CollectionEventListener = (event: CustomEvent) => void
+export interface CollectionEventDetails {
+  direction: string
+  value: boolean
+  error?: Error | AxiosError | PouchReplicationError
+}
+
+export type CollectionEvent = CustomEvent<CollectionEventDetails>
+
+export type CollectionEventListener = (event: CollectionEvent) => void
 
 export type Direction = 'pull' | 'push'
 
@@ -29,16 +38,18 @@ export type DirectionStatus = { [key in EventType]: boolean }
 export type ReplicationStatus = { [key in Direction]: DirectionStatus }
 
 export interface PouchReplicationError {
-  error: string
+  error: string | boolean
   id: string
   rev: string
   message: string
-  name: string
+  name?: string
   ok: boolean
-  reason: string
+  reason?: string
   status: number
   result?: {
     errors: PouchReplicationError[]
+    ok: boolean
+    status: string
   }
 }
 

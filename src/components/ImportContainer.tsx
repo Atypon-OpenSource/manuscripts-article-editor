@@ -54,10 +54,11 @@ interface State {
   rejected: File | null
 }
 
-class ImportContainer extends React.Component<Props & ModalProps & State> {
+class ImportContainer extends React.Component<Props & ModalProps, State> {
   public state: Readonly<State> = {
     rejected: null,
   }
+
   public render() {
     const rejected = this.state.rejected
 
@@ -171,4 +172,4 @@ class ImportContainer extends React.Component<Props & ModalProps & State> {
   }
 }
 
-export default withModal<Props>(ImportContainer)
+export default withModal(ImportContainer)

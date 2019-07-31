@@ -87,4 +87,4 @@ class ProjectsMenu extends React.Component<Props & ModalProps> {
   }
 }
 
-export default withModal<Props>(ProjectsMenu)
+export default withModal(ProjectsMenu)

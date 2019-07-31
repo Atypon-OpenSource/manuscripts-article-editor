@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { Notification } from '../NotificationMessage'
@@ -94,33 +93,34 @@ const TextContainer = styled.div`
 interface Props {
   openTemplateSelector: () => void
   message?: string
-  project: Project
 }
 
 export const EmptyProjectPage: React.FunctionComponent<Props> = ({
   openTemplateSelector,
   message,
-  project,
-}) => (
-  <OuterContainer>
-    {message && <Notification message={message} id={project._id} />}
-    <Placeholder>
-      <ProjectPlaceholder />
-    </Placeholder>
+}) => {
+  return (
+    <OuterContainer>
+      {message && <Notification message={message} id={'empty-project'} />}
 
-    <Action>
-      <AddManuscriptButton onClick={openTemplateSelector}>
-        <AddIconContainer>
-          <RegularAddIcon width={40} height={40} />
-          <AddIconHover width={40} height={40} />
-          <ActionTitle>New Manuscript</ActionTitle>
-        </AddIconContainer>
-      </AddManuscriptButton>
-    </Action>
+      <Placeholder>
+        <ProjectPlaceholder />
+      </Placeholder>
 
-    <Message>
-      <TextContainer>This project is empty.</TextContainer>
-      <TextContainer>Create a manuscript to get started.</TextContainer>
-    </Message>
-  </OuterContainer>
-)
+      <Action>
+        <AddManuscriptButton onClick={openTemplateSelector}>
+          <AddIconContainer>
+            <RegularAddIcon width={40} height={40} />
+            <AddIconHover width={40} height={40} />
+            <ActionTitle>New Manuscript</ActionTitle>
+          </AddIconContainer>
+        </AddManuscriptButton>
+      </Action>
+
+      <Message>
+        <TextContainer>This project is empty.</TextContainer>
+        <TextContainer>Create a manuscript to get started.</TextContainer>
+      </Message>
+    </OuterContainer>
+  )
+}

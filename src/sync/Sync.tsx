@@ -15,64 +15,43 @@
  */
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
-import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
-import * as HttpStatusCodes from 'http-status-codes'
 import { isEqual } from 'lodash-es'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { ModalProps, withModal } from '../components/ModalProvider'
-import { refreshSyncSessions } from '../lib/api'
-import { styled } from '../theme/styled-components'
+import { TokenActions } from '../data/TokenData'
 import { Collection, CollectionProps } from './Collection'
 import CollectionManager from './CollectionManager'
 import { DatabaseError } from './DatabaseError'
-
-const Toast = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-`
-
-const StyledLink = styled(Link)`
-  padding: 2rem;
-  color: inherit;
-`
+import { SyncNotification } from './SyncNotification'
 
 interface State<T extends Model> {
   collection?: Collection<T>
-  error?: Error | null
-  errorStatusCode?: number | null
+  error?: Error
 }
 
-class Sync<T extends Model> extends React.PureComponent<
-  CollectionProps & ModalProps,
-  State<T>
-> {
-  public constructor(props: CollectionProps & ModalProps) {
+type Props = CollectionProps &
+  ModalProps &
+  RouteComponentProps & {
+    tokenActions: TokenActions
+  }
+
+class Sync<T extends Model> extends React.PureComponent<Props, State<T>> {
+  public constructor(props: Props) {
     super(props)
 
     this.state = {}
-
-    this.refreshSync = this.refreshSync.bind(this)
   }
 
   public async componentDidMount() {
     try {
-      this.setState(
-        {
-          collection: await CollectionManager.createCollection<T>(this.props),
-        },
-        () => {
-          this.state.collection!.addEventListener('error', e => {
-            this.setState({
-              error: new Error(e.type),
-              errorStatusCode: e.detail.status || null,
-            })
-          })
-        }
-      )
+      const { addModal, tokenActions, ...collectionProps } = this.props
+
+      this.setState({
+        collection: await CollectionManager.createCollection<T>(
+          collectionProps
+        ),
+      })
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
 
@@ -134,54 +113,32 @@ class Sync<T extends Model> extends React.PureComponent<
   }
 
   public render() {
-    const { collection, error, errorStatusCode } = this.state
+    const { children, history, location, tokenActions } = this.props
+    const { collection, error } = this.state
+
+    // TODO: display sync connection errors, or handle them silently?
 
     if (error) {
-      return (
-        <React.Fragment>
-          {this.props.children}
-          <Toast>
-            {errorStatusCode === HttpStatusCodes.UNAUTHORIZED ? (
-              <AlertMessage
-                type={AlertMessageType.warning}
-                hideCloseButton={true}
-              >
-                <span>Please log in again to sync your changes</span>
-                <StyledLink to="/">Log in again</StyledLink>
-              </AlertMessage>
-            ) : (
-              <AlertMessage
-                type={AlertMessageType.warning}
-                dismissButton={{
-                  text: 'Retry',
-                  action: this.refreshSync,
-                }}
-              >
-                Syncing your changes failed
-              </AlertMessage>
-            )}
-          </Toast>
-        </React.Fragment>
-      )
+      return null
     }
 
     if (!collection) {
       return null
     }
 
-    return this.props.children
-  }
+    return (
+      <>
+        {children}
 
-  private refreshSync() {
-    if (!this.state.collection) return
-    this.setState({
-      error: null,
-    })
-
-    // error listener is already bound, no need to catch
-    // tslint:disable-next-line:no-floating-promises
-    return refreshSyncSessions()
+        <SyncNotification
+          collection={collection}
+          history={history}
+          location={location}
+          tokenActions={tokenActions}
+        />
+      </>
+    )
   }
 }
 
-export default withModal<CollectionProps>(Sync)
+export default withModal(withRouter(Sync))

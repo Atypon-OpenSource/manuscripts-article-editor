@@ -33,7 +33,6 @@ class EmptyProjectPageContainer extends React.Component<Props & ModalProps> {
       <EmptyProjectPage
         openTemplateSelector={this.openTemplateSelector}
         message={this.props.message}
-        project={this.props.project}
       />
     )
   }
@@ -51,4 +50,4 @@ class EmptyProjectPageContainer extends React.Component<Props & ModalProps> {
   }
 }
 
-export default withModal<Props>(EmptyProjectPageContainer)
+export default withModal(EmptyProjectPageContainer)

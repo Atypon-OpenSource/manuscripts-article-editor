@@ -189,4 +189,4 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
   </UserData>
 )
 
-export default withModal<Props>(ProjectsSidebar)
+export default withModal(ProjectsSidebar)

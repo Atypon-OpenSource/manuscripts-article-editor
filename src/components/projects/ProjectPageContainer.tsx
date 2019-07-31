@@ -75,6 +75,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
       match: {
         params: { projectID },
       },
+      tokenActions,
     } = this.props
 
     const message = this.props.location.state
@@ -86,7 +87,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
         {db => (
           <ProjectData projectID={projectID}>
             {project => (
-              <Page project={project} tokenActions={this.props.tokenActions}>
+              <Page project={project} tokenActions={tokenActions}>
                 <UserData userID={getCurrentUserId()!}>
                   {user => (
                     <CollaboratorsData>
@@ -98,6 +99,7 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                             `${projectID}-readwrite`,
                           ]}
                           db={db}
+                          tokenActions={tokenActions}
                         >
                           <UserProjectsData projectID={projectID}>
                             {(userProjects, userProjectCollection) => (
