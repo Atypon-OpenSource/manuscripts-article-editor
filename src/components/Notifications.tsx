@@ -66,8 +66,8 @@ export const Notifications: React.FC<Props> = ({
 const Container = styled.div`
   position: fixed;
   bottom: 0px;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
