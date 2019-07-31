@@ -97,3 +97,11 @@ export const resendVerificationDataMessage = (
     </AlertMessage>
   )
 }
+
+export const userAccountErrorMessage = () => {
+  return (
+    <AlertMessage type={AlertMessageType.error}>
+      {`Your user account record is missing required information. This is most likely because of having logged in with an earlier version of the app. Please contact ${config.support.email} for assistance.`}
+    </AlertMessage>
+  )
+}

@@ -26,6 +26,7 @@ import { Main, Page } from '../Page'
 import {
   gatewayInaccessibleErrorMessage,
   networkErrorMessage,
+  userAccountErrorMessage,
 } from './LoginMessages'
 import { SignupErrors, SignupValues } from './SignupForm'
 import {
@@ -62,6 +63,16 @@ class SignupPageContainer extends React.Component<
 
   public async componentDidMount() {
     const { token, email } = parse(window.location.hash.substr(1))
+
+    const message = this.props.location.state
+      ? this.props.location.state.errorMessage
+      : null
+
+    if (message === 'missing-user-profile') {
+      this.setState({
+        message: () => userAccountErrorMessage(),
+      })
+    }
 
     if (token) {
       try {

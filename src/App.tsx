@@ -65,7 +65,14 @@ const App: React.FunctionComponent = () => (
                           user ? (
                             <Redirect to={'/projects'} />
                           ) : (
-                            <Redirect to={'/signup'} />
+                            <Redirect
+                              to={{
+                                pathname: `/signup`,
+                                state: {
+                                  errorMessage: 'missing-user-profile',
+                                },
+                              }}
+                            />
                           )
                         }
                       />
