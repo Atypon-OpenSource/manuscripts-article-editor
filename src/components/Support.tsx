@@ -29,7 +29,7 @@ const Button = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  padding: 8px;
+  padding: 14px;
 
   &:focus {
     outline: none;
