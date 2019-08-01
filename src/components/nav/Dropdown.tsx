@@ -182,6 +182,7 @@ interface DropdownButtonProps {
   isOpen: boolean
   notificationsCount?: number
   onClick?: React.MouseEventHandler
+  removeChevron?: boolean
 }
 
 export const DropdownButton: React.FunctionComponent<DropdownButtonProps> = ({
@@ -189,6 +190,7 @@ export const DropdownButton: React.FunctionComponent<DropdownButtonProps> = ({
   isOpen,
   notificationsCount,
   onClick,
+  removeChevron,
 }) => (
   <DropdownButtonContainer
     onClick={onClick}
@@ -201,6 +203,6 @@ export const DropdownButton: React.FunctionComponent<DropdownButtonProps> = ({
         {notificationsCount}
       </NotificationsBadge>
     )}
-    <DropdownToggle className={isOpen ? 'open' : ''} />
+    {!removeChevron && <DropdownToggle className={isOpen ? 'open' : ''} />}
   </DropdownButtonContainer>
 )

@@ -22,6 +22,7 @@ interface Props {
   dropdownStyle?: React.CSSProperties
   id?: string
   notificationsCount?: number
+  removeChevron?: boolean
 }
 
 interface State {
@@ -46,6 +47,7 @@ class MenuDropdown extends React.Component<Props, State> {
       dropdownStyle,
       id,
       notificationsCount,
+      removeChevron,
     } = this.props
 
     const { isOpen } = this.state
@@ -56,6 +58,7 @@ class MenuDropdown extends React.Component<Props, State> {
           isOpen={isOpen}
           notificationsCount={notificationsCount}
           onClick={() => this.setOpen(!isOpen)}
+          removeChevron={removeChevron}
         >
           {buttonContents}
         </DropdownButton>

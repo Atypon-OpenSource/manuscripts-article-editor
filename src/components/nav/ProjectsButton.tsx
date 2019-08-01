@@ -173,6 +173,7 @@ class ProjectsButton extends React.Component<Props, State> {
                                 filteredInvitationsData.length
                               }
                               dropdownStyle={{ width: 342, left: 20 }}
+                              removeChevron={true}
                             >
                               <ProjectsMenu
                                 invitationsData={invitationsData}
