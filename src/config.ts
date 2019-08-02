@@ -67,6 +67,9 @@ interface Config {
   crisp: {
     id?: string
   }
+  connect: {
+    enabled: boolean
+  }
 }
 
 const isTrue = (value: string | undefined) => {
@@ -136,6 +139,9 @@ const config = {
   },
   crisp: {
     id: process.env.CRISP_WEBSITE_ID,
+  },
+  connect: {
+    enabled: isTrue(process.env.ENABLE_CONNECT_LOGIN_OPTION),
   },
 }
 

@@ -16,9 +16,14 @@
 
 import { Formik, FormikConfig } from 'formik'
 import React from 'react'
+import config from '../../config'
 import { Centered } from '../Page'
 import AuthButtonContainer from './AuthButtonContainer'
-import { AuthenticationContainer, GoogleLogin } from './Authentication'
+import {
+  AuthenticationContainer,
+  ConnectLogin,
+  GoogleLogin,
+} from './Authentication'
 import FooterContainer from './FooterContainer'
 import { LoginForm, LoginValues } from './LoginForm'
 
@@ -49,7 +54,9 @@ const LoginPage: React.FunctionComponent<FormikConfig<LoginValues> & Props> = ({
       <div>Sign in with</div>
       <div>
         <AuthButtonContainer component={GoogleLogin} />
-        {/*<AuthButtonContainer component={OrcidLogin} />*/}
+        {config.connect.enabled && (
+          <AuthButtonContainer component={ConnectLogin} />
+        )}
       </div>
     </AuthenticationContainer>
 

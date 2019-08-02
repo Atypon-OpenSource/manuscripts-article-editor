@@ -20,7 +20,7 @@ import config from '../../config'
 import deviceId from '../../lib/device-id'
 import { AuthenticationButtonProps } from './Authentication'
 
-export type AuthProvider = 'google' | 'orcid'
+export type AuthProvider = 'google' | 'orcid' | 'iam'
 
 interface Props {
   component: React.FunctionComponent<AuthenticationButtonProps>

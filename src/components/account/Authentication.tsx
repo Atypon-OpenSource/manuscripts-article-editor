@@ -16,8 +16,37 @@
 
 import { GoogleIcon, IconButton, OrcidIcon } from '@manuscripts/style-guide'
 import React from 'react'
+import connectLogo from '../../../assets/connect.png'
 import { styled } from '../../theme/styled-components'
 import { AuthProvider } from './AuthButtonContainer'
+
+const ButtonText = styled.div`
+  padding-right: 18px;
+  color: #959595;
+  font-weight: 500;
+  position: relative;
+  bottom: 1px;
+`
+
+const IconButtonWithText = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0px 1px #ddd;
+  margin: 10px;
+`
+
+const GoogleImage = styled.span`
+  height: 25px;
+  padding: 5px 10px 5px 18px;
+`
+
+const ConnectImage = styled.span`
+  height: 25px;
+  padding: 5px 18px;
+  margin: auto;
+`
 
 export interface AuthenticationButtonProps {
   redirect: (provider: AuthProvider) => () => void
@@ -26,9 +55,12 @@ export interface AuthenticationButtonProps {
 export const GoogleLogin: React.FunctionComponent<
   AuthenticationButtonProps
 > = ({ redirect }) => (
-  <IconButton type={'button'} onClick={redirect('google')}>
-    <GoogleIcon size={48} />
-  </IconButton>
+  <IconButtonWithText onClick={redirect('google')}>
+    <GoogleImage>
+      <GoogleIcon size={25} title={'Google logo'} />
+    </GoogleImage>
+    <ButtonText>Google</ButtonText>
+  </IconButtonWithText>
 )
 
 export const OrcidLogin: React.FunctionComponent<AuthenticationButtonProps> = ({
@@ -37,6 +69,16 @@ export const OrcidLogin: React.FunctionComponent<AuthenticationButtonProps> = ({
   <IconButton type={'button'} onClick={redirect('orcid')}>
     <OrcidIcon size={48} />
   </IconButton>
+)
+
+export const ConnectLogin: React.FunctionComponent<
+  AuthenticationButtonProps
+> = ({ redirect }) => (
+  <IconButtonWithText onClick={redirect('iam')}>
+    <ConnectImage>
+      <img src={connectLogo} height={25} alt={'Connect logo'} />
+    </ConnectImage>
+  </IconButtonWithText>
 )
 
 export const AuthenticationContainer = styled('div')`

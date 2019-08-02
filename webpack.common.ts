@@ -39,6 +39,7 @@ const configuration: webpack.Configuration = {
         'DATA_URL',
         'DERIVED_DATA_BUCKET',
         'DISCOURSE_HOST',
+        'ENABLE_CONNECT_LOGIN_OPTION',
         'GIT_COMMIT_HASH',
         'GIT_VERSION',
         'GOOGLE_ANALYTICS_ID',
