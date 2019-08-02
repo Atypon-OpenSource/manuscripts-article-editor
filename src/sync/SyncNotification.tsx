@@ -33,7 +33,7 @@ import {
 } from '../components/Notifications'
 import { TokenActions } from '../data/TokenData'
 import { Collection, isAxiosError, isReplicationError } from './Collection'
-import { CollectionEventListener } from './types'
+import { CollectionEventListener, PouchReplicationError } from './types'
 
 const buildNotificationID = <T extends Model>(collection: Collection<T>) =>
   `sync-login-${collection.collectionName}`
@@ -148,8 +148,23 @@ export const SyncNotification = <T extends Model>({
       </NotificationPrompt>
     )
 
+    const handleReplicationError = (
+      direction: string,
+      error: PouchReplicationError
+    ) => {
+      if (isUnauthorized(error)) {
+        // unauthorised response from request to Sync Gateway
+        showNotification(SYNC_ERROR_NOTIFICATION_ID, SyncLoginNotification)
+      } else if (isSyncTimeoutError(error) && direction === 'push') {
+        // request to Sync Gateway timed out
+        showNotification(SYNC_ERROR_NOTIFICATION_ID, SyncTimeoutNotification)
+      } else if (direction === 'push') {
+        showNotification(SYNC_ERROR_NOTIFICATION_ID, SyncRetryNotification)
+      }
+    }
+
     const handleError: CollectionEventListener = collectionError => {
-      const { error } = collectionError.detail
+      const { direction, error } = collectionError.detail
 
       if (error) {
         if (isAxiosError(error)) {
@@ -158,18 +173,7 @@ export const SyncNotification = <T extends Model>({
             showNotification(SYNC_ERROR_NOTIFICATION_ID, SyncLoginNotification)
           }
         } else if (isReplicationError(error)) {
-          if (isUnauthorized(error)) {
-            // unauthorised response from request to Sync Gateway
-            showNotification(SYNC_ERROR_NOTIFICATION_ID, SyncLoginNotification)
-          } else if (isSyncTimeoutError(error)) {
-            // request to Sync Gateway timed out
-            showNotification(
-              SYNC_ERROR_NOTIFICATION_ID,
-              SyncTimeoutNotification
-            )
-          } else {
-            showNotification(SYNC_ERROR_NOTIFICATION_ID, SyncRetryNotification)
-          }
+          handleReplicationError(direction, error)
         }
 
         // TODO: handle other types of errors
