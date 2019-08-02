@@ -19,17 +19,11 @@ import config from '../../config'
 import client from '../client'
 import deviceId from '../device-id'
 
-export const signup = (
-  name: string,
-  email: string,
-  password: string,
-  allowsTracking: boolean
-) =>
+export const signup = (name: string, email: string, password: string) =>
   client.post('/registration/signup', {
     name,
     email,
     password,
-    allowsTracking,
   })
 
 export const verify = (token: string) =>

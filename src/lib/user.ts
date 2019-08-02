@@ -21,7 +21,6 @@ export interface TokenPayload {
   expiry: number
   userId: string
   userProfileId: string
-  wayfLocal?: string
 }
 
 export const getCurrentUserId = () => {

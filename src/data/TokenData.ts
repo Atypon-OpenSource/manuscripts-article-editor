@@ -28,7 +28,6 @@ interface Payload {
   expiry: number
   userId: string
   userProfileId: string
-  wayfLocal?: string
 }
 
 interface Props {

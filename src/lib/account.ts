@@ -15,12 +15,10 @@
  */
 
 import decode from 'jwt-decode'
-import config from '../config'
 import userID from '../lib/user-id'
 import * as api from './api'
 import { recreateDatabase, removeDatabase } from './db'
 import { TokenPayload } from './user'
-import { registerWayfId } from './wayf'
 
 export const login = async (email: string, password: string) => {
   // TODO: decide whether to remove the local database at login
@@ -40,8 +38,6 @@ export const login = async (email: string, password: string) => {
     console.error(e) // tslint:disable-line:no-console
     // TODO: removing the local database failed
   }
-
-  await registerWayfId(token, config.wayf)
 
   return token
 }
@@ -71,8 +67,6 @@ export const resetPassword = async (
   const {
     data: { token },
   } = await api.resetPassword(password, verificationToken)
-
-  await registerWayfId(token, config.wayf)
 
   return token
 }

@@ -100,15 +100,13 @@ describe('authentication', () => {
     const name = 'name'
     const email = 'email'
     const password = 'a password'
-    const allowsTracking = false
 
-    await signup(name, email, password, allowsTracking)
+    await signup(name, email, password)
 
     expect(client.post).toBeCalledWith('/registration/signup', {
       name,
       email,
       password,
-      allowsTracking,
     })
   })
 

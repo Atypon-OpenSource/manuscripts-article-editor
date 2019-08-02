@@ -86,8 +86,6 @@ services:
         SENTRY_RELEASE: $SENTRY_RELEASE
         SERVICEWORKER_ENABLED: $SERVICEWORKER_ENABLED
         SYNC_GATEWAY_URL: $SYNC_GATEWAY_URL
-        WAYF_URL: $WAYF_URL
-        WAYF_KEY: $WAYF_KEY
     depends_on:
       - api
       - data

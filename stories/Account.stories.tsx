@@ -35,7 +35,6 @@ storiesOf('Account/Pages', module)
         name: '',
         email: '',
         password: '',
-        allowsTracking: false,
       }}
       validationSchema={signupSchema}
       onSubmit={action('sign up')}

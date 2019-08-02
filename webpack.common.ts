@@ -56,8 +56,6 @@ const configuration: webpack.Configuration = {
         'SUPPORT_EMAIL',
         'SUPPORT_URL',
         'SYNC_GATEWAY_URL',
-        'WAYF_KEY',
-        'WAYF_URL',
       ]),
       new CopyWebpackPlugin([
         'public/landing.html',

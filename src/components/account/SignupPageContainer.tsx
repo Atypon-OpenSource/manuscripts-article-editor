@@ -101,13 +101,12 @@ class SignupPageContainer extends React.Component<
               email: '',
               password: '',
               name: '',
-              allowsTracking: false,
             }}
             onSubmit={async (values, actions) => {
-              const { name, email, password, allowsTracking } = values
+              const { name, email, password } = values
 
               try {
-                await signup(name, email, password, allowsTracking)
+                await signup(name, email, password)
 
                 actions.setSubmitting(false)
 

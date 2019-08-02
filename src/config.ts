@@ -48,10 +48,6 @@ interface Config {
     email: string
     url: string | undefined
   }
-  wayf: {
-    key?: string
-    url?: string
-  }
   git: {
     version: string
     commit: string
@@ -78,11 +74,6 @@ const isTrue = (value: string | undefined) => {
 
 const normalizeURL = (url: string | undefined) => {
   return url && url.replace(/\/$/, '')
-}
-
-export interface WayfConfiguration {
-  key?: string
-  url?: string
 }
 
 const config = {
@@ -120,10 +111,6 @@ const config = {
   support: {
     email: process.env.SUPPORT_EMAIL || 'support@manuscriptsapp.com',
     url: process.env.SUPPORT_URL,
-  },
-  wayf: {
-    key: process.env.WAYF_KEY,
-    url: normalizeURL(process.env.WAYF_URL),
   },
   git: {
     version: process.env.GIT_VERSION,

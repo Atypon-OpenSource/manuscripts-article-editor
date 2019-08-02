@@ -65,7 +65,6 @@ storiesOf('Account/Forms/Pages', module)
           name: '',
           email: '',
           password: '',
-          allowsTracking: false,
         }}
         validationSchema={signupSchema}
         isInitialValid={true}
