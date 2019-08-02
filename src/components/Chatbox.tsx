@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import Chat from '@manuscripts/assets/react/Chat'
+import ChatIcon from '@manuscripts/assets/react/Chat'
 import React, { useCallback, useEffect, useState } from 'react'
 import { styled } from '../theme/styled-components'
 
 export const Chatbox: React.FC = React.memo(() => {
-  const [open, setOpen] = useState()
-  const [available, setAvailable] = useState(false)
+  const [open, setOpen] = useState<boolean>()
+  const [unreadCount, setUnreadCount] = useState<number>()
 
   // mirror the opened state to this component's state
   useEffect(() => {
@@ -35,29 +35,31 @@ export const Chatbox: React.FC = React.memo(() => {
       },
     ])
     window.$crisp.push(['on', 'chat:closed', () => setOpen(false)])
-    window.$crisp.push(['on', 'website:availability:changed', setAvailable])
 
-    const setWebsiteAvailability = () => {
-      // wait for some time, as asking for website:available immediately isn't reliable
+    const getUnreadCount = () => {
+      // wait for some time, as asking for chat:unread:count immediately isn't reliable
       window.setTimeout(() => {
-        if (typeof window.$crisp.is === 'function') {
-          const available = window.$crisp.is('website:available')
-          setAvailable(available)
+        if (typeof window.$crisp.get === 'function') {
+          const unreadCount = window.$crisp.get('chat:unread:count')
+          setUnreadCount(Number(unreadCount))
         }
       }, 5000)
     }
 
-    if (typeof window.$crisp.is === 'function') {
-      setWebsiteAvailability()
+    if (typeof window.$crisp.get === 'function') {
+      getUnreadCount()
     } else {
-      window.CRISP_READY_TRIGGER = setWebsiteAvailability
+      window.CRISP_READY_TRIGGER = getUnreadCount
     }
+
+    window.$crisp.push(['on', 'message:received', getUnreadCount])
+    window.$crisp.push(['on', 'chat:closed', getUnreadCount])
 
     return () => {
       delete window.CRISP_READY_TRIGGER
       window.$crisp.push(['off', 'chat:opened'])
       window.$crisp.push(['off', 'chat:closed'])
-      window.$crisp.push(['off', 'website:availability:changed'])
+      window.$crisp.push(['off', 'message:received'])
     }
   }, [])
 
@@ -76,18 +78,19 @@ export const Chatbox: React.FC = React.memo(() => {
     window.$crisp.push(['do', 'chat:open'])
   }, [])
 
-  if (open || !available) {
+  if (open) {
     return null
   }
 
   return (
-    <FeedbackButton onClick={handleClick}>
-      <Chat width={32} height={32} />
-    </FeedbackButton>
+    <ChatButton onClick={handleClick}>
+      {unreadCount ? <UnreadCount>{unreadCount}</UnreadCount> : null}
+      <ChatIcon width={32} height={32} />
+    </ChatButton>
   )
 })
 
-const FeedbackButton = styled.button`
+const ChatButton = styled.button`
   cursor: pointer;
   border: none;
   background: none;
@@ -110,4 +113,20 @@ const FeedbackButton = styled.button`
   &:focus-visible {
     outline: initial;
   }
+`
+
+const UnreadCount = styled.div`
+  height: 12px;
+  font-size: 10px;
+  background: #fdcd48;
+  padding: 2px 6px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 8px;
+  position: absolute;
+  top: 4px;
+  right: 4px;
 `
