@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Button } from '@manuscripts/style-guide'
@@ -42,6 +43,12 @@ const MoreButton = styled(Button)`
   text-decoration: underline;
   margin-left: 28px;
   color: ${props => props.theme.colors.citationSearch.more};
+`
+
+const DropdownChevron = styled(ArrowDownBlack)<{ expanded?: boolean }>`
+  margin-right: 16px;
+  ${props => !props.expanded && 'transform:rotate(-90deg)'};
+  width: 24px;
 `
 
 interface Props {
@@ -111,7 +118,8 @@ export class CitationSearchSection extends React.Component<Props, State> {
       return (
         <ResultsSection>
           <SearchSource onClick={() => this.setState({ expanded: true })}>
-            {'▶ ' + source.title}
+            <DropdownChevron />
+            {source.title}
           </SearchSource>
         </ResultsSection>
       )
@@ -120,7 +128,8 @@ export class CitationSearchSection extends React.Component<Props, State> {
     return (
       <ResultsSection>
         <SearchSource onClick={() => this.setState({ expanded: false })}>
-          {'▼ ' + source.title}
+          <DropdownChevron expanded={true} />
+          {source.title}
         </SearchSource>
 
         <SearchResults
