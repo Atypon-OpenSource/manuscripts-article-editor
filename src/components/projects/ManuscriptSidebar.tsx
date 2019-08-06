@@ -84,6 +84,9 @@ const ProjectTitle = styled(SidebarTitle)`
       cursor: text;
       content: 'Untitled Project';
       pointer-events: none;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &.empty-node:hover::before {
