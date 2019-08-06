@@ -69,19 +69,19 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
 
     const actions = {
       primary: {
-        action: () =>
-          this.setState({
-            isConfirmDeleteOpen: false,
-          }),
-        title: 'Cancel',
-      },
-      secondary: {
         action: async () => {
           await deleteProject()
           // TODO: delete project models and collection
           history.push('/projects')
         },
         title: 'Delete',
+      },
+      secondary: {
+        action: () =>
+          this.setState({
+            isConfirmDeleteOpen: false,
+          }),
+        title: 'Cancel',
         isDestructive: true,
       },
     }
@@ -120,6 +120,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
             category={Category.confirmation}
             header={'Delete Project'}
             message={message}
+            confirmFieldText={'confirm'}
           />
         )}
         {isRenameOpen &&

@@ -1720,10 +1720,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/resizer/-/resizer-0.0.3.tgz#79f560c4e5047d695f848940ffd0dd19f67dc814"
   integrity sha512-nSbugjavTq4TPQpj1rOoHX58CCTD6ZqROM+06UXDu8tOa7qPQQcoRb12H38rQ7HvZIWAV/PTf4nf42/Jl52f/g==
 
-"@manuscripts/style-guide@^0.9.4":
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-0.9.4.tgz#181e2d3402023cd0d0775188bb89c4f5c1d0dec3"
-  integrity sha512-9Vew8GSNsgftE4pnH8YcHRmlGlU384pPBBDIW0JJa4Z4obuDu5RzCHHB5R62Lx+xL6obJWNQnK2nTi+Pb3pcVA==
+"@manuscripts/style-guide@^0.9.5":
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-0.9.5.tgz#559dc43b4d72d47295c1b65b9e79ee70885334b4"
+  integrity sha512-l24BuVFQ9Us6vRSrqnGw504MNGo0grIPZT8ltcqJqVExsytiNEWS4293Bh5Ke+fcOOykrFWGFl0HhAe6Ie5IAQ==
   dependencies:
     "@manuscripts/assets" "^0.3.9"
     lodash-es "^4.17.11"
