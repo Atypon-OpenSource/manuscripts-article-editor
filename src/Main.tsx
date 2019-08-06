@@ -24,6 +24,7 @@ import IntlProvider from './components/IntlProvider'
 import { ModalProvider } from './components/ModalProvider'
 import { NotificationProvider } from './components/NotificationProvider'
 import { ServiceWorker } from './components/ServiceWorker'
+import SinglePage from './components/SinglePage'
 import { databaseCreator } from './lib/db'
 import { GlobalStyle } from './theme/theme'
 import { ThemeProvider } from './theme/ThemeProvider'
@@ -38,6 +39,7 @@ const Main = () => (
             <ServiceWorker />
             <BrowserRouter>
               <ModalProvider>
+                <SinglePage />
                 <App />
               </ModalProvider>
             </BrowserRouter>

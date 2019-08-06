@@ -78,8 +78,7 @@ const navigateToProjectsList = () => {
 }
 
 const reloadPage = () => {
-  // tslint:disable-next-line:deprecation
-  window.location.reload(true)
+  window.location.reload()
 }
 
 interface Props {
