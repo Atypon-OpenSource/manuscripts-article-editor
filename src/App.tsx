@@ -87,7 +87,7 @@ const App: React.FunctionComponent = () => (
                         exact={true}
                         render={props =>
                           user ? (
-                            <Redirect to={'/'} />
+                            <Redirect to={'/projects'} />
                           ) : (
                             <LoginPageContainer
                               {...props}
@@ -102,7 +102,7 @@ const App: React.FunctionComponent = () => (
                         exact={true}
                         render={props =>
                           user ? (
-                            <Redirect to={'/'} />
+                            <Redirect to={'/projects'} />
                           ) : (
                             <SignupPageContainer {...props} />
                           )
@@ -114,7 +114,7 @@ const App: React.FunctionComponent = () => (
                         exact={true}
                         render={props =>
                           user ? (
-                            <Redirect to={'/'} />
+                            <Redirect to={'/projects'} />
                           ) : (
                             <RecoverPageContainer
                               {...props}
@@ -430,7 +430,7 @@ const App: React.FunctionComponent = () => (
               <Route
                 path={'/logout'}
                 exact={true}
-                render={() => <Redirect to={'/'} />}
+                render={() => <Redirect to={'/projects'} />}
               />
 
               <Route

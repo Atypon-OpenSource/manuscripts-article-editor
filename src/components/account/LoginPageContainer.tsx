@@ -166,7 +166,7 @@ class LoginPageContainer extends React.Component<
     } else if (token) {
       this.props.tokenActions.update(token)
 
-      window.location.href = '/'
+      window.location.href = '/projects'
     }
 
     window.location.hash = ''
@@ -228,7 +228,8 @@ class LoginPageContainer extends React.Component<
     const { state } = this.props.location
 
     window.setTimeout(() => {
-      window.location.href = state && state.from ? state.from.pathname : '/'
+      window.location.href =
+        state && state.from ? state.from.pathname : '/projects'
     }, 100)
   }
 

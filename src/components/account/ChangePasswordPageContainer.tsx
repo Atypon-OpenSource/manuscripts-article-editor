@@ -54,7 +54,7 @@ const ChangePasswordPageContainer: React.FunctionComponent<
 
           actions.setSubmitting(false)
 
-          history.push('/')
+          history.push('/projects')
         } catch (error) {
           actions.setSubmitting(false)
 

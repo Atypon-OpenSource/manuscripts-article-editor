@@ -15,39 +15,38 @@
  */
 
 import React from 'react'
-import { DragDropContextProvider } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App'
-import DatabaseProvider from './components/DatabaseProvider'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import IntlProvider from './components/IntlProvider'
-import { ModalProvider } from './components/ModalProvider'
-import { NotificationProvider } from './components/NotificationProvider'
-import { ServiceWorker } from './components/ServiceWorker'
-import './lib/analytics'
-import { databaseCreator } from './lib/db'
 import './lib/fonts'
-import { GlobalStyle } from './theme/theme'
+import './lib/sentry'
+import tokenHandler from './lib/token'
 import { ThemeProvider } from './theme/ThemeProvider'
+
+const LandingPage = React.lazy(() => import('./components/landing/LandingPage'))
+const Main = React.lazy(() => import('./Main'))
 
 ReactDOM.render(
   <IntlProvider>
-    <DragDropContextProvider backend={HTML5Backend}>
-      <ThemeProvider>
-        <DatabaseProvider databaseCreator={databaseCreator}>
-          <GlobalStyle />
-          <NotificationProvider>
-            <ServiceWorker />
-            <BrowserRouter>
-              <ModalProvider>
-                <App />
-              </ModalProvider>
-            </BrowserRouter>
-          </NotificationProvider>
-        </DatabaseProvider>
-      </ThemeProvider>
-    </DragDropContextProvider>
+    <ThemeProvider>
+      <React.Suspense fallback={null}>
+        <BrowserRouter>
+          <Switch>
+            <Route
+              path={'/intro'}
+              exact={true}
+              render={() => <LandingPage />}
+            />
+            <Redirect
+              from={'/'}
+              exact={true}
+              to={tokenHandler.get() ? '/projects' : '/intro'}
+            />
+            <Route path={'/'} render={() => <Main />} />
+          </Switch>
+        </BrowserRouter>
+      </React.Suspense>
+    </ThemeProvider>
   </IntlProvider>,
   document.getElementById('root')
 )

@@ -51,7 +51,7 @@ export const PreferencesPageContainer: React.FunctionComponent<
 
             actions.setSubmitting(false)
 
-            history.push('/')
+            history.push('/projects')
           }}
           component={PreferencesForm}
         />
