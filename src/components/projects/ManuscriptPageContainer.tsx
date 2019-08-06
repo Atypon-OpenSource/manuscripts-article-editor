@@ -492,6 +492,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           minSize={300}
           direction={'row'}
           side={'start'}
+          hideWhen={'max-width: 900px'}
         >
           {this.state.view && comments && (
             <Inspector

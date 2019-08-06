@@ -170,7 +170,13 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <Panel name={'sidebar'} minSize={200} direction={'row'} side={'end'}>
+    <Panel
+      name={'sidebar'}
+      minSize={200}
+      direction={'row'}
+      side={'end'}
+      hideWhen={'max-width: 900px'}
+    >
       <StyledSidebar>
         <SidebarHeader>
           <ProjectTitle>

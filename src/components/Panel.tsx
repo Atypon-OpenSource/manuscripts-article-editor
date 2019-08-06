@@ -23,12 +23,14 @@ interface PanelProps {
   minSize?: number
   direction: ResizerDirection
   side: ResizerSide
+  hideWhen?: string
 }
 
 interface PanelState {
   originalSize: number | null
   size: number | null
   collapsed: boolean
+  hidden: boolean
 }
 
 interface InitializedPanelState extends PanelState {
@@ -47,25 +49,44 @@ class Panel extends React.Component<PanelProps, PanelState> {
     originalSize: null,
     size: null,
     collapsed: false,
+    hidden: false,
   }
 
+  private hideWhenQuery?: MediaQueryList
+
   public componentDidMount() {
+    if (this.props.hideWhen) {
+      this.hideWhenQuery = window.matchMedia(
+        `screen and (${this.props.hideWhen})`
+      )
+
+      // tslint:disable-next-line:deprecation
+      this.hideWhenQuery.addListener(this.handleHideWhenChange)
+
+      this.setState({
+        hidden: this.hideWhenQuery.matches,
+      })
+    }
+
     this.updateState(layout.get(this.props.name))
+  }
+
+  public componentWillUnmount() {
+    if (this.hideWhenQuery) {
+      // tslint:disable-next-line:deprecation
+      this.hideWhenQuery.removeListener(this.handleHideWhenChange)
+    }
   }
 
   public render() {
     const { children, direction, side } = this.props
-    const { collapsed, size, originalSize } = this.state
+    const { collapsed, hidden, size, originalSize } = this.state
 
     if (size === null || originalSize === null) return null
 
-    const style: PanelStyle = {
-      position: 'relative',
-      width: direction === 'row' ? size : '100%',
-      height: direction === 'row' ? '100%' : size,
-    }
+    const style = this.buildStyle(direction, size)
 
-    const resizer = (
+    const resizer = hidden ? null : (
       <Resizer
         collapsed={collapsed}
         direction={direction}
@@ -87,6 +108,19 @@ class Panel extends React.Component<PanelProps, PanelState> {
         {resizer}
       </div>
     )
+  }
+
+  private buildStyle = (direction: string | null, size: number): PanelStyle => {
+    return {
+      position: 'relative',
+      width: direction === 'row' ? size : '100%',
+      height: direction === 'row' ? '100%' : size,
+    }
+  }
+
+  private handleHideWhenChange = (event: MediaQueryListEvent) => {
+    this.setState({ hidden: event.matches })
+    this.updateState(layout.get(this.props.name))
   }
 
   private handleResize = (resizeDelta: number) => {
@@ -121,12 +155,14 @@ class Panel extends React.Component<PanelProps, PanelState> {
   }
 
   private updateState(data: Pane) {
+    const { hidden } = this.state
+
     const size = Math.max(this.props.minSize || 0, data.size)
 
     this.setState({
       originalSize: size,
-      size: data.collapsed ? 0 : size,
-      collapsed: data.collapsed,
+      size: data.collapsed || hidden ? 0 : size,
+      collapsed: data.collapsed || hidden,
     })
   }
 }

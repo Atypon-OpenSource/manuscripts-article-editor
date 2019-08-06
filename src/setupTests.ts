@@ -49,3 +49,14 @@ if (!window.URL.createObjectURL) {
     value: jest.fn(() => 'blob:https://localhost/' + uuid()),
   })
 }
+
+if (!window.matchMedia) {
+  Object.defineProperty(window, 'matchMedia', {
+    value: jest.fn(media => ({
+      matches: false,
+      media,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+    })),
+  })
+}
