@@ -113,6 +113,7 @@ export const theme: Theme = {
       border: {
         default: '#aaa',
         error: '#d47666',
+        focused: colors.manuscriptsBlue,
       },
     },
     title: {

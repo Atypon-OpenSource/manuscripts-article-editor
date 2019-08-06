@@ -36,6 +36,7 @@ import {
 } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import { theme } from '../../theme/theme'
 
 const Fields = styled.div`
   padding: 16px;
@@ -143,6 +144,7 @@ export const ProfileForm: React.FunctionComponent<Props> = ({
               <Field name={'affiliations'}>
                 {(props: FieldProps) => (
                   <AffiliationsSelect
+                    theme={theme}
                     affiliations={affiliationsMap}
                     createAffiliation={createAffiliation}
                     {...props}

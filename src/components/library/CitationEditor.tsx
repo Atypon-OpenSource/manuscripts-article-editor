@@ -16,7 +16,7 @@
 
 import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { PrimaryButton } from '@manuscripts/style-guide'
+import { ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { issuedYear, shortAuthorsString } from '../../lib/library'
@@ -70,10 +70,7 @@ const ActionButton = styled.button`
   height: 24px;
 `
 
-const Actions = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+const Actions = styled(ButtonGroup)`
   padding: 16px;
 `
 

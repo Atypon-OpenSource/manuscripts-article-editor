@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-import { PrimaryButton, StyledModal } from '@manuscripts/style-guide'
+import {
+  ButtonGroup,
+  PrimaryButton,
+  StyledModal,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { IndicatorKind, ProgressIndicator } from '../ProgressIndicator'
@@ -45,11 +49,8 @@ const ModalStatus = styled.div`
   justify-content: center;
 `
 
-const ModalFooter = styled.div`
+const ModalFooter = styled(ButtonGroup)`
   padding: 16px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 `
 
 interface Props {

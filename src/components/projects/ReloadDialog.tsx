@@ -16,6 +16,7 @@
 
 import AttentionRed from '@manuscripts/assets/react/AttentionRed'
 import {
+  ButtonGroup,
   GreyButton,
   PrimaryButton,
   StyledModal,
@@ -68,14 +69,8 @@ const Body = styled.div`
   }
 `
 
-const Actions = styled.div`
-  display: flex;
-  justify-content: flex-end;
+const Actions = styled(ButtonGroup)`
   padding: 16px;
-
-  & button:not(:last-of-type) {
-    margin-right: 4px;
-  }
 `
 
 const navigateToProjectsList = () => {
@@ -108,7 +103,6 @@ export const ReloadDialog: React.FunctionComponent<Props> = ({ message }) => (
 
       <Actions>
         <GreyButton onClick={navigateToProjectsList}>View projects</GreyButton>
-
         <PrimaryButton onClick={reloadPage}>Retry</PrimaryButton>
       </Actions>
     </ModalBody>

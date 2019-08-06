@@ -17,6 +17,7 @@
 import {
   AlertMessage,
   AlertMessageType,
+  ButtonGroup,
   GreyButton,
   PrimaryButton,
 } from '@manuscripts/style-guide'
@@ -25,13 +26,6 @@ import { styled } from '../../theme/styled-components'
 import { PopperBody, SeparatorLine } from '../Popper'
 import { CollaboratorRolesInput } from './CollaboratorRolesInput'
 import { Mode } from './InviteCollaboratorPopper'
-
-const ButtonContainer = styled.div`
-  margin-left: 4px;
-`
-const Container = styled.div`
-  display: flex;
-`
 
 const AlertMessageContainer = styled.div`
   margin-bottom: 9px;
@@ -89,15 +83,13 @@ export const CollaboratorRolePopper: React.FunctionComponent<Props> = ({
       disabled={isOnlyOwner}
     />
     <SeparatorLine />
-    <Container>
+    <ButtonGroup>
       <GreyButton onClick={switchMode} disabled={isOnlyOwner}>
         {removeText}
       </GreyButton>
       {selectedMode === 'invite' && (
-        <ButtonContainer>
-          <PrimaryButton onClick={resendInvitation}>Resend</PrimaryButton>
-        </ButtonContainer>
+        <PrimaryButton onClick={resendInvitation}>Resend</PrimaryButton>
       )}
-    </Container>
+    </ButtonGroup>
   </PopperBody>
 )

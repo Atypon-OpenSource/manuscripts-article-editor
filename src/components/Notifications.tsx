@@ -15,6 +15,7 @@
  */
 
 import AttentionBlue from '@manuscripts/assets/react/AttentionBlue'
+import { ButtonGroup } from '@manuscripts/style-guide'
 import React from 'react'
 import { Transition } from 'react-spring/renderprops.cjs'
 import { styled } from '../theme/styled-components'
@@ -92,10 +93,7 @@ export const NotificationHead = styled.div`
   align-items: center;
 `
 
-export const NotificationActions = styled.div`
-  display: flex;
-  align-items: center;
-`
+export const NotificationActions = styled(ButtonGroup)``
 
 export const NotificationIcon = styled(AttentionBlue)``
 export const NotificationTitle = styled.div`

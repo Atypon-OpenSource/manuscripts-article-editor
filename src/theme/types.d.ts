@@ -41,6 +41,10 @@ interface HoverableColorStyle {
   hovered: string
 }
 
+export interface FocusColorStyle {
+  focused: string
+}
+
 interface SelectableColorStyle {
   selected: string
 }
@@ -99,7 +103,7 @@ export interface Palette extends StyleGuidePalette {
   }
   textField: {
     placeholder: DefaultColorStyle & HoverableColorStyle
-    border: DefaultColorStyle & ErrorColorStyle
+    border: DefaultColorStyle & ErrorColorStyle & FocusColorStyle
   }
   title: {
     placeholder: string

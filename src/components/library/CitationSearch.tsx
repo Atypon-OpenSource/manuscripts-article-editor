@@ -18,7 +18,7 @@ import SearchIcon from '@manuscripts/assets/react/SearchIcon'
 import { crossref } from '@manuscripts/manuscript-editor'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { Button, PrimaryButton } from '@manuscripts/style-guide'
+import { Button, ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import config from '../../config'
 import { styled } from '../../theme/styled-components'
@@ -46,10 +46,7 @@ const Results = styled.div`
   overflow-y: auto;
 `
 
-const Actions = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+const Actions = styled(ButtonGroup)`
   padding: 16px;
 `
 

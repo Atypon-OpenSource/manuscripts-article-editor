@@ -40,7 +40,7 @@
     "@manuscripts/manuscript-transform": "^0.16.0",
     "@manuscripts/manuscripts-json-schema": "^1.14.2",
     "@manuscripts/resizer": "^0.0.3",
-    "@manuscripts/style-guide": "^0.9.2",
+    "@manuscripts/style-guide": "^0.9.4",
     "@manuscripts/sync-client": "^0.1.2",
     "@manuscripts/title-editor": "^0.3.3",
     "@reach/tabs": "^0.1.6",
