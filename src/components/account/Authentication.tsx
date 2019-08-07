@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-import { GoogleIcon, IconButton, OrcidIcon } from '@manuscripts/style-guide'
+import {
+  Button,
+  GoogleIcon,
+  IconButton,
+  OrcidIcon,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import connectLogo from '../../../assets/connect.png'
+import config from '../../config'
 import { styled } from '../../theme/styled-components'
 import { AuthProvider } from './AuthButtonContainer'
 
@@ -48,6 +54,20 @@ const ConnectImage = styled.span`
   margin: auto;
 `
 
+const TextButton = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 10px;
+  color: white;
+  font-weight: 200;
+`
+
+const SignupButton = styled(Button)`
+  background-color: white;
+  color: ${props => props.theme.colors.button.primary};
+  margin-left: 10px;
+`
 export interface AuthenticationButtonProps {
   redirect: (provider: AuthProvider) => () => void
 }
@@ -79,6 +99,34 @@ export const ConnectLogin: React.FunctionComponent<
       <img src={connectLogo} height={25} alt={'Connect logo'} />
     </ConnectImage>
   </IconButtonWithText>
+)
+
+export const Signup: React.FunctionComponent<AuthenticationButtonProps> = ({
+  redirect,
+}) => (
+  <SignupButton
+    onClick={
+      config.connect.enabled
+        ? redirect('iam')
+        : () => (window.location.href = '/signup')
+    }
+  >
+    sign up
+  </SignupButton>
+)
+
+export const Login: React.FunctionComponent<AuthenticationButtonProps> = ({
+  redirect,
+}) => (
+  <TextButton
+    onClick={
+      config.connect.enabled
+        ? redirect('iam')
+        : () => (window.location.href = '/login')
+    }
+  >
+    Already have an account?
+  </TextButton>
 )
 
 export const AuthenticationContainer = styled('div')`

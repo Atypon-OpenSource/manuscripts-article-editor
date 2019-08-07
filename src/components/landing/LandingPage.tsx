@@ -16,12 +16,13 @@
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import NavIconOutline from '@manuscripts/assets/react/NavIconOutline'
-import { Button } from '@manuscripts/style-guide'
 import Avatar, { AvatarStyle } from 'avataaars'
 import React from 'react'
 import MailchimpSubscribe from 'react-mailchimp-subscribe'
 import { styled } from '../../theme/styled-components'
 import { GlobalStyle } from '../../theme/theme'
+import AuthButtonContainer from '../account/AuthButtonContainer'
+import { Login, Signup } from '../account/Authentication'
 import AddedTick from './AddedTick@2x.png'
 import Collaboration from './Collaboration@2x.png'
 import EditContent from './EditContent@2x.png'
@@ -437,6 +438,11 @@ const Footer = styled.div`
   padding-top: 40px;
 `
 
+const LoginButton = styled.div`
+  position: absolute;
+  right: 20px;
+  margin-top: 30px;
+`
 const avatarStyle = { width: 90, height: 90 }
 
 // TODO: move this to a configuration value
@@ -455,14 +461,11 @@ const LandingPage: React.FunctionComponent = ({}) => (
           </Logotype>
         </HeaderButtonGroup>
         <HeaderButtonGroup>
-          <Button
-            onClick={() => {
-              window.open('https://gitlab.com/mpapp-public', '_blank')
-            }}
-          >
-            View Source
-          </Button>
+          <AuthButtonContainer component={Signup} />
         </HeaderButtonGroup>
+        <LoginButton>
+          <AuthButtonContainer component={Login} />
+        </LoginButton>
       </HeaderBar>
       <HeroImageContainer>
         <AppIcon />
