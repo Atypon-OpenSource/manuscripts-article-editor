@@ -431,7 +431,7 @@ const App: React.FunctionComponent = () => (
               <Route
                 path={'/logout'}
                 exact={true}
-                render={() => <Redirect to={'/projects'} />}
+                render={() => <Redirect to={'/'} />}
               />
 
               <Route
