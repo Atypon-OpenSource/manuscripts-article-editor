@@ -44,15 +44,16 @@ export const removeEmptyStyles = (model: { [key: string]: any }) => {
   })
 }
 
-export const removeContainerIDs = async (zip: JSZip) => {
+export const removeUnsupportedProperties = async (zip: JSZip) => {
   const path = 'index.manuscript-json'
 
   const json = await zip.file(path).async('text')
   const bundle = JSON.parse(json) as ProjectDump
 
-  bundle.data.forEach((model: ManuscriptModel) => {
+  bundle.data.forEach((model: ManuscriptModel & { listingID?: string }) => {
     delete model.containerID
     delete model.manuscriptID
+    delete model.listingID // figures and tables
   })
 
   zip.file(path, JSON.stringify(bundle))
@@ -245,7 +246,7 @@ export const exportProject = async (
     default:
       // remove this once it's no longer needed:
       // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/671
-      await removeContainerIDs(zip)
+      await removeUnsupportedProperties(zip)
 
       const file = await zip.generateAsync({ type: 'blob' })
 
