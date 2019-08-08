@@ -16,6 +16,7 @@
 
 import React from 'react'
 import { styled } from '../theme/styled-components'
+import { Aphorism, AphorismView } from './Aphorism'
 import {
   IndicatorKind,
   IndicatorSize,
@@ -26,26 +27,33 @@ const PlaceholderContainer = styled.div`
   height: 100%;
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `
 
-export const ManuscriptPlaceholder: React.FunctionComponent = () => (
+export const ManuscriptPlaceholder: React.FC<{
+  aphorism?: Aphorism
+}> = ({ aphorism }) => (
   <PlaceholderContainer>
     <ProgressIndicator
       isDeterminate={false}
       size={IndicatorSize.Large}
       symbols={IndicatorKind.Project}
     />
+    {aphorism && <AphorismView aphorism={aphorism} />}
   </PlaceholderContainer>
 )
 
-export const ProjectPlaceholder: React.FunctionComponent = () => (
+export const ProjectPlaceholder: React.FC<{
+  aphorism?: Aphorism
+}> = ({ aphorism }) => (
   <PlaceholderContainer>
     <ProgressIndicator
       isDeterminate={false}
       size={IndicatorSize.Large}
       symbols={IndicatorKind.Project}
     />
+    {aphorism && <AphorismView aphorism={aphorism} />}
   </PlaceholderContainer>
 )

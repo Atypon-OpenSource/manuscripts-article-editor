@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
+import aphorisms from '@manuscripts/data/dist/shared/aphorisms.json'
+import { sample } from 'lodash-es'
 import React from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
 import CollaboratorsData from '../../data/CollaboratorsData'
@@ -35,6 +36,7 @@ import { buildContainerInvitations } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
 import { lastOpenedManuscriptID } from '../../lib/user-project'
 import Sync from '../../sync/Sync'
+import { Aphorism } from '../Aphorism'
 import AddCollaboratorsPageContainer from '../collaboration/AddCollaboratorsPageContainer'
 import CollaboratorsPageContainer from '../collaboration/CollaboratorsPageContainer'
 import { DatabaseContext } from '../DatabaseProvider'
@@ -56,9 +58,7 @@ const ManuscriptPageContainer = React.lazy<ManuscriptPageContainerComponent>(
 )
 
 interface State {
-  project: Project | null
-  manuscripts: Manuscript[] | null
-  error: string | null
+  aphorism: Aphorism
 }
 
 interface Props {
@@ -70,6 +70,11 @@ type CombinedProps = Props &
     projectID: string
   }>
 class ProjectPageContainer extends React.Component<CombinedProps, State> {
+  public componentDidMount() {
+    const aphorism = sample(aphorisms)
+    this.setState({ aphorism })
+  }
+
   public render() {
     const {
       match: {
@@ -214,7 +219,12 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                                             {comments => (
                                                               <React.Suspense
                                                                 fallback={
-                                                                  <ProjectPlaceholder />
+                                                                  <ProjectPlaceholder
+                                                                    aphorism={
+                                                                      this.state
+                                                                        .aphorism
+                                                                    }
+                                                                  />
                                                                 }
                                                               >
                                                                 <ManuscriptPageContainer
@@ -258,6 +268,10 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                                                     this.props
                                                                       .tokenActions
                                                                   }
+                                                                  aphorism={
+                                                                    this.state
+                                                                      .aphorism
+                                                                  }
                                                                 />
                                                               </React.Suspense>
                                                             )}
@@ -279,7 +293,11 @@ class ProjectPageContainer extends React.Component<CombinedProps, State> {
                                       exact={false}
                                       render={props => (
                                         <React.Suspense
-                                          fallback={<ProjectPlaceholder />}
+                                          fallback={
+                                            <ProjectPlaceholder
+                                              aphorism={this.state.aphorism}
+                                            />
+                                          }
                                         >
                                           <LibraryPageContainer
                                             {...props}

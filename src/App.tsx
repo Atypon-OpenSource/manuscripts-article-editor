@@ -214,6 +214,7 @@ const App: React.FunctionComponent = () => (
                                   <ProjectPageContainer
                                     {...props}
                                     tokenActions={tokenActions}
+                                    key={props.match.params.projectID}
                                   />
                                 )}
                               />
