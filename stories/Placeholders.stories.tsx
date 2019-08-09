@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import aphorisms from '@manuscripts/data/dist/shared/aphorisms.json'
 import { storiesOf } from '@storybook/react'
-import { sample } from 'lodash-es'
 import React from 'react'
 import {
   ManuscriptPlaceholder,
@@ -25,10 +23,4 @@ import {
 
 storiesOf('Placeholders', module)
   .add('Manuscript', () => <ManuscriptPlaceholder />)
-  .add('Manuscript with aphorism', () => (
-    <ManuscriptPlaceholder aphorism={sample(aphorisms)} />
-  ))
   .add('Project', () => <ProjectPlaceholder />)
-  .add('Project with aphorism', () => (
-    <ProjectPlaceholder aphorism={sample(aphorisms)} />
-  ))

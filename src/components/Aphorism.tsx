@@ -36,17 +36,18 @@ const AphorismContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #777;
   max-width: 600px;
   text-align: center;
+  margin-top: 24px;
 `
 
 const AphorismBody = styled.div`
-  font-size: 150%;
+  font-size: 140%;
+  font-style: italic;
   margin: 16px;
+  color: #444;
 `
 
 const AphorismCredit = styled.div`
-  font-size: 90%;
-  font-style: italic;
+  color: #777;
 `

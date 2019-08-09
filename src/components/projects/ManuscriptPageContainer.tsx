@@ -118,7 +118,6 @@ import { ThemeProvider } from '../../theme/ThemeProvider'
 import { Permissions } from '../../types/permissions'
 
 import { TitleEditorState, TitleEditorView } from '@manuscripts/title-editor'
-import { Aphorism } from '../Aphorism'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
@@ -182,7 +181,6 @@ interface State {
 }
 
 interface Props {
-  aphorism: Aphorism
   comments: CommentAnnotation[]
   keywords: Map<string, Keyword>
   library: Map<string, BibliographyItem>
@@ -345,7 +343,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     } = this.state
 
     const {
-      aphorism,
       comments,
       manuscripts,
       manuscript,
@@ -371,7 +368,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       !permissions ||
       !modelMap
     ) {
-      return <ManuscriptPlaceholder aphorism={aphorism} />
+      return <ManuscriptPlaceholder />
     }
 
     const section = selectedSection
