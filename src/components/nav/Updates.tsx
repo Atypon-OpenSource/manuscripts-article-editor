@@ -176,21 +176,19 @@ export interface Post {
 }
 
 interface Props {
-  error: string | null
+  error?: string
   host: string
   loaded: boolean
-  posts: Post[] | null
-  topics: Topic[] | null
+  posts?: Post[]
+  topics?: Topic[]
 }
 
 interface State {
-  selectedTopic: Topic | null
+  selectedTopic?: Topic
 }
 
 export class Updates extends React.Component<Props, State> {
-  public state: Readonly<State> = {
-    selectedTopic: null,
-  }
+  public state: Readonly<State> = {}
 
   public render() {
     const { host } = this.props
@@ -200,7 +198,7 @@ export class Updates extends React.Component<Props, State> {
       <Container>
         {selectedTopic ? (
           <UpdatesContent>
-            <Header onClick={() => this.selectTopic(null)}>
+            <Header onClick={() => this.selectTopic(undefined)}>
               <Back>
                 <BackArrowIcon size={15} color={theme.colors.updates.back} />{' '}
                 Back to Latest Updates
@@ -262,7 +260,7 @@ export class Updates extends React.Component<Props, State> {
     ))
   }
 
-  private selectTopic = (selectedTopic: Topic | null) => {
+  private selectTopic = (selectedTopic?: Topic) => {
     this.setState({ selectedTopic })
   }
 }

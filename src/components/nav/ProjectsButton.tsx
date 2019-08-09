@@ -34,7 +34,7 @@ import { styled } from '../../theme/styled-components'
 import { InvitationsList } from '../projects/InvitationsList'
 import { ProjectsList } from '../projects/ProjectsList'
 import { SidebarContent } from '../Sidebar'
-import MenuDropdown from './MenuDropdown'
+import { ProjectsDropdown } from './ProjectsDropdown'
 import ProjectsMenu from './ProjectsMenu'
 
 const Container = styled.div`
@@ -167,13 +167,10 @@ class ProjectsButton extends React.Component<Props, State> {
                               </SidebarContent>
                             </React.Fragment>
                           ) : (
-                            <MenuDropdown
-                              buttonContents={'Projects'}
+                            <ProjectsDropdown
                               notificationsCount={
                                 filteredInvitationsData.length
                               }
-                              dropdownStyle={{ width: 342, left: 20 }}
-                              removeChevron={true}
                             >
                               <ProjectsMenu
                                 invitationsData={invitationsData}
@@ -186,7 +183,7 @@ class ProjectsButton extends React.Component<Props, State> {
                                 confirmReject={this.confirmReject}
                                 user={user}
                               />
-                            </MenuDropdown>
+                            </ProjectsDropdown>
                           )
                         }}
                       </ProjectsInvitationsData>

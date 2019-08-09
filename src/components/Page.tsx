@@ -30,6 +30,7 @@ import { linkWaterBlue } from '../theme/colors'
 import { styled } from '../theme/styled-components'
 import { Chatbox } from './Chatbox'
 import MenuBar from './nav/MenuBar'
+import { OfflineContainer } from './nav/OfflineContainer'
 import ProjectNavigator from './ProjectNavigator'
 import { Support } from './Support'
 
@@ -153,7 +154,9 @@ export const Page: React.FunctionComponent<Props> = ({
 
         <MenuBar tokenActions={tokenActions!}>
           <Tip title={'Home'} placement={'right'}>
-            <StyledNavIcon />
+            <OfflineContainer>
+              <StyledNavIcon />
+            </OfflineContainer>
           </Tip>
         </MenuBar>
 

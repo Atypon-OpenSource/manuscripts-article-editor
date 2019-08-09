@@ -44,9 +44,10 @@ export interface NotificationItem {
   notification: NotificationComponent
 }
 
-export const NotificationContext = React.createContext<NotificationValue>(
-  {} as NotificationValue // tslint:disable-line:no-object-literal-type-assertion
-)
+export const NotificationContext = React.createContext<NotificationValue>({
+  showNotification: () => null,
+  removeNotification: () => null,
+})
 
 interface State {
   notifications: NotificationItem[]

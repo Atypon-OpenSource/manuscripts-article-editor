@@ -1609,10 +1609,10 @@
     "@phosphor/disposable" "^1.1.2"
     "@phosphor/signaling" "^1.2.2"
 
-"@manuscripts/assets@^0.3.13", "@manuscripts/assets@^0.3.15", "@manuscripts/assets@^0.3.9":
-  version "0.3.18"
-  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.18.tgz#542080ac720a27fb8187dae04ffec1f06f701712"
-  integrity sha512-g/xz9RBLsiZvs1aUKbHjt3o3aNT9V67cf/uCZMDcFd3LCUpXNmusT9Peeh76fCl0XZyy7f2sRvuE1Nd2RmmwwA==
+"@manuscripts/assets@^0.3.13", "@manuscripts/assets@^0.3.19", "@manuscripts/assets@^0.3.9":
+  version "0.3.19"
+  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.19.tgz#d0810c40d5e532efa7d8c3188102b8aa9ed6d7da"
+  integrity sha512-IWpYnpvDxDSpiAyU/eWgvUI+irGUvFTxXM6M6qFU9omwPIZKwQU+bZP3X4mk8f103o1vG4C7SOs9qRaOOjxuGQ==
 
 "@manuscripts/comment-editor@^0.1.0":
   version "0.1.1"
@@ -1725,12 +1725,12 @@
   resolved "https://registry.npmjs.org/@manuscripts/resizer/-/resizer-0.0.3.tgz#79f560c4e5047d695f848940ffd0dd19f67dc814"
   integrity sha512-nSbugjavTq4TPQpj1rOoHX58CCTD6ZqROM+06UXDu8tOa7qPQQcoRb12H38rQ7HvZIWAV/PTf4nf42/Jl52f/g==
 
-"@manuscripts/style-guide@^0.9.5":
-  version "0.9.5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-0.9.5.tgz#559dc43b4d72d47295c1b65b9e79ee70885334b4"
-  integrity sha512-l24BuVFQ9Us6vRSrqnGw504MNGo0grIPZT8ltcqJqVExsytiNEWS4293Bh5Ke+fcOOykrFWGFl0HhAe6Ie5IAQ==
+"@manuscripts/style-guide@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.10.0.tgz#f97c69f8ec61e378ddd76a9539dc05c3558c882f"
+  integrity sha512-EWJ9Ikwu7iP6OeOo/ypkUDs1br09qVHMVjUZknMOBczKclCk6fku35DHu13tbJP8Be2TKOcgaVlZd8joUuh8Vg==
   dependencies:
-    "@manuscripts/assets" "^0.3.9"
+    "@manuscripts/assets" "^0.3.19"
     lodash-es "^4.17.11"
     react-dnd "^7.4.3"
     react-modal "^3.8.1"
@@ -14713,6 +14713,11 @@ react-color@^2.17.3:
     prop-types "^15.5.10"
     reactcss "^1.2.0"
     tinycolor2 "^1.4.1"
+
+react-detect-offline@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.npmjs.org/react-detect-offline/-/react-detect-offline-2.4.0.tgz#e40f5a588ffb0680bcbcfa33e4d9d39ad805c3ff"
+  integrity sha512-OHglQ8bpbM4x8m23RhRCm1e1cYtuCoLQ7NKHsC0zzm1z2vQIrNTq7MvhZTQ7TsbgK1XapMewLxGW9QEW3DXC9A==
 
 react-dev-utils@^9.0.0:
   version "9.0.1"

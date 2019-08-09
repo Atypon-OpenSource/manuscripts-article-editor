@@ -24,6 +24,7 @@ import {
   MenuSection,
   MenuSections,
 } from './Menu'
+import { OfflineContainer } from './OfflineContainer'
 import ProjectsButton from './ProjectsButton'
 import { UpdatesContainer } from './UpdatesContainer'
 import UserContainer from './UserContainer'
@@ -44,11 +45,11 @@ const Container = styled.div`
 
 export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
   <MenuContainer>
-    <UpdatesContainer>
-      <FilledMenuBarIcon>
+    <FilledMenuBarIcon>
+      <OfflineContainer>
         <NavIcon />
-      </FilledMenuBarIcon>
-    </UpdatesContainer>
+      </OfflineContainer>
+    </FilledMenuBarIcon>
     <MenuSections>
       <MenuSection>
         {active === 'projects' ? (
@@ -61,6 +62,7 @@ export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
       </MenuSection>
 
       <MenuSection>
+        <UpdatesContainer />
         <Support />
         <UserContainer />
       </MenuSection>

@@ -38,6 +38,7 @@ export const theme: Theme = {
       text: {
         primary: colors.manuscriptsGrey,
         secondary: colors.dustyGrey,
+        tertiary: colors.dustyGrey,
         link: colors.manuscriptsBlue,
         error: colors.darkCoral,
       },
@@ -193,7 +194,10 @@ export const theme: Theme = {
       },
     },
     profile: {
-      avatar: colors.darkGrey, // dustyGrey
+      avatar: {
+        default: colors.dustyGrey,
+        hovered: colors.manuscriptsBlue,
+      },
       date: colors.dustyGrey,
     },
     acceptInvitation: {

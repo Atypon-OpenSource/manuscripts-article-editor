@@ -19,13 +19,16 @@ import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
 import { SignInMessage } from '../Messages'
 import { MenuLink } from './Menu'
-import { UserMenu } from './UserMenu'
+import { ProfileDropdown } from './ProfileDropdown'
+import { UserInfo } from './UserInfo'
 
 const UserContainer = () => (
   <UserData userID={getCurrentUserId()!}>
     {user =>
       user ? (
-        <UserMenu user={user} />
+        <ProfileDropdown user={user}>
+          <UserInfo user={user} />
+        </ProfileDropdown>
       ) : (
         <MenuLink to={'/login'}>
           <SignInMessage />

@@ -14,33 +14,52 @@
  * limitations under the License.
  */
 
+import BellNormal from '@manuscripts/assets/react/BellNormal'
 import axios, { CancelTokenSource } from 'axios'
 import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import config from '../../config'
+import { manuscriptsBlue } from '../../theme/colors'
 import { styled } from '../../theme/styled-components'
 import { newestFirst, Popup, Post, Topic, Updates } from './Updates'
 
 const Wrapper = styled.div`
   position: relative;
+  margin: 0 12px;
 `
 
-const Notification = styled.div`
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
+const Bubble = styled.div`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
   position: absolute;
-  top: 10px;
-  right: 0;
-  background: ${props => props.theme.colors.dropdown.notification.default};
+  top: -2px;
+  right: -2px;
+  cursor: pointer;
+  background: ${manuscriptsBlue};
+  border: 2px solid white;
+`
+
+const StyledBellIcon = styled(BellNormal)``
+
+const Icon = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover ${StyledBellIcon} g {
+    fill: ${manuscriptsBlue};
+  }
 `
 
 interface State {
-  error: string | null
+  error?: string
   isOpen: boolean
   loaded: boolean
-  posts: Post[] | null
-  topics: Topic[] | null
+  posts?: Post[]
+  topics?: Topic[]
+  hasUpdates: boolean
 }
 
 export class UpdatesContainer extends React.Component<{}, State> {
@@ -49,11 +68,9 @@ export class UpdatesContainer extends React.Component<{}, State> {
   })
 
   public state: Readonly<State> = {
-    error: null,
     isOpen: false,
     loaded: false,
-    posts: null,
-    topics: null,
+    hasUpdates: false,
   }
 
   private requestInterval: number
@@ -83,7 +100,7 @@ export class UpdatesContainer extends React.Component<{}, State> {
 
   public render() {
     const { children } = this.props
-    const { isOpen, loaded, error, topics, posts } = this.state
+    const { isOpen, loaded, error, topics, posts, hasUpdates } = this.state
 
     if (!config.discourse.host) return children
 
@@ -93,8 +110,10 @@ export class UpdatesContainer extends React.Component<{}, State> {
           <Reference>
             {({ ref }) => (
               <Wrapper ref={ref} onClick={this.toggleOpen}>
-                {this.hasUpdates() && <Notification />}
-                {children}
+                {hasUpdates && <Bubble />}
+                <Icon>
+                  <StyledBellIcon width={32} height={32} />
+                </Icon>
               </Wrapper>
             )}
           </Reference>
@@ -140,14 +159,15 @@ export class UpdatesContainer extends React.Component<{}, State> {
 
     if (response.data) {
       const { posts, topics } = response.data
-      this.setState({ posts, topics, loaded: true })
+      const hasUpdates = this.hasUpdates(topics)
+      this.setState({ posts, topics, loaded: true, hasUpdates })
     } else {
       this.setState({ error: 'No response' })
     }
   }
 
-  private hasUpdates = (): boolean => {
-    const topic = this.latestTopic()
+  private hasUpdates = (topics?: Topic[]): boolean => {
+    const topic = this.latestTopic(topics)
 
     if (!topic) return false
 
@@ -158,9 +178,7 @@ export class UpdatesContainer extends React.Component<{}, State> {
     return latest < topic.created_at
   }
 
-  private latestTopic = (): Topic | null => {
-    const { topics } = this.state
-
+  private latestTopic = (topics?: Topic[]): Topic | null => {
     if (!topics || !topics.length) return null
 
     return topics.sort(newestFirst)[0]
@@ -190,7 +208,7 @@ export class UpdatesContainer extends React.Component<{}, State> {
     const { isOpen } = this.state
 
     if (!isOpen) {
-      const topic = this.latestTopic()
+      const topic = this.latestTopic(this.state.topics)
 
       if (topic) {
         window.localStorage.setItem('changelog', topic.created_at)
@@ -199,6 +217,7 @@ export class UpdatesContainer extends React.Component<{}, State> {
 
     this.setState({
       isOpen: !isOpen,
+      hasUpdates: false,
     })
   }
 }

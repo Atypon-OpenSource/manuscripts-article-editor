@@ -20,20 +20,10 @@ import { Updates } from '../src/components/nav/Updates'
 import { feed } from './data/updates'
 
 storiesOf('Updates', module)
-  .add('Loading', () => (
-    <Updates
-      host={'https://example.com'}
-      posts={null}
-      topics={null}
-      error={null}
-      loaded={false}
-    />
-  ))
+  .add('Loading', () => <Updates host={'https://example.com'} loaded={false} />)
   .add('Error', () => (
     <Updates
       host={'https://example.com'}
-      posts={null}
-      topics={null}
       error={'There was an error'}
       loaded={false}
     />
@@ -43,7 +33,6 @@ storiesOf('Updates', module)
       host={'https://example.com'}
       posts={feed.posts}
       topics={feed.topics}
-      error={null}
       loaded={true}
     />
   ))

@@ -65,9 +65,7 @@ class MenuBar extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <MenuBarIcon id="menu-bar-icon" onClick={this.handleOpen}>
-          {children}
-        </MenuBarIcon>
+        <MenuBarIcon onClick={this.handleOpen}>{children}</MenuBarIcon>
 
         <Modal
           isOpen={this.state.open}

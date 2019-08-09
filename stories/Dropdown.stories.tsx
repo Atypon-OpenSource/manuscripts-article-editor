@@ -22,7 +22,7 @@ import {
   DropdownButton,
   DropdownContainer,
 } from '../src/components/nav/Dropdown'
-import MenuDropdown from '../src/components/nav/MenuDropdown'
+import { ProjectsDropdown } from '../src/components/nav/ProjectsDropdown'
 import { ProjectsDropdownList } from '../src/components/nav/ProjectsDropdownList'
 import { UserInfo } from '../src/components/nav/UserInfo'
 import { user } from './data/contributors'
@@ -40,11 +40,7 @@ storiesOf('Nav/Dropdown', module)
     </DropdownContainer>
   ))
   .add('Menu - Projects Dropdown', () => (
-    <MenuDropdown
-      buttonContents={'Projects'}
-      dropdownStyle={{ width: 342, left: 20 }}
-      removeChevron={true}
-    >
+    <ProjectsDropdown notificationsCount={0}>
       <ProjectsDropdownList
         projects={projects}
         invitationsData={[]}
@@ -55,7 +51,7 @@ storiesOf('Nav/Dropdown', module)
         acceptError={null}
         confirmReject={action('show dialog to confirm invitation rejection')}
       />
-    </MenuDropdown>
+    </ProjectsDropdown>
   ))
   .add('Button', () => (
     <div>

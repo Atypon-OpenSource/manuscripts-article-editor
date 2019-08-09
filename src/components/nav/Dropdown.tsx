@@ -110,7 +110,7 @@ export const DropdownSeparator = styled.div`
   background-color: ${props => props.theme.colors.dropdown.separator};
 `
 
-const DropdownButtonText = styled.div`
+export const DropdownButtonText = styled.div`
   display: flex;
   margin-right: 3px;
 `
@@ -119,7 +119,7 @@ interface DropdownProps {
   isOpen: boolean
 }
 
-const DropdownToggle = styled(ArrowDownUp)`
+export const DropdownToggle = styled(ArrowDownUp)`
   margin-left: 6px;
   transform: rotate(180deg);
 
@@ -136,7 +136,7 @@ const DropdownToggle = styled(ArrowDownUp)`
   }
 `
 
-const NotificationsBadge = styled(Badge)<DropdownProps>`
+export const NotificationsBadge = styled(Badge)<DropdownProps>`
   margin-left: 4px;
   color: ${props =>
     props.isOpen ? props.theme.colors.dropdown.notification.default : 'white'};
@@ -149,7 +149,7 @@ const NotificationsBadge = styled(Badge)<DropdownProps>`
     'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 `
 
-const DropdownButtonContainer = styled.button<DropdownProps>`
+export const DropdownButtonContainer = styled.button<DropdownProps>`
   display: flex;
   align-items: center;
   padding: 5px 10px;

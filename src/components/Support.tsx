@@ -127,7 +127,7 @@ export const Support: React.FC = React.memo(() => {
       <Reference>
         {({ ref }) => (
           <Button ref={ref} onClick={toggleOpen}>
-            <StyledFeedbackIcon />
+            <StyledFeedbackIcon width={32} height={32} />
           </Button>
         )}
       </Reference>
