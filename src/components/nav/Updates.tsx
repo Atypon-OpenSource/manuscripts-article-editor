@@ -121,6 +121,10 @@ export const TopicItem = styled.div`
     margin: 0;
     padding: 10pt;
   }
+
+  & .lightbox-wrapper .meta {
+    display: none;
+  }
 `
 
 export const IndividualTopic = styled.div`
