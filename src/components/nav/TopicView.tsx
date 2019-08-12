@@ -43,6 +43,7 @@ const ALLOWED_TAGS = [
   'ul',
   'ol',
   'li',
+  'br',
 ]
 
 const sanitizedContent = (html: string, max?: number) => {
