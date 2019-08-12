@@ -23,6 +23,7 @@ export const InspectorContainer = styled.div`
   flex-direction: column;
   min-width: 300px;
   padding-right: 16px;
+  overflow: auto;
 `
 
 export const InspectorTabs = styled(Tabs)`

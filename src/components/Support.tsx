@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
+import ChatIcon from '@manuscripts/assets/react/Chat'
 import CommunityIcon from '@manuscripts/assets/react/Community'
 import DocumentationIcon from '@manuscripts/assets/react/Documentation'
-import FeedbackIcon from '@manuscripts/assets/react/FeedbackIcon'
 import SupportIcon from '@manuscripts/assets/react/Support'
 import { Placement } from 'popper.js'
 import React, { useCallback, useState } from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import { NavLink } from 'react-router-dom'
+import config from '../config'
+import { dustyGrey } from '../theme/colors'
 import { css, styled } from '../theme/styled-components'
 import { Popup } from './nav/Updates'
 
@@ -29,7 +31,9 @@ const Button = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  padding: 14px;
+  padding: 14px 8px;
+  line-height: 0;
+  color: ${dustyGrey};
 
   &:focus {
     outline: none;
@@ -40,13 +44,15 @@ const Button = styled.button`
   }
 `
 
-const StyledFeedbackIcon = styled(FeedbackIcon)`
-  path {
-    stroke: #7fb5d5;
+const StyledSupportIcon = styled(SupportIcon)`
+  g {
+    stroke: currentColor;
   }
 
-  text {
-    fill: #7fb5d5;
+  &:hover {
+    g {
+      stroke: #7fb5d5;
+    }
   }
 `
 
@@ -122,12 +128,17 @@ export const Support: React.FC = React.memo(() => {
     setOpen(value => !value)
   }, [])
 
+  const openChat = useCallback((event: React.MouseEvent) => {
+    event.preventDefault()
+    window.$crisp.push(['do', 'chat:open'])
+  }, [])
+
   return (
     <Manager>
       <Reference>
         {({ ref }) => (
           <Button ref={ref} onClick={toggleOpen}>
-            <StyledFeedbackIcon width={32} height={32} />
+            <StyledSupportIcon width={32} height={32} />
           </Button>
         )}
       </Reference>
@@ -155,10 +166,12 @@ export const Support: React.FC = React.memo(() => {
                       <MenuText>Documentation</MenuText>
                     </ExternalMenuLink>
 
-                    <MenuLink to={'/feedback'}>
-                      <SupportIcon />
-                      <MenuText>Support</MenuText>
-                    </MenuLink>
+                    {config.crisp.id && (
+                      <MenuLink to={'/chat'} onClick={openChat}>
+                        <ChatIcon width={22} height={23} />
+                        <MenuText>Support</MenuText>
+                      </MenuLink>
+                    )}
                   </Menu>
                 </Popup>
 

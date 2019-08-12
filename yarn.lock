@@ -1610,9 +1610,14 @@
     "@phosphor/signaling" "^1.2.2"
 
 "@manuscripts/assets@^0.3.13", "@manuscripts/assets@^0.3.19", "@manuscripts/assets@^0.3.9":
-  version "0.3.19"
-  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.19.tgz#d0810c40d5e532efa7d8c3188102b8aa9ed6d7da"
-  integrity sha512-IWpYnpvDxDSpiAyU/eWgvUI+irGUvFTxXM6M6qFU9omwPIZKwQU+bZP3X4mk8f103o1vG4C7SOs9qRaOOjxuGQ==
+  version "0.3.20"
+  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.20.tgz#1122a1c5e39f33b01b3821888f602d9d23ad852c"
+  integrity sha512-frtE+dGjMGYWGX0Ay9Q9s6po/oALfqJaeWzUOVSsvOX5jkTaP4TICKQ7kP+1ieRJiPJR81twJioej4qeqS8naw==
+
+"@manuscripts/assets@^0.3.21":
+  version "0.3.21"
+  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.21.tgz#fa3d0ab25eaf930cefe62c06b8cbf90fa539882c"
+  integrity sha512-CAqc6tY9eMMNHI7YCJJ30H8UGzYPCzheRXwyw5EeqOnTDA+5rUlO+pptj+ZUwTmtsvtCmz+pE4CGz8LRId+p0A==
 
 "@manuscripts/comment-editor@^0.1.0":
   version "0.1.1"

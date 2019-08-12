@@ -62,8 +62,8 @@ export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
       </MenuSection>
 
       <MenuSection>
-        <UpdatesContainer />
         <Support />
+        <UpdatesContainer />
         <UserContainer />
       </MenuSection>
     </MenuSections>
