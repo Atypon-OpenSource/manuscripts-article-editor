@@ -68,6 +68,7 @@ const configuration: webpack.Configuration = {
         url: config.url,
         featureTest: !config.native,
         crisp: config.crisp.id,
+        analytics: config.analytics.id,
       }),
       new webpack.NormalModuleReplacementPlugin(
         /AsyncLoad\.js/,
