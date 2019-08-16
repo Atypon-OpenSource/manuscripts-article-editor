@@ -10,22 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from 'rxdb'
+import { styled } from '../../theme/styled-components'
 
-export const PROFILE_IMAGE_ATTACHMENT = 'image'
-
-export const buildUser = async (
-  doc: RxDocument<UserProfile>
-): Promise<UserProfileWithAvatar> => {
-  const item = doc.toJSON() as UserProfileWithAvatar
-
-  const attachment = doc.getAttachment(PROFILE_IMAGE_ATTACHMENT)
-
-  if (attachment) {
-    item.avatar = window.URL.createObjectURL(await attachment.getData())
-  }
-
-  return item
-}
+export const ApplicationMenuContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`

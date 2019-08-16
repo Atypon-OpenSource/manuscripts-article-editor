@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { ApolloProvider } from '@apollo/react-hooks'
 import React from 'react'
 import { hot } from 'react-hot-loader'
 import { Redirect, Route, Switch } from 'react-router-dom'
@@ -32,6 +33,7 @@ import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
 import { RequireLogin } from './components/RequireLogin'
 import OptionalUserData from './data/OptionalUserData'
 import { TokenData } from './data/TokenData'
+import { apolloClient } from './lib/apollo'
 import Sync from './sync/Sync'
 
 const App: React.FunctionComponent = () => (
@@ -56,239 +58,241 @@ const App: React.FunctionComponent = () => (
                 db={db}
                 tokenActions={tokenActions}
               >
-                <OptionalUserData userProfileID={userProfileID!}>
-                  {user => (
-                    <Switch>
-                      <Route
-                        path={'/'}
-                        exact={true}
-                        render={() =>
-                          user ? (
-                            <Redirect to={'/projects'} />
-                          ) : (
-                            <Redirect
-                              to={{
-                                pathname: `/signup`,
-                                state: {
-                                  errorMessage: 'missing-user-profile',
-                                },
-                              }}
-                            />
-                          )
-                        }
-                      />
+                <ApolloProvider client={apolloClient}>
+                  <OptionalUserData userProfileID={userProfileID!}>
+                    {user => (
+                      <Switch>
+                        <Route
+                          path={'/'}
+                          exact={true}
+                          render={() =>
+                            user ? (
+                              <Redirect to={'/projects'} />
+                            ) : (
+                              <Redirect
+                                to={{
+                                  pathname: `/signup`,
+                                  state: {
+                                    errorMessage: 'missing-user-profile',
+                                  },
+                                }}
+                              />
+                            )
+                          }
+                        />
 
-                      <Route
-                        path={'/login'}
-                        exact={true}
-                        render={props =>
-                          user ? (
-                            <Redirect to={'/projects'} />
-                          ) : (
-                            <LoginPageContainer
+                        <Route
+                          path={'/login'}
+                          exact={true}
+                          render={props =>
+                            user ? (
+                              <Redirect to={'/projects'} />
+                            ) : (
+                              <LoginPageContainer
+                                {...props}
+                                tokenActions={tokenActions}
+                              />
+                            )
+                          }
+                        />
+
+                        <Route
+                          path={'/signup'}
+                          exact={true}
+                          render={props =>
+                            user ? (
+                              <Redirect to={'/projects'} />
+                            ) : (
+                              <SignupPageContainer {...props} />
+                            )
+                          }
+                        />
+
+                        <Route
+                          path={'/recover'}
+                          exact={true}
+                          render={props =>
+                            user ? (
+                              <Redirect to={'/projects'} />
+                            ) : (
+                              <RecoverPageContainer
+                                {...props}
+                                tokenActions={tokenActions}
+                              />
+                            )
+                          }
+                        />
+
+                        <Route
+                          path={'/change-password'}
+                          exact={true}
+                          render={props =>
+                            user ? (
+                              <ChangePasswordPageContainer
+                                {...props}
+                                tokenActions={tokenActions}
+                              />
+                            ) : (
+                              <RequireLogin {...props} />
+                            )
+                          }
+                        />
+
+                        <Route
+                          path={'/community'}
+                          exact={true}
+                          render={props =>
+                            user ? (
+                              <CommunityLoginPageContainer {...props} />
+                            ) : (
+                              <RequireLogin {...props}>
+                                Please sign in here at Manuscripts.io first.
+                                Your Manuscripts.io account signs you in also to
+                                community.manuscripts.io.
+                              </RequireLogin>
+                            )
+                          }
+                        />
+
+                        <Route
+                          path={'/delete-account'}
+                          exact={true}
+                          render={props =>
+                            user ? (
+                              <DeleteAccountPageContainer
+                                tokenActions={tokenActions}
+                                {...props}
+                              />
+                            ) : (
+                              <RequireLogin {...props} />
+                            )
+                          }
+                        />
+
+                        <Route
+                          path={'/profile'}
+                          exact={true}
+                          render={props =>
+                            user ? (
+                              <ProfilePageContainer {...props} />
+                            ) : (
+                              <RequireLogin {...props} />
+                            )
+                          }
+                        />
+
+                        <Route
+                          path={'/feedback'}
+                          render={props =>
+                            user ? (
+                              <FeedbackPageContainer
+                                tokenActions={tokenActions}
+                                {...props}
+                              />
+                            ) : (
+                              <RequireLogin {...props} />
+                            )
+                          }
+                        />
+
+                        <Route
+                          path={'/projects'}
+                          render={props =>
+                            user ? (
+                              <Switch {...props}>
+                                <Route
+                                  path={
+                                    '/projects/:projectID/invitation/:invitationToken'
+                                  }
+                                  component={AcceptInvitationURIContainer}
+                                />
+
+                                <Route
+                                  path={'/projects/:projectID'}
+                                  render={props => (
+                                    <ProjectPageContainer
+                                      {...props}
+                                      tokenActions={tokenActions}
+                                      key={props.match.params.projectID}
+                                    />
+                                  )}
+                                />
+
+                                <Route
+                                  path={'/projects'}
+                                  render={props => (
+                                    <ProjectsPageContainer
+                                      {...props}
+                                      tokenActions={tokenActions}
+                                      errorMessage={
+                                        props.location.state
+                                          ? props.location.state.errorMessage
+                                          : null
+                                      }
+                                    />
+                                  )}
+                                />
+                              </Switch>
+                            ) : (
+                              <Switch {...props}>
+                                <Route
+                                  path={
+                                    '/projects/:projectID/invitation/:invitationToken'
+                                  }
+                                  render={props => (
+                                    <RequireLogin {...props}>
+                                      You must sign in first to access the
+                                      shared project.
+                                    </RequireLogin>
+                                  )}
+                                />
+
+                                <Route
+                                  path={'/projects/:projectID'}
+                                  render={props => (
+                                    <RequireLogin {...props}>
+                                      You must sign in to access this project.
+                                    </RequireLogin>
+                                  )}
+                                />
+
+                                <Route
+                                  path={'/projects'}
+                                  render={props => <RequireLogin {...props} />}
+                                />
+                              </Switch>
+                            )
+                          }
+                        />
+
+                        <Route
+                          path={'/invitation'}
+                          exact={true}
+                          component={AcceptEmailInvitationPageContainer}
+                        />
+
+                        <Route
+                          path={'/logout'}
+                          exact={true}
+                          render={props => (
+                            <LogoutPageContainer
                               {...props}
                               tokenActions={tokenActions}
                             />
-                          )
-                        }
-                      />
+                          )}
+                        />
 
-                      <Route
-                        path={'/signup'}
-                        exact={true}
-                        render={props =>
-                          user ? (
-                            <Redirect to={'/projects'} />
-                          ) : (
-                            <SignupPageContainer {...props} />
-                          )
-                        }
-                      />
+                        <Route
+                          path={'/developer'}
+                          exact={true}
+                          component={DeveloperPageContainer}
+                        />
 
-                      <Route
-                        path={'/recover'}
-                        exact={true}
-                        render={props =>
-                          user ? (
-                            <Redirect to={'/projects'} />
-                          ) : (
-                            <RecoverPageContainer
-                              {...props}
-                              tokenActions={tokenActions}
-                            />
-                          )
-                        }
-                      />
-
-                      <Route
-                        path={'/change-password'}
-                        exact={true}
-                        render={props =>
-                          user ? (
-                            <ChangePasswordPageContainer
-                              {...props}
-                              tokenActions={tokenActions}
-                            />
-                          ) : (
-                            <RequireLogin {...props} />
-                          )
-                        }
-                      />
-
-                      <Route
-                        path={'/community'}
-                        exact={true}
-                        render={props =>
-                          user ? (
-                            <CommunityLoginPageContainer {...props} />
-                          ) : (
-                            <RequireLogin {...props}>
-                              Please sign in here at Manuscripts.io first. Your
-                              Manuscripts.io account signs you in also to
-                              community.manuscripts.io.
-                            </RequireLogin>
-                          )
-                        }
-                      />
-
-                      <Route
-                        path={'/delete-account'}
-                        exact={true}
-                        render={props =>
-                          user ? (
-                            <DeleteAccountPageContainer
-                              tokenActions={tokenActions}
-                              {...props}
-                            />
-                          ) : (
-                            <RequireLogin {...props} />
-                          )
-                        }
-                      />
-
-                      <Route
-                        path={'/profile'}
-                        exact={true}
-                        render={props =>
-                          user ? (
-                            <ProfilePageContainer {...props} />
-                          ) : (
-                            <RequireLogin {...props} />
-                          )
-                        }
-                      />
-
-                      <Route
-                        path={'/feedback'}
-                        render={props =>
-                          user ? (
-                            <FeedbackPageContainer
-                              tokenActions={tokenActions}
-                              {...props}
-                            />
-                          ) : (
-                            <RequireLogin {...props} />
-                          )
-                        }
-                      />
-
-                      <Route
-                        path={'/projects'}
-                        render={props =>
-                          user ? (
-                            <Switch {...props}>
-                              <Route
-                                path={
-                                  '/projects/:projectID/invitation/:invitationToken'
-                                }
-                                component={AcceptInvitationURIContainer}
-                              />
-
-                              <Route
-                                path={'/projects/:projectID'}
-                                render={props => (
-                                  <ProjectPageContainer
-                                    {...props}
-                                    tokenActions={tokenActions}
-                                    key={props.match.params.projectID}
-                                  />
-                                )}
-                              />
-
-                              <Route
-                                path={'/projects'}
-                                render={props => (
-                                  <ProjectsPageContainer
-                                    {...props}
-                                    tokenActions={tokenActions}
-                                    errorMessage={
-                                      props.location.state
-                                        ? props.location.state.errorMessage
-                                        : null
-                                    }
-                                  />
-                                )}
-                              />
-                            </Switch>
-                          ) : (
-                            <Switch {...props}>
-                              <Route
-                                path={
-                                  '/projects/:projectID/invitation/:invitationToken'
-                                }
-                                render={props => (
-                                  <RequireLogin {...props}>
-                                    You must sign in first to access the shared
-                                    project.
-                                  </RequireLogin>
-                                )}
-                              />
-
-                              <Route
-                                path={'/projects/:projectID'}
-                                render={props => (
-                                  <RequireLogin {...props}>
-                                    You must sign in to access this project.
-                                  </RequireLogin>
-                                )}
-                              />
-
-                              <Route
-                                path={'/projects'}
-                                render={props => <RequireLogin {...props} />}
-                              />
-                            </Switch>
-                          )
-                        }
-                      />
-
-                      <Route
-                        path={'/invitation'}
-                        exact={true}
-                        component={AcceptEmailInvitationPageContainer}
-                      />
-
-                      <Route
-                        path={'/logout'}
-                        exact={true}
-                        render={props => (
-                          <LogoutPageContainer
-                            {...props}
-                            tokenActions={tokenActions}
-                          />
-                        )}
-                      />
-
-                      <Route
-                        path={'/developer'}
-                        exact={true}
-                        component={DeveloperPageContainer}
-                      />
-
-                      <Route component={NotFoundPage} />
-                    </Switch>
-                  )}
-                </OptionalUserData>
+                        <Route component={NotFoundPage} />
+                      </Switch>
+                    )}
+                  </OptionalUserData>
+                </ApolloProvider>
               </Sync>
             </Sync>
           ) : (

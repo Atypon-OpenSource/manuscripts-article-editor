@@ -1,7 +1,7 @@
-const webpack = require('webpack')
+// const webpack = require('webpack')
 const WorkerPlugin = require('worker-plugin')
 
-module.exports = ({ config, mode }) => {
+module.exports = ({config, mode}) => {
   console.log(mode) // tslint:disable-line:no-console
 
   // storybookBaseConfig.mode = configType.toLowerCase()
@@ -31,6 +31,12 @@ module.exports = ({ config, mode }) => {
     },
   })
 
+  // remove the image rule
+  // https://github.com/storybookjs/storybook/issues/5941
+  config.module.rules = config.module.rules.filter(
+    rule => !rule.test.toString().includes('png')
+  )
+
   config.module.rules.push({
     test: /\.(png|jpg|gif)$/,
     use: ['file-loader'],
@@ -50,23 +56,23 @@ module.exports = ({ config, mode }) => {
     new webpack.NormalModuleReplacementPlugin(/AsyncLoad\.js/, resource => {
       resource.request = resource.request.replace(
         /AsyncLoad/,
-        'AsyncLoad-disabled'
+        'AsyncLoad-disabled',
       )
-    })
+    }),
   )
 
   config.plugins.push(
     new webpack.ContextReplacementPlugin(
       /codemirror[\/\\]mode$/,
-      /javascript|stex/ // TODO: all the modes needed for the listing format switcher
-    )
+      /javascript|stex/, // TODO: all the modes needed for the listing format switcher
+    ),
   )
 
   config.plugins.push(
     new webpack.ContextReplacementPlugin(
       /react-intl[\/\\]locale-data$/,
-      /en|ar|zh/ // TODO: all the locales needed for the locale switcher
-    )
+      /en|ar|zh/, // TODO: all the locales needed for the locale switcher
+    ),
   )
 
   config.plugins.push(new WorkerPlugin())

@@ -22,6 +22,10 @@ interface Config {
     url: string
     headers: object
   }
+  beacon: {
+    http: string
+    ws: string
+  }
   discourse: {
     host: string
   }
@@ -85,6 +89,10 @@ const config = {
     headers: {
       'manuscripts-app-id': process.env.API_APPLICATION_ID,
     },
+  },
+  beacon: {
+    http: process.env.BEACON_HTTP_URL,
+    ws: process.env.BEACON_WS_URL,
   },
   data: {
     url: normalizeURL(process.env.DATA_URL),

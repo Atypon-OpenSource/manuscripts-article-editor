@@ -20,6 +20,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import UserAffiliationsData from '../../data/UserAffiliationsData'
 import UserData from '../../data/UserData'
+import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import { getCurrentUserId } from '../../lib/user'
 import { Collection } from '../../sync/Collection'
 import { ProfileErrors, ProfileValues } from './ProfileForm'
@@ -129,7 +130,7 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
     userCollection: Collection<UserProfile>
   ) => async (data: Blob) => {
     await userCollection.putAttachment(id, {
-      id: 'image',
+      id: PROFILE_IMAGE_ATTACHMENT,
       type: data.type,
       data,
     })
@@ -145,7 +146,7 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
       throw new Error('Document not found')
     }
 
-    const attachment = doc.getAttachment('image')
+    const attachment = doc.getAttachment(PROFILE_IMAGE_ATTACHMENT)
 
     return attachment.remove()
   }

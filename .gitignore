@@ -1,6 +1,7 @@
 .cache
 .env
 *.log
+stats.json
 .cache/
 build/
 coverage/

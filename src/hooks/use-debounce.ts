@@ -10,22 +10,20 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from 'rxdb'
+import { useEffect, useState } from 'react'
 
-export const PROFILE_IMAGE_ATTACHMENT = 'image'
+export const useDebounce = <T>(value: T, delay: number): T => {
+  const [debouncedValue, setDebouncedValue] = useState(value)
 
-export const buildUser = async (
-  doc: RxDocument<UserProfile>
-): Promise<UserProfileWithAvatar> => {
-  const item = doc.toJSON() as UserProfileWithAvatar
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
 
-  const attachment = doc.getAttachment(PROFILE_IMAGE_ATTACHMENT)
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [value, delay])
 
-  if (attachment) {
-    item.avatar = window.URL.createObjectURL(await attachment.getData())
-  }
-
-  return item
+  return debouncedValue
 }

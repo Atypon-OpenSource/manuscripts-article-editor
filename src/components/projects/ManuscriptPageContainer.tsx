@@ -114,6 +114,7 @@ import { ThemeProvider } from '../../theme/ThemeProvider'
 import { Permissions } from '../../types/permissions'
 
 import { TitleEditorState, TitleEditorView } from '@manuscripts/title-editor'
+import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
@@ -126,6 +127,7 @@ import Panel from '../Panel'
 import { ManuscriptPlaceholder } from '../Placeholders'
 import CitationStyleSelector from '../templates/CitationStyleSelector'
 import TemplateSelector from '../templates/TemplateSelector'
+import { ApplicationMenuContainer } from './ApplicationMenuContainer'
 import {
   EditorBody,
   EditorContainer,
@@ -142,6 +144,8 @@ import {
   ManuscriptPageToolbar,
 } from './ManuscriptPageToolbar'
 import ManuscriptSidebar from './ManuscriptSidebar'
+import { Presence } from './Presence'
+import { PresenceList } from './PresenceList'
 import { ReloadDialog } from './ReloadDialog'
 import RenameProject from './RenameProject'
 
@@ -408,9 +412,22 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         <Main>
           <EditorContainer>
             <EditorContainerInner>
+              <Presence
+                containerId={projectID}
+                deviceId={deviceId}
+                manuscriptId={manuscript._id}
+                selectedElementId={element ? element._id : undefined}
+              />
+
               {view && permissions.write && !config.native && (
                 <EditorHeader>
-                  <ApplicationMenu menus={this.buildMenus()} view={view} />
+                  <ApplicationMenuContainer>
+                    <ApplicationMenu menus={this.buildMenus()} view={view} />
+                    <PresenceList
+                      containerId={projectID}
+                      getCollaborator={this.getCollaborator}
+                    />
+                  </ApplicationMenuContainer>
 
                   {activeEditor && (
                     <ManuscriptPageToolbar
@@ -1184,7 +1201,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         } else if (isUserProfile(model)) {
           ;(model as UserProfileWithAvatar).avatar = await getAttachment(
             modelDocument,
-            'image'
+            PROFILE_IMAGE_ATTACHMENT
           )
         }
 

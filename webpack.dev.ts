@@ -45,6 +45,10 @@ const configuration: webpack.Configuration = merge(common, {
             ],
           },
           {
+            test: /\.mjs$/,
+            type: 'javascript/auto',
+          },
+          {
             test: /\.css$/,
             use: ['style-loader', 'css-loader'],
           },

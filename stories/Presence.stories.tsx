@@ -10,22 +10,25 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from 'rxdb'
+import { storiesOf } from '@storybook/react'
+import React from 'react'
+import {
+  PresenceListView,
+  UserPresence,
+} from '../src/components/projects/PresenceList'
+import { people } from './data/people'
 
-export const PROFILE_IMAGE_ATTACHMENT = 'image'
+const users: UserPresence[] = people.map(profile => ({
+  profile,
+  presence: {
+    containerId: 'MPProject: 1',
+    datetime: new Date().toUTCString(),
+    deviceId: 'foo',
+    idle: false,
+    userId: profile._id,
+  },
+}))
 
-export const buildUser = async (
-  doc: RxDocument<UserProfile>
-): Promise<UserProfileWithAvatar> => {
-  const item = doc.toJSON() as UserProfileWithAvatar
-
-  const attachment = doc.getAttachment(PROFILE_IMAGE_ATTACHMENT)
-
-  if (attachment) {
-    item.avatar = window.URL.createObjectURL(await attachment.getData())
-  }
-
-  return item
-}
+storiesOf('Presence', module).add('Presence List', () => (
+  <PresenceListView users={users} />
+))

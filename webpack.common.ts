@@ -30,6 +30,8 @@ const configuration: webpack.Configuration = {
         'API_APPLICATION_ID',
         'API_BASE_URL',
         'BASE_URL',
+        'BEACON_HTTP_URL',
+        'BEACON_WS_URL',
         'CI_ENVIRONMENT_NAME',
         'CRISP_WEBSITE_ID',
         'DATA_URL',
@@ -108,7 +110,7 @@ const configuration: webpack.Configuration = {
     return plugins
   })(),
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.json'],
+    extensions: ['.tsx', '.ts', '.mjs', '.js', '.json'],
   },
 }
 

@@ -32,6 +32,10 @@ const configuration: webpack.Configuration = merge(common, {
             use: 'babel-loader',
           },
           {
+            test: /\.mjs$/,
+            type: 'javascript/auto',
+          },
+          {
             test: /\.css$/,
             // use: ExtractTextPlugin.extract({
             //   fallback: 'style-loader',
