@@ -16,6 +16,7 @@ before_script:
 
 stages:
   - test
+  - pages
 
 lint_test_build:
   stage: test
@@ -101,3 +102,17 @@ testcafe-chromium-manual:
   when: manual
   tags:
     - docker-compose
+
+pages:
+  stage: pages
+  script:
+    - yarn install --frozen-lockfile --non-interactive
+    - mkdir public
+    - cp LICENSE public/
+    - cp node_modules/@manuscripts/assets/png/CPALLicenseSplash.png public/
+  artifacts:
+    paths:
+      - public
+  only:
+    refs:
+      - master

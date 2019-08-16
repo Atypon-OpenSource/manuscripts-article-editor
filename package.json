@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": "true",
   "repository": "gitlab:mpapp-private/manuscripts-frontend",
-  "license": "MIT",
+  "license": "CPAL-1.0",
   "main": "dist",
   "files": [
     "dist"
@@ -16,7 +16,7 @@
     "test": "jest --runInBand --detectOpenHandles --forceExit",
     "testcafe": "testcafe",
     "testcafe-live": "testcafe-live",
-    "lint": "tslint --project .",
+    "lint": "tslint --project . --config tslint.config.js",
     "typecheck": "tsc --noEmit",
     "prettier": "prettier --write \"{src,stories,tests}/**/*.{js,ts,tsx,css}\"",
     "stats": "yarn --silent build --json > stats.json",
