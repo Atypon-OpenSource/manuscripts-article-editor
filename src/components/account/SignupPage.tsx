@@ -20,7 +20,6 @@ import {
   ConnectLogin,
   GoogleLogin,
 } from './Authentication'
-import FooterContainer from './FooterContainer'
 import { SignupForm, SignupValues } from './SignupForm'
 
 const SignupPage: React.FunctionComponent<FormikConfig<SignupValues>> = ({
@@ -48,8 +47,6 @@ const SignupPage: React.FunctionComponent<FormikConfig<SignupValues>> = ({
         )}
       </div>
     </AuthenticationContainer>
-
-    <FooterContainer />
   </Centered>
 )
 

@@ -35,12 +35,11 @@ const IconButtonWithText = styled.div`
   align-items: center;
   cursor: pointer;
   border-radius: 5px;
-  box-shadow: 0px 1px #ddd;
   margin: 10px;
 `
 
 const GoogleImage = styled.span`
-  height: 25px;
+  height: 45px;
   padding: 5px 10px 5px 18px;
 `
 
@@ -73,7 +72,7 @@ export const GoogleLogin: React.FunctionComponent<
 > = ({ redirect }) => (
   <IconButtonWithText onClick={redirect('google')}>
     <GoogleImage>
-      <GoogleIcon size={25} title={'Google logo'} />
+      <GoogleIcon size={45} title={'Google logo'} />
     </GoogleImage>
     <ButtonText>Google</ButtonText>
   </IconButtonWithText>

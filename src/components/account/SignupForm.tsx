@@ -21,6 +21,7 @@ import {
 } from '@manuscripts/style-guide'
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
+import { styled } from '../../theme/styled-components'
 import { FormLink } from '../Form'
 import { Hero, SubHero } from '../Hero'
 
@@ -33,6 +34,11 @@ export interface SignupValues {
 export interface SignupErrors {
   submit?: string
 }
+
+const HeavyLink = styled.a`
+  font-weight: 500;
+  color: inherit;
+`
 
 export const SignupForm: React.FunctionComponent<
   FormikProps<SignupValues & SignupErrors>
@@ -97,6 +103,14 @@ export const SignupForm: React.FunctionComponent<
     {errors.submit && (
       <FormError className="form-error">{errors.submit}</FormError>
     )}
+
+    <div>
+      By signing up you agree to our{' '}
+      <HeavyLink href={'https://www.atypon.com/privacy-policy/'}>
+        Privacy policy
+      </HeavyLink>
+      .<br />
+    </div>
 
     <FormActions>
       <div>

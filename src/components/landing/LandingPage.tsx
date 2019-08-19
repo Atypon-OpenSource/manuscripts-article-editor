@@ -45,7 +45,7 @@ const Title = styled.h1`
   height: 47px;
   line-height: 0.76;
   padding-bottom: 0px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 `
 
 const Subtitle = styled.h2`
@@ -62,7 +62,6 @@ const Subtitle = styled.h2`
   padding-left: 20px;
   padding-right: 20px;
   margin: auto;
-  margin-top: 10px;
   width: 800px;
 
   & > div > input {
@@ -95,14 +94,6 @@ const BlackSubtitle = styled(Subtitle)`
   color: #2a6f9d;
 `
 
-const NewsletterSignupSubtitle = styled(BlackSubtitle)`
-  font-size: 22px;
-  margin-top: 0px;
-  text-align: center;
-  margin: auto;
-  padding: 0;
-`
-
 const HeaderBar = styled.div`
   height: 80px;
   display: flex;
@@ -123,6 +114,13 @@ const Logotype = styled.div`
   font-size: 20px;
   margin-left: -2px;
   padding-bottom: 3px;
+`
+
+const HeavyLink = styled.a`
+  font-weight: 500;
+  color: inherit;
+  display: block;
+  text-decoration: none;
 `
 
 const Link = styled.a`
@@ -408,24 +406,6 @@ const AlphaTestPrompt = styled.div`
   }
 `
 
-const NewsletterSignupPrompt = styled(AlphaTestPrompt)`
-  margin-top: 30px;
-  margin-bottom: 20px;
-  border-color: #d8edf8;
-  width: 395px;
-  padding-left: 0;
-  padding-right: 0;
-
-  @media only screen and (max-width: 600px) {
-    border-radius: 0px;
-    border-left: none;
-    border-right: none;
-    padding-left: 0px;
-    padding-right: 0px;
-    width: 100%;
-  }
-`
-
 const Footer = styled.div`
   max-width: 65%;
   text-align: center;
@@ -469,7 +449,7 @@ const LandingPage: React.FunctionComponent = ({}) => (
       <Title>Welcome to Manuscripts.io</Title>
       <Subtitle>
         <div>
-          We are building a simple, <i>open</i> writing tool for complex
+          Manuscripts is a simple, <i>open</i> writing tool for complex
           documents.
         </div>
         <div>
@@ -479,13 +459,6 @@ const LandingPage: React.FunctionComponent = ({}) => (
         </div>
       </Subtitle>
 
-      <NewsletterSignupPrompt>
-        <NewsletterSignupSubtitle>
-          Sign up to learn more.
-          <MailchimpSubscribe url={MAILCHIMP_URL} />
-        </NewsletterSignupSubtitle>
-      </NewsletterSignupPrompt>
-
       <CenteredImageContainer>
         <Screenshot src={ScreenshotChrome} />
       </CenteredImageContainer>
@@ -493,9 +466,10 @@ const LandingPage: React.FunctionComponent = ({}) => (
       <ScreenshotCaptionContainer>
         <img src={AddedTick} width={59} />
         <ScreenshotCaption>
-          <b>COMING SOON</b>
-          <br />
-          One beautiful app for collaborating in real time, online and offline.
+          <b>
+            One beautiful app for collaborative writing in real time, online and
+            offline.
+          </b>
         </ScreenshotCaption>
       </ScreenshotCaptionContainer>
     </Header>
@@ -968,6 +942,11 @@ const LandingPage: React.FunctionComponent = ({}) => (
       </TeamGrid>
       <Footer>
         <div>Copyright © 2019 Atypon Systems, LLC.</div>
+        <div>
+          <HeavyLink href={'https://www.atypon.com/privacy-policy/'}>
+            Privacy policy
+          </HeavyLink>
+        </div>
       </Footer>
     </TeamSection>
   </>

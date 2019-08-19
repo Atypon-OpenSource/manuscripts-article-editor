@@ -25,6 +25,7 @@ import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
 import { TokenPayload } from '../../lib/user'
 import userID from '../../lib/user-id'
+import { styled } from '../../theme/styled-components'
 import { loginSchema } from '../../validation'
 import { Main, Page } from '../Page'
 import { LoginValues } from './LoginForm'
@@ -36,6 +37,23 @@ interface ResendVerificationData {
   email: string
   type: AlertMessageType
 }
+
+const FooterContainer = styled.div`
+  padding-bottom: 10px;
+  padding-left: 20px;
+  height: 50px;
+  margin: auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`
+
+const HeavyLink = styled.a`
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none;
+`
 
 type AlertFunction = React.FunctionComponent
 
@@ -147,6 +165,14 @@ class LoginPageContainer extends React.Component<
               }
             }}
           />
+          <FooterContainer>
+            <div>Copyright © 2019 Atypon Systems, LLC.</div>
+            <div>
+              <HeavyLink href={'https://www.atypon.com/privacy-policy/'}>
+                Privacy policy
+              </HeavyLink>
+            </div>
+          </FooterContainer>
         </Main>
       </Page>
     )

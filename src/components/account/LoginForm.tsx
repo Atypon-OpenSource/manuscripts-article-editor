@@ -48,6 +48,11 @@ const RecoverLink = styled(Link)`
   color: ${props => props.theme.colors.global.text.error};
 `
 
+const HeavyLink = styled.a`
+  font-weight: 500;
+  color: inherit;
+`
+
 interface Props {
   submitErrorType?: string
 }
@@ -107,6 +112,14 @@ export const LoginForm: React.FunctionComponent<
         )}
       </Field>
     </TextFieldGroupContainer>
+
+    <div>
+      By signing in you agree to our{' '}
+      <HeavyLink href={'https://www.atypon.com/privacy-policy/'}>
+        Privacy policy
+      </HeavyLink>
+      .<br />
+    </div>
 
     <FormActions>
       <ManuscriptLinks>
