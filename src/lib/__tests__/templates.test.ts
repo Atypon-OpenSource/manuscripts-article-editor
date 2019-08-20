@@ -24,6 +24,7 @@ import {
   Publisher,
   ResearchField,
   SectionCategory,
+  SectionDescription,
   TemplatesDataType,
 } from '../../types/templates'
 import { bundles } from '../__fixtures__/bundles'
@@ -40,13 +41,14 @@ import {
   buildManuscriptTitle,
   buildResearchFields,
   buildSectionFromDescription,
-  categoriseSectionRequirements,
   chooseBundleID,
   chooseSectionTitle,
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
   fromPrototype,
+  isCoverLetter,
+  isMandatorySubsectionsRequirement,
   prepareRequirements,
 } from '../templates'
 
@@ -138,22 +140,6 @@ describe('templates', () => {
     expect(buildResearchFields(researchFieldsMap)).toEqual(
       orderBy(researchFields, 'priority', 'asc')
     )
-  })
-
-  test('categorise section requirements', async () => {
-    const template = exampleTemplate()
-
-    const requirements = prepareRequirements(template, templatesMap)
-
-    expect(requirements).toHaveLength(5)
-
-    const {
-      requiredSections,
-      manuscriptSections,
-    } = categoriseSectionRequirements(requirements)
-
-    expect(manuscriptSections).toHaveLength(1)
-    expect(requiredSections).toHaveLength(4)
   })
 
   test('choose section title from category', async () => {
@@ -268,7 +254,16 @@ describe('templates', () => {
 
     expect(requirements).toHaveLength(5)
 
-    const { requiredSections } = categoriseSectionRequirements(requirements)
+    const mandatorySubsectionsRequirements = requirements.filter(
+      isMandatorySubsectionsRequirement
+    )
+
+    const requiredSections: SectionDescription[] = mandatorySubsectionsRequirements.flatMap(
+      requirement =>
+        requirement.embeddedSectionDescriptions.filter(
+          sectionDescription => !isCoverLetter(sectionDescription)
+        )
+    )
 
     const items = createManuscriptSectionsFromTemplate(
       requiredSections,

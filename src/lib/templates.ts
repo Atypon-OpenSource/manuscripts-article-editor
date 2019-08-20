@@ -40,16 +40,45 @@ import {
   TemplatesDataType,
 } from '../types/templates'
 
-export const DEFAULT_CATEGORY = 'MPManuscriptCategory:research-article'
+export const RESEARCH_ARTICLE_CATEGORY = 'MPManuscriptCategory:research-article'
+export const COVER_LETTER_CATEGORY = 'MPManuscriptCategory:cover-letter'
+export const DEFAULT_CATEGORY = RESEARCH_ARTICLE_CATEGORY
+
+export const COVER_LETTER_SECTION_CATEGORY = 'MPSectionCategory:cover-letter'
+export const COVER_LETTER_PLACEHOLDER =
+  'A letter sent along with your manuscript to explain it.'
 
 const client = axios.create({
   baseURL: config.data.url,
 })
 
-const isMandatorySubsectionsRequirement = (
+export const isMandatorySubsectionsRequirement = (
   requirement: Model
 ): requirement is MandatorySubsectionsRequirement =>
   requirement.objectType === 'MPMandatorySubsectionsRequirement'
+
+export const isCoverLetter = (
+  sectionDescription: SectionDescription
+): boolean =>
+  sectionDescription.sectionCategory === COVER_LETTER_SECTION_CATEGORY
+
+export const findCoverLetterDescription = (
+  requirements: MandatorySubsectionsRequirement[]
+): SectionDescription | undefined => {
+  for (const requirement of requirements) {
+    for (const sectionDescription of requirement.embeddedSectionDescriptions) {
+      if (isCoverLetter(sectionDescription)) {
+        return sectionDescription
+      }
+    }
+  }
+}
+
+export const createCoverLetterDescription = (): SectionDescription => ({
+  _id: generateID(ObjectTypes.SectionDescription),
+  objectType: ObjectTypes.SectionDescription,
+  sectionCategory: COVER_LETTER_SECTION_CATEGORY,
+})
 
 export const prepareRequirements = (
   template: ManuscriptTemplate,
@@ -89,34 +118,6 @@ export const prepareRequirements = (
 
     return requirement as RequirementType
   })
-}
-
-export const categoriseSectionRequirements = (
-  requirements: RequirementType[]
-) => {
-  const subsectionsRequirements = requirements.filter(
-    isMandatorySubsectionsRequirement
-  )
-
-  const requiredSections: SectionDescription[] = []
-  const manuscriptSections: SectionDescription[] = []
-
-  for (const requirement of subsectionsRequirements) {
-    for (const sectionDescription of requirement.embeddedSectionDescriptions) {
-      switch (sectionDescription.sectionCategory) {
-        // Handle Cover Letter requirement as a separate manuscript
-        case 'MPSectionCategory:cover-letter':
-          manuscriptSections.push(sectionDescription)
-          break
-
-        default:
-          requiredSections.push(sectionDescription)
-          break
-      }
-    }
-  }
-
-  return { requiredSections, manuscriptSections }
 }
 
 export const chooseSectionTitle = (

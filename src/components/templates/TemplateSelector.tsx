@@ -47,15 +47,22 @@ import {
   buildManuscriptTitle,
   buildResearchFields,
   buildSectionFromDescription,
-  categoriseSectionRequirements,
   chooseBundleID,
   chooseSectionTitle,
+  COVER_LETTER_CATEGORY,
+  COVER_LETTER_PLACEHOLDER,
+  COVER_LETTER_SECTION_CATEGORY,
+  createCoverLetterDescription,
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
   fetchSharedData,
+  findCoverLetterDescription,
   fromPrototype,
+  isCoverLetter,
+  isMandatorySubsectionsRequirement,
   prepareRequirements,
+  RESEARCH_ARTICLE_CATEGORY,
 } from '../../lib/templates'
 import { Collection } from '../../sync/Collection'
 import {
@@ -64,6 +71,7 @@ import {
   RequirementType,
   ResearchField,
   SectionCategory,
+  SectionDescription,
   TemplateData,
   TemplatesDataType,
 } from '../../types/templates'
@@ -486,9 +494,9 @@ class TemplateSelector extends React.Component<
 
     const collection = await createProjectCollection(db, projectID)
 
-    let priority = await nextManuscriptPriority(collection as Collection<
-      Manuscript
-    >)
+    const priority = newProject
+      ? 1
+      : await nextManuscriptPriority(collection as Collection<Manuscript>)
 
     const newStyles = this.createNewStyles(styles)
 
@@ -500,7 +508,7 @@ class TemplateSelector extends React.Component<
       ...buildManuscript(title),
       bundle: newBundle._id,
       pageLayout: newPageLayout._id,
-      priority: priority++,
+      priority,
       // colorScheme: colorScheme ? colorScheme._id : DEFAULT_COLOR_SCHEME,
     }
 
@@ -552,12 +560,19 @@ class TemplateSelector extends React.Component<
         })
       )
 
-      const {
-        requiredSections,
-        manuscriptSections,
-      } = categoriseSectionRequirements(requirements)
+      const mandatorySubsectionsRequirements = requirements.filter(
+        isMandatorySubsectionsRequirement
+      )
+
+      const requiredSections: SectionDescription[] = mandatorySubsectionsRequirements.flatMap(
+        requirement =>
+          requirement.embeddedSectionDescriptions.filter(
+            sectionDescription => !isCoverLetter(sectionDescription)
+          )
+      )
 
       if (requiredSections.length && sectionCategories) {
+        // create the required sections, if there are any
         const items = createManuscriptSectionsFromTemplate(
           requiredSections,
           sectionCategories
@@ -567,6 +582,7 @@ class TemplateSelector extends React.Component<
           await saveManuscriptModel(item)
         }
       } else {
+        // create an empty section, if there are no required sections
         const paragraph = createEmptyParagraph(newPageLayout)
 
         await saveManuscriptModel<ParagraphElement>(paragraph)
@@ -579,41 +595,63 @@ class TemplateSelector extends React.Component<
 
       await saveManuscriptModel(mergedTemplate)
 
-      // save any extra manuscripts
-      for (const sectionDescription of manuscriptSections) {
-        const sectionCategory = sectionCategories!.get(
-          sectionDescription.sectionCategory
+      // create a cover letter manuscript alongside the first manuscript, if it's a research article or has a cover letter section description in the template
+      if (priority === 1 && sectionCategories) {
+        // create a cover letter manuscript
+        let coverLetterDescription:
+          | SectionDescription
+          | undefined = findCoverLetterDescription(
+          mandatorySubsectionsRequirements
         )
 
-        const manuscriptTitle = chooseSectionTitle(
-          sectionDescription,
-          sectionCategory
-        )
-
-        const extraManuscript = buildManuscript(manuscriptTitle)
-
-        const containerIDs = {
-          containerID: projectID,
-          manuscriptID: extraManuscript._id,
+        if (
+          !coverLetterDescription &&
+          mergedTemplate.category === RESEARCH_ARTICLE_CATEGORY
+        ) {
+          coverLetterDescription = createCoverLetterDescription()
         }
 
-        const { section, dependencies } = buildSectionFromDescription(
-          sectionDescription,
-          1,
-          sectionCategory
-        )
+        if (coverLetterDescription) {
+          const sectionCategory = sectionCategories.get(
+            COVER_LETTER_SECTION_CATEGORY
+          )
 
-        for (const dependency of dependencies) {
-          await collection.save(dependency, containerIDs)
+          const manuscriptTitle = chooseSectionTitle(
+            coverLetterDescription,
+            sectionCategory
+          )
+
+          const extraManuscript = buildManuscript(manuscriptTitle)
+
+          const containerIDs = {
+            containerID: projectID,
+            manuscriptID: extraManuscript._id,
+          }
+
+          if (!coverLetterDescription.placeholder) {
+            coverLetterDescription.placeholder = COVER_LETTER_PLACEHOLDER
+          }
+
+          const { section, dependencies } = buildSectionFromDescription(
+            coverLetterDescription,
+            1 // the cover letter only has one section
+          )
+
+          section.titleSuppressed = true
+
+          for (const dependency of dependencies) {
+            await collection.save(dependency, containerIDs)
+          }
+
+          await collection.save(section, containerIDs)
+
+          await saveContainedModel<Manuscript>({
+            ...extraManuscript,
+            bundle: newBundle._id,
+            category: COVER_LETTER_CATEGORY,
+            priority: 2, // the cover letter is always the second manuscript
+          })
         }
-
-        await collection.save(section, containerIDs)
-
-        await saveContainedModel<Manuscript>({
-          ...extraManuscript,
-          bundle: newBundle._id,
-          priority: priority++,
-        })
       }
     }
 
