@@ -412,21 +412,25 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         <Main>
           <EditorContainer>
             <EditorContainerInner>
-              <Presence
-                containerId={projectID}
-                deviceId={deviceId}
-                manuscriptId={manuscript._id}
-                selectedElementId={element ? element._id : undefined}
-              />
+              {config.beacon.http && (
+                <Presence
+                  containerId={projectID}
+                  deviceId={deviceId}
+                  manuscriptId={manuscript._id}
+                  selectedElementId={element ? element._id : undefined}
+                />
+              )}
 
               {view && permissions.write && !config.native && (
                 <EditorHeader>
                   <ApplicationMenuContainer>
                     <ApplicationMenu menus={this.buildMenus()} view={view} />
-                    <PresenceList
-                      containerId={projectID}
-                      getCollaborator={this.getCollaborator}
-                    />
+                    {config.beacon.ws && (
+                      <PresenceList
+                        containerId={projectID}
+                        getCollaborator={this.getCollaborator}
+                      />
+                    )}
                   </ApplicationMenuContainer>
 
                   {activeEditor && (
