@@ -1,4 +1,4 @@
-// const webpack = require('webpack')
+const webpack = require('webpack')
 const WorkerPlugin = require('worker-plugin')
 
 module.exports = ({config, mode}) => {
