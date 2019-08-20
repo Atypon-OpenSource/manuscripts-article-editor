@@ -50,6 +50,9 @@ const ManuscriptPageContainer = React.lazy<ManuscriptPageContainerComponent>(
     import(/* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainer')
 )
 
+const APHORISM_DURATION =
+  Number(window.localStorage.getItem('aphorism-duration')) || 3000
+
 interface Props {
   tokenActions: TokenActions
 }
@@ -73,7 +76,10 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
 
     return (
       <>
-        <ProjectAphorismPlaceholder duration={3000} key={projectID} />
+        <ProjectAphorismPlaceholder
+          duration={APHORISM_DURATION}
+          key={projectID}
+        />
 
         <DatabaseContext.Consumer>
           {db => (
