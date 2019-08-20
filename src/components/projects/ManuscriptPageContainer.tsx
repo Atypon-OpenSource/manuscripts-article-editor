@@ -69,11 +69,14 @@ import {
 import {
   ConflictManager,
   conflictsKey,
+  createTreeChangeQueue,
+  isTreeChange,
   LocalConflicts,
   plugins as syncPlugins,
   SYNC_ERROR_LOCAL_DOC_ID,
   SyncErrors,
   syncErrorsKey,
+  TreeChanges,
 } from '@manuscripts/sync-client'
 import '@reach/tabs/styles.css'
 import CiteProc from 'citeproc'
@@ -233,6 +236,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     view: EditorViewType,
     docChanged: boolean
   ) => void
+
+  private treeChangeQueue: (modelMap: Map<string, Model>) => void
+
+  private forceEditorUpdate: (parent: string | null, children: string[]) => void
 
   public constructor(props: CombinedProps) {
     super(props)
@@ -664,6 +671,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           'Failed to open project for editing due to an error during data preparation.'
         )
       }
+
+      this.treeChangeQueue = createTreeChangeQueue(
+        modelMap,
+        this.handleTreeChanges
+      )
 
       await this.saveUserProject(projectID, manuscriptID)
     } catch (error) {
@@ -1169,6 +1181,20 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private handleSubscribe = (receive: ChangeReceiver) => {
     const { projectID, manuscriptID } = this.props.match.params
 
+    this.forceEditorUpdate = (parent, blocksToUpdate: string[]) => {
+      const { modelMap } = this.state
+      const decoder = new Decoder(modelMap!)
+      const items = blocksToUpdate
+        .map(block => {
+          const model = modelMap!.get(block)
+          return model ? decoder.decode(model) : null
+        })
+        .filter(Boolean) as ManuscriptNode[]
+      receive('ORDER_CHILD_SECTIONS', parent || undefined, null, {
+        childSections: items,
+      })
+    }
+
     const sub = this.collection
       .getCollection()
       .$.subscribe(async changeEvent => {
@@ -1188,6 +1214,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         }
 
         if (op === 'REMOVE') {
+          const { modelMap } = this.state
+          modelMap!.delete(doc)
           return receive(op, doc)
         }
 
@@ -1236,8 +1264,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         }
 
         const { modelMap } = this.state
+        if (!modelMap) return
 
-        modelMap!.set(model._id, model) // TODO: what if this overlaps with saving?
+        if (isTreeChange(model, modelMap)) {
+          this.treeChangeQueue(modelMap)
+        }
+
+        modelMap.set(model._id, model) // TODO: what if this overlaps with saving?
 
         this.setState({ modelMap })
 
@@ -1247,7 +1280,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         // TODO: set updatedAt on nodes that depend on data models?
 
-        const decoder = new Decoder(modelMap!)
+        const decoder = new Decoder(modelMap)
 
         try {
           const node = decoder.decode(model)
@@ -1260,6 +1293,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       })
 
     this.subs.push(sub)
+  }
+
+  private handleTreeChanges = (changes: TreeChanges) => {
+    changes.forEach(({ parent, children }) => {
+      this.forceEditorUpdate(parent, children)
+    })
   }
 
   private removedModelIds = (
