@@ -15,7 +15,9 @@ jest.mock('../pressroom')
 import data from '@manuscripts/examples/data/project-dump.json'
 import { ManuscriptModel } from '@manuscripts/manuscript-transform'
 import {
+  ContainerInvitation,
   Manuscript,
+  ObjectTypes,
   ParagraphElement,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
@@ -150,7 +152,7 @@ describe('exporter', () => {
     // expect(manuscript.data).toHaveLength(138)
   })
 
-  test('removes container ids', async () => {
+  test('removes unsupported data', async () => {
     const modelMap = buildModelMap(data as ProjectDump)
     const manuscriptID = 'MPManuscript:8EB79C14-9F61-483A-902F-A0B8EF5973C9'
 
@@ -160,6 +162,32 @@ describe('exporter', () => {
       model.manuscriptID = 'MPManuscript:1'
       modelMap.set(key, model)
     }
+
+    const containerInvitation: ContainerInvitation = {
+      _id: 'MPContainerInvitation:1',
+      objectType: ObjectTypes.ContainerInvitation,
+      containerID: 'MPProject:1',
+      role: 'writer',
+      createdAt: 0,
+      updatedAt: 0,
+      invitingUserID: 'foo',
+      invitedUserEmail: 'foo@example.com',
+      invitingUserProfile: {
+        _id: 'MPUserProfile:1',
+        objectType: ObjectTypes.UserProfile,
+        createdAt: 0,
+        updatedAt: 0,
+        userID: 'foo',
+        bibliographicName: {
+          _id: 'MPBibliographicName:1',
+          objectType: ObjectTypes.BibliographicName,
+          given: 'foo',
+          family: 'foo',
+        },
+      },
+    }
+
+    modelMap.set(containerInvitation._id, containerInvitation)
 
     // `result` is the blob that would be sent for conversion, echoed back
     const result = await exportProject(modelMap, manuscriptID, '.docx')
@@ -173,5 +201,17 @@ describe('exporter', () => {
       expect(model.containerID).toBeUndefined()
       expect(model.manuscriptID).toBeUndefined()
     }
+
+    const invitations = bundle.data.filter(
+      model => model.objectType === ObjectTypes.ContainerInvitation
+    )
+
+    expect(invitations).toHaveLength(0)
+
+    const paragraphs = bundle.data.filter(
+      model => model.objectType === ObjectTypes.ParagraphElement
+    )
+
+    expect(paragraphs).toHaveLength(11)
   })
 })

@@ -40,11 +40,22 @@ export const removeEmptyStyles = (model: { [key: string]: any }) => {
   })
 }
 
-export const removeUnsupportedProperties = async (zip: JSZip) => {
+const unsupportedObjectTypes: ObjectTypes[] = [
+  ObjectTypes.ContainerInvitation,
+  ObjectTypes.ProjectInvitation,
+  ObjectTypes.Invitation,
+]
+
+export const removeUnsupportedData = async (zip: JSZip) => {
   const path = 'index.manuscript-json'
 
   const json = await zip.file(path).async('text')
   const bundle = JSON.parse(json) as ProjectDump
+
+  bundle.data = bundle.data.filter(
+    (model: ManuscriptModel) =>
+      !unsupportedObjectTypes.includes(model.objectType as ObjectTypes)
+  )
 
   bundle.data.forEach((model: ManuscriptModel & { listingID?: string }) => {
     delete model.containerID
@@ -242,7 +253,7 @@ export const exportProject = async (
     default:
       // remove this once it's no longer needed:
       // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/671
-      await removeUnsupportedProperties(zip)
+      await removeUnsupportedData(zip)
 
       const file = await zip.generateAsync({ type: 'blob' })
 
