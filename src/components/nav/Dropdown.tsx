@@ -148,7 +148,7 @@ export const NotificationsBadge = styled(Badge)<DropdownProps>`
 export const DropdownButtonContainer = styled.button<DropdownProps>`
   display: flex;
   align-items: center;
-  padding: 5px 10px;
+  padding: 7px 10px;
   text-decoration: none;
   border: none;
   font-size: inherit;

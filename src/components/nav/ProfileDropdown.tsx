@@ -14,7 +14,7 @@ import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Avatar } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { styled } from '../../theme/styled-components'
+import { css, styled } from '../../theme/styled-components'
 import { Dropdown, DropdownContainer } from './Dropdown'
 
 export const ProfileDropdown: React.FC<{
@@ -60,7 +60,9 @@ export const ProfileDropdown: React.FC<{
       </DropdownButton>
 
       {open && (
-        <Dropdown style={{ right: 0, left: 'auto' }}>{children}</Dropdown>
+        <Dropdown style={{ right: 0, left: 'auto', top: 42 }}>
+          {children}
+        </Dropdown>
       )}
     </DropdownContainer>
   )
@@ -83,6 +85,18 @@ const DropdownToggle = styled(ArrowDownUp)`
 
   & path {
     stroke: currentColor;
+  }
+`
+
+const styledAvatar = css`
+  ${AvatarContainer}:after {
+    border: 2px solid ${props => props.theme.colors.profile.avatar.hovered};
+    border-radius: 50%;
+    content: ' ';
+    display: block;
+    height: 30px;
+    position: absolute;
+    width: 30px;
   }
 `
 
@@ -114,4 +128,6 @@ const DropdownButton = styled.button<{
   ${DropdownToggle} {
     transform: ${props => (props.isOpen ? 'rotate(0deg)' : 'rotate(180deg)')};
   }
+
+  ${props => props.isOpen && styledAvatar}
 `
