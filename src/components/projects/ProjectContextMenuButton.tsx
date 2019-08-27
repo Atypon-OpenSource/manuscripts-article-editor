@@ -116,7 +116,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
             category={Category.confirmation}
             header={'Delete Project'}
             message={message}
-            confirmFieldText={'confirm'}
+            confirmFieldText={'Delete'}
           />
         )}
         {isRenameOpen &&
