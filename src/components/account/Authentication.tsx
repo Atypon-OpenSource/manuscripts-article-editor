@@ -64,7 +64,7 @@ const SignupButton = styled(Button)`
   margin-left: 10px;
 `
 export interface AuthenticationButtonProps {
-  redirect: (provider: AuthProvider) => () => void
+  redirect: (provider: AuthProvider, action?: string) => () => void
 }
 
 export const GoogleLogin: React.FunctionComponent<
@@ -102,7 +102,7 @@ export const Signup: React.FunctionComponent<AuthenticationButtonProps> = ({
   <SignupButton
     onClick={
       config.connect.enabled
-        ? redirect('iam')
+        ? redirect('iam', 'register')
         : () => (window.location.href = '/signup')
     }
   >
@@ -116,7 +116,7 @@ export const Login: React.FunctionComponent<AuthenticationButtonProps> = ({
   <TextButton
     onClick={
       config.connect.enabled
-        ? redirect('iam')
+        ? redirect('iam', 'login')
         : () => (window.location.href = '/login')
     }
   >

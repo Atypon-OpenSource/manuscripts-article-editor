@@ -29,10 +29,11 @@ class AuthButtonContainer extends React.Component<Props> {
     return <Component redirect={this.redirect} />
   }
 
-  private redirect = (provider: AuthProvider) => () => {
+  private redirect = (provider: AuthProvider, action?: string) => () => {
     const params = {
       deviceId,
       ...config.api.headers,
+      action,
     }
 
     window.location.href =
