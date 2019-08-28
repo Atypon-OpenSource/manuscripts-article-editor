@@ -12,111 +12,70 @@
 
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 
-const buildKeywordMatches = (
-  keyword: string,
-  library: Map<string, BibliographyItem>
+const hasFilter = (filters: Set<string>, keywordIDs?: string[]) => {
+  if (!keywordIDs) {
+    return false
+  }
+
+  for (const keywordID of keywordIDs) {
+    if (filters.has(keywordID)) {
+      return true
+    }
+  }
+
+  return false
+}
+
+const titleMatches = (match: string, title?: string) =>
+  title && title.toLowerCase().indexOf(match) !== -1
+
+const itemMatches = (
+  item: BibliographyItem,
+  match?: string,
+  filters?: Set<string>
 ) => {
-  const output: BibliographyItem[] = []
-
-  for (const item of library.values()) {
-    const ids = item.keywordIDs as string[] | null
-
-    if (ids && ids.includes(keyword)) {
-      output.push(item)
-    }
+  if (filters && !hasFilter(filters, item.keywordIDs)) {
+    return false
   }
 
-  return output
-}
-
-const buildTextMatches = (
-  match: string,
-  library: Map<string, BibliographyItem>
-) => {
-  const output: BibliographyItem[] = []
-
-  for (const item of library.values()) {
-    if (item.title && item.title.toLowerCase().indexOf(match) !== -1) {
-      output.push(item)
-    }
+  if (!match) {
+    return true
   }
 
-  return output
+  return titleMatches(match, item.title)
 }
 
-const mergeKeywordAndQueryMatches = (
-  query: string | null,
-  keywordMatches: Set<BibliographyItem>,
-  queryMatches: Set<BibliographyItem>,
-  library: Map<string, BibliographyItem> | null,
-  keywords?: Set<string>
-): Set<BibliographyItem> => {
-  let mergedSet: Set<BibliographyItem> = new Set<BibliographyItem>()
-  const isQueryUsed = query && query.length > 0
-  const isKeywordsUsed = keywords && keywords.size > 0
-
-  if (isQueryUsed) {
-    if (isKeywordsUsed) {
-      queryMatches.forEach(match => {
-        if (keywordMatches.has(match)) {
-          mergedSet.add(match)
-        }
-      })
-    } else {
-      mergedSet = queryMatches
-    }
-  } else {
-    if (isKeywordsUsed) {
-      keywordMatches.forEach(value => {
-        mergedSet.add(value)
-      })
-    } else {
-      if (library) {
-        Array.from(library.values()).forEach(value => {
-          mergedSet.add(value)
-        })
-      }
-    }
-  }
-  return mergedSet
-}
+const newestFirst = (a: BibliographyItem, b: BibliographyItem) =>
+  b.createdAt - a.createdAt
 
 export const filterLibrary = (
-  library: Map<string, BibliographyItem> | null,
-  query: string | null,
-  keywords?: Set<string>
+  library?: Map<string, BibliographyItem>,
+  query?: string,
+  filters?: Set<string>
 ): BibliographyItem[] => {
-  if (!library) return []
-
-  if (!query && !keywords) return Array.from(library.values())
-
-  const queryMatches: Set<BibliographyItem> = new Set<BibliographyItem>()
-  const keywordMatches: Set<BibliographyItem> = new Set<BibliographyItem>()
-
-  if (query) {
-    buildTextMatches(query.toLowerCase(), library).forEach(match =>
-      queryMatches.add(match)
-    )
+  if (!library) {
+    return []
   }
 
-  if (keywords) {
-    keywords.forEach(value => {
-      const matches: BibliographyItem[] = buildKeywordMatches(value, library)
-      matches.forEach(match => {
-        keywordMatches.add(match)
-      })
-    })
+  if (!query && !filters) {
+    const items = Array.from(library.values())
+    items.sort(newestFirst)
+    return items
   }
 
-  return Array.from(
-    mergeKeywordAndQueryMatches(
-      query,
-      keywordMatches,
-      queryMatches,
-      library,
-      keywords
-    )
-  )
+  const match = query ? query.toLowerCase() : undefined
+
+  const output: BibliographyItem[] = []
+
+  for (const item of library.values()) {
+    if (itemMatches(item, match, filters)) {
+      output.push(item)
+    }
+  }
+
+  output.sort(newestFirst)
+
+  return output
 }
 
 export const issuedYear = (item: Partial<BibliographyItem>): string | null => {
@@ -129,7 +88,7 @@ export const issuedYear = (item: Partial<BibliographyItem>): string | null => {
     return null
   }
 
-  const year = item.issued['date-parts'][0][0]
+  const [[year]] = item.issued['date-parts']
 
   return `(${year}) `
 }
@@ -153,9 +112,9 @@ const generateItemIdentifier = (item: Partial<BibliographyItem>) =>
     year: issuedYear(item),
   })
 
-export const estimateID = (item: Partial<BibliographyItem>) => {
+export const estimateID = (item: Partial<BibliographyItem>): string => {
   if (item.DOI) {
-    return item.DOI
+    return item.DOI.toUpperCase()
   }
 
   return generateItemIdentifier(item)
@@ -174,6 +133,14 @@ export const shortAuthorsString = (item: Partial<BibliographyItem>) => {
     const lastAuthors = authors.splice(-2)
     authors.push(lastAuthors.join(' & '))
   }
+
+  return authors.join(', ')
+}
+
+export const fullAuthorsString = (item: Partial<BibliographyItem>) => {
+  const authors = (item.author || []).map(author =>
+    [author.given, author.family].join(' ').trim()
+  )
 
   return authors.join(', ')
 }

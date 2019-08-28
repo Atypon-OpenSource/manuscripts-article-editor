@@ -14,17 +14,18 @@ import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Button } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import config from '../../config'
+import { useDebounce } from '../../hooks/use-debounce'
 import { styled } from '../../theme/styled-components'
 import { SearchResults } from './SearchResults'
 
 const ResultsSection = styled.div`
-  margin: 8px 16px;
+  margin: 8px 0;
 `
 
 const SearchSource = styled.div`
-  margin-bottom: 8px;
+  margin: 0 16px 8px;
   color: #777;
   cursor: pointer;
 
@@ -37,162 +38,128 @@ const MoreButton = styled(Button)`
   font-size: inherit;
   text-transform: none;
   text-decoration: underline;
-  margin-left: 28px;
+  margin-left: 42px;
   color: ${props => props.theme.colors.citationSearch.more};
 `
 
-const DropdownChevron = styled(ArrowDownBlack)<{ expanded?: boolean }>`
+const DropdownChevron = styled(ArrowDownBlack)`
   margin-right: 16px;
-  ${props => !props.expanded && 'transform:rotate(-90deg)'};
   width: 24px;
 `
 
-interface Props {
-  query: string | null
+export const CitationSearchSection: React.FC<{
+  query: string
   source: {
     id: string
     search: (
-      query: string | null,
+      query: string,
       params: { rows: number; sort?: string },
       mailto: string
-    ) => Promise<{ items: BibliographyItem[]; total: number }>
+    ) => Promise<{ items: Array<Build<BibliographyItem>>; total: number }>
     title: string
   }
-  addToSelection: (id: string, item: Build<BibliographyItem>) => void
+  addToSelection: (id: string, item: Partial<BibliographyItem>) => void
   selectSource: (id: string) => void
   rows: number
   selected: Map<string, Build<BibliographyItem>>
   fetching: Set<string>
-}
-
-interface State {
-  error: string | null
-  expanded: boolean
-  results: {
+}> = ({
+  query,
+  source,
+  addToSelection,
+  selectSource,
+  rows,
+  selected,
+  fetching,
+}) => {
+  const [error, setError] = useState<string>()
+  const [expanded, setExpanded] = useState(true)
+  const [searching, setSearching] = useState(false)
+  const [results, setResults] = useState<{
     items: Array<Build<BibliographyItem>>
     total: number
-  } | null
-  searching: boolean
-}
+  }>()
 
-export class CitationSearchSection extends React.Component<Props, State> {
-  public state: Readonly<State> = {
-    error: null,
-    expanded: true,
-    results: null,
-    searching: false,
-  }
+  const debouncedQuery = useDebounce(query, 500)
 
-  private searchTimeout: number
+  useEffect(() => {
+    setError(undefined)
+    setResults(undefined)
+    setSearching(Boolean(query))
+  }, [query])
 
-  public async componentDidMount() {
-    const { query, rows } = this.props
+  const handleSearchResults = useCallback(
+    (searchQuery, results) => {
+      if (searchQuery === query) {
+        setError(undefined)
+        setSearching(false)
+        setResults(results)
+      }
+    },
+    [query]
+  )
 
-    await this.runSearch(query, rows)
-  }
-
-  public async componentWillReceiveProps(nextProps: Props) {
-    const { query, rows } = nextProps
-
-    if (query !== this.props.query || rows !== this.props.rows) {
-      await this.runSearch(query, rows)
-    }
-  }
-
-  public render() {
-    const { error, expanded, results, searching } = this.state
-    const {
-      source,
-      addToSelection,
-      selectSource,
-      selected,
-      fetching,
-      rows,
-    } = this.props
-
+  useEffect(() => {
     if (!expanded) {
-      return (
-        <ResultsSection>
-          <SearchSource onClick={() => this.setState({ expanded: true })}>
-            <DropdownChevron />
-            {source.title}
-          </SearchSource>
-        </ResultsSection>
-      )
+      return
     }
 
-    return (
-      <ResultsSection>
-        <SearchSource onClick={() => this.setState({ expanded: false })}>
-          <DropdownChevron expanded={true} />
-          {source.title}
-        </SearchSource>
+    if (source.id !== 'library' && !debouncedQuery) {
+      return
+    }
 
+    const initialQuery = debouncedQuery
+
+    source
+      .search(initialQuery, { rows }, config.support.email)
+      .then(results => {
+        handleSearchResults(initialQuery, results)
+      })
+      .catch(error => {
+        setError(error.message)
+      })
+      .finally(() => {
+        setSearching(false)
+      })
+      .catch(error => {
+        setError(error.message)
+      })
+  }, [debouncedQuery, rows])
+
+  const toggleExpanded = useCallback(() => {
+    setExpanded(value => !value)
+  }, [])
+
+  return (
+    <ResultsSection>
+      <SearchSource onClick={toggleExpanded}>
+        <DropdownChevron
+          style={{
+            transform: expanded ? 'rotate(0)' : 'rotate(-90deg)',
+          }}
+        />
+        {source.title}
+      </SearchSource>
+
+      {expanded && (
         <SearchResults
           error={error}
           results={results}
           searching={searching}
-          addToSelection={addToSelection}
+          handleSelect={addToSelection}
           selected={selected}
           fetching={fetching}
         />
+      )}
 
-        {results && results.total > rows && (
-          <MoreButton
-            onClick={() => selectSource(source.id)}
-            data-cy={'more-button'}
-          >
-            Show more
-          </MoreButton>
-        )}
-      </ResultsSection>
-    )
-  }
-
-  private runSearch = async (query: string | null, rows: number) => {
-    if (!this.state.expanded) {
-      return
-    }
-
-    this.setState({
-      error: null,
-      results: null,
-      searching: true,
-    })
-
-    const { source } = this.props
-
-    const searchHandler = async () => {
-      try {
-        const results = await source.search(
-          query,
-          { rows },
-          config.support.email
-        )
-
-        if (query === this.props.query) {
-          this.setState({
-            error: null,
-            searching: false,
-            results,
-          })
-        }
-      } catch (error) {
-        this.setState({
-          error: error.message,
-          searching: false,
-        })
-      }
-    }
-
-    if (source.id === 'library') {
-      await searchHandler()
-    } else {
-      if (this.searchTimeout) {
-        window.clearTimeout(this.searchTimeout)
-      }
-
-      this.searchTimeout = window.setTimeout(searchHandler, 500)
-    }
-  }
+      {expanded && results && results.total > rows && (
+        <MoreButton
+          onClick={() => selectSource(source.id)}
+          data-cy={'more-button'}
+        >
+          Show more
+        </MoreButton>
+      )}
+    </ResultsSection>
+  )
 }

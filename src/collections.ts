@@ -17,6 +17,7 @@ export type CollectionName =
   // | 'projects'
   | 'user'
   | 'collaborators'
+  | 'libraryitems'
   // | 'invitations'
   | string
 
@@ -85,6 +86,16 @@ export const collections: CollectionCreators = {
   },*/
   project: {
     name: 'project',
+    schema: {
+      version: 0,
+      type: 'object',
+      properties: basicProperties,
+      required: ['objectType'],
+      attachments: {},
+    },
+  },
+  libraryitems: {
+    name: 'libraryitems',
     schema: {
       version: 0,
       type: 'object',

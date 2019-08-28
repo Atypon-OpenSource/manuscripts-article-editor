@@ -10,37 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { crossref, datacite } from '@manuscripts/manuscript-editor'
-import { Build } from '@manuscripts/manuscript-transform'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { styled } from '../../theme/styled-components'
 
-type SearchInterface = (
-  query: string,
-  limit: number,
-  mailto: string
-) => Promise<{
-  items: Array<Build<BibliographyItem>>
-  total: number
-}>
+export const Search = styled.input`
+  padding: 8px;
+  flex: 1;
+  font-size: 1em;
+  border: none;
+  background: none;
+  width: 500px;
+  -webkit-appearance: none;
+  outline: none;
+`
 
-export interface LibrarySource {
-  id: string
-  name: string
-  fetch: (doi: string, mailto: string) => Promise<Partial<BibliographyItem>>
-  search: SearchInterface
-}
-
-export const sources: LibrarySource[] = [
-  {
-    id: 'crossref',
-    name: 'Crossref',
-    search: crossref.search,
-    fetch: crossref.fetch,
-  },
-  {
-    id: 'datacite',
-    name: 'DataCite',
-    search: datacite.search as SearchInterface,
-    fetch: datacite.fetch,
-  },
-]
+export const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 12px 8px;
+`

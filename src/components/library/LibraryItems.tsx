@@ -10,89 +10,176 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import SearchIcon from '@manuscripts/assets/react/SearchIcon'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import {
+  BibliographyItem,
+  LibraryCollection,
+} from '@manuscripts/manuscripts-json-schema'
+import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import ProjectKeywordsData from '../../data/ProjectKeywordsData'
+import { fullAuthorsString, issuedYear } from '../../lib/library'
+import { manuscriptsBlue } from '../../theme/colors'
 import { styled } from '../../theme/styled-components'
-import LibraryItem from './LibraryItem'
+import { Search, SearchContainer } from './Search'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
 `
 
-const SearchContainer = styled.div`
-  display: flex;
-  padding: 10px;
-  align-items: center;
-`
-
-const Search = styled.input`
-  margin: 5px;
-  padding: 4px;
-  font-size: 0.9em;
-  flex: 1;
-  -webkit-appearance: none;
-  border: none;
-`
-
-const Results = styled.div`
+const Items = styled.div`
   flex: 1;
   overflow-y: auto;
 `
 
-interface Props {
-  query: string | null
-  handleQuery: (query: string) => void
+const Item = styled.div`
+  cursor: pointer;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.25s;
+  display: flex;
+
+  &:hover {
+    background-color: #f6f6f6;
+  }
+`
+
+const ItemMetadata = styled.div`
+  flex: 1;
+`
+
+const Metadata = styled.div`
+  margin-top: 4px;
+  color: #777;
+  flex: 1;
+`
+
+const Collections = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+`
+
+const Collection = styled.span`
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  margin-right: 8px;
+  background-color: #eee;
+  font-size: 90%;
+`
+
+const ActiveCollection = styled(Collection)`
+  background-color: ${manuscriptsBlue};
+  color: white;
+`
+
+const ItemIcon = styled.div`
+  flex-shrink: 1;
+  margin-right: 16px;
+  height: 24px;
+  width: 24px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`
+
+const StyledReferenceLibraryIcon = styled(ReferenceLibraryIcon)`
+  path {
+    stroke: #ccc;
+  }
+`
+
+const EmptyItems = styled.div`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 16px;
+`
+
+export const LibraryItems: React.FC<{
+  query?: string
+  setQuery: (query: string) => void
   handleSelect: (item: BibliographyItem) => void
   hasItem: (item: BibliographyItem) => boolean
   items: BibliographyItem[]
-  projectID: string
-  selectedKeywords?: Set<string>
-}
-
-export const LibraryItems: React.FC<Props> = ({
+  filterID?: string
+  projectLibraryCollections: Map<string, LibraryCollection>
+}> = ({
   query,
-  handleQuery,
+  setQuery,
   handleSelect,
-  hasItem,
   items,
-  projectID,
-  selectedKeywords,
+  filterID,
+  projectLibraryCollections,
 }) => (
-  <ProjectKeywordsData projectID={projectID}>
-    {keywordIdMap => {
-      return (
-        <Container>
-          <SearchContainer>
-            <SearchIcon />
-            <Search
-              type={'search'}
-              value={query || ''}
-              onChange={e => handleQuery(e.target.value)}
-              placeholder={'Search library…'}
-              autoComplete={'off'}
-            />
-          </SearchContainer>
+  <Container>
+    <SearchContainer>
+      <SearchIcon />
+      <Search
+        type={'search'}
+        value={query || ''}
+        onChange={e => setQuery(e.target.value)}
+        placeholder={'Search library…'}
+        autoComplete={'off'}
+      />
+    </SearchContainer>
 
-          <Results>
-            {items
-              .sort((a, b) => Number(b.updatedAt) - Number(a.updatedAt))
-              .map((item: BibliographyItem) => (
-                <LibraryItem
-                  key={item._id}
-                  item={item}
-                  handleSelect={handleSelect}
-                  hasItem={hasItem}
-                  selectedKeywords={selectedKeywords}
-                  keywordIdMap={keywordIdMap}
-                />
-              ))}
-          </Results>
-        </Container>
-      )
-    }}
-  </ProjectKeywordsData>
+    {query && items.length === 0 && (
+      <EmptyItems>No items match this query.</EmptyItems>
+    )}
+
+    {items.length > 0 && (
+      <Items>
+        {items.map((item: BibliographyItem) => (
+          <Item onClick={() => handleSelect(item)} key={item._id}>
+            <ItemIcon>
+              <StyledReferenceLibraryIcon />
+            </ItemIcon>
+            <ItemMetadata>
+              <Title value={item.title || 'Untitled'} title={item.title} />
+
+              <Metadata data-cy={'search-result-author'}>
+                {fullAuthorsString(item)} {issuedYear(item)}
+              </Metadata>
+
+              {item.keywordIDs && (
+                <Collections>
+                  {item.keywordIDs.map(keywordID => {
+                    const libraryCollection = projectLibraryCollections.get(
+                      keywordID
+                    )
+
+                    if (!libraryCollection) {
+                      return null
+                    }
+
+                    if (keywordID === filterID) {
+                      return (
+                        <ActiveCollection key={keywordID}>
+                          {libraryCollection.name}
+                        </ActiveCollection>
+                      )
+                    }
+
+                    return (
+                      <Collection key={keywordID}>
+                        {libraryCollection.name}
+                      </Collection>
+                    )
+                  })}
+                </Collections>
+              )}
+            </ItemMetadata>
+          </Item>
+        ))}
+      </Items>
+    )}
+  </Container>
 )

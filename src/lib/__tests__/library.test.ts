@@ -45,9 +45,9 @@ describe('library filtering', () => {
     const keywords: Set<string> = new Set<string>()
     keywords.add('MPKeyword:derp')
 
-    expect(filterLibrary(null, 'foo')).toMatchObject([])
-    expect(filterLibrary(map, null).sort()).toMatchObject([x, y].sort())
-    expect(filterLibrary(map, null, keywords)).toMatchObject([x])
+    expect(filterLibrary(undefined, 'foo')).toMatchObject([])
+    expect(filterLibrary(map, undefined).sort()).toMatchObject([x, y].sort())
+    expect(filterLibrary(map, undefined, keywords)).toMatchObject([x])
     expect(filterLibrary(map, 'yuv')).toMatchObject([y])
   })
 })
@@ -72,7 +72,7 @@ describe('estimate ID', () => {
     const item = {
       DOI: 'valid-doi',
     }
-    expect(estimateID(item)).toBe('valid-doi')
+    expect(estimateID(item)).toBe('VALID-DOI')
   })
 
   it('estimateID - DOI does not exist', () => {

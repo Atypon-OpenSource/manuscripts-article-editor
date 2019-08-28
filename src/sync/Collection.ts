@@ -417,12 +417,16 @@ export class Collection<T extends Model> implements EventTarget {
   private syncOnce(
     direction: Direction,
     options: PouchReplicationOptions = {}
-  ) {
+  ): Promise<void> {
     const replicationState = this.sync(direction, {
       ...options,
       live: false,
       retry: false,
     })
+
+    if (!replicationState) {
+      return Promise.resolve()
+    }
 
     this.replications[direction] = replicationState
 
@@ -460,7 +464,7 @@ export class Collection<T extends Model> implements EventTarget {
     direction: Direction,
     options: PouchReplicationOptions & { fetch?: Fetch } = {},
     isRetry: boolean = false
-  ) {
+  ): RxReplicationState | false {
     if (this.replications[direction]) {
       throw new Error(
         `Existing ${direction} replication in progress for ${this.collectionName}`
@@ -469,6 +473,13 @@ export class Collection<T extends Model> implements EventTarget {
 
     if (direction === 'pull') {
       if (this.props.channels) {
+        if (!this.props.channels.length) {
+          // tslint:disable-next-line:no-console
+          console.warn('No channels were provided for a filtered sync')
+          this.setStatus(direction, 'complete', true)
+          return false
+        }
+
         options.query_params = {
           filter: 'sync_gateway/bychannel',
           channels: this.props.channels,

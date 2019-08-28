@@ -15,27 +15,11 @@ import { crossref } from '@manuscripts/manuscript-editor'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Button, ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import config from '../../config'
 import { styled } from '../../theme/styled-components'
 import { CitationSearchSection } from './CitationSearchSection'
-
-const Search = styled.input`
-  margin: 4px;
-  padding: 8px;
-  flex: 1;
-  font-size: 1em;
-  border: none;
-  width: 500px;
-  -webkit-appearance: none;
-  outline: none;
-`
-
-const SearchContainer = styled.div`
-  display: flex;
-  padding: 10px;
-  align-items: center;
-`
+import { Search, SearchContainer } from './Search'
 
 const Results = styled.div`
   max-height: 400px;
@@ -51,7 +35,19 @@ const Container = styled.div`
   flex: 1;
 `
 
-interface Props {
+type SearchInterface = (
+  query: string,
+  params: { rows: number; sort?: string },
+  mailto: string
+) => Promise<{ items: Array<Build<BibliographyItem>>; total: number }>
+
+interface Source {
+  id: string
+  title: string
+  search: SearchInterface
+}
+
+export const CitationSearch: React.FC<{
   filterLibraryItems: (query: string | null) => BibliographyItem[]
   handleCite: (
     items: Array<BibliographyItem | Build<BibliographyItem>>,
@@ -60,177 +56,170 @@ interface Props {
   query: string
   handleCancel: () => void
   scheduleUpdate: () => void
-}
+}> = ({
+  filterLibraryItems,
+  handleCite,
+  query: initialQuery,
+  handleCancel,
+  scheduleUpdate,
+}) => {
+  const [error, setError] = useState<string>()
+  const [selectedSource, setSelectedSource] = useState<string>()
+  const [query, setQuery] = useState<string>(initialQuery)
+  const [selected, setSelected] = useState(
+    new Map<string, Build<BibliographyItem>>()
+  )
+  const [fetching, setFetching] = useState(new Set<string>())
+  const [sources, setSources] = useState<Source[]>()
 
-interface State {
-  selectedSource: string | null
-  query: string
-  selected: Map<string, Build<BibliographyItem>>
-  fetching: Set<string>
-}
+  const searchLibrary: SearchInterface = useCallback(
+    (
+      query: string,
+      params: { rows: number; sort?: string },
+      mailto: string
+    ) => {
+      const items = filterLibraryItems(query)
 
-export class CitationSearch extends React.Component<Props, State> {
-  public constructor(props: Props) {
-    super(props)
+      return Promise.resolve({
+        items: items.slice(0, params.rows - 1),
+        total: items.length,
+      })
+    },
+    [filterLibraryItems]
+  )
 
-    this.state = {
-      selectedSource: null,
-      query: props.query || '',
-      selected: new Map(),
-      fetching: new Set(),
-    }
-  }
-
-  public render() {
-    const { query, fetching, selected, selectedSource } = this.state
-    const sources = this.buildSources()
-
-    return (
-      <Container>
-        <SearchContainer>
-          <SearchIcon />
-
-          <Search
-            autoComplete={'off'}
-            autoFocus={true}
-            onChange={this.handleQuery}
-            placeholder={'Search'}
-            type={'search'}
-            value={query || ''}
-          />
-        </SearchContainer>
-
-        <Results>
-          {sources
-            .filter(source => source.always || query)
-            .map(source => (
-              <CitationSearchSection
-                key={source.id}
-                source={source}
-                addToSelection={this.addToSelection}
-                selectSource={() =>
-                  this.setState({ selectedSource: source.id })
-                }
-                selected={selected}
-                fetching={fetching}
-                query={query}
-                rows={selectedSource === source.id ? 25 : 3}
-              />
-            ))}
-        </Results>
-
-        <Actions>
-          <Button onClick={this.props.handleCancel}>Cancel</Button>
-          <PrimaryButton
-            onClick={this.handleCite}
-            disabled={selected.size === 0}
-          >
-            Cite
-          </PrimaryButton>
-        </Actions>
-      </Container>
-    )
-  }
-
-  private buildSources = () => {
-    return [
+  useEffect(() => {
+    const sources: Source[] = [
       {
         id: 'library',
         title: 'Library',
-        search: this.filterLibraryItems,
-        always: true,
+        search: searchLibrary,
       },
-      {
+    ]
+
+    if (query) {
+      sources.push({
         id: 'crossref',
         title: 'External sources',
-        search: async (
-          query: string | null,
-          params: { rows: number; sort?: string }
-        ) =>
-          query
-            ? crossref.search(query, params.rows, config.support.email)
-            : {
-                items: [],
-                total: 0,
-              },
-      },
-      // {
-      //   id: 'datacite',
-      //   title: 'DataCite',
-      //   search: async (
-      //     query: string | null,
-      //     params: { rows: number; sort?: string }
-      //   ) =>
-      //     query
-      //       ? datacite.search(query, params.rows)
-      //       : {
-      //           items: [],
-      //           total: 0,
-      //         },
-      // },
-    ]
-  }
-
-  private addToSelection = async (
-    id: string,
-    data: Build<BibliographyItem>
-  ) => {
-    const { selected, fetching } = this.state
-
-    if (selected.has(id)) {
-      selected.delete(id) // remove item
-    } else if (data._id) {
-      selected.set(id, data) // re-use existing data model
-    } else {
-      const { DOI } = data
-
-      if (!DOI) {
-        throw new Error('No DOI')
-      }
-
-      fetching.add(DOI)
-      this.setState({ fetching })
-
-      // fetch Citeproc JSON
-      const result = await crossref.fetch(DOI, config.support.email)
-
-      // remove DOI URLs
-      if (result.URL && result.URL.match(/^https?:\/\/(dx\.)?doi\.org\//)) {
-        delete result.URL
-      }
-
-      selected.set(id, buildBibliographyItem(result))
-
-      fetching.delete(DOI)
-      this.setState({ fetching })
+        search: (
+          query: string,
+          params: { rows: number; sort?: string },
+          mailto: string
+        ) => crossref.search(query, params.rows, mailto),
+      })
     }
 
-    this.setState({ selected })
+    setSources(sources)
+  }, [query])
+
+  const addToSelection = useCallback(
+    (id: string, data: Partial<BibliographyItem>) => {
+      if (selected.has(id)) {
+        selected.delete(id) // remove item
+        setSelected(new Map<string, Build<BibliographyItem>>([...selected]))
+      } else if (data._id) {
+        selected.set(id, data as Build<BibliographyItem>) // re-use existing data model
+        setSelected(new Map<string, Build<BibliographyItem>>([...selected]))
+      } else {
+        const { DOI } = data
+
+        if (!DOI) {
+          throw new Error('No DOI')
+        }
+
+        setFetching(fetching => {
+          fetching.add(id)
+          return new Set<string>([...fetching])
+        })
+
+        // fetch Citeproc JSON
+        crossref
+          .fetch(DOI, config.support.email)
+          .then(result => {
+            // remove DOI URLs
+            if (
+              result.URL &&
+              result.URL.match(/^https?:\/\/(dx\.)?doi\.org\//)
+            ) {
+              delete result.URL
+            }
+
+            setSelected(selected => {
+              selected.set(id, buildBibliographyItem(result))
+              return new Map<string, Build<BibliographyItem>>([...selected])
+            })
+
+            window.setTimeout(() => {
+              setFetching(fetching => {
+                fetching.delete(id)
+                return new Set<string>([...fetching])
+              })
+            }, 100)
+          })
+          .catch(error => {
+            setError(error.message)
+          })
+      }
+    },
+    [selected]
+  )
+
+  const handleCiteClick = useCallback(() => {
+    const items = Array.from(selected.values())
+
+    return handleCite(items)
+  }, [handleCite, selected])
+
+  const handleQuery = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setQuery(event.target.value)
+      // scheduleUpdate()
+    },
+    [scheduleUpdate]
+  )
+
+  if (!sources) {
+    return null
   }
 
-  private handleCite = async () => {
-    const items = Array.from(this.state.selected.values())
+  return (
+    <Container>
+      <SearchContainer>
+        <SearchIcon />
 
-    await this.props.handleCite(items)
-  }
+        <Search
+          autoComplete={'off'}
+          autoFocus={true}
+          onChange={handleQuery}
+          placeholder={'Search'}
+          type={'search'}
+          value={query || ''}
+        />
+      </SearchContainer>
 
-  private handleQuery: React.ChangeEventHandler<
-    HTMLInputElement
-  > = async event => {
-    const query = event.target.value
+      <Results>
+        {error && <div>{error}</div>}
 
-    this.setState({ query }, this.props.scheduleUpdate)
-  }
+        {sources.map(source => (
+          <CitationSearchSection
+            key={source.id}
+            source={source}
+            addToSelection={addToSelection}
+            selectSource={() => setSelectedSource(source.id)}
+            selected={selected}
+            fetching={fetching}
+            query={query}
+            rows={selectedSource === source.id ? 25 : 3}
+          />
+        ))}
+      </Results>
 
-  private filterLibraryItems = async (
-    query: string | null,
-    params: { rows: number; sort?: string }
-  ) => {
-    const items = this.props.filterLibraryItems(query)
-
-    return {
-      items: items.slice(0, params.rows - 1),
-      total: items.length,
-    }
-  }
+      <Actions>
+        <Button onClick={handleCancel}>Cancel</Button>
+        <PrimaryButton onClick={handleCiteClick} disabled={selected.size === 0}>
+          Cite
+        </PrimaryButton>
+      </Actions>
+    </Container>
+  )
 }

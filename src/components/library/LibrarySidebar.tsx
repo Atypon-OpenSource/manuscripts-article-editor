@@ -10,182 +10,219 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import TriangleCollapsed from '@manuscripts/assets/react/TriangleCollapsed'
 import TriangleExpanded from '@manuscripts/assets/react/TriangleExpanded'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { LocationDescriptor } from 'history'
+import {
+  Library,
+  LibraryCollection,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { filterLibrary } from '../../lib/library'
-import { LibrarySource } from '../../lib/sources'
+import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom'
+import { sources } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
 import Panel from '../Panel'
 import { Sidebar, SidebarContent } from '../Sidebar'
-import LibraryLists from './LibraryLists'
+import {
+  DEFAULT_LIBRARY_COLLECTION_CATEGORY,
+  sidebarIcon,
+  sortByCategoryPriority,
+} from './LibraryCollectionCategories'
 
-const StyledTriangleExpanded = styled(TriangleExpanded)<{ isVisible: boolean }>`
-  display: inline-block;
-  visibility: ${props => (props.isVisible ? 'visible' : 'hidden')};
-`
-
-const BlockWrapper = styled.div`
-  display: none;
-`
-
-const SourceLink = styled(NavLink)`
-  display: block;
-  text-decoration: none;
-  padding: 5px 0px 0px 20px;
-  cursor: pointer;
-  margin: 0 -20px;
-  font-size: 18px;
-  height: 25px;
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  flex: 1;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: ${props =>
-      props.theme.colors.library.sidebar.background.selected};
-  }
-
-  &.active {
-    background-color: ${props =>
-      props.theme.colors.library.sidebar.background.selected};
-    color: #000000;
-  }
-
-  &.active ${StyledTriangleExpanded} {
-    visibility: visible;
-  }
-
-  &.active + ${BlockWrapper} {
-    display: block;
-  }
-`
-const NavIcon = styled.div<{ source: LibrarySource }>`
-  padding-right: 5px;
-  padding-left: ${props => (props.source.parent ? '35px' : '5px')};
-  display: inline-block;
+const SectionContainer = styled.div`
+  margin-bottom: 16px;
 `
 
 const StyledSidebar = styled(Sidebar)`
   background: ${props => props.theme.colors.global.background.default};
+  padding: 16px 0;
+
+  ${SidebarContent} {
+    padding: 0;
+  }
 `
 
-interface NavProps {
-  projectID: string
-  source: LibrarySource
-  clearKeywords: () => void
-  handleKeyword: (keyword: string) => void
-  library: Map<string, BibliographyItem>
-  selectedKeywords?: Set<string>
-  searchType?: string
-  isSearch: boolean
-}
+const SectionIcon = styled.div`
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
-const createLocation = (source: LibrarySource, projectID: string) => {
-  const location: LocationDescriptor = {}
-  const pathname = source.parent
-    ? `/projects/${projectID}/library/search/${source.id}`
-    : `/projects/${projectID}/library/${source.id}`
-  location.pathname = pathname
-  return location
-}
+const SectionTitle = styled.div`
+  margin-left: 8px;
+  flex: 1;
+`
 
-const NavElement: React.FC<NavProps> = ({
-  projectID,
-  source,
-  clearKeywords,
-  handleKeyword,
-  library,
-  selectedKeywords,
-  isSearch,
-}) => {
-  let libraryLists = <div />
-  if (source.id === 'library') {
-    libraryLists = (
-      <BlockWrapper>
-        <LibraryLists
-          items={filterLibrary(library, '')}
-          projectID={projectID}
-          handleKeyword={handleKeyword}
-          selectedKeywords={selectedKeywords}
-        />
-      </BlockWrapper>
-    )
+const ListTitle = styled.div`
+  margin-left: 8px;
+  flex: 1;
+`
+
+const SectionLink = styled(NavLink)`
+  text-decoration: none;
+  color: #777;
+  display: flex;
+  align-items: center;
+  padding: 8px 8px 8px 36px;
+  transition: background-color 0.25s;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1;
+  overflow: hidden;
+
+  &.active {
+    background-color: #e4eef7;
   }
 
-  const sourceLink = (
-    <SourceLink
-      to={createLocation(source, projectID)}
-      isActive={(match, location) => {
-        if (source.id === 'crossref') {
-          return (
-            !!match ||
-            location.pathname.endsWith(source.id) ||
-            location.pathname.endsWith('search')
-          )
-        }
-        return !!match || location.pathname.endsWith(source.id)
-      }}
-      onClick={() => {
-        clearKeywords()
-      }}
-      exact={false}
-    >
-      {(source.id === 'library' || source.id === 'search') && (
-        <StyledTriangleExpanded isVisible={false} />
-      )}
-      <NavIcon source={source}>{source.icon && <source.icon />}</NavIcon>
-      {source.name}
-    </SourceLink>
+  &:hover {
+    background-color: #e4eef7;
+  }
+`
+
+const SectionTitleLink = styled(SectionLink)`
+  color: #444;
+  padding: 8px 16px;
+  margin-left: 0;
+`
+
+export const LibrarySidebar: React.FC<
+  RouteComponentProps<{
+    projectID: string
+    sourceType: string
+    sourceID?: string
+    filterID?: string
+  }> & {
+    projectLibraryCollections: Map<string, LibraryCollection>
+    globalLibraries: Map<string, Library>
+    globalLibraryCollections: Map<string, LibraryCollection>
+  }
+> = ({
+  projectLibraryCollections,
+  globalLibraries,
+  globalLibraryCollections,
+  match: {
+    params: { projectID, sourceID, sourceType },
+  },
+}) => {
+  const globalLibrariesArray = Array.from(globalLibraries.values())
+  const globalLibraryCollectionsArray = Array.from(
+    globalLibraryCollections.values()
   )
+  const projectLibraryCollectionsArray = Array.from(
+    projectLibraryCollections.values()
+  )
+
+  globalLibraryCollectionsArray.sort(sortByCategoryPriority)
+
+  // TODO: sort projectLibraryCollectionsArray by count, filter out empty
+
   return (
-    <div style={{ width: '200px' }}>
-      {(source.id === 'library' || source.id === 'search' || isSearch) &&
-        sourceLink}
-      {libraryLists}
-    </div>
+    <Panel name={'librarySidebar'} minSize={200} direction={'row'} side={'end'}>
+      <StyledSidebar>
+        <SidebarContent>
+          <Section
+            title={'Project Library'}
+            open={sourceType === 'project'}
+            location={`/projects/${projectID}/library/project`}
+          >
+            {projectLibraryCollectionsArray.map(projectLibraryCollection => {
+              // TODO: count items with this LibraryCollection and only show LibraryCollections with items
+
+              return (
+                <SectionLink
+                  key={projectLibraryCollection._id}
+                  to={`/projects/${projectID}/library/project/${projectLibraryCollection._id}`}
+                >
+                  {projectLibraryCollection.name || 'Untitled List'}
+                </SectionLink>
+              )
+            })}
+          </Section>
+
+          {globalLibrariesArray.map(globalLibrary => {
+            const libraryCollections = globalLibraryCollectionsArray.filter(
+              libraryCollection => {
+                return libraryCollection.containerID === globalLibrary._id
+              }
+            )
+
+            const defaultLibraryCollection = libraryCollections.find(
+              libraryCollection =>
+                libraryCollection.category ===
+                DEFAULT_LIBRARY_COLLECTION_CATEGORY
+            )
+
+            const nonDefaultLibraryCollections = libraryCollections.filter(
+              libraryCollection =>
+                libraryCollection.category !==
+                DEFAULT_LIBRARY_COLLECTION_CATEGORY
+            )
+
+            const defaultFilter = defaultLibraryCollection
+              ? `/${defaultLibraryCollection._id}`
+              : ''
+
+            return (
+              <Section
+                key={globalLibrary._id}
+                title={globalLibrary.name || 'My Library'}
+                open={
+                  sourceType === 'global' &&
+                  sourceID === globalLibrary._id &&
+                  nonDefaultLibraryCollections.length > 0
+                }
+                location={`/projects/${projectID}/library/global/${globalLibrary._id}${defaultFilter}`}
+              >
+                {nonDefaultLibraryCollections.map(libraryCollection => (
+                  <SectionLink
+                    key={libraryCollection._id}
+                    to={`/projects/${projectID}/library/global/${globalLibrary._id}/${libraryCollection._id}`}
+                  >
+                    <SectionIcon>
+                      {sidebarIcon(libraryCollection.category)}
+                    </SectionIcon>
+                    <ListTitle>
+                      {libraryCollection.name || 'Untitled List'}
+                    </ListTitle>
+                  </SectionLink>
+                ))}
+              </Section>
+            )
+          })}
+
+          <Section
+            title={'Search'}
+            open={sourceType === 'search'}
+            location={`/projects/${projectID}/library/search`}
+          >
+            {sources.map(source => (
+              <SectionLink
+                key={source.id}
+                to={`/projects/${projectID}/library/search/${source.id}`}
+              >
+                {source.name}
+              </SectionLink>
+            ))}
+          </Section>
+        </SidebarContent>
+      </StyledSidebar>
+    </Panel>
   )
 }
 
-interface Props {
-  projectID: string
-  sources: LibrarySource[]
-  clearKeywords: () => void
-  handleKeyword: (keyword: string) => void
-  library: Map<string, BibliographyItem>
-  selectedKeywords?: Set<string>
-  isSearch: boolean
-}
+export const LibrarySidebarWithRouter = withRouter(LibrarySidebar)
 
-const LibrarySidebar: React.FC<Props> = ({
-  projectID,
-  sources,
-  clearKeywords,
-  handleKeyword,
-  library,
-  selectedKeywords,
-  isSearch,
-}) => (
-  <Panel name={'librarySidebar'} minSize={200} direction={'row'} side={'end'}>
-    <StyledSidebar>
-      <SidebarContent>
-        {sources.map(source => (
-          <NavElement
-            key={source.id}
-            projectID={projectID}
-            source={source}
-            clearKeywords={clearKeywords}
-            handleKeyword={handleKeyword}
-            library={library}
-            selectedKeywords={selectedKeywords}
-            isSearch={isSearch}
-          />
-        ))}
-      </SidebarContent>
-    </StyledSidebar>
-  </Panel>
+const Section: React.FC<{
+  open: boolean
+  location: string
+  title: string
+}> = ({ children, open, location, title }) => (
+  <SectionContainer>
+    <SectionTitleLink to={location} exact={true}>
+      {open ? <TriangleExpanded /> : <TriangleCollapsed />}
+      <SectionTitle>{title}</SectionTitle>
+    </SectionTitleLink>
+
+    {open && children}
+  </SectionContainer>
 )
-
-export default LibrarySidebar

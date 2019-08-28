@@ -13,7 +13,6 @@
 import { hasObjectType } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
-  Keyword,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
@@ -28,22 +27,17 @@ const isBibliographyItem = hasObjectType<BibliographyItem>(
   ObjectTypes.BibliographyItem
 )
 
-const isKeyword = hasObjectType<Keyword>(ObjectTypes.Keyword)
-
-const keywords = new Map<string, Keyword>()
 const bibliographyItems = new Map<string, BibliographyItem>()
 
 for (const model of modelMap.values()) {
   if (isBibliographyItem(model)) {
     bibliographyItems.set(model._id, model)
-  } else if (isKeyword(model)) {
-    keywords.set(model._id, model)
   }
 }
 
 const items = [...bibliographyItems.values()]
 
-storiesOf('Library', module)
+storiesOf('Citation', module)
   .add('Citation Editor', () => (
     <CitationEditor
       filterLibraryItems={() => []}

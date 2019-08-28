@@ -10,195 +10,145 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { buildBibliographyItem } from '@manuscripts/manuscript-transform'
-import { BibliographyItem, Project } from '@manuscripts/manuscripts-json-schema'
-import React from 'react'
-import { Route, RouteComponentProps, Switch } from 'react-router'
-import { RxDocument } from 'rxdb'
-import { sources } from '../../lib/sources'
+import {
+  BibliographyItem,
+  Library,
+  LibraryCollection,
+  Project,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
+import React, { useState } from 'react'
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
+import { useDebounce } from '../../hooks/use-debounce'
 import { Collection } from '../../sync/Collection'
-import LibraryContainer from './LibraryContainer'
-import LibrarySidebar from './LibrarySidebar'
-import LibrarySourceContainer from './LibrarySourceContainer'
+import { ExternalSearch } from './ExternalSearch'
+import { GlobalLibrary } from './GlobalLibrary'
+import { LibrarySidebarWithRouter } from './LibrarySidebar'
+import { ProjectLibrary } from './ProjectLibrary'
 
-interface State {
-  item: BibliographyItem | null
-  items: BibliographyItem[] | null
-  query: string | null
-  source: string
-  selectedKeywords: Set<string>
-}
-
-interface Props {
-  library: Map<string, BibliographyItem>
-  libraryCollection: Collection<BibliographyItem>
+export interface LibraryPageContainerProps {
+  globalLibraries: Map<string, Library>
+  globalLibraryCollections: Map<string, LibraryCollection>
+  globalLibraryItems: Map<string, BibliographyItem>
   project: Project
+  projectLibrary: Map<string, BibliographyItem>
+  projectLibraryCollection: Collection<BibliographyItem>
+  projectLibraryCollections: Map<string, LibraryCollection>
+  projectLibraryCollectionsCollection: Collection<LibraryCollection>
+  user: UserProfile
 }
 
-type CombinedProps = Props &
+export const LibraryPageContainer: React.FC<
   RouteComponentProps<{
     projectID: string
-  }>
+  }> &
+    LibraryPageContainerProps
+> = ({
+  globalLibraries,
+  globalLibraryCollections,
+  globalLibraryItems,
+  match: {
+    params: { projectID },
+  },
+  projectLibrary,
+  projectLibraryCollection,
+  projectLibraryCollections,
+  projectLibraryCollectionsCollection,
+  user,
+}) => {
+  // TODO: should the query be part of the route?
+  const [query, setQuery] = useState<string>()
 
-export type LibraryPageContainerComponent = React.ComponentType<Props>
+  const debouncedQuery = useDebounce(query, 500)
 
-class LibraryPageContainer extends React.Component<CombinedProps, State> {
-  public state: Readonly<State> = {
-    item: null,
-    items: null,
-    query: null,
-    source: 'library',
-    selectedKeywords: new Set<string>(),
-  }
+  return (
+    <>
+      <LibrarySidebarWithRouter
+        projectLibraryCollections={projectLibraryCollections}
+        globalLibraries={globalLibraries}
+        globalLibraryCollections={globalLibraryCollections}
+      />
 
-  public componentDidMount() {
-    this.setSource(this.props)
-  }
+      <Switch>
+        <Redirect
+          from={'/projects/:projectID/library'}
+          exact={true}
+          to={'/projects/:projectID/library/project'}
+        />
 
-  public componentWillReceiveProps(nextProps: CombinedProps) {
-    this.setSource(nextProps)
-  }
+        <Route
+          path={'/projects/:projectID/library/project/:filterID?'}
+          render={(
+            props: RouteComponentProps<{
+              projectID: string
+              filterID?: string
+            }>
+          ) => (
+            <ProjectLibrary
+              projectLibraryCollections={projectLibraryCollections}
+              projectLibraryCollectionsCollection={
+                projectLibraryCollectionsCollection
+              }
+              projectLibrary={projectLibrary}
+              projectLibraryCollection={projectLibraryCollection}
+              user={user}
+              query={query}
+              setQuery={setQuery}
+              debouncedQuery={debouncedQuery}
+              {...props}
+            />
+          )}
+        />
 
-  public render() {
-    const { source, query, selectedKeywords } = this.state
-    const { library, project } = this.props
+        <Route
+          path={'/projects/:projectID/library/global/:sourceID/:filterID?'}
+          render={(
+            props: RouteComponentProps<{
+              projectID: string
+              sourceID: string
+              filterID?: string
+            }>
+          ) => (
+            <GlobalLibrary
+              globalLibrary={globalLibraries.get(props.match.params.sourceID)}
+              globalLibraryItems={globalLibraryItems}
+              projectLibrary={projectLibrary}
+              projectLibraryCollection={projectLibraryCollection}
+              query={query}
+              setQuery={setQuery}
+              debouncedQuery={debouncedQuery}
+              {...props}
+            />
+          )}
+        />
 
-    if (!source || !project) return null
+        <Redirect
+          from={'/projects/:projectID/library/search'}
+          exact={true}
+          to={'/projects/:projectID/library/search/crossref'}
+        />
 
-    const librarySource = sources.find(item => item.id === source)
-
-    if (!librarySource) return null
-
-    return (
-      <>
-        <Switch>
-          <Route
-            path={'/projects/:projectID/library/library'}
-            exact={true}
-            render={() => (
-              <LibrarySidebar
-                projectID={project._id}
-                sources={sources}
-                library={library}
-                handleKeyword={value => {
-                  if (value) {
-                    if (selectedKeywords.has(value)) {
-                      selectedKeywords.delete(value)
-                    } else {
-                      selectedKeywords.add(value)
-                    }
-                    this.setState({
-                      selectedKeywords,
-                    })
-                  }
-                }}
-                clearKeywords={() => {
-                  selectedKeywords.clear()
-                }}
-                selectedKeywords={selectedKeywords}
-                isSearch={false}
-              />
-            )}
-          />
-          <Route
-            path={'/projects/:projectID/library/search'}
-            exact={false}
-            render={() => (
-              <LibrarySidebar
-                projectID={project._id}
-                sources={sources}
-                library={library}
-                handleKeyword={value => {
-                  if (value) {
-                    if (selectedKeywords.has(value)) {
-                      selectedKeywords.delete(value)
-                    } else {
-                      selectedKeywords.add(value)
-                    }
-                    this.setState({
-                      selectedKeywords,
-                    })
-                  }
-                }}
-                clearKeywords={() => {
-                  selectedKeywords.clear()
-                }}
-                selectedKeywords={selectedKeywords}
-                isSearch={true}
-              />
-            )}
-          />
-        </Switch>
-        {source === 'library' ? (
-          <LibraryContainer
-            library={library}
-            handleQuery={value => {
-              this.setState({
-                query: value === query ? '' : value,
-                selectedKeywords: new Set<string>(),
-              })
-            }}
-            handleSave={this.handleSave}
-            handleDelete={this.handleDelete}
-            projectID={project._id}
-            query={this.state.query}
-            selectedKeywords={this.state.selectedKeywords}
-          />
-        ) : (
-          <LibrarySourceContainer
-            source={librarySource}
-            handleAdd={this.handleAdd}
-            hasItem={this.hasItem}
-          />
-        )}
-      </>
-    )
-  }
-
-  private setSource(props: CombinedProps) {
-    const location = props.location
-    if (location && location.pathname && location.pathname.lastIndexOf('/')) {
-      this.setState({
-        source:
-          location.pathname.substring(location.pathname.lastIndexOf('/') + 1) ||
-          'library',
-      })
-    }
-  }
-
-  private handleAdd = async (data: Partial<BibliographyItem>) => {
-    const { projectID } = this.props.match.params
-
-    const item = buildBibliographyItem(data)
-
-    await this.props.libraryCollection.create(item, {
-      containerID: projectID,
-    })
-  }
-
-  private handleSave = (item: BibliographyItem) => {
-    return this.props.libraryCollection.update(item._id, item)
-  }
-
-  private handleDelete = async (item: BibliographyItem): Promise<string> => {
-    await this.props.libraryCollection.delete(item._id)
-
-    this.setState({
-      item: null,
-    })
-
-    return item._id
-  }
-
-  // TODO: move this to source definition
-  private hasItem = (item: BibliographyItem): boolean => {
-    const items = Array.from(this.props.library.values())
-
-    return items.some(
-      (libraryItem: RxDocument<BibliographyItem>) =>
-        libraryItem.DOI === item.DOI
-    )
-  }
+        <Route
+          path={'/projects/:projectID/library/search/:sourceID?'}
+          render={(
+            props: RouteComponentProps<{
+              projectID: string
+              sourceID: string
+            }>
+          ) => (
+            <ExternalSearch
+              projectLibrary={projectLibrary}
+              projectLibraryCollection={projectLibraryCollection}
+              query={query}
+              setQuery={setQuery}
+              debouncedQuery={debouncedQuery}
+              {...props}
+            />
+          )}
+        />
+      </Switch>
+    </>
+  )
 }
 
 export default LibraryPageContainer

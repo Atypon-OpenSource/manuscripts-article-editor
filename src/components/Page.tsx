@@ -171,12 +171,7 @@ export const Page: React.FunctionComponent<Props> = ({
           </Tip>
 
           <Tip title={'Library ⌥⌘4'} placement={'right'}>
-            <ViewLink
-              to={`/projects/${project._id}/library/library`}
-              isActive={(match, location) => {
-                return location.pathname.indexOf('/library/') > 0
-              }}
-            >
+            <ViewLink to={`/projects/${project._id}/library`}>
               <ProjectLibraryIcon />
             </ViewLink>
           </Tip>

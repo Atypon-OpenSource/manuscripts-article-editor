@@ -14,11 +14,15 @@ import React from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
 import CollaboratorsData from '../../data/CollaboratorsData'
 import ContainerInvitationsData from '../../data/ContainerInvitationsData'
+import GlobalLibrariesData from '../../data/GlobalLibrariesData'
+import GlobalLibraryCollectionsData from '../../data/GlobalLibraryCollectionsData'
+import GlobalLibraryItemsData from '../../data/GlobalLibraryItemsData'
 import ManuscriptCommentsData from '../../data/ManuscriptCommentsData'
 import ManuscriptData from '../../data/ManuscriptData'
 import ProjectData from '../../data/ProjectData'
 import ProjectInvitationsData from '../../data/ProjectInvitationsData'
 import ProjectKeywordsData from '../../data/ProjectKeywordsData'
+import ProjectLibraryCollectionsData from '../../data/ProjectLibraryCollectionsData'
 import ProjectLibraryData from '../../data/ProjectLibraryData'
 import ProjectManuscriptsData from '../../data/ProjectManuscriptsData'
 import ProjectsData from '../../data/ProjectsData'
@@ -33,21 +37,24 @@ import Sync from '../../sync/Sync'
 import AddCollaboratorsPageContainer from '../collaboration/AddCollaboratorsPageContainer'
 import CollaboratorsPageContainer from '../collaboration/CollaboratorsPageContainer'
 import { DatabaseContext } from '../DatabaseProvider'
-import { LibraryPageContainerComponent } from '../library/LibraryPageContainer'
+import { LibraryPageContainerProps } from '../library/LibraryPageContainer'
 import { Page } from '../Page'
 import { ProjectAphorismPlaceholder, ProjectPlaceholder } from '../Placeholders'
 import EmptyProjectPageContainer from './EmptyProjectPageContainer'
-import { ManuscriptPageContainerComponent } from './ManuscriptPageContainer'
+import { ManuscriptPageContainerProps } from './ManuscriptPageContainer'
 
-const LibraryPageContainer = React.lazy<LibraryPageContainerComponent>(() =>
+const LibraryPageContainer = React.lazy<
+  React.ComponentType<LibraryPageContainerProps>
+>(() =>
   import(
     /* webpackChunkName:"library-page" */ '../library/LibraryPageContainer'
   )
 )
 
-const ManuscriptPageContainer = React.lazy<ManuscriptPageContainerComponent>(
-  () =>
-    import(/* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainer')
+const ManuscriptPageContainer = React.lazy<
+  React.ComponentType<ManuscriptPageContainerProps>
+>(() =>
+  import(/* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainer')
 )
 
 const APHORISM_DURATION =
@@ -99,301 +106,418 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                             db={db}
                             tokenActions={tokenActions}
                           >
-                            <UserProjectsData projectID={projectID}>
-                              {(userProjects, userProjectCollection) => (
-                                <ProjectLibraryData projectID={projectID}>
-                                  {(library, libraryCollection) => (
-                                    <Switch>
-                                      <Route
-                                        path={'/projects/:projectID/'}
-                                        exact={true}
-                                        render={props => (
-                                          <ProjectManuscriptsData
-                                            projectID={projectID}
-                                            {...props}
-                                          >
-                                            {manuscripts => {
-                                              if (
-                                                !manuscripts.length ||
-                                                (props.location.state &&
-                                                  props.location.state.empty)
-                                              ) {
-                                                return (
-                                                  <EmptyProjectPageContainer
-                                                    project={project}
-                                                    user={user}
-                                                    message={message}
-                                                  />
-                                                )
-                                              }
+                            <GlobalLibraryCollectionsData>
+                              {globalLibraryCollections => (
+                                <GlobalLibrariesData>
+                                  {globalLibraries => {
+                                    const channels = [
+                                      ...globalLibraries.keys(),
+                                      ...globalLibraryCollections.keys(),
+                                    ].map(id => `${id}-read`)
 
-                                              const manuscriptID = lastOpenedManuscriptID(
-                                                projectID,
-                                                userProjects
-                                              )
-
-                                              if (manuscriptID) {
-                                                return (
-                                                  <Redirect
-                                                    to={{
-                                                      pathname: `/projects/${project._id}/manuscripts/${manuscriptID}`,
-                                                      state: {
-                                                        infoMessage: message,
-                                                      },
-                                                    }}
-                                                  />
-                                                )
-                                              }
-
-                                              manuscripts.sort(
-                                                (a, b) =>
-                                                  Number(a.createdAt) -
-                                                  Number(b.createdAt)
-                                              )
-
-                                              return (
-                                                <Redirect
-                                                  to={{
-                                                    pathname: `/projects/${project._id}/manuscripts/${manuscripts[0]._id}`,
-                                                    state: {
-                                                      infoMessage: message,
-                                                    },
-                                                  }}
-                                                />
-                                              )
-                                            }}
-                                          </ProjectManuscriptsData>
-                                        )}
-                                      />
-
-                                      <Route
-                                        path={
-                                          '/projects/:projectID/manuscripts/:manuscriptID'
-                                        }
-                                        exact={true}
-                                        render={(
-                                          props: RouteComponentProps<{
-                                            manuscriptID: string
-                                            projectID: string
-                                          }>
-                                        ) => {
-                                          const {
-                                            manuscriptID,
-                                            projectID,
-                                          } = props.match.params
-
-                                          return (
-                                            <ProjectsData>
+                                    return (
+                                      <Sync
+                                        collection={'libraryitems'}
+                                        channels={channels}
+                                        db={db}
+                                        tokenActions={tokenActions}
+                                        // readOnly={true}
+                                      >
+                                        <GlobalLibraryItemsData>
+                                          {globalLibraryItems => (
+                                            <UserProjectsData
+                                              projectID={projectID}
+                                            >
                                               {(
-                                                projects,
-                                                projectsCollection
+                                                userProjects,
+                                                userProjectCollection
                                               ) => (
-                                                <ProjectManuscriptsData
+                                                <ProjectLibraryData
                                                   projectID={projectID}
-                                                  {...props}
                                                 >
-                                                  {manuscripts => (
-                                                    <ProjectKeywordsData
-                                                      projectID={projectID}
-                                                    >
-                                                      {keywords => (
-                                                        <ManuscriptData
-                                                          projectID={projectID}
-                                                          manuscriptID={
-                                                            manuscriptID
-                                                          }
-                                                        >
-                                                          {manuscript => (
-                                                            <ManuscriptCommentsData
-                                                              manuscriptID={
-                                                                manuscriptID
-                                                              }
-                                                              projectID={
-                                                                projectID
-                                                              }
-                                                            >
-                                                              {comments => (
-                                                                <React.Suspense
-                                                                  fallback={
-                                                                    <ProjectPlaceholder />
-                                                                  }
-                                                                >
-                                                                  <ManuscriptPageContainer
-                                                                    {...props}
-                                                                    comments={
-                                                                      comments
-                                                                    }
-                                                                    keywords={
-                                                                      keywords
-                                                                    }
-                                                                    library={
-                                                                      library
-                                                                    }
-                                                                    manuscript={
-                                                                      manuscript
-                                                                    }
-                                                                    manuscripts={
-                                                                      manuscripts
-                                                                    }
+                                                  {(
+                                                    library,
+                                                    libraryCollection
+                                                  ) => (
+                                                    <Switch>
+                                                      <Route
+                                                        path={
+                                                          '/projects/:projectID/'
+                                                        }
+                                                        exact={true}
+                                                        render={props => (
+                                                          <ProjectManuscriptsData
+                                                            projectID={
+                                                              projectID
+                                                            }
+                                                            {...props}
+                                                          >
+                                                            {manuscripts => {
+                                                              if (
+                                                                !manuscripts.length ||
+                                                                (props.location
+                                                                  .state &&
+                                                                  props.location
+                                                                    .state
+                                                                    .empty)
+                                                              ) {
+                                                                return (
+                                                                  <EmptyProjectPageContainer
                                                                     project={
                                                                       project
                                                                     }
-                                                                    projects={
-                                                                      projects
+                                                                    user={user}
+                                                                    message={
+                                                                      message
                                                                     }
-                                                                    projectsCollection={
-                                                                      projectsCollection
+                                                                  />
+                                                                )
+                                                              }
+
+                                                              const manuscriptID = lastOpenedManuscriptID(
+                                                                projectID,
+                                                                userProjects
+                                                              )
+
+                                                              if (
+                                                                manuscriptID
+                                                              ) {
+                                                                return (
+                                                                  <Redirect
+                                                                    to={{
+                                                                      pathname: `/projects/${project._id}/manuscripts/${manuscriptID}`,
+                                                                      state: {
+                                                                        infoMessage: message,
+                                                                      },
+                                                                    }}
+                                                                  />
+                                                                )
+                                                              }
+
+                                                              manuscripts.sort(
+                                                                (a, b) =>
+                                                                  Number(
+                                                                    a.createdAt
+                                                                  ) -
+                                                                  Number(
+                                                                    b.createdAt
+                                                                  )
+                                                              )
+
+                                                              return (
+                                                                <Redirect
+                                                                  to={{
+                                                                    pathname: `/projects/${project._id}/manuscripts/${manuscripts[0]._id}`,
+                                                                    state: {
+                                                                      infoMessage: message,
+                                                                    },
+                                                                  }}
+                                                                />
+                                                              )
+                                                            }}
+                                                          </ProjectManuscriptsData>
+                                                        )}
+                                                      />
+
+                                                      <Route
+                                                        path={
+                                                          '/projects/:projectID/manuscripts/:manuscriptID'
+                                                        }
+                                                        exact={true}
+                                                        render={(
+                                                          props: RouteComponentProps<{
+                                                            manuscriptID: string
+                                                            projectID: string
+                                                          }>
+                                                        ) => {
+                                                          const {
+                                                            manuscriptID,
+                                                            projectID,
+                                                          } = props.match.params
+
+                                                          return (
+                                                            <ProjectsData>
+                                                              {(
+                                                                projects,
+                                                                projectsCollection
+                                                              ) => (
+                                                                <ProjectKeywordsData
+                                                                  projectID={
+                                                                    projectID
+                                                                  }
+                                                                >
+                                                                  {keywords => (
+                                                                    <ProjectManuscriptsData
+                                                                      projectID={
+                                                                        projectID
+                                                                      }
+                                                                      {...props}
+                                                                    >
+                                                                      {manuscripts => (
+                                                                        <ManuscriptData
+                                                                          projectID={
+                                                                            projectID
+                                                                          }
+                                                                          manuscriptID={
+                                                                            manuscriptID
+                                                                          }
+                                                                        >
+                                                                          {manuscript => (
+                                                                            <ManuscriptCommentsData
+                                                                              manuscriptID={
+                                                                                manuscriptID
+                                                                              }
+                                                                              projectID={
+                                                                                projectID
+                                                                              }
+                                                                            >
+                                                                              {comments => (
+                                                                                <React.Suspense
+                                                                                  fallback={
+                                                                                    <ProjectPlaceholder />
+                                                                                  }
+                                                                                >
+                                                                                  <ManuscriptPageContainer
+                                                                                    {...props}
+                                                                                    comments={
+                                                                                      comments
+                                                                                    }
+                                                                                    keywords={
+                                                                                      keywords
+                                                                                    }
+                                                                                    library={
+                                                                                      library
+                                                                                    }
+                                                                                    manuscript={
+                                                                                      manuscript
+                                                                                    }
+                                                                                    manuscripts={
+                                                                                      manuscripts
+                                                                                    }
+                                                                                    project={
+                                                                                      project
+                                                                                    }
+                                                                                    projects={
+                                                                                      projects
+                                                                                    }
+                                                                                    projectsCollection={
+                                                                                      projectsCollection
+                                                                                    }
+                                                                                    user={
+                                                                                      user
+                                                                                    }
+                                                                                    collaborators={buildCollaboratorProfiles(
+                                                                                      collaborators,
+                                                                                      user
+                                                                                    )}
+                                                                                    userProjects={
+                                                                                      userProjects
+                                                                                    }
+                                                                                    userProjectsCollection={
+                                                                                      userProjectCollection
+                                                                                    }
+                                                                                    tokenActions={
+                                                                                      this
+                                                                                        .props
+                                                                                        .tokenActions
+                                                                                    }
+                                                                                  />
+                                                                                </React.Suspense>
+                                                                              )}
+                                                                            </ManuscriptCommentsData>
+                                                                          )}
+                                                                        </ManuscriptData>
+                                                                      )}
+                                                                    </ProjectManuscriptsData>
+                                                                  )}
+                                                                </ProjectKeywordsData>
+                                                              )}
+                                                            </ProjectsData>
+                                                          )
+                                                        }}
+                                                      />
+
+                                                      <Route
+                                                        path={
+                                                          '/projects/:projectID/library/:sourceType?/:sourceID?/:filterID?'
+                                                        }
+                                                        render={props => (
+                                                          <ProjectLibraryCollectionsData
+                                                            projectID={
+                                                              projectID
+                                                            }
+                                                          >
+                                                            {(
+                                                              projectLibraryCollections,
+                                                              projectLibraryCollectionsCollection
+                                                            ) => (
+                                                              <React.Suspense
+                                                                fallback={
+                                                                  <ProjectPlaceholder />
+                                                                }
+                                                              >
+                                                                <LibraryPageContainer
+                                                                  {...props}
+                                                                  project={
+                                                                    project
+                                                                  }
+                                                                  projectLibrary={
+                                                                    library
+                                                                  }
+                                                                  projectLibraryCollection={
+                                                                    libraryCollection
+                                                                  }
+                                                                  projectLibraryCollections={
+                                                                    projectLibraryCollections
+                                                                  }
+                                                                  projectLibraryCollectionsCollection={
+                                                                    projectLibraryCollectionsCollection
+                                                                  }
+                                                                  globalLibraries={
+                                                                    globalLibraries
+                                                                  }
+                                                                  globalLibraryCollections={
+                                                                    globalLibraryCollections
+                                                                  }
+                                                                  globalLibraryItems={
+                                                                    globalLibraryItems
+                                                                  }
+                                                                  user={user}
+                                                                />
+                                                              </React.Suspense>
+                                                            )}
+                                                          </ProjectLibraryCollectionsData>
+                                                        )}
+                                                      />
+
+                                                      <Route
+                                                        path={
+                                                          '/projects/:projectID/collaborators'
+                                                        }
+                                                        exact={true}
+                                                        render={props => (
+                                                          <ProjectInvitationsData
+                                                            projectID={
+                                                              projectID
+                                                            }
+                                                            {...props}
+                                                          >
+                                                            {invitations => (
+                                                              <ContainerInvitationsData
+                                                                containerID={
+                                                                  projectID
+                                                                }
+                                                                {...props}
+                                                              >
+                                                                {containerInvitations => (
+                                                                  <CollaboratorsPageContainer
+                                                                    {...props}
+                                                                    invitations={[
+                                                                      ...buildContainerInvitations(
+                                                                        invitations
+                                                                      ),
+                                                                      ...containerInvitations,
+                                                                    ].filter(
+                                                                      invitation =>
+                                                                        invitation.containerID.startsWith(
+                                                                          'MPProject'
+                                                                        )
+                                                                    )}
+                                                                    project={
+                                                                      project
                                                                     }
                                                                     user={user}
                                                                     collaborators={buildCollaboratorProfiles(
                                                                       collaborators,
                                                                       user
                                                                     )}
-                                                                    userProjects={
-                                                                      userProjects
-                                                                    }
-                                                                    userProjectsCollection={
-                                                                      userProjectCollection
-                                                                    }
                                                                     tokenActions={
                                                                       this.props
                                                                         .tokenActions
                                                                     }
                                                                   />
-                                                                </React.Suspense>
-                                                              )}
-                                                            </ManuscriptCommentsData>
-                                                          )}
-                                                        </ManuscriptData>
-                                                      )}
-                                                    </ProjectKeywordsData>
-                                                  )}
-                                                </ProjectManuscriptsData>
-                                              )}
-                                            </ProjectsData>
-                                          )
-                                        }}
-                                      />
-
-                                      <Route
-                                        path={'/projects/:projectID/library'}
-                                        exact={false}
-                                        render={props => (
-                                          <React.Suspense
-                                            fallback={<ProjectPlaceholder />}
-                                          >
-                                            <LibraryPageContainer
-                                              {...props}
-                                              project={project}
-                                              library={library}
-                                              libraryCollection={
-                                                libraryCollection
-                                              }
-                                            />
-                                          </React.Suspense>
-                                        )}
-                                      />
-
-                                      <Route
-                                        path={
-                                          '/projects/:projectID/collaborators'
-                                        }
-                                        exact={true}
-                                        render={props => (
-                                          <ProjectInvitationsData
-                                            projectID={projectID}
-                                            {...props}
-                                          >
-                                            {invitations => (
-                                              <ContainerInvitationsData
-                                                containerID={projectID}
-                                                {...props}
-                                              >
-                                                {containerInvitations => (
-                                                  <CollaboratorsPageContainer
-                                                    {...props}
-                                                    invitations={[
-                                                      ...buildContainerInvitations(
-                                                        invitations
-                                                      ),
-                                                      ...containerInvitations,
-                                                    ].filter(invitation =>
-                                                      invitation.containerID.startsWith(
-                                                        'MPProject'
-                                                      )
-                                                    )}
-                                                    project={project}
-                                                    user={user}
-                                                    collaborators={buildCollaboratorProfiles(
-                                                      collaborators,
-                                                      user
-                                                    )}
-                                                    tokenActions={
-                                                      this.props.tokenActions
-                                                    }
-                                                  />
-                                                )}
-                                              </ContainerInvitationsData>
-                                            )}
-                                          </ProjectInvitationsData>
-                                        )}
-                                      />
-
-                                      <Route
-                                        path={
-                                          '/projects/:projectID/collaborators/add'
-                                        }
-                                        exact={true}
-                                        render={props => (
-                                          <ProjectInvitationsData
-                                            projectID={projectID}
-                                            {...props}
-                                          >
-                                            {invitations => (
-                                              <ContainerInvitationsData
-                                                containerID={projectID}
-                                                {...props}
-                                              >
-                                                {containerInvitations => (
-                                                  <ProjectsData>
-                                                    {projects => (
-                                                      <AddCollaboratorsPageContainer
-                                                        {...props}
-                                                        invitations={[
-                                                          ...buildContainerInvitations(
-                                                            invitations
-                                                          ),
-                                                          ...containerInvitations,
-                                                        ].filter(invitation =>
-                                                          invitation.containerID.startsWith(
-                                                            'MPProject'
-                                                          )
+                                                                )}
+                                                              </ContainerInvitationsData>
+                                                            )}
+                                                          </ProjectInvitationsData>
                                                         )}
-                                                        project={project}
-                                                        projects={projects}
-                                                        user={user}
-                                                        collaborators={buildCollaboratorProfiles(
-                                                          collaborators,
-                                                          user
-                                                        )}
-                                                        tokenActions={
-                                                          this.props
-                                                            .tokenActions
-                                                        }
                                                       />
-                                                    )}
-                                                  </ProjectsData>
-                                                )}
-                                              </ContainerInvitationsData>
-                                            )}
-                                          </ProjectInvitationsData>
-                                        )}
-                                      />
-                                    </Switch>
-                                  )}
-                                </ProjectLibraryData>
+
+                                                      <Route
+                                                        path={
+                                                          '/projects/:projectID/collaborators/add'
+                                                        }
+                                                        exact={true}
+                                                        render={props => (
+                                                          <ProjectInvitationsData
+                                                            projectID={
+                                                              projectID
+                                                            }
+                                                            {...props}
+                                                          >
+                                                            {invitations => (
+                                                              <ContainerInvitationsData
+                                                                containerID={
+                                                                  projectID
+                                                                }
+                                                                {...props}
+                                                              >
+                                                                {containerInvitations => (
+                                                                  <ProjectsData>
+                                                                    {projects => (
+                                                                      <AddCollaboratorsPageContainer
+                                                                        {...props}
+                                                                        invitations={[
+                                                                          ...buildContainerInvitations(
+                                                                            invitations
+                                                                          ),
+                                                                          ...containerInvitations,
+                                                                        ].filter(
+                                                                          invitation =>
+                                                                            invitation.containerID.startsWith(
+                                                                              'MPProject'
+                                                                            )
+                                                                        )}
+                                                                        project={
+                                                                          project
+                                                                        }
+                                                                        projects={
+                                                                          projects
+                                                                        }
+                                                                        user={
+                                                                          user
+                                                                        }
+                                                                        collaborators={buildCollaboratorProfiles(
+                                                                          collaborators,
+                                                                          user
+                                                                        )}
+                                                                        tokenActions={
+                                                                          this
+                                                                            .props
+                                                                            .tokenActions
+                                                                        }
+                                                                      />
+                                                                    )}
+                                                                  </ProjectsData>
+                                                                )}
+                                                              </ContainerInvitationsData>
+                                                            )}
+                                                          </ProjectInvitationsData>
+                                                        )}
+                                                      />
+                                                    </Switch>
+                                                  )}
+                                                </ProjectLibraryData>
+                                              )}
+                                            </UserProjectsData>
+                                          )}
+                                        </GlobalLibraryItemsData>
+                                      </Sync>
+                                    )
+                                  }}
+                                </GlobalLibrariesData>
                               )}
-                            </UserProjectsData>
+                            </GlobalLibraryCollectionsData>
                           </Sync>
                         )}
                       </CollaboratorsData>

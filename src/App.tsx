@@ -49,6 +49,8 @@ const App: React.FunctionComponent = () => (
                 `${userID}-readwrite`, // profile
                 `${userProfileID}-readwrite`, // profile
                 `${userID}-projects`, // projects
+                `${userID}-libraries`, // libraries
+                `${userID}-library-collections`, // library collections
               ]}
               db={db}
               tokenActions={tokenActions}

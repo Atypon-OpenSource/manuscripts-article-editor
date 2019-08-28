@@ -10,68 +10,70 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import PlusIcon from '@manuscripts/assets/react/PlusIcon'
-import { buildKeyword } from '@manuscripts/manuscript-transform'
+import { buildLibraryCollection } from '@manuscripts/manuscript-transform'
 import {
   BibliographicName,
   BibliographyItem,
-  Keyword,
+  LibraryCollection,
+  UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { PrimarySubmitButton } from '@manuscripts/style-guide'
+import { ButtonGroup, PrimarySubmitButton } from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
-import * as React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
-import ProjectKeywordsData from '../../data/ProjectKeywordsData'
-import { css, styled } from '../../theme/styled-components'
+import { Collection } from '../../sync/Collection'
+import { aliceBlue, manuscriptsGrey } from '../../theme/colors'
+import { styled } from '../../theme/styled-components'
 
-const Fields = styled.div`
-  padding: 10px;
+const LabelContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
 `
 
-const baseTextStyleMixin = css`
+const Label = styled.label`
   font-family: ${props => props.theme.fontFamily};
   font-size: 16px;
-  letter-spacing: -0.2px;
-`
-
-const BaseLabel = styled.label`
-  ${baseTextStyleMixin}
-`
-
-const Label = styled(BaseLabel)<{
-  floatStyle?: string
-  marginBottom?: string
-  color?: string
-}>`
   display: flex;
-  flex-direction: column;
-  letter-spacing: -0.3px;
-  float: ${props => (props.floatStyle ? props.floatStyle : 'none')};
-  margin-bottom: ${props =>
-    props.marginBottom ? props.marginBottom + 'px' : '10px'};
-  color: ${props =>
-    props.color ? props.color : props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.global.text.secondary};
 `
 
-const AuthorLabelText = styled(Label)<{ isSelected?: boolean }>`
-  padding: 5px;
+const AuthorHeading = styled.button.attrs({
+  type: 'button',
+})<{ isExpanded?: boolean }>`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: inherit;
+  color: inherit;
   color: ${props =>
-    props.isSelected
+    props.isExpanded
       ? props.theme.colors.global.text.link
       : props.theme.colors.label.text};
 `
 
-const FieldLabel = styled(BaseLabel)`
+const FieldLabel = styled.label`
+  font-family: ${props => props.theme.fontFamily};
+  font-size: 16px;
   color: ${props => props.theme.colors.library.sidebar.field.label};
+  width: 50%;
 `
 
 const TextFieldContainer = styled.div`
-  display: inline-block;
-  border-style: solid;
-  border-width: 0px 0px 1px 0px;
-  border-color: ${props => props.theme.colors.library.sidebar.field.border};
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid
+    ${props => props.theme.colors.library.sidebar.field.border};
   background-color: #ffffff;
 `
 
@@ -81,6 +83,7 @@ const TextField = styled.input`
   box-sizing: border-box;
   border: none;
   background-color: transparent;
+  width: 50%;
 
   &:focus {
     outline: none;
@@ -90,130 +93,84 @@ const TextField = styled.input`
     color: #aaa;
   }
 
-  &:hover {
-    &::placeholder {
-      color: #777;
-    }
+  &:hover::placeholder {
+    color: #777;
   }
 `
 
-interface CollapsibleProps {
-  className?: string
+const CollapsibleAuthorContainer: React.FC<{
   title: string
+  action: JSX.Element
+}> = ({ children, title, action }) => {
+  const [expanded, setExpanded] = useState(!title)
+
+  const toggleExpanded = useCallback(() => {
+    setExpanded(value => !value)
+  }, [])
+
+  return (
+    <AuthorContainer isExpanded={expanded}>
+      <AuthorHeading
+        isExpanded={expanded}
+        onClick={toggleExpanded}
+        tabIndex={0}
+      >
+        <span>{!title ? 'Edit author name' : title}</span>
+
+        <ArrowDownBlack
+          style={{
+            transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+        />
+      </AuthorHeading>
+
+      {expanded && <AuthorContent>{children}</AuthorContent>}
+
+      {expanded && <AuthorActions>{action}</AuthorActions>}
+    </AuthorContainer>
+  )
 }
 
-interface CollapsibleState {
-  isExpanded: boolean
-}
-
-class CollapsibleContainer extends React.Component<
-  CollapsibleProps,
-  CollapsibleState
-> {
-  public state: CollapsibleState = {
-    isExpanded: false,
-  }
-
-  public toggleExpanded = (e: React.MouseEvent) => {
-    e.preventDefault()
-    this.setState({ isExpanded: !this.state.isExpanded })
-  }
-
-  public render() {
-    let { title } = this.props
-    const { isExpanded } = this.state
-    if (title === ' ' && !isExpanded) {
-      title = 'Edit author name'
-    }
-    return (
-      <StyledCollapsibleContainer isSelected={isExpanded}>
-        <AuthorLabelText
-          isSelected={isExpanded}
-          onClick={this.toggleExpanded}
-          marginBottom="5px"
-        >
-          {title} {isExpanded && String.fromCharCode(8963)}{' '}
-          {!isExpanded && String.fromCharCode(8964)}
-        </AuthorLabelText>
-        {React.Children.map(this.props.children, child => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child, {
-              ...(this.props && { isExpanded: this.state.isExpanded }),
-            })
-          }
-          return child
-        })}
-      </StyledCollapsibleContainer>
-    )
-  }
-}
-
-const StyledCollapsibleContainer = styled.div<{ isSelected?: boolean }>`
-  color: black;
-  cursor: default;
-  border: none;
-  max-width: 450px;
-  text-align: left;
-  outline: none;
+const AuthorContainer = styled.div<{ isExpanded?: boolean }>`
   font-size: 15px;
-  border-bottom: 1px solid ${props => props.theme.colors.dialog.shadow};
-  background-color: ${props =>
-    props && props.isSelected
-      ? props.theme.colors.library.sidebar.background.default
-      : '#ffffff'};
+  background-color: ${props => (props.isExpanded ? aliceBlue : 'transparent')};
+  overflow: hidden;
 
   &:active,
   &:hover {
-    background-color: ${props =>
-      props.theme.colors.library.sidebar.background.default};
+    background-color: ${aliceBlue};
+  }
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid
+      ${props => props.theme.colors.textField.border.default};
+  }
+
+  &:first-of-type {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+
+  &:last-of-type {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
   }
 `
 
-interface CollapsibleItemProp {
-  isExpanded?: boolean
-  className?: string
-}
-
-class CollapsibleItem extends React.Component<CollapsibleItemProp> {
-  public render() {
-    const { isExpanded } = this.props
-
-    return (
-      <StyledCollapsibleItem isExpanded={isExpanded}>
-        {React.Children.map(this.props.children, child => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child, { ...this.props })
-          }
-          return child
-        })}
-      </StyledCollapsibleItem>
-    )
-  }
-}
-
-interface CollapsibleProps {
-  height?: number
-}
-
-const StyledCollapsibleItem = styled.div<{ isExpanded?: boolean }>`
-  display: ${props => (props.isExpanded ? 'block' : 'none')};
-  overflow: hidden;
-  background-color: ${props =>
-    props.theme.colors.library.sidebar.background.default};
-  color: black;
-  border-radius: 5px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #aaa;
-  margin: 7px 20px 20px 20px;
+const AuthorContent = styled.div`
+  border-radius: 4px;
+  border: 1px solid ${props => props.theme.colors.textField.border.default};
+  margin: 0 12px;
 `
 
 const StyledTitleField = styled(TitleField)`
-  flex: 1;
-  ${baseTextStyleMixin};
-  line-height: 1.31;
-  letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.label.text};
+  font-family: ${props => props.theme.fontFamily};
+  font-size: 16px;
+  line-height: 1.25;
+  color: ${manuscriptsGrey};
+  border-radius: 4px;
+  border: 1px solid ${props => props.theme.colors.textField.border.default};
+  padding: 8px;
 
   & .ProseMirror {
     &:focus {
@@ -224,18 +181,16 @@ const StyledTitleField = styled(TitleField)`
 
 const YearField = styled(Field)`
   font-family: ${props => props.theme.fontFamily};
-  padding-left: 5px;
-  ${baseTextStyleMixin};
-  line-height: 1.31;
-  letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.label.text};
-  width: 140px;
-  height: 40px;
-  border-radius: 6px;
-  border: solid 1px ${props => props.theme.colors.library.sidebar.field.label};
+  padding: 8px;
+  font-size: 16px;
+  color: ${manuscriptsGrey};
+  border-radius: 4px;
+  border: solid 1px ${props => props.theme.colors.textField.border.default};
 `
 
-const Button = styled.button`
+const Button = styled.button.attrs({
+  type: 'button',
+})`
   background-color: transparent;
   color: ${props => props.theme.colors.button.primary};
   border: 2px solid transparent;
@@ -243,9 +198,8 @@ const Button = styled.button`
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
-  float: right;
   justify-content: center;
-  padding: 1px 10px 3px;
+  padding: 2px 8px;
   font-family: ${props => props.theme.fontFamily};
   font-size: 14px;
   font-weight: 600;
@@ -265,8 +219,11 @@ const Button = styled.button`
     color: white;
   }
 `
-const BaseButton = styled.button`
-  ${baseTextStyleMixin};
+const BaseButton = styled.button.attrs({
+  type: 'button',
+})`
+  font-family: ${props => props.theme.fontFamily};
+  font-size: 16px;
   background-color: ${props =>
     props.theme.colors.library.sidebar.background.default};
   border: none;
@@ -276,54 +233,32 @@ const BaseButton = styled.button`
   color: ${props => props.theme.colors.button.primary};
 `
 
-const RemoveButton = styled(BaseButton)<{ isExpanded?: boolean }>`
-  display: ${props => (props.isExpanded ? 'block' : 'none')};
-  margin-bottom: 20px;
-`
-
 const PlainTextButton = styled(BaseButton)`
   background-color: #ffffff;
   text-align: left;
 `
-const Author = styled.div`
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: column;
-  border: none;
-  width: auto;
-  margin: 0px;
 
-  & ${TextField} {
-  }
-`
+const Author = styled.div``
 
 const Actions = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 8px;
 `
 
-const ActionsGroup = styled.div`
-  display: flex;
-  align-items: right;
+const AuthorActions = styled(Actions)`
+  justify-content: flex-end;
 `
 
 const AuthorFormContainer = styled.div`
-  border-radius: 6px;
-  border: solid 1px ${props => props.theme.colors.dialog.shadow};
-  max-width: 450px;
-`
-
-const TitleContainer = styled.div`
-  display: flex;
-  margin-bottom: 8px;
-  border-radius: 6px;
-  border: solid 1px ${props => props.theme.colors.dialog.shadow};
-  padding: 9px 5px 9px 5px;
+  border-radius: 4px;
+  border: solid 1px ${props => props.theme.colors.textField.border.default};
 `
 
 const TitleLink = styled.a`
-  ${baseTextStyleMixin};
+  font-family: ${props => props.theme.fontFamily};
+  font-size: 16px;
   text-decoration: none;
   border: none;
   cursor: pointer;
@@ -333,25 +268,22 @@ const TitleLink = styled.a`
   padding: 0px 20px;
 `
 
+const FormField = styled.div`
+  padding: 10px;
+`
+
 interface OptionType {
   label: string
   value: any // tslint:disable-line:no-any
 }
 
-interface Props {
-  item: BibliographyItem
-  handleDelete?: (item: BibliographyItem) => void
-  handleSave: (item: BibliographyItem) => void
-  projectID: string
-}
-
-const buildOptions = (data: Map<string, Keyword>) => {
+const buildOptions = (data: Map<string, LibraryCollection>) => {
   const options: OptionType[] = []
 
-  for (const keyword of data.values()) {
+  for (const libraryCollection of data.values()) {
     options.push({
-      value: keyword._id,
-      label: keyword.name,
+      value: libraryCollection._id,
+      label: libraryCollection.name,
     })
   }
 
@@ -379,196 +311,210 @@ const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
   issued: item.issued,
 })
 
-// TODO: a "manage tags" page, where old tags can be deleted
+// TODO: a "manage library collections" page, where unused library collections can be deleted
 
-const LibraryForm: React.FC<Props> = ({
+const LibraryForm: React.FC<{
+  item: BibliographyItem
+  handleDelete?: (item: BibliographyItem) => void
+  handleSave: (item: BibliographyItem) => void
+  projectID: string
+  projectLibraryCollections: Map<string, LibraryCollection>
+  projectLibraryCollectionsCollection: Collection<LibraryCollection>
+  user: UserProfile
+}> = ({
   item,
   handleSave,
   handleDelete,
   projectID,
+  projectLibraryCollections,
+  projectLibraryCollectionsCollection,
+  user,
 }) => (
-  <ProjectKeywordsData projectID={projectID}>
-    {(keywords, keywordActions) => (
-      <Formik<LibraryFormValues>
-        initialValues={buildInitialValues(item)}
-        onSubmit={handleSave}
-        enableReinitialize={true}
-      >
-        {({ values, setFieldValue, handleChange }) => (
-          <Form>
-            <Fields>
-              <Label>Title</Label>
-              <TitleContainer>
-                <StyledTitleField
-                  value={values.title || ''}
-                  handleChange={data => setFieldValue('title', data)}
-                />
-              </TitleContainer>
+  <Formik<LibraryFormValues>
+    initialValues={buildInitialValues(item)}
+    onSubmit={handleSave}
+    enableReinitialize={true}
+  >
+    {({ values, setFieldValue, handleChange }) => (
+      <Form>
+        <FormField>
+          <LabelContainer>
+            <Label>Title</Label>
+          </LabelContainer>
 
-              <Label>
-                <FieldArray
-                  name={'author'}
-                  render={arrayHelpers => (
-                    <div
-                      onClick={e => {
-                        e.preventDefault()
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Label floatStyle="left" marginBottom="5">
-                          Authors
-                        </Label>
-                        <Button
-                          type={'button'}
-                          onClick={() =>
-                            arrayHelpers.push({ given: '', family: '' })
-                          }
+          <StyledTitleField
+            value={values.title || ''}
+            handleChange={data => setFieldValue('title', data)}
+          />
+        </FormField>
+
+        <FieldArray
+          name={'author'}
+          render={arrayHelpers => (
+            <FormField>
+              <LabelContainer>
+                <Label>Authors</Label>
+
+                <Button
+                  onClick={() => arrayHelpers.push({ given: '', family: '' })}
+                >
+                  <PlusIcon height={17} width={17} />
+                </Button>
+              </LabelContainer>
+
+              <AuthorFormContainer>
+                {values.author &&
+                  values.author.map((author, index) => (
+                    <CollapsibleAuthorContainer
+                      key={author._id || `author.${index}`}
+                      title={[author.given, author.family].join(' ').trim()}
+                      action={
+                        <BaseButton
+                          onClick={() => {
+                            if (window.confirm('Remove this author?')) {
+                              arrayHelpers.remove(index)
+                            }
+                          }}
                         >
-                          <PlusIcon height={17} width={17} />
-                        </Button>
-                      </div>
-                      <div>
-                        <AuthorFormContainer>
-                          {values.author &&
-                            values.author.map((author, index) => (
-                              <CollapsibleContainer
-                                title={
-                                  (author.given || '') +
-                                  ' ' +
-                                  (author.family || '')
-                                }
-                              >
-                                <CollapsibleItem>
-                                  <Author key={`author.${index}`}>
-                                    <Field
-                                      name={`author.${index}.given`}
-                                      value={author.given}
-                                      onChange={handleChange}
-                                    >
-                                      {({ field }: FieldProps) => (
-                                        <TextFieldContainer>
-                                          <TextField
-                                            {...field}
-                                            placeholder={'Given'}
-                                          />
-                                          <FieldLabel>Given</FieldLabel>
-                                        </TextFieldContainer>
-                                      )}
-                                    </Field>
-                                    <Field
-                                      name={`author.${index}.family`}
-                                      value={author.family}
-                                      onChange={handleChange}
-                                    >
-                                      {({ field }: FieldProps) => (
-                                        <TextFieldContainer>
-                                          <TextField
-                                            {...field}
-                                            placeholder={'Family'}
-                                          />
-                                          <FieldLabel>Family</FieldLabel>
-                                        </TextFieldContainer>
-                                      )}
-                                    </Field>
-                                  </Author>
-                                </CollapsibleItem>
-                                <RemoveButton
-                                  onClick={e => {
-                                    e.preventDefault()
-                                    arrayHelpers.remove(index)
-                                  }}
-                                >
-                                  REMOVE
-                                </RemoveButton>
-                              </CollapsibleContainer>
-                            ))}
-                        </AuthorFormContainer>
-                      </div>
-                    </div>
-                  )}
-                />
-              </Label>
-
-              <Label>
-                <Label floatStyle="left" marginBottom="5">
-                  Year
-                </Label>
-                <YearField name={"issued['date-parts'][0][0]"} type="text" />
-              </Label>
-              <Label>
-                <Label floatStyle="left" marginBottom="5">
-                  Lists
-                </Label>
-
-                <Field name={'keywordIDs'}>
-                  {(props: FieldProps) => (
-                    <CreatableSelect<OptionType>
-                      isMulti={true}
-                      onChange={async (newValue: OptionsType<OptionType>) => {
-                        props.form.setFieldValue(
-                          props.field.name,
-                          await Promise.all(
-                            newValue.map(async option => {
-                              const existing = keywords.get(option.value)
-
-                              if (existing) return existing._id
-
-                              const keyword = buildKeyword(String(option.label))
-
-                              await keywordActions.create(keyword, {
-                                containerID: projectID,
-                              })
-
-                              return keyword._id
-                            })
-                          )
-                        )
-                      }}
-                      options={buildOptions(keywords)}
-                      value={
-                        props.field.value
-                          ? (props.field.value as string[])
-                              .filter(id => keywords.has(id))
-                              .map(id => keywords.get(id)!)
-                              .map(item => ({
-                                value: item._id,
-                                label: item.name,
-                              }))
-                          : null
+                          REMOVE
+                        </BaseButton>
                       }
-                    />
-                  )}
-                </Field>
-              </Label>
+                    >
+                      <Author>
+                        <Field
+                          name={`author.${index}.given`}
+                          value={author.given}
+                          onChange={handleChange}
+                        >
+                          {({ field }: FieldProps) => (
+                            <TextFieldContainer>
+                              <TextField
+                                {...field}
+                                id={field.name}
+                                placeholder={'Given'}
+                                autoFocus={true}
+                              />
+                              <FieldLabel htmlFor={field.name}>
+                                Given
+                              </FieldLabel>
+                            </TextFieldContainer>
+                          )}
+                        </Field>
 
-              <Actions>
-                {handleDelete && (
-                  <PlainTextButton onClick={() => handleDelete(item)}>
-                    REMOVE FROM LIBRARY
-                  </PlainTextButton>
-                )}
-                <ActionsGroup>
-                  <TitleLink
-                    href={`https://doi.org/${values.DOI}`}
-                    target={'_blank'}
-                    rel={'noopener noreferrer'}
-                  >
-                    OPEN
-                  </TitleLink>
-                  <PrimarySubmitButton>Save</PrimarySubmitButton>
-                </ActionsGroup>
-              </Actions>
-            </Fields>
-          </Form>
-        )}
-      </Formik>
+                        <Field
+                          name={`author.${index}.family`}
+                          value={author.family}
+                          onChange={handleChange}
+                        >
+                          {({ field }: FieldProps) => (
+                            <TextFieldContainer>
+                              <TextField
+                                {...field}
+                                id={field.name}
+                                placeholder={'Family'}
+                              />
+                              <FieldLabel htmlFor={field.name}>
+                                Family
+                              </FieldLabel>
+                            </TextFieldContainer>
+                          )}
+                        </Field>
+                      </Author>
+                    </CollapsibleAuthorContainer>
+                  ))}
+              </AuthorFormContainer>
+            </FormField>
+          )}
+        />
+
+        <FormField>
+          <LabelContainer>
+            <Label htmlFor={"issued['date-parts'][0][0]"}>Year</Label>
+          </LabelContainer>
+
+          <YearField
+            name={"issued['date-parts'][0][0]"}
+            type={'number'}
+            step={1}
+          />
+        </FormField>
+
+        <FormField>
+          <LabelContainer>
+            <Label htmlFor={'keywordIDs'}>Lists</Label>
+          </LabelContainer>
+
+          <Field name={'keywordIDs'}>
+            {(props: FieldProps) => (
+              <CreatableSelect<OptionType>
+                isMulti={true}
+                onChange={async (newValue: OptionsType<OptionType>) => {
+                  props.form.setFieldValue(
+                    props.field.name,
+                    await Promise.all(
+                      newValue.map(async option => {
+                        const existing = projectLibraryCollections.get(
+                          option.value
+                        )
+
+                        if (existing) return existing._id
+
+                        const libraryCollection = buildLibraryCollection(
+                          user.userID,
+                          String(option.label)
+                        )
+
+                        await projectLibraryCollectionsCollection.create(
+                          libraryCollection,
+                          {
+                            containerID: projectID,
+                          }
+                        )
+
+                        return libraryCollection._id
+                      })
+                    )
+                  )
+                }}
+                options={buildOptions(projectLibraryCollections)}
+                value={
+                  props.field.value
+                    ? (props.field.value as string[])
+                        .filter(id => projectLibraryCollections.has(id))
+                        .map(id => projectLibraryCollections.get(id)!)
+                        .map(item => ({
+                          value: item._id,
+                          label: item.name,
+                        }))
+                    : null
+                }
+              />
+            )}
+          </Field>
+        </FormField>
+
+        <Actions>
+          {handleDelete && (
+            <PlainTextButton type={'button'} onClick={() => handleDelete(item)}>
+              REMOVE FROM LIBRARY
+            </PlainTextButton>
+          )}
+
+          <ButtonGroup>
+            <TitleLink
+              href={`https://doi.org/${values.DOI}`}
+              target={'_blank'}
+              rel={'noopener noreferrer'}
+            >
+              OPEN
+            </TitleLink>
+
+            <PrimarySubmitButton>Save</PrimarySubmitButton>
+          </ButtonGroup>
+        </Actions>
+      </Form>
     )}
-  </ProjectKeywordsData>
+  </Formik>
 )
 
 export default LibraryForm

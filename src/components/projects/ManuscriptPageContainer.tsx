@@ -183,7 +183,7 @@ interface State {
   }
 }
 
-interface Props {
+export interface ManuscriptPageContainerProps {
   comments: CommentAnnotation[]
   keywords: Map<string, Keyword>
   library: Map<string, BibliographyItem>
@@ -204,12 +204,10 @@ interface RouteParams {
   manuscriptID: string
 }
 
-type CombinedProps = Props &
+type CombinedProps = ManuscriptPageContainerProps &
   RouteComponentProps<RouteParams> &
   IntlProps &
   ModalProps
-
-export type ManuscriptPageContainerComponent = React.ComponentType<Props>
 
 class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private readonly initialState: Readonly<State>
@@ -580,7 +578,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private setPermissions = (props: Props) => {
+  private setPermissions = (props: ManuscriptPageContainerProps) => {
     const { project, user } = props
 
     this.setState({
