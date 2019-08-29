@@ -128,6 +128,7 @@ import { CitationViewer } from '../library/CitationViewer'
 import MetadataContainer from '../metadata/MetadataContainer'
 import { ModalProps, withModal } from '../ModalProvider'
 import { Notification } from '../NotificationMessage'
+import { NotificationProvider } from '../NotificationProvider'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import { ManuscriptPlaceholder } from '../Placeholders'
@@ -475,8 +476,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                     allAttachments={this.collection.allAttachments}
                     putAttachment={this.collection.putAttachment}
                     removeAttachment={this.collection.removeAttachment}
-                    addLibraryItem={this.addLibraryItem}
+                    setLibraryItem={this.setLibraryItem}
                     getLibraryItem={this.getLibraryItem}
+                    matchLibraryItemByIdentifier={
+                      this.matchLibraryItemByIdentifier
+                    }
                     filterLibraryItems={this.filterLibraryItems}
                     getManuscript={this.getManuscript}
                     getCurrentUser={this.getCurrentUser}
@@ -501,6 +505,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                     jupyterConfig={config.jupyter}
                     permissions={permissions}
                     setCommentTarget={this.setCommentTarget}
+                    environment={config.environment}
                   />
                 </EditorStyles>
               </EditorBody>
@@ -1053,13 +1058,43 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       })
       .exec()
 
-  private addLibraryItem = (item: BibliographyItem) =>
+  private setLibraryItem = (item: BibliographyItem) =>
     this.props.library.set(item._id, item) // TODO: move this to the provider?
 
   private getLibraryItem = (id: string) => this.props.library.get(id)!
 
   private filterLibraryItems = (query: string) =>
     filterLibrary(this.props.library, query)
+
+  private matchLibraryItemByIdentifier = (
+    item: BibliographyItem
+  ): BibliographyItem | undefined => {
+    const { library } = this.props
+
+    if (library.has(item._id)) {
+      return library.get(item._id)
+    }
+
+    if (item.DOI) {
+      const doi = item.DOI.toLowerCase()
+
+      for (const model of library.values()) {
+        if (model.DOI && model.DOI.toLowerCase() === doi) {
+          return model
+        }
+      }
+    }
+
+    if (item.URL) {
+      const url = item.URL.toLowerCase()
+
+      for (const model of library.values()) {
+        if (model.URL && model.URL.toLowerCase() === url) {
+          return model
+        }
+      }
+    }
+  }
 
   private getModel = <T extends Model>(id: string): T | undefined =>
     this.state.modelMap!.get(id) as T | undefined
@@ -1630,7 +1665,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   ) => {
     ReactDOM.render(
       <IntlProvider>
-        <ThemeProvider>{child}</ThemeProvider>
+        <ThemeProvider>
+          <NotificationProvider>{child}</NotificationProvider>
+        </ThemeProvider>
       </IntlProvider>,
       container
     )

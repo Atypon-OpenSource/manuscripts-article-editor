@@ -72,6 +72,7 @@ export const CitationSearchSection: React.FC<{
   selected,
   fetching,
 }) => {
+  const [trimmedQuery, setTrimmedQuery] = useState(query.trim())
   const [error, setError] = useState<string>()
   const [expanded, setExpanded] = useState(true)
   const [searching, setSearching] = useState(false)
@@ -80,23 +81,27 @@ export const CitationSearchSection: React.FC<{
     total: number
   }>()
 
-  const debouncedQuery = useDebounce(query, 500)
+  const debouncedQuery = useDebounce(trimmedQuery, 500)
+
+  useEffect(() => {
+    setTrimmedQuery(query.trim())
+  }, [query])
 
   useEffect(() => {
     setError(undefined)
     setResults(undefined)
-    setSearching(Boolean(query))
-  }, [query])
+    setSearching(trimmedQuery !== '')
+  }, [trimmedQuery])
 
   const handleSearchResults = useCallback(
     (searchQuery, results) => {
-      if (searchQuery === query) {
+      if (searchQuery === trimmedQuery) {
         setError(undefined)
         setSearching(false)
         setResults(results)
       }
     },
-    [query]
+    [trimmedQuery]
   )
 
   useEffect(() => {

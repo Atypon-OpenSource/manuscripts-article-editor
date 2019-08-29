@@ -76,23 +76,25 @@ export class NotificationProvider extends React.Component<{}, State> {
 
   private showNotification: ShowNotification = (id, notification) => {
     this.setState(state => {
-      const notifications = state.notifications.filter(item => item.id !== id)
-
-      notifications.unshift({ id, notification })
+      const item: NotificationItem = { id, notification }
 
       return {
         ...state,
-        notifications,
+        notifications: [
+          item,
+          ...state.notifications.filter(item => item.id !== id),
+        ],
       }
     })
   }
 
   private removeNotification = (id: string) => {
-    this.setState({
-      notifications: this.state.notifications.filter(
+    this.setState(state => ({
+      ...state,
+      notifications: state.notifications.filter(
         notification => notification.id !== id
       ),
-    })
+    }))
   }
 
   private renderNotifications = () => {

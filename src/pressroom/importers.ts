@@ -179,11 +179,13 @@ export const acceptedMimeTypes = () => {
   return flatMap(fileTypes, item => item.mimetypes)
 }
 
-export const openFilePicker = (): Promise<File> =>
+export const openFilePicker = (
+  acceptedExtensions: string[] = acceptedFileExtensions()
+): Promise<File> =>
   new Promise(resolve => {
     const input = document.createElement('input')
     input.type = 'file'
-    input.accept = acceptedFileExtensions().join(',')
+    input.accept = acceptedExtensions.join(',')
 
     const handleFocus = () => {
       window.removeEventListener('focus', handleFocus)

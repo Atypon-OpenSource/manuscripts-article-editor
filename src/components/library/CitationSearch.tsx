@@ -17,7 +17,9 @@ import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Button, ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import config from '../../config'
+import { estimateID } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
+import { CitationImportButton } from './CitationImportButton'
 import { CitationSearchSection } from './CitationSearchSection'
 import { Search, SearchContainer } from './Search'
 
@@ -28,6 +30,9 @@ const Results = styled.div`
 
 const Actions = styled(ButtonGroup)`
   padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const Container = styled.div`
@@ -55,13 +60,15 @@ export const CitationSearch: React.FC<{
   ) => Promise<void>
   query: string
   handleCancel: () => void
-  scheduleUpdate: () => void
+  importItems: (
+    items: Array<Build<BibliographyItem>>
+  ) => Promise<BibliographyItem[]>
 }> = ({
   filterLibraryItems,
   handleCite,
+  importItems: _importItems,
   query: initialQuery,
   handleCancel,
-  scheduleUpdate,
 }) => {
   const [error, setError] = useState<string>()
   const [selectedSource, setSelectedSource] = useState<string>()
@@ -71,17 +78,14 @@ export const CitationSearch: React.FC<{
   )
   const [fetching, setFetching] = useState(new Set<string>())
   const [sources, setSources] = useState<Source[]>()
+  const [updated, setUpdated] = useState(Date.now())
 
   const searchLibrary: SearchInterface = useCallback(
-    (
-      query: string,
-      params: { rows: number; sort?: string },
-      mailto: string
-    ) => {
+    (query: string, params: { rows: number; sort?: string }) => {
       const items = filterLibraryItems(query)
 
       return Promise.resolve({
-        items: items.slice(0, params.rows - 1),
+        items: items.slice(0, params.rows),
         total: items.length,
       })
     },
@@ -97,7 +101,7 @@ export const CitationSearch: React.FC<{
       },
     ]
 
-    if (query) {
+    if (query.trim().length > 2) {
       sources.push({
         id: 'crossref',
         title: 'External sources',
@@ -170,12 +174,34 @@ export const CitationSearch: React.FC<{
     return handleCite(items)
   }, [handleCite, selected])
 
-  const handleQuery = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setQuery(event.target.value)
-      // scheduleUpdate()
+  const handleQuery = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value)
+  }, [])
+
+  const importItems = useCallback(
+    (items: Array<Build<BibliographyItem>>) => {
+      return _importItems(items).then(newItems => {
+        setSelected(selected => {
+          // if there's a single new imported item, select it
+          if (newItems.length === 1) {
+            const [newItem] = newItems
+            const estimatedID = estimateID(newItem)
+            selected.set(estimatedID, newItem)
+          }
+
+          return new Map<string, Build<BibliographyItem>>([...selected])
+        })
+
+        // clear the query after importing items
+        setQuery('')
+
+        // ensure that the filters re-run
+        setUpdated(Date.now())
+
+        return newItems
+      })
     },
-    [scheduleUpdate]
+    [_importItems]
   )
 
   if (!sources) {
@@ -202,7 +228,7 @@ export const CitationSearch: React.FC<{
 
         {sources.map(source => (
           <CitationSearchSection
-            key={source.id}
+            key={`${source.id}-${updated}`}
             source={source}
             addToSelection={addToSelection}
             selectSource={() => setSelectedSource(source.id)}
@@ -213,12 +239,21 @@ export const CitationSearch: React.FC<{
           />
         ))}
       </Results>
-
       <Actions>
-        <Button onClick={handleCancel}>Cancel</Button>
-        <PrimaryButton onClick={handleCiteClick} disabled={selected.size === 0}>
-          Cite
-        </PrimaryButton>
+        <ButtonGroup>
+          <CitationImportButton importItems={importItems} setError={setError} />
+        </ButtonGroup>
+
+        <ButtonGroup>
+          <Button onClick={handleCancel}>Cancel</Button>
+
+          <PrimaryButton
+            onClick={handleCiteClick}
+            disabled={selected.size === 0}
+          >
+            Cite
+          </PrimaryButton>
+        </ButtonGroup>
       </Actions>
     </Container>
   )

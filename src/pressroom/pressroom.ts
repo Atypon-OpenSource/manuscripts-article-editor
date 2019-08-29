@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import axios from 'axios'
 import config from '../config'
 import tokenHandler from '../lib/token'
@@ -55,4 +56,29 @@ export const convert = async (
   }
 
   return response.data
+}
+
+export const transformFileContent = async (
+  content: string,
+  format: string
+): Promise<BibliographyItem[]> => {
+  const response = await client.post<{
+    items: BibliographyItem[]
+  }>('/v1/compile/bibliography', content, {
+    headers: {
+      'Pressroom-Source-Bibliography-Format': format,
+      'Content-Type': 'text/plain',
+    },
+  })
+
+  switch (response.status) {
+    case 200:
+      break
+
+    default:
+      console.log(response.data) // tslint:disable-line:no-console
+      throw new Error('Something went wrong: ' + response.data)
+  }
+
+  return response.data.items
 }

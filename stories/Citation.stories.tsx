@@ -48,6 +48,7 @@ storiesOf('Citation', module)
       projectID={'MPProject:1'}
       scheduleUpdate={action('schedule update')}
       selectedText={'foo'}
+      importItems={action('import items')}
     />
   ))
   .add('Citation Search Section', () => (

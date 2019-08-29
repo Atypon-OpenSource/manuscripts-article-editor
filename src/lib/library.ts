@@ -45,8 +45,21 @@ const itemMatches = (
   return titleMatches(match, item.title)
 }
 
-const newestFirst = (a: BibliographyItem, b: BibliographyItem) =>
-  b.createdAt - a.createdAt
+const newestFirst = (a: BibliographyItem, b: BibliographyItem) => {
+  if (a.createdAt === b.createdAt) {
+    return 0
+  }
+
+  if (!a.createdAt) {
+    return -1
+  }
+
+  if (!b.createdAt) {
+    return 1
+  }
+
+  return b.createdAt - a.createdAt
+}
 
 export const filterLibrary = (
   library?: Map<string, BibliographyItem>,
