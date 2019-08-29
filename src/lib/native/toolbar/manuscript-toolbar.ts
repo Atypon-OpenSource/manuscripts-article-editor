@@ -10,45 +10,20 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  toolbar as manuscriptToolbar,
-  ToolbarButtonConfig,
-} from '@manuscripts/manuscript-editor'
+import { toolbar, ToolbarButtonConfig } from '@manuscripts/manuscript-editor'
 import {
   ManuscriptEditorState,
   ManuscriptEditorView,
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
-import {
-  TitleEditorState,
-  TitleEditorView,
-  TitleSchema,
-  toolbar as titleToolbar,
-} from '@manuscripts/title-editor'
-
-export type MessageHandler = 'toolbar'
-
-export const postWebkitMessage = (handler: MessageHandler, message: object) => {
-  if (window.webkit && window.webkit.messageHandlers) {
-    window.webkit.messageHandlers[handler].postMessage(message)
-  }
-}
-
-interface ToolbarState {
-  [key: string]: {
-    active?: boolean
-    enabled?: boolean
-  }
-}
-
-// manuscript toolbar
+import { ToolbarState } from '.'
 
 const manuscriptToolbarItems = new Map<
   string,
   ToolbarButtonConfig<ManuscriptSchema>
 >()
 
-for (const section of Object.values(manuscriptToolbar)) {
+for (const section of Object.values(toolbar)) {
   for (const [key, item] of Object.entries(section)) {
     manuscriptToolbarItems.set(key, item)
   }
@@ -74,41 +49,6 @@ export const createDispatchManuscriptToolbarAction = (
 
   if (!item) {
     throw new Error(`Unknown manuscript toolbar item ${item}`)
-  }
-
-  item.run(view.state, view.dispatch)
-}
-
-// title toolbar
-
-const titleToolbarItems = new Map<string, ToolbarButtonConfig<TitleSchema>>()
-
-for (const section of Object.values(titleToolbar)) {
-  for (const [key, item] of Object.entries(section)) {
-    titleToolbarItems.set(key, item)
-  }
-}
-
-export const titleToolbarState = (state: TitleEditorState) => {
-  const output: ToolbarState = {}
-
-  for (const [key, item] of titleToolbarItems.entries()) {
-    output[key] = {
-      active: item.active ? item.active(state) : undefined,
-      enabled: item.enable ? item.enable(state) : undefined,
-    }
-  }
-
-  return output
-}
-
-export const createDispatchTitleToolbarAction = (view: TitleEditorView) => (
-  key: keyof typeof titleToolbarItems
-) => {
-  const item = titleToolbarItems.get(key)
-
-  if (!item) {
-    throw new Error(`Unknown title toolbar item ${item}`)
   }
 
   item.run(view.state, view.dispatch)

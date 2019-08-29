@@ -78,6 +78,7 @@ import {
   syncErrorsKey,
   TreeChanges,
 } from '@manuscripts/sync-client'
+import { TitleEditorState, TitleEditorView } from '@manuscripts/title-editor'
 import '@reach/tabs/styles.css'
 import CiteProc from 'citeproc'
 import debounce from 'lodash-es/debounce'
@@ -88,6 +89,7 @@ import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
+import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import deviceId from '../../lib/device-id'
 import { filterLibrary } from '../../lib/library'
 import {
@@ -102,6 +104,10 @@ import {
   postWebkitMessage,
   titleToolbarState,
 } from '../../lib/native'
+import {
+  createDispatchMenuAction,
+  createGetMenuState,
+} from '../../lib/native/menu'
 import { buildProjectMenu } from '../../lib/project-menu'
 import { canWrite, ContributorRole } from '../../lib/roles'
 import sessionID from '../../lib/session-id'
@@ -115,9 +121,6 @@ import CollectionManager from '../../sync/CollectionManager'
 // import { newestFirst, oldestFirst } from '../../lib/sort'
 import { ThemeProvider } from '../../theme/ThemeProvider'
 import { Permissions } from '../../types/permissions'
-
-import { TitleEditorState, TitleEditorView } from '@manuscripts/title-editor'
-import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
@@ -1391,8 +1394,23 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
 
     if (config.native && this.state.activeEditor) {
-      window.dispatchToolbarAction = createDispatchManuscriptToolbarAction(this
-        .state.activeEditor.view as ManuscriptEditorView)
+      const { view } = this.state.activeEditor
+
+      window.dispatchToolbarAction = createDispatchManuscriptToolbarAction(
+        view as ManuscriptEditorView
+      )
+
+      const menus = this.buildMenus(true)
+
+      window.dispatchMenuAction = createDispatchMenuAction(
+        view as ManuscriptEditorView,
+        menus
+      )
+
+      window.getMenuState = createGetMenuState(
+        view as ManuscriptEditorView,
+        menus
+      )
 
       postWebkitMessage('toolbar', {
         manuscript: {
@@ -1567,7 +1585,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     view.dispatch(view.state.tr.setMeta(conflictsKey, updatedConflicts))
   }
 
-  private buildMenus = (): MenuItem[] => {
+  private buildMenus = (includeEditorMenus = false): MenuItem[] => {
     const { manuscript, project } = this.props
     const { view } = this.state
 
@@ -1587,7 +1605,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const menus: MenuItem[] = [projectMenu]
 
-    return view && view.hasFocus() ? menus.concat(editorMenus) : menus
+    return includeEditorMenus || (view && view.hasFocus())
+      ? menus.concat(editorMenus)
+      : menus
   }
 
   private getCurrentUser = (): UserProfile => this.props.user

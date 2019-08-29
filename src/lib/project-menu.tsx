@@ -61,27 +61,33 @@ const confirmDeleteProjectMessage = (title: string) => {
 }
 
 export const buildProjectMenu = (props: Props): MenuItem => ({
+  id: 'project',
   label: () => 'Project',
   submenu: [
     {
+      id: 'project-new',
       label: () => 'New',
       submenu: [
         {
+          id: 'project-new-project',
           label: () => 'Project…',
           run: () => props.openTemplateSelector(true),
         },
         {
+          id: 'project-new-manuscript',
           label: () => 'Manuscript…',
           run: () => props.openTemplateSelector(false),
         },
       ],
     },
     {
+      id: 'project-open-recent',
       label: () => 'Open Recent',
       enable: () => props.getRecentProjects().length > 0,
       submenu: props
         .getRecentProjects()
         .map(({ projectID, manuscriptID, projectTitle, sectionID }) => ({
+          id: `project-open-recent-${projectID}-${manuscriptID}`,
           label: () => {
             if (!projectTitle) {
               return 'Untitled Project'
@@ -104,37 +110,46 @@ export const buildProjectMenu = (props: Props): MenuItem => ({
       role: 'separator',
     },
     {
+      id: 'import',
       label: () => 'Import…',
       run: props.openImporter,
     },
     {
+      id: 'export',
       label: () => 'Export as…',
       submenu: [
         {
+          id: 'export-pdf',
           label: () => 'PDF',
           run: () => props.openExporter('.pdf'),
         },
         {
+          id: 'export-docx',
           label: () => 'Microsoft Word',
           run: () => props.openExporter('.docx'),
         },
         {
+          id: 'export-md',
           label: () => 'Markdown',
           run: () => props.openExporter('.md'),
         },
         {
+          id: 'export-tex',
           label: () => 'LaTeX',
           run: () => props.openExporter('.tex'),
         },
         {
+          id: 'export-jats',
           label: () => 'JATS XML',
           run: () => props.openExporter('.xml'),
         },
         {
+          id: 'export-html',
           label: () => 'HTML',
           run: () => props.openExporter('.html'),
         },
         {
+          id: 'export-manuproj',
           label: () => 'Manuscripts Archive',
           run: () => props.openExporter('.manuproj'),
         },
@@ -144,6 +159,7 @@ export const buildProjectMenu = (props: Props): MenuItem => ({
       role: 'separator',
     },
     {
+      id: 'delete-project',
       label: () => 'Delete Project',
       run: () =>
         confirm(
@@ -156,6 +172,7 @@ export const buildProjectMenu = (props: Props): MenuItem => ({
           .then(() => props.history.push('/')),
     },
     {
+      id: 'delete-manuscript',
       label: () =>
         props.manuscript.title
           ? deleteManuscriptLabel(props.manuscript.title)
@@ -171,6 +188,7 @@ export const buildProjectMenu = (props: Props): MenuItem => ({
       role: 'separator',
     },
     {
+      id: 'rename-project',
       label: () => 'Rename Project',
       run: () => props.openRenameProject(props.project),
     },

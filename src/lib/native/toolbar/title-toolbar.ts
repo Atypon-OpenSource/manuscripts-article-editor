@@ -10,23 +10,50 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-interface RxDB {
-  removeDatabase: (name: string, adapter: string) => void
-}
+import { ToolbarButtonConfig } from '@manuscripts/manuscript-editor'
+import {
+  TitleEditorState,
+  TitleEditorView,
+  TitleSchema,
+  toolbar,
+} from '@manuscripts/title-editor'
 
-interface WebKit {
-  messageHandlers: {
-    [key: string]: {
-      postMessage: (message: object) => void
-    }
+interface ToolbarState {
+  [key: string]: {
+    active?: boolean
+    enabled?: boolean
   }
 }
 
-declare interface Window {
-  RxDB: RxDB
-  requestIdleCallback: (T: () => void, options: object) => string
-  webkit: WebKit
-  getMenuState?: (key: string) => MenuItemState
-  dispatchMenuAction?: (key: string) => void
-  dispatchToolbarAction?: (key: string) => void
+const titleToolbarItems = new Map<string, ToolbarButtonConfig<TitleSchema>>()
+
+for (const section of Object.values(toolbar)) {
+  for (const [key, item] of Object.entries(section)) {
+    titleToolbarItems.set(key, item)
+  }
+}
+
+export const titleToolbarState = (state: TitleEditorState) => {
+  const output: ToolbarState = {}
+
+  for (const [key, item] of titleToolbarItems.entries()) {
+    output[key] = {
+      active: item.active ? item.active(state) : undefined,
+      enabled: item.enable ? item.enable(state) : undefined,
+    }
+  }
+
+  return output
+}
+
+export const createDispatchTitleToolbarAction = (view: TitleEditorView) => (
+  key: keyof typeof titleToolbarItems
+) => {
+  const item = titleToolbarItems.get(key)
+
+  if (!item) {
+    throw new Error(`Unknown title toolbar item ${item}`)
+  }
+
+  item.run(view.state, view.dispatch)
 }

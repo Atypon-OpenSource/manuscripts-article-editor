@@ -10,23 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-interface RxDB {
-  removeDatabase: (name: string, adapter: string) => void
-}
+export * from './menu'
+export * from './toolbar'
 
-interface WebKit {
-  messageHandlers: {
-    [key: string]: {
-      postMessage: (message: object) => void
-    }
+export type MessageHandler = 'toolbar'
+
+export const postWebkitMessage = (handler: MessageHandler, message: object) => {
+  if (window.webkit && window.webkit.messageHandlers) {
+    window.webkit.messageHandlers[handler].postMessage(message)
   }
-}
-
-declare interface Window {
-  RxDB: RxDB
-  requestIdleCallback: (T: () => void, options: object) => string
-  webkit: WebKit
-  getMenuState?: (key: string) => MenuItemState
-  dispatchMenuAction?: (key: string) => void
-  dispatchToolbarAction?: (key: string) => void
 }
