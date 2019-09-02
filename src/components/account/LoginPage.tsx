@@ -14,13 +14,13 @@ import { Formik, FormikConfig } from 'formik'
 import React from 'react'
 import config from '../../config'
 import { Centered } from '../Page'
+import { AccountFooter } from './AccountFooter'
 import AuthButtonContainer from './AuthButtonContainer'
 import {
   AuthenticationContainer,
   ConnectLogin,
   GoogleLogin,
 } from './Authentication'
-import FooterContainer from './FooterContainer'
 import { LoginForm, LoginValues } from './LoginForm'
 
 interface Props {
@@ -56,7 +56,7 @@ const LoginPage: React.FunctionComponent<FormikConfig<LoginValues> & Props> = ({
       </div>
     </AuthenticationContainer>
 
-    <FooterContainer />
+    <AccountFooter />
   </Centered>
 )
 

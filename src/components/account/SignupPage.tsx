@@ -14,6 +14,7 @@ import { Formik, FormikConfig } from 'formik'
 import React from 'react'
 import config from '../../config'
 import { Centered } from '../Page'
+import { AccountFooter } from './AccountFooter'
 import AuthButtonContainer from './AuthButtonContainer'
 import {
   AuthenticationContainer,
@@ -47,6 +48,8 @@ const SignupPage: React.FunctionComponent<FormikConfig<SignupValues>> = ({
         )}
       </div>
     </AuthenticationContainer>
+
+    <AccountFooter />
   </Centered>
 )
 

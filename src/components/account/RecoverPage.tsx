@@ -13,7 +13,6 @@
 import { Formik, FormikConfig } from 'formik'
 import React from 'react'
 import { Centered } from '../Page'
-import FooterContainer from './FooterContainer'
 import { RecoverForm, RecoverValues } from './RecoverForm'
 
 const RecoverPage: React.FunctionComponent<FormikConfig<RecoverValues>> = ({
@@ -31,8 +30,6 @@ const RecoverPage: React.FunctionComponent<FormikConfig<RecoverValues>> = ({
       onSubmit={onSubmit}
       component={RecoverForm}
     />
-
-    <FooterContainer />
   </Centered>
 )
 

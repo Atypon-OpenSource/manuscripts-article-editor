@@ -118,7 +118,7 @@ export const LoginForm: React.FunctionComponent<
       <HeavyLink href={'https://www.atypon.com/privacy-policy/'}>
         Privacy policy
       </HeavyLink>
-      .<br />
+      .
     </div>
 
     <FormActions>

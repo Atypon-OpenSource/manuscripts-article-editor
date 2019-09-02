@@ -11,27 +11,25 @@
  */
 
 import React from 'react'
-import { Footer } from '../Footer'
+import { styled } from '../../theme/styled-components'
 
-// TODO: read this from somewhere else?
+const Container = styled.div`
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+`
 
-interface Link {
-  url: string
-  text: string
-}
+const HeavyLink = styled.a`
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none;
+`
 
-const links: Link[] = [
-  /*
-  {
-    url: '/status',
-    text: 'Status',
-  },
-  {
-    url: '/disclaimer',
-    text: 'Disclaimer',
-  },*/
-]
-
-const FooterContainer: React.FunctionComponent = () => <Footer links={links} />
-
-export default FooterContainer
+export const AccountFooter: React.FC = () => (
+  <Container>
+    <div>Copyright © 2019 Atypon Systems, LLC.</div>
+    <HeavyLink href={'https://www.atypon.com/privacy-policy/'}>
+      Privacy policy
+    </HeavyLink>
+  </Container>
+)
