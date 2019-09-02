@@ -191,7 +191,7 @@ export const LibrarySidebar: React.FC<
           })}
 
           <Section
-            title={'Search'}
+            title={'Search Online'}
             open={sourceType === 'search'}
             location={`/projects/${projectID}/library/search`}
           >

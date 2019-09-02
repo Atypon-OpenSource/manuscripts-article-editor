@@ -56,7 +56,7 @@ const createCitationImportSuccessNotification = (
 ): NotificationComponent => ({ removeNotification }) => (
   <NotificationPrompt>
     <NotificationHead>
-      <Check />
+      <Check color={'green'} />
       <NotificationMessage>
         <NotificationTitle>
           <CitationImportSuccessMessage count={count} />
