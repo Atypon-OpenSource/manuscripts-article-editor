@@ -58,7 +58,7 @@ describe('Account', () => {
 
     expect(typeof db.projects).toBe('undefined')
 
-    const afterDB = await databaseCreator
+    const afterDB = await recreateDatabase()
 
     expect(afterDB.destroyed).toBe(false)
 

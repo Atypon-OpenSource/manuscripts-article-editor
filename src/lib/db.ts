@@ -32,7 +32,6 @@ export let databaseCreator = (() => {
 export const removeDatabase = async () => {
   const db = await databaseCreator
 
-  await db.destroy()
   await db.remove()
 }
 

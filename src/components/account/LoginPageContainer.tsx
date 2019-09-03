@@ -23,6 +23,7 @@ import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
+import tokenHandler from '../../lib/token'
 import { TokenPayload } from '../../lib/user'
 import userID from '../../lib/user-id'
 import { loginSchema } from '../../validation'
@@ -120,12 +121,12 @@ class LoginPageContainer extends React.Component<
             validationSchema={loginSchema}
             submitErrorType={submitErrorType}
             onSubmit={async (values, actions) => {
-              this.props.tokenActions.delete()
+              tokenHandler.remove()
 
               try {
                 const token = await login(values.email, values.password)
 
-                this.props.tokenActions.update(token)
+                tokenHandler.set(token)
 
                 const { userId } = decode<TokenPayload>(token)
 
@@ -223,10 +224,8 @@ class LoginPageContainer extends React.Component<
   private redirectAfterLogin = () => {
     const { state } = this.props.location
 
-    window.setTimeout(() => {
-      window.location.href =
-        state && state.from ? state.from.pathname : '/projects'
-    }, 100)
+    window.location.href =
+      state && state.from ? state.from.pathname : '/projects'
   }
 
   private errorName = (response: AxiosResponse) => {

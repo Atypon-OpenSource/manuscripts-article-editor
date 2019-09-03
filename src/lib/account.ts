@@ -13,7 +13,7 @@
 import decode from 'jwt-decode'
 import userID from '../lib/user-id'
 import * as api from './api'
-import { recreateDatabase, removeDatabase } from './db'
+import { removeDatabase } from './db'
 import { TokenPayload } from './user'
 
 export const login = async (email: string, password: string) => {
@@ -28,7 +28,7 @@ export const login = async (email: string, password: string) => {
     const { userId } = decode<TokenPayload>(token)
 
     if (oldUserId !== userId) {
-      await recreateDatabase()
+      await removeDatabase()
     }
   } catch (e) {
     console.error(e) // tslint:disable-line:no-console
