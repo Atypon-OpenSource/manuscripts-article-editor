@@ -18,6 +18,7 @@ import {
 import { FormikActions, FormikErrors } from 'formik'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+import config from '../../config'
 import UserAffiliationsData from '../../data/UserAffiliationsData'
 import UserData from '../../data/UserData'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
@@ -108,7 +109,9 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
   }
 
   private handleChangePassword = () =>
-    this.props.history.push('/change-password')
+    config.connect.enabled
+      ? window.open(`${config.iam.host}/security/password`)
+      : this.props.history.push('/change-password')
 
   private handleDeleteAccount = () => this.props.history.push('/delete-account')
 

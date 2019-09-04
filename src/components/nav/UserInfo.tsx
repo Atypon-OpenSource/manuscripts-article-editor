@@ -12,13 +12,16 @@
 
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import {
-  ChangePasswordMessage,
-  DeleteAccountMessage,
-  FeedbackMessage,
-  SignOutMessage,
-} from '../Messages'
+import { styled } from '../../theme/styled-components'
+import { SignOutMessage } from '../Messages'
 import { DropdownLink, DropdownSeparator } from './Dropdown'
+
+const Name = styled.div`
+  padding: 13px 13px;
+  color: #949494;
+  font-weight: 500;
+  user-select: none;
+`
 
 interface UserProps {
   user: UserProfile
@@ -47,18 +50,9 @@ const displayName = (user: UserProfile) => {
 
 export const UserInfo: React.FunctionComponent<UserProps> = ({ user }) => (
   <React.Fragment>
-    <DropdownLink to={'/profile'}>{displayName(user)}</DropdownLink>
-    <DropdownLink to={'/change-password'}>
-      <ChangePasswordMessage />
-    </DropdownLink>
-    <DropdownLink to={'/delete-account'}>
-      <DeleteAccountMessage />
-    </DropdownLink>
+    <Name>{displayName(user)}</Name>
     <DropdownSeparator />
-    <DropdownLink to={'/feedback'}>
-      <FeedbackMessage />
-    </DropdownLink>
-    <DropdownSeparator />
+    <DropdownLink to={'/profile'}> Profile </DropdownLink>
     {/*<DropdownLink to={'/preferences'}>
       <PreferencesMessage />
     </DropdownLink>*/}

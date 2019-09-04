@@ -41,6 +41,7 @@ const configuration: webpack.Configuration = {
         'GIT_COMMIT_HASH',
         'GIT_VERSION',
         'GOOGLE_ANALYTICS_ID',
+        'IAM_HOST',
         'JUPYTER_TOKEN',
         'JUPYTER_URL',
         'NATIVE',

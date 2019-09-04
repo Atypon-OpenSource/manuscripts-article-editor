@@ -66,6 +66,9 @@ interface Config {
   connect: {
     enabled: boolean
   }
+  iam: {
+    host: string
+  }
 }
 
 const isTrue = (value: string | undefined) => {
@@ -133,6 +136,9 @@ const config = {
   },
   connect: {
     enabled: isTrue(process.env.ENABLE_CONNECT_LOGIN_OPTION),
+  },
+  iam: {
+    host: normalizeURL(process.env.IAM_HOST),
   },
 }
 

@@ -92,7 +92,6 @@ const styledAvatar = css`
   ${AvatarContainer}:after {
     border: 2px solid ${props => props.theme.colors.profile.avatar.hovered};
     border-radius: 50%;
-    content: ' ';
     display: block;
     height: 30px;
     position: absolute;
