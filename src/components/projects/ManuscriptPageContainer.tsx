@@ -135,6 +135,7 @@ import { ManuscriptPlaceholder } from '../Placeholders'
 import CitationStyleSelector from '../templates/CitationStyleSelector'
 import TemplateSelector from '../templates/TemplateSelector'
 import { ApplicationMenuContainer } from './ApplicationMenuContainer'
+import ConflictResolver from './ConflictResolver'
 import {
   EditorBody,
   EditorContainer,
@@ -349,6 +350,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       selectedElement,
       selectedSection,
       commentTarget,
+      conflicts,
     } = this.state
 
     const {
@@ -515,6 +517,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           <Prompt when={dirty} message={() => false} />
 
           {message && <Notification message={message} id={manuscript._id} />}
+
+          <ConflictResolver
+            conflicts={conflicts}
+            modelMap={modelMap}
+            conflictManager={this.state.conflictManager!}
+            manuscriptID={this.props.match.params.manuscriptID}
+            manuscriptTitle={manuscript.title}
+          />
         </Main>
 
         <Panel
@@ -1594,6 +1604,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         dirty: false,
         // doc: state.doc,
       })
+
+      // reset the the treeChangeQueue to the latest modelMap
+      this.treeChangeQueue = createTreeChangeQueue(
+        modelMap!,
+        this.handleTreeChanges
+      )
 
       console.log('saved') // tslint:disable-line:no-console
     } catch (error) {

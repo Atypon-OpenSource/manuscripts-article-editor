@@ -13,16 +13,16 @@ const { databaseCreator } = require('../../src/lib/__mocks__/adapter')
 addDecorator(story => (
   <DragDropContextProvider backend={HTML5Backend}>
     <IntlProvider>
-        <ThemeProvider>
-          <MemoryRouter initialEntries={['/']}>
-            <ModalProvider>
-              <Story>
-                <GlobalStyle suppressMultiMountWarning />
-                <div>{story()}</div>
-              </Story>
-            </ModalProvider>
-          </MemoryRouter>
-        </ThemeProvider>
+      <ThemeProvider>
+        <MemoryRouter initialEntries={['/']}>
+          <ModalProvider>
+            <Story>
+              <GlobalStyle suppressMultiMountWarning />
+              <div>{story()}</div>
+            </Story>
+          </ModalProvider>
+        </MemoryRouter>
+      </ThemeProvider>
     </IntlProvider>
   </DragDropContextProvider>
 ))

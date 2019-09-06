@@ -1,5 +1,3 @@
-
-
 import { Palette as StyleGuidePalette } from '@manuscripts/style-guide'
 
 export interface Theme {
