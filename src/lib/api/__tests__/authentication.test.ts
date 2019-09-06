@@ -130,7 +130,9 @@ describe('authentication', () => {
 
   test('logout', async () => {
     await logout()
-    expect(client.post).toBeCalledWith('/auth/logout')
+    expect(client.post).toBeCalledWith('/auth/logout', null, {
+      withCredentials: true,
+    })
   })
 
   test('refresh sync sessions', async () => {

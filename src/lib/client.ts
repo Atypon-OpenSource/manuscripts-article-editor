@@ -16,7 +16,6 @@ import { authorizationInterceptor } from './authorization'
 
 const client = axios.create({
   baseURL: config.api.url,
-  withCredentials: true,
 })
 
 client.interceptors.request.use(config => {

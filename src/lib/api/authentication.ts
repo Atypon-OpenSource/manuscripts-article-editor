@@ -82,7 +82,10 @@ export const deleteAccount = (password: string) =>
     data: { password, deviceId },
   })
 
-export const logout = () => client.post('/auth/logout')
+export const logout = () =>
+  client.post('/auth/logout', null, {
+    withCredentials: true,
+  })
 
 export const refresh = () =>
   client.request({
