@@ -13996,10 +13996,9 @@ pouchdb-collections@7.1.1:
   resolved "https://registry.npmjs.org/pouchdb-collections/-/pouchdb-collections-7.1.1.tgz#4f7704896e4055ba354241c0fd75bbb7446a809f"
   integrity sha512-Iwdv74+H8tSc9cM7co0X4eJQglaPp+uIX7qjzK5MIeZThUHNcJQxOC92qGK1qE3Z2feAD5LxhXEIYDia/lB8pw==
 
-pouchdb-core@7.0.0:
+pouchdb-core@7.0.0, "pouchdb-core@gitlab:mpapp-public/pouchdb-core#master":
   version "7.0.0"
-  resolved "https://registry.npmjs.org/pouchdb-core/-/pouchdb-core-7.0.0.tgz#d86c9938fe388693eab7e05c5171bfbbe0290768"
-  integrity sha512-hhTyGCEqWiUCt3ciCVzJXmFDpcKxdHYKDsySTg2rgTVMipPuqXRgsmGRKkXV6CHKasqvvJ/3JPe0bEWj+5YzhA==
+  resolved "https://gitlab.com/mpapp-public/pouchdb-core/repository/archive.tar.gz?ref=f2c3cb7e82f725c0b0476a3652942329eb264ec9"
   dependencies:
     argsarray "0.0.1"
     inherits "2.0.3"

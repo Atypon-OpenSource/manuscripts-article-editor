@@ -229,6 +229,7 @@
     "rxdb": "gitlab:mpapp-public/rxdb#upstream-fork",
     "rxdb/pouchdb-replication": "gitlab:mpapp-public/pouchdb-replication#master",
     "pouchdb-adapter-leveldb-core": "gitlab:mpapp-public/pouchdb-adapter-leveldb-core#master",
+    "pouchdb-core": "gitlab:mpapp-public/pouchdb-core#master",
     "rxjs": "6.5.2",
     "rxjs-compat": "6.5.2",
     "styled-components": "^4.0.2",
