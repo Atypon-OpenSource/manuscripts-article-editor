@@ -10,50 +10,52 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import AttentionOrange from '@manuscripts/assets/react/AttentionOrange'
-import { Button } from '@manuscripts/style-guide'
+import NavIcon from '@manuscripts/assets/react/NavIcon'
+import { Tip } from '@manuscripts/style-guide'
 import React from 'react'
-import {
-  NotificationActions,
-  NotificationHead,
-  NotificationMessage,
-  NotificationPrompt,
-  NotificationTitle,
-} from '../components/Notifications'
+import useOnlineState, { OnlineState } from '../hooks/use-online-state'
+import { mercuryGrey } from '../theme/colors'
 import { styled } from '../theme/styled-components'
 
-export const NotificationInfo = styled.div`
-  color: inherit;
-  font-size: 80%;
+const StyledNavIcon = styled(NavIcon)`
+  & path {
+    fill: ${props => props.theme.colors.menu.icon.default};
+  }
+
+  &:hover path {
+    fill: ${props => props.theme.colors.menu.icon.selected};
+  }
 `
 
-interface Props {
-  title: string
-  info?: string
-  buttonText: string
-  buttonAction: () => void
-}
+const Wrapper = styled.div`
+  position: relative;
+`
 
-const SyncNotification: React.FC<Props> = ({
-  title,
-  info,
-  buttonText,
-  buttonAction,
-}) => {
+const Bubble = styled.div`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  cursor: pointer;
+  background: ${mercuryGrey};
+  border: 2px solid white;
+`
+
+const OfflineIndicator: React.FC<{}> = () => {
+  const [onlineState] = useOnlineState()
+
   return (
-    <NotificationPrompt>
-      <NotificationHead>
-        <AttentionOrange />
-        <NotificationMessage>
-          <NotificationTitle>{title}</NotificationTitle>
-          {info ? <NotificationInfo>{info}</NotificationInfo> : null}
-        </NotificationMessage>
-      </NotificationHead>
-      <NotificationActions>
-        <Button onClick={buttonAction}>{buttonText}</Button>
-      </NotificationActions>
-    </NotificationPrompt>
+    <Wrapper>
+      {onlineState === OnlineState.Online ? null : (
+        <Tip placement={'right-end'} title={'Working offline'}>
+          <Bubble />
+        </Tip>
+      )}
+      <StyledNavIcon />
+    </Wrapper>
   )
 }
 
-export default SyncNotification
+export default OfflineIndicator

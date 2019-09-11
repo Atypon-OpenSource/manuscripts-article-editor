@@ -10,50 +10,42 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import AttentionOrange from '@manuscripts/assets/react/AttentionOrange'
-import { Button } from '@manuscripts/style-guide'
-import React from 'react'
-import {
-  NotificationActions,
-  NotificationHead,
-  NotificationMessage,
-  NotificationPrompt,
-  NotificationTitle,
-} from '../components/Notifications'
-import { styled } from '../theme/styled-components'
+import { get } from 'lodash-es'
+import { useCallback, useEffect, useState } from 'react'
 
-export const NotificationInfo = styled.div`
-  color: inherit;
-  font-size: 80%;
-`
-
-interface Props {
-  title: string
-  info?: string
-  buttonText: string
-  buttonAction: () => void
+export enum OnlineState {
+  Online = 'online',
+  Offline = 'offline',
+  Acknowledged = 'acknowledged',
 }
 
-const SyncNotification: React.FC<Props> = ({
-  title,
-  info,
-  buttonText,
-  buttonAction,
-}) => {
-  return (
-    <NotificationPrompt>
-      <NotificationHead>
-        <AttentionOrange />
-        <NotificationMessage>
-          <NotificationTitle>{title}</NotificationTitle>
-          {info ? <NotificationInfo>{info}</NotificationInfo> : null}
-        </NotificationMessage>
-      </NotificationHead>
-      <NotificationActions>
-        <Button onClick={buttonAction}>{buttonText}</Button>
-      </NotificationActions>
-    </NotificationPrompt>
+const initialOnlineState = () =>
+  get(window, 'navigator.onLine', true)
+    ? OnlineState.Online
+    : OnlineState.Offline
+
+export default (): [OnlineState, () => void] => {
+  // detect online state
+  const [onlineState, setOnlineState] = useState<OnlineState>(
+    initialOnlineState()
   )
-}
 
-export default SyncNotification
+  const setOfflineAcknowledged = useCallback(
+    () => () => setOnlineState(OnlineState.Acknowledged),
+    []
+  )
+  useEffect(() => {
+    const setOnline = () => setOnlineState(OnlineState.Online)
+    const setOffline = () => setOnlineState(OnlineState.Offline)
+
+    window.addEventListener('online', setOnline)
+    window.addEventListener('offline', setOffline)
+
+    return () => {
+      window.removeEventListener('online', setOnline)
+      window.removeEventListener('offline', setOffline)
+    }
+  }, [])
+
+  return [onlineState, setOfflineAcknowledged]
+}

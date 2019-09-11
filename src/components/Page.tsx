@@ -12,7 +12,6 @@
 
 import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
-import NavIcon from '@manuscripts/assets/react/NavIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Tip } from '@manuscripts/style-guide'
@@ -26,7 +25,7 @@ import { linkWaterBlue } from '../theme/colors'
 import { styled } from '../theme/styled-components'
 import { Chatbox } from './Chatbox'
 import MenuBar from './nav/MenuBar'
-import { OfflineContainer } from './nav/OfflineContainer'
+import OfflineIndicator from './OfflineIndicator'
 import ProjectNavigator from './ProjectNavigator'
 import { Support } from './Support'
 
@@ -115,16 +114,6 @@ const ProjectContributorsIcon = styled(ContributorsIcon)`
   }
 `
 
-const StyledNavIcon = styled(NavIcon)`
-  & path {
-    fill: ${props => props.theme.colors.menu.icon.default};
-  }
-
-  &:hover path {
-    fill: ${props => props.theme.colors.menu.icon.selected};
-  }
-`
-
 interface Props {
   project?: Project
   tokenActions?: TokenActions
@@ -150,9 +139,7 @@ export const Page: React.FunctionComponent<Props> = ({
 
         <MenuBar tokenActions={tokenActions!}>
           <Tip title={'Home'} placement={'right'}>
-            <OfflineContainer>
-              <StyledNavIcon />
-            </OfflineContainer>
+            <OfflineIndicator />
           </Tip>
         </MenuBar>
 

@@ -13,6 +13,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
+import SyncNotificationManager from '../sync/SyncNotificationManager'
 import { Notifications } from './Notifications'
 
 export type NotificationComponent<P = {}> = React.ComponentType<
@@ -98,7 +99,10 @@ export class NotificationProvider extends React.Component<{}, State> {
   }
 
   private renderNotifications = () => {
-    const { notifications } = this.state
+    const notifications = this.state.notifications.concat({
+      id: 'sync',
+      notification: SyncNotificationManager,
+    })
 
     if (!notifications.length) return null
 

@@ -12,10 +12,15 @@
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { CollectionName } from '../collections'
+import { refreshSyncSessions } from '../lib/api'
 import { Collection, CollectionProps } from './Collection'
+import { isUnauthorized } from './syncErrors'
+import { CollectionEvent, CollectionEventListener } from './types'
 
 class CollectionManager {
   private collections: Map<string, Collection<Model>> = new Map()
+  private listeners: CollectionEventListener[] = []
+  private isExpiredSyncGatewaySession: boolean = false
 
   public async createCollection<T extends Model>(
     props: CollectionProps
@@ -29,6 +34,8 @@ class CollectionManager {
     this.collections.set(props.collection, collection)
 
     await collection.initialize()
+
+    collection.addEventListener('all', this.generalListener)
 
     return collection
   }
@@ -45,6 +52,54 @@ class CollectionManager {
 
   public removeCollection(collection: CollectionName) {
     return this.collections.delete(collection)
+  }
+
+  public subscribe(listener: CollectionEventListener) {
+    this.listeners.push(listener)
+  }
+
+  public async restartAll() {
+    /* tslint:disable:no-console */
+    for (const parts of this.collections) {
+      const collection = parts[1]
+      try {
+        await collection.cancelReplications()
+      } catch (error) {
+        console.error(`Unable to stop replication`)
+      }
+
+      try {
+        await collection.startSyncing()
+      } catch (error) {
+        console.error(`Unable to start replication`)
+      }
+    }
+    /* tslint:enable:no-console */
+  }
+
+  private generalListener = (event: CollectionEvent) => {
+    if (isUnauthorized(event)) {
+      if (!this.isExpiredSyncGatewaySession) {
+        this.isExpiredSyncGatewaySession = true
+
+        /* tslint:disable-next-line:no-console */
+        console.info('Attempting to refresh sync session ...')
+
+        return refreshSyncSessions()
+          .then(() => {
+            this.isExpiredSyncGatewaySession = false
+            return this.restartAll()
+          })
+          .catch(() => {
+            // refreshing sync session failed.
+            // pass the original event onto the listeners.
+            this.listeners.forEach(listener => listener(event))
+          })
+      }
+      return
+    }
+
+    this.listeners.forEach(listener => listener(event))
   }
 }
 

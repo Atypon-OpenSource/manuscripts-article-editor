@@ -16,6 +16,7 @@ import { RxReplicationState } from 'rxdb'
 export interface CollectionEventDetails {
   direction: string
   value: boolean
+  collection: string
   error?: Error | AxiosError | PouchReplicationError
 }
 
@@ -27,25 +28,48 @@ export type Direction = 'pull' | 'push'
 
 export type EventType = 'active' | 'complete' | 'error'
 
-export type EventListeners = { [key in EventType]: CollectionEventListener[] }
+export type EventListeners = {
+  [key in EventType]: CollectionEventListener[]
+}
 
 export type DirectionStatus = { [key in EventType]: boolean }
 
 export type ReplicationStatus = { [key in Direction]: DirectionStatus }
 
+type PouchReplicationErrorNames =
+  | 'Unauthorized'
+  | 'Bad Request'
+  | 'Not Found'
+  | 'Conflict'
+  | 'Missing Id'
+  | 'Precondition Failed'
+  | 'Unknown Error'
+  | 'Invalid Request'
+  | 'Query Parse Error'
+  | 'Doc Validation'
+  | 'Badarg'
+  | 'Forbidden'
+
 export interface PouchReplicationError {
   error: string | boolean
-  id: string
-  rev: string
   message: string
-  name?: string
-  ok: boolean
-  reason?: string
-  status: number
-  result?: {
-    errors: PouchReplicationError[]
+  name: PouchReplicationErrorNames
+  reason: string
+  status: number // HTTP status
+  result: {
+    doc_write_failures: number
+    docs_read: number
+    docs_written: number
+    end_time: string
+    errors: Array<{
+      error: string
+      id: string
+      rev: string
+    }>
+    last_seq: number
     ok: boolean
-    status: string
+    start_time: string
+    status: string // descriptive status e.g. "aborting"
   }
 }
 

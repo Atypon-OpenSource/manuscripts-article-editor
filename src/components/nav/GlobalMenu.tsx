@@ -13,6 +13,7 @@
 import NavIcon from '@manuscripts/assets/react/NavIcon'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import OfflineIndicator from '../OfflineIndicator'
 import { Support } from '../Support'
 import {
   FilledMenuBarIcon,
@@ -20,7 +21,6 @@ import {
   MenuSection,
   MenuSections,
 } from './Menu'
-import { OfflineContainer } from './OfflineContainer'
 import ProjectsButton from './ProjectsButton'
 import { UpdatesContainer } from './UpdatesContainer'
 import UserContainer from './UserContainer'
@@ -42,9 +42,8 @@ const Container = styled.div`
 export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
   <MenuContainer>
     <FilledMenuBarIcon>
-      <OfflineContainer>
-        <NavIcon />
-      </OfflineContainer>
+      <NavIcon />
+      <OfflineIndicator />
     </FilledMenuBarIcon>
     <MenuSections>
       <MenuSection>

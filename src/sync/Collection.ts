@@ -19,7 +19,6 @@ import {
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { ConflictManager } from '@manuscripts/sync-client'
 import { AxiosError } from 'axios'
-import * as HttpStatusCodes from 'http-status-codes'
 import { cloneDeep } from 'lodash-es'
 import {
   PouchDB,
@@ -32,7 +31,6 @@ import {
 import { CollectionName, collections } from '../collections'
 import { Database } from '../components/DatabaseProvider'
 import config from '../config'
-import { refreshSyncSessions } from '../lib/api'
 import sessionID from '../lib/session-id'
 import {
   BulkDocsError,
@@ -129,12 +127,23 @@ export class Collection<T extends Model> implements EventTarget {
     error: [],
   }
 
+  private eventTypes: EventType[] = ['active', 'complete', 'error']
+
   public constructor(props: CollectionProps) {
     this.collectionName = this.buildCollectionName(props.collection)
     this.props = props
   }
 
-  public addEventListener(type: EventType, listener: CollectionEventListener) {
+  public addEventListener(
+    type: EventType | 'all',
+    listener: CollectionEventListener
+  ) {
+    if (type === 'all') {
+      this.eventTypes.forEach((eventType: EventType) =>
+        this.listeners[eventType].push(listener)
+      )
+      return
+    }
     this.listeners[type].push(listener)
   }
 
@@ -409,7 +418,7 @@ export class Collection<T extends Model> implements EventTarget {
 
     this.dispatchEvent(
       new CustomEvent<CollectionEventDetails>(type, {
-        detail: { direction, value, error },
+        detail: { direction, value, error, collection: this.collectionName },
       })
     )
   }
@@ -589,17 +598,7 @@ export class Collection<T extends Model> implements EventTarget {
       }
     }
 
-    switch (error.status) {
-      // unauthorized, start a new sync gateway session if signed in
-      case HttpStatusCodes.UNAUTHORIZED:
-        // TODO: only do this once
-        // tslint:disable-next-line:no-console
-        console.info('Refreshing sync session')
-        return refreshSyncSessions()
-
-      default:
-        throw error
-    }
+    throw error
   }
 
   private atomicUpdate = async <T extends Model>(

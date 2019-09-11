@@ -19,7 +19,6 @@ import { TokenActions } from '../data/TokenData'
 import { Collection, CollectionProps } from './Collection'
 import CollectionManager from './CollectionManager'
 import { DatabaseError } from './DatabaseError'
-import { SyncNotification } from './SyncNotification'
 
 interface State<T extends Model> {
   collection?: Collection<T>
@@ -41,7 +40,7 @@ class Sync<T extends Model> extends React.PureComponent<Props, State<T>> {
 
   public async componentDidMount() {
     try {
-      const { addModal, tokenActions, ...collectionProps } = this.props
+      const { addModal, ...collectionProps } = this.props
 
       this.setState({
         collection: await CollectionManager.createCollection<T>(
@@ -109,7 +108,6 @@ class Sync<T extends Model> extends React.PureComponent<Props, State<T>> {
   }
 
   public render() {
-    const { children, history, location, tokenActions } = this.props
     const { collection, error } = this.state
 
     // TODO: display sync connection errors, or handle them silently?
@@ -122,18 +120,7 @@ class Sync<T extends Model> extends React.PureComponent<Props, State<T>> {
       return null
     }
 
-    return (
-      <>
-        {children}
-
-        <SyncNotification
-          collection={collection}
-          history={history}
-          location={location}
-          tokenActions={tokenActions}
-        />
-      </>
-    )
+    return this.props.children
   }
 }
 
