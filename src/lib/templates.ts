@@ -419,10 +419,5 @@ export const fetchSharedData = <T extends Model>(file: string) =>
         new Map<string, T>(items.map<[string, T]>(item => [item._id, item]))
     )
 
-export const buildManuscriptTitle = (item: TemplateData): string =>
-  ['Untitled', item.title, item.articleType || 'Journal Article']
-    .filter(_ => _)
-    .join(' ')
-
 export const chooseBundleID = (template?: ManuscriptTemplate) =>
   template && template.bundle ? template.bundle : DEFAULT_BUNDLE

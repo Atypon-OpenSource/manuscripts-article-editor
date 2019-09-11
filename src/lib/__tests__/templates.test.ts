@@ -38,7 +38,6 @@ import {
   buildCategories,
   buildItems,
   buildJournalTitle,
-  buildManuscriptTitle,
   buildResearchFields,
   buildSectionFromDescription,
   chooseBundleID,
@@ -107,17 +106,6 @@ describe('templates', () => {
     delete template.bundle
 
     expect(chooseBundleID(template)).toBe(DEFAULT_BUNDLE)
-  })
-
-  test('build manuscript title', () => {
-    const template = exampleTemplate()
-
-    const result = buildManuscriptTitle({
-      template,
-      title: 'Foo',
-    })
-
-    expect(result).toBe('Untitled Foo Journal Article')
   })
 
   test('build article type', () => {

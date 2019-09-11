@@ -44,7 +44,6 @@ import { ContributorRole } from '../../lib/roles'
 import {
   buildCategories,
   buildItems,
-  buildManuscriptTitle,
   buildResearchFields,
   buildSectionFromDescription,
   chooseBundleID,
@@ -289,7 +288,7 @@ class TemplateSelector extends React.Component<
     // const colorScheme = this.findDefaultColorScheme(newStyles)
 
     const manuscript = {
-      ...buildManuscript(undefined),
+      ...buildManuscript(),
       bundle: newBundle._id,
       pageLayout: newPageLayout._id,
       // colorScheme: colorScheme ? colorScheme._id : DEFAULT_COLOR_SCHEME,
@@ -474,8 +473,6 @@ class TemplateSelector extends React.Component<
 
     const { handleComplete, history, user } = this.props
 
-    const title = buildManuscriptTitle(item)
-
     const newProject = this.buildNewProject()
 
     if (newProject) {
@@ -505,7 +502,7 @@ class TemplateSelector extends React.Component<
     // const colorScheme = this.findDefaultColorScheme(newStyles)
 
     const manuscript: Build<Manuscript> = {
-      ...buildManuscript(title),
+      ...buildManuscript(),
       bundle: newBundle._id,
       pageLayout: newPageLayout._id,
       priority,
