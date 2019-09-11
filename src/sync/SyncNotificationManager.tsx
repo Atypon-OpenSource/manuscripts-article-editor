@@ -88,6 +88,8 @@ const SyncNotificationManager: React.FC<RouteComponentProps & Props> = ({
     )
   }
 
+  if (onlineState === OnlineState.Acknowledged) return null
+
   if (state.find(isSyncTimeoutError)) {
     return (
       <SyncNotification

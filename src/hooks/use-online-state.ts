@@ -31,7 +31,7 @@ export default (): [OnlineState, () => void] => {
   )
 
   const setOfflineAcknowledged = useCallback(
-    () => () => setOnlineState(OnlineState.Acknowledged),
+    () => setOnlineState(OnlineState.Acknowledged),
     []
   )
   useEffect(() => {
