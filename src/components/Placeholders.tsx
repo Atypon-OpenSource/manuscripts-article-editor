@@ -15,7 +15,7 @@ import { sample } from 'lodash-es'
 import React, { useEffect, useState } from 'react'
 import { animated, useTransition } from 'react-spring'
 import { styled } from '../theme/styled-components'
-import { AphorismView } from './Aphorism'
+import { Aphorism, AphorismView } from './Aphorism'
 import {
   IndicatorKind,
   IndicatorSize,
@@ -71,7 +71,7 @@ const AnimatedFixedPlaceholderContainer = animated(FixedPlaceholderContainer)
 export const ProjectAphorismPlaceholder: React.FC<{
   duration: number
 }> = ({ duration }) => {
-  const [aphorism] = useState(sample(aphorisms))
+  const [aphorism] = useState(sample(aphorisms) as Aphorism)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

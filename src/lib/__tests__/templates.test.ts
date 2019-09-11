@@ -10,6 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import bundles from '@manuscripts/data/dist/shared/bundles.json'
+import keywords from '@manuscripts/data/dist/shared/keywords.json'
+import manuscriptCategories from '@manuscripts/data/dist/shared/manuscript-categories.json'
+import publishers from '@manuscripts/data/dist/shared/publishers.json'
+import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
+import templates from '@manuscripts/data/dist/shared/templates-v2.json'
 import { DEFAULT_BUNDLE, generateID } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
@@ -27,12 +33,6 @@ import {
   SectionDescription,
   TemplatesDataType,
 } from '../../types/templates'
-import { bundles } from '../__fixtures__/bundles'
-import { manuscriptCategories } from '../__fixtures__/manuscript-categories'
-import { publishers } from '../__fixtures__/publishers'
-import { researchFields } from '../__fixtures__/research-fields'
-import { sectionCategories } from '../__fixtures__/section-categories'
-import { templates } from '../__fixtures__/templates'
 import {
   buildArticleType,
   buildCategories,
@@ -71,6 +71,10 @@ const manuscriptCategoriesMap = buildMap<ManuscriptCategory>(
 )
 
 const sectionCategoriesMap = buildMap<SectionCategory>(sectionCategories)
+
+const researchFields = (keywords as ResearchField[]).filter(
+  keyword => keyword.objectType === ObjectTypes.ResearchField
+)
 
 const researchFieldsMap = buildMap<ResearchField>(researchFields)
 
@@ -367,6 +371,6 @@ describe('templates', () => {
   test('build items', () => {
     const result = buildItems(manuscriptTemplatesMap, bundlesMap, publishersMap)
 
-    expect(result).toHaveLength(2)
+    expect(result.length).toBeGreaterThan(1000)
   })
 })

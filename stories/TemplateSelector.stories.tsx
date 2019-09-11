@@ -10,6 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import keywords from '@manuscripts/data/dist/shared/keywords.json'
+import manuscriptCategories from '@manuscripts/data/dist/shared/manuscript-categories.json'
+import { ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -22,9 +25,12 @@ import { TemplateSelectorList } from '../src/components/templates/TemplateSelect
 import { TemplateSelectorModal } from '../src/components/templates/TemplateSelectorModal'
 import { TemplateTopicSelector } from '../src/components/templates/TemplateTopicSelector'
 import { TemplateTopicsList } from '../src/components/templates/TemplateTopicsList'
-import { manuscriptCategories } from '../src/lib/__fixtures__/manuscript-categories'
-import { researchFields } from '../src/lib/__fixtures__/research-fields'
+import { ResearchField } from '../src/types/templates'
 import { templatesData } from './data/templates-data'
+
+const researchFields = (keywords as ResearchField[]).filter(
+  keyword => keyword.objectType === ObjectTypes.ResearchField
+)
 
 const listRef: React.RefObject<VariableSizeList> = React.createRef()
 const [templateData] = templatesData

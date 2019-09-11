@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Bundle } from '@manuscripts/manuscripts-json-schema'
+import bundles from '@manuscripts/data/dist/shared/bundles.json'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -21,64 +21,8 @@ import { CitationStyleSelectorList } from '../src/components/templates/CitationS
 import { CitationStyleSelectorModal } from '../src/components/templates/CitationStyleSelectorModal'
 
 const listRef: React.RefObject<FixedSizeList> = React.createRef()
-const bundles: Bundle[] = [
-  {
-    _id: 'MPBundle:example',
-    objectType: 'MPBundle',
-    createdAt: 0,
-    updatedAt: 0,
-    csl: {
-      title: 'Example Journal',
-    },
-  },
-  {
-    _id: 'MPBundle:another',
-    objectType: 'MPBundle',
-    createdAt: 0,
-    updatedAt: 0,
-    csl: {
-      title: 'Another Journal',
-    },
-  },
-  {
-    _id: 'MPBundle:something',
-    objectType: 'MPBundle',
-    createdAt: 0,
-    updatedAt: 0,
-    csl: {
-      title: 'Something Different',
-    },
-  },
-  {
-    _id: 'MPBundle:science',
-    objectType: 'MPBundle',
-    createdAt: 0,
-    updatedAt: 0,
-    csl: {
-      title: 'Science',
-    },
-  },
-  {
-    _id: 'MPBundle:nature',
-    objectType: 'MPBundle',
-    createdAt: 0,
-    updatedAt: 0,
-    csl: {
-      title: 'Nature',
-    },
-  },
-  {
-    _id: 'MPBundle:stick',
-    objectType: 'MPBundle',
-    createdAt: 0,
-    updatedAt: 0,
-    csl: {
-      title:
-        'Stick Stick Stick Stick Stick Stick Stick Stick Stick Stick Stick Stick Stick',
-    },
-  },
-]
-const bundle = bundles[0]
+
+const [bundle] = bundles
 
 storiesOf('Citation Style Selector', module)
   .add('Modal', () => (

@@ -15,6 +15,8 @@ import { styled } from '../theme/styled-components'
 // import { Aphorism } from '@manuscripts/manuscripts-json-schema'
 
 export interface Aphorism {
+  _id: string
+  objectType: string
   body: string
   credit: string
 }

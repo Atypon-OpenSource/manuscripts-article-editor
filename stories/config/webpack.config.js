@@ -53,29 +53,18 @@ module.exports = ({ config, mode }) => {
   })
 
   config.plugins.push(
-    new webpack.NormalModuleReplacementPlugin(/AsyncLoad\.js/, resource => {
-      resource.request = resource.request.replace(
-        /AsyncLoad/,
-        'AsyncLoad-disabled'
-      )
-    })
-  )
-
-  config.plugins.push(
-    new webpack.ContextReplacementPlugin(
-      /codemirror[\/\\]mode$/,
-      /javascript|stex/ // TODO: all the modes needed for the listing format switcher
-    )
-  )
-
-  config.plugins.push(
     new webpack.ContextReplacementPlugin(
       /react-intl[\/\\]locale-data$/,
       /en|ar|zh/ // TODO: all the locales needed for the locale switcher
     )
   )
 
-  config.plugins.push(new WorkerPlugin())
+  config.plugins.push(
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
+  )
+
+
+    config.plugins.push(new WorkerPlugin())
 
   config.resolve.extensions.push('.ts', '.tsx')
 

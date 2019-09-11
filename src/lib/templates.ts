@@ -25,9 +25,7 @@ import {
   ObjectTypes,
   PageLayout,
 } from '@manuscripts/manuscripts-json-schema'
-import axios from 'axios'
 import { mergeWith } from 'lodash-es'
-import config from '../config'
 import {
   MandatorySubsectionsRequirement,
   ManuscriptTemplate,
@@ -47,10 +45,6 @@ export const DEFAULT_CATEGORY = RESEARCH_ARTICLE_CATEGORY
 export const COVER_LETTER_SECTION_CATEGORY = 'MPSectionCategory:cover-letter'
 export const COVER_LETTER_PLACEHOLDER =
   'A letter sent along with your manuscript to explain it.'
-
-const client = axios.create({
-  baseURL: config.data.url,
-})
 
 export const isMandatorySubsectionsRequirement = (
   requirement: Model
@@ -418,13 +412,11 @@ export const buildTemplateData = (
 }
 
 export const fetchSharedData = <T extends Model>(file: string) =>
-  client
-    .get<T[]>(`/shared/${file}.json`)
+  import(`@manuscripts/data/dist/shared/${file}.json`)
+    .then(module => module.default as T[])
     .then(
-      response =>
-        new Map<string, T>(
-          response.data.map<[string, T]>(item => [item._id, item])
-        )
+      items =>
+        new Map<string, T>(items.map<[string, T]>(item => [item._id, item]))
     )
 
 export const buildManuscriptTitle = (item: TemplateData): string =>
