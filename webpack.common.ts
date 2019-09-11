@@ -69,16 +69,6 @@ const configuration: webpack.Configuration = {
         crisp: config.crisp.id,
         analytics: config.analytics.id,
       }),
-      new webpack.NormalModuleReplacementPlugin(
-        /AsyncLoad\.js/,
-        // tslint:disable-next-line:no-any
-        (resource: any) => {
-          resource.request = resource.request.replace(
-            /AsyncLoad/,
-            'AsyncLoad-disabled'
-          )
-        }
-      ),
       new webpack.ContextReplacementPlugin(
         /react-intl[\/\\]locale-data$/,
         /en/ // TODO: all the locales needed for the locale switcher

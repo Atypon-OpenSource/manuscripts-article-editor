@@ -1594,12 +1594,7 @@
     "@phosphor/disposable" "^1.1.2"
     "@phosphor/signaling" "^1.2.2"
 
-"@manuscripts/assets@^0.3.19", "@manuscripts/assets@^0.3.21", "@manuscripts/assets@^0.3.9":
-  version "0.3.21"
-  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.21.tgz#fa3d0ab25eaf930cefe62c06b8cbf90fa539882c"
-  integrity sha512-CAqc6tY9eMMNHI7YCJJ30H8UGzYPCzheRXwyw5EeqOnTDA+5rUlO+pptj+ZUwTmtsvtCmz+pE4CGz8LRId+p0A==
-
-"@manuscripts/assets@^0.3.24":
+"@manuscripts/assets@^0.3.19", "@manuscripts/assets@^0.3.21", "@manuscripts/assets@^0.3.24", "@manuscripts/assets@^0.3.9":
   version "0.3.24"
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.24.tgz#1a3a4666af3f84d2e7b1e3c7b824651a28c7895d"
   integrity sha512-gjQpPTFk/mk6H7dLLj5EfWrzLYh2FElrYRbFwWGKXN+3cUtopg1IYBB9UVDnd60Uh/vQnufw5HhgofQT/S74iQ==
@@ -1628,10 +1623,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.36.0":
-  version "0.36.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.36.0.tgz#2d22b6136c60474d2d67534fb2559d93db6dcbb2"
-  integrity sha512-3ErJyW6H6U3bP3MdR47CG7iKogqMP1uZBXNHxdc3l79JHmS2BZH6hi8Xr5zzbr2CFHnSKDN0UJNU4H7SjZ+H5g==
+"@manuscripts/manuscript-editor@^0.37.0":
+  version "0.37.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.37.0.tgz#440b4697f22d054da44464201a613c677073047c"
+  integrity sha512-X6LpF06DoozmZoWhMO57akw6jjUnjdry71cViPDTllke4omqDSv24Fh9hz2dCRPdpg/pXYjbDsz6VqwIQXZasA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1646,23 +1641,23 @@
     dompurify "^1.0.11"
     grapheme-splitter "^1.0.4"
     lodash-es "^4.17.11"
-    mathjax3 "3.0.0-beta.3"
+    mathjax-full "^3.0.0"
     popper.js "^1.15.0"
     pretty-bytes "^5.2.0"
     prosemirror-commands "^1.0.8"
     prosemirror-dev-tools "^2.1.1"
-    prosemirror-dropcursor "^1.1.1"
+    prosemirror-dropcursor "^1.1.2"
     prosemirror-gapcursor "^1.0.4"
     prosemirror-history "^1.0.3"
     prosemirror-inputrules "^1.0.2"
     prosemirror-keymap "^1.0.1"
-    prosemirror-model "^1.7.1"
+    prosemirror-model "^1.7.2"
     prosemirror-schema-list "^1.0.3"
     prosemirror-state "^1.2.3"
     prosemirror-tables "^0.8.1"
-    prosemirror-transform "^1.1.3"
-    prosemirror-utils "^0.9.4"
-    prosemirror-view "^1.9.12"
+    prosemirror-transform "^1.1.4"
+    prosemirror-utils "^0.9.6"
+    prosemirror-view "^1.10.3"
     react-dnd "^7.7.0"
     react-modal "^3.6.1"
     react-popper "^1.0.2"
@@ -6038,6 +6033,11 @@ comma-separated-tokens@^1.0.0:
   resolved "https://registry.npmjs.org/comma-separated-tokens/-/comma-separated-tokens-1.0.7.tgz#419cd7fb3258b1ed838dc0953167a25e152f5b59"
   integrity sha512-Jrx3xsP4pPv4AwJUDWY9wOXGtwPXARej6Xd99h4TUGotmf8APuquKMpK+dnD3UgyxK7OEWaisjZz+3b5jtL6xQ==
 
+commander@*:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/commander/-/commander-3.0.1.tgz#4595aec3530525e671fb6f85fb173df8ff8bf57a"
+  integrity sha512-UNgvDd+csKdc9GD4zjtkHKQbT8Aspt2jCBqNSPp53vAS0L1tS9sXB2TCEOPHJ7kt9bN/niWkYj8T3RQSoMXdSQ==
+
 commander@2.11.x:
   version "2.11.0"
   resolved "https://registry.npmjs.org/commander/-/commander-2.11.0.tgz#157152fd1e7a6c8d98a5b715cf376df928004563"
@@ -7562,7 +7562,7 @@ eslint-scope@^4.0.3:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-esm@^3.0.34:
+esm@^3.2.25:
   version "3.2.25"
   resolved "https://registry.npmjs.org/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
   integrity sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==
@@ -12099,12 +12099,14 @@ math-sign-x@^3.0.0:
     is-nan-x "^1.0.1"
     to-number-x "^2.0.0"
 
-mathjax3@3.0.0-beta.3:
-  version "3.0.0-beta.3"
-  resolved "https://registry.npmjs.org/mathjax3/-/mathjax3-3.0.0-beta.3.tgz#c3072a59304b4b612aa9516eb672b07000c9a3d5"
-  integrity sha512-MgXK56KOLk5b8/Y01RXB/C0+QgC2Kc+SJmKBilP+Jwxout/4SdV8AjsPp+WMzlotnAacQWFpn24CPdLkdej9AA==
+mathjax-full@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/mathjax-full/-/mathjax-full-3.0.0.tgz#a16c5bf4ae5ae6797fccfbd6dd11cc59052570f1"
+  integrity sha512-DvTUi2WvrACXZRjjzS0EbXY2ssRD23yuSMHVYZNbRuCA5zFZvu0MZWFy8QRvNYwJ44hJirJCNOCii0W0Q1R62A==
   dependencies:
-    esm "^3.0.34"
+    esm "^3.2.25"
+    mj-context-menu "^0.2.0"
+    speech-rule-engine "^3.0.0-beta.6"
 
 max-safe-integer@^1.0.1:
   version "1.0.1"
@@ -12434,6 +12436,11 @@ mixin-object@^2.0.1:
   dependencies:
     for-in "^0.1.3"
     is-extendable "^0.1.1"
+
+mj-context-menu@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/mj-context-menu/-/mj-context-menu-0.2.0.tgz#e1947dbb1771ede33f0c9405ecca9b49d109b86d"
+  integrity sha512-yJxrWBHCjFZEHsZgfs7m5g9OSCNzsVYadW6f6lX3pgZL67vmodtSW/4zhsYmuDKweXfHs0M1kJge1uQIasWA+g==
 
 mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.1:
   version "0.5.1"
@@ -14604,10 +14611,10 @@ prosemirror-dev-tools@^2.1.1:
     react-json-tree "^0.11.0"
     unstated "^2.1.1"
 
-prosemirror-dropcursor@^1.0.0, prosemirror-dropcursor@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/prosemirror-dropcursor/-/prosemirror-dropcursor-1.1.1.tgz#c60ed1ed6c58804a06a75db06a0d993b087b7622"
-  integrity sha512-GeUyMO/tOEf8MXrP7Xb7UIMrfK86OGh0fnyBrHfhav4VjY9cw65mNoqHy87CklE5711AhCP5Qzfp8RL/hVKusg==
+prosemirror-dropcursor@^1.0.0, prosemirror-dropcursor@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/prosemirror-dropcursor/-/prosemirror-dropcursor-1.1.2.tgz#d54428e0fdbc0fb3d4c5809acd1ad031e6cb6855"
+  integrity sha512-QHZbYPr8AY0g88TC/Wp7jpYbUoSpTSO8sqHNGvvZOInsAyylIdOpsrfhY1NC+/lh+iuwka0YogGtq2mmE7cr4g==
   dependencies:
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.1.0"
@@ -14673,10 +14680,10 @@ prosemirror-menu@^1.0.0:
     prosemirror-history "^1.0.0"
     prosemirror-state "^1.0.0"
 
-prosemirror-model@>=1.0.0, prosemirror-model@^1.0.0, prosemirror-model@^1.1.0, prosemirror-model@^1.2.0, prosemirror-model@^1.6.1, prosemirror-model@^1.6.2, prosemirror-model@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.7.1.tgz#f140a6e366e1e283aa7a94dbb8c2c7d13139689e"
-  integrity sha512-hYrZPbJvdo2QWERmkCuS80BEf5Rcf3+S28ETr4xu8XKPYjmU6aeQn23G1Fu/2rwqUmk5ZyWYo2nyEsN+Cdv2Qg==
+prosemirror-model@>=1.0.0, prosemirror-model@^1.0.0, prosemirror-model@^1.1.0, prosemirror-model@^1.2.0, prosemirror-model@^1.6.1, prosemirror-model@^1.6.2, prosemirror-model@^1.7.1, prosemirror-model@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.7.2.tgz#829abd7fb496783ba088936d2d7aff228206829a"
+  integrity sha512-mopozod/qNTB6utEyY8q4w1nCLDakpr39d8smzHno/wuAivCzBU8HkC9YOx1MBdTcTU6sXiIEh08hQfkC3damw==
   dependencies:
     orderedmap "^1.0.0"
 
@@ -14714,22 +14721,22 @@ prosemirror-tables@^0.8.1:
     prosemirror-transform "^1.0.0"
     prosemirror-view "^1.0.0"
 
-prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0, prosemirror-transform@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.npmjs.org/prosemirror-transform/-/prosemirror-transform-1.1.3.tgz#28cfdf1f9ee514edc40466be7b7db39eed545fdf"
-  integrity sha512-1O6Di5lOL1mp4nuCnQNkHY7l2roIW5y8RH4ZG3hMYmkmDEWzTaFFnxxAAHsE5ipGLBSRcTlP7SsDhYBIdSuLpQ==
+prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0, prosemirror-transform@^1.1.3, prosemirror-transform@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.npmjs.org/prosemirror-transform/-/prosemirror-transform-1.1.4.tgz#30b35f02dd7761dd8139e5eb7612831fd031036a"
+  integrity sha512-1Y3XuaFJtwusYDvojcCxi3VZvNIntPVoh/dpeVaIM5Vf1V+M6xiIWcDgktUWWRovMxEhdibnpt5eyFmYJJhHtQ==
   dependencies:
     prosemirror-model "^1.0.0"
 
-prosemirror-utils@^0.9.4:
+prosemirror-utils@^0.9.4, prosemirror-utils@^0.9.6:
   version "0.9.6"
   resolved "https://registry.npmjs.org/prosemirror-utils/-/prosemirror-utils-0.9.6.tgz#3d97bd85897e3b535555867dc95a51399116a973"
   integrity sha512-UC+j9hQQ1POYfMc5p7UFxBTptRiGPR7Kkmbl3jVvU8VgQbkI89tR/GK+3QYC8n+VvBZrtAoCrJItNhWSxX3slA==
 
-prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.10.0, prosemirror-view@^1.5.3, prosemirror-view@^1.6.3, prosemirror-view@^1.9.12:
-  version "1.10.0"
-  resolved "https://registry.npmjs.org/prosemirror-view/-/prosemirror-view-1.10.0.tgz#7de5de75f0c90f8b9f09d09ed4467554d59adddb"
-  integrity sha512-STHw0xHfk+XPMqMLTKykRL1qEMtO+n1GWINBl94IPIq82AmWO1Ors4wVw93HKo/oIadWRrP/7faNJKh1UVLrTg==
+prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.10.0, prosemirror-view@^1.10.3, prosemirror-view@^1.5.3, prosemirror-view@^1.6.3:
+  version "1.10.3"
+  resolved "https://registry.npmjs.org/prosemirror-view/-/prosemirror-view-1.10.3.tgz#4f268b0054dcf1a497653aae9121d263f8b503a8"
+  integrity sha512-3R5iTItRmE1wWZ3X5pbl4j2H6gElTr7Hcr6wTS0QuRlqE9xROcP6BPQuBxaOANgzUOiU8Skw42GCI8Xc/d9Y/A==
   dependencies:
     prosemirror-model "^1.1.0"
     prosemirror-state "^1.0.0"
@@ -16796,6 +16803,15 @@ spdy@^4.0.1:
     select-hose "^2.0.0"
     spdy-transport "^3.0.0"
 
+speech-rule-engine@^3.0.0-beta.6:
+  version "3.0.0-beta.6"
+  resolved "https://registry.npmjs.org/speech-rule-engine/-/speech-rule-engine-3.0.0-beta.6.tgz#77b0ed9570eccd0a5f71d387ae0da8221d720fd0"
+  integrity sha512-B7gcT53jAsKpx7WvFYQcyUlFmgS3Wa9KlDy0FY8SOTa+Wz5EqmI0MpCD5/fYm8/2qiCPp8HwZg+H3cBgM+sNVw==
+  dependencies:
+    commander "*"
+    wicked-good-xpath "*"
+    xmldom-sre "^0.1.31"
+
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
   resolved "https://registry.npmjs.org/split-string/-/split-string-3.1.0.tgz#7cb09dda3a86585705c64b39a6466038682e8fe2"
@@ -18787,6 +18803,11 @@ white-space-x@^3.0.0:
   resolved "https://registry.npmjs.org/white-space-x/-/white-space-x-3.0.1.tgz#81a82d5432da725aba5ca671624bb579c9e66d4f"
   integrity sha512-BwMFXQNPna/4RsNPOgldVYn+FkEv+lc3wUiFzuaW6Z2DH/oSk1UrRD6SBqDgWQO4JU+aBq3PVuPD9Vz0j7mh0w==
 
+wicked-good-xpath@*:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/wicked-good-xpath/-/wicked-good-xpath-1.3.0.tgz#81b0e95e8650e49c94b22298fff8686b5553cf6c"
+  integrity sha1-gbDpXoZQ5JyUsiKY//hoa1VTz2w=
+
 wide-align@^1.1.0:
   version "1.1.3"
   resolved "https://registry.npmjs.org/wide-align/-/wide-align-1.1.3.tgz#ae074e6bdc0c14a431e804e624549c633b000457"
@@ -19082,6 +19103,11 @@ xmlchars@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/xmlchars/-/xmlchars-2.1.1.tgz#ef1a81c05bff629c2280007f12daca21bd6f6c93"
   integrity sha512-7hew1RPJ1iIuje/Y01bGD/mXokXxegAgVS+e+E0wSi2ILHQkYAH1+JXARwTjZSM4Z4Z+c73aKspEcqj+zPPL/w==
+
+xmldom-sre@^0.1.31:
+  version "0.1.31"
+  resolved "https://registry.npmjs.org/xmldom-sre/-/xmldom-sre-0.1.31.tgz#10860d5bab2c603144597d04bf2c4980e98067f4"
+  integrity sha512-f9s+fUkX04BxQf+7mMWAp5zk61pciie+fFLC9hX9UVvCeJQfNHRHXpeo5MPcR0EUf57PYLdt+ZO4f3Ipk2oZUw==
 
 xmlhttprequest-cookie@^0.9.2:
   version "0.9.9"
