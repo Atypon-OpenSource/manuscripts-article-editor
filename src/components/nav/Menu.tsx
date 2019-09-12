@@ -16,6 +16,7 @@ import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { styled } from '../../theme/styled-components'
+import OfflineIndicator from '../OfflineIndicator'
 import ProjectsButton from './ProjectsButton'
 import UserContainer from './UserContainer'
 
@@ -107,9 +108,11 @@ interface Props {
 export const Menu: React.FunctionComponent<Props> = ({ handleClose }) => (
   <MenuContainerWithBorder>
     <FilledMenuBarIcon onClick={handleClose}>
-      <Tip title={'Back to Editor'} placement={'bottom-end'}>
-        <NavIcon />
-      </Tip>
+      <OfflineIndicator>
+        <Tip title={'Back to Editor'} placement={'bottom-end'}>
+          <NavIcon />
+        </Tip>
+      </OfflineIndicator>
     </FilledMenuBarIcon>
 
     <MenuSections>

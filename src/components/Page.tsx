@@ -12,6 +12,7 @@
 
 import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
+import NavIcon from '@manuscripts/assets/react/NavIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Tip } from '@manuscripts/style-guide'
@@ -61,6 +62,16 @@ const ViewsBar = styled.div`
   background-color: white;
   border-right: 1px solid
     ${props => props.theme.colors.sidebar.background.selected};
+`
+
+const StyledNavIcon = styled(NavIcon)`
+  & path {
+    fill: ${props => props.theme.colors.menu.icon.default};
+  }
+
+  &:hover path {
+    fill: ${props => props.theme.colors.menu.icon.selected};
+  }
 `
 
 const IconBar = styled.div`
@@ -139,7 +150,9 @@ export const Page: React.FunctionComponent<Props> = ({
 
         <MenuBar tokenActions={tokenActions!}>
           <Tip title={'Home'} placement={'right'}>
-            <OfflineIndicator />
+            <OfflineIndicator>
+              <StyledNavIcon />
+            </OfflineIndicator>
           </Tip>
         </MenuBar>
 

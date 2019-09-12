@@ -42,8 +42,9 @@ const Container = styled.div`
 export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
   <MenuContainer>
     <FilledMenuBarIcon>
-      <NavIcon />
-      <OfflineIndicator />
+      <OfflineIndicator>
+        <NavIcon />
+      </OfflineIndicator>
     </FilledMenuBarIcon>
     <MenuSections>
       <MenuSection>

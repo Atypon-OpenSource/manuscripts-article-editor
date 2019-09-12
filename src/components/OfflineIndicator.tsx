@@ -10,22 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import NavIcon from '@manuscripts/assets/react/NavIcon'
 import { Tip } from '@manuscripts/style-guide'
 import React from 'react'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import { mercuryGrey } from '../theme/colors'
 import { styled } from '../theme/styled-components'
-
-const StyledNavIcon = styled(NavIcon)`
-  & path {
-    fill: ${props => props.theme.colors.menu.icon.default};
-  }
-
-  &:hover path {
-    fill: ${props => props.theme.colors.menu.icon.selected};
-  }
-`
 
 const Wrapper = styled.div`
   position: relative;
@@ -43,7 +32,7 @@ const Bubble = styled.div`
   border: 2px solid white;
 `
 
-const OfflineIndicator: React.FC<{}> = () => {
+const OfflineIndicator: React.FC<{}> = ({ children }) => {
   const [onlineState] = useOnlineState()
 
   return (
@@ -53,7 +42,7 @@ const OfflineIndicator: React.FC<{}> = () => {
           <Bubble />
         </Tip>
       )}
-      <StyledNavIcon />
+      {children}
     </Wrapper>
   )
 }
