@@ -20,7 +20,6 @@ import { parse } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import config from '../../config'
-import { TokenActions } from '../../data/TokenData'
 import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
 import tokenHandler from '../../lib/token'
@@ -67,12 +66,8 @@ interface RouteLocationState {
   infoLoginMessage?: string
 }
 
-interface Props {
-  tokenActions: TokenActions
-}
-
 class LoginPageContainer extends React.Component<
-  Props & RouteComponentProps<{}, {}, RouteLocationState>,
+  RouteComponentProps<{}, {}, RouteLocationState>,
   State
 > {
   public state: Readonly<State> = {}
@@ -161,7 +156,7 @@ class LoginPageContainer extends React.Component<
         message: () => messages.identityProviderErrorMessage(error),
       })
     } else if (token) {
-      this.props.tokenActions.update(token)
+      tokenHandler.set(token)
 
       window.location.href = '/projects'
     }

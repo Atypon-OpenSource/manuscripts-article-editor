@@ -14,7 +14,6 @@ import { mount, shallow, ShallowWrapper } from 'enzyme'
 import { createMemoryHistory } from 'history'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
-import { TokenActions } from '../../../data/TokenData'
 import tokenHandler from '../../../lib/token'
 import { theme } from '../../../theme/theme'
 import LoginPageContainer from '../LoginPageContainer'
@@ -28,11 +27,6 @@ const props = {
   history,
   location: history.location,
   match: { params: {}, isExact: true, path: '/login', url: '/login' },
-}
-
-const tokenActions: TokenActions = {
-  update: tokenHandler.set,
-  delete: tokenHandler.remove,
 }
 
 const messageText = (
@@ -66,7 +60,7 @@ describe('LoginPageContainer', () => {
     }
 
     const wrapper = shallow<LoginPageContainer>(
-      <LoginPageContainer {...propsWithHash} tokenActions={tokenActions} />
+      <LoginPageContainer {...propsWithHash} />
     )
 
     expect(window.location.hash).toEqual('')
@@ -88,7 +82,7 @@ describe('LoginPageContainer', () => {
     }
 
     const wrapper = shallow<LoginPageContainer>(
-      <LoginPageContainer {...propsWithState} tokenActions={tokenActions} />
+      <LoginPageContainer {...propsWithState} />
     )
 
     expect(messageText(wrapper)).toBe('You have been logged out.')
@@ -103,9 +97,7 @@ describe('LoginPageContainer', () => {
       },
     }
 
-    shallow<LoginPageContainer>(
-      <LoginPageContainer {...propsWithHash} tokenActions={tokenActions} />
-    )
+    shallow<LoginPageContainer>(<LoginPageContainer {...propsWithHash} />)
 
     expect(window.location.hash).toBe('')
     expect(window.location.href).toBe('https://localhost/')

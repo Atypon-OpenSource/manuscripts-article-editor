@@ -90,10 +90,7 @@ const App: React.FunctionComponent = () => (
                             user ? (
                               <Redirect to={'/projects'} />
                             ) : (
-                              <LoginPageContainer
-                                {...props}
-                                tokenActions={tokenActions}
-                              />
+                              <LoginPageContainer {...props} />
                             )
                           }
                         />
@@ -117,10 +114,7 @@ const App: React.FunctionComponent = () => (
                             user ? (
                               <Redirect to={'/projects'} />
                             ) : (
-                              <RecoverPageContainer
-                                {...props}
-                                tokenActions={tokenActions}
-                              />
+                              <RecoverPageContainer {...props} />
                             )
                           }
                         />
@@ -308,9 +302,7 @@ const App: React.FunctionComponent = () => (
               <Route
                 path={'/login'}
                 exact={true}
-                render={props => (
-                  <LoginPageContainer {...props} tokenActions={tokenActions} />
-                )}
+                render={props => <LoginPageContainer {...props} />}
               />
 
               <Route
@@ -322,12 +314,7 @@ const App: React.FunctionComponent = () => (
               <Route
                 path={'/recover'}
                 exact={true}
-                render={props => (
-                  <RecoverPageContainer
-                    {...props}
-                    tokenActions={tokenActions}
-                  />
-                )}
+                render={props => <RecoverPageContainer {...props} />}
               />
 
               <Route
