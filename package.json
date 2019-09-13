@@ -125,6 +125,7 @@
     "popper.js": "^1.14.1",
     "pouchdb-adapter-http": "gitlab:mpapp-public/pouchdb-adapter-http#master",
     "pouchdb-adapter-idb": "gitlab:mpapp-public/pouchdb-adapter-idb#master",
+    "pouchdb-generate-replication-id": "^7.0.0",
     "pouchdb-replication": "gitlab:mpapp-public/pouchdb-replication#master",
     "pretty-bytes": "^5.2.0",
     "prop-types": "^15.7.2",

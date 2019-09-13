@@ -20,6 +20,7 @@ import { Model } from '@manuscripts/manuscripts-json-schema'
 import { ConflictManager } from '@manuscripts/sync-client'
 import { AxiosError } from 'axios'
 import { cloneDeep } from 'lodash-es'
+import generateReplicationID from 'pouchdb-generate-replication-id'
 import {
   PouchDB,
   PouchReplicationOptions,
@@ -182,6 +183,42 @@ export class Collection<T extends Model> implements EventTarget {
         console.error(error) // tslint:disable-line:no-console
       })
     }
+  }
+
+  public syncOnce(
+    direction: Direction,
+    options: PouchReplicationOptions = {}
+  ): Promise<void> {
+    const replicationState = this.sync(direction, {
+      ...options,
+      live: false,
+      retry: false,
+    })
+
+    if (!replicationState) {
+      return Promise.resolve()
+    }
+
+    this.replications[direction] = replicationState
+
+    return new Promise((resolve, reject) => {
+      replicationState.complete$.subscribe(async complete => {
+        if (complete) {
+          this.replications[direction] = null
+          this.setStatus(direction, 'complete', true)
+          resolve()
+        }
+      })
+
+      replicationState.error$.subscribe(error => {
+        if (error) {
+          this.replications[direction] = null
+          // successfully handled sync error but failed again, move on
+          this.setStatus(direction, 'complete', true)
+          reject(error)
+        }
+      })
+    })
   }
 
   public async startSyncing() {
@@ -362,6 +399,27 @@ export class Collection<T extends Model> implements EventTarget {
     return results
   }
 
+  public async hasUnsyncedChanges() {
+    if (!this.bucketName) return false
+    const remote = this.getRemoteUrl()
+
+    try {
+      const id = await generateReplicationID(
+        this.collection!.pouch,
+        new PouchDB(remote, {
+          adapter: 'http',
+        }),
+        {}
+      )
+      const localSyncDoc = await this.collection!.pouch.get(id)
+      const { last_seq } = localSyncDoc
+      const changes = await this.collection!.pouch.changes({ since: last_seq })
+      return !!changes.results.length
+    } catch (e) {
+      return true
+    }
+  }
+
   private bulkDocs(
     docs: Array<T & ContainerIDs>
   ): Promise<Array<BulkDocsSuccess | BulkDocsError>> {
@@ -423,42 +481,6 @@ export class Collection<T extends Model> implements EventTarget {
     )
   }
 
-  private syncOnce(
-    direction: Direction,
-    options: PouchReplicationOptions = {}
-  ): Promise<void> {
-    const replicationState = this.sync(direction, {
-      ...options,
-      live: false,
-      retry: false,
-    })
-
-    if (!replicationState) {
-      return Promise.resolve()
-    }
-
-    this.replications[direction] = replicationState
-
-    return new Promise((resolve, reject) => {
-      replicationState.complete$.subscribe(async complete => {
-        if (complete) {
-          this.replications[direction] = null
-          this.setStatus(direction, 'complete', true)
-          resolve()
-        }
-      })
-
-      replicationState.error$.subscribe(error => {
-        if (error) {
-          this.replications[direction] = null
-          // successfully handled sync error but failed again, move on
-          this.setStatus(direction, 'complete', true)
-          reject(error)
-        }
-      })
-    })
-  }
-
   private get bucketName() {
     switch (this.collectionName) {
       case 'collaborators':
@@ -498,7 +520,7 @@ export class Collection<T extends Model> implements EventTarget {
 
     options.fetch = fetchWithCredentials
 
-    const remote = `${config.gateway.url}/${this.bucketName}`
+    const remote = this.getRemoteUrl()
 
     // tslint:disable-next-line:no-console
     console.log(`Syncing ${this.collectionName}`, {
@@ -627,5 +649,9 @@ export class Collection<T extends Model> implements EventTarget {
       updatedAt: timestamp(),
       sessionID,
     }
+  }
+
+  private getRemoteUrl = () => {
+    return `${config.gateway.url}/${this.bucketName}`
   }
 }

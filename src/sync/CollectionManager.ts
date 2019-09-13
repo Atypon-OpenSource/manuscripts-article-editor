@@ -77,6 +77,35 @@ class CollectionManager {
     /* tslint:enable:no-console */
   }
 
+  public unsyncedCollections(): Promise<string[]> {
+    // do ANY collections have unsynced changes?
+    return Promise.all(
+      Array.from(this.collections.entries()).map(([key, collection]) =>
+        collection.hasUnsyncedChanges().then(result => (result ? key : null))
+      )
+    ).then(results => results.filter(Boolean) as string[])
+  }
+
+  public async pushCollections(collections: string[]) {
+    /* tslint:disable:no-console */
+    for (const key of collections) {
+      const collection = this.collections.get(key)
+      if (!collection) continue
+      try {
+        await collection.cancelReplications()
+      } catch (error) {
+        console.error(`Unable to stop replication`)
+      }
+
+      try {
+        await collection.syncOnce('push')
+      } catch (error) {
+        console.error(`Unable to start replication`)
+      }
+    }
+    /* tslint:enable:no-console */
+  }
+
   private generalListener = (event: CollectionEvent) => {
     if (isUnauthorized(event)) {
       if (!this.isExpiredSyncGatewaySession) {

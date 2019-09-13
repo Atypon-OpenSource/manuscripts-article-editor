@@ -13988,6 +13988,11 @@ pouchdb-collate@7.0.0:
   resolved "https://registry.npmjs.org/pouchdb-collate/-/pouchdb-collate-7.0.0.tgz#4f9a0a03c236f1677a971c400b79b7baf6379a4d"
   integrity sha512-0O67rnNGVD9OUbDx+6DLPcE3zz7w6gieNCvrbvaI5ibIXuLpyMyLjD6OdRe/19LbstEfZaOp+SYUhQs+TP8Plg==
 
+pouchdb-collate@7.1.1:
+  version "7.1.1"
+  resolved "https://registry.npmjs.org/pouchdb-collate/-/pouchdb-collate-7.1.1.tgz#eac1bc828146bc4226d6e4aa3bdcf6b496fb0f2d"
+  integrity sha512-RNe44kHV96AHU22mJHwNX+JkpR5HnJsQdfn+15otq/TZk6GYbVl7LeDgkyZS6BILq6Ms3gzeimpHUP21xswejA==
+
 pouchdb-collections@6.4.3, pouchdb-collections@^6.4.1:
   version "6.4.3"
   resolved "https://registry.npmjs.org/pouchdb-collections/-/pouchdb-collections-6.4.3.tgz#2b70ca3143134c361dba6e466518b4f4d8e92ff4"
@@ -14082,6 +14087,14 @@ pouchdb-generate-replication-id@7.0.0:
   dependencies:
     pouchdb-collate "7.0.0"
     pouchdb-md5 "7.0.0"
+
+pouchdb-generate-replication-id@^7.0.0:
+  version "7.1.1"
+  resolved "https://registry.npmjs.org/pouchdb-generate-replication-id/-/pouchdb-generate-replication-id-7.1.1.tgz#143bca90489b3f4f48b76b74b33cde7293849640"
+  integrity sha512-tWxM/ybpjGNiHaZ8K99ts/ut6S+aDACu0pQ0VOfWIeolGeLSHZgj/m7fEJ0rhxukeitBtc42DUtblNC1X8EWXg==
+  dependencies:
+    pouchdb-collate "7.1.1"
+    pouchdb-md5 "7.1.1"
 
 pouchdb-json@7.0.0:
   version "7.0.0"

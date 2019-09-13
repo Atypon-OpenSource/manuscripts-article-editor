@@ -11,8 +11,9 @@
  */
 
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
-import React from 'react'
+import React, { useContext } from 'react'
 import { styled } from '../../theme/styled-components'
+import { LogoutConfirmationContext } from '../account/LogoutConfirmation'
 import { SignOutMessage } from '../Messages'
 import { DropdownLink, DropdownSeparator } from './Dropdown'
 
@@ -48,16 +49,20 @@ const displayName = (user: UserProfile) => {
   return ''
 }
 
-export const UserInfo: React.FunctionComponent<UserProps> = ({ user }) => (
-  <React.Fragment>
-    <Name>{displayName(user)}</Name>
-    <DropdownSeparator />
-    <DropdownLink to={'/profile'}> Profile </DropdownLink>
-    {/*<DropdownLink to={'/preferences'}>
+export const UserInfo: React.FunctionComponent<UserProps> = ({ user }) => {
+  const handleLogout = useContext(LogoutConfirmationContext)
+
+  return (
+    <React.Fragment>
+      <Name>{displayName(user)}</Name>
+      <DropdownSeparator />
+      <DropdownLink to={'/profile'}> Profile </DropdownLink>
+      {/*<DropdownLink to={'/preferences'}>
       <PreferencesMessage />
     </DropdownLink>*/}
-    <DropdownLink to={'/logout'}>
-      <SignOutMessage />
-    </DropdownLink>
-  </React.Fragment>
-)
+      <DropdownLink to="/logout" onClick={handleLogout}>
+        <SignOutMessage />
+      </DropdownLink>
+    </React.Fragment>
+  )
+}

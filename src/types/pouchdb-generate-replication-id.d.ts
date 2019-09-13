@@ -10,31 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React from 'react'
-import UserData from '../../data/UserData'
-import { getCurrentUserId } from '../../lib/user'
-import { LogoutConfirmation } from '../account/LogoutConfirmation'
-import { SignInMessage } from '../Messages'
-import { MenuLink } from './Menu'
-import { ProfileDropdown } from './ProfileDropdown'
-import { UserInfo } from './UserInfo'
-
-const UserContainer = () => (
-  <UserData userID={getCurrentUserId()!}>
-    {user =>
-      user ? (
-        <LogoutConfirmation>
-          <ProfileDropdown user={user}>
-            <UserInfo user={user} />
-          </ProfileDropdown>
-        </LogoutConfirmation>
-      ) : (
-        <MenuLink to={'/login'}>
-          <SignInMessage />
-        </MenuLink>
-      )
-    }
-  </UserData>
-)
-
-export default UserContainer
+declare module 'pouchdb-generate-replication-id' {
+  const main: (
+    db1: RxDocument<{}>,
+    db2: RxDocument<{}>,
+    options: object
+  ) => Promise<string>
+  export default main
+}
