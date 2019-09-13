@@ -12,7 +12,6 @@
 
 import config from '../config'
 import { GoogleAnalyticsConfig } from './google-analytics'
-import { SentryConfig } from './sentry'
 
 if (config.analytics.id) {
   import('./google-analytics')
@@ -26,9 +25,9 @@ if (config.analytics.id) {
 }
 
 if (config.sentry.dsn) {
-  import('./sentry')
-    .then(({ init }) => {
-      init(config.sentry as SentryConfig)
+  import('@sentry/browser')
+    .then(Sentry => {
+      Sentry.init(config.sentry)
     })
     .catch(error => {
       // tslint:disable-next-line:no-console

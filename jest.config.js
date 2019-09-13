@@ -7,7 +7,6 @@ module.exports = {
     '!/**/__fixtures__',
     '!src/data/*.tsx',
     '!src/lib/fonts.ts',
-    '!src/lib/sentry.ts',
     '!src/lib/service-worker.ts',
     '!src/lib/developer.ts',
   ],
