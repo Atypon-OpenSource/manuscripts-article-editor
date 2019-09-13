@@ -25,7 +25,7 @@ export const environmentVariables = [
   'GIT_COMMIT_HASH',
   'GIT_VERSION',
   'GOOGLE_ANALYTICS_ID',
-  'IAM_HOST',
+  'IAM_BASE_URL',
   'JUPYTER_TOKEN',
   'JUPYTER_URL',
   'NATIVE',

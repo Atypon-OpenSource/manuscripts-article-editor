@@ -110,7 +110,7 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
 
   private handleChangePassword = () =>
     config.connect.enabled
-      ? window.open(`${config.iam.host}/security/password`)
+      ? window.open(`${config.iam.url}/security/password`)
       : this.props.history.push('/change-password')
 
   private handleDeleteAccount = () => this.props.history.push('/delete-account')

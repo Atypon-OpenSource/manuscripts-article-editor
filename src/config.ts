@@ -67,7 +67,7 @@ interface Config {
     enabled: boolean
   }
   iam: {
-    host: string
+    url: string
   }
 }
 
@@ -138,7 +138,7 @@ const config = {
     enabled: isTrue(process.env.ENABLE_CONNECT_LOGIN_OPTION),
   },
   iam: {
-    host: normalizeURL(process.env.IAM_HOST),
+    url: normalizeURL(process.env.IAM_BASE_URL),
   },
 }
 
