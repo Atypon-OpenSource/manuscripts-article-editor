@@ -2,13 +2,9 @@ FROM node:8-alpine AS builder
 
 WORKDIR /app
 
-# dependencies
-
-RUN apk add --no-cache git openssh
-
 # install
 
-COPY .yarnrc package.json yarn.lock /app/
+COPY package.json yarn.lock ./
 
 ARG YARN_CACHE_FOLDER=/cache/yarn
 
@@ -16,12 +12,12 @@ RUN yarn install --frozen-lockfile --non-interactive --production
 
 # build
 
-COPY tsconfig.json /app/
-COPY babel.config.js /app/
-COPY webpack.common.ts webpack.prod.ts /app/
-COPY public /app/public
-COPY types /app/types
-COPY src /app/src
+COPY tsconfig.json ./
+COPY babel.config.js ./
+COPY webpack.common.ts webpack.prod.ts environment-variables.ts ./
+COPY public ./public
+COPY types ./types
+COPY src ./src
 
 ARG API_APPLICATION_ID
 ARG API_BASE_URL
@@ -44,7 +40,7 @@ ARG SENTRY_PUBLIC_DSN
 ARG SERVICEWORKER_ENABLED
 ARG SYNC_GATEWAY_URL
 
-RUN yarn build
+RUN ALLOW_MISSING_VARIABLES=1 yarn build
 
 # serve
 

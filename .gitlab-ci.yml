@@ -25,7 +25,7 @@ lint_test_build:
     - yarn typecheck
     - yarn lint
     - yarn test --coverage
-    - yarn build
+    - ALLOW_MISSING_VARIABLES=1 yarn build
   tags:
     - nodejs-8
   artifacts:

@@ -16,6 +16,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
 import { GenerateSW } from 'workbox-webpack-plugin'
 import WorkerPlugin from 'worker-plugin'
+import { environmentVariables } from './environment-variables'
 import config from './src/config'
 
 const configuration: webpack.Configuration = {
@@ -26,36 +27,7 @@ const configuration: webpack.Configuration = {
   plugins: (() => {
     const plugins = [
       new CleanWebpackPlugin(),
-      new webpack.EnvironmentPlugin([
-        'API_APPLICATION_ID',
-        'API_BASE_URL',
-        'BASE_URL',
-        'BEACON_HTTP_URL',
-        'BEACON_WS_URL',
-        'CI_ENVIRONMENT_NAME',
-        'CRISP_WEBSITE_ID',
-        'DATA_URL',
-        'DERIVED_DATA_BUCKET',
-        'DISCOURSE_HOST',
-        'ENABLE_CONNECT_LOGIN_OPTION',
-        'GIT_COMMIT_HASH',
-        'GIT_VERSION',
-        'GOOGLE_ANALYTICS_ID',
-        'IAM_HOST',
-        'JUPYTER_TOKEN',
-        'JUPYTER_URL',
-        'NATIVE',
-        'NODE_ENV',
-        'PRESSROOM_KEY',
-        'PRESSROOM_URL',
-        'PROJECTS_BUCKET',
-        'SENTRY_PUBLIC_DSN',
-        'SENTRY_RELEASE',
-        'SERVICEWORKER_ENABLED',
-        'SUPPORT_EMAIL',
-        'SUPPORT_URL',
-        'SYNC_GATEWAY_URL',
-      ]),
+      new webpack.EnvironmentPlugin(environmentVariables),
       new CopyWebpackPlugin([
         'public/landing.html',
         'public/screenshot.png',
