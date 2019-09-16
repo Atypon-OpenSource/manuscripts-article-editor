@@ -60,7 +60,6 @@ storiesOf('Template Selector', module)
   .add('Topic selector', () => (
     <div style={{ width: 200 }}>
       <TemplateTopicSelector
-        value={null}
         handleChange={action('select topic')}
         options={researchFields}
       />
@@ -68,7 +67,6 @@ storiesOf('Template Selector', module)
   ))
   .add('Topics list', () => (
     <TemplateTopicsList
-      value={null}
       handleChange={action('select topic')}
       options={researchFields}
     />

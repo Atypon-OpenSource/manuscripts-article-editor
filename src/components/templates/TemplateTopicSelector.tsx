@@ -48,9 +48,9 @@ const SelectedTopic = styled.div`
 `
 
 interface Props {
-  handleChange: (value: ResearchField | null) => void
+  handleChange: (value?: ResearchField) => void
   options: ResearchField[]
-  value: ResearchField | null
+  value?: ResearchField
 }
 
 interface State {

@@ -12,7 +12,7 @@
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { Button, ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
-import React, { Component } from 'react'
+import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { TemplateData } from '../../types/templates'
 
@@ -79,48 +79,49 @@ const FooterButtons = styled(ButtonGroup)`
 `
 
 interface Props {
-  createEmpty: () => void
+  createEmpty: () => Promise<void>
   importManuscript: (models: Model[]) => Promise<void>
-  selectTemplate: (template?: TemplateData) => void
+  selectTemplate: () => Promise<void>
   template?: TemplateData
+  creatingManuscript: boolean
 }
 
-export class TemplateModalFooter extends Component<Props> {
-  public render() {
-    const { createEmpty, template } = this.props
+export const TemplateModalFooter: React.FC<Props> = ({
+  createEmpty,
+  selectTemplate,
+  template,
+  creatingManuscript,
+}) => {
+  return (
+    <ModalFooter>
+      <FooterText>
+        <SelectedTemplateDesc>
+          {template ? 'Selected Template' : 'Select a Template'}
+        </SelectedTemplateDesc>
 
-    return (
-      <ModalFooter>
-        <FooterText>
-          <SelectedTemplateDesc>
-            {template ? 'Selected Template' : 'Select a Template'}
-          </SelectedTemplateDesc>
-          {template && (
-            <SelectedTemplateDetails>
-              <SelectedTemplateTitle>{template.title}</SelectedTemplateTitle>
-              <>
-                {template.articleType &&
-                  template.articleType !== template.title && (
-                    <SelectedTemplateType>
-                      {template.articleType}
-                    </SelectedTemplateType>
-                  )}
-              </>
-            </SelectedTemplateDetails>
-          )}
-        </FooterText>
-        <FooterButtons>
-          <Button onClick={createEmpty}>Add Empty</Button>
-          <PrimaryButton onClick={this.createTemplate} disabled={!template}>
-            Add Manuscript
-          </PrimaryButton>
-        </FooterButtons>
-      </ModalFooter>
-    )
-  }
-
-  private createTemplate = () => {
-    const { selectTemplate, template } = this.props
-    selectTemplate(template)
-  }
+        {template && (
+          <SelectedTemplateDetails>
+            <SelectedTemplateTitle>{template.title}</SelectedTemplateTitle>
+            {template.articleType &&
+              template.articleType !== template.title && (
+                <SelectedTemplateType>
+                  {template.articleType}
+                </SelectedTemplateType>
+              )}
+          </SelectedTemplateDetails>
+        )}
+      </FooterText>
+      <FooterButtons>
+        <Button onClick={createEmpty} disabled={creatingManuscript}>
+          Add Empty
+        </Button>
+        <PrimaryButton
+          onClick={selectTemplate}
+          disabled={creatingManuscript || !template}
+        >
+          Add Manuscript
+        </PrimaryButton>
+      </FooterButtons>
+    </ModalFooter>
+  )
 }

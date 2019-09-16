@@ -82,22 +82,22 @@ interface Props {
   researchFields: ResearchField[]
   handleComplete: () => void
   importManuscript: (models: Model[]) => Promise<void>
-  selectTemplate: (template?: TemplateData) => void
-  createEmpty: () => void
+  selectTemplate: (template: TemplateData) => Promise<void>
+  createEmpty: () => Promise<void>
 }
 
 interface State {
+  creatingManuscript: boolean
   selectedCategory: string
-  selectedField: ResearchField | null
+  selectedField?: ResearchField
   selectedItem?: TemplateData
   searchText: string
 }
 
 export class TemplateSelectorModal extends Component<Props, State> {
   public state: Readonly<State> = {
+    creatingManuscript: false,
     selectedCategory: 'MPManuscriptCategory:research-article',
-    selectedField: null,
-    selectedItem: undefined,
     searchText: '',
   }
 
@@ -112,14 +112,13 @@ export class TemplateSelectorModal extends Component<Props, State> {
   public render() {
     const {
       categories,
-      createEmpty,
       handleComplete,
       importManuscript,
       researchFields,
-      selectTemplate,
     } = this.props
 
     const {
+      creatingManuscript,
       selectedCategory,
       selectedItem,
       selectedField,
@@ -136,7 +135,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
         <ModalContainer>
           <TemplateModalHeader
             icon={<PencilIcon />}
-            title="Add Manuscript to Project"
+            title={'Add Manuscript to Project'}
           />
 
           <TemplateCategorySelector
@@ -180,7 +179,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
           ) : (
             <EmptyTemplateContainer>
               <TemplateEmpty
-                createEmpty={createEmpty}
+                createEmpty={this.createEmpty}
                 searchText={this.state.searchText}
                 selectedCategoryName={this.selectedCategoryName()}
               />
@@ -188,14 +187,39 @@ export class TemplateSelectorModal extends Component<Props, State> {
           )}
 
           <TemplateModalFooter
-            createEmpty={createEmpty}
+            createEmpty={this.createEmpty}
             importManuscript={importManuscript}
-            selectTemplate={selectTemplate}
+            selectTemplate={this.selectTemplate}
             template={selectedItem}
+            creatingManuscript={creatingManuscript}
           />
         </ModalContainer>
       </ModalBody>
     )
+  }
+
+  private createEmpty = async () => {
+    this.setState({ creatingManuscript: true })
+    try {
+      await this.props.createEmpty()
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.error(error)
+    }
+    this.setState({ creatingManuscript: false })
+  }
+
+  private selectTemplate = async () => {
+    if (this.state.selectedItem) {
+      this.setState({ creatingManuscript: true })
+      try {
+        await this.props.selectTemplate(this.state.selectedItem)
+      } catch (error) {
+        // tslint:disable-next-line:no-console
+        console.error(error)
+      }
+      this.setState({ creatingManuscript: false })
+    }
   }
 
   private setSelectedTemplate = (selectedItem: TemplateData) => {

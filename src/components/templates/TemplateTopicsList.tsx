@@ -71,9 +71,9 @@ const Added: React.FunctionComponent<{ visible: boolean }> = ({ visible }) => (
 )
 
 interface Props {
-  handleChange: (value: ResearchField | null) => void
+  handleChange: (value?: ResearchField) => void
   options: ResearchField[]
-  value: ResearchField | null
+  value?: ResearchField
 }
 
 export const TemplateTopicsList: React.FunctionComponent<Props> = ({
@@ -83,7 +83,7 @@ export const TemplateTopicsList: React.FunctionComponent<Props> = ({
 }) => (
   <ListContainer data-cy={'template-topics-list'}>
     <List>
-      <ListSection onClick={() => handleChange(null)}>
+      <ListSection onClick={() => handleChange(undefined)}>
         <Added visible={!value} />
         All Topics
       </ListSection>
