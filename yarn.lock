@@ -1623,10 +1623,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.38.0":
-  version "0.38.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.38.0.tgz#c8bd68c8f7be308184da6613adc6f0fe331ed53a"
-  integrity sha512-9UvTzvD3TrXjbeg5Xcs1+QkvH4V12d/m7bF7atLCO5wSTAL2zwKoTrC7mVYyoeOd5cQEtcKA1Lu3QR1Jmzz1yw==
+"@manuscripts/manuscript-editor@^0.39.0":
+  version "0.39.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.39.0.tgz#35688b198fc4f1986d069ce77dec7a6ab17e1943"
+  integrity sha512-brl8ET1+BXHyGJFNWWpwyRkBcVh08CgX7fNC0Zuxu238xcFgb3kgTrCPIzxG79FLeIBOaZsSAhxdDMUB/KvjYQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1638,7 +1638,7 @@
     citeproc "^2.2.10"
     codemirror "^5.48.0"
     crypto-hash "^1.2.1"
-    dompurify "^1.0.11"
+    dompurify "^2.0.0"
     grapheme-splitter "^1.0.4"
     lodash-es "^4.17.11"
     mathjax-full "^3.0.0"
@@ -7210,10 +7210,10 @@ domhandler@^2.3.0:
   dependencies:
     domelementtype "1"
 
-dompurify@^1.0.11:
-  version "1.0.11"
-  resolved "https://registry.npmjs.org/dompurify/-/dompurify-1.0.11.tgz#fe0f4a40d147f7cebbe31a50a1357539cfc1eb4d"
-  integrity sha512-XywCTXZtc/qCX3iprD1pIklRVk/uhl8BKpkTxr+ZyMVUzSUg7wkQXRBp/euJ5J5moa1QvfpvaPQVP71z1O59dQ==
+dompurify@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/dompurify/-/dompurify-2.0.0.tgz#2afb46460fc3f72096f4e77537edd9811dcdf512"
+  integrity sha512-i8LWSIMDpGmv7AbOcQOyy54L4TrRhjs6yrSessoNeYspsAtgaKiiGeBAG5959qLfhGvyndkHeyZWxx0dd4iDxw==
 
 domutils@1.5.1:
   version "1.5.1"
