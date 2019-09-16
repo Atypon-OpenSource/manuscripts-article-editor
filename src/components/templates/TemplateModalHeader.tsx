@@ -10,47 +10,41 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React from 'react'
-import { ListChildComponentProps } from 'react-window'
-import { TemplateData } from '../../types/templates'
-import { TemplateListItem } from './TemplateListItem'
+import React, { Component } from 'react'
+import { styled } from '../../theme/styled-components'
+
+const ModalHeader = styled.header`
+  display: flex;
+  margin: 74px auto 60px;
+
+  @media (max-width: 450px) {
+    padding: 0 16px;
+  }
+`
+const Header = styled.h2`
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 24px;
+  margin: 0;
+`
+const Icon = styled.span`
+  margin-right: 15px;
+`
 
 interface Props {
-  data: {
-    filteredItems: TemplateData[]
-    selectItem: (item: TemplateData) => void
-    selectedItem: TemplateData
-  }
+  icon?: JSX.Element
+  title: string
 }
 
-export const TemplateSelectorItem: React.FunctionComponent<
-  ListChildComponentProps & Props
-> = ({ data, index, style }) => {
-  const { filteredItems, selectedItem, selectItem } = data
+export class TemplateModalHeader extends Component<Props> {
+  public render() {
+    const { icon, title } = this.props
 
-  const item = filteredItems[index]
-
-  const { bundle, template, title, articleType, publisher } = item
-
-  const key = template ? template._id : bundle._id
-
-  style = {
-    ...style,
-    transition: 'all 200ms ease-in-out',
-    paddingBottom: '12px',
+    return (
+      <ModalHeader>
+        {icon && <Icon>{icon}</Icon>}
+        <Header>{title}</Header>
+      </ModalHeader>
+    )
   }
-
-  return (
-    <div style={style} key={key} id={key}>
-      <TemplateListItem
-        articleType={articleType}
-        item={item}
-        publisher={publisher}
-        selectItem={selectItem}
-        template={template}
-        title={title}
-        selected={item === selectedItem}
-      />
-    </div>
-  )
 }

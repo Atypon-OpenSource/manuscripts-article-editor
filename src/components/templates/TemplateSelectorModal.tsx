@@ -10,100 +10,76 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { ManuscriptCategory, Model } from '@manuscripts/manuscripts-json-schema'
-import { Button, CloseButton, PrimaryButton } from '@manuscripts/style-guide'
 import React, { Component } from 'react'
+import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
 import { styled } from '../../theme/styled-components'
 import { ResearchField, TemplateData } from '../../types/templates'
-import { ModalContext } from '../ModalProvider'
-import { Importer } from '../projects/Importer'
+import { PencilIcon } from './ModalIcons'
 import { TemplateCategorySelector } from './TemplateCategorySelector'
 import { TemplateEmpty } from './TemplateEmpty'
+import { TemplateModalClose } from './TemplateModalClose'
+import { TemplateModalFooter } from './TemplateModalFooter'
+import { TemplateModalHeader } from './TemplateModalHeader'
 import { TemplateSearchInput } from './TemplateSearchInput'
 import { TemplateSelectorList } from './TemplateSelectorList'
 import { TemplateTopicSelector } from './TemplateTopicSelector'
 
-const ListContainer = styled.div`
-  flex: 1;
-  width: 600px;
-  max-width: 100%;
-`
-
-const FadingEdge = styled.div`
-  position: absolute;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-  height: 30px;
-  background-image: linear-gradient(
-    transparent,
-    ${props => props.theme.colors.modal.background}
-  );
-`
-
-const TemplateSearch = styled.div`
-  margin-left: 8px;
-  flex-shrink: 0;
-`
-
 const ModalContainer = styled.div`
-  height: 70vh;
-  max-width: 70vw;
-  min-width: 600px;
-  display: flex;
-  background: white;
-  opacity: 1;
-  font-family: ${props => props.theme.fontFamily};
+  background: ${props => props.theme.colors.global.background.default};
   border-radius: ${props => props.theme.radius}px;
   box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
-`
-
-const ModalHeader = styled.div`
-  display: flex;
-  flex-shrink: 0;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 16px 8px;
-`
-
-const ModalSidebar = styled.div`
   display: flex;
   flex-direction: column;
-  border-top-left-radius: ${props => props.theme.radius}px;
-  border-bottom-left-radius: ${props => props.theme.radius}px;
-  background-color: ${props => props.theme.colors.sidebar.background.default};
-`
-
-const ModalMain = styled.div`
-  flex: 1;
+  font-family: ${props => props.theme.fontFamily};
+  margin: 12px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 `
 
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 716px;
+  position: relative;
 `
 
-const SidebarFooter = styled.div`
+const FiltersContainer = styled.div`
+  border: 1px solid ${props => props.theme.colors.popper.separator};
+  border-radius: 4px;
   display: flex;
-  flex-direction: column;
-  padding: 20px;
+  margin: 0 86px 16px;
 
-  & button {
-    margin: 4px 0;
-    display: flex;
+  @media (max-width: 450px) {
+    margin-left: 16px;
+    margin-right: 16px;
   }
+`
+
+const TemplatesContainer = styled.div`
+  border: 1px solid ${props => props.theme.colors.popper.separator};
+  border-radius: 4px;
+  list-style: none;
+  margin: 0 86px 16px;
+  min-height: 300px;
+  overflow: hidden;
+  padding: 0;
+
+  @media (max-width: 450px) {
+    margin: 0 16px;
+  }
+`
+
+const EmptyTemplateContainer = styled.div`
+  margin: 0 auto;
 `
 
 interface Props {
   items: TemplateData[]
   categories: ManuscriptCategory[]
   researchFields: ResearchField[]
-  projectID?: string
   handleComplete: () => void
   importManuscript: (models: Model[]) => Promise<void>
   selectTemplate: (template?: TemplateData) => void
@@ -113,6 +89,7 @@ interface Props {
 interface State {
   selectedCategory: string
   selectedField: ResearchField | null
+  selectedItem?: TemplateData
   searchText: string
 }
 
@@ -120,10 +97,17 @@ export class TemplateSelectorModal extends Component<Props, State> {
   public state: Readonly<State> = {
     selectedCategory: 'MPManuscriptCategory:research-article',
     selectedField: null,
+    selectedItem: undefined,
     searchText: '',
   }
 
   private listRef = React.createRef<VariableSizeList>()
+
+  public componentDidUpdate(prevProps: Props, prevState: State) {
+    if (prevState.selectedItem === this.state.selectedItem) {
+      this.resetScroll()
+    }
+  }
 
   public render() {
     const {
@@ -135,91 +119,87 @@ export class TemplateSelectorModal extends Component<Props, State> {
       selectTemplate,
     } = this.props
 
-    const { selectedCategory, selectedField, searchText } = this.state
+    const {
+      selectedCategory,
+      selectedItem,
+      selectedField,
+      searchText,
+    } = this.state
 
     const filteredItems = this.filterTemplates()
 
-    this.resetScroll()
     this.resetList()
 
     return (
       <ModalBody>
-        <ModalHeader>
-          <CloseButton onClick={handleComplete}>
-            <CloseIconDark />
-          </CloseButton>
-        </ModalHeader>
+        <TemplateModalClose handleComplete={handleComplete} />
         <ModalContainer>
-          <ModalSidebar>
+          <TemplateModalHeader
+            icon={<PencilIcon />}
+            title="Add Manuscript to Project"
+          />
+
+          <TemplateCategorySelector
+            options={categories}
+            value={selectedCategory}
+            handleChange={(selectedCategory: string) =>
+              this.setState({ selectedCategory })
+            }
+          />
+
+          <FiltersContainer>
+            <TemplateSearchInput
+              value={searchText}
+              handleChange={(searchText: string) => {
+                this.setState({ searchText })
+              }}
+            />
+
             <TemplateTopicSelector
               handleChange={selectedField => this.setState({ selectedField })}
               options={researchFields}
               value={selectedField}
             />
+          </FiltersContainer>
 
-            <TemplateCategorySelector
-              options={categories}
-              value={selectedCategory}
-              handleChange={(selectedCategory: string) =>
-                this.setState({ selectedCategory })
-              }
-            />
-
-            <SidebarFooter>
-              <ModalContext.Consumer>
-                {({ addModal }) => (
-                  <Button
-                    onClick={() =>
-                      addModal('importer', ({ handleClose }) => (
-                        <Importer
-                          handleComplete={handleClose}
-                          importManuscript={importManuscript}
-                        />
-                      ))
-                    }
-                  >
-                    Import manuscript from file
-                  </Button>
+          {filteredItems.length ? (
+            <TemplatesContainer>
+              <AutoSizer>
+                {({ height, width }) => (
+                  <TemplateSelectorList
+                    filteredItems={filteredItems}
+                    height={height}
+                    listRef={this.listRef}
+                    resetList={this.resetList}
+                    selectItem={this.setSelectedTemplate}
+                    width={width}
+                  />
                 )}
-              </ModalContext.Consumer>
-
-              <PrimaryButton onClick={createEmpty}>
-                Create empty manuscript
-              </PrimaryButton>
-            </SidebarFooter>
-          </ModalSidebar>
-
-          <ModalMain>
-            <TemplateSearch>
-              <TemplateSearchInput
-                value={searchText}
-                handleChange={(searchText: string) => {
-                  this.setState({ searchText })
-                }}
-              />
-            </TemplateSearch>
-
-            {filteredItems.length ? (
-              <ListContainer>
-                <TemplateSelectorList
-                  filteredItems={filteredItems}
-                  listRef={this.listRef}
-                  selectTemplate={selectTemplate}
-                  resetList={this.resetList}
-                />
-                <FadingEdge />
-              </ListContainer>
-            ) : (
+              </AutoSizer>
+            </TemplatesContainer>
+          ) : (
+            <EmptyTemplateContainer>
               <TemplateEmpty
                 createEmpty={createEmpty}
                 searchText={this.state.searchText}
                 selectedCategoryName={this.selectedCategoryName()}
               />
-            )}
-          </ModalMain>
+            </EmptyTemplateContainer>
+          )}
+
+          <TemplateModalFooter
+            createEmpty={createEmpty}
+            importManuscript={importManuscript}
+            selectTemplate={selectTemplate}
+            template={selectedItem}
+          />
         </ModalContainer>
       </ModalBody>
     )
+  }
+
+  private setSelectedTemplate = (selectedItem: TemplateData) => {
+    this.setState({ selectedItem })
   }
 
   private selectedCategoryName = (): string => {

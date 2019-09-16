@@ -10,135 +10,99 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import ReactDOM from 'react-dom'
-import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
 import { ThemeProvider } from '../../theme/ThemeProvider'
 import { TemplateData } from '../../types/templates'
 import { TemplateListItem } from './TemplateListItem'
 import { TemplateSelectorItem } from './TemplateSelectorItem'
 
-interface Props {
+const calculateItemKey = (item: TemplateData) =>
+  item.template ? item.template._id : item.bundle!._id
+
+export const TemplateSelectorList: React.FC<{
   filteredItems: TemplateData[]
+  height: number
   listRef: React.RefObject<VariableSizeList>
   resetList: (index: number) => void
-  selectTemplate: (item: TemplateData) => void
-}
+  selectItem: (item?: TemplateData) => void
+  width: number
+}> = React.memo(
+  ({ filteredItems, height, listRef, resetList, selectItem, width }) => {
+    const [selectedItem, setSelectedItem] = useState<TemplateData>()
+    const [selectedItemHeight, setSelectedItemHeight] = useState<number>()
 
-interface State {
-  selectedItem?: TemplateData
-  selectedItemHeight?: number
-}
+    const getItemSize = useCallback(
+      (index: number): number => {
+        const item = filteredItems[index]
 
-export class TemplateSelectorList extends React.Component<Props, State> {
-  public state: Readonly<State> = {}
+        if (item === selectedItem && selectedItemHeight) {
+          return selectedItemHeight
+        }
 
-  public render() {
-    const { filteredItems, listRef, selectTemplate } = this.props
-    const { selectedItem } = this.state
+        return 48
+      },
+      [filteredItems, selectedItem, selectedItemHeight]
+    )
+
+    const getItemKey = useCallback(
+      (index: number) => calculateItemKey(filteredItems[index]),
+      [filteredItems]
+    )
+
+    const handleSelectItem = useCallback(
+      (item?: TemplateData) => {
+        if (item) {
+          const container = document.createElement('div')
+          container.style.width = width + 'px'
+          container.style.visibility = 'hidden'
+          container.style.position = 'absolute'
+          container.style.left = '-9999px'
+          document.body.appendChild(container)
+
+          ReactDOM.render(
+            <ThemeProvider>
+              <TemplateListItem
+                articleType={item.articleType}
+                item={item}
+                publisher={item.publisher}
+                selectItem={handleSelectItem}
+                template={item.template}
+                title={item.title}
+                selected={true}
+              />
+            </ThemeProvider>,
+            container,
+            () => {
+              const clientHeight = container.clientHeight
+              document.body.removeChild(container)
+              setSelectedItem(item)
+              setSelectedItemHeight(clientHeight)
+              resetList(0)
+              selectItem(item)
+            }
+          )
+        } else {
+          setSelectedItemHeight(undefined)
+          resetList(0)
+        }
+      },
+      [selectItem, resetList]
+    )
 
     return (
-      <AutoSizer>
-        {({ height, width }) => (
-          <>
-            <VariableSizeList
-              ref={listRef}
-              height={height}
-              width={width}
-              itemCount={filteredItems.length}
-              itemSize={this.getItemSize}
-              itemKey={this.getItemKey}
-              itemData={{
-                filteredItems,
-                selectedItem,
-                selectItem: this.selectItem(width),
-                selectTemplate,
-              }}
-            >
-              {TemplateSelectorItem}
-            </VariableSizeList>
-          </>
-        )}
-      </AutoSizer>
+      <VariableSizeList
+        ref={listRef}
+        height={height}
+        width={width}
+        itemCount={filteredItems.length}
+        itemSize={getItemSize}
+        itemKey={getItemKey}
+        itemData={{ filteredItems, selectedItem, selectItem: handleSelectItem }}
+      >
+        {TemplateSelectorItem}
+      </VariableSizeList>
     )
   }
-
-  private selectItem = (width: number) => (item: TemplateData) => {
-    const selectedItem = item === this.state.selectedItem ? undefined : item
-
-    if (selectedItem) {
-      this.measureSelectedItem(selectedItem, width)
-    } else {
-      this.setState(
-        {
-          selectedItem: undefined,
-          selectedItemHeight: undefined,
-        },
-        () => {
-          this.props.resetList(0)
-        }
-      )
-    }
-  }
-
-  private measureSelectedItem = (selectedItem: TemplateData, width: number) => {
-    const container = document.createElement('div')
-    container.style.width = width + 'px'
-    container.style.visibility = 'hidden'
-    container.style.position = 'absolute'
-    container.style.left = '-9999px'
-    document.body.appendChild(container)
-
-    ReactDOM.render(
-      <ThemeProvider>
-        <TemplateListItem
-          articleType={selectedItem.articleType}
-          item={selectedItem}
-          publisher={selectedItem.publisher}
-          selectItem={this.selectItem(width)}
-          selectTemplate={this.props.selectTemplate}
-          template={selectedItem.template}
-          title={selectedItem.title}
-          selected={true}
-        />
-      </ThemeProvider>,
-      container,
-      () => {
-        const selectedItemHeight = container.clientHeight
-
-        document.body.removeChild(container)
-
-        this.setState({ selectedItem, selectedItemHeight }, () => {
-          this.props.resetList(0)
-        })
-      }
-    )
-  }
-
-  private getItemSize = (index: number): number => {
-    const item = this.props.filteredItems[index]
-
-    if (item === this.state.selectedItem) {
-      return this.state.selectedItemHeight!
-    }
-
-    return this.calculateItemSize(item)
-  }
-
-  private getItemKey = (index: number) =>
-    this.calculateItemKey(this.props.filteredItems[index])
-
-  private calculateItemSize = (item: TemplateData) => {
-    let size = 46
-
-    if (item.template && (item.template.aim || item.template.desc)) {
-      size += 17
-    }
-
-    return size
-  }
-
-  private calculateItemKey = (item: TemplateData) =>
-    item.template ? item.template._id : item.bundle!._id
-}
+)

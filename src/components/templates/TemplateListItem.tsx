@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import {
@@ -20,55 +19,42 @@ import {
 } from '../../types/templates'
 import { TemplateInfoLink } from './TemplateInfoLink'
 
-const CreateButton = styled(PrimaryButton)`
-  padding: 0 4px;
-  font-size: 14px;
-
-  &:focus {
-    outline: none;
-  }
-`
-
 const Heading = styled.div<{ selected?: boolean }>`
-  margin-bottom: 2px;
+  display: flex;
   white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
   text-overflow: ellipsis;
   overflow-x: hidden;
 `
 
 const Title = styled.div<{ selected?: boolean }>`
-  color: ${props => props.theme.colors.global.text.primary};
-  white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  display: flex;
   align-items: center;
+  display: flex;
+  flex: 1;
   flex-wrap: ${props => (props.selected ? 'wrap' : 'nowrap')};
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
 `
 
 const Description = styled.div<{ selected?: boolean }>`
-  color: ${props => props.theme.colors.global.text.secondary};
-  font-size: 90%;
-  white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
-  text-overflow: ellipsis;
+  font-size: 14px;
+  font-weight: 300;
   overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
 `
 
 const PublisherName = styled.div`
-  font-size: 90%;
-  margin-bottom: 2px;
-  text-overflow: ellipsis;
+  color: ${props => props.theme.colors.global.text.tertiary};
+  font-size: 14px;
+  line-height: 16px;
+  margin-bottom: 6px;
   overflow-x: hidden;
+  text-overflow: ellipsis;
 `
 
 const TemplateActions = styled.div<{ selected?: boolean }>`
   display: ${props => (props.selected ? 'inline' : 'none')};
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: ${props =>
-    props.theme.colors.templateSelector.item.actions.background};
-  padding: 8px;
 `
 
 const BundleTitle = styled.span`
@@ -76,24 +62,43 @@ const BundleTitle = styled.span`
   margin-right: 0.5ch;
 `
 
-const Container = styled.div<{ selected?: boolean }>`
-  padding: 12px;
-  margin: 0 12px;
-  border-bottom: 1px solid #eee;
+const Container = styled.button<{ selected?: boolean }>`
+  border: 0;
+  border-bottom: 1px solid;
+  color: ${props => props.theme.colors.global.text.primary};
   cursor: pointer;
+  font: inherit;
   position: relative;
   background-color: ${props =>
     props.selected
       ? props.theme.colors.templateSelector.item.container.background.selected
       : props.theme.colors.templateSelector.item.container.background.default};
+  border-color: ${props =>
+    props.selected
+      ? props.theme.colors.templateSelector.item.container.border.selected
+      : props.theme.colors.templateSelector.item.container.border.default};
+  ${props =>
+    props.selected &&
+    'box-shadow: 0 -1px 0px 0 ' +
+      props.theme.colors.templateSelector.item.container.border.hovered};
+  outline: none;
+  padding: 16px;
+  padding-bottom: 12px;
+  text-align: unset;
+  width: 100%;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: ${props =>
       props.theme.colors.templateSelector.item.container.background.hovered};
+    border-color: ${props =>
+      props.theme.colors.templateSelector.item.container.border.hovered};
+    box-shadow: 0 -1px 0px 0 ${props => props.theme.colors.templateSelector.item.container.border.hovered};
   }
 `
 
 const ArticleType = styled.span<{ selected?: boolean }>`
+  color: ${props => props.theme.colors.global.text.tertiary};
   white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
 `
 
@@ -108,7 +113,6 @@ interface Props {
   publisher?: Publisher
   selected?: boolean
   selectItem: (item: TemplateData) => void
-  selectTemplate: (item: TemplateData) => void
   template?: ManuscriptTemplate
   title: string
 }
@@ -120,7 +124,6 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
   publisher,
   selected,
   selectItem,
-  selectTemplate,
   template,
   title,
 }) => (
@@ -134,24 +137,14 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
             {articleType}
           </ArticleType>
         )}
+      </Title>
 
-        {selected && item.bundle && (
+      <TemplateActions selected={selected}>
+        {item.bundle && (
           <InfoLinkContainer>
             <TemplateInfoLink bundle={item.bundle} />
           </InfoLinkContainer>
         )}
-      </Title>
-
-      <TemplateActions selected={selected}>
-        <CreateButton
-          onClick={event => {
-            event.stopPropagation()
-            selectTemplate(item)
-          }}
-          data-cy={'create-button'}
-        >
-          Create
-        </CreateButton>
       </TemplateActions>
     </Heading>
 
@@ -159,7 +152,7 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
       <PublisherName>{publisher.name}</PublisherName>
     )}
 
-    {template && (template.desc || template.aim) && (
+    {selected && template && (template.desc || template.aim) && (
       <Description selected={selected}>
         {template.desc || template.aim}
       </Description>

@@ -45,7 +45,6 @@ storiesOf('Template Selector', module)
       importManuscript={action('import manuscript')}
       selectTemplate={action('select template')}
       createEmpty={action('create empty')}
-      projectID={'MPProject:story'}
     />
   ))
   .add('Search input', () => (
@@ -94,7 +93,9 @@ storiesOf('Template Selector', module)
         filteredItems={templatesData}
         listRef={listRef}
         resetList={action('reset list')}
-        selectTemplate={action('select template')}
+        selectItem={action('return selection')}
+        height={400}
+        width={600}
       />
     </div>
   ))
@@ -106,7 +107,6 @@ storiesOf('Template Selector', module)
         publisher={templateData.publisher}
         selected={false}
         selectItem={action('select item')}
-        selectTemplate={action('select template')}
         template={templateData.template}
         title={templateData.title}
       />
@@ -120,7 +120,6 @@ storiesOf('Template Selector', module)
         publisher={templateData.publisher}
         selected={true}
         selectItem={action('select item')}
-        selectTemplate={action('select template')}
         template={templateData.template}
         title={templateData.title}
       />

@@ -80,6 +80,7 @@ import {
   importManuscript,
   openProjectsCollection,
 } from '../projects/ImportManuscript'
+import { PseudoProjectPage } from './PseudoProjectPage'
 import { TemplateLoadingModal } from './TemplateLoadingModal'
 import { TemplateSelectorModal } from './TemplateSelectorModal'
 
@@ -162,22 +163,25 @@ class TemplateSelector extends React.Component<
     return (
       <DatabaseContext.Consumer>
         {db => (
-          <TemplateSelectorModal
-            categories={buildCategories(manuscriptCategories)}
-            researchFields={buildResearchFields(researchFields)}
-            createEmpty={this.createEmpty(db)}
-            importManuscript={importManuscript(
-              db,
-              history,
-              user,
-              handleComplete,
-              projectID
-            )}
-            handleComplete={this.props.handleComplete}
-            items={buildItems(manuscriptTemplates, bundles, publishers)}
-            selectTemplate={this.selectTemplate(db)}
-            projectID={this.props.projectID}
-          />
+          <>
+            {!projectID && <PseudoProjectPage />}
+
+            <TemplateSelectorModal
+              categories={buildCategories(manuscriptCategories)}
+              researchFields={buildResearchFields(researchFields)}
+              createEmpty={this.createEmpty(db)}
+              importManuscript={importManuscript(
+                db,
+                history,
+                user,
+                handleComplete,
+                projectID
+              )}
+              handleComplete={this.props.handleComplete}
+              items={buildItems(manuscriptTemplates, bundles, publishers)}
+              selectTemplate={this.selectTemplate(db)}
+            />
+          </>
         )}
       </DatabaseContext.Consumer>
     )

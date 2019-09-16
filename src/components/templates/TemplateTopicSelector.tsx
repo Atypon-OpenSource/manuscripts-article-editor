@@ -10,26 +10,41 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
-import ArrowUpBlue from '@manuscripts/assets/react/ArrowUpBlue'
+import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
+import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { ResearchField } from '../../types/templates'
 import { TemplateTopicsList } from './TemplateTopicsList'
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 16px 24px;
-  cursor: pointer;
+const TopicSelector = styled.div`
+  flex-shrink: 0;
+
+  svg path[stroke] {
+    stroke: currentColor;
+  }
 `
 
-const Title = styled.div`
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: -0.5px;
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  margin-right: 8px;
+const TopicsToggleButton = styled.button`
+  align-items: center;
+  background: transparent;
+  color: ${props => props.theme.colors.button.secondary};
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  outline: none;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 400;
+
+  &:focus,
+  &:hover {
+    color: ${props => props.theme.colors.button.primary};
+  }
+`
+
+const SelectedTopic = styled.div`
+  margin-right: 4px;
 `
 
 interface Props {
@@ -52,28 +67,28 @@ export class TemplateTopicSelector extends React.Component<Props, State> {
     const { options, handleChange, value } = this.props
 
     return (
-      <div>
-        <Header onClick={() => this.setState({ isOpen: !isOpen })}>
-          <Title>{value ? value.name : 'All Topics'}</Title>
+      <TopicSelector>
+        <TopicsToggleButton onClick={() => this.setState({ isOpen: !isOpen })}>
+          <SelectedTopic>{value ? value.name : 'All Topics'}</SelectedTopic>
 
           {isOpen ? (
-            <ArrowUpBlue data-cy={'arrow-up'} />
+            <ArrowDownUp data-cy={'arrow-up'} />
           ) : (
-            <ArrowDownBlue data-cy={'arrow-down'} />
+            <ArrowDownBlack data-cy={'arrow-down'} />
           )}
-        </Header>
+        </TopicsToggleButton>
 
         {isOpen && (
           <TemplateTopicsList
             handleChange={value => {
-              this.setState({ isOpen: false })
               handleChange(value)
+              this.setState({ isOpen: false })
             }}
             options={options}
             value={value}
           />
         )}
-      </div>
+      </TopicSelector>
     )
   }
 }

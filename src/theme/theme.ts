@@ -144,7 +144,7 @@ export const theme: Theme = {
       shadow: colors.altoGrey,
     },
     modal: {
-      overlay: colors.aquaHaze,
+      overlay: `${colors.aquaHaze}aa`, // 8-digit hex color for semi-opacity
       border: colors.lightGrey,
       shadow: colors.altoGrey,
       background: colors.white,
@@ -272,9 +272,14 @@ export const theme: Theme = {
         },
         container: {
           background: {
-            default: 'transparent',
+            default: colors.alabasterGrey,
             selected: colors.aliceBlue,
             hovered: colors.aliceBlue,
+          },
+          border: {
+            default: colors.seashellGrey,
+            selected: colors.powderBlue,
+            hovered: colors.powderBlue,
           },
         },
       },
@@ -284,7 +289,7 @@ export const theme: Theme = {
         },
       },
       topicsList: {
-        border: colors.lightGrey,
+        border: colors.altoGrey,
         background: colors.white,
         text: colors.manuscriptsGrey,
         hovered: colors.aliceBlue,

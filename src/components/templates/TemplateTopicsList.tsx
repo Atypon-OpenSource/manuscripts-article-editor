@@ -17,7 +17,6 @@ import { ResearchField } from '../../types/templates'
 
 const ListContainer = styled.div`
   position: relative;
-  bottom: 12px;
   z-index: 2;
 `
 
@@ -28,11 +27,11 @@ const List = styled.div`
   box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
   background: ${props =>
     props.theme.colors.templateSelector.topicsList.background};
+  height: 300px;
   max-height: 50vh;
   overflow-y: auto;
-  margin: 0 20px;
-  width: 85%;
   position: absolute;
+  right: 0;
 `
 
 const ListSection = styled.div`

@@ -204,6 +204,9 @@ export interface Palette extends StyleGuidePalette {
         background: DefaultColorStyle &
           SelectableColorStyle &
           HoverableColorStyle
+        border: DefaultColorStyle &
+          SelectableColorStyle &
+          HoverableColorStyle
       }
     }
     search: {

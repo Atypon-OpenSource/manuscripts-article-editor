@@ -1,0 +1,88 @@
+/*!
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
+ *
+ * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
+ *
+ * The Original Code is manuscripts-frontend.
+ *
+ * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
+ *
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ */
+
+import { CloseButton } from '@manuscripts/style-guide'
+import React, { Component } from 'react'
+import { styled } from '../../theme/styled-components'
+
+const StyledCloseButton = styled(CloseButton)`
+  border: 5px solid white;
+  border-radius: 50%;
+  box-sizing: border-box;
+  padding: 0;
+  background: #ebebeb;
+  height: 40px;
+  width: 40px;
+  position: relative;
+  text-indent: -99999px;
+
+  transition: border-color 0.25s;
+
+  &:focus,
+  &:hover {
+    border-color: ${props => props.theme.colors.button.primary};
+    ::before,
+    ::after {
+      background-color: ${props => props.theme.colors.button.primary};
+    }
+  }
+
+  &:active {
+    border-color: ${props => props.theme.colors.button.primary};
+    ::before,
+    ::after {
+      background-color: ${props => props.theme.colors.button.primary};
+    }
+  }
+
+  ::before,
+  ::after {
+    background-color: #bababa;
+    border-radius: 2px;
+    content: ' ';
+    display: block;
+    height: 14px;
+    transform: rotate(-45deg);
+    width: 2px;
+    position: absolute;
+    top: calc(50% - 7px);
+    left: calc(50% - 1px);
+  }
+  ::after {
+    transform: rotate(45deg);
+  }
+`
+
+const ModalHeader = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+`
+
+interface Props {
+  handleComplete: () => void
+}
+
+export class TemplateModalClose extends Component<Props> {
+  public render() {
+    const { handleComplete } = this.props
+
+    return (
+      <ModalHeader>
+        <StyledCloseButton onClick={handleComplete}>
+          Close Modal
+        </StyledCloseButton>
+      </ModalHeader>
+    )
+  }
+}

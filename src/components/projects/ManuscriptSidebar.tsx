@@ -47,6 +47,7 @@ const StyledSidebar = styled(Sidebar)`
   border-right: 1px solid
     ${props => props.theme.colors.sidebar.background.selected};
 `
+
 const ProjectTitle = styled(SidebarTitle)`
   color: ${props => props.theme.colors.sidebar.text.primary};
   font-weight: 450;

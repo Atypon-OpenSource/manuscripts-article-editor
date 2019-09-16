@@ -10,14 +10,39 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { SearchIcon } from '@manuscripts/style-guide'
 import React from 'react'
-import { theme } from '../../theme/theme'
-import {
-  SidebarSearchField,
-  SidebarSearchIconContainer,
-  SidebarSearchText,
-} from '../Sidebar'
+import { styled } from '../../theme/styled-components'
+import { SearchIcon } from './ModalIcons'
+
+const SearchContainer = styled.div`
+  display: flex;
+  flex: 1;
+  position: relative;
+  align-items: center;
+`
+
+const SearchIconContainer = styled.div`
+  left: 8px;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+`
+
+const SearchText = styled.input`
+  border: none;
+  border-right: 1px solid ${props => props.theme.colors.popper.separator};
+  border-radius: 4px 0 0 4px;
+  font-size: 16px;
+  line-height: 1;
+  outline: none;
+  padding: 12px 8px 12px 36px;
+  flex: 1;
+
+  &:focus {
+    background: ${props => props.theme.colors.sidebar.background.default};
+  }
+`
 
 interface Props {
   value: string
@@ -35,7 +60,7 @@ export class TemplateSearchInput extends React.Component<Props, State> {
 
   public render() {
     return (
-      <SidebarSearchField
+      <SearchContainer
         onFocus={() => {
           this.setState({
             searching: true,
@@ -47,25 +72,19 @@ export class TemplateSearchInput extends React.Component<Props, State> {
           })
         }}
       >
-        <SidebarSearchIconContainer>
-          {this.state.searching ? (
-            <SearchIcon
-              color={theme.colors.templateSelector.search.icon.searching}
-            />
-          ) : (
-            <SearchIcon />
-          )}
-        </SidebarSearchIconContainer>
-        <SidebarSearchText
+        <SearchIconContainer>
+          <SearchIcon />
+        </SearchIconContainer>
+        <SearchText
+          autoFocus={true}
           type={'search'}
           value={this.props.value}
           placeholder={'Search'}
-          autoFocus={true}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             this.props.handleChange(event.currentTarget.value)
           }
         />
-      </SidebarSearchField>
+      </SearchContainer>
     )
   }
 }

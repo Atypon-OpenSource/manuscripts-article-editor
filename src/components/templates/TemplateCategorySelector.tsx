@@ -20,40 +20,68 @@ import ResearchIcon from '@manuscripts/assets/react/TemplateCategoryResearchArti
 import { ManuscriptCategory } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import { Slider } from '../Slider'
 
-const Categories = styled.div`
-  flex: 1;
-  overflow-y: auto;
-`
+const Categories = styled.nav.attrs(props => ({ role: 'navigation' }))`
+  margin: 0 86px 40px;
+  position: relative;
 
-const Category = styled.div<{ selected: boolean }>`
-  display: flex;
-  font-weight: 500;
-  font-size: 18px;
-  padding: 8px 20px;
-  cursor: pointer;
-  align-items: center;
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  background-color: ${props =>
-    props.selected
-      ? props.theme.colors.sidebar.background.selected
-      : 'inherit'};
-
-  &:hover {
-    background-color: ${props =>
-      props.theme.colors.sidebar.background.selected};
+  @media (max-width: 450px) {
+    margin-left: 70px;
+    margin-right: 70px;
   }
 `
 
-const CategoryName = styled.div`
-  padding-left: 10px;
+const Category = styled.button<{ selected: boolean }>`
+  align-items: center;
+  background: ${props =>
+    props.selected
+      ? props.theme.colors.sidebar.background.default
+      : 'transparent'};
+  border: 1px solid
+    ${props =>
+      props.selected
+        ? props.theme.colors.button.primary
+        : props.theme.colors.popper.separator};
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  outline: none;
+  padding: 4px 16px;
+
+  & + & {
+    margin-left: 8px;
+  }
+
+  &:focus,
+  &:hover {
+    border-color: ${props => props.theme.colors.button.primary};
+  }
+
+  svg {
+    path[stroke] {
+      stroke: ${props =>
+        props.selected
+          ? props.theme.colors.button.primary
+          : props.theme.colors.global.text.primary};
+    }
+    text[fill],
+    rect[fill],
+    path[fill] {
+      fill: ${props =>
+        props.selected
+          ? props.theme.colors.button.primary
+          : props.theme.colors.global.text.primary};
+    }
+  }
 `
 
-const CategoryIconContainer = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
+const CategoryName = styled.span`
+  padding-left: 10px;
+  font-size: 16px;
+  line-height: 2;
+  color: ${props => props.theme.colors.global.text.primary};
 `
 
 const icons: { [key: string]: JSX.Element } = {
@@ -81,19 +109,19 @@ export const TemplateCategorySelector: React.FunctionComponent<Props> = ({
   value,
 }) => (
   <Categories>
-    {options.map(category => (
-      <Category
-        key={category._id}
-        title={category.desc}
-        selected={value === category._id}
-        onClick={() => handleChange(category._id)}
-      >
-        <CategoryIconContainer>
+    <Slider>
+      {options.map(category => (
+        <Category
+          autoFocus={value === category._id}
+          key={category._id}
+          title={category.desc}
+          selected={value === category._id}
+          onClick={() => handleChange(category._id)}
+        >
           <CategoryIcon name={category.imageName} />
-        </CategoryIconContainer>
-
-        <CategoryName>{category.name}</CategoryName>
-      </Category>
-    ))}
+          <CategoryName>{category.name}</CategoryName>
+        </Category>
+      ))}
+    </Slider>
   </Categories>
 )
