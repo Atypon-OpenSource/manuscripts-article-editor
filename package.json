@@ -22,7 +22,8 @@
     "stats": "yarn --silent build --json > stats.json",
     "analyze": "webpack-bundle-analyzer stats.json dist --port 9000",
     "storybook": "start-storybook --config-dir stories/config --port 6006",
-    "build-storybook": "NODE_OPTIONS=--max_old_space_size=4096 build-storybook --config-dir stories/config"
+    "build-storybook": "NODE_OPTIONS=--max_old_space_size=4096 build-storybook --config-dir stories/config",
+    "build-modernizr": "modernizr --config modernizr.config.json --dest public/modernizr.js"
   },
   "dependencies": {
     "@absinthe/socket": "^0.2.1",
