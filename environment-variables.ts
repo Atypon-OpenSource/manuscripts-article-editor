@@ -37,17 +37,34 @@ export const environmentVariables = [
   'SENTRY_RELEASE',
   'SERVICEWORKER_ENABLED',
   'SUPPORT_EMAIL',
-  'SUPPORT_URL',
   'SYNC_GATEWAY_URL',
+]
+
+// Optional variables that are only used if they're set
+const optionalVariables = [
+  'BEACON_HTTP_URL',
+  'BEACON_WS_URL',
+  'CRISP_WEBSITE_ID',
+  'ENABLE_CONNECT_LOGIN_OPTION',
+  'GIT_COMMIT_HASH',
+  'GIT_VERSION',
+  'GOOGLE_ANALYTICS_ID',
+  'NATIVE',
+  'SENTRY_PUBLIC_DSN',
+  'SERVICEWORKER_ENABLED',
 ]
 
 if (
   process.env.NODE_ENV === 'production' &&
   !process.env.ALLOW_MISSING_VARIABLES
 ) {
-  const missing = environmentVariables.filter(
-    key => process.env[key] === undefined || process.env[key] === ''
-  )
+  const missing = environmentVariables.filter(key => {
+    if (optionalVariables.includes(key)) {
+      return false
+    }
+
+    return process.env[key] === undefined || process.env[key] === ''
+  })
 
   if (missing.length) {
     throw new Error(`Missing environment variables: ${missing.join(', ')}`)

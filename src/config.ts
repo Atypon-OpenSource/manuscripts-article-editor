@@ -46,7 +46,6 @@ interface Config {
   }
   support: {
     email: string
-    url: string | undefined
   }
   git: {
     version: string
@@ -117,7 +116,6 @@ const config = {
   },
   support: {
     email: process.env.SUPPORT_EMAIL || 'support@manuscriptsapp.com',
-    url: process.env.SUPPORT_URL,
   },
   git: {
     version: process.env.GIT_VERSION,
