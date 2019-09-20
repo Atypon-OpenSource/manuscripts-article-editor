@@ -11,7 +11,7 @@
  */
 
 import { LocationDescriptor } from 'history'
-import React, { useCallback, useEffect, useReducer } from 'react'
+import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import CollectionManager from './CollectionManager'
@@ -37,6 +37,7 @@ const SyncNotificationManager: React.FC<RouteComponentProps & Props> = ({
   location,
 }) => {
   const [onlineState, setOfflineAcknowledged] = useOnlineState()
+  const [askForPersistentStorage, setAskForPersistentStorage] = useState(false)
 
   // detect sync errors
   const [state, dispatch] = useReducer(syncErrors, [])
@@ -66,6 +67,41 @@ const SyncNotificationManager: React.FC<RouteComponentProps & Props> = ({
     CollectionManager.restartAll()
   }, [])
 
+  const handleOfflineAcknowledged = useCallback(() => {
+    setOfflineAcknowledged()
+
+    if (
+      navigator.storage &&
+      navigator.storage.persist &&
+      navigator.storage.persisted
+    ) {
+      navigator.storage
+        .persisted()
+        .then(granted => {
+          if (!granted) {
+            setAskForPersistentStorage(true)
+          }
+        })
+        .catch(error => {
+          console.error(error) // tslint:disable-line:no-console
+        })
+    }
+  }, [])
+
+  const handlePersistentStorage = useCallback(() => {
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().catch(error => {
+        console.error(error) // tslint:disable-line:no-console
+      })
+    }
+
+    setAskForPersistentStorage(false)
+  }, [])
+
+  const handlePersistentStorageDismissed = useCallback(() => {
+    setAskForPersistentStorage(false)
+  }, [])
+
   // render:
   if (onlineState === OnlineState.Offline) {
     return (
@@ -73,7 +109,7 @@ const SyncNotificationManager: React.FC<RouteComponentProps & Props> = ({
         title="Seems like your network connection just dropped."
         info="Not to worry, you can still keep working on your documents."
         buttonText="Got it"
-        buttonAction={setOfflineAcknowledged}
+        buttonAction={handleOfflineAcknowledged}
       />
     )
   }
@@ -84,6 +120,19 @@ const SyncNotificationManager: React.FC<RouteComponentProps & Props> = ({
         title="Please sign in again to sync your changes"
         buttonText="Sign in"
         buttonAction={handleLogin}
+      />
+    )
+  }
+
+  if (askForPersistentStorage) {
+    return (
+      <SyncNotification
+        title="Allow persistent storage"
+        info="Prevent your system from clearing Manuscripts data when disk space runs low"
+        buttonText="Dismiss"
+        buttonAction={handlePersistentStorageDismissed}
+        primaryButtonText="Allow"
+        primaryButtonAction={handlePersistentStorage}
       />
     )
   }

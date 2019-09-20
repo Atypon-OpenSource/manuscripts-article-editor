@@ -11,7 +11,7 @@
  */
 
 import AttentionOrange from '@manuscripts/assets/react/AttentionOrange'
-import { Button } from '@manuscripts/style-guide'
+import { Button, PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import {
   NotificationActions,
@@ -32,6 +32,8 @@ interface Props {
   info?: string
   buttonText: string
   buttonAction: () => void
+  primaryButtonText?: string
+  primaryButtonAction?: () => void
 }
 
 const SyncNotification: React.FC<Props> = ({
@@ -39,6 +41,8 @@ const SyncNotification: React.FC<Props> = ({
   info,
   buttonText,
   buttonAction,
+  primaryButtonText,
+  primaryButtonAction,
 }) => {
   return (
     <NotificationPrompt>
@@ -51,6 +55,11 @@ const SyncNotification: React.FC<Props> = ({
       </NotificationHead>
       <NotificationActions>
         <Button onClick={buttonAction}>{buttonText}</Button>
+        {primaryButtonText && primaryButtonAction && (
+          <PrimaryButton onClick={primaryButtonAction}>
+            {primaryButtonText}
+          </PrimaryButton>
+        )}
       </NotificationActions>
     </NotificationPrompt>
   )
