@@ -24,7 +24,7 @@ export const isColor = hasObjectType<Color>(ObjectTypes.Color)
 export const isColorScheme = hasObjectType<ColorScheme>(ObjectTypes.ColorScheme)
 
 export const nextColorPriority = (colors: Color[]) =>
-  Math.max(...colors.map(color => color.priority)) + 10
+  Math.max(...colors.map(color => color.priority || 0)) + 10
 
 const getByPrototype = <T extends Model>(
   modelMap: Map<string, Model>,
@@ -58,7 +58,7 @@ export const buildColors = (
       }
     }
 
-    colors.sort((a, b) => a.priority - b.priority)
+    colors.sort((a, b) => (a.priority || 0) - (b.priority || 0))
   }
 
   return { colors, colorScheme }
