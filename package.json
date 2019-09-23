@@ -41,7 +41,7 @@
     "@manuscripts/assets": "^0.3.24",
     "@manuscripts/comment-editor": "^0.1.1",
     "@manuscripts/data": "^0.0.2",
-    "@manuscripts/manuscript-editor": "^0.39.2",
+    "@manuscripts/manuscript-editor": "^0.39.3",
     "@manuscripts/manuscript-transform": "^0.16.2",
     "@manuscripts/manuscripts-json-schema": "^1.17.2",
     "@manuscripts/resizer": "^0.0.3",
