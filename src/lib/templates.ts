@@ -163,9 +163,7 @@ export const buildSectionFromDescription = (
   const placeholder = choosePlaceholder()
 
   if (placeholder) {
-    const paragraph = buildParagraph(
-      `<p data-placeholder-text="${placeholder}"></p>`
-    )
+    const paragraph = buildParagraph(placeholder)
 
     paragraph.placeholderInnerHTML = placeholder
 
@@ -173,7 +171,7 @@ export const buildSectionFromDescription = (
 
     section.elementIDs.push(paragraph._id)
   } else if (!sectionDescription.subsections) {
-    const paragraph = buildParagraph('<p></p>')
+    const paragraph = buildParagraph('')
 
     dependencies.push(paragraph)
 
@@ -186,9 +184,7 @@ export const buildSectionFromDescription = (
       subsection.title = subsectionDescription.title
 
       if (subsectionDescription.placeholder) {
-        const paragraph = buildParagraph(
-          `<p data-placeholder-text="${subsectionDescription.placeholder}"></p>`
-        )
+        const paragraph = buildParagraph(subsectionDescription.placeholder)
 
         paragraph.placeholderInnerHTML = subsectionDescription.placeholder
 
@@ -196,7 +192,7 @@ export const buildSectionFromDescription = (
 
         subsection.elementIDs = [paragraph._id]
       } else {
-        const paragraph = buildParagraph('<p></p>')
+        const paragraph = buildParagraph('')
 
         dependencies.push(paragraph)
 
@@ -290,9 +286,7 @@ export const createEmptyParagraph = (pageLayout: PageLayout) => {
   const placeholderText =
     'Start from here. Enjoy writing! - the Manuscripts Team.'
 
-  const paragraph = buildParagraph(
-    `<p data-placeholder-text="${placeholderText}"></p>`
-  )
+  const paragraph = buildParagraph(placeholderText)
 
   paragraph.placeholderInnerHTML = placeholderText
   paragraph.paragraphStyle = pageLayout.defaultParagraphStyle

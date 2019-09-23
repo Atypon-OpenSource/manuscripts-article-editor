@@ -229,7 +229,7 @@ describe('templates', () => {
     expect(result.dependencies).toHaveLength(9)
     expect(result.dependencies[0].objectType).toBe(ObjectTypes.ParagraphElement)
     expect(result.dependencies[0].contents).toBe(
-      '<p data-placeholder-text="A short summary of your work."></p>'
+      `<p xmlns="http://www.w3.org/1999/xhtml" id="${result.dependencies[0]._id}" class="MPElement" data-placeholder-text="A short summary of your work."></p>`
     )
 
     expect(result.section.elementIDs).toEqual([result.dependencies[0]._id])
