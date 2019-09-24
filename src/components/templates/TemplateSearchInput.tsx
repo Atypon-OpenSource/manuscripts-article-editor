@@ -22,7 +22,7 @@ const SearchContainer = styled.div`
 `
 
 const SearchIconContainer = styled.div`
-  left: 8px;
+  left: 16px;
   position: absolute;
   z-index: 1;
   display: flex;
@@ -36,11 +36,17 @@ const SearchText = styled.input`
   font-size: 16px;
   line-height: 1;
   outline: none;
-  padding: 12px 8px 12px 36px;
+  padding: 12px 8px 12px 44px;
   flex: 1;
+  -webkit-appearance: none;
+  margin: 0;
 
   &:focus {
     background: ${props => props.theme.colors.sidebar.background.default};
+  }
+
+  &::-webkit-search-decoration {
+    display: none;
   }
 `
 
