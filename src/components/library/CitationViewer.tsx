@@ -13,7 +13,7 @@
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { issuedYear, shortAuthorsString } from '../../lib/library'
+import { libraryItemMetadata } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
 
 const CitedItem = styled.div`
@@ -60,9 +60,7 @@ export const CitationViewer: React.FC<Props> = ({ items }) => (
       >
         <CitedItemTitle value={item.title || 'Untitled'} />
 
-        <CitedItemAuthors>
-          {shortAuthorsString(item)} {issuedYear(item)}
-        </CitedItemAuthors>
+        <CitedItemAuthors>{libraryItemMetadata(item)}</CitedItemAuthors>
       </CitedItem>
     ))}
   </CitedItems>

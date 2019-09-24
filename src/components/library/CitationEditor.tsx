@@ -15,7 +15,7 @@ import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { issuedYear, shortAuthorsString } from '../../lib/library'
+import { libraryItemMetadata } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
 import { CitationSearch } from './CitationSearch'
 
@@ -146,9 +146,7 @@ class CitationEditor extends React.Component<Props, State> {
               <CitedItemTitle value={item.title || 'Untitled'} />
 
               <CitedItemActionLine>
-                <CitedItemAuthors>
-                  {shortAuthorsString(item)} {issuedYear(item)}
-                </CitedItemAuthors>
+                <CitedItemAuthors>{libraryItemMetadata(item)}</CitedItemAuthors>
 
                 <CitedItemActions>
                   {/*     <ActionButton

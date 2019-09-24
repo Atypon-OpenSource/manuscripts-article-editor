@@ -16,7 +16,7 @@ import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { estimateID, issuedYear, shortAuthorsString } from '../../lib/library'
+import { estimateID, libraryItemMetadata } from '../../lib/library'
 import { manuscriptsBlue } from '../../theme/colors'
 import { styled } from '../../theme/styled-components'
 
@@ -157,8 +157,7 @@ export const SearchResults: React.FC<{
               <Title value={item.title || 'Untitled'} title={item.title} />
 
               <SearchResultAuthors data-cy={'search-result-author'}>
-                {shortAuthorsString(item)}{' '}
-                {issuedYear(item as BibliographyItem)}
+                {libraryItemMetadata(item)}
               </SearchResultAuthors>
             </ResultMetadata>
           </SearchResult>

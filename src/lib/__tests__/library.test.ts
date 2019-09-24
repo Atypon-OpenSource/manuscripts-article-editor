@@ -12,9 +12,11 @@
 
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import {
+  authorsString,
   estimateID,
   filterLibrary,
   issuedYear,
+  libraryItemMetadata,
   shortAuthorsString,
 } from '../library'
 
@@ -61,7 +63,7 @@ describe('issued year', () => {
       },
     } as BibliographyItem
 
-    expect(issuedYear(item)).toBe('(2019) ')
+    expect(issuedYear(item)).toBe('2019')
     // tslint:disable-next-line:no-object-literal-type-assertion
     expect(issuedYear({} as BibliographyItem)).toBeNull()
   })
@@ -157,6 +159,74 @@ describe('short authors string', () => {
       ],
     } as BibliographyItem
 
-    expect(shortAuthorsString(item)).toBe('family, L & family2')
+    expect(shortAuthorsString(item)).toBe('family, L, given & family2')
+  })
+})
+
+describe('authorsString', () => {
+  it('handles a single author', () => {
+    const authors = ['given-1']
+    expect(authorsString(authors)).toBe('given-1')
+  })
+
+  it('joins two authors with an ampersand', () => {
+    const authors = ['given-1', 'given-2']
+    expect(authorsString(authors)).toBe('given-1 & given-2')
+  })
+
+  it('joins 3 authors with comma and use ampersand to join the last 2 authors', () => {
+    const authors = ['given-1', 'given-2', 'given-3']
+    expect(authorsString(authors)).toBe('given-1, given-2 & given-3')
+  })
+
+  it('joins 4 authors with comma and use ampersand to join the last 2 authors', () => {
+    const authors = ['given-1', 'given-2', 'given-3', 'given-4']
+    expect(authorsString(authors)).toBe('given-1, given-2, given-3 & given-4')
+  })
+})
+
+describe('libraryItemMetadata', () => {
+  it('handles library item with missing authors', () => {
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    const item = {
+      issued: {
+        ['date-parts']: [['2019']],
+      },
+      ['container-title']: 'journal name',
+    } as BibliographyItem
+    expect(libraryItemMetadata(item)).toBe('journal name, 2019')
+  })
+
+  it('handles library item with missing date and journal name', () => {
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    const item = {
+      author: [{ given: 'given-1' }, { given: 'given-2' }],
+    } as BibliographyItem
+    expect(libraryItemMetadata(item)).toBe('given-1 & given-2')
+  })
+
+  it('handles library item with defined date', () => {
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    const item = {
+      author: [{ given: 'given-1' }, { given: 'given-2' }],
+      issued: {
+        ['date-parts']: [['2019']],
+      },
+    } as BibliographyItem
+    expect(libraryItemMetadata(item)).toBe('given-1 & given-2, 2019')
+  })
+
+  it('handles library item with defined date and journal', () => {
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    const item = {
+      author: [{ given: 'given-1' }, { given: 'given-2' }],
+      issued: {
+        ['date-parts']: [['2019']],
+      },
+      ['container-title']: 'journal name',
+    } as BibliographyItem
+    expect(libraryItemMetadata(item)).toBe(
+      'given-1 & given-2, journal name, 2019'
+    )
   })
 })

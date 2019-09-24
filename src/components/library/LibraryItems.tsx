@@ -146,7 +146,13 @@ export const LibraryItems: React.FC<{
               <Title value={item.title || 'Untitled'} title={item.title} />
 
               <Metadata data-cy={'search-result-author'}>
-                {fullAuthorsString(item)} {issuedYear(item)}
+                {[
+                  fullAuthorsString(item),
+                  item['container-title'],
+                  issuedYear(item),
+                ]
+                  .filter(part => part)
+                  .join(', ')}
               </Metadata>
 
               {item.keywordIDs && (
