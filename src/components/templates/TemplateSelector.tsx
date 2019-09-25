@@ -18,7 +18,6 @@ import {
   buildSection,
   ContainedModel,
   DEFAULT_BUNDLE,
-  DEFAULT_PAGE_LAYOUT,
   generateID,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -28,9 +27,7 @@ import {
   ManuscriptCategory,
   Model,
   ObjectTypes,
-  PageLayout,
   ParagraphElement,
-  ParagraphStyle,
   Project,
   Section,
   UserProfile,
@@ -55,6 +52,7 @@ import {
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
+  createNewStyles,
   fetchSharedData,
   findCoverLetterDescription,
   fromPrototype,
@@ -62,6 +60,7 @@ import {
   isMandatorySubsectionsRequirement,
   prepareRequirements,
   RESEARCH_ARTICLE_CATEGORY,
+  updatedPageLayout,
 } from '../../lib/templates'
 import { Collection } from '../../sync/Collection'
 import {
@@ -285,9 +284,9 @@ class TemplateSelector extends React.Component<
 
     const newBundle = this.createNewBundle(DEFAULT_BUNDLE, bundles)
 
-    const newStyles = this.createNewStyles(styles)
+    const newStyles = createNewStyles(styles)
 
-    const newPageLayout = this.updatedPageLayout(newStyles)
+    const newPageLayout = updatedPageLayout(newStyles)
 
     // const colorScheme = this.findDefaultColorScheme(newStyles)
 
@@ -347,60 +346,6 @@ class TemplateSelector extends React.Component<
     const { projectID, user } = this.props
 
     return projectID ? undefined : buildProject(user.userID)
-  }
-
-  private getByPrototype = <T extends Model>(
-    prototype: string,
-    modelMap: Map<string, Model>
-  ): T | undefined => {
-    for (const model of modelMap.values()) {
-      if (model.prototype === prototype) {
-        return model as T
-      }
-    }
-  }
-
-  private updatedPageLayout = (newStyles: Map<string, Model>) => {
-    const newPageLayout = this.getByPrototype<PageLayout>(
-      DEFAULT_PAGE_LAYOUT,
-      newStyles
-    )
-
-    if (!newPageLayout) {
-      throw new Error('Default page layout not found')
-    }
-
-    const newDefaultParagraphStyle = this.getByPrototype<ParagraphStyle>(
-      newPageLayout.defaultParagraphStyle,
-      newStyles
-    )
-
-    if (!newDefaultParagraphStyle) {
-      throw new Error('Default paragraph style not found')
-    }
-
-    newPageLayout.defaultParagraphStyle = newDefaultParagraphStyle._id
-
-    // newStyles.set(newPageLayout._id, newPageLayout)
-
-    return newPageLayout
-  }
-
-  private createNewStyles = (styles: Map<string, Model>) => {
-    const newStyles = new Map<string, Model>()
-
-    const prototypeMap = new Map<string, string>()
-
-    for (const style of styles.values()) {
-      const newStyle = fromPrototype(style)
-      newStyles.set(newStyle._id, newStyle)
-
-      prototypeMap.set(newStyle.prototype, newStyle._id)
-    }
-
-    // this.fixReferencedStyleIds(newStyles, prototypeMap)
-
-    return newStyles
   }
 
   // private fixReferencedStyleIds = (
@@ -499,9 +444,9 @@ class TemplateSelector extends React.Component<
       ? 1
       : await nextManuscriptPriority(collection as Collection<Manuscript>)
 
-    const newStyles = this.createNewStyles(styles)
+    const newStyles = createNewStyles(styles)
 
-    const newPageLayout = this.updatedPageLayout(newStyles)
+    const newPageLayout = updatedPageLayout(newStyles)
 
     // const colorScheme = this.findDefaultColorScheme(newStyles)
 

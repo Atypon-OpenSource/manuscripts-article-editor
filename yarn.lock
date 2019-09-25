@@ -2381,6 +2381,13 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/blob-to-buffer@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@types/blob-to-buffer/-/blob-to-buffer-1.2.0.tgz#5b9774be46d91c58ff462e4a1d6b880fdcb4c9a3"
+  integrity sha512-H1pnvedEPyq/MNIdXbkQNNhBT+lvqAh7R5CrMtX6YTiSVfLxgj+o521WoPuyD/2EI6si7BlnQqgs+wZU2O9V3w==
+  dependencies:
+    "@types/node" "*"
+
 "@types/body-parser@*":
   version "1.17.1"
   resolved "https://registry.npmjs.org/@types/body-parser/-/body-parser-1.17.1.tgz#18fcf61768fb5c30ccc508c21d6fd2e8b3bf7897"
@@ -5158,6 +5165,11 @@ bl@^1.0.0:
   dependencies:
     readable-stream "^2.3.5"
     safe-buffer "^5.1.1"
+
+blob-to-buffer@^1.2.8:
+  version "1.2.8"
+  resolved "https://registry.npmjs.org/blob-to-buffer/-/blob-to-buffer-1.2.8.tgz#78eeeb332f1280ed0ca6fb2b60693a8c6d36903a"
+  integrity sha512-re0AIxakF504MgeMtIyJkVcZ8T5aUxtp/QmTMlmjyb3P44E1BEv5x3LATBGApWAJATyXHtkXRD+gWTmeyYLiQA==
 
 blob-util@^2.0.2:
   version "2.0.2"
@@ -8430,6 +8442,15 @@ fork-ts-checker-webpack-plugin@1.5.0:
     semver "^5.6.0"
     tapable "^1.0.0"
     worker-rpc "^0.1.0"
+
+form-data@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.npmjs.org/form-data/-/form-data-2.5.1.tgz#f2cbec57b5e59e23716e128fe44d4e5dd23895f4"
+  integrity sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.6"
+    mime-types "^2.1.12"
 
 form-data@~2.3.2:
   version "2.3.3"

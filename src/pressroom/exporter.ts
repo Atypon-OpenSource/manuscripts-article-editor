@@ -44,6 +44,7 @@ const unsupportedObjectTypes: ObjectTypes[] = [
   ObjectTypes.ContainerInvitation,
   ObjectTypes.ProjectInvitation,
   ObjectTypes.Invitation,
+  ObjectTypes.ManuscriptTemplate,
 ]
 
 export const removeUnsupportedData = async (zip: JSZip) => {

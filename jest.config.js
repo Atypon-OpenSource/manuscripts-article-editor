@@ -27,7 +27,7 @@ module.exports = {
   setupFiles: ['./src/setupTests.ts', 'jsdom-worker'],
   setupFilesAfterEnv: ['<rootDir>/node_modules/jest-enzyme/lib/index.js'],
   testPathIgnorePatterns: ['/node_modules/'],
-  testRegex: '__tests__.*\\.test\\.tsx?$',
+  testRegex: '/__tests__/.*\\.test\\.tsx?$',
   testURL: 'https://localhost',
   transform: {
     '^.+\\.(j|t)sx?$': 'babel-jest',

@@ -35,6 +35,14 @@ lint_test_build:
     when: always
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
 
+integration_tests:
+  stage: test
+  script:
+    - yarn install --frozen-lockfile --non-interactive
+    - yarn test:integration
+  tags:
+    - nodejs-8
+
 .testcafe-chromium:
   stage: test
   script:

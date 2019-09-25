@@ -15,6 +15,7 @@ import {
   buildParagraph,
   buildSection,
   DEFAULT_BUNDLE,
+  DEFAULT_PAGE_LAYOUT,
   generateID,
   ManuscriptModel,
 } from '@manuscripts/manuscript-transform'
@@ -24,6 +25,7 @@ import {
   Model,
   ObjectTypes,
   PageLayout,
+  ParagraphStyle,
 } from '@manuscripts/manuscripts-json-schema'
 import { mergeWith } from 'lodash-es'
 import {
@@ -415,3 +417,57 @@ export const fetchSharedData = <T extends Model>(file: string) =>
 
 export const chooseBundleID = (template?: ManuscriptTemplate) =>
   template && template.bundle ? template.bundle : DEFAULT_BUNDLE
+
+export const createNewStyles = (styles: Map<string, Model>) => {
+  const newStyles = new Map<string, Model>()
+
+  const prototypeMap = new Map<string, string>()
+
+  for (const style of styles.values()) {
+    const newStyle = fromPrototype(style)
+    newStyles.set(newStyle._id, newStyle)
+
+    prototypeMap.set(newStyle.prototype, newStyle._id)
+  }
+
+  // this.fixReferencedStyleIds(newStyles, prototypeMap)
+
+  return newStyles
+}
+
+export const getByPrototype = <T extends Model>(
+  prototype: string,
+  modelMap: Map<string, Model>
+): T | undefined => {
+  for (const model of modelMap.values()) {
+    if (model.prototype === prototype) {
+      return model as T
+    }
+  }
+}
+
+export const updatedPageLayout = (newStyles: Map<string, Model>) => {
+  const newPageLayout = getByPrototype<PageLayout>(
+    DEFAULT_PAGE_LAYOUT,
+    newStyles
+  )
+
+  if (!newPageLayout) {
+    throw new Error('Default page layout not found')
+  }
+
+  const newDefaultParagraphStyle = getByPrototype<ParagraphStyle>(
+    newPageLayout.defaultParagraphStyle,
+    newStyles
+  )
+
+  if (!newDefaultParagraphStyle) {
+    throw new Error('Default paragraph style not found')
+  }
+
+  newPageLayout.defaultParagraphStyle = newDefaultParagraphStyle._id
+
+  // newStyles.set(newPageLayout._id, newPageLayout)
+
+  return newPageLayout
+}

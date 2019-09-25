@@ -11,7 +11,7 @@
  */
 
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import axios from 'axios'
+import axios, { AxiosResponse, ResponseType } from 'axios'
 import config from '../config'
 import tokenHandler from '../lib/token'
 
@@ -31,20 +31,7 @@ client.interceptors.request.use(requestConfig => {
   return requestConfig
 })
 
-export const convert = async (
-  form: FormData,
-  format: string
-): Promise<Blob> => {
-  const responseType: XMLHttpRequestResponseType = 'blob'
-
-  const response = await client.post<Blob>('/v1/document/compile', form, {
-    responseType,
-    headers: {
-      'Pressroom-Target-File-Extension': format.replace(/^\./, ''),
-      'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
-    },
-  })
-
+const validateResponse = (response: AxiosResponse) => {
   switch (response.status) {
     case 200:
       break
@@ -52,33 +39,43 @@ export const convert = async (
     // TODO: handle authentication failure (401), timeout, too large, etc
 
     default:
+      console.log(response.headers) // tslint:disable-line:no-console
+      console.log(response.data) // tslint:disable-line:no-console
       throw new Error('Something went wrong: ' + response.data)
   }
+}
+
+export const convert = async (
+  data: FormData,
+  format: string
+): Promise<Blob> => {
+  const response = await client.post<Blob>('/v1/document/compile', data, {
+    responseType: 'blob' as ResponseType,
+    headers: {
+      'Pressroom-Target-File-Extension': format.replace(/^\./, ''),
+      'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
+    },
+  })
+
+  validateResponse(response)
 
   return response.data
 }
 
 export const transformFileContent = async (
-  content: string,
+  data: string,
   format: string
 ): Promise<BibliographyItem[]> => {
   const response = await client.post<{
     items: BibliographyItem[]
-  }>('/v1/compile/bibliography', content, {
+  }>('/v1/compile/bibliography', data, {
     headers: {
       'Pressroom-Source-Bibliography-Format': format,
       'Content-Type': 'text/plain',
     },
   })
 
-  switch (response.status) {
-    case 200:
-      break
-
-    default:
-      console.log(response.data) // tslint:disable-line:no-console
-      throw new Error('Something went wrong: ' + response.data)
-  }
+  validateResponse(response)
 
   return response.data.items
 }
