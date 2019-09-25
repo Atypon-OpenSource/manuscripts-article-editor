@@ -255,6 +255,9 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
     await projectInvite(projectID, [{ email, name }], role)
     this.setState({ invitationSent: true })
+    this.props.history.push(`/projects/${projectID}/collaborators`, {
+      infoMessage: 'Invitation was sent.',
+    })
   }
 }
 

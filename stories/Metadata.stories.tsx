@@ -257,6 +257,8 @@ storiesOf('Metadata', module)
         delete: action('delete token'),
         update: action('update token'),
       }}
+      invitationSent={false}
+      handleDismiss={action('dismiss message')}
     />
   ))
   .add('Authors Sidebar', () => (
@@ -267,6 +269,8 @@ storiesOf('Metadata', module)
       selectedAuthor={null}
       openAddAuthors={action('start adding')}
       handleDrop={action('dropped the user')}
+      invitationSent={false}
+      handleDismiss={action('dismiss message')}
     />
   ))
   .add('Authors Sidebar with decorations', () => (
@@ -278,6 +282,8 @@ storiesOf('Metadata', module)
       getSidebarItemDecorator={() => <span>Ain't Afraid</span>}
       openAddAuthors={action('start adding')}
       handleDrop={action('dropped the user')}
+      invitationSent={false}
+      handleDismiss={action('dismiss message')}
     />
   ))
   .add('Author Form', () => (

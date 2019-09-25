@@ -73,6 +73,8 @@ interface AuthorsProps {
   handleDrop: (oldIndex: number, newIndex: number) => void
   getSidebarItemDecorator?: (authorID: string) => JSX.Element | null
   tokenActions: TokenActions
+  invitationSent: boolean
+  handleDismiss: () => void
 }
 
 export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
@@ -96,6 +98,8 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   updateAuthor,
   getAuthorName,
   tokenActions,
+  invitationSent,
+  handleDismiss,
 }) => (
   <ModalBody>
     <ModalSidebar>
@@ -107,6 +111,8 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
         openAddAuthors={openAddAuthors}
         handleDrop={handleDrop}
         getSidebarItemDecorator={getSidebarItemDecorator}
+        invitationSent={invitationSent}
+        handleDismiss={handleDismiss}
       />
     </ModalSidebar>
     <ModalMain>

@@ -39,10 +39,18 @@ interface Props {
   tokenActions: TokenActions
 }
 
+interface RouteLocationState {
+  infoMessage?: string
+}
+
 type CombinedProps = Props &
-  RouteComponentProps<{
-    projectID: string
-  }>
+  RouteComponentProps<
+    {
+      projectID: string
+    },
+    {},
+    RouteLocationState
+  >
 
 class CollaboratorsPageContainer extends React.Component<CombinedProps, State> {
   public state: Readonly<State> = {
@@ -52,6 +60,10 @@ class CollaboratorsPageContainer extends React.Component<CombinedProps, State> {
 
   public render() {
     const { selectedCollaborator } = this.state
+    const { state } = this.props.location
+
+    const infoMessage = state ? state.infoMessage : undefined
+
     const {
       invitations,
       project,
@@ -79,6 +91,7 @@ class CollaboratorsPageContainer extends React.Component<CombinedProps, State> {
           handleAddCollaborator={this.handleAddCollaborator}
           handleClickCollaborator={this.handleClickCollaborator}
           tokenActions={tokenActions}
+          infoMessage={infoMessage}
         />
         <Main>
           <CollaboratorDetailsPage

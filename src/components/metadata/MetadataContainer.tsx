@@ -247,6 +247,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
       selectedAuthor: null,
       addingAuthors: false,
       isInvite: false,
+      invitationSent: false,
     })
   }
 
@@ -325,7 +326,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
     collaborators: UserProfile[],
     invitations: ContainerInvitation[]
   ) => () => {
-    this.setState({ addingAuthors: true })
+    this.setState({ addingAuthors: true, invitationSent: false })
 
     const authors = buildSortedAuthors(this.props.modelMap)
     this.buildNonAuthors(authors, collaborators, invitations)
@@ -369,11 +370,17 @@ class MetadataContainer extends React.PureComponent<Props, State> {
     )
 
     await projectInvite(projectID, [{ email, name }], role)
-    this.setState({ invitationSent: true })
 
     if (!alreadyInvited) {
       await this.createInvitedAuthor(email, invitingID, name)
     }
+
+    this.setState({
+      isInvite: false,
+      invitationSent: true,
+      addingAuthors: false,
+      numberOfAddedAuthors: 0,
+    })
   }
 
   private createInvitedAuthor = async (

@@ -11,7 +11,12 @@
  */
 
 import { Contributor } from '@manuscripts/manuscripts-json-schema'
-import { AuthorAffiliation, AuthorsDND } from '@manuscripts/style-guide'
+import {
+  AlertMessage,
+  AlertMessageType,
+  AuthorAffiliation,
+  AuthorsDND,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import {
@@ -88,14 +93,20 @@ const AddCollaboratorText = styled.div`
   padding-left: 14px;
 `
 
+const AlertMessageContainer = styled.div`
+  margin-bottom: 9px;
+`
+
 interface Props {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   selectedAuthor: Contributor | null
+  invitationSent: boolean
   selectAuthor: (item: Contributor) => void
   openAddAuthors: () => void
   handleDrop: (oldIndex: number, newIndex: number) => void
   getSidebarItemDecorator?: (authorID: string) => JSX.Element | null
+  handleDismiss: () => void
 }
 
 const AuthorsSidebar: React.FunctionComponent<Props> = ({
@@ -105,6 +116,8 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
   openAddAuthors,
   handleDrop,
   getSidebarItemDecorator,
+  invitationSent,
+  handleDismiss,
 }) => (
   <Sidebar data-cy={'authors-sidebar'}>
     <SidebarHeader>
@@ -126,7 +139,22 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
         </AddAuthorIcon>
       </AddButton>
     </SidebarAction>
-
+    {invitationSent && (
+      <AlertMessageContainer>
+        <AlertMessage
+          type={AlertMessageType.success}
+          hideCloseButton={true}
+          dismissButton={{
+            text: 'OK',
+            action: () => {
+              handleDismiss()
+            },
+          }}
+        >
+          Invitation was sent.
+        </AlertMessage>
+      </AlertMessageContainer>
+    )}
     <AuthorsDND
       authors={authors}
       selectAuthor={selectAuthor}

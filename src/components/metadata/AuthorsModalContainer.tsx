@@ -32,6 +32,7 @@ const Invited = styled.div`
 
 interface State {
   isRemoveAuthorOpen: boolean
+  invitationSent: boolean
 }
 
 interface Props {
@@ -52,13 +53,20 @@ interface Props {
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
   handleDrop: (oldIndex: number, newIndex: number) => void
   tokenActions: TokenActions
+  invitationSent: boolean
 }
 
 class AuthorsModalContainer extends React.Component<Props, State> {
   public state = {
     isRemoveAuthorOpen: false,
+    invitationSent: false,
   }
 
+  public componentDidMount() {
+    this.setState({
+      invitationSent: this.props.invitationSent,
+    })
+  }
   public render() {
     const { isRemoveAuthorOpen } = this.state
     const {
@@ -100,12 +108,16 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         getAuthorName={this.getAuthorName}
         handleRemoveAuthor={this.handleRemoveAuthor}
         tokenActions={tokenActions}
+        invitationSent={this.state.invitationSent}
+        handleDismiss={this.handleDismiss}
       />
     )
   }
 
   private handleRemoveAuthor = () =>
     this.setState({ isRemoveAuthorOpen: !this.state.isRemoveAuthorOpen })
+
+  private handleDismiss = () => this.setState({ invitationSent: false })
 
   private removeAuthor = async (author: Contributor) => {
     await this.props.removeAuthor(author)

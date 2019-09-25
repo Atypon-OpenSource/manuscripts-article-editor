@@ -16,7 +16,11 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { Avatar } from '@manuscripts/style-guide'
+import {
+  AlertMessage,
+  AlertMessageType,
+  Avatar,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { initials } from '../../lib/name'
@@ -95,12 +99,17 @@ const StyledSidebar = styled(Sidebar)`
     ${props => props.theme.colors.sidebar.background.selected};
 `
 
+const AlertMessageContainer = styled.div`
+  margin-bottom: 9px;
+`
+
 interface Props {
   project: Project
   projectCollaborators: UserProfile[]
   invitations: ContainerInvitation[]
   user: UserProfile
   tokenActions: TokenActions
+  infoMessage?: string
   projectInvite: (
     email: string,
     role: string,
@@ -117,6 +126,7 @@ interface State {
   isSettingsOpen: boolean
   hoveredID: string
   selectedID: string
+  message: string | undefined
 }
 
 class CollaboratorsSidebar extends React.Component<Props, State> {
@@ -124,6 +134,13 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
     isSettingsOpen: false,
     hoveredID: '',
     selectedID: '',
+    message: undefined,
+  }
+
+  public componentDidMount() {
+    this.setState({
+      message: this.props.infoMessage,
+    })
   }
 
   public render() {
@@ -139,7 +156,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
       tokenActions,
     } = this.props
 
-    const { hoveredID, selectedID } = this.state
+    const { hoveredID, selectedID, message } = this.state
 
     const collaboratorEmails = projectCollaborators.map(collaborator =>
       collaborator.userID.replace('User_', '')
@@ -171,6 +188,24 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
             </AddCollaboratorButton>
           )}
 
+          {message && (
+            <AlertMessageContainer>
+              <AlertMessage
+                type={AlertMessageType.success}
+                hideCloseButton={true}
+                dismissButton={{
+                  text: 'OK',
+                  action: () => {
+                    this.setState({
+                      message: undefined,
+                    })
+                  },
+                }}
+              >
+                {message}
+              </AlertMessage>
+            </AlertMessageContainer>
+          )}
           <SidebarContent>
             {filteredInvitations.map(invitation => (
               <SidebarPersonContainer
