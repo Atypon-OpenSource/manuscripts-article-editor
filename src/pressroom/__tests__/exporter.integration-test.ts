@@ -69,7 +69,6 @@ jest.mock('../pressroom', () => ({
   convert: jest.fn(async (data: FormData, format: string) => {
     const { default: config } = await import('../../config')
     const { default: axios } = await import('axios')
-    const { default: https } = await import('https')
     const { default: toBuffer } = await import('blob-to-buffer')
     const { default: NodeFormData } = await import('form-data')
 
@@ -99,9 +98,6 @@ jest.mock('../pressroom', () => ({
         'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
         ...formData.getHeaders(),
       },
-      httpsAgent: new https.Agent({
-        rejectUnauthorized: false, // TODO: remove once certificates are bundled
-      }),
     })
   }),
 }))
