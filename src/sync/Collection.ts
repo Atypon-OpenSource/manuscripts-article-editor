@@ -535,7 +535,15 @@ export class Collection<T extends Model> implements EventTarget {
         pull: direction === 'pull',
         push: direction === 'push',
       },
-      options,
+      options: {
+        back_off_function: (delay: number) => {
+          if (delay === 0) {
+            return 4000 + Math.random() * 2000
+          }
+          return delay * 2
+        },
+        ...options,
+      },
     })
 
     this.replications[direction] = replicationState
