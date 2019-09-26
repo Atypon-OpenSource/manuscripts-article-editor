@@ -124,9 +124,9 @@ describe('cleanItem', () => {
 
     expect(cleanItem(figureElement)).toEqual(rest)
 
-    expect(() => {
-      cleanItem({ ...figureElement, id: 'MPFigureElement:foo' })
-    }).toThrow()
+    expect(cleanItem({ ...figureElement, id: 'MPFigureElement:foo' })).toEqual(
+      rest
+    )
   })
 
   it('Table caption', () => {

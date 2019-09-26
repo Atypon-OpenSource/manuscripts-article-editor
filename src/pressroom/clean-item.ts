@@ -20,11 +20,8 @@ const funcs: Array<(item: any) => JsonModel> = [
   // Remove duplicate id field from all items
   item => {
     const { id, _id } = item
-    if (id) {
-      if (_id && id !== _id) {
-        throw new Error('Invalid id')
-      }
 
+    if (id) {
       if (!_id) {
         item._id = id
       }
