@@ -10,11 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { convertToMathML } from '@manuscripts/manuscript-editor'
 import {
   Attachments,
   Decoder,
   generateAttachmentFilename,
   getModelData,
+  hasObjectType,
   HTMLTransformer,
   isFigure,
   JATSTransformer,
@@ -23,7 +25,9 @@ import {
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import {
+  Equation,
   Figure,
+  InlineMathFragment,
   Model,
   ObjectTypes,
   Project,
@@ -54,6 +58,45 @@ const figureHasAttachment = (model: Figure, zip: JSZip): boolean => {
 
   // tslint:disable-next-line
   return zip.file('Data/' + filename) !== null
+}
+
+const isEquation = hasObjectType<Equation>(ObjectTypes.Equation)
+const isInlineMathFragment = hasObjectType<InlineMathFragment>(
+  ObjectTypes.InlineMathFragment
+)
+
+// Convert TeX to MathML for Equation and InlineMathFragment
+// tslint:disable-next-line:cyclomatic-complexity
+export const augmentEquations = async (modelMap: Map<string, Model>) => {
+  for (const model of modelMap.values()) {
+    if (
+      isEquation(model) &&
+      model.TeXRepresentation &&
+      !model.MathMLStringRepresentation
+    ) {
+      // block equation
+      const mathml = convertToMathML(model.TeXRepresentation, true)
+
+      if (mathml) {
+        model.MathMLStringRepresentation = mathml
+        modelMap.set(model._id, model)
+      }
+    }
+
+    if (
+      isInlineMathFragment(model) &&
+      model.TeXRepresentation &&
+      !model.MathMLRepresentation
+    ) {
+      // inline equation
+      const mathml = convertToMathML(model.TeXRepresentation, false)
+
+      if (mathml) {
+        model.MathMLRepresentation = mathml
+        modelMap.set(model._id, model)
+      }
+    }
+  }
 }
 
 export const removeUnsupportedData = async (zip: JSZip) => {
@@ -152,6 +195,10 @@ const buildProjectBundle = async (
   format: string
 ): Promise<JSZip> => {
   const attachments = buildAttachments(modelMap)
+
+  if (format === '.docx') {
+    await augmentEquations(modelMap)
+  }
 
   const data = createProjectDump(modelMap, manuscriptID)
 
