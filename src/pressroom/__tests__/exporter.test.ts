@@ -88,6 +88,17 @@ describe('exporter', () => {
       anotherManuscript as Manuscript
     )
 
+    // NOTE: unable to test attachments as JSDOM doesn't yet support blob URLs
+    //
+    // for (const [key, model] of modelMap.entries()) {
+    //   if (isFigure(model)) {
+    //     model.src = URL.createObjectURL(
+    //       new Blob(['test'], { type: 'image/png' })
+    //     )
+    //     modelMap.set(key, model)
+    //   }
+    // }
+
     // `result` is the blob that would be sent for conversion, echoed back
     const result = await exportProject(modelMap, manuscriptID, '.docx')
     expect(result).toBeInstanceOf(Blob)
@@ -96,7 +107,7 @@ describe('exporter', () => {
     const manuscript = await readManuscriptFromBundle(zip)
 
     expect(manuscript.version).toBe('2.0')
-    expect(manuscript.data).toHaveLength(137)
+    expect(manuscript.data).toHaveLength(135)
     expect(manuscript).toMatchSnapshot('exported-manuscript')
   })
 

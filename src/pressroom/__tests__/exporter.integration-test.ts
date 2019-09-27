@@ -25,6 +25,8 @@ import {
   Bundle,
   ContainerInvitation,
   Contributor,
+  Figure,
+  FigureElement,
   Manuscript,
   Model,
   ObjectTypes,
@@ -315,7 +317,7 @@ describe('exporter', () => {
     const manuscript = buildManuscript()
     const modelMap = await buildManuscriptModelMap(manuscript)
 
-    const addModel = <T extends Model>(model: Build<T>) =>
+    const addModel = <T extends Model>(model: Build<T>) => {
       modelMap.set(model._id, {
         ...model,
         manuscriptID: manuscript._id,
@@ -324,6 +326,9 @@ describe('exporter', () => {
         updatedAt: 0,
         sessionID: 'test',
       })
+
+      return model
+    }
 
     // add a container invitation
     addModel<ContainerInvitation>({
@@ -334,6 +339,20 @@ describe('exporter', () => {
       invitingUserProfile: user as UserProfile,
       invitedUserEmail: 'foo@example.com',
       invitedUserName: 'Foo Bar',
+    })
+
+    // add a figure with no image attachment (src)
+    const figure = addModel<Figure>({
+      _id: generateID(ObjectTypes.Figure),
+      objectType: ObjectTypes.Figure,
+    })
+
+    addModel<FigureElement>({
+      _id: generateID(ObjectTypes.FigureElement),
+      objectType: ObjectTypes.FigureElement,
+      containedObjectIDs: [figure._id],
+      elementType: 'figure',
+      caption: 'Test',
     })
 
     for (const format of formats) {

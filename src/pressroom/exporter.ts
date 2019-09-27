@@ -16,6 +16,7 @@ import {
   generateAttachmentFilename,
   getModelData,
   HTMLTransformer,
+  isFigure,
   JATSTransformer,
   ManuscriptModel,
   ModelAttachment,
@@ -47,16 +48,31 @@ const unsupportedObjectTypes: ObjectTypes[] = [
   ObjectTypes.ManuscriptTemplate,
 ]
 
+const figureHasAttachment = (model: Figure, zip: JSZip): boolean => {
+  // NOTE: not using model.contentType for file extension
+  const filename = generateAttachmentFilename(model._id)
+
+  // tslint:disable-next-line
+  return zip.file('Data/' + filename) !== null
+}
+
 export const removeUnsupportedData = async (zip: JSZip) => {
   const path = 'index.manuscript-json'
 
   const json = await zip.file(path).async('text')
   const bundle = JSON.parse(json) as ProjectDump
 
-  bundle.data = bundle.data.filter(
-    (model: ManuscriptModel) =>
-      !unsupportedObjectTypes.includes(model.objectType as ObjectTypes)
-  )
+  bundle.data = bundle.data.filter((model: ManuscriptModel) => {
+    if (unsupportedObjectTypes.includes(model.objectType as ObjectTypes)) {
+      return false
+    }
+
+    if (isFigure(model) && !figureHasAttachment(model, zip)) {
+      return false
+    }
+
+    return true
+  })
 
   bundle.data.forEach((model: ManuscriptModel & { listingID?: string }) => {
     delete model.containerID
