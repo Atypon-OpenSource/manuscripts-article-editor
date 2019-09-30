@@ -12,7 +12,7 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from 'rxdb'
+import { RxDocument } from '@manuscripts/rxdb'
 
 export const PROFILE_IMAGE_ATTACHMENT = 'image'
 

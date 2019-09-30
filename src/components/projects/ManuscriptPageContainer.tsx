@@ -66,6 +66,7 @@ import {
   UserProfile,
   UserProject,
 } from '@manuscripts/manuscripts-json-schema'
+import { RxDocument } from '@manuscripts/rxdb'
 import {
   ConflictManager,
   conflictsKey,
@@ -85,7 +86,6 @@ import debounce from 'lodash-es/debounce'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Prompt, RouteComponentProps } from 'react-router'
-import { RxDocument } from 'rxdb'
 import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'

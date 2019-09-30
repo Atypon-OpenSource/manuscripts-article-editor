@@ -17,10 +17,6 @@ import {
   timestamp,
 } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
-import { ConflictManager } from '@manuscripts/sync-client'
-import { AxiosError } from 'axios'
-import { cloneDeep } from 'lodash-es'
-import generateReplicationID from 'pouchdb-generate-replication-id'
 import {
   PouchDB,
   PouchReplicationOptions,
@@ -28,7 +24,11 @@ import {
   RxCollection,
   RxDocument,
   RxReplicationState,
-} from 'rxdb'
+} from '@manuscripts/rxdb'
+import { ConflictManager } from '@manuscripts/sync-client'
+import { AxiosError } from 'axios'
+import { cloneDeep } from 'lodash-es'
+import generateReplicationID from 'pouchdb-generate-replication-id'
 import { CollectionName, collections } from '../collections'
 import { Database } from '../components/DatabaseProvider'
 import config from '../config'

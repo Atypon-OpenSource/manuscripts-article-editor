@@ -25,10 +25,10 @@ import {
   ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { RxCollection } from '@manuscripts/rxdb'
 import { AuthorValues } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React from 'react'
-import { RxCollection } from 'rxdb'
 import CollaboratorsData from '../../data/CollaboratorsData'
 import ContainerInvitationsData from '../../data/ContainerInvitationsData'
 import ProjectData from '../../data/ProjectData'

@@ -10,15 +10,15 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import PouchDBHTTPAdapter from 'pouchdb-adapter-http'
-import RxDBAttachmentsModule from 'rxdb/plugins/attachments'
-import RxDB from 'rxdb/plugins/core'
-import RxDBErrorMessagesModule from 'rxdb/plugins/error-messages'
-import RxDBLocalDocumentsModule from 'rxdb/plugins/local-documents'
-import RxDBNoValidateModule from 'rxdb/plugins/no-validate'
-import RxDBReplicationModule from 'rxdb/plugins/replication'
-import RxDBSchemaCheckModule from 'rxdb/plugins/schema-check'
-import RxDBUpdateModule from 'rxdb/plugins/update'
+import PouchDBHTTPAdapter from '@manuscripts/pouchdb-adapter-http'
+import RxDBAttachmentsModule from '@manuscripts/rxdb/plugins/attachments'
+import RxDB from '@manuscripts/rxdb/plugins/core'
+import RxDBErrorMessagesModule from '@manuscripts/rxdb/plugins/error-messages'
+import RxDBLocalDocumentsModule from '@manuscripts/rxdb/plugins/local-documents'
+import RxDBNoValidateModule from '@manuscripts/rxdb/plugins/no-validate'
+import RxDBReplicationModule from '@manuscripts/rxdb/plugins/replication'
+import RxDBSchemaCheckModule from '@manuscripts/rxdb/plugins/schema-check'
+import RxDBUpdateModule from '@manuscripts/rxdb/plugins/update'
 import config from '../config'
 
 RxDB.plugin(PouchDBHTTPAdapter)

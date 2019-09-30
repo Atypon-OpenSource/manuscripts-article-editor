@@ -1628,10 +1628,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.40.1":
-  version "0.40.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.40.1.tgz#3aaeb5b9a2ce2306e551d649d8921ddde985cc31"
-  integrity sha512-pJRvJRjF3skLyVtWez3qj8cgEzN0Ly0V2BmB7SaJjt9cBOxq0BS587wZlli4yHRmodk9g6Aqfqc93xp3vohTCg==
+"@manuscripts/manuscript-editor@^0.41.0":
+  version "0.41.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.41.0.tgz#a122198f56031dc72cffd40d1bddba0c201544e6"
+  integrity sha512-VP7qVw1lx+btGrNJXEJ+QzI7w2hbzz4q/Hnc/wwvZchfjUQ09QsDvsjxYR27Jpq7AznWo95vtOCFhnMHfruILw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1690,6 +1690,11 @@
     deepmerge "^3.2.0"
     js-beautify "^1.9.0"
 
+"@manuscripts/pouchdb-adapter-http@7.0.0-manuscripts0":
+  version "7.0.0-manuscripts0"
+  resolved "https://registry.npmjs.org/@manuscripts/pouchdb-adapter-http/-/pouchdb-adapter-http-7.0.0-manuscripts0.tgz#2a8b39865122cac54bf40ad71829ca80138d61f9"
+  integrity sha512-bToSrrCZQavztCiPc5eiuf2kHRsC3CS1MD7sQWpV/lgLnCQJEucLsyYxrFbq2K56j8WBR2DEQ0UcPyfanJQkSA==
+
 "@manuscripts/prosemirror-recreate-steps@^0.1.4":
   version "0.1.4"
   resolved "https://registry.npmjs.org/@manuscripts/prosemirror-recreate-steps/-/prosemirror-recreate-steps-0.1.4.tgz#808ed066fe734b9b4581665e5e803b1e3ee97e90"
@@ -1716,6 +1721,35 @@
   resolved "https://registry.npmjs.org/@manuscripts/resizer/-/resizer-0.0.3.tgz#79f560c4e5047d695f848940ffd0dd19f67dc814"
   integrity sha512-nSbugjavTq4TPQpj1rOoHX58CCTD6ZqROM+06UXDu8tOa7qPQQcoRb12H38rQ7HvZIWAV/PTf4nf42/Jl52f/g==
 
+"@manuscripts/rxdb@8.2.0-manuscripts1":
+  version "8.2.0-manuscripts1"
+  resolved "https://registry.npmjs.org/@manuscripts/rxdb/-/rxdb-8.2.0-manuscripts1.tgz#947e10e790e373a80c5cf1cd73213f0ac63cc660"
+  integrity sha512-jHBPfOjndH0wNe1Rs1NcG9qVEqq8Yv+DEQ8yxo5VNzV+6wu8w0TLZHpQOlxZpE04V7V9MskYcio5zMtFIcW4zg==
+  dependencies:
+    "@babel/runtime" "7.4.5"
+    broadcast-channel "2.1.12"
+    clone "^2.1.1"
+    cors "2.8.5"
+    crypto-js "^3.1.8"
+    custom-idle-queue "2.1.2"
+    deep-equal "^1.0.1"
+    express "4.17.1"
+    express-pouchdb "4.1.0"
+    is-electron "2.2.0"
+    is-my-json-valid "2.20.0"
+    modifyjs "0.3.1"
+    object-path "0.11.4"
+    pouchdb-all-dbs "1.0.2"
+    pouchdb-core "7.0.0"
+    pouchdb-find "7.0.0"
+    pouchdb-replication "7.0.0"
+    pouchdb-selector-core "7.0.0"
+    random-token "0.0.8"
+    spark-md5 "^3.0.0"
+    unload "2.1.0"
+    url "^0.11.0"
+    util "^0.12.0"
+
 "@manuscripts/style-guide@^0.10.1":
   version "0.10.1"
   resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.10.1.tgz#c08af83276a882a0816bc1a5400bacd0209c5a60"
@@ -1729,10 +1763,10 @@
     react-sizeme "^2.6.7"
     tooltip.js "^1.3.2"
 
-"@manuscripts/sync-client@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.3.1.tgz#385ce26f026e7d34d289d236c5a4bbc7b64e31ec"
-  integrity sha512-FwTOeBNygWuQHcju4BAUrSkOVSBFYhA8lt8vLbMuiisHMirskMjTZrSJwDQvC3cJDO7pofjoKcuVhKYijg2RIQ==
+"@manuscripts/sync-client@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.3.3.tgz#bb4953ad87bd6bd06e84452d302938a1f74a1c6b"
+  integrity sha512-H/fHXdGNsqTqN1uVAbYoygC7x+xAuFpM5ASs5jQDM1+VFgixYRHspK8PNwJ+fWgkzxu56K1dh2+/l9Js4CchMg==
   dependencies:
     "@manuscripts/prosemirror-recreate-steps" "^0.1.4"
     lodash.isequal "^4.5.0"
@@ -2691,13 +2725,6 @@
   version "1.4.2"
   resolved "https://registry.npmjs.org/@types/phoenix/-/phoenix-1.4.2.tgz#fdaaf544f9d6097595c2bf4cd647122d0fbea502"
   integrity sha512-ZHiencerRHjnm2Xpu4UIeGw0hMBIlzhBNSkf1pPJmAf87EbpD+ypHcUvbP+Wk/9ffB5TI8s21GfYF/IW072F2g==
-
-"@types/pouchdb-adapter-http@^6.1.2":
-  version "6.1.3"
-  resolved "https://registry.npmjs.org/@types/pouchdb-adapter-http/-/pouchdb-adapter-http-6.1.3.tgz#6e592d5f48deb6274a21ddac1498dd308096bcf3"
-  integrity sha512-9Z4TLbF/KJWy/D2sWRPBA+RNU0odQimfdvlDX+EY7rGcd3aVoH8qjD/X0Xcd/0dfBH5pKrNIMFFQgW/TylRCmA==
-  dependencies:
-    "@types/pouchdb-core" "*"
 
 "@types/pouchdb-adapter-idb@^6.1.2":
   version "6.1.3"
@@ -13922,16 +13949,6 @@ pouchdb-abstract-mapreduce@7.0.0:
     pouchdb-md5 "7.0.0"
     pouchdb-utils "7.0.0"
 
-"pouchdb-adapter-http@gitlab:mpapp-public/pouchdb-adapter-http#master":
-  version "7.0.0-prerelease"
-  resolved "https://gitlab.com/mpapp-public/pouchdb-adapter-http/repository/archive.tar.gz?ref=be3f46adbb99c75a2ee3ca6b9847220c7356ce2a"
-  dependencies:
-    argsarray "0.0.1"
-    pouchdb-binary-utils "7.0.0"
-    pouchdb-errors "7.0.0"
-    pouchdb-fetch "7.0.0"
-    pouchdb-utils "7.0.0"
-
 "pouchdb-adapter-idb@gitlab:mpapp-public/pouchdb-adapter-idb#master":
   version "7.0.0-prerelease"
   resolved "https://gitlab.com/mpapp-public/pouchdb-adapter-idb/repository/archive.tar.gz?ref=2c5e5b12e023771fe93cd9b84c4e4fa1e175b42e"
@@ -14269,7 +14286,18 @@ pouchdb-promise@6.4.3, pouchdb-promise@^6.4.1:
   dependencies:
     lie "3.1.1"
 
-pouchdb-replication@7.0.0, "pouchdb-replication@gitlab:mpapp-public/pouchdb-replication#master":
+pouchdb-replication@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pouchdb-replication/-/pouchdb-replication-7.0.0.tgz#b71751183dfa9337127d31de588e11e12cde5d9a"
+  integrity sha512-DHeP/8w1Q00yJJKfsXTipv3BPB0UhqZjCPTWvatrtfbtUX6v7MM4RXoq1UefvGbEHrThn3uoVL/MErdR5hvC/g==
+  dependencies:
+    inherits "2.0.3"
+    pouchdb-checkpointer "7.0.0"
+    pouchdb-errors "7.0.0"
+    pouchdb-generate-replication-id "7.0.0"
+    pouchdb-utils "7.0.0"
+
+"pouchdb-replication@gitlab:mpapp-public/pouchdb-replication#master":
   version "7.0.0-prerelease"
   resolved "https://gitlab.com/mpapp-public/pouchdb-replication/repository/archive.tar.gz?ref=13f2acf7ee642e3cabf8373b1592430927ef70cb"
   dependencies:
@@ -16237,34 +16265,6 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   integrity sha1-6Eg5bwV9Ij8kOGkkYY4laUFh7Ec=
   dependencies:
     aproba "^1.1.1"
-
-"rxdb@gitlab:mpapp-public/rxdb#upstream-fork":
-  version "8.2.0"
-  resolved "https://gitlab.com/mpapp-public/rxdb/repository/archive.tar.gz?ref=8b4f3b1a7a23a379e2fe894f016e259eec6f17bf"
-  dependencies:
-    "@babel/runtime" "7.4.5"
-    broadcast-channel "2.1.12"
-    clone "^2.1.1"
-    cors "2.8.5"
-    crypto-js "^3.1.8"
-    custom-idle-queue "2.1.2"
-    deep-equal "^1.0.1"
-    express "4.17.1"
-    express-pouchdb "4.1.0"
-    is-electron "2.2.0"
-    is-my-json-valid "2.20.0"
-    modifyjs "0.3.1"
-    object-path "0.11.4"
-    pouchdb-all-dbs "1.0.2"
-    pouchdb-core "7.0.0"
-    pouchdb-find "7.0.0"
-    pouchdb-replication "7.0.0"
-    pouchdb-selector-core "7.0.0"
-    random-token "0.0.8"
-    spark-md5 "^3.0.0"
-    unload "2.1.0"
-    url "^0.11.0"
-    util "^0.12.0"
 
 rxjs-compat@6.5.2:
   version "6.5.2"
