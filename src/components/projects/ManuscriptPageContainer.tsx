@@ -57,6 +57,7 @@ import {
 import {
   BibliographyItem,
   Bundle,
+  Figure,
   Keyword,
   Manuscript,
   Model,
@@ -1367,6 +1368,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       'owners',
       'manuscriptID',
       'containerID',
+      'src',
       ...this.requirementFields,
     ]
 
@@ -1498,6 +1500,16 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
+  private copySrc = (model: Figure) => {
+    const previousModel = this.getModel<Figure>(model._id)
+
+    if (!previousModel) {
+      return
+    }
+
+    model.src = previousModel.src
+  }
+
   private saveModels = async (state: ManuscriptEditorState) => {
     // TODO: return/queue if already saving?
     const { manuscriptID, projectID } = this.props.match.params
@@ -1522,6 +1534,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             this.copyRequirements<Manuscript>(model)
           } else if (isSection(model)) {
             this.copyRequirements<Section>(model)
+          } else if (isFigure(model)) {
+            this.copySrc(model)
           }
 
           modelMap!.set(model._id, model)
