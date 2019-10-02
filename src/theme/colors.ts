@@ -10,53 +10,56 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-export const white = '#fff'
-// export const black = '#000'
-
-// greys
+/* PRIMARY PALETTE */
+export const manuscriptsBlueDark = '#0064d6'
+export const manuscriptsBlue = '#0070f0'
 export const manuscriptsGrey = '#353535'
-export const dustyGrey = '#949494'
-export const altoGrey = '#d8d8d8'
+export const manuscriptsYellow = '#ffbd26'
+
+/* SECONDARY PALETTE */
+export const zestOrange = '#fe8f1f'
+export const punchRed = '#f35143'
+export const killarneyGreen = '#36b260'
+export const brightSunYellow = '#ffbd26'
+
+/* EXTENDED PALETTE */
+/* GREYS */
+export const black = '#000'
+export const scorpionGrey2 = '#585858'
+export const scorpionGrey = '#5e6f7e'
+export const warmGrey = '#949494'
+export const dustyGrey = '#97a2b1'
+export const altoGreyDark = '#bababa'
+export const altoGrey = '#d6d6d6'
 export const mercuryGrey = '#e2e2e2'
-export const alabasterGrey = '#fcfcfc'
-export const seashellGrey = '#f1f1f1'
-export const darkGrey = '#585858'
-export const lightGrey = '#d6d6d6'
-export const towerGrey = '#adbec6'
+export const seashellGrey = '#f2f2f2'
+export const alabasterGrey = '#fafafa'
+export const white = '#fff'
 
-// blues
-export const jellyBeanBlue = '#2a6f9d'
-export const manuscriptsBlue = '#7fb5d5'
-export const linkWaterBlue = '#d9e0f3'
-// export const iceBlue = '#d8edf8'
-export const powderBlue = '#e0eef9'
-export const aliceBlue = '#f1f8ff'
-export const lightAliceBlue = '#f8fbfe'
-export const lightBlue = '#e2e8ee'
-export const mayaBlue = '#65a3ff'
-export const aquaHaze = '#edf2f5'
+/* BLUES */
+export const jellyBeanBlue = '#2781a1'
+export const blueDarker = '#7fb5d5'
+export const blue = '#d6e8fc'
+export const iceBlue = '#e8f2fc'
+export const linkWaterBlue = '#eff6fe'
+export const powderBlue = '#f0fafe'
+export const aliceBlue = '#f2fbff'
 
-// reds
-export const punchRed = '#dc5030'
-// export const sungloRed = '#e26969'
-// export const eunryRed = '#d2a1a1'
+/* REDS */
+export const darkCoral = '#cd593c'
+export const sungloRed = '#e26969'
+export const eunryRed = '#d2a1a1'
 export const mandysRed = '#f5c1b7'
 export const chablisRed = '#fff1f0'
-export const darkCoral = '#cd593c'
 
-// oranges
-export const zestOrange = '#e28327'
-export const wheatYellow = '#f7d7b2'
-export const butteryYellow = '#fffceb'
-
-// yellows
-// export const brightSunYellow = '#fdcd47'
-// export const huskYellow = '#b6a651'
-export const salomieYellow = '#ffe08b'
-
-// greens
-export const killarneyGreen = '#3a773a'
-export const deYorkGreen = '#80be86'
-// export const pineGladeGreen = '#a8cd95'
+/* GREENS */
+export const deYorkGreen = '#8dd439'
+export const pineGladeGreen = '#a8cd95'
 export const springGreen = '#b2c0ac'
 export const peppermintGreen = '#dff0d7'
+
+/* YELLOWS */
+export const huskYellow = '#b6a651'
+export const salomieYellow = '#ffe08b'
+export const wheatYellow = '#ffe0b2'
+export const butteryYellow = '#fffcdb'

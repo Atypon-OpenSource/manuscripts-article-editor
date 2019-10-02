@@ -14,30 +14,19 @@ import ChatIcon from '@manuscripts/assets/react/Chat'
 import CommunityIcon from '@manuscripts/assets/react/Community'
 import DocumentationIcon from '@manuscripts/assets/react/Documentation'
 import SupportIcon from '@manuscripts/assets/react/Support'
+import { IconButton } from '@manuscripts/style-guide'
 import { Placement } from 'popper.js'
 import React, { useCallback, useState } from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import { NavLink } from 'react-router-dom'
 import config from '../config'
-import { dustyGrey } from '../theme/colors'
 import { css, styled } from '../theme/styled-components'
 import { Popup } from './nav/Updates'
 
-const Button = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
-  padding: 14px 8px;
-  line-height: 0;
-  color: ${dustyGrey};
-
-  &:focus {
-    outline: none;
-  }
-
-  &:focus-visible {
-    outline: initial;
-  }
+const Button = styled(IconButton).attrs(props => ({
+  size: 56,
+}))`
+  padding: ${props => props.theme.grid.unit * 2}px;
 `
 
 const StyledSupportIcon = styled(SupportIcon)`
@@ -54,18 +43,19 @@ const StyledSupportIcon = styled(SupportIcon)`
 
 const linkStyle = css`
   display: flex;
-  padding: 8px 16px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 4}px;
   align-items: center;
-  font-size: 14px;
-  color: ${props => props.theme.colors.dropdown.text.primary};
+  font-size: ${props => props.theme.font.size.normal};
+  color: ${props => props.theme.colors.text.primary};
   text-decoration: none;
 
   &:hover {
-    background: ${props => props.theme.colors.dropdown.background.hovered};
-    color: ${props => props.theme.colors.dropdown.text.hovered};
+    background: ${props => props.theme.colors.brand.default};
+    color: ${props => props.theme.colors.text.onDark};
 
     path {
-      stroke: ${props => props.theme.colors.dropdown.text.hovered};
+      stroke: ${props => props.theme.colors.text.onDark};
     }
   }
 `
@@ -82,21 +72,23 @@ const ExternalMenuLink = styled.a.attrs({
 `
 
 const MenuText = styled.div`
-  margin-left: 8px;
+  margin-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const Menu = styled.div`
-  padding: 8px 0;
+  padding: ${props => props.theme.grid.unit * 2}px 0;
 `
 
 const arrowTopBorderStyle = css`
-  bottom: -8px;
-  border-top: 8px solid ${props => props.theme.colors.popper.border};
+  bottom: -${props => props.theme.grid.unit * 2}px;
+  border-top: ${props => props.theme.grid.unit * 2}px solid
+    ${props => props.theme.colors.border.secondary};
 `
 
 const arrowBottomBorderStyle = css`
-  top: -8px;
-  border-bottom: 8px solid ${props => props.theme.colors.popper.border};
+  top: -${props => props.theme.grid.unit * 2}px;
+  border-bottom: ${props => props.theme.grid.unit * 2}px solid
+    ${props => props.theme.colors.border.secondary};
 `
 
 const Arrow = styled.div<{
@@ -104,8 +96,8 @@ const Arrow = styled.div<{
 }>`
   width: 0;
   height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
+  border-left: ${props => props.theme.grid.unit * 2}px solid transparent;
+  border-right: ${props => props.theme.grid.unit * 2}px solid transparent;
   ${props =>
     props['data-placement'] === 'top'
       ? arrowTopBorderStyle

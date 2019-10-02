@@ -19,28 +19,27 @@ import {
   LibraryCollection,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { ButtonGroup, PrimarySubmitButton } from '@manuscripts/style-guide'
+import { ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import React, { useCallback, useState } from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
 import { Collection } from '../../sync/Collection'
-import { aliceBlue, manuscriptsGrey } from '../../theme/colors'
 import { styled } from '../../theme/styled-components'
 
 const LabelContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: ${props => props.theme.grid.unit}px;
 `
 
 const Label = styled.label`
-  font-family: ${props => props.theme.fontFamily};
-  font-size: 16px;
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.medium};
   display: flex;
-  color: ${props => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 const AuthorHeading = styled.button.attrs({
@@ -50,7 +49,8 @@ const AuthorHeading = styled.button.attrs({
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 3}px;
   cursor: pointer;
   border: none;
   background: none;
@@ -58,28 +58,28 @@ const AuthorHeading = styled.button.attrs({
   color: inherit;
   color: ${props =>
     props.isExpanded
-      ? props.theme.colors.global.text.link
-      : props.theme.colors.label.text};
+      ? props.theme.colors.brand.default
+      : props.theme.colors.text.primary};
 `
 
 const FieldLabel = styled.label`
-  font-family: ${props => props.theme.fontFamily};
-  font-size: 16px;
-  color: ${props => props.theme.colors.library.sidebar.field.label};
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.medium};
+  color: ${props => props.theme.colors.text.muted};
   width: 50%;
 `
 
 const TextFieldContainer = styled.div`
   display: flex;
   align-items: center;
-  border-bottom: 1px solid
-    ${props => props.theme.colors.library.sidebar.field.border};
-  background-color: #ffffff;
+  border-bottom: 1px solid ${props => props.theme.colors.text.muted};
+  background-color: ${props => props.theme.colors.background.primary};
 `
 
 const TextField = styled.input`
-  font-size: 14px;
-  padding: 8px 16px;
+  font-size: ${props => props.theme.font.size.normal};
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 4}px;
   box-sizing: border-box;
   border: none;
   background-color: transparent;
@@ -90,11 +90,11 @@ const TextField = styled.input`
   }
 
   &::placeholder {
-    color: #aaa;
+    color: ${props => props.theme.colors.text.muted};
   }
 
   &:hover::placeholder {
-    color: #777;
+    color: ${props => props.theme.colors.text.secondary};
   }
 `
 
@@ -132,45 +132,45 @@ const CollapsibleAuthorContainer: React.FC<{
 }
 
 const AuthorContainer = styled.div<{ isExpanded?: boolean }>`
-  font-size: 15px;
-  background-color: ${props => (props.isExpanded ? aliceBlue : 'transparent')};
+  font-size: ${props => props.theme.font.size.medium};
+  background-color: ${props =>
+    props.isExpanded ? props.theme.colors.background.secondary : 'transparent'};
   overflow: hidden;
 
   &:active,
   &:hover {
-    background-color: ${aliceBlue};
+    background-color: ${props => props.theme.colors.background.secondary};
   }
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid
-      ${props => props.theme.colors.textField.border.default};
+    border-bottom: 1px solid ${props => props.theme.colors.text.muted};
   }
 
   &:first-of-type {
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-top-left-radius: ${props => props.theme.grid.radius.default};
+    border-top-right-radius: ${props => props.theme.grid.radius.default};
   }
 
   &:last-of-type {
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: ${props => props.theme.grid.radius.default};
+    border-bottom-right-radius: ${props => props.theme.grid.radius.default};
   }
 `
 
 const AuthorContent = styled.div`
-  border-radius: 4px;
-  border: 1px solid ${props => props.theme.colors.textField.border.default};
-  margin: 0 12px;
+  border-radius: ${props => props.theme.grid.radius.small};
+  border: 1px solid ${props => props.theme.colors.text.muted};
+  margin: 0 ${props => props.theme.grid.unit * 3}px;
 `
 
 const StyledTitleField = styled(TitleField)`
-  font-family: ${props => props.theme.fontFamily};
-  font-size: 16px;
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.medium};
   line-height: 1.25;
-  color: ${manuscriptsGrey};
-  border-radius: 4px;
-  border: 1px solid ${props => props.theme.colors.textField.border.default};
-  padding: 8px;
+  color: ${props => props.theme.colors.text.primary};
+  border-radius: ${props => props.theme.grid.radius.small};
+  border: 1px solid ${props => props.theme.colors.text.muted};
+  padding: ${props => props.theme.grid.unit * 2}px;
 
   & .ProseMirror {
     &:focus {
@@ -180,61 +180,62 @@ const StyledTitleField = styled(TitleField)`
 `
 
 const YearField = styled(Field)`
-  font-family: ${props => props.theme.fontFamily};
-  padding: 8px;
-  font-size: 16px;
-  color: ${manuscriptsGrey};
-  border-radius: 4px;
-  border: solid 1px ${props => props.theme.colors.textField.border.default};
+  font-family: ${props => props.theme.font.family.sans};
+  padding: ${props => props.theme.grid.unit * 2}px;
+  font-size: ${props => props.theme.font.size.medium};
+  color: ${props => props.theme.colors.text.primary};
+  border-radius: ${props => props.theme.grid.radius.small};
+  border: solid 1px ${props => props.theme.colors.text.muted};
 `
 
 const Button = styled.button.attrs({
   type: 'button',
 })`
   background-color: transparent;
-  color: ${props => props.theme.colors.button.primary};
+  color: ${props => props.theme.colors.brand.default};
   border: 2px solid transparent;
-  border-radius: 4px;
+  border-radius: ${props => props.theme.grid.radius.small};
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 2px 8px;
-  font-family: ${props => props.theme.fontFamily};
-  font-size: 14px;
-  font-weight: 600;
+  padding: 2px ${props => props.theme.grid.unit * 2}px;
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.semibold};
   cursor: ${props => (props.disabled ? 'text' : 'pointer')};
   opacity: ${props => (props.disabled ? '0.5' : '1.0')};
   transition: border 0.1s, color 0.1s, background-color 0.1s;
 
   &:hover {
-    background-color: #fff;
-    color: ${props => props.theme.colors.button.primary};
-    border-color: ${props => props.theme.colors.button.primary};
+    background-color: ${props => props.theme.colors.background.primary};
+    color: ${props => props.theme.colors.brand.default};
+    border-color: ${props => props.theme.colors.brand.default};
   }
 
   &:active {
-    background-color: ${props => props.theme.colors.button.primary};
-    border-color: ${props => props.theme.colors.button.primary};
-    color: white;
+    background-color: ${props => props.theme.colors.brand.default};
+    border-color: ${props => props.theme.colors.brand.default};
+    color: ${props => props.theme.colors.text.onDark};
   }
+
+  background: pink;
 `
 const BaseButton = styled.button.attrs({
   type: 'button',
 })`
-  font-family: ${props => props.theme.fontFamily};
-  font-size: 16px;
-  background-color: ${props =>
-    props.theme.colors.library.sidebar.background.default};
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.medium};
+  background-color: ${props => props.theme.colors.background.secondary};
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  color: ${props => props.theme.colors.button.primary};
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.medium};
+  color: ${props => props.theme.colors.brand.default};
 `
 
 const PlainTextButton = styled(BaseButton)`
-  background-color: #ffffff;
+  background-color: ${props => props.theme.colors.background.secondary};
   text-align: left;
 `
 
@@ -244,7 +245,7 @@ const Actions = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
+  padding: ${props => props.theme.grid.unit * 2}px;
 `
 
 const AuthorActions = styled(Actions)`
@@ -252,19 +253,18 @@ const AuthorActions = styled(Actions)`
 `
 
 const AuthorFormContainer = styled.div`
-  border-radius: 4px;
-  border: solid 1px ${props => props.theme.colors.textField.border.default};
+  border-radius: ${props => props.theme.grid.radius.small};
+  border: solid 1px ${props => props.theme.colors.text.muted};
 `
 
 const TitleLink = styled.a`
-  font-family: ${props => props.theme.fontFamily};
-  font-size: 16px;
+  font-family: ${props => props.theme.font.family.sans};
   text-decoration: none;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  color: ${props => props.theme.colors.button.primary};
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.medium};
+  color: ${props => props.theme.colors.brand.default};
   padding: 0px 20px;
 `
 
@@ -509,7 +509,7 @@ const LibraryForm: React.FC<{
               OPEN
             </TitleLink>
 
-            <PrimarySubmitButton>Save</PrimarySubmitButton>
+            <PrimaryButton type="submit">Save</PrimaryButton>
           </ButtonGroup>
         </Actions>
       </Form>

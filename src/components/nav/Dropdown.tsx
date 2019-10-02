@@ -11,10 +11,11 @@
  */
 
 import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
+import { ToggleButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { styled } from '../../theme/styled-components'
+import { css, styled } from '../../theme/styled-components'
 import { Badge } from '../Badge'
 
 export const DropdownContainer = styled.div`
@@ -25,77 +26,63 @@ export const DropdownContainer = styled.div`
 
 export const Dropdown = styled.div`
   position: absolute;
-  top: 32px;
-  left: 5px;
-  border: 1px solid ${props => props.theme.colors.dropdown.border};
-  border-radius: 4px;
-  box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
-  background: ${props => props.theme.colors.dropdown.background.default};
-  color: #000;
-  font-size: 14px;
-  font-weight: normal;
+  top: ${props => props.theme.grid.unit * 10}px;
+  left: ${props => props.theme.grid.unit}px;
+  border: 1px solid ${props => props.theme.colors.text.muted};
+  border-radius: ${props => props.theme.grid.radius.small};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${props => props.theme.colors.background.primary};
+  color: ${props => props.theme.colors.text.primary};
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.normal};
   z-index: 10;
 `
 
 export const PlaceholderTitle = styled(Title)`
-  color: ${props => props.theme.colors.title.placeholder};
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 export const InvitedBy = styled.div`
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: ${props => props.theme.font.size.normal};
   letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.dropdown.text.secondary};
+  color: ${props => props.theme.colors.text.secondary};
   clear: both;
-  margin-top: 6px;
+  margin-top: ${props => props.theme.grid.unit * 2}px;
 `
 
-export const DropdownLink = styled(NavLink)<{ disabled?: boolean }>`
+const commonStyles = css<{ disabled?: boolean }>`
   display: flex;
   justify-content: space-between;
-  padding: 13px 13px;
+  padding: ${props => props.theme.grid.unit * 3}px
+    ${props => props.theme.grid.unit * 3}px;
   align-items: center;
   text-decoration: none;
   white-space: nowrap;
   color: ${props =>
     props.disabled
-      ? props.theme.colors.dropdown.text.secondary
-      : props.theme.colors.dropdown.text.primary};
+      ? props.theme.colors.text.secondary
+      : props.theme.colors.text.primary};
   pointer-events: ${props => (props.disabled ? 'none' : 'unset')};
 
   &:hover,
   &:hover ${PlaceholderTitle} {
-    background: ${props => props.theme.colors.dropdown.background.hovered};
-    color: ${props => props.theme.colors.dropdown.text.hovered};
+    background: ${props => props.theme.colors.background.fifth};
   }
 `
 
-export const DropdownElement = styled.div<{ disabled?: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 13px 13px;
-  text-decoration: none;
-  color: ${props =>
-    props.disabled
-      ? props.theme.colors.dropdown.text.secondary
-      : props.theme.colors.dropdown.text.primary};
-  white-space: nowrap;
-  cursor: pointer;
-  pointer-events: ${props => (props.disabled ? 'none' : 'unset')};
+export const DropdownLink = styled(NavLink)`
+  ${commonStyles};
+`
 
-  &:hover {
-    background: ${props => props.theme.colors.dropdown.background.hovered};
-    color: ${props => props.theme.colors.dropdown.text.hovered};
-  }
+export const DropdownElement = styled.div`
+  ${commonStyles};
+
+  cursor: pointer;
 
   &:hover .user-icon-path {
-    fill: white;
-  }
-
-  &:hover ${InvitedBy} {
-    color: ${props => props.theme.colors.dropdown.text.hovered};
+    fill: ${props => props.theme.colors.text.onDark};
   }
 `
 
@@ -103,7 +90,7 @@ export const DropdownSeparator = styled.div`
   height: 1px;
   width: 100%;
   opacity: 0.23;
-  background-color: ${props => props.theme.colors.dropdown.separator};
+  background-color: ${props => props.theme.colors.border.primary};
 `
 
 export const DropdownButtonText = styled.div`
@@ -119,59 +106,38 @@ export const DropdownToggle = styled(ArrowDownUp)`
   margin-left: 6px;
   transform: rotate(180deg);
 
-  & path {
+  path {
     stroke: currentColor;
   }
 
   &.open {
     transform: rotate(0deg);
-
-    & path {
-      stroke: white;
-    }
   }
 `
 
 export const NotificationsBadge = styled(Badge)<DropdownProps>`
-  margin-left: 4px;
-  color: ${props =>
-    props.isOpen ? props.theme.colors.dropdown.notification.default : 'white'};
   background-color: ${props =>
-    props.isOpen ? 'white' : props.theme.colors.dropdown.notification.default};
+    props.isOpen
+      ? props.theme.colors.background.success
+      : props.theme.colors.brand.default};
+  color: ${props =>
+    props.isOpen
+      ? props.theme.colors.text.success
+      : props.theme.colors.text.onDark};
+  font-family: ${props => props.theme.font.family.sans};
   font-size: 9px;
+  margin-left: 4px;
+  max-height: 10px;
   min-width: 10px;
   min-height: 10px;
-  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 `
 
-export const DropdownButtonContainer = styled.button<DropdownProps>`
-  display: flex;
-  align-items: center;
-  padding: 7px 10px;
-  text-decoration: none;
-  border: none;
-  font-size: inherit;
-  border-radius: 4px;
+export const DropdownButtonContainer = styled(ToggleButton).attrs(
+  (props: DropdownProps) => ({
+    selected: props.isOpen,
+  })
+)<DropdownProps>`
   margin-left: 20px;
-  cursor: pointer;
-  background-color: ${props =>
-    props.isOpen ? props.theme.colors.button.primary : 'white'};
-  color: ${props => (props.isOpen ? 'white' : 'inherit')};
-
-  &:focus {
-    outline: none;
-  }
-
-  &:hover {
-    background-color: ${props => props.theme.colors.button.primary};
-    color: white;
-  }
-
-  &:hover ${NotificationsBadge} {
-    background-color: white;
-    color: ${props => props.theme.colors.button.primary};
-  }
 `
 
 interface DropdownButtonProps {

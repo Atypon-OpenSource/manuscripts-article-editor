@@ -15,7 +15,7 @@ import { styled } from '../theme/styled-components'
 
 export const FormLink = styled(Link)`
   text-transform: uppercase;
-  text-decoration: none;
-  color: ${props => props.theme.colors.global.text.link};
-  font-size: 90%;
+  color: ${props => props.theme.colors.brand.default};
+  font: inherit;
+  font-size: ${props => props.theme.font.size.normal};
 `

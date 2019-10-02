@@ -81,9 +81,9 @@ export const ParagraphStyleActions: React.FC<{
 
 const MenuButton = styled.button`
   border: none;
-  background: white;
+  background: ${props => props.theme.colors.background.primary};
   cursor: pointer;
-  margin: 0 8px;
+  margin: 0 ${props => props.theme.grid.unit * 2}px;
 
   &:focus {
     outline: none;
@@ -91,19 +91,19 @@ const MenuButton = styled.button`
 `
 
 const Menu = styled.div`
-  background: ${props => props.theme.colors.dropdown.background.default};
-  color: ${props => props.theme.colors.dropdown.text.primary};
-  border: 1px solid ${props => props.theme.colors.dropdown.border};
-  border-radius: 4px;
-  box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
+  background: ${props => props.theme.colors.background.primary};
+  color: ${props => props.theme.colors.text.primary};
+  border: 1px solid ${props => props.theme.colors.text.muted};
+  border-radius: ${props => props.theme.grid.radius.small};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
 `
 
 const MenuItem = styled.div`
-  padding: 8px;
+  padding: ${props => props.theme.grid.unit * 2}px;
   cursor: pointer;
 
   &:hover {
-    background: ${props => props.theme.colors.dropdown.background.hovered};
-    color: ${props => props.theme.colors.dropdown.text.hovered};
+    background: ${props => props.theme.colors.brand.default};
+    color: ${props => props.theme.colors.text.onDark};
   }
 `

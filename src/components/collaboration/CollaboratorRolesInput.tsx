@@ -17,7 +17,7 @@ import { RadioButton } from '../RadioButton'
 type Props = React.InputHTMLAttributes<HTMLInputElement>
 
 const Container = styled.div`
-  color: ${props => props.theme.colors.popper.text.primary};
+  color: ${props => props.theme.colors.text.primary};
 `
 
 export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({

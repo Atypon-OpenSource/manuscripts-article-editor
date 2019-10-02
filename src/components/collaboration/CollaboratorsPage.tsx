@@ -53,8 +53,8 @@ const OuterContainerModal = styled(OuterContainer)`
 const InnerContainer = styled.div`
   text-align: center;
   max-width: 480px;
-  font-size: 20px;
-  line-height: 28px;
+  font-size: ${props => props.theme.font.size.xlarge};
+  line-height: ${props => props.theme.font.lineHeight.large};
 `
 
 const Placeholder = styled.div`
@@ -68,8 +68,8 @@ const Action = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.medium};
   letter-spacing: -0.5px;
 `
 
@@ -82,28 +82,28 @@ const ActionButton = styled.button`
 `
 
 const ActionButtonText = styled.div`
-  font-weight: 500;
-  font-size: 24px;
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.medium};
   letter-spacing: -0.5px;
-  color: ${props => props.theme.colors.global.text.primary};
+  color: ${props => props.theme.colors.text.primary};
   padding-left: 10px;
 `
 
 const Message = styled.div`
   max-width: 400px;
-  font-size: 21px;
-  margin-top: 25px;
-  font-weight: 300px;
-  color: ${props => props.theme.colors.textField.placeholder.default};
+  font-size: ${props => props.theme.font.size.xlarge};
+  margin-top: ${props => props.theme.grid.unit * 6}px;
+  font-weight: ${props => props.theme.font.weight.light};
+  color: ${props => props.theme.colors.text.secondary};
 
   @media (max-width: 850px) {
-    margin-right: 20px;
-    margin-left: 20px;
+    margin-right: ${props => props.theme.grid.unit * 5}px;
+    margin-left: ${props => props.theme.grid.unit * 5}px;
     max-width: 350px;
   }
 `
 const InfoMessage = styled(Message)`
-  margin-top: 0px;
+  margin-top: 0;
 `
 
 const AddedMessage = styled(Message)`

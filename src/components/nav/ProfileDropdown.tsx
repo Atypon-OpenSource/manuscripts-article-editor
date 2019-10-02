@@ -75,6 +75,7 @@ const AvatarContainer = styled.div`
   border-radius: 50%;
   box-sizing: border-box;
 
+  svg:hover path,
   path {
     fill: currentColor;
   }
@@ -90,7 +91,7 @@ const DropdownToggle = styled(ArrowDownUp)`
 
 const styledAvatar = css`
   ${AvatarContainer}:after {
-    border: 2px solid ${props => props.theme.colors.profile.avatar.hovered};
+    border: 2px solid ${props => props.theme.colors.brand.default};
     border-radius: 50%;
     display: block;
     height: 30px;
@@ -108,20 +109,20 @@ const DropdownButton = styled.button<{
   text-decoration: none;
   border: none;
   font-size: inherit;
-  border-radius: 4px;
+  border-radius: ${props => props.theme.grid.radius.small};
   cursor: pointer;
   background: none;
   color: ${props =>
     props.isOpen
-      ? props.theme.colors.profile.avatar.hovered
-      : props.theme.colors.profile.avatar.default};
+      ? props.theme.colors.brand.default
+      : props.theme.colors.text.secondary};
 
   &:focus {
     outline: none;
   }
 
   &:hover {
-    color: ${props => props.theme.colors.profile.avatar.hovered};
+    color: ${props => props.theme.colors.brand.default};
   }
 
   ${DropdownToggle} {

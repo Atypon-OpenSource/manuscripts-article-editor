@@ -45,5 +45,5 @@ export const DatabaseError: React.FC = () => {
 }
 
 const Diagnostics = styled.details`
-  margin: 16px 0;
+  margin: ${props => props.theme.grid.unit * 4}px 0;
 `

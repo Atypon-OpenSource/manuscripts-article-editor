@@ -15,7 +15,7 @@ import {
   FormActions,
   FormError,
   FormHeader,
-  PrimarySubmitButton,
+  PrimaryButton,
   TextField,
   TextFieldGroupContainer,
 } from '@manuscripts/style-guide'
@@ -36,7 +36,7 @@ export interface SignupErrors {
 }
 
 const HeavyLink = styled.a`
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.weight.medium};
   color: inherit;
 `
 
@@ -117,7 +117,9 @@ export const SignupForm: React.FunctionComponent<
         Have an account? <FormLink to={'/login'}>Sign In</FormLink>
       </div>
 
-      <PrimarySubmitButton disabled={isSubmitting}>Sign up</PrimarySubmitButton>
+      <PrimaryButton type="submit" disabled={isSubmitting}>
+        Sign up
+      </PrimaryButton>
     </FormActions>
   </CenteredForm>
 )

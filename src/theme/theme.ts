@@ -10,305 +10,182 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Theme } from '@manuscripts/style-guide'
 import * as colors from './colors'
 import { createGlobalStyle } from './styled-components'
-import { Theme } from './types'
 
-const fontFamily =
-  '"Barlow", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif'
+const fontFamily = '"Lato", sans-serif'
 
 export const GlobalStyle = createGlobalStyle`
   body {
+    background-color: ${props => props.theme.colors.background.primary};
+    color: ${props => props.theme.colors.text.primary};
+    font-family: ${props => props.theme.font.family.sans};
     margin: 0;
-    font-family: ${fontFamily};
   }
 `
 
 export const theme: Theme = {
+  name: 'Manuscripts',
   colors: {
-    global: {
-      background: {
-        default: colors.white,
-        error: colors.chablisRed,
+    background: {
+      primary: colors.white,
+      secondary: colors.seashellGrey,
+      tertiary: colors.alabasterGrey,
+      fifth: colors.blue,
+      dark: 'rgba(0,0,0,0.5)',
+      error: colors.chablisRed,
+      info: colors.powderBlue,
+      success: colors.peppermintGreen,
+      warning: colors.butteryYellow,
+    },
+    border: {
+      error: colors.mandysRed,
+      info: colors.manuscriptsBlue,
+      success: colors.springGreen,
+      warning: colors.wheatYellow,
+      primary: colors.dustyGrey,
+      secondary: colors.mercuryGrey,
+      tertiary: 'rgba(0, 0, 0, 0.1)',
+      field: {
+        active: colors.manuscriptsBlue,
+        default: colors.warmGrey,
+        hover: colors.manuscriptsBlue,
       },
-      text: {
-        primary: colors.manuscriptsGrey,
-        secondary: colors.dustyGrey,
-        tertiary: colors.dustyGrey,
-        link: colors.manuscriptsBlue,
-        error: colors.darkCoral,
-      },
+    },
+    brand: {
+      dark: colors.jellyBeanBlue,
+      medium: colors.manuscriptsBlueDark,
+      default: colors.manuscriptsBlue,
+      light: colors.iceBlue,
+      xlight: colors.linkWaterBlue,
+      secondary: colors.manuscriptsYellow,
     },
     button: {
-      primary: colors.manuscriptsBlue,
-      secondary: colors.dustyGrey,
-      danger: colors.punchRed,
-      textOnDark: colors.white,
-    },
-    sidebar: {
-      background: {
-        default: colors.aliceBlue,
-        selected: colors.powderBlue,
+      default: {
+        background: {
+          active: 'transparent',
+          default: 'transparent',
+          hover: colors.seashellGrey,
+        },
+        border: {
+          active: 'transparent',
+          default: 'transparent',
+          hover: colors.seashellGrey,
+        },
+        color: {
+          active: colors.manuscriptsBlue,
+          default: colors.manuscriptsGrey,
+          hover: colors.manuscriptsGrey,
+        },
       },
-      text: {
-        primary: colors.manuscriptsGrey,
-        secondary: colors.dustyGrey,
-        link: colors.manuscriptsBlue,
+      primary: {
+        background: {
+          active: colors.manuscriptsBlueDark,
+          default: colors.manuscriptsBlue,
+          hover: 'transparent',
+        },
+        border: {
+          active: colors.manuscriptsBlueDark,
+          default: colors.manuscriptsBlue,
+          hover: colors.manuscriptsBlueDark,
+        },
+        color: {
+          active: colors.white,
+          default: colors.white,
+          hover: colors.manuscriptsBlueDark,
+        },
       },
-      dropLine: colors.mayaBlue,
-      label: colors.manuscriptsBlue,
-      border: colors.dustyGrey,
-    },
-    menu: {
-      text: colors.dustyGrey,
-      icon: {
-        default: colors.manuscriptsBlue,
-        selected: colors.jellyBeanBlue,
-      },
-      button: colors.manuscriptsBlue,
-    },
-    popper: {
-      background: colors.white,
-      text: {
-        primary: colors.manuscriptsGrey,
-        secondary: colors.dustyGrey,
-      },
-      separator: colors.mercuryGrey,
-      border: colors.lightGrey,
-    },
-    dropdown: {
-      background: {
-        default: colors.white,
-        hovered: colors.manuscriptsBlue,
-      },
-      separator: colors.dustyGrey,
-      text: {
-        primary: colors.manuscriptsGrey,
-        secondary: colors.dustyGrey,
-        hovered: colors.white,
-      },
-      button: {
-        primary: colors.manuscriptsBlue,
-        secondary: colors.dustyGrey,
-      },
-      notification: {
-        default: colors.deYorkGreen,
-        hovered: colors.white,
-      },
-      border: colors.lightGrey,
-    },
-    iconBar: {
-      background: {
-        default: colors.manuscriptsBlue,
-        selected: colors.white,
-      },
-    },
-    textField: {
-      placeholder: {
-        default: '#aaa',
-        hovered: '#777',
-      },
-      border: {
-        default: '#aaa',
-        error: '#d47666',
-        focused: colors.manuscriptsBlue,
-      },
-    },
-    title: {
-      placeholder: colors.dustyGrey,
-      background: {
-        hovered: colors.powderBlue,
-      },
-      border: {
-        default: 'transparent',
-        hovered: colors.manuscriptsBlue,
-      },
-    },
-    radioButton: {
-      enabled: {
-        checked: colors.manuscriptsBlue,
-        unchecked: colors.white,
-        hovered: colors.powderBlue,
-      },
-      disabled: {
-        checked: colors.dustyGrey,
-        unchecked: colors.mercuryGrey,
-      },
-      hint: colors.dustyGrey,
-      border: colors.dustyGrey,
-    },
-    dialog: {
-      text: colors.dustyGrey,
-      background: colors.white,
-      icon: colors.butteryYellow,
-      shadow: colors.altoGrey,
-    },
-    modal: {
-      overlay: `${colors.aquaHaze}aa`, // 8-digit hex color for semi-opacity
-      border: colors.lightGrey,
-      shadow: colors.altoGrey,
-      background: colors.white,
-    },
-    icon: {
-      primary: colors.manuscriptsBlue,
-    },
-    label: {
-      primary: colors.lightBlue,
-      success: colors.deYorkGreen,
-      text: colors.manuscriptsGrey,
-    },
-    alertMessage: {
-      success: {
-        background: colors.peppermintGreen,
-        text: colors.killarneyGreen,
-        border: colors.springGreen,
-        dismiss: colors.springGreen,
+      secondary: {
+        background: {
+          active: 'transparent',
+          default: 'transparent',
+          hover: 'transparent',
+        },
+        border: {
+          active: colors.mercuryGrey,
+          default: colors.mercuryGrey,
+          hover: colors.mercuryGrey,
+        },
+        color: {
+          active: colors.manuscriptsBlue,
+          default: colors.manuscriptsGrey,
+          hover: colors.manuscriptsBlue,
+        },
       },
       error: {
-        background: colors.chablisRed,
-        text: colors.punchRed,
-        border: colors.mandysRed,
-        dismiss: colors.mandysRed,
-      },
-      info: {
-        background: colors.powderBlue,
-        text: colors.jellyBeanBlue,
-        border: colors.manuscriptsBlue,
-        dismiss: colors.towerGrey,
-      },
-      warning: {
-        background: colors.butteryYellow,
-        text: colors.zestOrange,
-        border: colors.wheatYellow,
-        dismiss: colors.wheatYellow,
-      },
-    },
-    comment: {
-      date: colors.dustyGrey,
-      border: {
-        default: colors.aquaHaze,
-        selected: colors.salomieYellow,
-      },
-    },
-    profile: {
-      avatar: {
-        default: colors.dustyGrey,
-        hovered: colors.manuscriptsBlue,
-      },
-      date: colors.dustyGrey,
-    },
-    acceptInvitation: {
-      icon: colors.butteryYellow,
-    },
-    metadata: {
-      border: colors.mercuryGrey,
-    },
-    updates: {
-      back: colors.darkGrey,
-    },
-    invitation: {
-      background: {
-        hovered: colors.aliceBlue,
-      },
-      border: {
-        hovered: colors.aquaHaze,
-      },
-    },
-    authors: {
-      add: {
-        hovered: colors.salomieYellow,
-      },
-      searchIcon: colors.manuscriptsBlue,
-    },
-    projects: {
-      background: {
-        hovered: colors.aliceBlue,
-      },
-      border: {
-        hovered: colors.aquaHaze,
-      },
-    },
-    reload: {
-      icon: colors.butteryYellow,
-    },
-    shareURI: {
-      textField: {
-        border: colors.altoGrey,
-      },
-      button: {
-        border: colors.altoGrey,
-      },
-    },
-    citationSearch: {
-      status: {
-        fill: {
-          default: 'transparent',
-          selected: colors.manuscriptsBlue,
-        },
-      },
-      placeholder: colors.altoGrey,
-      more: colors.manuscriptsBlue,
-    },
-    library: {
-      sidebar: {
         background: {
-          default: colors.aliceBlue,
-          selected: colors.powderBlue,
+          active: colors.punchRed,
+          default: colors.punchRed,
+          hover: 'transparent',
         },
-        field: {
-          label: colors.altoGrey,
-          border: colors.altoGrey,
+        border: {
+          active: colors.punchRed,
+          default: colors.punchRed,
+          hover: colors.punchRed,
+        },
+        color: {
+          active: colors.white,
+          default: colors.white,
+          hover: colors.punchRed,
         },
       },
     },
-    authorName: {
-      default: colors.manuscriptsGrey,
-      placeholder: colors.dustyGrey,
-    },
-    templateSelector: {
-      item: {
-        actions: {
-          background: colors.aliceBlue,
-        },
-        container: {
-          background: {
-            default: colors.alabasterGrey,
-            selected: colors.aliceBlue,
-            hovered: colors.aliceBlue,
-          },
-          border: {
-            default: colors.seashellGrey,
-            selected: colors.powderBlue,
-            hovered: colors.powderBlue,
-          },
-        },
-      },
-      search: {
-        icon: {
-          searching: colors.powderBlue,
-        },
-      },
-      topicsList: {
-        border: colors.altoGrey,
-        background: colors.white,
-        text: colors.manuscriptsGrey,
-        hovered: colors.aliceBlue,
-        separator: colors.dustyGrey,
-      },
-    },
-    collaborators: {
-      actionButton: colors.salomieYellow,
-      addButton: colors.salomieYellow,
-      searchIcon: colors.powderBlue,
-    },
-    editor: {
-      placeholder: {
-        default: '#bbb',
-        hovered: colors.dustyGrey,
-      },
+    text: {
+      primary: colors.manuscriptsGrey,
+      secondary: colors.dustyGrey,
+      tertiary: colors.scorpionGrey,
+      muted: colors.altoGrey,
+      onDark: colors.white,
+      onLight: colors.manuscriptsGrey,
+      error: colors.punchRed,
+      info: colors.jellyBeanBlue,
+      success: colors.killarneyGreen,
+      warning: colors.zestOrange,
     },
   },
-  fontFamily,
-  radius: 8,
-  spacing: 4,
+  font: {
+    family: {
+      sans: fontFamily,
+      serif: 'serif',
+    },
+    size: {
+      xlarge: '20px',
+      large: '18px',
+      medium: '16px',
+      normal: '14px',
+      small: '12px',
+    },
+    lineHeight: {
+      large: '24px',
+      normal: '16px',
+      small: '14px',
+    },
+    weight: {
+      xbold: 900,
+      bold: 700,
+      semibold: 600,
+      medium: 500,
+      normal: 400,
+      light: 300,
+      xlight: 200,
+    },
+  },
+  grid: {
+    radius: {
+      default: '8px',
+      small: '4px',
+      rounder: '16px',
+    },
+    unit: 4,
+    mobile: 360,
+    tablet: 768,
+    smallDesktop: 1024,
+    desktop: 1280,
+    largeDesktop: 1920,
+  },
+  shadow: {
+    boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.05)',
+    dropShadow: '0 4px 9px 0 rgba(84, 83, 83, 0.3)',
+  },
 }

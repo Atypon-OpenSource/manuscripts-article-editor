@@ -21,31 +21,31 @@ import { styled } from '../theme/styled-components'
 import { withModal } from './ModalProvider'
 
 const Icon = styled(AttentionRed)`
-  margin-right: 8px;
-  color: ${props => props.theme.colors.reload.icon};
+  margin-right: ${props => props.theme.grid.unit * 2}px;
+  color: ${props => props.theme.colors.background.warning};
 `
 
 const ModalBody = styled.div`
-  border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 8px 0 ${props => props.theme.colors.modal.shadow};
-  background: #fff;
-  font-family: ${props => props.theme.fontFamily};
+  border-radius: ${props => props.theme.grid.radius.default};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${props => props.theme.colors.background.primary};
+  font-family: ${props => props.theme.font.family.sans};
 `
 
 const Header = styled.div`
   display: flex;
   align-items: center;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 16px;
+  font-size: ${props => props.theme.font.size.medium};
+  font-weight: ${props => props.theme.font.weight.medium};
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 const Body = styled.div`
   max-width: 300px;
   min-height: 100px;
-  font-size: 16px;
-  color: ${props => props.theme.colors.dialog.text};
-  padding: 0 16px;
+  font-size: ${props => props.theme.font.size.medium};
+  color: ${props => props.theme.colors.text.secondary};
+  padding: 0 ${props => props.theme.grid.unit * 4}px;
 
   & a {
     color: inherit;
@@ -53,7 +53,7 @@ const Body = styled.div`
 `
 
 const Actions = styled(ButtonGroup)`
-  padding: 16px 0;
+  padding: ${props => props.theme.grid.unit * 4}px 0;
 
   & button:not(:last-of-type) {
     margin-right: 4px;

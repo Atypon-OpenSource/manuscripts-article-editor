@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Button, PrimaryButton } from '@manuscripts/style-guide'
+import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import React, { MouseEventHandler, useContext } from 'react'
 import { Workbox } from 'workbox-window'
 import config from '../config'
@@ -102,7 +102,9 @@ export const createUpdateReadyNotification = ({
       </NotificationMessage>
     </NotificationHead>
     <NotificationActions>
-      <Button onClick={props.removeNotification}>Dismiss</Button>
+      <SecondaryButton onClick={props.removeNotification}>
+        Dismiss
+      </SecondaryButton>
       <PrimaryButton onClick={handleAccept}>Refresh</PrimaryButton>
     </NotificationActions>
   </NotificationPrompt>

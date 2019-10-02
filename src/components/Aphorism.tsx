@@ -36,16 +36,16 @@ const AphorismContainer = styled.div`
   align-items: center;
   max-width: 600px;
   text-align: center;
-  margin-top: 24px;
+  margin-top: ${props => props.theme.grid.unit * 6}px;
 `
 
 const AphorismBody = styled.div`
   font-size: 140%;
   font-style: italic;
-  margin: 16px;
-  color: #444;
+  margin: ${props => props.theme.grid.unit * 4}px;
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 const AphorismCredit = styled.div`
-  color: #777;
+  color: ${props => props.theme.colors.text.muted};
 `

@@ -27,17 +27,19 @@ const ModalMain = styled.div`
 `
 
 const ModalHeader = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 16px 8px;
+  position: absolute;
+  right: -${props => props.theme.grid.unit * 3}px;
+  top: -${props => props.theme.grid.unit * 3}px;
+  z-index: 1;
 `
 
 const ModalContainer = styled.div`
+  background: ${props => props.theme.colors.background.primary};
+  background: ${props => props.theme.colors.background.primary};
+  border-radius: ${props => props.theme.grid.radius.default};
   display: flex;
-  font-family: ${props => props.theme.fontFamily};
-  border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
-  background: #fff;
+  font-family: ${props => props.theme.font.family.sans};
+  overflow: hidden;
 `
 
 interface Props {

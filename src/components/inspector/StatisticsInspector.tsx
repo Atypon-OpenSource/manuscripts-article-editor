@@ -20,10 +20,10 @@ import { styled } from '../../theme/styled-components'
 import { InspectorSection, Subheading } from '../InspectorSection'
 
 const InspectorSubsection = styled.div`
-  margin-left: 8px;
+  margin-left: ${props => props.theme.grid.unit * 2}px
 
   :not(:first-child) {
-    margin-top: 16px;
+    margin-top: ${props => props.theme.grid.unit * 4}px
   }
 `
 

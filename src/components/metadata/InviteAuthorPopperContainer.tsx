@@ -36,7 +36,7 @@ interface State {
 }
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: 9px;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 class InviteAuthorPopperContainer extends React.Component<Props> {

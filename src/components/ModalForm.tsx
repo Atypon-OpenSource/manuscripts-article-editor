@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
+import { CloseButton } from '@manuscripts/style-guide'
 import React from 'react'
 import Modal from 'react-modal'
 import { styled } from '../theme/styled-components'
@@ -19,9 +19,8 @@ import { theme } from '../theme/theme'
 Modal.setAppElement('#root')
 
 const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: ${props => props.theme.fontFamily};
+  margin: ${props => props.theme.grid.unit * 3}px;
+  font-family: ${props => props.theme.font.family.sans};
   width: 480px;
   max-width: 70vw;
 
@@ -32,40 +31,32 @@ const ModalContainer = styled.div`
 `
 
 const ModalHeader = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding-bottom: 8px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
 `
 
 const ModalMain = styled.div`
   flex: 1;
   max-height: 70vh;
   overflow-y: auto;
-  box-shadow: 0 10px 20px 0 rgba(107, 134, 164, 0.19);
-  background: #fff;
-  border-radius: 8px;
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${props => props.theme.colors.background.primary};
+  border-radius: ${props => props.theme.grid.radius.default};
 `
 
 const ModalTitle = styled.div`
-  font-size: 24px;
-  padding: 16px;
+  font-size: ${props => props.theme.font.size.xlarge};
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 const ModalBody = styled.div`
-  padding: 16px;
-`
-
-const CloseButton = styled.button`
-  width: 45px;
-  height: 35px;
-  display: inline-block;
-  cursor: pointer;
-  background: transparent;
-  border: none;
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 export const ModalFormActions = styled.div`
-  margin-top: 16px;
+  margin-top: ${props => props.theme.grid.unit * 4}px;
   display: flex;
   justify-content: flex-end;
 `
@@ -83,7 +74,7 @@ const modalStyle = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: theme.colors.modal.overlay,
+    backgroundColor: theme.colors.brand.light,
     zIndex: 1000,
     display: 'flex',
     justifyContent: 'center',
@@ -119,9 +110,7 @@ export const ModalForm: React.FunctionComponent<Props> = ({
   >
     <ModalContainer>
       <ModalHeader>
-        <CloseButton onClick={handleClose}>
-          <CloseIconDark />
-        </CloseButton>
+        <CloseButton onClick={handleClose} />
       </ModalHeader>
       <ModalMain>
         <ModalTitle>{title}</ModalTitle>

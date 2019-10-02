@@ -31,30 +31,19 @@ import ShareProjectButton from '../collaboration/ShareProjectButton'
 import ProjectContextMenuButton from './ProjectContextMenuButton'
 
 const SidebarProject = styled.div<{ isActive: boolean }>`
-  padding: 16px;
-  margin: 0 -16px;
+  padding: ${props => props.theme.grid.unit * 4}px;
+  margin: 0 -${props => props.theme.grid.unit * 4}px;
   width: 500px;
-  border-radius: ${props => (props.isActive ? '4px' : 0)};
+  border-radius: 0;
   cursor: pointer;
 
   background-color: ${props =>
-    props.isActive
-      ? props.theme.colors.projects.background.hovered
-      : 'transparent'};
+    props.isActive ? props.theme.colors.background.secondary : 'transparent'};
 
-  border-width: 1px;
-  border-style: solid;
-  border-color: ${props =>
-    props.isActive
-      ? props.theme.colors.projects.border.hovered
-      : 'transparent'};
-  border-bottom-color: #eaecee;
+  border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
 
   &:hover {
-    background-color: ${props =>
-      props.theme.colors.projects.background.hovered};
-    border-color: ${props => props.theme.colors.projects.border.hovered};
-    border-radius: 4px;
+    background-color: ${props => props.theme.colors.background.secondary};
   }
 
   @media (max-width: 450px) {
@@ -66,55 +55,63 @@ const SidebarProjectHeader = styled.div`
   display: flex;
   align-items: center;
   @media (max-width: 450px) {
-    margin-left: 7px;
+    margin-left: ${props => props.theme.grid.unit * 2}px;
   }
 `
 
 const ProjectTitle = styled.div`
-  font-size: 19px;
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.medium};
   font-style: normal;
   flex: 1;
 `
 
 const ProjectContributors = styled.div`
-  font-size: 15px;
-  margin-top: 8px;
+  font-size: ${props => props.theme.font.size.medium};
+  margin-top: ${props => props.theme.grid.unit * 2}px;
 
   @media (max-width: 450px) {
-    margin-left: 7px;
+    margin-left: ${props => props.theme.grid.unit * 2}px;
   }
 `
 
 const PlaceholderTitle = styled(Title)`
-  color: ${props => props.theme.colors.title.placeholder};
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 const ProjectContributor = styled.span``
 
 const Edit = styled.div`
-  margin-bottom: 5px;
+  button {
+    padding: ${props => props.theme.grid.unit * 2}px;
+  }
+
+  svg {
+    g[fill] {
+      fill: ${props => props.theme.colors.brand.default};
+    }
+  }
 `
 const AcceptedLabel = styled.div`
   display: flex;
   align-items: center;
-  color: white;
-  background: ${props => props.theme.colors.label.success};
-  padding: 2px 10px;
-  border-radius: 4px;
+  color: ${props => props.theme.colors.text.onDark};
+  background: ${props => props.theme.colors.text.success};
+  padding: 2px ${props => props.theme.grid.unit * 2}px;
+  border-radius: ${props => props.theme.grid.radius.small};
   text-transform: uppercase;
-  margin-right: 7px;
+  margin-right: ${props => props.theme.grid.unit * 2}px;
 `
 const TickMarkContainer = styled.div`
   display: flex;
-  padding-right: 3px;
+  padding-right: ${props => props.theme.grid.unit}px;
 `
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   @media (max-width: 450px) {
-    margin-left: 7px;
+    margin-left: ${props => props.theme.grid.unit * 2}px;
   }
 `
 const initials = (name: BibliographicName): string =>

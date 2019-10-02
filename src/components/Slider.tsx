@@ -23,7 +23,7 @@ const SliderContainer = styled.div<{
 
   ::before,
   ::after {
-    background-color: ${props => props.theme.colors.metadata.border};
+    background-color: ${props => props.theme.colors.border.secondary};
     content: ' ';
     display: none;
     height: 64px;
@@ -65,12 +65,12 @@ const SliderButton = styled.button<{ left?: boolean; right?: boolean }>`
   outline: none;
   padding: 4px;
   position: absolute;
-  top: 8px;
+  top: ${props => props.theme.grid.unit * 2}px;
 
   &:focus,
   &:hover {
     &:not(:disabled) circle {
-      stroke: ${props => props.theme.colors.button.primary};
+      stroke: ${props => props.theme.colors.brand.default};
     }
   }
 

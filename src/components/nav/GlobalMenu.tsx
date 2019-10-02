@@ -30,8 +30,9 @@ interface Props {
 }
 
 const Container = styled.div`
-  padding: 5px 10px;
-  margin-left: 20px;
+  padding: ${props => props.theme.grid.unit}px
+    ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${props => props.theme.grid.unit * 5}px;
   user-select: none;
 
   &:hover {

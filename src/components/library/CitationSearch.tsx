@@ -14,7 +14,11 @@ import SearchIcon from '@manuscripts/assets/react/SearchIcon'
 import { crossref } from '@manuscripts/manuscript-editor'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { Button, ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
+import {
+  ButtonGroup,
+  PrimaryButton,
+  SecondaryButton,
+} from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import config from '../../config'
 import { estimateID } from '../../lib/library'
@@ -29,15 +33,16 @@ const Results = styled.div`
 `
 
 const Actions = styled(ButtonGroup)`
-  padding: 16px;
+  align-items: center;
+  box-shadow: 0 -2px 12px 0 rgba(216, 216, 216, 0.26);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 const Container = styled.div`
-  font-family: ${props => props.theme.fontFamily};
   flex: 1;
+  font-family: ${props => props.theme.font.family.sans};
 `
 
 type SearchInterface = (
@@ -245,7 +250,7 @@ export const CitationSearch: React.FC<{
         </ButtonGroup>
 
         <ButtonGroup>
-          <Button onClick={handleCancel}>Cancel</Button>
+          <SecondaryButton onClick={handleCancel}>Cancel</SecondaryButton>
 
           <PrimaryButton
             onClick={handleCiteClick}

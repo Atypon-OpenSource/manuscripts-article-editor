@@ -18,9 +18,9 @@ import { Comment, CommentField } from '@manuscripts/comment-editor'
 import { CommentAnnotation } from '@manuscripts/manuscript-transform'
 import { Keyword, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import {
-  Button,
   FormError,
-  PrimarySubmitButton,
+  PrimaryButton,
+  SecondaryButton,
 } from '@manuscripts/style-guide'
 import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
@@ -28,26 +28,28 @@ import { styled } from '../../theme/styled-components'
 
 const CommentFooter = styled.div`
   border-top: 1px solid #eee;
-  margin-top: 16px;
-  padding: 8px 8px 0;
+  margin-top: ${props => props.theme.grid.unit * 4}px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 2}px 0;
   display: flex;
   justify-content: space-between;
 `
 
 const EditingCommentFooter = styled(CommentFooter)`
   justify-content: flex-end;
-  padding: 8px 16px 0;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 4}px 0;
 `
 
 const ActionButton = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  height: 24px;
+  height: ${props => props.theme.grid.unit * 6}px;
 `
 
 const CommentContent = styled.div`
-  padding: 0 16px;
+  padding: 0 ${props => props.theme.grid.unit * 4}px;
 `
 
 const StyledCommentField = styled(CommentField)`
@@ -55,11 +57,11 @@ const StyledCommentField = styled(CommentField)`
 
   & .ProseMirror {
     cursor: text;
-    font-family: 'Barlow', sans-serif;
+    font-family: ${props => props.theme.font.family.sans};
     line-height: 1.06;
     letter-spacing: -0.2px;
-    color: #444;
-    margin: 8px 0;
+    color: ${props => props.theme.colors.text.secondary};
+    margin: ${props => props.theme.grid.unit * 2}px 0;
 
     &:focus {
       outline: none;
@@ -74,14 +76,14 @@ const StyledCommentField = styled(CommentField)`
     }
 
     & blockquote {
-      margin: 10px 0;
-      border-left: 4px solid #faed98;
+      margin: ${props => props.theme.grid.unit * 2}px 0;
+      border-left: ${props => props.theme.grid.unit}px solid #faed98;
       padding-left: 1em;
-      font-size: 12px;
+      font-size: ${props => props.theme.font.size.small};
       font-style: italic;
       line-height: 1.17;
       letter-spacing: -0.2px;
-      color: #b7b7b7;
+      color: #bababa;
     }
   }
 `
@@ -90,11 +92,11 @@ const StyledCommentViewer = styled(Comment)`
   flex: 1;
 
   & .ProseMirror {
-    font-family: 'Barlow', sans-serif;
+    font-family: ${props => props.theme.font.family.sans};
     line-height: 1.06;
     letter-spacing: -0.2px;
-    color: #666;
-    margin: 8px 0;
+    color: ${props => props.theme.colors.text.tertiary};
+    margin: ${props => props.theme.grid.unit * 2}px 0;
 
     &:focus {
       outline: none;
@@ -112,11 +114,11 @@ const StyledCommentViewer = styled(Comment)`
       margin: 10px 0;
       border-left: 4px solid #faed98;
       padding-left: 1em;
-      font-size: 12px;
+      font-size: ${props => props.theme.font.size.small};
       font-style: italic;
       line-height: 1.17;
       letter-spacing: -0.2px;
-      color: #b7b7b7;
+      color: #bababa;
     }
   }
 `
@@ -203,8 +205,10 @@ class CommentBody extends React.Component<Props, State> {
             </Field>
 
             <EditingCommentFooter>
-              <Button onClick={this.cancelEditing}>Cancel</Button>
-              <PrimarySubmitButton>Save</PrimarySubmitButton>
+              <SecondaryButton onClick={this.cancelEditing}>
+                Cancel
+              </SecondaryButton>
+              <PrimaryButton type="submit">Save</PrimaryButton>
             </EditingCommentFooter>
           </Form>
         )}

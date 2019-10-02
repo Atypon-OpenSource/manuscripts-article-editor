@@ -17,11 +17,11 @@ const CustomRadioButton = styled.div`
   position: absolute;
   top: 2px;
   left: 0;
-  width: 16px;
-  height: 16px;
-  background: white;
+  width: ${props => props.theme.grid.unit * 4}px;
+  height: ${props => props.theme.grid.unit * 4}px;
+  background: ${props => props.theme.colors.background.primary};
   border-radius: 50%;
-  border: solid 1px ${props => props.theme.colors.radioButton.border};
+  border: solid 1px ${props => props.theme.colors.border.field.default};
 
   &:after {
     position: absolute;
@@ -31,25 +31,25 @@ const CustomRadioButton = styled.div`
 `
 
 const TextHint = styled.span`
-  font-size: 14px;
+  font-size: ${props => props.theme.font.size.normal};
   line-height: normal;
   letter-spacing: -0.2px;
   text-align: left;
-  color: ${props => props.theme.colors.radioButton.hint};
+  color: ${props => props.theme.colors.text.secondary};
   clear: both;
   display: block;
-  padding-bottom: 10px;
+  padding-bottom: ${props => props.theme.grid.unit * 3}px;
 `
 
 const Control = styled.label`
-  font-size: 18px;
+  font-size: ${props => props.theme.font.size.large};
   white-space: normal;
-  font-weight: 300;
+  font-weight: ${props => props.theme.font.weight.xlight};
   position: relative;
   display: block;
   line-height: 1.06;
   letter-spacing: normal;
-  padding-left: 30px;
+  padding-left: ${props => props.theme.grid.unit * 8}px;
   cursor: pointer;
 
   & input {
@@ -58,28 +58,26 @@ const Control = styled.label`
     opacity: 0;
   }
 
-  &:hover input ~ ${CustomRadioButton} {
-    background-color: ${props =>
-      props.theme.colors.radioButton.enabled.hovered};
-  }
-
-  &:hover input:checked:enabled ~ ${CustomRadioButton} {
-    background-color: ${props =>
-      props.theme.colors.radioButton.enabled.checked};
+  &:hover
+    input
+    ~ ${CustomRadioButton},
+    &:hover
+    input:checked:enabled
+    ~ ${CustomRadioButton} {
+    border-color: ${props => props.theme.colors.brand.default};
   }
 
   & input:disabled ~ ${CustomRadioButton} {
-    background-color: ${props =>
-      props.theme.colors.radioButton.disabled.unchecked};
+    background-color: ${props => props.theme.colors.background.default};
   }
 
   & ${CustomRadioButton}:after {
     top: 2px;
     left: 2px;
-    width: 12px;
-    height: 12px;
+    width: ${props => props.theme.grid.unit * 3}px;
+    height: ${props => props.theme.grid.unit * 3}px;
     border-radius: 50%;
-    background: ${props => props.theme.colors.radioButton.enabled.checked};
+    background: ${props => props.theme.colors.brand.default};
   }
 
   & input:checked ~ ${CustomRadioButton}:after {
@@ -87,11 +85,11 @@ const Control = styled.label`
   }
 
   & input:checked:disabled ~ ${CustomRadioButton}:after {
-    background: ${props => props.theme.colors.radioButton.disabled.checked};
+    background: ${props => props.theme.colors.background.fifth};
   }
 
   & ${TextHint} {
-    margin: 4px 0 6px;
+    margin: ${props => props.theme.grid.unit}px 0;
   }
 `
 

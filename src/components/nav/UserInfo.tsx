@@ -18,9 +18,10 @@ import { SignOutMessage } from '../Messages'
 import { DropdownLink, DropdownSeparator } from './Dropdown'
 
 const Name = styled.div`
-  padding: 13px 13px;
-  color: #949494;
-  font-weight: 500;
+  padding: ${props => props.theme.grid.unit * 3}px
+    ${props => props.theme.grid.unit * 3}px;
+  color: ${props => props.theme.colors.text.secondary};
+  font-weight: ${props => props.theme.font.weight.medium};
   user-select: none;
 `
 

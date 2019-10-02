@@ -11,7 +11,7 @@
  */
 
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
+import { ButtonGroup, ToggleButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { isOwner } from '../../lib/roles'
@@ -19,31 +19,21 @@ import { styled } from '../../theme/styled-components'
 import { PopperBody } from '../Popper'
 import { InvitationForm, InvitationValues } from './InvitationForm'
 
-const LinkButton = styled(GreyButton)`
-  width: 70px;
-  text-transform: none;
-`
-
-const InviteButton = styled(PrimaryButton)`
-  width: 70px;
-  text-transform: none;
-`
-
 export const ShareProjectHeader = styled.div`
   display: flex;
-  padding-bottom: 29px;
+  padding-bottom: ${props => props.theme.grid.unit * 7}px;
   justify-content: space-between;
 `
 
 export const ShareProjectTitle = styled.div`
-  font-size: 20px;
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.medium};
   line-height: normal;
   letter-spacing: -0.9px;
-  color: ${props => props.theme.colors.popper.text.primary};
+  color: ${props => props.theme.colors.text.primary};
   display: inline-block;
-  padding-right: 20px;
-  font-family: ${props => props.theme.fontFamily};
+  padding-right: ${props => props.theme.grid.unit * 5}px;
+  font-family: ${props => props.theme.font.family.sans};
 `
 
 interface Props {
@@ -67,10 +57,12 @@ export const InvitationPopper: React.FunctionComponent<Props> = ({
     <PopperBody>
       <ShareProjectHeader>
         <ShareProjectTitle>Share Project</ShareProjectTitle>
-        <div>
-          <LinkButton onClick={() => handleSwitching(false)}>Link</LinkButton>
-          <InviteButton>Invite</InviteButton>
-        </div>
+        <ButtonGroup>
+          <ToggleButton onClick={() => handleSwitching(false)}>
+            Link
+          </ToggleButton>
+          <ToggleButton selected={true}>Invite</ToggleButton>
+        </ButtonGroup>
       </ShareProjectHeader>
       <InvitationForm
         allowSubmit={isProjectOwner}

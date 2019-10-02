@@ -13,7 +13,6 @@
 import { Tip } from '@manuscripts/style-guide'
 import React from 'react'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
-import { mercuryGrey } from '../theme/colors'
 import { styled } from '../theme/styled-components'
 
 const Wrapper = styled.div`
@@ -21,14 +20,14 @@ const Wrapper = styled.div`
 `
 
 const Bubble = styled.div`
-  width: 12px;
-  height: 12px;
+  width: ${props => props.theme.grid.unit * 3}px;
+  height: ${props => props.theme.grid.unit * 3}px;
   border-radius: 50%;
   position: absolute;
   top: -2px;
   right: -2px;
   cursor: pointer;
-  background: ${mercuryGrey};
+  background: ${props => props.theme.colors.border.secondary};
   border: 2px solid white;
 `
 

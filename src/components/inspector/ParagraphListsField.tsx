@@ -17,7 +17,7 @@ import {
   ObjectTypes,
   ParagraphStyle,
 } from '@manuscripts/manuscripts-json-schema'
-import { MiniButton } from '@manuscripts/style-guide'
+import { SecondaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
 import {
   DEFAULT_LIST_BULLET_STYLE,
@@ -209,7 +209,9 @@ export const ParagraphListsField: React.FC<{
 
       {!expanded && (
         <Expander>
-          <MiniButton onClick={toggleExpanded}>Show all levels</MiniButton>
+          <SecondaryButton mini={true} onClick={toggleExpanded}>
+            Show all levels
+          </SecondaryButton>
         </Expander>
       )}
     </>
@@ -222,9 +224,11 @@ const Row = styled.div`
 
 const Cell = styled.div`
   display: table-cell;
-  padding: 4px 8px 4px 0;
-  font-size: 14px;
-  color: #777;
+  padding: ${props => props.theme.grid.unit}px
+    ${props => props.theme.grid.unit * 2}px ${props => props.theme.grid.unit}px
+    0;
+  font-size: ${props => props.theme.font.size.normal};
+  color: ${props => props.theme.colors.text.muted};
 `
 
 const HeaderCell = styled(Cell)``
@@ -234,7 +238,8 @@ const RowHeaderCell = styled(Cell)`
 `
 
 const Expander = styled.div`
-  padding: 4px 32px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 8}px;
 `
 
 const buildListItemBulletStyle = (): ListItemBulletStyle => ({

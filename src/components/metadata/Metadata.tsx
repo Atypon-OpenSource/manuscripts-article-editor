@@ -27,6 +27,7 @@ import {
   AuthorsList,
   AuthorValues,
   CloseButton,
+  IconButton,
   StyledModal,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
@@ -46,16 +47,17 @@ import { TitleFieldContainer } from './TitleFieldContainer'
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: ${props => props.theme.fontFamily};
+  font-family: ${props => props.theme.font.family.sans};
   width: 800px;
   max-width: 100%;
   margin: auto;
 `
 
 const ModalHeader = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 16px 8px;
+  position: absolute;
+  right: -12px;
+  top: -12px;
+  z-index: 1;
 `
 
 const TitleContainer = styled.div`
@@ -65,10 +67,12 @@ const TitleContainer = styled.div`
 `
 
 const AuthorsContainer = styled.div`
-  margin-top: 16px;
+  margin-top: ${props => props.theme.grid.unit * 4}px;
 `
 
-const ExpanderButton = styled.button`
+const ExpanderButton = styled(IconButton).attrs(props => ({
+  size: 20,
+}))`
   border: none;
   background: none;
   cursor: pointer;

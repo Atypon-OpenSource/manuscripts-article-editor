@@ -43,38 +43,39 @@ import CollaboratorSettingsButton from './CollaboratorSettingsButton'
 import InvitedCollaboratorSettingsButton from './InvitedCollaboratorSettingsButton'
 
 const CollaboratorInitial = styled.span`
-  margin-right: 4px;
-  font-weight: 300;
+  margin-right: ${props => props.theme.grid.unit}px;
+  font-weight: ${props => props.theme.font.weight.light};
 `
 
 const CollaboratorName = styled.div`
   font-size: 120%;
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  font-weight: 500;
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.medium};
 `
 
 const CollaboratorRole = styled.div`
-  font-size: 14px;
-  color: ${props => props.theme.colors.sidebar.text.secondary};
+  font-size: ${props => props.theme.font.size.normal};
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 const AddCollaboratorButton = styled.button`
   display: flex;
-  margin: 8px 0px 8px 3px;
-  font-size: 14px;
+  margin: ${props => props.theme.grid.unit * 2}px 0px
+    ${props => props.theme.grid.unit * 2}px ${props => props.theme.grid.unit}px;
+  font-size: ${props => props.theme.font.size.normal};
   align-items: center;
   cursor: pointer;
   background: transparent;
   border: none;
-  padding: 2px 8px;
+  padding: 2px ${props => props.theme.grid.unit * 2}px;
 `
 
 const AddCollaboratorText = styled.div`
-  padding-left: 10px;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const CollaboratorData = styled.div`
-  padding-left: 9px;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const UserDataContainer = styled.div`
@@ -84,8 +85,8 @@ const UserDataContainer = styled.div`
 
 const Invited = styled.div`
   display: flex;
-  font-size: 12px;
-  color: ${props => props.theme.colors.sidebar.label};
+  font-size: ${props => props.theme.font.size.small};
+  color: ${props => props.theme.colors.brand.default};
 `
 
 const InvitedContainer = styled.div`
@@ -94,13 +95,12 @@ const InvitedContainer = styled.div`
 `
 
 const StyledSidebar = styled(Sidebar)`
-  background: white;
-  border-right: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
+  background: ${props => props.theme.colors.background.primary};
+  border-right: 1px solid ${props => props.theme.colors.background.info};
 `
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: 9px;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 interface Props {

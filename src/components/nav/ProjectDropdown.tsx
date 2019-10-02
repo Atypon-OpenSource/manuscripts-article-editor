@@ -19,9 +19,9 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import {
   Avatar,
-  Button,
   PrimaryButton,
   ProjectNotificationIcon,
+  SecondaryButton,
   TickMarkIcon,
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
@@ -69,36 +69,22 @@ const ProjectNameContainer = styled.div`
 `
 
 const AcceptButton = styled(PrimaryButton)`
-  font-size: 14px;
-  font-weight: 500;
-  background-color: ${props => props.theme.colors.dropdown.button.primary};
-  padding: 0 8px;
-
-  &:hover {
-    color: white;
-    border-color: white;
-  }
+  line-height: 1;
+  font-size: ${props => props.theme.font.size.normal};
 `
 
-const RejectButton = styled(Button)`
-  font-size: 14px;
-  font-weight: 500;
-  padding: 0 8px;
-  color: ${props => props.theme.colors.dropdown.button.secondary};
-
-  &:hover {
-    color: white;
-    border-color: white;
-  }
+const RejectButton = styled(SecondaryButton)`
+  line-height: 1;
+  font-size: ${props => props.theme.font.size.normal};
 `
 
 const AcceptedLabel = styled.div`
   display: flex;
   align-items: center;
-  color: white;
-  background: ${props => props.theme.colors.label.success};
+  color: ${props => props.theme.colors.text.onDark};
+  background: ${props => props.theme.colors.brand.default};
   padding: 2px 10px;
-  border-radius: 4px;
+  border-radius: ${props => props.theme.grid.radius.small};
   text-transform: uppercase;
 `
 
@@ -151,7 +137,7 @@ export const InvitationDropdownSection: React.FunctionComponent<
   <DropdownElement>
     <ProjectNameContainer>
       <DropdownWithNotificationIcon>
-        <ProjectNotificationIcon color={theme.colors.icon.primary} />
+        <ProjectNotificationIcon color={theme.colors.brand.default} />
       </DropdownWithNotificationIcon>
       <ButtonsContainer>
         <Title value={invitation.containerTitle || 'Untitled Invitation'} />
@@ -161,7 +147,7 @@ export const InvitationDropdownSection: React.FunctionComponent<
             <Avatar
               size={20}
               src={invitingUserProfile.avatar}
-              color={theme.colors.icon.primary}
+              color={theme.colors.brand.default}
             />
           </AvatarContainer>
         </InvitedBy>
@@ -199,7 +185,7 @@ export const ProjectDropdownSection: React.FunctionComponent<
   >
     <ProjectNameContainer>
       <DropdownIcon>
-        <ProjectIcon color={theme.colors.icon.primary} />
+        <ProjectIcon color={theme.colors.brand.default} />
       </DropdownIcon>
       {project.title ? (
         <Title value={project.title} />

@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Button } from '@manuscripts/style-guide'
+import { SecondaryButton } from '@manuscripts/style-guide'
 import React, { useContext, useEffect } from 'react'
 import {
   NotificationComponent,
@@ -40,7 +40,9 @@ export const createNotification = ({
       </NotificationMessage>
     </NotificationHead>
     <NotificationActions>
-      <Button onClick={props.removeNotification}>Dismiss</Button>
+      <SecondaryButton onClick={props.removeNotification}>
+        Dismiss
+      </SecondaryButton>
     </NotificationActions>
   </NotificationPrompt>
 )

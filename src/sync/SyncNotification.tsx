@@ -11,7 +11,7 @@
  */
 
 import AttentionOrange from '@manuscripts/assets/react/AttentionOrange'
-import { Button, PrimaryButton } from '@manuscripts/style-guide'
+import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import {
   NotificationActions,
@@ -54,7 +54,7 @@ const SyncNotification: React.FC<Props> = ({
         </NotificationMessage>
       </NotificationHead>
       <NotificationActions>
-        <Button onClick={buttonAction}>{buttonText}</Button>
+        <SecondaryButton onClick={buttonAction}>{buttonText}</SecondaryButton>
         {primaryButtonText && primaryButtonAction && (
           <PrimaryButton onClick={primaryButtonAction}>
             {primaryButtonText}

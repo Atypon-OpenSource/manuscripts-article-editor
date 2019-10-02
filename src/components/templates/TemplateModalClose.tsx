@@ -14,54 +14,6 @@ import { CloseButton } from '@manuscripts/style-guide'
 import React, { Component } from 'react'
 import { styled } from '../../theme/styled-components'
 
-const StyledCloseButton = styled(CloseButton)`
-  border: 5px solid white;
-  border-radius: 50%;
-  box-sizing: border-box;
-  padding: 0;
-  background: #ebebeb;
-  height: 40px;
-  width: 40px;
-  position: relative;
-  text-indent: -99999px;
-
-  transition: border-color 0.25s;
-
-  &:focus,
-  &:hover {
-    border-color: ${props => props.theme.colors.button.primary};
-    ::before,
-    ::after {
-      background-color: ${props => props.theme.colors.button.primary};
-    }
-  }
-
-  &:active {
-    border-color: ${props => props.theme.colors.button.primary};
-    ::before,
-    ::after {
-      background-color: ${props => props.theme.colors.button.primary};
-    }
-  }
-
-  ::before,
-  ::after {
-    background-color: #bababa;
-    border-radius: 2px;
-    content: ' ';
-    display: block;
-    height: 14px;
-    transform: rotate(-45deg);
-    width: 2px;
-    position: absolute;
-    top: calc(50% - 7px);
-    left: calc(50% - 1px);
-  }
-  ::after {
-    transform: rotate(45deg);
-  }
-`
-
 const ModalHeader = styled.div`
   position: absolute;
   right: 0;
@@ -79,9 +31,7 @@ export class TemplateModalClose extends Component<Props> {
 
     return (
       <ModalHeader>
-        <StyledCloseButton onClick={handleComplete}>
-          Close Modal
-        </StyledCloseButton>
+        <CloseButton onClick={handleComplete}>Close Modal</CloseButton>
       </ModalHeader>
     )
   }

@@ -16,6 +16,7 @@ import {
   AlertMessageType,
   AuthorAffiliation,
   AuthorsDND,
+  IconTextButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
@@ -29,39 +30,21 @@ const AddAuthorIcon = styled.span`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 0 16px 0 18px;
+  margin: 0 ${props => props.theme.grid.unit * 4}px 0
+    ${props => props.theme.grid.unit * 5}px;
 `
-
-const AddButton = styled.button`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.2px;
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-
-  &:hover {
-    color: #000;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:hover use {
-    fill: ${props => props.theme.colors.authors.add.hovered};
+const AddButton = styled(IconTextButton)`
+  svg {
+    max-height: none;
+    max-width: none;
   }
 `
 
 const Sidebar = styled.div`
-  background-color: ${props => props.theme.colors.sidebar.background.default};
-  border-top-left-radius: ${props => props.theme.radius}px;
-  border-bottom-left-radius: ${props => props.theme.radius}px;
-  padding-bottom: 16px;
+  background-color: ${props => props.theme.colors.background.info};
+  border-top-left-radius: ${props => props.theme.grid.radius.default}px;
+  border-bottom-left-radius: ${props => props.theme.grid.radius.default}px;
+  padding-bottom: ${props => props.theme.grid.unit * 4}px;
   height: 100%;
   box-sizing: border-box;
   overflow-y: auto;
@@ -73,28 +56,27 @@ const SidebarHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: ${props => props.theme.grid.unit * 4}px
+    ${props => props.theme.grid.unit * 5}px;
 `
 
 const SidebarTitle = styled.div`
   font-size: 24px;
-  font-weight: 600;
+  font-weight: ${props => props.theme.font.weight.semibold};
   letter-spacing: -0.5px;
-  color: ${props => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.text.primary};
 `
 
 const SidebarAction = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: ${props => props.theme.grid.unit * 5}px;
+  margin-bottom: ${props => props.theme.grid.unit * 5}px;
 `
-const AddCollaboratorText = styled.div`
-  padding-left: 14px;
-`
+const AddCollaboratorText = styled.div``
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: 9px;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 interface Props {

@@ -16,7 +16,7 @@ import {
   FormError,
   FormErrors,
   FormHeader,
-  PrimarySubmitButton,
+  PrimaryButton,
   TextField,
   TextFieldGroupContainer,
 } from '@manuscripts/style-guide'
@@ -45,11 +45,11 @@ const Container = styled.div`
 
 const RecoverLink = styled(Link)`
   text-decoration: underline;
-  color: ${props => props.theme.colors.global.text.error};
+  color: ${props => props.theme.colors.text.error};
 `
 
 const HeavyLink = styled.a`
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.weight.medium};
   color: inherit;
 `
 
@@ -132,9 +132,9 @@ export const LoginForm: React.FunctionComponent<
       </ManuscriptLinks>
 
       <div>
-        <PrimarySubmitButton disabled={isSubmitting}>
+        <PrimaryButton type="submit" disabled={isSubmitting}>
           Sign in
-        </PrimarySubmitButton>
+        </PrimaryButton>
       </div>
     </FormActions>
   </CenteredForm>

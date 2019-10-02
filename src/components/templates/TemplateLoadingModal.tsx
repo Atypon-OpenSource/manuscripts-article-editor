@@ -17,42 +17,41 @@ import { styled } from '../../theme/styled-components'
 import { IndicatorKind, ProgressIndicator } from '../ProgressIndicator'
 
 const ModalBody = styled.div`
-  flex: 1;
+  border-radius: ${props => props.theme.grid.radius.default};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${props => props.theme.colors.background.primary};
   display: flex;
+  flex: 1;
   flex-direction: column;
   height: 70vh;
   width: 70vw;
   max-width: 893px;
   min-width: 600px;
-  border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
-  background: ${props => props.theme.colors.modal.background};
 `
 
 const ModalMain = styled.div`
+  align-items: center;
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  justify-content: center;
   overflow-y: auto;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
 `
 
 const ModalStatus = styled.div`
-  color: #777;
-  font-size: 120%;
-  display: flex;
   align-items: center;
+  color: ${props => props.theme.colors.text.secondary};
+  display: flex;
+  font-size: 120%;
   justify-content: center;
 `
 
 const ModalHeader = styled.div`
-  display: flex;
-  flex-shrink: 0;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 16px 8px;
+  position: absolute;
+  right: -${props => props.theme.grid.unit * 3}px;
+  top: -${props => props.theme.grid.unit * 3}px;
+  z-index: 1;
 `
 
 interface Props {

@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { MiniButton, PrimaryMiniButton } from '@manuscripts/style-guide'
+import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
 import { ChromePicker, ColorResult } from 'react-color'
 import { Manager, Popper, Reference } from 'react-popper'
@@ -73,11 +73,13 @@ export const ColorSelector: React.FC<{
                 />
 
                 <Actions>
-                  <PrimaryMiniButton onClick={handleSave}>
+                  <PrimaryButton mini={true} onClick={handleSave}>
                     Add color
-                  </PrimaryMiniButton>
+                  </PrimaryButton>
 
-                  <MiniButton onClick={handleCancel}>Cancel</MiniButton>
+                  <SecondaryButton mini={true} onClick={handleCancel}>
+                    Cancel
+                  </SecondaryButton>
                 </Actions>
               </PopperContent>
             </div>
@@ -95,11 +97,11 @@ const Actions = styled.div`
 `
 
 const PopperContent = styled.div`
-  border: 1px solid ${props => props.theme.colors.dropdown.border};
-  border-radius: 4px;
-  box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
-  background: ${props => props.theme.colors.dropdown.background.default};
-  padding: 8px;
+  border: 1px solid ${props => props.theme.colors.text.muted};
+  border-radius: ${props => props.theme.grid.radius.small};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${props => props.theme.colors.background.primary};
+  padding: ${props => props.theme.grid.unit * 2}px;
 
   .chrome-picker {
     box-shadow: none !important;
@@ -113,15 +115,15 @@ const AddButton = styled.button`
   background: transparent;
   border: 1px solid transparent;
   border-radius: 50%;
-  width: 16px;
-  height: 16px;
+  width: ${props => props.theme.grid.unit * 4}px;
+  height: ${props => props.theme.grid.unit * 4}px;
   margin: 2px;
   cursor: pointer;
   line-height: 0;
-  font-size: 16px;
+  font-size: ${props => props.theme.font.size.medium};
 
   :hover {
-    border-color: #ddd;
+    border-color: ${props => props.theme.colors.border.secondary};
   }
 
   :focus {

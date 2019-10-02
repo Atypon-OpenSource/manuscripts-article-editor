@@ -13,7 +13,7 @@
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { Button } from '@manuscripts/style-guide'
+import { SecondaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useState } from 'react'
 import config from '../../config'
 import { useDebounce } from '../../hooks/use-debounce'
@@ -21,30 +21,31 @@ import { styled } from '../../theme/styled-components'
 import { SearchResults } from './SearchResults'
 
 const ResultsSection = styled.div`
-  margin: 8px 0;
+  margin: ${props => props.theme.grid.unit * 2}px 0;
 `
 
 const SearchSource = styled.div`
-  margin: 0 16px 8px;
-  color: #777;
+  margin: 0 ${props => props.theme.grid.unit * 4}px
+    ${props => props.theme.grid.unit * 2}px;
+  color: ${props => props.theme.colors.text.secondary};
   cursor: pointer;
 
   &:hover {
-    color: #777;
+    color: ${props => props.theme.colors.text.muted};
   }
 `
 
-const MoreButton = styled(Button)`
+const MoreButton = styled(SecondaryButton)`
   font-size: inherit;
   text-transform: none;
   text-decoration: underline;
   margin-left: 42px;
-  color: ${props => props.theme.colors.citationSearch.more};
+  color: ${props => props.theme.colors.button.default.color.default};
 `
 
 const DropdownChevron = styled(ArrowDownBlack)`
-  margin-right: 16px;
-  width: 24px;
+  margin-right: ${props => props.theme.grid.unit * 4}px;
+  width: ${props => props.theme.grid.unit * 6}px;
 `
 
 export const CitationSearchSection: React.FC<{

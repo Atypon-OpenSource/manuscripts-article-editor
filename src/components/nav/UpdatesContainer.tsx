@@ -15,24 +15,23 @@ import axios, { CancelTokenSource } from 'axios'
 import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import config from '../../config'
-import { manuscriptsBlue } from '../../theme/colors'
 import { styled } from '../../theme/styled-components'
 import { newestFirst, Popup, Post, Topic, Updates } from './Updates'
 
 const Wrapper = styled.div`
   position: relative;
-  margin: 0 12px;
+  margin: 0 ${props => props.theme.grid.unit * 3}px;
 `
 
 const Bubble = styled.div`
-  width: 12px;
-  height: 12px;
+  width: ${props => props.theme.grid.unit * 3}px 
+  height: ${props => props.theme.grid.unit * 3}px 
   border-radius: 50%;
   position: absolute;
   top: -2px;
   right: -2px;
   cursor: pointer;
-  background: ${manuscriptsBlue};
+  background: ${props => props.theme.colors.brand.default};
   border: 2px solid white;
 `
 
@@ -45,7 +44,7 @@ const Icon = styled.div`
   cursor: pointer;
 
   &:hover ${StyledBellIcon} g {
-    fill: ${manuscriptsBlue};
+    fill: ${props => props.theme.colors.brand.default};
   }
 `
 

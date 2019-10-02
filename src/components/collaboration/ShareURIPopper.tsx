@@ -14,10 +14,10 @@ import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import {
   AlertMessage,
   AlertMessageType,
-  Button,
-  GreyButton,
-  PrimaryButton,
+  ButtonGroup,
+  SecondaryButton,
   TextField,
+  ToggleButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import { isOwner } from '../../lib/roles'
@@ -27,64 +27,43 @@ import { RadioButton } from '../RadioButton'
 import { ShareProjectHeader, ShareProjectTitle } from './InvitationPopper'
 
 const URIFieldContainer = styled.div`
+  border: 1px solid ${props => props.theme.colors.border.field.default};
+  border-radius: ${props => props.theme.grid.radius.small};
   display: flex;
-  margin-bottom: 21px;
+  flex: 1;
+  margin-bottom: ${props => props.theme.grid.unit * 5}px;
 
   & ${TextField} {
-    border-color: ${props => props.theme.colors.shareURI.textField.border};
-    border-right: transparent;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-    width: 78%;
+    border: none;
   }
 
-  & ${Button} {
-    color: ${props => props.theme.colors.button.primary};
-    border-color: ${props => props.theme.colors.shareURI.button.border};
-    border-width: thin;
-    border-left: transparent;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    width: 22%;
-  }
-
-  & ${Button}:active {
-    color: ${props => props.theme.colors.button.secondary};
-    background-color: white;
+  & ${SecondaryButton} {
+    border: none;
+    color: ${props => props.theme.colors.brand.default};
   }
 `
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: 9px;
-`
-
-const LinkButton = styled(PrimaryButton)`
-  width: 70px;
-  text-transform: none;
-`
-
-const InviteButton = styled(GreyButton)`
-  width: 70px;
-  text-transform: none;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 export const MiniText = styled.span`
-  font-size: 14px;
+  font-size: ${props => props.theme.font.size.normal};
   letter-spacing: -0.3px;
   text-align: left;
-  color: ${props => props.theme.colors.popper.text.secondary};
+  color: ${props => props.theme.colors.text.secondary};
   clear: both;
   display: block;
-  margin-bottom: 11px;
+  margin-bottom: ${props => props.theme.grid.unit * 3}px;
 `
 
 const ClickableText = styled.div`
-  font-weight: 600;
+  font-weight: ${props => props.theme.font.weight.semibold};
   text-decoration: underline;
   cursor: pointer;
   display: flex;
   align-items: center;
-  margin-left: 8px;
+  margin-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 interface ShareURIFieldProps {
@@ -118,7 +97,7 @@ const ShareURIField: React.FunctionComponent<ShareURIFieldProps> = ({
           value={URI}
           style={{ backgroundColor: 'white' }}
         />
-        <Button onClick={handleCopy}>COPY</Button>
+        <SecondaryButton onClick={handleCopy}>COPY</SecondaryButton>
       </URIFieldContainer>
     )}
   </React.Fragment>
@@ -201,12 +180,12 @@ export const ShareURIPopper: React.FunctionComponent<Props> = ({
     <PopperBody>
       <ShareProjectHeader>
         <ShareProjectTitle>Share Project</ShareProjectTitle>
-        <div>
-          <LinkButton>Link</LinkButton>
-          <InviteButton onClick={() => handleSwitching(true)}>
+        <ButtonGroup>
+          <ToggleButton selected={true}>Link</ToggleButton>
+          <ToggleButton onClick={() => handleSwitching(true)}>
             Invite
-          </InviteButton>
-        </div>
+          </ToggleButton>
+        </ButtonGroup>
       </ShareProjectHeader>
       {!isProjectOwner || dataLoaded ? (
         <React.Fragment>

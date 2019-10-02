@@ -34,7 +34,7 @@ import { ProjectsDropdown } from './ProjectsDropdown'
 import ProjectsMenu from './ProjectsMenu'
 
 const Container = styled.div`
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.weight.medium};
 `
 export interface InvitationDataContainer {
   _id: string

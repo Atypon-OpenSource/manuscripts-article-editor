@@ -1594,7 +1594,7 @@
     "@phosphor/disposable" "^1.1.2"
     "@phosphor/signaling" "^1.2.2"
 
-"@manuscripts/assets@^0.3.19", "@manuscripts/assets@^0.3.24", "@manuscripts/assets@^0.3.9":
+"@manuscripts/assets@^0.3.9":
   version "0.3.24"
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.24.tgz#1a3a4666af3f84d2e7b1e3c7b824651a28c7895d"
   integrity sha512-gjQpPTFk/mk6H7dLLj5EfWrzLYh2FElrYRbFwWGKXN+3cUtopg1IYBB9UVDnd60Uh/vQnufw5HhgofQT/S74iQ==
@@ -1603,6 +1603,11 @@
   version "0.4.1"
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.4.1.tgz#3aafbcd5df2c706358fa5508369981534119a8ee"
   integrity sha512-pG77YvrElOFJ9KnMuC06X5etfNt0LcvdTiGwCuXLuGQWDM/N1MIC0FwDaPCxR3QlqfvCljHbhJJv4iDlCrNPUg==
+
+"@manuscripts/assets@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.2.tgz#273d307b681e83041194fc581eb530402ab0dc53"
+  integrity sha512-XwwbM2AjVHNNAiqi4fgH/MO9By+9FFC0QVgZIJPwxnV+Eun1D7KFAQ8x7bnqjPOG6cAp47zIaQps8wY+i8M3UQ==
 
 "@manuscripts/comment-editor@^0.1.1":
   version "0.1.1"
@@ -1628,10 +1633,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.42.0":
-  version "0.42.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.42.0.tgz#2a2089e615062c7f45d70060d6a6b42bb4a29ea2"
-  integrity sha512-ChA6oQeHU3icnD4FiakGRWIL+Q9o+TURmsmhRHN47/NuJj693K9Zs48n4tncg+zYcBgYUktjw+fKEXm8RYmDjQ==
+"@manuscripts/manuscript-editor@^0.43.0":
+  version "0.43.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.43.0.tgz#fbd2ecadc50bb02011d58773c622de356fd42472"
+  integrity sha512-qf1ZSx49yFdspk4M5oJANRz6m9NH900GvXj3Kl902gX2TYPJxZvAOQZL8pNXNWUg2My2otBY0SreEZKzzEmNXA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1750,12 +1755,12 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.10.1":
-  version "0.10.1"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.10.1.tgz#c08af83276a882a0816bc1a5400bacd0209c5a60"
-  integrity sha512-MGUSBgp/NybauuBaA7TNbaDUdfWz5jYQh07EyexrYtvLxRo0PcKBNCCgdqoyipIx3FeoBucd6U0Z3O9BPdqhbw==
+"@manuscripts/style-guide@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.11.0.tgz#ba4784653f2312a48f1cd7da0bb26e9760a4f14b"
+  integrity sha512-OukTrLlwEWo0IXAMZIz756GCfn2WuegxD2sSwInfjoLnfk/Yj931JRdtEi1p06nZ57gt76hmumTINwEa25jfHA==
   dependencies:
-    "@manuscripts/assets" "^0.3.19"
+    "@manuscripts/assets" "^0.5.2"
     lodash-es "^4.17.11"
     react-dnd "^7.4.3"
     react-modal "^3.8.1"
@@ -18189,10 +18194,10 @@ typedarray@^0.0.6:
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeface-barlow@^0.0.71:
-  version "0.0.71"
-  resolved "https://registry.npmjs.org/typeface-barlow/-/typeface-barlow-0.0.71.tgz#047396d800e19b33904ff820aec9e73d6f0c8e0d"
-  integrity sha512-dsDw7lOtAXUSe2kj6s9M2DVS5QMeIw+pOwd/Y3cgaMeB77mIIqWJOFIzEVqCGhrIDUpFbOCeo0kZxqGDZXM+sQ==
+typeface-lato@^0.0.75:
+  version "0.0.75"
+  resolved "https://registry.npmjs.org/typeface-lato/-/typeface-lato-0.0.75.tgz#8aa11c5611dc38416837c089b265a2abd1f7dd31"
+  integrity sha512-iA5uJD4PSTyIE4BDiSOexQeXkDkiJuX4Hu3wh3saJ06EB2TvJayab1Lbbmqq2je/LQv7KCQZHZmC0k4hedd8sw==
 
 typescript@3.5.2:
   version "3.5.2"

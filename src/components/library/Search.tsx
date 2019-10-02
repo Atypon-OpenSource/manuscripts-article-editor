@@ -13,7 +13,7 @@
 import { styled } from '../../theme/styled-components'
 
 export const Search = styled.input`
-  padding: 8px;
+  padding: ${props => props.theme.grid.unit * 2}px;
   flex: 1;
   font-size: 1em;
   border: none;
@@ -26,5 +26,6 @@ export const Search = styled.input`
 export const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 12px 8px;
+  padding: ${props => props.theme.grid.unit * 3}px
+    ${props => props.theme.grid.unit * 2}px;
 `

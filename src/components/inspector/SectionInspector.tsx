@@ -197,6 +197,6 @@ export const SectionInspector: React.FC<{
 }
 
 const StyledTitle = styled(Title)`
-  font-size: 16px;
+  font-size: ${props => props.theme.font.size.medium};
   margin: 4px 0;
 `

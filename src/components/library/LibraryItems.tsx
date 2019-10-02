@@ -19,7 +19,6 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { fullAuthorsString, issuedYear } from '../../lib/library'
-import { manuscriptsBlue } from '../../theme/colors'
 import { styled } from '../../theme/styled-components'
 import { Search, SearchContainer } from './Search'
 
@@ -37,13 +36,13 @@ const Items = styled.div`
 
 const Item = styled.div`
   cursor: pointer;
-  padding: 12px;
-  border-bottom: 1px solid #eee;
+  padding: ${props => props.theme.grid.unit * 3}px;
+  border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
   transition: background-color 0.25s;
   display: flex;
 
   &:hover {
-    background-color: #f6f6f6;
+    background-color: ${props => props.theme.colors.background.tertiary};
   }
 `
 
@@ -52,37 +51,37 @@ const ItemMetadata = styled.div`
 `
 
 const Metadata = styled.div`
-  margin-top: 4px;
-  color: #777;
+  margin-top: ${props => props.theme.grid.unit}px;
+  color: ${props => props.theme.colors.text.muted};
   flex: 1;
 `
 
 const Collections = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-top: 8px;
+  margin-top: ${props => props.theme.grid.unit * 2}px;
 `
 
 const Collection = styled.span`
-  border-radius: 8px;
+  border-radius: ${props => props.theme.grid.radius.default};
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
-  margin-right: 8px;
-  background-color: #eee;
+  padding: 2px ${props => props.theme.grid.unit * 2}px;
+  margin-right: ${props => props.theme.grid.unit * 2}px;
+  background-color: ${props => props.theme.colors.border.secondary};
   font-size: 90%;
 `
 
 const ActiveCollection = styled(Collection)`
-  background-color: ${manuscriptsBlue};
-  color: white;
+  background-color: ${props => props.theme.colors.brand.default};
+  color: ${props => props.theme.colors.text.onDark};
 `
 
 const ItemIcon = styled.div`
   flex-shrink: 1;
-  margin-right: 16px;
-  height: 24px;
-  width: 24px;
+  margin-right: ${props => props.theme.grid.unit * 4}px;
+  height: ${props => props.theme.grid.unit * 6}px;
+  width: ${props => props.theme.grid.unit * 6}px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -91,7 +90,7 @@ const ItemIcon = styled.div`
 
 const StyledReferenceLibraryIcon = styled(ReferenceLibraryIcon)`
   path {
-    stroke: #ccc;
+    stroke: ${props => props.theme.colors.text.muted};
   }
 `
 
@@ -100,7 +99,7 @@ const EmptyItems = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 16px;
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 export const LibraryItems: React.FC<{

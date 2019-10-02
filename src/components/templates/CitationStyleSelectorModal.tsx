@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
 import { CloseButton } from '@manuscripts/style-guide'
 import fuzzysort from 'fuzzysort'
@@ -32,15 +31,15 @@ const FadingEdge = styled.div`
   bottom: 0px;
   left: 0;
   right: 0;
-  height: 30px;
+  height: ${props => props.theme.grid.unit * 8}px;
   background-image: linear-gradient(
     transparent,
-    ${props => props.theme.colors.modal.background}
+    ${props => props.theme.colors.background.primary}
   );
 `
 
 const TemplateSearch = styled.div`
-  margin-left: 8px;
+  margin-left: ${props => props.theme.grid.unit * 2}px;
   flex-shrink: 0;
 `
 
@@ -49,27 +48,26 @@ const ModalContainer = styled.div`
   max-width: 70vw;
   min-width: 600px;
   display: flex;
-  background: white;
+  background: ${props => props.theme.colors.background.primary};
   opacity: 1;
-  font-family: ${props => props.theme.fontFamily};
-  border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
+  font-family: ${props => props.theme.font.family.sans};
+  border-radius: ${props => props.theme.grid.radius.default};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
 `
 
 const ModalHeader = styled.div`
-  display: flex;
-  flex-shrink: 0;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 16px 8px;
+  position: absolute;
+  right: -${props => props.theme.grid.unit * 9}px;
+  top: -${props => props.theme.grid.unit * 3}px;
+  z-index: 1;
 `
 
 const ModalSidebar = styled.div`
   display: flex;
   flex-direction: column;
-  border-top-left-radius: ${props => props.theme.radius}px;
-  border-bottom-left-radius: ${props => props.theme.radius}px;
-  background-color: ${props => props.theme.colors.sidebar.background.default};
+  border-top-left-radius: ${props => props.theme.grid.radius.default}px;
+  border-bottom-left-radius: ${props => props.theme.grid.radius.default}px;
+  background-color: ${props => props.theme.colors.background.info};
 `
 
 const ModalMain = styled.div`
@@ -80,8 +78,8 @@ const ModalMain = styled.div`
 `
 
 const ModalBody = styled.div`
-  display: flex;
-  flex-direction: column;
+  margin: ${props => props.theme.grid.unit * 3}px;
+  position: relative;
 `
 
 interface Props {
@@ -119,9 +117,7 @@ export class CitationStyleSelectorModal extends Component<Props, State> {
     return (
       <ModalBody>
         <ModalHeader>
-          <CloseButton onClick={() => handleComplete()}>
-            <CloseIconDark />
-          </CloseButton>
+          <CloseButton onClick={() => handleComplete()} />
         </ModalHeader>
         <ModalContainer>
           <ModalSidebar />

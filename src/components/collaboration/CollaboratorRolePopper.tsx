@@ -14,8 +14,8 @@ import {
   AlertMessage,
   AlertMessageType,
   ButtonGroup,
-  GreyButton,
   PrimaryButton,
+  TertiaryButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
@@ -80,9 +80,9 @@ export const CollaboratorRolePopper: React.FunctionComponent<Props> = ({
     />
     <SeparatorLine />
     <ButtonGroup>
-      <GreyButton onClick={switchMode} disabled={isOnlyOwner}>
+      <TertiaryButton onClick={switchMode} disabled={isOnlyOwner}>
         {removeText}
-      </GreyButton>
+      </TertiaryButton>
       {selectedMode === 'invite' && (
         <PrimaryButton onClick={resendInvitation}>Resend</PrimaryButton>
       )}

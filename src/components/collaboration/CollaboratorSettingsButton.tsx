@@ -34,7 +34,7 @@ const AddIconButton = styled(IconButton)`
 
 const SettingsInvertedIcon = styled(SettingsInverted)`
   g {
-    stroke: ${props => props.theme.colors.icon.primary};
+    stroke: ${props => props.theme.colors.brand.default};
   }
 `
 

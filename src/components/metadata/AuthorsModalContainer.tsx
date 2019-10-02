@@ -26,8 +26,8 @@ import { AuthorsModal } from './AuthorsModals'
 
 const Invited = styled.div`
   display: flex;
-  font-size: 12px;
-  color: ${props => props.theme.colors.sidebar.label};
+  font-size: ${props => props.theme.font.size.small};
+  color: ${props => props.theme.colors.brand.default};
 `
 
 interface State {

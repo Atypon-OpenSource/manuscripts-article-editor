@@ -18,17 +18,17 @@ const ModalHeader = styled.header`
   margin: 74px auto 60px;
 
   @media (max-width: 450px) {
-    padding: 0 16px;
+    padding: 0 ${props => props.theme.grid.unit * 4}px;
   }
 `
 const Header = styled.h2`
   font-size: 24px;
-  font-weight: bold;
-  line-height: 24px;
+  font-weight: ${props => props.theme.font.weight.bold};
+  line-height: ${props => props.theme.font.lineHeight.large};
   margin: 0;
 `
 const Icon = styled.span`
-  margin-right: 15px;
+  margin-right: ${props => props.theme.grid.unit * 4}px;
 `
 
 interface Props {

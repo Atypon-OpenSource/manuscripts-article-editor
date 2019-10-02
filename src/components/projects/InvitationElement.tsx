@@ -15,7 +15,7 @@ import {
   BibliographicName,
   ContainerInvitation,
 } from '@manuscripts/manuscripts-json-schema'
-import { Button, PrimaryButton } from '@manuscripts/style-guide'
+import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { initials } from '../../lib/name'
@@ -39,55 +39,54 @@ const ProjectNameContainer = styled.div`
 const InvitedBy = styled.div`
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: ${props => props.theme.font.size.normal};
   letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.dropdown.text.secondary};
+  color: ${props => props.theme.colors.text.secondary};
   clear: both;
   margin-top: 15px;
 `
 
 const AcceptButton = styled(PrimaryButton)`
-  font-size: 14px;
-  font-weight: 500;
-  background-color: ${props => props.theme.colors.dropdown.button.primary};
-  padding: 0 8px;
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.medium};
+  background-color: ${props => props.theme.colors.brand.default};
+  padding: 0 ${props => props.theme.grid.unit * 2}px;
 
   &:hover {
-    color: ${props => props.theme.colors.dropdown.button.primary};
-    border-color: ${props => props.theme.colors.dropdown.button.primary};
+    color: ${props => props.theme.colors.brand.default};
+    border-color: ${props => props.theme.colors.brand.default};
   }
 `
 
-const RejectButton = styled(Button)`
-  font-size: 14px;
-  font-weight: 500;
-  padding: 0 8px;
-  color: ${props => props.theme.colors.dropdown.button.secondary};
+const RejectButton = styled(SecondaryButton)`
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.medium};
+  padding: 0 ${props => props.theme.grid.unit * 2}px;
+  color: ${props => props.theme.colors.text.secondary};
 
   &:hover {
-    color: ${props => props.theme.colors.dropdown.button.primary};
-    border-color: ${props => props.theme.colors.dropdown.button.primary};
+    color: ${props => props.theme.colors.brand.default};
+    border-color: ${props => props.theme.colors.brand.default};
   }
 `
 const AvatarContainer = styled.div`
-  margin-left: 6px;
+  margin-left: ${props => props.theme.grid.unit}px;
 `
 
 const InvitationElement = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: ${props => props.theme.grid.unit * 4}px;
   margin: 0 -5px;
   border: 1px solid transparent;
-  border-bottom-color: #eaecee;
+  border-bottom-color: ${props => props.theme.colors.border.secondary};
   width: 500px;
-  border-radius: 4px;
+  border-radius: ${props => props.theme.grid.radius.small};
 
   &:hover {
-    background-color: ${props =>
-      props.theme.colors.invitation.background.hovered};
-    border-color: ${props => props.theme.colors.invitation.border.hovered};
+    background-color: ${props => props.theme.colors.background.secondary};
+    border-color: ${props => props.theme.colors.brand.xlight};
   }
 
   @media (max-width: 450px) {
@@ -97,19 +96,17 @@ const InvitationElement = styled.div`
 
 const NotificationsBadge = styled(Badge)`
   margin-right: 4px;
-  color: ${'white'};
-  background-color: ${props =>
-    props.theme.colors.dropdown.notification.default};
+  color: ${props => props.theme.colors.text.onDark};
+  background-color: ${props => props.theme.colors.background.success};
   font-size: 9px;
   min-width: 10px;
   min-height: 10px;
-  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: ${props => props.theme.font.family.sans};
 `
 
 const InvitationTitle = styled.div`
-  font-size: 19px;
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.medium};
   font-style: normal;
   flex: 1;
   color: inherit;

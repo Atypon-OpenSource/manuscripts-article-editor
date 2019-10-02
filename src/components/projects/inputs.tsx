@@ -22,7 +22,8 @@ export const NumberField = styled(TextField).attrs({
   pattern: '[0-9]+',
 })`
   width: 100px;
-  padding: 4px 8px;
+  padding: ${props => props.theme.grid.unit}px
+    ${props => props.theme.grid.unit * 2}px;
   font-size: 1em;
 `
 
@@ -30,8 +31,8 @@ export const SmallNumberField = styled(TextField).attrs({
   type: 'number',
 })`
   width: 50px;
-  padding: 2px 4px;
-  margin-right: 4px;
+  padding: 2px ${props => props.theme.grid.unit * 2}px;
+  margin-right: ${props => props.theme.grid.unit * 2}px;
   font-size: 0.75em;
 `
 
@@ -63,7 +64,7 @@ export const SpacingRange: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({
 
 export const StyleRange = styled.input`
   flex: 1;
-  margin-right: 8px;
+  margin-right: ${props => props.theme.grid.unit * 2}px;
 `
 
 export const StyleSelect = styled.select`
@@ -71,5 +72,5 @@ export const StyleSelect = styled.select`
 `
 
 export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
-  margin-right: 8px;
+  margin-right: ${props => props.theme.grid.unit * 2}px;
 `

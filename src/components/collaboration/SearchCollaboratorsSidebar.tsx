@@ -20,18 +20,18 @@ import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
 import AddCollaboratorButton from './AddCollaboratorButton'
 
 const PersonInitial = styled.span`
-  margin-right: 4px;
-  font-weight: 300;
+  margin-right: ${props => props.theme.grid.unit}px;
+  font-weight: ${props => props.theme.font.weight.light};
 `
 
 const PersonName = styled.div`
-  font-size: 120%;
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.xlarge};
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.medium};
 `
 
 const PeopleData = styled.div`
-  padding-left: 10px;
+  padding-left: ${props => props.theme.grid.unit * 3}px;
 `
 
 const UserDataContainer = styled.div`
@@ -40,14 +40,14 @@ const UserDataContainer = styled.div`
 `
 
 const SidebarText = styled.div`
-  padding-left: 20px;
-  font-size: 20px;
-  margin-bottom: 30px;
-  margin-top: 30px;
+  padding-left: ${props => props.theme.grid.unit * 5}px;
+  font-size: ${props => props.theme.font.size.xlarge};
+  margin-bottom: ${props => props.theme.grid.unit * 7}px;
+  margin-top: ${props => props.theme.grid.unit * 7}px;
 `
 
 const SidebarButtonContainer = styled.div`
-  padding-left: 20px;
+  padding-left: ${props => props.theme.grid.unit * 5}px;
 `
 
 interface SearchSidebarProps {

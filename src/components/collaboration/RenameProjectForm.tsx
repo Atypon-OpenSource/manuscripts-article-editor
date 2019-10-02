@@ -10,11 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  FormError,
-  FormErrors,
-  PrimarySubmitButton,
-} from '@manuscripts/style-guide'
+import { FormError, FormErrors, PrimaryButton } from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
 import { Form, FormikProps } from 'formik'
 import React from 'react'
@@ -22,7 +18,7 @@ import { styled } from '../../theme/styled-components'
 import { ModalFormActions } from '../ModalForm'
 
 const StyledTitleField = styled(TitleField)`
-  font-size: 20px;
+  font-size: ${props => props.theme.font.size.xlarge};
 
   & .ProseMirror {
     &:focus {
@@ -31,14 +27,14 @@ const StyledTitleField = styled(TitleField)`
 
     &.empty-node::before {
       position: absolute;
-      color: #ccc;
+      color: ${props => props.theme.colors.text.muted};
       cursor: text;
       content: 'Untitled Project';
       pointer-events: none;
     }
 
     &.empty-node:hover::before {
-      color: #949494;
+      color: ${props => props.theme.colors.border.field.default};
     }
   }
 `
@@ -59,7 +55,9 @@ export const RenameProjectForm: React.FunctionComponent<
     {errors.submit && <FormError>{errors.submit}</FormError>}
 
     <ModalFormActions>
-      <PrimarySubmitButton disabled={isSubmitting}>Rename</PrimarySubmitButton>
+      <PrimaryButton type="submit" disabled={isSubmitting}>
+        Rename
+      </PrimaryButton>
     </ModalFormActions>
   </Form>
 )

@@ -22,7 +22,6 @@ import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
 import config from '../config'
 import { TokenActions } from '../data/TokenData'
-import { linkWaterBlue } from '../theme/colors'
 import { styled } from '../theme/styled-components'
 import { Chatbox } from './Chatbox'
 import MenuBar from './nav/MenuBar'
@@ -48,59 +47,56 @@ const PageContainer = styled.div`
   display: flex;
   height: calc(100vh - 1px); /* allow 1px for the top border */
   box-sizing: border-box;
-  color: ${props => props.theme.colors.global.text.primary};
-  font-family: ${props => props.theme.fontFamily};
-  border-top: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
+  color: ${props => props.theme.colors.text.primary};
+  font-family: ${props => props.theme.font.family.sans};
+  // border-top: 1px solid ${props => props.theme.colors.background.info};
 `
 
 const ViewsBar = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  background-color: white;
-  border-right: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
+  background-color: ${props => props.theme.colors.background.secondary};
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  width: 56px;
 `
 
-const StyledNavIcon = styled(NavIcon)`
-  & path {
-    fill: ${props => props.theme.colors.menu.icon.default};
-  }
-
-  &:hover path {
-    fill: ${props => props.theme.colors.menu.icon.selected};
-  }
-`
+const StyledNavIcon = styled(NavIcon)``
 
 const IconBar = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  background-color: white;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+
+  div {
+    margin: ${props => props.theme.grid.unit * 5}px 0 0;
+    text-align: center;
+    width: 56px;
+  }
 `
 
 const ViewLink = styled(NavLink)`
-  margin: 12px 0;
-  display: flex;
   align-items: center;
+  color: ${props => props.theme.colors.button.secondary.color.default};
+  display: flex;
   justify-content: center;
-  border-radius: 4px;
-  width: 30px;
-  height: 30px;
-  color: ${props => props.theme.colors.iconBar.background.default};
-  border: 1.5px solid transparent;
+  width: 100%;
+  height: ${props => props.theme.grid.unit * 8}px;
 
+  &:hover {
+    color: ${props => props.theme.colors.button.secondary.color.hover};
+  }
   &.active {
-    border-color: ${props => props.theme.colors.iconBar.background.default};
+    color: ${props => props.theme.colors.button.secondary.color.active};
+    background: ${props => props.theme.colors.background.fifth};
   }
 `
 
 const ViewsSeparator = styled.div`
-  border: solid 0.5px ${linkWaterBlue};
-  width: 30px;
+  border: 1px solid ${props => props.theme.colors.border.tertiary};
+  width: ${props => props.theme.grid.unit * 7}px;
 `
 
 const StyledEditProjectIcon = styled(EditProjectIcon)`

@@ -21,12 +21,10 @@ const ListContainer = styled.div`
 `
 
 const List = styled.div`
-  border: 1px solid
-    ${props => props.theme.colors.templateSelector.topicsList.border};
-  border-radius: 8px;
-  box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.1);
-  background: ${props =>
-    props.theme.colors.templateSelector.topicsList.background};
+  border: 1px solid ${props => props.theme.colors.text.muted};
+  border-radius: ${props => props.theme.grid.radius.default};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${props => props.theme.colors.background.primary};
   height: 300px;
   max-height: 50vh;
   overflow-y: auto;
@@ -37,28 +35,26 @@ const List = styled.div`
 const ListSection = styled.div`
   display: flex;
   align-items: center;
-  padding: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  color: ${props => props.theme.colors.templateSelector.topicsList.text};
+  padding: ${props => props.theme.grid.unit * 2}px;
+  font-size: ${props => props.theme.font.size.medium};
+  font-weight: ${props => props.theme.font.weight.medium};
+  color: ${props => props.theme.colors.text.primary};
   cursor: pointer;
 
   &:hover {
-    background-color: ${props =>
-      props.theme.colors.templateSelector.topicsList.hovered};
+    background-color: ${props => props.theme.colors.background.fifth};
   }
 `
 
 const Separator = styled.div`
   height: 1px;
   opacity: 0.23;
-  background-color: ${props =>
-    props.theme.colors.templateSelector.topicsList.separator};
+  background-color: ${props => props.theme.colors.border.field.default};
 `
 
 const AddedIconContainer = styled.span`
   display: inline-flex;
-  width: 32px;
+  width: ${props => props.theme.grid.unit * 8}px;
   height: 1em;
   align-items: center;
   justify-content: center;

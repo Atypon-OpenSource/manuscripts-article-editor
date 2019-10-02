@@ -28,8 +28,8 @@ const Container = styled.div`
 
 const TextContainer = styled.div`
   max-width: 400px;
-  font-size: 20px;
-  color: ${props => props.theme.colors.global.text.primary};
+  font-size: ${props => props.theme.font.size.xlarge};
+  color: ${props => props.theme.colors.text.primary};
   padding-left: 20px;
   padding-right: 20px;
   margin-top: 20px;

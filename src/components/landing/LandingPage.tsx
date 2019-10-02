@@ -31,14 +31,14 @@ import ScreenshotChrome from './ScreenshotChrome@2x.png'
 import Styling from './Styling@2x.png'
 
 const Header = styled.div`
-  background-color: #2a6f9d;
+  background-color: ${props => props.theme.colors.brand.dark};
 `
 
 const Title = styled.h1`
-  font-family: Barlow, sans-serif;
+  font-family: ${props => props.theme.font.family.sans};
   font-size: 46px;
-  font-weight: 300;
-  color: white;
+  font-weight: ${props => props.theme.font.weight.xlight};
+  color: ${props => props.theme.colors.text.onDark};
   margin-top: 0;
   padding-top: 0;
   text-align: center;
@@ -49,15 +49,15 @@ const Title = styled.h1`
 `
 
 const Subtitle = styled.h2`
-  font-family: Barlow, sans-serif;
-  font-size: 18px;
-  font-weight: normal;
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.large};
+  font-weight: ${props => props.theme.font.weight.normal};
   font-style: normal;
   font-stretch: normal;
   line-height: 1.39;
   letter-spacing: normal;
   text-align: center;
-  color: white;
+  color: ${props => props.theme.colors.text.onDark};
   max-width: 80%;
   padding-left: 20px;
   padding-right: 20px;
@@ -67,31 +67,30 @@ const Subtitle = styled.h2`
   & > div > input {
     margin-top: 15px;
     border: 1px solid grey;
-    border-radius: 5px;
+    border-radius: ${props => props.theme.grid.radius.default};
     padding: 10px;
-    font-family: Barlow, sans-serif;
-    font-size: 18px;
+    font-family: ${props => props.theme.font.family.sans};
   }
 
   & > div > button {
-    border-radius: 5px;
+    border-radius: ${props => props.theme.grid.radius.default};
     padding: 10px;
-    font-family: Barlow, sans-serif;
-    font-size: 18px;
+    font-family: ${props => props.theme.font.family.sans};
+    font-size: ${props => props.theme.font.size.large};
     margin-left: 5px;
     margin-top: 2px;
-    background-color: white;
+    background-color: ${props => props.theme.colors.background.primary};
   }
 
   & a:link,
   & a:visited {
-    color: white;
-    font-weight: 600;
+    color: ${props => props.theme.colors.text.onDark};
+    font-weight: ${props => props.theme.font.weight.semibold};
   }
 `
 
 const BlackSubtitle = styled(Subtitle)`
-  color: #2a6f9d;
+  color: ${props => props.theme.colors.text.info};
 `
 
 const HeaderBar = styled.div`
@@ -109,15 +108,15 @@ const HeaderButtonGroup = styled.div`
 `
 
 const Logotype = styled.div`
-  color: white;
-  font-weight: 200;
-  font-size: 20px;
+  color: ${props => props.theme.colors.text.onDark};
+  font-weight: ${props => props.theme.font.weight.xlight};
+  font-size: ${props => props.theme.font.size.xlarge};
   margin-left: -2px;
   padding-bottom: 3px;
 `
 
 const HeavyLink = styled.a`
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.weight.medium};
   color: inherit;
   display: block;
   text-decoration: none;
@@ -143,15 +142,15 @@ const ScreenshotCaptionContainer = styled(HeroImageContainer)`
 const OpennessHeadingContainer = styled(HeroImageContainer)``
 const TeamHeadingContainer = styled(HeroImageContainer)``
 const OpennessHeading = styled.h2`
-  font-family: Barlow, sans-serif;
+  font-family: ${props => props.theme.font.family.sans};
   font-size: 32px;
-  font-weight: 600;
+  font-weight: ${props => props.theme.font.weight.semibold};
   font-style: normal;
   font-stretch: normal;
   line-height: 1;
   letter-spacing: normal;
   text-align: center;
-  color: #2a6f9d;
+  color: ${props => props.theme.colors.text.info};
   padding-top: 0px;
   margin-top: 10px;
   margin-bottom: 0px;
@@ -162,15 +161,15 @@ const OpennessCaption = styled(Subtitle)`
   max-width: 80%;
   width: 627px;
   margin: auto;
-  font-family: Barlow, sans-serif;
-  font-size: 20px;
-  font-weight: normal;
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.normal};
   font-style: normal;
   font-stretch: normal;
   line-height: 1.6;
   letter-spacing: normal;
   text-align: left;
-  color: var(--mid-blue);
+  color: ${props => props.theme.colors.brand.default};
   padding-bottom: 0.5em;
 `
 
@@ -205,9 +204,9 @@ const TeamGrid = styled.div`
 `
 
 const HighlightsHeading = styled.h2`
-  font-family: Barlow, sans-serif;
+  font-family: ${props => props.theme.font.family.sans};
   font-size: 46px;
-  font-weight: 300;
+  font-weight: ${props => props.theme.font.weight.xlight};
   font-style: normal;
   font-stretch: normal;
   line-height: 0.76;
@@ -218,7 +217,7 @@ const HighlightsHeading = styled.h2`
 `
 
 const HighlightsCaptionContainer = styled.div`
-  font-family: Barlow, sans-serif;
+  font-family: ${props => props.theme.font.family.sans};
   font-style: normal;
   padding-bottom: 40px;
 `
@@ -229,13 +228,13 @@ const HighlightsCaption = styled.div`
 
   & a:link,
   & a:visited {
-    color: #2a6f9d;
-    font-weight: 500;
+    color: ${props => props.theme.colors.text.info};
+    font-weight: ${props => props.theme.font.weight.medium};
   }
 `
 
 const HighlightTitle = styled.h3`
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.weight.medium};
   margin-top: 0px;
 `
 
@@ -252,20 +251,20 @@ const HighlightListItem = styled.li`
 `
 
 const HighlightsSection = styled.div`
-  background-color: #d8edf8;
+  background-color: ${props => props.theme.colors.background.fifth};
   padding-top: 40px;
   padding-left: 20px;
   padding-right: 20px;
   margin-top: 0px;
   padding-bottom: 40px;
-  color: #2a6f9d;
+  color: ${props => props.theme.colors.text.info};
 `
 
 const HighlightImage = styled.img`
   height: 28px;
   vertical-align: text-bottom;
   margin-bottom: -3px;
-  margin-right: 8px;
+  margin-right: ${props => props.theme.grid.unit * 2}px;
 `
 
 const OpennessSection = styled.div`
@@ -278,66 +277,66 @@ const OpennessCTAList = styled.ul`
 
   & a:link,
   & a:visited {
-    color: black;
-    font-weight: 400;
+    color: ${props => props.theme.colors.text.primary};
+    font-weight: ${props => props.theme.font.weight.normal};
   }
 
   & b {
-    color: #2a6f9d;
+    color: ${props => props.theme.colors.text.info};
   }
 `
 
 const TeamSection = styled.div`
   padding-top: 40px;
   padding-bottom: 40px;
-  color: #2a6f9d;
-  background-color: #2a6f9d;
+  color: ${props => props.theme.colors.text.info};
+  background-color: ${props => props.theme.colors.brand.dark};
 `
 
 const TeamHeading = styled.div`
-  font-family: Barlow, sans-serif;
+  font-family: ${props => props.theme.font.family.sans};
   font-size: 32px;
-  font-weight: 600;
+  font-weight: ${props => props.theme.font.weight.semibold};
   font-style: normal;
   font-stretch: normal;
   line-height: 1;
   letter-spacing: normal;
   text-align: center;
-  color: #d8edf8;
+  color: ${props => props.theme.colors.background.fifth};
 `
 
 const TeamMember = styled.div`
-  font-family: Barlow, sans-serif;
+  font-family: ${props => props.theme.font.family.sans};
   text-align: center;
   width: 160px;
 `
 
 const Name = styled.div`
-  font-size: 20px;
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.medium};
   font-style: normal;
   font-stretch: normal;
   line-height: 1.6;
   letter-spacing: normal;
   text-align: center;
-  color: white;
+  color: ${props => props.theme.colors.text.onDark};
 `
 
 const Role = styled.div`
-  font-family: Barlow, sans-serif;
-  font-size: 14px;
-  font-weight: normal;
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.normal};
   font-style: normal;
   font-stretch: normal;
   line-height: 1.5;
   letter-spacing: normal;
   text-align: center;
-  color: white;
+  color: ${props => props.theme.colors.text.onDark};
 `
 
 const Callsign = styled.div`
-  font-size: 14px;
-  font-weight: normal;
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.normal};
   font-style: normal;
   font-stretch: normal;
   line-height: 1;
@@ -348,13 +347,13 @@ const Callsign = styled.div`
   & a:link,
   & a:visited {
     color: #7fb5d5;
-    font-weight: bold;
+    font-weight: ${props => props.theme.font.weight.bold};
   }
 `
 
 /*
 const Badge = styled.sup`
-  background-color: #2a6f9d;
+  background-color: ${props => props.theme.colors.text.info};
   border: 2px solid white;
   border-radius: 4px;
   padding: 2px;
@@ -365,8 +364,8 @@ const Badge = styled.sup`
   text-transform: uppercase;
 `
 const WhiteBadge = styled.sup`
-  background-color: white;
-  border: 2px solid #2a6f9d;
+  background-color: ${props => props.theme.colors.text.onDark};
+  border: 2px solid ${props => props.theme.colors.text.info};
   border-radius: 4px;
   padding: 2px;
   padding-left: 6px;
@@ -381,28 +380,28 @@ const WhiteBadge = styled.sup`
 */
 
 const AlphaTestPrompt = styled.div`
-  font-family: Barlow, sans-serif;
-  font-size: 18px;
-  font-weight: normal;
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.large};
+  font-weight: ${props => props.theme.font.weight.normal};
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.39;
+  line-height: ${props => props.theme.font.lineHeight.large};
   letter-spacing: normal;
   text-align: center;
-  background-color: white;
-  border: 2px solid #2a6f9d;
-  border-radius: 6px;
+  background-color: ${props => props.theme.colors.background.primary};
+  border: 2px solid ${props => props.theme.colors.brand.dark};
+  border-radius: ${props => props.theme.grid.radius.default};
   max-width: 1000px;
   margin: auto;
-  margin-top: 40px;
-  padding: 10px;
+  margin-top: ${props => props.theme.grid.unit * 10}px;
+  padding: ${props => props.theme.grid.unit * 2}px;
 
   & a:link {
-    color: #2a6f9d;
+    color: ${props => props.theme.colors.brand.dark};
   }
 
   & a:visited {
-    color: #2a6f9d;
+    color: ${props => props.theme.colors.brand.dark};
   }
 `
 
@@ -411,13 +410,13 @@ const Footer = styled.div`
   text-align: center;
   margin: auto;
   color: #7fb5d5;
-  padding-top: 40px;
+  padding-top: ${props => props.theme.grid.unit * 10}px;
 `
 
 const LoginButton = styled.div`
   position: absolute;
-  right: 20px;
-  margin-top: 30px;
+  right: ${props => props.theme.grid.unit * 5}px;
+  margin-top: ${props => props.theme.grid.unit * 7}px;
 `
 const avatarStyle = { width: 90, height: 90 }
 

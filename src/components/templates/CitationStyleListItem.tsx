@@ -17,7 +17,7 @@ import { styled } from '../../theme/styled-components'
 
 const CreateButton = styled(PrimaryButton)`
   padding: 0 4px;
-  font-size: 14px;
+  font-size: ${props => props.theme.font.size.normal};
 
   &:focus {
     outline: none;
@@ -30,7 +30,7 @@ const Heading = styled.div`
 `
 
 const Title = styled.div`
-  color: ${props => props.theme.colors.global.text.primary};
+  color: ${props => props.theme.colors.text.primary};
   display: flex;
   align-items: center;
   flex: 1;
@@ -45,23 +45,23 @@ const BundleTitle = styled.div`
 `
 
 const Actions = styled.div`
-  padding: 4px 8px;
+  padding: ${props => props.theme.grid.unit}px
+    ${props => props.theme.grid.unit * 2}px;
   flex-shrink: 0;
   visibility: hidden;
 `
 
 const Container = styled.div`
-  padding: 4px 12px;
-  margin: 0 12px;
-  border-bottom: 1px solid #eee;
+  padding: ${props => props.theme.grid.unit}px
+    ${props => props.theme.grid.unit * 3}px;
+  margin: 0 ${props => props.theme.grid.unit * 3}px;
+  border-bottom: 1px solid ${props => props.theme.colors.border.tertiary};
   cursor: pointer;
   position: relative;
-  background-color: ${props =>
-    props.theme.colors.templateSelector.item.container.background.default};
+  background-color: transparent;
 
   &:hover {
-    background-color: ${props =>
-      props.theme.colors.templateSelector.item.container.background.hovered};
+    background-color: ${props => props.theme.colors.background.info};
 
     ${Actions} {
       visibility: visible;

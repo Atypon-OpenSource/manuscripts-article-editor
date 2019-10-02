@@ -130,12 +130,15 @@ export const TextStyleField: React.FC<{
 }
 
 const TextStyleButton = styled.button<{ isActive: boolean }>`
-  font-weight: ${props => (props.isActive ? 'bold' : 'normal')};
+  font-weight: ${props =>
+    props.isActive
+      ? props.theme.font.weight.bold
+      : props.theme.font.weight.normal};
   font-size: inherit;
   border: none;
   border-radius: 50%;
   background: none;
-  padding: 0 8px;
+  padding: 0 ${props => props.theme.grid.unit * 2}px;
   cursor: pointer;
 `
 
@@ -473,7 +476,7 @@ const BlockField = styled.label`
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  margin-right: 8px;
+  margin-right: ${props => props.theme.grid.unit * 2}px;
 `
 
 export const TextColorField: React.FC<{
@@ -579,12 +582,12 @@ const ColorButton = styled.button<{
 }>`
   background: ${props => props.color};
   box-shadow: ${props => (props.isActive ? '0 0 1px 1px #000' : 'none')};
-  height: 12px;
-  width: 12px;
+  height: ${props => props.theme.grid.unit * 3}px;
+  width: ${props => props.theme.grid.unit * 3}px;
   border-radius: 50%;
   margin: 2px;
   padding: 0;
-  border: 1px solid #eee;
+  border: 1px solid ${props => props.theme.colors.border.tertiary};
   cursor: pointer;
   flex-shrink: 0;
 

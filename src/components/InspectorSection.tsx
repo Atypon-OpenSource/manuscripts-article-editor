@@ -11,45 +11,49 @@
  */
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
+import { IconButton } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import { styled } from '../theme/styled-components'
 
 const Section = styled.div`
-  border-top: 1px solid #e2e2e2;
-  padding: 16px 0;
-  font-size: 14px;
+  border-top: 1px solid ${props => props.theme.colors.border.tertiary};
+  padding: ${props => props.theme.grid.unit * 4}px
+    ${props => props.theme.grid.unit}px;
+  font-size: ${props => props.theme.font.size.normal};
 
   &:last-child {
-    border-bottom: 1px solid #e2e2e2;
+    border-bottom: 1px solid ${props => props.theme.colors.border.tertiary};
   }
 `
 
 const Heading = styled.div`
   display: flex;
-  padding: 8px;
+  padding: ${props => props.theme.grid.unit * 2}px;
   cursor: pointer;
 `
 
 const HeadingText = styled.div`
-  font-size: 18px;
-  color: #777;
+  font-size: ${props => props.theme.font.size.large};
+  color: ${props => props.theme.colors.text.secondary};
   flex: 1;
 `
 
 export const Subheading = styled(HeadingText)`
-  font-size: 16px;
-  margin-bottom: 12px;
+  font-size: ${props => props.theme.font.size.medium};
+  margin-bottom: ${props => props.theme.grid.unit * 3}px;
 
   &:not(:first-child) {
-    margin-top: 24px;
+    margin-top: ${props => props.theme.grid.unit * 6}px;
   }
 `
 
 export const Field = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: ${props => props.theme.grid.unit * 4}px;
 `
 
-const ExpanderButton = styled.button`
+const ExpanderButton = styled(IconButton).attrs(props => ({
+  size: 20,
+}))`
   border: none;
   background: none;
   cursor: pointer;
@@ -60,7 +64,7 @@ const ExpanderButton = styled.button`
 `
 
 const Content = styled.div`
-  padding: 8px;
+  padding: ${props => props.theme.grid.unit * 2}px;
 `
 
 interface Props {

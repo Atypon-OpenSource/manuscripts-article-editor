@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Theme } from '@manuscripts/style-guide'
 import * as styledComponents from 'styled-components'
-import { Theme } from './types'
 
 // https://www.styled-components.com/docs/api#typescript
 
@@ -20,6 +20,20 @@ const {
   css,
   createGlobalStyle,
   ThemeProvider,
+  withTheme,
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<Theme>
 
-export { createGlobalStyle, css, styled, ThemeProvider }
+export { createGlobalStyle, css, styled, ThemeProvider, withTheme }
+
+export type ThemedProps<V> = styledComponents.ThemedStyledProps<
+  React.HTMLProps<V>,
+  Theme
+>
+
+/* tslint:disable:no-any */
+export type ThemedStyledComponent<
+  C extends keyof JSX.IntrinsicElements | React.ComponentType<any>
+> = styledComponents.StyledComponent<C, Theme>
+/* tslint:enable */
+
+export type ThemeProps = styledComponents.ThemeProps<Theme>

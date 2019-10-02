@@ -12,7 +12,12 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { Avatar, Button, PrimaryButton, Tip } from '@manuscripts/style-guide'
+import {
+  Avatar,
+  PrimaryButton,
+  SecondaryButton,
+  Tip,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import { buildAuthorPriority } from '../../lib/authors'
 import { styled } from '../../theme/styled-components'
@@ -20,18 +25,18 @@ import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
 import AddAuthorButton from './AddAuthorButton'
 
 const PersonInitial = styled.span`
-  margin-right: 4px;
-  font-weight: 300;
+  margin-right: ${props => props.theme.grid.unit}px;
+  font-weight: ${props => props.theme.font.weight.light};
 `
 
 const PersonName = styled.div`
   font-size: 120%;
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  font-weight: 500;
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.medium};
 `
 
 const PeopleData = styled.div`
-  padding-left: 10px;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const UserDataContainer = styled.div`
@@ -40,33 +45,26 @@ const UserDataContainer = styled.div`
 `
 
 const SidebarText = styled.div`
-  padding-left: 10px;
-  font-size: 20px;
-  margin-bottom: 30px;
-  margin-top: 30px;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
+  font-size: ${props => props.theme.font.size.large};
+  margin-bottom: ${props => props.theme.grid.unit * 7}px;
+  margin-top: ${props => props.theme.grid.unit * 7}px;
 `
 
 const Name = styled.span`
-  font-weight: 600;
+  font-weight: ${props => props.theme.font.weight.semibold};
 `
 
 const SidebarFooter = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  padding: ${props => props.theme.grid.unit}px;
   align-items: center;
 
   & button {
-    margin: 4px 0;
+    margin: ${props => props.theme.grid.unit}px 0;
     display: flex;
   }
-`
-
-const AddButton = styled(Button)`
-  width: 260px;
-`
-const InviteButton = styled(PrimaryButton)`
-  width: 260px;
 `
 
 interface SearchSidebarProps {
@@ -113,7 +111,7 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
                 title={`Add ${searchText} to the author list.`}
                 placement={'left'}
               >
-                <AddButton
+                <SecondaryButton
                   onClick={() =>
                     !isAuthorExist()
                       ? createAuthor(
@@ -125,16 +123,16 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
                   }
                 >
                   Add to Author List
-                </AddButton>
+                </SecondaryButton>
               </Tip>
 
               <Tip
                 title={`Add ${searchText} to the author list, and send an invitation to grant access to the project.`}
                 placement={'left'}
               >
-                <InviteButton onClick={() => handleInvite(searchText)}>
+                <PrimaryButton onClick={() => handleInvite(searchText)}>
                   Add + Invite as Collaborator
-                </InviteButton>
+                </PrimaryButton>
               </Tip>
             </SidebarFooter>
           </span>
@@ -151,9 +149,9 @@ const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
                 title={`Send an invitation to ${searchText} to grant access to the project.`}
                 placement={'left'}
               >
-                <InviteButton onClick={() => handleInvite(searchText)}>
+                <PrimaryButton onClick={() => handleInvite(searchText)}>
                   Invite as Collaborator
-                </InviteButton>
+                </PrimaryButton>
               </Tip>
             </SidebarFooter>
           </span>

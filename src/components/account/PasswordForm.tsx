@@ -13,7 +13,7 @@
 import {
   CenteredForm,
   FormHeader,
-  PrimarySubmitButton,
+  PrimaryButton,
   TextField,
   TextFieldContainer,
 } from '@manuscripts/style-guide'
@@ -56,9 +56,9 @@ export const PasswordForm: React.FunctionComponent<
     {errors.submit && <div>{errors.submit}</div>}
 
     <ModalFormActions>
-      <PrimarySubmitButton disabled={isSubmitting}>
+      <PrimaryButton type="submit" disabled={isSubmitting}>
         Save Password
-      </PrimarySubmitButton>
+      </PrimaryButton>
     </ModalFormActions>
   </CenteredForm>
 )

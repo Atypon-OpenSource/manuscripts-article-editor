@@ -18,6 +18,7 @@ import PatentIcon from '@manuscripts/assets/react/TemplateCategoryGrantApplicati
 import ManualIcon from '@manuscripts/assets/react/TemplateCategoryManual'
 import ResearchIcon from '@manuscripts/assets/react/TemplateCategoryResearchArticle'
 import { ManuscriptCategory } from '@manuscripts/manuscripts-json-schema'
+import { ToggleButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { Slider } from '../Slider'
@@ -32,56 +33,42 @@ const Categories = styled.nav.attrs(props => ({ role: 'navigation' }))`
   }
 `
 
-const Category = styled.button<{ selected: boolean }>`
+const Category = styled(ToggleButton)<{ selected: boolean }>`
   align-items: center;
-  background: ${props =>
-    props.selected
-      ? props.theme.colors.sidebar.background.default
-      : 'transparent'};
-  border: 1px solid
-    ${props =>
-      props.selected
-        ? props.theme.colors.button.primary
-        : props.theme.colors.popper.separator};
-  border-radius: 4px;
+  border-radius: ${props => props.theme.grid.radius.small};
   cursor: pointer;
   display: inline-flex;
   flex-shrink: 0;
-  outline: none;
-  padding: 4px 16px;
 
   & + & {
-    margin-left: 8px;
+    margin-left: ${props => props.theme.grid.unit * 2}px;
   }
 
   &:focus,
   &:hover {
-    border-color: ${props => props.theme.colors.button.primary};
+    border-color: ${props => props.theme.colors.brand.default};
   }
 
   svg {
     path[stroke] {
       stroke: ${props =>
         props.selected
-          ? props.theme.colors.button.primary
-          : props.theme.colors.global.text.primary};
+          ? props.theme.colors.brand.default
+          : props.theme.colors.text.primary};
     }
     text[fill],
     rect[fill],
     path[fill] {
       fill: ${props =>
         props.selected
-          ? props.theme.colors.button.primary
-          : props.theme.colors.global.text.primary};
+          ? props.theme.colors.brand.default
+          : props.theme.colors.text.primary};
     }
   }
 `
 
 const CategoryName = styled.span`
   padding-left: 10px;
-  font-size: 16px;
-  line-height: 2;
-  color: ${props => props.theme.colors.global.text.primary};
 `
 
 const icons: { [key: string]: JSX.Element } = {

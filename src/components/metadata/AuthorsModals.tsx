@@ -35,9 +35,9 @@ import AuthorsSidebar from './AuthorsSidebar'
 const ModalBody = styled.div`
   flex: 1;
   display: flex;
-  border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
-  background: #fff;
+  border-radius: ${props => props.theme.grid.radius.default};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${props => props.theme.colors.background.primary};
 `
 
 const ModalSidebar = styled.div`

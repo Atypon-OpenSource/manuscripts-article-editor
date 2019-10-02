@@ -31,8 +31,8 @@ import InviteAuthorButton from './InviteAuthorButton'
 
 const FormMessage = styled.div`
   position: absolute;
-  bottom: 20px;
-  right: 20px;
+  bottom: ${props => props.theme.grid.unit * 5}px;
+  right: ${props => props.theme.grid.unit * 5}px;
   width: 450px;
 `
 

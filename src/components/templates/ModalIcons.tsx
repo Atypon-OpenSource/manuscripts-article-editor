@@ -15,45 +15,48 @@ import React from 'react'
 export const SearchIcon = () => (
   <svg width="18" height="18" viewBox="0 0 30 30">
     <defs>
-      <clipPath id="a">
+      <clipPath id="SearchIcona">
         <path
           d="M19 1c9.941 0 18 8.059 18 18s-8.059 18-18 18S1 28.941 1 19 9.059 1 19 1z"
           clipRule="evenodd"
         />
       </clipPath>
-      <clipPath id="b">
+      <clipPath id="SearchIconb">
         <path d="M0 0h38v38H0z" />
       </clipPath>
-      <clipPath id="c">
+      <clipPath id="SearchIconc">
         <path d="M1 1h36v36H1z" />
       </clipPath>
-      <clipPath id="d">
+      <clipPath id="SearchIcond">
         <path
           d="M26.947 12.252a.796.796 0 0 0-.075-1.137.842.842 0 0 0-1.165-.06l-4.692 4.566a6.426 6.426 0 0 0-3.82-1.247 6.306 6.306 0 0 0-3.553 1.095 6.42 6.42 0 0 0-.844 9.9 6.32 6.32 0 0 0 3.313 1.687 6.294 6.294 0 0 0 3.683-.468 6.364 6.364 0 0 0 2.793-2.469 6.406 6.406 0 0 0 .94-3.61 5.98 5.98 0 0 0-1.273-3.685zm-7.143 4.557a4.683 4.683 0 0 1 1.715 2.14 4.736 4.736 0 0 1-1.098 5.15 4.652 4.652 0 0 1-5.144.892 4.662 4.662 0 0 1-2.052-1.813 4.728 4.728 0 0 1-.694-2.663 4.605 4.605 0 0 1 1.405-3.226 4.548 4.548 0 0 1 3.256-1.285 4.64 4.64 0 0 1 2.612.805z"
           clipRule="evenodd"
         />
       </clipPath>
-      <clipPath id="e">
+      <clipPath id="SearchIcone">
         <path d="M1 1h36v36H1z" />
       </clipPath>
-      <clipPath id="f">
+      <clipPath id="SearchIconf">
         <path
           d="M8 30h22V8H8zm18.835-17.849a.644.644 0 0 0-.067-.927.693.693 0 0 0-.956-.061l-4.784 4.655a6.279 6.279 0 0 0-3.833-1.294 6.186 6.186 0 0 0-5.746 3.91 6.267 6.267 0 0 0 1.453 6.828 6.162 6.162 0 0 0 6.83 1.19 6.244 6.244 0 0 0 3.645-5.943 5.83 5.83 0 0 0-1.326-3.697zM12.381 20.51c.055-2.623 2.21-4.703 4.814-4.655a4.81 4.81 0 0 1 4.463 3.038 4.887 4.887 0 0 1-1.132 5.314 4.796 4.796 0 0 1-5.31.921 4.853 4.853 0 0 1-2.835-4.618z"
           clipRule="evenodd"
         />
       </clipPath>
-      <clipPath id="g">
+      <clipPath id="SearchIcong">
         <path d="M1 1h36v36H1z" />
       </clipPath>
     </defs>
-    <g clipPath="url(#a)" transform="matrix(1.33333 0 0 -1.33333 -10 40)">
-      <g clipPath="url(#d)">
-        <g clipPath="url(#e)">
+    <g
+      clipPath="url(#SearchIcona)"
+      transform="matrix(1.33333 0 0 -1.33333 -10 40)"
+    >
+      <g clipPath="url(#SearchIcond)">
+        <g clipPath="url(#SearchIcone)">
           <path fill="#949494" d="M6 32h26V6H6z" />
         </g>
       </g>
-      <g clipPath="url(#f)">
-        <g clipPath="url(#g)">
+      <g clipPath="url(#SearchIconf)">
+        <g clipPath="url(#SearchIcong)">
           <path
             fill="none"
             stroke="#949494"

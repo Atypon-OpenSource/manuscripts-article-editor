@@ -22,7 +22,7 @@ const SearchContainer = styled.div`
 `
 
 const SearchIconContainer = styled.div`
-  left: 16px;
+  left: ${props => props.theme.grid.unit * 4}px;
   position: absolute;
   z-index: 1;
   display: flex;
@@ -31,18 +31,20 @@ const SearchIconContainer = styled.div`
 
 const SearchText = styled.input`
   border: none;
-  border-right: 1px solid ${props => props.theme.colors.popper.separator};
-  border-radius: 4px 0 0 4px;
-  font-size: 16px;
+  border-right: 1px solid ${props => props.theme.colors.border.secondary};
+  border-radius: ${props => props.theme.grid.radius.small} 0 0
+    ${props => props.theme.grid.radius.small};
+  font-size: ${props => props.theme.font.size.medium};
   line-height: 1;
   outline: none;
-  padding: 12px 8px 12px 44px;
+  padding: 11px ${props => props.theme.grid.unit * 2}px 11px
+    ${props => props.theme.grid.unit * 11}px;
   flex: 1;
   -webkit-appearance: none;
   margin: 0;
 
   &:focus {
-    background: ${props => props.theme.colors.sidebar.background.default};
+    background: ${props => props.theme.colors.background.secondary};
   }
 
   &::-webkit-search-decoration {

@@ -35,7 +35,7 @@ import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 
 const Fields = styled.div`
-  padding: 16px;
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 const Fieldset = styled.fieldset`
@@ -43,15 +43,15 @@ const Fieldset = styled.fieldset`
 `
 
 const Legend = styled.legend`
-  font-size: 20px;
+  font-size: ${props => props.theme.font.size.xlarge};
   letter-spacing: -0.4px;
-  color: ${props => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 const Label = styled.label`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 export interface ProfileValues {

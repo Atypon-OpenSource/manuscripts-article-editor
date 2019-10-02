@@ -17,14 +17,14 @@ export const HeaderContainer = styled.header`
 `
 
 export const Header = styled.div`
-  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 18px;
-  color: ${props => props.theme.colors.global.text.primary};
-  padding: 16px 0;
-  margin-bottom: 16px;
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.large};
+  color: ${props => props.theme.colors.text.primary};
+  padding: ${props => props.theme.grid.unit * 4}px 0;
+  margin-bottom: ${props => props.theme.grid.unit * 4}px;
 
   & .ProseMirror {
     font-size: 32px;
-    font-weight: 600;
+    font-weight: ${props => props.theme.font.weight.semibold};
   }
 `

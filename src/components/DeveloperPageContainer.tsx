@@ -24,8 +24,7 @@ const DropdownAction = styled.div`
   cursor: pointer;
 
   &:hover {
-    background: #7fb5d5;
-    color: white;
+    background: ${props => props.theme.colors.background.fifth};
   }
 `
 

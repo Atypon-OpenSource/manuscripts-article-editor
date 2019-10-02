@@ -40,14 +40,15 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-  padding: 16px 0 8px;
-  background: white;
-  border: 1px solid #edf1f4;
+  padding: ${props => props.theme.grid.unit * 4}px 0
+    ${props => props.theme.grid.unit * 2}px;
+  background: ${props => props.theme.colors.background.primary};
+  border: 1px solid ${props => props.theme.colors.brand.xlight};
   border-left: 4px solid
     ${props =>
       props.isSelected
-        ? props.theme.colors.comment.border.selected
-        : props.theme.colors.comment.border.default};
+        ? props.theme.colors.border.warning
+        : props.theme.colors.brand.light};
 `
 
 const CommentThread = styled.div`
@@ -58,7 +59,7 @@ const CommentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
+  font-size: ${props => props.theme.font.size.normal};
   margin-bottom: 16px;
   padding: 0 16px;
 `
@@ -69,20 +70,21 @@ const CommentUserContainer = styled.div`
 `
 
 const CommentUserName = styled.div`
-  margin: 0 8px;
-  font-weight: 600;
+  margin: 0 ${props => props.theme.grid.unit * 2}px;
+  font-weight: ${props => props.theme.font.weight.semibold};
 `
 
 const Reply = styled.div`
-  padding: 16px 0 8px;
-  margin-left: 16px;
-  border: 1px solid #edf1f4;
+  padding: ${props => props.theme.grid.unit * 4}px 0
+    ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${props => props.theme.grid.unit * 4}px;
+  border: 1px solid ${props => props.theme.colors.brand.xlight};
   border-top: none;
 `
 
 const LightRelativeDate = styled(RelativeDate)`
-  font-size: 12px;
-  color: ${props => props.theme.colors.comment.date};
+  font-size: ${props => props.theme.font.size.small};
+  color: ${props => props.theme.colors.text.secondary};
   letter-spacing: -0.2px;
 `
 

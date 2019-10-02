@@ -22,7 +22,7 @@ const Field = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 export const CountInput: React.FC<{

@@ -29,12 +29,13 @@ import {
 } from './LibraryCollectionCategories'
 
 const SectionContainer = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: ${props => props.theme.grid.unit * 4}px;
 `
 
 const StyledSidebar = styled(Sidebar)`
-  background: ${props => props.theme.colors.global.background.default};
-  padding: 16px 0;
+  background: ${props => props.theme.colors.background.tertiary};
+  border-right: 1px solid ${props => props.theme.colors.border.tertiary};
+  padding: ${props => props.theme.grid.unit * 4}px 0;
 
   ${SidebarContent} {
     padding: 0;
@@ -49,21 +50,24 @@ const SectionIcon = styled.div`
 `
 
 const SectionTitle = styled.div`
-  margin-left: 8px;
+  margin-left: ${props => props.theme.grid.unit * 2}px;
   flex: 1;
 `
 
 const ListTitle = styled.div`
-  margin-left: 8px;
+  margin-left: ${props => props.theme.grid.unit * 2}px;
   flex: 1;
 `
 
 const SectionLink = styled(NavLink)`
   text-decoration: none;
-  color: #777;
+  color: ${props => props.theme.colors.text.secondary};
   display: flex;
   align-items: center;
-  padding: 8px 8px 8px 36px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 9}px;
   transition: background-color 0.25s;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -71,17 +75,18 @@ const SectionLink = styled(NavLink)`
   overflow: hidden;
 
   &.active {
-    background-color: #e4eef7;
+    background-color: ${props => props.theme.colors.background.secondary};
   }
 
   &:hover {
-    background-color: #e4eef7;
+    background-color: ${props => props.theme.colors.background.secondary};
   }
 `
 
 const SectionTitleLink = styled(SectionLink)`
-  color: #444;
-  padding: 8px 16px;
+  color: ${props => props.theme.colors.text.tertiary};
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 4}px;
   margin-left: 0;
 `
 

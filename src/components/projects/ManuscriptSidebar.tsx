@@ -43,23 +43,21 @@ import {
 } from './ProjectsListPlaceholder'
 
 const StyledSidebar = styled(Sidebar)`
-  background: white;
-  border-right: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
+  background: ${props => props.theme.colors.background.tertiary};
+  border-right: 1px solid ${props => props.theme.colors.border.tertiary};
 `
 
 const ProjectTitle = styled(SidebarTitle)`
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  font-weight: 450;
-  border: 1px solid transparent;
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.bold};
+  border: none;
   padding: 4px;
-  margin: -4px 0 -4px;
+  margin: -4px 4px -4px 0;
   overflow: hidden;
   flex: 1;
 
   &:hover {
-    border-color: ${props => props.theme.colors.title.border.hovered};
-    background: ${props => props.theme.colors.title.background.hovered};
+    background: ${props => props.theme.colors.background.fifth};
   }
 
   & .ProseMirror {
@@ -77,7 +75,7 @@ const ProjectTitle = styled(SidebarTitle)`
 
     &.empty-node::before {
       position: absolute;
-      color: ${props => props.theme.colors.editor.placeholder.default};
+      color: ${props => props.theme.colors.text.muted};
       cursor: text;
       content: 'Untitled Project';
       pointer-events: none;
@@ -87,26 +85,26 @@ const ProjectTitle = styled(SidebarTitle)`
     }
 
     &.empty-node:hover::before {
-      color: ${props => props.theme.colors.editor.placeholder.hovered};
+      color: ${props => props.theme.colors.text.secondary};
     }
   }
 `
 
 const SidebarManuscript = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: ${props => props.theme.grid.unit * 4}px;
 `
 
 const AddManuscriptButton = styled.button`
   display: flex;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.medium};
   align-items: center;
   cursor: pointer;
   background: transparent;
   border: none;
-  padding: 2px 8px;
+  padding: 2px ${props => props.theme.grid.unit * 2}px;
   letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.global.text.primary};
+  color: ${props => props.theme.colors.text.primary};
   white-space: nowrap;
   text-overflow: ellipsis;
 `

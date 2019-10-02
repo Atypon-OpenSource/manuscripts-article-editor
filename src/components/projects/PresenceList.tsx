@@ -165,17 +165,17 @@ export const PresenceListView: React.FC<{
 const AvatarStack = styled.div`
   display: flex;
   line-height: 1;
-  margin-left: 8px;
+  margin-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const AvatarContainer = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: -8px;
-  background: white;
+  margin-left: -${props => props.theme.grid.unit * 2}px;
+  background: ${props => props.theme.colors.background.primary};
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid ${props => props.theme.colors.background.primary};
   box-sizing: border-box;
   z-index: 1;
 

@@ -14,9 +14,9 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import {
   Avatar,
-  GreyButton,
   PrimaryButton,
   SearchIcon,
+  TertiaryButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
@@ -36,18 +36,18 @@ import CreateAuthorPageContainer from './CreateAuthorPageContainer'
 import SearchAuthorsSidebar from './SearchAuthorsSidebar'
 
 const PersonInitial = styled.span`
-  margin-right: 4px;
-  font-weight: 300;
+  margin-right: ${props => props.theme.grid.unit}px;
+  font-weight: ${props => props.theme.font.weight.light};
 `
 
 const PersonName = styled.div`
-  font-size: 120%;
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.xlarge};
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.medium};
 `
 
 const PersonData = styled.div`
-  padding-left: 10px;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const UserDataContainer = styled.div`
@@ -56,7 +56,7 @@ const UserDataContainer = styled.div`
 `
 
 const Container = styled.div`
-  padding-top: 5px;
+  padding-top: ${props => props.theme.grid.unit}px;
 `
 
 interface Props {
@@ -106,7 +106,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
 
         {!numberOfAddedAuthors ? (
           <Container>
-            <GreyButton onClick={handleDoneCancel}>Cancel</GreyButton>
+            <TertiaryButton onClick={handleDoneCancel}>Cancel</TertiaryButton>
           </Container>
         ) : (
           <PrimaryButton onClick={handleDoneCancel}>Done</PrimaryButton>
@@ -119,7 +119,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
       >
         <SidebarSearchIconContainer>
           {isSearching ? (
-            <SearchIcon color={theme.colors.authors.searchIcon} />
+            <SearchIcon color={theme.colors.brand.default} />
           ) : (
             <SearchIcon />
           )}

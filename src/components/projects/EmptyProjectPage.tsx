@@ -29,8 +29,8 @@ const OuterContainer = styled.div`
   overflow-y: auto;
   width: 100%;
   text-align: center;
-  font-size: 20px;
-  line-height: 28px;
+  font-size: ${props => props.theme.font.size.xlarge};
+  line-height: ${props => props.theme.font.lineHeight.large};
 `
 
 const Placeholder = styled.div`
@@ -47,24 +47,24 @@ const Action = styled.div`
 
 const AddManuscriptButton = styled.button`
   display: flex;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.medium};
   align-items: center;
   cursor: pointer;
   background: transparent;
   border: none;
-  padding: 2px 8px;
+  padding: 2px ${props => props.theme.grid.unit * 2}px;
   letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.global.text.primary};
+  color: ${props => props.theme.colors.text.primary};
   white-space: nowrap;
   text-overflow: ellipsis;
 `
 
 const Message = styled.div`
-  font-size: 21px;
+  font-size: ${props => props.theme.font.size.xlarge};
   margin-top: 25px;
-  font-weight: 300px;
-  color: ${props => props.theme.colors.textField.placeholder.default};
+  font-weight: ${props => props.theme.font.weight.xlight};
+  color: ${props => props.theme.colors.text.muted};
   max-width: 600px;
 
   @media (max-width: 850px) {
@@ -75,8 +75,8 @@ const Message = styled.div`
 `
 
 const ActionTitle = styled.div`
-  font-size: 24px;
-  font-weight: 500;
+  font-size: ${props => props.theme.font.lineHeight.large};
+  font-weight: ${props => props.theme.font.weight.medium};
   padding-bottom: 2px;
   letter-spacing: -0.5px;
   padding-left: 11px;

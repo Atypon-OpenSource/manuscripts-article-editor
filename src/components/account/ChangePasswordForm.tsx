@@ -13,7 +13,7 @@
 import {
   FormError,
   FormErrors,
-  PrimarySubmitButton,
+  PrimaryButton,
   TextField,
   TextFieldGroupContainer,
 } from '@manuscripts/style-guide'
@@ -66,7 +66,9 @@ export const ChangePasswordForm: React.FunctionComponent<
     {errors.submit && <FormError>{errors.submit}</FormError>}
 
     <ModalFormActions>
-      <PrimarySubmitButton disabled={isSubmitting}>Save</PrimarySubmitButton>
+      <PrimaryButton type="submit" disabled={isSubmitting}>
+        Save
+      </PrimaryButton>
     </ModalFormActions>
   </Form>
 )

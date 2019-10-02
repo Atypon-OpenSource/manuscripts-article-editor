@@ -10,47 +10,49 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { styled } from '../theme/styled-components'
+import { css, styled } from '../theme/styled-components'
 
 export const Sidebar = styled.div`
-  overflow-x: hidden;
+  // overflow-x: hidden;
   width: 100%;
   height: 100%;
-  padding: 16px 8px;
+  padding: ${props => props.theme.grid.unit * 4}px
+    ${props => props.theme.grid.unit * 2}px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme.colors.sidebar.background.default};
+  background: ${props => props.theme.colors.background.primary};
+`
+
+const commonStyles = css`
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+  padding: 0 ${props => props.theme.grid.unit * 3}px;
 `
 
 export const SidebarHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  padding: 0 12px;
-  flex-shrink: 0;
+  ${commonStyles}
+  margin-bottom: 54px;
 `
 
 export const SidebarFooter = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 16px;
-  padding: 0 12px;
-  flex-shrink: 0;
+  ${commonStyles}
+  margin-top: ${props => props.theme.grid.unit * 4}px;
 `
 
 export const SidebarTitle = styled.div`
-  font-size: 20px;
-  font-weight: 600;
-  color: ${props => props.theme.colors.sidebar.text.primary};
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.semibold};
+  color: ${props => props.theme.colors.text.primary};
   flex: 1;
   white-space: nowrap;
 `
 
 export const SidebarContent = styled.div`
   flex: 1;
-  padding: 0 12px;
+  padding: 0 ${props => props.theme.grid.unit * 3}px;
   position: relative;
   flex-shrink: 0;
 `
@@ -67,11 +69,10 @@ export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
   align-items: center;
   justify-content: space-between;
   background-color: ${props =>
-    props.selected ? props.theme.colors.sidebar.background.selected : 'unset'};
+    props.selected ? props.theme.colors.brand.xlight : 'unset'};
 
   &:hover {
-    background-color: ${props =>
-      props.theme.colors.sidebar.background.selected};
+    background-color: ${props => props.theme.colors.brand.xlight};
   }
 `
 
@@ -86,25 +87,25 @@ export const SidebarSearchField = styled.div`
 export const SidebarSearchText = styled.input`
   display: flex;
   flex: 1;
-  font-size: 14px;
+  font-size: ${props => props.theme.font.size.normal};
   border: none;
-  border-radius: ${props => props.theme.radius}px;
+  border-radius: ${props => props.theme.grid.radius.default};
   background-color: transparent;
   line-height: 30px;
   position: relative;
-  left: -16px;
-  right: -16px;
-  padding: 0 12px 0 24px;
+  left: -${props => props.theme.grid.unit * 4}px;
+  right: -${props => props.theme.grid.unit * 4}px;
+  padding: 0 ${props => props.theme.grid.unit * 3}px 0
+    ${props => props.theme.grid.unit * 6}px;
 
   &:hover,
   &:focus {
-    background-color: ${props =>
-      props.theme.colors.sidebar.background.selected};
+    background-color: ${props => props.theme.colors.brand.xlight};
     outline: none;
   }
 
   &::placeholder {
-    color: #aaa;
+    color: ${props => props.theme.colors.text.muted};
   }
 `
 

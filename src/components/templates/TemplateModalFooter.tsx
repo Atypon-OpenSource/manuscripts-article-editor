@@ -11,7 +11,11 @@
  */
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
-import { Button, ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
+import {
+  ButtonGroup,
+  PrimaryButton,
+  SecondaryButton,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { TemplateData } from '../../types/templates'
@@ -28,17 +32,17 @@ const ModalFooter = styled.div`
 `
 const FooterText = styled.div`
   flex: 1;
-  font-size: 14px;
-  font-weight: 400;
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.normal};
   line-height: 20px;
   max-width: 55%;
 
   @media (max-width: 767px) {
-    margin-bottom: 16px;
+    margin-bottom: ${props => props.theme.grid.unit * 4}px;
   }
 `
 const SelectedTemplateDesc = styled.div`
-  color: ${props => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 const SelectedTemplateDetails = styled.div`
@@ -48,13 +52,13 @@ const SelectedTemplateDetails = styled.div`
 `
 
 const SelectedTemplateTitle = styled.span`
-  color: ${props => props.theme.colors.global.text.primary};
-  font-weight: 500;
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.medium};
 `
 
 const SelectedTemplateType = styled.span`
-  color: ${props => props.theme.colors.global.text.tertiary};
-  margin-left: 8px;
+  color: ${props => props.theme.colors.text.secondary};
+  margin-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const FooterButtons = styled(ButtonGroup)`
@@ -65,14 +69,14 @@ const FooterButtons = styled(ButtonGroup)`
   }
 
   button {
-    line-height: 24px;
+    line-height: ${props => props.theme.font.lineHeight.large};
     transition: background-color 0.25s;
 
     &:disabled {
       &,
       &:hover {
-        border-color: ${props => props.theme.colors.button.secondary};
-        background-color: ${props => props.theme.colors.button.secondary};
+        border-color: ${props => props.theme.colors.text.secondary};
+        background-color: ${props => props.theme.colors.text.secondary};
       }
     }
   }
@@ -112,9 +116,9 @@ export const TemplateModalFooter: React.FC<Props> = ({
         )}
       </FooterText>
       <FooterButtons>
-        <Button onClick={createEmpty} disabled={creatingManuscript}>
+        <SecondaryButton onClick={createEmpty} disabled={creatingManuscript}>
           Add Empty
-        </Button>
+        </SecondaryButton>
         <PrimaryButton
           onClick={selectTemplate}
           disabled={creatingManuscript || !template}

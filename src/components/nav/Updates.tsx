@@ -18,13 +18,13 @@ import { theme } from '../../theme/theme'
 import { TopicView } from './TopicView'
 
 export const Popup = styled.div`
-  background: #fff;
-  border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
-  font-family: Barlow, sans-serif;
+  background: ${props => props.theme.colors.background.primary};
+  border-radius: ${props => props.theme.grid.radius.default};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  font-family: ${props => props.theme.font.family.sans};
   font-size: 10pt;
-  font-weight: normal;
-  color: #000;
+  font-weight: ${props => props.theme.font.weight.normal};
+  color: ${props => props.theme.colors.text.primary};
   max-width: 500px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -48,13 +48,15 @@ export const Link = styled.a`
 `
 
 const FooterLink = styled(Link)`
-  padding: 6px 24px 12px;
-  border-top: 1px solid #eee;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 6}px
+    ${props => props.theme.grid.unit * 3}px;
+  border-top: 1px solid ${props => props.theme.colors.border.secondary};
 `
 
 export const Title = styled.div`
   font-size: 1.1em;
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.weight.medium};
   cursor: pointer;
   flex: 1;
 
@@ -67,14 +69,15 @@ const Container = styled.div``
 
 const Header = styled.div`
   font-size: 1.6em;
-  font-weight: 200;
-  padding: 16px 24px;
-  border-bottom: 1px solid #eee;
+  font-weight: ${props => props.theme.font.weight.xlight};
+  padding: ${props => props.theme.grid.unit * 4}px
+    ${props => props.theme.grid.unit * 6}px;
+  border-bottom: 1px solid ${props => props.theme.colors.border.tertiary};
 `
 
 export const Heading = styled.div`
   font-size: 1.05em;
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.weight.medium};
   margin-bottom: 2px;
   display: flex;
   justify-content: space-between;
@@ -86,22 +89,23 @@ const UpdatesContent = styled.div`
 `
 
 export const Timestamp = styled.span`
-  color: #585858;
+  color: ${props => props.theme.colors.text.tertiary};
   font-size: 8pt;
-  font-weight: normal;
-  border-radius: 6px;
+  font-weight: ${props => props.theme.font.weight.normal};
+  border-radius: ${props => props.theme.grid.radius.default};
   border: 1px solid rgba(0, 197, 255, 0.12);
   background-color: rgba(0, 197, 255, 0.1);
   padding: 2pt 5pt;
   flex-shrink: 0;
   white-space: nowrap;
-  margin-left: 6px;
+  margin-left: ${props => props.theme.grid.unit}px;
 `
 
 export const TopicItem = styled.div`
   cursor: pointer;
-  font-weight: 400;
-  padding: 12px 24px;
+  font-weight: ${props => props.theme.font.weight.normal};
+  padding: ${props => props.theme.grid.unit * 3}px
+    ${props => props.theme.grid.unit * 6}px;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid #eee;
@@ -124,7 +128,8 @@ export const TopicItem = styled.div`
 `
 
 export const IndividualTopic = styled.div`
-  padding: 12px 24px;
+  padding: ${props => props.theme.grid.unit * 3}px
+    ${props => props.theme.grid.unit * 6}px;
 
   & ${TopicItem} {
     padding: 0;
@@ -200,7 +205,7 @@ export class Updates extends React.Component<Props, State> {
           <UpdatesContent>
             <Header onClick={() => this.selectTopic(undefined)}>
               <Back>
-                <BackArrowIcon size={15} color={theme.colors.updates.back} />{' '}
+                <BackArrowIcon size={15} color={theme.colors.text.tertiary} />{' '}
                 Back to Latest Updates
               </Back>
             </Header>

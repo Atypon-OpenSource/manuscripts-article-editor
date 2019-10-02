@@ -90,15 +90,15 @@ const ChatButton = styled.button`
   cursor: pointer;
   border: none;
   background: none;
-  padding: 8px;
+  padding: ${props => props.theme.grid.unit * 2}px;
   position: fixed;
-  bottom: 16px;
-  right: 16px;
+  bottom: ${props => props.theme.grid.unit * 4}px;
+  right: ${props => props.theme.grid.unit * 4}px;
   z-index: 5000000;
 
   &:hover {
     & path {
-      fill: #fdcd48;
+      fill: ${props => props.theme.colors.brand.secondary};
     }
   }
 
@@ -112,17 +112,17 @@ const ChatButton = styled.button`
 `
 
 const UnreadCount = styled.div`
-  height: 12px;
-  font-size: 10px;
-  background: #fdcd48;
+  height: ${props => props.theme.grid.unit * 3}px;
+  font-size: ${props => props.theme.font.size.small};
+  background: ${props => props.theme.colors.brand.secondary};
   padding: 2px 6px;
-  color: white;
+  color: ${props => props.theme.colors.text.onDark};
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  border-radius: 8px;
+  border-radius: ${props => props.theme.grid.radius.default};
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: ${props => props.theme.grid.unit}px;
+  right: ${props => props.theme.grid.unit}px;
 `

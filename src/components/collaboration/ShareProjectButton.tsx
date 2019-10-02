@@ -24,6 +24,27 @@ const ShareIconButton = styled(IconButton)`
   height: unset;
   width: unset;
 
+  svg {
+    text[fill],
+    rect[fill],
+    path[fill] {
+      fill: ${props => props.theme.colors.brand.default};
+    }
+    path[stroke] {
+      stroke: ${props => props.theme.colors.brand.default};
+    }
+  }
+  &:hover svg {
+    text[fill],
+    rect[fill],
+    path[fill] {
+      fill: ${props => props.theme.colors.brand.medium};
+    }
+    path[stroke] {
+      stroke: ${props => props.theme.colors.brand.medium};
+    }
+  }
+
   &:focus {
     outline: none;
   }

@@ -18,6 +18,6 @@ export const Hero = styled('div')`
 `
 
 export const SubHero = styled('div')`
-  font-size: 120%;
+  font-size: ${props => props.theme.font.size.xlarge};
   white-space: nowrap;
 `

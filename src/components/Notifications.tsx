@@ -72,12 +72,13 @@ const Container = styled.div`
 `
 
 export const NotificationPrompt = styled.div`
-  border: 1px solid ${props => props.theme.colors.modal.border};
-  box-shadow: 0 2px 4px 0 ${props => props.theme.colors.modal.shadow};
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-family: ${props => props.theme.fontFamily};
-  background: white;
+  border: 1px solid ${props => props.theme.colors.text.muted};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  border-radius: ${props => props.theme.grid.radius.small};
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 4}px;
+  font-family: ${props => props.theme.font.family.sans};
+  background: ${props => props.theme.colors.background.primary};
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -100,7 +101,7 @@ export const NotificationLink = styled.a.attrs({ target: '_blank' })`
   font-size: 80%;
 `
 export const NotificationMessage = styled.div`
-  margin: 0 16px;
+  margin: 0 ${props => props.theme.grid.unit * 4}px;
   display: flex;
   flex-direction: column;
 `

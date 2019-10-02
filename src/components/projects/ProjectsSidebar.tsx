@@ -36,9 +36,7 @@ import {
   RegularAddIcon,
 } from './ProjectsListPlaceholder'
 
-const Container = styled(Sidebar)`
-  background: white;
-`
+const Container = styled(Sidebar)``
 
 const Header = styled(SidebarHeader)`
   @media (max-width: 450px) {
@@ -51,10 +49,10 @@ const SidebarActionTitle = styled.span`
   align-items: center;
   padding-bottom: 2px;
   padding-left: 10px;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: ${props => props.theme.font.weight.medium};
+  font-size: ${props => props.theme.font.size.normal};
   letter-spacing: -0.2px;
-  color: ${props => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.text.primary};
 `
 
 const AddButton = styled.button`
@@ -66,7 +64,7 @@ const AddButton = styled.button`
   padding: 0;
 
   &:hover ${SidebarActionTitle} {
-    color: #000;
+    color: ${props => props.theme.colors.text.primary};
   }
 
   &:focus {

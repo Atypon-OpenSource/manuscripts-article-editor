@@ -56,5 +56,6 @@ export const StorageInfo: React.FC = () => {
 }
 
 const Container = styled.div`
-  padding: 8px 20px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 5}px;
 `

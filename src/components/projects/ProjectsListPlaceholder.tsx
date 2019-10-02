@@ -24,14 +24,14 @@ const SidebarActionTitle = styled.span`
   align-items: center;
   padding-left: 11px;
   padding-bottom: 2px;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: ${props => props.theme.font.weight.medium};
+  font-size: ${props => props.theme.font.size.normal};
   letter-spacing: -0.2px;
-  color: ${props => props.theme.colors.sidebar.text.primary};
+  color: ${props => props.theme.colors.text.primary};
 `
 const Title = styled.div`
   font-size: 24px;
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.weight.medium};
   padding-bottom: 2px;
   letter-spacing: -0.5px;
   padding-left: 11px;
@@ -46,7 +46,7 @@ const AddButton = styled.button`
   padding: 0;
 
   &:hover ${SidebarActionTitle} {
-    color: #000;
+    color: ${props => props.theme.colors.text.primary};
   }
 
   &:focus {
@@ -63,17 +63,17 @@ const OuterContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 20px;
+  font-size: ${props => props.theme.font.size.xlarge};
   line-height: 28px;
 `
 
 const FontStyle = styled.div`
-  font-size: 21px;
-  font-weight: 300px;
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.xlight};
 `
 const Text = styled(FontStyle)`
   padding-top: 25px;
-  color: ${props => props.theme.colors.textField.placeholder.default};
+  color: ${props => props.theme.colors.text.muted};
   max-width: 400px;
 `
 
@@ -98,11 +98,11 @@ const UploadFileTypes = styled.div`
 
 const BrowseLink = styled.span`
   margin: 0 2px;
-  font-size: 20px;
-  color: ${props => props.theme.colors.global.text.link};
+  font-size: ${props => props.theme.font.size.xlarge};
+  color: ${props => props.theme.colors.brand.default};
 
   cursor: pointer;
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.weight.medium};
 
   &:hover {
     text-decoration: underline;

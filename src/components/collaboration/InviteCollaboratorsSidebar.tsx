@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { GreyButton, PrimaryButton } from '@manuscripts/style-guide'
+import { PrimaryButton, TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
@@ -18,22 +18,22 @@ import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import { InvitationForm, InvitationValues } from './InvitationForm'
 
 const FormContainer = styled.div`
-  padding: 12px;
+  padding: ${props => props.theme.grid.unit * 3}px;
 `
 const Container = styled.div`
-  padding-top: 5px;
+  padding-top: ${props => props.theme.grid.unit}px;
 `
 
 const StyledSidebar = styled(Sidebar)<{ isModal?: boolean }>`
   background: ${props =>
     props.isModal
-      ? ` ${props.theme.colors.sidebar.background.default}`
-      : `white`};
+      ? props.theme.colors.background.secondary
+      : props.theme.colors.background.primary};
   border-right: ${props =>
     props.isModal
       ? `none`
       : `1px solid
-      ${props.theme.colors.sidebar.background.selected}`};
+      ${props.theme.colors.background.info}`};
 `
 
 interface Props {
@@ -58,7 +58,7 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
       <SidebarTitle>Invite</SidebarTitle>
       {!invitationSent ? (
         <Container>
-          <GreyButton onClick={handleCancel}>Cancel</GreyButton>
+          <TertiaryButton onClick={handleCancel}>Cancel</TertiaryButton>
         </Container>
       ) : (
         <PrimaryButton onClick={handleCancel}>Done</PrimaryButton>

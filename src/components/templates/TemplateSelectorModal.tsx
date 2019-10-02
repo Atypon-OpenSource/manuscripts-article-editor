@@ -27,13 +27,13 @@ import { TemplateSelectorList } from './TemplateSelectorList'
 import { TemplateTopicSelector } from './TemplateTopicSelector'
 
 const ModalContainer = styled.div`
-  background: ${props => props.theme.colors.global.background.default};
-  border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
+  background: ${props => props.theme.colors.background.primary};
+  border-radius: ${props => props.theme.grid.radius.default};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
   display: flex;
   flex-direction: column;
-  font-family: ${props => props.theme.fontFamily};
-  margin: 12px;
+  font-family: ${props => props.theme.font.family.sans};
+  margin: ${props => props.theme.grid.unit * 3}px;
   overflow: hidden;
 `
 
@@ -47,28 +47,28 @@ const ModalBody = styled.div`
 `
 
 const FiltersContainer = styled.div`
-  border: 1px solid ${props => props.theme.colors.popper.separator};
-  border-radius: 4px;
+  border: 1px solid ${props => props.theme.colors.border.secondary};
+  border-radius: ${props => props.theme.grid.radius.small};
   display: flex;
-  margin: 0 86px 16px;
+  margin: 0 86px ${props => props.theme.grid.unit * 4}px;
 
   @media (max-width: 450px) {
-    margin-left: 16px;
-    margin-right: 16px;
+    margin-left: ${props => props.theme.grid.unit * 4}px;
+    margin-right: ${props => props.theme.grid.unit * 4}px;
   }
 `
 
 const TemplatesContainer = styled.div`
-  border: 1px solid ${props => props.theme.colors.popper.separator};
-  border-radius: 4px;
+  border: 1px solid ${props => props.theme.colors.border.secondary};
+  border-radius: ${props => props.theme.grid.radius.small};
   list-style: none;
-  margin: 0 86px 16px;
+  margin: 0 86px ${props => props.theme.grid.unit * 4}px;
   min-height: 300px;
   overflow: hidden;
   padding: 0;
 
   @media (max-width: 450px) {
-    margin: 0 16px;
+    margin: 0 ${props => props.theme.grid.unit * 4}px;
   }
 `
 

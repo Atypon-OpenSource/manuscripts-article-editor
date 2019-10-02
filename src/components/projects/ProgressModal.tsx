@@ -23,14 +23,15 @@ const ModalBody = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  border-radius: ${props => props.theme.radius}px;
-  box-shadow: 0 4px 9px 0 ${props => props.theme.colors.modal.shadow};
-  background: #fff;
+  border-radius: ${props => props.theme.grid.radius.default};
+  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${props => props.theme.colors.background.primary};
 `
 
 const ModalMain = styled.div`
   flex: 1;
-  padding: 16px 32px;
+  padding: ${props => props.theme.grid.unit * 4}px
+    ${props => props.theme.grid.unit * 8}px;
   max-height: 70vh;
   overflow-y: auto;
   text-align: center;
@@ -38,7 +39,7 @@ const ModalMain = styled.div`
 `
 
 const ModalStatus = styled.div`
-  color: #777;
+  color: ${props => props.theme.colors.text.secondary};
   font-size: 120%;
   display: flex;
   align-items: center;
@@ -46,7 +47,7 @@ const ModalStatus = styled.div`
 `
 
 const ModalFooter = styled(ButtonGroup)`
-  padding: 16px;
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 interface Props {

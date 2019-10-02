@@ -11,7 +11,7 @@
  */
 
 import NavIcon from '@manuscripts/assets/react/NavIcon'
-import { Tip } from '@manuscripts/style-guide'
+import { IconButton, Tip } from '@manuscripts/style-guide'
 import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
@@ -24,31 +24,20 @@ export const MenuContainer = styled.div`
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  color: ${props => props.theme.colors.menu.text};
-  font-family: ${props => props.theme.fontFamily};
-  font-weight: 500;
-  font-size: 16px;
+  color: ${props => props.theme.colors.text.secondary};
+  font-family: ${props => props.theme.font.family.sans};
+  font-weight: ${props => props.theme.font.weight.medium};
+  font-size: ${props => props.theme.font.size.medium};
   white-space: nowrap;
-  border-bottom: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
+  border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
 `
 
-export const MenuBarIcon = styled.button`
-  height: 58px;
-  width: 58px;
-  padding: 0;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: inherit;
-
-  &:focus {
-    outline: none;
-  }
+export const MenuBarIcon = styled(IconButton).attrs(props => ({
+  defaultColor: true,
+}))`
+  margin: ${props => props.theme.grid.unit * 3}px
+    ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 5}px;
 `
 
 export const MenuSections = styled.div`
@@ -61,45 +50,35 @@ export const MenuSections = styled.div`
 export const MenuSection = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  margin-right: ${props => props.theme.grid.unit * 5}px;
 `
 
 export const MenuLink = styled(NavLink)`
   display: inline-flex;
   align-items: center;
-  padding: 3px 8px;
+  padding: ${props => props.theme.grid.unit}px
+    ${props => props.theme.grid.unit * 2}px;
   text-decoration: none;
   color: inherit;
-  border: solid 2px ${props => props.theme.colors.menu.button};
-  border-radius: 4px;
+  border: solid 2px ${props => props.theme.colors.brand.default};
+  border-radius: ${props => props.theme.grid.radius.small};
   margin-left: 20px;
 
   &.active {
-    background: ${props => props.theme.colors.menu.button};
-    color: white;
+    background: ${props => props.theme.colors.brand.default};
+    color: ${props => props.theme.colors.text.onDark};
   }
 
   &:hover {
-    background: white;
-    color: ${props => props.theme.colors.menu.button};
-    border: solid 2px ${props => props.theme.colors.menu.button};
+    background: ${props => props.theme.colors.background.primary};
+    color: ${props => props.theme.colors.brand.default};
+    border: solid 2px ${props => props.theme.colors.brand.default};
   }
 `
 
-export const FilledMenuBarIcon = styled(MenuBarIcon)`
-  & path {
-    fill: ${props => props.theme.colors.menu.icon.default};
-  }
+export const FilledMenuBarIcon = styled(MenuBarIcon)``
 
-  &:hover path {
-    fill: ${props => props.theme.colors.menu.icon.selected};
-  }
-`
-
-const MenuContainerWithBorder = styled(MenuContainer)`
-  border-top: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
-`
+const MenuContainerWithBorder = styled(MenuContainer)``
 
 interface Props {
   handleClose: React.MouseEventHandler<HTMLElement>

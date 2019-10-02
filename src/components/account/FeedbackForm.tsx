@@ -13,7 +13,7 @@
 import {
   FormError,
   FormErrors,
-  PrimarySubmitButton,
+  PrimaryButton,
   TextArea,
   TextField,
   TextFieldContainer,
@@ -31,7 +31,7 @@ export interface FeedbackValues {
 
 const Container = styled.div`
   margin-top: 10px;
-  color: ${props => props.theme.colors.global.text.secondary};
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 export const FeedbackForm: React.FunctionComponent<
@@ -74,7 +74,9 @@ export const FeedbackForm: React.FunctionComponent<
     {errors.submit && <FormError>{errors.submit}</FormError>}
 
     <ModalFormActions>
-      <PrimarySubmitButton disabled={isSubmitting}>Submit</PrimarySubmitButton>
+      <PrimaryButton type="submit" disabled={isSubmitting}>
+        Submit
+      </PrimaryButton>
     </ModalFormActions>
   </Form>
 )

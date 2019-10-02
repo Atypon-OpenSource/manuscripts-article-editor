@@ -25,7 +25,7 @@ import { ProjectRenameMessage } from '../Messages'
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: ${props => props.theme.fontFamily};
+  font-family: ${props => props.theme.font.family.sans};
   width: 480px;
   max-width: 70vw;
 
@@ -38,7 +38,7 @@ const ModalContainer = styled.div`
 const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding-bottom: 8px;
+  padding-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 const ModalMain = styled.div`
@@ -46,17 +46,17 @@ const ModalMain = styled.div`
   max-height: 70vh;
   overflow-y: auto;
   box-shadow: 0 10px 20px 0 rgba(107, 134, 164, 0.19);
-  background: #fff;
-  border-radius: 8px;
+  background: ${props => props.theme.colors.background.primary};
+  border-radius: ${props => props.theme.grid.radius.default};
 `
 
 const ModalTitle = styled.div`
   font-size: 24px;
-  padding: 16px;
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 const ModalBody = styled.div`
-  padding: 16px;
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 interface Props {

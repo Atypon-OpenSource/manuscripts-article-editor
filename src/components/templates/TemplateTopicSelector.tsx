@@ -12,6 +12,7 @@
 
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
+import { SecondaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { ResearchField } from '../../types/templates'
@@ -25,22 +26,11 @@ const TopicSelector = styled.div`
   }
 `
 
-const TopicsToggleButton = styled.button`
-  align-items: center;
-  background: transparent;
-  color: ${props => props.theme.colors.button.secondary};
-  border: 0;
-  cursor: pointer;
-  display: flex;
-  outline: none;
-  padding: 12px 14px;
-  font-size: 14px;
-  font-weight: 400;
-
-  &:focus,
-  &:hover {
-    color: ${props => props.theme.colors.button.primary};
-  }
+const TopicsToggleButton = styled(SecondaryButton)`
+  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.normal};
+  text-transform: none;
 `
 
 const SelectedTopic = styled.div`
@@ -68,7 +58,10 @@ export class TemplateTopicSelector extends React.Component<Props, State> {
 
     return (
       <TopicSelector>
-        <TopicsToggleButton onClick={() => this.setState({ isOpen: !isOpen })}>
+        <TopicsToggleButton
+          onClick={() => this.setState({ isOpen: !isOpen })}
+          onBlur={() => this.setState({ isOpen: !isOpen })}
+        >
           <SelectedTopic>{value ? value.name : 'All Topics'}</SelectedTopic>
 
           {isOpen ? (

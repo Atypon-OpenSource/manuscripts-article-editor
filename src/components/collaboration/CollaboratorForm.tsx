@@ -27,24 +27,25 @@ const DetailsContainer = styled.div`
 
 const InfoContainer = styled.div`
   position: absolute;
-  bottom: 15px;
+  bottom: ${props => props.theme.grid.unit * 4}px;
   width: inherit;
 `
 
 const NameField = styled.div`
   display: inline-flex;
-  font-size: 24px;
-  font-weight: normal;
-  color: ${props => props.theme.colors.global.text.primary};
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.normal};
+  color: ${props => props.theme.colors.text.primary};
+  color: ${props => props.theme.colors.text.primary};
   margin-bottom: 26px;
 `
 
 const EmailContainer = styled.div`
-  font-size: 17px;
-  font-weight: 500;
-  margin: 15px;
+  font-size: ${props => props.theme.font.size.large};
+  font-weight: ${props => props.theme.font.weight.medium};
+  margin: ${props => props.theme.grid.unit * 4}px;
   position: relative;
-  top: 9px;
+  top: ${props => props.theme.grid.unit * 2}px;
 `
 
 const CollaboratorInformationContainer = styled.div`
@@ -53,27 +54,27 @@ const CollaboratorInformationContainer = styled.div`
 `
 
 const Legend = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  padding-bottom: 19px;
+  font-size: ${props => props.theme.font.size.xlarge};
+  font-weight: ${props => props.theme.font.weight.medium};
+  padding-bottom: ${props => props.theme.grid.unit * 5}px;
 `
 
 const EmptyFieldText = styled.div`
-  font-size: 16px;
-  color: ${props => props.theme.colors.global.text.primary};
+  font-size: ${props => props.theme.font.size.large};
+  color: ${props => props.theme.colors.text.primary};
   opacity: 0.3;
   padding-left: 1px;
 `
 
 const AffiliationLabel = styled.div`
-  font-size: 16px;
-  color: ${props => props.theme.colors.label.text};
+  font-size: ${props => props.theme.font.size.large};
+  color: ${props => props.theme.colors.text.primary};
   padding: 3px 5px;
-  background: ${props => props.theme.colors.label.primary};
-  border-radius: 4px;
+  background: ${props => props.theme.colors.brand.light};
+  border-radius: ${props => props.theme.grid.radius.small};
   display: inline-flex;
-  margin-right: 7px;
-  margin-bottom: 7px;
+  margin-right: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 const AffiliationGroupContainer = styled.div`

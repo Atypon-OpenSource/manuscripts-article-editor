@@ -12,9 +12,9 @@
 
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import {
-  DangerSubmitButton,
   FormError,
   FormErrors,
+  PrimaryButton,
   TextField,
   TextFieldContainer,
 } from '@manuscripts/style-guide'
@@ -33,11 +33,11 @@ interface DeleteAccountProps {
 }
 
 const MessageContainer = styled.div`
-  font-family: Barlow;
-  font-size: 16px;
-  color: ${props => props.theme.colors.global.text.secondary};
-  margin-top: 15px;
-  margin-left: 20px;
+  font-family: ${props => props.theme.font.family.sans};
+  font-size: ${props => props.theme.font.size.medium};
+  color: ${props => props.theme.colors.text.secondary};
+  margin-top: ${props => props.theme.grid.unit * 4}px;
+  margin-left: ${props => props.theme.grid.unit * 5}px;
 `
 
 export const DeleteAccountForm: React.FunctionComponent<
@@ -71,9 +71,9 @@ export const DeleteAccountForm: React.FunctionComponent<
       </MessageContainer>
     )}
     <ModalFormActions>
-      <DangerSubmitButton disabled={isSubmitting}>
+      <PrimaryButton danger={true} type="submit" disabled={isSubmitting}>
         Delete Account
-      </DangerSubmitButton>
+      </PrimaryButton>
     </ModalFormActions>
   </Form>
 )

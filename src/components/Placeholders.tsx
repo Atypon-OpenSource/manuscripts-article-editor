@@ -61,7 +61,7 @@ const FixedPlaceholderContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: white;
+  background: ${props => props.theme.colors.background.primary};
   opacity: 1;
   z-index: 10;
 `

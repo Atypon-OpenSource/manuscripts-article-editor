@@ -14,11 +14,12 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs'
 import { styled } from '../theme/styled-components'
 
 export const InspectorContainer = styled.div`
-  height: 100%;
+  border-left: 1px solid ${props => props.theme.colors.border.tertiary};
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  height: 100%;
   min-width: 300px;
-  padding-right: 16px;
   overflow: auto;
 `
 
@@ -31,12 +32,12 @@ export const InspectorTabList = styled(TabList)`
   && {
     background: none;
     justify-content: center;
-    font-size: 14px;
+    font-size: ${props => props.theme.font.size.normal};
   }
 `
 
 export const InspectorPanelTabList = styled(InspectorTabList)`
-  margin-bottom: 16px;
+  margin-bottom: ${props => props.theme.grid.unit * 4}px;
 `
 
 export const InspectorTabPanels = styled(TabPanels)`
@@ -49,7 +50,7 @@ export const InspectorTabPanel = styled(TabPanel)``
 export const InspectorTab = styled(Tab)`
   && {
     background: none;
-    padding: 8px;
+    padding: ${props => props.theme.grid.unit * 2}px;
     border-bottom-width: 2px;
 
     &:focus {
@@ -57,7 +58,7 @@ export const InspectorTab = styled(Tab)`
     }
 
     &[data-selected] {
-      border-bottom-color: #2a6f9d;
+      border-bottom-color: ${props => props.theme.colors.brand.dark};
     }
   }
 `

@@ -45,7 +45,7 @@ const StyledTitleField = styled(TitleField)`
 
   & .ProseMirror {
     cursor: text;
-    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-family: ${props => props.theme.font.family.sans};
     line-height: 1.3;
 
     &:focus {
@@ -54,14 +54,14 @@ const StyledTitleField = styled(TitleField)`
 
     &.empty-node::before {
       position: absolute;
-      color: #ccc;
+      color: ${props => props.theme.colors.text.muted};
       cursor: text;
       content: 'Untitled Manuscript';
       pointer-events: none;
     }
 
     &.empty-node:hover::before {
-      color: #999;
+      color: ${props => props.theme.colors.text.secondary};
     }
   }
 `

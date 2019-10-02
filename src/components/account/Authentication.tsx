@@ -11,10 +11,10 @@
  */
 
 import {
-  Button,
   GoogleIcon,
   IconButton,
   OrcidIcon,
+  SecondaryButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import connectLogo from '../../../assets/connect.png'
@@ -23,9 +23,9 @@ import { styled } from '../../theme/styled-components'
 import { AuthProvider } from './AuthButtonContainer'
 
 const ButtonText = styled.div`
-  padding-right: 18px;
-  color: #959595;
-  font-weight: 500;
+  padding-right: ${props => props.theme.grid.unit * 4}px;
+  color: ${props => props.theme.colors.border.field.default};
+  font-weight: ${props => props.theme.font.weight.medium};
   position: relative;
   bottom: 1px;
 `
@@ -34,18 +34,21 @@ const IconButtonWithText = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  border-radius: 5px;
-  margin: 10px;
+  border-radius: ${props => props.theme.grid.radius.small};
+  margin: ${props => props.theme.grid.unit * 3}px;
 `
 
 const GoogleImage = styled.span`
   height: 45px;
-  padding: 5px 10px 5px 18px;
+  padding: ${props => props.theme.grid.unit}px
+    ${props => props.theme.grid.unit * 3}px ${props => props.theme.grid.unit}px
+    ${props => props.theme.grid.unit * 4}px;
 `
 
 const ConnectImage = styled.span`
   height: 25px;
-  padding: 5px 18px;
+  padding: ${props => props.theme.grid.unit}px
+    ${props => props.theme.grid.unit * 4}px;
   margin: auto;
 `
 
@@ -53,15 +56,15 @@ const TextButton = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  margin: 10px;
-  color: white;
-  font-weight: 200;
+  margin: ${props => props.theme.grid.unit * 3}px;
+  color: ${props => props.theme.colors.text.onDark};
+  font-weight: ${props => props.theme.font.weight.xlight};
 `
 
-const SignupButton = styled(Button)`
-  background-color: white;
-  color: ${props => props.theme.colors.button.primary};
-  margin-left: 10px;
+const SignupButton = styled(SecondaryButton)`
+  background-color: ${props => props.theme.colors.background.primary};
+  color: ${props => props.theme.colors.brand.default};
+  margin-left: ${props => props.theme.grid.unit * 3}px;
 `
 export interface AuthenticationButtonProps {
   redirect: (provider: AuthProvider, action?: string) => () => void
@@ -81,7 +84,7 @@ export const GoogleLogin: React.FunctionComponent<
 export const OrcidLogin: React.FunctionComponent<AuthenticationButtonProps> = ({
   redirect,
 }) => (
-  <IconButton type={'button'} onClick={redirect('orcid')}>
+  <IconButton onClick={redirect('orcid')}>
     <OrcidIcon size={48} />
   </IconButton>
 )

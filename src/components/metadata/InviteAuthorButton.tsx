@@ -30,7 +30,7 @@ interface Props {
 }
 
 const Button = styled(TextButton)`
-  margin-left: 10px;
+  margin-left: ${props => props.theme.grid.unit * 3}px;
 `
 
 class InviteAuthorButton extends React.Component<Props, State> {

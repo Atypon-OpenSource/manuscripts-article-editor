@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { lightAliceBlue } from '../../theme/colors'
 import { styled } from '../../theme/styled-components'
 
 export const EditorContainer = styled.div`
@@ -21,12 +20,9 @@ export const EditorContainer = styled.div`
   top: 0;
   bottom: 0;
   left: 0;
-  right: 16px;
+  right: ${props => props.theme.grid.unit * 4}px;
   overflow: hidden;
-  padding-left: 16px;
-  background: ${lightAliceBlue};
-  border-right: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
+  background: ${props => props.theme.colors.background.primary};
 `
 
 export const EditorContainerInner = styled.div`
@@ -34,22 +30,21 @@ export const EditorContainerInner = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 950px;
+  width: 960px;
   max-width: 100%;
-  padding-left: 12px;
-  background: white;
-  border: 1px solid ${props => props.theme.colors.sidebar.background.selected};
+  background: ${props => props.theme.colors.background.primary};
   border-bottom: none;
   border-top: none;
 `
 
 export const EditorHeader = styled.div`
-  padding: 4px 56px 20px;
-  background: white;
+  padding: ${props => props.theme.grid.unit * 4}px 56px
+    ${props => props.theme.grid.unit * 5}px;
+  background: ${props => props.theme.colors.background.primary};
   background: linear-gradient(
     0deg,
     rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 1) 16px
+    rgba(255, 255, 255, 1) ${props => props.theme.grid.unit * 4}px
   );
   z-index: 5;
 `
@@ -57,8 +52,8 @@ export const EditorHeader = styled.div`
 export const EditorBody = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 20px;
-  padding-right: 8px;
-  margin-top: -16px;
-  padding-top: 16px;
+  padding-bottom: ${props => props.theme.grid.unit * 5}px;
+  padding-right: ${props => props.theme.grid.unit * 2}px;
+  margin-top: -${props => props.theme.grid.unit * 4}px;
+  padding-top: ${props => props.theme.grid.unit * 4}px;
 `

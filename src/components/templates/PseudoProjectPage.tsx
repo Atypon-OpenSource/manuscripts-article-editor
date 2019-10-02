@@ -31,7 +31,7 @@ export const Overlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: ${props => props.theme.colors.modal.overlay};
+  background: ${props => props.theme.colors.brand.light};
   opacity: 0.75;
 `
 
@@ -46,14 +46,13 @@ const pseudoProject: Project = {
 }
 
 const StyledSidebar = styled(Sidebar)`
-  background: white;
-  border-right: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
+  background: ${props => props.theme.colors.background.primary};
+  border-right: 1px solid ${props => props.theme.colors.background.info};
 `
 
 const ProjectTitle = styled(SidebarTitle)`
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  font-weight: 450;
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.medium};
   border: 1px solid transparent;
   padding: 4px;
   margin: -4px 0 -4px;
@@ -62,7 +61,7 @@ const ProjectTitle = styled(SidebarTitle)`
 
   .ProseMirror.empty-node::before {
     position: absolute;
-    color: ${props => props.theme.colors.editor.placeholder.default};
+    color: ${props => props.theme.colors.text.muted};
     cursor: text;
     content: 'Untitled Project';
     pointer-events: none;

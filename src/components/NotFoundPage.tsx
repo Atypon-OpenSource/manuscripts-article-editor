@@ -23,7 +23,7 @@ const FullSizeContainer = styled.div`
   width: 100vw;
   height: 100vh;
   text-align: center;
-  font-family: ${props => props.theme.fontFamily};
+  font-family: ${props => props.theme.font.family.sans};
 `
 
 const Message = styled.div`
@@ -33,11 +33,11 @@ const Message = styled.div`
 
 const Heading = styled.p`
   font-size: 150%;
-  font-weight: bold;
+  font-weight: ${props => props.theme.font.weight.bold};
 `
 
 const NotFoundPath = styled.span`
-  font-weight: 600;
+  font-weight: ${props => props.theme.font.weight.semibold};
 `
 
 const NotFoundPage = (props: RouteComponentProps) => (

@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { PrimarySubmitButton } from '@manuscripts/style-guide'
+import { PrimaryButton } from '@manuscripts/style-guide'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Field, Form, Formik } from 'formik'
@@ -34,7 +34,7 @@ storiesOf('SelectField', module)
       <Form>
         <Field name={'locale'} component={SelectField} options={options} />
         <div style={{ marginTop: 20 }}>
-          <PrimarySubmitButton>Save</PrimarySubmitButton>
+          <PrimaryButton type="submit">Save</PrimaryButton>
         </div>
       </Form>
     </Formik>

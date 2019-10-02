@@ -18,9 +18,9 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import {
   Avatar,
-  GreyButton,
   PrimaryButton,
   SearchIcon,
+  TertiaryButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
@@ -40,14 +40,14 @@ import AddCollaboratorButton from './AddCollaboratorButton'
 import SearchCollaboratorsSidebar from './SearchCollaboratorsSidebar'
 
 const PersonInitial = styled.span`
-  margin-right: 4px;
-  font-weight: 300;
+  margin-right: ${props => props.theme.grid.unit}px;
+  font-weight: ${props => props.theme.font.weight.xlight};
 `
 
 const PersonName = styled.div`
-  font-size: 120%;
-  color: ${props => props.theme.colors.sidebar.text.primary};
-  font-weight: 500;
+  font-size: ${props => props.theme.font.size.xlarge};
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.medium};
   white-space: nowrap;
   text-overflow: ellipsis;
 `
@@ -65,8 +65,8 @@ const UserDataContainer = styled.div`
 
 const Invited = styled.div`
   display: flex;
-  font-size: 12px;
-  color: ${props => props.theme.colors.sidebar.label};
+  font-size: ${props => props.theme.font.size.small};
+  color: ${props => props.theme.colors.brand.default};
 `
 
 const InvitedContainer = styled.div`
@@ -83,9 +83,8 @@ const AddedIconContainer = styled.div`
   }
 `
 const StyledSidebar = styled(Sidebar)`
-  background: white;
-  border-right: 1px solid
-    ${props => props.theme.colors.sidebar.background.selected};
+  background: {props => props.theme.colors.background.primary};
+  border-right: 1px solid ${props => props.theme.colors.background.info};
 `
 
 interface Props {
@@ -135,7 +134,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
           <SidebarTitle>Add Collaborators</SidebarTitle>
 
           {!numberOfAddedCollaborators ? (
-            <GreyButton onClick={handleDoneCancel}>Cancel</GreyButton>
+            <TertiaryButton onClick={handleDoneCancel}>Cancel</TertiaryButton>
           ) : (
             <PrimaryButton onClick={handleDoneCancel}>Done</PrimaryButton>
           )}
@@ -147,7 +146,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
         >
           <SidebarSearchIconContainer>
             {isSearching ? (
-              <SearchIcon color={theme.colors.collaborators.searchIcon} />
+              <SearchIcon color={theme.colors.brand.xlight} />
             ) : (
               <SearchIcon />
             )}

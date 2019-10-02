@@ -14,7 +14,7 @@ import AttentionRed from '@manuscripts/assets/react/AttentionRed'
 import Check from '@manuscripts/assets/react/Check'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { Button, Tip } from '@manuscripts/style-guide'
+import { SecondaryButton, Tip } from '@manuscripts/style-guide'
 import { extname } from 'path'
 import React, { useCallback, useContext, useState } from 'react'
 import config from '../../config'
@@ -46,7 +46,7 @@ const createCitationImportErrorNotification = (
       </NotificationMessage>
     </NotificationHead>
     <NotificationActions>
-      <Button onClick={removeNotification}>Dismiss</Button>
+      <SecondaryButton onClick={removeNotification}>Dismiss</SecondaryButton>
     </NotificationActions>
   </NotificationPrompt>
 )
@@ -64,7 +64,7 @@ const createCitationImportSuccessNotification = (
       </NotificationMessage>
     </NotificationHead>
     <NotificationActions>
-      <Button onClick={removeNotification}>Dismiss</Button>
+      <SecondaryButton onClick={removeNotification}>Dismiss</SecondaryButton>
     </NotificationActions>
   </NotificationPrompt>
 )
@@ -137,13 +137,13 @@ export const CitationImportButton: React.FC<{
   }, [])
 
   return (
-    <Button onClick={handleImport}>
+    <SecondaryButton onClick={handleImport}>
       <Tip
         title={'Import bibliography data from a BibTeX or RIS file'}
         placement={'top'}
       >
         {importing ? 'Importing…' : 'Import from File'}
       </Tip>
-    </Button>
+    </SecondaryButton>
   )
 })

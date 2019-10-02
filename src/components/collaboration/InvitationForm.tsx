@@ -34,19 +34,17 @@ import { styled } from '../../theme/styled-components'
 import { projectInvitationSchema } from '../../validation'
 import { RadioButton } from '../RadioButton'
 
-const SendInvitationButton = styled(PrimaryButton).attrs({
-  type: 'submit',
-})`
+const SendInvitationButton = styled(PrimaryButton)`
   width: 100%;
 `
 
 const RadioButtonsContainer = styled.div`
-  padding-top: 24px;
-  padding-bottom: 24px;
+  padding-top: ${props => props.theme.grid.unit * 6}px;
+  padding-bottom: ${props => props.theme.grid.unit * 6}px;
 `
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: 9px;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 const errorResponseMessage = (status: number) => {
@@ -261,7 +259,10 @@ export class InvitationForm extends React.Component<Props, State> {
               {errors.role && <FormError>{errors.role}</FormError>}
             </RadioButtonsContainer>
 
-            <SendInvitationButton disabled={isSubmitting || !allowSubmit}>
+            <SendInvitationButton
+              type="submit"
+              disabled={isSubmitting || !allowSubmit}
+            >
               Send Invitation
             </SendInvitationButton>
           </Form>

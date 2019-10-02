@@ -15,7 +15,7 @@ import {
   FormActions,
   FormError,
   FormHeader,
-  PrimarySubmitButton,
+  PrimaryButton,
   TextField,
   TextFieldGroupContainer,
 } from '@manuscripts/style-guide'
@@ -41,7 +41,7 @@ const Container = styled.div`
 `
 const SignupLink = styled(Link)`
   text-decoration: underline;
-  color: ${props => props.theme.colors.global.text.error};
+  color: ${props => props.theme.colors.text.error};
 `
 
 export const RecoverForm: React.FunctionComponent<
@@ -87,9 +87,9 @@ export const RecoverForm: React.FunctionComponent<
     <FormActions>
       <div />
       <div>
-        <PrimarySubmitButton disabled={isSubmitting}>
+        <PrimaryButton type="submit" disabled={isSubmitting}>
           Send password reset
-        </PrimarySubmitButton>
+        </PrimaryButton>
       </div>
     </FormActions>
   </CenteredForm>

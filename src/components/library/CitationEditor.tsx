@@ -20,19 +20,19 @@ import { styled } from '../../theme/styled-components'
 import { CitationSearch } from './CitationSearch'
 
 const CitedItem = styled.div`
-  padding: 16px 0;
+  padding: ${props => props.theme.grid.unit * 4}px 0;
   cursor: pointer;
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
   }
 `
 
 const CitedItemTitle = styled(Title)``
 
 const CitedItemAuthors = styled.div`
-  margin-top: 4px;
-  color: #777;
+  margin-top: ${props => props.theme.grid.unit}px;
+  color: ${props => props.theme.colors.text.muted};
   flex: 1;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -53,8 +53,8 @@ const CitedItemActions = styled.span`
 `
 
 const CitedItems = styled.div`
-  padding: 0 16px;
-  font-family: ${props => props.theme.fontFamily};
+  padding: 0 ${props => props.theme.grid.unit * 4}px;
+  font-family: ${props => props.theme.font.family.sans};
   max-height: 70vh;
   overflow-y: auto;
 `
@@ -63,11 +63,11 @@ const ActionButton = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  height: 24px;
+  height: ${props => props.theme.grid.unit * 6}px;
 `
 
 const Actions = styled(ButtonGroup)`
-  padding: 16px;
+  padding: ${props => props.theme.grid.unit * 4}px;
 `
 
 interface Props {

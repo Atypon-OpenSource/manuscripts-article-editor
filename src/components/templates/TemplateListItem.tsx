@@ -37,18 +37,17 @@ const Title = styled.div<{ selected?: boolean }>`
 `
 
 const Description = styled.div<{ selected?: boolean }>`
-  font-size: 14px;
-  font-weight: 300;
+  font-weight: ${props => props.theme.font.size.small};
+  font-weight: ${props => props.theme.font.weight.light};
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
 `
 
 const PublisherName = styled.div`
-  color: ${props => props.theme.colors.global.text.tertiary};
-  font-size: 14px;
-  line-height: 16px;
-  margin-bottom: 6px;
+  color: ${props => props.theme.colors.text.primary};
+  font-size: ${props => props.theme.font.size.normal};
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
   overflow-x: hidden;
   text-overflow: ellipsis;
 `
@@ -58,47 +57,34 @@ const TemplateActions = styled.div<{ selected?: boolean }>`
 `
 
 const BundleTitle = styled.span`
-  font-weight: bold;
+  font-weight: ${props => props.theme.font.weight.bold};
   margin-right: 0.5ch;
 `
 
 const Container = styled.button<{ selected?: boolean }>`
   border: 0;
   border-bottom: 1px solid;
-  color: ${props => props.theme.colors.global.text.primary};
+  color: ${props => props.theme.colors.text.primary};
   cursor: pointer;
   font: inherit;
   position: relative;
   background-color: ${props =>
-    props.selected
-      ? props.theme.colors.templateSelector.item.container.background.selected
-      : props.theme.colors.templateSelector.item.container.background.default};
-  border-color: ${props =>
-    props.selected
-      ? props.theme.colors.templateSelector.item.container.border.selected
-      : props.theme.colors.templateSelector.item.container.border.default};
-  ${props =>
-    props.selected &&
-    'box-shadow: 0 -1px 0px 0 ' +
-      props.theme.colors.templateSelector.item.container.border.hovered};
+    props.selected ? props.theme.colors.background.secondary : 'transparent'};
+  border-color: ${props => props.theme.colors.border.secondary};
   outline: none;
-  padding: 16px;
-  padding-bottom: 12px;
+  padding: ${props => props.theme.grid.unit * 4}px;
+  padding-bottom: ${props => props.theme.grid.unit * 3}px;
   text-align: unset;
   width: 100%;
 
   &:hover,
   &:focus {
-    background-color: ${props =>
-      props.theme.colors.templateSelector.item.container.background.hovered};
-    border-color: ${props =>
-      props.theme.colors.templateSelector.item.container.border.hovered};
-    box-shadow: 0 -1px 0px 0 ${props => props.theme.colors.templateSelector.item.container.border.hovered};
+    background-color: ${props => props.theme.colors.background.secondary};
   }
 `
 
 const ArticleType = styled.span<{ selected?: boolean }>`
-  color: ${props => props.theme.colors.global.text.tertiary};
+  color: ${props => props.theme.colors.text.secondary};
   white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
 `
 

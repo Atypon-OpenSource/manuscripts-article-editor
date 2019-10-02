@@ -10,44 +10,44 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Avatar, GreyButton } from '@manuscripts/style-guide'
+import { Avatar, TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { PopperBody, SeparatorLine } from '../Popper'
 
 const CollaboratorName = styled.div`
   text-align: center;
-  font-size: 120%;
-  color: ${props => props.theme.colors.popper.text.primary};
-  font-weight: 600;
-  padding-bottom: 13px;
+  font-size: ${props => props.theme.font.size.xlarge};
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.semibold};
+  padding-bottom: ${props => props.theme.grid.unit * 3}px;
 `
 
 const AvatarStyle = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 14px;
-  padding-bottom: 6px;
+  padding-top: ${props => props.theme.grid.unit * 3}px;
+  padding-bottom: ${props => props.theme.grid.unit}px;
 `
 
 const Action = styled.div`
-  color: ${props => props.theme.colors.popper.text.primary};
-  font-weight: 600;
-  padding-left: 5px;
+  color: ${props => props.theme.colors.text.primary};
+  font-weight: ${props => props.theme.font.weight.semibold};
+  padding-left: ${props => props.theme.grid.unit}px;
 `
 
 const Message = styled.div`
   display: flex;
   justify-content: center;
-  color: ${props => props.theme.colors.popper.text.primary};
-  padding-bottom: 15px;
+  color: ${props => props.theme.colors.text.primary};
+  padding-bottom: ${props => props.theme.grid.unit * 4}px;
 `
 
 const Description = styled.div`
   display: flex;
-  padding-bottom: 10px;
-  font-size: 14px;
-  color: ${props => props.theme.colors.popper.text.secondary};
+  padding-bottom: ${props => props.theme.grid.unit * 2}px;
+  font-size: ${props => props.theme.font.size.normal};
+  color: ${props => props.theme.colors.text.secondary};
   text-align: center;
   white-space: normal;
 `
@@ -83,8 +83,8 @@ export const UninviteCollaboratorPopper: React.FunctionComponent<Props> = ({
     </Description>
     <SeparatorLine />
     <ButtonsContainer>
-      <GreyButton onClick={switchMode}>Cancel</GreyButton>
-      <GreyButton onClick={handleUninvite}>Uninvite</GreyButton>
+      <TertiaryButton onClick={switchMode}>Cancel</TertiaryButton>
+      <TertiaryButton onClick={handleUninvite}>Uninvite</TertiaryButton>
     </ButtonsContainer>
   </PopperBody>
 )

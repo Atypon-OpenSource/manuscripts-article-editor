@@ -68,7 +68,7 @@ class AddAuthorButton extends React.Component<Props, State> {
 
     return (
       <AddIconButton onClick={this.handleSelected}>
-        <AddIconInverted color={theme.colors.icon.primary} />
+        <AddIconInverted color={theme.colors.brand.default} />
       </AddIconButton>
     )
   }
