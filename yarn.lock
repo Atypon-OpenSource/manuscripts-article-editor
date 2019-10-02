@@ -14291,18 +14291,7 @@ pouchdb-promise@6.4.3, pouchdb-promise@^6.4.1:
   dependencies:
     lie "3.1.1"
 
-pouchdb-replication@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/pouchdb-replication/-/pouchdb-replication-7.0.0.tgz#b71751183dfa9337127d31de588e11e12cde5d9a"
-  integrity sha512-DHeP/8w1Q00yJJKfsXTipv3BPB0UhqZjCPTWvatrtfbtUX6v7MM4RXoq1UefvGbEHrThn3uoVL/MErdR5hvC/g==
-  dependencies:
-    inherits "2.0.3"
-    pouchdb-checkpointer "7.0.0"
-    pouchdb-errors "7.0.0"
-    pouchdb-generate-replication-id "7.0.0"
-    pouchdb-utils "7.0.0"
-
-"pouchdb-replication@gitlab:mpapp-public/pouchdb-replication#master":
+pouchdb-replication@7.0.0, "pouchdb-replication@gitlab:mpapp-public/pouchdb-replication#master":
   version "7.0.0-prerelease"
   resolved "https://gitlab.com/mpapp-public/pouchdb-replication/repository/archive.tar.gz?ref=13f2acf7ee642e3cabf8373b1592430927ef70cb"
   dependencies:

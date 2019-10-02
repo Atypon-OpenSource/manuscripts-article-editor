@@ -231,7 +231,7 @@
   },
   "resolutions": {
     "graphql": "14.4.2",
-    "rxdb/pouchdb-replication": "gitlab:mpapp-public/pouchdb-replication#master",
+    "pouchdb-replication": "gitlab:mpapp-public/pouchdb-replication#master",
     "pouchdb-adapter-leveldb-core": "gitlab:mpapp-public/pouchdb-adapter-leveldb-core#master",
     "pouchdb-core": "gitlab:mpapp-public/pouchdb-core#master",
     "rxjs": "6.5.2",
