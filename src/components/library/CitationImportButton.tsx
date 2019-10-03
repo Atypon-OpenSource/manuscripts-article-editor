@@ -18,8 +18,8 @@ import { SecondaryButton, Tip } from '@manuscripts/style-guide'
 import { extname } from 'path'
 import React, { useCallback, useContext, useState } from 'react'
 import config from '../../config'
+import { transformBibliography } from '../../lib/bibliography'
 import { openFilePicker } from '../../pressroom/importers'
-import { transformBibliography } from '../../pressroom/pressroom'
 import {
   NotificationComponent,
   NotificationContext,

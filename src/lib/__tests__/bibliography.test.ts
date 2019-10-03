@@ -11,13 +11,7 @@
  */
 
 import fs from 'fs'
-import { transformBibliography } from '../pressroom'
-
-jest.unmock('axios')
-jest.unmock('../pressroom')
-
-// allow 5 minutes for tests to complete
-jest.setTimeout(1000 * 60 * 5)
+import { transformBibliography } from '../bibliography'
 
 describe('importer', () => {
   test('imports a BibTeX file', async () => {
@@ -29,6 +23,15 @@ describe('importer', () => {
     const response = await transformBibliography(data, '.bib')
 
     expect(response).toHaveLength(72)
+
+    response.forEach(item => {
+      if (item.number) {
+        expect(typeof item.number).toBe('number')
+      }
+      if (item['number-of-pages']) {
+        expect(typeof item['number-of-pages']).toBe('number')
+      }
+    })
   })
 
   test('imports a RIS file', async () => {
@@ -40,5 +43,14 @@ describe('importer', () => {
     const response = await transformBibliography(data, '.ris')
 
     expect(response).toHaveLength(41)
+
+    response.forEach(item => {
+      if (item.number) {
+        expect(typeof item.number).toBe('number')
+      }
+      if (item['number-of-pages']) {
+        expect(typeof item['number-of-pages']).toBe('number')
+      }
+    })
   })
 })
