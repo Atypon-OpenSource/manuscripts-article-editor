@@ -12,14 +12,13 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import IntlProvider from './components/IntlProvider'
 import './lib/analytics'
 import './lib/fonts'
 import tokenHandler from './lib/token'
 import { ThemeProvider } from './theme/ThemeProvider'
 
-const LandingPage = React.lazy(() => import('./components/landing/LandingPage'))
 const Main = React.lazy(() => import('./Main'))
 
 ReactDOM.render(
@@ -29,14 +28,15 @@ ReactDOM.render(
         <BrowserRouter>
           <Switch>
             <Route
-              path={'/intro'}
+              path={'/'}
               exact={true}
-              render={() => <LandingPage />}
-            />
-            <Redirect
-              from={'/'}
-              exact={true}
-              to={tokenHandler.get() ? '/projects' : '/intro'}
+              children={({ history }) => {
+                if (tokenHandler.get()) {
+                  history.push('/projects')
+                } else {
+                  window.location.href = '/about'
+                }
+              }}
             />
             <Route path={'/'} render={() => <Main />} />
           </Switch>

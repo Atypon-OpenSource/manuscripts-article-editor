@@ -43,7 +43,7 @@ class LogoutPageContainer extends React.Component<
       tokenHandler.remove()
       userID.remove()
 
-      window.location.href = '/intro#sign-out'
+      window.location.href = '/about#sign-out'
     } catch (error) {
       this.setState({ error })
     }
