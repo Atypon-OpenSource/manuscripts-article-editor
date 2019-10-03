@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { convertDataToBibliographyItem } from '@manuscripts/manuscript-editor'
+import { CSL } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import axios, { AxiosResponse, ResponseType } from 'axios'
 import config from '../config'
@@ -62,20 +64,36 @@ export const convert = async (
   return response.data
 }
 
-export const transformFileContent = async (
+const chooseParser = (extension: string) => {
+  switch (extension) {
+    case '.bib':
+      return import('astrocite-bibtex')
+
+    case '.ris':
+      return import('astrocite-ris')
+
+    default:
+      throw new Error(`Unknown citation format ${extension}`)
+  }
+}
+
+const validRISLine = /^\w{2}\s{2}-/
+
+export const transformBibliography = async (
   data: string,
-  format: string
-): Promise<BibliographyItem[]> => {
-  const response = await client.post<{
-    items: BibliographyItem[]
-  }>('/v1/compile/bibliography', data, {
-    headers: {
-      'Pressroom-Source-Bibliography-Format': format,
-      'Content-Type': 'text/plain',
-    },
-  })
+  extension: string
+): Promise<Array<Partial<BibliographyItem>>> => {
+  const { parse } = await chooseParser(extension)
 
-  validateResponse(response)
+  if (extension === '.ris') {
+    // remove invalid lines
+    data = data
+      .split('\n')
+      .filter(line => validRISLine.test(line))
+      .join('\n')
+  }
 
-  return response.data.items
+  const items = parse(data) as CSL.Item[]
+
+  return items.map(convertDataToBibliographyItem)
 }

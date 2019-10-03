@@ -19,7 +19,7 @@ import { extname } from 'path'
 import React, { useCallback, useContext, useState } from 'react'
 import config from '../../config'
 import { openFilePicker } from '../../pressroom/importers'
-import { transformFileContent } from '../../pressroom/pressroom'
+import { transformBibliography } from '../../pressroom/pressroom'
 import {
   NotificationComponent,
   NotificationContext,
@@ -102,8 +102,8 @@ export const CitationImportButton: React.FC<{
           return
         }
 
-        const format = extname(file.name).replace('.', '')
-        const items = await transformFileContent(text, format)
+        const extension = extname(file.name)
+        const items = await transformBibliography(text, extension)
 
         if (!items || !items.length) {
           showNotification(

@@ -3873,6 +3873,29 @@ astral-regex@^1.0.0:
   resolved "https://registry.npmjs.org/astral-regex/-/astral-regex-1.0.0.tgz#6c8c3fb827dd43ee3918f27b82782ab7658a6fd9"
   integrity sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==
 
+astrocite-bibtex@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.npmjs.org/astrocite-bibtex/-/astrocite-bibtex-0.15.1.tgz#700a7e9c3aa5d0a08e98d076a3454b6fbbde50aa"
+  integrity sha512-Q5gUzakqH00H1WaNVT3uWX2ByfP4b0QLqLi9Tpu92hwkQXHLL/zwZ2xHOCTzoryHqL1n2Jx95CT4bMuzMCdaSg==
+  dependencies:
+    astrocite-core "^0.15.0"
+    csl-json "^0.1.0"
+
+astrocite-core@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.npmjs.org/astrocite-core/-/astrocite-core-0.15.0.tgz#191c5d2e39caa1a1ae8b5460a684630f34e50fa3"
+  integrity sha512-XReFjy0j442cCnHt8R5c2gQD+NrE6ZwiljmCG2tPXuRBXrRVhSYKe8taPNEW8l3S5LjYjGucwZBI1vzqGoRCIg==
+  dependencies:
+    csl-json "^0.1.0"
+
+astrocite-ris@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.npmjs.org/astrocite-ris/-/astrocite-ris-0.15.0.tgz#74a7a891f77a61c19b376141bad73f8f241d7cc8"
+  integrity sha512-CrhqcwWF89HOlJNwHz5VnFOfkoOUywE9/CHx5bszbe1X9jfujKWIh4piziK/lFVZMk3o9m6hUkG63tGtHpAlkg==
+  dependencies:
+    astrocite-core "^0.15.0"
+    csl-json "^0.1.0"
+
 async-each@^1.0.1:
   version "1.0.3"
   resolved "https://registry.npmjs.org/async-each/-/async-each-1.0.3.tgz#b727dbf87d7651602f06f4d4ac387f47d91b0cbf"
@@ -6615,6 +6638,11 @@ crypto-md5@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/crypto-md5/-/crypto-md5-1.0.0.tgz#ccc8da750c753c7edcbabc542967472a384e86bb"
   integrity sha1-zMjadQx1PH7curxUKWdHKjhOhrs=
+
+csl-json@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/csl-json/-/csl-json-0.1.0.tgz#5c625e03171c9232dc3839876c38bf5eef3b4187"
+  integrity sha512-KMvcQ07H0kMpzl2aO1mgyp+F+LVk+z+QMpN01noMUv0Uu4mqg4KyJjeM2u2716qU9ZgPq1Kr30DXqhT4RuEg1w==
 
 css-color-keywords@^1.0.0:
   version "1.0.0"
