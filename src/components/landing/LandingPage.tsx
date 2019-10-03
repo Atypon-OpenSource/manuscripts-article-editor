@@ -12,6 +12,7 @@
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import NavIconOutline from '@manuscripts/assets/react/NavIconOutline'
+import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import Avatar, { AvatarStyle } from 'avataaars'
 import React from 'react'
 import MailchimpSubscribe from 'react-mailchimp-subscribe'
@@ -424,10 +425,17 @@ const avatarStyle = { width: 90, height: 90 }
 const MAILCHIMP_URL =
   'https://manuscriptsapp.us9.list-manage.com/subscribe/post?u=51d661dd6ff88ac326a06ac8d&id=65b296c438'
 
+const action = window.location.hash.substr(1)
+
 const LandingPage: React.FunctionComponent = ({}) => (
   <>
     <GlobalStyle />
     <Header>
+      {action === 'sign-out' && (
+        <AlertMessage type={AlertMessageType.info}>
+          You have been logged out.
+        </AlertMessage>
+      )}
       <HeaderBar>
         <HeaderButtonGroup>
           <NavIconOutline width={50} />{' '}
