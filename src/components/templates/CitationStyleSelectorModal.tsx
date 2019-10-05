@@ -39,7 +39,6 @@ const FadingEdge = styled.div`
 `
 
 const TemplateSearch = styled.div`
-  margin-left: ${props => props.theme.grid.unit * 2}px;
   flex-shrink: 0;
 `
 

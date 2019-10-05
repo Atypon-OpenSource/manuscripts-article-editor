@@ -46,7 +46,7 @@ const ArrowUp = styled.div`
   border-left: ${props => props.theme.grid.unit * 2}px solid transparent;
   border-right: ${props => props.theme.grid.unit * 2}px solid transparent;
   border-bottom: ${props => props.theme.grid.unit * 2}px solid
-    ${props => props.theme.colors.text.muted};
+    ${props => props.theme.colors.background.primary};
   top: 1px;
 `
 
@@ -57,7 +57,7 @@ const ArrowDown = styled.div`
   border-left: ${props => props.theme.grid.unit * 2}px solid transparent;
   border-right: ${props => props.theme.grid.unit * 2}px solid transparent;
   border-top: ${props => props.theme.grid.unit * 2}px solid
-    ${props => props.theme.colors.text.muted};
+    ${props => props.theme.colors.background.primary};
   bottom: 1px;
 `
 

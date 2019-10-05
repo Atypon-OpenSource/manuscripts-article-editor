@@ -15,75 +15,48 @@ import AddIconHighlight from '@manuscripts/assets/react/AddIconHighlight'
 import DocIcon from '@manuscripts/assets/react/DocIcon'
 import MarkdownIcon from '@manuscripts/assets/react/MarkdownIcon'
 import TeXIcon from '@manuscripts/assets/react/TeXIcon'
+import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { ProjectPlaceholder } from '../Placeholders'
 
-const SidebarActionTitle = styled.span`
-  display: flex;
+const OuterContainer = styled.div`
   align-items: center;
-  padding-left: 11px;
-  padding-bottom: 2px;
-  font-weight: ${props => props.theme.font.weight.medium};
-  font-size: ${props => props.theme.font.size.normal};
-  letter-spacing: -0.2px;
-  color: ${props => props.theme.colors.text.primary};
-`
-const Title = styled.div`
-  font-size: 24px;
-  font-weight: ${props => props.theme.font.weight.medium};
-  padding-bottom: 2px;
-  letter-spacing: -0.5px;
-  padding-left: 11px;
-`
-
-const AddButton = styled.button`
   display: flex;
-  align-items: center;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-
-  &:hover ${SidebarActionTitle} {
-    color: ${props => props.theme.colors.text.primary};
-  }
-
-  &:focus {
-    outline: none;
-  }
+  flex: 1;
+  flex-direction: column;
+  font-size: ${props => props.theme.font.size.xlarge};
+  justify-content: center;
+  line-height: ${props => props.theme.font.lineHeight.large};
+  text-align: center;
 `
 
 const Placeholder = styled.div``
 
-const OuterContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: ${props => props.theme.font.size.xlarge};
-  line-height: 28px;
+const Title = styled.div`
+  font-size: 24px;
+  padding-left: ${props => props.theme.grid.unit * 3}px;
+`
+
+const AddButton = styled(IconButton)`
+  margin-top: ${props => props.theme.grid.unit * 10}px;
+  width: auto;
 `
 
 const FontStyle = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  font-weight: ${props => props.theme.font.weight.xlight};
+  font-size: ${props => props.theme.font.size.large};
+  font-weight: ${props => props.theme.font.weight.light};
 `
 const Text = styled(FontStyle)`
-  padding-top: 25px;
-  color: ${props => props.theme.colors.text.muted};
-  max-width: 400px;
+  padding-top: ${props => props.theme.grid.unit * 5}px;
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 const InnerText = styled(FontStyle)`
-  letter-spacing: -0.8px;
-  max-width: 400px;
+  max-width: 620px;
+  margin: auto;
 `
-const OuterText = styled(FontStyle)`
-  padding-bottom: 6px;
-`
+const OuterText = styled(FontStyle)``
 
 const UploadFileType = styled.span`
   display: inline-block;
@@ -91,22 +64,16 @@ const UploadFileType = styled.span`
 `
 
 const UploadFileTypes = styled.div`
-  margin-top: 30px;
+  margin-top: ${props => props.theme.grid.unit * 11}px;
   display: flex;
   justify-content: center;
 `
 
 const BrowseLink = styled.span`
-  margin: 0 2px;
-  font-size: ${props => props.theme.font.size.xlarge};
-  color: ${props => props.theme.colors.brand.default};
-
+  color: ${props => props.theme.colors.text.tertiary};
   cursor: pointer;
-  font-weight: ${props => props.theme.font.weight.medium};
-
-  &:hover {
-    text-decoration: underline;
-  }
+  margin: 0 2px;
+  text-decoration: underline;
 `
 
 export const RegularAddIcon = styled(AddIcon)`
@@ -127,10 +94,6 @@ export const AddIconContainer = styled.div`
   &:hover ${AddIconHover} {
     display: block;
   }
-
-  &:hover {
-    text-decoration: underline;
-  }
 `
 
 export interface Props {
@@ -149,11 +112,15 @@ export const ProjectsListPlaceholder: React.FunctionComponent<Props> = ({
       <ProjectPlaceholder />
     </Placeholder>
     {!isDragAccept ? (
-      <AddButton onClick={openTemplateSelector} id={'create-project'}>
+      <AddButton
+        onClick={openTemplateSelector}
+        id={'create-project'}
+        defaultColor={true}
+      >
         <AddIconContainer>
           <RegularAddIcon width={40} height={40} />
           <AddIconHover width={40} height={40} />
-          <Title>Create Project</Title>
+          <Title>Create Your First Project</Title>
         </AddIconContainer>
       </AddButton>
     ) : (
@@ -161,9 +128,12 @@ export const ProjectsListPlaceholder: React.FunctionComponent<Props> = ({
     )}
     {!isDragAccept ? (
       <Text>
-        <OuterText>Click above to create your first project.</OuterText>
+        <OuterText>
+          You can opt for a blank project or choose one of the many templates
+          available.
+        </OuterText>
         <InnerText>
-          You can also import a project by dragging a file to this window or by
+          You can also import a project by dragging a file to this window or
           <BrowseLink onClick={handleClick}> browsing</BrowseLink> for it.
         </InnerText>
       </Text>

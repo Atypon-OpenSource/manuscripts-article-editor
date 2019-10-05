@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { Notification } from '../NotificationMessage'
@@ -21,23 +22,17 @@ import {
 } from './ProjectsListPlaceholder'
 
 const OuterContainer = styled.div`
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  overflow-y: auto;
-  width: 100%;
-  text-align: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   font-size: ${props => props.theme.font.size.xlarge};
+  justify-content: center;
   line-height: ${props => props.theme.font.lineHeight.large};
+  text-align: center;
 `
 
-const Placeholder = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-`
+const Placeholder = styled.div``
 
 const Action = styled.div`
   display: flex;
@@ -45,41 +40,20 @@ const Action = styled.div`
   justify-content: center;
 `
 
-const AddManuscriptButton = styled.button`
-  display: flex;
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.medium};
-  align-items: center;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  padding: 2px ${props => props.theme.grid.unit * 2}px;
-  letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.text.primary};
-  white-space: nowrap;
-  text-overflow: ellipsis;
+const AddManuscriptButton = styled(IconButton)`
+  margin-top: ${props => props.theme.grid.unit * 10}px;
+  width: auto;
 `
 
 const Message = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  margin-top: 25px;
-  font-weight: ${props => props.theme.font.weight.xlight};
-  color: ${props => props.theme.colors.text.muted};
-  max-width: 600px;
-
-  @media (max-width: 850px) {
-    margin-right: 20px;
-    margin-left: 20px;
-    max-width: 350px;
-  }
+  font-weight: ${props => props.theme.font.weight.light};
+  padding-top: ${props => props.theme.grid.unit * 5}px;
+  color: ${props => props.theme.colors.text.secondary};
 `
 
 const ActionTitle = styled.div`
-  font-size: ${props => props.theme.font.lineHeight.large};
-  font-weight: ${props => props.theme.font.weight.medium};
-  padding-bottom: 2px;
-  letter-spacing: -0.5px;
-  padding-left: 11px;
+  font-size: 24px;
+  padding-left: ${props => props.theme.grid.unit * 3}px;
 `
 
 const TextContainer = styled.div`
@@ -104,7 +78,7 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
       </Placeholder>
 
       <Action>
-        <AddManuscriptButton onClick={openTemplateSelector}>
+        <AddManuscriptButton onClick={openTemplateSelector} defaultColor={true}>
           <AddIconContainer>
             <RegularAddIcon width={40} height={40} />
             <AddIconHover width={40} height={40} />

@@ -33,7 +33,7 @@ const SectionContainer = styled.div`
 `
 
 const StyledSidebar = styled(Sidebar)`
-  background: ${props => props.theme.colors.background.tertiary};
+  background: ${props => props.theme.colors.background.secondary};
   border-right: 1px solid ${props => props.theme.colors.border.tertiary};
   padding: ${props => props.theme.grid.unit * 4}px 0;
 
@@ -60,26 +60,31 @@ const ListTitle = styled.div`
 `
 
 const SectionLink = styled(NavLink)`
-  text-decoration: none;
+  align-items: center;
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
   color: ${props => props.theme.colors.text.secondary};
   display: flex;
-  align-items: center;
   padding: ${props => props.theme.grid.unit * 2}px
     ${props => props.theme.grid.unit * 2}px
     ${props => props.theme.grid.unit * 2}px
     ${props => props.theme.grid.unit * 9}px;
-  transition: background-color 0.25s;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   line-height: 1;
   overflow: hidden;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  transition: background-color 0.25s;
+  white-space: nowrap;
 
+  &:hover,
   &.active {
-    background-color: ${props => props.theme.colors.background.secondary};
+    border-color: ${props => props.theme.colors.border.primary};
+    background-color: ${props => props.theme.colors.background.fifth};
   }
 
-  &:hover {
-    background-color: ${props => props.theme.colors.background.secondary};
+  &:hover + &.active,
+  &.active + &:hover {
+    border-top-color: transparent;
   }
 `
 
@@ -122,7 +127,7 @@ export const LibrarySidebar: React.FC<
   // TODO: sort projectLibraryCollectionsArray by count, filter out empty
 
   return (
-    <Panel name={'librarySidebar'} minSize={200} direction={'row'} side={'end'}>
+    <Panel name={'librarySidebar'} minSize={290} direction={'row'} side={'end'}>
       <StyledSidebar>
         <SidebarContent>
           <Section

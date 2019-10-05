@@ -26,6 +26,7 @@ import { Popup } from './nav/Updates'
 const Button = styled(IconButton).attrs(props => ({
   size: 56,
 }))`
+  color: ${props => props.theme.colors.text.secondary};
   padding: ${props => props.theme.grid.unit * 2}px;
 `
 
@@ -51,12 +52,7 @@ const linkStyle = css`
   text-decoration: none;
 
   &:hover {
-    background: ${props => props.theme.colors.brand.default};
-    color: ${props => props.theme.colors.text.onDark};
-
-    path {
-      stroke: ${props => props.theme.colors.text.onDark};
-    }
+    background: ${props => props.theme.colors.background.fifth};
   }
 `
 

@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import AppIcon from '@manuscripts/assets/react/AppIcon'
 import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
-import NavIcon from '@manuscripts/assets/react/NavIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Tip } from '@manuscripts/style-guide'
@@ -54,14 +54,14 @@ const PageContainer = styled.div`
 
 const ViewsBar = styled.div`
   align-items: center;
-  background-color: ${props => props.theme.colors.background.secondary};
+  background-color: ${props => props.theme.colors.border.tertiary};
   display: flex;
   height: 100%;
   flex-direction: column;
   width: 56px;
 `
 
-const StyledNavIcon = styled(NavIcon)``
+const StyledNavIcon = styled(AppIcon)``
 
 const IconBar = styled.div`
   align-items: center;
@@ -86,11 +86,11 @@ const ViewLink = styled(NavLink)`
   height: ${props => props.theme.grid.unit * 8}px;
 
   &:hover {
-    color: ${props => props.theme.colors.button.secondary.color.hover};
+    color: ${props => props.theme.colors.brand.default};
   }
   &.active {
-    color: ${props => props.theme.colors.button.secondary.color.active};
-    background: ${props => props.theme.colors.background.fifth};
+    color: ${props => props.theme.colors.brand.default};
+    background: ${props => props.theme.colors.brand.xlight};
   }
 `
 

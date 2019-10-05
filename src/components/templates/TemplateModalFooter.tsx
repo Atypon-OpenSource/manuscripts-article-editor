@@ -63,22 +63,8 @@ const SelectedTemplateType = styled.span`
 
 const FooterButtons = styled(ButtonGroup)`
   flex: 1;
-
   @media (max-width: 767px) {
     justify-content: center;
-  }
-
-  button {
-    line-height: ${props => props.theme.font.lineHeight.large};
-    transition: background-color 0.25s;
-
-    &:disabled {
-      &,
-      &:hover {
-        border-color: ${props => props.theme.colors.text.secondary};
-        background-color: ${props => props.theme.colors.text.secondary};
-      }
-    }
   }
 `
 

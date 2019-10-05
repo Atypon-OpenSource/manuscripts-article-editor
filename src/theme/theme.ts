@@ -30,12 +30,12 @@ export const theme: Theme = {
   colors: {
     background: {
       primary: colors.white,
-      secondary: colors.seashellGrey,
-      tertiary: colors.alabasterGrey,
-      fifth: colors.blue,
+      secondary: colors.alabasterGrey,
+      tertiary: colors.mercuryGrey,
+      fifth: colors.manuscriptsXLight2,
       dark: 'rgba(0,0,0,0.5)',
       error: colors.chablisRed,
-      info: colors.powderBlue,
+      info: colors.manuscriptsXLight2,
       success: colors.peppermintGreen,
       warning: colors.butteryYellow,
     },
@@ -44,56 +44,56 @@ export const theme: Theme = {
       info: colors.manuscriptsBlue,
       success: colors.springGreen,
       warning: colors.wheatYellow,
-      primary: colors.dustyGrey,
-      secondary: colors.mercuryGrey,
-      tertiary: 'rgba(0, 0, 0, 0.1)',
+      primary: colors.manuscriptsLight, // 2
+      secondary: colors.mercuryGrey, // 2
+      tertiary: colors.seashellGrey, // 1
       field: {
-        active: colors.manuscriptsBlue,
-        default: colors.warmGrey,
-        hover: colors.manuscriptsBlue,
+        active: colors.manuscriptsLight,
+        default: colors.mercuryGrey,
+        hover: colors.manuscriptsLight,
       },
     },
     brand: {
-      dark: colors.jellyBeanBlue,
+      dark: colors.manuscriptsBlueDark,
       medium: colors.manuscriptsBlueDark,
       default: colors.manuscriptsBlue,
-      light: colors.iceBlue,
-      xlight: colors.linkWaterBlue,
-      secondary: colors.manuscriptsYellow,
+      light: colors.manuscriptsLight,
+      xlight: colors.manuscriptsXLight,
+      secondary: colors.manuscriptsSecondary,
     },
     button: {
       default: {
         background: {
           active: 'transparent',
           default: 'transparent',
-          hover: colors.seashellGrey,
+          hover: colors.manuscriptsXLight2,
         },
         border: {
           active: 'transparent',
           default: 'transparent',
-          hover: colors.seashellGrey,
+          hover: colors.manuscriptsXLight2,
         },
         color: {
-          active: colors.manuscriptsBlue,
-          default: colors.manuscriptsGrey,
-          hover: colors.manuscriptsGrey,
+          active: colors.manuscriptsBlueDark,
+          default: colors.manuscriptsBlueDark,
+          hover: colors.manuscriptsBlueDark,
         },
       },
       primary: {
         background: {
-          active: colors.manuscriptsBlueDark,
-          default: colors.manuscriptsBlue,
-          hover: 'transparent',
+          active: colors.manuscriptsBlue,
+          default: colors.manuscriptsBlueDark,
+          hover: colors.manuscriptsBlue,
         },
         border: {
-          active: colors.manuscriptsBlueDark,
-          default: colors.manuscriptsBlue,
-          hover: colors.manuscriptsBlueDark,
+          active: colors.manuscriptsBlue,
+          default: colors.manuscriptsBlueDark,
+          hover: colors.manuscriptsBlue,
         },
         color: {
           active: colors.white,
           default: colors.white,
-          hover: colors.manuscriptsBlueDark,
+          hover: colors.white,
         },
       },
       secondary: {
@@ -108,9 +108,9 @@ export const theme: Theme = {
           hover: colors.mercuryGrey,
         },
         color: {
-          active: colors.manuscriptsBlue,
-          default: colors.manuscriptsGrey,
-          hover: colors.manuscriptsBlue,
+          active: colors.manuscriptsBlueDark,
+          default: colors.greyDark,
+          hover: colors.manuscriptsBlueDark,
         },
       },
       error: {
@@ -132,12 +132,12 @@ export const theme: Theme = {
       },
     },
     text: {
-      primary: colors.manuscriptsGrey,
-      secondary: colors.dustyGrey,
-      tertiary: colors.scorpionGrey,
-      muted: colors.altoGrey,
+      primary: colors.greyDark,
+      secondary: colors.greyMuted,
+      tertiary: colors.manuscriptsBlueDark, // 0
+      muted: colors.mercuryGrey, // 0
       onDark: colors.white,
-      onLight: colors.manuscriptsGrey,
+      onLight: colors.greyMuted,
       error: colors.punchRed,
       info: colors.jellyBeanBlue,
       success: colors.killarneyGreen,

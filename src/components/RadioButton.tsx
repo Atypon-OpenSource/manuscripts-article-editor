@@ -9,103 +9,44 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-
+import { RadioButton as Radio } from '@manuscripts/style-guide'
 import React, { InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-const CustomRadioButton = styled.div`
-  position: absolute;
-  top: 2px;
-  left: 0;
-  width: ${props => props.theme.grid.unit * 4}px;
-  height: ${props => props.theme.grid.unit * 4}px;
-  background: ${props => props.theme.colors.background.primary};
-  border-radius: 50%;
-  border: solid 1px ${props => props.theme.colors.border.field.default};
-
-  &:after {
-    position: absolute;
-    display: none;
-    content: '';
-  }
-`
-
-const TextHint = styled.span`
-  font-size: ${props => props.theme.font.size.normal};
-  line-height: normal;
-  letter-spacing: -0.2px;
-  text-align: left;
+const TextHint = styled.p`
   color: ${props => props.theme.colors.text.secondary};
-  clear: both;
-  display: block;
-  padding-bottom: ${props => props.theme.grid.unit * 3}px;
+  font-size: ${props => props.theme.font.size.normal};
+  line-height: ${props => props.theme.font.lineHeight.normal};
+  margin: ${props => props.theme.grid.unit}px 0 0;
 `
 
-const Control = styled.label`
-  font-size: ${props => props.theme.font.size.large};
+const Control = styled.div`
+  font-weight: ${props => props.theme.font.weight.light};
+  margin-bottom: ${props => props.theme.grid.unit * 3}px;
   white-space: normal;
-  font-weight: ${props => props.theme.font.weight.xlight};
-  position: relative;
-  display: block;
-  line-height: 1.06;
-  letter-spacing: normal;
-  padding-left: ${props => props.theme.grid.unit * 8}px;
-  cursor: pointer;
-
-  & input {
-    position: absolute;
-    z-index: -1;
-    opacity: 0;
-  }
-
-  &:hover
-    input
-    ~ ${CustomRadioButton},
-    &:hover
-    input:checked:enabled
-    ~ ${CustomRadioButton} {
-    border-color: ${props => props.theme.colors.brand.default};
-  }
-
-  & input:disabled ~ ${CustomRadioButton} {
-    background-color: ${props => props.theme.colors.background.default};
-  }
-
-  & ${CustomRadioButton}:after {
-    top: 2px;
-    left: 2px;
-    width: ${props => props.theme.grid.unit * 3}px;
-    height: ${props => props.theme.grid.unit * 3}px;
-    border-radius: 50%;
-    background: ${props => props.theme.colors.brand.default};
-  }
-
-  & input:checked ~ ${CustomRadioButton}:after {
-    display: block;
-  }
-
-  & input:checked:disabled ~ ${CustomRadioButton}:after {
-    background: ${props => props.theme.colors.background.fifth};
-  }
-
-  & ${TextHint} {
-    margin: ${props => props.theme.grid.unit}px 0;
-  }
 `
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  _id: string
   textHint?: string
 }
 
 export const RadioButton: React.FunctionComponent<Props> = ({
+  _id,
   children,
   textHint,
   ...rest
 }) => (
   <Control>
-    <input {...rest} type={'radio'} />
-    <CustomRadioButton />
-    {children}
-    {textHint && <TextHint>{textHint}</TextHint>}
+    <Radio
+      {...rest}
+      id={_id}
+      label={
+        <>
+          {children}
+          {textHint && <TextHint>{textHint}</TextHint>}
+        </>
+      }
+    />
   </Control>
 )

@@ -1609,6 +1609,11 @@
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.2.tgz#273d307b681e83041194fc581eb530402ab0dc53"
   integrity sha512-XwwbM2AjVHNNAiqi4fgH/MO9By+9FFC0QVgZIJPwxnV+Eun1D7KFAQ8x7bnqjPOG6cAp47zIaQps8wY+i8M3UQ==
 
+"@manuscripts/assets@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.5.3.tgz#5b2905c9441e732c167ff9a300598e2292534634"
+  integrity sha512-WQ01rsO5yzWv965423RsJrN18Fq1wXttuyNCP2FA5Nt+TGY47YA6iShhMOncyvIAd+q6fHC/Tyqxbmlc1ft4Ag==
+
 "@manuscripts/comment-editor@^0.1.1":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@manuscripts/comment-editor/-/comment-editor-0.1.1.tgz#83c91b269e58f458bf28f8ab9c4ee39e3e4f70b4"
@@ -1755,12 +1760,12 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.11.0.tgz#ba4784653f2312a48f1cd7da0bb26e9760a4f14b"
-  integrity sha512-OukTrLlwEWo0IXAMZIz756GCfn2WuegxD2sSwInfjoLnfk/Yj931JRdtEi1p06nZ57gt76hmumTINwEa25jfHA==
+"@manuscripts/style-guide@^0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-0.11.1.tgz#86fca4ea5c9dd20ebcbe370809ccfa663203b6b5"
+  integrity sha512-+S53f1Jd3QSgeHtPrc68txMyVKU4KLGDZ8G2UDoMFZCT4Mu+O8vVxpaPAJ4OCoAcJLQhfnCMc3m7s0oJj7EzwA==
   dependencies:
-    "@manuscripts/assets" "^0.5.2"
+    "@manuscripts/assets" "^0.5.3"
     lodash-es "^4.17.11"
     react-dnd "^7.4.3"
     react-modal "^3.8.1"

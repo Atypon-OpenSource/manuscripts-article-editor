@@ -70,7 +70,7 @@ const AffiliationLabel = styled.div`
   font-size: ${props => props.theme.font.size.large};
   color: ${props => props.theme.colors.text.primary};
   padding: 3px 5px;
-  background: ${props => props.theme.colors.brand.light};
+  background: ${props => props.theme.colors.background.tertiary};
   border-radius: ${props => props.theme.grid.radius.small};
   display: inline-flex;
   margin-right: ${props => props.theme.grid.unit * 2}px;

@@ -123,6 +123,7 @@ const ShareURIForm: React.FunctionComponent<FormProps> = ({
       <React.Fragment>
         <MiniText>Anyone with the link can join as:</MiniText>
         <RadioButton
+          _id={'writer'}
           name={'role'}
           checked={selectedRole === 'Writer'}
           value={'Writer'}
@@ -133,6 +134,7 @@ const ShareURIForm: React.FunctionComponent<FormProps> = ({
           Writer
         </RadioButton>
         <RadioButton
+          _id={'viewer'}
           name={'role'}
           checked={selectedRole === 'Viewer'}
           value={'Viewer'}

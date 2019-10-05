@@ -50,7 +50,7 @@ const FiltersContainer = styled.div`
   border: 1px solid ${props => props.theme.colors.border.secondary};
   border-radius: ${props => props.theme.grid.radius.small};
   display: flex;
-  margin: 0 86px ${props => props.theme.grid.unit * 4}px;
+  margin: 0 30px ${props => props.theme.grid.unit * 4}px;
 
   @media (max-width: 450px) {
     margin-left: ${props => props.theme.grid.unit * 4}px;
@@ -62,7 +62,7 @@ const TemplatesContainer = styled.div`
   border: 1px solid ${props => props.theme.colors.border.secondary};
   border-radius: ${props => props.theme.grid.radius.small};
   list-style: none;
-  margin: 0 86px ${props => props.theme.grid.unit * 4}px;
+  margin: 0 30px ${props => props.theme.grid.unit * 4}px;
   min-height: 300px;
   overflow: hidden;
   padding: 0;

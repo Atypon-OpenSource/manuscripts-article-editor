@@ -209,6 +209,7 @@ export class InvitationForm extends React.Component<Props, State> {
               <Field name={'role'}>
                 {({ field }: FieldProps) => (
                   <RadioButton
+                    _id={'owner'}
                     {...field}
                     onFocus={this.dismissSuccessAlert}
                     value={'Owner'}
@@ -227,6 +228,7 @@ export class InvitationForm extends React.Component<Props, State> {
               <Field name={'role'}>
                 {({ field }: FieldProps) => (
                   <RadioButton
+                    _id={'writer'}
                     {...field}
                     onFocus={this.dismissSuccessAlert}
                     value={'Writer'}
@@ -243,6 +245,7 @@ export class InvitationForm extends React.Component<Props, State> {
               <Field name={'role'}>
                 {({ field }: FieldProps) => (
                   <RadioButton
+                    _id={'viewer'}
                     {...field}
                     onFocus={this.dismissSuccessAlert}
                     value={'Viewer'}

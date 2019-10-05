@@ -26,6 +26,7 @@ export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({
 }) => (
   <Container>
     <RadioButton
+      _id={'owner'}
       checked={value === 'Owner'}
       value={'Owner'}
       textHint={
@@ -37,6 +38,7 @@ export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({
     </RadioButton>
 
     <RadioButton
+      _id={'writer'}
       name={name}
       checked={value === 'Writer'}
       value={'Writer'}
@@ -47,6 +49,7 @@ export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({
     </RadioButton>
 
     <RadioButton
+      _id={'viewer'}
       name={name}
       checked={value === 'Viewer'}
       value={'Viewer'}

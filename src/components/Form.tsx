@@ -14,8 +14,7 @@ import { Link } from 'react-router-dom'
 import { styled } from '../theme/styled-components'
 
 export const FormLink = styled(Link)`
-  text-transform: uppercase;
-  color: ${props => props.theme.colors.brand.default};
+  color: ${props => props.theme.colors.brand.dark};
   font: inherit;
   font-size: ${props => props.theme.font.size.normal};
 `

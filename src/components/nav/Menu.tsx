@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import NavIcon from '@manuscripts/assets/react/NavIcon'
+import AppIcon from '@manuscripts/assets/react/AppIcon'
 import { IconButton, Tip } from '@manuscripts/style-guide'
 import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
@@ -35,9 +35,7 @@ export const MenuContainer = styled.div`
 export const MenuBarIcon = styled(IconButton).attrs(props => ({
   defaultColor: true,
 }))`
-  margin: ${props => props.theme.grid.unit * 3}px
-    ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 5}px;
+  margin: ${props => props.theme.grid.unit * 3}px;
 `
 
 export const MenuSections = styled.div`
@@ -89,7 +87,7 @@ export const Menu: React.FunctionComponent<Props> = ({ handleClose }) => (
     <FilledMenuBarIcon onClick={handleClose}>
       <OfflineIndicator>
         <Tip title={'Back to Editor'} placement={'bottom-end'}>
-          <NavIcon />
+          <AppIcon />
         </Tip>
       </OfflineIndicator>
     </FilledMenuBarIcon>

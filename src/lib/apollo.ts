@@ -47,7 +47,6 @@ const authLink = setContext((_, { headers }) => ({
 
 const hasSubscription = ({ query }: { query: DocumentNode }) => {
   const { kind, operation } = getMainDefinition(query)
-
   return kind === 'OperationDefinition' && operation === 'subscription'
 }
 

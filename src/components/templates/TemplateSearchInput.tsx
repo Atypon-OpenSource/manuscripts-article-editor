@@ -44,7 +44,7 @@ const SearchText = styled.input`
   margin: 0;
 
   &:focus {
-    background: ${props => props.theme.colors.background.secondary};
+    background: ${props => props.theme.colors.background.fifth};
   }
 
   &::-webkit-search-decoration {

@@ -31,7 +31,7 @@ export const Overlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: ${props => props.theme.colors.brand.light};
+  background: ${props => props.theme.colors.background.dark};
   opacity: 0.75;
 `
 

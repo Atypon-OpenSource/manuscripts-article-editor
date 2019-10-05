@@ -95,8 +95,8 @@ const InvitedContainer = styled.div`
 `
 
 const StyledSidebar = styled(Sidebar)`
-  background: ${props => props.theme.colors.background.primary};
-  border-right: 1px solid ${props => props.theme.colors.background.info};
+  background: ${props => props.theme.colors.background.secondary};
+  border-right: 1px solid ${props => props.theme.colors.border.tertiary};
 `
 
 const AlertMessageContainer = styled.div`

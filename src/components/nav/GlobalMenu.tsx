@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import NavIcon from '@manuscripts/assets/react/NavIcon'
+import AppIcon from '@manuscripts/assets/react/AppIcon'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import OfflineIndicator from '../OfflineIndicator'
@@ -30,21 +30,19 @@ interface Props {
 }
 
 const Container = styled.div`
+  font-size: ${props => props.theme.font.size.large};
+  font-weight: ${props => props.theme.font.weight.medium};
   padding: ${props => props.theme.grid.unit}px
     ${props => props.theme.grid.unit * 2}px;
-  margin-left: ${props => props.theme.grid.unit * 5}px;
+  margin-left: ${props => props.theme.grid.unit * 2}px;
   user-select: none;
-
-  &:hover {
-    cursor: default;
-  }
 `
 
 export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
   <MenuContainer>
     <FilledMenuBarIcon>
       <OfflineIndicator>
-        <NavIcon />
+        <AppIcon />
       </OfflineIndicator>
     </FilledMenuBarIcon>
     <MenuSections>

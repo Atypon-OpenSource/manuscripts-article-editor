@@ -10,10 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { TextField } from '@manuscripts/style-guide'
 import { css, styled } from '../theme/styled-components'
 
 export const Sidebar = styled.div`
-  // overflow-x: hidden;
   width: 100%;
   height: 100%;
   padding: ${props => props.theme.grid.unit * 4}px
@@ -62,9 +62,13 @@ interface SidebarPersonContainerProps {
 }
 
 export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
+  border: 1px solid transparent;
+  border-left: 0;
+  border-right: 0;
   display: flex;
-  margin: 0 -22px;
-  padding: 10px 20px;
+  margin: 0 -${props => props.theme.grid.unit * 5}px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 5}px;
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
@@ -72,40 +76,25 @@ export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
     props.selected ? props.theme.colors.brand.xlight : 'unset'};
 
   &:hover {
-    background-color: ${props => props.theme.colors.brand.xlight};
+    border-color: ${props => props.theme.colors.border.primary};
+    background-color: ${props => props.theme.colors.background.fifth};
   }
 `
 
 export const SidebarSearchField = styled.div`
   display: flex;
-  margin: 10px;
+  margin: ${props => props.theme.grid.unit * 3}px;
   align-items: center;
-  cursor: pointer;
-  flex-shrink: 0;
 `
 
-export const SidebarSearchText = styled.input`
-  display: flex;
-  flex: 1;
-  font-size: ${props => props.theme.font.size.normal};
+export const SidebarSearchText = styled(TextField)`
   border: none;
   border-radius: ${props => props.theme.grid.radius.default};
-  background-color: transparent;
-  line-height: 30px;
-  position: relative;
   left: -${props => props.theme.grid.unit * 4}px;
-  right: -${props => props.theme.grid.unit * 4}px;
-  padding: 0 ${props => props.theme.grid.unit * 3}px 0
-    ${props => props.theme.grid.unit * 6}px;
-
+  padding-left: ${props => props.theme.grid.unit * 5}px;
   &:hover,
   &:focus {
-    background-color: ${props => props.theme.colors.brand.xlight};
-    outline: none;
-  }
-
-  &::placeholder {
-    color: ${props => props.theme.colors.text.muted};
+    background-color: ${props => props.theme.colors.background.fifth};
   }
 `
 

@@ -23,41 +23,27 @@ import { styled } from '../../theme/styled-components'
 import { AuthProvider } from './AuthButtonContainer'
 
 const ButtonText = styled.div`
-  padding-right: ${props => props.theme.grid.unit * 4}px;
-  color: ${props => props.theme.colors.border.field.default};
-  font-weight: ${props => props.theme.font.weight.medium};
-  position: relative;
-  bottom: 1px;
+  color: ${props => props.theme.colors.text.secondary};
 `
 
-const IconButtonWithText = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  border-radius: ${props => props.theme.grid.radius.small};
-  margin: ${props => props.theme.grid.unit * 3}px;
+const IconButtonWithText = styled(IconButton)`
+  margin: ${props => props.theme.grid.unit}px;
+  padding: 0 ${props => props.theme.grid.unit * 4}px;
+  width: auto;
 `
 
 const GoogleImage = styled.span`
-  height: 45px;
-  padding: ${props => props.theme.grid.unit}px
-    ${props => props.theme.grid.unit * 3}px ${props => props.theme.grid.unit}px
-    ${props => props.theme.grid.unit * 4}px;
-`
-
-const ConnectImage = styled.span`
-  height: 25px;
-  padding: ${props => props.theme.grid.unit}px
-    ${props => props.theme.grid.unit * 4}px;
-  margin: auto;
+  height: ${props => props.theme.grid.unit * 10}px;
+  margin: -${props => props.theme.grid.unit}px 0 0 -${props =>
+      props.theme.grid.unit}px;
 `
 
 const TextButton = styled.div`
-  display: flex;
   align-items: center;
-  cursor: pointer;
-  margin: ${props => props.theme.grid.unit * 3}px;
   color: ${props => props.theme.colors.text.onDark};
+  cursor: pointer;
+  display: flex;
+  margin: ${props => props.theme.grid.unit * 3}px;
   font-weight: ${props => props.theme.font.weight.xlight};
 `
 
@@ -73,7 +59,7 @@ export interface AuthenticationButtonProps {
 export const GoogleLogin: React.FunctionComponent<
   AuthenticationButtonProps
 > = ({ redirect }) => (
-  <IconButtonWithText onClick={redirect('google')}>
+  <IconButtonWithText onClick={redirect('google')} defaultColor={true}>
     <GoogleImage>
       <GoogleIcon size={45} title={'Google logo'} />
     </GoogleImage>
@@ -84,7 +70,7 @@ export const GoogleLogin: React.FunctionComponent<
 export const OrcidLogin: React.FunctionComponent<AuthenticationButtonProps> = ({
   redirect,
 }) => (
-  <IconButton onClick={redirect('orcid')}>
+  <IconButton onClick={redirect('orcid')} defaultColor={true}>
     <OrcidIcon size={48} />
   </IconButton>
 )
@@ -93,9 +79,7 @@ export const ConnectLogin: React.FunctionComponent<
   AuthenticationButtonProps
 > = ({ redirect }) => (
   <IconButtonWithText onClick={redirect('iam')}>
-    <ConnectImage>
-      <img src={connectLogo} height={25} alt={'Connect logo'} />
-    </ConnectImage>
+    <img src={connectLogo} height={25} alt={'Connect logo'} />
   </IconButtonWithText>
 )
 

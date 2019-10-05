@@ -38,12 +38,14 @@ const SidebarProject = styled.div<{ isActive: boolean }>`
   cursor: pointer;
 
   background-color: ${props =>
-    props.isActive ? props.theme.colors.background.secondary : 'transparent'};
+    props.isActive ? props.theme.colors.background.fifth : 'transparent'};
 
+  border-top: 1px solid transparent;
   border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
 
   &:hover {
-    background-color: ${props => props.theme.colors.background.secondary};
+    border-color: ${props => props.theme.colors.border.primary};
+    background-color: ${props => props.theme.colors.background.fifth};
   }
 
   @media (max-width: 450px) {

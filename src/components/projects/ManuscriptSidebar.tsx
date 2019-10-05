@@ -43,7 +43,7 @@ import {
 } from './ProjectsListPlaceholder'
 
 const StyledSidebar = styled(Sidebar)`
-  background: ${props => props.theme.colors.background.tertiary};
+  background: ${props => props.theme.colors.background.secondary};
   border-right: 1px solid ${props => props.theme.colors.border.tertiary};
 `
 
