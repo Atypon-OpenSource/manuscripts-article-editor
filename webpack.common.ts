@@ -28,11 +28,7 @@ const configuration: webpack.Configuration = {
     const plugins = [
       new CleanWebpackPlugin(),
       new webpack.EnvironmentPlugin(environmentVariables),
-      new CopyWebpackPlugin([
-        'public/landing.html',
-        'public/screenshot.png',
-        'public/modernizr.js',
-      ]),
+      new CopyWebpackPlugin(['public/screenshot.png', 'public/modernizr.js']),
       new HtmlWebpackPlugin({
         template: 'public/index.html',
         title: 'Manuscripts.io',
