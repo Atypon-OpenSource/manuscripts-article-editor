@@ -34,7 +34,7 @@ ReactDOM.render(
                 if (tokenHandler.get()) {
                   history.push('/projects')
                 } else {
-                  window.location.href = '/about'
+                  window.location.href = '/about/'
                 }
               }}
             />
