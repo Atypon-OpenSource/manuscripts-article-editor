@@ -53,7 +53,10 @@ const configuration: webpack.Configuration = {
           // TODO: cache locales as they're loaded?
           importWorkboxFrom: 'local', // load workbox from local files
           navigateFallback: '/index.html',
-          navigateFallbackBlacklist: [/^\/data\//], // shared data can be under /data
+          navigateFallbackBlacklist: [
+            /^\/data\//, // shared data is under /data/
+            /^\/about/, // landing page is under /about
+          ],
           offlineGoogleAnalytics: true,
           runtimeCaching: [
             // cache shared data
