@@ -134,7 +134,7 @@ export const ProjectsListPlaceholder: React.FunctionComponent<Props> = ({
         </OuterText>
         <InnerText>
           You can also import a project by dragging a file to this window or
-          <BrowseLink onClick={handleClick}> browsing</BrowseLink> for it.
+          <BrowseLink onClick={handleClick}>browsing</BrowseLink> for it.
         </InnerText>
       </Text>
     ) : (
