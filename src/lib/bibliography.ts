@@ -47,3 +47,33 @@ export const transformBibliography = async (
 
   return items.map(convertDataToBibliographyItem)
 }
+
+// tslint:disable-next-line:cyclomatic-complexity
+export const matchLibraryItemByIdentifier = (
+  item: BibliographyItem,
+  library: Map<string, BibliographyItem>
+): BibliographyItem | undefined => {
+  if (library.has(item._id)) {
+    return library.get(item._id)
+  }
+
+  if (item.DOI) {
+    const doi = item.DOI.toLowerCase()
+
+    for (const model of library.values()) {
+      if (model.DOI && model.DOI.toLowerCase() === doi) {
+        return model
+      }
+    }
+  }
+
+  if (item.URL) {
+    const url = item.URL.toLowerCase()
+
+    for (const model of library.values()) {
+      if (model.URL && model.URL.toLowerCase() === url) {
+        return model
+      }
+    }
+  }
+}

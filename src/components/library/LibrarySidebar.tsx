@@ -13,6 +13,7 @@
 import TriangleCollapsed from '@manuscripts/assets/react/TriangleCollapsed'
 import TriangleExpanded from '@manuscripts/assets/react/TriangleExpanded'
 import {
+  BibliographyItem,
   Library,
   LibraryCollection,
 } from '@manuscripts/manuscripts-json-schema'
@@ -20,8 +21,10 @@ import React from 'react'
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom'
 import { sources } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
+import { AddButton } from '../AddButton'
 import Panel from '../Panel'
-import { Sidebar, SidebarContent } from '../Sidebar'
+import { Sidebar, SidebarContent, SidebarFooter } from '../Sidebar'
+import { BibliographyImportButton } from './BibliographyImportButton'
 import {
   DEFAULT_LIBRARY_COLLECTION_CATEGORY,
   sidebarIcon,
@@ -105,6 +108,7 @@ export const LibrarySidebar: React.FC<
     projectLibraryCollections: Map<string, LibraryCollection>
     globalLibraries: Map<string, Library>
     globalLibraryCollections: Map<string, LibraryCollection>
+    importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
   }
 > = ({
   projectLibraryCollections,
@@ -113,6 +117,7 @@ export const LibrarySidebar: React.FC<
   match: {
     params: { projectID, sourceID, sourceType },
   },
+  importItems,
 }) => {
   const globalLibrariesArray = Array.from(globalLibraries.values())
   const globalLibraryCollectionsArray = Array.from(
@@ -215,12 +220,26 @@ export const LibrarySidebar: React.FC<
             ))}
           </Section>
         </SidebarContent>
+        <SidebarFooter>
+          <BibliographyImportButton
+            importItems={importItems}
+            component={ImportButton}
+          />
+        </SidebarFooter>
       </StyledSidebar>
     </Panel>
   )
 }
 
 export const LibrarySidebarWithRouter = withRouter(LibrarySidebar)
+
+interface Props {
+  importItems: () => void
+}
+
+const ImportButton: React.FunctionComponent<Props> = ({ importItems }) => (
+  <AddButton action={importItems} title="Import from File" />
+)
 
 const Section: React.FC<{
   open: boolean

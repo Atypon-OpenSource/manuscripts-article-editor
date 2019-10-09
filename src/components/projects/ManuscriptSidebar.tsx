@@ -27,6 +27,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import { Permissions } from '../../types/permissions'
+import { AddButton } from '../AddButton'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import Panel from '../Panel'
 import {
@@ -36,11 +37,6 @@ import {
   SidebarHeader,
   SidebarTitle,
 } from '../Sidebar'
-import {
-  AddIconContainer,
-  AddIconHover,
-  RegularAddIcon,
-} from './ProjectsListPlaceholder'
 
 const StyledSidebar = styled(Sidebar)`
   background: ${props => props.theme.colors.background.secondary};
@@ -92,25 +88,6 @@ const ProjectTitle = styled(SidebarTitle)`
 
 const SidebarManuscript = styled.div`
   margin-bottom: ${props => props.theme.grid.unit * 4}px;
-`
-
-const AddManuscriptButton = styled.button`
-  display: flex;
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.medium};
-  align-items: center;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  padding: 2px ${props => props.theme.grid.unit * 2}px;
-  letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.text.primary};
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`
-
-const ManuscriptAdd = styled.div`
-  padding-left: 10px;
 `
 
 const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
@@ -209,13 +186,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
 
         <SidebarFooter>
           {permissions.write && (
-            <AddManuscriptButton onClick={handleNewManuscript}>
-              <AddIconContainer>
-                <RegularAddIcon width={20} height={21} />
-                <AddIconHover width={20} height={21} />
-                <ManuscriptAdd>New Manuscript</ManuscriptAdd>
-              </AddIconContainer>
-            </AddManuscriptButton>
+            <AddButton action={handleNewManuscript} title="New Manuscript" />
           )}
         </SidebarFooter>
       </StyledSidebar>

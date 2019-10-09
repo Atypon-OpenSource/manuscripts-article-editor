@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Build } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Library,
@@ -20,6 +21,7 @@ import {
 import React, { useState } from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
 import { useDebounce } from '../../hooks/use-debounce'
+import { matchLibraryItemByIdentifier } from '../../lib/bibliography'
 import { Collection } from '../../sync/Collection'
 import { ExternalSearch } from './ExternalSearch'
 import { GlobalLibrary } from './GlobalLibrary'
@@ -61,12 +63,37 @@ export const LibraryPageContainer: React.FC<
 
   const debouncedQuery = useDebounce(query, 500)
 
+  const importItems = async (items: Array<Build<BibliographyItem>>) => {
+    const newItems: BibliographyItem[] = []
+
+    for (const item of items) {
+      const existingItem = matchLibraryItemByIdentifier(
+        item as BibliographyItem,
+        projectLibrary
+      )
+
+      if (!existingItem) {
+        // add the item to the model map so it's definitely available
+        projectLibrary.set(item._id, item as BibliographyItem)
+
+        // save the new item
+        const newItem = await projectLibraryCollection.create(item, {
+          containerID: projectID,
+        })
+        newItems.push(newItem)
+      }
+    }
+
+    return newItems
+  }
+
   return (
     <>
       <LibrarySidebarWithRouter
         projectLibraryCollections={projectLibraryCollections}
         globalLibraries={globalLibraries}
         globalLibraryCollections={globalLibraryCollections}
+        importItems={importItems}
       />
 
       <Switch>
