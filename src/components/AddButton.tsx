@@ -9,46 +9,96 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import React from 'react'
-import { styled } from '../theme/styled-components'
-import {
-  AddIconContainer,
-  AddIconHover,
-  RegularAddIcon,
-} from './projects/ProjectsListPlaceholder'
 
-const Action = styled.button`
+import AddIcon from '@manuscripts/assets/react/AddIcon'
+import AddIconHighlight from '@manuscripts/assets/react/AddIconHighlight'
+import { IconTextButton } from '@manuscripts/style-guide'
+import React, { ReactNode } from 'react'
+import { css, styled } from '../theme/styled-components'
+
+const RegularAddIcon = styled(AddIcon)``
+
+const AddIconHover = styled(AddIconHighlight)`
+  opacity: 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: opacity 0.5s;
+`
+
+const AddIconContainer = styled.div`
   display: flex;
+  position: relative;
+`
+
+const smallStyles = css`
   font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.medium};
-  align-items: center;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  padding: 2px ${props => props.theme.grid.unit * 2}px;
-  letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.text.primary};
-  white-space: nowrap;
+`
+const defaultStyles = css`
+  svg {
+    max-height: 28px;
+    max-width: 28px;
+  }
+`
+const mediumStyles = css`
+  font-size: ${props => props.theme.font.size.medium};
+  svg {
+    max-height: 36px;
+    max-width: 36px;
+  }
+`
+const largeStyles = css`
+  font-size: ${props => props.theme.font.size.xlarge};
+  svg {
+    max-height: 40px;
+    max-width: 40px;
+  }
+`
+const Action = styled(IconTextButton)<{
+  size: 'small' | 'default' | 'medium' | 'large'
+}>`
+  font-size: ${props => props.theme.font.size.normal};
   text-overflow: ellipsis;
+
+  ${props =>
+    props.size === 'small'
+      ? smallStyles
+      : props.size === 'medium'
+      ? mediumStyles
+      : props.size === 'large'
+      ? largeStyles
+      : defaultStyles};
+
+  svg {
+    margin: 0;
+  }
+
+  &:hover ${AddIconHover} {
+    opacity: 1;
+  }
 `
 
 const ActionTitle = styled.div`
   padding-left: ${props => props.theme.grid.unit * 3}px;
 `
 interface Props {
-  action: () => void
-  title: string
+  action: React.MouseEventHandler
+  id?: string
+  size: 'small' | 'medium' | 'default' | 'large'
+  title: string | ReactNode
 }
 
 export const AddButton: React.FunctionComponent<Props> = ({
   action,
+  id,
+  size,
   title,
 }) => (
-  <Action onClick={action}>
+  <Action onClick={action} size={size} id={id}>
     <AddIconContainer>
-      <RegularAddIcon width={20} height={21} />
-      <AddIconHover width={20} height={21} />
-      <ActionTitle>{title}</ActionTitle>
+      <RegularAddIcon width={40} height={40} />
+      <AddIconHover width={40} height={40} />
     </AddIconContainer>
+    <ActionTitle>{title}</ActionTitle>
   </Action>
 )

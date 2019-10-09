@@ -1638,10 +1638,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.44.0":
-  version "0.44.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/manuscript-editor/-/manuscript-editor-0.44.0.tgz#4f3c2d809dde7988c30e36ff41c05f134041c295"
-  integrity sha512-Fn20ysLaQm8rqADWy6MAsur2mW7OC3yNOf/15LR5vtTO5qBuVCU9IPO3LFAtdaPwz7h67RIgViHWJu2l55LdCg==
+"@manuscripts/manuscript-editor@^0.44.2":
+  version "0.44.2"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.44.2.tgz#e4c4a8e8c6242ab1192401a6723962016d82eaec"
+  integrity sha512-os4+/0WDYtjWugvSg3ZIdOcRuYdsD43CATTAECBOjHPhH/18jwziGaah++NtQeOxZ15Kug8FtGU+8tGJ090eXA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1760,10 +1760,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.11.1":
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-0.11.1.tgz#86fca4ea5c9dd20ebcbe370809ccfa663203b6b5"
-  integrity sha512-+S53f1Jd3QSgeHtPrc68txMyVKU4KLGDZ8G2UDoMFZCT4Mu+O8vVxpaPAJ4OCoAcJLQhfnCMc3m7s0oJj7EzwA==
+"@manuscripts/style-guide@^0.11.3":
+  version "0.11.3"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.11.3.tgz#61c2c40eb2c5e83c0c20d0937cc7f7480cd0f09e"
+  integrity sha512-u3yEhNuKSunxnGIamduXhp1U5Nbcp+/Y53Dgm7ZW5n8c+AcyoDxjPi+t1TC2U36VYmndesk+J/JRCwAgbTb31g==
   dependencies:
     "@manuscripts/assets" "^0.5.3"
     lodash-es "^4.17.11"

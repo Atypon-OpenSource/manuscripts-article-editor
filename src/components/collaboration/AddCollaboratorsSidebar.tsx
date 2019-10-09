@@ -82,10 +82,6 @@ const AddedIconContainer = styled.div`
     outline: none;
   }
 `
-const StyledSidebar = styled(Sidebar)`
-  background: {props => props.theme.colors.background.primary};
-  border-right: 1px solid ${props => props.theme.colors.background.info};
-`
 
 interface Props {
   people: UserProfile[]
@@ -129,7 +125,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
     const { searchResults, searchText, isSearching } = this.state
 
     return (
-      <StyledSidebar data-cy={'sidebar'}>
+      <Sidebar data-cy={'sidebar'}>
         <SidebarHeader>
           <SidebarTitle>Add Collaborators</SidebarTitle>
 
@@ -213,7 +209,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
             tokenActions={tokenActions}
           />
         )}
-      </StyledSidebar>
+      </Sidebar>
     )
   }
 

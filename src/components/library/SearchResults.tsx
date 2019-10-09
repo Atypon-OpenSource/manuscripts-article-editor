@@ -30,9 +30,10 @@ const SearchResult = styled.div`
 `
 
 const SearchResultAuthors = styled.div`
-  margin-top: ${props => props.theme.grid.unit}px;
-  color: ${props => props.theme.colors.text.muted};
+  color: ${props => props.theme.colors.text.secondary};
   flex: 1;
+  font-weight: ${props => props.theme.font.weight.light};
+  margin-top: ${props => props.theme.grid.unit}px;
 `
 
 const ResultAuthorsPlaceholder = styled(SearchResultAuthors)`

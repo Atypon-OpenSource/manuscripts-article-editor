@@ -11,30 +11,28 @@
  */
 
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
-import { SecondaryButton } from '@manuscripts/style-guide'
+import { SecondaryButton, TextField } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { InspectorSection } from '../InspectorSection'
 
-const CitationStyle = styled.input.attrs({ readOnly: true })`
-  font-size: ${props => props.theme.font.size.normal};
-  font-family: ${props => props.theme.font.family.sans};
-  padding: 2px 60px 2px 13px;
-  display: flex;
-  flex: 1;
-  border: 1px solid #d6d6d6;
-  border-radius: ${props => props.theme.grid.radius.small};
+const CitationStyle = styled(TextField).attrs({ readOnly: true })`
+  border-right: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
   cursor: pointer;
-  text-overflow: ellipsis;
+  font-size: ${props => props.theme.font.size.normal};
   overflow: hidden;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  text-overflow: ellipsis;
 `
 
 const ChooseButton = styled(SecondaryButton)`
-  height: ${props => props.theme.grid.unit * 6}px
-  margin-right: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
+  border-left: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  margin: 0;
 `
 
 export const InspectorField = styled.div`
@@ -51,9 +49,6 @@ export const InspectorLabel = styled.div`
 `
 
 export const InspectorValue = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 5}px
-  position: relative;
-  font-size: ${props => props.theme.font.size.small};
   flex: 1;
   display: flex;
 `

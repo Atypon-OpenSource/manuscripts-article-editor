@@ -11,7 +11,12 @@
  */
 
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
-import { CloseButton } from '@manuscripts/style-guide'
+import {
+  CloseButton,
+  ModalContainer,
+  ModalHeader,
+  ModalMain,
+} from '@manuscripts/style-guide'
 import fuzzysort from 'fuzzysort'
 import React, { Component } from 'react'
 import { FixedSizeList } from 'react-window'
@@ -42,43 +47,10 @@ const TemplateSearch = styled.div`
   flex-shrink: 0;
 `
 
-const ModalContainer = styled.div`
-  height: 70vh;
-  max-width: 70vw;
-  min-width: 600px;
-  display: flex;
-  background: ${props => props.theme.colors.background.primary};
-  opacity: 1;
-  font-family: ${props => props.theme.font.family.sans};
-  border-radius: ${props => props.theme.grid.radius.default};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-`
-
-const ModalHeader = styled.div`
-  position: absolute;
-  right: -${props => props.theme.grid.unit * 9}px;
-  top: -${props => props.theme.grid.unit * 3}px;
-  z-index: 1;
-`
-
-const ModalSidebar = styled.div`
+const ModalContainerInner = styled(ModalMain)`
   display: flex;
   flex-direction: column;
-  border-top-left-radius: ${props => props.theme.grid.radius.default}px;
-  border-bottom-left-radius: ${props => props.theme.grid.radius.default}px;
-  background-color: ${props => props.theme.colors.background.info};
-`
-
-const ModalMain = styled.div`
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-`
-
-const ModalBody = styled.div`
-  margin: ${props => props.theme.grid.unit * 3}px;
-  position: relative;
+  height: calc(70vh - 24px - 32px);
 `
 
 interface Props {
@@ -114,36 +86,32 @@ export class CitationStyleSelectorModal extends Component<Props, State> {
     this.resetScroll()
 
     return (
-      <ModalBody>
+      <ModalContainer>
         <ModalHeader>
-          <CloseButton onClick={() => handleComplete()} />
+          <CloseButton onClick={handleComplete} />
         </ModalHeader>
-        <ModalContainer>
-          <ModalSidebar />
+        <ModalContainerInner>
+          <TemplateSearch>
+            <TemplateSearchInput
+              value={searchText}
+              handleChange={this.handleSearchChange}
+            />
+          </TemplateSearch>
 
-          <ModalMain>
-            <TemplateSearch>
-              <TemplateSearchInput
-                value={searchText}
-                handleChange={this.handleSearchChange}
+          {filteredItems.length ? (
+            <ListContainer>
+              <CitationStyleSelectorList
+                listRef={this.listRef}
+                filteredItems={filteredItems}
+                selectBundle={selectBundle}
               />
-            </TemplateSearch>
-
-            {filteredItems.length ? (
-              <ListContainer>
-                <CitationStyleSelectorList
-                  listRef={this.listRef}
-                  filteredItems={filteredItems}
-                  selectBundle={selectBundle}
-                />
-                <FadingEdge />
-              </ListContainer>
-            ) : (
-              <CitationStyleEmpty searchText={this.state.searchText} />
-            )}
-          </ModalMain>
-        </ModalContainer>
-      </ModalBody>
+              <FadingEdge />
+            </ListContainer>
+          ) : (
+            <CitationStyleEmpty searchText={this.state.searchText} />
+          )}
+        </ModalContainerInner>
+      </ModalContainer>
     )
   }
 

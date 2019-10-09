@@ -23,7 +23,13 @@ import { sources } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
 import { AddButton } from '../AddButton'
 import Panel from '../Panel'
-import { Sidebar, SidebarContent, SidebarFooter } from '../Sidebar'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarTitle,
+} from '../Sidebar'
 import { BibliographyImportButton } from './BibliographyImportButton'
 import {
   DEFAULT_LIBRARY_COLLECTION_CATEGORY,
@@ -36,9 +42,13 @@ const SectionContainer = styled.div`
 `
 
 const StyledSidebar = styled(Sidebar)`
-  background: ${props => props.theme.colors.background.secondary};
-  border-right: 1px solid ${props => props.theme.colors.border.tertiary};
-  padding: ${props => props.theme.grid.unit * 4}px 0;
+  padding-left: 0;
+  padding-right: 0;
+
+  ${SidebarHeader} {
+    margin-bottom: 34px;
+    margin-top: -8px;
+  }
 
   ${SidebarContent} {
     padding: 0;
@@ -92,10 +102,8 @@ const SectionLink = styled(NavLink)`
 `
 
 const SectionTitleLink = styled(SectionLink)`
-  color: ${props => props.theme.colors.text.tertiary};
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 4}px;
-  margin-left: 0;
+  color: ${props => props.theme.colors.text.primary};
+  padding: 7px ${props => props.theme.grid.unit * 4}px;
 `
 
 export const LibrarySidebar: React.FC<
@@ -134,6 +142,10 @@ export const LibrarySidebar: React.FC<
   return (
     <Panel name={'librarySidebar'} minSize={290} direction={'row'} side={'end'}>
       <StyledSidebar>
+        <SidebarHeader>
+          <SidebarTitle>Library</SidebarTitle>
+        </SidebarHeader>
+
         <SidebarContent>
           <Section
             title={'Project Library'}
@@ -238,7 +250,7 @@ interface Props {
 }
 
 const ImportButton: React.FunctionComponent<Props> = ({ importItems }) => (
-  <AddButton action={importItems} title="Import from File" />
+  <AddButton action={importItems} title="Import from File" size={'small'} />
 )
 
 const Section: React.FC<{

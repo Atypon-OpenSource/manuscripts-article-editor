@@ -38,9 +38,9 @@ import {
   SidebarTitle,
 } from '../Sidebar'
 
-const StyledSidebar = styled(Sidebar)`
-  background: ${props => props.theme.colors.background.secondary};
-  border-right: 1px solid ${props => props.theme.colors.border.tertiary};
+const CustomizedSidebarHeader = styled(SidebarHeader)`
+  min-height: 36px;
+  padding-bottom: 8px;
 `
 
 const ProjectTitle = styled(SidebarTitle)`
@@ -51,10 +51,6 @@ const ProjectTitle = styled(SidebarTitle)`
   margin: -4px 4px -4px 0;
   overflow: hidden;
   flex: 1;
-
-  &:hover {
-    background: ${props => props.theme.colors.background.fifth};
-  }
 
   & .ProseMirror {
     cursor: text;
@@ -149,8 +145,8 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
       side={'end'}
       hideWhen={'max-width: 900px'}
     >
-      <StyledSidebar>
-        <SidebarHeader>
+      <Sidebar>
+        <CustomizedSidebarHeader>
           <ProjectTitle>
             <TitleField
               id={'project-title-field'}
@@ -165,7 +161,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
             user={user}
             tokenActions={tokenActions}
           />
-        </SidebarHeader>
+        </CustomizedSidebarHeader>
 
         <SidebarContent>
           {sortedManuscripts.map(item => (
@@ -186,10 +182,14 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
 
         <SidebarFooter>
           {permissions.write && (
-            <AddButton action={handleNewManuscript} title="New Manuscript" />
+            <AddButton
+              action={handleNewManuscript}
+              size={'small'}
+              title={'New Manuscript'}
+            />
           )}
         </SidebarFooter>
-      </StyledSidebar>
+      </Sidebar>
     </Panel>
   )
 }

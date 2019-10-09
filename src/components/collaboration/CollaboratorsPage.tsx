@@ -20,6 +20,7 @@ import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
+import { AddButton } from '../AddButton'
 import {
   AddAuthorsMessage,
   AddCollaboratorsMessage,
@@ -30,11 +31,6 @@ import {
   SelectAuthorMessage,
   SelectCollaboratorMessage,
 } from '../Messages'
-import {
-  AddIconContainer,
-  AddIconHover,
-  RegularAddIcon,
-} from '../projects/ProjectsListPlaceholder'
 import { CollaboratorForm } from './CollaboratorForm'
 
 const OuterContainer = styled.div`
@@ -71,22 +67,6 @@ const Action = styled.div`
   font-size: ${props => props.theme.font.size.xlarge};
   font-weight: ${props => props.theme.font.weight.medium};
   letter-spacing: -0.5px;
-`
-
-const ActionButton = styled.button`
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-size: inherit;
-  white-space: nowrap;
-`
-
-const ActionButtonText = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  font-weight: ${props => props.theme.font.weight.medium};
-  letter-spacing: -0.5px;
-  color: ${props => props.theme.colors.text.primary};
-  padding-left: 10px;
 `
 
 const Message = styled.div`
@@ -158,13 +138,11 @@ export const CollaboratorDetailsPage: React.FunctionComponent<
               </Placeholder>
 
               <Action>
-                <ActionButton onClick={handleAddCollaborator}>
-                  <AddIconContainer>
-                    <RegularAddIcon width={40} height={40} />
-                    <AddIconHover width={40} height={40} />
-                    <ActionButtonText>Add Collaborator</ActionButtonText>
-                  </AddIconContainer>
-                </ActionButton>
+                <AddButton
+                  action={handleAddCollaborator}
+                  title="Add Collaborator"
+                  size={'large'}
+                />
               </Action>
 
               <Message>

@@ -42,7 +42,8 @@ const Item = styled.div`
   display: flex;
 
   &:hover {
-    background-color: ${props => props.theme.colors.background.tertiary};
+    background-color: ${props => props.theme.colors.background.fifth};
+    border-color: ${props => props.theme.colors.border.primary};
   }
 `
 
@@ -52,8 +53,9 @@ const ItemMetadata = styled.div`
 
 const Metadata = styled.div`
   margin-top: ${props => props.theme.grid.unit}px;
-  color: ${props => props.theme.colors.text.muted};
+  color: ${props => props.theme.colors.text.secondary};
   flex: 1;
+  font-weight: ${props => props.theme.font.weight.light};
 `
 
 const Collections = styled.div`

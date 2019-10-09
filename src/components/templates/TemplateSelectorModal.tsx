@@ -42,7 +42,7 @@ const ModalBody = styled.div`
   flex-direction: column;
   height: 100%;
   margin: 0 auto;
-  max-width: 716px;
+  max-width: 626px;
   position: relative;
 `
 

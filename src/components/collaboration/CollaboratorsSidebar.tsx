@@ -26,12 +26,8 @@ import { TokenActions } from '../../data/TokenData'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
+import { AddButton } from '../AddButton'
 import Panel from '../Panel'
-import {
-  AddIconContainer,
-  AddIconHover,
-  RegularAddIcon,
-} from '../projects/ProjectsListPlaceholder'
 import {
   Sidebar,
   SidebarContent,
@@ -58,20 +54,9 @@ const CollaboratorRole = styled.div`
   color: ${props => props.theme.colors.text.secondary};
 `
 
-const AddCollaboratorButton = styled.button`
-  display: flex;
-  margin: ${props => props.theme.grid.unit * 2}px 0px
-    ${props => props.theme.grid.unit * 2}px ${props => props.theme.grid.unit}px;
-  font-size: ${props => props.theme.font.size.normal};
-  align-items: center;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  padding: 2px ${props => props.theme.grid.unit * 2}px;
-`
-
-const AddCollaboratorText = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+const Action = styled.div`
+  margin: 0 ${props => props.theme.grid.unit * 3}px
+    ${props => props.theme.grid.unit * 2}px;
 `
 
 const CollaboratorData = styled.div`
@@ -95,8 +80,10 @@ const InvitedContainer = styled.div`
 `
 
 const StyledSidebar = styled(Sidebar)`
-  background: ${props => props.theme.colors.background.secondary};
-  border-right: 1px solid ${props => props.theme.colors.border.tertiary};
+  ${SidebarHeader} {
+    margin-bottom: 34px;
+    margin-top: -8px;
+  }
 `
 
 const AlertMessageContainer = styled.div`
@@ -179,13 +166,13 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
           </SidebarHeader>
 
           {isOwner(project, user.userID) && (
-            <AddCollaboratorButton onClick={handleAddCollaborator}>
-              <AddIconContainer>
-                <RegularAddIcon width={36} height={36} />
-                <AddIconHover width={36} height={36} />
-                <AddCollaboratorText>New Collaborator</AddCollaboratorText>
-              </AddIconContainer>
-            </AddCollaboratorButton>
+            <Action>
+              <AddButton
+                action={handleAddCollaborator}
+                title="New Collaborator"
+                size={'medium'}
+              />
+            </Action>
           )}
 
           {message && (

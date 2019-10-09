@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
-import PlusIcon from '@manuscripts/assets/react/PlusIcon'
 import { buildLibraryCollection } from '@manuscripts/manuscript-transform'
 import {
   BibliographicName,
@@ -19,7 +19,12 @@ import {
   LibraryCollection,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
+import {
+  ButtonGroup,
+  IconButton,
+  PrimaryButton,
+  TertiaryButton,
+} from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import React, { useCallback, useState } from 'react'
@@ -188,39 +193,22 @@ const YearField = styled(Field)`
   border: solid 1px ${props => props.theme.colors.text.muted};
 `
 
-const Button = styled.button.attrs({
-  type: 'button',
+const Button = styled(IconButton).attrs({
+  defaultColor: true,
 })`
-  background-color: transparent;
-  color: ${props => props.theme.colors.brand.default};
-  border: 2px solid transparent;
-  border-radius: ${props => props.theme.grid.radius.small};
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px ${props => props.theme.grid.unit * 2}px;
-  font-family: ${props => props.theme.font.family.sans};
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.semibold};
-  cursor: ${props => (props.disabled ? 'text' : 'pointer')};
-  opacity: ${props => (props.disabled ? '0.5' : '1.0')};
-  transition: border 0.1s, color 0.1s, background-color 0.1s;
+  height: 24px;
+  width: 24px;
 
-  &:hover {
-    background-color: ${props => props.theme.colors.background.primary};
-    color: ${props => props.theme.colors.brand.default};
-    border-color: ${props => props.theme.colors.brand.default};
+  circle,
+  use {
+    fill: ${props => props.theme.colors.brand.default};
   }
 
-  &:active {
-    background-color: ${props => props.theme.colors.brand.default};
-    border-color: ${props => props.theme.colors.brand.default};
-    color: ${props => props.theme.colors.text.onDark};
+  path {
+    mask: none;
   }
-
-  background: pink;
 `
+
 const BaseButton = styled.button.attrs({
   type: 'button',
 })`
@@ -234,10 +222,7 @@ const BaseButton = styled.button.attrs({
   color: ${props => props.theme.colors.brand.default};
 `
 
-const PlainTextButton = styled(BaseButton)`
-  background-color: ${props => props.theme.colors.background.secondary};
-  text-align: left;
-`
+const PlainTextButton = styled(TertiaryButton)``
 
 const Author = styled.div``
 
@@ -258,18 +243,46 @@ const AuthorFormContainer = styled.div`
 `
 
 const TitleLink = styled.a`
-  font-family: ${props => props.theme.font.family.sans};
-  text-decoration: none;
-  border: none;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: ${props => props.theme.grid.radius.small};
   cursor: pointer;
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.medium};
-  color: ${props => props.theme.colors.brand.default};
-  padding: 0px 20px;
+  display: inline-flex;
+  font: ${props => props.theme.font.weight.normal}
+    ${props => props.theme.font.size.medium} /
+    ${props => props.theme.font.lineHeight.large}
+    ${props => props.theme.font.family.sans};
+  justify-content: center;
+  outline: none;
+  padding: 7px ${props => props.theme.grid.unit * 3}px;
+  text-decoration: none;
+  transition: border 0.1s, color 0.1s, background-color 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  color: ${props => props.theme.colors.button.secondary.color.default};
+  background-color: ${props =>
+    props.theme.colors.button.secondary.background.default};
+  border-color: ${props => props.theme.colors.button.secondary.border.default};
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    color: ${props => props.theme.colors.button.secondary.color.hover};
+    background-color: ${props =>
+      props.theme.colors.button.secondary.background.hover};
+    border-color: ${props => props.theme.colors.button.secondary.border.hover};
+  }
+  &:not([disabled]):active {
+    color: ${props => props.theme.colors.button.secondary.color.active};
+    background-color: ${props =>
+      props.theme.colors.button.secondary.background.active};
+    border-color: ${props => props.theme.colors.button.secondary.border.active};
+  }
 `
 
 const FormField = styled.div`
-  padding: 10px;
+  padding: ${props => props.theme.grid.unit * 3}px;
 `
 
 interface OptionType {
@@ -358,7 +371,7 @@ const LibraryForm: React.FC<{
                 <Button
                   onClick={() => arrayHelpers.push({ given: '', family: '' })}
                 >
-                  <PlusIcon height={17} width={17} />
+                  <AddAuthor height={17} width={17} />
                 </Button>
               </LabelContainer>
 
@@ -495,8 +508,12 @@ const LibraryForm: React.FC<{
 
         <Actions>
           {handleDelete && (
-            <PlainTextButton type={'button'} onClick={() => handleDelete(item)}>
-              REMOVE FROM LIBRARY
+            <PlainTextButton
+              danger={true}
+              type={'button'}
+              onClick={() => handleDelete(item)}
+            >
+              Remove
             </PlainTextButton>
           )}
 
@@ -506,7 +523,7 @@ const LibraryForm: React.FC<{
               target={'_blank'}
               rel={'noopener noreferrer'}
             >
-              OPEN
+              🔗 Open
             </TitleLink>
 
             <PrimaryButton type="submit">Save</PrimaryButton>

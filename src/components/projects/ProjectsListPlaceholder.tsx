@@ -10,14 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import AddIcon from '@manuscripts/assets/react/AddIcon'
-import AddIconHighlight from '@manuscripts/assets/react/AddIconHighlight'
 import DocIcon from '@manuscripts/assets/react/DocIcon'
 import MarkdownIcon from '@manuscripts/assets/react/MarkdownIcon'
 import TeXIcon from '@manuscripts/assets/react/TeXIcon'
-import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import { AddButton } from '../AddButton'
 import { ProjectPlaceholder } from '../Placeholders'
 
 const OuterContainer = styled.div`
@@ -38,9 +36,8 @@ const Title = styled.div`
   padding-left: ${props => props.theme.grid.unit * 3}px;
 `
 
-const AddButton = styled(IconButton)`
+const ActionContainer = styled.div`
   margin-top: ${props => props.theme.grid.unit * 10}px;
-  width: auto;
 `
 
 const FontStyle = styled.div`
@@ -76,26 +73,6 @@ const BrowseLink = styled.span`
   text-decoration: underline;
 `
 
-export const RegularAddIcon = styled(AddIcon)`
-  display: block;
-`
-
-export const AddIconHover = styled(AddIconHighlight)`
-  display: none;
-`
-
-export const AddIconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  &:hover ${RegularAddIcon} {
-    display: none;
-  }
-
-  &:hover ${AddIconHover} {
-    display: block;
-  }
-`
-
 export interface Props {
   handleClick: (event: React.MouseEvent<HTMLDivElement>) => Promise<void>
   isDragAccept: boolean
@@ -112,17 +89,14 @@ export const ProjectsListPlaceholder: React.FunctionComponent<Props> = ({
       <ProjectPlaceholder />
     </Placeholder>
     {!isDragAccept ? (
-      <AddButton
-        onClick={openTemplateSelector}
-        id={'create-project'}
-        defaultColor={true}
-      >
-        <AddIconContainer>
-          <RegularAddIcon width={40} height={40} />
-          <AddIconHover width={40} height={40} />
-          <Title>Create Your First Project</Title>
-        </AddIconContainer>
-      </AddButton>
+      <ActionContainer>
+        <AddButton
+          action={openTemplateSelector}
+          id={'create-project'}
+          size={'large'}
+          title={'Create Your First Project'}
+        />
+      </ActionContainer>
     ) : (
       <Title>Drop File to Import</Title>
     )}

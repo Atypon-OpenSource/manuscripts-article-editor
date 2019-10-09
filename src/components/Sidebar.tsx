@@ -13,15 +13,27 @@
 import { TextField } from '@manuscripts/style-guide'
 import { css, styled } from '../theme/styled-components'
 
-export const Sidebar = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit * 2}px;
+const SidebarCommonStyles = css`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme.colors.background.primary};
+  height: 100%;
+  padding: ${props => props.theme.grid.unit * 4}px
+    ${props => props.theme.grid.unit * 2}px;
+  width: 100%;
+`
+
+export const Sidebar = styled.div`
+  ${SidebarCommonStyles}
+  background: ${props => props.theme.colors.background.secondary};
+  border-right: 1px solid ${props => props.theme.colors.border.tertiary};
+`
+
+export const ModalSidebar = styled.div`
+  ${SidebarCommonStyles}
+  background-color: ${props => props.theme.colors.background.fifth};
+  border-top-left-radius: ${props => props.theme.grid.radius.default};
+  border-bottom-left-radius: ${props => props.theme.grid.radius.default};
 `
 
 const commonStyles = css`
@@ -34,7 +46,8 @@ const commonStyles = css`
 
 export const SidebarHeader = styled.div`
   ${commonStyles}
-  margin-bottom: 54px;
+  margin-bottom: 26px;
+  min-height: ${props => props.theme.grid.unit * 11}px;
 `
 
 export const SidebarFooter = styled.div`
@@ -47,6 +60,7 @@ export const SidebarTitle = styled.div`
   font-weight: ${props => props.theme.font.weight.semibold};
   color: ${props => props.theme.colors.text.primary};
   flex: 1;
+  user-select: none;
   white-space: nowrap;
 `
 
@@ -83,7 +97,7 @@ export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
 
 export const SidebarSearchField = styled.div`
   display: flex;
-  margin: ${props => props.theme.grid.unit * 3}px;
+  margin: 0 ${props => props.theme.grid.unit * 3}px;
   align-items: center;
 `
 
