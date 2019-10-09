@@ -22,9 +22,14 @@ import {
   generateID,
 } from '@manuscripts/manuscript-transform'
 import {
+  // BibliographyElement,
+  // BibliographyItem,
   Bundle,
+  // Citation,
   ContainerInvitation,
   Contributor,
+  Equation,
+  EquationElement,
   Figure,
   FigureElement,
   Manuscript,
@@ -32,13 +37,16 @@ import {
   ObjectTypes,
   PageLayout,
   ParagraphElement,
+  ParagraphStyle,
   Section,
   Style,
+  Table,
+  TableElement,
+  TableStyle,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 // import data from '@manuscripts/examples/data/project-dump.json'
 import { AxiosResponse, ResponseType } from 'axios'
-import stream from 'stream'
 import { ContributorRole } from '../../lib/roles'
 import {
   createEmptyParagraph,
@@ -93,7 +101,8 @@ jest.mock('../pressroom', () => ({
 
     return axios.post<Blob>('/v1/document/compile', formData.getBuffer(), {
       baseURL: config.pressroom.url,
-      responseType: 'stream' as ResponseType,
+      // responseType: 'stream' as ResponseType,
+      responseType: 'text' as ResponseType,
       headers: {
         'Pressroom-API-Key': config.pressroom.key,
         'Pressroom-Target-File-Extension': format.replace(/^\./, ''),
@@ -278,6 +287,9 @@ describe('exporter', () => {
     const modelMap = await buildManuscriptModelMap(manuscript)
 
     for (const format of formats) {
+      // tslint:disable-next-line:no-console
+      console.log(`Exporting empty manuscript to ${format.extension}`)
+
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<Blob> = await exportProject(
         modelMap,
@@ -286,7 +298,7 @@ describe('exporter', () => {
       )
       expect(response.status).toBe(200)
       expect(response.statusText).toBe('OK')
-      expect(response.data).toBeInstanceOf(stream.Readable)
+      expect(response.data).not.toBeUndefined()
       expect(response.headers['content-type']).toBe(format.contentType)
       // TODO: validate the output?
     }
@@ -299,6 +311,9 @@ describe('exporter', () => {
     const modelMap = await buildManuscriptModelMap(manuscript, templateID)
 
     for (const format of formats) {
+      // tslint:disable-next-line:no-console
+      console.log(`Exporting templated manuscript to ${format.extension}`)
+
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<Blob> = await exportProject(
         modelMap,
@@ -307,7 +322,7 @@ describe('exporter', () => {
       )
       expect(response.status).toBe(200)
       expect(response.statusText).toBe('OK')
-      expect(response.data).toBeInstanceOf(stream.Readable)
+      expect(response.data).not.toBeUndefined()
       expect(response.headers['content-type']).toBe(format.contentType)
       // TODO: validate the output?
     }
@@ -330,6 +345,31 @@ describe('exporter', () => {
       return model
     }
 
+    const findByObjectType = <T extends ContainedModel>(
+      objectType: ObjectTypes
+    ): T[] => {
+      const items: T[] = []
+
+      for (const model of modelMap.values()) {
+        if (model.objectType === objectType) {
+          items.push(model as T)
+        }
+      }
+
+      return items
+    }
+
+    // find the first section
+    const [section] = findByObjectType<Section>(ObjectTypes.Section)
+
+    if (!section) {
+      throw new Error('Missing section')
+    }
+
+    if (!section.elementIDs) {
+      section.elementIDs = []
+    }
+
     // add a container invitation
     addModel<ContainerInvitation>({
       _id: generateID(ObjectTypes.ContainerInvitation),
@@ -347,7 +387,7 @@ describe('exporter', () => {
       objectType: ObjectTypes.Figure,
     })
 
-    addModel<FigureElement>({
+    const figureElement = addModel<FigureElement>({
       _id: generateID(ObjectTypes.FigureElement),
       objectType: ObjectTypes.FigureElement,
       containedObjectIDs: [figure._id],
@@ -355,7 +395,77 @@ describe('exporter', () => {
       caption: 'Test',
     })
 
+    section.elementIDs.push(figureElement._id)
+
+    // add an equation with empty TeXRepresentation
+    /*const equation = addModel<Equation>({
+      _id: generateID(ObjectTypes.Equation),
+      objectType: ObjectTypes.Equation,
+      TeXRepresentation: '',
+      MathMLStringRepresentation: `<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"></math>`,
+      SVGStringRepresentation: `<svg xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666" style="vertical-align: 0px;"></svg>`,
+    })
+
+    const equationElement = addModel<EquationElement>({
+      _id: generateID(ObjectTypes.EquationElement),
+      objectType: ObjectTypes.EquationElement,
+      containedObjectID: equation._id,
+      caption: 'Test',
+      elementType: 'p',
+    })
+
+    section.elementIDs.push(equationElement._id)*/
+
+    /*// add a paragraph containing a citation
+
+    const paragraphElementID = generateID(ObjectTypes.ParagraphElement)
+    const bibliographyItemID = generateID(ObjectTypes.BibliographyItem)
+    const citationID = generateID(ObjectTypes.Citation)
+    const bibliographyElementID = generateID(ObjectTypes.BibliographyElement)
+
+    addModel<BibliographyElement>({
+      _id: bibliographyElementID,
+      objectType: ObjectTypes.BibliographyElement,
+      elementType: 'div',
+      contents: `<div xmlns="http://www.w3.org/1999/xhtml" class="csl-bib-body" id="${bibliographyElementID}"></div>`,
+    })
+
+    addModel<BibliographyItem>({
+      _id: bibliographyItemID,
+      objectType: ObjectTypes.BibliographyItem,
+      type: 'article-journal',
+      title: 'Foo',
+    })
+
+    addModel<Citation>({
+      _id: citationID,
+      objectType: ObjectTypes.Citation,
+      containingObject: paragraphElementID,
+      embeddedCitationItems: [
+        {
+          _id: generateID(ObjectTypes.CitationItem),
+          objectType: ObjectTypes.CitationItem,
+          bibliographyItem: bibliographyItemID,
+        },
+      ],
+    })
+
+    const paragraphElement = addModel<ParagraphElement>({
+      _id: paragraphElementID,
+      objectType: ObjectTypes.ParagraphElement,
+      elementType: 'p',
+      contents: `<p xmlns="http://www.w3.org/1999/xhtml" id="${paragraphElementID}" class="MPElement">A paragraph containing a citation.<span class="citation" data-reference-id="${citationID}">1</span></p>`,
+    })
+
+    section.elementIDs.push(paragraphElement._id)*/
+
+    // export to each format
     for (const format of formats) {
+      // tslint:disable-next-line:no-console
+      console.log(
+        `Exporting previously-failing manuscript to ${format.extension}`
+      )
+
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<Blob> = await exportProject(
         modelMap,
@@ -364,7 +474,124 @@ describe('exporter', () => {
       )
       expect(response.status).toBe(200)
       expect(response.statusText).toBe('OK')
-      expect(response.data).toBeInstanceOf(stream.Readable)
+      expect(response.data).not.toBeUndefined()
+      expect(response.headers['content-type']).toBe(format.contentType)
+      // TODO: validate the output?
+    }
+  })
+
+  test('exports a manuscript with content', async () => {
+    const manuscript = buildManuscript()
+    const modelMap = await buildManuscriptModelMap(manuscript)
+
+    const addModel = <T extends Model>(model: Build<T>) => {
+      modelMap.set(model._id, {
+        ...model,
+        manuscriptID: manuscript._id,
+        containerID: project._id,
+        createdAt: 0,
+        updatedAt: 0,
+        sessionID: 'test',
+      })
+
+      return model
+    }
+
+    const findByObjectType = <T extends ContainedModel>(
+      objectType: ObjectTypes
+    ): T[] => {
+      const items: T[] = []
+
+      for (const model of modelMap.values()) {
+        if (model.objectType === objectType) {
+          items.push(model as T)
+        }
+      }
+
+      return items
+    }
+
+    // find the first section
+    const [section] = findByObjectType<Section>(ObjectTypes.Section)
+
+    if (!section) {
+      throw new Error('Missing section')
+    }
+
+    if (!section.elementIDs) {
+      section.elementIDs = []
+    }
+
+    // add a table
+    const [tableStyle] = findByObjectType<TableStyle>(ObjectTypes.TableStyle)
+
+    if (!tableStyle) {
+      throw new Error('Missing table style')
+    }
+
+    const [paragraphStyle] = findByObjectType<ParagraphStyle>(
+      ObjectTypes.ParagraphStyle
+    )
+
+    if (!paragraphStyle) {
+      throw new Error('Missing paragraph style')
+    }
+
+    const tableID = generateID(ObjectTypes.Table)
+    const tableStyleID = tableStyle._id.replace(':', '_')
+    const paragraphStyleID = paragraphStyle._id.replace(':', '_')
+
+    const table = addModel<Table>({
+      _id: tableID,
+      objectType: ObjectTypes.Table,
+      contents: `<table id="${tableID}" class="MPElement ${tableStyleID} ${paragraphStyleID}" data-contained-object-id="${tableID}"><thead style="display: table-header-group;"><tr><th data-placeholder-text="Header 1" class="placeholder"></th><th data-placeholder-text="Header 2" class="placeholder"></th></tr></thead><tbody><tr><td data-placeholder-text="Data" class="placeholder"></td><td data-placeholder-text="Data" class="placeholder"></td></tr><tr><td data-placeholder-text="Data" class="placeholder"></td><td data-placeholder-text="Data" class="placeholder"></td></tr></tbody><tfoot><tr><td data-placeholder-text="Footer 1" class="placeholder"></td><td data-placeholder-text="Footer 2" class="placeholder"></td></tr></tfoot></table>`,
+    })
+
+    const tableElement = addModel<TableElement>({
+      _id: generateID(ObjectTypes.TableElement),
+      objectType: ObjectTypes.TableElement,
+      containedObjectID: table._id,
+      elementType: 'table',
+      caption: 'Test',
+      tableStyle: tableStyle._id,
+      paragraphStyle: paragraphStyle._id,
+    })
+
+    section.elementIDs.push(tableElement._id)
+
+    // add an equation
+    const equation = addModel<Equation>({
+      _id: generateID(ObjectTypes.Equation),
+      objectType: ObjectTypes.Equation,
+      TeXRepresentation: '1',
+      MathMLStringRepresentation: `<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">  <mn>1</mn></math>`,
+      SVGStringRepresentation: `<svg xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666" style="vertical-align: 0px;"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"/></g></g></g></svg>`,
+    })
+
+    const equationElement = addModel<EquationElement>({
+      _id: generateID(ObjectTypes.EquationElement),
+      objectType: ObjectTypes.EquationElement,
+      containedObjectID: equation._id,
+      caption: 'Test',
+      elementType: 'p',
+    })
+
+    section.elementIDs.push(equationElement._id)
+
+    // export to each format
+    for (const format of formats) {
+      // tslint:disable-next-line:no-console
+      console.log(`Exporting manuscript with content to ${format.extension}`)
+
+      // @ts-ignore: mocked convert function returns the response, not the blob
+      const response: AxiosResponse<Blob> = await exportProject(
+        modelMap,
+        manuscript._id,
+        format.extension
+      )
+      expect(response.status).toBe(200)
+      expect(response.statusText).toBe('OK')
+      expect(response.data).not.toBeUndefined()
       expect(response.headers['content-type']).toBe(format.contentType)
       // TODO: validate the output?
     }
