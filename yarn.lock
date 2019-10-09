@@ -1609,10 +1609,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.5.3.tgz#5b2905c9441e732c167ff9a300598e2292534634"
   integrity sha512-WQ01rsO5yzWv965423RsJrN18Fq1wXttuyNCP2FA5Nt+TGY47YA6iShhMOncyvIAd+q6fHC/Tyqxbmlc1ft4Ag==
 
-"@manuscripts/assets@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.5.tgz#f0dd99749b117c6b1d5316ab31d340dda8006db1"
-  integrity sha512-pkN8jN0uSlMRf+G+vj/SPbSC7Kzz86+iQrAsXZgKXVlBWwwih9V3PF4FSviNKFH2AQx09VLnkgsK3ldiQaMk3A==
+"@manuscripts/assets@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.6.tgz#1f2526bac500fc2db722428d969e7d591bff9542"
+  integrity sha512-BIudnsWwtepBxG7uyvHZv3wPyST2/qeBLjlzA7WpQ10bcDo0lktuZqZND3ZSzrjOeRlI/PkgjRHeGSUgYWLV4g==
 
 "@manuscripts/comment-editor@^0.1.1":
   version "0.1.1"
