@@ -25,7 +25,6 @@ const CreateButton = styled(PrimaryButton)`
 `
 
 const Heading = styled.div`
-  margin-bottom: 2px;
   display: flex;
 `
 
@@ -42,6 +41,7 @@ const BundleTitle = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  line-height: 34px;
 `
 
 const Actions = styled.div`

@@ -20,8 +20,8 @@ import { AvatarFileUpload } from './AvatarFileUpload'
 const ModalSidebar = styled.div`
   width: 300px;
   overflow: hidden;
-  border-top-left-radius: ${props => props.theme.grid.radius.default}px;
-  border-bottom-left-radius: ${props => props.theme.grid.radius.default}px;
+  border-top-left-radius: ${props => props.theme.grid.radius.default};
+  border-bottom-left-radius: ${props => props.theme.grid.radius.default};
 `
 
 export interface AvatarProps {

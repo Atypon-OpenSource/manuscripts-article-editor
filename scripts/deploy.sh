@@ -28,7 +28,7 @@ fi
 aws configure set preview.cloudfront true
 
 aws cloudfront create-invalidation \
-    --distribution-id ${CLOUDFRONT_ID} --paths /index.html /
+    --distribution-id ${CLOUDFRONT_ID} --paths /index.html / /about '/about/*'
 
 # upload the source maps for this release to Sentry
 

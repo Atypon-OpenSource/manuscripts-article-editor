@@ -22,7 +22,7 @@ import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 import {
-  Sidebar,
+  ModalSidebar,
   SidebarContent,
   SidebarHeader,
   SidebarPersonContainer,
@@ -100,7 +100,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
   handleCreateAuthor,
 }) => {
   return (
-    <Sidebar>
+    <ModalSidebar>
       <SidebarHeader>
         <SidebarTitle>Add Author</SidebarTitle>
 
@@ -176,7 +176,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
           handleCreateAuthor={handleCreateAuthor}
         />
       )}
-    </Sidebar>
+    </ModalSidebar>
   )
 }
 

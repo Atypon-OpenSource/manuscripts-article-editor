@@ -31,7 +31,6 @@ const SearchIconContainer = styled.div`
 
 const SearchText = styled.input`
   border: none;
-  border-right: 1px solid ${props => props.theme.colors.border.secondary};
   border-radius: ${props => props.theme.grid.radius.small} 0 0
     ${props => props.theme.grid.radius.small};
   font-size: ${props => props.theme.font.size.medium};

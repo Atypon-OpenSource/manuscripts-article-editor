@@ -18,12 +18,13 @@ import {
   ButtonGroup,
   PrimaryButton,
   SecondaryButton,
+  Tip,
 } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import config from '../../config'
 import { estimateID } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
-import { CitationImportButton } from './CitationImportButton'
+import { BibliographyImportButton } from './BibliographyImportButton'
 import { CitationSearchSection } from './CitationSearchSection'
 import { Search, SearchContainer } from './Search'
 
@@ -44,6 +45,25 @@ const Container = styled.div`
   flex: 1;
   font-family: ${props => props.theme.font.family.sans};
 `
+
+interface Props {
+  importItems: () => void
+  importing: boolean
+}
+
+const ImportButton: React.FunctionComponent<Props> = ({
+  importItems,
+  importing,
+}) => (
+  <SecondaryButton onClick={importItems}>
+    <Tip
+      title={'Import bibliography data from a BibTeX or RIS file'}
+      placement={'top'}
+    >
+      {importing ? 'Importing…' : 'Import from File'}
+    </Tip>
+  </SecondaryButton>
+)
 
 type SearchInterface = (
   query: string,
@@ -246,7 +266,11 @@ export const CitationSearch: React.FC<{
       </Results>
       <Actions>
         <ButtonGroup>
-          <CitationImportButton importItems={importItems} setError={setError} />
+          <BibliographyImportButton
+            importItems={importItems}
+            setError={setError}
+            component={ImportButton}
+          />
         </ButtonGroup>
 
         <ButtonGroup>

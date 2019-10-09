@@ -10,26 +10,18 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
-import { CloseButton, StyledModal } from '@manuscripts/style-guide'
+import {
+  CloseButton,
+  ModalContainer,
+  ModalHeader,
+  ModalMain,
+  StyledModal,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { IndicatorKind, ProgressIndicator } from '../ProgressIndicator'
 
-const ModalBody = styled.div`
-  border-radius: ${props => props.theme.grid.radius.default};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  background: ${props => props.theme.colors.background.primary};
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  height: 70vh;
-  width: 70vw;
-  max-width: 893px;
-  min-width: 600px;
-`
-
-const ModalMain = styled.div`
+const ModalBody = styled(ModalMain)`
   align-items: center;
   display: flex;
   flex: 1;
@@ -47,13 +39,6 @@ const ModalStatus = styled.div`
   justify-content: center;
 `
 
-const ModalHeader = styled.div`
-  position: absolute;
-  right: -${props => props.theme.grid.unit * 3}px;
-  top: -${props => props.theme.grid.unit * 3}px;
-  z-index: 1;
-`
-
 interface Props {
   status: string
   handleCancel: () => void
@@ -68,16 +53,14 @@ export const TemplateLoadingModal: React.FunctionComponent<Props> = ({
     onRequestClose={handleCancel}
     shouldCloseOnOverlayClick={false}
   >
-    <ModalHeader>
-      <CloseButton onClick={handleCancel}>
-        <CloseIconDark />
-      </CloseButton>
-    </ModalHeader>
-    <ModalBody>
-      <ModalMain>
+    <ModalContainer>
+      <ModalHeader>
+        <CloseButton onClick={handleCancel} />
+      </ModalHeader>
+      <ModalBody>
         <ProgressIndicator symbols={IndicatorKind.Project} />
         <ModalStatus>{status}</ModalStatus>
-      </ModalMain>
-    </ModalBody>
+      </ModalBody>
+    </ModalContainer>
   </StyledModal>
 )

@@ -10,16 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
+import { AddButton } from '../AddButton'
 import { Notification } from '../NotificationMessage'
 import { ProjectPlaceholder } from '../Placeholders'
-import {
-  AddIconContainer,
-  AddIconHover,
-  RegularAddIcon,
-} from './ProjectsListPlaceholder'
 
 const OuterContainer = styled.div`
   align-items: center;
@@ -34,26 +29,12 @@ const OuterContainer = styled.div`
 
 const Placeholder = styled.div``
 
-const Action = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const AddManuscriptButton = styled(IconButton)`
-  margin-top: ${props => props.theme.grid.unit * 10}px;
-  width: auto;
-`
+const ActionContainer = styled.div``
 
 const Message = styled.div`
   font-weight: ${props => props.theme.font.weight.light};
   padding-top: ${props => props.theme.grid.unit * 5}px;
   color: ${props => props.theme.colors.text.secondary};
-`
-
-const ActionTitle = styled.div`
-  font-size: 24px;
-  padding-left: ${props => props.theme.grid.unit * 3}px;
 `
 
 const TextContainer = styled.div`
@@ -77,15 +58,13 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
         <ProjectPlaceholder />
       </Placeholder>
 
-      <Action>
-        <AddManuscriptButton onClick={openTemplateSelector} defaultColor={true}>
-          <AddIconContainer>
-            <RegularAddIcon width={40} height={40} />
-            <AddIconHover width={40} height={40} />
-            <ActionTitle>New Manuscript</ActionTitle>
-          </AddIconContainer>
-        </AddManuscriptButton>
-      </Action>
+      <ActionContainer>
+        <AddButton
+          action={openTemplateSelector}
+          size={'large'}
+          title={'New Manuscript'}
+        />
+      </ActionContainer>
 
       <Message>
         <TextContainer>This project is empty.</TextContainer>

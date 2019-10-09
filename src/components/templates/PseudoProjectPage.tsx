@@ -45,11 +45,6 @@ const pseudoProject: Project = {
   updatedAt: 0,
 }
 
-const StyledSidebar = styled(Sidebar)`
-  background: ${props => props.theme.colors.background.primary};
-  border-right: 1px solid ${props => props.theme.colors.background.info};
-`
-
 const ProjectTitle = styled(SidebarTitle)`
   color: ${props => props.theme.colors.text.primary};
   font-weight: ${props => props.theme.font.weight.medium};
@@ -75,7 +70,7 @@ export const PseudoProjectPage: React.FC = () => (
   <>
     <Container>
       <Page project={pseudoProject}>
-        <StyledSidebar>
+        <Sidebar>
           <SidebarHeader>
             <ProjectTitle>
               <TitleField
@@ -85,7 +80,7 @@ export const PseudoProjectPage: React.FC = () => (
               />
             </ProjectTitle>
           </SidebarHeader>
-        </StyledSidebar>
+        </Sidebar>
         <Main />
       </Page>
     </Container>

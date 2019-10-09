@@ -14,6 +14,7 @@ import {
   Library,
   LibraryCollection,
 } from '@manuscripts/manuscripts-json-schema'
+import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { Route, RouteComponentProps } from 'react-router'
@@ -159,6 +160,7 @@ storiesOf('Library Sidebar', module)
           projectLibraryCollections={projectLibraryCollections}
           globalLibraryCollections={globalLibraryCollections}
           globalLibraries={globalLibraries}
+          importItems={action('import items')}
           {...props}
         />
       )}

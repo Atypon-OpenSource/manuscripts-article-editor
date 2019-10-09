@@ -12,7 +12,11 @@
 
 import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
-import { ButtonGroup, PrimaryButton } from '@manuscripts/style-guide'
+import {
+  ButtonGroup,
+  IconButton,
+  PrimaryButton,
+} from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { libraryItemMetadata } from '../../lib/library'
@@ -31,12 +35,13 @@ const CitedItem = styled.div`
 const CitedItemTitle = styled(Title)``
 
 const CitedItemAuthors = styled.div`
-  margin-top: ${props => props.theme.grid.unit}px;
-  color: ${props => props.theme.colors.text.muted};
+  color: ${props => props.theme.colors.text.secondary};
   flex: 1;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  font-weight: ${props => props.theme.font.weight.light};
+  margin-top: ${props => props.theme.grid.unit}px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const CitedItemActionLine = styled.div`
@@ -59,11 +64,9 @@ const CitedItems = styled.div`
   overflow-y: auto;
 `
 
-const ActionButton = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
+const ActionButton = styled(IconButton)`
   height: ${props => props.theme.grid.unit * 6}px;
+  width: ${props => props.theme.grid.unit * 6}px;
 `
 
 const Actions = styled(ButtonGroup)`

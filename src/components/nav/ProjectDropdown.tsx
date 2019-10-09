@@ -28,10 +28,7 @@ import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
-import {
-  AddIconHover,
-  RegularAddIcon,
-} from '../projects/ProjectsListPlaceholder'
+import { AddButton } from '../AddButton'
 import {
   DropdownElement,
   DropdownLink,
@@ -43,24 +40,23 @@ const activeStyle = {
   fontWeight: 600,
 }
 
+const ActionContainer = styled.div`
+  padding: ${props => props.theme.grid.unit * 3}px;
+`
+
 const DropdownIcon = styled.div`
   display: flex;
-  padding-right: 10px;
+  padding-right: ${props => props.theme.grid.unit * 3}px;
 `
 
 const DropdownWithNotificationIcon = styled.div`
   display: flex;
-  padding-right: 4px;
+  padding-right: ${props => props.theme.grid.unit}px;
 `
 
 const ButtonsContainer = styled.div`
   display: grid;
-  padding-left: 7px;
-`
-
-const TextContainer = styled.div`
-  padding-left: 10px;
-  padding-bottom: 2px;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const ProjectNameContainer = styled.div`
@@ -100,25 +96,7 @@ const InvitedByText = styled.div`
 
 const TickMarkContainer = styled.div`
   display: flex;
-  padding-right: 3px;
-`
-
-const StyledDropdownElement = styled(DropdownElement)`
-  &:hover ${RegularAddIcon} {
-    display: none;
-  }
-
-  &:hover ${AddIconHover} {
-    display: block;
-  }
-
-  &:hover {
-    text-decoration: underline;
-  }
-`
-const Container = styled.div`
-  display: flex;
-  align-items: center;
+  padding-right: ${props => props.theme.grid.unit}px;
 `
 
 interface InvitationProps {
@@ -205,20 +183,16 @@ export const ProjectDropdownSection: React.FunctionComponent<
 )
 
 interface DropdownSectionProps {
-  onClick?: React.MouseEventHandler
+  onClick: React.MouseEventHandler
 }
 
 export const DropdownSection: React.FunctionComponent<DropdownSectionProps> = ({
   children,
   onClick,
 }) => (
-  <StyledDropdownElement onClick={onClick}>
-    <Container>
-      <RegularAddIcon width={24} height={26} />
-      <AddIconHover width={24} height={26} />
-      <TextContainer>{children}</TextContainer>
-    </Container>
-  </StyledDropdownElement>
+  <ActionContainer>
+    <AddButton action={onClick} size={'default'} title={children} />
+  </ActionContainer>
 )
 
 interface AllProjectsSectionProps {

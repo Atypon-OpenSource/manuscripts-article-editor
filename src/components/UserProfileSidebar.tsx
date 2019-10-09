@@ -15,7 +15,7 @@ import { Avatar, PrimaryButton, TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { FormattedDate } from 'react-intl'
 import { styled } from '../theme/styled-components'
-import { Sidebar, SidebarContent } from './Sidebar'
+import { ModalSidebar, SidebarContent } from './Sidebar'
 
 const UserEmail = styled.div`
   font-weight: ${props => props.theme.font.weight.medium};
@@ -88,7 +88,7 @@ const UserProfileSidebar: React.FunctionComponent<Props> = ({
   handleDeleteAccount,
   handleEditAvatar,
 }) => (
-  <Sidebar>
+  <ModalSidebar>
     <SidebarContent>
       <AvatarContainer>
         {!userWithAvatar.avatar ? (
@@ -127,7 +127,7 @@ const UserProfileSidebar: React.FunctionComponent<Props> = ({
         Delete Account
       </DeleteAccountButton>
     </SidebarContent>
-  </Sidebar>
+  </ModalSidebar>
 )
 
 export default UserProfileSidebar

@@ -24,19 +24,17 @@ import UserData from '../../data/UserData'
 import { buildContainerInvitations } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme/styled-components'
+import { AddButton } from '../AddButton'
 import ImportContainer, { ImportProps } from '../ImportContainer'
 import { ModalProps, withModal } from '../ModalProvider'
 import ProjectsButton from '../nav/ProjectsButton'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import TemplateSelector from '../templates/TemplateSelector'
-import {
-  AddIconContainer,
-  AddIconHover,
-  ProjectsListPlaceholder,
-  RegularAddIcon,
-} from './ProjectsListPlaceholder'
+import { ProjectsListPlaceholder } from './ProjectsListPlaceholder'
 
-const Container = styled(Sidebar)``
+const Container = styled(Sidebar)`
+  background-color: ${props => props.theme.colors.background.primary};
+`
 
 const Header = styled(SidebarHeader)`
   @media (max-width: 450px) {
@@ -44,40 +42,10 @@ const Header = styled(SidebarHeader)`
   }
 `
 
-const SidebarActionTitle = styled.span`
-  display: flex;
-  align-items: center;
-  padding-bottom: 2px;
-  padding-left: 10px;
-  font-weight: ${props => props.theme.font.weight.medium};
-  font-size: ${props => props.theme.font.size.normal};
-  letter-spacing: -0.2px;
-  color: ${props => props.theme.colors.text.primary};
-`
-
-const AddButton = styled.button`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-
-  &:hover ${SidebarActionTitle} {
-    color: ${props => props.theme.colors.text.primary};
-  }
-
-  &:focus {
-    outline: none;
-  }
-`
-
 const SidebarAction = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 10px;
+  margin: ${props => props.theme.grid.unit * 3}px;
   @media (max-width: 450px) {
-    margin-left: 17px;
+    margin-left: ${props => props.theme.grid.unit * 4}px;
   }
 `
 
@@ -139,17 +107,10 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
                         </Header>
                         <SidebarAction>
                           <AddButton
-                            onClick={openTemplateSelector(props, user)}
-                            id={'create-project'}
-                          >
-                            <AddIconContainer>
-                              <RegularAddIcon />
-                              <AddIconHover />
-                              <SidebarActionTitle>
-                                New Project
-                              </SidebarActionTitle>
-                            </AddIconContainer>
-                          </AddButton>
+                            action={openTemplateSelector(props, user)}
+                            size={'medium'}
+                            title={'New Project'}
+                          />
                         </SidebarAction>
                         <ProjectsButton
                           isDropdown={false}

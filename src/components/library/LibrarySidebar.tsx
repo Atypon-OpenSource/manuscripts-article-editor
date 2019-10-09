@@ -13,6 +13,7 @@
 import TriangleCollapsed from '@manuscripts/assets/react/TriangleCollapsed'
 import TriangleExpanded from '@manuscripts/assets/react/TriangleExpanded'
 import {
+  BibliographyItem,
   Library,
   LibraryCollection,
 } from '@manuscripts/manuscripts-json-schema'
@@ -20,8 +21,16 @@ import React from 'react'
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom'
 import { sources } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
+import { AddButton } from '../AddButton'
 import Panel from '../Panel'
-import { Sidebar, SidebarContent } from '../Sidebar'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarTitle,
+} from '../Sidebar'
+import { BibliographyImportButton } from './BibliographyImportButton'
 import {
   DEFAULT_LIBRARY_COLLECTION_CATEGORY,
   sidebarIcon,
@@ -33,9 +42,13 @@ const SectionContainer = styled.div`
 `
 
 const StyledSidebar = styled(Sidebar)`
-  background: ${props => props.theme.colors.background.secondary};
-  border-right: 1px solid ${props => props.theme.colors.border.tertiary};
-  padding: ${props => props.theme.grid.unit * 4}px 0;
+  padding-left: 0;
+  padding-right: 0;
+
+  ${SidebarHeader} {
+    margin-bottom: 34px;
+    margin-top: -8px;
+  }
 
   ${SidebarContent} {
     padding: 0;
@@ -89,10 +102,8 @@ const SectionLink = styled(NavLink)`
 `
 
 const SectionTitleLink = styled(SectionLink)`
-  color: ${props => props.theme.colors.text.tertiary};
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 4}px;
-  margin-left: 0;
+  color: ${props => props.theme.colors.text.primary};
+  padding: 7px ${props => props.theme.grid.unit * 4}px;
 `
 
 export const LibrarySidebar: React.FC<
@@ -105,6 +116,7 @@ export const LibrarySidebar: React.FC<
     projectLibraryCollections: Map<string, LibraryCollection>
     globalLibraries: Map<string, Library>
     globalLibraryCollections: Map<string, LibraryCollection>
+    importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
   }
 > = ({
   projectLibraryCollections,
@@ -113,6 +125,7 @@ export const LibrarySidebar: React.FC<
   match: {
     params: { projectID, sourceID, sourceType },
   },
+  importItems,
 }) => {
   const globalLibrariesArray = Array.from(globalLibraries.values())
   const globalLibraryCollectionsArray = Array.from(
@@ -129,6 +142,10 @@ export const LibrarySidebar: React.FC<
   return (
     <Panel name={'librarySidebar'} minSize={290} direction={'row'} side={'end'}>
       <StyledSidebar>
+        <SidebarHeader>
+          <SidebarTitle>Library</SidebarTitle>
+        </SidebarHeader>
+
         <SidebarContent>
           <Section
             title={'Project Library'}
@@ -215,12 +232,26 @@ export const LibrarySidebar: React.FC<
             ))}
           </Section>
         </SidebarContent>
+        <SidebarFooter>
+          <BibliographyImportButton
+            importItems={importItems}
+            component={ImportButton}
+          />
+        </SidebarFooter>
       </StyledSidebar>
     </Panel>
   )
 }
 
 export const LibrarySidebarWithRouter = withRouter(LibrarySidebar)
+
+interface Props {
+  importItems: () => void
+}
+
+const ImportButton: React.FunctionComponent<Props> = ({ importItems }) => (
+  <AddButton action={importItems} title="Import from File" size={'small'} />
+)
 
 const Section: React.FC<{
   open: boolean

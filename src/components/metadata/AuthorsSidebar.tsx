@@ -16,64 +16,18 @@ import {
   AlertMessageType,
   AuthorAffiliation,
   AuthorsDND,
-  IconTextButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import {
-  AddIconContainer,
-  AddIconHover,
-  RegularAddIcon,
-} from '../projects/ProjectsListPlaceholder'
-
-const AddAuthorIcon = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 ${props => props.theme.grid.unit * 4}px 0
-    ${props => props.theme.grid.unit * 5}px;
-`
-const AddButton = styled(IconTextButton)`
-  svg {
-    max-height: none;
-    max-width: none;
-  }
-`
-
-const Sidebar = styled.div`
-  background-color: ${props => props.theme.colors.background.info};
-  border-top-left-radius: ${props => props.theme.grid.radius.default}px;
-  border-bottom-left-radius: ${props => props.theme.grid.radius.default}px;
-  padding-bottom: ${props => props.theme.grid.unit * 4}px;
-  height: 100%;
-  box-sizing: border-box;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-`
-
-const SidebarHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit * 5}px;
-`
-
-const SidebarTitle = styled.div`
-  font-size: 24px;
-  font-weight: ${props => props.theme.font.weight.semibold};
-  letter-spacing: -0.5px;
-  color: ${props => props.theme.colors.text.primary};
-`
+import { AddButton } from '../AddButton'
+import { ModalSidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 
 const SidebarAction = styled.div`
   display: flex;
   align-items: center;
-  margin-top: ${props => props.theme.grid.unit * 5}px;
-  margin-bottom: ${props => props.theme.grid.unit * 5}px;
+  margin: 0 ${props => props.theme.grid.unit * 4}px
+    ${props => props.theme.grid.unit * 4}px;
 `
-const AddCollaboratorText = styled.div``
 
 const AlertMessageContainer = styled.div`
   margin-bottom: ${props => props.theme.grid.unit * 2}px;
@@ -101,25 +55,13 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
   invitationSent,
   handleDismiss,
 }) => (
-  <Sidebar data-cy={'authors-sidebar'}>
+  <ModalSidebar data-cy={'authors-sidebar'}>
     <SidebarHeader>
       <SidebarTitle>Authors</SidebarTitle>
     </SidebarHeader>
 
     <SidebarAction>
-      <AddButton
-        onClick={() => {
-          openAddAuthors()
-        }}
-      >
-        <AddAuthorIcon>
-          <AddIconContainer>
-            <RegularAddIcon width={32} height={34} />
-            <AddIconHover width={32} height={34} />
-            <AddCollaboratorText> New Author </AddCollaboratorText>
-          </AddIconContainer>
-        </AddAuthorIcon>
-      </AddButton>
+      <AddButton action={openAddAuthors} size={'medium'} title={'New Author'} />
     </SidebarAction>
     {invitationSent && (
       <AlertMessageContainer>
@@ -144,7 +86,7 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
       handleDrop={handleDrop}
       getSidebarItemDecorator={getSidebarItemDecorator}
     />
-  </Sidebar>
+  </ModalSidebar>
 )
 
 export default AuthorsSidebar

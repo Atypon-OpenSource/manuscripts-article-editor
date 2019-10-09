@@ -90,6 +90,7 @@ import { Prompt, RouteComponentProps } from 'react-router'
 import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
+import { matchLibraryItemByIdentifier } from '../../lib/bibliography'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import deviceId from '../../lib/device-id'
 import { filterLibrary } from '../../lib/library'
@@ -1082,29 +1083,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   ): BibliographyItem | undefined => {
     const { library } = this.props
 
-    if (library.has(item._id)) {
-      return library.get(item._id)
-    }
-
-    if (item.DOI) {
-      const doi = item.DOI.toLowerCase()
-
-      for (const model of library.values()) {
-        if (model.DOI && model.DOI.toLowerCase() === doi) {
-          return model
-        }
-      }
-    }
-
-    if (item.URL) {
-      const url = item.URL.toLowerCase()
-
-      for (const model of library.values()) {
-        if (model.URL && model.URL.toLowerCase() === url) {
-          return model
-        }
-      }
-    }
+    return matchLibraryItemByIdentifier(item, library)
   }
 
   private getModel = <T extends Model>(id: string): T | undefined =>
