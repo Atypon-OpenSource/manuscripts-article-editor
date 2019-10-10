@@ -36,6 +36,7 @@ ReactDOM.render(
                 } else {
                   window.location.href = '/about/'
                 }
+                return null
               }}
             />
             <Route path={'/'} render={() => <Main />} />
