@@ -46,6 +46,7 @@ export const removeEmptyStyles = (model: { [key: string]: any }) => {
 }
 
 const unsupportedObjectTypes: ObjectTypes[] = [
+  ObjectTypes.Bundle,
   ObjectTypes.ContainerInvitation,
   ObjectTypes.ProjectInvitation,
   ObjectTypes.Invitation,

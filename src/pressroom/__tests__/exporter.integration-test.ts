@@ -22,10 +22,10 @@ import {
   generateID,
 } from '@manuscripts/manuscript-transform'
 import {
-  // BibliographyElement,
-  // BibliographyItem,
+  BibliographyElement,
+  BibliographyItem,
   Bundle,
-  // Citation,
+  Citation,
   ContainerInvitation,
   Contributor,
   Equation,
@@ -416,7 +416,7 @@ describe('exporter', () => {
 
     section.elementIDs.push(equationElement._id)*/
 
-    /*// add a paragraph containing a citation
+    // add a paragraph containing a citation
 
     const paragraphElementID = generateID(ObjectTypes.ParagraphElement)
     const bibliographyItemID = generateID(ObjectTypes.BibliographyItem)
@@ -430,11 +430,27 @@ describe('exporter', () => {
       contents: `<div xmlns="http://www.w3.org/1999/xhtml" class="csl-bib-body" id="${bibliographyElementID}"></div>`,
     })
 
+    section.elementIDs.push(bibliographyElementID)
+
     addModel<BibliographyItem>({
       _id: bibliographyItemID,
       objectType: ObjectTypes.BibliographyItem,
       type: 'article-journal',
       title: 'Foo',
+      // NOTE: author and issued are temporarily needed for Markdown export
+      author: [
+        {
+          _id: generateID(ObjectTypes.BibliographicName),
+          objectType: ObjectTypes.BibliographicName,
+          family: 'Foo',
+          given: 'Foo',
+        },
+      ],
+      issued: {
+        _id: generateID(ObjectTypes.BibliographicDate),
+        objectType: ObjectTypes.BibliographicDate,
+        'date-parts': [[2019, 10, 1]],
+      },
     })
 
     addModel<Citation>({
@@ -457,7 +473,7 @@ describe('exporter', () => {
       contents: `<p xmlns="http://www.w3.org/1999/xhtml" id="${paragraphElementID}" class="MPElement">A paragraph containing a citation.<span class="citation" data-reference-id="${citationID}">1</span></p>`,
     })
 
-    section.elementIDs.push(paragraphElement._id)*/
+    section.elementIDs.push(paragraphElement._id)
 
     // export to each format
     for (const format of formats) {
@@ -477,6 +493,11 @@ describe('exporter', () => {
       expect(response.data).not.toBeUndefined()
       expect(response.headers['content-type']).toBe(format.contentType)
       // TODO: validate the output?
+
+      // tslint:disable-next-line:no-console
+      console.log(
+        `Exported previously-failing manuscript to ${format.extension}`
+      )
     }
   })
 
