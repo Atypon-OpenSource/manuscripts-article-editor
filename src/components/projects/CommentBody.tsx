@@ -60,7 +60,7 @@ const StyledCommentField = styled(CommentField)`
     font-family: ${props => props.theme.font.family.sans};
     line-height: 1.06;
     letter-spacing: -0.2px;
-    color: ${props => props.theme.colors.text.secondary};
+    color: ${props => props.theme.colors.text.primary};
     margin: ${props => props.theme.grid.unit * 2}px 0;
 
     &:focus {
@@ -95,7 +95,7 @@ const StyledCommentViewer = styled(Comment)`
     font-family: ${props => props.theme.font.family.sans};
     line-height: 1.06;
     letter-spacing: -0.2px;
-    color: ${props => props.theme.colors.text.tertiary};
+    color: ${props => props.theme.colors.text.primary};
     margin: ${props => props.theme.grid.unit * 2}px 0;
 
     &:focus {
@@ -131,7 +131,7 @@ interface Props {
   listCollaborators: () => UserProfile[]
   listKeywords: () => Keyword[]
   saveComment: (comment: CommentAnnotation) => Promise<CommentAnnotation>
-  deleteComment: (id: string) => Promise<string | void>
+  deleteComment: (comment: CommentAnnotation) => void
   isReply?: boolean
   isNew: boolean
   setCommentTarget: (commentTarget?: string) => void
@@ -265,7 +265,7 @@ class CommentBody extends React.Component<Props, State> {
     this.setEditing(false)
 
     if (isNew) {
-      await deleteComment(comment._id)
+      deleteComment(comment)
     }
   }
 
@@ -273,9 +273,7 @@ class CommentBody extends React.Component<Props, State> {
     const { comment, deleteComment } = this.props
 
     if (confirm('Delete this comment?')) {
-      deleteComment(comment._id).catch(error => {
-        console.error(error) // tslint:disable-line:no-console
-      })
+      deleteComment(comment)
     }
   }
 

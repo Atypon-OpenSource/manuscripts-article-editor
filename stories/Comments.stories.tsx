@@ -10,6 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import {
+  ManuscriptEditorState,
+  ManuscriptEditorView,
+} from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
@@ -33,6 +37,13 @@ const buildMap = <T extends Model>(items: T[]) => {
 const keywordMap = buildMap(keywords)
 const userMap = buildMap(people)
 
+const state = {}
+
+const view = {
+  dispatch: action('dispatch'),
+  state: state as ManuscriptEditorState,
+}
+
 storiesOf('Projects/Comments', module).add('with comments', () => (
   <div style={{ width: 400 }}>
     <CommentList
@@ -48,6 +59,7 @@ storiesOf('Projects/Comments', module).add('with comments', () => (
       listKeywords={() => keywords}
       selected={null}
       setCommentTarget={action('set comment target')}
+      view={view as ManuscriptEditorView}
     />
   </div>
 ))

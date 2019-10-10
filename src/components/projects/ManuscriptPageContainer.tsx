@@ -535,6 +535,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           direction={'row'}
           side={'start'}
           hideWhen={'max-width: 900px'}
+          forceOpen={commentTarget !== undefined}
         >
           {this.state.view && comments && (
             <Inspector

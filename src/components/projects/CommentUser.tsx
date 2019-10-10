@@ -10,23 +10,36 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  CommentAnnotation,
-  ExtraObjectTypes,
-} from '@manuscripts/manuscript-transform'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
+import { Avatar } from '@manuscripts/style-guide'
+import React from 'react'
+import { buildName } from '../../lib/comments'
+import { styled } from '../../theme/styled-components'
 
-export const comments: CommentAnnotation[] = [
-  {
-    _id: 'comment-1',
-    objectType: ExtraObjectTypes.CommentAnnotation,
-    containerID: 'project-1',
-    manuscriptID: 'manuscript-1',
-    userID: 'user-1',
-    target: 'MPParagraphElement:150780D7-CFED-4529-9398-77B5C7625044',
-    contents:
-      '<div><blockquote>some quoted text</blockquote><p>This is a <span class="keyword" data-keyword="keyword-1">#comment</span> for <span class="user" data-user="user-2">@test</span>.</p></div>',
-    createdAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
-    updatedAt: Math.floor(new Date('2018-01-23T08:00:00Z').getTime() / 1000),
-    originalText: '',
-  },
-]
+const CommentUserContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const CommentUserName = styled.div`
+  margin: 0 ${props => props.theme.grid.unit * 2}px;
+  font-weight: ${props => props.theme.font.weight.semibold};
+`
+
+export const CommentUser: React.FC<{
+  getCollaborator: (userID: string) => UserProfileWithAvatar | undefined
+  userID: string
+}> = ({ userID, getCollaborator }) => {
+  const user = getCollaborator(userID)
+
+  if (!user) {
+    return null
+  }
+
+  return (
+    <CommentUserContainer>
+      <Avatar src={user.avatar} size={20} />
+      <CommentUserName>by {buildName(user.bibliographicName)}</CommentUserName>
+    </CommentUserContainer>
+  )
+}

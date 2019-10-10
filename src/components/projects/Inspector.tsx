@@ -158,21 +158,25 @@ export const Inspector: React.FC<{
             )}
           </InspectorTabPanel>
           <InspectorTabPanel>
-            <CommentList
-              comments={comments}
-              doc={doc}
-              getCurrentUser={getCurrentUser}
-              selected={selected}
-              createKeyword={createKeyword}
-              deleteModel={deleteModel}
-              getCollaborator={getCollaborator}
-              getKeyword={getKeyword}
-              listCollaborators={listCollaborators}
-              listKeywords={listKeywords}
-              saveModel={saveModel}
-              commentTarget={commentTarget}
-              setCommentTarget={setCommentTarget}
-            />
+            {view && (
+              <CommentList
+                comments={comments}
+                doc={doc}
+                getCurrentUser={getCurrentUser}
+                selected={selected}
+                createKeyword={createKeyword}
+                deleteModel={deleteModel}
+                getCollaborator={getCollaborator}
+                getKeyword={getKeyword}
+                listCollaborators={listCollaborators}
+                listKeywords={listKeywords}
+                saveModel={saveModel}
+                commentTarget={commentTarget}
+                setCommentTarget={setCommentTarget}
+                view={view}
+                key={commentTarget}
+              />
+            )}
           </InspectorTabPanel>
         </InspectorTabPanels>
       </InspectorTabs>

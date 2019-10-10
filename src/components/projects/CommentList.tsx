@@ -11,35 +11,36 @@
  */
 
 import {
+  deleteHighlightMarkers,
+  getHighlightTarget,
+  getHighlightText,
+  selectedHighlights,
+} from '@manuscripts/manuscript-editor'
+import {
   buildComment,
   CommentAnnotation,
+  ManuscriptEditorView,
   ManuscriptNode,
   Selected,
-  UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import { Keyword, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { Avatar } from '@manuscripts/style-guide'
-import React, { useCallback, useEffect, useState } from 'react'
-import { buildCommentTree, buildName, CommentData } from '../../lib/comments'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { buildCommentTree, CommentData } from '../../lib/comments'
 import { styled } from '../../theme/styled-components'
 import { RelativeDate } from '../RelativeDate'
 import CommentBody from './CommentBody'
 import { CommentTarget } from './CommentTarget'
-
-interface UserProps {
-  user?: UserProfileWithAvatar
-}
+import { CommentUser } from './CommentUser'
+import { HighlightedText } from './HighlightedText'
 
 const CommentListContainer = styled.div`
   flex: 1;
   overflow-y: auto;
 `
 
-interface ContainerProps {
+const Container = styled.div<{
   isSelected: boolean
-}
-
-const Container = styled.div<ContainerProps>`
+}>`
   padding: ${props => props.theme.grid.unit * 4}px 0
     ${props => props.theme.grid.unit * 2}px;
   background: ${props => props.theme.colors.background.primary};
@@ -64,16 +65,6 @@ const CommentHeader = styled.div`
   padding: 0 16px;
 `
 
-const CommentUserContainer = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const CommentUserName = styled.div`
-  margin: 0 ${props => props.theme.grid.unit * 2}px;
-  font-weight: ${props => props.theme.font.weight.semibold};
-`
-
 const Reply = styled.div`
   padding: ${props => props.theme.grid.unit * 4}px 0
     ${props => props.theme.grid.unit * 2}px;
@@ -87,14 +78,6 @@ const LightRelativeDate = styled(RelativeDate)`
   color: ${props => props.theme.colors.text.secondary};
   letter-spacing: -0.2px;
 `
-
-const CommentUser: React.FunctionComponent<UserProps> = ({ user }) =>
-  user ? (
-    <CommentUserContainer>
-      <Avatar src={user.avatar} size={20} />
-      <CommentUserName>by {buildName(user.bibliographicName)}</CommentUserName>
-    </CommentUserContainer>
-  ) : null
 
 interface Props {
   comments: CommentAnnotation[]
@@ -110,6 +93,7 @@ interface Props {
   selected: Selected | null
   commentTarget?: string
   setCommentTarget: (commentTarget?: string) => void
+  view: ManuscriptEditorView
 }
 
 export const CommentList: React.FC<Props> = React.memo(
@@ -127,10 +111,44 @@ export const CommentList: React.FC<Props> = React.memo(
     listKeywords,
     commentTarget,
     setCommentTarget,
+    view,
   }) => {
-    const [items, setItems] = useState<Array<[string, CommentData[]]>>()
-
     const [newComment, setNewComment] = useState<CommentAnnotation>()
+
+    const { dispatch, state } = view
+
+    useEffect(() => {
+      if (commentTarget && !newComment) {
+        const currentUser = getCurrentUser()
+
+        const newComment = buildComment(
+          currentUser.userID,
+          commentTarget
+        ) as CommentAnnotation
+
+        const highlight = getHighlightTarget(newComment, state)
+
+        if (highlight) {
+          newComment.originalText = getHighlightText(highlight, state)
+        }
+
+        setNewComment(newComment)
+      }
+    }, [commentTarget, getCurrentUser, doc, newComment, state])
+
+    const items = useMemo<Array<[string, CommentData[]]>>(() => {
+      const combinedComments = [...comments]
+
+      if (newComment) {
+        combinedComments.push(newComment)
+      }
+
+      const commentsTreeMap = buildCommentTree(doc, combinedComments)
+
+      return Array.from(commentsTreeMap.entries())
+    }, [comments, newComment, doc])
+
+    const highlights = useMemo(() => selectedHighlights(state), [state])
 
     const saveComment = useCallback(
       (comment: CommentAnnotation) => {
@@ -146,15 +164,37 @@ export const CommentList: React.FC<Props> = React.memo(
     )
 
     const deleteComment = useCallback(
-      (id: string) => {
-        if (newComment && newComment._id === id) {
-          setCommentTarget(undefined)
-          return Promise.resolve()
-        } else {
-          return deleteModel(id)
-        }
+      (comment: CommentAnnotation) => {
+        return deleteModel(comment._id)
+          .catch((error: Error) => {
+            console.error(error) // tslint:disable-line:no-console
+          })
+          .then(async () => {
+            if (comment.target.startsWith('MPHighlight:')) {
+              await deleteModel(comment.target)
+            }
+          })
+          .catch((error: Error) => {
+            console.error(error) // tslint:disable-line:no-console
+          })
+          .finally(() => {
+            if (comment.target.startsWith('MPHighlight:')) {
+              deleteHighlightMarkers(comment.target, state, dispatch)
+            }
+
+            if (newComment && newComment._id === comment._id) {
+              setCommentTarget(undefined)
+            }
+          })
       },
-      [deleteModel, newComment, setCommentTarget]
+      [
+        deleteModel,
+        deleteHighlightMarkers,
+        newComment,
+        setCommentTarget,
+        state,
+        dispatch,
+      ]
     )
 
     const isNew = useCallback(
@@ -164,35 +204,6 @@ export const CommentList: React.FC<Props> = React.memo(
       [newComment]
     )
 
-    useEffect(() => {
-      if (commentTarget) {
-        const currentUser = getCurrentUser()
-
-        const newComment = buildComment(
-          currentUser.userID,
-          commentTarget
-        ) as CommentAnnotation
-
-        setNewComment(newComment)
-      } else {
-        setNewComment(undefined)
-      }
-    }, [commentTarget, getCurrentUser])
-
-    useEffect(() => {
-      const combinedComments = [...comments]
-
-      if (newComment) {
-        combinedComments.push(newComment)
-      }
-
-      const commentsTreeMap = buildCommentTree(doc, combinedComments)
-
-      const items = Array.from(commentsTreeMap.entries())
-
-      setItems(items)
-    }, [comments, newComment])
-
     if (!items) {
       return null
     }
@@ -200,9 +211,12 @@ export const CommentList: React.FC<Props> = React.memo(
     return (
       <CommentListContainer>
         {items.map(([target, commentData]) => {
-          const isSelected = selected
-            ? selected.node.attrs.id === target
-            : false
+          // TODO: move this into a child component?
+          const isSelected =
+            (selected &&
+              (selected.node.attrs.id === target ||
+                selected.node.attrs.rid === target)) ||
+            highlights.some(highlight => highlight.rid === target)
 
           return (
             <CommentTarget key={target} isSelected={isSelected}>
@@ -210,9 +224,14 @@ export const CommentList: React.FC<Props> = React.memo(
                 <CommentThread key={comment._id}>
                   <Container isSelected={isSelected}>
                     <CommentHeader>
-                      <CommentUser user={getCollaborator(comment.userID)} />
+                      <CommentUser
+                        getCollaborator={getCollaborator}
+                        userID={comment.userID}
+                      />
                       <LightRelativeDate createdAt={comment.createdAt} />
                     </CommentHeader>
+
+                    <HighlightedText comment={comment} state={state} />
 
                     <CommentBody
                       comment={comment}
@@ -231,7 +250,10 @@ export const CommentList: React.FC<Props> = React.memo(
                   {children.map(comment => (
                     <Reply key={comment._id}>
                       <CommentHeader>
-                        <CommentUser user={getCollaborator(comment.userID)} />
+                        <CommentUser
+                          getCollaborator={getCollaborator}
+                          userID={comment.userID}
+                        />
                         <LightRelativeDate createdAt={comment.createdAt} />
                       </CommentHeader>
 

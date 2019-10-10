@@ -11,22 +11,50 @@
  */
 
 import {
+  getHighlightTarget,
+  getHighlightText,
+} from '@manuscripts/manuscript-editor'
+import {
   CommentAnnotation,
-  ExtraObjectTypes,
+  ManuscriptEditorState,
 } from '@manuscripts/manuscript-transform'
+import React, { useMemo } from 'react'
+import { styled } from '../../theme/styled-components'
 
-export const comments: CommentAnnotation[] = [
-  {
-    _id: 'comment-1',
-    objectType: ExtraObjectTypes.CommentAnnotation,
-    containerID: 'project-1',
-    manuscriptID: 'manuscript-1',
-    userID: 'user-1',
-    target: 'MPParagraphElement:150780D7-CFED-4529-9398-77B5C7625044',
-    contents:
-      '<div><blockquote>some quoted text</blockquote><p>This is a <span class="keyword" data-keyword="keyword-1">#comment</span> for <span class="user" data-user="user-2">@test</span>.</p></div>',
-    createdAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
-    updatedAt: Math.floor(new Date('2018-01-23T08:00:00Z').getTime() / 1000),
-    originalText: '',
-  },
-]
+const Container = styled.div`
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 16px;
+  padding: 4px 8px;
+  background-color: #ffe08b;
+  margin: 16px;
+`
+
+export const HighlightedText: React.FC<{
+  comment: CommentAnnotation
+  state: ManuscriptEditorState
+}> = React.memo(({ comment, state }) => {
+  const highlightText = useMemo<string | undefined>(() => {
+    const highlight = getHighlightTarget(comment, state)
+
+    return highlight ? getHighlightText(highlight, state) : undefined
+  }, [comment, state])
+
+  if (!comment.originalText) {
+    return null
+  }
+
+  return (
+    <Container
+      style={{
+        // TODO: should change colour only if highlight markers are deleted?
+        backgroundColor: highlightText !== undefined ? '#ffe08b' : '#f9020287',
+      }}
+    >
+      {comment.originalText.split('\n').map((item, index) => {
+        return <div key={index}>{item}</div>
+      })}
+    </Container>
+  )
+})

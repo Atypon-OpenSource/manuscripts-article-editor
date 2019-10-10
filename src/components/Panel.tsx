@@ -20,6 +20,7 @@ interface PanelProps {
   direction: ResizerDirection
   side: ResizerSide
   hideWhen?: string
+  forceOpen?: boolean // TODO
 }
 
 interface PanelState {

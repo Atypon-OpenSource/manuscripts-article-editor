@@ -74,11 +74,30 @@ const buildTreeMap = (doc: ManuscriptNode, targetsMap: TargetsMap) => {
   const map: CommentsTreeMap = new Map()
 
   doc.descendants(node => {
-    if (node.attrs.id && targetsMap.has(node.attrs.id)) {
-      map.set(node.attrs.id, targetsMap.get(node.attrs.id)!)
+    const targetID = node.attrs.rid || node.attrs.id
+
+    if (targetID) {
+      const target = targetsMap.get(targetID)
+
+      if (target) {
+        map.set(targetID, target)
+      }
     }
   })
 
+  // TODO: what does this do?
+  if (map.size < targetsMap.size) {
+    for (const commentsData of targetsMap.values()) {
+      const comments = commentsData
+      if (
+        !map.has(comments[0].comment.target) &&
+        comments[0].comment.target.startsWith('MPHighlight') &&
+        comments[0].comment.originalText
+      ) {
+        map.set(comments[0].comment.target, comments)
+      }
+    }
+  }
   return map
 }
 
