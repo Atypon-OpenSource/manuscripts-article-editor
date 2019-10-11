@@ -310,6 +310,11 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                                                       collaborators,
                                                                                       user
                                                                                     )}
+                                                                                    collaboratorsById={buildCollaboratorProfiles(
+                                                                                      collaborators,
+                                                                                      user,
+                                                                                      '_id'
+                                                                                    )}
                                                                                     userProjects={
                                                                                       userProjects
                                                                                     }

@@ -32,16 +32,17 @@ export const buildCollaborators = (
 
 export const buildCollaboratorProfiles = (
   collaborators: Map<string, UserCollaborator>,
-  user: UserProfileWithAvatar
+  user: UserProfileWithAvatar,
+  key: keyof UserProfile = 'userID'
 ) => {
   const profiles: Map<string, UserProfile> = new Map()
 
   for (const collaborator of collaborators.values()) {
     profiles.set(
-      collaborator.collaboratorProfile.userID,
+      collaborator.collaboratorProfile[key] as string,
       collaborator.collaboratorProfile
     )
   }
-  profiles.set(user.userID, user)
+  profiles.set(user[key] as string, user)
   return profiles
 }

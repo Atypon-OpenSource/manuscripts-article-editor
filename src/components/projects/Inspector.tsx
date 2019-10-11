@@ -12,13 +12,13 @@
 
 import {
   ActualManuscriptNode,
-  CommentAnnotation,
   ManuscriptEditorView,
   SectionNode,
   Selected,
 } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
+  CommentAnnotation,
   Keyword,
   Manuscript,
   Model,
@@ -55,6 +55,7 @@ export const Inspector: React.FC<{
   doc: ActualManuscriptNode
   element?: AnyElement
   getCollaborator: (id: string) => UserProfile | undefined
+  getCollaboratorById: (id: string) => UserProfile | undefined
   getCurrentUser: () => UserProfile
   getKeyword: (id: string) => Keyword | undefined
   listCollaborators: () => UserProfile[]
@@ -78,6 +79,7 @@ export const Inspector: React.FC<{
   doc,
   element,
   getCollaborator,
+  getCollaboratorById,
   getCurrentUser,
   getKeyword,
   listCollaborators,
@@ -167,6 +169,7 @@ export const Inspector: React.FC<{
                 createKeyword={createKeyword}
                 deleteModel={deleteModel}
                 getCollaborator={getCollaborator}
+                getCollaboratorById={getCollaboratorById}
                 getKeyword={getKeyword}
                 listCollaborators={listCollaborators}
                 listKeywords={listKeywords}

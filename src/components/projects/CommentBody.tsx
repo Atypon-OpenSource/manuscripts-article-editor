@@ -15,9 +15,13 @@ import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import AnnotationReply from '@manuscripts/assets/react/AnnotationReply'
 // import AnnotationShare from '@manuscripts/assets/react/AnnotationShare'
 import { Comment, CommentField } from '@manuscripts/comment-editor'
-import { CommentAnnotation } from '@manuscripts/manuscript-transform'
-import { Keyword, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import {
+  CommentAnnotation,
+  Keyword,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
+import {
+  ButtonGroup,
   FormError,
   PrimaryButton,
   SecondaryButton,
@@ -123,6 +127,12 @@ const StyledCommentViewer = styled(Comment)`
   }
 `
 
+const Actions = styled(ButtonGroup)`
+  & button:not(:last-of-type) {
+    margin-right: 4px;
+  }
+`
+
 interface Props {
   comment: CommentAnnotation
   createKeyword: (name: string) => Promise<Keyword>
@@ -205,10 +215,12 @@ class CommentBody extends React.Component<Props, State> {
             </Field>
 
             <EditingCommentFooter>
-              <SecondaryButton onClick={this.cancelEditing}>
-                Cancel
-              </SecondaryButton>
-              <PrimaryButton type="submit">Save</PrimaryButton>
+              <Actions>
+                <SecondaryButton onClick={this.cancelEditing}>
+                  Cancel
+                </SecondaryButton>
+                <PrimaryButton type="submit">Save</PrimaryButton>
+              </Actions>
             </EditingCommentFooter>
           </Form>
         )}

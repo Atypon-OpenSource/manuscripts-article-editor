@@ -1599,10 +1599,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.4.1.tgz#3aafbcd5df2c706358fa5508369981534119a8ee"
   integrity sha512-pG77YvrElOFJ9KnMuC06X5etfNt0LcvdTiGwCuXLuGQWDM/N1MIC0FwDaPCxR3QlqfvCljHbhJJv4iDlCrNPUg==
 
-"@manuscripts/assets@^0.5.3", "@manuscripts/assets@^0.5.6":
-  version "0.5.6"
-  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.6.tgz#1f2526bac500fc2db722428d969e7d591bff9542"
-  integrity sha512-BIudnsWwtepBxG7uyvHZv3wPyST2/qeBLjlzA7WpQ10bcDo0lktuZqZND3ZSzrjOeRlI/PkgjRHeGSUgYWLV4g==
+"@manuscripts/assets@^0.5.10", "@manuscripts/assets@^0.5.3":
+  version "0.5.10"
+  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.10.tgz#03639a88c4ba8cf26a9985f26c3dac12b1d95489"
+  integrity sha512-Eai/X7Yr5OtVj89XGcF1vtFWe0iNkLgM1zep43+gwFqNARR1ZHqntv6LRl+8R70TIxZdzejupff3sJzZJzP+9g==
 
 "@manuscripts/comment-editor@^0.1.1":
   version "0.1.1"
@@ -1628,15 +1628,15 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.46.0":
-  version "0.46.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.46.0.tgz#cb2c54667c564cdac6f295535c6467c50861ab92"
-  integrity sha512-lMWVSl6lGg7+jeS+vMRC28tUJIDIj45VQf7/7/4NqhhaywdDnIB3sF0dH3HfdoBLf89ipltUzy2Y5qPHnLo7ig==
+"@manuscripts/manuscript-editor@^0.47.0":
+  version "0.47.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.47.0.tgz#ebfa0a51fff828ee85342681e5fdd8574e52dc8e"
+  integrity sha512-fQ/BTJU17/3xJBNAigiiprHSP1MJr/78Mv+WGXqXUD1CL5T8r/z9TDnxbFUcEukthQe9kQvInbW+PYxk9a5ikA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.4.1"
-    "@manuscripts/manuscripts-json-schema" "^1.17.2"
+    "@manuscripts/manuscripts-json-schema" "^1.18.2"
     "@manuscripts/title-editor" "^0.3.3"
     axios "^0.19.0"
     blob-util "^2.0.2"
@@ -1671,17 +1671,17 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.17.0":
-  version "0.17.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.17.0.tgz#90a98d0af49031309739525447e2908ed4bb3986"
-  integrity sha512-9Cr8t7PkfOUNugUG1tNquKoLCtP7nRSJ+z+5QtznbYvhcSaj+b0OPJOKHgY0YUzp/g/eCZNvlOxfJ+n81jsUjA==
+"@manuscripts/manuscript-transform@^0.18.0":
+  version "0.18.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.18.0.tgz#dc9161041b4f6c9b6d63b2a26d1af84fd593aa6d"
+  integrity sha512-syweUCL8AOPF6D9u57k5+SK4hvP3RlrsqA+ZUIF+zopjEdHDsnheFm+WX7wALPX3lOH+zBSucvmPg0aCsnlAsg==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"
     uuid "^3.3.2"
     w3c-xmlserializer "^1.1.2"
 
-"@manuscripts/manuscripts-json-schema@^1.17.2", "@manuscripts/manuscripts-json-schema@^1.18.2":
+"@manuscripts/manuscripts-json-schema@^1.18.2":
   version "1.18.2"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.18.2.tgz#81ce3daab7bfa6b202b4908bc32d68044e329f71"
   integrity sha512-G1dlWtkCTYjUVL+1P5Noa6KJx/0WdGrfc7dPQWzvJERUxmphe3c1bgUn+OZTcAqLefE6IShNbOlcsbIHoFDcfQ==

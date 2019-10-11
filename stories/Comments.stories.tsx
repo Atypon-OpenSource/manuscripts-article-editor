@@ -14,7 +14,7 @@ import {
   ManuscriptEditorState,
   ManuscriptEditorView,
 } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { Model, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -25,7 +25,7 @@ import { keywords } from './data/keywords'
 import { people } from './data/people'
 
 const buildMap = <T extends Model>(items: T[]) => {
-  const map = new Map()
+  const map = new Map<string, T>()
 
   for (const item of items) {
     map.set(item._id, item)
@@ -34,8 +34,19 @@ const buildMap = <T extends Model>(items: T[]) => {
   return map
 }
 
+const buildCollaboratorMap = (items: UserProfile[]) => {
+  const map = new Map<string, UserProfile>()
+
+  for (const item of items) {
+    map.set(item.userID, item)
+  }
+
+  return map
+}
+
 const keywordMap = buildMap(keywords)
 const userMap = buildMap(people)
+const collaboratorMap = buildCollaboratorMap(people)
 
 const state = {}
 
@@ -50,7 +61,8 @@ storiesOf('Projects/Comments', module).add('with comments', () => (
       comments={comments}
       doc={doc}
       getCurrentUser={() => people[0]}
-      getCollaborator={(id: string) => userMap.get(id)}
+      getCollaborator={(id: string) => collaboratorMap.get(id)}
+      getCollaboratorById={(id: string) => userMap.get(id)}
       deleteModel={async () => action('delete model')}
       saveModel={async () => action('save model')}
       listCollaborators={() => people}

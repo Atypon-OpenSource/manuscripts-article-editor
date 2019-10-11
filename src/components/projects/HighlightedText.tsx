@@ -14,10 +14,8 @@ import {
   getHighlightTarget,
   getHighlightText,
 } from '@manuscripts/manuscript-editor'
-import {
-  CommentAnnotation,
-  ManuscriptEditorState,
-} from '@manuscripts/manuscript-transform'
+import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
+import { CommentAnnotation } from '@manuscripts/manuscripts-json-schema'
 import React, { useMemo } from 'react'
 import { styled } from '../../theme/styled-components'
 

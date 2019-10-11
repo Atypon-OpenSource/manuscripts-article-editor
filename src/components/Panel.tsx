@@ -20,7 +20,7 @@ interface PanelProps {
   direction: ResizerDirection
   side: ResizerSide
   hideWhen?: string
-  forceOpen?: boolean // TODO
+  forceOpen?: boolean
 }
 
 interface PanelState {
@@ -66,6 +66,12 @@ class Panel extends React.Component<PanelProps, PanelState> {
     }
 
     this.updateState(layout.get(this.props.name))
+  }
+
+  public componentWillReceiveProps(nextProps: PanelProps) {
+    if (nextProps.forceOpen !== this.props.forceOpen) {
+      this.updateState(layout.get(this.props.name), nextProps.forceOpen)
+    }
   }
 
   public componentWillUnmount() {
@@ -151,15 +157,18 @@ class Panel extends React.Component<PanelProps, PanelState> {
     this.updateState(data)
   }
 
-  private updateState(data: Pane) {
+  private updateState(data: Pane, forceOpen: boolean = false) {
+    const { minSize } = this.props
     const { hidden } = this.state
 
-    const size = Math.max(this.props.minSize || 0, data.size)
+    const size = Math.max(minSize || 0, data.size)
+
+    const collapsed = !forceOpen && (data.collapsed || hidden)
 
     this.setState({
       originalSize: size,
-      size: data.collapsed || hidden ? 0 : size,
-      collapsed: data.collapsed || hidden,
+      size: collapsed ? 0 : size,
+      collapsed,
     })
   }
 }

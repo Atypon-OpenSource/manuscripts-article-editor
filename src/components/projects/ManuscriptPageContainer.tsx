@@ -32,7 +32,6 @@ import {
   buildKeyword,
   buildManuscript,
   buildModelMap,
-  CommentAnnotation,
   ContainedModel,
   ContainedProps,
   Decoder,
@@ -57,6 +56,7 @@ import {
 import {
   BibliographyItem,
   Bundle,
+  CommentAnnotation,
   Figure,
   Keyword,
   Manuscript,
@@ -200,6 +200,7 @@ export interface ManuscriptPageContainerProps {
   projects: Project[]
   user: UserProfileWithAvatar
   collaborators: Map<string, UserProfile>
+  collaboratorsById: Map<string, UserProfile>
   projectsCollection: Collection<Project>
   userProjects: UserProject[]
   userProjectsCollection: Collection<UserProject>
@@ -548,6 +549,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               doc={doc}
               element={element}
               getCollaborator={this.getCollaborator}
+              getCollaboratorById={this.getCollaboratorById}
               getCurrentUser={this.getCurrentUser}
               getKeyword={this.getKeyword}
               listCollaborators={this.listCollaborators}
@@ -1668,6 +1670,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private createKeyword = (name: string) => this.saveModel(buildKeyword(name))
 
   private getCollaborator = (id: string) => this.props.collaborators.get(id)
+  private getCollaboratorById = (id: string) =>
+    this.props.collaboratorsById.get(id)
 
   private renderReactComponent = (
     child: React.ReactChild,

@@ -11,6 +11,7 @@
  */
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
+import { Contribution } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import { buildName } from '../../lib/comments'
@@ -27,10 +28,16 @@ const CommentUserName = styled.div`
 `
 
 export const CommentUser: React.FC<{
-  getCollaborator: (userID: string) => UserProfileWithAvatar | undefined
-  userID: string
-}> = ({ userID, getCollaborator }) => {
-  const user = getCollaborator(userID)
+  contributions: Contribution[]
+  getCollaboratorById: (id: string) => UserProfileWithAvatar | undefined
+}> = ({ contributions, getCollaboratorById }) => {
+  if (!contributions.length) {
+    return null
+  }
+
+  const [contribution] = contributions // only one contributor
+
+  const user = getCollaboratorById(contribution.profileID)
 
   if (!user) {
     return null

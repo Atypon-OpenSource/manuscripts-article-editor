@@ -10,11 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { ManuscriptNode } from '@manuscripts/manuscript-transform'
 import {
+  BibliographicName,
   CommentAnnotation,
-  ManuscriptNode,
-} from '@manuscripts/manuscript-transform'
-import { BibliographicName } from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/manuscripts-json-schema'
 
 export interface CommentData {
   comment: CommentAnnotation

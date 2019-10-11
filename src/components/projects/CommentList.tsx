@@ -18,12 +18,16 @@ import {
 } from '@manuscripts/manuscript-editor'
 import {
   buildComment,
-  CommentAnnotation,
+  buildContribution,
   ManuscriptEditorView,
   ManuscriptNode,
   Selected,
 } from '@manuscripts/manuscript-transform'
-import { Keyword, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import {
+  CommentAnnotation,
+  Keyword,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { buildCommentTree, CommentData } from '../../lib/comments'
 import { styled } from '../../theme/styled-components'
@@ -86,6 +90,7 @@ interface Props {
   deleteModel: (id: string) => Promise<string>
   doc: ManuscriptNode
   getCollaborator: (id: string) => UserProfile | undefined
+  getCollaboratorById: (id: string) => UserProfile | undefined
   getCurrentUser: () => UserProfile
   getKeyword: (id: string) => Keyword | undefined
   listCollaborators: () => UserProfile[]
@@ -106,6 +111,7 @@ export const CommentList: React.FC<Props> = React.memo(
     selected,
     createKeyword,
     getCollaborator,
+    getCollaboratorById,
     getKeyword,
     listCollaborators,
     listKeywords,
@@ -119,12 +125,11 @@ export const CommentList: React.FC<Props> = React.memo(
 
     useEffect(() => {
       if (commentTarget && !newComment) {
-        const currentUser = getCurrentUser()
+        const newComment = buildComment(commentTarget) as CommentAnnotation
 
-        const newComment = buildComment(
-          currentUser.userID,
-          commentTarget
-        ) as CommentAnnotation
+        const currentUser = getCurrentUser()
+        const contribution = buildContribution(currentUser._id)
+        newComment.contributions = [contribution]
 
         const highlight = getHighlightTarget(newComment, state)
 
@@ -224,10 +229,12 @@ export const CommentList: React.FC<Props> = React.memo(
                 <CommentThread key={comment._id}>
                   <Container isSelected={isSelected}>
                     <CommentHeader>
-                      <CommentUser
-                        getCollaborator={getCollaborator}
-                        userID={comment.userID}
-                      />
+                      {comment.contributions && (
+                        <CommentUser
+                          contributions={comment.contributions}
+                          getCollaboratorById={getCollaboratorById}
+                        />
+                      )}
                       <LightRelativeDate createdAt={comment.createdAt} />
                     </CommentHeader>
 
@@ -250,10 +257,12 @@ export const CommentList: React.FC<Props> = React.memo(
                   {children.map(comment => (
                     <Reply key={comment._id}>
                       <CommentHeader>
-                        <CommentUser
-                          getCollaborator={getCollaborator}
-                          userID={comment.userID}
-                        />
+                        {comment.contributions && (
+                          <CommentUser
+                            contributions={comment.contributions}
+                            getCollaboratorById={getCollaboratorById}
+                          />
+                        )}
                         <LightRelativeDate createdAt={comment.createdAt} />
                       </CommentHeader>
 
