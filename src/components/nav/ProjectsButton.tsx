@@ -36,6 +36,14 @@ import ProjectsMenu from './ProjectsMenu'
 const Container = styled.div`
   font-weight: ${props => props.theme.font.weight.medium};
 `
+const StyledSidebarContent = styled(SidebarContent)`
+  overflow: auto;
+  padding: 0;
+
+  @media (min-width: ${props => props.theme.grid.tablet}px) {
+    padding-right: ${props => props.theme.grid.unit * 15}px;
+  }
+`
 export interface InvitationDataContainer {
   _id: string
   title?: string
@@ -144,7 +152,7 @@ class ProjectsButton extends React.Component<Props, State> {
                                 acceptError={acceptError}
                                 confirmReject={this.confirmReject}
                               />
-                              <SidebarContent>
+                              <StyledSidebarContent>
                                 <ProjectsList
                                   projects={projects}
                                   acceptedInvitations={acceptedInvitations}
@@ -160,7 +168,7 @@ class ProjectsButton extends React.Component<Props, State> {
                                   user={user}
                                   tokenActions={tokenActions!}
                                 />
-                              </SidebarContent>
+                              </StyledSidebarContent>
                             </React.Fragment>
                           ) : (
                             <ProjectsDropdown

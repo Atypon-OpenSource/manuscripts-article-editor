@@ -27,14 +27,8 @@ import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { AddButton } from '../AddButton'
-import Panel from '../Panel'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarPersonContainer,
-  SidebarTitle,
-} from '../Sidebar'
+import PageSidebar from '../PageSidebar'
+import { SidebarPersonContainer } from '../Sidebar'
 import CollaboratorSettingsButton from './CollaboratorSettingsButton'
 import InvitedCollaboratorSettingsButton from './InvitedCollaboratorSettingsButton'
 
@@ -55,8 +49,7 @@ const CollaboratorRole = styled.div`
 `
 
 const Action = styled.div`
-  margin: 0 ${props => props.theme.grid.unit * 3}px
-    ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
 
 const CollaboratorData = styled.div`
@@ -77,13 +70,6 @@ const Invited = styled.div`
 const InvitedContainer = styled.div`
   display: flex;
   align-items: center;
-`
-
-const StyledSidebar = styled(Sidebar)`
-  ${SidebarHeader} {
-    margin-bottom: 34px;
-    margin-top: -8px;
-  }
 `
 
 const AlertMessageContainer = styled.div`
@@ -154,123 +140,114 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
     )
 
     return (
-      <Panel
-        name={'collaborators-sidebar'}
+      <PageSidebar
         direction={'row'}
+        minSize={260}
+        name={'collaborators-sidebar'}
         side={'end'}
-        minSize={300}
+        sidebarTitle={'Collaborators'}
       >
-        <StyledSidebar data-cy={'sidebar'}>
-          <SidebarHeader>
-            <SidebarTitle>Collaborators</SidebarTitle>
-          </SidebarHeader>
+        {isOwner(project, user.userID) && (
+          <Action>
+            <AddButton
+              action={handleAddCollaborator}
+              title="New Collaborator"
+              size={'medium'}
+            />
+          </Action>
+        )}
 
-          {isOwner(project, user.userID) && (
-            <Action>
-              <AddButton
-                action={handleAddCollaborator}
-                title="New Collaborator"
-                size={'medium'}
-              />
-            </Action>
-          )}
+        {message && (
+          <AlertMessageContainer>
+            <AlertMessage
+              type={AlertMessageType.success}
+              hideCloseButton={true}
+              dismissButton={{
+                text: 'OK',
+                action: () => {
+                  this.setState({
+                    message: undefined,
+                  })
+                },
+              }}
+            >
+              {message}
+            </AlertMessage>
+          </AlertMessageContainer>
+        )}
 
-          {message && (
-            <AlertMessageContainer>
-              <AlertMessage
-                type={AlertMessageType.success}
-                hideCloseButton={true}
-                dismissButton={{
-                  text: 'OK',
-                  action: () => {
-                    this.setState({
-                      message: undefined,
-                    })
-                  },
-                }}
-              >
-                {message}
-              </AlertMessage>
-            </AlertMessageContainer>
-          )}
-          <SidebarContent>
-            {filteredInvitations.map(invitation => (
-              <SidebarPersonContainer
-                key={invitation._id}
-                onMouseEnter={() => this.handleHover(invitation._id)}
-                onMouseLeave={() => this.handleHover()}
-              >
-                <UserDataContainer>
-                  <Avatar size={36} />
-                  <CollaboratorData>
+        {filteredInvitations.map(invitation => (
+          <SidebarPersonContainer
+            key={invitation._id}
+            onMouseEnter={() => this.handleHover(invitation._id)}
+            onMouseLeave={() => this.handleHover()}
+          >
+            <UserDataContainer>
+              <Avatar size={36} />
+              <CollaboratorData>
+                <CollaboratorName>
+                  {invitation.invitedUserName || invitation.invitedUserEmail}
+                </CollaboratorName>
+                <CollaboratorRole>{invitation.role}</CollaboratorRole>
+              </CollaboratorData>
+            </UserDataContainer>
+            <InvitedContainer>
+              <Invited>Invited</Invited>
+              {(hoveredID === invitation._id ||
+                selectedID === invitation._id) &&
+                isOwner(project, user.userID) && (
+                  <InvitedCollaboratorSettingsButton
+                    invitation={invitation}
+                    projectInvite={projectInvite}
+                    projectUninvite={projectUninvite}
+                    openPopper={this.openPopper}
+                    tokenActions={tokenActions}
+                  />
+                )}
+            </InvitedContainer>
+          </SidebarPersonContainer>
+        ))}
+        {!!projectCollaborators &&
+          projectCollaborators.map((collaborator: UserProfileWithAvatar) => (
+            <SidebarPersonContainer
+              key={collaborator._id}
+              selected={selectedID === collaborator.userID}
+              onMouseEnter={() => this.handleHover(collaborator.userID)}
+              onMouseLeave={() => this.handleHover()}
+              onClick={() => this.handleClickCollaborator(collaborator)}
+            >
+              <UserDataContainer>
+                <Avatar src={collaborator.avatar} size={36} />
+                <CollaboratorData>
+                  {user.userID !== collaborator.userID ? (
                     <CollaboratorName>
-                      {invitation.invitedUserName ||
-                        invitation.invitedUserEmail}
+                      <CollaboratorInitial>
+                        {initials(collaborator.bibliographicName)}
+                      </CollaboratorInitial>
+                      {collaborator.bibliographicName.family}
                     </CollaboratorName>
-                    <CollaboratorRole>{invitation.role}</CollaboratorRole>
-                  </CollaboratorData>
-                </UserDataContainer>
-                <InvitedContainer>
-                  <Invited>Invited</Invited>
-                  {(hoveredID === invitation._id ||
-                    selectedID === invitation._id) &&
-                    isOwner(project, user.userID) && (
-                      <InvitedCollaboratorSettingsButton
-                        invitation={invitation}
-                        projectInvite={projectInvite}
-                        projectUninvite={projectUninvite}
-                        openPopper={this.openPopper}
-                        tokenActions={tokenActions}
-                      />
-                    )}
-                </InvitedContainer>
-              </SidebarPersonContainer>
-            ))}
-            {!!projectCollaborators &&
-              projectCollaborators.map(
-                (collaborator: UserProfileWithAvatar) => (
-                  <SidebarPersonContainer
-                    key={collaborator._id}
-                    selected={selectedID === collaborator.userID}
-                    onMouseEnter={() => this.handleHover(collaborator.userID)}
-                    onMouseLeave={() => this.handleHover()}
-                    onClick={() => this.handleClickCollaborator(collaborator)}
-                  >
-                    <UserDataContainer>
-                      <Avatar src={collaborator.avatar} size={36} />
-                      <CollaboratorData>
-                        {user.userID !== collaborator.userID ? (
-                          <CollaboratorName>
-                            <CollaboratorInitial>
-                              {initials(collaborator.bibliographicName)}
-                            </CollaboratorInitial>
-                            {collaborator.bibliographicName.family}
-                          </CollaboratorName>
-                        ) : (
-                          <CollaboratorName>You</CollaboratorName>
-                        )}
-                        <CollaboratorRole>
-                          {getUserRole(project, collaborator.userID)}
-                        </CollaboratorRole>
-                      </CollaboratorData>
-                    </UserDataContainer>
-                    {(hoveredID === collaborator.userID ||
-                      selectedID === collaborator.userID) &&
-                      isOwner(project, user.userID) && (
-                        <CollaboratorSettingsButton
-                          project={project}
-                          collaborator={collaborator}
-                          openPopper={this.openPopper}
-                          updateUserRole={updateUserRole}
-                          tokenActions={tokenActions}
-                        />
-                      )}
-                  </SidebarPersonContainer>
-                )
-              )}
-          </SidebarContent>
-        </StyledSidebar>
-      </Panel>
+                  ) : (
+                    <CollaboratorName>You</CollaboratorName>
+                  )}
+                  <CollaboratorRole>
+                    {getUserRole(project, collaborator.userID)}
+                  </CollaboratorRole>
+                </CollaboratorData>
+              </UserDataContainer>
+              {(hoveredID === collaborator.userID ||
+                selectedID === collaborator.userID) &&
+                isOwner(project, user.userID) && (
+                  <CollaboratorSettingsButton
+                    project={project}
+                    collaborator={collaborator}
+                    openPopper={this.openPopper}
+                    updateUserRole={updateUserRole}
+                    tokenActions={tokenActions}
+                  />
+                )}
+            </SidebarPersonContainer>
+          ))}
+      </PageSidebar>
     )
   }
 

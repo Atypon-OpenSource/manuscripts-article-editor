@@ -45,8 +45,10 @@ const StyledTitleField = styled(TitleField)`
 
   & .ProseMirror {
     cursor: text;
-    font-family: ${props => props.theme.font.family.sans};
-    line-height: 1.3;
+    font-family: 'PT Serif', serif;
+    font-size: 28px;
+    font-weight: ${props => props.theme.font.weight.bold};
+    line-height: 1.43;
 
     &:focus {
       outline: none;

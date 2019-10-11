@@ -49,7 +49,7 @@ export const ProjectsDropdown: React.FC<{
   }, [open])
 
   return (
-    <DropdownContainer id={'user-dropdown'} ref={nodeRef}>
+    <DropdownContainer id={'projects-dropdown'} ref={nodeRef}>
       <DropdownButtonContainer
         onClick={toggleOpen}
         isOpen={open}
@@ -63,7 +63,7 @@ export const ProjectsDropdown: React.FC<{
         )}
       </DropdownButtonContainer>
 
-      {open && <Dropdown style={{ width: 342, left: 20 }}>{children}</Dropdown>}
+      {open && <Dropdown minWidth={300}>{children}</Dropdown>}
     </DropdownContainer>
   )
 }

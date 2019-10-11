@@ -1116,11 +1116,6 @@
   resolved "https://registry.npmjs.org/@iarna/word-count/-/word-count-1.1.2.tgz#e4a82b4fa8df0fe8b31e07263a175b5390925713"
   integrity sha512-kHU3aSVe9u3uAnBHGmEJ+Pj1aDJTAJMgiG2H3GIBrKgZkAKCMEB8AzLMeYzyLoldB45KbK6C+aB8I3rbSoxioQ==
 
-"@ibm/plex@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@ibm/plex/-/plex-2.0.0.tgz#309ac4d571ad23225fd28c4605ec86882d81997e"
-  integrity sha512-mmAyvkiDa8c17KwJN3u2HRfYkF0LwtvVNPkCkoXMjcoI7tKbhBegj+4Dr3UK4+EGzqv7/h6JBw5pTttXTBrRnw==
-
 "@icons/material@^0.2.4":
   version "0.2.4"
   resolved "https://registry.npmjs.org/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
@@ -1633,10 +1628,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.45.0":
-  version "0.45.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.45.0.tgz#ae20cadf1e9521ac6728b926dc2d92f0360a3ced"
-  integrity sha512-HkOUIdWJsoqVj7Kb7HvECzwyUP5hos8pQQDYjEnxWlBbUrDXG2tgRHJG9Ff9wA4yNVTtAGCkafyu00hddcWsVQ==
+"@manuscripts/manuscript-editor@^0.46.0":
+  version "0.46.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.46.0.tgz#cb2c54667c564cdac6f295535c6467c50861ab92"
+  integrity sha512-lMWVSl6lGg7+jeS+vMRC28tUJIDIj45VQf7/7/4NqhhaywdDnIB3sF0dH3HfdoBLf89ipltUzy2Y5qPHnLo7ig==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1755,10 +1750,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.11.3":
-  version "0.11.3"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.11.3.tgz#61c2c40eb2c5e83c0c20d0937cc7f7480cd0f09e"
-  integrity sha512-u3yEhNuKSunxnGIamduXhp1U5Nbcp+/Y53Dgm7ZW5n8c+AcyoDxjPi+t1TC2U36VYmndesk+J/JRCwAgbTb31g==
+"@manuscripts/style-guide@^0.11.4":
+  version "0.11.4"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.11.4.tgz#03b12a8c5bc9ee4a706ab7d2d3b66c7bac2eb737"
+  integrity sha512-q6Wu27ZVRcc3BP6JkW3TvsuASPT3COkSm/tgMWbLkreht2m8bzSCE30WDfjeBzWgaS4pVzMwVUUEO486CfrM3A==
   dependencies:
     "@manuscripts/assets" "^0.5.3"
     lodash-es "^4.17.11"
@@ -18179,6 +18174,16 @@ typeface-lato@^0.0.75:
   version "0.0.75"
   resolved "https://registry.npmjs.org/typeface-lato/-/typeface-lato-0.0.75.tgz#8aa11c5611dc38416837c089b265a2abd1f7dd31"
   integrity sha512-iA5uJD4PSTyIE4BDiSOexQeXkDkiJuX4Hu3wh3saJ06EB2TvJayab1Lbbmqq2je/LQv7KCQZHZmC0k4hedd8sw==
+
+typeface-pt-sans@^0.0.72:
+  version "0.0.72"
+  resolved "https://registry.npmjs.org/typeface-pt-sans/-/typeface-pt-sans-0.0.72.tgz#c47d198510b2ed1272ad6329cf1ae5f782ebf4cf"
+  integrity sha512-eDMv72dE+0dwjIDltzZAUusF+cDgOfZKazHZK08uKCOG/BEzY6oc/WqtQLN71j5/voTXFi5M4+nXNbZnCayDMQ==
+
+typeface-pt-serif@^0.0.72:
+  version "0.0.72"
+  resolved "https://registry.npmjs.org/typeface-pt-serif/-/typeface-pt-serif-0.0.72.tgz#d8761c02a298bd0203e53a2028081b6f03246cd5"
+  integrity sha512-R/ZnbjL3H8mfeWrkYSU1fCk8TAsz+dyw+W5jnqlXXJPcsdu7sT/cGJGqx02zskaMeDCHwdNfTCORN8/NxN7x9w==
 
 typescript@3.5.2:
   version "3.5.2"

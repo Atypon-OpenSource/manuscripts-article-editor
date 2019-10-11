@@ -10,6 +10,52 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import 'typeface-lato'
-import 'typeface-pt-sans'
-import 'typeface-pt-serif'
+import '@manuscripts/style-guide/styles/tip.css'
+import React from 'react'
+import Panel from './Panel'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarTitle,
+} from './Sidebar'
+
+interface Props {
+  direction: 'column' | 'row'
+  hideWhen?: string
+  minSize?: number
+  name: string
+  side: 'end' | 'start'
+  sidebarFooter?: string | JSX.Element
+  sidebarTitle: string | JSX.Element
+}
+
+const PageSidebar: React.FunctionComponent<Props> = ({
+  children,
+  direction,
+  hideWhen,
+  minSize,
+  name,
+  side,
+  sidebarFooter,
+  sidebarTitle,
+}) => (
+  <Panel
+    name={name}
+    direction={direction}
+    hideWhen={hideWhen}
+    side={side}
+    minSize={minSize || 300}
+  >
+    <Sidebar data-cy={'sidebar'}>
+      <SidebarHeader>
+        <SidebarTitle>{sidebarTitle}</SidebarTitle>
+      </SidebarHeader>
+      <SidebarContent>{children}</SidebarContent>
+      {sidebarFooter && <SidebarFooter>{sidebarFooter}</SidebarFooter>}
+    </Sidebar>
+  </Panel>
+)
+
+export default PageSidebar

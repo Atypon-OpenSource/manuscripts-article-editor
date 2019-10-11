@@ -38,6 +38,10 @@ const Container = styled.div`
   user-select: none;
 `
 
+const StyledMenuSection = styled(MenuSection)`
+  margin-left: ${props => props.theme.grid.unit * 2}px;
+`
+
 export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
   <MenuContainer>
     <FilledMenuBarIcon>
@@ -46,7 +50,7 @@ export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
       </OfflineIndicator>
     </FilledMenuBarIcon>
     <MenuSections>
-      <MenuSection>
+      <StyledMenuSection>
         {active === 'projects' ? (
           <Container>Projects</Container>
         ) : (
@@ -54,7 +58,7 @@ export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
         )}
 
         {/* <MenuLink to={`/people`}>People</MenuLink> */}
-      </MenuSection>
+      </StyledMenuSection>
 
       <MenuSection>
         <Support />

@@ -21,9 +21,9 @@ import * as CSS from 'csstype'
 import { range } from 'lodash-es'
 
 export const DEFAULT_ALIGNMENT = 'left'
-export const DEFAULT_COLOR = '#444'
+export const DEFAULT_COLOR = '#000'
 export const DEFAULT_FONT_SIZE = 12
-export const DEFAULT_LINE_HEIGHT = 2
+export const DEFAULT_LINE_HEIGHT = 1.5
 export const DEFAULT_LIST_BULLET_STYLE = 'disc'
 export const DEFAULT_LIST_INDENT = 0
 export const DEFAULT_LIST_INDENT_PER_LEVEL = 20
@@ -31,8 +31,8 @@ export const DEFAULT_LIST_NUMBERING_STYLE = 'decimal'
 export const DEFAULT_LIST_NUMBERING_PREFIX = ''
 export const DEFAULT_LIST_NUMBERING_SUFFIX = '.'
 export const DEFAULT_LIST_START_INDEX = 1
-export const DEFAULT_MARGIN_BOTTOM = 20
-export const DEFAULT_MARGIN_TOP = 20
+export const DEFAULT_MARGIN_BOTTOM = 0
+export const DEFAULT_MARGIN_TOP = 12
 export const DEFAULT_SECTION_NUMBERING_STYLE = 'decimal'
 export const DEFAULT_SECTION_START_INDEX = 1
 export const DEFAULT_SECTION_NUMBERING_SUFFIX = '.'
@@ -468,9 +468,9 @@ export const buildParagraphStyles = (
         font-weight: ${fontWeight(model)};
         color: ${color(model, colors)};
         text-align: ${textAlign(model)};
-        padding-top: ${marginTop(model)}pt !important;
-        padding-bottom: ${marginBottom(model)}pt !important;
-        line-height: ${lineHeight(model)}em;
+        margin-top: ${marginTop(model)}pt !important;
+        margin-bottom: ${marginBottom(model)}pt !important;
+        line-height: ${lineHeight(model)};
         text-indent: ${textIndent(model)}pt;
         ${listStyles(model)}
 
@@ -535,7 +535,7 @@ export const buildHeadingStyles = (
       text-align: ${textAlign(model)};
       margin-top: ${marginTop(model)}pt !important;
       margin-bottom: ${marginBottom(model)}pt !important;
-      line-height: ${lineHeight(model)}em;
+      line-height: ${lineHeight(model)};
       text-indent: ${textIndent(model)}pt;
     }
     

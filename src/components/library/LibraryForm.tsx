@@ -195,10 +195,8 @@ const YearField = styled(Field)`
 
 const Button = styled(IconButton).attrs({
   defaultColor: true,
+  size: 24,
 })`
-  height: 24px;
-  width: 24px;
-
   circle,
   use {
     fill: ${props => props.theme.colors.brand.default};

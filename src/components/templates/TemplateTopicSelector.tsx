@@ -19,7 +19,12 @@ import { ResearchField } from '../../types/templates'
 import { TemplateTopicsList } from './TemplateTopicsList'
 
 const TopicSelector = styled.div`
+  border-left: 1px solid ${props => props.theme.colors.border.secondary};
   flex-shrink: 0;
+
+  button {
+    border-radius: 0;
+  }
 
   svg path[stroke] {
     stroke: currentColor;

@@ -63,6 +63,7 @@ const BundleTitle = styled.span`
 const Container = styled.button<{ selected?: boolean }>`
   border: 0;
   border-bottom: 1px solid;
+  border-top: 1px solid;
   color: ${props => props.theme.colors.text.primary};
   cursor: pointer;
   font: inherit;
@@ -71,22 +72,25 @@ const Container = styled.button<{ selected?: boolean }>`
     props.selected ? props.theme.colors.background.fifth : 'transparent'};
   border-color: ${props =>
     props.selected
-      ? props.theme.colors.border.primary
-      : props.theme.colors.border.secondary};
-  box-shadow: ${props =>
-    props.selected
-      ? '0px -1px 0px 0px ' + props.theme.colors.border.primary
-      : 'none'};
+      ? props.theme.colors.border.primary + ' !important'
+      : 'transparent'};
   outline: none;
-  padding: ${props => props.theme.grid.unit * 4}px;
-  padding-bottom: ${props => props.theme.grid.unit * 3}px;
+  padding: 0 ${props => props.theme.grid.unit * 4}px;
   text-align: unset;
   width: 100%;
 
   &:hover,
   &:focus {
     background-color: ${props => props.theme.colors.background.fifth};
+    border-color: ${props => props.theme.colors.border.tertiary};
   }
+`
+
+const ContainerInner = styled.div<{ selected?: boolean }>`
+  ${props =>
+    !props.selected &&
+    'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.tertiary + ';'}
+  padding: ${props => props.theme.grid.unit * 4}px 0;
 `
 
 const ArticleType = styled.span<{ selected?: boolean }>`
@@ -119,34 +123,36 @@ export const TemplateListItem: React.FunctionComponent<Props> = ({
   title,
 }) => (
   <Container onClick={() => selectItem(item)} selected={selected}>
-    <Heading selected={selected}>
-      <Title selected={selected}>
-        <BundleTitle>{title}</BundleTitle>
-      </Title>
+    <ContainerInner selected={selected}>
+      <Heading selected={selected}>
+        <Title selected={selected}>
+          <BundleTitle>{title}</BundleTitle>
+        </Title>
 
-      <TemplateActions selected={selected}>
-        {item.bundle && (
-          <InfoLinkContainer>
-            <TemplateInfoLink bundle={item.bundle} />
-          </InfoLinkContainer>
+        <TemplateActions selected={selected}>
+          {item.bundle && (
+            <InfoLinkContainer>
+              <TemplateInfoLink bundle={item.bundle} />
+            </InfoLinkContainer>
+          )}
+        </TemplateActions>
+
+        {articleType && articleType !== title && (
+          <ArticleType selected={selected} data-cy={'article-type'}>
+            {articleType}
+          </ArticleType>
         )}
-      </TemplateActions>
+      </Heading>
 
-      {articleType && articleType !== title && (
-        <ArticleType selected={selected} data-cy={'article-type'}>
-          {articleType}
-        </ArticleType>
+      {selected && publisher && publisher.name && (
+        <PublisherName>{publisher.name}</PublisherName>
       )}
-    </Heading>
 
-    {selected && publisher && publisher.name && (
-      <PublisherName>{publisher.name}</PublisherName>
-    )}
-
-    {selected && template && (template.desc || template.aim) && (
-      <Description selected={selected}>
-        {template.desc || template.aim}
-      </Description>
-    )}
+      {selected && template && (template.desc || template.aim) && (
+        <Description selected={selected}>
+          {template.desc || template.aim}
+        </Description>
+      )}
+    </ContainerInner>
   </Container>
 )

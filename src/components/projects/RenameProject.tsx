@@ -10,9 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { Project } from '@manuscripts/manuscripts-json-schema'
-import { CloseButton, FormErrors } from '@manuscripts/style-guide'
+import {
+  CloseButton,
+  FormErrors,
+  ModalContainer,
+  ModalHeader,
+  ModalMain,
+} from '@manuscripts/style-guide'
 import { Formik, FormikErrors } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
@@ -22,42 +27,17 @@ import {
 } from '../collaboration/RenameProjectForm'
 import { ProjectRenameMessage } from '../Messages'
 
-const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: ${props => props.theme.font.family.sans};
-  width: 480px;
-  max-width: 70vw;
-
-  @media (max-width: 450px) {
-    width: 100%;
-    max-width: unset;
-  }
-`
-
-const ModalHeader = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding-bottom: ${props => props.theme.grid.unit * 2}px;
-`
-
-const ModalMain = styled.div`
-  flex: 1;
-  max-height: 70vh;
-  overflow-y: auto;
-  box-shadow: 0 10px 20px 0 rgba(107, 134, 164, 0.19);
-  background: ${props => props.theme.colors.background.primary};
-  border-radius: ${props => props.theme.grid.radius.default};
+const ModalContainerInner = styled(ModalMain)`
+  width: 100vw;
+  max-width: 480px;
 `
 
 const ModalTitle = styled.div`
-  font-size: 24px;
-  padding: ${props => props.theme.grid.unit * 4}px;
+  font-size: ${props => props.theme.font.size.xlarge};
+  margin-bottom: ${props => props.theme.grid.unit * 4}px;
 `
 
-const ModalBody = styled.div`
-  padding: ${props => props.theme.grid.unit * 4}px;
-`
+const ModalBody = styled.div``
 
 interface Props {
   handleComplete: () => void
@@ -72,11 +52,9 @@ const RenameProject: React.FunctionComponent<Props> = ({
 }) => (
   <ModalContainer>
     <ModalHeader>
-      <CloseButton onClick={() => handleComplete()}>
-        <CloseIconDark />
-      </CloseButton>
+      <CloseButton onClick={handleComplete} />
     </ModalHeader>
-    <ModalMain>
+    <ModalContainerInner>
       <ModalTitle>{<ProjectRenameMessage />}</ModalTitle>
       <ModalBody>
         {
@@ -109,7 +87,7 @@ const RenameProject: React.FunctionComponent<Props> = ({
           />
         }
       </ModalBody>
-    </ModalMain>
+    </ModalContainerInner>
   </ModalContainer>
 )
 

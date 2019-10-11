@@ -37,7 +37,7 @@ export const ModalSidebar = styled.div`
 `
 
 const commonStyles = css`
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-shrink: 0;
   justify-content: space-between;
@@ -46,8 +46,8 @@ const commonStyles = css`
 
 export const SidebarHeader = styled.div`
   ${commonStyles}
-  margin-bottom: 26px;
-  min-height: ${props => props.theme.grid.unit * 11}px;
+  margin-bottom: ${props => props.theme.grid.unit * 7}px
+  min-height: ${props => props.theme.grid.unit * 10}px;
 `
 
 export const SidebarFooter = styled.div`
@@ -59,9 +59,9 @@ export const SidebarTitle = styled.div`
   font-size: ${props => props.theme.font.size.xlarge};
   font-weight: ${props => props.theme.font.weight.semibold};
   color: ${props => props.theme.colors.text.primary};
-  flex: 1;
   user-select: none;
   white-space: nowrap;
+  width: 100%;
 `
 
 export const SidebarContent = styled.div`
@@ -80,9 +80,7 @@ export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
   border-left: 0;
   border-right: 0;
   display: flex;
-  margin: 0 -${props => props.theme.grid.unit * 5}px;
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 5}px;
+  padding: ${props => props.theme.grid.unit * 2}px 0;
   cursor: pointer;
   align-items: center;
   justify-content: space-between;

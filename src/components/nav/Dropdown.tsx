@@ -24,17 +24,26 @@ export const DropdownContainer = styled.div`
   align-items: center;
 `
 
-export const Dropdown = styled.div`
-  position: absolute;
-  top: ${props => props.theme.grid.unit * 10}px;
-  left: ${props => props.theme.grid.unit}px;
-  border: 1px solid ${props => props.theme.colors.text.muted};
+export const Dropdown = styled.div<{
+  direction?: 'left' | 'right'
+  minWidth?: number
+  top?: number
+}>`
+  border: 1px solid ${props => props.theme.colors.border.secondary};
   border-radius: ${props => props.theme.grid.radius.small};
   box-shadow: ${props => props.theme.shadow.dropShadow};
   background: ${props => props.theme.colors.background.primary};
   color: ${props => props.theme.colors.text.primary};
+  display: flex;
+  flex-direction: column;
   font-size: ${props => props.theme.font.size.normal};
   font-weight: ${props => props.theme.font.weight.normal};
+  max-height: 80vh;
+  max-width: 300px;
+  ${props => props.minWidth && 'min-width: ' + props.minWidth + 'px;'}
+  ${props => (props.direction === 'right' ? ' right: 0' : 'left : 0')};
+  top: ${props => (props.top ? props.top : props.theme.grid.unit * 10)}px;
+  position: absolute;
   z-index: 10;
 `
 
@@ -136,9 +145,7 @@ export const DropdownButtonContainer = styled(ToggleButton).attrs(
   (props: DropdownProps) => ({
     selected: props.isOpen,
   })
-)<DropdownProps>`
-  margin-left: 20px;
-`
+)<DropdownProps>``
 
 interface DropdownButtonProps {
   isOpen: boolean

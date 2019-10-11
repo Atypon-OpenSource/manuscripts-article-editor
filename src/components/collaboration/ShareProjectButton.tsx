@@ -20,10 +20,12 @@ import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
 
-const ShareIconButton = styled(IconButton)`
-  height: unset;
-  width: unset;
-
+const Container = styled.div`
+  display: flex;
+`
+const ShareIconButton = styled(IconButton).attrs({
+  size: 24,
+})`
   svg {
     text[fill],
     rect[fill],
@@ -38,15 +40,11 @@ const ShareIconButton = styled(IconButton)`
     text[fill],
     rect[fill],
     path[fill] {
-      fill: ${props => props.theme.colors.brand.medium};
+      fill: ${props => props.theme.colors.brand.dark};
     }
     path[stroke] {
-      stroke: ${props => props.theme.colors.brand.medium};
+      stroke: ${props => props.theme.colors.brand.dark};
     }
-  }
-
-  &:focus {
-    outline: none;
   }
 `
 
@@ -76,7 +74,7 @@ class ShareProjectButton extends React.Component<Props, State> {
     const { isOpen } = this.state
 
     return (
-      <div ref={this.nodeRef} onClick={event => event.stopPropagation()}>
+      <Container ref={this.nodeRef} onClick={event => event.stopPropagation()}>
         <Manager>
           <Reference>
             {({ ref }) => (
@@ -100,7 +98,7 @@ class ShareProjectButton extends React.Component<Props, State> {
             </Popper>
           )}
         </Manager>
-      </div>
+      </Container>
     )
   }
 

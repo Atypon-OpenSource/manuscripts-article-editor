@@ -11,9 +11,9 @@
  */
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
-import { IconButton } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import { styled } from '../theme/styled-components'
+import { ExpanderButton } from './metadata/Metadata'
 
 const Section = styled.div`
   border-top: 1px solid ${props => props.theme.colors.border.tertiary};
@@ -51,18 +51,6 @@ export const Field = styled.div`
   margin-bottom: ${props => props.theme.grid.unit * 4}px;
 `
 
-const ExpanderButton = styled(IconButton).attrs(props => ({
-  size: 20,
-}))`
-  border: none;
-  background: none;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
-`
-
 const Content = styled.div`
   padding: ${props => props.theme.grid.unit * 2}px;
 `
@@ -79,6 +67,8 @@ export const InspectorSection: React.FC<Props> = ({ title, children }) => {
       <Heading onClick={() => setExpanded(!expanded)}>
         <HeadingText>{title}</HeadingText>
         <ExpanderButton
+          aria-label={'Toggle expand section'}
+          onClick={() => setExpanded(!expanded)}
           style={{
             transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
           }}

@@ -64,10 +64,9 @@ const CitedItems = styled.div`
   overflow-y: auto;
 `
 
-const ActionButton = styled(IconButton)`
-  height: ${props => props.theme.grid.unit * 6}px;
-  width: ${props => props.theme.grid.unit * 6}px;
-`
+const ActionButton = styled(IconButton).attrs(props => ({
+  size: 24,
+}))``
 
 const Actions = styled(ButtonGroup)`
   padding: ${props => props.theme.grid.unit * 4}px;

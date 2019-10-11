@@ -38,7 +38,7 @@ const Container = styled(Sidebar)`
 
 const Header = styled(SidebarHeader)`
   @media (max-width: 450px) {
-    margin-left: 7px;
+    margin-left: ${props => props.theme.grid.unit * 2}px;
   }
 `
 
@@ -50,9 +50,16 @@ const SidebarAction = styled.div`
 `
 
 const ProjectsContainer = styled.div`
-  padding: 20px 60px;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: ${props => props.theme.grid.unit * 5}px
+    ${props => props.theme.grid.unit * 15}px;
+  padding-right: 0;
+  width: 100%;
 
-  @media (max-width: 450px) {
+  @media (max-width: ${props => props.theme.grid.tablet - 1}px) {
     padding: unset;
   }
 `

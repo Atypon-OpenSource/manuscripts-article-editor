@@ -60,7 +60,7 @@ export const ProfileDropdown: React.FC<{
       </DropdownButton>
 
       {open && (
-        <Dropdown style={{ right: 0, left: 'auto', top: 42 }}>
+        <Dropdown direction={'right'} minWidth={100}>
           {children}
         </Dropdown>
       )}

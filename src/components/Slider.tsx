@@ -12,6 +12,7 @@
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import ArrowUpBlue from '@manuscripts/assets/react/ArrowUpBlue'
+import { SecondaryIconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../theme/styled-components'
 
@@ -57,33 +58,29 @@ const SliderContainerInner = styled.div`
   }
   scrollbar-width: none;
 `
-const SliderButton = styled.button<{ left?: boolean; right?: boolean }>`
-  background: transparent;
-  border: 1px solid transparent;
-  cursor: pointer;
-  line-height: 0;
-  outline: none;
-  padding: 4px;
+const SliderButton = styled(SecondaryIconButton).attrs(props => ({
+  size: 20,
+}))<{ left?: boolean; right?: boolean }>`
+  border: none;
+  border-radius: 50%;
   position: absolute;
   top: ${props => props.theme.grid.unit * 2}px;
 
   &:focus,
   &:hover {
-    &:not(:disabled) circle {
-      stroke: ${props => props.theme.colors.brand.default};
+    &:not([disabled]) {
+      background: ${props => props.theme.colors.background.fifth};
     }
   }
 
-  ${props => props.left && 'left: -56px;'};
-  ${props => props.right && 'right: -56px;'};
-
-  &:disabled {
-    cursor: default;
-    opacity: 0.5;
-  }
+  ${props => props.left && 'left: -36px;'};
+  ${props => props.right && 'right: -36px;'};
 
   svg {
     transform: rotate(90deg);
+    circle {
+      stroke: ${props => props.theme.colors.border.secondary};
+    }
   }
 `
 
@@ -133,6 +130,7 @@ export class Slider extends React.Component<Props, State> {
     return (
       <SliderContainer hasLeft={canScrollLeft} hasRight={canScrollRight}>
         <SliderButton
+          aria-label={'Scroll left'}
           left={true}
           type="button"
           disabled={!canScrollLeft}
@@ -148,6 +146,7 @@ export class Slider extends React.Component<Props, State> {
           {this.props.children}
         </SliderContainerInner>
         <SliderButton
+          aria-label={'Scroll right'}
           right={true}
           type="button"
           disabled={!canScrollRight}

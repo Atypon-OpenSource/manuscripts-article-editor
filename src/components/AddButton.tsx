@@ -73,7 +73,7 @@ const Action = styled(IconTextButton)<{
     margin: 0;
   }
 
-  &:hover ${AddIconHover} {
+  &:focus ${AddIconHover}, &:hover ${AddIconHover} {
     opacity: 1;
   }
 `

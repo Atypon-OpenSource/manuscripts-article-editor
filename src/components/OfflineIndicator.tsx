@@ -16,6 +16,7 @@ import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import { styled } from '../theme/styled-components'
 
 const Wrapper = styled.div`
+  display: flex;
   position: relative;
 `
 

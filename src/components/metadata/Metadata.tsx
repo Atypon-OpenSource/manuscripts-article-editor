@@ -11,7 +11,6 @@
  */
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
-import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import {
   Affiliation,
   ContainerInvitation,
@@ -28,6 +27,8 @@ import {
   AuthorValues,
   CloseButton,
   IconButton,
+  ModalContainer,
+  ModalHeader,
   StyledModal,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
@@ -44,20 +45,10 @@ import { InviteAuthorsModal } from './AuthorsModals'
 import { Header, HeaderContainer } from './Header'
 import { TitleFieldContainer } from './TitleFieldContainer'
 
-const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: ${props => props.theme.font.family.sans};
-  width: 800px;
-  max-width: 100%;
-  margin: auto;
-`
-
-const ModalHeader = styled.div`
-  position: absolute;
-  right: -12px;
-  top: -12px;
-  z-index: 1;
+const StyledHeader = styled(Header)`
+  font-family: 'PT Sans';
+  font-size: ${props => props.theme.font.size.medium};
+  line-height: ${props => props.theme.font.lineHeight.large};
 `
 
 const TitleContainer = styled.div`
@@ -70,15 +61,21 @@ const AuthorsContainer = styled.div`
   margin-top: ${props => props.theme.grid.unit * 4}px;
 `
 
-const ExpanderButton = styled(IconButton).attrs(props => ({
+export const ExpanderButton = styled(IconButton).attrs(props => ({
   size: 20,
 }))`
   border: none;
-  background: none;
-  cursor: pointer;
+  border-radius: 50%;
 
-  &:focus {
-    outline: none;
+  &:focus,
+  &:hover {
+    &:not([disabled]) {
+      background: ${props => props.theme.colors.background.fifth};
+    }
+  }
+
+  svg circle {
+    stroke: ${props => props.theme.colors.border.secondary};
   }
 `
 
@@ -147,7 +144,7 @@ const authorsModal = (props: Props) => {
 
 export const Metadata: React.FunctionComponent<Props> = props => (
   <HeaderContainer>
-    <Header>
+    <StyledHeader>
       <TitleContainer>
         <TitleFieldContainer
           title={props.manuscript.title || ''}
@@ -156,6 +153,7 @@ export const Metadata: React.FunctionComponent<Props> = props => (
           editable={props.permissions.write}
         />
         <ExpanderButton
+          aria-label={'Toggle expand authors'}
           onClick={props.toggleExpanded}
           style={expanderStyle(props.expanded)}
           data-cy={'expander-button'}
@@ -188,14 +186,11 @@ export const Metadata: React.FunctionComponent<Props> = props => (
             <CloseButton
               onClick={props.stopEditing}
               data-cy={'modal-close-button'}
-            >
-              <CloseIconDark />
-            </CloseButton>
+            />
           </ModalHeader>
-
           {authorsModal(props)}
         </ModalContainer>
       </StyledModal>
-    </Header>
+    </StyledHeader>
   </HeaderContainer>
 )

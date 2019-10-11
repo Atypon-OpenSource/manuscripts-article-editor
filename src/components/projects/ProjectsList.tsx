@@ -31,25 +31,27 @@ import ShareProjectButton from '../collaboration/ShareProjectButton'
 import ProjectContextMenuButton from './ProjectContextMenuButton'
 
 const SidebarProject = styled.div<{ isActive: boolean }>`
-  padding: ${props => props.theme.grid.unit * 4}px;
-  margin: 0 -${props => props.theme.grid.unit * 4}px;
-  width: 500px;
-  border-radius: 0;
-  cursor: pointer;
-
   background-color: ${props =>
     props.isActive ? props.theme.colors.background.fifth : 'transparent'};
-
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
+  border-radius: 0;
+  border-top: 1px solid
+    ${props =>
+      props.isActive ? props.theme.colors.border.primary : 'transparent'};
+  box-shadow: 0 1px 0 0
+    ${props =>
+      props.isActive
+        ? props.theme.colors.border.primary
+        : props.theme.colors.border.secondary};
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: ${props => props.theme.grid.unit * 4}px;
+  width: 100%;
+  max-width: 564px;
 
   &:hover {
     border-color: ${props => props.theme.colors.border.primary};
+    box-shadow: 0 1px 0 0 ${props => props.theme.colors.border.primary};
     background-color: ${props => props.theme.colors.background.fifth};
-  }
-
-  @media (max-width: 450px) {
-    width: unset;
   }
 `
 

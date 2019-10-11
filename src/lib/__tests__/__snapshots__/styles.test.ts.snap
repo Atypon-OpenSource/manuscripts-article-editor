@@ -6,11 +6,11 @@ exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
         font-size: 12pt;
         font-style: normal;
         font-weight: normal;
-        color: #444;
+        color: #000;
         text-align: left;
-        padding-top: 10pt !important;
-        padding-bottom: 10pt !important;
-        line-height: 2em;
+        margin-top: 10pt !important;
+        margin-bottom: 10pt !important;
+        line-height: 2;
         text-indent: 0pt;
         .list  { 
       counter-reset: list-level-2 0;

@@ -14,7 +14,7 @@ import { Model } from '@manuscripts/manuscripts-json-schema'
 import {
   ButtonGroup,
   PrimaryButton,
-  SecondaryButton,
+  TertiaryButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
@@ -102,9 +102,9 @@ export const TemplateModalFooter: React.FC<Props> = ({
         )}
       </FooterText>
       <FooterButtons>
-        <SecondaryButton onClick={createEmpty} disabled={creatingManuscript}>
+        <TertiaryButton onClick={createEmpty} disabled={creatingManuscript}>
           Add Empty
-        </SecondaryButton>
+        </TertiaryButton>
         <PrimaryButton
           onClick={selectTemplate}
           disabled={creatingManuscript || !template}

@@ -100,7 +100,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
           <HorizontalEllipsis />
         </ContextMenuIconButton>
         {isOpen && (
-          <Dropdown>
+          <Dropdown direction={'right'} top={24}>
             <ProjectContextMenu
               project={project}
               deleteProject={this.deleteProject}

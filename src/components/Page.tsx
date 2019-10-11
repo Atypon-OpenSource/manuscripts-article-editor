@@ -95,7 +95,8 @@ const ViewLink = styled(NavLink)`
 `
 
 const ViewsSeparator = styled.div`
-  border: 1px solid ${props => props.theme.colors.border.tertiary};
+  border: 1px solid ${props => props.theme.colors.border.secondary};
+  margin-top: ${props => props.theme.grid.unit * 2}px;
   width: ${props => props.theme.grid.unit * 7}px;
 `
 

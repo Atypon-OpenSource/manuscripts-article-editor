@@ -11,7 +11,7 @@
  */
 
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
-import { SecondaryButton, TextField } from '@manuscripts/style-guide'
+import { TertiaryButton, TextField } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { InspectorSection } from '../InspectorSection'
@@ -28,10 +28,12 @@ const CitationStyle = styled(TextField).attrs({ readOnly: true })`
   text-overflow: ellipsis;
 `
 
-const ChooseButton = styled(SecondaryButton)`
+const ChooseButton = styled(TertiaryButton)`
   border-left: 0;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+  border-left: 1px solid;
+  border-color: ${props => props.theme.colors.border.secondary} !important;
   margin: 0;
 `
 

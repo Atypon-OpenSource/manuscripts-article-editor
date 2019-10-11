@@ -29,28 +29,17 @@ import { styled } from '../../theme/styled-components'
 import { Permissions } from '../../types/permissions'
 import { AddButton } from '../AddButton'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
-import Panel from '../Panel'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarTitle,
-} from '../Sidebar'
+import PageSidebar from '../PageSidebar'
 
-const CustomizedSidebarHeader = styled(SidebarHeader)`
-  min-height: 36px;
-  padding-bottom: 8px;
+const CustomizedSidebarHeader = styled.div`
+  align-items: flex-start;
+  display: flex;
 `
 
-const ProjectTitle = styled(SidebarTitle)`
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.bold};
-  border: none;
-  padding: 4px;
-  margin: -4px 4px -4px 0;
-  overflow: hidden;
+const ProjectTitle = styled.div`
   flex: 1;
+  overflow: hidden;
+  padding-right: ${props => props.theme.grid.unit}px;
 
   & .ProseMirror {
     cursor: text;
@@ -59,10 +48,6 @@ const ProjectTitle = styled(SidebarTitle)`
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
-    }
-
-    &:focus {
-      outline: none;
     }
 
     &.empty-node::before {
@@ -138,14 +123,13 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <Panel
-      name={'sidebar'}
-      minSize={200}
+    <PageSidebar
       direction={'row'}
-      side={'end'}
       hideWhen={'max-width: 900px'}
-    >
-      <Sidebar>
+      minSize={260}
+      name={'sidebar'}
+      side={'end'}
+      sidebarTitle={
         <CustomizedSidebarHeader>
           <ProjectTitle>
             <TitleField
@@ -162,35 +146,34 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
             tokenActions={tokenActions}
           />
         </CustomizedSidebarHeader>
-
-        <SidebarContent>
-          {sortedManuscripts.map(item => (
-            <SidebarManuscript key={item._id}>
-              {item._id === manuscript._id ? (
-                <DebouncedManuscriptOutlineContainer
-                  manuscript={manuscript}
-                  doc={doc || null}
-                  view={view || null}
-                  selected={selected}
-                />
-              ) : (
-                <OutlineManuscript project={project} manuscript={item} />
-              )}
-            </SidebarManuscript>
-          ))}
-        </SidebarContent>
-
-        <SidebarFooter>
-          {permissions.write && (
-            <AddButton
-              action={handleNewManuscript}
-              size={'small'}
-              title={'New Manuscript'}
+      }
+      sidebarFooter={
+        permissions.write ? (
+          <AddButton
+            action={handleNewManuscript}
+            size={'small'}
+            title={'New Manuscript'}
+          />
+        ) : (
+          <></>
+        )
+      }
+    >
+      {sortedManuscripts.map(item => (
+        <SidebarManuscript key={item._id}>
+          {item._id === manuscript._id ? (
+            <DebouncedManuscriptOutlineContainer
+              manuscript={manuscript}
+              doc={doc || null}
+              view={view || null}
+              selected={selected}
             />
+          ) : (
+            <OutlineManuscript project={project} manuscript={item} />
           )}
-        </SidebarFooter>
-      </Sidebar>
-    </Panel>
+        </SidebarManuscript>
+      ))}
+    </PageSidebar>
   )
 }
 

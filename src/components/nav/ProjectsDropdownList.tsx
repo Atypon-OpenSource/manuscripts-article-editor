@@ -18,6 +18,7 @@ import {
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
 import { projectListCompare } from '../../lib/projects'
+import { styled } from '../../theme/styled-components'
 import { DropdownSeparator } from './Dropdown'
 import {
   AllProjectsDropdownSection,
@@ -26,6 +27,10 @@ import {
   ProjectDropdownSection,
 } from './ProjectDropdown'
 import { InvitationData } from './ProjectsButton'
+
+const ProjectContainer = styled.div`
+  overflow: auto;
+`
 
 interface Props {
   handleClose?: React.MouseEventHandler<HTMLElement>
@@ -79,14 +84,16 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
         </React.Fragment>
       ))}
 
-      {projects.sort(projectListCompare).map(project => (
-        <ProjectDropdownSection
-          key={project._id}
-          handleClose={handleClose}
-          project={project}
-          accepted={acceptedInvitations.includes(project._id)}
-        />
-      ))}
+      <ProjectContainer>
+        {projects.sort(projectListCompare).map(project => (
+          <ProjectDropdownSection
+            key={project._id}
+            handleClose={handleClose}
+            project={project}
+            accepted={acceptedInvitations.includes(project._id)}
+          />
+        ))}
+      </ProjectContainer>
 
       {!!projects.length && <DropdownSeparator />}
 

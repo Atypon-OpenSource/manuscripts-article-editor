@@ -22,14 +22,7 @@ import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom'
 import { sources } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
 import { AddButton } from '../AddButton'
-import Panel from '../Panel'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarTitle,
-} from '../Sidebar'
+import PageSidebar from '../PageSidebar'
 import { BibliographyImportButton } from './BibliographyImportButton'
 import {
   DEFAULT_LIBRARY_COLLECTION_CATEGORY,
@@ -38,21 +31,7 @@ import {
 } from './LibraryCollectionCategories'
 
 const SectionContainer = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 4}px;
-`
-
-const StyledSidebar = styled(Sidebar)`
-  padding-left: 0;
-  padding-right: 0;
-
-  ${SidebarHeader} {
-    margin-bottom: 34px;
-    margin-top: -8px;
-  }
-
-  ${SidebarContent} {
-    padding: 0;
-  }
+  margin: 0 -${props => props.theme.grid.unit * 5}px ${props => props.theme.grid.unit * 4}px;
 `
 
 const SectionIcon = styled.div`
@@ -140,106 +119,102 @@ export const LibrarySidebar: React.FC<
   // TODO: sort projectLibraryCollectionsArray by count, filter out empty
 
   return (
-    <Panel name={'librarySidebar'} minSize={290} direction={'row'} side={'end'}>
-      <StyledSidebar>
-        <SidebarHeader>
-          <SidebarTitle>Library</SidebarTitle>
-        </SidebarHeader>
+    <PageSidebar
+      direction={'row'}
+      minSize={260}
+      name={'librarySidebar'}
+      side={'end'}
+      sidebarTitle={'Library'}
+      sidebarFooter={
+        <BibliographyImportButton
+          importItems={importItems}
+          component={ImportButton}
+        />
+      }
+    >
+      <Section
+        title={'Project Library'}
+        open={sourceType === 'project'}
+        location={`/projects/${projectID}/library/project`}
+      >
+        {projectLibraryCollectionsArray.map(projectLibraryCollection => {
+          // TODO: count items with this LibraryCollection and only show LibraryCollections with items
 
-        <SidebarContent>
+          return (
+            <SectionLink
+              key={projectLibraryCollection._id}
+              to={`/projects/${projectID}/library/project/${projectLibraryCollection._id}`}
+            >
+              {projectLibraryCollection.name || 'Untitled List'}
+            </SectionLink>
+          )
+        })}
+      </Section>
+
+      {globalLibrariesArray.map(globalLibrary => {
+        const libraryCollections = globalLibraryCollectionsArray.filter(
+          libraryCollection => {
+            return libraryCollection.containerID === globalLibrary._id
+          }
+        )
+
+        const defaultLibraryCollection = libraryCollections.find(
+          libraryCollection =>
+            libraryCollection.category === DEFAULT_LIBRARY_COLLECTION_CATEGORY
+        )
+
+        const nonDefaultLibraryCollections = libraryCollections.filter(
+          libraryCollection =>
+            libraryCollection.category !== DEFAULT_LIBRARY_COLLECTION_CATEGORY
+        )
+
+        const defaultFilter = defaultLibraryCollection
+          ? `/${defaultLibraryCollection._id}`
+          : ''
+
+        return (
           <Section
-            title={'Project Library'}
-            open={sourceType === 'project'}
-            location={`/projects/${projectID}/library/project`}
+            key={globalLibrary._id}
+            title={globalLibrary.name || 'My Library'}
+            open={
+              sourceType === 'global' &&
+              sourceID === globalLibrary._id &&
+              nonDefaultLibraryCollections.length > 0
+            }
+            location={`/projects/${projectID}/library/global/${globalLibrary._id}${defaultFilter}`}
           >
-            {projectLibraryCollectionsArray.map(projectLibraryCollection => {
-              // TODO: count items with this LibraryCollection and only show LibraryCollections with items
-
-              return (
-                <SectionLink
-                  key={projectLibraryCollection._id}
-                  to={`/projects/${projectID}/library/project/${projectLibraryCollection._id}`}
-                >
-                  {projectLibraryCollection.name || 'Untitled List'}
-                </SectionLink>
-              )
-            })}
-          </Section>
-
-          {globalLibrariesArray.map(globalLibrary => {
-            const libraryCollections = globalLibraryCollectionsArray.filter(
-              libraryCollection => {
-                return libraryCollection.containerID === globalLibrary._id
-              }
-            )
-
-            const defaultLibraryCollection = libraryCollections.find(
-              libraryCollection =>
-                libraryCollection.category ===
-                DEFAULT_LIBRARY_COLLECTION_CATEGORY
-            )
-
-            const nonDefaultLibraryCollections = libraryCollections.filter(
-              libraryCollection =>
-                libraryCollection.category !==
-                DEFAULT_LIBRARY_COLLECTION_CATEGORY
-            )
-
-            const defaultFilter = defaultLibraryCollection
-              ? `/${defaultLibraryCollection._id}`
-              : ''
-
-            return (
-              <Section
-                key={globalLibrary._id}
-                title={globalLibrary.name || 'My Library'}
-                open={
-                  sourceType === 'global' &&
-                  sourceID === globalLibrary._id &&
-                  nonDefaultLibraryCollections.length > 0
-                }
-                location={`/projects/${projectID}/library/global/${globalLibrary._id}${defaultFilter}`}
-              >
-                {nonDefaultLibraryCollections.map(libraryCollection => (
-                  <SectionLink
-                    key={libraryCollection._id}
-                    to={`/projects/${projectID}/library/global/${globalLibrary._id}/${libraryCollection._id}`}
-                  >
-                    <SectionIcon>
-                      {sidebarIcon(libraryCollection.category)}
-                    </SectionIcon>
-                    <ListTitle>
-                      {libraryCollection.name || 'Untitled List'}
-                    </ListTitle>
-                  </SectionLink>
-                ))}
-              </Section>
-            )
-          })}
-
-          <Section
-            title={'Search Online'}
-            open={sourceType === 'search'}
-            location={`/projects/${projectID}/library/search`}
-          >
-            {sources.map(source => (
+            {nonDefaultLibraryCollections.map(libraryCollection => (
               <SectionLink
-                key={source.id}
-                to={`/projects/${projectID}/library/search/${source.id}`}
+                key={libraryCollection._id}
+                to={`/projects/${projectID}/library/global/${globalLibrary._id}/${libraryCollection._id}`}
               >
-                {source.name}
+                <SectionIcon>
+                  {sidebarIcon(libraryCollection.category)}
+                </SectionIcon>
+                <ListTitle>
+                  {libraryCollection.name || 'Untitled List'}
+                </ListTitle>
               </SectionLink>
             ))}
           </Section>
-        </SidebarContent>
-        <SidebarFooter>
-          <BibliographyImportButton
-            importItems={importItems}
-            component={ImportButton}
-          />
-        </SidebarFooter>
-      </StyledSidebar>
-    </Panel>
+        )
+      })}
+
+      <Section
+        title={'Search Online'}
+        open={sourceType === 'search'}
+        location={`/projects/${projectID}/library/search`}
+      >
+        {sources.map(source => (
+          <SectionLink
+            key={source.id}
+            to={`/projects/${projectID}/library/search/${source.id}`}
+          >
+            {source.name}
+          </SectionLink>
+        ))}
+      </Section>
+    </PageSidebar>
   )
 }
 

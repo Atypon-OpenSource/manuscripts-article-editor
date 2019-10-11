@@ -34,8 +34,10 @@ export const MenuContainer = styled.div`
 
 export const MenuBarIcon = styled(IconButton).attrs(props => ({
   defaultColor: true,
+  size: 34,
 }))`
-  margin: ${props => props.theme.grid.unit * 3}px;
+  border: 0;
+  margin: 10px 11px;
 `
 
 export const MenuSections = styled.div`
@@ -49,6 +51,7 @@ export const MenuSection = styled.div`
   display: flex;
   align-items: center;
   margin-right: ${props => props.theme.grid.unit * 5}px;
+  margin-left: ${props => props.theme.grid.unit * 4}px;
 `
 
 export const MenuLink = styled(NavLink)`

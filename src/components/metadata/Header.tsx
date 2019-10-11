@@ -20,11 +20,4 @@ export const Header = styled.div`
   font-family: ${props => props.theme.font.family.sans};
   font-size: ${props => props.theme.font.size.large};
   color: ${props => props.theme.colors.text.primary};
-  padding: ${props => props.theme.grid.unit * 4}px 0;
-  margin-bottom: ${props => props.theme.grid.unit * 4}px;
-
-  & .ProseMirror {
-    font-size: 32px;
-    font-weight: ${props => props.theme.font.weight.semibold};
-  }
 `
