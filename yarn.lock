@@ -1628,10 +1628,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.47.0":
-  version "0.47.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.47.0.tgz#ebfa0a51fff828ee85342681e5fdd8574e52dc8e"
-  integrity sha512-fQ/BTJU17/3xJBNAigiiprHSP1MJr/78Mv+WGXqXUD1CL5T8r/z9TDnxbFUcEukthQe9kQvInbW+PYxk9a5ikA==
+"@manuscripts/manuscript-editor@^0.47.1":
+  version "0.47.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.47.1.tgz#9e4532560766edf1ed68f7386fd4a33451d53e28"
+  integrity sha512-PETlH284hYwfj5jqwN54102c8bCAGxlagju2foU4fj5QQXyOMYwL+VhiZo04R00nqzfId2o8j78k3KyW8+FogQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
