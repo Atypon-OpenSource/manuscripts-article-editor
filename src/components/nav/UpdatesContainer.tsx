@@ -94,10 +94,9 @@ export class UpdatesContainer extends React.Component<{}, State> {
   }
 
   public render() {
-    const { children } = this.props
     const { isOpen, loaded, error, topics, posts, hasUpdates } = this.state
 
-    if (!config.discourse.host) return children
+    if (!config.discourse.host) return null
 
     return (
       <div ref={this.nodeRef}>
