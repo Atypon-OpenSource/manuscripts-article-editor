@@ -30,7 +30,7 @@
 <% if (htmlWebpackPlugin.options.crisp){ %>
 <script>
   window.CRISP_WEBSITE_ID = "<%= htmlWebpackPlugin.options.crisp %>";
-  window.$crisp = [['do', 'chat:hide']];
+  window.$crisp = [['safe', true], ['do', 'chat:hide']];
 </script>
 <script async src="https://client.crisp.chat/l.js"></script>
 <% } %>
