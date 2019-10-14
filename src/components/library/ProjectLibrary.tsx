@@ -19,10 +19,16 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { filterLibrary } from '../../lib/library'
 import { Collection } from '../../sync/Collection'
+import { styled } from '../../theme/styled-components'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
+
+const LibraryFormContainer = styled.div`
+  height: 100%;
+  overflow-y: auto;
+`
 
 export const ProjectLibrary: React.FC<
   RouteComponentProps<{
@@ -118,17 +124,19 @@ export const ProjectLibrary: React.FC<
           minSize={300}
         >
           {selectedItem && (
-            <LibraryForm
-              item={selectedItem}
-              handleSave={handleSave}
-              handleDelete={handleDelete}
-              projectID={projectID}
-              projectLibraryCollections={projectLibraryCollections}
-              projectLibraryCollectionsCollection={
-                projectLibraryCollectionsCollection
-              }
-              user={user}
-            />
+            <LibraryFormContainer>
+              <LibraryForm
+                item={selectedItem}
+                handleSave={handleSave}
+                handleDelete={handleDelete}
+                projectID={projectID}
+                projectLibraryCollections={projectLibraryCollections}
+                projectLibraryCollectionsCollection={
+                  projectLibraryCollectionsCollection
+                }
+                user={user}
+              />
+            </LibraryFormContainer>
           )}
         </Panel>
       </>

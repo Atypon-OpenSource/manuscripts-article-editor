@@ -242,8 +242,6 @@ const AuthorFormContainer = styled.div`
 
 const TitleLink = styled.a`
   align-items: center;
-  background: transparent;
-  border: 1px solid transparent;
   border-radius: ${props => props.theme.grid.radius.small};
   cursor: pointer;
   display: inline-flex;
@@ -262,7 +260,8 @@ const TitleLink = styled.a`
   color: ${props => props.theme.colors.button.secondary.color.default};
   background-color: ${props =>
     props.theme.colors.button.secondary.background.default};
-  border-color: ${props => props.theme.colors.button.secondary.border.default};
+  border: 1px solid
+    ${props => props.theme.colors.button.secondary.border.default};
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
