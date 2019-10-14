@@ -398,7 +398,7 @@ describe('exporter', () => {
     section.elementIDs.push(figureElement._id)
 
     // add an equation with empty TeXRepresentation
-    /*const equation = addModel<Equation>({
+    const equation = addModel<Equation>({
       _id: generateID(ObjectTypes.Equation),
       objectType: ObjectTypes.Equation,
       TeXRepresentation: '',
@@ -414,7 +414,7 @@ describe('exporter', () => {
       elementType: 'p',
     })
 
-    section.elementIDs.push(equationElement._id)*/
+    section.elementIDs.push(equationElement._id)
 
     // add a paragraph containing a citation
 
