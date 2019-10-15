@@ -437,20 +437,6 @@ describe('exporter', () => {
       objectType: ObjectTypes.BibliographyItem,
       type: 'article-journal',
       title: 'Foo',
-      // NOTE: author and issued are temporarily needed for Markdown export
-      author: [
-        {
-          _id: generateID(ObjectTypes.BibliographicName),
-          objectType: ObjectTypes.BibliographicName,
-          family: 'Foo',
-          given: 'Foo',
-        },
-      ],
-      issued: {
-        _id: generateID(ObjectTypes.BibliographicDate),
-        objectType: ObjectTypes.BibliographicDate,
-        'date-parts': [[2019, 10, 1]],
-      },
     })
 
     addModel<Citation>({
