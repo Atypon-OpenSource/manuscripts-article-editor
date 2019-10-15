@@ -11,10 +11,11 @@
  */
 
 import {
+  ButtonGroup,
   GoogleIcon,
   IconButton,
   OrcidIcon,
-  SecondaryButton,
+  TextButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import connectLogo from '../../../assets/connect.png'
@@ -38,19 +39,24 @@ const GoogleImage = styled.span`
       props.theme.grid.unit}px;
 `
 
-const TextButton = styled.div`
-  align-items: center;
-  color: ${props => props.theme.colors.text.onDark};
+const SignupButton = styled.button`
+  color: ${props => props.theme.colors.background.primary};
+  background-color: #007ba6;
+  font-size: 16pt;
+  font-weight: 400;
+  width: 144px;
+  height: 48px;
   cursor: pointer;
-  display: flex;
-  margin: ${props => props.theme.grid.unit * 3}px;
-  font-weight: ${props => props.theme.font.weight.xlight};
+  border: none;
+  border-radius: 4px;
+`
+const LoginButton = styled(TextButton)`
+  font-weight: ${props => props.theme.font.weight.medium};
 `
 
-const SignupButton = styled(SecondaryButton)`
-  background-color: ${props => props.theme.colors.background.primary};
-  color: ${props => props.theme.colors.brand.default};
-  margin-left: ${props => props.theme.grid.unit * 3}px;
+const Text = styled.div`
+  margin-right: ${props => props.theme.grid.unit * 3}px;
+  font-weight: ${props => props.theme.font.weight.light};
 `
 export interface AuthenticationButtonProps {
   redirect: (provider: AuthProvider, action?: string) => () => void
@@ -93,22 +99,25 @@ export const Signup: React.FunctionComponent<AuthenticationButtonProps> = ({
         : () => (window.location.href = '/signup')
     }
   >
-    sign up
+    Sign up
   </SignupButton>
 )
 
 export const Login: React.FunctionComponent<AuthenticationButtonProps> = ({
   redirect,
 }) => (
-  <TextButton
-    onClick={
-      config.connect.enabled
-        ? redirect('iam', 'login')
-        : () => (window.location.href = '/login')
-    }
-  >
-    Already have an account?
-  </TextButton>
+  <ButtonGroup>
+    <Text>Already have an account?</Text>
+    <LoginButton
+      onClick={
+        config.connect.enabled
+          ? redirect('iam', 'login')
+          : () => (window.location.href = '/login')
+      }
+    >
+      Sign in
+    </LoginButton>
+  </ButtonGroup>
 )
 
 export const AuthenticationContainer = styled('div')`

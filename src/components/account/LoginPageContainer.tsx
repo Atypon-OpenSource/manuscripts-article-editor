@@ -10,23 +10,30 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import LogotypeGrey from '@manuscripts/assets/react/LogotypeGrey'
 import { AlertMessageType, FormErrors } from '@manuscripts/style-guide'
 import { AxiosResponse } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
 import { LocationState } from 'history'
 import * as HttpStatusCodes from 'http-status-codes'
 import decode from 'jwt-decode'
-import { parse } from 'qs'
+import { parse, stringify } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import config from '../../config'
 import { login } from '../../lib/account'
 import { resendVerificationEmail } from '../../lib/api'
+import deviceId from '../../lib/device-id'
 import tokenHandler from '../../lib/token'
 import { TokenPayload } from '../../lib/user'
 import userID from '../../lib/user-id'
+import { styled } from '../../theme/styled-components'
 import { loginSchema } from '../../validation'
+import { IntroPage } from '../introPage'
+import { Loading } from '../Loading'
 import { Main, Page } from '../Page'
+import AuthButtonContainer from './AuthButtonContainer'
+import { Login } from './Authentication'
 import { LoginValues } from './LoginForm'
 import * as messages from './LoginMessages'
 import LoginPage from './LoginPage'
@@ -46,6 +53,13 @@ export enum ErrorName {
   InvalidCredentialsError = 'InvalidCredentialsError',
 }
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0 1.5rem;
+`
 interface State {
   message?: AlertFunction
   submitErrorType?: string
@@ -56,6 +70,7 @@ interface HashData {
   access_token?: string
   token?: string
   email?: string
+  redirect?: boolean
 }
 
 interface RouteLocationState {
@@ -64,6 +79,7 @@ interface RouteLocationState {
   loginMessage?: string
   verificationMessage?: string
   infoLoginMessage?: string
+  errorMessage?: string
 }
 
 class LoginPageContainer extends React.Component<
@@ -106,50 +122,70 @@ class LoginPageContainer extends React.Component<
   public render() {
     const { message: Message, submitErrorType } = this.state
 
+    const hash = this.props.location.hash
+    const { access_token: token, redirect }: HashData = parse(hash.substr(1))
+
+    if (token || redirect) {
+      return <Loading />
+    }
+
     return (
       <Page>
         <Main>
-          {Message && <Message />}
+          {config.connect.enabled ? (
+            <>
+              <Header>
+                <LogotypeGrey width={250} height={99} />
+                <AuthButtonContainer component={Login} />
+              </Header>
+              {Message && <Message />}
 
-          <LoginPage
-            initialValues={this.initialValues}
-            validationSchema={loginSchema}
-            submitErrorType={submitErrorType}
-            onSubmit={async (values, actions) => {
-              tokenHandler.remove()
+              <IntroPage />
+            </>
+          ) : (
+            <>
+              {Message && <Message />}
+              <LoginPage
+                initialValues={this.initialValues}
+                validationSchema={loginSchema}
+                submitErrorType={submitErrorType}
+                onSubmit={async (values, actions) => {
+                  tokenHandler.remove()
 
-              try {
-                const token = await login(values.email, values.password)
+                  try {
+                    const token = await login(values.email, values.password)
 
-                tokenHandler.set(token)
+                    tokenHandler.set(token)
 
-                const { userId } = decode<TokenPayload>(token)
+                    const { userId } = decode<TokenPayload>(token)
 
-                userID.set(userId)
+                    userID.set(userId)
 
-                this.redirectAfterLogin()
-              } catch (error) {
-                console.error(error) // tslint:disable-line:no-console
+                    this.redirectAfterLogin()
+                  } catch (error) {
+                    console.error(error) // tslint:disable-line:no-console
 
-                if (error.response) {
-                  this.handleErrorResponse(error.response, values, actions)
-                } else {
-                  this.setState({
-                    message: messages.networkErrorMessage,
-                  })
-                }
+                    if (error.response) {
+                      this.handleErrorResponse(error.response, values, actions)
+                    } else {
+                      this.setState({
+                        message: messages.networkErrorMessage,
+                      })
+                    }
 
-                actions.setSubmitting(false)
-              }
-            }}
-          />
+                    actions.setSubmitting(false)
+                  }
+                }}
+              />
+            </>
+          )}
         </Main>
       </Page>
     )
   }
 
   private handleHash = (hash: string) => {
-    const { error, access_token: token }: HashData = parse(hash)
+    const { error, access_token: token, redirect }: HashData = parse(hash)
 
     if (error) {
       this.setState({
@@ -161,11 +197,24 @@ class LoginPageContainer extends React.Component<
       window.location.href = '/projects'
     }
 
+    if (redirect) {
+      const params = {
+        deviceId,
+        ...config.api.headers,
+      }
+
+      window.location.href = config.api.url + '/auth/iam?' + stringify(params)
+    }
     window.location.hash = ''
   }
 
   private handleState = (state: RouteLocationState) => {
-    const { infoLoginMessage, loginMessage, verificationMessage } = state
+    const {
+      infoLoginMessage,
+      loginMessage,
+      verificationMessage,
+      errorMessage,
+    } = state
 
     // TODO: pass message and messageType in state
 
@@ -180,6 +229,10 @@ class LoginPageContainer extends React.Component<
     } else if (infoLoginMessage) {
       this.setState({
         message: () => messages.infoLoginMessage(infoLoginMessage),
+      })
+    } else if (errorMessage === 'missing-user-profile') {
+      this.setState({
+        message: () => messages.userAccountErrorMessage(),
       })
     }
   }

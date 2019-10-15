@@ -31,6 +31,7 @@ import NotFoundPage from './components/NotFoundPage'
 import ProjectPageContainer from './components/projects/ProjectPageContainer'
 import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
 import { RequireLogin } from './components/RequireLogin'
+import config from './config'
 import OptionalUserData from './data/OptionalUserData'
 import { TokenData } from './data/TokenData'
 import { apolloClient } from './lib/apollo'
@@ -70,6 +71,15 @@ const App: React.FunctionComponent = () => (
                           render={() =>
                             user ? (
                               <Redirect to={'/projects'} />
+                            ) : config.connect.enabled ? (
+                              <Redirect
+                                to={{
+                                  pathname: `/login`,
+                                  state: {
+                                    errorMessage: 'missing-user-profile',
+                                  },
+                                }}
+                              />
                             ) : (
                               <Redirect
                                 to={{
@@ -101,6 +111,8 @@ const App: React.FunctionComponent = () => (
                           render={props =>
                             user ? (
                               <Redirect to={'/projects'} />
+                            ) : config.connect.enabled ? (
+                              <Redirect to={'/about/'} />
                             ) : (
                               <SignupPageContainer {...props} />
                             )
@@ -308,7 +320,13 @@ const App: React.FunctionComponent = () => (
               <Route
                 path={'/signup'}
                 exact={true}
-                render={props => <SignupPageContainer {...props} />}
+                render={props =>
+                  config.connect.enabled ? (
+                    <Redirect to={'/about/'} />
+                  ) : (
+                    <SignupPageContainer {...props} />
+                  )
+                }
               />
 
               <Route
