@@ -12,7 +12,6 @@
 
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { Loading } from '../components/Loading'
 import { buildUser } from '../lib/data'
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
@@ -23,7 +22,6 @@ interface Props {
     data: UserProfile | null,
     collection: Collection<UserProfile>
   ) => React.ReactNode
-  placeholder?: React.ReactNode
   userProfileID: string
 }
 
@@ -73,7 +71,7 @@ class OptionalUserData extends DataComponent<UserProfile, Props, State> {
     const { data } = this.state
 
     if (data === undefined || !this.collection.status.pull.complete) {
-      return <Loading />
+      return this.props.placeholder || null
     }
 
     return this.props.children(data, this.collection)

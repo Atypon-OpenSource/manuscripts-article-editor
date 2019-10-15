@@ -23,17 +23,17 @@ export abstract class DataComponent<
       data: T | T[] | Map<string, T> | null,
       collection: Collection<T>
     ) => React.ReactNode
-    // placeholder?: React.ReactChild
   },
   State extends { data?: T | T[] | Map<string, T> | null }
-> extends React.PureComponent<Props, State> {
+> extends React.PureComponent<Props & { placeholder?: JSX.Element }, State> {
   protected collection: Collection<T>
   protected sub: Subscription
 
   public render() {
     if (!this.isComplete()) {
-      return <Loading />
-      // return this.props.placeholder || <Loading />
+      const { placeholder } = this.props
+
+      return placeholder || <Loading />
     }
 
     return this.props.children(this.state.data!, this.collection)

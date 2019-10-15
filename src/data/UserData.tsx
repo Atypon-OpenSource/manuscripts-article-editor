@@ -23,7 +23,6 @@ interface Props {
     data: UserProfileWithAvatar,
     collection: Collection<UserProfileWithAvatar>
   ) => React.ReactNode
-  placeholder?: React.ReactNode
   userID: string
 }
 

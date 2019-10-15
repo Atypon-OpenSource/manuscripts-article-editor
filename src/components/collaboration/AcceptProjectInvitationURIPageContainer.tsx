@@ -14,7 +14,7 @@ import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { acceptProjectInvitationToken } from '../../lib/api'
-import { Loading } from '../Loading'
+import { LoadingPage } from '../Loading'
 
 interface State {
   data?: {
@@ -64,7 +64,7 @@ class AcceptInvitationURIContainer extends React.Component<
   public render() {
     const { data } = this.state
 
-    if (!data) return <Loading />
+    if (!data) return <LoadingPage>Accepting invitation…</LoadingPage>
 
     return (
       <Redirect

@@ -11,6 +11,7 @@
  */
 
 import { ApolloProvider } from '@apollo/react-hooks'
+import AppIcon from '@manuscripts/assets/react/AppIcon'
 import React from 'react'
 import { hot } from 'react-hot-loader'
 import { Redirect, Route, Switch } from 'react-router-dom'
@@ -27,6 +28,7 @@ import AcceptEmailInvitationPageContainer from './components/collaboration/Accep
 import AcceptInvitationURIContainer from './components/collaboration/AcceptProjectInvitationURIPageContainer'
 import { DatabaseContext } from './components/DatabaseProvider'
 import DeveloperPageContainer from './components/DeveloperPageContainer'
+import { LoadingPage } from './components/Loading'
 import NotFoundPage from './components/NotFoundPage'
 import ProjectPageContainer from './components/projects/ProjectPageContainer'
 import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
@@ -62,7 +64,14 @@ const App: React.FunctionComponent = () => (
                 tokenActions={tokenActions}
               >
                 <ApolloProvider client={apolloClient}>
-                  <OptionalUserData userProfileID={userProfileID!}>
+                  <OptionalUserData
+                    userProfileID={userProfileID!}
+                    placeholder={
+                      <LoadingPage>
+                        <AppIcon />
+                      </LoadingPage>
+                    }
+                  >
                     {user => (
                       <Switch>
                         <Route

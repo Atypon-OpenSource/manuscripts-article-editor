@@ -90,7 +90,7 @@ class ManuscriptForm extends React.Component<Props, State> {
     const { styles, locales } = this.state
 
     if (!styles || !locales) {
-      return <Loading />
+      return <Loading>Loading citation styles…</Loading>
     }
 
     return (

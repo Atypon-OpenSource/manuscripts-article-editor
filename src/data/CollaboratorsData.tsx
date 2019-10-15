@@ -20,7 +20,6 @@ import { DataComponent } from './DataComponent'
 
 interface Props {
   children: (data: Map<string, UserCollaborator>) => React.ReactNode
-  placeholder?: React.ReactNode
 }
 
 interface State {

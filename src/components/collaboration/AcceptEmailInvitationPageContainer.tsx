@@ -14,7 +14,7 @@ import { parse } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import invitationTokenHandler from '../../lib/invitation-token'
-import { Loading } from '../Loading'
+import { LoadingPage } from '../Loading'
 
 // TODO: what if the user's already signed in?
 
@@ -28,7 +28,7 @@ class AcceptEmailInvitationPageContainer extends React.Component<
   }
 
   public render() {
-    return <Loading />
+    return <LoadingPage>Accepting invitation…</LoadingPage>
   }
 }
 

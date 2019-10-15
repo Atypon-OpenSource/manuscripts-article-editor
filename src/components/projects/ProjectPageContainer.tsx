@@ -90,7 +90,10 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
 
         <DatabaseContext.Consumer>
           {db => (
-            <ProjectData projectID={projectID}>
+            <ProjectData
+              projectID={projectID}
+              placeholder={<ProjectPlaceholder />}
+            >
               {project => (
                 <Page project={project} tokenActions={tokenActions}>
                   <UserData userID={getCurrentUserId()!}>
@@ -123,7 +126,9 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                         tokenActions={tokenActions}
                                         // readOnly={true}
                                       >
-                                        <GlobalLibraryItemsData>
+                                        <GlobalLibraryItemsData
+                                          placeholder={<ProjectPlaceholder />}
+                                        >
                                           {globalLibraryItems => (
                                             <UserProjectsData
                                               projectID={projectID}
@@ -255,6 +260,9 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                                     >
                                                                       {manuscripts => (
                                                                         <ManuscriptData
+                                                                          placeholder={
+                                                                            <ProjectPlaceholder />
+                                                                          }
                                                                           projectID={
                                                                             projectID
                                                                           }

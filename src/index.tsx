@@ -10,10 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import AppIcon from '@manuscripts/assets/react/AppIcon'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import IntlProvider from './components/IntlProvider'
+import { LoadingPage } from './components/Loading'
 import './lib/analytics'
 import './lib/fonts'
 import tokenHandler from './lib/token'
@@ -24,7 +26,13 @@ const Main = React.lazy(() => import('./Main'))
 ReactDOM.render(
   <IntlProvider>
     <ThemeProvider>
-      <React.Suspense fallback={null}>
+      <React.Suspense
+        fallback={
+          <LoadingPage className={'loader'}>
+            <AppIcon />
+          </LoadingPage>
+        }
+      >
         <BrowserRouter>
           <Switch>
             <Route

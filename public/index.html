@@ -12,7 +12,19 @@
   <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>">
   <meta property="og:description" content="A simple, open writing tool for complex documents">
   <meta property="og:image" content="<%= htmlWebpackPlugin.options.url %>/screenshot.png">
+
+  <style>body{margin:0}</style>
+
+  <!-- feature support message -->
   <style>.support {color:#f00;background:#fff;padding:20px;position:fixed;bottom:0;left:0;right:0;text-align:center;z-index:100}</style>
+
+  <!-- loader -->
+  <style>.loader{width:100vw;height:100vh;background:#fff;color:#444;font-family:sans-serif;font-size:24px;display:flex;justify-content:center;align-items:center}</style>
+
+  <!-- loader animation -->
+  <style>@keyframes brighten { 0%, 100% { filter:grayscale(0%) } 50% { filter:grayscale(50%) }}</style>
+  <style>.loader svg{ animation: brighten 3s infinite }</style>
+
 </head>
 <body>
 
@@ -39,8 +51,15 @@
 <div class="support" style="z-index:101;">Internet Explorer is not supported - please use a newer browser.</div>
 <![endif]-->
 
-<!-- containers -->
-<div id="root"></div>
+<!-- main container -->
+<div id="root">
+  <div class="loader">
+    <!-- app icon -->
+    <svg width="134" height="134"><g fill="none" fill-rule="nonzero"><path fill="#FE8F1F" d="M95 115H58l10 16 27-16z"/><path fill="#2781A1" d="M21 51l19-32h37L68 3 12 35l9 16z"/><path fill="#FE8F1F" d="M114 83l-19 32 28-16-9-16z"/><path fill="#48BEE7" d="M40 19L21 51l19 32V19zM40 19l55 32-18-32H40z"/><path fill="#F35143" d="M123 67V35L68 3l9 16h18l28 48-9 16 9 16V67z"/><path fill="#8DD439" d="M12 35v32l9-16-9-16zM12 67v32l28 16-28-48zM58 115H40l28 16z"/><path fill="#F474AE" d="M95 51l19 32 9-16-28-48H77z"/><path fill="#36B260" d="M58 115L21 51l-9 16 28 48z"/><path fill="#FFBD26" d="M95 115L40 83l18 32zM114 83L95 51v64z"/></g></svg>
+  </div>
+</div>
+
+<!-- other containers -->
 <div id="menu"></div>
 <div id="notifications"></div>
 <div id="size"></div>

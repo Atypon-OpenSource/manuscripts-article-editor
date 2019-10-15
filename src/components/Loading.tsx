@@ -16,5 +16,17 @@ export const Loading = styled.div`
   width: 100%;
   height: 100%;
   background: #fff;
+  color: #444;
   opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-family: sans-serif;
+`
+
+export const LoadingPage = styled(Loading)`
+  width: 100vw;
+  height: 100vh;
+  opacity: 1;
 `

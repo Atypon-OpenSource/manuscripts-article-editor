@@ -13,7 +13,7 @@
 import React from 'react'
 import * as Intl from 'react-intl'
 import preferences from '../lib/preferences'
-import { Loading } from './Loading'
+import { LoadingPage } from './Loading'
 
 // import client from './lib/client'
 
@@ -108,7 +108,7 @@ class IntlProvider extends React.Component<{}, State> {
     }
 
     if (loading) {
-      return <Loading />
+      return <LoadingPage />
     }
 
     const value = {
