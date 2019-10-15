@@ -10,37 +10,19 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { UserProfileAffiliation } from '@manuscripts/manuscripts-json-schema'
-import { CloseButton, StyledModal } from '@manuscripts/style-guide'
+import {
+  CloseButton,
+  ModalContainer,
+  ModalHeader,
+  StyledModal,
+} from '@manuscripts/style-guide'
 import { FormikActions } from 'formik'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import { ModalBody, StyledModalMain } from '../Sidebar'
 import { ProfileErrors, ProfileForm, ProfileValues } from './ProfileForm'
 import ProfilePageSidebar from './ProfilePageSidebar'
-
-// TODO: Try to remove the fixed numbers
-const ModalMain = styled.div`
-  width: 500px;
-  height: 600px;
-`
-
-const ModalHeader = styled.div`
-  position: absolute;
-  right: -${props => props.theme.grid.unit * 3}px;
-  top: -${props => props.theme.grid.unit * 3}px;
-  z-index: 1;
-`
-
-const ModalContainer = styled.div`
-  background: ${props => props.theme.colors.background.primary};
-  background: ${props => props.theme.colors.background.primary};
-  border-radius: ${props => props.theme.grid.radius.default};
-  display: flex;
-  font-family: ${props => props.theme.font.family.sans};
-  overflow: hidden;
-`
 
 interface Props {
   userWithAvatar: UserProfileWithAvatar
@@ -76,27 +58,27 @@ const ProfilePage: ProfilePageComponent = ({
       onRequestClose={handleClose}
       shouldCloseOnOverlayClick={true}
     >
-      <ModalHeader>
-        <CloseButton onClick={handleClose} data-cy={'modal-close-button'}>
-          <CloseIconDark />
-        </CloseButton>
-      </ModalHeader>
       <ModalContainer>
-        <ProfilePageSidebar
-          handleChangePassword={handleChangePassword}
-          handleDeleteAccount={handleDeleteAccount}
-          saveUserProfileAvatar={saveUserProfileAvatar}
-          deleteUserProfileAvatar={deleteUserProfileAvatar}
-          userWithAvatar={userWithAvatar}
-        />
-        <ModalMain>
-          <ProfileForm
-            affiliationsMap={affiliationsMap}
+        <ModalHeader>
+          <CloseButton onClick={handleClose} data-cy={'modal-close-button'} />
+        </ModalHeader>
+        <ModalBody>
+          <ProfilePageSidebar
+            handleChangePassword={handleChangePassword}
+            handleDeleteAccount={handleDeleteAccount}
+            saveUserProfileAvatar={saveUserProfileAvatar}
+            deleteUserProfileAvatar={deleteUserProfileAvatar}
             userWithAvatar={userWithAvatar}
-            handleSave={handleSave}
-            createAffiliation={createAffiliation}
           />
-        </ModalMain>
+          <StyledModalMain>
+            <ProfileForm
+              affiliationsMap={affiliationsMap}
+              userWithAvatar={userWithAvatar}
+              handleSave={handleSave}
+              createAffiliation={createAffiliation}
+            />
+          </StyledModalMain>
+        </ModalBody>
       </ModalContainer>
     </StyledModal>
   )

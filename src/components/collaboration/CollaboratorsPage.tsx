@@ -42,10 +42,6 @@ const OuterContainer = styled.div`
   overflow-y: auto;
 `
 
-const OuterContainerModal = styled(OuterContainer)`
-  height: 65vh;
-`
-
 const InnerContainer = styled.div`
   text-align: center;
   max-width: 480px;
@@ -56,8 +52,7 @@ const InnerContainer = styled.div`
 const Placeholder = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 50px;
-  margin-bottom: 20px;
+  margin-bottom: ${props => props.theme.grid.unit * 5}px;
 `
 
 const Action = styled.div`
@@ -206,7 +201,7 @@ const MessageContainer = styled.div`
 export const AddAuthorsPage: React.FunctionComponent<AddAuthorsPageProps> = ({
   addedAuthorsCount,
 }) => (
-  <OuterContainerModal>
+  <OuterContainer>
     <InnerContainer>
       <Placeholder>
         <AuthorPlaceholder />
@@ -231,11 +226,11 @@ export const AddAuthorsPage: React.FunctionComponent<AddAuthorsPageProps> = ({
         </React.Fragment>
       )}
     </InnerContainer>
-  </OuterContainerModal>
+  </OuterContainer>
 )
 
 export const AuthorDetailsPage: React.FunctionComponent = () => (
-  <OuterContainerModal data-cy={'author-details'}>
+  <OuterContainer data-cy={'author-details'}>
     <InnerContainer>
       <Placeholder>
         <ContributorDetails />
@@ -248,7 +243,7 @@ export const AuthorDetailsPage: React.FunctionComponent = () => (
         </Message>
       </React.Fragment>
     </InnerContainer>
-  </OuterContainerModal>
+  </OuterContainer>
 )
 
 export const InviteCollaboratorsPage: React.FunctionComponent = () => (
@@ -268,7 +263,7 @@ export const InviteCollaboratorsPage: React.FunctionComponent = () => (
 )
 
 export const InviteCollaboratorsModal: React.FunctionComponent = () => (
-  <OuterContainerModal>
+  <OuterContainer>
     <InnerContainer>
       <Placeholder>
         <InvitationPlaceholder />
@@ -280,7 +275,7 @@ export const InviteCollaboratorsModal: React.FunctionComponent = () => (
         <InviteCollaboratorsMessage />
       </Message>
     </InnerContainer>
-  </OuterContainerModal>
+  </OuterContainer>
 )
 
 interface SearchCollaboratorsPageProps {

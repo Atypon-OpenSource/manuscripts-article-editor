@@ -20,7 +20,6 @@ import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
-import { styled } from '../../theme/styled-components'
 import {
   AddAuthorsPage,
   AuthorDetailsPage,
@@ -28,29 +27,10 @@ import {
 } from '../collaboration/CollaboratorsPage'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import InviteCollaboratorsSidebar from '../collaboration/InviteCollaboratorsSidebar'
+import { ModalBody, ModalSidebar, StyledModalMain } from '../Sidebar'
 import AddAuthorsSidebar from './AddAuthorsSidebar'
 import { AuthorFormContainer } from './AuthorFormContainer'
 import AuthorsSidebar from './AuthorsSidebar'
-
-const ModalBody = styled.div`
-  flex: 1;
-  display: flex;
-  border-radius: ${props => props.theme.grid.radius.default};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  background: ${props => props.theme.colors.background.primary};
-`
-
-const ModalSidebar = styled.div`
-  width: 300px;
-  height: 70vh;
-  overflow: hidden;
-`
-
-const ModalMain = styled.div`
-  flex: 1;
-  height: 70vh;
-  overflow-y: auto;
-`
 
 interface AuthorsProps {
   authors: Contributor[]
@@ -115,7 +95,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
         handleDismiss={handleDismiss}
       />
     </ModalSidebar>
-    <ModalMain>
+    <StyledModalMain>
       {selectedAuthor ? (
         <AuthorFormContainer
           author={selectedAuthor}
@@ -139,7 +119,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
       ) : (
         <AuthorDetailsPage />
       )}
-    </ModalMain>
+    </StyledModalMain>
   </ModalBody>
 )
 
@@ -203,9 +183,9 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
         handleCreateAuthor={handleCreateAuthor}
       />
     </ModalSidebar>
-    <ModalMain>
+    <StyledModalMain>
       <AddAuthorsPage addedAuthorsCount={numberOfAddedAuthors} />
-    </ModalMain>
+    </StyledModalMain>
   </ModalBody>
 )
 
@@ -239,8 +219,8 @@ export const InviteAuthorsModal: React.FunctionComponent<
         tokenActions={tokenActions}
       />
     </ModalSidebar>
-    <ModalMain>
+    <StyledModalMain>
       <InviteCollaboratorsModal />
-    </ModalMain>
+    </StyledModalMain>
   </ModalBody>
 )

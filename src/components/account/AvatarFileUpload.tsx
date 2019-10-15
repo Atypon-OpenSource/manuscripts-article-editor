@@ -19,7 +19,7 @@ import {
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import { styled } from '../../theme/styled-components'
-import { ModalSidebar, SidebarContent } from '../Sidebar'
+import { SidebarContent } from '../Sidebar'
 import ImportAvatarContainer from './ImportAvatarContainer'
 import { AvatarProps } from './ProfilePageSidebar'
 
@@ -137,67 +137,65 @@ export const AvatarFileUpload: React.FunctionComponent<
   handleDeleteAvatar,
   handleAvatarZoom,
 }) => (
-  <ModalSidebar>
-    <SidebarContent>
-      {!newAvatar ? (
-        <ImportAvatarContainer
-          importAvatar={importAvatar}
-          render={({ isImporting, isOver }) => (
-            <UploadContainer isOver={isOver}>
-              {userWithAvatar.avatar ? (
-                <RoundedBorders>
-                  <Avatar size={150} src={userWithAvatar.avatar} />
-                </RoundedBorders>
+  <SidebarContent>
+    {!newAvatar ? (
+      <ImportAvatarContainer
+        importAvatar={importAvatar}
+        render={({ isImporting, isOver }) => (
+          <UploadContainer isOver={isOver}>
+            {userWithAvatar.avatar ? (
+              <RoundedBorders>
+                <Avatar size={150} src={userWithAvatar.avatar} />
+              </RoundedBorders>
+            ) : (
+              <DropZone />
+            )}
+            <UploadBox>
+              {isImporting ? (
+                <UploadLabel>Importing…</UploadLabel>
               ) : (
-                <DropZone />
+                <React.Fragment>
+                  <UploadLabel>Drag file above</UploadLabel>
+                  <UploadBoxInnerText>
+                    or <UploadBoxBrowse>browse</UploadBoxBrowse> for a file
+                    {userWithAvatar.avatar && <div>to replace the image</div>}
+                  </UploadBoxInnerText>
+                </React.Fragment>
               )}
-              <UploadBox>
-                {isImporting ? (
-                  <UploadLabel>Importing…</UploadLabel>
-                ) : (
-                  <React.Fragment>
-                    <UploadLabel>Drag file above</UploadLabel>
-                    <UploadBoxInnerText>
-                      or <UploadBoxBrowse>browse</UploadBoxBrowse> for a file
-                      {userWithAvatar.avatar && <div>to replace the image</div>}
-                    </UploadBoxInnerText>
-                  </React.Fragment>
-                )}
-              </UploadBox>
-            </UploadContainer>
-          )}
-        />
-      ) : (
-        <AvatarContainer>
-          <AvatarEditor
-            ref={avatarEditorRef}
-            image={newAvatar.src}
-            width={150}
-            height={150}
-            color={[148, 148, 148, 0.6]}
-            borderRadius={180}
-            scale={avatarZoom}
-          />
-          <RangeInput
-            min={1}
-            max={4}
-            step={0.2}
-            value={avatarZoom}
-            onChange={handleAvatarZoom}
-          />
-        </AvatarContainer>
-      )}
-      <ButtonsContainer>
-        <SaveAvatarButton onClick={handleSaveAvatar} disabled={!newAvatar}>
-          Save Avatar
-        </SaveAvatarButton>
-        {userWithAvatar.avatar && (
-          <SaveAvatarButton onClick={handleDeleteAvatar} disabled={!!newAvatar}>
-            Remove Avatar
-          </SaveAvatarButton>
+            </UploadBox>
+          </UploadContainer>
         )}
-        <CancelButton onClick={handleCancel}>Cancel</CancelButton>
-      </ButtonsContainer>
-    </SidebarContent>
-  </ModalSidebar>
+      />
+    ) : (
+      <AvatarContainer>
+        <AvatarEditor
+          ref={avatarEditorRef}
+          image={newAvatar.src}
+          width={150}
+          height={150}
+          color={[148, 148, 148, 0.6]}
+          borderRadius={180}
+          scale={avatarZoom}
+        />
+        <RangeInput
+          min={1}
+          max={4}
+          step={0.2}
+          value={avatarZoom}
+          onChange={handleAvatarZoom}
+        />
+      </AvatarContainer>
+    )}
+    <ButtonsContainer>
+      <SaveAvatarButton onClick={handleSaveAvatar} disabled={!newAvatar}>
+        Save Avatar
+      </SaveAvatarButton>
+      {userWithAvatar.avatar && (
+        <SaveAvatarButton onClick={handleDeleteAvatar} disabled={!!newAvatar}>
+          Remove Avatar
+        </SaveAvatarButton>
+      )}
+      <CancelButton onClick={handleCancel}>Cancel</CancelButton>
+    </ButtonsContainer>
+  </SidebarContent>
 )

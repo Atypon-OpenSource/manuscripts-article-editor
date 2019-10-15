@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
+import { ModalMain, TextField } from '@manuscripts/style-guide'
 import { css, styled } from '../theme/styled-components'
 
 const SidebarCommonStyles = css`
@@ -22,7 +22,6 @@ const SidebarCommonStyles = css`
     ${props => props.theme.grid.unit * 2}px;
   width: 100%;
 `
-
 export const Sidebar = styled.div`
   ${SidebarCommonStyles}
   background: ${props => props.theme.colors.background.secondary};
@@ -34,6 +33,21 @@ export const ModalSidebar = styled.div`
   background-color: ${props => props.theme.colors.background.fifth};
   border-top-left-radius: ${props => props.theme.grid.radius.default};
   border-bottom-left-radius: ${props => props.theme.grid.radius.default};
+  height: 70vh;
+  max-height: 680px;
+  max-width: 40vw;
+  width: 280px;
+`
+
+export const StyledModalMain = styled(ModalMain)`
+  box-sizing: border-box;
+  max-width: 60vw;
+  width: 480px;
+`
+
+export const ModalBody = styled.div`
+  flex: 1;
+  display: flex;
 `
 
 const commonStyles = css`

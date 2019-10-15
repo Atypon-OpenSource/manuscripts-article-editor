@@ -13,16 +13,8 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
-import { styled } from '../../theme/styled-components'
 import UserProfileSidebar from '../UserProfileSidebar'
 import { AvatarFileUpload } from './AvatarFileUpload'
-
-const ModalSidebar = styled.div`
-  width: 300px;
-  overflow: hidden;
-  border-top-left-radius: ${props => props.theme.grid.radius.default};
-  border-bottom-left-radius: ${props => props.theme.grid.radius.default};
-`
 
 export interface AvatarProps {
   src: string
@@ -63,7 +55,7 @@ class ProfilePageSidebar extends React.Component<Props, State> {
     const { editAvatar, newAvatar, avatarZoom } = this.state
 
     return (
-      <ModalSidebar>
+      <>
         {editAvatar ? (
           <AvatarFileUpload
             newAvatar={newAvatar}
@@ -84,8 +76,7 @@ class ProfilePageSidebar extends React.Component<Props, State> {
             handleEditAvatar={this.openEditor}
           />
         )}
-        >
-      </ModalSidebar>
+      </>
     )
   }
 
