@@ -51,6 +51,65 @@ export const ProjectPlaceholder: React.FC = () => (
   </PlaceholderContainer>
 )
 
+const ProgressGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
+const ProgressMessage = styled.div`
+  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${props => props.theme.font.size.xlarge};
+  margin: ${props => props.theme.grid.unit * 4}px;
+`
+
+const ProgressMessageSubtitle = styled.div`
+  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.light};
+`
+
+const ProgressMessageContainer: React.FC<{
+  delay?: number
+  title: string
+  subtitle: string
+}> = ({ delay = 0, title, subtitle }) => {
+  const [delayed, setDelayed] = useState(false)
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDelayed(true)
+    }, delay)
+
+    return () => window.clearTimeout(timer)
+  }, [delay])
+
+  return (
+    <>
+      <ProgressMessage>{title}</ProgressMessage>
+      {delayed && <ProgressMessageSubtitle>{subtitle}</ProgressMessageSubtitle>}
+    </>
+  )
+}
+
+export const ProjectSyncingPlaceholder: React.FC = () => (
+  <PlaceholderContainer>
+    <ProgressGroup>
+      <ProgressIndicator
+        isDeterminate={false}
+        size={IndicatorSize.Large}
+        symbols={IndicatorKind.Project}
+      />
+      <ProgressMessageContainer
+        delay={5000}
+        title={'Syncing project data…'}
+        subtitle={'This can take a while the first time.'}
+      />
+    </ProgressGroup>
+  </PlaceholderContainer>
+)
+
 const FixedPlaceholderContainer = styled.div`
   position: fixed;
   top: 0;

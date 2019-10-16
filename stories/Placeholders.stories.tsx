@@ -15,8 +15,10 @@ import React from 'react'
 import {
   ManuscriptPlaceholder,
   ProjectPlaceholder,
+  ProjectSyncingPlaceholder,
 } from '../src/components/Placeholders'
 
 storiesOf('Placeholders', module)
   .add('Manuscript', () => <ManuscriptPlaceholder />)
   .add('Project', () => <ProjectPlaceholder />)
+  .add('Project Syncing', () => <ProjectSyncingPlaceholder />)

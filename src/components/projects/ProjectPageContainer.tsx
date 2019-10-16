@@ -39,7 +39,11 @@ import CollaboratorsPageContainer from '../collaboration/CollaboratorsPageContai
 import { DatabaseContext } from '../DatabaseProvider'
 import { LibraryPageContainerProps } from '../library/LibraryPageContainer'
 import { Page } from '../Page'
-import { ProjectAphorismPlaceholder, ProjectPlaceholder } from '../Placeholders'
+import {
+  ProjectAphorismPlaceholder,
+  ProjectPlaceholder,
+  ProjectSyncingPlaceholder,
+} from '../Placeholders'
 import EmptyProjectPageContainer from './EmptyProjectPageContainer'
 import { ManuscriptPageContainerProps } from './ManuscriptPageContainer'
 
@@ -98,7 +102,7 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                 <Page project={project} tokenActions={tokenActions}>
                   <UserData userID={getCurrentUserId()!}>
                     {user => (
-                      <CollaboratorsData>
+                      <CollaboratorsData placeholder={<ProjectPlaceholder />}>
                         {collaborators => (
                           <Sync
                             collection={`project-${projectID}`}
@@ -139,6 +143,9 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                               ) => (
                                                 <ProjectLibraryData
                                                   projectID={projectID}
+                                                  placeholder={
+                                                    <ProjectSyncingPlaceholder />
+                                                  }
                                                 >
                                                   {(
                                                     library,
@@ -260,9 +267,6 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                                     >
                                                                       {manuscripts => (
                                                                         <ManuscriptData
-                                                                          placeholder={
-                                                                            <ProjectPlaceholder />
-                                                                          }
                                                                           projectID={
                                                                             projectID
                                                                           }
