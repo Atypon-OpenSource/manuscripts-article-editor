@@ -1599,10 +1599,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.4.1.tgz#3aafbcd5df2c706358fa5508369981534119a8ee"
   integrity sha512-pG77YvrElOFJ9KnMuC06X5etfNt0LcvdTiGwCuXLuGQWDM/N1MIC0FwDaPCxR3QlqfvCljHbhJJv4iDlCrNPUg==
 
-"@manuscripts/assets@^0.5.10", "@manuscripts/assets@^0.5.3":
-  version "0.5.10"
-  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.10.tgz#03639a88c4ba8cf26a9985f26c3dac12b1d95489"
-  integrity sha512-Eai/X7Yr5OtVj89XGcF1vtFWe0iNkLgM1zep43+gwFqNARR1ZHqntv6LRl+8R70TIxZdzejupff3sJzZJzP+9g==
+"@manuscripts/assets@^0.5.11", "@manuscripts/assets@^0.5.3":
+  version "0.5.11"
+  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.11.tgz#1022045d6a3ebb2911cc18e78cc44278d03d11fd"
+  integrity sha512-D1KeznmoTOI6UFPSF8A+OKenyNerCSm62nhfoU4X6URg/x7GWgf1AtBTn9v7DzHu+O0y0YYaWO0qSsVH+SF9Qg==
 
 "@manuscripts/comment-editor@^0.1.1":
   version "0.1.1"
