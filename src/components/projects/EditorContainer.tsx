@@ -38,8 +38,9 @@ export const EditorContainerInner = styled.div`
 `
 
 export const EditorHeader = styled.div`
-  padding: ${props => props.theme.grid.unit * 4}px 56px
-    ${props => props.theme.grid.unit * 5}px;
+  padding: ${props => props.theme.grid.unit * 4}px
+    ${props => props.theme.grid.unit * 14}px;
+  padding-bottom: 0;
   background: ${props => props.theme.colors.background.primary};
   background: linear-gradient(
     0deg,
@@ -52,8 +53,7 @@ export const EditorHeader = styled.div`
 export const EditorBody = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: ${props => props.theme.grid.unit * 5}px;
-  padding-right: ${props => props.theme.grid.unit * 2}px;
-  margin-top: -${props => props.theme.grid.unit * 4}px;
-  padding-top: ${props => props.theme.grid.unit * 4}px;
+  padding: ${props => props.theme.grid.unit * 5}px
+    ${props => props.theme.grid.unit * 2}px;
+  padding-left: 0;
 `
