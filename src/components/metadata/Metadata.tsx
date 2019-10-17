@@ -42,14 +42,7 @@ import { InvitationValues } from '../collaboration/InvitationForm'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import AuthorsModalContainer from './AuthorsModalContainer'
 import { InviteAuthorsModal } from './AuthorsModals'
-import { Header, HeaderContainer } from './Header'
 import { TitleFieldContainer } from './TitleFieldContainer'
-
-const StyledHeader = styled(Header)`
-  font-family: 'PT Sans';
-  font-size: ${props => props.theme.font.size.medium};
-  line-height: ${props => props.theme.font.lineHeight.large};
-`
 
 const TitleContainer = styled.div`
   display: flex;
@@ -76,6 +69,25 @@ export const ExpanderButton = styled(IconButton).attrs(props => ({
 
   svg circle {
     stroke: ${props => props.theme.colors.border.secondary};
+  }
+`
+
+const HeaderContainer = styled.header`
+  padding: 0 64px;
+`
+
+const Header = styled.div`
+  font-family: 'PT Sans';
+  font-size: ${props => props.theme.font.size.medium};
+  line-height: ${props => props.theme.font.lineHeight.large};
+  color: ${props => props.theme.colors.text.primary};
+
+  ${ExpanderButton} {
+    display: none;
+  }
+
+  &:hover ${ExpanderButton} {
+    display: initial;
   }
 `
 
@@ -144,7 +156,7 @@ const authorsModal = (props: Props) => {
 
 export const Metadata: React.FunctionComponent<Props> = props => (
   <HeaderContainer>
-    <StyledHeader>
+    <Header>
       <TitleContainer>
         <TitleFieldContainer
           title={props.manuscript.title || ''}
@@ -191,6 +203,6 @@ export const Metadata: React.FunctionComponent<Props> = props => (
           {authorsModal(props)}
         </ModalContainer>
       </StyledModal>
-    </StyledHeader>
+    </Header>
   </HeaderContainer>
 )
