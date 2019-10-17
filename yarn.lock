@@ -3874,10 +3874,10 @@ astral-regex@^1.0.0:
   resolved "https://registry.npmjs.org/astral-regex/-/astral-regex-1.0.0.tgz#6c8c3fb827dd43ee3918f27b82782ab7658a6fd9"
   integrity sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==
 
-astrocite-bibtex@^0.15.1:
-  version "0.15.1"
-  resolved "https://registry.npmjs.org/astrocite-bibtex/-/astrocite-bibtex-0.15.1.tgz#700a7e9c3aa5d0a08e98d076a3454b6fbbde50aa"
-  integrity sha512-Q5gUzakqH00H1WaNVT3uWX2ByfP4b0QLqLi9Tpu92hwkQXHLL/zwZ2xHOCTzoryHqL1n2Jx95CT4bMuzMCdaSg==
+astrocite-bibtex@^0.15.4:
+  version "0.15.4"
+  resolved "https://registry.npmjs.org/astrocite-bibtex/-/astrocite-bibtex-0.15.4.tgz#49970a7447ccb01218ea64fa6992a63b8d2ea9de"
+  integrity sha512-QxfGWtiHU5GBT1QiqjPZ3ZVSwz981eldYDKYwRekWvuU/MjlQWw/jq15velR/Sans/sVT1YH+vGUxWk/pQgtyg==
   dependencies:
     astrocite-core "^0.15.0"
     csl-json "^0.1.0"
@@ -3889,10 +3889,10 @@ astrocite-core@^0.15.0:
   dependencies:
     csl-json "^0.1.0"
 
-astrocite-ris@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/astrocite-ris/-/astrocite-ris-0.15.0.tgz#74a7a891f77a61c19b376141bad73f8f241d7cc8"
-  integrity sha512-CrhqcwWF89HOlJNwHz5VnFOfkoOUywE9/CHx5bszbe1X9jfujKWIh4piziK/lFVZMk3o9m6hUkG63tGtHpAlkg==
+astrocite-ris@^0.15.2:
+  version "0.15.2"
+  resolved "https://registry.npmjs.org/astrocite-ris/-/astrocite-ris-0.15.2.tgz#ae027782ae6b74edec438cec1b34be83fd2305fe"
+  integrity sha512-BhtJ6mAshBTD3OiA2s7DirJepIh3gaJTfSXMUApdcdgrlY6sYM/BBea8vgSQgQiew8KD9tPe9ausRKfmBCFTqw==
   dependencies:
     astrocite-core "^0.15.0"
     csl-json "^0.1.0"
