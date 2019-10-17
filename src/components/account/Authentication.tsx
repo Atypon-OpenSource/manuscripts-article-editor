@@ -15,7 +15,6 @@ import {
   GoogleIcon,
   IconButton,
   OrcidIcon,
-  TextButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import connectLogo from '../../../assets/connect.png'
@@ -41,22 +40,35 @@ const GoogleImage = styled.span`
 
 const SignupButton = styled.button`
   color: ${props => props.theme.colors.background.primary};
-  background-color: #007ba6;
+  background-color: #0d79d0;
   font-size: 16pt;
-  font-weight: 400;
-  width: 144px;
-  height: 48px;
   cursor: pointer;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  line-height: 1;
+  font-family: Lato;
 `
-const LoginButton = styled(TextButton)`
-  font-weight: ${props => props.theme.font.weight.medium};
+const LoginButton = styled.button`
+  color: #6c6c6c;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+  border: solid 1px #ebebeb;
+  border-radius: 4px;
 `
 
 const Text = styled.div`
-  margin-right: ${props => props.theme.grid.unit * 3}px;
-  font-weight: ${props => props.theme.font.weight.light};
+  margin-right: 8px;
+  font-weight: normal;
+  font-size: 14px;
+`
+
+const SignupText = styled.div`
+  padding: 12px 125px;
+`
+
+const LoginText = styled.div`
+  padding: 7px 15px;
 `
 export interface AuthenticationButtonProps {
   redirect: (provider: AuthProvider, action?: string) => () => void
@@ -99,7 +111,7 @@ export const Signup: React.FunctionComponent<AuthenticationButtonProps> = ({
         : () => (window.location.href = '/signup')
     }
   >
-    Sign up
+    <SignupText>Sign Up</SignupText>
   </SignupButton>
 )
 
@@ -107,7 +119,7 @@ export const Login: React.FunctionComponent<AuthenticationButtonProps> = ({
   redirect,
 }) => (
   <ButtonGroup>
-    <Text>Already have an account?</Text>
+    <Text>Already a user?</Text>
     <LoginButton
       onClick={
         config.connect.enabled
@@ -115,7 +127,7 @@ export const Login: React.FunctionComponent<AuthenticationButtonProps> = ({
           : () => (window.location.href = '/login')
       }
     >
-      Sign in
+      <LoginText>Sign in</LoginText>
     </LoginButton>
   </ButtonGroup>
 )

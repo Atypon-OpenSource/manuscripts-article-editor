@@ -21,12 +21,13 @@ import { Centered } from './Page'
 
 const Description = styled.div`
   text-align: center;
-  font-size: 36pt;
-  width: 550px;
+  font-size: 48px;
+  width: 500px;
   color: #5e6f7e;
   font-weight: 300;
-  padding-top: 1.5em;
-  padding-bottom: 1em;
+  padding-top: 40px;
+  padding-bottom: 45px;
+  line-height: 1.17;
 `
 
 export const LandingDecorationsLeftContainer = styled.div`

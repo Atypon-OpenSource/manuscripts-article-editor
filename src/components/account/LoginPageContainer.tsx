@@ -29,7 +29,7 @@ import { TokenPayload } from '../../lib/user'
 import userID from '../../lib/user-id'
 import { styled } from '../../theme/styled-components'
 import { loginSchema } from '../../validation'
-import { IntroPage } from '../introPage'
+import { IntroPage } from '../IntroPage'
 import { Loading } from '../Loading'
 import { Main, Page } from '../Page'
 import AuthButtonContainer from './AuthButtonContainer'
@@ -205,7 +205,6 @@ class LoginPageContainer extends React.Component<
 
       window.location.href = config.api.url + '/auth/iam?' + stringify(params)
     }
-    window.location.hash = ''
   }
 
   private handleState = (state: RouteLocationState) => {
