@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import PencilIcon from '@manuscripts/assets/react/Pencil'
 import { ManuscriptCategory, Model } from '@manuscripts/manuscripts-json-schema'
 import React, { Component } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
 import { styled } from '../../theme/styled-components'
 import { ResearchField, TemplateData } from '../../types/templates'
-import { PencilIcon } from './ModalIcons'
 import { TemplateCategorySelector } from './TemplateCategorySelector'
 import { TemplateEmpty } from './TemplateEmpty'
 import { TemplateModalClose } from './TemplateModalClose'
@@ -134,7 +134,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
         <TemplateModalClose handleComplete={handleComplete} />
         <ModalContainer>
           <TemplateModalHeader
-            icon={<PencilIcon />}
+            icon={<PencilIcon width={34} height={24} />}
             title={'Add Manuscript to Project'}
           />
 

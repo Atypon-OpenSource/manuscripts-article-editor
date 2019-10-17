@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import SearchIcon from '@manuscripts/assets/react/SearchIconNoBG'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { SearchIcon } from './ModalIcons'
 
 const SearchContainer = styled.div`
   display: flex;
@@ -27,6 +27,11 @@ const SearchIconContainer = styled.div`
   z-index: 1;
   display: flex;
   align-items: center;
+
+  path {
+    fill: #949494;
+    stroke: #949494;
+  }
 `
 
 const SearchText = styled.input`
@@ -80,7 +85,7 @@ export class TemplateSearchInput extends React.Component<Props, State> {
         }}
       >
         <SearchIconContainer>
-          <SearchIcon />
+          <SearchIcon width={16} height={16} />
         </SearchIconContainer>
         <SearchText
           autoFocus={true}
