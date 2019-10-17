@@ -100,7 +100,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
   handleCreateAuthor,
 }) => {
   return (
-    <ModalSidebar>
+    <ModalSidebar data-cy={'add-author-sidebar'}>
       <SidebarHeader>
         <SidebarTitle>Add Author</SidebarTitle>
 

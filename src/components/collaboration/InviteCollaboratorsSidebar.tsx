@@ -14,26 +14,14 @@ import { PrimaryButton, TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
-import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
+import { ModalSidebar, Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 import { InvitationForm, InvitationValues } from './InvitationForm'
 
 const FormContainer = styled.div`
   padding: ${props => props.theme.grid.unit * 3}px;
 `
 const Container = styled.div`
-  padding-top: ${props => props.theme.grid.unit}px;
-`
-
-const StyledSidebar = styled(Sidebar)<{ isModal?: boolean }>`
-  background: ${props =>
-    props.isModal
-      ? props.theme.colors.background.secondary
-      : props.theme.colors.background.primary};
-  border-right: ${props =>
-    props.isModal
-      ? `none`
-      : `1px solid
-      ${props.theme.colors.background.info}`};
+  margin-right: -16px;
 `
 
 interface Props {
@@ -45,20 +33,21 @@ interface Props {
   tokenActions: TokenActions
 }
 
-const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
+const InviteCollaboratorsSidebarContents: React.FunctionComponent<Props> = ({
   invitationValues,
   handleCancel,
   handleSubmit,
   invitationSent,
-  isModal,
   tokenActions,
 }) => (
-  <StyledSidebar isModal={isModal}>
+  <>
     <SidebarHeader>
       <SidebarTitle>Invite</SidebarTitle>
       {!invitationSent ? (
         <Container>
-          <TertiaryButton onClick={handleCancel}>Cancel</TertiaryButton>
+          <TertiaryButton mini={true} onClick={handleCancel}>
+            Cancel
+          </TertiaryButton>
         </Container>
       ) : (
         <PrimaryButton onClick={handleCancel}>Done</PrimaryButton>
@@ -72,7 +61,40 @@ const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
         tokenActions={tokenActions}
       />
     </FormContainer>
-  </StyledSidebar>
+  </>
+)
+
+const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
+  invitationValues,
+  handleCancel,
+  handleSubmit,
+  invitationSent,
+  isModal,
+  tokenActions,
+}) => (
+  <>
+    {isModal ? (
+      <ModalSidebar>
+        <InviteCollaboratorsSidebarContents
+          handleCancel={handleCancel}
+          handleSubmit={handleSubmit}
+          invitationSent={invitationSent}
+          invitationValues={invitationValues}
+          tokenActions={tokenActions}
+        />
+      </ModalSidebar>
+    ) : (
+      <Sidebar>
+        <InviteCollaboratorsSidebarContents
+          handleCancel={handleCancel}
+          handleSubmit={handleSubmit}
+          invitationSent={invitationSent}
+          invitationValues={invitationValues}
+          tokenActions={tokenActions}
+        />
+      </Sidebar>
+    )}
+  </>
 )
 
 export default InviteCollaboratorsSidebar

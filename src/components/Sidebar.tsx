@@ -33,8 +33,6 @@ export const ModalSidebar = styled.div`
   background-color: ${props => props.theme.colors.background.fifth};
   border-top-left-radius: ${props => props.theme.grid.radius.default};
   border-bottom-left-radius: ${props => props.theme.grid.radius.default};
-  height: 70vh;
-  max-height: 680px;
   max-width: 40vw;
   width: 280px;
 `
@@ -46,8 +44,11 @@ export const StyledModalMain = styled(ModalMain)`
 `
 
 export const ModalBody = styled.div`
-  flex: 1;
+  align-items: stretch;
   display: flex;
+  flex: 1;
+  height: 70vh;
+  max-height: 680px;
 `
 
 const commonStyles = css`

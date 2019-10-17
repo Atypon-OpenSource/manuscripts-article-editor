@@ -27,7 +27,7 @@ import {
 } from '../collaboration/CollaboratorsPage'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import InviteCollaboratorsSidebar from '../collaboration/InviteCollaboratorsSidebar'
-import { ModalBody, ModalSidebar, StyledModalMain } from '../Sidebar'
+import { ModalBody, StyledModalMain } from '../Sidebar'
 import AddAuthorsSidebar from './AddAuthorsSidebar'
 import { AuthorFormContainer } from './AuthorFormContainer'
 import AuthorsSidebar from './AuthorsSidebar'
@@ -82,19 +82,17 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   handleDismiss,
 }) => (
   <ModalBody>
-    <ModalSidebar>
-      <AuthorsSidebar
-        authors={authors}
-        authorAffiliations={authorAffiliations}
-        selectAuthor={selectAuthor}
-        selectedAuthor={selectedAuthor}
-        openAddAuthors={openAddAuthors}
-        handleDrop={handleDrop}
-        getSidebarItemDecorator={getSidebarItemDecorator}
-        invitationSent={invitationSent}
-        handleDismiss={handleDismiss}
-      />
-    </ModalSidebar>
+    <AuthorsSidebar
+      authors={authors}
+      authorAffiliations={authorAffiliations}
+      selectAuthor={selectAuthor}
+      selectedAuthor={selectedAuthor}
+      openAddAuthors={openAddAuthors}
+      handleDrop={handleDrop}
+      getSidebarItemDecorator={getSidebarItemDecorator}
+      invitationSent={invitationSent}
+      handleDismiss={handleDismiss}
+    />
     <StyledModalMain>
       {selectedAuthor ? (
         <AuthorFormContainer
@@ -164,25 +162,23 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
   handleCreateAuthor,
 }) => (
   <ModalBody>
-    <ModalSidebar>
-      <AddAuthorsSidebar
-        authors={authors}
-        nonAuthors={nonAuthors}
-        numberOfAddedAuthors={numberOfAddedAuthors}
-        isSearching={searchingAuthors}
-        searchText={searchText}
-        addedAuthors={addedAuthors}
-        handleDoneCancel={handleAddingDoneCancel}
-        createAuthor={createAuthor}
-        handleSearchChange={handleSearchChange}
-        handleSearchFocus={handleSearchFocus}
-        searchResults={searchResults}
-        handleInvite={handleInvite}
-        isAuthorExist={isAuthorExist}
-        isCreateAuthorOpen={isCreateAuthorOpen}
-        handleCreateAuthor={handleCreateAuthor}
-      />
-    </ModalSidebar>
+    <AddAuthorsSidebar
+      authors={authors}
+      nonAuthors={nonAuthors}
+      numberOfAddedAuthors={numberOfAddedAuthors}
+      isSearching={searchingAuthors}
+      searchText={searchText}
+      addedAuthors={addedAuthors}
+      handleDoneCancel={handleAddingDoneCancel}
+      createAuthor={createAuthor}
+      handleSearchChange={handleSearchChange}
+      handleSearchFocus={handleSearchFocus}
+      searchResults={searchResults}
+      handleInvite={handleInvite}
+      isAuthorExist={isAuthorExist}
+      isCreateAuthorOpen={isCreateAuthorOpen}
+      handleCreateAuthor={handleCreateAuthor}
+    />
     <StyledModalMain>
       <AddAuthorsPage addedAuthorsCount={numberOfAddedAuthors} />
     </StyledModalMain>
@@ -209,16 +205,14 @@ export const InviteAuthorsModal: React.FunctionComponent<
   tokenActions,
 }) => (
   <ModalBody>
-    <ModalSidebar>
-      <InviteCollaboratorsSidebar
-        invitationValues={invitationValues}
-        handleCancel={handleInviteCancel}
-        handleSubmit={handleInvitationSubmit}
-        invitationSent={invitationSent}
-        isModal={true}
-        tokenActions={tokenActions}
-      />
-    </ModalSidebar>
+    <InviteCollaboratorsSidebar
+      invitationValues={invitationValues}
+      handleCancel={handleInviteCancel}
+      handleSubmit={handleInvitationSubmit}
+      invitationSent={invitationSent}
+      isModal={true}
+      tokenActions={tokenActions}
+    />
     <StyledModalMain>
       <InviteCollaboratorsModal />
     </StyledModalMain>
