@@ -24,7 +24,7 @@ class AcceptEmailInvitationPageContainer extends React.Component<
   public componentDidMount() {
     const { token } = parse(window.location.hash.substr(1))
     invitationTokenHandler.set(token)
-    this.props.history.push('/signup')
+    this.props.history.push('/login')
   }
 
   public render() {
