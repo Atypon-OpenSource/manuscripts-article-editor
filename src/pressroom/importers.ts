@@ -22,6 +22,7 @@ import {
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
 import { cleanItem } from './clean-item'
+import { removeUnsupportedData } from './exporter'
 import { convert } from './pressroom'
 
 export interface JsonModel extends Model, ModelAttachment {
@@ -215,5 +216,14 @@ export const openFilePicker = (
   })
 
 export const importFile = async (file: File) => {
+  const { name, lastModified } = file
+
+  if (name.endsWith('.manuproj')) {
+    const zip = await new JSZip().loadAsync(file)
+    await removeUnsupportedData(zip)
+    const blob = await zip.generateAsync({ type: 'blob' })
+    file = new File([blob], name, { lastModified })
+  }
+
   return importConvertedFile(file)
 }
