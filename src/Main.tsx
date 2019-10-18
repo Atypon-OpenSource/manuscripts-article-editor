@@ -13,7 +13,6 @@
 import React from 'react'
 import { DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import DatabaseProvider from './components/DatabaseProvider'
 import IntlProvider from './components/IntlProvider'
@@ -32,11 +31,9 @@ const Main = () => (
           <GlobalStyle />
           <NotificationProvider>
             <ServiceWorker />
-            <BrowserRouter>
-              <ModalProvider>
-                <App />
-              </ModalProvider>
-            </BrowserRouter>
+            <ModalProvider>
+              <App />
+            </ModalProvider>
           </NotificationProvider>
         </DatabaseProvider>
       </ThemeProvider>

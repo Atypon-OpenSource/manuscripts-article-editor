@@ -12,7 +12,7 @@
 
 import { LocationDescriptor } from 'history'
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { NotificationComponent } from '../components/NotificationProvider'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import CollectionManager from './CollectionManager'
 import syncErrors, {
@@ -28,11 +28,7 @@ interface LocationState {
   from: LocationDescriptor
 }
 
-interface Props {
-  removeNotification: () => void
-}
-
-const SyncNotificationManager: React.FC<RouteComponentProps & Props> = ({
+const SyncNotificationManager: NotificationComponent = ({
   history,
   location,
 }) => {
@@ -172,4 +168,4 @@ const SyncNotificationManager: React.FC<RouteComponentProps & Props> = ({
   return null
 }
 
-export default withRouter(SyncNotificationManager)
+export default SyncNotificationManager

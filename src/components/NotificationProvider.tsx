@@ -12,12 +12,12 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import SyncNotificationManager from '../sync/SyncNotificationManager'
 import { Notifications } from './Notifications'
 
 export type NotificationComponent<P = {}> = React.ComponentType<
-  NotificationProps & P
+  NotificationProps & RouteComponentProps & P
 >
 
 export type ShowNotification = (
@@ -107,12 +107,10 @@ export class NotificationProvider extends React.Component<{}, State> {
     if (!notifications.length) return null
 
     return ReactDOM.createPortal(
-      <BrowserRouter>
-        <Notifications
-          items={notifications}
-          removeNotification={this.removeNotification}
-        />
-      </BrowserRouter>,
+      <Notifications
+        items={notifications}
+        removeNotification={this.removeNotification}
+      />,
       document.getElementById('notifications')!
     )
   }
