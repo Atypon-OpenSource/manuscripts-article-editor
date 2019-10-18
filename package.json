@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/frontend",
-  "version": "0.0.1",
+  "version": "1.1.0",
   "private": "true",
   "repository": "gitlab:mpapp-private/manuscripts-frontend",
   "license": "CPAL-1.0",
@@ -24,7 +24,9 @@
     "analyze": "webpack-bundle-analyzer stats.json dist --port 9000",
     "storybook": "start-storybook --config-dir stories/config --port 6006",
     "build-storybook": "NODE_OPTIONS=--max_old_space_size=4096 build-storybook --config-dir stories/config",
-    "build-modernizr": "modernizr --config modernizr.config.json --dest public/modernizr.js"
+    "build-modernizr": "modernizr --config modernizr.config.json --dest public/modernizr.js",
+    "preversion": "npm-run-all --parallel typecheck lint test",
+    "version": "ALLOW_MISSING_VARIABLES=1 yarn build"
   },
   "dependencies": {
     "@absinthe/socket": "^0.2.1",
