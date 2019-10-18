@@ -28,7 +28,7 @@ import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { AddButton } from '../AddButton'
 import PageSidebar from '../PageSidebar'
-import { SidebarPersonContainer } from '../Sidebar'
+import { SidebarHeader, SidebarPersonContainer } from '../Sidebar'
 import CollaboratorSettingsButton from './CollaboratorSettingsButton'
 import InvitedCollaboratorSettingsButton from './InvitedCollaboratorSettingsButton'
 
@@ -145,7 +145,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
         minSize={260}
         name={'collaborators-sidebar'}
         side={'end'}
-        sidebarTitle={'Collaborators'}
+        sidebarTitle={<SidebarHeader title={'Collaborators'} />}
       >
         {isOwner(project, user.userID) && (
           <Action>

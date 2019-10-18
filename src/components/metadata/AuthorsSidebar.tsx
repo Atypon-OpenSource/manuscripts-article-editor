@@ -20,13 +20,12 @@ import {
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { AddButton } from '../AddButton'
-import { ModalSidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
+import { ModalSidebar, SidebarContent, SidebarHeader } from '../Sidebar'
 
 const SidebarAction = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit * 4}px;
+  margin-bottom: ${props => props.theme.grid.unit * 4}px;
 `
 
 const AlertMessageContainer = styled.div`
@@ -56,36 +55,40 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
   handleDismiss,
 }) => (
   <ModalSidebar data-cy={'authors-sidebar'}>
-    <SidebarHeader>
-      <SidebarTitle>Authors</SidebarTitle>
-    </SidebarHeader>
+    <SidebarHeader title={'Authors'} />
 
-    <SidebarAction>
-      <AddButton action={openAddAuthors} size={'medium'} title={'New Author'} />
-    </SidebarAction>
-    {invitationSent && (
-      <AlertMessageContainer>
-        <AlertMessage
-          type={AlertMessageType.success}
-          hideCloseButton={true}
-          dismissButton={{
-            text: 'OK',
-            action: () => {
-              handleDismiss()
-            },
-          }}
-        >
-          Invitation was sent.
-        </AlertMessage>
-      </AlertMessageContainer>
-    )}
-    <AuthorsDND
-      authors={authors}
-      selectAuthor={selectAuthor}
-      selectedAuthor={selectedAuthor}
-      handleDrop={handleDrop}
-      getSidebarItemDecorator={getSidebarItemDecorator}
-    />
+    <SidebarContent>
+      <SidebarAction>
+        <AddButton
+          action={openAddAuthors}
+          size={'medium'}
+          title={'New Author'}
+        />
+      </SidebarAction>
+      {invitationSent && (
+        <AlertMessageContainer>
+          <AlertMessage
+            type={AlertMessageType.success}
+            hideCloseButton={true}
+            dismissButton={{
+              text: 'OK',
+              action: () => {
+                handleDismiss()
+              },
+            }}
+          >
+            Invitation was sent.
+          </AlertMessage>
+        </AlertMessageContainer>
+      )}
+      <AuthorsDND
+        authors={authors}
+        selectAuthor={selectAuthor}
+        selectedAuthor={selectedAuthor}
+        handleDrop={handleDrop}
+        getSidebarItemDecorator={getSidebarItemDecorator}
+      />
+    </SidebarContent>
   </ModalSidebar>
 )
 

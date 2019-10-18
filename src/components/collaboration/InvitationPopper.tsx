@@ -20,6 +20,7 @@ import { PopperBody } from '../Popper'
 import { InvitationForm, InvitationValues } from './InvitationForm'
 
 export const ShareProjectHeader = styled.div`
+  align-items: center;
   display: flex;
   padding-bottom: ${props => props.theme.grid.unit * 7}px;
   justify-content: space-between;

@@ -1750,10 +1750,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.11.6":
-  version "0.11.6"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.11.6.tgz#53512e20e4177c4fceff4834667e2b30d5d9a576"
-  integrity sha512-JOCYErKAXOFFl4OL3KsvCCG5ioH70OYzKjlQ8Tf54AHLb7lda3W1luy2Y1lHj7HtM54UXXXeLflr2r51bw5ilA==
+"@manuscripts/style-guide@^0.11.7":
+  version "0.11.7"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.11.7.tgz#94b879adcdf24f3a2179fdec66702dd2cff1b456"
+  integrity sha512-2FK9QElgb3E1d60NCb3rXfdyYRlEXSBEhasI/4mO+iKEpEjcYFpjvl+wWFyLFPWsptDw7lXdD+JVWaxLpx+qUQ==
   dependencies:
     "@manuscripts/assets" "^0.5.3"
     lodash-es "^4.17.11"

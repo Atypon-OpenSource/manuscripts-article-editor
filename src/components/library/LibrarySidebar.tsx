@@ -23,6 +23,7 @@ import { sources } from '../../lib/sources'
 import { styled } from '../../theme/styled-components'
 import { AddButton } from '../AddButton'
 import PageSidebar from '../PageSidebar'
+import { SidebarHeader } from '../Sidebar'
 import { BibliographyImportButton } from './BibliographyImportButton'
 import {
   DEFAULT_LIBRARY_COLLECTION_CATEGORY,
@@ -124,7 +125,7 @@ export const LibrarySidebar: React.FC<
       minSize={260}
       name={'librarySidebar'}
       side={'end'}
-      sidebarTitle={'Library'}
+      sidebarTitle={<SidebarHeader title={'Library'} />}
       sidebarFooter={
         <BibliographyImportButton
           importItems={importItems}

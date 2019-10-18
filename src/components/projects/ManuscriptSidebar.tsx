@@ -30,6 +30,7 @@ import { Permissions } from '../../types/permissions'
 import { AddButton } from '../AddButton'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import PageSidebar from '../PageSidebar'
+import { SidebarHeader } from '../Sidebar'
 
 const CustomizedSidebarHeader = styled.div`
   align-items: flex-start;
@@ -130,22 +131,26 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
       name={'sidebar'}
       side={'end'}
       sidebarTitle={
-        <CustomizedSidebarHeader>
-          <ProjectTitle>
-            <TitleField
-              id={'project-title-field'}
-              tabIndex={1}
-              editable={permissions.write}
-              value={project.title || ''}
-              handleChange={handleTitleChange}
-            />
-          </ProjectTitle>
-          <ShareProjectButton
-            project={project}
-            user={user}
-            tokenActions={tokenActions}
-          />
-        </CustomizedSidebarHeader>
+        <SidebarHeader
+          title={
+            <CustomizedSidebarHeader>
+              <ProjectTitle>
+                <TitleField
+                  id={'project-title-field'}
+                  tabIndex={1}
+                  editable={permissions.write}
+                  value={project.title || ''}
+                  handleChange={handleTitleChange}
+                />
+              </ProjectTitle>
+              <ShareProjectButton
+                project={project}
+                user={user}
+                tokenActions={tokenActions}
+              />
+            </CustomizedSidebarHeader>
+          }
+        />
       }
       sidebarFooter={
         permissions.write ? (

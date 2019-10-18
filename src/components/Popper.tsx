@@ -69,6 +69,7 @@ export const SeparatorLine = styled.div`
 `
 
 export const PopperBody = styled.div<{ size?: number }>`
+  box-sizing: border-box;
   flex: 2;
   padding: ${props => props.theme.grid.unit * 5}px;
   max-width: ${props => props.size || 300}px;

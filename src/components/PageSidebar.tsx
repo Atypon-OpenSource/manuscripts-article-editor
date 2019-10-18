@@ -13,13 +13,7 @@
 import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
 import Panel from './Panel'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarTitle,
-} from './Sidebar'
+import { Sidebar, SidebarContent, SidebarFooter } from './Sidebar'
 
 interface Props {
   direction: 'column' | 'row'
@@ -49,9 +43,7 @@ const PageSidebar: React.FunctionComponent<Props> = ({
     minSize={minSize || 300}
   >
     <Sidebar data-cy={'sidebar'}>
-      <SidebarHeader>
-        <SidebarTitle>{sidebarTitle}</SidebarTitle>
-      </SidebarHeader>
+      {sidebarTitle}
       <SidebarContent>{children}</SidebarContent>
       {sidebarFooter && <SidebarFooter>{sidebarFooter}</SidebarFooter>}
     </Sidebar>

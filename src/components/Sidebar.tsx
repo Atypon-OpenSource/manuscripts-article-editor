@@ -10,7 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ModalMain, TextField } from '@manuscripts/style-guide'
+import {
+  ModalMain,
+  PrimaryButton,
+  TertiaryButton,
+  TextField,
+} from '@manuscripts/style-guide'
+import React from 'react'
 import { css, styled } from '../theme/styled-components'
 
 const SidebarCommonStyles = css`
@@ -59,10 +65,14 @@ const commonStyles = css`
   padding: 0 ${props => props.theme.grid.unit * 3}px;
 `
 
-export const SidebarHeader = styled.div`
+const StyledSidebarHeader = styled.div`
   ${commonStyles}
   margin-bottom: ${props => props.theme.grid.unit * 7}px
   min-height: ${props => props.theme.grid.unit * 10}px;
+`
+
+const StyledSidebarActionContainer = styled.div`
+  margin-right: -16px;
 `
 
 export const SidebarFooter = styled.div`
@@ -79,6 +89,39 @@ export const SidebarTitle = styled.div`
   width: 100%;
 `
 
+interface SidebarHeaderInterface {
+  action?: () => void
+  cancelText?: string
+  confirmText?: string
+  isCancel?: boolean
+  title: string | JSX.Element
+}
+
+export const SidebarHeader: React.FunctionComponent<SidebarHeaderInterface> = ({
+  action,
+  isCancel,
+  cancelText,
+  confirmText,
+  title,
+}) => (
+  <StyledSidebarHeader>
+    <SidebarTitle>{title}</SidebarTitle>
+    {action && (
+      <StyledSidebarActionContainer>
+        {isCancel ? (
+          <TertiaryButton mini={true} onClick={action}>
+            {cancelText || 'Cancel'}
+          </TertiaryButton>
+        ) : (
+          <PrimaryButton mini={true} onClick={action}>
+            {confirmText || 'Done'}
+          </PrimaryButton>
+        )}
+      </StyledSidebarActionContainer>
+    )}
+  </StyledSidebarHeader>
+)
+
 export const SidebarContent = styled.div`
   flex: 1;
   padding: 0 ${props => props.theme.grid.unit * 3}px;
@@ -86,32 +129,34 @@ export const SidebarContent = styled.div`
   flex-shrink: 0;
 `
 
+export const SidebarSearchField = styled(SidebarContent)`
+  align-items: center;
+  display: flex;
+  flex: 0;
+`
+
 interface SidebarPersonContainerProps {
   selected?: boolean
 }
 
 export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
+  align-items: center;
+  background-color: ${props =>
+    props.selected ? props.theme.colors.brand.xlight : 'unset'};
   border: 1px solid transparent;
   border-left: 0;
   border-right: 0;
-  display: flex;
-  padding: ${props => props.theme.grid.unit * 2}px 0;
   cursor: pointer;
-  align-items: center;
+  display: flex;
   justify-content: space-between;
-  background-color: ${props =>
-    props.selected ? props.theme.colors.brand.xlight : 'unset'};
+  margin: 0 -${props => props.theme.grid.unit * 5}px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 5}px;
 
   &:hover {
     border-color: ${props => props.theme.colors.border.primary};
     background-color: ${props => props.theme.colors.background.fifth};
   }
-`
-
-export const SidebarSearchField = styled.div`
-  display: flex;
-  margin: 0 ${props => props.theme.grid.unit * 3}px;
-  align-items: center;
 `
 
 export const SidebarSearchText = styled(TextField)`

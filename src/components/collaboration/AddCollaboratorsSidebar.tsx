@@ -16,12 +16,7 @@ import {
   ContainerInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import {
-  Avatar,
-  PrimaryButton,
-  SearchIcon,
-  TertiaryButton,
-} from '@manuscripts/style-guide'
+import { Avatar, SearchIcon } from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
@@ -34,7 +29,6 @@ import {
   SidebarSearchField,
   SidebarSearchIconContainer,
   SidebarSearchText,
-  SidebarTitle,
 } from '../Sidebar'
 import AddCollaboratorButton from './AddCollaboratorButton'
 import SearchCollaboratorsSidebar from './SearchCollaboratorsSidebar'
@@ -126,15 +120,11 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
 
     return (
       <Sidebar data-cy={'sidebar'}>
-        <SidebarHeader>
-          <SidebarTitle>Add Collaborators</SidebarTitle>
-
-          {!numberOfAddedCollaborators ? (
-            <TertiaryButton onClick={handleDoneCancel}>Cancel</TertiaryButton>
-          ) : (
-            <PrimaryButton onClick={handleDoneCancel}>Done</PrimaryButton>
-          )}
-        </SidebarHeader>
+        <SidebarHeader
+          action={handleDoneCancel}
+          isCancel={!numberOfAddedCollaborators}
+          title={'Add Collaborators'}
+        />
 
         <SidebarSearchField
           onFocus={this.handleSearchFocus}

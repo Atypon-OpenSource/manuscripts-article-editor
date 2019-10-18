@@ -19,7 +19,7 @@ import {
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import { styled } from '../../theme/styled-components'
-import { SidebarContent } from '../Sidebar'
+import { ModalSidebar } from '../Sidebar'
 import ImportAvatarContainer from './ImportAvatarContainer'
 import { AvatarProps } from './ProfilePageSidebar'
 
@@ -137,7 +137,7 @@ export const AvatarFileUpload: React.FunctionComponent<
   handleDeleteAvatar,
   handleAvatarZoom,
 }) => (
-  <SidebarContent>
+  <ModalSidebar>
     {!newAvatar ? (
       <ImportAvatarContainer
         importAvatar={importAvatar}
@@ -197,5 +197,5 @@ export const AvatarFileUpload: React.FunctionComponent<
       )}
       <CancelButton onClick={handleCancel}>Cancel</CancelButton>
     </ButtonsContainer>
-  </SidebarContent>
+  </ModalSidebar>
 )

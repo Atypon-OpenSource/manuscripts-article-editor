@@ -12,12 +12,7 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import {
-  Avatar,
-  PrimaryButton,
-  SearchIcon,
-  TertiaryButton,
-} from '@manuscripts/style-guide'
+import { Avatar, SearchIcon } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
@@ -29,7 +24,6 @@ import {
   SidebarSearchField,
   SidebarSearchIconContainer,
   SidebarSearchText,
-  SidebarTitle,
 } from '../Sidebar'
 import AddAuthorButton from './AddAuthorButton'
 import CreateAuthorPageContainer from './CreateAuthorPageContainer'
@@ -53,10 +47,6 @@ const PersonData = styled.div`
 const UserDataContainer = styled.div`
   display: flex;
   align-items: center;
-`
-
-const Container = styled.div`
-  padding-top: ${props => props.theme.grid.unit}px;
 `
 
 interface Props {
@@ -101,17 +91,11 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <ModalSidebar data-cy={'add-author-sidebar'}>
-      <SidebarHeader>
-        <SidebarTitle>Add Author</SidebarTitle>
-
-        {!numberOfAddedAuthors ? (
-          <Container>
-            <TertiaryButton onClick={handleDoneCancel}>Cancel</TertiaryButton>
-          </Container>
-        ) : (
-          <PrimaryButton onClick={handleDoneCancel}>Done</PrimaryButton>
-        )}
-      </SidebarHeader>
+      <SidebarHeader
+        action={handleDoneCancel}
+        isCancel={!numberOfAddedAuthors}
+        title={'Add Author'}
+      />
 
       <SidebarSearchField
         onFocus={handleSearchFocus}

@@ -28,7 +28,7 @@ import { AddButton } from '../AddButton'
 import ImportContainer, { ImportProps } from '../ImportContainer'
 import { ModalProps, withModal } from '../ModalProvider'
 import ProjectsButton from '../nav/ProjectsButton'
-import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
+import { Sidebar, SidebarHeader } from '../Sidebar'
 import TemplateSelector from '../templates/TemplateSelector'
 import { ProjectsListPlaceholder } from './ProjectsListPlaceholder'
 
@@ -107,11 +107,11 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
                   return projects.length || invitationReceived.length ? (
                     <Container id={'projects-sidebar'}>
                       <ProjectsContainer>
-                        <Header>
-                          <SidebarTitle className={'sidebar-title'}>
-                            Projects
-                          </SidebarTitle>
-                        </Header>
+                        <Header
+                          title={
+                            <span className={'sidebar-title'}>Projects</span>
+                          }
+                        />
                         <SidebarAction>
                           <AddButton
                             action={openTemplateSelector(props, user)}

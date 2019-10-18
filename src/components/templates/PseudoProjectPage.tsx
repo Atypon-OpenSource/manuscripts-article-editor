@@ -46,22 +46,23 @@ const pseudoProject: Project = {
 }
 
 const ProjectTitle = styled(SidebarTitle)`
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.medium};
   border: 1px solid transparent;
-  padding: 4px;
-  margin: -4px 0 -4px;
-  overflow: hidden;
+  color: ${props => props.theme.colors.text.primary};
   flex: 1;
+  font-weight: ${props => props.theme.font.weight.medium};
+  margin: -${props => props.theme.grid.unit}px 0 -${props =>
+      props.theme.grid.unit}px;
+  overflow: hidden;
+  padding: ${props => props.theme.grid.unit}px;
 
   .ProseMirror.empty-node::before {
-    position: absolute;
     color: ${props => props.theme.colors.text.muted};
     cursor: text;
     content: 'Untitled Project';
-    pointer-events: none;
     max-width: 100%;
     overflow: hidden;
+    pointer-events: none;
+    position: absolute;
     text-overflow: ellipsis;
   }
 `
@@ -70,16 +71,18 @@ export const PseudoProjectPage: React.FC = () => (
   <>
     <Container>
       <Page project={pseudoProject}>
-        <Sidebar>
-          <SidebarHeader>
-            <ProjectTitle>
-              <TitleField
-                editable={false}
-                value={''}
-                handleChange={() => null}
-              />
-            </ProjectTitle>
-          </SidebarHeader>
+        <Sidebar data-cy={'pseudo-project'}>
+          <SidebarHeader
+            title={
+              <ProjectTitle>
+                <TitleField
+                  editable={false}
+                  value={''}
+                  handleChange={() => null}
+                />
+              </ProjectTitle>
+            }
+          />
         </Sidebar>
         <Main />
       </Page>
