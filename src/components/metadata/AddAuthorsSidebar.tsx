@@ -35,18 +35,27 @@ const PersonInitial = styled.span`
 `
 
 const PersonName = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
+  box-sizing: border-box;
   color: ${props => props.theme.colors.text.primary};
+  font-size: ${props => props.theme.font.size.xlarge};
   font-weight: ${props => props.theme.font.weight.medium};
+  max-width: 138px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 `
 
 const PersonData = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const UserDataContainer = styled.div`
-  display: flex;
   align-items: center;
+  display: flex;
+  flex: 1;
+  margin-right: 16px;
+  overflow: hidden;
 `
 
 interface Props {

@@ -18,15 +18,9 @@ import { buildAuthorPriority } from '../../lib/authors'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 
-const AddIconButton = styled(IconButton)`
-  display: flex;
+const AddIconButton = styled(IconButton).attrs({ defaultColor: true })`
   width: unset;
   height: unset;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
 `
 
 interface State {
