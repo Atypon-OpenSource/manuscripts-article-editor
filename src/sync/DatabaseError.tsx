@@ -24,9 +24,15 @@ export const DatabaseError: React.FC = () => {
       header={'Database error'}
       message={
         <div>
-          <div>
-            There was an unrecoverable error opening the local database.
-          </div>
+          <p>
+            Manuscripts is failing to open a local database in your browser to
+            store your project data.
+          </p>
+
+          <p>
+            Some browsers do not allow access to this local database in private
+            browsing mode. Are you in private browsing mode?
+          </p>
 
           <Diagnostics open={true}>
             <summary>Diagnostics</summary>
