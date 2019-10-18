@@ -78,7 +78,7 @@ interface Source {
 }
 
 export const CitationSearch: React.FC<{
-  filterLibraryItems: (query: string | null) => BibliographyItem[]
+  filterLibraryItems: (query: string | null) => Promise<BibliographyItem[]>
   handleCite: (
     items: Array<BibliographyItem | Build<BibliographyItem>>,
     query?: string
@@ -107,12 +107,10 @@ export const CitationSearch: React.FC<{
 
   const searchLibrary: SearchInterface = useCallback(
     (query: string, params: { rows: number; sort?: string }) => {
-      const items = filterLibraryItems(query)
-
-      return Promise.resolve({
+      return filterLibraryItems(query).then(items => ({
         items: items.slice(0, params.rows),
         total: items.length,
-      })
+      }))
     },
     [filterLibraryItems]
   )

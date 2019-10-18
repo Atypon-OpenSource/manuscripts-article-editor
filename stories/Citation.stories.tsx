@@ -40,7 +40,7 @@ const items = [...bibliographyItems.values()]
 storiesOf('Citation', module)
   .add('Citation Editor', () => (
     <CitationEditor
-      filterLibraryItems={() => []}
+      filterLibraryItems={async () => []}
       handleCancel={action('handle cancel')}
       handleCite={action('handle cite')}
       handleRemove={action('handle remove')}

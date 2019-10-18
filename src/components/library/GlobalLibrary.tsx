@@ -67,16 +67,20 @@ export const GlobalLibrary: React.FC<
     const { projectID, filterID, sourceID } = match.params
 
     useEffect(() => {
-      const items = filterLibrary(
+      filterLibrary(
         globalLibraryItems,
         debouncedQuery,
         new Set([filterID || sourceID])
       )
-
-      setResults({
-        items,
-        total: items.length,
-      })
+        .then(items => {
+          setResults({
+            items,
+            total: items.length, // TODO: may be truncated
+          })
+        })
+        .catch(error => {
+          console.error(error) // tslint:disable-line:no-console
+        })
     }, [filterID, globalLibraryItems, debouncedQuery])
 
     const handleAdd = useCallback(

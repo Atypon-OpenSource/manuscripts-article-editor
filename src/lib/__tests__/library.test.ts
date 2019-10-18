@@ -21,7 +21,7 @@ import {
 } from '../library'
 
 describe('library filtering', () => {
-  it('filterLibrary', () => {
+  it('filterLibrary', async () => {
     const map = new Map<string, BibliographyItem>()
     const x: BibliographyItem = {
       _id: 'MPBibliographyItem:x',
@@ -47,10 +47,12 @@ describe('library filtering', () => {
     const keywords: Set<string> = new Set<string>()
     keywords.add('MPKeyword:derp')
 
-    expect(filterLibrary(undefined, 'foo')).toMatchObject([])
-    expect(filterLibrary(map, undefined).sort()).toMatchObject([x, y].sort())
-    expect(filterLibrary(map, undefined, keywords)).toMatchObject([x])
-    expect(filterLibrary(map, 'yuv')).toMatchObject([y])
+    expect(await filterLibrary(undefined, 'foo')).toMatchObject([])
+    expect((await filterLibrary(map, undefined)).sort()).toMatchObject(
+      [x, y].sort()
+    )
+    expect(await filterLibrary(map, undefined, keywords)).toMatchObject([x])
+    expect(await filterLibrary(map, 'yuv')).toMatchObject([y])
   })
 })
 

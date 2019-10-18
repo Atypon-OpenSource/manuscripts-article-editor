@@ -64,7 +64,7 @@ const CitedItems = styled.div`
   overflow-y: auto;
 `
 
-const ActionButton = styled(IconButton).attrs(props => ({
+const ActionButton = styled(IconButton).attrs(() => ({
   size: 24,
 }))``
 
@@ -73,7 +73,7 @@ const Actions = styled(ButtonGroup)`
 `
 
 interface Props {
-  filterLibraryItems: (query: string) => BibliographyItem[]
+  filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
   importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
   handleCancel: () => void
   handleCite: (items: BibliographyItem[], query?: string) => Promise<void>

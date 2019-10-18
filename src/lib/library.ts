@@ -11,6 +11,7 @@
  */
 
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import fuzzysort from 'fuzzysort'
 
 const hasFilter = (filters: Set<string>, keywordIDs?: string[]) => {
   if (!keywordIDs) {
@@ -24,25 +25,6 @@ const hasFilter = (filters: Set<string>, keywordIDs?: string[]) => {
   }
 
   return false
-}
-
-const titleMatches = (match: string, title?: string) =>
-  title && title.toLowerCase().indexOf(match) !== -1
-
-const itemMatches = (
-  item: BibliographyItem,
-  match?: string,
-  filters?: Set<string>
-) => {
-  if (filters && !hasFilter(filters, item.keywordIDs)) {
-    return false
-  }
-
-  if (!match) {
-    return true
-  }
-
-  return titleMatches(match, item.title)
 }
 
 const newestFirst = (a: BibliographyItem, b: BibliographyItem) => {
@@ -61,11 +43,30 @@ const newestFirst = (a: BibliographyItem, b: BibliographyItem) => {
   return b.createdAt - a.createdAt
 }
 
-export const filterLibrary = (
+const prepareBibliographyItem = (
+  item: BibliographyItem
+): SearchableBibliographyItem => {
+  const output: SearchableBibliographyItem = { ...item }
+
+  // add "authors" string containing all author names
+  if (output.author) {
+    output.authors = output.author
+      .map(author => [author.given, author.family].join(' '))
+      .join(', ')
+  }
+
+  return output
+}
+
+interface SearchableBibliographyItem extends BibliographyItem {
+  authors?: string
+}
+
+export const filterLibrary = async (
   library?: Map<string, BibliographyItem>,
   query?: string,
   filters?: Set<string>
-): BibliographyItem[] => {
+): Promise<BibliographyItem[]> => {
   if (!library) {
     return []
   }
@@ -76,15 +77,32 @@ export const filterLibrary = (
     return items
   }
 
-  const match = query ? query.toLowerCase() : undefined
-
-  const output: BibliographyItem[] = []
+  const filteredItems: BibliographyItem[] = []
 
   for (const item of library.values()) {
-    if (itemMatches(item, match, filters)) {
-      output.push(item)
+    if (!filters || hasFilter(filters, item.keywordIDs)) {
+      filteredItems.push(item)
     }
   }
+
+  if (!query) {
+    return filteredItems
+  }
+
+  const preparedItems = filteredItems.map(prepareBibliographyItem)
+
+  const results = await fuzzysort.goAsync<BibliographyItem>(
+    query,
+    preparedItems,
+    {
+      keys: ['title', 'authors'],
+      limit: 100,
+      allowTypo: false,
+      threshold: -1000,
+    }
+  )
+
+  const output = results.map(result => result.obj)
 
   output.sort(newestFirst)
 

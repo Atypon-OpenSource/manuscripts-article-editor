@@ -62,15 +62,21 @@ export const ProjectLibrary: React.FC<
     const [filteredItems, setFilteredItems] = useState<BibliographyItem[]>([])
 
     useEffect(() => {
-      const filteredItems = filterLibrary(
+      filterLibrary(
         projectLibrary,
         query,
         filterID ? new Set([filterID]) : undefined
       )
+        .then(filteredItems => {
+          filteredItems.sort(
+            (a, b) => Number(b.updatedAt) - Number(a.updatedAt)
+          )
 
-      filteredItems.sort((a, b) => Number(b.updatedAt) - Number(a.updatedAt))
-
-      setFilteredItems(filteredItems)
+          setFilteredItems(filteredItems)
+        })
+        .catch(error => {
+          console.error(error) // tslint:disable-line:no-console
+        })
     }, [filterID, projectLibrary, query])
 
     const handleSave = useCallback(
