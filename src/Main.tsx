@@ -17,7 +17,7 @@ import App from './App'
 import DatabaseProvider from './components/DatabaseProvider'
 import IntlProvider from './components/IntlProvider'
 import { ModalProvider } from './components/ModalProvider'
-import { NotificationProvider } from './components/NotificationProvider'
+import { NotificationProviderWithRouter } from './components/NotificationProvider'
 import { ServiceWorker } from './components/ServiceWorker'
 import { databaseCreator } from './lib/db'
 import { GlobalStyle } from './theme/theme'
@@ -29,12 +29,12 @@ const Main = () => (
       <ThemeProvider>
         <DatabaseProvider databaseCreator={databaseCreator}>
           <GlobalStyle />
-          <NotificationProvider>
+          <NotificationProviderWithRouter>
             <ServiceWorker />
             <ModalProvider>
               <App />
             </ModalProvider>
-          </NotificationProvider>
+          </NotificationProviderWithRouter>
         </DatabaseProvider>
       </ThemeProvider>
     </DragDropContextProvider>

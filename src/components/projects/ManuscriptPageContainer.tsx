@@ -1677,10 +1677,18 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     child: React.ReactChild,
     container: HTMLElement
   ) => {
+    const { history, location, match } = this.props
+
     ReactDOM.render(
       <IntlProvider>
         <ThemeProvider>
-          <NotificationProvider>{child}</NotificationProvider>
+          <NotificationProvider
+            history={history}
+            location={location}
+            match={match}
+          >
+            {child}
+          </NotificationProvider>
         </ThemeProvider>
       </IntlProvider>,
       container

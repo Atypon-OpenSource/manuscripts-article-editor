@@ -13,7 +13,7 @@
 import AttentionBlue from '@manuscripts/assets/react/AttentionBlue'
 import { ButtonGroup } from '@manuscripts/style-guide'
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { Transition } from 'react-spring/renderprops.cjs'
 import { styled } from '../theme/styled-components'
 import { NotificationComponent, NotificationItem } from './NotificationProvider'
@@ -23,7 +23,7 @@ interface Props {
   removeNotification: (id: string) => void
 }
 
-const NotificationsContainer: React.FC<Props & RouteComponentProps> = ({
+export const Notifications: React.FC<Props & RouteComponentProps> = ({
   items,
   removeNotification,
   ...rest
@@ -68,8 +68,6 @@ const NotificationsContainer: React.FC<Props & RouteComponentProps> = ({
     </Transition>
   </Container>
 )
-
-export const Notifications = withRouter(NotificationsContainer)
 
 const Container = styled.div`
   position: fixed;

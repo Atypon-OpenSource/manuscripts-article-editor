@@ -12,9 +12,27 @@
 
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
+import { createBrowserHistory } from 'history'
 import React from 'react'
+import { RouteComponentProps } from 'react-router'
 import { Notifications } from '../src/components/Notifications'
 import { createUpdateReadyNotification } from '../src/components/ServiceWorker'
+
+const routeProps: RouteComponentProps = {
+  history: createBrowserHistory(),
+  match: {
+    isExact: true,
+    params: {},
+    path: '',
+    url: '',
+  },
+  location: {
+    hash: '',
+    pathname: '/projects',
+    search: '',
+    state: {},
+  },
+}
 
 storiesOf('Notification', module).add('ServiceWorker', () => (
   <Notifications
@@ -42,5 +60,6 @@ storiesOf('Notification', module).add('ServiceWorker', () => (
       },
     ]}
     removeNotification={action('dismiss')}
+    {...routeProps}
   />
 ))

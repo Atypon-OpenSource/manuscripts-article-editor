@@ -12,7 +12,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import SyncNotificationManager from '../sync/SyncNotificationManager'
 import { Notifications } from './Notifications'
 
@@ -50,10 +50,13 @@ interface State {
   notifications: NotificationItem[]
 }
 
-export class NotificationProvider extends React.Component<{}, State> {
+export class NotificationProvider extends React.Component<
+  RouteComponentProps,
+  State
+> {
   private value: NotificationValue
 
-  public constructor(props: {}) {
+  public constructor(props: RouteComponentProps) {
     super(props)
 
     this.value = {
@@ -106,12 +109,19 @@ export class NotificationProvider extends React.Component<{}, State> {
 
     if (!notifications.length) return null
 
+    const { history, location, match } = this.props
+
     return ReactDOM.createPortal(
       <Notifications
         items={notifications}
         removeNotification={this.removeNotification}
+        history={history}
+        location={location}
+        match={match}
       />,
       document.getElementById('notifications')!
     )
   }
 }
+
+export const NotificationProviderWithRouter = withRouter(NotificationProvider)
