@@ -27,7 +27,7 @@ const chooseParser = (extension: string) => {
   }
 }
 
-const validRISLine = /^\w{2}\s{2}-/
+const validRISLine = /^(\w{2}\s{2}-\s.+|ER\s{2}-)$/
 
 export const transformBibliography = async (
   data: string,

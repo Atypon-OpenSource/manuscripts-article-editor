@@ -53,4 +53,31 @@ describe('importer', () => {
       }
     })
   })
+
+  test('imports a RIS file with empty fields', async () => {
+    const data = `TY  - JOUR
+AU  - Stephenson, N. L.
+AU  - Das, A. J.
+TI  - Rate of tree carbon accumulation increases continuously with tree size
+JO  - Nature
+PY  - 2014/01/15/online
+VL  - 507
+SP  - 90
+EP  -
+PB  - Nature Publishing Group, a division of Macmillan Publishers Limited. All Rights Reserved.
+SN  -
+UR  - https://doi.org/10.1038/nature12914
+L3  - 10.1038/nature12914
+M3  - 
+L3  - https://www.nature.com/articles/nature12914#supplementary-information
+ER  -
+`
+
+    const response = await transformBibliography(data, '.ris')
+
+    expect(response).toHaveLength(1)
+
+    const [item] = response
+    expect(Object.keys(item)).toHaveLength(10)
+  })
 })
