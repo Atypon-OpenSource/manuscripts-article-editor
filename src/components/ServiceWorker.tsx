@@ -96,7 +96,7 @@ export const createUpdateReadyNotification = ({
         <NotificationTitle>
           A new version of the app is available on refreshing.
         </NotificationTitle>
-        <NotificationLink href={config.discourse.host}>
+        <NotificationLink href={`${config.discourse.host}/c/updates`}>
           What's new?
         </NotificationLink>
       </NotificationMessage>
