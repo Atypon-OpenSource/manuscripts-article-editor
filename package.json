@@ -2,7 +2,7 @@
   "name": "@manuscripts/frontend",
   "version": "1.0.1",
   "private": "true",
-  "repository": "gitlab:mpapp-private/manuscripts-frontend",
+  "repository": "gitlab:mpapp-public/manuscripts-frontend",
   "license": "CPAL-1.0",
   "main": "dist",
   "files": [

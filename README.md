@@ -2,7 +2,7 @@
 
 This repository contains the browser client for the Manuscripts collaborative authoring environment, in a single-page React app ([desktop and mobile app embeddable](https://gitlab.com/mpapp-public/manuscripts-cocoa-app)).
 
-[![pipeline status](https://gitlab.com/mpapp-private/manuscripts-frontend/badges/master/pipeline.svg)](https://gitlab.com/mpapp-private/manuscripts-frontend/commits/master)
+[![pipeline status](https://gitlab.com/mpapp-public/manuscripts-frontend/badges/master/pipeline.svg)](https://gitlab.com/mpapp-public/manuscripts-frontend/commits/master)
 
 ## Dependencies
 
@@ -102,7 +102,7 @@ Run `yarn test` to run the unit tests in Jest.
 
 ## Development
 
-See the [`manuscripts-frontend` wiki](https://gitlab.com/mpapp-private/manuscripts-frontend/wikis/) for more information.
+See the [`manuscripts-frontend` wiki](https://gitlab.com/mpapp-public/manuscripts-frontend/wikis/) for more information.
 
 # Developing manuscripts-api
 

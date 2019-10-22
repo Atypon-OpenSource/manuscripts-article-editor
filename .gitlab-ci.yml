@@ -1,4 +1,4 @@
-#image: registry.gitlab.com/mpapp-private/manuscripts-frontend/node8-aws
+#image: registry.gitlab.com/mpapp-public/manuscripts-frontend/node8-aws
 
 # Environment variables needed:
 #
