@@ -91,7 +91,7 @@ describe('estimate ID', () => {
       JSON.stringify({
         title: 'title',
         author: null,
-        year: '(2019) ',
+        year: '2019',
       })
     )
 
@@ -101,7 +101,7 @@ describe('estimate ID', () => {
       JSON.stringify({
         title: 'title',
         author: null,
-        year: '(2019) ',
+        year: '2019',
       })
     )
 
@@ -119,9 +119,17 @@ describe('estimate ID', () => {
       JSON.stringify({
         title: 'title',
         author: 'family',
-        year: '(2019) ',
+        year: '2019',
       })
     )
+
+    expect(
+      estimateID(({
+        ...item,
+        DOI: undefined,
+        PMID: '1234567',
+      } as unknown) as BibliographyItem)
+    ).toBe('1234567')
   })
 })
 

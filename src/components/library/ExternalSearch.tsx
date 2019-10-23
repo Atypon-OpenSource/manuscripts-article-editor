@@ -113,16 +113,18 @@ export const ExternalSearch: React.FC<
 
     const handleSelect = useCallback(
       (id: string, item: Partial<BibliographyItem>) => {
-        if (!item.DOI) {
-          throw new Error('No DOI available')
-        }
-
         if (!source) {
           throw new Error('No source defined')
         }
 
         if (!selected) {
           throw new Error('Selected map not built')
+        }
+
+        const identifier = source.id === 'pubmed' ? item.PMID : item.DOI
+
+        if (!identifier) {
+          throw new Error('No identifier available')
         }
 
         const estimatedID = estimateID(item)
@@ -137,7 +139,7 @@ export const ExternalSearch: React.FC<
         })
 
         source
-          .fetch(item.DOI, config.support.email)
+          .fetch(identifier, config.support.email)
           .then(data => {
             const item = buildBibliographyItem(data)
 

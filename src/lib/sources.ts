@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { crossref, datacite } from '@manuscripts/manuscript-editor'
+import { crossref, datacite, pubmed } from '@manuscripts/manuscript-editor'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 
@@ -42,5 +42,11 @@ export const sources: LibrarySource[] = [
     name: 'DataCite',
     search: datacite.search as SearchInterface,
     fetch: datacite.fetch,
+  },
+  {
+    id: 'pubmed',
+    name: 'PubMed',
+    search: pubmed.search as SearchInterface,
+    fetch: pubmed.fetch,
   },
 ]

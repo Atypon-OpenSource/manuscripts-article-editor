@@ -140,12 +140,16 @@ const generateItemIdentifier = (item: Partial<BibliographyItem>) =>
   JSON.stringify({
     title: item.title,
     author: firstAuthorName(item),
-    year: `(${issuedYear(item)}) `,
+    year: issuedYear(item),
   })
 
 export const estimateID = (item: Partial<BibliographyItem>): string => {
   if (item.DOI) {
     return item.DOI.toUpperCase()
+  }
+
+  if (item.PMID) {
+    return item.PMID
   }
 
   return generateItemIdentifier(item)

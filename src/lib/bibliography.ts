@@ -67,6 +67,14 @@ export const matchLibraryItemByIdentifier = (
     }
   }
 
+  if (item.PMID) {
+    for (const model of library.values()) {
+      if (model.PMID && model.PMID === item.PMID) {
+        return model
+      }
+    }
+  }
+
   if (item.URL) {
     const url = item.URL.toLowerCase()
 
