@@ -10,9 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { sanitize } from 'dompurify'
+import DOMPurify, { sanitize } from 'dompurify'
 import React, { useEffect, useState } from 'react'
 import { FormattedRelative } from 'react-intl'
+import { sanitizeLink } from '../../lib/sanitize'
 import {
   Heading,
   IndividualTopic,
@@ -40,12 +41,15 @@ const ALLOWED_TAGS = [
   'ol',
   'li',
   'br',
+  'a',
 ]
 
 const sanitizedContent = (html: string, max?: number) => {
   const content = max && html.length > max ? html.substring(0, max) + '…' : html
 
+  DOMPurify.addHook('afterSanitizeAttributes', sanitizeLink)
   const output = sanitize(content, { ALLOWED_TAGS })
+  DOMPurify.removeHook('afterSanitizeAttributes')
 
   return <div dangerouslySetInnerHTML={{ __html: output }} />
 }
