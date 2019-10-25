@@ -55,23 +55,44 @@ const view = {
   state: state as ManuscriptEditorState,
 }
 
-storiesOf('Projects/Comments', module).add('with comments', () => (
-  <div style={{ width: 400 }}>
-    <CommentList
-      comments={comments}
-      doc={doc}
-      getCurrentUser={() => people[0]}
-      getCollaborator={(id: string) => collaboratorMap.get(id)}
-      getCollaboratorById={(id: string) => userMap.get(id)}
-      deleteModel={async () => action('delete model')}
-      saveModel={async () => action('save model')}
-      listCollaborators={() => people}
-      createKeyword={async () => action('create keyword')}
-      getKeyword={(id: string) => keywordMap.get(id)}
-      listKeywords={() => keywords}
-      selected={null}
-      setCommentTarget={action('set comment target')}
-      view={view as ManuscriptEditorView}
-    />
-  </div>
-))
+storiesOf('Projects/Comments', module)
+  .add('with comments', () => (
+    <div style={{ width: 400 }}>
+      <CommentList
+        comments={comments}
+        doc={doc}
+        getCurrentUser={() => people[0]}
+        getCollaborator={(id: string) => collaboratorMap.get(id)}
+        getCollaboratorById={(id: string) => userMap.get(id)}
+        deleteModel={async () => action('delete model')}
+        saveModel={async () => action('save model')}
+        listCollaborators={() => people}
+        createKeyword={async () => action('create keyword')}
+        getKeyword={(id: string) => keywordMap.get(id)}
+        listKeywords={() => keywords}
+        selected={null}
+        setCommentTarget={action('set comment target')}
+        view={view as ManuscriptEditorView}
+      />
+    </div>
+  ))
+  .add('without comments', () => (
+    <div style={{ width: 400 }}>
+      <CommentList
+        comments={[]}
+        doc={doc}
+        getCurrentUser={() => people[0]}
+        getCollaborator={(id: string) => collaboratorMap.get(id)}
+        getCollaboratorById={(id: string) => userMap.get(id)}
+        deleteModel={async () => action('delete model')}
+        saveModel={async () => action('save model')}
+        listCollaborators={() => people}
+        createKeyword={async () => action('create keyword')}
+        getKeyword={(id: string) => keywordMap.get(id)}
+        listKeywords={() => keywords}
+        selected={null}
+        setCommentTarget={action('set comment target')}
+        view={view as ManuscriptEditorView}
+      />
+    </div>
+  ))

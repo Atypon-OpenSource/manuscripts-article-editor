@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
 import {
   deleteHighlightMarkers,
   getHighlightTarget,
@@ -81,6 +82,22 @@ const LightRelativeDate = styled(RelativeDate)`
   font-size: ${props => props.theme.font.size.small};
   color: ${props => props.theme.colors.text.secondary};
   letter-spacing: -0.2px;
+`
+
+const PlaceholderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+`
+
+const PlaceholderMessage = styled.div`
+  font-size: ${props => props.theme.font.size.medium};
+  font-weight: ${props => props.theme.font.weight.light};
+  color: ${props => props.theme.colors.text.secondary};
+  text-align: center;
+  margin: ${props => props.theme.grid.unit * 5}px;
 `
 
 interface Props {
@@ -209,8 +226,16 @@ export const CommentList: React.FC<Props> = React.memo(
       [newComment]
     )
 
-    if (!items) {
-      return null
+    if (!items.length) {
+      return (
+        <PlaceholderContainer>
+          <AuthorPlaceholder width={295} height={202} />
+          <PlaceholderMessage>
+            Discuss this manuscript with your collaborators by creating a
+            comment.
+          </PlaceholderMessage>
+        </PlaceholderContainer>
+      )
     }
 
     return (
