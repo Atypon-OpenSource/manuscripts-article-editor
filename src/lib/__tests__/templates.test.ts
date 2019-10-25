@@ -31,6 +31,7 @@ import {
   ResearchField,
   SectionCategory,
   SectionDescription,
+  TemplateData,
   TemplatesDataType,
 } from '../../types/templates'
 import {
@@ -93,19 +94,40 @@ const exampleTemplate = () =>
   ) as ManuscriptTemplate
 
 const exampleBundle = () =>
-  bundlesMap.get('MPBundle:www-zotero-org-styles-nonlinear-dynamics') as Bundle
+  bundlesMap.get(
+    'MPBundle:www-zotero-org-styles-frontiers-in-computational-neuroscience'
+  ) as Bundle
 
 describe('templates', () => {
-  test('find bundle', () => {
-    const template = exampleTemplate()
+  test('find bundle id from template bundle', () => {
+    const item: TemplateData = {
+      title: 'Test',
+      template: exampleTemplate(),
+      bundle: exampleBundle(),
+    }
 
-    expect(chooseBundleID(template)).toBe(
+    expect(chooseBundleID(item)).toBe(
       'MPBundle:www-zotero-org-styles-nonlinear-dynamics'
     )
+  })
 
-    delete template.bundle
+  test('find bundle id from bundle when no template', () => {
+    const item: TemplateData = {
+      title: 'Test',
+      bundle: exampleBundle(),
+    }
 
-    expect(chooseBundleID(template)).toBe(DEFAULT_BUNDLE)
+    expect(chooseBundleID(item)).toBe(
+      'MPBundle:www-zotero-org-styles-frontiers-in-computational-neuroscience'
+    )
+  })
+
+  test('use default bundle when no bundle', () => {
+    const item: TemplateData = {
+      title: 'Test',
+    }
+
+    expect(chooseBundleID(item)).toBe(DEFAULT_BUNDLE)
   })
 
   test('build article type', () => {
@@ -119,7 +141,9 @@ describe('templates', () => {
     const bundle = exampleBundle()
 
     expect(buildJournalTitle(template)).toBe('Nonlinear Dynamics')
-    expect(buildJournalTitle(template, bundle)).toBe('Nonlinear Dynamics')
+    expect(buildJournalTitle(template, bundle)).toBe(
+      'Frontiers in Computational Neuroscience'
+    )
   })
 
   test('build categories', () => {
@@ -310,6 +334,7 @@ describe('templates', () => {
         'http://static.springer.com/sgw/documents/468198/application/zip/LaTeX.zip',
       aim:
         'Nonlinear Dynamics provides a forum for the rapid publication of original research in the developing field of nonlinear dynamics. The scope of the journal encompasses all nonlinear dynamic phenomena associated with mechanical, structural, civil, aeronautical, ocean, electrical and control systems. Review articles and original contributions based on analytical, computational, and experimental methods are solicited, dealing with such topics as perturbation and computational methods, symbolic manipulation, dynamic stability, local and global methods, bifurcations, chaos, deterministic and random vibrations, Lie groups, multibody dynamics, robotics, fluid-solid interactions, system modelling and identification, friction and damping models, signal analysis, measurement techniques.',
+      bundle: 'MPBundle:www-zotero-org-styles-nonlinear-dynamics',
       category: 'MPManuscriptCategory:research-article',
       createdAt: 0,
       objectType: 'MPManuscriptTemplate',

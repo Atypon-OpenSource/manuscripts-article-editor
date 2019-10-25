@@ -433,10 +433,7 @@ class TemplateSelector extends React.Component<
       ? newProject._id
       : this.props.projectID!
 
-    const newBundle = this.createNewBundle(
-      chooseBundleID(item.template),
-      bundles
-    )
+    const newBundle = this.createNewBundle(chooseBundleID(item), bundles)
 
     const collection = await createProjectCollection(db, projectID)
 
