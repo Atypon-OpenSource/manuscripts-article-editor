@@ -23,6 +23,12 @@ module.exports = {
       '<rootDir>/src/__mocks__/fileMock.ts',
     '^.+\\.css$': '<rootDir>/src/__mocks__/styleMock.ts',
     '^.+\\.xml$': '<rootDir>/src/__mocks__/rawMock.ts',
+    // https://react-dnd.github.io/react-dnd/docs/testing#setup
+    "^dnd-core$": "dnd-core/dist/cjs",
+    "^react-dnd$": "react-dnd/dist/cjs",
+    // map react-dnd-html5-backend to react-dnd-test-backend
+    "^react-dnd-html5-backend$": "react-dnd-test-backend/dist/cjs",
+    "^react-dnd-test-utils$": "react-dnd-test-utils/dist/cjs"
   },
   setupFiles: ['./src/setupTests.ts', 'jsdom-worker'],
   setupFilesAfterEnv: ['<rootDir>/node_modules/jest-enzyme/lib/index.js'],

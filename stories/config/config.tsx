@@ -10,35 +10,37 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { addDecorator, configure } from '@storybook/react'
 import React from 'react'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import App from './App'
-import DatabaseProvider from './components/DatabaseProvider'
-import IntlProvider from './components/IntlProvider'
-import { ModalProvider } from './components/ModalProvider'
-import { NotificationProviderWithRouter } from './components/NotificationProvider'
-import { ServiceWorker } from './components/ServiceWorker'
-import { databaseCreator } from './lib/db'
-import { GlobalStyle } from './theme/theme'
-import { ThemeProvider } from './theme/ThemeProvider'
+import { MemoryRouter } from 'react-router-dom'
+import IntlProvider from '../../src/components/IntlProvider'
+import { ModalProvider } from '../../src/components/ModalProvider'
+import '../../src/lib/__mocks__/adapter'
+import { GlobalStyle } from '../../src/theme/theme'
+import { ThemeProvider } from '../../src/theme/ThemeProvider'
+import { Story } from '../components/Story'
 
-const Main = () => (
-  <IntlProvider>
-    <DndProvider backend={HTML5Backend}>
+addDecorator(story => (
+  <DndProvider backend={HTML5Backend}>
+    <IntlProvider>
       <ThemeProvider>
-        <DatabaseProvider databaseCreator={databaseCreator}>
-          <GlobalStyle />
-          <NotificationProviderWithRouter>
-            <ServiceWorker />
-            <ModalProvider>
-              <App />
-            </ModalProvider>
-          </NotificationProviderWithRouter>
-        </DatabaseProvider>
+        <MemoryRouter initialEntries={['/']}>
+          <ModalProvider>
+            <Story>
+              <GlobalStyle suppressMultiMountWarning={true} />
+              <div>{story()}</div>
+            </Story>
+          </ModalProvider>
+        </MemoryRouter>
       </ThemeProvider>
-    </DndProvider>
-  </IntlProvider>
-)
+    </IntlProvider>
+  </DndProvider>
+))
 
-export default Main
+const req = require.context('..', true, /\.stories\.tsx/)
+
+configure(() => {
+  req.keys().forEach(filename => req(filename))
+}, module)

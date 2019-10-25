@@ -1628,17 +1628,17 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.50.0":
-  version "0.50.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.50.0.tgz#e400e80d957428e701cf0fe22e92c331df368505"
-  integrity sha512-mmYlKztlJzY6HORFT5B5XE7u/xXqaQIY/aY6B6C1RfSCu4RVCKeIXOkTCOs6B9XXDKF2vVDFTEYyC6BPO1Jmfw==
+"@manuscripts/manuscript-editor@^0.51.0":
+  version "0.51.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.51.0.tgz#48ecf7e0b891076979b2e2237f6b3bb3b1052190"
+  integrity sha512-y4DGQQ8mKuWP20PxbRsDLRe6zmPy+WqL8Ri1I0w/6f/mE/9p7Qi9GXnatkb+jk9AKHeCbZMmpHsnG4Wpp9BBuw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.4.1"
     "@manuscripts/manuscripts-json-schema" "^1.18.2"
     "@manuscripts/title-editor" "^0.3.3"
-    astrocite-eutils "^0.15.0"
+    astrocite-eutils "^0.16.0"
     axios "^0.19.0"
     blob-util "^2.0.2"
     citeproc "^2.2.10"
@@ -1664,7 +1664,7 @@
     prosemirror-transform "^1.1.4"
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.10.3"
-    react-dnd "^7.7.0"
+    react-dnd "^9.4.0"
     react-modal "^3.6.1"
     react-popper "^1.0.2"
     react-router-dom "^4.3.1"
@@ -1751,14 +1751,14 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.11.7":
-  version "0.11.7"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.11.7.tgz#94b879adcdf24f3a2179fdec66702dd2cff1b456"
-  integrity sha512-2FK9QElgb3E1d60NCb3rXfdyYRlEXSBEhasI/4mO+iKEpEjcYFpjvl+wWFyLFPWsptDw7lXdD+JVWaxLpx+qUQ==
+"@manuscripts/style-guide@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.12.0.tgz#b04ca7f9164f72e38dc0d757d550e753ca4b5e9d"
+  integrity sha512-qb50qDHwNNeSxqHe29QcpIS9WrVB1g8MBf0px9bcxPXvgx+Ul8SFNU4kkPGcvoV4kCIXE7V4tosP2UP0J8ek1A==
   dependencies:
     "@manuscripts/assets" "^0.5.3"
     lodash-es "^4.17.11"
-    react-dnd "^7.4.3"
+    react-dnd "^9.4.0"
     react-modal "^3.8.1"
     react-select "^2.4.1"
     react-sizeme "^2.6.7"
@@ -2396,6 +2396,11 @@
   resolved "https://registry.npmjs.org/@types/anymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"
   integrity sha512-/+CRPXpBDpo2RK9C68N3b2cOvO0Cf5B9aPijHsoDQTHivnGSObdOF2BRQOYjojWTDy6nQvMjmqRXIxH55VjxxA==
 
+"@types/asap@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@types/asap/-/asap-2.0.0.tgz#d529e9608c83499a62ae08c871c5e62271aa2963"
+  integrity sha512-upIS0Gt9Mc8eEpCbYMZ1K8rhNosfKUtimNcINce+zLwJF5UpM3Vv7yz3S5l/1IX+DxTa8lTkUjqynvjRXyJzsg==
+
 "@types/babel__core@^7.1.0", "@types/babel__core@^7.1.2":
   version "7.1.2"
   resolved "https://registry.npmjs.org/@types/babel__core/-/babel__core-7.1.2.tgz#608c74f55928033fce18b99b213c16be4b3d114f"
@@ -2625,6 +2630,11 @@
   integrity sha512-l+s0IoxSHqhLFJPDHRfO235kgrCkvFD8JmdV/T9C4BKBYPIjrQopGFH4r7h2e3jQqgJRCthRCAZIxDoFnj1zwQ==
   dependencies:
     "@types/node" "*"
+
+"@types/invariant@^2.2.30":
+  version "2.2.30"
+  resolved "https://registry.npmjs.org/@types/invariant/-/invariant-2.2.30.tgz#20efa342807606ada5483731a8137cb1561e5fe9"
+  integrity sha512-98fB+yo7imSD2F7PF7GIpELNgtLNgo5wjivu0W5V4jx+KVVJxo6p/qN4zdzSTBWy4/sN3pPyXwnhRSD28QX+ag==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.1"
@@ -2960,6 +2970,11 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
+
+"@types/shallowequal@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@types/shallowequal/-/shallowequal-1.1.1.tgz#aad262bb3f2b1257d94c71d545268d592575c9b1"
+  integrity sha512-Lhni3aX80zbpdxRuWhnuYPm8j8UQaa571lHP/xI4W+7BAFhSIhRReXnqjEgT/XzPoXZTJkCqstFMJ8CZTK6IlQ==
 
 "@types/source-list-map@*":
   version "0.1.2"
@@ -3875,35 +3890,36 @@ astral-regex@^1.0.0:
   resolved "https://registry.npmjs.org/astral-regex/-/astral-regex-1.0.0.tgz#6c8c3fb827dd43ee3918f27b82782ab7658a6fd9"
   integrity sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==
 
-astrocite-bibtex@^0.15.4:
-  version "0.15.4"
-  resolved "https://registry.npmjs.org/astrocite-bibtex/-/astrocite-bibtex-0.15.4.tgz#49970a7447ccb01218ea64fa6992a63b8d2ea9de"
-  integrity sha512-QxfGWtiHU5GBT1QiqjPZ3ZVSwz981eldYDKYwRekWvuU/MjlQWw/jq15velR/Sans/sVT1YH+vGUxWk/pQgtyg==
+astrocite-bibtex@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.npmjs.org/astrocite-bibtex/-/astrocite-bibtex-0.16.0.tgz#f700d0172ff5fbb57f6825d8d2107dee2afa5699"
+  integrity sha512-bUtFuiV7UGkuMYyf5CCD7lItwMZmhxKEijTak8p+V6h0wEXHFTt1xDzATBsx+8iAloVK0BnA2KuhDe171asxjQ==
   dependencies:
-    astrocite-core "^0.15.0"
+    astrocite-core "^0.16.0"
     csl-json "^0.1.0"
 
-astrocite-core@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/astrocite-core/-/astrocite-core-0.15.0.tgz#191c5d2e39caa1a1ae8b5460a684630f34e50fa3"
-  integrity sha512-XReFjy0j442cCnHt8R5c2gQD+NrE6ZwiljmCG2tPXuRBXrRVhSYKe8taPNEW8l3S5LjYjGucwZBI1vzqGoRCIg==
+astrocite-core@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.npmjs.org/astrocite-core/-/astrocite-core-0.16.0.tgz#63b1616200e62b1005d5c4e7c5e8472c8b7dd364"
+  integrity sha512-+NOD5Wqtcf89htPyI0iOeaPaTjncbHgBQaF3Yp6Y0l8ynJJzrweZuHVRlX8vBeaxzy+yptI91+w+Lt+ir20pnw==
   dependencies:
     csl-json "^0.1.0"
 
-astrocite-eutils@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/astrocite-eutils/-/astrocite-eutils-0.15.0.tgz#7979568eb3773bcf68e0bbd47cbdc1d56c7ad668"
-  integrity sha512-Jj5SNtJAK2c4689M9ypmYMx3ajisvjRHuVO7XMJ6P6UAmLqz1YVpz5DazkLeWgRH0VD4IgHatISSocBdVwi6Cw==
+astrocite-eutils@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.npmjs.org/astrocite-eutils/-/astrocite-eutils-0.16.0.tgz#b2d7336dcf4965966eb630031f86aabad3219f9e"
+  integrity sha512-Yn8PW20mTKusgdJp6tdjpeS6KGXbhgHoS67aoX/bVBZnLFVQAn3+QIii1zNZXx1i6BQ0exo4nZH8xhnKf/1QRg==
   dependencies:
-    astrocite-core "^0.15.0"
+    astrocite-core "^0.16.0"
     csl-json "^0.1.0"
+    he "^1.2.0"
 
-astrocite-ris@^0.15.2:
-  version "0.15.2"
-  resolved "https://registry.npmjs.org/astrocite-ris/-/astrocite-ris-0.15.2.tgz#ae027782ae6b74edec438cec1b34be83fd2305fe"
-  integrity sha512-BhtJ6mAshBTD3OiA2s7DirJepIh3gaJTfSXMUApdcdgrlY6sYM/BBea8vgSQgQiew8KD9tPe9ausRKfmBCFTqw==
+astrocite-ris@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.npmjs.org/astrocite-ris/-/astrocite-ris-0.16.0.tgz#a44275a7774b8cee85044fd8b523a60462cc5a89"
+  integrity sha512-astB/rYaYDuHnbBhcRWl64sYRFDui7KwlEsbCw+FXahMRAS+Oj2V7Q+Q846puyvubpVhVl4qJku+V7+eexD8ww==
   dependencies:
-    astrocite-core "^0.15.0"
+    astrocite-core "^0.16.0"
     csl-json "^0.1.0"
 
 async-each@^1.0.1:
@@ -7183,14 +7199,16 @@ discontinuous-range@1.0.0:
   resolved "https://registry.npmjs.org/discontinuous-range/-/discontinuous-range-1.0.0.tgz#e38331f0844bba49b9a9cb71c771585aab1bc65a"
   integrity sha1-44Mx8IRLukm5qctxx3FYWqsbxlo=
 
-dnd-core@^7.7.0:
-  version "7.7.0"
-  resolved "https://registry.npmjs.org/dnd-core/-/dnd-core-7.7.0.tgz#3166aefc8c5b85ca4ade4ae836712a3108975fab"
-  integrity sha512-+YqwflWEY1MEAEl2QiEiRaglYkCwIZryyQwximQGuTOm/ns7fS6Lg/i7OCkrtjM10D5FhArf/VUHIL4ZaRBK0g==
+dnd-core@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.npmjs.org/dnd-core/-/dnd-core-9.4.0.tgz#ccf605d36887f18cdde8fd5576ca3145d2e69fa8"
+  integrity sha512-Kg+8VwU8s7TgdR/BUYGUHrvFiS+5ePMZ0Q0XD7p+cFVJvgKqykBaeQDuaziuauFMPm8QxtnUy8Pncey9flXW3Q==
   dependencies:
+    "@types/asap" "^2.0.0"
+    "@types/invariant" "^2.2.30"
     asap "^2.0.6"
     invariant "^2.2.4"
-    redux "^4.0.1"
+    redux "^4.0.4"
 
 dns-equal@^1.0.0:
   version "1.0.0"
@@ -9780,7 +9798,7 @@ intl-relativeformat@^2.1.0:
   dependencies:
     intl-messageformat "^2.0.0"
 
-invariant@2.2.4, invariant@^2.1.0, invariant@^2.1.1, invariant@^2.2.2, invariant@^2.2.3, invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.1.1, invariant@^2.2.2, invariant@^2.2.3, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -15227,22 +15245,29 @@ react-dev-utils@^9.0.0:
     strip-ansi "5.2.0"
     text-table "0.2.0"
 
-react-dnd-html5-backend@^7.4.0:
-  version "7.7.0"
-  resolved "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-7.7.0.tgz#e2b8ea61a1bc34ba743b89cafcda6213b006c06a"
-  integrity sha512-JgKmWOxqorFyfGPeWV+SAPhVGFe6+LrOR24jETE9rrYZU5hCppzwK9ujjS508kWibeDvbfEgi9j5qC2wB1/MoQ==
+react-dnd-html5-backend@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-9.4.0.tgz#5b1d192f57d103298657cde1fe0eabdbf2726311"
+  integrity sha512-gehPwLp505F6RoFkQiDX7Q4mbpbyfyT0TbIoZop/m4vkBw6yUE/QLrnxBQdNpDPSwL/9XkZxxd/PrbeMCQ+WrQ==
   dependencies:
-    dnd-core "^7.7.0"
+    dnd-core "^9.4.0"
 
-react-dnd@^7.4.3, react-dnd@^7.7.0:
-  version "7.7.0"
-  resolved "https://registry.npmjs.org/react-dnd/-/react-dnd-7.7.0.tgz#9d983331ecf87ba33d058d861e6ca9adb8253a2e"
-  integrity sha512-anpJDKMgdXE6kXvtBFmIAe1fuaexpVy7meUyNjiTfCnjQ1mRvnttGTVvcW9fMKijsUQYadiyvzd3BRxteFuVXg==
+react-dnd-test-backend@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.npmjs.org/react-dnd-test-backend/-/react-dnd-test-backend-9.4.0.tgz#83ae77f70f95eff38d306a587be14b38b3194c4a"
+  integrity sha512-Dyc3R9/LM9IMqatwGOU7aMzsqtKJA2ihUCug+vKKaWhZH+rrL5behnGD+HdkadUuqfCsqY3IDCWhhCFqKfSzgQ==
+  dependencies:
+    dnd-core "^9.4.0"
+
+react-dnd@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.npmjs.org/react-dnd/-/react-dnd-9.4.0.tgz#eec87035c6360fb33a44932326b3369af011a41c"
+  integrity sha512-jnLF8qKowCKTqSddfCiLx5+sb+HxO1qgdiAgbBeL8yuo5tRYNtKxZYn7+wVwNoyZuWEuM1Gw/Wsdhr+yb2RELQ==
   dependencies:
     "@types/hoist-non-react-statics" "^3.3.1"
-    dnd-core "^7.7.0"
+    "@types/shallowequal" "^1.1.1"
+    dnd-core "^9.4.0"
     hoist-non-react-statics "^3.3.0"
-    invariant "^2.1.0"
     shallowequal "^1.1.0"
 
 react-docgen@^4.1.0:
@@ -15780,7 +15805,7 @@ recursive-readdir@2.2.2:
   dependencies:
     minimatch "3.0.4"
 
-redux@^4.0.1:
+redux@^4.0.4:
   version "4.0.4"
   resolved "https://registry.npmjs.org/redux/-/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
   integrity sha512-vKv4WdiJxOWKxK0yRoaK3Y4pxxB0ilzVx6dszU2W8wLxlb2yikRph4iV/ymtdJ6ZxpBLFbyrxklnT5yBbQSl3Q==

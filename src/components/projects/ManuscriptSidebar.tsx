@@ -11,7 +11,7 @@
  */
 
 import {
-  DebouncedManuscriptOutlineContainer,
+  ManuscriptOutline,
   OutlineManuscript,
 } from '@manuscripts/manuscript-editor'
 import {
@@ -167,7 +167,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
       {sortedManuscripts.map(item => (
         <SidebarManuscript key={item._id}>
           {item._id === manuscript._id ? (
-            <DebouncedManuscriptOutlineContainer
+            <ManuscriptOutline
               manuscript={manuscript}
               doc={doc || null}
               view={view || null}
