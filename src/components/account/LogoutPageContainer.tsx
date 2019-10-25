@@ -15,6 +15,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { TokenActions } from '../../data/TokenData'
 import { logout } from '../../lib/account'
+import tokenHandler from '../../lib/token'
 import userID from '../../lib/user-id'
 import { DatabaseProps, withDatabase } from '../DatabaseProvider'
 import { Main, Page } from '../Page'
@@ -39,15 +40,10 @@ class LogoutPageContainer extends React.Component<
     try {
       await logout()
 
-      this.props.tokenActions.delete()
+      tokenHandler.remove()
       userID.remove()
 
-      this.props.history.push({
-        pathname: '/login',
-        state: {
-          infoLoginMessage: 'You have been logged out.',
-        },
-      })
+      window.location.href = '/login#action=logout'
     } catch (error) {
       this.setState({ error })
     }

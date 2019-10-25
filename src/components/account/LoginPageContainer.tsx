@@ -66,6 +66,7 @@ interface State {
 }
 
 interface HashData {
+  action?: string
   error?: string
   access_token?: string
   token?: string
@@ -185,11 +186,17 @@ class LoginPageContainer extends React.Component<
   }
 
   private handleHash = (hash: string) => {
-    const { error, access_token: token, redirect }: HashData = parse(hash)
+    const { action, error, access_token: token, redirect }: HashData = parse(
+      hash
+    )
 
     if (error) {
       this.setState({
         message: () => messages.identityProviderErrorMessage(error),
+      })
+    } else if (action === 'logout') {
+      this.setState({
+        message: () => messages.infoLoginMessage('You have been signed out'),
       })
     } else if (token) {
       tokenHandler.set(token)
