@@ -180,31 +180,33 @@ export class Collection<T extends Model> implements EventTarget {
     this.status = cloneDeep(initialReplicationStatus)
 
     if (startSyncing) {
-      this.startSyncing().catch(error => {
-        console.error(error) // tslint:disable-line:no-console
-      })
+      this.startSyncing()
+        .then(() => {
+          // cancel replications in idle tabs to save resources and allow new tabs
+          // to connect
+          onIdle(
+            () => {
+              if (this.status.pull.active || this.status.pull.active) return
+              console.log('Idle, canceling replication', this.status) // tslint:disable-line:no-console
 
-      // cancel replications in idle tabs to save resources and allow new tabs
-      // to connect
-      onIdle(
-        () => {
-          if (this.status.pull.active || this.status.pull.active) return
-          console.log('Idle, canceling replication', this.status) // tslint:disable-line:no-console
+              this.cancelReplications().catch(error => {
+                console.error(`Unable to stop replication`, error) // tslint:disable-line:no-console
+              })
+            },
+            () => {
+              if (this.replications.push || this.replications.pull) return
+              console.log('Active, resuming replication', this.replications) // tslint:disable-line:no-console
 
-          this.cancelReplications().catch(error => {
-            console.error(`Unable to stop replication`, error) // tslint:disable-line:no-console
-          })
-        },
-        () => {
-          if (this.replications.push || this.replications.pull) return
-          console.log('Active, resuming replication', this.replications) // tslint:disable-line:no-console
-
-          this.startSyncing().catch(error => {
-            console.error(`Unable to start syncing`, error) // tslint:disable-line:no-console
-          })
-        },
-        10 * 1000
-      )
+              this.startSyncing().catch(error => {
+                console.error(`Unable to start syncing`, error) // tslint:disable-line:no-console
+              })
+            },
+            10 * 1000
+          )
+        })
+        .catch(error => {
+          console.error(error) // tslint:disable-line:no-console
+        })
     }
   }
 
