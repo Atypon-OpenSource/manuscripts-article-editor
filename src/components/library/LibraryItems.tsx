@@ -18,7 +18,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { fullAuthorsString, issuedYear } from '../../lib/library'
+import { fullLibraryItemMetadata } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
 import { Search, SearchContainer } from './Search'
 
@@ -147,13 +147,7 @@ export const LibraryItems: React.FC<{
               <Title value={item.title || 'Untitled'} title={item.title} />
 
               <Metadata data-cy={'search-result-author'}>
-                {[
-                  fullAuthorsString(item),
-                  item['container-title'],
-                  issuedYear(item),
-                ]
-                  .filter(part => part)
-                  .join(', ')}
+                {fullLibraryItemMetadata(item)}
               </Metadata>
 
               {item.keywordIDs && (

@@ -15,9 +15,10 @@ import {
   authorsString,
   estimateID,
   filterLibrary,
+  fullLibraryItemMetadata,
   issuedYear,
-  libraryItemMetadata,
   shortAuthorsString,
+  shortLibraryItemMetadata,
 } from '../library'
 
 describe('library filtering', () => {
@@ -204,7 +205,9 @@ describe('libraryItemMetadata', () => {
       },
       ['container-title']: 'journal name',
     } as BibliographyItem
-    expect(libraryItemMetadata(item)).toBe('journal name, 2019')
+
+    expect(fullLibraryItemMetadata(item)).toBe('journal name, 2019')
+    expect(shortLibraryItemMetadata(item)).toBe('journal name, 2019')
   })
 
   it('handles library item with missing date and journal name', () => {
@@ -212,7 +215,9 @@ describe('libraryItemMetadata', () => {
     const item = {
       author: [{ given: 'given-1' }, { given: 'given-2' }],
     } as BibliographyItem
-    expect(libraryItemMetadata(item)).toBe('given-1 & given-2')
+
+    expect(fullLibraryItemMetadata(item)).toBe('given-1 & given-2')
+    expect(shortLibraryItemMetadata(item)).toBe('given-1 & given-2')
   })
 
   it('handles library item with defined date', () => {
@@ -223,7 +228,9 @@ describe('libraryItemMetadata', () => {
         ['date-parts']: [['2019']],
       },
     } as BibliographyItem
-    expect(libraryItemMetadata(item)).toBe('given-1 & given-2, 2019')
+
+    expect(fullLibraryItemMetadata(item)).toBe('given-1 & given-2, 2019')
+    expect(shortLibraryItemMetadata(item)).toBe('given-1 & given-2, 2019')
   })
 
   it('handles library item with defined date and journal', () => {
@@ -235,8 +242,25 @@ describe('libraryItemMetadata', () => {
       },
       ['container-title']: 'journal name',
     } as BibliographyItem
-    expect(libraryItemMetadata(item)).toBe(
+
+    expect(fullLibraryItemMetadata(item)).toBe(
       'given-1 & given-2, journal name, 2019'
     )
+    expect(shortLibraryItemMetadata(item)).toBe(
+      'given-1 & given-2, journal name, 2019'
+    )
+  })
+
+  it('handles author with no name', () => {
+    // tslint:disable-next-line:no-object-literal-type-assertion
+    const item = {
+      author: [{ given: 'given-1' }, {}],
+      issued: {
+        ['date-parts']: [['2019']],
+      },
+    } as BibliographyItem
+
+    expect(fullLibraryItemMetadata(item)).toBe('given-1, 2019')
+    expect(shortLibraryItemMetadata(item)).toBe('given-1, 2019')
   })
 })

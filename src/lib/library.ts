@@ -156,22 +156,22 @@ export const estimateID = (item: Partial<BibliographyItem>): string => {
 }
 
 export const shortAuthorsString = (item: Partial<BibliographyItem>) => {
-  const authors = (item.author || []).map(
-    author => author.family || author.literal || author.given
-  )
+  const authors = (item.author || [])
+    .map(author => author.family || author.literal || author.given)
+    .filter(Boolean) as string[]
 
   return authorsString(authors)
 }
 
 export const fullAuthorsString = (item: Partial<BibliographyItem>) => {
-  const authors = (item.author || []).map(author =>
-    [author.given, author.family].join(' ').trim()
-  )
+  const authors = (item.author || [])
+    .map(author => [author.given, author.family].join(' ').trim())
+    .filter(Boolean)
 
   return authorsString(authors)
 }
 
-export const authorsString = (authors: Array<string | undefined>) => {
+export const authorsString = (authors: string[]) => {
   if (authors.length > 1) {
     const lastAuthors = authors.splice(-2)
     authors.push(lastAuthors.join(' & '))
@@ -180,8 +180,14 @@ export const authorsString = (authors: Array<string | undefined>) => {
   return authors.join(', ')
 }
 
-export const libraryItemMetadata = (item: Partial<BibliographyItem>) => {
+export const shortLibraryItemMetadata = (item: Partial<BibliographyItem>) => {
   return [shortAuthorsString(item), item['container-title'], issuedYear(item)]
-    .filter(part => part)
+    .filter(Boolean)
+    .join(', ')
+}
+
+export const fullLibraryItemMetadata = (item: Partial<BibliographyItem>) => {
+  return [fullAuthorsString(item), item['container-title'], issuedYear(item)]
+    .filter(Boolean)
     .join(', ')
 }
