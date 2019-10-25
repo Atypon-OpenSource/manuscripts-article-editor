@@ -42,7 +42,7 @@ export const Notifications: React.FC<Props & RouteComponentProps> = ({
         opacity: 1,
         marginBottom: 8,
         display: 'flex',
-        width: '800px',
+        width: window.innerWidth < 800 ? window.innerWidth - 16 : 800,
         maxWidth: '90%',
       }}
       leave={{
@@ -101,15 +101,27 @@ export const NotificationHead = styled.div`
   align-items: center;
 `
 
-export const NotificationActions = styled(ButtonGroup)``
+export const NotificationActions = styled(ButtonGroup)`
+  flex: 0;
 
-export const NotificationIcon = styled(AttentionBlue)``
+  @media (max-width: ${props => props.theme.grid.tablet - 1}px) {
+    flex-wrap: wrap;
+
+    button:not(:first-child) {
+      margin: ${props => props.theme.grid.unit}px 0 0;
+    }
+  }
+`
+
+export const NotificationIcon = styled(AttentionBlue)`
+  flex-shrink: 0;
+`
 export const NotificationTitle = styled.div`
-  font-size: 90%;
+  font-size: ${props => props.theme.font.size.normal};
 `
 export const NotificationLink = styled.a.attrs({ target: '_blank' })`
   color: inherit;
-  font-size: 80%;
+  font-size: ${props => props.theme.font.size.small};
 `
 export const NotificationMessage = styled.div`
   margin: 0 ${props => props.theme.grid.unit * 4}px;
