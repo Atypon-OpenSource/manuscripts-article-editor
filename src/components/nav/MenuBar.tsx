@@ -38,7 +38,7 @@ const modalStyle = {
     display: 'flex',
     flexDirection: 'column',
     padding: 0,
-    overflow: 'hidden',
+    overflow: 'auto',
     border: 'none',
   },
 }
