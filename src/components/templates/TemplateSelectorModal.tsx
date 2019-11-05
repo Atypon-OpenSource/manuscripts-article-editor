@@ -44,6 +44,7 @@ const ModalBody = styled.div`
   margin: 0 auto;
   max-width: 626px;
   position: relative;
+  margin-top: ${props => props.theme.grid.unit * 3}px;
 `
 
 const FiltersContainer = styled.div`
@@ -63,7 +64,8 @@ const TemplatesContainer = styled.div`
   border-radius: ${props => props.theme.grid.radius.small};
   list-style: none;
   margin: 0 30px ${props => props.theme.grid.unit * 4}px;
-  min-height: 300px;
+  height: 300px;
+  max-height: calc(100vh - 432px);
   overflow: hidden;
   padding: 0;
 
