@@ -11,8 +11,10 @@
  */
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
+import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
+import { ImageTypes, isImage } from '../../lib/images'
 import UserProfileSidebar from '../UserProfileSidebar'
 import { AvatarFileUpload } from './AvatarFileUpload'
 
@@ -35,6 +37,7 @@ interface State {
   editAvatar: boolean
   newAvatar: AvatarProps | null
   avatarZoom: number
+  avatarError: boolean
 }
 
 class ProfilePageSidebar extends React.Component<Props, State> {
@@ -42,6 +45,7 @@ class ProfilePageSidebar extends React.Component<Props, State> {
     editAvatar: false,
     newAvatar: null,
     avatarZoom: 1,
+    avatarError: false,
   }
 
   private avatarEditorRef = React.createRef<AvatarEditor>()
@@ -52,7 +56,7 @@ class ProfilePageSidebar extends React.Component<Props, State> {
       handleChangePassword,
       handleDeleteAccount,
     } = this.props
-    const { editAvatar, newAvatar, avatarZoom } = this.state
+    const { editAvatar, newAvatar, avatarZoom, avatarError } = this.state
 
     return (
       <>
@@ -74,6 +78,22 @@ class ProfilePageSidebar extends React.Component<Props, State> {
             handleChangePassword={handleChangePassword}
             handleDeleteAccount={handleDeleteAccount}
             handleEditAvatar={this.openEditor}
+          />
+        )}
+        {avatarError && (
+          <Dialog
+            isOpen={true}
+            category={Category.error}
+            header={'Add avatar failed'}
+            message={`The avatar must be an image file of one of the following types: ${ImageTypes.join(
+              ', '
+            )}.`}
+            actions={{
+              primary: {
+                action: () => this.setState({ avatarError: false }),
+                title: 'OK',
+              },
+            }}
           />
         )}
       </>
@@ -117,6 +137,10 @@ class ProfilePageSidebar extends React.Component<Props, State> {
     })
 
   private importAvatar = (file: File) => {
+    if (!isImage(file)) {
+      return this.setState({ avatarError: true })
+    }
+
     const fileReader = new FileReader()
 
     fileReader.onload = () => {

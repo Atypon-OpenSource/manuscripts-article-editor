@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-const ImageTypes = ['.jpg', '.jpeg', '.png', '.tif']
+export const ImageTypes = ['.jpg', '.jpeg', '.png', '.tif', '.webp']
 
 export const openImagePicker = (): Promise<File> =>
   new Promise((resolve, reject) => {
@@ -26,3 +26,7 @@ export const openImagePicker = (): Promise<File> =>
     })
     input.click()
   })
+
+export const isImage = (file: File): boolean => {
+  return file.type.startsWith('image/')
+}
