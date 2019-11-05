@@ -57,16 +57,23 @@ export class TemplateTopicSelector extends React.Component<Props, State> {
     isOpen: false,
   }
 
+  private nodeRef: React.RefObject<HTMLDivElement> = React.createRef()
+
+  public componentDidMount() {
+    this.addClickListener()
+  }
+
+  public componentWillUnmount() {
+    this.removeClickListener()
+  }
+
   public render() {
     const { isOpen } = this.state
     const { options, handleChange, value } = this.props
 
     return (
-      <TopicSelector>
-        <TopicsToggleButton
-          onClick={() => this.setState({ isOpen: !isOpen })}
-          onBlur={() => this.setState({ isOpen: false })}
-        >
+      <TopicSelector ref={this.nodeRef}>
+        <TopicsToggleButton onClick={() => this.setState({ isOpen: !isOpen })}>
           <SelectedTopic>{value ? value.name : 'All Topics'}</SelectedTopic>
 
           {isOpen ? (
@@ -88,5 +95,25 @@ export class TemplateTopicSelector extends React.Component<Props, State> {
         )}
       </TopicSelector>
     )
+  }
+
+  private handleClickOutside = (event: Event) => {
+    if (
+      this.state.isOpen &&
+      this.nodeRef.current &&
+      !this.nodeRef.current.contains(event.target as Node)
+    ) {
+      this.setState({
+        isOpen: false,
+      })
+    }
+  }
+
+  private addClickListener() {
+    document.addEventListener('mousedown', this.handleClickOutside)
+  }
+
+  private removeClickListener() {
+    document.removeEventListener('mousedown', this.handleClickOutside)
   }
 }
