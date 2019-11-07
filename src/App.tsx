@@ -28,6 +28,7 @@ import AcceptEmailInvitationPageContainer from './components/collaboration/Accep
 import AcceptInvitationURIContainer from './components/collaboration/AcceptProjectInvitationURIPageContainer'
 import { DatabaseContext } from './components/DatabaseProvider'
 import DeveloperPageContainer from './components/DeveloperPageContainer'
+import DiagnosticsPageContainer from './components/diagnostics/DiagnosticsPageContainer'
 import { LoadingPage } from './components/Loading'
 import NotFoundPage from './components/NotFoundPage'
 import ProjectPageContainer from './components/projects/ProjectPageContainer'
@@ -303,6 +304,12 @@ const App: React.FunctionComponent = () => (
                           path={'/developer'}
                           exact={true}
                           component={DeveloperPageContainer}
+                        />
+
+                        <Route
+                          path={'/diagnostics'}
+                          exact={true}
+                          component={DiagnosticsPageContainer}
                         />
 
                         <Route component={NotFoundPage} />

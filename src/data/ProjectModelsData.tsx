@@ -10,61 +10,47 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  ContainedModel,
-  ManuscriptModel,
-} from '@manuscripts/manuscript-transform'
-import { ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import { ContainedModel } from '@manuscripts/manuscript-transform'
 import React from 'react'
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
 
-type ModelType = ContainedModel | ManuscriptModel
-
 interface Props {
   children: (
-    data: ModelType[],
-    collection: Collection<ModelType>
+    data: ContainedModel[],
+    collection: Collection<ContainedModel>
   ) => React.ReactNode
   projectID: string
-  manuscriptID: string
 }
 
 interface State {
-  data?: ModelType[]
+  data?: ContainedModel[]
 }
 
-class ProjectManuscriptModelsData extends DataComponent<
-  ModelType,
-  Props,
-  State
-> {
+class ProjectModelsData extends DataComponent<ContainedModel, Props, State> {
   public constructor(props: Props) {
     super(props)
 
     this.state = {}
 
-    this.collection = CollectionManager.getCollection<ModelType>(
+    this.collection = CollectionManager.getCollection<ContainedModel>(
       `project-${props.projectID}`
     )
   }
 
   public componentDidMount() {
-    const { projectID, manuscriptID } = this.props
+    const { projectID } = this.props
 
     this.collection.addEventListener('complete', this.handleComplete)
 
-    this.sub = this.subscribe(projectID, manuscriptID)
+    this.sub = this.subscribe(projectID)
   }
 
   public componentWillReceiveProps(nextProps: Props) {
-    const { projectID, manuscriptID } = nextProps
+    const { projectID } = nextProps
 
-    if (
-      manuscriptID !== this.props.manuscriptID ||
-      projectID !== this.props.projectID
-    ) {
+    if (projectID !== this.props.projectID) {
       this.sub.unsubscribe()
 
       this.setState({ data: undefined })
@@ -72,14 +58,14 @@ class ProjectManuscriptModelsData extends DataComponent<
       if (projectID !== this.props.projectID) {
         this.collection.removeEventListener('complete', this.handleComplete)
 
-        this.collection = CollectionManager.getCollection<ModelType>(
+        this.collection = CollectionManager.getCollection<ContainedModel>(
           `project-${projectID}`
         )
 
         this.collection.addEventListener('complete', this.handleComplete)
       }
 
-      this.sub = this.subscribe(projectID, manuscriptID)
+      this.sub = this.subscribe(projectID)
     }
   }
 
@@ -89,12 +75,10 @@ class ProjectManuscriptModelsData extends DataComponent<
     this.sub.unsubscribe()
   }
 
-  private subscribe = (containerID: string, manuscriptID: string) =>
+  private subscribe = (containerID: string) =>
     this.collection
       .find({
         containerID,
-        manuscriptID,
-        objectType: ObjectTypes.Manuscript,
       })
       .$.subscribe(docs => {
         if (docs) {
@@ -105,4 +89,4 @@ class ProjectManuscriptModelsData extends DataComponent<
       })
 }
 
-export default ProjectManuscriptModelsData
+export default ProjectModelsData

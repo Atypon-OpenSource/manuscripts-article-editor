@@ -61,6 +61,9 @@ export const UserInfo: React.FunctionComponent<UserProps> = ({ user }) => {
       {/*<DropdownLink to={'/preferences'}>
       <PreferencesMessage />
     </DropdownLink>*/}
+      <DropdownSeparator />
+      <DropdownLink to={'/diagnostics'}>Diagnostics</DropdownLink>
+      <DropdownSeparator />
       <DropdownLink to="/logout" onClick={handleLogout}>
         <SignOutMessage />
       </DropdownLink>

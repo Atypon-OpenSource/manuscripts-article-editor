@@ -25,6 +25,7 @@ import ProjectKeywordsData from '../../data/ProjectKeywordsData'
 import ProjectLibraryCollectionsData from '../../data/ProjectLibraryCollectionsData'
 import ProjectLibraryData from '../../data/ProjectLibraryData'
 import ProjectManuscriptsData from '../../data/ProjectManuscriptsData'
+import ProjectModelsData from '../../data/ProjectModelsData'
 import ProjectsData from '../../data/ProjectsData'
 import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
@@ -46,6 +47,7 @@ import {
 } from '../Placeholders'
 import EmptyProjectPageContainer from './EmptyProjectPageContainer'
 import { ManuscriptPageContainerProps } from './ManuscriptPageContainer'
+import { ProjectDiagnosticsPageContainer } from './ProjectDiagnosticsPageContainer'
 
 const LibraryPageContainer = React.lazy<
   React.ComponentType<LibraryPageContainerProps>
@@ -520,6 +522,29 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                               </ContainerInvitationsData>
                                                             )}
                                                           </ProjectInvitationsData>
+                                                        )}
+                                                      />
+
+                                                      <Route
+                                                        path={
+                                                          '/projects/:projectID/diagnostics'
+                                                        }
+                                                        exact={true}
+                                                        render={() => (
+                                                          <ProjectModelsData
+                                                            projectID={
+                                                              projectID
+                                                            }
+                                                          >
+                                                            {data => (
+                                                              <ProjectDiagnosticsPageContainer
+                                                                data={data}
+                                                                projectID={
+                                                                  projectID
+                                                                }
+                                                              />
+                                                            )}
+                                                          </ProjectModelsData>
                                                         )}
                                                       />
                                                     </Switch>

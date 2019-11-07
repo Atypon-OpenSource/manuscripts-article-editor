@@ -192,5 +192,14 @@ export const buildProjectMenu = (props: Props): MenuItem => ({
       label: () => 'Rename Project',
       run: () => props.openRenameProject(props.project),
     },
+    {
+      role: 'separator',
+    },
+    {
+      id: 'project-diagnostics',
+      label: () => 'View Diagnostics',
+      run: () =>
+        props.history.push(`/projects/${props.project._id}/diagnostics`),
+    },
   ],
 })
