@@ -21,6 +21,8 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
+import { extname } from 'path'
+import { FileExtensionError } from '../lib/errors'
 import { cleanItem } from './clean-item'
 import { removeUnsupportedData } from './exporter'
 import { convert } from './pressroom'
@@ -183,7 +185,7 @@ export const acceptedMimeTypes = () => {
 export const openFilePicker = (
   acceptedExtensions: string[] = acceptedFileExtensions()
 ): Promise<File> =>
-  new Promise(resolve => {
+  new Promise((resolve, reject) => {
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = acceptedExtensions.join(',')
@@ -206,7 +208,16 @@ export const openFilePicker = (
 
     input.addEventListener('change', () => {
       if (input.files && input.files.length) {
-        resolve(input.files[0])
+        const [file] = input.files
+
+        const extension = extname(file.name)
+
+        if (acceptedExtensions.includes(extension)) {
+          resolve(file)
+        } else {
+          const error = new FileExtensionError(extension, acceptedExtensions)
+          reject(error)
+        }
       } else {
         resolve()
       }

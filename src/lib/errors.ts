@@ -28,3 +28,15 @@ export class BulkCreateError extends CustomError {
     this.failures = failures
   }
 }
+
+export class FileExtensionError extends CustomError {
+  public extension: string
+  public acceptedExtensions: string[]
+
+  constructor(extension: string, acceptedExtensions: string[]) {
+    super('')
+    Object.setPrototypeOf(this, new.target.prototype)
+    this.extension = extension
+    this.acceptedExtensions = acceptedExtensions
+  }
+}

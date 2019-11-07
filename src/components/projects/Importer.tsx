@@ -13,8 +13,9 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
+import config from '../../config'
+import { BulkCreateError, FileExtensionError } from '../../lib/errors'
 import { importFile, openFilePicker } from '../../pressroom/importers'
-import { buildImportErrorMessage } from '../Messages'
 import { ProgressModal } from './ProgressModal'
 
 interface Props {
@@ -119,4 +120,51 @@ export class Importer extends React.Component<Props, State> {
       this.props.handleComplete
     )
   }
+}
+
+const buildImportErrorMessage = (error: Error) => {
+  const contactMessage = (
+    <p>Please contact {config.support.email} if this persists.</p>
+  )
+
+  if (error instanceof BulkCreateError) {
+    return (
+      <div>
+        <p>There was an error saving one or more items.</p>
+
+        {contactMessage}
+
+        <ul>
+          {error.failures.map(failure => (
+            <li key={failure.id}>
+              {failure.name}: {failure.id}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  if (error instanceof FileExtensionError) {
+    return (
+      <div>
+        <p>Could not import file with extension {error.extension}</p>
+
+        <p>The following file extensions are supported:</p>
+
+        <ul>
+          {error.acceptedExtensions.map(extension => (
+            <li key={extension}>{extension}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <p>There was an error importing the manuscript.</p>
+      {contactMessage}
+    </div>
+  )
 }
