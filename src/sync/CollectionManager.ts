@@ -50,8 +50,14 @@ class CollectionManager {
     return this.collections.get(collection) as Collection<T>
   }
 
-  public removeCollection(collection: CollectionName) {
-    return this.collections.delete(collection)
+  public removeCollection(collectionName: CollectionName) {
+    const collection = this.collections.get(collectionName)
+    collection &&
+      collection.cleanupAndDestroy().catch(() => {
+        /* tslint:disable-next-line:no-console */
+        console.error('Unable to properly cleanup collection', collectionName)
+      })
+    return this.collections.delete(collectionName)
   }
 
   public subscribe(listener: CollectionEventListener) {

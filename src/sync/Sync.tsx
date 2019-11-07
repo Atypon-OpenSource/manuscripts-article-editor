@@ -96,14 +96,6 @@ class Sync<T extends Model> extends React.PureComponent<Props, State<T>> {
   }
 
   public componentWillUnmount() {
-    const { collection } = this.state
-
-    if (collection) {
-      collection.cancelReplications().catch(error => {
-        console.error(error) // tslint:disable-line:no-console
-      })
-    }
-
     CollectionManager.removeCollection(this.props.collection)
   }
 

@@ -10,28 +10,22 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { debounce } from 'lodash-es'
+export const onIdle = (idleFunc: () => boolean, activeFunc: () => boolean) => {
+  // if the idleFunc returns false keep trying it every 0.5s
+  // until it returns true
+  const idleFuncWrapped = () => {
+    const timer = window.setInterval(() => {
+      const result = idleFunc()
 
-export const onIdle = (
-  idleFunc: () => void,
-  activeFunc: () => void,
-  time: number
-) => {
-  const debouncedActiveFunc = debounce(activeFunc, 100, {
-    maxWait: 1000,
-  })
-
-  let timer: number
-  const begin = () => {
-    debouncedActiveFunc()
-
-    window.clearInterval(timer)
-    timer = window.setInterval(idleFunc, time)
+      if (result) window.clearInterval(timer)
+    }, 500)
   }
 
-  window.addEventListener('mousemove', begin)
-  window.addEventListener('keydown', begin)
-  window.addEventListener('scroll', begin)
+  window.addEventListener('blur', idleFuncWrapped)
+  window.addEventListener('focus', activeFunc)
 
-  begin()
+  return () => {
+    window.removeEventListener('blur', idleFuncWrapped)
+    window.removeEventListener('focus', activeFunc)
+  }
 }

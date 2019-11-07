@@ -131,6 +131,8 @@ export class Collection<T extends Model> implements EventTarget {
 
   private eventTypes: EventType[] = ['active', 'complete', 'error']
 
+  private idleHandlerCleanup?: () => void
+
   public constructor(props: CollectionProps) {
     this.collectionName = this.buildCollectionName(props.collection)
     this.props = props
@@ -184,24 +186,29 @@ export class Collection<T extends Model> implements EventTarget {
         .then(() => {
           // cancel replications in idle tabs to save resources and allow new tabs
           // to connect
-          onIdle(
+          this.idleHandlerCleanup = onIdle(
             () => {
-              if (this.status.pull.active || this.status.pull.active) return
+              if (this.status.pull.active || this.status.pull.active) {
+                return false
+              }
               console.log('Idle, canceling replication', this.status) // tslint:disable-line:no-console
 
               this.cancelReplications().catch(error => {
                 console.error(`Unable to stop replication`, error) // tslint:disable-line:no-console
               })
+
+              return true
             },
             () => {
-              if (this.replications.push || this.replications.pull) return
+              if (this.replications.push || this.replications.pull) return false
               console.log('Active, resuming replication', this.replications) // tslint:disable-line:no-console
 
               this.startSyncing().catch(error => {
                 console.error(`Unable to start syncing`, error) // tslint:disable-line:no-console
               })
-            },
-            10 * 1000
+
+              return true
+            }
           )
         })
         .catch(error => {
@@ -442,6 +449,27 @@ export class Collection<T extends Model> implements EventTarget {
       return !!changes.results.length
     } catch (e) {
       return true
+    }
+  }
+
+  public async cleanupAndDestroy() {
+    try {
+      if (await this.hasUnsyncedChanges()) {
+        await this.syncOnce('push', { live: false, retry: false })
+      }
+      await this.cancelReplications()
+      // TODO: destroy the collection
+      // this is only needed to free up memory
+      // doing this now causes a conflict in MPUserProject the next
+      // time the project is opened, so apparently some writing is still
+      // happening while the project is being closed
+      // if (this.collection) {
+      //   await this.collection.destroy()
+      // }
+      this.idleHandlerCleanup && this.idleHandlerCleanup()
+      return true
+    } catch (e) {
+      return false
     }
   }
 
