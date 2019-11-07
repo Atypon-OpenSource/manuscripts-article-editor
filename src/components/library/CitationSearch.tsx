@@ -148,12 +148,6 @@ export const CitationSearch: React.FC<{
         selected.set(id, data as Build<BibliographyItem>) // re-use existing data model
         setSelected(new Map<string, Build<BibliographyItem>>([...selected]))
       } else {
-        const { DOI } = data
-
-        if (!DOI) {
-          throw new Error('No DOI')
-        }
-
         setFetching(fetching => {
           fetching.add(id)
           return new Set<string>([...fetching])
@@ -161,7 +155,7 @@ export const CitationSearch: React.FC<{
 
         // fetch Citeproc JSON
         crossref
-          .fetch(DOI, config.support.email)
+          .fetch(data, config.support.email)
           .then(result => {
             // remove DOI URLs
             if (

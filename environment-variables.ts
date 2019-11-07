@@ -38,6 +38,7 @@ export const environmentVariables = [
   'SERVICEWORKER_ENABLED',
   'SUPPORT_EMAIL',
   'SYNC_GATEWAY_URL',
+  'ZOTERO_TRANSLATION_SERVER',
 ]
 
 // Optional variables that are only used if they're set
@@ -52,6 +53,7 @@ const optionalVariables = [
   'NATIVE',
   'SENTRY_PUBLIC_DSN',
   'SERVICEWORKER_ENABLED',
+  'ZOTERO_TRANSLATION_SERVER',
 ]
 
 if (

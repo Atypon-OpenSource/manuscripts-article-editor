@@ -93,11 +93,19 @@ services:
       - api
       - data
       - jupyter
+      - translation_server
     ports:
       - 8080:8080
     volumes:
       - yarn-cache:/cache/yarn
       - build-cache:/app/node_modules/.cache
+
+  translation_server:
+    image: zotero/translation-server
+    environment:
+      - NODE_CONFIG={"allowedOrigins":["*"]}
+    ports:
+      - 1969:1969
 
 volumes:
   couchbase-data:

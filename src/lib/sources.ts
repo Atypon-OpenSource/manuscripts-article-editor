@@ -10,9 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { crossref, datacite, pubmed } from '@manuscripts/manuscript-editor'
+import { crossref, datacite, pubmed, url } from '@manuscripts/manuscript-editor'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import config from '../config'
 
 type SearchInterface = (
   query: string,
@@ -26,7 +27,10 @@ type SearchInterface = (
 export interface LibrarySource {
   id: string
   name: string
-  fetch: (doi: string, mailto: string) => Promise<Partial<BibliographyItem>>
+  fetch: (
+    item: Partial<BibliographyItem>,
+    mailto: string
+  ) => Promise<Partial<BibliographyItem>>
   search: SearchInterface
 }
 
@@ -50,3 +54,12 @@ export const sources: LibrarySource[] = [
     fetch: pubmed.fetch,
   },
 ]
+
+if (config.translation_server.url) {
+  sources.push({
+    id: 'url',
+    name: 'URL',
+    search: url.search as SearchInterface,
+    fetch: url.fetch,
+  })
+}

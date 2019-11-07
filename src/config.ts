@@ -68,6 +68,9 @@ interface Config {
   iam: {
     url: string
   }
+  translation_server: {
+    url: string
+  }
 }
 
 const isTrue = (value: string | undefined) => {
@@ -137,6 +140,9 @@ const config = {
   },
   iam: {
     url: normalizeURL(process.env.IAM_BASE_URL),
+  },
+  translation_server: {
+    url: normalizeURL(process.env.ZOTERO_TRANSLATION_SERVER),
   },
 }
 

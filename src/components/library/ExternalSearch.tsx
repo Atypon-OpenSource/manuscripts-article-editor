@@ -121,12 +121,6 @@ export const ExternalSearch: React.FC<
           throw new Error('Selected map not built')
         }
 
-        const identifier = source.id === 'pubmed' ? item.PMID : item.DOI
-
-        if (!identifier) {
-          throw new Error('No identifier available')
-        }
-
         const estimatedID = estimateID(item)
 
         if (selected.has(estimatedID)) {
@@ -139,7 +133,7 @@ export const ExternalSearch: React.FC<
         })
 
         source
-          .fetch(identifier, config.support.email)
+          .fetch(item, config.support.email)
           .then(data => {
             const item = buildBibliographyItem(data)
 

@@ -112,10 +112,6 @@ export const GlobalLibrary: React.FC<
 
     const handleSelect = useCallback(
       (id: string, item: Partial<BibliographyItem>) => {
-        if (!item.DOI) {
-          throw new Error('No DOI available')
-        }
-
         if (!selected) {
           throw new Error('Selected map not built')
         }
@@ -132,7 +128,7 @@ export const GlobalLibrary: React.FC<
         })
 
         crossref
-          .fetch(item.DOI, config.support.email)
+          .fetch(item, config.support.email)
           .then(data => {
             const item = buildBibliographyItem(data)
 
