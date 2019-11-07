@@ -40,6 +40,7 @@ export const ModalSidebar = styled.div`
   border-top-left-radius: ${props => props.theme.grid.radius.default};
   border-bottom-left-radius: ${props => props.theme.grid.radius.default};
   max-width: 40vw;
+  overflow: auto;
   width: 280px;
 `
 
@@ -53,7 +54,7 @@ export const ModalBody = styled.div`
   align-items: stretch;
   display: flex;
   flex: 1;
-  height: 70vh;
+  height: 90vh;
   max-height: 680px;
 `
 
