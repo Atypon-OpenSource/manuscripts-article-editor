@@ -213,9 +213,10 @@ export class Collection<T extends Model> implements EventTarget {
           // to connect
           this.idleHandlerCleanup = onIdle(
             () => {
-              if (this.status.pull.active || this.status.pull.active) {
+              if (this.status.push.active || this.status.pull.active) {
                 return false
               }
+
               console.log('Idle, canceling replication', this.status) // tslint:disable-line:no-console
 
               this.cancelReplications().catch(error => {
@@ -225,7 +226,10 @@ export class Collection<T extends Model> implements EventTarget {
               return true
             },
             () => {
-              if (this.replications.push || this.replications.pull) return false
+              if (this.replications.push || this.replications.pull) {
+                return false
+              }
+
               console.log('Active, resuming replication', this.replications) // tslint:disable-line:no-console
 
               this.startSyncing().catch(error => {
