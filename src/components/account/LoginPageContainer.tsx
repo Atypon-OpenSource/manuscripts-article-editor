@@ -278,8 +278,9 @@ class LoginPageContainer extends React.Component<
   private redirectAfterLogin = () => {
     const { state } = this.props.location
 
-    window.location.href =
+    window.location.assign(
       state && state.from ? state.from.pathname : '/projects'
+    )
   }
 
   private errorName = (response: AxiosResponse) => {

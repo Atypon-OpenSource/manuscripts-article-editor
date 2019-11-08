@@ -29,4 +29,5 @@ declare interface Window {
   getMenuState?: (key: string) => MenuItemState
   dispatchMenuAction?: (key: string) => void
   dispatchToolbarAction?: (key: string) => void
+  restartSync: () => void
 }

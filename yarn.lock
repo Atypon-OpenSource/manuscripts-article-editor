@@ -1808,10 +1808,10 @@
     react-sizeme "^2.6.7"
     tooltip.js "^1.3.2"
 
-"@manuscripts/sync-client@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.3.3.tgz#bb4953ad87bd6bd06e84452d302938a1f74a1c6b"
-  integrity sha512-H/fHXdGNsqTqN1uVAbYoygC7x+xAuFpM5ASs5jQDM1+VFgixYRHspK8PNwJ+fWgkzxu56K1dh2+/l9Js4CchMg==
+"@manuscripts/sync-client@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.4.0.tgz#128247a25e96ef725c7b19c75a9f7ef9df334e28"
+  integrity sha512-c8H51em7fNRuuVXvIBpH+A+4/+0tTFjLpTOW0WkJXg/VGP/treLCPwYVblFoLh928qzbrbxeU7bzYTgXQimsLQ==
   dependencies:
     "@manuscripts/prosemirror-recreate-steps" "^0.1.4"
     lodash.isequal "^4.5.0"

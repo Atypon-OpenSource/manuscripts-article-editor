@@ -95,11 +95,12 @@ class RecoverPageContainer extends React.Component<RouteComponentProps> {
 
       setSubmitting(false)
 
-      window.location.href =
+      window.location.assign(
         '/projects#' +
-        stringify({
-          action: MessageBannerAction.resetPassword,
-        })
+          stringify({
+            action: MessageBannerAction.resetPassword,
+          })
+      )
     } catch (error) {
       setSubmitting(false)
 

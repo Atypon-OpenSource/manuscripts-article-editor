@@ -16,6 +16,8 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import IntlProvider from './components/IntlProvider'
 import { LoadingPage } from './components/Loading'
+import { NativeToken } from './components/NativeToken'
+import config from './config'
 import './lib/analytics'
 import './lib/fonts'
 import tokenHandler from './lib/token'
@@ -48,6 +50,15 @@ ReactDOM.render(
                   return null
                 }}
               />
+
+              {config.native && (
+                <Route
+                  path={'/native'}
+                  exact={true}
+                  render={() => <NativeToken />}
+                />
+              )}
+
               <Route path={'/'} render={() => <Main />} />
             </Switch>
           </BrowserRouter>

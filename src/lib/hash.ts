@@ -10,36 +10,35 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { stringify } from 'qs'
-import React from 'react'
-import config from '../../config'
-import deviceId from '../../lib/device-id'
-import { AuthenticationButtonProps } from './Authentication'
+import { parse } from 'qs'
 
-export type AuthProvider = 'google' | 'orcid' | 'iam'
-
-interface Props {
-  component: React.FunctionComponent<AuthenticationButtonProps>
+interface HashData {
+  error: string
+  access_token: string
+  token: string
+  email: string
+  redirect: boolean
+  destination: string
 }
 
-class AuthButtonContainer extends React.Component<Props> {
-  public render() {
-    const { component: Component } = this.props
-
-    return <Component redirect={this.redirect} />
+export const parseHash = (hash?: string): HashData => {
+  const defaults = {
+    error: '',
+    access_token: '',
+    token: '',
+    email: '',
+    redirect: false,
+    destination: '',
   }
 
-  private redirect = (provider: AuthProvider, action?: string) => () => {
-    const params = {
-      deviceId,
-      ...config.api.headers,
-      action,
-    }
+  if (!hash || hash.length < 2) {
+    return defaults
+  }
 
-    window.location.assign(
-      config.api.url + '/auth/' + provider + '?' + stringify(params)
-    )
+  const parsed = parse(hash.substr(1))
+
+  return {
+    ...defaults,
+    ...parsed,
   }
 }
-
-export default AuthButtonContainer

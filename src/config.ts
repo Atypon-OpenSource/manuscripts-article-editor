@@ -68,6 +68,9 @@ interface Config {
   iam: {
     url: string
   }
+  backupReplication: {
+    url?: string
+  }
   translation_server: {
     url: string
   }
@@ -140,6 +143,9 @@ const config = {
   },
   iam: {
     url: normalizeURL(process.env.IAM_BASE_URL),
+  },
+  backupReplication: {
+    url: process.env.BACKUP_REPLICATION_URL,
   },
   translation_server: {
     url: normalizeURL(process.env.ZOTERO_TRANSLATION_SERVER),

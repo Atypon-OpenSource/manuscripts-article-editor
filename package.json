@@ -52,7 +52,7 @@
     "@manuscripts/resizer": "^0.0.3",
     "@manuscripts/rxdb": "8.2.0-manuscripts1",
     "@manuscripts/style-guide": "^0.12.0",
-    "@manuscripts/sync-client": "^0.3.3",
+    "@manuscripts/sync-client": "^0.4.0",
     "@manuscripts/title-editor": "^0.4.0",
     "@reach/tabs": "^0.1.6",
     "@sentry/browser": "^5.6.3",

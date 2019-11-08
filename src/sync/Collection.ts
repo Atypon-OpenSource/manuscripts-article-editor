@@ -13,7 +13,6 @@
 import {
   Build,
   ModelAttachment,
-  // isManuscriptModel,
   timestamp,
 } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
@@ -26,7 +25,7 @@ import {
   RxReplicationState,
 } from '@manuscripts/rxdb'
 import { ConflictManager } from '@manuscripts/sync-client'
-import { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 import { cloneDeep } from 'lodash-es'
 import generateReplicationID from 'pouchdb-generate-replication-id'
 import { CollectionName, collections } from '../collections'
@@ -94,6 +93,23 @@ export const isReplicationError = (
       error.result.status
   )
 }
+
+export const promisifyReplicationState = (
+  replicationState: RxReplicationState
+) =>
+  new Promise((resolve, reject) => {
+    replicationState.complete$.subscribe(async complete => {
+      if (complete) {
+        resolve()
+      }
+    })
+
+    replicationState.error$.subscribe(error => {
+      if (error) {
+        reject(error)
+      }
+    })
+  })
 
 const fetchWithCredentials: Fetch = (url, opts = {}) =>
   // tslint:disable-next-line:no-any (PouchDB/RxDB typing needs fetch)
@@ -172,14 +188,23 @@ export class Collection<T extends Model> implements EventTarget {
 
   public async initialize(startSyncing = true) {
     this.collection = await this.openCollection(this.collectionName)
-    this.conflictManager = new ConflictManager(this.collection as RxCollection<
-      Model
-    >)
+    this.conflictManager = new ConflictManager(
+      this.collection as RxCollection<Model>,
+      this.broadcastPurge
+    )
 
     const pouch = this.collection.pouch as PouchDB & EventEmitter
     pouch.setMaxListeners(50)
 
     this.status = cloneDeep(initialReplicationStatus)
+
+    // one-time pull from backup on initialization
+    if (config.native && config.backupReplication.url) {
+      await this.backupPullOnce({
+        retry: false,
+        live: false,
+      })
+    }
 
     if (startSyncing) {
       this.startSyncing()
@@ -233,27 +258,28 @@ export class Collection<T extends Model> implements EventTarget {
 
     this.replications[direction] = replicationState
 
-    return new Promise((resolve, reject) => {
-      replicationState.complete$.subscribe(async complete => {
-        if (complete) {
-          this.replications[direction] = null
-          this.setStatus(direction, 'complete', true)
-          resolve()
-        }
+    return promisifyReplicationState(replicationState)
+      .then(() => {
+        this.replications[direction] = null
+        this.setStatus(direction, 'complete', true)
       })
-
-      replicationState.error$.subscribe(error => {
-        if (error) {
-          this.replications[direction] = null
-          // successfully handled sync error but failed again, move on
-          this.setStatus(direction, 'complete', true)
-          reject(error)
-        }
+      .catch(err => {
+        this.replications[direction] = null
+        // successfully handled sync error but failed again, move on
+        this.setStatus(direction, 'complete', true)
+        return Promise.reject(err)
       })
-    })
   }
 
   public async startSyncing() {
+    // continuous push to backup
+    if (config.backupReplication.url) {
+      this.backupPush({
+        live: true,
+        retry: true,
+      })
+    }
+
     // TODO: need to know if initial push failed?
     // await this.syncOnce('push')
 
@@ -685,6 +711,30 @@ export class Collection<T extends Model> implements EventTarget {
     throw error
   }
 
+  private backupPush(options: PouchReplicationOptions) {
+    return this.getCollection().sync({
+      ...options,
+      remote: this.getBackupUrl(),
+      direction: {
+        push: true,
+        pull: false,
+      },
+    })
+  }
+
+  private backupPullOnce(options: PouchReplicationOptions) {
+    return promisifyReplicationState(
+      this.getCollection().sync({
+        options,
+        remote: this.getBackupUrl(),
+        direction: {
+          push: false,
+          pull: true,
+        },
+      })
+    )
+  }
+
   private atomicUpdate = async <T extends Model>(
     prev: RxDocument<T>,
     data: Partial<T>
@@ -713,7 +763,26 @@ export class Collection<T extends Model> implements EventTarget {
     }
   }
 
+  private broadcastPurge = (id: string, rev: string) => {
+    if (config.backupReplication.url) {
+      axios.post(this.getBackupUrl(), { [id]: [rev] }).catch(error => {
+        console.error(error) // tslint:disable-line:no-console
+      })
+    }
+  }
+
   private getRemoteUrl = () => {
     return `${config.gateway.url}/${this.bucketName}`
+  }
+
+  private getBackupUrl = (): string => {
+    if (!config.backupReplication.url) {
+      throw new Error('Backup replication URL not configured')
+    }
+
+    const bucketPath =
+      this.bucketName === 'projects' ? this.collectionName : this.bucketName
+
+    return `${config.backupReplication.url}/${bucketPath}`
   }
 }

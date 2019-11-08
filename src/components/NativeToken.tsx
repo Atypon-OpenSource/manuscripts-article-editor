@@ -10,36 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { stringify } from 'qs'
-import React from 'react'
-import config from '../../config'
-import deviceId from '../../lib/device-id'
-import { AuthenticationButtonProps } from './Authentication'
+import React, { useEffect } from 'react'
+import { parseHash } from '../lib/hash'
+import tokenHandler from '../lib/token'
 
-export type AuthProvider = 'google' | 'orcid' | 'iam'
-
-interface Props {
-  component: React.FunctionComponent<AuthenticationButtonProps>
-}
-
-class AuthButtonContainer extends React.Component<Props> {
-  public render() {
-    const { component: Component } = this.props
-
-    return <Component redirect={this.redirect} />
-  }
-
-  private redirect = (provider: AuthProvider, action?: string) => () => {
-    const params = {
-      deviceId,
-      ...config.api.headers,
-      action,
-    }
-
-    window.location.assign(
-      config.api.url + '/auth/' + provider + '?' + stringify(params)
+export const NativeToken: React.FC = () => {
+  useEffect(() => {
+    const { access_token: accessToken, destination } = parseHash(
+      window.location.hash
     )
-  }
-}
 
-export default AuthButtonContainer
+    if (accessToken) {
+      tokenHandler.set(accessToken)
+      window.location.assign(destination)
+    }
+  }, [])
+
+  return null
+}

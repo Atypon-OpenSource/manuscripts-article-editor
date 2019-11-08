@@ -12,7 +12,9 @@
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { CollectionName } from '../collections'
+import config from '../config'
 import { refreshSyncSessions } from '../lib/api'
+import { postWebkitMessage } from '../lib/native'
 import { Collection, CollectionProps } from './Collection'
 import { isUnauthorized } from './syncErrors'
 import { CollectionEvent, CollectionEventListener } from './types'
@@ -21,6 +23,14 @@ class CollectionManager {
   private collections: Map<string, Collection<Model>> = new Map()
   private listeners: CollectionEventListener[] = []
   private isExpiredSyncGatewaySession: boolean = false
+
+  public constructor() {
+    window.restartSync = () => {
+      this.restartAll().catch(error => {
+        console.error(error) // tslint:disable-line:no-console
+      })
+    }
+  }
 
   public async createCollection<T extends Model>(
     props: CollectionProps
@@ -117,19 +127,25 @@ class CollectionManager {
       if (!this.isExpiredSyncGatewaySession) {
         this.isExpiredSyncGatewaySession = true
 
-        /* tslint:disable-next-line:no-console */
-        console.info('Attempting to refresh sync session ...')
+        if (config.native) {
+          /* tslint:disable-next-line:no-console */
+          console.info('Requesting the native client to refresh sync session…')
+          postWebkitMessage('sync', {})
+        } else {
+          /* tslint:disable-next-line:no-console */
+          console.info('Attempting to refresh sync session…')
 
-        return refreshSyncSessions()
-          .then(() => {
-            this.isExpiredSyncGatewaySession = false
-            return this.restartAll()
-          })
-          .catch(() => {
-            // refreshing sync session failed.
-            // pass the original event onto the listeners.
-            this.listeners.forEach(listener => listener(event))
-          })
+          return refreshSyncSessions()
+            .then(() => {
+              this.isExpiredSyncGatewaySession = false
+              return this.restartAll()
+            })
+            .catch(() => {
+              // refreshing sync session failed.
+              // pass the original event onto the listeners.
+              this.listeners.forEach(listener => listener(event))
+            })
+        }
       }
       return
     }
