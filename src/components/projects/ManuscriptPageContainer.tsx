@@ -136,6 +136,7 @@ import Panel from '../Panel'
 import { ManuscriptPlaceholder } from '../Placeholders'
 import CitationStyleSelector from '../templates/CitationStyleSelector'
 import TemplateSelector from '../templates/TemplateSelector'
+import { ResizingInspectorButton } from './../ResizerButtons'
 import { ApplicationMenuContainer } from './ApplicationMenuContainer'
 import ConflictResolver from './ConflictResolver'
 import {
@@ -537,6 +538,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           side={'start'}
           hideWhen={'max-width: 900px'}
           forceOpen={commentTarget !== undefined}
+          resizerButton={ResizingInspectorButton}
         >
           {this.state.view && comments && (
             <Inspector

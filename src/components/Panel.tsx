@@ -11,8 +11,21 @@
  */
 
 import { Resizer, ResizerDirection, ResizerSide } from '@manuscripts/resizer'
+import { RoundIconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import layout, { Pane } from '../lib/layout'
+import { styled } from '../theme/styled-components'
+
+export interface ResizerButtonInnerProps {
+  isCollapsed: boolean
+  isVisible: boolean
+}
+export const ResizerButton = styled(RoundIconButton)<ResizerButtonInnerProps>`
+  position: absolute;
+  top: 50%;
+  margin: -20px;
+  line-height: 1;
+`
 
 interface PanelProps {
   name: string
@@ -21,6 +34,7 @@ interface PanelProps {
   side: ResizerSide
   hideWhen?: string
   forceOpen?: boolean
+  resizerButton?: React.ComponentType<ResizerButtonInnerProps>
 }
 
 interface PanelState {
@@ -82,7 +96,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
   }
 
   public render() {
-    const { children, direction, side } = this.props
+    const { children, direction, resizerButton, side } = this.props
     const { collapsed, hidden, size, originalSize } = this.state
 
     if (size === null || originalSize === null) return null
@@ -97,6 +111,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
         onResize={this.handleResize}
         onResizeEnd={this.handleResizeEnd}
         onResizeButton={this.handleResizeButton}
+        buttonInner={resizerButton}
       />
     )
 

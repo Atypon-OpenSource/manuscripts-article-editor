@@ -19,6 +19,7 @@ const Section = styled.div`
   border-top: 1px solid ${props => props.theme.colors.border.tertiary};
   padding: ${props => props.theme.grid.unit * 4}px
     ${props => props.theme.grid.unit}px;
+  padding-left: ${props => props.theme.grid.unit * 5}px;
   font-size: ${props => props.theme.font.size.normal};
 
   &:last-child {

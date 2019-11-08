@@ -1644,7 +1644,7 @@
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.4.1.tgz#3aafbcd5df2c706358fa5508369981534119a8ee"
   integrity sha512-pG77YvrElOFJ9KnMuC06X5etfNt0LcvdTiGwCuXLuGQWDM/N1MIC0FwDaPCxR3QlqfvCljHbhJJv4iDlCrNPUg==
 
-"@manuscripts/assets@^0.5.11", "@manuscripts/assets@^0.5.3":
+"@manuscripts/assets@^0.5.11":
   version "0.5.11"
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.11.tgz#1022045d6a3ebb2911cc18e78cc44278d03d11fd"
   integrity sha512-D1KeznmoTOI6UFPSF8A+OKenyNerCSm62nhfoU4X6URg/x7GWgf1AtBTn9v7DzHu+O0y0YYaWO0qSsVH+SF9Qg==
@@ -1761,10 +1761,10 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/resizer@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/@manuscripts/resizer/-/resizer-0.0.3.tgz#79f560c4e5047d695f848940ffd0dd19f67dc814"
-  integrity sha512-nSbugjavTq4TPQpj1rOoHX58CCTD6ZqROM+06UXDu8tOa7qPQQcoRb12H38rQ7HvZIWAV/PTf4nf42/Jl52f/g==
+"@manuscripts/resizer@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@manuscripts/resizer/-/resizer-0.0.4.tgz#2a124e39e2c83d249c370cbb7f7c8bbbaf82545e"
+  integrity sha512-UZjen75oGByk1bcWNrkXgKhozHYMHInhZi5I/RVfpbRfIj8+4X+4iwAwd8IZf0ceAuD1Rriig09RAsSWtNpvyA==
 
 "@manuscripts/rxdb@8.2.0-manuscripts1":
   version "8.2.0-manuscripts1"
@@ -1795,12 +1795,12 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.12.0.tgz#b04ca7f9164f72e38dc0d757d550e753ca4b5e9d"
-  integrity sha512-qb50qDHwNNeSxqHe29QcpIS9WrVB1g8MBf0px9bcxPXvgx+Ul8SFNU4kkPGcvoV4kCIXE7V4tosP2UP0J8ek1A==
+"@manuscripts/style-guide@^0.13.2":
+  version "0.13.2"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.13.2.tgz#169d31c3a2d3229379861101f1621f584569844e"
+  integrity sha512-87d7PryPAQpMTTddLu8q+wDCrGSSnmbUYZqVyabl1ESFm4LaD2ZzmlTQ4fm0ltPYYW11YO97U449O+AZiGWVmg==
   dependencies:
-    "@manuscripts/assets" "^0.5.3"
+    "@manuscripts/assets" "^0.5.11"
     lodash-es "^4.17.11"
     react-dnd "^9.4.0"
     react-modal "^3.8.1"

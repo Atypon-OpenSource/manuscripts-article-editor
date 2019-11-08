@@ -13,6 +13,7 @@
 import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
 import Panel from './Panel'
+import { ResizingOutlinerButton } from './ResizerButtons'
 import { Sidebar, SidebarContent, SidebarFooter } from './Sidebar'
 
 interface Props {
@@ -41,6 +42,7 @@ const PageSidebar: React.FunctionComponent<Props> = ({
     hideWhen={hideWhen}
     side={side}
     minSize={minSize || 300}
+    resizerButton={ResizingOutlinerButton}
   >
     <Sidebar data-cy={'sidebar'}>
       {sidebarTitle}
