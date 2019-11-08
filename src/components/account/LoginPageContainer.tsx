@@ -71,7 +71,7 @@ interface HashData {
   access_token?: string
   token?: string
   email?: string
-  redirect?: boolean
+  redirect?: boolean | string
 }
 
 interface RouteLocationState {
@@ -185,6 +185,9 @@ class LoginPageContainer extends React.Component<
     )
   }
 
+  private isRedirectAction = (redirect: string | boolean) =>
+    redirect === 'login' || redirect === 'register'
+
   private handleHash = (hash: string) => {
     const { action, error, access_token: token, redirect }: HashData = parse(
       hash
@@ -204,10 +207,11 @@ class LoginPageContainer extends React.Component<
       window.location.assign('/projects')
     }
 
-    if (redirect) {
+    if (redirect && config.connect.enabled) {
       const params = {
         deviceId,
         ...config.api.headers,
+        action: this.isRedirectAction(redirect) ? redirect : undefined,
       }
 
       window.location.assign(config.api.url + '/auth/iam?' + stringify(params))

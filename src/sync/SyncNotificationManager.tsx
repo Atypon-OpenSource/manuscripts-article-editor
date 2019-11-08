@@ -11,6 +11,7 @@
  */
 
 import { LocationDescriptor } from 'history'
+import { stringify } from 'qs'
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import { NotificationComponent } from '../components/NotificationProvider'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
@@ -49,6 +50,7 @@ const SyncNotificationManager: NotificationComponent = ({
 
     const locationDescriptor: LocationDescriptor<LocationState> = {
       pathname: '/login',
+      hash: stringify({ redirect: 'login' }),
       state: {
         from: location,
       },
