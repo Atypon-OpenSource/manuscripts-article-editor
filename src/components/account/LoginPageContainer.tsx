@@ -17,13 +17,12 @@ import { FormikActions, FormikErrors } from 'formik'
 import { LocationState } from 'history'
 import * as HttpStatusCodes from 'http-status-codes'
 import decode from 'jwt-decode'
-import { parse, stringify } from 'qs'
+import { parse } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import config from '../../config'
 import { login } from '../../lib/account'
-import { resendVerificationEmail } from '../../lib/api'
-import deviceId from '../../lib/device-id'
+import { redirectToConnect, resendVerificationEmail } from '../../lib/api'
 import tokenHandler from '../../lib/token'
 import { TokenPayload } from '../../lib/user'
 import userID from '../../lib/user-id'
@@ -185,7 +184,7 @@ class LoginPageContainer extends React.Component<
     )
   }
 
-  private isRedirectAction = (redirect: string | boolean) =>
+  private isRedirectAction = (redirect: string | boolean): redirect is string =>
     redirect === 'login' || redirect === 'register'
 
   private handleHash = (hash: string) => {
@@ -208,13 +207,7 @@ class LoginPageContainer extends React.Component<
     }
 
     if (redirect && config.connect.enabled) {
-      const params = {
-        deviceId,
-        ...config.api.headers,
-        action: this.isRedirectAction(redirect) ? redirect : undefined,
-      }
-
-      window.location.assign(config.api.url + '/auth/iam?' + stringify(params))
+      redirectToConnect(this.isRedirectAction(redirect) ? redirect : undefined)
     }
   }
 

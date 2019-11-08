@@ -10,10 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { LocationDescriptor } from 'history'
-import { stringify } from 'qs'
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import { NotificationComponent } from '../components/NotificationProvider'
+import config from '../config'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import CollectionManager from './CollectionManager'
 import syncErrors, {
@@ -24,10 +23,6 @@ import syncErrors, {
 } from './syncErrors'
 import SyncNotification from './SyncNotification'
 import { CollectionEvent } from './types'
-
-interface LocationState {
-  from: LocationDescriptor
-}
 
 const SyncNotificationManager: NotificationComponent = ({
   history,
@@ -48,15 +43,9 @@ const SyncNotificationManager: NotificationComponent = ({
   const handleLogin = useCallback(() => {
     window.localStorage.removeItem('token')
 
-    const locationDescriptor: LocationDescriptor<LocationState> = {
-      pathname: '/login',
-      hash: stringify({ redirect: 'login' }),
-      state: {
-        from: location,
-      },
-    }
-
-    history.push(locationDescriptor)
+    window.location.assign(
+      config.connect.enabled ? '/login#redirect=login' : '/login'
+    )
   }, [history, location])
 
   const handleRetry = useCallback(() => {

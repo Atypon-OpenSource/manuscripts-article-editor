@@ -98,3 +98,15 @@ export const refresh = () =>
       'content-type': 'application/x-www-form-urlencoded',
     },
   })
+
+export const redirectToConnect = (action?: string) => {
+  window.location.assign(
+    config.api.url +
+      '/auth/iam?' +
+      stringify({
+        deviceId,
+        ...config.api.headers,
+        action,
+      })
+  )
+}
