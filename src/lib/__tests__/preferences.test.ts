@@ -18,7 +18,7 @@ describe('preferences', () => {
   })
 
   it('can be set and removed', () => {
-    const prefs: Preferences = { locale: 'en-US' }
+    const prefs: Preferences = { locale: 'ar' }
     expect(Prefs.set(prefs)).toEqual(prefs)
     expect(Prefs.get()).toEqual(prefs)
 

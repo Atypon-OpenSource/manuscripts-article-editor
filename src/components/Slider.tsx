@@ -161,19 +161,23 @@ export class Slider extends React.Component<Props, State> {
   }
 
   private checkForOverflow = () => {
-    const { scrollWidth, clientWidth } = this.sliderRef.current!
-    const hasOverflow = scrollWidth > clientWidth
+    if (this.sliderRef.current) {
+      const { scrollWidth, clientWidth } = this.sliderRef.current
+      const hasOverflow = scrollWidth > clientWidth
 
-    this.setState({ hasOverflow })
+      this.setState({ hasOverflow })
+    }
   }
 
   private checkForScrollPosition = () => {
-    const { scrollLeft, scrollWidth, clientWidth } = this.sliderRef.current!
+    if (this.sliderRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = this.sliderRef.current
 
-    this.setState({
-      canScrollLeft: scrollLeft > 0,
-      canScrollRight: scrollLeft !== scrollWidth - clientWidth,
-    })
+      this.setState({
+        canScrollLeft: scrollLeft > 0,
+        canScrollRight: scrollLeft !== scrollWidth - clientWidth,
+      })
+    }
   }
 
   private scrollContainerBy = (distance: number) => {

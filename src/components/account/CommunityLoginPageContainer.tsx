@@ -38,7 +38,7 @@ export class CommunityLoginPageContainer extends React.Component<Props, State> {
         headers: config.api.headers,
         withCredentials: true,
       })
-      window.location.href = resp.data.url
+      window.location.assign(resp.data.url)
     } catch (error) {
       this.setState({ error })
     }

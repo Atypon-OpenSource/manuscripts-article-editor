@@ -12,8 +12,8 @@
 
 import DOMPurify, { sanitize } from 'dompurify'
 import React, { useEffect, useState } from 'react'
-import { FormattedRelative } from 'react-intl'
 import { sanitizeLink } from '../../lib/sanitize'
+import { RelativeDate } from '../RelativeDate'
 import {
   Heading,
   IndividualTopic,
@@ -96,7 +96,7 @@ export const TopicView: React.FC<{ host: string; topic: Topic }> = ({
 
         <div>
           <Timestamp>
-            <FormattedRelative value={topic.created_at} />
+            <RelativeDate createdAt={Date.parse(topic.created_at)} />
           </Timestamp>
         </div>
       </Heading>

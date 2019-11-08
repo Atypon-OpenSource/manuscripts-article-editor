@@ -108,7 +108,7 @@ export const Signup: React.FunctionComponent<AuthenticationButtonProps> = ({
     onClick={
       config.connect.enabled
         ? redirect('iam', 'register')
-        : () => (window.location.href = '/signup')
+        : () => window.location.assign('/signup')
     }
   >
     <SignupText>Sign Up</SignupText>
@@ -124,7 +124,7 @@ export const Login: React.FunctionComponent<AuthenticationButtonProps> = ({
       onClick={
         config.connect.enabled
           ? redirect('iam', 'login')
-          : () => (window.location.href = '/login')
+          : () => window.location.assign('/login')
       }
     >
       <LoginText>Sign in</LoginText>

@@ -12,9 +12,9 @@
 
 import { BackArrowIcon } from '@manuscripts/style-guide'
 import React from 'react'
-import { FormattedRelative } from 'react-intl'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
+import { RelativeDate } from '../RelativeDate'
 import { TopicView } from './TopicView'
 
 export const Popup = styled.div`
@@ -257,7 +257,7 @@ export class Updates extends React.Component<Props, State> {
 
           <div>
             <Timestamp>
-              <FormattedRelative value={topic.created_at} />
+              <RelativeDate createdAt={Date.parse(topic.created_at)} />
             </Timestamp>
           </div>
         </Heading>

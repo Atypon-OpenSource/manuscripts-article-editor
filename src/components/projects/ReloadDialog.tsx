@@ -70,7 +70,7 @@ const Actions = styled(ButtonGroup)`
 `
 
 const navigateToProjectsList = () => {
-  window.location.href = '/projects'
+  window.location.assign('/projects')
 }
 
 const reloadPage = () => {

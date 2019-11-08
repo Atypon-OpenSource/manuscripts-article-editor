@@ -10,12 +10,18 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { selectUnit } from '@formatjs/intl-utils'
 import React from 'react'
-import { FormattedRelative } from 'react-intl'
+import { FormattedRelativeTime } from 'react-intl'
 
-interface Props {
-  createdAt?: number
+export const RelativeDate: React.FC<{
+  createdAt?: number // milliseconds
+}> = ({ createdAt }) => {
+  if (!createdAt) {
+    return null
+  }
+
+  const { value, unit } = selectUnit(createdAt)
+
+  return <FormattedRelativeTime value={value} unit={unit} />
 }
-
-export const RelativeDate: React.FunctionComponent<Props> = ({ createdAt }) =>
-  createdAt ? <FormattedRelative value={createdAt * 1000} /> : null

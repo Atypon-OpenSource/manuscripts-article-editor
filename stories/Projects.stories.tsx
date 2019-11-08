@@ -17,7 +17,7 @@ import React from 'react'
 import ProjectsMenu from '../src/components/nav/ProjectsMenu'
 import { EmptyProjectPage } from '../src/components/projects/EmptyProjectPage'
 import ManuscriptSidebar from '../src/components/projects/ManuscriptSidebar'
-import { ProjectsList } from '../src/components/projects/ProjectsList'
+// import { ProjectsList } from '../src/components/projects/ProjectsList'
 import { user } from './data/contributors'
 import manuscripts from './data/manuscripts'
 import { people } from './data/people'
@@ -30,7 +30,7 @@ for (const person of people) {
 }
 
 storiesOf('Projects', module)
-  .add('Projects Page', () => (
+  /*.add('Projects Page', () => (
     <ProjectsList
       projects={projects}
       deleteProject={action('delete project')}
@@ -42,7 +42,7 @@ storiesOf('Projects', module)
         update: action('update token'),
       }}
     />
-  ))
+  ))*/
   .add('Projects Page - Empty', () => (
     <EmptyProjectPage
       openTemplateSelector={action('open template selector ')}

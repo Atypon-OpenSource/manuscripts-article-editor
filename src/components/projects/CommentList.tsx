@@ -260,7 +260,7 @@ export const CommentList: React.FC<Props> = React.memo(
                           getCollaboratorById={getCollaboratorById}
                         />
                       )}
-                      <LightRelativeDate createdAt={comment.createdAt} />
+                      <LightRelativeDate createdAt={comment.createdAt * 1000} />
                     </CommentHeader>
 
                     <HighlightedText comment={comment} state={state} />
@@ -288,7 +288,9 @@ export const CommentList: React.FC<Props> = React.memo(
                             getCollaboratorById={getCollaboratorById}
                           />
                         )}
-                        <LightRelativeDate createdAt={comment.createdAt} />
+                        <LightRelativeDate
+                          createdAt={comment.createdAt * 1000}
+                        />
                       </CommentHeader>
 
                       <CommentBody

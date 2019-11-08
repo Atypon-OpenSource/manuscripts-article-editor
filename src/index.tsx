@@ -24,34 +24,36 @@ import { ThemeProvider } from './theme/ThemeProvider'
 const Main = React.lazy(() => import('./Main'))
 
 ReactDOM.render(
-  <IntlProvider>
-    <ThemeProvider>
-      <React.Suspense
-        fallback={
-          <LoadingPage className={'loader'}>
-            <AppIcon />
-          </LoadingPage>
-        }
-      >
-        <BrowserRouter>
-          <Switch>
-            <Route
-              path={'/'}
-              exact={true}
-              children={({ history }) => {
-                if (tokenHandler.get()) {
-                  history.push('/projects')
-                } else {
-                  window.location.href = '/about/'
-                }
-                return null
-              }}
-            />
-            <Route path={'/'} render={() => <Main />} />
-          </Switch>
-        </BrowserRouter>
-      </React.Suspense>
-    </ThemeProvider>
-  </IntlProvider>,
+  <React.StrictMode>
+    <IntlProvider>
+      <ThemeProvider>
+        <React.Suspense
+          fallback={
+            <LoadingPage className={'loader'}>
+              <AppIcon />
+            </LoadingPage>
+          }
+        >
+          <BrowserRouter>
+            <Switch>
+              <Route
+                path={'/'}
+                exact={true}
+                children={({ history }) => {
+                  if (tokenHandler.get()) {
+                    history.push('/projects')
+                  } else {
+                    window.location.assign('/about/')
+                  }
+                  return null
+                }}
+              />
+              <Route path={'/'} render={() => <Main />} />
+            </Switch>
+          </BrowserRouter>
+        </React.Suspense>
+      </ThemeProvider>
+    </IntlProvider>
+  </React.StrictMode>,
   document.getElementById('root')
 )

@@ -12,8 +12,10 @@
 
 const storage = window.localStorage
 
+export type Languages = 'ar' | 'en'
+
 export interface Preferences {
-  locale: string
+  locale: Languages
 }
 
 export const defaults = {

@@ -55,7 +55,7 @@ const DeveloperPageContainer: React.FunctionComponent = () => (
           onClick={async () => {
             await createUserProfile(db)
             alert('Created user profile')
-            window.location.href = '/projects'
+            window.location.assign('/projects')
           }}
         >
           Create user profile
@@ -65,7 +65,7 @@ const DeveloperPageContainer: React.FunctionComponent = () => (
           onClick={async () => {
             await db.remove()
             alert('Removed database')
-            window.location.href = '/projects'
+            window.location.assign('/projects')
           }}
         >
           Delete database

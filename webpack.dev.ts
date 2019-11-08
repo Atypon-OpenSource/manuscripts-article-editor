@@ -89,6 +89,7 @@ const configuration: webpack.Configuration = merge(common, {
       'react-dnd': require.resolve('react-dnd'),
       'react-dom': require.resolve('react-dom'),
       'react-hot-loader': require.resolve('react-hot-loader'),
+      'react-router': require.resolve('react-router'),
       'styled-components': require.resolve('styled-components'),
     },
   },

@@ -89,6 +89,10 @@ describe('LoginPageContainer', () => {
   })
 
   test('pass token in hash', async () => {
+    jest.spyOn(window.location, 'assign').mockImplementation(location => {
+      expect(location).toEqual('/projects')
+    })
+
     const propsWithHash = {
       ...props,
       location: {
@@ -100,8 +104,11 @@ describe('LoginPageContainer', () => {
     shallow<LoginPageContainer>(<LoginPageContainer {...propsWithHash} />)
 
     expect(window.location.hash).toBe('')
-    expect(window.location.href).toBe('https://localhost/')
+
+    expect(window.location.assign).toHaveBeenCalledTimes(1)
 
     expect(tokenHandler.get()).toBe('xyz')
+
+    jest.clearAllMocks()
   })
 })

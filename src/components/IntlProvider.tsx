@@ -12,7 +12,7 @@
 
 import React from 'react'
 import * as Intl from 'react-intl'
-import preferences from '../lib/preferences'
+import preferences, { Languages } from '../lib/preferences'
 import { LoadingPage } from './Loading'
 
 // import client from './lib/client'
@@ -28,7 +28,9 @@ interface Messages {
   import_manuscript?: string
 }
 
-const translations: { [key: string]: Messages } = {
+const translations: {
+  [key in Languages]: Record<keyof Messages, string>
+} = {
   ar: {
     error: 'خطأ',
     manuscripts: 'المخطوطات',
@@ -51,19 +53,19 @@ const translations: { [key: string]: Messages } = {
     import_manuscript:
       'Use the + button to create a new Manuscript or import one from your computer.',
   },
-  zh: {
-    error: '错误',
-    manuscripts: '手稿',
-    empty_manuscripts: '没有手稿',
-    import_manuscript: '使用+按钮来创建一个新的手稿或从您的计算机导入一个。',
-  },
+  // zh: {
+  //   error: '错误',
+  //   manuscripts: '手稿',
+  //   empty_manuscripts: '没有手稿',
+  //   import_manuscript: '使用+按钮来创建一个新的手稿或从您的计算机导入一个。',
+  // },
 }
 
 interface State {
   locale: string
   loading: boolean
   error: boolean
-  messages: Messages | null
+  messages: Record<keyof Messages, string> | null
 }
 
 export interface IntlProviderContext extends State {
@@ -111,6 +113,10 @@ class IntlProvider extends React.Component<{}, State> {
       return <LoadingPage />
     }
 
+    if (!messages) {
+      return null
+    }
+
     const value = {
       ...this.state,
       setLocale: this.setLocale,
@@ -142,7 +148,7 @@ class IntlProvider extends React.Component<{}, State> {
     }
   }*/
 
-  private setLocale = (locale: string) => {
+  private setLocale = (locale: Languages) => {
     preferences.set({
       ...preferences.get(),
       locale,
@@ -165,26 +171,10 @@ class IntlProvider extends React.Component<{}, State> {
 
     this.setState({
       locale,
-      loading: true,
-      messages: null,
+      loading: false,
+      messages: translations[locale],
       error: false,
     })
-
-    import(`react-intl/locale-data/${locale}`)
-      .then(localeData => {
-        Intl.addLocaleData(localeData.default)
-
-        this.setState({
-          loading: false,
-          messages: translations[locale],
-        })
-      })
-      .catch(() => {
-        this.setState({
-          loading: false,
-          error: true,
-        })
-      })
   }
 }
 

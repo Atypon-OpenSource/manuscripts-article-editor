@@ -201,7 +201,7 @@ class LoginPageContainer extends React.Component<
     } else if (token) {
       tokenHandler.set(token)
 
-      window.location.href = '/projects'
+      window.location.assign('/projects')
     }
 
     if (redirect) {
@@ -210,7 +210,7 @@ class LoginPageContainer extends React.Component<
         ...config.api.headers,
       }
 
-      window.location.href = config.api.url + '/auth/iam?' + stringify(params)
+      window.location.assign(config.api.url + '/auth/iam?' + stringify(params))
     }
   }
 

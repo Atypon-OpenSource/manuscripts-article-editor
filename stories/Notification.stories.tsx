@@ -38,21 +38,21 @@ storiesOf('Notification', module).add('ServiceWorker', () => (
   <Notifications
     items={[
       {
-        id: 'update-ready',
+        id: 'update-ready-1',
         notification: createUpdateReadyNotification({
           handleAccept: action('accept'),
           id: 'story',
         }),
       },
       {
-        id: 'update-ready',
+        id: 'update-ready-2',
         notification: createUpdateReadyNotification({
           handleAccept: action('accept'),
           id: 'story',
         }),
       },
       {
-        id: 'update-ready',
+        id: 'update-ready-3',
         notification: createUpdateReadyNotification({
           handleAccept: action('accept'),
           id: 'story',

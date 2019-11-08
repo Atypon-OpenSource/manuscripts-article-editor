@@ -62,7 +62,7 @@ const DeleteAccountPageContainer: React.FunctionComponent<
 
                   tokenActions.delete()
 
-                  window.location.href = '/signup'
+                  window.location.assign('/signup')
                 } catch (error) {
                   actions.setSubmitting(false)
 

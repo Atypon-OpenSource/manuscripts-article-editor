@@ -12,6 +12,7 @@
 
 import { Form, FormikProps } from 'formik'
 import React from 'react'
+import { Languages } from '../../lib/preferences'
 import { styled } from '../../theme/styled-components'
 
 const LocaleSelectorLabel = styled.label`
@@ -24,14 +25,14 @@ const LocaleSelector = styled.select`
   margin-left: 1ch;
 `
 
-const locales = new Map([
+const locales = new Map<Languages, string>([
   ['en', 'English'],
   ['ar', 'Arabic'],
-  ['zh', 'Chinese'],
+  // ['zh', 'Chinese'],
 ])
 
 export interface PreferencesValues {
-  locale: string
+  locale: Languages
 }
 
 export interface PreferencesErrors {
