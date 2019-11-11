@@ -22,6 +22,7 @@ import { Collection } from '../../sync/Collection'
 import { styled } from '../../theme/styled-components'
 import { Main } from '../Page'
 import Panel from '../Panel'
+import { ResizingInspectorButton } from '../ResizerButtons'
 import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
 
@@ -128,6 +129,7 @@ export const ProjectLibrary: React.FC<
           side={'start'}
           direction={'row'}
           minSize={300}
+          resizerButton={ResizingInspectorButton}
         >
           {selectedItem && (
             <LibraryFormContainer>
