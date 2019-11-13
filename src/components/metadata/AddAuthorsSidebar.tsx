@@ -57,6 +57,9 @@ const UserDataContainer = styled.div`
   margin-right: 16px;
   overflow: hidden;
 `
+const SearchContainer = styled.div`
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+`
 
 interface Props {
   nonAuthors: UserProfile[]
@@ -106,25 +109,27 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
         title={'Add Author'}
       />
 
-      <SidebarSearchField
-        onFocus={handleSearchFocus}
-        onBlur={handleSearchFocus}
-      >
-        <SidebarSearchIconContainer>
-          {isSearching ? (
-            <SearchIcon color={theme.colors.brand.default} />
-          ) : (
-            <SearchIcon />
-          )}
-        </SidebarSearchIconContainer>
+      <SearchContainer>
+        <SidebarSearchField
+          onFocus={handleSearchFocus}
+          onBlur={handleSearchFocus}
+        >
+          <SidebarSearchIconContainer>
+            {isSearching ? (
+              <SearchIcon color={theme.colors.brand.default} />
+            ) : (
+              <SearchIcon />
+            )}
+          </SidebarSearchIconContainer>
 
-        <SidebarSearchText
-          value={searchText}
-          placeholder={'Search name/email'}
-          onChange={handleSearchChange}
-          maxLength={100}
-        />
-      </SidebarSearchField>
+          <SidebarSearchText
+            value={searchText}
+            placeholder={'Search name/email'}
+            onChange={handleSearchChange}
+            maxLength={100}
+          />
+        </SidebarSearchField>
+      </SearchContainer>
       {searchText === '' ? (
         <SidebarContent>
           {nonAuthors.map((person: UserProfileWithAvatar) => (

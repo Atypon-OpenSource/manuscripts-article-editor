@@ -78,18 +78,20 @@ const InvitationElement = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: ${props => props.theme.grid.unit * 4}px;
-  margin: 0 -5px;
-  border: 1px solid transparent;
-  border-bottom-color: ${props => props.theme.colors.border.secondary};
-  width: 500px;
-  border-radius: ${props => props.theme.grid.radius.small};
+  box-shadow: 0 1px 0 0 ${props => props.theme.colors.border.secondary};
+  width: 100%;
+  max-width: 532px;
+  border-radius: 0;
+  border-top: 1px solid transparent;
 
   &:hover {
-    background-color: ${props => props.theme.colors.background.secondary};
-    border-color: ${props => props.theme.colors.brand.xlight};
+    border-color: ${props => props.theme.colors.border.primary};
+    box-shadow: 0 1px 0 0 ${props => props.theme.colors.border.primary};
+    background-color: ${props => props.theme.colors.background.fifth};
+    border-top-color: ${props => props.theme.colors.border.primary};
   }
 
-  @media (max-width: 450px) {
+  @media (max-width: 480px) {
     width: unset;
   }
 `

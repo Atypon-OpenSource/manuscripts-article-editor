@@ -146,13 +146,13 @@ class ProjectsButton extends React.Component<Props, State> {
 
                           return !this.props.isDropdown ? (
                             <React.Fragment>
-                              <InvitationsList
-                                invitationsData={filteredInvitationsData}
-                                acceptInvitation={this.acceptInvitation}
-                                acceptError={acceptError}
-                                confirmReject={this.confirmReject}
-                              />
                               <StyledSidebarContent>
+                                <InvitationsList
+                                  invitationsData={filteredInvitationsData}
+                                  acceptInvitation={this.acceptInvitation}
+                                  acceptError={acceptError}
+                                  confirmReject={this.confirmReject}
+                                />
                                 <ProjectsList
                                   projects={projects}
                                   acceptedInvitations={acceptedInvitations}

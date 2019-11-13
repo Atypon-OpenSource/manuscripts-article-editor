@@ -76,7 +76,9 @@ const AddedIconContainer = styled.div`
     outline: none;
   }
 `
-
+const SearchContainer = styled.div`
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+`
 interface Props {
   people: UserProfile[]
   invitations: ContainerInvitation[]
@@ -126,25 +128,27 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
           title={'Add Collaborators'}
         />
 
-        <SidebarSearchField
-          onFocus={this.handleSearchFocus}
-          onBlur={this.handleSearchFocus}
-        >
-          <SidebarSearchIconContainer>
-            {isSearching ? (
-              <SearchIcon color={theme.colors.brand.xlight} />
-            ) : (
-              <SearchIcon />
-            )}
-          </SidebarSearchIconContainer>
+        <SearchContainer>
+          <SidebarSearchField
+            onFocus={this.handleSearchFocus}
+            onBlur={this.handleSearchFocus}
+          >
+            <SidebarSearchIconContainer>
+              {isSearching ? (
+                <SearchIcon color={theme.colors.brand.xlight} />
+              ) : (
+                <SearchIcon />
+              )}
+            </SidebarSearchIconContainer>
 
-          <SidebarSearchText
-            value={searchText}
-            placeholder={'Search name/email'}
-            onChange={this.handleSearchChange}
-            maxLength={100}
-          />
-        </SidebarSearchField>
+            <SidebarSearchText
+              value={searchText}
+              placeholder={'Search name/email'}
+              onChange={this.handleSearchChange}
+              maxLength={100}
+            />
+          </SidebarSearchField>
+        </SearchContainer>
         {searchText === '' ? (
           <SidebarContent>
             {invitations.map(invitation => (
