@@ -41,6 +41,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
     "@babel/runtime": "^7.4.5",
+    "@formatjs/intl-relativetimeformat": "^4.4.1",
     "@formatjs/intl-utils": "^1.4.0",
     "@manuscripts/assets": "^0.5.11",
     "@manuscripts/comment-editor": "^0.1.1",
