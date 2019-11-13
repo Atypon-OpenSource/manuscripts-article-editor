@@ -86,6 +86,11 @@ export const Heading = styled.div`
 const UpdatesContent = styled.div`
   max-height: 70vh;
   overflow-y: auto;
+
+  img.emoji {
+    height: 1em;
+    padding: 0;
+  }
 `
 
 export const Timestamp = styled.span`
