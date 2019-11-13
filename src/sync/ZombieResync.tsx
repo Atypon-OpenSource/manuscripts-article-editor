@@ -10,36 +10,32 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React from 'react'
-import UserData from '../../data/UserData'
-import { getCurrentUserId } from '../../lib/user'
-import { LogoutConfirmation } from '../account/LogoutConfirmation'
-import { DatabaseContext } from '../DatabaseProvider'
-import { SignInMessage } from '../Messages'
-import { MenuLink } from './Menu'
-import { ProfileDropdown } from './ProfileDropdown'
-import { UserInfo } from './UserInfo'
+import { RxDatabase } from '@manuscripts/rxdb'
+import React, { useEffect } from 'react'
+import { Collections } from '../collections'
+import zombieCollections from './ZombieCollections'
 
-const UserContainer = () => (
-  <UserData userID={getCurrentUserId()!}>
-    {user =>
-      user ? (
-        <DatabaseContext.Consumer>
-          {db => (
-            <LogoutConfirmation db={db}>
-              <ProfileDropdown user={user}>
-                <UserInfo user={user} />
-              </ProfileDropdown>
-            </LogoutConfirmation>
-          )}
-        </DatabaseContext.Consumer>
-      ) : (
-        <MenuLink to={'/login'}>
-          <SignInMessage />
-        </MenuLink>
-      )
+const RESYNC_RATE = 15 * 1000
+
+interface Props {
+  db: RxDatabase<Collections>
+}
+
+export const ZombieResync: React.FC<Props> = ({ db }) => {
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const zombie = zombieCollections.getOne()
+      if (!zombie) return
+
+      // if Promise errors we will just try again next time
+      /* tslint:disable-next-line:no-floating-promises */
+      zombieCollections.cleanupOne(zombie, db)
+    }, RESYNC_RATE)
+
+    return () => {
+      window.clearInterval(timer)
     }
-  </UserData>
-)
+  }, [])
 
-export default UserContainer
+  return null
+}

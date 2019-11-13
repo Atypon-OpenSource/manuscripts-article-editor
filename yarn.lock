@@ -883,7 +883,7 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.5":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2":
   version "7.7.2"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.7.2.tgz#111a78002a5c25fc8e3361bedc9529c696b85a6a"
   integrity sha512-JONRbXbTXc9WQE2mAZd1p0Z3DZ/6vaQIkgYMSTP3KjRCyd7rCZCcfhCyX+YjwcKxcZ82UrxbRD358bpExNgrjw==
@@ -5463,18 +5463,18 @@ broadcast-channel@2.1.12:
     rimraf "2.6.3"
     unload "2.1.0"
 
-broadcast-channel@^2.1.8:
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/broadcast-channel/-/broadcast-channel-2.2.0.tgz#80e34cc13251ea1401592c6eec788adc46ae11cb"
-  integrity sha512-ZkwwwQhr3oXJulUQjXcaltHg7X9A8hCn910J+DMvKc245rwJNlTmgeXDx7wUy8m66WkfeGz/CUnXvsWQdfc9dQ==
+broadcast-channel@^2.3.2:
+  version "2.3.3"
+  resolved "https://registry.npmjs.org/broadcast-channel/-/broadcast-channel-2.3.3.tgz#6d048e3f67a4ffccf044aebfce308d0909f39952"
+  integrity sha512-4R5yfv//8hoTY7kMEXV/JKwoWybQ/MsaG8sjrqAS0yE7IRGUcOLP8MB5k/jwogTUGSusmxqmFQ64iuQj8IsvUw==
   dependencies:
-    "@babel/runtime" "7.5.5"
-    detect-node "2.0.4"
+    "@babel/runtime" "^7.6.2"
+    detect-node "^2.0.4"
     js-sha3 "0.8.0"
     microseconds "0.1.0"
     nano-time "1.0.0"
     rimraf "2.6.3"
-    unload "2.1.1"
+    unload "2.2.0"
 
 brorand@^1.0.1:
   version "1.1.0"
@@ -18386,13 +18386,13 @@ unload@2.1.0:
     "@babel/runtime" "7.1.5"
     detect-node "2.0.4"
 
-unload@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/unload/-/unload-2.1.1.tgz#c85f88511afc1284678dc6001c8ed7d703aacd6f"
-  integrity sha512-kiMw6L16Q/AdM+l33lex5cjSP+j7ARfUFtUlz9Gj+d9EZ8ZqKKaS80LppCZ2s4BzpeSUqZZgxxaKaFwy1kd7Ng==
+unload@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/unload/-/unload-2.2.0.tgz#ccc88fdcad345faa06a92039ec0f80b488880ef7"
+  integrity sha512-B60uB5TNBLtN6/LsgAf3udH9saB5p7gqJwcFfbOEZ8BcBHnGwCf6G/TGiEqkRAxX7zAFIUtzdrXQSdL3Q/wqNA==
   dependencies:
-    "@babel/runtime" "7.5.5"
-    detect-node "2.0.4"
+    "@babel/runtime" "^7.6.2"
+    detect-node "^2.0.4"
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"

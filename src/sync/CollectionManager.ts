@@ -18,6 +18,7 @@ import { postWebkitMessage } from '../lib/native'
 import { Collection, CollectionProps } from './Collection'
 import { isUnauthorized } from './syncErrors'
 import { CollectionEvent, CollectionEventListener } from './types'
+import zombieCollections from './ZombieCollections'
 
 class CollectionManager {
   private collections: Map<string, Collection<Model>> = new Map()
@@ -62,12 +63,19 @@ class CollectionManager {
 
   public removeCollection(collectionName: CollectionName) {
     const collection = this.collections.get(collectionName)
-    collection &&
-      collection.cleanupAndDestroy().catch(() => {
-        /* tslint:disable-next-line:no-console */
-        console.error('Unable to properly cleanup collection', collectionName)
+    this.collections.delete(collectionName)
+
+    if (!collection) {
+      return
+    }
+    collection
+      .cleanupAndDestroy()
+      .then(result => {
+        if (!result) zombieCollections.add(collection.props)
       })
-    return this.collections.delete(collectionName)
+      .catch(() => {
+        zombieCollections.add(collection.props)
+      })
   }
 
   public subscribe(listener: CollectionEventListener) {

@@ -10,10 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { RxDatabase } from '@manuscripts/rxdb'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { Collections } from '../../collections'
 import CollectionManager from '../../sync/CollectionManager'
+import zombieCollections from '../../sync/ZombieCollections'
 
 type ConfirmationStage = 'ready' | 'checking' | 'unsynced' | 'gaveup'
 
@@ -33,9 +36,14 @@ const messages = {
   gaveup: 'If you sign out, your changes will be lost.',
 }
 
-const LogoutConfirmationComponent: React.FC<RouteComponentProps> = ({
+interface Props {
+  db: RxDatabase<Collections>
+}
+
+const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
   children,
   history,
+  db,
 }) => {
   const [confirmationStage, setConfirmationStage] = useState<ConfirmationStage>(
     'ready'
@@ -49,7 +57,7 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps> = ({
 
     const unsyncedCollections = await CollectionManager.unsyncedCollections()
 
-    if (!unsyncedCollections.length) {
+    if (!unsyncedCollections.length && !zombieCollections.getOne()) {
       history.push('/logout')
       return
     }
@@ -57,6 +65,7 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps> = ({
     setConfirmationStage('unsynced')
 
     await CollectionManager.pushCollections(unsyncedCollections)
+    await zombieCollections.cleanupAll(db)
 
     return checkAndTryResync(retries + 1)
   }

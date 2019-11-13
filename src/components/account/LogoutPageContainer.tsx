@@ -11,6 +11,7 @@
  */
 
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
+import BroadcastChannel from 'broadcast-channel'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { TokenActions } from '../../data/TokenData'
@@ -28,6 +29,8 @@ interface State {
   error: Error | null
 }
 
+const channel = new BroadcastChannel('logout')
+
 class LogoutPageContainer extends React.Component<
   Props & DatabaseProps & RouteComponentProps,
   State
@@ -44,6 +47,10 @@ class LogoutPageContainer extends React.Component<
       userID.remove()
 
       window.location.assign('/login#action=logout')
+
+      // this isn't really a promise
+      /* tslint:disable-next-line:no-floating-promises */
+      channel.postMessage('LOGOUT')
     } catch (error) {
       this.setState({ error })
     }
@@ -63,6 +70,12 @@ class LogoutPageContainer extends React.Component<
         </Main>
       </Page>
     )
+  }
+}
+
+channel.onmessage = msg => {
+  if (msg === 'LOGOUT') {
+    window.location.assign('/login#action=logout')
   }
 }
 
