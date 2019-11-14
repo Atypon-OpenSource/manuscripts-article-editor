@@ -69,10 +69,13 @@ interface Config {
     url: string
   }
   backupReplication: {
-    url?: string
+    path?: string
   }
   translation_server: {
     url: string
+  }
+  features: {
+    localMode: boolean
   }
 }
 
@@ -145,10 +148,14 @@ const config = {
     url: normalizeURL(process.env.IAM_BASE_URL),
   },
   backupReplication: {
-    url: process.env.BACKUP_REPLICATION_URL,
+    path: process.env.BACKUP_REPLICATION_PATH,
   },
   translation_server: {
     url: normalizeURL(process.env.ZOTERO_TRANSLATION_SERVER),
+  },
+  features: {
+    localMode:
+      isTrue(process.env.NATIVE) && window.location.hostname.endsWith('.local'),
   },
 }
 

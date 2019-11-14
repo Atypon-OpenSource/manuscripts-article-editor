@@ -71,7 +71,7 @@ describe('Collection', () => {
 
     await collection.initialize(false)
 
-    const initialStatus = { active: false, complete: false, error: false }
+    const initialStatus = { active: false, complete: true, error: false }
     expect(collection.status.pull).toMatchObject(initialStatus)
     expect(collection.status.push).toMatchObject(initialStatus)
   })

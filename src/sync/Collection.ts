@@ -199,10 +199,16 @@ export class Collection<T extends Model> implements EventTarget {
     this.status = cloneDeep(initialReplicationStatus)
 
     // one-time pull from backup on initialization
-    if (config.native && config.backupReplication.url) {
+    if (config.native && config.backupReplication.path) {
       await this.backupPullOnce({
         retry: false,
         live: false,
+      })
+
+      // continuous push to backup
+      this.backupPush({
+        live: true,
+        retry: true,
       })
     }
 
@@ -243,6 +249,9 @@ export class Collection<T extends Model> implements EventTarget {
         .catch(error => {
           console.error(error) // tslint:disable-line:no-console
         })
+    } else {
+      this.setStatus('pull', 'complete', true)
+      this.setStatus('push', 'complete', true)
     }
   }
 
@@ -276,14 +285,6 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   public async startSyncing() {
-    // continuous push to backup
-    if (config.backupReplication.url) {
-      this.backupPush({
-        live: true,
-        retry: true,
-      })
-    }
-
     // TODO: need to know if initial push failed?
     // await this.syncOnce('push')
 
@@ -806,7 +807,7 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   private broadcastPurge = (id: string, rev: string) => {
-    if (config.backupReplication.url) {
+    if (config.backupReplication.path) {
       axios.post(this.getBackupUrl(), { [id]: [rev] }).catch(error => {
         console.error(error) // tslint:disable-line:no-console
       })
@@ -818,13 +819,13 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   private getBackupUrl = (): string => {
-    if (!config.backupReplication.url) {
+    if (!config.backupReplication.path) {
       throw new Error('Backup replication URL not configured')
     }
 
     const bucketPath =
       this.bucketName === 'projects' ? this.collectionName : this.bucketName
 
-    return `${config.backupReplication.url}/${bucketPath}`
+    return `${window.location.origin}${config.backupReplication.path}/${bucketPath}`
   }
 }

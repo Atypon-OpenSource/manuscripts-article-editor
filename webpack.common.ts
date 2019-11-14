@@ -17,7 +17,14 @@ import webpack from 'webpack'
 import { GenerateSW } from 'workbox-webpack-plugin'
 import WorkerPlugin from 'worker-plugin'
 import { environmentVariables } from './environment-variables'
-import config from './src/config'
+
+const isTrue = (value: string | undefined) => {
+  return value === '1' || value === 'true'
+}
+
+const normalizeURL = (url: string | undefined) => {
+  return url && url.replace(/\/$/, '')
+}
 
 const configuration: webpack.Configuration = {
   entry: './src/index.tsx',
@@ -32,10 +39,10 @@ const configuration: webpack.Configuration = {
       new HtmlWebpackPlugin({
         template: 'public/index.html',
         title: 'Manuscripts.io',
-        url: config.url,
-        featureTest: !config.native,
-        crisp: config.crisp.id,
-        analytics: config.analytics.id,
+        url: normalizeURL(process.env.BASE_URL),
+        featureTest: !process.env.NATIVE,
+        crisp: process.env.CRISP_WEBSITE_ID,
+        analytics: process.env.GOOGLE_ANALYTICS_ID,
       }),
       new webpack.ContextReplacementPlugin(
         /react-intl[\/\\]locale-data$/,
@@ -45,7 +52,7 @@ const configuration: webpack.Configuration = {
       new WorkerPlugin(),
     ]
 
-    if (config.serviceworker) {
+    if (isTrue(process.env.SERVICEWORKER_ENABLED)) {
       plugins.push(
         new GenerateSW({
           cacheId: 'manuscripts-io',
@@ -61,7 +68,7 @@ const configuration: webpack.Configuration = {
           runtimeCaching: [
             // cache shared data
             {
-              urlPattern: new RegExp('^' + config.data.url),
+              urlPattern: new RegExp('^' + normalizeURL(process.env.DATA_URL)),
               handler: 'StaleWhileRevalidate',
             },
           ],

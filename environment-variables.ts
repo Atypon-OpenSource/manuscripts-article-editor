@@ -13,7 +13,7 @@
 export const environmentVariables = [
   'API_APPLICATION_ID',
   'API_BASE_URL',
-  'BACKUP_REPLICATION_URL',
+  'BACKUP_REPLICATION_PATH',
   'BASE_URL',
   'BEACON_HTTP_URL',
   'BEACON_WS_URL',
@@ -44,7 +44,7 @@ export const environmentVariables = [
 
 // Optional variables that are only used if they're set
 const optionalVariables = [
-  'BACKUP_REPLICATION_URL',
+  'BACKUP_REPLICATION_PATH',
   'BEACON_HTTP_URL',
   'BEACON_WS_URL',
   'CRISP_WEBSITE_ID',
