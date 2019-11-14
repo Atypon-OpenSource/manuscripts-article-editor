@@ -154,7 +154,7 @@ const authorsModal = (props: Props) => {
   )
 }
 
-export const Metadata: React.FunctionComponent<Props> = props => (
+export const Metadata: React.FunctionComponent<Props> = React.memo(props => (
   <HeaderContainer>
     <Header>
       <TitleContainer>
@@ -205,4 +205,4 @@ export const Metadata: React.FunctionComponent<Props> = props => (
       </StyledModal>
     </Header>
   </HeaderContainer>
-)
+))

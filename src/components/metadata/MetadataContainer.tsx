@@ -79,7 +79,7 @@ interface State {
   authorListError?: string
 }
 
-class MetadataContainer extends React.PureComponent<Props, State> {
+class MetadataContainer extends React.Component<Props, State> {
   public state: Readonly<State> = {
     editing: false,
     expanded: true,
