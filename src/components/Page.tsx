@@ -22,6 +22,7 @@ import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
 import config from '../config'
 import { TokenActions } from '../data/TokenData'
+import { titleText } from '../lib/title'
 import { styled } from '../theme/styled-components'
 import { Chatbox } from './Chatbox'
 import MenuBar from './nav/MenuBar'
@@ -135,7 +136,10 @@ export const Page: React.FunctionComponent<Props> = ({
   <PageContainer>
     <Helmet>
       {project ? (
-        <title>Manuscripts.io: {project.title || 'Untitled Project'}</title>
+        <title>
+          Manuscripts.io:{' '}
+          {project.title ? titleText(project.title) : 'Untitled Project'}
+        </title>
       ) : (
         <title>Manuscripts.io</title>
       )}
