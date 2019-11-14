@@ -22,6 +22,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${props => props.theme.colors.text.primary};
     font-family: ${props => props.theme.font.family.sans};
     margin: 0;
+    overflow-x: hidden;
   }
 `
 
