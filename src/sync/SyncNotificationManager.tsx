@@ -10,12 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import copy from 'clipboard-copy'
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import { NotificationComponent } from '../components/NotificationProvider'
 import config from '../config'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import CollectionManager from './CollectionManager'
 import syncErrors, {
+  getPushSyncErrorMessage,
   isPullSyncError,
   isPushSyncError,
   isSyncTimeoutError,
@@ -136,12 +138,15 @@ const SyncNotificationManager: NotificationComponent = ({
     )
   }
 
-  if (state.find(isPushSyncError)) {
+  const pushSyncError = state.find(isPushSyncError)
+  if (pushSyncError) {
     return (
       <SyncNotification
-        title="Syncing your changes failed"
-        buttonText="Retry"
-        buttonAction={handleRetry}
+        title={getPushSyncErrorMessage(pushSyncError)}
+        buttonText="Copy Diagnostic Information"
+        buttonAction={() => copy(JSON.stringify(pushSyncError))}
+        primaryButtonText="Retry"
+        primaryButtonAction={handleRetry}
       />
     )
   }

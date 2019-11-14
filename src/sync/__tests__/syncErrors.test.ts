@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import reducer from '../syncErrors'
+import reducer, { getPushSyncErrorMessage } from '../syncErrors'
 
 /* tslint:disable:no-any */
 describe('syncErrors reducer', () => {
@@ -83,5 +83,22 @@ describe('syncErrors reducer', () => {
       event: event2,
     })
     expect(finalState).toHaveLength(1)
+  })
+})
+
+describe('getPushSyncErrorMessage', () => {
+  it('should show an error message dependent on the status code', () => {
+    const event: any = {
+      type: 'error',
+      detail: {
+        error: {
+          status: 409,
+        },
+      },
+    }
+    const message = getPushSyncErrorMessage(event)
+    expect(message).toEqual(
+      'Syncing your changes failed due to a data conflict. Please retry.'
+    )
   })
 })
