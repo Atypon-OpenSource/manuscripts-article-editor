@@ -106,7 +106,7 @@
     "babel-loader": "^8.0.2",
     "babel-plugin-react-intl": "^5.1.1",
     "babel-plugin-styled-components": "^1.10.1",
-    "broadcast-channel": "^2.3.2",
+    "broadcast-channel": "2.1.12",
     "citeproc": "^2.2.9",
     "clean-webpack-plugin": "^3.0.0",
     "clipboard-copy": "^3.0.0",
