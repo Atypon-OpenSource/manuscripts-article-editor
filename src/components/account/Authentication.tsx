@@ -61,10 +61,18 @@ const Text = styled.div`
   margin-right: 8px;
   font-weight: normal;
   font-size: 14px;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `
 
 const SignupText = styled.div`
   padding: 12px 125px;
+  white-space: nowrap;
+  @media (max-width: 350px) {
+    font-size: 14px;
+  }
 `
 
 const LoginText = styled.div`

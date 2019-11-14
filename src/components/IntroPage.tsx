@@ -13,45 +13,105 @@
 import FavIcon from '@manuscripts/assets/react/FavIcon'
 import LandingDecorationsLeft from '@manuscripts/assets/react/LandingDecorationsLeft'
 import LandingDecorationsRight from '@manuscripts/assets/react/LandingDecorationsRight'
+import LogotypeGrey from '@manuscripts/assets/react/LogotypeGrey'
 import React from 'react'
 import { styled } from '../theme/styled-components'
 import AuthButtonContainer from './account/AuthButtonContainer'
-import { Signup } from './account/Authentication'
+import { Login, Signup } from './account/Authentication'
 import { Centered } from './Page'
 
 const Description = styled.div`
   text-align: center;
-  font-size: 48px;
-  width: 500px;
   color: #5e6f7e;
   font-weight: 300;
-  padding-top: 40px;
-  padding-bottom: 45px;
-  line-height: 1.17;
+  padding-top: 1.5em;
+  padding-bottom: 1em;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 600px) {
+    font-size: 16pt;
+    width: 85%;
+  }
+
+  @media (min-width: 600px) {
+    font-size: 36pt;
+    width: 550px;
+  }
 `
 
 export const LandingDecorationsLeftContainer = styled.div`
   position: absolute;
   pointer-events: none;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `
 
 export const LandingDecorationsRightContainer = styled.div`
   position: absolute;
   right: 0px;
   pointer-events: none;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `
-export const IntroPage: React.FC = () => (
-  <>
+
+const AppIconContainer = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+`
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0 1.5rem;
+`
+
+const StyledLogotypeGrey = styled(LogotypeGrey)`
+  @media (min-width: 600px) {
+    width: 250px;
+  }
+`
+
+const LogoContainer = styled.div`
+  width: 10em;
+`
+
+const Container = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+`
+type AlertFunction = React.FunctionComponent
+
+export const IntroPage: React.FC<{
+  message?: AlertFunction
+}> = ({ message: Message }) => (
+  <Container>
     <LandingDecorationsLeftContainer>
       <LandingDecorationsLeft />
     </LandingDecorationsLeftContainer>
     <LandingDecorationsRightContainer>
       <LandingDecorationsRight />
     </LandingDecorationsRightContainer>
+    <Header>
+      <LogoContainer>
+        <StyledLogotypeGrey width={'100%'} />
+      </LogoContainer>
+      <AuthButtonContainer component={Login} />
+    </Header>
+    {Message && <Message />}
     <Centered>
-      <FavIcon width={305} height={200} />
+      <AppIconContainer>
+        <FavIcon width={305} height={200} />
+      </AppIconContainer>
       <Description>A simple authoring tool for complex documents.</Description>
       <AuthButtonContainer component={Signup} />
     </Centered>
-  </>
+  </Container>
 )

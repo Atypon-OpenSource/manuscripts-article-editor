@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import LogotypeGrey from '@manuscripts/assets/react/LogotypeGrey'
 import { AlertMessageType, FormErrors } from '@manuscripts/style-guide'
 import { AxiosResponse } from 'axios'
 import { FormikActions, FormikErrors } from 'formik'
@@ -26,13 +25,10 @@ import { redirectToConnect, resendVerificationEmail } from '../../lib/api'
 import tokenHandler from '../../lib/token'
 import { TokenPayload } from '../../lib/user'
 import userID from '../../lib/user-id'
-import { styled } from '../../theme/styled-components'
 import { loginSchema } from '../../validation'
 import { IntroPage } from '../IntroPage'
 import { Loading } from '../Loading'
 import { Main, Page } from '../Page'
-import AuthButtonContainer from './AuthButtonContainer'
-import { Login } from './Authentication'
 import { LoginValues } from './LoginForm'
 import * as messages from './LoginMessages'
 import LoginPage from './LoginPage'
@@ -52,13 +48,6 @@ export enum ErrorName {
   InvalidCredentialsError = 'InvalidCredentialsError',
 }
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 70px;
-  padding: 0 1.5rem;
-`
 interface State {
   message?: AlertFunction
   submitErrorType?: string
@@ -129,56 +118,48 @@ class LoginPageContainer extends React.Component<
       return <Loading />
     }
 
+    if (config.connect.enabled) {
+      return <IntroPage message={Message} />
+    }
+
     return (
       <Page>
         <Main>
-          {config.connect.enabled ? (
-            <>
-              <Header>
-                <LogotypeGrey width={250} height={99} />
-                <AuthButtonContainer component={Login} />
-              </Header>
-              {Message && <Message />}
+          <>
+            {Message && <Message />}
+            <LoginPage
+              initialValues={this.initialValues}
+              validationSchema={loginSchema}
+              submitErrorType={submitErrorType}
+              onSubmit={async (values, actions) => {
+                tokenHandler.remove()
 
-              <IntroPage />
-            </>
-          ) : (
-            <>
-              {Message && <Message />}
-              <LoginPage
-                initialValues={this.initialValues}
-                validationSchema={loginSchema}
-                submitErrorType={submitErrorType}
-                onSubmit={async (values, actions) => {
-                  tokenHandler.remove()
+                try {
+                  const token = await login(values.email, values.password)
 
-                  try {
-                    const token = await login(values.email, values.password)
+                  tokenHandler.set(token)
 
-                    tokenHandler.set(token)
+                  const { userId } = decode<TokenPayload>(token)
 
-                    const { userId } = decode<TokenPayload>(token)
+                  userID.set(userId)
 
-                    userID.set(userId)
+                  this.redirectAfterLogin()
+                } catch (error) {
+                  console.error(error) // tslint:disable-line:no-console
 
-                    this.redirectAfterLogin()
-                  } catch (error) {
-                    console.error(error) // tslint:disable-line:no-console
-
-                    if (error.response) {
-                      this.handleErrorResponse(error.response, values, actions)
-                    } else {
-                      this.setState({
-                        message: messages.networkErrorMessage,
-                      })
-                    }
-
-                    actions.setSubmitting(false)
+                  if (error.response) {
+                    this.handleErrorResponse(error.response, values, actions)
+                  } else {
+                    this.setState({
+                      message: messages.networkErrorMessage,
+                    })
                   }
-                }}
-              />
-            </>
-          )}
+
+                  actions.setSubmitting(false)
+                }
+              }}
+            />
+          </>
         </Main>
       </Page>
     )
