@@ -28,7 +28,8 @@ import {
   generateDownloadFilename,
   removeEmptyStyles,
 } from '../exporter'
-import { ProjectDump, readManuscriptFromBundle } from '../importers'
+import { ProjectDump, readProjectDumpFromArchive } from '../importers'
+import { getAttachment } from './attachments'
 import { buildModelMap } from './util'
 
 describe('exporter', () => {
@@ -100,11 +101,16 @@ describe('exporter', () => {
     // }
 
     // `result` is the blob that would be sent for conversion, echoed back
-    const result = await exportProject(modelMap, manuscriptID, '.docx')
+    const result = await exportProject(
+      getAttachment,
+      modelMap,
+      manuscriptID,
+      '.docx'
+    )
     expect(result).toBeInstanceOf(Blob)
 
     const zip = await new JSZip().loadAsync(result)
-    const manuscript = await readManuscriptFromBundle(zip)
+    const manuscript = await readProjectDumpFromArchive(zip)
 
     expect(manuscript.version).toBe('2.0')
     expect(manuscript.data).toHaveLength(135)
@@ -143,6 +149,7 @@ describe('exporter', () => {
 
     // `result` is the blob that would be sent for conversion, echoed back
     const result = await exportProject(
+      getAttachment,
       modelMap,
       manuscriptID,
       '.manuproj',
@@ -159,7 +166,7 @@ describe('exporter', () => {
     const [container] = containers
     expect(container._id).toEqual(project._id)
 
-    // const manuscript = await readManuscriptFromBundle(zip)
+    // const manuscript = await readProjectDumpFromArchive(zip)
     // expect(manuscript.data).toHaveLength(138)
   })
 
@@ -201,11 +208,16 @@ describe('exporter', () => {
     modelMap.set(containerInvitation._id, containerInvitation)
 
     // `result` is the blob that would be sent for conversion, echoed back
-    const result = await exportProject(modelMap, manuscriptID, '.docx')
+    const result = await exportProject(
+      getAttachment,
+      modelMap,
+      manuscriptID,
+      '.docx'
+    )
     expect(result).toBeInstanceOf(Blob)
 
     const zip = await new JSZip().loadAsync(result)
-    const bundle = await readManuscriptFromBundle(zip)
+    const bundle = await readProjectDumpFromArchive(zip)
 
     for (const value of bundle.data) {
       const model = value as ManuscriptModel

@@ -10,18 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  generateAttachmentFilename,
-  ModelAttachment,
-} from '@manuscripts/manuscript-transform'
-import {
-  Figure,
-  Model,
-  ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+import { ModelAttachment } from '@manuscripts/manuscript-transform'
+import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
-import { extname } from 'path'
+import { basename, extname } from 'path'
 import { FileExtensionError } from '../lib/errors'
 import { cleanItem } from './clean-item'
 import { removeUnsupportedData } from './exporter'
@@ -39,13 +32,7 @@ export interface ProjectDump {
   data: JsonModel[]
 }
 
-const modelHasObjectType = <T extends Model>(objectType: string) => (
-  model: Model
-): model is T => {
-  return model.objectType === objectType
-}
-
-export const readManuscriptFromBundle = async (
+export const readProjectDumpFromArchive = async (
   zip: JSZip
 ): Promise<ProjectDump> => {
   const json = await zip.file('index.manuscript-json').async('text')
@@ -53,45 +40,58 @@ export const readManuscriptFromBundle = async (
   return JSON.parse(json)
 }
 
-const importProjectBundle = async (result: Blob) => {
+const attachmentKeys: { [key in ObjectTypes]?: string } = {
+  [ObjectTypes.Figure]: 'image',
+  [ObjectTypes.Bundle]: 'csl',
+}
+
+const defaultAttachmentContentTypes: { [key in ObjectTypes]?: string } = {
+  [ObjectTypes.Figure]: 'image/png',
+  [ObjectTypes.Bundle]: 'application/vnd.citationstyles.style+xml',
+}
+
+const importProjectArchive = async (result: Blob) => {
   const zip = await new JSZip().loadAsync(result)
 
-  const doc = await readManuscriptFromBundle(zip)
+  const projectDump = await readProjectDumpFromArchive(zip)
 
-  if (doc.version !== '2.0') {
-    throw new Error(`Unsupported version: ${doc.version}`)
+  if (projectDump.version !== '2.0') {
+    throw new Error(`Unsupported version: ${projectDump.version}`)
   }
 
   // TODO: validate?
   // TODO: ensure default data is added
+  // TODO: add default bundle (which has no parent bundle)
+  // TODO: ensure that pageLayout and bundle are set
 
-  const items = doc.data
+  const items = projectDump.data
     .filter(item => !item.bundled)
     .filter(item => item.objectType !== 'MPContentSummary')
     .filter(item => item._id)
     .map(item => cleanItem(item))
 
-  const folder = zip.folder('Data')
+  // load attachments from the Data folder
 
-  await Promise.all(
-    items
-      .filter(modelHasObjectType<Figure>(ObjectTypes.Figure))
-      .map(async (item: JsonModel) => {
-        const filename = generateAttachmentFilename(item._id)
+  for (const file of Object.values(zip.files)) {
+    if (!file.dir && file.name.startsWith('Data/')) {
+      const id = basename(file.name).replace('_', ':')
 
-        try {
-          item.attachment = {
-            id: 'image',
-            type: item.contentType || 'image/png',
-            data: await folder.file(filename).async('blob'),
+      const model = items.find(model => model._id === id)
+
+      if (model) {
+        const objectType = model.objectType as ObjectTypes
+
+        if (objectType in attachmentKeys) {
+          model.attachment = {
+            id: attachmentKeys[objectType],
+            type:
+              model.contentType || defaultAttachmentContentTypes[objectType],
+            data: await file.async('blob'),
           }
-        } catch (error) {
-          // tslint:disable-next-line:no-console
-          console.error(`Could not retrieve attachment from zip: ${error}`)
-          // continue without attachment
         }
-      })
-  )
+      }
+    }
+  }
 
   return items
 }
@@ -104,7 +104,7 @@ const importConvertedFile = async (file: File) => {
 
   // download(result, 'manuscript.zip')
 
-  return importProjectBundle(result)
+  return importProjectArchive(result)
 }
 
 interface FileType {

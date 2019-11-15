@@ -930,18 +930,43 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private openCitationStyleSelector = () => {
     const { addModal, manuscript, project } = this.props
 
+    // TODO: manuscript from state?
+
     addModal('citation-style-selector', ({ handleClose }) => (
       <CitationStyleSelector
         collection={this.collection as Collection<Manuscript>}
         manuscript={manuscript}
         project={project}
-        handleComplete={async (newBundle?: Bundle) => {
-          if (newBundle) {
-            this.setState({
-              modelMap: this.state.modelMap!.set(newBundle._id, newBundle),
-            })
+        handleComplete={async (bundle?: Bundle, parentBundle?: Bundle) => {
+          if (bundle) {
+            const { modelMap } = this.state
 
-            await this.saveManuscript({ bundle: newBundle._id })
+            if (!modelMap) {
+              throw new Error('Missing model map')
+            }
+
+            // const modelsToRemove: Model[] = []
+            //
+            // for (const model of modelMap.values()) {
+            //   if (model.objectType === ObjectTypes.Bundle) {
+            //     modelsToRemove.push(model)
+            //     // modelMap.remove(model._id)
+            //   }
+            // }
+
+            modelMap.set(bundle._id, bundle)
+
+            if (parentBundle) {
+              modelMap.set(parentBundle._id, parentBundle)
+            }
+
+            this.setState({ modelMap })
+
+            await this.saveManuscript({ bundle: bundle._id })
+
+            // for (const model of modelsToRemove) {
+            //   await this.collection.delete(model._id)
+            // }
           }
 
           handleClose()
@@ -968,6 +993,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     addModal('exporter', ({ handleClose }) => (
       <Exporter
         format={format}
+        getAttachment={this.getAttachmentAsBlob}
         handleComplete={handleClose}
         modelMap={this.state.modelMap!}
         manuscriptID={match.params.manuscriptID}
@@ -1015,10 +1041,20 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  private loadCitationStyle = async (
-    bundle: Bundle
+  private getAttachmentAsBlob = async (
+    id: string,
+    attachmentID: string
+  ): Promise<Blob | undefined> => {
+    const attachment = await this.collection.getAttachment(id, attachmentID)
+
+    return attachment ? attachment.getData() : undefined
+  }
+
+  private getAttachmentAsString = async (
+    id: string,
+    attachmentID: string
   ): Promise<string | undefined> => {
-    const attachment = await this.collection.getAttachment(bundle._id, 'csl')
+    const attachment = await this.collection.getAttachment(id, attachmentID)
 
     return attachment ? attachment.getStringData() : undefined
   }
@@ -1033,7 +1069,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const bundle = modelMap.get(bundleID) as Bundle | undefined
 
     const citationStyleData = bundle
-      ? await this.loadCitationStyle(bundle)
+      ? await this.getAttachmentAsString(bundle._id, 'csl')
       : undefined
 
     // TODO: move defaults into method?

@@ -26,8 +26,14 @@ import {
 } from '../../pressroom/exporter'
 import { ProgressModal } from './ProgressModal'
 
+export type GetAttachment = (
+  id: string,
+  attachmentID: string
+) => Promise<Blob | undefined>
+
 interface Props {
   format: string
+  getAttachment: GetAttachment
   handleComplete: () => void
   manuscriptID: string
   modelMap: Map<string, Model>
@@ -50,7 +56,13 @@ export class Exporter extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    const { modelMap, manuscriptID, format, project } = this.props
+    const {
+      getAttachment,
+      modelMap,
+      manuscriptID,
+      format,
+      project,
+    } = this.props
 
     try {
       this.setState({
@@ -59,7 +71,13 @@ export class Exporter extends React.Component<Props, State> {
         status: 'Exporting manuscript…',
       })
 
-      const blob = await exportProject(modelMap, manuscriptID, format, project)
+      const blob = await exportProject(
+        getAttachment,
+        modelMap,
+        manuscriptID,
+        format,
+        project
+      )
 
       if (this.state.cancelled) {
         return

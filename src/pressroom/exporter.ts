@@ -19,12 +19,13 @@ import {
   hasObjectType,
   HTMLTransformer,
   isFigure,
+  isUserProfile,
   JATSTransformer,
   ManuscriptModel,
   ModelAttachment,
-  UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import {
+  Bundle,
   Equation,
   Figure,
   InlineMathFragment,
@@ -33,6 +34,7 @@ import {
   Project,
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
+import { GetAttachment } from '../components/projects/Exporter'
 import { JsonModel, ProjectDump } from './importers'
 import { convert } from './pressroom'
 
@@ -46,7 +48,6 @@ export const removeEmptyStyles = (model: { [key: string]: any }) => {
 }
 
 const unsupportedObjectTypes: ObjectTypes[] = [
-  ObjectTypes.Bundle,
   ObjectTypes.ContainerInvitation,
   ObjectTypes.ProjectInvitation,
   ObjectTypes.Invitation,
@@ -158,33 +159,40 @@ const modelHasObjectType = <T extends Model>(
   return model.objectType === objectType
 }
 
-const fetchBlob = (url: string) => fetch(url).then(res => res.blob())
-
-const fetchAttachment = (
-  model: Model & ModelAttachment
-): Promise<Blob> | null => {
-  if (
-    modelHasObjectType<UserProfileWithAvatar>(model, ObjectTypes.UserProfile) &&
-    model.avatar
-  ) {
-    return fetchBlob(model.avatar)
+const fetchAttachment = async (
+  getAttachment: GetAttachment,
+  model: Model
+): Promise<Blob | undefined> => {
+  if (isUserProfile(model) && model.avatar) {
+    return getAttachment(model._id, 'image')
   }
 
-  if (modelHasObjectType<Figure>(model, ObjectTypes.Figure) && model.src) {
-    return fetchBlob(model.src)
+  if (isFigure(model) && model.src) {
+    return getAttachment(model._id, 'image')
   }
 
-  return null
+  if (modelHasObjectType<Bundle>(model, ObjectTypes.Bundle)) {
+    return getAttachment(model._id, 'csl')
+  }
+
+  return undefined
 }
 
-const buildAttachments = (modelMap: Map<string, Model>) => {
-  const attachments: Map<string, Promise<Blob>> = new Map()
+const buildAttachments = async (
+  getAttachment: GetAttachment,
+  modelMap: Map<string, Model>
+): Promise<Map<string, Blob>> => {
+  const attachments: Map<string, Blob> = new Map()
 
   for (const [id, model] of modelMap.entries()) {
-    const attachment = fetchAttachment(model)
+    try {
+      const attachment = await fetchAttachment(getAttachment, model)
 
-    if (attachment) {
-      attachments.set(id, attachment)
+      if (attachment) {
+        attachments.set(id, attachment)
+      }
+    } catch (error) {
+      console.error(error) // tslint:disable-line:no-console
     }
   }
 
@@ -192,11 +200,12 @@ const buildAttachments = (modelMap: Map<string, Model>) => {
 }
 
 const buildProjectBundle = async (
+  getAttachment: GetAttachment,
   modelMap: Map<string, Model>,
   manuscriptID: string,
   format: string
 ): Promise<JSZip> => {
-  const attachments = buildAttachments(modelMap)
+  const attachments = await buildAttachments(getAttachment, modelMap)
 
   if (format === '.docx') {
     await augmentEquations(modelMap)
@@ -209,11 +218,9 @@ const buildProjectBundle = async (
   zip.file<'string'>('index.manuscript-json', JSON.stringify(data))
 
   for (const model of modelMap.values()) {
-    const attachmentPromise = attachments.get(model._id)
+    const attachment = attachments.get(model._id)
 
-    if (attachmentPromise) {
-      const attachment = await attachmentPromise
-
+    if (attachment) {
       switch (format) {
         case '.html':
         case '.xml': {
@@ -291,6 +298,7 @@ const addContainersFile = async (zip: JSZip, project: Project) => {
 }
 
 export const exportProject = async (
+  getAttachment: GetAttachment,
   modelMap: Map<string, Model>,
   manuscriptID: string,
   format: string,
@@ -300,7 +308,12 @@ export const exportProject = async (
   //   modelMap.set(project._id, project)
   // }
 
-  const zip = await buildProjectBundle(modelMap, manuscriptID, format)
+  const zip = await buildProjectBundle(
+    getAttachment,
+    modelMap,
+    manuscriptID,
+    format
+  )
 
   switch (format) {
     case '.xml':
@@ -322,6 +335,10 @@ export const exportProject = async (
       await removeUnsupportedData(zip)
 
       const file = await zip.generateAsync({ type: 'blob' })
+
+      // import('file-saver').then(({ saveAs }) => {
+      //   saveAs(file, 'export.manuproj')
+      // })
 
       const form = new FormData()
       form.append('file', file, 'export.manuproj')

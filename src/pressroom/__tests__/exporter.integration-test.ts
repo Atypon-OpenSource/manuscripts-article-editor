@@ -66,6 +66,7 @@ import {
   SectionDescription,
 } from '../../types/templates'
 import { exportProject } from '../exporter'
+import { getAttachment } from './attachments'
 // import { ProjectDump } from '../importers'
 // import { buildModelMap } from './util'
 
@@ -292,6 +293,7 @@ describe('exporter', () => {
 
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<Blob> = await exportProject(
+        getAttachment,
         modelMap,
         manuscript._id,
         format.extension
@@ -316,6 +318,7 @@ describe('exporter', () => {
 
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<Blob> = await exportProject(
+        getAttachment,
         modelMap,
         manuscript._id,
         format.extension
@@ -470,6 +473,7 @@ describe('exporter', () => {
 
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<Blob> = await exportProject(
+        getAttachment,
         modelMap,
         manuscript._id,
         format.extension
@@ -592,6 +596,7 @@ describe('exporter', () => {
 
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<Blob> = await exportProject(
+        getAttachment,
         modelMap,
         manuscript._id,
         format.extension

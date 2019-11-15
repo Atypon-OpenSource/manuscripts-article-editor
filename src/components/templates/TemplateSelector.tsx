@@ -317,8 +317,14 @@ class TemplateSelector extends React.Component<
       })
 
     await saveContainedModel<Bundle>(newBundle)
-
     await this.attachStyle(newBundle, collection)
+
+    const parentBundle = this.createParentBundle(newBundle, bundles)
+
+    if (parentBundle) {
+      await saveContainedModel<Bundle>(parentBundle)
+      await this.attachStyle(parentBundle, collection)
+    }
 
     for (const newStyle of newStyles.values()) {
       await saveManuscriptModel<Model>(newStyle)
@@ -378,10 +384,37 @@ class TemplateSelector extends React.Component<
     const bundle = bundles.get(bundleID)
 
     if (!bundle) {
-      throw new Error('Bundle not found')
+      throw new Error(`Bundle not found: ${bundleID}`)
     }
 
     return fromPrototype(bundle)
+  }
+
+  private findBundleByURL = (url: string, bundles: Map<string, Bundle>) => {
+    for (const bundle of bundles.values()) {
+      if (bundle.csl && bundle.csl['self-URL'] === url) {
+        return bundle
+      }
+    }
+  }
+
+  private createParentBundle = (
+    bundle: Bundle,
+    bundles: Map<string, Bundle>
+  ) => {
+    if (bundle.csl) {
+      const parentURL = bundle.csl['independent-parent-URL']
+
+      if (parentURL) {
+        const parentBundle = this.findBundleByURL(parentURL, bundles)
+
+        if (!parentBundle) {
+          throw new Error(`Bundle with URL not found: ${parentURL} `)
+        }
+
+        return fromPrototype(parentBundle)
+      }
+    }
   }
 
   private attachStyle = async (
@@ -467,8 +500,14 @@ class TemplateSelector extends React.Component<
       })
 
     await saveContainedModel<Bundle>(newBundle)
-
     await this.attachStyle(newBundle, collection)
+
+    const parentBundle = this.createParentBundle(newBundle, bundles)
+
+    if (parentBundle) {
+      await saveContainedModel<Bundle>(parentBundle)
+      await this.attachStyle(parentBundle, collection)
+    }
 
     for (const newStyle of newStyles.values()) {
       await saveManuscriptModel<Model>(newStyle)

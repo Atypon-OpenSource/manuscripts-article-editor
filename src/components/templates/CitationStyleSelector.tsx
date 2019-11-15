@@ -27,8 +27,8 @@ import { CitationStyleSelectorModal } from './CitationStyleSelectorModal'
 import { TemplateLoadingModal } from './TemplateLoadingModal'
 
 interface Props {
-  handleComplete: (bundle?: Bundle) => void
-  collection: Collection<Manuscript>
+  handleComplete: (bundle?: Bundle, parentBundle?: Bundle) => void
+  collection: Collection<ContainedModel>
   manuscript: Manuscript
   project: Project
 }
@@ -108,17 +108,14 @@ class CitationStyleSelector extends React.Component<
     })
   }
 
-  private attachStyle = async (
-    newBundle: Bundle,
-    collection: Collection<ContainedModel>
-  ) => {
+  private attachStyle = async (newBundle: Bundle) => {
     if (newBundle.csl && newBundle.csl.cslIdentifier) {
       const { CitationManager } = await import('@manuscripts/manuscript-editor')
 
       const citationManager = new CitationManager(config.data.url)
       const cslStyle = await citationManager.fetchCitationStyleString(newBundle)
 
-      await collection.putAttachment(newBundle._id, {
+      await this.props.collection.putAttachment(newBundle._id, {
         id: 'csl',
         data: cslStyle,
         type: 'application/vnd.citationstyles.style+xml',
@@ -126,19 +123,61 @@ class CitationStyleSelector extends React.Component<
     }
   }
 
-  private selectBundle = async (item: Bundle) => {
+  private saveParentBundle = async (
+    bundle: Bundle
+  ): Promise<Bundle | undefined> => {
+    const { manuscript, project, collection } = this.props
+    const { bundles } = this.state
+
+    if (!bundle.csl) {
+      return
+    }
+
+    const parentIdentifier = bundle.csl['independent-parent-URL']
+
+    if (!parentIdentifier) {
+      return
+    }
+
+    if (!bundles) {
+      throw new Error('Missing bundles')
+    }
+
+    const parentBundle = bundles.find(
+      bundle => bundle.csl && bundle.csl['self-URL'] === parentIdentifier
+    )
+
+    if (!parentBundle) {
+      throw new Error(`Missing parent bundle: ${parentIdentifier}`)
+    }
+
+    const newParentBundle = fromPrototype(parentBundle)
+
+    await collection.create(newParentBundle, {
+      containerID: project._id,
+      manuscriptID: manuscript._id,
+    })
+
+    await this.attachStyle(newParentBundle)
+
+    return newParentBundle
+  }
+
+  private selectBundle = async (bundle: Bundle) => {
     const { handleComplete, manuscript, project, collection } = this.props
 
-    const newBundle = fromPrototype(item)
+    const newBundle = fromPrototype(bundle)
 
     await collection.create(newBundle, {
       containerID: project._id,
       manuscriptID: manuscript._id,
     })
 
-    await this.attachStyle(newBundle, collection)
+    await this.attachStyle(newBundle)
 
-    handleComplete(newBundle)
+    const parentBundle = await this.saveParentBundle(newBundle)
+
+    handleComplete(newBundle, parentBundle)
   }
 }
 
