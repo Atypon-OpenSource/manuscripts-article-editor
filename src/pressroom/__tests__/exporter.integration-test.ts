@@ -377,7 +377,7 @@ describe('exporter', () => {
     addModel<ContainerInvitation>({
       _id: generateID(ObjectTypes.ContainerInvitation),
       objectType: ObjectTypes.ContainerInvitation,
-      role: 'viewer',
+      role: 'Viewer',
       invitingUserID: user.userID,
       invitingUserProfile: user as UserProfile,
       invitedUserEmail: 'foo@example.com',

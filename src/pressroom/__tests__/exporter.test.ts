@@ -185,7 +185,7 @@ describe('exporter', () => {
       _id: 'MPContainerInvitation:1',
       objectType: ObjectTypes.ContainerInvitation,
       containerID: 'MPProject:1',
-      role: 'writer',
+      role: 'Writer',
       createdAt: 0,
       updatedAt: 0,
       invitingUserID: 'foo',

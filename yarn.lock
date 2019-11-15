@@ -1639,15 +1639,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.3.24.tgz#1a3a4666af3f84d2e7b1e3c7b824651a28c7895d"
   integrity sha512-gjQpPTFk/mk6H7dLLj5EfWrzLYh2FElrYRbFwWGKXN+3cUtopg1IYBB9UVDnd60Uh/vQnufw5HhgofQT/S74iQ==
 
-"@manuscripts/assets@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.4.1.tgz#3aafbcd5df2c706358fa5508369981534119a8ee"
-  integrity sha512-pG77YvrElOFJ9KnMuC06X5etfNt0LcvdTiGwCuXLuGQWDM/N1MIC0FwDaPCxR3QlqfvCljHbhJJv4iDlCrNPUg==
-
-"@manuscripts/assets@^0.5.11":
-  version "0.5.11"
-  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.5.11.tgz#1022045d6a3ebb2911cc18e78cc44278d03d11fd"
-  integrity sha512-D1KeznmoTOI6UFPSF8A+OKenyNerCSm62nhfoU4X6URg/x7GWgf1AtBTn9v7DzHu+O0y0YYaWO0qSsVH+SF9Qg==
+"@manuscripts/assets@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.6.1.tgz#c1d1c88b3e3c030177b8bbff0f6d6e352a045992"
+  integrity sha512-neLPcFNE8XcstDR1bj85xlAcB9IpBMOk0oaRzXxD/HeO8N63eqcOCzTMiGz239t+wk4oRnqAHzPbRQTYngdC2A==
 
 "@manuscripts/comment-editor@^0.1.1":
   version "0.1.1"
@@ -1673,14 +1668,14 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.53.0":
-  version "0.53.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.53.0.tgz#72c38a86fa1c2272c807e24bd0b6dd9b3468714f"
-  integrity sha512-IQ1Af1WSm4PsPION+BMa4RjPjd9ChRCE7zL29KQRvtxPJJJHMjPT7ojf0/Jm6ezpsmGajKK4Uybys3JPczcBOA==
+"@manuscripts/manuscript-editor@^0.54.0":
+  version "0.54.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.54.0.tgz#3c2998f8e7e7560af958151bfc1db4020580a152"
+  integrity sha512-ztuSlMNZyAPxsn74I3CaYKY1ZwTn3+/gYMJCii0+AUbSEtUtkFgWm1gijTv7rVi7aUf3XWnMx0mkhbF4miDidA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
-    "@manuscripts/assets" "^0.4.1"
+    "@manuscripts/assets" "^0.6.1"
     "@manuscripts/manuscripts-json-schema" "^1.18.2"
     "@manuscripts/title-editor" "^0.3.3"
     astrocite-eutils "^0.16.0"
@@ -1716,20 +1711,20 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.19.0":
-  version "0.19.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.19.0.tgz#0485b82a9606d854ca0852a5d7b881ad770e0ab7"
-  integrity sha512-aaSrxPqyoH4RteJhF80ME0hZFEKUYVvY8o5BeyO3uJrx1eJauoYrOTyLHCk+IehHk9Bje1ljKV0s+MIwWQ2bhQ==
+"@manuscripts/manuscript-transform@^0.19.1":
+  version "0.19.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.19.1.tgz#a59050004ae8279e2d795747c4c279fd42e4e4dd"
+  integrity sha512-+fyea/FAHQxjbblOg9K91UoBBTzcY31GnFh1rllLECNW5vxOC2JFs2Y2NS1hf4AdzMWUk4Xm5jtulStcnYhsNQ==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"
     uuid "^3.3.2"
     w3c-xmlserializer "^1.1.2"
 
-"@manuscripts/manuscripts-json-schema@^1.18.2":
-  version "1.18.2"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.18.2.tgz#81ce3daab7bfa6b202b4908bc32d68044e329f71"
-  integrity sha512-G1dlWtkCTYjUVL+1P5Noa6KJx/0WdGrfc7dPQWzvJERUxmphe3c1bgUn+OZTcAqLefE6IShNbOlcsbIHoFDcfQ==
+"@manuscripts/manuscripts-json-schema@^1.18.2", "@manuscripts/manuscripts-json-schema@^1.18.3":
+  version "1.18.3"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.18.3.tgz#0660969e0352c96d7eebd3fb5f10b3e3e6eb65c3"
+  integrity sha512-r1ZGefbJ+PtIKcsjUrqbV+EOZq6IQ++00bzyKsIqNEi6WqzPqQhEbEPWYJWbDSURm+bCgclYhqDhalzYjV6P4g==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"
@@ -1795,18 +1790,18 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.13.4":
-  version "0.13.4"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.13.4.tgz#5b2572174d61d422c10faf15e3e83d57be13ca03"
-  integrity sha512-bX4sDXf+O5Dc9q80gBVultEoe2WK6pXKUEpUL1b+WGXqrS0P05KWo8vZRp6b0/gRVhWfc3mZVRP8k/FNi+xY0g==
+"@manuscripts/style-guide@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.14.0.tgz#9ac443574de16564ed9fdc89c5eb638554d8fb1b"
+  integrity sha512-NwlXpE1S04qNmtmxnAIg++/gt3IyoNUhQeJLOhrCJsLjioyDj/nZJhkiAcT6aqLliBxuPLRyOe91QwCeDjlbiw==
   dependencies:
-    "@manuscripts/assets" "^0.5.11"
-    lodash-es "^4.17.11"
+    "@manuscripts/assets" "^0.6.1"
+    lodash-es "^4.17.15"
     react-dnd "^9.4.0"
-    react-modal "^3.8.1"
+    react-modal "^3.11.1"
     react-select "^2.4.1"
-    react-sizeme "^2.6.7"
-    tooltip.js "^1.3.2"
+    react-sizeme "^2.6.10"
+    tooltip.js "^1.3.3"
 
 "@manuscripts/sync-client@^0.4.0":
   version "0.4.0"
@@ -11961,7 +11956,7 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash-es@^4.17.11, lodash-es@^4.17.14, lodash-es@^4.17.7:
+lodash-es@^4.17.11, lodash-es@^4.17.14, lodash-es@^4.17.15, lodash-es@^4.17.7:
   version "4.17.15"
   resolved "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
   integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
@@ -15472,10 +15467,10 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-modal@^3.1.11, react-modal@^3.6.1, react-modal@^3.8.1:
-  version "3.9.1"
-  resolved "https://registry.npmjs.org/react-modal/-/react-modal-3.9.1.tgz#82ce53d110eea0d8f028f3315ef336d0baffa9b9"
-  integrity sha512-k+TUkhGWpIVHLsEyjNmlyOYL0Uz03fNZvlkhCImd1h+6fhNgTi6H6jexVXPVhD2LMMDzJyfugxMN+APN/em+eQ==
+react-modal@^3.1.11, react-modal@^3.11.1, react-modal@^3.6.1:
+  version "3.11.1"
+  resolved "https://registry.npmjs.org/react-modal/-/react-modal-3.11.1.tgz#2a0d6877c9e98f123939ea92d2bb4ad7fa5a17f9"
+  integrity sha512-8uN744Yq0X2lbfSLxsEEc2UV3RjSRb4yDVxRQ1aGzPo86QjNOwhQSukDb8U8kR+636TRTvfMren10fgOjAy9eA==
   dependencies:
     exenv "^1.2.0"
     prop-types "^15.5.10"
@@ -15552,10 +15547,10 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
-react-sizeme@^2.5.2, react-sizeme@^2.6.7:
-  version "2.6.7"
-  resolved "https://registry.npmjs.org/react-sizeme/-/react-sizeme-2.6.7.tgz#231339ce8821ac2c26424c791e0027f89dae3e90"
-  integrity sha512-xCjPoBP5jmeW58TxIkcviMZqabZis7tTvDFWf0/Wa5XCgVWQTIe74NQBes2N1Kmp64GRLkpm60BaP0kk+v8aCQ==
+react-sizeme@^2.5.2, react-sizeme@^2.6.10, react-sizeme@^2.6.7:
+  version "2.6.10"
+  resolved "https://registry.npmjs.org/react-sizeme/-/react-sizeme-2.6.10.tgz#9993dcb5e67fab94a8e5d078a0d3820609010f17"
+  integrity sha512-OJAPQxSqbcpbsXFD+fr5ARw4hNSAOimWcaTOLcRkIqnTp9+IFWY0w3Qdw1sMez6Ao378aimVL/sW6TTsgigdOA==
   dependencies:
     element-resize-detector "^1.1.15"
     invariant "^2.2.4"
@@ -17956,10 +17951,10 @@ toidentifier@1.0.0:
   resolved "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-tooltip.js@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.npmjs.org/tooltip.js/-/tooltip.js-1.3.2.tgz#ccfe450ffd7332ce5f254033778649526c1db542"
-  integrity sha512-DeDr9JxYx/lSvQ53ZCRFLxXrmrSyU3fLz6k+ITUTw69AIYtpWij/NmOJQscJ7BwY5lcEwWJWSfqqQWVvTMYZiw==
+tooltip.js@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.npmjs.org/tooltip.js/-/tooltip.js-1.3.3.tgz#2ad0d77bb6776a76e117eac0afcd3c7d3a237121"
+  integrity sha512-XWWuy/dBdF/F/YpRE955yqBZ4VdLfiTAUdOqoU+wJm6phJlMpEzl/iYHZ+qJswbeT9VG822bNfsETF9wzmoy5A==
   dependencies:
     popper.js "^1.0.2"
 
