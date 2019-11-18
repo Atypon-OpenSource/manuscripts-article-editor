@@ -12,12 +12,10 @@
 
 import {
   Build,
-  buildAffiliation,
   buildBibliographicName,
   buildContributor,
 } from '@manuscripts/manuscript-transform'
 import {
-  Affiliation,
   ContainerInvitation,
   Contributor,
   Manuscript,
@@ -26,7 +24,6 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxCollection } from '@manuscripts/rxdb'
-import { AuthorValues } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React from 'react'
 import CollaboratorsData from '../../data/CollaboratorsData'
@@ -68,7 +65,7 @@ interface Props {
 interface State {
   editing: boolean
   expanded: boolean
-  selectedAuthor: Contributor | null
+  selectedAuthor: string | null // _id of the selectedAuthor
   addingAuthors: boolean
   nonAuthors: UserProfile[]
   numberOfAddedAuthors: number
@@ -116,6 +113,7 @@ class MetadataContainer extends React.Component<Props, State> {
       handleTitleStateChange,
       permissions,
       tokenActions,
+      saveModel,
     } = this.props
 
     const {
@@ -158,12 +156,7 @@ class MetadataContainer extends React.Component<Props, State> {
                               selectAuthor={this.selectAuthor}
                               removeAuthor={this.removeAuthor}
                               createAuthor={this.createAuthor}
-                              addAuthorAffiliation={this.addAuthorAffiliation}
-                              removeAuthorAffiliation={
-                                this.removeAuthorAffiliation
-                              }
-                              updateAffiliation={this.updateAffiliation}
-                              handleSaveAuthor={this.handleSaveAuthor}
+                              saveModel={saveModel}
                               manuscript={manuscript}
                               selectedAuthor={selectedAuthor}
                               stopEditing={this.stopEditing}
@@ -302,10 +295,10 @@ class MetadataContainer extends React.Component<Props, State> {
     }
   }
 
-  private selectAuthor = (selectedAuthor: Contributor) => {
+  private selectAuthor = (author: Contributor) => {
     // TODO: make this switch without deselecting
     this.setState({ selectedAuthor: null }, () => {
-      this.setState({ selectedAuthor })
+      this.setState({ selectedAuthor: author._id })
     })
   }
 
@@ -432,71 +425,6 @@ class MetadataContainer extends React.Component<Props, State> {
     )
 
     this.setState({ nonAuthors })
-  }
-
-  private handleSaveAuthor = async (values: AuthorValues) => {
-    const { selectedAuthor } = this.state
-
-    if (!selectedAuthor) return
-
-    const author = {
-      ...selectedAuthor,
-      ...values,
-      affiliations: selectedAuthor.affiliations,
-    }
-
-    delete author.containerID
-
-    await this.props.saveModel<Contributor>(author)
-  }
-
-  private addAuthorAffiliation = async (affiliation: Affiliation | string) => {
-    const { selectedAuthor } = this.state
-
-    if (!selectedAuthor) return
-
-    let affiliationObj
-    if (typeof affiliation === 'string') {
-      affiliationObj = await this.props.saveModel<Affiliation>(
-        buildAffiliation(affiliation)
-      )
-    } else {
-      affiliationObj = affiliation
-    }
-
-    const author = {
-      ...selectedAuthor,
-      affiliations: (selectedAuthor.affiliations || []).concat(
-        affiliationObj._id
-      ),
-    }
-
-    this.setState({
-      selectedAuthor: author,
-    })
-    await this.props.saveModel<Contributor>(author)
-  }
-
-  private removeAuthorAffiliation = async (affiliation: Affiliation) => {
-    const { selectedAuthor } = this.state
-
-    if (!selectedAuthor) return
-
-    const nextAuthor = {
-      ...selectedAuthor,
-      affiliations: (selectedAuthor.affiliations || []).filter(
-        aff => aff !== affiliation._id
-      ),
-    }
-
-    this.setState({
-      selectedAuthor: nextAuthor,
-    })
-    await this.props.saveModel<Contributor>(nextAuthor)
-  }
-
-  private updateAffiliation = async (affiliation: Affiliation) => {
-    await this.props.saveModel<Affiliation>(affiliation)
   }
 
   private handleDrop = (oldIndex: number, newIndex: number) => {

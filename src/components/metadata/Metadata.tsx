@@ -11,8 +11,8 @@
  */
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
+import { Build } from '@manuscripts/manuscript-transform'
 import {
-  Affiliation,
   ContainerInvitation,
   Contributor,
   Manuscript,
@@ -24,7 +24,6 @@ import {
   AffiliationsList,
   AuthorAffiliation,
   AuthorsList,
-  AuthorValues,
   CloseButton,
   IconButton,
   ModalContainer,
@@ -110,11 +109,8 @@ interface Props {
   ) => void
   removeAuthor: (data: Contributor) => Promise<void>
   selectAuthor: (data: Contributor) => void
-  selectedAuthor: Contributor | null
-  handleSaveAuthor: (values: AuthorValues) => Promise<void>
-  addAuthorAffiliation: (affiliation: Affiliation | string) => void
-  removeAuthorAffiliation: (affiliation: Affiliation) => void
-  updateAffiliation: (affiliation: Affiliation) => void
+  selectedAuthor: string | null
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   expanded: boolean
   toggleExpanded: () => void
   addingAuthors: boolean

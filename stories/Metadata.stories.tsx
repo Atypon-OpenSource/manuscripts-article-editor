@@ -68,14 +68,7 @@ storiesOf('Metadata', module)
       selectAuthor={action('select author')}
       removeAuthor={action('remove author')}
       createAuthor={action('create author')}
-      addAuthorAffiliation={action(
-        'add affiliation to select author (if string: create it)'
-      )}
-      removeAuthorAffiliation={action(
-        'remove affiliation from selected author'
-      )}
-      updateAffiliation={action('upate the affiliation')}
-      handleSaveAuthor={action('save author')}
+      saveModel={action('save a manuscript model')}
       stopEditing={action('stop editing')}
       expanded={true}
       toggleExpanded={action('toggle expanded')}
@@ -112,21 +105,14 @@ storiesOf('Metadata', module)
       affiliations={affiliations}
       authorAffiliations={authorAffiliations}
       manuscript={manuscripts[0]}
-      selectedAuthor={authors[0]}
+      selectedAuthor={authors[0]._id}
       editing={true}
       saveTitle={action('save title')}
       startEditing={action('start editing')}
       selectAuthor={action('select author')}
       removeAuthor={action('remove author')}
       createAuthor={action('create author')}
-      addAuthorAffiliation={action(
-        'add affiliation to select author (if string: create it)'
-      )}
-      removeAuthorAffiliation={action(
-        'remove affiliation from selected author'
-      )}
-      updateAffiliation={action('upate the affiliation')}
-      handleSaveAuthor={action('save author')}
+      saveModel={action('save a manuscript model')}
       stopEditing={action('stop editing')}
       expanded={true}
       toggleExpanded={action('toggle expanded')}
@@ -166,25 +152,18 @@ storiesOf('Metadata', module)
       affiliations={affiliations}
       authorAffiliations={authorAffiliations}
       manuscript={manuscripts[0]}
-      selectedAuthor={authors[0]}
+      selectedAuthor={authors[0]._id}
       editing={false}
       saveTitle={action('save title')}
       startEditing={action('start editing')}
       selectAuthor={action('select author')}
       removeAuthor={action('remove author')}
       createAuthor={action('create author')}
-      addAuthorAffiliation={action(
-        'add affiliation to select author (if string: create it)'
-      )}
-      removeAuthorAffiliation={action(
-        'remove affiliation from selected author'
-      )}
-      updateAffiliation={action('upate the affiliation')}
-      handleSaveAuthor={action('save author')}
       stopEditing={action('stop editing')}
       expanded={false}
       toggleExpanded={action('toggle expanded')}
       addingAuthors={false}
+      saveModel={action('save a manuscript model')}
       openAddAuthors={action('start adding')}
       numberOfAddedAuthors={0}
       user={user}

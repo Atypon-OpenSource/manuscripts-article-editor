@@ -10,11 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Build, buildAffiliation } from '@manuscripts/manuscript-transform'
 import {
   Affiliation,
   ContainerInvitation,
   Contributor,
   Manuscript,
+  Model,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
@@ -42,15 +44,12 @@ interface Props {
   invitations: ContainerInvitation[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   affiliations: AffiliationMap
-  selectedAuthor: Contributor | null
+  selectedAuthor: string | null
   removeAuthor: (data: Contributor) => Promise<void>
-  selectAuthor: (data: Contributor) => void
   updateAuthor: (author: Contributor, email: string) => void
+  selectAuthor: (data: Contributor) => void
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   openAddAuthors: () => void
-  addAuthorAffiliation: (affiliation: Affiliation | string) => void
-  removeAuthorAffiliation: (affiliation: Affiliation) => void
-  updateAffiliation: (affiliation: Affiliation) => void
-  handleSaveAuthor: (values: AuthorValues) => Promise<void>
   handleDrop: (oldIndex: number, newIndex: number) => void
   tokenActions: TokenActions
   invitationSent: boolean
@@ -74,16 +73,11 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       authorAffiliations,
       affiliations,
       selectAuthor,
-      selectedAuthor,
       project,
-      updateAuthor,
-      addAuthorAffiliation,
-      removeAuthorAffiliation,
-      updateAffiliation,
       handleDrop,
-      handleSaveAuthor,
       openAddAuthors,
       tokenActions,
+      updateAuthor,
     } = this.props
 
     return (
@@ -92,15 +86,15 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         authors={authors}
         authorAffiliations={authorAffiliations}
         affiliations={affiliations}
-        selectedAuthor={selectedAuthor}
+        selectedAuthor={this.getSelectedAuthor()}
         isRemoveAuthorOpen={isRemoveAuthorOpen}
         updateAuthor={updateAuthor}
-        addAuthorAffiliation={addAuthorAffiliation}
-        removeAuthorAffiliation={removeAuthorAffiliation}
-        updateAffiliation={updateAffiliation}
+        addAuthorAffiliation={this.addAuthorAffiliation}
+        removeAuthorAffiliation={this.removeAuthorAffiliation}
+        updateAffiliation={this.updateAffiliation}
         getSidebarItemDecorator={this.getSidebarItemDecorator}
         handleDrop={handleDrop}
-        handleSaveAuthor={handleSaveAuthor}
+        handleSaveAuthor={this.handleSaveAuthor}
         openAddAuthors={openAddAuthors}
         selectAuthor={selectAuthor}
         isRejected={this.isRejected}
@@ -155,6 +149,70 @@ class AuthorsModalContainer extends React.Component<Props, State> {
     ) ? (
       <Invited>Invited</Invited>
     ) : null
+  }
+
+  private handleSaveAuthor = async (values: AuthorValues) => {
+    const selectedAuthor = this.getSelectedAuthor()
+    if (!selectedAuthor) return
+
+    const author = {
+      ...selectedAuthor,
+      ...values,
+      affiliations: selectedAuthor.affiliations,
+    }
+
+    delete author.containerID
+
+    await this.props.saveModel<Contributor>(author)
+  }
+
+  private addAuthorAffiliation = async (affiliation: Affiliation | string) => {
+    const selectedAuthor = this.getSelectedAuthor()
+    if (!selectedAuthor) return
+
+    let affiliationObj
+    if (typeof affiliation === 'string') {
+      affiliationObj = await this.props.saveModel<Affiliation>(
+        buildAffiliation(affiliation)
+      )
+    } else {
+      affiliationObj = affiliation
+    }
+
+    const author = {
+      ...selectedAuthor,
+      affiliations: (selectedAuthor.affiliations || []).concat(
+        affiliationObj._id
+      ),
+    }
+
+    await this.props.saveModel<Contributor>(author)
+  }
+
+  private removeAuthorAffiliation = async (affiliation: Affiliation) => {
+    const selectedAuthor = this.getSelectedAuthor()
+    if (!selectedAuthor) return
+
+    const nextAuthor = {
+      ...selectedAuthor,
+      affiliations: (selectedAuthor.affiliations || []).filter(
+        aff => aff !== affiliation._id
+      ),
+    }
+
+    await this.props.saveModel<Contributor>(nextAuthor)
+  }
+
+  private updateAffiliation = async (affiliation: Affiliation) => {
+    await this.props.saveModel<Affiliation>(affiliation)
+  }
+
+  private getSelectedAuthor = () => {
+    return (
+      this.props.authors.find(
+        author => author._id === this.props.selectedAuthor
+      ) || null
+    )
   }
 }
 
