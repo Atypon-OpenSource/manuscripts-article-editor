@@ -463,6 +463,12 @@ export class Collection<T extends Model> implements EventTarget {
 
   public async hasUnsyncedChanges() {
     if (!this.bucketName) return false
+
+    const syncErrors = await this.conflictManager!.getSyncErrors()
+    if (syncErrors && syncErrors.length) {
+      return true
+    }
+
     const remote = this.getRemoteUrl()
 
     try {
