@@ -11,8 +11,10 @@
  */
 
 import { ContainedModel } from '@manuscripts/manuscript-transform'
+import { SyncError } from '@manuscripts/sync-client'
 import React, { useEffect, useState } from 'react'
 import { ProjectDump } from '../../pressroom/importers'
+import CollectionManager from '../../sync/CollectionManager'
 import { styled } from '../../theme/styled-components'
 
 const Container = styled.div`
@@ -49,6 +51,21 @@ export const ProjectDiagnosticsPageContainer: React.FC<{
     setDownloadURL(downloadURL)
   }, [projectID, data])
 
+  const [syncErrors, setSyncErrors] = useState<SyncError[]>([])
+  const [syncErrorsLoadError, setSyncErrorsLoadError] = useState<boolean>(false)
+  useEffect(() => {
+    const collection = CollectionManager.getCollection(`project-${projectID}`)
+    if (!collection || !collection.conflictManager) return
+    collection.conflictManager
+      .getSyncErrors()
+      .then((errors: SyncError[]) => {
+        setSyncErrors(errors)
+      })
+      .catch(() => {
+        setSyncErrorsLoadError(true)
+      })
+  }, [])
+
   if (!downloadURL) {
     return <div>Loading project data…</div>
   }
@@ -58,6 +75,22 @@ export const ProjectDiagnosticsPageContainer: React.FC<{
       <DownloadButton href={downloadURL} download={`${projectID}.json`}>
         Download project data as JSON
       </DownloadButton>
+
+      {syncErrors.length && (
+        <React.Fragment>
+          <h2>Current Sync Errors:</h2>
+          <ul>
+            {syncErrors.map(error => (
+              <li key={error._id}>
+                <strong>{error.type}: </strong>
+                {error._id} {error.message}(
+                {new Date(error.createdAt * 1000).toLocaleString()})
+              </li>
+            ))}
+            {syncErrorsLoadError && <li>Error loading sync errors</li>}
+          </ul>
+        </React.Fragment>
+      )}
     </Container>
   )
 })
