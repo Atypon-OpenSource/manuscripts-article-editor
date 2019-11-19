@@ -4,7 +4,10 @@ declare interface Window {
     is?: (namespace: string) => boolean
     get?: (namespace: string) => unknown
     push: (
-      value: [string, string] | [string, string, (value?: unknown) => void]
+      value:
+        | [string, string]
+        | [string, string, (value?: unknown) => void]
+        | [string, string, string[]]
     ) => void
   }
 }

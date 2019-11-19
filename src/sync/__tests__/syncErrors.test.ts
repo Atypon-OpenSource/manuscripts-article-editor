@@ -98,7 +98,7 @@ describe('getPushSyncErrorMessage', () => {
     }
     const message = getPushSyncErrorMessage(event)
     expect(message).toEqual(
-      'Syncing your changes failed due to a data conflict. Please retry.'
+      'Syncing your changes failed due to a data conflict.'
     )
   })
 })

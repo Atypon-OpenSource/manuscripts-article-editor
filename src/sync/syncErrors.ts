@@ -12,10 +12,7 @@
 
 import * as HttpStatusCodes from 'http-status-codes'
 import { get } from 'lodash-es'
-import config from '../config'
 import { CollectionEvent } from './types'
-
-const SUPPORT_EMAIL = config.support.email
 
 type State = CollectionEvent[]
 interface Action {
@@ -84,17 +81,17 @@ export const getPushSyncErrorMessage = (event: CollectionEvent) => {
 
   switch (status) {
     case HttpStatusCodes.BAD_REQUEST:
-      return `Syncing your changes failed due to invalid data. Please contact ${SUPPORT_EMAIL}.`
+      return `Syncing your changes failed due to invalid data.`
 
     case HttpStatusCodes.NOT_FOUND:
-      return `Syncing your changes failed because of missing data. Please contact ${SUPPORT_EMAIL}.`
+      return `Syncing your changes failed because of missing data.`
 
     case HttpStatusCodes.CONFLICT:
-      return `Syncing your changes failed due to a data conflict. Please retry.`
+      return `Syncing your changes failed due to a data conflict.`
 
     case HttpStatusCodes.INTERNAL_SERVER_ERROR:
-      return `Syncing your changes failed due to a server error on our end. Please contact ${SUPPORT_EMAIL}.`
+      return `Syncing your changes failed due to a server error on our end.`
   }
 
-  return `Something's wrong, syncing your changes isn't working right now. Please contact ${SUPPORT_EMAIL}`
+  return `Syncing your changes failed.`
 }

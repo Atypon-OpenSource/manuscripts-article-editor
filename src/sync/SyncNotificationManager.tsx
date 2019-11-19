@@ -10,10 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import copy from 'clipboard-copy'
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
+import { CopyableText } from '../components/CopyableText'
 import { NotificationComponent } from '../components/NotificationProvider'
 import config from '../config'
+import { useCrisp } from '../hooks/use-crisp'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import CollectionManager from './CollectionManager'
 import syncErrors, {
@@ -91,6 +92,13 @@ const SyncNotificationManager: NotificationComponent = ({
     setAskForPersistentStorage(false)
   }, [])
 
+  const crisp = useCrisp()
+  const onCopy = useCallback((text: string) => {
+    /* tslint:disable-next-line:no-console */
+    console.log(`Logging sync failure: ${text}`)
+    crisp.setMessageText(`I am getting the following sync error: ${text}`)
+  }, [])
+
   // render:
   if (onlineState === OnlineState.Offline) {
     return (
@@ -143,8 +151,16 @@ const SyncNotificationManager: NotificationComponent = ({
     return (
       <SyncNotification
         title={getPushSyncErrorMessage(pushSyncError)}
-        buttonText="Copy Diagnostic Information"
-        buttonAction={() => copy(JSON.stringify(pushSyncError))}
+        info={
+          <CopyableText
+            text={JSON.stringify(pushSyncError.detail)}
+            onCopy={onCopy}
+          >
+            Copy diagnostics to support
+          </CopyableText>
+        }
+        buttonText="Contact Support"
+        buttonAction={crisp.open}
         primaryButtonText="Retry"
         primaryButtonAction={handleRetry}
       />

@@ -29,7 +29,7 @@ export const NotificationInfo = styled.div`
 
 interface Props {
   title: string
-  info?: string
+  info?: string | JSX.Element
   buttonText: string
   buttonAction: () => void
   primaryButtonText?: string
