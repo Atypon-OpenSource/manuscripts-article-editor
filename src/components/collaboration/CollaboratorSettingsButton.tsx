@@ -26,6 +26,7 @@ const AddIconButton = styled(IconButton)`
   display: flex;
   height: unset;
   width: unset;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
 
   &:focus {
     outline: none;

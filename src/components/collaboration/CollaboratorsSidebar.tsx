@@ -59,6 +59,7 @@ const CollaboratorData = styled.div`
 const UserDataContainer = styled.div`
   display: flex;
   align-items: center;
+  overflow: hidden;
 `
 
 const Invited = styled.div`
@@ -70,6 +71,7 @@ const Invited = styled.div`
 const InvitedContainer = styled.div`
   display: flex;
   align-items: center;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const AlertMessageContainer = styled.div`

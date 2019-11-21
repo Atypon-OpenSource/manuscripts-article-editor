@@ -66,6 +66,7 @@ const Invited = styled.div`
 const InvitedContainer = styled.div`
   display: flex;
   align-items: center;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
 `
 
 const AddedIconContainer = styled.div`

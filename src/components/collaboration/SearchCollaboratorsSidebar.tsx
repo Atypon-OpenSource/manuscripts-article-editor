@@ -37,6 +37,7 @@ const PeopleData = styled.div`
 const UserDataContainer = styled.div`
   display: flex;
   align-items: center;
+  overflow: hidden;
 `
 
 const SidebarText = styled.div`
