@@ -10,13 +10,20 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-export * from './menu'
-export * from './toolbar'
+import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+import React, { useCallback } from 'react'
+import { RouteComponentProps } from 'react-router'
+import { postWebkitMessage } from '../../lib/native'
+import TemplateSelector from '../templates/TemplateSelector'
 
-export type MessageHandler = 'toolbar' | 'sync' | 'action'
-
-export const postWebkitMessage = (handler: MessageHandler, message: object) => {
-  if (window.webkit && window.webkit.messageHandlers) {
-    window.webkit.messageHandlers[handler].postMessage(message)
+export const NewProjectPageContainer: React.FC<
+  RouteComponentProps & {
+    user: UserProfile
   }
+> = ({ history, user }) => {
+  const handleClose = useCallback(() => {
+    postWebkitMessage('action', { name: 'close-window' })
+  }, [history])
+
+  return <TemplateSelector user={user} handleComplete={handleClose} />
 }

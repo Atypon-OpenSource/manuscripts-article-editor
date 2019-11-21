@@ -31,6 +31,7 @@ import DeveloperPageContainer from './components/DeveloperPageContainer'
 import DiagnosticsPageContainer from './components/diagnostics/DiagnosticsPageContainer'
 import { LoadingPage } from './components/Loading'
 import NotFoundPage from './components/NotFoundPage'
+import { NewProjectPageContainer } from './components/projects/NewProjectPageContainer'
 import ProjectPageContainer from './components/projects/ProjectPageContainer'
 import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
 import { RequireLogin } from './components/RequireLogin'
@@ -104,6 +105,23 @@ const App: React.FunctionComponent = () => (
                               )
                             }
                           />
+
+                          {config.native && (
+                            <Route
+                              path={'/new-project'}
+                              exact={true}
+                              render={props =>
+                                user ? (
+                                  <NewProjectPageContainer
+                                    user={user}
+                                    {...props}
+                                  />
+                                ) : (
+                                  <RequireLogin {...props} />
+                                )
+                              }
+                            />
+                          )}
 
                           <Route
                             path={'/login'}
