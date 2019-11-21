@@ -22,7 +22,6 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import {
   AffiliationsList,
-  AuthorAffiliation,
   AuthorsList,
   CloseButton,
   IconButton,
@@ -31,9 +30,9 @@ import {
   StyledModal,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TokenActions } from '../../data/TokenData'
-import { AffiliationMap } from '../../lib/authors'
+import { useAuthorsAndAffiliations } from '../../hooks/use-authors-and-affiliations'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { Permissions } from '../../types/permissions'
@@ -91,13 +90,9 @@ const Header = styled.div`
 `
 
 interface Props {
-  modelMap: Map<string, Model>
   saveTitle: (title: string) => void
   manuscript: Manuscript
-  authors: Contributor[]
   invitations: ContainerInvitation[]
-  authorAffiliations: Map<string, AuthorAffiliation[]>
-  affiliations: AffiliationMap
   startEditing: () => void
   editing: boolean
   stopEditing: () => void
@@ -122,12 +117,19 @@ interface Props {
   isInvite: boolean
   invitationValues: InvitationValues
   invitationSent: boolean
-  openAddAuthors: () => void
+  openAddAuthors: (authors: Contributor[]) => void
   handleAddingDoneCancel: () => void
   handleInvite: (searchText: string) => void
   handleInviteCancel: () => void
-  handleInvitationSubmit: (values: InvitationValues) => Promise<void>
-  handleDrop: (oldIndex: number, newIndex: number) => void
+  handleInvitationSubmit: (
+    authors: Contributor[],
+    values: InvitationValues
+  ) => Promise<void>
+  handleDrop: (
+    authors: Contributor[],
+    oldIndex: number,
+    newIndex: number
+  ) => void
   updateAuthor: (author: Contributor, email: string) => void
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
@@ -138,67 +140,92 @@ const expanderStyle = (expanded: boolean) => ({
   transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
 })
 
-const authorsModal = (props: Props) => {
-  if (props.isInvite) {
-    return <InviteAuthorsModal {...props} />
-  }
+export const Metadata: React.FunctionComponent<Props> = props => {
+  const { data } = useAuthorsAndAffiliations(
+    props.manuscript.containerID,
+    props.manuscript._id
+  )
 
-  return props.addingAuthors ? (
-    <AddAuthorsModalContainer {...props} />
-  ) : (
-    <AuthorsModalContainer {...props} />
+  const handleInvitationSubmit = useCallback(
+    (values: InvitationValues) => {
+      if (!data) return Promise.reject()
+      return props.handleInvitationSubmit(data.authors, values)
+    },
+    [props.handleInvitationSubmit, data]
+  )
+
+  const openAddAuthors = useCallback(() => {
+    if (!data) return
+    props.openAddAuthors(data.authors)
+  }, [props.openAddAuthors, data])
+
+  if (!data) return null
+
+  return (
+    <HeaderContainer>
+      <Header>
+        <TitleContainer>
+          <TitleFieldContainer
+            title={props.manuscript.title || ''}
+            handleChange={props.saveTitle}
+            handleStateChange={props.handleTitleStateChange}
+            editable={props.permissions.write}
+          />
+          <ExpanderButton
+            aria-label={'Toggle expand authors'}
+            onClick={props.toggleExpanded}
+            style={expanderStyle(props.expanded)}
+            data-cy={'expander-button'}
+          >
+            <ArrowDownBlue />
+          </ExpanderButton>
+        </TitleContainer>
+
+        {props.expanded && (
+          <AuthorsContainer data-cy={'author-container'}>
+            <AuthorsList
+              authors={data.authors}
+              authorAffiliations={data.authorAffiliations}
+              startEditing={props.startEditing}
+              showEditButton={isOwner(props.project, props.user.userID)}
+              selectAuthor={props.selectAuthor}
+            />
+
+            <AffiliationsList affiliations={data.affiliations} />
+          </AuthorsContainer>
+        )}
+
+        <StyledModal
+          isOpen={props.editing}
+          onRequestClose={props.stopEditing}
+          shouldCloseOnOverlayClick={true}
+        >
+          <ModalContainer>
+            <ModalHeader>
+              <CloseButton
+                onClick={props.stopEditing}
+                data-cy={'modal-close-button'}
+              />
+            </ModalHeader>
+            {props.isInvite ? (
+              <InviteAuthorsModal
+                {...props}
+                handleInvitationSubmit={handleInvitationSubmit}
+              />
+            ) : props.addingAuthors ? (
+              <AddAuthorsModalContainer {...props} authors={data.authors} />
+            ) : (
+              <AuthorsModalContainer
+                {...props}
+                authors={data.authors}
+                authorAffiliations={data.authorAffiliations}
+                affiliations={data.affiliations}
+                openAddAuthors={openAddAuthors}
+              />
+            )}
+          </ModalContainer>
+        </StyledModal>
+      </Header>
+    </HeaderContainer>
   )
 }
-
-export const Metadata: React.FunctionComponent<Props> = React.memo(props => (
-  <HeaderContainer>
-    <Header>
-      <TitleContainer>
-        <TitleFieldContainer
-          title={props.manuscript.title || ''}
-          handleChange={props.saveTitle}
-          handleStateChange={props.handleTitleStateChange}
-          editable={props.permissions.write}
-        />
-        <ExpanderButton
-          aria-label={'Toggle expand authors'}
-          onClick={props.toggleExpanded}
-          style={expanderStyle(props.expanded)}
-          data-cy={'expander-button'}
-        >
-          <ArrowDownBlue />
-        </ExpanderButton>
-      </TitleContainer>
-
-      {props.expanded && (
-        <AuthorsContainer data-cy={'author-container'}>
-          <AuthorsList
-            authors={props.authors}
-            authorAffiliations={props.authorAffiliations}
-            startEditing={props.startEditing}
-            showEditButton={isOwner(props.project, props.user.userID)}
-            selectAuthor={props.selectAuthor}
-          />
-
-          <AffiliationsList affiliations={props.affiliations} />
-        </AuthorsContainer>
-      )}
-
-      <StyledModal
-        isOpen={props.editing}
-        onRequestClose={props.stopEditing}
-        shouldCloseOnOverlayClick={true}
-      >
-        <ModalContainer>
-          <ModalHeader>
-            <CloseButton
-              onClick={props.stopEditing}
-              data-cy={'modal-close-button'}
-            />
-          </ModalHeader>
-          {authorsModal(props)}
-        </ModalContainer>
-      </StyledModal>
-    </Header>
-  </HeaderContainer>
-))

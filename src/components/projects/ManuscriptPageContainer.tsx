@@ -461,7 +461,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               <EditorBody>
                 <MetadataContainer
                   collection={collection}
-                  modelMap={modelMap}
                   saveManuscript={this.saveManuscript}
                   manuscript={manuscript}
                   saveModel={this.saveModel}

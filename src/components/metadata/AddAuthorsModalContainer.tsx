@@ -10,13 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  Contributor,
-  Model,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { buildSortedAuthors } from '../../lib/authors'
 import { AddAuthorsModal } from './AuthorsModals'
 
 interface State {
@@ -30,7 +25,6 @@ interface Props {
   nonAuthors: UserProfile[]
   authors: Contributor[]
   addedAuthors: string[]
-  modelMap: Map<string, Model>
   numberOfAddedAuthors: number
   handleAddingDoneCancel: () => void
   handleInvite: (searchText: string) => void
@@ -142,7 +136,7 @@ export class AddAuthorsModalContainer extends React.Component<Props, State> {
   private isAuthorExist = () => {
     const name = this.state.searchText
     const [given, ...family] = name.split(' ')
-    const authors = buildSortedAuthors(this.props.modelMap)
+    const authors = this.props.authors
     for (const author of authors) {
       if (
         author.bibliographicName.given!.toLowerCase() === given.toLowerCase() &&

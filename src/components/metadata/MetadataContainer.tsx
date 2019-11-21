@@ -33,12 +33,7 @@ import ProjectInvitationsData from '../../data/ProjectInvitationsData'
 import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import { projectInvite } from '../../lib/api'
-import {
-  buildAuthorPriority,
-  buildAuthorsAndAffiliations,
-  buildSortedAuthors,
-  reorderAuthors,
-} from '../../lib/authors'
+import { buildAuthorPriority, reorderAuthors } from '../../lib/authors'
 import {
   buildCollaboratorProfiles,
   buildCollaborators,
@@ -53,7 +48,6 @@ import { Metadata } from './Metadata'
 interface Props {
   collection: RxCollection<Model>
   manuscript: Manuscript
-  modelMap: Map<string, Model>
   saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
@@ -76,7 +70,7 @@ interface State {
   authorListError?: string
 }
 
-class MetadataContainer extends React.Component<Props, State> {
+class MetadataContainer extends React.PureComponent<Props, State> {
   public state: Readonly<State> = {
     editing: false,
     expanded: true,
@@ -109,18 +103,11 @@ class MetadataContainer extends React.Component<Props, State> {
     } = this.state
     const {
       manuscript,
-      modelMap,
       handleTitleStateChange,
       permissions,
       tokenActions,
       saveModel,
     } = this.props
-
-    const {
-      affiliations,
-      authors,
-      authorAffiliations,
-    } = buildAuthorsAndAffiliations(this.props.modelMap)
 
     // TODO: editable prop
 
@@ -145,14 +132,10 @@ class MetadataContainer extends React.Component<Props, State> {
                           )
                           return (
                             <Metadata
-                              modelMap={modelMap}
                               saveTitle={this.saveTitle}
-                              authors={authors}
                               invitations={allInvitations}
                               editing={editing}
-                              affiliations={affiliations}
                               startEditing={this.startEditing}
-                              authorAffiliations={authorAffiliations}
                               selectAuthor={this.selectAuthor}
                               removeAuthor={this.removeAuthor}
                               createAuthor={this.createAuthor}
@@ -318,10 +301,9 @@ class MetadataContainer extends React.Component<Props, State> {
   private startAddingAuthors = (
     collaborators: UserProfile[],
     invitations: ContainerInvitation[]
-  ) => () => {
+  ) => (authors: Contributor[]) => {
     this.setState({ addingAuthors: true, invitationSent: false })
 
-    const authors = buildSortedAuthors(this.props.modelMap)
     this.buildNonAuthors(authors, collaborators, invitations)
   }
 
@@ -350,7 +332,10 @@ class MetadataContainer extends React.Component<Props, State> {
   private handleInvitationSubmit = (
     invitingUser: UserProfile,
     invitations: ContainerInvitation[]
-  ) => async (values: InvitationValues): Promise<void> => {
+  ) => async (
+    authors: Contributor[],
+    values: InvitationValues
+  ): Promise<void> => {
     const { email, name, role } = values
 
     const projectID = this.props.manuscript.containerID
@@ -365,7 +350,7 @@ class MetadataContainer extends React.Component<Props, State> {
     await projectInvite(projectID, [{ email, name }], role)
 
     if (!alreadyInvited) {
-      await this.createInvitedAuthor(email, invitingID, name)
+      await this.createInvitedAuthor(authors, email, invitingID, name)
     }
 
     this.setState({
@@ -377,12 +362,12 @@ class MetadataContainer extends React.Component<Props, State> {
   }
 
   private createInvitedAuthor = async (
+    authors: Contributor[],
     invitedEmail: string,
     invitingID: string,
     name: string
   ) => {
     const invitation = await this.getInvitation(invitingID, invitedEmail)
-    const authors = buildSortedAuthors(this.props.modelMap)
 
     await this.createAuthor(
       buildAuthorPriority(authors),
@@ -427,8 +412,11 @@ class MetadataContainer extends React.Component<Props, State> {
     this.setState({ nonAuthors })
   }
 
-  private handleDrop = (oldIndex: number, newIndex: number) => {
-    const { authors } = buildAuthorsAndAffiliations(this.props.modelMap)
+  private handleDrop = (
+    authors: Contributor[],
+    oldIndex: number,
+    newIndex: number
+  ) => {
     const reorderedAuthors = reorderAuthors(authors, oldIndex, newIndex)
     Promise.all(
       reorderedAuthors.map((author, i) => {

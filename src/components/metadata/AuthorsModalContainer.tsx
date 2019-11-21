@@ -50,7 +50,11 @@ interface Props {
   selectAuthor: (data: Contributor) => void
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   openAddAuthors: () => void
-  handleDrop: (oldIndex: number, newIndex: number) => void
+  handleDrop: (
+    authors: Contributor[],
+    oldIndex: number,
+    newIndex: number
+  ) => void
   tokenActions: TokenActions
   invitationSent: boolean
 }
@@ -74,7 +78,6 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       affiliations,
       selectAuthor,
       project,
-      handleDrop,
       openAddAuthors,
       tokenActions,
       updateAuthor,
@@ -93,7 +96,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         removeAuthorAffiliation={this.removeAuthorAffiliation}
         updateAffiliation={this.updateAffiliation}
         getSidebarItemDecorator={this.getSidebarItemDecorator}
-        handleDrop={handleDrop}
+        handleDrop={this.handleDrop}
         handleSaveAuthor={this.handleSaveAuthor}
         openAddAuthors={openAddAuthors}
         selectAuthor={selectAuthor}
@@ -213,6 +216,10 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         author => author._id === this.props.selectedAuthor
       ) || null
     )
+  }
+
+  private handleDrop = (oldIndex: number, newIndex: number) => {
+    this.props.handleDrop(this.props.authors, oldIndex, newIndex)
   }
 }
 

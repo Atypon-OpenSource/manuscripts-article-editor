@@ -24,14 +24,12 @@ import AddAuthorsSidebar from '../src/components/metadata/AddAuthorsSidebar'
 import { AuthorFormContainer } from '../src/components/metadata/AuthorFormContainer'
 import { AuthorsModal } from '../src/components/metadata/AuthorsModals'
 import AuthorsSidebar from '../src/components/metadata/AuthorsSidebar'
-import { Metadata } from '../src/components/metadata/Metadata'
 import SearchAuthorsSidebar from '../src/components/metadata/SearchAuthorsSidebar'
 import {
   buildAffiliationIDs,
   buildAuthorAffiliations,
 } from '../src/lib/authors'
 import { affiliations, authors, user } from './data/contributors'
-import manuscripts from './data/manuscripts'
 import { project } from './data/projects'
 
 const affiliationIds = buildAffiliationIDs(authors)
@@ -42,154 +40,7 @@ const authorAffiliations = buildAuthorAffiliations(
   affiliationIds
 )
 
-const invitationValues = {
-  name: '',
-  email: '',
-  role: '',
-}
-
 storiesOf('Metadata', module)
-  .add('View/edit title', () => (
-    <Metadata
-      modelMap={new Map()}
-      invitations={[]}
-      numberOfAddedAuthors={0}
-      authors={authors}
-      nonAuthors={[]}
-      addedAuthors={[]}
-      affiliations={affiliations}
-      authorAffiliations={authorAffiliations}
-      manuscript={manuscripts[0]}
-      selectedAuthor={null}
-      openAddAuthors={action('open adding')}
-      editing={false}
-      saveTitle={action('save title')}
-      startEditing={action('start editing')}
-      selectAuthor={action('select author')}
-      removeAuthor={action('remove author')}
-      createAuthor={action('create author')}
-      saveModel={action('save a manuscript model')}
-      stopEditing={action('stop editing')}
-      expanded={true}
-      toggleExpanded={action('toggle expanded')}
-      addingAuthors={false}
-      user={user}
-      project={project}
-      handleAddingDoneCancel={action('stop adding')}
-      isInvite={false}
-      handleInvite={action('start invite')}
-      handleInviteCancel={action('stop invite')}
-      handleInvitationSubmit={action('invite author')}
-      invitationValues={invitationValues}
-      handleDrop={action('dropped the user')}
-      handleTitleStateChange={action('title state change')}
-      updateAuthor={action(
-        'update author after inviting him to collaborate on project'
-      )}
-      invitationSent={false}
-      permissions={{
-        write: true,
-      }}
-      tokenActions={{
-        delete: action('delete token'),
-        update: action('update token'),
-      }}
-    />
-  ))
-  .add('Edit authors', () => (
-    <Metadata
-      modelMap={new Map()}
-      invitations={[]}
-      authors={authors}
-      nonAuthors={[]}
-      affiliations={affiliations}
-      authorAffiliations={authorAffiliations}
-      manuscript={manuscripts[0]}
-      selectedAuthor={authors[0]._id}
-      editing={true}
-      saveTitle={action('save title')}
-      startEditing={action('start editing')}
-      selectAuthor={action('select author')}
-      removeAuthor={action('remove author')}
-      createAuthor={action('create author')}
-      saveModel={action('save a manuscript model')}
-      stopEditing={action('stop editing')}
-      expanded={true}
-      toggleExpanded={action('toggle expanded')}
-      addingAuthors={false}
-      user={user}
-      project={project}
-      openAddAuthors={action('start adding')}
-      numberOfAddedAuthors={0}
-      addedAuthors={[]}
-      handleAddingDoneCancel={action('stop adding')}
-      isInvite={false}
-      handleInvite={action('start invite')}
-      handleInviteCancel={action('stop invite')}
-      handleInvitationSubmit={action('invite author')}
-      invitationValues={invitationValues}
-      handleDrop={action('dropped the user')}
-      handleTitleStateChange={action('title state change')}
-      updateAuthor={action(
-        'update author after inviting him to collaborate on project'
-      )}
-      invitationSent={false}
-      permissions={{
-        write: true,
-      }}
-      tokenActions={{
-        delete: action('delete token'),
-        update: action('update token'),
-      }}
-    />
-  ))
-  .add('Collapsed', () => (
-    <Metadata
-      modelMap={new Map()}
-      invitations={[]}
-      authors={authors}
-      nonAuthors={[]}
-      affiliations={affiliations}
-      authorAffiliations={authorAffiliations}
-      manuscript={manuscripts[0]}
-      selectedAuthor={authors[0]._id}
-      editing={false}
-      saveTitle={action('save title')}
-      startEditing={action('start editing')}
-      selectAuthor={action('select author')}
-      removeAuthor={action('remove author')}
-      createAuthor={action('create author')}
-      stopEditing={action('stop editing')}
-      expanded={false}
-      toggleExpanded={action('toggle expanded')}
-      addingAuthors={false}
-      saveModel={action('save a manuscript model')}
-      openAddAuthors={action('start adding')}
-      numberOfAddedAuthors={0}
-      user={user}
-      project={project}
-      addedAuthors={[]}
-      handleAddingDoneCancel={action('stop adding')}
-      isInvite={false}
-      handleInvite={action('start invite')}
-      handleInviteCancel={action('stop invite')}
-      handleInvitationSubmit={action('invite author')}
-      invitationValues={invitationValues}
-      handleDrop={action('dropped the user')}
-      handleTitleStateChange={action('title state change')}
-      updateAuthor={action(
-        'update author after inviting him to collaborate on project'
-      )}
-      invitationSent={false}
-      permissions={{
-        write: true,
-      }}
-      tokenActions={{
-        delete: action('delete token'),
-        update: action('update token'),
-      }}
-    />
-  ))
   .add('Title: read-only', () => (
     <Title
       value={

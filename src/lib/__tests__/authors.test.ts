@@ -29,12 +29,6 @@ import {
   reorderAuthors,
 } from '../authors'
 
-const modelMap = (models: Model[]): Map<string, Model> => {
-  const map = new Map<string, Model>()
-  models.forEach(x => map.set(x._id, x))
-  return map
-}
-
 const affiliation: Affiliation = {
   _id: 'MPAffiliation:X',
   objectType: ObjectTypes.Affiliation,
@@ -122,7 +116,7 @@ describe('author and affiliation helpers', () => {
   it('buildSortedAuthors', () => {
     // FIXME: buildSortedAuthors should not ignore silently encountering contributors with no "role" or "priority" fields present.
     // tslint:disable-line:no-any
-    expect(buildSortedAuthors(modelMap(objs)).map(x => x._id)).toEqual([
+    expect(buildSortedAuthors(contribs).map(item => item._id)).toEqual([
       'MPContributor:y',
       'MPContributor:x',
       'MPContributor:z',
@@ -233,7 +227,7 @@ describe('author and affiliation helpers', () => {
   it('buildAffiliationsMap', () => {
     const affMap = buildAffiliationsMap(
       affiliations.map(x => x._id),
-      modelMap(objs)
+      affiliations
     )
     expect(Array.from(affMap)).toEqual([['MPAffiliation:X', affiliations[0]]])
   })
@@ -241,7 +235,7 @@ describe('author and affiliation helpers', () => {
   it('buildAuthorAffiliations', () => {
     const affMap = buildAffiliationsMap(
       affiliations.map(x => x._id),
-      modelMap(objs)
+      affiliations
     )
     const authorAffMap = buildAuthorAffiliations(
       contribs,
@@ -261,8 +255,12 @@ describe('author and affiliation helpers', () => {
   })
 
   it('buildAuthorsAndAffiliations', () => {
-    const comps = modelMap(objs)
-    const map = buildAuthorsAndAffiliations(comps)
+    const authors = objs.filter(
+      obj => obj.objectType === ObjectTypes.Contributor
+    ) as Contributor[]
+
+    /* tslint:disable-next-line:no-any */
+    const map = buildAuthorsAndAffiliations(objs as any)
     expect(map).toEqual({
       affiliations: new Map(Object.entries({ 'MPAffiliation:X': affiliation })),
       authorAffiliations: new Map(
@@ -272,7 +270,7 @@ describe('author and affiliation helpers', () => {
           'MPContributor:z': [],
         })
       ),
-      authors: buildSortedAuthors(comps),
+      authors: buildSortedAuthors(authors),
     })
   })
 

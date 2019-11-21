@@ -10,18 +10,22 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { getModelsByType } from '@manuscripts/manuscript-transform'
 import {
   Affiliation,
   Contributor,
-  Model,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 
 export type AffiliationMap = Map<string, Affiliation>
 
-export const buildSortedAuthors = (modelMap: Map<string, Model>) => {
-  return getModelsByType<Contributor>(modelMap, ObjectTypes.Contributor)
+export interface AuthorData {
+  authors: Contributor[]
+  affiliations: AffiliationMap
+  authorAffiliations: Map<string, Array<{ ordinal: number; data: Affiliation }>>
+}
+
+export const buildSortedAuthors = (contributors: Contributor[]) => {
+  return contributors
     .filter(item => item.role === 'author')
     .sort((a, b) => Number(a.priority) - Number(b.priority))
 }
@@ -72,29 +76,37 @@ export const buildAuthorAffiliations = (
 
 export const buildAffiliationsMap = (
   affiliationIDs: string[],
-  modelMap: Map<string, Model>
+  affiliations: Affiliation[]
 ): AffiliationMap =>
   new Map(
     affiliationIDs.map((id: string): [string, Affiliation] => [
       id,
-      modelMap.get(id) as Affiliation,
+      affiliations.find(aff => aff._id === id) as Affiliation,
     ])
   )
 
-export const buildAuthorsAndAffiliations = (modelMap: Map<string, Model>) => {
-  const authors = buildSortedAuthors(modelMap)
+export const buildAuthorsAndAffiliations = (
+  data: Array<Contributor | Affiliation>
+) => {
+  const authors = data.filter(
+    model => model.objectType === ObjectTypes.Contributor
+  ) as Contributor[]
+  const affiliations = data.filter(
+    model => model.objectType === ObjectTypes.Affiliation
+  ) as Affiliation[]
+  const sortedAuthors = buildSortedAuthors(authors)
   const affiliationIDs = buildAffiliationIDs(authors)
-  const affiliations = buildAffiliationsMap(affiliationIDs, modelMap)
+  const affiliationsMap = buildAffiliationsMap(affiliationIDs, affiliations)
 
   const authorAffiliations = buildAuthorAffiliations(
-    authors,
-    affiliations,
+    sortedAuthors,
+    affiliationsMap,
     affiliationIDs
   )
 
   return {
-    affiliations,
-    authors,
+    affiliations: affiliationsMap,
+    authors: sortedAuthors,
     authorAffiliations,
   }
 }
