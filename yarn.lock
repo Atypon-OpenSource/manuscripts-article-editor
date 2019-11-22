@@ -1668,10 +1668,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.54.0":
-  version "0.54.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.54.0.tgz#3c2998f8e7e7560af958151bfc1db4020580a152"
-  integrity sha512-ztuSlMNZyAPxsn74I3CaYKY1ZwTn3+/gYMJCii0+AUbSEtUtkFgWm1gijTv7rVi7aUf3XWnMx0mkhbF4miDidA==
+"@manuscripts/manuscript-editor@^0.54.1":
+  version "0.54.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.54.1.tgz#07c80f1c4a84ee5c059d083b94f6216694beea8d"
+  integrity sha512-d7x7RJgs/T2JMRUICCYmgP4BfQU7CKAgD+LarDKa8PCAr5ryfwibJvM6NQ35lrW47NkzRzkyKpBxLi5aDQumLQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1790,10 +1790,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.14.0.tgz#9ac443574de16564ed9fdc89c5eb638554d8fb1b"
-  integrity sha512-NwlXpE1S04qNmtmxnAIg++/gt3IyoNUhQeJLOhrCJsLjioyDj/nZJhkiAcT6aqLliBxuPLRyOe91QwCeDjlbiw==
+"@manuscripts/style-guide@^0.14.2":
+  version "0.14.2"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.14.2.tgz#6deffbbe482596f2283f0ed559c63083c9a2a77e"
+  integrity sha512-NSlIwwZUW6+hU01xtF7DNEA4qNw65l3UiTRW9SPoOzhNZGq01Tze7Yrtio5pv5ianl6AmUuLseGU/75acW2MXw==
   dependencies:
     "@manuscripts/assets" "^0.6.1"
     lodash-es "^4.17.15"
