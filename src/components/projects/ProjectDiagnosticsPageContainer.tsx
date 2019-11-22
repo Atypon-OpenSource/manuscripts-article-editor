@@ -76,7 +76,7 @@ export const ProjectDiagnosticsPageContainer: React.FC<{
         Download project data as JSON
       </DownloadButton>
 
-      {syncErrors.length && (
+      {syncErrors.length ? (
         <React.Fragment>
           <h2>Current Sync Errors:</h2>
           <ul>
@@ -90,7 +90,7 @@ export const ProjectDiagnosticsPageContainer: React.FC<{
             {syncErrorsLoadError && <li>Error loading sync errors</li>}
           </ul>
         </React.Fragment>
-      )}
+      ) : null}
     </Container>
   )
 })
