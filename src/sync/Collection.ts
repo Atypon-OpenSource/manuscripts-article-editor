@@ -372,25 +372,35 @@ export class Collection<T extends Model> implements EventTarget {
       ...ids,
     }
 
-    const result = await this.getCollection().insert(model)
-
-    return result.toJSON()
+    try {
+      const result = await this.getCollection().insert(model)
+      return result.toJSON()
+    } catch (e) {
+      this.dispatchWriteError('create', e)
+      throw e
+    }
   }
 
   public async update(id: string, data: Partial<T>): Promise<T> {
-    const doc = await this.findDoc(id)
-
-    const result = await this.atomicUpdate<T>(doc, data)
-
-    return result.toJSON()
+    try {
+      const doc = await this.findDoc(id)
+      const result = await this.atomicUpdate<T>(doc, data)
+      return result.toJSON()
+    } catch (e) {
+      this.dispatchWriteError('update', e)
+      throw e
+    }
   }
 
   public async delete(id: string) {
-    const doc = await this.findDoc(id)
-
-    await doc.remove()
-
-    return id
+    try {
+      const doc = await this.findDoc(id)
+      await doc.remove()
+      return id
+    } catch (e) {
+      this.dispatchWriteError('delete', e)
+      throw e
+    }
   }
 
   public allAttachments = async (id: string) => {
@@ -407,9 +417,13 @@ export class Collection<T extends Model> implements EventTarget {
     id: string,
     attachment: RxAttachmentCreator
   ) => {
-    const doc = await this.findDoc(id)
-
-    return doc.putAttachment(attachment)
+    try {
+      const doc = await this.findDoc(id)
+      return doc.putAttachment(attachment)
+    } catch (e) {
+      this.dispatchWriteError('putAttachment', e)
+      throw e
+    }
   }
 
   public getAttachment = async (id: string, attachmentID: string) => {
@@ -425,9 +439,13 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   public removeAttachment = async (id: string, attachmentID: string) => {
-    const attachment = await this.getAttachment(id, attachmentID)
-
-    return attachment.remove()
+    try {
+      const attachment = await this.getAttachment(id, attachmentID)
+      return attachment.remove()
+    } catch (e) {
+      this.dispatchWriteError('removeAttachment', e)
+      throw e
+    }
   }
 
   public async bulkCreate(
@@ -566,6 +584,19 @@ export class Collection<T extends Model> implements EventTarget {
     this.dispatchEvent(
       new CustomEvent<CollectionEventDetails>(type, {
         detail: { direction, value, error, collection: this.collectionName },
+      })
+    )
+  }
+
+  private dispatchWriteError(operation: string, error: Error) {
+    this.dispatchEvent(
+      new CustomEvent<CollectionEventDetails>('error', {
+        detail: {
+          operation,
+          value: true,
+          error,
+          collection: this.collectionName,
+        },
       })
     )
   }

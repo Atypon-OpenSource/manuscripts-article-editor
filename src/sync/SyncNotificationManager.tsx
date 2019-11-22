@@ -23,10 +23,12 @@ import syncErrors, {
   isPushSyncError,
   isSyncTimeoutError,
   isUnauthorized,
+  isWriteError,
 } from './syncErrors'
 import SyncNotification from './SyncNotification'
 import { CollectionEvent } from './types'
 
+/* tslint:disable:cyclomatic-complexity */
 const SyncNotificationManager: NotificationComponent = ({
   history,
   location,
@@ -130,6 +132,27 @@ const SyncNotificationManager: NotificationComponent = ({
         buttonAction={handlePersistentStorageDismissed}
         primaryButtonText="Allow"
         primaryButtonAction={handlePersistentStorage}
+      />
+    )
+  }
+
+  const writeError = state.find(isWriteError)
+  if (writeError) {
+    return (
+      <SyncNotification
+        title="Error while saving your document"
+        info={
+          <CopyableText
+            text={JSON.stringify(writeError.detail)}
+            onCopy={onCopy}
+          >
+            Copy diagnostics to support
+          </CopyableText>
+        }
+        buttonText="Contact Support"
+        buttonAction={crisp.open}
+        primaryButtonText="Dismiss"
+        primaryButtonAction={() => dispatch({ type: 'reset' })}
       />
     )
   }

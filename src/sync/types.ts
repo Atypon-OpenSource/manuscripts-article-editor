@@ -14,7 +14,8 @@ import { RxReplicationState } from '@manuscripts/rxdb'
 import { AxiosError } from 'axios'
 
 export interface CollectionEventDetails {
-  direction: string
+  direction?: string
+  operation?: string
   value: boolean
   collection: string
   error?: Error | AxiosError | PouchReplicationError

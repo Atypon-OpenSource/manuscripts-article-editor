@@ -76,6 +76,11 @@ export const isSyncTimeoutError = (event: CollectionEvent) => {
   )
 }
 
+export const isWriteError = (event: CollectionEvent) => {
+  const operation = get(event, 'detail.operation', null)
+  return Boolean(operation)
+}
+
 export const getPushSyncErrorMessage = (event: CollectionEvent) => {
   const status = get(event, 'detail.error.status')
 
