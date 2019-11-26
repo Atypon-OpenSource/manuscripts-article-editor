@@ -177,14 +177,16 @@ export const Page: React.FunctionComponent<Props> = ({
             </ViewLink>
           </Tip>
 
-          <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
-            <ViewLink
-              to={`/projects/${project._id}/collaborators`}
-              exact={true}
-            >
-              <ProjectContributorsIcon data-cy={'collaborators'} />
-            </ViewLink>
-          </Tip>
+          {config.features.localMode ? null : (
+            <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
+              <ViewLink
+                to={`/projects/${project._id}/collaborators`}
+                exact={true}
+              >
+                <ProjectContributorsIcon data-cy={'collaborators'} />
+              </ViewLink>
+            </Tip>
+          )}
         </IconBar>
 
         <Support />
