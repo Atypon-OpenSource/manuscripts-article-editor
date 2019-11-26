@@ -394,7 +394,8 @@ export class Collection<T extends Model> implements EventTarget {
 
   public async delete(id: string) {
     try {
-      const doc = await this.findDoc(id)
+      const doc = await this.findOne(id).exec()
+      if (!doc) return id
       await doc.remove()
       return id
     } catch (e) {
