@@ -10,7 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Build, buildAffiliation } from '@manuscripts/manuscript-transform'
+import {
+  Build,
+  buildAffiliation,
+  buildBibliographicName,
+  buildContributor,
+} from '@manuscripts/manuscript-transform'
 import {
   Affiliation,
   ContainerInvitation,
@@ -18,9 +23,11 @@ import {
   Manuscript,
   Model,
   Project,
+  UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
+import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
 import { styled } from '../../theme/styled-components'
@@ -57,6 +64,12 @@ interface Props {
   ) => void
   tokenActions: TokenActions
   invitationSent: boolean
+  createAuthor: (
+    priority: number,
+    person?: UserProfile | null,
+    name?: string,
+    invitationID?: string
+  ) => void
 }
 
 class AuthorsModalContainer extends React.Component<Props, State> {
@@ -98,7 +111,9 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         getSidebarItemDecorator={this.getSidebarItemDecorator}
         handleDrop={this.handleDrop}
         handleSaveAuthor={this.handleSaveAuthor}
-        openAddAuthors={openAddAuthors}
+        openAddAuthors={
+          config.features.localMode ? this.createEmptyAuthor : openAddAuthors
+        }
         selectAuthor={selectAuthor}
         isRejected={this.isRejected}
         removeAuthor={this.removeAuthor}
@@ -220,6 +235,20 @@ class AuthorsModalContainer extends React.Component<Props, State> {
 
   private handleDrop = (oldIndex: number, newIndex: number) => {
     this.props.handleDrop(this.props.authors, oldIndex, newIndex)
+  }
+
+  private createEmptyAuthor = async () => {
+    const authorInfo = buildContributor(
+      buildBibliographicName({ given: '', family: '' }),
+      'author',
+      this.props.authors.length + 1
+    )
+
+    const author: Contributor = await this.props.saveModel<Contributor>(
+      authorInfo
+    )
+
+    this.props.selectAuthor(author)
   }
 }
 
