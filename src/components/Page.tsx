@@ -149,15 +149,19 @@ export const Page: React.FunctionComponent<Props> = ({
       <ViewsBar>
         <ProjectNavigator />
 
-        <MenuBar tokenActions={tokenActions!}>
-          <Tip title={'Home'} placement={'right'}>
-            <OfflineIndicator>
-              <StyledNavIcon />
-            </OfflineIndicator>
-          </Tip>
-        </MenuBar>
+        {config.native ? null : (
+          <>
+            <MenuBar tokenActions={tokenActions!}>
+              <Tip title={'Home'} placement={'right'}>
+                <OfflineIndicator>
+                  <StyledNavIcon />
+                </OfflineIndicator>
+              </Tip>
+            </MenuBar>
 
-        <ViewsSeparator />
+            <ViewsSeparator />
+          </>
+        )}
 
         <IconBar>
           <Tip title={'Edit ⌥⌘3'} placement={'right'}>
