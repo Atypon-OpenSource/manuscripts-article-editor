@@ -17,14 +17,7 @@ import webpack from 'webpack'
 import { GenerateSW } from 'workbox-webpack-plugin'
 import WorkerPlugin from 'worker-plugin'
 import { environmentVariables } from './environment-variables'
-
-const isTrue = (value: string | undefined) => {
-  return value === '1' || value === 'true'
-}
-
-const normalizeURL = (url: string | undefined) => {
-  return url && url.replace(/\/$/, '')
-}
+import { isTrue, normalizeURL } from './src/lib/config-helpers'
 
 const configuration: webpack.Configuration = {
   entry: './src/index.tsx',

@@ -149,7 +149,7 @@ export const Page: React.FunctionComponent<Props> = ({
       <ViewsBar>
         <ProjectNavigator />
 
-        {config.native ? null : (
+        {config.native || (
           <>
             <MenuBar tokenActions={tokenActions!}>
               <Tip title={'Home'} placement={'right'}>
@@ -181,7 +181,7 @@ export const Page: React.FunctionComponent<Props> = ({
             </ViewLink>
           </Tip>
 
-          {config.features.localMode ? null : (
+          {config.local || (
             <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
               <ViewLink
                 to={`/projects/${project._id}/collaborators`}

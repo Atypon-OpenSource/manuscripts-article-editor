@@ -10,10 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { isTrue, normalizeURL } from './lib/config-helpers'
+
 interface Config {
   url: string
   environment: string
   native: boolean
+  local: boolean
   serviceworker: boolean
   analytics: {
     id?: string
@@ -74,23 +77,17 @@ interface Config {
   translation_server: {
     url: string
   }
-  features: {
-    localMode: boolean
-  }
-}
-
-const isTrue = (value: string | undefined) => {
-  return value === '1' || value === 'true'
-}
-
-const normalizeURL = (url: string | undefined) => {
-  return url && url.replace(/\/$/, '')
 }
 
 const config = {
   url: normalizeURL(process.env.BASE_URL),
   environment: process.env.NODE_ENV,
   native: isTrue(process.env.NATIVE),
+  // the local config value is for projects loaded by the native app from
+  // the local filesystem. It is designed to disable remote syncing features
+  // where applicable.
+  local:
+    isTrue(process.env.NATIVE) && window.location.hostname.endsWith('.local'),
   serviceworker: isTrue(process.env.SERVICEWORKER_ENABLED),
   analytics: {
     id: process.env.GOOGLE_ANALYTICS_ID,
@@ -152,10 +149,6 @@ const config = {
   },
   translation_server: {
     url: normalizeURL(process.env.ZOTERO_TRANSLATION_SERVER),
-  },
-  features: {
-    localMode:
-      isTrue(process.env.NATIVE) && window.location.hostname.endsWith('.local'),
   },
 }
 

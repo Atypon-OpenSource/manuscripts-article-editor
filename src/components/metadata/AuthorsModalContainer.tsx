@@ -111,9 +111,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         getSidebarItemDecorator={this.getSidebarItemDecorator}
         handleDrop={this.handleDrop}
         handleSaveAuthor={this.handleSaveAuthor}
-        openAddAuthors={
-          config.features.localMode ? this.createEmptyAuthor : openAddAuthors
-        }
+        openAddAuthors={config.local ? this.createEmptyAuthor : openAddAuthors}
         selectAuthor={selectAuthor}
         isRejected={this.isRejected}
         removeAuthor={this.removeAuthor}

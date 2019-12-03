@@ -20,7 +20,7 @@ import { isUnauthorized } from './syncErrors'
 import { CollectionEvent, CollectionEventListener } from './types'
 import zombieCollections from './ZombieCollections'
 
-const localMode = config.features.localMode
+const { local } = config
 
 class CollectionManager {
   private collections: Map<string, Collection<Model>> = new Map()
@@ -46,7 +46,7 @@ class CollectionManager {
 
     this.collections.set(props.collection, collection)
 
-    await collection.initialize(!localMode)
+    await collection.initialize(!local)
 
     collection.addEventListener('all', this.generalListener)
 

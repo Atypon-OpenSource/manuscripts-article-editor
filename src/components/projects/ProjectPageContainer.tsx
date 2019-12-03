@@ -410,8 +410,7 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                         )}
                                                       />
 
-                                                      {config.features
-                                                        .localMode ? null : (
+                                                      {config.local || (
                                                         <React.Fragment>
                                                           <Route
                                                             path={
