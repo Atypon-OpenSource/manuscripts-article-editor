@@ -148,11 +148,13 @@ interface Props {
 }
 
 interface State {
+  deleting: boolean
   editing: boolean
 }
 
 class CommentBody extends React.Component<Props, State> {
   public state: Readonly<State> = {
+    deleting: false,
     editing: false,
   }
 
@@ -163,7 +165,7 @@ class CommentBody extends React.Component<Props, State> {
   }
 
   public render() {
-    const { editing } = this.state
+    const { editing, deleting } = this.state
     const {
       comment,
       createKeyword,
@@ -254,6 +256,7 @@ class CommentBody extends React.Component<Props, State> {
             <ActionButton
               onClick={this.confirmThenDeleteComment}
               title={'Delete comment'}
+              disabled={deleting}
             >
               <AnnotationRemove />
             </ActionButton>
@@ -285,6 +288,8 @@ class CommentBody extends React.Component<Props, State> {
     const { comment, deleteComment } = this.props
 
     if (confirm('Delete this comment?')) {
+      this.setState({ deleting: true })
+
       deleteComment(comment)
     }
   }
