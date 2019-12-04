@@ -16,10 +16,11 @@ import DocumentationIcon from '@manuscripts/assets/react/Documentation'
 import SupportIcon from '@manuscripts/assets/react/Support'
 import { IconButton } from '@manuscripts/style-guide'
 import { Placement } from 'popper.js'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import { NavLink } from 'react-router-dom'
 import config from '../config'
+import { useDropdown } from '../hooks/use-dropdown'
 import { css, styled } from '../theme/styled-components'
 import { Popup } from './nav/Updates'
 
@@ -106,11 +107,7 @@ const Container = styled.div`
 `
 
 export const Support: React.FC = React.memo(() => {
-  const [open, setOpen] = useState(false)
-
-  const toggleOpen = useCallback(() => {
-    setOpen(value => !value)
-  }, [])
+  const { wrapperRef, toggleOpen, isOpen } = useDropdown()
 
   const openChat = useCallback((event: React.MouseEvent) => {
     event.preventDefault()
@@ -119,52 +116,54 @@ export const Support: React.FC = React.memo(() => {
 
   return (
     <Manager>
-      <Reference>
-        {({ ref }) => (
-          <Button ref={ref} onClick={toggleOpen}>
-            <StyledSupportIcon width={32} height={32} />
-          </Button>
-        )}
-      </Reference>
-
-      {open && (
-        <Popper placement={'top'}>
-          {({ ref, style, placement, arrowProps }) => (
-            <div
-              ref={ref}
-              style={{ ...style, zIndex: 3 }}
-              data-placement={placement}
-            >
-              <Container>
-                <Popup>
-                  <Menu>
-                    <ExternalMenuLink
-                      href={'https://community.manuscripts.io/'}
-                    >
-                      <CommunityIcon />
-                      <MenuText>Community</MenuText>
-                    </ExternalMenuLink>
-
-                    <ExternalMenuLink href={'https://manual.manuscripts.io/'}>
-                      <DocumentationIcon />
-                      <MenuText>Documentation</MenuText>
-                    </ExternalMenuLink>
-
-                    {config.crisp.id && (
-                      <MenuLink to={'/chat'} onClick={openChat}>
-                        <ChatIcon width={22} height={23} />
-                        <MenuText>Support</MenuText>
-                      </MenuLink>
-                    )}
-                  </Menu>
-                </Popup>
-
-                <Arrow {...arrowProps} data-placement={placement} />
-              </Container>
-            </div>
+      <div ref={wrapperRef}>
+        <Reference>
+          {({ ref }) => (
+            <Button ref={ref} onClick={toggleOpen}>
+              <StyledSupportIcon width={32} height={32} />
+            </Button>
           )}
-        </Popper>
-      )}
+        </Reference>
+
+        {isOpen && (
+          <Popper placement={'top'}>
+            {({ ref, style, placement, arrowProps }) => (
+              <div
+                ref={ref}
+                style={{ ...style, zIndex: 3 }}
+                data-placement={placement}
+              >
+                <Container>
+                  <Popup>
+                    <Menu>
+                      <ExternalMenuLink
+                        href={'https://community.manuscripts.io/'}
+                      >
+                        <CommunityIcon />
+                        <MenuText>Community</MenuText>
+                      </ExternalMenuLink>
+
+                      <ExternalMenuLink href={'https://manual.manuscripts.io/'}>
+                        <DocumentationIcon />
+                        <MenuText>Documentation</MenuText>
+                      </ExternalMenuLink>
+
+                      {config.crisp.id && (
+                        <MenuLink to={'/chat'} onClick={openChat}>
+                          <ChatIcon width={22} height={23} />
+                          <MenuText>Support</MenuText>
+                        </MenuLink>
+                      )}
+                    </Menu>
+                  </Popup>
+
+                  <Arrow {...arrowProps} data-placement={placement} />
+                </Container>
+              </div>
+            )}
+          </Popper>
+        )}
+      </div>
     </Manager>
   )
 })
