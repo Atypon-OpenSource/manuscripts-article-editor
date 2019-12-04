@@ -84,7 +84,7 @@ import { TemplateLoadingModal } from './TemplateLoadingModal'
 import { TemplateSelectorModal } from './TemplateSelectorModal'
 
 interface Props {
-  handleComplete: () => void
+  handleComplete: (isCancellation?: boolean) => void
   user: UserProfile
   projectID?: string
 }
@@ -135,7 +135,7 @@ class TemplateSelector extends React.Component<
           message={`There was an error loading the templates. Please contact ${config.support.email} if this persists.`}
           actions={{
             primary: {
-              action: this.props.handleComplete,
+              action: this.handleCancellation,
               title: 'OK',
             },
           }}
@@ -153,7 +153,7 @@ class TemplateSelector extends React.Component<
     ) {
       return (
         <TemplateLoadingModal
-          handleCancel={this.props.handleComplete}
+          handleCancel={this.handleCancellation}
           status={'Thinking hard…'}
         />
       )
@@ -176,7 +176,7 @@ class TemplateSelector extends React.Component<
                 handleComplete,
                 projectID
               )}
-              handleComplete={this.props.handleComplete}
+              handleComplete={this.handleCancellation}
               items={buildItems(manuscriptTemplates, bundles, publishers)}
               selectTemplate={this.selectTemplate(db)}
             />
@@ -645,6 +645,10 @@ class TemplateSelector extends React.Component<
     history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
 
     handleComplete()
+  }
+
+  private handleCancellation = () => {
+    this.props.handleComplete(true)
   }
 }
 

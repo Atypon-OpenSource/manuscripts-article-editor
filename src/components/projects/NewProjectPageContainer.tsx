@@ -21,9 +21,14 @@ export const NewProjectPageContainer: React.FC<
     user: UserProfile
   }
 > = ({ history, user }) => {
-  const handleClose = useCallback(() => {
-    postWebkitMessage('action', { name: 'close-window' })
-  }, [history])
+  const handleClose = useCallback(
+    (isCancellation: boolean) => {
+      if (isCancellation) {
+        postWebkitMessage('action', { name: 'close-window' })
+      }
+    },
+    [history]
+  )
 
   return <TemplateSelector user={user} handleComplete={handleClose} />
 }
