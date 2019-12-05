@@ -62,11 +62,20 @@ interface SearchableBibliographyItem extends BibliographyItem {
   authors?: string
 }
 
+let sortPromise: Fuzzysort.CancelablePromise<
+  Fuzzysort.KeysResults<BibliographyItem>
+>
+
+// tslint:disable-next-line:cyclomatic-complexity
 export const filterLibrary = async (
   library?: Map<string, BibliographyItem>,
   query?: string,
   filters?: Set<string>
 ): Promise<BibliographyItem[]> => {
+  if (sortPromise) {
+    sortPromise.cancel()
+  }
+
   if (!library) {
     return []
   }
@@ -91,16 +100,14 @@ export const filterLibrary = async (
 
   const preparedItems = filteredItems.map(prepareBibliographyItem)
 
-  const results = await fuzzysort.goAsync<BibliographyItem>(
-    query,
-    preparedItems,
-    {
-      keys: ['title', 'authors'],
-      limit: 100,
-      allowTypo: false,
-      threshold: -1000,
-    }
-  )
+  sortPromise = fuzzysort.goAsync<BibliographyItem>(query, preparedItems, {
+    keys: ['title', 'authors'],
+    limit: 100,
+    allowTypo: false,
+    threshold: -1000,
+  })
+
+  const results = await sortPromise
 
   const output = results.map(result => result.obj)
 
