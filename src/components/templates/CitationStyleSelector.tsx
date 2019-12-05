@@ -11,11 +11,7 @@
  */
 
 import { ContainedModel } from '@manuscripts/manuscript-transform'
-import {
-  Bundle,
-  Manuscript,
-  Project,
-} from '@manuscripts/manuscripts-json-schema'
+import { Bundle, Project } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
@@ -29,7 +25,6 @@ import { TemplateLoadingModal } from './TemplateLoadingModal'
 interface Props {
   handleComplete: (bundle?: Bundle, parentBundle?: Bundle) => void
   collection: Collection<ContainedModel>
-  manuscript: Manuscript
   project: Project
 }
 
@@ -126,7 +121,7 @@ class CitationStyleSelector extends React.Component<
   private saveParentBundle = async (
     bundle: Bundle
   ): Promise<Bundle | undefined> => {
-    const { manuscript, project, collection } = this.props
+    const { project, collection } = this.props
     const { bundles } = this.state
 
     if (!bundle.csl) {
@@ -155,7 +150,6 @@ class CitationStyleSelector extends React.Component<
 
     await collection.create(newParentBundle, {
       containerID: project._id,
-      manuscriptID: manuscript._id,
     })
 
     await this.attachStyle(newParentBundle)
@@ -164,13 +158,12 @@ class CitationStyleSelector extends React.Component<
   }
 
   private selectBundle = async (bundle: Bundle) => {
-    const { handleComplete, manuscript, project, collection } = this.props
+    const { handleComplete, project, collection } = this.props
 
     const newBundle = fromPrototype(bundle)
 
     await collection.create(newBundle, {
       containerID: project._id,
-      manuscriptID: manuscript._id,
     })
 
     await this.attachStyle(newBundle)

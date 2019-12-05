@@ -927,14 +927,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private openCitationStyleSelector = () => {
-    const { addModal, manuscript, project } = this.props
-
-    // TODO: manuscript from state?
+    const { addModal, project } = this.props
 
     addModal('citation-style-selector', ({ handleClose }) => (
       <CitationStyleSelector
         collection={this.collection as Collection<Manuscript>}
-        manuscript={manuscript}
         project={project}
         handleComplete={async (bundle?: Bundle, parentBundle?: Bundle) => {
           if (bundle) {
