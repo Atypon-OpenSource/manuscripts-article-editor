@@ -88,7 +88,7 @@ export class CitationStyleSelectorModal extends Component<Props, State> {
     return (
       <ModalContainer>
         <ModalHeader>
-          <CloseButton onClick={handleComplete} />
+          <CloseButton onClick={() => handleComplete()} />
         </ModalHeader>
         <ModalContainerInner>
           <TemplateSearch>

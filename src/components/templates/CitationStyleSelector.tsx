@@ -65,7 +65,7 @@ class CitationStyleSelector extends React.Component<
           message={`There was an error loading the citation styles. Please contact ${config.support.email} if this persists.`}
           actions={{
             primary: {
-              action: this.props.handleComplete,
+              action: handleComplete,
               title: 'OK',
             },
           }}
