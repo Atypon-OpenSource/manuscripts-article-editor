@@ -1658,10 +1658,10 @@
     prosemirror-view "^1.6.3"
     react-select "^2.1.0"
 
-"@manuscripts/data@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.0.2.tgz#8ecbbb9345fe14cdcb7d236e595b52aa9f372195"
-  integrity sha512-VIeGUZD+gasT6mhaM7l5J+hd5sCRN46IyO1QCMl2/OVNXeI4NIite3xXcV1gpcOxoZ2Z+YnttRa5WRNcjGTo7w==
+"@manuscripts/data@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.0.3.tgz#e5076ce07a29a4015139b706e8f938195d9f6ac7"
+  integrity sha512-VBEhnfZjh8RP1UV6J6U2CxO2A4XX0JIK0kyulI74OH0aCMdN/v97MFK8vapqepQQypebgQp9yWS97uCmX1SzYg==
 
 "@manuscripts/examples@^0.0.6":
   version "0.0.6"
@@ -1756,10 +1756,10 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/resizer@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.npmjs.org/@manuscripts/resizer/-/resizer-0.0.4.tgz#2a124e39e2c83d249c370cbb7f7c8bbbaf82545e"
-  integrity sha512-UZjen75oGByk1bcWNrkXgKhozHYMHInhZi5I/RVfpbRfIj8+4X+4iwAwd8IZf0ceAuD1Rriig09RAsSWtNpvyA==
+"@manuscripts/resizer@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmjs.org/@manuscripts/resizer/-/resizer-0.0.5.tgz#5a169c7ab8097c3937d9e777735da7e265036f7e"
+  integrity sha512-u5t+uli0UdFF0nFbZyFeJNSFLdpaiPStDmAeT3vNHxPPKfZFs2vQWp5V5JDd1TcHIvk8D5lSMgQzu7vb6klseQ==
 
 "@manuscripts/rxdb@8.2.0-manuscripts1":
   version "8.2.0-manuscripts1"
