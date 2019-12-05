@@ -219,7 +219,11 @@ export class Collection<T extends Model> implements EventTarget {
           // to connect
           this.idleHandlerCleanup = onIdle(
             () => {
-              if (this.status.push.active || this.status.pull.active) {
+              if (
+                this.status.push.active ||
+                this.status.pull.active ||
+                !this.status.pull.complete
+              ) {
                 return false
               }
 
@@ -686,12 +690,12 @@ export class Collection<T extends Model> implements EventTarget {
 
     this.replications[direction] = replicationState
 
+    replicationState.active$.subscribe(value => {
+      this.setStatus(direction, 'active', value)
+    })
+
     // replicationState.alive$.subscribe((alive: boolean) => {
     //   // TODO: handle dead connection
-    // })
-
-    // replicationState.active$.subscribe((value: boolean) => {
-    //   this.setStatus(direction, 'active', value)
     // })
 
     // When pouch tries to replicate multiple documents
