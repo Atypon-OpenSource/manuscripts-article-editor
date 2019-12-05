@@ -10,7 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import reducer, { getPushSyncErrorMessage } from '../syncErrors'
+import reducer, {
+  getInitialState,
+  getPushSyncErrorMessage,
+} from '../syncErrors'
 
 /* tslint:disable:no-any */
 describe('syncErrors reducer', () => {
@@ -23,15 +26,16 @@ describe('syncErrors reducer', () => {
         error: new Error(),
       },
     }
-    const finalState = reducer(undefined, {
+    const finalState = reducer(getInitialState(), {
       type: 'event',
       event,
     })
-    expect(finalState).toHaveLength(1)
+    expect(finalState.allEvents).toHaveLength(1)
+    expect(finalState.newEvents).toHaveLength(1)
   })
 
-  it('should clear sync errors', () => {
-    const event1: any = {
+  it('should ignore events while offline', () => {
+    const event: any = {
       type: 'error',
       detail: {
         direction: 'push',
@@ -39,61 +43,41 @@ describe('syncErrors reducer', () => {
         error: new Error(),
       },
     }
-    const initialState: any = reducer(undefined, {
+    const finalState = reducer(getInitialState(), {
       type: 'event',
-      event: event1,
+      isOffline: true,
+      event,
     })
-    const event2: any = {
-      type: 'complete',
-      detail: {
-        direction: 'push',
-        collection: 'col',
-      },
-    }
-    const finalState = reducer(initialState, {
-      type: 'event',
-      event: event2,
-    })
-    expect(finalState).toHaveLength(0)
+    expect(finalState.allEvents).toHaveLength(0)
+    expect(finalState.newEvents).toHaveLength(0)
   })
 
-  it('should only keep the latest sync error per collection/direction', () => {
-    const event1: any = {
+  it('should reset by clearing new events but keeping all events', () => {
+    const event: any = {
       type: 'error',
       detail: {
         direction: 'push',
         collection: 'col',
-        error: new Error('First Error'),
+        error: new Error(),
       },
     }
-    const initialState: any = reducer(undefined, {
+    const initialState = reducer(getInitialState(), {
       type: 'event',
-      event: event1,
+      event,
     })
-    const event2: any = {
-      type: 'error',
-      detail: {
-        direction: 'push',
-        collection: 'col',
-        error: new Error('Second Error'),
-      },
-    }
     const finalState = reducer(initialState, {
-      type: 'event',
-      event: event2,
+      type: 'reset',
     })
-    expect(finalState).toHaveLength(1)
+    expect(finalState.allEvents).toHaveLength(1)
+    expect(finalState.newEvents).toHaveLength(0)
   })
 })
 
 describe('getPushSyncErrorMessage', () => {
   it('should show an error message dependent on the status code', () => {
     const event: any = {
-      type: 'error',
-      detail: {
-        error: {
-          status: 409,
-        },
+      error: {
+        status: 409,
       },
     }
     const message = getPushSyncErrorMessage(event)

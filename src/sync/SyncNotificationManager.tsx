@@ -18,6 +18,7 @@ import { useCrisp } from '../hooks/use-crisp'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import CollectionManager from './CollectionManager'
 import syncErrors, {
+  getInitialState,
   getPushSyncErrorMessage,
   isPullSyncError,
   isPushSyncError,
@@ -37,10 +38,14 @@ const SyncNotificationManager: NotificationComponent = ({
   const [askForPersistentStorage, setAskForPersistentStorage] = useState(false)
 
   // detect sync errors
-  const [state, dispatch] = useReducer(syncErrors, [])
+  const [state, dispatch] = useReducer(syncErrors, getInitialState())
   useEffect(() => {
-    CollectionManager.subscribe((event: CollectionEvent) => {
-      dispatch({ type: 'event', event })
+    CollectionManager.subscribeToErrors((event: CollectionEvent) => {
+      dispatch({
+        type: 'event',
+        event,
+        isOffline: !window.navigator.onLine,
+      })
     })
   }, [])
 
@@ -113,7 +118,7 @@ const SyncNotificationManager: NotificationComponent = ({
     )
   }
 
-  if (state.find(isUnauthorized)) {
+  if (state.newEvents.find(isUnauthorized)) {
     return (
       <SyncNotification
         title="Please sign in again to sync your changes"
@@ -136,16 +141,13 @@ const SyncNotificationManager: NotificationComponent = ({
     )
   }
 
-  const writeError = state.find(isWriteError)
+  const writeError = state.newEvents.find(isWriteError)
   if (writeError) {
     return (
       <SyncNotification
         title="Error while saving your document"
         info={
-          <CopyableText
-            text={JSON.stringify(writeError.detail)}
-            onCopy={onCopy}
-          >
+          <CopyableText text={JSON.stringify(state.allEvents)} onCopy={onCopy}>
             Copy diagnostics to support
           </CopyableText>
         }
@@ -159,7 +161,7 @@ const SyncNotificationManager: NotificationComponent = ({
 
   if (onlineState === OnlineState.Acknowledged) return null
 
-  if (state.find(isSyncTimeoutError)) {
+  if (state.newEvents.find(isSyncTimeoutError)) {
     return (
       <SyncNotification
         title="Unable to connect to sync server"
@@ -169,16 +171,13 @@ const SyncNotificationManager: NotificationComponent = ({
     )
   }
 
-  const pushSyncError = state.find(isPushSyncError)
+  const pushSyncError = state.newEvents.find(isPushSyncError)
   if (pushSyncError) {
     return (
       <SyncNotification
         title={getPushSyncErrorMessage(pushSyncError)}
         info={
-          <CopyableText
-            text={JSON.stringify(pushSyncError.detail)}
-            onCopy={onCopy}
-          >
+          <CopyableText text={JSON.stringify(state.allEvents)} onCopy={onCopy}>
             Copy diagnostics to support
           </CopyableText>
         }
@@ -190,7 +189,7 @@ const SyncNotificationManager: NotificationComponent = ({
     )
   }
 
-  if (state.find(isPullSyncError)) {
+  if (state.newEvents.find(isPullSyncError)) {
     return (
       <SyncNotification
         title="Unable to pull the latest changes"

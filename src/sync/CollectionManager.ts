@@ -48,7 +48,7 @@ class CollectionManager {
 
     await collection.initialize(!local)
 
-    collection.addEventListener('all', this.generalListener)
+    collection.addEventListener('error', this.generalListener)
 
     return collection
   }
@@ -80,7 +80,7 @@ class CollectionManager {
       })
   }
 
-  public subscribe(listener: CollectionEventListener) {
+  public subscribeToErrors(listener: CollectionEventListener) {
     this.listeners.push(listener)
   }
 
@@ -133,7 +133,7 @@ class CollectionManager {
   }
 
   private generalListener = (event: CollectionEvent) => {
-    if (isUnauthorized(event)) {
+    if (isUnauthorized(event.detail)) {
       if (!this.isExpiredSyncGatewaySession) {
         this.isExpiredSyncGatewaySession = true
 

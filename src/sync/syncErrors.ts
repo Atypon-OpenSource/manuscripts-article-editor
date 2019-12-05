@@ -12,77 +12,80 @@
 
 import * as HttpStatusCodes from 'http-status-codes'
 import { get } from 'lodash-es'
-import { CollectionEvent } from './types'
+import { CollectionEvent, CollectionEventDetails } from './types'
 
-type State = CollectionEvent[]
+interface State {
+  allEvents: CollectionEventDetails[]
+  newEvents: CollectionEventDetails[]
+}
+
 interface Action {
   type: string
   event?: CollectionEvent
+  isOffline?: boolean
 }
 
 /* tslint:disable:cyclomatic-complexity */
-export default (state: State = [], action: Action): State => {
-  if (action.type === 'reset') {
-    return []
-  }
+export default (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'event': {
+      if (action.isOffline || !action.event) return state
+      return {
+        allEvents: [...state.allEvents, action.event.detail],
+        newEvents: [...state.newEvents, action.event.detail],
+      }
+    }
 
-  if (action.type !== 'event' || !action.event) return state
-
-  const existingIndex = state.findIndex(
-    existing =>
-      existing.detail.direction === action.event!.detail.direction &&
-      existing.detail.collection === action.event!.detail.collection
-  )
-
-  if (existingIndex === -1 && action.event.type === 'error') {
-    return state.concat(action.event)
-  }
-  if (action.event.type === 'error') {
-    return state.map((existing, i) =>
-      i === existingIndex ? action.event! : existing
-    )
-  }
-  if (existingIndex !== -1 && action.event.type === 'complete') {
-    return state.filter((_, i) => i !== existingIndex)
+    case 'reset': {
+      return {
+        ...state,
+        newEvents: [],
+      }
+    }
   }
 
   return state
 }
 /* tslint:enable:cyclomatic-complexity */
 
-export const isUnauthorized = (event: CollectionEvent) => {
-  const error = get(event, 'detail.error', null)
-  if (!error) return null
-  return error.status === HttpStatusCodes.UNAUTHORIZED
+export const getInitialState = (): State => ({
+  allEvents: [],
+  newEvents: [],
+})
+
+export const isUnauthorized = (detail: CollectionEventDetails) => {
+  const status = get(detail, 'error.status', null)
+  if (!status) return null
+  return status === HttpStatusCodes.UNAUTHORIZED
 }
 
-export const isPushSyncError = (event: CollectionEvent) => {
-  return event.detail.direction === 'push' && event.detail.error
+export const isPushSyncError = (detail: CollectionEventDetails) => {
+  return detail.direction === 'push' && detail.error
 }
 
-export const isPullSyncError = (event: CollectionEvent) => {
-  const error = get(event, 'detail.error', null)
-  if (!error) return null
+export const isPullSyncError = (detail: CollectionEventDetails) => {
   // error.status is undefined for longpoll errors
-  return Boolean(event.detail.direction === 'pull' && error && error.status)
+  const status = get(detail, 'error.status', null)
+  if (!status) return null
+  return Boolean(detail.direction === 'pull' && status)
 }
 
-export const isSyncTimeoutError = (event: CollectionEvent) => {
-  const error = get(event, 'detail.error', null)
-  if (!error) return false
+export const isSyncTimeoutError = (detail: CollectionEventDetails) => {
+  const status = get(detail, 'error.status', null)
+  const reason = get(detail, 'error.reason', null)
   return (
-    error.status === HttpStatusCodes.INTERNAL_SERVER_ERROR &&
-    error.reason === 'TimeoutError'
+    status === HttpStatusCodes.INTERNAL_SERVER_ERROR &&
+    reason === 'TimeoutError'
   )
 }
 
-export const isWriteError = (event: CollectionEvent) => {
-  const operation = get(event, 'detail.operation', null)
+export const isWriteError = (detail: CollectionEventDetails) => {
+  const operation = get(detail, 'operation', null)
   return Boolean(operation)
 }
 
-export const getPushSyncErrorMessage = (event: CollectionEvent) => {
-  const status = get(event, 'detail.error.status')
+export const getPushSyncErrorMessage = (detail: CollectionEventDetails) => {
+  const status = get(detail, 'error.status')
 
   switch (status) {
     case HttpStatusCodes.BAD_REQUEST:

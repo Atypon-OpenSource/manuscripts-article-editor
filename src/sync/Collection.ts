@@ -339,7 +339,7 @@ export class Collection<T extends Model> implements EventTarget {
     const doc = await this.findOne(id).exec()
 
     if (!doc) {
-      throw new Error('Document not found')
+      throw new Error(`Document ${id} not found`)
     }
 
     return doc
@@ -395,8 +395,7 @@ export class Collection<T extends Model> implements EventTarget {
 
   public async delete(id: string) {
     try {
-      const doc = await this.findOne(id).exec()
-      if (!doc) return id
+      const doc = await this.findDoc(id)
       await doc.remove()
       return id
     } catch (e) {
@@ -590,6 +589,22 @@ export class Collection<T extends Model> implements EventTarget {
     )
   }
 
+  private dispatchSyncError(
+    direction: Direction,
+    error?: Error | AxiosError | PouchReplicationError
+  ) {
+    this.dispatchEvent(
+      new CustomEvent<CollectionEventDetails>('error', {
+        detail: {
+          direction,
+          value: true,
+          error,
+          collection: this.collectionName,
+        },
+      })
+    )
+  }
+
   private dispatchWriteError(operation: string, error: Error) {
     this.dispatchEvent(
       new CustomEvent<CollectionEventDetails>('error', {
@@ -686,6 +701,10 @@ export class Collection<T extends Model> implements EventTarget {
       this.conflictManager!.saveSyncState(errors, docs).catch(error => {
         throw error
       })
+
+      errors.forEach((e: PouchReplicationError) =>
+        this.dispatchSyncError(direction, e)
+      )
     })
 
     replicationState.complete$.subscribe(async result => {
@@ -701,6 +720,8 @@ export class Collection<T extends Model> implements EventTarget {
       this.conflictManager!.saveSyncState([error], []).catch(error => {
         throw error
       })
+
+      this.dispatchSyncError(direction, error)
     })
 
     replicationState.error$.subscribe(async (error: PouchReplicationError) => {
