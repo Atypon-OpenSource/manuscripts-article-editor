@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/frontend",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": "true",
   "repository": "gitlab:mpapp-public/manuscripts-frontend",
   "license": "CPAL-1.0",
