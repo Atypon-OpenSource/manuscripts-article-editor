@@ -37,6 +37,7 @@ import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import config from '../../config'
 import { nextManuscriptPriority } from '../../lib/manuscript'
+import { postWebkitMessage } from '../../lib/native'
 import { ContributorRole } from '../../lib/roles'
 import {
   buildCategories,
@@ -345,6 +346,10 @@ class TemplateSelector extends React.Component<
 
     history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
 
+    if (newProject) {
+      this.sendNewProjectNotification(projectID)
+    }
+
     handleComplete()
   }
 
@@ -644,7 +649,18 @@ class TemplateSelector extends React.Component<
 
     history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
 
+    if (newProject) {
+      this.sendNewProjectNotification(projectID)
+    }
+
     handleComplete()
+  }
+
+  private sendNewProjectNotification = (projectID: string) => {
+    postWebkitMessage('action', {
+      name: 'assign-project',
+      projectID,
+    })
   }
 
   private handleCancellation = () => {
