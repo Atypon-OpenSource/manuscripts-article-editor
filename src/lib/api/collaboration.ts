@@ -29,7 +29,7 @@ export const requestProjectInvitationToken = (
 
 export const acceptProjectInvitationToken = (token: string) =>
   client.post<{
-    projectId: string
+    containerID: string
     message: string
   }>('/invitation/project/access', {
     token,
@@ -73,7 +73,10 @@ export const projectUninvite = (invitationId: string) =>
   })
 
 export const acceptProjectInvitation = (invitationId: string) =>
-  client.post('/invitation/accept', {
+  client.post<{
+    containerID: string
+    message: string
+  }>('/invitation/accept', {
     invitationId,
   })
 

@@ -10,52 +10,61 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { History } from 'history'
 import React from 'react'
 import { acceptProjectInvitation } from '../../lib/api'
 import invitationTokenHandler from '../../lib/invitation-token'
-import {
-  AcceptInvitationError,
-  AcceptInvitationSuccess,
-} from './AcceptInvitationMessages'
+import { acceptInvitationErrorMessage } from '../Messages'
 
 interface State {
-  accepted?: boolean
-  error?: Error
+  data?: {
+    message: string
+    containerID: string
+  }
+}
+
+interface Props {
+  history: History
 }
 
 // TODO: require a button press to accept the invitation?
 // TODO: allow the invitation to be declined?
 // TODO: allow retry if there's an error?
 
-class AcceptProjectInvitation extends React.Component<{}, State> {
-  public state: Readonly<State> = {}
-
+class AcceptProjectInvitation extends React.Component<Props, State> {
   public async componentDidMount() {
     const invitationId = invitationTokenHandler.get()
 
     if (invitationId) {
       invitationTokenHandler.remove()
 
-      try {
-        await acceptProjectInvitation(invitationId)
+      await acceptProjectInvitation(invitationId).then(
+        ({ data }) => {
+          this.props.history.push({
+            pathname: `/projects/${data.containerID}`,
+            state: {
+              infoMessage: data.message,
+            },
+          })
+        },
+        error => {
+          const errorMessage = error.response
+            ? acceptInvitationErrorMessage(error.response.status)
+            : undefined
 
-        this.setState({
-          accepted: true,
-        })
-      } catch (error) {
-        this.setState({ error })
-      }
+          this.props.history.push({
+            pathname: '/projects',
+            state: {
+              errorMessage,
+            },
+          })
+        }
+      )
     }
   }
 
   public render() {
-    const { accepted, error } = this.state
-
-    if (error) {
-      return <AcceptInvitationError />
-    }
-
-    return accepted ? <AcceptInvitationSuccess /> : null
+    return null
   }
 }
 

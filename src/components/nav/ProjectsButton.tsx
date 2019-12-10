@@ -27,6 +27,7 @@ import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
 import { buildContainerInvitations } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme/styled-components'
+import { acceptInvitationErrorMessage } from '../Messages'
 import { InvitationsList } from '../projects/InvitationsList'
 import { ProjectsList } from '../projects/ProjectsList'
 import { SidebarContent } from '../Sidebar'
@@ -267,26 +268,25 @@ class ProjectsButton extends React.Component<Props, State> {
   }
 
   private acceptInvitation = async (invitation: ContainerInvitation) => {
-    try {
-      await acceptProjectInvitation(invitation._id)
+    await acceptProjectInvitation(invitation._id).then(
+      () => {
+        const acceptedInvitations = this.state.acceptedInvitations.concat(
+          invitation.containerID
+        )
 
-      const acceptedInvitations = this.state.acceptedInvitations.concat(
-        invitation.containerID
-      )
+        this.setState({ acceptedInvitations })
 
-      this.setState({ acceptedInvitations })
-
-      this.removeInvitationData(invitation._id)
-    } catch (error) {
-      const errorMessage =
-        error && error.response && error.response.status === 400
-          ? 'The invitation does not exist, either because it has expired or the project owner uninvited you.'
-          : `Service unreachable, please try again later.`
-
-      this.setState({
-        acceptError: { invitationId: invitation._id, errorMessage },
-      })
-    }
+        this.removeInvitationData(invitation._id)
+      },
+      error => {
+        const errorMessage = error.response
+          ? acceptInvitationErrorMessage(error.response.status)
+          : ''
+        this.setState({
+          acceptError: { invitationId: invitation._id, errorMessage },
+        })
+      }
+    )
   }
 
   private confirmReject = async (

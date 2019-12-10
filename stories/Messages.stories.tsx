@@ -29,14 +29,8 @@ import {
   signupVerifyResendFailureMessage,
   signupVerifyResendSuccessMessage,
 } from '../src/components/account/SignupMessages'
-import {
-  AcceptInvitationError,
-  AcceptInvitationSuccess,
-} from '../src/components/collaboration/AcceptInvitationMessages'
 import MessageBanner from '../src/components/MessageBanner'
 import {
-  AcceptedInvitationFailureMessage,
-  AcceptedInvitationSuccessMessage,
   AddAuthorsMessage,
   EmptyManuscriptsMessage,
   FeedbackMessage,
@@ -103,10 +97,6 @@ storiesOf('Account/Messages/Signup', module)
     )
   )
 
-storiesOf('Collaboration/Messages/AcceptInvitation', module)
-  .add('success', () => <AcceptInvitationSuccess />)
-  .add('error', () => <AcceptInvitationError />)
-
 storiesOf('Messages', module)
   .add('SignInMessage', () => <SignInMessage />)
   .add('ManageProfileMessage', () => <ManageProfileMessage />)
@@ -116,12 +106,6 @@ storiesOf('Messages', module)
   .add('ImportManuscriptMessage', () => <ImportManuscriptMessage />)
   .add('AddAuthorsMessage', () => <AddAuthorsMessage />)
   .add('FeedbackMessage', () => <FeedbackMessage />)
-  .add('AcceptedInvitationSuccessMessage', () => (
-    <AcceptedInvitationSuccessMessage />
-  ))
-  .add('AcceptedInvitationFailureMessage', () => (
-    <AcceptedInvitationFailureMessage />
-  ))
   .add('MessageBanner', () => {
     window.location.hash = '#action=reset-password'
     return <MessageBanner />

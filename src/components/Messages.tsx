@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import * as HttpStatusCodes from 'http-status-codes'
 import 'intl-pluralrules'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
@@ -165,24 +166,6 @@ export const InviteCollaboratorsMessage = () => (
   />
 )
 
-export const AcceptedInvitationSuccessMessage: React.FunctionComponent = () => (
-  <FormattedMessage
-    id={'accepted_invitation_success'}
-    defaultMessage={
-      'An invitation was accepted, you can find the project in the projects list.'
-    }
-  />
-)
-
-export const AcceptedInvitationFailureMessage: React.FunctionComponent = () => (
-  <FormattedMessage
-    id={'accepted_invitation_failure'}
-    defaultMessage={
-      'Please sign in with the invited email address to accept this invitation.'
-    }
-  />
-)
-
 export const FeedbackMessage = () => (
   <FormattedMessage
     id={'feedback'}
@@ -198,3 +181,13 @@ export const ProjectRenameMessage = () => (
     defaultMessage={'Rename Project'}
   />
 )
+
+export const acceptInvitationErrorMessage = (status: number) => {
+  if (status === HttpStatusCodes.GONE) {
+    return 'Invitation is no longer valid.'
+  } else if (status === HttpStatusCodes.BAD_REQUEST) {
+    return 'Project no longer exists.'
+  } else {
+    return 'There was an error accepting the invitation.'
+  }
+}
