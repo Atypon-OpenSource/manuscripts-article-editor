@@ -66,7 +66,7 @@ describe('LoginPageContainer', () => {
     expect(window.location.hash).toEqual('')
 
     expect(messageText(wrapper)).toMatch(
-      /^A user record matching your identity at Google was unexpectedly not found/
+      /^A user record matching your identity was unexpectedly not found/
     )
   })
 

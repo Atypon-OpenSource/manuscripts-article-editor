@@ -45,15 +45,15 @@ export const identityProviderErrorMessage = (message: string) => {
   let alertMessage: string
   switch (message) {
     case 'user-not-found':
-      alertMessage = `A user record matching your identity at Google was unexpectedly not found. Please contact ${config.support.email} if this persists.`
+      alertMessage = `A user record matching your identity was unexpectedly not found. Please contact ${config.support.email} if this persists.`
       break
 
     case 'validation-error':
-      alertMessage = `An invalid request was made when attempting to log in via Google. Please contact ${config.support.email} if this persists.`
+      alertMessage = `An invalid request was made when attempting to log in. Please contact ${config.support.email} if this persists.`
       break
 
     default:
-      alertMessage = `An error occurred while logging in with Google, please contact ${config.support.email}`
+      alertMessage = `An error occurred while logging in, please contact ${config.support.email}`
   }
 
   return (

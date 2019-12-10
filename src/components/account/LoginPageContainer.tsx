@@ -60,6 +60,7 @@ interface HashData {
   token?: string
   email?: string
   redirect?: boolean | string
+  error_description?: string
 }
 
 interface RouteLocationState {
@@ -91,16 +92,10 @@ class LoginPageContainer extends React.Component<
       this.handleHash(hash.substr(1))
     }
 
-    const { email, error_description: errorDescription } = parse(
-      search.substr(1)
-    )
+    const { email } = parse(search.substr(1))
 
     if (email) {
       this.initialValues.email = email
-    }
-
-    if (errorDescription) {
-      // TODO: do something
     }
 
     if (state) {
@@ -169,9 +164,18 @@ class LoginPageContainer extends React.Component<
     redirect === 'login' || redirect === 'register'
 
   private handleHash = (hash: string) => {
-    const { action, error, access_token: token, redirect }: HashData = parse(
-      hash
-    )
+    const {
+      action,
+      error,
+      access_token: token,
+      redirect,
+      error_description,
+    }: HashData = parse(hash)
+
+    if (error_description) {
+      // TODO: do something
+      console.error(error_description) // tslint:disable-line:no-console
+    }
 
     if (error) {
       this.setState({
