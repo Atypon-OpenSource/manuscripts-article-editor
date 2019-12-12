@@ -18,8 +18,8 @@ import {
   TertiaryButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
-import config from '../../config'
 import { styled } from '../../theme/styled-components'
+import { ContactSupportButton } from '../ContactSupportButton'
 
 const Message: React.FunctionComponent<{
   message: string
@@ -27,8 +27,8 @@ const Message: React.FunctionComponent<{
   <div>
     <p>{message || 'Failed to open project for editing due to an error.'}</p>
     <p>
-      If the problem persists, please contact{' '}
-      <a href={`mailto:${config.support.email}`}>{config.support.email}</a>
+      If the problem persists, please{' '}
+      <ContactSupportButton>contact support.</ContactSupportButton>
     </p>
   </div>
 )

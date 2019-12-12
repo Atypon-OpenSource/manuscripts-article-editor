@@ -12,7 +12,7 @@
 
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
-import config from '../../config'
+import { ContactSupportButton } from '../ContactSupportButton'
 
 interface ResendVerificationData {
   message: string
@@ -42,18 +42,35 @@ export const infoLoginMessage = (message: string) => {
 }
 
 export const identityProviderErrorMessage = (message: string) => {
-  let alertMessage: string
+  let alertMessage: JSX.Element
   switch (message) {
     case 'user-not-found':
-      alertMessage = `A user record matching your identity was unexpectedly not found. Please contact ${config.support.email} if this persists.`
+      alertMessage = (
+        <React.Fragment>
+          A user record matching your identity was unexpectedly not found.
+          Please <ContactSupportButton>contact support</ContactSupportButton> if
+          this persists.
+        </React.Fragment>
+      )
       break
 
     case 'validation-error':
-      alertMessage = `An invalid request was made when attempting to log in. Please contact ${config.support.email} if this persists.`
+      alertMessage = (
+        <React.Fragment>
+          An invalid request was made when attempting to log in. Please{' '}
+          <ContactSupportButton>contact support</ContactSupportButton> if this
+          persists.
+        </React.Fragment>
+      )
       break
 
     default:
-      alertMessage = `An error occurred while logging in, please contact ${config.support.email}`
+      alertMessage = (
+        <React.Fragment>
+          An error occurred while logging in, please{' '}
+          <ContactSupportButton>contact support.</ContactSupportButton>
+        </React.Fragment>
+      )
   }
 
   return (
@@ -72,7 +89,9 @@ export const gatewayInaccessibleErrorMessage = () => {
 export const networkErrorMessage = () => {
   return (
     <AlertMessage type={AlertMessageType.error}>
-      {`Failed to connect to service. Please check your network connection before trying again, and if the problem persists contact ${config.support.email}.`}
+      Failed to connect to service. Please check your network connection before
+      trying again, and if the problem persists{' '}
+      <ContactSupportButton>contact support.</ContactSupportButton>
     </AlertMessage>
   )
 }
@@ -97,7 +116,10 @@ export const resendVerificationDataMessage = (
 export const userAccountErrorMessage = () => {
   return (
     <AlertMessage type={AlertMessageType.error}>
-      {`Your user account record is missing required information. This is most likely because of having logged in with an earlier version of the app. Please contact ${config.support.email} for assistance.`}
+      Your user account record is missing required information. This is most
+      likely because of having logged in with an earlier version of the app.
+      Please <ContactSupportButton>contact support</ContactSupportButton> for
+      assistance.
     </AlertMessage>
   )
 }

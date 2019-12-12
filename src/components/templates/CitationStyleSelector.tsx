@@ -18,6 +18,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import config from '../../config'
 import { fetchSharedData, fromPrototype } from '../../lib/templates'
 import { Collection } from '../../sync/Collection'
+import { ContactSupportButton } from '../ContactSupportButton'
 import { DatabaseContext } from '../DatabaseProvider'
 import { CitationStyleSelectorModal } from './CitationStyleSelectorModal'
 import { TemplateLoadingModal } from './TemplateLoadingModal'
@@ -57,7 +58,13 @@ class CitationStyleSelector extends React.Component<
           isOpen={true}
           category={Category.error}
           header={'Error'}
-          message={`There was an error loading the citation styles. Please contact ${config.support.email} if this persists.`}
+          message={
+            <React.Fragment>
+              There was an error loading the citation styles. Please{' '}
+              <ContactSupportButton>contact support</ContactSupportButton> if
+              this persists.
+            </React.Fragment>
+          }
           actions={{
             primary: {
               action: handleComplete,

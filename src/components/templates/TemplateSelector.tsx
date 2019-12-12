@@ -74,6 +74,7 @@ import {
   TemplateData,
   TemplatesDataType,
 } from '../../types/templates'
+import { ContactSupportButton } from '../ContactSupportButton'
 import { Database, DatabaseContext } from '../DatabaseProvider'
 import {
   createProjectCollection,
@@ -133,7 +134,13 @@ class TemplateSelector extends React.Component<
           isOpen={true}
           category={Category.error}
           header={'Error'}
-          message={`There was an error loading the templates. Please contact ${config.support.email} if this persists.`}
+          message={
+            <React.Fragment>
+              There was an error loading the templates. Please{' '}
+              <ContactSupportButton>contact support</ContactSupportButton> if
+              this persists.
+            </React.Fragment>
+          }
           actions={{
             primary: {
               action: this.handleCancellation,

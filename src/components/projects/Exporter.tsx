@@ -18,12 +18,12 @@ import {
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { saveAs } from 'file-saver'
 import React from 'react'
-import config from '../../config'
 import {
   downloadExtension,
   exportProject,
   generateDownloadFilename,
 } from '../../pressroom/exporter'
+import { ContactSupportButton } from '../ContactSupportButton'
 import { ProgressModal } from './ProgressModal'
 
 export type GetAttachment = (
@@ -112,7 +112,13 @@ export class Exporter extends React.Component<Props, State> {
           isOpen={true}
           category={Category.error}
           header={'Export error'}
-          message={`There was an error exporting the manuscript. Please contact ${config.support.email} if this persists.`}
+          message={
+            <React.Fragment>
+              There was an error exporting the manuscript. Please{' '}
+              <ContactSupportButton>contact support</ContactSupportButton> if
+              this persists.
+            </React.Fragment>
+          }
           actions={{
             primary: {
               action: this.handleCancel,

@@ -12,7 +12,7 @@
 
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
-import config from '../../config'
+import { ContactSupportButton } from '../ContactSupportButton'
 
 export const signupVerifyMessage = (
   email: string,
@@ -40,11 +40,11 @@ export const signupVerifyConflictMessage = (email: string) => {
 }
 
 export const signupVerifyResendSuccessMessage = (email: string) => {
-  const supportEmail = config.support.email
   return (
     <AlertMessage type={AlertMessageType.success}>
-      {`Verification email re-resent to ${email}. If you have not received it, please wait, check your spam box before getting in touch via ${supportEmail}.`}
-      }
+      Verification email re-resent to {email}. If you have not received it,
+      please wait, check your spam box before{' '}
+      <ContactSupportButton>contacting support.</ContactSupportButton>
     </AlertMessage>
   )
 }

@@ -13,9 +13,9 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
-import config from '../../config'
 import { BulkCreateError, FileExtensionError } from '../../lib/errors'
 import { importFile, openFilePicker } from '../../pressroom/importers'
+import { ContactSupportButton } from '../ContactSupportButton'
 import { ProgressModal } from './ProgressModal'
 
 interface Props {
@@ -124,7 +124,10 @@ export class Importer extends React.Component<Props, State> {
 
 const buildImportErrorMessage = (error: Error) => {
   const contactMessage = (
-    <p>Please contact {config.support.email} if this persists.</p>
+    <p>
+      Please <ContactSupportButton>contact support</ContactSupportButton> if
+      this persists.
+    </p>
   )
 
   if (error instanceof BulkCreateError) {

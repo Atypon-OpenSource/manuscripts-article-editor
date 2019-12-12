@@ -17,9 +17,9 @@ import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import { extname } from 'path'
 import React, { useCallback, useContext, useState } from 'react'
-import config from '../../config'
 import { transformBibliography } from '../../lib/bibliography'
 import { openFilePicker } from '../../pressroom/importers'
+import { ContactSupportButton } from '../ContactSupportButton'
 import {
   NotificationComponent,
   NotificationContext,
@@ -36,7 +36,7 @@ import { CitationImportSuccessMessage } from './Messages'
 const CITATION_IMPORT_NOTIFICATION_ID = 'citation-import'
 
 const createCitationImportErrorNotification = (
-  title: string
+  title: string | JSX.Element
 ): NotificationComponent => ({ removeNotification }) => (
   <NotificationPrompt>
     <NotificationHead>
@@ -136,7 +136,11 @@ export const BibliographyImportButton: React.FC<{
         showNotification(
           CITATION_IMPORT_NOTIFICATION_ID,
           createCitationImportErrorNotification(
-            `There was an error importing the file. Please contact ${config.support.email} if this persists.`
+            <React.Fragment>
+              There was an error importing the file. Please{' '}
+              <ContactSupportButton>contact support</ContactSupportButton> if
+              this persists.
+            </React.Fragment>
           )
         )
       })
