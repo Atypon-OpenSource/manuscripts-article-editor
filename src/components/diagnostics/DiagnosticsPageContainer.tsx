@@ -13,7 +13,6 @@
 import { Title } from '@manuscripts/title-editor'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { version } from '../../../package.json'
 import config from '../../config'
 import ProjectsData from '../../data/ProjectsData'
 import { styled } from '../../theme/styled-components'
@@ -105,7 +104,7 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
               <tbody>
                 <tr>
                   <RowHeader>Client</RowHeader>
-                  <td>{version}</td>
+                  <td>{config.version}</td>
                 </tr>
                 <tr>
                   <RowHeader>API</RowHeader>

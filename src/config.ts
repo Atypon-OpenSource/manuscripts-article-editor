@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { version } from '../package.json'
 import { isTrue, normalizeURL } from './lib/config-helpers'
 
 interface Config {
@@ -77,6 +78,7 @@ interface Config {
   translation_server: {
     url: string
   }
+  version: string
 }
 
 const config = {
@@ -150,6 +152,7 @@ const config = {
   translation_server: {
     url: normalizeURL(process.env.ZOTERO_TRANSLATION_SERVER),
   },
+  version,
 }
 
 export default config as Config
