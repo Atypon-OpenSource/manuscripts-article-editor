@@ -71,7 +71,7 @@ const InvitedContainer = styled.div`
 
 const AddedIconContainer = styled.div`
   display: flex;
-  padding: 1px 6px;
+  padding-left: ${props => props.theme.grid.unit * 2}px;
 
   &:focus {
     outline: none;
