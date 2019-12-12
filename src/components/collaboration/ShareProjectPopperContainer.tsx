@@ -19,6 +19,7 @@ import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { projectInvite, requestProjectInvitationToken } from '../../lib/api'
 import { isOwner } from '../../lib/roles'
+import { EventCategory, trackEvent } from '../../lib/tracking'
 import { CustomPopper } from '../Popper'
 import { InvitationValues } from './InvitationForm'
 import { InvitationPopper } from './InvitationPopper'
@@ -166,6 +167,10 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
     await projectInvite(project._id, [{ email, name }], role)
   }
 
+  private trackEvent = (url: string) => {
+    trackEvent(EventCategory.Invitations, 'Share link', `URL=${url}`)
+  }
+
   private copyURI = async () => {
     const { isCopied } = this.state
 
@@ -174,9 +179,11 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
       switch (selectedShareURIRole) {
         case 'Writer':
           await copyToClipboard(shareURI.writer)
+          this.trackEvent(shareURI.writer)
           break
         case 'Viewer':
           await copyToClipboard(shareURI.viewer)
+          this.trackEvent(shareURI.viewer)
           break
       }
     }

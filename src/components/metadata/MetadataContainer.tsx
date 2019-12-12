@@ -39,6 +39,7 @@ import {
   buildCollaborators,
 } from '../../lib/collaborators'
 import { buildContainerInvitations } from '../../lib/invitation'
+import { EventCategory, trackEvent } from '../../lib/tracking'
 import { getCurrentUserId } from '../../lib/user'
 import CollectionManager from '../../sync/CollectionManager'
 import { Permissions } from '../../types/permissions'
@@ -359,6 +360,12 @@ class MetadataContainer extends React.PureComponent<Props, State> {
       addingAuthors: false,
       numberOfAddedAuthors: 0,
     })
+
+    trackEvent(
+      EventCategory.Invitations,
+      'Send invitation',
+      `projectID=${projectID}`
+    )
   }
 
   private createInvitedAuthor = async (

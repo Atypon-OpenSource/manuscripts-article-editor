@@ -10,25 +10,16 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-interface RxDB {
-  removeDatabase: (name: string, adapter: string) => void
+export enum EventCategory {
+  Invitations = 'Invitations',
+  Manuscripts = 'Manuscripts',
 }
 
-interface WebKit {
-  messageHandlers: {
-    [key: string]: {
-      postMessage: (message: object) => void
-    }
-  }
-}
-
-declare interface Window {
-  RxDB: RxDB
-  requestIdleCallback: (T: () => void, options: object) => string
-  webkit: WebKit
-  getMenuState?: (key: string) => MenuItemState
-  dispatchMenuAction?: (key: string) => void
-  dispatchToolbarAction?: (key: string) => void
-  restartSync: () => void
-  ga: UniversalAnalytics.ga
+export const trackEvent = (
+  category: EventCategory,
+  action: string,
+  label: string
+) => {
+  if (!window.ga) return
+  window.ga('send', category, action, label)
 }
