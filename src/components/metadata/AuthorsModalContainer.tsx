@@ -168,18 +168,10 @@ class AuthorsModalContainer extends React.Component<Props, State> {
   }
 
   private handleSaveAuthor = async (values: AuthorValues) => {
-    const selectedAuthor = this.getSelectedAuthor()
-    if (!selectedAuthor) return
-
-    const author = {
-      ...selectedAuthor,
+    await this.props.saveModel<Contributor>({
+      objectType: 'MPContributor',
       ...values,
-      affiliations: selectedAuthor.affiliations,
-    }
-
-    delete author.containerID
-
-    await this.props.saveModel<Contributor>(author)
+    })
   }
 
   private addAuthorAffiliation = async (affiliation: Affiliation | string) => {

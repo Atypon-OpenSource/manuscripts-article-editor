@@ -74,8 +74,6 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
   <React.Fragment>
     <AuthorForm
       author={author}
-      affiliations={affiliations}
-      authorAffiliations={authorAffiliations}
       handleSave={handleSave}
       isRemoveAuthorOpen={isRemoveAuthorOpen}
       removeAuthor={removeAuthor}
