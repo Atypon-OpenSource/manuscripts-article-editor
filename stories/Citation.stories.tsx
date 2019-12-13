@@ -13,6 +13,7 @@
 import { hasObjectType } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
+  Citation,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
@@ -37,6 +38,10 @@ for (const model of modelMap.values()) {
 
 const items = [...bibliographyItems.values()]
 
+const citation = modelMap.get(
+  'MPCitation:31E42852-8377-4550-8C25-9E602EE657B0'
+) as Citation
+
 storiesOf('Citation', module)
   .add('Citation Editor', () => (
     <CitationEditor
@@ -49,6 +54,8 @@ storiesOf('Citation', module)
       scheduleUpdate={action('schedule update')}
       selectedText={'foo'}
       importItems={action('import items')}
+      citation={citation}
+      updateCitation={action('update citation')}
     />
   ))
   .add('Citation Search Section', () => (

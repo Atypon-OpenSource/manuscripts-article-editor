@@ -11,7 +11,10 @@
  */
 
 import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import {
+  BibliographyItem,
+  Citation,
+} from '@manuscripts/manuscripts-json-schema'
 import {
   ButtonGroup,
   IconButton,
@@ -22,10 +25,10 @@ import React from 'react'
 import { shortLibraryItemMetadata } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
 import { CitationSearch } from './CitationSearch'
+import { DisplaySchemeSelector } from './DisplaySchemeSelector'
 
 const CitedItem = styled.div`
   padding: ${props => props.theme.grid.unit * 4}px 0;
-  cursor: pointer;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
@@ -64,12 +67,27 @@ const CitedItems = styled.div`
   overflow-y: auto;
 `
 
-const ActionButton = styled(IconButton).attrs(() => ({
+const ActionButton = styled(IconButton).attrs({
   size: 24,
-}))``
+})``
 
-const Actions = styled(ButtonGroup)`
-  padding: ${props => props.theme.grid.unit * 4}px;
+const Actions = styled.div`
+  margin: ${props => props.theme.grid.unit * 4}px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`
+
+const Options = styled.details`
+  margin: ${props => props.theme.grid.unit * 4}px;
+`
+
+const OptionsSummary = styled.summary`
+  cursor: pointer;
+
+  &:focus {
+    outline: 1px solid ${props => props.theme.colors.border.tertiary};
+  }
 `
 
 interface Props {
@@ -82,6 +100,8 @@ interface Props {
   projectID: string
   scheduleUpdate: () => void
   selectedText: string
+  citation: Citation
+  updateCitation: (data: Partial<Citation>) => Promise<void>
 }
 
 interface State {
@@ -102,12 +122,14 @@ class CitationEditor extends React.Component<Props, State> {
       selectedText,
       importItems,
       filterLibraryItems,
+      citation,
+      updateCitation,
     } = this.props
     const { searching } = this.state
 
-    /*if (editing) {
-      return <div>TODO…</div>
-    }*/
+    // if (editing) {
+    //   return <div>TODO…</div>
+    // }
 
     if (searching) {
       return (
@@ -137,14 +159,7 @@ class CitationEditor extends React.Component<Props, State> {
       <div>
         <CitedItems>
           {items.map(item => (
-            <CitedItem
-              key={item._id}
-              onClick={() => {
-                if (item.DOI) {
-                  window.open(`https://doi.org/${item.DOI}`)
-                }
-              }}
-            >
+            <CitedItem key={item._id}>
               <CitedItemTitle value={item.title || 'Untitled'} />
 
               <CitedItemActionLine>
@@ -153,15 +168,8 @@ class CitationEditor extends React.Component<Props, State> {
                 </CitedItemMetadata>
 
                 <CitedItemActions>
-                  {/*     <ActionButton
-                    onClick={() => this.setState({ editing: item })}
-                  >
-                    <AnnotationEdit />
-                  </ActionButton>*/}
                   <ActionButton
-                    onMouseDown={event => {
-                      event.preventDefault()
-
+                    onClick={() => {
                       if (confirm('Delete this cited item?')) {
                         this.props.handleRemove(item._id)
                       }
@@ -175,10 +183,21 @@ class CitationEditor extends React.Component<Props, State> {
           ))}
         </CitedItems>
 
+        <Options>
+          <OptionsSummary>Options</OptionsSummary>
+
+          <DisplaySchemeSelector
+            citation={citation}
+            updateCitation={updateCitation}
+          />
+        </Options>
+
         <Actions>
-          <PrimaryButton onClick={() => this.setState({ searching: true })}>
-            Add Citation
-          </PrimaryButton>
+          <ButtonGroup>
+            <PrimaryButton onClick={() => this.setState({ searching: true })}>
+              Add Citation
+            </PrimaryButton>
+          </ButtonGroup>
         </Actions>
       </div>
     )
