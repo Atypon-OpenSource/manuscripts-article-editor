@@ -13,7 +13,7 @@
 import ShareProjectIcon from '@manuscripts/assets/react/Share'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Project } from '@manuscripts/manuscripts-json-schema'
-import { IconButton } from '@manuscripts/style-guide'
+import { IconButton, Tip } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import { TokenActions } from '../../data/TokenData'
@@ -76,13 +76,19 @@ class ShareProjectButton extends React.Component<Props, State> {
     return (
       <Container ref={this.nodeRef} onClick={event => event.stopPropagation()}>
         <Manager>
-          <Reference>
-            {({ ref }) => (
-              <ShareIconButton ref={ref} onClick={this.toggleOpen}>
-                <ShareProjectIcon />
-              </ShareIconButton>
-            )}
-          </Reference>
+          <Tip title="Share this project" placement="right">
+            <Reference>
+              {({ ref }) => (
+                <ShareIconButton
+                  ref={ref}
+                  onClick={this.toggleOpen}
+                  aria-label="Share project"
+                >
+                  <ShareProjectIcon />
+                </ShareIconButton>
+              )}
+            </Reference>
+          </Tip>
           {isOpen && (
             <Popper placement={'bottom'}>
               {(popperProps: PopperChildrenProps) => (
