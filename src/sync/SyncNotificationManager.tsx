@@ -64,6 +64,13 @@ const SyncNotificationManager: NotificationComponent = ({
     CollectionManager.restartAll()
   }, [])
 
+  const composeErrorReport = useCallback(() => {
+    return JSON.stringify({
+      version: config.version,
+      events: state.allEvents,
+    })
+  }, [state.allEvents])
+
   const handleOfflineAcknowledged = useCallback(() => {
     setOfflineAcknowledged()
 
@@ -147,7 +154,7 @@ const SyncNotificationManager: NotificationComponent = ({
       <SyncNotification
         title="Error while saving your document"
         info={
-          <CopyableText text={JSON.stringify(state.allEvents)} onCopy={onCopy}>
+          <CopyableText text={composeErrorReport()} onCopy={onCopy}>
             Copy diagnostics to support
           </CopyableText>
         }
@@ -177,7 +184,7 @@ const SyncNotificationManager: NotificationComponent = ({
       <SyncNotification
         title={getPushSyncErrorMessage(pushSyncError)}
         info={
-          <CopyableText text={JSON.stringify(state.allEvents)} onCopy={onCopy}>
+          <CopyableText text={composeErrorReport()} onCopy={onCopy}>
             Copy diagnostics to support
           </CopyableText>
         }
