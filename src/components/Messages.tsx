@@ -191,3 +191,13 @@ export const acceptInvitationErrorMessage = (status: number) => {
     return 'There was an error accepting the invitation.'
   }
 }
+
+export const acceptInvitationTokenErrorMessage = (status: number) => {
+  if (status === HttpStatusCodes.GONE) {
+    return 'Invitation is no longer valid.'
+  } else if (status === HttpStatusCodes.NOT_FOUND) {
+    return 'Project no longer exists.'
+  } else {
+    return 'There was an error accepting the invitation.'
+  }
+}

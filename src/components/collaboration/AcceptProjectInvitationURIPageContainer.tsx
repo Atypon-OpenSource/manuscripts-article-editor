@@ -10,11 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { acceptProjectInvitationToken } from '../../lib/api'
 import { LoadingPage } from '../Loading'
+import { acceptInvitationTokenErrorMessage } from '../Messages'
 
 interface State {
   data?: {
@@ -40,17 +40,9 @@ class AcceptInvitationURIContainer extends React.Component<
         this.setState({ data })
       },
       error => {
-        let errorMessage
-        if (error.response) {
-          if (error.response.status === HttpStatusCodes.GONE) {
-            errorMessage = 'Invitation is no longer valid.'
-          } else if (error.response.status === HttpStatusCodes.NOT_FOUND) {
-            errorMessage = 'Project no longer exists.'
-          } else {
-            errorMessage = 'There was an error accepting the invitation'
-          }
-        }
-
+        const errorMessage = error.response
+          ? acceptInvitationTokenErrorMessage(error.response.status)
+          : undefined
         this.props.history.push({
           pathname: '/projects',
           state: {

@@ -12,15 +12,23 @@
 
 import { History } from 'history'
 import React from 'react'
-import { acceptProjectInvitation } from '../../lib/api'
+import { Redirect } from 'react-router'
+import {
+  acceptProjectInvitation,
+  acceptProjectInvitationToken,
+} from '../../lib/api'
 import invitationTokenHandler from '../../lib/invitation-token'
-import { acceptInvitationErrorMessage } from '../Messages'
+import {
+  acceptInvitationErrorMessage,
+  acceptInvitationTokenErrorMessage,
+} from '../Messages'
 
 interface State {
   data?: {
     message: string
     containerID: string
   }
+  errorMessage?: string
 }
 
 interface Props {
@@ -32,39 +40,77 @@ interface Props {
 // TODO: allow retry if there's an error?
 
 class AcceptProjectInvitation extends React.Component<Props, State> {
-  public async componentDidMount() {
-    const invitationId = invitationTokenHandler.get()
+  public state: Readonly<State> = {}
 
-    if (invitationId) {
+  public async componentDidMount() {
+    const invitationToken = invitationTokenHandler.get()
+
+    if (
+      invitationToken &&
+      invitationToken.startsWith('MPContainerInvitation')
+    ) {
       invitationTokenHandler.remove()
 
-      await acceptProjectInvitation(invitationId).then(
+      await acceptProjectInvitation(invitationToken).then(
         ({ data }) => {
-          this.props.history.push({
-            pathname: `/projects/${data.containerID}`,
-            state: {
-              infoMessage: data.message,
-            },
-          })
+          this.setState({ data })
         },
         error => {
           const errorMessage = error.response
             ? acceptInvitationErrorMessage(error.response.status)
             : undefined
 
-          this.props.history.push({
-            pathname: '/projects',
-            state: {
-              errorMessage,
-            },
-          })
+          this.setState({ errorMessage })
+        }
+      )
+    } else if (invitationToken) {
+      invitationTokenHandler.remove()
+
+      await acceptProjectInvitationToken(invitationToken).then(
+        ({ data }) => {
+          this.setState({ data })
+        },
+        error => {
+          const errorMessage = error.response
+            ? acceptInvitationTokenErrorMessage(error.response.status)
+            : undefined
+
+          this.setState({ errorMessage })
         }
       )
     }
   }
 
   public render() {
-    return null
+    const { data, errorMessage } = this.state
+
+    if (!data && !errorMessage) return null
+
+    if (data) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/projects/${data.containerID}`,
+            state: {
+              infoMessage: data.message,
+            },
+          }}
+        />
+      )
+    }
+
+    if (errorMessage) {
+      return (
+        <Redirect
+          to={{
+            pathname: '/projects',
+            state: {
+              errorMessage,
+            },
+          }}
+        />
+      )
+    }
   }
 }
 

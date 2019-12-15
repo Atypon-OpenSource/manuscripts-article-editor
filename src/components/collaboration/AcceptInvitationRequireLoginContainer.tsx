@@ -18,12 +18,18 @@ import { LoadingPage } from '../Loading'
 
 // TODO: what if the user's already signed in?
 
-class AcceptEmailInvitationPageContainer extends React.Component<
-  RouteComponentProps
+interface RouteParams {
+  invitationToken?: string
+}
+class AcceptInvitationRequireLoginContainer extends React.Component<
+  RouteComponentProps<RouteParams>
 > {
   public componentDidMount() {
     const { token } = parse(window.location.hash.substr(1))
-    invitationTokenHandler.set(token)
+    const { invitationToken } = this.props.match.params
+
+    const tokenValue = token ? token : invitationToken
+    invitationTokenHandler.set(tokenValue)
     this.props.history.push('/login', {
       infoLoginMessage: 'Please sign in first.',
     })
@@ -34,4 +40,4 @@ class AcceptEmailInvitationPageContainer extends React.Component<
   }
 }
 
-export default AcceptEmailInvitationPageContainer
+export default AcceptInvitationRequireLoginContainer

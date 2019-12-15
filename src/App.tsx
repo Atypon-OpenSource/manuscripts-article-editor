@@ -24,7 +24,7 @@ import LogoutPageContainer from './components/account/LogoutPageContainer'
 import ProfilePageContainer from './components/account/ProfilePageContainer'
 import RecoverPageContainer from './components/account/RecoverPageContainer'
 import SignupPageContainer from './components/account/SignupPageContainer'
-import AcceptEmailInvitationPageContainer from './components/collaboration/AcceptEmailInvitationPageContainer'
+import AcceptInvitationRequireLoginContainer from './components/collaboration/AcceptInvitationRequireLoginContainer'
 import AcceptInvitationURIContainer from './components/collaboration/AcceptProjectInvitationURIPageContainer'
 import { DatabaseContext } from './components/DatabaseProvider'
 import DeveloperPageContainer from './components/DeveloperPageContainer'
@@ -277,12 +277,9 @@ const App: React.FunctionComponent = () => (
                                     path={
                                       '/projects/:projectID/invitation/:invitationToken'
                                     }
-                                    render={props => (
-                                      <RequireLogin {...props}>
-                                        You must sign in first to access the
-                                        shared project.
-                                      </RequireLogin>
-                                    )}
+                                    component={
+                                      AcceptInvitationRequireLoginContainer
+                                    }
                                   />
 
                                   <Route
@@ -308,7 +305,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/invitation'}
                             exact={true}
-                            component={AcceptEmailInvitationPageContainer}
+                            component={AcceptInvitationRequireLoginContainer}
                           />
 
                           <Route
@@ -435,11 +432,7 @@ const App: React.FunctionComponent = () => (
                     <Route
                       path={'/projects/:projectID/invitation/:invitationToken'}
                       exact={true}
-                      render={props => (
-                        <RequireLogin {...props}>
-                          You must sign in first to access the shared project.
-                        </RequireLogin>
-                      )}
+                      component={AcceptInvitationRequireLoginContainer}
                     />
 
                     <Route
@@ -474,7 +467,7 @@ const App: React.FunctionComponent = () => (
                 <Route
                   path={'/invitation'}
                   exact={true}
-                  component={AcceptEmailInvitationPageContainer}
+                  component={AcceptInvitationRequireLoginContainer}
                 />
 
                 <Route
