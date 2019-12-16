@@ -66,8 +66,10 @@ export const isPushSyncError = (detail: CollectionEventDetails) => {
 export const isPullSyncError = (detail: CollectionEventDetails) => {
   // error.status is undefined for longpoll errors
   const status = get(detail, 'error.status', null)
+  // also ignore the unhelpful "aborting" errors with empty aborting array
+  const errors = get(detail, 'error.result.errors', [])
   if (!status) return null
-  return Boolean(detail.direction === 'pull' && status)
+  return Boolean(detail.direction === 'pull' && status && errors.length)
 }
 
 export const isSyncTimeoutError = (detail: CollectionEventDetails) => {
