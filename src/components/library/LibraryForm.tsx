@@ -12,7 +12,10 @@
 
 import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
-import { buildLibraryCollection } from '@manuscripts/manuscript-transform'
+import {
+  buildBibliographicName,
+  buildLibraryCollection,
+} from '@manuscripts/manuscript-transform'
 import {
   BibliographicName,
   BibliographyItem,
@@ -360,13 +363,20 @@ const LibraryForm: React.FC<{
 
         <FieldArray
           name={'author'}
-          render={arrayHelpers => (
+          render={({ push, remove }) => (
             <FormField>
               <LabelContainer>
                 <Label>Authors</Label>
 
                 <Button
-                  onClick={() => arrayHelpers.push({ given: '', family: '' })}
+                  onClick={() =>
+                    push(
+                      buildBibliographicName({
+                        given: '',
+                        family: '',
+                      })
+                    )
+                  }
                 >
                   <AddAuthor height={17} width={17} />
                 </Button>
@@ -382,7 +392,7 @@ const LibraryForm: React.FC<{
                         <BaseButton
                           onClick={() => {
                             if (window.confirm('Remove this author?')) {
-                              arrayHelpers.remove(index)
+                              remove(index)
                             }
                           }}
                         >
