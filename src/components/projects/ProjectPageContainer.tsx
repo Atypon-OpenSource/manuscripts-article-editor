@@ -12,7 +12,6 @@
 
 import React from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
-import config from '../../config'
 import CollaboratorsData from '../../data/CollaboratorsData'
 import ContainerInvitationsData from '../../data/ContainerInvitationsData'
 import GlobalLibrariesData from '../../data/GlobalLibrariesData'
@@ -410,29 +409,82 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                         )}
                                                       />
 
-                                                      {config.local || (
-                                                        <React.Fragment>
-                                                          <Route
-                                                            path={
-                                                              '/projects/:projectID/collaborators'
+                                                      <Route
+                                                        path={
+                                                          '/projects/:projectID/collaborators'
+                                                        }
+                                                        exact={true}
+                                                        render={props => (
+                                                          <ProjectInvitationsData
+                                                            projectID={
+                                                              projectID
                                                             }
-                                                            exact={true}
-                                                            render={props => (
-                                                              <ProjectInvitationsData
-                                                                projectID={
+                                                            {...props}
+                                                          >
+                                                            {invitations => (
+                                                              <ContainerInvitationsData
+                                                                containerID={
                                                                   projectID
                                                                 }
                                                                 {...props}
                                                               >
-                                                                {invitations => (
-                                                                  <ContainerInvitationsData
-                                                                    containerID={
-                                                                      projectID
-                                                                    }
+                                                                {containerInvitations => (
+                                                                  <CollaboratorsPageContainer
                                                                     {...props}
-                                                                  >
-                                                                    {containerInvitations => (
-                                                                      <CollaboratorsPageContainer
+                                                                    invitations={[
+                                                                      ...buildContainerInvitations(
+                                                                        invitations
+                                                                      ),
+                                                                      ...containerInvitations,
+                                                                    ].filter(
+                                                                      invitation =>
+                                                                        invitation.containerID.startsWith(
+                                                                          'MPProject'
+                                                                        )
+                                                                    )}
+                                                                    project={
+                                                                      project
+                                                                    }
+                                                                    user={user}
+                                                                    collaborators={buildCollaboratorProfiles(
+                                                                      collaborators,
+                                                                      user
+                                                                    )}
+                                                                    tokenActions={
+                                                                      this.props
+                                                                        .tokenActions
+                                                                    }
+                                                                  />
+                                                                )}
+                                                              </ContainerInvitationsData>
+                                                            )}
+                                                          </ProjectInvitationsData>
+                                                        )}
+                                                      />
+
+                                                      <Route
+                                                        path={
+                                                          '/projects/:projectID/collaborators/add'
+                                                        }
+                                                        exact={true}
+                                                        render={props => (
+                                                          <ProjectInvitationsData
+                                                            projectID={
+                                                              projectID
+                                                            }
+                                                            {...props}
+                                                          >
+                                                            {invitations => (
+                                                              <ContainerInvitationsData
+                                                                containerID={
+                                                                  projectID
+                                                                }
+                                                                {...props}
+                                                              >
+                                                                {containerInvitations => (
+                                                                  <ProjectsData>
+                                                                    {projects => (
+                                                                      <AddCollaboratorsPageContainer
                                                                         {...props}
                                                                         invitations={[
                                                                           ...buildContainerInvitations(
@@ -448,6 +500,9 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                                         project={
                                                                           project
                                                                         }
+                                                                        projects={
+                                                                          projects
+                                                                        }
                                                                         user={
                                                                           user
                                                                         }
@@ -462,76 +517,13 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                                         }
                                                                       />
                                                                     )}
-                                                                  </ContainerInvitationsData>
+                                                                  </ProjectsData>
                                                                 )}
-                                                              </ProjectInvitationsData>
+                                                              </ContainerInvitationsData>
                                                             )}
-                                                          />
-
-                                                          <Route
-                                                            path={
-                                                              '/projects/:projectID/collaborators/add'
-                                                            }
-                                                            exact={true}
-                                                            render={props => (
-                                                              <ProjectInvitationsData
-                                                                projectID={
-                                                                  projectID
-                                                                }
-                                                                {...props}
-                                                              >
-                                                                {invitations => (
-                                                                  <ContainerInvitationsData
-                                                                    containerID={
-                                                                      projectID
-                                                                    }
-                                                                    {...props}
-                                                                  >
-                                                                    {containerInvitations => (
-                                                                      <ProjectsData>
-                                                                        {projects => (
-                                                                          <AddCollaboratorsPageContainer
-                                                                            {...props}
-                                                                            invitations={[
-                                                                              ...buildContainerInvitations(
-                                                                                invitations
-                                                                              ),
-                                                                              ...containerInvitations,
-                                                                            ].filter(
-                                                                              invitation =>
-                                                                                invitation.containerID.startsWith(
-                                                                                  'MPProject'
-                                                                                )
-                                                                            )}
-                                                                            project={
-                                                                              project
-                                                                            }
-                                                                            projects={
-                                                                              projects
-                                                                            }
-                                                                            user={
-                                                                              user
-                                                                            }
-                                                                            collaborators={buildCollaboratorProfiles(
-                                                                              collaborators,
-                                                                              user
-                                                                            )}
-                                                                            tokenActions={
-                                                                              this
-                                                                                .props
-                                                                                .tokenActions
-                                                                            }
-                                                                          />
-                                                                        )}
-                                                                      </ProjectsData>
-                                                                    )}
-                                                                  </ContainerInvitationsData>
-                                                                )}
-                                                              </ProjectInvitationsData>
-                                                            )}
-                                                          />
-                                                        </React.Fragment>
-                                                      )}
+                                                          </ProjectInvitationsData>
+                                                        )}
+                                                      />
 
                                                       <Route
                                                         path={
