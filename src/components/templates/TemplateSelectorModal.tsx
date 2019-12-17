@@ -12,6 +12,7 @@
 
 import PencilIcon from '@manuscripts/assets/react/Pencil'
 import { ManuscriptCategory, Model } from '@manuscripts/manuscripts-json-schema'
+import fuzzysort from 'fuzzysort'
 import React, { Component } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
@@ -278,17 +279,14 @@ export class TemplateSelectorModal extends Component<Props, State> {
     )
 
     if (searchText) {
-      const lowercaseSearch = searchText
-        .split(/\s+/)
-        .map(item => item.toLowerCase())
-
-      return filteredItems.filter(item => {
-        const lowercaseTitle = item.title.toLowerCase()
-
-        return lowercaseSearch.every(lowercaseSearchText =>
-          lowercaseTitle.includes(lowercaseSearchText)
-        )
+      const results = fuzzysort.go<TemplateData>(searchText, filteredItems, {
+        keys: ['title'],
+        limit: 100,
+        allowTypo: false,
+        threshold: -1000,
       })
+
+      return results.map(result => result.obj)
     }
 
     return filteredItems
