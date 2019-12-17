@@ -595,6 +595,7 @@ export class Collection<T extends Model> implements EventTarget {
 
   private dispatchSyncError(
     direction: Direction,
+    options: PouchReplicationOptions,
     error?: Error | AxiosError | PouchReplicationError
   ) {
     this.dispatchEvent(
@@ -604,6 +605,7 @@ export class Collection<T extends Model> implements EventTarget {
           value: true,
           error,
           collection: this.collectionName,
+          isLive: options.live,
         },
       })
     )
@@ -707,7 +709,7 @@ export class Collection<T extends Model> implements EventTarget {
       })
 
       errors.forEach((e: PouchReplicationError) =>
-        this.dispatchSyncError(direction, e)
+        this.dispatchSyncError(direction, options, e)
       )
     })
 
@@ -725,7 +727,7 @@ export class Collection<T extends Model> implements EventTarget {
         throw error
       })
 
-      this.dispatchSyncError(direction, error)
+      this.dispatchSyncError(direction, options, error)
     })
 
     replicationState.error$.subscribe(async (error: PouchReplicationError) => {

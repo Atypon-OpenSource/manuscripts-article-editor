@@ -27,12 +27,18 @@ interface Action {
 
 /* tslint:disable:cyclomatic-complexity */
 export default (state: State, action: Action): State => {
+  const errorsArr = get(action, 'event.detail.error.result.errors', [])
+  const isLive = get(action, 'event.detail.isLive', false)
+  const ignore = isLive && !errorsArr.length
+
   switch (action.type) {
     case 'event': {
       if (action.isOffline || !action.event) return state
       return {
-        allEvents: [...state.allEvents, action.event.detail],
-        newEvents: [...state.newEvents, action.event.detail],
+        allEvents: [action.event.detail, ...state.allEvents],
+        newEvents: ignore
+          ? state.newEvents
+          : [action.event.detail, ...state.newEvents],
       }
     }
 
@@ -66,10 +72,8 @@ export const isPushSyncError = (detail: CollectionEventDetails) => {
 export const isPullSyncError = (detail: CollectionEventDetails) => {
   // error.status is undefined for longpoll errors
   const status = get(detail, 'error.status', null)
-  // also ignore the unhelpful "aborting" errors with empty aborting array
-  const errors = get(detail, 'error.result.errors', [])
   if (!status) return null
-  return Boolean(detail.direction === 'pull' && status && errors.length)
+  return Boolean(detail.direction === 'pull' && status)
 }
 
 export const isSyncTimeoutError = (detail: CollectionEventDetails) => {

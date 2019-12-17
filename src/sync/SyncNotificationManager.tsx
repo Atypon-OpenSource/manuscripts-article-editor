@@ -178,6 +178,16 @@ const SyncNotificationManager: NotificationComponent = ({
     )
   }
 
+  if (state.newEvents.find(isPullSyncError)) {
+    return (
+      <SyncNotification
+        title="Unable to pull the latest changes"
+        buttonText="Retry"
+        buttonAction={handleRetry}
+      />
+    )
+  }
+
   const pushSyncError = state.newEvents.find(isPushSyncError)
   if (pushSyncError) {
     return (
@@ -192,16 +202,6 @@ const SyncNotificationManager: NotificationComponent = ({
         buttonAction={crisp.open}
         primaryButtonText="Retry"
         primaryButtonAction={handleRetry}
-      />
-    )
-  }
-
-  if (state.newEvents.find(isPullSyncError)) {
-    return (
-      <SyncNotification
-        title="Unable to pull the latest changes"
-        buttonText="Retry"
-        buttonAction={handleRetry}
       />
     )
   }

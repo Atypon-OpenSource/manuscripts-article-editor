@@ -16,6 +16,7 @@ import { AxiosError } from 'axios'
 export interface CollectionEventDetails {
   direction?: string
   operation?: string
+  isLive?: boolean
   value: boolean
   collection: string
   error?: Error | AxiosError | PouchReplicationError
