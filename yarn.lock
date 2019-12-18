@@ -1668,10 +1668,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.55.0":
-  version "0.55.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.55.0.tgz#a3ec708709d93c7db2eb649dfb3dbf2de0501d77"
-  integrity sha512-RM63jkJManZFsjV/Gfw2kLiwK8b5EQ3l1eCq9u0Azry2WoFq4xcOIFoC6bgmG3ammokqraRn5t2FpTBxDTLAEQ==
+"@manuscripts/manuscript-editor@^0.56.0":
+  version "0.56.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.56.0.tgz#8960d5ada642da697da8a1e104a16a5ce4205f89"
+  integrity sha512-z0BM+/QBB4cldHhMtFjsGhHsZ3m7JbMIJDYZ5fWABAvdSN3cJ31qPc9g64ffTuPx805c+o/rfYKUNCgmF2RXWw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1681,7 +1681,7 @@
     astrocite-eutils "^0.16.0"
     axios "^0.19.0"
     blob-util "^2.0.2"
-    citeproc "^2.2.10"
+    citeproc "^2.2.30"
     codemirror "^5.48.0"
     crypto-hash "^1.2.1"
     dompurify "^2.0.0"
@@ -5990,10 +5990,10 @@ circular-json-es6@^2.0.1:
   resolved "https://registry.npmjs.org/circular-json-es6/-/circular-json-es6-2.0.2.tgz#e4f4a093e49fb4b6aba1157365746112a78bd344"
   integrity sha512-ODYONMMNb3p658Zv+Pp+/XPa5s6q7afhz3Tzyvo+VRh9WIrJ64J76ZC4GQxnlye/NesTn09jvOiuE8+xxfpwhQ==
 
-citeproc@^2.2.10, citeproc@^2.2.9:
-  version "2.2.21"
-  resolved "https://registry.npmjs.org/citeproc/-/citeproc-2.2.21.tgz#7421904f98cf04a863db586ecc1ff126c797cc4e"
-  integrity sha512-ifrNz2ilrYYms66fY7MXghMFB47Yq11U1cq39It9XN0m8UYiq5crkuR5RbwBOO9i7cbHBxChdJe0aIFWxqTi0w==
+citeproc@^2.2.30:
+  version "2.2.30"
+  resolved "https://registry.npmjs.org/citeproc/-/citeproc-2.2.30.tgz#cb53fe03cb7ba56c2bb40599b1fb6b2b301137fe"
+  integrity sha512-8EFCQiKCh4MC5mKgNiME/8tco4sehq2iZDvkX7NlI3tAS8fhUGlnbQZopeHVdHnj/LD69OEsj/yjiNZYPjHHCw==
 
 class-utils@^0.3.5:
   version "0.3.6"
