@@ -54,6 +54,23 @@ describe('importer', () => {
     })
   })
 
+  test('imports a RIS file with line feeds', async () => {
+    const data = fs.readFileSync(
+      __dirname + '/../__fixtures__/line-feed.ris',
+      'utf8'
+    )
+
+    expect(data).toMatch(/\r/)
+
+    const response = await transformBibliography(data, '.ris')
+
+    expect(response).toHaveLength(1)
+
+    const [item] = response
+
+    expect(item.DOI).toBe('10.5849/forsci.13-022')
+  })
+
   test('imports a RIS file with empty fields', async () => {
     const data = `TY  - JOUR
 AU  - Stephenson, N. L.
@@ -68,7 +85,7 @@ PB  - Nature Publishing Group, a division of Macmillan Publishers Limited. All R
 SN  -
 UR  - https://doi.org/10.1038/nature12914
 L3  - 10.1038/nature12914
-M3  - 
+M3  -
 L3  - https://www.nature.com/articles/nature12914#supplementary-information
 ER  -
 `

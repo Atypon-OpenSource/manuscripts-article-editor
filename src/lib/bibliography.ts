@@ -27,7 +27,7 @@ const chooseParser = (extension: string) => {
   }
 }
 
-const validRISLine = /^(\w{2}\s{2}-\s.+|ER\s{2}-)$/
+const validRISLine = /^(\w{2}\s{2}-\s.+|ER\s{2}-\s*)$/
 
 export const transformBibliography = async (
   data: string,
@@ -38,7 +38,7 @@ export const transformBibliography = async (
   if (extension === '.ris') {
     // remove invalid lines
     data = data
-      .split('\n')
+      .split(/[\n\r]+/)
       .filter(line => validRISLine.test(line))
       .join('\n')
   }
