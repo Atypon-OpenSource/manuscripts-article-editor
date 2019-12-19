@@ -1668,10 +1668,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.56.0":
-  version "0.56.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.56.0.tgz#8960d5ada642da697da8a1e104a16a5ce4205f89"
-  integrity sha512-z0BM+/QBB4cldHhMtFjsGhHsZ3m7JbMIJDYZ5fWABAvdSN3cJ31qPc9g64ffTuPx805c+o/rfYKUNCgmF2RXWw==
+"@manuscripts/manuscript-editor@^0.57.0":
+  version "0.57.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.57.0.tgz#dcba3b3fafacc5a7d94f50738382fa209763767d"
+  integrity sha512-RM/Nrz6UE6q3QMhgzumlcHsr4IlQ47P/Dm0D203aTa9A7drUHMhycshs4NTyUeeD563L0xiJ3H3fx7lnC/LYnQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1711,10 +1711,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.19.1":
-  version "0.19.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.19.1.tgz#a59050004ae8279e2d795747c4c279fd42e4e4dd"
-  integrity sha512-+fyea/FAHQxjbblOg9K91UoBBTzcY31GnFh1rllLECNW5vxOC2JFs2Y2NS1hf4AdzMWUk4Xm5jtulStcnYhsNQ==
+"@manuscripts/manuscript-transform@^0.20.0":
+  version "0.20.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.20.0.tgz#0da0fe70fbe514240070770938bd8d4ad6abe164"
+  integrity sha512-ePUz4Xy0Acp07exnUe81RQeWCALiyToEq/pVHGVB5TQRIOYCINMvX6JutdFtd28+q780++h5x/cIR4YaGCBEmA==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"
@@ -1790,10 +1790,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.15.0.tgz#a61fa156b96917afc4204345b7ddff4f402aac6b"
-  integrity sha512-Y7OKVJNHMiX+vpp63/Ve9R8qb9AwX5xAS0MdVnc1tQ//4nqFnIMhWcPSiAP/HG9k4A+JMzJuYNly+fH7zMjkiw==
+"@manuscripts/style-guide@^0.15.1":
+  version "0.15.1"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.15.1.tgz#677a438fd76b6844768368066cce2910cdfd2357"
+  integrity sha512-fknxrLBrb1kzLJ7Uv3aS8uTK0aUdAE/al8ej8jM8sm42Ot96qeNbZD9DalCFr0oOVAnQ/ccj56s3+Kx6zSLf8g==
   dependencies:
     "@manuscripts/assets" "^0.6.1"
     lodash-es "^4.17.15"
