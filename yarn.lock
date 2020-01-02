@@ -1658,10 +1658,10 @@
     prosemirror-view "^1.6.3"
     react-select "^2.1.0"
 
-"@manuscripts/data@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.0.3.tgz#e5076ce07a29a4015139b706e8f938195d9f6ac7"
-  integrity sha512-VBEhnfZjh8RP1UV6J6U2CxO2A4XX0JIK0kyulI74OH0aCMdN/v97MFK8vapqepQQypebgQp9yWS97uCmX1SzYg==
+"@manuscripts/data@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.0.4.tgz#d355429adbf5f4b2b15254235b9b1b2fd53ddb21"
+  integrity sha512-1jk6gtTB/dPsljaZGRQpx1VZeqglH4gtfadkKE3AH3zIEsBYGgX+havq5nqt9yJezFm2BN9AupRcVaYuJo7fKQ==
 
 "@manuscripts/examples@^0.0.6":
   version "0.0.6"

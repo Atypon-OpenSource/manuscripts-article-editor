@@ -45,7 +45,7 @@
     "@formatjs/intl-utils": "^1.4.0",
     "@manuscripts/assets": "^0.6.1",
     "@manuscripts/comment-editor": "^0.1.1",
-    "@manuscripts/data": "^0.0.3",
+    "@manuscripts/data": "^0.0.4",
     "@manuscripts/manuscript-editor": "^0.57.0",
     "@manuscripts/manuscript-transform": "^0.20.0",
     "@manuscripts/manuscripts-json-schema": "^1.18.5",
