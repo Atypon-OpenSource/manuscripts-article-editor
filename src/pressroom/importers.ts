@@ -96,15 +96,11 @@ const importProjectArchive = async (result: Blob) => {
   return items
 }
 
-const importConvertedFile = async (file: File) => {
+const convertFile = async (file: File) => {
   const form = new FormData()
   form.append('file', file)
 
-  const result = await convert(form, '.manuproj')
-
-  // download(result, 'manuscript.zip')
-
-  return importProjectArchive(result)
+  return convert(form, '.manuproj')
 }
 
 interface FileType {
@@ -236,5 +232,7 @@ export const importFile = async (file: File) => {
     file = new File([blob], name, { lastModified })
   }
 
-  return importConvertedFile(file)
+  const result = await convertFile(file)
+
+  return importProjectArchive(result)
 }

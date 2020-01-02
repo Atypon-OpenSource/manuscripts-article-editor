@@ -100,17 +100,21 @@ jest.mock('../pressroom', () => ({
     const formData = new NodeFormData()
     formData.append('file', buffer, file.name)
 
-    return axios.post<Blob>('/v1/document/compile', formData.getBuffer(), {
-      baseURL: config.pressroom.url,
-      // responseType: 'stream' as ResponseType,
-      responseType: 'text' as ResponseType,
-      headers: {
-        'Pressroom-API-Key': config.pressroom.key,
-        'Pressroom-Target-File-Extension': format.replace(/^\./, ''),
-        'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
-        ...formData.getHeaders(),
-      },
-    })
+    return axios.post<ArrayBuffer>(
+      '/v1/document/compile',
+      formData.getBuffer(),
+      {
+        baseURL: config.pressroom.url,
+        // responseType: 'stream' as ResponseType,
+        responseType: 'arraybuffer' as ResponseType,
+        headers: {
+          'Pressroom-API-Key': config.pressroom.key,
+          'Pressroom-Target-File-Extension': format.replace(/^\./, ''),
+          'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
+          ...formData.getHeaders(),
+        },
+      }
+    )
   }),
 }))
 
@@ -292,7 +296,7 @@ describe('exporter', () => {
       console.log(`Exporting empty manuscript to ${format.extension}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
-      const response: AxiosResponse<Blob> = await exportProject(
+      const response: AxiosResponse<ArrayBuffer> = await exportProject(
         getAttachment,
         modelMap,
         manuscript._id,
@@ -317,7 +321,7 @@ describe('exporter', () => {
       console.log(`Exporting templated manuscript to ${format.extension}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
-      const response: AxiosResponse<Blob> = await exportProject(
+      const response: AxiosResponse<ArrayBuffer> = await exportProject(
         getAttachment,
         modelMap,
         manuscript._id,
@@ -472,7 +476,7 @@ describe('exporter', () => {
       )
 
       // @ts-ignore: mocked convert function returns the response, not the blob
-      const response: AxiosResponse<Blob> = await exportProject(
+      const response: AxiosResponse<ArrayBuffer> = await exportProject(
         getAttachment,
         modelMap,
         manuscript._id,
@@ -595,7 +599,7 @@ describe('exporter', () => {
       console.log(`Exporting manuscript with content to ${format.extension}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
-      const response: AxiosResponse<Blob> = await exportProject(
+      const response: AxiosResponse<ArrayBuffer> = await exportProject(
         getAttachment,
         modelMap,
         manuscript._id,

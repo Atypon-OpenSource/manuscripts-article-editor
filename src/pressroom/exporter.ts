@@ -199,7 +199,7 @@ const buildAttachments = async (
   return attachments
 }
 
-const buildProjectBundle = async (
+export const buildProjectBundle = async (
   getAttachment: GetAttachment,
   modelMap: Map<string, Model>,
   manuscriptID: string,
