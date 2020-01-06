@@ -22,6 +22,7 @@ import {
   Contributor,
   Manuscript,
   Model,
+  ObjectTypes,
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -169,7 +170,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
 
   private handleSaveAuthor = async (values: AuthorValues) => {
     await this.props.saveModel<Contributor>({
-      objectType: 'MPContributor',
+      objectType: ObjectTypes.Contributor,
       ...values,
     })
   }

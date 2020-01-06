@@ -16,7 +16,7 @@ import {
   UserProfileAffiliation,
 } from '@manuscripts/manuscripts-json-schema'
 import {
-  AffiliationsSelect,
+  AffiliationsEditorProfile,
   AutoSaveInput,
   FormError,
   TextField,
@@ -32,7 +32,6 @@ import {
 } from 'formik'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { theme } from '../../theme/theme'
 
 const Fields = styled.div`
   padding: ${props => props.theme.grid.unit * 4}px;
@@ -48,35 +47,26 @@ const Legend = styled.legend`
   color: ${props => props.theme.colors.text.secondary};
 `
 
-const Label = styled.label`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
-`
-
 export interface ProfileValues {
   bibliographicName: BibliographicName
-  affiliations: UserProfileAffiliation[]
 }
 
 export interface ProfileErrors {
   submit?: object
 }
 
-const buildProfileValues = (
-  user: UserProfileWithAvatar,
-  affiliationMap: Map<string, UserProfileAffiliation>
-): ProfileValues => ({
+const buildProfileValues = (user: UserProfileWithAvatar): ProfileValues => ({
   bibliographicName: user.bibliographicName,
-  affiliations: user.affiliations
-    ? user.affiliations.map(affiliationID => affiliationMap.get(affiliationID)!)
-    : [],
 })
 
 interface Props {
   affiliationsMap: Map<string, UserProfileAffiliation>
   userWithAvatar: UserProfileWithAvatar
   createAffiliation: (institution: string) => Promise<UserProfileAffiliation>
+  updateAffiliation: (
+    data: Partial<UserProfileAffiliation>
+  ) => Promise<UserProfileAffiliation>
+  removeAffiliation: (data: UserProfileAffiliation) => Promise<string>
   handleSave: (
     values: ProfileValues,
     actions: FormikActions<ProfileValues & ProfileErrors>
@@ -88,69 +78,63 @@ export const ProfileForm: React.FunctionComponent<Props> = ({
   userWithAvatar,
   handleSave,
   createAffiliation,
+  updateAffiliation,
+  removeAffiliation,
 }) => (
-  <Formik<ProfileValues>
-    initialValues={buildProfileValues(userWithAvatar, affiliationsMap)}
-    onSubmit={handleSave}
-  >
-    {({ errors }: FormikProps<ProfileValues & ProfileErrors>) => (
-      <Form noValidate={true}>
-        <Fields>
-          <Fieldset>
-            <Legend>Details</Legend>
-            <TextFieldGroupContainer
-              errors={{
-                bibliographicNameFamily: errors.bibliographicName
-                  ? errors.bibliographicName.family
-                  : undefined,
-                bibliographicNameGiven: errors.bibliographicName
-                  ? errors.bibliographicName.given
-                  : undefined,
-              }}
-            >
-              <Field name={'bibliographicName.given'}>
-                {(props: FieldProps) => (
-                  <AutoSaveInput
-                    {...props}
-                    component={TextField}
-                    saveOn={'blur'}
-                    placeholder={'given name'}
-                  />
-                )}
-              </Field>
+  <React.Fragment>
+    <Formik<ProfileValues>
+      initialValues={buildProfileValues(userWithAvatar)}
+      onSubmit={handleSave}
+    >
+      {({ errors }: FormikProps<ProfileValues & ProfileErrors>) => (
+        <Form noValidate={true}>
+          <Fields>
+            <Fieldset>
+              <Legend>Details</Legend>
+              <TextFieldGroupContainer
+                errors={{
+                  bibliographicNameFamily: errors.bibliographicName
+                    ? errors.bibliographicName.family
+                    : undefined,
+                  bibliographicNameGiven: errors.bibliographicName
+                    ? errors.bibliographicName.given
+                    : undefined,
+                }}
+              >
+                <Field name={'bibliographicName.given'}>
+                  {(props: FieldProps) => (
+                    <AutoSaveInput
+                      {...props}
+                      component={TextField}
+                      saveOn={'blur'}
+                      placeholder={'given name'}
+                    />
+                  )}
+                </Field>
 
-              <Field name={'bibliographicName.family'}>
-                {(props: FieldProps) => (
-                  <AutoSaveInput
-                    {...props}
-                    component={TextField}
-                    saveOn={'blur'}
-                    placeholder={'family name'}
-                  />
-                )}
-              </Field>
-            </TextFieldGroupContainer>
+                <Field name={'bibliographicName.family'}>
+                  {(props: FieldProps) => (
+                    <AutoSaveInput
+                      {...props}
+                      component={TextField}
+                      saveOn={'blur'}
+                      placeholder={'family name'}
+                    />
+                  )}
+                </Field>
+              </TextFieldGroupContainer>
 
-            {errors.submit && <FormError>{errors.submit}</FormError>}
-          </Fieldset>
-
-          <Fieldset>
-            <Legend>Affiliations</Legend>
-            <Label>
-              <Field name={'affiliations'}>
-                {(props: FieldProps) => (
-                  <AffiliationsSelect
-                    theme={theme}
-                    affiliations={affiliationsMap}
-                    createAffiliation={createAffiliation}
-                    {...props}
-                  />
-                )}
-              </Field>
-            </Label>
-          </Fieldset>
-        </Fields>
-      </Form>
-    )}
-  </Formik>
+              {errors.submit && <FormError>{errors.submit}</FormError>}
+            </Fieldset>
+          </Fields>
+        </Form>
+      )}
+    </Formik>
+    <AffiliationsEditorProfile
+      affiliations={affiliationsMap}
+      addAffiliation={createAffiliation}
+      updateAffiliation={updateAffiliation}
+      removeAffiliation={removeAffiliation}
+    />
+  </React.Fragment>
 )

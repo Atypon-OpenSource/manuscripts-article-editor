@@ -12,6 +12,7 @@
 
 import { buildUserProfileAffiliation } from '@manuscripts/manuscript-transform'
 import {
+  ObjectTypes,
   UserProfile,
   UserProfileAffiliation,
 } from '@manuscripts/manuscripts-json-schema'
@@ -42,11 +43,7 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
                 <ProfilePage
                   userWithAvatar={user}
                   affiliationsMap={affiliations}
-                  handleSave={this.handleSave(
-                    user,
-                    userCollection
-                    // affiliationsCollection
-                  )}
+                  handleSave={this.handleSave(user, userCollection)}
                   handleChangePassword={this.handleChangePassword}
                   handleDeleteAccount={this.handleDeleteAccount}
                   handleClose={this.handleClose}
@@ -60,6 +57,13 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
                   )}
                   createAffiliation={this.createAffiliation(
                     user._id,
+                    affiliationsCollection,
+                    userCollection
+                  )}
+                  updateAffiliation={this.updateAffiliation(
+                    affiliationsCollection
+                  )}
+                  removeAffiliation={this.removeAffiliation(
                     affiliationsCollection
                   )}
                 />
@@ -74,25 +78,11 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
   private handleSave = (
     user: UserProfile,
     userCollection: Collection<UserProfile>
-    // affiliationsCollection: Collection<UserProfileAffiliation>
   ) => async (
     values: ProfileValues,
     { setSubmitting, setErrors }: FormikActions<ProfileValues | ProfileErrors>
   ) => {
-    // await Promise.all(
-    //   values.affiliations.map((item: UserProfileAffiliation) =>
-    //     affiliationsCollection.save(item, {
-    //       containerID: user._id,
-    //     })
-    //   )
-    // )
-
-    const data = {
-      ...values,
-      affiliations: values.affiliations.map(item => item._id),
-    }
-
-    userCollection.update(user._id, data).then(
+    userCollection.update(user._id, values).then(
       () => setSubmitting(false),
       error => {
         setSubmitting(false)
@@ -118,14 +108,42 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
   private handleClose = () => this.props.history.goBack()
 
   private createAffiliation = (
-    containerID: string,
-    affiliationsCollection: Collection<UserProfileAffiliation>
-  ) => (institution: string) => {
+    userID: string,
+    affiliationsCollection: Collection<UserProfileAffiliation>,
+    userCollection: Collection<UserProfile>
+  ) => async (institution: string) => {
     const userProfileAffiliation = buildUserProfileAffiliation(institution)
 
+    try {
+      const user = await userCollection.findDoc(userID)
+      await user.atomicUpdate(current => {
+        current.affiliations = current.affiliations || []
+        current.affiliations.push(userProfileAffiliation._id)
+        return current
+      })
+    } catch (e) {
+      /* tslint:disable-next-line:no-console */
+      console.error('Failed to create affiliation', e)
+    }
+
     return affiliationsCollection.create(userProfileAffiliation, {
-      containerID,
+      containerID: userID,
     })
+  }
+
+  private updateAffiliation = (
+    affiliationsCollection: Collection<UserProfileAffiliation>
+  ) => async (data: Partial<UserProfileAffiliation>) => {
+    return affiliationsCollection.save({
+      ...data,
+      objectType: ObjectTypes.UserProfileAffiliation,
+    })
+  }
+
+  private removeAffiliation = (
+    affiliationsCollection: Collection<UserProfileAffiliation>
+  ) => async (data: UserProfileAffiliation) => {
+    return affiliationsCollection.delete(data._id)
   }
 
   private saveUserProfileAvatar = (

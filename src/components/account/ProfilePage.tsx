@@ -28,6 +28,10 @@ interface Props {
   userWithAvatar: UserProfileWithAvatar
   affiliationsMap: Map<string, UserProfileAffiliation>
   createAffiliation: (institution: string) => Promise<UserProfileAffiliation>
+  updateAffiliation: (
+    data: Partial<UserProfileAffiliation>
+  ) => Promise<UserProfileAffiliation>
+  removeAffiliation: (data: UserProfileAffiliation) => Promise<string>
   saveUserProfileAvatar: (data: Blob) => Promise<void>
   deleteUserProfileAvatar: () => Promise<void>
   handleChangePassword: () => void
@@ -51,6 +55,8 @@ const ProfilePage: ProfilePageComponent = ({
   saveUserProfileAvatar,
   deleteUserProfileAvatar,
   createAffiliation,
+  updateAffiliation,
+  removeAffiliation,
 }) => {
   return (
     <StyledModal
@@ -76,6 +82,8 @@ const ProfilePage: ProfilePageComponent = ({
               userWithAvatar={userWithAvatar}
               handleSave={handleSave}
               createAffiliation={createAffiliation}
+              updateAffiliation={updateAffiliation}
+              removeAffiliation={removeAffiliation}
             />
           </StyledModalMain>
         </ModalBody>

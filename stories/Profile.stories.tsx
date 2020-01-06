@@ -77,6 +77,8 @@ storiesOf('Account/Modals', module).add('Profile', () => (
     saveUserProfileAvatar={action('save user avatar')}
     deleteUserProfileAvatar={action('delete user profile')}
     createAffiliation={action('create new affiliation')}
+    updateAffiliation={action('update affiliations')}
+    removeAffiliation={action('remove affiliations')}
   />
 ))
 
