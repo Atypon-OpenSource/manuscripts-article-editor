@@ -53,6 +53,7 @@ const unsupportedObjectTypes: ObjectTypes[] = [
   ObjectTypes.Invitation,
   ObjectTypes.ManuscriptTemplate,
   ObjectTypes.CommentAnnotation,
+  ObjectTypes.LibraryCollection,
 ]
 
 const figureHasAttachment = (model: Figure, zip: JSZip): boolean => {
