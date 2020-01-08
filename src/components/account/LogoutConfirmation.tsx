@@ -12,9 +12,10 @@
 
 import { RxDatabase } from '@manuscripts/rxdb'
 import { Category, Dialog } from '@manuscripts/style-guide'
-import React, { useCallback, useState } from 'react'
+import React, { Fragment, useCallback, useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { Collections } from '../../collections'
+import { useCrisp } from '../../hooks/use-crisp'
 import CollectionManager from '../../sync/CollectionManager'
 import zombieCollections from '../../sync/ZombieCollections'
 
@@ -30,12 +31,6 @@ const headers = {
   gaveup: 'Unable to sync your changes',
 }
 
-const messages = {
-  checking: 'Checking…',
-  unsynced: 'Attemping to sync…',
-  gaveup: 'If you sign out, your changes will be lost.',
-}
-
 interface Props {
   db: RxDatabase<Collections>
 }
@@ -45,6 +40,7 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
   history,
   db,
 }) => {
+  const { open: openCrisp } = useCrisp()
   const [confirmationStage, setConfirmationStage] = useState<ConfirmationStage>(
     'ready'
   )
@@ -76,11 +72,34 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
     checkAndTryResync().catch(() => setConfirmationStage('gaveup'))
   }, [])
 
+  const message = (() => {
+    switch (confirmationStage) {
+      case 'gaveup':
+        return (
+          <Fragment>
+            <span>If you sign out, your changes will be lost.</span>
+            <a role="button" onClick={openCrisp}>
+              Chat with support
+            </a>
+          </Fragment>
+        )
+
+      case 'unsynced':
+        return 'Attempting to sync…'
+
+      case 'checking':
+        return 'Checking…'
+    }
+
+    return ''
+  })()
+
   return (
     <LogoutConfirmationContext.Provider value={handleLogout}>
       {confirmationStage !== 'ready' && (
         <Dialog
           isOpen={true}
+          message={message}
           actions={{
             primary: {
               action: () => history.push('/logout'),
@@ -94,7 +113,6 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
           }}
           category={Category.error}
           header={headers[confirmationStage]}
-          message={messages[confirmationStage]}
         />
       )}
 
