@@ -1730,6 +1730,15 @@
     deepmerge "^3.2.0"
     js-beautify "^1.9.0"
 
+"@manuscripts/manuscripts-json-schema@^1.20.0":
+  version "1.20.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.20.0.tgz#5db6d31ec758e4b319ad2261be738ac2c08f2771"
+  integrity sha512-OPJc77slRY8Uc7xV+JlpDHw0duyZUiLBkRABT+eQNBcfhoiIJkx7lHJ0SdkDHerEBJVwzKc8DTgy276Vboca6A==
+  dependencies:
+    ajv "^6.10.0"
+    deepmerge "^3.2.0"
+    js-beautify "^1.9.0"
+
 "@manuscripts/pouchdb-adapter-http@7.0.0-manuscripts0":
   version "7.0.0-manuscripts0"
   resolved "https://registry.npmjs.org/@manuscripts/pouchdb-adapter-http/-/pouchdb-adapter-http-7.0.0-manuscripts0.tgz#2a8b39865122cac54bf40ad71829ca80138d61f9"
@@ -1790,10 +1799,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.16.0":
-  version "0.16.0"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.16.0.tgz#d2f23f6df1c7fb8a8a599a795dca56aaa7ec8b6d"
-  integrity sha512-AO8yLjcS5WfTa+0JWXJ6pVF6VMV6LglM7B4+DaYWkbYK97FUwLhRygbo2Vpl6H7KteC3wL0SUHtyqzYzOPYftg==
+"@manuscripts/style-guide@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.16.1.tgz#aa58b5435563b3a80cfebd3e6e684241dceb198a"
+  integrity sha512-u9KxhYpCNZ5m7zDv9mIzhteEnXJKNV+OUpcSsQXMgIhvfhcNgXxUXJvf+uJBcfnY97PEqFlzsIBKLbLuUkPaGg==
   dependencies:
     "@manuscripts/assets" "^0.6.1"
     lodash-es "^4.17.15"
