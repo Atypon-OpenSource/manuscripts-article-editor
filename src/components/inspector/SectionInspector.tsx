@@ -23,8 +23,10 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
+import { chooseSectionCategory } from '../../lib/section-categories'
 import { styled } from '../../theme/styled-components'
 import { InspectorSection, Subheading } from '../InspectorSection'
+import { CategoryInput } from '../projects/CategoryInput'
 import { CountInput } from '../projects/CountInput'
 
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
@@ -118,6 +120,15 @@ export const SectionInspector: React.FC<{
           Title is shown
         </label>
       </div>
+
+      <Subheading>Category</Subheading>
+
+      <CategoryInput
+        value={chooseSectionCategory(section)}
+        handleChange={(category: string) => {
+          dispatchNodeAttrs(section._id, { category })
+        }}
+      />
 
       <Subheading>Requirements</Subheading>
 

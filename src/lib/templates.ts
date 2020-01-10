@@ -152,6 +152,10 @@ export const buildSectionFromDescription = (
   section.title =
     sectionTitle.substr(0, 1).toUpperCase() + sectionTitle.substr(1)
 
+  if (sectionCategory) {
+    section.category = sectionCategory._id
+  }
+
   const choosePlaceholder = (): string | undefined => {
     if (sectionDescription.placeholder) {
       return sectionDescription.placeholder
