@@ -31,7 +31,7 @@ import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import UserProjectsData from '../../data/UserProjectsData'
 import { buildCollaboratorProfiles } from '../../lib/collaborators'
-import { buildContainerInvitations } from '../../lib/invitation'
+import { buildInvitations } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
 import { lastOpenedManuscriptID } from '../../lib/user-project'
 import Sync from '../../sync/Sync'
@@ -431,16 +431,9 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                                 {containerInvitations => (
                                                                   <CollaboratorsPageContainer
                                                                     {...props}
-                                                                    invitations={[
-                                                                      ...buildContainerInvitations(
-                                                                        invitations
-                                                                      ),
-                                                                      ...containerInvitations,
-                                                                    ].filter(
-                                                                      invitation =>
-                                                                        invitation.containerID.startsWith(
-                                                                          'MPProject'
-                                                                        )
+                                                                    invitations={buildInvitations(
+                                                                      invitations,
+                                                                      containerInvitations
                                                                     )}
                                                                     project={
                                                                       project
@@ -486,16 +479,9 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                                     {projects => (
                                                                       <AddCollaboratorsPageContainer
                                                                         {...props}
-                                                                        invitations={[
-                                                                          ...buildContainerInvitations(
-                                                                            invitations
-                                                                          ),
-                                                                          ...containerInvitations,
-                                                                        ].filter(
-                                                                          invitation =>
-                                                                            invitation.containerID.startsWith(
-                                                                              'MPProject'
-                                                                            )
+                                                                        invitations={buildInvitations(
+                                                                          invitations,
+                                                                          containerInvitations
                                                                         )}
                                                                         project={
                                                                           project

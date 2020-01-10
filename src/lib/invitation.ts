@@ -15,6 +15,9 @@ import {
   ProjectInvitation,
 } from '@manuscripts/manuscripts-json-schema'
 
+interface GroupedInvitations {
+  [key: string]: ContainerInvitation[]
+}
 export const buildContainerInvitations = (invitations: ProjectInvitation[]) => {
   const containerInvitations: ContainerInvitation[] = []
 
@@ -28,4 +31,61 @@ export const buildContainerInvitations = (invitations: ProjectInvitation[]) => {
     })
   }
   return containerInvitations
+}
+
+export const groupInvitations = (
+  invitations: ContainerInvitation[],
+  groupBy: string
+) => {
+  const groupedInvitations: GroupedInvitations = {}
+  invitations.forEach(invitation => {
+    const key =
+      groupBy === 'Container'
+        ? invitation.containerID
+        : invitation.invitedUserEmail
+
+    if (!groupedInvitations[key]) {
+      groupedInvitations[key] = []
+    }
+    groupedInvitations[key].push(invitation)
+  })
+  return groupedInvitations
+}
+
+export const findLeastLimitingInvitation = (
+  invitations: ContainerInvitation[]
+) => {
+  invitations.sort(compareInvitationsRoles)
+  return invitations[invitations.length - 1]
+}
+
+export const buildInvitations = (
+  invitations: ProjectInvitation[],
+  containerInvitations: ContainerInvitation[]
+) => {
+  const allInvitations = [
+    ...buildContainerInvitations(invitations),
+    ...containerInvitations,
+  ].filter(invitation => invitation.containerID.startsWith('MPProject'))
+
+  const invitationsByInvitedUser = groupInvitations(allInvitations, 'User')
+
+  const leastLimitingInvitations: ContainerInvitation[] = []
+
+  for (const invitations of Object.values(invitationsByInvitedUser)) {
+    leastLimitingInvitations.push(findLeastLimitingInvitation(invitations))
+  }
+
+  return leastLimitingInvitations
+}
+
+export const compareInvitationsRoles = (
+  a: ContainerInvitation,
+  b: ContainerInvitation
+) => rolePriority[a.role] - rolePriority[b.role]
+
+const rolePriority: { [key: string]: number } = {
+  Owner: 2,
+  Writer: 1,
+  Viewer: 0,
 }

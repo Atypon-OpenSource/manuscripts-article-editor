@@ -24,7 +24,11 @@ import ProjectsInvitationsData from '../../data/ProjectsInvitationsData'
 import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
-import { buildContainerInvitations } from '../../lib/invitation'
+import {
+  buildContainerInvitations,
+  findLeastLimitingInvitation,
+  groupInvitations,
+} from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
 import { styled } from '../../theme/styled-components'
 import { acceptInvitationErrorMessage } from '../Messages'
@@ -129,8 +133,23 @@ class ProjectsButton extends React.Component<Props, State> {
                             invitation.containerID.startsWith('MPProject')
                           )
 
-                          const invitationsData = this.buildInvitationData(
+                          const invitationsByContainer = groupInvitations(
                             allInvitations,
+                            'Container'
+                          )
+
+                          const leastLimitingInvitations: ContainerInvitation[] = []
+
+                          for (const invitations of Object.values(
+                            invitationsByContainer
+                          )) {
+                            leastLimitingInvitations.push(
+                              findLeastLimitingInvitation(invitations)
+                            )
+                          }
+
+                          const invitationsData = this.buildInvitationData(
+                            leastLimitingInvitations,
                             user
                           )
 
@@ -178,7 +197,7 @@ class ProjectsButton extends React.Component<Props, State> {
                               }
                             >
                               <ProjectsMenu
-                                invitationsData={invitationsData}
+                                invitationsData={filteredInvitationsData}
                                 projects={projects}
                                 removeInvitationData={this.removeInvitationData}
                                 acceptedInvitations={acceptedInvitations}
