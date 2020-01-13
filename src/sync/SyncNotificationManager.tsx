@@ -67,7 +67,13 @@ const SyncNotificationManager: NotificationComponent = ({
   const composeErrorReport = useCallback(() => {
     return JSON.stringify({
       version: config.version,
-      events: state.allEvents,
+      events: state.allEvents.map(event => ({
+        direction: event.direction,
+        operation: event.operation,
+        isLive: event.isLive,
+        collection: event.collection,
+        error: event.error && event.error.toString(),
+      })),
     })
   }, [state.allEvents])
 
