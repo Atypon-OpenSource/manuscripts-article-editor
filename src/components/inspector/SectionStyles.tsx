@@ -18,8 +18,10 @@ import {
   ObjectTypes,
   ParagraphStyle,
 } from '@manuscripts/manuscripts-json-schema'
+import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
 import React from 'react'
 import {
+  DEFAULT_PART_OF_TOC,
   DEFAULT_SECTION_NUMBERING_STYLE,
   DEFAULT_SECTION_NUMBERING_SUFFIX,
   DEFAULT_SECTION_START_INDEX,
@@ -77,7 +79,10 @@ export const SectionStyles: React.FC<{
   setError,
   title,
 }) => {
-  const { sectionNumberingStyle = buildNumberingStyle() } = paragraphStyle
+  const {
+    partOfTOC,
+    sectionNumberingStyle = buildNumberingStyle(),
+  } = paragraphStyle
 
   return (
     <InspectorSection title={title}>
@@ -187,6 +192,27 @@ export const SectionStyles: React.FC<{
                   })
                 }}
               />
+            </InspectorField>
+
+            <InspectorField>
+              <InspectorLabel />
+
+              <CheckboxField
+                name={'part-of-toc'}
+                id={'part-of-toc'}
+                checked={defaultValue<boolean>(partOfTOC, DEFAULT_PART_OF_TOC)}
+                disabled={paragraphStyle.name === 'heading1'}
+                onChange={event => {
+                  saveParagraphStyle({
+                    ...paragraphStyle,
+                    partOfTOC: event.target.checked,
+                  })
+                }}
+              />
+
+              <CheckboxLabel htmlFor={'part-of-toc'}>
+                Include in Table of Contents
+              </CheckboxLabel>
             </InspectorField>
           </InspectorTabPanel>
         </InspectorTabPanels>

@@ -33,6 +33,7 @@ export const DEFAULT_LIST_NUMBERING_SUFFIX = '.'
 export const DEFAULT_LIST_START_INDEX = 1
 export const DEFAULT_MARGIN_BOTTOM = 0
 export const DEFAULT_MARGIN_TOP = 12
+export const DEFAULT_PART_OF_TOC = true
 export const DEFAULT_SECTION_NUMBERING_STYLE = 'decimal'
 export const DEFAULT_SECTION_START_INDEX = 1
 export const DEFAULT_SECTION_NUMBERING_SUFFIX = '.'
@@ -98,7 +99,7 @@ export const listLevels = ['1', '2', '3', '4', '5', '6']
 
 // const lastLevel = listLevels[listLevels.length - 1]
 
-export type ListBulletStyle = 'disc' | 'circle' | 'square'
+export type ListBulletStyle = 'disc' | 'circle' | 'square' | 'none'
 
 export const listBulletStyles: {
   [key in ListBulletStyle]: {
@@ -117,6 +118,10 @@ export const listBulletStyles: {
   square: {
     css: 'square',
     label: '■',
+  },
+  none: {
+    css: 'none',
+    label: '',
   },
 }
 
@@ -312,11 +317,11 @@ const listStyles = (model: ParagraphStyle): string => {
 
     const startIndex = chooseListNumberingStartIndex(model, level)
 
-    styles.push(`${listSelector} { 
+    styles.push(`${listSelector} {
       counter-reset: list-level-${level} ${startIndex - 1};
     }`)
 
-    styles.push(`${listSelector} > li { 
+    styles.push(`${listSelector} > li {
       counter-increment: list-level-${level};
     }`)
 
@@ -462,7 +467,7 @@ export const buildParagraphStyles = (
   model: ParagraphStyle,
   colors: Map<string, Color>
 ) => `
-      [paragraphstyle="${model._id}"] {
+      [data-paragraph-style="${model._id}"] {
         font-size: ${fontSize(model)}pt;
         font-style: ${fontStyle(model)};
         font-weight: ${fontWeight(model)};
@@ -480,13 +485,13 @@ export const buildParagraphStyles = (
         }
       }
 
-      ol[paragraphstyle="${model._id}"] {
+      ol[data-paragraph-style="${model._id}"] {
         margin-left: ${listIndent(model)}pt !important;
 
         ${orderedListRootStyles(model)}
       }
 
-      ul[paragraphstyle="${model._id}"] {
+      ul[data-paragraph-style="${model._id}"] {
         margin-left: ${listIndent(model)}pt !important;
 
         ${bulletListRootStyles(model)}
@@ -510,23 +515,28 @@ const headingCounter = (model: ParagraphStyle, depth: number) => {
   return `${content} "${numberingSuffix} "`
 }
 
+// TODO: use a ParagraphStyle property?
+const includeInNumberingSelector = ':not(.toc)'
+
 export const buildHeadingStyles = (
   model: ParagraphStyle,
   colors: Map<string, Color>,
   depth: number
 ) => {
-  const sectionSelector = `.ProseMirror ${'> section '.repeat(depth)}`
+  const sectionSelector = `.ProseMirror ${'> section '.repeat(depth)}`.trim()
 
   const titleSelector = `${sectionSelector} > .block-section_title > h1`
+
+  const titleContentSelector = `${sectionSelector}${includeInNumberingSelector} > .block-section_title > h1`
 
   const headingCounterContent = headingCounter(model, depth)
 
   return `
-    ${sectionSelector} {
+    ${sectionSelector}${includeInNumberingSelector} {
       counter-increment: section-${depth};
       counter-reset: section-${depth + 1};
     }
-  
+
     ${titleSelector} {
       font-size: ${fontSize(model)}pt !important;
       font-style: ${fontStyle(model)} !important;
@@ -538,12 +548,12 @@ export const buildHeadingStyles = (
       line-height: ${lineHeight(model)};
       text-indent: ${textIndent(model)}pt;
     }
-    
-    ${titleSelector}::before {
+
+    ${titleContentSelector}::before {
       content: ${headingCounterContent};
     }
-    
-    ${titleSelector}.empty-node[data-placeholder]::before {
+
+    ${titleContentSelector}.empty-node[data-placeholder]::before {
       content: ${headingCounterContent} attr(data-placeholder);
     }
   `

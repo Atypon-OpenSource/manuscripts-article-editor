@@ -1668,15 +1668,15 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.57.0":
-  version "0.57.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.57.0.tgz#dcba3b3fafacc5a7d94f50738382fa209763767d"
-  integrity sha512-RM/Nrz6UE6q3QMhgzumlcHsr4IlQ47P/Dm0D203aTa9A7drUHMhycshs4NTyUeeD563L0xiJ3H3fx7lnC/LYnQ==
+"@manuscripts/manuscript-editor@^0.58.0":
+  version "0.58.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.58.0.tgz#d645e42467cd498ad997999d40fd913d294c0696"
+  integrity sha512-qkVAhRpTyUkH25Y7V2TLiKZtWxRpu9qD/9/+rhj91/ipkp7g+9MkIeYn4D8bkiLywmvCd754GUDDYqNsYh5GFg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
-    "@manuscripts/manuscripts-json-schema" "^1.18.5"
+    "@manuscripts/manuscripts-json-schema" "^1.19.0"
     "@manuscripts/title-editor" "^0.3.3"
     astrocite-eutils "^0.16.0"
     axios "^0.19.0"
@@ -1684,7 +1684,7 @@
     citeproc "^2.2.30"
     codemirror "^5.48.0"
     crypto-hash "^1.2.1"
-    dompurify "^2.0.0"
+    dompurify "^2.0.7"
     grapheme-splitter "^1.0.4"
     lodash-es "^4.17.11"
     mathjax-full "^3.0.0"
@@ -1711,26 +1711,17 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.20.0":
-  version "0.20.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.20.0.tgz#0da0fe70fbe514240070770938bd8d4ad6abe164"
-  integrity sha512-ePUz4Xy0Acp07exnUe81RQeWCALiyToEq/pVHGVB5TQRIOYCINMvX6JutdFtd28+q780++h5x/cIR4YaGCBEmA==
+"@manuscripts/manuscript-transform@^0.21.0":
+  version "0.21.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.21.0.tgz#fd1172fc2e081b064b0e92d7a5e2a2bd619fdf51"
+  integrity sha512-BkRWdJpNMVsvDWMJOhevxUrCDZzkeacO6cPVHaEGW96c4Vv9VHCIMppshxVJLHyKiPsBhZhf65SVymNJud7ACQ==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"
     uuid "^3.3.2"
     w3c-xmlserializer "^1.1.2"
 
-"@manuscripts/manuscripts-json-schema@^1.18.5":
-  version "1.18.5"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.18.5.tgz#11354ef9bb8edce057e9b043644105512fe4e0f9"
-  integrity sha512-9+Y6Lz04HWrfs257/Fqh6juNu/cku0bhrPodJ4XUE/yiaSKUdMNgUKOW+yBXICJ37JlVejysGHFiqujIeq6ijg==
-  dependencies:
-    ajv "^6.10.0"
-    deepmerge "^3.2.0"
-    js-beautify "^1.9.0"
-
-"@manuscripts/manuscripts-json-schema@^1.20.0":
+"@manuscripts/manuscripts-json-schema@^1.19.0", "@manuscripts/manuscripts-json-schema@^1.20.0":
   version "1.20.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.20.0.tgz#5db6d31ec758e4b319ad2261be738ac2c08f2771"
   integrity sha512-OPJc77slRY8Uc7xV+JlpDHw0duyZUiLBkRABT+eQNBcfhoiIJkx7lHJ0SdkDHerEBJVwzKc8DTgy276Vboca6A==
@@ -2558,10 +2549,12 @@
   resolved "https://registry.npmjs.org/@types/debug/-/debug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
   integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
 
-"@types/dompurify@^0.0.33":
-  version "0.0.33"
-  resolved "https://registry.npmjs.org/@types/dompurify/-/dompurify-0.0.33.tgz#bec490ba5a5b4b31679fb9e5a70e4d2f405516bd"
-  integrity sha512-lUN9iC6b4txeaEef2PW7zIdhEKAp0Sw9bymOcXXZ7BaepB0nsDJYcLIrFfgpIkRSoZWBJ8IcYunB2hAXuHL1NA==
+"@types/dompurify@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@types/dompurify/-/dompurify-2.0.1.tgz#0bf3a9f8ee21d81adb20b8c374ab034d6a74dbf7"
+  integrity sha512-OQ16dECrRv/I//woKkVUxyVGYR94W3qp3Wy//B63awHVe3h/1/URFqP5a/V2m4k01DEvWs1+z7FWW3xfM1lH3Q==
+  dependencies:
+    "@types/trusted-types" "*"
 
 "@types/dotenv@^6.1.1":
   version "6.1.1"
@@ -3119,6 +3112,11 @@
   version "2.3.5"
   resolved "https://registry.npmjs.org/@types/tough-cookie/-/tough-cookie-2.3.5.tgz#9da44ed75571999b65c37b60c9b2b88db54c585d"
   integrity sha512-SCcK7mvGi3+ZNz833RRjFIxrn4gI1PPR3NtuIS+6vMkvmsGjosqTJwRt5bAEFLRz+wtJMWv8+uOnZf2hi2QXTg==
+
+"@types/trusted-types@*":
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/@types/trusted-types/-/trusted-types-1.0.4.tgz#922d092c84a776a59acb0bd6785fd82b59b9bad5"
+  integrity sha512-6jtHrHpmiXOXoJ31Cg9R+iEVwuEKPf0XHwFUI93eEPXx492/J2JHyafkleKE2EYzZprayk9FSjTyK1GDqcwDng==
 
 "@types/uglify-js@*":
   version "3.0.4"
@@ -7362,10 +7360,10 @@ domhandler@^2.3.0:
   dependencies:
     domelementtype "1"
 
-dompurify@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/dompurify/-/dompurify-2.0.0.tgz#2afb46460fc3f72096f4e77537edd9811dcdf512"
-  integrity sha512-i8LWSIMDpGmv7AbOcQOyy54L4TrRhjs6yrSessoNeYspsAtgaKiiGeBAG5959qLfhGvyndkHeyZWxx0dd4iDxw==
+dompurify@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.npmjs.org/dompurify/-/dompurify-2.0.7.tgz#f8266ad38fe1602fb5b3222f31eedbf5c16c4fd5"
+  integrity sha512-S3O0lk6rFJtO01ZTzMollCOGg+WAtCwS3U5E2WSDY/x/sy7q70RjEC4Dmrih5/UqzLLB9XoKJ8KqwBxaNvBu4A==
 
 domutils@1.5.1:
   version "1.5.1"

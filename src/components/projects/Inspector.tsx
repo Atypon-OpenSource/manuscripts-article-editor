@@ -52,6 +52,7 @@ export const Inspector: React.FC<{
   createKeyword: (name: string) => Promise<Keyword>
   deleteModel: (id: string) => Promise<string>
   dispatchNodeAttrs: (id: string, attrs: object) => void
+  dispatchUpdate: () => void
   doc: ActualManuscriptNode
   element?: AnyElement
   getCollaborator: (id: string) => UserProfile | undefined
@@ -76,6 +77,7 @@ export const Inspector: React.FC<{
   createKeyword,
   deleteModel,
   dispatchNodeAttrs,
+  dispatchUpdate,
   doc,
   element,
   getCollaborator,
@@ -152,10 +154,10 @@ export const Inspector: React.FC<{
             )}
             {section && (
               <SectionStyleInspector
-                manuscript={manuscript}
                 section={section}
                 modelMap={modelMap}
                 saveModel={saveModel}
+                dispatchUpdate={dispatchUpdate}
               />
             )}
           </InspectorTabPanel>

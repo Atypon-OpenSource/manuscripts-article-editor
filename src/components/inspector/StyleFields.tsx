@@ -45,7 +45,7 @@ export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
 export type SaveParagraphStyle = (paragraphStyle: ParagraphStyle) => void
 
-export const defaultValue = <T extends number | string>(
+export const defaultValue = <T extends number | string | boolean>(
   value: T | undefined,
   defaultValue: T
 ): T => (value === undefined ? defaultValue : value)

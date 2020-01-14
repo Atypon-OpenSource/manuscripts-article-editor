@@ -547,6 +547,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               createKeyword={this.createKeyword}
               deleteModel={this.deleteModel}
               dispatchNodeAttrs={this.dispatchNodeAttrs}
+              dispatchUpdate={this.dispatchUpdate}
               doc={doc}
               element={element}
               getCollaborator={this.getCollaborator}

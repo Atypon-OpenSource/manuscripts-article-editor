@@ -2,7 +2,7 @@
 
 exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
 "
-      [paragraphstyle=\\"MPParagraphStyle:74D17A3A-33C0-43EB-9389-51335C698744\\"] {
+      [data-paragraph-style=\\"MPParagraphStyle:74D17A3A-33C0-43EB-9389-51335C698744\\"] {
         font-size: 12pt;
         font-style: normal;
         font-weight: normal;
@@ -12,22 +12,22 @@ exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
         margin-bottom: 10pt !important;
         line-height: 2;
         text-indent: 0pt;
-        .list  { 
+        .list  {
       counter-reset: list-level-2 0;
     }
-.list  > li { 
+.list  > li {
       counter-increment: list-level-2;
     }
  > li > ol > li::before {
         content: \\"\\" counter(list-level-2, none) \\".\\";
       }
  > li > ul {
-        list-style-type: disc;
+        list-style-type: none;
       }
-.list .list  { 
+.list .list  {
       counter-reset: list-level-3 0;
     }
-.list .list  > li { 
+.list .list  > li {
       counter-increment: list-level-3;
     }
 .list  > li > ol > li::before {
@@ -36,10 +36,10 @@ exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
 .list  > li > ul {
         list-style-type: disc;
       }
-.list .list .list  { 
+.list .list .list  {
       counter-reset: list-level-4 0;
     }
-.list .list .list  > li { 
+.list .list .list  > li {
       counter-increment: list-level-4;
     }
 .list .list  > li > ol > li::before {
@@ -48,10 +48,10 @@ exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
 .list .list  > li > ul {
         list-style-type: disc;
       }
-.list .list .list .list  { 
+.list .list .list .list  {
       counter-reset: list-level-5 0;
     }
-.list .list .list .list  > li { 
+.list .list .list .list  > li {
       counter-increment: list-level-5;
     }
 .list .list .list  > li > ol > li::before {
@@ -60,10 +60,10 @@ exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
 .list .list .list  > li > ul {
         list-style-type: disc;
       }
-.list .list .list .list .list  { 
+.list .list .list .list .list  {
       counter-reset: list-level-6 0;
     }
-.list .list .list .list .list  > li { 
+.list .list .list .list .list  > li {
       counter-increment: list-level-6;
     }
 .list .list .list .list  > li > ol > li::before {
@@ -79,7 +79,7 @@ exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
         }
       }
 
-      ol[paragraphstyle=\\"MPParagraphStyle:74D17A3A-33C0-43EB-9389-51335C698744\\"] {
+      ol[data-paragraph-style=\\"MPParagraphStyle:74D17A3A-33C0-43EB-9389-51335C698744\\"] {
         margin-left: 0pt !important;
 
         counter-reset: list-level-1 0;> li { counter-increment: list-level-1 };> li::before {
@@ -87,10 +87,10 @@ exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
     }
       }
 
-      ul[paragraphstyle=\\"MPParagraphStyle:74D17A3A-33C0-43EB-9389-51335C698744\\"] {
+      ul[data-paragraph-style=\\"MPParagraphStyle:74D17A3A-33C0-43EB-9389-51335C698744\\"] {
         margin-left: 0pt !important;
 
-        counter-reset: list-level-1;> li { counter-increment: list-level-1 };list-style-type: disc
+        counter-reset: list-level-1;> li { counter-increment: list-level-1 };list-style-type: none
       }
     "
 `;

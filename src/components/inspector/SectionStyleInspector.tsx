@@ -11,7 +11,6 @@
  */
 
 import {
-  Manuscript,
   Model,
   ParagraphStyle,
   Section,
@@ -26,10 +25,10 @@ type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
 export const SectionStyleInspector: React.FC<{
   section: Section
-  manuscript: Manuscript
   modelMap: Map<string, Model>
   saveModel: SaveModel
-}> = ({ section, manuscript, modelMap, saveModel }) => {
+  dispatchUpdate: () => void
+}> = ({ section, dispatchUpdate, modelMap, saveModel }) => {
   const [error, setError] = useState<Error>()
 
   const [paragraphStyle, setParagraphStyle] = useState<ParagraphStyle>()
@@ -75,10 +74,15 @@ export const SectionStyleInspector: React.FC<{
   const saveParagraphStyle = (paragraphStyle: ParagraphStyle) => {
     setParagraphStyle(paragraphStyle)
 
-    return saveModel<ParagraphStyle>(paragraphStyle).catch(error => {
-      // TODO: restore previous paragraphStyle?
-      setError(error)
-    })
+    return saveModel<ParagraphStyle>(paragraphStyle)
+      .then(() => {
+        // TODO: set meta
+        dispatchUpdate() // TODO: do this when receiving an updated paragraph style instead?
+      })
+      .catch(error => {
+        // TODO: restore previous paragraphStyle?
+        setError(error)
+      })
   }
 
   const titlePrefix =
