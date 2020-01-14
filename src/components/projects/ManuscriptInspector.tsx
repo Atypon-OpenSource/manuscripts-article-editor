@@ -24,6 +24,7 @@ import {
 import React from 'react'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CountInput } from './CountInput'
+import { KeywordsInput } from './KeywordsInput'
 
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
@@ -101,6 +102,14 @@ export const ManuscriptInspector: React.FC<Props> = ({
 
   return (
     <InspectorSection title={'Manuscript'}>
+      <Subheading>Keywords</Subheading>
+
+      <KeywordsInput
+        manuscript={manuscript}
+        modelMap={modelMap}
+        saveModel={saveModel}
+      />
+
       <Subheading>Requirements</Subheading>
 
       <CountInput
