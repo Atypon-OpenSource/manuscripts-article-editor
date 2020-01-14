@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Build, generateID } from '@manuscripts/manuscript-transform'
+import {
+  Build,
+  generateID,
+  SectionNode,
+} from '@manuscripts/manuscript-transform'
 import {
   CountRequirement,
   MaximumSectionCharacterCountRequirement,
@@ -60,9 +64,10 @@ const buildCountRequirement = <T extends CountRequirement>(
 export const SectionInspector: React.FC<{
   dispatchNodeAttrs: (id: string, attrs: object) => void
   section: Section
+  sectionNode?: SectionNode
   modelMap: Map<string, Model>
   saveModel: SaveModel
-}> = ({ dispatchNodeAttrs, section, modelMap, saveModel }) => {
+}> = ({ dispatchNodeAttrs, section, sectionNode, modelMap, saveModel }) => {
   const setTitleSuppressed = useCallback(
     (titleSuppressed: boolean) => {
       dispatchNodeAttrs(section._id, { titleSuppressed })
@@ -108,18 +113,20 @@ export const SectionInspector: React.FC<{
     <InspectorSection title={'Section'}>
       <StyledTitle value={section.title} />
 
-      <div>
-        <label>
-          <input
-            type={'checkbox'}
-            checked={!section.titleSuppressed}
-            onChange={event => {
-              setTitleSuppressed(!event.target.checked)
-            }}
-          />{' '}
-          Title is shown
-        </label>
-      </div>
+      {sectionNode && 'titleSuppressed' in sectionNode.attrs && (
+        <div>
+          <label>
+            <input
+              type={'checkbox'}
+              checked={!section.titleSuppressed}
+              onChange={event => {
+                setTitleSuppressed(!event.target.checked)
+              }}
+            />{' '}
+            Title is shown
+          </label>
+        </div>
+      )}
 
       <Subheading>Category</Subheading>
 

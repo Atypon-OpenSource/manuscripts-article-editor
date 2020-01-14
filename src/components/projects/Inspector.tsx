@@ -70,6 +70,7 @@ export const Inspector: React.FC<{
   selectedSection?: Selected
   setCommentTarget: () => void
   view?: ManuscriptEditorView
+  // tslint:disable-next-line:cyclomatic-complexity
 }> = ({
   bundle,
   comments,
@@ -131,6 +132,11 @@ export const Inspector: React.FC<{
             {section && view && (
               <SectionInspector
                 section={section}
+                sectionNode={
+                  selectedSection
+                    ? (selectedSection.node as SectionNode)
+                    : undefined
+                }
                 modelMap={modelMap}
                 saveModel={saveModel}
                 dispatchNodeAttrs={dispatchNodeAttrs}
