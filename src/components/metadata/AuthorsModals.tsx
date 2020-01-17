@@ -20,6 +20,7 @@ import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
+import { styled } from '../../theme/styled-components'
 import {
   AddAuthorsPage,
   AuthorDetailsPage,
@@ -31,6 +32,10 @@ import { ModalBody, StyledModalMain } from '../Sidebar'
 import AddAuthorsSidebar from './AddAuthorsSidebar'
 import { AuthorFormContainer } from './AuthorFormContainer'
 import AuthorsSidebar from './AuthorsSidebar'
+
+const ScrollableModalMain = styled(StyledModalMain)`
+  overflow-y: auto;
+`
 
 interface AuthorsProps {
   authors: Contributor[]
@@ -93,7 +98,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
       invitationSent={invitationSent}
       handleDismiss={handleDismiss}
     />
-    <StyledModalMain>
+    <ScrollableModalMain>
       {selectedAuthor ? (
         <AuthorFormContainer
           author={selectedAuthor}
@@ -117,7 +122,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
       ) : (
         <AuthorDetailsPage />
       )}
-    </StyledModalMain>
+    </ScrollableModalMain>
   </ModalBody>
 )
 
