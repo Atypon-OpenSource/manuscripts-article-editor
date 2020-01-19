@@ -1668,15 +1668,15 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.58.0":
-  version "0.58.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.58.0.tgz#d645e42467cd498ad997999d40fd913d294c0696"
-  integrity sha512-qkVAhRpTyUkH25Y7V2TLiKZtWxRpu9qD/9/+rhj91/ipkp7g+9MkIeYn4D8bkiLywmvCd754GUDDYqNsYh5GFg==
+"@manuscripts/manuscript-editor@^0.59.0":
+  version "0.59.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.59.0.tgz#5b1461a5f6aa9e952fde18242bb1e1e0e425c3dc"
+  integrity sha512-RlMPWZBYUuRVu0giUZ7doNgoQcwTuAHO3FFiJ9V8mdpU2uzuWUsGOqeDIZ//o5gGOQE0sp8iyLls2AYVSgsAVA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
-    "@manuscripts/manuscripts-json-schema" "^1.19.0"
+    "@manuscripts/manuscripts-json-schema" "^1.20.0"
     "@manuscripts/title-editor" "^0.3.3"
     astrocite-eutils "^0.16.0"
     axios "^0.19.0"
@@ -1711,17 +1711,17 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.21.0":
-  version "0.21.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.21.0.tgz#fd1172fc2e081b064b0e92d7a5e2a2bd619fdf51"
-  integrity sha512-BkRWdJpNMVsvDWMJOhevxUrCDZzkeacO6cPVHaEGW96c4Vv9VHCIMppshxVJLHyKiPsBhZhf65SVymNJud7ACQ==
+"@manuscripts/manuscript-transform@^0.21.1":
+  version "0.21.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.21.1.tgz#e2a60fd06b262b2224d3ce02def76fcb02791d16"
+  integrity sha512-7imV3CWz0aPewJhsFpwpwsvIdON62K6F9ZDyPotk/jK5OOsh3/FiA5oy7qdCOUWPtiLMtfZcMOBWbsNLpGL08w==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"
     uuid "^3.3.2"
     w3c-xmlserializer "^1.1.2"
 
-"@manuscripts/manuscripts-json-schema@^1.19.0", "@manuscripts/manuscripts-json-schema@^1.20.0":
+"@manuscripts/manuscripts-json-schema@^1.20.0":
   version "1.20.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.20.0.tgz#5db6d31ec758e4b319ad2261be738ac2c08f2771"
   integrity sha512-OPJc77slRY8Uc7xV+JlpDHw0duyZUiLBkRABT+eQNBcfhoiIJkx7lHJ0SdkDHerEBJVwzKc8DTgy276Vboca6A==
@@ -1790,10 +1790,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.16.1":
-  version "0.16.1"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.16.1.tgz#aa58b5435563b3a80cfebd3e6e684241dceb198a"
-  integrity sha512-u9KxhYpCNZ5m7zDv9mIzhteEnXJKNV+OUpcSsQXMgIhvfhcNgXxUXJvf+uJBcfnY97PEqFlzsIBKLbLuUkPaGg==
+"@manuscripts/style-guide@^0.16.2":
+  version "0.16.2"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.16.2.tgz#a5c2d37b0f4f412e89276117c1b333d103b56059"
+  integrity sha512-049k2gqFNvvb3XRKk9y5APoy9wBTy3SyLbusuGxv7bkauEF3ONN1g7rfnH5G0nIPgssHL8HVRq0ZoHkVV/vi3w==
   dependencies:
     "@manuscripts/assets" "^0.6.1"
     lodash-es "^4.17.15"

@@ -11,10 +11,7 @@
  */
 
 import SearchIcon from '@manuscripts/assets/react/SearchIcon'
-import {
-  Build,
-  buildBibliographyItem,
-} from '@manuscripts/manuscript-transform/'
+import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
