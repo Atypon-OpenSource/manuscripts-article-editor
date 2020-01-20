@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Build, generateID } from '@manuscripts/manuscript-transform'
+import {
+  Build,
+  generateID,
+  ManuscriptEditorView,
+} from '@manuscripts/manuscript-transform'
 import {
   CountRequirement,
   Manuscript,
@@ -29,12 +33,6 @@ import { KeywordsInput } from './KeywordsInput'
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
 type Buildable<T> = T | Build<T>
-
-interface Props {
-  manuscript: Manuscript
-  modelMap: Map<string, Model>
-  saveModel: SaveModel
-}
 
 export interface ManuscriptCountRequirements {
   minWordCount: Buildable<MinimumManuscriptWordCountRequirement>
@@ -60,10 +58,18 @@ const buildCountRequirement = <T extends CountRequirement>(
   return item as Build<T>
 }
 
-export const ManuscriptInspector: React.FC<Props> = ({
+export const ManuscriptInspector: React.FC<{
+  manuscript: Manuscript
+  modelMap: Map<string, Model>
+  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
+  saveModel: SaveModel
+  view: ManuscriptEditorView
+}> = ({
   manuscript,
   modelMap,
+  saveManuscript,
   saveModel,
+  view,
   // pageLayout,
 }) => {
   const getOrBuildRequirement = <T extends CountRequirement>(
@@ -107,7 +113,9 @@ export const ManuscriptInspector: React.FC<Props> = ({
       <KeywordsInput
         manuscript={manuscript}
         modelMap={modelMap}
+        saveManuscript={saveManuscript}
         saveModel={saveModel}
+        view={view}
       />
 
       <Subheading>Requirements</Subheading>

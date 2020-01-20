@@ -10,7 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Build, buildKeyword } from '@manuscripts/manuscript-transform'
+import { buildKeywordsContents } from '@manuscripts/manuscript-editor'
+import {
+  Build,
+  buildKeyword,
+  ManuscriptEditorView,
+  ManuscriptNode,
+} from '@manuscripts/manuscript-transform'
 import {
   Keyword,
   Manuscript,
@@ -29,8 +35,10 @@ interface OptionType {
 export const KeywordsInput: React.FC<{
   manuscript: Manuscript
   modelMap: Map<string, Model>
+  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   saveModel: SaveModel
-}> = React.memo(({ manuscript, modelMap, saveModel }) => {
+  view: ManuscriptEditorView
+}> = ({ manuscript, modelMap, saveManuscript, saveModel, view }) => {
   const manuscriptKeywords: Keyword[] = (manuscript.keywordIDs || [])
     .map(id => modelMap.get(id) as Keyword | undefined)
     .filter(Boolean) as Keyword[]
@@ -55,13 +63,43 @@ export const KeywordsInput: React.FC<{
           }
         }
 
-        await saveModel<Manuscript>({
-          ...manuscript,
-          keywordIDs: newValue.map(item => item.value._id),
+        const manuscriptKeywords = newValue.map(item => item.value) as Keyword[]
+
+        await saveManuscript({
+          keywordIDs: manuscriptKeywords.map(item => item._id),
         })
+
+        const keywordsElements: Array<{
+          node: ManuscriptNode
+          pos: number
+        }> = []
+
+        const { tr } = view.state
+
+        tr.doc.descendants((node, pos) => {
+          if (node.type === node.type.schema.nodes.keywords_element) {
+            keywordsElements.push({
+              node,
+              pos,
+            })
+          }
+        })
+
+        if (keywordsElements.length) {
+          const contents = buildKeywordsContents(manuscript, manuscriptKeywords)
+
+          for (const { node, pos } of keywordsElements) {
+            tr.setNodeMarkup(pos, undefined, {
+              ...node.attrs,
+              contents,
+            })
+          }
+
+          view.dispatch(tr)
+        }
       }}
       options={manuscriptOptions}
       value={manuscriptOptions}
     />
   )
-})
+}

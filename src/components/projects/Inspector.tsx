@@ -64,6 +64,7 @@ export const Inspector: React.FC<{
   manuscript: Manuscript
   modelMap: Map<string, Model>
   openCitationStyleSelector: () => void
+  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   saveModel: SaveModel
   section?: Section
   selected: Selected | null
@@ -90,6 +91,7 @@ export const Inspector: React.FC<{
   manuscript,
   modelMap,
   openCitationStyleSelector,
+  saveManuscript,
   saveModel,
   section,
   selected,
@@ -124,11 +126,15 @@ export const Inspector: React.FC<{
                   : undefined
               }
             />
-            <ManuscriptInspector
-              manuscript={manuscript}
-              modelMap={modelMap}
-              saveModel={saveModel}
-            />
+            {view && (
+              <ManuscriptInspector
+                manuscript={manuscript}
+                modelMap={modelMap}
+                saveManuscript={saveManuscript}
+                saveModel={saveModel}
+                view={view}
+              />
+            )}
             {section && view && (
               <SectionInspector
                 section={section}

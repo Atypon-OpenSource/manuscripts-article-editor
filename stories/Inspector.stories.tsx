@@ -13,6 +13,8 @@
 import data from '@manuscripts/examples/data/project-dump.json'
 import {
   ActualManuscriptNode,
+  ManuscriptEditorState,
+  ManuscriptEditorView,
   SectionNode,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -79,6 +81,13 @@ const defaultParagraphStyle = bodyTextParagraphStyles.find(
   style => style.kind === 'body'
 )!
 
+const state = {}
+
+const view = {
+  dispatch: action('dispatch'),
+  state: state as ManuscriptEditorState,
+}
+
 storiesOf('Inspector', module).add('tabs', () => (
   <div style={{ width: 500 }}>
     <Tabs>
@@ -104,7 +113,9 @@ storiesOf('Inspector/Manuscript Inspector', module).add(
       <ManuscriptInspector
         modelMap={modelMap}
         manuscript={manuscript}
+        saveManuscript={action('save manuscript')}
         saveModel={action('save')}
+        view={view as ManuscriptEditorView}
       />
     </div>
   )

@@ -559,6 +559,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               manuscript={manuscript}
               modelMap={modelMap}
               openCitationStyleSelector={this.openCitationStyleSelector}
+              saveManuscript={this.saveManuscript}
               saveModel={this.saveModel}
               section={section}
               selected={selected}

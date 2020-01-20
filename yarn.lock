@@ -1668,10 +1668,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.59.0":
-  version "0.59.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.59.0.tgz#5b1461a5f6aa9e952fde18242bb1e1e0e425c3dc"
-  integrity sha512-RlMPWZBYUuRVu0giUZ7doNgoQcwTuAHO3FFiJ9V8mdpU2uzuWUsGOqeDIZ//o5gGOQE0sp8iyLls2AYVSgsAVA==
+"@manuscripts/manuscript-editor@^0.59.1":
+  version "0.59.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.59.1.tgz#92f2031e41d5d81d1f7059c92cf2cf72da8129ca"
+  integrity sha512-Q0LfXD8oSOmwZyIUur28+pXuCJiIGqjF6fm/pcot+J9NOtgbwQpILD5M/FqSo0P+bRaXoYo4RVbVtK2g2OrfIA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1711,10 +1711,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.21.1.tgz#e2a60fd06b262b2224d3ce02def76fcb02791d16"
-  integrity sha512-7imV3CWz0aPewJhsFpwpwsvIdON62K6F9ZDyPotk/jK5OOsh3/FiA5oy7qdCOUWPtiLMtfZcMOBWbsNLpGL08w==
+"@manuscripts/manuscript-transform@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.21.2.tgz#1ef8f8c6fb0aff09269f2518313639efcbe2f08b"
+  integrity sha512-TsMOEdOyt81Yu9K8sG/mNlMkjKjqgAVOq6QkPJnmg6pKKArZZCeSark0jxz8LY7oC2giBnAwQdhNEnw4259szg==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"
@@ -1803,10 +1803,10 @@
     react-sizeme "^2.6.10"
     tooltip.js "^1.3.3"
 
-"@manuscripts/sync-client@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.5.0.tgz#6446f8976ddf7e4f4c1e4a936c9a6746cb8dd89c"
-  integrity sha512-qrja9aDIIRIffYTW/fMr7bHmcA7G8May6ks3/qaXcTxZy3td7RGt0sp8gg8nTj3gwKo4GUiFGrlOsCeU250ifw==
+"@manuscripts/sync-client@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.5.1.tgz#d9457cfa461d919157c1fc9971ba61e53f1e50d6"
+  integrity sha512-2LoVHBZu5OOt/Nahl1SSYR6TG7kLO1ibHk75/XvpRYckVm9b0luF8S1SlqFELTZ9Cj5tLqn1W1gAm+bcqNJdkA==
   dependencies:
     "@manuscripts/prosemirror-recreate-steps" "^0.1.4"
     lodash.isequal "^4.5.0"
