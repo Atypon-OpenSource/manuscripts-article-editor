@@ -23,7 +23,7 @@ import {
   ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { RxCollection } from '@manuscripts/rxdb'
+import { RxAttachment, RxAttachmentCreator } from '@manuscripts/rxdb'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React from 'react'
 import CollaboratorsData from '../../data/CollaboratorsData'
@@ -47,7 +47,6 @@ import { InvitationValues } from '../collaboration/InvitationForm'
 import { Metadata } from './Metadata'
 
 interface Props {
-  collection: RxCollection<Model>
   manuscript: Manuscript
   saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
@@ -55,6 +54,11 @@ interface Props {
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
   tokenActions: TokenActions
+  getAttachment: (id: string, attachmentID: string) => Promise<Blob | undefined>
+  putAttachment: (
+    id: string,
+    attachment: RxAttachmentCreator
+  ) => Promise<RxAttachment<Model>>
 }
 
 interface State {
@@ -103,6 +107,8 @@ class MetadataContainer extends React.PureComponent<Props, State> {
       invitationSent,
     } = this.state
     const {
+      getAttachment,
+      putAttachment,
       manuscript,
       handleTitleStateChange,
       permissions,
@@ -176,6 +182,8 @@ class MetadataContainer extends React.PureComponent<Props, State> {
                               handleTitleStateChange={handleTitleStateChange}
                               permissions={permissions}
                               tokenActions={tokenActions}
+                              getAttachment={getAttachment}
+                              putAttachment={putAttachment}
                             />
                           )
                         }}

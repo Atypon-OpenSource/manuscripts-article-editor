@@ -1721,10 +1721,10 @@
     uuid "^3.3.2"
     w3c-xmlserializer "^1.1.2"
 
-"@manuscripts/manuscripts-json-schema@^1.20.0":
-  version "1.20.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.20.0.tgz#5db6d31ec758e4b319ad2261be738ac2c08f2771"
-  integrity sha512-OPJc77slRY8Uc7xV+JlpDHw0duyZUiLBkRABT+eQNBcfhoiIJkx7lHJ0SdkDHerEBJVwzKc8DTgy276Vboca6A==
+"@manuscripts/manuscripts-json-schema@^1.20.0", "@manuscripts/manuscripts-json-schema@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.21.0.tgz#2ab8406815fe783fb191930e7a6e9b478d71b7a1"
+  integrity sha512-t4cooJm3FtsXnRhNCZWossbnoZHWdunrRdtemC7g1Hy6a0h5uSU7CejoDYbSMdScCPOMHkYRtw1FMZkCSVkerw==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"

@@ -115,6 +115,7 @@ storiesOf('Inspector/Manuscript Inspector', module).add(
         manuscript={manuscript}
         saveManuscript={action('save manuscript')}
         saveModel={action('save')}
+        deleteModel={action('delete')}
         view={view as ManuscriptEditorView}
       />
     </div>

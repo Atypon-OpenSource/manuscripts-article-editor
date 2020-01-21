@@ -406,8 +406,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const bundle = this.findBundle()
 
-    const collection = this.collection.getCollection()
-
     return (
       <RequirementsProvider modelMap={modelMap}>
         <ManuscriptSidebar
@@ -460,7 +458,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
               <EditorBody>
                 <MetadataContainer
-                  collection={collection}
                   saveManuscript={this.saveManuscript}
                   manuscript={manuscript}
                   saveModel={this.saveModel}
@@ -468,6 +465,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   permissions={permissions}
                   handleTitleStateChange={this.preparedTitleEditorStateChange}
                   tokenActions={this.props.tokenActions}
+                  getAttachment={this.getAttachmentAsBlob}
+                  putAttachment={this.collection.putAttachment}
                 />
 
                 <EditorStyles modelMap={modelMap}>

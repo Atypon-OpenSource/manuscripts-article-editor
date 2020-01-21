@@ -17,6 +17,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import {
   CountRequirement,
+  Figure,
   Manuscript,
   MaximumManuscriptCharacterCountRequirement,
   MaximumManuscriptWordCountRequirement,
@@ -63,8 +64,10 @@ export const ManuscriptInspector: React.FC<{
   modelMap: Map<string, Model>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   saveModel: SaveModel
+  deleteModel: (id: string) => Promise<string>
   view: ManuscriptEditorView
 }> = ({
+  deleteModel,
   manuscript,
   modelMap,
   saveManuscript,
@@ -108,6 +111,44 @@ export const ManuscriptInspector: React.FC<{
 
   return (
     <InspectorSection title={'Manuscript'}>
+      <Subheading>Header</Subheading>
+
+      <div>
+        <label>
+          <input
+            type={'checkbox'}
+            checked={manuscript.headerFigure !== undefined}
+            onChange={async event => {
+              if (event.target.checked) {
+                const figure: Build<Figure> = {
+                  _id: generateID(ObjectTypes.Figure),
+                  objectType: ObjectTypes.Figure,
+                }
+
+                await saveModel<Figure>(figure)
+
+                saveManuscript({
+                  headerFigure: figure._id,
+                }).catch(error => {
+                  console.error(error) // tslint:disable-line:no-console
+                })
+              } else {
+                if (manuscript.headerFigure) {
+                  await deleteModel(manuscript.headerFigure)
+                }
+
+                saveManuscript({
+                  headerFigure: undefined,
+                }).catch(error => {
+                  console.error(error) // tslint:disable-line:no-console
+                })
+              }
+            }}
+          />{' '}
+          Header image is shown
+        </label>
+      </div>
+
       <Subheading>Keywords</Subheading>
 
       <KeywordsInput
@@ -130,8 +171,7 @@ export const ManuscriptInspector: React.FC<{
           await saveModel<MinimumManuscriptWordCountRequirement>(requirement)
 
           if (requirement._id !== manuscript.minWordCountRequirement) {
-            await saveModel<Manuscript>({
-              ...manuscript,
+            await saveManuscript({
               minWordCountRequirement: requirement._id,
             })
           }
@@ -148,8 +188,7 @@ export const ManuscriptInspector: React.FC<{
           await saveModel<MaximumManuscriptWordCountRequirement>(requirement)
 
           if (requirement._id !== manuscript.maxWordCountRequirement) {
-            await saveModel<Manuscript>({
-              ...manuscript,
+            await saveManuscript({
               maxWordCountRequirement: requirement._id,
             })
           }
@@ -168,8 +207,7 @@ export const ManuscriptInspector: React.FC<{
           )
 
           if (requirement._id !== manuscript.minCharacterCountRequirement) {
-            await saveModel<Manuscript>({
-              ...manuscript,
+            await saveManuscript({
               minCharacterCountRequirement: requirement._id,
             })
           }
@@ -188,8 +226,7 @@ export const ManuscriptInspector: React.FC<{
           )
 
           if (requirement._id !== manuscript.maxCharacterCountRequirement) {
-            await saveModel<Manuscript>({
-              ...manuscript,
+            await saveManuscript({
               maxCharacterCountRequirement: requirement._id,
             })
           }

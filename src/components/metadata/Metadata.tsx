@@ -20,6 +20,7 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { RxAttachment, RxAttachmentCreator } from '@manuscripts/rxdb'
 import {
   AffiliationsList,
   AuthorsList,
@@ -40,6 +41,7 @@ import { InvitationValues } from '../collaboration/InvitationForm'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import AuthorsModalContainer from './AuthorsModalContainer'
 import { InviteAuthorsModal } from './AuthorsModals'
+import { HeaderFigure } from './HeaderFigure'
 import { TitleFieldContainer } from './TitleFieldContainer'
 
 const TitleContainer = styled.div`
@@ -134,6 +136,11 @@ interface Props {
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
   tokenActions: TokenActions
+  getAttachment: (id: string, attachmentID: string) => Promise<Blob | undefined>
+  putAttachment: (
+    id: string,
+    attachment: RxAttachmentCreator
+  ) => Promise<RxAttachment<Model>>
 }
 
 const expanderStyle = (expanded: boolean) => ({
@@ -164,6 +171,13 @@ export const Metadata: React.FunctionComponent<Props> = props => {
   return (
     <HeaderContainer>
       <Header>
+        <HeaderFigure
+          getAttachment={props.getAttachment}
+          putAttachment={props.putAttachment}
+          saveModel={props.saveModel}
+          manuscript={props.manuscript}
+        />
+
         <TitleContainer>
           <TitleFieldContainer
             title={props.manuscript.title || ''}

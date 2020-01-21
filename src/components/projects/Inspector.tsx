@@ -128,6 +128,7 @@ export const Inspector: React.FC<{
             />
             {view && (
               <ManuscriptInspector
+                deleteModel={deleteModel}
                 manuscript={manuscript}
                 modelMap={modelMap}
                 saveManuscript={saveManuscript}
