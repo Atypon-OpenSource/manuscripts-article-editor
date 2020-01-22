@@ -116,7 +116,7 @@ const SyncNotificationManager: NotificationComponent = ({
   const onCopy = useCallback((text: string) => {
     /* tslint:disable-next-line:no-console */
     console.log(`Logging sync failure: ${text}`)
-    crisp.setMessageText(`I am getting the following sync error: ${text}`)
+    crisp.sendDiagnostics('I am getting the following sync error:', text)
   }, [])
 
   // render:

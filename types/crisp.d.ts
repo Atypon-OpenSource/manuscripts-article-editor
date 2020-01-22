@@ -8,6 +8,11 @@ declare interface Window {
         | [string, string]
         | [string, string, (value?: unknown) => void]
         | [string, string, string[]]
+        | [
+            string,
+            string,
+            ['file', { name: string; url: string; type: string }]
+          ]
     ) => void
   }
 }
