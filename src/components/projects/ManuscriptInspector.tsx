@@ -29,6 +29,7 @@ import {
 import React from 'react'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CountInput } from './CountInput'
+import { DOIInput } from './DOIInput'
 import { KeywordsInput } from './KeywordsInput'
 
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
@@ -158,6 +159,10 @@ export const ManuscriptInspector: React.FC<{
         saveModel={saveModel}
         view={view}
       />
+
+      <Subheading>DOI</Subheading>
+
+      <DOIInput manuscript={manuscript} saveManuscript={saveManuscript} />
 
       <Subheading>Requirements</Subheading>
 

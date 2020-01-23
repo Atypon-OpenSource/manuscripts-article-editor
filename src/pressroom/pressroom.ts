@@ -46,7 +46,8 @@ const validateResponse = (response: AxiosResponse) => {
 
 export const convert = async (
   data: FormData,
-  extension: string
+  extension: string,
+  headers: { [key: string]: string } = {}
 ): Promise<Blob> => {
   const format = extension.replace(/^\./, '')
 
@@ -54,12 +55,7 @@ export const convert = async (
   const url =
     format === 'do' ? '/v1/compile/document/jats' : '/v1/compile/document'
 
-  const headers: { [key: string]: string } = {}
-
-  if (format === 'do') {
-    headers['Pressroom-Target-Jats-Output-Format'] = 'literatum-do'
-    headers['Pressroom-Digital-Object-Type'] = 'HTML5'
-  } else {
+  if (format !== 'do') {
     headers['Pressroom-Target-File-Extension'] = format
   }
 

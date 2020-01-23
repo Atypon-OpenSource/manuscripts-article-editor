@@ -29,6 +29,7 @@ import {
   Equation,
   Figure,
   InlineMathFragment,
+  Manuscript,
   Model,
   ObjectTypes,
   Project,
@@ -344,6 +345,23 @@ export const exportProject = async (
 
       const form = new FormData()
       form.append('file', file, 'export.manuproj')
+
+      if (format === '.do') {
+        const { DOI } = modelMap.get(manuscriptID) as Manuscript
+
+        if (!DOI) {
+          throw new Error('A DOI is required for Literatum export')
+        }
+
+        const [, identifier] = DOI.split('/')
+
+        return convert(form, format, {
+          'Pressroom-Target-Jats-Output-Format': 'literatum-do',
+          'Pressroom-Digital-Object-Type': 'HTML5',
+          'Pressroom-Jats-Submission-Doi': DOI,
+          'Pressroom-Jats-Submission-Identifier': identifier,
+        })
+      }
 
       return convert(form, format)
   }
