@@ -51,7 +51,7 @@ jest.mock('../pressroom', () => ({
     formData.append('file', buffer, file.name)
 
     return axios.post<ArrayBuffer>(
-      '/v1/document/compile',
+      '/v1/compile/document',
       formData.getBuffer(),
       {
         baseURL: config.pressroom.url,

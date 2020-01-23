@@ -78,6 +78,9 @@ interface Config {
   translation_server: {
     url: string
   }
+  export: {
+    literatum: boolean
+  }
   version: string
 }
 
@@ -151,6 +154,9 @@ const config = {
   },
   translation_server: {
     url: normalizeURL(process.env.ZOTERO_TRANSLATION_SERVER),
+  },
+  export: {
+    literatum: isTrue(process.env.EXPORT_LITERATUM),
   },
   version,
 }

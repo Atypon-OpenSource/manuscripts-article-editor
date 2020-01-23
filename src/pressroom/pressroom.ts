@@ -46,14 +46,29 @@ const validateResponse = (response: AxiosResponse) => {
 
 export const convert = async (
   data: FormData,
-  format: string
+  extension: string
 ): Promise<Blob> => {
-  const response = await client.post<Blob>('/v1/document/compile', data, {
+  const format = extension.replace(/^\./, '')
+
+  // TODO: remove this once the endpoints have been merged
+  const url =
+    format === 'do' ? '/v1/compile/document/jats' : '/v1/compile/document'
+
+  const headers: { [key: string]: string } = {}
+
+  if (format === 'do') {
+    headers['Pressroom-Target-Jats-Output-Format'] = 'literatum-do'
+  } else {
+    headers['Pressroom-Target-File-Extension'] = format
+  }
+
+  if (format === 'manuproj') {
+    headers['Pressroom-Regenerate-Project-Bundle-Model-Object-IDs'] = '1'
+  }
+
+  const response = await client.post<Blob>(url, data, {
     responseType: 'blob' as ResponseType,
-    headers: {
-      'Pressroom-Target-File-Extension': format.replace(/^\./, ''),
-      'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
-    },
+    headers,
   })
 
   validateResponse(response)
