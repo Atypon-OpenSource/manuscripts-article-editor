@@ -58,6 +58,7 @@ export const convert = async (
 
   if (format === 'do') {
     headers['Pressroom-Target-Jats-Output-Format'] = 'literatum-do'
+    headers['Pressroom-Digital-Object-Type'] = 'HTML5'
   } else {
     headers['Pressroom-Target-File-Extension'] = format
   }
