@@ -11,7 +11,12 @@
  */
 
 import { Build } from '@manuscripts/manuscript-transform'
-import { Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  Figure,
+  Manuscript,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/manuscripts-json-schema'
 import { RxAttachment, RxAttachmentCreator } from '@manuscripts/rxdb'
 import React, { useCallback, useEffect, useState } from 'react'
 import Dropzone from 'react-dropzone'
@@ -52,19 +57,28 @@ export const HeaderFigure: React.FC<{
 
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
-      if (manuscript.headerFigure) {
+      const figureID = manuscript.headerFigure
+
+      if (figureID) {
         const [file] = acceptedFiles
 
         if (!file) {
           return
         }
 
-        putAttachment(manuscript.headerFigure, {
+        putAttachment(figureID, {
           id: 'image',
           data: file,
           type: file.type,
         })
-          .then(() => {
+          .then(async () => {
+            // set the contentType on the Figure object
+            await saveModel<Figure>({
+              _id: figureID,
+              objectType: ObjectTypes.Figure,
+              contentType: file.type,
+            })
+
             const url = window.URL.createObjectURL(file)
             setSrc(url)
           })
@@ -82,7 +96,7 @@ export const HeaderFigure: React.FC<{
 
   if (!src) {
     return (
-      <Dropzone onDrop={handleDrop} accept={'.jpg,.png'} multiple={false}>
+      <Dropzone onDrop={handleDrop} accept={'.jpg,.jpeg,.png'} multiple={false}>
         {({ isDragActive, isDragAccept, getInputProps, getRootProps }) => (
           <StyledDropArea {...getRootProps()}>
             <input {...getInputProps()} />

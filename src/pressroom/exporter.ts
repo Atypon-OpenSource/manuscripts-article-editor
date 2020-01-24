@@ -170,7 +170,7 @@ const fetchAttachment = async (
     return getAttachment(model._id, 'image')
   }
 
-  if (isFigure(model) && model.src) {
+  if (isFigure(model)) {
     return getAttachment(model._id, 'image')
   }
 
