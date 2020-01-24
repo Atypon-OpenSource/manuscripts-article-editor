@@ -46,30 +46,30 @@ export const identityProviderErrorMessage = (message: string) => {
   switch (message) {
     case 'user-not-found':
       alertMessage = (
-        <React.Fragment>
+        <span>
           A user record matching your identity was unexpectedly not found.
           Please <ContactSupportButton>contact support</ContactSupportButton> if
           this persists.
-        </React.Fragment>
+        </span>
       )
       break
 
     case 'validation-error':
       alertMessage = (
-        <React.Fragment>
+        <span>
           An invalid request was made when attempting to log in. Please{' '}
           <ContactSupportButton>contact support</ContactSupportButton> if this
           persists.
-        </React.Fragment>
+        </span>
       )
       break
 
     default:
       alertMessage = (
-        <React.Fragment>
+        <span>
           An error occurred while logging in, please{' '}
           <ContactSupportButton>contact support.</ContactSupportButton>
-        </React.Fragment>
+        </span>
       )
   }
 
@@ -89,9 +89,11 @@ export const gatewayInaccessibleErrorMessage = () => {
 export const networkErrorMessage = () => {
   return (
     <AlertMessage type={AlertMessageType.error}>
-      Failed to connect to service. Please check your network connection before
-      trying again, and if the problem persists{' '}
-      <ContactSupportButton>contact support.</ContactSupportButton>
+      <span>
+        Failed to connect to service. Please check your network connection
+        before trying again, and if the problem persists{' '}
+        <ContactSupportButton>contact support.</ContactSupportButton>
+      </span>
     </AlertMessage>
   )
 }
@@ -116,10 +118,12 @@ export const resendVerificationDataMessage = (
 export const userAccountErrorMessage = () => {
   return (
     <AlertMessage type={AlertMessageType.error}>
-      Your user account record is missing required information. This is most
-      likely because of having logged in with an earlier version of the app.
-      Please <ContactSupportButton>contact support</ContactSupportButton> for
-      assistance.
+      <span>
+        Your user account record is missing required information. This is most
+        likely because of having logged in with an earlier version of the app.
+        Please <ContactSupportButton>contact support</ContactSupportButton> for
+        assistance.
+      </span>
     </AlertMessage>
   )
 }
