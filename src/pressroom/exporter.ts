@@ -357,6 +357,7 @@ export const exportProject = async (
 
         return convert(form, format, {
           'Pressroom-Target-Jats-Output-Format': 'literatum-do',
+          'Pressroom-Jats-Document-Processing-Level': 'full_text',
           'Pressroom-Digital-Object-Type': 'HTML5',
           'Pressroom-Jats-Submission-Doi': DOI,
           'Pressroom-Jats-Submission-Identifier': identifier,
