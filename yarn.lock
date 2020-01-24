@@ -1791,10 +1791,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.61.0":
-  version "0.61.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.61.0.tgz#4e6ca4dd0f994596b58b7a9c3685456981a3a817"
-  integrity sha512-DmUZY7iRxciw4NbR2Og0tw70KrFzM5GmBdbVCm7kiKtDwC7eFmk0GA+VNFE23ZMpP46qDjuBIISL8IAxsZ+dkQ==
+"@manuscripts/manuscript-editor@^0.61.2":
+  version "0.61.2"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.61.2.tgz#90c6ef8cbef375d2847a1c1fa2711f8cddd35842"
+  integrity sha512-A8MQcd5c4MNCRWO9DmBB6hPGjDpAXvqR4Cs5WuC6/bjf0yfiR5gU0yLNTUw2deM0plToqq+crrtr3m700dQjyQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1834,10 +1834,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.23.0":
-  version "0.23.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.23.0.tgz#3b09711cadb48f3cf9194016eda4aff4312f5c97"
-  integrity sha512-RwHPrFyYw1hLXvkwsBSeghMHGPGVrzkUdg6ZKZmC1cWtGOa8DukfKT+comQMeSjMYvG3wtdN+VSosrMLzxY6oQ==
+"@manuscripts/manuscript-transform@^0.23.2":
+  version "0.23.2"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.23.2.tgz#d4e646e49bcb5830eeb63b5df56be4843534af7e"
+  integrity sha512-zwDb7nHYSLqmZCNrT5fezX5E/dZ8ZNH59n/Xoeq2nzmstgfBflTei3268/g1Ud3h8tQET6vLSXEqSwI1Fqap2w==
   dependencies:
     debug "^4.1.1"
     jest-environment-jsdom-sixteen "^1.0.0"
