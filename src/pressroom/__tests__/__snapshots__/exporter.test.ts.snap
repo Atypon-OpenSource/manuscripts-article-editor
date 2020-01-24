@@ -4,6 +4,26 @@ exports[`exporter exports a manuscript as docx: exported-manuscript 1`] = `
 Object {
   "data": Array [
     Object {
+      "_id": "MPFigure:AD65D628-A904-4DC4-A026-F8F4C08F6557",
+      "_rev": "3-16c9025f8d2f4705a67337146f88bb2f",
+      "contentType": "image/png",
+      "createdAt": 1538472940.39497,
+      "objectType": "MPFigure",
+      "originalURL": "chemoji/chemoji7.png",
+      "sessionID": "F0E376FF-3F4A-4A58-8478-C0FE73DB3053",
+      "updatedAt": 1538472940.4034,
+    },
+    Object {
+      "_id": "MPFigure:D673DF08-D75E-4061-8EC1-9611EAB302F0",
+      "_rev": "3-d12114f5defd8e9045ceb3a1faf95ac4",
+      "contentType": "image/png",
+      "createdAt": 1538472397.918236,
+      "objectType": "MPFigure",
+      "originalURL": "chemoji/chemoji8.png",
+      "sessionID": "67B27E3B-1E1E-42E2-9B9D-2D2123AA95F6",
+      "updatedAt": 1538472397.927731,
+    },
+    Object {
       "_id": "MPAffiliation:DED56C09-42E2-4AB4-BA15-9260389E2B08",
       "_rev": "3-ab6a5d56246fb3d89ed44c6b3b24a7f7",
       "addressLine1": "",

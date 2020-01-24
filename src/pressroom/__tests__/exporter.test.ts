@@ -113,7 +113,7 @@ describe('exporter', () => {
     const manuscript = await readProjectDumpFromArchive(zip)
 
     expect(manuscript.version).toBe('2.0')
-    expect(manuscript.data).toHaveLength(135)
+    expect(manuscript.data).toHaveLength(137)
     expect(manuscript).toMatchSnapshot('exported-manuscript')
   })
 

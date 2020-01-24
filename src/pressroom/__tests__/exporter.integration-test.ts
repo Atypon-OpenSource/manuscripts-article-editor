@@ -30,8 +30,6 @@ import {
   Contributor,
   Equation,
   EquationElement,
-  Figure,
-  FigureElement,
   Manuscript,
   Model,
   ObjectTypes,
@@ -388,21 +386,21 @@ describe('exporter', () => {
       invitedUserName: 'Foo Bar',
     })
 
-    // add a figure with no image attachment (src)
-    const figure = addModel<Figure>({
-      _id: generateID(ObjectTypes.Figure),
-      objectType: ObjectTypes.Figure,
-    })
-
-    const figureElement = addModel<FigureElement>({
-      _id: generateID(ObjectTypes.FigureElement),
-      objectType: ObjectTypes.FigureElement,
-      containedObjectIDs: [figure._id],
-      elementType: 'figure',
-      caption: 'Test',
-    })
-
-    section.elementIDs.push(figureElement._id)
+    // // add a figure with no image attachment (src)
+    // const figure = addModel<Figure>({
+    //   _id: generateID(ObjectTypes.Figure),
+    //   objectType: ObjectTypes.Figure,
+    // })
+    //
+    // const figureElement = addModel<FigureElement>({
+    //   _id: generateID(ObjectTypes.FigureElement),
+    //   objectType: ObjectTypes.FigureElement,
+    //   containedObjectIDs: [figure._id],
+    //   elementType: 'figure',
+    //   caption: 'Test',
+    // })
+    //
+    // section.elementIDs.push(figureElement._id)
 
     // add an equation with empty TeXRepresentation
     const equation = addModel<Equation>({

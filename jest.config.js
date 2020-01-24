@@ -32,6 +32,7 @@ module.exports = {
   },
   setupFiles: ['./src/setupTests.ts', 'jsdom-worker'],
   setupFilesAfterEnv: ['<rootDir>/node_modules/jest-enzyme/lib/index.js'],
+  testEnvironment: 'jest-environment-jsdom-sixteen',
   testPathIgnorePatterns: ['/node_modules/'],
   testRegex: '/__tests__/.*\\.test\\.tsx?$',
   testURL: 'https://localhost',
