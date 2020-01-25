@@ -43,6 +43,21 @@ describe('exporter', () => {
     expect(result).toBe('AnExampleManuscript')
   })
 
+  test('generates a filename for a manuscript title with brackets', () => {
+    const result = generateDownloadFilename(
+      'Group ICA of fMRI Toolbox (GIFT) Tutorial'
+    )
+    expect(result).toBe('GroupICAOfFMRIToolboxGIFTTutorial')
+  })
+
+  test('generates a filename trimmed when too long', () => {
+    // 299 chars
+    const result = generateDownloadFilename(
+      'This this this this this This this this this this This this this this this This this this this this This this this this this This this this this this This this this this this This this this this this This this this this this This this this this this This this this this this This this this this this'
+    )
+    expect(result.length).toBe(200)
+  })
+
   test('downloadExtension', () => {
     const result = downloadExtension('.docx')
     expect(result).toEqual('.docx')

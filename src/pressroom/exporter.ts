@@ -253,8 +253,9 @@ export const generateDownloadFilename = (title: string) =>
   title
     .replace(/<[^>]*>/g, '') // remove markup
     .replace(/\W/g, '_') // remove non-word characters
-    .replace(/_+(.)/g, matches => matches[1].toUpperCase()) // convert snake case to camel case
+    .replace(/_+(.)/g, (match, letter) => letter.toUpperCase()) // convert snake case to camel case
     .replace(/_+$/, '') // remove any trailing underscores
+    .substr(0, 200)
 
 export const downloadExtension = (format: string): string => {
   switch (format) {
