@@ -27,7 +27,7 @@ interface Props {
   deleteManuscript: (id: string) => Promise<void>
   deleteModel: (id: string) => Promise<string>
   history: History
-  openExporter: (format: string) => void
+  openExporter: (format: string, closeOnSuccess?: boolean) => void
   openImporter: () => void
   openRenameProject: (project: Project) => void
 }
@@ -104,7 +104,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     exportMenu.push({
       id: 'export-ado',
       label: () => 'Literatum Digital Object',
-      run: () => props.openExporter('.do'),
+      run: () => props.openExporter('.do', false),
     })
   }
 

@@ -25,6 +25,7 @@ import {
 } from '../../pressroom/exporter'
 import { ContactSupportButton } from '../ContactSupportButton'
 import { ProgressModal } from './ProgressModal'
+import { SuccessModal } from './SuccessModal'
 
 export type GetAttachment = (
   id: string,
@@ -38,6 +39,7 @@ interface Props {
   manuscriptID: string
   modelMap: Map<string, Model>
   project: Project
+  closeOnSuccess?: boolean
 }
 
 interface State {
@@ -91,11 +93,17 @@ export class Exporter extends React.Component<Props, State> {
 
       saveAs(blob, filename)
 
-      this.setState({
-        status: null,
-      })
+      if (this.props.closeOnSuccess) {
+        this.setState({
+          status: null,
+        })
 
-      this.props.handleComplete()
+        this.props.handleComplete()
+      } else {
+        this.setState({
+          status: 'complete',
+        })
+      }
     } catch (error) {
       console.error(error) // tslint:disable-line:no-console
 
@@ -104,6 +112,7 @@ export class Exporter extends React.Component<Props, State> {
   }
 
   public render() {
+    const { format } = this.props
     const { error, status, canCancel } = this.state
 
     if (error) {
@@ -131,6 +140,17 @@ export class Exporter extends React.Component<Props, State> {
 
     if (!status) {
       return null
+    }
+
+    if (status === 'complete' && format === '.do') {
+      return (
+        <SuccessModal
+          status={'Export to Literatum completed successfully'}
+          handleDone={() => {
+            this.props.handleComplete()
+          }}
+        />
+      )
     }
 
     return (
