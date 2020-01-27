@@ -12,12 +12,12 @@
 
 import { RxDatabase } from '@manuscripts/rxdb'
 import { Category, Dialog } from '@manuscripts/style-guide'
-import React, { Fragment, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { Collections } from '../../collections'
-import { useCrisp } from '../../hooks/use-crisp'
 import CollectionManager from '../../sync/CollectionManager'
 import zombieCollections from '../../sync/ZombieCollections'
+import { ContactSupportButton } from '../ContactSupportButton'
 
 type ConfirmationStage = 'ready' | 'checking' | 'unsynced' | 'gaveup'
 
@@ -40,7 +40,6 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
   history,
   db,
 }) => {
-  const { open: openCrisp } = useCrisp()
   const [confirmationStage, setConfirmationStage] = useState<ConfirmationStage>(
     'ready'
   )
@@ -76,12 +75,10 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
     switch (confirmationStage) {
       case 'gaveup':
         return (
-          <Fragment>
+          <div>
             <span>If you sign out, your changes will be lost.</span>
-            <a role="button" onClick={openCrisp}>
-              Chat with support
-            </a>
-          </Fragment>
+            <ContactSupportButton>Chat with support.</ContactSupportButton>
+          </div>
         )
 
       case 'unsynced':
