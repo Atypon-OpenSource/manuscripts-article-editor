@@ -24,16 +24,14 @@ lint_test_build:
     - yarn install --frozen-lockfile --non-interactive
     - yarn typecheck
     - yarn lint
-    - yarn test --coverage
+    - yarn test --ci --coverage --reporters=default --reporters=jest-junit
     - ALLOW_MISSING_VARIABLES=1 yarn build
+  coverage: '/Statements\s*:\s*(\d+\.\d+)%/'
   tags:
     - nodejs-8
   artifacts:
-    paths:
-      - ./coverage
-    expire_in: 1 week
-    when: always
-  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    reports:
+      junit: junit.xml
 
 integration_tests:
   stage: test

@@ -10,6 +10,7 @@ module.exports = {
     '!src/lib/service-worker.ts',
     '!src/lib/developer.ts',
   ],
+  coverageReporters: ['text-summary'],
   coverageThreshold: {
     global: {
       branches: 25,

@@ -2,7 +2,6 @@
 !.yarnrc
 *.log
 build
-coverage
 dist
 node_modules
 storybook-static
