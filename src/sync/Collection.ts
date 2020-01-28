@@ -188,6 +188,11 @@ export class Collection<T extends Model> implements EventTarget {
 
   public async initialize(startSyncing = true) {
     this.collection = await this.openCollection(this.collectionName)
+
+    this.collection.preRemove(plainData => {
+      plainData.sessionID = sessionID
+    }, false)
+
     this.conflictManager = new ConflictManager(
       this.collection as RxCollection<Model>,
       this.broadcastPurge
