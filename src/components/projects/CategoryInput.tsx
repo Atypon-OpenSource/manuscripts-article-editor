@@ -11,7 +11,10 @@
  */
 
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { sortedSectionCategories } from '../../lib/section-categories'
+import {
+  isEditableSectionCategory,
+  sortedSectionCategories,
+} from '../../lib/section-categories'
 import { styled } from '../../theme/styled-components'
 
 export const CategoryInput: React.FC<{
@@ -35,11 +38,13 @@ export const CategoryInput: React.FC<{
 
   return (
     <CategorySelector value={category} onChange={handleValueChange}>
-      {sortedSectionCategories.map(sectionCategory => (
-        <option value={sectionCategory._id} key={sectionCategory._id}>
-          {sectionCategory.name}
-        </option>
-      ))}
+      {sortedSectionCategories
+        .filter(isEditableSectionCategory)
+        .map(sectionCategory => (
+          <option value={sectionCategory._id} key={sectionCategory._id}>
+            {sectionCategory.name}
+          </option>
+        ))}
     </CategorySelector>
   )
 }

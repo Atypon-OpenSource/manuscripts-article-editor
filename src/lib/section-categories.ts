@@ -13,6 +13,20 @@
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
 import { Section, SectionCategory } from '@manuscripts/manuscripts-json-schema'
 
+export const generatedSectionCategories: string[] = [
+  'MPSectionCategory:bibliography',
+  'MPSectionCategory:keywords',
+  'MPSectionCategory:list-of-figures',
+  'MPSectionCategory:list-of-tables',
+  'MPSectionCategory:toc',
+]
+
+export const isEditableSectionCategoryID = (id: string) =>
+  !generatedSectionCategories.includes(id)
+
+export const isEditableSectionCategory = (sectionCategory: SectionCategory) =>
+  isEditableSectionCategoryID(sectionCategory._id)
+
 export const sortedSectionCategories = (sectionCategories as SectionCategory[]).sort(
   (a, b) => a.priority - b.priority
 )

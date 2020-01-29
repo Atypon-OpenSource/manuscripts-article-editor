@@ -27,7 +27,10 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
-import { chooseSectionCategory } from '../../lib/section-categories'
+import {
+  chooseSectionCategory,
+  isEditableSectionCategoryID,
+} from '../../lib/section-categories'
 import { styled } from '../../theme/styled-components'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CategoryInput } from '../projects/CategoryInput'
@@ -109,6 +112,8 @@ export const SectionInspector: React.FC<{
     ),
   }
 
+  const currentSectionCategory = chooseSectionCategory(section)
+
   return (
     <InspectorSection title={'Section'}>
       <StyledTitle value={section.title} />
@@ -128,14 +133,18 @@ export const SectionInspector: React.FC<{
         </div>
       )}
 
-      <Subheading>Category</Subheading>
+      {isEditableSectionCategoryID(currentSectionCategory) && (
+        <>
+          <Subheading>Category</Subheading>
 
-      <CategoryInput
-        value={chooseSectionCategory(section)}
-        handleChange={(category: string) => {
-          dispatchNodeAttrs(section._id, { category })
-        }}
-      />
+          <CategoryInput
+            value={currentSectionCategory}
+            handleChange={(category: string) => {
+              dispatchNodeAttrs(section._id, { category })
+            }}
+          />
+        </>
+      )}
 
       <Subheading>Requirements</Subheading>
 
