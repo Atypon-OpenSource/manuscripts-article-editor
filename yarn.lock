@@ -4119,10 +4119,10 @@ astral-regex@^1.0.0:
   resolved "https://registry.npmjs.org/astral-regex/-/astral-regex-1.0.0.tgz#6c8c3fb827dd43ee3918f27b82782ab7658a6fd9"
   integrity sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==
 
-astrocite-bibtex@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.npmjs.org/astrocite-bibtex/-/astrocite-bibtex-0.16.0.tgz#f700d0172ff5fbb57f6825d8d2107dee2afa5699"
-  integrity sha512-bUtFuiV7UGkuMYyf5CCD7lItwMZmhxKEijTak8p+V6h0wEXHFTt1xDzATBsx+8iAloVK0BnA2KuhDe171asxjQ==
+astrocite-bibtex@^0.16.3:
+  version "0.16.3"
+  resolved "https://registry.npmjs.org/astrocite-bibtex/-/astrocite-bibtex-0.16.3.tgz#f0586543a9897e4f22bd87cb59adb3e44a906181"
+  integrity sha512-9PPKyxqWEJH+/eAcbWF33Goued2ymoP5/dzbr+PrfUlsXsi+2B4vOT/4sFlS6FLrulsntBoqjeHqF48QyH57hA==
   dependencies:
     astrocite-core "^0.16.0"
     csl-json "^0.1.0"
