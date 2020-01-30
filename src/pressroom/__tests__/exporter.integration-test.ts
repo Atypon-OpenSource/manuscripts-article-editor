@@ -282,6 +282,10 @@ const formats = [
     extension: '.tex',
     contentType: 'application/zip',
   },
+  {
+    extension: '.icml',
+    contentType: 'application/zip',
+  },
 ]
 
 describe('exporter', () => {

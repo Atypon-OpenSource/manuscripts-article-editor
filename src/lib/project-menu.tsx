@@ -94,6 +94,11 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       run: () => props.openExporter('.html'),
     },
     {
+      id: 'export-icml',
+      label: () => 'ICML',
+      run: () => props.openExporter('.icml'),
+    },
+    {
       id: 'export-manuproj',
       label: () => 'Manuscripts Archive',
       run: () => props.openExporter('.manuproj'),
