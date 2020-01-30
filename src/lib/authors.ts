@@ -10,25 +10,34 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { hasObjectType } from '@manuscripts/manuscript-transform'
 import {
   Affiliation,
   Contributor,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
+import { ContributorRole, hasRole } from './roles'
 
 export type AffiliationMap = Map<string, Affiliation>
+
+interface AffiliationData {
+  ordinal: number
+  data: Affiliation
+}
 
 export interface AuthorData {
   authors: Contributor[]
   affiliations: AffiliationMap
-  authorAffiliations: Map<string, Array<{ ordinal: number; data: Affiliation }>>
+  authorAffiliations: Map<string, AffiliationData[]>
 }
 
-export const buildSortedAuthors = (contributors: Contributor[]) => {
-  return contributors
-    .filter(item => item.role === 'author')
-    .sort((a, b) => Number(a.priority) - Number(b.priority))
-}
+const sortContributorsByPriority = (a: Contributor, b: Contributor) =>
+  Number(a.priority) - Number(b.priority)
+
+export const buildSortedAuthors = (contributors: Contributor[]) =>
+  contributors
+    .filter(hasRole(ContributorRole.author))
+    .sort(sortContributorsByPriority)
 
 export const buildAuthorPriority = (authors: Contributor[]) => {
   if (!authors.length) return 0
@@ -38,38 +47,40 @@ export const buildAuthorPriority = (authors: Contributor[]) => {
   return Math.max(...priorities) + 1
 }
 
-export const buildAffiliationIDs = (authors: Contributor[]): string[] => {
-  const ids: string[] = []
+export const buildSortedAffiliationIDs = (
+  sortedAuthors: Contributor[]
+): string[] => {
+  const ids = new Set<string>()
 
-  authors.forEach(author => {
+  for (const author of sortedAuthors) {
     if (author.affiliations) {
       author.affiliations.forEach(id => {
-        ids.push(id)
+        ids.add(id)
       })
     }
-  })
+  }
 
-  return ids.filter((value, index) => ids.indexOf(value) === index)
+  return [...ids]
 }
 
 export const buildAuthorAffiliations = (
   authors: Contributor[],
   affiliations: AffiliationMap,
-  uniqueAffiliationIDs: string[]
+  sortedAffiliationIDs: string[]
 ) => {
-  const items = new Map()
+  const items = new Map<string, AffiliationData[]>()
 
-  authors.forEach(author => {
+  for (const author of authors) {
     items.set(
       author._id,
       (author.affiliations || []).map(id => {
         return {
-          ordinal: uniqueAffiliationIDs.indexOf(id) + 1,
+          ordinal: sortedAffiliationIDs.indexOf(id) + 1,
           data: affiliations.get(id) as Affiliation,
         }
       })
     )
-  })
+  }
 
   return items
 }
@@ -81,27 +92,29 @@ export const buildAffiliationsMap = (
   new Map(
     affiliationIDs.map((id: string): [string, Affiliation] => [
       id,
-      affiliations.find(aff => aff._id === id) as Affiliation,
+      affiliations.find(affiliation => affiliation._id === id) as Affiliation,
     ])
   )
+
+const isContributor = hasObjectType<Contributor>(ObjectTypes.Contributor)
+const isAffiliation = hasObjectType<Affiliation>(ObjectTypes.Affiliation)
 
 export const buildAuthorsAndAffiliations = (
   data: Array<Contributor | Affiliation>
 ) => {
-  const authors = data.filter(
-    model => model.objectType === ObjectTypes.Contributor
-  ) as Contributor[]
-  const affiliations = data.filter(
-    model => model.objectType === ObjectTypes.Affiliation
-  ) as Affiliation[]
+  const authors = data.filter(isContributor)
+  const affiliations = data.filter(isAffiliation)
   const sortedAuthors = buildSortedAuthors(authors)
-  const affiliationIDs = buildAffiliationIDs(sortedAuthors)
-  const affiliationsMap = buildAffiliationsMap(affiliationIDs, affiliations)
+  const sortedAffiliationIDs = buildSortedAffiliationIDs(sortedAuthors)
+  const affiliationsMap = buildAffiliationsMap(
+    sortedAffiliationIDs,
+    affiliations
+  )
 
   const authorAffiliations = buildAuthorAffiliations(
     sortedAuthors,
     affiliationsMap,
-    affiliationIDs
+    sortedAffiliationIDs
   )
 
   return {

@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Project } from '@manuscripts/manuscripts-json-schema'
+import { Contributor, Project } from '@manuscripts/manuscripts-json-schema'
 
 export enum ContributorRole {
   author = 'author',
@@ -21,6 +21,9 @@ export enum ProjectRole {
   writer = 'Writer',
   viewer = 'Viewer',
 }
+
+export const hasRole = (role: ContributorRole) => (contributor: Contributor) =>
+  contributor.role === role
 
 export const isOwner = (project: Project, userID: string) =>
   project.owners.includes(userID)

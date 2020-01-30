@@ -26,13 +26,13 @@ import { AuthorsModal } from '../src/components/metadata/AuthorsModals'
 import AuthorsSidebar from '../src/components/metadata/AuthorsSidebar'
 import SearchAuthorsSidebar from '../src/components/metadata/SearchAuthorsSidebar'
 import {
-  buildAffiliationIDs,
   buildAuthorAffiliations,
+  buildSortedAffiliationIDs,
 } from '../src/lib/authors'
 import { affiliations, authors, user } from './data/contributors'
 import { project } from './data/projects'
 
-const affiliationIds = buildAffiliationIDs(authors)
+const affiliationIds = buildSortedAffiliationIDs(authors)
 
 const authorAffiliations = buildAuthorAffiliations(
   authors,

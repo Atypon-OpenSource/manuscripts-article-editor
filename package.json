@@ -15,6 +15,8 @@
     "docker-compose:testcafe": "docker-compose -f testcafe/docker-compose.yml",
     "test": "jest --runInBand --detectOpenHandles --forceExit",
     "test:integration": "jest --config=jest.integration.config.js --runInBand --detectOpenHandles --forceExit",
+    "test:unit": "jest --runInBand --detectOpenHandles --forceExit  --testPathIgnorePatterns=Storyshots",
+    "test:storyshots": "jest --runInBand --detectOpenHandles --forceExit  --testPathPattern=Storyshots",
     "test:watch": "jest --runInBand --testPathIgnorePatterns=Storyshots.test.ts --watch",
     "testcafe": "testcafe",
     "testcafe-live": "testcafe-live",
