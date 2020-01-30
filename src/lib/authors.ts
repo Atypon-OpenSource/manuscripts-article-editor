@@ -95,7 +95,7 @@ export const buildAuthorsAndAffiliations = (
     model => model.objectType === ObjectTypes.Affiliation
   ) as Affiliation[]
   const sortedAuthors = buildSortedAuthors(authors)
-  const affiliationIDs = buildAffiliationIDs(authors)
+  const affiliationIDs = buildAffiliationIDs(sortedAuthors)
   const affiliationsMap = buildAffiliationsMap(affiliationIDs, affiliations)
 
   const authorAffiliations = buildAuthorAffiliations(
