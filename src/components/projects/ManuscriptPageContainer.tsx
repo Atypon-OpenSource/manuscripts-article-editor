@@ -12,12 +12,14 @@
 
 import {
   ApplicationMenu,
+  canInsert,
   ChangeReceiver,
   CitationManager,
   Editor,
   findParentElement,
   findParentNodeWithIdValue,
   findParentSection,
+  insertInlineCitation,
   MenuItem,
   menus as editorMenus,
   PopperManager,
@@ -28,6 +30,7 @@ import '@manuscripts/manuscript-editor/styles/popper.css'
 import {
   ActualManuscriptNode,
   Build,
+  buildBibliographyItem,
   buildContributor,
   buildKeyword,
   buildManuscript,
@@ -49,6 +52,7 @@ import {
   ManuscriptNode,
   ManuscriptPlugin,
   ModelAttachment,
+  schema,
   Selected,
   timestamp,
   UserProfileWithAvatar,
@@ -90,7 +94,10 @@ import { Prompt, RouteComponentProps } from 'react-router'
 import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
-import { matchLibraryItemByIdentifier } from '../../lib/bibliography'
+import {
+  matchLibraryItemByIdentifier,
+  transformBibliography,
+} from '../../lib/bibliography'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import deviceId from '../../lib/device-id'
 import { filterLibrary } from '../../lib/library'
@@ -299,6 +306,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     this.setPermissions(this.props)
 
     await this.prepare(projectID, manuscriptID)
+
+    if (config.native) {
+      window.dispatchCitation = this.insertNativeCitationSync
+    }
   }
 
   public componentWillReceiveProps(nextProps: CombinedProps) {
@@ -1123,6 +1134,75 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const { library } = this.props
 
     return matchLibraryItemByIdentifier(item, library)
+  }
+
+  // ensure that the native app receives a synchronous response
+  // while the citation insertion continues in the background
+  private insertNativeCitationSync = (
+    encodedData: string,
+    type: string
+  ): true => {
+    this.insertNativeCitation(encodedData, type).catch(error => {
+      console.error(error) // tslint:disable-line:no-console
+    })
+
+    return true
+  }
+
+  private insertNativeCitation = async (
+    encodedData: string,
+    type: string
+  ): Promise<number> => {
+    const data = window.atob(encodedData)
+
+    const items: Array<Partial<BibliographyItem>> = await transformBibliography(
+      data,
+      type
+    )
+
+    const newItems: BibliographyItem[] = []
+    const itemsToCite: BibliographyItem[] = []
+
+    for (const item of items) {
+      const existingItem = this.matchLibraryItemByIdentifier(
+        item as BibliographyItem
+      )
+
+      if (existingItem) {
+        itemsToCite.push(existingItem)
+      } else {
+        const model = buildBibliographyItem(item)
+
+        // add the item to the model map so it's definitely available
+        this.setLibraryItem(model as BibliographyItem)
+
+        // save the new item
+        const newItem = await this.saveModel(model as BibliographyItem)
+
+        newItems.push(newItem)
+        itemsToCite.push(newItem)
+      }
+    }
+
+    const { view } = this.state
+
+    if (view && canInsert(schema.nodes.citation)) {
+      const { selection } = view.state // old state
+
+      insertInlineCitation(
+        view.state,
+        view.dispatch,
+        view,
+        itemsToCite.map(item => item._id)
+      )
+
+      const { tr } = view.state // new state
+
+      // restore the selection (close the citation popover)
+      view.dispatch(tr.setSelection(selection.map(tr.doc, tr.mapping)))
+    }
+
+    return newItems.length
   }
 
   private getModel = <T extends Model>(id: string): T | undefined =>

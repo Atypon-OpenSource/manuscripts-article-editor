@@ -7,29 +7,30 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-interface RxDB {
-  removeDatabase: (name: string, adapter: string) => void
-}
+import fs from 'fs'
+import path from 'path'
+import { parse } from '../papers-citations'
 
-interface WebKit {
-  messageHandlers: {
-    [key: string]: {
-      postMessage: (message: object) => void
+const FIXTURES_DIR = path.join(
+  __dirname,
+  '..',
+  '__fixtures__',
+  'papers-citations-xml'
+)
+
+describe('Papers Citations XML parser', () => {
+  it('should parse all fixtures to CSL JSON correctly', async () => {
+    const fixtures = await fs.promises.readdir(FIXTURES_DIR)
+
+    for (const file of fixtures) {
+      const xml = await fs.promises.readFile(
+        path.join(FIXTURES_DIR, file),
+        'utf-8'
+      )
+      expect(parse(xml)).toMatchSnapshot()
     }
-  }
-}
-
-declare interface Window {
-  RxDB: RxDB
-  requestIdleCallback: (T: () => void, options: object) => string
-  webkit: WebKit
-  getMenuState?: (key: string) => MenuItemState
-  dispatchMenuAction?: (key: string) => void
-  dispatchToolbarAction?: (key: string) => void
-  dispatchCitation?: (data: string, type: string) => void
-  restartSync: () => void
-  ga: UniversalAnalytics.ga
-}
+  })
+})

@@ -14,16 +14,23 @@ import { convertDataToBibliographyItem } from '@manuscripts/manuscript-editor'
 import { CSL } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 
-const chooseParser = (extension: string) => {
-  switch (extension) {
+const chooseParser = (format: string) => {
+  format = format.replace(/^application\/(x-)?/, '')
+
+  switch (format) {
     case '.bib':
+    case 'bibtex':
       return import('astrocite-bibtex')
 
     case '.ris':
+    case 'research-info-systems':
       return import('astrocite-ris')
 
+    case 'papers-citations-xml':
+      return import('./papers-citations')
+
     default:
-      throw new Error(`Unknown citation format ${extension}`)
+      throw new Error(`Unknown citation format ${format}`)
   }
 }
 

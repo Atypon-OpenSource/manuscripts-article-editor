@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<citation>
+  <priority>0</priority>
+  <uuid>CD6DD22D-659F-4DC8-B115-2684A62182F3</uuid>
+  <publications>
+    <publication>
+      <subtype>0</subtype>
+      <publisher>CRC Press</publisher>
+      <title>COM Programming by Example</title>
+      <url>https://www.taylorfrancis.com/books/9781482287103</url>
+      <publication_date>99200001061200000000222000</publication_date>
+      <uuid>1280EF07-8A2E-4A3F-8695-D99DD07185D8</uuid>
+      <version>1</version>
+      <type>0</type>
+      <subtitle>Using MFC, ActiveX, ATL, ADO, and COM+</subtitle>
+      <doi>10.1201/9781482287103</doi>
+      <startpage>357</startpage>
+      <authors>
+        <author>
+          <lastName>Swanke</lastName>
+          <firstName>John</firstName>
+          <middleNames>E</middleNames>
+        </author>
+      </authors>
+    </publication>
+  </publications>
+  <cites/>
+</citation>

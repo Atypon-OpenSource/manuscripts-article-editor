@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<citation>
+  <priority>0</priority>
+  <uuid>32AB46A8-9D31-43D7-9AAC-98BF1C3ED5C7</uuid>
+  <publications>
+    <publication>
+      <subtype>0</subtype>
+      <publisher>Wordware Publishing, Inc.</publisher>
+      <title>Access 2003 Programming by Example with VBA, XML, and ASP</title>
+      <url>http://books.google.cz/books?id=pjVHjNPdKqoC&amp;pg=PR20&amp;dq=example&amp;hl=&amp;cd=23&amp;source=gbs_api</url>
+      <publication_date>99201010251200000000222000</publication_date>
+      <uuid>08F8EF27-CA50-4E9D-974B-76F963215F7D</uuid>
+      <type>0</type>
+      <startpage>704</startpage>
+      <authors>
+        <author>
+          <lastName>Korol</lastName>
+          <firstName>Julitta</firstName>
+        </author>
+      </authors>
+    </publication>
+  </publications>
+  <cites/>
+</citation>

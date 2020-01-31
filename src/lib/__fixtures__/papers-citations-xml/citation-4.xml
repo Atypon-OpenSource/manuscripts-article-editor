@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<citation>
+  <priority>0</priority>
+  <uuid>20E45CAC-07A7-4E97-BBCC-034335DDF78C</uuid>
+  <publications>
+    <publication>
+      <subtype>0</subtype>
+      <publisher>Addison-Wesley Professional</publisher>
+      <title>ATDD by Example</title>
+      <url>http://books.google.cz/books?id=XYU5R9Win1UC&amp;pg=PA47&amp;dq=example&amp;hl=&amp;cd=30&amp;source=gbs_api</url>
+      <publication_date>99201200001200000000200000</publication_date>
+      <uuid>001D8C57-899B-475D-AEBF-9DE305B4065C</uuid>
+      <type>0</type>
+      <startpage>212</startpage>
+      <authors>
+        <author>
+          <lastName>G&#xE4;rtner</lastName>
+          <firstName>Markus</firstName>
+        </author>
+      </authors>
+    </publication>
+  </publications>
+  <cites/>
+</citation>

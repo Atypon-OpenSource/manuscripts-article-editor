@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<citation>
+    <priority>0</priority>
+    <uuid>5CF092FC-7519-47E5-AB4A-80E6C110FB0A</uuid>
+    <publications>
+        <publication>
+            <subtype>400</subtype>
+            <publisher>BioMed Central Ltd</publisher>
+            <title>Scientific writing: a randomized controlled trial comparing standard and on-line instruction</title>
+            <url>http://bmcmededuc.biomedcentral.com/articles/10.1186/1472-6920-9-27</url>
+            <volume>9</volume>
+            <publication_date>99200905271200000000222000</publication_date>
+            <uuid>5EF77F3C-419C-431B-BAC2-D79E66D75AA6</uuid>
+            <version>6</version>
+            <type>400</type>
+            <accepted_date>99200905271200000000222000</accepted_date>
+            <number>1</number>
+            <citekey>Phadtare:2009dk</citekey>
+            <submission_date>99200807091200000000222000</submission_date>
+            <doi>10.1186/1472-6920-9-27</doi>
+            <institution>Kalpavriksha Healthcare and Research, 301/A-wing, Saikrupa, Next to Ganesh Chhhaya, Maharashtra, India. dramruta@gmail.com</institution>
+            <startpage>27</startpage>
+            <bundle>
+                <publication>
+                    <title>BMC Medical Education</title>
+                    <uuid>B6FA29C2-4727-40E8-B39E-8867A945F9CE</uuid>
+                    <subtype>-100</subtype>
+                    <publisher>BioMed Central Ltd</publisher>
+                    <type>-100</type>
+                </publication>
+            </bundle>
+            <authors>
+                <author>
+                    <lastName>Phadtare</lastName>
+                    <firstName>Amruta</firstName>
+                </author>
+                <author>
+                    <lastName>Bahmani</lastName>
+                    <firstName>Anu</firstName>
+                </author>
+                <author>
+                    <lastName>Shah</lastName>
+                    <firstName>Anand</firstName>
+                </author>
+                <author>
+                    <lastName>Pietrobon</lastName>
+                    <firstName>Ricardo</firstName>
+                </author>
+            </authors>
+        </publication>
+    </publications>
+    <cites/>
+</citation>

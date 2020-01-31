@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Papers Citations XML parser should parse all fixtures to CSL JSON correctly 1`] = `
+Array [
+  Object {
+    "DOI": "10.1186/1472-6920-9-27",
+    "URL": "http://bmcmededuc.biomedcentral.com/articles/10.1186/1472-6920-9-27",
+    "author": Array [
+      Object {
+        "family": "Phadtare",
+        "given": "Amruta",
+      },
+      Object {
+        "family": "Bahmani",
+        "given": "Anu",
+      },
+      Object {
+        "family": "Shah",
+        "given": "Anand",
+      },
+      Object {
+        "family": "Pietrobon",
+        "given": "Ricardo",
+      },
+    ],
+    "container-title": "BMC Medical Education",
+    "issue": "1",
+    "issued": Object {
+      "date-parts": Array [
+        Array [
+          2009,
+          5,
+          27,
+        ],
+      ],
+    },
+    "page": "27",
+    "publisher": "BioMed Central Ltd",
+    "title": "Scientific writing: a randomized controlled trial comparing standard and on-line instruction",
+    "type": "article-journal",
+    "volume": "9",
+  },
+]
+`;
+
+exports[`Papers Citations XML parser should parse all fixtures to CSL JSON correctly 2`] = `
+Array [
+  Object {
+    "DOI": "10.1103/PhysRevLett.64.705",
+    "URL": "https://link.aps.org/doi/10.1103/PhysRevLett.64.705",
+    "author": Array [
+      Object {
+        "family": "Greenberg",
+        "given": "O W",
+      },
+    ],
+    "container-title": "Physical Review Letters",
+    "issue": "7",
+    "issued": Object {
+      "date-parts": Array [
+        Array [
+          1990,
+          2,
+          12,
+        ],
+      ],
+    },
+    "page": "705-708",
+    "publisher": "American Physical Society",
+    "title": "Example of infinite statistics",
+    "type": "article-journal",
+    "volume": "64",
+  },
+]
+`;
+
+exports[`Papers Citations XML parser should parse all fixtures to CSL JSON correctly 3`] = `
+Array [
+  Object {
+    "URL": "http://books.google.cz/books?id=pjVHjNPdKqoC&pg=PR20&dq=example&hl=&cd=23&source=gbs_api",
+    "author": Array [
+      Object {
+        "family": "Korol",
+        "given": "Julitta",
+      },
+    ],
+    "issued": Object {
+      "date-parts": Array [
+        Array [
+          2010,
+          10,
+          25,
+        ],
+      ],
+    },
+    "page": "704",
+    "publisher": "Wordware Publishing, Inc.",
+    "title": "Access 2003 Programming by Example with VBA, XML, and ASP",
+    "type": "book",
+  },
+]
+`;
+
+exports[`Papers Citations XML parser should parse all fixtures to CSL JSON correctly 4`] = `
+Array [
+  Object {
+    "URL": "http://books.google.cz/books?id=XYU5R9Win1UC&pg=PA47&dq=example&hl=&cd=30&source=gbs_api",
+    "author": Array [
+      Object {
+        "family": "Gärtner",
+        "given": "Markus",
+      },
+    ],
+    "issued": Object {
+      "date-parts": Array [
+        Array [
+          2012,
+        ],
+      ],
+    },
+    "page": "212",
+    "publisher": "Addison-Wesley Professional",
+    "title": "ATDD by Example",
+    "type": "book",
+  },
+]
+`;
+
+exports[`Papers Citations XML parser should parse all fixtures to CSL JSON correctly 5`] = `
+Array [
+  Object {
+    "DOI": "10.1201/9781482287103",
+    "URL": "https://www.taylorfrancis.com/books/9781482287103",
+    "author": Array [
+      Object {
+        "family": "Swanke",
+        "given": "John E",
+      },
+    ],
+    "issued": Object {
+      "date-parts": Array [
+        Array [
+          2000,
+          1,
+          6,
+        ],
+      ],
+    },
+    "page": "357",
+    "publisher": "CRC Press",
+    "title": "COM Programming by Example",
+    "type": "book",
+  },
+]
+`;
+
+exports[`Papers Citations XML parser should parse all fixtures to CSL JSON correctly 6`] = `
+Array [
+  Object {
+    "DOI": "10.1186/1472-6920-9-27",
+    "URL": "http://bmcmededuc.biomedcentral.com/articles/10.1186/1472-6920-9-27",
+    "author": Array [
+      Object {
+        "family": "Phadtare",
+        "given": "Amruta",
+      },
+      Object {
+        "family": "Bahmani",
+        "given": "Anu",
+      },
+      Object {
+        "family": "Shah",
+        "given": "Anand",
+      },
+      Object {
+        "family": "Pietrobon",
+        "given": "Ricardo",
+      },
+    ],
+    "container-title": "BMC Medical Education",
+    "issue": "1",
+    "issued": Object {
+      "date-parts": Array [
+        Array [
+          2009,
+          5,
+          27,
+        ],
+      ],
+    },
+    "page": "27",
+    "publisher": "BioMed Central Ltd",
+    "title": "Scientific writing: a randomized controlled trial comparing standard and on-line instruction",
+    "type": "article-journal",
+    "volume": "9",
+  },
+]
+`;
