@@ -12,7 +12,6 @@
 
 import { buildKeywordsContents } from '@manuscripts/manuscript-editor'
 import {
-  Build,
   buildKeyword,
   ManuscriptEditorView,
   ManuscriptNode,
@@ -24,13 +23,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
-import { OptionsType } from 'react-select/lib/types'
 import { SaveModel } from './ManuscriptInspector'
-
-interface OptionType {
-  label: string
-  value: Build<Keyword>
-}
 
 export const KeywordsInput: React.FC<{
   manuscript: Manuscript
@@ -39,67 +32,76 @@ export const KeywordsInput: React.FC<{
   saveModel: SaveModel
   view: ManuscriptEditorView
 }> = ({ manuscript, modelMap, saveManuscript, saveModel, view }) => {
-  const manuscriptKeywords: Keyword[] = (manuscript.keywordIDs || [])
+  const keywordIDs = manuscript.keywordIDs || []
+
+  const manuscriptKeywords: Keyword[] = keywordIDs
     .map(id => modelMap.get(id) as Keyword | undefined)
     .filter(Boolean) as Keyword[]
 
-  const manuscriptOptions = manuscriptKeywords.map(keyword => ({
-    value: keyword,
-    label: keyword.name,
-  }))
+  const updateKeywordsElement = (manuscriptKeywords: Keyword[]) => {
+    const keywordsElements: Array<{
+      node: ManuscriptNode
+      pos: number
+    }> = []
+
+    const { tr } = view.state
+
+    tr.doc.descendants((node, pos) => {
+      if (node.type === node.type.schema.nodes.keywords_element) {
+        keywordsElements.push({
+          node,
+          pos,
+        })
+      }
+    })
+
+    if (keywordsElements.length) {
+      const contents = buildKeywordsContents(manuscript, manuscriptKeywords)
+
+      for (const { node, pos } of keywordsElements) {
+        tr.setNodeMarkup(pos, undefined, {
+          ...node.attrs,
+          contents,
+        })
+      }
+
+      view.dispatch(tr)
+    }
+  }
 
   return (
-    <CreatableSelect<OptionType>
+    <CreatableSelect<Keyword>
       isMulti={true}
       noOptionsMessage={() => null}
-      onChange={async (newValue: OptionsType<OptionType>) => {
-        for (const item of newValue) {
-          if (!item.value._id) {
-            const keyword = buildKeyword((item.value as unknown) as string)
-
-            await saveModel<Keyword>(keyword)
-
-            item.value = keyword
-          }
+      getNewOptionData={inputValue => {
+        const option = {
+          name: `Add "${inputValue}"`,
         }
 
-        const manuscriptKeywords = newValue.map(item => item.value) as Keyword[]
+        return option as Keyword
+      }}
+      onCreateOption={async inputValue => {
+        const keyword = buildKeyword(inputValue)
 
+        await saveModel<Keyword>(keyword)
+
+        await saveManuscript({
+          keywordIDs: [...keywordIDs, keyword._id],
+        })
+
+        updateKeywordsElement([...manuscriptKeywords, keyword as Keyword])
+      }}
+      options={manuscriptKeywords}
+      value={manuscriptKeywords}
+      getOptionValue={option => option._id}
+      getOptionLabel={option => option.name}
+      onChange={async (manuscriptKeywords: Keyword[]) => {
         await saveManuscript({
           keywordIDs: manuscriptKeywords.map(item => item._id),
         })
 
-        const keywordsElements: Array<{
-          node: ManuscriptNode
-          pos: number
-        }> = []
-
-        const { tr } = view.state
-
-        tr.doc.descendants((node, pos) => {
-          if (node.type === node.type.schema.nodes.keywords_element) {
-            keywordsElements.push({
-              node,
-              pos,
-            })
-          }
-        })
-
-        if (keywordsElements.length) {
-          const contents = buildKeywordsContents(manuscript, manuscriptKeywords)
-
-          for (const { node, pos } of keywordsElements) {
-            tr.setNodeMarkup(pos, undefined, {
-              ...node.attrs,
-              contents,
-            })
-          }
-
-          view.dispatch(tr)
-        }
+        updateKeywordsElement(manuscriptKeywords)
       }}
-      options={manuscriptOptions}
-      value={manuscriptOptions}
     />
   )
 }
