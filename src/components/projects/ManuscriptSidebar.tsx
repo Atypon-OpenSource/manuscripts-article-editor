@@ -172,6 +172,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
               doc={doc || null}
               view={view || null}
               selected={selected}
+              permissions={permissions}
             />
           ) : (
             <OutlineManuscript project={project} manuscript={item} />

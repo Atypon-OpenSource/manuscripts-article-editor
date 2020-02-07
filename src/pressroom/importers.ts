@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ModelAttachment } from '@manuscripts/manuscript-transform'
+import {
+  ModelAttachment,
+  parseJATSArticle,
+  parseSTSStandard,
+} from '@manuscripts/manuscript-transform'
 import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
@@ -83,9 +87,9 @@ const importProjectArchive = async (result: Blob) => {
 
         if (objectType in attachmentKeys) {
           model.attachment = {
-            id: attachmentKeys[objectType],
+            id: attachmentKeys[objectType]!,
             type:
-              model.contentType || defaultAttachmentContentTypes[objectType],
+              model.contentType || defaultAttachmentContentTypes[objectType]!,
             data: await file.async('blob'),
           }
         }
@@ -96,11 +100,31 @@ const importProjectArchive = async (result: Blob) => {
   return items
 }
 
-const convertFile = async (file: File) => {
+const convertFile = async (file: File): Promise<Blob> => {
   const form = new FormData()
   form.append('file', file)
 
   return convert(form, '.manuproj')
+}
+
+const parseXMLFile = async (file: File): Promise<Document> => {
+  const url = window.URL.createObjectURL(file)
+  const text = await fetch(url).then(response => response.text())
+  return new DOMParser().parseFromString(text, 'application/xml')
+}
+
+const convertXMLDocument = (doc: Document): Model[] => {
+  // TODO: check doc.doctype.publicId?
+  switch (doc.documentElement.nodeName) {
+    case 'article':
+      return parseJATSArticle(doc)
+
+    case 'standard':
+      return parseSTSStandard(doc)
+
+    default:
+      throw new Error('Unsupported XML format')
+  }
 }
 
 interface FileType {
@@ -160,9 +184,14 @@ const fileTypes: FileType[] = [
     description: 'TeX',
   },
   {
+    extension: '.xml',
+    mimetypes: ['application/xml', 'text/xml'],
+    description: 'JATS/STS XML',
+  },
+  {
     extension: '.zip',
     mimetypes: ['application/zip'],
-    description: 'ZIP (containing Markdown or LaTeX)',
+    description: 'ZIP (containing Markdown or LaTeX)', // TODO: could also be XML or HTML
   },
 ]
 
@@ -230,6 +259,11 @@ export const importFile = async (file: File) => {
     await removeUnsupportedData(zip)
     const blob = await zip.generateAsync({ type: 'blob' })
     file = new File([blob], name, { lastModified })
+  }
+
+  // TODO: look inside .zip files
+  if (name.endsWith('.xml')) {
+    return parseXMLFile(file).then(convertXMLDocument)
   }
 
   const result = await convertFile(file)

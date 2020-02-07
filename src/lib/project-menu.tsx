@@ -84,14 +84,14 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       run: () => props.openExporter('.tex'),
     },
     {
-      id: 'export-jats',
-      label: () => 'JATS XML',
-      run: () => props.openExporter('.xml'),
-    },
-    {
       id: 'export-html',
       label: () => 'HTML',
       run: () => props.openExporter('.html'),
+    },
+    {
+      id: 'export-jats',
+      label: () => 'JATS',
+      run: () => props.openExporter('.jats'),
     },
     {
       id: 'export-icml',
@@ -110,6 +110,14 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       id: 'export-ado',
       label: () => 'Literatum Digital Object',
       run: () => props.openExporter('.do', false),
+    })
+  }
+
+  if (config.export.sts) {
+    exportMenu.push({
+      id: 'export-sts',
+      label: () => 'STS',
+      run: () => props.openExporter('.sts'),
     })
   }
 

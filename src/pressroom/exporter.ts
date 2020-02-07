@@ -20,9 +20,10 @@ import {
   HTMLTransformer,
   isFigure,
   isUserProfile,
-  JATSTransformer,
+  JATSExporter,
   ManuscriptModel,
   ModelAttachment,
+  STSExporter,
 } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
@@ -282,15 +283,28 @@ const convertToHTML = async (zip: JSZip, modelMap: Map<string, Model>) => {
   return zip.generateAsync({ type: 'blob' })
 }
 
-const convertToXML = async (zip: JSZip, modelMap: Map<string, Model>) => {
+const convertToJATS = async (zip: JSZip, modelMap: Map<string, Model>) => {
   zip.remove('index.manuscript-json')
 
   const decoder = new Decoder(modelMap)
   const doc = decoder.createArticleNode()
 
-  const transformer = new JATSTransformer()
+  const transformer = new JATSExporter()
 
   zip.file('manuscript.xml', transformer.serializeToJATS(doc.content, modelMap))
+
+  return zip.generateAsync({ type: 'blob' })
+}
+
+const convertToSTS = async (zip: JSZip, modelMap: Map<string, Model>) => {
+  zip.remove('index.manuscript-json')
+
+  const decoder = new Decoder(modelMap)
+  const doc = decoder.createArticleNode()
+
+  const transformer = new STSExporter()
+
+  zip.file('manuscript.xml', transformer.serializeToSTS(doc.content, modelMap))
 
   return zip.generateAsync({ type: 'blob' })
 }
@@ -320,8 +334,11 @@ export const exportProject = async (
   )
 
   switch (format) {
-    case '.xml':
-      return convertToXML(zip, modelMap)
+    case '.jats':
+      return convertToJATS(zip, modelMap)
+
+    case '.sts':
+      return convertToSTS(zip, modelMap)
 
     case '.html':
       return convertToHTML(zip, modelMap)

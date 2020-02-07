@@ -80,6 +80,7 @@ interface Config {
   }
   export: {
     literatum: boolean
+    sts: boolean
   }
   version: string
 }
@@ -157,6 +158,7 @@ const config = {
   },
   export: {
     literatum: isTrue(process.env.EXPORT_LITERATUM),
+    sts: isTrue(process.env.EXPORT_STS),
   },
   version,
 }
