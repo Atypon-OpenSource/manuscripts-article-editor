@@ -21,6 +21,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
+  ContributorRole,
   ManuscriptCategory,
   Model,
   ObjectTypes,
@@ -434,18 +435,31 @@ export const chooseBundleID = (item: TemplateData) => {
 export const createNewStyles = (styles: Map<string, Model>) => {
   const newStyles = new Map<string, Model>()
 
-  const prototypeMap = new Map<string, string>()
+  // const prototypeMap = new Map<string, string>()
 
   for (const style of styles.values()) {
     const newStyle = fromPrototype(style)
     newStyles.set(newStyle._id, newStyle)
 
-    prototypeMap.set(newStyle.prototype, newStyle._id)
+    // prototypeMap.set(newStyle.prototype, newStyle._id)
   }
 
   // this.fixReferencedStyleIds(newStyles, prototypeMap)
 
   return newStyles
+}
+
+export const createNewContributorRoles = (
+  items: Map<string, ContributorRole>
+) => {
+  const newItems = new Map<string, ContributorRole>()
+
+  for (const item of items.values()) {
+    const newItem = fromPrototype(item)
+    newItems.set(newItem._id, newItem)
+  }
+
+  return newItems
 }
 
 export const getByPrototype = <T extends Model>(

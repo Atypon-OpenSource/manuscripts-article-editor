@@ -118,7 +118,7 @@ import {
   createGetMenuState,
 } from '../../lib/native/menu'
 import { buildProjectMenu } from '../../lib/project-menu'
-import { canWrite, ContributorRole } from '../../lib/roles'
+import { canWrite } from '../../lib/roles'
 import sessionID from '../../lib/session-id'
 import {
   buildRecentProjects,
@@ -907,7 +907,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const contributor = buildContributor(
       user.bibliographicName,
-      ContributorRole.author,
+      'author',
       0,
       user.userID
     )

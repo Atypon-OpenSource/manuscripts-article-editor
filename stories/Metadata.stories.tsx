@@ -89,6 +89,8 @@ storiesOf('Metadata', module)
       }}
       invitationSent={false}
       handleDismiss={action('dismiss message')}
+      contributorRoles={[]}
+      createContributorRole={action('create contributor role')}
     />
   ))
   .add('Authors Sidebar', () => (
@@ -146,6 +148,8 @@ storiesOf('Metadata', module)
         delete: action('delete token'),
         update: action('update token'),
       }}
+      contributorRoles={[]}
+      createContributorRole={action('create contributor role')}
     />
   ))
   .add('Add Authors Sidebar', () => (

@@ -34,6 +34,7 @@ import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { useAuthorsAndAffiliations } from '../../hooks/use-authors-and-affiliations'
+import { useContributorRoles } from '../../hooks/use-contributor-roles'
 import { isOwner } from '../../lib/roles'
 import { styled } from '../../theme/styled-components'
 import { Permissions } from '../../types/permissions'
@@ -148,25 +149,33 @@ const expanderStyle = (expanded: boolean) => ({
 })
 
 export const Metadata: React.FunctionComponent<Props> = props => {
-  const { data } = useAuthorsAndAffiliations(
+  const { data: authorsAndAffiliations } = useAuthorsAndAffiliations(
+    props.manuscript.containerID,
+    props.manuscript._id
+  )
+
+  const { data: contributorRoles } = useContributorRoles(
     props.manuscript.containerID,
     props.manuscript._id
   )
 
   const handleInvitationSubmit = useCallback(
     (values: InvitationValues) => {
-      if (!data) return Promise.reject()
-      return props.handleInvitationSubmit(data.authors, values)
+      if (!authorsAndAffiliations) return Promise.reject()
+      return props.handleInvitationSubmit(
+        authorsAndAffiliations.authors,
+        values
+      )
     },
-    [props.handleInvitationSubmit, data]
+    [props.handleInvitationSubmit, authorsAndAffiliations]
   )
 
   const openAddAuthors = useCallback(() => {
-    if (!data) return
-    props.openAddAuthors(data.authors)
-  }, [props.openAddAuthors, data])
+    if (!authorsAndAffiliations) return
+    props.openAddAuthors(authorsAndAffiliations.authors)
+  }, [props.openAddAuthors, authorsAndAffiliations])
 
-  if (!data) return null
+  if (!authorsAndAffiliations || !contributorRoles) return null
 
   return (
     <HeaderContainer>
@@ -198,14 +207,18 @@ export const Metadata: React.FunctionComponent<Props> = props => {
         {props.expanded && (
           <AuthorsContainer data-cy={'author-container'}>
             <AuthorsList
-              authors={data.authors}
-              authorAffiliations={data.authorAffiliations}
+              authors={authorsAndAffiliations.authors.filter(
+                author => author.role === 'author'
+              )}
+              authorAffiliations={authorsAndAffiliations.authorAffiliations}
               startEditing={props.startEditing}
               showEditButton={isOwner(props.project, props.user.userID)}
               selectAuthor={props.selectAuthor}
             />
 
-            <AffiliationsList affiliations={data.affiliations} />
+            <AffiliationsList
+              affiliations={authorsAndAffiliations.affiliations}
+            />
           </AuthorsContainer>
         )}
 
@@ -227,14 +240,18 @@ export const Metadata: React.FunctionComponent<Props> = props => {
                 handleInvitationSubmit={handleInvitationSubmit}
               />
             ) : props.addingAuthors ? (
-              <AddAuthorsModalContainer {...props} authors={data.authors} />
+              <AddAuthorsModalContainer
+                {...props}
+                authors={authorsAndAffiliations.authors}
+              />
             ) : (
               <AuthorsModalContainer
                 {...props}
-                authors={data.authors}
-                authorAffiliations={data.authorAffiliations}
-                affiliations={data.affiliations}
+                authors={authorsAndAffiliations.authors}
+                authorAffiliations={authorsAndAffiliations.authorAffiliations}
+                affiliations={authorsAndAffiliations.affiliations}
                 openAddAuthors={openAddAuthors}
+                contributorRoles={contributorRoles}
               />
             )}
           </ModalContainer>

@@ -21,11 +21,10 @@ import {
   buildAuthorPriority,
   buildAuthorsAndAffiliations,
   buildSortedAffiliationIDs,
-  buildSortedAuthors,
+  buildSortedContributors,
   isJointFirstAuthor,
   reorderAuthors,
 } from '../authors'
-import { ContributorRole } from '../roles'
 
 const data: {
   authors: Array<Build<Contributor>>
@@ -37,7 +36,7 @@ const data: {
         given: 'Rosie',
         family: 'Rhodes',
       }),
-      ContributorRole.author,
+      'author',
       3
     ),
     buildContributor(
@@ -45,7 +44,7 @@ const data: {
         given: 'Isabelle',
         family: 'Gardner',
       }),
-      ContributorRole.author,
+      'author',
       1
     ),
     buildContributor(
@@ -53,7 +52,7 @@ const data: {
         given: 'Imogen',
         family: 'Gibbs',
       }),
-      ContributorRole.author,
+      'author',
       2
     ),
   ],
@@ -68,26 +67,7 @@ describe('authors', () => {
   test('sort by priority', () => {
     const contributors = [...data.authors] as Contributor[]
 
-    const result = buildSortedAuthors(contributors)
-
-    const priorities = result.map(contributor => contributor.priority)
-
-    expect(priorities).toStrictEqual([1, 2, 3])
-  })
-
-  test('sort by priority excluding non-authors', () => {
-    const contributors = [...data.authors] as Contributor[]
-
-    contributors.push(buildContributor(
-      buildBibliographicName({
-        given: 'Alexander',
-        family: 'Bartlett',
-      }),
-      'editor' as ContributorRole,
-      4
-    ) as Contributor)
-
-    const result = buildSortedAuthors(contributors)
+    const result = buildSortedContributors(contributors)
 
     const priorities = result.map(contributor => contributor.priority)
 

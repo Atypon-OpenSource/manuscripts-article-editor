@@ -15,11 +15,13 @@ import {
   buildAffiliation,
   buildBibliographicName,
   buildContributor,
+  buildContributorRole,
 } from '@manuscripts/manuscript-transform'
 import {
   Affiliation,
   ContainerInvitation,
   Contributor,
+  ContributorRole,
   Manuscript,
   Model,
   ObjectTypes,
@@ -71,6 +73,7 @@ interface Props {
     name?: string,
     invitationID?: string
   ) => void
+  contributorRoles: ContributorRole[]
 }
 
 class AuthorsModalContainer extends React.Component<Props, State> {
@@ -95,6 +98,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       openAddAuthors,
       tokenActions,
       updateAuthor,
+      contributorRoles,
     } = this.props
 
     return (
@@ -121,8 +125,18 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         tokenActions={tokenActions}
         invitationSent={this.state.invitationSent}
         handleDismiss={this.handleDismiss}
+        contributorRoles={contributorRoles}
+        createContributorRole={this.createContributorRole}
       />
     )
+  }
+
+  private createContributorRole = async (
+    name: string
+  ): Promise<ContributorRole> => {
+    const contributorRole = buildContributorRole(name)
+
+    return this.props.saveModel(contributorRole)
   }
 
   private handleRemoveAuthor = () =>

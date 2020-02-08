@@ -10,39 +10,44 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Project } from '@manuscripts/manuscripts-json-schema'
+import {
+  ContributorRole,
+  ObjectTypes,
+} from '@manuscripts/manuscripts-json-schema'
+import { useEffect, useMemo, useState } from 'react'
+import CollectionManager from '../sync/CollectionManager'
 
-export enum ProjectRole {
-  owner = 'Owner',
-  writer = 'Writer',
-  viewer = 'Viewer',
-}
+export const useContributorRoles = (
+  projectID: string,
+  manuscriptID: string
+) => {
+  const collection = useMemo(
+    () => CollectionManager.getCollection(`project-${projectID}`),
+    [projectID]
+  )
 
-export const isOwner = (project: Project, userID: string) =>
-  project.owners.includes(userID)
+  const isPullComplete = collection && collection.status.pull.complete
 
-export const isWriter = (project: Project, userID: string) =>
-  project.writers.includes(userID)
+  const [data, setData] = useState<ContributorRole[]>()
 
-export const isViewer = (project: Project, userID: string) =>
-  project.viewers.includes(userID)
+  useEffect(() => {
+    if (!collection || !isPullComplete) return
 
-export const getUserRole = (project: Project, userID: string) => {
-  if (isOwner(project, userID)) {
-    return ProjectRole.owner
-  }
+    const subscription = collection
+      .find({
+        manuscriptID,
+        objectType: { $eq: ObjectTypes.ContributorRole },
+      })
+      .$.subscribe(docs => {
+        if (docs) {
+          setData(docs.map(doc => doc.toJSON() as ContributorRole))
+        }
+      })
 
-  if (isWriter(project, userID)) {
-    return ProjectRole.writer
-  }
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [collection, isPullComplete])
 
-  if (isViewer(project, userID)) {
-    return ProjectRole.viewer
-  }
-
-  return null
-}
-
-export const canWrite = (project: Project, userID: string) => {
-  return isOwner(project, userID) || isWriter(project, userID)
+  return { data }
 }

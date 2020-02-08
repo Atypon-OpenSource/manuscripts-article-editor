@@ -57,6 +57,7 @@ const unsupportedObjectTypes: ObjectTypes[] = [
   ObjectTypes.CommentAnnotation,
   ObjectTypes.LibraryCollection,
   ObjectTypes.Keyword,
+  ObjectTypes.ContributorRole,
 ]
 
 const figureHasAttachment = (model: Figure, zip: JSZip): boolean => {

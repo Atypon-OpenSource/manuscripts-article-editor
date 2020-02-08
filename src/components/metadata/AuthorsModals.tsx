@@ -13,6 +13,7 @@
 import {
   Affiliation,
   Contributor,
+  ContributorRole,
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -60,6 +61,8 @@ interface AuthorsProps {
   tokenActions: TokenActions
   invitationSent: boolean
   handleDismiss: () => void
+  contributorRoles: ContributorRole[]
+  createContributorRole: (name: string) => Promise<ContributorRole>
 }
 
 export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
@@ -85,6 +88,8 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   tokenActions,
   invitationSent,
   handleDismiss,
+  contributorRoles,
+  createContributorRole,
 }) => (
   <ModalBody>
     <AuthorsSidebar
@@ -118,6 +123,8 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
           updateAuthor={updateAuthor}
           getAuthorName={getAuthorName}
           tokenActions={tokenActions}
+          contributorRoles={contributorRoles}
+          createContributorRole={createContributorRole}
         />
       ) : (
         <AuthorDetailsPage />

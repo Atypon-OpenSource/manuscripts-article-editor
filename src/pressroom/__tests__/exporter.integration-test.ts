@@ -45,7 +45,6 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 // import data from '@manuscripts/examples/data/project-dump.json'
 import { AxiosResponse, ResponseType } from 'axios'
-import { ContributorRole } from '../../lib/roles'
 import {
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
@@ -168,7 +167,7 @@ const buildManuscriptModelMap = async (
   // add the author contributor
   const contributor = buildContributor(
     user.bibliographicName,
-    ContributorRole.author,
+    'author',
     0,
     user.userID
   )

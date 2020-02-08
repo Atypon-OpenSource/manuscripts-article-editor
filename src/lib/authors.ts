@@ -16,7 +16,6 @@ import {
   Contributor,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
-import { ContributorRole, hasRole } from './roles'
 
 export type AffiliationMap = Map<string, Affiliation>
 
@@ -34,10 +33,8 @@ export interface AuthorData {
 const sortContributorsByPriority = (a: Contributor, b: Contributor) =>
   Number(a.priority) - Number(b.priority)
 
-export const buildSortedAuthors = (contributors: Contributor[]) =>
-  contributors
-    .filter(hasRole(ContributorRole.author))
-    .sort(sortContributorsByPriority)
+export const buildSortedContributors = (contributors: Contributor[]) =>
+  contributors.sort(sortContributorsByPriority)
 
 export const buildAuthorPriority = (authors: Contributor[]) => {
   if (!authors.length) return 0
@@ -104,7 +101,7 @@ export const buildAuthorsAndAffiliations = (
 ) => {
   const authors = data.filter(isContributor)
   const affiliations = data.filter(isAffiliation)
-  const sortedAuthors = buildSortedAuthors(authors)
+  const sortedAuthors = buildSortedContributors(authors)
   const sortedAffiliationIDs = buildSortedAffiliationIDs(sortedAuthors)
   const affiliationsMap = buildAffiliationsMap(
     sortedAffiliationIDs,

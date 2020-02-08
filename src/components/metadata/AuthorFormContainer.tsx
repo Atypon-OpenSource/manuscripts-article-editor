@@ -13,6 +13,7 @@
 import {
   Affiliation,
   Contributor,
+  ContributorRole,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
 import {
@@ -52,6 +53,8 @@ interface AuthorProps {
   handleSave: (values: AuthorValues) => Promise<void>
   handleRemoveAuthor: () => void
   tokenActions: TokenActions
+  contributorRoles: ContributorRole[]
+  createContributorRole: (name: string) => Promise<ContributorRole>
 }
 
 export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
@@ -70,6 +73,8 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
   updateAuthor,
   getAuthorName,
   tokenActions,
+  contributorRoles,
+  createContributorRole,
 }) => (
   <React.Fragment>
     <AuthorForm
@@ -78,6 +83,8 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
       isRemoveAuthorOpen={isRemoveAuthorOpen}
       removeAuthor={removeAuthor}
       handleRemoveAuthor={handleRemoveAuthor}
+      contributorRoles={contributorRoles}
+      createContributorRole={createContributorRole}
     />
     <AffiliationsEditor
       affiliations={affiliations}

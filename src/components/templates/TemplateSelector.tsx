@@ -23,6 +23,7 @@ import {
 import {
   Bundle,
   Contributor,
+  ContributorRole,
   Manuscript,
   ManuscriptCategory,
   Model,
@@ -38,7 +39,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import config from '../../config'
 import { nextManuscriptPriority } from '../../lib/manuscript'
 import { postWebkitMessage } from '../../lib/native'
-import { ContributorRole } from '../../lib/roles'
 import {
   buildCategories,
   buildItems,
@@ -53,6 +53,7 @@ import {
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
+  createNewContributorRoles,
   createNewStyles,
   fetchSharedData,
   findCoverLetterDescription,
@@ -102,6 +103,7 @@ interface State {
   publishers?: Map<string, Publisher>
   templatesData?: Map<string, TemplatesDataType>
   researchFields?: Map<string, ResearchField>
+  contributorRoles?: Map<string, ContributorRole>
 }
 
 class TemplateSelector extends React.Component<
@@ -206,6 +208,10 @@ class TemplateSelector extends React.Component<
       'section-categories'
     )
 
+    const contributorRoles = await fetchSharedData<ContributorRole>(
+      'contributor-roles'
+    )
+
     // this.setState({ loading: 'publishers' })
 
     const publishers = await fetchSharedData<Publisher>('publishers')
@@ -253,6 +259,7 @@ class TemplateSelector extends React.Component<
       publishers,
       templatesData,
       researchFields,
+      contributorRoles,
       // loading: undefined,
     })
   }
@@ -266,7 +273,7 @@ class TemplateSelector extends React.Component<
       projectID: possibleProjectID,
     } = this.props
 
-    const { bundles, styles } = this.state
+    const { bundles, styles, contributorRoles } = this.state
 
     if (!bundles) {
       throw new Error('Bundles not found')
@@ -274,6 +281,10 @@ class TemplateSelector extends React.Component<
 
     if (!styles) {
       throw new Error('Styles not found')
+    }
+
+    if (!contributorRoles) {
+      throw new Error('Contributor roles not found')
     }
 
     const newProject = possibleProjectID ? null : buildProject(user.userID)
@@ -295,6 +306,8 @@ class TemplateSelector extends React.Component<
 
     const newStyles = createNewStyles(styles)
 
+    const newContributorRoles = createNewContributorRoles(contributorRoles)
+
     const newPageLayout = updatedPageLayout(newStyles)
 
     // const colorScheme = this.findDefaultColorScheme(newStyles)
@@ -309,7 +322,7 @@ class TemplateSelector extends React.Component<
 
     const contributor = buildContributor(
       user.bibliographicName,
-      ContributorRole.author,
+      'author',
       0,
       user.userID
     )
@@ -337,6 +350,10 @@ class TemplateSelector extends React.Component<
 
     for (const newStyle of newStyles.values()) {
       await saveManuscriptModel<Model>(newStyle)
+    }
+
+    for (const newContributorRole of newContributorRoles.values()) {
+      await saveManuscriptModel<ContributorRole>(newContributorRole)
     }
 
     await saveManuscriptModel<Contributor>(contributor)
@@ -459,6 +476,7 @@ class TemplateSelector extends React.Component<
     const {
       bundles,
       styles,
+      contributorRoles,
       templatesData,
       sectionCategories,
       manuscriptTemplates,
@@ -470,6 +488,10 @@ class TemplateSelector extends React.Component<
 
     if (!styles) {
       throw new Error('Styles not found')
+    }
+
+    if (!contributorRoles) {
+      throw new Error('Contributor roles not found')
     }
 
     const { handleComplete, history, user } = this.props
@@ -494,6 +516,8 @@ class TemplateSelector extends React.Component<
       : await nextManuscriptPriority(collection as Collection<Manuscript>)
 
     const newStyles = createNewStyles(styles)
+
+    const newContributorRoles = createNewContributorRoles(contributorRoles)
 
     const newPageLayout = updatedPageLayout(newStyles)
 
@@ -532,9 +556,13 @@ class TemplateSelector extends React.Component<
       await saveManuscriptModel<Model>(newStyle)
     }
 
+    for (const newContributorRole of newContributorRoles.values()) {
+      await saveManuscriptModel<ContributorRole>(newContributorRole)
+    }
+
     const contributor = buildContributor(
       user.bibliographicName,
-      ContributorRole.author,
+      'author',
       0,
       user.userID
     )
