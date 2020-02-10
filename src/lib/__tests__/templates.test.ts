@@ -23,6 +23,7 @@ import {
   Model,
   ObjectTypes,
   PageLayout,
+  ParagraphElement,
 } from '@manuscripts/manuscripts-json-schema'
 import { orderBy } from 'lodash-es'
 import {
@@ -251,12 +252,15 @@ describe('templates', () => {
     )
 
     expect(result.dependencies).toHaveLength(9)
-    expect(result.dependencies[0].objectType).toBe(ObjectTypes.ParagraphElement)
-    expect(result.dependencies[0].contents).toBe(
-      `<p xmlns="http://www.w3.org/1999/xhtml" id="${result.dependencies[0]._id}" class="MPElement" data-placeholder-text="A short summary of your work."></p>`
+
+    const paragraphElement = result.dependencies[0] as ParagraphElement
+
+    expect(paragraphElement.objectType).toBe(ObjectTypes.ParagraphElement)
+    expect(paragraphElement.contents).toBe(
+      `<p xmlns="http://www.w3.org/1999/xhtml" id="${paragraphElement._id}" class="MPElement" data-placeholder-text="A short summary of your work."></p>`
     )
 
-    expect(result.section.elementIDs).toEqual([result.dependencies[0]._id])
+    expect(result.section.elementIDs).toEqual([paragraphElement._id])
     expect(result.section.objectType).toBe(ObjectTypes.Section)
     expect(result.section.path).toEqual([result.section._id])
     expect(result.section.priority).toBe(1)
@@ -286,13 +290,14 @@ describe('templates', () => {
       sectionCategoriesMap
     )
 
-    expect(items).toHaveLength(8)
+    expect(items).toHaveLength(7)
     expect(items[0].objectType).toBe(ObjectTypes.ParagraphElement)
     expect(items[1].objectType).toBe(ObjectTypes.Section)
     expect(items[2].objectType).toBe(ObjectTypes.ParagraphElement)
     expect(items[3].objectType).toBe(ObjectTypes.Section)
     expect(items[4].objectType).toBe(ObjectTypes.ParagraphElement)
     expect(items[5].objectType).toBe(ObjectTypes.Section)
+    expect(items[6].objectType).toBe(ObjectTypes.Section)
   })
 
   test('create model from prototype', () => {

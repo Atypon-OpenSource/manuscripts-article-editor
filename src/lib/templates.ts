@@ -138,12 +138,19 @@ export const chooseSectionTitle = (
   return ''
 }
 
+// the content in these sections is automatically generated
+const generatedSections = [
+  'MPSectionCategory:bibliography',
+  'MPSectionCategory:keywords',
+  'MPSectionCategory:toc',
+]
+
 export const buildSectionFromDescription = (
   sectionDescription: SectionDescription,
   priority: number,
   sectionCategory?: SectionCategory
 ) => {
-  const dependencies = []
+  const dependencies: Array<Build<Model>> = []
 
   const section = buildSection(priority)
   section.elementIDs = []
@@ -155,6 +162,11 @@ export const buildSectionFromDescription = (
 
   if (sectionCategory) {
     section.category = sectionCategory._id
+
+    // avoid adding invalid empty paragraphs to generated sections
+    if (generatedSections.includes(section.category)) {
+      return { section, dependencies }
+    }
   }
 
   const choosePlaceholder = (): string | undefined => {
