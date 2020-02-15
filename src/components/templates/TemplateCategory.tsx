@@ -11,40 +11,29 @@
  */
 
 import React from 'react'
-import { styled } from '../../theme/styled-components'
-import Search from '../Search'
-
-const SearchContainer = styled.div`
-  margin: 0 30px 20px 10px;
-`
+import styled from 'styled-components'
 
 interface Props {
-  value: string
-  handleChange: (value: string) => void
+  isSelected: boolean
 }
 
-interface State {
-  searching: boolean
-}
+const Category = styled.span`
+  & + & {
+    margin-left: ${props => props.theme.grid.unit * 2}px;
+  }
+`
+export class TemplateCategory extends React.Component<Props> {
+  private categoryRef = React.createRef<HTMLDivElement>()
 
-export class TemplateSearchInput extends React.Component<Props, State> {
-  public state: Readonly<State> = {
-    searching: false,
+  public componentDidUpdate() {
+    if (this.categoryRef.current && this.props.isSelected) {
+      this.categoryRef.current.scrollIntoView({
+        behavior: 'smooth',
+      })
+    }
   }
 
   public render() {
-    return (
-      <SearchContainer>
-        <Search
-          autoFocus={true}
-          handleSearchChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            this.props.handleChange(event.currentTarget.value)
-          }
-          placeholder={'Search'}
-          type={'search'}
-          value={this.props.value}
-        />
-      </SearchContainer>
-    )
+    return <Category ref={this.categoryRef}>{this.props.children}</Category>
   }
 }

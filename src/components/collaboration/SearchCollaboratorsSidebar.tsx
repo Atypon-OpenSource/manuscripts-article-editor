@@ -12,11 +12,15 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { Avatar, PrimaryButton } from '@manuscripts/style-guide'
+import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
-import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
+import {
+  SidebarContent,
+  SidebarEmptyResult,
+  SidebarPersonContainer,
+} from '../Sidebar'
 import AddCollaboratorButton from './AddCollaboratorButton'
 
 const PersonInitial = styled.span`
@@ -39,18 +43,9 @@ const UserDataContainer = styled.div`
   align-items: center;
   overflow: hidden;
 `
-
-const SidebarText = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 5}px;
-  font-size: ${props => props.theme.font.size.xlarge};
-  margin-bottom: ${props => props.theme.grid.unit * 7}px;
-  margin-top: ${props => props.theme.grid.unit * 7}px;
+const TextContainer = styled.div`
+  word-break: break-word;
 `
-
-const SidebarButtonContainer = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 5}px;
-`
-
 interface SearchSidebarProps {
   searchText: string
   searchResults: UserProfile[]
@@ -73,16 +68,17 @@ const SearchCollaboratorsSidebar: React.FunctionComponent<
   <React.Fragment>
     {!searchResults.length ? (
       <SidebarContent>
-        <SidebarText data-cy={'sidebar-text'}>
-          No matches found.
-          <br />
-          Do you want to <b>invite</b> {searchText}?
-        </SidebarText>
-        <SidebarButtonContainer>
-          <PrimaryButton onClick={() => handleInvite(searchText)}>
-            Invite
-          </PrimaryButton>
-        </SidebarButtonContainer>
+        <SidebarEmptyResult
+          primaryButton={{
+            action: () => handleInvite(searchText),
+            text: 'Invite',
+          }}
+          text={
+            <TextContainer>
+              Do you want to invite <strong>{searchText}</strong> ?
+            </TextContainer>
+          }
+        />
       </SidebarContent>
     ) : (
       <SidebarContent>

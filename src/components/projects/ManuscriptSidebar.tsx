@@ -41,6 +41,8 @@ const ProjectTitle = styled.div`
   flex: 1;
   overflow: hidden;
   padding-right: ${props => props.theme.grid.unit}px;
+  font-size: 24px;
+  line-height: 32px;
 
   & .ProseMirror {
     cursor: text;

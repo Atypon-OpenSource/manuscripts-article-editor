@@ -11,25 +11,11 @@
  */
 
 import AddIcon from '@manuscripts/assets/react/AddIcon'
-import AddIconHighlight from '@manuscripts/assets/react/AddIconHighlight'
 import { IconTextButton } from '@manuscripts/style-guide'
 import React, { ReactNode } from 'react'
 import { css, styled } from '../theme/styled-components'
 
 const RegularAddIcon = styled(AddIcon)``
-
-const AddIconHover = styled(AddIconHighlight)`
-  opacity: 0;
-  left: 0;
-  position: absolute;
-  top: 0;
-  transition: opacity 0.5s;
-`
-
-const AddIconContainer = styled.div`
-  display: flex;
-  position: relative;
-`
 
 const smallStyles = css`
   font-size: ${props => props.theme.font.size.normal};
@@ -73,8 +59,15 @@ const Action = styled(IconTextButton)<{
     margin: 0;
   }
 
-  &:focus ${AddIconHover}, &:hover ${AddIconHover} {
-    opacity: 1;
+  svg path {
+    transition: fill 0.5s;
+  }
+
+  &:focus,
+  &:hover {
+    svg path:first-of-type {
+      fill: #f7b314;
+    }
   }
 `
 
@@ -95,10 +88,7 @@ export const AddButton: React.FunctionComponent<Props> = ({
   title,
 }) => (
   <Action onClick={action} size={size} id={id}>
-    <AddIconContainer>
-      <RegularAddIcon width={40} height={40} />
-      <AddIconHover width={40} height={40} />
-    </AddIconContainer>
+    <RegularAddIcon width={40} height={40} />
     <ActionTitle>{title}</ActionTitle>
   </Action>
 )

@@ -10,22 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { styled } from '../../theme/styled-components'
-
-export const Search = styled.input`
-  padding: ${props => props.theme.grid.unit * 2}px;
-  flex: 1;
-  font-size: 1em;
-  border: none;
-  background: none;
-  width: 500px;
-  -webkit-appearance: none;
-  outline: none;
-`
-
-export const SearchContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding: ${props => props.theme.grid.unit * 3}px
-    ${props => props.theme.grid.unit * 2}px;
-`
+export * from './Sidebar'
+export * from './SidebarEmptyResult'
+export * from './SidebarHeaderFooter'
+export * from './SidebarPersonContainer'
+export * from './SidebarSearch'

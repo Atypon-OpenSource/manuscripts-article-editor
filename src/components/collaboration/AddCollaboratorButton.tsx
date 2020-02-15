@@ -31,12 +31,9 @@ import AddCollaboratorPopperContainer from './AddCollaboratorPopperContainer'
 const AddIconButton = styled(IconButton).attrs(props => ({
   defaultColor: true,
 }))`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: unset;
   height: unset;
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${props => props.theme.grid.unit * 2}px;
 
   &:focus {
     outline: none;
@@ -91,9 +88,9 @@ class AddCollaboratorButton extends React.Component<Props, State> {
           {({ ref }) => (
             <AddIconButton ref={ref} onClick={this.togglePopper}>
               {isOpen ? (
-                <AddIconActive color={theme.colors.brand.default} />
+                <AddIconActive color={theme.colors.brand.medium} />
               ) : (
-                <AddIconInverted color={theme.colors.brand.default} />
+                <AddIconInverted color={theme.colors.brand.medium} />
               )}
             </AddIconButton>
           )}

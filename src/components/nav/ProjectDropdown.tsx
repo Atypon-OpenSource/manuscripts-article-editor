@@ -22,12 +22,12 @@ import {
   PrimaryButton,
   ProjectNotificationIcon,
   SecondaryButton,
-  TickMarkIcon,
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
+import AcceptedLabel from '../AcceptedLabel'
 import { AddButton } from '../AddButton'
 import {
   DropdownElement,
@@ -67,21 +67,12 @@ const ProjectNameContainer = styled.div`
 const AcceptButton = styled(PrimaryButton)`
   line-height: 1;
   font-size: ${props => props.theme.font.size.normal};
+  margin-bottom: 4px;
 `
 
 const RejectButton = styled(SecondaryButton)`
   line-height: 1;
   font-size: ${props => props.theme.font.size.normal};
-`
-
-const AcceptedLabel = styled.div`
-  display: flex;
-  align-items: center;
-  color: ${props => props.theme.colors.text.onDark};
-  background: ${props => props.theme.colors.brand.default};
-  padding: 2px 10px;
-  border-radius: ${props => props.theme.grid.radius.small};
-  text-transform: uppercase;
 `
 
 const AvatarContainer = styled.div`
@@ -92,11 +83,6 @@ const AvatarContainer = styled.div`
 
 const InvitedByText = styled.div`
   height: 20px;
-`
-
-const TickMarkContainer = styled.div`
-  display: flex;
-  padding-right: ${props => props.theme.grid.unit}px;
 `
 
 interface InvitationProps {
@@ -171,14 +157,7 @@ export const ProjectDropdownSection: React.FunctionComponent<
         <PlaceholderTitle value={'Untitled Project'} />
       )}
     </ProjectNameContainer>
-    {accepted && (
-      <AcceptedLabel>
-        <TickMarkContainer>
-          <TickMarkIcon />
-        </TickMarkContainer>
-        Accepted
-      </AcceptedLabel>
-    )}
+    {accepted && <AcceptedLabel backgroundColor={theme.colors.brand.default} />}
   </DropdownLink>
 )
 

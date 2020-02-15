@@ -57,6 +57,7 @@ const AuthorsContainer = styled.div`
 
 export const ExpanderButton = styled(IconButton).attrs(props => ({
   size: 20,
+  defaultColor: true,
 }))`
   border: none;
   border-radius: 50%;

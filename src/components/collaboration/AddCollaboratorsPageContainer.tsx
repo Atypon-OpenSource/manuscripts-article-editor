@@ -25,6 +25,7 @@ import { buildCollaborators } from '../../lib/collaborators'
 import { isOwner } from '../../lib/roles'
 import { Main } from '../Page'
 import Panel from '../Panel'
+import { ResizingOutlinerButton } from '../ResizerButtons'
 import AddCollaboratorsSidebar from './AddCollaboratorsSidebar'
 import {
   AddCollaboratorsPage,
@@ -126,6 +127,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           direction={'row'}
           side={'end'}
           minSize={300}
+          resizerButton={ResizingOutlinerButton}
         >
           <InviteCollaboratorsSidebar
             invitationValues={invitationValues}
@@ -155,6 +157,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
           direction={'row'}
           side={'end'}
           minSize={300}
+          resizerButton={ResizingOutlinerButton}
         >
           <AddCollaboratorsSidebar
             people={people}

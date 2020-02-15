@@ -30,20 +30,10 @@ const ShareIconButton = styled(IconButton).attrs({
     text[fill],
     rect[fill],
     path[fill] {
-      fill: ${props => props.theme.colors.brand.default};
+      fill: ${props => props.theme.colors.brand.medium};
     }
     path[stroke] {
-      stroke: ${props => props.theme.colors.brand.default};
-    }
-  }
-  &:hover svg {
-    text[fill],
-    rect[fill],
-    path[fill] {
-      fill: ${props => props.theme.colors.brand.dark};
-    }
-    path[stroke] {
-      stroke: ${props => props.theme.colors.brand.dark};
+      stroke: ${props => props.theme.colors.brand.medium};
     }
   }
 `

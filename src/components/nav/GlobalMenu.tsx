@@ -46,7 +46,7 @@ export const GlobalMenu: React.FunctionComponent<Props> = ({ active }) => (
   <MenuContainer>
     <FilledMenuBarIcon>
       <OfflineIndicator>
-        <AppIcon />
+        <AppIcon width={34} height={34} />
       </OfflineIndicator>
     </FilledMenuBarIcon>
     <MenuSections>

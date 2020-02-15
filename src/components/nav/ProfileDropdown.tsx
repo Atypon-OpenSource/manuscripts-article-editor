@@ -91,7 +91,7 @@ const DropdownToggle = styled(ArrowDownUp)`
 
 const styledAvatar = css`
   ${AvatarContainer}:after {
-    border: 2px solid ${props => props.theme.colors.brand.default};
+    border: 2px solid ${props => props.theme.colors.brand.medium};
     border-radius: 50%;
     display: block;
     height: 30px;
@@ -114,7 +114,7 @@ const DropdownButton = styled.button<{
   background: none;
   color: ${props =>
     props.isOpen
-      ? props.theme.colors.brand.default
+      ? props.theme.colors.brand.medium
       : props.theme.colors.text.secondary};
 
   &:focus {
@@ -122,7 +122,7 @@ const DropdownButton = styled.button<{
   }
 
   &:hover {
-    color: ${props => props.theme.colors.brand.default};
+    color: ${props => props.theme.colors.brand.medium};
   }
 
   ${DropdownToggle} {

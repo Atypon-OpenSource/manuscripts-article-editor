@@ -12,39 +12,31 @@
 
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import Search from '../Search'
+import Search, { SearchInterface } from '../Search'
 
 const SearchContainer = styled.div`
-  margin: 0 30px 20px 10px;
+  flex: 0;
+  padding: 0 ${props => props.theme.grid.unit * 3}px;
 `
 
-interface Props {
-  value: string
-  handleChange: (value: string) => void
-}
-
-interface State {
-  searching: boolean
-}
-
-export class TemplateSearchInput extends React.Component<Props, State> {
-  public state: Readonly<State> = {
-    searching: false,
-  }
-
-  public render() {
-    return (
-      <SearchContainer>
-        <Search
-          autoFocus={true}
-          handleSearchChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            this.props.handleChange(event.currentTarget.value)
-          }
-          placeholder={'Search'}
-          type={'search'}
-          value={this.props.value}
-        />
-      </SearchContainer>
-    )
-  }
-}
+export const SidebarSearch: React.FunctionComponent<SearchInterface> = ({
+  autoComplete,
+  autoFocus,
+  handleSearchChange,
+  maxLength,
+  placeholder,
+  type,
+  value,
+}) => (
+  <SearchContainer>
+    <Search
+      autoComplete={autoComplete}
+      autoFocus={autoFocus}
+      handleSearchChange={handleSearchChange}
+      maxLength={maxLength}
+      placeholder={placeholder}
+      type={type}
+      value={value}
+    />
+  </SearchContainer>
+)

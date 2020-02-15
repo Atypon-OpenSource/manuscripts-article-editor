@@ -12,48 +12,27 @@
 
 import { styled } from '../../theme/styled-components'
 
-export const EditorContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+interface SidebarPersonContainerProps {
+  selected?: boolean
+}
+
+export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
   align-items: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: ${props => props.theme.grid.unit * 8}px;
-  right: ${props => props.theme.grid.unit * 8}px;
-  overflow: hidden;
-  background: ${props => props.theme.colors.background.primary};
-`
-
-export const EditorContainerInner = styled.div`
-  flex: 1;
+  background-color: ${props =>
+    props.selected ? props.theme.colors.background.fifth : 'unset'};
+  border: 1px solid
+    ${props =>
+      props.selected ? props.theme.colors.border.primary : 'transparent'};
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  width: 960px;
-  max-width: 100%;
-  background: ${props => props.theme.colors.background.primary};
-  border-bottom: none;
-  border-top: none;
-`
+  justify-content: space-between;
+  margin: 0 -${props => props.theme.grid.unit * 5}px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 5}px;
 
-export const EditorHeader = styled.div`
-  padding: ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit * 14}px;
-  padding-bottom: 0;
-  background: ${props => props.theme.colors.background.primary};
-  background: linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 1) ${props => props.theme.grid.unit * 4}px
-  );
-  z-index: 5;
-`
-
-export const EditorBody = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  padding: ${props => props.theme.grid.unit * 5}px
-    ${props => props.theme.grid.unit * 2}px;
-  padding-left: 0;
+  &:hover {
+    background-color: ${props => props.theme.colors.background.fifth};
+  }
 `

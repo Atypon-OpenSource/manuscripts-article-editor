@@ -73,7 +73,7 @@ export const UninviteCollaboratorPopper: React.FunctionComponent<Props> = ({
       Are you sure you want to <Action>uninvite</Action>
     </Message>
     <AvatarStyle>
-      <Avatar size={45} />
+      <Avatar size={45} color={'#6e6e6e'} />
     </AvatarStyle>
     <CollaboratorName>{invitedUserName}</CollaboratorName>
     <Message>from the Contributors list?</Message>

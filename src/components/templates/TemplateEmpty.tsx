@@ -10,15 +10,18 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 
-const SadAnimal = React.lazy(() => import('./SadAnimal'))
+// const SadAnimal = React.lazy(() => import('./SadAnimal'))
 
-const CreateButtonContainer = styled.div`
-  padding: 20px;
+const CategoryContainer = styled.span`
+  font-weight: ${props => props.theme.font.weight.bold};
 `
+// const ImageContainer = styled.span`
+//   position: fixed;
+//   top: 50%;
+// `
 
 const Container = styled.div`
   flex: 1;
@@ -33,11 +36,9 @@ const Container = styled.div`
 
 const TextContainer = styled.div`
   max-width: 400px;
-  font-size: ${props => props.theme.font.size.xlarge};
+  font-size: ${props => props.theme.font.size.medium};
   color: ${props => props.theme.colors.text.primary};
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-top: 20px;
+  margin: 20px;
   text-align: center;
 `
 
@@ -53,23 +54,21 @@ export const TemplateEmpty: React.FunctionComponent<Props> = ({
   createEmpty,
 }) => (
   <Container>
-    <React.Suspense fallback={'😿'}>
-      <SadAnimal />
-    </React.Suspense>
-
     {searchText ? (
       <TextContainer>
-        {`No matching template for query '${searchText}'.`}
+        No matching template for query{' '}
+        <CategoryContainer>{searchText}</CategoryContainer>.
       </TextContainer>
     ) : (
       <TextContainer>
-        {`No manuscript templates yet in the ${selectedCategoryName} category.`}
+        No manuscript templates yet in the{' '}
+        <CategoryContainer>{selectedCategoryName}</CategoryContainer> category.
       </TextContainer>
     )}
-    <CreateButtonContainer>
-      <PrimaryButton onClick={createEmpty}>
-        Create empty manuscript
-      </PrimaryButton>
-    </CreateButtonContainer>
+    {/* <ImageContainer>
+      <React.Suspense fallback={'😿'}>
+        <SadAnimal />
+      </React.Suspense>
+    </ImageContainer> */}
   </Container>
 )

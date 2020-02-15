@@ -51,14 +51,14 @@ export const InspectorTab = styled(Tab)`
   && {
     background: none;
     padding: ${props => props.theme.grid.unit * 2}px;
-    border-bottom-width: 2px;
+    border-bottom-width: 1px;
 
     &:focus {
       outline: none;
     }
 
     &[data-selected] {
-      border-bottom-color: ${props => props.theme.colors.brand.dark};
+      border-bottom-color: ${props => props.theme.colors.brand.default};
     }
   }
 `

@@ -35,6 +35,7 @@ import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
 import { Collection } from '../../sync/Collection'
 import { styled } from '../../theme/styled-components'
+import { theme } from '../../theme/theme'
 
 const LabelContainer = styled.div`
   display: flex;
@@ -232,6 +233,7 @@ const Actions = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: ${props => props.theme.grid.unit * 2}px;
+  padding-left: ${props => props.theme.grid.unit * 8}px;
 `
 
 const AuthorActions = styled(Actions)`
@@ -283,6 +285,7 @@ const TitleLink = styled.a`
 
 const FormField = styled.div`
   padding: ${props => props.theme.grid.unit * 3}px;
+  padding-left: ${props => props.theme.grid.unit * 8}px;
 `
 
 interface OptionType {
@@ -508,6 +511,22 @@ const LibraryForm: React.FC<{
                         }))
                     : null
                 }
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isFocused
+                      ? theme.colors.background.fifth
+                      : theme.colors.background.primary,
+                    borderColor: state.isFocused
+                      ? theme.colors.border.field.active
+                      : theme.colors.border.field.default,
+                    '&:hover': {
+                      backgroundColor: theme.colors.background.fifth,
+                    },
+                    borderRadius: theme.grid.radius.default,
+                    boxShadow: 'none',
+                  }),
+                }}
               />
             )}
           </Field>

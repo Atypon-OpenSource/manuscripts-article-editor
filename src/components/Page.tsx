@@ -62,8 +62,6 @@ const ViewsBar = styled.div`
   width: 56px;
 `
 
-const StyledNavIcon = styled(AppIcon)``
-
 const IconBar = styled.div`
   align-items: center;
   display: flex;
@@ -87,17 +85,16 @@ const ViewLink = styled(NavLink)`
   height: ${props => props.theme.grid.unit * 8}px;
 
   &:hover {
-    color: ${props => props.theme.colors.brand.default};
+    color: ${props => props.theme.colors.brand.medium};
   }
   &.active {
-    color: ${props => props.theme.colors.brand.default};
+    color: ${props => props.theme.colors.brand.medium};
     background: ${props => props.theme.colors.brand.xlight};
   }
 `
 
 const ViewsSeparator = styled.div`
   border: 1px solid ${props => props.theme.colors.border.secondary};
-  margin-top: ${props => props.theme.grid.unit * 2}px;
   width: ${props => props.theme.grid.unit * 7}px;
 `
 
@@ -154,7 +151,7 @@ export const Page: React.FunctionComponent<Props> = ({
             <MenuBar tokenActions={tokenActions!}>
               <Tip title={'Home'} placement={'right'}>
                 <OfflineIndicator>
-                  <StyledNavIcon />
+                  <AppIcon width={34} height={34} />
                 </OfflineIndicator>
               </Tip>
             </MenuBar>

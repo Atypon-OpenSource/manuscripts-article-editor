@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import SearchIcon from '@manuscripts/assets/react/SearchIcon'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
@@ -21,7 +20,7 @@ import { LibrarySource, sources } from '../../lib/sources'
 import { Collection } from '../../sync/Collection'
 import { styled } from '../../theme/styled-components'
 import { Main } from '../Page'
-import { Search, SearchContainer } from './Search'
+import Search, { SearchWrapper } from '../Search'
 import { SearchResults } from './SearchResults'
 
 export const ExternalSearch: React.FC<
@@ -170,18 +169,16 @@ export const ExternalSearch: React.FC<
     return (
       <Main>
         <Container>
-          <SearchContainer>
-            <SearchIcon />
-
+          <SearchWrapper>
             <Search
               autoComplete={'off'}
               autoFocus={true}
-              onChange={handleQueryChange}
+              handleSearchChange={handleQueryChange}
               placeholder={`Search ${source.name}`}
               type={'search'}
               value={query || ''}
             />
-          </SearchContainer>
+          </SearchWrapper>
 
           <SearchResults
             error={error}

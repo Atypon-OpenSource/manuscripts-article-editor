@@ -24,6 +24,7 @@ const ModalFooter = styled.div`
   box-shadow: 0 -2px 12px 0 rgba(216, 216, 216, 0.26);
   padding: 20px 32px;
   z-index: 1;
+  margin-top: auto;
 
   @media (min-width: 768px) {
     display: flex;
@@ -72,30 +73,38 @@ interface Props {
   createEmpty: () => Promise<void>
   importManuscript: (models: Model[]) => Promise<void>
   selectTemplate: () => Promise<void>
-  template?: TemplateData
+  selectedTemplate?: TemplateData
   creatingManuscript: boolean
+  noTemplate: boolean
 }
 
 export const TemplateModalFooter: React.FC<Props> = ({
   createEmpty,
   selectTemplate,
-  template,
+  selectedTemplate,
   creatingManuscript,
+  noTemplate,
 }) => {
   return (
     <ModalFooter>
       <FooterText>
         <SelectedTemplateDesc>
-          {template ? 'Selected Template' : 'Select a Template'}
+          {noTemplate
+            ? 'No template available'
+            : selectedTemplate
+            ? 'Selected Template'
+            : 'Select a Template'}
         </SelectedTemplateDesc>
 
-        {template && (
+        {selectedTemplate && (
           <SelectedTemplateDetails>
-            <SelectedTemplateTitle>{template.title}</SelectedTemplateTitle>
-            {template.articleType &&
-              template.articleType !== template.title && (
+            <SelectedTemplateTitle>
+              {selectedTemplate.title}
+            </SelectedTemplateTitle>
+            {selectedTemplate.articleType &&
+              selectedTemplate.articleType !== selectedTemplate.title && (
                 <SelectedTemplateType>
-                  {template.articleType}
+                  {selectedTemplate.articleType}
                 </SelectedTemplateType>
               )}
           </SelectedTemplateDetails>
@@ -107,7 +116,7 @@ export const TemplateModalFooter: React.FC<Props> = ({
         </TertiaryButton>
         <PrimaryButton
           onClick={selectTemplate}
-          disabled={creatingManuscript || !template}
+          disabled={creatingManuscript || !selectedTemplate}
         >
           Add Manuscript
         </PrimaryButton>

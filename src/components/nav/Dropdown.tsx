@@ -11,7 +11,7 @@
  */
 
 import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
-import { ToggleButton } from '@manuscripts/style-guide'
+import { SecondaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
@@ -141,7 +141,7 @@ export const NotificationsBadge = styled(Badge)<DropdownProps>`
   min-height: 10px;
 `
 
-export const DropdownButtonContainer = styled(ToggleButton).attrs(
+export const DropdownButtonContainer = styled(SecondaryButton).attrs(
   (props: DropdownProps) => ({
     selected: props.isOpen,
   })

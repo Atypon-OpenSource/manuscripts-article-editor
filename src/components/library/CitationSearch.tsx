@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import SearchIcon from '@manuscripts/assets/react/SearchIcon'
 import { crossref } from '@manuscripts/manuscript-editor'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
@@ -24,9 +23,9 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import config from '../../config'
 import { estimateID } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
+import Search, { SearchWrapper } from '../Search'
 import { BibliographyImportButton } from './BibliographyImportButton'
 import { CitationSearchSection } from './CitationSearchSection'
-import { Search, SearchContainer } from './Search'
 
 const Results = styled.div`
   max-height: 400px;
@@ -227,18 +226,15 @@ export const CitationSearch: React.FC<{
 
   return (
     <Container>
-      <SearchContainer>
-        <SearchIcon />
-
+      <SearchWrapper>
         <Search
           autoComplete={'off'}
-          autoFocus={true}
-          onChange={handleQuery}
+          handleSearchChange={handleQuery}
           placeholder={'Search'}
           type={'search'}
           value={query || ''}
         />
-      </SearchContainer>
+      </SearchWrapper>
 
       <Results>
         {error && <div>{error}</div>}

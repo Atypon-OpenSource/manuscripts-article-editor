@@ -15,7 +15,6 @@ import {
   BibliographicName,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
-import { TickMarkIcon } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { Route } from 'react-router-dom'
@@ -27,21 +26,21 @@ import {
 } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
 import { styled } from '../../theme/styled-components'
+import AcceptedLabel from '../AcceptedLabel'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import ProjectContextMenuButton from './ProjectContextMenuButton'
 
 const SidebarProject = styled.div<{ isActive: boolean }>`
+  border-bottom: 1px solid;
+  border-top: 1px solid;
   background-color: ${props =>
     props.isActive ? props.theme.colors.background.fifth : 'transparent'};
+  border-color: ${props =>
+    props.isActive ? props.theme.colors.border.primary : 'transparent'};
   border-radius: 0;
-  border-top: 1px solid
-    ${props =>
-      props.isActive ? props.theme.colors.border.primary : 'transparent'};
-  box-shadow: 0 1px 0 0
-    ${props =>
-      props.isActive
-        ? props.theme.colors.border.primary
-        : props.theme.colors.border.secondary};
+  ${props =>
+    !props.isActive &&
+    'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.secondary + ';'}
   box-sizing: border-box;
   cursor: pointer;
   padding: ${props => props.theme.grid.unit * 4}px;
@@ -49,8 +48,7 @@ const SidebarProject = styled.div<{ isActive: boolean }>`
   max-width: 564px;
 
   &:hover {
-    border-color: ${props => props.theme.colors.border.primary};
-    box-shadow: 0 1px 0 0 ${props => props.theme.colors.border.primary};
+    box-shadow: unset;
     background-color: ${props => props.theme.colors.background.fifth};
   }
 `
@@ -92,23 +90,9 @@ const Edit = styled.div`
 
   svg {
     g[fill] {
-      fill: ${props => props.theme.colors.brand.default};
+      fill: ${props => props.theme.colors.brand.medium};
     }
   }
-`
-const AcceptedLabel = styled.div`
-  display: flex;
-  align-items: center;
-  color: ${props => props.theme.colors.text.onDark};
-  background: ${props => props.theme.colors.text.success};
-  padding: 2px ${props => props.theme.grid.unit * 2}px;
-  border-radius: ${props => props.theme.grid.radius.small};
-  text-transform: uppercase;
-  margin-right: ${props => props.theme.grid.unit * 2}px;
-`
-const TickMarkContainer = styled.div`
-  display: flex;
-  padding-right: ${props => props.theme.grid.unit}px;
 `
 
 const Container = styled.div`
@@ -181,12 +165,7 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
                           )}
                         </ProjectTitle>
                         {acceptedInvitations.includes(project._id) && (
-                          <AcceptedLabel>
-                            <TickMarkContainer>
-                              <TickMarkIcon />
-                            </TickMarkContainer>
-                            Accepted
-                          </AcceptedLabel>
+                          <AcceptedLabel shouldFade={true} />
                         )}
                         <Container>
                           <Edit>

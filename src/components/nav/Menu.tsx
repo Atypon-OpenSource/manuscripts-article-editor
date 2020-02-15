@@ -37,7 +37,7 @@ export const MenuBarIcon = styled(IconButton).attrs(props => ({
   size: 34,
 }))`
   border: 0;
-  margin: 10px 11px;
+  margin: 15px 11px;
 `
 
 export const MenuSections = styled.div`
@@ -90,7 +90,7 @@ export const Menu: React.FunctionComponent<Props> = ({ handleClose }) => (
     <FilledMenuBarIcon onClick={handleClose}>
       <OfflineIndicator>
         <Tip title={'Back to Editor'} placement={'bottom-end'}>
-          <AppIcon />
+          <AppIcon width={34} height={34} />
         </Tip>
       </OfflineIndicator>
     </FilledMenuBarIcon>

@@ -92,7 +92,7 @@ const UserProfileSidebar: React.FunctionComponent<Props> = ({
     <SidebarContent>
       <AvatarContainer>
         {!userWithAvatar.avatar ? (
-          <Avatar size={150} />
+          <Avatar size={150} color={'#6e6e6e'} />
         ) : (
           <RoundedBorders>
             <Avatar size={150} src={userWithAvatar.avatar} />

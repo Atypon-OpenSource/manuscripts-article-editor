@@ -83,7 +83,7 @@ export const RemoveCollaboratorPopper: React.FunctionComponent<Props> = ({
         Are you sure you want to <Action>remove</Action>
       </Message>
       <AvatarStyle>
-        <Avatar src={avatar} size={45} />
+        <Avatar src={avatar} size={45} color={'#6e6e6e'} />
       </AvatarStyle>
       <CollaboratorName>
         <CollaboratorInitial>{initials(bibliographicName)}</CollaboratorInitial>

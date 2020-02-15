@@ -22,6 +22,7 @@ import { ToggleButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
 import { Slider } from '../Slider'
+import { TemplateCategory } from './TemplateCategory'
 
 const Categories = styled.nav.attrs(props => ({ role: 'navigation' }))`
   margin: 0 64px 40px;
@@ -39,32 +40,6 @@ const Category = styled(ToggleButton)<{ selected: boolean }>`
   cursor: pointer;
   display: inline-flex;
   flex-shrink: 0;
-
-  & + & {
-    margin-left: ${props => props.theme.grid.unit * 2}px;
-  }
-
-  &:focus,
-  &:hover {
-    border-color: ${props => props.theme.colors.brand.default};
-  }
-
-  svg {
-    path[stroke] {
-      stroke: ${props =>
-        props.selected
-          ? props.theme.colors.brand.default
-          : props.theme.colors.text.primary};
-    }
-    text[fill],
-    rect[fill],
-    path[fill] {
-      fill: ${props =>
-        props.selected
-          ? props.theme.colors.brand.default
-          : props.theme.colors.text.primary};
-    }
-  }
 `
 
 const CategoryName = styled.span`
@@ -98,16 +73,18 @@ export const TemplateCategorySelector: React.FunctionComponent<Props> = ({
   <Categories>
     <Slider>
       {options.map(category => (
-        <Category
-          autoFocus={value === category._id}
-          key={category._id}
-          title={category.desc}
-          selected={value === category._id}
-          onClick={() => handleChange(category._id)}
-        >
-          <CategoryIcon name={category.imageName} />
-          <CategoryName>{category.name}</CategoryName>
-        </Category>
+        <TemplateCategory isSelected={value === category._id}>
+          <Category
+            autoFocus={value === category._id}
+            key={category._id}
+            title={category.desc}
+            selected={value === category._id}
+            onClick={() => handleChange(category._id)}
+          >
+            <CategoryIcon name={category.imageName} />
+            <CategoryName>{category.name}</CategoryName>
+          </Category>
+        </TemplateCategory>
       ))}
     </Slider>
   </Categories>

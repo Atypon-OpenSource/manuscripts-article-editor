@@ -185,7 +185,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
             onMouseLeave={() => this.handleHover()}
           >
             <UserDataContainer>
-              <Avatar size={36} />
+              <Avatar size={36} color={'#6e6e6e'} />
               <CollaboratorData>
                 <CollaboratorName>
                   {invitation.invitedUserName || invitation.invitedUserEmail}
@@ -219,7 +219,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
               onClick={() => this.handleClickCollaborator(collaborator)}
             >
               <UserDataContainer>
-                <Avatar src={collaborator.avatar} size={36} />
+                <Avatar src={collaborator.avatar} size={36} color={'#6e6e6e'} />
                 <CollaboratorData>
                   {user.userID !== collaborator.userID ? (
                     <CollaboratorName>

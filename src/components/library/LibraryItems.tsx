@@ -11,7 +11,6 @@
  */
 
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
-import SearchIcon from '@manuscripts/assets/react/SearchIcon'
 import {
   BibliographyItem,
   LibraryCollection,
@@ -20,7 +19,7 @@ import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { fullLibraryItemMetadata } from '../../lib/library'
 import { styled } from '../../theme/styled-components'
-import { Search, SearchContainer } from './Search'
+import Search, { SearchWrapper } from '../Search'
 
 const Container = styled.div`
   display: flex;
@@ -34,16 +33,24 @@ const Items = styled.div`
   overflow-y: auto;
 `
 
-const Item = styled.div`
+const Item = styled.div<{ isActive: boolean }>`
   cursor: pointer;
   padding: ${props => props.theme.grid.unit * 3}px;
-  border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  background-color: ${props =>
+    props.isActive ? props.theme.colors.background.fifth : 'transparent'};
+  border-color: ${props =>
+    props.isActive ? props.theme.colors.border.primary : 'transparent'};
   transition: background-color 0.25s;
   display: flex;
+  ${props =>
+    !props.isActive &&
+    'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.secondary + ';'}
 
   &:hover {
+    box-shadow: unset;
     background-color: ${props => props.theme.colors.background.fifth};
-    border-color: ${props => props.theme.colors.border.primary};
   }
 `
 
@@ -112,6 +119,7 @@ export const LibraryItems: React.FC<{
   items: BibliographyItem[]
   filterID?: string
   projectLibraryCollections: Map<string, LibraryCollection>
+  selectedItem: BibliographyItem | undefined
 }> = ({
   query,
   setQuery,
@@ -119,18 +127,19 @@ export const LibraryItems: React.FC<{
   items,
   filterID,
   projectLibraryCollections,
+  selectedItem,
 }) => (
   <Container>
-    <SearchContainer>
-      <SearchIcon />
+    <SearchWrapper>
       <Search
+        autoComplete={'off'}
+        autoFocus={true}
+        handleSearchChange={e => setQuery(e.target.value)}
+        placeholder={'Search library…'}
         type={'search'}
         value={query || ''}
-        onChange={e => setQuery(e.target.value)}
-        placeholder={'Search library…'}
-        autoComplete={'off'}
       />
-    </SearchContainer>
+    </SearchWrapper>
 
     {query && items.length === 0 && (
       <EmptyItems>No items match this query.</EmptyItems>
@@ -139,7 +148,11 @@ export const LibraryItems: React.FC<{
     {items.length > 0 && (
       <Items>
         {items.map((item: BibliographyItem) => (
-          <Item onClick={() => handleSelect(item)} key={item._id}>
+          <Item
+            key={item._id}
+            onClick={() => handleSelect(item)}
+            isActive={selectedItem ? selectedItem._id === item._id : false}
+          >
             <ItemIcon>
               <StyledReferenceLibraryIcon />
             </ItemIcon>

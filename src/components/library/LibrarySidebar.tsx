@@ -71,8 +71,11 @@ const SectionLink = styled(NavLink)`
 
   &:hover,
   &.active {
-    border-color: ${props => props.theme.colors.border.primary};
     background-color: ${props => props.theme.colors.background.fifth};
+  }
+
+  &.active {
+    border-color: ${props => props.theme.colors.border.primary};
   }
 
   &:hover + &.active,

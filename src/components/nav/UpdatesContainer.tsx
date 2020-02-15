@@ -31,20 +31,29 @@ const Bubble = styled.div`
   top: -2px;
   right: -2px;
   cursor: pointer;
-  background: ${props => props.theme.colors.brand.default};
+  background: ${props => props.theme.colors.brand.medium};
   border: 2px solid white;
 `
 
 const StyledBellIcon = styled(BellNormal)``
 
-const Icon = styled.div`
+const Icon = styled.div<{
+  isOpen: boolean
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 
+  ${StyledBellIcon} g {
+    fill: ${props =>
+      props.isOpen
+        ? props.theme.colors.brand.medium
+        : props.theme.colors.text.secondary};
+  }
+
   &:hover ${StyledBellIcon} g {
-    fill: ${props => props.theme.colors.brand.default};
+    fill: ${props => props.theme.colors.brand.medium};
   }
 `
 
@@ -105,7 +114,7 @@ export class UpdatesContainer extends React.Component<{}, State> {
             {({ ref }) => (
               <Wrapper ref={ref} onClick={this.toggleOpen}>
                 {hasUpdates && <Bubble />}
-                <Icon>
+                <Icon isOpen={isOpen}>
                   <StyledBellIcon width={32} height={32} />
                 </Icon>
               </Wrapper>

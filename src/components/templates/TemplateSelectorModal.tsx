@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import PencilIcon from '@manuscripts/assets/react/Pencil'
 import { ManuscriptCategory, Model } from '@manuscripts/manuscripts-json-schema'
 import fuzzysort from 'fuzzysort'
 import React, { Component } from 'react'
@@ -18,12 +17,12 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
 import { styled } from '../../theme/styled-components'
 import { ResearchField, TemplateData } from '../../types/templates'
+import Search from '../Search'
 import { TemplateCategorySelector } from './TemplateCategorySelector'
 import { TemplateEmpty } from './TemplateEmpty'
 import { TemplateModalClose } from './TemplateModalClose'
 import { TemplateModalFooter } from './TemplateModalFooter'
 import { TemplateModalHeader } from './TemplateModalHeader'
-import { TemplateSearchInput } from './TemplateSearchInput'
 import { TemplateSelectorList } from './TemplateSelectorList'
 import { TemplateTopicSelector } from './TemplateTopicSelector'
 
@@ -36,6 +35,7 @@ const ModalContainer = styled.div`
   font-family: ${props => props.theme.font.family.sans};
   margin: ${props => props.theme.grid.unit * 3}px;
   overflow: hidden;
+  height: calc(70vh - 24px - 32px);
 `
 
 const ModalBody = styled.div`
@@ -53,6 +53,10 @@ const FiltersContainer = styled.div`
   border-radius: ${props => props.theme.grid.radius.small};
   display: flex;
   margin: 0 30px ${props => props.theme.grid.unit * 4}px;
+
+  input {
+    border: none;
+  }
 
   @media (max-width: 450px) {
     margin-left: ${props => props.theme.grid.unit * 4}px;
@@ -76,7 +80,7 @@ const TemplatesContainer = styled.div`
 `
 
 const EmptyTemplateContainer = styled.div`
-  margin: 0 auto;
+  margin: 0 30px ${props => props.theme.grid.unit * 4}px;
 `
 
 interface Props {
@@ -136,33 +140,38 @@ export class TemplateSelectorModal extends Component<Props, State> {
       <ModalBody>
         <TemplateModalClose handleComplete={handleComplete} />
         <ModalContainer>
-          <TemplateModalHeader
-            icon={<PencilIcon width={34} height={24} />}
-            title={'Add Manuscript to Project'}
-          />
+          <TemplateModalHeader title={'Add Manuscript to Project'} />
 
           <TemplateCategorySelector
             options={categories}
             value={selectedCategory}
             handleChange={(selectedCategory: string) =>
-              this.setState({ selectedCategory })
+              this.setState({
+                selectedCategory,
+                searchText: '',
+                selectedItem: undefined,
+              })
             }
           />
 
-          <FiltersContainer>
-            <TemplateSearchInput
-              value={searchText}
-              handleChange={(searchText: string) => {
-                this.setState({ searchText })
-              }}
-            />
+          {(searchText || filteredItems.length !== 0) && (
+            <FiltersContainer>
+              <Search
+                autoComplete={'off'}
+                autoFocus={true}
+                handleSearchChange={this.handleSearchChange}
+                placeholder={'Search'}
+                type={'search'}
+                value={searchText}
+              />
 
-            <TemplateTopicSelector
-              handleChange={selectedField => this.setState({ selectedField })}
-              options={researchFields}
-              value={selectedField}
-            />
-          </FiltersContainer>
+              <TemplateTopicSelector
+                handleChange={selectedField => this.setState({ selectedField })}
+                options={researchFields}
+                value={selectedField}
+              />
+            </FiltersContainer>
+          )}
 
           {filteredItems.length ? (
             <TemplatesContainer>
@@ -193,12 +202,18 @@ export class TemplateSelectorModal extends Component<Props, State> {
             createEmpty={this.createEmpty}
             importManuscript={importManuscript}
             selectTemplate={this.selectTemplate}
-            template={selectedItem}
+            selectedTemplate={selectedItem}
             creatingManuscript={creatingManuscript}
+            noTemplate={filteredItems.length === 0}
           />
         </ModalContainer>
       </ModalBody>
     )
+  }
+
+  private handleSearchChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const searchText = event.currentTarget.value
+    this.setState({ searchText })
   }
 
   private createEmpty = async () => {

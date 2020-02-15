@@ -56,7 +56,7 @@ export const theme: Theme = {
     },
     brand: {
       dark: colors.manuscriptsBlueDark,
-      medium: colors.manuscriptsBlue,
+      medium: colors.manuscriptsIcons,
       default: colors.manuscriptsBlue,
       light: colors.manuscriptsLight,
       xlight: colors.manuscriptsXLight,

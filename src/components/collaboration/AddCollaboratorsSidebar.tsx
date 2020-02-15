@@ -16,19 +16,16 @@ import {
   ContainerInvitation,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { Avatar, SearchIcon } from '@manuscripts/style-guide'
+import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import { TokenActions } from '../../data/TokenData'
 import { styled } from '../../theme/styled-components'
-import { theme } from '../../theme/theme'
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarPersonContainer,
-  SidebarSearchField,
-  SidebarSearchIconContainer,
-  SidebarSearchText,
+  SidebarSearch,
 } from '../Sidebar'
 import AddCollaboratorButton from './AddCollaboratorButton'
 import SearchCollaboratorsSidebar from './SearchCollaboratorsSidebar'
@@ -77,9 +74,11 @@ const AddedIconContainer = styled.div`
     outline: none;
   }
 `
+
 const SearchContainer = styled.div`
   margin-bottom: ${props => props.theme.grid.unit * 2}px;
 `
+
 interface Props {
   people: UserProfile[]
   invitations: ContainerInvitation[]
@@ -94,14 +93,12 @@ interface Props {
 }
 
 interface State {
-  isSearching: boolean
   searchText: string
   searchResults: UserProfile[]
 }
 
 class AddCollaboratorsSidebar extends React.Component<Props, State> {
   public state = {
-    isSearching: false,
     searchText: '',
     searchResults: [],
   }
@@ -119,7 +116,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
       tokenActions,
     } = this.props
 
-    const { searchResults, searchText, isSearching } = this.state
+    const { searchResults, searchText } = this.state
 
     return (
       <Sidebar data-cy={'sidebar'}>
@@ -130,32 +127,21 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
         />
 
         <SearchContainer>
-          <SidebarSearchField
-            onFocus={this.handleSearchFocus}
-            onBlur={this.handleSearchFocus}
-          >
-            <SidebarSearchIconContainer>
-              {isSearching ? (
-                <SearchIcon color={theme.colors.brand.xlight} />
-              ) : (
-                <SearchIcon />
-              )}
-            </SidebarSearchIconContainer>
-
-            <SidebarSearchText
-              value={searchText}
-              placeholder={'Search name/email'}
-              onChange={this.handleSearchChange}
-              maxLength={100}
-            />
-          </SidebarSearchField>
+          <SidebarSearch
+            autoFocus={true}
+            handleSearchChange={this.handleSearchChange}
+            maxLength={100}
+            placeholder={'Search name/email'}
+            value={searchText}
+          />
         </SearchContainer>
+
         {searchText === '' ? (
           <SidebarContent>
             {invitations.map(invitation => (
               <SidebarPersonContainer key={invitation._id}>
                 <UserDataContainer>
-                  <Avatar size={45} />
+                  <Avatar size={45} color={'#6e6e6e'} />
                   <PersonData>
                     <PersonName>
                       {invitation.invitedUserName ||
@@ -174,7 +160,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
             {people.map((person: UserProfileWithAvatar) => (
               <SidebarPersonContainer key={person._id}>
                 <UserDataContainer>
-                  <Avatar size={45} src={person.avatar} />
+                  <Avatar size={45} src={person.avatar} color={'#6e6e6e'} />
                   <PersonData>
                     <PersonName>
                       <PersonInitial>
@@ -206,12 +192,6 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
         )}
       </Sidebar>
     )
-  }
-
-  private handleSearchFocus = () => {
-    this.setState({
-      isSearching: !this.state.isSearching,
-    })
   }
 
   private handleSearchChange = (event: React.FormEvent<HTMLInputElement>) => {

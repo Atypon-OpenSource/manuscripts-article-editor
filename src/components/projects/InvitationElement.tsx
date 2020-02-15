@@ -51,7 +51,7 @@ const AcceptButton = styled(PrimaryButton)`
   font-weight: ${props => props.theme.font.weight.medium};
   background-color: ${props => props.theme.colors.brand.default};
   padding: 0 ${props => props.theme.grid.unit * 2}px;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 
   &:hover {
     color: ${props => props.theme.colors.brand.default};
@@ -86,10 +86,8 @@ const InvitationElement = styled.div`
   border-top: 1px solid transparent;
 
   &:hover {
-    border-color: ${props => props.theme.colors.border.primary};
-    box-shadow: 0 1px 0 0 ${props => props.theme.colors.border.primary};
     background-color: ${props => props.theme.colors.background.fifth};
-    border-top-color: ${props => props.theme.colors.border.primary};
+    box-shadow: unset;
   }
 
   @media (max-width: 480px) {

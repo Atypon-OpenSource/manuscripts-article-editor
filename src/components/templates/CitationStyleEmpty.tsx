@@ -28,11 +28,11 @@ const Container = styled.div`
 
 const TextContainer = styled.div`
   max-width: 400px;
-  font-size: ${props => props.theme.font.size.xlarge};
+  font-size: ${props => props.theme.font.size.medium};
   color: ${props => props.theme.colors.text.primary};
   padding-left: 20px;
   padding-right: 20px;
-  margin-top: 20px;
+  margin-bottom: 20px;
   text-align: center;
 `
 
@@ -44,14 +44,13 @@ export const CitationStyleEmpty: React.FunctionComponent<Props> = ({
   searchText,
 }) => (
   <Container>
-    <React.Suspense fallback={'😿'}>
-      <SadAnimal />
-    </React.Suspense>
-
     {searchText ? (
       <TextContainer>
         {`No matching template for query '${searchText}'.`}
       </TextContainer>
     ) : null}
+    <React.Suspense fallback={'😿'}>
+      <SadAnimal />
+    </React.Suspense>
   </Container>
 )

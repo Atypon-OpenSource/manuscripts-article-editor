@@ -47,6 +47,10 @@ const SignupButton = styled.button`
   border-radius: 6px;
   line-height: 1;
   font-family: Lato;
+
+  &:hover {
+    background-color: #0b6bb8;
+  }
 `
 const LoginButton = styled.button`
   color: #6c6c6c;
@@ -55,6 +59,10 @@ const LoginButton = styled.button`
   cursor: pointer;
   border: solid 1px #ebebeb;
   border-radius: 4px;
+
+  &:hover {
+    color: ${props => props.theme.colors.brand.default};
+  }
 `
 
 const Text = styled.div`

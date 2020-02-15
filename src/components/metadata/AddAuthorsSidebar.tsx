@@ -12,18 +12,15 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { Avatar, SearchIcon } from '@manuscripts/style-guide'
+import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import { styled } from '../../theme/styled-components'
-import { theme } from '../../theme/theme'
 import {
   ModalSidebar,
   SidebarContent,
   SidebarHeader,
   SidebarPersonContainer,
-  SidebarSearchField,
-  SidebarSearchIconContainer,
-  SidebarSearchText,
+  SidebarSearch,
 } from '../Sidebar'
 import AddAuthorButton from './AddAuthorButton'
 import CreateAuthorPageContainer from './CreateAuthorPageContainer'
@@ -110,26 +107,15 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
       />
 
       <SearchContainer>
-        <SidebarSearchField
-          onFocus={handleSearchFocus}
-          onBlur={handleSearchFocus}
-        >
-          <SidebarSearchIconContainer>
-            {isSearching ? (
-              <SearchIcon color={theme.colors.brand.default} />
-            ) : (
-              <SearchIcon />
-            )}
-          </SidebarSearchIconContainer>
-
-          <SidebarSearchText
-            value={searchText}
-            placeholder={'Search name/email'}
-            onChange={handleSearchChange}
-            maxLength={100}
-          />
-        </SidebarSearchField>
+        <SidebarSearch
+          autoFocus={true}
+          handleSearchChange={handleSearchChange}
+          maxLength={100}
+          placeholder={'Search name/email'}
+          value={searchText}
+        />
       </SearchContainer>
+
       {searchText === '' ? (
         <SidebarContent>
           {nonAuthors.map((person: UserProfileWithAvatar) => (

@@ -23,7 +23,7 @@ export interface ResizerButtonInnerProps {
 export const ResizerButton = styled(RoundIconButton)<ResizerButtonInnerProps>`
   position: absolute;
   top: 50%;
-  margin: -20px;
+  margin: -${props => props.theme.grid.unit * 5}px;
   line-height: 1;
 `
 

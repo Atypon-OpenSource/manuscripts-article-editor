@@ -23,6 +23,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
+import { theme } from '../../theme/theme'
 import { SaveModel } from './ManuscriptInspector'
 
 export const KeywordsInput: React.FC<{
@@ -101,6 +102,22 @@ export const KeywordsInput: React.FC<{
         })
 
         updateKeywordsElement(manuscriptKeywords)
+      }}
+      styles={{
+        control: (provided, state) => ({
+          ...provided,
+          backgroundColor: state.isFocused
+            ? theme.colors.background.fifth
+            : theme.colors.background.primary,
+          borderColor: state.isFocused
+            ? theme.colors.border.field.active
+            : theme.colors.border.field.default,
+          '&:hover': {
+            backgroundColor: theme.colors.background.fifth,
+          },
+          borderRadius: theme.grid.radius.default,
+          boxShadow: 'none',
+        }),
       }}
     />
   )

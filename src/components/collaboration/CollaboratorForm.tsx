@@ -50,7 +50,7 @@ const EmailContainer = styled.div`
 
 const CollaboratorInformationContainer = styled.div`
   display: flex;
-  padding-bottom: 40px;
+  padding-bottom: ${props => props.theme.grid.unit * 10}px;
 `
 
 const Legend = styled.div`
@@ -99,7 +99,7 @@ export const CollaboratorForm: React.FunctionComponent<CollaboratorProps> = ({
       {`${collaborator.bibliographicName.given} ${collaborator.bibliographicName.family}`}
     </NameField>
     <CollaboratorInformationContainer>
-      <Avatar size={74} src={collaborator.avatar} />
+      <Avatar size={74} src={collaborator.avatar} color={'#6e6e6e'} />
       <div>
         <EmailContainer>{collaborator.email}</EmailContainer>
       </div>

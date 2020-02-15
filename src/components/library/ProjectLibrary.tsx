@@ -121,6 +121,7 @@ export const ProjectLibrary: React.FC<
             items={filteredItems}
             filterID={filterID}
             projectLibraryCollections={projectLibraryCollections}
+            selectedItem={selectedItem}
           />
         </Main>
 
