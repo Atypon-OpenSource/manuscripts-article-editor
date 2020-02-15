@@ -33,7 +33,8 @@ import {
 } from '../../lib/styles'
 import { styled } from '../../theme/styled-components'
 import { SmallNumberField, SmallTextField } from '../projects/inputs'
-import { defaultValue, SaveParagraphStyle } from './StyleFields'
+import { SaveParagraphStyle } from './ParagraphStyleFields'
+import { valueOrDefault } from './StyleFields'
 
 export const ParagraphListsField: React.FC<{
   paragraphStyle: ParagraphStyle
@@ -82,7 +83,7 @@ export const ParagraphListsField: React.FC<{
             <Cell>
               <select
                 name={'list-bullet-style'}
-                value={defaultValue<string>(
+                value={valueOrDefault<string>(
                   listItemBulletStyle.bulletStyle,
                   DEFAULT_LIST_BULLET_STYLE
                 )}
@@ -110,7 +111,7 @@ export const ParagraphListsField: React.FC<{
             <Cell>
               <select
                 name={'list-numbering-scheme'}
-                value={defaultValue<string>(
+                value={valueOrDefault<string>(
                   listItemNumberingStyle.numberingScheme,
                   DEFAULT_LIST_NUMBERING_STYLE
                 )}
@@ -139,7 +140,7 @@ export const ParagraphListsField: React.FC<{
             <Cell>
               <SmallNumberField
                 name={'list-start-index'}
-                value={defaultValue<number>(
+                value={valueOrDefault<number>(
                   listItemNumberingStyle.startIndex,
                   DEFAULT_LIST_START_INDEX
                 )}
@@ -162,7 +163,7 @@ export const ParagraphListsField: React.FC<{
               <SmallTextField
                 name={'list-prefix'}
                 size={1}
-                value={defaultValue<string>(
+                value={valueOrDefault<string>(
                   listItemNumberingStyle.prefix,
                   DEFAULT_LIST_NUMBERING_PREFIX
                 )}
@@ -185,7 +186,7 @@ export const ParagraphListsField: React.FC<{
               <SmallTextField
                 name={'list-suffix'}
                 size={1}
-                value={defaultValue<string>(
+                value={valueOrDefault<string>(
                   listItemNumberingStyle.suffix,
                   DEFAULT_LIST_NUMBERING_SUFFIX
                 )}

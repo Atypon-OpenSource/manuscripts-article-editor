@@ -12,14 +12,22 @@
 
 import data from '@manuscripts/examples/data/project-dump.json'
 import {
+  BorderStyle,
   Color,
+  FigureStyle,
   Model,
   ParagraphStyle,
+  TableStyle,
 } from '@manuscripts/manuscripts-json-schema'
 import { buildModelMap } from '../../pressroom/__tests__/util'
 import { ProjectDump } from '../../pressroom/importers'
 import { isColor } from '../colors'
-import { buildParagraphStyles } from '../styles'
+import {
+  buildFigureStyles,
+  buildParagraphStyles,
+  buildTableStyles,
+  isBorderStyle,
+} from '../styles'
 
 const modelMap = buildModelMap(data as ProjectDump)
 
@@ -40,6 +48,20 @@ const buildColors = (modelMap: Map<string, Model>) => {
 
 const colors = buildColors(modelMap)
 
+const buildBorderStyles = (modelMap: Map<string, Model>) => {
+  const items = new Map<string, BorderStyle>()
+
+  for (const model of modelMap.values()) {
+    if (isBorderStyle(model)) {
+      items.set(model._id, model)
+    }
+  }
+
+  return items
+}
+
+const borderStyles = buildBorderStyles(modelMap)
+
 describe('styles', () => {
   test('build paragraph styles', () => {
     const model = getModel<ParagraphStyle>(
@@ -52,6 +74,34 @@ describe('styles', () => {
 
     const result = buildParagraphStyles(model, colors)
 
-    expect(result).toMatchSnapshot('build-paragraph-styles')
+    expect(result).toMatchSnapshot()
+  })
+
+  test('build figure styles', () => {
+    const model = getModel<FigureStyle>(
+      'MPFigureStyle:12916784-C8A2-414E-919D-490172E82B25'
+    )
+
+    if (!model) {
+      throw new Error('Model not found!')
+    }
+
+    const result = buildFigureStyles(model, colors, borderStyles)
+
+    expect(result).toMatchSnapshot('')
+  })
+
+  test('build table styles', () => {
+    const model = getModel<TableStyle>(
+      'MPTableStyle:08C0E93B-848D-491F-8EB2-A8A0B17714BA'
+    )
+
+    if (!model) {
+      throw new Error('Model not found!')
+    }
+
+    const result = buildTableStyles(model, colors, borderStyles)
+
+    expect(result).toMatchSnapshot('')
   })
 })

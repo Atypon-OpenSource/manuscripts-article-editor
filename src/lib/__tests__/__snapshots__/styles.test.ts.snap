@@ -1,17 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
+exports[`styles build figure styles 1`] = `
+"
+  [data-figure-style=\\"MPFigureStyle:12916784-C8A2-414E-919D-490172E82B25\\"] {
+    
+      border-color: #000 !important;
+      border-style: none !important;
+      border-width: 0pt !important;
+    
+
+    padding: 4pt !important;
+    gap: 4pt !important;
+
+    > figure {
+      
+        border-color: #000 !important;
+        border-style: none !important;
+        border-width: 0pt !important;
+      
+    }
+
+    > figcaption {
+      grid-row: caption !important;
+    }
+  }
+"
+`;
+
+exports[`styles build paragraph styles 1`] = `
 "
       [data-paragraph-style=\\"MPParagraphStyle:74D17A3A-33C0-43EB-9389-51335C698744\\"] {
-        font-size: 12pt;
-        font-style: normal;
-        font-weight: normal;
-        color: #000;
-        text-align: left;
+        font-size: 12pt !important;
+        font-style: normal !important;
+        font-weight: normal !important;
+        color: #000 !important;
+        text-align: left !important;
         margin-top: 10pt !important;
         margin-bottom: 10pt !important;
-        line-height: 2;
-        text-indent: 0pt;
+        line-height: 2 !important;
+        text-indent: 0pt !important;
         .list  {
       counter-reset: list-level-2 0;
     }
@@ -93,4 +120,53 @@ exports[`styles build paragraph styles: build-paragraph-styles 1`] = `
         counter-reset: list-level-1;> li { counter-increment: list-level-1 };list-style-type: none
       }
     "
+`;
+
+exports[`styles build table styles 1`] = `
+"
+  [data-table-style=\\"MPTableStyle:08C0E93B-848D-491F-8EB2-A8A0B17714BA\\"] {
+    border-collapse: collapse;
+    empty-cells: show;
+
+    tr:first-of-type {
+      > td {
+        background-color: #eee !important;
+
+        
+          border-top-color: #000 !important;
+          border-top-style: none !important;
+          border-top-width: 2pt !important;
+        
+
+        
+          border-bottom-color: #000 !important;
+          border-bottom-style: none !important;
+          border-bottom-width: 1pt !important;
+        
+      }
+    }
+
+    tr:last-of-type {
+      > td {
+        background-color: #eee !important;
+
+        
+          border-top-color: #000 !important;
+          border-top-style: none !important;
+          border-top-width: 1pt !important;
+        
+
+        
+          border-bottom-color: #000 !important;
+          border-bottom-style: none !important;
+          border-bottom-width: 1pt !important;
+        
+      }
+    }
+
+    > figcaption {
+      grid-row: 2 !important;
+      text-align: center !important;
+    }
+  }"
 `;

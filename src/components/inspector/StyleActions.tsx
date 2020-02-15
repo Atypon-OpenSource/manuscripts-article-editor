@@ -15,17 +15,12 @@ import React, { useCallback, useState } from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import { styled } from '../../theme/styled-components'
 
-export const ParagraphStyleActions: React.FC<{
-  deleteParagraphStyle: () => void
-  duplicateParagraphStyle: () => void
+export const StyleActions: React.FC<{
+  deleteStyle: () => void
+  duplicateStyle: () => void
   isDefault: boolean
-  renameParagraphStyle: () => void
-}> = ({
-  deleteParagraphStyle,
-  duplicateParagraphStyle,
-  isDefault,
-  renameParagraphStyle,
-}) => {
+  renameStyle: () => void
+}> = ({ deleteStyle, duplicateStyle, isDefault, renameStyle }) => {
   const [open, setOpen] = useState(false)
 
   const toggleOpen = useCallback(() => {
@@ -56,16 +51,16 @@ export const ParagraphStyleActions: React.FC<{
           {({ ref, style, placement }) => (
             <div ref={ref} style={style} data-placement={placement}>
               <Menu>
-                <MenuItem onClick={executeMenuAction(duplicateParagraphStyle)}>
+                <MenuItem onClick={executeMenuAction(duplicateStyle)}>
                   Duplicate
                 </MenuItem>
 
                 {isDefault && (
                   <>
-                    <MenuItem onClick={executeMenuAction(renameParagraphStyle)}>
+                    <MenuItem onClick={executeMenuAction(renameStyle)}>
                       Rename
                     </MenuItem>
-                    <MenuItem onClick={executeMenuAction(deleteParagraphStyle)}>
+                    <MenuItem onClick={executeMenuAction(deleteStyle)}>
                       Delete
                     </MenuItem>
                   </>

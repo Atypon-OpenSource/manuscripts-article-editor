@@ -12,16 +12,29 @@
 
 import { hasObjectType } from '@manuscripts/manuscript-transform'
 import {
+  Border,
+  BorderStyle,
   Color,
+  FigureLayout,
+  FigureStyle,
   Model,
   ObjectTypes,
   ParagraphStyle,
+  TableStyle,
 } from '@manuscripts/manuscripts-json-schema'
 import * as CSS from 'csstype'
 import { range } from 'lodash-es'
+import { valueOrDefault } from '../components/inspector/StyleFields'
+import { ascendingPriority } from './sort'
 
 export const DEFAULT_ALIGNMENT = 'left'
 export const DEFAULT_COLOR = '#000'
+export const DEFAULT_FIGURE_CAPTION_ALIGNMENT = 'center'
+export const DEFAULT_FIGURE_CAPTION_POSITION: FigureCaptionPosition = 'bottom'
+export const DEFAULT_FIGURE_INNER_BORDER_WIDTH = 1
+export const DEFAULT_FIGURE_INNER_SPACING = 4
+export const DEFAULT_FIGURE_OUTER_BORDER_WIDTH = 1
+export const DEFAULT_FIGURE_OUTER_SPACING = 4
 export const DEFAULT_FONT_SIZE = 12
 export const DEFAULT_LINE_HEIGHT = 1.5
 export const DEFAULT_LIST_BULLET_STYLE = 'disc'
@@ -37,12 +50,112 @@ export const DEFAULT_PART_OF_TOC = true
 export const DEFAULT_SECTION_NUMBERING_STYLE = 'decimal'
 export const DEFAULT_SECTION_START_INDEX = 1
 export const DEFAULT_SECTION_NUMBERING_SUFFIX = '.'
-export const DEFAULT_SPACING = 20
+// export const DEFAULT_SPACING = 20
+export const DEFAULT_TABLE_BORDER_WIDTH = 1
+export const DEFAULT_TABLE_CAPTION_ALIGNMENT = 'center'
+export const DEFAULT_TABLE_CAPTION_POSITION: TableCaptionPosition = 'below'
+export const DEFAULT_TABLE_FOOTER_BACKGROUND_COLOR = '#eee'
+export const DEFAULT_TABLE_HEADER_BACKGROUND_COLOR = '#eee'
 export const DEFAULT_TEXT_INDENT = 0
 
 export const isParagraphStyle = hasObjectType<ParagraphStyle>(
   ObjectTypes.ParagraphStyle
 )
+export const isFigureStyle = hasObjectType<FigureStyle>(ObjectTypes.FigureStyle)
+export const isBorderStyle = hasObjectType<BorderStyle>(ObjectTypes.BorderStyle)
+export const isTableStyle = hasObjectType<TableStyle>(ObjectTypes.TableStyle)
+export const isFigureLayout = hasObjectType<FigureLayout>(
+  ObjectTypes.FigureLayout
+)
+
+// TODO: implement "above" and "below"
+// export type FigureCaptionPosition = 'above' | 'top' | 'bottom' | 'below'
+export type FigureCaptionPosition = 'top' | 'bottom'
+
+export const figureCaptionPositions: {
+  [key in FigureCaptionPosition]: {
+    label: string
+  }
+} = {
+  // above: {
+  //   label: 'Above Figure',
+  // },
+  top: {
+    label: 'Top of Figure',
+  },
+  bottom: {
+    label: 'Bottom of Figure',
+  },
+  // below: {
+  //   label: 'Below Figure',
+  // },
+}
+
+export type TableCaptionPosition = 'above' | 'below'
+
+export const tableCaptionPositions: {
+  [key in TableCaptionPosition]: {
+    label: string
+  }
+} = {
+  above: {
+    label: 'Above Table',
+  },
+  below: {
+    label: 'Below Table',
+  },
+}
+
+export type CaptionAlignment = 'left' | 'right' | 'center' | 'justify'
+
+export const captionAlignments: {
+  [key in CaptionAlignment]: {
+    label: string
+  }
+} = {
+  left: {
+    label: 'Left',
+  },
+  center: {
+    label: 'Center',
+  },
+  right: {
+    label: 'Right',
+  },
+  justify: {
+    label: 'Justify',
+  },
+}
+
+/*export type BorderStyleType = 'none' | 'solid' | 'dashed' | 'dotted' | 'double'
+
+export const borderStyles: {
+  [key in BorderStyleType]: {
+    css: CSS.BorderBlockStyleProperty
+    label: string
+  }
+} = {
+  none: {
+    css: 'none',
+    label: 'None',
+  },
+  solid: {
+    css: 'solid',
+    label: 'Solid',
+  },
+  dashed: {
+    css: 'dashed',
+    label: 'Dashed',
+  },
+  dotted: {
+    css: 'dotted',
+    label: 'Dotted',
+  },
+  double: {
+    css: 'double',
+    label: 'Double lines',
+  },
+}*/
 
 const fontSize = (model: ParagraphStyle): number =>
   model.textStyling && model.textStyling.fontSize
@@ -55,9 +168,22 @@ const fontStyle = (model: ParagraphStyle): string =>
 const fontWeight = (model: ParagraphStyle): string =>
   model.textStyling && model.textStyling.bold ? 'bold' : 'normal'
 
-const color = (model: ParagraphStyle, colors: Map<string, Color>): string => {
-  const id = model.textStyling && model.textStyling.color
+const paragraphColor = (
+  model: ParagraphStyle,
+  colors: Map<string, Color>
+): string => {
+  return colorValue(colors, model.textStyling && model.textStyling.color)
+}
 
+const borderColor = (border: Border, colors: Map<string, Color>): string => {
+  return colorValue(colors, border && border.color)
+}
+
+const colorValue = (
+  colors: Map<string, Color>,
+  id?: string,
+  defaultColor = DEFAULT_COLOR
+): string => {
   if (id) {
     const color = colors.get(id)
 
@@ -66,7 +192,26 @@ const color = (model: ParagraphStyle, colors: Map<string, Color>): string => {
     }
   }
 
-  return DEFAULT_COLOR
+  return defaultColor
+}
+
+const borderStyle = (
+  border: Border,
+  borderStyles: Map<string, BorderStyle>
+): CSS.LineStyle => {
+  const id = border && border.style
+
+  if (id) {
+    const style = borderStyles.get(id)
+
+    // TODO: use `doubleLines` and `pattern`?
+
+    if (style && style.name) {
+      return style.name as CSS.LineStyle
+    }
+  }
+
+  return 'none'
 }
 
 export type Alignment = 'left' | 'right' | 'center' | 'justify'
@@ -468,15 +613,15 @@ export const buildParagraphStyles = (
   colors: Map<string, Color>
 ) => `
       [data-paragraph-style="${model._id}"] {
-        font-size: ${fontSize(model)}pt;
-        font-style: ${fontStyle(model)};
-        font-weight: ${fontWeight(model)};
-        color: ${color(model, colors)};
-        text-align: ${textAlign(model)};
+        font-size: ${fontSize(model)}pt !important;
+        font-style: ${fontStyle(model)} !important;
+        font-weight: ${fontWeight(model)} !important;
+        color: ${paragraphColor(model, colors)} !important;
+        text-align: ${textAlign(model)} !important;
         margin-top: ${marginTop(model)}pt !important;
         margin-bottom: ${marginBottom(model)}pt !important;
-        line-height: ${lineHeight(model)};
-        text-indent: ${textIndent(model)}pt;
+        line-height: ${lineHeight(model)} !important;
+        text-indent: ${textIndent(model)}pt !important;
         ${listStyles(model)}
 
         ul, ol {
@@ -497,6 +642,168 @@ export const buildParagraphStyles = (
         ${bulletListRootStyles(model)}
       }
     `
+
+export const buildFigureStyles = (
+  model: FigureStyle,
+  colors: Map<string, Color>,
+  borderStyles: Map<string, BorderStyle>
+) => `
+  [data-figure-style="${model._id}"] {
+    ${model.outerBorder &&
+      `
+      border-color: ${borderColor(model.outerBorder, colors)} !important;
+      border-style: ${borderStyle(model.outerBorder, borderStyles)} !important;
+      border-width: ${valueOrDefault<number>(
+        model.outerBorder.width,
+        DEFAULT_FIGURE_OUTER_BORDER_WIDTH
+      )}pt !important;
+    `}
+
+    padding: ${model.outerSpacing || DEFAULT_FIGURE_OUTER_SPACING}pt !important;
+    gap: ${model.innerSpacing || DEFAULT_FIGURE_INNER_SPACING}pt !important;
+
+    > figure {
+      ${model.innerBorder &&
+        `
+        border-color: ${borderColor(model.innerBorder, colors)} !important;
+        border-style: ${borderStyle(
+          model.innerBorder,
+          borderStyles
+        )} !important;
+        border-width: ${valueOrDefault<number>(
+          model.innerBorder.width,
+          DEFAULT_FIGURE_INNER_BORDER_WIDTH
+        )}pt !important;
+      `}
+    }
+
+    > figcaption {
+      grid-row: ${
+        model.captionPosition === 'top' ? 1 : 'caption' // TODO: 'above'
+      } !important;
+    }
+  }
+`
+
+export const buildFigureLayoutStyles = (model: FigureLayout) => `
+  [data-figure-layout="${model._id}"] {
+    grid-template-columns: ${
+      model.columns ? `repeat(${model.columns}, 1fr)` : 1
+    } !important;
+
+    grid-template-rows: ${
+      model.rows
+        ? `repeat(${model.rows}, minmax(min-content, max-content)) [caption listing] auto`
+        : 1
+    } !important;
+
+    .figure-caption {
+      display: ${
+        model.rows * model.columns === 1 ? 'none' : 'initial'
+      } !important;
+    }
+  }
+`
+
+export const buildTableStyles = (
+  model: TableStyle,
+  colors: Map<string, Color>,
+  borderStyles: Map<string, BorderStyle>
+) => `
+  [data-table-style="${model._id}"] {
+    border-collapse: collapse;
+    empty-cells: show;
+
+    tr:first-of-type {
+      > td {
+        background-color: ${colorValue(
+          colors,
+          model.headerBackgroundColor,
+          DEFAULT_TABLE_HEADER_BACKGROUND_COLOR
+        )} !important;
+
+        ${model.headerTopBorder &&
+          `
+          border-top-color: ${borderColor(
+            model.headerTopBorder,
+            colors
+          )} !important;
+          border-top-style: ${borderStyle(
+            model.headerTopBorder,
+            borderStyles
+          )} !important;
+          border-top-width: ${valueOrDefault<number>(
+            model.headerTopBorder.width,
+            DEFAULT_TABLE_BORDER_WIDTH
+          )}pt !important;
+        `}
+
+        ${model.headerBottomBorder &&
+          `
+          border-bottom-color: ${borderColor(
+            model.headerBottomBorder,
+            colors
+          )} !important;
+          border-bottom-style: ${borderStyle(
+            model.headerBottomBorder,
+            borderStyles
+          )} !important;
+          border-bottom-width: ${valueOrDefault<number>(
+            model.headerBottomBorder.width,
+            DEFAULT_TABLE_BORDER_WIDTH
+          )}pt !important;
+        `}
+      }
+    }
+
+    tr:last-of-type {
+      > td {
+        background-color: ${colorValue(
+          colors,
+          model.footerBackgroundColor,
+          DEFAULT_TABLE_FOOTER_BACKGROUND_COLOR
+        )} !important;
+
+        ${model.footerTopBorder &&
+          `
+          border-top-color: ${borderColor(
+            model.footerTopBorder,
+            colors
+          )} !important;
+          border-top-style: ${borderStyle(
+            model.footerTopBorder,
+            borderStyles
+          )} !important;
+          border-top-width: ${valueOrDefault<number>(
+            model.footerTopBorder.width,
+            DEFAULT_TABLE_BORDER_WIDTH
+          )}pt !important;
+        `}
+
+        ${model.footerBottomBorder &&
+          `
+          border-bottom-color: ${borderColor(
+            model.footerBottomBorder,
+            colors
+          )} !important;
+          border-bottom-style: ${borderStyle(
+            model.footerBottomBorder,
+            borderStyles
+          )} !important;
+          border-bottom-width: ${valueOrDefault<number>(
+            model.footerBottomBorder.width,
+            DEFAULT_TABLE_BORDER_WIDTH
+          )}pt !important;
+        `}
+      }
+    }
+
+    > figcaption {
+      grid-row: ${model.captionPosition === 'above' ? 1 : 2} !important;
+      text-align: ${model.alignment ||
+        DEFAULT_TABLE_CAPTION_ALIGNMENT} !important;
+    }
+  }`
 
 const headingCounter = (model: ParagraphStyle, depth: number) => {
   const numberingSuffix = chooseSectionNumberingSuffix(model)
@@ -541,7 +848,7 @@ export const buildHeadingStyles = (
       font-size: ${fontSize(model)}pt !important;
       font-style: ${fontStyle(model)} !important;
       font-weight: ${fontWeight(model)} !important;
-      color: ${color(model, colors)} !important;
+      color: ${paragraphColor(model, colors)} !important;
       text-align: ${textAlign(model)};
       margin-top: ${marginTop(model)}pt !important;
       margin-bottom: ${marginBottom(model)}pt !important;
@@ -569,6 +876,54 @@ export const findBodyTextParagraphStyles = (modelMap: Map<string, Model>) => {
       if (model.kind === 'body' && model.prototype !== 'MPParagraphStyle:toc') {
         output.push(model)
       }
+    }
+  }
+
+  return output
+}
+
+export const findFigureLayouts = (modelMap: Map<string, Model>) => {
+  const output: FigureLayout[] = []
+
+  for (const model of modelMap.values()) {
+    if (isFigureLayout(model)) {
+      output.push(model)
+    }
+  }
+
+  return output.sort(ascendingPriority)
+}
+
+export const findFigureStyles = (modelMap: Map<string, Model>) => {
+  const output: FigureStyle[] = []
+
+  for (const model of modelMap.values()) {
+    if (isFigureStyle(model)) {
+      output.push(model)
+    }
+  }
+
+  return output.sort(ascendingPriority)
+}
+
+export const findBorderStyles = (modelMap: Map<string, Model>) => {
+  const output: BorderStyle[] = []
+
+  for (const model of modelMap.values()) {
+    if (isBorderStyle(model)) {
+      output.push(model)
+    }
+  }
+
+  return output.sort(ascendingPriority)
+}
+
+export const findTableStyles = (modelMap: Map<string, Model>) => {
+  const output: TableStyle[] = []
+
+  for (const model of modelMap.values()) {
+    if (isTableStyle(model)) {
+      output.push(model)
     }
   }
 

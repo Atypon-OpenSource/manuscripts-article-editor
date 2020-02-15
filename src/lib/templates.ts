@@ -26,7 +26,6 @@ import {
   Model,
   ObjectTypes,
   PageLayout,
-  ParagraphStyle,
 } from '@manuscripts/manuscripts-json-schema'
 import { mergeWith } from 'lodash-es'
 import {
@@ -447,18 +446,40 @@ export const chooseBundleID = (item: TemplateData) => {
 export const createNewStyles = (styles: Map<string, Model>) => {
   const newStyles = new Map<string, Model>()
 
-  // const prototypeMap = new Map<string, string>()
+  const prototypeMap = new Map<string, string>()
 
   for (const style of styles.values()) {
     const newStyle = fromPrototype(style)
     newStyles.set(newStyle._id, newStyle)
 
-    // prototypeMap.set(newStyle.prototype, newStyle._id)
+    prototypeMap.set(newStyle.prototype, newStyle._id)
   }
 
-  // this.fixReferencedStyleIds(newStyles, prototypeMap)
+  for (const style of newStyles.values()) {
+    fixReferencedIds(style, prototypeMap)
+  }
 
   return newStyles
+}
+
+const ignoreKeys = ['_id', 'prototype']
+
+const fixReferencedIds = (model: Model, prototypeMap: Map<string, string>) => {
+  for (const [key, value] of Object.entries(model)) {
+    if (ignoreKeys.includes(key)) {
+      continue
+    }
+
+    if (value._id) {
+      // nested object
+      fixReferencedIds(value, prototypeMap)
+    } else {
+      if (prototypeMap.has(value)) {
+        // @ts-ignore
+        model[key] = prototypeMap.get(value) as string
+      }
+    }
+  }
 }
 
 export const createNewContributorRoles = (
@@ -495,9 +516,8 @@ export const updatedPageLayout = (newStyles: Map<string, Model>) => {
     throw new Error('Default page layout not found')
   }
 
-  const newDefaultParagraphStyle = getByPrototype<ParagraphStyle>(
-    newPageLayout.defaultParagraphStyle,
-    newStyles
+  const newDefaultParagraphStyle = newStyles.get(
+    newPageLayout.defaultParagraphStyle
   )
 
   if (!newDefaultParagraphStyle) {

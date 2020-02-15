@@ -37,20 +37,18 @@ import {
 } from '../Inspector'
 import { InspectorSection } from '../InspectorSection'
 import { SmallTextField, StyleSelect } from '../projects/inputs'
+import { ColorField } from './ColorField'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
 import {
   BottomSpacingField,
-  defaultValue,
   FirstLineIndentField,
   LineSpacingField,
-  SaveModel,
-  SaveParagraphStyle,
   TextAlignmentField,
-  TextColorField,
   TextSizeField,
   TextStyleField,
   TopSpacingField,
-} from './StyleFields'
+} from './ParagraphStyleFields'
+import { SaveModel, SaveParagraphStyle, valueOrDefault } from './StyleFields'
 
 const buildNumberingStyle = (): Build<NumberingStyle> => ({
   _id: generateID(ObjectTypes.NumberingStyle),
@@ -107,14 +105,24 @@ export const SectionStyles: React.FC<{
               paragraphStyle={paragraphStyle}
             />
 
-            <TextColorField
-              saveParagraphStyle={saveParagraphStyle}
-              paragraphStyle={paragraphStyle}
-              colors={colors}
-              colorScheme={colorScheme}
-              saveModel={saveModel}
-              setError={setError}
-            />
+            {paragraphStyle.textStyling && (
+              <ColorField
+                colors={colors}
+                colorScheme={colorScheme}
+                value={paragraphStyle.textStyling.color}
+                handleChange={(color?: string) =>
+                  saveParagraphStyle({
+                    ...paragraphStyle,
+                    textStyling: {
+                      ...paragraphStyle.textStyling!,
+                      color,
+                    },
+                  })
+                }
+                saveModel={saveModel}
+                setError={setError}
+              />
+            )}
           </InspectorTabPanel>
 
           <InspectorTabPanel>
@@ -150,7 +158,7 @@ export const SectionStyles: React.FC<{
 
               <StyleSelect
                 name={'section-numbering-scheme'}
-                value={defaultValue<string>(
+                value={valueOrDefault<string>(
                   sectionNumberingStyle.numberingScheme,
                   DEFAULT_SECTION_NUMBERING_STYLE
                 )}
@@ -178,7 +186,7 @@ export const SectionStyles: React.FC<{
 
               <SmallTextField
                 name={'list-suffix'}
-                value={defaultValue<string>(
+                value={valueOrDefault<string>(
                   sectionNumberingStyle.suffix,
                   DEFAULT_SECTION_NUMBERING_SUFFIX
                 )}
@@ -200,7 +208,10 @@ export const SectionStyles: React.FC<{
               <CheckboxField
                 name={'part-of-toc'}
                 id={'part-of-toc'}
-                checked={defaultValue<boolean>(partOfTOC, DEFAULT_PART_OF_TOC)}
+                checked={valueOrDefault<boolean>(
+                  partOfTOC,
+                  DEFAULT_PART_OF_TOC
+                )}
                 disabled={paragraphStyle.name === 'heading1'}
                 onChange={event => {
                   saveParagraphStyle({

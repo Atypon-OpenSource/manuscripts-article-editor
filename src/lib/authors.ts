@@ -16,6 +16,7 @@ import {
   Contributor,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
+import { ascendingPriority } from './sort'
 
 export type AffiliationMap = Map<string, Affiliation>
 
@@ -30,11 +31,8 @@ export interface AuthorData {
   authorAffiliations: Map<string, AffiliationData[]>
 }
 
-const sortContributorsByPriority = (a: Contributor, b: Contributor) =>
-  Number(a.priority) - Number(b.priority)
-
 export const buildSortedContributors = (contributors: Contributor[]) =>
-  contributors.sort(sortContributorsByPriority)
+  contributors.sort(ascendingPriority)
 
 export const buildAuthorPriority = (authors: Contributor[]) => {
   if (!authors.length) return 0

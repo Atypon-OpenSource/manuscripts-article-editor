@@ -10,18 +10,33 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Model } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from '@manuscripts/rxdb'
+import { FigureLayout } from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
+import { InspectorSection } from '../InspectorSection'
+import { StyleSelect } from '../projects/inputs'
+import { InspectorField } from './ManuscriptStyleInspector'
 
-export const newestFirst = (a: RxDocument<Model>, b: RxDocument<Model>) =>
-  Number(b.createdAt) - Number(a.createdAt)
-
-export const oldestFirst = (a: RxDocument<Model>, b: RxDocument<Model>) =>
-  Number(a.createdAt) - Number(b.createdAt)
-
-type ModelWithPriority = Model & { priority?: number }
-
-export const ascendingPriority = (
-  a: ModelWithPriority,
-  b: ModelWithPriority
-): number => Number(a.priority) - Number(b.priority)
+export const FigureLayouts: React.FC<{
+  figureLayouts: FigureLayout[]
+  figureLayout: FigureLayout
+  setElementFigureLayout: (id: string) => void
+}> = ({ figureLayouts, figureLayout, setElementFigureLayout }) => {
+  return (
+    <InspectorSection title={'Figure Layouts'}>
+      <InspectorField>
+        <StyleSelect
+          value={figureLayout._id}
+          onChange={event => {
+            setElementFigureLayout(event.target.value)
+          }}
+        >
+          {figureLayouts.map(style => (
+            <option value={style._id} key={style._id}>
+              {style.title}
+            </option>
+          ))}
+        </StyleSelect>
+      </InspectorField>
+    </InspectorSection>
+  )
+}

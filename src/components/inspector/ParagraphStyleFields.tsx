@@ -7,19 +7,12 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { buildColor } from '@manuscripts/manuscript-transform'
-import {
-  Color,
-  ColorScheme,
-  Model,
-  ParagraphStyle,
-} from '@manuscripts/manuscripts-json-schema'
+import { ParagraphStyle } from '@manuscripts/manuscripts-json-schema'
 import { range } from 'lodash-es'
 import React from 'react'
-import { nextColorPriority } from '../../lib/colors'
 import {
   alignments,
   DEFAULT_ALIGNMENT,
@@ -32,7 +25,6 @@ import {
   DEFAULT_TEXT_INDENT,
 } from '../../lib/styles'
 import { styled } from '../../theme/styled-components'
-import { ColorSelector } from '../projects/ColorSelector'
 import {
   SmallNumberField,
   SpacingRange,
@@ -40,15 +32,9 @@ import {
   StyleSelect,
 } from '../projects/inputs'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
+import { BlockField, BlockFields, valueOrDefault } from './StyleFields'
 
-export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
-
-export type SaveParagraphStyle = (paragraphStyle: ParagraphStyle) => void
-
-export const defaultValue = <T extends number | string | boolean>(
-  value: T | undefined,
-  defaultValue: T
-): T => (value === undefined ? defaultValue : value)
+export type SaveParagraphStyle = (style: ParagraphStyle) => void
 
 export const TextSizeField: React.FC<{
   paragraphStyle: ParagraphStyle
@@ -64,7 +50,7 @@ export const TextSizeField: React.FC<{
     <InspectorField>
       <InspectorLabel>Size</InspectorLabel>
       <SmallNumberField
-        value={defaultValue<number>(textStyling.fontSize, DEFAULT_FONT_SIZE)}
+        value={valueOrDefault<number>(textStyling.fontSize, DEFAULT_FONT_SIZE)}
         onChange={event => {
           saveParagraphStyle({
             ...paragraphStyle,
@@ -96,7 +82,7 @@ export const TextStyleField: React.FC<{
       <TextStyleButton
         type={'button'}
         isActive={textStyling.bold}
-        onMouseDown={event => {
+        onMouseDown={() => {
           saveParagraphStyle({
             ...paragraphStyle,
             textStyling: {
@@ -113,7 +99,7 @@ export const TextStyleField: React.FC<{
         type={'button'}
         isActive={textStyling.italic}
         style={{ fontStyle: 'italic' }}
-        onMouseDown={event => {
+        onMouseDown={() => {
           saveParagraphStyle({
             ...paragraphStyle,
             textStyling: {
@@ -141,12 +127,11 @@ const TextStyleButton = styled.button<{ isActive: boolean }>`
   padding: 0 ${props => props.theme.grid.unit * 2}px;
   cursor: pointer;
 `
-
 export const TextAlignmentField: React.FC<{
   paragraphStyle: ParagraphStyle
   saveParagraphStyle: SaveParagraphStyle
 }> = ({ paragraphStyle, saveParagraphStyle }) => {
-  const value = defaultValue<string>(
+  const value = valueOrDefault<string>(
     paragraphStyle.alignment,
     DEFAULT_ALIGNMENT
   )
@@ -177,7 +162,7 @@ export const TopSpacingField: React.FC<{
   paragraphStyle: ParagraphStyle
   saveParagraphStyle: SaveParagraphStyle
 }> = ({ paragraphStyle, saveParagraphStyle }) => {
-  const value = defaultValue<number>(
+  const value = valueOrDefault<number>(
     paragraphStyle.topSpacing,
     DEFAULT_MARGIN_TOP
   )
@@ -217,7 +202,7 @@ export const BottomSpacingField: React.FC<{
   paragraphStyle: ParagraphStyle
   saveParagraphStyle: SaveParagraphStyle
 }> = ({ paragraphStyle, saveParagraphStyle }) => {
-  const value = defaultValue<number>(
+  const value = valueOrDefault<number>(
     paragraphStyle.bottomSpacing,
     DEFAULT_MARGIN_BOTTOM
   )
@@ -257,7 +242,7 @@ export const FirstLineIndentField: React.FC<{
   paragraphStyle: ParagraphStyle
   saveParagraphStyle: SaveParagraphStyle
 }> = ({ paragraphStyle, saveParagraphStyle }) => {
-  const value = defaultValue<number>(
+  const value = valueOrDefault<number>(
     paragraphStyle.firstLineIndent,
     DEFAULT_TEXT_INDENT
   )
@@ -297,7 +282,7 @@ export const LineSpacingField: React.FC<{
   paragraphStyle: ParagraphStyle
   saveParagraphStyle: SaveParagraphStyle
 }> = ({ paragraphStyle, saveParagraphStyle }) => {
-  const value = defaultValue<number>(
+  const value = valueOrDefault<number>(
     paragraphStyle.lineSpacing,
     DEFAULT_LINE_HEIGHT
   )
@@ -343,7 +328,7 @@ export const ListTailIndentField: React.FC<{
   paragraphStyle: ParagraphStyle
   saveParagraphStyle: SaveParagraphStyle
 }> = ({ paragraphStyle, saveParagraphStyle }) => {
-  const value = defaultValue<number>(
+  const value = valueOrDefault<number>(
     paragraphStyle.listTailIndent,
     DEFAULT_LIST_INDENT
   )
@@ -384,7 +369,7 @@ export const ListIndentPerLevelField: React.FC<{
   paragraphStyle: ParagraphStyle
   saveParagraphStyle: SaveParagraphStyle
 }> = ({ paragraphStyle, saveParagraphStyle }) => {
-  const value = defaultValue<number>(
+  const value = valueOrDefault<number>(
     paragraphStyle.listItemIndentPerLevel,
     DEFAULT_LIST_INDENT_PER_LEVEL
   )
@@ -465,133 +450,3 @@ export const ListNumberingField: React.FC<{
     </BlockFields>
   </InspectorField>
 )
-
-const BlockFields = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-`
-
-const BlockField = styled.label`
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  margin-right: ${props => props.theme.grid.unit * 2}px;
-`
-
-export const TextColorField: React.FC<{
-  colors: Color[]
-  colorScheme: ColorScheme
-  paragraphStyle: ParagraphStyle
-  saveParagraphStyle: SaveParagraphStyle
-  saveModel: SaveModel
-  setError: (error: Error) => void
-}> = ({
-  colors,
-  colorScheme,
-  paragraphStyle,
-  saveParagraphStyle,
-  saveModel,
-  setError,
-}) => {
-  const { textStyling } = paragraphStyle
-
-  if (!textStyling) {
-    return null
-  }
-
-  return (
-    <InspectorField>
-      <InspectorLabel>Color</InspectorLabel>
-
-      <ColorsContainer>
-        {colors.map(color => (
-          <ColorButton
-            key={color._id}
-            type={'button'}
-            color={color.value}
-            isActive={color._id === textStyling.color}
-            onClick={() => {
-              saveParagraphStyle({
-                ...paragraphStyle,
-                textStyling: {
-                  ...textStyling,
-                  color: color._id,
-                },
-              })
-            }}
-          />
-        ))}
-
-        <ColorSelector
-          handleChange={async value => {
-            try {
-              for (const color of colors) {
-                if (color.value === value) {
-                  return saveParagraphStyle({
-                    ...paragraphStyle,
-                    textStyling: {
-                      ...textStyling,
-                      color: color._id,
-                    },
-                  })
-                }
-              }
-
-              const color = buildColor(
-                value,
-                nextColorPriority(colors)
-              ) as Color
-
-              await saveModel<Color>({
-                ...color,
-                prototype: color._id,
-              })
-
-              await saveModel<ColorScheme>({
-                ...colorScheme,
-                colors: [...(colorScheme.colors || []), color._id],
-              })
-
-              saveParagraphStyle({
-                ...paragraphStyle,
-                textStyling: {
-                  ...textStyling,
-                  color: color._id,
-                },
-              })
-            } catch (error) {
-              setError(error)
-            }
-          }}
-        />
-      </ColorsContainer>
-    </InspectorField>
-  )
-}
-
-const ColorsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-`
-
-const ColorButton = styled.button<{
-  color?: string
-  isActive: boolean
-}>`
-  background: ${props => props.color};
-  box-shadow: ${props => (props.isActive ? '0 0 1px 1px #000' : 'none')};
-  height: ${props => props.theme.grid.unit * 3}px;
-  width: ${props => props.theme.grid.unit * 3}px;
-  border-radius: 50%;
-  margin: 2px;
-  padding: 0;
-  border: 1px solid ${props => props.theme.colors.border.tertiary};
-  cursor: pointer;
-  flex-shrink: 0;
-
-  /*  &:focus {
-    outline: none;
-  }*/
-`

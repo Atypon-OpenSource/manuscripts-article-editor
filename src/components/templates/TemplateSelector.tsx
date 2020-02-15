@@ -390,19 +390,6 @@ class TemplateSelector extends React.Component<
     return projectID ? undefined : buildProject(user.userID)
   }
 
-  // private fixReferencedStyleIds = (
-  //   newStyles: Map<string, Model>,
-  //   prototypeMap: Map<string, string>
-  // ) => {
-  //   for (const style of newStyles.values()) {
-  //     if (isColorScheme(style)) {
-  //       style.colors = (style.colors || [])
-  //         .map(id => prototypeMap.get(id))
-  //         .filter(Boolean) as Color[]
-  //     }
-  //   }
-  // }
-
   // private findDefaultColorScheme = (newStyles: Map<string, Model>) => {
   //   for (const style of newStyles.values()) {
   //     if (isColorScheme(style)) {

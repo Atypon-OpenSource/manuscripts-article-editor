@@ -10,32 +10,44 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { newestFirst, oldestFirst } from '../sort'
+// tslint:disable:no-any
+
+import { ascendingPriority, newestFirst, oldestFirst } from '../sort'
 
 describe('sorting', () => {
-  it('newestFirst', () => {
-    // tslint:disable-next-line:no-any
+  test('newest first', () => {
     const x = { createdAt: 0 } as any
-    // tslint:disable-next-line:no-any
     const y = { createdAt: 1 } as any
-    // tslint:disable-next-line:no-any
     const z = { createdAt: 2 } as any
+
     expect(newestFirst(x, y)).toBeGreaterThan(0)
     expect(newestFirst(y, x)).toBeLessThan(0)
+
     expect([x, z, y].sort(newestFirst)).toMatchObject([z, y, x])
     expect([z, y, x].sort(newestFirst)).toMatchObject([z, y, x])
   })
 
-  it('oldestFirst', () => {
-    // tslint:disable-next-line:no-any
+  test('oldest first', () => {
     const x = { createdAt: 0 } as any
-    // tslint:disable-next-line:no-any
     const y = { createdAt: 1 } as any
-    // tslint:disable-next-line:no-any
     const z = { createdAt: 2 } as any
+
     expect(oldestFirst(x, y)).toBeLessThan(0)
     expect(oldestFirst(y, x)).toBeGreaterThan(0)
+
     expect([x, z, y].sort(oldestFirst)).toMatchObject([x, y, z])
     expect([z, y, x].sort(oldestFirst)).toMatchObject([x, y, z])
+  })
+
+  test('ascending priority', () => {
+    const x = { priority: 0 } as any
+    const y = { priority: 1 } as any
+    const z = { priority: 2 } as any
+
+    expect(ascendingPriority(y, x)).toBeGreaterThan(0)
+    expect(ascendingPriority(x, y)).toBeLessThan(0)
+
+    expect([x, z, y].sort(ascendingPriority)).toMatchObject([x, y, z])
+    expect([z, y, x].sort(ascendingPriority)).toMatchObject([x, y, z])
   })
 })

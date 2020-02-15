@@ -17,7 +17,6 @@ import {
   ParagraphStyle,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
 import {
   InspectorPanelTabList,
   InspectorTab,
@@ -26,9 +25,10 @@ import {
   InspectorTabs,
 } from '../Inspector'
 import { InspectorSection } from '../InspectorSection'
+import { StyleSelect } from '../projects/inputs'
+import { ColorField } from './ColorField'
 import { InspectorField } from './ManuscriptStyleInspector'
 import { ParagraphListsField } from './ParagraphListsField'
-import { ParagraphStyleActions } from './ParagraphStyleActions'
 import {
   BottomSpacingField,
   FirstLineIndentField,
@@ -38,11 +38,11 @@ import {
   ListTailIndentField,
   SaveParagraphStyle,
   TextAlignmentField,
-  TextColorField,
   TextSizeField,
   TextStyleField,
   TopSpacingField,
-} from './StyleFields'
+} from './ParagraphStyleFields'
+import { StyleActions } from './StyleActions'
 
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
@@ -80,7 +80,7 @@ export const ParagraphStyles: React.FC<{
   return (
     <InspectorSection title={'Paragraph Styles'}>
       <InspectorField>
-        <StyleSelector
+        <StyleSelect
           value={paragraphStyle._id}
           onChange={event => {
             setElementParagraphStyle(event.target.value)
@@ -91,13 +91,13 @@ export const ParagraphStyles: React.FC<{
               {style.title}
             </option>
           ))}
-        </StyleSelector>
+        </StyleSelect>
 
-        <ParagraphStyleActions
-          deleteParagraphStyle={deleteParagraphStyle}
-          duplicateParagraphStyle={duplicateParagraphStyle}
+        <StyleActions
+          deleteStyle={deleteParagraphStyle}
+          duplicateStyle={duplicateParagraphStyle}
           isDefault={paragraphStyle._id !== defaultParagraphStyle._id}
-          renameParagraphStyle={renameParagraphStyle}
+          renameStyle={renameParagraphStyle}
         />
       </InspectorField>
 
@@ -122,14 +122,25 @@ export const ParagraphStyles: React.FC<{
               paragraphStyle={paragraphStyle}
             />
 
-            <TextColorField
-              saveParagraphStyle={saveParagraphStyle}
-              paragraphStyle={paragraphStyle}
-              colors={colors}
-              colorScheme={colorScheme}
-              saveModel={saveModel}
-              setError={setError}
-            />
+            {paragraphStyle.textStyling && (
+              <ColorField
+                label={'Border Color'}
+                colors={colors}
+                colorScheme={colorScheme}
+                value={paragraphStyle.textStyling.color}
+                handleChange={(color?: string) =>
+                  saveParagraphStyle({
+                    ...paragraphStyle,
+                    textStyling: {
+                      ...paragraphStyle.textStyling!,
+                      color,
+                    },
+                  })
+                }
+                saveModel={saveModel}
+                setError={setError}
+              />
+            )}
           </InspectorTabPanel>
           <InspectorTabPanel>
             <TextAlignmentField
@@ -183,7 +194,3 @@ export const ParagraphStyles: React.FC<{
     </InspectorSection>
   )
 }
-
-const StyleSelector = styled.select`
-  flex: 1;
-`
