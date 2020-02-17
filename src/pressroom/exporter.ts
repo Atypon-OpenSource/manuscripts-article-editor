@@ -131,7 +131,7 @@ export const removeUnsupportedData = async (zip: JSZip) => {
     delete model.listingID // figures and tables
   })
 
-  zip.file(path, JSON.stringify(bundle))
+  zip.file(path, JSON.stringify(bundle, null, 2))
 }
 
 const createProjectDump = (
@@ -220,7 +220,7 @@ export const buildProjectBundle = async (
 
   const zip = new JSZip()
 
-  zip.file<'string'>('index.manuscript-json', JSON.stringify(data))
+  zip.file<'string'>('index.manuscript-json', JSON.stringify(data, null, 2))
 
   for (const model of modelMap.values()) {
     const attachment = attachments.get(model._id)
