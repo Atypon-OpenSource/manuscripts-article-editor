@@ -124,7 +124,7 @@ export const ParagraphStyles: React.FC<{
 
             {paragraphStyle.textStyling && (
               <ColorField
-                label={'Border Color'}
+                label={'Color'}
                 colors={colors}
                 colorScheme={colorScheme}
                 value={paragraphStyle.textStyling.color}

@@ -19,6 +19,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import {
+  DEFAULT_FIGURE_CAPTION_ALIGNMENT,
   DEFAULT_FIGURE_CAPTION_POSITION,
   DEFAULT_FIGURE_INNER_SPACING,
   DEFAULT_FIGURE_OUTER_SPACING,
@@ -34,7 +35,11 @@ import {
 import { InspectorSection } from '../InspectorSection'
 import { StyleSelect } from '../projects/inputs'
 import { BorderFields } from './BorderFields'
-import { CaptionPositionField, SpacingField } from './FigureStyleFields'
+import {
+  CaptionAlignmentField,
+  CaptionPositionField,
+  SpacingField,
+} from './FigureStyleFields'
 import { InspectorField } from './ManuscriptStyleInspector'
 import { StyleActions } from './StyleActions'
 import { SaveFigureStyle, valueOrDefault } from './StyleFields'
@@ -102,12 +107,25 @@ export const FigureStyles: React.FC<{
 
       <InspectorTabs>
         <InspectorPanelTabList>
+          <InspectorTab>Figure</InspectorTab>
           <InspectorTab>Panel</InspectorTab>
-          <InspectorTab>Figures</InspectorTab>
         </InspectorPanelTabList>
 
         <InspectorTabPanels>
           <InspectorTabPanel>
+            <SpacingField
+              defaultValue={DEFAULT_FIGURE_OUTER_SPACING}
+              value={figureStyle.outerSpacing}
+              handleChange={(outerSpacing: number) =>
+                saveDebouncedFigureStyle({
+                  ...figureStyle,
+                  outerSpacing,
+                })
+              }
+            />
+
+            <InspectorTabPanelHeading>Caption</InspectorTabPanelHeading>
+
             <CaptionPositionField
               value={valueOrDefault<string>(
                 figureStyle.captionPosition,
@@ -121,15 +139,17 @@ export const FigureStyles: React.FC<{
               }}
             />
 
-            <SpacingField
-              defaultValue={DEFAULT_FIGURE_OUTER_SPACING}
-              value={figureStyle.outerSpacing}
-              handleChange={(outerSpacing: number) =>
-                saveDebouncedFigureStyle({
+            <CaptionAlignmentField
+              value={valueOrDefault<string>(
+                figureStyle.alignment,
+                DEFAULT_FIGURE_CAPTION_ALIGNMENT
+              )}
+              handleChange={alignment => {
+                saveFigureStyle({
                   ...figureStyle,
-                  outerSpacing,
+                  alignment,
                 })
-              }
+              }}
             />
 
             {figureStyle.outerBorder && (
@@ -161,6 +181,17 @@ export const FigureStyles: React.FC<{
           </InspectorTabPanel>
 
           <InspectorTabPanel>
+            <SpacingField
+              defaultValue={DEFAULT_FIGURE_INNER_SPACING}
+              value={figureStyle.innerSpacing}
+              handleChange={(innerSpacing: number) =>
+                saveDebouncedFigureStyle({
+                  ...figureStyle,
+                  innerSpacing,
+                })
+              }
+            />
+
             {figureStyle.innerBorder && (
               <>
                 <InspectorTabPanelHeading>Border</InspectorTabPanelHeading>
@@ -187,17 +218,6 @@ export const FigureStyles: React.FC<{
                 />
               </>
             )}
-
-            <SpacingField
-              defaultValue={DEFAULT_FIGURE_INNER_SPACING}
-              value={figureStyle.innerSpacing}
-              handleChange={(innerSpacing: number) =>
-                saveDebouncedFigureStyle({
-                  ...figureStyle,
-                  innerSpacing,
-                })
-              }
-            />
           </InspectorTabPanel>
         </InspectorTabPanels>
       </InspectorTabs>

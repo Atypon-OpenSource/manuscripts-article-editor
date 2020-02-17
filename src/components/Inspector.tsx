@@ -64,7 +64,6 @@ export const InspectorTab = styled(Tab)`
 `
 
 export const InspectorTabPanelHeading = styled.div`
-  font-size: ${props => props.theme.font.size.medium};
-  color: ${props => props.theme.colors.text.secondary};
+  font-weight: bold;
   margin-bottom: ${props => props.theme.grid.unit * 4}px;
 `

@@ -679,8 +679,13 @@ export const buildFigureStyles = (
 
     > figcaption {
       grid-row: ${
-        model.captionPosition === 'top' ? 1 : 'caption' // TODO: 'above'
+        // TODO: implement 'above' and 'below'
+        model.captionPosition === 'top' || model.captionPosition === 'above'
+          ? 1
+          : 'caption'
       } !important;
+      text-align: ${model.alignment ||
+        DEFAULT_FIGURE_CAPTION_ALIGNMENT} !important;
     }
   }
 `
@@ -713,6 +718,7 @@ export const buildTableStyles = (
   [data-table-style="${model._id}"] {
     border-collapse: collapse;
     empty-cells: show;
+    display: grid;
 
     tr:first-of-type {
       > td {

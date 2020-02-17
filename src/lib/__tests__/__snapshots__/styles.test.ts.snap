@@ -22,6 +22,7 @@ exports[`styles build figure styles 1`] = `
 
     > figcaption {
       grid-row: caption !important;
+      text-align: center !important;
     }
   }
 "
@@ -127,6 +128,7 @@ exports[`styles build table styles 1`] = `
   [data-table-style=\\"MPTableStyle:08C0E93B-848D-491F-8EB2-A8A0B17714BA\\"] {
     border-collapse: collapse;
     empty-cells: show;
+    display: grid;
 
     tr:first-of-type {
       > td {

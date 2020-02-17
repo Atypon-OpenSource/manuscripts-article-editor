@@ -11,18 +11,38 @@
  */
 
 import React from 'react'
-import { FigureCaptionPosition, figureCaptionPositions } from '../../lib/styles'
+import {
+  CaptionAlignment,
+  captionAlignments,
+  FigureCaptionPosition,
+  figureCaptionPositions,
+} from '../../lib/styles'
 import { SmallNumberField, SpacingRange, StyleSelect } from '../projects/inputs'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
 import { valueOrDefault } from './StyleFields'
+
+// TODO: remove this once "above" and "below" are supported
+const replaceCaptionPosition = (value: string) => {
+  if (value === 'above') {
+    return 'top'
+  }
+
+  if (value === 'below') {
+    return 'bottom'
+  }
+
+  return value
+}
 
 export const CaptionPositionField: React.FC<{
   value: string
   handleChange: (value: FigureCaptionPosition) => void
 }> = ({ value, handleChange }) => {
+  value = replaceCaptionPosition(value)
+
   return (
     <InspectorField>
-      <InspectorLabel>Caption Position</InspectorLabel>
+      <InspectorLabel>Position</InspectorLabel>
       <StyleSelect
         value={value}
         onChange={event => {
@@ -38,6 +58,27 @@ export const CaptionPositionField: React.FC<{
     </InspectorField>
   )
 }
+
+export const CaptionAlignmentField: React.FC<{
+  value: string
+  handleChange: (value: CaptionAlignment) => void
+}> = ({ value, handleChange }) => (
+  <InspectorField>
+    <InspectorLabel>Alignment</InspectorLabel>
+    <StyleSelect
+      value={value}
+      onChange={event => {
+        handleChange(event.target.value as CaptionAlignment)
+      }}
+    >
+      {Object.entries(captionAlignments).map(([key, value]) => (
+        <option value={key} key={key}>
+          {value.label}
+        </option>
+      ))}
+    </StyleSelect>
+  </InspectorField>
+)
 
 export const SpacingField: React.FC<{
   value?: number
