@@ -48,7 +48,7 @@
     "@manuscripts/assets": "^0.6.1",
     "@manuscripts/comment-editor": "^0.1.1",
     "@manuscripts/data": "^0.0.6",
-    "@manuscripts/manuscript-editor": "^0.64.0",
+    "@manuscripts/manuscript-editor": "^0.64.1",
     "@manuscripts/manuscript-transform": "^0.25.0",
     "@manuscripts/manuscripts-json-schema": "^1.26.0",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts0",
