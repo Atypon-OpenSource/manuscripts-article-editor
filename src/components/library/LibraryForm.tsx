@@ -33,9 +33,9 @@ import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import React, { useCallback, useState } from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
+import { selectStyles } from '../../lib/select-styles'
 import { Collection } from '../../sync/Collection'
 import { styled } from '../../theme/styled-components'
-import { theme } from '../../theme/theme'
 
 const LabelContainer = styled.div`
   display: flex;
@@ -511,22 +511,7 @@ const LibraryForm: React.FC<{
                         }))
                     : null
                 }
-                styles={{
-                  control: (provided, state) => ({
-                    ...provided,
-                    backgroundColor: state.isFocused
-                      ? theme.colors.background.fifth
-                      : theme.colors.background.primary,
-                    borderColor: state.isFocused
-                      ? theme.colors.border.field.active
-                      : theme.colors.border.field.default,
-                    '&:hover': {
-                      backgroundColor: theme.colors.background.fifth,
-                    },
-                    borderRadius: theme.grid.radius.default,
-                    boxShadow: 'none',
-                  }),
-                }}
+                styles={selectStyles}
               />
             )}
           </Field>

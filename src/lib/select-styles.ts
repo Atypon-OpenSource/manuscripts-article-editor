@@ -10,33 +10,23 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React from 'react'
-import Select from 'react-select'
-import { selectStyles } from '../../lib/select-styles'
+import { StylesConfig } from 'react-select/lib/styles'
+import { theme } from '../theme/theme'
 
-interface Option {
-  value: string
-  label: string
+export const selectStyles: StylesConfig = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused
+      ? theme.colors.background.fifth
+      : theme.colors.background.primary,
+    borderColor: state.isFocused
+      ? theme.colors.border.field.active
+      : theme.colors.border.field.default,
+    '&:hover': {
+      backgroundColor: theme.colors.background.fifth,
+    },
+    borderRadius: theme.grid.radius.default,
+    boxShadow: 'none',
+  }),
+  menuPortal: base => ({ ...base, zIndex: 10 }),
 }
-
-const options: Option[] = [
-  { value: 'standard', label: 'Standard' },
-  { value: 'feature', label: 'Feature' },
-  { value: 'feature1', label: 'Feature 1' },
-  { value: 'standard2', label: 'Standard 2' },
-]
-
-export const ThemeInput: React.FC<{
-  value?: string
-  handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => (
-  <Select<Option>
-    value={options.find(option => option.value === value)}
-    onChange={(selectedOption: Option) => {
-      handleChange(selectedOption.value)
-    }}
-    options={options}
-    styles={selectStyles}
-    menuPortalTarget={document.body}
-  />
-)

@@ -23,7 +23,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
-import { selectStyles } from './inputs'
+import { selectStyles } from '../../lib/select-styles'
 import { SaveModel } from './ManuscriptInspector'
 
 export const KeywordsInput: React.FC<{
@@ -107,6 +107,7 @@ export const KeywordsInput: React.FC<{
         updateKeywordsElement(manuscriptKeywords)
       }}
       styles={selectStyles}
+      menuPortalTarget={document.body}
     />
   )
 }
