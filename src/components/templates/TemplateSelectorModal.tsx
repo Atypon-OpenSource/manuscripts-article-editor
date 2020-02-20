@@ -69,7 +69,7 @@ const TemplatesContainer = styled.div`
   border-radius: ${props => props.theme.grid.radius.small};
   list-style: none;
   margin: 0 30px ${props => props.theme.grid.unit * 4}px;
-  height: 300px;
+  height: 375px;
   max-height: calc(100vh - 432px);
   overflow: hidden;
   padding: 0;

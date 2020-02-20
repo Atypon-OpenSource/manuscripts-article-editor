@@ -15,7 +15,7 @@ import { styled } from '../../theme/styled-components'
 
 const ModalHeader = styled.header`
   display: flex;
-  margin: 74px auto 60px;
+  margin: 48px auto 32px;
   user-select: none;
 
   @media (max-width: 450px) {

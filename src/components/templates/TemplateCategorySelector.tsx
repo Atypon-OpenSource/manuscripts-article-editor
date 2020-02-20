@@ -25,7 +25,7 @@ import { Slider } from '../Slider'
 import { TemplateCategory } from './TemplateCategory'
 
 const Categories = styled.nav.attrs(props => ({ role: 'navigation' }))`
-  margin: 0 64px 40px;
+  margin: 0 64px 32px;
   position: relative;
 
   @media (max-width: 450px) {
