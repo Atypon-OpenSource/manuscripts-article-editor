@@ -61,6 +61,13 @@ export const convert = async (
 
   if (format === 'manuproj') {
     headers['Pressroom-Regenerate-Project-Bundle-Model-Object-IDs'] = '1'
+
+    // Enrich metadata via GROBID if not importing a .manuproj file
+    const file = data.get('file') as File
+
+    if (!file.name.endsWith('.manuproj')) {
+      headers['Pressroom-Enrich-Document-Metadata'] = '1'
+    }
   }
 
   const response = await client.post<Blob>(url, data, {
