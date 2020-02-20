@@ -17,6 +17,7 @@ import {
   Model,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
+import { setNodeAttrs } from '../../lib/node-attrs'
 import { findFigureLayouts } from '../../lib/styles'
 import { ElementStyleInspectorProps } from './ElementStyleInspector'
 import { FigureLayouts } from './FigureLayouts'
@@ -112,6 +113,13 @@ export const FigureLayoutInspector: React.FC<
     [element, view]
   )
 
+  const setElementSizeFraction = useCallback(
+    (sizeFraction?: number) => {
+      setNodeAttrs(view, element._id, { sizeFraction })
+    },
+    [element, view]
+  )
+
   if (!figureLayout) {
     return null
   }
@@ -120,9 +128,11 @@ export const FigureLayoutInspector: React.FC<
 
   return (
     <FigureLayouts
+      figureElement={element}
       figureLayouts={figureLayouts}
       figureLayout={figureLayout}
       setElementFigureLayout={setElementFigureLayout}
+      setElementSizeFraction={setElementSizeFraction}
     />
   )
 }

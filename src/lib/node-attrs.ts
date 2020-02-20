@@ -10,32 +10,25 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react'
-import { useDebounce } from '../../hooks/use-debounce'
+import { ManuscriptEditorView } from '@manuscripts/manuscript-transform'
 
-export const DOIInput: React.FC<{
-  value?: string
-  handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [doi, setDOI] = useState<string>(value)
+export const setNodeAttrs = (
+  view: ManuscriptEditorView,
+  id: string,
+  attrs: object
+) => {
+  const { tr } = view.state
 
-  const debouncedDOI = useDebounce(doi || undefined, 500)
+  // TODO: iterator with node + pos
 
-  useEffect(() => {
-    if (debouncedDOI !== value) {
-      handleChange(debouncedDOI)
+  tr.doc.descendants((node, pos) => {
+    if (node.attrs.id === id) {
+      tr.setNodeMarkup(pos, undefined, {
+        ...node.attrs,
+        ...attrs,
+      })
+
+      view.dispatch(tr)
     }
-  }, [debouncedDOI, value])
-
-  return (
-    <TextField
-      value={doi}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
-      onChange={event => {
-        setDOI(event.target.value)
-      }}
-    />
-  )
+  })
 }

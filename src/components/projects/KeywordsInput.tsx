@@ -17,13 +17,13 @@ import {
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
 import {
-  Keyword,
   Manuscript,
+  ManuscriptKeyword,
   Model,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
-import { theme } from '../../theme/theme'
+import { selectStyles } from './inputs'
 import { SaveModel } from './ManuscriptInspector'
 
 export const KeywordsInput: React.FC<{
@@ -35,11 +35,11 @@ export const KeywordsInput: React.FC<{
 }> = ({ manuscript, modelMap, saveManuscript, saveModel, view }) => {
   const keywordIDs = manuscript.keywordIDs || []
 
-  const manuscriptKeywords: Keyword[] = keywordIDs
-    .map(id => modelMap.get(id) as Keyword | undefined)
-    .filter(Boolean) as Keyword[]
+  const manuscriptKeywords: ManuscriptKeyword[] = keywordIDs
+    .map(id => modelMap.get(id) as ManuscriptKeyword | undefined)
+    .filter(Boolean) as ManuscriptKeyword[]
 
-  const updateKeywordsElement = (manuscriptKeywords: Keyword[]) => {
+  const updateKeywordsElement = (manuscriptKeywords: ManuscriptKeyword[]) => {
     const keywordsElements: Array<{
       node: ManuscriptNode
       pos: number
@@ -71,7 +71,7 @@ export const KeywordsInput: React.FC<{
   }
 
   return (
-    <CreatableSelect<Keyword>
+    <CreatableSelect<ManuscriptKeyword>
       isMulti={true}
       noOptionsMessage={() => null}
       getNewOptionData={inputValue => {
@@ -79,46 +79,34 @@ export const KeywordsInput: React.FC<{
           name: `Add "${inputValue}"`,
         }
 
-        return option as Keyword
+        return option as ManuscriptKeyword
       }}
       onCreateOption={async inputValue => {
         const keyword = buildKeyword(inputValue)
 
-        await saveModel<Keyword>(keyword)
+        await saveModel<ManuscriptKeyword>(keyword)
 
         await saveManuscript({
           keywordIDs: [...keywordIDs, keyword._id],
         })
 
-        updateKeywordsElement([...manuscriptKeywords, keyword as Keyword])
+        updateKeywordsElement([
+          ...manuscriptKeywords,
+          keyword as ManuscriptKeyword,
+        ])
       }}
       options={manuscriptKeywords}
       value={manuscriptKeywords}
       getOptionValue={option => option._id}
       getOptionLabel={option => option.name}
-      onChange={async (manuscriptKeywords: Keyword[]) => {
+      onChange={async (manuscriptKeywords: ManuscriptKeyword[]) => {
         await saveManuscript({
           keywordIDs: manuscriptKeywords.map(item => item._id),
         })
 
         updateKeywordsElement(manuscriptKeywords)
       }}
-      styles={{
-        control: (provided, state) => ({
-          ...provided,
-          backgroundColor: state.isFocused
-            ? theme.colors.background.fifth
-            : theme.colors.background.primary,
-          borderColor: state.isFocused
-            ? theme.colors.border.field.active
-            : theme.colors.border.field.default,
-          '&:hover': {
-            backgroundColor: theme.colors.background.fifth,
-          },
-          borderRadius: theme.grid.radius.default,
-          boxShadow: 'none',
-        }),
-      }}
+      styles={selectStyles}
     />
   )
 }

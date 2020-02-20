@@ -126,7 +126,7 @@ const FigureContainer = styled.figure`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  margin: 0 0 24px 0;
 
   img {
     width: 100%;

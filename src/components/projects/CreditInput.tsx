@@ -14,27 +14,26 @@ import { TextField } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDebounce } from '../../hooks/use-debounce'
 
-export const DOIInput: React.FC<{
+export const CreditInput: React.FC<{
   value?: string
   handleChange: (value?: string) => void
 }> = ({ value = '', handleChange }) => {
-  const [doi, setDOI] = useState<string>(value)
+  const [credit, setCredit] = useState<string>(value)
 
-  const debouncedDOI = useDebounce(doi || undefined, 500)
+  const debouncedCredit = useDebounce(credit || undefined, 500)
 
   useEffect(() => {
-    if (debouncedDOI !== value) {
-      handleChange(debouncedDOI)
+    if (debouncedCredit !== value) {
+      handleChange(debouncedCredit)
     }
-  }, [debouncedDOI, value])
+  }, [debouncedCredit, value])
 
   return (
     <TextField
-      value={doi}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
+      value={credit}
+      placeholder={'Image credit…'}
       onChange={event => {
-        setDOI(event.target.value)
+        setCredit(event.target.value)
       }}
     />
   )

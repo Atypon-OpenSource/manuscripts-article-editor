@@ -10,19 +10,32 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FigureLayout } from '@manuscripts/manuscripts-json-schema'
+import {
+  FigureElement,
+  FigureLayout,
+} from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import { DEFAULT_FIGURE_WIDTH } from '../../lib/styles'
 import { InspectorSection } from '../InspectorSection'
 import { StyleSelect } from '../projects/inputs'
+import { FigureWidthField } from './FigureWidthField'
 import { InspectorField } from './ManuscriptStyleInspector'
 
 export const FigureLayouts: React.FC<{
+  figureElement: FigureElement
   figureLayouts: FigureLayout[]
   figureLayout: FigureLayout
   setElementFigureLayout: (id: string) => void
-}> = ({ figureLayouts, figureLayout, setElementFigureLayout }) => {
+  setElementSizeFraction: (sizeFraction: number) => void
+}> = ({
+  figureElement,
+  figureLayouts,
+  figureLayout,
+  setElementFigureLayout,
+  setElementSizeFraction,
+}) => {
   return (
-    <InspectorSection title={'Figure Layouts'}>
+    <InspectorSection title={'Figure Layout'}>
       <InspectorField>
         <StyleSelect
           value={figureLayout._id}
@@ -37,6 +50,14 @@ export const FigureLayouts: React.FC<{
           ))}
         </StyleSelect>
       </InspectorField>
+
+      <FigureWidthField
+        defaultValue={DEFAULT_FIGURE_WIDTH}
+        value={figureElement.sizeFraction}
+        handleChange={(sizeFraction: number) =>
+          setElementSizeFraction(sizeFraction)
+        }
+      />
     </InspectorSection>
   )
 }

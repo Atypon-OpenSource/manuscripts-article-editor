@@ -316,6 +316,7 @@ const addContainersFile = async (zip: JSZip, project: Project) => {
   zip.file<'string'>('containers.json', JSON.stringify([container]))
 }
 
+// tslint:disable:cyclomatic-complexity
 export const exportProject = async (
   getAttachment: GetAttachment,
   modelMap: Map<string, Model>,
@@ -377,7 +378,7 @@ export const exportProject = async (
         return convert(form, format, {
           'Pressroom-Target-Jats-Output-Format': 'literatum-do',
           'Pressroom-Jats-Document-Processing-Level': 'full_text',
-          'Pressroom-Digital-Object-Type': 'HTML5',
+          'Pressroom-Digital-Object-Type': 'magazine',
           'Pressroom-Jats-Submission-Doi': DOI,
           'Pressroom-Jats-Submission-Identifier': identifier,
         })

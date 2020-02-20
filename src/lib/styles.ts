@@ -17,6 +17,7 @@ import {
   Color,
   FigureLayout,
   FigureStyle,
+  InlineStyle,
   Model,
   ObjectTypes,
   ParagraphStyle,
@@ -35,6 +36,7 @@ export const DEFAULT_FIGURE_INNER_BORDER_WIDTH = 1
 export const DEFAULT_FIGURE_INNER_SPACING = 4
 export const DEFAULT_FIGURE_OUTER_BORDER_WIDTH = 1
 export const DEFAULT_FIGURE_OUTER_SPACING = 4
+export const DEFAULT_FIGURE_WIDTH = 1
 export const DEFAULT_FONT_SIZE = 12
 export const DEFAULT_LINE_HEIGHT = 1.5
 export const DEFAULT_LIST_BULLET_STYLE = 'disc'
@@ -64,6 +66,8 @@ export const isParagraphStyle = hasObjectType<ParagraphStyle>(
 export const isFigureStyle = hasObjectType<FigureStyle>(ObjectTypes.FigureStyle)
 export const isBorderStyle = hasObjectType<BorderStyle>(ObjectTypes.BorderStyle)
 export const isTableStyle = hasObjectType<TableStyle>(ObjectTypes.TableStyle)
+export const isInlineStyle = hasObjectType<InlineStyle>(ObjectTypes.InlineStyle)
+
 export const isFigureLayout = hasObjectType<FigureLayout>(
   ObjectTypes.FigureLayout
 )
@@ -643,6 +647,12 @@ export const buildParagraphStyles = (
       }
     `
 
+export const buildInlineStyles = (model: InlineStyle) => `
+  [data-inline-style="${model._id}"] {
+    ${model.style};
+  }
+`
+
 export const buildFigureStyles = (
   model: FigureStyle,
   colors: Map<string, Color>,
@@ -934,4 +944,16 @@ export const findTableStyles = (modelMap: Map<string, Model>) => {
   }
 
   return output
+}
+
+export const findInlineStyles = (modelMap: Map<string, Model>) => {
+  const output: InlineStyle[] = []
+
+  for (const model of modelMap.values()) {
+    if (isInlineStyle(model)) {
+      output.push(model)
+    }
+  }
+
+  return output.sort(ascendingPriority)
 }

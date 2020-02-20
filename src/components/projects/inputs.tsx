@@ -13,7 +13,9 @@
 import { TextField } from '@manuscripts/style-guide'
 import { range } from 'lodash-es'
 import React, { InputHTMLAttributes } from 'react'
+import { StylesConfig } from 'react-select/lib/styles'
 import { styled } from '../../theme/styled-components'
+import { theme } from '../../theme/theme'
 
 export const NumberField = styled(TextField).attrs({
   type: 'number',
@@ -74,3 +76,20 @@ export const StyleSelect = styled.select`
 export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   margin-right: ${props => props.theme.grid.unit * 2}px;
 `
+
+export const selectStyles: StylesConfig = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused
+      ? theme.colors.background.fifth
+      : theme.colors.background.primary,
+    borderColor: state.isFocused
+      ? theme.colors.border.field.active
+      : theme.colors.border.field.default,
+    '&:hover': {
+      backgroundColor: theme.colors.background.fifth,
+    },
+    borderRadius: theme.grid.radius.default,
+    boxShadow: 'none',
+  }),
+}

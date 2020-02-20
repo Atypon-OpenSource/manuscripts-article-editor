@@ -32,6 +32,13 @@ import {
   isEditableSectionCategoryID,
 } from '../../lib/section-categories'
 import { styled } from '../../theme/styled-components'
+import {
+  InspectorPanelTabList,
+  InspectorTab,
+  InspectorTabPanel,
+  InspectorTabPanels,
+  InspectorTabs,
+} from '../Inspector'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CategoryInput } from '../projects/CategoryInput'
 import { CountInput } from '../projects/CountInput'
@@ -118,107 +125,122 @@ export const SectionInspector: React.FC<{
     <InspectorSection title={'Section'}>
       <StyledTitle value={section.title} />
 
-      {sectionNode && 'titleSuppressed' in sectionNode.attrs && (
-        <div>
-          <label>
-            <input
-              type={'checkbox'}
-              checked={!section.titleSuppressed}
-              onChange={event => {
-                setTitleSuppressed(!event.target.checked)
+      <InspectorTabs>
+        <InspectorPanelTabList>
+          <InspectorTab>General</InspectorTab>
+          <InspectorTab>Requirements</InspectorTab>
+        </InspectorPanelTabList>
+
+        <InspectorTabPanels>
+          <InspectorTabPanel>
+            {sectionNode && 'titleSuppressed' in sectionNode.attrs && (
+              <div>
+                <label>
+                  <input
+                    type={'checkbox'}
+                    checked={!section.titleSuppressed}
+                    onChange={event => {
+                      setTitleSuppressed(!event.target.checked)
+                    }}
+                  />{' '}
+                  Title is shown
+                </label>
+              </div>
+            )}
+
+            {isEditableSectionCategoryID(currentSectionCategory) && (
+              <>
+                <Subheading>Category</Subheading>
+
+                <CategoryInput
+                  value={currentSectionCategory}
+                  handleChange={(category: string) => {
+                    dispatchNodeAttrs(section._id, { category })
+                  }}
+                />
+              </>
+            )}
+          </InspectorTabPanel>
+
+          <InspectorTabPanel>
+            <CountInput
+              label={'Min word count'}
+              placeholder={'Minimum'}
+              value={requirements.minWordCount}
+              handleChange={async (
+                requirement: Buildable<MinimumSectionWordCountRequirement>
+              ) => {
+                await saveModel<MinimumSectionWordCountRequirement>(requirement)
+
+                if (requirement._id !== section.minWordCountRequirement) {
+                  await saveModel<Section>({
+                    ...section,
+                    minWordCountRequirement: requirement._id,
+                  })
+                }
               }}
-            />{' '}
-            Title is shown
-          </label>
-        </div>
-      )}
+            />
 
-      {isEditableSectionCategoryID(currentSectionCategory) && (
-        <>
-          <Subheading>Category</Subheading>
+            <CountInput
+              label={'Max word count'}
+              placeholder={'Maximum'}
+              value={requirements.maxWordCount}
+              handleChange={async (
+                requirement: Buildable<MaximumSectionWordCountRequirement>
+              ) => {
+                await saveModel<MaximumSectionWordCountRequirement>(requirement)
 
-          <CategoryInput
-            value={currentSectionCategory}
-            handleChange={(category: string) => {
-              dispatchNodeAttrs(section._id, { category })
-            }}
-          />
-        </>
-      )}
+                if (requirement._id !== section.maxWordCountRequirement) {
+                  await saveModel<Section>({
+                    ...section,
+                    maxWordCountRequirement: requirement._id,
+                  })
+                }
+              }}
+            />
 
-      <Subheading>Requirements</Subheading>
+            <CountInput
+              label={'Min character count'}
+              placeholder={'Minimum'}
+              value={requirements.minCharacterCount}
+              handleChange={async (
+                requirement: Buildable<MinimumSectionCharacterCountRequirement>
+              ) => {
+                await saveModel<MinimumSectionCharacterCountRequirement>(
+                  requirement
+                )
 
-      <CountInput
-        label={'Min word count'}
-        placeholder={'Minimum'}
-        value={requirements.minWordCount}
-        handleChange={async (
-          requirement: Buildable<MinimumSectionWordCountRequirement>
-        ) => {
-          await saveModel<MinimumSectionWordCountRequirement>(requirement)
+                if (requirement._id !== section.minCharacterCountRequirement) {
+                  await saveModel<Section>({
+                    ...section,
+                    minCharacterCountRequirement: requirement._id,
+                  })
+                }
+              }}
+            />
 
-          if (requirement._id !== section.minWordCountRequirement) {
-            await saveModel<Section>({
-              ...section,
-              minWordCountRequirement: requirement._id,
-            })
-          }
-        }}
-      />
+            <CountInput
+              label={'Max character count'}
+              placeholder={'Maximum'}
+              value={requirements.maxCharacterCount}
+              handleChange={async (
+                requirement: Buildable<MaximumSectionCharacterCountRequirement>
+              ) => {
+                await saveModel<MaximumSectionCharacterCountRequirement>(
+                  requirement
+                )
 
-      <CountInput
-        label={'Max word count'}
-        placeholder={'Maximum'}
-        value={requirements.maxWordCount}
-        handleChange={async (
-          requirement: Buildable<MaximumSectionWordCountRequirement>
-        ) => {
-          await saveModel<MaximumSectionWordCountRequirement>(requirement)
-
-          if (requirement._id !== section.maxWordCountRequirement) {
-            await saveModel<Section>({
-              ...section,
-              maxWordCountRequirement: requirement._id,
-            })
-          }
-        }}
-      />
-
-      <CountInput
-        label={'Min character count'}
-        placeholder={'Minimum'}
-        value={requirements.minCharacterCount}
-        handleChange={async (
-          requirement: Buildable<MinimumSectionCharacterCountRequirement>
-        ) => {
-          await saveModel<MinimumSectionCharacterCountRequirement>(requirement)
-
-          if (requirement._id !== section.minCharacterCountRequirement) {
-            await saveModel<Section>({
-              ...section,
-              minCharacterCountRequirement: requirement._id,
-            })
-          }
-        }}
-      />
-
-      <CountInput
-        label={'Max character count'}
-        placeholder={'Maximum'}
-        value={requirements.maxCharacterCount}
-        handleChange={async (
-          requirement: Buildable<MaximumSectionCharacterCountRequirement>
-        ) => {
-          await saveModel<MaximumSectionCharacterCountRequirement>(requirement)
-
-          if (requirement._id !== section.maxCharacterCountRequirement) {
-            await saveModel<Section>({
-              ...section,
-              maxCharacterCountRequirement: requirement._id,
-            })
-          }
-        }}
-      />
+                if (requirement._id !== section.maxCharacterCountRequirement) {
+                  await saveModel<Section>({
+                    ...section,
+                    maxCharacterCountRequirement: requirement._id,
+                  })
+                }
+              }}
+            />
+          </InspectorTabPanel>
+        </InspectorTabPanels>
+      </InspectorTabs>
     </InspectorSection>
   )
 }

@@ -11,31 +11,38 @@
  */
 
 import { TextField } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDebounce } from '../../hooks/use-debounce'
+import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
 
-export const DOIInput: React.FC<{
-  value?: string
+export const LabelField: React.FC<{
+  label?: string
+  placeholder?: string
+  value: string
   handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [doi, setDOI] = useState<string>(value)
+}> = ({ value, handleChange, label = 'Label', placeholder }) => {
+  const [currentValue, setCurrentValue] = useState<string>(value)
 
-  const debouncedDOI = useDebounce(doi || undefined, 500)
+  const handleValueChange = useCallback(event => {
+    setCurrentValue(event.target.value)
+  }, [])
+
+  const debouncedCurrentValue = useDebounce(currentValue, 1000)
 
   useEffect(() => {
-    if (debouncedDOI !== value) {
-      handleChange(debouncedDOI)
+    if (debouncedCurrentValue !== value) {
+      handleChange(debouncedCurrentValue)
     }
-  }, [debouncedDOI, value])
+  }, [debouncedCurrentValue, value])
 
   return (
-    <TextField
-      value={doi}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
-      onChange={event => {
-        setDOI(event.target.value)
-      }}
-    />
+    <InspectorField>
+      <InspectorLabel>{label}</InspectorLabel>
+      <TextField
+        value={currentValue}
+        placeholder={placeholder}
+        onChange={handleValueChange}
+      />
+    </InspectorField>
   )
 }

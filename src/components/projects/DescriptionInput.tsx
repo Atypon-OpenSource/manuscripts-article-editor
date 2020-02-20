@@ -10,31 +10,32 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
+import { TextArea } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDebounce } from '../../hooks/use-debounce'
 
-export const DOIInput: React.FC<{
+export const DescriptionInput: React.FC<{
   value?: string
   handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [doi, setDOI] = useState<string>(value)
+  placeholder?: string
+}> = ({ value = '', handleChange, placeholder }) => {
+  const [description, setDescription] = useState<string>(value)
 
-  const debouncedDOI = useDebounce(doi || undefined, 500)
+  const debouncedDescription = useDebounce(description || undefined, 500)
 
   useEffect(() => {
-    if (debouncedDOI !== value) {
-      handleChange(debouncedDOI)
+    if (debouncedDescription !== value) {
+      handleChange(debouncedDescription)
     }
-  }, [debouncedDOI, value])
+  }, [debouncedDescription, value])
 
   return (
-    <TextField
-      value={doi}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
+    <TextArea
+      rows={5}
+      value={description}
+      placeholder={placeholder}
       onChange={event => {
-        setDOI(event.target.value)
+        setDescription(event.target.value)
       }}
     />
   )

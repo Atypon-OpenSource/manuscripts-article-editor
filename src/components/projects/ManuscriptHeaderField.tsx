@@ -10,32 +10,44 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react'
-import { useDebounce } from '../../hooks/use-debounce'
+import { Build, generateID } from '@manuscripts/manuscript-transform'
+import { Figure, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
+import { SaveModel } from './ManuscriptInspector'
 
-export const DOIInput: React.FC<{
+export const ManuscriptHeaderField: React.FC<{
   value?: string
   handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [doi, setDOI] = useState<string>(value)
-
-  const debouncedDOI = useDebounce(doi || undefined, 500)
-
-  useEffect(() => {
-    if (debouncedDOI !== value) {
-      handleChange(debouncedDOI)
-    }
-  }, [debouncedDOI, value])
-
+  saveModel: SaveModel
+  deleteModel: (id: string) => Promise<string>
+}> = ({ value, handleChange, saveModel, deleteModel }) => {
   return (
-    <TextField
-      value={doi}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
-      onChange={event => {
-        setDOI(event.target.value)
-      }}
-    />
+    <div>
+      <label>
+        <input
+          type={'checkbox'}
+          checked={value !== undefined}
+          onChange={async event => {
+            if (event.target.checked) {
+              const figure: Build<Figure> = {
+                _id: generateID(ObjectTypes.Figure),
+                objectType: ObjectTypes.Figure,
+              }
+
+              await saveModel<Figure>(figure)
+
+              handleChange(figure._id)
+            } else {
+              if (value) {
+                await deleteModel(value)
+              }
+
+              handleChange(undefined)
+            }
+          }}
+        />{' '}
+        Header image is shown
+      </label>
+    </div>
   )
 }

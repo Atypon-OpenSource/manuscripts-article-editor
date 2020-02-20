@@ -17,7 +17,6 @@ import {
 } from '@manuscripts/manuscript-transform'
 import {
   CountRequirement,
-  Figure,
   Manuscript,
   MaximumManuscriptCharacterCountRequirement,
   MaximumManuscriptWordCountRequirement,
@@ -27,10 +26,22 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import config from '../../config'
+import {
+  InspectorPanelTabList,
+  InspectorTab,
+  InspectorTabPanel,
+  InspectorTabPanels,
+  InspectorTabs,
+} from '../Inspector'
+import { LabelField } from '../inspector/LabelField'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CountInput } from './CountInput'
+import { DateInput } from './DateInput'
+import { DescriptionInput } from './DescriptionInput'
 import { DOIInput } from './DOIInput'
 import { KeywordsInput } from './KeywordsInput'
+import { ThemeInput } from './ThemeInput'
 
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
@@ -65,10 +76,8 @@ export const ManuscriptInspector: React.FC<{
   modelMap: Map<string, Model>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   saveModel: SaveModel
-  deleteModel: (id: string) => Promise<string>
   view: ManuscriptEditorView
 }> = ({
-  deleteModel,
   manuscript,
   modelMap,
   saveManuscript,
@@ -112,131 +121,207 @@ export const ManuscriptInspector: React.FC<{
 
   return (
     <InspectorSection title={'Manuscript'}>
-      <Subheading>Header</Subheading>
+      <InspectorTabs>
+        <InspectorPanelTabList>
+          <InspectorTab>Metadata</InspectorTab>
+          <InspectorTab>Labels</InspectorTab>
+          <InspectorTab>Requirements</InspectorTab>
+        </InspectorPanelTabList>
 
-      <div>
-        <label>
-          <input
-            type={'checkbox'}
-            checked={manuscript.headerFigure !== undefined}
-            onChange={async event => {
-              if (event.target.checked) {
-                const figure: Build<Figure> = {
-                  _id: generateID(ObjectTypes.Figure),
-                  objectType: ObjectTypes.Figure,
-                }
+        <InspectorTabPanels>
+          <InspectorTabPanel>
+            {config.export.literatum && (
+              <>
+                <Subheading>DOI</Subheading>
 
-                await saveModel<Figure>(figure)
+                <DOIInput
+                  value={manuscript.DOI}
+                  handleChange={async DOI => {
+                    await saveManuscript({
+                      DOI,
+                    })
+                  }}
+                />
 
-                saveManuscript({
-                  headerFigure: figure._id,
-                }).catch(error => {
-                  console.error(error) // tslint:disable-line:no-console
+                <Subheading>Publication Date</Subheading>
+
+                <DateInput
+                  value={manuscript.publicationDate}
+                  handleChange={async publicationDate => {
+                    await saveManuscript({
+                      publicationDate,
+                    })
+                  }}
+                />
+
+                <Subheading>Abstract</Subheading>
+
+                <DescriptionInput
+                  value={manuscript.desc}
+                  handleChange={async desc => {
+                    await saveManuscript({
+                      desc,
+                    })
+                  }}
+                />
+
+                <Subheading>Theme</Subheading>
+
+                <ThemeInput
+                  value={manuscript.layoutTheme || ''}
+                  handleChange={async layoutTheme => {
+                    await saveManuscript({
+                      layoutTheme,
+                    })
+                  }}
+                />
+              </>
+            )}
+
+            <Subheading>Keywords</Subheading>
+
+            <KeywordsInput
+              manuscript={manuscript}
+              modelMap={modelMap}
+              saveManuscript={saveManuscript}
+              saveModel={saveModel}
+              view={view}
+            />
+          </InspectorTabPanel>
+
+          <InspectorTabPanel>
+            <LabelField
+              label={'Figure Panel'}
+              placeholder={'Figure'}
+              value={manuscript.figureElementLabel || ''}
+              handleChange={async figureElementLabel => {
+                await saveManuscript({
+                  figureElementLabel,
                 })
-              } else {
-                if (manuscript.headerFigure) {
-                  await deleteModel(manuscript.headerFigure)
-                }
+              }}
+            />
 
-                saveManuscript({
-                  headerFigure: undefined,
-                }).catch(error => {
-                  console.error(error) // tslint:disable-line:no-console
+            <LabelField
+              label={'Table'}
+              placeholder={'Table'}
+              value={manuscript.tableElementLabel || ''}
+              handleChange={async tableElementLabel => {
+                await saveManuscript({
+                  tableElementLabel,
                 })
-              }
-            }}
-          />{' '}
-          Header image is shown
-        </label>
-      </div>
+              }}
+            />
 
-      <Subheading>Keywords</Subheading>
+            <LabelField
+              label={'Equation'}
+              placeholder={'Equation'}
+              value={manuscript.equationElementLabel || ''}
+              handleChange={async equationElementLabel => {
+                await saveManuscript({
+                  equationElementLabel,
+                })
+              }}
+            />
 
-      <KeywordsInput
-        manuscript={manuscript}
-        modelMap={modelMap}
-        saveManuscript={saveManuscript}
-        saveModel={saveModel}
-        view={view}
-      />
+            <LabelField
+              label={'Listing'}
+              placeholder={'Listing'}
+              value={manuscript.listingElementLabel || ''}
+              handleChange={async listingElementLabel => {
+                await saveManuscript({
+                  listingElementLabel,
+                })
+              }}
+            />
+          </InspectorTabPanel>
 
-      <Subheading>DOI</Subheading>
+          <InspectorTabPanel>
+            <CountInput
+              label={'Min word count'}
+              placeholder={'Minimum'}
+              value={requirements.minWordCount}
+              handleChange={async (
+                requirement: Buildable<MinimumManuscriptWordCountRequirement>
+              ) => {
+                await saveModel<MinimumManuscriptWordCountRequirement>(
+                  requirement
+                )
 
-      <DOIInput manuscript={manuscript} saveManuscript={saveManuscript} />
+                if (requirement._id !== manuscript.minWordCountRequirement) {
+                  await saveManuscript({
+                    minWordCountRequirement: requirement._id,
+                  })
+                }
+              }}
+            />
 
-      <Subheading>Requirements</Subheading>
+            <CountInput
+              label={'Max word count'}
+              placeholder={'Maximum'}
+              value={requirements.maxWordCount}
+              handleChange={async (
+                requirement: Buildable<MaximumManuscriptWordCountRequirement>
+              ) => {
+                await saveModel<MaximumManuscriptWordCountRequirement>(
+                  requirement
+                )
 
-      <CountInput
-        label={'Min word count'}
-        placeholder={'Minimum'}
-        value={requirements.minWordCount}
-        handleChange={async (
-          requirement: Buildable<MinimumManuscriptWordCountRequirement>
-        ) => {
-          await saveModel<MinimumManuscriptWordCountRequirement>(requirement)
+                if (requirement._id !== manuscript.maxWordCountRequirement) {
+                  await saveManuscript({
+                    maxWordCountRequirement: requirement._id,
+                  })
+                }
+              }}
+            />
 
-          if (requirement._id !== manuscript.minWordCountRequirement) {
-            await saveManuscript({
-              minWordCountRequirement: requirement._id,
-            })
-          }
-        }}
-      />
+            <CountInput
+              label={'Min character count'}
+              placeholder={'Minimum'}
+              value={requirements.minCharacterCount}
+              handleChange={async (
+                requirement: Buildable<
+                  MinimumManuscriptCharacterCountRequirement
+                >
+              ) => {
+                await saveModel<MinimumManuscriptCharacterCountRequirement>(
+                  requirement
+                )
 
-      <CountInput
-        label={'Max word count'}
-        placeholder={'Maximum'}
-        value={requirements.maxWordCount}
-        handleChange={async (
-          requirement: Buildable<MaximumManuscriptWordCountRequirement>
-        ) => {
-          await saveModel<MaximumManuscriptWordCountRequirement>(requirement)
+                if (
+                  requirement._id !== manuscript.minCharacterCountRequirement
+                ) {
+                  await saveManuscript({
+                    minCharacterCountRequirement: requirement._id,
+                  })
+                }
+              }}
+            />
 
-          if (requirement._id !== manuscript.maxWordCountRequirement) {
-            await saveManuscript({
-              maxWordCountRequirement: requirement._id,
-            })
-          }
-        }}
-      />
+            <CountInput
+              label={'Max character count'}
+              placeholder={'Maximum'}
+              value={requirements.maxCharacterCount}
+              handleChange={async (
+                requirement: Buildable<
+                  MaximumManuscriptCharacterCountRequirement
+                >
+              ) => {
+                await saveModel<MaximumManuscriptCharacterCountRequirement>(
+                  requirement
+                )
 
-      <CountInput
-        label={'Min character count'}
-        placeholder={'Minimum'}
-        value={requirements.minCharacterCount}
-        handleChange={async (
-          requirement: Buildable<MinimumManuscriptCharacterCountRequirement>
-        ) => {
-          await saveModel<MinimumManuscriptCharacterCountRequirement>(
-            requirement
-          )
-
-          if (requirement._id !== manuscript.minCharacterCountRequirement) {
-            await saveManuscript({
-              minCharacterCountRequirement: requirement._id,
-            })
-          }
-        }}
-      />
-
-      <CountInput
-        label={'Max character count'}
-        placeholder={'Maximum'}
-        value={requirements.maxCharacterCount}
-        handleChange={async (
-          requirement: Buildable<MaximumManuscriptCharacterCountRequirement>
-        ) => {
-          await saveModel<MaximumManuscriptCharacterCountRequirement>(
-            requirement
-          )
-
-          if (requirement._id !== manuscript.maxCharacterCountRequirement) {
-            await saveManuscript({
-              maxCharacterCountRequirement: requirement._id,
-            })
-          }
-        }}
-      />
+                if (
+                  requirement._id !== manuscript.maxCharacterCountRequirement
+                ) {
+                  await saveManuscript({
+                    maxCharacterCountRequirement: requirement._id,
+                  })
+                }
+              }}
+            />
+          </InspectorTabPanel>
+        </InspectorTabPanels>
+      </InspectorTabs>
     </InspectorSection>
   )
 }

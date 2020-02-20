@@ -549,7 +549,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           forceOpen={commentTarget !== undefined}
           resizerButton={ResizingInspectorButton}
         >
-          {this.state.view && comments && (
+          {view && comments && (
             <Inspector
               bundle={bundle}
               comments={comments}
@@ -721,14 +721,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private setView = (view: ManuscriptEditorView) => {
-    this.setState({ view })
+    this.setState({ view }, () => {
+      this.subscribeToConflicts().catch(err => {
+        throw err
+      })
 
-    this.subscribeToConflicts().catch(err => {
-      throw err
-    })
-
-    this.subscribeToSyncErrors().catch(err => {
-      throw err
+      this.subscribeToSyncErrors().catch(err => {
+        throw err
+      })
     })
   }
 
@@ -828,9 +828,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     if (this.shouldUpdateCitationProcessor(manuscript, previousManuscript)) {
       await this.createCitationProcessor(manuscript, this.state.modelMap!)
-
-      this.dispatchUpdate()
     }
+
+    this.dispatchUpdate()
   }
 
   private deleteManuscript = async (id: string) => {

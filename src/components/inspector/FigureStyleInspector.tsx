@@ -19,6 +19,7 @@ import {
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
 import { buildColors } from '../../lib/colors'
+import { setNodeAttrs } from '../../lib/node-attrs'
 import { findBorderStyles, findFigureStyles } from '../../lib/styles'
 import { fromPrototype } from '../../lib/templates'
 import { ElementStyleInspectorProps } from './ElementStyleInspector'
@@ -69,20 +70,7 @@ export const FigureStyleInspector: React.FC<
 
   const setElementFigureStyle = useCallback(
     (figureStyle?: string) => {
-      const { tr, doc } = view.state
-
-      // TODO: iterator with node + pos
-
-      doc.descendants((node, pos) => {
-        if (node.attrs.id === element._id) {
-          tr.setNodeMarkup(pos, undefined, {
-            ...node.attrs,
-            figureStyle,
-          })
-
-          view.dispatch(tr)
-        }
-      })
+      setNodeAttrs(view, element._id, { figureStyle })
     },
     [element, view]
   )

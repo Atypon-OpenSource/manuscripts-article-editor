@@ -14,27 +14,54 @@ import { TextField } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDebounce } from '../../hooks/use-debounce'
 
-export const DOIInput: React.FC<{
-  value?: string
-  handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [doi, setDOI] = useState<string>(value)
+const convertDateStringToNumber = (input?: string): number | undefined => {
+  if (!input) {
+    return undefined
+  }
 
-  const debouncedDOI = useDebounce(doi || undefined, 500)
+  const output = new Date(input)
+
+  if (!output) {
+    return undefined
+  }
+
+  return Number(output)
+}
+
+const convertNumberToDateString = (input?: number): string => {
+  if (!input) {
+    return ''
+  }
+
+  const output = new Date(input)
+
+  if (!output) {
+    return ''
+  }
+
+  return output.toISOString().substr(0, 10)
+}
+
+export const DateInput: React.FC<{
+  value?: number
+  handleChange: (value?: number) => void
+}> = ({ value, handleChange }) => {
+  const [date, setDate] = useState<number | undefined>(value)
+
+  const debouncedDate = useDebounce(date || undefined, 500)
 
   useEffect(() => {
-    if (debouncedDOI !== value) {
-      handleChange(debouncedDOI)
+    if (debouncedDate !== value) {
+      handleChange(debouncedDate)
     }
-  }, [debouncedDOI, value])
+  }, [debouncedDate, value])
 
   return (
     <TextField
-      value={doi}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
+      value={convertNumberToDateString(date)}
+      type={'date'}
       onChange={event => {
-        setDOI(event.target.value)
+        setDate(convertDateStringToNumber(event.target.value))
       }}
     />
   )

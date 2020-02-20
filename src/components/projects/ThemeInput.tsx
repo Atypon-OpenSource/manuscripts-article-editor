@@ -10,32 +10,32 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react'
-import { useDebounce } from '../../hooks/use-debounce'
+import React from 'react'
+import Select from 'react-select'
+import { selectStyles } from './inputs'
 
-export const DOIInput: React.FC<{
+interface Option {
+  value: string
+  label: string
+}
+
+const options: Option[] = [
+  { value: 'standard', label: 'Standard' },
+  { value: 'feature', label: 'Feature' },
+  { value: 'feature1', label: 'Feature 1' },
+  { value: 'standard2', label: 'Standard 2' },
+]
+
+export const ThemeInput: React.FC<{
   value?: string
   handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [doi, setDOI] = useState<string>(value)
-
-  const debouncedDOI = useDebounce(doi || undefined, 500)
-
-  useEffect(() => {
-    if (debouncedDOI !== value) {
-      handleChange(debouncedDOI)
-    }
-  }, [debouncedDOI, value])
-
-  return (
-    <TextField
-      value={doi}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
-      onChange={event => {
-        setDOI(event.target.value)
-      }}
-    />
-  )
-}
+}> = ({ value = '', handleChange }) => (
+  <Select<Option>
+    value={options.find(option => option.value === value)}
+    onChange={(selectedOption: Option) => {
+      handleChange(selectedOption.value)
+    }}
+    options={options}
+    styles={selectStyles}
+  />
+)

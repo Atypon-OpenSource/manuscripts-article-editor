@@ -26,6 +26,7 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect, useState } from 'react'
+import config from '../../config'
 import {
   InspectorContainer,
   InspectorTab,
@@ -38,16 +39,18 @@ import {
   AnyElement,
   ElementStyleInspector,
 } from '../inspector/ElementStyleInspector'
+import { InlineStyleInspector } from '../inspector/InlineStyleInspector'
 import { ManuscriptStyleInspector } from '../inspector/ManuscriptStyleInspector'
 import { SectionInspector } from '../inspector/SectionInspector'
 import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
 import { StatisticsInspector } from '../inspector/StatisticsInspector'
 import { CommentList } from './CommentList'
+import { HeaderImageInspector } from './HeaderImageInspector'
 import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
 
 export const Inspector: React.FC<{
   bundle?: Bundle
-  comments: CommentAnnotation[]
+  comments?: CommentAnnotation[]
   commentTarget?: string
   createKeyword: (name: string) => Promise<Keyword>
   deleteModel: (id: string) => Promise<string>
@@ -70,7 +73,7 @@ export const Inspector: React.FC<{
   selected: Selected | null
   selectedSection?: Selected
   setCommentTarget: () => void
-  view?: ManuscriptEditorView
+  view: ManuscriptEditorView
   // tslint:disable-next-line:cyclomatic-complexity
 }> = ({
   bundle,
@@ -126,17 +129,23 @@ export const Inspector: React.FC<{
                   : undefined
               }
             />
-            {view && (
-              <ManuscriptInspector
+            {config.export.literatum && (
+              <HeaderImageInspector
                 deleteModel={deleteModel}
                 manuscript={manuscript}
                 modelMap={modelMap}
                 saveManuscript={saveManuscript}
                 saveModel={saveModel}
-                view={view}
               />
             )}
-            {section && view && (
+            <ManuscriptInspector
+              manuscript={manuscript}
+              modelMap={modelMap}
+              saveManuscript={saveManuscript}
+              saveModel={saveModel}
+              view={view}
+            />
+            {section && (
               <SectionInspector
                 section={section}
                 sectionNode={
@@ -155,7 +164,13 @@ export const Inspector: React.FC<{
               bundle={bundle}
               openCitationStyleSelector={openCitationStyleSelector}
             />
-            {element && view && (
+            <InlineStyleInspector
+              modelMap={modelMap}
+              saveModel={saveModel}
+              deleteModel={deleteModel}
+              view={view}
+            />
+            {element && (
               <ElementStyleInspector
                 manuscript={manuscript}
                 element={element}
@@ -175,7 +190,7 @@ export const Inspector: React.FC<{
             )}
           </InspectorTabPanel>
           <InspectorTabPanel>
-            {view && (
+            {comments && (
               <CommentList
                 comments={comments}
                 doc={doc}

@@ -7,35 +7,29 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react'
-import { useDebounce } from '../../hooks/use-debounce'
+import { ManuscriptEditorView } from '@manuscripts/manuscript-transform'
+import { Model } from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
+import { findInlineStyles } from '../../lib/styles'
+import { InlineStyles } from './InlineStyles'
 
-export const DOIInput: React.FC<{
-  value?: string
-  handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [doi, setDOI] = useState<string>(value)
+type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
-  const debouncedDOI = useDebounce(doi || undefined, 500)
-
-  useEffect(() => {
-    if (debouncedDOI !== value) {
-      handleChange(debouncedDOI)
-    }
-  }, [debouncedDOI, value])
-
+export const InlineStyleInspector: React.FC<{
+  modelMap: Map<string, Model>
+  saveModel: SaveModel
+  deleteModel: (id: string) => Promise<string>
+  view: ManuscriptEditorView
+}> = ({ modelMap, deleteModel, saveModel, view }) => {
   return (
-    <TextField
-      value={doi}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
-      onChange={event => {
-        setDOI(event.target.value)
-      }}
+    <InlineStyles
+      inlineStyles={findInlineStyles(modelMap)}
+      deleteModel={deleteModel}
+      saveModel={saveModel}
+      view={view}
     />
   )
 }

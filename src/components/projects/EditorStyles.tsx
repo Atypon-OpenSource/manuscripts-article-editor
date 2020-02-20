@@ -15,6 +15,7 @@ import {
   Color,
   FigureLayout,
   FigureStyle,
+  InlineStyle,
   Model,
   ParagraphStyle,
   TableStyle,
@@ -25,11 +26,13 @@ import {
   buildFigureLayoutStyles,
   buildFigureStyles,
   buildHeadingStyles,
+  buildInlineStyles,
   buildParagraphStyles,
   buildTableStyles,
   isBorderStyle,
   isFigureLayout,
   isFigureStyle,
+  isInlineStyle,
   isParagraphStyle,
   isTableStyle,
 } from '../../lib/styles'
@@ -41,6 +44,7 @@ const buildStyles = (
   figureStyles: Map<string, FigureStyle>,
   tableStyles: Map<string, TableStyle>,
   borderStyles: Map<string, BorderStyle>,
+  inlineStyles: Map<string, InlineStyle>,
   figureLayouts: Map<string, FigureLayout>,
   colors: Map<string, Color>
 ): string => {
@@ -82,6 +86,14 @@ const buildStyles = (
     }
   }
 
+  for (const model of inlineStyles.values()) {
+    const modelStyles = buildInlineStyles(model)
+
+    if (modelStyles) {
+      styles.push(modelStyles)
+    }
+  }
+
   for (const model of figureLayouts.values()) {
     const modelStyles = buildFigureLayoutStyles(model)
 
@@ -113,6 +125,7 @@ export const EditorStyles: React.FC<{
   const figureStyles = new Map<string, FigureStyle>()
   const tableStyles = new Map<string, TableStyle>()
   const borderStyles = new Map<string, BorderStyle>()
+  const inlineStyles = new Map<string, InlineStyle>()
   const figureLayouts = new Map<string, FigureLayout>()
   const colors = new Map<string, Color>()
 
@@ -127,6 +140,8 @@ export const EditorStyles: React.FC<{
       tableStyles.set(model._id, model)
     } else if (isBorderStyle(model)) {
       borderStyles.set(model._id, model)
+    } else if (isInlineStyle(model)) {
+      inlineStyles.set(model._id, model)
     } else if (isColor(model)) {
       colors.set(model._id, model)
     }
@@ -139,6 +154,7 @@ export const EditorStyles: React.FC<{
         figureStyles,
         tableStyles,
         borderStyles,
+        inlineStyles,
         figureLayouts,
         colors
       )
@@ -148,6 +164,7 @@ export const EditorStyles: React.FC<{
     JSON.stringify([...figureStyles]),
     JSON.stringify([...tableStyles]),
     JSON.stringify([...borderStyles]),
+    JSON.stringify([...inlineStyles]),
     JSON.stringify([...figureLayouts]),
     JSON.stringify([...colors]),
   ])
