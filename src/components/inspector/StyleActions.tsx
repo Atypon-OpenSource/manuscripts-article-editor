@@ -12,15 +12,17 @@
 
 import VerticalEllipsis from '@manuscripts/assets/react/VerticalEllipsis'
 import React, { useCallback, useState } from 'react'
+import ReactDOM from 'react-dom'
 import { Manager, Popper, Reference } from 'react-popper'
 import { styled } from '../../theme/styled-components'
 
 export const StyleActions: React.FC<{
+  addStyle?: () => void
   deleteStyle: () => void
-  duplicateStyle: () => void
+  duplicateStyle?: () => void
   isDefault: boolean
-  renameStyle: () => void
-}> = ({ deleteStyle, duplicateStyle, isDefault, renameStyle }) => {
+  renameStyle?: () => void
+}> = ({ addStyle, deleteStyle, duplicateStyle, isDefault, renameStyle }) => {
   const [open, setOpen] = useState(false)
 
   const toggleOpen = useCallback(() => {
@@ -46,30 +48,40 @@ export const StyleActions: React.FC<{
           </MenuButton>
         )}
       </Reference>
-      {open && (
-        <Popper placement="bottom">
-          {({ ref, style, placement }) => (
-            <div ref={ref} style={style} data-placement={placement}>
-              <Menu>
-                <MenuItem onClick={executeMenuAction(duplicateStyle)}>
-                  Duplicate
-                </MenuItem>
+      {open &&
+        ReactDOM.createPortal(
+          <Popper placement="bottom" positionFixed={true}>
+            {({ ref, style, placement }) => (
+              <div ref={ref} style={style} data-placement={placement}>
+                <Menu>
+                  {duplicateStyle && (
+                    <MenuItem onClick={executeMenuAction(duplicateStyle)}>
+                      Duplicate
+                    </MenuItem>
+                  )}
 
-                {isDefault && (
-                  <>
-                    <MenuItem onClick={executeMenuAction(renameStyle)}>
-                      Rename
+                  {addStyle && (
+                    <MenuItem onClick={executeMenuAction(addStyle)}>
+                      Add
                     </MenuItem>
-                    <MenuItem onClick={executeMenuAction(deleteStyle)}>
-                      Delete
-                    </MenuItem>
-                  </>
-                )}
-              </Menu>
-            </div>
-          )}
-        </Popper>
-      )}
+                  )}
+
+                  {!isDefault && (
+                    <>
+                      <MenuItem onClick={executeMenuAction(renameStyle)}>
+                        Rename
+                      </MenuItem>
+                      <MenuItem onClick={executeMenuAction(deleteStyle)}>
+                        Delete
+                      </MenuItem>
+                    </>
+                  )}
+                </Menu>
+              </div>
+            )}
+          </Popper>,
+          document.getElementById('menu') as HTMLDivElement
+        )}
     </Manager>
   )
 }

@@ -10,152 +10,94 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  buildInlineStyle,
-  ManuscriptEditorState,
-  ManuscriptEditorView,
-  ManuscriptTransaction,
-} from '@manuscripts/manuscript-transform'
 import { InlineStyle } from '@manuscripts/manuscripts-json-schema'
-import React, { useCallback } from 'react'
-import { styled } from '../../theme/styled-components'
-import { AddButton } from '../AddButton'
+import React, { useEffect, useState } from 'react'
+import { useDebounce } from '../../hooks/use-debounce'
 import { InspectorSection } from '../InspectorSection'
-import { SaveModel } from '../projects/ManuscriptInspector'
-import { InlineStyleItem } from './InlineStyleItem'
-
-type Dispatch = (tr: ManuscriptTransaction) => void
-
-const buildActiveStyleIDs = (state: ManuscriptEditorState): Set<string> => {
-  const {
-    schema,
-    selection: { $from },
-  } = state
-
-  const output = new Set<string>()
-
-  // TODO: stored marks?
-
-  for (const mark of $from.marks()) {
-    if (mark.type === schema.marks.styled) {
-      output.add(mark.attrs.rid)
-    }
-  }
-
-  return output
-}
-
-const addStyleMark = (
-  rid: string,
-  state: ManuscriptEditorState,
-  dispatch: Dispatch
-) => {
-  const { tr, schema, selection } = state
-
-  const { from, to } = selection
-
-  // TODO: stored marks?
-
-  // tr.removeMark(from, to, schema.marks.styled)
-
-  // remove any existing mark
-  // for (const mark of $from.marks()) {
-  //   if (mark.type === schema.marks.styled) {
-  //     tr.removeMark($from.start(), $from.end(), mark)
-  //   }
-  // }
-
-  dispatch(tr.addMark(from, to, schema.marks.styled.create({ rid })))
-}
-
-const removeStyleMark = (
-  rid: string,
-  state: ManuscriptEditorState,
-  dispatch: Dispatch
-) => {
-  const { tr, schema, selection } = state
-
-  const { $from } = selection
-
-  // TODO: stored marks?
-
-  // TODO: need to look further up and remove the whole mark
-
-  for (const mark of $from.marks()) {
-    if (mark.type === schema.marks.styled && mark.attrs.rid === rid) {
-      tr.removeMark($from.start(), $from.end(), mark)
-    }
-  }
-
-  dispatch(tr)
-}
-
-const nextPriority = (inlineStyles: InlineStyle[]) =>
-  inlineStyles.reduce((max, style) => {
-    return Math.max(max, style.priority || 0)
-  }, 0)
+import { MediumTextArea, StyleSelect } from '../projects/inputs'
+import { InspectorField } from './ManuscriptStyleInspector'
+import { StyleActions } from './StyleActions'
 
 export const InlineStyles: React.FC<{
+  activeStyle?: InlineStyle
+  addStyle: () => void
+  applyStyle: (id?: string) => void
+  deleteActiveStyle: () => void
   inlineStyles: InlineStyle[]
-  deleteModel: (id: string) => Promise<string>
-  saveModel: SaveModel
-  view: ManuscriptEditorView
-}> = ({ inlineStyles, saveModel, deleteModel, view }) => {
-  const activeStyles = buildActiveStyleIDs(view.state)
+  renameActiveStyle: () => void
+  updateStyle: (style: string) => void
+}> = ({
+  addStyle,
+  deleteActiveStyle,
+  renameActiveStyle,
+  activeStyle,
+  applyStyle,
+  inlineStyles,
+  updateStyle,
+}) => (
+  <InspectorSection title={'Inline Styles'}>
+    <InspectorField>
+      <StyleSelect
+        value={(activeStyle && activeStyle._id) || 'none'}
+        onChange={event =>
+          applyStyle(
+            event.target.value === 'none' ? undefined : event.target.value
+          )
+        }
+      >
+        <option value={'none'} key={'none'}>
+          None
+        </option>
 
-  const addInlineStyle = useCallback(() => {
-    const priority = nextPriority(inlineStyles)
-    const inlineStyle = buildInlineStyle(priority)
-    saveModel(inlineStyle).catch(error => {
-      console.error(error) // tslint:disable-line:no-console
-    })
-  }, [inlineStyles, saveModel])
+        <option disabled={true} key={'separator'}>
+          ————————
+        </option>
 
-  const applyStyle = useCallback(
-    (id: string) => {
-      addStyleMark(id, view.state, view.dispatch)
-    },
-    [view]
-  )
+        {inlineStyles.map(style => (
+          <option value={style._id} key={style._id}>
+            {style.title || 'Untitled Style'}
+          </option>
+        ))}
+      </StyleSelect>
 
-  const removeStyle = useCallback(
-    (id: string) => {
-      removeStyleMark(id, view.state, view.dispatch)
-    },
-    [view]
-  )
+      <StyleActions
+        deleteStyle={deleteActiveStyle}
+        addStyle={addStyle}
+        isDefault={activeStyle === undefined}
+        renameStyle={renameActiveStyle}
+      />
+    </InspectorField>
+
+    {activeStyle && (
+      <InlineStyleEditor
+        key={activeStyle._id}
+        value={activeStyle.style || ''}
+        handleChange={updateStyle}
+      />
+    )}
+  </InspectorSection>
+)
+
+const InlineStyleEditor: React.FC<{
+  value: string
+  handleChange: (value: string) => void
+}> = ({ value, handleChange }) => {
+  const [style, setStyle] = useState<string>(value)
+
+  const debouncedStyle = useDebounce<string>(style, 1000)
+
+  useEffect(() => {
+    if (value !== debouncedStyle) {
+      handleChange(debouncedStyle)
+    }
+  }, [value, handleChange, debouncedStyle])
 
   return (
-    <InspectorSection title={'Inline Styles'}>
-      <InlineStylesList>
-        {inlineStyles.map(inlineStyle => (
-          <InlineStyleItem
-            isActive={activeStyles.has(inlineStyle._id)}
-            applyStyle={applyStyle}
-            removeStyle={removeStyle}
-            inlineStyle={inlineStyle}
-            deleteInlineStyle={deleteModel}
-            saveInlineStyle={async values => {
-              await saveModel({
-                ...inlineStyle,
-                ...values,
-              })
-            }}
-          />
-        ))}
-      </InlineStylesList>
-
-      <AddButtonContainer>
-        <AddButton action={addInlineStyle} size={'small'} title={'New Style'} />
-      </AddButtonContainer>
-    </InspectorSection>
+    <MediumTextArea
+      value={style}
+      onChange={event => setStyle(event.target.value)}
+      rows={5}
+      placeholder={'Enter CSS styles…'}
+    />
   )
 }
-
-const InlineStylesList = styled.div`
-  margin: 16px 0;
-`
-
-const AddButtonContainer = styled.div`
-  margin: 16px 0;
-`

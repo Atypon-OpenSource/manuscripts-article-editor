@@ -98,7 +98,7 @@ export const FigureStyles: React.FC<{
         <StyleActions
           deleteStyle={deleteFigureStyle}
           duplicateStyle={duplicateFigureStyle}
-          isDefault={figureStyle._id !== defaultFigureStyle._id}
+          isDefault={figureStyle._id === defaultFigureStyle._id}
           renameStyle={renameFigureStyle}
         />
       </InspectorField>

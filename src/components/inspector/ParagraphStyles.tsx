@@ -96,7 +96,7 @@ export const ParagraphStyles: React.FC<{
         <StyleActions
           deleteStyle={deleteParagraphStyle}
           duplicateStyle={duplicateParagraphStyle}
-          isDefault={paragraphStyle._id !== defaultParagraphStyle._id}
+          isDefault={paragraphStyle._id === defaultParagraphStyle._id}
           renameStyle={renameParagraphStyle}
         />
       </InspectorField>

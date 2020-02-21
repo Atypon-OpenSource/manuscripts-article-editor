@@ -92,7 +92,7 @@ export const TableStyles: React.FC<{
         <StyleActions
           deleteStyle={deleteTableStyle}
           duplicateStyle={duplicateTableStyle}
-          isDefault={tableStyle._id !== defaultTableStyle._id}
+          isDefault={tableStyle._id === defaultTableStyle._id}
           renameStyle={renameTableStyle}
         />
       </InspectorField>
