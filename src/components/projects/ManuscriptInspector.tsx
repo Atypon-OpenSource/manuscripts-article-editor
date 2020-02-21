@@ -41,6 +41,7 @@ import { DateInput } from './DateInput'
 import { DescriptionInput } from './DescriptionInput'
 import { DOIInput } from './DOIInput'
 import { KeywordsInput } from './KeywordsInput'
+import { PaywallInput } from './PaywallInput'
 import { ThemeInput } from './ThemeInput'
 
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
@@ -151,6 +152,15 @@ export const ManuscriptInspector: React.FC<{
                     await saveManuscript({
                       publicationDate,
                     })
+                  }}
+                />
+
+                <Subheading>Paywall</Subheading>
+
+                <PaywallInput
+                  value={manuscript.paywall}
+                  handleChange={async paywall => {
+                    await saveManuscript({ paywall })
                   }}
                 />
 
