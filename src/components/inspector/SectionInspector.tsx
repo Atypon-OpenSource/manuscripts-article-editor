@@ -42,6 +42,7 @@ import {
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CategoryInput } from '../projects/CategoryInput'
 import { CountInput } from '../projects/CountInput'
+import { PageBreakInput } from '../projects/PageBreakInput'
 
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
@@ -160,6 +161,17 @@ export const SectionInspector: React.FC<{
                 />
               </>
             )}
+
+            <>
+              <Subheading>Page Break</Subheading>
+
+              <PageBreakInput
+                value={section.pageBreakStyle}
+                handleChange={(pageBreakStyle: number) => {
+                  dispatchNodeAttrs(section._id, { pageBreakStyle })
+                }}
+              />
+            </>
           </InspectorTabPanel>
 
           <InspectorTabPanel>
