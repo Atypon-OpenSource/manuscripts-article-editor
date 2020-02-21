@@ -1791,10 +1791,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.64.1":
-  version "0.64.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.64.1.tgz#bf2a6f8a1959ba1a09cf686bceb6ac158e3ed9fa"
-  integrity sha512-QB7hQ/RCaG4OgcvHUUgz3C2O04mAF0CyuPO45CzcGWxQh/Y84XL/7i7yzCqVYv0wc6xgtkLMXw8pX/lYE3jJGw==
+"@manuscripts/manuscript-editor@^0.65.0":
+  version "0.65.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.65.0.tgz#030772e4fe6a0c6945bed3674b523fe283be80d0"
+  integrity sha512-48ET42dRuuh3wi5LuWW+4xRqt1FU3JV4DCG35rYh+8HChK1wPwfWV+94u3+DHvvUSN2LPe7dg59CWaRpQRsKcw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1834,20 +1834,20 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.25.0":
-  version "0.25.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.25.0.tgz#f88b2f62b3abd5926f49d7992b20f7b7c17b1d23"
-  integrity sha512-a9iyjBbg5hNqGVWDnUaixZxFHMJoL8dbbn4tACCPtrkk2/SWlMxVGvZidsUKpGI515pCetfVn32UCuwL8t2t7w==
+"@manuscripts/manuscript-transform@^0.26.0":
+  version "0.26.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.26.0.tgz#246b37bfab295b189e8496c58342f1a10bcad7d8"
+  integrity sha512-zqKTZvqeavIu36nkUaRpe8OuCGWC9T74ZxLbcN0Rr0Xbx8+6QD/lLiCuYoQxFTuZhtXN8MzbiBQuAtimkWA6Wg==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"
     uuid "^3.3.2"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@^1.26.0":
-  version "1.26.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.26.0.tgz#cbf2b62c8cdc5535ca7cfe139a1b4ca3dd517a2c"
-  integrity sha512-1VHWaBK9JzMWZsYOHuU9qqD/FsHlIec5r2pK17Q8AfkmVEZoC6hzttn6tSfgLXDjaEMXFUumrmK7GBMI5SOp6g==
+"@manuscripts/manuscripts-json-schema@^1.26.0", "@manuscripts/manuscripts-json-schema@^1.28.0":
+  version "1.28.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.28.0.tgz#c2278954f4d7dcb29236d7df8fafbb309012fb43"
+  integrity sha512-eLogAEYeP7PLduRRh/cnUCCcKmCeybSVMXGXy/61rNUb/gf04+u6jN5aSaQgIolr5FL4obQZJ2CVlf5VQYxMDw==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"
