@@ -22,8 +22,8 @@ interface Option {
 const options: Option[] = [
   { value: 'standard', label: 'Standard' },
   { value: 'feature', label: 'Feature' },
-  { value: 'feature1', label: 'Feature 1' },
-  { value: 'standard2', label: 'Standard 2' },
+  { value: 'standard1', label: 'Standard 1' },
+  { value: 'feature2', label: 'Feature 2' },
 ]
 
 export const ThemeInput: React.FC<{
