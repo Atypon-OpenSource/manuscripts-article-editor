@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDebounce } from '../../hooks/use-debounce'
+import { MediumTextField } from '../projects/inputs'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
 
 export const LabelField: React.FC<{
@@ -38,7 +38,7 @@ export const LabelField: React.FC<{
   return (
     <InspectorField>
       <InspectorLabel>{label}</InspectorLabel>
-      <TextField
+      <MediumTextField
         value={currentValue}
         placeholder={placeholder}
         onChange={handleValueChange}

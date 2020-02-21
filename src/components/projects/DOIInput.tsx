@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDebounce } from '../../hooks/use-debounce'
+import { MediumTextField } from './inputs'
 
 export const DOIInput: React.FC<{
   value?: string
@@ -29,7 +29,7 @@ export const DOIInput: React.FC<{
   }, [debouncedDOI, value])
 
   return (
-    <TextField
+    <MediumTextField
       value={doi}
       pattern={'^10.[0-9]+/'}
       placeholder={'10.'}

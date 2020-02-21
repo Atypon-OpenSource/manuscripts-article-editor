@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextArea } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDebounce } from '../../hooks/use-debounce'
+import { MediumTextArea } from './inputs'
 
 export const DescriptionInput: React.FC<{
   value?: string
@@ -30,7 +30,7 @@ export const DescriptionInput: React.FC<{
   }, [debouncedDescription, value])
 
   return (
-    <TextArea
+    <MediumTextArea
       rows={5}
       value={description}
       placeholder={placeholder}

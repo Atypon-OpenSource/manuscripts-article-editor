@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
+import { TextArea, TextField } from '@manuscripts/style-guide'
 import { range } from 'lodash-es'
 import React, { InputHTMLAttributes } from 'react'
 import { styled } from '../../theme/styled-components'
@@ -43,6 +43,18 @@ export const SmallTextField = styled(TextField).attrs({
   padding: 2px 4px;
   margin-right: 4px;
   font-size: 0.75em;
+`
+
+export const MediumTextField = styled(TextField).attrs({
+  type: 'text',
+})`
+  padding: 8px;
+  font-size: 1em;
+`
+
+export const MediumTextArea = styled(TextArea)`
+  padding: 8px;
+  font-size: 1em;
 `
 
 export const SpacingRange: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({

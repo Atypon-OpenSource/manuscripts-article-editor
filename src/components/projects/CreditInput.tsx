@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDebounce } from '../../hooks/use-debounce'
+import { MediumTextField } from './inputs'
 
 export const CreditInput: React.FC<{
   value?: string
@@ -29,7 +29,7 @@ export const CreditInput: React.FC<{
   }, [debouncedCredit, value])
 
   return (
-    <TextField
+    <MediumTextField
       value={credit}
       placeholder={'Image credit…'}
       onChange={event => {
