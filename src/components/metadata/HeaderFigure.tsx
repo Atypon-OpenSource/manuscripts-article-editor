@@ -96,7 +96,11 @@ export const HeaderFigure: React.FC<{
 
   if (!src) {
     return (
-      <Dropzone onDrop={handleDrop} accept={'.jpg,.jpeg,.png'} multiple={false}>
+      <Dropzone
+        onDrop={handleDrop}
+        accept={'.jpg,.jpeg,.png,.gif,.webp'}
+        multiple={false}
+      >
         {({ isDragActive, isDragAccept, getInputProps, getRootProps }) => (
           <StyledDropArea {...getRootProps()}>
             <input {...getInputProps()} />
