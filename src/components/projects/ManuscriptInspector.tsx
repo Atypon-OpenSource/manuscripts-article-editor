@@ -147,7 +147,7 @@ export const ManuscriptInspector: React.FC<{
                 <Subheading>Publication Date</Subheading>
 
                 <DateTimeInput
-                  value={manuscript.publicationDate || Date.now()}
+                  value={manuscript.publicationDate}
                   handleChange={async publicationDate => {
                     await saveManuscript({
                       publicationDate,

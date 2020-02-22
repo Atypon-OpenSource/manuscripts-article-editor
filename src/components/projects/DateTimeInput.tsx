@@ -10,45 +10,78 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useEffect, useState } from 'react'
+import { PrimaryButton } from '@manuscripts/style-guide'
+import React, { useCallback, useEffect, useState } from 'react'
 // @ts-ignore
 import DateTimePicker from 'react-datetime-picker'
-import { useDebounce } from '../../hooks/use-debounce'
 import { styled } from '../../theme/styled-components'
 
 export const DateTimeInput: React.FC<{
-  value: number
+  value?: number
   handleChange: (value?: number) => void
 }> = ({ value, handleChange }) => {
-  const [date, setDate] = useState<Date>(new Date(value))
-
-  const debouncedDate = useDebounce<Date>(date, 500)
+  const [date, setDate] = useState<number | undefined>(value)
 
   useEffect(() => {
-    const timestamp = debouncedDate.getTime()
+    setDate(value)
+  }, [value])
 
-    if (timestamp !== value) {
-      handleChange(timestamp)
-    }
-  }, [debouncedDate, value])
+  const saveDate = useCallback(() => {
+    handleChange(date)
+  }, [date, handleChange])
 
   return (
-    <StyledDateTimePicker
-      onChange={setDate}
-      value={date}
-      showLeadingZeros={true}
-      maxDetail={'minute'}
-      calendarIcon={null}
-      // format={'yyyy-MM-dd HH:mm'}
-      disableClock={true}
-      clearIcon={null}
-    />
+    <Container>
+      <StyledDateTimePicker
+        onChange={(newValue?: Date) => {
+          if (newValue) {
+            setDate(newValue.getTime())
+          } else {
+            setDate(undefined)
+            if (value !== undefined) {
+              handleChange(undefined)
+            }
+          }
+        }}
+        value={date && new Date(date)}
+        showLeadingZeros={true}
+        maxDetail={'minute'}
+        calendarIcon={null}
+        disableClock={true}
+      />
+
+      {date !== value && (
+        <PrimaryButton mini={true} onClick={saveDate}>
+          Save
+        </PrimaryButton>
+      )}
+    </Container>
   )
 }
 
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
 const StyledDateTimePicker = styled(DateTimePicker)`
+  height: 24px;
+
   .react-datetime-picker__wrapper {
     border: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .react-datetime-picker__clear-button {
+    display: none;
+  }
+
+  &:hover {
+    .react-datetime-picker__clear-button {
+      display: inline-flex;
+    }
   }
 
   .react-datetime-picker__clear-button svg {
