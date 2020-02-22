@@ -34,6 +34,7 @@ export const DEFAULT_FIGURE_CAPTION_ALIGNMENT = 'center'
 export const DEFAULT_FIGURE_CAPTION_POSITION: FigureCaptionPosition = 'bottom'
 export const DEFAULT_FIGURE_INNER_BORDER_WIDTH = 1
 export const DEFAULT_FIGURE_INNER_SPACING = 4
+export const DEFAULT_FIGURE_LABEL_POSITION: FigureLabelPosition = 'inline'
 export const DEFAULT_FIGURE_OUTER_BORDER_WIDTH = 1
 export const DEFAULT_FIGURE_OUTER_SPACING = 4
 export const DEFAULT_FIGURE_WIDTH = 1
@@ -93,6 +94,25 @@ export const figureCaptionPositions: {
   // below: {
   //   label: 'Below Figure',
   // },
+}
+
+// TODO: implement "above"
+export type FigureLabelPosition = 'inline' | 'none'
+
+export const figureLabelPositions: {
+  [key in FigureLabelPosition]: {
+    label: string
+  }
+} = {
+  // block: {
+  //   label: 'Above Caption',
+  // },
+  inline: {
+    label: 'Inline',
+  },
+  none: {
+    label: 'None',
+  },
 }
 
 export type TableCaptionPosition = 'above' | 'below'
@@ -653,6 +673,7 @@ export const buildInlineStyles = (model: InlineStyle) => `
   }
 `
 
+// tslint:disable-next-line:cyclomatic-complexity
 export const buildFigureStyles = (
   model: FigureStyle,
   colors: Map<string, Color>,
@@ -696,6 +717,12 @@ export const buildFigureStyles = (
       } !important;
       text-align: ${model.alignment ||
         DEFAULT_FIGURE_CAPTION_ALIGNMENT} !important;
+
+      > .figure-label {
+        display: ${
+          model.labelPosition === 'none' ? 'none' : 'initial'
+        } !important;
+      }
     }
   }
 `

@@ -22,6 +22,7 @@ import {
   DEFAULT_FIGURE_CAPTION_ALIGNMENT,
   DEFAULT_FIGURE_CAPTION_POSITION,
   DEFAULT_FIGURE_INNER_SPACING,
+  DEFAULT_FIGURE_LABEL_POSITION,
   DEFAULT_FIGURE_OUTER_SPACING,
 } from '../../lib/styles'
 import {
@@ -38,6 +39,7 @@ import { BorderFields } from './BorderFields'
 import {
   CaptionAlignmentField,
   CaptionPositionField,
+  LabelPositionField,
   SpacingField,
 } from './FigureStyleFields'
 import { InspectorField } from './ManuscriptStyleInspector'
@@ -148,6 +150,19 @@ export const FigureStyles: React.FC<{
                 saveFigureStyle({
                   ...figureStyle,
                   alignment,
+                })
+              }}
+            />
+
+            <LabelPositionField
+              value={valueOrDefault<string>(
+                figureStyle.labelPosition,
+                DEFAULT_FIGURE_LABEL_POSITION
+              )}
+              handleChange={labelPosition => {
+                saveFigureStyle({
+                  ...figureStyle,
+                  labelPosition,
                 })
               }}
             />

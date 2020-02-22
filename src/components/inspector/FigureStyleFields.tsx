@@ -16,6 +16,8 @@ import {
   captionAlignments,
   FigureCaptionPosition,
   figureCaptionPositions,
+  FigureLabelPosition,
+  figureLabelPositions,
 } from '../../lib/styles'
 import { SmallNumberField, SpacingRange, StyleSelect } from '../projects/inputs'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
@@ -79,6 +81,29 @@ export const CaptionAlignmentField: React.FC<{
     </StyleSelect>
   </InspectorField>
 )
+
+export const LabelPositionField: React.FC<{
+  value: string
+  handleChange: (value: FigureLabelPosition) => void
+}> = ({ value, handleChange }) => {
+  return (
+    <InspectorField>
+      <InspectorLabel>Label</InspectorLabel>
+      <StyleSelect
+        value={value}
+        onChange={event => {
+          handleChange(event.target.value as FigureLabelPosition)
+        }}
+      >
+        {Object.entries(figureLabelPositions).map(([key, value]) => (
+          <option value={key} key={key}>
+            {value.label}
+          </option>
+        ))}
+      </StyleSelect>
+    </InspectorField>
+  )
+}
 
 export const SpacingField: React.FC<{
   value?: number
