@@ -41,6 +41,7 @@ import {
 } from '../inspector/ElementStyleInspector'
 import { InlineStyleInspector } from '../inspector/InlineStyleInspector'
 import { ManuscriptStyleInspector } from '../inspector/ManuscriptStyleInspector'
+import { NodeInspector } from '../inspector/NodeInspector'
 import { SectionInspector } from '../inspector/SectionInspector'
 import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
 import { StatisticsInspector } from '../inspector/StatisticsInspector'
@@ -138,6 +139,16 @@ export const Inspector: React.FC<{
                 saveModel={saveModel}
               />
             )}
+            {selected && (
+              <NodeInspector
+                manuscript={manuscript}
+                selected={selected}
+                modelMap={modelMap}
+                saveModel={saveModel}
+                deleteModel={deleteModel}
+                view={view}
+              />
+            )}
             <ManuscriptInspector
               manuscript={manuscript}
               modelMap={modelMap}
@@ -164,12 +175,6 @@ export const Inspector: React.FC<{
               bundle={bundle}
               openCitationStyleSelector={openCitationStyleSelector}
             />
-            <InlineStyleInspector
-              modelMap={modelMap}
-              saveModel={saveModel}
-              deleteModel={deleteModel}
-              view={view}
-            />
             {element && (
               <ElementStyleInspector
                 manuscript={manuscript}
@@ -188,6 +193,12 @@ export const Inspector: React.FC<{
                 dispatchUpdate={dispatchUpdate}
               />
             )}
+            <InlineStyleInspector
+              modelMap={modelMap}
+              saveModel={saveModel}
+              deleteModel={deleteModel}
+              view={view}
+            />
           </InspectorTabPanel>
           <InspectorTabPanel>
             {comments && (

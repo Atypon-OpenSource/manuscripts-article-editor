@@ -45,7 +45,9 @@ export const SmallTextField = styled(TextField).attrs({
   font-size: 0.75em;
 `
 
-export const MediumTextField = styled(TextField).attrs({
+export const MediumTextField = styled(TextField).attrs<
+  InputHTMLAttributes<HTMLInputElement>
+>({
   type: 'text',
 })`
   padding: 8px;

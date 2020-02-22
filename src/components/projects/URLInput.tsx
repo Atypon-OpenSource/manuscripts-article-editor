@@ -10,27 +10,43 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { StylesConfig } from 'react-select/lib/styles'
-import { theme } from '../theme/theme'
+import React, { useEffect, useRef, useState } from 'react'
+import { MediumTextField } from './inputs'
 
-export const selectStyles: StylesConfig = {
-  container: provided => ({
-    ...provided,
-    flex: 1,
-  }),
-  control: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isFocused
-      ? theme.colors.background.fifth
-      : theme.colors.background.primary,
-    borderColor: state.isFocused
-      ? theme.colors.border.field.active
-      : theme.colors.border.field.default,
-    '&:hover': {
-      backgroundColor: theme.colors.background.fifth,
-    },
-    borderRadius: theme.grid.radius.default,
-    boxShadow: 'none',
-  }),
-  menuPortal: base => ({ ...base, zIndex: 10 }),
+export const URLInput: React.FC<{
+  value?: string
+  handleChange: (value?: string) => void
+}> = ({ value = '', handleChange }) => {
+  const [url, setURL] = useState<string>(value)
+
+  // handle incoming value change
+  useEffect(() => {
+    setURL(value)
+  }, [value])
+
+  // handle outgoing value change
+  const timer = useRef<number | undefined>(undefined)
+
+  useEffect(() => {
+    window.clearTimeout(timer.current)
+
+    timer.current = window.setTimeout(() => {
+      handleChange(url)
+    }, 500)
+
+    return () => {
+      window.clearTimeout(timer.current)
+    }
+  }, [url])
+
+  return (
+    <MediumTextField
+      type={'url'}
+      value={url}
+      placeholder={'https://…'}
+      onChange={event => {
+        setURL(event.target.value)
+      }}
+    />
+  )
 }
