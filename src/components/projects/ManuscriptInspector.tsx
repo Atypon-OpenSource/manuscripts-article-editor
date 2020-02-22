@@ -37,7 +37,7 @@ import {
 import { LabelField } from '../inspector/LabelField'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CountInput } from './CountInput'
-import { DateInput } from './DateInput'
+import { DateTimeInput } from './DateTimeInput'
 import { DescriptionInput } from './DescriptionInput'
 import { DOIInput } from './DOIInput'
 import { KeywordsInput } from './KeywordsInput'
@@ -146,8 +146,8 @@ export const ManuscriptInspector: React.FC<{
 
                 <Subheading>Publication Date</Subheading>
 
-                <DateInput
-                  value={manuscript.publicationDate}
+                <DateTimeInput
+                  value={manuscript.publicationDate || Date.now()}
                   handleChange={async publicationDate => {
                     await saveManuscript({
                       publicationDate,

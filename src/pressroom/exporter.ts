@@ -370,6 +370,7 @@ export const exportProject = async (
         const { DOI } = modelMap.get(manuscriptID) as Manuscript
 
         if (!DOI) {
+          window.alert('A DOI is required for Literatum export')
           throw new Error('A DOI is required for Literatum export')
         }
 

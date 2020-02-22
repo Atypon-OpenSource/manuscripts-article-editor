@@ -10,45 +10,48 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
+// @ts-ignore
+import DateTimePicker from 'react-datetime-picker'
 import { useDebounce } from '../../hooks/use-debounce'
+import { styled } from '../../theme/styled-components'
 
-const convertNumberToDateString = (input?: number): string => {
-  if (!input) {
-    return ''
-  }
-
-  const output = new Date(input)
-
-  if (!output) {
-    return ''
-  }
-
-  return output.toISOString().substr(0, 10)
-}
-
-export const DateInput: React.FC<{
-  value?: number
+export const DateTimeInput: React.FC<{
+  value: number
   handleChange: (value?: number) => void
 }> = ({ value, handleChange }) => {
-  const [date, setDate] = useState<number | undefined>(value)
+  const [date, setDate] = useState<Date>(new Date(value))
 
-  const debouncedDate = useDebounce(date || undefined, 500)
+  const debouncedDate = useDebounce<Date>(date, 500)
 
   useEffect(() => {
-    if (debouncedDate !== value) {
-      handleChange(debouncedDate)
+    const timestamp = debouncedDate.getTime()
+
+    if (timestamp !== value) {
+      handleChange(timestamp)
     }
   }, [debouncedDate, value])
 
   return (
-    <TextField
-      value={convertNumberToDateString(date)}
-      type={'date'}
-      onChange={event => {
-        setDate(event.target.valueAsNumber)
-      }}
+    <StyledDateTimePicker
+      onChange={setDate}
+      value={date}
+      showLeadingZeros={true}
+      maxDetail={'minute'}
+      calendarIcon={null}
+      // format={'yyyy-MM-dd HH:mm'}
+      disableClock={true}
+      clearIcon={null}
     />
   )
 }
+
+const StyledDateTimePicker = styled(DateTimePicker)`
+  .react-datetime-picker__wrapper {
+    border: none;
+  }
+
+  .react-datetime-picker__clear-button svg {
+    stroke: #bbb;
+  }
+`
