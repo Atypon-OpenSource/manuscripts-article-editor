@@ -46,14 +46,16 @@ export const NodeInspector: React.FC<{
 
         const figure = modelMap.get(node.attrs.id) as Figure | undefined
 
-        return (
-          <FigureInspector
-            figure={figure as Figure}
-            node={node as FigureNode}
-            saveFigure={saveModel}
-            view={view}
-          />
-        )
+        if (figure) {
+          return (
+            <FigureInspector
+              figure={figure}
+              node={node as FigureNode}
+              saveFigure={saveModel}
+              view={view}
+            />
+          )
+        }
       }
 
       return null
@@ -61,14 +63,18 @@ export const NodeInspector: React.FC<{
     case schema.nodes.figure:
       const figure = modelMap.get(selected.node.attrs.id) as Figure | undefined
 
-      return (
-        <FigureInspector
-          figure={figure as Figure}
-          node={selected.node as FigureNode}
-          saveFigure={saveModel}
-          view={view}
-        />
-      )
+      if (figure) {
+        return (
+          <FigureInspector
+            figure={figure}
+            node={selected.node as FigureNode}
+            saveFigure={saveModel}
+            view={view}
+          />
+        )
+      }
+
+      return null
 
     default:
       return null
