@@ -15,8 +15,11 @@ import { Bundle, Project } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import config from '../../config'
-import { fetchSharedData, fromPrototype } from '../../lib/templates'
+import {
+  attachStyle,
+  fetchSharedData,
+  fromPrototype,
+} from '../../lib/templates'
 import { Collection } from '../../sync/Collection'
 import { ContactSupportButton } from '../ContactSupportButton'
 import { DatabaseContext } from '../DatabaseProvider'
@@ -110,21 +113,6 @@ class CitationStyleSelector extends React.Component<
     })
   }
 
-  private attachStyle = async (newBundle: Bundle) => {
-    if (newBundle.csl && newBundle.csl.cslIdentifier) {
-      const { CitationManager } = await import('@manuscripts/manuscript-editor')
-
-      const citationManager = new CitationManager(config.data.url)
-      const cslStyle = await citationManager.fetchCitationStyleString(newBundle)
-
-      await this.props.collection.putAttachment(newBundle._id, {
-        id: 'csl',
-        data: cslStyle,
-        type: 'application/vnd.citationstyles.style+xml',
-      })
-    }
-  }
-
   private saveParentBundle = async (
     bundle: Bundle
   ): Promise<Bundle | undefined> => {
@@ -159,7 +147,7 @@ class CitationStyleSelector extends React.Component<
       containerID: project._id,
     })
 
-    await this.attachStyle(newParentBundle)
+    await attachStyle(newParentBundle, this.props.collection)
 
     return newParentBundle
   }
@@ -173,7 +161,7 @@ class CitationStyleSelector extends React.Component<
       containerID: project._id,
     })
 
-    await this.attachStyle(newBundle)
+    await attachStyle(newBundle, this.props.collection)
 
     const parentBundle = await this.saveParentBundle(newBundle)
 

@@ -15,11 +15,21 @@ import {
   parseJATSArticle,
   parseSTSStandard,
 } from '@manuscripts/manuscript-transform'
-import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import {
+  Bundle,
+  ContributorRole,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
 import { basename, extname } from 'path'
 import { FileExtensionError } from '../lib/errors'
+import {
+  createNewContributorRoles,
+  createNewStyles,
+  fetchSharedData,
+} from '../lib/templates'
 import { cleanItem } from './clean-item'
 import { removeUnsupportedData } from './exporter'
 import { convert } from './pressroom'
@@ -98,6 +108,26 @@ const importProjectArchive = async (result: Blob) => {
   }
 
   return items
+}
+
+interface BundledData {
+  bundles: Map<string, Bundle>
+  contributorRoles: Map<string, ContributorRole>
+  styles: Map<string, Model>
+}
+
+export const importBundledData = async (): Promise<BundledData> => {
+  const bundles = await fetchSharedData<Bundle>('bundles')
+  const contributorRoles = await fetchSharedData<ContributorRole>(
+    'contributor-roles'
+  )
+  const styles = await fetchSharedData<Model>('styles')
+
+  return {
+    bundles,
+    contributorRoles: createNewContributorRoles(contributorRoles),
+    styles: createNewStyles(styles),
+  }
 }
 
 const convertFile = async (file: File): Promise<Blob> => {

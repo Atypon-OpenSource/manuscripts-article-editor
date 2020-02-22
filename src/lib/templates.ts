@@ -14,6 +14,7 @@ import {
   Build,
   buildParagraph,
   buildSection,
+  ContainedModel,
   DEFAULT_BUNDLE,
   DEFAULT_PAGE_LAYOUT,
   generateID,
@@ -28,6 +29,8 @@ import {
   PageLayout,
 } from '@manuscripts/manuscripts-json-schema'
 import { mergeWith } from 'lodash-es'
+import config from '../config'
+import { Collection } from '../sync/Collection'
 import {
   MandatorySubsectionsRequirement,
   ManuscriptTemplate,
@@ -248,6 +251,64 @@ export const createManuscriptSectionsFromTemplate = (
   })
 
   return items
+}
+
+const findBundleByURL = (url: string, bundles: Map<string, Bundle>) => {
+  for (const bundle of bundles.values()) {
+    if (bundle.csl && bundle.csl['self-URL'] === url) {
+      return bundle
+    }
+  }
+}
+
+export const createParentBundle = (
+  bundle: Bundle,
+  bundles: Map<string, Bundle>
+) => {
+  if (bundle.csl) {
+    const parentURL = bundle.csl['independent-parent-URL']
+
+    if (parentURL) {
+      const parentBundle = findBundleByURL(parentURL, bundles)
+
+      if (!parentBundle) {
+        throw new Error(`Bundle with URL not found: ${parentURL} `)
+      }
+
+      return fromPrototype(parentBundle)
+    }
+  }
+}
+
+export const createNewBundle = (
+  bundleID: string,
+  bundles: Map<string, Bundle>
+) => {
+  const bundle = bundles.get(bundleID)
+
+  if (!bundle) {
+    throw new Error(`Bundle not found: ${bundleID}`)
+  }
+
+  return fromPrototype(bundle)
+}
+
+export const attachStyle = async (
+  newBundle: Bundle,
+  collection: Collection<ContainedModel>
+) => {
+  if (newBundle.csl && newBundle.csl.cslIdentifier) {
+    const { CitationManager } = await import('@manuscripts/manuscript-editor')
+
+    const citationManager = new CitationManager(config.data.url)
+    const cslStyle = await citationManager.fetchCitationStyleString(newBundle)
+
+    await collection.putAttachment(newBundle._id, {
+      id: 'csl',
+      data: cslStyle,
+      type: 'application/vnd.citationstyles.style+xml',
+    })
+  }
 }
 
 export const fromPrototype = <T extends Model>(model: T) => {

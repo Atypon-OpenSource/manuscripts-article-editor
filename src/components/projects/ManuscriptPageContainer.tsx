@@ -43,6 +43,7 @@ import {
   elementObjects,
   encode,
   getAttachment,
+  hasObjectType,
   isFigure,
   isManuscriptModel,
   isUserProfile,
@@ -121,10 +122,17 @@ import { buildProjectMenu } from '../../lib/project-menu'
 import { canWrite } from '../../lib/roles'
 import sessionID from '../../lib/session-id'
 import {
+  attachStyle,
+  createNewBundle,
+  createParentBundle,
+  updatedPageLayout,
+} from '../../lib/templates'
+import {
   buildRecentProjects,
   buildUserProject,
   RecentProject,
 } from '../../lib/user-project'
+import { importBundledData } from '../../pressroom/importers'
 import { Collection, ContainerIDs } from '../../sync/Collection'
 import CollectionManager from '../../sync/CollectionManager'
 // import { newestFirst, oldestFirst } from '../../lib/sort'
@@ -1034,6 +1042,32 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     manuscript.priority = await nextManuscriptPriority(this
       .collection as Collection<Manuscript>)
 
+    // TODO: use the imported filename?
+    if (!manuscript.pageLayout) {
+      const { bundles, contributorRoles, styles } = await importBundledData()
+
+      const bundle = createNewBundle(
+        manuscript.bundle || DEFAULT_BUNDLE,
+        bundles
+      )
+      manuscript.bundle = bundle._id
+      models.push(bundle)
+
+      const parentBundle = createParentBundle(bundle, bundles)
+      if (parentBundle) {
+        models.push(parentBundle)
+      }
+
+      models.push(...contributorRoles.values())
+      models.push(...styles.values())
+
+      const pageLayout = updatedPageLayout(styles)
+      manuscript.pageLayout = pageLayout._id
+      models.push(pageLayout)
+
+      // TODO: apply a template?
+    }
+
     // TODO: save dependencies first, then the manuscript
     // TODO: handle multiple manuscripts in a project bundle
 
@@ -1044,6 +1078,16 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }))
 
     await this.collection.bulkCreate(items)
+
+    try {
+      const bundles = models.filter(hasObjectType<Bundle>(ObjectTypes.Bundle))
+
+      for (const bundle of bundles) {
+        await attachStyle(bundle, this.collection as Collection<ContainedModel>)
+      }
+    } catch (error) {
+      console.log(error) // tslint:disable-line:no-console
+    }
 
     this.props.history.push(
       `/projects/${projectID}/manuscripts/${manuscript._id}`

@@ -132,8 +132,10 @@ class ImportContainer extends React.Component<Props & ModalProps, State> {
 
   private handleDrop = async (acceptedFiles: File[]) => {
     if (acceptedFiles.length) {
-      if (acceptedFiles[0].name.endsWith('.zip')) {
-        await this.handleZipFile(acceptedFiles[0])
+      const [acceptedFile] = acceptedFiles
+
+      if (acceptedFile.name.endsWith('.zip')) {
+        await this.handleZipFile(acceptedFile)
       }
 
       if (!this.state.rejected) {
@@ -141,7 +143,7 @@ class ImportContainer extends React.Component<Props & ModalProps, State> {
           <Importer
             handleComplete={handleClose}
             importManuscript={this.props.importManuscript}
-            file={acceptedFiles[0]}
+            file={acceptedFile}
           />
         ))
       }
@@ -156,7 +158,7 @@ class ImportContainer extends React.Component<Props & ModalProps, State> {
     const zip = await new JSZip().loadAsync(file)
 
     // file extensions to look for in a ZIP archive
-    const extensions = ['.md', '.tex', '.latex']
+    const extensions = ['.md', '.tex', '.latex'] // TODO: .xml, .html
 
     const isAccepted = Object.keys(zip.files).some(name =>
       extensions.includes(extname(name))

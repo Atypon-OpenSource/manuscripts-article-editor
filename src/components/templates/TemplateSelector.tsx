@@ -16,7 +16,6 @@ import {
   buildManuscript,
   buildProject,
   buildSection,
-  ContainedModel,
   DEFAULT_BUNDLE,
   generateID,
 } from '@manuscripts/manuscript-transform'
@@ -36,10 +35,10 @@ import {
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import config from '../../config'
 import { nextManuscriptPriority } from '../../lib/manuscript'
 import { postWebkitMessage } from '../../lib/native'
 import {
+  attachStyle,
   buildCategories,
   buildItems,
   buildResearchFields,
@@ -53,11 +52,12 @@ import {
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
+  createNewBundle,
   createNewContributorRoles,
   createNewStyles,
+  createParentBundle,
   fetchSharedData,
   findCoverLetterDescription,
-  fromPrototype,
   isCoverLetter,
   isMandatorySubsectionsRequirement,
   prepareRequirements,
@@ -302,7 +302,7 @@ class TemplateSelector extends React.Component<
       Manuscript
     >)
 
-    const newBundle = this.createNewBundle(DEFAULT_BUNDLE, bundles)
+    const newBundle = createNewBundle(DEFAULT_BUNDLE, bundles)
 
     const newStyles = createNewStyles(styles)
 
@@ -339,13 +339,13 @@ class TemplateSelector extends React.Component<
       })
 
     await saveContainedModel<Bundle>(newBundle)
-    await this.attachStyle(newBundle, collection)
+    await attachStyle(newBundle, collection)
 
-    const parentBundle = this.createParentBundle(newBundle, bundles)
+    const parentBundle = createParentBundle(newBundle, bundles)
 
     if (parentBundle) {
       await saveContainedModel<Bundle>(parentBundle)
-      await this.attachStyle(parentBundle, collection)
+      await attachStyle(parentBundle, collection)
     }
 
     for (const newStyle of newStyles.values()) {
@@ -400,64 +400,6 @@ class TemplateSelector extends React.Component<
   //   }
   // }
 
-  private createNewBundle = (
-    bundleID: string,
-    bundles: Map<string, Bundle>
-  ) => {
-    const bundle = bundles.get(bundleID)
-
-    if (!bundle) {
-      throw new Error(`Bundle not found: ${bundleID}`)
-    }
-
-    return fromPrototype(bundle)
-  }
-
-  private findBundleByURL = (url: string, bundles: Map<string, Bundle>) => {
-    for (const bundle of bundles.values()) {
-      if (bundle.csl && bundle.csl['self-URL'] === url) {
-        return bundle
-      }
-    }
-  }
-
-  private createParentBundle = (
-    bundle: Bundle,
-    bundles: Map<string, Bundle>
-  ) => {
-    if (bundle.csl) {
-      const parentURL = bundle.csl['independent-parent-URL']
-
-      if (parentURL) {
-        const parentBundle = this.findBundleByURL(parentURL, bundles)
-
-        if (!parentBundle) {
-          throw new Error(`Bundle with URL not found: ${parentURL} `)
-        }
-
-        return fromPrototype(parentBundle)
-      }
-    }
-  }
-
-  private attachStyle = async (
-    newBundle: Bundle,
-    collection: Collection<ContainedModel>
-  ) => {
-    if (newBundle.csl && newBundle.csl.cslIdentifier) {
-      const { CitationManager } = await import('@manuscripts/manuscript-editor')
-
-      const citationManager = new CitationManager(config.data.url)
-      const cslStyle = await citationManager.fetchCitationStyleString(newBundle)
-
-      await collection.putAttachment(newBundle._id, {
-        id: 'csl',
-        data: cslStyle,
-        type: 'application/vnd.citationstyles.style+xml',
-      })
-    }
-  }
-
   // tslint:disable:cyclomatic-complexity
   private selectTemplate = (db: Database) => async (item: TemplateData) => {
     const {
@@ -494,7 +436,7 @@ class TemplateSelector extends React.Component<
       ? newProject._id
       : this.props.projectID!
 
-    const newBundle = this.createNewBundle(chooseBundleID(item), bundles)
+    const newBundle = createNewBundle(chooseBundleID(item), bundles)
 
     const collection = await createProjectCollection(db, projectID)
 
@@ -530,13 +472,13 @@ class TemplateSelector extends React.Component<
       })
 
     await saveContainedModel<Bundle>(newBundle)
-    await this.attachStyle(newBundle, collection)
+    await attachStyle(newBundle, collection)
 
-    const parentBundle = this.createParentBundle(newBundle, bundles)
+    const parentBundle = createParentBundle(newBundle, bundles)
 
     if (parentBundle) {
       await saveContainedModel<Bundle>(parentBundle)
-      await this.attachStyle(parentBundle, collection)
+      await attachStyle(parentBundle, collection)
     }
 
     for (const newStyle of newStyles.values()) {
