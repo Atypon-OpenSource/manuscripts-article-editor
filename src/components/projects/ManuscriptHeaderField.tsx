@@ -39,7 +39,11 @@ export const ManuscriptHeaderField: React.FC<{
               handleChange(figure._id)
             } else {
               if (value) {
-                await deleteModel(value)
+                try {
+                  await deleteModel(value)
+                } catch (error) {
+                  console.error(error) // tslint:disable-line:no-console
+                }
               }
 
               handleChange(undefined)
