@@ -58,6 +58,7 @@ const unsupportedObjectTypes: ObjectTypes[] = [
   ObjectTypes.LibraryCollection,
   ObjectTypes.Keyword,
   ObjectTypes.ContributorRole,
+  ObjectTypes.InlineStyle,
 ]
 
 const figureHasAttachment = (model: Figure, zip: JSZip): boolean => {
@@ -355,7 +356,9 @@ export const exportProject = async (
     default:
       // remove this once it's no longer needed:
       // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/671
-      await removeUnsupportedData(zip)
+      if (format !== '.do') {
+        await removeUnsupportedData(zip)
+      }
 
       const file = await zip.generateAsync({ type: 'blob' })
 
