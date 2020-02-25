@@ -35,7 +35,8 @@ const ModalContainer = styled.div`
   font-family: ${props => props.theme.font.family.sans};
   margin: ${props => props.theme.grid.unit * 3}px;
   overflow: hidden;
-  height: calc(70vh - 24px - 32px);
+  height: 80vh;
+  max-height: 900px;
 `
 
 const ModalBody = styled.div`
@@ -69,8 +70,7 @@ const TemplatesContainer = styled.div`
   border-radius: ${props => props.theme.grid.radius.small};
   list-style: none;
   margin: 0 30px ${props => props.theme.grid.unit * 4}px;
-  height: 375px;
-  max-height: calc(100vh - 432px);
+  flex-grow: 1;
   overflow: hidden;
   padding: 0;
 
