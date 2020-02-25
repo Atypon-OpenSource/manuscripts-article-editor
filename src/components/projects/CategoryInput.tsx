@@ -10,7 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import {
   isEditableSectionCategory,
   sortedSectionCategories,
@@ -21,23 +22,21 @@ export const CategoryInput: React.FC<{
   value: string
   handleChange: (category: string) => void
 }> = ({ value, handleChange }) => {
-  const [category, setCategory] = useState<string>(value)
+  const [currentValue, handleLocalChange] = useSyncedData<string>(
+    value,
+    handleChange,
+    0
+  )
 
-  useEffect(() => {
-    setCategory(value)
-  }, [value])
-
-  const handleValueChange = useCallback(
+  const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLSelectElement>) => {
-      const category = event.target.value
-      setCategory(category)
-      handleChange(category)
+      handleLocalChange(event.target.value)
     },
-    [handleChange]
+    [handleLocalChange]
   )
 
   return (
-    <CategorySelector value={category} onChange={handleValueChange}>
+    <CategorySelector value={currentValue} onChange={handleInputChange}>
       {sortedSectionCategories
         .filter(isEditableSectionCategory)
         .map(sectionCategory => (

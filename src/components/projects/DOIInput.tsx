@@ -10,32 +10,33 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useEffect, useState } from 'react'
-import { useDebounce } from '../../hooks/use-debounce'
+import React, { useCallback } from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import { MediumTextField } from './inputs'
 
 export const DOIInput: React.FC<{
   value?: string
   handleChange: (value?: string) => void
 }> = ({ value = '', handleChange }) => {
-  const [doi, setDOI] = useState<string>(value)
+  const [currentValue, handleLocalChange, setEditing] = useSyncedData<
+    string | undefined
+  >(value, handleChange, 500)
 
-  const debouncedDOI = useDebounce(doi || undefined, 500)
-
-  useEffect(() => {
-    if (debouncedDOI !== value) {
-      handleChange(debouncedDOI)
-    }
-  }, [debouncedDOI, value])
+  const handleInputChange = useCallback(
+    event => {
+      handleLocalChange(event.target.value || undefined)
+    },
+    [handleLocalChange]
+  )
 
   return (
     <MediumTextField
-      value={doi}
+      value={currentValue}
       pattern={'^10.[0-9]+/'}
       placeholder={'10.'}
-      onChange={event => {
-        setDOI(event.target.value)
-      }}
+      onChange={handleInputChange}
+      onFocus={() => setEditing(true)}
+      onBlur={() => setEditing(false)}
     />
   )
 }

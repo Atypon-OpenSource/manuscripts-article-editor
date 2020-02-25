@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useEffect, useState } from 'react'
-import { useDebounce } from '../../hooks/use-debounce'
+import React, { useCallback } from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import { MediumTextArea } from './inputs'
 
 export const DescriptionInput: React.FC<{
@@ -19,24 +19,25 @@ export const DescriptionInput: React.FC<{
   handleChange: (value?: string) => void
   placeholder?: string
 }> = ({ value = '', handleChange, placeholder }) => {
-  const [description, setDescription] = useState<string>(value)
+  const [currentValue, handleLocalChange, setEditing] = useSyncedData<
+    string | undefined
+  >(value, handleChange, 500)
 
-  const debouncedDescription = useDebounce(description || undefined, 500)
-
-  useEffect(() => {
-    if (debouncedDescription !== value) {
-      handleChange(debouncedDescription)
-    }
-  }, [debouncedDescription, value])
+  const handleInputChange = useCallback(
+    event => {
+      handleLocalChange(event.target.value || undefined)
+    },
+    [handleLocalChange]
+  )
 
   return (
     <MediumTextArea
       rows={5}
-      value={description}
+      value={currentValue}
       placeholder={placeholder}
-      onChange={event => {
-        setDescription(event.target.value)
-      }}
+      onChange={handleInputChange}
+      onFocus={() => setEditing(true)}
+      onBlur={() => setEditing(false)}
     />
   )
 }

@@ -16,7 +16,7 @@ import {
   ManuscriptEditorView,
 } from '@manuscripts/manuscript-transform'
 import { Attribution, Figure } from '@manuscripts/manuscripts-json-schema'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { LicenseInput } from '../projects/LicenseInput'
@@ -30,6 +30,21 @@ export const FigureInspector: React.FC<{
   view: ManuscriptEditorView
 }> = ({ figure, node, saveFigure, view }) => {
   const attribution = figure.attribution || buildAttribution()
+
+  const handleLicenseChange = useCallback(
+    (licenseID: string) => {
+      const data = {
+        ...attribution,
+        licenseID,
+      }
+
+      saveFigure({
+        ...figure,
+        attribution: data as Attribution,
+      })
+    },
+    [saveFigure, figure, attribution]
+  )
 
   return (
     <InspectorSection title={'Figure'}>
@@ -51,17 +66,7 @@ export const FigureInspector: React.FC<{
 
         <LicenseInput
           value={attribution.licenseID}
-          handleChange={licenseID => {
-            const data = {
-              ...attribution,
-              licenseID,
-            }
-
-            saveFigure({
-              ...figure,
-              attribution: data as Attribution,
-            })
-          }}
+          handleChange={handleLicenseChange}
         />
       </InspectorField>
 

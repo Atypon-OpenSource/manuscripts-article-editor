@@ -10,32 +10,36 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useCallback, useEffect, useState } from 'react'
-import { useDebounce } from '../../hooks/use-debounce'
+import React, { ChangeEvent, useCallback } from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import { SmallNumberField, SpacingRange } from '../projects/inputs'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
 import { valueOrDefault } from './StyleFields'
 
 export const FigureWidthField: React.FC<{
-  value?: number
+  value?: number // fraction
   defaultValue: number
   handleChange: (value?: number) => void
 }> = ({ value, defaultValue, handleChange }) => {
-  const [currentValue, setCurrentValue] = useState<number>(
-    Math.round(valueOrDefault<number>(value, defaultValue) * 100)
+  const handlePercentChange = useCallback(
+    (value: number) => {
+      handleChange(value / 100)
+    },
+    [handleChange]
   )
 
-  const handleValueChange = useCallback(event => {
-    setCurrentValue(Number(event.target.value))
-  }, [])
+  const [currentValue, handleLocalChange, setEditing] = useSyncedData<number>(
+    Math.round(valueOrDefault<number>(value, defaultValue) * 100), // percent
+    handlePercentChange,
+    500
+  )
 
-  const debouncedCurrentValue = useDebounce(currentValue / 100, 500)
-
-  useEffect(() => {
-    if (debouncedCurrentValue !== value) {
-      handleChange(debouncedCurrentValue)
-    }
-  }, [debouncedCurrentValue, value])
+  const handleInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      handleLocalChange(Number(event.target.value))
+    },
+    [handleLocalChange]
+  )
 
   return (
     <InspectorField>
@@ -47,9 +51,15 @@ export const FigureWidthField: React.FC<{
         step={10}
         list={'figureWidthList'}
         value={currentValue}
-        onChange={handleValueChange}
+        onChange={handleInputChange}
       />
-      <SmallNumberField value={currentValue} onChange={handleValueChange} />%
+      <SmallNumberField
+        value={currentValue}
+        onChange={handleInputChange}
+        onFocus={() => setEditing(true)}
+        onBlur={() => setEditing(false)}
+      />
+      %
     </InspectorField>
   )
 }

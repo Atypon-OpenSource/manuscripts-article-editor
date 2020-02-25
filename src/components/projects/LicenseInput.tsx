@@ -12,8 +12,9 @@
 
 import licenses from '@manuscripts/data/dist/shared/licenses.json'
 import { License, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import Select from 'react-select'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import { selectStyles } from '../../lib/select-styles'
 
 const options = licenses as License[]
@@ -30,31 +31,24 @@ export const LicenseInput: React.FC<{
   value?: string
   handleChange: (value?: string) => void
 }> = ({ value, handleChange }) => {
-  const [licenseID, setLicenseID] = useState<string | undefined>(value)
+  const [currentValue, handleLocalChange] = useSyncedData<string | undefined>(
+    value,
+    handleChange,
+    500
+  )
 
-  // handle incoming value change
-  useEffect(() => {
-    setLicenseID(value)
-  }, [value])
+  const selectedLicense = useMemo(() => {
+    return currentValue
+      ? options.find(license => license._id === currentValue)
+      : undefined
+  }, [currentValue, options])
 
-  // handle outgoing value change
-  const timer = useRef<number | undefined>(undefined)
-
-  useEffect(() => {
-    window.clearTimeout(timer.current)
-
-    timer.current = window.setTimeout(() => {
-      handleChange(licenseID)
-    }, 500)
-
-    return () => {
-      window.clearTimeout(timer.current)
-    }
-  }, [licenseID])
-
-  const selectedLicense = licenseID
-    ? options.find(license => license._id === licenseID)
-    : undefined
+  const handleInputChange = useCallback(
+    (value: License) => {
+      handleLocalChange(value ? value._id : undefined)
+    },
+    [handleLocalChange]
+  )
 
   return (
     <Select<License>
@@ -62,7 +56,7 @@ export const LicenseInput: React.FC<{
       value={selectedLicense}
       getOptionValue={item => item._id}
       getOptionLabel={item => item.name || 'Untitled License'}
-      onChange={(value: License) => handleChange(value ? value._id : undefined)}
+      onChange={handleInputChange}
       styles={selectStyles}
       isClearable={true}
     />

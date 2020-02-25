@@ -10,31 +10,32 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useEffect, useState } from 'react'
-import { useDebounce } from '../../hooks/use-debounce'
+import React, { useCallback } from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import { MediumTextField } from './inputs'
 
 export const CreditInput: React.FC<{
   value?: string
   handleChange: (value?: string) => void
 }> = ({ value = '', handleChange }) => {
-  const [credit, setCredit] = useState<string>(value)
+  const [currentValue, handleLocalChange, setEditing] = useSyncedData<
+    string | undefined
+  >(value, handleChange, 500)
 
-  const debouncedCredit = useDebounce(credit || undefined, 500)
-
-  useEffect(() => {
-    if (debouncedCredit !== value) {
-      handleChange(debouncedCredit)
-    }
-  }, [debouncedCredit, value])
+  const handleInputChange = useCallback(
+    event => {
+      handleLocalChange(event.target.value || undefined)
+    },
+    [handleLocalChange]
+  )
 
   return (
     <MediumTextField
-      value={credit}
+      value={currentValue}
       placeholder={'Image credit…'}
-      onChange={event => {
-        setCredit(event.target.value)
-      }}
+      onChange={handleInputChange}
+      onFocus={() => setEditing(true)}
+      onBlur={() => setEditing(false)}
     />
   )
 }

@@ -10,41 +10,31 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback } from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import { MediumTextField } from './inputs'
 
 export const TitleInput: React.FC<{
   value?: string
   handleChange: (value?: string) => void
 }> = ({ value = '', handleChange }) => {
-  const [title, setTitle] = useState<string>(value)
+  const [currentValue, handleLocalChange, setEditing] = useSyncedData<
+    string | undefined
+  >(value, handleChange, 500)
 
-  // handle incoming value change
-  useEffect(() => {
-    setTitle(value)
-  }, [value])
-
-  // handle outgoing value change
-  const timer = useRef<number | undefined>(undefined)
-
-  useEffect(() => {
-    window.clearTimeout(timer.current)
-
-    timer.current = window.setTimeout(() => {
-      handleChange(title)
-    }, 500)
-
-    return () => {
-      window.clearTimeout(timer.current)
-    }
-  }, [title])
+  const handleInputChange = useCallback(
+    event => {
+      handleLocalChange(event.target.value)
+    },
+    [handleLocalChange]
+  )
 
   return (
     <MediumTextField
-      value={title}
-      onChange={event => {
-        setTitle(event.target.value)
-      }}
+      value={currentValue}
+      onChange={handleInputChange}
+      onFocus={() => setEditing(true)}
+      onBlur={() => setEditing(false)}
     />
   )
 }

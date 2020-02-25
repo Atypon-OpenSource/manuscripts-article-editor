@@ -11,7 +11,7 @@
  */
 
 import { Figure, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CreditInput } from './CreditInput'
 import { DescriptionInput } from './DescriptionInput'
@@ -33,11 +33,9 @@ export const HeaderImageInspector: React.FC<{
   saveModel,
   // pageLayout,
 }) => {
-  const headerFigure = useMemo(() => {
-    return manuscript.headerFigure
-      ? (modelMap.get(manuscript.headerFigure) as Figure | undefined)
-      : undefined
-  }, [manuscript.headerFigure, modelMap])
+  const headerFigure = manuscript.headerFigure
+    ? (modelMap.get(manuscript.headerFigure) as Figure | undefined)
+    : undefined
 
   return (
     <InspectorSection title={'Header Image'}>

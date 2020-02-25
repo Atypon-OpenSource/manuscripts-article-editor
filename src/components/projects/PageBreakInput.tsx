@@ -16,30 +16,29 @@ import {
   PAGE_BREAK_BEFORE_AND_AFTER,
   PAGE_BREAK_NONE,
 } from '@manuscripts/manuscript-transform'
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import { styled } from '../../theme/styled-components'
 
 export const PageBreakInput: React.FC<{
   value?: number
   handleChange: (style: number) => void
-}> = ({ value = 0, handleChange }) => {
-  const [style, setStyle] = useState<number>(value)
-
-  useEffect(() => {
-    setStyle(value)
-  }, [value])
+}> = ({ value = PAGE_BREAK_NONE, handleChange }) => {
+  const [currentValue, handleLocalChange] = useSyncedData<number>(
+    value,
+    handleChange,
+    500
+  )
 
   const handleValueChange = useCallback(
     (event: ChangeEvent<HTMLSelectElement>) => {
-      const style = Number(event.target.value || 0)
-      setStyle(style)
-      handleChange(style)
+      handleLocalChange(Number(event.target.value || PAGE_BREAK_NONE))
     },
-    [handleChange]
+    [handleLocalChange]
   )
 
   return (
-    <Selector value={style} onChange={handleValueChange}>
+    <Selector value={currentValue} onChange={handleValueChange}>
       <option value={PAGE_BREAK_NONE}>None</option>
       <option value={PAGE_BREAK_BEFORE}>Break before</option>
       <option value={PAGE_BREAK_AFTER}>Break after</option>

@@ -12,18 +12,12 @@
 
 import { Build } from '@manuscripts/manuscript-transform'
 import { CountRequirement } from '@manuscripts/manuscripts-json-schema'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import { styled } from '../../theme/styled-components'
 import { Checkbox, NumberField } from './inputs'
 
 type Value = CountRequirement | Build<CountRequirement>
-
-const Field = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
-`
 
 export const CountInput: React.FC<{
   value: Value
@@ -31,50 +25,58 @@ export const CountInput: React.FC<{
   label: string
   placeholder: string
 }> = ({ value, handleChange, label, placeholder }) => {
-  const [requirement, setRequirement] = useState(value)
+  const [currentValue, handleLocalChange, setEditing] = useSyncedData<Value>(
+    value,
+    handleChange,
+    500
+  )
 
-  useEffect(() => {
-    setRequirement(value)
-  }, [value])
+  const handleCheckboxChange = useCallback(() => {
+    handleLocalChange({
+      ...currentValue,
+      ignored: currentValue.ignored === false ? true : false,
+    })
+  }, [currentValue, handleLocalChange])
 
-  // TODO: debounce handleChange somewhere
+  const handleInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = {
+        ...currentValue,
+        count: event.target.value ? Number(event.target.value) : undefined,
+      }
+
+      handleLocalChange(value)
+    },
+    [currentValue, handleLocalChange]
+  )
 
   return (
     <Field>
       <label>
         <Checkbox
-          checked={requirement.ignored === false}
-          onChange={async () => {
-            const value = {
-              ...requirement,
-              ignored: requirement.ignored === false ? true : false,
-            }
-
-            setRequirement(value)
-
-            await handleChange(value)
-          }}
+          checked={currentValue.ignored === false}
+          onChange={handleCheckboxChange}
         />
         {label}
       </label>
 
       <NumberField
         value={
-          requirement.ignored === false ? String(requirement.count || '') : ''
+          currentValue.ignored === false ? String(currentValue.count || '') : ''
         }
-        disabled={requirement.ignored !== false}
+        disabled={currentValue.ignored !== false}
         placeholder={placeholder}
-        onChange={async event => {
-          const value = {
-            ...requirement,
-            count: event.target.value ? Number(event.target.value) : undefined,
-          }
-
-          setRequirement(value)
-
-          await handleChange(value)
-        }}
+        onChange={handleInputChange}
+        onFocus={() => setEditing(true)}
+        onBlur={() => setEditing(false)}
       />
     </Field>
   )
 }
+
+const Field = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+`

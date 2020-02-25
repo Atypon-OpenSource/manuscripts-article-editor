@@ -10,43 +10,28 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 import { MediumTextField } from './inputs'
 
 export const URLInput: React.FC<{
   value?: string
   handleChange: (value?: string) => void
 }> = ({ value = '', handleChange }) => {
-  const [url, setURL] = useState<string>(value)
-
-  // handle incoming value change
-  useEffect(() => {
-    setURL(value)
-  }, [value])
-
-  // handle outgoing value change
-  const timer = useRef<number | undefined>(undefined)
-
-  useEffect(() => {
-    window.clearTimeout(timer.current)
-
-    timer.current = window.setTimeout(() => {
-      handleChange(url)
-    }, 500)
-
-    return () => {
-      window.clearTimeout(timer.current)
-    }
-  }, [url])
+  const [currentValue, handleLocalChange, setEditing] = useSyncedData<string>(
+    value,
+    handleChange,
+    500
+  )
 
   return (
     <MediumTextField
       type={'url'}
-      value={url}
+      value={currentValue}
       placeholder={'https://…'}
-      onChange={event => {
-        setURL(event.target.value)
-      }}
+      onChange={event => handleLocalChange(event.target.value)}
+      onFocus={() => setEditing(true)}
+      onBlur={() => setEditing(false)}
     />
   )
 }

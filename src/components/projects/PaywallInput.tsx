@@ -11,24 +11,30 @@
  */
 
 import { CheckboxField } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 import { styled } from '../../theme/styled-components'
 import { InspectorField } from '../inspector/ManuscriptStyleInspector'
 
 export const PaywallInput: React.FC<{
   value?: boolean
   handleChange: (value?: boolean) => void
-}> = ({ value = false, handleChange }) => (
-  <InspectorField>
-    <Label>
-      <CheckboxField
-        checked={value}
-        onChange={event => handleChange(event.target.checked)}
-      />
-      Publish behind a paywall
-    </Label>
-  </InspectorField>
-)
+}> = ({ value = false, handleChange }) => {
+  const handleInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      handleChange(event.target.checked)
+    },
+    []
+  )
+
+  return (
+    <InspectorField>
+      <Label>
+        <CheckboxField checked={value} onChange={handleInputChange} />
+        Publish behind a paywall
+      </Label>
+    </InspectorField>
+  )
+}
 
 const Label = styled.label`
   display: flex;

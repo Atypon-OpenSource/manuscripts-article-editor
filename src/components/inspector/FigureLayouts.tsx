@@ -54,9 +54,7 @@ export const FigureLayouts: React.FC<{
       <FigureWidthField
         defaultValue={DEFAULT_FIGURE_WIDTH}
         value={figureElement.sizeFraction}
-        handleChange={(sizeFraction: number) =>
-          setElementSizeFraction(sizeFraction)
-        }
+        handleChange={setElementSizeFraction}
       />
     </InspectorSection>
   )

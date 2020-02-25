@@ -11,8 +11,8 @@
  */
 
 import { TextField } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react'
-import { useDebounce } from '../../hooks/use-debounce'
+import React, { useCallback } from 'react'
+import { useSyncedData } from '../../hooks/use-synced-data'
 
 const convertNumberToDateString = (input?: number): string => {
   if (!input) {
@@ -32,23 +32,24 @@ export const DateInput: React.FC<{
   value?: number
   handleChange: (value?: number) => void
 }> = ({ value, handleChange }) => {
-  const [date, setDate] = useState<number | undefined>(value)
+  const [currentValue, handleLocalChange, setEditing] = useSyncedData<
+    number | undefined
+  >(value, handleChange, 500)
 
-  const debouncedDate = useDebounce(date || undefined, 500)
-
-  useEffect(() => {
-    if (debouncedDate !== value) {
-      handleChange(debouncedDate)
-    }
-  }, [debouncedDate, value])
+  const handleInputChange = useCallback(
+    event => {
+      handleLocalChange(event.target.valueAsNumber)
+    },
+    [handleLocalChange]
+  )
 
   return (
     <TextField
-      value={convertNumberToDateString(date)}
+      value={convertNumberToDateString(currentValue)}
       type={'date'}
-      onChange={event => {
-        setDate(event.target.valueAsNumber)
-      }}
+      onChange={handleInputChange}
+      onFocus={() => setEditing(true)}
+      onBlur={() => setEditing(false)}
     />
   )
 }

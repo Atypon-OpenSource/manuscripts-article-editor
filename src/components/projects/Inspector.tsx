@@ -139,7 +139,7 @@ export const Inspector: React.FC<{
                 saveModel={saveModel}
               />
             )}
-            {selected && (
+            {config.export.literatum && selected && (
               <NodeInspector
                 manuscript={manuscript}
                 selected={selected}
