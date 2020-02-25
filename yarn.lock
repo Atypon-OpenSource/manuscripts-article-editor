@@ -1781,10 +1781,10 @@
     prosemirror-view "^1.6.3"
     react-select "^2.1.0"
 
-"@manuscripts/data@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.0.6.tgz#d25286c88adca25fb1800f2fd5f7c90e0b64145d"
-  integrity sha512-W62qzTHP8voEW2hKQQzDBQ4+GeAYwCYjDn3rm100IbMmXh+dBoMGF3G27tbcHOX9mUWfZnjA/upvIkN3EnmQgQ==
+"@manuscripts/data@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.0.7.tgz#8c18b1be112c4e7eba7dbb6c80ff8f3d007f0afa"
+  integrity sha512-fuCeInO5fITnfRVaBD0mkKo+OmBpn+84zvtlEL0DxtnExO8M7EGXDC8lB1Gi4YDdB5kul3z01fouQAcbchOOUw==
 
 "@manuscripts/examples@^0.0.6":
   version "0.0.6"

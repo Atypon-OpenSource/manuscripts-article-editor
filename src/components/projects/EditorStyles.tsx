@@ -17,11 +17,11 @@ import {
   FigureStyle,
   InlineStyle,
   Model,
+  ObjectTypes,
   ParagraphStyle,
   TableStyle,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect, useState } from 'react'
-import { isColor } from '../../lib/colors'
 import {
   buildFigureLayoutStyles,
   buildFigureStyles,
@@ -29,25 +29,21 @@ import {
   buildInlineStyles,
   buildParagraphStyles,
   buildTableStyles,
-  isBorderStyle,
-  isFigureLayout,
-  isFigureStyle,
-  isInlineStyle,
-  isParagraphStyle,
-  isTableStyle,
 } from '../../lib/styles'
 import { styled } from '../../theme/styled-components'
 
+interface StyleMaps {
+  [key: string]: Map<string, Model>
+}
+
 // tslint:disable:cyclomatic-complexity
-const buildStyles = (
-  paragraphStyles: Map<string, ParagraphStyle>,
-  figureStyles: Map<string, FigureStyle>,
-  tableStyles: Map<string, TableStyle>,
-  borderStyles: Map<string, BorderStyle>,
-  inlineStyles: Map<string, InlineStyle>,
-  figureLayouts: Map<string, FigureLayout>,
-  colors: Map<string, Color>
-): string => {
+const buildStyles = (styleMaps: StyleMaps): string => {
+  const getStyleMap = <T extends Model>(type: ObjectTypes) =>
+    styleMaps[type] as Map<string, T>
+
+  const borderStyles = getStyleMap<BorderStyle>(ObjectTypes.BorderStyle)
+  const colors = getStyleMap<Color>(ObjectTypes.Color)
+
   const buildParagraphModelStyles = (model: ParagraphStyle) => {
     const styleName = model.name
 
@@ -70,6 +66,10 @@ const buildStyles = (
 
   const styles = []
 
+  const paragraphStyles = getStyleMap<ParagraphStyle>(
+    ObjectTypes.ParagraphStyle
+  )
+
   for (const model of paragraphStyles.values()) {
     const modelStyles = buildParagraphModelStyles(model)
 
@@ -77,6 +77,8 @@ const buildStyles = (
       styles.push(modelStyles)
     }
   }
+
+  const figureStyles = getStyleMap<FigureStyle>(ObjectTypes.FigureStyle)
 
   for (const model of figureStyles.values()) {
     const modelStyles = buildFigureStyles(model, colors, borderStyles)
@@ -86,6 +88,8 @@ const buildStyles = (
     }
   }
 
+  const inlineStyles = getStyleMap<InlineStyle>(ObjectTypes.InlineStyle)
+
   for (const model of inlineStyles.values()) {
     const modelStyles = buildInlineStyles(model)
 
@@ -94,6 +98,8 @@ const buildStyles = (
     }
   }
 
+  const figureLayouts = getStyleMap<FigureLayout>(ObjectTypes.FigureLayout)
+
   for (const model of figureLayouts.values()) {
     const modelStyles = buildFigureLayoutStyles(model)
 
@@ -101,6 +107,8 @@ const buildStyles = (
       styles.push(modelStyles)
     }
   }
+
+  const tableStyles = getStyleMap<TableStyle>(ObjectTypes.TableStyle)
 
   for (const model of tableStyles.values()) {
     const modelStyles = buildTableStyles(model, colors, borderStyles)
@@ -113,60 +121,33 @@ const buildStyles = (
   return styles.join('\n\n')
 }
 
-// TODO: subscribe to queries of only ParagraphStyle + Color objects?
+// TODO: subscribe to queries of only style objects?
 
-// tslint:disable:cyclomatic-complexity
 export const EditorStyles: React.FC<{
   modelMap: Map<string, Model>
 }> = ({ children, modelMap }) => {
   const [styles, setStyles] = useState<string>()
 
-  const paragraphStyles = new Map<string, ParagraphStyle>()
-  const figureStyles = new Map<string, FigureStyle>()
-  const tableStyles = new Map<string, TableStyle>()
-  const borderStyles = new Map<string, BorderStyle>()
-  const inlineStyles = new Map<string, InlineStyle>()
-  const figureLayouts = new Map<string, FigureLayout>()
-  const colors = new Map<string, Color>()
+  const styleMaps: StyleMaps = {
+    [ObjectTypes.BorderStyle]: new Map<string, BorderStyle>(),
+    [ObjectTypes.Color]: new Map<string, Color>(),
+    [ObjectTypes.FigureLayout]: new Map<string, FigureLayout>(),
+    [ObjectTypes.FigureStyle]: new Map<string, FigureStyle>(),
+    [ObjectTypes.InlineStyle]: new Map<string, InlineStyle>(),
+    [ObjectTypes.ParagraphStyle]: new Map<string, ParagraphStyle>(),
+    [ObjectTypes.TableStyle]: new Map<string, TableStyle>(),
+  }
 
   for (const model of modelMap.values()) {
-    if (isParagraphStyle(model)) {
-      paragraphStyles.set(model._id, model)
-    } else if (isFigureStyle(model)) {
-      figureStyles.set(model._id, model)
-    } else if (isFigureLayout(model)) {
-      figureLayouts.set(model._id, model)
-    } else if (isTableStyle(model)) {
-      tableStyles.set(model._id, model)
-    } else if (isBorderStyle(model)) {
-      borderStyles.set(model._id, model)
-    } else if (isInlineStyle(model)) {
-      inlineStyles.set(model._id, model)
-    } else if (isColor(model)) {
-      colors.set(model._id, model)
+    if (model.objectType in styleMaps) {
+      styleMaps[model.objectType].set(model._id, model)
     }
   }
 
   useEffect(() => {
-    setStyles(
-      buildStyles(
-        paragraphStyles,
-        figureStyles,
-        tableStyles,
-        borderStyles,
-        inlineStyles,
-        figureLayouts,
-        colors
-      )
-    )
+    setStyles(buildStyles(styleMaps))
   }, [
-    JSON.stringify([...paragraphStyles]),
-    JSON.stringify([...figureStyles]),
-    JSON.stringify([...tableStyles]),
-    JSON.stringify([...borderStyles]),
-    JSON.stringify([...inlineStyles]),
-    JSON.stringify([...figureLayouts]),
-    JSON.stringify([...colors]),
+    JSON.stringify(Object.values(styleMaps).map(item => [...item.entries()])),
   ])
 
   if (styles === undefined) {
