@@ -73,10 +73,12 @@ export const TemplateCategorySelector: React.FunctionComponent<Props> = ({
   <Categories>
     <Slider>
       {options.map(category => (
-        <TemplateCategory isSelected={value === category._id}>
+        <TemplateCategory
+          isSelected={value === category._id}
+          key={category._id}
+        >
           <Category
             autoFocus={value === category._id}
-            key={category._id}
             title={category.desc}
             selected={value === category._id}
             onClick={() => handleChange(category._id)}
