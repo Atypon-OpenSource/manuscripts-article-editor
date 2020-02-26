@@ -122,104 +122,118 @@ export const Inspector: React.FC<{
 
         <InspectorTabPanels>
           <InspectorTabPanel>
-            <StatisticsInspector
-              manuscriptNode={doc}
-              sectionNode={
-                selectedSection
-                  ? (selectedSection.node as SectionNode)
-                  : undefined
-              }
-            />
-            {config.export.literatum && (
-              <HeaderImageInspector
-                deleteModel={deleteModel}
-                manuscript={manuscript}
-                modelMap={modelMap}
-                saveManuscript={saveManuscript}
-                saveModel={saveModel}
-              />
-            )}
-            {config.export.literatum && selected && (
-              <NodeInspector
-                manuscript={manuscript}
-                selected={selected}
-                modelMap={modelMap}
-                saveModel={saveModel}
-                deleteModel={deleteModel}
-                view={view}
-              />
-            )}
-            <ManuscriptInspector
-              manuscript={manuscript}
-              modelMap={modelMap}
-              saveManuscript={saveManuscript}
-              saveModel={saveModel}
-              view={view}
-            />
-            {section && (
-              <SectionInspector
-                section={section}
-                sectionNode={
-                  selectedSection
-                    ? (selectedSection.node as SectionNode)
-                    : undefined
-                }
-                modelMap={modelMap}
-                saveModel={saveModel}
-                dispatchNodeAttrs={dispatchNodeAttrs}
-              />
+            {tabIndex === 0 && (
+              <>
+                <StatisticsInspector
+                  manuscriptNode={doc}
+                  sectionNode={
+                    selectedSection
+                      ? (selectedSection.node as SectionNode)
+                      : undefined
+                  }
+                />
+                {config.export.literatum && (
+                  <HeaderImageInspector
+                    deleteModel={deleteModel}
+                    manuscript={manuscript}
+                    modelMap={modelMap}
+                    saveManuscript={saveManuscript}
+                    saveModel={saveModel}
+                  />
+                )}
+                {config.export.literatum && selected && (
+                  <NodeInspector
+                    manuscript={manuscript}
+                    selected={selected}
+                    modelMap={modelMap}
+                    saveModel={saveModel}
+                    deleteModel={deleteModel}
+                    view={view}
+                  />
+                )}
+                <ManuscriptInspector
+                  manuscript={manuscript}
+                  modelMap={modelMap}
+                  saveManuscript={saveManuscript}
+                  saveModel={saveModel}
+                  view={view}
+                />
+                {section && (
+                  <SectionInspector
+                    section={section}
+                    sectionNode={
+                      selectedSection
+                        ? (selectedSection.node as SectionNode)
+                        : undefined
+                    }
+                    modelMap={modelMap}
+                    saveModel={saveModel}
+                    dispatchNodeAttrs={dispatchNodeAttrs}
+                  />
+                )}
+              </>
             )}
           </InspectorTabPanel>
+
           <InspectorTabPanel>
-            <ManuscriptStyleInspector
-              bundle={bundle}
-              openCitationStyleSelector={openCitationStyleSelector}
-            />
-            {element && (
-              <ElementStyleInspector
-                manuscript={manuscript}
-                element={element}
-                modelMap={modelMap}
-                saveModel={saveModel}
-                deleteModel={deleteModel}
-                view={view}
-              />
+            {tabIndex === 1 && (
+              <>
+                <ManuscriptStyleInspector
+                  bundle={bundle}
+                  openCitationStyleSelector={openCitationStyleSelector}
+                />
+                {element && (
+                  <ElementStyleInspector
+                    manuscript={manuscript}
+                    element={element}
+                    modelMap={modelMap}
+                    saveModel={saveModel}
+                    deleteModel={deleteModel}
+                    view={view}
+                  />
+                )}
+                {section && (
+                  <SectionStyleInspector
+                    section={section}
+                    modelMap={modelMap}
+                    saveModel={saveModel}
+                    dispatchUpdate={dispatchUpdate}
+                  />
+                )}
+                <InlineStyleInspector
+                  modelMap={modelMap}
+                  saveModel={saveModel}
+                  deleteModel={deleteModel}
+                  view={view}
+                />
+              </>
             )}
-            {section && (
-              <SectionStyleInspector
-                section={section}
-                modelMap={modelMap}
-                saveModel={saveModel}
-                dispatchUpdate={dispatchUpdate}
-              />
-            )}
-            <InlineStyleInspector
-              modelMap={modelMap}
-              saveModel={saveModel}
-              deleteModel={deleteModel}
-              view={view}
-            />
           </InspectorTabPanel>
+
           <InspectorTabPanel>
-            {comments && (
-              <CommentList
-                comments={comments}
-                doc={doc}
-                getCurrentUser={getCurrentUser}
-                selected={selected}
-                createKeyword={createKeyword}
-                deleteModel={deleteModel}
-                getCollaborator={getCollaborator}
-                getCollaboratorById={getCollaboratorById}
-                getKeyword={getKeyword}
-                listCollaborators={listCollaborators}
-                listKeywords={listKeywords}
-                saveModel={saveModel}
-                commentTarget={commentTarget}
-                setCommentTarget={setCommentTarget}
-                view={view}
-                key={commentTarget}
-              />
+            {tabIndex === 2 && (
+              <>
+                {comments && (
+                  <CommentList
+                    comments={comments}
+                    doc={doc}
+                    getCurrentUser={getCurrentUser}
+                    selected={selected}
+                    createKeyword={createKeyword}
+                    deleteModel={deleteModel}
+                    getCollaborator={getCollaborator}
+                    getCollaboratorById={getCollaboratorById}
+                    getKeyword={getKeyword}
+                    listCollaborators={listCollaborators}
+                    listKeywords={listKeywords}
+                    saveModel={saveModel}
+                    commentTarget={commentTarget}
+                    setCommentTarget={setCommentTarget}
+                    view={view}
+                    key={commentTarget}
+                  />
+                )}
+              </>
             )}
           </InspectorTabPanel>
         </InspectorTabPanels>

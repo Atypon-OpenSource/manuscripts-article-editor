@@ -16,7 +16,7 @@ import {
   Model,
   ParagraphStyle,
 } from '@manuscripts/manuscripts-json-schema'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   InspectorPanelTabList,
   InspectorTab,
@@ -77,6 +77,8 @@ export const ParagraphStyles: React.FC<{
   setElementParagraphStyle,
   setError,
 }) => {
+  const [tabIndex, setTabIndex] = useState(0)
+
   return (
     <InspectorSection title={'Paragraph Styles'}>
       <InspectorField>
@@ -103,7 +105,7 @@ export const ParagraphStyles: React.FC<{
 
       {error && <div>{error.message}</div>}
 
-      <InspectorTabs>
+      <InspectorTabs index={tabIndex} onChange={setTabIndex}>
         <InspectorPanelTabList>
           <InspectorTab>Text</InspectorTab>
           <InspectorTab>Spacing</InspectorTab>
@@ -112,82 +114,96 @@ export const ParagraphStyles: React.FC<{
 
         <InspectorTabPanels>
           <InspectorTabPanel>
-            <TextSizeField
-              saveParagraphStyle={saveParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+            {tabIndex === 0 && (
+              <>
+                <TextSizeField
+                  saveParagraphStyle={saveParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
 
-            <TextStyleField
-              saveParagraphStyle={saveParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+                <TextStyleField
+                  saveParagraphStyle={saveParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
 
-            {paragraphStyle.textStyling && (
-              <ColorField
-                label={'Color'}
-                colors={colors}
-                colorScheme={colorScheme}
-                value={paragraphStyle.textStyling.color}
-                handleChange={(color?: string) =>
-                  saveParagraphStyle({
-                    ...paragraphStyle,
-                    textStyling: {
-                      ...paragraphStyle.textStyling!,
-                      color,
-                    },
-                  })
-                }
-                saveModel={saveModel}
-                setError={setError}
-              />
+                {paragraphStyle.textStyling && (
+                  <ColorField
+                    label={'Color'}
+                    colors={colors}
+                    colorScheme={colorScheme}
+                    value={paragraphStyle.textStyling.color}
+                    handleChange={(color?: string) =>
+                      saveParagraphStyle({
+                        ...paragraphStyle,
+                        textStyling: {
+                          ...paragraphStyle.textStyling!,
+                          color,
+                        },
+                      })
+                    }
+                    saveModel={saveModel}
+                    setError={setError}
+                  />
+                )}
+              </>
             )}
           </InspectorTabPanel>
+
           <InspectorTabPanel>
-            <TextAlignmentField
-              saveParagraphStyle={saveParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+            {tabIndex === 1 && (
+              <>
+                <TextAlignmentField
+                  saveParagraphStyle={saveParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
 
-            <TopSpacingField
-              saveParagraphStyle={saveDebouncedParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+                <TopSpacingField
+                  saveParagraphStyle={saveDebouncedParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
 
-            <BottomSpacingField
-              saveParagraphStyle={saveDebouncedParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+                <BottomSpacingField
+                  saveParagraphStyle={saveDebouncedParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
 
-            <FirstLineIndentField
-              saveParagraphStyle={saveDebouncedParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+                <FirstLineIndentField
+                  saveParagraphStyle={saveDebouncedParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
 
-            <LineSpacingField
-              saveParagraphStyle={saveDebouncedParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+                <LineSpacingField
+                  saveParagraphStyle={saveDebouncedParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
+              </>
+            )}
           </InspectorTabPanel>
+
           <InspectorTabPanel>
-            <ListTailIndentField
-              saveParagraphStyle={saveDebouncedParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+            {tabIndex === 2 && (
+              <>
+                <ListTailIndentField
+                  saveParagraphStyle={saveDebouncedParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
 
-            <ListIndentPerLevelField
-              saveParagraphStyle={saveDebouncedParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+                <ListIndentPerLevelField
+                  saveParagraphStyle={saveDebouncedParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
 
-            <ListNumberingField
-              saveParagraphStyle={saveParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+                <ListNumberingField
+                  saveParagraphStyle={saveParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
 
-            <ParagraphListsField
-              saveParagraphStyle={saveParagraphStyle}
-              paragraphStyle={paragraphStyle}
-            />
+                <ParagraphListsField
+                  saveParagraphStyle={saveParagraphStyle}
+                  paragraphStyle={paragraphStyle}
+                />
+              </>
+            )}
           </InspectorTabPanel>
         </InspectorTabPanels>
       </InspectorTabs>
