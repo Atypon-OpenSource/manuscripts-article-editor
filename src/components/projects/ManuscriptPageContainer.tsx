@@ -187,7 +187,6 @@ interface State {
   dirty: boolean
   doc?: ActualManuscriptNode
   error?: string
-  manuscript: Manuscript
   modelIds: {
     [key: string]: Set<string>
   }
@@ -271,7 +270,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       dirty: false,
       doc: undefined,
       error: undefined,
-      manuscript: props.manuscript,
       modelIds: {
         document: new Set(),
         data: new Set(),
@@ -346,6 +344,20 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       this.props.user !== nextProps.user
     ) {
       this.setPermissions(nextProps)
+    }
+  }
+
+  public async componentDidUpdate(prevProps: CombinedProps, prevState: State) {
+    const { manuscript } = this.props
+
+    if (manuscript !== prevProps.manuscript) {
+      if (
+        this.shouldUpdateCitationProcessor(manuscript, prevProps.manuscript)
+      ) {
+        await this.createCitationProcessor(manuscript, this.state.modelMap!)
+      }
+
+      this.dispatchUpdate()
     }
   }
 
@@ -820,25 +832,17 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       title,
     })
 
-  private getManuscript = () => this.state.manuscript
+  private getManuscript = () => this.props.manuscript
 
   private saveManuscript = async (data: Partial<Manuscript>) => {
-    const previousManuscript = this.state.manuscript
+    const previousManuscript = this.getManuscript()
 
     const manuscript = {
       ...previousManuscript,
       ...data,
     }
 
-    this.setState({ manuscript })
-
     await this.saveModel(manuscript)
-
-    if (this.shouldUpdateCitationProcessor(manuscript, previousManuscript)) {
-      await this.createCitationProcessor(manuscript, this.state.modelMap!)
-    }
-
-    this.dispatchUpdate()
   }
 
   private deleteManuscript = async (id: string) => {
