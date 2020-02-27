@@ -390,8 +390,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const {
       comments,
-      manuscripts,
       manuscript,
+      manuscripts,
       project,
       user,
       tokenActions,
@@ -405,15 +405,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       ? this.props.location.state.infoMessage
       : null
 
-    if (
-      !doc ||
-      !manuscript ||
-      !project ||
-      !comments ||
-      !plugins ||
-      !permissions ||
-      !modelMap
-    ) {
+    if (!doc || !comments || !plugins || !permissions || !modelMap) {
       return <ManuscriptPlaceholder />
     }
 
@@ -521,7 +513,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                     getCurrentUser={this.getCurrentUser}
                     history={this.props.history}
                     locale={locale}
-                    manuscript={manuscript}
                     modelMap={modelMap}
                     plugins={plugins}
                     popper={popper}

@@ -36,6 +36,7 @@ export abstract class DataComponent<
       return placeholder || <Loading />
     }
 
+    // @ts-ignore
     return this.props.children(this.state.data!, this.collection)
   }
 
