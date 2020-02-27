@@ -91,10 +91,6 @@ Deploy the files to S3 with `scripts/deploy.sh`.
 
 Run `yarn test` to run the unit tests in Jest.
 
-### Running tests with TestCafé
-
-1. Run `yarn testcafe chrome testcafe/tests` to run the tests in Chrome.
-
 ### Running tests with Cypress
 
 1. Run `yarn run cypress:open` to launch the Cypress runner.
