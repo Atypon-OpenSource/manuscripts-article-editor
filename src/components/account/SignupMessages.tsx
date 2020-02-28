@@ -42,9 +42,11 @@ export const signupVerifyConflictMessage = (email: string) => {
 export const signupVerifyResendSuccessMessage = (email: string) => {
   return (
     <AlertMessage type={AlertMessageType.success}>
-      Verification email re-resent to {email}. If you have not received it,
-      please wait, check your spam box before{' '}
-      <ContactSupportButton>contacting support.</ContactSupportButton>
+      <span>
+        Verification email re-resent to {email}. If you have not received it,
+        please wait, check your spam box before{' '}
+        <ContactSupportButton>contacting support.</ContactSupportButton>
+      </span>
     </AlertMessage>
   )
 }
