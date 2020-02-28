@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FormikActions, FormikErrors } from 'formik'
+import { FormikErrors, FormikHelpers } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import { parse, stringify } from 'qs'
 import React from 'react'
@@ -86,7 +86,7 @@ class RecoverPageContainer extends React.Component<RouteComponentProps> {
 
   private verifyRecovery = async (
     values: PasswordValues,
-    { setSubmitting, setErrors }: FormikActions<PasswordValues | PasswordErrors>
+    { setSubmitting, setErrors }: FormikHelpers<PasswordValues | PasswordErrors>
   ) => {
     try {
       const token = await resetPassword(values.password, this.state.token)
@@ -122,7 +122,7 @@ class RecoverPageContainer extends React.Component<RouteComponentProps> {
 
   private sendRecovery = async (
     values: RecoverValues,
-    { setSubmitting, setErrors }: FormikActions<RecoverValues & RecoverErrors>
+    { setSubmitting, setErrors }: FormikHelpers<RecoverValues & RecoverErrors>
   ) => {
     try {
       await sendPasswordRecovery(values.email)

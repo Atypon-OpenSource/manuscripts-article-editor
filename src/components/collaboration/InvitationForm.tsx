@@ -162,7 +162,7 @@ export class InvitationForm extends React.Component<Props, State> {
                     text: 'OK',
                     action: () => {
                       this.dismissSuccessAlert()
-                      resetForm(this.initialValues)
+                      resetForm()
                     },
                   }}
                 >

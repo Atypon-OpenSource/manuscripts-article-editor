@@ -27,7 +27,7 @@ import {
   FieldProps,
   Form,
   Formik,
-  FormikActions,
+  FormikHelpers,
   FormikProps,
 } from 'formik'
 import React from 'react'
@@ -69,7 +69,7 @@ interface Props {
   removeAffiliation: (data: UserProfileAffiliation) => Promise<string>
   handleSave: (
     values: ProfileValues,
-    actions: FormikActions<ProfileValues & ProfileErrors>
+    actions: FormikHelpers<ProfileValues & ProfileErrors>
   ) => void
 }
 

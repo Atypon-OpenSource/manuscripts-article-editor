@@ -12,8 +12,7 @@
 
 import { FieldProps } from 'formik'
 import React from 'react'
-import Select from 'react-select'
-import { OptionsType } from 'react-select/lib/types'
+import Select, { OptionsType } from 'react-select'
 
 // TODO: make this a generic type
 interface OptionType {
@@ -36,9 +35,7 @@ export const ImmediateSelectField: React.FunctionComponent<
     }
     onChange={(option: OptionType) => {
       form.setFieldValue(field.name, option.value)
-      window.requestAnimationFrame(() => {
-        form.submitForm()
-      })
+      window.requestAnimationFrame(() => form.submitForm())
     }}
     onBlur={field.onBlur}
   />

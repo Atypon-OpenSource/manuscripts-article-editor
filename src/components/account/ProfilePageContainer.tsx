@@ -16,7 +16,7 @@ import {
   UserProfile,
   UserProfileAffiliation,
 } from '@manuscripts/manuscripts-json-schema'
-import { FormikActions, FormikErrors } from 'formik'
+import { FormikErrors, FormikHelpers } from 'formik'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import config from '../../config'
@@ -80,7 +80,7 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
     userCollection: Collection<UserProfile>
   ) => async (
     values: ProfileValues,
-    { setSubmitting, setErrors }: FormikActions<ProfileValues | ProfileErrors>
+    { setSubmitting, setErrors }: FormikHelpers<ProfileValues | ProfileErrors>
   ) => {
     userCollection.update(user._id, values).then(
       () => setSubmitting(false),

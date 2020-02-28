@@ -22,7 +22,7 @@ import {
   Model,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { Creatable as CreatableSelect } from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 import { selectStyles } from '../../lib/select-styles'
 import { SaveModel } from './ManuscriptInspector'
 

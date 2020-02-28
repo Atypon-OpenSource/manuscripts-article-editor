@@ -18,7 +18,7 @@ import {
   ModalHeader,
   StyledModal,
 } from '@manuscripts/style-guide'
-import { FormikActions } from 'formik'
+import { FormikHelpers } from 'formik'
 import React from 'react'
 import { ModalBody, StyledModalMain } from '../Sidebar'
 import { ProfileErrors, ProfileForm, ProfileValues } from './ProfileForm'
@@ -39,7 +39,7 @@ interface Props {
   handleClose: () => void
   handleSave: (
     values: ProfileValues,
-    actions: FormikActions<ProfileValues | ProfileErrors>
+    actions: FormikHelpers<ProfileValues | ProfileErrors>
   ) => void
 }
 

@@ -12,8 +12,7 @@
 
 import { FieldProps } from 'formik'
 import React from 'react'
-import Select from 'react-select'
-import { OptionsType } from 'react-select/lib/types'
+import Select, { OptionsType } from 'react-select'
 
 interface OptionType {
   label: string

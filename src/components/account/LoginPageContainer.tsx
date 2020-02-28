@@ -12,7 +12,7 @@
 
 import { AlertMessageType, FormErrors } from '@manuscripts/style-guide'
 import { AxiosResponse } from 'axios'
-import { FormikActions, FormikErrors } from 'formik'
+import { FormikErrors, FormikHelpers } from 'formik'
 import { LocationState } from 'history'
 import * as HttpStatusCodes from 'http-status-codes'
 import decode from 'jwt-decode'
@@ -228,7 +228,7 @@ class LoginPageContainer extends React.Component<
   private handleErrorResponse = (
     response: AxiosResponse,
     values: LoginValues,
-    actions: FormikActions<LoginValues>
+    actions: FormikHelpers<LoginValues>
   ) => {
     const errorName = this.errorName(response)
 

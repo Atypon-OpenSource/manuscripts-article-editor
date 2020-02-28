@@ -10,16 +10,16 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { StylesConfig } from 'react-select/lib/styles'
+import { StylesConfig } from 'react-select'
 import { theme } from '../theme/theme'
 
 export const selectStyles: StylesConfig = {
-  container: provided => ({
-    ...provided,
+  container: base => ({
+    ...base,
     flex: 1,
   }),
-  control: (provided, state) => ({
-    ...provided,
+  control: (base, state) => ({
+    ...base,
     backgroundColor: state.isFocused
       ? theme.colors.background.fifth
       : theme.colors.background.primary,
