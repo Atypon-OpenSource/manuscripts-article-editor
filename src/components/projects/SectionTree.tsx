@@ -14,7 +14,7 @@ import SectionIcon from '@manuscripts/assets/react/OutlineIconSection'
 import { TreeNode } from '@manuscripts/sync-client'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const SectionList = styled.ul`
   list-style-type: none;

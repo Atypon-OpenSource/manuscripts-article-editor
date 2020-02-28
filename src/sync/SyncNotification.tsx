@@ -13,6 +13,7 @@
 import AttentionOrange from '@manuscripts/assets/react/AttentionOrange'
 import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import {
   NotificationActions,
   NotificationHead,
@@ -20,7 +21,6 @@ import {
   NotificationPrompt,
   NotificationTitle,
 } from '../components/Notifications'
-import { styled } from '../theme/styled-components'
 
 export const NotificationInfo = styled.div`
   color: inherit;

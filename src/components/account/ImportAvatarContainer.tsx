@@ -11,8 +11,8 @@
  */
 
 import * as React from 'react'
+import styled from 'styled-components'
 import { openImagePicker } from '../../lib/images'
-import { styled } from '../../theme/styled-components'
 
 export interface ImportAvatarProps {
   isImporting: boolean

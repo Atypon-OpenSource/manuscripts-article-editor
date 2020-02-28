@@ -14,7 +14,7 @@ import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import ArrowUpBlue from '@manuscripts/assets/react/ArrowUpBlue'
 import { SecondaryIconButton } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 
 const SliderContainer = styled.div<{
   hasLeft: boolean

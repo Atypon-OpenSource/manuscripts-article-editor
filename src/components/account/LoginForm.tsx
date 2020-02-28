@@ -23,7 +23,7 @@ import {
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { FormLink } from '../Form'
 import { Hero, SubHero } from '../Hero'
 import { ErrorName } from './LoginPageContainer'

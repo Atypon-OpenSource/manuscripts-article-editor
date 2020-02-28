@@ -11,12 +11,12 @@
  */
 
 import React, { ChangeEvent, useCallback } from 'react'
+import styled from 'styled-components'
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
   isEditableSectionCategory,
   sortedSectionCategories,
 } from '../../lib/section-categories'
-import { styled } from '../../theme/styled-components'
 
 export const CategoryInput: React.FC<{
   value: string

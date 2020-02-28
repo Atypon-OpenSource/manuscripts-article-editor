@@ -12,8 +12,8 @@
 
 import { TitleEditorView, TitleField } from '@manuscripts/title-editor'
 import React from 'react'
+import styled from 'styled-components'
 import { useSyncedData } from '../../hooks/use-synced-data'
-import { styled } from '../../theme/styled-components'
 
 export const TitleFieldContainer: React.FC<{
   editable: boolean

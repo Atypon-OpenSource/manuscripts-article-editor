@@ -14,7 +14,7 @@ import aphorisms from '@manuscripts/data/dist/shared/aphorisms.json'
 import { sample } from 'lodash-es'
 import React, { useEffect, useState } from 'react'
 import { animated, useTransition } from 'react-spring'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 import { Aphorism, AphorismView } from './Aphorism'
 import {
   IndicatorKind,

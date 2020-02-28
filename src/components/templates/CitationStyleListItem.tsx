@@ -13,7 +13,7 @@
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
 import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const CreateButton = styled(PrimaryButton)`
   padding: 0 4px;

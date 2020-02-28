@@ -30,8 +30,8 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import styled from 'styled-components'
 import { buildCommentTree, CommentData } from '../../lib/comments'
-import { styled } from '../../theme/styled-components'
 import { RelativeDate } from '../RelativeDate'
 import CommentBody from './CommentBody'
 import { CommentTarget } from './CommentTarget'

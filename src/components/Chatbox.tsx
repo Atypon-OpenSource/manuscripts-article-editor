@@ -12,7 +12,7 @@
 
 import ChatIcon from '@manuscripts/assets/react/Chat'
 import React, { useCallback, useEffect, useState } from 'react'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 
 export const Chatbox: React.FC = React.memo(() => {
   const [open, setOpen] = useState<boolean>()

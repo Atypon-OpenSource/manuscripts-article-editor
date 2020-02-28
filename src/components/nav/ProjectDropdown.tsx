@@ -25,7 +25,7 @@ import {
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { theme } from '../../theme/theme'
 import AcceptedLabel from '../AcceptedLabel'
 import { AddButton } from '../AddButton'

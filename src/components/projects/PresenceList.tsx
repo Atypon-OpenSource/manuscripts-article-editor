@@ -16,9 +16,9 @@ import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Avatar, Tip } from '@manuscripts/style-guide'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import config from '../../config'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
-import { styled } from '../../theme/styled-components'
 
 const ACTIVITY_UPDATES = gql`
   subscription activityUpdates($containerId: String!) {

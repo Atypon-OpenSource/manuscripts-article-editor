@@ -18,7 +18,7 @@ import {
   AuthorsDND,
 } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { AddButton } from '../AddButton'
 import { ModalSidebar, SidebarContent, SidebarHeader } from '../Sidebar'
 

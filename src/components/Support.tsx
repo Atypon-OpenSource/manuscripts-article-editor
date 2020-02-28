@@ -19,9 +19,9 @@ import { Placement } from 'popper.js'
 import React, { useCallback } from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import { NavLink } from 'react-router-dom'
+import styled, { css } from 'styled-components'
 import config from '../config'
 import { useDropdown } from '../hooks/use-dropdown'
-import { css, styled } from '../theme/styled-components'
 import { Popup } from './nav/Updates'
 
 const Button = styled(IconButton).attrs(props => ({

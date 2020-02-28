@@ -13,7 +13,7 @@
 import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { IconTextButton } from '@manuscripts/style-guide'
 import React, { ReactNode } from 'react'
-import { css, styled } from '../theme/styled-components'
+import styled, { css } from 'styled-components'
 
 const RegularAddIcon = styled(AddIcon)``
 

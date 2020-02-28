@@ -14,7 +14,7 @@ import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
 import { ChromePicker, ColorResult } from 'react-color'
 import { Manager, Popper, Reference } from 'react-popper'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 export const ColorSelector: React.FC<{
   handleChange: (value: string) => void

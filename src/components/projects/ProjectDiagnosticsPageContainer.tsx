@@ -13,9 +13,9 @@
 import { ContainedModel } from '@manuscripts/manuscript-transform'
 import { SyncError } from '@manuscripts/sync-client'
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { ProjectDump } from '../../pressroom/importers'
 import CollectionManager from '../../sync/CollectionManager'
-import { styled } from '../../theme/styled-components'
 
 const Container = styled.div`
   padding: ${props => props.theme.grid.unit * 4}px;

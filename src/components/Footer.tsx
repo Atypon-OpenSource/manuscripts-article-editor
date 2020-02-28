@@ -12,7 +12,7 @@
 
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 
 export const FooterBlock = styled('footer')`
   bottom: ${props => props.theme.grid.unit * 2}px;

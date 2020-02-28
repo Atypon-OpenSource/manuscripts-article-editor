@@ -17,8 +17,8 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import { projectListCompare } from '../../lib/projects'
-import { styled } from '../../theme/styled-components'
 import { DropdownSeparator } from './Dropdown'
 import {
   AllProjectsDropdownSection,

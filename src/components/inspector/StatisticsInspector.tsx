@@ -16,7 +16,7 @@ import {
   SectionNode,
 } from '@manuscripts/manuscript-transform'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { InspectorSection, Subheading } from '../InspectorSection'
 
 const InspectorSubsection = styled.div`

@@ -31,7 +31,7 @@ import {
   FormikProps,
 } from 'formik'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const Fields = styled.div`
   padding: ${props => props.theme.grid.unit * 4}px;

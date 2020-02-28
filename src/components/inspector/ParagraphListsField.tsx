@@ -19,6 +19,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
+import styled from 'styled-components'
 import {
   DEFAULT_LIST_BULLET_STYLE,
   DEFAULT_LIST_NUMBERING_PREFIX,
@@ -31,7 +32,6 @@ import {
   ListNumberingScheme,
   listNumberingSchemes,
 } from '../../lib/styles'
-import { styled } from '../../theme/styled-components'
 import { SmallNumberField, SmallTextField } from '../projects/inputs'
 import { SaveParagraphStyle } from './ParagraphStyleFields'
 import { valueOrDefault } from './StyleFields'

@@ -12,7 +12,7 @@
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import OfflineIndicator from '../OfflineIndicator'
 import { Support } from '../Support'
 import {

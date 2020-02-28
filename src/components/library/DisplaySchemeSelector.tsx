@@ -12,7 +12,7 @@
 
 import { Citation } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useState } from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 type DisplayScheme = 'show-all' | 'author-only' | 'suppress-author'
 

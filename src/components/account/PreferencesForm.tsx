@@ -12,8 +12,8 @@
 
 import { Form, FormikProps } from 'formik'
 import React from 'react'
+import styled from 'styled-components'
 import { Languages } from '../../lib/preferences'
-import { styled } from '../../theme/styled-components'
 
 const LocaleSelectorLabel = styled.label`
   display: block;

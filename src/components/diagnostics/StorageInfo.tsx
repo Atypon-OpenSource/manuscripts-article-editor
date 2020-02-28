@@ -12,7 +12,7 @@
 
 import prettyBytes from 'pretty-bytes'
 import React, { useEffect, useState } from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 export const StorageInfo: React.FC = () => {
   const [estimate, setEstimate] = useState<StorageEstimate>()

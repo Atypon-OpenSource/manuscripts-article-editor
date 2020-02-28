@@ -12,7 +12,7 @@
 
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { ResearchField } from '../../types/templates'
 
 const ListContainer = styled.div`

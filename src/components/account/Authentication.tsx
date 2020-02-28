@@ -17,9 +17,9 @@ import {
   OrcidIcon,
 } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import connectLogo from '../../../assets/connect.png'
 import config from '../../config'
-import { styled } from '../../theme/styled-components'
 import { AuthProvider } from './AuthButtonContainer'
 
 const ButtonText = styled.div`

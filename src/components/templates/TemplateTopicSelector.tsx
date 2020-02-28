@@ -14,7 +14,7 @@ import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
 import { TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { ResearchField } from '../../types/templates'
 import { TemplateTopicsList } from './TemplateTopicsList'
 

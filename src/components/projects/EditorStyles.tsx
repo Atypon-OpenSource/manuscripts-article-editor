@@ -22,6 +22,7 @@ import {
   TableStyle,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import {
   buildFigureLayoutStyles,
   buildFigureStyles,
@@ -30,7 +31,6 @@ import {
   buildParagraphStyles,
   buildTableStyles,
 } from '../../lib/styles'
-import { styled } from '../../theme/styled-components'
 
 interface StyleMaps {
   [key: string]: Map<string, Model>

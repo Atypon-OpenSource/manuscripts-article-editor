@@ -18,6 +18,7 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { Route } from 'react-router-dom'
+import styled from 'styled-components'
 import CollaboratorsData from '../../data/CollaboratorsData'
 import { TokenActions } from '../../data/TokenData'
 import {
@@ -25,7 +26,6 @@ import {
   buildCollaborators,
 } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
-import { styled } from '../../theme/styled-components'
 import AcceptedLabel from '../AcceptedLabel'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import ProjectContextMenuButton from './ProjectContextMenuButton'

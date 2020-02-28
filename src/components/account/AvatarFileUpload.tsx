@@ -18,7 +18,7 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { ModalSidebar } from '../Sidebar'
 import ImportAvatarContainer from './ImportAvatarContainer'
 import { AvatarProps } from './ProfilePageSidebar'

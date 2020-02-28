@@ -28,9 +28,9 @@ import {
 } from 'formik'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
+import styled from 'styled-components'
 import { TokenActions } from '../../data/TokenData'
 import { ProjectRole } from '../../lib/roles'
-import { styled } from '../../theme/styled-components'
 import { projectInvitationSchema } from '../../validation'
 import { RadioButton } from '../RadioButton'
 

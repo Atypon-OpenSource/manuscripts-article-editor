@@ -12,8 +12,8 @@
 
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+import styled from 'styled-components'
 import { TokenActions } from '../../data/TokenData'
-import { styled } from '../../theme/styled-components'
 import AcceptProjectInvitation from '../collaboration/AcceptProjectInvitation'
 import MessageBanner from '../MessageBanner'
 import { GlobalMenu } from '../nav/GlobalMenu'

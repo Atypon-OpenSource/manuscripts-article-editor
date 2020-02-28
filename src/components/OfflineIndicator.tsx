@@ -12,8 +12,8 @@
 
 import { Tip } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
-import { styled } from '../theme/styled-components'
 
 const Wrapper = styled.div`
   display: flex;

@@ -12,7 +12,7 @@
 
 import copyToClipboard from 'clipboard-copy'
 import React, { useCallback, useEffect, useState } from 'react'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 
 enum CopyState {
   Ready = 'ready',

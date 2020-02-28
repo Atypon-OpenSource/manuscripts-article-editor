@@ -12,7 +12,7 @@
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import React, { useState } from 'react'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 import { ExpanderButton } from './metadata/Metadata'
 
 const Section = styled.div`

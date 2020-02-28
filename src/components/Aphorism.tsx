@@ -11,7 +11,7 @@
  */
 
 import React from 'react'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 // import { Aphorism } from '@manuscripts/manuscripts-json-schema'
 
 export interface Aphorism {

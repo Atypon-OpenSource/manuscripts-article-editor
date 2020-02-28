@@ -28,7 +28,7 @@ import {
 } from '@manuscripts/style-guide'
 import { Field, FieldProps, Form, Formik } from 'formik'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const CommentFooter = styled.div`
   border-top: 1px solid #eee;

@@ -14,7 +14,7 @@ import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Avatar } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { css, styled } from '../../theme/styled-components'
+import styled, { css } from 'styled-components'
 import { Dropdown, DropdownContainer } from './Dropdown'
 
 export const ProfileDropdown: React.FC<{

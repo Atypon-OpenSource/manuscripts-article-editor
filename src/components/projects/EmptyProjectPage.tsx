@@ -11,7 +11,7 @@
  */
 
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { AddButton } from '../AddButton'
 import { Notification } from '../NotificationMessage'
 import { ProjectPlaceholder } from '../Placeholders'

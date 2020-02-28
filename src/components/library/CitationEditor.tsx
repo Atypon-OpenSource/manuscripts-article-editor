@@ -22,8 +22,8 @@ import {
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
+import styled from 'styled-components'
 import { shortLibraryItemMetadata } from '../../lib/library'
-import { styled } from '../../theme/styled-components'
 import { CitationSearch } from './CitationSearch'
 import { DisplaySchemeSelector } from './DisplaySchemeSelector'
 

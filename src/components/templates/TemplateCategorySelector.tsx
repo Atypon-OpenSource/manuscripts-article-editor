@@ -20,7 +20,7 @@ import ResearchIcon from '@manuscripts/assets/react/TemplateCategoryResearchArti
 import { ManuscriptCategory } from '@manuscripts/manuscripts-json-schema'
 import { ToggleButton } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { Slider } from '../Slider'
 import { TemplateCategory } from './TemplateCategory'
 

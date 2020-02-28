@@ -12,7 +12,7 @@
 
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React, { useContext } from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { LogoutConfirmationContext } from '../account/LogoutConfirmation'
 import { SignOutMessage } from '../Messages'
 import { DropdownLink, DropdownSeparator } from './Dropdown'

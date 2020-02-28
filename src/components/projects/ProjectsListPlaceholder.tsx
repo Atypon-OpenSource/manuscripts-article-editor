@@ -14,7 +14,7 @@ import DocIcon from '@manuscripts/assets/react/DocIcon'
 import MarkdownIcon from '@manuscripts/assets/react/MarkdownIcon'
 import TeXIcon from '@manuscripts/assets/react/TeXIcon'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { AddButton } from '../AddButton'
 import { ProjectPlaceholder } from '../Placeholders'
 

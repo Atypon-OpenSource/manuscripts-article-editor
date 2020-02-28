@@ -16,8 +16,8 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import { IconButton, Tip } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import styled from 'styled-components'
 import { TokenActions } from '../../data/TokenData'
-import { styled } from '../../theme/styled-components'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
 
 const Container = styled.div`

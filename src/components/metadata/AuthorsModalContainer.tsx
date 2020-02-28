@@ -30,10 +30,10 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
-import { styled } from '../../theme/styled-components'
 import { AuthorsModal } from './AuthorsModals'
 
 const Invited = styled.div`

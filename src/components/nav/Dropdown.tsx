@@ -15,7 +15,7 @@ import { SecondaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { css, styled } from '../../theme/styled-components'
+import styled, { css } from 'styled-components'
 import { Badge } from '../Badge'
 
 export const DropdownContainer = styled.div`

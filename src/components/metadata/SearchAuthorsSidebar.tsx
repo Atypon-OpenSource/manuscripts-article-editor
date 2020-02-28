@@ -14,8 +14,8 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import { buildAuthorPriority } from '../../lib/authors'
-import { styled } from '../../theme/styled-components'
 import {
   SidebarContent,
   SidebarEmptyResult,

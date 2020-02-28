@@ -18,31 +18,6 @@ import { Menu, MenuBarIcon } from './Menu'
 
 Modal.setAppElement('#root')
 
-const modalStyle = {
-  overlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'white',
-    zIndex: 20,
-  },
-  content: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: 'white',
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 0,
-    overflow: 'auto',
-    border: 'none',
-  },
-}
-
 interface State {
   open: boolean
 }
@@ -66,7 +41,30 @@ class MenuBar extends React.Component<Props, State> {
         <Modal
           isOpen={this.state.open}
           onRequestClose={this.handleClose}
-          style={modalStyle}
+          style={{
+            overlay: {
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'white',
+              zIndex: 20,
+            },
+            content: {
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'white',
+              display: 'flex',
+              flexDirection: 'column',
+              padding: 0,
+              overflow: 'auto',
+              border: 'none',
+            },
+          }}
         >
           <Menu handleClose={this.handleClose} />
           <ProjectsSidebar

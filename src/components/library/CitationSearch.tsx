@@ -20,9 +20,9 @@ import {
   Tip,
 } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import styled from 'styled-components'
 import config from '../../config'
 import { estimateID } from '../../lib/library'
-import { styled } from '../../theme/styled-components'
 import Search, { SearchWrapper } from '../Search'
 import { BibliographyImportButton } from './BibliographyImportButton'
 import { CitationSearchSection } from './CitationSearchSection'

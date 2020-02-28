@@ -10,9 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Theme } from '@manuscripts/style-guide'
+import { createGlobalStyle, DefaultTheme } from 'styled-components'
 import * as colors from './colors'
-import { createGlobalStyle } from './styled-components'
 
 const fontFamily = '"Lato", sans-serif'
 
@@ -26,7 +25,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 `
 
-export const theme: Theme = {
+export const theme: DefaultTheme = {
   name: 'Manuscripts',
   colors: {
     background: {

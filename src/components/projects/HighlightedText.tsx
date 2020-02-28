@@ -17,7 +17,7 @@ import {
 import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import { CommentAnnotation } from '@manuscripts/manuscripts-json-schema'
 import React, { useMemo } from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const Container = styled.div`
   justify-content: space-between;

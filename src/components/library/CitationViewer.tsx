@@ -13,8 +13,8 @@
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
+import styled from 'styled-components'
 import { shortLibraryItemMetadata } from '../../lib/library'
-import { styled } from '../../theme/styled-components'
 
 const CitedItem = styled.div`
   padding: ${props => props.theme.grid.unit * 4}px 0;

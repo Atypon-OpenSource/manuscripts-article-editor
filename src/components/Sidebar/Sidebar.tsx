@@ -11,7 +11,7 @@
  */
 
 import { ModalMain } from '@manuscripts/style-guide'
-import { css, styled } from '../../theme/styled-components'
+import styled, { css } from 'styled-components'
 
 const SidebarCommonStyles = css`
   box-sizing: border-box;

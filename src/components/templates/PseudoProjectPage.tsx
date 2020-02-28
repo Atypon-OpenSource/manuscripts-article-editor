@@ -13,7 +13,7 @@
 import { ObjectTypes, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { Main, Page } from '../Page'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 

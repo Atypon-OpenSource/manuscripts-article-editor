@@ -15,7 +15,7 @@ import { ButtonGroup } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { Transition } from 'react-spring/renderprops.cjs'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 import { NotificationComponent, NotificationItem } from './NotificationProvider'
 
 interface Props {

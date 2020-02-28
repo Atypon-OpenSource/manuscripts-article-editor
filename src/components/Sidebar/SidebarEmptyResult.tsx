@@ -17,7 +17,7 @@ import {
   Tip,
 } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const EmptyTextContainer = styled.div`
   padding-left: ${props => props.theme.grid.unit * 10}px;

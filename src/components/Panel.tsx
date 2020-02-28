@@ -13,8 +13,8 @@
 import { Resizer, ResizerDirection, ResizerSide } from '@manuscripts/resizer'
 import { RoundIconButton } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import layout, { Pane } from '../lib/layout'
-import { styled } from '../theme/styled-components'
 
 export interface ResizerButtonInnerProps {
   isCollapsed: boolean

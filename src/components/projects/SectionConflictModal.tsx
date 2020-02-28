@@ -20,7 +20,7 @@ import {
 import { TreeNode } from '@manuscripts/sync-client'
 import { Title } from '@manuscripts/title-editor'
 import React, { useCallback, useState } from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import SectionTree from './SectionTree'
 
 const Container = styled.div`

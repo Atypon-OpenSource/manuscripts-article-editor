@@ -11,7 +11,7 @@
  */
 
 import { Link } from 'react-router-dom'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 
 export const FormLink = styled(Link)`
   color: ${props => props.theme.colors.brand.dark};

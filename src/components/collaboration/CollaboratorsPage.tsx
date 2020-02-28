@@ -18,8 +18,8 @@ import ContributorsPlaceholder from '@manuscripts/assets/react/ContributorsPlace
 import InvitationPlaceholder from '@manuscripts/assets/react/InvitationPlaceholder'
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import styled from 'styled-components'
 import { isOwner } from '../../lib/roles'
-import { styled } from '../../theme/styled-components'
 import { AddButton } from '../AddButton'
 import {
   AddAuthorsMessage,

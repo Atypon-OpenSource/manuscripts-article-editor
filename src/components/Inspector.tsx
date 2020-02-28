@@ -11,7 +11,7 @@
  */
 
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 
 export const InspectorContainer = styled.div`
   border-left: 1px solid ${props => props.theme.colors.border.tertiary};

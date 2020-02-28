@@ -27,11 +27,11 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
+import styled from 'styled-components'
 import {
   chooseSectionCategory,
   isEditableSectionCategoryID,
 } from '../../lib/section-categories'
-import { styled } from '../../theme/styled-components'
 import {
   InspectorPanelTabList,
   InspectorTab,

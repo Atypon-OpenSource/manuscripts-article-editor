@@ -17,8 +17,8 @@ import { AxiosError } from 'axios'
 import * as HttpStatusCodes from 'http-status-codes'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
+import styled from 'styled-components'
 import { TokenActions } from '../../data/TokenData'
-import { styled } from '../../theme/styled-components'
 import InviteCollaboratorPopperContainer from './InviteCollaboratorPopperContainer'
 
 const AddIconButton = styled(IconButton)`

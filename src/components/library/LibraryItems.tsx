@@ -17,8 +17,8 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
+import styled from 'styled-components'
 import { fullLibraryItemMetadata } from '../../lib/library'
-import { styled } from '../../theme/styled-components'
 import Search, { SearchWrapper } from '../Search'
 
 const Container = styled.div`

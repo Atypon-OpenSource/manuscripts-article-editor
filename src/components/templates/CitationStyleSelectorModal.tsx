@@ -20,7 +20,7 @@ import {
 import fuzzysort from 'fuzzysort'
 import React, { Component } from 'react'
 import { FixedSizeList } from 'react-window'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { CitationStyleEmpty } from './CitationStyleEmpty'
 import { CitationStyleSelectorList } from './CitationStyleSelectorList'
 import { TemplateSearchInput } from './TemplateSearchInput'

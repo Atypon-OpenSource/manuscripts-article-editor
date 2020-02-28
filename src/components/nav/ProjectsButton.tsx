@@ -18,6 +18,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import ContainersInvitationsData from '../../data/ContainersInvitationsData'
 import ProjectsData from '../../data/ProjectsData'
 import ProjectsInvitationsData from '../../data/ProjectsInvitationsData'
@@ -30,7 +31,6 @@ import {
   groupInvitations,
 } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
-import { styled } from '../../theme/styled-components'
 import { acceptInvitationErrorMessage } from '../Messages'
 import { InvitationsList } from '../projects/InvitationsList'
 import { ProjectsList } from '../projects/ProjectsList'

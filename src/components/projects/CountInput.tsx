@@ -13,8 +13,8 @@
 import { Build } from '@manuscripts/manuscript-transform'
 import { CountRequirement } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback } from 'react'
+import styled from 'styled-components'
 import { useSyncedData } from '../../hooks/use-synced-data'
-import { styled } from '../../theme/styled-components'
 import { Checkbox, NumberField } from './inputs'
 
 type Value = CountRequirement | Build<CountRequirement>

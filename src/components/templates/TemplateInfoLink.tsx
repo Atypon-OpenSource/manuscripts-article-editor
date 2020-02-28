@@ -12,7 +12,7 @@
 
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const InfoLink = styled.a.attrs({
   target: '_blank',

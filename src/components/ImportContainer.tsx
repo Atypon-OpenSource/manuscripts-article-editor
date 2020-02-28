@@ -16,13 +16,13 @@ import JSZip from 'jszip'
 import { extname } from 'path'
 import * as React from 'react'
 import Dropzone from 'react-dropzone'
+import styled from 'styled-components'
 import {
   acceptedFileDescription,
   acceptedFileExtensions,
   acceptedMimeTypes,
   openFilePicker,
 } from '../pressroom/importers'
-import { styled } from '../theme/styled-components'
 import { ModalProps, withModal } from './ModalProvider'
 import { Importer } from './projects/Importer'
 

@@ -20,7 +20,7 @@ import {
 import { RxAttachment, RxAttachmentCreator } from '@manuscripts/rxdb'
 import React, { useCallback, useEffect, useState } from 'react'
 import Dropzone from 'react-dropzone'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 export const HeaderFigure: React.FC<{
   manuscript: Manuscript

@@ -18,7 +18,7 @@ import {
   Avatar,
 } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const DetailsContainer = styled.div`
   padding: 14px 0px 0px 40px;

@@ -14,7 +14,7 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Avatar, PrimaryButton, TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { FormattedDate } from 'react-intl'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 import { ModalSidebar, SidebarContent } from './Sidebar'
 
 const UserEmail = styled.div`

@@ -21,7 +21,7 @@ import {
 } from '@manuscripts/style-guide'
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { FormLink } from '../Form'
 import { Hero, SubHero } from '../Hero'
 

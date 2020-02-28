@@ -11,8 +11,8 @@
  */
 
 import React from 'react'
+import styled from 'styled-components'
 import { useCrisp } from '../hooks/use-crisp'
-import { styled } from '../theme/styled-components'
 
 const InlineButton = styled.button`
   display: inline;

@@ -20,8 +20,8 @@ import {
   ToggleButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import { isOwner } from '../../lib/roles'
-import { styled } from '../../theme/styled-components'
 import { PopperBody } from '../Popper'
 import { RadioButton } from '../RadioButton'
 import { ShareProjectHeader, ShareProjectTitle } from './InvitationPopper'

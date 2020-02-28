@@ -11,9 +11,9 @@
  */
 
 import React from 'react'
+import styled from 'styled-components'
 import config from '../config'
 import { createToken, createUserProfile } from '../lib/developer'
-import { styled } from '../theme/styled-components'
 import { DatabaseContext } from './DatabaseProvider'
 import { StorageInfo } from './diagnostics/StorageInfo'
 

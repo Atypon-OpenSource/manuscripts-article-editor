@@ -12,7 +12,7 @@
 
 import { SimpleModal } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 
 const ModalTitle = styled.div`
   font-size: ${props => props.theme.font.size.xlarge};

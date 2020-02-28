@@ -15,9 +15,9 @@ import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useState } from 'react'
+import styled from 'styled-components'
 import config from '../../config'
 import { useDebounce } from '../../hooks/use-debounce'
-import { styled } from '../../theme/styled-components'
 import { SearchResults } from './SearchResults'
 
 const ResultsSection = styled.div`

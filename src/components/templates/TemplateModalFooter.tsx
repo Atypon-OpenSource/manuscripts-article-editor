@@ -17,7 +17,7 @@ import {
   TertiaryButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { TemplateData } from '../../types/templates'
 
 const ModalFooter = styled.div`

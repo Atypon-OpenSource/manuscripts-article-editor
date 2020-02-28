@@ -22,10 +22,10 @@ import {
   Avatar,
 } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import { TokenActions } from '../../data/TokenData'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
-import { styled } from '../../theme/styled-components'
 import { AddButton } from '../AddButton'
 import PageSidebar from '../PageSidebar'
 import { SidebarHeader, SidebarPersonContainer } from '../Sidebar'

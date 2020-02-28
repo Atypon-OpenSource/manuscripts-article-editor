@@ -14,7 +14,7 @@ import VerticalEllipsis from '@manuscripts/assets/react/VerticalEllipsis'
 import React, { useCallback, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { Manager, Popper, Reference } from 'react-popper'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 export const StyleActions: React.FC<{
   addStyle?: () => void

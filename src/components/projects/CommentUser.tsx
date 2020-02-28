@@ -14,8 +14,8 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Contribution } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import { buildName } from '../../lib/comments'
-import { styled } from '../../theme/styled-components'
 
 const CommentUserContainer = styled.div`
   display: flex;

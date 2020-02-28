@@ -33,9 +33,9 @@ import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import React, { useCallback, useState } from 'react'
 import { Creatable as CreatableSelect } from 'react-select'
 import { OptionsType } from 'react-select/lib/types'
+import styled from 'styled-components'
 import { selectStyles } from '../../lib/select-styles'
 import { Collection } from '../../sync/Collection'
-import { styled } from '../../theme/styled-components'
 
 const LabelContainer = styled.div`
   display: flex;

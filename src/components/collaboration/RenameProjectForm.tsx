@@ -14,7 +14,7 @@ import { FormError, FormErrors, PrimaryButton } from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
 import { Form, FormikProps } from 'formik'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { ModalFormActions } from '../ModalForm'
 
 const StyledTitleField = styled(TitleField)`

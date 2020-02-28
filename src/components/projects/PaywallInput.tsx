@@ -12,7 +12,7 @@
 
 import { CheckboxField } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback } from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { InspectorField } from '../inspector/ManuscriptStyleInspector'
 
 export const PaywallInput: React.FC<{

@@ -17,7 +17,7 @@ import SadAnimal4 from '@manuscripts/assets/png/SadAnimal4.png'
 import SadAnimal5 from '@manuscripts/assets/png/SadAnimal5.png'
 import { sample } from 'lodash-es'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const images: { [key: string]: string } = {
   '😿': SadAnimal1,

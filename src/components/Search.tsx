@@ -13,7 +13,7 @@
 import SearchIconNoBGc from '@manuscripts/assets/react/SearchIconNoBG'
 import { TextField } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../theme/styled-components'
+import styled from 'styled-components'
 
 const SearchContainer = styled.div`
   align-items: center;

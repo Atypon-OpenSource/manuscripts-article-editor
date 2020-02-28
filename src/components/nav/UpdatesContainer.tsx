@@ -14,8 +14,8 @@ import BellNormal from '@manuscripts/assets/react/BellNormal'
 import axios, { CancelTokenSource } from 'axios'
 import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
+import styled from 'styled-components'
 import config from '../../config'
-import { styled } from '../../theme/styled-components'
 import { newestFirst, Popup, Post, Topic, Updates } from './Updates'
 
 const Wrapper = styled.div`
@@ -24,8 +24,8 @@ const Wrapper = styled.div`
 `
 
 const Bubble = styled.div`
-  width: ${props => props.theme.grid.unit * 3}px 
-  height: ${props => props.theme.grid.unit * 3}px 
+  width: ${props => props.theme.grid.unit * 3}px
+  height: ${props => props.theme.grid.unit * 3}px
   border-radius: 50%;
   position: absolute;
   top: -2px;

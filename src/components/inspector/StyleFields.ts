@@ -16,7 +16,7 @@ import {
   ParagraphStyle,
   TableStyle,
 } from '@manuscripts/manuscripts-json-schema'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 

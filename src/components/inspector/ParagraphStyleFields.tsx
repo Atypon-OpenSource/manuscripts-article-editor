@@ -13,6 +13,7 @@
 import { ParagraphStyle } from '@manuscripts/manuscripts-json-schema'
 import { range } from 'lodash-es'
 import React from 'react'
+import styled from 'styled-components'
 import {
   alignments,
   DEFAULT_ALIGNMENT,
@@ -24,7 +25,6 @@ import {
   DEFAULT_MARGIN_TOP,
   DEFAULT_TEXT_INDENT,
 } from '../../lib/styles'
-import { styled } from '../../theme/styled-components'
 import {
   SmallNumberField,
   SpacingRange,

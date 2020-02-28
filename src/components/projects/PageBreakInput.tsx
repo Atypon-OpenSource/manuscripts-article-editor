@@ -17,8 +17,8 @@ import {
   PAGE_BREAK_NONE,
 } from '@manuscripts/manuscript-transform'
 import React, { ChangeEvent, useCallback } from 'react'
+import styled from 'styled-components'
 import { useSyncedData } from '../../hooks/use-synced-data'
-import { styled } from '../../theme/styled-components'
 
 export const PageBreakInput: React.FC<{
   value?: number

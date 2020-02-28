@@ -14,7 +14,7 @@ import { PrimaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useState } from 'react'
 // @ts-ignore
 import DateTimePicker from 'react-datetime-picker'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 export const DateTimeInput: React.FC<{
   value?: number

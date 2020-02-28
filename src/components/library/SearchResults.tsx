@@ -16,8 +16,8 @@ import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
+import styled from 'styled-components'
 import { estimateID, shortLibraryItemMetadata } from '../../lib/library'
-import { styled } from '../../theme/styled-components'
 
 const SearchResult = styled.div`
   cursor: pointer;

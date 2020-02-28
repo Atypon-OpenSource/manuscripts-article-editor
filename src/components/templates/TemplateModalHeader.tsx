@@ -11,7 +11,7 @@
  */
 
 import React, { Component } from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 const ModalHeader = styled.header`
   display: flex;

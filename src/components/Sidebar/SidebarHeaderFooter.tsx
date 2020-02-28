@@ -12,7 +12,7 @@
 
 import { PrimaryButton, TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
-import { css, styled } from '../../theme/styled-components'
+import styled, { css } from 'styled-components'
 
 const commonStyles = css`
   align-items: flex-start;

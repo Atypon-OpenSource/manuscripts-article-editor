@@ -13,7 +13,7 @@
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
 import { TertiaryButton, TextField } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { InspectorSection } from '../InspectorSection'
 
 const CitationStyle = styled(TextField).attrs({ readOnly: true })`

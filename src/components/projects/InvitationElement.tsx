@@ -18,8 +18,8 @@ import {
 import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
+import styled from 'styled-components'
 import { initials } from '../../lib/name'
-import { styled } from '../../theme/styled-components'
 import { Badge } from '../Badge'
 import { PlaceholderTitle } from '../nav/Dropdown'
 

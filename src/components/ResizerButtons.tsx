@@ -13,7 +13,7 @@
 import InspectorHandle from '@manuscripts/assets/react/InspectorHandle'
 import OutlineViewHandle from '@manuscripts/assets/react/OutlineViewHandle'
 import React from 'react'
-import { css, styled } from '../theme/styled-components'
+import styled, { css } from 'styled-components'
 import { ResizerButton, ResizerButtonInnerProps } from './Panel'
 
 export const ResizingOutlinerButton: React.FunctionComponent<

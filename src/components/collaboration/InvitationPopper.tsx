@@ -13,9 +13,9 @@
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { ButtonGroup, ToggleButton } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import { TokenActions } from '../../data/TokenData'
 import { isOwner } from '../../lib/roles'
-import { styled } from '../../theme/styled-components'
 import { PopperBody } from '../Popper'
 import { InvitationForm, InvitationValues } from './InvitationForm'
 

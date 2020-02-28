@@ -18,7 +18,7 @@ import {
   TertiaryButton,
 } from '@manuscripts/style-guide'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { ContactSupportButton } from '../ContactSupportButton'
 
 const Message: React.FunctionComponent<{

@@ -13,7 +13,7 @@
 import { TextArea, TextField } from '@manuscripts/style-guide'
 import { range } from 'lodash-es'
 import React, { InputHTMLAttributes } from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 
 export const NumberField = styled(TextField).attrs({
   type: 'number',

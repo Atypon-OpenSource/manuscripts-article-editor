@@ -21,7 +21,7 @@ import {
 } from '@manuscripts/style-guide'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
-import { styled } from '../../theme/styled-components'
+import styled from 'styled-components'
 import { ModalFormActions } from '../ModalForm'
 
 export interface FeedbackValues {

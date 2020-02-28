@@ -12,9 +12,9 @@
 
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import { StorageInfo } from '../components/diagnostics/StorageInfo'
 import { logout } from '../lib/account'
-import { styled } from '../theme/styled-components'
 
 export const DatabaseError: React.FC = () => {
   return (

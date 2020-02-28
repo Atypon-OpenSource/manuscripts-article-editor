@@ -14,8 +14,8 @@ import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { AddIconInverted, IconButton } from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 import { buildAuthorPriority } from '../../lib/authors'
-import { styled } from '../../theme/styled-components'
 import { theme } from '../../theme/theme'
 
 const AddIconButton = styled(IconButton).attrs({ defaultColor: true })`
