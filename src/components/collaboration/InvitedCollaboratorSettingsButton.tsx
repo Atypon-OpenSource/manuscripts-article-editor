@@ -170,7 +170,10 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
       await projectInvite(email, role, name, message)
       this.openPopper()
     } catch (error) {
-      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+      if (
+        error.response &&
+        error.response.status === HttpStatusCodes.UNAUTHORIZED
+      ) {
         this.props.tokenActions.delete()
       } else {
         this.setState({
@@ -196,7 +199,10 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
         resendSucceed: true,
       })
     } catch (error) {
-      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+      if (
+        error.response &&
+        error.response.status === HttpStatusCodes.UNAUTHORIZED
+      ) {
         this.props.tokenActions.delete()
       } else {
         this.setState({
@@ -213,7 +219,10 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
       await projectUninvite(invitation._id)
       this.openPopper()
     } catch (error) {
-      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+      if (
+        error.response &&
+        error.response.status === HttpStatusCodes.UNAUTHORIZED
+      ) {
         this.props.tokenActions.delete()
       } else {
         this.setState({

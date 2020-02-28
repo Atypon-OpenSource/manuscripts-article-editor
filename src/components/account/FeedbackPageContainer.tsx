@@ -57,7 +57,10 @@ const FeedbackPageContainer: React.FunctionComponent<
               : 'There was an error',
           }
 
-          if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+          if (
+            error.response &&
+            error.response.status === HttpStatusCodes.UNAUTHORIZED
+          ) {
             tokenActions.delete()
           } else {
             actions.setErrors(errors)

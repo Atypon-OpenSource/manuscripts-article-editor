@@ -128,7 +128,10 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
         })
       })
       .catch(error => {
-        if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+        if (
+          error.response &&
+          error.response.status === HttpStatusCodes.UNAUTHORIZED
+        ) {
           this.props.tokenActions.delete()
         } else {
           this.setState({ loadingURIError: error })

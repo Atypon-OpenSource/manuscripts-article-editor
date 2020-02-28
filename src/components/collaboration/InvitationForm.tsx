@@ -113,7 +113,10 @@ export class InvitationForm extends React.Component<Props, State> {
               ? errorResponseMessage(error.response.status)
               : 'There was an error submitting the form.'
 
-            if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+            if (
+              error.response &&
+              error.response.status === HttpStatusCodes.UNAUTHORIZED
+            ) {
               tokenActions.delete()
             } else {
               actions.setErrors(errors)

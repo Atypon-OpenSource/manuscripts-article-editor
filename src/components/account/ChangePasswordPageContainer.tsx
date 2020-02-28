@@ -61,7 +61,10 @@ const ChangePasswordPageContainer: React.FunctionComponent<
                 ? 'The password entered is incorrect'
                 : 'There was an error',
           }
-          if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+          if (
+            error.response &&
+            error.response.status === HttpStatusCodes.UNAUTHORIZED
+          ) {
             tokenActions.delete()
           } else {
             actions.setErrors(errors)

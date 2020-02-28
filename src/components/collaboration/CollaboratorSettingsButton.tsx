@@ -160,7 +160,10 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
       await updateUserRole(selectedRole as ProjectRole, collaborator.userID)
       this.togglePopper()
     } catch (error) {
-      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+      if (
+        error.response &&
+        error.response.status === HttpStatusCodes.UNAUTHORIZED
+      ) {
         this.props.tokenActions.delete()
       } else {
         this.setState({
@@ -177,7 +180,10 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
       await updateUserRole(null, collaborator.userID)
       this.togglePopper()
     } catch (error) {
-      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+      if (
+        error.response &&
+        error.response.status === HttpStatusCodes.UNAUTHORIZED
+      ) {
         this.props.tokenActions.delete()
       } else {
         this.setState({
