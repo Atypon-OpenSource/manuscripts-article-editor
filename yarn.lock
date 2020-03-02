@@ -1891,10 +1891,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.19.1":
-  version "0.19.1"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.19.1.tgz#33da4576e2680ef53fb6ea4b770aee4e95f8a6f7"
-  integrity sha512-O9xh08mpjBRC9zimYsSn3Ftt/SmXAgsZmCCmDaseeQD3r2lBXmp8znHfVHRiRbOjLL3PmEIjW73PijyXEhnWfg==
+"@manuscripts/style-guide@^0.19.2":
+  version "0.19.2"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.19.2.tgz#1ff72cef443bddd946c64901b0d86aa3f8502d3a"
+  integrity sha512-48TirIeMsFgwfCmr6BuCBFUoRPt/G+wXxqnBhmO01CyhuEO1g1M3d5nibsD7Gk4wclyKW4uWAOV16MPcoy/g1g==
   dependencies:
     "@manuscripts/assets" "^0.6.1"
     lodash-es "^4.17.15"
