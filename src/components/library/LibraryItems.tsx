@@ -46,7 +46,7 @@ const Item = styled.div<{ isActive: boolean }>`
   display: flex;
   ${props =>
     !props.isActive &&
-    'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.secondary + ';'}
+    'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.secondary};
 
   &:hover {
     box-shadow: unset;

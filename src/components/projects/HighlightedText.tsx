@@ -23,7 +23,6 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
-  margin-bottom: 16px;
   padding: 4px 8px;
   background-color: #ffe08b;
   margin: 16px;

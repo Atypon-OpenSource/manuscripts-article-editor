@@ -24,20 +24,19 @@ const SidebarCommonStyles = css`
 `
 
 export const Sidebar = styled.div`
-  ${SidebarCommonStyles}
+  ${SidebarCommonStyles};
   background: ${props => props.theme.colors.background.secondary};
   border-right: 1px solid ${props => props.theme.colors.border.tertiary};
 `
 
 export const ModalSidebar = styled.div`
-  ${SidebarCommonStyles}
+  ${SidebarCommonStyles};
   background-color: ${props => props.theme.colors.background.secondary};
   border-top-left-radius: ${props => props.theme.grid.radius.default};
   border-bottom-left-radius: ${props => props.theme.grid.radius.default};
   max-width: 40vw;
   overflow: auto;
   width: 340px;
-  overflow: auto;
 `
 
 export const StyledModalMain = styled(ModalMain)`

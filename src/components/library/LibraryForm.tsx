@@ -64,7 +64,6 @@ const AuthorHeading = styled.button.attrs({
   border: none;
   background: none;
   font-size: inherit;
-  color: inherit;
   color: ${props =>
     props.isExpanded
       ? props.theme.colors.brand.default
@@ -215,7 +214,6 @@ const BaseButton = styled.button.attrs({
   type: 'button',
 })`
   font-family: ${props => props.theme.font.family.sans};
-  font-size: ${props => props.theme.font.size.medium};
   background-color: ${props => props.theme.colors.background.secondary};
   border: none;
   cursor: pointer;

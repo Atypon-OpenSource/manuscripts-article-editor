@@ -36,7 +36,6 @@ const NameField = styled.div`
   font-size: ${props => props.theme.font.size.xlarge};
   font-weight: ${props => props.theme.font.weight.normal};
   color: ${props => props.theme.colors.text.primary};
-  color: ${props => props.theme.colors.text.primary};
   margin-bottom: 26px;
 `
 
