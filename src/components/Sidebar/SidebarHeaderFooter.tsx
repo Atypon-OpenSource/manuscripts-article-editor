@@ -23,9 +23,8 @@ const commonStyles = css`
 `
 
 const StyledSidebarHeader = styled.div`
-  ${commonStyles}
-  margin-bottom: ${props => props.theme.grid.unit * 7}px
-  min-height: ${props => props.theme.grid.unit * 10}px;
+  ${commonStyles};
+  margin-bottom: ${props => props.theme.grid.unit * 6}px;
 `
 
 const StyledSidebarActionContainer = styled.div`
@@ -42,7 +41,7 @@ export const SidebarTitle = styled.div`
 `
 
 export const SidebarFooter = styled.div`
-  ${commonStyles}
+  ${commonStyles};
   margin-top: ${props => props.theme.grid.unit * 4}px;
 `
 
