@@ -57,15 +57,6 @@ export const MiniText = styled.span`
   margin-bottom: ${props => props.theme.grid.unit * 3}px;
 `
 
-const ClickableText = styled.div`
-  font-weight: ${props => props.theme.font.weight.semibold};
-  text-decoration: underline;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  margin-left: ${props => props.theme.grid.unit * 2}px;
-`
-
 interface ShareURIFieldProps {
   isCopied: boolean
   URI: string
@@ -204,9 +195,9 @@ export const ShareURIPopper: React.FunctionComponent<Props> = ({
                   <AlertMessage
                     type={AlertMessageType.error}
                     hideCloseButton={true}
+                    dismissButton={{ text: 'Retry', action: requestURI }}
                   >
                     Retrieving sharing link failed.
-                    <ClickableText onClick={requestURI}>Retry.</ClickableText>
                   </AlertMessage>
                 </AlertMessageContainer>
               ) : (
@@ -233,9 +224,9 @@ export const ShareURIPopper: React.FunctionComponent<Props> = ({
               <AlertMessage
                 type={AlertMessageType.error}
                 hideCloseButton={true}
+                dismissButton={{ text: 'Retry', action: requestURI }}
               >
                 Retrieving sharing link failed.
-                <ClickableText onClick={requestURI}>Retry.</ClickableText>
               </AlertMessage>
             </AlertMessageContainer>
           ) : (
