@@ -265,7 +265,7 @@ export const openFilePicker = (
       if (input.files && input.files.length) {
         const [file] = input.files
 
-        const extension = extname(file.name)
+        const extension = extname(file.name).toLowerCase()
 
         if (acceptedExtensions.includes(extension)) {
           resolve(file)
