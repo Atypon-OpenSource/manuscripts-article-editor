@@ -15,10 +15,11 @@ import React, { ChangeEvent, useCallback } from 'react'
 import styled from 'styled-components'
 import { InspectorField } from '../inspector/ManuscriptStyleInspector'
 
-export const PaywallInput: React.FC<{
+export const CheckboxInput: React.FC<{
   value?: boolean
   handleChange: (value?: boolean) => void
-}> = ({ value = false, handleChange }) => {
+  label: string
+}> = ({ value = false, handleChange, label }) => {
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       handleChange(event.target.checked)
@@ -30,7 +31,7 @@ export const PaywallInput: React.FC<{
     <InspectorField>
       <Label>
         <CheckboxField checked={value} onChange={handleInputChange} />
-        Publish behind a paywall
+        {label}
       </Label>
     </InspectorField>
   )

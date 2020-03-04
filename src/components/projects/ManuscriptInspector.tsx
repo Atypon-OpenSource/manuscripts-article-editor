@@ -36,12 +36,12 @@ import {
 } from '../Inspector'
 import { LabelField } from '../inspector/LabelField'
 import { InspectorSection, Subheading } from '../InspectorSection'
+import { CheckboxInput } from './CheckboxInput'
 import { CountInput } from './CountInput'
 import { DateTimeInput } from './DateTimeInput'
 import { DescriptionInput } from './DescriptionInput'
 import { DOIInput } from './DOIInput'
 import { KeywordsInput } from './KeywordsInput'
-import { PaywallInput } from './PaywallInput'
 import { ThemeInput } from './ThemeInput'
 
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
@@ -157,11 +157,12 @@ export const ManuscriptInspector: React.FC<{
 
                 <Subheading>Paywall</Subheading>
 
-                <PaywallInput
+                <CheckboxInput
                   value={manuscript.paywall}
                   handleChange={async paywall => {
                     await saveManuscript({ paywall })
                   }}
+                  label={'Publish behind a paywall'}
                 />
 
                 <Subheading>Abstract</Subheading>
