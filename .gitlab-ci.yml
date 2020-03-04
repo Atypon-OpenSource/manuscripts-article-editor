@@ -33,7 +33,7 @@ lint_test_build:
     reports:
       junit: junit.xml
 
-.integration_tests:
+integration_tests:
   stage: test
   script:
     - yarn install --frozen-lockfile --non-interactive
