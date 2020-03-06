@@ -35,6 +35,7 @@ export const InspectorTabList = styled(TabList)`
     background: none;
     justify-content: center;
     font-size: ${props => props.theme.font.size.normal};
+    color: ${props => props.theme.colors.text.primary};
     flex-shrink: 0;
   }
 `
@@ -48,7 +49,10 @@ export const InspectorTabPanels = styled(TabPanels)`
   overflow-y: auto;
 `
 
-export const InspectorTabPanel = styled(TabPanel)``
+export const InspectorTabPanel = styled(TabPanel)`
+  font-size: ${props => props.theme.font.size.normal};
+  color: ${props => props.theme.colors.text.secondary};
+`
 
 export const InspectorTab = styled(Tab)`
   && {
@@ -62,11 +66,11 @@ export const InspectorTab = styled(Tab)`
 
     &[data-selected] {
       border-bottom-color: ${props => props.theme.colors.brand.default};
+      color: ${props => props.theme.colors.brand.default};
     }
   }
 `
 
 export const InspectorTabPanelHeading = styled.div`
-  font-weight: bold;
   margin-bottom: ${props => props.theme.grid.unit * 4}px;
 `

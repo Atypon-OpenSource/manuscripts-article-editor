@@ -124,7 +124,7 @@ export const SectionInspector: React.FC<{
 
   return (
     <InspectorSection title={'Section'}>
-      <StyledTitle value={section.title} />
+      {section.title && <StyledTitle value={section.title} />}
 
       <InspectorTabs>
         <InspectorPanelTabList>
@@ -258,6 +258,6 @@ export const SectionInspector: React.FC<{
 }
 
 const StyledTitle = styled(Title)`
-  font-size: ${props => props.theme.font.size.medium};
+  color: ${props => props.theme.colors.text.primary};
   margin: 4px 0;
 `

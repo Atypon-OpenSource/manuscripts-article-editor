@@ -16,15 +16,10 @@ import styled from 'styled-components'
 import { ExpanderButton } from './metadata/Metadata'
 
 const Section = styled.div`
-  border-top: 1px solid ${props => props.theme.colors.border.tertiary};
-  padding: ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit}px;
-  padding-left: ${props => props.theme.grid.unit * 5}px;
+  border-bottom: 1px solid ${props => props.theme.colors.border.tertiary};
   font-size: ${props => props.theme.font.size.normal};
-
-  &:last-child {
-    border-bottom: 1px solid ${props => props.theme.colors.border.tertiary};
-  }
+  margin: ${props => props.theme.grid.unit * 6}px
+    ${props => props.theme.grid.unit * 7}px 0;
 `
 
 const Heading = styled.div`
@@ -34,13 +29,15 @@ const Heading = styled.div`
 `
 
 const HeadingText = styled.div`
-  font-size: ${props => props.theme.font.size.large};
-  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${props => props.theme.font.size.medium};
+  font-weight: ${props => props.theme.font.weight.semibold};
+  color: ${props => props.theme.colors.text.primary};
   flex: 1;
 `
 
 export const Subheading = styled(HeadingText)`
-  font-size: ${props => props.theme.font.size.medium};
+  font-size: ${props => props.theme.font.size.normal};
+  font-weight: ${props => props.theme.font.weight.normal};
   margin-bottom: ${props => props.theme.grid.unit * 3}px;
 
   &:not(:first-child) {
