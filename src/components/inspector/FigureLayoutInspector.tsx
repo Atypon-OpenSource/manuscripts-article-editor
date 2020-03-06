@@ -120,6 +120,24 @@ export const FigureLayoutInspector: React.FC<
     [element, view]
   )
 
+  const setElementAlignment = useCallback(
+    (alignment?: string) => {
+      const { tr, doc } = view.state
+
+      doc.descendants((node, pos) => {
+        if (node.attrs.id === element._id) {
+          tr.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
+            alignment,
+          })
+
+          view.dispatch(tr)
+        }
+      })
+    },
+    [element, view]
+  )
+
   if (!figureLayout) {
     return null
   }
@@ -132,6 +150,7 @@ export const FigureLayoutInspector: React.FC<
       figureLayouts={figureLayouts}
       figureLayout={figureLayout}
       setElementFigureLayout={setElementFigureLayout}
+      setElementAlignment={setElementAlignment}
       setElementSizeFraction={setElementSizeFraction}
     />
   )

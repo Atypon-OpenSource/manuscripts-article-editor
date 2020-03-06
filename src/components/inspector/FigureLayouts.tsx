@@ -15,9 +15,14 @@ import {
   FigureLayout,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { DEFAULT_FIGURE_WIDTH } from '../../lib/styles'
+import config from '../../config'
+import {
+  DEFAULT_FIGURE_ALIGNMENT,
+  DEFAULT_FIGURE_WIDTH,
+} from '../../lib/styles'
 import { InspectorSection } from '../InspectorSection'
 import { StyleSelect } from '../projects/inputs'
+import { FigureAlignmentField } from './FigureAlignmentField'
 import { FigureWidthField } from './FigureWidthField'
 import { InspectorField } from './ManuscriptStyleInspector'
 
@@ -26,12 +31,14 @@ export const FigureLayouts: React.FC<{
   figureLayouts: FigureLayout[]
   figureLayout: FigureLayout
   setElementFigureLayout: (id: string) => void
+  setElementAlignment: (value?: string) => void
   setElementSizeFraction: (sizeFraction: number) => void
 }> = ({
   figureElement,
   figureLayouts,
   figureLayout,
   setElementFigureLayout,
+  setElementAlignment,
   setElementSizeFraction,
 }) => {
   return (
@@ -56,6 +63,17 @@ export const FigureLayouts: React.FC<{
         value={figureElement.sizeFraction}
         handleChange={setElementSizeFraction}
       />
+
+      {config.export.literatum && (
+        <FigureAlignmentField
+          defaultValue={DEFAULT_FIGURE_ALIGNMENT}
+          value={figureElement.alignment}
+          handleChange={setElementAlignment}
+          disabled={Boolean(
+            figureElement.sizeFraction && figureElement.sizeFraction >= 1
+          )}
+        />
+      )}
     </InspectorSection>
   )
 }

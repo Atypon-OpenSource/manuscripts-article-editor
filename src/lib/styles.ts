@@ -30,6 +30,7 @@ import { ascendingPriority } from './sort'
 
 export const DEFAULT_ALIGNMENT = 'left'
 export const DEFAULT_COLOR = '#000'
+export const DEFAULT_FIGURE_ALIGNMENT = 'center'
 export const DEFAULT_FIGURE_CAPTION_ALIGNMENT = 'center'
 export const DEFAULT_FIGURE_CAPTION_POSITION: FigureCaptionPosition = 'bottom'
 export const DEFAULT_FIGURE_INNER_BORDER_WIDTH = 1
@@ -261,6 +262,28 @@ export const alignments: {
   justify: {
     css: 'justify',
     label: 'Justify',
+  },
+}
+
+export type FigureAlignment = 'left' | 'right' | 'center'
+
+export const figureAlignments: {
+  [key in FigureAlignment]: {
+    css: CSS.ListStyleProperty
+    label: string
+  }
+} = {
+  left: {
+    css: 'left',
+    label: 'Left',
+  },
+  center: {
+    css: 'center',
+    label: 'Center',
+  },
+  right: {
+    css: 'right',
+    label: 'Right',
   },
 }
 

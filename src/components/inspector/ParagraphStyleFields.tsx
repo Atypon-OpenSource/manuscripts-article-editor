@@ -11,7 +11,6 @@
  */
 
 import { ParagraphStyle } from '@manuscripts/manuscripts-json-schema'
-import { range } from 'lodash-es'
 import React from 'react'
 import styled from 'styled-components'
 import {
@@ -291,8 +290,8 @@ export const LineSpacingField: React.FC<{
     <InspectorField>
       <InspectorLabel>Line spacing</InspectorLabel>
       <StyleRange
-        name={'line-spacing'}
         type={'range'}
+        name={'line-spacing'}
         min={1}
         max={2}
         step={0.25}
@@ -305,11 +304,6 @@ export const LineSpacingField: React.FC<{
           })
         }}
       />
-      <datalist id={'lineSpacingList'}>
-        {range(1, 2, 0.25).map(value => (
-          <option key={value}>{value}</option>
-        ))}
-      </datalist>
       <SmallNumberField
         value={value}
         onChange={event => {

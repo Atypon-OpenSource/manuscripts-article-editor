@@ -10,9 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { range } from 'lodash-es'
 import React, { ChangeEvent, useCallback } from 'react'
+import styled from 'styled-components'
 import { useSyncedData } from '../../hooks/use-synced-data'
-import { SmallNumberField, SpacingRange } from '../projects/inputs'
+import { SmallNumberField, StyleRange } from '../projects/inputs'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
 import { valueOrDefault } from './StyleFields'
 
@@ -44,22 +46,84 @@ export const FigureWidthField: React.FC<{
   return (
     <InspectorField>
       <InspectorLabel>Width</InspectorLabel>
-      <SpacingRange
-        name={'figure-width'}
-        min={10}
-        max={100}
-        step={10}
-        list={'figureWidthList'}
-        value={currentValue}
-        onChange={handleInputChange}
-      />
+      <RangeContainer style={{ flex: 1 }}>
+        <DataList id={'figureWidthList'}>
+          <option value={10} label={'10%'}>
+            10%
+          </option>
+
+          {range(20, 100, 10).map(value => (
+            <option key={value} value={value} />
+          ))}
+
+          <option value={100} label={'Fit to margin'}>
+            Fit to margin
+          </option>
+          <option value={200} label={'Full page'}>
+            Full page
+          </option>
+        </DataList>
+
+        <StyleRange
+          min={10}
+          max={200}
+          type={'range'}
+          name={'figure-width'}
+          list={'figureWidthList'}
+          value={currentValue}
+          onChange={handleInputChange}
+          style={{ width: '100%' }}
+        />
+      </RangeContainer>
       <SmallNumberField
-        value={currentValue}
+        value={Math.min(currentValue, 100)}
         onChange={handleInputChange}
         onFocus={() => setEditing(true)}
         onBlur={() => setEditing(false)}
+        disabled={currentValue > 100}
       />
       %
     </InspectorField>
   )
 }
+
+const RangeContainer = styled.div`
+  flex: 1;
+  margin-right: ${props => props.theme.grid.unit * 2}px;
+
+  input[type='range']::-moz-range-track {
+    background: repeating-linear-gradient(
+      to right,
+      #fff,
+      #fff 4.5%,
+      #555 4.5%,
+      #555 5.5%,
+      #fff 5.5%,
+      #fff 10%
+    );
+  }
+`
+
+const DataList = styled.datalist`
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #555;
+
+  option {
+    width: 58px;
+    text-align: center;
+
+    &:first-child {
+      text-align: left;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+
+    &:not([label]) {
+      display: none;
+    }
+  }
+`
