@@ -18,14 +18,16 @@ export const InspectorContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  height: 100%;
   min-width: 300px;
-  overflow: auto;
+  height: 100%;
+  overflow: hidden;
 `
 
 export const InspectorTabs = styled(Tabs)`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 `
 
 export const InspectorTabList = styled(TabList)`
@@ -33,6 +35,7 @@ export const InspectorTabList = styled(TabList)`
     background: none;
     justify-content: center;
     font-size: ${props => props.theme.font.size.normal};
+    flex-shrink: 0;
   }
 `
 
