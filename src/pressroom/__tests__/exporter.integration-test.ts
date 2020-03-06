@@ -13,6 +13,7 @@
 import {
   Build,
   buildBibliographicName,
+  buildBibliographyItem,
   buildContributor,
   buildManuscript,
   buildProject,
@@ -62,7 +63,11 @@ import {
   SectionCategory,
   SectionDescription,
 } from '../../types/templates'
-import { exportProject } from '../exporter'
+import {
+  ExportBibliographyFormat,
+  ExportManuscriptFormat,
+  exportProject,
+} from '../exporter'
 import { getAttachment } from './attachments'
 // import { ProjectDump } from '../importers'
 // import { buildModelMap } from './util'
@@ -113,6 +118,23 @@ jest.mock('../pressroom', () => ({
       }
     )
   }),
+
+  convertBibliography: jest.fn(
+    async (data: CSL.Data[], format: ExportBibliographyFormat) => {
+      const { default: config } = await import('../../config')
+      const { default: axios } = await import('axios')
+
+      return axios.post<Blob>('/v1/compile/bibliography', data, {
+        baseURL: config.pressroom.url,
+        responseType: 'blob' as ResponseType,
+        headers: {
+          'Pressroom-API-Key': config.pressroom.key,
+          'Pressroom-Target-Bibliography-Format':
+            format === 'mods' ? 'xml' : format,
+        },
+      })
+    }
+  ),
 }))
 
 const user: Build<UserProfile> = {
@@ -263,27 +285,48 @@ const buildManuscriptModelMap = async (
   return modelMap
 }
 
-const formats = [
+const formats: Array<{
+  format: ExportManuscriptFormat
+  contentType: string
+}> = [
   {
-    extension: '.docx',
+    format: 'docx',
     contentType:
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   },
   {
-    extension: '.pdf',
+    format: 'pdf',
     contentType: 'application/pdf',
   },
   {
-    extension: '.md',
+    format: 'md',
     contentType: 'application/zip',
   },
   {
-    extension: '.tex',
+    format: 'tex',
     contentType: 'application/zip',
   },
   {
-    extension: '.icml',
+    format: 'icml',
     contentType: 'application/zip',
+  },
+]
+
+const bibliographyFormats: Array<{
+  format: ExportBibliographyFormat
+  contentType: string
+}> = [
+  {
+    format: 'bib',
+    contentType: 'text/plain; charset=utf-8',
+  },
+  {
+    format: 'ris',
+    contentType: 'text/plain; charset=utf-8',
+  },
+  {
+    format: 'mods',
+    contentType: 'text/plain; charset=utf-8',
   },
 ]
 
@@ -294,14 +337,14 @@ describe('exporter', () => {
 
     for (const format of formats) {
       // tslint:disable-next-line:no-console
-      console.log(`Exporting empty manuscript to ${format.extension}`)
+      console.log(`Exporting empty manuscript to ${format.format}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<ArrayBuffer> = await exportProject(
         getAttachment,
         modelMap,
         manuscript._id,
-        format.extension
+        format.format
       )
       expect(response.status).toBe(200)
       expect(response.statusText).toBe('OK')
@@ -319,14 +362,14 @@ describe('exporter', () => {
 
     for (const format of formats) {
       // tslint:disable-next-line:no-console
-      console.log(`Exporting templated manuscript to ${format.extension}`)
+      console.log(`Exporting templated manuscript to ${format.format}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<ArrayBuffer> = await exportProject(
         getAttachment,
         modelMap,
         manuscript._id,
-        format.extension
+        format.format
       )
       expect(response.status).toBe(200)
       expect(response.statusText).toBe('OK')
@@ -472,16 +515,14 @@ describe('exporter', () => {
     // export to each format
     for (const format of formats) {
       // tslint:disable-next-line:no-console
-      console.log(
-        `Exporting previously-failing manuscript to ${format.extension}`
-      )
+      console.log(`Exporting previously-failing manuscript to ${format.format}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<ArrayBuffer> = await exportProject(
         getAttachment,
         modelMap,
         manuscript._id,
-        format.extension
+        format.format
       )
       expect(response.status).toBe(200)
       expect(response.statusText).toBe('OK')
@@ -490,9 +531,7 @@ describe('exporter', () => {
       // TODO: validate the output?
 
       // tslint:disable-next-line:no-console
-      console.log(
-        `Exported previously-failing manuscript to ${format.extension}`
-      )
+      console.log(`Exported previously-failing manuscript to ${format.format}`)
     }
   })
 
@@ -597,15 +636,60 @@ describe('exporter', () => {
     // export to each format
     for (const format of formats) {
       // tslint:disable-next-line:no-console
-      console.log(`Exporting manuscript with content to ${format.extension}`)
+      console.log(`Exporting manuscript with content to ${format.format}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
       const response: AxiosResponse<ArrayBuffer> = await exportProject(
         getAttachment,
         modelMap,
         manuscript._id,
-        format.extension
+        format.format
       )
+      expect(response.status).toBe(200)
+      expect(response.statusText).toBe('OK')
+      expect(response.data).not.toBeUndefined()
+      expect(response.headers['content-type']).toBe(format.contentType)
+      // TODO: validate the output?
+    }
+  })
+
+  test('exports bibliography', async () => {
+    const modelMap = new Map<string, Model>()
+
+    const manuscript = buildManuscript()
+    modelMap.set(manuscript._id, manuscript as Manuscript)
+
+    const bibliographyItems = [
+      buildBibliographyItem({
+        title: 'Foo',
+      }),
+      buildBibliographyItem({
+        title: 'Foo',
+        ISSN: ['1234-5678'],
+      }),
+      buildBibliographyItem({
+        title: 'Foo',
+        ISSN: '1234-5678',
+        issue: 123,
+      }),
+    ]
+
+    for (const bibliographyItem of bibliographyItems) {
+      modelMap.set(bibliographyItem._id, bibliographyItem as BibliographyItem)
+    }
+
+    for (const format of bibliographyFormats) {
+      // tslint:disable-next-line:no-console
+      console.log(`Exporting bibliography to ${format.format}`)
+
+      // @ts-ignore: mocked convert function returns the response, not the blob
+      const response: AxiosResponse<ArrayBuffer> = await exportProject(
+        getAttachment,
+        modelMap,
+        manuscript._id,
+        format.format
+      )
+
       expect(response.status).toBe(200)
       expect(response.statusText).toBe('OK')
       expect(response.data).not.toBeUndefined()

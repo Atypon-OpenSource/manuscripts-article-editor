@@ -96,7 +96,7 @@ describe('Import', () => {
       getAttachment,
       modelMap,
       manuscriptID,
-      '.docx'
+      'docx'
     )
 
     const file = new File([result], 'manuscript.docx', {

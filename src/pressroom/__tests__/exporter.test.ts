@@ -59,12 +59,12 @@ describe('exporter', () => {
   })
 
   test('downloadExtension', () => {
-    const result = downloadExtension('.docx')
+    const result = downloadExtension('docx')
     expect(result).toEqual('.docx')
   })
 
   test('downloadExtension', () => {
-    const result = downloadExtension('.doc')
+    const result = downloadExtension('jats')
     expect(result).toEqual('.zip')
   })
 
@@ -120,7 +120,7 @@ describe('exporter', () => {
       getAttachment,
       modelMap,
       manuscriptID,
-      '.docx'
+      'docx'
     )
     expect(result).toBeInstanceOf(Blob)
 
@@ -167,7 +167,7 @@ describe('exporter', () => {
       getAttachment,
       modelMap,
       manuscriptID,
-      '.manuproj',
+      'manuproj',
       project
     )
     expect(result).toBeInstanceOf(Blob)
@@ -227,7 +227,7 @@ describe('exporter', () => {
       getAttachment,
       modelMap,
       manuscriptID,
-      '.docx'
+      'docx'
     )
     expect(result).toBeInstanceOf(Blob)
 

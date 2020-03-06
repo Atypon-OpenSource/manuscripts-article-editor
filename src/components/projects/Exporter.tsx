@@ -20,6 +20,7 @@ import { saveAs } from 'file-saver'
 import React from 'react'
 import {
   downloadExtension,
+  ExportFormat,
   exportProject,
   generateDownloadFilename,
 } from '../../pressroom/exporter'
@@ -33,7 +34,7 @@ export type GetAttachment = (
 ) => Promise<Blob | undefined>
 
 interface Props {
-  format: string
+  format: ExportFormat
   getAttachment: GetAttachment
   handleComplete: () => void
   manuscriptID: string
@@ -142,7 +143,7 @@ export class Exporter extends React.Component<Props, State> {
       return null
     }
 
-    if (status === 'complete' && format === '.do') {
+    if (status === 'complete' && format === 'do') {
       return (
         <SuccessModal
           status={'Export to Literatum completed successfully'}

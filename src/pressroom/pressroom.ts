@@ -13,6 +13,7 @@
 import axios, { AxiosResponse, ResponseType } from 'axios'
 import config from '../config'
 import tokenHandler from '../lib/token'
+import { ExportBibliographyFormat, ExportManuscriptFormat } from './exporter'
 
 const client = axios.create({
   baseURL: config.pressroom.url,
@@ -44,13 +45,28 @@ const validateResponse = (response: AxiosResponse) => {
   }
 }
 
+export const convertBibliography = async (
+  data: CSL.Data[],
+  format: ExportBibliographyFormat
+): Promise<Blob> => {
+  const response = await client.post<Blob>('/v1/compile/bibliography', data, {
+    responseType: 'blob' as ResponseType,
+    headers: {
+      'Pressroom-Target-Bibliography-Format':
+        format === 'mods' ? 'xml' : format,
+    },
+  })
+
+  validateResponse(response)
+
+  return response.data
+}
+
 export const convert = async (
   data: FormData,
-  extension: string,
+  format: ExportManuscriptFormat,
   headers: { [key: string]: string } = {}
 ): Promise<Blob> => {
-  const format = extension.replace(/^\./, '')
-
   // TODO: remove this once the endpoints have been merged
   const url =
     format === 'do' ? '/v1/compile/document/jats' : '/v1/compile/document'

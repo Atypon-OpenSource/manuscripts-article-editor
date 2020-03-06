@@ -83,7 +83,7 @@ describe('importer', () => {
       getAttachment,
       modelMap,
       manuscript._id,
-      '.manuproj'
+      'manuproj'
     )
 
     await removeUnsupportedData(zip)
@@ -97,10 +97,7 @@ describe('importer', () => {
     console.log('Importing empty manuscript') // tslint:disable-line:no-console
 
     // @ts-ignore: mocked convert function returns the response, not the blob
-    const response: AxiosResponse<ArrayBuffer> = await convert(
-      form,
-      '.manuproj'
-    )
+    const response: AxiosResponse<ArrayBuffer> = await convert(form, 'manuproj')
     expect(response.status).toBe(200)
     expect(response.statusText).toBe('OK')
     expect(response.data).not.toBeUndefined()

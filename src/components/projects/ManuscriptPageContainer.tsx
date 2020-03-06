@@ -132,6 +132,7 @@ import {
   buildUserProject,
   RecentProject,
 } from '../../lib/user-project'
+import { ExportFormat } from '../../pressroom/exporter'
 import { importBundledData } from '../../pressroom/importers'
 import { Collection, ContainerIDs } from '../../sync/Collection'
 import CollectionManager from '../../sync/CollectionManager'
@@ -998,7 +999,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     ))
   }
 
-  private openExporter = (format: string, closeOnSuccess: boolean = true) => {
+  private openExporter = (
+    format: ExportFormat,
+    closeOnSuccess: boolean = true
+  ) => {
     const { addModal, match, project } = this.props
 
     addModal('exporter', ({ handleClose }) => (

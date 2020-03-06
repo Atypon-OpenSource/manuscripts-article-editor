@@ -16,6 +16,7 @@ import { parse as parseTitle } from '@manuscripts/title-editor'
 import { History } from 'history'
 import React from 'react'
 import config from '../config'
+import { ExportFormat } from '../pressroom/exporter'
 import { RecentProject } from './user-project'
 
 interface Props {
@@ -27,7 +28,7 @@ interface Props {
   deleteManuscript: (id: string) => Promise<void>
   deleteModel: (id: string) => Promise<string>
   history: History
-  openExporter: (format: string, closeOnSuccess?: boolean) => void
+  openExporter: (format: ExportFormat, closeOnSuccess?: boolean) => void
   openImporter: () => void
   openRenameProject: (project: Project) => void
 }
@@ -66,42 +67,42 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     {
       id: 'export-pdf',
       label: () => 'PDF',
-      run: () => props.openExporter('.pdf'),
+      run: () => props.openExporter('pdf'),
     },
     {
       id: 'export-docx',
       label: () => 'Microsoft Word',
-      run: () => props.openExporter('.docx'),
+      run: () => props.openExporter('docx'),
     },
     {
       id: 'export-md',
       label: () => 'Markdown',
-      run: () => props.openExporter('.md'),
+      run: () => props.openExporter('md'),
     },
     {
       id: 'export-tex',
       label: () => 'LaTeX',
-      run: () => props.openExporter('.tex'),
+      run: () => props.openExporter('tex'),
     },
     {
       id: 'export-html',
       label: () => 'HTML',
-      run: () => props.openExporter('.html'),
+      run: () => props.openExporter('html'),
     },
     {
       id: 'export-jats',
       label: () => 'JATS',
-      run: () => props.openExporter('.jats'),
+      run: () => props.openExporter('jats'),
     },
     {
       id: 'export-icml',
       label: () => 'ICML',
-      run: () => props.openExporter('.icml'),
+      run: () => props.openExporter('icml'),
     },
     {
       id: 'export-manuproj',
       label: () => 'Manuscripts Archive',
-      run: () => props.openExporter('.manuproj'),
+      run: () => props.openExporter('manuproj'),
     },
   ]
 
@@ -109,7 +110,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     exportMenu.push({
       id: 'export-ado',
       label: () => 'Literatum Digital Object',
-      run: () => props.openExporter('.do', false),
+      run: () => props.openExporter('do', false),
     })
   }
 
@@ -117,9 +118,27 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     exportMenu.push({
       id: 'export-sts',
       label: () => 'STS',
-      run: () => props.openExporter('.sts'),
+      run: () => props.openExporter('sts'),
     })
   }
+
+  const exportReferencesMenu: MenuItem[] = [
+    {
+      id: 'export-bib',
+      label: () => 'BibTeX',
+      run: () => props.openExporter('bib'),
+    },
+    {
+      id: 'export-ris',
+      label: () => 'RIS',
+      run: () => props.openExporter('ris'),
+    },
+    {
+      id: 'export-mods',
+      label: () => 'MODS',
+      run: () => props.openExporter('mods'),
+    },
+  ]
 
   return {
     id: 'project',
@@ -172,13 +191,21 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       },
       {
         id: 'import',
-        label: () => 'Import…',
+        label: () => 'Import Manuscript…',
         run: props.openImporter,
       },
       {
         id: 'export',
-        label: () => 'Export as…',
+        label: () => 'Export Manuscript as…',
         submenu: exportMenu,
+      },
+      {
+        role: 'separator',
+      },
+      {
+        id: 'export-bibliography',
+        label: () => 'Export Bibliography as…',
+        submenu: exportReferencesMenu,
       },
       {
         role: 'separator',

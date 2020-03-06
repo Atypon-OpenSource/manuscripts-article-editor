@@ -10,12 +10,16 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { convertToMathML } from '@manuscripts/manuscript-editor'
+import {
+  convertBibliographyItemToData,
+  convertToMathML,
+} from '@manuscripts/manuscript-editor'
 import {
   Attachments,
   Decoder,
   generateAttachmentFilename,
   getModelData,
+  getModelsByType,
   hasObjectType,
   HTMLTransformer,
   isFigure,
@@ -26,6 +30,7 @@ import {
   STSExporter,
 } from '@manuscripts/manuscript-transform'
 import {
+  BibliographyItem,
   Bundle,
   Equation,
   Figure,
@@ -37,8 +42,9 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { GetAttachment } from '../components/projects/Exporter'
+import { fixCSLData } from '../lib/csl'
 import { JsonModel, ProjectDump } from './importers'
-import { convert } from './pressroom'
+import { convert, convertBibliography } from './pressroom'
 
 // tslint:disable-next-line:no-any
 export const removeEmptyStyles = (model: { [key: string]: any }) => {
@@ -209,11 +215,11 @@ export const buildProjectBundle = async (
   getAttachment: GetAttachment,
   modelMap: Map<string, Model>,
   manuscriptID: string,
-  format: string
+  format: ExportFormat
 ): Promise<JSZip> => {
   const attachments = await buildAttachments(getAttachment, modelMap)
 
-  if (format === '.docx') {
+  if (format === 'docx') {
     await augmentEquations(modelMap)
   }
 
@@ -228,8 +234,9 @@ export const buildProjectBundle = async (
 
     if (attachment) {
       switch (format) {
-        case '.html':
-        case '.xml': {
+        case 'html':
+        case 'jats':
+        case 'sts': {
           // add file extension for JATS/HTML export
           const filename = generateAttachmentFilename(
             model._id,
@@ -260,12 +267,33 @@ export const generateDownloadFilename = (title: string) =>
     .replace(/_+$/, '') // remove any trailing underscores
     .substr(0, 200)
 
-export const downloadExtension = (format: string): string => {
+export type ExportManuscriptFormat =
+  | 'docx'
+  | 'pdf'
+  | 'tex'
+  | 'html'
+  | 'icml'
+  | 'md'
+  | 'do'
+  | 'jats'
+  | 'sts'
+  | 'manuproj'
+
+export type ExportBibliographyFormat = 'bib' | 'ris' | 'mods'
+
+export type ExportFormat = ExportManuscriptFormat | ExportBibliographyFormat
+
+export const downloadExtension = (format: ExportFormat): string => {
   switch (format) {
-    case '.docx':
-    case '.pdf':
-    case '.manuproj':
-      return format
+    case 'docx':
+    case 'pdf':
+    case 'manuproj':
+    case 'bib':
+    case 'ris':
+      return `.${format}`
+
+    case 'mods':
+      return '.xml'
 
     default:
       return '.zip'
@@ -317,12 +345,23 @@ const addContainersFile = async (zip: JSZip, project: Project) => {
   zip.file<'string'>('containers.json', JSON.stringify([container]))
 }
 
+const prepareBibliography = (modelMap: Map<string, Model>): CSL.Data[] => {
+  const models = getModelsByType<BibliographyItem>(
+    modelMap,
+    ObjectTypes.BibliographyItem
+  )
+
+  return models
+    .map(convertBibliographyItemToData)
+    .map(item => fixCSLData(item as CSL.Data))
+}
+
 // tslint:disable:cyclomatic-complexity
 export const exportProject = async (
   getAttachment: GetAttachment,
   modelMap: Map<string, Model>,
   manuscriptID: string,
-  format: string,
+  format: ExportFormat,
   project?: Project
 ): Promise<Blob> => {
   // if (project) {
@@ -337,28 +376,58 @@ export const exportProject = async (
   )
 
   switch (format) {
-    case '.jats':
+    case 'jats':
       return convertToJATS(zip, modelMap)
 
-    case '.sts':
+    case 'sts':
       return convertToSTS(zip, modelMap)
 
-    case '.html':
+    case 'html':
       return convertToHTML(zip, modelMap)
 
-    case '.manuproj':
+    case 'manuproj':
       if (project) {
         await addContainersFile(zip, project)
       }
 
       return zip.generateAsync({ type: 'blob' })
 
-    default:
+    case 'bib':
+    case 'mods':
+    case 'ris': {
+      const data = prepareBibliography(modelMap)
+
+      return convertBibliography(data, format)
+    }
+
+    case 'do': {
+      const { DOI } = modelMap.get(manuscriptID) as Manuscript
+
+      if (!DOI) {
+        window.alert('A DOI is required for Literatum export')
+        throw new Error('A DOI is required for Literatum export')
+      }
+
+      const [, identifier] = DOI.split('/')
+
+      const file = await zip.generateAsync({ type: 'blob' })
+
+      const form = new FormData()
+      form.append('file', file, 'export.manuproj')
+
+      return convert(form, format, {
+        'Pressroom-Target-Jats-Output-Format': 'literatum-do',
+        'Pressroom-Jats-Document-Processing-Level': 'full_text',
+        'Pressroom-Digital-Object-Type': 'magazine',
+        'Pressroom-Jats-Submission-Doi': DOI,
+        'Pressroom-Jats-Submission-Identifier': identifier,
+      })
+    }
+
+    default: {
       // remove this once it's no longer needed:
       // https://gitlab.com/mpapp-private/manuscripts-frontend/issues/671
-      if (format !== '.do') {
-        await removeUnsupportedData(zip)
-      }
+      await removeUnsupportedData(zip)
 
       const file = await zip.generateAsync({ type: 'blob' })
 
@@ -369,25 +438,7 @@ export const exportProject = async (
       const form = new FormData()
       form.append('file', file, 'export.manuproj')
 
-      if (format === '.do') {
-        const { DOI } = modelMap.get(manuscriptID) as Manuscript
-
-        if (!DOI) {
-          window.alert('A DOI is required for Literatum export')
-          throw new Error('A DOI is required for Literatum export')
-        }
-
-        const [, identifier] = DOI.split('/')
-
-        return convert(form, format, {
-          'Pressroom-Target-Jats-Output-Format': 'literatum-do',
-          'Pressroom-Jats-Document-Processing-Level': 'full_text',
-          'Pressroom-Digital-Object-Type': 'magazine',
-          'Pressroom-Jats-Submission-Doi': DOI,
-          'Pressroom-Jats-Submission-Identifier': identifier,
-        })
-      }
-
       return convert(form, format)
+    }
   }
 }

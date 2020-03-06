@@ -134,7 +134,7 @@ const convertFile = async (file: File): Promise<Blob> => {
   const form = new FormData()
   form.append('file', file)
 
-  return convert(form, '.manuproj')
+  return convert(form, 'manuproj')
 }
 
 const parseXMLFile = async (file: File): Promise<Document> => {
