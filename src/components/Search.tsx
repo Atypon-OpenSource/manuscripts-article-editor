@@ -37,6 +37,7 @@ const SearchIconContainer = styled.span<{ active?: boolean }>`
 `
 
 const SearchText = styled(TextField)`
+  -webkit-appearance: textfield;
   padding-left: ${props => props.theme.grid.unit * 11}px;
   &:hover,
   &:focus {
