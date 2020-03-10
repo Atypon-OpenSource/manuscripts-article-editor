@@ -1812,10 +1812,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.27.1":
-  version "0.27.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.27.1.tgz#6d8a9bd29b1f877c864d90abd9aec404d6b4d654"
-  integrity sha512-m6grU+MzeKFcj0D//83yTG1kY6fn3QFlT2pp6j/rJBWr46PrB6rsg5+DVEUNu+F4+7dpcfBCJ6Cmu/4mpFEOHw==
+"@manuscripts/manuscript-transform@^0.27.2":
+  version "0.27.2"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.27.2.tgz#554bb34e4e10af4a8965ccfbc6e293ca9f23de1b"
+  integrity sha512-9IRfEPK9a0KpsTNR3qWiy+MeT7ntd1hoCvth/Y0x3yknYo/y5GuOlqtagzb9hUj6hr8cAL2Vw3E92XhjuFZrUw==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"

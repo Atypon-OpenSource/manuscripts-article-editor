@@ -102,10 +102,8 @@ jest.mock('../pressroom', () => ({
     const formData = new NodeFormData()
     formData.append('file', buffer, file.name)
 
-    return axios.post<ArrayBuffer>(
-      '/v1/compile/document',
-      formData.getBuffer(),
-      {
+    return axios
+      .post<ArrayBuffer>('/v1/compile/document', formData.getBuffer(), {
         baseURL: config.pressroom.url,
         // responseType: 'stream' as ResponseType,
         responseType: 'arraybuffer' as ResponseType,
@@ -115,8 +113,14 @@ jest.mock('../pressroom', () => ({
           'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
           ...formData.getHeaders(),
         },
-      }
-    )
+      })
+      .catch(error => {
+        if (error.response) {
+          console.error(error.response.statusText) // tslint:disable-line:no-console
+          console.error(error.response.data.toString()) // tslint:disable-line:no-console
+          throw error
+        }
+      })
   }),
 
   convertBibliography: jest.fn(

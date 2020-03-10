@@ -12,7 +12,7 @@
 
 import { buildKeywordsContents } from '@manuscripts/manuscript-editor'
 import {
-  buildKeyword,
+  buildManuscriptKeyword,
   ManuscriptEditorView,
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
@@ -82,7 +82,7 @@ export const KeywordsInput: React.FC<{
         return option as ManuscriptKeyword
       }}
       onCreateOption={async inputValue => {
-        const keyword = buildKeyword(inputValue)
+        const keyword = buildManuscriptKeyword(inputValue)
 
         await saveModel<ManuscriptKeyword>(keyword)
 
