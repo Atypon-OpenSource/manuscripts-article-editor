@@ -17,6 +17,7 @@ import { History } from 'history'
 import React from 'react'
 import config from '../config'
 import { ExportFormat } from '../pressroom/exporter'
+import { hasCitations } from './library'
 import { RecentProject } from './user-project'
 
 interface Props {
@@ -206,6 +207,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
         id: 'export-bibliography',
         label: () => 'Export Bibliography as…',
         submenu: exportReferencesMenu,
+        enable: hasCitations,
       },
       {
         role: 'separator',

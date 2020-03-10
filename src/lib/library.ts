@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import fuzzysort from 'fuzzysort'
 
@@ -197,4 +198,16 @@ export const fullLibraryItemMetadata = (item: Partial<BibliographyItem>) => {
   return [fullAuthorsString(item), item['container-title'], issuedYear(item)]
     .filter(Boolean)
     .join(', ')
+}
+
+export const hasCitations = (state: ManuscriptEditorState) => {
+  let result = false
+
+  state.doc.descendants(node => {
+    if (node.type === node.type.schema.nodes.citation) {
+      result = true
+    }
+  })
+
+  return result
 }

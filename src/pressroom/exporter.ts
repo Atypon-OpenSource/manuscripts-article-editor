@@ -32,6 +32,7 @@ import {
 import {
   BibliographyItem,
   Bundle,
+  Citation,
   Equation,
   Figure,
   InlineMathFragment,
@@ -346,12 +347,23 @@ const addContainersFile = async (zip: JSZip, project: Project) => {
 }
 
 const prepareBibliography = (modelMap: Map<string, Model>): CSL.Data[] => {
-  const models = getModelsByType<BibliographyItem>(
-    modelMap,
-    ObjectTypes.BibliographyItem
-  )
+  const citations = getModelsByType<Citation>(modelMap, ObjectTypes.Citation)
 
-  return models
+  const items: BibliographyItem[] = []
+
+  for (const citation of citations) {
+    for (const citationItem of citation.embeddedCitationItems) {
+      if (citationItem.bibliographyItem) {
+        const item = modelMap.get(citationItem.bibliographyItem)
+
+        if (item) {
+          items.push(item as BibliographyItem)
+        }
+      }
+    }
+  }
+
+  return items
     .map(convertBibliographyItemToData)
     .map(item => fixCSLData(item as CSL.Data))
 }
