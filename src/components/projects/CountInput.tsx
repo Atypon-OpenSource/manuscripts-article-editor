@@ -79,4 +79,8 @@ const Field = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: ${props => props.theme.grid.unit * 2}px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `

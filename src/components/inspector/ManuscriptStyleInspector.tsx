@@ -42,6 +42,10 @@ export const InspectorField = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: ${props => props.theme.grid.unit * 4}px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `
 
 export const InspectorLabel = styled.div`

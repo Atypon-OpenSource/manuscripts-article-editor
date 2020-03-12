@@ -50,7 +50,9 @@ export const Field = styled.div`
 `
 
 const Content = styled.div`
-  padding: ${props => props.theme.grid.unit * 2}px;
+  margin: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 8}px;
 `
 
 interface Props {
