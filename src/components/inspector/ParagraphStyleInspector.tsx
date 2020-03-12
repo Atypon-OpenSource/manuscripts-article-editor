@@ -15,21 +15,46 @@ import {
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
 import {
+  BibliographyElement,
+  KeywordsElement,
   ListElement,
   Model,
+  ObjectTypes,
   PageLayout,
   ParagraphElement,
   ParagraphStyle,
+  QuoteElement,
+  TOCElement,
 } from '@manuscripts/manuscripts-json-schema'
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
 import { buildColors } from '../../lib/colors'
 import { findBodyTextParagraphStyles } from '../../lib/styles'
 import { fromPrototype } from '../../lib/templates'
-import { ElementStyleInspectorProps } from './ElementStyleInspector'
+import { AnyElement, ElementStyleInspectorProps } from './ElementStyleInspector'
 import { ParagraphStyles } from './ParagraphStyles'
 
-export type ElementWithParagraphStyle = ParagraphElement | ListElement
+export type ElementWithParagraphStyle =
+  | ParagraphElement
+  | ListElement
+  | KeywordsElement
+  | BibliographyElement
+  | TOCElement
+  | QuoteElement
+
+const objectsWithParagraphStyle: ObjectTypes[] = [
+  ObjectTypes.BibliographyElement,
+  ObjectTypes.ParagraphElement,
+  ObjectTypes.KeywordsElement,
+  ObjectTypes.ListElement,
+  ObjectTypes.TableElement,
+  ObjectTypes.TOCElement,
+]
+
+export const hasParagraphStyle = (
+  element: AnyElement
+): element is ElementWithParagraphStyle =>
+  objectsWithParagraphStyle.includes(element.objectType as ObjectTypes)
 
 export const ParagraphStyleInspector: React.FC<
   ElementStyleInspectorProps & {

@@ -1769,10 +1769,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.6.tgz#0fad862ca3ecfaf513428474fe07aa45bae7fd19"
   integrity sha512-XlOsQozWXXz61BPwiNGIMR3SrMi811c1oxpIP+CmsY9LZjf6JyXTnlCR4FOvcHjQcmWe9Ktb77mWZDR0uXuHpg==
 
-"@manuscripts/manuscript-editor@^0.67.1":
-  version "0.67.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.67.1.tgz#f3a4fe20c1933ce15fb0b5481ba63184c4c6dec5"
-  integrity sha512-L1sWM6PX237jiZGFsshzyQWJYHB8f4o6zk6MeHrrAaCTgwZh/v7hDjuVqpj5FZinNR+xoQkGz7mpWKt2ISMykQ==
+"@manuscripts/manuscript-editor@^0.68.0":
+  version "0.68.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.68.0.tgz#4e7c0bab55ad1adbe0755b56ab8e3dd2a85e32d8"
+  integrity sha512-QL8s9hWWkLE0EMhR8jWdLYE7Tgmf31EbXVW5PwV9AuxQYtg7Aw2TP7D9sI8Xa3tr6Nm68CP9oNroq0xpa48Q6Q==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1812,10 +1812,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.27.2":
-  version "0.27.2"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.27.2.tgz#554bb34e4e10af4a8965ccfbc6e293ca9f23de1b"
-  integrity sha512-9IRfEPK9a0KpsTNR3qWiy+MeT7ntd1hoCvth/Y0x3yknYo/y5GuOlqtagzb9hUj6hr8cAL2Vw3E92XhjuFZrUw==
+"@manuscripts/manuscript-transform@^0.28.0":
+  version "0.28.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.28.0.tgz#e2349da2b1b8cc7a8f9e0a2a299c90c7fda20ab0"
+  integrity sha512-AlqispMlMv82HWkn7aKNS92QcuxhtUNOvfs0hD00tFmNB7RqGQS6wZrGXRnM39lpWsol1s+48PuduxtIyXWnow==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"

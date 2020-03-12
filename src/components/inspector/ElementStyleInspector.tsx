@@ -15,18 +15,25 @@ import {
   ManuscriptEditorView,
 } from '@manuscripts/manuscript-transform'
 import {
+  BibliographyElement,
   FigureElement,
+  KeywordsElement,
   ListElement,
   Manuscript,
   Model,
   ObjectTypes,
   ParagraphElement,
+  QuoteElement,
   TableElement,
+  TOCElement,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { FigureLayoutInspector } from './FigureLayoutInspector'
 import { FigureStyleInspector } from './FigureStyleInspector'
-import { ParagraphStyleInspector } from './ParagraphStyleInspector'
+import {
+  hasParagraphStyle,
+  ParagraphStyleInspector,
+} from './ParagraphStyleInspector'
 import { TableStyleInspector } from './TableStyleInspector'
 
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
@@ -36,6 +43,10 @@ export type AnyElement =
   | ListElement
   | TableElement
   | FigureElement
+  | BibliographyElement
+  | KeywordsElement
+  | TOCElement
+  | QuoteElement
 
 export interface ElementStyleInspectorProps {
   element: AnyElement
@@ -47,24 +58,12 @@ export interface ElementStyleInspectorProps {
 }
 
 const isFigureElement = hasObjectType<FigureElement>(ObjectTypes.FigureElement)
-const isListElement = hasObjectType<ListElement>(ObjectTypes.ListElement)
-const isParagraphElement = hasObjectType<ParagraphElement>(
-  ObjectTypes.ParagraphElement
-)
 const isTableElement = hasObjectType<TableElement>(ObjectTypes.TableElement)
 
 export const ElementStyleInspector: React.FC<
   ElementStyleInspectorProps
 > = props => {
   const { element } = props
-
-  if (isParagraphElement(element)) {
-    return <ParagraphStyleInspector {...props} element={element} />
-  }
-
-  if (isListElement(element)) {
-    return <ParagraphStyleInspector {...props} element={element} />
-  }
 
   if (isFigureElement(element)) {
     return (
@@ -75,9 +74,15 @@ export const ElementStyleInspector: React.FC<
     )
   }
 
-  if (isTableElement(element)) {
-    return <TableStyleInspector {...props} element={element} />
-  }
+  return (
+    <>
+      {hasParagraphStyle(element) && (
+        <ParagraphStyleInspector {...props} element={element} />
+      )}
 
-  return null
+      {isTableElement(element) && (
+        <TableStyleInspector {...props} element={element} />
+      )}
+    </>
+  )
 }
