@@ -83,6 +83,7 @@ export const convert = async (
 
     if (!file.name.endsWith('.manuproj')) {
       headers['Pressroom-Enrich-Document-Metadata'] = '1'
+      headers['Pressroom-Continue-On-Errors'] = '1'
     }
   }
 
