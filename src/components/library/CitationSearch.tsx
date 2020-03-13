@@ -262,7 +262,7 @@ export const CitationSearch: React.FC<{
         </ButtonGroup>
 
         <ButtonGroup>
-          <SecondaryButton onClick={handleCancel}>Cancel</SecondaryButton>
+          <SecondaryButton onClick={handleCancel}>Close</SecondaryButton>
 
           <PrimaryButton
             onClick={handleCiteClick}

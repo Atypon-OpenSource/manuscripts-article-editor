@@ -48,6 +48,7 @@ storiesOf('Citation', module)
       filterLibraryItems={async () => []}
       handleCancel={action('handle cancel')}
       handleCite={action('handle cite')}
+      handleClose={action('handle close')}
       handleRemove={action('handle remove')}
       items={items}
       projectID={'MPProject:1'}

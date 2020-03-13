@@ -1,7 +1,7 @@
 {
   "name": "@manuscripts/frontend",
   "version": "1.0.13",
-  "private": "true",
+  "private": true,
   "repository": "gitlab:mpapp-public/manuscripts-frontend",
   "license": "CPAL-1.0",
   "main": "dist",
@@ -45,7 +45,7 @@
     "@manuscripts/assets": "^0.6.1",
     "@manuscripts/comment-editor": "^0.2.0",
     "@manuscripts/data": "^0.0.7",
-    "@manuscripts/manuscript-editor": "^0.68.0",
+    "@manuscripts/manuscript-editor": "^0.68.1",
     "@manuscripts/manuscript-transform": "^0.28.0",
     "@manuscripts/manuscripts-json-schema": "^1.29.0",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts0",

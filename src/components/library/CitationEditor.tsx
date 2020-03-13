@@ -19,6 +19,7 @@ import {
   ButtonGroup,
   IconButton,
   PrimaryButton,
+  SecondaryButton,
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
@@ -64,6 +65,7 @@ const CitedItems = styled.div`
   padding: 0 ${props => props.theme.grid.unit * 4}px;
   font-family: ${props => props.theme.font.family.sans};
   max-height: 70vh;
+  min-height: 100px;
   overflow-y: auto;
 `
 
@@ -95,6 +97,7 @@ interface Props {
   importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
   handleCancel: () => void
   handleCite: (items: BibliographyItem[], query?: string) => Promise<void>
+  handleClose: () => void
   handleRemove: (id: string) => void
   items: BibliographyItem[]
   projectID: string
@@ -119,6 +122,7 @@ class CitationEditor extends React.Component<Props, State> {
     const {
       items,
       handleCite,
+      handleClose,
       selectedText,
       importItems,
       filterLibraryItems,
@@ -159,7 +163,13 @@ class CitationEditor extends React.Component<Props, State> {
       <div>
         <CitedItems>
           {items.map(item => (
-            <CitedItem key={item._id}>
+            <CitedItem
+              key={item._id}
+              style={{
+                color:
+                  item.title === '[missing library item]' ? 'red' : 'inherit',
+              }}
+            >
               <CitedItemTitle value={item.title || 'Untitled'} />
 
               <CitedItemActionLine>
@@ -194,6 +204,7 @@ class CitationEditor extends React.Component<Props, State> {
 
         <Actions>
           <ButtonGroup>
+            <SecondaryButton onClick={handleClose}>Done</SecondaryButton>
             <PrimaryButton onClick={() => this.setState({ searching: true })}>
               Add Citation
             </PrimaryButton>
