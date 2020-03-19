@@ -40,3 +40,14 @@ export class FileExtensionError extends CustomError {
     this.acceptedExtensions = acceptedExtensions
   }
 }
+
+export class FileImportError extends CustomError {
+  public file: File
+
+  constructor(message: string, file: File) {
+    super('')
+    Object.setPrototypeOf(this, new.target.prototype)
+    this.message = message
+    this.file = file
+  }
+}

@@ -89,7 +89,7 @@ export const BibliographyImportButton: React.FC<{
     setImporting(true)
 
     openFilePicker(['.bib', '.ris'])
-      .then(async file => {
+      .then(async ([file]) => {
         if (!file) {
           return
         }

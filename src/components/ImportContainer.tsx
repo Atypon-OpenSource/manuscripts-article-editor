@@ -117,7 +117,7 @@ class ImportContainer extends React.Component<Props & ModalProps, State> {
   private handleClick = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
 
-    const file = await openFilePicker()
+    const [file] = await openFilePicker()
 
     if (file) {
       this.props.addModal('importer', ({ handleClose }) => (

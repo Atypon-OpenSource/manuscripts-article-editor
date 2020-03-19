@@ -238,12 +238,14 @@ export const acceptedMimeTypes = () => {
 }
 
 export const openFilePicker = (
-  acceptedExtensions: string[] = acceptedFileExtensions()
-): Promise<File> =>
+  acceptedExtensions: string[] = acceptedFileExtensions(),
+  multiple = false
+): Promise<File[]> =>
   new Promise((resolve, reject) => {
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = acceptedExtensions.join(',')
+    input.multiple = multiple
 
     const handleFocus = () => {
       window.removeEventListener('focus', handleFocus)
@@ -263,16 +265,17 @@ export const openFilePicker = (
 
     input.addEventListener('change', () => {
       if (input.files && input.files.length) {
-        const [file] = input.files
+        for (const file of input.files) {
+          const extension = extname(file.name).toLowerCase()
 
-        const extension = extname(file.name).toLowerCase()
-
-        if (acceptedExtensions.includes(extension)) {
-          resolve(file)
-        } else {
-          const error = new FileExtensionError(extension, acceptedExtensions)
-          reject(error)
+          if (!acceptedExtensions.includes(extension)) {
+            const error = new FileExtensionError(extension, acceptedExtensions)
+            reject(error)
+            return
+          }
         }
+
+        resolve(Array.from(input.files))
       } else {
         resolve()
       }

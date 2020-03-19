@@ -64,7 +64,7 @@ describe('Import', () => {
         return element
       })
 
-    const file = await openFilePicker()
+    const [file] = await openFilePicker()
 
     expect(file.name).toBe('example.docx')
   })

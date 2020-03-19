@@ -1029,7 +1029,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     ))
   }
 
-  private importManuscript = async (models: Model[]) => {
+  private importManuscript = async (models: Model[], redirect = true) => {
     const { projectID } = this.props.match.params
 
     const manuscript = models.find(isManuscript)
@@ -1089,9 +1089,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       console.log(error) // tslint:disable-line:no-console
     }
 
-    this.props.history.push(
-      `/projects/${projectID}/manuscripts/${manuscript._id}`
-    )
+    if (redirect) {
+      this.props.history.push(
+        `/projects/${projectID}/manuscripts/${manuscript._id}`
+      )
+    }
   }
 
   private getAttachmentAsBlob = async (

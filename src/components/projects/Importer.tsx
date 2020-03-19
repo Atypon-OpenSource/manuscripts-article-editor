@@ -13,14 +13,25 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
-import { BulkCreateError, FileExtensionError } from '../../lib/errors'
-import { importFile, openFilePicker } from '../../pressroom/importers'
+import {
+  BulkCreateError,
+  FileExtensionError,
+  FileImportError,
+} from '../../lib/errors'
+import {
+  acceptedFileExtensions,
+  importFile,
+  openFilePicker,
+} from '../../pressroom/importers'
 import { ContactSupportButton } from '../ContactSupportButton'
 import { ProgressModal } from './ProgressModal'
 
+const progressText = (index: number, total: number): string =>
+  total === 1 ? '' : ` ${index + 1} of ${total}`
+
 interface Props {
-  importManuscript: (models: Model[]) => Promise<void>
-  handleComplete: () => void
+  importManuscript: (models: Model[], redirect?: boolean) => Promise<void>
+  handleComplete: (file?: File) => void
   file?: File
 }
 
@@ -43,18 +54,28 @@ export class Importer extends React.Component<Props, State> {
         canCancel: true,
       })
 
-      const data = this.props.file ? this.props.file : await openFilePicker()
+      const data: File[] = this.props.file
+        ? [this.props.file]
+        : await openFilePicker(acceptedFileExtensions(), true)
 
-      if (!data) {
+      if (!data.length) {
         this.props.handleComplete()
         return
       }
 
-      this.setState({
-        status: 'Converting manuscript…',
-      })
+      const fileModels = []
 
-      const models = await importFile(data)
+      for (const [index, file] of data.entries()) {
+        this.setState({
+          status: `Converting manuscript${progressText(index, data.length)}…`,
+        })
+
+        try {
+          fileModels.push(await importFile(file))
+        } catch (error) {
+          throw new FileImportError(error.message, file)
+        }
+      }
 
       if (this.state.cancelled) {
         return
@@ -62,10 +83,16 @@ export class Importer extends React.Component<Props, State> {
 
       this.setState({
         canCancel: false,
-        status: 'Importing manuscript…',
       })
 
-      await this.props.importManuscript(models)
+      for (const [index, models] of fileModels.entries()) {
+        this.setState({
+          status: `Saving manuscript${progressText(index, data.length)}…`,
+        })
+
+        const isLastItem = index === fileModels.length - 1
+        await this.props.importManuscript(models, isLastItem)
+      }
 
       this.setState({
         status: undefined,
@@ -160,6 +187,16 @@ const buildImportErrorMessage = (error: Error) => {
             <li key={extension}>{extension}</li>
           ))}
         </ul>
+      </div>
+    )
+  }
+
+  if (error instanceof FileImportError) {
+    return (
+      <div>
+        <p>There was an error importing {error.file.name}</p>
+
+        <div>{error.message}</div>
       </div>
     )
   }
