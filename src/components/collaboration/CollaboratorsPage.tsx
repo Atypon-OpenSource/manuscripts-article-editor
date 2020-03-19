@@ -93,9 +93,7 @@ interface CollaboratorDetailsPageProps {
   handleAddCollaborator: () => void
 }
 
-export const CollaboratorDetailsPage: React.FunctionComponent<
-  CollaboratorDetailsPageProps
-> = ({
+export const CollaboratorDetailsPage: React.FunctionComponent<CollaboratorDetailsPageProps> = ({
   project,
   user,
   collaboratorsCount,
@@ -159,9 +157,9 @@ interface AddAuthorsPageProps {
   addedAuthorsCount: number
 }
 
-export const AddCollaboratorsPage: React.FunctionComponent<
-  AddCollaboratorsPageProps
-> = ({ addedCollaboratorsCount }) => (
+export const AddCollaboratorsPage: React.FunctionComponent<AddCollaboratorsPageProps> = ({
+  addedCollaboratorsCount,
+}) => (
   <OuterContainer>
     <InnerContainer>
       <Placeholder>
@@ -282,9 +280,9 @@ interface SearchCollaboratorsPageProps {
   searchText: string
 }
 
-export const SearchCollaboratorsPage: React.FunctionComponent<
-  SearchCollaboratorsPageProps
-> = ({ searchText }) => (
+export const SearchCollaboratorsPage: React.FunctionComponent<SearchCollaboratorsPageProps> = ({
+  searchText,
+}) => (
   <OuterContainer>
     <InnerContainer>
       <Placeholder>

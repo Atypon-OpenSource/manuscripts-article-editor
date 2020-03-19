@@ -31,21 +31,19 @@ const LibraryFormContainer = styled.div`
   overflow-y: auto;
 `
 
-export const ProjectLibrary: React.FC<
-  RouteComponentProps<{
-    projectID: string
-    filterID?: string
-  }> & {
-    debouncedQuery?: string
-    projectLibraryCollections: Map<string, LibraryCollection>
-    projectLibraryCollectionsCollection: Collection<LibraryCollection>
-    projectLibrary: Map<string, BibliographyItem>
-    projectLibraryCollection: Collection<BibliographyItem>
-    query?: string
-    setQuery: (query: string) => void
-    user: UserProfile
-  }
-> = React.memo(
+export const ProjectLibrary: React.FC<RouteComponentProps<{
+  projectID: string
+  filterID?: string
+}> & {
+  debouncedQuery?: string
+  projectLibraryCollections: Map<string, LibraryCollection>
+  projectLibraryCollectionsCollection: Collection<LibraryCollection>
+  projectLibrary: Map<string, BibliographyItem>
+  projectLibraryCollection: Collection<BibliographyItem>
+  query?: string
+  setQuery: (query: string) => void
+  user: UserProfile
+}> = React.memo(
   ({
     location,
     match: {

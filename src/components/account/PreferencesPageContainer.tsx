@@ -20,9 +20,9 @@ import { PreferencesMessage } from '../Messages'
 import { ModalForm } from '../ModalForm'
 import { PreferencesForm, PreferencesValues } from './PreferencesForm'
 
-export const PreferencesPageContainer: React.FunctionComponent<
-  RouteComponentProps
-> = ({ history }) => (
+export const PreferencesPageContainer: React.FunctionComponent<RouteComponentProps> = ({
+  history,
+}) => (
   <IntlContext.Consumer>
     {intl => (
       <ModalForm

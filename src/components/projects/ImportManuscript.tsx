@@ -58,9 +58,9 @@ export const importManuscript = (
     throw new Error('No manuscript found')
   }
 
-  manuscript.priority = await nextManuscriptPriority(collection as Collection<
-    Manuscript
-  >)
+  manuscript.priority = await nextManuscriptPriority(
+    collection as Collection<Manuscript>
+  )
 
   // TODO: save dependencies first, then the manuscript
   // TODO: handle multiple manuscripts in a project bundle

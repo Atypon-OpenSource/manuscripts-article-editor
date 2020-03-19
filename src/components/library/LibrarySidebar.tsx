@@ -89,19 +89,17 @@ const SectionTitleLink = styled(SectionLink)`
   padding: 7px ${props => props.theme.grid.unit * 4}px;
 `
 
-export const LibrarySidebar: React.FC<
-  RouteComponentProps<{
-    projectID: string
-    sourceType: string
-    sourceID?: string
-    filterID?: string
-  }> & {
-    projectLibraryCollections: Map<string, LibraryCollection>
-    globalLibraries: Map<string, Library>
-    globalLibraryCollections: Map<string, LibraryCollection>
-    importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
-  }
-> = ({
+export const LibrarySidebar: React.FC<RouteComponentProps<{
+  projectID: string
+  sourceType: string
+  sourceID?: string
+  filterID?: string
+}> & {
+  projectLibraryCollections: Map<string, LibraryCollection>
+  globalLibraries: Map<string, Library>
+  globalLibraryCollections: Map<string, LibraryCollection>
+  importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
+}> = ({
   projectLibraryCollections,
   globalLibraries,
   globalLibraryCollections,

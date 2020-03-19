@@ -63,9 +63,9 @@ interface SearchableBibliographyItem extends BibliographyItem {
   authors?: string
 }
 
-let sortPromise: Fuzzysort.CancelablePromise<
-  Fuzzysort.KeysResults<BibliographyItem>
->
+let sortPromise: Fuzzysort.CancelablePromise<Fuzzysort.KeysResults<
+  BibliographyItem
+>>
 
 // tslint:disable-next-line:cyclomatic-complexity
 export const filterLibrary = async (

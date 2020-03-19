@@ -206,9 +206,7 @@ interface InviteAuthorsProps {
   tokenActions: TokenActions
 }
 
-export const InviteAuthorsModal: React.FunctionComponent<
-  InviteAuthorsProps
-> = ({
+export const InviteAuthorsModal: React.FunctionComponent<InviteAuthorsProps> = ({
   project,
   invitationValues,
   handleInviteCancel,

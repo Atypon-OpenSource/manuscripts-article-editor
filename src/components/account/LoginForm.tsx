@@ -57,9 +57,10 @@ interface Props {
   submitErrorType?: string
 }
 
-export const LoginForm: React.FunctionComponent<
-  FormikProps<LoginValues & FormErrors> & Props
-> = ({ errors, isSubmitting, submitErrorType }) => (
+export const LoginForm: React.FunctionComponent<FormikProps<
+  LoginValues & FormErrors
+> &
+  Props> = ({ errors, isSubmitting, submitErrorType }) => (
   <CenteredForm id={'login-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Welcome to</SubHero>

@@ -35,9 +35,8 @@ interface Props {
   errorMessage: string
 }
 
-const ProjectsPageContainer: React.FunctionComponent<
-  Props & RouteComponentProps
-> = ({ tokenActions, errorMessage, history }) => (
+const ProjectsPageContainer: React.FunctionComponent<Props &
+  RouteComponentProps> = ({ tokenActions, errorMessage, history }) => (
   <Page>
     <Main>
       <Container>

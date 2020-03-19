@@ -40,12 +40,10 @@ export interface LibraryPageContainerProps {
   user: UserProfile
 }
 
-export const LibraryPageContainer: React.FC<
-  RouteComponentProps<{
-    projectID: string
-  }> &
-    LibraryPageContainerProps
-> = ({
+export const LibraryPageContainer: React.FC<RouteComponentProps<{
+  projectID: string
+}> &
+  LibraryPageContainerProps> = ({
   globalLibraries,
   globalLibraryCollections,
   globalLibraryItems,

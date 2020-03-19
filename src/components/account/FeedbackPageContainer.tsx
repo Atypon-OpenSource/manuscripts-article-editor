@@ -26,9 +26,8 @@ interface Props {
   tokenActions: TokenActions
 }
 
-const FeedbackPageContainer: React.FunctionComponent<
-  RouteComponentProps & Props
-> = ({ history, tokenActions }) => (
+const FeedbackPageContainer: React.FunctionComponent<RouteComponentProps &
+  Props> = ({ history, tokenActions }) => (
   <ModalForm title={<FeedbackMessage />} handleClose={() => history.goBack()}>
     <Formik<FeedbackValues>
       initialValues={{

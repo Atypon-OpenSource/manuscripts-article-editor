@@ -26,11 +26,9 @@ import { TableStyles } from './TableStyles'
 
 const DEFAULT_TABLE_STYLE = 'MPTableStyle:default'
 
-export const TableStyleInspector: React.FC<
-  ElementStyleInspectorProps & {
-    element: TableElement
-  }
-> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
+export const TableStyleInspector: React.FC<ElementStyleInspectorProps & {
+  element: TableElement
+}> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
   const [error, setError] = useState<Error>()
 
   const [tableStyle, setTableStyle] = useState<TableStyle>()

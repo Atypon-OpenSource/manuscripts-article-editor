@@ -26,9 +26,9 @@ export interface ChangePasswordValues {
   newPassword: string
 }
 
-export const ChangePasswordForm: React.FunctionComponent<
-  FormikProps<ChangePasswordValues & FormErrors>
-> = ({ errors, isSubmitting }) => (
+export const ChangePasswordForm: React.FunctionComponent<FormikProps<
+  ChangePasswordValues & FormErrors
+>> = ({ errors, isSubmitting }) => (
   <Form id={'change-password-form'} noValidate={true}>
     <TextFieldGroupContainer
       errors={{

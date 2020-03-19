@@ -27,21 +27,19 @@ const Container = styled.div`
   flex: 1;
 `
 
-export const GlobalLibrary: React.FC<
-  RouteComponentProps<{
-    projectID: string
-    sourceID: string
-    filterID?: string
-  }> & {
-    debouncedQuery?: string
-    globalLibrary?: Library
-    globalLibraryItems: Map<string, BibliographyItem>
-    projectLibrary: Map<string, BibliographyItem>
-    projectLibraryCollection: Collection<BibliographyItem>
-    query?: string
-    setQuery: (query: string) => void
-  }
-> = React.memo(
+export const GlobalLibrary: React.FC<RouteComponentProps<{
+  projectID: string
+  sourceID: string
+  filterID?: string
+}> & {
+  debouncedQuery?: string
+  globalLibrary?: Library
+  globalLibraryItems: Map<string, BibliographyItem>
+  projectLibrary: Map<string, BibliographyItem>
+  projectLibraryCollection: Collection<BibliographyItem>
+  query?: string
+  setQuery: (query: string) => void
+}> = React.memo(
   ({
     debouncedQuery,
     location,

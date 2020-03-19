@@ -31,9 +31,8 @@ interface Props {
   tokenActions: TokenActions
 }
 
-const DeleteAccountPageContainer: React.FunctionComponent<
-  Props & RouteComponentProps
-> = ({ history, tokenActions }) => (
+const DeleteAccountPageContainer: React.FunctionComponent<Props &
+  RouteComponentProps> = ({ history, tokenActions }) => (
   <ProjectsData>
     {projects => (
       <UserData userID={getCurrentUserId()!}>
@@ -66,9 +65,8 @@ const DeleteAccountPageContainer: React.FunctionComponent<
                 } catch (error) {
                   actions.setSubmitting(false)
 
-                  const errors: FormikErrors<
-                    DeleteAccountValues & FormErrors
-                  > = {
+                  const errors: FormikErrors<DeleteAccountValues &
+                    FormErrors> = {
                     submit:
                       error.response &&
                       error.response.status === HttpStatusCodes.FORBIDDEN

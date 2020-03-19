@@ -42,9 +42,9 @@ export interface RenameProjectValues {
   title: string
 }
 
-export const RenameProjectForm: React.FunctionComponent<
-  FormikProps<RenameProjectValues & FormErrors>
-> = ({ errors, isSubmitting, values, setFieldValue }) => (
+export const RenameProjectForm: React.FunctionComponent<FormikProps<
+  RenameProjectValues & FormErrors
+>> = ({ errors, isSubmitting, values, setFieldValue }) => (
   <Form noValidate={true}>
     <StyledTitleField
       value={values.title || ''}

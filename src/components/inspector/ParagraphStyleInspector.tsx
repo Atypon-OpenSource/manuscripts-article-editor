@@ -56,11 +56,9 @@ export const hasParagraphStyle = (
 ): element is ElementWithParagraphStyle =>
   objectsWithParagraphStyle.includes(element.objectType as ObjectTypes)
 
-export const ParagraphStyleInspector: React.FC<
-  ElementStyleInspectorProps & {
-    element: ElementWithParagraphStyle
-  }
-> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
+export const ParagraphStyleInspector: React.FC<ElementStyleInspectorProps & {
+  element: ElementWithParagraphStyle
+}> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
   const [error, setError] = useState<Error>()
 
   const [paragraphStyle, setParagraphStyle] = useState<ParagraphStyle>()

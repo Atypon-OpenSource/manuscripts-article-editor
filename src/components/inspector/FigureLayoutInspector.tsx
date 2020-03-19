@@ -24,11 +24,9 @@ import { FigureLayouts } from './FigureLayouts'
 
 const DEFAULT_FIGURE_LAYOUT = 'MPFigureLayout:default'
 
-export const FigureLayoutInspector: React.FC<
-  ElementStyleInspectorProps & {
-    element: FigureElement
-  }
-> = ({ element, modelMap, view }) => {
+export const FigureLayoutInspector: React.FC<ElementStyleInspectorProps & {
+  element: FigureElement
+}> = ({ element, modelMap, view }) => {
   const [figureLayout, setFigureLayout] = useState<FigureLayout>()
 
   const getModel = <T extends Model>(id?: string): T | undefined =>

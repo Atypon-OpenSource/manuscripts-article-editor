@@ -23,18 +23,16 @@ import { Main } from '../Page'
 import Search, { SearchWrapper } from '../Search'
 import { SearchResults } from './SearchResults'
 
-export const ExternalSearch: React.FC<
-  RouteComponentProps<{
-    projectID: string
-    sourceID?: string
-  }> & {
-    projectLibrary: Map<string, BibliographyItem>
-    projectLibraryCollection: Collection<BibliographyItem>
-    debouncedQuery?: string
-    query?: string
-    setQuery: (query: string) => void
-  }
-> = React.memo(
+export const ExternalSearch: React.FC<RouteComponentProps<{
+  projectID: string
+  sourceID?: string
+}> & {
+  projectLibrary: Map<string, BibliographyItem>
+  projectLibraryCollection: Collection<BibliographyItem>
+  debouncedQuery?: string
+  query?: string
+  setQuery: (query: string) => void
+}> = React.memo(
   ({
     debouncedQuery,
     history,

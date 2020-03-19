@@ -489,7 +489,9 @@ export const fetchSharedData = <T extends Model>(file: string) =>
     .then(module => module.default as T[])
     .then(
       items =>
-        new Map<string, T>(items.map<[string, T]>(item => [item._id, item]))
+        new Map<string, T>(
+          items.map<[string, T]>(item => [item._id, item])
+        )
     )
 
 export const chooseBundleID = (item: TemplateData) => {

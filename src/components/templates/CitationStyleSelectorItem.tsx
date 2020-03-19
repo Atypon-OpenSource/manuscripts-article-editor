@@ -23,9 +23,8 @@ interface Props {
   }
 }
 
-export const CitationStyleSelectorItem: React.FunctionComponent<
-  ListChildComponentProps & Props
-> = ({ data, index, style }) => {
+export const CitationStyleSelectorItem: React.FunctionComponent<ListChildComponentProps &
+  Props> = ({ data, index, style }) => {
   const { filteredItems, selectBundle } = data
 
   const item = filteredItems[index]

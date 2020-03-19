@@ -298,9 +298,9 @@ class TemplateSelector extends React.Component<
 
     const collection = await createProjectCollection(db, projectID)
 
-    const priority = await nextManuscriptPriority(collection as Collection<
-      Manuscript
-    >)
+    const priority = await nextManuscriptPriority(
+      collection as Collection<Manuscript>
+    )
 
     const newBundle = createNewBundle(DEFAULT_BUNDLE, bundles)
 

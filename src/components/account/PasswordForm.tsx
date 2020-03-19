@@ -31,9 +31,9 @@ export interface PasswordErrors {
   unauthorized?: string
 }
 
-export const PasswordForm: React.FunctionComponent<
-  FormikProps<PasswordValues & PasswordErrors>
-> = ({ errors, isSubmitting }) => (
+export const PasswordForm: React.FunctionComponent<FormikProps<
+  PasswordValues & PasswordErrors
+>> = ({ errors, isSubmitting }) => (
   <CenteredForm noValidate={true}>
     <FormHeader>
       <SubHero>Choose a new password</SubHero>

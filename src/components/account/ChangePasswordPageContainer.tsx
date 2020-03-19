@@ -26,9 +26,8 @@ interface Props {
   tokenActions: TokenActions
 }
 
-const ChangePasswordPageContainer: React.FunctionComponent<
-  RouteComponentProps & Props
-> = ({ history, tokenActions }) => (
+const ChangePasswordPageContainer: React.FunctionComponent<RouteComponentProps &
+  Props> = ({ history, tokenActions }) => (
   <ModalForm
     title={<ChangePasswordMessage />}
     handleClose={() => history.goBack()}

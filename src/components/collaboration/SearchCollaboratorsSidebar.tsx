@@ -55,9 +55,7 @@ interface SearchSidebarProps {
   tokenActions: TokenActions
 }
 
-const SearchCollaboratorsSidebar: React.FunctionComponent<
-  SearchSidebarProps
-> = ({
+const SearchCollaboratorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
   addCollaborator,
   countAddedCollaborators,
   handleInvite,

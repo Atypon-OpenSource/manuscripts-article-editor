@@ -1038,8 +1038,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       throw new Error('No manuscript found')
     }
 
-    manuscript.priority = await nextManuscriptPriority(this
-      .collection as Collection<Manuscript>)
+    manuscript.priority = await nextManuscriptPriority(
+      this.collection as Collection<Manuscript>
+    )
 
     // TODO: use the imported filename?
     if (!manuscript.pageLayout) {
@@ -1549,8 +1550,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })
 
     if (config.native && this.state.activeEditor) {
-      window.dispatchToolbarAction = createDispatchTitleToolbarAction(this.state
-        .activeEditor.view as TitleEditorView)
+      window.dispatchToolbarAction = createDispatchTitleToolbarAction(
+        this.state.activeEditor.view as TitleEditorView
+      )
 
       postWebkitMessage('toolbar', {
         title: {

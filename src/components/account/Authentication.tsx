@@ -90,9 +90,9 @@ export interface AuthenticationButtonProps {
   redirect: (provider: AuthProvider, action?: string) => () => void
 }
 
-export const GoogleLogin: React.FunctionComponent<
-  AuthenticationButtonProps
-> = ({ redirect }) => (
+export const GoogleLogin: React.FunctionComponent<AuthenticationButtonProps> = ({
+  redirect,
+}) => (
   <IconButtonWithText onClick={redirect('google')} defaultColor={true}>
     <GoogleImage>
       <GoogleIcon size={45} title={'Google logo'} />
@@ -109,9 +109,9 @@ export const OrcidLogin: React.FunctionComponent<AuthenticationButtonProps> = ({
   </IconButton>
 )
 
-export const ConnectLogin: React.FunctionComponent<
-  AuthenticationButtonProps
-> = ({ redirect }) => (
+export const ConnectLogin: React.FunctionComponent<AuthenticationButtonProps> = ({
+  redirect,
+}) => (
   <IconButtonWithText onClick={redirect('iam')}>
     <img src={connectLogo} height={25} alt={'Connect logo'} />
   </IconButtonWithText>

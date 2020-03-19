@@ -23,9 +23,8 @@ interface Props {
   }
 }
 
-export const TemplateSelectorItem: React.FunctionComponent<
-  ListChildComponentProps & Props
-> = ({ data, index, style }) => {
+export const TemplateSelectorItem: React.FunctionComponent<ListChildComponentProps &
+  Props> = ({ data, index, style }) => {
   const { filteredItems, selectedItem, selectItem } = data
 
   const item = filteredItems[index]

@@ -142,10 +142,14 @@ export const CitationSearch: React.FC<{
     (id: string, data: Partial<BibliographyItem>) => {
       if (selected.has(id)) {
         selected.delete(id) // remove item
-        setSelected(new Map<string, Build<BibliographyItem>>([...selected]))
+        setSelected(
+          new Map<string, Build<BibliographyItem>>([...selected])
+        )
       } else if (data._id) {
         selected.set(id, data as Build<BibliographyItem>) // re-use existing data model
-        setSelected(new Map<string, Build<BibliographyItem>>([...selected]))
+        setSelected(
+          new Map<string, Build<BibliographyItem>>([...selected])
+        )
       } else {
         setFetching(fetching => {
           fetching.add(id)

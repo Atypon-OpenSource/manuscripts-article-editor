@@ -95,9 +95,12 @@ interface InvitationProps {
   ) => void
 }
 
-export const InvitationDropdownSection: React.FunctionComponent<
-  InvitationProps
-> = ({ invitation, invitingUserProfile, acceptInvitation, confirmReject }) => (
+export const InvitationDropdownSection: React.FunctionComponent<InvitationProps> = ({
+  invitation,
+  invitingUserProfile,
+  acceptInvitation,
+  confirmReject,
+}) => (
   <DropdownElement>
     <ProjectNameContainer>
       <DropdownWithNotificationIcon>
@@ -136,9 +139,11 @@ interface ProjectSectionProps {
   handleClose?: React.MouseEventHandler<HTMLElement>
 }
 
-export const ProjectDropdownSection: React.FunctionComponent<
-  ProjectSectionProps
-> = ({ project, accepted, handleClose }) => (
+export const ProjectDropdownSection: React.FunctionComponent<ProjectSectionProps> = ({
+  project,
+  accepted,
+  handleClose,
+}) => (
   <DropdownLink
     key={project._id}
     to={`/projects/${project._id}`}
@@ -178,9 +183,9 @@ interface AllProjectsSectionProps {
   handleClose?: React.MouseEventHandler<HTMLElement>
 }
 
-export const AllProjectsDropdownSection: React.FunctionComponent<
-  AllProjectsSectionProps
-> = ({ handleClose }) => (
+export const AllProjectsDropdownSection: React.FunctionComponent<AllProjectsSectionProps> = ({
+  handleClose,
+}) => (
   <DropdownLink
     key={'projects'}
     to={'/projects'}

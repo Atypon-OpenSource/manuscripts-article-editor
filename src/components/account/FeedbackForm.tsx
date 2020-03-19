@@ -34,9 +34,9 @@ const Container = styled.div`
   color: ${props => props.theme.colors.text.secondary};
 `
 
-export const FeedbackForm: React.FunctionComponent<
-  FormikProps<FeedbackValues & FormErrors>
-> = ({ errors, isSubmitting }) => (
+export const FeedbackForm: React.FunctionComponent<FormikProps<
+  FeedbackValues & FormErrors
+>> = ({ errors, isSubmitting }) => (
   <Form id={'feedback-form'} noValidate={true}>
     <TextFieldGroupContainer errors={{ title: errors.title }}>
       <Field name={'title'}>

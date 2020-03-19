@@ -27,11 +27,9 @@ import { FigureStyles } from './FigureStyles'
 
 const DEFAULT_FIGURE_STYLE = 'MPFigureStyle:default'
 
-export const FigureStyleInspector: React.FC<
-  ElementStyleInspectorProps & {
-    element: FigureElement
-  }
-> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
+export const FigureStyleInspector: React.FC<ElementStyleInspectorProps & {
+  element: FigureElement
+}> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
   const [error, setError] = useState<Error>()
 
   const [figureStyle, setFigureStyle] = useState<FigureStyle>()

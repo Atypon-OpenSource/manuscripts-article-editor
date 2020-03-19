@@ -40,9 +40,10 @@ const MessageContainer = styled.div`
   margin-left: ${props => props.theme.grid.unit * 5}px;
 `
 
-export const DeleteAccountForm: React.FunctionComponent<
-  FormikProps<DeleteAccountValues & FormErrors> & DeleteAccountProps
-> = ({ deletedProjects, errors, isSubmitting }) => (
+export const DeleteAccountForm: React.FunctionComponent<FormikProps<
+  DeleteAccountValues & FormErrors
+> &
+  DeleteAccountProps> = ({ deletedProjects, errors, isSubmitting }) => (
   <Form id={'delete-account-form'} noValidate={true}>
     <Field name={'password'}>
       {({ field }: FieldProps) => (
