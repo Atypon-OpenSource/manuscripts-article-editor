@@ -34,7 +34,6 @@ import {
   Bundle,
   Citation,
   Equation,
-  Figure,
   InlineMathFragment,
   Manuscript,
   Model,
@@ -68,7 +67,7 @@ const unsupportedObjectTypes: ObjectTypes[] = [
   ObjectTypes.InlineStyle,
 ]
 
-const figureHasAttachment = (model: Figure, zip: JSZip): boolean => {
+const hasAttachment = (model: Model, zip: JSZip): boolean => {
   // NOTE: not using model.contentType for file extension
   const filename = generateAttachmentFilename(model._id)
 
@@ -115,6 +114,8 @@ export const augmentEquations = async (modelMap: Map<string, Model>) => {
   }
 }
 
+const isBundle = hasObjectType<Bundle>(ObjectTypes.Bundle)
+
 export const removeUnsupportedData = async (zip: JSZip) => {
   const path = 'index.manuscript-json'
 
@@ -126,7 +127,11 @@ export const removeUnsupportedData = async (zip: JSZip) => {
       return false
     }
 
-    if (isFigure(model) && !figureHasAttachment(model, zip)) {
+    if (isFigure(model) && !hasAttachment(model, zip)) {
+      return false
+    }
+
+    if (isBundle(model) && !hasAttachment(model, zip)) {
       return false
     }
 
