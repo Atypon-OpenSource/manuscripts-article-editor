@@ -36,6 +36,11 @@ interface Config {
   data: {
     url: string
   }
+  extyles: {
+    arc: {
+      secret?: string
+    }
+  }
   gateway: {
     url: string
   }
@@ -44,9 +49,9 @@ interface Config {
     url: string
   }
   sentry: {
-    dsn: string | undefined
+    dsn?: string
     environment: string
-    release: string | undefined
+    release?: string
   }
   support: {
     email: string
@@ -113,6 +118,11 @@ const config = {
   },
   discourse: {
     host: normalizeURL(process.env.DISCOURSE_HOST),
+  },
+  extyles: {
+    arc: {
+      secret: process.env.EXTYLES_ARC_SECRET,
+    },
   },
   gateway: {
     url: normalizeURL(process.env.SYNC_GATEWAY_URL),

@@ -62,16 +62,25 @@ export const convertBibliography = async (
   return response.data
 }
 
+// TODO: remove this once the endpoints have been merged
+const chooseURL = (format: string) => {
+  switch (format) {
+    case 'do':
+    case 'jats':
+    case 'pdf-prince':
+      return '/v1/compile/document/jats'
+
+    default:
+      return '/v1/compile/document'
+  }
+}
+
 export const convert = async (
   data: FormData,
   format: ExportManuscriptFormat,
   headers: { [key: string]: string } = {}
 ): Promise<Blob> => {
-  // TODO: remove this once the endpoints have been merged
-  const url =
-    format === 'do' || format === 'pdf-prince'
-      ? '/v1/compile/document/jats'
-      : '/v1/compile/document'
+  const file = data.get('file') as File
 
   if (format !== 'do') {
     headers['Pressroom-Target-File-Extension'] = format
@@ -81,13 +90,18 @@ export const convert = async (
     headers['Pressroom-Regenerate-Project-Bundle-Model-Object-IDs'] = '1'
 
     // Enrich metadata via GROBID if not importing a .manuproj file
-    const file = data.get('file') as File
-
     if (!file.name.endsWith('.manuproj')) {
       headers['Pressroom-Enrich-Document-Metadata'] = '1'
       headers['Pressroom-Continue-On-Errors'] = '1'
     }
   }
+
+  if (format === 'jats' && config.extyles.arc.secret) {
+    headers['Pressroom-Jats-Document-Processing-Level'] = 'full_text'
+    headers['Pressroom-Extylesarc-Secret'] = config.extyles.arc.secret
+  }
+
+  const url = chooseURL(format)
 
   const response = await client.post<Blob>(url, data, {
     responseType: 'blob' as ResponseType,

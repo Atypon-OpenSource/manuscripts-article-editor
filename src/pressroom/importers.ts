@@ -24,6 +24,7 @@ import {
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
 import { basename, extname } from 'path'
+import config from '../config'
 import { FileExtensionError } from '../lib/errors'
 import {
   createNewContributorRoles,
@@ -31,7 +32,7 @@ import {
   fetchSharedData,
 } from '../lib/templates'
 import { cleanItem } from './clean-item'
-import { removeUnsupportedData } from './exporter'
+import { ExportManuscriptFormat, removeUnsupportedData } from './exporter'
 import { convert } from './pressroom'
 
 export interface JsonModel extends Model, ModelAttachment {
@@ -130,17 +131,24 @@ export const importBundledData = async (): Promise<BundledData> => {
   }
 }
 
-const convertFile = async (file: File): Promise<Blob> => {
+const convertFile = async (
+  file: File,
+  format: ExportManuscriptFormat = 'manuproj'
+): Promise<Blob> => {
   const form = new FormData()
   form.append('file', file)
 
-  return convert(form, 'manuproj')
+  return convert(form, format)
 }
 
-const parseXMLFile = async (file: File): Promise<Document> => {
-  const url = window.URL.createObjectURL(file)
-  const text = await fetch(url).then(response => response.text())
-  return new DOMParser().parseFromString(text, 'application/xml')
+const parseXMLFile = async (blob: Blob): Promise<Document> => {
+  const url = window.URL.createObjectURL(blob)
+  const xml = await fetch(url).then(response => response.text())
+  return parseXML(xml)
+}
+
+const parseXML = (xml: string): Document => {
+  return new DOMParser().parseFromString(xml, 'application/xml')
 }
 
 const convertXMLDocument = (doc: Document): Model[] => {
@@ -297,6 +305,19 @@ export const importFile = async (file: File) => {
   // TODO: look inside .zip files
   if (name.endsWith('.xml')) {
     return parseXMLFile(file).then(convertXMLDocument)
+  }
+
+  if (file.name.endsWith('.docx') && config.extyles.arc.secret) {
+    const blob = await convertFile(file, 'jats')
+    // console.log(window.URL.createObjectURL(blob))
+
+    const zip = await new JSZip().loadAsync(blob)
+    const filename = file.name.replace(/\.docx/, '.XML')
+
+    const xml = await zip.file(filename).async('text')
+    const doc = parseXML(xml)
+
+    return convertXMLDocument(doc)
   }
 
   const result = await convertFile(file)
