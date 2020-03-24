@@ -113,6 +113,12 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       label: () => 'Literatum Digital Object',
       run: () => props.openExporter('do', false),
     })
+
+    exportMenu.push({
+      id: 'export-pdf-prince',
+      label: () => 'PDF (via Prince)',
+      run: () => props.openExporter('pdf-prince'),
+    })
   }
 
   if (config.export.sts) {

@@ -69,7 +69,9 @@ export const convert = async (
 ): Promise<Blob> => {
   // TODO: remove this once the endpoints have been merged
   const url =
-    format === 'do' ? '/v1/compile/document/jats' : '/v1/compile/document'
+    format === 'do' || format === 'pdf-prince'
+      ? '/v1/compile/document/jats'
+      : '/v1/compile/document'
 
   if (format !== 'do') {
     headers['Pressroom-Target-File-Extension'] = format

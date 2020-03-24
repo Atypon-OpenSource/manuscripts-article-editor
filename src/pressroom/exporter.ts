@@ -67,13 +67,15 @@ const unsupportedObjectTypes: ObjectTypes[] = [
   ObjectTypes.InlineStyle,
 ]
 
-const hasAttachment = (model: Model, zip: JSZip): boolean => {
+const getAttachment = (model: Model, zip: JSZip): JSZip.JSZipObject | null => {
   // NOTE: not using model.contentType for file extension
   const filename = generateAttachmentFilename(model._id)
 
-  // tslint:disable-next-line
-  return zip.file('Data/' + filename) !== null
+  return zip.file('Data/' + filename)
 }
+
+const hasAttachment = (model: Model, zip: JSZip): boolean =>
+  getAttachment(model, zip) !== null
 
 const isEquation = hasObjectType<Equation>(ObjectTypes.Equation)
 const isInlineMathFragment = hasObjectType<InlineMathFragment>(
@@ -276,6 +278,7 @@ export const generateDownloadFilename = (title: string) =>
 export type ExportManuscriptFormat =
   | 'docx'
   | 'pdf'
+  | 'pdf-prince'
   | 'tex'
   | 'html'
   | 'icml'
@@ -297,6 +300,9 @@ export const downloadExtension = (format: ExportFormat): string => {
     case 'bib':
     case 'ris':
       return `.${format}`
+
+    case 'pdf-prince':
+      return '.pdf'
 
     case 'mods':
       return '.xml'
@@ -440,6 +446,17 @@ export const exportProject = async (
         'Pressroom-Jats-Submission-Identifier': identifier,
       })
     }
+
+    case 'pdf-prince':
+      const file = await zip.generateAsync({ type: 'blob' })
+
+      const form = new FormData()
+      form.append('file', file, 'export.manuproj')
+
+      return convert(form, format, {
+        'Pressroom-Target-Jats-Output-Format': 'pdf',
+        'Pressroom-Jats-Document-Processing-Level': 'full_text',
+      })
 
     default: {
       // remove this once it's no longer needed:
