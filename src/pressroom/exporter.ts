@@ -277,6 +277,7 @@ export const generateDownloadFilename = (title: string) =>
 
 export type ExportManuscriptFormat =
   | 'docx'
+  | 'epub'
   | 'pdf'
   | 'pdf-prince'
   | 'tex'
@@ -295,6 +296,7 @@ export type ExportFormat = ExportManuscriptFormat | ExportBibliographyFormat
 export const downloadExtension = (format: ExportFormat): string => {
   switch (format) {
     case 'docx':
+    case 'epub':
     case 'pdf':
     case 'manuproj':
     case 'bib':

@@ -76,6 +76,11 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       run: () => props.openExporter('docx'),
     },
     {
+      id: 'export-epub',
+      label: () => 'EPUB',
+      run: () => props.openExporter('epub'),
+    },
+    {
       id: 'export-md',
       label: () => 'Markdown',
       run: () => props.openExporter('md'),
