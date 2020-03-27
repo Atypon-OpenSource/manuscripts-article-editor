@@ -114,9 +114,15 @@ export const buildProjectMenu = (props: Props): MenuItem => {
 
   if (config.export.literatum) {
     exportMenu.push({
-      id: 'export-ado',
+      id: 'export-do',
       label: () => 'Literatum Digital Object',
       run: () => props.openExporter('do', false),
+    })
+
+    exportMenu.push({
+      id: 'export-submission',
+      label: () => 'Literatum Submission',
+      run: () => props.openExporter('submission', false),
     })
 
     exportMenu.push({

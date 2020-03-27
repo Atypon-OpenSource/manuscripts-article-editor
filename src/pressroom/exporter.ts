@@ -287,6 +287,7 @@ export type ExportManuscriptFormat =
   | 'do'
   | 'jats'
   | 'sts'
+  | 'submission'
   | 'manuproj'
 
 export type ExportBibliographyFormat = 'bib' | 'ris' | 'mods'
@@ -444,6 +445,30 @@ export const exportProject = async (
         'Pressroom-Target-Jats-Output-Format': 'literatum-do',
         'Pressroom-Jats-Document-Processing-Level': 'full_text',
         'Pressroom-Digital-Object-Type': 'magazine',
+        'Pressroom-Jats-Submission-Doi': DOI,
+        'Pressroom-Jats-Submission-Identifier': identifier,
+      })
+    }
+
+    case 'submission': {
+      const { DOI } = modelMap.get(manuscriptID) as Manuscript
+
+      if (!DOI) {
+        window.alert('A DOI is required for Literatum submission')
+        throw new Error('A DOI is required for Literatum submission')
+      }
+
+      const [, identifier] = DOI.split('/')
+
+      const file = await zip.generateAsync({ type: 'blob' })
+
+      const form = new FormData()
+      form.append('file', file, 'export.manuproj')
+
+      return convert(form, format, {
+        'Pressroom-Target-Jats-Output-Format': 'literatum-submission',
+        'Pressroom-Target-Jats-Version': '1.1', // 1.2?
+        'Pressroom-Jats-Document-Processing-Level': 'full_text', // 'front_matter_only'?
         'Pressroom-Jats-Submission-Doi': DOI,
         'Pressroom-Jats-Submission-Identifier': identifier,
       })
