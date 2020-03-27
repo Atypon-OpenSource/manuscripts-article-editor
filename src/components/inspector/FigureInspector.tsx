@@ -23,6 +23,8 @@ import { LicenseInput } from '../projects/LicenseInput'
 import { URLInput } from '../projects/URLInput'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
 
+const isImageUrl = (url: string) => url.endsWith('.jpg') || url.endsWith('.png')
+
 export const FigureInspector: React.FC<{
   figure: Figure
   node: FigureNode
@@ -54,7 +56,15 @@ export const FigureInspector: React.FC<{
         <URLInput
           value={node.attrs.embedURL}
           handleChange={embedURL => {
-            setNodeAttrs(view, figure._id, { embedURL })
+            if (embedURL && isImageUrl(embedURL)) {
+              // TODO: save the image attachment
+              setNodeAttrs(view, figure._id, {
+                src: embedURL,
+                embedURL: undefined,
+              })
+            } else {
+              setNodeAttrs(view, figure._id, { embedURL })
+            }
           }}
         />
       </InspectorField>
