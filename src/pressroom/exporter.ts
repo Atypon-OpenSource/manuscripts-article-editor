@@ -471,6 +471,8 @@ export const exportProject = async (
         'Pressroom-Jats-Document-Processing-Level': 'full_text', // 'front_matter_only'?
         'Pressroom-Jats-Submission-Doi': DOI,
         'Pressroom-Jats-Submission-Identifier': identifier,
+        'Pressroom-JATS-Group-Identifier': 'test.just-accepted',
+        'Pressroom-JATS-Series-Code': 'test',
       })
     }
 
