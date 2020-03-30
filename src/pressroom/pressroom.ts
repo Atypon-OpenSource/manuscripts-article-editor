@@ -68,6 +68,7 @@ const chooseURL = (format: string) => {
     case 'do':
     case 'jats':
     case 'pdf-prince':
+    case 'submission':
       return '/v1/compile/document/jats'
 
     default:
