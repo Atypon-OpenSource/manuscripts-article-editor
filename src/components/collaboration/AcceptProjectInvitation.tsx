@@ -18,6 +18,7 @@ import {
   acceptProjectInvitationToken,
 } from '../../lib/api'
 import invitationTokenHandler from '../../lib/invitation-token'
+import { LoadingPage } from '../Loading'
 import {
   acceptInvitationErrorMessage,
   acceptInvitationTokenErrorMessage,
@@ -84,8 +85,9 @@ class AcceptProjectInvitation extends React.Component<Props, State> {
   public render() {
     const { data, errorMessage } = this.state
 
-    if (!data && !errorMessage) return null
-
+    if (!data && !errorMessage) {
+      return <LoadingPage>Accepting invitation…</LoadingPage>
+    }
     if (data) {
       return (
         <Redirect

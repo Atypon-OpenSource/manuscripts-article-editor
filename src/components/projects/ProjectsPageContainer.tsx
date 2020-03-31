@@ -14,7 +14,6 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import styled from 'styled-components'
 import { TokenActions } from '../../data/TokenData'
-import AcceptProjectInvitation from '../collaboration/AcceptProjectInvitation'
 import MessageBanner from '../MessageBanner'
 import { GlobalMenu } from '../nav/GlobalMenu'
 import { Main, Page } from '../Page'
@@ -36,13 +35,12 @@ interface Props {
 }
 
 const ProjectsPageContainer: React.FunctionComponent<Props &
-  RouteComponentProps> = ({ tokenActions, errorMessage, history }) => (
+  RouteComponentProps> = ({ tokenActions, errorMessage }) => (
   <Page>
     <Main>
       <Container>
         <GlobalMenu active={'projects'} />
         <MessageBanner errorMessage={errorMessage} />
-        <AcceptProjectInvitation history={history} />
         <ProjectsSidebarContainer tokenActions={tokenActions} />
       </Container>
     </Main>

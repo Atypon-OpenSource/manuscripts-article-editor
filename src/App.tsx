@@ -25,6 +25,8 @@ import ProfilePageContainer from './components/account/ProfilePageContainer'
 import RecoverPageContainer from './components/account/RecoverPageContainer'
 import SignupPageContainer from './components/account/SignupPageContainer'
 import AcceptInvitationRequireLoginContainer from './components/collaboration/AcceptInvitationRequireLoginContainer'
+import AcceptProjectInvitation from './components/collaboration/AcceptProjectInvitation'
+import AcceptInvitationByEmailContainer from './components/collaboration/AcceptProjectInvitationByEmailContainer'
 import AcceptInvitationURIContainer from './components/collaboration/AcceptProjectInvitationURIPageContainer'
 import { DatabaseContext } from './components/DatabaseProvider'
 import DeveloperPageContainer from './components/DeveloperPageContainer'
@@ -39,6 +41,7 @@ import config from './config'
 import OptionalUserData from './data/OptionalUserData'
 import { TokenData } from './data/TokenData'
 import { apolloClient } from './lib/apollo'
+import invitationTokenHandler from './lib/invitation-token'
 import Sync from './sync/Sync'
 import { ZombieResync } from './sync/ZombieResync'
 
@@ -258,17 +261,22 @@ const App: React.FunctionComponent = () => (
 
                                   <Route
                                     path={'/projects'}
-                                    render={props => (
-                                      <ProjectsPageContainer
-                                        {...props}
-                                        tokenActions={tokenActions}
-                                        errorMessage={
-                                          props.location.state
-                                            ? props.location.state.errorMessage
-                                            : null
-                                        }
-                                      />
-                                    )}
+                                    render={props =>
+                                      invitationTokenHandler.get() ? (
+                                        <AcceptProjectInvitation {...props} />
+                                      ) : (
+                                        <ProjectsPageContainer
+                                          {...props}
+                                          tokenActions={tokenActions}
+                                          errorMessage={
+                                            props.location.state
+                                              ? props.location.state
+                                                  .errorMessage
+                                              : null
+                                          }
+                                        />
+                                      )
+                                    }
                                   />
                                 </Switch>
                               ) : (
@@ -305,7 +313,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/invitation'}
                             exact={true}
-                            component={AcceptInvitationRequireLoginContainer}
+                            component={AcceptInvitationByEmailContainer}
                           />
 
                           <Route

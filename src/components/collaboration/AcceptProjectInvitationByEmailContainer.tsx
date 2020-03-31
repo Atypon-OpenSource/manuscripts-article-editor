@@ -12,30 +12,61 @@
 
 import { parse } from 'qs'
 import React from 'react'
-import { RouteComponentProps } from 'react-router'
-import invitationTokenHandler from '../../lib/invitation-token'
+import { Redirect, RouteComponentProps } from 'react-router'
+import { acceptProjectInvitation } from '../../lib/api'
 import { LoadingPage } from '../Loading'
+import { acceptInvitationErrorMessage } from '../Messages'
 
-interface RouteParams {
-  invitationToken?: string
+interface State {
+  data?: {
+    message: string
+    containerID: string
+  }
 }
-class AcceptInvitationRequireLoginContainer extends React.Component<
-  RouteComponentProps<RouteParams>
+
+class AcceptInvitationByEmailContainer extends React.Component<
+  RouteComponentProps,
+  State
 > {
+  public state: Readonly<State> = {}
+
   public componentDidMount() {
     const { token } = parse(window.location.hash.substr(1))
-    const { invitationToken } = this.props.match.params
 
-    const tokenValue = token ? token : invitationToken
-    invitationTokenHandler.set(tokenValue)
-    this.props.history.push('/login', {
-      infoLoginMessage: 'Please sign in first.',
-    })
+    acceptProjectInvitation(token).then(
+      ({ data }) => {
+        this.setState({ data })
+      },
+      error => {
+        const errorMessage = error.response
+          ? acceptInvitationErrorMessage(error.response.status)
+          : undefined
+        this.props.history.push({
+          pathname: '/projects',
+          state: {
+            errorMessage,
+          },
+        })
+      }
+    )
   }
 
   public render() {
-    return <LoadingPage>Accepting invitation…</LoadingPage>
+    const { data } = this.state
+
+    if (!data) return <LoadingPage>Accepting invitation…</LoadingPage>
+
+    return (
+      <Redirect
+        to={{
+          pathname: `/projects/${data.containerID}`,
+          state: {
+            infoMessage: data.message,
+          },
+        }}
+      />
+    )
   }
 }
 
-export default AcceptInvitationRequireLoginContainer
+export default AcceptInvitationByEmailContainer
