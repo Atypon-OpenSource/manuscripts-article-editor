@@ -118,7 +118,17 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       label: () => 'Literatum Digital Object',
       run: () => props.openExporter('do', false),
     })
+  }
 
+  if (config.export.sts) {
+    exportMenu.push({
+      id: 'export-sts',
+      label: () => 'STS',
+      run: () => props.openExporter('sts'),
+    })
+  }
+
+  if (config.submission) {
     exportMenu.push({
       id: 'export-submission',
       label: () => 'Literatum Submission',
@@ -129,14 +139,6 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       id: 'export-pdf-prince',
       label: () => 'PDF (via Prince)',
       run: () => props.openExporter('pdf-prince'),
-    })
-  }
-
-  if (config.export.sts) {
-    exportMenu.push({
-      id: 'export-sts',
-      label: () => 'STS',
-      run: () => props.openExporter('sts'),
     })
   }
 

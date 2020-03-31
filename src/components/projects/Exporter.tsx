@@ -143,15 +143,28 @@ export class Exporter extends React.Component<Props, State> {
       return null
     }
 
-    if (status === 'complete' && format === 'do') {
-      return (
-        <SuccessModal
-          status={'Export to Literatum completed successfully'}
-          handleDone={() => {
-            this.props.handleComplete()
-          }}
-        />
-      )
+    if (status === 'complete') {
+      if (format === 'do') {
+        return (
+          <SuccessModal
+            status={'Export to Literatum completed successfully'}
+            handleDone={() => {
+              this.props.handleComplete()
+            }}
+          />
+        )
+      }
+
+      if (format === 'submission') {
+        return (
+          <SuccessModal
+            status={'Submission to Literatum completed successfully'}
+            handleDone={() => {
+              this.props.handleComplete()
+            }}
+          />
+        )
+      }
     }
 
     return (

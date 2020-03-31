@@ -42,6 +42,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { GetAttachment } from '../components/projects/Exporter'
+import config from '../config'
 import { fixCSLData } from '../lib/csl'
 import { JsonModel, ProjectDump } from './importers'
 import { convert, convertBibliography } from './pressroom'
@@ -451,6 +452,13 @@ export const exportProject = async (
     }
 
     case 'submission': {
+      if (!config.submission) {
+        window.alert(
+          'Submission is not correctly configured in this environment'
+        )
+        throw new Error('Submission environment variables must be defined')
+      }
+
       const { DOI } = modelMap.get(manuscriptID) as Manuscript
 
       if (!DOI) {
@@ -467,12 +475,12 @@ export const exportProject = async (
 
       return convert(form, format, {
         'Pressroom-Target-Jats-Output-Format': 'literatum-submission',
-        'Pressroom-Target-Jats-Version': '1.1', // 1.2?
-        'Pressroom-Jats-Document-Processing-Level': 'full_text', // 'front_matter_only'?
+        'Pressroom-Target-Jats-Version': '1.1',
+        'Pressroom-Jats-Document-Processing-Level': 'full_text',
         'Pressroom-Jats-Submission-Doi': DOI,
         'Pressroom-Jats-Submission-Identifier': identifier,
-        'Pressroom-JATS-Group-Identifier': 'test.just-accepted',
-        'Pressroom-JATS-Series-Code': 'test',
+        'Pressroom-JATS-Group-Identifier': config.submission.group_identifier,
+        'Pressroom-JATS-Series-Code': config.submission.series_code,
       })
     }
 

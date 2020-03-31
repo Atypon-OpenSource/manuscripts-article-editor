@@ -87,6 +87,10 @@ interface Config {
     literatum: boolean
     sts: boolean
   }
+  submission?: {
+    series_code: string
+    group_identifier: string
+  }
   version: string
 }
 
@@ -169,6 +173,10 @@ const config = {
   export: {
     literatum: isTrue(process.env.EXPORT_LITERATUM),
     sts: isTrue(process.env.EXPORT_STS),
+  },
+  submission: {
+    series_code: process.env.SUBMISSION_SERIES_CODE,
+    group_identifier: process.env.SUBMISSION_GROUP_IDENTIFIER,
   },
   version,
 }
