@@ -80,7 +80,6 @@ const importProjectArchive = async (result: Blob) => {
   // TODO: ensure that pageLayout and bundle are set
 
   const items = projectDump.data
-    .filter(item => !item.bundled)
     .filter(item => item.objectType !== 'MPContentSummary')
     .filter(item => item._id)
     .map(item => cleanItem(item))
