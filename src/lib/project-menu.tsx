@@ -128,7 +128,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     })
   }
 
-  if (config.submission) {
+  if (config.submission.group_doi && config.submission.series_code) {
     exportMenu.push({
       id: 'export-submission',
       label: () => 'Literatum Submission',

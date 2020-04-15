@@ -435,8 +435,6 @@ export const exportProject = async (
         throw new Error('A DOI is required for Literatum export')
       }
 
-      const [, identifier] = DOI.split('/')
-
       const file = await zip.generateAsync({ type: 'blob' })
 
       const form = new FormData()
@@ -447,12 +445,11 @@ export const exportProject = async (
         'Pressroom-Jats-Document-Processing-Level': 'full_text',
         'Pressroom-Digital-Object-Type': 'magazine',
         'Pressroom-Jats-Submission-Doi': DOI,
-        'Pressroom-Jats-Submission-Identifier': identifier,
       })
     }
 
     case 'submission': {
-      if (!config.submission) {
+      if (!config.submission.group_doi || !config.submission.series_code) {
         window.alert(
           'Submission is not correctly configured in this environment'
         )
@@ -466,21 +463,18 @@ export const exportProject = async (
         throw new Error('A DOI is required for Literatum submission')
       }
 
-      const [, identifier] = DOI.split('/')
-
       const file = await zip.generateAsync({ type: 'blob' })
 
       const form = new FormData()
       form.append('file', file, 'export.manuproj')
 
       return convert(form, format, {
-        'Pressroom-Target-Jats-Output-Format': 'literatum-submission',
+        'Pressroom-Target-Jats-Output-Format': 'wileyml-bundle',
         'Pressroom-Target-Jats-Version': '1.1',
         'Pressroom-Jats-Document-Processing-Level': 'full_text',
         'Pressroom-Jats-Submission-Doi': DOI,
-        'Pressroom-Jats-Submission-Identifier': identifier,
-        'Pressroom-JATS-Group-Identifier': config.submission.group_identifier,
-        'Pressroom-JATS-Series-Code': config.submission.series_code,
+        'Pressroom-Jats-Group-Doi': config.submission.group_doi,
+        'Pressroom-Jats-Series-Code': config.submission.series_code,
       })
     }
 

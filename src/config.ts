@@ -87,9 +87,9 @@ interface Config {
     literatum: boolean
     sts: boolean
   }
-  submission?: {
-    series_code: string
-    group_identifier: string
+  submission: {
+    series_code?: string
+    group_doi?: string
   }
   version: string
 }
@@ -176,7 +176,7 @@ const config = {
   },
   submission: {
     series_code: process.env.SUBMISSION_SERIES_CODE,
-    group_identifier: process.env.SUBMISSION_GROUP_IDENTIFIER,
+    group_doi: process.env.SUBMISSION_GROUP_DOI,
   },
   version,
 }
