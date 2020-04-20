@@ -1186,18 +1186,39 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   // while the citation insertion continues in the background
   private insertNativeCitationSync = (
     encodedData: string,
-    type: string
+    type: string,
+    insert: boolean = false,
+    batchId?: string
   ): true => {
-    this.insertNativeCitation(encodedData, type).catch(error => {
-      console.error(error) // tslint:disable-line:no-console
-    })
+    this.insertNativeCitation(encodedData, type, insert)
+      .then(imported => {
+        if (batchId) {
+          postWebkitMessage('taskCallback', {
+            batchId,
+            imported,
+            success: true,
+          })
+        }
+      })
+      .catch(error => {
+        console.error(error) // tslint:disable-line:no-console
+
+        if (batchId) {
+          postWebkitMessage('taskCallback', {
+            batchId,
+            success: false,
+            error: error.message,
+          })
+        }
+      })
 
     return true
   }
 
   private insertNativeCitation = async (
     encodedData: string,
-    type: string
+    type: string,
+    insert: boolean
   ): Promise<number> => {
     const data = window.atob(encodedData)
 
@@ -1217,35 +1238,45 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       if (existingItem) {
         itemsToCite.push(existingItem)
       } else {
-        const model = buildBibliographyItem(item)
+        const model = buildBibliographyItem(item) as BibliographyItem
 
-        // add the item to the model map so it's definitely available
-        this.setLibraryItem(model as BibliographyItem)
+        // add the item to the library model map so it's definitely available
+        this.setLibraryItem(model)
 
-        // save the new item
-        const newItem = await this.saveModel(model as BibliographyItem)
-
-        newItems.push(newItem)
-        itemsToCite.push(newItem)
+        newItems.push(model)
+        itemsToCite.push(model)
       }
     }
 
-    const { view } = this.state
+    if (newItems.length) {
+      const { projectID } = this.props.match.params
 
-    if (view && canInsert(schema.nodes.citation)) {
-      const { selection } = view.state // old state
+      const containedItems = newItems.map(model => ({
+        ...model,
+        containerID: projectID,
+      }))
 
-      insertInlineCitation(
-        view.state,
-        view.dispatch,
-        view,
-        itemsToCite.map(item => item._id)
-      )
+      await this.collection.bulkCreate(containedItems)
+    }
 
-      const { tr } = view.state // new state
+    if (insert) {
+      const { view } = this.state
 
-      // restore the selection (close the citation popover)
-      view.dispatch(tr.setSelection(selection.map(tr.doc, tr.mapping)))
+      if (view && canInsert(schema.nodes.citation)) {
+        const { selection } = view.state // old state
+
+        insertInlineCitation(
+          view.state,
+          view.dispatch,
+          view,
+          itemsToCite.map(item => item._id)
+        )
+
+        const { tr } = view.state // new state
+
+        // restore the selection (close the citation popover)
+        view.dispatch(tr.setSelection(selection.map(tr.doc, tr.mapping)))
+      }
     }
 
     return newItems.length

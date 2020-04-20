@@ -29,7 +29,12 @@ declare interface Window {
   getMenuState?: (key: string) => MenuItemState
   dispatchMenuAction?: (key: string) => void
   dispatchToolbarAction?: (key: string) => void
-  dispatchCitation?: (data: string, type: string) => void
+  dispatchCitation?: (
+    data: string,
+    type: string,
+    insert?: boolean,
+    batchId?: string
+  ) => void
   restartSync: () => void
   ga: UniversalAnalytics.ga
 }

@@ -13,7 +13,7 @@
 export * from './menu'
 export * from './toolbar'
 
-export type MessageHandler = 'toolbar' | 'sync' | 'action'
+export type MessageHandler = 'toolbar' | 'sync' | 'action' | 'taskCallback'
 
 export const postWebkitMessage = (handler: MessageHandler, message: object) => {
   if (window.webkit && window.webkit.messageHandlers) {

@@ -29,6 +29,11 @@ const chooseParser = (format: string) => {
     case 'papers-citations-xml':
       return import('./papers-citations')
 
+    case 'citeproc+json':
+      return Promise.resolve({
+        parse: JSON.parse,
+      })
+
     default:
       throw new Error(`Unknown citation format ${format}`)
   }
