@@ -26,6 +26,7 @@ import { flatMap } from 'lodash-es'
 import { basename, extname } from 'path'
 import config from '../config'
 import { FileExtensionError } from '../lib/errors'
+import { idRe } from '../lib/id'
 import {
   createNewContributorRoles,
   createNewStyles,
@@ -81,7 +82,7 @@ const importProjectArchive = async (result: Blob) => {
 
   const items = projectDump.data
     .filter(item => item.objectType !== 'MPContentSummary')
-    .filter(item => item._id)
+    .filter(item => item._id && idRe.test(item._id))
     .map(item => cleanItem(item))
 
   // load attachments from the Data folder
