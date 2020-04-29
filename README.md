@@ -1,4 +1,4 @@
-# manuscripts-frontend 
+# manuscripts-frontend
 
 This repository contains the browser client for the Manuscripts collaborative authoring environment, in a single-page React app ([desktop and mobile app embeddable](https://gitlab.com/mpapp-public/manuscripts-cocoa-app)).
 
@@ -22,7 +22,7 @@ Manuscripts is highly modular: it is composed out of a series of NPM published m
 
 - [@manuscripts/manuscript-editor](https://www.npmjs.com/package/@manuscripts/manuscript-editor) (source at [gitlab.com/mpapp-public/manuscripts-manuscript-editor](https://gitlab.com/mpapp-public/manuscripts-manuscript-editor)): the article body editor as a React component – this is where the great majority of this frontend application's logic is actually found from.
 - [@manuscripts/title-editor](https://www.npmjs.com/package/@manuscripts/title-editor) (source at [gitlab.com/mpapp-public/manuscripts-title-editor](https://gitlab.com/mpapp-public/manuscripts-title-editor): a React editor component for headings, titles and other title-like short stretches of text. In practice, the title editor component is mostly a [ProseMirror schema](https://prosemirror.net/examples/schema/).
-- [@manuscripts/comment-editor](https://www.npmjs.com/package/@manuscripts/comment-editor) (source at [gitlab.com/mpapp-public/manuscripts-comment-editor](https://gitlab.com/mpapp-public/manuscripts-comment-editor)): a React editor component for editing and viewing manuscript comments.  Like the title editor component, the abstract editor is mostly a wrapper for a [ProseMirror schema](https://prosemirror.net/examples/schema/).
+- [@manuscripts/comment-editor](https://www.npmjs.com/package/@manuscripts/comment-editor) (source at [gitlab.com/mpapp-public/manuscripts-comment-editor](https://gitlab.com/mpapp-public/manuscripts-comment-editor)): a React editor component for editing and viewing manuscript comments. Like the title editor component, the abstract editor is mostly a wrapper for a [ProseMirror schema](https://prosemirror.net/examples/schema/).
 - [@manuscripts/manuscripts-abstract-editor](https://www.npmjs.com/package/@manuscripts/abstract-editor) (source at [gitlab.com/mpapp-public/manuscripts-abstract-editor](https://gitlab.com/mpapp-public/manuscripts-abstract-editor)): a React editor component for editing and viewing abstracts. Like the title editor component, the abstract editor is mostly a wrapper for a [ProseMirror schema](https://prosemirror.net/examples/schema/).
 
 ### [ProseMirror](https://prosemirror.net) specifics
@@ -60,7 +60,7 @@ Run `yarn` to install the dependencies.
 The variables listed in `.env.example` must all be defined as environment variables.
 
 Run `yarn build` to build the app to the `dist` folder.
- 
+
 Deploy the files to S3 with `scripts/deploy.sh`.
 
 ## Running the client in development mode
@@ -76,7 +76,7 @@ Deploy the files to S3 with `scripts/deploy.sh`.
 1. Add any environment variables needed for the API server in `docker/server/.env`.
 1. `docker login registry.gitlab.com` to log in to GitLab’s Container Registry using your GitLab username and password (or a deploy token for read-only access to the registry images).
 1. Run `docker-compose pull` to pull the latest server Docker images.
-1. [first run] Initialize the backend services: `scripts/api/initialize.sh`
+1. [first run] Initialize the backend services: `scripts/api/initialize.sh`. If running on Windows or MacOS, it may be necessary to increase the RAM allocated to Docker. (This can be done through Docker Desktop > Preferences > Resources > Advanced > Memory.)
 1. [subsequent runs] Start the backend services: `docker-compose up api`
 1. Run `docker-compose up data jupyter` to start the additional services.
 1. To stop the service, run `docker-compose down`. Add an optional `-v` flag to delete the data volumes.
