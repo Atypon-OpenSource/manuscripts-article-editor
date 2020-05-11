@@ -35,16 +35,8 @@ export const useCrisp = () => {
     (message: string, diagnostics: string) => {
       if (!window.$crisp) return
       open()
-      const dataUrl = window.URL.createObjectURL(new Blob([diagnostics]))
       window.$crisp.push(['do', 'message:send', [message]])
-      window.$crisp.push([
-        'do',
-        'message:send',
-        [
-          'file',
-          { name: 'diagnostics.json', url: dataUrl, type: 'application/json' },
-        ],
-      ])
+      window.$crisp.push(['do', 'message:send', ['text', diagnostics]])
     },
     [window.$crisp]
   )
