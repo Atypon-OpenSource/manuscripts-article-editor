@@ -11,6 +11,7 @@
  */
 
 import {
+  isFigure,
   ModelAttachment,
   parseJATSArticle,
   parseSTSStandard,
@@ -18,12 +19,15 @@ import {
 import {
   Bundle,
   ContributorRole,
+  Figure,
   Model,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
+import { getType } from 'mime/lite'
 import { basename, extname } from 'path'
+import pathParse from 'path-parse'
 import config from '../config'
 import { FileExtensionError } from '../lib/errors'
 import { idRe } from '../lib/id'
@@ -66,32 +70,13 @@ const defaultAttachmentContentTypes: { [key in ObjectTypes]?: string } = {
   [ObjectTypes.Bundle]: 'application/vnd.citationstyles.style+xml',
 }
 
-const importProjectArchive = async (result: Blob) => {
-  const zip = await new JSZip().loadAsync(result)
-
-  const projectDump = await readProjectDumpFromArchive(zip)
-
-  if (projectDump.version !== '2.0') {
-    throw new Error(`Unsupported version: ${projectDump.version}`)
-  }
-
-  // TODO: validate?
-  // TODO: ensure default data is added
-  // TODO: add default bundle (which has no parent bundle)
-  // TODO: ensure that pageLayout and bundle are set
-
-  const items = projectDump.data
-    .filter(item => item.objectType !== 'MPContentSummary')
-    .filter(item => item._id && idRe.test(item._id))
-    .map(item => cleanItem(item))
-
-  // load attachments from the Data folder
-
+// load attachments from the Data folder
+const loadManuscriptsAttachments = async (zip: JSZip, models: JsonModel[]) => {
   for (const file of Object.values(zip.files)) {
     if (!file.dir && file.name.startsWith('Data/')) {
       const id = basename(file.name).replace('_', ':')
 
-      const model = items.find(model => model._id === id)
+      const model = models.find(model => model._id === id)
 
       if (model) {
         const objectType = model.objectType as ObjectTypes
@@ -107,8 +92,56 @@ const importProjectArchive = async (result: Blob) => {
       }
     }
   }
+}
 
-  return items
+// load attachments from the Images folder
+const loadExtylesAttachments = async (zip: JSZip, models: JsonModel[]) => {
+  const files = Object.values(zip.files)
+
+  const attachmentKey = attachmentKeys[ObjectTypes.Figure] as string
+
+  const figures = models.filter(isFigure) as Array<Figure & ModelAttachment>
+
+  for (const figure of figures) {
+    if (figure.originalURL) {
+      for (const file of files) {
+        const { dir, name, ext = 'png' } = pathParse(file.name)
+
+        if (dir === 'images' && name === figure.originalURL) {
+          figure.attachment = {
+            id: attachmentKey,
+            type: figure.contentType || getType(ext),
+            data: await file.async('blob'),
+          }
+          break
+        }
+      }
+    }
+  }
+}
+
+const importProjectArchive = async (result: Blob) => {
+  const zip = await new JSZip().loadAsync(result)
+
+  const projectDump = await readProjectDumpFromArchive(zip)
+
+  if (projectDump.version !== '2.0') {
+    throw new Error(`Unsupported version: ${projectDump.version}`)
+  }
+
+  // TODO: validate?
+  // TODO: ensure default data is added
+  // TODO: add default bundle (which has no parent bundle)
+  // TODO: ensure that pageLayout and bundle are set
+
+  const models = projectDump.data
+    .filter(item => item.objectType !== 'MPContentSummary')
+    .filter(item => item._id && idRe.test(item._id))
+    .map(item => cleanItem(item))
+
+  await loadManuscriptsAttachments(zip, models)
+
+  return models
 }
 
 interface BundledData {
@@ -312,12 +345,16 @@ export const importFile = async (file: File) => {
     // console.log(window.URL.createObjectURL(blob))
 
     const zip = await new JSZip().loadAsync(blob)
-    const filename = file.name.replace(/\.docx/, '.XML')
+    const filename = file.name.replace(/\.docx$/, '.XML')
 
     const xml = await zip.file(filename).async('text')
     const doc = parseXML(xml)
 
-    return convertXMLDocument(doc)
+    const models = convertXMLDocument(doc)
+
+    await loadExtylesAttachments(zip, models)
+
+    return models
   }
 
   const result = await convertFile(file)

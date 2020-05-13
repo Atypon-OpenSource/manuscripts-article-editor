@@ -920,6 +920,7 @@ export const buildHeadingStyles = (
       margin-bottom: ${marginBottom(model)}pt !important;
       line-height: ${lineHeight(model)};
       text-indent: ${textIndent(model)}pt;
+      display: inline;
     }
 
     ${titleContentSelector}::before {

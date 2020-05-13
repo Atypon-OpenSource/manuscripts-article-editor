@@ -1812,10 +1812,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.28.4":
-  version "0.28.4"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.28.4.tgz#e8a4df83502aa23baa27662b278e5bfdd439f28f"
-  integrity sha512-Lspi0uSvy3dnQe0Q4wOTE1bJSDeHKqz9Ohz6oeZAbzCdivRv3K8WRU3pOx/mq+3e7gpnK5doa1Oso6bkrvlFPw==
+"@manuscripts/manuscript-transform@^0.28.7":
+  version "0.28.7"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.28.7.tgz#e807f4b55b66fc1fe7c33b109fb386dd0bc2f4ff"
+  integrity sha512-2hg4VYSxoGO5XB2VHRmdSn56sJsmyf12cUmPbi8+S6Clu1wujYiNmyqxozKzdtRz6+wKj//YortImwFcL1hvCQ==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"
@@ -2953,6 +2953,13 @@
   version "4.0.0"
   resolved "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
+
+"@types/path-parse@^1.0.19":
+  version "1.0.19"
+  resolved "https://registry.npmjs.org/@types/path-parse/-/path-parse-1.0.19.tgz#8c8e4829a56c6fba498745079b7c3fc9c040647c"
+  integrity sha1-jI5IKaVsb7pJh0UHm3w/ycBAZHw=
+  dependencies:
+    "@types/node" "*"
 
 "@types/phoenix@^1.4.3":
   version "1.4.3"
@@ -12430,6 +12437,11 @@ mime@^2.4.4:
   version "2.4.4"
   resolved "https://registry.npmjs.org/mime/-/mime-2.4.4.tgz#bd7b91135fc6b01cde3e9bae33d659b63d8857e5"
   integrity sha512-LRxmNwziLPT828z+4YkNzloCFC2YM4wrB99k+AV5ZbEyfGNWfG8SO1FUXLmLDBSo89NrJZ4DIWeLjy1CHGhMGA==
+
+mime@^2.4.5:
+  version "2.4.5"
+  resolved "https://registry.npmjs.org/mime/-/mime-2.4.5.tgz#d8de2ecb92982dedbb6541c9b6841d7f218ea009"
+  integrity sha512-3hQhEUF027BuxZjQA3s7rIv/7VCQPa27hN9u9g87sEkWaKwQPuXOkVKtOeiyUrnWqTDiOs8Ed2rwg733mB0R5w==
 
 mimic-fn@^1.0.0:
   version "1.2.0"
