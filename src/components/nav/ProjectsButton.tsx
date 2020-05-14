@@ -99,17 +99,17 @@ class ProjectsButton extends React.Component<Props, State> {
 
     const actions = {
       primary: {
+        action: () => this.rejectInvitation(rejectedInvitation!),
+        title: 'Reject',
+        isDestructive: true,
+      },
+      secondary: {
         action: () =>
           this.setState({
             rejectedInvitation: null,
             invitingUserProfile: null,
           }),
         title: 'Cancel',
-      },
-      secondary: {
-        action: () => this.rejectInvitation(rejectedInvitation!),
-        title: 'Reject',
-        isDestructive: true,
       },
     }
     return (

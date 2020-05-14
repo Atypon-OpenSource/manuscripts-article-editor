@@ -32,13 +32,12 @@ class CreateAuthorPageContainer extends React.Component<Props> {
   public render() {
     const actions = {
       primary: {
-        action: this.props.handleCancel,
-        title: 'Cancel',
-      },
-      secondary: {
         action: this.handleCreate,
         title: 'Create',
-        isDestructive: true,
+      },
+      secondary: {
+        action: this.props.handleCancel,
+        title: 'Cancel',
       },
     }
     return (

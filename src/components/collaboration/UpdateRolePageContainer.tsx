@@ -24,13 +24,12 @@ class UpdateRolePageContainer extends React.Component<Props> {
   public render() {
     const actions = {
       primary: {
-        action: this.props.handleCancel,
-        title: 'Cancel',
-      },
-      secondary: {
         action: this.handleUpdate,
         title: 'Update Role',
-        isDestructive: true,
+      },
+      secondary: {
+        action: this.props.handleCancel,
+        title: 'Cancel',
       },
     }
     return (

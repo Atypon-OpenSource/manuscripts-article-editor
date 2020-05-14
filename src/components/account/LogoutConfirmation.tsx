@@ -105,7 +105,6 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
             secondary: {
               action: () => setConfirmationStage('ready'),
               title: 'Cancel',
-              isDestructive: false,
             },
           }}
           category={Category.error}

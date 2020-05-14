@@ -71,6 +71,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
           history.push('/projects')
         },
         title: 'Delete',
+        isDestructive: true,
       },
       secondary: {
         action: () =>
@@ -78,7 +79,6 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
             isConfirmDeleteOpen: false,
           }),
         title: 'Cancel',
-        isDestructive: true,
       },
     }
 
