@@ -34,6 +34,7 @@ import { ProjectsListPlaceholder } from './ProjectsListPlaceholder'
 
 const Container = styled(Sidebar)`
   background-color: ${props => props.theme.colors.background.primary};
+  overflow: auto;
 `
 
 const Header = styled(SidebarHeader)`
