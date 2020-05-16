@@ -1812,10 +1812,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.28.7":
-  version "0.28.7"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.28.7.tgz#e807f4b55b66fc1fe7c33b109fb386dd0bc2f4ff"
-  integrity sha512-2hg4VYSxoGO5XB2VHRmdSn56sJsmyf12cUmPbi8+S6Clu1wujYiNmyqxozKzdtRz6+wKj//YortImwFcL1hvCQ==
+"@manuscripts/manuscript-transform@^0.28.8":
+  version "0.28.8"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.28.8.tgz#cfc3b924ea4b7c50d68cd9ab28bda20dc220ef66"
+  integrity sha512-x1Z42MCFtoGZAMwUeZcErdINqSXf2GyUlh7cgnW7wCNUkGa6Lfvnf99c3FSYdFGLdXjx9/iLhCVoKFovZQgSJw==
   dependencies:
     debug "^4.1.1"
     prosemirror-model "^1.7.2"
@@ -6889,7 +6889,7 @@ discontinuous-range@1.0.0:
   resolved "https://registry.npmjs.org/discontinuous-range/-/discontinuous-range-1.0.0.tgz#e38331f0844bba49b9a9cb71c771585aab1bc65a"
   integrity sha1-44Mx8IRLukm5qctxx3FYWqsbxlo=
 
-dnd-core@^9.4.0, dnd-core@^9.5.1:
+dnd-core@^9.5.1:
   version "9.5.1"
   resolved "https://registry.npmjs.org/dnd-core/-/dnd-core-9.5.1.tgz#e9ec02d33529b68fa528865704d40ac4b14f2baf"
   integrity sha512-/yEWFF2jg51yyB8uA2UbvBr9Qis0Oo/4p9cqHLEKZdxzHHVSPfq0a/ool8NG6dIS6Q4uN+oKGObY0rNWiopJDA==
