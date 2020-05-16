@@ -21,6 +21,7 @@ const SidebarCommonStyles = css`
   padding: ${props => props.theme.grid.unit * 4}px
     ${props => props.theme.grid.unit * 2}px;
   width: 100%;
+  overflow: hidden;
 `
 
 export const Sidebar = styled.div`
@@ -58,4 +59,5 @@ export const SidebarContent = styled.div`
   padding: 0 ${props => props.theme.grid.unit * 3}px;
   position: relative;
   flex-shrink: 0;
+  overflow-y: auto;
 `

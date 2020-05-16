@@ -64,6 +64,7 @@ storiesOf('Projects', module)
         delete: action('delete token'),
         update: action('update token'),
       }}
+      saveModel={action('save model')}
     />
   ))
   .add('Projects Menu', () => (

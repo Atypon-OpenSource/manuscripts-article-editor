@@ -32,8 +32,8 @@ import {
   InspectorTab,
   InspectorTabList,
   InspectorTabPanel,
-  InspectorTabPanels,
   InspectorTabs,
+  PaddedInspectorTabPanels,
 } from '../Inspector'
 import {
   AnyElement,
@@ -120,7 +120,7 @@ export const Inspector: React.FC<{
           <InspectorTab>Comments</InspectorTab>
         </InspectorTabList>
 
-        <InspectorTabPanels>
+        <PaddedInspectorTabPanels>
           <InspectorTabPanel>
             {tabIndex === 0 && (
               <>
@@ -236,7 +236,7 @@ export const Inspector: React.FC<{
               </>
             )}
           </InspectorTabPanel>
-        </InspectorTabPanels>
+        </PaddedInspectorTabPanels>
       </InspectorTabs>
     </InspectorContainer>
   )

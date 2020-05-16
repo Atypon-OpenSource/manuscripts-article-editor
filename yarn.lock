@@ -1769,10 +1769,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.7.tgz#f7f0cef173fb2c83fbf283a2c2962b5d6ea32874"
   integrity sha512-7a1y6H/wnvn4hTh7S+TEyC8R5tLHHNiWYJnbeS43JCMYS/6qhMCzJTS0PwQynoep7PWwi2LdgaSZ3qALxzgg0g==
 
-"@manuscripts/manuscript-editor@^0.68.1":
-  version "0.68.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.68.1.tgz#ee52f7f11a0b37694ee573a3bbf33d9a41f74172"
-  integrity sha512-pQEscamp9Zl4pgjRnxLYLl46hFM87kmQSG7lFFdlXQHje8pjpfFA60iCkZFMLSkRX/+WQ5BDvzVmEbqh80kxbA==
+"@manuscripts/manuscript-editor@^0.70.1":
+  version "0.70.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.70.1.tgz#cdeeb79b163d9fc2a9037ad3eee2eef8d9e0863f"
+  integrity sha512-kvzTkLiOp3BPCRYLCm/WqLqI1+MH7As4ocHbWMqoroETobb3GbkWqMtRjYmKWoeI5PMNM8nj8f941lmE++H1Dw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1805,7 +1805,7 @@
     prosemirror-transform "^1.2.3"
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.14.2"
-    react-dnd "^9.4.0"
+    react-dnd "^9.5.1"
     react-modal "^3.11.2"
     react-popper "^1.0.2"
     react-select "^2.4.3"
@@ -6889,10 +6889,10 @@ discontinuous-range@1.0.0:
   resolved "https://registry.npmjs.org/discontinuous-range/-/discontinuous-range-1.0.0.tgz#e38331f0844bba49b9a9cb71c771585aab1bc65a"
   integrity sha1-44Mx8IRLukm5qctxx3FYWqsbxlo=
 
-dnd-core@^9.4.0:
-  version "9.4.0"
-  resolved "https://registry.npmjs.org/dnd-core/-/dnd-core-9.4.0.tgz#ccf605d36887f18cdde8fd5576ca3145d2e69fa8"
-  integrity sha512-Kg+8VwU8s7TgdR/BUYGUHrvFiS+5ePMZ0Q0XD7p+cFVJvgKqykBaeQDuaziuauFMPm8QxtnUy8Pncey9flXW3Q==
+dnd-core@^9.4.0, dnd-core@^9.5.1:
+  version "9.5.1"
+  resolved "https://registry.npmjs.org/dnd-core/-/dnd-core-9.5.1.tgz#e9ec02d33529b68fa528865704d40ac4b14f2baf"
+  integrity sha512-/yEWFF2jg51yyB8uA2UbvBr9Qis0Oo/4p9cqHLEKZdxzHHVSPfq0a/ool8NG6dIS6Q4uN+oKGObY0rNWiopJDA==
   dependencies:
     "@types/asap" "^2.0.0"
     "@types/invariant" "^2.2.30"
@@ -15304,28 +15304,28 @@ react-dev-utils@^9.0.0:
     strip-ansi "5.2.0"
     text-table "0.2.0"
 
-react-dnd-html5-backend@^9.4.0:
-  version "9.4.0"
-  resolved "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-9.4.0.tgz#5b1d192f57d103298657cde1fe0eabdbf2726311"
-  integrity sha512-gehPwLp505F6RoFkQiDX7Q4mbpbyfyT0TbIoZop/m4vkBw6yUE/QLrnxBQdNpDPSwL/9XkZxxd/PrbeMCQ+WrQ==
+react-dnd-html5-backend@^9.5.1:
+  version "9.5.1"
+  resolved "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-9.5.1.tgz#e6a0aed3ece800c1abe004f9ed9991513e2e644c"
+  integrity sha512-wUdzjREwLqHxFkA6E+XDVL5IFjRDbBI3SHVKil9n3qrGT5dm2tA2oi1aIALdfMKsu00c+OXA9lz/LuKZCE9KXg==
   dependencies:
-    dnd-core "^9.4.0"
+    dnd-core "^9.5.1"
 
-react-dnd-test-backend@^9.4.0:
-  version "9.4.0"
-  resolved "https://registry.npmjs.org/react-dnd-test-backend/-/react-dnd-test-backend-9.4.0.tgz#83ae77f70f95eff38d306a587be14b38b3194c4a"
-  integrity sha512-Dyc3R9/LM9IMqatwGOU7aMzsqtKJA2ihUCug+vKKaWhZH+rrL5behnGD+HdkadUuqfCsqY3IDCWhhCFqKfSzgQ==
+react-dnd-test-backend@^9.5.1:
+  version "9.5.1"
+  resolved "https://registry.npmjs.org/react-dnd-test-backend/-/react-dnd-test-backend-9.5.1.tgz#88022157ffe5239a1470a8dafb4228c1e25b77f7"
+  integrity sha512-Nqs4APB7Y5ccSMaCLx/y1HeNkokGg1jl+0XmYBzYzfGvtBWZMaeL9sUZevyFb4vPahKhqMd1GhCyEViVG3BT2w==
   dependencies:
-    dnd-core "^9.4.0"
+    dnd-core "^9.5.1"
 
-react-dnd@^9.4.0:
-  version "9.4.0"
-  resolved "https://registry.npmjs.org/react-dnd/-/react-dnd-9.4.0.tgz#eec87035c6360fb33a44932326b3369af011a41c"
-  integrity sha512-jnLF8qKowCKTqSddfCiLx5+sb+HxO1qgdiAgbBeL8yuo5tRYNtKxZYn7+wVwNoyZuWEuM1Gw/Wsdhr+yb2RELQ==
+react-dnd@^9.4.0, react-dnd@^9.5.1:
+  version "9.5.1"
+  resolved "https://registry.npmjs.org/react-dnd/-/react-dnd-9.5.1.tgz#907e55c791d6c50cbed1a4021c14b989b86ac467"
+  integrity sha512-j2MvziPNLsxXkb3kIJzLvvOv/TQ4sysp6U4CmxAXd4C884dXm/9UGdB7K1wkTW3ZxVpI1K7XhKbX0JgNlPfLcA==
   dependencies:
     "@types/hoist-non-react-statics" "^3.3.1"
     "@types/shallowequal" "^1.1.1"
-    dnd-core "^9.4.0"
+    dnd-core "^9.5.1"
     hoist-non-react-statics "^3.3.0"
     shallowequal "^1.1.0"
 

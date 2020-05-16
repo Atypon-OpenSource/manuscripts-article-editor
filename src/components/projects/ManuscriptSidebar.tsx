@@ -31,6 +31,7 @@ import { AddButton } from '../AddButton'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import PageSidebar from '../PageSidebar'
 import { SidebarHeader } from '../Sidebar'
+import { SortableManuscript } from './SortableManuscript'
 
 const CustomizedSidebarHeader = styled.div`
   align-items: flex-start;
@@ -70,10 +71,6 @@ const ProjectTitle = styled.div`
   }
 `
 
-const SidebarManuscript = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 4}px;
-`
-
 const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
   if (a.priority === b.priority) {
     return a.createdAt - b.createdAt
@@ -94,6 +91,7 @@ interface Props {
   user: UserProfileWithAvatar
   permissions: Permissions
   tokenActions: TokenActions
+  saveModel: (model: Manuscript) => Promise<Manuscript>
 }
 
 const ManuscriptSidebar: React.FunctionComponent<Props> = ({
@@ -108,18 +106,41 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   selected,
   user,
   tokenActions,
+  saveModel,
 }) => {
   const [sortedManuscripts, setSortedManuscripts] = useState<Manuscript[]>()
 
   useEffect(() => {
     setSortedManuscripts(manuscripts.sort(lowestPriorityFirst))
-  }, [manuscript])
+  }, [manuscripts])
 
   const handleNewManuscript = useCallback(() => {
     openTemplateSelector(false)
-  }, [])
+  }, [openTemplateSelector])
 
   const handleTitleChange = useCallback(debounce(saveProjectTitle, 1000), [])
+
+  const setIndex = useCallback(
+    (id: string, index: number) => {
+      const manuscript = manuscripts.find(item => item._id === id)!
+
+      manuscript.priority = index
+
+      manuscripts.sort(lowestPriorityFirst)
+
+      for (const [index, manuscript] of manuscripts.entries()) {
+        if (manuscript.priority !== index) {
+          saveModel({
+            ...manuscript,
+            priority: index,
+          }).catch(error => {
+            console.error(error) // tslint:disable-line:no-console
+          })
+        }
+      }
+    },
+    [saveModel, manuscripts]
+  )
 
   if (!sortedManuscripts) {
     return null
@@ -166,20 +187,25 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
         )
       }
     >
-      {sortedManuscripts.map(item => (
-        <SidebarManuscript key={item._id}>
+      {sortedManuscripts.map((item, index) => (
+        <SortableManuscript
+          key={item._id}
+          index={index}
+          item={item}
+          setIndex={setIndex}
+        >
           {item._id === manuscript._id ? (
             <ManuscriptOutline
               manuscript={manuscript}
               doc={doc || null}
-              view={view || null}
+              view={view}
               selected={selected}
               permissions={permissions}
             />
           ) : (
             <OutlineManuscript project={project} manuscript={item} />
           )}
-        </SidebarManuscript>
+        </SortableManuscript>
       ))}
     </PageSidebar>
   )

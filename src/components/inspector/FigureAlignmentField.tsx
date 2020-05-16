@@ -49,7 +49,6 @@ export const FigureAlignmentField: React.FC<{
             {value.label}
           </option>
         ))}
-        }
       </StyleSelect>
     </InspectorField>
   )

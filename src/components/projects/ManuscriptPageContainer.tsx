@@ -444,6 +444,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           user={user}
           permissions={permissions}
           tokenActions={tokenActions}
+          saveModel={this.saveModel}
         />
 
         <Main>
