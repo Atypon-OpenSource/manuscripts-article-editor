@@ -76,12 +76,25 @@ const chooseURL = (format: string) => {
   }
 }
 
+const downloadFile = (file: File) => {
+  const a = document.createElement('a')
+  a.href = window.URL.createObjectURL(file)
+  a.download = file.name
+  a.click()
+}
+
 export const convert = async (
   data: FormData,
   format: ExportManuscriptFormat,
   headers: { [key: string]: string } = {}
 ): Promise<Blob> => {
   const file = data.get('file') as File
+
+  // To debug the file that's sent to Pressroom:
+  // window.localStorage.setItem('PRESSROOM_DEBUG', 1)
+  if (window.localStorage.getItem('PRESSROOM_DEBUG')) {
+    downloadFile(file)
+  }
 
   if (format !== 'do') {
     headers['Pressroom-Target-File-Extension'] = format
