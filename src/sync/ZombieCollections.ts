@@ -85,8 +85,10 @@ export class ZombieCollections {
   }
 
   private postState() {
-    /* tslint:disable-next-line:no-floating-promises */
-    this.channel.postMessage(JSON.stringify(this.getCollections()))
+    this.channel.postMessage(JSON.stringify(this.getCollections())).catch(e => {
+      /* tslint:disable-next-line:no-console */
+      console.error('Error while broadcasting sync state between tabs', e)
+    })
   }
 }
 

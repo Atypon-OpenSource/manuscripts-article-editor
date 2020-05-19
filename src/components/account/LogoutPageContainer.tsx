@@ -48,10 +48,10 @@ class LogoutPageContainer extends React.Component<
 
       window.location.assign('/login#action=logout')
 
-      // this isn't really a promise
-      /* tslint:disable-next-line:no-floating-promises */
-      channel.postMessage('LOGOUT')
+      await channel.postMessage('LOGOUT')
     } catch (error) {
+      /* tslint:disable-next-line:no-console */
+      console.error('Error while performing logout tasks', error)
       this.setState({ error })
     }
   }

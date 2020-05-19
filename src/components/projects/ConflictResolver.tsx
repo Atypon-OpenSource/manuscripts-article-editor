@@ -46,10 +46,8 @@ const ConflictResolver: React.FC<Props> = ({
   )
 
   const resolveToRemoteTree = useCallback(() => {
-    // it is appropriate to fire-and-forget since failure to remove the local
-    // conflicts will just bring up the same modal again.
-    /* tslint:disable-next-line:no-floating-promises */
-    conflictManager.resolveToRemoteTree(manuscriptID)
+    /* tslint:disable-next-line:no-console */
+    conflictManager.resolveToRemoteTree(manuscriptID).catch(console.error)
   }, [conflictManager, manuscriptID])
 
   const resolveToLocalTree = useCallback(() => {

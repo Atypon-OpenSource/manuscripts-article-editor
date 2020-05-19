@@ -27,9 +27,13 @@ export const ZombieResync: React.FC<Props> = ({ db }) => {
       const zombie = zombieCollections.getOne()
       if (!zombie) return
 
-      // if Promise errors we will just try again next time
-      /* tslint:disable-next-line:no-floating-promises */
-      zombieCollections.cleanupOne(zombie, db)
+      zombieCollections.cleanupOne(zombie, db).catch(e => {
+        /* tslint:disable-next-line:no-console */
+        console.error(
+          'Uncaught promise rejection while attempting to clean up zombie collections',
+          e
+        )
+      })
     }, RESYNC_RATE)
 
     return () => {

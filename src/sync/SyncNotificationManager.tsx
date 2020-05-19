@@ -60,8 +60,8 @@ const SyncNotificationManager: NotificationComponent = ({
 
   const handleRetry = useCallback(() => {
     dispatch({ type: 'reset' })
-    /* tslint:disable-next-line:no-floating-promises */
-    CollectionManager.restartAll()
+    /* tslint:disable-next-line:no-console */
+    CollectionManager.restartAll().catch(console.error)
   }, [])
 
   const composeErrorReport = useCallback(() => {
