@@ -2,7 +2,7 @@ version: '3'
 
 services:
   couchbase:
-    image: registry.gitlab.com/mpapp-public/manuscripts-sync/couchbase
+    image: registry.gitlab.com/mpapp-public/couchbase-images/couchbase
     environment:
       - COUCHBASE_INITIALIZE
     env_file:
