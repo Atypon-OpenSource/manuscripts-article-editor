@@ -12,11 +12,16 @@
 
 import { Manuscript, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
 
 interface Props {
-  children: (data: Manuscript[]) => React.ReactNode
+  children: (
+    data: Manuscript[],
+    collection: Collection<Manuscript>,
+    restartSync: () => void
+  ) => React.ReactNode
   projectID: string
 }
 
@@ -80,6 +85,8 @@ class ProjectManuscriptsData extends DataComponent<Manuscript, Props, State> {
           this.setState({
             data: docs.map(doc => doc.toJSON()),
           })
+        } else {
+          this.setState({ data: [] })
         }
       })
 }

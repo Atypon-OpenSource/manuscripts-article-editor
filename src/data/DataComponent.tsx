@@ -21,7 +21,8 @@ export abstract class DataComponent<
   Props extends {
     children: (
       data: T | T[] | Map<string, T> | null,
-      collection: Collection<T>
+      collection: Collection<T>,
+      restartSync: () => void
     ) => React.ReactNode
   },
   State extends { data?: T | T[] | Map<string, T> | null }
@@ -37,7 +38,11 @@ export abstract class DataComponent<
     }
 
     // @ts-ignore
-    return this.props.children(this.state.data!, this.collection)
+    return this.props.children(
+      this.state.data!,
+      this.collection,
+      this.restartSync
+    )
   }
 
   protected isComplete = () => {
@@ -46,6 +51,17 @@ export abstract class DataComponent<
   }
 
   protected handleComplete = () => {
+    this.forceUpdate()
+  }
+
+  protected restartSync = async () => {
+    try {
+      await this.collection.cancelReplications()
+      await this.collection.initialize()
+    } catch (error) {
+      /* tslint:disable-next-line:no-console */
+      console.error('Error restarting sync', error)
+    }
     this.forceUpdate()
   }
 }

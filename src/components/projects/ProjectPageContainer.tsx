@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Manuscript } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
 import CollaboratorsData from '../../data/CollaboratorsData'
@@ -34,6 +35,7 @@ import { buildCollaboratorProfiles } from '../../lib/collaborators'
 import { buildInvitations } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'
 import { lastOpenedManuscriptID } from '../../lib/user-project'
+import { Collection } from '../../sync/Collection'
 import Sync from '../../sync/Sync'
 import AddCollaboratorsPageContainer from '../collaboration/AddCollaboratorsPageContainer'
 import CollaboratorsPageContainer from '../collaboration/CollaboratorsPageContainer'
@@ -166,7 +168,13 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                             }
                                                             {...props}
                                                           >
-                                                            {manuscripts => {
+                                                            {(
+                                                              manuscripts,
+                                                              collection: Collection<
+                                                                Manuscript
+                                                              >,
+                                                              restartSync
+                                                            ) => {
                                                               if (
                                                                 !manuscripts.length ||
                                                                 (props.location
@@ -183,6 +191,15 @@ class ProjectPageContainer extends React.Component<CombinedProps> {
                                                                     user={user}
                                                                     message={
                                                                       message
+                                                                    }
+                                                                    hasPullError={
+                                                                      collection
+                                                                        .status
+                                                                        .pull
+                                                                        .error
+                                                                    }
+                                                                    restartSync={
+                                                                      restartSync
                                                                     }
                                                                   />
                                                                 )

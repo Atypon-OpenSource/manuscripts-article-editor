@@ -21,6 +21,8 @@ interface Props {
   project: Project
   user: UserProfileWithAvatar
   message: string
+  hasPullError: boolean
+  restartSync: () => void
 }
 
 class EmptyProjectPageContainer extends React.Component<Props & ModalProps> {
@@ -29,6 +31,8 @@ class EmptyProjectPageContainer extends React.Component<Props & ModalProps> {
       <EmptyProjectPage
         openTemplateSelector={this.openTemplateSelector}
         message={this.props.message}
+        hasPullError={this.props.hasPullError}
+        restartSync={this.props.restartSync}
       />
     )
   }

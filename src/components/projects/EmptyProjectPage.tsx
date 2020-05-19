@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 import { AddButton } from '../AddButton'
@@ -44,11 +45,15 @@ const TextContainer = styled.div`
 interface Props {
   openTemplateSelector: () => void
   message?: string
+  hasPullError: boolean
+  restartSync: () => void
 }
 
 export const EmptyProjectPage: React.FunctionComponent<Props> = ({
   openTemplateSelector,
   message,
+  hasPullError,
+  restartSync,
 }) => {
   return (
     <OuterContainer>
@@ -66,10 +71,22 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
         />
       </ActionContainer>
 
-      <Message>
-        <TextContainer>This project is empty.</TextContainer>
-        <TextContainer>Create a manuscript to get started.</TextContainer>
-      </Message>
+      {hasPullError ? (
+        <Message>
+          <TextContainer>
+            Error while pulling data: there may be manuscripts which are missing
+            locally
+          </TextContainer>
+          <TextContainer>
+            <PrimaryButton onClick={restartSync}>Restart sync</PrimaryButton>
+          </TextContainer>
+        </Message>
+      ) : (
+        <Message>
+          <TextContainer>This project is empty.</TextContainer>
+          <TextContainer>Create a manuscript to get started.</TextContainer>
+        </Message>
+      )}
     </OuterContainer>
   )
 }

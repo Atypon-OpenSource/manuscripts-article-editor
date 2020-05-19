@@ -46,6 +46,15 @@ storiesOf('Projects', module)
   .add('Projects Page - Empty', () => (
     <EmptyProjectPage
       openTemplateSelector={action('open template selector ')}
+      hasPullError={false}
+      restartSync={action('cancel syncing and reinitialize collection')}
+    />
+  ))
+  .add('Projects Page - Empty due to pull error', () => (
+    <EmptyProjectPage
+      openTemplateSelector={action('open template selector ')}
+      hasPullError={true}
+      restartSync={action('cancel syncing and reinitialize collection')}
     />
   ))
   .add('Manuscript Sidebar', () => (
