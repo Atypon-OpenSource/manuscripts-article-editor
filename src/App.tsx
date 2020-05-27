@@ -23,6 +23,7 @@ import LoginPageContainer from './components/account/LoginPageContainer'
 import LogoutPageContainer from './components/account/LogoutPageContainer'
 import ProfilePageContainer from './components/account/ProfilePageContainer'
 import RecoverPageContainer from './components/account/RecoverPageContainer'
+import { RetrieveAccountPageContainer } from './components/account/RetrieveAccountPageContainer'
 import SignupPageContainer from './components/account/SignupPageContainer'
 import AcceptInvitationRequireLoginContainer from './components/collaboration/AcceptInvitationRequireLoginContainer'
 import AcceptProjectInvitation from './components/collaboration/AcceptProjectInvitation'
@@ -37,6 +38,7 @@ import { NewProjectPageContainer } from './components/projects/NewProjectPageCon
 import ProjectPageContainer from './components/projects/ProjectPageContainer'
 import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
 import { RequireLogin } from './components/RequireLogin'
+import { SorryPage } from './components/RetrieveAccountPage'
 import config from './config'
 import OptionalUserData from './data/OptionalUserData'
 import { TokenData } from './data/TokenData'
@@ -208,6 +210,12 @@ const App: React.FunctionComponent = () => (
                                 <RequireLogin {...props} />
                               )
                             }
+                          />
+
+                          <Route
+                            path={'/retrieve-account'}
+                            exact={true}
+                            component={RetrieveAccountPageContainer}
                           />
 
                           <Route
@@ -411,6 +419,16 @@ const App: React.FunctionComponent = () => (
                 />
 
                 <Route
+                  path={'/retrieve-account'}
+                  exact={true}
+                  render={props => (
+                    <RequireLogin {...props}>
+                      Please sign in first so you can retrieve your account.
+                    </RequireLogin>
+                  )}
+                />
+
+                <Route
                   path={'/profile'}
                   exact={true}
                   component={RequireLogin}
@@ -489,6 +507,8 @@ const App: React.FunctionComponent = () => (
                   exact={true}
                   component={DeveloperPageContainer}
                 />
+
+                <Route path={'/sorry'} exact={true} component={SorryPage} />
 
                 <Route component={NotFoundPage} />
               </Switch>

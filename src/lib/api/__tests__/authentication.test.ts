@@ -15,15 +15,16 @@ import client from '../../client'
 import deviceId from '../../device-id'
 import {
   changePassword,
-  deleteAccount,
   login,
   logout,
+  markUserForDeletion,
   refresh,
   refreshSyncSessions,
   resendVerificationEmail,
   resetPassword,
   sendPasswordRecovery,
   signup,
+  unmarkUserForDeletion,
   verify,
 } from '../authentication'
 
@@ -142,13 +143,16 @@ describe('authentication', () => {
     })
   })
 
-  test('delete user account', async () => {
-    const password = 'password'
-    await deleteAccount(password)
+  test('mark user for deletion', async () => {
+    await markUserForDeletion()
 
-    expect(client.delete).toBeCalledWith(`/user`, {
-      data: { password, deviceId },
-    })
+    expect(client.post).toBeCalledWith(`/user/mark-for-deletion`, {})
+  })
+
+  test('unmark user for deletion', async () => {
+    await unmarkUserForDeletion()
+
+    expect(client.post).toBeCalledWith(`/user/unmark-for-deletion`)
   })
 
   test('refresh', async () => {

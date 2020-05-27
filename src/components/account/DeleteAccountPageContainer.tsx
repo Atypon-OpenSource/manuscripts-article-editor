@@ -19,7 +19,7 @@ import ProjectsData from '../../data/ProjectsData'
 import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import { logout } from '../../lib/account'
-import { deleteAccount } from '../../lib/api'
+import { markUserForDeletion } from '../../lib/api'
 import { isOwner } from '../../lib/roles'
 import { getCurrentUserId } from '../../lib/user'
 import { deleteAccountSchema } from '../../validation'
@@ -53,7 +53,7 @@ const DeleteAccountPageContainer: React.FunctionComponent<Props &
                 actions.setErrors({})
 
                 try {
-                  await deleteAccount(values.password)
+                  await markUserForDeletion(values.password)
 
                   actions.setSubmitting(false)
 

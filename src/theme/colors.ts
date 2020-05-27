@@ -51,6 +51,7 @@ export const punchRed = '#f35143'
 // export const eunryRed = '#d2a1a1'
 export const mandysRed = '#f5c1b7'
 export const chablisRed = '#fff1f0'
+export const darkRed = '#c74237'
 
 /* GREENS */
 export const killarneyGreen = '#36b260'

@@ -16,13 +16,17 @@ import {
   UserProfile,
   UserProfileAffiliation,
 } from '@manuscripts/manuscripts-json-schema'
+import { Category, Dialog } from '@manuscripts/style-guide'
 import { FormikErrors, FormikHelpers } from 'formik'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import config from '../../config'
 import UserAffiliationsData from '../../data/UserAffiliationsData'
 import UserData from '../../data/UserData'
+import { logout } from '../../lib/account'
+import { markUserForDeletion } from '../../lib/api/authentication'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
+import tokenHandler from '../../lib/token'
 import { getCurrentUserId } from '../../lib/user'
 import { Collection } from '../../sync/Collection'
 import { ProfileErrors, ProfileValues } from './ProfileForm'
@@ -32,8 +36,54 @@ const ProfilePage = React.lazy<ProfilePageComponent>(() =>
   import('./ProfilePage')
 )
 
+interface State {
+  confirmDelete: boolean
+}
+
 class ProfilePageContainer extends React.Component<RouteComponentProps> {
+  public state: Readonly<State> = {
+    confirmDelete: false,
+  }
+
   public render() {
+    const { confirmDelete } = this.state
+
+    const actions = {
+      primary: {
+        action: async () => {
+          await markUserForDeletion()
+          await logout()
+
+          tokenHandler.remove()
+
+          window.location.assign('/sorry')
+        },
+        title: 'Delete Now',
+        isDestructive: true,
+      },
+      secondary: {
+        action: () =>
+          this.setState({
+            confirmDelete: false,
+          }),
+        title: 'Keep my account',
+      },
+    }
+
+    if (confirmDelete) {
+      return (
+        <Dialog
+          isOpen={confirmDelete}
+          actions={actions}
+          category={Category.confirmation}
+          header={'Are you sure you want to delete your acount?'}
+          message={
+            'Your projects will be gone forever, and you will no longer have access to the projects you were invited to.'
+          }
+          confirmFieldText={'DELETE'}
+        />
+      )
+    }
     return (
       <UserData userID={getCurrentUserId()!}>
         {(user, userCollection) => (
@@ -103,7 +153,12 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
       ? window.open(`${config.iam.url}/security/password`)
       : this.props.history.push('/change-password')
 
-  private handleDeleteAccount = () => this.props.history.push('/delete-account')
+  private handleDeleteAccount = () =>
+    config.connect.enabled
+      ? this.setState({
+          confirmDelete: true,
+        })
+      : this.props.history.push('/delete-account')
 
   private handleClose = () => this.props.history.goBack()
 

@@ -50,6 +50,7 @@ export const resetPassword = (password: string, token: string) =>
 export const login = (email: string, password: string) =>
   client.post<{
     token: string
+    recover: boolean
   }>(
     '/auth/login',
     {
@@ -77,10 +78,13 @@ export const refreshSyncSessions = () =>
     withCredentials: true,
   })
 
-export const deleteAccount = (password: string) =>
-  client.delete('/user', {
-    data: { password, deviceId },
+export const markUserForDeletion = (password?: string) =>
+  client.post('/user/mark-for-deletion', {
+    password,
   })
+
+export const unmarkUserForDeletion = () =>
+  client.post('/user/unmark-for-deletion')
 
 export const logout = () =>
   client.post('/auth/logout', null, {

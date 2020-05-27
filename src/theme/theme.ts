@@ -117,17 +117,17 @@ export const theme: DefaultTheme = {
         background: {
           active: colors.punchRed,
           default: colors.punchRed,
-          hover: 'transparent',
+          hover: colors.darkRed,
         },
         border: {
           active: colors.punchRed,
           default: colors.punchRed,
-          hover: colors.punchRed,
+          hover: colors.darkRed,
         },
         color: {
           active: colors.white,
           default: colors.white,
-          hover: colors.punchRed,
+          hover: colors.white,
         },
       },
     },

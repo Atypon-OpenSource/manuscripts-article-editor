@@ -20,7 +20,7 @@ export const login = async (email: string, password: string) => {
   // TODO: decide whether to remove the local database at login
 
   const {
-    data: { token },
+    data: { token, recover },
   } = await api.login(email, password)
 
   try {
@@ -35,7 +35,7 @@ export const login = async (email: string, password: string) => {
     // TODO: removing the local database failed
   }
 
-  return token
+  return { token, recover }
 }
 
 export const logout = async () => {

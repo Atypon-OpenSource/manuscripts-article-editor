@@ -9,46 +9,23 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-
-import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
-import { parse } from 'qs'
+import { stringify } from 'qs'
 import React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
+import { unmarkUserForDeletion } from '../../lib/api/authentication'
+import { MessageBannerAction } from '../MessageBanner'
+import { RetrieveAccountPage } from '../RetrieveAccountPage'
 
-export enum MessageBannerAction {
-  resetPassword = 'reset-password',
-  retrieveAccount = 'account-retrieved',
-}
-interface Props {
-  errorMessage?: string
-}
-
-const MessageBanner: React.FunctionComponent<Props> = ({ errorMessage }) => {
-  const { action } = parse(window.location.hash.substr(1))
-
-  if (errorMessage) {
-    return (
-      <AlertMessage type={AlertMessageType.error}>{errorMessage}</AlertMessage>
+export const RetrieveAccountPageContainer: React.FC<RouteComponentProps> = ({}) => {
+  const handleRetrieve = async () => {
+    await unmarkUserForDeletion().then(() =>
+      window.location.assign(
+        '/projects#' +
+          stringify({
+            action: MessageBannerAction.retrieveAccount,
+          })
+      )
     )
   }
-
-  switch (action) {
-    case MessageBannerAction.resetPassword:
-      return (
-        <AlertMessage type={AlertMessageType.success}>
-          Password reset was successful.
-        </AlertMessage>
-      )
-    case MessageBannerAction.retrieveAccount:
-      return (
-        <AlertMessage type={AlertMessageType.success}>
-          Your account has been retrieved successfully. Your projects are now
-          safe and you still have access to the projects you were invited to.
-        </AlertMessage>
-      )
-
-    default:
-      return null
-  }
+  return <RetrieveAccountPage handleRetrieve={handleRetrieve} />
 }
-
-export default MessageBanner

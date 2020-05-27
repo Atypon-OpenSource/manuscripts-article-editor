@@ -48,7 +48,7 @@ describe('Account', () => {
 
     expect(typeof db.projects).toBe('object')
 
-    const token = await login('test@example.com', 'password')
+    const { token } = await login('test@example.com', 'password')
 
     const { userId } = decode<TokenPayload>(token)
 

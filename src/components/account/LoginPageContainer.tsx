@@ -61,6 +61,7 @@ interface HashData {
   email?: string
   redirect?: boolean | string
   error_description?: string
+  recover?: string
 }
 
 interface RouteLocationState {
@@ -130,7 +131,10 @@ class LoginPageContainer extends React.Component<
                 tokenHandler.remove()
 
                 try {
-                  const token = await login(values.email, values.password)
+                  const { token, recover } = await login(
+                    values.email,
+                    values.password
+                  )
 
                   tokenHandler.set(token)
 
@@ -138,7 +142,9 @@ class LoginPageContainer extends React.Component<
 
                   userID.set(userId)
 
-                  this.redirectAfterLogin()
+                  recover
+                    ? window.location.assign('/retrieve-account')
+                    : this.redirectAfterLogin()
                 } catch (error) {
                   console.error(error) // tslint:disable-line:no-console
 
@@ -163,6 +169,7 @@ class LoginPageContainer extends React.Component<
   private isRedirectAction = (redirect: string | boolean): redirect is string =>
     redirect === 'login' || redirect === 'register'
 
+  // tslint:disable:cyclomatic-complexity
   private handleHash = (hash: string) => {
     const {
       action,
@@ -170,6 +177,7 @@ class LoginPageContainer extends React.Component<
       access_token: token,
       redirect,
       error_description,
+      recover,
     }: HashData = parse(hash)
 
     if (error_description) {
@@ -188,7 +196,9 @@ class LoginPageContainer extends React.Component<
     } else if (token) {
       tokenHandler.set(token)
 
-      window.location.assign('/projects')
+      recover === 'true'
+        ? window.location.assign('/retrieve-account')
+        : window.location.assign('/projects')
     }
 
     if (redirect && config.connect.enabled) {
