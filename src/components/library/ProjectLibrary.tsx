@@ -81,10 +81,16 @@ export const ProjectLibrary: React.FC<RouteComponentProps<{
     }, [filterID, projectLibrary, query])
 
     const handleSave = useCallback(
-      (item: BibliographyItem): Promise<void> =>
-        projectLibraryCollection.update(item._id, item).then(() => {
+      (item: BibliographyItem): Promise<void> => {
+        // @ts-ignore https://github.com/jaredpalmer/formik/issues/2180
+        if (item.issued === '') {
+          item.issued = undefined
+        }
+
+        return projectLibraryCollection.update(item._id, item).then(() => {
           setSelectedItem(undefined)
-        }),
+        })
+      },
       [projectLibraryCollection]
     )
 

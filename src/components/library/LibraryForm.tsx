@@ -13,6 +13,7 @@
 import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import {
+  buildBibliographicDate,
   buildBibliographicName,
   buildLibraryCollection,
 } from '@manuscripts/manuscript-transform'
@@ -458,6 +459,26 @@ const LibraryForm: React.FC<{
             name={"issued['date-parts'][0][0]"}
             type={'number'}
             step={1}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const { value } = event.target
+
+              if (value) {
+                if (values.issued) {
+                  // NOTE: this assumes that "issued" is already a complete object
+                  setFieldValue("issued['date-parts'][0][0]", Number(value))
+                } else {
+                  setFieldValue(
+                    'issued',
+                    buildBibliographicDate({
+                      'date-parts': [[Number(value)]],
+                    })
+                  )
+                }
+              } else {
+                // NOTE: not undefined due to https://github.com/jaredpalmer/formik/issues/2180
+                setFieldValue('issued', '')
+              }
+            }}
           />
         </FormField>
 
@@ -471,7 +492,7 @@ const LibraryForm: React.FC<{
               <CreatableSelect<OptionType>
                 isMulti={true}
                 onChange={async (newValue: OptionsType<OptionType>) => {
-                  props.form.setFieldValue(
+                  setFieldValue(
                     props.field.name,
                     await Promise.all(
                       newValue.map(async option => {
