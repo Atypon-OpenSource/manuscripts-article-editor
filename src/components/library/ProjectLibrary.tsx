@@ -42,10 +42,11 @@ export const ProjectLibrary: React.FC<RouteComponentProps<{
   projectLibraryCollection: Collection<BibliographyItem>
   query?: string
   setQuery: (query: string) => void
+  selectedItem?: BibliographyItem
+  setSelectedItem: (item?: BibliographyItem) => void
   user: UserProfile
 }> = React.memo(
   ({
-    location,
     match: {
       params: { projectID, filterID },
     },
@@ -56,8 +57,9 @@ export const ProjectLibrary: React.FC<RouteComponentProps<{
     user,
     query,
     setQuery,
+    selectedItem,
+    setSelectedItem,
   }) => {
-    const [selectedItem, setSelectedItem] = useState<BibliographyItem>() // TODO: item in route?
     const [filteredItems, setFilteredItems] = useState<BibliographyItem[]>([])
 
     useEffect(() => {

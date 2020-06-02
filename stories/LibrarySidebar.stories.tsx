@@ -161,6 +161,7 @@ storiesOf('Library Sidebar', module)
           globalLibraryCollections={globalLibraryCollections}
           globalLibraries={globalLibraries}
           importItems={action('import items')}
+          createBibliographyItem={action('create bibliography item')}
           {...props}
         />
       )}

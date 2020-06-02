@@ -133,7 +133,7 @@ export const LibraryItems: React.FC<{
     <SearchWrapper>
       <Search
         autoComplete={'off'}
-        autoFocus={true}
+        autoFocus={!selectedItem}
         handleSearchChange={e => setQuery(e.target.value)}
         placeholder={'Search library…'}
         type={'search'}

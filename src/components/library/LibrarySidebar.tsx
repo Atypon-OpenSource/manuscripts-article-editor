@@ -99,6 +99,7 @@ export const LibrarySidebar: React.FC<RouteComponentProps<{
   globalLibraries: Map<string, Library>
   globalLibraryCollections: Map<string, LibraryCollection>
   importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
+  createBibliographyItem: () => void
 }> = ({
   projectLibraryCollections,
   globalLibraries,
@@ -107,6 +108,7 @@ export const LibrarySidebar: React.FC<RouteComponentProps<{
     params: { projectID, sourceID, sourceType },
   },
   importItems,
+  createBibliographyItem,
 }) => {
   const globalLibrariesArray = Array.from(globalLibraries.values())
   const globalLibraryCollectionsArray = Array.from(
@@ -128,10 +130,21 @@ export const LibrarySidebar: React.FC<RouteComponentProps<{
       side={'end'}
       sidebarTitle={<SidebarHeader title={'Library'} />}
       sidebarFooter={
-        <BibliographyImportButton
-          importItems={importItems}
-          component={ImportButton}
-        />
+        <div>
+          <FooterItem>
+            <AddButton
+              action={createBibliographyItem}
+              title={'Create new library item'}
+              size={'small'}
+            />
+          </FooterItem>
+          <FooterItem>
+            <BibliographyImportButton
+              importItems={importItems}
+              component={ImportButton}
+            />
+          </FooterItem>
+        </div>
       }
     >
       <Section
@@ -222,12 +235,10 @@ export const LibrarySidebar: React.FC<RouteComponentProps<{
 
 export const LibrarySidebarWithRouter = withRouter(LibrarySidebar)
 
-interface Props {
+const ImportButton: React.FC<{
   importItems: () => void
-}
-
-const ImportButton: React.FunctionComponent<Props> = ({ importItems }) => (
-  <AddButton action={importItems} title="Import from File" size={'small'} />
+}> = ({ importItems }) => (
+  <AddButton action={importItems} title="Import from file" size={'small'} />
 )
 
 const Section: React.FC<{
@@ -244,3 +255,7 @@ const Section: React.FC<{
     {open && children}
   </SectionContainer>
 )
+
+const FooterItem = styled.div`
+  margin-top: 8px;
+`

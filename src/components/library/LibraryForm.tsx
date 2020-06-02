@@ -359,6 +359,7 @@ const LibraryForm: React.FC<{
           <StyledTitleField
             value={values.title || ''}
             handleChange={data => setFieldValue('title', data)}
+            autoFocus={!values.title}
           />
         </FormField>
 

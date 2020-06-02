@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Build } from '@manuscripts/manuscript-transform'
+import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Library,
@@ -18,7 +18,7 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
 import { useDebounce } from '../../hooks/use-debounce'
 import { matchLibraryItemByIdentifier } from '../../lib/bibliography'
@@ -47,6 +47,7 @@ export const LibraryPageContainer: React.FC<RouteComponentProps<{
   globalLibraries,
   globalLibraryCollections,
   globalLibraryItems,
+  history,
   match: {
     params: { projectID },
   },
@@ -56,6 +57,8 @@ export const LibraryPageContainer: React.FC<RouteComponentProps<{
   projectLibraryCollectionsCollection,
   user,
 }) => {
+  const [selectedItem, setSelectedItem] = useState<BibliographyItem>() // TODO: item in route?
+
   // TODO: should the query be part of the route?
   const [query, setQuery] = useState<string>()
 
@@ -85,6 +88,22 @@ export const LibraryPageContainer: React.FC<RouteComponentProps<{
     return newItems
   }
 
+  const createBibliographyItem = useCallback(() => {
+    const item = buildBibliographyItem({})
+
+    projectLibraryCollection
+      .create(item, {
+        containerID: projectID,
+      })
+      .then(item => {
+        history.push(`/projects/${projectID}/library/project`)
+        setSelectedItem(item)
+      })
+      .catch(error => {
+        console.error(error) // tslint:disable-line:no-console
+      })
+  }, [projectLibraryCollection, projectID])
+
   return (
     <>
       <LibrarySidebarWithRouter
@@ -92,6 +111,7 @@ export const LibraryPageContainer: React.FC<RouteComponentProps<{
         globalLibraries={globalLibraries}
         globalLibraryCollections={globalLibraryCollections}
         importItems={importItems}
+        createBibliographyItem={createBibliographyItem}
       />
 
       <Switch>
@@ -119,6 +139,8 @@ export const LibraryPageContainer: React.FC<RouteComponentProps<{
               user={user}
               query={query}
               setQuery={setQuery}
+              selectedItem={selectedItem}
+              setSelectedItem={setSelectedItem}
               debouncedQuery={debouncedQuery}
               {...props}
             />
