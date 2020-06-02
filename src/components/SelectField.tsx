@@ -20,15 +20,18 @@ interface OptionType {
 }
 
 interface Props {
+  id?: string
   options: OptionsType<OptionType>
 }
 
 export const SelectField: React.FunctionComponent<Props & FieldProps> = ({
+  id,
   options,
   field,
   form,
 }) => (
   <Select<OptionType>
+    inputId={id}
     options={options}
     name={field.name}
     value={

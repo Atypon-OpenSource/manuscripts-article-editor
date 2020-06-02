@@ -35,8 +35,10 @@ import React, { useCallback, useState } from 'react'
 import { OptionsType } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
+import { bibliographyItemTypes } from '../../lib/bibliography'
 import { selectStyles } from '../../lib/select-styles'
 import { Collection } from '../../sync/Collection'
+import { SelectField } from '../SelectField'
 
 const LabelContainer = styled.div`
   display: flex;
@@ -315,6 +317,7 @@ interface LibraryFormValues {
     _id: string
     'date-parts'?: Array<Array<string | number>>
   }
+  type: string
 }
 
 const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
@@ -324,7 +327,14 @@ const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
   keywordIDs: item.keywordIDs,
   DOI: item.DOI,
   issued: item.issued,
+  type: item.type,
 })
+
+const bibliographyItemTypeOptions: OptionsType<OptionType> = Array.from(
+  bibliographyItemTypes.entries()
+)
+  .map(([value, label]) => ({ value, label }))
+  .sort((a, b) => a.label.localeCompare(b.label))
 
 // TODO: a "manage library collections" page, where unused library collections can be deleted
 
@@ -352,6 +362,19 @@ const LibraryForm: React.FC<{
   >
     {({ values, setFieldValue, handleChange }) => (
       <Form>
+        <FormField>
+          <LabelContainer>
+            <Label htmlFor={'library-item-type'}>Type</Label>
+          </LabelContainer>
+
+          <Field
+            id={'library-item-type'}
+            name={'type'}
+            component={SelectField}
+            options={bibliographyItemTypeOptions}
+          />
+        </FormField>
+
         <FormField>
           <LabelContainer>
             <Label>Title</Label>
