@@ -52,13 +52,13 @@ export const CountInput: React.FC<{
 
   return (
     <Field>
-      <label>
+      <Label>
         <Checkbox
           checked={currentValue.ignored === false}
           onChange={handleCheckboxChange}
         />
         {label}
-      </label>
+      </Label>
 
       <NumberField
         value={
@@ -83,4 +83,9 @@ const Field = styled.div`
   &:last-child {
     margin-bottom: 0;
   }
+`
+
+const Label = styled.label`
+  display: flex;
+  align-items: center;
 `
