@@ -17,7 +17,6 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import styled from 'styled-components'
 import { filterLibrary } from '../../lib/library'
 import { Collection } from '../../sync/Collection'
 import { Main } from '../Page'
@@ -25,11 +24,6 @@ import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
-
-const LibraryFormContainer = styled.div`
-  height: 100%;
-  overflow-y: auto;
-`
 
 export const ProjectLibrary: React.FC<RouteComponentProps<{
   projectID: string
@@ -139,19 +133,18 @@ export const ProjectLibrary: React.FC<RouteComponentProps<{
           resizerButton={ResizingInspectorButton}
         >
           {selectedItem && (
-            <LibraryFormContainer>
-              <LibraryForm
-                item={selectedItem}
-                handleSave={handleSave}
-                handleDelete={handleDelete}
-                projectID={projectID}
-                projectLibraryCollections={projectLibraryCollections}
-                projectLibraryCollectionsCollection={
-                  projectLibraryCollectionsCollection
-                }
-                user={user}
-              />
-            </LibraryFormContainer>
+            <LibraryForm
+              key={selectedItem._id}
+              item={selectedItem}
+              handleSave={handleSave}
+              handleDelete={handleDelete}
+              projectID={projectID}
+              projectLibraryCollections={projectLibraryCollections}
+              projectLibraryCollectionsCollection={
+                projectLibraryCollectionsCollection
+              }
+              user={user}
+            />
           )}
         </Panel>
       </>

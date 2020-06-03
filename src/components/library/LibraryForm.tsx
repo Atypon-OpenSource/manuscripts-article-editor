@@ -28,10 +28,11 @@ import {
   IconButton,
   PrimaryButton,
   TertiaryButton,
+  TextField,
 } from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { OptionsType } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
@@ -80,14 +81,14 @@ const FieldLabel = styled.label`
   width: 50%;
 `
 
-const TextFieldContainer = styled.div`
+const NameFieldContainer = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme.colors.text.muted};
   background-color: ${props => props.theme.colors.background.primary};
 `
 
-const TextField = styled.input`
+const NameField = styled.input`
   font-size: ${props => props.theme.font.size.normal};
   padding: ${props => props.theme.grid.unit * 2}px
     ${props => props.theme.grid.unit * 4}px;
@@ -175,24 +176,39 @@ const AuthorContent = styled.div`
 `
 
 const StyledTitleField = styled(TitleField)`
-  font-family: ${props => props.theme.font.family.sans};
-  font-size: ${props => props.theme.font.size.medium};
-  line-height: 1.25;
-  color: ${props => props.theme.colors.text.primary};
-  border-radius: ${props => props.theme.grid.radius.small};
-  border: 1px solid ${props => props.theme.colors.text.muted};
-  padding: ${props => props.theme.grid.unit * 2}px;
-
   & .ProseMirror {
+    font-family: ${props => props.theme.font.family.sans};
+    font-size: ${props => props.theme.font.size.medium};
+    line-height: 1.25;
+    color: ${props => props.theme.colors.text.primary};
+    border-radius: ${props => props.theme.grid.radius.small};
+    border: 1px solid ${props => props.theme.colors.text.muted};
+    padding: ${props => props.theme.grid.unit * 2}px
+      ${props => props.theme.grid.unit * 3}px;
+
     &:focus {
       outline: none;
+      border-color: ${props => props.theme.colors.border.field.hover};
+      background-color: ${props => props.theme.colors.background.fifth};
+    }
+  }
+
+  &:hover {
+    & .ProseMirror {
+      background-color: ${props => props.theme.colors.background.fifth};
     }
   }
 `
 
+const FormTextField = styled(TextField)`
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 3}px;
+`
+
 const YearField = styled(Field)`
   font-family: ${props => props.theme.font.family.sans};
-  padding: ${props => props.theme.grid.unit * 2}px;
+  padding: ${props => props.theme.grid.unit * 2}px
+    ${props => props.theme.grid.unit * 3}px;
   font-size: ${props => props.theme.font.size.medium};
   color: ${props => props.theme.colors.text.primary};
   border-radius: ${props => props.theme.grid.radius.small};
@@ -230,11 +246,13 @@ const PlainTextButton = styled(TertiaryButton)``
 const Author = styled.div``
 
 const Actions = styled.div`
+  flex-shrink: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: ${props => props.theme.grid.unit * 2}px;
   padding-left: ${props => props.theme.grid.unit * 8}px;
+  padding-bottom: 64px; // leave space for the chat button
 `
 
 const AuthorActions = styled(Actions)`
@@ -289,6 +307,18 @@ const FormField = styled.div`
   padding-left: ${props => props.theme.grid.unit * 8}px;
 `
 
+const FlexForm = styled(Form)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`
+
+const FormFields = styled.div`
+  flex: 1;
+  overflow-y: auto;
+`
+
 interface OptionType {
   label: string
   value: any // tslint:disable-line:no-any
@@ -318,6 +348,11 @@ interface LibraryFormValues {
     'date-parts'?: Array<Array<string | number>>
   }
   type: string
+  'container-title'?: string
+  URL?: string
+  issue?: string | number
+  volume?: string | number
+  page?: string | number
 }
 
 const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
@@ -328,6 +363,11 @@ const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
   DOI: item.DOI,
   issued: item.issued,
   type: item.type,
+  'container-title': item['container-title'],
+  URL: item.URL,
+  issue: item.issue ? String(item.issue) : undefined,
+  volume: item.volume ? String(item.volume) : undefined,
+  page: item.page ? String(item.page) : undefined,
 })
 
 const bibliographyItemTypeOptions: OptionsType<OptionType> = Array.from(
@@ -354,238 +394,326 @@ const LibraryForm: React.FC<{
   projectLibraryCollections,
   projectLibraryCollectionsCollection,
   user,
-}) => (
-  <Formik<LibraryFormValues>
-    initialValues={buildInitialValues(item)}
-    onSubmit={handleSave}
-    enableReinitialize={true}
-  >
-    {({ values, setFieldValue, handleChange }) => (
-      <Form>
-        <FormField>
-          <LabelContainer>
-            <Label htmlFor={'library-item-type'}>Type</Label>
-          </LabelContainer>
+}) => {
+  const formRef = useRef<HTMLDivElement>(null)
 
-          <Field
-            id={'library-item-type'}
-            name={'type'}
-            component={SelectField}
-            options={bibliographyItemTypeOptions}
-          />
-        </FormField>
+  useEffect(() => {
+    if (formRef.current) {
+      formRef.current.scrollTop = 0
+    }
+  }, [item])
 
-        <FormField>
-          <LabelContainer>
-            <Label>Title</Label>
-          </LabelContainer>
-
-          <StyledTitleField
-            value={values.title || ''}
-            handleChange={data => setFieldValue('title', data)}
-            autoFocus={!values.title}
-          />
-        </FormField>
-
-        <FieldArray
-          name={'author'}
-          render={({ push, remove }) => (
+  return (
+    <Formik<LibraryFormValues>
+      initialValues={buildInitialValues(item)}
+      onSubmit={handleSave}
+      enableReinitialize={true}
+    >
+      {({ values, setFieldValue, handleChange }) => (
+        <FlexForm>
+          <FormFields ref={formRef}>
             <FormField>
               <LabelContainer>
-                <Label>Authors</Label>
-
-                <Button
-                  onClick={() =>
-                    push(
-                      buildBibliographicName({
-                        given: '',
-                        family: '',
-                      })
-                    )
-                  }
-                >
-                  <AddAuthor height={17} width={17} />
-                </Button>
+                <Label htmlFor={'library-item-type'}>Type</Label>
               </LabelContainer>
 
-              <AuthorFormContainer>
-                {values.author &&
-                  values.author.map((author, index) => (
-                    <CollapsibleAuthorContainer
-                      key={author._id || `author.${index}`}
-                      title={[author.given, author.family].join(' ').trim()}
-                      action={
-                        <BaseButton
-                          onClick={() => {
-                            if (window.confirm('Remove this author?')) {
-                              remove(index)
-                            }
-                          }}
-                        >
-                          REMOVE
-                        </BaseButton>
+              <Field
+                id={'library-item-type'}
+                name={'type'}
+                component={SelectField}
+                options={bibliographyItemTypeOptions}
+              />
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label>Title</Label>
+              </LabelContainer>
+
+              <StyledTitleField
+                value={values.title || ''}
+                handleChange={data => setFieldValue('title', data)}
+                autoFocus={!values.title}
+              />
+            </FormField>
+
+            <FieldArray
+              name={'author'}
+              render={({ push, remove }) => (
+                <FormField>
+                  <LabelContainer>
+                    <Label>Authors</Label>
+
+                    <Button
+                      onClick={() =>
+                        push(
+                          buildBibliographicName({
+                            given: '',
+                            family: '',
+                          })
+                        )
                       }
                     >
-                      <Author>
-                        <Field
-                          name={`author.${index}.given`}
-                          value={author.given}
-                          onChange={handleChange}
-                        >
-                          {({ field }: FieldProps) => (
-                            <TextFieldContainer>
-                              <TextField
-                                {...field}
-                                id={field.name}
-                                placeholder={'Given'}
-                                autoFocus={true}
-                              />
-                              <FieldLabel htmlFor={field.name}>
-                                Given
-                              </FieldLabel>
-                            </TextFieldContainer>
-                          )}
-                        </Field>
+                      <AddAuthor height={17} width={17} />
+                    </Button>
+                  </LabelContainer>
 
-                        <Field
-                          name={`author.${index}.family`}
-                          value={author.family}
-                          onChange={handleChange}
-                        >
-                          {({ field }: FieldProps) => (
-                            <TextFieldContainer>
-                              <TextField
-                                {...field}
-                                id={field.name}
-                                placeholder={'Family'}
-                              />
-                              <FieldLabel htmlFor={field.name}>
-                                Family
-                              </FieldLabel>
-                            </TextFieldContainer>
-                          )}
-                        </Field>
-                      </Author>
-                    </CollapsibleAuthorContainer>
-                  ))}
-              </AuthorFormContainer>
-            </FormField>
-          )}
-        />
-
-        <FormField>
-          <LabelContainer>
-            <Label htmlFor={"issued['date-parts'][0][0]"}>Year</Label>
-          </LabelContainer>
-
-          <YearField
-            name={"issued['date-parts'][0][0]"}
-            type={'number'}
-            step={1}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              const { value } = event.target
-
-              if (value) {
-                if (values.issued) {
-                  // NOTE: this assumes that "issued" is already a complete object
-                  setFieldValue("issued['date-parts'][0][0]", Number(value))
-                } else {
-                  setFieldValue(
-                    'issued',
-                    buildBibliographicDate({
-                      'date-parts': [[Number(value)]],
-                    })
-                  )
-                }
-              } else {
-                // NOTE: not undefined due to https://github.com/jaredpalmer/formik/issues/2180
-                setFieldValue('issued', '')
-              }
-            }}
-          />
-        </FormField>
-
-        <FormField>
-          <LabelContainer>
-            <Label htmlFor={'keywordIDs'}>Lists</Label>
-          </LabelContainer>
-
-          <Field name={'keywordIDs'}>
-            {(props: FieldProps) => (
-              <CreatableSelect<OptionType>
-                isMulti={true}
-                onChange={async (newValue: OptionsType<OptionType>) => {
-                  setFieldValue(
-                    props.field.name,
-                    await Promise.all(
-                      newValue.map(async option => {
-                        const existing = projectLibraryCollections.get(
-                          option.value
-                        )
-
-                        if (existing) return existing._id
-
-                        const libraryCollection = buildLibraryCollection(
-                          user.userID,
-                          String(option.label)
-                        )
-
-                        await projectLibraryCollectionsCollection.create(
-                          libraryCollection,
-                          {
-                            containerID: projectID,
+                  <AuthorFormContainer>
+                    {values.author &&
+                      values.author.map((author, index) => (
+                        <CollapsibleAuthorContainer
+                          key={author._id || `author.${index}`}
+                          title={[author.given, author.family].join(' ').trim()}
+                          action={
+                            <BaseButton
+                              onClick={() => {
+                                if (window.confirm('Remove this author?')) {
+                                  remove(index)
+                                }
+                              }}
+                            >
+                              REMOVE
+                            </BaseButton>
                           }
-                        )
+                        >
+                          <Author>
+                            <Field
+                              name={`author.${index}.given`}
+                              value={author.given}
+                              onChange={handleChange}
+                            >
+                              {({ field }: FieldProps) => (
+                                <NameFieldContainer>
+                                  <NameField
+                                    {...field}
+                                    id={field.name}
+                                    placeholder={'Given'}
+                                    autoFocus={true}
+                                  />
+                                  <FieldLabel htmlFor={field.name}>
+                                    Given
+                                  </FieldLabel>
+                                </NameFieldContainer>
+                              )}
+                            </Field>
 
-                        return libraryCollection._id
-                      })
-                    )
-                  )
+                            <Field
+                              name={`author.${index}.family`}
+                              value={author.family}
+                              onChange={handleChange}
+                            >
+                              {({ field }: FieldProps) => (
+                                <NameFieldContainer>
+                                  <NameField
+                                    {...field}
+                                    id={field.name}
+                                    placeholder={'Family'}
+                                  />
+                                  <FieldLabel htmlFor={field.name}>
+                                    Family
+                                  </FieldLabel>
+                                </NameFieldContainer>
+                              )}
+                            </Field>
+                          </Author>
+                        </CollapsibleAuthorContainer>
+                      ))}
+                  </AuthorFormContainer>
+                </FormField>
+              )}
+            />
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={"issued['date-parts'][0][0]"}>Year</Label>
+              </LabelContainer>
+
+              <YearField
+                name={"issued['date-parts'][0][0]"}
+                type={'number'}
+                step={1}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  const { value } = event.target
+
+                  if (value) {
+                    if (values.issued) {
+                      // NOTE: this assumes that "issued" is already a complete object
+                      setFieldValue("issued['date-parts'][0][0]", Number(value))
+                    } else {
+                      setFieldValue(
+                        'issued',
+                        buildBibliographicDate({
+                          'date-parts': [[Number(value)]],
+                        })
+                      )
+                    }
+                  } else {
+                    // NOTE: not undefined due to https://github.com/jaredpalmer/formik/issues/2180
+                    setFieldValue('issued', '')
+                  }
                 }}
-                options={buildOptions(projectLibraryCollections)}
-                value={
-                  props.field.value
-                    ? (props.field.value as string[])
-                        .filter(id => projectLibraryCollections.has(id))
-                        .map(id => projectLibraryCollections.get(id)!)
-                        .map(item => ({
-                          value: item._id,
-                          label: item.name,
-                        }))
-                    : null
-                }
-                styles={selectStyles}
               />
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={'container-title'}>Container Title</Label>
+              </LabelContainer>
+
+              <Field name={'container-title'}>
+                {(props: FieldProps) => (
+                  <FormTextField id={'container-title'} {...props.field} />
+                )}
+              </Field>
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={'volume'}>Volume</Label>
+              </LabelContainer>
+
+              <Field name={'volume'}>
+                {(props: FieldProps) => (
+                  <FormTextField id={'volume'} {...props.field} />
+                )}
+              </Field>
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={'issue'}>Issue</Label>
+              </LabelContainer>
+
+              <Field name={'issue'}>
+                {(props: FieldProps) => (
+                  <FormTextField id={'issue'} {...props.field} />
+                )}
+              </Field>
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={'page'}>Page</Label>
+              </LabelContainer>
+
+              <Field name={'page'}>
+                {(props: FieldProps) => (
+                  <FormTextField id={'page'} {...props.field} />
+                )}
+              </Field>
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={'url'}>URL</Label>
+              </LabelContainer>
+
+              <Field name={'URL'}>
+                {(props: FieldProps) => (
+                  <FormTextField type={'url'} id={'url'} {...props.field} />
+                )}
+              </Field>
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={'doi'}>DOI</Label>
+              </LabelContainer>
+
+              <Field name={'DOI'}>
+                {(props: FieldProps) => (
+                  <FormTextField
+                    id={'doi'}
+                    pattern={'10..+'}
+                    {...props.field}
+                  />
+                )}
+              </Field>
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={'keywordIDs'}>Lists</Label>
+              </LabelContainer>
+
+              <Field name={'keywordIDs'}>
+                {(props: FieldProps) => (
+                  <CreatableSelect<OptionType>
+                    isMulti={true}
+                    onChange={async (newValue: OptionsType<OptionType>) => {
+                      setFieldValue(
+                        props.field.name,
+                        await Promise.all(
+                          newValue.map(async option => {
+                            const existing = projectLibraryCollections.get(
+                              option.value
+                            )
+
+                            if (existing) return existing._id
+
+                            const libraryCollection = buildLibraryCollection(
+                              user.userID,
+                              String(option.label)
+                            )
+
+                            await projectLibraryCollectionsCollection.create(
+                              libraryCollection,
+                              {
+                                containerID: projectID,
+                              }
+                            )
+
+                            return libraryCollection._id
+                          })
+                        )
+                      )
+                    }}
+                    options={buildOptions(projectLibraryCollections)}
+                    value={
+                      props.field.value
+                        ? (props.field.value as string[])
+                            .filter(id => projectLibraryCollections.has(id))
+                            .map(id => projectLibraryCollections.get(id)!)
+                            .map(item => ({
+                              value: item._id,
+                              label: item.name,
+                            }))
+                        : null
+                    }
+                    styles={selectStyles}
+                  />
+                )}
+              </Field>
+            </FormField>
+          </FormFields>
+
+          <Actions>
+            {handleDelete && (
+              <PlainTextButton
+                danger={true}
+                type={'button'}
+                onClick={() => handleDelete(item)}
+              >
+                Remove
+              </PlainTextButton>
             )}
-          </Field>
-        </FormField>
 
-        <Actions>
-          {handleDelete && (
-            <PlainTextButton
-              danger={true}
-              type={'button'}
-              onClick={() => handleDelete(item)}
-            >
-              Remove
-            </PlainTextButton>
-          )}
+            <ButtonGroup>
+              <TitleLink
+                href={`https://doi.org/${values.DOI}`}
+                target={'_blank'}
+                rel={'noopener noreferrer'}
+              >
+                🔗 Open
+              </TitleLink>
 
-          <ButtonGroup>
-            <TitleLink
-              href={`https://doi.org/${values.DOI}`}
-              target={'_blank'}
-              rel={'noopener noreferrer'}
-            >
-              🔗 Open
-            </TitleLink>
-
-            <PrimaryButton type="submit">Save</PrimaryButton>
-          </ButtonGroup>
-        </Actions>
-      </Form>
-    )}
-  </Formik>
-)
+              <PrimaryButton type="submit">Save</PrimaryButton>
+            </ButtonGroup>
+          </Actions>
+        </FlexForm>
+      )}
+    </Formik>
+  )
+}
 
 export default LibraryForm
