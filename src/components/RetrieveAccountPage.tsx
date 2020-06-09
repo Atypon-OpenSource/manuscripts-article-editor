@@ -147,7 +147,7 @@ export const SorryPage = (props: RouteComponentProps) => (
       download your existing data. In case you changed your mind, you can
       retrieve your account.
     </Description>
-    <PrimaryButton onClick={() => props.history.push('/signup')}>
+    <PrimaryButton onClick={() => window.location.assign('/about/')}>
       <Text>Sign Up</Text>
     </PrimaryButton>
     <SecondaryButton onClick={() => props.history.push('/retrieve-account')}>
