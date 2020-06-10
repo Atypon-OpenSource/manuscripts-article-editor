@@ -63,6 +63,16 @@ services:
       - 8888:8888
     command: "start-notebook.sh --NotebookApp.allow_origin=* --NotebookApp.token=${JUPYTER_TOKEN} --NotebookApp.disable_check_xsrf=True"
 
+  pressroom:
+    image: registry.gitlab.com/mpapp-public/pressroom-js/master
+    env_file:
+      - docker/pressroom/defaults.env
+      - docker/pressroom/.env
+    depends_on:
+      - api
+    ports:
+      - 5000:5000
+
   client:
     build:
       context: .

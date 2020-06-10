@@ -114,3 +114,6 @@ export const redirectToConnect = (action?: string) => {
       })
   )
 }
+
+export const fetchScopedToken = (containerID: string, scope: string) =>
+  client.get<string>(`/project/${containerID}/${scope}`)
