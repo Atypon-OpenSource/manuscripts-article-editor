@@ -21,5 +21,5 @@ export const trackEvent = (
   label: string
 ) => {
   if (!window.ga) return
-  window.ga('send', category, action, label)
+  window.ga('send', 'event', category, action, label)
 }
