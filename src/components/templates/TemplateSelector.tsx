@@ -64,7 +64,7 @@ import {
   RESEARCH_ARTICLE_CATEGORY,
   updatedPageLayout,
 } from '../../lib/templates'
-import { EventCategory, trackEvent } from '../../lib/tracking'
+import { trackEvent } from '../../lib/tracking'
 import { Collection } from '../../sync/Collection'
 import {
   ManuscriptTemplate,
@@ -369,11 +369,11 @@ class TemplateSelector extends React.Component<
 
     await saveContainedModel<Manuscript>(manuscript)
 
-    trackEvent(
-      EventCategory.Manuscripts,
-      'Create manuscript',
-      `template=(empty)`
-    )
+    trackEvent({
+      category: 'Manuscripts',
+      action: 'Create',
+      label: `template=(empty)`,
+    })
 
     history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
 
@@ -616,11 +616,11 @@ class TemplateSelector extends React.Component<
     // save the manuscript
     await saveContainedModel<Manuscript>(manuscript)
 
-    trackEvent(
-      EventCategory.Manuscripts,
-      'Create manuscript',
-      `template=${item.title}`
-    )
+    trackEvent({
+      category: 'Manuscripts',
+      action: 'Create',
+      label: `template=${item.title}`,
+    })
 
     // NOTE: not saving the shared data to the project
 

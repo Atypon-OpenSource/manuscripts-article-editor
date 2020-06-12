@@ -10,16 +10,33 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-export enum EventCategory {
-  Invitations = 'Invitations',
-  Manuscripts = 'Manuscripts',
+interface Tracking {
+  category: string
+  action: string
+  label?: string
+  value?: string
 }
 
-export const trackEvent = (
-  category: EventCategory,
-  action: string,
-  label: string
-) => {
-  if (!window.ga) return
-  window.ga('send', 'event', category, action, label)
+interface InvitationsTracking extends Tracking {
+  category: 'Invitations'
+  action: 'Share' | 'Send'
+}
+
+interface ManuscriptsTracking extends Tracking {
+  category: 'Manuscripts'
+  action: 'Create'
+}
+
+type TrackEvent = (f: InvitationsTracking | ManuscriptsTracking) => void
+
+export const trackEvent: TrackEvent = ({ category, action, label, value }) => {
+  if (window.ga) {
+    window.ga('send', {
+      hitType: 'event',
+      eventCategory: category,
+      eventAction: action,
+      eventLabel: label,
+      eventValue: value,
+    })
+  }
 }
