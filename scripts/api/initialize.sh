@@ -9,5 +9,5 @@ export PYTHONUNBUFFERED=1
 
 docker-compose down --volumes
 docker-compose up -d couchbase
-docker-compose up -d sync_gateway
+docker-compose up -d sync-gateway
 docker-compose up api

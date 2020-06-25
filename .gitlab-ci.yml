@@ -1,4 +1,4 @@
-#image: registry.gitlab.com/mpapp-public/manuscripts-frontend/node8-aws
+#image: node:12-buster
 
 # Environment variables needed:
 #

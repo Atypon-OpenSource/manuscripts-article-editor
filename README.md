@@ -103,7 +103,7 @@ See the [`manuscripts-frontend` wiki](https://gitlab.com/mpapp-public/manuscript
 # Developing manuscripts-api
 
 1. If needed, initialize the backend services: `scripts/api/initialize.sh`
-1. Start the other backend services in Docker: `docker-compose up sync_gateway data jupyter`
+1. Start the other backend services in Docker: `docker-compose up sync-gateway data jupyter`
 1. Start the API: `scripts/api/start-local.sh`
 
 ## Developing @manuscripts/style-guide

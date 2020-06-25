@@ -1,7 +1,7 @@
 .*
 !.yarnrc
 *.log
-build
-dist
-node_modules
-storybook-static
+build/
+dist/
+node_modules/
+storybook-static/

@@ -1,4 +1,4 @@
-FROM node:8-alpine AS builder
+FROM node:12-buster AS builder
 
 WORKDIR /app
 
@@ -18,6 +18,7 @@ COPY webpack.common.ts webpack.prod.ts environment-variables.ts ./
 COPY public ./public
 COPY types ./types
 COPY src ./src
+COPY assets ./assets
 
 ARG API_APPLICATION_ID
 ARG API_BASE_URL

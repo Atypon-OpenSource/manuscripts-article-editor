@@ -23,8 +23,10 @@ services:
       - 18094:18094
     volumes:
       - couchbase-data:/opt/couchbase/var
+    deploy:
+      replicas: 2
 
-  sync_gateway:
+  sync-gateway:
     image: registry.gitlab.com/mpapp-public/manuscripts-sync/sync_gateway
     env_file:
       - docker/server/defaults.env
@@ -34,6 +36,8 @@ services:
     ports:
       - 4984:4984
       - 4985:4985
+    deploy:
+      replicas: 2
 
   api:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/app
@@ -42,7 +46,7 @@ services:
       - docker/server/.env
     depends_on:
       - couchbase
-      - sync_gateway
+      - sync-gateway
     ports:
       - 3000:3000
     environment:
@@ -50,6 +54,8 @@ services:
       - APP_RUN_AFTER_INITIALIZE
       - INITIALIZE_DATABASE
       - NODE_ENV=development
+    deploy:
+      replicas: 2
 
   data:
     image: registry.gitlab.com/mpapp-public/manuscripts-data/manuscripts-data
@@ -57,11 +63,10 @@ services:
       - 8020:8020
 
   jupyter:
-    build:
-      context: docker/jupyter
+    image: registry.gitlab.com/mpapp-public/datascience-notebook/master
     ports:
       - 8888:8888
-    command: "start-notebook.sh --NotebookApp.allow_origin=* --NotebookApp.token=${JUPYTER_TOKEN} --NotebookApp.disable_check_xsrf=True"
+    command: 'start-notebook.sh --NotebookApp.allow_origin=* --NotebookApp.token=${JUPYTER_TOKEN} --NotebookApp.disable_check_xsrf=True'
 
   pressroom:
     image: registry.gitlab.com/mpapp-public/pressroom-js/master
@@ -74,6 +79,7 @@ services:
       - 5000:5000
 
   client:
+    image: registry.gitlab.com/mpapp-public/manuscripts-frontend/master
     build:
       context: .
       dockerfile: docker/client/Dockerfile
@@ -105,14 +111,14 @@ services:
       - api
       - data
       - jupyter
-      - translation_server
+      - translation-server
     ports:
       - 8080:8080
     volumes:
       - yarn-cache:/cache/yarn
       - build-cache:/app/node_modules/.cache
 
-  translation_server:
+  translation-server:
     image: zotero/translation-server
     environment:
       - NODE_CONFIG={"allowedOrigins":["*"]}
