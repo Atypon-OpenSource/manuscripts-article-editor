@@ -81,9 +81,15 @@ Deploy the files to S3 with `scripts/deploy.sh`.
 1. Run `docker-compose up data jupyter` to start the additional services.
 1. To stop the service, run `docker-compose down`. Add an optional `-v` flag to delete the data volumes.
 
-## Running the client in Docker (optional)
+## Running the Manuscripts stack in Kubernetes via Docker Desktop
 
-- Run `docker-compose up --build client` to build and start the client web server.
+1. Make sure `kubectl` is using the appropriate context:
+    1. Run `kubectl config current-context` to show the current context.
+    1. Run `kubectl config get-contexts` to list the available contexts.
+    1. Run `kubectl config set-context docker-desktop` to set the context.
+1. To build the client image, run `docker-compose build client`
+1. To start the services, run `docker stack deploy --compose-file <(docker-compose config) manuscripts`
+1. To stop the services, run `docker stack rm manuscripts`
 
 ## Testing
 

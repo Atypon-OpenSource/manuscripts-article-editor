@@ -24,7 +24,7 @@ services:
     volumes:
       - couchbase-data:/opt/couchbase/var
     deploy:
-      replicas: 2
+      replicas: 1
 
   sync-gateway:
     image: registry.gitlab.com/mpapp-public/manuscripts-sync/sync_gateway
@@ -37,9 +37,25 @@ services:
       - 4984:4984
       - 4985:4985
     deploy:
-      replicas: 2
+      replicas: 1
 
   api:
+    image: registry.gitlab.com/mpapp-private/manuscripts-api/app
+    env_file:
+      - docker/server/defaults.env
+      - docker/server/.env
+    depends_on:
+      - couchbase
+      - sync-gateway
+      - api-initialize
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+    deploy:
+      replicas: 2
+
+  api-initialize:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/app
     env_file:
       - docker/server/defaults.env
@@ -50,12 +66,13 @@ services:
     ports:
       - 3000:3000
     environment:
-      - APP_INITIALIZE
-      - APP_RUN_AFTER_INITIALIZE
-      - INITIALIZE_DATABASE
+      - APP_INITIALIZE=1
+      - APP_RUN_AFTER_INITIALIZE=0
       - NODE_ENV=development
     deploy:
-      replicas: 2
+      replicas: 1
+      restart_policy:
+        condition: 'none'
 
   data:
     image: registry.gitlab.com/mpapp-public/manuscripts-data/manuscripts-data
@@ -102,10 +119,12 @@ services:
         JUPYTER_TOKEN: $JUPYTER_TOKEN,
         JUPYTER_URL: $JUPYTER_URL,
         NATIVE: $NATIVE,
+        PRESSROOM_URL: $PRESSROOM_URL
         PROJECTS_BUCKET: $PROJECTS_BUCKET
         SENTRY_PUBLIC_DSN: $SENTRY_PUBLIC_DSN
         SENTRY_RELEASE: $SENTRY_RELEASE
         SERVICEWORKER_ENABLED: $SERVICEWORKER_ENABLED
+        SUPPORT_EMAIL: $SUPPORT_EMAIL
         SYNC_GATEWAY_URL: $SYNC_GATEWAY_URL
     depends_on:
       - api
