@@ -10,12 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { PrimaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import config from '../../config'
 import ProjectsData from '../../data/ProjectsData'
+import CollectionManager from '../../sync/CollectionManager'
 import { GlobalMenu } from '../nav/GlobalMenu'
 import { Main, Page } from '../Page'
 import { StorageInfo } from './StorageInfo'
@@ -91,6 +93,11 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
       })
   }, [])
 
+  const handleRestart = useCallback(() => {
+    /* tslint:disable-next-line:no-console */
+    CollectionManager.restartAll().catch(console.error)
+  }, [])
+
   return (
     <Page>
       <Main>
@@ -116,6 +123,8 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
                 </tr>
               </tbody>
             </table>
+
+            <PrimaryButton onClick={handleRestart}>Restart sync</PrimaryButton>
 
             <h2>Storage</h2>
 

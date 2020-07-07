@@ -11,14 +11,19 @@
  */
 
 import { ContainedModel } from '@manuscripts/manuscript-transform'
+import { PrimaryButton } from '@manuscripts/style-guide'
 import { SyncError } from '@manuscripts/sync-client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { ProjectDump } from '../../pressroom/importers'
 import CollectionManager from '../../sync/CollectionManager'
 
 const Container = styled.div`
   padding: ${props => props.theme.grid.unit * 4}px;
+`
+
+const ButtonWrapper = styled.div`
+  margin: 1rem 0;
 `
 
 const DownloadButton = styled.a`
@@ -66,15 +71,26 @@ export const ProjectDiagnosticsPageContainer: React.FC<{
       })
   }, [])
 
+  const handleRestart = useCallback(() => {
+    /* tslint:disable-next-line:no-console */
+    CollectionManager.restartAll().catch(console.error)
+  }, [])
+
   if (!downloadURL) {
     return <div>Loading project data…</div>
   }
 
   return (
     <Container>
-      <DownloadButton href={downloadURL} download={`${projectID}.json`}>
-        Download project data as JSON
-      </DownloadButton>
+      <ButtonWrapper>
+        <DownloadButton href={downloadURL} download={`${projectID}.json`}>
+          Download project data as JSON
+        </DownloadButton>
+      </ButtonWrapper>
+
+      <ButtonWrapper>
+        <PrimaryButton onClick={handleRestart}>Restart Sync</PrimaryButton>
+      </ButtonWrapper>
 
       {syncErrors.length ? (
         <React.Fragment>

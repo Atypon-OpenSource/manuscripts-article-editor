@@ -86,6 +86,12 @@ class CollectionManager {
 
   public async restartAll() {
     /* tslint:disable:no-console */
+    try {
+      await this.pushCollections(['user'])
+    } catch (error) {
+      console.error('Unable to push user collection')
+    }
+
     for (const parts of this.collections) {
       const collection = parts[1]
       try {
@@ -124,6 +130,7 @@ class CollectionManager {
       }
 
       try {
+        await collection.syncOnce('pull')
         await collection.syncOnce('push')
       } catch (error) {
         console.error(`Unable to start replication`)

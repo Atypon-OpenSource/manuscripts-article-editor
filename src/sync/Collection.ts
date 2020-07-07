@@ -328,6 +328,26 @@ export class Collection<T extends Model> implements EventTarget {
       )
     )
 
+  public ensurePushSync = async () => {
+    try {
+      if (this.replications.push) {
+        await this.cancelReplication('push', this.replications.push)
+      }
+
+      const replicationState = this.sync('push', { live: false, retry: false })
+
+      if (!replicationState) {
+        throw new Error(`Unable to push ${this.collectionName}`)
+      }
+
+      this.sync('push', { live: true, retry: true })
+
+      return promisifyReplicationState(replicationState)
+    } catch (error) {
+      throw new Error(`Unable to ensure push sync of ${this.collectionName}`)
+    }
+  }
+
   public getCollection(): RxCollection<T> {
     if (!this.collection) {
       throw new Error('Collection not initialized')
