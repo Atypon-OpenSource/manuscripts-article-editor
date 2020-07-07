@@ -19,7 +19,6 @@ export const environmentVariables = [
   'BEACON_WS_URL',
   'CI_ENVIRONMENT_NAME',
   'CRISP_WEBSITE_ID',
-  'DATA_URL',
   'DERIVED_DATA_BUCKET',
   'DISCOURSE_HOST',
   'ENABLE_CONNECT_LOGIN_OPTION',

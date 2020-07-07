@@ -14,7 +14,7 @@ import {
   ApplicationMenu,
   canInsert,
   ChangeReceiver,
-  CitationManager,
+  createProcessor,
   Editor,
   findParentElement,
   findParentNodeWithIdValue,
@@ -1119,8 +1119,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     manuscript: Manuscript,
     modelMap: Map<string, Model>
   ) => {
-    const citationManager = new CitationManager(config.data.url)
-
     const bundleID = manuscript.bundle || DEFAULT_BUNDLE
     const bundle = modelMap.get(bundleID) as Bundle | undefined
 
@@ -1129,12 +1127,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       : undefined
 
     // TODO: move defaults into method?
-    const processor = await citationManager.createProcessor(
-      bundleID,
+    const processor = await createProcessor(
       manuscript.primaryLanguageCode || 'en-GB',
       this.getLibraryItem,
-      bundle,
-      citationStyleData
+      { bundleID, bundle, citationStyleData }
     )
 
     this.setState({ processor })

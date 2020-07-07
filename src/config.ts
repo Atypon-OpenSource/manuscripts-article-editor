@@ -33,9 +33,6 @@ interface Config {
   discourse: {
     host: string
   }
-  data: {
-    url: string
-  }
   extyles: {
     arc: {
       secret?: string
@@ -116,9 +113,6 @@ const config = {
   beacon: {
     http: process.env.BEACON_HTTP_URL,
     ws: process.env.BEACON_WS_URL,
-  },
-  data: {
-    url: normalizeURL(process.env.DATA_URL),
   },
   discourse: {
     host: normalizeURL(process.env.DISCOURSE_HOST),

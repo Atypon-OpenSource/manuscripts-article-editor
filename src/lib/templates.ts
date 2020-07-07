@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { loadStyle } from '@manuscripts/manuscript-editor'
 import {
   Build,
   buildParagraph,
@@ -29,7 +30,6 @@ import {
   PageLayout,
 } from '@manuscripts/manuscripts-json-schema'
 import { mergeWith } from 'lodash-es'
-import config from '../config'
 import { Collection } from '../sync/Collection'
 import {
   MandatorySubsectionsRequirement,
@@ -242,7 +242,7 @@ export const createManuscriptSectionsFromTemplate = (
 
     const { section, dependencies } = buildSectionFromDescription(
       sectionDescription,
-      priority++,
+      priority++, // TODO: use priority from sectionCategory instead
       sectionCategory
     )
 
@@ -298,14 +298,11 @@ export const attachStyle = async (
   collection: Collection<ContainedModel>
 ) => {
   if (newBundle.csl && newBundle.csl.cslIdentifier) {
-    const { CitationManager } = await import('@manuscripts/manuscript-editor')
-
-    const citationManager = new CitationManager(config.data.url)
-    const cslStyle = await citationManager.fetchCitationStyleString(newBundle)
+    const cslStyle = await loadStyle(newBundle.csl.cslIdentifier)
 
     await collection.putAttachment(newBundle._id, {
       id: 'csl',
-      data: cslStyle,
+      data: JSON.stringify(cslStyle),
       type: 'application/vnd.citationstyles.style+xml',
     })
   }

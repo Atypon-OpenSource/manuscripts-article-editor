@@ -43,7 +43,7 @@ Manuscripts is highly modular: it is composed out of a series of NPM published m
 
 ### Datasets
 
-- [@manuscripts/data](https://www.npmjs.com/package/@manuscripts/data) (source at [gitlab.com/mpapp-public/manuscripts-data](https://www.npmjs.com/package/@manuscripts/data)): source data such as document templates for use by Manuscripts client applications, plus scripts for building and deploying the data to S3 and a Docker image for application consumption.
+- [@manuscripts/data](https://www.npmjs.com/package/@manuscripts/data) (source at [gitlab.com/mpapp-public/manuscripts-data](https://www.npmjs.com/package/@manuscripts/data)): source data such as document templates for use by Manuscripts client applications, plus scripts for building and deploying the data to npm.
 - [@manuscripts/examples](https://www.npmjs.com/package/@manuscripts/examples) (source at [gitlab.com/mpapp-public/manuscripts-examples](https://gitlab.com/mpapp-public/manuscripts-examples)): example Manuscripts documents for reference and test purposes.
 
 ### Utilities
@@ -67,7 +67,7 @@ Deploy the files to S3 with `scripts/deploy.sh`.
 
 1. `cp .env.example .env`. The variables listed in `.env.example` have appropriate default values for running in a mode where the backend API server is running locally (this is optional, and you can complete local development tasks in the absence of the backend services). See steps below under "Running the backend API in Docker" for steps to launch the API server locally.
 2. Run `docker volume create --name=yarn-cache` to create a yarn cache for the backend services that you will launch in the next step. This step is only needed once.
-3. `docker-compose up data jupyter` to start the services needed for development.
+3. `docker-compose up jupyter` to start the services needed for development.
 4. `yarn start` to start the app in development mode (using `webpack-dev-server` and `react-hot-loader`).
 5. To avoid signing up an account, open `http://localhost:8080/developer` to create a dummy user profile. Now you're good to go.
 
@@ -78,7 +78,7 @@ Deploy the files to S3 with `scripts/deploy.sh`.
 1. Run `docker-compose pull` to pull the latest server Docker images.
 1. [first run] Initialize the backend services: `scripts/api/initialize.sh`. If running on Windows or MacOS, it may be necessary to increase the RAM allocated to Docker. (This can be done through Docker Desktop > Preferences > Resources > Advanced > Memory.)
 1. [subsequent runs] Start the backend services: `docker-compose up api`
-1. Run `docker-compose up data jupyter` to start the additional services.
+1. Run `docker-compose up jupyter` to start the additional services.
 1. To stop the service, run `docker-compose down`. Add an optional `-v` flag to delete the data volumes.
 
 ## Running the Manuscripts stack in Kubernetes via Docker Desktop
@@ -109,7 +109,7 @@ See the [`manuscripts-frontend` wiki](https://gitlab.com/mpapp-public/manuscript
 # Developing manuscripts-api
 
 1. If needed, initialize the backend services: `scripts/api/initialize.sh`
-1. Start the other backend services in Docker: `docker-compose up sync-gateway data jupyter`
+1. Start the other backend services in Docker: `docker-compose up sync-gateway jupyter`
 1. Start the API: `scripts/api/start-local.sh`
 
 ## Developing @manuscripts/style-guide

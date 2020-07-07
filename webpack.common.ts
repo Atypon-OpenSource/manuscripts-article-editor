@@ -58,13 +58,6 @@ const configuration: webpack.Configuration = {
             /^\/about/, // landing page is under /about
           ],
           offlineGoogleAnalytics: true,
-          runtimeCaching: [
-            // cache shared data
-            {
-              urlPattern: new RegExp('^' + normalizeURL(process.env.DATA_URL)),
-              handler: 'StaleWhileRevalidate',
-            },
-          ],
         })
       )
     }

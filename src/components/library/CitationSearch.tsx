@@ -21,7 +21,6 @@ import {
 } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import config from '../../config'
 import { estimateID } from '../../lib/library'
 import Search, { SearchWrapper } from '../Search'
 import { BibliographyImportButton } from './BibliographyImportButton'
@@ -158,7 +157,7 @@ export const CitationSearch: React.FC<{
 
         // fetch Citeproc JSON
         crossref
-          .fetch(data, config.support.email)
+          .fetch(data)
           .then(result => {
             // remove DOI URLs
             if (

@@ -62,11 +62,6 @@ services:
       restart_policy:
         condition: 'none'
 
-  data:
-    image: registry.gitlab.com/mpapp-public/manuscripts-data/manuscripts-data
-    ports:
-      - 8020:8020
-
   jupyter:
     image: registry.gitlab.com/mpapp-public/datascience-notebook/master
     ports:
@@ -95,7 +90,6 @@ services:
         BEACON_WS_URL: $BEACON_WS_URL
         BASE_URL: $BASE_URL
         CRISP_WEBSITE_ID: $CRISP_WEBSITE_ID
-        DATA_URL: $DATA_URL
         DERIVED_DATA_BUCKET: $DERIVED_DATA_BUCKET
         DISCOURSE_HOST: $DISCOURSE_HOST
         ENABLE_CONNECT_LOGIN_OPTION: $ENABLE_CONNECT_LOGIN_OPTION

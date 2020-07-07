@@ -10,14 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { CitationManager } from '@manuscripts/manuscript-editor'
 import { DEFAULT_BUNDLE } from '@manuscripts/manuscript-transform'
-import { Manuscript } from '@manuscripts/manuscripts-json-schema'
+import { Bundle, Manuscript } from '@manuscripts/manuscripts-json-schema'
 import { Field, Form, Formik } from 'formik'
 import React from 'react'
 import { OptionsType } from 'react-select'
 import styled from 'styled-components'
-import config from '../../config'
 import { ImmediateSelectField } from '../ImmediateSelectField'
 import { Loading } from '../Loading'
 
@@ -62,26 +60,32 @@ class ManuscriptForm extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    const citationManager = new CitationManager(config.data.url)
+    const { default: bundles } = await import(
+      '@manuscripts/data/dist/shared/bundles.json'
+    )
+    const { default: localesMetadata } = await import(
+      '@manuscripts/csl-locales/dist/metadata.json'
+    )
 
-    const bundles = await citationManager.fetchBundles()
-    const locales = await citationManager.fetchLocales()
+    const languageNames = localesMetadata['language-names'] as Record<
+      string,
+      string[]
+    >
 
     this.setState({
       styles: bundles
         .filter(
-          bundle => bundle.csl && bundle.csl.cslIdentifier && bundle.csl.title
+          (bundle: Bundle) =>
+            bundle.csl && bundle.csl.cslIdentifier && bundle.csl.title
         )
-        .map(bundle => ({
+        .map((bundle: Bundle) => ({
           value: bundle._id,
           label: bundle.csl!.title!,
         })),
-      locales: Object.entries(locales['language-names']).map(
-        ([value, languageNames]) => ({
-          value,
-          label: languageNames[0],
-        })
-      ),
+      locales: Object.entries(languageNames).map(([value, languageNames]) => ({
+        value,
+        label: languageNames[0],
+      })),
     })
   }
 

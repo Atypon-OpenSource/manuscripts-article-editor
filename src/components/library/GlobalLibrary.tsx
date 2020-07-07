@@ -16,7 +16,6 @@ import { BibliographyItem, Library } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
-import config from '../../config'
 import { estimateID, filterLibrary } from '../../lib/library'
 import { Collection } from '../../sync/Collection'
 import { Main } from '../Page'
@@ -122,7 +121,7 @@ export const GlobalLibrary: React.FC<RouteComponentProps<{
         })
 
         crossref
-          .fetch(item, config.support.email)
+          .fetch(item)
           .then(data => {
             const item = buildBibliographyItem(data)
 
