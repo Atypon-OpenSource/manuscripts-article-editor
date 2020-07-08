@@ -110,7 +110,6 @@ services:
         SYNC_GATEWAY_URL: $SYNC_GATEWAY_URL
     depends_on:
       - api
-      - data
       - jupyter
       - translation-server
     ports:
