@@ -13,10 +13,8 @@
 // https://citeproc-js.readthedocs.io/en/latest/running.html#introduction
 // https://github.com/citation-style-language/schema
 
-// tslint:disable:only-arrow-functions
-
 declare module 'citeproc' {
-  import { CSL } from '@manuscripts/manuscript-transform'
+  import { Data } from 'csl-json'
 
   interface Citation {
     citationItems: Array<{ id: string }>
@@ -25,9 +23,21 @@ declare module 'citeproc' {
     }
   }
 
+  type VariableWrapper = (
+    params: {
+      context: string
+      itemData: Data
+      variableNames: [string]
+    },
+    prePunct: string,
+    str: string,
+    postPunct: string
+  ) => string
+
   interface SystemOptions {
-    retrieveLocale: (id: string) => string | Document | object
-    retrieveItem: (id: string) => CSL.Item
+    retrieveLocale: (id: string) => string | Document | Locale
+    retrieveItem: (id: string) => Data
+    variableWrapper: VariableWrapper
   }
 
   interface BibliographyMetadata {
@@ -39,7 +49,7 @@ declare module 'citeproc' {
   export class Engine {
     constructor(
       sys: SystemOptions,
-      style: string,
+      style: string | Style,
       lang?: string,
       forceLang?: boolean
     )
@@ -54,7 +64,24 @@ declare module 'citeproc' {
   }
 
   export function getLocaleNames(
-    style: string,
+    style: string | Record<string, unknown>,
     preferredLocale: string
   ): string[]
+
+  type Locale = Record<string, unknown>
+  type Style = Record<string, unknown>
+
+  type Node = {
+    name: string
+    attrs: Record<string, unknown>
+    children: Node[]
+  }
+
+  export class XmlJSON {
+    constructor(dataObj: string | Record<string, unknown>)
+    dataObj: Record<string, unknown>
+    getNodesByName: (data: unknown, name: string) => Node[]
+  }
+
+  export function setupXml(style: string | Record<string, unknown>): XmlJSON
 }

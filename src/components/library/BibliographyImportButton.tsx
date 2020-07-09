@@ -12,12 +12,12 @@
 
 import AttentionRed from '@manuscripts/assets/react/AttentionRed'
 import Check from '@manuscripts/assets/react/Check'
+import { transformBibliography } from '@manuscripts/library'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import { extname } from 'path'
 import React, { useCallback, useContext, useState } from 'react'
-import { transformBibliography } from '../../lib/bibliography'
 import { openFilePicker } from '../../pressroom/importers'
 import { ContactSupportButton } from '../ContactSupportButton'
 import {

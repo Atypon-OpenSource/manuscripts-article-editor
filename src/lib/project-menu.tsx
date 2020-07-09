@@ -11,13 +11,13 @@
  */
 
 import { MenuItem } from '@manuscripts/manuscript-editor'
+import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import { History } from 'history'
 import React from 'react'
 import config from '../config'
 import { ExportFormat } from '../pressroom/exporter'
-import { hasCitations } from './library'
 import { RecentProject } from './user-project'
 
 interface Props {
@@ -226,7 +226,17 @@ export const buildProjectMenu = (props: Props): MenuItem => {
         id: 'export-bibliography',
         label: () => 'Export Bibliography as…',
         submenu: exportReferencesMenu,
-        enable: hasCitations,
+        enable: (state: ManuscriptEditorState) => {
+          let result = false
+
+          state.doc.descendants(node => {
+            if (node.type === node.type.schema.nodes.citation) {
+              result = true
+            }
+          })
+
+          return result
+        },
       },
       {
         role: 'separator',

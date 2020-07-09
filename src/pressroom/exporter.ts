@@ -10,10 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  convertBibliographyItemToData,
-  convertToMathML,
-} from '@manuscripts/manuscript-editor'
+import { convertBibliographyItemToData, fixCSLData } from '@manuscripts/library'
+import { convertToMathML } from '@manuscripts/manuscript-editor'
 import {
   Attachments,
   Decoder,
@@ -40,10 +38,10 @@ import {
   ObjectTypes,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
+import { Data } from 'csl-json'
 import JSZip from 'jszip'
 import { GetAttachment } from '../components/projects/Exporter'
 import config from '../config'
-import { fixCSLData } from '../lib/csl'
 import { JsonModel, ProjectDump } from './importers'
 import { convert, convertBibliography } from './pressroom'
 
@@ -361,7 +359,7 @@ const addContainersFile = async (zip: JSZip, project: Project) => {
   zip.file<'string'>('containers.json', JSON.stringify([container]))
 }
 
-const prepareBibliography = (modelMap: Map<string, Model>): CSL.Data[] => {
+const prepareBibliography = (modelMap: Map<string, Model>): Data[] => {
   const citations = getModelsByType<Citation>(modelMap, ObjectTypes.Citation)
 
   const items: BibliographyItem[] = []
@@ -378,9 +376,7 @@ const prepareBibliography = (modelMap: Map<string, Model>): CSL.Data[] => {
     }
   }
 
-  return items
-    .map(convertBibliographyItemToData)
-    .map(item => fixCSLData(item as CSL.Data))
+  return items.map(convertBibliographyItemToData).map(fixCSLData)
 }
 
 // tslint:disable:cyclomatic-complexity

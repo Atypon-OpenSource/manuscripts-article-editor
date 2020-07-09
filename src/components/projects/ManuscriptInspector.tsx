@@ -44,7 +44,9 @@ import { DOIInput } from './DOIInput'
 import { KeywordsInput } from './KeywordsInput'
 import { ThemeInput } from './ThemeInput'
 
-export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
+export type SaveModel = <T extends Model>(
+  model: Partial<T> | Build<T>
+) => Promise<T>
 
 type Buildable<T> = T | Build<T>
 
@@ -255,7 +257,7 @@ export const ManuscriptInspector: React.FC<{
                 requirement: Buildable<MinimumManuscriptWordCountRequirement>
               ) => {
                 await saveModel<MinimumManuscriptWordCountRequirement>(
-                  requirement
+                  requirement as MinimumManuscriptWordCountRequirement
                 )
 
                 if (requirement._id !== manuscript.minWordCountRequirement) {
@@ -274,7 +276,7 @@ export const ManuscriptInspector: React.FC<{
                 requirement: Buildable<MaximumManuscriptWordCountRequirement>
               ) => {
                 await saveModel<MaximumManuscriptWordCountRequirement>(
-                  requirement
+                  requirement as MaximumManuscriptWordCountRequirement
                 )
 
                 if (requirement._id !== manuscript.maxWordCountRequirement) {
@@ -295,7 +297,7 @@ export const ManuscriptInspector: React.FC<{
                 >
               ) => {
                 await saveModel<MinimumManuscriptCharacterCountRequirement>(
-                  requirement
+                  requirement as MinimumManuscriptCharacterCountRequirement
                 )
 
                 if (
@@ -318,7 +320,7 @@ export const ManuscriptInspector: React.FC<{
                 >
               ) => {
                 await saveModel<MaximumManuscriptCharacterCountRequirement>(
-                  requirement
+                  requirement as MaximumManuscriptCharacterCountRequirement
                 )
 
                 if (

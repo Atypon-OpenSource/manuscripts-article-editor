@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { estimateID } from '@manuscripts/library'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 import config from '../../config'
-import { estimateID } from '../../lib/library'
 import { LibrarySource, sources } from '../../lib/sources'
 import { Collection } from '../../sync/Collection'
 import { Main } from '../Page'
@@ -106,7 +106,7 @@ export const ExternalSearch: React.FC<RouteComponentProps<{
     )
 
     const handleSelect = useCallback(
-      (id: string, item: Partial<BibliographyItem>) => {
+      (id: string, item: Build<BibliographyItem>) => {
         if (!source) {
           throw new Error('No source defined')
         }
@@ -115,7 +115,7 @@ export const ExternalSearch: React.FC<RouteComponentProps<{
           throw new Error('Selected map not built')
         }
 
-        const estimatedID = estimateID(item)
+        const estimatedID = estimateID(item as Partial<BibliographyItem>)
 
         if (selected.has(estimatedID)) {
           return // already added
@@ -127,7 +127,7 @@ export const ExternalSearch: React.FC<RouteComponentProps<{
         })
 
         source
-          .fetch(item, config.support.email)
+          .fetch(item as Partial<BibliographyItem>, config.support.email)
           .then(data => {
             const item = buildBibliographyItem(data)
 

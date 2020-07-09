@@ -32,7 +32,7 @@ const Bubble = styled.div`
   border: 2px solid white;
 `
 
-const OfflineIndicator: React.FC<{}> = ({ children }) => {
+const OfflineIndicator: React.FC = ({ children }) => {
   const [onlineState] = useOnlineState()
 
   return (

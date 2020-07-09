@@ -40,7 +40,7 @@ const SidebarProject = styled.div<{ isActive: boolean }>`
   border-radius: 0;
   ${props =>
     !props.isActive &&
-    'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.secondary + ';'}
+    'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.secondary};
   box-sizing: border-box;
   cursor: pointer;
   padding: ${props => props.theme.grid.unit * 4}px;

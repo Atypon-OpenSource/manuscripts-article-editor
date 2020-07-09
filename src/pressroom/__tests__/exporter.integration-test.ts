@@ -46,6 +46,9 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 // import data from '@manuscripts/examples/data/project-dump.json'
 import { AxiosResponse, ResponseType } from 'axios'
+// import { ProjectDump } from '../importers'
+// import { buildModelMap } from './util'
+import { Data } from 'csl-json'
 import {
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
@@ -69,8 +72,6 @@ import {
   exportProject,
 } from '../exporter'
 import { getAttachment } from './attachments'
-// import { ProjectDump } from '../importers'
-// import { buildModelMap } from './util'
 
 jest.unmock('axios')
 jest.unmock('../pressroom')
@@ -124,7 +125,7 @@ jest.mock('../pressroom', () => ({
   }),
 
   convertBibliography: jest.fn(
-    async (data: CSL.Data[], format: ExportBibliographyFormat) => {
+    async (data: Data[], format: ExportBibliographyFormat) => {
       const { default: config } = await import('../../config')
       const { default: axios } = await import('axios')
 

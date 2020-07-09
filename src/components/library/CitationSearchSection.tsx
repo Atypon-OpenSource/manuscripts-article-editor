@@ -59,7 +59,7 @@ export const CitationSearchSection: React.FC<{
     ) => Promise<{ items: Array<Build<BibliographyItem>>; total: number }>
     title: string
   }
-  addToSelection: (id: string, item: Partial<BibliographyItem>) => void
+  addToSelection: (id: string, item: Build<BibliographyItem>) => void
   selectSource: (id: string) => void
   rows: number
   selected: Map<string, Build<BibliographyItem>>

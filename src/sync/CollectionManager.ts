@@ -44,7 +44,7 @@ class CollectionManager {
 
     const collection = new Collection<T>(props)
 
-    this.collections.set(props.collection, collection)
+    this.collections.set(props.collection, collection as Collection<Model>)
 
     await collection.initialize(!local)
 

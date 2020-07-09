@@ -14,7 +14,7 @@ import { MenuItem } from '@manuscripts/manuscript-editor'
 import { MenuSeparator } from '@manuscripts/manuscript-editor/dist/types/components/menu/ApplicationMenu'
 import { ManuscriptEditorView } from '@manuscripts/manuscript-transform'
 
-interface MenuItemState {
+export interface MenuItemState {
   id: string
   role?: string
   active?: boolean

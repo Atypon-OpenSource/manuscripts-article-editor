@@ -12,6 +12,7 @@
 
 import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
+import { bibliographyItemTypes } from '@manuscripts/library'
 import {
   buildBibliographicDate,
   buildBibliographicName,
@@ -36,7 +37,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { OptionsType } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
-import { bibliographyItemTypes } from '../../lib/bibliography'
 import { selectStyles } from '../../lib/select-styles'
 import { Collection } from '../../sync/Collection'
 import { SelectField } from '../SelectField'

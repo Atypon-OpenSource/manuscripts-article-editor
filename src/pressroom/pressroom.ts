@@ -11,6 +11,7 @@
  */
 
 import axios, { AxiosResponse, ResponseType } from 'axios'
+import { Data } from 'csl-json'
 import config from '../config'
 import tokenHandler from '../lib/token'
 import { ExportBibliographyFormat, ExportManuscriptFormat } from './exporter'
@@ -46,7 +47,7 @@ const validateResponse = (response: AxiosResponse) => {
 }
 
 export const convertBibliography = async (
-  data: CSL.Data[],
+  data: Data[],
   format: ExportBibliographyFormat
 ): Promise<Blob> => {
   const response = await client.post<Blob>('/v1/compile/bibliography', data, {

@@ -118,6 +118,5 @@ export type RequirementType =
   | MandatorySubsectionsRequirement
   | MaximumManuscriptWordCountRequirement
   | MinimumManuscriptWordCountRequirement
-  | MandatorySubsectionsRequirement
 
 export type TemplatesDataType = ManuscriptTemplate | RequirementType

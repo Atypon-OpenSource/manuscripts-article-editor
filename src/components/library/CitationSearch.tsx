@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { estimateID } from '@manuscripts/library'
 import { crossref } from '@manuscripts/manuscript-editor'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
@@ -21,7 +22,6 @@ import {
 } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { estimateID } from '../../lib/library'
 import Search, { SearchWrapper } from '../Search'
 import { BibliographyImportButton } from './BibliographyImportButton'
 import { CitationSearchSection } from './CitationSearchSection'
@@ -138,14 +138,14 @@ export const CitationSearch: React.FC<{
   }, [query])
 
   const addToSelection = useCallback(
-    (id: string, data: Partial<BibliographyItem>) => {
+    (id: string, data: Build<BibliographyItem>) => {
       if (selected.has(id)) {
         selected.delete(id) // remove item
         setSelected(
           new Map<string, Build<BibliographyItem>>([...selected])
         )
       } else if (data._id) {
-        selected.set(id, data as Build<BibliographyItem>) // re-use existing data model
+        selected.set(id, data) // re-use existing data model
         setSelected(
           new Map<string, Build<BibliographyItem>>([...selected])
         )
@@ -157,7 +157,7 @@ export const CitationSearch: React.FC<{
 
         // fetch Citeproc JSON
         crossref
-          .fetch(data)
+          .fetch(data as Partial<BibliographyItem>)
           .then(result => {
             // remove DOI URLs
             if (

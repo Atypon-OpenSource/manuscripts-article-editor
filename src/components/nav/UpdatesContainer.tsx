@@ -24,8 +24,8 @@ const Wrapper = styled.div`
 `
 
 const Bubble = styled.div`
-  width: ${props => props.theme.grid.unit * 3}px
-  height: ${props => props.theme.grid.unit * 3}px
+  width: ${props => props.theme.grid.unit * 3}px;
+  height: ${props => props.theme.grid.unit * 3}px;
   border-radius: 50%;
   position: absolute;
   top: -2px;

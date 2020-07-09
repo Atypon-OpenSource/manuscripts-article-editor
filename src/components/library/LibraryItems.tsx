@@ -11,6 +11,7 @@
  */
 
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
+import { fullLibraryItemMetadata } from '@manuscripts/library'
 import {
   BibliographyItem,
   LibraryCollection,
@@ -18,7 +19,6 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
-import { fullLibraryItemMetadata } from '../../lib/library'
 import Search, { SearchWrapper } from '../Search'
 
 const Container = styled.div`

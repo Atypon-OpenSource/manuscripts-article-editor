@@ -12,12 +12,12 @@
 
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import AddIcon from '@manuscripts/assets/react/AddIcon'
+import { estimateID, shortLibraryItemMetadata } from '@manuscripts/library'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
-import { estimateID, shortLibraryItemMetadata } from '../../lib/library'
 
 const SearchResult = styled.div`
   cursor: pointer;
@@ -118,10 +118,10 @@ export const SearchResults: React.FC<{
   error?: string
   searching: boolean
   results?: {
-    items: Array<Partial<BibliographyItem>>
+    items: Array<Build<BibliographyItem>>
     total: number
   }
-  handleSelect: (id: string, item: Partial<BibliographyItem>) => void
+  handleSelect: (id: string, item: Build<BibliographyItem>) => void
   selected: Map<string, Build<BibliographyItem>>
   fetching: Set<string>
 }> = ({ error, searching, results, handleSelect, selected, fetching }) => {
@@ -147,7 +147,7 @@ export const SearchResults: React.FC<{
   return (
     <Results>
       {results.items.map(item => {
-        const id = estimateID(item)
+        const id = estimateID(item as Partial<BibliographyItem>)
 
         return (
           <SearchResult onClick={() => handleSelect(id, item)} key={id}>
@@ -157,7 +157,7 @@ export const SearchResults: React.FC<{
               <Title value={item.title || 'Untitled'} title={item.title} />
 
               <SearchResultAuthors data-cy={'search-result-author'}>
-                {shortLibraryItemMetadata(item)}
+                {shortLibraryItemMetadata(item as Partial<BibliographyItem>)}
               </SearchResultAuthors>
             </ResultMetadata>
           </SearchResult>

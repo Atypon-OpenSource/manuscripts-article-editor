@@ -17,7 +17,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { filterLibrary } from '../../lib/library'
+import { filterLibrary } from '../../lib/search-library'
 import { Collection } from '../../sync/Collection'
 import { Main } from '../Page'
 import Panel from '../Panel'

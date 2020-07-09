@@ -17,17 +17,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "skipLibCheck": true,
-    "strictNullChecks": true,
-    "typeRoots" : [
-      "./node_modules/@types",
-      "./stories/types",
-      "./types"
-    ]
+    "strictNullChecks": true
   },
   "include": [
-    "./src/**/*",
-    "./stories/**/*",
-    "./types/**/*",
-    "./webpack.*"
+    "src",
+    "stories",
+    "types",
+    "webpack.*.ts"
   ]
 }

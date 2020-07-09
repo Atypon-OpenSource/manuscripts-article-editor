@@ -182,7 +182,9 @@ export const SectionInspector: React.FC<{
               handleChange={async (
                 requirement: Buildable<MinimumSectionWordCountRequirement>
               ) => {
-                await saveModel<MinimumSectionWordCountRequirement>(requirement)
+                await saveModel<MinimumSectionWordCountRequirement>(
+                  requirement as MinimumSectionWordCountRequirement
+                )
 
                 if (requirement._id !== section.minWordCountRequirement) {
                   await saveModel<Section>({
@@ -200,7 +202,9 @@ export const SectionInspector: React.FC<{
               handleChange={async (
                 requirement: Buildable<MaximumSectionWordCountRequirement>
               ) => {
-                await saveModel<MaximumSectionWordCountRequirement>(requirement)
+                await saveModel<MaximumSectionWordCountRequirement>(
+                  requirement as MaximumSectionWordCountRequirement
+                )
 
                 if (requirement._id !== section.maxWordCountRequirement) {
                   await saveModel<Section>({
@@ -219,7 +223,7 @@ export const SectionInspector: React.FC<{
                 requirement: Buildable<MinimumSectionCharacterCountRequirement>
               ) => {
                 await saveModel<MinimumSectionCharacterCountRequirement>(
-                  requirement
+                  requirement as MinimumSectionCharacterCountRequirement
                 )
 
                 if (requirement._id !== section.minCharacterCountRequirement) {
@@ -239,7 +243,7 @@ export const SectionInspector: React.FC<{
                 requirement: Buildable<MaximumSectionCharacterCountRequirement>
               ) => {
                 await saveModel<MaximumSectionCharacterCountRequirement>(
-                  requirement
+                  requirement as MaximumSectionCharacterCountRequirement
                 )
 
                 if (requirement._id !== section.maxCharacterCountRequirement) {

@@ -51,10 +51,7 @@ interface State {
   email?: string
 }
 
-class SignupPageContainer extends React.Component<
-  RouteComponentProps<{}>,
-  State
-> {
+class SignupPageContainer extends React.Component<RouteComponentProps, State> {
   public state: Readonly<State> = {}
 
   public async componentDidMount() {

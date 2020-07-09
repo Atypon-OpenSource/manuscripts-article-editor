@@ -11,10 +11,15 @@
  */
 
 import {
+  createProcessor,
+  GetCitationProcessor,
+  matchLibraryItemByIdentifier,
+  transformBibliography,
+} from '@manuscripts/library'
+import {
   ApplicationMenu,
   canInsert,
   ChangeReceiver,
-  createProcessor,
   Editor,
   findParentElement,
   findParentNodeWithIdValue,
@@ -95,13 +100,8 @@ import { Prompt, RouteComponentProps } from 'react-router'
 import { Subscription } from 'rxjs/Subscription'
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
-import {
-  matchLibraryItemByIdentifier,
-  transformBibliography,
-} from '../../lib/bibliography'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import deviceId from '../../lib/device-id'
-import { filterLibrary } from '../../lib/library'
 import {
   isManuscript,
   isSection,
@@ -120,6 +120,7 @@ import {
 } from '../../lib/native/menu'
 import { buildProjectMenu } from '../../lib/project-menu'
 import { canWrite } from '../../lib/roles'
+import { filterLibrary } from '../../lib/search-library'
 import sessionID from '../../lib/session-id'
 import {
   attachStyle,
@@ -948,7 +949,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     addModal('citation-style-selector', ({ handleClose }) => (
       <CitationStyleSelector
-        collection={this.collection as Collection<Manuscript>}
+        collection={this.collection as Collection<ContainedModel>}
         project={project}
         handleComplete={async (bundle?: Bundle, parentBundle?: Bundle) => {
           if (bundle) {
@@ -1136,7 +1137,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     this.setState({ processor })
   }
 
-  private getCitationProcessor = () => {
+  private getCitationProcessor: GetCitationProcessor = () => {
     return this.state.processor as CiteProc.Engine
   }
 

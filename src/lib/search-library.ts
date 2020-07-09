@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import fuzzysort from 'fuzzysort'
 
@@ -115,99 +114,4 @@ export const filterLibrary = async (
   output.sort(newestFirst)
 
   return output
-}
-
-export const issuedYear = (item: Partial<BibliographyItem>): string | null => {
-  if (
-    !item.issued ||
-    !item.issued['date-parts'] ||
-    !item.issued['date-parts'][0] ||
-    !item.issued['date-parts'][0][0]
-  ) {
-    return null
-  }
-
-  const [[year]] = item.issued['date-parts']
-
-  return `${year}`
-}
-
-const firstAuthorName = (
-  item: Partial<BibliographyItem>
-): string | null | undefined => {
-  if (!item) return null
-  if (!item.author) return null
-  if (!item.author.length) return null
-
-  const author = item.author[0]
-
-  return author.family || author.literal || author.given
-}
-
-const generateItemIdentifier = (item: Partial<BibliographyItem>) =>
-  JSON.stringify({
-    title: item.title,
-    author: firstAuthorName(item),
-    year: issuedYear(item),
-  })
-
-export const estimateID = (item: Partial<BibliographyItem>): string => {
-  if (item.DOI) {
-    return item.DOI.toUpperCase()
-  }
-
-  if (item.PMID) {
-    return item.PMID
-  }
-
-  return generateItemIdentifier(item)
-}
-
-export const shortAuthorsString = (item: Partial<BibliographyItem>) => {
-  const authors = (item.author || [])
-    .map(author => author.family || author.literal || author.given)
-    .filter(Boolean) as string[]
-
-  return authorsString(authors)
-}
-
-export const fullAuthorsString = (item: Partial<BibliographyItem>) => {
-  const authors = (item.author || [])
-    .map(author => [author.given, author.family].join(' ').trim())
-    .filter(Boolean)
-
-  return authorsString(authors)
-}
-
-export const authorsString = (authors: string[]) => {
-  if (authors.length > 1) {
-    const lastAuthors = authors.splice(-2)
-    authors.push(lastAuthors.join(' & '))
-  }
-
-  return authors.join(', ')
-}
-
-export const shortLibraryItemMetadata = (item: Partial<BibliographyItem>) => {
-  return [shortAuthorsString(item), item['container-title'], issuedYear(item)]
-    .filter(Boolean)
-    .join(', ')
-}
-
-export const fullLibraryItemMetadata = (item: Partial<BibliographyItem>) => {
-  return [fullAuthorsString(item), item['container-title'], issuedYear(item)]
-    .filter(Boolean)
-    .join(', ')
-}
-
-export const hasCitations = (state: ManuscriptEditorState) => {
-  let result = false
-
-  state.doc.descendants(node => {
-    if (node.type === node.type.schema.nodes.citation) {
-      result = true
-    }
-  })
-
-  return result
 }

@@ -22,7 +22,7 @@ import { TemplateInfoLink } from './TemplateInfoLink'
 const Heading = styled.div<{ selected?: boolean }>`
   display: flex;
   white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
-  ${props => props.selected && 'flex-wrap: wrap;'}
+  ${props => props.selected && 'flex-wrap: wrap'};
   text-overflow: ellipsis;
   overflow-x: hidden;
 `

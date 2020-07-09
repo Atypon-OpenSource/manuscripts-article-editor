@@ -10,13 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { estimateID } from '@manuscripts/library'
 import { crossref } from '@manuscripts/manuscript-editor'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem, Library } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
-import { estimateID, filterLibrary } from '../../lib/library'
+import { filterLibrary } from '../../lib/search-library'
 import { Collection } from '../../sync/Collection'
 import { Main } from '../Page'
 import Search, { SearchWrapper } from '../Search'
@@ -104,12 +105,12 @@ export const GlobalLibrary: React.FC<RouteComponentProps<{
     }, [projectLibrary])
 
     const handleSelect = useCallback(
-      (id: string, item: Partial<BibliographyItem>) => {
+      (id: string, item: Build<BibliographyItem>) => {
         if (!selected) {
           throw new Error('Selected map not built')
         }
 
-        const estimatedID = estimateID(item)
+        const estimatedID = estimateID(item as Partial<BibliographyItem>)
 
         if (selected.has(estimatedID)) {
           return
@@ -121,7 +122,7 @@ export const GlobalLibrary: React.FC<RouteComponentProps<{
         })
 
         crossref
-          .fetch(item)
+          .fetch(item as Partial<BibliographyItem>)
           .then(data => {
             const item = buildBibliographyItem(data)
 

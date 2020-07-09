@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { matchLibraryItemByIdentifier } from '@manuscripts/library'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
@@ -21,7 +22,6 @@ import {
 import React, { useCallback, useState } from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
 import { useDebounce } from '../../hooks/use-debounce'
-import { matchLibraryItemByIdentifier } from '../../lib/bibliography'
 import { Collection } from '../../sync/Collection'
 import { ExternalSearch } from './ExternalSearch'
 import { GlobalLibrary } from './GlobalLibrary'

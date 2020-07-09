@@ -11,6 +11,7 @@
  */
 
 import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
+import { shortLibraryItemMetadata } from '@manuscripts/library'
 import {
   BibliographyItem,
   Citation,
@@ -24,7 +25,6 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
-import { shortLibraryItemMetadata } from '../../lib/library'
 import { CitationSearch } from './CitationSearch'
 import { DisplaySchemeSelector } from './DisplaySchemeSelector'
 
