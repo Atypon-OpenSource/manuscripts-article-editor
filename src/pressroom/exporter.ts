@@ -83,7 +83,7 @@ const isInlineMathFragment = hasObjectType<InlineMathFragment>(
 
 // Convert TeX to MathML for Equation and InlineMathFragment
 // tslint:disable-next-line:cyclomatic-complexity
-export const augmentEquations = async (modelMap: Map<string, Model>) => {
+const augmentEquations = async (modelMap: Map<string, Model>) => {
   for (const model of modelMap.values()) {
     if (
       isEquation(model) &&

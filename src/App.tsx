@@ -21,7 +21,6 @@ import DeleteAccountPageContainer from './components/account/DeleteAccountPageCo
 import FeedbackPageContainer from './components/account/FeedbackPageContainer'
 import LoginPageContainer from './components/account/LoginPageContainer'
 import LogoutPageContainer from './components/account/LogoutPageContainer'
-import ProfilePageContainer from './components/account/ProfilePageContainer'
 import RecoverPageContainer from './components/account/RecoverPageContainer'
 import { RetrieveAccountPageContainer } from './components/account/RetrieveAccountPageContainer'
 import SignupPageContainer from './components/account/SignupPageContainer'
@@ -30,13 +29,10 @@ import AcceptProjectInvitation from './components/collaboration/AcceptProjectInv
 import AcceptInvitationByEmailContainer from './components/collaboration/AcceptProjectInvitationByEmailContainer'
 import AcceptInvitationURIContainer from './components/collaboration/AcceptProjectInvitationURIPageContainer'
 import { DatabaseContext } from './components/DatabaseProvider'
-import DeveloperPageContainer from './components/DeveloperPageContainer'
-import DiagnosticsPageContainer from './components/diagnostics/DiagnosticsPageContainer'
 import { LoadingPage } from './components/Loading'
-import NotFoundPage from './components/NotFoundPage'
-import { NewProjectPageContainer } from './components/projects/NewProjectPageContainer'
-import ProjectPageContainer from './components/projects/ProjectPageContainer'
-import ProjectsPageContainer from './components/projects/ProjectsPageContainer'
+import { NewProjectPageContainerProps } from './components/projects/NewProjectPageContainer'
+import { ProjectPageContainerProps } from './components/projects/ProjectPageContainer'
+import { ProjectsPageContainerProps } from './components/projects/ProjectsPageContainer'
 import { RequireLogin } from './components/RequireLogin'
 import { SorryPage } from './components/RetrieveAccountPage'
 import config from './config'
@@ -46,6 +42,52 @@ import { apolloClient } from './lib/apollo'
 import invitationTokenHandler from './lib/invitation-token'
 import Sync from './sync/Sync'
 import { ZombieResync } from './sync/ZombieResync'
+
+const DeveloperPageContainer = React.lazy(() =>
+  import(
+    /* webpackChunkName:"developer-page" */ './components/DeveloperPageContainer'
+  )
+)
+
+const DiagnosticsPageContainer = React.lazy(() =>
+  import(
+    /* webpackChunkName:"diagnostics-page" */ './components/diagnostics/DiagnosticsPageContainer'
+  )
+)
+
+const NewProjectPageContainer = React.lazy<
+  React.ComponentType<NewProjectPageContainerProps>
+>(() =>
+  import(
+    /* webpackChunkName:"new-project-page" */ './components/projects/NewProjectPageContainer'
+  )
+)
+
+const NotFoundPage = React.lazy(() =>
+  import(/* webpackChunkName:"not-found-page" */ './components/NotFoundPage')
+)
+
+const ProfilePageContainer = React.lazy(() =>
+  import(
+    /* webpackChunkName:"profile-page" */ './components/account/ProfilePageContainer'
+  )
+)
+
+const ProjectPageContainer = React.lazy<
+  React.ComponentType<ProjectPageContainerProps>
+>(() =>
+  import(
+    /* webpackChunkName:"project-page" */ './components/projects/ProjectPageContainer'
+  )
+)
+
+const ProjectsPageContainer = React.lazy<
+  React.ComponentType<ProjectsPageContainerProps>
+>(() =>
+  import(
+    /* webpackChunkName:"projects-page" */ './components/projects/ProjectsPageContainer'
+  )
+)
 
 const App: React.FunctionComponent = () => (
   <DatabaseContext.Consumer>

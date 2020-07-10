@@ -68,15 +68,16 @@ const ManuscriptPageContainer = React.lazy<
 const APHORISM_DURATION =
   Number(window.localStorage.getItem('aphorism-duration')) || 3000
 
-interface Props {
+export interface ProjectPageContainerProps {
   tokenActions: TokenActions
 }
 
-type CombinedProps = Props &
-  RouteComponentProps<{
-    projectID: string
-  }>
-class ProjectPageContainer extends React.Component<CombinedProps> {
+class ProjectPageContainer extends React.Component<
+  ProjectPageContainerProps &
+    RouteComponentProps<{
+      projectID: string
+    }>
+> {
   public render() {
     const {
       match: {

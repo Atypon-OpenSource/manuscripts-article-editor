@@ -16,9 +16,12 @@ import { RouteComponentProps } from 'react-router'
 import { postWebkitMessage } from '../../lib/native'
 import TemplateSelector from '../templates/TemplateSelector'
 
-export const NewProjectPageContainer: React.FC<RouteComponentProps & {
+export interface NewProjectPageContainerProps {
   user: UserProfile
-}> = ({ history, user }) => {
+}
+
+const NewProjectPageContainer: React.FC<RouteComponentProps &
+  NewProjectPageContainerProps> = ({ history, user }) => {
   const handleClose = useCallback(
     (isCancellation: boolean) => {
       if (isCancellation) {
@@ -30,3 +33,5 @@ export const NewProjectPageContainer: React.FC<RouteComponentProps & {
 
   return <TemplateSelector user={user} handleComplete={handleClose} />
 }
+
+export default NewProjectPageContainer

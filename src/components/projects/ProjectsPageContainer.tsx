@@ -29,12 +29,12 @@ const Container = styled.div`
   overflow-y: auto;
 `
 
-interface Props {
+export interface ProjectsPageContainerProps {
   tokenActions: TokenActions
   errorMessage: string
 }
 
-const ProjectsPageContainer: React.FunctionComponent<Props &
+const ProjectsPageContainer: React.FunctionComponent<ProjectsPageContainerProps &
   RouteComponentProps> = ({ tokenActions, errorMessage }) => (
   <Page>
     <Main>
