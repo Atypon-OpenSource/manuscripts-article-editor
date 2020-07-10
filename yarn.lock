@@ -1772,10 +1772,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.7.tgz#f7f0cef173fb2c83fbf283a2c2962b5d6ea32874"
   integrity sha512-7a1y6H/wnvn4hTh7S+TEyC8R5tLHHNiWYJnbeS43JCMYS/6qhMCzJTS0PwQynoep7PWwi2LdgaSZ3qALxzgg0g==
 
-"@manuscripts/library@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.0.3.tgz#c2b2a468472e4eb2a77666915b31c07f2ae1bf31"
-  integrity sha512-XPYy0ov8SySv1ujcnO/D/IgoMUC1Sm00E/BRSxnWhr27bzdvXXR0kI3mfEYDjC2fqbINM85xIu11ECvXK4duEg==
+"@manuscripts/library@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.0.4.tgz#48293191bc8eb8ab8cf6ef3d4f5e06b43690d823"
+  integrity sha512-/t2q+Jt312GhBDG8IfHtI3pIHliJ9xKoufcZozziJPxqcUv8YLsMHNjVE3ceWxT8FQdmyZG9Nx3Q11PBVw5PJg==
   dependencies:
     "@manuscripts/csl-locales" "^0.0.4"
     "@manuscripts/csl-styles" "^0.1.1"
@@ -1785,10 +1785,10 @@
     astrocite-ris "^0.16.0"
     citeproc "^2.4.6"
 
-"@manuscripts/manuscript-editor@^0.72.0":
-  version "0.72.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.72.0.tgz#8351c4b57cc24ba03069d5adc8e39d83a6d10c5f"
-  integrity sha512-UCBKe2uNHrNyoAktHe72KtPmQFEX9EpB5X4a8bdkTVySRFxIny67ULJQoZs4wOUd36xpe36XlgCDTKybPi3J1g==
+"@manuscripts/manuscript-editor@^0.72.1":
+  version "0.72.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.72.1.tgz#2ea62e7e8b858ae69f829c449f07e4ff14d7a91e"
+  integrity sha512-fJfambbtOgQNIy/xm7/mauyHlHwbKRD3Rb+g8pT4EonnSlWT9TYqFoewja+B1Ngg6R2S1BhUpl9+5Guz65E3ag==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -10368,12 +10368,7 @@ istanbul-reports@^3.0.0:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-iterall@^1.2.1:
-  version "1.2.2"
-  resolved "https://registry.npmjs.org/iterall/-/iterall-1.2.2.tgz#92d70deb8028e0c39ff3164fdbf4d8b088130cd7"
-  integrity sha512-yynBb1g+RFUPY64fTrFv7nsjRrENBQJaX2UL+2Szc9REFrSNm1rpSXHGzhmAy7a9uv3vlvgBlXnf9RqmPH1/DA==
-
-iterall@^1.2.2:
+iterall@^1.2.1, iterall@^1.2.2:
   version "1.3.0"
   resolved "https://registry.npmjs.org/iterall/-/iterall-1.3.0.tgz#afcb08492e2915cbd8a0884eb93a8c94d0d72fea"
   integrity sha512-QZ9qOMdF+QLHxy1QIpUHUU1D5pS2CG2P69LF6L6CPjPYA/XMOmKV3PZpawHoAjHNyB0swdVTRxdYT4tbBbxqwg==
