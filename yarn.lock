@@ -1757,10 +1757,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/csl-locales/-/csl-locales-0.0.4.tgz#28b427cc39349f370e65d26638e88dfa62bb9b9e"
   integrity sha512-Vw9XPCpDi5rk0GMW0nNpLwhVAD9MSHSzbqjIbL8DyeTbdm5iqtA+4KukF/bX6zamatTR98a+HZqwfJoRblyMcg==
 
-"@manuscripts/csl-styles@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.1.1.tgz#d48882ae2a2d9fb293da8c124a1d5e60c572394b"
-  integrity sha512-mtdrB7roMkaqw2tWE2nxiE+qy4St8KD5CaA15eJALSyJda5Bs7YcwbG0SSPqHOFlWiRh+63TxqxFLrACYOxgcQ==
+"@manuscripts/csl-styles@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.0.tgz#8b8ae4e0afd9f9bbda371c1548d5854c703d8747"
+  integrity sha512-Lr7am9TkzLYOJjgPr6pRtkd8IjX/atew6YX/9o9xspIZJla51fSSPk6cTCVtT70Srn1aShLxZF4hi1jZH5+Gzw==
 
 "@manuscripts/data@^0.0.7":
   version "0.0.7"
@@ -1772,15 +1772,15 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.7.tgz#f7f0cef173fb2c83fbf283a2c2962b5d6ea32874"
   integrity sha512-7a1y6H/wnvn4hTh7S+TEyC8R5tLHHNiWYJnbeS43JCMYS/6qhMCzJTS0PwQynoep7PWwi2LdgaSZ3qALxzgg0g==
 
-"@manuscripts/library@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.0.4.tgz#48293191bc8eb8ab8cf6ef3d4f5e06b43690d823"
-  integrity sha512-/t2q+Jt312GhBDG8IfHtI3pIHliJ9xKoufcZozziJPxqcUv8YLsMHNjVE3ceWxT8FQdmyZG9Nx3Q11PBVw5PJg==
+"@manuscripts/library@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.1.0.tgz#7c958da895b9fdd48607a2065cc7bc41dbe1c6ce"
+  integrity sha512-JXtAK5+FVb7kh9xviq3iWXDrR8Xz5HGz6jdjSVho/sJx8OvoyhKGb+5g4dF/ctOWhgutO/F9stSCCewZ6l5Jfg==
   dependencies:
     "@manuscripts/csl-locales" "^0.0.4"
-    "@manuscripts/csl-styles" "^0.1.1"
+    "@manuscripts/csl-styles" "^0.2.0"
     "@manuscripts/data" "^0.0.7"
-    "@manuscripts/manuscript-transform" "^0.33.0"
+    "@manuscripts/manuscript-transform" "^0.34.0"
     astrocite-bibtex "^0.16.3"
     astrocite-ris "^0.16.0"
     citeproc "^2.4.6"
@@ -1829,10 +1829,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.33.0":
-  version "0.33.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.33.0.tgz#a99db5d5fd742367adc080657089181cab6c2278"
-  integrity sha512-LRdlX9swl5LHw2II1rSnzo4yW+c7VM9askL7ZNTprEUU4WyIV8OHXar59JhK/lpWbq4IHLbtXiZ+UsoyAnqaHw==
+"@manuscripts/manuscript-transform@^0.34.0":
+  version "0.34.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.34.0.tgz#79fa4e0e10c01cda973165fe1a2d8590d0744fec"
+  integrity sha512-fJfNMD8+th4Ls/IjCNVQFGTcWsraw7CCKvCOV/sUOnloqndNbw3iBcs84J5wkAI7eXuzhi74KkfCzg8Nwt83pA==
   dependencies:
     "@manuscripts/manuscripts-json-schema" "^1.30.0"
     debug "^4.1.1"

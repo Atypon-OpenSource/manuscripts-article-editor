@@ -298,12 +298,12 @@ export const attachStyle = async (
   collection: Collection<ContainedModel>
 ) => {
   if (newBundle.csl && newBundle.csl.cslIdentifier) {
-    const cslStyle = await loadStyle(newBundle.csl.cslIdentifier)
+    const data = await loadStyle(newBundle.csl.cslIdentifier)
 
     await collection.putAttachment(newBundle._id, {
       id: 'csl',
-      data: JSON.stringify(cslStyle),
       type: 'application/vnd.citationstyles.style+xml',
+      data,
     })
   }
 }
