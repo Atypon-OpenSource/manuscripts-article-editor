@@ -58,7 +58,7 @@ const buildNumberingStyle = (): Build<NumberingStyle> => ({
 
 export const SectionStyles: React.FC<{
   colors: Color[]
-  colorScheme: ColorScheme
+  colorScheme?: ColorScheme
   error?: Error
   paragraphStyle: ParagraphStyle
   saveModel: SaveModel
@@ -105,7 +105,7 @@ export const SectionStyles: React.FC<{
               paragraphStyle={paragraphStyle}
             />
 
-            {paragraphStyle.textStyling && (
+            {colorScheme && paragraphStyle.textStyling && (
               <ColorField
                 colors={colors}
                 colorScheme={colorScheme}

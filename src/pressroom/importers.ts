@@ -31,10 +31,10 @@ import pathParse from 'path-parse'
 import config from '../config'
 import { FileExtensionError } from '../lib/errors'
 import { idRe } from '../lib/id'
+import { importSharedData } from '../lib/shared-data'
 import {
+  createNewBundledStyles,
   createNewContributorRoles,
-  createNewStyles,
-  fetchSharedData,
 } from '../lib/templates'
 import { cleanItem } from './clean-item'
 import { ExportManuscriptFormat, removeUnsupportedData } from './exporter'
@@ -151,16 +151,16 @@ interface BundledData {
 }
 
 export const importBundledData = async (): Promise<BundledData> => {
-  const bundles = await fetchSharedData<Bundle>('bundles')
-  const contributorRoles = await fetchSharedData<ContributorRole>(
+  const bundles = await importSharedData<Bundle>('bundles')
+  const contributorRoles = await importSharedData<ContributorRole>(
     'contributor-roles'
   )
-  const styles = await fetchSharedData<Model>('styles')
+  const styles = await importSharedData<Model>('styles')
 
   return {
     bundles,
     contributorRoles: createNewContributorRoles(contributorRoles),
-    styles: createNewStyles(styles),
+    styles: createNewBundledStyles(styles),
   }
 }
 

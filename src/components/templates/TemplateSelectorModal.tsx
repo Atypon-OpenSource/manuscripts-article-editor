@@ -10,13 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptCategory, Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  ManuscriptCategory,
+  Model,
+  ResearchField,
+} from '@manuscripts/manuscripts-json-schema'
 import fuzzysort from 'fuzzysort'
 import React, { Component } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
 import styled from 'styled-components'
-import { ResearchField, TemplateData } from '../../types/templates'
+import { TemplateData } from '../../types/templates'
 import Search from '../Search'
 import { TemplateCategorySelector } from './TemplateCategorySelector'
 import { TemplateEmpty } from './TemplateEmpty'

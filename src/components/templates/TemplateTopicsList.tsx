@@ -11,9 +11,9 @@
  */
 
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
+import { ResearchField } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
-import { ResearchField } from '../../types/templates'
 
 const ListContainer = styled.div`
   position: relative;

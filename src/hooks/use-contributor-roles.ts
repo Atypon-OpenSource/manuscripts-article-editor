@@ -16,6 +16,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useMemo, useState } from 'react'
 import CollectionManager from '../sync/CollectionManager'
+import { useCollectionEvent } from './use-collection-event'
 
 export const useContributorRoles = (
   projectID: string,
@@ -26,28 +27,28 @@ export const useContributorRoles = (
     [projectID]
   )
 
-  const isPullComplete = collection && collection.status.pull.complete
+  const complete = useCollectionEvent(collection, 'pull', 'complete')
 
   const [data, setData] = useState<ContributorRole[]>()
 
   useEffect(() => {
-    if (!collection || !isPullComplete) return
+    if (complete) {
+      const subscription = collection
+        .find({
+          manuscriptID,
+          objectType: ObjectTypes.ContributorRole,
+        })
+        .$.subscribe(docs => {
+          if (docs) {
+            setData(docs.map(doc => doc.toJSON() as ContributorRole))
+          }
+        })
 
-    const subscription = collection
-      .find({
-        manuscriptID,
-        objectType: { $eq: ObjectTypes.ContributorRole },
-      })
-      .$.subscribe(docs => {
-        if (docs) {
-          setData(docs.map(doc => doc.toJSON() as ContributorRole))
-        }
-      })
-
-    return () => {
-      subscription.unsubscribe()
+      return () => {
+        subscription.unsubscribe()
+      }
     }
-  }, [collection, isPullComplete])
+  }, [collection, complete, manuscriptID])
 
   return { data }
 }

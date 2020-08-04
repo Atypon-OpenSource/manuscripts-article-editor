@@ -12,10 +12,10 @@
 
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
+import { ResearchField } from '@manuscripts/manuscripts-json-schema'
 import { TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
-import { ResearchField } from '../../types/templates'
 import { TemplateTopicsList } from './TemplateTopicsList'
 
 const TopicSelector = styled.div`

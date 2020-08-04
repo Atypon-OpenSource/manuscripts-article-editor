@@ -14,70 +14,75 @@ import {
   Build,
   buildContributor,
   buildManuscript,
+  buildParagraph,
   buildProject,
   buildSection,
+  ContainedModel,
   DEFAULT_BUNDLE,
-  generateID,
+  ManuscriptModel,
 } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
   Contributor,
   ContributorRole,
+  MandatorySubsectionsRequirement,
   Manuscript,
   ManuscriptCategory,
+  ManuscriptCoverLetterRequirement,
+  ManuscriptTemplate,
   Model,
   ObjectTypes,
   ParagraphElement,
   Project,
+  Publisher,
+  ResearchField,
   Section,
+  SectionCategory,
+  SectionDescription,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { Category, Dialog } from '@manuscripts/style-guide'
-import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+import { useHistory } from 'react-router-dom'
 import { nextManuscriptPriority } from '../../lib/manuscript'
 import { postWebkitMessage } from '../../lib/native'
+import { manuscriptCountRequirementFields } from '../../lib/requirements'
+import { loadSharedData } from '../../lib/shared-data'
 import {
   attachStyle,
   buildCategories,
   buildItems,
   buildResearchFields,
-  buildSectionFromDescription,
   chooseBundleID,
-  chooseSectionTitle,
   COVER_LETTER_CATEGORY,
   COVER_LETTER_PLACEHOLDER,
   COVER_LETTER_SECTION_CATEGORY,
-  createCoverLetterDescription,
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
   createNewBundle,
+  createNewBundledStyles,
   createNewContributorRoles,
-  createNewStyles,
+  createNewTemplateStyles,
   createParentBundle,
-  fetchSharedData,
-  findCoverLetterDescription,
-  isCoverLetter,
-  isMandatorySubsectionsRequirement,
-  prepareRequirements,
+  fromPrototype,
   RESEARCH_ARTICLE_CATEGORY,
   updatedPageLayout,
 } from '../../lib/templates'
 import { trackEvent } from '../../lib/tracking'
 import { Collection } from '../../sync/Collection'
+import CollectionManager from '../../sync/CollectionManager'
 import {
-  ManuscriptTemplate,
-  Publisher,
-  RequirementType,
-  ResearchField,
-  SectionCategory,
-  SectionDescription,
+  Requirement,
   TemplateData,
   TemplatesDataType,
 } from '../../types/templates'
-import { ContactSupportButton } from '../ContactSupportButton'
-import { Database, DatabaseContext } from '../DatabaseProvider'
+import { DatabaseContext } from '../DatabaseProvider'
 import {
   createProjectCollection,
   importManuscript,
@@ -87,226 +92,202 @@ import { PseudoProjectPage } from './PseudoProjectPage'
 import { TemplateLoadingModal } from './TemplateLoadingModal'
 import { TemplateSelectorModal } from './TemplateSelectorModal'
 
-interface Props {
+export interface SharedData {
+  bundles: Map<string, Bundle>
+  contributorRoles: Map<string, ContributorRole>
+  manuscriptCategories: Map<string, ManuscriptCategory>
+  manuscriptTemplates: Map<string, ManuscriptTemplate>
+  publishers: Map<string, Publisher>
+  researchFields: Map<string, ResearchField>
+  sectionCategories: Map<string, SectionCategory>
+  styles: Map<string, Model>
+  templatesData: Map<string, TemplatesDataType>
+  userManuscriptTemplates: Map<string, ManuscriptTemplate>
+}
+
+const buildNewProject = ({
+  projectID,
+  user,
+}: {
+  projectID?: string
+  user: UserProfile
+}): Build<Project> | undefined => {
+  return projectID ? undefined : buildProject(user.userID)
+}
+
+// private findDefaultColorScheme = (newStyles: Map<string, Model>) => {
+//   for (const style of newStyles.values()) {
+//     if (isColorScheme(style)) {
+//       if (style.prototype === DEFAULT_COLOR_SCHEME) {
+//         return style
+//       }
+//     }
+//   }
+// }
+
+const sendNewProjectNotification = (projectID: string) => {
+  postWebkitMessage('action', {
+    name: 'assign-project',
+    projectID,
+  })
+}
+
+export interface TemplateSelectorProps {
   handleComplete: (isCancellation?: boolean) => void
   user: UserProfile
   projectID?: string
 }
 
-interface State {
-  loadingError?: Error
-  bundles?: Map<string, Bundle>
-  styles?: Map<string, Model>
-  manuscriptCategories?: Map<string, ManuscriptCategory>
-  sectionCategories?: Map<string, SectionCategory>
-  manuscriptTemplates?: Map<string, ManuscriptTemplate>
-  publishers?: Map<string, Publisher>
-  templatesData?: Map<string, TemplatesDataType>
-  researchFields?: Map<string, ResearchField>
-  contributorRoles?: Map<string, ContributorRole>
-}
+const TemplateSelector: React.FC<TemplateSelectorProps> = ({
+  handleComplete,
+  projectID,
+  user,
+}) => {
+  const db = useContext(DatabaseContext)
 
-class TemplateSelector extends React.Component<
-  Props & RouteComponentProps,
-  State
-> {
-  public state: Readonly<State> = {}
+  const [data, setData] = useState<SharedData>()
 
-  public async componentDidMount() {
-    this.loadData().catch(loadingError => {
-      this.setState({ loadingError })
-    })
-  }
+  const history = useHistory()
 
-  public render() {
-    const {
-      bundles,
-      loadingError,
-      manuscriptCategories,
-      manuscriptTemplates,
-      publishers,
-      researchFields,
-      styles,
-    } = this.state
+  const handleCancellation = useCallback(() => {
+    handleComplete(true)
+  }, [handleComplete])
 
-    const { history, handleComplete, user, projectID } = this.props
+  const [userTemplates, setUserTemplates] = useState<ManuscriptTemplate[]>()
 
-    if (loadingError) {
-      return (
-        <Dialog
-          isOpen={true}
-          category={Category.error}
-          header={'Error'}
-          message={
-            <React.Fragment>
-              There was an error loading the templates. Please{' '}
-              <ContactSupportButton>contact support</ContactSupportButton> if
-              this persists.
-            </React.Fragment>
-          }
-          actions={{
-            primary: {
-              action: this.handleCancellation,
-              title: 'OK',
+  const [userTemplateModels, setUserTemplateModels] = useState<
+    ManuscriptModel[]
+  >()
+
+  useEffect(() => {
+    const loadUserTemplates = async () => {
+      const projects = await CollectionManager.getCollection('user')
+        .find({
+          objectType: ObjectTypes.Project,
+          templateContainer: true,
+        })
+        .exec()
+        .then(docs => docs.map(doc => doc.toJSON()) as Project[])
+
+      const syncedProjectCollections = (projects: Project[]) =>
+        Promise.all<Collection<ContainedModel>>(
+          projects.map(
+            project =>
+              new Promise(async (resolve, reject) => {
+                const collection = await CollectionManager.createCollection<
+                  ContainedModel
+                >({
+                  collection: `project-${project._id}`,
+                  channels: [`${project._id}-read`, `${project._id}-readwrite`],
+                  db,
+                })
+
+                if (collection.status.pull.complete) {
+                  resolve(collection)
+                }
+
+                collection.addEventListener('complete', async event => {
+                  if (event.detail.direction === 'pull' && event.detail.value) {
+                    resolve(collection)
+                  }
+                })
+
+                collection.addEventListener('error', () => {
+                  reject()
+                })
+              })
+          )
+        )
+
+      const collections = await syncedProjectCollections(projects)
+
+      const userTemplates: ManuscriptTemplate[] = []
+      const userTemplateModels: ManuscriptModel[] = []
+
+      for (const collection of collections) {
+        const templates = await collection
+          .find({ objectType: ObjectTypes.ManuscriptTemplate })
+          .exec()
+          .then(docs => docs.map(doc => doc.toJSON()) as ManuscriptTemplate[])
+
+        const models = await collection
+          .find({
+            templateID: {
+              $in: templates.map(template => template._id),
             },
-          }}
-        />
-      )
-    }
+          })
+          .exec()
+          .then(docs => docs.map(doc => doc.toJSON()) as ManuscriptModel[])
 
-    if (
-      !manuscriptTemplates ||
-      !manuscriptCategories ||
-      !bundles ||
-      !publishers ||
-      !styles ||
-      !researchFields
-    ) {
-      return (
-        <TemplateLoadingModal
-          handleCancel={this.handleCancellation}
-          status={'Thinking hard…'}
-        />
-      )
-    }
-
-    return (
-      <DatabaseContext.Consumer>
-        {db => (
-          <>
-            {!projectID && <PseudoProjectPage />}
-
-            <TemplateSelectorModal
-              categories={buildCategories(manuscriptCategories)}
-              researchFields={buildResearchFields(researchFields)}
-              createEmpty={this.createEmpty(db)}
-              importManuscript={importManuscript(
-                db,
-                history,
-                user,
-                handleComplete,
-                projectID
-              )}
-              handleComplete={this.handleCancellation}
-              items={buildItems(manuscriptTemplates, bundles, publishers)}
-              selectTemplate={this.selectTemplate(db)}
-            />
-          </>
-        )}
-      </DatabaseContext.Consumer>
-    )
-  }
-
-  private async loadData() {
-    // this.setState({ loading: 'categories' })
-
-    const manuscriptCategories = await fetchSharedData<ManuscriptCategory>(
-      'manuscript-categories'
-    )
-
-    const sectionCategories = await fetchSharedData<SectionCategory>(
-      'section-categories'
-    )
-
-    const contributorRoles = await fetchSharedData<ContributorRole>(
-      'contributor-roles'
-    )
-
-    // this.setState({ loading: 'publishers' })
-
-    const publishers = await fetchSharedData<Publisher>('publishers')
-
-    // this.setState({ loading: 'fields' })
-
-    const keywords = await fetchSharedData<ResearchField>('keywords')
-
-    const researchFields = new Map<string, ResearchField>()
-
-    for (const item of keywords.values()) {
-      if (item.objectType === 'MPResearchField') {
-        researchFields.set(item._id, item)
+        userTemplates.push(...templates)
+        userTemplateModels.push(...models)
       }
+
+      setUserTemplates(userTemplates)
+      setUserTemplateModels(userTemplateModels)
     }
 
-    // this.setState({ loading: 'bundles' })
-
-    const bundles = await fetchSharedData<Bundle>('bundles')
-
-    // this.setState({ loading: 'styles' })
-
-    const styles = await fetchSharedData<Model>('styles')
-
-    // this.setState({ loading: 'templates' })
-
-    const templatesData = await fetchSharedData<TemplatesDataType>(
-      'templates-v2'
-    )
-
-    const manuscriptTemplates = new Map<string, ManuscriptTemplate>()
-
-    for (const item of templatesData.values()) {
-      if (item.objectType === 'MPManuscriptTemplate') {
-        manuscriptTemplates.set(item._id, item as ManuscriptTemplate)
-      }
-    }
-
-    this.setState({
-      bundles,
-      styles,
-      manuscriptCategories,
-      sectionCategories,
-      manuscriptTemplates,
-      publishers,
-      templatesData,
-      researchFields,
-      contributorRoles,
-      // loading: undefined,
+    loadUserTemplates().catch(error => {
+      // TODO: display error message
+      console.error(error) // tslint:disable-line:no-console
     })
-  }
+  }, [])
 
+  useEffect(() => {
+    if (userTemplates && userTemplateModels) {
+      loadSharedData(userTemplates, userTemplateModels)
+        .then(setData)
+        .catch(error => {
+          // TODO: display error message
+          console.error(error) // tslint:disable-line:no-console
+        })
+    }
+  }, [userTemplates, userTemplateModels])
+
+  const importManuscriptModels = useMemo(
+    () => importManuscript(db, history, user, handleComplete, projectID),
+    [db, history, user, handleComplete, projectID]
+  )
+
+  const categories = useMemo(
+    () => (data ? buildCategories(data.manuscriptCategories) : undefined),
+    [data]
+  )
+
+  const researchFields = useMemo(
+    () => (data ? buildResearchFields(data.researchFields) : undefined),
+    [data]
+  )
+
+  const items = useMemo(() => (data ? buildItems(data) : undefined), [data])
+
+  // TODO: refactor most of this to a separate module
   // tslint:disable-next-line:cyclomatic-complexity
-  private createEmpty = (db: Database) => async () => {
-    const {
-      handleComplete,
-      history,
-      user,
-      projectID: possibleProjectID,
-    } = this.props
-
-    const { bundles, styles, contributorRoles } = this.state
-
-    if (!bundles) {
-      throw new Error('Bundles not found')
+  const createEmpty = useCallback(async () => {
+    if (!data) {
+      throw new Error('Data not loaded')
     }
 
-    if (!styles) {
-      throw new Error('Styles not found')
-    }
+    const newProject = projectID ? null : buildProject(user.userID)
 
-    if (!contributorRoles) {
-      throw new Error('Contributor roles not found')
-    }
-
-    const newProject = possibleProjectID ? null : buildProject(user.userID)
-
-    const projectID = newProject ? newProject._id : possibleProjectID!
+    const containerID = newProject ? newProject._id : projectID!
 
     if (newProject) {
       const projectsCollection = openProjectsCollection()
       await projectsCollection.create(newProject)
     }
 
-    const collection = await createProjectCollection(db, projectID)
+    const collection = await createProjectCollection(db, containerID)
 
     const priority = await nextManuscriptPriority(
       collection as Collection<Manuscript>
     )
 
-    const newBundle = createNewBundle(DEFAULT_BUNDLE, bundles)
+    const newBundle = createNewBundle(DEFAULT_BUNDLE, data.bundles)
 
-    const newStyles = createNewStyles(styles)
+    const newStyles = createNewBundledStyles(data.styles)
 
-    const newContributorRoles = createNewContributorRoles(contributorRoles)
+    const newContributorRoles = createNewContributorRoles(data.contributorRoles)
 
     const newPageLayout = updatedPageLayout(newStyles)
 
@@ -329,19 +310,19 @@ class TemplateSelector extends React.Component<
 
     const saveContainedModel = <T extends Model>(data: Build<T>) =>
       collection.create(data, {
-        containerID: projectID,
+        containerID,
       })
 
     const saveManuscriptModel = <T extends Model>(data: Build<T>) =>
       collection.create(data, {
-        containerID: projectID,
+        containerID,
         manuscriptID: manuscript._id,
       })
 
     await saveContainedModel<Bundle>(newBundle)
     await attachStyle(newBundle, collection)
 
-    const parentBundle = createParentBundle(newBundle, bundles)
+    const parentBundle = createParentBundle(newBundle, data.bundles)
 
     if (parentBundle) {
       await saveContainedModel<Bundle>(parentBundle)
@@ -375,274 +356,278 @@ class TemplateSelector extends React.Component<
       label: `template=(empty)`,
     })
 
-    history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
+    history.push(`/projects/${containerID}/manuscripts/${manuscript._id}`)
 
     if (newProject) {
-      this.sendNewProjectNotification(projectID)
+      sendNewProjectNotification(containerID)
     }
 
     handleComplete()
-  }
+  }, [handleComplete, data])
 
-  private buildNewProject = (): Build<Project> | undefined => {
-    const { projectID, user } = this.props
-
-    return projectID ? undefined : buildProject(user.userID)
-  }
-
-  // private findDefaultColorScheme = (newStyles: Map<string, Model>) => {
-  //   for (const style of newStyles.values()) {
-  //     if (isColorScheme(style)) {
-  //       if (style.prototype === DEFAULT_COLOR_SCHEME) {
-  //         return style
-  //       }
-  //     }
-  //   }
-  // }
-
-  // tslint:disable:cyclomatic-complexity
-  private selectTemplate = (db: Database) => async (item: TemplateData) => {
-    const {
-      bundles,
-      styles,
-      contributorRoles,
-      templatesData,
-      sectionCategories,
-      manuscriptTemplates,
-    } = this.state
-
-    if (!bundles) {
-      throw new Error('Bundles not found')
-    }
-
-    if (!styles) {
-      throw new Error('Styles not found')
-    }
-
-    if (!contributorRoles) {
-      throw new Error('Contributor roles not found')
-    }
-
-    const { handleComplete, history, user } = this.props
-
-    const newProject = this.buildNewProject()
-
-    if (newProject) {
-      const projectsCollection = openProjectsCollection()
-      await projectsCollection.create(newProject)
-    }
-
-    const projectID: string = newProject
-      ? newProject._id
-      : this.props.projectID!
-
-    const newBundle = createNewBundle(chooseBundleID(item), bundles)
-
-    const collection = await createProjectCollection(db, projectID)
-
-    const priority = newProject
-      ? 1
-      : await nextManuscriptPriority(collection as Collection<Manuscript>)
-
-    const newStyles = createNewStyles(styles)
-
-    const newContributorRoles = createNewContributorRoles(contributorRoles)
-
-    const newPageLayout = updatedPageLayout(newStyles)
-
-    // const colorScheme = this.findDefaultColorScheme(newStyles)
-
-    const manuscript: Build<Manuscript> = {
-      ...buildManuscript(),
-      bundle: newBundle._id,
-      pageLayout: newPageLayout._id,
-      priority,
-      // colorScheme: colorScheme ? colorScheme._id : DEFAULT_COLOR_SCHEME,
-    }
-
-    const saveContainedModel = <T extends Model>(data: Build<T>) =>
-      collection.create(data, {
-        containerID: projectID,
-      })
-
-    const saveManuscriptModel = <T extends Model>(data: Build<T>) =>
-      collection.create(data, {
-        containerID: projectID,
-        manuscriptID: manuscript._id,
-      })
-
-    await saveContainedModel<Bundle>(newBundle)
-    await attachStyle(newBundle, collection)
-
-    const parentBundle = createParentBundle(newBundle, bundles)
-
-    if (parentBundle) {
-      await saveContainedModel<Bundle>(parentBundle)
-      await attachStyle(parentBundle, collection)
-    }
-
-    for (const newStyle of newStyles.values()) {
-      await saveManuscriptModel<Model>(newStyle)
-    }
-
-    for (const newContributorRole of newContributorRoles.values()) {
-      await saveManuscriptModel<ContributorRole>(newContributorRole)
-    }
-
-    const contributor = buildContributor(
-      user.bibliographicName,
-      'author',
-      0,
-      user.userID
-    )
-
-    await saveManuscriptModel<Contributor>(contributor)
-
-    if (item.template) {
-      // merge the templates
-      const mergedTemplate = createMergedTemplate(
-        item.template,
-        manuscriptTemplates
-      )
-
-      // save the requirements
-      // TODO: build a new requirements object and save it to the template, or re-use the existing one?
-
-      const requirements = prepareRequirements(mergedTemplate, templatesData)
-
-      mergedTemplate.requirementIDs = await Promise.all(
-        requirements.map(async requirement => {
-          requirement._id = generateID(requirement.objectType as ObjectTypes)
-          await saveManuscriptModel<RequirementType>(requirement)
-          return requirement._id
-        })
-      )
-
-      const mandatorySubsectionsRequirements = requirements.filter(
-        isMandatorySubsectionsRequirement
-      )
-
-      const requiredSections: SectionDescription[] = mandatorySubsectionsRequirements.flatMap(
-        requirement =>
-          requirement.embeddedSectionDescriptions.filter(
-            sectionDescription => !isCoverLetter(sectionDescription)
-          )
-      )
-
-      if (requiredSections.length && sectionCategories) {
-        // create the required sections, if there are any
-        const items = createManuscriptSectionsFromTemplate(
-          requiredSections,
-          sectionCategories
-        )
-
-        for (const item of items) {
-          await saveManuscriptModel(item)
-        }
-      } else {
-        // create an empty section, if there are no required sections
-        const paragraph = createEmptyParagraph(newPageLayout)
-
-        await saveManuscriptModel<ParagraphElement>(paragraph)
-
-        await saveManuscriptModel<Section>({
-          ...buildSection(),
-          elementIDs: [paragraph._id],
-        })
+  // TODO: refactor most of this to a separate module
+  const selectTemplate = useCallback(
+    // tslint:disable-next-line:cyclomatic-complexity
+    async (item: TemplateData) => {
+      if (!data) {
+        throw new Error('Data not loaded')
       }
 
-      await saveManuscriptModel(mergedTemplate)
+      const newProject = buildNewProject({ projectID, user })
 
-      // create a cover letter manuscript alongside the first manuscript, if it's a research article or has a cover letter section description in the template
-      if (priority === 1 && sectionCategories) {
-        // create a cover letter manuscript
-        let coverLetterDescription:
-          | SectionDescription
-          | undefined = findCoverLetterDescription(
-          mandatorySubsectionsRequirements
-        )
+      if (newProject) {
+        const projectsCollection = openProjectsCollection()
+        await projectsCollection.create(newProject)
+      }
 
-        if (
-          !coverLetterDescription &&
-          mergedTemplate.category === RESEARCH_ARTICLE_CATEGORY
-        ) {
-          coverLetterDescription = createCoverLetterDescription()
+      const containerID: string = newProject ? newProject._id : projectID!
+
+      const newBundle = createNewBundle(chooseBundleID(item), data.bundles)
+
+      const collection = await createProjectCollection(db, containerID)
+
+      const priority = newProject
+        ? 1
+        : await nextManuscriptPriority(collection as Collection<Manuscript>)
+
+      // merge the templates
+      const mergedTemplate = item.template
+        ? createMergedTemplate(item.template, data.manuscriptTemplates)
+        : undefined
+
+      const newStyles =
+        mergedTemplate && mergedTemplate.styles
+          ? createNewTemplateStyles(
+              data.styles,
+              Object.keys(mergedTemplate.styles)
+            )
+          : createNewBundledStyles(data.styles)
+
+      const newPageLayout = updatedPageLayout(newStyles, mergedTemplate)
+
+      const newContributorRoles = createNewContributorRoles(
+        data.contributorRoles
+      )
+
+      // const colorScheme = this.findDefaultColorScheme(newStyles)
+
+      const manuscript: Build<Manuscript> = {
+        ...buildManuscript(),
+        bundle: newBundle._id,
+        pageLayout: newPageLayout._id,
+        priority,
+        // colorScheme: colorScheme ? colorScheme._id : DEFAULT_COLOR_SCHEME,
+      }
+
+      // TODO: Make sure this manuscript is associated with the template
+
+      const saveContainedModel = <T extends Model>(data: Build<T>) =>
+        collection.create(data, {
+          containerID,
+        })
+
+      const saveManuscriptModel = <T extends Model>(data: Build<T>) =>
+        collection.create(data, {
+          containerID,
+          manuscriptID: manuscript._id,
+        })
+
+      await saveContainedModel<Bundle>(newBundle)
+      await attachStyle(newBundle, collection)
+
+      const parentBundle = createParentBundle(newBundle, data.bundles)
+
+      if (parentBundle) {
+        await saveContainedModel<Bundle>(parentBundle)
+        await attachStyle(parentBundle, collection)
+      }
+
+      for (const newStyle of newStyles.values()) {
+        await saveManuscriptModel<Model>(newStyle)
+      }
+
+      for (const newContributorRole of newContributorRoles.values()) {
+        await saveManuscriptModel<ContributorRole>(newContributorRole)
+      }
+
+      const contributor = buildContributor(
+        user.bibliographicName,
+        'author',
+        0,
+        user.userID
+      )
+
+      await saveManuscriptModel<Contributor>(contributor)
+
+      const addNewRequirement = async <S extends Requirement>(
+        requirementID: string
+      ): Promise<S | undefined> => {
+        const requirement = data.templatesData.get(requirementID) as
+          | S
+          | undefined
+
+        if (requirement) {
+          const newRequirement: S = {
+            ...fromPrototype(requirement),
+            ignored: false,
+          }
+
+          await saveManuscriptModel<Requirement>(newRequirement)
+
+          return newRequirement
+        }
+      }
+
+      if (mergedTemplate) {
+        // save manuscript requirements
+        for (const requirementField of manuscriptCountRequirementFields) {
+          const requirementID = mergedTemplate[requirementField]
+
+          if (requirementID) {
+            const requirement = await addNewRequirement(requirementID)
+
+            if (requirement) {
+              manuscript[requirementField] = requirement._id
+            }
+          }
         }
 
-        if (coverLetterDescription) {
-          const sectionCategory = sectionCategories.get(
-            COVER_LETTER_SECTION_CATEGORY
+        // create new sections
+        const sectionDescriptions: SectionDescription[] = []
+
+        if (mergedTemplate.mandatorySectionRequirements) {
+          for (const requirementID of mergedTemplate.mandatorySectionRequirements) {
+            const requirement = data.templatesData.get(requirementID) as
+              | MandatorySubsectionsRequirement
+              | undefined
+
+            if (requirement) {
+              for (const sectionDescription of requirement.embeddedSectionDescriptions) {
+                sectionDescriptions.push(sectionDescription)
+              }
+            }
+          }
+        }
+
+        if (sectionDescriptions.length) {
+          // create the required sections, if there are any
+          const items = createManuscriptSectionsFromTemplate(
+            data.templatesData,
+            data.sectionCategories,
+            sectionDescriptions
           )
 
-          const manuscriptTitle = chooseSectionTitle(
-            coverLetterDescription,
-            sectionCategory
-          )
-
-          const extraManuscript = buildManuscript(manuscriptTitle)
-
-          const containerIDs = {
-            containerID: projectID,
-            manuscriptID: extraManuscript._id,
+          for (const item of items) {
+            await saveManuscriptModel(item)
           }
+        } else {
+          // create an empty section, if there are no required sections
+          const paragraph = createEmptyParagraph(newPageLayout)
 
-          if (!coverLetterDescription.placeholder) {
-            coverLetterDescription.placeholder = COVER_LETTER_PLACEHOLDER
-          }
+          await saveManuscriptModel<ParagraphElement>(paragraph)
 
-          const { section, dependencies } = buildSectionFromDescription(
-            coverLetterDescription,
-            1 // the cover letter only has one section
-          )
-
-          section.titleSuppressed = true
-
-          for (const dependency of dependencies) {
-            await collection.save(dependency, containerIDs)
-          }
-
-          await collection.save(section, containerIDs)
-
-          await saveContainedModel<Manuscript>({
-            ...extraManuscript,
-            bundle: newBundle._id,
-            category: COVER_LETTER_CATEGORY,
-            priority: 2, // the cover letter is always the second manuscript
+          await saveManuscriptModel<Section>({
+            ...buildSection(),
+            elementIDs: [paragraph._id],
           })
         }
+
+        // create a cover letter manuscript alongside the _first_ manuscript,
+        // if it's a research article or has a cover letter requirement in the template
+        // TODO: use section descriptions in the cover-letter category from required sections?
+        if (priority === 1) {
+          if (
+            mergedTemplate.coverLetterRequirement ||
+            mergedTemplate.category === RESEARCH_ARTICLE_CATEGORY
+          ) {
+            const sectionCategory = data.sectionCategories.get(
+              COVER_LETTER_SECTION_CATEGORY
+            )
+
+            const coverLetterManuscript = buildManuscript(
+              sectionCategory ? sectionCategory.name : 'Cover Letter'
+            )
+
+            const coverLetterRequirement = mergedTemplate.coverLetterRequirement
+              ? (data.manuscriptTemplates.get(
+                  mergedTemplate.coverLetterRequirement
+                ) as ManuscriptCoverLetterRequirement | undefined)
+              : undefined
+
+            const placeholder =
+              coverLetterRequirement && coverLetterRequirement.placeholderString
+                ? coverLetterRequirement.placeholderString
+                : COVER_LETTER_PLACEHOLDER
+
+            const paragraph = buildParagraph(placeholder)
+
+            await saveContainedModel<ParagraphElement>(paragraph)
+
+            const section = buildSection(1)
+            section.elementIDs = [paragraph._id]
+            section.titleSuppressed = true
+
+            await collection.create(section, {
+              containerID,
+              manuscriptID: coverLetterManuscript._id,
+            })
+
+            await saveContainedModel<Manuscript>({
+              ...coverLetterManuscript,
+              bundle: newBundle._id,
+              category: COVER_LETTER_CATEGORY,
+              priority: 2, // the cover letter is always the second manuscript
+            })
+          }
+        }
+
+        // await saveContainedModel(mergedTemplate) // TODO: should the template be saved?
       }
-    }
 
-    // save the manuscript
-    await saveContainedModel<Manuscript>(manuscript)
+      // save the manuscript
+      await saveContainedModel<Manuscript>(manuscript)
 
-    trackEvent({
-      category: 'Manuscripts',
-      action: 'Create',
-      label: `template=${item.title}`,
-    })
+      trackEvent({
+        category: 'Manuscripts',
+        action: 'Create',
+        label: `template=${item.title}`,
+      })
 
-    // NOTE: not saving the shared data to the project
+      history.push(`/projects/${containerID}/manuscripts/${manuscript._id}`)
 
-    history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
+      if (newProject) {
+        sendNewProjectNotification(containerID)
+      }
 
-    if (newProject) {
-      this.sendNewProjectNotification(projectID)
-    }
+      handleComplete()
+    },
+    [handleComplete, history, data, user]
+  )
 
-    handleComplete()
+  if (!data || !categories || !researchFields || !items) {
+    return (
+      <TemplateLoadingModal
+        handleCancel={handleCancellation}
+        status={'Thinking…'}
+      />
+    )
   }
 
-  private sendNewProjectNotification = (projectID: string) => {
-    postWebkitMessage('action', {
-      name: 'assign-project',
-      projectID,
-    })
-  }
+  return (
+    <>
+      {!projectID && <PseudoProjectPage />}
 
-  private handleCancellation = () => {
-    this.props.handleComplete(true)
-  }
+      <TemplateSelectorModal
+        categories={categories}
+        createEmpty={createEmpty}
+        handleComplete={handleCancellation}
+        importManuscript={importManuscriptModels}
+        items={items}
+        researchFields={researchFields}
+        selectTemplate={selectTemplate}
+      />
+    </>
+  )
 }
 
-export default withRouter(TemplateSelector)
+export default TemplateSelector

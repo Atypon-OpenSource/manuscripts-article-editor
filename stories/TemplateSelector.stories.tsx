@@ -12,7 +12,10 @@
 
 import keywords from '@manuscripts/data/dist/shared/keywords.json'
 import manuscriptCategories from '@manuscripts/data/dist/shared/manuscript-categories.json'
-import { ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import {
+  ObjectTypes,
+  ResearchField,
+} from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -25,7 +28,6 @@ import { TemplateSelectorList } from '../src/components/templates/TemplateSelect
 import { TemplateSelectorModal } from '../src/components/templates/TemplateSelectorModal'
 import { TemplateTopicSelector } from '../src/components/templates/TemplateTopicSelector'
 import { TemplateTopicsList } from '../src/components/templates/TemplateTopicsList'
-import { ResearchField } from '../src/types/templates'
 import { templatesData } from './data/templates-data'
 
 const researchFields = (keywords as ResearchField[]).filter(

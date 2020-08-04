@@ -63,6 +63,7 @@ export const initialReplicationStatus = {
 export interface ContainerIDs {
   containerID?: string
   manuscriptID?: string
+  templateID?: string
 }
 
 export const isBulkDocsSuccess = (
@@ -356,7 +357,7 @@ export class Collection<T extends Model> implements EventTarget {
     return this.collection
   }
 
-  public find(queryObj: object) {
+  public find(queryObj?: object) {
     return this.getCollection().find(queryObj)
   }
 
@@ -674,7 +675,7 @@ export class Collection<T extends Model> implements EventTarget {
       if (this.props.channels) {
         if (!this.props.channels.length) {
           // tslint:disable-next-line:no-console
-          console.warn('No channels were provided for a filtered sync')
+          console.debug('No channels were provided for a filtered sync')
           this.setStatus(direction, 'complete', true)
           return false
         }

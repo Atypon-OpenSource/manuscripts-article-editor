@@ -88,6 +88,9 @@ interface Config {
     series_code?: string
     group_doi?: string
   }
+  templates: {
+    publish?: boolean
+  }
   version: string
 }
 
@@ -171,6 +174,9 @@ const config = {
   submission: {
     series_code: process.env.SUBMISSION_SERIES_CODE,
     group_doi: process.env.SUBMISSION_GROUP_DOI,
+  },
+  templates: {
+    publish: process.env.PUBLISH_TEMPLATES,
   },
   version,
 }

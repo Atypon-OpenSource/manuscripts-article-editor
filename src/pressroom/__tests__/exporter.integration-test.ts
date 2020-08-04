@@ -21,6 +21,7 @@ import {
   ContainedModel,
   DEFAULT_BUNDLE,
   generateID,
+  hasObjectType,
 } from '@manuscripts/manuscript-transform'
 import {
   BibliographyElement,
@@ -31,13 +32,17 @@ import {
   Contributor,
   Equation,
   EquationElement,
+  MandatorySubsectionsRequirement,
   Manuscript,
+  ManuscriptTemplate,
   Model,
   ObjectTypes,
   PageLayout,
   ParagraphElement,
   ParagraphStyle,
   Section,
+  SectionCategory,
+  SectionDescription,
   Style,
   Table,
   TableElement,
@@ -49,23 +54,15 @@ import { AxiosResponse, ResponseType } from 'axios'
 // import { ProjectDump } from '../importers'
 // import { buildModelMap } from './util'
 import { Data } from 'csl-json'
+import { importSharedData } from '../../lib/shared-data'
 import {
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
-  createNewStyles,
-  fetchSharedData,
-  isCoverLetter,
-  isMandatorySubsectionsRequirement,
-  prepareRequirements,
+  createNewBundledStyles,
   updatedPageLayout,
 } from '../../lib/templates'
-import {
-  ManuscriptTemplate,
-  RequirementType,
-  SectionCategory,
-  SectionDescription,
-} from '../../types/templates'
+import { Requirement, TemplatesDataType } from '../../types/templates'
 import {
   ExportBibliographyFormat,
   ExportManuscriptFormat,
@@ -152,6 +149,10 @@ const user: Build<UserProfile> = {
   }),
 }
 
+const isManuscriptTemplate = hasObjectType<ManuscriptTemplate>(
+  ObjectTypes.ManuscriptTemplate
+)
+
 const project = buildProject(user.userID)
 
 // tslint:disable-next-line:cyclomatic-complexity
@@ -159,8 +160,8 @@ const buildManuscriptModelMap = async (
   manuscript: Build<Manuscript>,
   templateID?: string
 ) => {
-  const bundles = await fetchSharedData<Bundle>('bundles')
-  const styles = await fetchSharedData<Style>('styles')
+  const bundles = await importSharedData<Bundle>('bundles')
+  const styles = await importSharedData<Style>('styles')
 
   const modelMap = new Map<string, ContainedModel>()
 
@@ -182,7 +183,7 @@ const buildManuscriptModelMap = async (
   addModel<Bundle>(bundle)
 
   // add the shared styles
-  const newStyles = createNewStyles(styles)
+  const newStyles = createNewBundledStyles(styles)
   for (const style of newStyles.values()) {
     addModel<Style>(style)
   }
@@ -213,52 +214,62 @@ const buildManuscriptModelMap = async (
 
   // add requirements and sections from a template
   if (templateID) {
-    const templates = await fetchSharedData<ManuscriptTemplate>('templates-v2')
+    const templatesData = await importSharedData<TemplatesDataType>(
+      'templates-v2'
+    )
 
-    const sectionCategories = await fetchSharedData<SectionCategory>(
+    const sectionCategories = await importSharedData<SectionCategory>(
       'section-categories'
     )
 
     const manuscriptTemplates = new Map<string, ManuscriptTemplate>()
 
-    for (const item of templates.values()) {
-      if (item.objectType === 'MPManuscriptTemplate') {
+    for (const item of templatesData.values()) {
+      if (isManuscriptTemplate(item)) {
         manuscriptTemplates.set(item._id, item)
       }
     }
 
     const template = manuscriptTemplates.get(templateID)
+
     if (!template) {
       throw new Error('Manuscript template not found')
     }
 
     const mergedTemplate = createMergedTemplate(template, manuscriptTemplates)
 
-    const requirements = prepareRequirements(mergedTemplate, templates)
+    if (mergedTemplate.mandatorySectionRequirements) {
+      for (const requirementID of mergedTemplate.mandatorySectionRequirements) {
+        const requirement = templatesData.get(requirementID)
 
-    mergedTemplate.requirementIDs = []
-    for (const requirement of requirements) {
-      requirement._id = generateID(requirement.objectType as ObjectTypes)
-      addModel<RequirementType>(requirement)
-      mergedTemplate.requirementIDs.push(requirement._id)
+        if (requirement) {
+          addModel<Requirement>(requirement as Requirement)
+        }
+      }
     }
 
-    const mandatorySubsectionsRequirements = requirements.filter(
-      isMandatorySubsectionsRequirement
-    )
+    const sectionDescriptions: SectionDescription[] = []
 
-    const requiredSections: SectionDescription[] = mandatorySubsectionsRequirements.flatMap(
-      requirement =>
-        requirement.embeddedSectionDescriptions.filter(
-          sectionDescription => !isCoverLetter(sectionDescription)
-        )
-    )
+    if (template.mandatorySectionRequirements) {
+      for (const requirementID of template.mandatorySectionRequirements) {
+        const requirement = templatesData.get(requirementID) as
+          | MandatorySubsectionsRequirement
+          | undefined
 
-    if (requiredSections.length && sectionCategories) {
+        if (requirement) {
+          for (const sectionDescription of requirement.embeddedSectionDescriptions) {
+            sectionDescriptions.push(sectionDescription)
+          }
+        }
+      }
+    }
+
+    if (sectionDescriptions.length) {
       // create the required sections, if there are any
       const items = createManuscriptSectionsFromTemplate(
-        requiredSections,
-        sectionCategories
+        templatesData,
+        sectionCategories,
+        sectionDescriptions
       )
 
       for (const item of items) {

@@ -7,41 +7,30 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  Bundle,
-  MandatorySubsectionsRequirement,
-  ManuscriptTemplate,
-  Publisher,
-} from '@manuscripts/manuscripts-json-schema'
+import { Model } from '@manuscripts/manuscripts-json-schema'
+import { useEffect, useState } from 'react'
+import { Collection } from '../sync/Collection'
+import { Direction, EventType } from '../sync/types'
 
-import {
-  ManuscriptCountRequirement,
-  SectionCountRequirement,
-} from '../lib/requirements'
+export const useCollectionEvent = <T extends Model>(
+  collection: Collection<T>,
+  direction: Direction,
+  eventType: EventType
+) => {
+  const [value, setValue] = useState(collection.status[direction][eventType])
 
-export type ManuscriptTemplateData = Pick<
-  ManuscriptTemplate,
-  Exclude<
-    keyof ManuscriptTemplate,
-    'containerID' | 'manuscriptID' | 'sessionID'
-  >
->
+  useEffect(() => {
+    if (!collection.status[direction][eventType]) {
+      collection.addEventListener(eventType, event => {
+        if (event.detail.direction === direction) {
+          setValue(event.detail.value)
+        }
+      })
+    }
+  }, [collection, direction])
 
-export interface TemplateData {
-  template?: ManuscriptTemplateData
-  bundle?: Bundle
-  title: string
-  articleType?: string
-  publisher?: Publisher
-  category?: string
+  return value
 }
-
-export type Requirement =
-  | MandatorySubsectionsRequirement
-  | ManuscriptCountRequirement
-  | SectionCountRequirement
-
-export type TemplatesDataType = ManuscriptTemplate | Requirement

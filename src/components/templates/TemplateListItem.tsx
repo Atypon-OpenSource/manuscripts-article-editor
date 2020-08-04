@@ -10,13 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Publisher } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
-import {
-  ManuscriptTemplate,
-  Publisher,
-  TemplateData,
-} from '../../types/templates'
+import { ManuscriptTemplateData, TemplateData } from '../../types/templates'
 import { TemplateInfoLink } from './TemplateInfoLink'
 
 const Heading = styled.div<{ selected?: boolean }>`
@@ -89,13 +86,13 @@ const Container = styled.button<{ selected?: boolean }>`
 const ContainerInner = styled.div<{ selected?: boolean }>`
   ${props =>
     !props.selected &&
-    'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.tertiary + ';'}
+    'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.tertiary};
   padding: ${props => props.theme.grid.unit * 4}px 0;
 `
 
 const ArticleType = styled.span<{ selected?: boolean }>`
   color: ${props => props.theme.colors.text.secondary};
-  ${props => props.selected && 'display: block; width: 100%; margin: 8px 0;'}
+  ${props => props.selected && 'display: block; width: 100%; margin: 8px 0'};
 `
 
 const InfoLinkContainer = styled.div`
@@ -108,7 +105,7 @@ interface Props {
   publisher?: Publisher
   selected?: boolean
   selectItem: (item: TemplateData) => void
-  template?: ManuscriptTemplate
+  template?: ManuscriptTemplateData
   title: string
 }
 

@@ -11,6 +11,7 @@
  */
 
 import { MenuItem } from '@manuscripts/manuscript-editor'
+import { MenuSeparator } from '@manuscripts/manuscript-editor/dist/types/components/menu/ApplicationMenu'
 import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { parse as parseTitle } from '@manuscripts/title-editor'
@@ -32,6 +33,7 @@ interface Props {
   openExporter: (format: ExportFormat, closeOnSuccess?: boolean) => void
   openImporter: () => void
   openRenameProject: (project: Project) => void
+  publishTemplate: () => Promise<void>
 }
 
 const truncateText = (text: string, maxLength: number) =>
@@ -160,130 +162,145 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     },
   ]
 
+  const submenu: Array<MenuItem | MenuSeparator> = [
+    {
+      id: 'project-new',
+      label: () => 'New',
+      submenu: [
+        {
+          id: 'project-new-project',
+          label: () => 'Project…',
+          run: () => props.openTemplateSelector(true),
+        },
+        {
+          id: 'project-new-manuscript',
+          label: () => 'Manuscript…',
+          run: () => props.openTemplateSelector(false),
+        },
+      ],
+    },
+    {
+      id: 'project-open-recent',
+      label: () => 'Open Recent',
+      enable: () => props.getRecentProjects().length > 0,
+      submenu: props
+        .getRecentProjects()
+        .map(({ projectID, manuscriptID, projectTitle, sectionID }) => ({
+          id: `project-open-recent-${projectID}-${manuscriptID}`,
+          label: () => {
+            if (!projectTitle) {
+              return 'Untitled Project'
+            }
+
+            const node = parseTitle(projectTitle)
+
+            return node.textContent
+          },
+          run: () => {
+            const fragment = sectionID ? `#${sectionID}` : ''
+
+            props.history.push(
+              `/projects/${projectID}/manuscripts/${manuscriptID}${fragment}`
+            )
+          },
+        })),
+    },
+    {
+      role: 'separator',
+    },
+    {
+      id: 'import',
+      label: () => 'Import Manuscript…',
+      run: props.openImporter,
+    },
+    {
+      id: 'export',
+      label: () => 'Export Manuscript as…',
+      submenu: exportMenu,
+    },
+    {
+      role: 'separator',
+    },
+    {
+      id: 'export-bibliography',
+      label: () => 'Export Bibliography as…',
+      submenu: exportReferencesMenu,
+      enable: (state: ManuscriptEditorState) => {
+        let result = false
+
+        state.doc.descendants(node => {
+          if (node.type === node.type.schema.nodes.citation) {
+            result = true
+          }
+        })
+
+        return result
+      },
+    },
+    {
+      role: 'separator',
+    },
+    {
+      id: 'delete-project',
+      label: () => 'Delete Project',
+      run: () =>
+        confirm(
+          props.project.title
+            ? confirmDeleteProjectMessage(props.project.title)
+            : 'Are you sure you wish to delete this untitled project?'
+        ) &&
+        props
+          .deleteModel(props.manuscript.containerID)
+          .then(() => props.history.push('/')),
+    },
+    {
+      id: 'delete-manuscript',
+      label: () =>
+        props.manuscript.title
+          ? deleteManuscriptLabel(props.manuscript.title)
+          : 'Delete Untitled Manuscript',
+      run: () =>
+        confirm(
+          props.manuscript.title
+            ? confirmDeleteManuscriptMessage(props.manuscript.title)
+            : `Are you sure you wish to delete this untitled manuscript?`
+        ) && props.deleteManuscript(props.manuscript._id),
+    },
+    {
+      role: 'separator',
+    },
+    {
+      id: 'rename-project',
+      label: () => 'Rename Project',
+      run: () => props.openRenameProject(props.project),
+    },
+    {
+      role: 'separator',
+    },
+    {
+      id: 'project-diagnostics',
+      label: () => 'View Diagnostics',
+      run: () =>
+        props.history.push(`/projects/${props.project._id}/diagnostics`),
+    },
+  ]
+
+  if (config.templates.publish) {
+    submenu.push(
+      {
+        role: 'separator',
+      },
+      {
+        id: 'project-template',
+        label: () => 'Publish Template',
+        run: () => props.publishTemplate(),
+      }
+    )
+  }
+
   return {
     id: 'project',
     label: () => 'Project',
-    submenu: [
-      {
-        id: 'project-new',
-        label: () => 'New',
-        submenu: [
-          {
-            id: 'project-new-project',
-            label: () => 'Project…',
-            run: () => props.openTemplateSelector(true),
-          },
-          {
-            id: 'project-new-manuscript',
-            label: () => 'Manuscript…',
-            run: () => props.openTemplateSelector(false),
-          },
-        ],
-      },
-      {
-        id: 'project-open-recent',
-        label: () => 'Open Recent',
-        enable: () => props.getRecentProjects().length > 0,
-        submenu: props
-          .getRecentProjects()
-          .map(({ projectID, manuscriptID, projectTitle, sectionID }) => ({
-            id: `project-open-recent-${projectID}-${manuscriptID}`,
-            label: () => {
-              if (!projectTitle) {
-                return 'Untitled Project'
-              }
-
-              const node = parseTitle(projectTitle)
-
-              return node.textContent
-            },
-            run: () => {
-              const fragment = sectionID ? `#${sectionID}` : ''
-
-              props.history.push(
-                `/projects/${projectID}/manuscripts/${manuscriptID}${fragment}`
-              )
-            },
-          })),
-      },
-      {
-        role: 'separator',
-      },
-      {
-        id: 'import',
-        label: () => 'Import Manuscript…',
-        run: props.openImporter,
-      },
-      {
-        id: 'export',
-        label: () => 'Export Manuscript as…',
-        submenu: exportMenu,
-      },
-      {
-        role: 'separator',
-      },
-      {
-        id: 'export-bibliography',
-        label: () => 'Export Bibliography as…',
-        submenu: exportReferencesMenu,
-        enable: (state: ManuscriptEditorState) => {
-          let result = false
-
-          state.doc.descendants(node => {
-            if (node.type === node.type.schema.nodes.citation) {
-              result = true
-            }
-          })
-
-          return result
-        },
-      },
-      {
-        role: 'separator',
-      },
-      {
-        id: 'delete-project',
-        label: () => 'Delete Project',
-        run: () =>
-          confirm(
-            props.project.title
-              ? confirmDeleteProjectMessage(props.project.title)
-              : 'Are you sure you wish to delete this untitled project?'
-          ) &&
-          props
-            .deleteModel(props.manuscript.containerID)
-            .then(() => props.history.push('/')),
-      },
-      {
-        id: 'delete-manuscript',
-        label: () =>
-          props.manuscript.title
-            ? deleteManuscriptLabel(props.manuscript.title)
-            : 'Delete Untitled Manuscript',
-        run: () =>
-          confirm(
-            props.manuscript.title
-              ? confirmDeleteManuscriptMessage(props.manuscript.title)
-              : `Are you sure you wish to delete this untitled manuscript?`
-          ) && props.deleteManuscript(props.manuscript._id),
-      },
-      {
-        role: 'separator',
-      },
-      {
-        id: 'rename-project',
-        label: () => 'Rename Project',
-        run: () => props.openRenameProject(props.project),
-      },
-      {
-        role: 'separator',
-      },
-      {
-        id: 'project-diagnostics',
-        label: () => 'View Diagnostics',
-        run: () =>
-          props.history.push(`/projects/${props.project._id}/diagnostics`),
-      },
-    ],
+    submenu,
   }
 }

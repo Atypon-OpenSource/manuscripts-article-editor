@@ -10,31 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import bundles from '@manuscripts/data/dist/shared/bundles.json'
-import keywords from '@manuscripts/data/dist/shared/keywords.json'
-import manuscriptCategories from '@manuscripts/data/dist/shared/manuscript-categories.json'
-import publishers from '@manuscripts/data/dist/shared/publishers.json'
-import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
-import templates from '@manuscripts/data/dist/shared/templates-v2.json'
 import { DEFAULT_BUNDLE, generateID } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
-  ManuscriptCategory,
+  MandatorySubsectionsRequirement,
+  ManuscriptTemplate,
   Model,
   ObjectTypes,
   PageLayout,
   ParagraphElement,
+  SectionDescription,
 } from '@manuscripts/manuscripts-json-schema'
 import { orderBy } from 'lodash-es'
-import {
-  ManuscriptTemplate,
-  Publisher,
-  ResearchField,
-  SectionCategory,
-  SectionDescription,
-  TemplateData,
-  TemplatesDataType,
-} from '../../types/templates'
+import { SharedData } from '../../components/templates/TemplateSelector'
+import { ManuscriptTemplateData, TemplateData } from '../../types/templates'
+import { loadSharedData } from '../shared-data'
 import {
   buildArticleType,
   buildCategories,
@@ -48,74 +38,45 @@ import {
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
   fromPrototype,
-  isCoverLetter,
-  isMandatorySubsectionsRequirement,
-  prepareRequirements,
+  // isMandatorySubsectionsRequirement,
 } from '../templates'
 
-const buildMap = <T extends Model>(items: T[]): Map<string, T> => {
-  const output = new Map()
-
-  for (const item of items) {
-    output.set(item._id, item)
-  }
-
-  return output
-}
-
-const templatesMap = buildMap<TemplatesDataType>(templates)
-
-const bundlesMap = buildMap<Bundle>(bundles)
-
-const manuscriptCategoriesMap = buildMap<ManuscriptCategory>(
-  manuscriptCategories
-)
-
-const sectionCategoriesMap = buildMap<SectionCategory>(sectionCategories)
-
-const researchFields = (keywords as ResearchField[]).filter(
-  keyword => keyword.objectType === ObjectTypes.ResearchField
-)
-
-const researchFieldsMap = buildMap<ResearchField>(researchFields)
-
-const publishersMap = buildMap<Publisher>(publishers)
-
-const manuscriptTemplatesMap = new Map<string, ManuscriptTemplate>()
-
-for (const item of templatesMap.values()) {
-  if (item.objectType === 'MPManuscriptTemplate') {
-    manuscriptTemplatesMap.set(item._id, item as ManuscriptTemplate)
-  }
-}
-
-const exampleTemplate = () =>
-  templatesMap.get(
-    'MPManuscriptTemplate:www-zotero-org-styles-nonlinear-dynamics-Nonlinear-Dynamics-Journal-Publication'
-  ) as ManuscriptTemplate
-
-const exampleBundle = () =>
-  bundlesMap.get(
-    'MPBundle:www-zotero-org-styles-frontiers-in-computational-neuroscience'
-  ) as Bundle
+const TEST_TEMPLATE =
+  'MPManuscriptTemplate:MPManuscriptTemplate:MPBundle:www-zotero-org-styles-chemistry-central-journal-chemistry_central_journal_publication-MPBundle:www-zotero-org-styles-chemistry-central-journal-chemistry_central_commentarry'
+const TEST_BUNDLE =
+  'MPBundle:www-zotero-org-styles-frontiers-in-computational-neuroscience'
 
 describe('templates', () => {
+  let sharedData: SharedData
+  let testTemplate: ManuscriptTemplate
+  let testBundle: Bundle
+
+  beforeAll(async () => {
+    sharedData = await loadSharedData()
+
+    testTemplate = sharedData.manuscriptTemplates.get(
+      TEST_TEMPLATE
+    ) as ManuscriptTemplate
+
+    testBundle = sharedData.bundles.get(TEST_BUNDLE) as Bundle
+  })
+
   test('find bundle id from template bundle', () => {
     const item: TemplateData = {
       title: 'Test',
-      template: exampleTemplate(),
-      bundle: exampleBundle(),
+      template: testTemplate,
+      bundle: testBundle,
     }
 
     expect(chooseBundleID(item)).toBe(
-      'MPBundle:www-zotero-org-styles-nonlinear-dynamics'
+      'MPBundle:www-zotero-org-styles-frontiers-in-computational-neuroscience'
     )
   })
 
   test('find bundle id from bundle when no template', () => {
     const item: TemplateData = {
       title: 'Test',
-      bundle: exampleBundle(),
+      bundle: testBundle,
     }
 
     expect(chooseBundleID(item)).toBe(
@@ -132,34 +93,29 @@ describe('templates', () => {
   })
 
   test('build article type', () => {
-    const template = exampleTemplate()
-
-    expect(buildArticleType(template)).toBe('Nonlinear Dynamics')
+    expect(buildArticleType(testTemplate)).toBe('Chemistry Central Commentary')
   })
 
   test('build journal title', () => {
-    const template = exampleTemplate()
-    const bundle = exampleBundle()
-
-    expect(buildJournalTitle(template)).toBe('Nonlinear Dynamics')
-    expect(buildJournalTitle(template, bundle)).toBe(
-      'Frontiers in Computational Neuroscience'
+    expect(buildJournalTitle(testTemplate)).toBe('Chemistry Central Commentary')
+    expect(buildJournalTitle(testTemplate, testBundle)).toBe(
+      'Chemistry Central Commentary'
     )
   })
 
   test('build categories', () => {
-    expect(buildCategories(manuscriptCategoriesMap)).toEqual(
-      orderBy(manuscriptCategories, 'priority', 'asc')
+    expect(buildCategories(sharedData.manuscriptCategories)).toEqual(
+      orderBy([...sharedData.manuscriptCategories.values()], 'priority', 'asc')
     )
   })
 
   test('build research fields', () => {
-    expect(buildResearchFields(researchFieldsMap)).toEqual(
-      orderBy(researchFields, 'priority', 'asc')
+    expect(buildResearchFields(sharedData.researchFields)).toEqual(
+      orderBy([...sharedData.researchFields.values()], 'priority', 'asc')
     )
   })
 
-  test('choose section title from category', async () => {
+  test('choose section title from category', () => {
     const result = chooseSectionTitle(
       {
         _id: 'MPSectionDescription:BFAC45E0-2403-4997-A145-183188A83F78',
@@ -179,13 +135,16 @@ describe('templates', () => {
         priority: 100,
         createdAt: 0,
         updatedAt: 0,
+        manuscriptID: 'MPManuscript:1',
+        containerID: 'MPProject:1',
+        sessionID: 'test',
       }
     )
 
     expect(result).toEqual('Abstract')
   })
 
-  test('choose section title from description', async () => {
+  test('choose section title from description', () => {
     const result = chooseSectionTitle(
       {
         _id: 'MPSectionDescription:BFAC45E0-2403-4997-A145-183188A83F78',
@@ -206,6 +165,9 @@ describe('templates', () => {
         priority: 100,
         createdAt: 0,
         updatedAt: 0,
+        manuscriptID: 'MPManuscript:1',
+        containerID: 'MPProject:1',
+        sessionID: 'test',
       }
     )
 
@@ -214,6 +176,7 @@ describe('templates', () => {
 
   test('build section from description', () => {
     const result = buildSectionFromDescription(
+      sharedData.templatesData,
       {
         _id: 'MPSectionDescription:BFAC45E0-2403-4997-A145-183188A83F78',
         maxWordCount: 250,
@@ -237,7 +200,6 @@ describe('templates', () => {
           },
         ],
       },
-      1,
       {
         _id: 'MPSectionCategory:abstract',
         name: 'Abstract',
@@ -248,56 +210,68 @@ describe('templates', () => {
         priority: 100,
         createdAt: 0,
         updatedAt: 0,
+        manuscriptID: 'MPManuscript:1',
+        containerID: 'MPProject:1',
+        sessionID: 'test',
       }
     )
 
-    expect(result.dependencies).toHaveLength(9)
+    expect(result.dependencies).toHaveLength(11)
 
-    const paragraphElement = result.dependencies[0] as ParagraphElement
+    const [firstElement] = result.dependencies
 
-    expect(paragraphElement.objectType).toBe(ObjectTypes.ParagraphElement)
-    expect(paragraphElement.contents).toBe(
-      `<p xmlns="http://www.w3.org/1999/xhtml" id="${paragraphElement._id}" class="MPElement" data-placeholder-text="A short summary of your work."></p>`
+    expect(firstElement.objectType).toBe(ObjectTypes.ParagraphElement)
+    expect((firstElement as ParagraphElement).contents).toBe(
+      `<p xmlns="http://www.w3.org/1999/xhtml" id="${firstElement._id}" class="MPElement" data-placeholder-text="A short summary of your work."></p>`
     )
 
-    expect(result.section.elementIDs).toEqual([paragraphElement._id])
+    expect(result.section.elementIDs).toEqual([firstElement._id])
     expect(result.section.objectType).toBe(ObjectTypes.Section)
     expect(result.section.path).toEqual([result.section._id])
-    expect(result.section.priority).toBe(1)
+    expect(result.section.priority).toBe(100)
     expect(result.section.title).toBe('Example')
   })
 
-  test('create manuscript sections from template', async () => {
-    const template = exampleTemplate()
+  test('create manuscript sections from template', () => {
+    const sectionDescriptions: SectionDescription[] = []
 
-    const requirements = prepareRequirements(template, templatesMap)
+    if (testTemplate.mandatorySectionRequirements) {
+      for (const requirementID of testTemplate.mandatorySectionRequirements) {
+        const requirement = sharedData.templatesData.get(requirementID) as
+          | MandatorySubsectionsRequirement
+          | undefined
 
-    expect(requirements).toHaveLength(5)
-
-    const mandatorySubsectionsRequirements = requirements.filter(
-      isMandatorySubsectionsRequirement
-    )
-
-    const requiredSections: SectionDescription[] = mandatorySubsectionsRequirements.flatMap(
-      requirement =>
-        requirement.embeddedSectionDescriptions.filter(
-          sectionDescription => !isCoverLetter(sectionDescription)
-        )
-    )
+        if (requirement) {
+          for (const sectionDescription of requirement.embeddedSectionDescriptions) {
+            sectionDescriptions.push(sectionDescription)
+          }
+        }
+      }
+    }
 
     const items = createManuscriptSectionsFromTemplate(
-      requiredSections,
-      sectionCategoriesMap
+      sharedData.templatesData,
+      sharedData.sectionCategories,
+      sectionDescriptions
     )
 
-    expect(items).toHaveLength(7)
-    expect(items[0].objectType).toBe(ObjectTypes.ParagraphElement)
-    expect(items[1].objectType).toBe(ObjectTypes.Section)
-    expect(items[2].objectType).toBe(ObjectTypes.ParagraphElement)
-    expect(items[3].objectType).toBe(ObjectTypes.Section)
-    expect(items[4].objectType).toBe(ObjectTypes.ParagraphElement)
-    expect(items[5].objectType).toBe(ObjectTypes.Section)
-    expect(items[6].objectType).toBe(ObjectTypes.Section)
+    expect(items).toHaveLength(11)
+
+    const objectTypes = items.map(item => item.objectType)
+
+    expect(objectTypes).toStrictEqual([
+      ObjectTypes.ParagraphElement,
+      ObjectTypes.Section,
+      ObjectTypes.ParagraphElement,
+      ObjectTypes.Section,
+      ObjectTypes.Section,
+      ObjectTypes.ParagraphElement,
+      ObjectTypes.Section,
+      ObjectTypes.ParagraphElement,
+      ObjectTypes.Section,
+      ObjectTypes.ParagraphElement,
+      ObjectTypes.Section,
+    ])
   })
 
   test('create model from prototype', () => {
@@ -317,13 +291,16 @@ describe('templates', () => {
   })
 
   test('create merged template', () => {
-    const template: ManuscriptTemplate = {
+    const template: ManuscriptTemplateData = {
       _id: 'MPManuscriptTemplate:foo',
       parent:
         'MPManuscriptTemplate:www-zotero-org-styles-nonlinear-dynamics-Nonlinear-Dynamics-Journal-Publication',
       objectType: 'MPManuscriptTemplate',
       title: 'Example template with parent',
-      requirementIDs: ['MPSectionRequirement:1', 'MPSectionRequirement:2'],
+      mandatorySectionRequirements: [
+        'MPMandatorySubsectionsRequirement:1',
+        'MPMandatorySubsectionsRequirement:2',
+      ],
       priority: 3,
       createdAt: 0,
       updatedAt: 0,
@@ -331,7 +308,7 @@ describe('templates', () => {
 
     const { _id, requirements, styles, ...result } = createMergedTemplate(
       template,
-      manuscriptTemplatesMap
+      sharedData.manuscriptTemplates
     )
 
     expect(result).toEqual({
@@ -342,19 +319,19 @@ describe('templates', () => {
       bundle: 'MPBundle:www-zotero-org-styles-nonlinear-dynamics',
       category: 'MPManuscriptCategory:research-article',
       createdAt: 0,
-      objectType: 'MPManuscriptTemplate',
-      priority: 3,
-      prototype: 'MPManuscriptTemplate:foo',
-      publisher: 'MPPublisher:springer',
-      requirementIDs: [
-        'MPSectionRequirement:1',
-        'MPSectionRequirement:2',
+      mandatorySectionRequirements: [
+        'MPMandatorySubsectionsRequirement:1',
+        'MPMandatorySubsectionsRequirement:2',
         'MPMandatorySubsectionsRequirement:5C105460-B50D-4616-8A12-ADC99EFF359E',
         'MPMandatorySubsectionsRequirement:AA78B79C-17AB-45C4-8E11-E21FAB3F8B86',
         'MPMandatorySubsectionsRequirement:75CC5A24-8D8E-41BA-9488-36B0A138C27A',
         'MPMandatorySubsectionsRequirement:4238F0B9-E8E8-4E7A-9B58-2B9657C9338F',
         'MPMandatorySubsectionsRequirement:44CAA244-C3E7-46FC-8407-7733D14925ED',
       ],
+      objectType: 'MPManuscriptTemplate',
+      priority: 3,
+      prototype: 'MPManuscriptTemplate:foo',
+      publisher: 'MPPublisher:springer',
       title: 'Example template with parent',
       updatedAt: 0,
     })
@@ -386,8 +363,8 @@ describe('templates', () => {
     expect(result.objectType).toBe(ObjectTypes.ParagraphElement)
   })
 
-  test('build items', () => {
-    const result = buildItems(manuscriptTemplatesMap, bundlesMap, publishersMap)
+  test('build items', async () => {
+    const result = buildItems(sharedData)
 
     expect(result.length).toBeGreaterThan(1000)
   })

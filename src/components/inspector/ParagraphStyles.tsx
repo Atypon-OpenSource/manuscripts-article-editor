@@ -49,7 +49,7 @@ type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 export const ParagraphStyles: React.FC<{
   bodyTextParagraphStyles: ParagraphStyle[]
   colors: Color[]
-  colorScheme: ColorScheme
+  colorScheme?: ColorScheme
   defaultParagraphStyle: ParagraphStyle
   deleteParagraphStyle: () => void
   duplicateParagraphStyle: () => void
@@ -126,7 +126,7 @@ export const ParagraphStyles: React.FC<{
                   paragraphStyle={paragraphStyle}
                 />
 
-                {paragraphStyle.textStyling && (
+                {colorScheme && paragraphStyle.textStyling && (
                   <ColorField
                     label={'Color'}
                     colors={colors}

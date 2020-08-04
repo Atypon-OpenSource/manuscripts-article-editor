@@ -207,10 +207,10 @@
   dependencies:
     "@babel/types" "^7.8.3"
 
-"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.8.0", "@babel/helper-plugin-utils@^7.8.3":
-  version "7.8.3"
-  resolved "https://registry.npmjs.org/@babel/helper-plugin-utils/-/helper-plugin-utils-7.8.3.tgz#9ea293be19babc0f52ff8ca88b34c3611b208670"
-  integrity sha512-j+fq49Xds2smCUNYmEHF9kGNkhbet6yVIBp4e6oeQpH1RUs/Ir06xUKzDjDkGcaaokPiTNs2JBWHjaE4csUkZQ==
+"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.10.4", "@babel/helper-plugin-utils@^7.8.0", "@babel/helper-plugin-utils@^7.8.3":
+  version "7.10.4"
+  resolved "https://registry.npmjs.org/@babel/helper-plugin-utils/-/helper-plugin-utils-7.10.4.tgz#2f75a831269d4f677de49986dff59927533cf375"
+  integrity sha512-O4KCvQA6lLiMU9l2eawBPMf1xPP8xPfB3iEQw150hOVTqj/rfXz0ThTb4HEzqQfs2Bmo5Ay8BzxfzVtBrr9dVg==
 
 "@babel/helper-regex@^7.0.0", "@babel/helper-regex@^7.4.4":
   version "7.5.5"
@@ -321,6 +321,14 @@
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-syntax-json-strings" "^7.2.0"
 
+"@babel/plugin-proposal-nullish-coalescing-operator@^7.10.4":
+  version "7.10.4"
+  resolved "https://registry.npmjs.org/@babel/plugin-proposal-nullish-coalescing-operator/-/plugin-proposal-nullish-coalescing-operator-7.10.4.tgz#02a7e961fc32e6d5b2db0649e01bf80ddee7e04a"
+  integrity sha512-wq5n1M3ZUlHl9sqT2ok1T2/MTt6AXE0e1Lz4WzWBr95LsAZ5qDXe4KnFuauYyEyLiohvXFMdbsOTMyLZs91Zlw==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/plugin-syntax-nullish-coalescing-operator" "^7.8.0"
+
 "@babel/plugin-proposal-object-rest-spread@^7.5.5", "@babel/plugin-proposal-object-rest-spread@^7.6.2":
   version "7.8.3"
   resolved "https://registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.8.3.tgz#eb5ae366118ddca67bed583b53d7554cad9951bb"
@@ -336,6 +344,14 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-syntax-optional-catch-binding" "^7.2.0"
+
+"@babel/plugin-proposal-optional-chaining@^7.10.4":
+  version "7.10.4"
+  resolved "https://registry.npmjs.org/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.10.4.tgz#750f1255e930a1f82d8cdde45031f81a0d0adff7"
+  integrity sha512-ZIhQIEeavTgouyMSdZRap4VPPHqJJ3NEs2cuHs5p0erH+iz6khB0qfgU8g7UuJkG88+fBMy23ZiU+nuHvekJeQ==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/plugin-syntax-optional-chaining" "^7.8.0"
 
 "@babel/plugin-proposal-unicode-property-regex@^7.0.0", "@babel/plugin-proposal-unicode-property-regex@^7.4.4":
   version "7.4.4"
@@ -388,6 +404,13 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
+"@babel/plugin-syntax-nullish-coalescing-operator@^7.8.0":
+  version "7.8.3"
+  resolved "https://registry.npmjs.org/@babel/plugin-syntax-nullish-coalescing-operator/-/plugin-syntax-nullish-coalescing-operator-7.8.3.tgz#167ed70368886081f74b5c36c65a88c03b66d1a9"
+  integrity sha512-aSff4zPII1u2QD7y+F8oDsz19ew4IGEJg9SVW+bqwpwtfFleiQDMdzA/R+UlWDzfnHFCxxleFT0PMIrR36XLNQ==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.8.0"
+
 "@babel/plugin-syntax-object-rest-spread@^7.0.0", "@babel/plugin-syntax-object-rest-spread@^7.2.0", "@babel/plugin-syntax-object-rest-spread@^7.8.0":
   version "7.8.3"
   resolved "https://registry.npmjs.org/@babel/plugin-syntax-object-rest-spread/-/plugin-syntax-object-rest-spread-7.8.3.tgz#60e225edcbd98a640332a2e72dd3e66f1af55871"
@@ -401,6 +424,13 @@
   integrity sha512-bDe4xKNhb0LI7IvZHiA13kff0KEfaGX/Hv4lMA9+7TEc63hMNvfKo6ZFpXhKuEp+II/q35Gc4NoMeDZyaUbj9w==
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
+
+"@babel/plugin-syntax-optional-chaining@^7.8.0":
+  version "7.8.3"
+  resolved "https://registry.npmjs.org/@babel/plugin-syntax-optional-chaining/-/plugin-syntax-optional-chaining-7.8.3.tgz#4f69c2ab95167e0180cd5336613f8c5788f7d48a"
+  integrity sha512-KoK9ErH1MBlCPxV0VANkXW2/dw4vlbGDrFgz8bmUsBGYkFRcbRwMh6cIJubdPrkxRwuGdtCk0v/wPTKbQgBjkg==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.8.0"
 
 "@babel/plugin-syntax-typescript@^7.2.0":
   version "7.3.3"
@@ -1762,38 +1792,38 @@
   resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.0.tgz#8b8ae4e0afd9f9bbda371c1548d5854c703d8747"
   integrity sha512-Lr7am9TkzLYOJjgPr6pRtkd8IjX/atew6YX/9o9xspIZJla51fSSPk6cTCVtT70Srn1aShLxZF4hi1jZH5+Gzw==
 
-"@manuscripts/data@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.0.7.tgz#8c18b1be112c4e7eba7dbb6c80ff8f3d007f0afa"
-  integrity sha512-fuCeInO5fITnfRVaBD0mkKo+OmBpn+84zvtlEL0DxtnExO8M7EGXDC8lB1Gi4YDdB5kul3z01fouQAcbchOOUw==
+"@manuscripts/data@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.0.9.tgz#596e5644148043cba02ebb61cbacb7ec26aa7e56"
+  integrity sha512-pKNK30mmlXpLXJqdst0Dl2yTTZ+xYs5RUveetGCUlN/fdkG/qB5tUKpv+b5eHWvUWF66Vjx1RPD+gF/LUjyKOw==
 
 "@manuscripts/examples@^0.0.7":
   version "0.0.7"
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.7.tgz#f7f0cef173fb2c83fbf283a2c2962b5d6ea32874"
   integrity sha512-7a1y6H/wnvn4hTh7S+TEyC8R5tLHHNiWYJnbeS43JCMYS/6qhMCzJTS0PwQynoep7PWwi2LdgaSZ3qALxzgg0g==
 
-"@manuscripts/library@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.1.0.tgz#7c958da895b9fdd48607a2065cc7bc41dbe1c6ce"
-  integrity sha512-JXtAK5+FVb7kh9xviq3iWXDrR8Xz5HGz6jdjSVho/sJx8OvoyhKGb+5g4dF/ctOWhgutO/F9stSCCewZ6l5Jfg==
+"@manuscripts/library@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.2.0.tgz#c648d112be0ac58b5bb349b5af672e00bf26a58c"
+  integrity sha512-U3po2YRJJ539fNqDCEAehngxnoKQR1MFyEdL1spZL86RNNAOJhYpKHZ+iCzKNTxam6Vx8beP+KmnRljASP7tqw==
   dependencies:
     "@manuscripts/csl-locales" "^0.0.4"
     "@manuscripts/csl-styles" "^0.2.0"
-    "@manuscripts/data" "^0.0.7"
-    "@manuscripts/manuscript-transform" "^0.34.0"
+    "@manuscripts/data" "^0.0.9"
+    "@manuscripts/manuscript-transform" "^0.34.1"
     astrocite-bibtex "^0.16.3"
     astrocite-ris "^0.16.0"
     citeproc "^2.4.6"
 
-"@manuscripts/manuscript-editor@^0.72.1":
-  version "0.72.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.72.1.tgz#2ea62e7e8b858ae69f829c449f07e4ff14d7a91e"
-  integrity sha512-fJfambbtOgQNIy/xm7/mauyHlHwbKRD3Rb+g8pT4EonnSlWT9TYqFoewja+B1Ngg6R2S1BhUpl9+5Guz65E3ag==
+"@manuscripts/manuscript-editor@^0.73.0":
+  version "0.73.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.73.0.tgz#f2fdb6f4bfde4285ea3a0710ee943637e3f8082b"
+  integrity sha512-DwvX6K3hWYfnRH4DM5fZ4F0fe6ePIPAPI5osSYOZ6S8ZO/xLBLibBzV41ZJQbI4I4f6Dm1eanlfdzi9Wci9yHw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
-    "@manuscripts/manuscripts-json-schema" "^1.30.0"
+    "@manuscripts/manuscripts-json-schema" "^1.31.0"
     "@manuscripts/title-editor" "^0.5.0"
     astrocite-eutils "^0.16.0"
     axios "^0.19.0"
@@ -1829,22 +1859,22 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.34.0":
-  version "0.34.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.34.0.tgz#79fa4e0e10c01cda973165fe1a2d8590d0744fec"
-  integrity sha512-fJfNMD8+th4Ls/IjCNVQFGTcWsraw7CCKvCOV/sUOnloqndNbw3iBcs84J5wkAI7eXuzhi74KkfCzg8Nwt83pA==
+"@manuscripts/manuscript-transform@^0.34.1":
+  version "0.34.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.34.1.tgz#337e7a0a5233b1e1f07b73249356b0e34b1234f1"
+  integrity sha512-ngo/hkFt3TMDxJzy8tHke7A9khjbhGnROBSLLBqICWcFlmaEL+k/S5zlyWFBKA/x+x0/P9a0ArK1GtOB+IjaLA==
   dependencies:
-    "@manuscripts/manuscripts-json-schema" "^1.30.0"
+    "@manuscripts/manuscripts-json-schema" "^1.30.2"
     debug "^4.1.1"
     mime-types "^2.1.27"
     prosemirror-model "^1.11.0"
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@^1.30.0":
-  version "1.30.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.30.0.tgz#1339f19c396ba232423a981d5eac8157f3577af3"
-  integrity sha512-Xo07N40qAW+pyMXT3cuvA749L5eFIO7HU7CB7KcU1dHCxZQAExoysyPkeBEVqMtZYIvixU/sIOhuym+KGSvfzA==
+"@manuscripts/manuscripts-json-schema@^1.30.2", "@manuscripts/manuscripts-json-schema@^1.31.0":
+  version "1.31.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.31.0.tgz#5f934f7f00f4873c00621f1b1d7003a66a4ed247"
+  integrity sha512-M0Qez9QsZh+PpedbqbNyPHP9cXa3pL8WO+4C3WonyXt5Vfqehy/HKuyBRyyMaq/WkuftuFieMH1zA1rIg9sVqQ==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"

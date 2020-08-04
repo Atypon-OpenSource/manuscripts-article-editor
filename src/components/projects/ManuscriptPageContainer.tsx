@@ -47,6 +47,7 @@ import {
   documentObjectTypes,
   elementObjects,
   encode,
+  generateID,
   getAttachment,
   hasObjectType,
   isFigure,
@@ -70,6 +71,7 @@ import {
   Figure,
   Keyword,
   Manuscript,
+  ManuscriptTemplate,
   Model,
   ObjectTypes,
   Project,
@@ -119,6 +121,7 @@ import {
   createGetMenuState,
 } from '../../lib/native/menu'
 import { buildProjectMenu } from '../../lib/project-menu'
+import { buildTemplateModels } from '../../lib/publish-template'
 import { canWrite } from '../../lib/roles'
 import { filterLibrary } from '../../lib/search-library'
 import sessionID from '../../lib/session-id'
@@ -176,6 +179,7 @@ import { Presence } from './Presence'
 import { PresenceList } from './PresenceList'
 import { ReloadDialog } from './ReloadDialog'
 import RenameProject from './RenameProject'
+import { SuccessModal } from './SuccessModal'
 
 interface ModelObject {
   // [key: string]: ModelObject[keyof ModelObject]
@@ -243,11 +247,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private readonly debouncedSaveModels: (state: ManuscriptEditorState) => void
 
-  private requirementFields: string[] = [
+  private requirementFields = [
     'minWordCountRequirement',
     'maxWordCountRequirement',
-    'minCharacterCountRequirement',
-    'maxCharacterCountRequirement',
+    'minCharCountRequirement',
+    'maxCharCountRequirement',
   ]
 
   private readonly preparedManuscriptEditorStateChange: (
@@ -1840,6 +1844,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       openImporter: this.openImporter,
       openRenameProject: this.openRenameProject,
       getRecentProjects: this.getRecentProjects,
+      publishTemplate: this.publishTemplate,
     })
 
     const menus: MenuItem[] = [projectMenu]
@@ -1893,6 +1898,92 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private setCommentTarget = (commentTarget?: string) => {
     this.setState({ commentTarget })
+  }
+
+  private publishTemplate = async () => {
+    const { manuscript, project } = this.props
+    const { modelMap } = this.state
+
+    if (!modelMap) {
+      throw new Error('Not ready')
+    }
+
+    if (!manuscript.title) {
+      throw new Error('The template must have a title')
+    }
+
+    // remove any existing template and associated models
+    if (manuscript.prototype) {
+      const existingTemplate = await this.collection
+        .findOne(manuscript.prototype)
+        .exec()
+
+      if (existingTemplate) {
+        const existingTemplateItems = await this.collection
+          .find({
+            templateID: existingTemplate._id,
+          })
+          .exec()
+
+        for (const existingTemplateItem of existingTemplateItems) {
+          // TODO: set _deleted: true via bulkDocs?
+          await this.collection.delete(existingTemplateItem._id)
+        }
+
+        await this.collection.delete(existingTemplate._id)
+      }
+    }
+
+    // create a new template
+    const template: Build<ManuscriptTemplate> = {
+      // ...manuscript, // TODO: copy manuscript properties?
+      _id: generateID(ObjectTypes.ManuscriptTemplate),
+      objectType: ObjectTypes.ManuscriptTemplate,
+      title: manuscript.title,
+    }
+
+    // build the new template models
+    const templateModels = buildTemplateModels(manuscript, template, modelMap)
+
+    // set the new bundle
+    if (manuscript.bundle) {
+      const bundle = modelMap.get(manuscript.bundle) as Bundle | undefined
+
+      if (bundle) {
+        template.bundle = bundle.prototype // should be the id of a built-in bundle
+      }
+    }
+
+    // save the new template models
+    await this.collection.bulkCreate(
+      templateModels.map(model => ({
+        ...model,
+        containerID: project._id,
+        manuscriptID: manuscript._id,
+        templateID: template._id,
+      }))
+    )
+
+    // save the template
+    ;(template as ManuscriptTemplate).containerID = project._id
+    await this.collection.save(template)
+
+    // update the manuscript
+    await this.collection.update(manuscript._id, {
+      prototype: template._id,
+    })
+
+    // update the project
+    await this.props.projectsCollection.update(project._id, {
+      templateContainer: true,
+    })
+
+    this.props.addModal('success', ({ handleClose }) => (
+      <SuccessModal
+        status={'Template published successfully'}
+        handleDone={handleClose}
+      />
+    ))
   }
 }
 

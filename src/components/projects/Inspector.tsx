@@ -152,6 +152,7 @@ export const Inspector: React.FC<{
                   />
                 )}
                 <ManuscriptInspector
+                  key={manuscript._id}
                   manuscript={manuscript}
                   modelMap={modelMap}
                   saveManuscript={saveManuscript}
@@ -160,6 +161,7 @@ export const Inspector: React.FC<{
                 />
                 {section && (
                   <SectionInspector
+                    key={section._id}
                     section={section}
                     sectionNode={
                       selectedSection

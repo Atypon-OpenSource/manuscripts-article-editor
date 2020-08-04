@@ -25,11 +25,14 @@ import {
   ObjectTypes,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
+import { TextField } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
-import React, { useCallback } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useDebounce } from '../../hooks/use-debounce'
 import {
   chooseSectionCategory,
+  findFirstParagraph,
   isEditableSectionCategoryID,
 } from '../../lib/section-categories'
 import {
@@ -51,7 +54,7 @@ type Buildable<T> = T | Build<T>
 export interface SectionCountRequirements {
   minWordCount: Buildable<MinimumSectionWordCountRequirement>
   maxWordCount: Buildable<MaximumSectionWordCountRequirement>
-  minCharacterCount: Buildable<MinimumSectionCharacterCountRequirement>
+  minCharCount: Buildable<MinimumSectionCharacterCountRequirement>
   maxCharacterCount: Buildable<MaximumSectionCharacterCountRequirement>
 }
 
@@ -72,19 +75,44 @@ const buildCountRequirement = <T extends CountRequirement>(
   return item as Build<T>
 }
 
-export const SectionInspector: React.FC<{
+export const SectionInspector = memo<{
   dispatchNodeAttrs: (id: string, attrs: object) => void
   section: Section
   sectionNode?: SectionNode
   modelMap: Map<string, Model>
   saveModel: SaveModel
-}> = ({ dispatchNodeAttrs, section, sectionNode, modelMap, saveModel }) => {
+}>(({ dispatchNodeAttrs, section, sectionNode, modelMap, saveModel }) => {
+  // placeholder
+
+  const firstParagraph = findFirstParagraph(section, modelMap)
+
+  const [placeholder, setPlaceholder] = useState<string | undefined>(
+    firstParagraph ? firstParagraph.placeholderInnerHTML : undefined
+  )
+
+  const debouncedPlaceholder = useDebounce(placeholder, 500)
+
+  useEffect(() => {
+    if (
+      firstParagraph &&
+      debouncedPlaceholder !== firstParagraph.placeholderInnerHTML
+    ) {
+      dispatchNodeAttrs(firstParagraph._id, {
+        placeholder: debouncedPlaceholder,
+      })
+    }
+  }, [firstParagraph, debouncedPlaceholder, dispatchNodeAttrs])
+
+  // suppressed title
+
   const setTitleSuppressed = useCallback(
     (titleSuppressed: boolean) => {
       dispatchNodeAttrs(section._id, { titleSuppressed })
     },
     [section, dispatchNodeAttrs]
   )
+
+  // requirements
 
   const getOrBuildRequirement = <T extends CountRequirement>(
     objectType: ObjectTypes,
@@ -106,19 +134,21 @@ export const SectionInspector: React.FC<{
       ObjectTypes.MaximumSectionWordCountRequirement,
       section.maxWordCountRequirement
     ),
-    minCharacterCount: getOrBuildRequirement<
+    minCharCount: getOrBuildRequirement<
       MinimumSectionCharacterCountRequirement
     >(
       ObjectTypes.MinimumSectionCharacterCountRequirement,
-      section.minCharacterCountRequirement
+      section.minCharCountRequirement
     ),
     maxCharacterCount: getOrBuildRequirement<
       MaximumSectionCharacterCountRequirement
     >(
       ObjectTypes.MaximumSectionCharacterCountRequirement,
-      section.maxCharacterCountRequirement
+      section.maxCharCountRequirement
     ),
   }
+
+  // category
 
   const currentSectionCategory = chooseSectionCategory(section)
 
@@ -162,16 +192,23 @@ export const SectionInspector: React.FC<{
               </>
             )}
 
-            <>
-              <Subheading>Page Break</Subheading>
+            <Subheading>Placeholder</Subheading>
 
-              <PageBreakInput
-                value={section.pageBreakStyle}
-                handleChange={(pageBreakStyle: number) => {
-                  dispatchNodeAttrs(section._id, { pageBreakStyle })
-                }}
-              />
-            </>
+            <PlaceholderInput
+              value={placeholder}
+              onChange={event => {
+                setPlaceholder(event.target.value)
+              }}
+            />
+
+            <Subheading>Page Break</Subheading>
+
+            <PageBreakInput
+              value={section.pageBreakStyle}
+              handleChange={(pageBreakStyle: number) => {
+                dispatchNodeAttrs(section._id, { pageBreakStyle })
+              }}
+            />
           </InspectorTabPanel>
 
           <InspectorTabPanel>
@@ -218,7 +255,7 @@ export const SectionInspector: React.FC<{
             <CountInput
               label={'Min character count'}
               placeholder={'Minimum'}
-              value={requirements.minCharacterCount}
+              value={requirements.minCharCount}
               handleChange={async (
                 requirement: Buildable<MinimumSectionCharacterCountRequirement>
               ) => {
@@ -226,10 +263,10 @@ export const SectionInspector: React.FC<{
                   requirement as MinimumSectionCharacterCountRequirement
                 )
 
-                if (requirement._id !== section.minCharacterCountRequirement) {
+                if (requirement._id !== section.minCharCountRequirement) {
                   await saveModel<Section>({
                     ...section,
-                    minCharacterCountRequirement: requirement._id,
+                    minCharCountRequirement: requirement._id,
                   })
                 }
               }}
@@ -246,10 +283,10 @@ export const SectionInspector: React.FC<{
                   requirement as MaximumSectionCharacterCountRequirement
                 )
 
-                if (requirement._id !== section.maxCharacterCountRequirement) {
+                if (requirement._id !== section.maxCharCountRequirement) {
                   await saveModel<Section>({
                     ...section,
-                    maxCharacterCountRequirement: requirement._id,
+                    maxCharCountRequirement: requirement._id,
                   })
                 }
               }}
@@ -259,9 +296,15 @@ export const SectionInspector: React.FC<{
       </InspectorTabs>
     </InspectorSection>
   )
-}
+})
 
 const StyledTitle = styled(Title)`
   color: ${props => props.theme.colors.text.primary};
   margin: 4px 0;
+`
+
+export const PlaceholderInput = styled(TextField)`
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 1em;
 `

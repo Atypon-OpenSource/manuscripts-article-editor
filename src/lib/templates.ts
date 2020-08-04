@@ -25,23 +25,29 @@ import {
   Bundle,
   ContributorRole,
   ManuscriptCategory,
+  ManuscriptTemplate,
   Model,
   ObjectTypes,
   PageLayout,
-} from '@manuscripts/manuscripts-json-schema'
-import { mergeWith } from 'lodash-es'
-import { Collection } from '../sync/Collection'
-import {
-  MandatorySubsectionsRequirement,
-  ManuscriptTemplate,
-  Publisher,
-  RequirementType,
+  ParagraphStyle,
   ResearchField,
+  Section,
   SectionCategory,
   SectionDescription,
+} from '@manuscripts/manuscripts-json-schema'
+import { mergeWith } from 'lodash-es'
+import { SharedData } from '../components/templates/TemplateSelector'
+import { Collection } from '../sync/Collection'
+import {
+  ManuscriptTemplateData,
   TemplateData,
   TemplatesDataType,
 } from '../types/templates'
+import {
+  SectionCountRequirement,
+  sectionCountRequirementFields,
+} from './requirements'
+import { isParagraphStyle } from './styles'
 
 export const RESEARCH_ARTICLE_CATEGORY = 'MPManuscriptCategory:research-article'
 export const COVER_LETTER_CATEGORY = 'MPManuscriptCategory:cover-letter'
@@ -51,72 +57,45 @@ export const COVER_LETTER_SECTION_CATEGORY = 'MPSectionCategory:cover-letter'
 export const COVER_LETTER_PLACEHOLDER =
   'A letter sent along with your manuscript to explain it.'
 
-export const isMandatorySubsectionsRequirement = (
-  requirement: Model
-): requirement is MandatorySubsectionsRequirement =>
-  requirement.objectType === 'MPMandatorySubsectionsRequirement'
+const sectionRequirementTypes = new Map<keyof SectionDescription, ObjectTypes>([
+  ['maxCharCount', ObjectTypes.MaximumSectionCharacterCountRequirement],
+  ['maxWordCount', ObjectTypes.MaximumSectionWordCountRequirement],
+  ['minCharCount', ObjectTypes.MinimumSectionCharacterCountRequirement],
+  ['minWordCount', ObjectTypes.MinimumSectionWordCountRequirement],
+])
 
-export const isCoverLetter = (
-  sectionDescription: SectionDescription
-): boolean =>
-  sectionDescription.sectionCategory === COVER_LETTER_SECTION_CATEGORY
-
-export const findCoverLetterDescription = (
-  requirements: MandatorySubsectionsRequirement[]
-): SectionDescription | undefined => {
-  for (const requirement of requirements) {
-    for (const sectionDescription of requirement.embeddedSectionDescriptions) {
-      if (isCoverLetter(sectionDescription)) {
-        return sectionDescription
-      }
-    }
-  }
-}
-
-export const createCoverLetterDescription = (): SectionDescription => ({
-  _id: generateID(ObjectTypes.SectionDescription),
-  objectType: ObjectTypes.SectionDescription,
-  sectionCategory: COVER_LETTER_SECTION_CATEGORY,
-})
-
-export const prepareRequirements = (
-  template: ManuscriptTemplate,
+export const prepareSectionRequirements = (
+  section: Build<Section>,
+  sectionDescription: SectionDescription,
   templatesData?: Map<string, TemplatesDataType>
-): RequirementType[] => {
+): Array<Build<SectionCountRequirement>> => {
   if (!templatesData) return []
 
-  const requirementIDs: string[] = []
+  const requirements: Array<Build<SectionCountRequirement>> = []
 
-  if (template) {
-    if (template.requirementIDs) {
-      requirementIDs.push(...template.requirementIDs)
-    }
+  for (const [
+    sectionField,
+    sectionDescriptionField,
+  ] of sectionCountRequirementFields) {
+    const count = sectionDescription[sectionDescriptionField]
+    const objectType = sectionRequirementTypes.get(sectionDescriptionField)
 
-    const extraRequirements: Array<keyof ManuscriptTemplate> = [
-      'maxCharCountRequirement',
-      'maxCombinedFigureTableCountRequirement',
-      'maxWordCountRequirement',
-      'minCombinedFigureTableCountRequirement',
-    ]
-
-    extraRequirements.forEach(key => {
-      const requirementID = template[key]
-
-      if (requirementID) {
-        requirementIDs.push(requirementID as string)
+    if (count !== undefined && objectType !== undefined) {
+      const newRequirement: Build<SectionCountRequirement> = {
+        _id: generateID(objectType),
+        objectType,
+        count,
+        severity: 0,
+        ignored: false,
       }
-    })
+
+      requirements.push(newRequirement)
+
+      section[sectionField] = newRequirement._id
+    }
   }
 
-  return requirementIDs.map(id => {
-    const requirement = templatesData.get(id)
-
-    if (!requirement) {
-      throw new Error(`Requirement not found: ${id}`)
-    }
-
-    return requirement as RequirementType
-  })
+  return requirements
 }
 
 export const chooseSectionTitle = (
@@ -147,14 +126,15 @@ const generatedSections = [
   'MPSectionCategory:toc',
 ]
 
+// tslint:disable-next-line:cyclomatic-complexity
 export const buildSectionFromDescription = (
+  templatesData: Map<string, TemplatesDataType>,
   sectionDescription: SectionDescription,
-  priority: number,
   sectionCategory?: SectionCategory
 ) => {
   const dependencies: Array<Build<Model>> = []
 
-  const section = buildSection(priority)
+  const section = buildSection(sectionCategory?.priority || 1)
   section.elementIDs = []
 
   const sectionTitle = chooseSectionTitle(sectionDescription, sectionCategory)
@@ -171,6 +151,14 @@ export const buildSectionFromDescription = (
     }
   }
 
+  // const paragraphStyle =
+  //   sectionDescription.paragraphStyle && modelMap
+  //     ? getByPrototype<ParagraphStyle>(
+  //         sectionDescription.paragraphStyle,
+  //         modelMap
+  //       )
+  //     : undefined
+
   const choosePlaceholder = (): string | undefined => {
     if (sectionDescription.placeholder) {
       return sectionDescription.placeholder
@@ -186,6 +174,10 @@ export const buildSectionFromDescription = (
   if (placeholder) {
     const paragraph = buildParagraph(placeholder)
 
+    // if (paragraphStyle) {
+    //   paragraph.paragraphStyle = paragraphStyle._id
+    // }
+
     paragraph.placeholderInnerHTML = placeholder
 
     dependencies.push(paragraph)
@@ -194,6 +186,10 @@ export const buildSectionFromDescription = (
   } else if (!sectionDescription.subsections) {
     const paragraph = buildParagraph('')
 
+    // if (paragraphStyle) {
+    //   paragraph.paragraphStyle = paragraphStyle._id
+    // }
+
     dependencies.push(paragraph)
 
     section.elementIDs.push(paragraph._id)
@@ -201,54 +197,63 @@ export const buildSectionFromDescription = (
 
   if (sectionDescription.subsections) {
     sectionDescription.subsections.map((subsectionDescription, index) => {
+      // const paragraphStyle =
+      //   subsectionDescription.paragraphStyle && modelMap
+      //     ? getByPrototype<ParagraphStyle>(
+      //         subsectionDescription.paragraphStyle,
+      //         modelMap
+      //       )
+      //     : undefined
+
+      const paragraph = buildParagraph(subsectionDescription.placeholder || '')
+      // if (paragraphStyle) {
+      //   paragraph.paragraphStyle = paragraphStyle._id
+      // }
+
+      dependencies.push(paragraph)
+
       const subsection = buildSection(index, [section._id])
       subsection.title = subsectionDescription.title
-
-      if (subsectionDescription.placeholder) {
-        const paragraph = buildParagraph(subsectionDescription.placeholder)
-
-        paragraph.placeholderInnerHTML = subsectionDescription.placeholder
-
-        dependencies.push(paragraph)
-
-        subsection.elementIDs = [paragraph._id]
-      } else {
-        const paragraph = buildParagraph('')
-
-        dependencies.push(paragraph)
-
-        subsection.elementIDs = [paragraph._id]
-      }
+      subsection.elementIDs = [paragraph._id]
 
       dependencies.push(subsection)
     })
+  }
+
+  const requirements = prepareSectionRequirements(
+    section,
+    sectionDescription,
+    templatesData
+  )
+
+  for (const requirement of requirements) {
+    dependencies.push(requirement)
   }
 
   return { section, dependencies }
 }
 
 export const createManuscriptSectionsFromTemplate = (
-  requiredSections: SectionDescription[],
-  sectionCategories: Map<string, SectionCategory>
+  templatesData: Map<string, TemplatesDataType>,
+  sectionCategories: Map<string, SectionCategory>,
+  sectionDescriptions: SectionDescription[]
 ): Array<Build<ManuscriptModel>> => {
-  let priority = 1
-
   const items: Array<Build<ManuscriptModel>> = []
 
-  requiredSections.forEach(sectionDescription => {
+  for (const sectionDescription of sectionDescriptions) {
     const sectionCategory = sectionCategories.get(
       sectionDescription.sectionCategory
-    )
+    ) as SectionCategory
 
     const { section, dependencies } = buildSectionFromDescription(
+      templatesData,
       sectionDescription,
-      priority++, // TODO: use priority from sectionCategory instead
       sectionCategory
     )
 
     items.push(...dependencies)
     items.push(section)
-  })
+  }
 
   return items
 }
@@ -309,18 +314,20 @@ export const attachStyle = async (
 }
 
 export const fromPrototype = <T extends Model>(model: T) => {
+  const { _rev, ...data } = model
+
   const output = {
-    ...model,
+    ...data,
     prototype: model._id,
     _id: generateID(model.objectType as ObjectTypes),
   }
 
-  return output as T & { prototype: string }
+  return output as T & { prototype?: string }
 }
 
 export const createMergedTemplate = (
-  template: ManuscriptTemplate,
-  manuscriptTemplates?: Map<string, ManuscriptTemplate>
+  template: ManuscriptTemplateData,
+  manuscriptTemplates?: Map<string, ManuscriptTemplateData>
 ) => {
   if (!manuscriptTemplates) {
     return template
@@ -342,7 +349,7 @@ export const createMergedTemplate = (
       parentTemplate,
       (objValue, srcValue) => {
         if (Array.isArray(objValue)) {
-          // TODO: only merge requirementIDs?
+          // TODO: ensure uniqueness?
           return objValue.concat(srcValue) // merge arrays
         }
 
@@ -355,7 +362,7 @@ export const createMergedTemplate = (
 
   delete mergedTemplate.parent
 
-  return fromPrototype<ManuscriptTemplate>(mergedTemplate)
+  return fromPrototype<ManuscriptTemplateData>(mergedTemplate)
 }
 
 export const createEmptyParagraph = (pageLayout: PageLayout) => {
@@ -380,16 +387,29 @@ export const buildResearchFields = (items: Map<string, ResearchField>) =>
     (a, b) => Number(a.priority) - Number(b.priority)
   )
 
-export const buildItems = (
-  templates: Map<string, ManuscriptTemplate>,
-  bundles: Map<string, Bundle>,
-  publishers: Map<string, Publisher>
-): TemplateData[] => {
-  const templateItems = Array.from(templates.values())
-    .filter(template => !template.hidden)
-    .map(buildTemplateData(templates, bundles, publishers))
-    .sort((a, b) => a.title.localeCompare(b.title))
+const sortTemplateItems = (a: TemplateData, b: TemplateData) =>
+  a.title.localeCompare(b.title)
 
+export const buildItems = (sharedData: SharedData): TemplateData[] => {
+  const buildTemplateData = buildTemplateDataFactory(sharedData)
+
+  // user templates
+  const userTemplateItems: TemplateData[] = []
+
+  for (const template of sharedData.userManuscriptTemplates.values()) {
+    userTemplateItems.push(buildTemplateData(template))
+  }
+
+  // bundled templates
+  const templateItems: TemplateData[] = []
+
+  for (const template of sharedData.manuscriptTemplates.values()) {
+    if (!template.hidden) {
+      templateItems.push(buildTemplateData(template))
+    }
+  }
+
+  // bundles that aren't already attached to templates
   const templateBundles = new Set()
 
   templateItems.forEach(item => {
@@ -398,38 +418,56 @@ export const buildItems = (
     }
   })
 
-  const bundleItems = Array.from(bundles.values())
-    .filter(
-      bundle =>
-        !templateBundles.has(bundle._id) && bundle.csl && bundle.csl.title
-    )
-    .map(bundle => ({
-      bundle,
-      title: bundle.csl!.title!,
-      category: DEFAULT_CATEGORY,
-    }))
-    .sort((a, b) => a.title.localeCompare(b.title))
+  const bundleItems: TemplateData[] = []
 
-  return [...templateItems, ...bundleItems]
+  for (const bundle of sharedData.bundles.values()) {
+    if (!templateBundles.has(bundle._id) && bundle.csl && bundle.csl.title) {
+      bundleItems.push({
+        bundle,
+        title: bundle.csl.title,
+        category: DEFAULT_CATEGORY,
+      })
+    }
+  }
+
+  return [
+    ...userTemplateItems.sort(sortTemplateItems), // sort the user template items and show them first
+    ...[...templateItems, ...bundleItems].sort(sortTemplateItems), // sort the bundled items and show them last
+  ]
 }
+
+// export const buildJournalTitle = (
+//   template: ManuscriptTemplate,
+//   bundle?: Bundle
+// ) =>
+//   bundle && bundle.csl && bundle.csl.title
+//     ? bundle.csl.title
+//     : template.title.replace(/\s+Journal\s+Publication\s*/, '').trim()
 
 export const buildJournalTitle = (
   template: ManuscriptTemplate,
   bundle?: Bundle
-) =>
-  bundle && bundle.csl && bundle.csl.title
-    ? bundle.csl.title
-    : template.title.replace(/\s+Journal\s+Publication\s*/, '').trim()
+): string =>
+  template.title
+    ? template.title.replace(/\s+Journal\s+Publication\s*/, '').trim()
+    : (bundle && bundle.csl && bundle.csl.title) || ''
 
 export const buildArticleType = (template: ManuscriptTemplate) =>
   template.title.replace(/Journal\s+Publication/, '').trim()
 
 export const findParentTemplate = (
   templates: Map<string, ManuscriptTemplate>,
+  userTemplates: Map<string, ManuscriptTemplate>,
   parent: string
 ) => {
   if (parent.startsWith('MPManuscriptTemplate:')) {
-    return templates.get(parent)
+    return userTemplates.get(parent) || templates.get(parent)
+  }
+
+  for (const template of userTemplates.values()) {
+    if (template.title === parent) {
+      return template
+    }
   }
 
   for (const template of templates.values()) {
@@ -441,13 +479,15 @@ export const findParentTemplate = (
   return undefined
 }
 
-export const buildTemplateData = (
-  templates: Map<string, ManuscriptTemplate>,
-  bundles: Map<string, Bundle>,
-  publishers: Map<string, Publisher>
-) => (template: ManuscriptTemplate): TemplateData => {
+export const buildTemplateDataFactory = (sharedData: SharedData) => (
+  template: ManuscriptTemplate
+): TemplateData => {
   while (template.parent) {
-    const parentTemplate = findParentTemplate(templates, template.parent)
+    const parentTemplate = findParentTemplate(
+      sharedData.manuscriptTemplates,
+      sharedData.userManuscriptTemplates,
+      template.parent
+    )
 
     delete template.parent
 
@@ -459,14 +499,16 @@ export const buildTemplateData = (
     }
   }
 
-  const bundle = template.bundle ? bundles.get(template.bundle) : undefined
+  const bundle = template.bundle
+    ? sharedData.bundles.get(template.bundle)
+    : undefined
 
   const title = buildJournalTitle(template, bundle)
 
   const articleType = buildArticleType(template)
 
   const publisher = template.publisher
-    ? publishers.get(template.publisher)
+    ? sharedData.publishers.get(template.publisher)
     : undefined
 
   const category = template.category || DEFAULT_CATEGORY
@@ -481,16 +523,6 @@ export const buildTemplateData = (
   }
 }
 
-export const fetchSharedData = <T extends Model>(file: string) =>
-  import(`@manuscripts/data/dist/shared/${file}.json`)
-    .then(module => module.default as T[])
-    .then(
-      items =>
-        new Map<string, T>(
-          items.map<[string, T]>(item => [item._id, item])
-        )
-    )
-
 export const chooseBundleID = (item: TemplateData) => {
   if (item.template && item.template.bundle) {
     return item.template.bundle
@@ -503,21 +535,57 @@ export const chooseBundleID = (item: TemplateData) => {
   return DEFAULT_BUNDLE
 }
 
-export const createNewStyles = (styles: Map<string, Model>) => {
+// export const createNewStyles = (styles: Map<string, Model>) => {
+//   const newStyles = new Map<string, Model>()
+//
+//   const prototypeMap = new Map<string, string>()
+//
+//   for (const style of styles.values()) {
+//     const newStyle = fromPrototype(style)
+//     newStyles.set(newStyle._id, newStyle)
+//
+//     prototypeMap.set(newStyle.prototype, newStyle._id)
+//   }
+//
+//   for (const style of newStyles.values()) {
+//     fixReferencedIds(style, prototypeMap)
+//   }
+//
+//   return newStyles
+// }
+
+export const createNewTemplateStyles = (
+  styles: Map<string, Model>,
+  templateStyleIDs: string[]
+) => {
   const newStyles = new Map<string, Model>()
 
-  const prototypeMap = new Map<string, string>()
+  for (const styleID of templateStyleIDs) {
+    const style = (styles.get(styleID) as ParagraphStyle) || undefined
+
+    if (style) {
+      const newStyle = fromPrototype(style)
+      // newStyle.prototype = style.prototype // NOTE: different from bundled styles
+      newStyles.set(newStyle._id, newStyle)
+    }
+  }
+
+  // this.fixReferencedStyleIds(newStyles, prototypeMap)
+
+  return newStyles
+}
+
+export const createNewBundledStyles = (styles: Map<string, Model>) => {
+  const newStyles = new Map<string, Model>()
 
   for (const style of styles.values()) {
-    const newStyle = fromPrototype(style)
-    newStyles.set(newStyle._id, newStyle)
-
-    prototypeMap.set(newStyle.prototype, newStyle._id)
+    if (style.bundled) {
+      const newStyle = fromPrototype(style)
+      newStyles.set(newStyle._id, newStyle)
+    }
   }
 
-  for (const style of newStyles.values()) {
-    fixReferencedIds(style, prototypeMap)
-  }
+  // this.fixReferencedStyleIds(newStyles, prototypeMap)
 
   return newStyles
 }
@@ -566,9 +634,23 @@ export const getByPrototype = <T extends Model>(
   }
 }
 
-export const updatedPageLayout = (newStyles: Map<string, Model>) => {
+const chooseNewDefaultParagraphStyle = (newStyles: Map<string, Model>) => {
+  for (const style of newStyles.values()) {
+    if (isParagraphStyle(style)) {
+      if (style.title === 'Body Text') {
+        // TODO: something stricter?
+        return style
+      }
+    }
+  }
+}
+
+export const updatedPageLayout = (
+  newStyles: Map<string, Model>,
+  template?: ManuscriptTemplateData
+) => {
   const newPageLayout = getByPrototype<PageLayout>(
-    DEFAULT_PAGE_LAYOUT,
+    template && template.pageLayout ? template.pageLayout : DEFAULT_PAGE_LAYOUT,
     newStyles
   )
 
@@ -576,9 +658,11 @@ export const updatedPageLayout = (newStyles: Map<string, Model>) => {
     throw new Error('Default page layout not found')
   }
 
-  const newDefaultParagraphStyle = newStyles.get(
-    newPageLayout.defaultParagraphStyle
-  )
+  const newDefaultParagraphStyle =
+    getByPrototype<ParagraphStyle>(
+      newPageLayout.defaultParagraphStyle,
+      newStyles
+    ) || chooseNewDefaultParagraphStyle(newStyles)
 
   if (!newDefaultParagraphStyle) {
     throw new Error('Default paragraph style not found')

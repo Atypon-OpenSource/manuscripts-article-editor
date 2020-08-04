@@ -224,10 +224,6 @@ export const ParagraphStyleInspector: React.FC<ElementStyleInspectorProps & {
 
   const { colors, colorScheme } = buildColors(modelMap)
 
-  if (!colorScheme) {
-    return null
-  }
-
   const bodyTextParagraphStyles = findBodyTextParagraphStyles(modelMap)
 
   return (

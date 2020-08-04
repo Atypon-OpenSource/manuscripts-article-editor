@@ -18,39 +18,41 @@ import {
 import { useEffect, useState } from 'react'
 import { AuthorData, buildAuthorsAndAffiliations } from '../lib/authors'
 import CollectionManager from '../sync/CollectionManager'
+import { useCollectionEvent } from './use-collection-event'
 
 export const useAuthorsAndAffiliations = (
   projectID: string,
   manuscriptID: string
 ) => {
   const collection = CollectionManager.getCollection(`project-${projectID}`)
-  const isPullComplete = collection && collection.status.pull.complete
+
+  const complete = useCollectionEvent(collection, 'pull', 'complete')
 
   const [data, setData] = useState<AuthorData>()
 
   useEffect(() => {
-    if (!collection || !isPullComplete) return
+    if (complete) {
+      const subscription = collection
+        .find({
+          manuscriptID,
+          $or: [
+            { objectType: ObjectTypes.Contributor },
+            { objectType: ObjectTypes.Affiliation },
+          ],
+        })
+        .$.subscribe(docs => {
+          if (!docs) return
+          const models = docs.map(doc => doc.toJSON()) as Array<
+            Contributor | Affiliation
+          >
+          setData(buildAuthorsAndAffiliations(models))
+        })
 
-    const subscription = collection
-      .find({
-        manuscriptID,
-        $or: [
-          { objectType: { $eq: ObjectTypes.Contributor } },
-          { objectType: { $eq: ObjectTypes.Affiliation } },
-        ],
-      })
-      .$.subscribe(docs => {
-        if (!docs) return
-        const models = docs.map(doc => doc.toJSON()) as Array<
-          Contributor | Affiliation
-        >
-        setData(buildAuthorsAndAffiliations(models))
-      })
-
-    return () => {
-      subscription.unsubscribe()
+      return () => {
+        subscription.unsubscribe()
+      }
     }
-  }, [collection, isPullComplete])
+  }, [collection, complete])
 
   return { data }
 }

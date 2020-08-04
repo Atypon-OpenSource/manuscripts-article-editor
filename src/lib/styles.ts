@@ -12,14 +12,18 @@
 
 import { hasObjectType } from '@manuscripts/manuscript-transform'
 import {
+  AuxiliaryObjectReferenceStyle,
   Border,
   BorderStyle,
+  CaptionStyle,
   Color,
+  ColorScheme,
   FigureLayout,
   FigureStyle,
   InlineStyle,
   Model,
   ObjectTypes,
+  PageLayout,
   ParagraphStyle,
   TableStyle,
 } from '@manuscripts/manuscripts-json-schema'
@@ -73,6 +77,18 @@ export const isInlineStyle = hasObjectType<InlineStyle>(ObjectTypes.InlineStyle)
 export const isFigureLayout = hasObjectType<FigureLayout>(
   ObjectTypes.FigureLayout
 )
+
+export type Style =
+  | AuxiliaryObjectReferenceStyle
+  | BorderStyle
+  | CaptionStyle
+  | Color
+  | ColorScheme
+  | FigureLayout
+  | FigureStyle
+  | PageLayout
+  | ParagraphStyle
+  | TableStyle
 
 // TODO: implement "above" and "below"
 // export type FigureCaptionPosition = 'above' | 'top' | 'bottom' | 'below'
@@ -1007,4 +1023,15 @@ export const findInlineStyles = (modelMap: Map<string, Model>) => {
   }
 
   return output.sort(ascendingPriority)
+}
+
+export const chooseParagraphStyle = (
+  modelMap: Map<string, Model>,
+  styleName: string
+) => {
+  for (const model of modelMap.values()) {
+    if (isParagraphStyle(model) && model.name === styleName) {
+      return model
+    }
+  }
 }

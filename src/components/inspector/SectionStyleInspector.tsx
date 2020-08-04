@@ -18,7 +18,7 @@ import {
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
 import { buildColors } from '../../lib/colors'
-import { isParagraphStyle } from '../../lib/styles'
+import { chooseParagraphStyle } from '../../lib/styles'
 import { SectionStyles } from './SectionStyles'
 
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
@@ -33,16 +33,11 @@ export const SectionStyleInspector: React.FC<{
 
   const [paragraphStyle, setParagraphStyle] = useState<ParagraphStyle>()
 
-  const chooseParagraphStyle = (styleName: string) => {
-    for (const model of modelMap.values()) {
-      if (isParagraphStyle(model) && model.name === styleName) {
-        return model
-      }
-    }
-  }
-
   const depth = section.path.length
-  const sectionParagraphStyle = chooseParagraphStyle(`heading${depth}`)
+  const sectionParagraphStyle = chooseParagraphStyle(
+    modelMap,
+    `heading${depth}`
+  )
 
   useEffect(() => {
     setParagraphStyle(sectionParagraphStyle)
@@ -89,10 +84,6 @@ export const SectionStyleInspector: React.FC<{
     depth === 1 ? 'Section' : `Sub${'sub'.repeat(depth - 2)}section`
 
   const { colors, colorScheme } = buildColors(modelMap)
-
-  if (!colorScheme) {
-    return null
-  }
 
   return (
     <SectionStyles

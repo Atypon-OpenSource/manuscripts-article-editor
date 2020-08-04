@@ -15,11 +15,8 @@ import { Bundle, Project } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import {
-  attachStyle,
-  fetchSharedData,
-  fromPrototype,
-} from '../../lib/templates'
+import { importSharedData } from '../../lib/shared-data'
+import { attachStyle, fromPrototype } from '../../lib/templates'
 import { Collection } from '../../sync/Collection'
 import { ContactSupportButton } from '../ContactSupportButton'
 import { DatabaseContext } from '../DatabaseProvider'
@@ -101,7 +98,7 @@ class CitationStyleSelector extends React.Component<
   }
 
   private async loadData() {
-    const bundlesMap = await fetchSharedData<Bundle>('bundles')
+    const bundlesMap = await importSharedData<Bundle>('bundles')
 
     const bundles = Array.from(bundlesMap.values())
       .filter(bundle => bundle.csl && bundle.csl.title)

@@ -11,7 +11,12 @@
  */
 
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
-import { Section, SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import {
+  Model,
+  Section,
+  SectionCategory,
+} from '@manuscripts/manuscripts-json-schema'
+import { isParagraphElement } from '@manuscripts/sync-client'
 
 export const generatedSectionCategories: string[] = [
   'MPSectionCategory:bibliography',
@@ -39,4 +44,21 @@ export const chooseSectionCategory = (section: Section): string => {
   return section.path.length === 1
     ? 'MPSectionCategory:section'
     : 'MPSectionCategory:subsection'
+}
+
+export const findFirstParagraph = (
+  section: Section,
+  modelMap: Map<string, Model>
+) => {
+  if (section.elementIDs) {
+    const [firstElementId] = section.elementIDs
+
+    if (firstElementId) {
+      const firstElement = modelMap.get(firstElementId)
+
+      if (firstElement && isParagraphElement(firstElement)) {
+        return firstElement
+      }
+    }
+  }
 }
