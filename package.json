@@ -34,6 +34,8 @@
     "@apollo/react-hooks": "^3.0.0",
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.10.4",
     "@babel/plugin-proposal-unicode-property-regex": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
@@ -186,8 +188,6 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
-    "@babel/plugin-proposal-optional-chaining": "^7.10.4",
     "@manuscripts/examples": "^0.0.7",
     "@manuscripts/tslint-config": "^0.1.4",
     "@storybook/addon-actions": "^5.3.17",
