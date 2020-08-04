@@ -17,6 +17,7 @@ dotenv.config()
 
 import webpack from 'webpack'
 import merge from 'webpack-merge'
+import WebpackBar from 'webpackbar'
 import common from './webpack.common'
 
 const configuration: webpack.Configuration = merge(common, {
@@ -78,7 +79,7 @@ const configuration: webpack.Configuration = merge(common, {
       },
     ],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [new webpack.HotModuleReplacementPlugin(), new WebpackBar()],
   resolve: {
     alias: {
       '@manuscripts/manuscript-transform': require.resolve(
@@ -93,6 +94,7 @@ const configuration: webpack.Configuration = merge(common, {
       'styled-components': require.resolve('styled-components'),
     },
   },
+  stats: 'errors-only',
   watchOptions: {
     aggregateTimeout: 1000,
     ignored: /node_modules\/(?!@manuscripts\/)/,
