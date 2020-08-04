@@ -31,7 +31,6 @@ module.exports = {
       '@babel/env',
       {
         corejs: 3,
-        targets: 'last 2 years',
         useBuiltIns: 'usage',
       },
     ],
