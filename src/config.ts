@@ -176,7 +176,7 @@ const config = {
     group_doi: process.env.SUBMISSION_GROUP_DOI,
   },
   templates: {
-    publish: process.env.PUBLISH_TEMPLATES,
+    publish: isTrue(process.env.PUBLISH_TEMPLATES),
   },
   version,
 }
