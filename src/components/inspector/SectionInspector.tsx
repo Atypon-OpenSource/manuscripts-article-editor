@@ -138,13 +138,13 @@ export const SectionInspector = memo<{
       MinimumSectionCharacterCountRequirement
     >(
       ObjectTypes.MinimumSectionCharacterCountRequirement,
-      section.minCharCountRequirement
+      section.minCharacterCountRequirement
     ),
     maxCharacterCount: getOrBuildRequirement<
       MaximumSectionCharacterCountRequirement
     >(
       ObjectTypes.MaximumSectionCharacterCountRequirement,
-      section.maxCharCountRequirement
+      section.maxCharacterCountRequirement
     ),
   }
 
@@ -263,10 +263,10 @@ export const SectionInspector = memo<{
                   requirement as MinimumSectionCharacterCountRequirement
                 )
 
-                if (requirement._id !== section.minCharCountRequirement) {
+                if (requirement._id !== section.minCharacterCountRequirement) {
                   await saveModel<Section>({
                     ...section,
-                    minCharCountRequirement: requirement._id,
+                    minCharacterCountRequirement: requirement._id,
                   })
                 }
               }}
@@ -283,10 +283,10 @@ export const SectionInspector = memo<{
                   requirement as MaximumSectionCharacterCountRequirement
                 )
 
-                if (requirement._id !== section.maxCharCountRequirement) {
+                if (requirement._id !== section.maxCharacterCountRequirement) {
                   await saveModel<Section>({
                     ...section,
-                    maxCharCountRequirement: requirement._id,
+                    maxCharacterCountRequirement: requirement._id,
                   })
                 }
               }}

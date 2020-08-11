@@ -112,13 +112,13 @@ export const ManuscriptInspector: React.FC<{
       MinimumManuscriptCharacterCountRequirement
     >(
       ObjectTypes.MinimumManuscriptCharacterCountRequirement,
-      manuscript.minCharCountRequirement
+      manuscript.minCharacterCountRequirement
     ),
     maxCharacterCount: getOrBuildRequirement<
       MaximumManuscriptCharacterCountRequirement
     >(
       ObjectTypes.MaximumManuscriptCharacterCountRequirement,
-      manuscript.maxCharCountRequirement
+      manuscript.maxCharacterCountRequirement
     ),
   }
 
@@ -300,9 +300,11 @@ export const ManuscriptInspector: React.FC<{
                   requirement as MinimumManuscriptCharacterCountRequirement
                 )
 
-                if (requirement._id !== manuscript.minCharCountRequirement) {
+                if (
+                  requirement._id !== manuscript.minCharacterCountRequirement
+                ) {
                   await saveManuscript({
-                    minCharCountRequirement: requirement._id,
+                    minCharacterCountRequirement: requirement._id,
                   })
                 }
               }}
@@ -321,9 +323,11 @@ export const ManuscriptInspector: React.FC<{
                   requirement as MaximumManuscriptCharacterCountRequirement
                 )
 
-                if (requirement._id !== manuscript.maxCharCountRequirement) {
+                if (
+                  requirement._id !== manuscript.maxCharacterCountRequirement
+                ) {
                   await saveManuscript({
-                    maxCharCountRequirement: requirement._id,
+                    maxCharacterCountRequirement: requirement._id,
                   })
                 }
               }}

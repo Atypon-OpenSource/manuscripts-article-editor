@@ -250,8 +250,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private requirementFields = [
     'minWordCountRequirement',
     'maxWordCountRequirement',
-    'minCharCountRequirement',
-    'maxCharCountRequirement',
+    'minCharacterCountRequirement',
+    'maxCharacterCountRequirement',
   ]
 
   private readonly preparedManuscriptEditorStateChange: (

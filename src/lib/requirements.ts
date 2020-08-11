@@ -23,14 +23,14 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 
 export type ManuscriptCountRequirementField =
-  | 'maxCharCountRequirement'
-  | 'minCharCountRequirement'
+  | 'maxCharacterCountRequirement'
+  | 'minCharacterCountRequirement'
   | 'maxWordCountRequirement'
   | 'minWordCountRequirement'
 
 export const manuscriptCountRequirementFields: ManuscriptCountRequirementField[] = [
-  'maxCharCountRequirement',
-  'minCharCountRequirement',
+  'maxCharacterCountRequirement',
+  'minCharacterCountRequirement',
   'maxWordCountRequirement',
   'minWordCountRequirement',
   // 'maxCombinedFigureTableCountRequirement',
@@ -38,9 +38,9 @@ export const manuscriptCountRequirementFields: ManuscriptCountRequirementField[]
 ]
 
 export type SectionCountRequirementField =
-  | 'maxCharCountRequirement'
+  | 'maxCharacterCountRequirement'
+  | 'minCharacterCountRequirement'
   | 'maxWordCountRequirement'
-  | 'minCharCountRequirement'
   | 'minWordCountRequirement'
 
 export type SectionDescriptionCountRequirementField =
@@ -53,9 +53,9 @@ export const sectionCountRequirementFields: Map<
   SectionCountRequirementField,
   SectionDescriptionCountRequirementField
 > = new Map([
-  ['maxCharCountRequirement', 'maxCharCount'],
+  ['maxCharacterCountRequirement', 'maxCharCount'],
   ['maxWordCountRequirement', 'maxWordCount'],
-  ['minCharCountRequirement', 'minCharCount'],
+  ['minCharacterCountRequirement', 'minCharCount'],
   ['minWordCountRequirement', 'minWordCount'],
 ])
 
