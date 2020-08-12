@@ -173,7 +173,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
         Promise.all<Collection<ContainedModel>>(
           projects.map(
             project =>
-              new Promise(async (resolve, reject) => {
+              new Promise(async resolve => {
                 const collection = await CollectionManager.createCollection<
                   ContainedModel
                 >({
@@ -190,10 +190,6 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
                   if (event.detail.direction === 'pull' && event.detail.value) {
                     resolve(collection)
                   }
-                })
-
-                collection.addEventListener('error', () => {
-                  reject()
                 })
               })
           )
@@ -218,6 +214,8 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           })
           .exec()
           .then(docs => docs.map(doc => doc.toJSON()) as ManuscriptModel[])
+
+        // TODO: stop syncing the collection now?
 
         userTemplates.push(...templates)
         userTemplateModels.push(...models)
@@ -378,6 +376,14 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
       if (newProject) {
         const projectsCollection = openProjectsCollection()
         await projectsCollection.create(newProject)
+        try {
+          // try to ensure that the collection syncs
+          await projectsCollection.ensurePushSync()
+        } catch (error) {
+          // continue anyway
+          // tslint:disable-next-line:no-console
+          console.error(error, 'Unable to ensure push sync of new project')
+        }
       }
 
       const containerID: string = newProject ? newProject._id : projectID!
@@ -559,9 +565,12 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
                 ? coverLetterRequirement.placeholderString
                 : COVER_LETTER_PLACEHOLDER
 
-            const paragraph = buildParagraph(placeholder)
+            const paragraph = buildParagraph(placeholder) as ParagraphElement
 
-            await saveContainedModel<ParagraphElement>(paragraph)
+            await collection.create(paragraph, {
+              containerID,
+              manuscriptID: coverLetterManuscript._id,
+            })
 
             const section = buildSection(1)
             section.elementIDs = [paragraph._id]
