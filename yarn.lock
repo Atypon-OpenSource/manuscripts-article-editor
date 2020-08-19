@@ -1802,24 +1802,24 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.7.tgz#f7f0cef173fb2c83fbf283a2c2962b5d6ea32874"
   integrity sha512-7a1y6H/wnvn4hTh7S+TEyC8R5tLHHNiWYJnbeS43JCMYS/6qhMCzJTS0PwQynoep7PWwi2LdgaSZ3qALxzgg0g==
 
-"@manuscripts/library@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.3.1.tgz#e51c3baeb3e3fc85c5d24f128abde4062c1014e8"
-  integrity sha512-OIpr8wvi9iPELY7bYPhgoSaP4tfEBAElztRvvwNX/09RoAQ5sNIoPAHnel6RbnHBHUd/XbDbHTti3VMuvcIz4w==
+"@manuscripts/library@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.3.2.tgz#36fbdc58bc00ebbf82fac69fcb3ee30163fdc9dc"
+  integrity sha512-m9lPhn/owxU/EM+lijGAbUbJUsbxF+RRHYzwI/3Z2CItQJid0W8oPkI4q3MhyOPfAvx1/BMTc2z3P+aXg8yNuQ==
   dependencies:
     "@manuscripts/csl-locales" "^0.0.4"
     "@manuscripts/csl-styles" "^0.2.0"
     "@manuscripts/data" "^0.1.0"
-    "@manuscripts/manuscript-transform" "^0.35.0"
+    "@manuscripts/manuscript-transform" "^0.36.0"
     astrocite-bibtex "^0.16.3"
     astrocite-ris "^0.16.0"
     citeproc "^2.4.6"
     fontoxpath "^3.12.1"
 
-"@manuscripts/manuscript-editor@^0.74.0":
-  version "0.74.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.74.0.tgz#77386db0212ef4b134126c0a3cf26d47d5c83f39"
-  integrity sha512-/3M5Yj7MXrLQGXCvVY00Dqvl/Pz4XNab/tgkYAWt4nlJSG+PDSQ2z267/fAbYPCeB9y4+6rF751U+7oI9IuV4A==
+"@manuscripts/manuscript-editor@^0.75.0":
+  version "0.75.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.75.0.tgz#8f6e88d5aedec741b4ea0e5f6184e6ff87e6a7dc"
+  integrity sha512-+uPBiiFiroxWePeuaWz/BhLa+NrqEzMUf91cT9sAP1m7aviwvIUg0bG3PvAGRBwT4D56g7HWbhbHwyWjDz/xZg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -1860,10 +1860,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^3.3.2"
 
-"@manuscripts/manuscript-transform@^0.35.0":
-  version "0.35.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.35.0.tgz#8b8fc8048bc21930ba277bdb055a080a9614e9b0"
-  integrity sha512-6+oFsIo0SGOm5yd6KZbZVzfz3x2du1TpmxWzNtYM5haCbmeLT4t+m+YFy2DHOUnjLHyJ2wQS6koTkFF24puqHw==
+"@manuscripts/manuscript-transform@^0.36.0":
+  version "0.36.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.36.0.tgz#5fe1a6e50188cfe45b00a2ce6a1c9da5f5aea25e"
+  integrity sha512-zuC91MnqcEwk+MK5rRnLLFixqruXmKCLc1VeFPGpHfAMfYFynXfUxGicysaR+0kUU0C8KUPFfRZb+MvmK1QJUg==
   dependencies:
     "@manuscripts/manuscripts-json-schema" "^1.32.0"
     debug "^4.1.1"
@@ -2926,12 +2926,12 @@
   dependencies:
     jest-diff "^24.3.0"
 
-"@types/jszip@^3.1.6":
-  version "3.1.6"
-  resolved "https://registry.npmjs.org/@types/jszip/-/jszip-3.1.6.tgz#0512574a2b35f3194b41769c56e4b35065e67000"
-  integrity sha512-m8uFcI+O2EupCfbEVQWsBM/4nhbegjOHL7cQgBpM95FeF98kdFJXzy9/8yhx4b3lCRl/gMBhcvyh30Qt3X+XPQ==
+"@types/jszip@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.npmjs.org/@types/jszip/-/jszip-3.4.1.tgz#e7a4059486e494c949ef750933d009684227846f"
+  integrity sha512-TezXjmf3lj+zQ651r6hPqvSScqBLvyPI9FxdXBqpEwBijNGQ2NXpaFW/7joGzveYkKQUil7iiDHLo6LV71Pc0A==
   dependencies:
-    "@types/node" "*"
+    jszip "*"
 
 "@types/jwt-decode@^2.2.1":
   version "2.2.1"
@@ -11658,10 +11658,10 @@ jstransform@~3.0.0:
     esprima-fb "~3001.1.0-dev-harmony-fb"
     source-map "0.1.31"
 
-jszip@^3.1.5:
-  version "3.2.2"
-  resolved "https://registry.npmjs.org/jszip/-/jszip-3.2.2.tgz#b143816df7e106a9597a94c77493385adca5bd1d"
-  integrity sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
+jszip@*, jszip@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.npmjs.org/jszip/-/jszip-3.5.0.tgz#b4fd1f368245346658e781fec9675802489e15f6"
+  integrity sha512-WRtu7TPCmYePR1nazfrtuF216cIVon/3GWOvHS9QR5bIwSbnxtdpma6un3jyGGNhHsKCSzn5Ypk+EkDRvTGiFA==
   dependencies:
     lie "~3.3.0"
     pako "~1.0.2"

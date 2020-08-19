@@ -55,7 +55,7 @@ export interface ProjectDump {
 export const readProjectDumpFromArchive = async (
   zip: JSZip
 ): Promise<ProjectDump> => {
-  const json = await zip.file('index.manuscript-json').async('text')
+  const json = await zip.files['index.manuscript-json'].async('text')
 
   return JSON.parse(json)
 }
@@ -347,7 +347,7 @@ export const importFile = async (file: File) => {
     const zip = await new JSZip().loadAsync(blob)
     const filename = file.name.replace(/\.docx$/, '.XML')
 
-    const xml = await zip.file(filename).async('text')
+    const xml = await zip.files[filename].async('text')
     const doc = parseXML(xml)
 
     const models = convertXMLDocument(doc)

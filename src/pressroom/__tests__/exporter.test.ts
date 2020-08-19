@@ -173,7 +173,7 @@ describe('exporter', () => {
     expect(result).toBeInstanceOf(Blob)
 
     const zip = await new JSZip().loadAsync(result)
-    const json = await zip.file('containers.json').async('text')
+    const json = await zip.files['containers.json'].async('text')
 
     const containers = JSON.parse(json)
     expect(containers).toHaveLength(1)

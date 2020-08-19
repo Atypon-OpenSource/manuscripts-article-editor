@@ -70,7 +70,7 @@ const getAttachment = (model: Model, zip: JSZip): JSZip.JSZipObject | null => {
   // NOTE: not using model.contentType for file extension
   const filename = generateAttachmentFilename(model._id)
 
-  return zip.file('Data/' + filename)
+  return zip.files['Data/' + filename]
 }
 
 const hasAttachment = (model: Model, zip: JSZip): boolean =>
@@ -120,7 +120,7 @@ const isBundle = hasObjectType<Bundle>(ObjectTypes.Bundle)
 export const removeUnsupportedData = async (zip: JSZip) => {
   const path = 'index.manuscript-json'
 
-  const json = await zip.file(path).async('text')
+  const json = await zip.files[path].async('text')
   const bundle = JSON.parse(json) as ProjectDump
 
   bundle.data = bundle.data.filter((model: ManuscriptModel) => {
@@ -322,7 +322,8 @@ const convertToHTML = async (zip: JSZip, modelMap: Map<string, Model>) => {
 
   const transformer = new HTMLTransformer()
 
-  zip.file('index.html', transformer.serializeToHTML(doc.content, modelMap))
+  const html = await transformer.serializeToHTML(doc.content, modelMap)
+  zip.file('index.html', html)
 
   return zip.generateAsync({ type: 'blob' })
 }
@@ -335,7 +336,8 @@ const convertToJATS = async (zip: JSZip, modelMap: Map<string, Model>) => {
 
   const transformer = new JATSExporter()
 
-  zip.file('manuscript.xml', transformer.serializeToJATS(doc.content, modelMap))
+  const xml = await transformer.serializeToJATS(doc.content, modelMap)
+  zip.file('manuscript.xml', xml)
 
   return zip.generateAsync({ type: 'blob' })
 }
@@ -348,7 +350,8 @@ const convertToSTS = async (zip: JSZip, modelMap: Map<string, Model>) => {
 
   const transformer = new STSExporter()
 
-  zip.file('manuscript.xml', transformer.serializeToSTS(doc.content, modelMap))
+  const xml = transformer.serializeToSTS(doc.content, modelMap)
+  zip.file('manuscript.xml', xml)
 
   return zip.generateAsync({ type: 'blob' })
 }
