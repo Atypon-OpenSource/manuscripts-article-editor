@@ -20,6 +20,7 @@ import {
   Publisher,
   ResearchField,
   SectionCategory,
+  StatusLabel,
 } from '@manuscripts/manuscripts-json-schema'
 import { SharedData } from '../components/templates/TemplateSelector'
 import { Requirement, TemplatesDataType } from '../types/templates'
@@ -74,13 +75,22 @@ export const loadSharedData = async (
   const styles = await importSharedData<Style>('styles')
 
   // keywords
-  const keywords = await importSharedData<ResearchField>('keywords')
+  const keywords = await importSharedData<ResearchField | StatusLabel>(
+    'keywords'
+  )
 
   const researchFields = new Map<string, ResearchField>()
+  const statusLabels = new Map<string, StatusLabel>()
 
   for (const item of keywords.values()) {
-    if (item.objectType === 'MPResearchField') {
-      researchFields.set(item._id, item)
+    switch (item.objectType) {
+      case ObjectTypes.ResearchField:
+        researchFields.set(item._id, item)
+        break
+
+      case ObjectTypes.StatusLabel:
+        statusLabels.set(item._id, item)
+        break
     }
   }
 
@@ -137,5 +147,6 @@ export const loadSharedData = async (
     styles,
     templatesData,
     userManuscriptTemplates,
+    statusLabels,
   }
 }

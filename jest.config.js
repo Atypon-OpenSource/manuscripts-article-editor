@@ -14,8 +14,8 @@ module.exports = {
   coverageThreshold: {
     global: {
       branches: 25,
-      functions: 35,
-      lines: 35,
+      functions: 30,
+      lines: 30,
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
@@ -25,11 +25,11 @@ module.exports = {
     '^.+\\.css$': '<rootDir>/src/__mocks__/styleMock.ts',
     '^.+\\.xml$': '<rootDir>/src/__mocks__/rawMock.ts',
     // https://react-dnd.github.io/react-dnd/docs/testing#setup
-    "^dnd-core$": "dnd-core/dist/cjs",
-    "^react-dnd$": "react-dnd/dist/cjs",
+    '^dnd-core$': 'dnd-core/dist/cjs',
+    '^react-dnd$': 'react-dnd/dist/cjs',
     // map react-dnd-html5-backend to react-dnd-test-backend
-    "^react-dnd-html5-backend$": "react-dnd-test-backend/dist/cjs",
-    "^react-dnd-test-utils$": "react-dnd-test-utils/dist/cjs"
+    '^react-dnd-html5-backend$': 'react-dnd-test-backend/dist/cjs',
+    '^react-dnd-test-utils$': 'react-dnd-test-utils/dist/cjs',
   },
   setupFiles: ['./src/setupTests.ts', 'jsdom-worker'],
   setupFilesAfterEnv: ['<rootDir>/node_modules/jest-enzyme/lib/index.js'],

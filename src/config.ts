@@ -38,6 +38,9 @@ interface Config {
       secret?: string
     }
   }
+  features: {
+    projectManagement: boolean
+  }
   gateway: {
     url: string
   }
@@ -128,6 +131,9 @@ const config = {
     arc: {
       secret: process.env.EXTYLES_ARC_SECRET,
     },
+  },
+  features: {
+    projectManagement: isTrue(process.env.FEATURE_PROJECT_MANAGEMENT),
   },
   gateway: {
     url: normalizeURL(process.env.SYNC_GATEWAY_URL),

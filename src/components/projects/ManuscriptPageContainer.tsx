@@ -76,6 +76,7 @@ import {
   ObjectTypes,
   Project,
   Section,
+  Tag,
   UserProfile,
   UserProject,
 } from '@manuscripts/manuscripts-json-schema'
@@ -212,6 +213,7 @@ interface State {
 }
 
 export interface ManuscriptPageContainerProps {
+  tags: Tag[]
   comments: CommentAnnotation[]
   keywords: Map<string, Keyword>
   library: Map<string, BibliographyItem>
@@ -560,7 +562,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         <Panel
           name={'inspector'}
-          minSize={300}
+          minSize={400}
           direction={'row'}
           side={'start'}
           hideWhen={'max-width: 900px'}
@@ -595,6 +597,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               selectedSection={selectedSection}
               setCommentTarget={this.setCommentTarget}
               view={view}
+              tags={this.props.tags}
             />
           )}
         </Panel>
@@ -1051,7 +1054,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     // TODO: use the imported filename?
     if (!manuscript.pageLayout) {
-      const { bundles, contributorRoles, styles } = await importBundledData()
+      const {
+        bundles,
+        contributorRoles,
+        styles,
+        statusLabels,
+      } = await importBundledData()
 
       const bundle = createNewBundle(
         manuscript.bundle || DEFAULT_BUNDLE,
@@ -1066,6 +1074,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       }
 
       models.push(...contributorRoles.values())
+      models.push(...statusLabels.values())
       models.push(...styles.values())
 
       const pageLayout = updatedPageLayout(styles)

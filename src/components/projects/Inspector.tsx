@@ -24,10 +24,12 @@ import {
   Model,
   Project,
   Section,
+  Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect, useState } from 'react'
 import config from '../../config'
+import { useStatusLabels } from '../../hooks/use-status-labels'
 import {
   InspectorContainer,
   InspectorTab,
@@ -42,6 +44,7 @@ import {
 } from '../inspector/ElementStyleInspector'
 import { HistoryPanelContainer } from '../inspector/History'
 import { InlineStyleInspector } from '../inspector/InlineStyleInspector'
+import { ManageTargetInspector } from '../inspector/ManageTargetInspector'
 import { ManuscriptStyleInspector } from '../inspector/ManuscriptStyleInspector'
 import { NodeInspector } from '../inspector/NodeInspector'
 import { SectionInspector } from '../inspector/SectionInspector'
@@ -78,6 +81,7 @@ export const Inspector: React.FC<{
   selectedSection?: Selected
   setCommentTarget: () => void
   view: ManuscriptEditorView
+  tags: Tag[]
   // tslint:disable-next-line:cyclomatic-complexity
 }> = ({
   bundle,
@@ -106,8 +110,11 @@ export const Inspector: React.FC<{
   selectedSection,
   setCommentTarget,
   view,
+  tags,
 }) => {
   const [tabIndex, setTabIndex] = useState(0)
+
+  const statusLabels = useStatusLabels(manuscript.containerID, manuscript._id)
 
   useEffect(() => {
     if (commentTarget) {
@@ -164,6 +171,19 @@ export const Inspector: React.FC<{
                   saveModel={saveModel}
                   view={view}
                 />
+
+                {(element || section) && config.features.projectManagement && (
+                  <ManageTargetInspector
+                    target={(element || section) as AnyElement | Section}
+                    listCollaborators={listCollaborators}
+                    saveModel={saveModel}
+                    statusLabels={statusLabels}
+                    tags={tags}
+                    modelMap={modelMap}
+                    deleteModel={deleteModel}
+                  />
+                )}
+
                 {section && (
                   <SectionInspector
                     key={section._id}

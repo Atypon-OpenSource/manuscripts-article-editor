@@ -22,6 +22,7 @@ import {
   Figure,
   Model,
   ObjectTypes,
+  StatusLabel,
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
@@ -32,10 +33,7 @@ import config from '../config'
 import { FileExtensionError } from '../lib/errors'
 import { idRe } from '../lib/id'
 import { importSharedData } from '../lib/shared-data'
-import {
-  createNewBundledStyles,
-  createNewContributorRoles,
-} from '../lib/templates'
+import { createNewBundledStyles, createNewItems } from '../lib/templates'
 import { cleanItem } from './clean-item'
 import { ExportManuscriptFormat, removeUnsupportedData } from './exporter'
 import { convert } from './pressroom'
@@ -147,6 +145,7 @@ export const importProjectArchive = async (result: Blob) => {
 interface BundledData {
   bundles: Map<string, Bundle>
   contributorRoles: Map<string, ContributorRole>
+  statusLabels: Map<string, StatusLabel>
   styles: Map<string, Model>
 }
 
@@ -155,11 +154,23 @@ export const importBundledData = async (): Promise<BundledData> => {
   const contributorRoles = await importSharedData<ContributorRole>(
     'contributor-roles'
   )
+  const keywords = await importSharedData<StatusLabel>('keywords')
+  const statusLabels = new Map<string, StatusLabel>()
+
+  for (const item of keywords.values()) {
+    switch (item.objectType) {
+      case ObjectTypes.StatusLabel:
+        statusLabels.set(item._id, item)
+        break
+    }
+  }
+
   const styles = await importSharedData<Model>('styles')
 
   return {
     bundles,
-    contributorRoles: createNewContributorRoles(contributorRoles),
+    contributorRoles: createNewItems(contributorRoles),
+    statusLabels: createNewItems(statusLabels),
     styles: createNewBundledStyles(styles),
   }
 }

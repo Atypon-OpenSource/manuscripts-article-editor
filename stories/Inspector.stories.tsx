@@ -29,11 +29,13 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { InspectorTab, InspectorTabList } from '../src/components/Inspector'
 import { HistoryPanel } from '../src/components/inspector/History'
+import { ManageTargetInspector } from '../src/components/inspector/ManageTargetInspector'
 import { ManuscriptStyleInspector } from '../src/components/inspector/ManuscriptStyleInspector'
 import { ParagraphStyles } from '../src/components/inspector/ParagraphStyles'
 import { SectionInspector } from '../src/components/inspector/SectionInspector'
 import { SectionStyles } from '../src/components/inspector/SectionStyles'
 import { StatisticsInspector } from '../src/components/inspector/StatisticsInspector'
+
 import { ManuscriptInspector } from '../src/components/projects/ManuscriptInspector'
 import { SaveSnapshotStatus } from '../src/hooks/use-snapshot-manager'
 import { buildColors } from '../src/lib/colors'
@@ -44,6 +46,8 @@ import { doc } from './data/doc'
 import { people } from './data/people'
 import { project } from './data/projects'
 import { snapshots } from './data/snapshots'
+import { statusLabels } from './data/status-labels'
+import { tags } from './data/tags'
 
 const manuscript: Manuscript = {
   _id: 'MPManuscript:1',
@@ -263,5 +267,22 @@ storiesOf('Inspector/History', module).add('read only', () => (
     manuscriptID="MANUSCRIPT"
     snapshotsList={snapshots}
     currentUserId={people[0]._id}
+  />
+))
+
+storiesOf('Inspector', module).add('Manage Section', () => (
+  <ManageTargetInspector
+    target={{
+      ...section,
+      assignees: ['user-1'],
+      deadline: 1593982800,
+      keywordIDs: ['tag-1', 'tag-2'],
+    }}
+    saveModel={action('save')}
+    listCollaborators={() => people}
+    statusLabels={statusLabels}
+    tags={tags}
+    modelMap={modelMap}
+    deleteModel={action('delete')}
   />
 ))

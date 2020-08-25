@@ -23,7 +23,6 @@ import {
 } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
-  ContributorRole,
   ManuscriptCategory,
   ManuscriptTemplate,
   Model,
@@ -610,10 +609,8 @@ const fixReferencedIds = (model: Model, prototypeMap: Map<string, string>) => {
   }
 }
 
-export const createNewContributorRoles = (
-  items: Map<string, ContributorRole>
-) => {
-  const newItems = new Map<string, ContributorRole>()
+export const createNewItems = <S extends Model>(items: Map<string, S>) => {
+  const newItems = new Map<string, S>()
 
   for (const item of items.values()) {
     const newItem = fromPrototype(item)

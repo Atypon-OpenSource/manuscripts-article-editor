@@ -39,6 +39,7 @@ import {
   Section,
   SectionCategory,
   SectionDescription,
+  StatusLabel,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, {
@@ -67,7 +68,7 @@ import {
   createMergedTemplate,
   createNewBundle,
   createNewBundledStyles,
-  createNewContributorRoles,
+  createNewItems,
   createNewTemplateStyles,
   createParentBundle,
   fromPrototype,
@@ -101,6 +102,7 @@ export interface SharedData {
   researchFields: Map<string, ResearchField>
   sectionCategories: Map<string, SectionCategory>
   styles: Map<string, Model>
+  statusLabels: Map<string, StatusLabel>
   templatesData: Map<string, TemplatesDataType>
   userManuscriptTemplates: Map<string, ManuscriptTemplate>
 }
@@ -285,7 +287,9 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
 
     const newStyles = createNewBundledStyles(data.styles)
 
-    const newContributorRoles = createNewContributorRoles(data.contributorRoles)
+    const newStatusLabels = createNewItems(data.statusLabels)
+
+    const newContributorRoles = createNewItems(data.contributorRoles)
 
     const newPageLayout = updatedPageLayout(newStyles)
 
@@ -329,6 +333,10 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
 
     for (const newStyle of newStyles.values()) {
       await saveManuscriptModel<Model>(newStyle)
+    }
+
+    for (const newStatusLabel of newStatusLabels.values()) {
+      await saveManuscriptModel<StatusLabel>(newStatusLabel)
     }
 
     for (const newContributorRole of newContributorRoles.values()) {
@@ -411,9 +419,9 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
 
       const newPageLayout = updatedPageLayout(newStyles, mergedTemplate)
 
-      const newContributorRoles = createNewContributorRoles(
-        data.contributorRoles
-      )
+      const newStatusLabels = createNewItems(data.statusLabels)
+
+      const newContributorRoles = createNewItems(data.contributorRoles)
 
       // const colorScheme = this.findDefaultColorScheme(newStyles)
 
@@ -450,6 +458,10 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
 
       for (const newStyle of newStyles.values()) {
         await saveManuscriptModel<Model>(newStyle)
+      }
+
+      for (const newStatusLabel of newStatusLabels.values()) {
+        await saveManuscriptModel<StatusLabel>(newStatusLabel)
       }
 
       for (const newContributorRole of newContributorRoles.values()) {
