@@ -120,7 +120,7 @@ const loadExtylesAttachments = async (zip: JSZip, models: JsonModel[]) => {
   }
 }
 
-const importProjectArchive = async (result: Blob) => {
+export const importProjectArchive = async (result: Blob) => {
   const zip = await new JSZip().loadAsync(result)
 
   const projectDump = await readProjectDumpFromArchive(zip)

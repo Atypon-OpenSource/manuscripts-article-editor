@@ -65,6 +65,10 @@ interface Config {
     url: string
     token: string
   }
+  shackles: {
+    enabled: boolean
+    url: string
+  }
   crisp: {
     id?: string
   }
@@ -151,6 +155,10 @@ const config = {
   jupyter: {
     url: normalizeURL(process.env.JUPYTER_URL),
     token: process.env.JUPYTER_TOKEN,
+  },
+  shackles: {
+    enabled: isTrue(process.env.SHACKLES_ENABLED),
+    url: normalizeURL(process.env.SHACKLES_URL),
   },
   crisp: {
     id: process.env.CRISP_WEBSITE_ID,

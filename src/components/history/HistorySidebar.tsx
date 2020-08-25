@@ -10,39 +10,44 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
-import decode from 'jwt-decode'
-import config from '../config'
-import { PROFILE_IMAGE_ATTACHMENT } from './data'
-import tokenHandler from './token'
+import { ManuscriptOutline } from '@manuscripts/manuscript-editor'
+import { ManuscriptNode } from '@manuscripts/manuscript-transform'
+import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
+import { Title } from '@manuscripts/title-editor'
+import React from 'react'
+import PageSidebar from '../PageSidebar'
+import { SidebarHeader } from '../Sidebar'
 
-export interface TokenPayload {
-  expiry: number
-  userId: string
-  userProfileId: string
+interface Props {
+  project: Project
+  manuscript: Manuscript
+  doc: ManuscriptNode
 }
 
-export const getCurrentUserId = () => {
-  const token = tokenHandler.get()
-
-  if (!token) return null
-
-  const { userId } = decode<TokenPayload>(token)
-
-  return userId.replace('|', '_')
-}
-
-export const avatarURL = (user?: UserProfile | string | null): string => {
-  if (!user) return ''
-
-  if (typeof user === 'string') {
-    return [
-      config.gateway.url,
-      config.buckets.projects,
-      user,
-      PROFILE_IMAGE_ATTACHMENT,
-    ].join('/')
-  }
-
-  return avatarURL(user._id)
+export const HistorySidebar: React.FC<Props> = ({
+  project,
+  manuscript,
+  doc,
+}) => {
+  return (
+    <PageSidebar
+      direction={'row'}
+      hideWhen={'max-width: 900px'}
+      minSize={260}
+      name={'sidebar'}
+      side={'end'}
+      sidebarTitle={
+        <SidebarHeader
+          title={<Title value={project.title || 'Untitled Project'} />}
+        />
+      }
+    >
+      <ManuscriptOutline
+        manuscript={manuscript}
+        selected={null}
+        doc={doc}
+        permissions={{ write: false }}
+      />
+    </PageSidebar>
+  )
 }

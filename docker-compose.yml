@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   couchbase:
@@ -77,6 +77,18 @@ services:
       - api
     ports:
       - 5000:5000
+
+  shackles:
+    image: registry.gitlab.com/mpapp-private/shackles.io
+    depends_on:
+      - api
+    env_file:
+      - docker/shackles/defaults.env
+      - docker/shackles/.env
+    environment:
+      PORT: 3030
+    ports:
+      - 3030:3030
 
   client:
     image: registry.gitlab.com/mpapp-public/manuscripts-frontend/master

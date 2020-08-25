@@ -28,17 +28,22 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { InspectorTab, InspectorTabList } from '../src/components/Inspector'
+import { HistoryPanel } from '../src/components/inspector/History'
 import { ManuscriptStyleInspector } from '../src/components/inspector/ManuscriptStyleInspector'
 import { ParagraphStyles } from '../src/components/inspector/ParagraphStyles'
 import { SectionInspector } from '../src/components/inspector/SectionInspector'
 import { SectionStyles } from '../src/components/inspector/SectionStyles'
 import { StatisticsInspector } from '../src/components/inspector/StatisticsInspector'
 import { ManuscriptInspector } from '../src/components/projects/ManuscriptInspector'
+import { SaveSnapshotStatus } from '../src/hooks/use-snapshot-manager'
 import { buildColors } from '../src/lib/colors'
 import { findBodyTextParagraphStyles } from '../src/lib/styles'
 import { buildModelMap } from '../src/pressroom/__tests__/util'
 import { ProjectDump } from '../src/pressroom/importers'
 import { doc } from './data/doc'
+import { people } from './data/people'
+import { project } from './data/projects'
+import { snapshots } from './data/snapshots'
 
 const manuscript: Manuscript = {
   _id: 'MPManuscript:1',
@@ -206,4 +211,57 @@ storiesOf('Inspector/Section Styles', module).add('with bundle', () => (
       title={'Section Heading Styles'}
     />
   </div>
+))
+
+storiesOf('Inspector/History', module).add('basic', () => (
+  <HistoryPanel
+    project={project}
+    manuscriptID="MANUSCRIPT"
+    snapshotsList={snapshots}
+    isCreateFormOpen={true}
+    requestTakeSnapshot={action('take snapshot')}
+    submitName={action('take current name and finalize snapshot')}
+    textFieldValue=""
+    handleTextFieldChange={action('update text field value')}
+    currentUserId={people[0]._id}
+  />
+))
+
+storiesOf('Inspector/History', module).add('while saving', () => (
+  <HistoryPanel
+    project={project}
+    manuscriptID="MANUSCRIPT"
+    snapshotsList={snapshots}
+    isCreateFormOpen={true}
+    requestTakeSnapshot={action('take snapshot')}
+    submitName={action('take current name and finalize snapshot')}
+    textFieldValue=""
+    handleTextFieldChange={action('update text field value')}
+    status={SaveSnapshotStatus.Submitting}
+    currentUserId={people[0]._id}
+  />
+))
+
+storiesOf('Inspector/History', module).add('error while saving', () => (
+  <HistoryPanel
+    project={project}
+    manuscriptID="MANUSCRIPT"
+    snapshotsList={snapshots}
+    isCreateFormOpen={true}
+    requestTakeSnapshot={action('take snapshot')}
+    submitName={action('take current name and finalize snapshot')}
+    textFieldValue=""
+    handleTextFieldChange={action('update text field value')}
+    status={SaveSnapshotStatus.Error}
+    currentUserId={people[0]._id}
+  />
+))
+
+storiesOf('Inspector/History', module).add('read only', () => (
+  <HistoryPanel
+    project={project}
+    manuscriptID="MANUSCRIPT"
+    snapshotsList={snapshots}
+    currentUserId={people[0]._id}
+  />
 ))

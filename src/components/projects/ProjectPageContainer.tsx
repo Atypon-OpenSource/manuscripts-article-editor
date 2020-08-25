@@ -40,6 +40,7 @@ import Sync from '../../sync/Sync'
 import AddCollaboratorsPageContainer from '../collaboration/AddCollaboratorsPageContainer'
 import CollaboratorsPageContainer from '../collaboration/CollaboratorsPageContainer'
 import { DatabaseContext } from '../DatabaseProvider'
+import { HistoricalView } from '../history/HistoricalView'
 import { LibraryPageContainerProps } from '../library/LibraryPageContainer'
 import { Page } from '../Page'
 import {
@@ -526,6 +527,17 @@ class ProjectPageContainer extends React.Component<
                                                               </ContainerInvitationsData>
                                                             )}
                                                           </ProjectInvitationsData>
+                                                        )}
+                                                      />
+
+                                                      <Route
+                                                        path="/projects/:projectID/history/:snapshotID/manuscript/:manuscriptID"
+                                                        render={props => (
+                                                          <HistoricalView
+                                                            project={project}
+                                                            user={user}
+                                                            {...props}
+                                                          />
                                                         )}
                                                       />
 

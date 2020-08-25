@@ -10,39 +10,20 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
-import decode from 'jwt-decode'
-import config from '../config'
-import { PROFILE_IMAGE_ATTACHMENT } from './data'
-import tokenHandler from './token'
+import React from 'react'
 
-export interface TokenPayload {
-  expiry: number
-  userId: string
-  userProfileId: string
+const formatOptions = {
+  dateStyle: 'long',
+  timeStyle: 'short',
 }
 
-export const getCurrentUserId = () => {
-  const token = tokenHandler.get()
-
-  if (!token) return null
-
-  const { userId } = decode<TokenPayload>(token)
-
-  return userId.replace('|', '_')
-}
-
-export const avatarURL = (user?: UserProfile | string | null): string => {
-  if (!user) return ''
-
-  if (typeof user === 'string') {
-    return [
-      config.gateway.url,
-      config.buckets.projects,
-      user,
-      PROFILE_IMAGE_ATTACHMENT,
-    ].join('/')
-  }
-
-  return avatarURL(user._id)
+export const FormattedDateTime: React.FC<{ date: number }> = ({ date }) => {
+  return (
+    <span>
+      {new Intl.DateTimeFormat(
+        'default',
+        formatOptions as Intl.DateTimeFormatOptions
+      ).format(new Date(date * 1000))}
+    </span>
+  )
 }

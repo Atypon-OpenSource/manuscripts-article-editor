@@ -22,6 +22,7 @@ import {
   Keyword,
   Manuscript,
   Model,
+  Project,
   Section,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -39,6 +40,7 @@ import {
   AnyElement,
   ElementStyleInspector,
 } from '../inspector/ElementStyleInspector'
+import { HistoryPanelContainer } from '../inspector/History'
 import { InlineStyleInspector } from '../inspector/InlineStyleInspector'
 import { ManuscriptStyleInspector } from '../inspector/ManuscriptStyleInspector'
 import { NodeInspector } from '../inspector/NodeInspector'
@@ -69,6 +71,7 @@ export const Inspector: React.FC<{
   modelMap: Map<string, Model>
   openCitationStyleSelector: () => void
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
+  project: Project
   saveModel: SaveModel
   section?: Section
   selected: Selected | null
@@ -96,6 +99,7 @@ export const Inspector: React.FC<{
   modelMap,
   openCitationStyleSelector,
   saveManuscript,
+  project,
   saveModel,
   section,
   selected,
@@ -118,6 +122,7 @@ export const Inspector: React.FC<{
           <InspectorTab>Content</InspectorTab>
           <InspectorTab>Style</InspectorTab>
           <InspectorTab>Comments</InspectorTab>
+          <InspectorTab>History</InspectorTab>
         </InspectorTabList>
 
         <PaddedInspectorTabPanels>
@@ -238,6 +243,18 @@ export const Inspector: React.FC<{
               </>
             )}
           </InspectorTabPanel>
+
+          {config.shackles.enabled && (
+            <InspectorTabPanel>
+              {tabIndex === 3 && (
+                <HistoryPanelContainer
+                  project={project}
+                  manuscriptID={manuscript._id}
+                  getCurrentUser={getCurrentUser}
+                />
+              )}
+            </InspectorTabPanel>
+          )}
         </PaddedInspectorTabPanels>
       </InspectorTabs>
     </InspectorContainer>

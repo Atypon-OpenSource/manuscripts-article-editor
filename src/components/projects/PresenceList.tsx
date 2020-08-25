@@ -17,8 +17,7 @@ import { Avatar, Tip } from '@manuscripts/style-guide'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import config from '../../config'
-import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
+import { avatarURL } from '../../lib/user'
 
 const ACTIVITY_UPDATES = gql`
   subscription activityUpdates($containerId: String!) {
@@ -96,15 +95,6 @@ const profileName = (profile: UserProfile) => {
   const { given, family } = profile.bibliographicName
 
   return [given, family].join(' ').trim()
-}
-
-const avatarURL = (profile: UserProfile) => {
-  return [
-    config.gateway.url,
-    config.buckets.projects,
-    profile._id,
-    PROFILE_IMAGE_ATTACHMENT,
-  ].join('/')
 }
 
 const sortFalseFirst = (a: boolean, b: boolean) => (a === b ? 0 : a ? -1 : 1)

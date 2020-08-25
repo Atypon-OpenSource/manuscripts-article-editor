@@ -63,7 +63,6 @@ const unsupportedObjectTypes: ObjectTypes[] = [
   ObjectTypes.LibraryCollection,
   ObjectTypes.Keyword,
   ObjectTypes.ContributorRole,
-  ObjectTypes.InlineStyle,
 ]
 
 const getAttachment = (model: Model, zip: JSZip): JSZip.JSZipObject | null => {
@@ -148,13 +147,14 @@ export const removeUnsupportedData = async (zip: JSZip) => {
   zip.file(path, JSON.stringify(bundle, null, 2))
 }
 
-const createProjectDump = (
+export const createProjectDump = (
   modelMap: Map<string, Model>,
-  manuscriptID: string
+  manuscriptID?: string | null
 ): ProjectDump => ({
   version: '2.0',
   data: Array.from(modelMap.values())
     .filter((model: Model) => {
+      if (!manuscriptID) return true
       return (
         model.objectType !== ObjectTypes.Manuscript ||
         model._id === manuscriptID
@@ -221,7 +221,7 @@ const buildAttachments = async (
 export const buildProjectBundle = async (
   getAttachment: GetAttachment,
   modelMap: Map<string, Model>,
-  manuscriptID: string,
+  manuscriptID: string | null,
   format: ExportFormat
 ): Promise<JSZip> => {
   const attachments = await buildAttachments(getAttachment, modelMap)
@@ -386,7 +386,7 @@ const prepareBibliography = (modelMap: Map<string, Model>): Data[] => {
 export const exportProject = async (
   getAttachment: GetAttachment,
   modelMap: Map<string, Model>,
-  manuscriptID: string,
+  manuscriptID: string | null,
   format: ExportFormat,
   project?: Project
 ): Promise<Blob> => {
@@ -427,6 +427,10 @@ export const exportProject = async (
     }
 
     case 'do': {
+      if (!manuscriptID) {
+        throw new Error('No manuscript selected')
+      }
+
       const { DOI } = modelMap.get(manuscriptID) as Manuscript
 
       if (!DOI) {
@@ -448,6 +452,10 @@ export const exportProject = async (
     }
 
     case 'submission': {
+      if (!manuscriptID) {
+        throw new Error('No manuscript selected')
+      }
+
       if (!config.submission.group_doi || !config.submission.series_code) {
         window.alert(
           'Submission is not correctly configured in this environment'
@@ -506,3 +514,4 @@ export const exportProject = async (
     }
   }
 }
+/* tslint:enable:cyclomatic-complexity */

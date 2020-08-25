@@ -461,6 +461,24 @@ export class Collection<T extends Model> implements EventTarget {
     return attachment
   }
 
+  public getAttachmentAsString = async (
+    id: string,
+    attachmentID: string
+  ): Promise<string | undefined> => {
+    const attachment = await this.getAttachment(id, attachmentID)
+
+    return attachment ? attachment.getStringData() : undefined
+  }
+
+  public getAttachmentAsBlob = async (
+    id: string,
+    attachmentID: string
+  ): Promise<Blob | undefined> => {
+    const attachment = await this.getAttachment(id, attachmentID)
+
+    return attachment ? attachment.getData() : undefined
+  }
+
   public removeAttachment = async (id: string, attachmentID: string) => {
     try {
       const attachment = await this.getAttachment(id, attachmentID)

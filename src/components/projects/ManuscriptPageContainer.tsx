@@ -495,7 +495,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   permissions={permissions}
                   handleTitleStateChange={this.preparedTitleEditorStateChange}
                   tokenActions={this.props.tokenActions}
-                  getAttachment={this.getAttachmentAsBlob}
+                  getAttachment={this.collection.getAttachmentAsBlob}
                   putAttachment={this.collection.putAttachment}
                 />
 
@@ -588,6 +588,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               modelMap={modelMap}
               openCitationStyleSelector={this.openCitationStyleSelector}
               saveManuscript={this.saveManuscript}
+              project={project}
               saveModel={this.saveModel}
               section={section}
               selected={selected}
@@ -1014,7 +1015,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     addModal('exporter', ({ handleClose }) => (
       <Exporter
         format={format}
-        getAttachment={this.getAttachmentAsBlob}
+        getAttachment={this.collection.getAttachmentAsBlob}
         handleComplete={handleClose}
         modelMap={this.state.modelMap!}
         manuscriptID={match.params.manuscriptID}
@@ -1102,24 +1103,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private getAttachmentAsBlob = async (
-    id: string,
-    attachmentID: string
-  ): Promise<Blob | undefined> => {
-    const attachment = await this.collection.getAttachment(id, attachmentID)
-
-    return attachment ? attachment.getData() : undefined
-  }
-
-  private getAttachmentAsString = async (
-    id: string,
-    attachmentID: string
-  ): Promise<string | undefined> => {
-    const attachment = await this.collection.getAttachment(id, attachmentID)
-
-    return attachment ? attachment.getStringData() : undefined
-  }
-
   private createCitationProcessor = async (
     manuscript: Manuscript,
     modelMap: Map<string, Model>
@@ -1128,7 +1111,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const bundle = modelMap.get(bundleID) as Bundle | undefined
 
     const citationStyleData = bundle
-      ? await this.getAttachmentAsString(bundle._id, 'csl')
+      ? await this.collection.getAttachmentAsString(bundle._id, 'csl')
       : undefined
 
     // TODO: move defaults into method?
