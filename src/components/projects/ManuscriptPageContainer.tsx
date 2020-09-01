@@ -49,6 +49,7 @@ import {
   encode,
   generateID,
   getAttachment,
+  getModelsByType,
   hasObjectType,
   isFigure,
   isManuscriptModel,
@@ -76,6 +77,7 @@ import {
   ObjectTypes,
   Project,
   Section,
+  Submission,
   Tag,
   UserProfile,
   UserProject,
@@ -105,6 +107,7 @@ import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import deviceId from '../../lib/device-id'
+import { loadTargetJournals } from '../../lib/literatum'
 import {
   isManuscript,
   isSection,
@@ -176,6 +179,7 @@ import {
   ManuscriptPageToolbar,
 } from './ManuscriptPageToolbar'
 import ManuscriptSidebar from './ManuscriptSidebar'
+import { PreflightDialog } from './PreflightDialog'
 import { Presence } from './Presence'
 import { PresenceList } from './PresenceList'
 import { ReloadDialog } from './ReloadDialog'
@@ -210,6 +214,7 @@ interface State {
     editor: string
     view: EditorViewType
   }
+  submission?: Submission
 }
 
 export interface ManuscriptPageContainerProps {
@@ -394,6 +399,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       selectedSection,
       commentTarget,
       conflicts,
+      submission,
     } = this.state
 
     const {
@@ -566,7 +572,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           direction={'row'}
           side={'start'}
           hideWhen={'max-width: 900px'}
-          forceOpen={commentTarget !== undefined}
+          forceOpen={commentTarget !== undefined || submission !== undefined}
           resizerButton={ResizingInspectorButton}
         >
           {view && comments && (
@@ -596,6 +602,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               selected={selected}
               selectedSection={selectedSection}
               setCommentTarget={this.setCommentTarget}
+              submission={submission}
               view={view}
               tags={this.props.tags}
             />
@@ -711,7 +718,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       const decoder = new Decoder(modelMap)
 
       try {
-        const doc = decoder.createArticleNode() as ActualManuscriptNode
+        const doc = decoder.createArticleNode(
+          manuscriptID
+        ) as ActualManuscriptNode
         doc.check()
 
         // encode again here to get doc model ids for comparison
@@ -1015,15 +1024,30 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   ) => {
     const { addModal, match, project } = this.props
 
+    const { submission } = this.state
+
     addModal('exporter', ({ handleClose }) => (
       <Exporter
         format={format}
         getAttachment={this.collection.getAttachmentAsBlob}
-        handleComplete={handleClose}
+        handleComplete={async (success: boolean) => {
+          const { submission } = this.state
+
+          if (submission) {
+            if (success) {
+              await this.saveModel<Submission>(submission)
+            }
+
+            this.setState({ submission: undefined })
+          }
+
+          handleClose()
+        }}
         modelMap={this.state.modelMap!}
         manuscriptID={match.params.manuscriptID}
         project={project}
         closeOnSuccess={closeOnSuccess}
+        submission={submission}
       />
     ))
   }
@@ -1837,6 +1861,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       openRenameProject: this.openRenameProject,
       getRecentProjects: this.getRecentProjects,
       publishTemplate: this.publishTemplate,
+      submitToReview: this.showPreflightDialog,
     })
 
     const menus: MenuItem[] = [projectMenu]
@@ -1975,6 +2000,106 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         status={'Template published successfully'}
         handleDone={handleClose}
       />
+    ))
+  }
+
+  private findManuscriptTemplate = (): ManuscriptTemplate | undefined => {
+    const { modelMap } = this.state
+
+    const [template] = getModelsByType<ManuscriptTemplate>(
+      modelMap!,
+      ObjectTypes.ManuscriptTemplate
+    )
+
+    return template
+  }
+
+  private buildTemplateISSNs = () => {
+    const issns: string[] = []
+
+    const template = this.findManuscriptTemplate()
+
+    if (template) {
+      if (template.eISSNs) {
+        for (const issn of template.eISSNs) {
+          issns.push(issn)
+        }
+      }
+
+      if (template.ISSNs) {
+        for (const issn of template.ISSNs) {
+          issns.push(issn)
+        }
+      }
+    }
+
+    return issns
+  }
+
+  private buildBundleISSNs = (manuscript: Manuscript) => {
+    const issns: string[] = []
+
+    const bundle = manuscript.bundle
+      ? this.getModel<Bundle>(manuscript.bundle)
+      : undefined
+
+    if (bundle && bundle.csl) {
+      if (bundle.csl.eISSNs) {
+        for (const issn of bundle.csl.eISSNs) {
+          issns.push(issn)
+        }
+      }
+
+      if (bundle.csl.ISSNs) {
+        for (const issn of bundle.csl.ISSNs) {
+          issns.push(issn)
+        }
+      }
+    }
+
+    return issns
+  }
+
+  private submitToReview = async (submission: Submission) => {
+    this.setState({ submission }, () => {
+      this.openExporter('submission-for-review', false)
+    })
+  }
+
+  private showPreflightDialog = async () => {
+    const { addModal, manuscript } = this.props
+    const { doc, modelMap } = this.state
+
+    if (!doc || !modelMap) {
+      throw new Error()
+    }
+
+    const templateISSNS = this.buildTemplateISSNs()
+
+    const issns = templateISSNS.length
+      ? templateISSNS
+      : this.buildBundleISSNs(manuscript)
+
+    const targetJournals = await loadTargetJournals().then(targetJournals =>
+      targetJournals.length
+        ? targetJournals
+        : JSON.parse(window.localStorage.getItem('targetJournals') || '[]')
+    )
+
+    addModal('template-selector', ({ handleClose }) => (
+      <RequirementsProvider modelMap={modelMap}>
+        <PreflightDialog
+          doc={doc}
+          handleClose={handleClose}
+          handleConfirm={(submission: Submission) => {
+            handleClose()
+            return this.submitToReview(submission)
+          }}
+          issns={issns}
+          targetJournals={targetJournals}
+          manuscript={manuscript}
+        />
+      </RequirementsProvider>
     ))
   }
 }

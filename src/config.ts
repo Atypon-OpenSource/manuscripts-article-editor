@@ -33,6 +33,9 @@ interface Config {
   discourse: {
     host: string
   }
+  eeo: {
+    deposit_journals_url: string
+  }
   extyles: {
     arc: {
       secret?: string
@@ -90,6 +93,7 @@ interface Config {
   export: {
     literatum: boolean
     sts: boolean
+    to_review: boolean
   }
   submission: {
     series_code?: string
@@ -184,6 +188,10 @@ const config = {
   export: {
     literatum: isTrue(process.env.EXPORT_LITERATUM),
     sts: isTrue(process.env.EXPORT_STS),
+    to_review: isTrue(process.env.EXPORT_TO_REVIEW),
+  },
+  eeo: {
+    deposit_journals_url: normalizeURL(process.env.EEO_DEPOSIT_JOURNALS_URL),
   },
   submission: {
     series_code: process.env.SUBMISSION_SERIES_CODE,

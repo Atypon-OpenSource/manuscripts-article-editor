@@ -35,6 +35,8 @@ client.interceptors.request.use(requestConfig => {
 const validateResponse = (response: AxiosResponse) => {
   switch (response.status) {
     case 200:
+    case 202:
+    case 204:
       break
 
     // TODO: handle authentication failure (401), timeout, too large, etc
@@ -64,13 +66,16 @@ export const convertBibliography = async (
 }
 
 // TODO: remove this once the endpoints have been merged
-const chooseURL = (format: string) => {
+const chooseURL = (format: ExportManuscriptFormat) => {
   switch (format) {
     case 'do':
     case 'jats':
     case 'pdf-prince':
     case 'submission':
       return '/v1/compile/document/jats'
+
+    case 'submission-for-review':
+      return '/v1/compile/document/deposit'
 
     default:
       return '/v1/compile/document'
@@ -97,7 +102,7 @@ export const convert = async (
     downloadFile(file)
   }
 
-  if (format !== 'do') {
+  if (!headers['Pressroom-Target-Jats-Output-Format']) {
     headers['Pressroom-Target-File-Extension'] = format
   }
 

@@ -37,6 +37,7 @@ import {
   Model,
   ObjectTypes,
   Project,
+  Submission,
 } from '@manuscripts/manuscripts-json-schema'
 import { Data } from 'csl-json'
 import JSZip from 'jszip'
@@ -287,6 +288,7 @@ export type ExportManuscriptFormat =
   | 'jats'
   | 'sts'
   | 'submission'
+  | 'submission-for-review'
   | 'manuproj'
 
 export type ExportBibliographyFormat = 'bib' | 'ris' | 'mods'
@@ -314,11 +316,15 @@ export const downloadExtension = (format: ExportFormat): string => {
   }
 }
 
-const convertToHTML = async (zip: JSZip, modelMap: Map<string, Model>) => {
+const convertToHTML = async (
+  zip: JSZip,
+  modelMap: Map<string, Model>,
+  manuscriptID: string
+) => {
   zip.remove('index.manuscript-json')
 
   const decoder = new Decoder(modelMap)
-  const doc = decoder.createArticleNode()
+  const doc = decoder.createArticleNode(manuscriptID)
 
   const transformer = new HTMLTransformer()
 
@@ -328,11 +334,15 @@ const convertToHTML = async (zip: JSZip, modelMap: Map<string, Model>) => {
   return zip.generateAsync({ type: 'blob' })
 }
 
-const convertToJATS = async (zip: JSZip, modelMap: Map<string, Model>) => {
+const convertToJATS = async (
+  zip: JSZip,
+  modelMap: Map<string, Model>,
+  manuscriptID: string
+) => {
   zip.remove('index.manuscript-json')
 
   const decoder = new Decoder(modelMap)
-  const doc = decoder.createArticleNode()
+  const doc = decoder.createArticleNode(manuscriptID)
 
   const transformer = new JATSExporter()
 
@@ -342,11 +352,15 @@ const convertToJATS = async (zip: JSZip, modelMap: Map<string, Model>) => {
   return zip.generateAsync({ type: 'blob' })
 }
 
-const convertToSTS = async (zip: JSZip, modelMap: Map<string, Model>) => {
+const convertToSTS = async (
+  zip: JSZip,
+  modelMap: Map<string, Model>,
+  manuscriptID: string
+) => {
   zip.remove('index.manuscript-json')
 
   const decoder = new Decoder(modelMap)
-  const doc = decoder.createArticleNode()
+  const doc = decoder.createArticleNode(manuscriptID)
 
   const transformer = new STSExporter()
 
@@ -388,7 +402,8 @@ export const exportProject = async (
   modelMap: Map<string, Model>,
   manuscriptID: string | null,
   format: ExportFormat,
-  project?: Project
+  project?: Project,
+  submission?: Submission
 ): Promise<Blob> => {
   // if (project) {
   //   modelMap.set(project._id, project)
@@ -403,13 +418,25 @@ export const exportProject = async (
 
   switch (format) {
     case 'jats':
-      return convertToJATS(zip, modelMap)
+      if (!manuscriptID) {
+        throw new Error('No manuscript selected')
+      }
+
+      return convertToJATS(zip, modelMap, manuscriptID)
 
     case 'sts':
-      return convertToSTS(zip, modelMap)
+      if (!manuscriptID) {
+        throw new Error('No manuscript selected')
+      }
+
+      return convertToSTS(zip, modelMap, manuscriptID)
 
     case 'html':
-      return convertToHTML(zip, modelMap)
+      if (!manuscriptID) {
+        throw new Error('No manuscript selected')
+      }
+
+      return convertToHTML(zip, modelMap, manuscriptID)
 
     case 'manuproj':
       if (project) {
@@ -482,6 +509,40 @@ export const exportProject = async (
         'Pressroom-Jats-Submission-Doi': DOI,
         'Pressroom-Jats-Group-Doi': config.submission.group_doi,
         'Pressroom-Jats-Series-Code': config.submission.series_code,
+      })
+    }
+
+    case 'submission-for-review': {
+      if (!manuscriptID) {
+        throw new Error('No manuscript selected')
+      }
+
+      const { DOI } = modelMap.get(manuscriptID) as Manuscript
+
+      if (!DOI) {
+        throw new Error('No DOI was provided')
+      }
+
+      if (!submission) {
+        throw new Error('No submission was provided')
+      }
+
+      if (!submission.journalTitle) {
+        throw new Error('No journal title was provided')
+      }
+
+      const file = await zip.generateAsync({ type: 'blob' })
+
+      const form = new FormData()
+      form.append('file', file, 'export.manuproj')
+
+      const notificationURL = `${config.api.url}/submissions/status/${submission._id}`
+
+      return convert(form, format, {
+        'Pressroom-JATS-Submission-DOI': DOI,
+        'Pressroom-Deposit-Notification-Callback-URL': notificationURL,
+        'Pressroom-Deposit-Submission-Identifier': manuscriptID,
+        'Pressroom-Deposit-Submission-Journal-Name': submission.journalTitle,
       })
     }
 

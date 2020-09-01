@@ -24,6 +24,7 @@ import {
   Model,
   Project,
   Section,
+  Submission,
   Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -50,6 +51,7 @@ import { NodeInspector } from '../inspector/NodeInspector'
 import { SectionInspector } from '../inspector/SectionInspector'
 import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
 import { StatisticsInspector } from '../inspector/StatisticsInspector'
+import { SubmissionsInspector } from '../inspector/SubmissionsInspector'
 import { CommentList } from './CommentList'
 import { HeaderImageInspector } from './HeaderImageInspector'
 import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
@@ -80,6 +82,7 @@ export const Inspector: React.FC<{
   selected: Selected | null
   selectedSection?: Selected
   setCommentTarget: () => void
+  submission?: Submission
   view: ManuscriptEditorView
   tags: Tag[]
   // tslint:disable-next-line:cyclomatic-complexity
@@ -109,6 +112,7 @@ export const Inspector: React.FC<{
   selected,
   selectedSection,
   setCommentTarget,
+  submission,
   view,
   tags,
 }) => {
@@ -119,8 +123,10 @@ export const Inspector: React.FC<{
   useEffect(() => {
     if (commentTarget) {
       setTabIndex(2)
+    } else if (submission) {
+      setTabIndex(3)
     }
-  }, [commentTarget])
+  }, [commentTarget, submission])
 
   return (
     <InspectorContainer>
@@ -272,6 +278,16 @@ export const Inspector: React.FC<{
                   manuscriptID={manuscript._id}
                   getCurrentUser={getCurrentUser}
                 />
+              )}
+            </InspectorTabPanel>
+          )}
+
+          {config.export.to_review && (
+            <InspectorTabPanel>
+              {tabIndex === 3 && (
+                <>
+                  <SubmissionsInspector modelMap={modelMap} />
+                </>
               )}
             </InspectorTabPanel>
           )}

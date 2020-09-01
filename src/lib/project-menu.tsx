@@ -34,6 +34,7 @@ interface Props {
   openImporter: () => void
   openRenameProject: (project: Project) => void
   publishTemplate: () => Promise<void>
+  submitToReview: () => Promise<void>
 }
 
 const truncateText = (text: string, maxLength: number) =>
@@ -236,6 +237,15 @@ export const buildProjectMenu = (props: Props): MenuItem => {
 
         return result
       },
+    },
+    {
+      role: 'separator',
+    },
+    {
+      id: 'submit-to-review',
+      label: () => 'Submit to Review…',
+      run: config.export.to_review ? props.submitToReview : () => null,
+      enable: () => config.export.to_review && window.navigator.onLine,
     },
     {
       role: 'separator',

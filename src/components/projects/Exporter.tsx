@@ -14,6 +14,7 @@ import {
   Manuscript,
   Model,
   Project,
+  Submission,
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { saveAs } from 'file-saver'
@@ -36,11 +37,12 @@ export type GetAttachment = (
 interface Props {
   format: ExportFormat
   getAttachment: GetAttachment
-  handleComplete: () => void
+  handleComplete: (success: boolean) => void
   manuscriptID: string
   modelMap: Map<string, Model>
   project: Project
   closeOnSuccess?: boolean
+  submission?: Submission
 }
 
 interface State {
@@ -65,6 +67,7 @@ export class Exporter extends React.Component<Props, State> {
       manuscriptID,
       format,
       project,
+      submission,
     } = this.props
 
     try {
@@ -72,6 +75,7 @@ export class Exporter extends React.Component<Props, State> {
         canCancel: true,
         cancelled: false,
         status: 'Exporting manuscript…',
+        error: null,
       })
 
       const blob = await exportProject(
@@ -79,27 +83,36 @@ export class Exporter extends React.Component<Props, State> {
         modelMap,
         manuscriptID,
         format,
-        project
+        project,
+        submission
       )
 
       if (this.state.cancelled) {
         return
       }
 
-      const manuscript = modelMap.get(manuscriptID) as Manuscript
+      if (format === 'submission-for-review') {
+        const data = JSON.parse(await blob.text())
 
-      const filename =
-        generateDownloadFilename(manuscript.title || 'Untitled') +
-        downloadExtension(format)
+        if (data.queued !== 'true') {
+          throw new Error('Unexpected response')
+        }
+      } else {
+        const manuscript = modelMap.get(manuscriptID) as Manuscript
 
-      saveAs(blob, filename)
+        const filename =
+          generateDownloadFilename(manuscript.title || 'Untitled') +
+          downloadExtension(format)
+
+        saveAs(blob, filename)
+      }
 
       if (this.props.closeOnSuccess) {
         this.setState({
           status: null,
         })
 
-        this.props.handleComplete()
+        this.props.handleComplete(true)
       } else {
         this.setState({
           status: 'complete',
@@ -149,7 +162,7 @@ export class Exporter extends React.Component<Props, State> {
           <SuccessModal
             status={'Export to Literatum completed successfully'}
             handleDone={() => {
-              this.props.handleComplete()
+              this.props.handleComplete(true)
             }}
           />
         )
@@ -160,7 +173,18 @@ export class Exporter extends React.Component<Props, State> {
           <SuccessModal
             status={'Submission to Literatum completed successfully'}
             handleDone={() => {
-              this.props.handleComplete()
+              this.props.handleComplete(true)
+            }}
+          />
+        )
+      }
+
+      if (format === 'submission-for-review') {
+        return (
+          <SuccessModal
+            status={'Submission started successfully'}
+            handleDone={() => {
+              this.props.handleComplete(true)
             }}
           />
         )
@@ -181,7 +205,7 @@ export class Exporter extends React.Component<Props, State> {
       {
         cancelled: true,
       },
-      this.props.handleComplete
+      () => this.props.handleComplete(false)
     )
   }
 }

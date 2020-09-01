@@ -48,6 +48,11 @@ module.exports = ({ config, mode }) => {
   })
 
   config.module.rules.push({
+    test: /\.mjs$/,
+    type: 'javascript/auto',
+  })
+
+  config.module.rules.push({
     test: /\.xml$/,
     use: ['raw-loader'],
   })
@@ -63,8 +68,7 @@ module.exports = ({ config, mode }) => {
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
   )
 
-
-    config.plugins.push(new WorkerPlugin())
+  config.plugins.push(new WorkerPlugin())
 
   config.resolve.extensions.push('.ts', '.tsx')
 

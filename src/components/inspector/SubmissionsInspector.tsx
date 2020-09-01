@@ -10,18 +10,37 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import projectDump from '@manuscripts/examples/data/project-dump-2.json'
-import { Decoder } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { getModelsByType } from '@manuscripts/manuscript-transform'
+import {
+  Model,
+  ObjectTypes,
+  Submission,
+} from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
+import { InspectorSection } from '../InspectorSection'
+import { SubmissionItem } from './SubmissionItem'
 
-export const modelMap = new Map()
+const newestFirst = (a: Submission, b: Submission) => a.createdAt - b.createdAt
 
-projectDump.data.forEach((model: Model) => {
-  modelMap.set(model._id, model)
-})
+export const SubmissionsInspector: React.FC<{
+  modelMap: Map<string, Model>
+}> = ({ modelMap }) => {
+  const submissions = getModelsByType<Submission>(
+    modelMap,
+    ObjectTypes.Submission
+  )
 
-const decoder = new Decoder(modelMap)
+  if (!submissions.length) {
+    return null
+  }
 
-export const doc = decoder.createArticleNode(
-  'MPManuscript:561C1FB2-3A94-4460-AB75-426F80BC7071'
-)
+  submissions.sort(newestFirst)
+
+  return (
+    <InspectorSection title={'Submissions'}>
+      {submissions.map(submission => (
+        <SubmissionItem submission={submission} key={submission._id} />
+      ))}
+    </InspectorSection>
+  )
+}

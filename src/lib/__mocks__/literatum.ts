@@ -7,21 +7,16 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import projectDump from '@manuscripts/examples/data/project-dump-2.json'
-import { Decoder } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { TargetJournal } from '../../components/projects/PreflightDialog'
 
-export const modelMap = new Map()
-
-projectDump.data.forEach((model: Model) => {
-  modelMap.set(model._id, model)
-})
-
-const decoder = new Decoder(modelMap)
-
-export const doc = decoder.createArticleNode(
-  'MPManuscript:561C1FB2-3A94-4460-AB75-426F80BC7071'
-)
+export const loadTargetJournals = async (): Promise<TargetJournal[]> => [
+  {
+    journalName: 'Example Journal',
+    issn: '1091-6490',
+    depositoryCode: 'EJP',
+    journalAbbreviation: 'ej',
+  },
+]
