@@ -135,7 +135,8 @@ export const Inspector: React.FC<{
           <InspectorTab>Content</InspectorTab>
           <InspectorTab>Style</InspectorTab>
           <InspectorTab>Comments</InspectorTab>
-          <InspectorTab>History</InspectorTab>
+          {config.shackles.enabled && <InspectorTab>History</InspectorTab>}
+          {config.export.to_review && <InspectorTab>Submissions</InspectorTab>}
         </InspectorTabList>
 
         <PaddedInspectorTabPanels>
@@ -284,7 +285,7 @@ export const Inspector: React.FC<{
 
           {config.export.to_review && (
             <InspectorTabPanel>
-              {tabIndex === 3 && (
+              {tabIndex === 4 && (
                 <>
                   <SubmissionsInspector modelMap={modelMap} />
                 </>
