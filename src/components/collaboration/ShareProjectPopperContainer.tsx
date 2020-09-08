@@ -168,10 +168,16 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
     const { email, name, role } = values
 
     await projectInvite(project._id, [{ email, name }], role)
+    trackEvent({
+      category: 'Invitations',
+      action: 'Send',
+      label: `projectID=${project._id}`,
+    })
   }
 
   private copyURI = async () => {
     const { isCopied } = this.state
+    const { _id } = this.props.project
 
     if (!isCopied) {
       const { selectedShareURIRole, shareURI } = this.state
@@ -181,7 +187,7 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
           trackEvent({
             category: 'Invitations',
             action: 'Share',
-            label: `role=Writer`,
+            label: `role=Writer&projectID=${_id}`,
           })
           break
 
@@ -190,7 +196,7 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
           trackEvent({
             category: 'Invitations',
             action: 'Share',
-            label: `role=Viewer`,
+            label: `role=Viewer&projectID=${_id}`,
           })
           break
       }

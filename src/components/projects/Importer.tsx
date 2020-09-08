@@ -18,6 +18,7 @@ import {
   FileExtensionError,
   FileImportError,
 } from '../../lib/errors'
+import { trackEvent } from '../../lib/tracking'
 import {
   acceptedFileExtensions,
   importFile,
@@ -96,6 +97,12 @@ export class Importer extends React.Component<Props, State> {
 
       this.setState({
         status: undefined,
+      })
+
+      trackEvent({
+        category: 'Manuscripts',
+        action: 'Import',
+        label: `file=${data[0].name}`,
       })
 
       this.props.handleComplete()

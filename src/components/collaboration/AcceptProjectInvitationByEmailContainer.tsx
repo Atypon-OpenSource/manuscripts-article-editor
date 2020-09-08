@@ -14,6 +14,7 @@ import { parse } from 'qs'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 import { acceptProjectInvitation } from '../../lib/api'
+import { trackEvent } from '../../lib/tracking'
 import { LoadingPage } from '../Loading'
 import { acceptInvitationErrorMessage } from '../Messages'
 
@@ -36,6 +37,11 @@ class AcceptInvitationByEmailContainer extends React.Component<
     acceptProjectInvitation(token).then(
       ({ data }) => {
         this.setState({ data })
+        trackEvent({
+          category: 'Invitations',
+          action: 'Accept',
+          label: `projectID=${data.containerID}`,
+        })
       },
       error => {
         const errorMessage = error.response

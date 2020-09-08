@@ -30,6 +30,7 @@ import {
   findLeastLimitingInvitation,
   groupInvitations,
 } from '../../lib/invitation'
+import { trackEvent } from '../../lib/tracking'
 import { getCurrentUserId } from '../../lib/user'
 import { acceptInvitationErrorMessage } from '../Messages'
 import { InvitationsList } from '../projects/InvitationsList'
@@ -288,7 +289,7 @@ class ProjectsButton extends React.Component<Props, State> {
 
   private acceptInvitation = async (invitation: ContainerInvitation) => {
     await acceptProjectInvitation(invitation._id).then(
-      () => {
+      ({ data }) => {
         const acceptedInvitations = this.state.acceptedInvitations.concat(
           invitation.containerID
         )
@@ -296,6 +297,12 @@ class ProjectsButton extends React.Component<Props, State> {
         this.setState({ acceptedInvitations })
 
         this.removeInvitationData(invitation._id)
+
+        trackEvent({
+          category: 'Invitations',
+          action: 'Accept',
+          label: `projectID=${data.containerID}`,
+        })
       },
       error => {
         const errorMessage = error.response

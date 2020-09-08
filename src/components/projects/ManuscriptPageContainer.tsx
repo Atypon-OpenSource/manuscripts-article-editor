@@ -36,9 +36,7 @@ import {
   ActualManuscriptNode,
   Build,
   buildBibliographyItem,
-  buildContributor,
   buildKeyword,
-  buildManuscript,
   buildModelMap,
   ContainedModel,
   ContainedProps,
@@ -919,34 +917,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         view.dispatch(tr)
       }
     })
-  }
-
-  private addManuscript = async () => {
-    const { user } = this.props
-    const { projectID } = this.props.match.params
-
-    const manuscript = buildManuscript()
-    const manuscriptID = manuscript._id
-
-    const contributor = buildContributor(
-      user.bibliographicName,
-      'author',
-      0,
-      user.userID
-    )
-
-    await this.collection.create(contributor, {
-      containerID: projectID,
-      manuscriptID,
-    })
-
-    await this.collection.create(manuscript, {
-      containerID: projectID,
-    })
-
-    this.props.history.push(
-      `/projects/${projectID}/manuscripts/${manuscriptID}`
-    )
   }
 
   private openTemplateSelector = (newProject?: boolean) => {
@@ -1851,7 +1821,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const projectMenu = buildProjectMenu({
       manuscript,
       project,
-      addManuscript: this.addManuscript,
       openTemplateSelector: this.openTemplateSelector,
       deleteManuscript: this.deleteManuscript,
       deleteModel: this.deleteModel,

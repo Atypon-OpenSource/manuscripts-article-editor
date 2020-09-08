@@ -23,6 +23,7 @@ import { TokenActions } from '../../data/TokenData'
 import { addProjectUser, projectInvite } from '../../lib/api'
 import { buildCollaborators } from '../../lib/collaborators'
 import { isOwner } from '../../lib/roles'
+import { trackEvent } from '../../lib/tracking'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import { ResizingOutlinerButton } from '../ResizerButtons'
@@ -258,6 +259,13 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
     await projectInvite(projectID, [{ email, name }], role)
     this.setState({ invitationSent: true })
+
+    trackEvent({
+      category: 'Invitations',
+      action: 'Send',
+      label: `projectID=${projectID}`,
+    })
+
     this.props.history.push(`/projects/${projectID}/collaborators`, {
       infoMessage: 'Invitation was sent.',
     })

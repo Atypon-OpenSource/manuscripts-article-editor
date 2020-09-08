@@ -18,6 +18,7 @@ import {
   acceptProjectInvitationToken,
 } from '../../lib/api'
 import invitationTokenHandler from '../../lib/invitation-token'
+import { trackEvent } from '../../lib/tracking'
 import { LoadingPage } from '../Loading'
 import {
   acceptInvitationErrorMessage,
@@ -55,6 +56,11 @@ class AcceptProjectInvitation extends React.Component<Props, State> {
       await acceptProjectInvitation(invitationToken).then(
         ({ data }) => {
           this.setState({ data })
+          trackEvent({
+            category: 'Invitations',
+            action: 'Accept',
+            label: `projectID=${data.containerID}`,
+          })
         },
         error => {
           const errorMessage = error.response

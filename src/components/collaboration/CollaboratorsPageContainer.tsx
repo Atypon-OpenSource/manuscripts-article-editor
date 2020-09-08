@@ -22,6 +22,7 @@ import { TokenActions } from '../../data/TokenData'
 import { projectInvite, projectUninvite, updateUserRole } from '../../lib/api'
 import { buildCollaborators } from '../../lib/collaborators'
 import { ProjectRole } from '../../lib/roles'
+import { trackEvent } from '../../lib/tracking'
 import { Main } from '../Page'
 import { CollaboratorDetailsPage } from './CollaboratorsPage'
 import CollaboratorsSidebar from './CollaboratorsSidebar'
@@ -143,6 +144,12 @@ class CollaboratorsPageContainer extends React.Component<CombinedProps, State> {
       role,
       message
     )
+
+    trackEvent({
+      category: 'Invitations',
+      action: 'Send',
+      label: `projectID=${projectID}`,
+    })
   }
 
   private projectUninvite = async (invitationID: string) => {

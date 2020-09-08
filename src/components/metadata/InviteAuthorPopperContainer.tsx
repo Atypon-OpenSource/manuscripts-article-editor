@@ -17,6 +17,7 @@ import { PopperChildrenProps } from 'react-popper'
 import styled from 'styled-components'
 import { TokenActions } from '../../data/TokenData'
 import { projectInvite } from '../../lib/api/collaboration'
+import { trackEvent } from '../../lib/tracking'
 import {
   InvitationForm,
   InvitationValues,
@@ -84,6 +85,12 @@ class InviteAuthorPopperContainer extends React.Component<Props> {
 
     await projectInvite(project._id, [{ email, name }], role)
     this.props.updateAuthor(this.props.author, email)
+
+    trackEvent({
+      category: 'Invitations',
+      action: 'Send',
+      label: `projectID=${project._id}`,
+    })
   }
 }
 

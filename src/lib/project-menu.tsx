@@ -26,7 +26,6 @@ interface Props {
   manuscript: Manuscript
   getRecentProjects: () => RecentProject[]
   openTemplateSelector: (newProject?: boolean) => void
-  addManuscript: () => void
   deleteManuscript: (id: string) => Promise<void>
   deleteModel: (id: string) => Promise<string>
   history: History
