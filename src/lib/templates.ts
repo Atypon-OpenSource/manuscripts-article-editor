@@ -244,6 +244,11 @@ export const createManuscriptSectionsFromTemplate = (
       sectionDescription.sectionCategory
     ) as SectionCategory
 
+    // exclude "Cover Letter" sections, as they're separate manuscripts now
+    if (sectionCategory._id === COVER_LETTER_SECTION_CATEGORY) {
+      continue
+    }
+
     const { section, dependencies } = buildSectionFromDescription(
       templatesData,
       sectionDescription,
