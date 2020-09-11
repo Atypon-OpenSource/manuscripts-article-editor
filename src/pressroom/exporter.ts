@@ -140,7 +140,9 @@ export const removeUnsupportedData = async (zip: JSZip) => {
   })
 
   bundle.data.forEach((model: ManuscriptModel & { listingID?: string }) => {
+    // @ts-ignore
     delete model.containerID
+    // @ts-ignore
     delete model.manuscriptID
     delete model.listingID // figures and tables
   })
