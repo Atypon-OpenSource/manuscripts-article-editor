@@ -28,6 +28,7 @@ import { TemplateSelectorList } from '../src/components/templates/TemplateSelect
 import { TemplateSelectorModal } from '../src/components/templates/TemplateSelectorModal'
 import { TemplateTopicSelector } from '../src/components/templates/TemplateTopicSelector'
 import { TemplateTopicsList } from '../src/components/templates/TemplateTopicsList'
+import { TemplateData } from '../src/types/templates'
 import { templatesData } from './data/templates-data'
 
 const researchFields = (keywords as ResearchField[]).filter(
@@ -35,12 +36,22 @@ const researchFields = (keywords as ResearchField[]).filter(
 )
 
 const listRef: React.RefObject<VariableSizeList> = React.createRef()
-const [templateData] = templatesData
+
+const templatesDataWithType: TemplateData[] = templatesData.map(
+  templateData => {
+    return {
+      ...templateData,
+      titleAndType: [templateData.title, templateData.articleType].join(' '),
+    }
+  }
+)
+
+const [templateData] = templatesDataWithType
 
 storiesOf('Template Selector', module)
   .add('Modal', () => (
     <TemplateSelectorModal
-      items={templatesData}
+      items={templatesDataWithType}
       categories={manuscriptCategories}
       researchFields={researchFields}
       handleComplete={action('complete')}
@@ -90,7 +101,7 @@ storiesOf('Template Selector', module)
   .add('Results list', () => (
     <div style={{ height: 400, width: 600 }}>
       <TemplateSelectorList
-        filteredItems={templatesData}
+        filteredItems={templatesDataWithType}
         listRef={listRef}
         resetList={action('reset list')}
         selectItem={action('return selection')}

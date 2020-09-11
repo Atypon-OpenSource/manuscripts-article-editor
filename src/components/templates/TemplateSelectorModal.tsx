@@ -299,7 +299,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
 
     if (searchText) {
       const results = fuzzysort.go<TemplateData>(searchText, filteredItems, {
-        keys: ['title'],
+        keys: ['titleAndType'],
         limit: 100,
         allowTypo: false,
         threshold: -1000,

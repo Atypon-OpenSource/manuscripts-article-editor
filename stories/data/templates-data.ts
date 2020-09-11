@@ -12,7 +12,7 @@
 
 import { TemplateData } from '../../src/types/templates'
 
-export const templatesData: TemplateData[] = [
+export const templatesData: Array<Omit<TemplateData, 'titleAndType'>> = [
   {
     template: {
       _id:

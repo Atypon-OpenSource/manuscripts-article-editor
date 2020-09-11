@@ -1872,10 +1872,10 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@^1.32.0":
-  version "1.32.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.32.0.tgz#e47dca8d9ee215fb8cfdfec25b785a03203a9fdf"
-  integrity sha512-1Ad1prk3VWLaYPHJwCcSaGw5c9ojtG91CQ307w0R50GC8t/grfDq7b3NuHLxETXpoE8NeWGvUyFlV5yWEcL6lQ==
+"@manuscripts/manuscripts-json-schema@^1.32.0", "@manuscripts/manuscripts-json-schema@^1.32.1":
+  version "1.32.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.32.1.tgz#f624885ef26bf6925bb8d0c521cf50fc322977f8"
+  integrity sha512-vlEzYvwnpEkKJ5svAvZJysZnFX/dDjelFPXSlR+HXE0K5ZZLL+wj9S6x+aY5ujjgb6DeZSNwA97tuF13cZLj7Q==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"

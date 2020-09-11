@@ -37,6 +37,7 @@ export interface TemplateData {
   articleType?: string
   publisher?: Publisher
   category?: string
+  titleAndType: string
 }
 
 export type Requirement =

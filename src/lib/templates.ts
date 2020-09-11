@@ -425,6 +425,7 @@ export const buildItems = (sharedData: SharedData): TemplateData[] => {
         bundle,
         title: bundle.csl.title,
         category: DEFAULT_CATEGORY,
+        titleAndType: bundle.csl.title,
       })
     }
   }
@@ -435,24 +436,34 @@ export const buildItems = (sharedData: SharedData): TemplateData[] => {
   ]
 }
 
-// export const buildJournalTitle = (
-//   template: ManuscriptTemplate,
-//   bundle?: Bundle
-// ) =>
-//   bundle && bundle.csl && bundle.csl.title
-//     ? bundle.csl.title
-//     : template.title.replace(/\s+Journal\s+Publication\s*/, '').trim()
-
 export const buildJournalTitle = (
   template: ManuscriptTemplate,
+  parentTemplate?: ManuscriptTemplate,
   bundle?: Bundle
-): string =>
-  template.title
-    ? template.title.replace(/\s+Journal\s+Publication\s*/, '').trim()
-    : (bundle && bundle.csl && bundle.csl.title) || ''
+): string => {
+  return chooseJournalTitle(template, parentTemplate, bundle)
+    .replace(/\s+Journal\s+Publication\s*/, '')
+    .trim()
+}
 
-export const buildArticleType = (template: ManuscriptTemplate) =>
-  template.title.replace(/Journal\s+Publication/, '').trim()
+const chooseJournalTitle = (
+  template: ManuscriptTemplate,
+  parentTemplate?: ManuscriptTemplate,
+  bundle?: Bundle
+): string => {
+  return parentTemplate?.title || template.title || bundle?.csl?.title || ''
+}
+
+export const buildArticleType = (
+  template: ManuscriptTemplate,
+  parentTemplate?: ManuscriptTemplate
+) => {
+  const title = parentTemplate?.title
+    ? template.title.replace(parentTemplate.title, '')
+    : template.title
+
+  return title.replace(/Journal\s+Publication/, '').trim()
+}
 
 export const findParentTemplate = (
   templates: Map<string, ManuscriptTemplate>,
@@ -481,36 +492,32 @@ export const findParentTemplate = (
 export const buildTemplateDataFactory = (sharedData: SharedData) => (
   template: ManuscriptTemplate
 ): TemplateData => {
-  while (template.parent) {
-    const parentTemplate = findParentTemplate(
-      sharedData.manuscriptTemplates,
-      sharedData.userManuscriptTemplates,
-      template.parent
-    )
-
-    delete template.parent
-
-    if (parentTemplate) {
-      template = {
-        ...parentTemplate,
-        ...template,
-      }
-    }
-  }
-
-  const bundle = template.bundle
-    ? sharedData.bundles.get(template.bundle)
+  const parentTemplate = template.parent
+    ? findParentTemplate(
+        sharedData.manuscriptTemplates,
+        sharedData.userManuscriptTemplates,
+        template.parent
+      )
     : undefined
 
-  const title = buildJournalTitle(template, bundle)
+  const bundleID = template.bundle || parentTemplate?.bundle
+
+  const bundle = bundleID ? sharedData.bundles.get(bundleID) : undefined
+
+  const title = buildJournalTitle(template, parentTemplate, bundle)
 
   const articleType = buildArticleType(template)
 
-  const publisher = template.publisher
-    ? sharedData.publishers.get(template.publisher)
+  const publisherID = template.publisher || parentTemplate?.publisher
+
+  const publisher = publisherID
+    ? sharedData.publishers.get(publisherID)
     : undefined
 
-  const category = template.category || DEFAULT_CATEGORY
+  const category =
+    template.category || parentTemplate?.category || DEFAULT_CATEGORY
+
+  const titleAndType = [title, articleType].join(' ')
 
   return {
     template,
@@ -519,6 +526,7 @@ export const buildTemplateDataFactory = (sharedData: SharedData) => (
     articleType,
     publisher,
     category,
+    titleAndType,
   }
 }
 

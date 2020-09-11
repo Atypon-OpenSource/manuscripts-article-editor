@@ -66,6 +66,7 @@ describe('templates', () => {
       title: 'Test',
       template: testTemplate,
       bundle: testBundle,
+      titleAndType: 'Test',
     }
 
     expect(chooseBundleID(item)).toBe(
@@ -77,6 +78,7 @@ describe('templates', () => {
     const item: TemplateData = {
       title: 'Test',
       bundle: testBundle,
+      titleAndType: 'Test',
     }
 
     expect(chooseBundleID(item)).toBe(
@@ -87,6 +89,7 @@ describe('templates', () => {
   test('use default bundle when no bundle', () => {
     const item: TemplateData = {
       title: 'Test',
+      titleAndType: 'Test',
     }
 
     expect(chooseBundleID(item)).toBe(DEFAULT_BUNDLE)
@@ -98,7 +101,7 @@ describe('templates', () => {
 
   test('build journal title', () => {
     expect(buildJournalTitle(testTemplate)).toBe('Chemistry Central Commentary')
-    expect(buildJournalTitle(testTemplate, testBundle)).toBe(
+    expect(buildJournalTitle(testTemplate, undefined, testBundle)).toBe(
       'Chemistry Central Commentary'
     )
   })
