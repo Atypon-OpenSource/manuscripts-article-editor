@@ -19,6 +19,7 @@ import {
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { saveAs } from 'file-saver'
 import React from 'react'
+import { trackEvent } from '../../lib/tracking'
 import {
   downloadExtension,
   ExportFormat,
@@ -90,6 +91,12 @@ export class Exporter extends React.Component<Props, State> {
       if (this.state.cancelled) {
         return
       }
+
+      trackEvent({
+        category: 'Manuscripts',
+        action: 'Export',
+        label: `project=${project._id}&format=${format}`,
+      })
 
       if (format === 'submission-for-review') {
         const data = JSON.parse(await blob.text())

@@ -24,7 +24,7 @@ interface InvitationsTracking extends Tracking {
 
 interface ManuscriptsTracking extends Tracking {
   category: 'Manuscripts'
-  action: 'Create' | 'Import'
+  action: 'Create' | 'Import' | 'Export'
 }
 
 type TrackEvent = (f: InvitationsTracking | ManuscriptsTracking) => void
