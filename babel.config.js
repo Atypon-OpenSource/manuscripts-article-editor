@@ -1,15 +1,7 @@
 module.exports = {
   env: {
     development: {
-      plugins: [
-        'react-hot-loader/babel',
-        [
-          'react-intl',
-          {
-            messagesDir: './build/messages/',
-          },
-        ],
-      ],
+      plugins: ['react-hot-loader/babel', 'react-intl'],
     },
     test: {
       plugins: [
