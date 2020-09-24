@@ -43,7 +43,7 @@ services:
     environment:
       - NODE_ENV=development
     deploy:
-      replicas: 2
+      replicas: 1
 
   api-initialize:
     image: registry.gitlab.com/mpapp-private/manuscripts-api/app
