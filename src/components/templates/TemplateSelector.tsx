@@ -425,11 +425,12 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
 
       // const colorScheme = this.findDefaultColorScheme(newStyles)
 
-      const manuscript: Build<Manuscript> = {
+      const manuscript: Build<Manuscript> & { prototype?: string } = {
         ...buildManuscript(),
         bundle: newBundle._id,
         pageLayout: newPageLayout._id,
         priority,
+        prototype: item.template?._id,
         // colorScheme: colorScheme ? colorScheme._id : DEFAULT_COLOR_SCHEME,
       }
 
