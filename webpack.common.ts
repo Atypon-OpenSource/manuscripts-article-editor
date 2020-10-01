@@ -67,6 +67,10 @@ const configuration: webpack.Configuration = {
   resolve: {
     extensions: ['.tsx', '.ts', '.mjs', '.js', '.json'],
   },
+  node: {
+    fs: 'empty',
+    path: 'empty',
+  },
 }
 
 export default configuration
