@@ -11,6 +11,7 @@
  */
 
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+
 import { collaborators } from '../../../stories/data/collaborators'
 import { project } from '../../../stories/data/projects'
 import { buildCollaborators } from '../collaborators'

@@ -12,9 +12,10 @@
 
 import { FormErrors } from '@manuscripts/style-guide'
 import { Formik, FormikErrors } from 'formik'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import { TokenActions } from '../../data/TokenData'
 import { changePassword } from '../../lib/api'
 import { changePasswordSchema } from '../../validation'
@@ -26,8 +27,9 @@ interface Props {
   tokenActions: TokenActions
 }
 
-const ChangePasswordPageContainer: React.FunctionComponent<RouteComponentProps &
-  Props> = ({ history, tokenActions }) => (
+const ChangePasswordPageContainer: React.FunctionComponent<
+  RouteComponentProps & Props
+> = ({ history, tokenActions }) => (
   <ModalForm
     title={<ChangePasswordMessage />}
     handleClose={() => history.goBack()}
@@ -55,14 +57,13 @@ const ChangePasswordPageContainer: React.FunctionComponent<RouteComponentProps &
 
           const errors: FormikErrors<ChangePasswordValues & FormErrors> = {
             submit:
-              error.response &&
-              error.response.status === HttpStatusCodes.FORBIDDEN
+              error.response && error.response.status === StatusCodes.FORBIDDEN
                 ? 'The password entered is incorrect'
                 : 'There was an error',
           }
           if (
             error.response &&
-            error.response.status === HttpStatusCodes.UNAUTHORIZED
+            error.response.status === StatusCodes.UNAUTHORIZED
           ) {
             tokenActions.delete()
           } else {

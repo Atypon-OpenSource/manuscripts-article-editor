@@ -12,11 +12,12 @@
 
 import React from 'react'
 import styled from 'styled-components'
+
 import Search, { SearchInterface } from '../Search'
 
 const SearchContainer = styled.div`
   flex: 0;
-  padding: 0 ${props => props.theme.grid.unit * 3}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 3}px;
 `
 
 export const SidebarSearch: React.FunctionComponent<SearchInterface> = ({

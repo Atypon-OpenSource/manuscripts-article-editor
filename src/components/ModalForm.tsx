@@ -15,14 +15,14 @@ import React from 'react'
 import styled from 'styled-components'
 
 const ModalTitle = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  margin-bottom: ${props => props.theme.grid.unit * 5}px;
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  margin-bottom: ${(props) => props.theme.grid.unit * 5}px;
 `
 
 const ModalBody = styled.div``
 
 export const ModalFormActions = styled.div`
-  margin-top: ${props => props.theme.grid.unit * 4}px;
+  margin-top: ${(props) => props.theme.grid.unit * 4}px;
   display: flex;
   justify-content: flex-end;
 `

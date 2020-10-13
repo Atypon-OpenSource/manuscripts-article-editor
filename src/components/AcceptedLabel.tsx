@@ -16,21 +16,21 @@ import styled from 'styled-components'
 
 const TickMarkContainer = styled.div`
   display: flex;
-  padding-right: ${props => props.theme.grid.unit}px;
+  padding-right: ${(props) => props.theme.grid.unit}px;
 `
 
 const Label = styled.div<{
   opacity: number
 }>`
   align-items: center;
-  background: ${props => props.theme.colors.text.success};
-  border-radius: ${props => props.theme.grid.radius.small};
-  color: ${props => props.theme.colors.text.onDark};
+  background: ${(props) => props.theme.colors.text.success};
+  border-radius: ${(props) => props.theme.grid.radius.small};
+  color: ${(props) => props.theme.colors.text.onDark};
   display: flex;
   line-height: 1;
-  opacity: ${props => props.opacity};
-  padding: ${props => props.theme.grid.unit}px
-    ${props => props.theme.grid.unit * 2}px;
+  opacity: ${(props) => props.opacity};
+  padding: ${(props) => props.theme.grid.unit}px
+    ${(props) => props.theme.grid.unit * 2}px;
   transition: opacity 0.5s;
 `
 

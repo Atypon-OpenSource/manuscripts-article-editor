@@ -14,6 +14,7 @@ import { ObjectTypes, Project } from '@manuscripts/manuscripts-json-schema'
 import { TitleField } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
+
 import { Main, Page } from '../Page'
 import { Sidebar, SidebarHeader, SidebarTitle } from '../Sidebar'
 
@@ -31,7 +32,7 @@ export const Overlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: ${props => props.theme.colors.background.dark};
+  background: ${(props) => props.theme.colors.background.dark};
   opacity: 0.75;
 `
 
@@ -47,16 +48,16 @@ const pseudoProject: Project = {
 
 const ProjectTitle = styled(SidebarTitle)`
   border: 1px solid transparent;
-  color: ${props => props.theme.colors.text.primary};
+  color: ${(props) => props.theme.colors.text.primary};
   flex: 1;
-  font-weight: ${props => props.theme.font.weight.medium};
-  margin: -${props => props.theme.grid.unit}px 0 -${props =>
+  font-weight: ${(props) => props.theme.font.weight.medium};
+  margin: -${(props) => props.theme.grid.unit}px 0 -${(props) =>
       props.theme.grid.unit}px;
   overflow: hidden;
-  padding: ${props => props.theme.grid.unit}px;
+  padding: ${(props) => props.theme.grid.unit}px;
 
   .ProseMirror.empty-node::before {
-    color: ${props => props.theme.colors.text.muted};
+    color: ${(props) => props.theme.colors.text.muted};
     cursor: text;
     content: 'Untitled Project';
     max-width: 100%;

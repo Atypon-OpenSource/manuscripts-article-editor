@@ -16,6 +16,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { Transition } from 'react-spring/renderprops.cjs'
 import styled from 'styled-components'
+
 import { NotificationComponent, NotificationItem } from './NotificationProvider'
 
 interface Props {
@@ -31,7 +32,7 @@ export const Notifications: React.FC<Props & RouteComponentProps> = ({
   <Container>
     <Transition
       items={items}
-      keys={item => item.id}
+      keys={(item) => item.id}
       from={{
         transform: 'translate3d(0, 100%, 0)',
         opacity: 0,
@@ -56,7 +57,7 @@ export const Notifications: React.FC<Props & RouteComponentProps> = ({
       }: {
         id: string
         notification: NotificationComponent
-      }) => props => (
+      }) => (props) => (
         <div style={props}>
           <Notification
             key={id}
@@ -81,15 +82,15 @@ const Container = styled.div`
 `
 
 export const NotificationPrompt = styled.div`
-  border: 1px solid ${props => props.theme.colors.text.muted};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  border-radius: ${props => props.theme.grid.radius.small};
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 4}px;
-  font-family: ${props => props.theme.font.family.sans};
-  background: ${props => props.theme.colors.background.primary};
+  border: 1px solid ${(props) => props.theme.colors.text.muted};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
+  border-radius: ${(props) => props.theme.grid.radius.small};
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 4}px;
+  font-family: ${(props) => props.theme.font.family.sans};
+  background: ${(props) => props.theme.colors.background.primary};
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -104,11 +105,11 @@ export const NotificationHead = styled.div`
 export const NotificationActions = styled(ButtonGroup)`
   flex: 0;
 
-  @media (max-width: ${props => props.theme.grid.tablet - 1}px) {
+  @media (max-width: ${(props) => props.theme.grid.tablet - 1}px) {
     flex-wrap: wrap;
 
     button:not(:first-child) {
-      margin: ${props => props.theme.grid.unit}px 0 0;
+      margin: ${(props) => props.theme.grid.unit}px 0 0;
     }
   }
 `
@@ -117,14 +118,14 @@ export const NotificationIcon = styled(AttentionBlue)`
   flex-shrink: 0;
 `
 export const NotificationTitle = styled.div`
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
 `
 export const NotificationLink = styled.a.attrs({ target: '_blank' })`
   color: inherit;
-  font-size: ${props => props.theme.font.size.small};
+  font-size: ${(props) => props.theme.font.size.small};
 `
 export const NotificationMessage = styled.div`
-  margin: 0 ${props => props.theme.grid.unit * 4}px;
+  margin: 0 ${(props) => props.theme.grid.unit * 4}px;
   display: flex;
   flex-direction: column;
 `

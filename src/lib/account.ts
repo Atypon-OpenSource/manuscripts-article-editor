@@ -11,6 +11,7 @@
  */
 
 import decode from 'jwt-decode'
+
 import userID from '../lib/user-id'
 import * as api from './api'
 import { removeDatabase } from './db'
@@ -31,7 +32,7 @@ export const login = async (email: string, password: string) => {
       await removeDatabase()
     }
   } catch (e) {
-    console.error(e) // tslint:disable-line:no-console
+    console.error(e)
     // TODO: removing the local database failed
   }
 
@@ -42,14 +43,14 @@ export const logout = async () => {
   try {
     await api.logout()
   } catch (e) {
-    console.error(e) // tslint:disable-line:no-console
+    console.error(e)
     // TODO: request to the API server failed
   }
 
   try {
     await removeDatabase()
   } catch (e) {
-    console.error(e) // tslint:disable-line:no-console
+    console.error(e)
     // TODO: removing the local database failed
   }
 

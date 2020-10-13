@@ -20,6 +20,7 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { VariableSizeList } from 'react-window'
+
 import { TemplateCategorySelector } from '../src/components/templates/TemplateCategorySelector'
 import { TemplateEmpty } from '../src/components/templates/TemplateEmpty'
 import { TemplateListItem } from '../src/components/templates/TemplateListItem'
@@ -32,13 +33,13 @@ import { TemplateData } from '../src/types/templates'
 import { templatesData } from './data/templates-data'
 
 const researchFields = (keywords as ResearchField[]).filter(
-  keyword => keyword.objectType === ObjectTypes.ResearchField
+  (keyword) => keyword.objectType === ObjectTypes.ResearchField
 )
 
 const listRef: React.RefObject<VariableSizeList> = React.createRef()
 
 const templatesDataWithType: TemplateData[] = templatesData.map(
-  templateData => {
+  (templateData) => {
     return {
       ...templateData,
       titleAndType: [templateData.title, templateData.articleType].join(' '),

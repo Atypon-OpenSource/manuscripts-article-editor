@@ -14,19 +14,20 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Avatar, TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { initials } from '../../lib/name'
 import { PopperBody, SeparatorLine } from '../Popper'
 
 const CollaboratorInitial = styled.span`
   margin-right: 4px;
-  font-weight: ${props => props.theme.font.weight.xlight};
+  font-weight: ${(props) => props.theme.font.weight.xlight};
 `
 
 const CollaboratorName = styled.div`
   text-align: center;
   font-size: 120%;
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.semibold};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: ${(props) => props.theme.font.weight.semibold};
   padding-bottom: 13px;
 `
 
@@ -38,23 +39,23 @@ const AvatarStyle = styled.div`
 `
 
 const Action = styled.div`
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.semibold};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: ${(props) => props.theme.font.weight.semibold};
   padding-left: 5px;
 `
 
 const Message = styled.div`
   display: flex;
   justify-content: center;
-  color: ${props => props.theme.colors.text.primary};
+  color: ${(props) => props.theme.colors.text.primary};
   padding-bottom: 15px;
 `
 
 const Description = styled.div`
   display: flex;
   padding-bottom: 10px;
-  font-size: ${props => props.theme.font.size.normal};
-  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  color: ${(props) => props.theme.colors.text.secondary};
   text-align: center;
   white-space: normal;
 `
@@ -91,8 +92,8 @@ export const RemoveCollaboratorPopper: React.FunctionComponent<Props> = ({
       </CollaboratorName>
       <Message>from the Contributors list?</Message>
       <Description>
-        {bibliographicName.given} won't be able to view or modify any content of
-        the project anymore
+        {bibliographicName.given} won&apos;t be able to view or modify any
+        content of the project anymore
       </Description>
       <SeparatorLine />
       <ButtonsContainer>

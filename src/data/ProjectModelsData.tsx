@@ -12,6 +12,7 @@
 
 import { ContainedModel } from '@manuscripts/manuscript-transform'
 import React from 'react'
+
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
@@ -80,10 +81,10 @@ class ProjectModelsData extends DataComponent<ContainedModel, Props, State> {
       .find({
         containerID,
       })
-      .$.subscribe(docs => {
+      .$.subscribe((docs) => {
         if (docs) {
           this.setState({
-            data: docs.map(doc => doc.toJSON()),
+            data: docs.map((doc) => doc.toJSON()),
           })
         }
       })

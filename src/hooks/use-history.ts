@@ -22,6 +22,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
 import { useEffect, useState } from 'react'
+
 import { getSnapshot } from '../lib/snapshot'
 import { JsonModel } from '../pressroom/importers'
 import CollectionManager from '../sync/CollectionManager'
@@ -47,7 +48,7 @@ interface HookValue {
 
 const buildModelMap = (models: JsonModel[]): Map<string, JsonModel> => {
   return new Map(
-    models.map(model => {
+    models.map((model) => {
       if (model.objectType === ObjectTypes.Figure && model.attachment) {
         model.src = window.URL.createObjectURL(model.attachment.data)
       }
@@ -69,17 +70,21 @@ export const useHistory = (projectID: string): HookValue => {
   const [current, setCurrent] = useState<HookValue['currentSnapshot']>(null)
 
   useEffect(() => {
-    if (!collection || !isPullComplete) return
+    if (!collection || !isPullComplete) {
+      return
+    }
 
     const subscription = collection
       .find({
         objectType: ObjectTypes.Snapshot,
       })
-      .$.subscribe(docs => {
-        if (!docs) return
+      .$.subscribe((docs) => {
+        if (!docs) {
+          return
+        }
         const models = docs
-          .map(doc => doc.toJSON() as RxDocument<Snapshot>)
-          .filter(doc => doc.creator)
+          .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
+          .filter((doc) => doc.creator)
           .sort((a, b) => b.createdAt - a.createdAt)
         setSnapshotsList(models)
       })
@@ -92,14 +97,13 @@ export const useHistory = (projectID: string): HookValue => {
   const loadSnapshot = (remoteID: string, manuscriptID: string) => {
     setLoadSnapshotStatus(SnapshotStatus.Loading)
     return getSnapshot(projectID, remoteID)
-      .then(res => {
+      .then((res) => {
         const manuscripts = res.filter(
           (model: Model) => model.objectType === ObjectTypes.Manuscript
         ) as Manuscript[]
         const modelMap = buildModelMap(
           res.filter(
-            (doc: any /* tslint:disable-line:no-any */) =>
-              !doc.manuscriptID || doc.manuscriptID === manuscriptID
+            (doc: any) => !doc.manuscriptID || doc.manuscriptID === manuscriptID
           )
         )
         const decoder = new Decoder(modelMap)

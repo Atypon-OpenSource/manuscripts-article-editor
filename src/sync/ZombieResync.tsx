@@ -12,6 +12,7 @@
 
 import { RxDatabase } from '@manuscripts/rxdb'
 import React, { useEffect } from 'react'
+
 import { Collections } from '../collections'
 import zombieCollections from './ZombieCollections'
 
@@ -25,10 +26,11 @@ export const ZombieResync: React.FC<Props> = ({ db }) => {
   useEffect(() => {
     const timer = window.setInterval(() => {
       const zombie = zombieCollections.getOne()
-      if (!zombie) return
+      if (!zombie) {
+        return
+      }
 
-      zombieCollections.cleanupOne(zombie, db).catch(e => {
-        /* tslint:disable-next-line:no-console */
+      zombieCollections.cleanupOne(zombie, db).catch((e) => {
         console.error(
           'Uncaught promise rejection while attempting to clean up zombie collections',
           e
@@ -39,7 +41,7 @@ export const ZombieResync: React.FC<Props> = ({ db }) => {
     return () => {
       window.clearInterval(timer)
     }
-  }, [])
+  }, [db])
 
   return null
 }

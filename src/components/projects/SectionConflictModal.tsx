@@ -21,14 +21,15 @@ import { TreeNode } from '@manuscripts/sync-client'
 import { Title } from '@manuscripts/title-editor'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
+
 import SectionTree from './SectionTree'
 
 const Container = styled.div`
   max-width: 640px;
-  background: ${props => props.theme.colors.background.primary};
+  background: ${(props) => props.theme.colors.background.primary};
   padding: 2rem;
-  border: 1px solid ${props => props.theme.colors.text.muted};
-  border-radius: ${props => props.theme.grid.radius.default};
+  border: 1px solid ${(props) => props.theme.colors.text.muted};
+  border-radius: ${(props) => props.theme.grid.radius.default};
 `
 
 const ModalTitle = styled.h3`
@@ -66,13 +67,13 @@ const ItemTitle = styled.h4`
 
 const SelectionButton = styled(SecondaryButton)`
   padding: 0.6em 1.2em;
-  color: ${props => props.theme.colors.text.primary};
-  background: ${props => props.theme.colors.border.secondary};
+  color: ${(props) => props.theme.colors.text.primary};
+  background: ${(props) => props.theme.colors.border.secondary};
   border-radius: 2px;
-  border: 2px solid ${props => props.theme.colors.border.secondary};
+  border: 2px solid ${(props) => props.theme.colors.border.secondary};
 
   g {
-    fill: ${props => props.theme.colors.text.primary};
+    fill: ${(props) => props.theme.colors.text.primary};
   }
 
   span {
@@ -83,16 +84,16 @@ const SelectionButton = styled(SecondaryButton)`
   &:active,
   &:focus {
     g {
-      fill: ${props => props.theme.colors.brand.default};
+      fill: ${(props) => props.theme.colors.brand.default};
     }
   }
 
   &[aria-pressed='true'] {
-    border-color: ${props => props.theme.colors.brand.default};
-    color: ${props => props.theme.colors.text.onDark};
+    border-color: ${(props) => props.theme.colors.brand.default};
+    color: ${(props) => props.theme.colors.text.onDark};
     background: rgba(127, 181, 213, 0.6);
     g {
-      fill: ${props => props.theme.colors.text.onDark};
+      fill: ${(props) => props.theme.colors.text.onDark};
     }
   }
 `
@@ -127,7 +128,7 @@ const SectionConflictModal: React.FC<Props> = ({
     } else if (selected === 'local') {
       resolveToLocal()
     }
-  }, [selected])
+  }, [resolveToLocal, resolveToRemote, selected])
 
   return (
     <StyledModal isOpen={true}>

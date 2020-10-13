@@ -26,8 +26,8 @@ export const DisplaySchemeSelector: React.FC<{
     (event: ChangeEvent<HTMLSelectElement>) => {
       const displayScheme = event.target.value as DisplayScheme
       setDisplayScheme(displayScheme)
-      updateCitation({ displayScheme }).catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      updateCitation({ displayScheme }).catch((error) => {
+        console.error(error)
       })
     },
     [updateCitation]
@@ -47,5 +47,5 @@ export const DisplaySchemeSelector: React.FC<{
 
 const Label = styled.label`
   display: block;
-  margin: ${props => props.theme.grid.unit * 4}px 0;
+  margin: ${(props) => props.theme.grid.unit * 4}px 0;
 `

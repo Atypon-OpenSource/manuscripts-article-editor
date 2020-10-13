@@ -20,6 +20,7 @@ import {
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
 import {

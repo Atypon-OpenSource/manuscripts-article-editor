@@ -15,6 +15,7 @@ import { sample } from 'lodash-es'
 import React, { useEffect, useState } from 'react'
 import { animated, useTransition } from 'react-spring'
 import styled from 'styled-components'
+
 import { Aphorism, AphorismView } from './Aphorism'
 import {
   IndicatorKind,
@@ -59,15 +60,15 @@ const ProgressGroup = styled.div`
 `
 
 const ProgressMessage = styled.div`
-  color: ${props => props.theme.colors.text.secondary};
-  font-size: ${props => props.theme.font.size.xlarge};
-  margin: ${props => props.theme.grid.unit * 4}px;
+  color: ${(props) => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  margin: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const ProgressMessageSubtitle = styled.div`
-  color: ${props => props.theme.colors.text.secondary};
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.light};
+  color: ${(props) => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  font-weight: ${(props) => props.theme.font.weight.light};
 `
 
 const ProgressMessageContainer: React.FC<{
@@ -120,7 +121,7 @@ const FixedPlaceholderContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: ${props => props.theme.colors.background.primary};
+  background: ${(props) => props.theme.colors.background.primary};
   opacity: 1;
   z-index: 10;
 `

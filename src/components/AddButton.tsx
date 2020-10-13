@@ -18,7 +18,7 @@ import styled, { css } from 'styled-components'
 const RegularAddIcon = styled(AddIcon)``
 
 const smallStyles = css`
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
 `
 const defaultStyles = css`
   svg {
@@ -27,14 +27,14 @@ const defaultStyles = css`
   }
 `
 const mediumStyles = css`
-  font-size: ${props => props.theme.font.size.medium};
+  font-size: ${(props) => props.theme.font.size.medium};
   svg {
     max-height: 36px;
     max-width: 36px;
   }
 `
 const largeStyles = css`
-  font-size: ${props => props.theme.font.size.xlarge};
+  font-size: ${(props) => props.theme.font.size.xlarge};
   svg {
     max-height: 40px;
     max-width: 40px;
@@ -43,10 +43,10 @@ const largeStyles = css`
 const Action = styled(IconTextButton)<{
   size: 'small' | 'default' | 'medium' | 'large'
 }>`
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
   text-overflow: ellipsis;
 
-  ${props =>
+  ${(props) =>
     props.size === 'small'
       ? smallStyles
       : props.size === 'medium'
@@ -72,7 +72,7 @@ const Action = styled(IconTextButton)<{
 `
 
 const ActionTitle = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 3}px;
+  padding-left: ${(props) => props.theme.grid.unit * 3}px;
 `
 interface Props {
   action: React.MouseEventHandler

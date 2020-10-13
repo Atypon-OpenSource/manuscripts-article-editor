@@ -20,15 +20,16 @@ import React, { useCallback } from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
+
 import config from '../config'
 import { useDropdown } from '../hooks/use-dropdown'
 import { Popup } from './nav/Updates'
 
-const Button = styled(IconButton).attrs(props => ({
+const Button = styled(IconButton).attrs((props) => ({
   size: 56,
 }))`
-  color: ${props => props.theme.colors.text.secondary};
-  padding: ${props => props.theme.grid.unit * 2}px;
+  color: ${(props) => props.theme.colors.text.secondary};
+  padding: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const StyledSupportIcon = styled(SupportIcon)`
@@ -45,15 +46,15 @@ const StyledSupportIcon = styled(SupportIcon)`
 
 const linkStyle = css`
   display: flex;
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 4}px;
   align-items: center;
-  font-size: ${props => props.theme.font.size.normal};
-  color: ${props => props.theme.colors.text.primary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  color: ${(props) => props.theme.colors.text.primary};
   text-decoration: none;
 
   &:hover {
-    background: ${props => props.theme.colors.background.fifth};
+    background: ${(props) => props.theme.colors.background.fifth};
   }
 `
 
@@ -69,23 +70,23 @@ const ExternalMenuLink = styled.a.attrs({
 `
 
 const MenuText = styled.div`
-  margin-left: ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const Menu = styled.div`
-  padding: ${props => props.theme.grid.unit * 2}px 0;
+  padding: ${(props) => props.theme.grid.unit * 2}px 0;
 `
 
 const arrowTopBorderStyle = css`
-  bottom: -${props => props.theme.grid.unit * 2}px;
-  border-top: ${props => props.theme.grid.unit * 2}px solid
-    ${props => props.theme.colors.border.secondary};
+  bottom: -${(props) => props.theme.grid.unit * 2}px;
+  border-top: ${(props) => props.theme.grid.unit * 2}px solid
+    ${(props) => props.theme.colors.border.secondary};
 `
 
 const arrowBottomBorderStyle = css`
-  top: -${props => props.theme.grid.unit * 2}px;
-  border-bottom: ${props => props.theme.grid.unit * 2}px solid
-    ${props => props.theme.colors.border.secondary};
+  top: -${(props) => props.theme.grid.unit * 2}px;
+  border-bottom: ${(props) => props.theme.grid.unit * 2}px solid
+    ${(props) => props.theme.colors.border.secondary};
 `
 
 const Arrow = styled.div<{
@@ -93,9 +94,9 @@ const Arrow = styled.div<{
 }>`
   width: 0;
   height: 0;
-  border-left: ${props => props.theme.grid.unit * 2}px solid transparent;
-  border-right: ${props => props.theme.grid.unit * 2}px solid transparent;
-  ${props =>
+  border-left: ${(props) => props.theme.grid.unit * 2}px solid transparent;
+  border-right: ${(props) => props.theme.grid.unit * 2}px solid transparent;
+  ${(props) =>
     props['data-placement'] === 'top'
       ? arrowTopBorderStyle
       : arrowBottomBorderStyle};

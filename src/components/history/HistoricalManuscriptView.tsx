@@ -22,6 +22,7 @@ import { RxAttachment } from '@manuscripts/rxdb'
 import { History } from 'history'
 import React, { useCallback, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
+
 import { JsonModel } from '../../pressroom/importers'
 import { ThemeProvider } from '../../theme/ThemeProvider'
 import IntlProvider from '../IntlProvider'
@@ -68,19 +69,25 @@ export const HistoricalManuscriptView: React.FC<Props> = ({
 
   const getModel = useCallback(
     (id: string) => {
-      if (!modelMap) return
+      if (!modelMap) {
+        return
+      }
       return modelMap.get(id)
     },
     [modelMap]
-  ) as (id: string) => any /* tslint:disable-line:no-any */
+  ) as (id: string) => any
   const getManuscript = useCallback(() => manuscript, [manuscript])
   const getCurrentUser = useCallback(() => user, [user])
 
   const allAttachments = useCallback(
     (id: string): Promise<Array<RxAttachment<Model>>> => {
-      if (!modelMap) return Promise.resolve([])
+      if (!modelMap) {
+        return Promise.resolve([])
+      }
       const model = modelMap.get(id)
-      if (!model || !model.attachment) return Promise.resolve([])
+      if (!model || !model.attachment) {
+        return Promise.resolve([])
+      }
       return Promise.resolve([
         (model.attachment as unknown) as RxAttachment<Model>,
       ])
@@ -90,7 +97,9 @@ export const HistoricalManuscriptView: React.FC<Props> = ({
 
   const locale = manuscript.primaryLanguageCode || 'en-GB'
 
-  if (!modelMap || !doc || !popper) return null
+  if (!modelMap || !doc || !popper) {
+    return null
+  }
 
   return (
     <EditorStyles modelMap={modelMap}>

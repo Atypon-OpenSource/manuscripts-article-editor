@@ -11,15 +11,16 @@
  */
 
 import { createGlobalStyle, DefaultTheme } from 'styled-components'
+
 import * as colors from './colors'
 
 const fontFamily = '"Lato", sans-serif'
 
 export const GlobalStyle = createGlobalStyle`
   body {
-    background-color: ${props => props.theme.colors.background.primary};
-    color: ${props => props.theme.colors.text.primary};
-    font-family: ${props => props.theme.font.family.sans};
+    background-color: ${(props) => props.theme.colors.background.primary};
+    color: ${(props) => props.theme.colors.text.primary};
+    font-family: ${(props) => props.theme.font.family.sans};
     margin: 0;
     overflow-x: hidden;
   }

@@ -18,6 +18,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { buildColors } from '../../lib/colors'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { findBorderStyles, findFigureStyles } from '../../lib/styles'
@@ -27,9 +28,11 @@ import { FigureStyles } from './FigureStyles'
 
 const DEFAULT_FIGURE_STYLE = 'MPFigureStyle:default'
 
-export const FigureStyleInspector: React.FC<ElementStyleInspectorProps & {
-  element: FigureElement
-}> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
+export const FigureStyleInspector: React.FC<
+  ElementStyleInspectorProps & {
+    element: FigureElement
+  }
+> = ({ deleteModel, element, modelMap, saveModel, view }) => {
   const [error, setError] = useState<Error>()
 
   const [figureStyle, setFigureStyle] = useState<FigureStyle>()
@@ -55,15 +58,17 @@ export const FigureStyleInspector: React.FC<ElementStyleInspectorProps & {
 
   useEffect(() => {
     setFigureStyle(elementFigureStyle)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setFigureStyle, elementFigureStyle, JSON.stringify(elementFigureStyle)])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSaveFigureStyle = useCallback(
     debounce((figureStyle: FigureStyle) => {
-      saveModel<FigureStyle>(figureStyle).catch(error => {
+      saveModel<FigureStyle>(figureStyle).catch((error) => {
         setError(error)
       })
     }, 500),
-    [setError, saveModel]
+    [saveModel]
   )
 
   const setElementFigureStyle = useCallback(
@@ -105,14 +110,17 @@ export const FigureStyleInspector: React.FC<ElementStyleInspectorProps & {
     debouncedSaveFigureStyle(figureStyle)
   }
 
-  const saveFigureStyle = (figureStyle: FigureStyle) => {
-    setFigureStyle(figureStyle)
+  const saveFigureStyle = useCallback(
+    (figureStyle: FigureStyle) => {
+      setFigureStyle(figureStyle)
 
-    saveModel<FigureStyle>(figureStyle).catch(error => {
-      // TODO: restore previous figureStyle?
-      setError(error)
-    })
-  }
+      saveModel<FigureStyle>(figureStyle).catch((error) => {
+        // TODO: restore previous figureStyle?
+        setError(error)
+      })
+    },
+    [saveModel]
+  )
 
   const duplicateFigureStyle = useCallback(() => {
     if (!figureStyle) {
@@ -129,10 +137,10 @@ export const FigureStyleInspector: React.FC<ElementStyleInspectorProps & {
       ...newStyle,
       title: title || defaultTitle,
     })
-      .then(figureStyle => {
+      .then((figureStyle) => {
         setElementFigureStyle(figureStyle._id)
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error)
       })
   }, [figureStyle, saveModel, setElementFigureStyle])
@@ -161,11 +169,11 @@ export const FigureStyleInspector: React.FC<ElementStyleInspectorProps & {
       removeFigureStyleAttr(figureStyle._id)
 
       // TODO: delay removal? only use styles referenced by elements?
-      deleteModel(figureStyle._id).catch(error => {
+      deleteModel(figureStyle._id).catch((error) => {
         setError(error)
       })
     }
-  }, [deleteModel, figureStyle, setElementFigureStyle])
+  }, [deleteModel, figureStyle, removeFigureStyleAttr])
 
   // TODO: what should happen if there's no defaultFigureStyle?
 

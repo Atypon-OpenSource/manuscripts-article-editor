@@ -12,6 +12,7 @@
 import { StatusLabel } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
+
 import RenderIcon, { calculateCircumference } from './StatusIcons'
 import { DndItemButton } from './StatusInputStyling'
 

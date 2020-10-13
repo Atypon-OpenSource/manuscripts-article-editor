@@ -15,6 +15,7 @@ import {
   FigureLayout,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import config from '../../config'
 import {
   DEFAULT_FIGURE_ALIGNMENT,
@@ -46,11 +47,11 @@ export const FigureLayouts: React.FC<{
       <InspectorField>
         <StyleSelect
           value={figureLayout._id}
-          onChange={event => {
+          onChange={(event) => {
             setElementFigureLayout(event.target.value)
           }}
         >
-          {figureLayouts.map(style => (
+          {figureLayouts.map((style) => (
             <option value={style._id} key={style._id}>
               {style.title}
             </option>

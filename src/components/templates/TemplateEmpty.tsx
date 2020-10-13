@@ -16,7 +16,7 @@ import styled from 'styled-components'
 // const SadAnimal = React.lazy(() => import('./SadAnimal'))
 
 const CategoryContainer = styled.span`
-  font-weight: ${props => props.theme.font.weight.bold};
+  font-weight: ${(props) => props.theme.font.weight.bold};
 `
 // const ImageContainer = styled.span`
 //   position: fixed;
@@ -36,8 +36,8 @@ const Container = styled.div`
 
 const TextContainer = styled.div`
   max-width: 400px;
-  font-size: ${props => props.theme.font.size.medium};
-  color: ${props => props.theme.colors.text.primary};
+  font-size: ${(props) => props.theme.font.size.medium};
+  color: ${(props) => props.theme.colors.text.primary};
   margin: 20px;
   text-align: center;
 `

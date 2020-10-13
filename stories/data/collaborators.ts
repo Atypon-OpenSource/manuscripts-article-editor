@@ -14,6 +14,7 @@ import {
   ObjectTypes,
   UserCollaborator,
 } from '@manuscripts/manuscripts-json-schema'
+
 import { people } from './people'
 
 export const collaborators: UserCollaborator[] = people.map(

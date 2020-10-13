@@ -14,6 +14,7 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
+
 import { ImageTypes, isImage } from '../../lib/images'
 import UserProfileSidebar from '../UserProfileSidebar'
 import { AvatarFileUpload } from './AvatarFileUpload'
@@ -128,7 +129,7 @@ class ProfilePageSidebar extends React.Component<Props, State> {
 
   private canvasToBlob = (canvasElement: HTMLCanvasElement): Promise<Blob> =>
     new Promise((resolve, reject) => {
-      canvasElement.toBlob(blob => (blob ? resolve(blob) : reject()))
+      canvasElement.toBlob((blob) => (blob ? resolve(blob) : reject()))
     })
 
   private handleAvatarZoom = (event: React.FormEvent<HTMLInputElement>) =>

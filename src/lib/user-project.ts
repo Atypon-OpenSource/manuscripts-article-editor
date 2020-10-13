@@ -16,6 +16,7 @@ import {
   Project,
   UserProject,
 } from '@manuscripts/manuscripts-json-schema'
+
 import deviceID from './device-id'
 
 export interface RecentProject {
@@ -55,24 +56,26 @@ const compareTimestamp = (deviceID: string) => (
     a.lastOpened[deviceID].timestamp > b.lastOpened[deviceID].timestamp
   ) {
     return -1
-  } else return 0
+  } else {
+    return 0
+  }
 }
 
 export const buildRecentProjects = (
   projectID: string,
   userProjects: UserProject[],
   projects: Project[],
-  numberOfProjects: number = 5
+  numberOfProjects = 5
 ): RecentProject[] => {
   const projectsMap = new Map<string, Project>()
 
-  projects.forEach(project => {
+  projects.forEach((project) => {
     projectsMap.set(project._id, project)
   })
 
   return userProjects
     .filter(
-      userProject =>
+      (userProject) =>
         projectID !== userProject.projectID &&
         userProject.lastOpened[deviceID] &&
         projectsMap.get(userProject.projectID)
@@ -92,7 +95,7 @@ export const lastOpenedManuscriptID = (
   userProjects: UserProject[]
 ): string | null => {
   const userProject = userProjects.find(
-    userProject => userProject.projectID === projectID
+    (userProject) => userProject.projectID === projectID
   )
 
   if (!userProject) {

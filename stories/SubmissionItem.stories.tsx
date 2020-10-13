@@ -13,6 +13,7 @@
 import { ObjectTypes, Submission } from '@manuscripts/manuscripts-json-schema'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { SubmissionItem } from '../src/components/inspector/SubmissionItem'
 
 const submitting: Submission = {

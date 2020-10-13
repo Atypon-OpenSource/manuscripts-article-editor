@@ -14,10 +14,11 @@ import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
 import { ContainerInvitation } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
 import { AxiosError } from 'axios'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import InviteCollaboratorPopperContainer from './InviteCollaboratorPopperContainer'
 
@@ -33,7 +34,7 @@ const AddIconButton = styled(IconButton)`
 
 const SettingsInvertedIcon = styled(SettingsInverted)`
   g {
-    stroke: ${props => props.theme.colors.brand.default};
+    stroke: ${(props) => props.theme.colors.brand.default};
   }
 `
 
@@ -109,7 +110,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
             header={this.state.error.message}
             message={
               this.state.error.data.response!.status ===
-              HttpStatusCodes.SERVICE_UNAVAILABLE
+              StatusCodes.SERVICE_UNAVAILABLE
                 ? 'Trouble reaching manuscripts.io servers. Please try again later.'
                 : 'An error occurred.'
             }
@@ -172,7 +173,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
     } catch (error) {
       if (
         error.response &&
-        error.response.status === HttpStatusCodes.UNAUTHORIZED
+        error.response.status === StatusCodes.UNAUTHORIZED
       ) {
         this.props.tokenActions.delete()
       } else {
@@ -201,7 +202,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
     } catch (error) {
       if (
         error.response &&
-        error.response.status === HttpStatusCodes.UNAUTHORIZED
+        error.response.status === StatusCodes.UNAUTHORIZED
       ) {
         this.props.tokenActions.delete()
       } else {
@@ -221,7 +222,7 @@ class InvitedCollaboratorSettingsButton extends React.Component<Props, State> {
     } catch (error) {
       if (
         error.response &&
-        error.response.status === HttpStatusCodes.UNAUTHORIZED
+        error.response.status === StatusCodes.UNAUTHORIZED
       ) {
         this.props.tokenActions.delete()
       } else {

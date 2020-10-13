@@ -13,6 +13,7 @@
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { StorageInfo } from '../components/diagnostics/StorageInfo'
 import { logout } from '../lib/account'
 
@@ -51,5 +52,5 @@ export const DatabaseError: React.FC = () => {
 }
 
 const Diagnostics = styled.details`
-  margin: ${props => props.theme.grid.unit * 4}px 0;
+  margin: ${(props) => props.theme.grid.unit * 4}px 0;
 `

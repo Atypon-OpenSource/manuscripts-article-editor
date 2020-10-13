@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import '@reach/tabs/styles.css'
+
 import data from '@manuscripts/examples/data/project-dump.json'
 import {
   ActualManuscriptNode,
@@ -20,13 +22,14 @@ import {
 import {
   Bundle,
   Manuscript,
+  ParagraphStyle,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
 import { TabPanel, TabPanels, Tabs } from '@reach/tabs'
-import '@reach/tabs/styles.css'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { InspectorTab, InspectorTabList } from '../src/components/Inspector'
 import { HistoryPanel } from '../src/components/inspector/History'
 import { ManageTargetInspector } from '../src/components/inspector/ManageTargetInspector'
@@ -35,7 +38,6 @@ import { ParagraphStyles } from '../src/components/inspector/ParagraphStyles'
 import { SectionInspector } from '../src/components/inspector/SectionInspector'
 import { SectionStyles } from '../src/components/inspector/SectionStyles'
 import { StatisticsInspector } from '../src/components/inspector/StatisticsInspector'
-
 import { ManuscriptInspector } from '../src/components/projects/ManuscriptInspector'
 import { SaveSnapshotStatus } from '../src/hooks/use-snapshot-manager'
 import { buildColors } from '../src/lib/colors'
@@ -87,8 +89,8 @@ const { colors, colorScheme } = buildColors(modelMap)
 const bodyTextParagraphStyles = findBodyTextParagraphStyles(modelMap)
 
 const defaultParagraphStyle = bodyTextParagraphStyles.find(
-  style => style.kind === 'body'
-)!
+  (style) => style.kind === 'body'
+) as ParagraphStyle
 
 const state = {}
 
@@ -185,7 +187,7 @@ storiesOf('Inspector/Paragraph Styles', module).add('with bundle', () => (
     <ParagraphStyles
       bodyTextParagraphStyles={bodyTextParagraphStyles}
       colors={colors}
-      colorScheme={colorScheme!}
+      colorScheme={colorScheme}
       defaultParagraphStyle={defaultParagraphStyle}
       deleteParagraphStyle={action('delete paragraph style')}
       duplicateParagraphStyle={action('duplicate paragraph style')}
@@ -205,7 +207,7 @@ storiesOf('Inspector/Section Styles', module).add('with bundle', () => (
   <div style={{ width: 500 }}>
     <SectionStyles
       colors={colors}
-      colorScheme={colorScheme!}
+      colorScheme={colorScheme}
       error={undefined}
       paragraphStyle={defaultParagraphStyle}
       saveDebouncedParagraphStyle={action('save debounced paragraph style')}

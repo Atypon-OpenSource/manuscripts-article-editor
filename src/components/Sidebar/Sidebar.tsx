@@ -18,23 +18,23 @@ const SidebarCommonStyles = css`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit * 2}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px
+    ${(props) => props.theme.grid.unit * 2}px;
   width: 100%;
   overflow: hidden;
 `
 
 export const Sidebar = styled.div`
   ${SidebarCommonStyles};
-  background: ${props => props.theme.colors.background.secondary};
-  border-right: 1px solid ${props => props.theme.colors.border.tertiary};
+  background: ${(props) => props.theme.colors.background.secondary};
+  border-right: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `
 
 export const ModalSidebar = styled.div`
   ${SidebarCommonStyles};
-  background-color: ${props => props.theme.colors.background.secondary};
-  border-top-left-radius: ${props => props.theme.grid.radius.default};
-  border-bottom-left-radius: ${props => props.theme.grid.radius.default};
+  background-color: ${(props) => props.theme.colors.background.secondary};
+  border-top-left-radius: ${(props) => props.theme.grid.radius.default};
+  border-bottom-left-radius: ${(props) => props.theme.grid.radius.default};
   max-width: 40vw;
   overflow: auto;
   width: 340px;
@@ -56,7 +56,7 @@ export const ModalBody = styled.div`
 
 export const SidebarContent = styled.div`
   flex: 1;
-  padding: 0 ${props => props.theme.grid.unit * 3}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 3}px;
   position: relative;
   flex-shrink: 0;
   overflow-y: auto;

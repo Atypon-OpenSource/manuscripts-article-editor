@@ -13,6 +13,7 @@
 import { Manuscript } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
+
 import CollaboratorsData from '../../data/CollaboratorsData'
 import ContainerInvitationsData from '../../data/ContainerInvitationsData'
 import GlobalLibrariesData from '../../data/GlobalLibrariesData'
@@ -55,16 +56,18 @@ import { ProjectDiagnosticsPageContainer } from './ProjectDiagnosticsPageContain
 
 const LibraryPageContainer = React.lazy<
   React.ComponentType<LibraryPageContainerProps>
->(() =>
-  import(
-    /* webpackChunkName:"library-page" */ '../library/LibraryPageContainer'
-  )
+>(
+  () =>
+    import(
+      /* webpackChunkName:"library-page" */ '../library/LibraryPageContainer'
+    )
 )
 
 const ManuscriptPageContainer = React.lazy<
   React.ComponentType<ManuscriptPageContainerProps>
->(() =>
-  import(/* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainer')
+>(
+  () =>
+    import(/* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainer')
 )
 
 const APHORISM_DURATION =
@@ -100,17 +103,17 @@ class ProjectPageContainer extends React.Component<
         />
 
         <DatabaseContext.Consumer>
-          {db => (
+          {(db) => (
             <ProjectData
               projectID={projectID}
               placeholder={<ProjectPlaceholder />}
             >
-              {project => (
+              {(project) => (
                 <Page project={project} tokenActions={tokenActions}>
                   <UserData userID={getCurrentUserId()!}>
-                    {user => (
+                    {(user) => (
                       <CollaboratorsData placeholder={<ProjectPlaceholder />}>
-                        {collaborators => (
+                        {(collaborators) => (
                           <Sync
                             collection={`project-${projectID}`}
                             channels={[
@@ -121,13 +124,13 @@ class ProjectPageContainer extends React.Component<
                             tokenActions={tokenActions}
                           >
                             <GlobalLibraryCollectionsData>
-                              {globalLibraryCollections => (
+                              {(globalLibraryCollections) => (
                                 <GlobalLibrariesData>
-                                  {globalLibraries => {
+                                  {(globalLibraries) => {
                                     const channels = [
                                       ...globalLibraries.keys(),
                                       ...globalLibraryCollections.keys(),
-                                    ].map(id => `${id}-read`)
+                                    ].map((id) => `${id}-read`)
 
                                     return (
                                       <Sync
@@ -140,7 +143,7 @@ class ProjectPageContainer extends React.Component<
                                         <GlobalLibraryItemsData
                                           placeholder={<ProjectPlaceholder />}
                                         >
-                                          {globalLibraryItems => (
+                                          {(globalLibraryItems) => (
                                             <UserProjectsData
                                               projectID={projectID}
                                             >
@@ -164,7 +167,7 @@ class ProjectPageContainer extends React.Component<
                                                           '/projects/:projectID/'
                                                         }
                                                         exact={true}
-                                                        render={props => (
+                                                        render={(props) => (
                                                           <ProjectManuscriptsData
                                                             projectID={
                                                               projectID
@@ -280,20 +283,26 @@ class ProjectPageContainer extends React.Component<
                                                                     projectID
                                                                   }
                                                                 >
-                                                                  {keywords => (
+                                                                  {(
+                                                                    keywords
+                                                                  ) => (
                                                                     <ProjectTagsData
                                                                       projectID={
                                                                         projectID
                                                                       }
                                                                     >
-                                                                      {tags => (
+                                                                      {(
+                                                                        tags
+                                                                      ) => (
                                                                         <ProjectManuscriptsData
                                                                           projectID={
                                                                             projectID
                                                                           }
                                                                           {...props}
                                                                         >
-                                                                          {manuscripts => (
+                                                                          {(
+                                                                            manuscripts
+                                                                          ) => (
                                                                             <ManuscriptData
                                                                               projectID={
                                                                                 projectID
@@ -302,7 +311,9 @@ class ProjectPageContainer extends React.Component<
                                                                                 manuscriptID
                                                                               }
                                                                             >
-                                                                              {manuscript => (
+                                                                              {(
+                                                                                manuscript
+                                                                              ) => (
                                                                                 <ManuscriptCommentsData
                                                                                   manuscriptID={
                                                                                     manuscriptID
@@ -311,7 +322,9 @@ class ProjectPageContainer extends React.Component<
                                                                                     projectID
                                                                                   }
                                                                                 >
-                                                                                  {comments => (
+                                                                                  {(
+                                                                                    comments
+                                                                                  ) => (
                                                                                     <React.Suspense
                                                                                       fallback={
                                                                                         <ProjectPlaceholder />
@@ -391,7 +404,7 @@ class ProjectPageContainer extends React.Component<
                                                         path={
                                                           '/projects/:projectID/library/:sourceType?/:sourceID?/:filterID?'
                                                         }
-                                                        render={props => (
+                                                        render={(props) => (
                                                           <ProjectLibraryCollectionsData
                                                             projectID={
                                                               projectID
@@ -445,21 +458,23 @@ class ProjectPageContainer extends React.Component<
                                                           '/projects/:projectID/collaborators'
                                                         }
                                                         exact={true}
-                                                        render={props => (
+                                                        render={(props) => (
                                                           <ProjectInvitationsData
                                                             projectID={
                                                               projectID
                                                             }
                                                             {...props}
                                                           >
-                                                            {invitations => (
+                                                            {(invitations) => (
                                                               <ContainerInvitationsData
                                                                 containerID={
                                                                   projectID
                                                                 }
                                                                 {...props}
                                                               >
-                                                                {containerInvitations => (
+                                                                {(
+                                                                  containerInvitations
+                                                                ) => (
                                                                   <CollaboratorsPageContainer
                                                                     {...props}
                                                                     invitations={buildInvitations(
@@ -491,23 +506,27 @@ class ProjectPageContainer extends React.Component<
                                                           '/projects/:projectID/collaborators/add'
                                                         }
                                                         exact={true}
-                                                        render={props => (
+                                                        render={(props) => (
                                                           <ProjectInvitationsData
                                                             projectID={
                                                               projectID
                                                             }
                                                             {...props}
                                                           >
-                                                            {invitations => (
+                                                            {(invitations) => (
                                                               <ContainerInvitationsData
                                                                 containerID={
                                                                   projectID
                                                                 }
                                                                 {...props}
                                                               >
-                                                                {containerInvitations => (
+                                                                {(
+                                                                  containerInvitations
+                                                                ) => (
                                                                   <ProjectsData>
-                                                                    {projects => (
+                                                                    {(
+                                                                      projects
+                                                                    ) => (
                                                                       <AddCollaboratorsPageContainer
                                                                         {...props}
                                                                         invitations={buildInvitations(
@@ -544,7 +563,7 @@ class ProjectPageContainer extends React.Component<
 
                                                       <Route
                                                         path="/projects/:projectID/history/:snapshotID/manuscript/:manuscriptID"
-                                                        render={props => (
+                                                        render={(props) => (
                                                           <HistoricalView
                                                             project={project}
                                                             user={user}
@@ -564,7 +583,7 @@ class ProjectPageContainer extends React.Component<
                                                               projectID
                                                             }
                                                           >
-                                                            {data => (
+                                                            {(data) => (
                                                               <ProjectDiagnosticsPageContainer
                                                                 data={data}
                                                                 projectID={

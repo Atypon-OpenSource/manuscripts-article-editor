@@ -11,6 +11,7 @@
  */
 
 import { data } from '@manuscripts/examples/data/project-dump.json'
+
 import { ProjectDump } from '../../src/pressroom/importers'
 
 export default data as ProjectDump

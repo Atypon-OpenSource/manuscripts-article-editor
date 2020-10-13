@@ -12,6 +12,7 @@
 
 import React from 'react'
 import Select from 'react-select'
+
 import { selectStyles } from '../../lib/select-styles'
 
 interface Option {
@@ -31,7 +32,7 @@ export const ThemeInput: React.FC<{
   handleChange: (value?: string) => void
 }> = ({ value = '', handleChange }) => (
   <Select<Option>
-    value={options.find(option => option.value === value)}
+    value={options.find((option) => option.value === value)}
     onChange={(selectedOption: Option) => {
       handleChange(selectedOption.value)
     }}

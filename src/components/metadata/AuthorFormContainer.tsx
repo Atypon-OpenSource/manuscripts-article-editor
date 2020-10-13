@@ -26,14 +26,15 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
 import InviteAuthorButton from './InviteAuthorButton'
 
 const FormMessage = styled.div`
   position: absolute;
-  bottom: ${props => props.theme.grid.unit * 5}px;
-  right: ${props => props.theme.grid.unit * 5}px;
+  bottom: ${(props) => props.theme.grid.unit * 5}px;
+  right: ${(props) => props.theme.grid.unit * 5}px;
   width: 450px;
 `
 

@@ -27,8 +27,10 @@ import {
   ParagraphStyle,
   TableStyle,
 } from '@manuscripts/manuscripts-json-schema'
-import * as CSS from 'csstype'
+// eslint-disable-next-line import/no-unresolved
+import { Property } from 'csstype'
 import { range } from 'lodash-es'
+
 import { valueOrDefault } from '../components/inspector/StyleFields'
 import { ascendingPriority } from './sort'
 
@@ -172,7 +174,7 @@ export const captionAlignments: {
 
 export const borderStyles: {
   [key in BorderStyleType]: {
-    css: CSS.BorderBlockStyleProperty
+    css: Property.BorderBlockStyle
     label: string
   }
 } = {
@@ -239,7 +241,7 @@ const colorValue = (
 const borderStyle = (
   border: Border,
   borderStyles: Map<string, BorderStyle>
-): CSS.LineStyle => {
+): Property.BorderStyle => {
   const id = border && border.style
 
   if (id) {
@@ -248,7 +250,7 @@ const borderStyle = (
     // TODO: use `doubleLines` and `pattern`?
 
     if (style && style.name) {
-      return style.name as CSS.LineStyle
+      return style.name as Property.BorderStyle
     }
   }
 
@@ -259,7 +261,7 @@ export type Alignment = 'left' | 'right' | 'center' | 'justify'
 
 export const alignments: {
   [key in Alignment]: {
-    css: CSS.ListStyleProperty
+    css: Property.TextAlign
     label: string
   }
 } = {
@@ -285,7 +287,7 @@ export type FigureAlignment = 'left' | 'right' | 'center'
 
 export const figureAlignments: {
   [key in FigureAlignment]: {
-    css: CSS.ListStyleProperty
+    css: Property.TextAlign
     label: string
   }
 } = {
@@ -311,7 +313,7 @@ export type ListBulletStyle = 'disc' | 'circle' | 'square' | 'none'
 
 export const listBulletStyles: {
   [key in ListBulletStyle]: {
-    css: CSS.ListStyleProperty
+    css: Property.ListStyleType
     label: string
   }
 } = {
@@ -345,7 +347,7 @@ export type ListNumberingScheme =
 
 export const listNumberingSchemes: {
   [key in ListNumberingScheme]: {
-    css: CSS.ListStyleProperty
+    css: Property.ListStyleType
     label: string
   }
 } = {
@@ -387,7 +389,7 @@ export type SectionNumberingScheme = 'none' | 'decimal'
 
 export const sectionNumberingSchemes: {
   [key in SectionNumberingScheme]: {
-    css: CSS.ListStyleProperty
+    css: Property.ListStyleType
     label: string
   }
 } = {
@@ -535,7 +537,7 @@ const listStyles = (model: ParagraphStyle): string => {
 
     const buildHierarchicalOrderedListCounters = (level: string) => {
       return range(1, Number(level) + 1) // end is not inclusive
-        .map(activeLevel => {
+        .map((activeLevel) => {
           const style = chooseListNumberingStyle(model, String(activeLevel))
 
           return `counter(list-level-${activeLevel}, ${style})`
@@ -543,10 +545,7 @@ const listStyles = (model: ParagraphStyle): string => {
         .join('"."')
     }
 
-    const buildOrderedListCounters = (
-      level: string,
-      hierarchical: boolean = false
-    ) => {
+    const buildOrderedListCounters = (level: string, hierarchical = false) => {
       const style = chooseListNumberingStyle(model, level)
       const prefix = chooseListNumberingPrefix(model, level)
       const suffix = chooseListNumberingSuffix(model, level)
@@ -712,14 +711,14 @@ export const buildInlineStyles = (model: InlineStyle) => `
   }
 `
 
-// tslint:disable-next-line:cyclomatic-complexity
 export const buildFigureStyles = (
   model: FigureStyle,
   colors: Map<string, Color>,
   borderStyles: Map<string, BorderStyle>
 ) => `
   [data-figure-style="${model._id}"] {
-    ${model.outerBorder &&
+    ${
+      model.outerBorder &&
       `
       border-color: ${borderColor(model.outerBorder, colors)} !important;
       border-style: ${borderStyle(model.outerBorder, borderStyles)} !important;
@@ -727,13 +726,15 @@ export const buildFigureStyles = (
         model.outerBorder.width,
         DEFAULT_FIGURE_OUTER_BORDER_WIDTH
       )}pt !important;
-    `}
+    `
+    }
 
     padding: ${model.outerSpacing || DEFAULT_FIGURE_OUTER_SPACING}pt !important;
     gap: ${model.innerSpacing || DEFAULT_FIGURE_INNER_SPACING}pt !important;
 
     > figure {
-      ${model.innerBorder &&
+      ${
+        model.innerBorder &&
         `
         border-color: ${borderColor(model.innerBorder, colors)} !important;
         border-style: ${borderStyle(
@@ -744,7 +745,8 @@ export const buildFigureStyles = (
           model.innerBorder.width,
           DEFAULT_FIGURE_INNER_BORDER_WIDTH
         )}pt !important;
-      `}
+      `
+      }
     }
 
     > figcaption {
@@ -754,8 +756,9 @@ export const buildFigureStyles = (
           ? 1
           : 'caption'
       } !important;
-      text-align: ${model.alignment ||
-        DEFAULT_FIGURE_CAPTION_ALIGNMENT} !important;
+      text-align: ${
+        model.alignment || DEFAULT_FIGURE_CAPTION_ALIGNMENT
+      } !important;
 
       > .figure-label {
         display: ${
@@ -804,7 +807,8 @@ export const buildTableStyles = (
           DEFAULT_TABLE_HEADER_BACKGROUND_COLOR
         )} !important;
 
-        ${model.headerTopBorder &&
+        ${
+          model.headerTopBorder &&
           `
           border-top-color: ${borderColor(
             model.headerTopBorder,
@@ -818,9 +822,11 @@ export const buildTableStyles = (
             model.headerTopBorder.width,
             DEFAULT_TABLE_BORDER_WIDTH
           )}pt !important;
-        `}
+        `
+        }
 
-        ${model.headerBottomBorder &&
+        ${
+          model.headerBottomBorder &&
           `
           border-bottom-color: ${borderColor(
             model.headerBottomBorder,
@@ -834,7 +840,8 @@ export const buildTableStyles = (
             model.headerBottomBorder.width,
             DEFAULT_TABLE_BORDER_WIDTH
           )}pt !important;
-        `}
+        `
+        }
       }
     }
 
@@ -846,7 +853,8 @@ export const buildTableStyles = (
           DEFAULT_TABLE_FOOTER_BACKGROUND_COLOR
         )} !important;
 
-        ${model.footerTopBorder &&
+        ${
+          model.footerTopBorder &&
           `
           border-top-color: ${borderColor(
             model.footerTopBorder,
@@ -860,9 +868,11 @@ export const buildTableStyles = (
             model.footerTopBorder.width,
             DEFAULT_TABLE_BORDER_WIDTH
           )}pt !important;
-        `}
+        `
+        }
 
-        ${model.footerBottomBorder &&
+        ${
+          model.footerBottomBorder &&
           `
           border-bottom-color: ${borderColor(
             model.footerBottomBorder,
@@ -876,14 +886,16 @@ export const buildTableStyles = (
             model.footerBottomBorder.width,
             DEFAULT_TABLE_BORDER_WIDTH
           )}pt !important;
-        `}
+        `
+        }
       }
     }
 
     > figcaption {
       grid-row: ${model.captionPosition === 'above' ? 1 : 2} !important;
-      text-align: ${model.alignment ||
-        DEFAULT_TABLE_CAPTION_ALIGNMENT} !important;
+      text-align: ${
+        model.alignment || DEFAULT_TABLE_CAPTION_ALIGNMENT
+      } !important;
     }
   }`
 
@@ -898,7 +910,7 @@ const headingCounter = (model: ParagraphStyle, depth: number) => {
   }
 
   const content = range(1, depth + 1) // end is non-inclusive
-    .map(level => `counter(section-${level}, ${numberingStyle})`)
+    .map((level) => `counter(section-${level}, ${numberingStyle})`)
     .join(' "." ')
 
   return `${content} "${numberingSuffix} "`

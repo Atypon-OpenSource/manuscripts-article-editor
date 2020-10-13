@@ -17,6 +17,7 @@ import { BibliographyItem, Library } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { filterLibrary } from '../../lib/search-library'
 import { Collection } from '../../sync/Collection'
 import { Main } from '../Page'
@@ -27,22 +28,23 @@ const Container = styled.div`
   flex: 1;
 `
 
-export const GlobalLibrary: React.FC<RouteComponentProps<{
-  projectID: string
-  sourceID: string
-  filterID?: string
-}> & {
-  debouncedQuery?: string
-  globalLibrary?: Library
-  globalLibraryItems: Map<string, BibliographyItem>
-  projectLibrary: Map<string, BibliographyItem>
-  projectLibraryCollection: Collection<BibliographyItem>
-  query?: string
-  setQuery: (query: string) => void
-}> = React.memo(
+export const GlobalLibrary: React.FC<
+  RouteComponentProps<{
+    projectID: string
+    sourceID: string
+    filterID?: string
+  }> & {
+    debouncedQuery?: string
+    globalLibrary?: Library
+    globalLibraryItems: Map<string, BibliographyItem>
+    projectLibrary: Map<string, BibliographyItem>
+    projectLibraryCollection: Collection<BibliographyItem>
+    query?: string
+    setQuery: (query: string) => void
+  }
+> = React.memo(
   ({
     debouncedQuery,
-    location,
     match,
     globalLibraryItems,
     projectLibrary,
@@ -66,16 +68,16 @@ export const GlobalLibrary: React.FC<RouteComponentProps<{
         debouncedQuery,
         new Set([filterID || sourceID])
       )
-        .then(items => {
+        .then((items) => {
           setResults({
             items,
             total: items.length, // TODO: may be truncated
           })
         })
-        .catch(error => {
-          console.error(error) // tslint:disable-line:no-console
+        .catch((error) => {
+          console.error(error)
         })
-    }, [filterID, globalLibraryItems, debouncedQuery])
+    }, [filterID, globalLibraryItems, debouncedQuery, sourceID])
 
     const handleAdd = useCallback(
       (item: Build<BibliographyItem>) =>
@@ -116,21 +118,21 @@ export const GlobalLibrary: React.FC<RouteComponentProps<{
           return
         }
 
-        setFetching(fetching => {
+        setFetching((fetching) => {
           fetching.add(estimatedID)
           return new Set<string>([...fetching])
         })
 
         crossref
           .fetch(item as Partial<BibliographyItem>)
-          .then(data => {
+          .then((data) => {
             const item = buildBibliographyItem(data)
 
             return handleAdd(item)
           })
           .then(() => {
             window.setTimeout(() => {
-              setFetching(fetching => {
+              setFetching((fetching) => {
                 fetching.delete(estimatedID)
                 return new Set<string>([...fetching])
               })
@@ -138,11 +140,11 @@ export const GlobalLibrary: React.FC<RouteComponentProps<{
           })
           .catch((error: Error) => {
             // TODO: 'failed' state
-            console.error('failed to add', error) // tslint:disable-line:no-console
+            console.error('failed to add', error)
             setError('There was an error saving this item to the library')
           })
       },
-      [selected]
+      [handleAdd, selected]
     )
 
     if (!results) {

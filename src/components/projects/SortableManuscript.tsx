@@ -37,7 +37,7 @@ export const SortableManuscript: React.FC<{
     { isDragging: boolean }
   >({
     item: { type: 'manuscript', id: item._id },
-    collect: monitor => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   })
@@ -48,7 +48,7 @@ export const SortableManuscript: React.FC<{
     { isOver: boolean }
   >({
     accept: 'manuscript',
-    collect: monitor => ({
+    collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
     hover: (item, monitor) => {
@@ -94,17 +94,17 @@ const DropPreview = styled.div<{ isOver: boolean; side?: Side }>`
 
 const BeforeDropPreview = styled(DropPreview)`
   top: 0;
-  visibility: ${props =>
+  visibility: ${(props) =>
     props.isOver && props.side === 'before' ? 'visible' : 'hidden'};
 `
 
 const AfterDropPreview = styled(DropPreview)`
   bottom: -1px;
-  visibility: ${props =>
+  visibility: ${(props) =>
     props.isOver && props.side === 'after' ? 'visible' : 'hidden'};
 `
 
 const Container = styled.div<{ isDragging: boolean }>`
-  opacity: ${props => (props.isDragging ? 0.25 : 1)};
+  opacity: ${(props) => (props.isDragging ? 0.25 : 1)};
   position: relative;
 `

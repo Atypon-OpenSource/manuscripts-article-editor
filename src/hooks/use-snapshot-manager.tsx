@@ -14,7 +14,8 @@ import Check from '@manuscripts/assets/react/Check'
 import { ObjectTypes, Project } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
+
 import {
   NotificationComponent,
   ShowNotification,
@@ -98,25 +99,27 @@ export const useSnapshotManager = (
       collection
         .find({ containerID: project._id })
         .exec()
-        .then(models => {
+        .then((models) => {
           return new Map(
-            models.map(model => {
+            models.map((model) => {
               const json = model.toJSON()
               return [json._id, json]
             })
           )
         }),
-    [collection]
+    [collection, project]
   )
 
-  const saveSnapshot = useCallback((data: SnapshotData, name: string) => {
-    collection.save(buildSnapshot(data, name)).catch(e => {
-      // tslint:disable-next-line:no-console
-      console.error('Error saving snapshot', e)
-    })
-    showNotification('snapshot', SnapshotSuccessNotification)
-    setState(getInitialState())
-  }, [])
+  const saveSnapshot = useCallback(
+    (data: SnapshotData, name: string) => {
+      collection.save(buildSnapshot(data, name)).catch((e) => {
+        console.error('Error saving snapshot', e)
+      })
+      showNotification('snapshot', SnapshotSuccessNotification)
+      setState(getInitialState())
+    },
+    [collection, showNotification]
+  )
 
   const requestTakeSnapshot = useCallback(async () => {
     try {
@@ -133,16 +136,22 @@ export const useSnapshotManager = (
       if (state.nameSubmitted) {
         saveSnapshot(data, state.textName)
       } else {
-        setState(state => ({
+        setState((state) => ({
           ...state,
           status: SaveSnapshotStatus.GotResponse,
           snapshotData: data,
         }))
       }
     } catch (e) {
-      setState(state => ({ ...state, status: SaveSnapshotStatus.Error }))
+      setState((state) => ({ ...state, status: SaveSnapshotStatus.Error }))
     }
-  }, [state, project._id])
+  }, [
+    state,
+    getEntireProject,
+    collection.getAttachmentAsBlob,
+    project,
+    saveSnapshot,
+  ])
 
   const handleTextChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,7 +170,7 @@ export const useSnapshotManager = (
         setState({ ...state, nameSubmitted: true })
       }
     },
-    [state]
+    [saveSnapshot, state]
   )
 
   return {

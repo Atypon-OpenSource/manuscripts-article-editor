@@ -14,6 +14,7 @@
 // https://github.com/citation-style-language/schema
 
 declare module 'citeproc' {
+  // eslint-disable-next-line import/no-unresolved
   import { Data } from 'csl-json'
 
   interface Citation {

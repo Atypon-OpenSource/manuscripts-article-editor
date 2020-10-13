@@ -13,6 +13,7 @@
 import React, { useCallback, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { VariableSizeList } from 'react-window'
+
 import { ThemeProvider } from '../../theme/ThemeProvider'
 import { TemplateData } from '../../types/templates'
 import { TemplateListItem } from './TemplateListItem'
@@ -88,7 +89,7 @@ export const TemplateSelectorList: React.FC<{
           resetList(0)
         }
       },
-      [selectItem, resetList]
+      [width, resetList, selectItem]
     )
 
     return (

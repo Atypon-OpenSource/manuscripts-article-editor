@@ -17,7 +17,8 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import decode from 'jwt-decode'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
+
 import { Database } from '../components/DatabaseProvider'
 import CollectionManager from '../sync/CollectionManager'
 import tokenHandler from './token'

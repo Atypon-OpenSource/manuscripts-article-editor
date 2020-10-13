@@ -16,7 +16,7 @@ import Select, { OptionsType } from 'react-select'
 
 interface OptionType {
   label: string
-  value: any // tslint:disable-line:no-any
+  value: any
 }
 
 interface Props {
@@ -35,7 +35,9 @@ export const SelectField: React.FunctionComponent<Props & FieldProps> = ({
     options={options}
     name={field.name}
     value={
-      options ? options.find(option => option.value === field.value) : undefined
+      options
+        ? options.find((option) => option.value === field.value)
+        : undefined
     }
     onChange={(option: OptionType) =>
       form.setFieldValue(field.name, option.value)

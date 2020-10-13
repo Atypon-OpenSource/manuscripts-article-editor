@@ -19,6 +19,7 @@ import { setContext } from 'apollo-link-context'
 import { HttpLink } from 'apollo-link-http'
 import { getMainDefinition } from 'apollo-utilities'
 import { Socket as PhoenixSocket } from 'phoenix'
+
 import config from '../config'
 import tokenHandler from './token'
 

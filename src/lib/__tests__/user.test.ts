@@ -16,7 +16,7 @@ import { getCurrentUserId, TokenPayload } from '../user'
 jest.mock('../token')
 
 describe('user', () => {
-  test('get current user id', () => {
+  test('get current user id from token', () => {
     const data: TokenPayload = {
       expiry: +new Date() + 10000,
       userId: 'User|test@example.com',
@@ -34,7 +34,7 @@ describe('user', () => {
     tokenHandler.remove()
   })
 
-  test('get current user id', () => {
+  test('get removed current user id', () => {
     const result = getCurrentUserId()
 
     expect(result).toBeNull()

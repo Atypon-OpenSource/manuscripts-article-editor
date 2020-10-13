@@ -13,6 +13,7 @@
 import { Build, generateID } from '@manuscripts/manuscript-transform'
 import { Figure, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { SaveModel } from './ManuscriptInspector'
 
 export const ManuscriptHeaderField: React.FC<{
@@ -27,7 +28,7 @@ export const ManuscriptHeaderField: React.FC<{
         <input
           type={'checkbox'}
           checked={value !== undefined}
-          onChange={async event => {
+          onChange={async (event) => {
             if (event.target.checked) {
               const figure: Build<Figure> = {
                 _id: generateID(ObjectTypes.Figure),
@@ -42,7 +43,7 @@ export const ManuscriptHeaderField: React.FC<{
                 try {
                   await deleteModel(value)
                 } catch (error) {
-                  console.error(error) // tslint:disable-line:no-console
+                  console.error(error)
                 }
               }
 

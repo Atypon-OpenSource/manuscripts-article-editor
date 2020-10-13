@@ -15,23 +15,24 @@ import axios, { CancelTokenSource } from 'axios'
 import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import styled from 'styled-components'
+
 import config from '../../config'
 import { newestFirst, Popup, Post, Topic, Updates } from './Updates'
 
 const Wrapper = styled.div`
   position: relative;
-  margin: 0 ${props => props.theme.grid.unit * 3}px;
+  margin: 0 ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const Bubble = styled.div`
-  width: ${props => props.theme.grid.unit * 3}px;
-  height: ${props => props.theme.grid.unit * 3}px;
+  width: ${(props) => props.theme.grid.unit * 3}px;
+  height: ${(props) => props.theme.grid.unit * 3}px;
   border-radius: 50%;
   position: absolute;
   top: -2px;
   right: -2px;
   cursor: pointer;
-  background: ${props => props.theme.colors.brand.medium};
+  background: ${(props) => props.theme.colors.brand.medium};
   border: 2px solid white;
 `
 
@@ -46,14 +47,14 @@ const Icon = styled.div<{
   cursor: pointer;
 
   ${StyledBellIcon} g {
-    fill: ${props =>
+    fill: ${(props) =>
       props.isOpen
         ? props.theme.colors.brand.medium
         : props.theme.colors.text.secondary};
   }
 
   &:hover ${StyledBellIcon} g {
-    fill: ${props => props.theme.colors.brand.medium};
+    fill: ${(props) => props.theme.colors.brand.medium};
   }
 `
 
@@ -66,8 +67,9 @@ interface State {
   hasUpdates: boolean
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export class UpdatesContainer extends React.Component<{}, State> {
-  public static getDerivedStateFromError = (error: Error) => ({
+  public static getDerivedStateFromError = () => ({
     error: 'The latest updates could not be displayed.',
   })
 
@@ -84,7 +86,6 @@ export class UpdatesContainer extends React.Component<{}, State> {
   private nodeRef: React.RefObject<HTMLDivElement> = React.createRef()
 
   public componentDidCatch(error: Error) {
-    // tslint:disable-next-line:no-console
     console.error(error)
   }
 
@@ -105,7 +106,9 @@ export class UpdatesContainer extends React.Component<{}, State> {
   public render() {
     const { isOpen, loaded, error, topics, posts, hasUpdates } = this.state
 
-    if (!config.discourse.host) return null
+    if (!config.discourse.host) {
+      return null
+    }
 
     return (
       <div ref={this.nodeRef}>
@@ -148,7 +151,9 @@ export class UpdatesContainer extends React.Component<{}, State> {
   }
 
   private fetchData = async () => {
-    if (!config.discourse.host) return
+    if (!config.discourse.host) {
+      return
+    }
 
     const response = await axios.get<{
       posts: Post[]
@@ -172,17 +177,23 @@ export class UpdatesContainer extends React.Component<{}, State> {
   private hasUpdates = (topics?: Topic[]): boolean => {
     const topic = this.latestTopic(topics)
 
-    if (!topic) return false
+    if (!topic) {
+      return false
+    }
 
     const latest = window.localStorage.getItem('changelog')
 
-    if (!latest) return true
+    if (!latest) {
+      return true
+    }
 
     return latest < topic.created_at
   }
 
   private latestTopic = (topics?: Topic[]): Topic | null => {
-    if (!topics || !topics.length) return null
+    if (!topics || !topics.length) {
+      return null
+    }
 
     return topics.sort(newestFirst)[0]
   }

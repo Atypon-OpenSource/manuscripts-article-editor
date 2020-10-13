@@ -19,6 +19,7 @@ import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
+
 import { initials } from '../../lib/name'
 import { Badge } from '../Badge'
 import { PlaceholderTitle } from '../nav/Dropdown'
@@ -39,54 +40,54 @@ const ProjectNameContainer = styled.div`
 const InvitedBy = styled.div`
   display: flex;
   align-items: center;
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
   letter-spacing: -0.3px;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
   clear: both;
   margin-top: 15px;
 `
 
 const AcceptButton = styled(PrimaryButton)`
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.medium};
-  background-color: ${props => props.theme.colors.brand.default};
-  padding: 0 ${props => props.theme.grid.unit * 2}px;
+  font-size: ${(props) => props.theme.font.size.normal};
+  font-weight: ${(props) => props.theme.font.weight.medium};
+  background-color: ${(props) => props.theme.colors.brand.default};
+  padding: 0 ${(props) => props.theme.grid.unit * 2}px;
   margin-bottom: 4px;
 
   &:hover {
-    color: ${props => props.theme.colors.brand.default};
-    border-color: ${props => props.theme.colors.brand.default};
+    color: ${(props) => props.theme.colors.brand.default};
+    border-color: ${(props) => props.theme.colors.brand.default};
   }
 `
 
 const RejectButton = styled(SecondaryButton)`
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.medium};
-  padding: 0 ${props => props.theme.grid.unit * 2}px;
-  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  font-weight: ${(props) => props.theme.font.weight.medium};
+  padding: 0 ${(props) => props.theme.grid.unit * 2}px;
+  color: ${(props) => props.theme.colors.text.secondary};
 
   &:hover {
-    color: ${props => props.theme.colors.brand.default};
-    border-color: ${props => props.theme.colors.brand.default};
+    color: ${(props) => props.theme.colors.brand.default};
+    border-color: ${(props) => props.theme.colors.brand.default};
   }
 `
 const AvatarContainer = styled.div`
-  margin-left: ${props => props.theme.grid.unit}px;
+  margin-left: ${(props) => props.theme.grid.unit}px;
 `
 
 const InvitationElement = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${props => props.theme.grid.unit * 4}px;
-  box-shadow: 0 1px 0 0 ${props => props.theme.colors.border.secondary};
+  padding: ${(props) => props.theme.grid.unit * 4}px;
+  box-shadow: 0 1px 0 0 ${(props) => props.theme.colors.border.secondary};
   width: 100%;
   max-width: 532px;
   border-radius: 0;
   border-top: 1px solid transparent;
 
   &:hover {
-    background-color: ${props => props.theme.colors.background.fifth};
+    background-color: ${(props) => props.theme.colors.background.fifth};
     box-shadow: unset;
   }
 
@@ -97,17 +98,17 @@ const InvitationElement = styled.div`
 
 const NotificationsBadge = styled(Badge)`
   margin-right: 4px;
-  color: ${props => props.theme.colors.text.onDark};
-  background-color: ${props => props.theme.colors.background.success};
+  color: ${(props) => props.theme.colors.text.onDark};
+  background-color: ${(props) => props.theme.colors.background.success};
   font-size: 9px;
   min-width: 10px;
   min-height: 10px;
-  font-family: ${props => props.theme.font.family.sans};
+  font-family: ${(props) => props.theme.font.family.sans};
 `
 
 const InvitationTitle = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   font-style: normal;
   flex: 1;
   color: inherit;
@@ -116,7 +117,7 @@ const InvitationTitle = styled.div`
 `
 
 const buildNameLiteral = (name: BibliographicName) =>
-  [initials(name), name.family, name.suffix].filter(part => part).join(' ')
+  [initials(name), name.family, name.suffix].filter((part) => part).join(' ')
 
 interface InvitationProps {
   invitation: ContainerInvitation

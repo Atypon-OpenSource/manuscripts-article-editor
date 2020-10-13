@@ -18,6 +18,7 @@ dotenv.config()
 import webpack from 'webpack'
 import merge from 'webpack-merge'
 import WebpackBar from 'webpackbar'
+
 import common from './webpack.common'
 
 const configuration: webpack.Configuration = merge(common, {

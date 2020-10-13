@@ -12,6 +12,7 @@
 
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { buildUser } from '../lib/data'
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
@@ -78,7 +79,7 @@ class OptionalUserData extends DataComponent<UserProfile, Props, State> {
   }
 
   private subscribe = (userProfileID: string) =>
-    this.collection.findOne(userProfileID).$.subscribe(async doc => {
+    this.collection.findOne(userProfileID).$.subscribe(async (doc) => {
       this.setState({
         data: doc ? await buildUser(doc) : null,
       })

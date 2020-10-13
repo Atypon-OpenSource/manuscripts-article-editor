@@ -10,8 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import { get } from 'lodash-es'
+
 import { CollectionEvent, CollectionEventDetails } from './types'
 
 interface State {
@@ -25,7 +26,6 @@ interface Action {
   isOffline?: boolean
 }
 
-/* tslint:disable:cyclomatic-complexity */
 export default (state: State, action: Action): State => {
   const errorsArr = get(action, 'event.detail.error.result.errors', [])
   const isLive = get(action, 'event.detail.isLive', false)
@@ -33,7 +33,9 @@ export default (state: State, action: Action): State => {
 
   switch (action.type) {
     case 'event': {
-      if (action.isOffline || !action.event) return state
+      if (action.isOffline || !action.event) {
+        return state
+      }
       return {
         allEvents: [action.event.detail, ...state.allEvents],
         newEvents: ignore
@@ -52,7 +54,6 @@ export default (state: State, action: Action): State => {
 
   return state
 }
-/* tslint:enable:cyclomatic-complexity */
 
 export const getInitialState = (): State => ({
   allEvents: [],
@@ -61,8 +62,10 @@ export const getInitialState = (): State => ({
 
 export const isUnauthorized = (detail: CollectionEventDetails) => {
   const status = get(detail, 'error.status', null)
-  if (!status) return null
-  return status === HttpStatusCodes.UNAUTHORIZED
+  if (!status) {
+    return null
+  }
+  return status === StatusCodes.UNAUTHORIZED
 }
 
 export const isPushSyncError = (detail: CollectionEventDetails) => {
@@ -72,7 +75,9 @@ export const isPushSyncError = (detail: CollectionEventDetails) => {
 export const isPullSyncError = (detail: CollectionEventDetails) => {
   // error.status is undefined for longpoll errors
   const status = get(detail, 'error.status', null)
-  if (!status) return null
+  if (!status) {
+    return null
+  }
   return Boolean(detail.direction === 'pull' && status)
 }
 
@@ -80,8 +85,7 @@ export const isSyncTimeoutError = (detail: CollectionEventDetails) => {
   const status = get(detail, 'error.status', null)
   const reason = get(detail, 'error.reason', null)
   return (
-    status === HttpStatusCodes.INTERNAL_SERVER_ERROR &&
-    reason === 'TimeoutError'
+    status === StatusCodes.INTERNAL_SERVER_ERROR && reason === 'TimeoutError'
   )
 }
 
@@ -94,16 +98,16 @@ export const getPushSyncErrorMessage = (detail: CollectionEventDetails) => {
   const status = get(detail, 'error.status')
 
   switch (status) {
-    case HttpStatusCodes.BAD_REQUEST:
+    case StatusCodes.BAD_REQUEST:
       return `Syncing your changes failed due to invalid data.`
 
-    case HttpStatusCodes.NOT_FOUND:
+    case StatusCodes.NOT_FOUND:
       return `Syncing your changes failed because of missing data.`
 
-    case HttpStatusCodes.CONFLICT:
+    case StatusCodes.CONFLICT:
       return `Syncing your changes failed due to a data conflict.`
 
-    case HttpStatusCodes.INTERNAL_SERVER_ERROR:
+    case StatusCodes.INTERNAL_SERVER_ERROR:
       return `Syncing your changes failed due to a server error on our end.`
   }
 

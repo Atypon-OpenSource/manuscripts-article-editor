@@ -23,6 +23,7 @@ import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { SubHero } from '../Hero'
 
 export interface RecoverValues {
@@ -41,7 +42,7 @@ const Container = styled.div`
 `
 const SignupLink = styled(Link)`
   text-decoration: underline;
-  color: ${props => props.theme.colors.text.error};
+  color: ${(props) => props.theme.colors.text.error};
 `
 
 export const RecoverForm: React.FunctionComponent<FormikProps<

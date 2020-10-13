@@ -20,6 +20,7 @@ import {
 import React from 'react'
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { sources } from '../../lib/sources'
 import { AddButton } from '../AddButton'
 import PageSidebar from '../PageSidebar'
@@ -32,7 +33,7 @@ import {
 } from './LibraryCollectionCategories'
 
 const SectionContainer = styled.div`
-  margin: 0 -${props => props.theme.grid.unit * 5}px ${props => props.theme.grid.unit * 4}px;
+  margin: 0 -${(props) => props.theme.grid.unit * 5}px ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const SectionIcon = styled.div`
@@ -43,12 +44,12 @@ const SectionIcon = styled.div`
 `
 
 const SectionTitle = styled.div`
-  margin-left: ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
   flex: 1;
 `
 
 const ListTitle = styled.div`
-  margin-left: ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
   flex: 1;
 `
 
@@ -56,12 +57,12 @@ const SectionLink = styled(NavLink)`
   align-items: center;
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
   display: flex;
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 9}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 9}px;
   line-height: 1;
   overflow: hidden;
   text-decoration: none;
@@ -71,11 +72,11 @@ const SectionLink = styled(NavLink)`
 
   &:hover,
   &.active {
-    background-color: ${props => props.theme.colors.background.fifth};
+    background-color: ${(props) => props.theme.colors.background.fifth};
   }
 
   &.active {
-    border-color: ${props => props.theme.colors.border.primary};
+    border-color: ${(props) => props.theme.colors.border.primary};
   }
 
   &:hover + &.active,
@@ -85,22 +86,24 @@ const SectionLink = styled(NavLink)`
 `
 
 const SectionTitleLink = styled(SectionLink)`
-  color: ${props => props.theme.colors.text.primary};
-  padding: 7px ${props => props.theme.grid.unit * 4}px;
+  color: ${(props) => props.theme.colors.text.primary};
+  padding: 7px ${(props) => props.theme.grid.unit * 4}px;
 `
 
-export const LibrarySidebar: React.FC<RouteComponentProps<{
-  projectID: string
-  sourceType: string
-  sourceID?: string
-  filterID?: string
-}> & {
-  projectLibraryCollections: Map<string, LibraryCollection>
-  globalLibraries: Map<string, Library>
-  globalLibraryCollections: Map<string, LibraryCollection>
-  importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
-  createBibliographyItem: () => void
-}> = ({
+export const LibrarySidebar: React.FC<
+  RouteComponentProps<{
+    projectID: string
+    sourceType: string
+    sourceID?: string
+    filterID?: string
+  }> & {
+    projectLibraryCollections: Map<string, LibraryCollection>
+    globalLibraries: Map<string, Library>
+    globalLibraryCollections: Map<string, LibraryCollection>
+    importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
+    createBibliographyItem: () => void
+  }
+> = ({
   projectLibraryCollections,
   globalLibraries,
   globalLibraryCollections,
@@ -152,7 +155,7 @@ export const LibrarySidebar: React.FC<RouteComponentProps<{
         open={sourceType === 'project'}
         location={`/projects/${projectID}/library/project`}
       >
-        {projectLibraryCollectionsArray.map(projectLibraryCollection => {
+        {projectLibraryCollectionsArray.map((projectLibraryCollection) => {
           // TODO: count items with this LibraryCollection and only show LibraryCollections with items
 
           return (
@@ -166,20 +169,20 @@ export const LibrarySidebar: React.FC<RouteComponentProps<{
         })}
       </Section>
 
-      {globalLibrariesArray.map(globalLibrary => {
+      {globalLibrariesArray.map((globalLibrary) => {
         const libraryCollections = globalLibraryCollectionsArray.filter(
-          libraryCollection => {
+          (libraryCollection) => {
             return libraryCollection.containerID === globalLibrary._id
           }
         )
 
         const defaultLibraryCollection = libraryCollections.find(
-          libraryCollection =>
+          (libraryCollection) =>
             libraryCollection.category === DEFAULT_LIBRARY_COLLECTION_CATEGORY
         )
 
         const nonDefaultLibraryCollections = libraryCollections.filter(
-          libraryCollection =>
+          (libraryCollection) =>
             libraryCollection.category !== DEFAULT_LIBRARY_COLLECTION_CATEGORY
         )
 
@@ -198,7 +201,7 @@ export const LibrarySidebar: React.FC<RouteComponentProps<{
             }
             location={`/projects/${projectID}/library/global/${globalLibrary._id}${defaultFilter}`}
           >
-            {nonDefaultLibraryCollections.map(libraryCollection => (
+            {nonDefaultLibraryCollections.map((libraryCollection) => (
               <SectionLink
                 key={libraryCollection._id}
                 to={`/projects/${projectID}/library/global/${globalLibrary._id}/${libraryCollection._id}`}
@@ -220,7 +223,7 @@ export const LibrarySidebar: React.FC<RouteComponentProps<{
         open={sourceType === 'search'}
         location={`/projects/${projectID}/library/search`}
       >
-        {sources.map(source => (
+        {sources.map((source) => (
           <SectionLink
             key={source.id}
             to={`/projects/${projectID}/library/search/${source.id}`}

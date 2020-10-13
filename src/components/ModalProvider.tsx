@@ -32,7 +32,7 @@ export const withModal = <Props extends ModalProps>(
   Component: React.ComponentType<Props>
 ): React.ComponentType<Omit<Props, keyof ModalProps>> => (props: Props) => (
   <ModalContext.Consumer>
-    {value => <Component {...props} {...value} />}
+    {(value) => <Component {...props} {...value} />}
   </ModalContext.Consumer>
 )
 
@@ -40,9 +40,11 @@ interface State {
   modals: Array<{ id: string; modal: ModalComponent }>
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export class ModalProvider extends React.Component<{}, State> {
-  private value: ModalProps
+  private readonly value: ModalProps
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   public constructor(props: {}) {
     super(props)
 
@@ -67,14 +69,14 @@ export class ModalProvider extends React.Component<{}, State> {
   private addModal: AddModal = (id, modal) => {
     this.setState({
       modals: this.state.modals
-        .filter(item => item.id !== id)
+        .filter((item) => item.id !== id)
         .concat({ id, modal }),
     })
   }
 
   private closeModal = (id: string) => {
     this.setState({
-      modals: this.state.modals.filter(modal => modal.id !== id),
+      modals: this.state.modals.filter((modal) => modal.id !== id),
     })
   }
 

@@ -12,6 +12,7 @@
 
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
 
@@ -62,7 +63,7 @@ class ProjectData extends DataComponent<Project, Props, State> {
   }
 
   private subscribe = (projectID: string) =>
-    this.collection.findOne(projectID).$.subscribe(async doc => {
+    this.collection.findOne(projectID).$.subscribe(async (doc) => {
       if (doc) {
         this.setState({
           data: doc.toJSON(),

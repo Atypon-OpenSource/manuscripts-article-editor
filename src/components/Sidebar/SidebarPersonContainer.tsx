@@ -18,21 +18,21 @@ interface SidebarPersonContainerProps {
 
 export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
   align-items: center;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.selected ? props.theme.colors.background.fifth : 'unset'};
   border: 1px solid
-    ${props =>
+    ${(props) =>
       props.selected ? props.theme.colors.border.primary : 'transparent'};
   border-left: 0;
   border-right: 0;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  margin: 0 -${props => props.theme.grid.unit * 5}px;
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 5}px;
+  margin: 0 -${(props) => props.theme.grid.unit * 5}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 5}px;
 
   &:hover {
-    background-color: ${props => props.theme.colors.background.fifth};
+    background-color: ${(props) => props.theme.colors.background.fifth};
   }
 `

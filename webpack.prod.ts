@@ -16,6 +16,7 @@ import WebappWebpackPlugin from 'webapp-webpack-plugin'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
 import SriPlugin from 'webpack-subresource-integrity'
+
 // import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import common from './webpack.common'
 

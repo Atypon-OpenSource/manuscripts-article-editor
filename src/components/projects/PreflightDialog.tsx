@@ -47,8 +47,8 @@ interface NodeValidation {
 }
 
 const hasFailedValidations = (validations: NodeValidation[]): boolean =>
-  validations.some(validation =>
-    Object.values(validation.alerts).some(alert => !alert.passed)
+  validations.some((validation) =>
+    Object.values(validation.alerts).some((alert) => !alert.passed)
   )
 
 const normalizeISSN = (issn: string): string => issn.replace(/\W/g, '')
@@ -60,7 +60,6 @@ export const PreflightDialog: React.FC<{
   issns: string[]
   targetJournals: TargetJournal[]
   manuscript: Manuscript
-  // tslint:disable-next-line:cyclomatic-complexity
 }> = ({ doc, handleConfirm, handleClose, issns, targetJournals }) => {
   const [targetJournal, setTargetJournal] = useState<TargetJournal | null>()
 
@@ -70,43 +69,46 @@ export const PreflightDialog: React.FC<{
 
   const buildRequirementsAlerts = useContext(RequirementsContext)
 
-  const buildValidations = async (node: ManuscriptNode) => {
-    const output: NodeValidation[] = []
+  const buildValidations = useCallback(
+    async (node: ManuscriptNode) => {
+      const output: NodeValidation[] = []
 
-    const alerts = await buildRequirementsAlerts(node)
+      const alerts = await buildRequirementsAlerts(node)
 
-    // TODO: author metadata checks
-    // alerts['corresponding_author'] = {
-    //   passed: true,
-    //   message: 'A corresponding author has been selected',
-    // }
-    //
-    // alerts['corresponding_author_email'] = {
-    //   passed: true,
-    //   message: 'All corresponding authors have email addresses',
-    // }
-    //
-    // alerts['author_affiliations'] = {
-    //   passed: true,
-    //   message: 'All authors have affiliations',
-    // }
+      // TODO: author metadata checks
+      // alerts['corresponding_author'] = {
+      //   passed: true,
+      //   message: 'A corresponding author has been selected',
+      // }
+      //
+      // alerts['corresponding_author_email'] = {
+      //   passed: true,
+      //   message: 'All corresponding authors have email addresses',
+      // }
+      //
+      // alerts['author_affiliations'] = {
+      //   passed: true,
+      //   message: 'All authors have affiliations',
+      // }
 
-    if (Object.keys(alerts).length > 0) {
-      output.push({ node, alerts })
-    }
+      if (Object.keys(alerts).length > 0) {
+        output.push({ node, alerts })
+      }
 
-    for (const childNode of iterateChildren(node, true)) {
-      if (childNode.attrs.id) {
-        const alerts = await buildRequirementsAlerts(childNode)
+      for (const childNode of iterateChildren(node, true)) {
+        if (childNode.attrs.id) {
+          const alerts = await buildRequirementsAlerts(childNode)
 
-        if (Object.keys(alerts).length > 0) {
-          output.push({ node: childNode, alerts })
+          if (Object.keys(alerts).length > 0) {
+            output.push({ node: childNode, alerts })
+          }
         }
       }
-    }
 
-    return output
-  }
+      return output
+    },
+    [buildRequirementsAlerts]
+  )
 
   useEffect(() => {
     const normalizedISSNs = issns.map(normalizeISSN)
@@ -127,11 +129,11 @@ export const PreflightDialog: React.FC<{
     if (targetJournal) {
       buildValidations(doc)
         .then(setValidations)
-        .catch(error => {
+        .catch((error) => {
           setError(error)
         })
     }
-  }, [targetJournal, doc])
+  }, [targetJournal, doc, buildValidations])
 
   const handleSubmit = useCallback(() => {
     if (!targetJournal) {
@@ -147,11 +149,11 @@ export const PreflightDialog: React.FC<{
       submission.journalTitle = targetJournal.journalName
       submission.issn = targetJournal.issn
 
-      handleConfirm(submission as Submission).catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      handleConfirm(submission as Submission).catch((error) => {
+        console.error(error)
       })
     }
-  }, [targetJournal, validations])
+  }, [handleConfirm, targetJournal, validations])
 
   return (
     <StyledModal
@@ -192,7 +194,7 @@ export const PreflightDialog: React.FC<{
           {targetJournal && (
             <>
               {validations
-                ? validations.map(validation => (
+                ? validations.map((validation) => (
                     <Checks
                       node={validation.node}
                       alerts={validation.alerts}
@@ -236,40 +238,40 @@ const ModalBody = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  border-radius: ${props => props.theme.grid.radius.default};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  background: ${props => props.theme.colors.background.primary};
+  border-radius: ${(props) => props.theme.grid.radius.default};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
+  background: ${(props) => props.theme.colors.background.primary};
 `
 
 const ModalTitle = styled.div`
-  font-size: ${props => props.theme.font.size.large};
-  padding: ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit * 8}px;
+  font-size: ${(props) => props.theme.font.size.large};
+  padding: ${(props) => props.theme.grid.unit * 4}px
+    ${(props) => props.theme.grid.unit * 8}px;
 `
 
 const ModalMain = styled.div`
   flex: 1;
-  padding: 0 ${props => props.theme.grid.unit * 8}px
-    ${props => props.theme.grid.unit * 4}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 8}px
+    ${(props) => props.theme.grid.unit * 4}px;
   max-height: 70vh;
   overflow-y: auto;
 `
 
 const ModalFooter = styled(ButtonGroup)`
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const ManuscriptTitle = styled(Title)`
-  margin-left: ${props => props.theme.grid.unit}px;
+  margin-left: ${(props) => props.theme.grid.unit}px;
 `
 
 const ManuscriptTitleContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: ${props => props.theme.grid.unit}px;
+  margin-bottom: ${(props) => props.theme.grid.unit}px;
 `
 
 const StyledManuscriptIcon = styled(ManuscriptIcon)`
   flex-shrink: 0;
-  margin-right: ${props => props.theme.grid.unit}px;
+  margin-right: ${(props) => props.theme.grid.unit}px;
 `

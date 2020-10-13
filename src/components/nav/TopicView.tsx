@@ -12,6 +12,7 @@
 
 import DOMPurify, { sanitize } from 'dompurify'
 import React, { useEffect, useState } from 'react'
+
 import { sanitizeLink } from '../../lib/sanitize'
 import { RelativeDate } from '../RelativeDate'
 import {
@@ -64,18 +65,18 @@ export const TopicView: React.FC<{ host: string; topic: Topic }> = ({
   useEffect(() => {
     if (topic) {
       fetch(`${host}/t/${topic.id}.json`)
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           const post = data.post_stream.posts.sort(oldestFirst)[0]
           setPost(post)
         })
-        .catch(error => {
+        .catch((error) => {
           setError(error.message)
         })
     } else {
       setPost(undefined)
     }
-  }, [topic])
+  }, [host, topic])
 
   if (!topic) {
     return null

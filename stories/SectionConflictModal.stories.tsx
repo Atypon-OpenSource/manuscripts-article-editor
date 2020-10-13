@@ -13,6 +13,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import SectionConflictModal from '../src/components/projects/SectionConflictModal'
 import SectionTree from '../src/components/projects/SectionTree'
 import sectionTree from './data/section-tree'

@@ -18,6 +18,7 @@ import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import { extname } from 'path'
 import React, { useCallback, useContext, useState } from 'react'
+
 import { openFilePicker } from '../../pressroom/importers'
 import { ContactSupportButton } from '../ContactSupportButton'
 import {
@@ -75,12 +76,11 @@ interface Props {
 }
 
 export const BibliographyImportButton: React.FC<{
-  setError?: (error: string) => void
   importItems: (
     items: Array<Build<BibliographyItem>>
   ) => Promise<BibliographyItem[]>
   component: React.FunctionComponent<Props>
-}> = React.memo(({ setError, importItems, component: Component }) => {
+}> = React.memo(({ importItems, component: Component }) => {
   const { showNotification } = useContext(NotificationContext)
 
   const [importing, setImporting] = useState(false)
@@ -96,7 +96,7 @@ export const BibliographyImportButton: React.FC<{
 
         const text = await window
           .fetch(URL.createObjectURL(file))
-          .then(response => response.text())
+          .then((response) => response.text())
 
         if (!text) {
           showNotification(
@@ -144,7 +144,7 @@ export const BibliographyImportButton: React.FC<{
           )
         )
       })
-  }, [])
+  }, [importItems, showNotification])
 
   return <Component importItems={handleImport} importing={importing} />
 })

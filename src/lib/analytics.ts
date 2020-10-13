@@ -18,19 +18,17 @@ if (config.analytics.id) {
     .then(({ init }) => {
       init(config.analytics as GoogleAnalyticsConfig)
     })
-    .catch(error => {
-      // tslint:disable-next-line:no-console
+    .catch((error) => {
       console.error(error)
     })
 }
 
 if (config.sentry.dsn) {
   import('@sentry/browser')
-    .then(Sentry => {
+    .then((Sentry) => {
       Sentry.init(config.sentry)
     })
-    .catch(error => {
-      // tslint:disable-next-line:no-console
+    .catch((error) => {
       console.error(error)
     })
 }

@@ -16,6 +16,7 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+
 import { InvitationData } from '../../src/components/nav/ProjectsButton'
 
 export const invitations: ContainerInvitation[] = [

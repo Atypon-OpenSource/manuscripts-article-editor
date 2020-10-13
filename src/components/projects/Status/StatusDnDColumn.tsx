@@ -12,6 +12,7 @@
 import { StatusLabel } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Droppable } from 'react-beautiful-dnd'
+
 import StatusDnDTask from './StatusDnDTask'
 import { DndIcon } from './StatusIcons'
 import { DndDisclaimer } from './StatusInputStyling'
@@ -28,7 +29,7 @@ const StatusDnDColumn: React.FC<StatusDnDColumnProps> = ({
   tasks,
 }) => (
   <Droppable droppableId={id}>
-    {(provided, snapshot) => (
+    {(provided) => (
       <>
         <div
           {...provided.droppableProps}
@@ -46,6 +47,7 @@ const StatusDnDColumn: React.FC<StatusDnDColumnProps> = ({
           ) : (
             tasks.map((task: StatusLabel, index: number) => (
               <StatusDnDTask
+                key={task._id}
                 id={task._id}
                 task={task}
                 index={index}
@@ -60,7 +62,7 @@ const StatusDnDColumn: React.FC<StatusDnDColumnProps> = ({
         {id === 'newStatus' && (
           <DndDisclaimer>
             <DndIcon />
-            <p>Drag the "{newTask}" status to fix position</p>
+            <p>Drag the &quot;{newTask}&quot; status to fix position</p>
           </DndDisclaimer>
         )}
       </>

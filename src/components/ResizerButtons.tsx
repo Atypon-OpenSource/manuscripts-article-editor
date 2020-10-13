@@ -14,6 +14,7 @@ import InspectorHandle from '@manuscripts/assets/react/InspectorHandle'
 import OutlineViewHandle from '@manuscripts/assets/react/OutlineViewHandle'
 import React from 'react'
 import styled, { css } from 'styled-components'
+
 import { ResizerButton, ResizerButtonInnerProps } from './Panel'
 
 export const ResizingOutlinerButton: React.FunctionComponent<ResizerButtonInnerProps> = ({
@@ -25,7 +26,7 @@ export const ResizingOutlinerButton: React.FunctionComponent<ResizerButtonInnerP
 )
 
 const collapsedStyling = css`
-  right: ${props => props.theme.grid.unit * 5}px;
+  right: ${(props) => props.theme.grid.unit * 5}px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 `
@@ -41,5 +42,5 @@ const UnstyledResizingInspectorButton: React.FunctionComponent<ResizerButtonInne
 export const ResizingInspectorButton = styled(UnstyledResizingInspectorButton)<{
   isCollapsed: boolean
 }>`
-  ${props => (props.isCollapsed ? collapsedStyling : 'right: 0;')}
+  ${(props) => (props.isCollapsed ? collapsedStyling : 'right: 0;')}
 `

@@ -12,6 +12,7 @@
 
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { Hero, SubHero } from '../src/components/Hero'
 
 storiesOf('Hero', module)

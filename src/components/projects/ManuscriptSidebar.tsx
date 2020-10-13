@@ -25,6 +25,7 @@ import { TitleField } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import { Permissions } from '../../types/permissions'
 import { AddButton } from '../AddButton'
@@ -41,7 +42,7 @@ const CustomizedSidebarHeader = styled.div`
 const ProjectTitle = styled.div`
   flex: 1;
   overflow: hidden;
-  padding-right: ${props => props.theme.grid.unit}px;
+  padding-right: ${(props) => props.theme.grid.unit}px;
   font-size: 24px;
   line-height: 32px;
 
@@ -56,7 +57,7 @@ const ProjectTitle = styled.div`
 
     &.empty-node::before {
       position: absolute;
-      color: ${props => props.theme.colors.text.muted};
+      color: ${(props) => props.theme.colors.text.muted};
       cursor: text;
       content: 'Untitled Project';
       pointer-events: none;
@@ -66,7 +67,7 @@ const ProjectTitle = styled.div`
     }
 
     &.empty-node:hover::before {
-      color: ${props => props.theme.colors.text.secondary};
+      color: ${(props) => props.theme.colors.text.secondary};
     }
   }
 `
@@ -118,11 +119,14 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
     openTemplateSelector(false)
   }, [openTemplateSelector])
 
-  const handleTitleChange = useCallback(debounce(saveProjectTitle, 1000), [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleTitleChange = useCallback(debounce(saveProjectTitle, 1000), [
+    saveProjectTitle,
+  ])
 
   const setIndex = useCallback(
     (id: string, index: number) => {
-      const manuscript = manuscripts.find(item => item._id === id)!
+      const manuscript = manuscripts.find((item) => item._id === id)!
 
       manuscript.priority = index
 
@@ -133,8 +137,8 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
           saveModel({
             ...manuscript,
             priority: index,
-          }).catch(error => {
-            console.error(error) // tslint:disable-line:no-console
+          }).catch((error) => {
+            console.error(error)
           })
         }
       }
@@ -160,6 +164,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
               <ProjectTitle>
                 <TitleField
                   id={'project-title-field'}
+                  // eslint-disable-next-line jsx-a11y/tabindex-no-positive
                   tabIndex={1}
                   editable={permissions.write}
                   value={project.title || ''}

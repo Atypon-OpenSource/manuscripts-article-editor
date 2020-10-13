@@ -14,7 +14,6 @@ import { cleanItem } from '../clean-item'
 
 describe('cleanItem', () => {
   it('_rev & collection', () => {
-    // tslint:disable-next-line:no-any
     const bibliographyElement: any = {
       _id: 'MPBibliographyElement:80EFCE66-58E9-4BB7-A80A-2058507A5970',
       objectType: 'MPBibliographyElement',
@@ -36,7 +35,6 @@ describe('cleanItem', () => {
   })
 
   it('bundled & locked', () => {
-    // tslint:disable-next-line:no-any
     const auxiliaryObjectReferenceStyle: any = {
       updatedAt: 1446410358.4180989,
       objectType: 'MPAuxiliaryObjectReferenceStyle',
@@ -52,7 +50,6 @@ describe('cleanItem', () => {
           bold: true,
           _id:
             'MPStyleableStringComponent:B8CF9955-0956-4114-AAC7-F9C6CC99688F',
-          // tslint:disable-next-line:no-invalid-template-strings
           placeholderString: '${kind} ${elementIndex}',
           italic: false,
           objectType: 'MPStyleableStringComponent',
@@ -68,7 +65,6 @@ describe('cleanItem', () => {
   })
 
   it('contributor derived fields', () => {
-    // tslint:disable-next-line:no-any
     const contributor: any = {
       prename: 'Seondeok',
       updatedAt: 1446650108.566662,
@@ -105,7 +101,6 @@ describe('cleanItem', () => {
   })
 
   it('id and _id', () => {
-    // tslint:disable-next-line:no-any
     const figureElement: any = {
       figureStyle: 'MPFigureStyle:E173019C-00BB-415E-926A-D0C57ED43303',
       id: 'MPFigureElement:347C7D2A-5C1D-4A9B-AED0-97CAEB91F210',
@@ -130,7 +125,6 @@ describe('cleanItem', () => {
   })
 
   it('Table caption', () => {
-    // tslint:disable-next-line:no-any
     const table: any = {
       _id: 'MPTable:0D470DF3-AF6A-4C13-A918-4DAE53B52500',
       objectType: 'MPTable',
@@ -147,7 +141,6 @@ describe('cleanItem', () => {
   })
 
   it('Citation containingElement', () => {
-    // tslint:disable-next-line:no-any
     const citation: any = {
       _id: 'MPCitation:015A478A-4AE3-4266-981C-D07642524ABB',
       containingElement:
@@ -186,7 +179,6 @@ describe('cleanItem', () => {
   })
 
   it('bibliography item', () => {
-    // tslint:disable-next-line:no-any
     const bibliographyItem: any = {
       _id: 'MPBibliographyItem:3F84F837-7E5D-4DC5-957D-6222ECC0500F',
       objectType: 'MPBibliographyItem',

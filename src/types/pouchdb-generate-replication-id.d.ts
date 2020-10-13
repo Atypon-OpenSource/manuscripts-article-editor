@@ -14,9 +14,9 @@ declare module 'pouchdb-generate-replication-id' {
   import { PouchDB } from '@manuscripts/rxdb'
 
   const main: (
-    db1: PouchDB<{}>,
-    db2: PouchDB<{}>,
-    options: object
+    db1: PouchDB<unknown>,
+    db2: PouchDB<unknown>,
+    options: Record<string, unknown>
   ) => Promise<string>
   export default main
 }

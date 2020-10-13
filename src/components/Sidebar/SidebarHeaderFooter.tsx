@@ -19,12 +19,12 @@ const commonStyles = css`
   display: flex;
   flex-shrink: 0;
   justify-content: space-between;
-  padding: 0 ${props => props.theme.grid.unit * 3}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const StyledSidebarHeader = styled.div`
   ${commonStyles};
-  margin-bottom: ${props => props.theme.grid.unit * 6}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 6}px;
 `
 
 const StyledSidebarActionContainer = styled.div`
@@ -32,9 +32,9 @@ const StyledSidebarActionContainer = styled.div`
 `
 
 export const SidebarTitle = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  font-weight: ${props => props.theme.font.weight.semibold};
-  color: ${props => props.theme.colors.text.primary};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  font-weight: ${(props) => props.theme.font.weight.semibold};
+  color: ${(props) => props.theme.colors.text.primary};
   user-select: none;
   white-space: nowrap;
   width: 100%;
@@ -42,7 +42,7 @@ export const SidebarTitle = styled.div`
 
 export const SidebarFooter = styled.div`
   ${commonStyles};
-  margin-top: ${props => props.theme.grid.unit * 4}px;
+  margin-top: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 interface SidebarHeaderInterface {

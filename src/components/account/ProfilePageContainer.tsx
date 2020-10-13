@@ -20,6 +20,7 @@ import { Category, Dialog } from '@manuscripts/style-guide'
 import { FormikErrors, FormikHelpers } from 'formik'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import config from '../../config'
 import UserAffiliationsData from '../../data/UserAffiliationsData'
 import UserData from '../../data/UserData'
@@ -32,8 +33,8 @@ import { Collection } from '../../sync/Collection'
 import { ProfileErrors, ProfileValues } from './ProfileForm'
 import { ProfilePageComponent } from './ProfilePage'
 
-const ProfilePage = React.lazy<ProfilePageComponent>(() =>
-  import('./ProfilePage')
+const ProfilePage = React.lazy<ProfilePageComponent>(
+  () => import('./ProfilePage')
 )
 
 interface State {
@@ -131,10 +132,11 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
   ) => async (
     values: ProfileValues,
     { setSubmitting, setErrors }: FormikHelpers<ProfileValues | ProfileErrors>
-  ) => {
-    userCollection.update(user._id, values).then(
-      () => setSubmitting(false),
-      error => {
+  ) =>
+    userCollection
+      .update(user._id, values)
+      .then(() => setSubmitting(false))
+      .catch((error) => {
         setSubmitting(false)
 
         const errors: FormikErrors<ProfileErrors> = {
@@ -144,9 +146,7 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
         }
 
         setErrors(errors)
-      }
-    )
-  }
+      })
 
   private handleChangePassword = () =>
     config.connect.enabled
@@ -171,13 +171,12 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
 
     try {
       const user = await userCollection.findDoc(userID)
-      await user.atomicUpdate(current => {
+      await user.atomicUpdate((current) => {
         current.affiliations = current.affiliations || []
         current.affiliations.push(userProfileAffiliation._id)
         return current
       })
     } catch (e) {
-      /* tslint:disable-next-line:no-console */
       console.error('Failed to create affiliation', e)
     }
 

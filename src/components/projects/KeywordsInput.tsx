@@ -23,6 +23,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import CreatableSelect from 'react-select/creatable'
+
 import { selectStyles } from '../../lib/select-styles'
 import { SaveModel } from './ManuscriptInspector'
 
@@ -36,7 +37,7 @@ export const KeywordsInput: React.FC<{
   const keywordIDs = manuscript.keywordIDs || []
 
   const manuscriptKeywords: ManuscriptKeyword[] = keywordIDs
-    .map(id => modelMap.get(id) as ManuscriptKeyword | undefined)
+    .map((id) => modelMap.get(id) as ManuscriptKeyword | undefined)
     .filter(Boolean) as ManuscriptKeyword[]
 
   const updateKeywordsElement = (manuscriptKeywords: ManuscriptKeyword[]) => {
@@ -74,14 +75,14 @@ export const KeywordsInput: React.FC<{
     <CreatableSelect<ManuscriptKeyword>
       isMulti={true}
       noOptionsMessage={() => null}
-      getNewOptionData={inputValue => {
+      getNewOptionData={(inputValue) => {
         const option = {
           name: `Add "${inputValue}"`,
         }
 
         return option as ManuscriptKeyword
       }}
-      onCreateOption={async inputValue => {
+      onCreateOption={async (inputValue) => {
         const keyword = buildManuscriptKeyword(inputValue)
 
         await saveModel<ManuscriptKeyword>(keyword)
@@ -97,11 +98,11 @@ export const KeywordsInput: React.FC<{
       }}
       options={manuscriptKeywords}
       value={manuscriptKeywords}
-      getOptionValue={option => option._id}
-      getOptionLabel={option => option.name}
+      getOptionValue={(option) => option._id}
+      getOptionLabel={(option) => option.name}
       onChange={async (manuscriptKeywords: ManuscriptKeyword[]) => {
         await saveManuscript({
-          keywordIDs: manuscriptKeywords.map(item => item._id),
+          keywordIDs: manuscriptKeywords.map((item) => item._id),
         })
 
         updateKeywordsElement(manuscriptKeywords)

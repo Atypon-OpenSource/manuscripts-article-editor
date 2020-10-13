@@ -16,7 +16,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 export const useSyncedData = <T extends unknown>(
   propValue: T,
   handleChange: (value: T) => void,
-  wait: number = 1000
+  wait = 1000
 ): [T, (value: T) => void, (focused: boolean) => void] => {
   const [value, setValue] = useState<T>(propValue)
   const [editing, setEditing] = useState<boolean>(false)
@@ -33,6 +33,7 @@ export const useSyncedData = <T extends unknown>(
         setValue(propValue)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [previousPropValueString, propValueString])
 
   // update the value from the prop on blur
@@ -42,6 +43,7 @@ export const useSyncedData = <T extends unknown>(
     }
   }, [editing, propValue])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedHandleChange = useCallback(debounce(handleChange, wait), [
     handleChange,
     wait,

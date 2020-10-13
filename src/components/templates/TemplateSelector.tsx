@@ -50,6 +50,7 @@ import React, {
   useState,
 } from 'react'
 import { useHistory } from 'react-router-dom'
+
 import { nextManuscriptPriority } from '../../lib/manuscript'
 import { postWebkitMessage } from '../../lib/native'
 import { manuscriptCountRequirementFields } from '../../lib/requirements'
@@ -169,13 +170,14 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           templateContainer: true,
         })
         .exec()
-        .then(docs => docs.map(doc => doc.toJSON()) as Project[])
+        .then((docs) => docs.map((doc) => doc.toJSON()) as Project[])
 
       const syncedProjectCollections = (projects: Project[]) =>
         Promise.all<Collection<ContainedModel>>(
           projects.map(
-            project =>
-              new Promise(async resolve => {
+            (project) =>
+              // eslint-disable-next-line no-async-promise-executor
+              new Promise(async (resolve) => {
                 const collection = await CollectionManager.createCollection<
                   ContainedModel
                 >({
@@ -188,7 +190,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
                   resolve(collection)
                 }
 
-                collection.addEventListener('complete', async event => {
+                collection.addEventListener('complete', async (event) => {
                   if (event.detail.direction === 'pull' && event.detail.value) {
                     resolve(collection)
                   }
@@ -206,16 +208,18 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
         const templates = await collection
           .find({ objectType: ObjectTypes.ManuscriptTemplate })
           .exec()
-          .then(docs => docs.map(doc => doc.toJSON()) as ManuscriptTemplate[])
+          .then(
+            (docs) => docs.map((doc) => doc.toJSON()) as ManuscriptTemplate[]
+          )
 
         const models = await collection
           .find({
             templateID: {
-              $in: templates.map(template => template._id),
+              $in: templates.map((template) => template._id),
             },
           })
           .exec()
-          .then(docs => docs.map(doc => doc.toJSON()) as ManuscriptModel[])
+          .then((docs) => docs.map((doc) => doc.toJSON()) as ManuscriptModel[])
 
         // TODO: stop syncing the collection now?
 
@@ -227,19 +231,19 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
       setUserTemplateModels(userTemplateModels)
     }
 
-    loadUserTemplates().catch(error => {
+    loadUserTemplates().catch((error) => {
       // TODO: display error message
-      console.error(error) // tslint:disable-line:no-console
+      console.error(error)
     })
-  }, [])
+  }, [db])
 
   useEffect(() => {
     if (userTemplates && userTemplateModels) {
       loadSharedData(userTemplates, userTemplateModels)
         .then(setData)
-        .catch(error => {
+        .catch((error) => {
           // TODO: display error message
-          console.error(error) // tslint:disable-line:no-console
+          console.error(error)
         })
     }
   }, [userTemplates, userTemplateModels])
@@ -262,7 +266,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   const items = useMemo(() => (data ? buildItems(data) : undefined), [data])
 
   // TODO: refactor most of this to a separate module
-  // tslint:disable-next-line:cyclomatic-complexity
+
   const createEmpty = useCallback(async () => {
     if (!data) {
       throw new Error('Data not loaded')
@@ -369,11 +373,18 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
     }
 
     handleComplete()
-  }, [handleComplete, data])
+  }, [
+    data,
+    projectID,
+    user.userID,
+    user.bibliographicName,
+    db,
+    history,
+    handleComplete,
+  ])
 
   // TODO: refactor most of this to a separate module
   const selectTemplate = useCallback(
-    // tslint:disable-next-line:cyclomatic-complexity
     async (item: TemplateData) => {
       if (!data) {
         throw new Error('Data not loaded')
@@ -389,7 +400,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           await projectsCollection.ensurePushSync()
         } catch (error) {
           // continue anyway
-          // tslint:disable-next-line:no-console
+
           console.error(error, 'Unable to ensure push sync of new project')
         }
       }
@@ -623,7 +634,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
 
       handleComplete()
     },
-    [handleComplete, history, data, user]
+    [data, projectID, user, db, history, handleComplete]
   )
 
   if (!data || !categories || !researchFields || !items) {

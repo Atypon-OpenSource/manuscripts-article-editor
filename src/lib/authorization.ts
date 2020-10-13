@@ -11,6 +11,7 @@
  */
 
 import { AxiosRequestConfig } from 'axios'
+
 import tokenHandler from './token'
 
 const anonymousRoutes = ['/auth/login', '/registration/signup']

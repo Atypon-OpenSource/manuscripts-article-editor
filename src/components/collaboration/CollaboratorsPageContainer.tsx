@@ -18,6 +18,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import { TokenActions } from '../../data/TokenData'
 import { projectInvite, projectUninvite, updateUserRole } from '../../lib/api'
 import { buildCollaborators } from '../../lib/collaborators'
@@ -49,6 +50,7 @@ type CombinedProps = Props &
     {
       projectID: string
     },
+    // eslint-disable-next-line @typescript-eslint/ban-types
     {},
     RouteLocationState
   >
@@ -74,7 +76,7 @@ class CollaboratorsPageContainer extends React.Component<CombinedProps, State> {
     } = this.props
 
     const acceptedInvitations = invitations.filter(
-      invitation => !invitation.acceptedAt
+      (invitation) => !invitation.acceptedAt
     )
 
     const projectCollaborators = buildCollaborators(project, collaborators)

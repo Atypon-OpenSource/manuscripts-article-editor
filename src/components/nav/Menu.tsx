@@ -10,12 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import '@manuscripts/style-guide/styles/tip.css'
+
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import { IconButton, Tip } from '@manuscripts/style-guide'
-import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+
 import OfflineIndicator from '../OfflineIndicator'
 import ProjectsButton from './ProjectsButton'
 import UserContainer from './UserContainer'
@@ -24,15 +26,15 @@ export const MenuContainer = styled.div`
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  color: ${props => props.theme.colors.text.secondary};
-  font-family: ${props => props.theme.font.family.sans};
-  font-weight: ${props => props.theme.font.weight.medium};
-  font-size: ${props => props.theme.font.size.medium};
+  color: ${(props) => props.theme.colors.text.secondary};
+  font-family: ${(props) => props.theme.font.family.sans};
+  font-weight: ${(props) => props.theme.font.weight.medium};
+  font-size: ${(props) => props.theme.font.size.medium};
   white-space: nowrap;
-  border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.secondary};
 `
 
-export const MenuBarIcon = styled(IconButton).attrs(props => ({
+export const MenuBarIcon = styled(IconButton).attrs(() => ({
   defaultColor: true,
   size: 34,
 }))`
@@ -50,30 +52,30 @@ export const MenuSections = styled.div`
 export const MenuSection = styled.div`
   display: flex;
   align-items: center;
-  margin-right: ${props => props.theme.grid.unit * 5}px;
-  margin-left: ${props => props.theme.grid.unit * 4}px;
+  margin-right: ${(props) => props.theme.grid.unit * 5}px;
+  margin-left: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 export const MenuLink = styled(NavLink)`
   display: inline-flex;
   align-items: center;
-  padding: ${props => props.theme.grid.unit}px
-    ${props => props.theme.grid.unit * 2}px;
+  padding: ${(props) => props.theme.grid.unit}px
+    ${(props) => props.theme.grid.unit * 2}px;
   text-decoration: none;
   color: inherit;
-  border: solid 2px ${props => props.theme.colors.brand.default};
-  border-radius: ${props => props.theme.grid.radius.small};
+  border: solid 2px ${(props) => props.theme.colors.brand.default};
+  border-radius: ${(props) => props.theme.grid.radius.small};
   margin-left: 20px;
 
   &.active {
-    background: ${props => props.theme.colors.brand.default};
-    color: ${props => props.theme.colors.text.onDark};
+    background: ${(props) => props.theme.colors.brand.default};
+    color: ${(props) => props.theme.colors.text.onDark};
   }
 
   &:hover {
-    background: ${props => props.theme.colors.background.primary};
-    color: ${props => props.theme.colors.brand.default};
-    border: solid 2px ${props => props.theme.colors.brand.default};
+    background: ${(props) => props.theme.colors.background.primary};
+    color: ${(props) => props.theme.colors.brand.default};
+    border: solid 2px ${(props) => props.theme.colors.brand.default};
   }
 `
 

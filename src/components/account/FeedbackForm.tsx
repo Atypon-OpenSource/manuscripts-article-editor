@@ -22,6 +22,7 @@ import {
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import styled from 'styled-components'
+
 import { ModalFormActions } from '../ModalForm'
 
 export interface FeedbackValues {
@@ -31,7 +32,7 @@ export interface FeedbackValues {
 
 const Container = styled.div`
   margin-top: 10px;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 export const FeedbackForm: React.FunctionComponent<FormikProps<
@@ -57,6 +58,7 @@ export const FeedbackForm: React.FunctionComponent<FormikProps<
         {({ field }: FieldProps) => (
           <TextArea
             {...field}
+            id={'feedback-message'}
             placeholder={
               'Please tell us how you like Manuscripts.io, and what we should improve.\n\nIf you are reporting a bug, please include steps to help us reproduce the problem you encountered.'
             }
@@ -68,7 +70,9 @@ export const FeedbackForm: React.FunctionComponent<FormikProps<
     </TextFieldContainer>
 
     <Container>
-      <label>Your feedback will be posted privately to the developers.</label>
+      <label htmlFor={'feedback-message'}>
+        Your feedback will be posted privately to the developers.
+      </label>
     </Container>
 
     {errors.submit && <FormError>{errors.submit}</FormError>}

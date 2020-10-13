@@ -17,14 +17,17 @@ interface RxDB {
 interface WebKit {
   messageHandlers: {
     [key: string]: {
-      postMessage: (message: object) => void
+      postMessage: (message: Record<string, unknown>) => void
     }
   }
 }
 
 declare interface Window {
   RxDB: RxDB
-  requestIdleCallback: (T: () => void, options: object) => string
+  requestIdleCallback: (
+    T: () => void,
+    options: Record<string, unknown>
+  ) => string
   webkit: WebKit
   getMenuState?: (key: string) => MenuItemState
   dispatchMenuAction?: (key: string) => void

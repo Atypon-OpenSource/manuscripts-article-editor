@@ -11,10 +11,11 @@
  */
 
 import { FormikErrors, FormikHelpers } from 'formik'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import { parse, stringify } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+
 import { resetPassword } from '../../lib/account'
 import { sendPasswordRecovery } from '../../lib/api'
 import tokenHandler from '../../lib/token'
@@ -107,9 +108,9 @@ class RecoverPageContainer extends React.Component<RouteComponentProps> {
       const errors: FormikErrors<PasswordErrors> = {}
 
       if (error.response) {
-        if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+        if (error.response.status === StatusCodes.UNAUTHORIZED) {
           errors.submit = 'Invalid or expired reset password link'
-        } else if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
+        } else if (error.response.status === StatusCodes.BAD_REQUEST) {
           errors.submit = 'Invalid parameters'
         } else {
           errors.submit = 'An error occurred'
@@ -138,9 +139,9 @@ class RecoverPageContainer extends React.Component<RouteComponentProps> {
       const errors: FormikErrors<RecoverValues & RecoverErrors> = {}
 
       if (error.response) {
-        if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+        if (error.response.status === StatusCodes.UNAUTHORIZED) {
           errors.notFound = 'Invalid username or password'
-        } else if (error.response.status === HttpStatusCodes.BAD_REQUEST) {
+        } else if (error.response.status === StatusCodes.BAD_REQUEST) {
           errors.submit = 'Invalid parameters'
         } else {
           errors.submit = 'An error occurred'

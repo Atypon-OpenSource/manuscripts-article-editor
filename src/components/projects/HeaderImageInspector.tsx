@@ -12,6 +12,7 @@
 
 import { Figure, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CreditInput } from './CreditInput'
 import { DescriptionInput } from './DescriptionInput'
@@ -41,7 +42,7 @@ export const HeaderImageInspector: React.FC<{
     <InspectorSection title={'Header Image'}>
       <ManuscriptHeaderField
         value={manuscript.headerFigure}
-        handleChange={async headerFigure => {
+        handleChange={async (headerFigure) => {
           await saveManuscript({ headerFigure })
         }}
         saveModel={saveModel}
@@ -55,7 +56,7 @@ export const HeaderImageInspector: React.FC<{
           <DescriptionInput
             placeholder={'Image caption…'}
             value={headerFigure.title}
-            handleChange={async title => {
+            handleChange={async (title) => {
               await saveModel({
                 ...headerFigure,
                 title,
@@ -67,7 +68,7 @@ export const HeaderImageInspector: React.FC<{
 
           <CreditInput
             value={headerFigure.credit}
-            handleChange={async credit => {
+            handleChange={async (credit) => {
               await saveModel({
                 ...headerFigure,
                 credit,

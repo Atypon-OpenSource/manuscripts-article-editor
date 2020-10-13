@@ -19,6 +19,7 @@ import InvitationPlaceholder from '@manuscripts/assets/react/InvitationPlacehold
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
+
 import { isOwner } from '../../lib/roles'
 import { AddButton } from '../AddButton'
 import {
@@ -45,35 +46,35 @@ const OuterContainer = styled.div`
 const InnerContainer = styled.div`
   text-align: center;
   max-width: 480px;
-  font-size: ${props => props.theme.font.size.xlarge};
-  line-height: ${props => props.theme.font.lineHeight.large};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
 `
 
 const Placeholder = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: ${props => props.theme.grid.unit * 5}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 5}px;
 `
 
 const Action = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${props => props.theme.font.size.xlarge};
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   letter-spacing: -0.5px;
 `
 
 const Message = styled.div`
   max-width: 400px;
-  font-size: ${props => props.theme.font.size.xlarge};
-  margin-top: ${props => props.theme.grid.unit * 6}px;
-  font-weight: ${props => props.theme.font.weight.light};
-  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  margin-top: ${(props) => props.theme.grid.unit * 6}px;
+  font-weight: ${(props) => props.theme.font.weight.light};
+  color: ${(props) => props.theme.colors.text.secondary};
 
   @media (max-width: 850px) {
-    margin-right: ${props => props.theme.grid.unit * 5}px;
-    margin-left: ${props => props.theme.grid.unit * 5}px;
+    margin-right: ${(props) => props.theme.grid.unit * 5}px;
+    margin-left: ${(props) => props.theme.grid.unit * 5}px;
     max-width: 350px;
   }
 `

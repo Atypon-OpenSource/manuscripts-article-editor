@@ -12,6 +12,7 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
+
 import { openImagePicker } from '../../lib/images'
 
 export interface ImportAvatarProps {

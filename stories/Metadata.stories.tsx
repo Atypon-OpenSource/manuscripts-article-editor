@@ -15,6 +15,7 @@ import { Title, TitleField } from '@manuscripts/title-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import {
   AddAuthorsPage,
   AuthorDetailsPage,
@@ -111,7 +112,7 @@ storiesOf('Metadata', module)
       authorAffiliations={authorAffiliations}
       selectAuthor={action('select author')}
       selectedAuthor={null}
-      getSidebarItemDecorator={() => <span>Ain't Afraid</span>}
+      getSidebarItemDecorator={() => <span>Ain&apos;t Afraid</span>}
       openAddAuthors={action('start adding')}
       handleDrop={action('dropped the user')}
       invitationSent={false}

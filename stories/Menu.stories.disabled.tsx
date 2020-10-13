@@ -13,6 +13,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { GlobalMenu } from '../src/components/nav/GlobalMenu'
 import { Menu } from '../src/components/nav/Menu'
 

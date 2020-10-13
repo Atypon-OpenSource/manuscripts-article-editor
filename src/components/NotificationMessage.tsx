@@ -12,6 +12,7 @@
 
 import { SecondaryButton } from '@manuscripts/style-guide'
 import React, { useContext, useEffect } from 'react'
+
 import {
   NotificationComponent,
   NotificationContext,
@@ -31,7 +32,7 @@ export const createNotification = ({
 }: {
   id: string
   message: string
-}): NotificationComponent => props => (
+}): NotificationComponent => (props) => (
   <NotificationPrompt>
     <NotificationHead>
       <NotificationIcon />
@@ -61,7 +62,7 @@ export const Notification: React.FC<{
     return () => {
       removeNotification(id)
     }
-  }, [id, message])
+  }, [id, message, removeNotification, showNotification])
 
   return <>{children}</>
 }

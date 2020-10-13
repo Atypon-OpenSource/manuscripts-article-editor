@@ -29,6 +29,7 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect, useState } from 'react'
+
 import config from '../../config'
 import { useStatusLabels } from '../../hooks/use-status-labels'
 import {
@@ -62,7 +63,7 @@ export const Inspector: React.FC<{
   commentTarget?: string
   createKeyword: (name: string) => Promise<Keyword>
   deleteModel: (id: string) => Promise<string>
-  dispatchNodeAttrs: (id: string, attrs: object) => void
+  dispatchNodeAttrs: (id: string, attrs: Record<string, unknown>) => void
   dispatchUpdate: () => void
   doc: ActualManuscriptNode
   element?: AnyElement
@@ -85,7 +86,6 @@ export const Inspector: React.FC<{
   submission?: Submission
   view: ManuscriptEditorView
   tags: Tag[]
-  // tslint:disable-next-line:cyclomatic-complexity
 }> = ({
   bundle,
   comments,

@@ -14,6 +14,7 @@ import projectDump from '@manuscripts/examples/data/project-dump.json'
 import { Manuscript, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import { AxiosResponse, ResponseType } from 'axios'
 import JSZip from 'jszip'
+
 import { buildProjectBundle, removeUnsupportedData } from '../exporter'
 import { ProjectDump, readProjectDumpFromArchive } from '../importers'
 import { convert } from '../pressroom'
@@ -21,7 +22,7 @@ import { getAttachment } from './attachments'
 import { buildModelMap } from './util'
 
 jest.unmock('axios')
-jest.unmock('../pressroom')
+// jest.unmock('../pressroom')
 
 // allow 10 minutes for tests to complete
 jest.setTimeout(1000 * 60 * 10)
@@ -72,7 +73,7 @@ describe('importer', () => {
   test('imports a manuproj file', async () => {
     const findManuscript = (projectDump: ProjectDump) =>
       projectDump.data.find(
-        item => item.objectType === ObjectTypes.Manuscript
+        (item) => item.objectType === ObjectTypes.Manuscript
       ) as Manuscript
 
     const manuscript = findManuscript(projectDump)
@@ -94,7 +95,7 @@ describe('importer', () => {
     const form = new FormData()
     form.append('file', file)
 
-    console.log('Importing empty manuscript') // tslint:disable-line:no-console
+    console.log('Importing empty manuscript')
 
     // @ts-ignore: mocked convert function returns the response, not the blob
     const response: AxiosResponse<ArrayBuffer> = await convert(form, 'manuproj')

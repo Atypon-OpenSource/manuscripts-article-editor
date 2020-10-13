@@ -13,6 +13,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import LoginPage from '../src/components/account/LoginPage'
 import PasswordPage from '../src/components/account/PasswordPage'
 import RecoverPage from '../src/components/account/RecoverPage'

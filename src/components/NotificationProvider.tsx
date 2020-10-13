@@ -13,12 +13,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+
 import SyncNotificationManager from '../sync/SyncNotificationManager'
 import { Notifications } from './Notifications'
 
-export type NotificationComponent<P = {}> = React.ComponentType<
-  NotificationProps & RouteComponentProps & P
->
+export type NotificationComponent<
+  P = Record<string, unknown>
+> = React.ComponentType<NotificationProps & RouteComponentProps & P>
 
 export type ShowNotification = (
   id: string,
@@ -54,7 +55,7 @@ export class NotificationProvider extends React.Component<
   RouteComponentProps,
   State
 > {
-  private value: NotificationValue
+  private readonly value: NotificationValue
 
   public constructor(props: RouteComponentProps) {
     super(props)
@@ -79,24 +80,24 @@ export class NotificationProvider extends React.Component<
   }
 
   private showNotification: ShowNotification = (id, notification) => {
-    this.setState(state => {
+    this.setState((state) => {
       const item: NotificationItem = { id, notification }
 
       return {
         ...state,
         notifications: [
           item,
-          ...state.notifications.filter(item => item.id !== id),
+          ...state.notifications.filter((item) => item.id !== id),
         ],
       }
     })
   }
 
   private removeNotification = (id: string) => {
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
       notifications: state.notifications.filter(
-        notification => notification.id !== id
+        (notification) => notification.id !== id
       ),
     }))
   }
@@ -107,7 +108,9 @@ export class NotificationProvider extends React.Component<
       notification: SyncNotificationManager,
     })
 
-    if (!notifications.length) return null
+    if (!notifications.length) {
+      return null
+    }
 
     const { history, location, match } = this.props
 

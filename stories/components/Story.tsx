@@ -13,8 +13,8 @@
 import styled from 'styled-components'
 
 export const Story = styled.div`
-  background-color: ${props => props.theme.colors.background.primary};
-  color: ${props => props.theme.colors.text.primary};
-  font-family: ${props => props.theme.font.family.sans};
+  background-color: ${(props) => props.theme.colors.background.primary};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-family: ${(props) => props.theme.font.family.sans};
   padding: 3rem;
 `

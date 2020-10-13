@@ -14,11 +14,12 @@ import { AlertMessageType, FormErrors } from '@manuscripts/style-guide'
 import { AxiosResponse } from 'axios'
 import { FormikErrors, FormikHelpers } from 'formik'
 import { LocationState } from 'history'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import decode from 'jwt-decode'
 import { parse } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+
 import config from '../../config'
 import { login } from '../../lib/account'
 import { redirectToConnect, resendVerificationEmail } from '../../lib/api'
@@ -74,6 +75,7 @@ interface RouteLocationState {
 }
 
 class LoginPageContainer extends React.Component<
+  // eslint-disable-next-line @typescript-eslint/ban-types
   RouteComponentProps<{}, {}, RouteLocationState>,
   State
 > {
@@ -96,7 +98,7 @@ class LoginPageContainer extends React.Component<
     const { email } = parse(search.substr(1))
 
     if (email) {
-      this.initialValues.email = email
+      this.initialValues.email = email as string
     }
 
     if (state) {
@@ -146,7 +148,7 @@ class LoginPageContainer extends React.Component<
                     ? window.location.assign('/retrieve-account')
                     : this.redirectAfterLogin()
                 } catch (error) {
-                  console.error(error) // tslint:disable-line:no-console
+                  console.error(error)
 
                   if (error.response) {
                     this.handleErrorResponse(error.response, values, actions)
@@ -169,7 +171,6 @@ class LoginPageContainer extends React.Component<
   private isRedirectAction = (redirect: string | boolean): redirect is string =>
     redirect === 'login' || redirect === 'register'
 
-  // tslint:disable:cyclomatic-complexity
   private handleHash = (hash: string) => {
     const {
       action,
@@ -182,7 +183,7 @@ class LoginPageContainer extends React.Component<
 
     if (error_description) {
       // TODO: do something
-      console.error(error_description) // tslint:disable-line:no-console
+      console.error(error_description)
     }
 
     if (error) {
@@ -250,7 +251,7 @@ class LoginPageContainer extends React.Component<
         return
 
       case ErrorName.InvalidCredentialsError:
-      default:
+      default: {
         const errors: FormikErrors<LoginValues & FormErrors> = {
           submit: this.errorResponseMessage(response.status, values, errorName),
         }
@@ -262,6 +263,7 @@ class LoginPageContainer extends React.Component<
         })
 
         return
+      }
     }
   }
 
@@ -278,9 +280,13 @@ class LoginPageContainer extends React.Component<
   private errorName = (response: AxiosResponse) => {
     const { data } = response
 
-    if (!data) return null
+    if (!data) {
+      return null
+    }
 
-    if (!data.error) return null
+    if (!data.error) {
+      return null
+    }
 
     const error = JSON.parse(data.error)
 
@@ -293,10 +299,10 @@ class LoginPageContainer extends React.Component<
     errorName: string
   ) => {
     switch (status) {
-      case HttpStatusCodes.BAD_REQUEST:
+      case StatusCodes.BAD_REQUEST:
         return 'Invalid operation'
 
-      case HttpStatusCodes.UNAUTHORIZED:
+      case StatusCodes.UNAUTHORIZED:
         if (errorName === ErrorName.AccountNotFoundError) {
           return 'No user exists with this email address.'
         } else if (errorName === ErrorName.InvalidClientApplicationError) {
@@ -305,7 +311,7 @@ class LoginPageContainer extends React.Component<
           return 'Invalid password.'
         }
 
-      case HttpStatusCodes.FORBIDDEN:
+      case StatusCodes.FORBIDDEN: {
         const resendVerificationData: ResendVerificationData = {
           message: 'Please verify your email address',
           email: values.email,
@@ -319,6 +325,8 @@ class LoginPageContainer extends React.Component<
             ),
         })
         break
+      }
+
       default:
         return 'An error occurred.'
     }

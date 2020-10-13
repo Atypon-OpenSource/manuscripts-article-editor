@@ -12,6 +12,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
+
 import config from '../config'
 import { createToken, createUserProfile } from '../lib/developer'
 import { DatabaseContext } from './DatabaseProvider'
@@ -24,7 +25,7 @@ const DropdownAction = styled.div`
   cursor: pointer;
 
   &:hover {
-    background: ${props => props.theme.colors.background.fifth};
+    background: ${(props) => props.theme.colors.background.fifth};
   }
 `
 
@@ -40,7 +41,7 @@ const PlainLink = styled.a`
 
 const DeveloperPageContainer: React.FunctionComponent = () => (
   <DatabaseContext.Consumer>
-    {db => (
+    {(db) => (
       <div>
         <DropdownAction
           onClick={() => {

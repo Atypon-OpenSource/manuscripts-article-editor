@@ -11,6 +11,7 @@
  */
 
 import React from 'react'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 import { MediumTextField } from './inputs'
 
@@ -29,7 +30,7 @@ export const URLInput: React.FC<{
       type={'url'}
       value={currentValue}
       placeholder={'https://…'}
-      onChange={event => handleLocalChange(event.target.value)}
+      onChange={(event) => handleLocalChange(event.target.value)}
       onFocus={() => setEditing(true)}
       onBlur={() => setEditing(false)}
     />

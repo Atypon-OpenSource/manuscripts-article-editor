@@ -11,6 +11,7 @@
  */
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
+
 import { CollectionName } from '../collections'
 import config from '../config'
 import { refreshSyncSessions } from '../lib/api'
@@ -25,12 +26,12 @@ const { local } = config
 class CollectionManager {
   private collections: Map<string, Collection<Model>> = new Map()
   private listeners: CollectionEventListener[] = []
-  private isExpiredSyncGatewaySession: boolean = false
+  private isExpiredSyncGatewaySession = false
 
   public constructor() {
     window.restartSync = () => {
-      this.restartAll().catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      this.restartAll().catch((error) => {
+        console.error(error)
       })
     }
   }
@@ -72,8 +73,10 @@ class CollectionManager {
     }
     collection
       .cleanupAndDestroy()
-      .then(result => {
-        if (!result) zombieCollections.add(collection.props)
+      .then((result) => {
+        if (!result) {
+          zombieCollections.add(collection.props)
+        }
       })
       .catch(() => {
         zombieCollections.add(collection.props)
@@ -85,7 +88,6 @@ class CollectionManager {
   }
 
   public async restartAll() {
-    /* tslint:disable:no-console */
     try {
       await this.pushCollections(['user'])
     } catch (error) {
@@ -106,23 +108,23 @@ class CollectionManager {
         console.error(`Unable to start replication`)
       }
     }
-    /* tslint:enable:no-console */
   }
 
   public unsyncedCollections(): Promise<string[]> {
     // do ANY collections have unsynced changes?
     return Promise.all(
       Array.from(this.collections.entries()).map(([key, collection]) =>
-        collection.hasUnsyncedChanges().then(result => (result ? key : null))
+        collection.hasUnsyncedChanges().then((result) => (result ? key : null))
       )
-    ).then(results => results.filter(Boolean) as string[])
+    ).then((results) => results.filter(Boolean) as string[])
   }
 
   public async pushCollections(collections: string[]) {
-    /* tslint:disable:no-console */
     for (const key of collections) {
       const collection = this.collections.get(key)
-      if (!collection) continue
+      if (!collection) {
+        continue
+      }
       try {
         await collection.cancelReplications()
       } catch (error) {
@@ -136,7 +138,6 @@ class CollectionManager {
         console.error(`Unable to start replication`)
       }
     }
-    /* tslint:enable:no-console */
   }
 
   private generalListener = (event: CollectionEvent) => {
@@ -145,11 +146,9 @@ class CollectionManager {
         this.isExpiredSyncGatewaySession = true
 
         if (config.native) {
-          /* tslint:disable-next-line:no-console */
           console.info('Requesting the native client to refresh sync session…')
           postWebkitMessage('sync', {})
         } else {
-          /* tslint:disable-next-line:no-console */
           console.info('Attempting to refresh sync session…')
 
           return refreshSyncSessions()
@@ -160,14 +159,14 @@ class CollectionManager {
             .catch(() => {
               // refreshing sync session failed.
               // pass the original event onto the listeners.
-              this.listeners.forEach(listener => listener(event))
+              this.listeners.forEach((listener) => listener(event))
             })
         }
       }
       return
     }
 
-    this.listeners.forEach(listener => listener(event))
+    this.listeners.forEach((listener) => listener(event))
   }
 }
 

@@ -18,6 +18,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import React, { ChangeEvent, useCallback } from 'react'
 import styled from 'styled-components'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 
 export const PageBreakInput: React.FC<{

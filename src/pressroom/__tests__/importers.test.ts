@@ -13,12 +13,11 @@
 jest.mock('../pressroom')
 
 import data from '@manuscripts/examples/data/project-dump.json'
+
 import { exportProject } from '../exporter'
 import { importFile, openFilePicker, ProjectDump } from '../importers'
 import { getAttachment } from './attachments'
 import { buildModelMap } from './util'
-
-// tslint:disable:no-any
 
 const createFile = (format: string): File => {
   switch (format) {

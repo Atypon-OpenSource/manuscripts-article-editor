@@ -19,6 +19,7 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { PopperBody, SeparatorLine } from '../Popper'
 import { CollaboratorRolesInput } from './CollaboratorRolesInput'
 import { Mode } from './InviteCollaboratorPopper'

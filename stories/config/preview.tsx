@@ -10,19 +10,22 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+// eslint-disable-next-line jest/no-mocks-import
+import '../../src/lib/__mocks__/adapter'
+
 import { addDecorator, configure } from '@storybook/react'
 import React from 'react'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { MemoryRouter } from 'react-router-dom'
+
 import IntlProvider from '../../src/components/IntlProvider'
 import { ModalProvider } from '../../src/components/ModalProvider'
-import '../../src/lib/__mocks__/adapter'
 import { GlobalStyle } from '../../src/theme/theme'
 import { ThemeProvider } from '../../src/theme/ThemeProvider'
 import { Story } from '../components/Story'
 
-addDecorator(story => (
+addDecorator((story) => (
   <DndProvider backend={HTML5Backend}>
     <IntlProvider>
       <ThemeProvider>
@@ -42,5 +45,5 @@ addDecorator(story => (
 const req = require.context('..', true, /\.stories\.tsx/)
 
 configure(() => {
-  req.keys().forEach(filename => req(filename))
+  req.keys().forEach((filename) => req(filename))
 }, module)

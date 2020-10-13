@@ -34,7 +34,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Fields = styled.div`
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const Fieldset = styled.fieldset`
@@ -42,9 +42,9 @@ const Fieldset = styled.fieldset`
 `
 
 const Legend = styled.legend`
-  font-size: ${props => props.theme.font.size.xlarge};
+  font-size: ${(props) => props.theme.font.size.xlarge};
   letter-spacing: -0.4px;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 export interface ProfileValues {
@@ -52,7 +52,7 @@ export interface ProfileValues {
 }
 
 export interface ProfileErrors {
-  submit?: object
+  submit?: Record<string, unknown>
 }
 
 const buildProfileValues = (user: UserProfileWithAvatar): ProfileValues => ({

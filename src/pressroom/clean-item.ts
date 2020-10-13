@@ -11,14 +11,14 @@
  */
 
 import { ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+
 import { JsonModel } from '../pressroom/importers'
 
 // TODO: merge into one function?
 
-// tslint:disable-next-line:no-any
 const funcs: Array<(item: any) => JsonModel> = [
   // Remove duplicate id field from all items
-  item => {
+  (item) => {
     const { id, _id } = item
 
     if (id) {
@@ -34,7 +34,7 @@ const funcs: Array<(item: any) => JsonModel> = [
   // Remove bundled and locked from all items
   ({ bundled, locked, ...item }) => item,
   // Remove derived fields from Contributors
-  item => {
+  (item) => {
     if (item.objectType === ObjectTypes.Contributor) {
       const {
         firstName,
@@ -51,7 +51,7 @@ const funcs: Array<(item: any) => JsonModel> = [
     }
   },
   // Remove caption field from Table
-  item => {
+  (item) => {
     if (item.objectType === ObjectTypes.Table) {
       const { caption, ...rest } = item
       return rest
@@ -62,7 +62,7 @@ const funcs: Array<(item: any) => JsonModel> = [
   // Remove _rev and collection from all items
   ({ _rev, collection, ...item }) => item,
   // Rename containingElement to containingObject with Citation items
-  item => {
+  (item) => {
     if (item.objectType === ObjectTypes.Citation) {
       const { containingElement, containingObject, ...rest } = item
       if (
@@ -81,14 +81,14 @@ const funcs: Array<(item: any) => JsonModel> = [
     }
   },
   // Set a default type for BibliographyItems
-  item => {
+  (item) => {
     if (item.objectType === ObjectTypes.BibliographyItem && !item.type) {
       item.type = 'article-journal'
     }
     return item
   },
   // Clean up author/embeddedAuthors in BibliographyItems
-  item => {
+  (item) => {
     if (item.objectType === ObjectTypes.BibliographyItem) {
       const { author, embeddedAuthors } = item
       if (embeddedAuthors) {
@@ -102,7 +102,6 @@ const funcs: Array<(item: any) => JsonModel> = [
   },
 ]
 
-// tslint:disable-next-line:no-any
 export const cleanItem = (item: any): JsonModel => {
   for (const f of funcs) {
     item = f(item)

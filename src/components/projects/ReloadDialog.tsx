@@ -19,6 +19,7 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { ContactSupportButton } from '../ContactSupportButton'
 
 const Message: React.FunctionComponent<{
@@ -34,31 +35,31 @@ const Message: React.FunctionComponent<{
 )
 
 const Icon = styled(AttentionRed)`
-  margin-right: ${props => props.theme.grid.unit * 2}px;
-  color: ${props => props.theme.colors.background.warning};
+  margin-right: ${(props) => props.theme.grid.unit * 2}px;
+  color: ${(props) => props.theme.colors.background.warning};
 `
 
 const ModalBody = styled.div`
-  border-radius: ${props => props.theme.grid.radius.default};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  background: ${props => props.theme.colors.background.primary};
-  font-family: ${props => props.theme.font.family.sans};
+  border-radius: ${(props) => props.theme.grid.radius.default};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
+  background: ${(props) => props.theme.colors.background.primary};
+  font-family: ${(props) => props.theme.font.family.sans};
 `
 
 const Header = styled.div`
   display: flex;
   align-items: center;
-  font-size: ${props => props.theme.font.size.medium};
-  font-weight: ${props => props.theme.font.weight.medium};
-  padding: ${props => props.theme.grid.unit * 4}px;
+  font-size: ${(props) => props.theme.font.size.medium};
+  font-weight: ${(props) => props.theme.font.weight.medium};
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const Body = styled.div`
   max-width: 300px;
   min-height: 100px;
-  font-size: ${props => props.theme.font.size.medium};
-  color: ${props => props.theme.colors.text.secondary};
-  padding: 0 ${props => props.theme.grid.unit * 4}px;
+  font-size: ${(props) => props.theme.font.size.medium};
+  color: ${(props) => props.theme.colors.text.secondary};
+  padding: 0 ${(props) => props.theme.grid.unit * 4}px;
 
   & a {
     color: inherit;
@@ -66,7 +67,7 @@ const Body = styled.div`
 `
 
 const Actions = styled(ButtonGroup)`
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const navigateToProjectsList = () => {

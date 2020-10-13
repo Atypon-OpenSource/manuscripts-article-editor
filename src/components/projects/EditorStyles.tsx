@@ -23,6 +23,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import {
   buildFigureLayoutStyles,
   buildFigureStyles,
@@ -36,7 +37,6 @@ interface StyleMaps {
   [key: string]: Map<string, Model>
 }
 
-// tslint:disable:cyclomatic-complexity
 const buildStyles = (styleMaps: StyleMaps): string => {
   const getStyleMap = <T extends Model>(type: ObjectTypes) =>
     styleMaps[type] as Map<string, T>
@@ -144,11 +144,18 @@ export const EditorStyles: React.FC<{
     }
   }
 
-  useEffect(() => {
-    setStyles(buildStyles(styleMaps))
-  }, [
-    JSON.stringify(Object.values(styleMaps).map(item => [...item.entries()])),
-  ])
+  useEffect(
+    () => {
+      setStyles(buildStyles(styleMaps))
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      JSON.stringify(
+        Object.values(styleMaps).map((item) => [...item.entries()])
+      ),
+    ]
+  )
 
   if (styles === undefined) {
     return null
@@ -162,5 +169,5 @@ export const EditorStyles: React.FC<{
 export const EditorStylesContainer = React.memo(styled.div<{
   styles: string
 }>`
-  ${props => props.styles}
+  ${(props) => props.styles}
 `)

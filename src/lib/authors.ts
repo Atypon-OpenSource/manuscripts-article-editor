@@ -16,6 +16,7 @@ import {
   Contributor,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
+
 import { ascendingPriority } from './sort'
 
 export type AffiliationMap = Map<string, Affiliation>
@@ -35,9 +36,11 @@ export const buildSortedContributors = (contributors: Contributor[]) =>
   contributors.sort(ascendingPriority)
 
 export const buildAuthorPriority = (authors: Contributor[]) => {
-  if (!authors.length) return 0
+  if (!authors.length) {
+    return 0
+  }
 
-  const priorities = authors.map(author => Number(author.priority))
+  const priorities = authors.map((author) => Number(author.priority))
 
   return Math.max(...priorities) + 1
 }
@@ -49,7 +52,7 @@ export const buildSortedAffiliationIDs = (
 
   for (const author of sortedAuthors) {
     if (author.affiliations) {
-      author.affiliations.forEach(id => {
+      author.affiliations.forEach((id) => {
         ids.add(id)
       })
     }
@@ -68,7 +71,7 @@ export const buildAuthorAffiliations = (
   for (const author of authors) {
     items.set(
       author._id,
-      (author.affiliations || []).map(id => {
+      (author.affiliations || []).map((id) => {
         return {
           ordinal: sortedAffiliationIDs.indexOf(id) + 1,
           data: affiliations.get(id) as Affiliation,
@@ -87,7 +90,7 @@ export const buildAffiliationsMap = (
   new Map(
     affiliationIDs.map((id: string): [string, Affiliation] => [
       id,
-      affiliations.find(affiliation => affiliation._id === id) as Affiliation,
+      affiliations.find((affiliation) => affiliation._id === id) as Affiliation,
     ])
   )
 

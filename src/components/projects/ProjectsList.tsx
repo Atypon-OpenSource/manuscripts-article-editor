@@ -19,6 +19,7 @@ import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
+
 import CollaboratorsData from '../../data/CollaboratorsData'
 import { TokenActions } from '../../data/TokenData'
 import {
@@ -33,23 +34,23 @@ import ProjectContextMenuButton from './ProjectContextMenuButton'
 const SidebarProject = styled.div<{ isActive: boolean }>`
   border-bottom: 1px solid;
   border-top: 1px solid;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.isActive ? props.theme.colors.background.fifth : 'transparent'};
-  border-color: ${props =>
+  border-color: ${(props) =>
     props.isActive ? props.theme.colors.border.primary : 'transparent'};
   border-radius: 0;
-  ${props =>
+  ${(props) =>
     !props.isActive &&
     'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.secondary};
   box-sizing: border-box;
   cursor: pointer;
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
   width: 100%;
   max-width: 564px;
 
   &:hover {
     box-shadow: unset;
-    background-color: ${props => props.theme.colors.background.fifth};
+    background-color: ${(props) => props.theme.colors.background.fifth};
   }
 `
 
@@ -57,40 +58,40 @@ const SidebarProjectHeader = styled.div`
   display: flex;
   align-items: center;
   @media (max-width: 450px) {
-    margin-left: ${props => props.theme.grid.unit * 2}px;
+    margin-left: ${(props) => props.theme.grid.unit * 2}px;
   }
 `
 
 const ProjectTitle = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   font-style: normal;
   flex: 1;
 `
 
 const ProjectContributors = styled.div`
-  font-size: ${props => props.theme.font.size.medium};
-  margin-top: ${props => props.theme.grid.unit * 2}px;
+  font-size: ${(props) => props.theme.font.size.medium};
+  margin-top: ${(props) => props.theme.grid.unit * 2}px;
 
   @media (max-width: 450px) {
-    margin-left: ${props => props.theme.grid.unit * 2}px;
+    margin-left: ${(props) => props.theme.grid.unit * 2}px;
   }
 `
 
 const PlaceholderTitle = styled(Title)`
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const ProjectContributor = styled.span``
 
 const Edit = styled.div`
   button {
-    padding: ${props => props.theme.grid.unit * 2}px;
+    padding: ${(props) => props.theme.grid.unit * 2}px;
   }
 
   svg {
     g[fill] {
-      fill: ${props => props.theme.colors.brand.medium};
+      fill: ${(props) => props.theme.colors.brand.medium};
     }
   }
 `
@@ -99,14 +100,14 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   @media (max-width: 450px) {
-    margin-left: ${props => props.theme.grid.unit * 2}px;
+    margin-left: ${(props) => props.theme.grid.unit * 2}px;
   }
 `
 const initials = (name: BibliographicName): string =>
   name.given
     ? name.given
         .split(' ')
-        .map(part => part.substr(0, 1).toUpperCase() + '.')
+        .map((part) => part.substr(0, 1).toUpperCase() + '.')
         .join('')
     : ''
 
@@ -130,7 +131,7 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
   tokenActions,
 }) => (
   <CollaboratorsData>
-    {collaborators => {
+    {(collaborators) => {
       const collaboratorProfiles = buildCollaboratorProfiles(
         collaborators,
         user
@@ -138,15 +139,12 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
 
       return (
         <div>
-          {projects.sort(projectListCompare).map(project => {
+          {projects.sort(projectListCompare).map((project) => {
             const path = `/projects/${project._id}`
 
             return (
-              <Route
-                path={path}
-                exact={false}
-                key={project._id}
-                children={({ history, match }) => {
+              <Route path={path} exact={false} key={project._id}>
+                {({ history, match }) => {
                   return (
                     <SidebarProject
                       key={project._id}
@@ -200,7 +198,7 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
                     </SidebarProject>
                   )
                 }}
-              />
+              </Route>
             )
           })}
         </div>

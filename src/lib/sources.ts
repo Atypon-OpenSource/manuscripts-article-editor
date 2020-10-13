@@ -13,6 +13,7 @@
 import { crossref, datacite, pubmed, url } from '@manuscripts/manuscript-editor'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+
 import config from '../config'
 
 type SearchInterface = (

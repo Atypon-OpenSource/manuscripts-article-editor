@@ -16,6 +16,7 @@ import {
   ManuscriptEditorView,
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
+
 import { ToolbarState } from '.'
 
 const manuscriptToolbarItems = new Map<

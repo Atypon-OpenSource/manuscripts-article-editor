@@ -17,6 +17,7 @@ import {
   ParagraphStyle,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useState } from 'react'
+
 import {
   InspectorPanelTabList,
   InspectorTab,
@@ -84,11 +85,11 @@ export const ParagraphStyles: React.FC<{
       <InspectorField>
         <StyleSelect
           value={paragraphStyle._id}
-          onChange={event => {
+          onChange={(event) => {
             setElementParagraphStyle(event.target.value)
           }}
         >
-          {bodyTextParagraphStyles.map(style => (
+          {bodyTextParagraphStyles.map((style) => (
             <option value={style._id} key={style._id}>
               {style.title}
             </option>

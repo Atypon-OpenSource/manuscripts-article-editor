@@ -15,13 +15,13 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   position: fixed;
-  bottom: ${props => props.theme.grid.unit * 4}px;
-  left: ${props => props.theme.grid.unit * 4}px;
+  bottom: ${(props) => props.theme.grid.unit * 4}px;
+  left: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const HeavyLink = styled.a`
   color: inherit;
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   text-decoration: none;
 `
 

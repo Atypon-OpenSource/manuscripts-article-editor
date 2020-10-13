@@ -10,17 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { AffiliationsList, AuthorsList } from '@manuscripts/style-guide'
-
 import {
   Affiliation,
   Contributor,
   Manuscript,
   Model,
 } from '@manuscripts/manuscripts-json-schema'
+import { AffiliationsList, AuthorsList } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
+
 import { buildAuthorsAndAffiliations } from '../../lib/authors'
 
 interface Props {
@@ -37,19 +37,19 @@ const StyledTitle = styled(Title)`
   & .ProseMirror {
     font-family: 'PT Serif', serif;
     font-size: 28px;
-    font-weight: ${props => props.theme.font.weight.bold};
+    font-weight: ${(props) => props.theme.font.weight.bold};
     line-height: 1.43;
 
     &.empty-node::before {
       position: absolute;
-      color: ${props => props.theme.colors.text.muted};
+      color: ${(props) => props.theme.colors.text.muted};
       cursor: text;
       content: 'Untitled Manuscript';
       pointer-events: none;
     }
 
     &.empty-node:hover::before {
-      color: ${props => props.theme.colors.text.secondary};
+      color: ${(props) => props.theme.colors.text.secondary};
     }
   }
 `

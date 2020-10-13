@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { MenuItem } from '@manuscripts/manuscript-editor'
-import { MenuSeparator } from '@manuscripts/manuscript-editor/dist/types/components/menu/ApplicationMenu'
+import { MenuItem, MenuSeparator } from '@manuscripts/manuscript-editor'
 import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import { History } from 'history'
 import React from 'react'
+
 import config from '../config'
 import { ExportFormat } from '../pressroom/exporter'
 import { RecentProject } from './user-project'
@@ -228,7 +228,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       enable: (state: ManuscriptEditorState) => {
         let result = false
 
-        state.doc.descendants(node => {
+        state.doc.descendants((node) => {
           if (node.type === node.type.schema.nodes.citation) {
             result = true
           }

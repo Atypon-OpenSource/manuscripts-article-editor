@@ -15,11 +15,12 @@ import { PrimaryButton } from '@manuscripts/style-guide'
 import { SyncError } from '@manuscripts/sync-client'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import { ProjectDump } from '../../pressroom/importers'
 import CollectionManager from '../../sync/CollectionManager'
 
 const Container = styled.div`
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const ButtonWrapper = styled.div`
@@ -30,8 +31,8 @@ const DownloadButton = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: ${props => props.theme.grid.unit * 2}px;
-  border-radius: ${props => props.theme.grid.radius.small};
+  padding: ${(props) => props.theme.grid.unit * 2}px;
+  border-radius: ${(props) => props.theme.grid.radius.small};
   border: 1px solid #888;
   text-decoration: none;
   color: inherit;
@@ -60,7 +61,9 @@ export const ProjectDiagnosticsPageContainer: React.FC<{
   const [syncErrorsLoadError, setSyncErrorsLoadError] = useState<boolean>(false)
   useEffect(() => {
     const collection = CollectionManager.getCollection(`project-${projectID}`)
-    if (!collection || !collection.conflictManager) return
+    if (!collection || !collection.conflictManager) {
+      return
+    }
     collection.conflictManager
       .getSyncErrors()
       .then((errors: SyncError[]) => {
@@ -69,10 +72,9 @@ export const ProjectDiagnosticsPageContainer: React.FC<{
       .catch(() => {
         setSyncErrorsLoadError(true)
       })
-  }, [])
+  }, [projectID])
 
   const handleRestart = useCallback(() => {
-    /* tslint:disable-next-line:no-console */
     CollectionManager.restartAll().catch(console.error)
   }, [])
 
@@ -96,7 +98,7 @@ export const ProjectDiagnosticsPageContainer: React.FC<{
         <React.Fragment>
           <h2>Current Sync Errors:</h2>
           <ul>
-            {syncErrors.map(error => (
+            {syncErrors.map((error) => (
               <li key={error._id}>
                 <strong>{error.type}: </strong>
                 {error._id} {error.message}(

@@ -10,11 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { ContainerInvitation } from '@manuscripts/manuscripts-json-schema'
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { InvitationData } from '../nav/ProjectsButton'
 import { Invitation } from './InvitationElement'
 

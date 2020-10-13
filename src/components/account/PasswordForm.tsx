@@ -19,6 +19,7 @@ import {
 } from '@manuscripts/style-guide'
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
+
 import { SubHero } from '../Hero'
 import { ModalFormActions } from '../ModalForm'
 

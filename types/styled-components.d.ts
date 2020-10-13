@@ -10,10 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Theme } from '@manuscripts/style-guide'
 import 'styled-components'
 
+import { Theme } from '@manuscripts/style-guide'
+
 declare module 'styled-components' {
-  // tslint:disable-next-line:no-empty-interface
+  // eslint-disable-next-line
   export interface DefaultTheme extends Theme {}
 }

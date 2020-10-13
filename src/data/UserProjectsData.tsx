@@ -12,6 +12,7 @@
 
 import { ObjectTypes, UserProject } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
@@ -53,10 +54,10 @@ class UserProjectsData extends DataComponent<UserProject, Props, State> {
       .find({
         objectType: ObjectTypes.UserProject,
       })
-      .$.subscribe(docs => {
+      .$.subscribe((docs) => {
         if (docs) {
           this.setState({
-            data: docs.map(doc => doc.toJSON()),
+            data: docs.map((doc) => doc.toJSON()),
           })
         }
       })

@@ -11,10 +11,10 @@
  */
 
 import { Project } from '@manuscripts/manuscripts-json-schema'
+
 import { getUserRole, isOwner, isViewer, isWriter, ProjectRole } from '../roles'
 
 describe('roles', () => {
-  // tslint:disable-next-line:no-object-literal-type-assertion
   const project: Project = {
     owners: ['User_A'],
     viewers: ['User_B'],

@@ -12,9 +12,10 @@
 
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import copyToClipboard from 'clipboard-copy'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
+
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { projectInvite, requestProjectInvitationToken } from '../../lib/api'
@@ -127,10 +128,10 @@ class ShareProjectPopperContainer extends React.Component<Props, State> {
           loadingURIError: null,
         })
       })
-      .catch(error => {
+      .catch((error) => {
         if (
           error.response &&
-          error.response.status === HttpStatusCodes.UNAUTHORIZED
+          error.response.status === StatusCodes.UNAUTHORIZED
         ) {
           this.props.tokenActions.delete()
         } else {

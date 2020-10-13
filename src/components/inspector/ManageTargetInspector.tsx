@@ -19,6 +19,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
+
 import { isDueSoon, isOverdue } from '../../lib/date'
 import { InspectorSection } from '../InspectorSection'
 import { AssigneesInput } from '../projects/AssigneesInput'
@@ -29,7 +30,7 @@ import { AnyElement } from './ElementStyleInspector'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
 
 const Label = styled(InspectorLabel)`
-  color: ${props => props.theme.colors.text.primary};
+  color: ${(props) => props.theme.colors.text.primary};
 `
 
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>

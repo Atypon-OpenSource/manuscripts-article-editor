@@ -13,6 +13,7 @@
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { ListChildComponentProps } from 'react-window'
+
 import { CitationStyleListItem } from './CitationStyleListItem'
 
 interface Props {
@@ -23,22 +24,25 @@ interface Props {
   }
 }
 
-export const CitationStyleSelectorItem: React.FunctionComponent<ListChildComponentProps &
-  Props> = ({ data, index, style }) => {
+export const CitationStyleSelectorItem: React.FunctionComponent<
+  ListChildComponentProps & Props
+> = ({ data, index, style }) => {
   const { filteredItems, selectBundle } = data
 
   const item = filteredItems[index]
 
   const key = item._id
 
-  style = {
-    ...style,
-    transition: 'all 200ms ease-in-out',
-    paddingBottom: '30px',
-  }
-
   return (
-    <div style={style} key={key} id={key}>
+    <div
+      style={{
+        ...style,
+        transition: 'all 200ms ease-in-out',
+        paddingBottom: '30px',
+      }}
+      key={key}
+      id={key}
+    >
       <CitationStyleListItem item={item} selectBundle={selectBundle} />
     </div>
   )

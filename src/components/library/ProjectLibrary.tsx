@@ -17,6 +17,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+
 import { filterLibrary } from '../../lib/search-library'
 import { Collection } from '../../sync/Collection'
 import { Main } from '../Page'
@@ -25,21 +26,23 @@ import { ResizingInspectorButton } from '../ResizerButtons'
 import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
 
-export const ProjectLibrary: React.FC<RouteComponentProps<{
-  projectID: string
-  filterID?: string
-}> & {
-  debouncedQuery?: string
-  projectLibraryCollections: Map<string, LibraryCollection>
-  projectLibraryCollectionsCollection: Collection<LibraryCollection>
-  projectLibrary: Map<string, BibliographyItem>
-  projectLibraryCollection: Collection<BibliographyItem>
-  query?: string
-  setQuery: (query: string) => void
-  selectedItem?: BibliographyItem
-  setSelectedItem: (item?: BibliographyItem) => void
-  user: UserProfile
-}> = React.memo(
+export const ProjectLibrary: React.FC<
+  RouteComponentProps<{
+    projectID: string
+    filterID?: string
+  }> & {
+    debouncedQuery?: string
+    projectLibraryCollections: Map<string, LibraryCollection>
+    projectLibraryCollectionsCollection: Collection<LibraryCollection>
+    projectLibrary: Map<string, BibliographyItem>
+    projectLibraryCollection: Collection<BibliographyItem>
+    query?: string
+    setQuery: (query: string) => void
+    selectedItem?: BibliographyItem
+    setSelectedItem: (item?: BibliographyItem) => void
+    user: UserProfile
+  }
+> = React.memo(
   ({
     match: {
       params: { projectID, filterID },
@@ -62,15 +65,15 @@ export const ProjectLibrary: React.FC<RouteComponentProps<{
         query,
         filterID ? new Set([filterID]) : undefined
       )
-        .then(filteredItems => {
+        .then((filteredItems) => {
           filteredItems.sort(
             (a, b) => Number(b.updatedAt) - Number(a.updatedAt)
           )
 
           setFilteredItems(filteredItems)
         })
-        .catch(error => {
-          console.error(error) // tslint:disable-line:no-console
+        .catch((error) => {
+          console.error(error)
         })
     }, [filterID, projectLibrary, query])
 
@@ -85,7 +88,7 @@ export const ProjectLibrary: React.FC<RouteComponentProps<{
           setSelectedItem(undefined)
         })
       },
-      [projectLibraryCollection]
+      [projectLibraryCollection, setSelectedItem]
     )
 
     const handleDelete = useCallback(
@@ -107,7 +110,7 @@ export const ProjectLibrary: React.FC<RouteComponentProps<{
             return item._id
           })
       },
-      [projectLibraryCollection]
+      [projectLibraryCollection, setSelectedItem]
     )
 
     return (

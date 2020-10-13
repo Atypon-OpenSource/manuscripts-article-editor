@@ -23,7 +23,7 @@ export const ColorSelector: React.FC<{
   const [color, setColor] = useState('#ffffff')
 
   const toggleOpen = useCallback(() => {
-    setOpen(open => !open)
+    setOpen((open) => !open)
   }, [setOpen])
 
   const handleSave = useCallback(() => {
@@ -32,7 +32,7 @@ export const ColorSelector: React.FC<{
     }
 
     setOpen(false)
-  }, [color, setOpen])
+  }, [color, handleChange, setOpen])
 
   const handleColorChange = useCallback(
     (color: ColorResult) => {
@@ -97,11 +97,11 @@ const Actions = styled.div`
 `
 
 const PopperContent = styled.div`
-  border: 1px solid ${props => props.theme.colors.text.muted};
-  border-radius: ${props => props.theme.grid.radius.small};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  background: ${props => props.theme.colors.background.primary};
-  padding: ${props => props.theme.grid.unit * 2}px;
+  border: 1px solid ${(props) => props.theme.colors.text.muted};
+  border-radius: ${(props) => props.theme.grid.radius.small};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
+  background: ${(props) => props.theme.colors.background.primary};
+  padding: ${(props) => props.theme.grid.unit * 2}px;
 
   .chrome-picker {
     box-shadow: none !important;
@@ -115,15 +115,15 @@ const AddButton = styled.button`
   background: transparent;
   border: 1px solid transparent;
   border-radius: 50%;
-  width: ${props => props.theme.grid.unit * 4}px;
-  height: ${props => props.theme.grid.unit * 4}px;
+  width: ${(props) => props.theme.grid.unit * 4}px;
+  height: ${(props) => props.theme.grid.unit * 4}px;
   margin: 2px;
   cursor: pointer;
   line-height: 0;
-  font-size: ${props => props.theme.font.size.medium};
+  font-size: ${(props) => props.theme.font.size.medium};
 
   :hover {
-    border-color: ${props => props.theme.colors.border.secondary};
+    border-color: ${(props) => props.theme.colors.border.secondary};
   }
 
   :focus {

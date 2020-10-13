@@ -17,7 +17,9 @@ export const onIdle = (idleFunc: () => boolean, activeFunc: () => boolean) => {
     const timer = window.setInterval(() => {
       const result = idleFunc()
 
-      if (result) window.clearInterval(timer)
+      if (result) {
+        window.clearInterval(timer)
+      }
     }, 500)
   }
 

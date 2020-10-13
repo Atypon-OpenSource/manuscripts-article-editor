@@ -14,7 +14,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs'
 import styled from 'styled-components'
 
 export const InspectorContainer = styled.div`
-  border-left: 1px solid ${props => props.theme.colors.border.tertiary};
+  border-left: 1px solid ${(props) => props.theme.colors.border.tertiary};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -34,14 +34,14 @@ export const InspectorTabList = styled(TabList)`
   && {
     background: none;
     justify-content: center;
-    font-size: ${props => props.theme.font.size.normal};
-    color: ${props => props.theme.colors.text.primary};
+    font-size: ${(props) => props.theme.font.size.normal};
+    color: ${(props) => props.theme.colors.text.primary};
     flex-shrink: 0;
   }
 `
 
 export const InspectorPanelTabList = styled(InspectorTabList)`
-  margin-bottom: ${props => props.theme.grid.unit * 4}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 export const InspectorTabPanels = styled(TabPanels)`
@@ -54,14 +54,14 @@ export const PaddedInspectorTabPanels = styled(InspectorTabPanels)`
 `
 
 export const InspectorTabPanel = styled(TabPanel)`
-  font-size: ${props => props.theme.font.size.normal};
-  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 export const InspectorTab = styled(Tab)`
   && {
     background: none;
-    padding: ${props => props.theme.grid.unit * 2}px;
+    padding: ${(props) => props.theme.grid.unit * 2}px;
     border-bottom-width: 1px;
 
     &:focus {
@@ -69,12 +69,12 @@ export const InspectorTab = styled(Tab)`
     }
 
     &[data-selected] {
-      border-bottom-color: ${props => props.theme.colors.brand.default};
-      color: ${props => props.theme.colors.brand.default};
+      border-bottom-color: ${(props) => props.theme.colors.brand.default};
+      color: ${(props) => props.theme.colors.brand.default};
     }
   }
 `
 
 export const InspectorTabPanelHeading = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 4}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `

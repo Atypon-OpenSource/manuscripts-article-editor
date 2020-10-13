@@ -19,6 +19,7 @@ import {
   ParagraphStyle,
   TableStyle,
 } from '@manuscripts/manuscripts-json-schema'
+
 import { buildModelMap } from '../../pressroom/__tests__/util'
 import { ProjectDump } from '../../pressroom/importers'
 import { isColor } from '../colors'

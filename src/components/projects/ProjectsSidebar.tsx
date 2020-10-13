@@ -17,6 +17,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
+
 import ContainersInvitationsData from '../../data/ContainersInvitationsData'
 import ProjectsData from '../../data/ProjectsData'
 import ProjectsInvitationsData from '../../data/ProjectsInvitationsData'
@@ -33,20 +34,20 @@ import TemplateSelector from '../templates/TemplateSelector'
 import { ProjectsListPlaceholder } from './ProjectsListPlaceholder'
 
 const Container = styled(Sidebar)`
-  background-color: ${props => props.theme.colors.background.primary};
+  background-color: ${(props) => props.theme.colors.background.primary};
   overflow: auto;
 `
 
 const Header = styled(SidebarHeader)`
   @media (max-width: 450px) {
-    margin-left: ${props => props.theme.grid.unit * 2}px;
+    margin-left: ${(props) => props.theme.grid.unit * 2}px;
   }
 `
 
 const SidebarAction = styled.div`
-  margin: ${props => props.theme.grid.unit * 3}px;
+  margin: ${(props) => props.theme.grid.unit * 3}px;
   @media (max-width: 450px) {
-    margin-left: ${props => props.theme.grid.unit * 4}px;
+    margin-left: ${(props) => props.theme.grid.unit * 4}px;
   }
 `
 
@@ -55,12 +56,12 @@ const ProjectsContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: ${props => props.theme.grid.unit * 5}px
-    ${props => props.theme.grid.unit * 15}px;
+  padding: ${(props) => props.theme.grid.unit * 5}px
+    ${(props) => props.theme.grid.unit * 15}px;
   padding-right: 0;
   width: 100%;
 
-  @media (max-width: ${props => props.theme.grid.tablet - 1}px) {
+  @media (max-width: ${(props) => props.theme.grid.tablet - 1}px) {
     padding: unset;
   }
 `
@@ -80,15 +81,17 @@ interface Props {
   tokenActions: TokenActions
 }
 
-const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
+const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = (
+  props
+) => (
   <UserData userID={getCurrentUserId()!}>
-    {user => (
+    {(user) => (
       <ProjectsData>
-        {projects => (
+        {(projects) => (
           <ContainersInvitationsData>
-            {invitations => (
+            {(invitations) => (
               <ProjectsInvitationsData>
-                {projectsInvitations => {
+                {(projectsInvitations) => {
                   const containerInvitations: ContainerInvitation[] = buildContainerInvitations(
                     projectsInvitations
                   )
@@ -99,7 +102,7 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = props => (
                   ]
 
                   const invitationReceived = allInvitations.filter(
-                    invitation =>
+                    (invitation) =>
                       invitation.invitedUserEmail === user.email &&
                       !invitation.acceptedAt &&
                       invitation.containerID.startsWith('MPProject')

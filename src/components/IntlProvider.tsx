@@ -12,6 +12,7 @@
 
 import React from 'react'
 import * as Intl from 'react-intl'
+
 import preferences, { Languages } from '../lib/preferences'
 import { LoadingPage } from './Loading'
 
@@ -78,7 +79,6 @@ export interface IntlProps {
 }
 
 export const IntlContext = React.createContext<IntlProviderContext>(
-  // tslint:disable-next-line:no-object-literal-type-assertion
   {} as IntlProviderContext
 )
 
@@ -86,10 +86,11 @@ export const withIntl = <Props extends IntlProps>(
   Component: React.ComponentType<Props>
 ): React.ComponentType<Omit<Props, keyof IntlProps>> => (props: Props) => (
   <IntlContext.Consumer>
-    {value => <Component {...props} intl={value} />}
+    {(value) => <Component {...props} intl={value} />}
   </IntlContext.Consumer>
 )
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 class IntlProvider extends React.Component<{}, State> {
   public state: State = {
     locale: 'en',
@@ -106,6 +107,7 @@ class IntlProvider extends React.Component<{}, State> {
     const { locale, error, loading, messages } = this.state
 
     if (error) {
+      // eslint-disable-next-line jsx-a11y/accessible-emoji
       return <div>🙊</div>
     }
 

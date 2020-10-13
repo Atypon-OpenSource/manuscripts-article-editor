@@ -19,17 +19,18 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { AddButton } from '../AddButton'
 import { ModalSidebar, SidebarContent, SidebarHeader } from '../Sidebar'
 
 const SidebarAction = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: ${props => props.theme.grid.unit * 4}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 interface Props {

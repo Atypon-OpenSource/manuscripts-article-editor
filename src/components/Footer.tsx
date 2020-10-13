@@ -15,10 +15,10 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const FooterBlock = styled('footer')`
-  bottom: ${props => props.theme.grid.unit * 2}px;
+  bottom: ${(props) => props.theme.grid.unit * 2}px;
   box-sizing: border-box;
-  color: ${props => props.theme.colors.text.secondary};
-  padding: ${props => props.theme.grid.unit * 5}px;
+  color: ${(props) => props.theme.colors.text.secondary};
+  padding: ${(props) => props.theme.grid.unit * 5}px;
   position: absolute;
   width: 100%;
 `
@@ -31,18 +31,18 @@ export const FooterLinks = styled('nav')`
 export const FooterLink = styled(Link)`
   color: inherit;
   display: inline-flex;
-  padding: ${props => props.theme.grid.unit}px;
+  padding: ${(props) => props.theme.grid.unit}px;
   text-decoration: none;
 
   &:hover,
   &:focus {
-    color: ${props => props.theme.colors.text.tertiary};
+    color: ${(props) => props.theme.colors.text.tertiary};
   }
 `
 
 export const FooterLinkSeparator = styled.span`
   display: inline-flex;
-  padding: 0 ${props => props.theme.grid.unit}px;
+  padding: 0 ${(props) => props.theme.grid.unit}px;
 `
 
 export const Footer: React.FunctionComponent<{

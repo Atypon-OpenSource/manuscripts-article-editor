@@ -14,6 +14,7 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import ProjectsMenu from '../src/components/nav/ProjectsMenu'
 import { EmptyProjectPage } from '../src/components/projects/EmptyProjectPage'
 import ManuscriptSidebar from '../src/components/projects/ManuscriptSidebar'

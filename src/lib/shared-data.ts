@@ -22,21 +22,21 @@ import {
   SectionCategory,
   StatusLabel,
 } from '@manuscripts/manuscripts-json-schema'
+
 import { SharedData } from '../components/templates/TemplateSelector'
 import { Requirement, TemplatesDataType } from '../types/templates'
 import { Style } from './styles'
 
 export const importSharedData = <T extends Model>(file: string) =>
   import(`@manuscripts/data/dist/shared/${file}.json`)
-    .then(module => module.default as T[])
+    .then((module) => module.default as T[])
     .then(
-      items =>
+      (items) =>
         new Map<string, T>(
-          items.map<[string, T]>(item => [item._id, item])
+          items.map<[string, T]>((item) => [item._id, item])
         )
     )
 
-// tslint:disable-next-line:cyclomatic-complexity
 export const loadSharedData = async (
   userTemplates?: ManuscriptTemplate[],
   userTemplateModels?: Model[]

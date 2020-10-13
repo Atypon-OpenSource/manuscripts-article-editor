@@ -19,6 +19,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import { Figure, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { FigureInspector } from './FigureInspector'
 
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
@@ -32,7 +33,7 @@ export const NodeInspector: React.FC<{
   view: ManuscriptEditorView
 }> = ({ modelMap, selected, saveModel, view }) => {
   switch (selected.node.type) {
-    case schema.nodes.figure_element:
+    case schema.nodes.figure_element: {
       const figures = []
 
       for (const child of iterateChildren(selected.node)) {
@@ -59,8 +60,9 @@ export const NodeInspector: React.FC<{
       }
 
       return null
+    }
 
-    case schema.nodes.figure:
+    case schema.nodes.figure: {
       const figure = modelMap.get(selected.node.attrs.id) as Figure | undefined
 
       if (figure) {
@@ -75,6 +77,7 @@ export const NodeInspector: React.FC<{
       }
 
       return null
+    }
 
     default:
       return null

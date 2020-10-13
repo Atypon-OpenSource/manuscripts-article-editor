@@ -19,6 +19,7 @@ import {
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { saveAs } from 'file-saver'
 import React from 'react'
+
 import { trackEvent } from '../../lib/tracking'
 import {
   downloadExtension,
@@ -126,7 +127,7 @@ export class Exporter extends React.Component<Props, State> {
         })
       }
     } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
+      console.error(error)
 
       this.setState({ error })
     }

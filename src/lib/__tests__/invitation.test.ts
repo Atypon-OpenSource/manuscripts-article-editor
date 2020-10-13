@@ -10,7 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ContainerInvitation } from '@manuscripts/manuscripts-json-schema/dist/types'
+import { ContainerInvitation } from '@manuscripts/manuscripts-json-schema'
+
 import {
   compareInvitationsRoles,
   findLeastLimitingInvitation,
@@ -24,7 +25,7 @@ describe('invitation', () => {
       _id: 'invitation-1a',
       invitedUserEmail: 'valid-user@atypon.com',
       role: 'Writer',
-    } as any, // tslint:disable-line:no-any
+    } as any,
     {
       containerID: 'MPProject:1',
       _id: 'invitation-1b',

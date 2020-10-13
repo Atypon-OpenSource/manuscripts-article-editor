@@ -16,6 +16,7 @@ import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
+
 import config from '../../config'
 import { LibrarySource, sources } from '../../lib/sources'
 import { Collection } from '../../sync/Collection'
@@ -23,20 +24,20 @@ import { Main } from '../Page'
 import Search, { SearchWrapper } from '../Search'
 import { SearchResults } from './SearchResults'
 
-export const ExternalSearch: React.FC<RouteComponentProps<{
-  projectID: string
-  sourceID?: string
-}> & {
-  projectLibrary: Map<string, BibliographyItem>
-  projectLibraryCollection: Collection<BibliographyItem>
-  debouncedQuery?: string
-  query?: string
-  setQuery: (query: string) => void
-}> = React.memo(
+export const ExternalSearch: React.FC<
+  RouteComponentProps<{
+    projectID: string
+    sourceID?: string
+  }> & {
+    projectLibrary: Map<string, BibliographyItem>
+    projectLibraryCollection: Collection<BibliographyItem>
+    debouncedQuery?: string
+    query?: string
+    setQuery: (query: string) => void
+  }
+> = React.memo(
   ({
     debouncedQuery,
-    history,
-    location,
     match: {
       params: { projectID, sourceID },
     },
@@ -56,7 +57,7 @@ export const ExternalSearch: React.FC<RouteComponentProps<{
     const [source, setSource] = useState<LibrarySource>()
 
     useEffect(() => {
-      const source = sources.find(item => item.id === sourceID)
+      const source = sources.find((item) => item.id === sourceID)
       setSource(source)
     }, [sourceID])
 
@@ -80,18 +81,18 @@ export const ExternalSearch: React.FC<RouteComponentProps<{
       if (source && debouncedQuery) {
         source
           .search(debouncedQuery, 20, config.support.email)
-          .then(result => {
+          .then((result) => {
             setResults(result)
           })
-          .catch(error => {
-            console.error(error) // tslint:disable-line:no-console
+          .catch((error) => {
+            console.error(error)
             setError('There was an error running this search')
           })
           .finally(() => {
             setSearching(false)
           })
-          .catch(error => {
-            console.error(error) // tslint:disable-line:no-console
+          .catch((error) => {
+            console.error(error)
             setError('There was an error running this search')
           })
       }
@@ -121,32 +122,32 @@ export const ExternalSearch: React.FC<RouteComponentProps<{
           return // already added
         }
 
-        setFetching(fetching => {
+        setFetching((fetching) => {
           fetching.add(estimatedID)
           return new Set<string>([...fetching])
         })
 
         source
           .fetch(item as Partial<BibliographyItem>, config.support.email)
-          .then(data => {
+          .then((data) => {
             const item = buildBibliographyItem(data)
 
             return handleAdd(item)
           })
           .then(() => {
             window.setTimeout(() => {
-              setFetching(fetching => {
+              setFetching((fetching) => {
                 fetching.delete(estimatedID)
                 return new Set<string>([...fetching])
               })
             }, 100)
           })
           .catch((error: Error) => {
-            console.error('failed to add', error) // tslint:disable-line:no-console
+            console.error('failed to add', error)
             setError('There was an error saving this item to the library')
           })
       },
-      [selected, source]
+      [handleAdd, selected, source]
     )
 
     const handleQueryChange = useCallback(

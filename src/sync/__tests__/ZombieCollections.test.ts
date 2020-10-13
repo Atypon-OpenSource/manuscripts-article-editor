@@ -12,7 +12,6 @@
 
 import { ZombieCollections } from '../ZombieCollections'
 
-/* tslint:disable:no-any */
 const mockChannel: any = {
   postMessage: jest.fn(() => Promise.resolve()),
 }

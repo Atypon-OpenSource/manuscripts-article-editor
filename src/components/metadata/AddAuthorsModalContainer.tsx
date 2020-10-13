@@ -12,6 +12,7 @@
 
 import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { AddAuthorsModal } from './AuthorsModals'
 
 interface State {
@@ -114,7 +115,7 @@ export class AddAuthorsModalContainer extends React.Component<Props, State> {
 
     searchText = searchText.toLowerCase()
 
-    const searchResults: UserProfile[] = nonAuthors.filter(person => {
+    const searchResults: UserProfile[] = nonAuthors.filter((person) => {
       if (searchText.includes('@')) {
         return person.email && person.email.toLowerCase().includes(searchText)
       }
@@ -123,7 +124,7 @@ export class AddAuthorsModalContainer extends React.Component<Props, State> {
         person.bibliographicName.given,
         person.bibliographicName.family,
       ]
-        .filter(part => part)
+        .filter((part) => part)
         .join(' ')
         .toLowerCase()
 

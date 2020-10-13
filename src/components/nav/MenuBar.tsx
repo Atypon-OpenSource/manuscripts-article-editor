@@ -12,6 +12,7 @@
 
 import React from 'react'
 import Modal from 'react-modal'
+
 import { TokenActions } from '../../data/TokenData'
 import ProjectsSidebar from '../projects/ProjectsSidebar'
 import { Menu, MenuBarIcon } from './Menu'

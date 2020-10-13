@@ -14,6 +14,7 @@ import licenses from '@manuscripts/data/dist/shared/licenses.json'
 import { License, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useMemo } from 'react'
 import Select from 'react-select'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 import { selectStyles } from '../../lib/select-styles'
 
@@ -39,9 +40,9 @@ export const LicenseInput: React.FC<{
 
   const selectedLicense = useMemo(() => {
     return currentValue
-      ? options.find(license => license._id === currentValue)
+      ? options.find((license) => license._id === currentValue)
       : undefined
-  }, [currentValue, options])
+  }, [currentValue])
 
   const handleInputChange = useCallback(
     (value: License) => {
@@ -54,8 +55,8 @@ export const LicenseInput: React.FC<{
     <Select<License>
       options={options}
       value={selectedLicense}
-      getOptionValue={item => item._id}
-      getOptionLabel={item => item.name || 'Untitled License'}
+      getOptionValue={(item) => item._id}
+      getOptionLabel={(item) => item.name || 'Untitled License'}
       onChange={handleInputChange}
       styles={selectStyles}
       isClearable={true}

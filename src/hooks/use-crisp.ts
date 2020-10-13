@@ -13,32 +13,35 @@
 import React, { useCallback } from 'react'
 
 export const useCrisp = () => {
-  const open = useCallback(
-    (event?: React.MouseEvent) => {
-      event && event.preventDefault()
-      if (!window.$crisp) return
-      window.$crisp.push(['do', 'chat:open'])
-    },
-    [window.$crisp]
-  )
+  const open = useCallback((event?: React.MouseEvent) => {
+    event && event.preventDefault()
+    if (!window.$crisp) {
+      return
+    }
+    window.$crisp.push(['do', 'chat:open'])
+  }, [])
 
   const setMessageText = useCallback(
     (text: string) => {
-      if (!window.$crisp) return
+      if (!window.$crisp) {
+        return
+      }
       open()
       window.$crisp.push(['set', 'message:text', [text]])
     },
-    [window.$crisp]
+    [open]
   )
 
   const sendDiagnostics = useCallback(
     (message: string, diagnostics: string) => {
-      if (!window.$crisp) return
+      if (!window.$crisp) {
+        return
+      }
       open()
       window.$crisp.push(['do', 'message:send', [message]])
       window.$crisp.push(['do', 'message:send', ['text', diagnostics]])
     },
-    [window.$crisp]
+    [open]
   )
 
   return {

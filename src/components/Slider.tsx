@@ -24,7 +24,7 @@ const SliderContainer = styled.div<{
 
   ::before,
   ::after {
-    background-color: ${props => props.theme.colors.border.secondary};
+    background-color: ${(props) => props.theme.colors.border.secondary};
     content: ' ';
     display: none;
     height: 64px;
@@ -35,11 +35,11 @@ const SliderContainer = styled.div<{
   }
   ::before {
     left: -4px;
-    ${props => props.hasLeft && 'display: block;'}
+    ${(props) => props.hasLeft && 'display: block;'}
   }
   ::after {
     right: -4px;
-    ${props => props.hasRight && 'display: block;'}
+    ${(props) => props.hasRight && 'display: block;'}
   }
 `
 
@@ -58,28 +58,28 @@ const SliderContainerInner = styled.div`
   }
   scrollbar-width: none;
 `
-const SliderButton = styled(SecondaryIconButton).attrs(props => ({
+const SliderButton = styled(SecondaryIconButton).attrs(() => ({
   size: 20,
 }))<{ left?: boolean; right?: boolean }>`
   border: none;
   border-radius: 50%;
   position: absolute;
-  top: ${props => props.theme.grid.unit * 2}px;
+  top: ${(props) => props.theme.grid.unit * 2}px;
 
   &:focus,
   &:hover {
     &:not([disabled]) {
-      background: ${props => props.theme.colors.background.fifth};
+      background: ${(props) => props.theme.colors.background.fifth};
     }
   }
 
-  ${props => props.left && 'left: -36px;'};
-  ${props => props.right && 'right: -36px;'};
+  ${(props) => props.left && 'left: -36px;'};
+  ${(props) => props.right && 'right: -36px;'};
 
   svg {
     transform: rotate(90deg);
     circle {
-      stroke: ${props => props.theme.colors.border.secondary};
+      stroke: ${(props) => props.theme.colors.border.secondary};
     }
   }
 `

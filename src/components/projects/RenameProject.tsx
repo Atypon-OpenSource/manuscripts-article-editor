@@ -21,6 +21,7 @@ import {
 import { Formik, FormikErrors } from 'formik'
 import React from 'react'
 import styled from 'styled-components'
+
 import {
   RenameProjectForm,
   RenameProjectValues,
@@ -33,8 +34,8 @@ const ModalContainerInner = styled(ModalMain)`
 `
 
 const ModalTitle = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  margin-bottom: ${props => props.theme.grid.unit * 4}px;
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const ModalBody = styled.div``

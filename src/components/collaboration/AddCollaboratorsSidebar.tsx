@@ -19,6 +19,7 @@ import {
 import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import {
   Sidebar,
@@ -31,14 +32,14 @@ import AddCollaboratorButton from './AddCollaboratorButton'
 import SearchCollaboratorsSidebar from './SearchCollaboratorsSidebar'
 
 const PersonInitial = styled.span`
-  margin-right: ${props => props.theme.grid.unit}px;
-  font-weight: ${props => props.theme.font.weight.xlight};
+  margin-right: ${(props) => props.theme.grid.unit}px;
+  font-weight: ${(props) => props.theme.font.weight.xlight};
 `
 
 const PersonName = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   white-space: nowrap;
   text-overflow: ellipsis;
 `
@@ -56,19 +57,19 @@ const UserDataContainer = styled.div`
 
 const Invited = styled.div`
   display: flex;
-  font-size: ${props => props.theme.font.size.small};
-  color: ${props => props.theme.colors.brand.default};
+  font-size: ${(props) => props.theme.font.size.small};
+  color: ${(props) => props.theme.colors.brand.default};
 `
 
 const InvitedContainer = styled.div`
   display: flex;
   align-items: center;
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+  padding-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const AddedIconContainer = styled.div`
   display: flex;
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+  padding-left: ${(props) => props.theme.grid.unit * 2}px;
 
   &:focus {
     outline: none;
@@ -76,7 +77,7 @@ const AddedIconContainer = styled.div`
 `
 
 const SearchContainer = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 interface Props {
@@ -138,7 +139,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
 
         {searchText === '' ? (
           <SidebarContent>
-            {invitations.map(invitation => (
+            {invitations.map((invitation) => (
               <SidebarPersonContainer key={invitation._id}>
                 <UserDataContainer>
                   <Avatar size={45} color={'#6e6e6e'} />
@@ -214,8 +215,10 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
 
     searchText = searchText.toLowerCase()
 
-    const searchResults: UserProfile[] = people.filter(person => {
-      if (addedUsers.includes(person.userID)) return false
+    const searchResults: UserProfile[] = people.filter((person) => {
+      if (addedUsers.includes(person.userID)) {
+        return false
+      }
 
       if (searchText.includes('@')) {
         return person.email && person.email.toLowerCase().includes(searchText)
@@ -225,7 +228,7 @@ class AddCollaboratorsSidebar extends React.Component<Props, State> {
         person.bibliographicName.given,
         person.bibliographicName.family,
       ]
-        .filter(part => part)
+        .filter((part) => part)
         .join(' ')
         .toLowerCase()
 

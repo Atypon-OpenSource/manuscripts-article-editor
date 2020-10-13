@@ -12,6 +12,7 @@
 
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import UserData from '../../data/UserData'
 import { isOwner, isWriter } from '../../lib/roles'
 import { getCurrentUserId } from '../../lib/user'
@@ -36,7 +37,7 @@ const ProjectContextMenu: React.FunctionComponent<Props & ModalProps> = ({
   renameProject,
 }) => (
   <UserData userID={getCurrentUserId()!}>
-    {user => {
+    {(user) => {
       const owner = isOwner(project, user.userID)
       const writer = isWriter(project, user.userID)
 

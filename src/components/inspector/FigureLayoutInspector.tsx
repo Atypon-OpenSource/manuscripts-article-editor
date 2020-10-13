@@ -17,6 +17,7 @@ import {
   Model,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { findFigureLayouts } from '../../lib/styles'
 import { ElementStyleInspectorProps } from './ElementStyleInspector'
@@ -24,13 +25,18 @@ import { FigureLayouts } from './FigureLayouts'
 
 const DEFAULT_FIGURE_LAYOUT = 'MPFigureLayout:default'
 
-export const FigureLayoutInspector: React.FC<ElementStyleInspectorProps & {
-  element: FigureElement
-}> = ({ element, modelMap, view }) => {
+export const FigureLayoutInspector: React.FC<
+  ElementStyleInspectorProps & {
+    element: FigureElement
+  }
+> = ({ element, modelMap, view }) => {
   const [figureLayout, setFigureLayout] = useState<FigureLayout>()
 
-  const getModel = <T extends Model>(id?: string): T | undefined =>
-    id ? (modelMap.get(id) as T | undefined) : undefined
+  const getModel = useCallback(
+    <T extends Model>(id?: string): T | undefined =>
+      id ? (modelMap.get(id) as T | undefined) : undefined,
+    [modelMap]
+  )
 
   const getModelByPrototype = <T extends Model>(id?: string): T | undefined => {
     for (const model of modelMap.values()) {
@@ -50,6 +56,7 @@ export const FigureLayoutInspector: React.FC<ElementStyleInspectorProps & {
 
   useEffect(() => {
     setFigureLayout(elementFigureLayout)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elementFigureLayout, JSON.stringify(elementFigureLayout)])
 
   const setElementFigureLayout = useCallback(
@@ -69,7 +76,7 @@ export const FigureLayoutInspector: React.FC<ElementStyleInspectorProps & {
 
           const figures: ManuscriptNode[] = []
 
-          node.forEach((child, offset) => {
+          node.forEach((child) => {
             if (child.type === figureType) {
               figures.push(child) // TODO: placeholders?
             }
@@ -108,7 +115,7 @@ export const FigureLayoutInspector: React.FC<ElementStyleInspectorProps & {
         }
       })
     },
-    [element, view]
+    [element, getModel, view]
   )
 
   const setElementSizeFraction = useCallback(

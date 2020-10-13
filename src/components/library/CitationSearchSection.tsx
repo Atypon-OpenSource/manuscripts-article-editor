@@ -16,22 +16,23 @@ import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import config from '../../config'
 import { useDebounce } from '../../hooks/use-debounce'
 import { SearchResults } from './SearchResults'
 
 const ResultsSection = styled.div`
-  margin: ${props => props.theme.grid.unit * 2}px 0;
+  margin: ${(props) => props.theme.grid.unit * 2}px 0;
 `
 
 const SearchSource = styled.div`
-  margin: 0 ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit * 2}px;
-  color: ${props => props.theme.colors.text.secondary};
+  margin: 0 ${(props) => props.theme.grid.unit * 4}px
+    ${(props) => props.theme.grid.unit * 2}px;
+  color: ${(props) => props.theme.colors.text.secondary};
   cursor: pointer;
 
   &:hover {
-    color: ${props => props.theme.colors.text.muted};
+    color: ${(props) => props.theme.colors.text.muted};
   }
 `
 
@@ -40,12 +41,12 @@ const MoreButton = styled(SecondaryButton)`
   text-transform: none;
   text-decoration: underline;
   margin-left: 42px;
-  color: ${props => props.theme.colors.button.default.color.default};
+  color: ${(props) => props.theme.colors.button.default.color.default};
 `
 
 const DropdownChevron = styled(ArrowDownBlack)`
-  margin-right: ${props => props.theme.grid.unit * 4}px;
-  width: ${props => props.theme.grid.unit * 6}px;
+  margin-right: ${(props) => props.theme.grid.unit * 4}px;
+  width: ${(props) => props.theme.grid.unit * 6}px;
 `
 
 export const CitationSearchSection: React.FC<{
@@ -118,22 +119,22 @@ export const CitationSearchSection: React.FC<{
 
     source
       .search(initialQuery, { rows }, config.support.email)
-      .then(results => {
+      .then((results) => {
         handleSearchResults(initialQuery, results)
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error.message)
       })
       .finally(() => {
         setSearching(false)
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error.message)
       })
-  }, [debouncedQuery, rows])
+  }, [debouncedQuery, expanded, handleSearchResults, rows, source])
 
   const toggleExpanded = useCallback(() => {
-    setExpanded(value => !value)
+    setExpanded((value) => !value)
   }, [])
 
   return (

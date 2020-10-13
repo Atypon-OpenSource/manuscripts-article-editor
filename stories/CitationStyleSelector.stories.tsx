@@ -15,6 +15,7 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { FixedSizeList } from 'react-window'
+
 import { CitationStyleEmpty } from '../src/components/templates/CitationStyleEmpty'
 import { CitationStyleListItem } from '../src/components/templates/CitationStyleListItem'
 import { CitationStyleSelectorList } from '../src/components/templates/CitationStyleSelectorList'

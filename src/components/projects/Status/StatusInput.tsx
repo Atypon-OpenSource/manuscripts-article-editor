@@ -22,6 +22,7 @@ import {
   SingleValueProps,
 } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
+
 import { AnyElement } from '../../inspector/ElementStyleInspector'
 import { SaveModel } from '../ManuscriptInspector'
 import StatusDnD from './StatusDnD'
@@ -68,14 +69,17 @@ export const StatusInput: React.FC<StatusInputProps> = ({
   const [displayDndZone, setDisplayDndZone] = React.useState(false)
   const [forceMenuOpen, setForceMenuOpen] = React.useState(undefined)
   const [showTooltip, setShowTooltip] = React.useState(false)
-  const label = sortedLabels.filter(label => label._id === target.status)
+  const label = sortedLabels.filter((label) => label._id === target.status)
 
-  const updateTargetStatus = async (status: StatusLabel) => {
-    await saveModel<AnyElement | Section>({
-      ...target,
-      status: status ? status._id : undefined,
-    })
-  }
+  const updateTargetStatus = useCallback(
+    async (status: StatusLabel) => {
+      await saveModel<AnyElement | Section>({
+        ...target,
+        status: status ? status._id : undefined,
+      })
+    },
+    [saveModel, target]
+  )
 
   React.useEffect(() => {
     // Make the newly created label as the new status
@@ -85,7 +89,7 @@ export const StatusInput: React.FC<StatusInputProps> = ({
       window.setTimeout(() => {
         // update active target status
         const newStatusLabel = sortedLabels.filter(
-          label => label.name === newLabel
+          (label) => label.name === newLabel
         )[0]
         void updateTargetStatus(newStatusLabel)
         window.setTimeout(() => {
@@ -94,7 +98,7 @@ export const StatusInput: React.FC<StatusInputProps> = ({
         }, 2000)
       }, 500)
     }
-  }, [newLabel, labels])
+  }, [newLabel, labels, forceMenuOpen, sortedLabels, updateTargetStatus])
 
   const ClearIndicator = (clearIProps: IndicatorProps<OptionTypeBase>) =>
     components.ClearIndicator && (
@@ -198,7 +202,7 @@ export const StatusInput: React.FC<StatusInputProps> = ({
         }
       })
     },
-    []
+    [handleCreateOptionAfter, saveModel]
   )
 
   return (
@@ -213,14 +217,14 @@ export const StatusInput: React.FC<StatusInputProps> = ({
         createOptionPosition="first"
         isClearable={true}
         isSearchable={true}
-        getNewOptionData={inputValue => {
+        getNewOptionData={(inputValue) => {
           const option = {
             name: `Create "${inputValue}"`,
           }
           return option as StatusLabel
         }}
-        getOptionValue={option => option._id}
-        getOptionLabel={option => option.name}
+        getOptionValue={(option) => option._id}
+        getOptionLabel={(option) => option.name}
         menuIsOpen={forceMenuOpen}
         menuPortalTarget={document.body}
         onChange={updateTargetStatus}
@@ -245,7 +249,7 @@ export const StatusInput: React.FC<StatusInputProps> = ({
       {alertVisible && (
         <AlertContainer>
           <AlertMessage type={AlertMessageType.success} hideCloseButton={true}>
-            The "{newLabel}" status is created
+            The &quot;{newLabel}&quot; status is created
           </AlertMessage>
         </AlertContainer>
       )}

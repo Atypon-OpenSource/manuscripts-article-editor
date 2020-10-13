@@ -12,6 +12,7 @@
 
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
+
 import { acceptProjectInvitationToken } from '../../lib/api'
 import { LoadingPage } from '../Loading'
 import { acceptInvitationTokenErrorMessage } from '../Messages'
@@ -35,11 +36,11 @@ class AcceptInvitationURIContainer extends React.Component<
   public componentDidMount() {
     const { invitationToken } = this.props.match.params
 
-    acceptProjectInvitationToken(invitationToken).then(
-      ({ data }) => {
+    acceptProjectInvitationToken(invitationToken)
+      .then(({ data }) => {
         this.setState({ data })
-      },
-      error => {
+      })
+      .catch((error) => {
         const errorMessage = error.response
           ? acceptInvitationTokenErrorMessage(error.response.status)
           : undefined
@@ -49,14 +50,15 @@ class AcceptInvitationURIContainer extends React.Component<
             errorMessage,
           },
         })
-      }
-    )
+      })
   }
 
   public render() {
     const { data } = this.state
 
-    if (!data) return <LoadingPage>Accepting invitation…</LoadingPage>
+    if (!data) {
+      return <LoadingPage>Accepting invitation…</LoadingPage>
+    }
 
     return (
       <Redirect

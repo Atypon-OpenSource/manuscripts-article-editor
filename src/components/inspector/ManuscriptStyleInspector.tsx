@@ -14,6 +14,7 @@ import { Bundle } from '@manuscripts/manuscripts-json-schema'
 import { TertiaryButton, TextField } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { InspectorSection } from '../InspectorSection'
 
 const CitationStyle = styled(TextField).attrs({ readOnly: true })`
@@ -21,7 +22,7 @@ const CitationStyle = styled(TextField).attrs({ readOnly: true })`
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
   cursor: pointer;
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
   overflow: hidden;
   padding-bottom: 2px;
   padding-top: 2px;
@@ -33,7 +34,7 @@ const ChooseButton = styled(TertiaryButton)`
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   border-left: 1px solid;
-  border-color: ${props => props.theme.colors.border.secondary} !important;
+  border-color: ${(props) => props.theme.colors.border.secondary} !important;
   margin: 0;
 `
 
@@ -41,7 +42,7 @@ export const InspectorField = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  margin-bottom: ${props => props.theme.grid.unit * 4}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 
   &:last-child {
     margin-bottom: 0;
@@ -51,7 +52,7 @@ export const InspectorField = styled.div`
 export const InspectorLabel = styled.div`
   flex-shrink: 0;
   width: 100px;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 export const InspectorValue = styled.div`

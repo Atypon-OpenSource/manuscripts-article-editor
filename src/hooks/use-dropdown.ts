@@ -16,7 +16,7 @@ export const useDropdown = () => {
   const [isOpen, setOpen] = useState(false)
 
   const toggleOpen = useCallback(() => {
-    setOpen(open => !open)
+    setOpen((open) => !open)
   }, [])
 
   const wrapperRef = useRef<HTMLDivElement>(null)

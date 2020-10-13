@@ -18,6 +18,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { buildColors } from '../../lib/colors'
 import { findBorderStyles, findTableStyles } from '../../lib/styles'
 import { fromPrototype } from '../../lib/templates'
@@ -26,9 +27,11 @@ import { TableStyles } from './TableStyles'
 
 const DEFAULT_TABLE_STYLE = 'MPTableStyle:default'
 
-export const TableStyleInspector: React.FC<ElementStyleInspectorProps & {
-  element: TableElement
-}> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
+export const TableStyleInspector: React.FC<
+  ElementStyleInspectorProps & {
+    element: TableElement
+  }
+> = ({ deleteModel, element, modelMap, saveModel, view }) => {
   const [error, setError] = useState<Error>()
 
   const [tableStyle, setTableStyle] = useState<TableStyle>()
@@ -52,15 +55,17 @@ export const TableStyleInspector: React.FC<ElementStyleInspectorProps & {
 
   useEffect(() => {
     setTableStyle(elementTableStyle)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTableStyle, elementTableStyle, JSON.stringify(elementTableStyle)])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSaveTableStyle = useCallback(
     debounce((tableStyle: TableStyle) => {
-      saveModel<TableStyle>(tableStyle).catch(error => {
+      saveModel<TableStyle>(tableStyle).catch((error) => {
         setError(error)
       })
     }, 500),
-    [setError, saveModel]
+    [saveModel]
   )
 
   const setElementTableStyle = useCallback(
@@ -115,14 +120,17 @@ export const TableStyleInspector: React.FC<ElementStyleInspectorProps & {
     debouncedSaveTableStyle(tableStyle)
   }
 
-  const saveTableStyle = (tableStyle: TableStyle) => {
-    setTableStyle(tableStyle)
+  const saveTableStyle = useCallback(
+    (tableStyle: TableStyle) => {
+      setTableStyle(tableStyle)
 
-    saveModel<TableStyle>(tableStyle).catch(error => {
-      // TODO: restore previous tableStyle?
-      setError(error)
-    })
-  }
+      saveModel<TableStyle>(tableStyle).catch((error) => {
+        // TODO: restore previous tableStyle?
+        setError(error)
+      })
+    },
+    [saveModel]
+  )
 
   const duplicateTableStyle = useCallback(() => {
     if (!tableStyle) {
@@ -139,10 +147,10 @@ export const TableStyleInspector: React.FC<ElementStyleInspectorProps & {
       ...newStyle,
       title: title || defaultTitle,
     })
-      .then(tableStyle => {
+      .then((tableStyle) => {
         setElementTableStyle(tableStyle._id)
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error)
       })
   }, [tableStyle, saveModel, setElementTableStyle])
@@ -171,11 +179,11 @@ export const TableStyleInspector: React.FC<ElementStyleInspectorProps & {
       removeTableStyleAttr(tableStyle._id)
 
       // TODO: delay removal? only use styles referenced by elements?
-      deleteModel(tableStyle._id).catch(error => {
+      deleteModel(tableStyle._id).catch((error) => {
         setError(error)
       })
     }
-  }, [deleteModel, tableStyle, setElementTableStyle])
+  }, [tableStyle, removeTableStyleAttr, deleteModel])
 
   // TODO: what should happen if there's no defaultTableStyle?
 

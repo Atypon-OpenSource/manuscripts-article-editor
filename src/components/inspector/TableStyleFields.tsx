@@ -11,6 +11,7 @@
  */
 
 import React from 'react'
+
 import {
   CaptionAlignment,
   captionAlignments,
@@ -28,7 +29,7 @@ export const CaptionPositionField: React.FC<{
     <InspectorLabel>Position</InspectorLabel>
     <StyleSelect
       value={value}
-      onChange={event => {
+      onChange={(event) => {
         handleChange(event.target.value as TableCaptionPosition)
       }}
     >
@@ -49,7 +50,7 @@ export const CaptionAlignmentField: React.FC<{
     <InspectorLabel>Alignment</InspectorLabel>
     <StyleSelect
       value={value}
-      onChange={event => {
+      onChange={(event) => {
         handleChange(event.target.value as CaptionAlignment)
       }}
     >

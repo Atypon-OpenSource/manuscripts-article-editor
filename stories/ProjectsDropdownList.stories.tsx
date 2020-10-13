@@ -13,6 +13,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { ProjectsDropdownList } from '../src/components/nav/ProjectsDropdownList'
 import invitationsData from './data/invitations-data'
 import projects from './data/projects'

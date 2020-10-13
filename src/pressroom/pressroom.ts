@@ -11,7 +11,9 @@
  */
 
 import axios, { AxiosResponse, ResponseType } from 'axios'
+// eslint-disable-next-line import/no-unresolved
 import { Data } from 'csl-json'
+
 import config from '../config'
 import tokenHandler from '../lib/token'
 import { ExportBibliographyFormat, ExportManuscriptFormat } from './exporter'
@@ -20,7 +22,7 @@ const client = axios.create({
   baseURL: config.pressroom.url,
 })
 
-client.interceptors.request.use(requestConfig => {
+client.interceptors.request.use((requestConfig) => {
   const token = tokenHandler.get()
 
   if (config.pressroom.key) {
@@ -42,8 +44,8 @@ const validateResponse = (response: AxiosResponse) => {
     // TODO: handle authentication failure (401), timeout, too large, etc
 
     default:
-      console.log(response.headers) // tslint:disable-line:no-console
-      console.log(response.data) // tslint:disable-line:no-console
+      console.log(response.headers)
+      console.log(response.data)
       throw new Error('Something went wrong: ' + response.data)
   }
 }

@@ -11,6 +11,7 @@
  */
 
 import React, { ChangeEvent, useCallback } from 'react'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 import { figureAlignments } from '../../lib/styles'
 import { StyleSelect } from '../projects/inputs'

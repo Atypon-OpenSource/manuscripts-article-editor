@@ -12,6 +12,7 @@
 
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { ReloadDialog } from '../src/components/projects/ReloadDialog'
 
 storiesOf('Reload Dialog', module).add('with message', () => (

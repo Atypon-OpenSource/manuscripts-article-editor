@@ -15,6 +15,7 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import styled from 'styled-components'
+
 import AddCollaboratorPopper from '../src/components/collaboration/AddCollaboratorPopper'
 import AddCollaboratorsSidebar from '../src/components/collaboration/AddCollaboratorsSidebar'
 import { CollaboratorForm } from '../src/components/collaboration/CollaboratorForm'
@@ -124,7 +125,6 @@ storiesOf('Collaboration/Forms', module).add('Invite', () => (
   </PopperStory>
 ))
 
-// tslint:disable-next-line:no-object-literal-type-assertion
 const collaborator = {
   bibliographicName: {
     _id: 'id',

@@ -13,6 +13,7 @@
 import { parse } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import invitationTokenHandler from '../../lib/invitation-token'
 import { LoadingPage } from '../Loading'
 
@@ -26,8 +27,8 @@ class AcceptInvitationRequireLoginContainer extends React.Component<
     const { token } = parse(window.location.hash.substr(1))
     const { invitationToken } = this.props.match.params
 
-    const tokenValue = token ? token : invitationToken
-    invitationTokenHandler.set(tokenValue)
+    const tokenValue = token || invitationToken
+    invitationTokenHandler.set(tokenValue as string)
     this.props.history.push('/login', {
       infoLoginMessage: 'Please sign in first.',
     })

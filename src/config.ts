@@ -24,7 +24,7 @@ interface Config {
   }
   api: {
     url: string
-    headers: object
+    headers: Record<string, unknown>
   }
   beacon: {
     http: string

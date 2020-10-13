@@ -16,6 +16,7 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useState } from 'react'
+
 import { AuthorData, buildAuthorsAndAffiliations } from '../lib/authors'
 import CollectionManager from '../sync/CollectionManager'
 import { useCollectionEvent } from './use-collection-event'
@@ -40,9 +41,11 @@ export const useAuthorsAndAffiliations = (
             { objectType: ObjectTypes.Affiliation },
           ],
         })
-        .$.subscribe(docs => {
-          if (!docs) return
-          const models = docs.map(doc => doc.toJSON()) as Array<
+        .$.subscribe((docs) => {
+          if (!docs) {
+            return
+          }
+          const models = docs.map((doc) => doc.toJSON()) as Array<
             Contributor | Affiliation
           >
           setData(buildAuthorsAndAffiliations(models))
@@ -52,7 +55,7 @@ export const useAuthorsAndAffiliations = (
         subscription.unsubscribe()
       }
     }
-  }, [collection, complete])
+  }, [collection, complete, manuscriptID])
 
   return { data }
 }

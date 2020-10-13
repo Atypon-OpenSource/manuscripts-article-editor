@@ -13,6 +13,7 @@
 import { CheckboxField } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback } from 'react'
 import styled from 'styled-components'
+
 import { InspectorField } from '../inspector/ManuscriptStyleInspector'
 
 export const CheckboxInput: React.FC<{
@@ -24,7 +25,7 @@ export const CheckboxInput: React.FC<{
     (event: ChangeEvent<HTMLInputElement>) => {
       handleChange(event.target.checked)
     },
-    []
+    [handleChange]
   )
 
   return (

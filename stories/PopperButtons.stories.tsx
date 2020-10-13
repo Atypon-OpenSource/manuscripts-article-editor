@@ -13,6 +13,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import AddCollaboratorButton from '../src/components/collaboration/AddCollaboratorButton'
 import CollaboratorSettingsButton from '../src/components/collaboration/CollaboratorSettingsButton'
 import InvitedCollaboratorSettingsButton from '../src/components/collaboration/InvitedCollaboratorSettingsButton'

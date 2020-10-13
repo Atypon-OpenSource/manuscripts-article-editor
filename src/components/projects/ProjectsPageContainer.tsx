@@ -13,6 +13,7 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import MessageBanner from '../MessageBanner'
 import { GlobalMenu } from '../nav/GlobalMenu'
@@ -34,8 +35,9 @@ export interface ProjectsPageContainerProps {
   errorMessage: string
 }
 
-const ProjectsPageContainer: React.FunctionComponent<ProjectsPageContainerProps &
-  RouteComponentProps> = ({ tokenActions, errorMessage }) => (
+const ProjectsPageContainer: React.FunctionComponent<
+  ProjectsPageContainerProps & RouteComponentProps
+> = ({ tokenActions, errorMessage }) => (
   <Page>
     <Main>
       <Container>

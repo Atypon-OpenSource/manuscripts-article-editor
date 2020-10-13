@@ -11,6 +11,7 @@
  */
 
 import { ObjectTypes, Section } from '@manuscripts/manuscripts-json-schema'
+
 import { chooseSectionCategory } from '../section-categories'
 
 describe('section categories', () => {

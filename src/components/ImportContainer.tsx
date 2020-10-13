@@ -17,6 +17,7 @@ import { extname } from 'path'
 import * as React from 'react'
 import Dropzone from 'react-dropzone'
 import styled from 'styled-components'
+
 import {
   acceptedFileDescription,
   acceptedFileExtensions,
@@ -74,7 +75,7 @@ class ImportContainer extends React.Component<Props & ModalProps, State> {
                 The following file formats are supported:
                 {
                   <ul>
-                    {acceptedFileDescription().map(description => (
+                    {acceptedFileDescription().map((description) => (
                       <li key={description}>{description}</li>
                     ))}
                   </ul>
@@ -160,7 +161,7 @@ class ImportContainer extends React.Component<Props & ModalProps, State> {
     // file extensions to look for in a ZIP archive
     const extensions = ['.md', '.tex', '.latex'] // TODO: .xml, .html
 
-    const isAccepted = Object.keys(zip.files).some(name =>
+    const isAccepted = Object.keys(zip.files).some((name) =>
       extensions.includes(extname(name))
     )
 

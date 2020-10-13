@@ -22,6 +22,7 @@ import {
   SectionDescription,
 } from '@manuscripts/manuscripts-json-schema'
 import { orderBy } from 'lodash-es'
+
 import { SharedData } from '../../components/templates/TemplateSelector'
 import { ManuscriptTemplateData, TemplateData } from '../../types/templates'
 import { loadSharedData } from '../shared-data'
@@ -260,7 +261,7 @@ describe('templates', () => {
 
     expect(items).toHaveLength(11)
 
-    const objectTypes = items.map(item => item.objectType)
+    const objectTypes = items.map((item) => item.objectType)
 
     expect(objectTypes).toStrictEqual([
       ObjectTypes.ParagraphElement,
@@ -289,8 +290,7 @@ describe('templates', () => {
 
     expect(result._id).not.toBe(model._id)
 
-    // tslint:disable-next-line:no-any (add prototype to Model schema)
-    expect((result as any).prototype).toBe(model._id)
+    expect(result.prototype).toBe(model._id)
   })
 
   test('create merged template', () => {

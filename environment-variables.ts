@@ -86,7 +86,7 @@ if (
   process.env.NODE_ENV === 'production' &&
   !process.env.ALLOW_MISSING_VARIABLES
 ) {
-  const missing = environmentVariables.filter(key => {
+  const missing = environmentVariables.filter((key) => {
     if (optionalVariables.includes(key)) {
       return false
     }

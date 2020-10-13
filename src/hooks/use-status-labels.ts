@@ -12,6 +12,7 @@
 
 import { ObjectTypes, StatusLabel } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useMemo, useState } from 'react'
+
 import CollectionManager from '../sync/CollectionManager'
 
 export const useStatusLabels = (projectID: string, manuscriptID: string) => {
@@ -25,23 +26,25 @@ export const useStatusLabels = (projectID: string, manuscriptID: string) => {
   const [data, setData] = useState<StatusLabel[]>([])
 
   useEffect(() => {
-    if (!collection || !isPullComplete) return
+    if (!collection || !isPullComplete) {
+      return
+    }
 
     const subscription = collection
       .find({
         manuscriptID,
         objectType: { $eq: ObjectTypes.StatusLabel },
       })
-      .$.subscribe(docs => {
+      .$.subscribe((docs) => {
         if (docs) {
-          setData(docs.map(doc => doc.toJSON() as StatusLabel))
+          setData(docs.map((doc) => doc.toJSON() as StatusLabel))
         }
       })
 
     return () => {
       subscription.unsubscribe()
     }
-  }, [collection, isPullComplete])
+  }, [collection, isPullComplete, manuscriptID])
 
   return data
 }

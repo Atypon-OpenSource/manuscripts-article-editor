@@ -12,6 +12,7 @@
 
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { getUserRole, isOwner } from '../../lib/roles'
 import { CollaboratorRolePopper } from './CollaboratorRolePopper'
 import { RemoveCollaboratorPopper } from './RemoveCollaboratorPopper'

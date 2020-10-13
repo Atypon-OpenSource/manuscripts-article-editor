@@ -24,6 +24,7 @@ import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { FormLink } from '../Form'
 import { Hero, SubHero } from '../Hero'
 import { ErrorName } from './LoginPageContainer'
@@ -45,11 +46,11 @@ const Container = styled.div`
 
 const RecoverLink = styled(Link)`
   text-decoration: underline;
-  color: ${props => props.theme.colors.text.error};
+  color: ${(props) => props.theme.colors.text.error};
 `
 
 const HeavyLink = styled.a`
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   color: inherit;
 `
 
@@ -57,10 +58,9 @@ interface Props {
   submitErrorType?: string
 }
 
-export const LoginForm: React.FunctionComponent<FormikProps<
-  LoginValues & FormErrors
-> &
-  Props> = ({ errors, isSubmitting, submitErrorType }) => (
+export const LoginForm: React.FunctionComponent<
+  FormikProps<LoginValues & FormErrors> & Props
+> = ({ errors, isSubmitting, submitErrorType }) => (
   <CenteredForm id={'login-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Welcome to</SubHero>

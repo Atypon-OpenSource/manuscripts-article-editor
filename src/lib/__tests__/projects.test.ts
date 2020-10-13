@@ -11,6 +11,7 @@
  */
 
 import { Project } from '@manuscripts/manuscripts-json-schema'
+
 import { projectListCompare } from '../projects'
 
 const createdAt = (date: string) => Math.floor(new Date(date).getTime() / 1000)

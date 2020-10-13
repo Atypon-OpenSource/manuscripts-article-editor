@@ -22,10 +22,10 @@ export const StorageInfo: React.FC = () => {
     if ('storage' in navigator && 'estimate' in navigator.storage) {
       navigator.storage
         .estimate()
-        .then(estimate => {
+        .then((estimate) => {
           setEstimate(estimate)
         })
-        .catch(error => {
+        .catch((error) => {
           setError(error)
         })
     }
@@ -56,6 +56,6 @@ export const StorageInfo: React.FC = () => {
 }
 
 const Container = styled.div`
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 5}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 5}px;
 `

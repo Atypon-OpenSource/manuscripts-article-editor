@@ -11,10 +11,11 @@
  */
 
 import { StylesConfig } from 'react-select'
+
 import { theme } from '../theme/theme'
 
 export const selectStyles: StylesConfig = {
-  container: base => ({
+  container: (base) => ({
     ...base,
     flex: 1,
   }),
@@ -32,5 +33,5 @@ export const selectStyles: StylesConfig = {
     borderRadius: theme.grid.radius.default,
     boxShadow: 'none',
   }),
-  menuPortal: base => ({ ...base, zIndex: 10 }),
+  menuPortal: (base) => ({ ...base, zIndex: 10 }),
 }

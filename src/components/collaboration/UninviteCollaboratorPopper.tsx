@@ -13,41 +13,42 @@
 import { Avatar, TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { PopperBody, SeparatorLine } from '../Popper'
 
 const CollaboratorName = styled.div`
   text-align: center;
-  font-size: ${props => props.theme.font.size.xlarge};
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.semibold};
-  padding-bottom: ${props => props.theme.grid.unit * 3}px;
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: ${(props) => props.theme.font.weight.semibold};
+  padding-bottom: ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const AvatarStyle = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: ${props => props.theme.grid.unit * 3}px;
-  padding-bottom: ${props => props.theme.grid.unit}px;
+  padding-top: ${(props) => props.theme.grid.unit * 3}px;
+  padding-bottom: ${(props) => props.theme.grid.unit}px;
 `
 
 const Action = styled.div`
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.semibold};
-  padding-left: ${props => props.theme.grid.unit}px;
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: ${(props) => props.theme.font.weight.semibold};
+  padding-left: ${(props) => props.theme.grid.unit}px;
 `
 
 const Message = styled.div`
   display: flex;
   justify-content: center;
-  color: ${props => props.theme.colors.text.primary};
-  padding-bottom: ${props => props.theme.grid.unit * 4}px;
+  color: ${(props) => props.theme.colors.text.primary};
+  padding-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const Description = styled.div`
   display: flex;
-  padding-bottom: ${props => props.theme.grid.unit * 2}px;
-  font-size: ${props => props.theme.font.size.normal};
-  color: ${props => props.theme.colors.text.secondary};
+  padding-bottom: ${(props) => props.theme.grid.unit * 2}px;
+  font-size: ${(props) => props.theme.font.size.normal};
+  color: ${(props) => props.theme.colors.text.secondary};
   text-align: center;
   white-space: normal;
 `
@@ -78,8 +79,8 @@ export const UninviteCollaboratorPopper: React.FunctionComponent<Props> = ({
     <CollaboratorName>{invitedUserName}</CollaboratorName>
     <Message>from the Contributors list?</Message>
     <Description>
-      {invitedUserName} won't get an invitation to view or modify any content of
-      the project anymore
+      {invitedUserName} won&apos;t get an invitation to view or modify any
+      content of the project anymore
     </Description>
     <SeparatorLine />
     <ButtonsContainer>

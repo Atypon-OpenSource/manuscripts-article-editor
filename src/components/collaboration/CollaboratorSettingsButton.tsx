@@ -14,10 +14,11 @@ import SettingsInverted from '@manuscripts/assets/react/SettingsInverted'
 import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
 import { AxiosError } from 'axios'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import { ProjectRole } from '../../lib/roles'
 import CollaboratorSettingsPopperContainer from './CollaboratorSettingsPopperContainer'
@@ -26,7 +27,7 @@ const AddIconButton = styled(IconButton)`
   display: flex;
   height: unset;
   width: unset;
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+  padding-left: ${(props) => props.theme.grid.unit * 2}px;
 
   &:focus {
     outline: none;
@@ -35,7 +36,7 @@ const AddIconButton = styled(IconButton)`
 
 const SettingsInvertedIcon = styled(SettingsInverted)`
   g {
-    stroke: ${props => props.theme.colors.brand.default};
+    stroke: ${(props) => props.theme.colors.brand.default};
   }
 `
 
@@ -105,7 +106,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
             header={this.state.error.message}
             message={
               this.state.error.data.response!.status ===
-              HttpStatusCodes.SERVICE_UNAVAILABLE
+              StatusCodes.SERVICE_UNAVAILABLE
                 ? 'Trouble reaching manuscripts.io servers. Please try again later.'
                 : 'An error occurred.'
             }
@@ -162,7 +163,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
     } catch (error) {
       if (
         error.response &&
-        error.response.status === HttpStatusCodes.UNAUTHORIZED
+        error.response.status === StatusCodes.UNAUTHORIZED
       ) {
         this.props.tokenActions.delete()
       } else {
@@ -182,7 +183,7 @@ class CollaboratorSettingsButton extends React.Component<Props, State> {
     } catch (error) {
       if (
         error.response &&
-        error.response.status === HttpStatusCodes.UNAUTHORIZED
+        error.response.status === StatusCodes.UNAUTHORIZED
       ) {
         this.props.tokenActions.delete()
       } else {

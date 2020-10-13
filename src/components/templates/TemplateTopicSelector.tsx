@@ -16,10 +16,11 @@ import { ResearchField } from '@manuscripts/manuscripts-json-schema'
 import { TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { TemplateTopicsList } from './TemplateTopicsList'
 
 const TopicSelector = styled.div`
-  border-left: 1px solid ${props => props.theme.colors.border.secondary};
+  border-left: 1px solid ${(props) => props.theme.colors.border.secondary};
   flex-shrink: 0;
 
   button {
@@ -32,14 +33,14 @@ const TopicSelector = styled.div`
 `
 
 const TopicsToggleButton = styled(TertiaryButton)`
-  color: ${props => props.theme.colors.text.secondary};
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.normal};
+  color: ${(props) => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  font-weight: ${(props) => props.theme.font.weight.normal};
   text-transform: none;
 `
 
 const SelectedTopic = styled.div`
-  margin-right: ${props => props.theme.grid.unit}px;
+  margin-right: ${(props) => props.theme.grid.unit}px;
 `
 
 interface Props {
@@ -85,7 +86,7 @@ export class TemplateTopicSelector extends React.Component<Props, State> {
 
         {isOpen && (
           <TemplateTopicsList
-            handleChange={value => {
+            handleChange={(value) => {
               handleChange(value)
               this.setState({ isOpen: false })
             }}

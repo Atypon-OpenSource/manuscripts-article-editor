@@ -26,6 +26,7 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import config from '../../config'
 import {
   InspectorPanelTabList,
@@ -61,7 +62,7 @@ const buildCountRequirement = <T extends CountRequirement>(
   objectType: ObjectTypes,
   count?: number,
   ignored?: boolean,
-  severity: number = 0
+  severity = 0
 ): Build<T> => {
   const item = {
     _id: generateID(objectType),
@@ -139,7 +140,7 @@ export const ManuscriptInspector: React.FC<{
 
                 <DOIInput
                   value={manuscript.DOI}
-                  handleChange={async DOI => {
+                  handleChange={async (DOI) => {
                     await saveManuscript({
                       DOI,
                     })
@@ -150,7 +151,7 @@ export const ManuscriptInspector: React.FC<{
 
                 <DateTimeInput
                   value={manuscript.publicationDate}
-                  handleChange={async publicationDate => {
+                  handleChange={async (publicationDate) => {
                     await saveManuscript({
                       publicationDate,
                     })
@@ -161,7 +162,7 @@ export const ManuscriptInspector: React.FC<{
 
                 <CheckboxInput
                   value={manuscript.paywall}
-                  handleChange={async paywall => {
+                  handleChange={async (paywall) => {
                     await saveManuscript({ paywall })
                   }}
                   label={'Publish behind a paywall'}
@@ -171,7 +172,7 @@ export const ManuscriptInspector: React.FC<{
 
                 <DescriptionInput
                   value={manuscript.desc}
-                  handleChange={async desc => {
+                  handleChange={async (desc) => {
                     await saveManuscript({
                       desc,
                     })
@@ -182,7 +183,7 @@ export const ManuscriptInspector: React.FC<{
 
                 <ThemeInput
                   value={manuscript.layoutTheme || ''}
-                  handleChange={async layoutTheme => {
+                  handleChange={async (layoutTheme) => {
                     await saveManuscript({
                       layoutTheme,
                     })
@@ -207,7 +208,7 @@ export const ManuscriptInspector: React.FC<{
               label={'Figure Panel'}
               placeholder={'Figure'}
               value={manuscript.figureElementLabel || ''}
-              handleChange={async figureElementLabel => {
+              handleChange={async (figureElementLabel) => {
                 await saveManuscript({
                   figureElementLabel,
                 })
@@ -218,7 +219,7 @@ export const ManuscriptInspector: React.FC<{
               label={'Table'}
               placeholder={'Table'}
               value={manuscript.tableElementLabel || ''}
-              handleChange={async tableElementLabel => {
+              handleChange={async (tableElementLabel) => {
                 await saveManuscript({
                   tableElementLabel,
                 })
@@ -229,7 +230,7 @@ export const ManuscriptInspector: React.FC<{
               label={'Equation'}
               placeholder={'Equation'}
               value={manuscript.equationElementLabel || ''}
-              handleChange={async equationElementLabel => {
+              handleChange={async (equationElementLabel) => {
                 await saveManuscript({
                   equationElementLabel,
                 })
@@ -240,7 +241,7 @@ export const ManuscriptInspector: React.FC<{
               label={'Listing'}
               placeholder={'Listing'}
               value={manuscript.listingElementLabel || ''}
-              handleChange={async listingElementLabel => {
+              handleChange={async (listingElementLabel) => {
                 await saveManuscript({
                   listingElementLabel,
                 })

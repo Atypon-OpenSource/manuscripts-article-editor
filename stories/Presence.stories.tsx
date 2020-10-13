@@ -12,13 +12,14 @@
 
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import {
   PresenceListView,
   UserPresence,
 } from '../src/components/projects/PresenceList'
 import { people } from './data/people'
 
-const users: UserPresence[] = people.map(profile => ({
+const users: UserPresence[] = people.map((profile) => ({
   profile,
   presence: {
     containerId: 'MPProject: 1',

@@ -39,6 +39,7 @@ import { Manager, Popper } from 'react-popper'
 import { OptionProps } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 import { buildColors, nextColorPriority } from '../../lib/colors'
 import { selectStyles } from '../../lib/select-styles'
@@ -57,28 +58,28 @@ const ColorPopper = styled(Popup)`
   max-width: 200px;
   min-width: 140px;
   height: fit-content;
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 const OptionWrapper = styled.div<{ focused?: boolean }>`
-  padding-left: ${props => props.theme.grid.unit * 4}px;
+  padding-left: ${(props) => props.theme.grid.unit * 4}px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.focused ? props.theme.colors.background.fifth : 'transparent'};
 
   &:hover {
-    background-color: ${props => props.theme.colors.background.fifth};
+    background-color: ${(props) => props.theme.colors.background.fifth};
   }
 `
 const OptionLabel = styled.div<{
   color?: string
 }>`
-  background-color: ${props => (props.color ? props.color : '#F2F2F2')};
+  background-color: ${(props) => (props.color ? props.color : '#F2F2F2')};
   width: fit-content;
-  padding: ${props => props.theme.grid.unit}px
-    ${props => props.theme.grid.unit * 2}px;
+  padding: ${(props) => props.theme.grid.unit}px
+    ${(props) => props.theme.grid.unit * 2}px;
   border-radius: 6px;
 `
 const OuterContainer = styled.div`
@@ -92,14 +93,14 @@ const ColorButton = styled.button<{
   color?: string
   isActive: boolean
 }>`
-  background: ${props => props.color};
-  box-shadow: ${props => (props.isActive ? '0 0 1px 1px #BCE7F6' : 'none')};
-  height: ${props => props.theme.grid.unit * 6}px;
-  width: ${props => props.theme.grid.unit * 6}px;
+  background: ${(props) => props.color};
+  box-shadow: ${(props) => (props.isActive ? '0 0 1px 1px #BCE7F6' : 'none')};
+  height: ${(props) => props.theme.grid.unit * 6}px;
+  width: ${(props) => props.theme.grid.unit * 6}px;
   border-radius: 50%;
   margin: 4px 2px;
   padding: 0;
-  border: 1px solid ${props => props.theme.colors.border.tertiary};
+  border: 1px solid ${(props) => props.theme.colors.border.tertiary};
   cursor: pointer;
   flex-shrink: 0;
 
@@ -142,11 +143,11 @@ const Actions = styled.div`
 `
 
 const PopperContent = styled.div`
-  border: 1px solid ${props => props.theme.colors.text.muted};
-  border-radius: ${props => props.theme.grid.radius.small};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  background: ${props => props.theme.colors.background.primary};
-  padding: ${props => props.theme.grid.unit * 2}px;
+  border: 1px solid ${(props) => props.theme.colors.text.muted};
+  border-radius: ${(props) => props.theme.grid.radius.small};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
+  background: ${(props) => props.theme.colors.background.primary};
+  padding: ${(props) => props.theme.grid.unit * 2}px;
 
   .chrome-picker {
     box-shadow: none !important;
@@ -158,18 +159,18 @@ const EditingPopper = styled(PopperContent)`
   max-width: 200px;
   min-width: 140px;
   height: fit-content;
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 const Separator = styled.div`
-  margin: ${props => props.theme.grid.unit * 4}px 0;
-  background-color: ${props => props.theme.colors.border.tertiary};
+  margin: ${(props) => props.theme.grid.unit * 4}px 0;
+  background-color: ${(props) => props.theme.colors.border.tertiary};
   height: 1px;
 `
 const LabelContainer = styled.div`
   display: flex;
   align-items: center;
 `
-// tslint:disable:cyclomatic-complexity
+
 export const TagsInput: React.FC<{
   tags: Tag[]
   saveModel: SaveModel
@@ -206,7 +207,7 @@ export const TagsInput: React.FC<{
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [tagToEdit])
+  }, [handleClickOutside, tagToEdit])
 
   const editTag = useCallback(
     (event: React.MouseEvent, tag: Tag) => {
@@ -225,11 +226,11 @@ export const TagsInput: React.FC<{
 
   const { colors, colorScheme } = buildColors(modelMap)
 
-  if (!colorScheme) {
-    return null
-  }
-
   const handleAddColor = useCallback(async () => {
+    if (!colorScheme) {
+      return null
+    }
+
     if (pickedColor) {
       for (const color of colors) {
         if (color.value === pickedColor) {
@@ -252,7 +253,11 @@ export const TagsInput: React.FC<{
 
     setOpen(false)
     setColor('#ffffff')
-  }, [pickedColor, setOpen])
+  }, [colorScheme, colors, pickedColor, saveModel])
+
+  if (!colorScheme) {
+    return null
+  }
 
   const colorsMap = new Map<string, Color>()
 
@@ -261,13 +266,13 @@ export const TagsInput: React.FC<{
   }
 
   const keywordIDs = target.keywordIDs || []
-  const targetTags = tags.filter(tag => keywordIDs.includes(tag._id))
+  const targetTags = tags.filter((tag) => keywordIDs.includes(tag._id))
   const ordered = targetTags.sort(ascendingPriority)
 
-  const options = tags.filter(tag => !keywordIDs.includes(tag._id))
+  const options = tags.filter((tag) => !keywordIDs.includes(tag._id))
   const optionIndex = (tag: Tag) => {
     return options
-      .map(tag => {
+      .map((tag) => {
         return tag._id
       })
       .indexOf(tag._id)
@@ -301,8 +306,9 @@ export const TagsInput: React.FC<{
           </OptionLabel>
         </LabelContainer>
         {!isCreate && (
-          <IconButton onClick={event => editTag(event, data)}>
+          <IconButton onClick={(event) => editTag(event, data)}>
             <img
+              alt={'Options'}
               src={
                 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAaCAYAAAC6nQw6AAAAX0lEQVRIS2NkoBJgpJI5DCPVIJm5xz3//2OcBQpHRqb/aU+SLbfjClO8YSQ9+8Tj/wz/ZcAGMTA+eZpqITuwBlHNa6SkMfqkI6p5bTTWwJE7GmsUZlqqJcjBl9eGtosAsyRaG0sNHWYAAAAASUVORK5CYII='
               }
@@ -318,14 +324,14 @@ export const TagsInput: React.FC<{
     <Manager>
       <OuterContainer>
         <CreatableSelect<Tag>
-          getNewOptionData={inputValue => {
+          getNewOptionData={(inputValue) => {
             const option = {
               name: `Create tag for "${inputValue}"`,
             }
 
             return option as Tag
           }}
-          onCreateOption={async inputValue => {
+          onCreateOption={async (inputValue) => {
             const tag: Build<Tag> = {
               _id: generateID(ObjectTypes.Tag),
               objectType: ObjectTypes.Tag,
@@ -343,13 +349,13 @@ export const TagsInput: React.FC<{
           isMulti={true}
           options={tags}
           value={ordered}
-          getOptionValue={option => option._id}
-          getOptionLabel={option => option.name}
+          getOptionValue={(option) => option._id}
+          getOptionLabel={(option) => option.name}
           onMenuOpen={() => setCreatedTag(undefined)}
           onChange={async (tags: Tag[]) => {
             await saveModel<AnyElement | Section>({
               ...target,
-              keywordIDs: tags ? tags.map(tag => tag._id) : [],
+              keywordIDs: tags ? tags.map((tag) => tag._id) : [],
             })
           }}
           styles={{
@@ -441,7 +447,7 @@ export const TagsInput: React.FC<{
                   <EditingPopper>
                     <TagNameInput
                       value={tagToEdit.name}
-                      handleChange={async name => {
+                      handleChange={async (name) => {
                         const tag = await saveModel<Tag>({
                           ...tagToEdit,
                           name,
@@ -533,7 +539,7 @@ const EditColor: React.FC<{
 }> = ({ tag, colors, setTag, saveModel, openPicker }) => {
   return (
     <div>
-      {colors.map(color => (
+      {colors.map((color) => (
         <ColorButton
           key={color._id}
           type={'button'}

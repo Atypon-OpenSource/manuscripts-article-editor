@@ -20,6 +20,7 @@ import {
 import { SecondaryButton } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
+
 import {
   DEFAULT_LIST_BULLET_STYLE,
   DEFAULT_LIST_NUMBERING_PREFIX,
@@ -48,7 +49,7 @@ export const ParagraphListsField: React.FC<{
   } = paragraphStyle
 
   const toggleExpanded = useCallback(() => {
-    setExpanded(value => !value)
+    setExpanded((value) => !value)
   }, [])
 
   return (
@@ -62,151 +63,152 @@ export const ParagraphListsField: React.FC<{
         <HeaderCell>Suffix</HeaderCell>
       </Row>
 
-      {/* tslint:disable-next-line:cyclomatic-complexity */}
-      {listLevels.slice(0, expanded ? listLevels.length : 3).map(listLevel => {
-        const listItemBulletStyle =
-          embeddedListItemBulletStyles &&
-          embeddedListItemBulletStyles[listLevel]
-            ? embeddedListItemBulletStyles[listLevel]
-            : buildListItemBulletStyle()
+      {listLevels
+        .slice(0, expanded ? listLevels.length : 3)
+        .map((listLevel) => {
+          const listItemBulletStyle =
+            embeddedListItemBulletStyles &&
+            embeddedListItemBulletStyles[listLevel]
+              ? embeddedListItemBulletStyles[listLevel]
+              : buildListItemBulletStyle()
 
-        const listItemNumberingStyle =
-          embeddedListItemNumberingStyles &&
-          embeddedListItemNumberingStyles[listLevel]
-            ? embeddedListItemNumberingStyles[listLevel]
-            : buildNumberingStyle()
+          const listItemNumberingStyle =
+            embeddedListItemNumberingStyles &&
+            embeddedListItemNumberingStyles[listLevel]
+              ? embeddedListItemNumberingStyles[listLevel]
+              : buildNumberingStyle()
 
-        return (
-          <Row key={listLevel}>
-            <RowHeaderCell>{listLevel}</RowHeaderCell>
+          return (
+            <Row key={listLevel}>
+              <RowHeaderCell>{listLevel}</RowHeaderCell>
 
-            <Cell>
-              <select
-                name={'list-bullet-style'}
-                value={valueOrDefault<string>(
-                  listItemBulletStyle.bulletStyle,
-                  DEFAULT_LIST_BULLET_STYLE
-                )}
-                onChange={event => {
-                  saveParagraphStyle({
-                    ...paragraphStyle,
-                    embeddedListItemBulletStyles: {
-                      ...embeddedListItemBulletStyles,
-                      [listLevel]: {
-                        ...listItemBulletStyle,
-                        bulletStyle: event.target.value as ListBulletStyle,
+              <Cell>
+                <select
+                  name={'list-bullet-style'}
+                  value={valueOrDefault<string>(
+                    listItemBulletStyle.bulletStyle,
+                    DEFAULT_LIST_BULLET_STYLE
+                  )}
+                  onChange={(event) => {
+                    saveParagraphStyle({
+                      ...paragraphStyle,
+                      embeddedListItemBulletStyles: {
+                        ...embeddedListItemBulletStyles,
+                        [listLevel]: {
+                          ...listItemBulletStyle,
+                          bulletStyle: event.target.value as ListBulletStyle,
+                        },
                       },
-                    },
-                  })
-                }}
-              >
-                {Object.entries(listBulletStyles).map(([key, value]) => (
-                  <option value={key} key={key}>
-                    {value.label}
-                  </option>
-                ))}
-              </select>
-            </Cell>
+                    })
+                  }}
+                >
+                  {Object.entries(listBulletStyles).map(([key, value]) => (
+                    <option value={key} key={key}>
+                      {value.label}
+                    </option>
+                  ))}
+                </select>
+              </Cell>
 
-            <Cell>
-              <select
-                name={'list-numbering-scheme'}
-                value={valueOrDefault<string>(
-                  listItemNumberingStyle.numberingScheme,
-                  DEFAULT_LIST_NUMBERING_STYLE
-                )}
-                onChange={event => {
-                  saveParagraphStyle({
-                    ...paragraphStyle,
-                    embeddedListItemNumberingStyles: {
-                      ...embeddedListItemNumberingStyles,
-                      [listLevel]: {
-                        ...listItemNumberingStyle,
-                        numberingScheme: event.target
-                          .value as ListNumberingScheme,
+              <Cell>
+                <select
+                  name={'list-numbering-scheme'}
+                  value={valueOrDefault<string>(
+                    listItemNumberingStyle.numberingScheme,
+                    DEFAULT_LIST_NUMBERING_STYLE
+                  )}
+                  onChange={(event) => {
+                    saveParagraphStyle({
+                      ...paragraphStyle,
+                      embeddedListItemNumberingStyles: {
+                        ...embeddedListItemNumberingStyles,
+                        [listLevel]: {
+                          ...listItemNumberingStyle,
+                          numberingScheme: event.target
+                            .value as ListNumberingScheme,
+                        },
                       },
-                    },
-                  })
-                }}
-              >
-                {Object.entries(listNumberingSchemes).map(([key, value]) => (
-                  <option value={key} key={key}>
-                    {value.label}
-                  </option>
-                ))}
-              </select>
-            </Cell>
+                    })
+                  }}
+                >
+                  {Object.entries(listNumberingSchemes).map(([key, value]) => (
+                    <option value={key} key={key}>
+                      {value.label}
+                    </option>
+                  ))}
+                </select>
+              </Cell>
 
-            <Cell>
-              <SmallNumberField
-                name={'list-start-index'}
-                value={valueOrDefault<number>(
-                  listItemNumberingStyle.startIndex,
-                  DEFAULT_LIST_START_INDEX
-                )}
-                onChange={event => {
-                  saveParagraphStyle({
-                    ...paragraphStyle,
-                    embeddedListItemNumberingStyles: {
-                      ...embeddedListItemNumberingStyles,
-                      [listLevel]: {
-                        ...listItemNumberingStyle,
-                        startIndex: Number(event.target.value),
+              <Cell>
+                <SmallNumberField
+                  name={'list-start-index'}
+                  value={valueOrDefault<number>(
+                    listItemNumberingStyle.startIndex,
+                    DEFAULT_LIST_START_INDEX
+                  )}
+                  onChange={(event) => {
+                    saveParagraphStyle({
+                      ...paragraphStyle,
+                      embeddedListItemNumberingStyles: {
+                        ...embeddedListItemNumberingStyles,
+                        [listLevel]: {
+                          ...listItemNumberingStyle,
+                          startIndex: Number(event.target.value),
+                        },
                       },
-                    },
-                  })
-                }}
-              />
-            </Cell>
+                    })
+                  }}
+                />
+              </Cell>
 
-            <Cell>
-              <SmallTextField
-                name={'list-prefix'}
-                size={1}
-                value={valueOrDefault<string>(
-                  listItemNumberingStyle.prefix,
-                  DEFAULT_LIST_NUMBERING_PREFIX
-                )}
-                onChange={event => {
-                  saveParagraphStyle({
-                    ...paragraphStyle,
-                    embeddedListItemNumberingStyles: {
-                      ...embeddedListItemNumberingStyles,
-                      [listLevel]: {
-                        ...listItemNumberingStyle,
-                        prefix: event.target.value,
+              <Cell>
+                <SmallTextField
+                  name={'list-prefix'}
+                  size={1}
+                  value={valueOrDefault<string>(
+                    listItemNumberingStyle.prefix,
+                    DEFAULT_LIST_NUMBERING_PREFIX
+                  )}
+                  onChange={(event) => {
+                    saveParagraphStyle({
+                      ...paragraphStyle,
+                      embeddedListItemNumberingStyles: {
+                        ...embeddedListItemNumberingStyles,
+                        [listLevel]: {
+                          ...listItemNumberingStyle,
+                          prefix: event.target.value,
+                        },
                       },
-                    },
-                  })
-                }}
-              />
-            </Cell>
+                    })
+                  }}
+                />
+              </Cell>
 
-            <Cell>
-              <SmallTextField
-                name={'list-suffix'}
-                size={1}
-                value={valueOrDefault<string>(
-                  listItemNumberingStyle.suffix,
-                  DEFAULT_LIST_NUMBERING_SUFFIX
-                )}
-                onChange={event => {
-                  saveParagraphStyle({
-                    ...paragraphStyle,
-                    embeddedListItemNumberingStyles: {
-                      ...embeddedListItemNumberingStyles,
-                      [listLevel]: {
-                        ...listItemNumberingStyle,
-                        suffix: event.target.value,
+              <Cell>
+                <SmallTextField
+                  name={'list-suffix'}
+                  size={1}
+                  value={valueOrDefault<string>(
+                    listItemNumberingStyle.suffix,
+                    DEFAULT_LIST_NUMBERING_SUFFIX
+                  )}
+                  onChange={(event) => {
+                    saveParagraphStyle({
+                      ...paragraphStyle,
+                      embeddedListItemNumberingStyles: {
+                        ...embeddedListItemNumberingStyles,
+                        [listLevel]: {
+                          ...listItemNumberingStyle,
+                          suffix: event.target.value,
+                        },
                       },
-                    },
-                  })
-                }}
-              />
-            </Cell>
-          </Row>
-        )
-      })}
+                    })
+                  }}
+                />
+              </Cell>
+            </Row>
+          )
+        })}
 
       {!expanded && (
         <Expander>
@@ -225,11 +227,11 @@ const Row = styled.div`
 
 const Cell = styled.div`
   display: table-cell;
-  padding: ${props => props.theme.grid.unit}px
-    ${props => props.theme.grid.unit * 2}px ${props => props.theme.grid.unit}px
-    0;
-  font-size: ${props => props.theme.font.size.normal};
-  color: ${props => props.theme.colors.text.muted};
+  padding: ${(props) => props.theme.grid.unit}px
+    ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit}px 0;
+  font-size: ${(props) => props.theme.font.size.normal};
+  color: ${(props) => props.theme.colors.text.muted};
 `
 
 const HeaderCell = styled(Cell)``
@@ -239,8 +241,8 @@ const RowHeaderCell = styled(Cell)`
 `
 
 const Expander = styled.div`
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 8}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 8}px;
 `
 
 const buildListItemBulletStyle = (): ListItemBulletStyle => ({

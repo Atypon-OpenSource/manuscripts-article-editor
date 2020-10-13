@@ -19,6 +19,7 @@ import {
 import { difference } from 'lodash-es'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
+
 import { TokenActions } from '../../data/TokenData'
 import { addProjectUser, projectInvite } from '../../lib/api'
 import { buildCollaborators } from '../../lib/collaborators'
@@ -85,11 +86,11 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     }
 
     if (isInvite) {
-      return this.renderInviteCollaboratorPage(project)
+      return this.renderInviteCollaboratorPage()
     }
 
     const acceptedInvitations = invitations.filter(
-      invitation => !invitation.acceptedAt
+      (invitation) => !invitation.acceptedAt
     )
 
     const collaboratorEmails: string[] = []
@@ -101,7 +102,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     }
 
     const filteredInvitations = acceptedInvitations.filter(
-      invitation => !collaboratorEmails.includes(invitation.invitedUserEmail)
+      (invitation) => !collaboratorEmails.includes(invitation.invitedUserEmail)
     )
 
     return this.renderAddCollaboratorsPage(
@@ -110,7 +111,7 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
     )
   }
 
-  private renderInviteCollaboratorPage(project: Project) {
+  private renderInviteCollaboratorPage() {
     const { searchText, invitationSent } = this.state
 
     const isEmail = searchText.includes('@')
@@ -191,7 +192,9 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
 
     const { project, projects, collaborators } = this.props
 
-    const otherProjects = projects.filter(project => project._id !== projectID)
+    const otherProjects = projects.filter(
+      (project) => project._id !== projectID
+    )
 
     const projectCollaborators = buildCollaborators(project, collaborators)
 

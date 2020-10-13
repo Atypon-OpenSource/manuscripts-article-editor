@@ -13,6 +13,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { ColorSelector } from '../src/components/projects/ColorSelector'
 
 storiesOf('Color Selector', module).add('Selector', () => (

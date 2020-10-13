@@ -14,6 +14,7 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { Formik } from 'formik'
 import React from 'react'
+
 import {
   ChangePasswordForm,
   ChangePasswordValues,
@@ -141,7 +142,7 @@ storiesOf('Account/Forms/Modal', module)
         validateOnChange={false}
         validateOnBlur={false}
         onSubmit={action('submit')}
-        render={props => (
+        render={(props) => (
           <DeleteAccountForm
             {...props}
             deletedProjects={[

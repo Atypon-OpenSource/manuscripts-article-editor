@@ -12,14 +12,15 @@
 
 import projectDump from '@manuscripts/examples/data/project-dump.json'
 import { Model } from '@manuscripts/manuscripts-json-schema'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
+
 import { clearChannelFolder } from '../../lib/broadcast-channel'
 import { databaseCreator } from '../../lib/db'
 import { Collection, isBulkDocsError, isBulkDocsSuccess } from '../Collection'
 
 jest.mock('../../lib/adapter')
 
-const items = (projectDump.data as Model[]).map(item => {
+const items = (projectDump.data as Model[]).map((item) => {
   delete item._rev
 
   return item
@@ -104,7 +105,7 @@ describe('Collection', () => {
 
     await collection.initialize(false)
 
-    const conflicts = items.slice(-2).map(item => ({
+    const conflicts = items.slice(-2).map((item) => ({
       ...item,
       _rev: '3-16c9025f8d2f4705a67337146f88bb2f',
     }))

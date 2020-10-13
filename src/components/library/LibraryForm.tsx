@@ -37,6 +37,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { OptionsType } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
+
 import { selectStyles } from '../../lib/select-styles'
 import { Collection } from '../../sync/Collection'
 import { SelectField } from '../SelectField'
@@ -45,14 +46,14 @@ const LabelContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${props => props.theme.grid.unit}px;
+  margin-bottom: ${(props) => props.theme.grid.unit}px;
 `
 
 const Label = styled.label`
-  font-family: ${props => props.theme.font.family.sans};
-  font-size: ${props => props.theme.font.size.medium};
+  font-family: ${(props) => props.theme.font.family.sans};
+  font-size: ${(props) => props.theme.font.size.medium};
   display: flex;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const AuthorHeading = styled.button.attrs({
@@ -62,36 +63,36 @@ const AuthorHeading = styled.button.attrs({
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 3}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 3}px;
   cursor: pointer;
   border: none;
   background: none;
   font-size: inherit;
-  color: ${props =>
+  color: ${(props) =>
     props.isExpanded
       ? props.theme.colors.brand.default
       : props.theme.colors.text.primary};
 `
 
 const FieldLabel = styled.label`
-  font-family: ${props => props.theme.font.family.sans};
-  font-size: ${props => props.theme.font.size.medium};
-  color: ${props => props.theme.colors.text.muted};
+  font-family: ${(props) => props.theme.font.family.sans};
+  font-size: ${(props) => props.theme.font.size.medium};
+  color: ${(props) => props.theme.colors.text.muted};
   width: 50%;
 `
 
 const NameFieldContainer = styled.div`
   display: flex;
   align-items: center;
-  border-bottom: 1px solid ${props => props.theme.colors.text.muted};
-  background-color: ${props => props.theme.colors.background.primary};
+  border-bottom: 1px solid ${(props) => props.theme.colors.text.muted};
+  background-color: ${(props) => props.theme.colors.background.primary};
 `
 
 const NameField = styled.input`
-  font-size: ${props => props.theme.font.size.normal};
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 4}px;
+  font-size: ${(props) => props.theme.font.size.normal};
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 4}px;
   box-sizing: border-box;
   border: none;
   background-color: transparent;
@@ -102,11 +103,11 @@ const NameField = styled.input`
   }
 
   &::placeholder {
-    color: ${props => props.theme.colors.text.muted};
+    color: ${(props) => props.theme.colors.text.muted};
   }
 
   &:hover::placeholder {
-    color: ${props => props.theme.colors.text.secondary};
+    color: ${(props) => props.theme.colors.text.secondary};
   }
 `
 
@@ -117,7 +118,7 @@ const CollapsibleAuthorContainer: React.FC<{
   const [expanded, setExpanded] = useState(!title)
 
   const toggleExpanded = useCallback(() => {
-    setExpanded(value => !value)
+    setExpanded((value) => !value)
   }, [])
 
   return (
@@ -144,75 +145,75 @@ const CollapsibleAuthorContainer: React.FC<{
 }
 
 const AuthorContainer = styled.div<{ isExpanded?: boolean }>`
-  font-size: ${props => props.theme.font.size.medium};
-  background-color: ${props =>
+  font-size: ${(props) => props.theme.font.size.medium};
+  background-color: ${(props) =>
     props.isExpanded ? props.theme.colors.background.secondary : 'transparent'};
   overflow: hidden;
 
   &:active,
   &:hover {
-    background-color: ${props => props.theme.colors.background.secondary};
+    background-color: ${(props) => props.theme.colors.background.secondary};
   }
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid ${props => props.theme.colors.text.muted};
+    border-bottom: 1px solid ${(props) => props.theme.colors.text.muted};
   }
 
   &:first-of-type {
-    border-top-left-radius: ${props => props.theme.grid.radius.default};
-    border-top-right-radius: ${props => props.theme.grid.radius.default};
+    border-top-left-radius: ${(props) => props.theme.grid.radius.default};
+    border-top-right-radius: ${(props) => props.theme.grid.radius.default};
   }
 
   &:last-of-type {
-    border-bottom-left-radius: ${props => props.theme.grid.radius.default};
-    border-bottom-right-radius: ${props => props.theme.grid.radius.default};
+    border-bottom-left-radius: ${(props) => props.theme.grid.radius.default};
+    border-bottom-right-radius: ${(props) => props.theme.grid.radius.default};
   }
 `
 
 const AuthorContent = styled.div`
-  border-radius: ${props => props.theme.grid.radius.small};
-  border: 1px solid ${props => props.theme.colors.text.muted};
-  margin: 0 ${props => props.theme.grid.unit * 3}px;
+  border-radius: ${(props) => props.theme.grid.radius.small};
+  border: 1px solid ${(props) => props.theme.colors.text.muted};
+  margin: 0 ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const StyledTitleField = styled(TitleField)`
   & .ProseMirror {
-    font-family: ${props => props.theme.font.family.sans};
-    font-size: ${props => props.theme.font.size.medium};
+    font-family: ${(props) => props.theme.font.family.sans};
+    font-size: ${(props) => props.theme.font.size.medium};
     line-height: 1.25;
-    color: ${props => props.theme.colors.text.primary};
-    border-radius: ${props => props.theme.grid.radius.small};
-    border: 1px solid ${props => props.theme.colors.text.muted};
-    padding: ${props => props.theme.grid.unit * 2}px
-      ${props => props.theme.grid.unit * 3}px;
+    color: ${(props) => props.theme.colors.text.primary};
+    border-radius: ${(props) => props.theme.grid.radius.small};
+    border: 1px solid ${(props) => props.theme.colors.text.muted};
+    padding: ${(props) => props.theme.grid.unit * 2}px
+      ${(props) => props.theme.grid.unit * 3}px;
 
     &:focus {
       outline: none;
-      border-color: ${props => props.theme.colors.border.field.hover};
-      background-color: ${props => props.theme.colors.background.fifth};
+      border-color: ${(props) => props.theme.colors.border.field.hover};
+      background-color: ${(props) => props.theme.colors.background.fifth};
     }
   }
 
   &:hover {
     & .ProseMirror {
-      background-color: ${props => props.theme.colors.background.fifth};
+      background-color: ${(props) => props.theme.colors.background.fifth};
     }
   }
 `
 
 const FormTextField = styled(TextField)`
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 3}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const YearField = styled(Field)`
-  font-family: ${props => props.theme.font.family.sans};
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 3}px;
-  font-size: ${props => props.theme.font.size.medium};
-  color: ${props => props.theme.colors.text.primary};
-  border-radius: ${props => props.theme.grid.radius.small};
-  border: solid 1px ${props => props.theme.colors.text.muted};
+  font-family: ${(props) => props.theme.font.family.sans};
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 3}px;
+  font-size: ${(props) => props.theme.font.size.medium};
+  color: ${(props) => props.theme.colors.text.primary};
+  border-radius: ${(props) => props.theme.grid.radius.small};
+  border: solid 1px ${(props) => props.theme.colors.text.muted};
 `
 
 const Button = styled(IconButton).attrs({
@@ -221,7 +222,7 @@ const Button = styled(IconButton).attrs({
 })`
   circle,
   use {
-    fill: ${props => props.theme.colors.brand.default};
+    fill: ${(props) => props.theme.colors.brand.default};
   }
 
   path {
@@ -232,13 +233,13 @@ const Button = styled(IconButton).attrs({
 const BaseButton = styled.button.attrs({
   type: 'button',
 })`
-  font-family: ${props => props.theme.font.family.sans};
-  background-color: ${props => props.theme.colors.background.secondary};
+  font-family: ${(props) => props.theme.font.family.sans};
+  background-color: ${(props) => props.theme.colors.background.secondary};
   border: none;
   cursor: pointer;
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.medium};
-  color: ${props => props.theme.colors.brand.default};
+  font-size: ${(props) => props.theme.font.size.normal};
+  font-weight: ${(props) => props.theme.font.weight.medium};
+  color: ${(props) => props.theme.colors.brand.default};
 `
 
 const PlainTextButton = styled(TertiaryButton)``
@@ -250,8 +251,8 @@ const Actions = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${props => props.theme.grid.unit * 2}px;
-  padding-left: ${props => props.theme.grid.unit * 8}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px;
+  padding-left: ${(props) => props.theme.grid.unit * 8}px;
   padding-bottom: 64px; // leave space for the chat button
 `
 
@@ -260,51 +261,53 @@ const AuthorActions = styled(Actions)`
 `
 
 const AuthorFormContainer = styled.div`
-  border-radius: ${props => props.theme.grid.radius.small};
-  border: solid 1px ${props => props.theme.colors.text.muted};
+  border-radius: ${(props) => props.theme.grid.radius.small};
+  border: solid 1px ${(props) => props.theme.colors.text.muted};
 `
 
 const TitleLink = styled.a`
   align-items: center;
-  border-radius: ${props => props.theme.grid.radius.small};
+  border-radius: ${(props) => props.theme.grid.radius.small};
   cursor: pointer;
   display: inline-flex;
-  font: ${props => props.theme.font.weight.normal}
-    ${props => props.theme.font.size.medium} /
-    ${props => props.theme.font.lineHeight.large}
-    ${props => props.theme.font.family.sans};
+  font: ${(props) => props.theme.font.weight.normal}
+    ${(props) => props.theme.font.size.medium} /
+    ${(props) => props.theme.font.lineHeight.large}
+    ${(props) => props.theme.font.family.sans};
   justify-content: center;
   outline: none;
-  padding: 7px ${props => props.theme.grid.unit * 3}px;
+  padding: 7px ${(props) => props.theme.grid.unit * 3}px;
   text-decoration: none;
   transition: border 0.1s, color 0.1s, background-color 0.1s;
   vertical-align: middle;
   white-space: nowrap;
 
-  color: ${props => props.theme.colors.button.secondary.color.default};
-  background-color: ${props =>
+  color: ${(props) => props.theme.colors.button.secondary.color.default};
+  background-color: ${(props) =>
     props.theme.colors.button.secondary.background.default};
   border: 1px solid
-    ${props => props.theme.colors.button.secondary.border.default};
+    ${(props) => props.theme.colors.button.secondary.border.default};
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    color: ${props => props.theme.colors.button.secondary.color.hover};
-    background-color: ${props =>
+    color: ${(props) => props.theme.colors.button.secondary.color.hover};
+    background-color: ${(props) =>
       props.theme.colors.button.secondary.background.hover};
-    border-color: ${props => props.theme.colors.button.secondary.border.hover};
+    border-color: ${(props) =>
+      props.theme.colors.button.secondary.border.hover};
   }
   &:not([disabled]):active {
-    color: ${props => props.theme.colors.button.secondary.color.active};
-    background-color: ${props =>
+    color: ${(props) => props.theme.colors.button.secondary.color.active};
+    background-color: ${(props) =>
       props.theme.colors.button.secondary.background.active};
-    border-color: ${props => props.theme.colors.button.secondary.border.active};
+    border-color: ${(props) =>
+      props.theme.colors.button.secondary.border.active};
   }
 `
 
 const FormField = styled.div`
-  padding: ${props => props.theme.grid.unit * 3}px;
-  padding-left: ${props => props.theme.grid.unit * 8}px;
+  padding: ${(props) => props.theme.grid.unit * 3}px;
+  padding-left: ${(props) => props.theme.grid.unit * 8}px;
 `
 
 const FlexForm = styled(Form)`
@@ -321,7 +324,7 @@ const FormFields = styled.div`
 
 interface OptionType {
   label: string
-  value: any // tslint:disable-line:no-any
+  value: any
 }
 
 const buildOptions = (data: Map<string, LibraryCollection>) => {
@@ -432,7 +435,7 @@ const LibraryForm: React.FC<{
 
               <StyledTitleField
                 value={values.title || ''}
-                handleChange={data => setFieldValue('title', data)}
+                handleChange={(data) => setFieldValue('title', data)}
                 autoFocus={!values.title}
               />
             </FormField>
@@ -644,12 +647,14 @@ const LibraryForm: React.FC<{
                       setFieldValue(
                         props.field.name,
                         await Promise.all(
-                          newValue.map(async option => {
+                          newValue.map(async (option) => {
                             const existing = projectLibraryCollections.get(
                               option.value
                             )
 
-                            if (existing) return existing._id
+                            if (existing) {
+                              return existing._id
+                            }
 
                             const libraryCollection = buildLibraryCollection(
                               user.userID,
@@ -672,9 +677,9 @@ const LibraryForm: React.FC<{
                     value={
                       props.field.value
                         ? (props.field.value as string[])
-                            .filter(id => projectLibraryCollections.has(id))
-                            .map(id => projectLibraryCollections.get(id)!)
-                            .map(item => ({
+                            .filter((id) => projectLibraryCollections.has(id))
+                            .map((id) => projectLibraryCollections.get(id)!)
+                            .map((item) => ({
                               value: item._id,
                               label: item.name,
                             }))
@@ -704,7 +709,10 @@ const LibraryForm: React.FC<{
                 target={'_blank'}
                 rel={'noopener noreferrer'}
               >
-                🔗 Open
+                <span role={'img'} aria-label={'Link'}>
+                  🔗
+                </span>{' '}
+                Open
               </TitleLink>
 
               <PrimaryButton type="submit">Save</PrimaryButton>

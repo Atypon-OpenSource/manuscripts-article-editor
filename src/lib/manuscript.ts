@@ -16,6 +16,7 @@ import {
   ObjectTypes,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
+
 import { Collection } from '../sync/Collection'
 
 export const isManuscript = (model: Model): model is Manuscript =>
@@ -33,10 +34,10 @@ export const nextManuscriptPriority = async (
     })
     .exec()
 
-  const manuscripts = docs.map(doc => doc.toJSON())
+  const manuscripts = docs.map((doc) => doc.toJSON())
 
   const priority: number = manuscripts.length
-    ? Math.max(...manuscripts.map(manuscript => manuscript.priority || 1))
+    ? Math.max(...manuscripts.map((manuscript) => manuscript.priority || 1))
     : 0
 
   return priority + 1

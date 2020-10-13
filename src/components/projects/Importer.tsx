@@ -13,6 +13,7 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
+
 import {
   BulkCreateError,
   FileExtensionError,
@@ -107,7 +108,7 @@ export class Importer extends React.Component<Props, State> {
 
       this.props.handleComplete()
     } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
+      console.error(error)
 
       this.setState({ error })
     }
@@ -172,7 +173,7 @@ const buildImportErrorMessage = (error: Error) => {
         {contactMessage}
 
         <ul>
-          {error.failures.map(failure => (
+          {error.failures.map((failure) => (
             <li key={failure.id}>
               {failure.name}: {failure.id}
             </li>
@@ -190,7 +191,7 @@ const buildImportErrorMessage = (error: Error) => {
         <p>The following file extensions are supported:</p>
 
         <ul>
-          {error.acceptedExtensions.map(extension => (
+          {error.acceptedExtensions.map((extension) => (
             <li key={extension}>{extension}</li>
           ))}
         </ul>

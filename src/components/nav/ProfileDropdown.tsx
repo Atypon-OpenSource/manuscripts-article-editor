@@ -15,6 +15,7 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Avatar } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
+
 import { Dropdown, DropdownContainer } from './Dropdown'
 
 export const ProfileDropdown: React.FC<{
@@ -25,7 +26,7 @@ export const ProfileDropdown: React.FC<{
   const nodeRef = useRef<HTMLDivElement>(null)
 
   const toggleOpen = useCallback(() => {
-    setOpen(value => !value)
+    setOpen((value) => !value)
   }, [])
 
   const handleClickOutside = useCallback((event: Event) => {
@@ -44,7 +45,7 @@ export const ProfileDropdown: React.FC<{
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [open])
+  }, [handleClickOutside, open])
 
   return (
     <DropdownContainer id={'user-dropdown'} ref={nodeRef}>
@@ -91,7 +92,7 @@ const DropdownToggle = styled(ArrowDownUp)`
 
 const styledAvatar = css`
   ${AvatarContainer}:after {
-    border: 2px solid ${props => props.theme.colors.brand.medium};
+    border: 2px solid ${(props) => props.theme.colors.brand.medium};
     border-radius: 50%;
     display: block;
     height: 30px;
@@ -109,10 +110,10 @@ const DropdownButton = styled.button<{
   text-decoration: none;
   border: none;
   font-size: inherit;
-  border-radius: ${props => props.theme.grid.radius.small};
+  border-radius: ${(props) => props.theme.grid.radius.small};
   cursor: pointer;
   background: none;
-  color: ${props =>
+  color: ${(props) =>
     props.isOpen
       ? props.theme.colors.brand.medium
       : props.theme.colors.text.secondary};
@@ -122,12 +123,12 @@ const DropdownButton = styled.button<{
   }
 
   &:hover {
-    color: ${props => props.theme.colors.brand.medium};
+    color: ${(props) => props.theme.colors.brand.medium};
   }
 
   ${DropdownToggle} {
-    transform: ${props => (props.isOpen ? 'rotate(0deg)' : 'rotate(180deg)')};
+    transform: ${(props) => (props.isOpen ? 'rotate(0deg)' : 'rotate(180deg)')};
   }
 
-  ${props => props.isOpen && styledAvatar}
+  ${(props) => props.isOpen && styledAvatar}
 `

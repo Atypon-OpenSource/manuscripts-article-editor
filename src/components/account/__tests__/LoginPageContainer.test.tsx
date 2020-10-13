@@ -14,6 +14,7 @@ import { mount, shallow, ShallowWrapper } from 'enzyme'
 import { createMemoryHistory } from 'history'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
+
 import tokenHandler from '../../../lib/token'
 import { theme } from '../../../theme/theme'
 import LoginPageContainer from '../LoginPageContainer'
@@ -31,7 +32,7 @@ const props = {
 
 const messageText = (
   wrapper: ShallowWrapper<
-    {},
+    Record<string, unknown>,
     {
       message?: React.FunctionComponent
     },

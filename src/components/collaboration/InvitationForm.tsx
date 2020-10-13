@@ -26,9 +26,10 @@ import {
   FormikErrors,
   FormikProps,
 } from 'formik'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import { ProjectRole } from '../../lib/roles'
 import { projectInvitationSchema } from '../../validation'
@@ -39,20 +40,20 @@ const SendInvitationButton = styled(PrimaryButton)`
 `
 
 const RadioButtonsContainer = styled.div`
-  padding-top: ${props => props.theme.grid.unit * 6}px;
-  padding-bottom: ${props => props.theme.grid.unit * 6}px;
+  padding-top: ${(props) => props.theme.grid.unit * 6}px;
+  padding-bottom: ${(props) => props.theme.grid.unit * 6}px;
 `
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const errorResponseMessage = (status: number) => {
   switch (status) {
-    case HttpStatusCodes.BAD_REQUEST:
+    case StatusCodes.BAD_REQUEST:
       return 'You are already a collaborator on this project.'
 
-    case HttpStatusCodes.CONFLICT:
+    case StatusCodes.CONFLICT:
       return 'The invited user is already a collaborator on this project.'
     default:
       return 'Sending invitation failed.'
@@ -115,7 +116,7 @@ export class InvitationForm extends React.Component<Props, State> {
 
             if (
               error.response &&
-              error.response.status === HttpStatusCodes.UNAUTHORIZED
+              error.response.status === StatusCodes.UNAUTHORIZED
             ) {
               tokenActions.delete()
             } else {

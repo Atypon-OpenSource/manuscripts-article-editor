@@ -12,12 +12,13 @@
 
 import React from 'react'
 import styled from 'styled-components'
+
 import { RadioButton } from '../RadioButton'
 
 type Props = React.InputHTMLAttributes<HTMLInputElement>
 
 const Container = styled.div`
-  color: ${props => props.theme.colors.text.primary};
+  color: ${(props) => props.theme.colors.text.primary};
 `
 
 export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({

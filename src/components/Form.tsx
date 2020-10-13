@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const FormLink = styled(Link)`
-  color: ${props => props.theme.colors.brand.dark};
+  color: ${(props) => props.theme.colors.brand.dark};
   font: inherit;
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
 `

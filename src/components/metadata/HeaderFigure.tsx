@@ -40,20 +40,20 @@ export const HeaderFigure: React.FC<{
 
     if (manuscript.headerFigure) {
       getAttachment(manuscript.headerFigure, 'image')
-        .then(blob => {
+        .then((blob) => {
           const url = window.URL.createObjectURL(blob)
           setSrc(url)
         })
         .finally(() => {
           setLoaded(true)
         })
-        .catch(error => {
-          console.error(error) // tslint:disable-line:no-console
+        .catch((error) => {
+          console.error(error)
         })
     } else {
       setLoaded(true)
     }
-  }, [manuscript.headerFigure])
+  }, [getAttachment, manuscript.headerFigure])
 
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -82,12 +82,12 @@ export const HeaderFigure: React.FC<{
             const url = window.URL.createObjectURL(file)
             setSrc(url)
           })
-          .catch(error => {
-            console.error(error) // tslint:disable-line:no-console
+          .catch((error) => {
+            console.error(error)
           })
       }
     },
-    [manuscript]
+    [manuscript.headerFigure, putAttachment, saveModel]
   )
 
   if (!manuscript.headerFigure || !loaded) {
@@ -118,7 +118,7 @@ export const HeaderFigure: React.FC<{
 
   return (
     <FigureContainer>
-      {src && <img src={src} />}
+      {src && <img alt={'Header figure'} src={src} />}
 
       {/* TODO: attribution? */}
     </FigureContainer>

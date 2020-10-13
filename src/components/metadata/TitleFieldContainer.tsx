@@ -13,6 +13,7 @@
 import { TitleEditorView, TitleField } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 
 export const TitleFieldContainer: React.FC<{
@@ -35,6 +36,7 @@ export const TitleFieldContainer: React.FC<{
       handleChange={setValue}
       handleFocused={setEditing}
       handleStateChange={handleStateChange}
+      // eslint-disable-next-line jsx-a11y/tabindex-no-positive
       tabIndex={2}
     />
   )
@@ -47,7 +49,7 @@ const StyledTitleField = styled(TitleField)`
     cursor: text;
     font-family: 'PT Serif', serif;
     font-size: 28px;
-    font-weight: ${props => props.theme.font.weight.bold};
+    font-weight: ${(props) => props.theme.font.weight.bold};
     line-height: 1.43;
 
     &:focus {
@@ -56,14 +58,14 @@ const StyledTitleField = styled(TitleField)`
 
     &.empty-node::before {
       position: absolute;
-      color: ${props => props.theme.colors.text.muted};
+      color: ${(props) => props.theme.colors.text.muted};
       cursor: text;
       content: 'Untitled Manuscript';
       pointer-events: none;
     }
 
     &.empty-node:hover::before {
-      color: ${props => props.theme.colors.text.secondary};
+      color: ${(props) => props.theme.colors.text.secondary};
     }
   }
 `

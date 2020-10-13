@@ -11,6 +11,7 @@
  */
 
 import axios from 'axios'
+
 import config from '../config'
 import { authorizationInterceptor } from './authorization'
 
@@ -18,7 +19,7 @@ const client = axios.create({
   baseURL: config.api.url,
 })
 
-client.interceptors.request.use(config => {
+client.interceptors.request.use((config) => {
   config.headers.Accept = 'application/json'
   config.headers['Content-Type'] = 'application/json'
 

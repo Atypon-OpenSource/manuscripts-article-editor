@@ -12,6 +12,7 @@
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Affiliation, Contributor } from '@manuscripts/manuscripts-json-schema'
+
 import imageFile from '../assets/melnitz.jpg'
 
 export const affiliations: Map<string, Affiliation> = new Map([
@@ -21,7 +22,7 @@ export const affiliations: Map<string, Affiliation> = new Map([
       _id: 'affiliation-1',
       containerID: 'project-1',
       manuscriptID: 'manuscript-1',
-      objectType: 'MPAffiliation' as 'MPAffiliation',
+      objectType: 'MPAffiliation' as const,
       institution: 'Firehouse, Hook & Ladder Company 8',
       priority: 0,
       sessionID: 'story',
@@ -35,7 +36,7 @@ export const affiliations: Map<string, Affiliation> = new Map([
       _id: 'affiliation-2',
       containerID: 'project-1',
       manuscriptID: 'manuscript-1',
-      objectType: 'MPAffiliation' as 'MPAffiliation',
+      objectType: 'MPAffiliation' as const,
       institution: 'Firehouse, Hook & Ladder Company 9',
       priority: 0,
       sessionID: 'story',

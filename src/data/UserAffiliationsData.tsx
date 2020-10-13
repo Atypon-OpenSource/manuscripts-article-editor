@@ -15,6 +15,7 @@ import {
   UserProfileAffiliation,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
@@ -78,7 +79,7 @@ class UserAffiliationsData extends DataComponent<
         containerID,
         objectType: ObjectTypes.UserProfileAffiliation,
       })
-      .$.subscribe(docs => {
+      .$.subscribe((docs) => {
         if (docs) {
           const data = new Map()
 

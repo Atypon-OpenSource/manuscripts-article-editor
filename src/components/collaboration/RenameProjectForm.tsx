@@ -15,10 +15,11 @@ import { TitleField } from '@manuscripts/title-editor'
 import { Form, FormikProps } from 'formik'
 import React from 'react'
 import styled from 'styled-components'
+
 import { ModalFormActions } from '../ModalForm'
 
 const StyledTitleField = styled(TitleField)`
-  font-size: ${props => props.theme.font.size.xlarge};
+  font-size: ${(props) => props.theme.font.size.xlarge};
 
   & .ProseMirror {
     &:focus {
@@ -27,14 +28,14 @@ const StyledTitleField = styled(TitleField)`
 
     &.empty-node::before {
       position: absolute;
-      color: ${props => props.theme.colors.text.muted};
+      color: ${(props) => props.theme.colors.text.muted};
       cursor: text;
       content: 'Untitled Project';
       pointer-events: none;
     }
 
     &.empty-node:hover::before {
-      color: ${props => props.theme.colors.border.field.default};
+      color: ${(props) => props.theme.colors.border.field.default};
     }
   }
 `

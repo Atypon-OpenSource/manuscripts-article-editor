@@ -21,10 +21,11 @@ import { ManuscriptCategory } from '@manuscripts/manuscripts-json-schema'
 import { ToggleButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { Slider } from '../Slider'
 import { TemplateCategory } from './TemplateCategory'
 
-const Categories = styled.nav.attrs(props => ({ role: 'navigation' }))`
+const Categories = styled.nav.attrs(() => ({ role: 'navigation' }))`
   margin: 0 64px 32px;
   position: relative;
 
@@ -36,7 +37,7 @@ const Categories = styled.nav.attrs(props => ({ role: 'navigation' }))`
 
 const Category = styled(ToggleButton)<{ selected: boolean }>`
   align-items: center;
-  border-radius: ${props => props.theme.grid.radius.small};
+  border-radius: ${(props) => props.theme.grid.radius.small};
   cursor: pointer;
   display: inline-flex;
   flex-shrink: 0;
@@ -72,7 +73,7 @@ export const TemplateCategorySelector: React.FunctionComponent<Props> = ({
 }) => (
   <Categories>
     <Slider>
-      {options.map(category => (
+      {options.map((category) => (
         <TemplateCategory
           isSelected={value === category._id}
           key={category._id}

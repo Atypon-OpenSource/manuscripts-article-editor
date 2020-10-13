@@ -12,6 +12,7 @@
 
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { ProfileDropdown } from '../src/components/nav/ProfileDropdown'
 import { UserInfo } from '../src/components/nav/UserInfo'
 import { user } from './data/contributors'

@@ -12,6 +12,7 @@
 
 import { Keyword, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
@@ -79,7 +80,7 @@ class ProjectKeywordsData extends DataComponent<Keyword, Props, State> {
         containerID,
         objectType: ObjectTypes.Keyword,
       })
-      .$.subscribe(docs => {
+      .$.subscribe((docs) => {
         if (docs) {
           const data: Map<string, Keyword> = new Map()
 

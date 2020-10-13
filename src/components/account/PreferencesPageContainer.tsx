@@ -13,6 +13,7 @@
 import { Formik } from 'formik'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import preferences from '../../lib/preferences'
 import { preferencesSchema } from '../../validation'
 import { IntlContext } from '../IntlProvider'
@@ -24,7 +25,7 @@ export const PreferencesPageContainer: React.FunctionComponent<RouteComponentPro
   history,
 }) => (
   <IntlContext.Consumer>
-    {intl => (
+    {(intl) => (
       <ModalForm
         title={<PreferencesMessage />}
         handleClose={() => history.goBack()}

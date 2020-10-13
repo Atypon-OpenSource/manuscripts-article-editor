@@ -12,6 +12,7 @@
 
 import { RxDatabase } from '@manuscripts/rxdb'
 import BroadcastChannel from 'broadcast-channel'
+
 import { Collection, CollectionProps } from './Collection'
 
 type SerializableCollectionProps = Pick<
@@ -30,7 +31,7 @@ export class ZombieCollections {
     this.collections = initialValue || []
     this.channel = channel
 
-    this.channel.onmessage = msg => {
+    this.channel.onmessage = (msg) => {
       this.collections = JSON.parse(msg)
     }
   }
@@ -50,7 +51,7 @@ export class ZombieCollections {
 
   public remove(collection: string) {
     this.collections = this.collections.filter(
-      item => item.collection !== collection
+      (item) => item.collection !== collection
     )
     this.postState()
     return this
@@ -78,17 +79,18 @@ export class ZombieCollections {
 
   public cleanupAll(db: RxDatabase): Promise<boolean> {
     return Promise.all(
-      this.collections.map(collection => {
+      this.collections.map((collection) => {
         return this.cleanupOne(collection, db)
       })
     ).then((results: boolean[]) => results.includes(false))
   }
 
   private postState() {
-    this.channel.postMessage(JSON.stringify(this.getCollections())).catch(e => {
-      /* tslint:disable-next-line:no-console */
-      console.error('Error while broadcasting sync state between tabs', e)
-    })
+    this.channel
+      .postMessage(JSON.stringify(this.getCollections()))
+      .catch((e) => {
+        console.error('Error while broadcasting sync state between tabs', e)
+      })
   }
 }
 

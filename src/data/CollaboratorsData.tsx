@@ -15,6 +15,7 @@ import {
   UserCollaborator,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
 
@@ -54,7 +55,7 @@ class CollaboratorsData extends DataComponent<UserCollaborator, Props, State> {
       .find({
         objectType: ObjectTypes.UserCollaborator,
       })
-      .$.subscribe(async docs => {
+      .$.subscribe(async (docs) => {
         if (docs) {
           const data = new Map<string, UserCollaborator>()
 

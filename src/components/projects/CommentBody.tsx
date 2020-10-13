@@ -32,28 +32,28 @@ import styled from 'styled-components'
 
 const CommentFooter = styled.div`
   border-top: 1px solid #eee;
-  margin-top: ${props => props.theme.grid.unit * 4}px;
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 2}px 0;
+  margin-top: ${(props) => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 2}px 0;
   display: flex;
   justify-content: space-between;
 `
 
 const EditingCommentFooter = styled(CommentFooter)`
   justify-content: flex-end;
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 4}px 0;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 4}px 0;
 `
 
 const ActionButton = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  height: ${props => props.theme.grid.unit * 6}px;
+  height: ${(props) => props.theme.grid.unit * 6}px;
 `
 
 const CommentContent = styled.div`
-  padding: 0 ${props => props.theme.grid.unit * 4}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const StyledCommentField = styled(CommentField)`
@@ -61,11 +61,11 @@ const StyledCommentField = styled(CommentField)`
 
   & .ProseMirror {
     cursor: text;
-    font-family: ${props => props.theme.font.family.sans};
+    font-family: ${(props) => props.theme.font.family.sans};
     line-height: 1.06;
     letter-spacing: -0.2px;
-    color: ${props => props.theme.colors.text.primary};
-    margin: ${props => props.theme.grid.unit * 2}px 0;
+    color: ${(props) => props.theme.colors.text.primary};
+    margin: ${(props) => props.theme.grid.unit * 2}px 0;
 
     &:focus {
       outline: none;
@@ -80,10 +80,10 @@ const StyledCommentField = styled(CommentField)`
     }
 
     & blockquote {
-      margin: ${props => props.theme.grid.unit * 2}px 0;
-      border-left: ${props => props.theme.grid.unit}px solid #faed98;
+      margin: ${(props) => props.theme.grid.unit * 2}px 0;
+      border-left: ${(props) => props.theme.grid.unit}px solid #faed98;
       padding-left: 1em;
-      font-size: ${props => props.theme.font.size.small};
+      font-size: ${(props) => props.theme.font.size.small};
       font-style: italic;
       line-height: 1.17;
       letter-spacing: -0.2px;
@@ -96,11 +96,11 @@ const StyledCommentViewer = styled(Comment)`
   flex: 1;
 
   & .ProseMirror {
-    font-family: ${props => props.theme.font.family.sans};
+    font-family: ${(props) => props.theme.font.family.sans};
     line-height: 1.06;
     letter-spacing: -0.2px;
-    color: ${props => props.theme.colors.text.primary};
-    margin: ${props => props.theme.grid.unit * 2}px 0;
+    color: ${(props) => props.theme.colors.text.primary};
+    margin: ${(props) => props.theme.grid.unit * 2}px 0;
 
     &:focus {
       outline: none;
@@ -118,7 +118,7 @@ const StyledCommentViewer = styled(Comment)`
       margin: 10px 0;
       border-left: 4px solid #faed98;
       padding-left: 1em;
-      font-size: ${props => props.theme.font.size.small};
+      font-size: ${(props) => props.theme.font.size.small};
       font-style: italic;
       line-height: 1.17;
       letter-spacing: -0.2px;
@@ -187,7 +187,7 @@ class CommentBody extends React.Component<Props, State> {
             .then(() => {
               this.setEditing(false)
             })
-            .catch(error => {
+            .catch((error) => {
               actions.setErrors({
                 contents: error.message,
               })

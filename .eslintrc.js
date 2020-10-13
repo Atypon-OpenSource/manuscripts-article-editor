@@ -9,44 +9,23 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
+const cpalLicense = require('@manuscripts/eslint-config/config/cpal-license')
 
-import { Submission } from '@manuscripts/manuscripts-json-schema'
-import React from 'react'
-import styled from 'styled-components'
-
-import { chooseStatusMessage, SubmissionStatus } from '../../lib/submission'
-import { RelativeDate } from '../RelativeDate'
-
-export const SubmissionItem: React.FC<{ submission: Submission }> = ({
-  submission,
-}) => (
-  <Container key={submission._id}>
-    <JournalTitle data-journal-code={submission.journalCode}>
-      {submission.journalTitle}
-    </JournalTitle>
-
-    <StatusMessage>
-      {submission.status
-        ? chooseStatusMessage(submission.status as SubmissionStatus)
-        : 'Submitting…'}
-    </StatusMessage>
-
-    {submission.submittedAt && (
-      <SubmittedDate createdAt={submission.submittedAt * 1000} />
-    )}
-  </Container>
-)
-
-const Container = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 2}px 0;
-`
-
-const JournalTitle = styled.div`
-  font-weight: bold;
-`
-
-const StatusMessage = styled.div``
-
-const SubmittedDate = styled(RelativeDate)`
-  color: #aaa;
-`
+module.exports = {
+  extends: '@manuscripts/eslint-config',
+  rules: {
+    'header/header': [2, 'block', cpalLicense('manuscripts-frontend')],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    'import/no-named-as-default': 'off',
+    'import/no-named-as-default-member': 'off',
+    'promise/always-return': 'off',
+    'promise/no-nesting': 'off',
+    'promise/no-promise-in-callback': 'off',
+    'react/no-deprecated': 'off',
+    'jsx-a11y/no-autofocus': 'off',
+    'jsx-a11y/no-onchange': 'off',
+  },
+}

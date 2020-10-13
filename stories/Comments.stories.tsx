@@ -18,6 +18,7 @@ import { Model, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { CommentList } from '../src/components/projects/CommentList'
 import { comments } from './data/comments'
 import { doc } from './data/doc'

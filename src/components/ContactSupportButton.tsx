@@ -12,11 +12,12 @@
 
 import React from 'react'
 import styled from 'styled-components'
+
 import { useCrisp } from '../hooks/use-crisp'
 
 const InlineButton = styled.button`
   display: inline;
-  color: ${props => props.theme.colors.text.info};
+  color: ${(props) => props.theme.colors.text.info};
   cursor: pointer;
   padding: 0;
   background: transparent;

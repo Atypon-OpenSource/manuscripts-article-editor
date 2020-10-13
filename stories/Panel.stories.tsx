@@ -12,6 +12,7 @@
 
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { Main, Page } from '../src/components/Page'
 import Panel from '../src/components/Panel'
 

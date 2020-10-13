@@ -20,19 +20,19 @@ import React from 'react'
 import styled from 'styled-components'
 
 const EmptyTextContainer = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 10}px;
-  line-height: ${props => props.theme.font.lineHeight.large};
+  padding-left: ${(props) => props.theme.grid.unit * 10}px;
+  line-height: ${(props) => props.theme.font.lineHeight.large};
   max-width: 230px;
 `
 const EmptyTextTitle = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
-  font-weight: ${props => props.theme.font.weight.bold};
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
+  font-weight: ${(props) => props.theme.font.weight.bold};
 `
 
 const SidebarText = styled.div`
-  font-size: ${props => props.theme.font.size.medium};
-  margin-bottom: ${props => props.theme.grid.unit * 8}px;
-  margin-top: ${props => props.theme.grid.unit * 10}px;
+  font-size: ${(props) => props.theme.font.size.medium};
+  margin-bottom: ${(props) => props.theme.grid.unit * 8}px;
+  margin-top: ${(props) => props.theme.grid.unit * 10}px;
 `
 
 const SidebarButtonContainer = styled(ButtonGroup)`
@@ -46,7 +46,7 @@ const SidebarButtonContainer = styled(ButtonGroup)`
 
   > div,
   > button {
-    margin-bottom: ${props => props.theme.grid.unit * 4}px;
+    margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
   }
 `
 

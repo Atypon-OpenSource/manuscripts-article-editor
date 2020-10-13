@@ -17,6 +17,7 @@ import { TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import styled from 'styled-components'
+
 import {
   LandingDecorationsLeftContainer,
   LandingDecorationsRightContainer,
@@ -46,7 +47,7 @@ const Title = styled.div`
 const AppIconContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
-  margin-top: ${props => props.theme.grid.unit * 16}px;
+  margin-top: ${(props) => props.theme.grid.unit * 16}px;
 `
 
 const Container = styled.div`
@@ -56,9 +57,9 @@ const Container = styled.div`
 `
 
 const PrimaryButton = styled.button`
-  color: ${props => props.theme.colors.background.primary};
+  color: ${(props) => props.theme.colors.background.primary};
   background-color: #0d79d0;
-  font-size: ${props => props.theme.grid.unit * 4}px;
+  font-size: ${(props) => props.theme.grid.unit * 4}px;
   cursor: pointer;
   border: none;
   border-radius: 6px;
@@ -77,7 +78,7 @@ const Text = styled.div`
   }
 `
 const Description = styled.div`
-  padding-bottom: ${props => props.theme.grid.unit * 20}px;
+  padding-bottom: ${(props) => props.theme.grid.unit * 20}px;
   text-align: center;
   line-height: 1.5em;
   color: #6c6c6c;
@@ -93,11 +94,11 @@ const Description = styled.div`
 const Note = styled.div`
   color: #949494;
   font-size: 14px;
-  margin-top: ${props => props.theme.grid.unit * 4}px;
+  margin-top: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const SecondaryButton = styled(TertiaryButton)`
-  margin-top: ${props => props.theme.grid.unit * 2}px;
+  margin-top: ${(props) => props.theme.grid.unit * 2}px;
   padding: 8px 12px;
   &:hover {
     background-color: none;

@@ -15,6 +15,7 @@ import { TextButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import InviteAuthorPopperContainer from './InviteAuthorPopperContainer'
 
@@ -30,7 +31,7 @@ interface Props {
 }
 
 const Button = styled(TextButton)`
-  margin-left: ${props => props.theme.grid.unit * 3}px;
+  margin-left: ${(props) => props.theme.grid.unit * 3}px;
 `
 
 class InviteAuthorButton extends React.Component<Props, State> {

@@ -21,7 +21,7 @@ const InfoLink = styled.a.attrs({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.colors.text.primary};
+  color: ${(props) => props.theme.colors.text.primary};
   text-decoration: none;
 `
 

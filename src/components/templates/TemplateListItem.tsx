@@ -13,13 +13,14 @@
 import { Publisher } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
+
 import { ManuscriptTemplateData, TemplateData } from '../../types/templates'
 import { TemplateInfoLink } from './TemplateInfoLink'
 
 const Heading = styled.div<{ selected?: boolean }>`
   display: flex;
-  white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
-  ${props => props.selected && 'flex-wrap: wrap'};
+  white-space: ${(props) => (props.selected ? 'normal' : 'nowrap')};
+  ${(props) => props.selected && 'flex-wrap: wrap'};
   text-overflow: ellipsis;
   overflow-x: hidden;
 `
@@ -27,76 +28,76 @@ const Heading = styled.div<{ selected?: boolean }>`
 const Title = styled.div<{ selected?: boolean }>`
   align-items: center;
   display: flex;
-  flex-wrap: ${props => (props.selected ? 'wrap' : 'nowrap')};
+  flex-wrap: ${(props) => (props.selected ? 'wrap' : 'nowrap')};
   overflow-x: hidden;
   text-overflow: ellipsis;
-  white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
+  white-space: ${(props) => (props.selected ? 'normal' : 'nowrap')};
 `
 
 const Description = styled.div<{ selected?: boolean }>`
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
   overflow-x: hidden;
   text-overflow: ellipsis;
-  white-space: ${props => (props.selected ? 'normal' : 'nowrap')};
+  white-space: ${(props) => (props.selected ? 'normal' : 'nowrap')};
 `
 
 const PublisherName = styled.div`
-  color: ${props => props.theme.colors.text.secondary};
-  font-size: ${props => props.theme.font.size.normal};
-  margin: ${props => props.theme.grid.unit * 2}px 0;
+  color: ${(props) => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  margin: ${(props) => props.theme.grid.unit * 2}px 0;
   overflow-x: hidden;
   text-overflow: ellipsis;
 `
 
 const TemplateActions = styled.div<{ selected?: boolean }>`
-  display: ${props => (props.selected ? 'inline' : 'none')};
+  display: ${(props) => (props.selected ? 'inline' : 'none')};
 `
 
 const BundleTitle = styled.span`
-  font-weight: ${props => props.theme.font.weight.bold};
-  margin-right: ${props => props.theme.grid.unit}px;
+  font-weight: ${(props) => props.theme.font.weight.bold};
+  margin-right: ${(props) => props.theme.grid.unit}px;
 `
 
 const Container = styled.button<{ selected?: boolean }>`
   border: 0;
   border-bottom: 1px solid;
   border-top: 1px solid;
-  color: ${props => props.theme.colors.text.primary};
+  color: ${(props) => props.theme.colors.text.primary};
   cursor: pointer;
   font: inherit;
   position: relative;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.selected ? props.theme.colors.background.fifth : 'transparent'};
-  border-color: ${props =>
+  border-color: ${(props) =>
     props.selected
       ? props.theme.colors.border.primary + ' !important'
       : 'transparent'};
   outline: none;
-  padding: 0 ${props => props.theme.grid.unit * 4}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 4}px;
   text-align: unset;
   width: 100%;
 
   &:hover,
   &:focus {
-    background-color: ${props => props.theme.colors.background.fifth};
-    border-color: ${props => props.theme.colors.border.tertiary};
+    background-color: ${(props) => props.theme.colors.background.fifth};
+    border-color: ${(props) => props.theme.colors.border.tertiary};
   }
 `
 
 const ContainerInner = styled.div<{ selected?: boolean }>`
-  ${props =>
+  ${(props) =>
     !props.selected &&
     'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.tertiary};
-  padding: ${props => props.theme.grid.unit * 4}px 0;
+  padding: ${(props) => props.theme.grid.unit * 4}px 0;
 `
 
 const ArticleType = styled.span<{ selected?: boolean }>`
-  color: ${props => props.theme.colors.text.secondary};
-  ${props => props.selected && 'display: block; width: 100%; margin: 8px 0'};
+  color: ${(props) => props.theme.colors.text.secondary};
+  ${(props) => props.selected && 'display: block; width: 100%; margin: 8px 0'};
 `
 
 const InfoLinkContainer = styled.div`
-  margin: 0 ${props => props.theme.grid.unit}px;
+  margin: 0 ${(props) => props.theme.grid.unit}px;
 `
 
 interface Props {
@@ -109,7 +110,6 @@ interface Props {
   title: string
 }
 
-// tslint:disable:cyclomatic-complexity
 export const TemplateListItem: React.FunctionComponent<Props> = ({
   articleType,
   item,

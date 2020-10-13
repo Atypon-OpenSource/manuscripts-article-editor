@@ -13,6 +13,7 @@
 import { range } from 'lodash-es'
 import React, { ChangeEvent, useCallback } from 'react'
 import styled from 'styled-components'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 import { SmallNumberField, StyleRange } from '../projects/inputs'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
@@ -52,7 +53,7 @@ export const FigureWidthField: React.FC<{
             10%
           </option>
 
-          {range(20, 100, 10).map(value => (
+          {range(20, 100, 10).map((value) => (
             <option key={value} value={value} />
           ))}
 
@@ -89,7 +90,7 @@ export const FigureWidthField: React.FC<{
 
 const RangeContainer = styled.div`
   flex: 1;
-  margin-right: ${props => props.theme.grid.unit * 2}px;
+  margin-right: ${(props) => props.theme.grid.unit * 2}px;
 
   input[type='range']::-moz-range-track {
     background: repeating-linear-gradient(

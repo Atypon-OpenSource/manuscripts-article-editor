@@ -38,7 +38,7 @@ export const groupInvitations = (
   groupBy: string
 ) => {
   const groupedInvitations: GroupedInvitations = {}
-  invitations.forEach(invitation => {
+  invitations.forEach((invitation) => {
     const key =
       groupBy === 'Container'
         ? invitation.containerID
@@ -66,7 +66,7 @@ export const buildInvitations = (
   const allInvitations = [
     ...buildContainerInvitations(invitations),
     ...containerInvitations,
-  ].filter(invitation => invitation.containerID.startsWith('MPProject'))
+  ].filter((invitation) => invitation.containerID.startsWith('MPProject'))
 
   const invitationsByInvitedUser = groupInvitations(allInvitations, 'User')
 

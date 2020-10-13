@@ -13,6 +13,7 @@
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { ObjectTypes, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { buildUser } from '../lib/data'
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
@@ -71,7 +72,7 @@ class UserData extends DataComponent<UserProfile, Props, State> {
         userID, // NOTE: finding by `userID` not `_id`
         objectType: ObjectTypes.UserProfile,
       })
-      .$.subscribe(async doc => {
+      .$.subscribe(async (doc) => {
         if (doc) {
           this.setState({
             data: await buildUser(doc),

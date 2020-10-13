@@ -34,7 +34,7 @@ const SectionTreeTitle = styled.div`
 const SectionListItem = styled.li<{
   depth: number
 }>`
-  font-size: ${props => 1.2 - props.depth * 0.1}rem;
+  font-size: ${(props) => 1.2 - props.depth * 0.1}rem;
 `
 
 interface Props {
@@ -43,7 +43,9 @@ interface Props {
 }
 
 const SectionTree: React.FC<Props> = ({ data, depth = 0 }) => {
-  if (depth > 7) return null
+  if (depth > 7) {
+    return null
+  }
 
   const childrenInOrder = Object.values(data.children).sort(
     (a, b) => (a.priority || 0) - (b.priority || 0)
@@ -59,7 +61,7 @@ const SectionTree: React.FC<Props> = ({ data, depth = 0 }) => {
       )}
       {childrenInOrder.length ? (
         <SectionList>
-          {childrenInOrder.map(child => (
+          {childrenInOrder.map((child) => (
             <SectionListItem key={child._id} depth={depth}>
               <SectionTree data={child} depth={depth + 1} />
             </SectionListItem>

@@ -15,7 +15,10 @@ export * from './toolbar'
 
 export type MessageHandler = 'toolbar' | 'sync' | 'action' | 'taskCallback'
 
-export const postWebkitMessage = (handler: MessageHandler, message: object) => {
+export const postWebkitMessage = (
+  handler: MessageHandler,
+  message: Record<string, unknown>
+) => {
   if (window.webkit && window.webkit.messageHandlers) {
     window.webkit.messageHandlers[handler].postMessage(message)
   }

@@ -29,6 +29,7 @@ import { TextField } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import { useDebounce } from '../../hooks/use-debounce'
 import {
   chooseSectionCategory,
@@ -62,7 +63,7 @@ const buildCountRequirement = <T extends CountRequirement>(
   objectType: ObjectTypes,
   count?: number,
   ignored?: boolean,
-  severity: number = 0
+  severity = 0
 ): Build<T> => {
   const item = {
     _id: generateID(objectType),
@@ -76,7 +77,7 @@ const buildCountRequirement = <T extends CountRequirement>(
 }
 
 export const SectionInspector = memo<{
-  dispatchNodeAttrs: (id: string, attrs: object) => void
+  dispatchNodeAttrs: (id: string, attrs: Record<string, unknown>) => void
   section: Section
   sectionNode?: SectionNode
   modelMap: Map<string, Model>
@@ -170,7 +171,7 @@ export const SectionInspector = memo<{
                   <input
                     type={'checkbox'}
                     checked={!section.titleSuppressed}
-                    onChange={event => {
+                    onChange={(event) => {
                       setTitleSuppressed(!event.target.checked)
                     }}
                   />{' '}
@@ -196,7 +197,7 @@ export const SectionInspector = memo<{
 
             <PlaceholderInput
               value={placeholder}
-              onChange={event => {
+              onChange={(event) => {
                 setPlaceholder(event.target.value)
               }}
             />
@@ -299,7 +300,7 @@ export const SectionInspector = memo<{
 })
 
 const StyledTitle = styled(Title)`
-  color: ${props => props.theme.colors.text.primary};
+  color: ${(props) => props.theme.colors.text.primary};
   margin: 4px 0;
 `
 

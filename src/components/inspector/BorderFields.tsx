@@ -17,6 +17,7 @@ import {
   ColorScheme,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { DEFAULT_TABLE_BORDER_WIDTH } from '../../lib/styles'
 import { SmallNumberField, SpacingRange, StyleSelect } from '../projects/inputs'
 import { ColorField } from './ColorField'
@@ -34,7 +35,7 @@ export const BorderStyleField: React.FC<{
 
       <StyleSelect
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           handleChange(event.target.value)
         }}
       >
@@ -44,7 +45,7 @@ export const BorderStyleField: React.FC<{
 
         <option disabled={true}>————————</option>
 
-        {borderStyles.map(borderStyle => (
+        {borderStyles.map((borderStyle) => (
           <option value={borderStyle._id} key={borderStyle._id}>
             {borderStyle.title || 'Untitled'}
           </option>
@@ -71,13 +72,13 @@ export const BorderWidthField: React.FC<{
         step={2}
         list={'borderWidthList'}
         value={currentValue}
-        onChange={event => {
+        onChange={(event) => {
           handleChange(Number(event.target.value))
         }}
       />
       <SmallNumberField
         value={currentValue}
-        onChange={event => {
+        onChange={(event) => {
           handleChange(Number(event.target.value))
         }}
       />

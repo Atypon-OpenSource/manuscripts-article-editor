@@ -13,6 +13,7 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Subscription } from 'rxjs'
+
 import { Loading } from '../components/Loading'
 import { Collection } from '../sync/Collection'
 
@@ -46,7 +47,6 @@ export abstract class DataComponent<
   }
 
   protected isComplete = () => {
-    // tslint:disable-next-line:strict-type-predicates
     return this.collection.status.pull.complete && this.state.data !== undefined
   }
 
@@ -59,7 +59,6 @@ export abstract class DataComponent<
       await this.collection.cancelReplications()
       await this.collection.initialize()
     } catch (error) {
-      /* tslint:disable-next-line:no-console */
       console.error('Error restarting sync', error)
     }
     this.forceUpdate()

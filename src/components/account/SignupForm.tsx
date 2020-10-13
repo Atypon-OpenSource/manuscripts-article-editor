@@ -22,6 +22,7 @@ import {
 import { Field, FieldProps, FormikProps } from 'formik'
 import React from 'react'
 import styled from 'styled-components'
+
 import { FormLink } from '../Form'
 import { Hero, SubHero } from '../Hero'
 
@@ -36,7 +37,7 @@ export interface SignupErrors {
 }
 
 const HeavyLink = styled.a`
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   color: inherit;
 `
 

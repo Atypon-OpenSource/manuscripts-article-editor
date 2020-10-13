@@ -12,6 +12,7 @@
 
 import { ContainerInvitation } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { CollaboratorRolePopper } from './CollaboratorRolePopper'
 import { UninviteCollaboratorPopper } from './UninviteCollaboratorPopper'
 import UpdateRolePageContainer from './UpdateRolePageContainer'

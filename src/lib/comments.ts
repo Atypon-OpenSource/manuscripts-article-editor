@@ -73,7 +73,7 @@ type CommentsTreeMap = Map<string, CommentData[]>
 const buildTreeMap = (doc: ManuscriptNode, targetsMap: TargetsMap) => {
   const map: CommentsTreeMap = new Map()
 
-  doc.descendants(node => {
+  doc.descendants((node) => {
     const targetID = node.attrs.rid || node.attrs.id
 
     if (targetID) {
@@ -113,4 +113,4 @@ export const buildCommentTree = (
 
 export const buildName = (
   name: Pick<BibliographicName, 'given' | 'family'>
-): string => [name.given, name.family].filter(item => item).join(' ')
+): string => [name.given, name.family].filter((item) => item).join(' ')

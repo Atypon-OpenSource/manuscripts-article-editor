@@ -13,6 +13,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
+
 import { useDebounce } from '../../hooks/use-debounce'
 
 const RECORD_ACTIVITY = gql`
@@ -130,8 +131,7 @@ export const Presence: React.FC<{
             containerId,
             deviceId,
           },
-        }).catch(error => {
-          // tslint:disable-next-line:no-console
+        }).catch((error) => {
           console.error(error)
         })
       }
@@ -141,8 +141,7 @@ export const Presence: React.FC<{
       if (debouncedActivity && !idle) {
         recordActivity({
           variables: debouncedActivity,
-        }).catch(error => {
-          // tslint:disable-next-line:no-console
+        }).catch((error) => {
           console.error(error)
         })
       }
@@ -174,8 +173,7 @@ export const Presence: React.FC<{
             containerId,
             deviceId,
           },
-        }).catch(error => {
-          // tslint:disable-next-line:no-console
+        }).catch((error) => {
           console.error(error)
         })
       }

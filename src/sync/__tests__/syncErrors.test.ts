@@ -15,7 +15,6 @@ import reducer, {
   getPushSyncErrorMessage,
 } from '../syncErrors'
 
-/* tslint:disable:no-any */
 describe('syncErrors reducer', () => {
   it('should track sync errors', () => {
     const event: any = {

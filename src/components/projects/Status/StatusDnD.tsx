@@ -12,6 +12,7 @@
 import { StatusLabel } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback } from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+
 import StatusDnDColumn from './StatusDnDColumn'
 
 interface StatusInputDnDProps {
@@ -45,7 +46,7 @@ const StatusDnD: React.FC<StatusInputDnDProps> = ({
 
       // push back the labels that come after the newly reordered
       const tempLabels = tasks.splice(destination.index, tasks.length)
-      tempLabels.map(async tempLabel => {
+      tempLabels.map(async (tempLabel) => {
         await saveOrder(
           tempLabel,
           tempLabel.priority ? tempLabel.priority + 1 : 0
@@ -54,12 +55,17 @@ const StatusDnD: React.FC<StatusInputDnDProps> = ({
 
       await saveOrder(newTask, destination.index + 1)
     },
-    [tasks, saveOrder]
+    [tasks, saveOrder, newTask]
   )
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {dndColumns.map((columnId: string) => (
-        <StatusDnDColumn id={columnId} newTask={newTask} tasks={tasks} />
+        <StatusDnDColumn
+          key={columnId}
+          id={columnId}
+          newTask={newTask}
+          tasks={tasks}
+        />
       ))}
     </DragDropContext>
   )

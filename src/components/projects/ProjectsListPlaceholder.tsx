@@ -15,6 +15,7 @@ import MarkdownIcon from '@manuscripts/assets/react/MarkdownIcon'
 import TeXIcon from '@manuscripts/assets/react/TeXIcon'
 import React from 'react'
 import styled from 'styled-components'
+
 import { AddButton } from '../AddButton'
 import { ProjectPlaceholder } from '../Placeholders'
 
@@ -23,9 +24,9 @@ const OuterContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  font-size: ${props => props.theme.font.size.xlarge};
+  font-size: ${(props) => props.theme.font.size.xlarge};
   justify-content: center;
-  line-height: ${props => props.theme.font.lineHeight.large};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
   text-align: center;
 `
 
@@ -33,20 +34,20 @@ const Placeholder = styled.div``
 
 const Title = styled.div`
   font-size: 24px;
-  padding-left: ${props => props.theme.grid.unit * 3}px;
+  padding-left: ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const ActionContainer = styled.div`
-  margin-top: ${props => props.theme.grid.unit * 10}px;
+  margin-top: ${(props) => props.theme.grid.unit * 10}px;
 `
 
 const FontStyle = styled.div`
-  font-size: ${props => props.theme.font.size.large};
-  font-weight: ${props => props.theme.font.weight.light};
+  font-size: ${(props) => props.theme.font.size.large};
+  font-weight: ${(props) => props.theme.font.weight.light};
 `
 const Text = styled(FontStyle)`
-  padding-top: ${props => props.theme.grid.unit * 5}px;
-  color: ${props => props.theme.colors.text.secondary};
+  padding-top: ${(props) => props.theme.grid.unit * 5}px;
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const InnerText = styled(FontStyle)`
@@ -61,13 +62,13 @@ const UploadFileType = styled.span`
 `
 
 const UploadFileTypes = styled.div`
-  margin-top: ${props => props.theme.grid.unit * 11}px;
+  margin-top: ${(props) => props.theme.grid.unit * 11}px;
   display: flex;
   justify-content: center;
 `
 
 const BrowseLink = styled.span`
-  color: ${props => props.theme.colors.text.tertiary};
+  color: ${(props) => props.theme.colors.text.tertiary};
   cursor: pointer;
   margin: 0 2px;
   text-decoration: underline;

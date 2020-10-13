@@ -11,6 +11,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+
 import {
   Dropdown,
   DropdownButtonContainer,
@@ -27,7 +28,7 @@ export const ProjectsDropdown: React.FC<{
   const nodeRef = useRef<HTMLDivElement>(null)
 
   const toggleOpen = useCallback(() => {
-    setOpen(value => !value)
+    setOpen((value) => !value)
   }, [])
 
   const handleClickOutside = useCallback((event: Event) => {
@@ -46,7 +47,7 @@ export const ProjectsDropdown: React.FC<{
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [open])
+  }, [handleClickOutside, open])
 
   return (
     <DropdownContainer id={'projects-dropdown'} ref={nodeRef}>

@@ -16,8 +16,10 @@ import {
   constructConflictingTrees,
   getTreeConflicts,
   LocalConflicts,
+  TreeNode,
 } from '@manuscripts/sync-client'
 import React, { useCallback, useMemo } from 'react'
+
 import SectionConflictModal from './SectionConflictModal'
 
 interface Props {
@@ -35,29 +37,35 @@ const ConflictResolver: React.FC<Props> = ({
   conflictManager,
   manuscriptID,
 }) => {
-  if (!conflicts) return null
-
   const { local, remote } = useMemo(
-    () =>
-      getTreeConflicts(conflicts).length
+    (): {
+      local: TreeNode | null
+      remote: TreeNode | null
+    } =>
+      conflicts && getTreeConflicts(conflicts).length
         ? constructConflictingTrees(modelMap, conflicts)
         : { local: null, remote: null },
-    [conflicts]
+    [conflicts, modelMap]
   )
 
   const resolveToRemoteTree = useCallback(() => {
-    /* tslint:disable-next-line:no-console */
-    conflictManager.resolveToRemoteTree(manuscriptID).catch(console.error)
-  }, [conflictManager, manuscriptID])
+    if (conflicts) {
+      conflictManager.resolveToRemoteTree(manuscriptID).catch(console.error)
+    }
+  }, [conflictManager, conflicts, manuscriptID])
 
   const resolveToLocalTree = useCallback(() => {
-    conflictManager
-      .resolveToLocalTree(manuscriptID)
-      /* tslint:disable-next-line:no-console */
-      .catch(console.error)
-  }, [conflictManager, manuscriptID])
+    if (conflicts) {
+      conflictManager
+        .resolveToLocalTree(manuscriptID)
 
-  if (!local || !remote) return null
+        .catch(console.error)
+    }
+  }, [conflictManager, conflicts, manuscriptID])
+
+  if (!conflicts || !local || !remote) {
+    return null
+  }
 
   return (
     <SectionConflictModal

@@ -11,6 +11,7 @@
  */
 
 import React from 'react'
+
 import { TokenActions } from '../../data/TokenData'
 import {
   ModalSidebar,

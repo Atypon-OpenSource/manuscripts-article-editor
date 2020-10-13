@@ -13,6 +13,7 @@
 import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { AddButton } from '../AddButton'
 import { Notification } from '../NotificationMessage'
 import { ProjectPlaceholder } from '../Placeholders'
@@ -22,9 +23,9 @@ const OuterContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  font-size: ${props => props.theme.font.size.xlarge};
+  font-size: ${(props) => props.theme.font.size.xlarge};
   justify-content: center;
-  line-height: ${props => props.theme.font.lineHeight.large};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
   text-align: center;
 `
 
@@ -33,9 +34,9 @@ const Placeholder = styled.div``
 const ActionContainer = styled.div``
 
 const Message = styled.div`
-  font-weight: ${props => props.theme.font.weight.light};
-  padding-top: ${props => props.theme.grid.unit * 5}px;
-  color: ${props => props.theme.colors.text.secondary};
+  font-weight: ${(props) => props.theme.font.weight.light};
+  padding-top: ${(props) => props.theme.grid.unit * 5}px;
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const TextContainer = styled.div`

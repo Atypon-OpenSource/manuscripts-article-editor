@@ -12,6 +12,7 @@
 
 import { Formik, FormikConfig } from 'formik'
 import React from 'react'
+
 import config from '../../config'
 import { Centered } from '../Page'
 import { AccountFooter } from './AccountFooter'

@@ -39,14 +39,15 @@ import {
   Project,
   Submission,
 } from '@manuscripts/manuscripts-json-schema'
+// eslint-disable-next-line import/no-unresolved
 import { Data } from 'csl-json'
 import JSZip from 'jszip'
+
 import { GetAttachment } from '../components/projects/Exporter'
 import config from '../config'
 import { JsonModel, ProjectDump } from './importers'
 import { convert, convertBibliography } from './pressroom'
 
-// tslint:disable-next-line:no-any
 export const removeEmptyStyles = (model: { [key: string]: any }) => {
   Object.entries(model).forEach(([key, value]) => {
     if (value === '' && key.match(/Style$/)) {
@@ -82,7 +83,7 @@ const isInlineMathFragment = hasObjectType<InlineMathFragment>(
 )
 
 // Convert TeX to MathML for Equation and InlineMathFragment
-// tslint:disable-next-line:cyclomatic-complexity
+
 const augmentEquations = async (modelMap: Map<string, Model>) => {
   for (const model of modelMap.values()) {
     if (
@@ -157,13 +158,15 @@ export const createProjectDump = (
   version: '2.0',
   data: Array.from(modelMap.values())
     .filter((model: Model) => {
-      if (!manuscriptID) return true
+      if (!manuscriptID) {
+        return true
+      }
       return (
         model.objectType !== ObjectTypes.Manuscript ||
         model._id === manuscriptID
       )
     })
-    .map(data => {
+    .map((data) => {
       const { _attachments, attachment, src, ...model } = data as Model &
         ModelAttachment &
         Attachments
@@ -214,7 +217,7 @@ const buildAttachments = async (
         attachments.set(id, attachment)
       }
     } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
+      console.error(error)
     }
   }
 
@@ -398,7 +401,6 @@ const prepareBibliography = (modelMap: Map<string, Model>): Data[] => {
   return items.map(convertBibliographyItemToData).map(fixCSLData)
 }
 
-// tslint:disable:cyclomatic-complexity
 export const exportProject = async (
   getAttachment: GetAttachment,
   modelMap: Map<string, Model>,
@@ -548,7 +550,7 @@ export const exportProject = async (
       })
     }
 
-    case 'pdf-prince':
+    case 'pdf-prince': {
       const file = await zip.generateAsync({ type: 'blob' })
 
       const form = new FormData()
@@ -558,6 +560,7 @@ export const exportProject = async (
         'Pressroom-Target-Jats-Output-Format': 'pdf',
         'Pressroom-Jats-Document-Processing-Level': 'full_text',
       })
+    }
 
     default: {
       // remove this once it's no longer needed:
@@ -577,4 +580,3 @@ export const exportProject = async (
     }
   }
 }
-/* tslint:enable:cyclomatic-complexity */

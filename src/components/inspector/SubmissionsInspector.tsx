@@ -17,6 +17,7 @@ import {
   Submission,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { InspectorSection } from '../InspectorSection'
 import { SubmissionItem } from './SubmissionItem'
 
@@ -38,7 +39,7 @@ export const SubmissionsInspector: React.FC<{
 
   return (
     <InspectorSection title={'Submissions'}>
-      {submissions.map(submission => (
+      {submissions.map((submission) => (
         <SubmissionItem submission={submission} key={submission._id} />
       ))}
     </InspectorSection>

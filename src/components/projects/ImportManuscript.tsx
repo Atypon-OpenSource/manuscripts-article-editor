@@ -24,6 +24,7 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { History } from 'history'
+
 import { BulkCreateError } from '../../lib/errors'
 import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
 import { getCurrentUserId } from '../../lib/user'
@@ -37,7 +38,6 @@ export const importManuscript = (
   user?: UserProfile,
   handleComplete?: () => void,
   possibleProjectID?: string
-  // tslint:disable-next-line:cyclomatic-complexity
 ) => async (models: Model[]) => {
   const userID = user ? user.userID : getCurrentUserId()!
 
@@ -65,7 +65,7 @@ export const importManuscript = (
   // TODO: save dependencies first, then the manuscript
   // TODO: handle multiple manuscripts in a project bundle
 
-  const items = models.map(model => ({
+  const items = models.map((model) => ({
     ...model,
     containerID: projectID,
     manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,

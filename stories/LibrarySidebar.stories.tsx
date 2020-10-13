@@ -16,9 +16,12 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
+import { createBrowserHistory } from 'history'
 import React from 'react'
-import { Route, RouteComponentProps } from 'react-router'
-import StoryRouter from 'storybook-react-router'
+
+// TODO: re-enable routing once storybook-react-router is compatible
+// import { Route, RouteComponentProps } from 'react-router'
+// import StoryRouter from 'storybook-react-router'
 import { LibrarySidebar } from '../src/components/library/LibrarySidebar'
 
 const projectLibraryCollections = new Map<string, LibraryCollection>([
@@ -133,37 +136,68 @@ const globalLibraryCollections = new Map<string, LibraryCollection>([
   ],
 ])
 
-storiesOf('Library Sidebar', module)
-  .addDecorator(
-    StoryRouter(
-      {},
-      {
-        initialEntries: [
-          {
-            pathname: `/projects/MPProject:1/library/global/MPLibrary:1`,
-          },
-        ],
-      }
-    )
-  )
-  .add('Sidebar', () => (
-    <Route
-      path={'/projects/:projectID/library/:sourceType?/:sourceID?/:filterID?'}
-      render={(
-        props: RouteComponentProps<{
-          projectID: string
-          sourceType: string
-          sourceID?: string
-        }>
-      ) => (
-        <LibrarySidebar
-          projectLibraryCollections={projectLibraryCollections}
-          globalLibraryCollections={globalLibraryCollections}
-          globalLibraries={globalLibraries}
-          importItems={action('import items')}
-          createBibliographyItem={action('create bibliography item')}
-          {...props}
-        />
-      )}
-    />
-  ))
+const routeProps = {
+  history: createBrowserHistory(),
+  match: {
+    isExact: true,
+    params: {
+      projectID: 'MPProject:1',
+      sourceType: 'library',
+      sourceID: 'MPLibrary:1',
+    },
+    path: '',
+    url: '',
+  },
+  location: {
+    hash: '',
+    pathname: '/projects/MPProject:1/library/global/MPLibrary:1',
+    search: '',
+    state: {},
+  },
+}
+
+storiesOf('Library Sidebar', module).add('Sidebar', () => (
+  <LibrarySidebar
+    projectLibraryCollections={projectLibraryCollections}
+    globalLibraryCollections={globalLibraryCollections}
+    globalLibraries={globalLibraries}
+    importItems={action('import items')}
+    createBibliographyItem={action('create bibliography item')}
+    {...routeProps}
+  />
+))
+
+// storiesOf('Library Sidebar', module)
+//   .addDecorator(
+//     StoryRouter(
+//       {},
+//       {
+//         initialEntries: [
+//           {
+//             pathname: `/projects/MPProject:1/library/global/MPLibrary:1`,
+//           },
+//         ],
+//       }
+//     )
+//   )
+//   .add('Sidebar', () => (
+//     <Route
+//       path={'/projects/:projectID/library/:sourceType?/:sourceID?/:filterID?'}
+//       render={(
+//         props: RouteComponentProps<{
+//           projectID: string
+//           sourceType: string
+//           sourceID?: string
+//         }>
+//       ) => (
+//         <LibrarySidebar
+//           projectLibraryCollections={projectLibraryCollections}
+//           globalLibraryCollections={globalLibraryCollections}
+//           globalLibraries={globalLibraries}
+//           importItems={action('import items')}
+//           createBibliographyItem={action('create bibliography item')}
+//           {...props}
+//         />
+//       )}
+//     />
+//   ))

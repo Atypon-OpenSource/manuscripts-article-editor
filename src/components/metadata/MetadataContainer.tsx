@@ -26,6 +26,7 @@ import {
 import { RxAttachment, RxAttachmentCreator } from '@manuscripts/rxdb'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React from 'react'
+
 import CollaboratorsData from '../../data/CollaboratorsData'
 import ContainerInvitationsData from '../../data/ContainerInvitationsData'
 import ProjectData from '../../data/ProjectData'
@@ -120,21 +121,21 @@ class MetadataContainer extends React.PureComponent<Props, State> {
 
     return (
       <CollaboratorsData>
-        {collaborators => (
+        {(collaborators) => (
           <UserData userID={getCurrentUserId()!}>
-            {user => (
+            {(user) => (
               <ProjectData projectID={manuscript.containerID}>
-                {project => (
+                {(project) => (
                   <ProjectInvitationsData projectID={manuscript.containerID}>
-                    {invitations => (
+                    {(invitations) => (
                       <ContainerInvitationsData
                         containerID={manuscript.containerID}
                       >
-                        {containerInvitations => {
+                        {(containerInvitations) => {
                           const allInvitations = [
                             ...buildContainerInvitations(invitations),
                             ...containerInvitations,
-                          ].filter(invitation =>
+                          ].filter((invitation) =>
                             invitation.containerID.startsWith('MPProject')
                           )
                           return (
@@ -351,7 +352,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
     const invitingID = invitingUser.userID
 
     const alreadyInvited = invitations.some(
-      invitation =>
+      (invitation) =>
         invitation.containerID === projectID &&
         invitation.invitedUserEmail === email
     )
@@ -410,8 +411,10 @@ class MetadataContainer extends React.PureComponent<Props, State> {
     collaborators: UserProfile[],
     invitations: ContainerInvitation[]
   ) => {
-    const userIDs: string[] = authors.map(author => author.userID as string)
-    const invitationsID: string[] = authors.map(author => author.invitationID!)
+    const userIDs: string[] = authors.map((author) => author.userID as string)
+    const invitationsID: string[] = authors.map(
+      (author) => author.invitationID!
+    )
 
     const invitedAuthorsEmail: string[] = this.buildInvitedAuthorsEmail(
       invitationsID,
@@ -419,7 +422,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
     )
 
     const nonAuthors: UserProfile[] = collaborators.filter(
-      person =>
+      (person) =>
         !userIDs.includes(person.userID) &&
         !invitedAuthorsEmail.includes(person.email as string)
     )
@@ -451,7 +454,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
     invitingUserID: string,
     invitedEmail: string
   ): Promise<ContainerInvitation> => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const collection = CollectionManager.getCollection<ContainerInvitation>(
         'user'
       )
@@ -463,7 +466,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
           invitedUserEmail: invitedEmail,
           invitingUserID,
         })
-        .$.subscribe(doc => {
+        .$.subscribe((doc) => {
           if (doc) {
             sub.unsubscribe()
             resolve(doc.toJSON())

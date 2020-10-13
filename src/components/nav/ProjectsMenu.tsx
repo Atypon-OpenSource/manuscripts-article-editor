@@ -16,6 +16,7 @@ import {
   Project,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { ModalProps, withModal } from '../ModalProvider'
 import TemplateSelector from '../templates/TemplateSelector'
 import { InvitationData } from './ProjectsButton'
@@ -53,10 +54,10 @@ class ProjectsMenu extends React.Component<Props & ModalProps> {
       confirmReject,
     } = this.props
 
-    const projectsIDs = projects.map(project => project._id)
+    const projectsIDs = projects.map((project) => project._id)
 
     const filteredInvitationsData = invitationsData.filter(
-      invitationData => projectsIDs.indexOf(invitationData.container._id) < 0
+      (invitationData) => projectsIDs.indexOf(invitationData.container._id) < 0
     )
 
     return (

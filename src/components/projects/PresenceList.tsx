@@ -17,6 +17,7 @@ import { Avatar, Tip } from '@manuscripts/style-guide'
 import gql from 'graphql-tag'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import { avatarURL } from '../../lib/user'
 
 const ACTIVITY_UPDATES = gql`
@@ -80,11 +81,17 @@ export const PresenceList: React.FC<{
 
       setUsers(users)
     }
-  }, [data])
+  }, [data, getCollaborator])
 
-  if (loading) return null
-  if (error) return null // TODO
-  if (!users) return null
+  if (loading) {
+    return null
+  }
+  if (error) {
+    return null
+  } // TODO
+  if (!users) {
+    return null
+  }
 
   return <PresenceListView users={users} />
 })
@@ -133,7 +140,7 @@ export const PresenceListView: React.FC<{
 }> = React.memo(({ users }) => {
   return (
     <AvatarStack>
-      {users.sort(sortUsers).map(user => (
+      {users.sort(sortUsers).map((user) => (
         <AvatarContainer
           key={user.profile._id}
           style={{
@@ -155,17 +162,17 @@ export const PresenceListView: React.FC<{
 const AvatarStack = styled.div`
   display: flex;
   line-height: 1;
-  margin-left: ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const AvatarContainer = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: -${props => props.theme.grid.unit * 2}px;
-  background: ${props => props.theme.colors.background.primary};
+  margin-left: -${(props) => props.theme.grid.unit * 2}px;
+  background: ${(props) => props.theme.colors.background.primary};
   border-radius: 50%;
-  border: 2px solid ${props => props.theme.colors.background.primary};
+  border: 2px solid ${(props) => props.theme.colors.background.primary};
   box-sizing: border-box;
   z-index: 1;
 

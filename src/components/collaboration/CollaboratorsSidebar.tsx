@@ -23,6 +23,7 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import { initials } from '../../lib/name'
 import { getUserRole, isOwner, ProjectRole } from '../../lib/roles'
@@ -33,27 +34,27 @@ import CollaboratorSettingsButton from './CollaboratorSettingsButton'
 import InvitedCollaboratorSettingsButton from './InvitedCollaboratorSettingsButton'
 
 const CollaboratorInitial = styled.span`
-  margin-right: ${props => props.theme.grid.unit}px;
-  font-weight: ${props => props.theme.font.weight.light};
+  margin-right: ${(props) => props.theme.grid.unit}px;
+  font-weight: ${(props) => props.theme.font.weight.light};
 `
 
 const CollaboratorName = styled.div`
   font-size: 120%;
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.medium};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: ${(props) => props.theme.font.weight.medium};
 `
 
 const CollaboratorRole = styled.div`
-  font-size: ${props => props.theme.font.size.normal};
-  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const Action = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const CollaboratorData = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+  padding-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const UserDataContainer = styled.div`
@@ -64,18 +65,18 @@ const UserDataContainer = styled.div`
 
 const Invited = styled.div`
   display: flex;
-  font-size: ${props => props.theme.font.size.small};
-  color: ${props => props.theme.colors.brand.default};
+  font-size: ${(props) => props.theme.font.size.small};
+  color: ${(props) => props.theme.colors.brand.default};
 `
 
 const InvitedContainer = styled.div`
   display: flex;
   align-items: center;
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+  padding-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 interface Props {
@@ -133,12 +134,12 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
 
     const { hoveredID, selectedID, message } = this.state
 
-    const collaboratorEmails = projectCollaborators.map(collaborator =>
+    const collaboratorEmails = projectCollaborators.map((collaborator) =>
       collaborator.userID.replace('User_', '')
     )
 
     const filteredInvitations = invitations.filter(
-      invitation => !collaboratorEmails.includes(invitation.invitedUserEmail)
+      (invitation) => !collaboratorEmails.includes(invitation.invitedUserEmail)
     )
 
     return (
@@ -178,7 +179,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
           </AlertMessageContainer>
         )}
 
-        {filteredInvitations.map(invitation => (
+        {filteredInvitations.map((invitation) => (
           <SidebarPersonContainer
             key={invitation._id}
             onMouseEnter={() => this.handleHover(invitation._id)}
@@ -253,7 +254,7 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
     )
   }
 
-  private handleHover = (hoveredID: string = '') => {
+  private handleHover = (hoveredID = '') => {
     if (!this.state.isSettingsOpen) {
       this.setState({ hoveredID })
     }

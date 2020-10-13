@@ -16,6 +16,7 @@ import LandingDecorationsRight from '@manuscripts/assets/react/LandingDecoration
 import LogotypeGrey from '@manuscripts/assets/react/LogotypeGrey'
 import React from 'react'
 import styled from 'styled-components'
+
 import AuthButtonContainer from './account/AuthButtonContainer'
 import { Login, Signup } from './account/Authentication'
 import { Centered } from './Page'

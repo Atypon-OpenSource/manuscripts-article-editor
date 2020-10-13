@@ -14,6 +14,7 @@ import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import BroadcastChannel from 'broadcast-channel'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import { TokenActions } from '../../data/TokenData'
 import { logout } from '../../lib/account'
 import tokenHandler from '../../lib/token'
@@ -50,7 +51,6 @@ class LogoutPageContainer extends React.Component<
 
       await channel.postMessage('LOGOUT')
     } catch (error) {
-      /* tslint:disable-next-line:no-console */
       console.error('Error while performing logout tasks', error)
       this.setState({ error })
     }
@@ -73,7 +73,7 @@ class LogoutPageContainer extends React.Component<
   }
 }
 
-channel.onmessage = msg => {
+channel.onmessage = (msg) => {
   if (msg === 'LOGOUT') {
     window.location.assign('/login#action=logout')
   }

@@ -11,6 +11,7 @@
  */
 
 import React from 'react'
+
 import {
   CaptionAlignment,
   captionAlignments,
@@ -47,7 +48,7 @@ export const CaptionPositionField: React.FC<{
       <InspectorLabel>Position</InspectorLabel>
       <StyleSelect
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           handleChange(event.target.value as FigureCaptionPosition)
         }}
       >
@@ -69,7 +70,7 @@ export const CaptionAlignmentField: React.FC<{
     <InspectorLabel>Alignment</InspectorLabel>
     <StyleSelect
       value={value}
-      onChange={event => {
+      onChange={(event) => {
         handleChange(event.target.value as CaptionAlignment)
       }}
     >
@@ -91,7 +92,7 @@ export const LabelPositionField: React.FC<{
       <InspectorLabel>Label</InspectorLabel>
       <StyleSelect
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           handleChange(event.target.value as FigureLabelPosition)
         }}
       >
@@ -122,13 +123,13 @@ export const SpacingField: React.FC<{
         step={2}
         list={'borderSpacingList'}
         value={currentValue}
-        onChange={event => {
+        onChange={(event) => {
           handleChange(Number(event.target.value))
         }}
       />
       <SmallNumberField
         value={currentValue}
-        onChange={event => {
+        onChange={(event) => {
           handleChange(Number(event.target.value))
         }}
       />

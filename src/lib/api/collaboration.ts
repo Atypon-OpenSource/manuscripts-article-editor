@@ -49,7 +49,7 @@ export const projectInvite = (
   projectID: string,
   invitedUsers: InvitedUser[],
   role: string,
-  message: string = 'message'
+  message = 'message'
 ) =>
   client.post(`/invitation/${encodeURIComponent(projectID)}/invite`, {
     invitedUsers,

@@ -26,11 +26,11 @@ export const StyleActions: React.FC<{
   const [open, setOpen] = useState(false)
 
   const toggleOpen = useCallback(() => {
-    setOpen(value => !value)
+    setOpen((value) => !value)
   }, [])
 
   const executeMenuAction = useCallback(
-    callback => () => {
+    (callback) => () => {
       setOpen(false)
 
       // Use a timer so the menu closes first
@@ -88,9 +88,9 @@ export const StyleActions: React.FC<{
 
 const MenuButton = styled.button`
   border: none;
-  background: ${props => props.theme.colors.background.primary};
+  background: ${(props) => props.theme.colors.background.primary};
   cursor: pointer;
-  margin: 0 ${props => props.theme.grid.unit * 2}px;
+  margin: 0 ${(props) => props.theme.grid.unit * 2}px;
 
   &:focus {
     outline: none;
@@ -98,19 +98,19 @@ const MenuButton = styled.button`
 `
 
 const Menu = styled.div`
-  background: ${props => props.theme.colors.background.primary};
-  color: ${props => props.theme.colors.text.primary};
-  border: 1px solid ${props => props.theme.colors.text.muted};
-  border-radius: ${props => props.theme.grid.radius.small};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${(props) => props.theme.colors.background.primary};
+  color: ${(props) => props.theme.colors.text.primary};
+  border: 1px solid ${(props) => props.theme.colors.text.muted};
+  border-radius: ${(props) => props.theme.grid.radius.small};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
 `
 
 const MenuItem = styled.div`
-  padding: ${props => props.theme.grid.unit * 2}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px;
   cursor: pointer;
 
   &:hover {
-    background: ${props => props.theme.colors.brand.default};
-    color: ${props => props.theme.colors.text.onDark};
+    background: ${(props) => props.theme.colors.brand.default};
+    color: ${(props) => props.theme.colors.text.onDark};
   }
 `

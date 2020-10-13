@@ -12,6 +12,7 @@
 
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import DeveloperPageContainer from '../src/components/DeveloperPageContainer'
 
 storiesOf('DeveloperPage', module).add('default', () => (

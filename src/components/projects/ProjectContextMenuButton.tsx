@@ -17,6 +17,7 @@ import { parse as parseTitle } from '@manuscripts/title-editor'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { ModalProps, withModal } from '../ModalProvider'
 import { Dropdown, DropdownContainer } from '../nav/Dropdown'
 import ProjectContextMenu from './ProjectContextMenu'
@@ -94,7 +95,7 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
     return (
       <DropdownContainer
         ref={this.nodeRef}
-        onClick={event => event.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
       >
         <ContextMenuIconButton onClick={this.toggleOpen}>
           <HorizontalEllipsis />

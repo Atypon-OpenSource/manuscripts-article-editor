@@ -12,11 +12,12 @@
 import { stringify } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+
 import { unmarkUserForDeletion } from '../../lib/api/authentication'
 import { MessageBannerAction } from '../MessageBanner'
 import { RetrieveAccountPage } from '../RetrieveAccountPage'
 
-export const RetrieveAccountPageContainer: React.FC<RouteComponentProps> = ({}) => {
+export const RetrieveAccountPageContainer: React.FC<RouteComponentProps> = () => {
   const handleRetrieve = async () => {
     await unmarkUserForDeletion().then(() =>
       window.location.assign(

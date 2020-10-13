@@ -21,10 +21,10 @@ const ListContainer = styled.div`
 `
 
 const List = styled.div`
-  border: 1px solid ${props => props.theme.colors.text.muted};
-  border-radius: ${props => props.theme.grid.radius.default};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  background: ${props => props.theme.colors.background.primary};
+  border: 1px solid ${(props) => props.theme.colors.text.muted};
+  border-radius: ${(props) => props.theme.grid.radius.default};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
+  background: ${(props) => props.theme.colors.background.primary};
   height: 300px;
   max-height: 50vh;
   overflow-y: auto;
@@ -35,26 +35,26 @@ const List = styled.div`
 const ListSection = styled.div`
   display: flex;
   align-items: center;
-  padding: ${props => props.theme.grid.unit * 2}px;
-  font-size: ${props => props.theme.font.size.medium};
-  font-weight: ${props => props.theme.font.weight.medium};
-  color: ${props => props.theme.colors.text.primary};
+  padding: ${(props) => props.theme.grid.unit * 2}px;
+  font-size: ${(props) => props.theme.font.size.medium};
+  font-weight: ${(props) => props.theme.font.weight.medium};
+  color: ${(props) => props.theme.colors.text.primary};
   cursor: pointer;
 
   &:hover {
-    background-color: ${props => props.theme.colors.background.fifth};
+    background-color: ${(props) => props.theme.colors.background.fifth};
   }
 `
 
 const Separator = styled.div`
   height: 1px;
   opacity: 0.23;
-  background-color: ${props => props.theme.colors.border.field.default};
+  background-color: ${(props) => props.theme.colors.border.field.default};
 `
 
 const AddedIconContainer = styled.span`
   display: inline-flex;
-  width: ${props => props.theme.grid.unit * 8}px;
+  width: ${(props) => props.theme.grid.unit * 8}px;
   height: 1em;
   align-items: center;
   justify-content: center;
@@ -88,7 +88,7 @@ export const TemplateTopicsList: React.FunctionComponent<Props> = ({
 
       {options
         .sort((a, b) => a.name.localeCompare(b.name))
-        .map(topic => (
+        .map((topic) => (
           <ListSection key={topic._id} onClick={() => handleChange(topic)}>
             <Added visible={value ? value._id === topic._id : false} />
             {topic.name}

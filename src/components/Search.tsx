@@ -24,12 +24,12 @@ const SearchContainer = styled.div`
 
 const SearchIconContainer = styled.span<{ active?: boolean }>`
   display: flex;
-  left: ${props => props.theme.grid.unit * 4}px;
+  left: ${(props) => props.theme.grid.unit * 4}px;
   position: absolute;
   z-index: 2;
 
   path {
-    fill: ${props =>
+    fill: ${(props) =>
       props.active
         ? props.theme.colors.brand.medium
         : props.theme.colors.text.primary};
@@ -38,17 +38,17 @@ const SearchIconContainer = styled.span<{ active?: boolean }>`
 
 const SearchText = styled(TextField)`
   -webkit-appearance: textfield;
-  padding-left: ${props => props.theme.grid.unit * 11}px;
+  padding-left: ${(props) => props.theme.grid.unit * 11}px;
   &:hover,
   &:focus {
-    background-color: ${props => props.theme.colors.background.fifth};
+    background-color: ${(props) => props.theme.colors.background.fifth};
   }
 `
 
 export const SearchWrapper = styled.div`
   display: flex;
   align-items: center;
-  padding: ${props => props.theme.grid.unit * 3}px;
+  padding: ${(props) => props.theme.grid.unit * 3}px;
 `
 
 export interface SearchInterface {

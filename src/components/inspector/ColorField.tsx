@@ -13,6 +13,7 @@
 import { buildColor } from '@manuscripts/manuscript-transform'
 import { Color, ColorScheme } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { nextColorPriority } from '../../lib/colors'
 import { ColorSelector } from '../projects/ColorSelector'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
@@ -40,7 +41,7 @@ export const ColorField: React.FC<{
       <InspectorLabel>{label}</InspectorLabel>
 
       <ColorsContainer>
-        {colors.map(color => (
+        {colors.map((color) => (
           <ColorButton
             key={color._id}
             type={'button'}
@@ -53,7 +54,7 @@ export const ColorField: React.FC<{
         ))}
 
         <ColorSelector
-          handleChange={async value => {
+          handleChange={async (value) => {
             try {
               for (const color of colors) {
                 if (color.value === value) {

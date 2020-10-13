@@ -26,6 +26,7 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
+
 import { theme } from '../../theme/theme'
 import AcceptedLabel from '../AcceptedLabel'
 import { AddButton } from '../AddButton'
@@ -41,22 +42,22 @@ const activeStyle = {
 }
 
 const ActionContainer = styled.div`
-  padding: ${props => props.theme.grid.unit * 3}px;
+  padding: ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const DropdownIcon = styled.div`
   display: flex;
-  padding-right: ${props => props.theme.grid.unit * 3}px;
+  padding-right: ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const DropdownWithNotificationIcon = styled.div`
   display: flex;
-  padding-right: ${props => props.theme.grid.unit}px;
+  padding-right: ${(props) => props.theme.grid.unit}px;
 `
 
 const ButtonsContainer = styled.div`
   display: grid;
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+  padding-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const ProjectNameContainer = styled.div`
@@ -66,13 +67,13 @@ const ProjectNameContainer = styled.div`
 
 const AcceptButton = styled(PrimaryButton)`
   line-height: 1;
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
   margin-bottom: 4px;
 `
 
 const RejectButton = styled(SecondaryButton)`
   line-height: 1;
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
 `
 
 const AvatarContainer = styled.div`

@@ -21,17 +21,18 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { isOwner } from '../../lib/roles'
 import { PopperBody } from '../Popper'
 import { RadioButton } from '../RadioButton'
 import { ShareProjectHeader, ShareProjectTitle } from './InvitationPopper'
 
 const URIFieldContainer = styled.div`
-  border: 1px solid ${props => props.theme.colors.border.field.default};
-  border-radius: ${props => props.theme.grid.radius.small};
+  border: 1px solid ${(props) => props.theme.colors.border.field.default};
+  border-radius: ${(props) => props.theme.grid.radius.small};
   display: flex;
   flex: 1;
-  margin-bottom: ${props => props.theme.grid.unit * 5}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 5}px;
 
   & ${TextField} {
     border: none;
@@ -39,22 +40,22 @@ const URIFieldContainer = styled.div`
 
   & ${SecondaryButton} {
     border: none;
-    color: ${props => props.theme.colors.brand.default};
+    color: ${(props) => props.theme.colors.brand.default};
   }
 `
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 export const MiniText = styled.span`
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
   letter-spacing: -0.3px;
   text-align: left;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
   clear: both;
   display: block;
-  margin-bottom: ${props => props.theme.grid.unit * 3}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 3}px;
 `
 
 interface ShareURIFieldProps {

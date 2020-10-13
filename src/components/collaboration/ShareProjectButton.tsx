@@ -17,6 +17,7 @@ import { IconButton, Tip } from '@manuscripts/style-guide'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
 
@@ -30,10 +31,10 @@ const ShareIconButton = styled(IconButton).attrs({
     text[fill],
     rect[fill],
     path[fill] {
-      fill: ${props => props.theme.colors.brand.medium};
+      fill: ${(props) => props.theme.colors.brand.medium};
     }
     path[stroke] {
-      stroke: ${props => props.theme.colors.brand.medium};
+      stroke: ${(props) => props.theme.colors.brand.medium};
     }
   }
 `
@@ -64,7 +65,10 @@ class ShareProjectButton extends React.Component<Props, State> {
     const { isOpen } = this.state
 
     return (
-      <Container ref={this.nodeRef} onClick={event => event.stopPropagation()}>
+      <Container
+        ref={this.nodeRef}
+        onClick={(event) => event.stopPropagation()}
+      >
         <Manager>
           <Tip title="Share this project" placement="right">
             <Reference>

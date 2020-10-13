@@ -10,15 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+// eslint-disable-next-line simple-import-sort/sort
 import Mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
+
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 
 type Props = RouteComponentProps<{ projectID: string }>
 
 class ProjectNavigator extends React.PureComponent<Props> {
-  private keymap: { [key: string]: () => void }
+  private readonly keymap: { [key: string]: () => void }
 
   public constructor(props: Props) {
     super(props)

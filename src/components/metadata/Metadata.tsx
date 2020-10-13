@@ -33,6 +33,7 @@ import {
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import { useAuthorsAndAffiliations } from '../../hooks/use-authors-and-affiliations'
 import { useContributorRoles } from '../../hooks/use-contributor-roles'
@@ -52,10 +53,10 @@ const TitleContainer = styled.div`
 `
 
 const AuthorsContainer = styled.div`
-  margin-top: ${props => props.theme.grid.unit * 4}px;
+  margin-top: ${(props) => props.theme.grid.unit * 4}px;
 `
 
-export const ExpanderButton = styled(IconButton).attrs(props => ({
+export const ExpanderButton = styled(IconButton).attrs(() => ({
   size: 20,
   defaultColor: true,
 }))`
@@ -65,12 +66,12 @@ export const ExpanderButton = styled(IconButton).attrs(props => ({
   &:focus,
   &:hover {
     &:not([disabled]) {
-      background: ${props => props.theme.colors.background.fifth};
+      background: ${(props) => props.theme.colors.background.fifth};
     }
   }
 
   svg circle {
-    stroke: ${props => props.theme.colors.border.secondary};
+    stroke: ${(props) => props.theme.colors.border.secondary};
   }
 `
 
@@ -80,9 +81,9 @@ const HeaderContainer = styled.header`
 
 const Header = styled.div`
   font-family: 'PT Sans';
-  font-size: ${props => props.theme.font.size.medium};
-  line-height: ${props => props.theme.font.lineHeight.large};
-  color: ${props => props.theme.colors.text.primary};
+  font-size: ${(props) => props.theme.font.size.medium};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
+  color: ${(props) => props.theme.colors.text.primary};
 
   ${ExpanderButton} {
     display: none;
@@ -149,7 +150,7 @@ const expanderStyle = (expanded: boolean) => ({
   transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
 })
 
-export const Metadata: React.FunctionComponent<Props> = props => {
+export const Metadata: React.FunctionComponent<Props> = (props) => {
   const { data: authorsAndAffiliations } = useAuthorsAndAffiliations(
     props.manuscript.containerID,
     props.manuscript._id
@@ -162,21 +163,27 @@ export const Metadata: React.FunctionComponent<Props> = props => {
 
   const handleInvitationSubmit = useCallback(
     (values: InvitationValues) => {
-      if (!authorsAndAffiliations) return Promise.reject()
+      if (!authorsAndAffiliations) {
+        return Promise.reject()
+      }
       return props.handleInvitationSubmit(
         authorsAndAffiliations.authors,
         values
       )
     },
-    [props.handleInvitationSubmit, authorsAndAffiliations]
+    [authorsAndAffiliations, props]
   )
 
   const openAddAuthors = useCallback(() => {
-    if (!authorsAndAffiliations) return
+    if (!authorsAndAffiliations) {
+      return
+    }
     props.openAddAuthors(authorsAndAffiliations.authors)
-  }, [props.openAddAuthors, authorsAndAffiliations])
+  }, [authorsAndAffiliations, props])
 
-  if (!authorsAndAffiliations || !contributorRoles) return null
+  if (!authorsAndAffiliations || !contributorRoles) {
+    return null
+  }
 
   return (
     <HeaderContainer>
@@ -209,7 +216,7 @@ export const Metadata: React.FunctionComponent<Props> = props => {
           <AuthorsContainer data-cy={'author-container'}>
             <AuthorsList
               authors={authorsAndAffiliations.authors.filter(
-                author => author.role === 'author'
+                (author) => author.role === 'author'
               )}
               authorAffiliations={authorsAndAffiliations.authorAffiliations}
               startEditing={props.startEditing}

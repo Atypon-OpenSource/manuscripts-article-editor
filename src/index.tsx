@@ -10,16 +10,18 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import './lib/analytics'
+import './lib/fonts'
+
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+
 import IntlProvider from './components/IntlProvider'
 import { LoadingPage } from './components/Loading'
 import { NativeToken } from './components/NativeToken'
 import config from './config'
-import './lib/analytics'
-import './lib/fonts'
 import tokenHandler from './lib/token'
 import { ThemeProvider } from './theme/ThemeProvider'
 
@@ -38,10 +40,8 @@ ReactDOM.render(
         >
           <BrowserRouter>
             <Switch>
-              <Route
-                path={'/'}
-                exact={true}
-                children={({ history }) => {
+              <Route path={'/'} exact={true}>
+                {({ history }) => {
                   if (tokenHandler.get()) {
                     history.push('/projects')
                   } else {
@@ -49,7 +49,7 @@ ReactDOM.render(
                   }
                   return null
                 }}
-              />
+              </Route>
 
               {config.native && (
                 <Route

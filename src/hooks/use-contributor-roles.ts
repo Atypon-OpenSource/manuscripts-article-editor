@@ -15,6 +15,7 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useMemo, useState } from 'react'
+
 import CollectionManager from '../sync/CollectionManager'
 import { useCollectionEvent } from './use-collection-event'
 
@@ -38,9 +39,9 @@ export const useContributorRoles = (
           manuscriptID,
           objectType: ObjectTypes.ContributorRole,
         })
-        .$.subscribe(docs => {
+        .$.subscribe((docs) => {
           if (docs) {
-            setData(docs.map(doc => doc.toJSON() as ContributorRole))
+            setData(docs.map((doc) => doc.toJSON() as ContributorRole))
           }
         })
 

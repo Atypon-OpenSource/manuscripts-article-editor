@@ -15,6 +15,7 @@ import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import {
   ModalSidebar,
   SidebarContent,
@@ -27,15 +28,15 @@ import CreateAuthorPageContainer from './CreateAuthorPageContainer'
 import SearchAuthorsSidebar from './SearchAuthorsSidebar'
 
 const PersonInitial = styled.span`
-  margin-right: ${props => props.theme.grid.unit}px;
-  font-weight: ${props => props.theme.font.weight.light};
+  margin-right: ${(props) => props.theme.grid.unit}px;
+  font-weight: ${(props) => props.theme.font.weight.light};
 `
 
 const PersonName = styled.div`
   box-sizing: border-box;
-  color: ${props => props.theme.colors.text.primary};
-  font-size: ${props => props.theme.font.size.xlarge};
-  font-weight: ${props => props.theme.font.weight.medium};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   max-width: 138px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -44,7 +45,7 @@ const PersonName = styled.div`
 `
 
 const PersonData = styled.div`
-  margin-left: ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const UserDataContainer = styled.div`
@@ -55,7 +56,7 @@ const UserDataContainer = styled.div`
   overflow: hidden;
 `
 const SearchContainer = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 interface Props {

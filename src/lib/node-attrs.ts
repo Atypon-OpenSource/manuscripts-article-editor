@@ -15,7 +15,7 @@ import { ManuscriptEditorView } from '@manuscripts/manuscript-transform'
 export const setNodeAttrs = (
   view: ManuscriptEditorView,
   id: string,
-  attrs: object
+  attrs: Record<string, unknown>
 ) => {
   const { tr } = view.state
 

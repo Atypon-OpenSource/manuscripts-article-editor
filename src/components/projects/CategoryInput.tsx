@@ -12,6 +12,7 @@
 
 import React, { ChangeEvent, useCallback } from 'react'
 import styled from 'styled-components'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
   isEditableSectionCategory,
@@ -39,7 +40,7 @@ export const CategoryInput: React.FC<{
     <CategorySelector value={currentValue} onChange={handleInputChange}>
       {sortedSectionCategories
         .filter(isEditableSectionCategory)
-        .map(sectionCategory => (
+        .map((sectionCategory) => (
           <option value={sectionCategory._id} key={sectionCategory._id}>
             {sectionCategory.name}
           </option>

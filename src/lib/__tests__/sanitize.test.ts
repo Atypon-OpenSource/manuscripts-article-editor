@@ -11,6 +11,7 @@
  */
 
 import DOMPurify, { sanitize } from 'dompurify'
+
 import { sanitizeLink } from '../sanitize'
 
 describe('sanitize', () => {

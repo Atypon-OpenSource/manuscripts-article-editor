@@ -12,12 +12,12 @@
 
 import { RxDatabase } from '@manuscripts/rxdb'
 import React from 'react'
+
 import { Collections } from '../collections'
 import { DatabaseError } from '../sync/DatabaseError'
 
 export type Database = RxDatabase<Collections>
 
-// tslint:disable-next-line:no-object-literal-type-assertion
 export const DatabaseContext = React.createContext<Database>({} as Database)
 
 export interface DatabaseProps {
@@ -28,7 +28,7 @@ export const withDatabase = <Props extends DatabaseProps>(
   Component: React.ComponentType<Props>
 ): React.ComponentType<Omit<Props, keyof DatabaseProps>> => (props: Props) => (
   <DatabaseContext.Consumer>
-    {value => <Component {...props} db={value} />}
+    {(value) => <Component {...props} db={value} />}
   </DatabaseContext.Consumer>
 )
 
@@ -49,7 +49,7 @@ class DatabaseProvider extends React.Component<Props, State> {
       const db = await this.props.databaseCreator
       this.setState({ db })
     } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
+      console.error(error)
       this.setState({ error })
     }
   }

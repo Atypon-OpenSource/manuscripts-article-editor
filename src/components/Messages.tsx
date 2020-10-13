@@ -10,8 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import * as HttpStatusCodes from 'http-status-codes'
 import 'intl-pluralrules'
+
+import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
@@ -183,9 +184,9 @@ export const ProjectRenameMessage = () => (
 )
 
 export const acceptInvitationErrorMessage = (status: number) => {
-  if (status === HttpStatusCodes.GONE) {
+  if (status === StatusCodes.GONE) {
     return 'Invitation is no longer valid.'
-  } else if (status === HttpStatusCodes.BAD_REQUEST) {
+  } else if (status === StatusCodes.BAD_REQUEST) {
     return 'Project no longer exists.'
   } else {
     return 'There was an error accepting the invitation.'
@@ -193,9 +194,9 @@ export const acceptInvitationErrorMessage = (status: number) => {
 }
 
 export const acceptInvitationTokenErrorMessage = (status: number) => {
-  if (status === HttpStatusCodes.GONE) {
+  if (status === StatusCodes.GONE) {
     return 'Invitation is no longer valid.'
-  } else if (status === HttpStatusCodes.NOT_FOUND) {
+  } else if (status === StatusCodes.NOT_FOUND) {
     return 'Project no longer exists.'
   } else {
     return 'There was an error accepting the invitation.'

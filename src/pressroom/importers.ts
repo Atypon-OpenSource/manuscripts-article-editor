@@ -29,6 +29,7 @@ import { flatMap } from 'lodash-es'
 import { getType } from 'mime/lite'
 import { basename, extname } from 'path'
 import pathParse from 'path-parse'
+
 import config from '../config'
 import { FileExtensionError } from '../lib/errors'
 import { idRe } from '../lib/id'
@@ -74,15 +75,17 @@ const loadManuscriptsAttachments = async (zip: JSZip, models: JsonModel[]) => {
     if (!file.dir && file.name.startsWith('Data/')) {
       const id = basename(file.name).replace('_', ':')
 
-      const model = models.find(model => model._id === id)
+      const model = models.find((model) => model._id === id)
 
       if (model) {
         const objectType = model.objectType as ObjectTypes
 
         if (objectType in attachmentKeys) {
           model.attachment = {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             id: attachmentKeys[objectType]!,
             type:
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               model.contentType || defaultAttachmentContentTypes[objectType]!,
             data: await file.async('blob'),
           }
@@ -133,9 +136,9 @@ export const importProjectArchive = async (result: Blob) => {
   // TODO: ensure that pageLayout and bundle are set
 
   const models = projectDump.data
-    .filter(item => item.objectType !== 'MPContentSummary')
-    .filter(item => item._id && idRe.test(item._id))
-    .map(item => cleanItem(item))
+    .filter((item) => item.objectType !== 'MPContentSummary')
+    .filter((item) => item._id && idRe.test(item._id))
+    .map((item) => cleanItem(item))
 
   await loadManuscriptsAttachments(zip, models)
 
@@ -187,7 +190,7 @@ const convertFile = async (
 
 const parseXMLFile = async (blob: Blob): Promise<Document> => {
   const url = window.URL.createObjectURL(blob)
-  const xml = await fetch(url).then(response => response.text())
+  const xml = await fetch(url).then((response) => response.text())
   return parseXML(xml)
 }
 
@@ -278,15 +281,15 @@ const fileTypes: FileType[] = [
 ]
 
 export const acceptedFileExtensions = () => {
-  return fileTypes.map(item => item.extension)
+  return fileTypes.map((item) => item.extension)
 }
 
 export const acceptedFileDescription = () => {
-  return fileTypes.map(item => item.description)
+  return fileTypes.map((item) => item.description)
 }
 
 export const acceptedMimeTypes = () => {
-  return flatMap(fileTypes, item => item.mimetypes)
+  return flatMap(fileTypes, (item) => item.mimetypes)
 }
 
 export const openFilePicker = (

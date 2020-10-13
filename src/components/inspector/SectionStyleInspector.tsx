@@ -17,6 +17,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { buildColors } from '../../lib/colors'
 import { chooseParagraphStyle } from '../../lib/styles'
 import { SectionStyles } from './SectionStyles'
@@ -44,16 +45,20 @@ export const SectionStyleInspector: React.FC<{
   }, [
     setParagraphStyle,
     sectionParagraphStyle,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     JSON.stringify(sectionParagraphStyle),
   ])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSaveParagraphStyle = useCallback(
-    debounce((paragraphStyle: ParagraphStyle) => {
-      return saveModel<ParagraphStyle>(paragraphStyle).catch(error => {
-        setError(error)
-      })
-    }, 500),
-    [setError, saveModel]
+    debounce(
+      (paragraphStyle: ParagraphStyle) =>
+        saveModel<ParagraphStyle>(paragraphStyle).catch((error) => {
+          setError(error)
+        }),
+      500
+    ),
+    [saveModel]
   )
 
   if (!paragraphStyle) {
@@ -74,7 +79,7 @@ export const SectionStyleInspector: React.FC<{
         // TODO: set meta
         dispatchUpdate() // TODO: do this when receiving an updated paragraph style instead?
       })
-      .catch(error => {
+      .catch((error) => {
         // TODO: restore previous paragraphStyle?
         setError(error)
       })

@@ -35,6 +35,7 @@ import {
   SectionDescription,
 } from '@manuscripts/manuscripts-json-schema'
 import { mergeWith } from 'lodash-es'
+
 import { SharedData } from '../components/templates/TemplateSelector'
 import { Collection } from '../sync/Collection'
 import {
@@ -68,7 +69,9 @@ export const prepareSectionRequirements = (
   sectionDescription: SectionDescription,
   templatesData?: Map<string, TemplatesDataType>
 ): Array<Build<SectionCountRequirement>> => {
-  if (!templatesData) return []
+  if (!templatesData) {
+    return []
+  }
 
   const requirements: Array<Build<SectionCountRequirement>> = []
 
@@ -125,7 +128,6 @@ const generatedSections = [
   'MPSectionCategory:toc',
 ]
 
-// tslint:disable-next-line:cyclomatic-complexity
 export const buildSectionFromDescription = (
   templatesData: Map<string, TemplatesDataType>,
   sectionDescription: SectionDescription,
@@ -416,7 +418,7 @@ export const buildItems = (sharedData: SharedData): TemplateData[] => {
   // bundles that aren't already attached to templates
   const templateBundles = new Set()
 
-  templateItems.forEach(item => {
+  templateItems.forEach((item) => {
     if (item.bundle) {
       templateBundles.add(item.bundle._id)
     }

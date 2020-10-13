@@ -14,6 +14,7 @@ import { Model } from '@manuscripts/manuscripts-json-schema'
 import { isEqual } from 'lodash-es'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+
 import { ModalProps, withModal } from '../components/ModalProvider'
 import { TokenActions } from '../data/TokenData'
 import { Collection, CollectionProps } from './Collection'
@@ -48,7 +49,7 @@ class Sync<T extends Model> extends React.PureComponent<Props, State<T>> {
         ),
       })
     } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
+      console.error(error)
 
       if (error.name === 'RxError') {
         this.props.addModal('database-error', () => <DatabaseError />)

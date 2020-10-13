@@ -14,7 +14,7 @@ import { TargetJournal } from '../components/projects/PreflightDialog'
 import config from '../config'
 
 export const loadTargetJournals = (): Promise<TargetJournal[]> =>
-  fetch(config.eeo.deposit_journals_url).then(response => {
+  fetch(config.eeo.deposit_journals_url).then((response) => {
     if (!response.ok) {
       throw new Error(response.statusText)
     }

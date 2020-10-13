@@ -14,15 +14,15 @@ import React, { InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 const TextHint = styled.p`
-  color: ${props => props.theme.colors.text.secondary};
-  font-size: ${props => props.theme.font.size.normal};
-  line-height: ${props => props.theme.font.lineHeight.normal};
-  margin: ${props => props.theme.grid.unit}px 0 0;
+  color: ${(props) => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  line-height: ${(props) => props.theme.font.lineHeight.normal};
+  margin: ${(props) => props.theme.grid.unit}px 0 0;
 `
 
 const Control = styled.div`
-  font-weight: ${props => props.theme.font.weight.light};
-  margin-bottom: ${props => props.theme.grid.unit * 3}px;
+  font-weight: ${(props) => props.theme.font.weight.light};
+  margin-bottom: ${(props) => props.theme.grid.unit * 3}px;
   white-space: normal;
 `
 

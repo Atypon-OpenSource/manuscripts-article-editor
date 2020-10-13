@@ -11,7 +11,8 @@
  */
 
 import { ObjectTypes } from '@manuscripts/manuscripts-json-schema'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
+
 import { TokenPayload } from '../../user'
 
 export const login = async (email: string, password: string) => {

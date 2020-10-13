@@ -13,6 +13,7 @@
 import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import React, { MouseEventHandler, useContext } from 'react'
 import { Workbox } from 'workbox-window'
+
 import config from '../config'
 import {
   NotificationComponent,
@@ -30,6 +31,7 @@ import {
 
 export const ServiceWorker: React.FC = ({ children }) => {
   if (config.serviceworker && 'serviceWorker' in navigator) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { showNotification } = useContext(NotificationContext)
 
     const wb = new Workbox('/service-worker.js')
@@ -88,7 +90,7 @@ interface CreateUpdateReadyNotificationProps {
 export const createUpdateReadyNotification = ({
   handleAccept,
   id,
-}: CreateUpdateReadyNotificationProps): NotificationComponent => props => (
+}: CreateUpdateReadyNotificationProps): NotificationComponent => (props) => (
   <NotificationPrompt>
     <NotificationHead>
       <NotificationIcon />
@@ -97,7 +99,7 @@ export const createUpdateReadyNotification = ({
           A new version of the app is available on refreshing.
         </NotificationTitle>
         <NotificationLink href={`${config.discourse.host}/c/updates`}>
-          What's new?
+          What&apos;s new?
         </NotificationLink>
       </NotificationMessage>
     </NotificationHead>

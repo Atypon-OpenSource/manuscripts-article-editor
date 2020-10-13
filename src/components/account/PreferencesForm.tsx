@@ -13,6 +13,7 @@
 import { Form, FormikProps } from 'formik'
 import React from 'react'
 import styled from 'styled-components'
+
 import { Languages } from '../../lib/preferences'
 
 const LocaleSelectorLabel = styled.label`
@@ -37,7 +38,7 @@ export interface PreferencesValues {
 
 export interface PreferencesErrors {
   locale?: string
-  submit?: {}
+  // submit?: {}
 }
 
 export const PreferencesForm: React.FunctionComponent<FormikProps<

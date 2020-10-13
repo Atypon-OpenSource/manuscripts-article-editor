@@ -20,6 +20,7 @@ import {
 } from '@manuscripts/style-guide'
 import { FormikHelpers } from 'formik'
 import React from 'react'
+
 import { ModalBody, StyledModalMain } from '../Sidebar'
 import { ProfileErrors, ProfileForm, ProfileValues } from './ProfileForm'
 import ProfilePageSidebar from './ProfilePageSidebar'

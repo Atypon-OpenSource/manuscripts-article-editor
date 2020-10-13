@@ -11,6 +11,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { useDebounce } from '../../hooks/use-debounce'
 import { MediumTextField } from '../projects/inputs'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
@@ -23,7 +24,7 @@ export const LabelField: React.FC<{
 }> = ({ value, handleChange, label = 'Label', placeholder }) => {
   const [currentValue, setCurrentValue] = useState<string>(value)
 
-  const handleValueChange = useCallback(event => {
+  const handleValueChange = useCallback((event) => {
     setCurrentValue(event.target.value)
   }, [])
 
@@ -33,7 +34,7 @@ export const LabelField: React.FC<{
     if (debouncedCurrentValue !== value) {
       handleChange(debouncedCurrentValue)
     }
-  }, [debouncedCurrentValue, value])
+  }, [handleChange, debouncedCurrentValue, value])
 
   return (
     <InspectorField>

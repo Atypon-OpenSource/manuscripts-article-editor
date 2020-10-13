@@ -20,6 +20,7 @@ import React, { Component } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
 import styled from 'styled-components'
+
 import { TemplateData } from '../../types/templates'
 import Search from '../Search'
 import { TemplateCategorySelector } from './TemplateCategorySelector'
@@ -31,13 +32,13 @@ import { TemplateSelectorList } from './TemplateSelectorList'
 import { TemplateTopicSelector } from './TemplateTopicSelector'
 
 const ModalContainer = styled.div`
-  background: ${props => props.theme.colors.background.primary};
-  border-radius: ${props => props.theme.grid.radius.default};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
+  background: ${(props) => props.theme.colors.background.primary};
+  border-radius: ${(props) => props.theme.grid.radius.default};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
   display: flex;
   flex-direction: column;
-  font-family: ${props => props.theme.font.family.sans};
-  margin: ${props => props.theme.grid.unit * 3}px;
+  font-family: ${(props) => props.theme.font.family.sans};
+  margin: ${(props) => props.theme.grid.unit * 3}px;
   overflow: hidden;
   height: 80vh;
   max-height: 900px;
@@ -50,41 +51,41 @@ const ModalBody = styled.div`
   margin: 0 auto;
   max-width: 626px;
   position: relative;
-  margin-top: ${props => props.theme.grid.unit * 3}px;
+  margin-top: ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const FiltersContainer = styled.div`
-  border: 1px solid ${props => props.theme.colors.border.secondary};
-  border-radius: ${props => props.theme.grid.radius.small};
+  border: 1px solid ${(props) => props.theme.colors.border.secondary};
+  border-radius: ${(props) => props.theme.grid.radius.small};
   display: flex;
-  margin: 0 30px ${props => props.theme.grid.unit * 4}px;
+  margin: 0 30px ${(props) => props.theme.grid.unit * 4}px;
 
   input {
     border: none;
   }
 
   @media (max-width: 450px) {
-    margin-left: ${props => props.theme.grid.unit * 4}px;
-    margin-right: ${props => props.theme.grid.unit * 4}px;
+    margin-left: ${(props) => props.theme.grid.unit * 4}px;
+    margin-right: ${(props) => props.theme.grid.unit * 4}px;
   }
 `
 
 const TemplatesContainer = styled.div`
-  border: 1px solid ${props => props.theme.colors.border.secondary};
-  border-radius: ${props => props.theme.grid.radius.small};
+  border: 1px solid ${(props) => props.theme.colors.border.secondary};
+  border-radius: ${(props) => props.theme.grid.radius.small};
   list-style: none;
-  margin: 0 30px ${props => props.theme.grid.unit * 4}px;
+  margin: 0 30px ${(props) => props.theme.grid.unit * 4}px;
   flex-grow: 1;
   overflow: hidden;
   padding: 0;
 
   @media (max-width: 450px) {
-    margin: 0 ${props => props.theme.grid.unit * 4}px;
+    margin: 0 ${(props) => props.theme.grid.unit * 4}px;
   }
 `
 
 const EmptyTemplateContainer = styled.div`
-  margin: 0 30px ${props => props.theme.grid.unit * 4}px;
+  margin: 0 30px ${(props) => props.theme.grid.unit * 4}px;
 `
 
 interface Props {
@@ -170,7 +171,9 @@ export class TemplateSelectorModal extends Component<Props, State> {
               />
 
               <TemplateTopicSelector
-                handleChange={selectedField => this.setState({ selectedField })}
+                handleChange={(selectedField) =>
+                  this.setState({ selectedField })
+                }
                 options={researchFields}
                 value={selectedField}
               />
@@ -225,7 +228,6 @@ export class TemplateSelectorModal extends Component<Props, State> {
     try {
       await this.props.createEmpty()
     } catch (error) {
-      // tslint:disable-next-line:no-console
       console.error(error)
     }
     this.setState({ creatingManuscript: false })
@@ -237,7 +239,6 @@ export class TemplateSelectorModal extends Component<Props, State> {
       try {
         await this.props.selectTemplate(this.state.selectedItem)
       } catch (error) {
-        // tslint:disable-next-line:no-console
         console.error(error)
       }
       this.setState({ creatingManuscript: false })
@@ -252,7 +253,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
     const { selectedCategory } = this.state
 
     const category = this.props.categories.find(
-      category => category._id === selectedCategory
+      (category) => category._id === selectedCategory
     )
 
     return category && category.name ? category.name : 'selected'
@@ -264,7 +265,9 @@ export class TemplateSelectorModal extends Component<Props, State> {
   private hasSelectedField = (item: TemplateData) => {
     const { selectedField } = this.state
 
-    if (!selectedField) return true
+    if (!selectedField) {
+      return true
+    }
 
     if (!item.bundle || !item.bundle.csl || !item.bundle.csl.fields) {
       return false
@@ -283,7 +286,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
     }
   }
 
-  private resetList = (index: number = 0) => {
+  private resetList = (index = 0) => {
     if (this.listRef.current) {
       this.listRef.current.resetAfterIndex(index, true)
     }
@@ -294,7 +297,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
     const { searchText } = this.state
 
     const filteredItems = items.filter(
-      item => this.hasSelectedCategory(item) && this.hasSelectedField(item)
+      (item) => this.hasSelectedCategory(item) && this.hasSelectedField(item)
     )
 
     if (searchText) {
@@ -305,7 +308,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
         threshold: -1000,
       })
 
-      return results.map(result => result.obj)
+      return results.map((result) => result.obj)
     }
 
     return filteredItems

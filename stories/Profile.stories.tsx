@@ -19,6 +19,7 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import styled from 'styled-components'
+
 import { AvatarFileUpload } from '../src/components/account/AvatarFileUpload'
 import ProfilePage from '../src/components/account/ProfilePage'
 import { AvatarProps } from '../src/components/account/ProfilePageSidebar'
@@ -82,7 +83,6 @@ storiesOf('Account/Modals', module).add('Profile', () => (
   />
 ))
 
-// tslint:disable-next-line:no-object-literal-type-assertion
 const avatar = { src: people[0].avatar } as AvatarProps
 
 const SidebarStory = styled.div`

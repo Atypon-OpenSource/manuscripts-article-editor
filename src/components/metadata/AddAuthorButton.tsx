@@ -15,6 +15,7 @@ import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { AddIconInverted, IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { buildAuthorPriority } from '../../lib/authors'
 import { theme } from '../../theme/theme'
 

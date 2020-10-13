@@ -10,11 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import Layout from '../layout'
+import LayoutStorage from '../layout'
 
 describe('layout state persistence', () => {
   it('get', () => {
-    const loadResult = Layout.get('foo')
+    const loadResult = LayoutStorage.get('foo')
     expect(loadResult).toEqual({ size: 200, collapsed: false })
   })
 
@@ -23,13 +23,13 @@ describe('layout state persistence', () => {
       size: 10,
       collapsed: true,
     }
-    const setResult = Layout.set('foo', bar)
+    const setResult = LayoutStorage.set('foo', bar)
     expect(setResult).toEqual(bar)
     // expect(Layout.get('foo')).toEqual(bar) // FIXME: I think this not being met is indicating a bug?
   })
 
   it('remove', () => {
-    Layout.remove()
+    LayoutStorage.remove()
     const storage = window.localStorage
     expect(storage.getItem('layout')).toBeFalsy()
   })

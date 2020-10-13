@@ -20,6 +20,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
 import React from 'react'
+
 import {
   DEFAULT_PART_OF_TOC,
   DEFAULT_SECTION_NUMBERING_STYLE,
@@ -162,7 +163,7 @@ export const SectionStyles: React.FC<{
                   sectionNumberingStyle.numberingScheme,
                   DEFAULT_SECTION_NUMBERING_STYLE
                 )}
-                onChange={event => {
+                onChange={(event) => {
                   saveParagraphStyle({
                     ...paragraphStyle,
                     sectionNumberingStyle: {
@@ -190,7 +191,7 @@ export const SectionStyles: React.FC<{
                   sectionNumberingStyle.suffix,
                   DEFAULT_SECTION_NUMBERING_SUFFIX
                 )}
-                onChange={event => {
+                onChange={(event) => {
                   saveParagraphStyle({
                     ...paragraphStyle,
                     sectionNumberingStyle: {
@@ -213,7 +214,7 @@ export const SectionStyles: React.FC<{
                   DEFAULT_PART_OF_TOC
                 )}
                 disabled={paragraphStyle.name === 'heading1'}
-                onChange={event => {
+                onChange={(event) => {
                   saveParagraphStyle({
                     ...paragraphStyle,
                     partOfTOC: event.target.checked,

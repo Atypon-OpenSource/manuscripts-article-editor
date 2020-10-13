@@ -67,7 +67,9 @@ export class TokenData extends React.PureComponent<Props, State> {
   public render() {
     const { children } = this.props
 
-    if (!this.state.loaded) return null
+    if (!this.state.loaded) {
+      return null
+    }
 
     return children(this.state, {
       delete: this.deleteToken,

@@ -17,7 +17,7 @@ import styled from 'styled-components'
 
 const CreateButton = styled(PrimaryButton)`
   padding: 0 4px;
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
 
   &:focus {
     outline: none;
@@ -29,7 +29,7 @@ const Heading = styled.div`
 `
 
 const Title = styled.div`
-  color: ${props => props.theme.colors.text.primary};
+  color: ${(props) => props.theme.colors.text.primary};
   display: flex;
   align-items: center;
   flex: 1;
@@ -45,23 +45,23 @@ const BundleTitle = styled.div`
 `
 
 const Actions = styled.div`
-  padding: ${props => props.theme.grid.unit}px
-    ${props => props.theme.grid.unit * 2}px;
+  padding: ${(props) => props.theme.grid.unit}px
+    ${(props) => props.theme.grid.unit * 2}px;
   flex-shrink: 0;
   visibility: hidden;
 `
 
 const Container = styled.div`
-  padding: ${props => props.theme.grid.unit}px
-    ${props => props.theme.grid.unit * 3}px;
-  margin: 0 ${props => props.theme.grid.unit * 3}px;
-  border-bottom: 1px solid ${props => props.theme.colors.border.tertiary};
+  padding: ${(props) => props.theme.grid.unit}px
+    ${(props) => props.theme.grid.unit * 3}px;
+  margin: 0 ${(props) => props.theme.grid.unit * 3}px;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
   cursor: pointer;
   position: relative;
   background-color: transparent;
 
   &:hover {
-    background-color: ${props => props.theme.colors.background.info};
+    background-color: ${(props) => props.theme.colors.background.info};
 
     ${Actions} {
       visibility: visible;
@@ -79,7 +79,7 @@ export const CitationStyleListItem: React.FunctionComponent<Props> = ({
   selectBundle,
 }) => (
   <Container
-    onClick={event => {
+    onClick={(event) => {
       event.stopPropagation()
       selectBundle(item)
     }}

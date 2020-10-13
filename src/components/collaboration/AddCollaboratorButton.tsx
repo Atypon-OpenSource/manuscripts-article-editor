@@ -20,20 +20,21 @@ import {
   IconButton,
 } from '@manuscripts/style-guide'
 import { AxiosError } from 'axios'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import { theme } from '../../theme/theme'
 import AddCollaboratorPopperContainer from './AddCollaboratorPopperContainer'
 
-const AddIconButton = styled(IconButton).attrs(props => ({
+const AddIconButton = styled(IconButton).attrs(() => ({
   defaultColor: true,
 }))`
   width: unset;
   height: unset;
-  margin-left: ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
 
   &:focus {
     outline: none;
@@ -116,7 +117,7 @@ class AddCollaboratorButton extends React.Component<Props, State> {
             category={Category.error}
             header={'Add collaborator failed'}
             message={
-              error.response!.status === HttpStatusCodes.SERVICE_UNAVAILABLE
+              error.response!.status === StatusCodes.SERVICE_UNAVAILABLE
                 ? 'Trouble reaching manuscripts.io servers. Please try again later.'
                 : 'An error occurred.'
             }
@@ -174,7 +175,7 @@ class AddCollaboratorButton extends React.Component<Props, State> {
       await addCollaborator(collaborator.userID, role)
       this.handleIsRoleSelected()
     } catch (error) {
-      if (error.response.status === HttpStatusCodes.UNAUTHORIZED) {
+      if (error.response.status === StatusCodes.UNAUTHORIZED) {
         tokenActions.delete()
       } else {
         this.setState({ error })

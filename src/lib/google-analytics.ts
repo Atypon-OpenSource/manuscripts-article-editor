@@ -25,9 +25,9 @@ export interface GoogleAnalyticsConfig {
 export const init = ({ id }: GoogleAnalyticsConfig) => {
   ga =
     ga ||
-    // tslint:disable-next-line:only-arrow-functions
-    function() {
+    function () {
       ga.q = ga.q || []
+      // eslint-disable-next-line prefer-rest-params
       ga.q.push(arguments)
     }
 

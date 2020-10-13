@@ -14,6 +14,7 @@ import { Resizer, ResizerDirection, ResizerSide } from '@manuscripts/resizer'
 import { RoundIconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import layout, { Pane } from '../lib/layout'
 
 export interface ResizerButtonInnerProps {
@@ -23,7 +24,7 @@ export interface ResizerButtonInnerProps {
 export const ResizerButton = styled(RoundIconButton)<ResizerButtonInnerProps>`
   position: absolute;
   top: 50%;
-  margin: -${props => props.theme.grid.unit * 5}px;
+  margin: -${(props) => props.theme.grid.unit * 5}px;
   line-height: 1;
 `
 
@@ -71,7 +72,6 @@ class Panel extends React.Component<PanelProps, PanelState> {
         `screen and (${this.props.hideWhen})`
       )
 
-      // tslint:disable-next-line:deprecation
       this.hideWhenQuery.addListener(this.handleHideWhenChange)
 
       this.setState({
@@ -90,7 +90,6 @@ class Panel extends React.Component<PanelProps, PanelState> {
 
   public componentWillUnmount() {
     if (this.hideWhenQuery) {
-      // tslint:disable-next-line:deprecation
       this.hideWhenQuery.removeListener(this.handleHideWhenChange)
     }
   }
@@ -99,7 +98,9 @@ class Panel extends React.Component<PanelProps, PanelState> {
     const { children, direction, resizerButton, side } = this.props
     const { collapsed, hidden, size, originalSize } = this.state
 
-    if (size === null || originalSize === null) return null
+    if (size === null || originalSize === null) {
+      return null
+    }
 
     const style = this.buildStyle(direction, size)
 
@@ -172,7 +173,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
     this.updateState(data)
   }
 
-  private updateState(data: Pane, forceOpen: boolean = false) {
+  private updateState(data: Pane, forceOpen = false) {
     const { minSize } = this.props
     const { hidden } = this.state
 

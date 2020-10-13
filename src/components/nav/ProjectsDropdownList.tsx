@@ -18,6 +18,7 @@ import {
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { projectListCompare } from '../../lib/projects'
 import { DropdownSeparator } from './Dropdown'
 import {
@@ -85,7 +86,7 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
       ))}
 
       <ProjectContainer>
-        {projects.sort(projectListCompare).map(project => (
+        {projects.sort(projectListCompare).map((project) => (
           <ProjectDropdownSection
             key={project._id}
             handleClose={handleClose}

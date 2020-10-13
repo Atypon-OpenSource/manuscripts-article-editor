@@ -15,6 +15,7 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import styled from 'styled-components'
+
 import { InvitationPopper } from '../src/components/collaboration/InvitationPopper'
 import ShareProjectButton from '../src/components/collaboration/ShareProjectButton'
 import { ShareURIPopper } from '../src/components/collaboration/ShareURIPopper'

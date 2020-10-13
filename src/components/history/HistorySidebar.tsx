@@ -15,6 +15,7 @@ import { ManuscriptNode } from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
+
 import PageSidebar from '../PageSidebar'
 import { SidebarHeader } from '../Sidebar'
 

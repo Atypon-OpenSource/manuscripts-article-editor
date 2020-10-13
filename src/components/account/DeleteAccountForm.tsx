@@ -22,6 +22,7 @@ import { Title } from '@manuscripts/title-editor'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
 import styled from 'styled-components'
+
 import { ModalFormActions } from '../ModalForm'
 
 export interface DeleteAccountValues {
@@ -33,17 +34,16 @@ interface DeleteAccountProps {
 }
 
 const MessageContainer = styled.div`
-  font-family: ${props => props.theme.font.family.sans};
-  font-size: ${props => props.theme.font.size.medium};
-  color: ${props => props.theme.colors.text.secondary};
-  margin-top: ${props => props.theme.grid.unit * 4}px;
-  margin-left: ${props => props.theme.grid.unit * 5}px;
+  font-family: ${(props) => props.theme.font.family.sans};
+  font-size: ${(props) => props.theme.font.size.medium};
+  color: ${(props) => props.theme.colors.text.secondary};
+  margin-top: ${(props) => props.theme.grid.unit * 4}px;
+  margin-left: ${(props) => props.theme.grid.unit * 5}px;
 `
 
-export const DeleteAccountForm: React.FunctionComponent<FormikProps<
-  DeleteAccountValues & FormErrors
-> &
-  DeleteAccountProps> = ({ deletedProjects, errors, isSubmitting }) => (
+export const DeleteAccountForm: React.FunctionComponent<
+  FormikProps<DeleteAccountValues & FormErrors> & DeleteAccountProps
+> = ({ deletedProjects, errors, isSubmitting }) => (
   <Form id={'delete-account-form'} noValidate={true}>
     <Field name={'password'}>
       {({ field }: FieldProps) => (
@@ -63,7 +63,7 @@ export const DeleteAccountForm: React.FunctionComponent<FormikProps<
       <MessageContainer>
         {'Deleting your account will also delete these projects'}
         <ul>
-          {deletedProjects.map(project => (
+          {deletedProjects.map((project) => (
             <li key={project._id}>
               <Title value={project.title || 'Untitled Project'} />
             </li>

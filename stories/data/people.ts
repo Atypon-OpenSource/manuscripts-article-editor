@@ -11,6 +11,7 @@
  */
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
+
 import imageFile from '../assets/melnitz.jpg'
 
 export const people: UserProfileWithAvatar[] = [

@@ -15,11 +15,11 @@ import { Bundle, Project } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+
 import { importSharedData } from '../../lib/shared-data'
 import { attachStyle, fromPrototype } from '../../lib/templates'
 import { Collection } from '../../sync/Collection'
 import { ContactSupportButton } from '../ContactSupportButton'
-import { DatabaseContext } from '../DatabaseProvider'
 import { CitationStyleSelectorModal } from './CitationStyleSelectorModal'
 import { TemplateLoadingModal } from './TemplateLoadingModal'
 
@@ -42,7 +42,7 @@ class CitationStyleSelector extends React.Component<
   public state: Readonly<State> = {}
 
   public async componentDidMount() {
-    this.loadData().catch(loadingError => {
+    this.loadData().catch((loadingError) => {
       this.setState({ loadingError })
     })
   }
@@ -85,15 +85,11 @@ class CitationStyleSelector extends React.Component<
     }
 
     return (
-      <DatabaseContext.Consumer>
-        {db => (
-          <CitationStyleSelectorModal
-            handleComplete={handleComplete}
-            items={bundles}
-            selectBundle={this.selectBundle}
-          />
-        )}
-      </DatabaseContext.Consumer>
+      <CitationStyleSelectorModal
+        handleComplete={handleComplete}
+        items={bundles}
+        selectBundle={this.selectBundle}
+      />
     )
   }
 
@@ -101,7 +97,7 @@ class CitationStyleSelector extends React.Component<
     const bundlesMap = await importSharedData<Bundle>('bundles')
 
     const bundles = Array.from(bundlesMap.values())
-      .filter(bundle => bundle.csl && bundle.csl.title)
+      .filter((bundle) => bundle.csl && bundle.csl.title)
       .sort((a, b) => a.csl!.title!.localeCompare(b.csl!.title!))
 
     this.setState({
@@ -131,7 +127,7 @@ class CitationStyleSelector extends React.Component<
     }
 
     const parentBundle = bundles.find(
-      bundle => bundle.csl && bundle.csl['self-URL'] === parentIdentifier
+      (bundle) => bundle.csl && bundle.csl['self-URL'] === parentIdentifier
     )
 
     if (!parentBundle) {

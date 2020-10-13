@@ -19,10 +19,10 @@ export const EditorContainer = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
-  left: ${props => props.theme.grid.unit * 8}px;
-  right: ${props => props.theme.grid.unit * 8}px;
+  left: ${(props) => props.theme.grid.unit * 8}px;
+  right: ${(props) => props.theme.grid.unit * 8}px;
   overflow: hidden;
-  background: ${props => props.theme.colors.background.primary};
+  background: ${(props) => props.theme.colors.background.primary};
 `
 
 export const EditorContainerInner = styled.div`
@@ -32,19 +32,19 @@ export const EditorContainerInner = styled.div`
   overflow: hidden;
   width: 960px;
   max-width: 100%;
-  background: ${props => props.theme.colors.background.primary};
+  background: ${(props) => props.theme.colors.background.primary};
   border-bottom: none;
   border-top: none;
 `
 
 export const EditorHeader = styled.div`
-  padding: ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit * 14}px 0;
-  background: ${props => props.theme.colors.background.primary};
+  padding: ${(props) => props.theme.grid.unit * 4}px
+    ${(props) => props.theme.grid.unit * 14}px 0;
+  background: ${(props) => props.theme.colors.background.primary};
   background: linear-gradient(
     0deg,
     rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 1) ${props => props.theme.grid.unit * 4}px
+    rgba(255, 255, 255, 1) ${(props) => props.theme.grid.unit * 4}px
   );
   z-index: 5;
 `
@@ -52,6 +52,6 @@ export const EditorHeader = styled.div`
 export const EditorBody = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: ${props => props.theme.grid.unit * 5}px
-    ${props => props.theme.grid.unit * 2}px 0;
+  padding: ${(props) => props.theme.grid.unit * 5}px
+    ${(props) => props.theme.grid.unit * 2}px 0;
 `

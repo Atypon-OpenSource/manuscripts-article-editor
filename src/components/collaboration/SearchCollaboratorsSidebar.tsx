@@ -15,6 +15,7 @@ import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import {
   SidebarContent,
@@ -24,18 +25,18 @@ import {
 import AddCollaboratorButton from './AddCollaboratorButton'
 
 const PersonInitial = styled.span`
-  margin-right: ${props => props.theme.grid.unit}px;
-  font-weight: ${props => props.theme.font.weight.light};
+  margin-right: ${(props) => props.theme.grid.unit}px;
+  font-weight: ${(props) => props.theme.font.weight.light};
 `
 
 const PersonName = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: ${(props) => props.theme.font.weight.medium};
 `
 
 const PeopleData = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 3}px;
+  padding-left: ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const UserDataContainer = styled.div`

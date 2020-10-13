@@ -14,6 +14,7 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
@@ -61,7 +62,7 @@ class GlobalLibraryCollectionsData extends DataComponent<
       .find({
         objectType: ObjectTypes.LibraryCollection,
       })
-      .$.subscribe(docs => {
+      .$.subscribe((docs) => {
         if (docs) {
           const data: Map<string, LibraryCollection> = new Map()
 

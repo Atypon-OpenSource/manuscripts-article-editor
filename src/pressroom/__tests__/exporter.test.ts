@@ -22,6 +22,7 @@ import {
   Project,
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
+
 import {
   downloadExtension,
   exportProject,
@@ -63,7 +64,7 @@ describe('exporter', () => {
     expect(result).toEqual('.docx')
   })
 
-  test('downloadExtension', () => {
+  test('downloadExtension zip', () => {
     const result = downloadExtension('jats')
     expect(result).toEqual('.zip')
   })
@@ -241,13 +242,13 @@ describe('exporter', () => {
     }
 
     const invitations = bundle.data.filter(
-      model => model.objectType === ObjectTypes.ContainerInvitation
+      (model) => model.objectType === ObjectTypes.ContainerInvitation
     )
 
     expect(invitations).toHaveLength(0)
 
     const paragraphs = bundle.data.filter(
-      model => model.objectType === ObjectTypes.ParagraphElement
+      (model) => model.objectType === ObjectTypes.ParagraphElement
     )
 
     expect(paragraphs).toHaveLength(11)

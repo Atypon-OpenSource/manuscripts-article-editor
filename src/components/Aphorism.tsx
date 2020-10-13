@@ -31,18 +31,18 @@ export const AphorismView: React.FC<{
 )
 
 const AphorismContainer = styled.div`
-  color: ${props => props.theme.colors.text.secondary};
-  margin-top: ${props => props.theme.grid.unit * 6}px;
+  color: ${(props) => props.theme.colors.text.secondary};
+  margin-top: ${(props) => props.theme.grid.unit * 6}px;
   max-width: 560px;
   text-align: center;
 `
 
 const AphorismBody = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
+  font-size: ${(props) => props.theme.font.size.xlarge};
   font-style: italic;
-  margin: ${props => props.theme.grid.unit * 4}px;
+  margin: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const AphorismCredit = styled.div`
-  font-weight: ${props => props.theme.font.weight.light};
+  font-weight: ${(props) => props.theme.font.weight.light};
 `

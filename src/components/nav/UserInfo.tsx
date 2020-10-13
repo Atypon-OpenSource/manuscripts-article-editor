@@ -13,15 +13,16 @@
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+
 import { LogoutConfirmationContext } from '../account/LogoutConfirmation'
 import { SignOutMessage } from '../Messages'
 import { DropdownLink, DropdownSeparator } from './Dropdown'
 
 const Name = styled.div`
-  padding: ${props => props.theme.grid.unit * 3}px
-    ${props => props.theme.grid.unit * 3}px;
-  color: ${props => props.theme.colors.text.secondary};
-  font-weight: ${props => props.theme.font.weight.medium};
+  padding: ${(props) => props.theme.grid.unit * 3}px
+    ${(props) => props.theme.grid.unit * 3}px;
+  color: ${(props) => props.theme.colors.text.secondary};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   user-select: none;
 `
 

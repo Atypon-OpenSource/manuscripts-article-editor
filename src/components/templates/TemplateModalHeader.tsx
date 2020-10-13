@@ -19,17 +19,17 @@ const ModalHeader = styled.header`
   user-select: none;
 
   @media (max-width: 450px) {
-    padding: 0 ${props => props.theme.grid.unit * 4}px;
+    padding: 0 ${(props) => props.theme.grid.unit * 4}px;
   }
 `
 const Header = styled.h2`
   font-size: 24px;
-  font-weight: ${props => props.theme.font.weight.bold};
-  line-height: ${props => props.theme.font.lineHeight.large};
+  font-weight: ${(props) => props.theme.font.weight.bold};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
   margin: 0;
 `
 const Icon = styled.span`
-  margin-right: ${props => props.theme.grid.unit * 4}px;
+  margin-right: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 interface Props {

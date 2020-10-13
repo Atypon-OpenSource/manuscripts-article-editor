@@ -132,7 +132,7 @@ export const PlusIcon = () => (
 )
 
 export const calculateCircumference = (id: string, list: StatusLabel[]) => {
-  const currentIndex = list.findIndex(obj => id === obj._id)
+  const currentIndex = list.findIndex((obj) => id === obj._id)
   const circumference = 2 * Math.PI * 4
   const percent = (1 / (list.length - 1)) * circumference * currentIndex
 

@@ -11,6 +11,7 @@
  */
 
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
+
 import { CopyableText } from '../components/CopyableText'
 import { NotificationComponent } from '../components/NotificationProvider'
 import config from '../config'
@@ -29,11 +30,7 @@ import syncErrors, {
 import SyncNotification from './SyncNotification'
 import { CollectionEvent } from './types'
 
-/* tslint:disable:cyclomatic-complexity */
-const SyncNotificationManager: NotificationComponent = ({
-  history,
-  location,
-}) => {
+const SyncNotificationManager: NotificationComponent = () => {
   const [onlineState, setOfflineAcknowledged] = useOnlineState()
   const [askForPersistentStorage, setAskForPersistentStorage] = useState(false)
 
@@ -56,11 +53,11 @@ const SyncNotificationManager: NotificationComponent = ({
     window.location.assign(
       config.connect.enabled ? '/login#redirect=login' : '/login'
     )
-  }, [history, location])
+  }, [])
 
   const handleRetry = useCallback(() => {
     dispatch({ type: 'reset' })
-    /* tslint:disable-next-line:no-console */
+
     CollectionManager.restartAll().catch(console.error)
   }, [])
 
@@ -68,7 +65,7 @@ const SyncNotificationManager: NotificationComponent = ({
     return JSON.stringify(
       {
         version: config.version,
-        events: state.allEvents.map(event => ({
+        events: state.allEvents.map((event) => ({
           direction: event.direction,
           operation: event.operation,
           isLive: event.isLive,
@@ -91,21 +88,22 @@ const SyncNotificationManager: NotificationComponent = ({
     ) {
       navigator.storage
         .persisted()
-        .then(granted => {
+        .then((granted) => {
+          // eslint-disable-next-line promise/always-return
           if (!granted) {
             setAskForPersistentStorage(true)
           }
         })
-        .catch(error => {
-          console.error(error) // tslint:disable-line:no-console
+        .catch((error) => {
+          console.error(error)
         })
     }
-  }, [])
+  }, [setOfflineAcknowledged])
 
   const handlePersistentStorage = useCallback(() => {
     if (navigator.storage && navigator.storage.persist) {
-      navigator.storage.persist().catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      navigator.storage.persist().catch((error) => {
+        console.error(error)
       })
     }
 
@@ -117,11 +115,13 @@ const SyncNotificationManager: NotificationComponent = ({
   }, [])
 
   const crisp = useCrisp()
-  const onCopy = useCallback((text: string) => {
-    /* tslint:disable-next-line:no-console */
-    console.log(`Logging sync failure: ${text}`)
-    crisp.sendDiagnostics('I am getting the following sync error:', text)
-  }, [])
+  const onCopy = useCallback(
+    (text: string) => {
+      console.log(`Logging sync failure: ${text}`)
+      crisp.sendDiagnostics('I am getting the following sync error:', text)
+    },
+    [crisp]
+  )
 
   // render:
   if (onlineState === OnlineState.Offline) {
@@ -176,7 +176,9 @@ const SyncNotificationManager: NotificationComponent = ({
     )
   }
 
-  if (onlineState === OnlineState.Acknowledged) return null
+  if (onlineState === OnlineState.Acknowledged) {
+    return null
+  }
 
   if (state.newEvents.find(isSyncTimeoutError)) {
     return (

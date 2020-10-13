@@ -27,7 +27,7 @@ export const buildCollaborators = (
     ...project.owners.map(getCollaborator),
     ...project.writers.map(getCollaborator),
     ...project.viewers.map(getCollaborator),
-  ].filter(_ => _)
+  ].filter((_) => _)
 }
 
 export const buildCollaboratorProfiles = (

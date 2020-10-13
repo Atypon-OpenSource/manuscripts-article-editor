@@ -19,6 +19,7 @@ import RxDBNoValidateModule from '@manuscripts/rxdb/plugins/no-validate'
 import RxDBReplicationModule from '@manuscripts/rxdb/plugins/replication'
 import RxDBSchemaCheckModule from '@manuscripts/rxdb/plugins/schema-check'
 import RxDBUpdateModule from '@manuscripts/rxdb/plugins/update'
+
 import config from '../config'
 
 RxDB.plugin(PouchDBHTTPAdapter)

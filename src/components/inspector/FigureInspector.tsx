@@ -17,6 +17,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import { Attribution, Figure } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback } from 'react'
+
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { LicenseInput } from '../projects/LicenseInput'
@@ -55,7 +56,7 @@ export const FigureInspector: React.FC<{
 
         <URLInput
           value={node.attrs.embedURL}
-          handleChange={embedURL => {
+          handleChange={(embedURL) => {
             if (embedURL && isImageUrl(embedURL)) {
               // TODO: save the image attachment
               setNodeAttrs(view, figure._id, {

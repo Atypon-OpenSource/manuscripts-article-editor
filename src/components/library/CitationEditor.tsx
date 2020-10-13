@@ -25,24 +25,25 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
+
 import { CitationSearch } from './CitationSearch'
 import { DisplaySchemeSelector } from './DisplaySchemeSelector'
 
 const CitedItem = styled.div`
-  padding: ${props => props.theme.grid.unit * 4}px 0;
+  padding: ${(props) => props.theme.grid.unit * 4}px 0;
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid ${props => props.theme.colors.border.secondary};
+    border-bottom: 1px solid ${(props) => props.theme.colors.border.secondary};
   }
 `
 
 const CitedItemTitle = styled(Title)``
 
 const CitedItemMetadata = styled.div`
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
   flex: 1;
-  font-weight: ${props => props.theme.font.weight.light};
-  margin-top: ${props => props.theme.grid.unit}px;
+  font-weight: ${(props) => props.theme.font.weight.light};
+  margin-top: ${(props) => props.theme.grid.unit}px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -62,8 +63,8 @@ const CitedItemActions = styled.span`
 `
 
 const CitedItems = styled.div`
-  padding: 0 ${props => props.theme.grid.unit * 4}px;
-  font-family: ${props => props.theme.font.family.sans};
+  padding: 0 ${(props) => props.theme.grid.unit * 4}px;
+  font-family: ${(props) => props.theme.font.family.sans};
   max-height: 70vh;
   min-height: 100px;
   overflow-y: auto;
@@ -74,21 +75,21 @@ const ActionButton = styled(IconButton).attrs({
 })``
 
 const Actions = styled.div`
-  margin: ${props => props.theme.grid.unit * 4}px;
+  margin: ${(props) => props.theme.grid.unit * 4}px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 `
 
 const Options = styled.details`
-  margin: ${props => props.theme.grid.unit * 4}px;
+  margin: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const OptionsSummary = styled.summary`
   cursor: pointer;
 
   &:focus {
-    outline: 1px solid ${props => props.theme.colors.border.tertiary};
+    outline: 1px solid ${(props) => props.theme.colors.border.tertiary};
   }
 `
 
@@ -162,7 +163,7 @@ class CitationEditor extends React.Component<Props, State> {
     return (
       <div>
         <CitedItems>
-          {items.map(item => (
+          {items.map((item) => (
             <CitedItem
               key={item._id}
               style={{

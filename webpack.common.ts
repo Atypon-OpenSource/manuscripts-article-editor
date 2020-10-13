@@ -16,6 +16,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
 import { GenerateSW } from 'workbox-webpack-plugin'
 import WorkerPlugin from 'worker-plugin'
+
 import { environmentVariables } from './environment-variables'
 import { isTrue, normalizeURL } from './src/lib/config-helpers'
 
@@ -38,10 +39,10 @@ const configuration: webpack.Configuration = {
         analytics: process.env.GOOGLE_ANALYTICS_ID,
       }),
       new webpack.ContextReplacementPlugin(
-        /react-intl[\/\\]locale-data$/,
+        /react-intl[/\\]locale-data$/,
         /en/ // TODO: all the locales needed for the locale switcher
       ),
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
       new WorkerPlugin(),
     ]
 

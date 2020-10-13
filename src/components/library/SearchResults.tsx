@@ -21,7 +21,7 @@ import styled from 'styled-components'
 
 const SearchResult = styled.div`
   cursor: pointer;
-  padding: ${props => props.theme.grid.unit * 2}px 0;
+  padding: ${(props) => props.theme.grid.unit * 2}px 0;
   display: flex;
 
   &:not(:last-of-type) {
@@ -30,19 +30,19 @@ const SearchResult = styled.div`
 `
 
 const SearchResultAuthors = styled.div`
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
   flex: 1;
-  font-weight: ${props => props.theme.font.weight.light};
-  margin-top: ${props => props.theme.grid.unit}px;
+  font-weight: ${(props) => props.theme.font.weight.light};
+  margin-top: ${(props) => props.theme.grid.unit}px;
 `
 
 const ResultAuthorsPlaceholder = styled(SearchResultAuthors)`
-  background: ${props => props.theme.colors.text.muted};
+  background: ${(props) => props.theme.colors.text.muted};
   height: 1.2em;
 `
 
 const ResultTitlePlaceholder = styled.div`
-  background: ${props => props.theme.colors.border.primary};
+  background: ${(props) => props.theme.colors.border.primary};
   height: 1.2em;
 `
 
@@ -52,9 +52,9 @@ const ResultMetadata = styled.div`
 
 const Fetching = styled.div`
   display: inline-block;
-  height: ${props => props.theme.grid.unit * 6}px;
-  width: ${props => props.theme.grid.unit * 6}px;
-  border: 1px dashed ${props => props.theme.colors.brand.default};
+  height: ${(props) => props.theme.grid.unit * 6}px;
+  width: ${(props) => props.theme.grid.unit * 6}px;
+  border: 1px dashed ${(props) => props.theme.colors.brand.default};
   box-sizing: border-box;
   border-radius: 50%;
   animation: spin 10s linear infinite;
@@ -68,9 +68,9 @@ const Fetching = styled.div`
 
 const StatusIcon = styled.div`
   flex-shrink: 1;
-  margin-right: ${props => props.theme.grid.unit * 3}px;
-  height: ${props => props.theme.grid.unit * 6}px;
-  width: ${props => props.theme.grid.unit * 6}px;
+  margin-right: ${(props) => props.theme.grid.unit * 3}px;
+  height: ${(props) => props.theme.grid.unit * 6}px;
+  width: ${(props) => props.theme.grid.unit * 6}px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -78,13 +78,13 @@ const StatusIcon = styled.div`
 `
 
 const Results = styled.div`
-  padding: 0 ${props => props.theme.grid.unit * 4}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 4}px;
   flex: 1;
   overflow-y: auto;
 `
 
 const Error = styled.div`
-  padding: 0 ${props => props.theme.grid.unit * 3}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 3}px;
 `
 
 const ResultPlaceholder: React.FC = () => (
@@ -146,7 +146,7 @@ export const SearchResults: React.FC<{
 
   return (
     <Results>
-      {results.items.map(item => {
+      {results.items.map((item) => {
         const id = estimateID(item as Partial<BibliographyItem>)
 
         return (

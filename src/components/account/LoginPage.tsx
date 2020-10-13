@@ -12,6 +12,7 @@
 
 import { Formik, FormikConfig } from 'formik'
 import React from 'react'
+
 import config from '../../config'
 import { Centered } from '../Page'
 import { AccountFooter } from './AccountFooter'
@@ -41,7 +42,7 @@ const LoginPage: React.FunctionComponent<FormikConfig<LoginValues> & Props> = ({
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={onSubmit}
-      render={formikProps => (
+      render={(formikProps) => (
         <LoginForm {...formikProps} submitErrorType={submitErrorType} />
       )}
     />

@@ -28,6 +28,7 @@ import { ConflictManager } from '@manuscripts/sync-client'
 import axios, { AxiosError } from 'axios'
 import { cloneDeep } from 'lodash-es'
 import generateReplicationID from 'pouchdb-generate-replication-id'
+
 import { CollectionName, collections } from '../collections'
 import { Database } from '../components/DatabaseProvider'
 import config from '../config'
@@ -99,13 +100,13 @@ export const promisifyReplicationState = (
   replicationState: RxReplicationState
 ) =>
   new Promise((resolve, reject) => {
-    replicationState.complete$.subscribe(async complete => {
+    replicationState.complete$.subscribe(async (complete) => {
       if (complete) {
         resolve()
       }
     })
 
-    replicationState.error$.subscribe(error => {
+    replicationState.error$.subscribe((error) => {
       if (error) {
         reject(error)
       }
@@ -113,7 +114,6 @@ export const promisifyReplicationState = (
   })
 
 const fetchWithCredentials: Fetch = (url, opts = {}) =>
-  // tslint:disable-next-line:no-any (PouchDB/RxDB typing needs fetch)
   (PouchDB as any).fetch(url, {
     ...opts,
     credentials: 'include',
@@ -173,7 +173,7 @@ export class Collection<T extends Model> implements EventTarget {
     listener: CollectionEventListener
   ) {
     this.listeners[type] = this.listeners[type].filter(
-      item => item !== listener
+      (item) => item !== listener
     )
   }
 
@@ -190,7 +190,7 @@ export class Collection<T extends Model> implements EventTarget {
   public async initialize(startSyncing = true) {
     this.collection = await this.openCollection(this.collectionName)
 
-    this.collection.preRemove(plainData => {
+    this.collection.preRemove((plainData) => {
       plainData.sessionID = sessionID
     }, false)
 
@@ -233,10 +233,11 @@ export class Collection<T extends Model> implements EventTarget {
                 return false
               }
 
-              console.log('Idle, canceling replication', this.status) // tslint:disable-line:no-console
+              console.log('Idle, canceling replication', this.status)
 
-              this.cancelReplications().catch(error => {
-                console.error(`Unable to stop replication`, error) // tslint:disable-line:no-console
+              // eslint-disable-next-line promise/no-nesting
+              this.cancelReplications().catch((error) => {
+                console.error(`Unable to stop replication`, error)
               })
 
               return true
@@ -246,18 +247,19 @@ export class Collection<T extends Model> implements EventTarget {
                 return false
               }
 
-              console.log('Active, resuming replication', this.replications) // tslint:disable-line:no-console
+              console.log('Active, resuming replication', this.replications)
 
-              this.startSyncing().catch(error => {
-                console.error(`Unable to start syncing`, error) // tslint:disable-line:no-console
+              // eslint-disable-next-line promise/no-nesting
+              this.startSyncing().catch((error) => {
+                console.error(`Unable to start syncing`, error)
               })
 
               return true
             }
           )
         })
-        .catch(error => {
-          console.error(error) // tslint:disable-line:no-console
+        .catch((error) => {
+          console.error(error)
         })
     } else {
       this.setStatus('pull', 'complete', true)
@@ -286,11 +288,11 @@ export class Collection<T extends Model> implements EventTarget {
         this.replications[direction] = null
         this.setStatus(direction, 'complete', true)
       })
-      .catch(err => {
+      .catch((err) => {
         this.replications[direction] = null
         // successfully handled sync error but failed again, move on
         this.setStatus(direction, 'complete', true)
-        return Promise.reject(err)
+        throw err
       })
   }
 
@@ -349,11 +351,11 @@ export class Collection<T extends Model> implements EventTarget {
     return this.collection
   }
 
-  public find(queryObj?: object) {
+  public find(queryObj?: Record<string, unknown>) {
     return this.getCollection().find(queryObj)
   }
 
-  public findOne(queryObj: string | object) {
+  public findOne(queryObj: string | Record<string, unknown>) {
     return this.getCollection().findOne(queryObj)
   }
 
@@ -521,7 +523,9 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   public async hasUnsyncedChanges() {
-    if (!this.bucketName) return false
+    if (!this.bucketName) {
+      return false
+    }
 
     const syncErrors = await this.conflictManager!.getSyncErrors()
     if (syncErrors && syncErrors.length) {
@@ -599,7 +603,7 @@ export class Collection<T extends Model> implements EventTarget {
       await replication.cancel()
       this.replications[direction] = null
     } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
+      console.error(error)
     }
   }
 
@@ -613,7 +617,6 @@ export class Collection<T extends Model> implements EventTarget {
     value: boolean,
     error?: Error | AxiosError | PouchReplicationError
   ) {
-    // tslint:disable-next-line:no-console
     console.log('Sync', this.collectionName, {
       direction,
       type,
@@ -673,7 +676,7 @@ export class Collection<T extends Model> implements EventTarget {
   private sync(
     direction: Direction,
     options: PouchReplicationOptions & { fetch?: Fetch } = {},
-    isRetry: boolean = false
+    isRetry = false
   ): RxReplicationState | false {
     if (this.replications[direction]) {
       throw new Error(
@@ -684,7 +687,6 @@ export class Collection<T extends Model> implements EventTarget {
     if (direction === 'pull') {
       if (this.props.channels) {
         if (!this.props.channels.length) {
-          // tslint:disable-next-line:no-console
           console.debug('No channels were provided for a filtered sync')
           this.setStatus(direction, 'complete', true)
           return false
@@ -701,7 +703,6 @@ export class Collection<T extends Model> implements EventTarget {
 
     const remote = this.getRemoteUrl()
 
-    // tslint:disable-next-line:no-console
     console.log(`Syncing ${this.collectionName}`, {
       direction,
       options,
@@ -728,7 +729,7 @@ export class Collection<T extends Model> implements EventTarget {
 
     this.replications[direction] = replicationState
 
-    replicationState.active$.subscribe(value => {
+    replicationState.active$.subscribe((value) => {
       this.setStatus(direction, 'active', value)
     })
 
@@ -737,10 +738,10 @@ export class Collection<T extends Model> implements EventTarget {
     // })
 
     // When pouch tries to replicate multiple documents
-    replicationState.change$.subscribe(changeInfo => {
+    replicationState.change$.subscribe((changeInfo) => {
       const { docs, errors } = changeInfo
 
-      this.conflictManager!.saveSyncState(errors, docs).catch(error => {
+      this.conflictManager!.saveSyncState(errors, docs).catch((error) => {
         throw error
       })
 
@@ -749,7 +750,7 @@ export class Collection<T extends Model> implements EventTarget {
       )
     })
 
-    replicationState.complete$.subscribe(async result => {
+    replicationState.complete$.subscribe(async (result) => {
       const completed = result && result.ok
 
       if (completed) {
@@ -758,8 +759,8 @@ export class Collection<T extends Model> implements EventTarget {
     })
 
     // When pouch tries to replicate a single document
-    replicationState.denied$.subscribe(error => {
-      this.conflictManager!.saveSyncState([error], []).catch(error => {
+    replicationState.denied$.subscribe((error) => {
+      this.conflictManager!.saveSyncState([error], []).catch((error) => {
         throw error
       })
 
@@ -771,7 +772,6 @@ export class Collection<T extends Model> implements EventTarget {
         await this.handleSyncError(error, direction)
 
         if (isRetry) {
-          // tslint:disable-next-line:no-console
           console.warn(
             `${this.collectionName} ${direction} sync failed, giving up`
           )
@@ -781,7 +781,6 @@ export class Collection<T extends Model> implements EventTarget {
           // cancel this replication
           await this.cancelReplication(direction, replicationState)
 
-          // tslint:disable-next-line:no-console
           console.warn(
             `${this.collectionName} ${direction} sync failed, retrying`
           )
@@ -790,7 +789,6 @@ export class Collection<T extends Model> implements EventTarget {
           this.sync(direction, options, true)
         }
       } catch (error) {
-        // tslint:disable-next-line:no-console
         console.error(`${this.collectionName} ${direction} sync failed:`, error)
 
         this.setStatus(direction, 'error', true, error)
@@ -802,12 +800,12 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   private handleSyncError(error: PouchReplicationError, direction: Direction) {
-    console.error(error) // tslint:disable-line:no-console
+    console.error(error)
 
     if (direction === 'push') {
       if (error.error === 'conflict' && error.result && error.result.errors) {
         const conflicts = error.result.errors
-          .filter(e => e.error === 'conflict')
+          .filter((e) => e.error === 'conflict')
           .map(({ id, rev }) => ({ id, rev }))
 
         return this.conflictManager!.handleConflicts(conflicts)
@@ -849,7 +847,6 @@ export class Collection<T extends Model> implements EventTarget {
 
     return prev.atomicUpdate((doc: RxDocument<T>) => {
       Object.entries(update).forEach(([key, value]) => {
-        // tslint:disable-next-line:no-any
         ;(doc as { [key: string]: any })[key] = value
       })
 
@@ -859,7 +856,7 @@ export class Collection<T extends Model> implements EventTarget {
 
   private prepareUpdate = <T extends Model>(data: Partial<T>): Partial<T> => {
     // https://github.com/Microsoft/TypeScript/pull/13288
-    // tslint:disable-next-line:no-any
+
     const { _id, _rev, ...rest } = data as any
 
     return {
@@ -871,8 +868,8 @@ export class Collection<T extends Model> implements EventTarget {
 
   private broadcastPurge = (id: string, rev: string) => {
     if (config.backupReplication.path) {
-      axios.post(this.getBackupUrl(), { [id]: [rev] }).catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      axios.post(this.getBackupUrl(), { [id]: [rev] }).catch((error) => {
+        console.error(error)
       })
     }
   }

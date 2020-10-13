@@ -21,6 +21,7 @@ import fuzzysort from 'fuzzysort'
 import React, { Component } from 'react'
 import { FixedSizeList } from 'react-window'
 import styled from 'styled-components'
+
 import { CitationStyleEmpty } from './CitationStyleEmpty'
 import { CitationStyleSelectorList } from './CitationStyleSelectorList'
 import { TemplateSearchInput } from './TemplateSearchInput'
@@ -36,10 +37,10 @@ const FadingEdge = styled.div`
   bottom: 0px;
   left: 0;
   right: 0;
-  height: ${props => props.theme.grid.unit * 8}px;
+  height: ${(props) => props.theme.grid.unit * 8}px;
   background-image: linear-gradient(
     transparent,
-    ${props => props.theme.colors.background.primary}
+    ${(props) => props.theme.colors.background.primary}
   );
 `
 
@@ -135,7 +136,7 @@ export class CitationStyleSelectorModal extends Component<Props, State> {
 
     const results = await this.sortPromise
 
-    return results.map(result => result.obj)
+    return results.map((result) => result.obj)
   }
 
   private handleSearchChange = async (searchText: string) => {

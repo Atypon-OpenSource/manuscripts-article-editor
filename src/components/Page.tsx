@@ -10,17 +10,19 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import '@manuscripts/style-guide/styles/tip.css'
+
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Tip } from '@manuscripts/style-guide'
-import '@manuscripts/style-guide/styles/tip.css'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+
 import config from '../config'
 import { TokenActions } from '../data/TokenData'
 import { titleText } from '../lib/title'
@@ -48,14 +50,14 @@ const PageContainer = styled.div`
   display: flex;
   height: calc(100vh - 1px); /* allow 1px for the top border */
   box-sizing: border-box;
-  color: ${props => props.theme.colors.text.primary};
-  font-family: ${props => props.theme.font.family.sans};
-  // border-top: 1px solid ${props => props.theme.colors.background.info};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-family: ${(props) => props.theme.font.family.sans};
+  // border-top: 1px solid ${(props) => props.theme.colors.background.info};
 `
 
 const ViewsBar = styled.div`
   align-items: center;
-  background-color: ${props => props.theme.colors.border.tertiary};
+  background-color: ${(props) => props.theme.colors.border.tertiary};
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -70,7 +72,7 @@ const IconBar = styled.div`
   width: 100%;
 
   div {
-    margin: ${props => props.theme.grid.unit * 5}px 0 0;
+    margin: ${(props) => props.theme.grid.unit * 5}px 0 0;
     text-align: center;
     width: 56px;
   }
@@ -78,24 +80,24 @@ const IconBar = styled.div`
 
 const ViewLink = styled(NavLink)`
   align-items: center;
-  color: ${props => props.theme.colors.button.secondary.color.default};
+  color: ${(props) => props.theme.colors.button.secondary.color.default};
   display: flex;
   justify-content: center;
   width: 100%;
-  height: ${props => props.theme.grid.unit * 8}px;
+  height: ${(props) => props.theme.grid.unit * 8}px;
 
   &:hover {
-    color: ${props => props.theme.colors.brand.medium};
+    color: ${(props) => props.theme.colors.brand.medium};
   }
   &.active {
-    color: ${props => props.theme.colors.brand.medium};
-    background: ${props => props.theme.colors.brand.xlight};
+    color: ${(props) => props.theme.colors.brand.medium};
+    background: ${(props) => props.theme.colors.brand.xlight};
   }
 `
 
 const ViewsSeparator = styled.div`
-  border: 1px solid ${props => props.theme.colors.border.secondary};
-  width: ${props => props.theme.grid.unit * 7}px;
+  border: 1px solid ${(props) => props.theme.colors.border.secondary};
+  width: ${(props) => props.theme.grid.unit * 7}px;
 `
 
 const StyledEditProjectIcon = styled(EditProjectIcon)`

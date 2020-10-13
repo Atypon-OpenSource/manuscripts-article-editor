@@ -18,6 +18,7 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { TemplateData } from '../../types/templates'
 
 const ModalFooter = styled.div`
@@ -33,17 +34,17 @@ const ModalFooter = styled.div`
 `
 const FooterText = styled.div`
   flex: 1;
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
+  font-weight: ${(props) => props.theme.font.weight.normal};
   line-height: 20px;
   max-width: 55%;
 
   @media (max-width: 767px) {
-    margin-bottom: ${props => props.theme.grid.unit * 4}px;
+    margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
   }
 `
 const SelectedTemplateDesc = styled.div`
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const SelectedTemplateDetails = styled.div`
@@ -53,13 +54,13 @@ const SelectedTemplateDetails = styled.div`
 `
 
 const SelectedTemplateTitle = styled.span`
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.medium};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: ${(props) => props.theme.font.weight.medium};
 `
 
 const SelectedTemplateType = styled.span`
-  color: ${props => props.theme.colors.text.secondary};
-  margin-left: ${props => props.theme.grid.unit * 2}px;
+  color: ${(props) => props.theme.colors.text.secondary};
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const FooterButtons = styled(ButtonGroup)`

@@ -13,6 +13,7 @@
 import { ParagraphStyle } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
+
 import {
   alignments,
   DEFAULT_ALIGNMENT,
@@ -50,7 +51,7 @@ export const TextSizeField: React.FC<{
       <InspectorLabel>Size</InspectorLabel>
       <SmallNumberField
         value={valueOrDefault<number>(textStyling.fontSize, DEFAULT_FONT_SIZE)}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             textStyling: {
@@ -115,7 +116,7 @@ export const TextStyleField: React.FC<{
 }
 
 const TextStyleButton = styled.button<{ isActive: boolean }>`
-  font-weight: ${props =>
+  font-weight: ${(props) =>
     props.isActive
       ? props.theme.font.weight.bold
       : props.theme.font.weight.normal};
@@ -123,7 +124,7 @@ const TextStyleButton = styled.button<{ isActive: boolean }>`
   border: none;
   border-radius: 50%;
   background: none;
-  padding: 0 ${props => props.theme.grid.unit * 2}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 2}px;
   cursor: pointer;
 `
 export const TextAlignmentField: React.FC<{
@@ -140,7 +141,7 @@ export const TextAlignmentField: React.FC<{
       <InspectorLabel>Alignment</InspectorLabel>
       <StyleSelect
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             alignment: event.target.value,
@@ -176,7 +177,7 @@ export const TopSpacingField: React.FC<{
         step={2}
         list={'topSpacingList'}
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             topSpacing: Number(event.target.value),
@@ -185,7 +186,7 @@ export const TopSpacingField: React.FC<{
       />
       <SmallNumberField
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             topSpacing: Number(event.target.value),
@@ -216,7 +217,7 @@ export const BottomSpacingField: React.FC<{
         step={2}
         value={value}
         list={'bottomSpacingLsit'}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             bottomSpacing: Number(event.target.value),
@@ -225,7 +226,7 @@ export const BottomSpacingField: React.FC<{
       />
       <SmallNumberField
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             bottomSpacing: Number(event.target.value),
@@ -256,7 +257,7 @@ export const FirstLineIndentField: React.FC<{
         step={2}
         value={value}
         list={'firstLineIndentList'}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             firstLineIndent: Number(event.target.value),
@@ -265,7 +266,7 @@ export const FirstLineIndentField: React.FC<{
       />
       <SmallNumberField
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             firstLineIndent: Number(event.target.value),
@@ -297,7 +298,7 @@ export const LineSpacingField: React.FC<{
         step={0.25}
         value={value}
         list={'lineSpacingList'}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             lineSpacing: Number(event.target.value),
@@ -306,7 +307,7 @@ export const LineSpacingField: React.FC<{
       />
       <SmallNumberField
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             lineSpacing: Number(event.target.value),
@@ -338,7 +339,7 @@ export const ListTailIndentField: React.FC<{
         step={2}
         list={'listTailIndentList'}
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             listTailIndent: Number(event.target.value),
@@ -347,7 +348,7 @@ export const ListTailIndentField: React.FC<{
       />
       <SmallNumberField
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             listTailIndent: Number(event.target.value),
@@ -379,7 +380,7 @@ export const ListIndentPerLevelField: React.FC<{
         step={2}
         list={'listLevelIndentList'}
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             listItemIndentPerLevel: Number(event.target.value),
@@ -388,7 +389,7 @@ export const ListIndentPerLevelField: React.FC<{
       />
       <SmallNumberField
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           saveParagraphStyle({
             ...paragraphStyle,
             listItemIndentPerLevel: Number(event.target.value),
@@ -413,7 +414,7 @@ export const ListNumberingField: React.FC<{
           name={'list-hierarchical-numbering'}
           type={'checkbox'}
           checked={paragraphStyle.hierarchicalListNumbering}
-          onChange={event => {
+          onChange={(event) => {
             saveParagraphStyle({
               ...paragraphStyle,
               hierarchicalListNumbering: Boolean(event.target.checked),
@@ -429,7 +430,7 @@ export const ListNumberingField: React.FC<{
             name={'list-hide-suffix'}
             type={'checkbox'}
             checked={paragraphStyle.hideListNumberingSuffixForLastLevel}
-            onChange={event => {
+            onChange={(event) => {
               saveParagraphStyle({
                 ...paragraphStyle,
                 hideListNumberingSuffixForLastLevel: Boolean(

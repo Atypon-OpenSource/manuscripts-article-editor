@@ -11,6 +11,7 @@
  */
 
 import React, { useCallback } from 'react'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 import { MediumTextArea } from './inputs'
 
@@ -24,7 +25,7 @@ export const DescriptionInput: React.FC<{
   >(value, handleChange, 500)
 
   const handleInputChange = useCallback(
-    event => {
+    (event) => {
       handleLocalChange(event.target.value || undefined)
     },
     [handleLocalChange]

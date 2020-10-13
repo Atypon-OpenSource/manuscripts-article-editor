@@ -24,7 +24,7 @@ export const StyledButton = styled.button<{ copyState: CopyState }>`
   background: transparent;
   border: none;
   font-size: inherit;
-  color: ${props =>
+  color: ${(props) =>
     props.copyState === CopyState.Failed
       ? props.theme.colors.text.error
       : props.theme.colors.text.info};
@@ -33,7 +33,8 @@ export const StyledButton = styled.button<{ copyState: CopyState }>`
   cursor: pointer;
 
   &:focus {
-    outline: 1px solid ${props => props.theme.colors.button.default.color.hover};
+    outline: 1px solid
+      ${(props) => props.theme.colors.button.default.color.hover};
   }
 `
 

@@ -19,6 +19,7 @@ import {
 import React from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import styled from 'styled-components'
+
 import { ModalSidebar } from '../Sidebar'
 import ImportAvatarContainer from './ImportAvatarContainer'
 import { AvatarProps } from './ProfilePageSidebar'
@@ -26,8 +27,8 @@ import { AvatarProps } from './ProfilePageSidebar'
 const DropZone = styled.div`
   width: 150px;
   height: 150px;
-  background-color: ${props => props.theme.colors.background.secondary};
-  border: dashed 3px ${props => props.theme.colors.border.primary};
+  background-color: ${(props) => props.theme.colors.background.secondary};
+  border: dashed 3px ${(props) => props.theme.colors.border.primary};
   border-radius: 50%;
 `
 
@@ -51,28 +52,28 @@ const UploadBox = styled.div`
 `
 
 const UploadLabel = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  line-height: ${props => props.theme.font.lineHeight.large};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
   letter-spacing: -0.4px;
   text-align: center;
-  color: ${props => props.theme.colors.text.primary};
+  color: ${(props) => props.theme.colors.text.primary};
 `
 
 const UploadBoxInnerText = styled.div`
-  font-size: ${props => props.theme.font.size.medium}
-  line-height: ${props => props.theme.font.lineHeight.large};
+  font-size: ${(props) => props.theme.font.size.medium}
+  line-height: ${(props) => props.theme.font.lineHeight.large};
   letter-spacing: -0.4px;
   text-align: center;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const UploadBoxBrowse = styled.span`
   margin: 0 2px;
-  font-size: ${props => props.theme.font.size.medium};
-  line-height: ${props => props.theme.font.lineHeight.large};
+  font-size: ${(props) => props.theme.font.size.medium};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
   letter-spacing: -0.4px;
   text-align: center;
-  color: ${props => props.theme.colors.brand.default};
+  color: ${(props) => props.theme.colors.brand.default};
   cursor: pointer;
 `
 
@@ -96,7 +97,7 @@ const AvatarContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
-  background-color: ${props => props.theme.colors.background.primary};
+  background-color: ${(props) => props.theme.colors.background.primary};
   overflow: hidden;
 `
 
@@ -107,8 +108,8 @@ const RangeInput = styled.input.attrs({
 const RoundedBorders = styled.div`
   width: 150px;
   height: 150px;
-  background-color: ${props => props.theme.colors.background.primary};
-  border: solid 1px ${props => props.theme.colors.border.primary};
+  background-color: ${(props) => props.theme.colors.background.primary};
+  border: solid 1px ${(props) => props.theme.colors.border.primary};
   border-radius: 50%;
 `
 

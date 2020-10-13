@@ -13,6 +13,7 @@
 import { Section, StatusLabel } from '@manuscripts/manuscripts-json-schema'
 import { format } from 'date-fns'
 import React from 'react'
+
 import { AnyElement } from '../../inspector/ElementStyleInspector'
 import RenderIcon, { calculateCircumference } from './StatusIcons'
 import {
@@ -44,7 +45,7 @@ const StatusInputTipDropdown: React.FC<StatusTipProps> = ({
   return (
     <>
       {sortedLabels.map(
-        label =>
+        (label) =>
           typeof label.priority !== 'undefined' &&
           label.priority <= selectedLabelPriority && (
             <TipItem>

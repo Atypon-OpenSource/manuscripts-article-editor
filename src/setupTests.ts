@@ -13,7 +13,7 @@
 import registerRequireContextHook from 'babel-plugin-require-context-hook/register'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
 
 registerRequireContextHook()
 
@@ -39,7 +39,7 @@ if (!window.URL.createObjectURL) {
 
 if (!window.matchMedia) {
   Object.defineProperty(window, 'matchMedia', {
-    value: jest.fn(media => ({
+    value: jest.fn((media) => ({
       matches: false,
       media,
       addListener: jest.fn(),

@@ -15,6 +15,7 @@ import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import styled from 'styled-components'
+
 import { TokenActions } from '../../data/TokenData'
 import { projectInvite } from '../../lib/api/collaboration'
 import { trackEvent } from '../../lib/tracking'
@@ -37,7 +38,7 @@ interface State {
 }
 
 const AlertMessageContainer = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 class InviteAuthorPopperContainer extends React.Component<Props> {

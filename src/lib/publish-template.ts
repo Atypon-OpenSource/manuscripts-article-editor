@@ -26,6 +26,7 @@ import {
   Section,
   SectionDescription,
 } from '@manuscripts/manuscripts-json-schema'
+
 import { isSection } from './manuscript'
 import {
   ManuscriptCountRequirement,
@@ -43,7 +44,6 @@ interface SubsectionDescription {
 
 // const isPageLayout = hasObjectType<PageLayout>(ObjectTypes.PageLayout)
 
-// tslint:disable-next-line:cyclomatic-complexity
 export const buildTemplateModels = (
   manuscript: Manuscript,
   template: Build<ManuscriptTemplate>,

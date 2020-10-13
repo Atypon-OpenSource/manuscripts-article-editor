@@ -11,6 +11,7 @@
  */
 
 import fs from 'fs'
+
 import { GetAttachment } from '../../components/projects/Exporter'
 
 export const getAttachment: GetAttachment = (id, attachmentID) => {
@@ -18,13 +19,13 @@ export const getAttachment: GetAttachment = (id, attachmentID) => {
     case 'csl': {
       return fs.promises
         .readFile(__dirname + '/__fixtures__/nature.csl')
-        .then(data => new window.Blob([data]))
+        .then((data) => new window.Blob([data]))
     }
 
     case 'image': {
       return fs.promises
         .readFile(__dirname + '/__fixtures__/image.jpg')
-        .then(data => new window.Blob([data]))
+        .then((data) => new window.Blob([data]))
     }
 
     default: {

@@ -19,6 +19,7 @@ import {
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
+
 import Search, { SearchWrapper } from '../Search'
 
 const Container = styled.div`
@@ -35,22 +36,22 @@ const Items = styled.div`
 
 const Item = styled.div<{ isActive: boolean }>`
   cursor: pointer;
-  padding: ${props => props.theme.grid.unit * 3}px;
+  padding: ${(props) => props.theme.grid.unit * 3}px;
   border-bottom: 1px solid;
   border-top: 1px solid;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.isActive ? props.theme.colors.background.fifth : 'transparent'};
-  border-color: ${props =>
+  border-color: ${(props) =>
     props.isActive ? props.theme.colors.border.primary : 'transparent'};
   transition: background-color 0.25s;
   display: flex;
-  ${props =>
+  ${(props) =>
     !props.isActive &&
     'box-shadow: 0 1px 0 0 ' + props.theme.colors.border.secondary};
 
   &:hover {
     box-shadow: unset;
-    background-color: ${props => props.theme.colors.background.fifth};
+    background-color: ${(props) => props.theme.colors.background.fifth};
   }
 `
 
@@ -59,38 +60,38 @@ const ItemMetadata = styled.div`
 `
 
 const Metadata = styled.div`
-  margin-top: ${props => props.theme.grid.unit}px;
-  color: ${props => props.theme.colors.text.secondary};
+  margin-top: ${(props) => props.theme.grid.unit}px;
+  color: ${(props) => props.theme.colors.text.secondary};
   flex: 1;
-  font-weight: ${props => props.theme.font.weight.light};
+  font-weight: ${(props) => props.theme.font.weight.light};
 `
 
 const Collections = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-top: ${props => props.theme.grid.unit * 2}px;
+  margin-top: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const Collection = styled.span`
-  border-radius: ${props => props.theme.grid.radius.default};
+  border-radius: ${(props) => props.theme.grid.radius.default};
   display: inline-flex;
   align-items: center;
-  padding: 2px ${props => props.theme.grid.unit * 2}px;
-  margin-right: ${props => props.theme.grid.unit * 2}px;
-  background-color: ${props => props.theme.colors.border.secondary};
+  padding: 2px ${(props) => props.theme.grid.unit * 2}px;
+  margin-right: ${(props) => props.theme.grid.unit * 2}px;
+  background-color: ${(props) => props.theme.colors.border.secondary};
   font-size: 90%;
 `
 
 const ActiveCollection = styled(Collection)`
-  background-color: ${props => props.theme.colors.brand.default};
-  color: ${props => props.theme.colors.text.onDark};
+  background-color: ${(props) => props.theme.colors.brand.default};
+  color: ${(props) => props.theme.colors.text.onDark};
 `
 
 const ItemIcon = styled.div`
   flex-shrink: 1;
-  margin-right: ${props => props.theme.grid.unit * 4}px;
-  height: ${props => props.theme.grid.unit * 6}px;
-  width: ${props => props.theme.grid.unit * 6}px;
+  margin-right: ${(props) => props.theme.grid.unit * 4}px;
+  height: ${(props) => props.theme.grid.unit * 6}px;
+  width: ${(props) => props.theme.grid.unit * 6}px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -99,7 +100,7 @@ const ItemIcon = styled.div`
 
 const StyledReferenceLibraryIcon = styled(ReferenceLibraryIcon)`
   path {
-    stroke: ${props => props.theme.colors.text.muted};
+    stroke: ${(props) => props.theme.colors.text.muted};
   }
 `
 
@@ -108,7 +109,7 @@ const EmptyItems = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 export const LibraryItems: React.FC<{
@@ -134,7 +135,7 @@ export const LibraryItems: React.FC<{
       <Search
         autoComplete={'off'}
         autoFocus={!selectedItem}
-        handleSearchChange={e => setQuery(e.target.value)}
+        handleSearchChange={(e) => setQuery(e.target.value)}
         placeholder={'Search library…'}
         type={'search'}
         value={query || ''}
@@ -165,7 +166,7 @@ export const LibraryItems: React.FC<{
 
               {item.keywordIDs && (
                 <Collections>
-                  {item.keywordIDs.map(keywordID => {
+                  {item.keywordIDs.map((keywordID) => {
                     const libraryCollection = projectLibraryCollections.get(
                       keywordID
                     )

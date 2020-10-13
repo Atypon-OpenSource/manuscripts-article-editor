@@ -12,6 +12,7 @@
 
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { Footer } from '../src/components/Footer'
 
 const links = [

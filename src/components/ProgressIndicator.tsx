@@ -77,7 +77,7 @@ export class ProgressIndicator extends React.Component<
     time: 0,
   }
 
-  private canvasRef: React.RefObject<HTMLCanvasElement>
+  private readonly canvasRef: React.RefObject<HTMLCanvasElement>
   private tickHandle: number | null
 
   public constructor(props: IndicatorProps) {
@@ -103,7 +103,9 @@ export class ProgressIndicator extends React.Component<
   }
 
   public updateCanvas() {
-    if (!this.canvasRef.current) return
+    if (!this.canvasRef.current) {
+      return
+    }
 
     PlaceholderKit.clearCanvas(this.canvasRef.current)
     PlaceholderKit.drawProgressIndication(
@@ -159,7 +161,7 @@ export class ProgressIndicator extends React.Component<
   }
 }
 
-export class LargeDeterminateProjectsProgressIndicator extends ProgressIndicator {
+/*export class LargeDeterminateProjectsProgressIndicator extends ProgressIndicator {
   public static defaultProps = {
     progress: 0,
     size: IndicatorSize.Large,
@@ -170,4 +172,4 @@ export class LargeDeterminateProjectsProgressIndicator extends ProgressIndicator
     refreshRate: 25,
     symbols: IndicatorKind.Project,
   }
-}
+}*/

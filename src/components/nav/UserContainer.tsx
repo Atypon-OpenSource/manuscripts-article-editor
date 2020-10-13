@@ -11,6 +11,7 @@
  */
 
 import React from 'react'
+
 import UserData from '../../data/UserData'
 import { getCurrentUserId } from '../../lib/user'
 import { LogoutConfirmation } from '../account/LogoutConfirmation'
@@ -22,10 +23,10 @@ import { UserInfo } from './UserInfo'
 
 const UserContainer = () => (
   <UserData userID={getCurrentUserId()!}>
-    {user =>
+    {(user) =>
       user ? (
         <DatabaseContext.Consumer>
-          {db => (
+          {(db) => (
             <LogoutConfirmation db={db}>
               <ProfileDropdown user={user}>
                 <UserInfo user={user} />

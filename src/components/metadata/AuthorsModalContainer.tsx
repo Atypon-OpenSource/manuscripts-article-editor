@@ -31,6 +31,7 @@ import {
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
@@ -38,8 +39,8 @@ import { AuthorsModal } from './AuthorsModals'
 
 const Invited = styled.div`
   display: flex;
-  font-size: ${props => props.theme.font.size.small};
-  color: ${props => props.theme.colors.brand.default};
+  font-size: ${(props) => props.theme.font.size.small};
+  color: ${(props) => props.theme.colors.brand.default};
 `
 
 interface State {
@@ -151,10 +152,9 @@ class AuthorsModalContainer extends React.Component<Props, State> {
   }
 
   private getAuthorName = (author: Contributor) => {
-    const name = !author.bibliographicName.given
+    return !author.bibliographicName.given
       ? 'Author '
       : author.bibliographicName.given + ' ' + author.bibliographicName.family
-    return name
   }
 
   private isRejected = (invitationID: string) => {
@@ -169,13 +169,17 @@ class AuthorsModalContainer extends React.Component<Props, State> {
 
   private getSidebarItemDecorator = (authorID: string) => {
     const { invitations } = this.props
-    if (!invitations) return null
+    if (!invitations) {
+      return null
+    }
 
-    const author = this.props.authors.find(author => author._id === authorID)
-    if (!author) return null
+    const author = this.props.authors.find((author) => author._id === authorID)
+    if (!author) {
+      return null
+    }
 
     return invitations.find(
-      invitation =>
+      (invitation) =>
         author.invitationID === invitation._id && !invitation.acceptedAt
     ) ? (
       <Invited>Invited</Invited>
@@ -191,7 +195,9 @@ class AuthorsModalContainer extends React.Component<Props, State> {
 
   private addAuthorAffiliation = async (affiliation: Affiliation | string) => {
     const selectedAuthor = this.getSelectedAuthor()
-    if (!selectedAuthor) return
+    if (!selectedAuthor) {
+      return
+    }
 
     let affiliationObj
     if (typeof affiliation === 'string') {
@@ -214,12 +220,14 @@ class AuthorsModalContainer extends React.Component<Props, State> {
 
   private removeAuthorAffiliation = async (affiliation: Affiliation) => {
     const selectedAuthor = this.getSelectedAuthor()
-    if (!selectedAuthor) return
+    if (!selectedAuthor) {
+      return
+    }
 
     const nextAuthor = {
       ...selectedAuthor,
       affiliations: (selectedAuthor.affiliations || []).filter(
-        aff => aff !== affiliation._id
+        (aff) => aff !== affiliation._id
       ),
     }
 
@@ -233,7 +241,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
   private getSelectedAuthor = () => {
     return (
       this.props.authors.find(
-        author => author._id === this.props.selectedAuthor
+        (author) => author._id === this.props.selectedAuthor
       ) || null
     )
   }

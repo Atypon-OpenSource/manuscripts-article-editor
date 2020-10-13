@@ -13,46 +13,47 @@
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+
 import { ExpanderButton } from './metadata/Metadata'
 
 const Section = styled.div`
-  border-bottom: 1px solid ${props => props.theme.colors.border.tertiary};
-  font-size: ${props => props.theme.font.size.normal};
-  margin: ${props => props.theme.grid.unit * 6}px
-    ${props => props.theme.grid.unit * 7}px 0;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
+  font-size: ${(props) => props.theme.font.size.normal};
+  margin: ${(props) => props.theme.grid.unit * 6}px
+    ${(props) => props.theme.grid.unit * 7}px 0;
 `
 
 const Heading = styled.div`
   display: flex;
-  padding: ${props => props.theme.grid.unit * 2}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px;
   cursor: pointer;
 `
 
 const HeadingText = styled.div`
-  font-size: ${props => props.theme.font.size.medium};
-  font-weight: ${props => props.theme.font.weight.semibold};
-  color: ${props => props.theme.colors.text.primary};
+  font-size: ${(props) => props.theme.font.size.medium};
+  font-weight: ${(props) => props.theme.font.weight.semibold};
+  color: ${(props) => props.theme.colors.text.primary};
   flex: 1;
 `
 
 export const Subheading = styled(HeadingText)`
-  font-size: ${props => props.theme.font.size.normal};
-  font-weight: ${props => props.theme.font.weight.normal};
-  margin-bottom: ${props => props.theme.grid.unit * 3}px;
+  font-size: ${(props) => props.theme.font.size.normal};
+  font-weight: ${(props) => props.theme.font.weight.normal};
+  margin-bottom: ${(props) => props.theme.grid.unit * 3}px;
 
   &:not(:first-child) {
-    margin-top: ${props => props.theme.grid.unit * 6}px;
+    margin-top: ${(props) => props.theme.grid.unit * 6}px;
   }
 `
 
 export const Field = styled.div`
-  margin-bottom: ${props => props.theme.grid.unit * 4}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const Content = styled.div`
-  margin: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 8}px;
+  margin: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 8}px;
 `
 
 interface Props {

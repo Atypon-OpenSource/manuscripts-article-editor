@@ -13,7 +13,6 @@
 import { ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import { tree } from '@manuscripts/sync-client'
 
-/* tslint:disable:no-any */
 const withRequiredProperties = (model: any) => ({
   createdAt: 0,
   updatedAt: 0,

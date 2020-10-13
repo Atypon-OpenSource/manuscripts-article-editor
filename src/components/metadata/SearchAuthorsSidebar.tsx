@@ -15,6 +15,7 @@ import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { buildAuthorPriority } from '../../lib/authors'
 import {
   SidebarContent,
@@ -24,18 +25,18 @@ import {
 import AddAuthorButton from './AddAuthorButton'
 
 const PersonInitial = styled.span`
-  margin-right: ${props => props.theme.grid.unit}px;
-  font-weight: ${props => props.theme.font.weight.light};
+  margin-right: ${(props) => props.theme.grid.unit}px;
+  font-weight: ${(props) => props.theme.font.weight.light};
 `
 
 const PersonName = styled.div`
   font-size: 120%;
-  color: ${props => props.theme.colors.text.primary};
-  font-weight: ${props => props.theme.font.weight.medium};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: ${(props) => props.theme.font.weight.medium};
 `
 
 const PeopleData = styled.div`
-  padding-left: ${props => props.theme.grid.unit * 2}px;
+  padding-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const UserDataContainer = styled.div`

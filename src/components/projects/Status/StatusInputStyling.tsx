@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 import styled, { css } from 'styled-components'
+
 import { selectStyles } from '../../../lib/select-styles'
 import { greyLight } from '../../../theme/colors'
 
@@ -28,7 +29,7 @@ interface StyleProps {
 }
 export const customStyles = {
   ...selectStyles,
-  clearIndicator: (styles: {}) => {
+  clearIndicator: (styles: Record<string, unknown>) => {
     return {
       ...styles,
       cursor: 'pointer',
@@ -37,13 +38,13 @@ export const customStyles = {
       },
     }
   },
-  menuList: (styles: {}) => {
+  menuList: (styles: Record<string, unknown>) => {
     return {
       ...styles,
       padding: '0',
     }
   },
-  option: (styles: {}, { isDisabled }: StyleProps) => {
+  option: (styles: Record<string, unknown>, { isDisabled }: StyleProps) => {
     return {
       ...styles,
       color: '#353535',
@@ -59,19 +60,19 @@ const pieStyles = css<{
   }
 }>`
   .pie {
-    stroke-dasharray: ${props => props.pie.percent}
-      ${props => props.pie.circumference};
+    stroke-dasharray: ${(props) => props.pie.percent}
+      ${(props) => props.pie.circumference};
   }
 `
 const dndStyles = css`
-  border: 1px solid ${props => props.theme.colors.border.secondary};
-  border-radius: ${props => props.theme.grid.radius.default};
-  margin: ${props => props.theme.grid.unit * 4}px 0;
-  padding: ${props => props.theme.grid.unit * 2}px;
+  border: 1px solid ${(props) => props.theme.colors.border.secondary};
+  border-radius: ${(props) => props.theme.grid.radius.default};
+  margin: ${(props) => props.theme.grid.unit * 4}px 0;
+  padding: ${(props) => props.theme.grid.unit * 2}px;
 `
 const iconStyles = css<StyleProps>`
   .iconToDo g {
-    stroke: ${props =>
+    stroke: ${(props) =>
       props.isSelected
         ? props.theme.colors.brand.medium
         : props.isDueSoon
@@ -81,7 +82,7 @@ const iconStyles = css<StyleProps>`
         : props.defaultColor};
   }
   .iconDone circle {
-    fill: ${props =>
+    fill: ${(props) =>
       props.isSelected
         ? props.theme.colors.brand.medium
         : props.isDueSoon
@@ -91,7 +92,7 @@ const iconStyles = css<StyleProps>`
         : props.defaultColor};
   }
   .iconDoing circle {
-    stroke: ${props =>
+    stroke: ${(props) =>
       props.isSelected
         ? props.theme.colors.brand.medium
         : props.isDueSoon
@@ -101,36 +102,36 @@ const iconStyles = css<StyleProps>`
         : props.defaultColor};
   }
 
-  ${props => props.pie && pieStyles}
+  ${(props) => props.pie && pieStyles}
 `
 const optionStyles = css<StyleProps>`
-  background: ${props =>
+  background: ${(props) =>
     props.isSelected ? props.theme.colors.background.fifth : 'transparent'};
 
   &.padded {
-    padding: ${props => props.theme.grid.unit * 4}px;
+    padding: ${(props) => props.theme.grid.unit * 4}px;
   }
 
   ${iconStyles}
 `
 export const DndItemButton = styled.div<StyleProps>`
   align-items: center;
-  background: ${props => (props.isDragging ? 'pink' : 'white')};
+  background: ${(props) => (props.isDragging ? 'pink' : 'white')};
   display: flex;
-  font-size: ${props => props.theme.font.size.normal};
-  line-height: ${props => props.theme.font.lineHeight.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
+  line-height: ${(props) => props.theme.font.lineHeight.normal};
 
   ${optionStyles}
 
   svg {
-    margin-right: ${props => props.theme.grid.unit * 2}px;
+    margin-right: ${(props) => props.theme.grid.unit * 2}px;
   }
 `
 export const IconSpan = styled.span`
   display: inline-flex;
 `
 export const DndZone = styled.div`
-  padding: 0 ${props => props.theme.grid.unit * 4}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 4}px;
 
   ${DndItemButton} {
     ${dndStyles}
@@ -141,7 +142,7 @@ export const DndZone = styled.div`
   }
 
   .orderedStatus {
-    margin: ${props => props.theme.grid.unit * 10}px 0;
+    margin: ${(props) => props.theme.grid.unit * 10}px 0;
   }
 `
 export const DndDisclaimer = styled.div`
@@ -152,67 +153,67 @@ export const DndDisclaimer = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin: 0 -${props => props.theme.grid.unit * 4}px;
+  margin: 0 -${(props) => props.theme.grid.unit * 4}px;
 
   p {
     color: #6e6e6e;
-    font-size: ${props => props.theme.font.size.small};
-    font-weight: ${props => props.theme.font.weight.normal};
-    line-height: ${props => props.theme.font.lineHeight.normal};
-    margin: ${props => props.theme.grid.unit * 3}px 0;
+    font-size: ${(props) => props.theme.font.size.small};
+    font-weight: ${(props) => props.theme.font.weight.normal};
+    line-height: ${(props) => props.theme.font.lineHeight.normal};
+    margin: ${(props) => props.theme.grid.unit * 3}px 0;
     max-width: 150px;
     text-align: center;
   }
 `
 export const Details = styled.div`
   color: ${greyLight};
-  padding-left: ${props => props.theme.grid.unit * 6}px;
+  padding-left: ${(props) => props.theme.grid.unit * 6}px;
   position: relative;
 `
 export const Tooltip = styled.div`
   background: #333;
-  border-radius: ${props => props.theme.grid.radius.default};
-  color: ${props => props.theme.colors.text.onDark};
+  border-radius: ${(props) => props.theme.grid.radius.default};
+  color: ${(props) => props.theme.colors.text.onDark};
   display: flex;
   flex-direction: column-reverse;
   left: -72px;
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
   position: absolute;
   top: 36px;
   width: 150px;
 
   &:after {
     bottom: 100%;
-    border: ${props => props.theme.grid.unit * 2}px solid transparent;
+    border: ${(props) => props.theme.grid.unit * 2}px solid transparent;
     border-bottom-color: #333;
     content: ' ';
     height: 0;
     left: 50%;
-    margin-left: -${props => props.theme.grid.unit * 2}px;
+    margin-left: -${(props) => props.theme.grid.unit * 2}px;
     position: absolute;
     pointer-events: none;
     width: 0;
   }
 `
 export const TipItem = styled.div`
-  font-size: ${props => props.theme.font.size.small};
-  font-weight: ${props => props.theme.font.weight.normal};
-  line-height: ${props => props.theme.font.lineHeight.normal};
+  font-size: ${(props) => props.theme.font.size.small};
+  font-weight: ${(props) => props.theme.font.weight.normal};
+  line-height: ${(props) => props.theme.font.lineHeight.normal};
 
   ${DndItemButton} {
-    font-weight: ${props => props.theme.font.weight.bold};
+    font-weight: ${(props) => props.theme.font.weight.bold};
   }
 
   & + & {
-    margin-bottom: ${props => props.theme.grid.unit}px;
+    margin-bottom: ${(props) => props.theme.grid.unit}px;
 
     ${Details} {
       &:before {
         position: absolute;
         content: '';
-        left: ${props => props.theme.grid.unit * 2}px;
-        top: ${props => props.theme.grid.unit}px;
-        height: calc(100% - ${props => props.theme.grid.unit}px);
+        left: ${(props) => props.theme.grid.unit * 2}px;
+        top: ${(props) => props.theme.grid.unit}px;
+        height: calc(100% - ${(props) => props.theme.grid.unit}px);
         width: 1px;
         border-left: 1px dashed #6e6e6e;
       }
@@ -224,10 +225,10 @@ export const DateStyled = styled.div`
 `
 export const Expiring = styled.div`
   &.dueSoon {
-    color: ${props => props.theme.colors.text.warning};
+    color: ${(props) => props.theme.colors.text.warning};
   }
   &.overdue {
-    color: ${props => props.theme.colors.text.error};
+    color: ${(props) => props.theme.colors.text.error};
   }
 `
 export const StatusInputWrapper = styled.div`
@@ -236,7 +237,7 @@ export const StatusInputWrapper = styled.div`
 `
 
 export const AlertContainer = styled.div`
-  bottom: -${props => props.theme.grid.unit * 16}px;
+  bottom: -${(props) => props.theme.grid.unit * 16}px;
   display: flex;
   justify-content: flex-end;
   left: -100px;

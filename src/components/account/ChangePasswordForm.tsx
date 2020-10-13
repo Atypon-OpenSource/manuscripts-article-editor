@@ -19,6 +19,7 @@ import {
 } from '@manuscripts/style-guide'
 import { Field, FieldProps, Form, FormikProps } from 'formik'
 import React from 'react'
+
 import { ModalFormActions } from '../ModalForm'
 
 export interface ChangePasswordValues {

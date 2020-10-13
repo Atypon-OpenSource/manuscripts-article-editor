@@ -25,6 +25,7 @@ import {
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { useHistory } from '../../hooks/use-history'
 import {
   SaveSnapshotStatus,
@@ -48,7 +49,7 @@ const SnapshotComponentContainer = styled.div`
     left: 33px;
     top: 42px;
     bottom: 0;
-    border-left: 1px solid ${props => props.theme.colors.border.secondary};
+    border-left: 1px solid ${(props) => props.theme.colors.border.secondary};
   }
 `
 
@@ -72,20 +73,20 @@ const Title = styled.span`
 
 const EditIconStyled = styled(EditIcon)`
   path {
-    fill: ${props => props.theme.colors.brand.medium};
+    fill: ${(props) => props.theme.colors.brand.medium};
   }
 `
 
 const ErrorStatus = styled.div`
-  color: ${props => props.theme.colors.text.error};
+  color: ${(props) => props.theme.colors.text.error};
   font-size: 0.8rem;
 `
 
 const Form = styled.form`
-  border-color: ${props => props.theme.colors.border.primary};
+  border-color: ${(props) => props.theme.colors.border.primary};
   border-top: 1px solid;
   border-bottom: 1px solid;
-  background: ${props => props.theme.colors.background.info};
+  background: ${(props) => props.theme.colors.background.info};
 `
 
 const List = styled.ul`
@@ -103,7 +104,7 @@ const AddButtonWrapper = styled.div`
 `
 
 const ViewLink = styled(Link)`
-  color: ${props => props.theme.colors.text.tertiary};
+  color: ${(props) => props.theme.colors.text.tertiary};
   text-decoration: none;
 
   &&::after {
@@ -210,7 +211,7 @@ export const HistoryPanel: React.FC<Props> = ({
       )}
 
       <List>
-        {snapshotsList.map(item => (
+        {snapshotsList.map((item) => (
           <ListItem key={item._id}>
             <SnapshotComponent
               date={item.createdAt}
@@ -243,7 +244,9 @@ export const HistoryPanelContainer: React.FC<ContainerProps> = ({
 
   const currentUserId = getCurrentUser()._id
 
-  if (!history.snapshotsList) return null
+  if (!history.snapshotsList) {
+    return null
+  }
 
   const isCreateFormOpen = snapshotManager.status !== SaveSnapshotStatus.Ready
 

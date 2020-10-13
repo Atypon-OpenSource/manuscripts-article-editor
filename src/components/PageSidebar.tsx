@@ -11,7 +11,9 @@
  */
 
 import '@manuscripts/style-guide/styles/tip.css'
+
 import React from 'react'
+
 import Panel from './Panel'
 import { ResizingOutlinerButton } from './ResizerButtons'
 import { Sidebar, SidebarContent, SidebarFooter } from './Sidebar'

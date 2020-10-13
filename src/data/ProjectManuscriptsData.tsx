@@ -12,6 +12,7 @@
 
 import { Manuscript, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
@@ -80,10 +81,10 @@ class ProjectManuscriptsData extends DataComponent<Manuscript, Props, State> {
         containerID,
         objectType: ObjectTypes.Manuscript,
       })
-      .$.subscribe(docs => {
+      .$.subscribe((docs) => {
         if (docs) {
           this.setState({
-            data: docs.map(doc => doc.toJSON()),
+            data: docs.map((doc) => doc.toJSON()),
           })
         } else {
           this.setState({ data: [] })

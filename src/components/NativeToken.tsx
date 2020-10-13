@@ -11,6 +11,7 @@
  */
 
 import React, { useEffect } from 'react'
+
 import { parseHash } from '../lib/hash'
 import tokenHandler from '../lib/token'
 

@@ -19,6 +19,7 @@ import {
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import ContainersInvitationsData from '../../data/ContainersInvitationsData'
 import ProjectsData from '../../data/ProjectsData'
 import ProjectsInvitationsData from '../../data/ProjectsInvitationsData'
@@ -40,14 +41,14 @@ import { ProjectsDropdown } from './ProjectsDropdown'
 import ProjectsMenu from './ProjectsMenu'
 
 const Container = styled.div`
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-weight: ${(props) => props.theme.font.weight.medium};
 `
 const StyledSidebarContent = styled(SidebarContent)`
   overflow: auto;
   padding: 0;
 
-  @media (min-width: ${props => props.theme.grid.tablet}px) {
-    padding-right: ${props => props.theme.grid.unit * 15}px;
+  @media (min-width: ${(props) => props.theme.grid.tablet}px) {
+    padding-right: ${(props) => props.theme.grid.unit * 15}px;
   }
 `
 export interface InvitationDataContainer {
@@ -117,20 +118,20 @@ class ProjectsButton extends React.Component<Props, State> {
       <React.Fragment>
         {
           <UserData userID={getCurrentUserId()!}>
-            {user => (
+            {(user) => (
               <ProjectsData>
                 {(projects, projectsCollection) => (
                   <ContainersInvitationsData>
-                    {invitations => (
+                    {(invitations) => (
                       <ProjectsInvitationsData>
-                        {projectsInvitations => {
+                        {(projectsInvitations) => {
                           const containerInvitations: ContainerInvitation[] = buildContainerInvitations(
                             projectsInvitations
                           )
                           const allInvitations: ContainerInvitation[] = [
                             ...invitations,
                             ...containerInvitations,
-                          ].filter(invitation =>
+                          ].filter((invitation) =>
                             invitation.containerID.startsWith('MPProject')
                           )
 
@@ -155,11 +156,11 @@ class ProjectsButton extends React.Component<Props, State> {
                           )
 
                           const projectsIDs = projects.map(
-                            project => project._id
+                            (project) => project._id
                           )
 
                           const filteredInvitationsData = invitationsData.filter(
-                            invitationData =>
+                            (invitationData) =>
                               projectsIDs.indexOf(
                                 invitationData.container._id
                               ) < 0
@@ -258,13 +259,21 @@ class ProjectsButton extends React.Component<Props, State> {
     for (const invitation of invitations) {
       const { acceptedAt, invitingUserProfile } = invitation
 
-      if (acceptedAt) continue // ignore accepted invitations
+      if (acceptedAt) {
+        continue
+      } // ignore accepted invitations
 
-      if (!invitingUserProfile) continue // inviting profile is needed
+      if (!invitingUserProfile) {
+        continue
+      } // inviting profile is needed
 
-      if (invitingUserProfile._id === user._id) continue // ignore invitations sent by this user
+      if (invitingUserProfile._id === user._id) {
+        continue
+      } // ignore invitations sent by this user
 
-      if (handledInvitations.has(invitation._id)) continue // ignore handled invitations
+      if (handledInvitations.has(invitation._id)) {
+        continue
+      } // ignore handled invitations
 
       invitationsData.push({
         invitation,
@@ -304,7 +313,7 @@ class ProjectsButton extends React.Component<Props, State> {
           label: `projectID=${data.containerID}`,
         })
       },
-      error => {
+      (error) => {
         const errorMessage = error.response
           ? acceptInvitationErrorMessage(error.response.status)
           : ''

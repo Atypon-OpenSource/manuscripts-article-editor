@@ -12,6 +12,7 @@
 
 import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
+
 import { CustomPopper } from '../Popper'
 import AddCollaboratorPopper from './AddCollaboratorPopper'
 

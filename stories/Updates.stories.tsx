@@ -12,6 +12,7 @@
 
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+
 import { Updates } from '../src/components/nav/Updates'
 import { feed } from './data/updates'
 

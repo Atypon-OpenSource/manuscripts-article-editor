@@ -16,6 +16,7 @@ import React, { useEffect } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { SnapshotStatus, useHistory } from '../../hooks/use-history'
 import { InspectorContainer } from '../Inspector'
 import { HistoryPanel } from '../inspector/History'
@@ -43,9 +44,10 @@ const BackLink = styled(Link)`
   display: inline-block;
   padding: 8px 16px;
   color: white;
-  background: ${props => props.theme.colors.button.primary.background.default};
+  background: ${(props) =>
+    props.theme.colors.button.primary.background.default};
   text-decoration: inherit;
-  border-radius: ${props => props.theme.grid.radius.default};
+  border-radius: ${(props) => props.theme.grid.radius.default};
 
   svg {
     padding-right: 4px;
@@ -89,18 +91,24 @@ export const HistoricalView: React.FC<CombinedProps> = ({
 
   useEffect(() => {
     // promise rejection in openSnapshot is handled by setting openSnapshotStatus
-    /* tslint:disable-next-line:no-floating-promises */
     loadSnapshot(match.params.snapshotID, match.params.manuscriptID)
-  }, [project, match.params.snapshotID, match.params.manuscriptID])
+  }, [
+    project,
+    match.params.snapshotID,
+    match.params.manuscriptID,
+    loadSnapshot,
+  ])
 
   if (loadSnapshotStatus !== SnapshotStatus.Done || !currentSnapshot) {
     return null
   }
 
   const selectedManuscript = currentSnapshot.manuscripts.find(
-    manuscript => match.params.manuscriptID === manuscript._id
+    (manuscript) => match.params.manuscriptID === manuscript._id
   )
-  if (!selectedManuscript) return null
+  if (!selectedManuscript) {
+    return null
+  }
 
   return (
     <React.Fragment>

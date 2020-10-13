@@ -12,9 +12,10 @@
 
 import { FormErrors } from '@manuscripts/style-guide'
 import { Formik, FormikErrors } from 'formik'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import { TokenActions } from '../../data/TokenData'
 import { feedback } from '../../lib/api/feedback'
 import { feedbackSchema } from '../../validation'
@@ -26,8 +27,9 @@ interface Props {
   tokenActions: TokenActions
 }
 
-const FeedbackPageContainer: React.FunctionComponent<RouteComponentProps &
-  Props> = ({ history, tokenActions }) => (
+const FeedbackPageContainer: React.FunctionComponent<
+  RouteComponentProps & Props
+> = ({ history, tokenActions }) => (
   <ModalForm title={<FeedbackMessage />} handleClose={() => history.goBack()}>
     <Formik<FeedbackValues>
       initialValues={{
@@ -58,7 +60,7 @@ const FeedbackPageContainer: React.FunctionComponent<RouteComponentProps &
 
           if (
             error.response &&
-            error.response.status === HttpStatusCodes.UNAUTHORIZED
+            error.response.status === StatusCodes.UNAUTHORIZED
           ) {
             tokenActions.delete()
           } else {

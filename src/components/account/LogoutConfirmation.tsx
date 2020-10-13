@@ -14,6 +14,7 @@ import { RxDatabase } from '@manuscripts/rxdb'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+
 import { Collections } from '../../collections'
 import CollectionManager from '../../sync/CollectionManager'
 import zombieCollections from '../../sync/ZombieCollections'
@@ -44,32 +45,38 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
     'ready'
   )
 
-  const checkAndTryResync = async (retries = 0): Promise<undefined> => {
-    if (retries > 1) {
-      setConfirmationStage('gaveup')
-      return
-    }
+  const checkAndTryResync = useCallback(
+    async (retries = 0): Promise<undefined> => {
+      if (retries > 1) {
+        setConfirmationStage('gaveup')
+        return
+      }
 
-    const unsyncedCollections = await CollectionManager.unsyncedCollections()
+      const unsyncedCollections = await CollectionManager.unsyncedCollections()
 
-    if (!unsyncedCollections.length && !zombieCollections.getOne()) {
-      history.push('/logout')
-      return
-    }
+      if (!unsyncedCollections.length && !zombieCollections.getOne()) {
+        history.push('/logout')
+        return
+      }
 
-    setConfirmationStage('unsynced')
+      setConfirmationStage('unsynced')
 
-    await CollectionManager.pushCollections(unsyncedCollections)
-    await zombieCollections.cleanupAll(db)
+      await CollectionManager.pushCollections(unsyncedCollections)
+      await zombieCollections.cleanupAll(db)
 
-    return checkAndTryResync(retries + 1)
-  }
+      return checkAndTryResync(retries + 1)
+    },
+    [db, history]
+  )
 
-  const handleLogout = useCallback((event: React.SyntheticEvent) => {
-    event.preventDefault()
+  const handleLogout = useCallback(
+    (event: React.SyntheticEvent) => {
+      event.preventDefault()
 
-    checkAndTryResync().catch(() => setConfirmationStage('gaveup'))
-  }, [])
+      checkAndTryResync().catch(() => setConfirmationStage('gaveup'))
+    },
+    [checkAndTryResync]
+  )
 
   const message = (() => {
     switch (confirmationStage) {

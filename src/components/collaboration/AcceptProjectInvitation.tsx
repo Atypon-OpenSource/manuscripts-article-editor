@@ -13,6 +13,7 @@
 import { History } from 'history'
 import React from 'react'
 import { Redirect } from 'react-router'
+
 import {
   acceptProjectInvitation,
   acceptProjectInvitationToken,
@@ -62,7 +63,7 @@ class AcceptProjectInvitation extends React.Component<Props, State> {
             label: `projectID=${data.containerID}`,
           })
         },
-        error => {
+        (error) => {
           const errorMessage = error.response
             ? acceptInvitationErrorMessage(error.response.status)
             : undefined
@@ -77,7 +78,7 @@ class AcceptProjectInvitation extends React.Component<Props, State> {
         ({ data }) => {
           this.setState({ data })
         },
-        error => {
+        (error) => {
           const errorMessage = error.response
             ? acceptInvitationTokenErrorMessage(error.response.status)
             : undefined

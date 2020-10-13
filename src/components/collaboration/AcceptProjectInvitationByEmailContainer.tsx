@@ -13,6 +13,7 @@
 import { parse } from 'qs'
 import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
+
 import { acceptProjectInvitation } from '../../lib/api'
 import { trackEvent } from '../../lib/tracking'
 import { LoadingPage } from '../Loading'
@@ -34,16 +35,16 @@ class AcceptInvitationByEmailContainer extends React.Component<
   public componentDidMount() {
     const { token } = parse(window.location.hash.substr(1))
 
-    acceptProjectInvitation(token).then(
-      ({ data }) => {
+    acceptProjectInvitation(token as string)
+      .then(({ data }) => {
         this.setState({ data })
         trackEvent({
           category: 'Invitations',
           action: 'Accept',
           label: `projectID=${data.containerID}`,
         })
-      },
-      error => {
+      })
+      .catch((error) => {
         const errorMessage = error.response
           ? acceptInvitationErrorMessage(error.response.status)
           : undefined
@@ -53,14 +54,15 @@ class AcceptInvitationByEmailContainer extends React.Component<
             errorMessage,
           },
         })
-      }
-    )
+      })
   }
 
   public render() {
     const { data } = this.state
 
-    if (!data) return <LoadingPage>Accepting invitation…</LoadingPage>
+    if (!data) {
+      return <LoadingPage>Accepting invitation…</LoadingPage>
+    }
 
     return (
       <Redirect

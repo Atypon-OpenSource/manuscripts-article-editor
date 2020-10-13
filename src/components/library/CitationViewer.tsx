@@ -17,19 +17,19 @@ import React from 'react'
 import styled from 'styled-components'
 
 const CitedItem = styled.div`
-  padding: ${props => props.theme.grid.unit * 4}px 0;
+  padding: ${(props) => props.theme.grid.unit * 4}px 0;
   cursor: pointer;
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid ${props => props.theme.colors.border.tertiary};
+    border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
   }
 `
 
 const CitedItemTitle = styled(Title)``
 
 const CitedItemAuthors = styled.div`
-  margin-top: ${props => props.theme.grid.unit}px;
-  color: ${props => props.theme.colors.text.secondary};
+  margin-top: ${(props) => props.theme.grid.unit}px;
+  color: ${(props) => props.theme.colors.text.secondary};
   flex: 1;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -37,8 +37,8 @@ const CitedItemAuthors = styled.div`
 `
 
 const CitedItems = styled.div`
-  padding: 0 ${props => props.theme.grid.unit * 4}px;
-  font-family: ${props => props.theme.font.family.sans};
+  padding: 0 ${(props) => props.theme.grid.unit * 4}px;
+  font-family: ${(props) => props.theme.font.family.sans};
   max-height: 70vh;
   overflow-y: auto;
 `
@@ -49,7 +49,7 @@ interface Props {
 
 export const CitationViewer: React.FC<Props> = ({ items }) => (
   <CitedItems>
-    {items.map(item => (
+    {items.map((item) => (
       <CitedItem
         key={item._id}
         onClick={() => {

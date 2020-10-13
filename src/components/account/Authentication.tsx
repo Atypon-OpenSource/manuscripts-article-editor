@@ -18,28 +18,29 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import connectLogo from '../../../assets/connect.png'
 import config from '../../config'
 import { AuthProvider } from './AuthButtonContainer'
 
 const ButtonText = styled.div`
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const IconButtonWithText = styled(IconButton)`
-  margin: ${props => props.theme.grid.unit}px;
-  padding: 0 ${props => props.theme.grid.unit * 4}px;
+  margin: ${(props) => props.theme.grid.unit}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 4}px;
   width: auto;
 `
 
 const GoogleImage = styled.span`
-  height: ${props => props.theme.grid.unit * 10}px;
-  margin: -${props => props.theme.grid.unit}px 0 0 -${props =>
+  height: ${(props) => props.theme.grid.unit * 10}px;
+  margin: -${(props) => props.theme.grid.unit}px 0 0 -${(props) =>
       props.theme.grid.unit}px;
 `
 
 const SignupButton = styled.button`
-  color: ${props => props.theme.colors.background.primary};
+  color: ${(props) => props.theme.colors.background.primary};
   background-color: #0d79d0;
   font-size: 16pt;
   cursor: pointer;
@@ -61,7 +62,7 @@ const LoginButton = styled.button`
   border-radius: 4px;
 
   &:hover {
-    color: ${props => props.theme.colors.brand.default};
+    color: ${(props) => props.theme.colors.brand.default};
   }
 `
 

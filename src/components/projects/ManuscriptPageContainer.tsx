@@ -10,6 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import '@manuscripts/manuscript-editor/styles/Editor.css'
+import '@manuscripts/manuscript-editor/styles/popper.css'
+import '@reach/tabs/styles.css'
+
 import {
   createProcessor,
   GetCitationProcessor,
@@ -30,8 +34,6 @@ import {
   PopperManager,
   RequirementsProvider,
 } from '@manuscripts/manuscript-editor'
-import '@manuscripts/manuscript-editor/styles/Editor.css'
-import '@manuscripts/manuscript-editor/styles/popper.css'
 import {
   ActualManuscriptNode,
   Build,
@@ -94,13 +96,13 @@ import {
   TreeChanges,
 } from '@manuscripts/sync-client'
 import { TitleEditorState, TitleEditorView } from '@manuscripts/title-editor'
-import '@reach/tabs/styles.css'
 import CiteProc from 'citeproc'
 import debounce from 'lodash-es/debounce'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Prompt, RouteComponentProps } from 'react-router'
 import { Subscription } from 'rxjs/Subscription'
+
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
@@ -186,7 +188,7 @@ import { SuccessModal } from './SuccessModal'
 
 interface ModelObject {
   // [key: string]: ModelObject[keyof ModelObject]
-  [key: string]: any // tslint:disable-line:no-any
+  [key: string]: any
 }
 
 interface State {
@@ -337,7 +339,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       params.projectID !== nextParams.projectID ||
       params.manuscriptID !== nextParams.manuscriptID
     ) {
-      this.subs.forEach(sub => sub.unsubscribe())
+      this.subs.forEach((sub) => sub.unsubscribe())
 
       if (params.projectID !== nextParams.projectID) {
         this.collection = CollectionManager.getCollection<Model>(
@@ -373,12 +375,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   public componentWillUnmount() {
-    this.subs.forEach(sub => sub.unsubscribe())
+    this.subs.forEach((sub) => sub.unsubscribe())
     this.state.popper.destroy()
     window.removeEventListener('beforeunload', this.unloadListener)
   }
 
-  // tslint:disable:cyclomatic-complexity
   public render() {
     const { projectID } = this.props.match.params
 
@@ -659,7 +660,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     } = this.props
 
     const userProject = userProjects.find(
-      userProject => userProject.projectID === projectID
+      (userProject) => userProject.projectID === projectID
     )
 
     if (!userProject) {
@@ -687,7 +688,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       this.setState({
         conflictManager,
-        plugins: syncPlugins.map(plugin =>
+        plugins: syncPlugins.map((plugin) =>
           plugin({
             conflictManager,
             popperManager: this.state.popper,
@@ -710,7 +711,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       try {
         await this.createCitationProcessor(this.props.manuscript, modelMap)
       } catch (error) {
-        console.error(error) // tslint:disable-line:no-console
+        console.error(error)
       }
 
       const decoder = new Decoder(modelMap)
@@ -729,7 +730,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         this.setState({ doc })
       } catch (error) {
-        console.error(error) // tslint:disable-line:no-console
+        console.error(error)
         throw new Error(
           'Failed to open project for editing due to an error during data preparation.'
         )
@@ -742,7 +743,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
       await this.saveUserProject(projectID, manuscriptID)
     } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
+      console.error(error)
       this.setState({
         error: error.message,
       })
@@ -751,11 +752,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private setView = (view: ManuscriptEditorView) => {
     this.setState({ view }, () => {
-      this.subscribeToConflicts().catch(err => {
+      this.subscribeToConflicts().catch((err) => {
         throw err
       })
 
-      this.subscribeToSyncErrors().catch(err => {
+      this.subscribeToSyncErrors().catch((err) => {
         throw err
       })
     })
@@ -856,7 +857,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private deleteManuscript = async (id: string) => {
     const { manuscripts, project } = this.props
-    const index = manuscripts.findIndex(item => item._id === id)
+    const index = manuscripts.findIndex((item) => item._id === id)
 
     const prevManuscript: Manuscript = manuscripts[index === 0 ? 1 : index - 1]
 
@@ -898,7 +899,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private dispatchNodeAttrs = (id: string, attrs: object) => {
+  private dispatchNodeAttrs = (id: string, attrs: Record<string, unknown>) => {
     const { view } = this.state
 
     if (!view) {
@@ -988,10 +989,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     ))
   }
 
-  private openExporter = (
-    format: ExportFormat,
-    closeOnSuccess: boolean = true
-  ) => {
+  private openExporter = (format: ExportFormat, closeOnSuccess = true) => {
     const { addModal, match, project } = this.props
 
     const { submission } = this.state
@@ -1081,7 +1079,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     // TODO: save dependencies first, then the manuscript
     // TODO: handle multiple manuscripts in a project bundle
 
-    const items = models.map(model => ({
+    const items = models.map((model) => ({
       ...model,
       containerID: projectID,
       manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
@@ -1096,7 +1094,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         await attachStyle(bundle, this.collection as Collection<ContainedModel>)
       }
     } catch (error) {
-      console.log(error) // tslint:disable-line:no-console
+      console.log(error)
     }
 
     if (redirect) {
@@ -1175,11 +1173,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private insertNativeCitationSync = (
     encodedData: string,
     type: string,
-    insert: boolean = false,
+    insert = false,
     batchId?: string
   ): true => {
     this.insertNativeCitation(encodedData, type, insert)
-      .then(imported => {
+      .then((imported) => {
         if (batchId) {
           postWebkitMessage('taskCallback', {
             batchId,
@@ -1188,8 +1186,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           })
         }
       })
-      .catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      .catch((error) => {
+        console.error(error)
 
         if (batchId) {
           postWebkitMessage('taskCallback', {
@@ -1239,7 +1237,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     if (newItems.length) {
       const { projectID } = this.props.match.params
 
-      const containedItems = newItems.map(model => ({
+      const containedItems = newItems.map((model) => ({
         ...model,
         containerID: projectID,
       }))
@@ -1257,7 +1255,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           view.state,
           view.dispatch,
           view,
-          itemsToCite.map(item => item._id)
+          itemsToCite.map((item) => item._id)
         )
 
         const { tr } = view.state // new state
@@ -1395,7 +1393,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       const { modelMap } = this.state
       const decoder = new Decoder(modelMap!)
       const items = blocksToUpdate
-        .map(block => {
+        .map((block) => {
           const model = modelMap!.get(block)
           return model ? decoder.decode(model) : null
         })
@@ -1407,7 +1405,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     const sub = this.collection
       .getCollection()
-      .$.subscribe(async changeEvent => {
+      .$.subscribe(async (changeEvent) => {
         const op = changeEvent.data.op
         const doc = changeEvent.data.doc
         const v = changeEvent.data.v as Model
@@ -1416,7 +1414,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           throw new Error('Unexpected change event data')
         }
 
-        console.log({ op, doc, v }) // tslint:disable-line:no-console
+        console.log({ op, doc, v })
 
         // TODO: only subscribe to changes to this project/manuscript?
         if (!this.isRelevantUpdate(v, projectID, manuscriptID, sessionID)) {
@@ -1469,12 +1467,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
             return
           }
         } catch (e) {
-          // tslint:disable-next-line:no-console
           console.warn(`Could not resolve conflict for ${model._id}`, e)
         }
 
         const { modelMap } = this.state
-        if (!modelMap) return
+        if (!modelMap) {
+          return
+        }
 
         if (isTreeChange(model, modelMap)) {
           this.treeChangeQueue(modelMap)
@@ -1497,7 +1496,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
           receive(op, doc, node)
         } catch (e) {
-          // tslint:disable-next-line:no-console
           console.warn(e)
         }
       })
@@ -1515,7 +1513,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     modelIds: Set<string>,
     newModelIds: Set<string>
   ): string[] =>
-    Array.from(modelIds).filter(id => {
+    Array.from(modelIds).filter((id) => {
       return !newModelIds.has(id)
     })
 
@@ -1535,7 +1533,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       ...this.requirementFields,
     ]
 
-    return Object.keys(model).filter(key => !excludedKeys.includes(key))
+    return Object.keys(model).filter((key) => !excludedKeys.includes(key))
   }
 
   private hasChanged = (model: ModelObject): boolean => {
@@ -1543,7 +1541,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     // TODO: return false if the previous model was a placeholder element?
 
-    if (!previousModel) return true
+    if (!previousModel) {
+      return true
+    }
 
     const modelKeys = this.keysForComparison(model)
     const previousModelKeys = this.keysForComparison(previousModel)
@@ -1591,7 +1591,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const selectedSection = findParentSection(state.selection)
     const selectedElement = findParentElement(state.selection)
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       dirty: prevState.dirty || docChanged,
       doc: state.doc as ActualManuscriptNode,
@@ -1761,14 +1761,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         // NOTE: reversed, to remove children first
         await Promise.all(
-          removedModelIds.reverse().map(id =>
-            this.collection.delete(id).catch(error => {
-              console.error(error) // tslint:disable-line:no-console
+          removedModelIds.reverse().map((id) =>
+            this.collection.delete(id).catch((error) => {
+              console.error(error)
             })
           )
         )
 
-        removedModelIds.map(id => {
+        removedModelIds.map((id) => {
           modelMap!.delete(id)
         })
       }
@@ -1789,9 +1789,9 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         this.handleTreeChanges
       )
 
-      console.log('saved') // tslint:disable-line:no-console
+      console.log('saved')
     } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
+      console.error(error)
     }
   }
 
@@ -1942,7 +1942,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     // save the new template models
     await this.collection.bulkCreate(
-      templateModels.map(model => ({
+      templateModels.map((model) => ({
         ...model,
         containerID: project._id,
         manuscriptID: manuscript._id,
@@ -2049,7 +2049,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       ? templateISSNS
       : this.buildBundleISSNs(manuscript)
 
-    const targetJournals = await loadTargetJournals().then(targetJournals =>
+    const targetJournals = await loadTargetJournals().then((targetJournals) =>
       targetJournals.length
         ? targetJournals
         : JSON.parse(window.localStorage.getItem('targetJournals') || '[]')

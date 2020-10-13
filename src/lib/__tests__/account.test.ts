@@ -14,6 +14,7 @@ jest.mock('../api/authentication')
 jest.mock('../adapter')
 
 import decode from 'jwt-decode'
+
 import { login, logout, resetPassword } from '../account'
 import { clearChannelFolder } from '../broadcast-channel'
 import { databaseCreator, recreateDatabase } from '../db'

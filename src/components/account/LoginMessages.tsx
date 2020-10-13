@@ -12,6 +12,7 @@
 
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
+
 import { ContactSupportButton } from '../ContactSupportButton'
 
 interface ResendVerificationData {

@@ -15,6 +15,7 @@ import { storiesOf } from '@storybook/react'
 import { createBrowserHistory } from 'history'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import { Notifications } from '../src/components/Notifications'
 import { createUpdateReadyNotification } from '../src/components/ServiceWorker'
 
@@ -27,6 +28,7 @@ const routeProps: RouteComponentProps = {
     url: '',
   },
   location: {
+    key: 'test',
     hash: '',
     pathname: '/projects',
     search: '',

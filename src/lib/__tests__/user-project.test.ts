@@ -13,6 +13,7 @@
 jest.mock('../device-id')
 
 import { Project, UserProject } from '@manuscripts/manuscripts-json-schema'
+
 import deviceID from '../device-id'
 import { buildRecentProjects, buildUserProject } from '../user-project'
 

@@ -14,6 +14,7 @@ import { storiesOf } from '@storybook/react'
 import { createBrowserHistory } from 'history'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import NotFoundPage from '../src/components/NotFoundPage'
 
 const routeProps: RouteComponentProps = {

@@ -21,6 +21,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import { InlineStyle, Model } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback } from 'react'
+
 import { findInlineStyles } from '../../lib/styles'
 import { InlineStyles } from './InlineStyles'
 
@@ -124,8 +125,8 @@ export const InlineStyleInspector: React.FC<{
         addStyleMark(inlineStyle._id, view.state, view.dispatch)
         view.focus()
       })
-      .catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      .catch((error) => {
+        console.error(error)
       })
   }, [inlineStyles, saveModel, view])
 
@@ -154,14 +155,14 @@ export const InlineStyleInspector: React.FC<{
             : 'Delete this style?'
         )
       ) {
-        deleteModel(activeStyle._id).catch(error => {
-          console.error(error) // tslint:disable-line:no-console
+        deleteModel(activeStyle._id).catch((error) => {
+          console.error(error)
         })
       }
 
       view.focus()
     }
-  }, [deleteModel, activeStyle])
+  }, [activeStyle, view, deleteModel])
 
   const renameActiveStyle = useCallback(() => {
     if (!activeStyle) {
@@ -174,8 +175,8 @@ export const InlineStyleInspector: React.FC<{
       saveModel<InlineStyle>({
         ...activeStyle,
         title,
-      }).catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      }).catch((error) => {
+        console.error(error)
       })
     }
   }, [activeStyle, saveModel])
@@ -185,11 +186,11 @@ export const InlineStyleInspector: React.FC<{
       saveModel<InlineStyle>({
         ...activeStyle,
         style,
-      }).catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      }).catch((error) => {
+        console.error(error)
       })
     },
-    [activeStyle]
+    [activeStyle, saveModel]
   )
 
   return (

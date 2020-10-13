@@ -9,47 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
-
-import { TextField } from '@manuscripts/style-guide'
-import React, { useCallback } from 'react'
-import { useSyncedData } from '../../hooks/use-synced-data'
-
-const convertNumberToDateString = (input?: number): string => {
-  if (!input) {
-    return ''
-  }
-
-  const output = new Date(input)
-
-  if (!output) {
-    return ''
-  }
-
-  return output.toISOString().substr(0, 10)
-}
-
-export const DateInput: React.FC<{
-  value?: number
-  handleChange: (value?: number) => void
-}> = ({ value, handleChange }) => {
-  const [currentValue, handleLocalChange, setEditing] = useSyncedData<
-    number | undefined
-  >(value, handleChange, 500)
-
-  const handleInputChange = useCallback(
-    event => {
-      handleLocalChange(event.target.valueAsNumber)
-    },
-    [handleLocalChange]
-  )
-
-  return (
-    <TextField
-      value={convertNumberToDateString(currentValue)}
-      type={'date'}
-      onChange={handleInputChange}
-      onFocus={() => setEditing(true)}
-      onBlur={() => setEditing(false)}
-    />
-  )
+module.exports = {
+  stories: ['../**/*.stories.tsx'],
+  addons: ['@storybook/addon-actions', '@storybook/addon-links'],
 }

@@ -13,6 +13,7 @@
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback } from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import { postWebkitMessage } from '../../lib/native'
 import TemplateSelector from '../templates/TemplateSelector'
 
@@ -20,16 +21,14 @@ export interface NewProjectPageContainerProps {
   user: UserProfile
 }
 
-const NewProjectPageContainer: React.FC<RouteComponentProps &
-  NewProjectPageContainerProps> = ({ history, user }) => {
-  const handleClose = useCallback(
-    (isCancellation: boolean) => {
-      if (isCancellation) {
-        postWebkitMessage('action', { name: 'close-window' })
-      }
-    },
-    [history]
-  )
+const NewProjectPageContainer: React.FC<
+  RouteComponentProps & NewProjectPageContainerProps
+> = ({ history, user }) => {
+  const handleClose = useCallback((isCancellation: boolean) => {
+    if (isCancellation) {
+      postWebkitMessage('action', { name: 'close-window' })
+    }
+  }, [])
 
   return <TemplateSelector user={user} handleComplete={handleClose} />
 }

@@ -18,6 +18,7 @@ import {
   TableStyle,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import {
   DEFAULT_TABLE_CAPTION_ALIGNMENT,
   DEFAULT_TABLE_CAPTION_POSITION,
@@ -78,11 +79,11 @@ export const TableStyles: React.FC<{
       <InspectorField>
         <StyleSelect
           value={tableStyle._id}
-          onChange={event => {
+          onChange={(event) => {
             setElementTableStyle(event.target.value)
           }}
         >
-          {tableStyles.map(style => (
+          {tableStyles.map((style) => (
             <option value={style._id} key={style._id}>
               {style.title}
             </option>
@@ -113,7 +114,7 @@ export const TableStyles: React.FC<{
                 tableStyle.captionPosition,
                 DEFAULT_TABLE_CAPTION_POSITION
               )}
-              handleChange={captionPosition => {
+              handleChange={(captionPosition) => {
                 saveTableStyle({
                   ...tableStyle,
                   captionPosition,
@@ -126,7 +127,7 @@ export const TableStyles: React.FC<{
                 tableStyle.alignment,
                 DEFAULT_TABLE_CAPTION_ALIGNMENT
               )}
-              handleChange={alignment => {
+              handleChange={(alignment) => {
                 saveTableStyle({
                   ...tableStyle,
                   alignment,
@@ -146,13 +147,13 @@ export const TableStyles: React.FC<{
                 colorScheme={colorScheme}
                 saveModel={saveModel}
                 setError={setError}
-                saveBorder={border => {
+                saveBorder={(border) => {
                   saveTableStyle({
                     ...tableStyle,
                     headerTopBorder: border,
                   })
                 }}
-                saveDebouncedBorder={border =>
+                saveDebouncedBorder={(border) =>
                   saveDebouncedTableStyle({
                     ...tableStyle,
                     headerTopBorder: border,
@@ -171,13 +172,13 @@ export const TableStyles: React.FC<{
                 colorScheme={colorScheme}
                 saveModel={saveModel}
                 setError={setError}
-                saveBorder={border => {
+                saveBorder={(border) => {
                   saveTableStyle({
                     ...tableStyle,
                     headerBottomBorder: border,
                   })
                 }}
-                saveDebouncedBorder={border =>
+                saveDebouncedBorder={(border) =>
                   saveDebouncedTableStyle({
                     ...tableStyle,
                     headerBottomBorder: border,
@@ -198,13 +199,13 @@ export const TableStyles: React.FC<{
                 colorScheme={colorScheme}
                 saveModel={saveModel}
                 setError={setError}
-                saveBorder={border => {
+                saveBorder={(border) => {
                   saveTableStyle({
                     ...tableStyle,
                     footerTopBorder: border,
                   })
                 }}
-                saveDebouncedBorder={border =>
+                saveDebouncedBorder={(border) =>
                   saveDebouncedTableStyle({
                     ...tableStyle,
                     footerTopBorder: border,
@@ -223,13 +224,13 @@ export const TableStyles: React.FC<{
                 colorScheme={colorScheme}
                 saveModel={saveModel}
                 setError={setError}
-                saveBorder={border => {
+                saveBorder={(border) => {
                   saveTableStyle({
                     ...tableStyle,
                     footerBottomBorder: border,
                   })
                 }}
-                saveDebouncedBorder={border =>
+                saveDebouncedBorder={(border) =>
                   saveDebouncedTableStyle({
                     ...tableStyle,
                     footerBottomBorder: border,

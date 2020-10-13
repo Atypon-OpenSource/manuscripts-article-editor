@@ -19,6 +19,7 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { IndicatorKind, ProgressIndicator } from '../ProgressIndicator'
 
 const ModalBody = styled(ModalMain)`
@@ -33,7 +34,7 @@ const ModalBody = styled(ModalMain)`
 
 const ModalStatus = styled.div`
   align-items: center;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
   display: flex;
   font-size: 120%;
   justify-content: center;

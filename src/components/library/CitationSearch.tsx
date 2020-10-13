@@ -22,6 +22,7 @@ import {
 } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import Search, { SearchWrapper } from '../Search'
 import { BibliographyImportButton } from './BibliographyImportButton'
 import { CitationSearchSection } from './CitationSearchSection'
@@ -36,12 +37,12 @@ const Actions = styled(ButtonGroup)`
   box-shadow: 0 -2px 12px 0 rgba(216, 216, 216, 0.26);
   display: flex;
   justify-content: space-between;
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const Container = styled.div`
   flex: 1;
-  font-family: ${props => props.theme.font.family.sans};
+  font-family: ${(props) => props.theme.font.family.sans};
 `
 
 interface Props {
@@ -105,7 +106,7 @@ export const CitationSearch: React.FC<{
 
   const searchLibrary: SearchInterface = useCallback(
     (query: string, params: { rows: number; sort?: string }) => {
-      return filterLibraryItems(query).then(items => ({
+      return filterLibraryItems(query).then((items) => ({
         items: items.slice(0, params.rows),
         total: items.length,
       }))
@@ -135,7 +136,7 @@ export const CitationSearch: React.FC<{
     }
 
     setSources(sources)
-  }, [query])
+  }, [query, searchLibrary])
 
   const addToSelection = useCallback(
     (id: string, data: Build<BibliographyItem>) => {
@@ -150,7 +151,7 @@ export const CitationSearch: React.FC<{
           new Map<string, Build<BibliographyItem>>([...selected])
         )
       } else {
-        setFetching(fetching => {
+        setFetching((fetching) => {
           fetching.add(id)
           return new Set<string>([...fetching])
         })
@@ -158,7 +159,7 @@ export const CitationSearch: React.FC<{
         // fetch Citeproc JSON
         crossref
           .fetch(data as Partial<BibliographyItem>)
-          .then(result => {
+          .then((result) => {
             // remove DOI URLs
             if (
               result.URL &&
@@ -167,19 +168,19 @@ export const CitationSearch: React.FC<{
               delete result.URL
             }
 
-            setSelected(selected => {
+            setSelected((selected) => {
               selected.set(id, buildBibliographyItem(result))
               return new Map<string, Build<BibliographyItem>>([...selected])
             })
 
             window.setTimeout(() => {
-              setFetching(fetching => {
+              setFetching((fetching) => {
                 fetching.delete(id)
                 return new Set<string>([...fetching])
               })
             }, 100)
           })
-          .catch(error => {
+          .catch((error) => {
             setError(error.message)
           })
       }
@@ -199,8 +200,8 @@ export const CitationSearch: React.FC<{
 
   const importItems = useCallback(
     (items: Array<Build<BibliographyItem>>) => {
-      return _importItems(items).then(newItems => {
-        setSelected(selected => {
+      return _importItems(items).then((newItems) => {
+        setSelected((selected) => {
           // if there's a single new imported item, select it
           if (newItems.length === 1) {
             const [newItem] = newItems
@@ -242,7 +243,7 @@ export const CitationSearch: React.FC<{
       <Results>
         {error && <div>{error}</div>}
 
-        {sources.map(source => (
+        {sources.map((source) => (
           <CitationSearchSection
             key={`${source.id}-${updated}`}
             source={source}
@@ -259,7 +260,6 @@ export const CitationSearch: React.FC<{
         <ButtonGroup>
           <BibliographyImportButton
             importItems={importItems}
-            setError={setError}
             component={ImportButton}
           />
         </ButtonGroup>

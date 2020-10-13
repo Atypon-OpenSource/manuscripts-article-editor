@@ -9,6 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
+import 'react-modern-calendar-datepicker/lib/DatePicker.css'
+
 import AttentionOrange from '@manuscripts/assets/react/AttentionOrange'
 import AttentionRed from '@manuscripts/assets/react/AttentionRed'
 import { Section } from '@manuscripts/manuscripts-json-schema'
@@ -16,8 +18,8 @@ import { TextField, Tip } from '@manuscripts/style-guide'
 import { format } from 'date-fns'
 import React from 'react'
 import DatePicker, { Day } from 'react-modern-calendar-datepicker'
-import 'react-modern-calendar-datepicker/lib/DatePicker.css'
 import styled from 'styled-components'
+
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { SaveModel } from './ManuscriptInspector'
 
@@ -27,7 +29,7 @@ const DateInput = styled(TextField).attrs({
   padding: 8px;
   font-size: 1em;
 
-  color: ${props =>
+  color: ${(props) =>
     props.overdue
       ? props.theme.colors.text.error
       : props.dueSoon
@@ -116,7 +118,7 @@ export const DeadlineInput: React.FC<{
       <DatePicker
         value={target.deadline ? day(target.deadline) : null}
         renderInput={renderCustomInput}
-        onChange={async date => {
+        onChange={async (date) => {
           await saveModel<AnyElement | Section>({
             ...target,
             deadline: date ? timeStamp(date) / 1000 : undefined,

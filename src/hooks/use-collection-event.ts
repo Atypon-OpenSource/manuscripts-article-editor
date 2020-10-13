@@ -12,6 +12,7 @@
 
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useState } from 'react'
+
 import { Collection } from '../sync/Collection'
 import { Direction, EventType } from '../sync/types'
 
@@ -24,13 +25,13 @@ export const useCollectionEvent = <T extends Model>(
 
   useEffect(() => {
     if (!collection.status[direction][eventType]) {
-      collection.addEventListener(eventType, event => {
+      collection.addEventListener(eventType, (event) => {
         if (event.detail.direction === direction) {
           setValue(event.detail.value)
         }
       })
     }
-  }, [collection, direction])
+  }, [collection, direction, eventType])
 
   return value
 }

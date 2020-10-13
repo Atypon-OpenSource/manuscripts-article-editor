@@ -11,6 +11,7 @@
  */
 
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+
 import { filterLibrary } from '../search-library'
 
 describe('library filtering', () => {

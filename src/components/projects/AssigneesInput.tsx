@@ -14,6 +14,7 @@ import { Avatar, Tip } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import Select, { components } from 'react-select'
 import styled from 'styled-components'
+
 import { avatarURL } from '../../lib/avatar-url'
 import { selectStyles } from '../../lib/select-styles'
 import { AnyElement } from '../inspector/ElementStyleInspector'
@@ -21,14 +22,14 @@ import { SaveModel } from './ManuscriptInspector'
 import { PlusIcon } from './Status/StatusIcons'
 
 const Name = styled.div`
-  padding-left: ${props => props.theme.grid.unit}px;
+  padding-left: ${(props) => props.theme.grid.unit}px;
 `
 const AvatarContainer = styled.div`
-  margin-right: ${props => props.theme.grid.unit}px;
+  margin-right: ${(props) => props.theme.grid.unit}px;
 `
 const Avatars = styled.div`
   display: flex;
-  margin-left: ${props => props.theme.grid.unit * 2}px;
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 const Button = styled.button`
   border: none;
@@ -43,7 +44,7 @@ const Button = styled.button`
 interface Props {
   data: UserProfile
 }
-const MultiValueLabel: React.FC<Props> = props => {
+const MultiValueLabel: React.FC<Props> = (props) => {
   return (
     <components.MultiValueLabel {...props}>
       <Avatar src={avatarURL(props.data)} size={22} />
@@ -63,14 +64,14 @@ export const AssigneesInput: React.FC<{
 }> = ({ saveModel, profiles, target }) => {
   const userIDs = target.assignees || []
 
-  const assignees = profiles.filter(profile => userIDs.includes(profile._id))
+  const assignees = profiles.filter((profile) => userIDs.includes(profile._id))
   const [opened, setOpened] = useState(false)
 
   return !opened ? (
     <>
       {assignees.length !== 0 && (
         <Avatars>
-          {assignees.map(user => (
+          {assignees.map((user) => (
             <AvatarContainer key={user._id}>
               <Tip
                 placement={'bottom'}
@@ -97,14 +98,14 @@ export const AssigneesInput: React.FC<{
       isMulti={true}
       options={profiles}
       value={assignees}
-      getOptionValue={option => option._id}
-      getOptionLabel={option =>
+      getOptionValue={(option) => option._id}
+      getOptionLabel={(option) =>
         option.bibliographicName.given + ' ' + option.bibliographicName.family
       }
       onChange={async (users: UserProfile[]) => {
         await saveModel<AnyElement | Section>({
           ...target,
-          assignees: users ? users.map(user => user._id) : [],
+          assignees: users ? users.map((user) => user._id) : [],
         })
       }}
       styles={{
@@ -116,7 +117,7 @@ export const AssigneesInput: React.FC<{
           alignItems: 'center',
           display: 'flex',
         }),
-        multiValue: base => ({
+        multiValue: (base) => ({
           ...base,
           backgroundColor: 'none',
           color: 'black',

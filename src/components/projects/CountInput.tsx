@@ -14,6 +14,7 @@ import { Build } from '@manuscripts/manuscript-transform'
 import { CountRequirement } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback } from 'react'
 import styled from 'styled-components'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 import { Checkbox, NumberField } from './inputs'
 
@@ -78,7 +79,7 @@ const Field = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: ${props => props.theme.grid.unit * 2}px;
+  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 
   &:last-child {
     margin-bottom: 0;

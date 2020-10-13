@@ -31,6 +31,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
+
 import { buildCommentTree, CommentData } from '../../lib/comments'
 import { RelativeDate } from '../RelativeDate'
 import CommentBody from './CommentBody'
@@ -46,12 +47,12 @@ const CommentListContainer = styled.div`
 const Container = styled.div<{
   isSelected: boolean
 }>`
-  padding: ${props => props.theme.grid.unit * 4}px 0
-    ${props => props.theme.grid.unit * 2}px;
-  background: ${props => props.theme.colors.background.primary};
-  border: 1px solid ${props => props.theme.colors.brand.xlight};
+  padding: ${(props) => props.theme.grid.unit * 4}px 0
+    ${(props) => props.theme.grid.unit * 2}px;
+  background: ${(props) => props.theme.colors.background.primary};
+  border: 1px solid ${(props) => props.theme.colors.brand.xlight};
   border-left: 4px solid
-    ${props =>
+    ${(props) =>
       props.isSelected
         ? props.theme.colors.border.warning
         : props.theme.colors.brand.light};
@@ -65,22 +66,22 @@ const CommentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
   margin-bottom: 16px;
   padding: 0 16px;
 `
 
 const Reply = styled.div`
-  padding: ${props => props.theme.grid.unit * 4}px 0
-    ${props => props.theme.grid.unit * 2}px;
-  margin-left: ${props => props.theme.grid.unit * 4}px;
-  border: 1px solid ${props => props.theme.colors.brand.xlight};
+  padding: ${(props) => props.theme.grid.unit * 4}px 0
+    ${(props) => props.theme.grid.unit * 2}px;
+  margin-left: ${(props) => props.theme.grid.unit * 4}px;
+  border: 1px solid ${(props) => props.theme.colors.brand.xlight};
   border-top: none;
 `
 
 const LightRelativeDate = styled(RelativeDate)`
-  font-size: ${props => props.theme.font.size.small};
-  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.small};
+  color: ${(props) => props.theme.colors.text.secondary};
   letter-spacing: -0.2px;
 `
 
@@ -93,11 +94,11 @@ const PlaceholderContainer = styled.div`
 `
 
 const PlaceholderMessage = styled.div`
-  font-size: ${props => props.theme.font.size.medium};
-  font-weight: ${props => props.theme.font.weight.light};
-  color: ${props => props.theme.colors.text.secondary};
+  font-size: ${(props) => props.theme.font.size.medium};
+  font-weight: ${(props) => props.theme.font.weight.light};
+  color: ${(props) => props.theme.colors.text.secondary};
   text-align: center;
-  margin: ${props => props.theme.grid.unit * 5}px;
+  margin: ${(props) => props.theme.grid.unit * 5}px;
 `
 
 interface Props {
@@ -174,7 +175,7 @@ export const CommentList: React.FC<Props> = React.memo(
 
     const saveComment = useCallback(
       (comment: CommentAnnotation) => {
-        return saveModel(comment).then(comment => {
+        return saveModel(comment).then((comment) => {
           if (newComment && newComment._id === comment._id) {
             setCommentTarget(undefined)
           }
@@ -189,7 +190,7 @@ export const CommentList: React.FC<Props> = React.memo(
       (comment: CommentAnnotation) => {
         return deleteModel(comment._id)
           .catch((error: Error) => {
-            console.error(error) // tslint:disable-line:no-console
+            console.error(error)
           })
           .then(async () => {
             if (comment.target.startsWith('MPHighlight:')) {
@@ -197,7 +198,7 @@ export const CommentList: React.FC<Props> = React.memo(
             }
           })
           .catch((error: Error) => {
-            console.error(error) // tslint:disable-line:no-console
+            console.error(error)
           })
           .finally(() => {
             if (comment.target.startsWith('MPHighlight:')) {
@@ -209,14 +210,7 @@ export const CommentList: React.FC<Props> = React.memo(
             }
           })
       },
-      [
-        deleteModel,
-        deleteHighlightMarkers,
-        newComment,
-        setCommentTarget,
-        state,
-        dispatch,
-      ]
+      [deleteModel, newComment, setCommentTarget, state, dispatch]
     )
 
     const isNew = useCallback(
@@ -246,7 +240,7 @@ export const CommentList: React.FC<Props> = React.memo(
             (selected &&
               (selected.node.attrs.id === target ||
                 selected.node.attrs.rid === target)) ||
-            highlights.some(highlight => highlight.rid === target)
+            highlights.some((highlight) => highlight.rid === target)
 
           return (
             <CommentTarget key={target} isSelected={isSelected}>
@@ -279,7 +273,7 @@ export const CommentList: React.FC<Props> = React.memo(
                     />
                   </Container>
 
-                  {children.map(comment => (
+                  {children.map((comment) => (
                     <Reply key={comment._id}>
                       <CommentHeader>
                         {comment.contributions && (

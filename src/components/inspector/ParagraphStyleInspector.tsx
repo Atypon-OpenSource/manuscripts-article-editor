@@ -28,6 +28,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { buildColors } from '../../lib/colors'
 import { findBodyTextParagraphStyles } from '../../lib/styles'
 import { fromPrototype } from '../../lib/templates'
@@ -56,9 +57,11 @@ export const hasParagraphStyle = (
 ): element is ElementWithParagraphStyle =>
   objectsWithParagraphStyle.includes(element.objectType as ObjectTypes)
 
-export const ParagraphStyleInspector: React.FC<ElementStyleInspectorProps & {
-  element: ElementWithParagraphStyle
-}> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
+export const ParagraphStyleInspector: React.FC<
+  ElementStyleInspectorProps & {
+    element: ElementWithParagraphStyle
+  }
+> = ({ deleteModel, element, manuscript, modelMap, saveModel, view }) => {
   const [error, setError] = useState<Error>()
 
   const [paragraphStyle, setParagraphStyle] = useState<ParagraphStyle>()
@@ -87,16 +90,18 @@ export const ParagraphStyleInspector: React.FC<ElementStyleInspectorProps & {
   }, [
     setParagraphStyle,
     elementParagraphStyle,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     JSON.stringify(elementParagraphStyle),
   ])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSaveParagraphStyle = useCallback(
     debounce((paragraphStyle: ParagraphStyle) => {
-      saveModel<ParagraphStyle>(paragraphStyle).catch(error => {
+      saveModel<ParagraphStyle>(paragraphStyle).catch((error) => {
         setError(error)
       })
     }, 500),
-    [setError, saveModel]
+    [saveModel]
   )
 
   const setElementParagraphStyle = useCallback(
@@ -151,14 +156,17 @@ export const ParagraphStyleInspector: React.FC<ElementStyleInspectorProps & {
     debouncedSaveParagraphStyle(paragraphStyle)
   }
 
-  const saveParagraphStyle = (paragraphStyle: ParagraphStyle) => {
-    setParagraphStyle(paragraphStyle)
+  const saveParagraphStyle = useCallback(
+    (paragraphStyle: ParagraphStyle) => {
+      setParagraphStyle(paragraphStyle)
 
-    saveModel<ParagraphStyle>(paragraphStyle).catch(error => {
-      // TODO: restore previous paragraphStyle?
-      setError(error)
-    })
-  }
+      saveModel<ParagraphStyle>(paragraphStyle).catch((error) => {
+        // TODO: restore previous paragraphStyle?
+        setError(error)
+      })
+    },
+    [saveModel]
+  )
 
   const duplicateParagraphStyle = useCallback(() => {
     if (!paragraphStyle) {
@@ -175,10 +183,10 @@ export const ParagraphStyleInspector: React.FC<ElementStyleInspectorProps & {
       ...newStyle,
       title: title || defaultTitle,
     })
-      .then(paragraphStyle => {
+      .then((paragraphStyle) => {
         setElementParagraphStyle(paragraphStyle._id)
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error)
       })
   }, [paragraphStyle, saveModel, setElementParagraphStyle])
@@ -210,11 +218,11 @@ export const ParagraphStyleInspector: React.FC<ElementStyleInspectorProps & {
       removeParagraphStyleAttr(paragraphStyle._id)
 
       // TODO: delay removal? only use styles referenced by elements?
-      deleteModel(paragraphStyle._id).catch(error => {
+      deleteModel(paragraphStyle._id).catch((error) => {
         setError(error)
       })
     }
-  }, [deleteModel, paragraphStyle, setElementParagraphStyle])
+  }, [deleteModel, paragraphStyle, removeParagraphStyleAttr])
 
   // TODO: what should happen if there's no defaultParagraphStyle?
 

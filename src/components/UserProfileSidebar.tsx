@@ -15,17 +15,18 @@ import { Avatar, PrimaryButton, TertiaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { FormattedDate } from 'react-intl'
 import styled from 'styled-components'
+
 import { ModalSidebar, SidebarContent } from './Sidebar'
 
 const UserEmail = styled.div`
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   text-align: center;
 `
 
 const MemberSince = styled.div`
-  font-size: ${props => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.normal};
   text-align: center;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
   margin-top: 10px;
   margin-bottom: 40px;
 `
@@ -35,7 +36,7 @@ const EditButton = styled(PrimaryButton)`
   padding-right: 7px;
 
   &:hover {
-    background: ${props => props.theme.colors.background.primary};
+    background: ${(props) => props.theme.colors.background.primary};
   }
 `
 
@@ -47,8 +48,8 @@ const AvatarContainer = styled.div`
 const RoundedBorders = styled.div`
   width: 150px;
   height: 150px;
-  background-color: ${props => props.theme.colors.background.secondary};
-  border: solid 1px ${props => props.theme.colors.border.primary};
+  background-color: ${(props) => props.theme.colors.background.secondary};
+  border: solid 1px ${(props) => props.theme.colors.border.primary};
   border-radius: 50%;
 `
 

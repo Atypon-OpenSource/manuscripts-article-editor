@@ -12,9 +12,10 @@
 
 import { FormErrors } from '@manuscripts/style-guide'
 import { Formik, FormikErrors } from 'formik'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import ProjectsData from '../../data/ProjectsData'
 import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
@@ -31,12 +32,13 @@ interface Props {
   tokenActions: TokenActions
 }
 
-const DeleteAccountPageContainer: React.FunctionComponent<Props &
-  RouteComponentProps> = ({ history, tokenActions }) => (
+const DeleteAccountPageContainer: React.FunctionComponent<
+  Props & RouteComponentProps
+> = ({ history, tokenActions }) => (
   <ProjectsData>
-    {projects => (
+    {(projects) => (
       <UserData userID={getCurrentUserId()!}>
-        {user => (
+        {(user) => (
           <ModalForm
             title={<DeleteAccountMessage />}
             handleClose={() => history.goBack()}
@@ -65,18 +67,19 @@ const DeleteAccountPageContainer: React.FunctionComponent<Props &
                 } catch (error) {
                   actions.setSubmitting(false)
 
-                  const errors: FormikErrors<DeleteAccountValues &
-                    FormErrors> = {
+                  const errors: FormikErrors<
+                    DeleteAccountValues & FormErrors
+                  > = {
                     submit:
                       error.response &&
-                      error.response.status === HttpStatusCodes.FORBIDDEN
+                      error.response.status === StatusCodes.FORBIDDEN
                         ? 'The password entered is incorrect'
                         : 'There was an error',
                   }
 
                   if (
                     error.response &&
-                    error.response.status === HttpStatusCodes.UNAUTHORIZED
+                    error.response.status === StatusCodes.UNAUTHORIZED
                   ) {
                     tokenActions.delete()
                   } else {
@@ -84,11 +87,11 @@ const DeleteAccountPageContainer: React.FunctionComponent<Props &
                   }
                 }
               }}
-              render={props => (
+              render={(props) => (
                 <DeleteAccountForm
                   {...props}
                   deletedProjects={projects.filter(
-                    project =>
+                    (project) =>
                       project.owners.length === 1 &&
                       isOwner(project, user.userID)
                   )}

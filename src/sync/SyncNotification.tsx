@@ -14,6 +14,7 @@ import AttentionOrange from '@manuscripts/assets/react/AttentionOrange'
 import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import {
   NotificationActions,
   NotificationHead,

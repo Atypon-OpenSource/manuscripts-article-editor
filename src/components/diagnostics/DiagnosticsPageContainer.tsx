@@ -15,6 +15,7 @@ import { Title } from '@manuscripts/title-editor'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+
 import config from '../../config'
 import ProjectsData from '../../data/ProjectsData'
 import CollectionManager from '../../sync/CollectionManager'
@@ -33,7 +34,7 @@ const Container = styled.div`
 `
 
 const Diagnostics = styled.div`
-  padding: 0 ${props => props.theme.grid.unit * 4}px;
+  padding: 0 ${(props) => props.theme.grid.unit * 4}px;
 `
 
 const RowHeader = styled.th`
@@ -41,15 +42,15 @@ const RowHeader = styled.th`
 `
 
 const ProjectsList = styled.div`
-  padding: ${props => props.theme.grid.unit * 2}px
-    ${props => props.theme.grid.unit * 5}px;
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 5}px;
 `
 
 const ProjectLink = styled(Link)`
   text-decoration: none;
   color: inherit;
   display: block;
-  padding: ${props => props.theme.grid.unit}px;
+  padding: ${(props) => props.theme.grid.unit}px;
 
   &:hover {
     text-decoration: underline;
@@ -57,14 +58,14 @@ const ProjectLink = styled(Link)`
 `
 
 const ProjectTitle = styled.div`
-  font-size: ${props => props.theme.font.size.xlarge};
-  font-weight: ${props => props.theme.font.weight.medium};
+  font-size: ${(props) => props.theme.font.size.xlarge};
+  font-weight: ${(props) => props.theme.font.weight.medium};
   font-style: normal;
   flex: 1;
 `
 
 const PlaceholderTitle = styled(Title)`
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const DiagnosticsPageContainer: React.FunctionComponent = () => {
@@ -73,28 +74,27 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
 
   useEffect(() => {
     fetch(`${config.api.url}/app/version`)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setApiVersion(data.version)
       })
-      .catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      .catch((error) => {
+        console.error(error)
       })
   }, [])
 
   useEffect(() => {
     fetch(config.gateway.url)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setGatewayVersion(data.version)
       })
-      .catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      .catch((error) => {
+        console.error(error)
       })
   }, [])
 
   const handleRestart = useCallback(() => {
-    /* tslint:disable-next-line:no-console */
     CollectionManager.restartAll().catch(console.error)
   }, [])
 
@@ -133,9 +133,9 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
             <h2>Project Diagnostics</h2>
 
             <ProjectsData>
-              {projects => (
+              {(projects) => (
                 <ProjectsList>
-                  {projects.map(project => (
+                  {projects.map((project) => (
                     <ProjectTitle key={project._id}>
                       <ProjectLink to={`/projects/${project._id}/diagnostics`}>
                         {project.title ? (

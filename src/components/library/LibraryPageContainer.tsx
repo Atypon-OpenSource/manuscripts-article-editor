@@ -21,6 +21,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useState } from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
+
 import { useDebounce } from '../../hooks/use-debounce'
 import { Collection } from '../../sync/Collection'
 import { ExternalSearch } from './ExternalSearch'
@@ -40,10 +41,12 @@ export interface LibraryPageContainerProps {
   user: UserProfile
 }
 
-export const LibraryPageContainer: React.FC<RouteComponentProps<{
-  projectID: string
-}> &
-  LibraryPageContainerProps> = ({
+export const LibraryPageContainer: React.FC<
+  RouteComponentProps<{
+    projectID: string
+  }> &
+    LibraryPageContainerProps
+> = ({
   globalLibraries,
   globalLibraryCollections,
   globalLibraryItems,
@@ -95,14 +98,14 @@ export const LibraryPageContainer: React.FC<RouteComponentProps<{
       .create(item, {
         containerID: projectID,
       })
-      .then(item => {
+      .then((item) => {
         history.push(`/projects/${projectID}/library/project`)
         setSelectedItem(item)
       })
-      .catch(error => {
-        console.error(error) // tslint:disable-line:no-console
+      .catch((error) => {
+        console.error(error)
       })
-  }, [projectLibraryCollection, projectID])
+  }, [projectLibraryCollection, projectID, history])
 
   return (
     <>

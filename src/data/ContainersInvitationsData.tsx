@@ -15,6 +15,7 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import CollectionManager from '../sync/CollectionManager'
 import { DataComponent } from './DataComponent'
 
@@ -56,10 +57,10 @@ class ContainersInvitationsData extends DataComponent<
       .find({
         objectType: ObjectTypes.ContainerInvitation,
       })
-      .$.subscribe(docs => {
+      .$.subscribe((docs) => {
         if (docs) {
           this.setState({
-            data: docs.map(doc => doc.toJSON()),
+            data: docs.map((doc) => doc.toJSON()),
           })
         }
       })

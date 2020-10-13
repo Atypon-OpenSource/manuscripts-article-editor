@@ -12,10 +12,11 @@
 
 import { AxiosError } from 'axios'
 import { FormikErrors } from 'formik'
-import * as HttpStatusCodes from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import { parse, stringify } from 'qs'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+
 import { resendVerificationEmail, signup, verify } from '../../lib/api'
 import { signupSchema } from '../../validation'
 import { Main, Page } from '../Page'
@@ -35,10 +36,10 @@ import SignupPage from './SignupPage'
 
 const errorResponseMessage = (status: number) => {
   switch (status) {
-    case HttpStatusCodes.BAD_REQUEST:
+    case StatusCodes.BAD_REQUEST:
       return 'Invalid operation'
 
-    case HttpStatusCodes.CONFLICT:
+    case StatusCodes.CONFLICT:
       return 'The email address is already registered'
 
     default:
@@ -69,7 +70,7 @@ class SignupPageContainer extends React.Component<RouteComponentProps, State> {
 
     if (token) {
       try {
-        await verify(token)
+        await verify(token as string)
 
         this.props.history.push(`/login?${stringify({ email })}`, {
           verificationMessage: 'Your account is now verified.',
@@ -162,7 +163,9 @@ class SignupPageContainer extends React.Component<RouteComponentProps, State> {
   private resendVerificationEmail = async () => {
     const email = this.state.email
 
-    if (!email) return
+    if (!email) {
+      return
+    }
 
     try {
       await resendVerificationEmail(email)

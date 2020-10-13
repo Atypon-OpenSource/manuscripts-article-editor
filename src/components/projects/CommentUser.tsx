@@ -15,6 +15,7 @@ import { Contribution } from '@manuscripts/manuscripts-json-schema'
 import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { buildName } from '../../lib/comments'
 
 const CommentUserContainer = styled.div`
@@ -23,8 +24,8 @@ const CommentUserContainer = styled.div`
 `
 
 const CommentUserName = styled.div`
-  margin: 0 ${props => props.theme.grid.unit * 2}px;
-  font-weight: ${props => props.theme.font.weight.semibold};
+  margin: 0 ${(props) => props.theme.grid.unit * 2}px;
+  font-weight: ${(props) => props.theme.font.weight.semibold};
 `
 
 export const CommentUser: React.FC<{

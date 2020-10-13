@@ -18,6 +18,7 @@ import {
   Model,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import {
   DEFAULT_FIGURE_CAPTION_ALIGNMENT,
   DEFAULT_FIGURE_CAPTION_POSITION,
@@ -86,11 +87,11 @@ export const FigureStyles: React.FC<{
       <InspectorField>
         <StyleSelect
           value={figureStyle._id}
-          onChange={event => {
+          onChange={(event) => {
             setElementFigureStyle(event.target.value)
           }}
         >
-          {figureStyles.map(style => (
+          {figureStyles.map((style) => (
             <option value={style._id} key={style._id}>
               {style.title}
             </option>
@@ -133,7 +134,7 @@ export const FigureStyles: React.FC<{
                 figureStyle.captionPosition,
                 DEFAULT_FIGURE_CAPTION_POSITION
               )}
-              handleChange={captionPosition => {
+              handleChange={(captionPosition) => {
                 saveFigureStyle({
                   ...figureStyle,
                   captionPosition,
@@ -146,7 +147,7 @@ export const FigureStyles: React.FC<{
                 figureStyle.alignment,
                 DEFAULT_FIGURE_CAPTION_ALIGNMENT
               )}
-              handleChange={alignment => {
+              handleChange={(alignment) => {
                 saveFigureStyle({
                   ...figureStyle,
                   alignment,
@@ -159,7 +160,7 @@ export const FigureStyles: React.FC<{
                 figureStyle.labelPosition,
                 DEFAULT_FIGURE_LABEL_POSITION
               )}
-              handleChange={labelPosition => {
+              handleChange={(labelPosition) => {
                 saveFigureStyle({
                   ...figureStyle,
                   labelPosition,
@@ -178,13 +179,13 @@ export const FigureStyles: React.FC<{
                   colorScheme={colorScheme}
                   saveModel={saveModel}
                   setError={setError}
-                  saveBorder={border => {
+                  saveBorder={(border) => {
                     saveFigureStyle({
                       ...figureStyle,
                       outerBorder: border,
                     })
                   }}
-                  saveDebouncedBorder={border =>
+                  saveDebouncedBorder={(border) =>
                     saveDebouncedFigureStyle({
                       ...figureStyle,
                       outerBorder: border,
@@ -218,13 +219,13 @@ export const FigureStyles: React.FC<{
                   colorScheme={colorScheme}
                   saveModel={saveModel}
                   setError={setError}
-                  saveBorder={border => {
+                  saveBorder={(border) => {
                     saveFigureStyle({
                       ...figureStyle,
                       innerBorder: border,
                     })
                   }}
-                  saveDebouncedBorder={border =>
+                  saveDebouncedBorder={(border) =>
                     saveDebouncedFigureStyle({
                       ...figureStyle,
                       innerBorder: border,

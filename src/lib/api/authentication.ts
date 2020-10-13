@@ -11,6 +11,7 @@
  */
 
 import { stringify } from 'qs'
+
 import config from '../../config'
 import client from '../client'
 import deviceId from '../device-id'

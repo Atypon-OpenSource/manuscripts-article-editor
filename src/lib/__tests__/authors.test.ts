@@ -17,6 +17,7 @@ import {
   buildContributor,
 } from '@manuscripts/manuscript-transform'
 import { Affiliation, Contributor } from '@manuscripts/manuscripts-json-schema'
+
 import {
   buildAuthorPriority,
   buildAuthorsAndAffiliations,
@@ -69,7 +70,7 @@ describe('authors', () => {
 
     const result = buildSortedContributors(contributors)
 
-    const priorities = result.map(contributor => contributor.priority)
+    const priorities = result.map((contributor) => contributor.priority)
 
     expect(priorities).toStrictEqual([1, 2, 3])
   })

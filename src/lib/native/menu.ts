@@ -10,8 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { MenuItem } from '@manuscripts/manuscript-editor'
-import { MenuSeparator } from '@manuscripts/manuscript-editor/dist/types/components/menu/ApplicationMenu'
+import { MenuItem, MenuSeparator } from '@manuscripts/manuscript-editor'
 import { ManuscriptEditorView } from '@manuscripts/manuscript-transform'
 
 export interface MenuItemState {
@@ -76,7 +75,7 @@ export const createGetMenuState = (
     throw new Error(`${key} is not a menu`)
   }
 
-  return menu.submenu.map(item => {
+  return menu.submenu.map((item) => {
     if (isMenuSeparator(item)) {
       return item
     }

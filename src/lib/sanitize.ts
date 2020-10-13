@@ -28,7 +28,7 @@ export const sanitizeLink = (node: Element) => {
     if (hasValidLink(node)) {
       node.setAttribute('target', '_blank')
     } else {
-      node.parentNode!.removeChild(node)
+      node.remove()
     }
   }
 }

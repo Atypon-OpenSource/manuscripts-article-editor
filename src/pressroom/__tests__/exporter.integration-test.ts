@@ -53,7 +53,9 @@ import {
 import { AxiosResponse, ResponseType } from 'axios'
 // import { ProjectDump } from '../importers'
 // import { buildModelMap } from './util'
+// eslint-disable-next-line import/no-unresolved
 import { Data } from 'csl-json'
+
 import { importSharedData } from '../../lib/shared-data'
 import {
   createEmptyParagraph,
@@ -71,7 +73,7 @@ import {
 import { getAttachment } from './attachments'
 
 jest.unmock('axios')
-jest.unmock('../pressroom')
+// jest.unmock('../pressroom')
 
 // allow 10 minutes for tests to complete
 jest.setTimeout(1000 * 60 * 10)
@@ -112,10 +114,10 @@ jest.mock('../pressroom', () => ({
           ...formData.getHeaders(),
         },
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.response) {
-          console.error(error.response.statusText) // tslint:disable-line:no-console
-          console.error(error.response.data.toString()) // tslint:disable-line:no-console
+          console.error(error.response.statusText)
+          console.error(error.response.data.toString())
           throw error
         }
       })
@@ -155,7 +157,6 @@ const isManuscriptTemplate = hasObjectType<ManuscriptTemplate>(
 
 const project = buildProject(user.userID)
 
-// tslint:disable-next-line:cyclomatic-complexity
 const buildManuscriptModelMap = async (
   manuscript: Build<Manuscript>,
   templateID?: string
@@ -352,7 +353,6 @@ describe('exporter', () => {
     const modelMap = await buildManuscriptModelMap(manuscript)
 
     for (const format of formats) {
-      // tslint:disable-next-line:no-console
       console.log(`Exporting empty manuscript to ${format.format}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
@@ -377,7 +377,6 @@ describe('exporter', () => {
     const modelMap = await buildManuscriptModelMap(manuscript, templateID)
 
     for (const format of formats) {
-      // tslint:disable-next-line:no-console
       console.log(`Exporting templated manuscript to ${format.format}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
@@ -530,7 +529,6 @@ describe('exporter', () => {
 
     // export to each format
     for (const format of formats) {
-      // tslint:disable-next-line:no-console
       console.log(`Exporting previously-failing manuscript to ${format.format}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
@@ -546,7 +544,6 @@ describe('exporter', () => {
       expect(response.headers['content-type']).toBe(format.contentType)
       // TODO: validate the output?
 
-      // tslint:disable-next-line:no-console
       console.log(`Exported previously-failing manuscript to ${format.format}`)
     }
   })
@@ -651,7 +648,6 @@ describe('exporter', () => {
 
     // export to each format
     for (const format of formats) {
-      // tslint:disable-next-line:no-console
       console.log(`Exporting manuscript with content to ${format.format}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob
@@ -695,7 +691,6 @@ describe('exporter', () => {
     }
 
     for (const format of bibliographyFormats) {
-      // tslint:disable-next-line:no-console
       console.log(`Exporting bibliography to ${format.format}`)
 
       // @ts-ignore: mocked convert function returns the response, not the blob

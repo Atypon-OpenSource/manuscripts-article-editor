@@ -12,6 +12,7 @@
 
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import decode from 'jwt-decode'
+
 import config from '../config'
 import { PROFILE_IMAGE_ATTACHMENT } from './data'
 import tokenHandler from './token'
@@ -25,7 +26,9 @@ export interface TokenPayload {
 export const getCurrentUserId = () => {
   const token = tokenHandler.get()
 
-  if (!token) return null
+  if (!token) {
+    return null
+  }
 
   const { userId } = decode<TokenPayload>(token)
 
@@ -33,7 +36,9 @@ export const getCurrentUserId = () => {
 }
 
 export const avatarURL = (user?: UserProfile | string | null): string => {
-  if (!user) return ''
+  if (!user) {
+    return ''
+  }
 
   if (typeof user === 'string') {
     return [

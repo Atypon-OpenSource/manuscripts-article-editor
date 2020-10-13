@@ -19,7 +19,7 @@ interface Props {
 
 const Category = styled.span`
   & + & {
-    margin-left: ${props => props.theme.grid.unit * 2}px;
+    margin-left: ${(props) => props.theme.grid.unit * 2}px;
   }
 `
 export class TemplateCategory extends React.Component<Props> {

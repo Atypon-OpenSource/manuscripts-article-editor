@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+
 import config from '../config'
 import { PROFILE_IMAGE_ATTACHMENT } from '../lib/data'
 

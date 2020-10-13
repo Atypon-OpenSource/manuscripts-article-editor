@@ -12,6 +12,7 @@
 
 import { InlineStyle } from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect, useState } from 'react'
+
 import { useDebounce } from '../../hooks/use-debounce'
 import { InspectorSection } from '../InspectorSection'
 import { MediumTextArea, StyleSelect } from '../projects/inputs'
@@ -39,7 +40,7 @@ export const InlineStyles: React.FC<{
     <InspectorField>
       <StyleSelect
         value={(activeStyle && activeStyle._id) || 'none'}
-        onChange={event =>
+        onChange={(event) =>
           applyStyle(
             event.target.value === 'none' ? undefined : event.target.value
           )
@@ -53,7 +54,7 @@ export const InlineStyles: React.FC<{
           ————————
         </option>
 
-        {inlineStyles.map(style => (
+        {inlineStyles.map((style) => (
           <option value={style._id} key={style._id}>
             {style.title || 'Untitled Style'}
           </option>
@@ -95,7 +96,7 @@ const InlineStyleEditor: React.FC<{
   return (
     <MediumTextArea
       value={style}
-      onChange={event => setStyle(event.target.value)}
+      onChange={(event) => setStyle(event.target.value)}
       rows={5}
       placeholder={'Enter CSS styles…'}
     />

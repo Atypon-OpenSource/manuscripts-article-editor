@@ -14,6 +14,7 @@ import { Bundle } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
+
 import { CitationStyleSelectorItem } from './CitationStyleSelectorItem'
 
 interface Props {

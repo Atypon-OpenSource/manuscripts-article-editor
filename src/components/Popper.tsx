@@ -22,11 +22,11 @@ export const PopperBodyContainer = styled.div`
   width: auto;
   min-width: 150px;
   white-space: nowrap;
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  border: solid 1px ${props => props.theme.colors.text.muted};
-  border-radius: ${props => props.theme.grid.radius.small};
-  color: ${props => props.theme.colors.text.secondary};
-  background: ${props => props.theme.colors.background.primary};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
+  border: solid 1px ${(props) => props.theme.colors.text.muted};
+  border-radius: ${(props) => props.theme.grid.radius.small};
+  color: ${(props) => props.theme.colors.text.secondary};
+  background: ${(props) => props.theme.colors.background.primary};
   z-index: 10;
 
   &[data-placement='bottom-start'] {
@@ -43,10 +43,10 @@ const ArrowUp = styled.div`
   position: relative;
   width: 0;
   height: 0;
-  border-left: ${props => props.theme.grid.unit * 2}px solid transparent;
-  border-right: ${props => props.theme.grid.unit * 2}px solid transparent;
-  border-bottom: ${props => props.theme.grid.unit * 2}px solid
-    ${props => props.theme.colors.background.primary};
+  border-left: ${(props) => props.theme.grid.unit * 2}px solid transparent;
+  border-right: ${(props) => props.theme.grid.unit * 2}px solid transparent;
+  border-bottom: ${(props) => props.theme.grid.unit * 2}px solid
+    ${(props) => props.theme.colors.background.primary};
   top: 1px;
 `
 
@@ -54,25 +54,25 @@ const ArrowDown = styled.div`
   position: relative;
   width: 0;
   height: 0;
-  border-left: ${props => props.theme.grid.unit * 2}px solid transparent;
-  border-right: ${props => props.theme.grid.unit * 2}px solid transparent;
-  border-top: ${props => props.theme.grid.unit * 2}px solid
-    ${props => props.theme.colors.background.primary};
+  border-left: ${(props) => props.theme.grid.unit * 2}px solid transparent;
+  border-right: ${(props) => props.theme.grid.unit * 2}px solid transparent;
+  border-top: ${(props) => props.theme.grid.unit * 2}px solid
+    ${(props) => props.theme.colors.background.primary};
   bottom: 1px;
 `
 
 export const SeparatorLine = styled.div`
-  margin: ${props => props.theme.grid.unit * 2}px 0
-    ${props => props.theme.grid.unit * 6}px;
-  background-color: ${props => props.theme.colors.border.secondary};
+  margin: ${(props) => props.theme.grid.unit * 2}px 0
+    ${(props) => props.theme.grid.unit * 6}px;
+  background-color: ${(props) => props.theme.colors.border.secondary};
   height: 1px;
 `
 
 export const PopperBody = styled.div<{ size?: number }>`
   box-sizing: border-box;
   flex: 2;
-  padding: ${props => props.theme.grid.unit * 5}px;
-  max-width: ${props => props.size || 300}px;
+  padding: ${(props) => props.theme.grid.unit * 5}px;
+  max-width: ${(props) => props.size || 300}px;
 `
 
 interface Props {

@@ -15,6 +15,7 @@ import AppIcon from '@manuscripts/assets/react/AppIcon'
 import React from 'react'
 import { hot } from 'react-hot-loader'
 import { Redirect, Route, Switch } from 'react-router-dom'
+
 import ChangePasswordPageContainer from './components/account/ChangePasswordPageContainer'
 import CommunityLoginPageContainer from './components/account/CommunityLoginPageContainer'
 import DeleteAccountPageContainer from './components/account/DeleteAccountPageContainer'
@@ -43,55 +44,62 @@ import invitationTokenHandler from './lib/invitation-token'
 import Sync from './sync/Sync'
 import { ZombieResync } from './sync/ZombieResync'
 
-const DeveloperPageContainer = React.lazy(() =>
-  import(
-    /* webpackChunkName:"developer-page" */ './components/DeveloperPageContainer'
-  )
+const DeveloperPageContainer = React.lazy(
+  () =>
+    import(
+      /* webpackChunkName:"developer-page" */ './components/DeveloperPageContainer'
+    )
 )
 
-const DiagnosticsPageContainer = React.lazy(() =>
-  import(
-    /* webpackChunkName:"diagnostics-page" */ './components/diagnostics/DiagnosticsPageContainer'
-  )
+const DiagnosticsPageContainer = React.lazy(
+  () =>
+    import(
+      /* webpackChunkName:"diagnostics-page" */ './components/diagnostics/DiagnosticsPageContainer'
+    )
 )
 
 const NewProjectPageContainer = React.lazy<
   React.ComponentType<NewProjectPageContainerProps>
->(() =>
-  import(
-    /* webpackChunkName:"new-project-page" */ './components/projects/NewProjectPageContainer'
-  )
+>(
+  () =>
+    import(
+      /* webpackChunkName:"new-project-page" */ './components/projects/NewProjectPageContainer'
+    )
 )
 
-const NotFoundPage = React.lazy(() =>
-  import(/* webpackChunkName:"not-found-page" */ './components/NotFoundPage')
+const NotFoundPage = React.lazy(
+  () =>
+    import(/* webpackChunkName:"not-found-page" */ './components/NotFoundPage')
 )
 
-const ProfilePageContainer = React.lazy(() =>
-  import(
-    /* webpackChunkName:"profile-page" */ './components/account/ProfilePageContainer'
-  )
+const ProfilePageContainer = React.lazy(
+  () =>
+    import(
+      /* webpackChunkName:"profile-page" */ './components/account/ProfilePageContainer'
+    )
 )
 
 const ProjectPageContainer = React.lazy<
   React.ComponentType<ProjectPageContainerProps>
->(() =>
-  import(
-    /* webpackChunkName:"project-page" */ './components/projects/ProjectPageContainer'
-  )
+>(
+  () =>
+    import(
+      /* webpackChunkName:"project-page" */ './components/projects/ProjectPageContainer'
+    )
 )
 
 const ProjectsPageContainer = React.lazy<
   React.ComponentType<ProjectsPageContainerProps>
->(() =>
-  import(
-    /* webpackChunkName:"projects-page" */ './components/projects/ProjectsPageContainer'
-  )
+>(
+  () =>
+    import(
+      /* webpackChunkName:"projects-page" */ './components/projects/ProjectsPageContainer'
+    )
 )
 
 const App: React.FunctionComponent = () => (
   <DatabaseContext.Consumer>
-    {db => (
+    {(db) => (
       <React.Fragment>
         <TokenData>
           {({ userID, userProfileID }, tokenActions) =>
@@ -123,7 +131,7 @@ const App: React.FunctionComponent = () => (
                         </LoadingPage>
                       }
                     >
-                      {user => (
+                      {(user) => (
                         <Switch>
                           <Route
                             path={'/'}
@@ -157,7 +165,7 @@ const App: React.FunctionComponent = () => (
                             <Route
                               path={'/new-project'}
                               exact={true}
-                              render={props =>
+                              render={(props) =>
                                 user ? (
                                   <NewProjectPageContainer
                                     user={user}
@@ -173,7 +181,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/login'}
                             exact={true}
-                            render={props =>
+                            render={(props) =>
                               user ? (
                                 <Redirect to={'/projects'} />
                               ) : (
@@ -185,7 +193,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/signup'}
                             exact={true}
-                            render={props =>
+                            render={(props) =>
                               user ? (
                                 <Redirect to={'/projects'} />
                               ) : config.connect.enabled ? (
@@ -199,7 +207,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/recover'}
                             exact={true}
-                            render={props =>
+                            render={(props) =>
                               user ? (
                                 <Redirect to={'/projects'} />
                               ) : (
@@ -211,7 +219,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/change-password'}
                             exact={true}
-                            render={props =>
+                            render={(props) =>
                               user ? (
                                 <ChangePasswordPageContainer
                                   {...props}
@@ -226,7 +234,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/community'}
                             exact={true}
-                            render={props =>
+                            render={(props) =>
                               user ? (
                                 <CommunityLoginPageContainer {...props} />
                               ) : (
@@ -242,7 +250,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/delete-account'}
                             exact={true}
-                            render={props =>
+                            render={(props) =>
                               user ? (
                                 <DeleteAccountPageContainer
                                   tokenActions={tokenActions}
@@ -263,7 +271,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/profile'}
                             exact={true}
-                            render={props =>
+                            render={(props) =>
                               user ? (
                                 <ProfilePageContainer {...props} />
                               ) : (
@@ -274,7 +282,7 @@ const App: React.FunctionComponent = () => (
 
                           <Route
                             path={'/feedback'}
-                            render={props =>
+                            render={(props) =>
                               user ? (
                                 <FeedbackPageContainer
                                   tokenActions={tokenActions}
@@ -288,7 +296,7 @@ const App: React.FunctionComponent = () => (
 
                           <Route
                             path={'/projects'}
-                            render={props =>
+                            render={(props) =>
                               user ? (
                                 <Switch {...props}>
                                   <Route
@@ -300,7 +308,7 @@ const App: React.FunctionComponent = () => (
 
                                   <Route
                                     path={'/projects/:projectID'}
-                                    render={props => (
+                                    render={(props) => (
                                       <ProjectPageContainer
                                         {...props}
                                         tokenActions={tokenActions}
@@ -311,7 +319,7 @@ const App: React.FunctionComponent = () => (
 
                                   <Route
                                     path={'/projects'}
-                                    render={props =>
+                                    render={(props) =>
                                       invitationTokenHandler.get() ? (
                                         <AcceptProjectInvitation {...props} />
                                       ) : (
@@ -342,7 +350,7 @@ const App: React.FunctionComponent = () => (
 
                                   <Route
                                     path={'/projects/:projectID'}
-                                    render={props => (
+                                    render={(props) => (
                                       <RequireLogin {...props}>
                                         You must sign in to access this project.
                                       </RequireLogin>
@@ -351,7 +359,7 @@ const App: React.FunctionComponent = () => (
 
                                   <Route
                                     path={'/projects'}
-                                    render={props => (
+                                    render={(props) => (
                                       <RequireLogin {...props} />
                                     )}
                                   />
@@ -369,7 +377,7 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/logout'}
                             exact={true}
-                            render={props => (
+                            render={(props) => (
                               <LogoutPageContainer
                                 {...props}
                                 tokenActions={tokenActions}
@@ -407,13 +415,13 @@ const App: React.FunctionComponent = () => (
                 <Route
                   path={'/login'}
                   exact={true}
-                  render={props => <LoginPageContainer {...props} />}
+                  render={(props) => <LoginPageContainer {...props} />}
                 />
 
                 <Route
                   path={'/signup'}
                   exact={true}
-                  render={props =>
+                  render={(props) =>
                     config.connect.enabled ? (
                       <Redirect to={'/about/'} />
                     ) : (
@@ -425,13 +433,13 @@ const App: React.FunctionComponent = () => (
                 <Route
                   path={'/recover'}
                   exact={true}
-                  render={props => <RecoverPageContainer {...props} />}
+                  render={(props) => <RecoverPageContainer {...props} />}
                 />
 
                 <Route
                   path={'/change-password'}
                   exact={true}
-                  render={props => (
+                  render={(props) => (
                     <RequireLogin {...props}>
                       You must sign in first to change your password.
                     </RequireLogin>
@@ -441,7 +449,7 @@ const App: React.FunctionComponent = () => (
                 <Route
                   path={'/community'}
                   exact={true}
-                  render={props => (
+                  render={(props) => (
                     <RequireLogin {...props}>
                       Please sign in here at Manuscripts.io first. Your
                       Manuscripts.io account signs you in also to
@@ -453,7 +461,7 @@ const App: React.FunctionComponent = () => (
                 <Route
                   path={'/delete-account'}
                   exact={true}
-                  render={props => (
+                  render={(props) => (
                     <RequireLogin {...props}>
                       You must sign in first to delete your account.
                     </RequireLogin>
@@ -463,7 +471,7 @@ const App: React.FunctionComponent = () => (
                 <Route
                   path={'/retrieve-account'}
                   exact={true}
-                  render={props => (
+                  render={(props) => (
                     <RequireLogin {...props}>
                       Please sign in first so you can retrieve your account.
                     </RequireLogin>
@@ -478,7 +486,7 @@ const App: React.FunctionComponent = () => (
 
                 <Route
                   path={'/feedback'}
-                  render={props => (
+                  render={(props) => (
                     <RequireLogin {...props}>
                       You must sign in first.
                     </RequireLogin>
@@ -490,7 +498,7 @@ const App: React.FunctionComponent = () => (
                     <Route
                       path={'/projects'}
                       exact={true}
-                      render={props => (
+                      render={(props) => (
                         <RequireLogin {...props}>
                           You must sign in first.
                         </RequireLogin>
@@ -505,7 +513,7 @@ const App: React.FunctionComponent = () => (
 
                     <Route
                       path={'/projects/:projectID/collaborators/add'}
-                      render={props => (
+                      render={(props) => (
                         <RequireLogin {...props}>
                           You must sign in first.
                         </RequireLogin>
@@ -514,7 +522,7 @@ const App: React.FunctionComponent = () => (
 
                     <Route
                       path={'/projects/:projectID/collaborators'}
-                      render={props => (
+                      render={(props) => (
                         <RequireLogin {...props}>
                           You must sign in first.
                         </RequireLogin>
@@ -523,7 +531,7 @@ const App: React.FunctionComponent = () => (
 
                     <Route
                       path={'/projects/:projectID'}
-                      render={props => (
+                      render={(props) => (
                         <RequireLogin {...props}>
                           You must sign in to access this project.
                         </RequireLogin>

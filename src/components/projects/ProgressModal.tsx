@@ -17,21 +17,22 @@ import {
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
+
 import { IndicatorKind, ProgressIndicator } from '../ProgressIndicator'
 
 const ModalBody = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  border-radius: ${props => props.theme.grid.radius.default};
-  box-shadow: ${props => props.theme.shadow.dropShadow};
-  background: ${props => props.theme.colors.background.primary};
+  border-radius: ${(props) => props.theme.grid.radius.default};
+  box-shadow: ${(props) => props.theme.shadow.dropShadow};
+  background: ${(props) => props.theme.colors.background.primary};
 `
 
 const ModalMain = styled.div`
   flex: 1;
-  padding: ${props => props.theme.grid.unit * 4}px
-    ${props => props.theme.grid.unit * 8}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px
+    ${(props) => props.theme.grid.unit * 8}px;
   max-height: 70vh;
   overflow-y: auto;
   text-align: center;
@@ -39,7 +40,7 @@ const ModalMain = styled.div`
 `
 
 const ModalStatus = styled.div`
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${(props) => props.theme.colors.text.secondary};
   font-size: 120%;
   display: flex;
   align-items: center;
@@ -47,7 +48,7 @@ const ModalStatus = styled.div`
 `
 
 const ModalFooter = styled(ButtonGroup)`
-  padding: ${props => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 interface Props {

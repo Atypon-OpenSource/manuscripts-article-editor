@@ -48,7 +48,7 @@ Manuscripts is highly modular: it is composed out of a series of NPM published m
 
 ### Utilities
 
-- [@manuscripts/tslint-config](https://www.npmjs.com/package/@manuscripts/tslint-config) (source at [gitlab.com/mpapp-public/manuscripts-tslint-config](https://gitlab.com/mpapp-public/manuscripts-tslint-config)): as the name suggests, the TSLint configuration used by other Manuscripts TypeScript repositories.
+- [@manuscripts/eslint-config](https://www.npmjs.com/package/@manuscripts/eslint-config) (source at [gitlab.com/mpapp-public/manuscripts-eslint-config](https://gitlab.com/mpapp-public/manuscripts-eslint-config)): as the name suggests, the ESLint configuration used by other Manuscripts TypeScript repositories.
 - [@manuscripts/publish](https://www.npmjs.com/package/@manuscripts/publish) (source at [gitlab.com/mpapp-public/manuscripts-publish](https://gitlab.com/mpapp-public/manuscripts-publish)): a command-line utility to assist publishing other Manuscripts NPM packages to an NPM registry (publishes a package if the current version hasn't already been published).
 
 ## Installation

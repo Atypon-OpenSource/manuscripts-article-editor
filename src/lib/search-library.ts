@@ -51,7 +51,7 @@ const prepareBibliographyItem = (
   // add "authors" string containing all author names
   if (output.author) {
     output.authors = output.author
-      .map(author => [author.given, author.family].join(' '))
+      .map((author) => [author.given, author.family].join(' '))
       .join(', ')
   }
 
@@ -66,7 +66,6 @@ let sortPromise: Fuzzysort.CancelablePromise<Fuzzysort.KeysResults<
   BibliographyItem
 >>
 
-// tslint:disable-next-line:cyclomatic-complexity
 export const filterLibrary = async (
   library?: Map<string, BibliographyItem>,
   query?: string,
@@ -109,7 +108,7 @@ export const filterLibrary = async (
 
   const results = await sortPromise
 
-  const output = results.map(result => result.obj)
+  const output = results.map((result) => result.obj)
 
   output.sort(newestFirst)
 

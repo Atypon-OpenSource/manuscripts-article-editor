@@ -28,6 +28,7 @@ import {
   TOCElement,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+
 import { FigureLayoutInspector } from './FigureLayoutInspector'
 import { FigureStyleInspector } from './FigureStyleInspector'
 import {
@@ -60,7 +61,9 @@ export interface ElementStyleInspectorProps {
 const isFigureElement = hasObjectType<FigureElement>(ObjectTypes.FigureElement)
 const isTableElement = hasObjectType<TableElement>(ObjectTypes.TableElement)
 
-export const ElementStyleInspector: React.FC<ElementStyleInspectorProps> = props => {
+export const ElementStyleInspector: React.FC<ElementStyleInspectorProps> = (
+  props
+) => {
   const { element } = props
 
   if (isFigureElement(element)) {
