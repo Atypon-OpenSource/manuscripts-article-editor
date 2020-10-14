@@ -23,11 +23,11 @@ import {
   SecondaryButton,
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
-import React from 'react'
+import React, { ChangeEvent, useCallback, useState } from 'react'
 import styled from 'styled-components'
 
+import { CitationProperties } from './CitationProperties'
 import { CitationSearch } from './CitationSearch'
-import { DisplaySchemeSelector } from './DisplaySchemeSelector'
 
 const CitedItem = styled.div`
   padding: ${(props) => props.theme.grid.unit * 4}px 0;
@@ -108,112 +108,118 @@ interface Props {
   updateCitation: (data: Partial<Citation>) => Promise<void>
 }
 
-interface State {
-  editing: BibliographyItem | null
-  searching: boolean
-}
+const CitationEditor: React.FC<Props> = ({
+  items,
+  handleCancel,
+  handleCite,
+  handleClose,
+  handleRemove,
+  selectedText,
+  importItems,
+  filterLibraryItems,
+  citation,
+  updateCitation,
+}) => {
+  // const [editing, setEditing] = useState<BibliographyItem>()
+  const [searching, setSearching] = useState(false)
+  const [optionsOpen, setOptionsOpen] = useState(false)
+  const [properties, setProperties] = useState(citation)
 
-class CitationEditor extends React.Component<Props, State> {
-  public state: Readonly<State> = {
-    editing: null,
-    searching: false,
-  }
+  // if (editing) {
+  //   return <div>TODO…</div>
+  // }
 
-  public render() {
-    const {
-      items,
-      handleCite,
-      handleClose,
-      selectedText,
-      importItems,
-      filterLibraryItems,
-      citation,
-      updateCitation,
-    } = this.props
-    const { searching } = this.state
+  const saveAndClose = useCallback(() => {
+    // TODO: if changed?
+    updateCitation(properties)
+      .then(() => handleClose())
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [properties, handleClose, updateCitation])
 
-    // if (editing) {
-    //   return <div>TODO…</div>
-    // }
-
-    if (searching) {
-      return (
-        <CitationSearch
-          query={selectedText}
-          filterLibraryItems={filterLibraryItems}
-          importItems={importItems}
-          handleCite={handleCite}
-          handleCancel={() => this.setState({ searching: false })}
-        />
-      )
-    }
-
-    if (!items.length) {
-      return (
-        <CitationSearch
-          query={selectedText}
-          filterLibraryItems={filterLibraryItems}
-          importItems={importItems}
-          handleCite={handleCite}
-          handleCancel={this.props.handleCancel}
-        />
-      )
-    }
-
+  if (searching) {
     return (
-      <div>
-        <CitedItems>
-          {items.map((item) => (
-            <CitedItem
-              key={item._id}
-              style={{
-                color:
-                  item.title === '[missing library item]' ? 'red' : 'inherit',
-              }}
-            >
-              <CitedItemTitle value={item.title || 'Untitled'} />
-
-              <CitedItemActionLine>
-                <CitedItemMetadata>
-                  {shortLibraryItemMetadata(item)}
-                </CitedItemMetadata>
-
-                <CitedItemActions>
-                  <ActionButton
-                    onClick={() => {
-                      if (confirm('Delete this cited item?')) {
-                        this.props.handleRemove(item._id)
-                      }
-                    }}
-                  >
-                    <AnnotationRemove />
-                  </ActionButton>
-                </CitedItemActions>
-              </CitedItemActionLine>
-            </CitedItem>
-          ))}
-        </CitedItems>
-
-        <Options>
-          <OptionsSummary>Options</OptionsSummary>
-
-          <DisplaySchemeSelector
-            citation={citation}
-            updateCitation={updateCitation}
-          />
-        </Options>
-
-        <Actions>
-          <ButtonGroup>
-            <SecondaryButton onClick={handleClose}>Done</SecondaryButton>
-            <PrimaryButton onClick={() => this.setState({ searching: true })}>
-              Add Citation
-            </PrimaryButton>
-          </ButtonGroup>
-        </Actions>
-      </div>
+      <CitationSearch
+        query={selectedText}
+        filterLibraryItems={filterLibraryItems}
+        importItems={importItems}
+        handleCite={handleCite}
+        handleCancel={() => setSearching(false)}
+      />
     )
   }
+
+  if (!items.length) {
+    return (
+      <CitationSearch
+        query={selectedText}
+        filterLibraryItems={filterLibraryItems}
+        importItems={importItems}
+        handleCite={handleCite}
+        handleCancel={handleCancel}
+      />
+    )
+  }
+
+  return (
+    <div>
+      <CitedItems>
+        {items.map((item) => (
+          <CitedItem
+            key={item._id}
+            style={{
+              color:
+                item.title === '[missing library item]' ? 'red' : 'inherit',
+            }}
+          >
+            <CitedItemTitle value={item.title || 'Untitled'} />
+
+            <CitedItemActionLine>
+              <CitedItemMetadata>
+                {shortLibraryItemMetadata(item)}
+              </CitedItemMetadata>
+
+              <CitedItemActions>
+                <ActionButton
+                  onClick={() => {
+                    if (confirm('Delete this cited item?')) {
+                      handleRemove(item._id)
+                    }
+                  }}
+                >
+                  <AnnotationRemove />
+                </ActionButton>
+              </CitedItemActions>
+            </CitedItemActionLine>
+          </CitedItem>
+        ))}
+      </CitedItems>
+
+      <Options
+        open={optionsOpen}
+        onToggle={(event: ChangeEvent<HTMLDetailsElement>) =>
+          setOptionsOpen(event.target.open)
+        }
+      >
+        <OptionsSummary>Options</OptionsSummary>
+
+        <CitationProperties
+          properties={properties}
+          setProperties={setProperties}
+        />
+      </Options>
+
+      <Actions>
+        <ButtonGroup>
+          <SecondaryButton onClick={saveAndClose}>Done</SecondaryButton>
+          <PrimaryButton onClick={() => setSearching(true)}>
+            Add Citation
+          </PrimaryButton>
+        </ButtonGroup>
+      </Actions>
+    </div>
+  )
 }
 
 export default CitationEditor
