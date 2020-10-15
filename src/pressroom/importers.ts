@@ -27,7 +27,6 @@ import {
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
 import { getType } from 'mime/lite'
-import { basename, extname } from 'path'
 import pathParse from 'path-parse'
 
 import config from '../config'
@@ -73,7 +72,8 @@ const defaultAttachmentContentTypes: { [key in ObjectTypes]?: string } = {
 const loadManuscriptsAttachments = async (zip: JSZip, models: JsonModel[]) => {
   for (const file of Object.values(zip.files)) {
     if (!file.dir && file.name.startsWith('Data/')) {
-      const id = basename(file.name).replace('_', ':')
+      const { base } = pathParse(file.name)
+      const id = base.replace('_', ':')
 
       const model = models.find((model) => model._id === id)
 
@@ -321,7 +321,8 @@ export const openFilePicker = (
     input.addEventListener('change', () => {
       if (input.files && input.files.length) {
         for (const file of input.files) {
-          const extension = extname(file.name).toLowerCase()
+          const { ext } = pathParse(file.name)
+          const extension = ext.toLowerCase()
 
           if (!acceptedExtensions.includes(extension)) {
             const error = new FileExtensionError(extension, acceptedExtensions)

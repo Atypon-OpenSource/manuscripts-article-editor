@@ -16,7 +16,7 @@ import { transformBibliography } from '@manuscripts/library'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
-import { extname } from 'path'
+import pathParse from 'path-parse'
 import React, { useCallback, useContext, useState } from 'react'
 
 import { openFilePicker } from '../../pressroom/importers'
@@ -108,8 +108,8 @@ export const BibliographyImportButton: React.FC<{
           return
         }
 
-        const extension = extname(file.name)
-        const items = await transformBibliography(text, extension)
+        const { ext } = pathParse(file.name)
+        const items = await transformBibliography(text, ext)
 
         if (!items || !items.length) {
           showNotification(

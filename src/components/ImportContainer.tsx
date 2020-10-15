@@ -13,7 +13,7 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import JSZip from 'jszip'
-import { extname } from 'path'
+import pathParse from 'path-parse'
 import * as React from 'react'
 import Dropzone from 'react-dropzone'
 import styled from 'styled-components'
@@ -161,9 +161,11 @@ class ImportContainer extends React.Component<Props & ModalProps, State> {
     // file extensions to look for in a ZIP archive
     const extensions = ['.md', '.tex', '.latex'] // TODO: .xml, .html
 
-    const isAccepted = Object.keys(zip.files).some((name) =>
-      extensions.includes(extname(name))
-    )
+    const isAccepted = Object.keys(zip.files).some((name) => {
+      const { ext } = pathParse(name)
+
+      return extensions.includes(ext)
+    })
 
     if (!isAccepted) {
       this.setState({ rejected: file })
