@@ -11,6 +11,7 @@
  */
 
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { CopyableText } from '../components/CopyableText'
 import { NotificationComponent } from '../components/NotificationProvider'
@@ -164,9 +165,12 @@ const SyncNotificationManager: NotificationComponent = () => {
       <SyncNotification
         title="Error while saving your document"
         info={
-          <CopyableText text={composeErrorReport()} onCopy={onCopy}>
-            Copy diagnostics to support
-          </CopyableText>
+          <React.Fragment>
+            <CopyableText text={composeErrorReport()} onCopy={onCopy}>
+              Copy diagnostics to support
+            </CopyableText>
+            <Link to="/diagnostics">View Diagnostics</Link>
+          </React.Fragment>
         }
         buttonText="Contact Support"
         buttonAction={crisp.open}
@@ -206,9 +210,12 @@ const SyncNotificationManager: NotificationComponent = () => {
       <SyncNotification
         title={getPushSyncErrorMessage(pushSyncError)}
         info={
-          <CopyableText text={composeErrorReport()} onCopy={onCopy}>
-            Copy diagnostics to support
-          </CopyableText>
+          <React.Fragment>
+            <CopyableText text={composeErrorReport()} onCopy={onCopy}>
+              Copy diagnostics to support
+            </CopyableText>
+            <Link to="/diagnostics">View Diagnostics</Link>
+          </React.Fragment>
         }
         buttonText="Contact Support"
         buttonAction={crisp.open}
