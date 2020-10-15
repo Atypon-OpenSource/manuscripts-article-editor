@@ -14,6 +14,7 @@ import { PrimaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
+import { loginAgain } from '../../lib/authorization'
 import { AddButton } from '../AddButton'
 import { Notification } from '../NotificationMessage'
 import { ProjectPlaceholder } from '../Placeholders'
@@ -47,6 +48,7 @@ interface Props {
   openTemplateSelector: () => void
   message?: string
   hasPullError: boolean
+  isUnauthorized?: boolean
   restartSync: () => void
 }
 
@@ -54,6 +56,7 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
   openTemplateSelector,
   message,
   hasPullError,
+  isUnauthorized,
   restartSync,
 }) => {
   return (
@@ -72,7 +75,16 @@ export const EmptyProjectPage: React.FunctionComponent<Props> = ({
         />
       </ActionContainer>
 
-      {hasPullError ? (
+      {hasPullError && isUnauthorized ? (
+        <Message>
+          <TextContainer>
+            Missing manuscript data: sign in again to sync
+          </TextContainer>
+          <TextContainer>
+            <PrimaryButton onClick={loginAgain}>Sign in</PrimaryButton>
+          </TextContainer>
+        </Message>
+      ) : hasPullError ? (
         <Message>
           <TextContainer>
             Error while pulling data: there may be manuscripts which are missing

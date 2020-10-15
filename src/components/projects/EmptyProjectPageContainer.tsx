@@ -15,6 +15,7 @@ import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 
 import { buildCollectionName } from '../../sync/Collection'
+import { isUnauthorized } from '../../sync/syncErrors'
 import { selectors } from '../../sync/syncEvents'
 import { SyncStateContext } from '../../sync/SyncStore'
 import { ModalProps, withModal } from '../ModalProvider'
@@ -38,11 +39,15 @@ class EmptyProjectPageContainer extends React.Component<Props & ModalProps> {
             buildCollectionName(`project-${project._id}`),
             syncState
           )
+          const isLoginError = !!selectors
+            .allErrors(syncState)
+            .find(isUnauthorized)
           return (
             <EmptyProjectPage
               openTemplateSelector={this.openTemplateSelector}
               message={this.props.message}
               hasPullError={hasPullError}
+              isUnauthorized={isLoginError}
               restartSync={this.props.restartSync}
             />
           )

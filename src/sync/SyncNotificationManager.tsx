@@ -18,6 +18,7 @@ import { NotificationComponent } from '../components/NotificationProvider'
 import config from '../config'
 import { useCrisp } from '../hooks/use-crisp'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
+import { loginAgain } from '../lib/authorization'
 import CollectionManager from './CollectionManager'
 import {
   getPushSyncErrorMessage,
@@ -37,15 +38,6 @@ const SyncNotificationManager: NotificationComponent = () => {
 
   const { syncState, dispatch } = useContext(SyncStateContext)
   const errors = selectors.newErrors(syncState)
-
-  // actions:
-  const handleLogin = useCallback(() => {
-    window.localStorage.removeItem('token')
-
-    window.location.assign(
-      config.connect.enabled ? '/login#redirect=login' : '/login'
-    )
-  }, [])
 
   const handleRetry = useCallback(() => {
     CollectionManager.restartAll()
@@ -124,7 +116,7 @@ const SyncNotificationManager: NotificationComponent = () => {
       <SyncNotification
         title="Please sign in again to sync your changes"
         buttonText="Sign in"
-        buttonAction={handleLogin}
+        buttonAction={loginAgain}
       />
     )
   }
