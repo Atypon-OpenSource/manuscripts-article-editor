@@ -72,6 +72,7 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
   const handleLogout = useCallback(
     (event: React.SyntheticEvent) => {
       event.preventDefault()
+      setConfirmationStage('checking')
 
       checkAndTryResync().catch(() => setConfirmationStage('gaveup'))
     },
@@ -92,7 +93,7 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
         return 'Attempting to sync…'
 
       case 'checking':
-        return 'Checking…'
+        return 'Cleaning up…'
     }
 
     return ''
