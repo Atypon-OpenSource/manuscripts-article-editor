@@ -144,7 +144,9 @@ export const Support: React.FC = React.memo(() => {
                         <MenuText>Community</MenuText>
                       </ExternalMenuLink>
 
-                      <ExternalMenuLink href={'https://manual.manuscripts.io/'}>
+                      <ExternalMenuLink
+                        href={'https://support.manuscripts.io/'}
+                      >
                         <DocumentationIcon />
                         <MenuText>Documentation</MenuText>
                       </ExternalMenuLink>
