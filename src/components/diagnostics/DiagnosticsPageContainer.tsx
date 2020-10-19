@@ -19,6 +19,7 @@ import styled from 'styled-components'
 import config from '../../config'
 import ProjectsData from '../../data/ProjectsData'
 import CollectionManager from '../../sync/CollectionManager'
+import { useSyncState } from '../../sync/SyncStore'
 import { GlobalMenu } from '../nav/GlobalMenu'
 import { Main, Page } from '../Page'
 import { StorageInfo } from './StorageInfo'
@@ -98,6 +99,8 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
     CollectionManager.restartAll()
   }, [])
 
+  const syncState = useSyncState()
+
   return (
     <Page>
       <Main>
@@ -149,6 +152,30 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
                 </ProjectsList>
               )}
             </ProjectsData>
+
+            <h2>All Collections</h2>
+
+            <table>
+              <thead>
+                <th>Collection</th>
+                <th>Push</th>
+                <th>Pull</th>
+                <th>Closed</th>
+              </thead>
+              <tbody>
+                {Object.keys(syncState).map((collection) => {
+                  const data = syncState[collection]
+                  return (
+                    <tr key={collection}>
+                      <td>{collection}</td>
+                      <td>{data.state.push}</td>
+                      <td>{data.state.pull}</td>
+                      <td>{data.state.closed}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
           </Diagnostics>
         </Container>
       </Main>

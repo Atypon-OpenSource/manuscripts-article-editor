@@ -13,7 +13,7 @@
 import { RxDatabase } from '@manuscripts/rxdb'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 
 import { Collections } from '../../collections'
 import CollectionManager from '../../sync/CollectionManager'
@@ -87,6 +87,7 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
           <div>
             <span>If you sign out, your changes will be lost.</span>
             <ContactSupportButton>Chat with support.</ContactSupportButton>
+            <Link to="/diagnostics">View diagnostics</Link>
           </div>
         )
 
