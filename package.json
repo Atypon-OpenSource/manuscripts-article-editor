@@ -16,7 +16,7 @@
     "test:unit": "jest --runInBand --detectOpenHandles --forceExit  --testPathIgnorePatterns=Storyshots",
     "test:storyshots": "jest --runInBand --detectOpenHandles --forceExit  --testPathPattern=Storyshots",
     "test:watch": "jest --runInBand --testPathIgnorePatterns=Storyshots.test.ts --watch",
-    "lint": "eslint src stories types --ext .ts,.tsx",
+    "lint": "eslint src stories types --ext .ts,.tsx --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "prettier": "prettier --write \"{src,stories,tests}/**/*.{js,ts,tsx,css}\"",
     "stats": "ALLOW_MISSING_VARIABLES=1 yarn --silent build --json > stats.json",
