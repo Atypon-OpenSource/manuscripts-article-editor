@@ -80,6 +80,7 @@ export const SectionStyles: React.FC<{
 }) => {
   const {
     partOfTOC,
+    runIn,
     sectionNumberingStyle = buildNumberingStyle(),
   } = paragraphStyle
 
@@ -92,6 +93,7 @@ export const SectionStyles: React.FC<{
           <InspectorTab>Text</InspectorTab>
           <InspectorTab>Spacing</InspectorTab>
           <InspectorTab>Numbering</InspectorTab>
+          <InspectorTab>Options</InspectorTab>
         </InspectorPanelTabList>
 
         <InspectorTabPanels>
@@ -202,10 +204,10 @@ export const SectionStyles: React.FC<{
                 }}
               />
             </InspectorField>
+          </InspectorTabPanel>
 
+          <InspectorTabPanel>
             <InspectorField>
-              <InspectorLabel />
-
               <CheckboxField
                 name={'part-of-toc'}
                 id={'part-of-toc'}
@@ -224,6 +226,25 @@ export const SectionStyles: React.FC<{
 
               <CheckboxLabel htmlFor={'part-of-toc'}>
                 Include in Table of Contents
+              </CheckboxLabel>
+            </InspectorField>
+
+            <InspectorField>
+              <CheckboxField
+                name={'run-in'}
+                id={'run-in'}
+                checked={valueOrDefault<boolean>(runIn, false)}
+                // disabled={paragraphStyle.name === 'heading1'}
+                onChange={(event) => {
+                  saveParagraphStyle({
+                    ...paragraphStyle,
+                    runIn: event.target.checked,
+                  })
+                }}
+              />
+
+              <CheckboxLabel htmlFor={'run-in'}>
+                Run into first paragraph
               </CheckboxLabel>
             </InspectorField>
           </InspectorTabPanel>
