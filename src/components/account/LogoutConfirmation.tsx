@@ -17,7 +17,8 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 import { Collections } from '../../collections'
 import CollectionManager from '../../sync/CollectionManager'
-import zombieCollections from '../../sync/ZombieCollections'
+import { selectors } from '../../sync/syncEvents'
+import { useSyncState } from '../../sync/SyncStore'
 import { ContactSupportButton } from '../ContactSupportButton'
 
 type ConfirmationStage = 'ready' | 'checking' | 'unsynced' | 'gaveup'
@@ -39,8 +40,9 @@ interface Props {
 const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
   children,
   history,
-  db,
 }) => {
+  const syncState = useSyncState()
+
   const [confirmationStage, setConfirmationStage] = useState<ConfirmationStage>(
     'ready'
   )
@@ -54,19 +56,18 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
 
       const unsyncedCollections = await CollectionManager.unsyncedCollections()
 
-      if (!unsyncedCollections.length && !zombieCollections.getOne()) {
+      if (!unsyncedCollections.length && !selectors.oneZombie(syncState)) {
         history.push('/logout')
         return
       }
 
       setConfirmationStage('unsynced')
 
-      await CollectionManager.pushCollections(unsyncedCollections)
-      await zombieCollections.cleanupAll(db)
+      await CollectionManager.cleanupAndDestroyAll()
 
       return checkAndTryResync(retries + 1)
     },
-    [db, history]
+    [history, syncState]
   )
 
   const handleLogout = useCallback(

@@ -7,31 +7,13 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Model } from '@manuscripts/manuscripts-json-schema'
-import { useEffect, useState } from 'react'
+import { selectors } from '../sync/syncEvents'
+import { useSyncState } from '../sync/SyncStore'
 
-import { Collection } from '../sync/Collection'
-import { Direction, EventType } from '../sync/types'
-
-export const useCollectionEvent = <T extends Model>(
-  collection: Collection<T>,
-  direction: Direction,
-  eventType: EventType
-) => {
-  const [value, setValue] = useState(collection.status[direction][eventType])
-
-  useEffect(() => {
-    if (!collection.status[direction][eventType]) {
-      collection.addEventListener(eventType, (event) => {
-        if (event.detail.direction === direction) {
-          setValue(event.detail.value)
-        }
-      })
-    }
-  }, [collection, direction, eventType])
-
-  return value
+export const usePullComplete = (collectionName: string) => {
+  const syncState = useSyncState()
+  return selectors.isInitialPullComplete(collectionName, syncState)
 }

@@ -20,6 +20,12 @@ import { Collection, isBulkDocsError, isBulkDocsSuccess } from '../Collection'
 
 jest.mock('../../lib/adapter')
 
+const dispatch = jest.fn()
+const store = {
+  getState: jest.fn(() => ({})),
+  dispatch,
+}
+
 const items = (projectDump.data as Model[]).map((item) => {
   delete item._rev
 
@@ -41,10 +47,13 @@ describe('Collection', () => {
   test('new collection', async () => {
     const db = await databaseCreator
 
-    const collection = new Collection({
-      collection: 'test',
-      db,
-    })
+    const collection = new Collection(
+      {
+        collection: 'test',
+        db,
+      },
+      store
+    )
 
     expect(collection).toBeInstanceOf(Collection)
     expect(collection.collectionName).toBe('test')
@@ -53,10 +62,13 @@ describe('Collection', () => {
   test('new project collection', async () => {
     const db = await databaseCreator
 
-    const collection = new Collection({
-      collection: generateDbName('project-MPProject:'),
-      db,
-    })
+    const collection = new Collection(
+      {
+        collection: generateDbName('project-MPProject:'),
+        db,
+      },
+      store
+    )
 
     expect(collection).toBeInstanceOf(Collection)
     expect(collection.collectionName).toMatch(/^project_mpproject_/)
@@ -65,25 +77,29 @@ describe('Collection', () => {
   test('initialise collection', async () => {
     const db = await databaseCreator
 
-    const collection = new Collection({
-      collection: 'user',
-      db,
-    })
+    const collection = new Collection(
+      {
+        collection: 'user',
+        db,
+      },
+      store
+    )
 
     await collection.initialize(false)
 
-    const initialStatus = { active: false, complete: true, error: false }
-    expect(collection.status.pull).toMatchObject(initialStatus)
-    expect(collection.status.push).toMatchObject(initialStatus)
+    expect(store.dispatch).toHaveBeenCalledTimes(1)
   })
 
   test('bulk create', async () => {
     const db = await databaseCreator
 
-    const collection = new Collection({
-      collection: generateDbName('project-MPProject:'),
-      db,
-    })
+    const collection = new Collection(
+      {
+        collection: generateDbName('project-MPProject:'),
+        db,
+      },
+      store
+    )
 
     await collection.initialize(false)
 
@@ -98,10 +114,13 @@ describe('Collection', () => {
   test('bulk create with errors', async () => {
     const db = await databaseCreator
 
-    const collection = new Collection({
-      collection: generateDbName('project-MPProject:'),
-      db,
-    })
+    const collection = new Collection(
+      {
+        collection: generateDbName('project-MPProject:'),
+        db,
+      },
+      store
+    )
 
     await collection.initialize(false)
 

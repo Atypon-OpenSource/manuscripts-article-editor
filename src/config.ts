@@ -84,6 +84,7 @@ interface Config {
   iam: {
     url: string
   }
+  logSyncEvents: boolean
   backupReplication: {
     path?: string
   }
@@ -179,6 +180,7 @@ const config = {
   iam: {
     url: normalizeURL(process.env.IAM_BASE_URL),
   },
+  logSyncEvents: isTrue(process.env.LOG_SYNC_EVENTS),
   backupReplication: {
     path: process.env.BACKUP_REPLICATION_PATH,
   },

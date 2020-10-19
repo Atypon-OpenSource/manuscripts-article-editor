@@ -43,8 +43,6 @@ class ProjectModelsData extends DataComponent<ContainedModel, Props, State> {
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe(projectID)
   }
 
@@ -57,13 +55,9 @@ class ProjectModelsData extends DataComponent<ContainedModel, Props, State> {
       this.setState({ data: undefined })
 
       if (projectID !== this.props.projectID) {
-        this.collection.removeEventListener('complete', this.handleComplete)
-
         this.collection = CollectionManager.getCollection<ContainedModel>(
           `project-${projectID}`
         )
-
-        this.collection.addEventListener('complete', this.handleComplete)
       }
 
       this.sub = this.subscribe(projectID)
@@ -71,8 +65,6 @@ class ProjectModelsData extends DataComponent<ContainedModel, Props, State> {
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

@@ -79,6 +79,8 @@ import {
 import { trackEvent } from '../../lib/tracking'
 import { Collection } from '../../sync/Collection'
 import CollectionManager from '../../sync/CollectionManager'
+import { selectors } from '../../sync/syncEvents'
+import { useSyncState } from '../../sync/SyncStore'
 import {
   Requirement,
   TemplateData,
@@ -162,6 +164,8 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
     ManuscriptModel[]
   >()
 
+  const syncState = useSyncState()
+
   useEffect(() => {
     const loadUserTemplates = async () => {
       const projects = await CollectionManager.getCollection('user')
@@ -186,15 +190,14 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
                   db,
                 })
 
-                if (collection.status.pull.complete) {
+                if (
+                  selectors.isInitialPullComplete(
+                    `project-${project._id}`,
+                    syncState
+                  )
+                ) {
                   resolve(collection)
                 }
-
-                collection.addEventListener('complete', async (event) => {
-                  if (event.detail.direction === 'pull' && event.detail.value) {
-                    resolve(collection)
-                  }
-                })
               })
           )
         )
@@ -235,7 +238,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
       // TODO: display error message
       console.error(error)
     })
-  }, [db])
+  }, [db, syncState])
 
   useEffect(() => {
     if (userTemplates && userTemplateModels) {

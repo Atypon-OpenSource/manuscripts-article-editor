@@ -43,8 +43,6 @@ class ProjectKeywordsData extends DataComponent<Keyword, Props, State> {
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe(projectID)
   }
 
@@ -56,21 +54,15 @@ class ProjectKeywordsData extends DataComponent<Keyword, Props, State> {
 
       this.setState({ data: undefined })
 
-      this.collection.removeEventListener('complete', this.handleComplete)
-
       this.collection = CollectionManager.getCollection<Keyword>(
         `project-${projectID}`
       )
-
-      this.collection.addEventListener('complete', this.handleComplete)
 
       this.sub = this.subscribe(projectID)
     }
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

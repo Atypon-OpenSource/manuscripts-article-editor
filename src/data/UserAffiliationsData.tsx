@@ -50,8 +50,6 @@ class UserAffiliationsData extends DataComponent<
   public componentDidMount() {
     const { profileID } = this.props
 
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe(profileID)
   }
 
@@ -68,8 +66,6 @@ class UserAffiliationsData extends DataComponent<
   }
 
   public componentWillUnmount() {
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

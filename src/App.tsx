@@ -42,7 +42,6 @@ import { TokenData } from './data/TokenData'
 import { apolloClient } from './lib/apollo'
 import invitationTokenHandler from './lib/invitation-token'
 import Sync from './sync/Sync'
-import { ZombieResync } from './sync/ZombieResync'
 
 const DeveloperPageContainer = React.lazy(
   () =>
@@ -565,7 +564,6 @@ const App: React.FunctionComponent = () => (
             )
           }
         </TokenData>
-        <ZombieResync db={db} />
       </React.Fragment>
     )}
   </DatabaseContext.Consumer>

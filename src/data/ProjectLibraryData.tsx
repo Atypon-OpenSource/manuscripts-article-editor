@@ -46,8 +46,6 @@ class ProjectLibraryData extends DataComponent<BibliographyItem, Props, State> {
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe(projectID)
   }
 
@@ -59,21 +57,15 @@ class ProjectLibraryData extends DataComponent<BibliographyItem, Props, State> {
 
       this.setState({ data: undefined })
 
-      this.collection.addEventListener('complete', this.handleComplete)
-
       this.collection = CollectionManager.getCollection<BibliographyItem>(
         `project-${projectID}`
       )
-
-      this.collection.removeEventListener('complete', this.handleComplete)
 
       this.sub = this.subscribe(projectID)
     }
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

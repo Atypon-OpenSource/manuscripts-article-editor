@@ -47,14 +47,10 @@ class GlobalLibraryItemsData extends DataComponent<
   }
 
   public componentDidMount() {
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe()
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

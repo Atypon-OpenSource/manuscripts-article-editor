@@ -43,8 +43,6 @@ class UserData extends DataComponent<UserProfile, Props, State> {
   public componentDidMount() {
     const { userID } = this.props
 
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe(userID)
   }
 
@@ -61,8 +59,6 @@ class UserData extends DataComponent<UserProfile, Props, State> {
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

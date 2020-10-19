@@ -26,40 +26,20 @@ import {
 } from '@manuscripts/rxdb'
 import { ConflictManager } from '@manuscripts/sync-client'
 import axios, { AxiosError } from 'axios'
-import { cloneDeep } from 'lodash-es'
 import generateReplicationID from 'pouchdb-generate-replication-id'
 
 import { CollectionName, collections } from '../collections'
 import { Database } from '../components/DatabaseProvider'
 import config from '../config'
 import sessionID from '../lib/session-id'
-import { onIdle } from './onIdle'
+import { actions } from './syncEvents'
+import { Store } from './SyncStore'
 import {
   BulkDocsError,
   BulkDocsSuccess,
-  CollectionEvent,
-  CollectionEventDetails,
-  CollectionEventListener,
   Direction,
-  EventListeners,
-  EventType,
   PouchReplicationError,
-  Replications,
-  ReplicationStatus,
 } from './types'
-
-export const initialReplicationStatus = {
-  pull: {
-    active: false,
-    complete: false,
-    error: false,
-  },
-  push: {
-    active: false,
-    complete: false,
-    error: false,
-  },
-}
 
 export interface ContainerIDs {
   containerID?: string
@@ -100,7 +80,7 @@ export const promisifyReplicationState = (
   replicationState: RxReplicationState
 ) =>
   new Promise((resolve, reject) => {
-    replicationState.complete$.subscribe(async (complete) => {
+    replicationState.complete$.subscribe((complete) => {
       if (complete) {
         resolve()
       }
@@ -112,6 +92,10 @@ export const promisifyReplicationState = (
       }
     })
   })
+
+// TODO: hash?
+export const buildCollectionName = (name: string) =>
+  name.toLowerCase().replace(/[^a-z0-9_]/g, '_')
 
 const fetchWithCredentials: Fetch = (url, opts = {}) =>
   (PouchDB as any).fetch(url, {
@@ -125,7 +109,7 @@ export interface CollectionProps {
   db: Database
 }
 
-export class Collection<T extends Model> implements EventTarget {
+export class Collection<T extends Model> {
   public props: CollectionProps
 
   public collection?: RxCollection<T>
@@ -133,58 +117,14 @@ export class Collection<T extends Model> implements EventTarget {
 
   public collectionName: string
 
-  public replications: Replications = {
-    pull: null,
-    push: null,
-  }
+  private store: Store
+  private replications: RxReplicationState[]
 
-  public status: ReplicationStatus = cloneDeep(initialReplicationStatus)
-
-  public listeners: EventListeners = {
-    active: [],
-    complete: [],
-    error: [],
-  }
-
-  private eventTypes: EventType[] = ['active', 'complete', 'error']
-
-  private idleHandlerCleanup?: () => void
-
-  public constructor(props: CollectionProps) {
-    this.collectionName = this.buildCollectionName(props.collection)
+  public constructor(props: CollectionProps, store: Store) {
+    this.collectionName = buildCollectionName(props.collection)
     this.props = props
-  }
-
-  public addEventListener(
-    type: EventType | 'all',
-    listener: CollectionEventListener
-  ) {
-    if (type === 'all') {
-      this.eventTypes.forEach((eventType: EventType) =>
-        this.listeners[eventType].push(listener)
-      )
-      return
-    }
-    this.listeners[type].push(listener)
-  }
-
-  public removeEventListener(
-    type: EventType,
-    listener: CollectionEventListener
-  ) {
-    this.listeners[type] = this.listeners[type].filter(
-      (item) => item !== listener
-    )
-  }
-
-  public dispatchEvent(event: CollectionEvent) {
-    if (this.isSupportedEventType(event.type)) {
-      for (const listener of this.listeners[event.type]) {
-        listener(event)
-      }
-    }
-
-    return false // the listeners don't call event.preventDefault
+    this.store = store
+    this.replications = []
   }
 
   public async initialize(startSyncing = true) {
@@ -202,8 +142,6 @@ export class Collection<T extends Model> implements EventTarget {
     const pouch = this.collection.pouch as PouchDB & EventEmitter
     pouch.setMaxListeners(50)
 
-    this.status = cloneDeep(initialReplicationStatus)
-
     // one-time pull from backup on initialization
     if (config.native && config.backupReplication.path) {
       await this.backupPullOnce({
@@ -219,52 +157,19 @@ export class Collection<T extends Model> implements EventTarget {
     }
 
     if (startSyncing) {
-      this.startSyncing()
-        .then(() => {
-          // cancel replications in idle tabs to save resources and allow new tabs
-          // to connect
-          this.idleHandlerCleanup = onIdle(
-            () => {
-              if (
-                this.status.push.active ||
-                this.status.pull.active ||
-                !this.status.pull.complete
-              ) {
-                return false
-              }
-
-              console.log('Idle, canceling replication', this.status)
-
-              // eslint-disable-next-line promise/no-nesting
-              this.cancelReplications().catch((error) => {
-                console.error(`Unable to stop replication`, error)
-              })
-
-              return true
-            },
-            () => {
-              if (this.replications.push || this.replications.pull) {
-                return false
-              }
-
-              console.log('Active, resuming replication', this.replications)
-
-              // eslint-disable-next-line promise/no-nesting
-              this.startSyncing().catch((error) => {
-                console.error(`Unable to start syncing`, error)
-              })
-
-              return true
-            }
-          )
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    } else {
-      this.setStatus('pull', 'complete', true)
-      this.setStatus('push', 'complete', true)
+      this.startSyncing().catch((error) => {
+        this.dispatchSyncError('pull', error)
+      })
     }
+
+    this.store.dispatch(
+      actions.open(this.collectionName, {
+        remoteUrl: this.getRemoteUrl(),
+        backupUrl: config.backupReplication.path ? this.getBackupUrl() : '',
+        channels: this.props.channels || [],
+        isProject: this.collectionName.startsWith('project_'),
+      })
+    )
   }
 
   public syncOnce(
@@ -281,66 +186,58 @@ export class Collection<T extends Model> implements EventTarget {
       return Promise.resolve()
     }
 
-    this.replications[direction] = replicationState
-
-    return promisifyReplicationState(replicationState)
-      .then(() => {
-        this.replications[direction] = null
-        this.setStatus(direction, 'complete', true)
-      })
-      .catch((err) => {
-        this.replications[direction] = null
-        // successfully handled sync error but failed again, move on
-        this.setStatus(direction, 'complete', true)
-        throw err
-      })
+    return promisifyReplicationState(replicationState).then(() => {
+      return
+    })
   }
 
   public async startSyncing() {
     // TODO: need to know if initial push failed?
     // await this.syncOnce('push')
 
-    // wait for initial pull of data to finish
-    // TODO: allow cancel, in case of slow connection?
-    await this.syncOnce('pull')
-
-    // start ongoing pull sync
-    this.sync('pull', {
-      live: true,
-      retry: true,
-    })
-
-    // start ongoing push sync
-    this.sync('push', {
-      live: true,
-      retry: true,
-    })
-  }
-
-  public cancelReplications = () =>
-    Promise.all(
-      Object.entries(this.replications).map(
-        async ([direction, replicationState]) => {
-          if (replicationState) {
-            await this.cancelReplication(
-              direction as Direction,
-              replicationState
-            )
-          }
-        }
+    try {
+      await this.syncOnce('pull')
+      this.store.dispatch(
+        actions.replicationComplete(this.collectionName, 'pull')
       )
-    )
-
-  public ensurePushSync = async () => {
-    if (this.replications.push) {
-      await this.cancelReplication('push', this.replications.push)
+    } catch (e) {
+      this.store.dispatch(actions.initialPullFailed(this.collectionName))
     }
 
-    // manual sync once
-    await this.syncOnce('push', { live: false, retry: false })
+    this.replications = [
+      // start ongoing pull sync
+      this.sync('pull', {
+        live: true,
+        retry: true,
+      }),
 
-    // restart live sync
-    this.sync('push', { live: true, retry: true })
+      // start ongoing push sync
+      this.sync('push', {
+        live: true,
+        retry: true,
+      }),
+    ]
+  }
+
+  public cancelReplications = () => {
+    this.store.dispatch(actions.cancel(this.collectionName))
+    this.replications.map((replicationState) => {
+      if (replicationState) {
+        this.cancelReplication(replicationState)
+      }
+    })
+    this.replications = []
+  }
+
+  public ensurePushSync = async () => {
+    try {
+      await this.cancelReplications()
+      await this.syncOnce('push', { live: false, retry: false })
+      await this.startSyncing()
+      return
+    } catch (error) {
+      this.dispatchSyncError('push', error)
+    }
   }
 
   public getCollection(): RxCollection<T> {
@@ -552,11 +449,14 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   public async cleanupAndDestroy() {
+    // fire-and-forget. Errors will be dispatched the Store
+    // eslint-disable-next-line promise/valid-params
     try {
+      await this.syncOnce('pull', { live: false, retry: false })
       if (await this.hasUnsyncedChanges()) {
         await this.syncOnce('push', { live: false, retry: false })
       }
-      await this.cancelReplications()
+      this.cancelReplications()
       // TODO: destroy the collection
       // this is only needed to free up memory
       // doing this now causes a conflict in MPUserProject the next
@@ -565,9 +465,10 @@ export class Collection<T extends Model> implements EventTarget {
       // if (this.collection) {
       //   await this.collection.destroy()
       // }
-      this.idleHandlerCleanup && this.idleHandlerCleanup()
+      this.store.dispatch(actions.close(this.collectionName, true))
       return true
     } catch (e) {
+      this.store.dispatch(actions.close(this.collectionName, false))
       return false
     }
   }
@@ -591,76 +492,12 @@ export class Collection<T extends Model> implements EventTarget {
     )
   }
 
-  // TODO: hash?
-  private buildCollectionName = (name: string) =>
-    name.toLowerCase().replace(/[^a-z0-9_]/g, '_')
-
-  private cancelReplication = async (
-    direction: Direction,
-    replication: RxReplicationState
-  ) => {
+  private cancelReplication = async (replication: RxReplicationState) => {
     try {
       await replication.cancel()
-      this.replications[direction] = null
     } catch (error) {
-      console.error(error)
+      this.dispatchSyncError('unknown', error)
     }
-  }
-
-  private isSupportedEventType(type: string): type is EventType {
-    return type in this.listeners
-  }
-
-  private setStatus(
-    direction: Direction,
-    type: EventType,
-    value: boolean,
-    error?: Error | AxiosError | PouchReplicationError
-  ) {
-    console.log('Sync', this.collectionName, {
-      direction,
-      type,
-      value,
-    })
-
-    this.status[direction][type] = value
-
-    this.dispatchEvent(
-      new CustomEvent<CollectionEventDetails>(type, {
-        detail: { direction, value, error, collection: this.collectionName },
-      })
-    )
-  }
-
-  private dispatchSyncError(
-    direction: Direction,
-    options: PouchReplicationOptions,
-    error?: Error | AxiosError | PouchReplicationError
-  ) {
-    this.dispatchEvent(
-      new CustomEvent<CollectionEventDetails>('error', {
-        detail: {
-          direction,
-          value: true,
-          error,
-          collection: this.collectionName,
-          isLive: options.live,
-        },
-      })
-    )
-  }
-
-  private dispatchWriteError(operation: string, error: Error) {
-    this.dispatchEvent(
-      new CustomEvent<CollectionEventDetails>('error', {
-        detail: {
-          operation,
-          value: true,
-          error,
-          collection: this.collectionName,
-        },
-      })
-    )
   }
 
   private get bucketName() {
@@ -677,21 +514,9 @@ export class Collection<T extends Model> implements EventTarget {
     direction: Direction,
     options: PouchReplicationOptions & { fetch?: Fetch } = {},
     isRetry = false
-  ): RxReplicationState | false {
-    if (this.replications[direction]) {
-      throw new Error(
-        `Existing ${direction} replication in progress for ${this.collectionName}`
-      )
-    }
-
+  ): RxReplicationState {
     if (direction === 'pull') {
-      if (this.props.channels) {
-        if (!this.props.channels.length) {
-          console.debug('No channels were provided for a filtered sync')
-          this.setStatus(direction, 'complete', true)
-          return false
-        }
-
+      if (this.props.channels && this.props.channels.length) {
         options.query_params = {
           filter: 'sync_gateway/bychannel',
           channels: this.props.channels,
@@ -702,12 +527,6 @@ export class Collection<T extends Model> implements EventTarget {
     options.fetch = fetchWithCredentials
 
     const remote = this.getRemoteUrl()
-
-    console.log(`Syncing ${this.collectionName}`, {
-      direction,
-      options,
-      remote,
-    })
 
     const replicationState = this.getCollection().sync({
       remote,
@@ -727,11 +546,12 @@ export class Collection<T extends Model> implements EventTarget {
       },
     })
 
-    this.replications[direction] = replicationState
-
-    replicationState.active$.subscribe((value) => {
-      this.setStatus(direction, 'active', value)
-    })
+    this.dispatchActivity(direction, true)
+    // TODO - if we need this, debounce it? Too many updates for a centralized store
+    // to handle
+    // replicationState.active$.subscribe(value => {
+    //   this.dispatchActivity(direction, value)
+    // })
 
     // replicationState.alive$.subscribe((alive: boolean) => {
     //   // TODO: handle dead connection
@@ -746,7 +566,7 @@ export class Collection<T extends Model> implements EventTarget {
       })
 
       errors.forEach((e: PouchReplicationError) =>
-        this.dispatchSyncError(direction, options, e)
+        this.dispatchSyncError(direction, e)
       )
     })
 
@@ -754,7 +574,7 @@ export class Collection<T extends Model> implements EventTarget {
       const completed = result && result.ok
 
       if (completed) {
-        await this.cancelReplication(direction, replicationState)
+        await this.cancelReplication(replicationState)
       }
     })
 
@@ -764,7 +584,7 @@ export class Collection<T extends Model> implements EventTarget {
         throw error
       })
 
-      this.dispatchSyncError(direction, options, error)
+      this.dispatchSyncError(direction, error)
     })
 
     replicationState.error$.subscribe(async (error: PouchReplicationError) => {
@@ -772,26 +592,14 @@ export class Collection<T extends Model> implements EventTarget {
         await this.handleSyncError(error, direction)
 
         if (isRetry) {
-          console.warn(
-            `${this.collectionName} ${direction} sync failed, giving up`
-          )
-
-          this.setStatus(direction, 'error', true, error)
+          this.dispatchSyncError(direction, error)
         } else {
           // cancel this replication
-          await this.cancelReplication(direction, replicationState)
-
-          console.warn(
-            `${this.collectionName} ${direction} sync failed, retrying`
-          )
-
-          // try once more, after refreshing the sync session
+          await this.cancelReplication(replicationState)
           this.sync(direction, options, true)
         }
       } catch (error) {
-        console.error(`${this.collectionName} ${direction} sync failed:`, error)
-
-        this.setStatus(direction, 'error', true, error)
+        this.dispatchSyncError(direction, error)
         // this.setStatus(direction, 'complete', true)
       }
     })
@@ -800,8 +608,6 @@ export class Collection<T extends Model> implements EventTarget {
   }
 
   private handleSyncError(error: PouchReplicationError, direction: Direction) {
-    console.error(error)
-
     if (direction === 'push') {
       if (error.error === 'conflict' && error.result && error.result.errors) {
         const conflicts = error.result.errors
@@ -813,6 +619,23 @@ export class Collection<T extends Model> implements EventTarget {
     }
 
     throw error
+  }
+
+  private dispatchWriteError(type: string, error: Error) {
+    this.store.dispatch(actions.writeError(this.collectionName, type, error))
+  }
+
+  private dispatchSyncError(
+    direction: 'push' | 'pull' | 'unknown',
+    error: PouchReplicationError
+  ) {
+    this.store.dispatch(
+      actions.syncError(this.collectionName, direction, error)
+    )
+  }
+
+  private dispatchActivity(direction: 'push' | 'pull', status: boolean) {
+    this.store.dispatch(actions.active(this.collectionName, direction, status))
   }
 
   private backupPush(options: PouchReplicationOptions) {
@@ -869,7 +692,7 @@ export class Collection<T extends Model> implements EventTarget {
   private broadcastPurge = (id: string, rev: string) => {
     if (config.backupReplication.path) {
       axios.post(this.getBackupUrl(), { [id]: [rev] }).catch((error) => {
-        console.error(error)
+        this.dispatchSyncError('unknown', error)
       })
     }
   }

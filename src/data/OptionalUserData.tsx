@@ -13,9 +13,12 @@
 import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 
+import { Loading } from '../components/Loading'
 import { buildUser } from '../lib/data'
 import { Collection } from '../sync/Collection'
 import CollectionManager from '../sync/CollectionManager'
+import { selectors } from '../sync/syncEvents'
+import { SyncStateContext } from '../sync/SyncStore'
 import { DataComponent } from './DataComponent'
 
 interface Props {
@@ -43,7 +46,6 @@ class OptionalUserData extends DataComponent<UserProfile, Props, State> {
     const { userProfileID } = this.props
 
     // TODO: handle "error"?
-    this.collection.addEventListener('complete', this.handleComplete)
     this.sub = this.subscribe(userProfileID)
   }
 
@@ -55,27 +57,33 @@ class OptionalUserData extends DataComponent<UserProfile, Props, State> {
         this.sub.unsubscribe()
       }
 
-      this.collection.removeEventListener('complete', this.handleComplete)
-
       this.setState({ data: undefined })
-      this.collection.addEventListener('complete', this.handleComplete)
       this.sub = this.subscribe(userProfileID)
     }
   }
 
   public componentWillUnmount() {
     this.sub.unsubscribe()
-    this.collection.removeEventListener('complete', this.handleComplete)
   }
 
   public render() {
     const { data } = this.state
 
-    if (data === undefined || !this.collection.status.pull.complete) {
-      return this.props.placeholder || null
+    if (data === undefined) {
+      return this.props.placeholder || <Loading />
     }
 
-    return this.props.children(data, this.collection)
+    return (
+      <SyncStateContext.Consumer>
+        {({ syncState }) => {
+          if (!selectors.isInitialPullComplete('user', syncState)) {
+            return this.props.placeholder || <Loading />
+          } else {
+            return this.props.children(data, this.collection)
+          }
+        }}
+      </SyncStateContext.Consumer>
+    )
   }
 
   private subscribe = (userProfileID: string) =>

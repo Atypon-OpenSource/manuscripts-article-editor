@@ -16,6 +16,8 @@ import { Subscription } from 'rxjs'
 
 import { Loading } from '../components/Loading'
 import { Collection } from '../sync/Collection'
+import { selectors } from '../sync/syncEvents'
+import { SyncStateContext } from '../sync/SyncStore'
 
 export abstract class DataComponent<
   T extends Model,
@@ -32,22 +34,25 @@ export abstract class DataComponent<
   protected sub: Subscription
 
   public render() {
-    if (!this.isComplete()) {
-      const { placeholder } = this.props
-
-      return placeholder || <Loading />
-    }
-
-    // @ts-ignore
-    return this.props.children(
-      this.state.data!,
-      this.collection,
-      this.restartSync
+    const { placeholder } = this.props
+    return (
+      <SyncStateContext.Consumer>
+        {({ syncState }) =>
+          this.state.data !== undefined &&
+          selectors.isInitialPullComplete(
+            this.collection.collectionName,
+            syncState
+          )
+            ? // @ts-ignore
+              this.props.children(
+                this.state.data!,
+                this.collection,
+                this.restartSync
+              )
+            : placeholder || <Loading />
+        }
+      </SyncStateContext.Consumer>
     )
-  }
-
-  protected isComplete = () => {
-    return this.collection.status.pull.complete && this.state.data !== undefined
   }
 
   protected handleComplete = () => {

@@ -10,33 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { RxReplicationState } from '@manuscripts/rxdb'
 import { AxiosError } from 'axios'
-
-export interface CollectionEventDetails {
-  direction?: string
-  operation?: string
-  isLive?: boolean
-  value: boolean
-  collection: string
-  error?: Error | AxiosError | PouchReplicationError
-}
-
-export type CollectionEvent = CustomEvent<CollectionEventDetails>
-
-export type CollectionEventListener = (event: CollectionEvent) => void
 
 export type Direction = 'pull' | 'push'
 
-export type EventType = 'active' | 'complete' | 'error'
-
-export type EventListeners = {
-  [key in EventType]: CollectionEventListener[]
-}
-
-export type DirectionStatus = { [key in EventType]: boolean }
-
-export type ReplicationStatus = { [key in Direction]: DirectionStatus }
+export type ReplicationStatus = 'active' | 'ready' | 'cancelled' | null
 
 type PouchReplicationErrorNames =
   | 'Unauthorized'
@@ -75,8 +53,6 @@ export interface PouchReplicationError {
   }
 }
 
-export type Replications = { [key in Direction]: RxReplicationState | null }
-
 export interface BulkDocsSuccess {
   ok: boolean
 }
@@ -87,4 +63,44 @@ export interface BulkDocsError {
   message: string
   error: boolean
   id: string
+}
+
+export interface CollectionMeta {
+  isProject: boolean
+  remoteUrl: string
+  backupUrl: string
+  channels: string[]
+}
+
+export interface ErrorEvent {
+  timestamp: number
+  direction?: string
+  operation?: string
+  error: Error | AxiosError | PouchReplicationError
+  ack: boolean
+  collectionName?: string
+}
+
+export interface CollectionState {
+  firstPullComplete: boolean | 'error'
+  push: ReplicationStatus
+  pull: ReplicationStatus
+  backupPullComplete: boolean
+  backupPush: ReplicationStatus
+  errors: ErrorEvent[]
+  errorDocIds: string[]
+  closed: boolean | 'zombie'
+}
+
+export interface SyncState {
+  [key: string]: {
+    meta: CollectionMeta
+    state: CollectionState
+  }
+}
+
+export interface Action {
+  type: string
+  payload: { [key: string]: any } // tslint:disable-line:no-any
+  collectionName?: string
 }

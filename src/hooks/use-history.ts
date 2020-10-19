@@ -26,6 +26,7 @@ import { useEffect, useState } from 'react'
 import { getSnapshot } from '../lib/snapshot'
 import { JsonModel } from '../pressroom/importers'
 import CollectionManager from '../sync/CollectionManager'
+import { usePullComplete } from './use-pull-complete'
 
 export enum SnapshotStatus {
   Ready = 'ready',
@@ -59,7 +60,7 @@ const buildModelMap = (models: JsonModel[]): Map<string, JsonModel> => {
 
 export const useHistory = (projectID: string): HookValue => {
   const collection = CollectionManager.getCollection(`project-${projectID}`)
-  const isPullComplete = collection && collection.status.pull.complete
+  const isPullComplete = usePullComplete(`project-${projectID}`)
 
   const [snapshotsList, setSnapshotsList] = useState<
     Array<RxDocument<Snapshot>>

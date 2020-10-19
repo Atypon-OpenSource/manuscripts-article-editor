@@ -39,13 +39,10 @@ class UserProjectsData extends DataComponent<UserProject, Props, State> {
   }
 
   public componentDidMount() {
-    this.collection.addEventListener('complete', this.handleComplete)
     this.sub = this.subscribe()
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

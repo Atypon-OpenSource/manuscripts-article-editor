@@ -10,67 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import reducer, {
-  getInitialState,
-  getPushSyncErrorMessage,
-} from '../syncErrors'
-
-describe('syncErrors reducer', () => {
-  it('should track sync errors', () => {
-    const event: any = {
-      type: 'error',
-      detail: {
-        direction: 'push',
-        collection: 'col',
-        error: new Error(),
-      },
-    }
-    const finalState = reducer(getInitialState(), {
-      type: 'event',
-      event,
-    })
-    expect(finalState.allEvents).toHaveLength(1)
-    expect(finalState.newEvents).toHaveLength(1)
-  })
-
-  it('should ignore events while offline', () => {
-    const event: any = {
-      type: 'error',
-      detail: {
-        direction: 'push',
-        collection: 'col',
-        error: new Error(),
-      },
-    }
-    const finalState = reducer(getInitialState(), {
-      type: 'event',
-      isOffline: true,
-      event,
-    })
-    expect(finalState.allEvents).toHaveLength(0)
-    expect(finalState.newEvents).toHaveLength(0)
-  })
-
-  it('should reset by clearing new events but keeping all events', () => {
-    const event: any = {
-      type: 'error',
-      detail: {
-        direction: 'push',
-        collection: 'col',
-        error: new Error(),
-      },
-    }
-    const initialState = reducer(getInitialState(), {
-      type: 'event',
-      event,
-    })
-    const finalState = reducer(initialState, {
-      type: 'reset',
-    })
-    expect(finalState.allEvents).toHaveLength(1)
-    expect(finalState.newEvents).toHaveLength(0)
-  })
-})
+import { getPushSyncErrorMessage } from '../syncErrors'
 
 describe('getPushSyncErrorMessage', () => {
   it('should show an error message dependent on the status code', () => {

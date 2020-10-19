@@ -40,8 +40,6 @@ class ProjectTagsData extends DataComponent<Tag, Props, State> {
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe(projectID)
   }
 
@@ -53,21 +51,15 @@ class ProjectTagsData extends DataComponent<Tag, Props, State> {
 
       this.setState({ data: undefined })
 
-      this.collection.removeEventListener('complete', this.handleComplete)
-
       this.collection = CollectionManager.getCollection<Tag>(
         `project-${projectID}`
       )
-
-      this.collection.addEventListener('complete', this.handleComplete)
 
       this.sub = this.subscribe(projectID)
     }
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

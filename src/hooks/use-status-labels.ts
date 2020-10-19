@@ -14,14 +14,17 @@ import { ObjectTypes, StatusLabel } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useMemo, useState } from 'react'
 
 import CollectionManager from '../sync/CollectionManager'
+import { usePullComplete } from './use-pull-complete'
 
 export const useStatusLabels = (projectID: string, manuscriptID: string) => {
+  const collectionName = `project-${projectID}`
+
   const collection = useMemo(
-    () => CollectionManager.getCollection(`project-${projectID}`),
-    [projectID]
+    () => CollectionManager.getCollection(collectionName),
+    [collectionName]
   )
 
-  const isPullComplete = collection && collection.status.pull.complete
+  const isPullComplete = usePullComplete(collectionName)
 
   const [data, setData] = useState<StatusLabel[]>([])
 

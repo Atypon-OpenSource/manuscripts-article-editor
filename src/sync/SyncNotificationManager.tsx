@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useCallback, useEffect, useReducer, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { CopyableText } from '../components/CopyableText'
@@ -19,8 +19,7 @@ import config from '../config'
 import { useCrisp } from '../hooks/use-crisp'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import CollectionManager from './CollectionManager'
-import syncErrors, {
-  getInitialState,
+import {
   getPushSyncErrorMessage,
   isPullSyncError,
   isPushSyncError,
@@ -28,24 +27,16 @@ import syncErrors, {
   isUnauthorized,
   isWriteError,
 } from './syncErrors'
+import { actions, selectors } from './syncEvents'
 import SyncNotification from './SyncNotification'
-import { CollectionEvent } from './types'
+import { SyncStateContext } from './SyncStore'
 
 const SyncNotificationManager: NotificationComponent = () => {
   const [onlineState, setOfflineAcknowledged] = useOnlineState()
   const [askForPersistentStorage, setAskForPersistentStorage] = useState(false)
 
-  // detect sync errors
-  const [state, dispatch] = useReducer(syncErrors, getInitialState())
-  useEffect(() => {
-    CollectionManager.subscribeToErrors((event: CollectionEvent) => {
-      dispatch({
-        type: 'event',
-        event,
-        isOffline: !window.navigator.onLine,
-      })
-    })
-  }, [])
+  const { syncState, dispatch } = useContext(SyncStateContext)
+  const errors = selectors.newErrors(syncState)
 
   // actions:
   const handleLogin = useCallback(() => {
@@ -57,27 +48,19 @@ const SyncNotificationManager: NotificationComponent = () => {
   }, [])
 
   const handleRetry = useCallback(() => {
-    dispatch({ type: 'reset' })
-
-    CollectionManager.restartAll().catch(console.error)
+    CollectionManager.restartAll()
   }, [])
 
   const composeErrorReport = useCallback(() => {
     return JSON.stringify(
       {
         version: config.version,
-        events: state.allEvents.map((event) => ({
-          direction: event.direction,
-          operation: event.operation,
-          isLive: event.isLive,
-          collection: event.collection,
-          error: event.error && event.error.toString(),
-        })),
+        events: selectors.errorReport(syncState),
       },
       null,
       1
     )
-  }, [state.allEvents])
+  }, [syncState])
 
   const handleOfflineAcknowledged = useCallback(() => {
     setOfflineAcknowledged()
@@ -136,7 +119,7 @@ const SyncNotificationManager: NotificationComponent = () => {
     )
   }
 
-  if (state.newEvents.find(isUnauthorized)) {
+  if (errors.find(isUnauthorized)) {
     return (
       <SyncNotification
         title="Please sign in again to sync your changes"
@@ -159,7 +142,7 @@ const SyncNotificationManager: NotificationComponent = () => {
     )
   }
 
-  const writeError = state.newEvents.find(isWriteError)
+  const writeError = errors.find(isWriteError)
   if (writeError) {
     return (
       <SyncNotification
@@ -175,7 +158,7 @@ const SyncNotificationManager: NotificationComponent = () => {
         buttonText="Contact Support"
         buttonAction={crisp.open}
         primaryButtonText="Dismiss"
-        primaryButtonAction={() => dispatch({ type: 'reset' })}
+        primaryButtonAction={() => dispatch(actions.resetErrors())}
       />
     )
   }
@@ -184,7 +167,7 @@ const SyncNotificationManager: NotificationComponent = () => {
     return null
   }
 
-  if (state.newEvents.find(isSyncTimeoutError)) {
+  if (errors.find(isSyncTimeoutError)) {
     return (
       <SyncNotification
         title="Unable to connect to sync server"
@@ -194,7 +177,7 @@ const SyncNotificationManager: NotificationComponent = () => {
     )
   }
 
-  if (state.newEvents.find(isPullSyncError)) {
+  if (errors.find(isPullSyncError)) {
     return (
       <SyncNotification
         title="Unable to pull the latest changes"
@@ -204,7 +187,7 @@ const SyncNotificationManager: NotificationComponent = () => {
     )
   }
 
-  const pushSyncError = state.newEvents.find(isPushSyncError)
+  const pushSyncError = errors.find(isPushSyncError)
   if (pushSyncError) {
     return (
       <SyncNotification

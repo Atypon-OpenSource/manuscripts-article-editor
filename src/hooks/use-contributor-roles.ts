@@ -17,23 +17,24 @@ import {
 import { useEffect, useMemo, useState } from 'react'
 
 import CollectionManager from '../sync/CollectionManager'
-import { useCollectionEvent } from './use-collection-event'
+import { usePullComplete } from './use-pull-complete'
 
 export const useContributorRoles = (
   projectID: string,
   manuscriptID: string
 ) => {
+  const collectionName = `project-${projectID}`
   const collection = useMemo(
-    () => CollectionManager.getCollection(`project-${projectID}`),
-    [projectID]
+    () => CollectionManager.getCollection(collectionName),
+    [collectionName]
   )
 
-  const complete = useCollectionEvent(collection, 'pull', 'complete')
+  const isPullComplete = usePullComplete(collectionName)
 
   const [data, setData] = useState<ContributorRole[]>()
 
   useEffect(() => {
-    if (complete) {
+    if (isPullComplete) {
       const subscription = collection
         .find({
           manuscriptID,
@@ -49,7 +50,7 @@ export const useContributorRoles = (
         subscription.unsubscribe()
       }
     }
-  }, [collection, complete, manuscriptID])
+  }, [collection, isPullComplete, manuscriptID])
 
   return { data }
 }

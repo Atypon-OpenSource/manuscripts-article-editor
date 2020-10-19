@@ -19,21 +19,21 @@ import { useEffect, useState } from 'react'
 
 import { AuthorData, buildAuthorsAndAffiliations } from '../lib/authors'
 import CollectionManager from '../sync/CollectionManager'
-import { useCollectionEvent } from './use-collection-event'
+import { usePullComplete } from './use-pull-complete'
 
 export const useAuthorsAndAffiliations = (
   projectID: string,
   manuscriptID: string
 ) => {
-  const collection = CollectionManager.getCollection(`project-${projectID}`)
-
-  const complete = useCollectionEvent(collection, 'pull', 'complete')
+  const isPullComplete = usePullComplete(`project-${projectID}`)
 
   const [data, setData] = useState<AuthorData>()
 
   useEffect(() => {
-    if (complete) {
-      const subscription = collection
+    if (isPullComplete) {
+      const subscription = CollectionManager.getCollection(
+        `project-${projectID}`
+      )
         .find({
           manuscriptID,
           $or: [
@@ -55,7 +55,7 @@ export const useAuthorsAndAffiliations = (
         subscription.unsubscribe()
       }
     }
-  }, [collection, complete, manuscriptID])
+  }, [projectID, isPullComplete, manuscriptID])
 
   return { data }
 }

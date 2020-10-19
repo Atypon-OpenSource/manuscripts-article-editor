@@ -95,7 +95,7 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
   }, [])
 
   const handleRestart = useCallback(() => {
-    CollectionManager.restartAll().catch(console.error)
+    CollectionManager.restartAll()
   }, [])
 
   return (

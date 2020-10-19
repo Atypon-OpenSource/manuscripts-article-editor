@@ -21,6 +21,7 @@ import { ModalProvider } from './components/ModalProvider'
 import { NotificationProviderWithRouter } from './components/NotificationProvider'
 import { ServiceWorker } from './components/ServiceWorker'
 import { databaseCreator } from './lib/db'
+import { SyncStore } from './sync/SyncStore'
 import { GlobalStyle } from './theme/theme'
 import { ThemeProvider } from './theme/ThemeProvider'
 
@@ -30,12 +31,14 @@ const Main = () => (
       <ThemeProvider>
         <DatabaseProvider databaseCreator={databaseCreator}>
           <GlobalStyle />
-          <NotificationProviderWithRouter>
-            <ServiceWorker />
-            <ModalProvider>
-              <App />
-            </ModalProvider>
-          </NotificationProviderWithRouter>
+          <SyncStore>
+            <NotificationProviderWithRouter>
+              <ServiceWorker />
+              <ModalProvider>
+                <App />
+              </ModalProvider>
+            </NotificationProviderWithRouter>
+          </SyncStore>
         </DatabaseProvider>
       </ThemeProvider>
     </DndProvider>

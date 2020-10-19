@@ -75,7 +75,7 @@ export const ProjectDiagnosticsPageContainer: React.FC<{
   }, [projectID])
 
   const handleRestart = useCallback(() => {
-    CollectionManager.restartAll().catch(console.error)
+    CollectionManager.restartAll()
   }, [])
 
   if (!downloadURL) {

@@ -13,54 +13,9 @@
 import { StatusCodes } from 'http-status-codes'
 import { get } from 'lodash-es'
 
-import { CollectionEvent, CollectionEventDetails } from './types'
+import { ErrorEvent } from './types'
 
-interface State {
-  allEvents: CollectionEventDetails[]
-  newEvents: CollectionEventDetails[]
-}
-
-interface Action {
-  type: string
-  event?: CollectionEvent
-  isOffline?: boolean
-}
-
-export default (state: State, action: Action): State => {
-  const errorsArr = get(action, 'event.detail.error.result.errors', [])
-  const isLive = get(action, 'event.detail.isLive', false)
-  const ignore = isLive && !errorsArr.length
-
-  switch (action.type) {
-    case 'event': {
-      if (action.isOffline || !action.event) {
-        return state
-      }
-      return {
-        allEvents: [action.event.detail, ...state.allEvents],
-        newEvents: ignore
-          ? state.newEvents
-          : [action.event.detail, ...state.newEvents],
-      }
-    }
-
-    case 'reset': {
-      return {
-        ...state,
-        newEvents: [],
-      }
-    }
-  }
-
-  return state
-}
-
-export const getInitialState = (): State => ({
-  allEvents: [],
-  newEvents: [],
-})
-
-export const isUnauthorized = (detail: CollectionEventDetails) => {
+export const isUnauthorized = (detail: ErrorEvent) => {
   const status = get(detail, 'error.status', null)
   if (!status) {
     return null
@@ -68,11 +23,11 @@ export const isUnauthorized = (detail: CollectionEventDetails) => {
   return status === StatusCodes.UNAUTHORIZED
 }
 
-export const isPushSyncError = (detail: CollectionEventDetails) => {
+export const isPushSyncError = (detail: ErrorEvent) => {
   return detail.direction === 'push' && detail.error
 }
 
-export const isPullSyncError = (detail: CollectionEventDetails) => {
+export const isPullSyncError = (detail: ErrorEvent) => {
   // error.status is undefined for longpoll errors
   const status = get(detail, 'error.status', null)
   if (!status) {
@@ -81,7 +36,7 @@ export const isPullSyncError = (detail: CollectionEventDetails) => {
   return Boolean(detail.direction === 'pull' && status)
 }
 
-export const isSyncTimeoutError = (detail: CollectionEventDetails) => {
+export const isSyncTimeoutError = (detail: ErrorEvent) => {
   const status = get(detail, 'error.status', null)
   const reason = get(detail, 'error.reason', null)
   return (
@@ -89,12 +44,12 @@ export const isSyncTimeoutError = (detail: CollectionEventDetails) => {
   )
 }
 
-export const isWriteError = (detail: CollectionEventDetails) => {
+export const isWriteError = (detail: ErrorEvent) => {
   const operation = get(detail, 'operation', null)
   return Boolean(operation)
 }
 
-export const getPushSyncErrorMessage = (detail: CollectionEventDetails) => {
+export const getPushSyncErrorMessage = (detail: ErrorEvent) => {
   const status = get(detail, 'error.status')
 
   switch (status) {

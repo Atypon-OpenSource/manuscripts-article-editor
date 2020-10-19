@@ -14,6 +14,9 @@ import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 
+import { buildCollectionName } from '../../sync/Collection'
+import { selectors } from '../../sync/syncEvents'
+import { SyncStateContext } from '../../sync/SyncStore'
 import { ModalProps, withModal } from '../ModalProvider'
 import TemplateSelector from '../templates/TemplateSelector'
 import { EmptyProjectPage } from './EmptyProjectPage'
@@ -22,19 +25,29 @@ interface Props {
   project: Project
   user: UserProfileWithAvatar
   message: string
-  hasPullError: boolean
   restartSync: () => void
 }
 
 class EmptyProjectPageContainer extends React.Component<Props & ModalProps> {
   public render() {
+    const { project } = this.props
     return (
-      <EmptyProjectPage
-        openTemplateSelector={this.openTemplateSelector}
-        message={this.props.message}
-        hasPullError={this.props.hasPullError}
-        restartSync={this.props.restartSync}
-      />
+      <SyncStateContext.Consumer>
+        {({ syncState }) => {
+          const hasPullError = selectors.hasPullError(
+            buildCollectionName(`project-${project._id}`),
+            syncState
+          )
+          return (
+            <EmptyProjectPage
+              openTemplateSelector={this.openTemplateSelector}
+              message={this.props.message}
+              hasPullError={hasPullError}
+              restartSync={this.props.restartSync}
+            />
+          )
+        }}
+      </SyncStateContext.Consumer>
     )
   }
 

@@ -14,42 +14,72 @@ import { Model } from '@manuscripts/manuscripts-json-schema'
 
 import { CollectionName } from '../collections'
 import config from '../config'
-import { refreshSyncSessions } from '../lib/api'
-import { postWebkitMessage } from '../lib/native'
 import { Collection, CollectionProps } from './Collection'
-import { isUnauthorized } from './syncErrors'
-import { CollectionEvent, CollectionEventListener } from './types'
-import zombieCollections from './ZombieCollections'
+import { onIdle } from './onIdle'
+import { actions, selectors } from './syncEvents'
+import { Store } from './SyncStore'
 
 const { local } = config
 
+const NullStore = () => ({
+  dispatch: () => {
+    return
+  },
+  getState: () => {
+    return {}
+  },
+})
+
 class CollectionManager {
   private collections: Map<string, Collection<Model>> = new Map()
-  private listeners: CollectionEventListener[] = []
-  private isExpiredSyncGatewaySession = false
+  private store: Store
 
   public constructor() {
+    this.store = NullStore()
     window.restartSync = () => {
-      this.restartAll().catch((error) => {
-        console.error(error)
-      })
+      return this.restartAll()
     }
+    onIdle(
+      () => {
+        this.collections.forEach((collection) => {
+          // eslint-disable-next-line promise/valid-params
+          collection.cancelReplications()
+        })
+        return true
+      },
+      () => {
+        this.collections.forEach((collection) => {
+          // eslint-disable-next-line promise/valid-params
+          collection.startSyncing().catch((err) => {
+            this.store.dispatch(
+              actions.syncError(collection.collectionName, 'pull', err)
+            )
+          })
+        })
+        return true
+      }
+    )
+  }
+
+  public listen(store: Store) {
+    this.store = store
+  }
+
+  public unlisten() {
+    this.store = NullStore()
   }
 
   public async createCollection<T extends Model>(
     props: CollectionProps
   ): Promise<Collection<T>> {
-    if (this.collections.has(props.collection)) {
-      return this.collections.get(props.collection) as Collection<T>
-    }
+    // if (this.collections.has(props.collection)) {
+    //   return this.getCollection(props.collection)
+    // }
 
-    const collection = new Collection<T>(props)
-
+    const collection = new Collection<T>(props, this.store)
     this.collections.set(props.collection, collection as Collection<Model>)
 
     await collection.initialize(!local)
-
-    collection.addEventListener('error', this.generalListener)
 
     return collection
   }
@@ -66,48 +96,28 @@ class CollectionManager {
 
   public removeCollection(collectionName: CollectionName) {
     const collection = this.collections.get(collectionName)
-    this.collections.delete(collectionName)
-
     if (!collection) {
       return
     }
-    collection
-      .cleanupAndDestroy()
-      .then((result) => {
-        if (!result) {
-          zombieCollections.add(collection.props)
-        }
-      })
-      .catch(() => {
-        zombieCollections.add(collection.props)
-      })
+    // swallow at catch, all possible errors are handled within cleanupAndDestroy
+    collection.cleanupAndDestroy().catch((err) => {
+      this.store.dispatch(actions.syncError(collectionName, 'unknown', err))
+    })
   }
 
-  public subscribeToErrors(listener: CollectionEventListener) {
-    this.listeners.push(listener)
-  }
+  public restartAll() {
+    // fire-and-forget: Errors will bubble into the sync store
+    // eslint-disable-next-line promise/valid-params
+    ;(async () => {
+      this.store.dispatch(actions.resetErrors())
 
-  public async restartAll() {
-    try {
       await this.pushCollections(['user'])
-    } catch (error) {
-      console.error('Unable to push user collection')
-    }
-
-    for (const parts of this.collections) {
-      const collection = parts[1]
-      try {
+      for (const parts of this.collections) {
+        const collection = parts[1]
         await collection.cancelReplications()
-      } catch (error) {
-        console.error(`Unable to stop replication`)
-      }
-
-      try {
         await collection.startSyncing()
-      } catch (error) {
-        console.error(`Unable to start replication`)
       }
-    }
+    })().catch()
   }
 
   public unsyncedCollections(): Promise<string[]> {
@@ -125,49 +135,37 @@ class CollectionManager {
       if (!collection) {
         continue
       }
-      try {
-        await collection.cancelReplications()
-      } catch (error) {
-        console.error(`Unable to stop replication`)
-      }
-
-      try {
-        await collection.syncOnce('pull')
-        await collection.syncOnce('push')
-      } catch (error) {
-        console.error(`Unable to start replication`)
-      }
+      await collection.cancelReplications()
+      await collection.syncOnce('pull')
+      await collection.syncOnce('push')
     }
   }
 
-  private generalListener = (event: CollectionEvent) => {
-    if (isUnauthorized(event.detail)) {
-      if (!this.isExpiredSyncGatewaySession) {
-        this.isExpiredSyncGatewaySession = true
+  public cleanupAndDestroyAll() {
+    const state = this.store.getState()
+    return Promise.all(
+      selectors
+        .notClosed(state)
+        .map((collectionName) =>
+          this.getCollection(collectionName).cleanupAndDestroy()
+        )
+    )
+  }
 
-        if (config.native) {
-          console.info('Requesting the native client to refresh sync session…')
-          postWebkitMessage('sync', {})
-        } else {
-          console.info('Attempting to refresh sync session…')
-
-          return refreshSyncSessions()
-            .then(() => {
-              this.isExpiredSyncGatewaySession = false
-              return this.restartAll()
-            })
-            .catch(() => {
-              // refreshing sync session failed.
-              // pass the original event onto the listeners.
-              this.listeners.forEach((listener) => listener(event))
-            })
-        }
-      }
+  public async killOneZombie() {
+    const state = this.store.getState()
+    const collectionName = selectors.oneZombie(state)
+    if (!collectionName) {
       return
     }
-
-    this.listeners.forEach((listener) => listener(event))
+    this.getCollection(collectionName).cleanupAndDestroy()
   }
 }
 
-export default new CollectionManager()
+const collectionManager = new CollectionManager()
+
+const RESYNC_RATE = 15 * 1000
+
+setInterval(() => collectionManager.killOneZombie(), RESYNC_RATE)
+
+export default collectionManager

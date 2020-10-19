@@ -46,8 +46,6 @@ class ProjectInvitationsData extends DataComponent<
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe(projectID)
   }
 
@@ -59,21 +57,15 @@ class ProjectInvitationsData extends DataComponent<
 
       this.setState({ data: undefined })
 
-      this.collection.addEventListener('complete', this.handleComplete)
-
       this.collection = CollectionManager.getCollection<ProjectInvitation>(
         `project-${projectID}`
       )
-
-      this.collection.removeEventListener('complete', this.handleComplete)
 
       this.sub = this.subscribe(projectID)
     }
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

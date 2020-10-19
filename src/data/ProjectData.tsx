@@ -39,8 +39,6 @@ class ProjectData extends DataComponent<Project, Props, State> {
   public componentDidMount() {
     const { projectID } = this.props
 
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe(projectID)
   }
 
@@ -57,8 +55,6 @@ class ProjectData extends DataComponent<Project, Props, State> {
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 

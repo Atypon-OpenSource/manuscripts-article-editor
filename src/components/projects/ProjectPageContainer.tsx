@@ -198,12 +198,6 @@ class ProjectPageContainer extends React.Component<
                                                                     message={
                                                                       message
                                                                     }
-                                                                    hasPullError={
-                                                                      collection
-                                                                        .status
-                                                                        .pull
-                                                                        .error
-                                                                    }
                                                                     restartSync={
                                                                       restartSync
                                                                     }

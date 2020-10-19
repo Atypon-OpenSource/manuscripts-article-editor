@@ -54,8 +54,6 @@ class ProjectManuscriptModelsData extends DataComponent<
   public componentDidMount() {
     const { projectID, manuscriptID } = this.props
 
-    this.collection.addEventListener('complete', this.handleComplete)
-
     this.sub = this.subscribe(projectID, manuscriptID)
   }
 
@@ -71,13 +69,9 @@ class ProjectManuscriptModelsData extends DataComponent<
       this.setState({ data: undefined })
 
       if (projectID !== this.props.projectID) {
-        this.collection.removeEventListener('complete', this.handleComplete)
-
         this.collection = CollectionManager.getCollection<ModelType>(
           `project-${projectID}`
         )
-
-        this.collection.addEventListener('complete', this.handleComplete)
       }
 
       this.sub = this.subscribe(projectID, manuscriptID)
@@ -85,8 +79,6 @@ class ProjectManuscriptModelsData extends DataComponent<
   }
 
   public componentWillUnmount() {
-    this.collection.removeEventListener('complete', this.handleComplete)
-
     this.sub.unsubscribe()
   }
 
