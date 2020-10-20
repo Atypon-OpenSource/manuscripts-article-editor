@@ -39,28 +39,26 @@ export const StyledButton = styled.button<{ copyState: CopyState }>`
 `
 
 interface Props {
-  text: string
-  onCopy?: (text: string) => void
+  handleCopy: () => string
 }
 
-export const CopyableText: React.FC<Props> = ({ text, onCopy, children }) => {
+export const CopyableText: React.FC<Props> = ({ handleCopy, children }) => {
   const [copyState, setCopyState] = useState<CopyState>(CopyState.Ready)
 
   const copy = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault()
-      copyToClipboard(text)
+      copyToClipboard(handleCopy())
         .then(() => setCopyState(CopyState.Copied))
         .catch(() => setCopyState(CopyState.Failed))
-      onCopy && onCopy(text)
     },
-    [text, onCopy]
+    [handleCopy]
   )
 
   // reset the copy state if the text changes
   useEffect(() => {
     setCopyState(CopyState.Ready)
-  }, [text])
+  }, [handleCopy])
 
   return (
     <StyledButton type="button" onClick={copy} copyState={copyState}>

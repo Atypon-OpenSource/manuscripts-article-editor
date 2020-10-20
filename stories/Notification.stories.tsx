@@ -18,6 +18,7 @@ import { RouteComponentProps } from 'react-router'
 
 import { Notifications } from '../src/components/Notifications'
 import { createUpdateReadyNotification } from '../src/components/ServiceWorker'
+import SyncNotification from '../src/sync/SyncNotification'
 
 const routeProps: RouteComponentProps = {
   history: createBrowserHistory(),
@@ -65,3 +66,37 @@ storiesOf('Notification', module).add('ServiceWorker', () => (
     {...routeProps}
   />
 ))
+
+storiesOf('SyncNotification', module)
+  .add('basic', () => (
+    <SyncNotification
+      title="You best watch yourself"
+      buttonText="Sounds good"
+      buttonAction={action('handle plain button click')}
+    />
+  ))
+  .add('with primary button', () => (
+    <SyncNotification
+      title="Something is wrong, but we have a solution"
+      info="Click the primary button to give us permission"
+      buttonText="Cancel"
+      buttonAction={action('handle plain button click')}
+      primaryButtonText="Go ahead"
+      primaryButtonAction={action('handle primary button click')}
+    />
+  ))
+  .add('with diagnostics', () => (
+    <SyncNotification
+      title="Uh-oh, this is really bad"
+      info={[
+        <span style={{ color: 'red' }} key={0}>
+          One possible action
+        </span>,
+        <span style={{ color: 'blue' }} key={1}>
+          Another possible action
+        </span>,
+      ]}
+      buttonText="Cancel"
+      buttonAction={action('handle plain button click')}
+    />
+  ))

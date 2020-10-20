@@ -30,7 +30,7 @@ export const NotificationInfo = styled.div`
 
 interface Props {
   title: string
-  info?: string | JSX.Element
+  info?: JSX.Element | JSX.Element[] | string
   buttonText: string
   buttonAction: () => void
   primaryButtonText?: string
@@ -45,13 +45,17 @@ const SyncNotification: React.FC<Props> = ({
   primaryButtonText,
   primaryButtonAction,
 }) => {
+  const innards = React.Children.map(info, (child) => (
+    <React.Fragment>{child}&emsp;</React.Fragment>
+  ))
+
   return (
     <NotificationPrompt>
       <NotificationHead>
         <AttentionOrange />
         <NotificationMessage>
           <NotificationTitle>{title}</NotificationTitle>
-          {info ? <NotificationInfo>{info}</NotificationInfo> : null}
+          {innards ? <NotificationInfo>{innards}</NotificationInfo> : null}
         </NotificationMessage>
       </NotificationHead>
       <NotificationActions>

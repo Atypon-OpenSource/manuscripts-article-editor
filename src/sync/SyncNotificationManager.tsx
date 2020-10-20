@@ -43,8 +43,9 @@ const SyncNotificationManager: NotificationComponent = () => {
     CollectionManager.restartAll()
   }, [])
 
+  const crisp = useCrisp()
   const composeErrorReport = useCallback(() => {
-    return JSON.stringify(
+    const report = JSON.stringify(
       {
         version: config.version,
         events: selectors.errorReport(syncState),
@@ -52,7 +53,10 @@ const SyncNotificationManager: NotificationComponent = () => {
       null,
       1
     )
-  }, [syncState])
+    console.log(`Logging sync failure: ${report}`)
+    crisp.sendDiagnostics('I am getting the following sync error:', report)
+    return report
+  }, [syncState, crisp])
 
   const handleOfflineAcknowledged = useCallback(() => {
     setOfflineAcknowledged()
@@ -89,15 +93,6 @@ const SyncNotificationManager: NotificationComponent = () => {
   const handlePersistentStorageDismissed = useCallback(() => {
     setAskForPersistentStorage(false)
   }, [])
-
-  const crisp = useCrisp()
-  const onCopy = useCallback(
-    (text: string) => {
-      console.log(`Logging sync failure: ${text}`)
-      crisp.sendDiagnostics('I am getting the following sync error:', text)
-    },
-    [crisp]
-  )
 
   // render:
   if (onlineState === OnlineState.Offline) {
@@ -139,14 +134,14 @@ const SyncNotificationManager: NotificationComponent = () => {
     return (
       <SyncNotification
         title="Error while saving your document"
-        info={
-          <React.Fragment>
-            <CopyableText text={composeErrorReport()} onCopy={onCopy}>
-              Copy diagnostics to support
-            </CopyableText>
-            <Link to="/diagnostics">View Diagnostics</Link>
-          </React.Fragment>
-        }
+        info={[
+          <CopyableText handleCopy={composeErrorReport} key={0}>
+            Copy diagnostics to support
+          </CopyableText>,
+          <Link to="/diagnostics" key={1}>
+            View Diagnostics
+          </Link>,
+        ]}
         buttonText="Contact Support"
         buttonAction={crisp.open}
         primaryButtonText="Dismiss"
@@ -184,14 +179,14 @@ const SyncNotificationManager: NotificationComponent = () => {
     return (
       <SyncNotification
         title={getPushSyncErrorMessage(pushSyncError)}
-        info={
-          <React.Fragment>
-            <CopyableText text={composeErrorReport()} onCopy={onCopy}>
-              Copy diagnostics to support
-            </CopyableText>
-            <Link to="/diagnostics">View Diagnostics</Link>
-          </React.Fragment>
-        }
+        info={[
+          <CopyableText handleCopy={composeErrorReport} key={0}>
+            Copy diagnostics to support
+          </CopyableText>,
+          <Link to="/diagnostics" key={1}>
+            View Diagnostics
+          </Link>,
+        ]}
         buttonText="Contact Support"
         buttonAction={crisp.open}
         primaryButtonText="Retry"
