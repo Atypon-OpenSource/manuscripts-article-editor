@@ -96,6 +96,9 @@ interface Config {
     sts: boolean
     to_review: boolean
   }
+  quality_control: {
+    enabled: boolean
+  }
   submission: {
     series_code?: string
     group_doi?: string
@@ -194,6 +197,9 @@ const config = {
   },
   eeo: {
     deposit_journals_url: normalizeURL(process.env.EEO_DEPOSIT_JOURNALS_URL),
+  },
+  quality_control: {
+    enabled: isTrue(process.env.FEATURE_QUALITY_CONTROL),
   },
   submission: {
     series_code: process.env.SUBMISSION_SERIES_CODE,

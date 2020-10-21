@@ -73,5 +73,9 @@ module.exports = ({ config, mode }) => {
     ignored: /node_modules\/(?!@manuscripts\/)/,
   }
 
+  config.node = {
+    fs: 'empty',
+    path: 'empty',
+  }
   return config
 }

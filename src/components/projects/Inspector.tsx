@@ -53,6 +53,7 @@ import { SectionInspector } from '../inspector/SectionInspector'
 import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
 import { StatisticsInspector } from '../inspector/StatisticsInspector'
 import { SubmissionsInspector } from '../inspector/SubmissionsInspector'
+import { RequirementsInspector } from '../requirements/RequirementsInspector'
 import { CommentList } from './CommentList'
 import { HeaderImageInspector } from './HeaderImageInspector'
 import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
@@ -135,6 +136,9 @@ export const Inspector: React.FC<{
           <InspectorTab>Content</InspectorTab>
           <InspectorTab>Style</InspectorTab>
           <InspectorTab>Comments</InspectorTab>
+          {config.quality_control.enabled && (
+            <InspectorTab>Quality Report</InspectorTab>
+          )}
           {config.shackles.enabled && <InspectorTab>History</InspectorTab>}
           {config.export.to_review && <InspectorTab>Submissions</InspectorTab>}
         </InspectorTabList>
@@ -271,9 +275,23 @@ export const Inspector: React.FC<{
             )}
           </InspectorTabPanel>
 
-          {config.shackles.enabled && (
+          {config.quality_control.enabled && (
             <InspectorTabPanel>
               {tabIndex === 3 && (
+                <>
+                  <RequirementsInspector
+                    modelMap={modelMap}
+                    prototypeId={manuscript.prototype}
+                    manuscriptID={manuscript._id}
+                  />
+                </>
+              )}
+            </InspectorTabPanel>
+          )}
+
+          {config.shackles.enabled && (
+            <InspectorTabPanel>
+              {tabIndex === 4 && (
                 <HistoryPanelContainer
                   project={project}
                   manuscriptID={manuscript._id}
@@ -285,7 +303,7 @@ export const Inspector: React.FC<{
 
           {config.export.to_review && (
             <InspectorTabPanel>
-              {tabIndex === 4 && (
+              {tabIndex === 5 && (
                 <>
                   <SubmissionsInspector modelMap={modelMap} />
                 </>
