@@ -16,6 +16,7 @@ import React from 'react'
 import { FormattedDate } from 'react-intl'
 import styled from 'styled-components'
 
+import config from '../config'
 import { ModalSidebar, SidebarContent } from './Sidebar'
 
 const UserEmail = styled.div`
@@ -122,7 +123,7 @@ const UserProfileSidebar: React.FunctionComponent<Props> = ({
         />
       </MemberSince>
       <ChangePasswordButton onClick={handleChangePassword}>
-        Change Password
+        {config.connect.enabled ? 'Manage Password' : 'Change Password'}
       </ChangePasswordButton>
       <DeleteAccountButton onClick={handleDeleteAccount}>
         Delete Account
