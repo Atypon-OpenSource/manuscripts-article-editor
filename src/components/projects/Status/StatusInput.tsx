@@ -82,23 +82,17 @@ export const StatusInput: React.FC<StatusInputProps> = ({
   )
 
   React.useEffect(() => {
-    // Make the newly created label as the new status
     if (labels.length > 0 && !!newLabel && !forceMenuOpen) {
       setAlertVisible(!!newLabel)
       // wait a small amount of time so the alert is read
       window.setTimeout(() => {
-        // update active target status
-        const newStatusLabel = sortedLabels.filter(
-          (label) => label.name === newLabel
-        )[0]
-        void updateTargetStatus(newStatusLabel)
         window.setTimeout(() => {
           // hide the alert
           setAlertVisible(false)
         }, 2000)
       }, 500)
     }
-  }, [newLabel, labels, forceMenuOpen, sortedLabels, updateTargetStatus])
+  }, [newLabel, labels, forceMenuOpen])
 
   const ClearIndicator = (clearIProps: IndicatorProps<OptionTypeBase>) =>
     components.ClearIndicator && (
@@ -196,13 +190,15 @@ export const StatusInput: React.FC<StatusInputProps> = ({
         }
       }
 
-      await saveModel<StatusLabel>(status).then(() => {
+      await saveModel<StatusLabel>(status).then((newStatus) => {
         if (typeof label === 'string') {
+          // Make the newly created label as the new status
+          updateTargetStatus(newStatus)
           handleCreateOptionAfter()
         }
       })
     },
-    [handleCreateOptionAfter, saveModel]
+    [handleCreateOptionAfter, saveModel, updateTargetStatus]
   )
 
   return (
