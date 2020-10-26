@@ -21,7 +21,7 @@ import {
   Snapshot,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { getSnapshot } from '../lib/snapshot'
 import { JsonModel } from '../pressroom/importers'
@@ -95,31 +95,35 @@ export const useHistory = (projectID: string): HookValue => {
     }
   }, [collection, isPullComplete])
 
-  const loadSnapshot = (remoteID: string, manuscriptID: string) => {
-    setLoadSnapshotStatus(SnapshotStatus.Loading)
-    return getSnapshot(projectID, remoteID)
-      .then((res) => {
-        const manuscripts = res.filter(
-          (model: Model) => model.objectType === ObjectTypes.Manuscript
-        ) as Manuscript[]
-        const modelMap = buildModelMap(
-          res.filter(
-            (doc: any) => !doc.manuscriptID || doc.manuscriptID === manuscriptID
+  const loadSnapshot = useCallback(
+    (remoteID: string, manuscriptID: string) => {
+      setLoadSnapshotStatus(SnapshotStatus.Loading)
+      return getSnapshot(projectID, remoteID)
+        .then((res) => {
+          const manuscripts = res.filter(
+            (model: Model) => model.objectType === ObjectTypes.Manuscript
+          ) as Manuscript[]
+          const modelMap = buildModelMap(
+            res.filter(
+              (doc: any) =>
+                !doc.manuscriptID || doc.manuscriptID === manuscriptID
+            )
           )
-        )
-        const decoder = new Decoder(modelMap)
-        const doc = decoder.createArticleNode() as ActualManuscriptNode
-        setLoadSnapshotStatus(SnapshotStatus.Done)
-        setCurrent({
-          doc,
-          modelMap,
-          manuscripts,
+          const decoder = new Decoder(modelMap)
+          const doc = decoder.createArticleNode() as ActualManuscriptNode
+          setLoadSnapshotStatus(SnapshotStatus.Done)
+          setCurrent({
+            doc,
+            modelMap,
+            manuscripts,
+          })
         })
-      })
-      .catch(() => {
-        setLoadSnapshotStatus(SnapshotStatus.Error)
-      })
-  }
+        .catch(() => {
+          setLoadSnapshotStatus(SnapshotStatus.Error)
+        })
+    },
+    [projectID]
+  )
 
   return {
     snapshotsList,
