@@ -13,12 +13,13 @@ import 'react-modern-calendar-datepicker/lib/DatePicker.css'
 
 import AttentionOrange from '@manuscripts/assets/react/AttentionOrange'
 import AttentionRed from '@manuscripts/assets/react/AttentionRed'
-import { Section } from '@manuscripts/manuscripts-json-schema'
-import { TextField, Tip } from '@manuscripts/style-guide'
+import { Manuscript, Section } from '@manuscripts/manuscripts-json-schema'
+import { TextField } from '@manuscripts/style-guide'
 import { format } from 'date-fns'
 import React from 'react'
 import DatePicker, { Day } from 'react-modern-calendar-datepicker'
-import styled from 'styled-components'
+import ReactTooltip from 'react-tooltip'
+import styled, { css } from 'styled-components'
 
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { SaveModel } from './ManuscriptInspector'
@@ -26,7 +27,9 @@ import { SaveModel } from './ManuscriptInspector'
 const DateInput = styled(TextField).attrs({
   type: 'search',
 })<{ overdue?: boolean; dueSoon?: boolean }>`
+  -webkit-appearance: none;
   padding: 8px;
+  border-radius: 8px;
   font-size: 1em;
 
   color: ${(props) =>
@@ -48,14 +51,47 @@ const IconWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+
+  .tooltip {
+    border-radius: 6px;
+  }
 `
-const Calendar = styled.div`
+
+const todayStyles = css`
+  .Calendar__day.-today {
+    border: 1px solid #bce7f6 !important;
+    background: #f2fbfc !important;
+  }
+
+  .Calendar__day.-today::after {
+    opacity: 0.5 !important;
+  }
+`
+
+const CalendarContainer = styled.div<{
+  selected: boolean
+}>`
   width: 100%;
 
   .DatePicker {
     width: 100%;
     z-index: 10;
   }
+
+  .Calendar__weekDay {
+    color: #e6e6e;
+    font-size: 14px;
+  }
+
+  .Calendar__day:not(.-blank):not(.-selected):hover {
+    background: #f2fbfc !important;
+  }
+
+  .Calendar__day.-today:hover::after {
+    opacity: 0.5 !important;
+  }
+
+  ${(props) => !props.selected && todayStyles};
 
   .selected-day {
     color: #353535 !important;
@@ -65,6 +101,9 @@ const Calendar = styled.div`
   .DatePicker__calendarContainer {
     position: absolute;
     top: unset;
+    left: unset !important;
+    right: 0 !important;
+    transform: unset !important;
   }
 `
 
@@ -74,7 +113,7 @@ interface Props {
 
 export const DeadlineInput: React.FC<{
   saveModel: SaveModel
-  target: AnyElement | Section
+  target: AnyElement | Section | Manuscript
   isOverdue?: boolean
   isDueSoon?: boolean
 }> = ({ saveModel, target, isOverdue, isDueSoon }) => {
@@ -98,28 +137,46 @@ export const DeadlineInput: React.FC<{
       />
       {isOverdue && (
         <IconWrapper>
-          <Tip placement={'bottom'} title={'Overdue'}>
+          <div data-tip={true} data-for={'Overdue'}>
             <AttentionRed width={20} height={20} />
-          </Tip>
+          </div>
+          <ReactTooltip
+            id={'Overdue'}
+            place="bottom"
+            effect="solid"
+            offset={{ top: 4 }}
+            className="tooltip"
+          >
+            Overdue
+          </ReactTooltip>
         </IconWrapper>
       )}
       {isDueSoon && (
         <IconWrapper>
-          <Tip placement={'bottom'} title={'Due Soon'}>
+          <div data-tip={true} data-for={'Due-Soon'}>
             <AttentionOrange width={20} height={20} />
-          </Tip>
+          </div>
+          <ReactTooltip
+            id={'Due-Soon'}
+            place="bottom"
+            effect="solid"
+            offset={{ top: 4 }}
+            className="tooltip"
+          >
+            Due Soon
+          </ReactTooltip>
         </IconWrapper>
       )}
     </>
   )
 
   return (
-    <Calendar>
+    <CalendarContainer selected={target.deadline ? true : false}>
       <DatePicker
         value={target.deadline ? day(target.deadline) : null}
         renderInput={renderCustomInput}
         onChange={async (date) => {
-          await saveModel<AnyElement | Section>({
+          await saveModel<AnyElement | Section | Manuscript>({
             ...target,
             deadline: date ? timeStamp(date) / 1000 : undefined,
           })
@@ -129,7 +186,7 @@ export const DeadlineInput: React.FC<{
         calendarSelectedDayClassName={'selected-day'}
         calendarClassName={'responsive-calendar'}
       />
-    </Calendar>
+    </CalendarContainer>
   )
 }
 
@@ -137,7 +194,11 @@ const formatDate = (ms: number): string =>
   format(new Date(ms * 1000), 'iiii d LLLL')
 
 const timeStamp = (date: Day) => {
-  return Date.parse(`${date.year}-${date.month}-${date.day}`)
+  return Date.parse(
+    `${date.year}-${date.month < 10 ? `0${date.month}` : date.month}-${
+      date.day < 10 ? `0${date.day}` : date.day
+    }`
+  )
 }
 
 const day = (timestamp: number) => {

@@ -9,26 +9,56 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
-import { Section, UserProfile } from '@manuscripts/manuscripts-json-schema'
-import { Avatar, Tip } from '@manuscripts/style-guide'
+import {
+  Manuscript,
+  Section,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
+import { Avatar } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import Select, { components } from 'react-select'
+import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { avatarURL } from '../../lib/avatar-url'
 import { selectStyles } from '../../lib/select-styles'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { SaveModel } from './ManuscriptInspector'
-import { PlusIcon } from './Status/StatusIcons'
+import { CloseIcon, PlusIcon } from './Status/StatusIcons'
 
 const Name = styled.div`
   padding-left: ${(props) => props.theme.grid.unit}px;
 `
 const AvatarContainer = styled.div`
   margin-right: ${(props) => props.theme.grid.unit}px;
+  position: relative;
+
+  .tooltip {
+    border-radius: 6px;
+  }
+
+  & img {
+    border: 1px solid transparent;
+  }
+
+  &:hover {
+    & img {
+      border: 1px solid #bce7f6;
+    }
+
+    .remove {
+      cursor: pointer;
+
+      svg {
+        fill: #6e6e6e;
+      }
+    }
+  }
 `
 const Avatars = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   margin-left: ${(props) => props.theme.grid.unit * 2}px;
 `
 const Button = styled.button`
@@ -36,11 +66,28 @@ const Button = styled.button`
   background: none;
   cursor: pointer;
 
+  .tooltip {
+    border-radius: 6px;
+  }
+
   &:focus {
     outline: none;
   }
 `
+const RemoveContainer = styled.div`
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  height: 10px;
+  width: 10px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 
+  svg {
+    fill: none;
+  }
+`
 interface Props {
   data: UserProfile
 }
@@ -60,7 +107,7 @@ const MultiValueLabel: React.FC<Props> = (props) => {
 export const AssigneesInput: React.FC<{
   profiles: UserProfile[]
   saveModel: SaveModel
-  target: AnyElement | Section
+  target: AnyElement | Section | Manuscript
 }> = ({ saveModel, profiles, target }) => {
   const userIDs = target.assignees || []
 
@@ -73,24 +120,50 @@ export const AssigneesInput: React.FC<{
         <Avatars>
           {assignees.map((user) => (
             <AvatarContainer key={user._id}>
-              <Tip
-                placement={'bottom'}
-                title={
-                  user.bibliographicName.given +
-                  ' ' +
-                  user.bibliographicName.family
-                }
-              >
+              <div data-tip={true} data-for={user._id}>
                 <Avatar src={avatarURL(user)} size={22} />
-              </Tip>
+              </div>
+              <ReactTooltip
+                id={user._id}
+                place="bottom"
+                effect="solid"
+                offset={{ top: 4 }}
+                className="tooltip"
+              >
+                {user.bibliographicName.given +
+                  ' ' +
+                  user.bibliographicName.family}
+              </ReactTooltip>
+              <RemoveContainer
+                onClick={async () =>
+                  await saveModel<AnyElement | Section | Manuscript>({
+                    ...target,
+                    assignees: target.assignees!.filter(
+                      (assignee) => assignee !== user._id
+                    ),
+                  })
+                }
+                className="remove"
+              >
+                <CloseIcon />{' '}
+              </RemoveContainer>
             </AvatarContainer>
           ))}
         </Avatars>
       )}
       <Button onClick={() => setOpened(!opened)}>
-        <Tip placement={'bottom'} title={'Add or remove assignees'}>
+        <div data-tip={true} data-for="addAssigneeTip">
           <PlusIcon />
-        </Tip>
+        </div>
+        <ReactTooltip
+          id="addAssigneeTip"
+          place="bottom"
+          effect="solid"
+          offset={{ top: 4 }}
+          className="tooltip"
+        >
+          Add or remove assignees
+        </ReactTooltip>
       </Button>
     </>
   ) : (
@@ -103,7 +176,7 @@ export const AssigneesInput: React.FC<{
         option.bibliographicName.given + ' ' + option.bibliographicName.family
       }
       onChange={async (users: UserProfile[]) => {
-        await saveModel<AnyElement | Section>({
+        await saveModel<AnyElement | Section | Manuscript>({
           ...target,
           assignees: users ? users.map((user) => user._id) : [],
         })
@@ -116,6 +189,7 @@ export const AssigneesInput: React.FC<{
           paddingRight: 2,
           alignItems: 'center',
           display: 'flex',
+          wordBreak: 'break-word',
         }),
         multiValue: (base) => ({
           ...base,
@@ -131,6 +205,13 @@ export const AssigneesInput: React.FC<{
           height: 14,
           width: 14,
           cursor: 'pointer',
+        }),
+        option: (base, state) => ({
+          ...base,
+          backgroundColor: state.isFocused ? '#F2FBFC' : 'transparent',
+          '&:hover': {
+            backgroundColor: '#F2FBFC',
+          },
         }),
       }}
       menuPortalTarget={document.body}

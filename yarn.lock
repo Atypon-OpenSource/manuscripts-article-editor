@@ -1989,10 +1989,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.0.tgz#8b8ae4e0afd9f9bbda371c1548d5854c703d8747"
   integrity sha512-Lr7am9TkzLYOJjgPr6pRtkd8IjX/atew6YX/9o9xspIZJla51fSSPk6cTCVtT70Srn1aShLxZF4hi1jZH5+Gzw==
 
-"@manuscripts/data@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.0.tgz#b663eec1bf166e885dd1630f74ac5316c04a0c23"
-  integrity sha512-Wrq67UVjazhPL2Qb4CNQiyaQpwd05Di063h/9+blBkg1Cz/i/MxlIQ/ZSLnzqeBXRxKgHYVZW2koUAKyJft/EA==
+"@manuscripts/data@^0.1.0", "@manuscripts/data@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.1.tgz#eef6afb1f45cee7b60e1c655049d5f1977c9e278"
+  integrity sha512-M83afpyuxG1O31nh25Aw1tmP3a/hwX9bGBWko68m60JT4x363p5XUuH7AShrfRtecGD8hnMiQ90x1n1KPxsxMw==
 
 "@manuscripts/eslint-config@^0.4.2":
   version "0.4.2"
@@ -16497,6 +16497,14 @@ react-time-picker@^4.0.0:
     react-fit "^1.0.3"
     update-input-width "^1.1.1"
 
+react-tooltip@^4.2.10:
+  version "4.2.10"
+  resolved "https://registry.npmjs.org/react-tooltip/-/react-tooltip-4.2.10.tgz#ed1a1acd388940c96f4b6309f4fd4dcce5e01bdc"
+  integrity sha512-D7ZLx6/QwpUl0SZRek3IZy/HWpsEEp0v3562tcT8IwZgu8IgV7hY5ZzniTkHyRcuL+IQnljpjj7A7zCgl2+T3w==
+  dependencies:
+    prop-types "^15.7.2"
+    uuid "^7.0.3"
+
 react-transition-group@^4.3.0:
   version "4.4.1"
   resolved "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"
@@ -19458,6 +19466,11 @@ uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2, uuid@^3.3.3, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
+  integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
 
 uuid@^8.0.0, uuid@^8.2.0, uuid@^8.3.0, uuid@^8.3.1:
   version "8.3.1"

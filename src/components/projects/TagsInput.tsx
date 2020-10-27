@@ -9,6 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
+import VerticalEllipsis from '@manuscripts/assets/react/VerticalEllipsis'
 import {
   Build,
   buildColor,
@@ -17,6 +18,7 @@ import {
 import {
   Color,
   ColorScheme,
+  Manuscript,
   Model,
   ObjectTypes,
   Section,
@@ -62,6 +64,8 @@ const ColorPopper = styled(Popup)`
 `
 const OptionWrapper = styled.div<{ focused?: boolean }>`
   padding-left: ${(props) => props.theme.grid.unit * 4}px;
+  padding-top: ${(props) => props.theme.grid.unit * 2}px;
+  padding-bottom: ${(props) => props.theme.grid.unit * 2}px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -71,16 +75,22 @@ const OptionWrapper = styled.div<{ focused?: boolean }>`
 
   &:hover {
     background-color: ${(props) => props.theme.colors.background.fifth};
+    g {
+      fill: ${(props) => props.theme.colors.text.secondary};
+    }
   }
 `
 const OptionLabel = styled.div<{
-  color?: string
+  backgroundColor: string
+  textColor: string
 }>`
-  background-color: ${(props) => (props.color ? props.color : '#F2F2F2')};
+  background-color: ${(props) => props.backgroundColor};
   width: fit-content;
+  font-size: ${(props) => props.theme.font.size.normal};
   padding: ${(props) => props.theme.grid.unit}px
     ${(props) => props.theme.grid.unit * 2}px;
   border-radius: 6px;
+  color: ${(props) => props.textColor};
 `
 const OuterContainer = styled.div`
   width: 100%;
@@ -104,6 +114,12 @@ const ColorButton = styled.button<{
   cursor: pointer;
   flex-shrink: 0;
 
+  ${(props) => props.isActive && 'border: 1px solid white;'};
+
+  &:hover {
+    ${(props) => !props.isActive && `border: 1px solid #F2FBFC`};
+  }
+
   &:focus {
     outline: none;
   }
@@ -116,9 +132,7 @@ const AddColorButton = styled(ColorButton)`
   background: transparent;
   border: 1px dashed #e2e2e2;
   position: relative;
-`
 
-const Add = styled.span`
   ::before,
   ::after {
     background-color: #e2e2e2;
@@ -134,6 +148,16 @@ const Add = styled.span`
   }
   ::after {
     transform: rotate(180deg);
+  }
+
+  &:hover {
+    border: 1px solid ${(props) => props.theme.colors.border.primary};
+    background: ${(props) => props.theme.colors.background.fifth};
+
+    ::before,
+    ::after {
+      background-color: #1a9bc7 !important;
+    }
   }
 `
 const Actions = styled.div`
@@ -170,11 +194,32 @@ const LabelContainer = styled.div`
   display: flex;
   align-items: center;
 `
+const EditTag = styled(IconButton)<{
+  focused: boolean
+}>`
+  height: ${(props) => props.theme.grid.unit * 4}px;
+  border: none;
 
+  svg {
+    height: ${(props) => props.theme.grid.unit * 4}px;
+
+    g {
+      fill: none;
+    }
+  }
+
+  &:hover {
+    g {
+      fill: ${(props) => props.theme.colors.brand.medium};
+    }
+  }
+
+  ${(props) => props.focused && 'g { fill: #1a9bc7 !important; }'};
+`
 export const TagsInput: React.FC<{
   tags: Tag[]
   saveModel: SaveModel
-  target: AnyElement | Section
+  target: AnyElement | Section | Manuscript
   modelMap: Map<string, Model>
   deleteModel: (id: string) => Promise<string>
 }> = ({ saveModel, tags, target, modelMap, deleteModel }) => {
@@ -188,7 +233,7 @@ export const TagsInput: React.FC<{
   const handleClickOutside = useCallback(async (event: Event) => {
     if (
       nodeRef.current &&
-      (event.target as Element).className !== 'VerticalEllipsis' &&
+      !(event.target as Element).className.includes('VerticalEllipsis') &&
       !nodeRef.current.contains(event.target as Node)
     ) {
       setTagToEdit(undefined)
@@ -224,7 +269,7 @@ export const TagsInput: React.FC<{
     [setColor]
   )
 
-  const { colors, colorScheme } = buildColors(modelMap)
+  const { colors, colorScheme } = buildColors(modelMap, 'MPColorScheme:tags')
 
   const handleAddColor = useCallback(async () => {
     if (!colorScheme) {
@@ -285,6 +330,14 @@ export const TagsInput: React.FC<{
     data,
   }) => {
     const isCreate = data.name.startsWith('Create tag')
+    const backgroundColor = colorsMap.get(data.color)
+      ? colorsMap.get(data.color)!.value
+      : isCreate
+      ? 'unset'
+      : '#F2F2F2'
+
+    const color = isCreate ? '#000000' : textColor(backgroundColor!)
+
     return (
       <OptionWrapper
         focused={tagToEdit ? data._id === tagToEdit._id : false}
@@ -293,31 +346,29 @@ export const TagsInput: React.FC<{
       >
         <LabelContainer>
           {isCreate && <PlusIcon />}
-          <OptionLabel
-            color={
-              colorsMap.get(data.color)
-                ? colorsMap.get(data.color)!.value
-                : isCreate
-                ? 'unset'
-                : '#F2F2F2'
-            }
-          >
+          <OptionLabel backgroundColor={backgroundColor!} textColor={color}>
             {children}
           </OptionLabel>
         </LabelContainer>
         {!isCreate && (
-          <IconButton onClick={(event) => editTag(event, data)}>
-            <img
-              alt={'Options'}
-              src={
-                'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAaCAYAAAC6nQw6AAAAX0lEQVRIS2NkoBJgpJI5DCPVIJm5xz3//2OcBQpHRqb/aU+SLbfjClO8YSQ9+8Tj/wz/ZcAGMTA+eZpqITuwBlHNa6SkMfqkI6p5bTTWwJE7GmsUZlqqJcjBl9eGtosAsyRaG0sNHWYAAAAASUVORK5CYII='
-              }
-              className="VerticalEllipsis"
-            />
-          </IconButton>
+          <EditTag
+            onClick={(event) => editTag(event, data)}
+            className="VerticalEllipsis"
+            focused={tagToEdit ? data._id === tagToEdit._id : false}
+          >
+            <VerticalEllipsis />
+          </EditTag>
         )}
       </OptionWrapper>
     )
+  }
+
+  const removeBackgroundColor = (data: any) => {
+    return textColor(
+      colorsMap.get(data.color) ? colorsMap.get(data.color)!.value! : '#F2F2F2'
+    ) === '#ffffff'
+      ? '#ffffff'
+      : '#6E6E6E'
   }
 
   return (
@@ -340,7 +391,7 @@ export const TagsInput: React.FC<{
             }
 
             const createdTag = await saveModel<Tag>(tag)
-            await saveModel<AnyElement | Section>({
+            await saveModel<AnyElement | Section | Manuscript>({
               ...target,
               keywordIDs: [...keywordIDs, tag._id],
             })
@@ -353,7 +404,7 @@ export const TagsInput: React.FC<{
           getOptionLabel={(option) => option.name}
           onMenuOpen={() => setCreatedTag(undefined)}
           onChange={async (tags: Tag[]) => {
-            await saveModel<AnyElement | Section>({
+            await saveModel<AnyElement | Section | Manuscript>({
               ...target,
               keywordIDs: tags ? tags.map((tag) => tag._id) : [],
             })
@@ -361,7 +412,6 @@ export const TagsInput: React.FC<{
           styles={{
             ...selectStyles,
             multiValueLabel: () => ({
-              color: 'black',
               paddingRight: 2,
               alignItems: 'center',
               display: 'flex',
@@ -371,7 +421,11 @@ export const TagsInput: React.FC<{
               backgroundColor: colorsMap.get(data.color)
                 ? colorsMap.get(data.color)!.value
                 : '#F2F2F2',
-              color: '#FFFFFF',
+              color: textColor(
+                colorsMap.get(data.color)
+                  ? colorsMap.get(data.color)!.value!
+                  : '#F2F2F2'
+              ),
               alignItems: 'center',
               paddingRight: 8,
               paddingLeft: 8,
@@ -379,13 +433,26 @@ export const TagsInput: React.FC<{
               paddingBottom: 4,
               borderRadius: 6,
             }),
-            multiValueRemove: () => ({
-              backgroundColor: '#6E6E6E',
-              color: '#FFFFFF',
+            multiValueRemove: (base, { data }) => ({
+              backgroundColor: removeBackgroundColor(data),
+              color:
+                removeBackgroundColor(data) === '#ffffff'
+                  ? '#6E6E6E'
+                  : '#ffffff',
               borderRadius: '50%',
               height: 14,
               width: 14,
               cursor: 'pointer',
+            }),
+            menu: (base) => ({
+              ...base,
+              boxShadow: '0 10px 17px 0 rgba(84,83,83,0.3)',
+              borderRadius: 8,
+            }),
+            menuList: (base) => ({
+              ...base,
+              paddingBottom: 8,
+              paddingTop: 8,
             }),
           }}
           menuPortalTarget={document.body}
@@ -438,8 +505,8 @@ export const TagsInput: React.FC<{
                   style={{
                     zIndex: 100,
                     position: 'absolute',
-                    left: '60%',
                     bottom: '100%',
+                    right: '0',
                     marginBottom: -40 * optionIndex(tagToEdit),
                   }}
                   data-placement={placement}
@@ -484,8 +551,8 @@ export const TagsInput: React.FC<{
                 style={{
                   zIndex: 100,
                   position: 'absolute',
-                  left: '60%',
                   bottom: '100%',
+                  right: '0',
                   marginBottom: -40 * optionIndex(tagToEdit),
                 }}
               >
@@ -544,13 +611,16 @@ const EditColor: React.FC<{
           key={color._id}
           type={'button'}
           color={color.value}
-          isActive={tag.color === color._id}
+          isActive={
+            tag.color === color._id ||
+            (tag.color === undefined && color.value === '#E2E2E2')
+          }
           onClick={async () => {
-            const updatedTag = await saveModel<Tag>({
+            await saveModel<Tag>({
               ...tag,
               color: color._id,
             })
-            setTag(updatedTag)
+            setTag(undefined)
           }}
         />
       ))}
@@ -558,9 +628,7 @@ const EditColor: React.FC<{
         type={'button'}
         isActive={false}
         onClick={() => openPicker(true)}
-      >
-        <Add />
-      </AddColorButton>
+      />
     </div>
   )
 }
@@ -593,4 +661,13 @@ const ColorPicker: React.FC<{
       )}
     </Popper>
   )
+}
+
+const textColor = (backgroundColor: string) => {
+  const r = parseInt(backgroundColor.substr(1, 2), 16)
+  const g = parseInt(backgroundColor.substr(3, 2), 16)
+  const b = parseInt(backgroundColor.substr(5, 2), 16)
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000
+
+  return yiq > 186 ? '#000000' : '#ffffff'
 }

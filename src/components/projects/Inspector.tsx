@@ -87,6 +87,7 @@ export const Inspector: React.FC<{
   submission?: Submission
   view: ManuscriptEditorView
   tags: Tag[]
+  manageManuscript: boolean
 }> = ({
   bundle,
   comments,
@@ -116,6 +117,7 @@ export const Inspector: React.FC<{
   submission,
   view,
   tags,
+  manageManuscript,
 }) => {
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -185,13 +187,18 @@ export const Inspector: React.FC<{
 
                 {(element || section) && config.features.projectManagement && (
                   <ManageTargetInspector
-                    target={(element || section) as AnyElement | Section}
+                    target={
+                      manageManuscript
+                        ? manuscript
+                        : ((element || section) as AnyElement | Section)
+                    }
                     listCollaborators={listCollaborators}
                     saveModel={saveModel}
                     statusLabels={statusLabels}
                     tags={tags}
                     modelMap={modelMap}
                     deleteModel={deleteModel}
+                    project={project}
                   />
                 )}
 

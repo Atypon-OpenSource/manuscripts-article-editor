@@ -604,6 +604,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               submission={submission}
               view={view}
               tags={this.props.tags}
+              manageManuscript={!view.hasFocus()}
             />
           )}
         </Panel>

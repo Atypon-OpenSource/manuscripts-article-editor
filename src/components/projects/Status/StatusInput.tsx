@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 import { buildStatusLabel } from '@manuscripts/manuscript-transform'
-import { Section, StatusLabel } from '@manuscripts/manuscripts-json-schema'
+import {
+  Manuscript,
+  Section,
+  StatusLabel,
+} from '@manuscripts/manuscripts-json-schema'
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React, { useCallback } from 'react'
 import {
@@ -38,14 +42,12 @@ import {
   DndZone,
   IconSpan,
   StatusInputWrapper,
-  Tooltip,
 } from './StatusInputStyling'
-import StatusInputTipDropdown from './StatusInputTipDropdown'
 
 interface StatusInputProps {
   labels: StatusLabel[]
   saveModel: SaveModel
-  target: AnyElement | Section
+  target: AnyElement | Section | Manuscript
   isOverdue?: boolean
   isDueSoon?: boolean
 }
@@ -68,12 +70,12 @@ export const StatusInput: React.FC<StatusInputProps> = ({
   const [alertVisible, setAlertVisible] = React.useState(false)
   const [displayDndZone, setDisplayDndZone] = React.useState(false)
   const [forceMenuOpen, setForceMenuOpen] = React.useState(undefined)
-  const [showTooltip, setShowTooltip] = React.useState(false)
+  // const [showTooltip, setShowTooltip] = React.useState(false)
   const label = sortedLabels.filter((label) => label._id === target.status)
 
   const updateTargetStatus = useCallback(
     async (status: StatusLabel) => {
-      await saveModel<AnyElement | Section>({
+      await saveModel<AnyElement | Section | Manuscript>({
         ...target,
         status: status ? status._id : undefined,
       })
@@ -153,8 +155,8 @@ export const StatusInput: React.FC<StatusInputProps> = ({
             )}
           >
             <IconSpan
-              onMouseEnter={() => setShowTooltip(true)}
-              onMouseLeave={() => setShowTooltip(false)}
+            // onMouseEnter={() => setShowTooltip(true)}
+            // onMouseLeave={() => setShowTooltip(false)}
             >
               {RenderIcon(singleValueProps.data._id, sortedLabels)}
             </IconSpan>
@@ -228,9 +230,10 @@ export const StatusInput: React.FC<StatusInputProps> = ({
         options={sortedLabels}
         styles={customStyles}
         value={label}
+        placeholder={'None'}
       />
 
-      {showTooltip && (
+      {/* {showTooltip && (
         <Tooltip>
           <StatusInputTipDropdown
             target={target}
@@ -240,7 +243,7 @@ export const StatusInput: React.FC<StatusInputProps> = ({
             isOverdue={isOverdue}
           />
         </Tooltip>
-      )}
+      )} */}
 
       {alertVisible && (
         <AlertContainer>

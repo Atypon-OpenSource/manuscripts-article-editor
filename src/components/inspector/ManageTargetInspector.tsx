@@ -11,7 +11,9 @@
  */
 
 import {
+  Manuscript,
   Model,
+  Project,
   Section,
   StatusLabel,
   Tag,
@@ -20,6 +22,7 @@ import {
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
+import { buildCollaborators } from '../../lib/collaborators'
 import { isDueSoon, isOverdue } from '../../lib/date'
 import { InspectorSection } from '../InspectorSection'
 import { AssigneesInput } from '../projects/AssigneesInput'
@@ -36,13 +39,14 @@ const Label = styled(InspectorLabel)`
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
 interface Props {
-  target: AnyElement | Section
+  target: AnyElement | Section | Manuscript
   saveModel: SaveModel
   listCollaborators: () => UserProfile[]
   statusLabels: StatusLabel[]
   tags: Tag[]
   modelMap: Map<string, Model>
   deleteModel: (id: string) => Promise<string>
+  project: Project
 }
 
 export const ManageTargetInspector: React.FC<Props> = ({
@@ -53,10 +57,17 @@ export const ManageTargetInspector: React.FC<Props> = ({
   tags,
   modelMap,
   deleteModel,
+  project,
 }) => {
   const title = target.objectType.replace(/MP|Element/g, '')
 
-  const profiles = listCollaborators() || []
+  const collaborators = new Map<string, UserProfile>()
+
+  for (const collaborator of listCollaborators()) {
+    collaborators.set(collaborator.userID, collaborator)
+  }
+
+  const projectCollaborators = buildCollaborators(project, collaborators)
 
   const deadline = target.deadline
 
@@ -76,7 +87,7 @@ export const ManageTargetInspector: React.FC<Props> = ({
         <Label>Assignees</Label>
         <AssigneesInput
           saveModel={saveModel}
-          profiles={profiles}
+          profiles={projectCollaborators}
           target={target}
         />
       </InspectorField>

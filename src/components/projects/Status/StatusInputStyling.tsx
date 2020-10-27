@@ -44,12 +44,19 @@ export const customStyles = {
       padding: '0',
     }
   },
-  option: (styles: Record<string, unknown>, { isDisabled }: StyleProps) => {
+  option: (
+    styles: Record<string, unknown>,
+    { isDisabled, isFocused }: StyleProps
+  ) => {
     return {
       ...styles,
       color: '#353535',
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       padding: '0',
+      backgroundColor: isFocused ? '#F2FBFC' : 'transparent',
+      '&:hover': {
+        backgroundColor: '#F2FBFC',
+      },
     }
   },
 }

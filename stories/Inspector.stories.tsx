@@ -286,5 +286,6 @@ storiesOf('Inspector', module).add('Manage Section', () => (
     tags={tags}
     modelMap={modelMap}
     deleteModel={action('delete')}
+    project={project}
   />
 ))

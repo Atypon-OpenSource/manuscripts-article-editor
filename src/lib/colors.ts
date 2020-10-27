@@ -42,7 +42,11 @@ export const buildColors = (
   colorSchemeID: string = DEFAULT_COLOR_SCHEME
 ) => {
   // const colorScheme = modelMap.get(colorSchemeID) as ColorScheme | undefined
-  const colorScheme = getByPrototype<ColorScheme>(modelMap, colorSchemeID)
+  let colorScheme = getByPrototype<ColorScheme>(modelMap, colorSchemeID)
+
+  if (colorSchemeID !== DEFAULT_COLOR_SCHEME && !colorScheme) {
+    colorScheme = getByPrototype<ColorScheme>(modelMap, DEFAULT_COLOR_SCHEME)
+  }
 
   const colors: Color[] = []
 
