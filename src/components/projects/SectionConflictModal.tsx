@@ -58,7 +58,7 @@ const CompareContainer = styled.div`
 `
 
 const CompareItem = styled.div`
-  flex: 1 0 auto;
+  flex: 1 0 50%;
 `
 
 const ItemTitle = styled.h4`
