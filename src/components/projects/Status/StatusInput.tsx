@@ -16,7 +16,7 @@ import {
   StatusLabel,
 } from '@manuscripts/manuscripts-json-schema'
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import {
   components,
   IndicatorProps,
@@ -59,6 +59,16 @@ export const StatusInput: React.FC<StatusInputProps> = ({
   isOverdue,
   isDueSoon,
 }) => {
+  const nodeRef = useRef<HTMLDivElement>(null)
+
+  const handleClickOutside = useCallback((event: Event) => {
+    if (nodeRef.current && !nodeRef.current.contains(event.target as Node)) {
+      setDisplayDndZone(false)
+      setForceMenuOpen(undefined)
+      setNewLabel('')
+    }
+  }, [])
+
   const sortedLabels = React.useMemo(
     () =>
       [...labels].sort((a, b) =>
@@ -84,17 +94,12 @@ export const StatusInput: React.FC<StatusInputProps> = ({
   )
 
   React.useEffect(() => {
-    if (labels.length > 0 && !!newLabel && !forceMenuOpen) {
-      setAlertVisible(!!newLabel)
-      // wait a small amount of time so the alert is read
-      window.setTimeout(() => {
-        window.setTimeout(() => {
-          // hide the alert
-          setAlertVisible(false)
-        }, 2000)
-      }, 500)
+    if (newLabel && displayDndZone) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [newLabel, labels, forceMenuOpen])
+  }, [newLabel, displayDndZone, handleClickOutside])
 
   const ClearIndicator = (clearIProps: IndicatorProps<OptionTypeBase>) =>
     components.ClearIndicator && (
@@ -108,7 +113,7 @@ export const StatusInput: React.FC<StatusInputProps> = ({
       <components.Menu {...menuProps}>
         <>
           {displayDndZone ? (
-            <DndZone>
+            <DndZone ref={nodeRef}>
               <StatusDnD
                 tasks={sortedLabels}
                 newTask={newLabel}
@@ -171,6 +176,13 @@ export const StatusInput: React.FC<StatusInputProps> = ({
     // reset the menu
     setDisplayDndZone(false)
     setForceMenuOpen(undefined)
+
+    setAlertVisible(true)
+    // wait a small amount of time so the alert is read
+    window.setTimeout(() => {
+      // hide the alert
+      setAlertVisible(false)
+    }, 2000)
   }, [])
   const handleCreateOptionBefore = useCallback((term: string) => {
     setNewLabel(term)
