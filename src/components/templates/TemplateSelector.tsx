@@ -17,9 +17,7 @@ import {
   buildParagraph,
   buildProject,
   buildSection,
-  ContainedModel,
   DEFAULT_BUNDLE,
-  ManuscriptModel,
 } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
@@ -31,7 +29,6 @@ import {
   ManuscriptCoverLetterRequirement,
   ManuscriptTemplate,
   Model,
-  ObjectTypes,
   ParagraphElement,
   Project,
   Publisher,
@@ -51,6 +48,7 @@ import React, {
 } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import { useUserTemplates } from '../../hooks/use-user-templates'
 import { nextManuscriptPriority } from '../../lib/manuscript'
 import { postWebkitMessage } from '../../lib/native'
 import { manuscriptCountRequirementFields } from '../../lib/requirements'
@@ -78,9 +76,6 @@ import {
 } from '../../lib/templates'
 import { trackEvent } from '../../lib/tracking'
 import { Collection } from '../../sync/Collection'
-import CollectionManager from '../../sync/CollectionManager'
-import { selectors } from '../../sync/syncEvents'
-import { useSyncState } from '../../sync/SyncStore'
 import {
   Requirement,
   TemplateData,
@@ -158,90 +153,10 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
     handleComplete(true)
   }, [handleComplete])
 
-  const [userTemplates, setUserTemplates] = useState<ManuscriptTemplate[]>()
-
-  const [userTemplateModels, setUserTemplateModels] = useState<
-    ManuscriptModel[]
-  >()
-
-  const syncState = useSyncState()
+  const { userTemplates, userTemplateModels, isDone } = useUserTemplates()
 
   useEffect(() => {
-    const loadUserTemplates = async () => {
-      const projects = await CollectionManager.getCollection('user')
-        .find({
-          objectType: ObjectTypes.Project,
-          templateContainer: true,
-        })
-        .exec()
-        .then((docs) => docs.map((doc) => doc.toJSON()) as Project[])
-
-      const syncedProjectCollections = (projects: Project[]) =>
-        Promise.all<Collection<ContainedModel>>(
-          projects.map(
-            (project) =>
-              // eslint-disable-next-line no-async-promise-executor
-              new Promise(async (resolve) => {
-                const collection = await CollectionManager.createCollection<
-                  ContainedModel
-                >({
-                  collection: `project-${project._id}`,
-                  channels: [`${project._id}-read`, `${project._id}-readwrite`],
-                  db,
-                })
-
-                if (
-                  selectors.isInitialPullComplete(
-                    `project-${project._id}`,
-                    syncState
-                  )
-                ) {
-                  resolve(collection)
-                }
-              })
-          )
-        )
-
-      const collections = await syncedProjectCollections(projects)
-
-      const userTemplates: ManuscriptTemplate[] = []
-      const userTemplateModels: ManuscriptModel[] = []
-
-      for (const collection of collections) {
-        const templates = await collection
-          .find({ objectType: ObjectTypes.ManuscriptTemplate })
-          .exec()
-          .then(
-            (docs) => docs.map((doc) => doc.toJSON()) as ManuscriptTemplate[]
-          )
-
-        const models = await collection
-          .find({
-            templateID: {
-              $in: templates.map((template) => template._id),
-            },
-          })
-          .exec()
-          .then((docs) => docs.map((doc) => doc.toJSON()) as ManuscriptModel[])
-
-        // TODO: stop syncing the collection now?
-
-        userTemplates.push(...templates)
-        userTemplateModels.push(...models)
-      }
-
-      setUserTemplates(userTemplates)
-      setUserTemplateModels(userTemplateModels)
-    }
-
-    loadUserTemplates().catch((error) => {
-      // TODO: display error message
-      console.error(error)
-    })
-  }, [db, syncState])
-
-  useEffect(() => {
-    if (userTemplates && userTemplateModels) {
+    if (isDone) {
       loadSharedData(userTemplates, userTemplateModels)
         .then(setData)
         .catch((error) => {
@@ -249,7 +164,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           console.error(error)
         })
     }
-  }, [userTemplates, userTemplateModels])
+  }, [userTemplates, userTemplateModels, isDone])
 
   const importManuscriptModels = useMemo(
     () => importManuscript(db, history, user, handleComplete, projectID),

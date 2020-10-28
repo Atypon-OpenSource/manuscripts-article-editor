@@ -117,14 +117,14 @@ export class Collection<T extends Model> {
 
   public collectionName: string
 
-  private store: Store
+  private store?: Store
   private replications: RxReplicationState[]
 
-  public constructor(props: CollectionProps, store: Store) {
+  public constructor(props: CollectionProps, store?: Store) {
     this.collectionName = buildCollectionName(props.collection)
     this.props = props
-    this.store = store
     this.replications = []
+    this.store = store
   }
 
   public async initialize(startSyncing = true) {
@@ -162,14 +162,16 @@ export class Collection<T extends Model> {
       })
     }
 
-    this.store.dispatch(
-      actions.open(this.collectionName, {
-        remoteUrl: this.getRemoteUrl(),
-        backupUrl: config.backupReplication.path ? this.getBackupUrl() : '',
-        channels: this.props.channels || [],
-        isProject: this.collectionName.startsWith('project_'),
-      })
-    )
+    if (this.store) {
+      this.store.dispatch(
+        actions.open(this.collectionName, {
+          remoteUrl: this.getRemoteUrl(),
+          backupUrl: config.backupReplication.path ? this.getBackupUrl() : '',
+          channels: this.props.channels || [],
+          isProject: this.collectionName.startsWith('project_'),
+        })
+      )
+    }
   }
 
   public syncOnce(
@@ -197,11 +199,16 @@ export class Collection<T extends Model> {
 
     try {
       await this.syncOnce('pull')
-      this.store.dispatch(
-        actions.replicationComplete(this.collectionName, 'pull')
-      )
+      this.store &&
+        this.store.dispatch(
+          actions.replicationComplete(this.collectionName, 'pull')
+        )
     } catch (e) {
-      this.store.dispatch(actions.initialPullFailed(this.collectionName))
+      if (this.store) {
+        this.store.dispatch(actions.initialPullFailed(this.collectionName))
+      } else {
+        throw e
+      }
     }
 
     this.replications = [
@@ -220,13 +227,14 @@ export class Collection<T extends Model> {
   }
 
   public cancelReplications = () => {
-    this.store.dispatch(actions.cancel(this.collectionName))
     this.replications.map((replicationState) => {
       if (replicationState) {
         this.cancelReplication(replicationState)
       }
     })
     this.replications = []
+
+    this.store && this.store.dispatch(actions.cancel(this.collectionName))
   }
 
   public ensurePushSync = async () => {
@@ -465,10 +473,12 @@ export class Collection<T extends Model> {
       // if (this.collection) {
       //   await this.collection.destroy()
       // }
-      this.store.dispatch(actions.close(this.collectionName, true))
+      this.store &&
+        this.store.dispatch(actions.close(this.collectionName, true))
       return true
     } catch (e) {
-      this.store.dispatch(actions.close(this.collectionName, false))
+      this.store &&
+        this.store.dispatch(actions.close(this.collectionName, false))
       return false
     }
   }
@@ -622,20 +632,32 @@ export class Collection<T extends Model> {
   }
 
   private dispatchWriteError(type: string, error: Error) {
-    this.store.dispatch(actions.writeError(this.collectionName, type, error))
+    if (this.store) {
+      this.store.dispatch(actions.writeError(this.collectionName, type, error))
+    } else {
+      throw error
+    }
   }
 
   private dispatchSyncError(
     direction: 'push' | 'pull' | 'unknown',
     error: PouchReplicationError
   ) {
-    this.store.dispatch(
-      actions.syncError(this.collectionName, direction, error)
-    )
+    if (this.store) {
+      this.store.dispatch(
+        actions.syncError(this.collectionName, direction, error)
+      )
+    } else {
+      throw error
+    }
   }
 
   private dispatchActivity(direction: 'push' | 'pull', status: boolean) {
-    this.store.dispatch(actions.active(this.collectionName, direction, status))
+    if (this.store) {
+      this.store.dispatch(
+        actions.active(this.collectionName, direction, status)
+      )
+    }
   }
 
   private backupPush(options: PouchReplicationOptions) {
