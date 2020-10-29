@@ -30,6 +30,18 @@ jest.mock('../lib/token')
 jest.mock('../lib/adapter')
 jest.mock('../lib/device-id')
 
+jest.mock('../config', () => {
+  const { default: original } = jest.requireActual('../config')
+
+  return {
+    ...original,
+    git: {
+      version: 'test',
+      commit: 'test',
+    },
+  }
+})
+
 const converter = new Stories2SnapsConverter()
 
 initStoryshots({

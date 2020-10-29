@@ -27,6 +27,18 @@ exports[`Storyshots DeveloperPage default 1`] = `
       <div
         className="DeveloperPageContainer__DropdownInfo-uurek7-1 hYkkMU"
       >
+        Version: 
+        test
+      </div>
+      <div
+        className="DeveloperPageContainer__DropdownInfo-uurek7-1 hYkkMU"
+      >
+        Commit: 
+        test
+      </div>
+      <div
+        className="DeveloperPageContainer__DropdownInfo-uurek7-1 hYkkMU"
+      >
         <a
           className="DeveloperPageContainer__PlainLink-uurek7-2 dVZegl"
           href="https://127.0.0.1/app/version"
