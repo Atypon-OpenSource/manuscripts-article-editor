@@ -10,22 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import BroadcastChannel from 'broadcast-channel'
 import React, {
   Dispatch,
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useReducer,
 } from 'react'
 
+import { channels } from '../channels'
 import sessionId from '../lib/session-id'
 import CollectionEffects from './CollectionEffects'
 import collectionManager from './CollectionManager'
 import reducer from './syncEvents'
 import { Action, SyncState } from './types'
-
-const channel = new BroadcastChannel('sync-state')
 
 export interface Store {
   getState: () => SyncState
@@ -49,17 +48,12 @@ export const SyncStore: React.FC = ({ children }) => {
   ]
   const getState = useCallback(() => state, [state])
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const wrappedDispatch = useCallback(
-    // the BroadcastChannel type appears to be badly defined
-    /* tslint:disable-next-line:no-any */
-    CollectionEffects(dispatch, getState, channel as any),
-    [dispatch, getState]
-  )
+  const wrappedDispatch = useMemo(() => CollectionEffects(dispatch), [dispatch])
 
   useEffect(() => {
     collectionManager.listen({ dispatch: wrappedDispatch, getState })
-    channel.onmessage = (msg) => {
+
+    const messageHandler = (msg: string) => {
       // receive actions that are broadcast from other tabs and send them to
       // the store, too
       const { payload } = JSON.parse(msg)
@@ -68,12 +62,15 @@ export const SyncStore: React.FC = ({ children }) => {
         payload.sessionID &&
         payload.sessionID !== sessionId
       ) {
-        wrappedDispatch(JSON.parse(msg))
+        wrappedDispatch(payload)
       }
     }
+
+    channels.syncState.addEventListener('message', messageHandler)
+
     return () => {
       collectionManager.unlisten()
-      channel.onmessage = () => null
+      channels.syncState.removeEventListener('message', messageHandler)
     }
   }, [getState, wrappedDispatch])
 

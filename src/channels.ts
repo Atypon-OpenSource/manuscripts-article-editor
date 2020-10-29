@@ -7,19 +7,17 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
-
-// https://github.com/pubkey/broadcast-channel#clear-tmp-folder
 import BroadcastChannel from 'broadcast-channel'
 
-// This is used for testing, and is allowed to fail if the folder doesn't exist
-export const clearChannelFolder = async () => {
-  try {
-    await BroadcastChannel.clearNodeFolder({
-      type: 'node',
-    })
-  } catch (error) {
-    console.warn(error)
-  }
+export const channels = {
+  logout: new BroadcastChannel('logout'),
+  syncState: new BroadcastChannel('sync-state'),
 }
+
+channels.logout.addEventListener('message', (msg: string) => {
+  if (msg === 'LOGOUT') {
+    window.location.assign('/login#action=logout')
+  }
+})

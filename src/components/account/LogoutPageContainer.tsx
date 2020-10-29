@@ -11,10 +11,10 @@
  */
 
 import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
-import BroadcastChannel from 'broadcast-channel'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 
+import { channels } from '../../channels'
 import { TokenActions } from '../../data/TokenData'
 import { logout } from '../../lib/account'
 import tokenHandler from '../../lib/token'
@@ -29,8 +29,6 @@ interface Props {
 interface State {
   error: Error | null
 }
-
-const channel = new BroadcastChannel('logout')
 
 class LogoutPageContainer extends React.Component<
   Props & DatabaseProps & RouteComponentProps,
@@ -49,7 +47,7 @@ class LogoutPageContainer extends React.Component<
 
       window.location.assign('/login#action=logout')
 
-      await channel.postMessage('LOGOUT')
+      await channels.logout.postMessage('LOGOUT')
     } catch (error) {
       console.error('Error while performing logout tasks', error)
       this.setState({ error })
@@ -70,12 +68,6 @@ class LogoutPageContainer extends React.Component<
         </Main>
       </Page>
     )
-  }
-}
-
-channel.onmessage = (msg) => {
-  if (msg === 'LOGOUT') {
-    window.location.assign('/login#action=logout')
   }
 }
 

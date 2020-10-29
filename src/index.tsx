@@ -12,6 +12,7 @@
 
 import './lib/analytics'
 import './lib/fonts'
+import './channels'
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import React from 'react'

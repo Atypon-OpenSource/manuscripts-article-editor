@@ -35,9 +35,9 @@ const schema = {
 }
 
 describe('Account', () => {
+  beforeAll(clearChannelFolder)
   beforeEach(recreateDatabase)
   afterAll(clearChannelFolder)
-  beforeAll(clearChannelFolder)
 
   test('login', async () => {
     const db = await databaseCreator

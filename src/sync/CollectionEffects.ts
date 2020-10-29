@@ -10,20 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { channels } from '../channels'
 import config from '../config'
 import { refreshSyncSessions } from '../lib/api'
 import { postWebkitMessage } from '../lib/native'
 import CollectionManager from './CollectionManager'
 import { isUnauthorized } from './syncErrors'
-import { Action, ErrorEvent, SyncState } from './types'
+import { Action, ErrorEvent } from './types'
 
 let suspend = false
 
-export default (
-  dispatch: (action: Action) => void,
-  getState: () => SyncState,
-  channel: BroadcastChannel
-) => (action: Action) => {
+export default (dispatch: (action: Action) => void) => (action: Action) => {
   /* tslint:disable:no-console */
   if (config.logSyncEvents) {
     if (action.payload.error) {
@@ -59,7 +56,7 @@ export default (
 
   if (action.payload.broadcast) {
     // dispatch also between other tabs between tabs.
-    channel.postMessage(JSON.stringify(action))
+    channels.syncState.postMessage(JSON.stringify(action))
   }
 
   dispatch(action)
