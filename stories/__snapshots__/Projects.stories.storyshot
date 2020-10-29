@@ -1,0 +1,713 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Projects Manuscript Sidebar 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "height": "100%",
+          "position": "relative",
+          "width": 260,
+        }
+      }
+    >
+      <div
+        className="Sidebar-v95ywm-0 dinrsd"
+        data-cy="sidebar"
+      >
+        <div
+          className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+        >
+          <div
+            className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+          >
+            <div
+              className="ManuscriptSidebar__CustomizedSidebarHeader-wuxpfv-0 gOAqNt"
+            >
+              <div
+                className="ManuscriptSidebar__ProjectTitle-wuxpfv-1 lcsgfn"
+              >
+                <div
+                  id="project-title-field"
+                />
+              </div>
+              <div
+                className="ShareProjectButton__Container-dtoiwn-0 YPEIW"
+                onClick={[Function]}
+              >
+                <div
+                  className="sc-gIvpCV isESLn"
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                >
+                  <button
+                    aria-label="Share project"
+                    className="sc-ezzayL sc-cBoprd sc-ciSmjq ShareProjectButton__ShareIconButton-dtoiwn-1 cRSqLN cPWUwg ifa-DBT mdOcx"
+                    onClick={[Function]}
+                    size={24}
+                    type="button"
+                  >
+                    <svg
+                      height={22}
+                      viewBox="0 0 16 22"
+                      width={16}
+                    >
+                      <g
+                        fill="none"
+                        fillRule="evenodd"
+                        transform="translate(0 1)"
+                      >
+                        <path
+                          d="M13.5 5.5a2 2 0 012 2v11a2 2 0 01-2 2h-11a2 2 0 01-2-2v-11a2 2 0 012-2h1.78c.494.044.742.293.742.747 0 .456-.25.705-.751.747l-.087.004h7.627l-.064-.002c-.45-.037-.694-.249-.731-.635l-.006-.11c0-.456.246-.706.737-.751H13.5zm-1.487 1.498h-.202l.043.002H3a1 1 0 00-.993.883L2 8v10a1 1 0 001 1h10a1 1 0 001-1V8a1 1 0 00-1-1l-1.08.001.093-.003zm-7.829 0H4l.14.003.044-.003z"
+                          fill="#1A9BC7"
+                        />
+                        <rect
+                          fill="#1A9BC7"
+                          height={14}
+                          rx={0.75}
+                          width={1.5}
+                          x={7.25}
+                          y={1}
+                        />
+                        <path
+                          d="M4.994 3.012L8.01.384l3.015 2.628"
+                          stroke="#1A9BC7"
+                          strokeLinecap="round"
+                          strokeWidth={1.5}
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+        >
+          <div>
+            <div
+              className="SortableManuscript__Container-sc-9onkba-3 hQURZj"
+            >
+              <div
+                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__BeforeDropPreview-sc-9onkba-1 ptZMa bRsLRm"
+              />
+              <div
+                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__AfterDropPreview-sc-9onkba-2 ptZMa jGPZZA"
+              />
+            </div>
+          </div>
+          <div>
+            <div
+              className="SortableManuscript__Container-sc-9onkba-3 hQURZj"
+            >
+              <div
+                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__BeforeDropPreview-sc-9onkba-1 ptZMa bRsLRm"
+              />
+              <div
+                className="sc-cbeQSR gjHgly"
+              >
+                <div
+                  className="sc-htmbXw crgWcH"
+                >
+                  <a
+                    className="sc-gkCpWe lgdynU"
+                    href="/projects/project-1/manuscripts/example-2"
+                    onClick={[Function]}
+                  >
+                    <button
+                      className="sc-fWWZrV rFzeb"
+                    >
+                      <svg
+                        className="sc-hkePoP"
+                        height={12}
+                        viewBox="0 0 12 12"
+                        width={12}
+                      >
+                        <path
+                          d="M4.462 1.923l4 4-4 4"
+                          fill="none"
+                          stroke="#6E6E6E"
+                          strokeWidth={2}
+                        />
+                      </svg>
+                    </button>
+                    <span
+                      className="sc-dTSxUT gkxIGD"
+                    >
+                      <svg
+                        height={18}
+                        viewBox="0 0 19 18"
+                        width={19}
+                      >
+                        <g
+                          fill="#FFBD26"
+                        >
+                          <path
+                            d="M4.5.5h10A2.5 2.5 0 0117 3v12a2.5 2.5 0 01-2.5 2.5h-10A2.5 2.5 0 012 15V3A2.5 2.5 0 014.5.5zm0 1.5a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V3a1 1 0 00-1-1h-10z"
+                          />
+                          <path
+                            d="M6.25 4h3.5a.75.75 0 010 1.5h-3.5a.75.75 0 010-1.5zm0 1a.25.25 0 100-.5h3.5a.25.25 0 100 .5h-3.5zm0 3h6.5a.75.75 0 110 1.5h-6.5a.75.75 0 010-1.5zm0 1a.25.25 0 100-.5h6.5a.25.25 0 100 .5h-6.5zm0 3h6.5a.75.75 0 110 1.5h-6.5a.75.75 0 110-1.5zm0 1a.25.25 0 100-.5h6.5a.25.25 0 100 .5h-6.5z"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                    <span
+                      className="sc-flUlJl iwBbvh outline-text-title"
+                    >
+                      Two complement receptor one alleles have opposing associations with cerebral malaria and interact with α+thalassaemia
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <div
+                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__AfterDropPreview-sc-9onkba-2 ptZMa jGPZZA"
+              />
+            </div>
+          </div>
+          <div>
+            <div
+              className="SortableManuscript__Container-sc-9onkba-3 hQURZj"
+            >
+              <div
+                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__BeforeDropPreview-sc-9onkba-1 ptZMa bRsLRm"
+              />
+              <div
+                className="sc-cbeQSR gjHgly"
+              >
+                <div
+                  className="sc-htmbXw crgWcH"
+                >
+                  <a
+                    className="sc-gkCpWe lgdynU"
+                    href="/projects/project-1/manuscripts/example-3"
+                    onClick={[Function]}
+                  >
+                    <button
+                      className="sc-fWWZrV rFzeb"
+                    >
+                      <svg
+                        className="sc-hkePoP"
+                        height={12}
+                        viewBox="0 0 12 12"
+                        width={12}
+                      >
+                        <path
+                          d="M4.462 1.923l4 4-4 4"
+                          fill="none"
+                          stroke="#6E6E6E"
+                          strokeWidth={2}
+                        />
+                      </svg>
+                    </button>
+                    <span
+                      className="sc-dTSxUT gkxIGD"
+                    >
+                      <svg
+                        height={18}
+                        viewBox="0 0 19 18"
+                        width={19}
+                      >
+                        <g
+                          fill="#FFBD26"
+                        >
+                          <path
+                            d="M4.5.5h10A2.5 2.5 0 0117 3v12a2.5 2.5 0 01-2.5 2.5h-10A2.5 2.5 0 012 15V3A2.5 2.5 0 014.5.5zm0 1.5a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V3a1 1 0 00-1-1h-10z"
+                          />
+                          <path
+                            d="M6.25 4h3.5a.75.75 0 010 1.5h-3.5a.75.75 0 010-1.5zm0 1a.25.25 0 100-.5h3.5a.25.25 0 100 .5h-3.5zm0 3h6.5a.75.75 0 110 1.5h-6.5a.75.75 0 010-1.5zm0 1a.25.25 0 100-.5h6.5a.25.25 0 100 .5h-6.5zm0 3h6.5a.75.75 0 110 1.5h-6.5a.75.75 0 110-1.5zm0 1a.25.25 0 100-.5h6.5a.25.25 0 100 .5h-6.5z"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                    <span
+                      className="sc-flUlJl iwBbvh outline-text-title"
+                    >
+                      Cryo-EM structure of the adenosine A2A receptor coupled to an engineered heterotrimeric G protein
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <div
+                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__AfterDropPreview-sc-9onkba-2 ptZMa jGPZZA"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="SidebarHeaderFooter__SidebarFooter-sc-6j8srx-3 kLpROE"
+        >
+          <button
+            className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jxNfPW"
+            onClick={[Function]}
+            size="small"
+            type="button"
+          >
+            <svg
+              className="AddButton__RegularAddIcon-sc-16tykoq-0"
+              height={40}
+              viewBox="0 0 32 34"
+              width={40}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+              >
+                <path
+                  d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+                  fill="#FFBD26"
+                />
+                <path
+                  d="M16.005 8.957a.75.75 0 01.75.75l-.001 6h6.001a.75.75 0 010 1.5h-6.001l.001 6a.75.75 0 01-1.5 0l-.001-6H9.255a.75.75 0 110-1.5h5.999l.001-6a.75.75 0 01.75-.75z"
+                  fill="#FFF"
+                  stroke="#FFF"
+                />
+              </g>
+            </svg>
+            <div
+              className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+            >
+              New Manuscript
+            </div>
+          </button>
+        </div>
+      </div>
+      <div
+        className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <button
+          aria-expanded={true}
+          className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb Panel__ResizerButton-sc-1v8xanm-0 cRSqLN dRpzpn ifa-DBT jXeSFM imbOZC"
+          onClick={[Function]}
+          onMouseDown={[Function]}
+          type="button"
+        >
+          <svg
+            height={12}
+            viewBox="0 0 16 12"
+            width={16}
+          >
+            <g
+              fill="#6E6E6E"
+            >
+              <path
+                d="M14.983 11.775H4.438a.787.787 0 110-1.574h10.545a.787.787 0 010 1.574zm0-4.939H4.438a.787.787 0 110-1.574h10.545a.787.787 0 010 1.574zm0-4.939H4.438a.787.787 0 110-1.574h10.545a.787.787 0 010 1.574z"
+              />
+              <circle
+                cx={1.057}
+                cy={1.171}
+                r={1.057}
+              />
+              <circle
+                cx={1.057}
+                cy={6.049}
+                r={1.057}
+              />
+              <circle
+                cx={1.057}
+                cy={10.927}
+                r={1.057}
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Projects Projects Menu 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <a
+      aria-current={null}
+      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      href="/projects"
+      onClick={[Function]}
+    >
+      <div
+        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+      >
+        <div
+          className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+        >
+          <svg
+            height={26}
+            viewBox="0 0 24 26"
+            width={24}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+              stroke="#1A9BC7"
+            >
+              <path
+                d="M8 2.25h12c.966 0 1.75.784 1.75 1.75v14A1.75 1.75 0 0120 19.75H8A1.75 1.75 0 016.25 18V4c0-.966.784-1.75 1.75-1.75z"
+                fill="#FFF"
+                strokeWidth={1.5}
+              />
+              <g
+                transform="translate(3 7)"
+              >
+                <rect
+                  fill="#FFF"
+                  height={17.5}
+                  rx={1}
+                  strokeWidth={1.5}
+                  width={15.5}
+                  x={-0.75}
+                  y={-0.75}
+                />
+                <path
+                  d="M2.987 2.333a.357.357 0 000 .715h5.286a.357.357 0 000-.715H2.987zm.003 4.834a.357.357 0 100 .714h8.286a.357.357 0 000-.714H2.99zm0 4.5a.357.357 0 100 .714h8.286a.357.357 0 000-.714H2.99z"
+                />
+              </g>
+            </g>
+          </svg>
+        </div>
+        View All Projects
+      </div>
+    </a>
+    <div
+      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+    />
+    <div
+      className="ProjectsDropdownList__ProjectContainer-iy7kf9-0 iKAHVI"
+    >
+      <a
+        aria-current={null}
+        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        href="/projects/project-3"
+        onClick={[Function]}
+      >
+        <div
+          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        >
+          <div
+            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+          >
+            <svg
+              color="#0d79d0"
+              height={26}
+              viewBox="0 0 24 26"
+              width={24}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                stroke="#1A9BC7"
+                transform="translate(4 3.5)"
+              >
+                <rect
+                  fill="#FFF"
+                  height={20}
+                  rx={1}
+                  width={17}
+                  x={-0.5}
+                  y={-0.5}
+                />
+                <path
+                  d="M3.176 3.214a.009.009 0 100 .018h5.648a.009.009 0 100-.018H3.176zm0 5.429a.009.009 0 100 .018h9.648a.009.009 0 000-.018H3.176zm0 5.428a.009.009 0 100 .018h9.648a.009.009 0 100-.018H3.176z"
+                />
+              </g>
+            </svg>
+          </div>
+          <div
+            className="Dropdown__PlaceholderTitle-fhxyb7-2 fAXUxr"
+          />
+        </div>
+      </a>
+      <a
+        aria-current={null}
+        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        href="/projects/project-1"
+        onClick={[Function]}
+      >
+        <div
+          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        >
+          <div
+            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+          >
+            <svg
+              color="#0d79d0"
+              height={26}
+              viewBox="0 0 24 26"
+              width={24}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                stroke="#1A9BC7"
+                transform="translate(4 3.5)"
+              >
+                <rect
+                  fill="#FFF"
+                  height={20}
+                  rx={1}
+                  width={17}
+                  x={-0.5}
+                  y={-0.5}
+                />
+                <path
+                  d="M3.176 3.214a.009.009 0 100 .018h5.648a.009.009 0 100-.018H3.176zm0 5.429a.009.009 0 100 .018h9.648a.009.009 0 000-.018H3.176zm0 5.428a.009.009 0 100 .018h9.648a.009.009 0 100-.018H3.176z"
+                />
+              </g>
+            </svg>
+          </div>
+          <div />
+        </div>
+      </a>
+      <a
+        aria-current={null}
+        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        href="/projects/project-2"
+        onClick={[Function]}
+      >
+        <div
+          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        >
+          <div
+            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+          >
+            <svg
+              color="#0d79d0"
+              height={26}
+              viewBox="0 0 24 26"
+              width={24}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                stroke="#1A9BC7"
+                transform="translate(4 3.5)"
+              >
+                <rect
+                  fill="#FFF"
+                  height={20}
+                  rx={1}
+                  width={17}
+                  x={-0.5}
+                  y={-0.5}
+                />
+                <path
+                  d="M3.176 3.214a.009.009 0 100 .018h5.648a.009.009 0 100-.018H3.176zm0 5.429a.009.009 0 100 .018h9.648a.009.009 0 000-.018H3.176zm0 5.428a.009.009 0 100 .018h9.648a.009.009 0 100-.018H3.176z"
+                />
+              </g>
+            </svg>
+          </div>
+          <div />
+        </div>
+      </a>
+    </div>
+    <div
+      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+    />
+    <div
+      className="ProjectDropdown__ActionContainer-nj113c-0 iliCiP"
+    >
+      <button
+        className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf gETdIg"
+        onClick={[Function]}
+        size="default"
+        type="button"
+      >
+        <svg
+          className="AddButton__RegularAddIcon-sc-16tykoq-0"
+          height={40}
+          viewBox="0 0 32 34"
+          width={40}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+          >
+            <path
+              d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+              fill="#FFBD26"
+            />
+            <path
+              d="M16.005 8.957a.75.75 0 01.75.75l-.001 6h6.001a.75.75 0 010 1.5h-6.001l.001 6a.75.75 0 01-1.5 0l-.001-6H9.255a.75.75 0 110-1.5h5.999l.001-6a.75.75 0 01.75-.75z"
+              fill="#FFF"
+              stroke="#FFF"
+            />
+          </g>
+        </svg>
+        <div
+          className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+        >
+          New Project
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Projects Projects Page - Empty 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="EmptyProjectPage__OuterContainer-sc-1tyx5jc-0 gjcbZz"
+    >
+      <div
+        className="EmptyProjectPage__Placeholder-sc-1tyx5jc-1"
+      >
+        <div
+          className="Placeholders__PlaceholderContainer-sc-1ln90vo-0 bxKpSD"
+        >
+          <canvas
+            height={375}
+            width={375}
+          />
+        </div>
+      </div>
+      <div
+        className="EmptyProjectPage__ActionContainer-sc-1tyx5jc-2"
+      >
+        <button
+          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jmbwRs"
+          onClick={[Function]}
+          size="large"
+          type="button"
+        >
+          <svg
+            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            height={40}
+            viewBox="0 0 32 34"
+            width={40}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+            >
+              <path
+                d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+                fill="#FFBD26"
+              />
+              <path
+                d="M16.005 8.957a.75.75 0 01.75.75l-.001 6h6.001a.75.75 0 010 1.5h-6.001l.001 6a.75.75 0 01-1.5 0l-.001-6H9.255a.75.75 0 110-1.5h5.999l.001-6a.75.75 0 01.75-.75z"
+                fill="#FFF"
+                stroke="#FFF"
+              />
+            </g>
+          </svg>
+          <div
+            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          >
+            New Manuscript
+          </div>
+        </button>
+      </div>
+      <div
+        className="EmptyProjectPage__Message-sc-1tyx5jc-3 jtXRHZ"
+      >
+        <div
+          className="EmptyProjectPage__TextContainer-sc-1tyx5jc-4 ijZRWY"
+        >
+          This project is empty.
+        </div>
+        <div
+          className="EmptyProjectPage__TextContainer-sc-1tyx5jc-4 ijZRWY"
+        >
+          Create a manuscript to get started.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Projects Projects Page - Empty due to pull error 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="EmptyProjectPage__OuterContainer-sc-1tyx5jc-0 gjcbZz"
+    >
+      <div
+        className="EmptyProjectPage__Placeholder-sc-1tyx5jc-1"
+      >
+        <div
+          className="Placeholders__PlaceholderContainer-sc-1ln90vo-0 bxKpSD"
+        >
+          <canvas
+            height={375}
+            width={375}
+          />
+        </div>
+      </div>
+      <div
+        className="EmptyProjectPage__ActionContainer-sc-1tyx5jc-2"
+      >
+        <button
+          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jmbwRs"
+          onClick={[Function]}
+          size="large"
+          type="button"
+        >
+          <svg
+            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            height={40}
+            viewBox="0 0 32 34"
+            width={40}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+            >
+              <path
+                d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+                fill="#FFBD26"
+              />
+              <path
+                d="M16.005 8.957a.75.75 0 01.75.75l-.001 6h6.001a.75.75 0 010 1.5h-6.001l.001 6a.75.75 0 01-1.5 0l-.001-6H9.255a.75.75 0 110-1.5h5.999l.001-6a.75.75 0 01.75-.75z"
+                fill="#FFF"
+                stroke="#FFF"
+              />
+            </g>
+          </svg>
+          <div
+            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          >
+            New Manuscript
+          </div>
+        </button>
+      </div>
+      <div
+        className="EmptyProjectPage__Message-sc-1tyx5jc-3 jtXRHZ"
+      >
+        <div
+          className="EmptyProjectPage__TextContainer-sc-1tyx5jc-4 ijZRWY"
+        >
+          Error while pulling data: there may be manuscripts which are missing locally
+        </div>
+        <div
+          className="EmptyProjectPage__TextContainer-sc-1tyx5jc-4 ijZRWY"
+        >
+          <button
+            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            onClick={[Function]}
+            type="button"
+          >
+            Restart sync
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

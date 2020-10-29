@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Collaboration/Popper Buttons AddCollaboratorButton 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <button
+      className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        color="#1a9bc7"
+        height={34}
+        width={32}
+      >
+        <g
+          fill="none"
+          fillRule="evenodd"
+          stroke="#1a9bc7"
+        >
+          <path
+            d="M20 3.144a8 8 0 0 0-8 0L6 6.608a8 8 0 0 0-4 6.928v6.928a8 8 0 0 0 4 6.928l6 3.464a8 8 0 0 0 8 0l6-3.464a8 8 0 0 0 4-6.928v-6.928a8 8 0 0 0-4-6.928l-6-3.464z"
+            strokeWidth={2}
+          />
+          <path
+            d="M15.25 15.75v-6a.75.75 0 1 1 1.5 0v6h6a.75.75 0 1 1 0 1.5h-6v6a.75.75 0 1 1-1.5 0v-6h-6a.75.75 0 1 1 0-1.5h6z"
+            fill="#1a9bc7"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Collaboration/Popper Buttons CollaboratorSettingsButton 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <button
+      className="sc-ezzayL sc-cBoprd sc-ciSmjq CollaboratorSettingsButton__AddIconButton-sc-1r9x5re-0 cRSqLN crkOrQ ifa-DBT gqwlDZ"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        className="CollaboratorSettingsButton__SettingsInvertedIcon-sc-1r9x5re-1 hTqBRu"
+        height={20}
+        viewBox="0 0 20 20"
+        width={20}
+      >
+        <g
+          fill="none"
+          fillRule="evenodd"
+          stroke="#FFF"
+          strokeWidth={1.5}
+        >
+          <path
+            d="M18.913 8.757a.37.37 0 00-.318-.317l-2.091-.273a6.711 6.711 0 00-.61-1.468l1.287-1.673a.37.37 0 00.002-.448 9.056 9.056 0 00-1.758-1.758.37.37 0 00-.448.001l-1.673 1.285a6.712 6.712 0 00-1.47-.61l-.273-2.09a.37.37 0 00-.316-.319 8.952 8.952 0 00-2.486 0 .37.37 0 00-.316.318l-.274 2.09a6.705 6.705 0 00-1.472.61L5.024 2.817a.37.37 0 00-.449-.001 9.13 9.13 0 00-.873.753l-.136.137c-.27.274-.52.566-.748.866a.37.37 0 00.001.449l1.286 1.672a6.73 6.73 0 00-.612 1.474l-2.09.273a.37.37 0 00-.319.317c-.05.364-.078.738-.084 1.116v.257c.006.373.034.747.084 1.11a.37.37 0 00.319.317l2.09.274a6.75 6.75 0 00.612 1.473l-1.286 1.672a.37.37 0 00-.001.449c.227.3.479.593.75.87l.137.136c.276.27.569.523.87.75.133.1.317.1.449-.001l1.673-1.286c.466.262.96.466 1.472.61l.274 2.09a.37.37 0 00.316.318A9.1 9.1 0 0010 19c.406 0 .825-.03 1.246-.088a.37.37 0 00.316-.318l.274-2.091a6.692 6.692 0 001.469-.61l1.673 1.286a.37.37 0 00.448.001 9.056 9.056 0 001.758-1.758.37.37 0 00-.002-.449L15.895 13.3a6.73 6.73 0 00.609-1.468l2.09-.273a.37.37 0 00.32-.316c.057-.42.086-.838.086-1.243 0-.405-.03-.824-.087-1.243h0z"
+          />
+          <path
+            d="M10 6.51A3.494 3.494 0 006.51 10 3.494 3.494 0 0010 13.49 3.494 3.494 0 0013.49 10 3.494 3.494 0 0010 6.51h0z"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Collaboration/Popper Buttons InvitedCollaboratorSettingsButton 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <button
+      className="sc-ezzayL sc-cBoprd sc-ciSmjq InvitedCollaboratorSettingsButton__AddIconButton-l65nnj-0 cRSqLN crkOrQ ifa-DBT bhFujr"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        className="InvitedCollaboratorSettingsButton__SettingsInvertedIcon-l65nnj-1 byGGSL"
+        height={20}
+        viewBox="0 0 20 20"
+        width={20}
+      >
+        <g
+          fill="none"
+          fillRule="evenodd"
+          stroke="#FFF"
+          strokeWidth={1.5}
+        >
+          <path
+            d="M18.913 8.757a.37.37 0 00-.318-.317l-2.091-.273a6.711 6.711 0 00-.61-1.468l1.287-1.673a.37.37 0 00.002-.448 9.056 9.056 0 00-1.758-1.758.37.37 0 00-.448.001l-1.673 1.285a6.712 6.712 0 00-1.47-.61l-.273-2.09a.37.37 0 00-.316-.319 8.952 8.952 0 00-2.486 0 .37.37 0 00-.316.318l-.274 2.09a6.705 6.705 0 00-1.472.61L5.024 2.817a.37.37 0 00-.449-.001 9.13 9.13 0 00-.873.753l-.136.137c-.27.274-.52.566-.748.866a.37.37 0 00.001.449l1.286 1.672a6.73 6.73 0 00-.612 1.474l-2.09.273a.37.37 0 00-.319.317c-.05.364-.078.738-.084 1.116v.257c.006.373.034.747.084 1.11a.37.37 0 00.319.317l2.09.274a6.75 6.75 0 00.612 1.473l-1.286 1.672a.37.37 0 00-.001.449c.227.3.479.593.75.87l.137.136c.276.27.569.523.87.75.133.1.317.1.449-.001l1.673-1.286c.466.262.96.466 1.472.61l.274 2.09a.37.37 0 00.316.318A9.1 9.1 0 0010 19c.406 0 .825-.03 1.246-.088a.37.37 0 00.316-.318l.274-2.091a6.692 6.692 0 001.469-.61l1.673 1.286a.37.37 0 00.448.001 9.056 9.056 0 001.758-1.758.37.37 0 00-.002-.449L15.895 13.3a6.73 6.73 0 00.609-1.468l2.09-.273a.37.37 0 00.32-.316c.057-.42.086-.838.086-1.243 0-.405-.03-.824-.087-1.243h0z"
+          />
+          <path
+            d="M10 6.51A3.494 3.494 0 006.51 10 3.494 3.494 0 0010 13.49 3.494 3.494 0 0013.49 10 3.494 3.494 0 0010 6.51h0z"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Metadata/Popper Buttons InviteAuthorButton 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <button
+      className="sc-ezzayL sc-jJMGHv sc-jHNhIU InviteAuthorButton__Button-sc-7yg865-0 cRSqLN qAimf GPWUb dYCwrS"
+      onClick={[Function]}
+      type="button"
+    >
+      Invite as Collaborator
+    </button>
+  </div>
+</div>
+`;

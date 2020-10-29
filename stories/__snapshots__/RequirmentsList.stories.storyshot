@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Requirments/List validations 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="RequirementsList__RequirementList-owqh5u-1 fPeJOd"
+    >
+      <div
+        className="RequirementContainer__Container-sc-1hjsz3x-1 hkbnsQ"
+      >
+        <div
+          className="RequirementContainer__Title-sc-1hjsz3x-2 hKpjdF"
+          onClick={[Function]}
+        >
+          Figure
+          <div
+            className="RequirementContainer__ExpanderButton-sc-1hjsz3x-0 liFSUR"
+            onClick={[Function]}
+          >
+            <svg
+              fill="none"
+              height="19"
+              viewBox="0 0 19 19"
+              width="19"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18.5 9.5C18.5 14.4706 14.4706 18.5 9.5 18.5C4.52944 18.5 0.5 14.4706 0.5 9.5C0.5 4.52944 4.52944 0.5 9.5 0.5C14.4706 0.5 18.5 4.52944 18.5 9.5Z"
+                stroke="#E2E2E2"
+              />
+              <path
+                clipRule="evenodd"
+                d="M6.65627 11.769C6.23955 12.1101 5.60792 12.0687 5.24548 11.6765C4.88304 11.2844 4.92704 10.69 5.34375 10.3489L9.43549 7L13.6403 10.2987C14.0645 10.6315 14.1217 11.2248 13.7681 11.624C13.4144 12.0232 12.7839 12.077 12.3596 11.7443L9.46297 9.47182L6.65627 11.769Z"
+                fill="#6E6E6E"
+                fillRule="evenodd"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          className="RequirementsList__Requirement-owqh5u-2 iwNFge"
+        >
+          <div
+            className="RequirementsData__InspectorContainer-iiz6as-0 eEIjuH"
+          >
+            <div
+              className="RequirementsData__Icon-iiz6as-1 DmpZp"
+            >
+              <svg
+                fill="none"
+                height="24"
+                viewBox="0 0 16 24"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clipRule="evenodd"
+                  d="M8 5C11.866 5 15 8.134 15 12C15 15.866 11.866 19 8 19C4.134 19 1 15.866 1 12C1 8.134 4.13333 5 8 5ZM8 4C12.418 4 16 7.582 16 12C16 16.418 12.418 20 8 20C3.582 20 0 16.418 0 12C0 7.582 3.58133 4 8 4ZM8 14.8C7.82319 14.8 7.65362 14.8702 7.5286 14.9953C7.40357 15.1203 7.33333 15.2899 7.33333 15.4667C7.33333 15.6435 7.40357 15.813 7.5286 15.9381C7.65362 16.0631 7.82319 16.1333 8 16.1333C8.17681 16.1333 8.34638 16.0631 8.47141 15.9381C8.59643 15.813 8.66667 15.6435 8.66667 15.4667C8.66667 15.2899 8.59643 15.1203 8.47141 14.9953C8.34638 14.8702 8.17681 14.8 8 14.8ZM8.01333 8C7.8542 8 7.70159 8.06321 7.58907 8.17574C7.47655 8.28826 7.41333 8.44087 7.41333 8.6V13.4C7.41333 13.5591 7.47655 13.7117 7.58907 13.8243C7.70159 13.9368 7.8542 14 8.01333 14C8.17246 14 8.32508 13.9368 8.4376 13.8243C8.55012 13.7117 8.61333 13.5591 8.61333 13.4V8.6C8.61333 8.44087 8.55012 8.28826 8.4376 8.17574C8.32508 8.06321 8.17246 8 8.01333 8Z"
+                  fill="#F35143"
+                  fillRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div
+              className="RequirementsData__Message-iiz6as-2 fxioLO"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+            >
+              The figure format should be image/png
+            </div>
+          </div>
+          <div
+            className="RequirementsData__InspectorContainer-iiz6as-0 eEIjuH"
+          >
+            <div
+              className="RequirementsData__Icon-iiz6as-1 DmpZp"
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.99984 0C3.58852 0 0 3.5888 0 8C0 12.4112 3.58852 16 7.99984 16C12.4112 16 16 12.4112 16 8C16 3.5888 12.4112 0 7.99984 0ZM7.99984 14.9508C4.1672 14.9508 1.0492 11.8326 1.0492 8C1.0492 4.16732 4.16716 1.04924 7.99984 1.04924C11.8325 1.04924 14.9507 4.16736 14.9507 8C14.9507 11.8326 11.8325 14.9508 7.99984 14.9508Z"
+                  fill="#36B260"
+                />
+                <path
+                  d="M10.8962 5.38104L6.771 9.50608L5.10344 7.83888C4.89852 7.6342 4.56656 7.63408 4.36164 7.839C4.15664 8.044 4.15664 8.376 4.36164 8.58092L6.40016 10.6191C6.5026 10.7214 6.6368 10.7726 6.771 10.7726C6.9052 10.7726 7.03976 10.7214 7.14216 10.619L7.14324 10.6176L11.638 6.12284C11.843 5.91804 11.843 5.5858 11.638 5.381C11.4331 5.17608 11.1009 5.17608 10.8962 5.38104Z"
+                  fill="#36B260"
+                />
+              </svg>
+            </div>
+            <div
+              className="RequirementsData__Message-iiz6as-2 fxioLO"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+            >
+              The figure panel must contain content
+            </div>
+          </div>
+        </div>
+        <div
+          className="RequirementsList__Separator-owqh5u-0 hYvOLD"
+        />
+      </div>
+      <div
+        className="RequirementContainer__Container-sc-1hjsz3x-1 hkbnsQ"
+      >
+        <div
+          className="RequirementContainer__Title-sc-1hjsz3x-2 hKpjdF"
+          onClick={[Function]}
+        >
+          Section Order
+          <div
+            className="RequirementContainer__ExpanderButton-sc-1hjsz3x-0 liFSUR"
+            onClick={[Function]}
+          >
+            <svg
+              fill="none"
+              height="19"
+              viewBox="0 0 19 19"
+              width="19"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18.5 9.5C18.5 14.4706 14.4706 18.5 9.5 18.5C4.52944 18.5 0.5 14.4706 0.5 9.5C0.5 4.52944 4.52944 0.5 9.5 0.5C14.4706 0.5 18.5 4.52944 18.5 9.5Z"
+                stroke="#E2E2E2"
+              />
+              <path
+                clipRule="evenodd"
+                d="M6.65627 11.769C6.23955 12.1101 5.60792 12.0687 5.24548 11.6765C4.88304 11.2844 4.92704 10.69 5.34375 10.3489L9.43549 7L13.6403 10.2987C14.0645 10.6315 14.1217 11.2248 13.7681 11.624C13.4144 12.0232 12.7839 12.077 12.3596 11.7443L9.46297 9.47182L6.65627 11.769Z"
+                fill="#6E6E6E"
+                fillRule="evenodd"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          className="RequirementsList__Requirement-owqh5u-2 iwNFge"
+        >
+          <div
+            className="RequirementsData__InspectorContainer-iiz6as-0 eEIjuH"
+          >
+            <div
+              className="RequirementsData__Icon-iiz6as-1 DmpZp"
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.99984 0C3.58852 0 0 3.5888 0 8C0 12.4112 3.58852 16 7.99984 16C12.4112 16 16 12.4112 16 8C16 3.5888 12.4112 0 7.99984 0ZM7.99984 14.9508C4.1672 14.9508 1.0492 11.8326 1.0492 8C1.0492 4.16732 4.16716 1.04924 7.99984 1.04924C11.8325 1.04924 14.9507 4.16736 14.9507 8C14.9507 11.8326 11.8325 14.9508 7.99984 14.9508Z"
+                  fill="#36B260"
+                />
+                <path
+                  d="M10.8962 5.38104L6.771 9.50608L5.10344 7.83888C4.89852 7.6342 4.56656 7.63408 4.36164 7.839C4.15664 8.044 4.15664 8.376 4.36164 8.58092L6.40016 10.6191C6.5026 10.7214 6.6368 10.7726 6.771 10.7726C6.9052 10.7726 7.03976 10.7214 7.14216 10.619L7.14324 10.6176L11.638 6.12284C11.843 5.91804 11.843 5.5858 11.638 5.381C11.4331 5.17608 11.1009 5.17608 10.8962 5.38104Z"
+                  fill="#36B260"
+                />
+              </svg>
+            </div>
+            <div
+              className="RequirementsData__Message-iiz6as-2 fxioLO"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+            >
+              The sections order must be 
+            </div>
+          </div>
+        </div>
+        <div
+          className="RequirementsList__Separator-owqh5u-0 hYvOLD"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

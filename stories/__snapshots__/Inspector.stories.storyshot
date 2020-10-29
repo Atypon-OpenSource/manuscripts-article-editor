@@ -1,0 +1,3191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Inspector Manage Section 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+    >
+      <div
+        className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+        onClick={[Function]}
+      >
+        <div
+          className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+        >
+          Manage Section
+        </div>
+        <button
+          aria-label="Toggle expand section"
+          className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+          onClick={[Function]}
+          size={20}
+          style={
+            Object {
+              "transform": "rotate(0deg)",
+            }
+          }
+          type="button"
+        >
+          <svg
+            height={20}
+            viewBox="0 0 20 20"
+            width={20}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+              transform="matrix(1 0 0 -1 0 20)"
+            >
+              <circle
+                cx={10}
+                cy={10}
+                r={9}
+                stroke="#E2E2E2"
+              />
+              <path
+                d="M6.505 10.974l3.548-3 3.652 2.96"
+                stroke="#6E6E6E"
+                strokeLinecap="round"
+                strokeWidth={2}
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div
+        className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+      >
+        <div
+          className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+        >
+          <div
+            className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 ManageTargetInspector__Label-sc-89ru3x-0 bQQxFg cqaIfH"
+          >
+            Assignees
+          </div>
+          <div
+            className="AssigneesInput__Avatars-sc-1d9maja-2 lbnOTw"
+          >
+            <div
+              className="AssigneesInput__AvatarContainer-sc-1d9maja-1 emhyOZ"
+            >
+              <div
+                data-for="user-1"
+                data-tip={true}
+              >
+                <div
+                  className="sc-jffIyK kbBVcu"
+                >
+                  <img
+                    className="sc-eJoaVz evhJOl"
+                    onError={[Function]}
+                    size={22}
+                    src="//user-1/image"
+                  />
+                </div>
+              </div>
+              <div />
+              <div
+                className="AssigneesInput__RemoveContainer-sc-1d9maja-4 eWSrkh remove"
+                onClick={[Function]}
+              >
+                <svg
+                  height="16px"
+                  viewBox="0 0 512 512"
+                  width="16px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M256 0C114.836 0 0 114.836 0 256s114.836 256 256 256 256-114.836 256-256S397.164 0 256 0zm94.273 320.105c8.34 8.344 8.34 21.825 0 30.168a21.275 21.275 0 01-15.086 6.25c-5.46 0-10.921-2.09-15.082-6.25L256 286.164l-64.105 64.11a21.273 21.273 0 01-15.083 6.25 21.275 21.275 0 01-15.085-6.25c-8.34-8.344-8.34-21.825 0-30.169L225.836 256l-64.11-64.105c-8.34-8.344-8.34-21.825 0-30.168 8.344-8.34 21.825-8.34 30.169 0L256 225.836l64.105-64.11c8.344-8.34 21.825-8.34 30.168 0 8.34 8.344 8.34 21.825 0 30.169L286.164 256zm0 0"
+                  />
+                </svg>
+                 
+              </div>
+            </div>
+          </div>
+          <button
+            className="AssigneesInput__Button-sc-1d9maja-3 jEshjD"
+            onClick={[Function]}
+          >
+            <div
+              data-for="addAssigneeTip"
+              data-tip={true}
+            >
+              <svg
+                fill="none"
+                height="10"
+                viewBox="0 0 11 10"
+                width="11"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clipRule="evenodd"
+                  d="M5.5 0.5C5.25147 0.5 5.05 0.701472 5.05 0.95V4.55H1.45C1.20147 4.55 1 4.75147 1 5C1 5.24853 1.20147 5.45 1.45 5.45H5.05V9.05C5.05 9.29853 5.25147 9.5 5.5 9.5C5.74853 9.5 5.95 9.29853 5.95 9.05V5.45H9.55C9.79853 5.45 10 5.24853 10 5C10 4.75147 9.79853 4.55 9.55 4.55H5.95V0.95C5.95 0.701472 5.74853 0.5 5.5 0.5Z"
+                  fill="#6E6E6E"
+                  fillRule="evenodd"
+                />
+                <path
+                  d="M5.05 4.55V5.05H5.55V4.55H5.05ZM5.05 5.45H5.55V4.95H5.05V5.45ZM5.95 5.45V4.95H5.45V5.45H5.95ZM5.95 4.55H5.45V5.05H5.95V4.55ZM5.55 0.95C5.55 0.977614 5.52761 1 5.5 1V0C4.97533 0 4.55 0.425329 4.55 0.95H5.55ZM5.55 4.55V0.95H4.55V4.55H5.55ZM1.45 5.05H5.05V4.05H1.45V5.05ZM1.5 5C1.5 5.02761 1.47761 5.05 1.45 5.05V4.05C0.925329 4.05 0.5 4.47533 0.5 5H1.5ZM1.45 4.95C1.47761 4.95 1.5 4.97239 1.5 5H0.5C0.5 5.52467 0.925328 5.95 1.45 5.95V4.95ZM5.05 4.95H1.45V5.95H5.05V4.95ZM5.55 9.05V5.45H4.55V9.05H5.55ZM5.5 9C5.52761 9 5.55 9.02239 5.55 9.05H4.55C4.55 9.57467 4.97533 10 5.5 10V9ZM5.45 9.05C5.45 9.02239 5.47239 9 5.5 9V10C6.02467 10 6.45 9.57467 6.45 9.05H5.45ZM5.45 5.45V9.05H6.45V5.45H5.45ZM9.55 4.95H5.95V5.95H9.55V4.95ZM9.5 5C9.5 4.97239 9.52238 4.95 9.55 4.95V5.95C10.0747 5.95 10.5 5.52467 10.5 5H9.5ZM9.55 5.05C9.52239 5.05 9.5 5.02761 9.5 5H10.5C10.5 4.47533 10.0747 4.05 9.55 4.05V5.05ZM5.95 5.05H9.55V4.05H5.95V5.05ZM5.45 0.95V4.55H6.45V0.95H5.45ZM5.5 1C5.47239 1 5.45 0.977615 5.45 0.95H6.45C6.45 0.425329 6.02467 0 5.5 0V1Z"
+                  fill="#6E6E6E"
+                />
+              </svg>
+            </div>
+            <div />
+          </button>
+        </div>
+        <div
+          className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+        >
+          <div
+            className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 ManageTargetInspector__Label-sc-89ru3x-0 bQQxFg cqaIfH"
+          >
+            Deadline
+          </div>
+          <div
+            className="DeadlineInput__CalendarContainer-sc-1l7dcit-2 jfTGnp"
+            selected={true}
+          >
+            <div />
+          </div>
+        </div>
+        <div
+          className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+        >
+          <div
+            className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 ManageTargetInspector__Label-sc-89ru3x-0 bQQxFg cqaIfH"
+          >
+            Tags
+          </div>
+          <div
+            className="TagsInput__OuterContainer-hyi689-3 caQgGK"
+          >
+            <div
+              className=" css-1akvy1b-container"
+              onKeyDown={[Function]}
+            >
+              <div
+                className=" css-sttxd2-control"
+                onMouseDown={[Function]}
+                onTouchEnd={[Function]}
+              >
+                <div
+                  className=" css-g1d714-ValueContainer"
+                >
+                  <div
+                    className=" css-1wa3eu0-placeholder"
+                  >
+                    Select...
+                  </div>
+                  <div
+                    className="css-b8ldur-Input"
+                  >
+                    <div
+                      className=""
+                      style={
+                        Object {
+                          "display": "inline-block",
+                        }
+                      }
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        autoCapitalize="none"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        disabled={false}
+                        id="react-select-2-input"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        spellCheck="false"
+                        style={
+                          Object {
+                            "background": 0,
+                            "border": 0,
+                            "boxSizing": "content-box",
+                            "color": "inherit",
+                            "fontSize": "inherit",
+                            "label": "input",
+                            "opacity": 1,
+                            "outline": 0,
+                            "padding": 0,
+                            "width": "1px",
+                          }
+                        }
+                        tabIndex="0"
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        style={
+                          Object {
+                            "height": 0,
+                            "left": 0,
+                            "overflow": "scroll",
+                            "position": "absolute",
+                            "top": 0,
+                            "visibility": "hidden",
+                            "whiteSpace": "pre",
+                          }
+                        }
+                      >
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className=" css-1hb7zxy-IndicatorsContainer"
+                >
+                  <span
+                    className=" css-1okebmr-indicatorSeparator"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className=" css-tlfecz-indicatorContainer"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="css-6q0nyr-Svg"
+                      focusable="false"
+                      height={20}
+                      viewBox="0 0 20 20"
+                      width={20}
+                    >
+                      <path
+                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+        >
+          <div
+            className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 ManageTargetInspector__Label-sc-89ru3x-0 bQQxFg cqaIfH"
+          >
+            Status
+          </div>
+          <div
+            className="StatusInputStyling__StatusInputWrapper-lmdgns-9 bcxCPM"
+          >
+            <div
+              className=" css-1akvy1b-container"
+              onKeyDown={[Function]}
+            >
+              <div
+                className=" css-sttxd2-control"
+                onMouseDown={[Function]}
+                onTouchEnd={[Function]}
+              >
+                <div
+                  className=" css-g1d714-ValueContainer"
+                >
+                  <div
+                    className=" css-1wa3eu0-placeholder"
+                  >
+                    None
+                  </div>
+                  <div
+                    className="css-b8ldur-Input"
+                  >
+                    <div
+                      className=""
+                      style={
+                        Object {
+                          "display": "inline-block",
+                        }
+                      }
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        autoCapitalize="none"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        disabled={false}
+                        id="react-select-3-input"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        spellCheck="false"
+                        style={
+                          Object {
+                            "background": 0,
+                            "border": 0,
+                            "boxSizing": "content-box",
+                            "color": "inherit",
+                            "fontSize": "inherit",
+                            "label": "input",
+                            "opacity": 1,
+                            "outline": 0,
+                            "padding": 0,
+                            "width": "1px",
+                          }
+                        }
+                        tabIndex="0"
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        style={
+                          Object {
+                            "height": 0,
+                            "left": 0,
+                            "overflow": "scroll",
+                            "position": "absolute",
+                            "top": 0,
+                            "visibility": "hidden",
+                            "whiteSpace": "pre",
+                          }
+                        }
+                      >
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className=" css-1hb7zxy-IndicatorsContainer"
+                >
+                  <span
+                    className=" css-1okebmr-indicatorSeparator"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className=" css-tlfecz-indicatorContainer"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="css-6q0nyr-Svg"
+                      focusable="false"
+                      height={20}
+                      viewBox="0 0 20 20"
+                      width={20}
+                    >
+                      <path
+                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector tabs 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <div
+        data-reach-tabs=""
+      >
+        <div
+          className="Inspector__InspectorTabList-sc-1pgjywx-2 hgOhxj"
+          data-reach-tab-list=""
+          onKeyDown={[Function]}
+          role="tablist"
+        >
+          <button
+            aria-controls="tabs--1--panel---1"
+            aria-selected={false}
+            className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+            data-reach-tab=""
+            id="tabs--1--tab---1"
+            onClick={[Function]}
+            role="tab"
+            tabIndex={-1}
+          >
+            Tab 1
+          </button>
+          <button
+            aria-controls="tabs--1--panel---1"
+            aria-selected={false}
+            className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+            data-reach-tab=""
+            id="tabs--1--tab---1"
+            onClick={[Function]}
+            role="tab"
+            tabIndex={-1}
+          >
+            Tab 2
+          </button>
+          <button
+            aria-controls="tabs--1--panel---1"
+            aria-selected={false}
+            className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+            data-reach-tab=""
+            id="tabs--1--tab---1"
+            onClick={[Function]}
+            role="tab"
+            tabIndex={-1}
+          >
+            Tab 3
+          </button>
+        </div>
+        <div
+          data-reach-tab-panels=""
+        >
+          <div
+            aria-labelledby="tabs--1--tab---1"
+            data-reach-tab-panel=""
+            hidden={true}
+            id="tabs--1--panel---1"
+            role="tabpanel"
+            tabIndex={-1}
+          >
+            Panel 1
+          </div>
+          <div
+            aria-labelledby="tabs--1--tab---1"
+            data-reach-tab-panel=""
+            hidden={true}
+            id="tabs--1--panel---1"
+            role="tabpanel"
+            tabIndex={-1}
+          >
+            Panel 2
+          </div>
+          <div
+            aria-labelledby="tabs--1--tab---1"
+            data-reach-tab-panel=""
+            hidden={true}
+            id="tabs--1--panel---1"
+            role="tabpanel"
+            tabIndex={-1}
+          >
+            Panel 3
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/History basic 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="History__AddButtonWrapper-sc-1osnknr-9 jncbVP"
+      >
+        <button
+          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jfqywZ"
+          onClick={[Function]}
+          size="medium"
+          type="button"
+        >
+          <svg
+            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            height={40}
+            viewBox="0 0 32 34"
+            width={40}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+            >
+              <path
+                d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+                fill="#FFBD26"
+              />
+              <path
+                d="M16.005 8.957a.75.75 0 01.75.75l-.001 6h6.001a.75.75 0 010 1.5h-6.001l.001 6a.75.75 0 01-1.5 0l-.001-6H9.255a.75.75 0 110-1.5h5.999l.001-6a.75.75 0 01.75-.75z"
+                fill="#FFF"
+                stroke="#FFF"
+              />
+            </g>
+          </svg>
+          <div
+            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          >
+            Add a New Version
+          </div>
+        </button>
+      </div>
+      <form
+        className="History__Form-sc-1osnknr-6 blBwPz"
+        onSubmit={[Function]}
+      >
+        <div
+          className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+        >
+          <div
+            className="sc-jffIyK kbBVcu"
+          >
+            <img
+              className="sc-eJoaVz bbaKRF"
+              onError={[Function]}
+              size={20}
+              src="//user-1/image"
+            />
+          </div>
+          <div
+            className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+          >
+            <p
+              className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+            >
+              <span
+                className="History__Title-sc-1osnknr-3 edIaBz"
+              >
+                <span>
+                  New Snapshot
+                </span>
+              </span>
+            </p>
+            <div
+              className="sc-gKAblj gtlwJe"
+            >
+              <input
+                className="sc-dlnjPT iOeyAw"
+                id="snapshot-name"
+                onChange={[Function]}
+                value=""
+              />
+              <div
+                className="sc-iCoHVE gEktBD"
+              >
+                <svg
+                  className="History__EditIconStyled-sc-1osnknr-4 dZPrtx"
+                  height={20}
+                  viewBox="0 0 21 20"
+                  width={21}
+                >
+                  <path
+                    d="M12.706 5.336l2.847 2.862-7.208 7.244-2.847-2.861 7.208-7.245zm5.008-.69l-1.27-1.276a1.256 1.256 0 00-1.78 0l-1.217 1.222 2.848 2.862 1.42-1.426a.98.98 0 000-1.382zM4.008 16.603a.325.325 0 00.392.388l3.173-.774-2.846-2.862-.72 3.248z"
+                    fill="#6E6E6E"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <ul
+        className="History__List-sc-1osnknr-7 eaxSzb"
+      >
+        <li
+          className="History__ListItem-sc-1osnknr-8 gepPho"
+        >
+          <div
+            className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+          >
+            <div
+              className="sc-jffIyK kbBVcu"
+            >
+              <img
+                className="sc-eJoaVz bbaKRF"
+                onError={[Function]}
+                size={20}
+                src="//Egon Spengler/image"
+              />
+            </div>
+            <div
+              className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+            >
+              <p
+                className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+              >
+                <span
+                  className="History__Title-sc-1osnknr-3 edIaBz"
+                >
+                  <span>
+                    January 1, 1970 at 1:00 AM
+                  </span>
+                </span>
+                <a
+                  className="History__ViewLink-sc-1osnknr-10 gEjXTG"
+                  href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
+                  onClick={[Function]}
+                >
+                  View
+                </a>
+              </p>
+              <p>
+                My Snapshot
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/History error while saving 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="History__AddButtonWrapper-sc-1osnknr-9 jncbVP"
+      >
+        <button
+          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jfqywZ"
+          onClick={[Function]}
+          size="medium"
+          type="button"
+        >
+          <svg
+            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            height={40}
+            viewBox="0 0 32 34"
+            width={40}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+            >
+              <path
+                d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+                fill="#FFBD26"
+              />
+              <path
+                d="M16.005 8.957a.75.75 0 01.75.75l-.001 6h6.001a.75.75 0 010 1.5h-6.001l.001 6a.75.75 0 01-1.5 0l-.001-6H9.255a.75.75 0 110-1.5h5.999l.001-6a.75.75 0 01.75-.75z"
+                fill="#FFF"
+                stroke="#FFF"
+              />
+            </g>
+          </svg>
+          <div
+            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          >
+            Add a New Version
+          </div>
+        </button>
+      </div>
+      <form
+        className="History__Form-sc-1osnknr-6 blBwPz"
+        onSubmit={[Function]}
+      >
+        <div
+          className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+        >
+          <div
+            className="sc-jffIyK kbBVcu"
+          >
+            <img
+              className="sc-eJoaVz bbaKRF"
+              onError={[Function]}
+              size={20}
+              src="//user-1/image"
+            />
+          </div>
+          <div
+            className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+          >
+            <p
+              className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+            >
+              <span
+                className="History__Title-sc-1osnknr-3 edIaBz"
+              >
+                <span>
+                  New Snapshot
+                </span>
+              </span>
+            </p>
+            <div
+              className="sc-gKAblj gtlwJe"
+            >
+              <input
+                className="sc-dlnjPT iOeyAw"
+                id="snapshot-name"
+                onChange={[Function]}
+                value=""
+              />
+              <div
+                className="sc-iCoHVE gEktBD"
+              >
+                <svg
+                  className="History__EditIconStyled-sc-1osnknr-4 dZPrtx"
+                  height={20}
+                  viewBox="0 0 21 20"
+                  width={21}
+                >
+                  <path
+                    d="M12.706 5.336l2.847 2.862-7.208 7.244-2.847-2.861 7.208-7.245zm5.008-.69l-1.27-1.276a1.256 1.256 0 00-1.78 0l-1.217 1.222 2.848 2.862 1.42-1.426a.98.98 0 000-1.382zM4.008 16.603a.325.325 0 00.392.388l3.173-.774-2.846-2.862-.72 3.248z"
+                    fill="#6E6E6E"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="History__ErrorStatus-sc-1osnknr-5 dutheC"
+            >
+              <span>
+                There was an error saving your snapshot.
+              </span>
+            </div>
+            <button
+              className="sc-ezzayL sc-kLokih gxEnKq bYa-DYT"
+              onClick={[Function]}
+              type="button"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </form>
+      <ul
+        className="History__List-sc-1osnknr-7 eaxSzb"
+      >
+        <li
+          className="History__ListItem-sc-1osnknr-8 gepPho"
+        >
+          <div
+            className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+          >
+            <div
+              className="sc-jffIyK kbBVcu"
+            >
+              <img
+                className="sc-eJoaVz bbaKRF"
+                onError={[Function]}
+                size={20}
+                src="//Egon Spengler/image"
+              />
+            </div>
+            <div
+              className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+            >
+              <p
+                className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+              >
+                <span
+                  className="History__Title-sc-1osnknr-3 edIaBz"
+                >
+                  <span>
+                    January 1, 1970 at 1:00 AM
+                  </span>
+                </span>
+                <a
+                  className="History__ViewLink-sc-1osnknr-10 gEjXTG"
+                  href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
+                  onClick={[Function]}
+                >
+                  View
+                </a>
+              </p>
+              <p>
+                My Snapshot
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/History read only 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <ul
+        className="History__List-sc-1osnknr-7 eaxSzb"
+      >
+        <li
+          className="History__ListItem-sc-1osnknr-8 gepPho"
+        >
+          <div
+            className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+          >
+            <div
+              className="sc-jffIyK kbBVcu"
+            >
+              <img
+                className="sc-eJoaVz bbaKRF"
+                onError={[Function]}
+                size={20}
+                src="//Egon Spengler/image"
+              />
+            </div>
+            <div
+              className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+            >
+              <p
+                className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+              >
+                <span
+                  className="History__Title-sc-1osnknr-3 edIaBz"
+                >
+                  <span>
+                    January 1, 1970 at 1:00 AM
+                  </span>
+                </span>
+                <a
+                  className="History__ViewLink-sc-1osnknr-10 gEjXTG"
+                  href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
+                  onClick={[Function]}
+                >
+                  View
+                </a>
+              </p>
+              <p>
+                My Snapshot
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/History while saving 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="History__AddButtonWrapper-sc-1osnknr-9 jncbVP"
+      >
+        <button
+          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jfqywZ"
+          onClick={[Function]}
+          size="medium"
+          type="button"
+        >
+          <svg
+            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            height={40}
+            viewBox="0 0 32 34"
+            width={40}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+            >
+              <path
+                d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+                fill="#FFBD26"
+              />
+              <path
+                d="M16.005 8.957a.75.75 0 01.75.75l-.001 6h6.001a.75.75 0 010 1.5h-6.001l.001 6a.75.75 0 01-1.5 0l-.001-6H9.255a.75.75 0 110-1.5h5.999l.001-6a.75.75 0 01.75-.75z"
+                fill="#FFF"
+                stroke="#FFF"
+              />
+            </g>
+          </svg>
+          <div
+            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          >
+            Add a New Version
+          </div>
+        </button>
+      </div>
+      <form
+        className="History__Form-sc-1osnknr-6 blBwPz"
+        onSubmit={[Function]}
+      >
+        <div
+          className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+        >
+          <div
+            className="sc-jffIyK kbBVcu"
+          >
+            <img
+              className="sc-eJoaVz bbaKRF"
+              onError={[Function]}
+              size={20}
+              src="//user-1/image"
+            />
+          </div>
+          <div
+            className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+          >
+            <p
+              className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+            >
+              <span
+                className="History__Title-sc-1osnknr-3 edIaBz"
+              >
+                <span>
+                  New Snapshot
+                </span>
+              </span>
+            </p>
+            <div
+              className="sc-gKAblj gtlwJe"
+            >
+              <input
+                className="sc-dlnjPT iOeyAw"
+                id="snapshot-name"
+                onChange={[Function]}
+                value=""
+              />
+              <div
+                className="sc-iCoHVE gEktBD"
+              >
+                <svg
+                  className="History__EditIconStyled-sc-1osnknr-4 dZPrtx"
+                  height={20}
+                  viewBox="0 0 21 20"
+                  width={21}
+                >
+                  <path
+                    d="M12.706 5.336l2.847 2.862-7.208 7.244-2.847-2.861 7.208-7.245zm5.008-.69l-1.27-1.276a1.256 1.256 0 00-1.78 0l-1.217 1.222 2.848 2.862 1.42-1.426a.98.98 0 000-1.382zM4.008 16.603a.325.325 0 00.392.388l3.173-.774-2.846-2.862-.72 3.248z"
+                    fill="#6E6E6E"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <ul
+        className="History__List-sc-1osnknr-7 eaxSzb"
+      >
+        <li
+          className="History__ListItem-sc-1osnknr-8 gepPho"
+        >
+          <div
+            className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+          >
+            <div
+              className="sc-jffIyK kbBVcu"
+            >
+              <img
+                className="sc-eJoaVz bbaKRF"
+                onError={[Function]}
+                size={20}
+                src="//Egon Spengler/image"
+              />
+            </div>
+            <div
+              className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+            >
+              <p
+                className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+              >
+                <span
+                  className="History__Title-sc-1osnknr-3 edIaBz"
+                >
+                  <span>
+                    January 1, 1970 at 1:00 AM
+                  </span>
+                </span>
+                <a
+                  className="History__ViewLink-sc-1osnknr-10 gEjXTG"
+                  href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
+                  onClick={[Function]}
+                >
+                  View
+                </a>
+              </p>
+              <p>
+                My Snapshot
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <div
+        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+      >
+        <div
+          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          onClick={[Function]}
+        >
+          <div
+            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+          >
+            Manuscript
+          </div>
+          <button
+            aria-label="Toggle expand section"
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            onClick={[Function]}
+            size={20}
+            style={
+              Object {
+                "transform": "rotate(0deg)",
+              }
+            }
+            type="button"
+          >
+            <svg
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                transform="matrix(1 0 0 -1 0 20)"
+              >
+                <circle
+                  cx={10}
+                  cy={10}
+                  r={9}
+                  stroke="#E2E2E2"
+                />
+                <path
+                  d="M6.505 10.974l3.548-3 3.652 2.96"
+                  stroke="#6E6E6E"
+                  strokeLinecap="round"
+                  strokeWidth={2}
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+        >
+          <div
+            className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            data-reach-tabs=""
+          >
+            <div
+              className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
+              data-reach-tab-list=""
+              onKeyDown={[Function]}
+              role="tablist"
+            >
+              <button
+                aria-controls="tabs--3--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--3--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Metadata
+              </button>
+              <button
+                aria-controls="tabs--3--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--3--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Labels
+              </button>
+              <button
+                aria-controls="tabs--3--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--3--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Requirements
+              </button>
+            </div>
+            <div
+              className="Inspector__InspectorTabPanels-sc-1pgjywx-4 dacSjo"
+              data-reach-tab-panels=""
+            >
+              <div
+                aria-labelledby="tabs--3--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--3--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+                >
+                  Keywords
+                </div>
+                <div
+                  className=" css-1akvy1b-container"
+                  onKeyDown={[Function]}
+                >
+                  <div
+                    className=" css-sttxd2-control"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                  >
+                    <div
+                      className=" css-g1d714-ValueContainer"
+                    >
+                      <div
+                        className=" css-1wa3eu0-placeholder"
+                      >
+                        Select...
+                      </div>
+                      <div
+                        className="css-b8ldur-Input"
+                      >
+                        <div
+                          className=""
+                          style={
+                            Object {
+                              "display": "inline-block",
+                            }
+                          }
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            autoCapitalize="none"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            disabled={false}
+                            id="react-select-4-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            spellCheck="false"
+                            style={
+                              Object {
+                                "background": 0,
+                                "border": 0,
+                                "boxSizing": "content-box",
+                                "color": "inherit",
+                                "fontSize": "inherit",
+                                "label": "input",
+                                "opacity": 1,
+                                "outline": 0,
+                                "padding": 0,
+                                "width": "1px",
+                              }
+                            }
+                            tabIndex="0"
+                            type="text"
+                            value=""
+                          />
+                          <div
+                            style={
+                              Object {
+                                "height": 0,
+                                "left": 0,
+                                "overflow": "scroll",
+                                "position": "absolute",
+                                "top": 0,
+                                "visibility": "hidden",
+                                "whiteSpace": "pre",
+                              }
+                            }
+                          >
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className=" css-1hb7zxy-IndicatorsContainer"
+                    >
+                      <span
+                        className=" css-1okebmr-indicatorSeparator"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className=" css-tlfecz-indicatorContainer"
+                        onMouseDown={[Function]}
+                        onTouchEnd={[Function]}
+                      >
+                        <svg
+                          aria-hidden="true"
+                          className="css-6q0nyr-Svg"
+                          focusable="false"
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <path
+                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                aria-labelledby="tabs--3--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--3--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Figure Panel
+                  </div>
+                  <input
+                    className="sc-dlnjPT inputs__MediumTextField-sc-1sm67p2-3 iOeyAw fyriKu"
+                    onChange={[Function]}
+                    placeholder="Figure"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Table
+                  </div>
+                  <input
+                    className="sc-dlnjPT inputs__MediumTextField-sc-1sm67p2-3 iOeyAw fyriKu"
+                    onChange={[Function]}
+                    placeholder="Table"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Equation
+                  </div>
+                  <input
+                    className="sc-dlnjPT inputs__MediumTextField-sc-1sm67p2-3 iOeyAw fyriKu"
+                    onChange={[Function]}
+                    placeholder="Equation"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Listing
+                  </div>
+                  <input
+                    className="sc-dlnjPT inputs__MediumTextField-sc-1sm67p2-3 iOeyAw fyriKu"
+                    onChange={[Function]}
+                    placeholder="Listing"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                aria-labelledby="tabs--3--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--3--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="CountInput__Field-es8haj-0 dOEvrq"
+                >
+                  <label
+                    className="CountInput__Label-es8haj-1 lojzof"
+                  >
+                    <input
+                      checked={false}
+                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Min word count
+                  </label>
+                  <input
+                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    disabled={true}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    pattern="[0-9]+"
+                    placeholder="Minimum"
+                    step={1}
+                    type="number"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="CountInput__Field-es8haj-0 dOEvrq"
+                >
+                  <label
+                    className="CountInput__Label-es8haj-1 lojzof"
+                  >
+                    <input
+                      checked={false}
+                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Max word count
+                  </label>
+                  <input
+                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    disabled={true}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    pattern="[0-9]+"
+                    placeholder="Maximum"
+                    step={1}
+                    type="number"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="CountInput__Field-es8haj-0 dOEvrq"
+                >
+                  <label
+                    className="CountInput__Label-es8haj-1 lojzof"
+                  >
+                    <input
+                      checked={false}
+                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Min character count
+                  </label>
+                  <input
+                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    disabled={true}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    pattern="[0-9]+"
+                    placeholder="Minimum"
+                    step={1}
+                    type="number"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="CountInput__Field-es8haj-0 dOEvrq"
+                >
+                  <label
+                    className="CountInput__Label-es8haj-1 lojzof"
+                  >
+                    <input
+                      checked={false}
+                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Max character count
+                  </label>
+                  <input
+                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    disabled={true}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    pattern="[0-9]+"
+                    placeholder="Maximum"
+                    step={1}
+                    type="number"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/Manuscript Style Inspector with bundle 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <div
+        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+      >
+        <div
+          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          onClick={[Function]}
+        >
+          <div
+            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+          >
+            Manuscript
+          </div>
+          <button
+            aria-label="Toggle expand section"
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            onClick={[Function]}
+            size={20}
+            style={
+              Object {
+                "transform": "rotate(0deg)",
+              }
+            }
+            type="button"
+          >
+            <svg
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                transform="matrix(1 0 0 -1 0 20)"
+              >
+                <circle
+                  cx={10}
+                  cy={10}
+                  r={9}
+                  stroke="#E2E2E2"
+                />
+                <path
+                  d="M6.505 10.974l3.548-3 3.652 2.96"
+                  stroke="#6E6E6E"
+                  strokeLinecap="round"
+                  strokeWidth={2}
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+        >
+          <div
+            className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+          >
+            <div
+              className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+            >
+              Citation Style
+            </div>
+            <div
+              className="ManuscriptStyleInspector__InspectorValue-bb0p27-4 dfpPUu"
+              onClick={[Function]}
+            >
+              <input
+                className="sc-dlnjPT ManuscriptStyleInspector__CitationStyle-bb0p27-0 iOeyAw bIfVXy"
+                readOnly={true}
+                value="Nature"
+              />
+              <button
+                className="sc-ezzayL sc-iklIKw ManuscriptStyleInspector__ChooseButton-bb0p27-1 gxEnKq laqiSe fkSgil"
+                type="button"
+              >
+                Choose
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/Manuscript Style Inspector without bundle 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <div
+        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+      >
+        <div
+          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          onClick={[Function]}
+        >
+          <div
+            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+          >
+            Manuscript
+          </div>
+          <button
+            aria-label="Toggle expand section"
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            onClick={[Function]}
+            size={20}
+            style={
+              Object {
+                "transform": "rotate(0deg)",
+              }
+            }
+            type="button"
+          >
+            <svg
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                transform="matrix(1 0 0 -1 0 20)"
+              >
+                <circle
+                  cx={10}
+                  cy={10}
+                  r={9}
+                  stroke="#E2E2E2"
+                />
+                <path
+                  d="M6.505 10.974l3.548-3 3.652 2.96"
+                  stroke="#6E6E6E"
+                  strokeLinecap="round"
+                  strokeWidth={2}
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+        >
+          <div
+            className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+          >
+            <div
+              className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+            >
+              Citation Style
+            </div>
+            <div
+              className="ManuscriptStyleInspector__InspectorValue-bb0p27-4 dfpPUu"
+              onClick={[Function]}
+            >
+              <input
+                className="sc-dlnjPT ManuscriptStyleInspector__CitationStyle-bb0p27-0 iOeyAw bIfVXy"
+                readOnly={true}
+                value=""
+              />
+              <button
+                className="sc-ezzayL sc-iklIKw ManuscriptStyleInspector__ChooseButton-bb0p27-1 gxEnKq laqiSe fkSgil"
+                type="button"
+              >
+                Choose
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <div
+        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+      >
+        <div
+          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          onClick={[Function]}
+        >
+          <div
+            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+          >
+            Paragraph Styles
+          </div>
+          <button
+            aria-label="Toggle expand section"
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            onClick={[Function]}
+            size={20}
+            style={
+              Object {
+                "transform": "rotate(0deg)",
+              }
+            }
+            type="button"
+          >
+            <svg
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                transform="matrix(1 0 0 -1 0 20)"
+              >
+                <circle
+                  cx={10}
+                  cy={10}
+                  r={9}
+                  stroke="#E2E2E2"
+                />
+                <path
+                  d="M6.505 10.974l3.548-3 3.652 2.96"
+                  stroke="#6E6E6E"
+                  strokeLinecap="round"
+                  strokeWidth={2}
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+        >
+          <div
+            className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+          >
+            <select
+              className="inputs__StyleSelect-sc-1sm67p2-6 jkmNRm"
+              onChange={[Function]}
+              value="MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637"
+            >
+              <option
+                value="MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637"
+              >
+                Body Text
+              </option>
+            </select>
+            <button
+              className="StyleActions__MenuButton-j0vbrh-0 hWgYTE"
+              onClick={[Function]}
+              type="button"
+            >
+              <svg
+                height={12}
+                viewBox="0 0 4 20"
+                width={4}
+              >
+                <g
+                  fill="#1A9BC7"
+                  fillRule="evenodd"
+                >
+                  <rect
+                    height={4}
+                    rx={2}
+                    width={4}
+                  />
+                  <rect
+                    height={4}
+                    rx={2}
+                    width={4}
+                    y={8}
+                  />
+                  <rect
+                    height={4}
+                    rx={2}
+                    width={4}
+                    y={16}
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <div
+            className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            data-reach-tabs=""
+          >
+            <div
+              className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
+              data-reach-tab-list=""
+              onKeyDown={[Function]}
+              role="tablist"
+            >
+              <button
+                aria-controls="tabs--5--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--5--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Text
+              </button>
+              <button
+                aria-controls="tabs--5--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--5--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Spacing
+              </button>
+              <button
+                aria-controls="tabs--5--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--5--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Lists
+              </button>
+            </div>
+            <div
+              className="Inspector__InspectorTabPanels-sc-1pgjywx-4 dacSjo"
+              data-reach-tab-panels=""
+            >
+              <div
+                aria-labelledby="tabs--5--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--5--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Size
+                  </div>
+                  <input
+                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    onChange={[Function]}
+                    type="number"
+                    value={12}
+                  />
+                  pt
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Style
+                  </div>
+                  <button
+                    className="ParagraphStyleFields__TextStyleButton-ccztfi-0 iuQEnP"
+                    onMouseDown={[Function]}
+                    type="button"
+                  >
+                    B
+                  </button>
+                  <button
+                    className="ParagraphStyleFields__TextStyleButton-ccztfi-0 iuQEnP"
+                    onMouseDown={[Function]}
+                    style={
+                      Object {
+                        "fontStyle": "italic",
+                      }
+                    }
+                    type="button"
+                  >
+                    I
+                  </button>
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Color
+                  </div>
+                  <div
+                    className="StyleFields__ColorsContainer-yiknnh-2 iQBhkF"
+                  >
+                    <button
+                      className="ColorSelector__AddButton-sc-1jm2xhx-2 hjjpwi"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                aria-labelledby="tabs--5--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--5--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              />
+              <div
+                aria-labelledby="tabs--5--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--5--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <div
+        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+      >
+        <div
+          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          onClick={[Function]}
+        >
+          <div
+            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+          >
+            Section
+          </div>
+          <button
+            aria-label="Toggle expand section"
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            onClick={[Function]}
+            size={20}
+            style={
+              Object {
+                "transform": "rotate(0deg)",
+              }
+            }
+            type="button"
+          >
+            <svg
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                transform="matrix(1 0 0 -1 0 20)"
+              >
+                <circle
+                  cx={10}
+                  cy={10}
+                  r={9}
+                  stroke="#E2E2E2"
+                />
+                <path
+                  d="M6.505 10.974l3.548-3 3.652 2.96"
+                  stroke="#6E6E6E"
+                  strokeLinecap="round"
+                  strokeWidth={2}
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+        >
+          <div
+            className="SectionInspector__StyledTitle-sc-1xqu1fp-0 dGJHJX"
+          />
+          <div
+            className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            data-reach-tabs=""
+          >
+            <div
+              className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
+              data-reach-tab-list=""
+              onKeyDown={[Function]}
+              role="tablist"
+            >
+              <button
+                aria-controls="tabs--4--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--4--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                General
+              </button>
+              <button
+                aria-controls="tabs--4--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--4--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Requirements
+              </button>
+            </div>
+            <div
+              className="Inspector__InspectorTabPanels-sc-1pgjywx-4 dacSjo"
+              data-reach-tab-panels=""
+            >
+              <div
+                aria-labelledby="tabs--4--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--4--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+                >
+                  Category
+                </div>
+                <select
+                  className="CategoryInput__CategorySelector-sc-1mnc92r-0 fssIET"
+                  onChange={[Function]}
+                  value="MPSectionCategory:section"
+                >
+                  <option
+                    value="MPSectionCategory:title-page"
+                  >
+                    Title page
+                  </option>
+                  <option
+                    value="MPSectionCategory:abstract"
+                  >
+                    Abstract
+                  </option>
+                  <option
+                    value="MPSectionCategory:author-summary"
+                  >
+                    Author Summary
+                  </option>
+                  <option
+                    value="MPSectionCategory:introduction"
+                  >
+                    Introduction
+                  </option>
+                  <option
+                    value="MPSectionCategory:review"
+                  >
+                    Review
+                  </option>
+                  <option
+                    value="MPSectionCategory:materials-method"
+                  >
+                    Materials & Methods
+                  </option>
+                  <option
+                    value="MPSectionCategory:results"
+                  >
+                    Results
+                  </option>
+                  <option
+                    value="MPSectionCategory:discussion"
+                  >
+                    Discussion
+                  </option>
+                  <option
+                    value="MPSectionCategory:conclusions"
+                  >
+                    Conclusions
+                  </option>
+                  <option
+                    value="MPSectionCategory:key-messages"
+                  >
+                    Key messages
+                  </option>
+                  <option
+                    value="MPSectionCategory:availability"
+                  >
+                    Availability
+                  </option>
+                  <option
+                    value="MPSectionCategory:acknowledgement"
+                  >
+                    Acknowledgments
+                  </option>
+                  <option
+                    value="MPSectionCategory:dedication"
+                  >
+                    Dedication
+                  </option>
+                  <option
+                    value="MPSectionCategory:blurb"
+                  >
+                    Blurb
+                  </option>
+                  <option
+                    value="MPSectionCategory:abbreviations"
+                  >
+                    Abbreviations
+                  </option>
+                  <option
+                    value="MPSectionCategory:endnotes"
+                  >
+                    Endnotes
+                  </option>
+                  <option
+                    value="MPSectionCategory:appendices"
+                  >
+                    Appendices
+                  </option>
+                  <option
+                    value="MPSectionCategory:ethicalStatement"
+                  >
+                    Ethical Statement
+                  </option>
+                  <option
+                    value="MPSectionCategory:additional-files"
+                  >
+                    Additional Files
+                  </option>
+                  <option
+                    value="MPSectionCategory:author-contributions"
+                  >
+                    Author contributions
+                  </option>
+                  <option
+                    value="MPSectionCategory:author-information"
+                  >
+                    Author Information
+                  </option>
+                  <option
+                    value="MPSectionCategory:bio"
+                  >
+                    Biography
+                  </option>
+                  <option
+                    value="MPSectionCategory:consent"
+                  >
+                    Consent
+                  </option>
+                  <option
+                    value="MPSectionCategory:chapter"
+                  >
+                    Chapter
+                  </option>
+                  <option
+                    value="MPSectionCategory:competing-interests"
+                  >
+                    Competing Interests
+                  </option>
+                  <option
+                    value="MPSectionCategory:section"
+                  >
+                    Section
+                  </option>
+                  <option
+                    value="MPSectionCategory:subsection"
+                  >
+                    Subsection
+                  </option>
+                  <option
+                    value="MPSectionCategory:cover-letter"
+                  >
+                    Cover Letter
+                  </option>
+                  <option
+                    value="MPSectionCategory:review-response-letter"
+                  >
+                    Review Response Letter
+                  </option>
+                </select>
+                <div
+                  className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+                >
+                  Placeholder
+                </div>
+                <input
+                  className="sc-dlnjPT SectionInspector__PlaceholderInput-sc-1xqu1fp-1 iOeyAw gXfmnB"
+                  onChange={[Function]}
+                />
+                <div
+                  className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+                >
+                  Page Break
+                </div>
+                <select
+                  className="PageBreakInput__Selector-sc-18b0koz-0 cKHYm"
+                  onChange={[Function]}
+                  value={0}
+                >
+                  <option
+                    value={0}
+                  >
+                    None
+                  </option>
+                  <option
+                    value={1}
+                  >
+                    Break before
+                  </option>
+                  <option
+                    value={2}
+                  >
+                    Break after
+                  </option>
+                  <option
+                    value={4}
+                  >
+                    Break before and after
+                  </option>
+                </select>
+              </div>
+              <div
+                aria-labelledby="tabs--4--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--4--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="CountInput__Field-es8haj-0 dOEvrq"
+                >
+                  <label
+                    className="CountInput__Label-es8haj-1 lojzof"
+                  >
+                    <input
+                      checked={false}
+                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Min word count
+                  </label>
+                  <input
+                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    disabled={true}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    pattern="[0-9]+"
+                    placeholder="Minimum"
+                    step={1}
+                    type="number"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="CountInput__Field-es8haj-0 dOEvrq"
+                >
+                  <label
+                    className="CountInput__Label-es8haj-1 lojzof"
+                  >
+                    <input
+                      checked={false}
+                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Max word count
+                  </label>
+                  <input
+                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    disabled={true}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    pattern="[0-9]+"
+                    placeholder="Maximum"
+                    step={1}
+                    type="number"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="CountInput__Field-es8haj-0 dOEvrq"
+                >
+                  <label
+                    className="CountInput__Label-es8haj-1 lojzof"
+                  >
+                    <input
+                      checked={false}
+                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Min character count
+                  </label>
+                  <input
+                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    disabled={true}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    pattern="[0-9]+"
+                    placeholder="Minimum"
+                    step={1}
+                    type="number"
+                    value=""
+                  />
+                </div>
+                <div
+                  className="CountInput__Field-es8haj-0 dOEvrq"
+                >
+                  <label
+                    className="CountInput__Label-es8haj-1 lojzof"
+                  >
+                    <input
+                      checked={false}
+                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Max character count
+                  </label>
+                  <input
+                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    disabled={true}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    pattern="[0-9]+"
+                    placeholder="Maximum"
+                    step={1}
+                    type="number"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <div
+        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+      >
+        <div
+          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          onClick={[Function]}
+        >
+          <div
+            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+          >
+            Section Heading Styles
+          </div>
+          <button
+            aria-label="Toggle expand section"
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            onClick={[Function]}
+            size={20}
+            style={
+              Object {
+                "transform": "rotate(0deg)",
+              }
+            }
+            type="button"
+          >
+            <svg
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                transform="matrix(1 0 0 -1 0 20)"
+              >
+                <circle
+                  cx={10}
+                  cy={10}
+                  r={9}
+                  stroke="#E2E2E2"
+                />
+                <path
+                  d="M6.505 10.974l3.548-3 3.652 2.96"
+                  stroke="#6E6E6E"
+                  strokeLinecap="round"
+                  strokeWidth={2}
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+        >
+          <div
+            className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            data-reach-tabs=""
+          >
+            <div
+              className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
+              data-reach-tab-list=""
+              onKeyDown={[Function]}
+              role="tablist"
+            >
+              <button
+                aria-controls="tabs--6--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--6--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Text
+              </button>
+              <button
+                aria-controls="tabs--6--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--6--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Spacing
+              </button>
+              <button
+                aria-controls="tabs--6--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--6--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Numbering
+              </button>
+              <button
+                aria-controls="tabs--6--panel---1"
+                aria-selected={false}
+                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-reach-tab=""
+                id="tabs--6--tab---1"
+                onClick={[Function]}
+                role="tab"
+                tabIndex={-1}
+              >
+                Options
+              </button>
+            </div>
+            <div
+              className="Inspector__InspectorTabPanels-sc-1pgjywx-4 dacSjo"
+              data-reach-tab-panels=""
+            >
+              <div
+                aria-labelledby="tabs--6--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--6--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Size
+                  </div>
+                  <input
+                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    onChange={[Function]}
+                    type="number"
+                    value={12}
+                  />
+                  pt
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Style
+                  </div>
+                  <button
+                    className="ParagraphStyleFields__TextStyleButton-ccztfi-0 iuQEnP"
+                    onMouseDown={[Function]}
+                    type="button"
+                  >
+                    B
+                  </button>
+                  <button
+                    className="ParagraphStyleFields__TextStyleButton-ccztfi-0 iuQEnP"
+                    onMouseDown={[Function]}
+                    style={
+                      Object {
+                        "fontStyle": "italic",
+                      }
+                    }
+                    type="button"
+                  >
+                    I
+                  </button>
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Color
+                  </div>
+                  <div
+                    className="StyleFields__ColorsContainer-yiknnh-2 iQBhkF"
+                  >
+                    <button
+                      className="ColorSelector__AddButton-sc-1jm2xhx-2 hjjpwi"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                aria-labelledby="tabs--6--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--6--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Alignment
+                  </div>
+                  <select
+                    className="inputs__StyleSelect-sc-1sm67p2-6 jkmNRm"
+                    onChange={[Function]}
+                    value="left"
+                  >
+                    <option
+                      value="left"
+                    >
+                      Left
+                    </option>
+                    <option
+                      value="center"
+                    >
+                      Center
+                    </option>
+                    <option
+                      value="right"
+                    >
+                      Right
+                    </option>
+                    <option
+                      value="justify"
+                    >
+                      Justify
+                    </option>
+                  </select>
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Top spacing
+                  </div>
+                  <input
+                    className="inputs__StyleRange-sc-1sm67p2-5 hQGDNX"
+                    list="topSpacingList"
+                    max={40}
+                    min={0}
+                    name="top-spacing"
+                    onChange={[Function]}
+                    step={2}
+                    type="range"
+                    value={10}
+                  />
+                  <datalist
+                    id="topSpacingList"
+                  >
+                    <option>
+                      0
+                    </option>
+                    <option>
+                      2
+                    </option>
+                    <option>
+                      4
+                    </option>
+                    <option>
+                      6
+                    </option>
+                    <option>
+                      8
+                    </option>
+                    <option>
+                      10
+                    </option>
+                    <option>
+                      12
+                    </option>
+                    <option>
+                      14
+                    </option>
+                    <option>
+                      16
+                    </option>
+                    <option>
+                      18
+                    </option>
+                    <option>
+                      20
+                    </option>
+                    <option>
+                      22
+                    </option>
+                    <option>
+                      24
+                    </option>
+                    <option>
+                      26
+                    </option>
+                    <option>
+                      28
+                    </option>
+                    <option>
+                      30
+                    </option>
+                    <option>
+                      32
+                    </option>
+                    <option>
+                      34
+                    </option>
+                    <option>
+                      36
+                    </option>
+                    <option>
+                      38
+                    </option>
+                  </datalist>
+                  <input
+                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    onChange={[Function]}
+                    type="number"
+                    value={10}
+                  />
+                  pt
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Bottom spacing
+                  </div>
+                  <input
+                    className="inputs__StyleRange-sc-1sm67p2-5 hQGDNX"
+                    list="bottomSpacingLsit"
+                    max={40}
+                    min={0}
+                    name="bottom-spacing"
+                    onChange={[Function]}
+                    step={2}
+                    type="range"
+                    value={10}
+                  />
+                  <datalist
+                    id="bottomSpacingLsit"
+                  >
+                    <option>
+                      0
+                    </option>
+                    <option>
+                      2
+                    </option>
+                    <option>
+                      4
+                    </option>
+                    <option>
+                      6
+                    </option>
+                    <option>
+                      8
+                    </option>
+                    <option>
+                      10
+                    </option>
+                    <option>
+                      12
+                    </option>
+                    <option>
+                      14
+                    </option>
+                    <option>
+                      16
+                    </option>
+                    <option>
+                      18
+                    </option>
+                    <option>
+                      20
+                    </option>
+                    <option>
+                      22
+                    </option>
+                    <option>
+                      24
+                    </option>
+                    <option>
+                      26
+                    </option>
+                    <option>
+                      28
+                    </option>
+                    <option>
+                      30
+                    </option>
+                    <option>
+                      32
+                    </option>
+                    <option>
+                      34
+                    </option>
+                    <option>
+                      36
+                    </option>
+                    <option>
+                      38
+                    </option>
+                  </datalist>
+                  <input
+                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    onChange={[Function]}
+                    type="number"
+                    value={10}
+                  />
+                  pt
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    First line indent
+                  </div>
+                  <input
+                    className="inputs__StyleRange-sc-1sm67p2-5 hQGDNX"
+                    list="firstLineIndentList"
+                    max={40}
+                    min={0}
+                    name="first-line-indent"
+                    onChange={[Function]}
+                    step={2}
+                    type="range"
+                    value={0}
+                  />
+                  <datalist
+                    id="firstLineIndentList"
+                  >
+                    <option>
+                      0
+                    </option>
+                    <option>
+                      2
+                    </option>
+                    <option>
+                      4
+                    </option>
+                    <option>
+                      6
+                    </option>
+                    <option>
+                      8
+                    </option>
+                    <option>
+                      10
+                    </option>
+                    <option>
+                      12
+                    </option>
+                    <option>
+                      14
+                    </option>
+                    <option>
+                      16
+                    </option>
+                    <option>
+                      18
+                    </option>
+                    <option>
+                      20
+                    </option>
+                    <option>
+                      22
+                    </option>
+                    <option>
+                      24
+                    </option>
+                    <option>
+                      26
+                    </option>
+                    <option>
+                      28
+                    </option>
+                    <option>
+                      30
+                    </option>
+                    <option>
+                      32
+                    </option>
+                    <option>
+                      34
+                    </option>
+                    <option>
+                      36
+                    </option>
+                    <option>
+                      38
+                    </option>
+                  </datalist>
+                  <input
+                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    onChange={[Function]}
+                    type="number"
+                    value={0}
+                  />
+                  pt
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Line spacing
+                  </div>
+                  <input
+                    className="inputs__StyleRange-sc-1sm67p2-5 hQGDNX"
+                    list="lineSpacingList"
+                    max={2}
+                    min={1}
+                    name="line-spacing"
+                    onChange={[Function]}
+                    step={0.25}
+                    type="range"
+                    value={2}
+                  />
+                  <input
+                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    onChange={[Function]}
+                    type="number"
+                    value={2}
+                  />
+                  pt
+                </div>
+              </div>
+              <div
+                aria-labelledby="tabs--6--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--6--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Numbering
+                  </div>
+                  <select
+                    className="inputs__StyleSelect-sc-1sm67p2-6 jkmNRm"
+                    name="section-numbering-scheme"
+                    onChange={[Function]}
+                    value="decimal"
+                  >
+                    <option
+                      value="none"
+                    >
+                      None
+                    </option>
+                    <option
+                      value="decimal"
+                    >
+                      1 2 3
+                    </option>
+                  </select>
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <div
+                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                  >
+                    Suffix
+                  </div>
+                  <input
+                    className="sc-dlnjPT inputs__SmallTextField-sc-1sm67p2-2 iOeyAw fEscs"
+                    name="list-suffix"
+                    onChange={[Function]}
+                    type="text"
+                    value="."
+                  />
+                </div>
+              </div>
+              <div
+                aria-labelledby="tabs--6--tab---1"
+                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--6--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <input
+                    checked={false}
+                    className="sc-gtssRu"
+                    disabled={false}
+                    id="part-of-toc"
+                    name="part-of-toc"
+                    onChange={[Function]}
+                    type="checkbox"
+                  />
+                  <label
+                    className="sc-bdnylx fnQjfh"
+                    htmlFor="part-of-toc"
+                  >
+                    Include in Table of Contents
+                  </label>
+                </div>
+                <div
+                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                >
+                  <input
+                    checked={false}
+                    className="sc-gtssRu"
+                    id="run-in"
+                    name="run-in"
+                    onChange={[Function]}
+                    type="checkbox"
+                  />
+                  <label
+                    className="sc-bdnylx fnQjfh"
+                    htmlFor="run-in"
+                  >
+                    Run into first paragraph
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/Statistics Inspector with section 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <div
+        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+      >
+        <div
+          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          onClick={[Function]}
+        >
+          <div
+            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+          >
+            Statistics
+          </div>
+          <button
+            aria-label="Toggle expand section"
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            onClick={[Function]}
+            size={20}
+            style={
+              Object {
+                "transform": "rotate(0deg)",
+              }
+            }
+            type="button"
+          >
+            <svg
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                transform="matrix(1 0 0 -1 0 20)"
+              >
+                <circle
+                  cx={10}
+                  cy={10}
+                  r={9}
+                  stroke="#E2E2E2"
+                />
+                <path
+                  d="M6.505 10.974l3.548-3 3.652 2.96"
+                  stroke="#6E6E6E"
+                  strokeLinecap="round"
+                  strokeWidth={2}
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+        >
+          <div
+            className="StatisticsInspector__InspectorSubsection-sc-1mdggai-0 fOfyAl"
+          >
+            <div
+              className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+            >
+              Manuscript
+            </div>
+          </div>
+          <div
+            className="StatisticsInspector__InspectorSubsection-sc-1mdggai-0 fOfyAl"
+          >
+            <div
+              className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+            >
+              Section
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Inspector/Statistics Inspector without section 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <div
+        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+      >
+        <div
+          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          onClick={[Function]}
+        >
+          <div
+            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+          >
+            Statistics
+          </div>
+          <button
+            aria-label="Toggle expand section"
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            onClick={[Function]}
+            size={20}
+            style={
+              Object {
+                "transform": "rotate(0deg)",
+              }
+            }
+            type="button"
+          >
+            <svg
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                transform="matrix(1 0 0 -1 0 20)"
+              >
+                <circle
+                  cx={10}
+                  cy={10}
+                  r={9}
+                  stroke="#E2E2E2"
+                />
+                <path
+                  d="M6.505 10.974l3.548-3 3.652 2.96"
+                  stroke="#6E6E6E"
+                  strokeLinecap="round"
+                  strokeWidth={2}
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+        >
+          <div
+            className="StatisticsInspector__InspectorSubsection-sc-1mdggai-0 fOfyAl"
+          >
+            <div
+              className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+            >
+              Manuscript
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

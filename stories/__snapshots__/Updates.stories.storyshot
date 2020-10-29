@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Updates Error 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Updates__Container-i7aaxp-4"
+    >
+      <div
+        className="Updates__UpdatesContent-i7aaxp-7 btzbyQ"
+      >
+        <div
+          className="Updates__Header-i7aaxp-5 gdDeQN"
+        >
+          Latest Updates
+        </div>
+        <div
+          className="Updates__Message-i7aaxp-12 icTTlK"
+        >
+          There was an error
+        </div>
+      </div>
+      <a
+        className="Updates__Link-i7aaxp-1 Updates__FooterLink-i7aaxp-2 jzAiQT hdcwNl"
+        href="https://example.com/login"
+      >
+        🔗 Manuscripts.io community
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Updates Loaded 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Updates__Container-i7aaxp-4"
+    >
+      <div
+        className="Updates__UpdatesContent-i7aaxp-7 btzbyQ"
+      >
+        <div
+          className="Updates__Header-i7aaxp-5 gdDeQN"
+        >
+          Latest Updates
+        </div>
+        <div
+          className="Updates__TopicItem-i7aaxp-9 knIUAT"
+          onClick={[Function]}
+        >
+          <div
+            className="Updates__Heading-i7aaxp-6 jHdtmk"
+          >
+            <div
+              className="Updates__Title-i7aaxp-3 dDvqFI"
+            >
+              Improved tooltips
+            </div>
+            <div>
+              <span
+                className="Updates__Timestamp-i7aaxp-8 iSrzUg"
+              >
+                2 years ago
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          className="Updates__TopicItem-i7aaxp-9 knIUAT"
+          onClick={[Function]}
+        >
+          <div
+            className="Updates__Heading-i7aaxp-6 jHdtmk"
+          >
+            <div
+              className="Updates__Title-i7aaxp-3 dDvqFI"
+            >
+              Much improved compatibility with Manuscripts for Mac file format
+            </div>
+            <div>
+              <span
+                className="Updates__Timestamp-i7aaxp-8 iSrzUg"
+              >
+                2 years ago
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a
+        className="Updates__Link-i7aaxp-1 Updates__FooterLink-i7aaxp-2 jzAiQT hdcwNl"
+        href="https://example.com/login"
+      >
+        🔗 Manuscripts.io community
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Updates Loading 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Updates__Container-i7aaxp-4"
+    >
+      <div
+        className="Updates__UpdatesContent-i7aaxp-7 btzbyQ"
+      >
+        <div
+          className="Updates__Header-i7aaxp-5 gdDeQN"
+        >
+          Latest Updates
+        </div>
+        <div
+          className="Updates__Message-i7aaxp-12 icTTlK"
+        >
+          Loading…
+        </div>
+      </div>
+      <a
+        className="Updates__Link-i7aaxp-1 Updates__FooterLink-i7aaxp-2 jzAiQT hdcwNl"
+        href="https://example.com/login"
+      >
+        🔗 Manuscripts.io community
+      </a>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Progress converting 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="ProgressModal__ModalBody-sc-15c2bj8-0 dkEvWz"
+      >
+        <div
+          className="ProgressModal__ModalMain-sc-15c2bj8-1 hExmqi"
+        >
+          <canvas
+            height={375}
+            width={375}
+          />
+          <div
+            className="ProgressModal__ModalStatus-sc-15c2bj8-2 DengA"
+          >
+            Converting manuscript…
+          </div>
+        </div>
+        <div
+          className="sc-iTVIwl ProgressModal__ModalFooter-sc-15c2bj8-3 fqGxrZ iSXsTP"
+        >
+          <button
+            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Progress exporting 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="ProgressModal__ModalBody-sc-15c2bj8-0 dkEvWz"
+      >
+        <div
+          className="ProgressModal__ModalMain-sc-15c2bj8-1 hExmqi"
+        >
+          <canvas
+            height={375}
+            width={375}
+          />
+          <div
+            className="ProgressModal__ModalStatus-sc-15c2bj8-2 DengA"
+          >
+            Exporting manuscript…
+          </div>
+        </div>
+        <div
+          className="sc-iTVIwl ProgressModal__ModalFooter-sc-15c2bj8-3 fqGxrZ iSXsTP"
+        >
+          <button
+            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Progress importing 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="ProgressModal__ModalBody-sc-15c2bj8-0 dkEvWz"
+      >
+        <div
+          className="ProgressModal__ModalMain-sc-15c2bj8-1 hExmqi"
+        >
+          <canvas
+            height={375}
+            width={375}
+          />
+          <div
+            className="ProgressModal__ModalStatus-sc-15c2bj8-2 DengA"
+          >
+            Importing manuscript…
+          </div>
+        </div>
+        <div
+          className="sc-iTVIwl ProgressModal__ModalFooter-sc-15c2bj8-3 fqGxrZ iSXsTP"
+        >
+          <button
+            className="sc-ezzayL sc-kLokih gjhYjP bYa-DYT"
+            disabled={true}
+            onClick={[Function]}
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

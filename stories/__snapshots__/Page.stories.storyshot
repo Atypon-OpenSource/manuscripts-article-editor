@@ -1,0 +1,272 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Page A page 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Page__PageContainer-sc-1fh7x3-2 eTxenI"
+    >
+      <main
+        className="Page__Main-sc-1fh7x3-0 evZTJm"
+        style={
+          Object {
+            "padding": "10px 20px",
+          }
+        }
+      >
+        This is the main content
+      </main>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Page A page with a project 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Page__PageContainer-sc-1fh7x3-2 eTxenI"
+    >
+      <div
+        className="Page__ViewsBar-sc-1fh7x3-3 dEbdGM"
+      >
+        <button
+          className="sc-ezzayL sc-cBoprd sc-ciSmjq Menu__MenuBarIcon-hrk9dt-1 cRSqLN kCoQtn ifa-DBT fhmNEV"
+          onClick={[Function]}
+          size={34}
+          type="button"
+        >
+          <div
+            className="sc-gIvpCV isESLn"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+          >
+            <div
+              className="OfflineIndicator__Wrapper-wvuzxx-0 cDvenR"
+            >
+              <svg
+                height={34}
+                viewBox="0 0 134 134"
+                width={34}
+              >
+                <g
+                  fill="none"
+                >
+                  <path
+                    d="M95.199 115H58.263l9.237 16 27.713-16z"
+                    fill="#FE8F1F"
+                  />
+                  <path
+                    d="M21.313 51L39.78 19.011l.007-.011h36.95L67.5 3 12.087 34.992l-.008.016L21.312 51z"
+                    fill="#2781A1"
+                  />
+                  <path
+                    d="M113.688 83L95.22 114.989l-.006.012 27.698-15.994.01-.016L113.687 83z"
+                    fill="#FE8F1F"
+                  />
+                  <path
+                    d="M39.781 19.011L21.313 51l18.475 32V19zm.007-.011l.006.004L95.213 51 76.738 19H39.8z"
+                    fill="#48BEE7"
+                  />
+                  <path
+                    d="M122.925 66.99V35.016l-.014-.023L67.5 3l9.237 16h18.476l.006.011L122.925 67l-9.237 16 9.233 15.993a.026.026 0 01.005-.008V66.999l-.001-.009z"
+                    fill="#F35143"
+                  />
+                  <path
+                    d="M12.079 35.008l-.005.007V67l9.237-16-9.232-15.992zM12.074 67v31.984c.005.007.008.016.014.023L39.788 115l-.007-.013L12.074 67zm46.189 48H39.787L67.5 131z"
+                    fill="#8DD439"
+                  />
+                  <path
+                    d="M95.213 51l18.475 32 9.237-16-27.706-47.989-.006-.011H76.737z"
+                    fill="#F474AE"
+                  />
+                  <path
+                    d="M58.263 115l-36.95-64-9.24 16 27.707 47.989.008.011h.013z"
+                    fill="#36B260"
+                  />
+                  <path
+                    d="M95.199 115h.014l-.007-.004L39.787 83l18.476 32zm18.489-32L95.213 51v64l.007-.011z"
+                    fill="#FFBD26"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </button>
+        <div
+          className="Page__ViewsSeparator-sc-1fh7x3-6 iskbLY"
+        />
+        <div
+          className="Page__IconBar-sc-1fh7x3-4 bTSUnj"
+        >
+          <div
+            className="sc-gIvpCV isESLn"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+          >
+            <a
+              aria-current={null}
+              className="Page__ViewLink-sc-1fh7x3-5 fkZxYI"
+              href="/projects/project-1"
+              onClick={[Function]}
+            >
+              <svg
+                className="Page__StyledEditProjectIcon-sc-1fh7x3-7 DZSij"
+                height={26}
+                viewBox="0 0 24 26"
+                width={24}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                  stroke="#FFF"
+                  transform="translate(4 3.5)"
+                >
+                  <rect
+                    height={20}
+                    rx={1}
+                    width={17}
+                    x={-0.5}
+                    y={-0.5}
+                  />
+                  <path
+                    d="M3.176 3.214a.009.009 0 100 .018h5.648a.009.009 0 100-.018H3.176zm0 5.429a.009.009 0 100 .018h9.648a.009.009 0 000-.018H3.176zm0 5.428a.009.009 0 100 .018h9.648a.009.009 0 100-.018H3.176z"
+                  />
+                </g>
+              </svg>
+            </a>
+          </div>
+          <div
+            className="sc-gIvpCV isESLn"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+          >
+            <a
+              aria-current={null}
+              className="Page__ViewLink-sc-1fh7x3-5 fkZxYI"
+              href="/projects/project-1/library"
+              onClick={[Function]}
+            >
+              <svg
+                className="Page__ProjectLibraryIcon-sc-1fh7x3-8 TytsK"
+                height={24}
+                viewBox="0 0 24 24"
+                width={24}
+              >
+                <path
+                  d="M10.44 4.5v3.7h-.5c-.507 0-.903.12-1.206.355a2.962 2.962 0 00-.83 1.043c-.228.454-.383.97-.466 1.548-.062.435-.102.866-.12 1.292h3.176v6.994H3.5v-6.494c0-1.12.122-2.176.365-3.17.248-1.01.631-1.901 1.152-2.672a6.026 6.026 0 012.029-1.882C7.88 4.737 8.848 4.5 9.94 4.5h.5zm9.882 0v3.7h-.5c-.507 0-.903.12-1.206.355a2.962 2.962 0 00-.83 1.043c-.228.454-.383.97-.466 1.548-.062.435-.102.866-.12 1.292h3.176v6.994h-6.994v-6.494c0-1.12.122-2.176.365-3.17.248-1.01.631-1.901 1.152-2.672a6.026 6.026 0 012.029-1.882c.835-.477 1.802-.714 2.894-.714h.5zM9.44 5.52c-.715.059-1.346.247-1.898.562a5.026 5.026 0 00-1.697 1.574c-.451.67-.788 1.452-1.008 2.35a12.276 12.276 0 00-.337 2.932v5.494h4.994v-4.994H6.308v-.5c0-.636.047-1.28.14-1.934.097-.681.284-1.3.56-1.854a3.956 3.956 0 011.114-1.387 2.708 2.708 0 011.318-.53V5.52zm9.882 0c-.715.059-1.346.247-1.898.562a5.026 5.026 0 00-1.697 1.574c-.451.67-.788 1.452-1.008 2.35a12.276 12.276 0 00-.337 2.932v5.494h4.994v-4.994H16.19v-.5c0-.636.047-1.28.14-1.934.097-.681.284-1.3.56-1.854a3.956 3.956 0 011.114-1.387 2.708 2.708 0 011.318-.53V5.52z"
+                  fill="#FFF"
+                />
+              </svg>
+            </a>
+          </div>
+          <div
+            className="sc-gIvpCV isESLn"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+          >
+            <a
+              aria-current={null}
+              className="Page__ViewLink-sc-1fh7x3-5 fkZxYI"
+              href="/projects/project-1/collaborators"
+              onClick={[Function]}
+            >
+              <svg
+                className="Page__ProjectContributorsIcon-sc-1fh7x3-9 dCHLVB"
+                data-cy="collaborators"
+                height={24}
+                viewBox="0 0 24 24"
+                width={24}
+              >
+                <defs>
+                  <circle
+                    cx={9}
+                    cy={9}
+                    id="svg-contributorsicon-a"
+                    r={9}
+                  />
+                </defs>
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                  transform="translate(3 3)"
+                >
+                  <mask
+                    fill="#fff"
+                    id="svg-contributorsicon-b"
+                  >
+                    <use
+                      xlinkHref="#svg-contributorsicon-a"
+                    />
+                  </mask>
+                  <circle
+                    cx={9}
+                    cy={9}
+                    r={9.5}
+                    stroke="#FFF"
+                  />
+                  <path
+                    d="M7.135 12.252v.975c0 .378-.36.733-.8.794l-1.799.245c-1.326.182-2.461 1.246-2.536 2.38C2 16.645 6.25 20 8.874 20 11.249 20 17 16.645 17 16.645c-.373-1.07-1.746-2.103-3.067-2.308l-1.947-.302c-.44-.068-.797-.43-.797-.808v-.975c.465-.452.604-1.145.766-1.906.255.05.33-.235.47-.79.14-.553.577-1.12.182-1.191a.44.44 0 00-.149-.003l.15-1.86c.063-.778-.335-1.637-.916-1.845-.963-.343-1.26-.526-1.86-.624-.598-.098-1.186.04-1.809.208-.622.169-1.186.607-1.652.844-.465.237-.707.772-.655 1.416l.15 1.86a.442.442 0 00-.142.004c-.395.07.042.638.182 1.192.14.554.215.84.434.8.196.751.33 1.444.795 1.895z"
+                    mask="url(#svg-contributorsicon-b)"
+                    stroke="#FFF"
+                  />
+                </g>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <button
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Support__Button-sc-1je7ukb-0 cRSqLN eiwokw ifa-DBT gdRdUd"
+            onClick={[Function]}
+            size={56}
+            type="button"
+          >
+            <svg
+              className="Support__StyledSupportIcon-sc-1je7ukb-1 czcAQx"
+              height={32}
+              viewBox="0 0 22 23"
+              width={32}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+                stroke="#1A9BC7"
+                strokeWidth={0.5}
+                transform="translate(1 1.5)"
+              >
+                <path
+                  d="M1.09 8.182A9.102 9.102 0 018.183 1.09m-.001 17.82a9.103 9.103 0 01-7.091-7.092m17.819 0a9.103 9.103 0 01-7.092 7.091m0-17.819a9.103 9.103 0 017.091 7.092"
+                />
+                <path
+                  d="M8.182 5.833V1.1a1.1 1.1 0 011.1-1.1h1.436a1.1 1.1 0 011.1 1.1v4.733h0m2.349 2.349H18.9a1.1 1.1 0 011.1 1.1v1.436a1.1 1.1 0 01-1.1 1.1h-4.733 0m-2.349 2.349V18.9a1.1 1.1 0 01-1.1 1.1H9.282a1.1 1.1 0 01-1.1-1.1v-4.733h0m-2.349-2.349H1.1a1.1 1.1 0 01-1.1-1.1V9.282a1.1 1.1 0 011.1-1.1h4.733"
+                />
+                <circle
+                  cx={10}
+                  cy={10}
+                  r={4.545}
+                  strokeLinecap="square"
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <main
+        className="Page__Main-sc-1fh7x3-0 evZTJm"
+        style={
+          Object {
+            "padding": "10px 20px",
+          }
+        }
+      >
+        This is the main content
+      </main>
+    </div>
+  </div>
+</div>
+`;

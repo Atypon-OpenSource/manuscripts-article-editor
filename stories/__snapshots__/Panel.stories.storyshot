@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Panel combined 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Page__PageContainer-sc-1fh7x3-2 eTxenI"
+    >
+      <div
+        style={
+          Object {
+            "height": "100%",
+            "position": "relative",
+            "width": 200,
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "height": 200,
+                "position": "relative",
+                "width": "100%",
+              }
+            }
+          >
+            <p>
+              This is a panel
+            </p>
+            <div
+              className="sc-dkiTmt sc-gXZlrW sc-fxFQrc kreIgV gJMaBd idKCfO"
+              onMouseDown={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+            >
+              <button
+                aria-expanded={true}
+                className="sc-ecQjpJ sc-hKiGeM sc-exqJjn jhCzoo bBRZgP fXNbFr"
+                onClick={[Function]}
+                onMouseDown={[Function]}
+              />
+            </div>
+          </div>
+          <div
+            style={
+              Object {
+                "paddingTop": 20,
+              }
+            }
+          >
+            This is another section
+          </div>
+        </div>
+        <div
+          className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+          onMouseDown={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <button
+            aria-expanded={true}
+            className="sc-ecQjpJ sc-jlQhLH sc-iXqwbG jhCzoo hXlbRk GvwMR"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          />
+        </div>
+      </div>
+      <main
+        className="Page__Main-sc-1fh7x3-0 evZTJm"
+      >
+        <p
+          style={
+            Object {
+              "paddingLeft": 20,
+            }
+          }
+        >
+          This is the main content.
+        </p>
+      </main>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Panel row 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Page__PageContainer-sc-1fh7x3-2 eTxenI"
+    >
+      <div
+        style={
+          Object {
+            "height": "100%",
+            "position": "relative",
+            "width": 200,
+          }
+        }
+      >
+        <p
+          style={
+            Object {
+              "paddingRight": 20,
+            }
+          }
+        >
+          This is a panel at the start
+        </p>
+        <div
+          className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+          onMouseDown={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <button
+            aria-expanded={true}
+            className="sc-ecQjpJ sc-jlQhLH sc-iXqwbG jhCzoo hXlbRk GvwMR"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          />
+        </div>
+      </div>
+      <main
+        className="Page__Main-sc-1fh7x3-0 evZTJm"
+      >
+        <p
+          style={
+            Object {
+              "paddingLeft": 20,
+            }
+          }
+        >
+          This is the main content.
+        </p>
+      </main>
+      <div
+        style={
+          Object {
+            "height": "100%",
+            "position": "relative",
+            "width": 200,
+          }
+        }
+      >
+        <div
+          className="sc-dkiTmt sc-cVJhCs sc-kHVJdr kreIgV gQBCRV gfsIZg"
+          onMouseDown={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <button
+            aria-expanded={true}
+            className="sc-ecQjpJ sc-jlQhLH sc-hYIrON jhCzoo hXlbRk fqIGrr"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          />
+        </div>
+        <p
+          style={
+            Object {
+              "paddingLeft": 20,
+            }
+          }
+        >
+          This is a panel at the end
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

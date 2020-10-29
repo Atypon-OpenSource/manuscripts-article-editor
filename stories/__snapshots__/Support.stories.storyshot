@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Support Menu 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Supportstories__Container-sc-5geqny-0 kHmvYd"
+    >
+      <div>
+        <button
+          className="sc-ezzayL sc-cBoprd sc-ciSmjq Support__Button-sc-1je7ukb-0 cRSqLN eiwokw ifa-DBT gdRdUd"
+          onClick={[Function]}
+          size={56}
+          type="button"
+        >
+          <svg
+            className="Support__StyledSupportIcon-sc-1je7ukb-1 czcAQx"
+            height={32}
+            viewBox="0 0 22 23"
+            width={32}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+              stroke="#1A9BC7"
+              strokeWidth={0.5}
+              transform="translate(1 1.5)"
+            >
+              <path
+                d="M1.09 8.182A9.102 9.102 0 018.183 1.09m-.001 17.82a9.103 9.103 0 01-7.091-7.092m17.819 0a9.103 9.103 0 01-7.092 7.091m0-17.819a9.103 9.103 0 017.091 7.092"
+              />
+              <path
+                d="M8.182 5.833V1.1a1.1 1.1 0 011.1-1.1h1.436a1.1 1.1 0 011.1 1.1v4.733h0m2.349 2.349H18.9a1.1 1.1 0 011.1 1.1v1.436a1.1 1.1 0 01-1.1 1.1h-4.733 0m-2.349 2.349V18.9a1.1 1.1 0 01-1.1 1.1H9.282a1.1 1.1 0 01-1.1-1.1v-4.733h0m-2.349-2.349H1.1a1.1 1.1 0 01-1.1-1.1V9.282a1.1 1.1 0 011.1-1.1h4.733"
+              />
+              <circle
+                cx={10}
+                cy={10}
+                r={4.545}
+                strokeLinecap="square"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div>
+        <button
+          className="sc-ezzayL sc-cBoprd sc-ciSmjq Support__Button-sc-1je7ukb-0 cRSqLN eiwokw ifa-DBT gdRdUd"
+          onClick={[Function]}
+          size={56}
+          type="button"
+        >
+          <svg
+            className="Support__StyledSupportIcon-sc-1je7ukb-1 czcAQx"
+            height={32}
+            viewBox="0 0 22 23"
+            width={32}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+              stroke="#1A9BC7"
+              strokeWidth={0.5}
+              transform="translate(1 1.5)"
+            >
+              <path
+                d="M1.09 8.182A9.102 9.102 0 018.183 1.09m-.001 17.82a9.103 9.103 0 01-7.091-7.092m17.819 0a9.103 9.103 0 01-7.092 7.091m0-17.819a9.103 9.103 0 017.091 7.092"
+              />
+              <path
+                d="M8.182 5.833V1.1a1.1 1.1 0 011.1-1.1h1.436a1.1 1.1 0 011.1 1.1v4.733h0m2.349 2.349H18.9a1.1 1.1 0 011.1 1.1v1.436a1.1 1.1 0 01-1.1 1.1h-4.733 0m-2.349 2.349V18.9a1.1 1.1 0 01-1.1 1.1H9.282a1.1 1.1 0 01-1.1-1.1v-4.733h0m-2.349-2.349H1.1a1.1 1.1 0 01-1.1-1.1V9.282a1.1 1.1 0 011.1-1.1h4.733"
+              />
+              <circle
+                cx={10}
+                cy={10}
+                r={4.545}
+                strokeLinecap="square"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

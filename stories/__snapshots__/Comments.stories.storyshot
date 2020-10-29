@@ -1,0 +1,579 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Projects/Comments with comments 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 400,
+        }
+      }
+    >
+      <div
+        className="CommentList__CommentListContainer-sc-1zszu3-0 fNkanP"
+      >
+        <div>
+          <div
+            className="CommentList__CommentThread-sc-1zszu3-2 fLNfvX"
+          >
+            <div
+              className="CommentList__Container-sc-1zszu3-1 gAMUaB"
+            >
+              <div
+                className="CommentList__CommentHeader-sc-1zszu3-3 iPbDGe"
+              >
+                <div
+                  className="CommentUser__CommentUserContainer-sc-2wx110-0 fzuavb"
+                >
+                  <div
+                    className="sc-jffIyK kbBVcu"
+                  >
+                    <img
+                      className="sc-eJoaVz bbaKRF"
+                      onError={[Function]}
+                      size={20}
+                      src="test-file-stub"
+                    />
+                  </div>
+                  <div
+                    className="CommentUser__CommentUserName-sc-2wx110-1 cgDaWw"
+                  >
+                    by 
+                    Janine Melnitz
+                  </div>
+                </div>
+                2 years ago
+              </div>
+              <div>
+                <div
+                  className="CommentBody__CommentContent-kvz3xa-3 jroXCP"
+                >
+                  <div
+                    className="CommentBody__StyledCommentViewer-kvz3xa-5 ihbNUw"
+                  />
+                </div>
+                <div
+                  className="CommentBody__CommentFooter-kvz3xa-0 clAOdA"
+                >
+                  <span>
+                    <button
+                      className="CommentBody__ActionButton-kvz3xa-2 gfPDCx"
+                      onClick={[Function]}
+                      title="Edit comment"
+                    >
+                      <svg
+                        height={20}
+                        viewBox="0 0 21 20"
+                        width={21}
+                      >
+                        <path
+                          d="M12.706 5.336l2.847 2.862-7.208 7.244-2.847-2.861 7.208-7.245zm5.008-.69l-1.27-1.276a1.256 1.256 0 00-1.78 0l-1.217 1.222 2.848 2.862 1.42-1.426a.98.98 0 000-1.382zM4.008 16.603a.325.325 0 00.392.388l3.173-.774-2.846-2.862-.72 3.248z"
+                          fill="#6E6E6E"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      className="CommentBody__ActionButton-kvz3xa-2 gfPDCx"
+                      onClick={[Function]}
+                      title="Reply"
+                    >
+                      <svg
+                        height={20}
+                        viewBox="0 0 20 20"
+                        width={20}
+                      >
+                        <path
+                          d="M6.628 10.03L4 7.015 6.628 4M15 16.032c0-4.699 0-10-10-8.88"
+                          fill="none"
+                          stroke="#6E6E6E"
+                          strokeLinecap="round"
+                          strokeWidth={2}
+                        />
+                      </svg>
+                    </button>
+                  </span>
+                  <span>
+                    <button
+                      className="CommentBody__ActionButton-kvz3xa-2 gfPDCx"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Delete comment"
+                    >
+                      <svg
+                        height={20}
+                        viewBox="0 0 20 20"
+                        width={20}
+                      >
+                        <path
+                          d="M15.494 3.375h-3.539c-.025-.21-.241-.375-.504-.375H8.548c-.262 0-.478.165-.503.375H4.506c-.28 0-.506.186-.506.417v.791c0 .23.227.417.506.417h10.988c.28 0 .506-.186.506-.417v-.791c0-.23-.227-.417-.506-.417zM5 6v10.491c0 .281.23.509.513.509h8.974a.51.51 0 00.513-.509V6H5zm3.753 7.874c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563zm3.624 0c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563z"
+                          fill="#6E6E6E"
+                        />
+                      </svg>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Projects/Comments without comments 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 400,
+        }
+      }
+    >
+      <div
+        className="CommentList__PlaceholderContainer-sc-1zszu3-6 ifdIFy"
+      >
+        <svg
+          height={202}
+          viewBox="0 0 395 302"
+          width={295}
+        >
+          <defs>
+            <path
+              d="M9.705 28.079h14.44a9 9 0 019 9v45.37c0 8.836-7.163 16-16 16h-.44c-8.836 0-16-7.164-16-16v-45.37a9 9 0 019-9z"
+              id="svg-authorplaceholder-a"
+            />
+            <path
+              d="M21.491 5.656l11.13 24.933a1 1 0 01-.912 1.408H2.142a1 1 0 01-.913-1.408L12.36 5.656a5 5 0 019.132 0z"
+              id="svg-authorplaceholder-c"
+            />
+            <path
+              d="M9.896 35.667h23.208a9 9 0 019 9v61.68a6 6 0 01-6 6H6.896a6 6 0 01-6-6v-61.68a9 9 0 019-9z"
+              id="svg-authorplaceholder-e"
+            />
+            <path
+              d="M26.066 4.42l15.542 34.817a1 1 0 01-.913 1.407H2.305a1 1 0 01-.913-1.407L16.934 4.42a5 5 0 019.132 0z"
+              id="svg-authorplaceholder-g"
+            />
+            <path
+              d="M9.705 28.079h14.44a9 9 0 019 9v45.37c0 8.836-7.163 16-16 16h-.44c-8.836 0-16-7.164-16-16v-45.37a9 9 0 019-9z"
+              id="svg-authorplaceholder-i"
+            />
+            <path
+              d="M21.491 5.656l11.13 24.933a1 1 0 01-.912 1.408H2.142a1 1 0 01-.913-1.408L12.36 5.656a5 5 0 019.132 0z"
+              id="svg-authorplaceholder-k"
+            />
+            <path
+              d="M9.896 35.667h23.208a9 9 0 019 9v61.68a6 6 0 01-6 6H6.896a6 6 0 01-6-6v-61.68a9 9 0 019-9z"
+              id="svg-authorplaceholder-m"
+            />
+            <path
+              d="M26.066 4.42l15.542 34.817a1 1 0 01-.913 1.407H2.305a1 1 0 01-.913-1.407L16.934 4.42a5 5 0 019.132 0z"
+              id="svg-authorplaceholder-o"
+            />
+          </defs>
+          <g
+            fill="none"
+            fillRule="evenodd"
+          >
+            <path
+              d="M214.608 9.993l94.108 54.333a37 37 0 0118.5 32.043v108.666a37 37 0 01-18.5 32.043l-94.108 54.333a37 37 0 01-37 0L83.5 237.078A37 37 0 0165 205.035V96.37a37 37 0 0118.5-32.043l94.108-54.333a37 37 0 0137 0z"
+              fill="#F2F2F2"
+              opacity={0.6}
+            />
+            <g
+              transform="translate(52 32)"
+            >
+              <g
+                transform="translate(0 16.922)"
+              >
+                <rect
+                  fill="#D8D8D8"
+                  height={2.713}
+                  rx={1.356}
+                  width={54.251}
+                  x={138.341}
+                  y={18.988}
+                />
+                <rect
+                  fill="#949494"
+                  height={2.713}
+                  rx={1.356}
+                  width={9.042}
+                  x={201.635}
+                  y={18.988}
+                />
+                <rect
+                  fill="#D8D8D8"
+                  height={2.713}
+                  rx={1.356}
+                  width={45.21}
+                  y={42.497}
+                />
+                <rect
+                  fill="#D8D8D8"
+                  height={2.713}
+                  rx={1.356}
+                  width={45.21}
+                  x={244.132}
+                  y={169.084}
+                />
+                <rect
+                  fill="#D8D8D8"
+                  height={2.713}
+                  rx={1.356}
+                  width={42.34}
+                  x={86.503}
+                  y={191.743}
+                />
+              </g>
+              <path
+                d="M116.79 12.66a1.117 1.117 0 01-1.556.275l-3.354-2.35-2.35 3.355a1.117 1.117 0 11-1.83-1.281l2.35-3.355-3.356-2.349a1.117 1.117 0 111.282-1.83l3.355 2.35 2.349-3.355a1.117 1.117 0 111.83 1.28l-2.35 3.356 3.355 2.349c.505.354.628 1.05.274 1.555z"
+                fill="#949494"
+              />
+              <path
+                d="M250.788 111.497c.596.16.95.772.79 1.368l-1.06 3.956 3.956 1.06a1.117 1.117 0 11-.579 2.158l-3.956-1.06-1.06 3.956a1.117 1.117 0 11-2.157-.579l1.06-3.956-3.956-1.06a1.117 1.117 0 01.578-2.157l3.956 1.06 1.06-3.956c.16-.596.772-.95 1.368-.79zM149.596 76.79a.877.877 0 01.424 1.166l-1.36 2.915 2.917 1.36a.878.878 0 11-.742 1.592l-2.917-1.361-1.36 2.917a.878.878 0 01-1.59-.742l1.36-2.917-2.917-1.359a.878.878 0 11.742-1.59l2.916 1.359 1.36-2.916a.878.878 0 011.167-.425zM42.458 180.706a1.037 1.037 0 01-.643 1.319l-3.596 1.237 1.239 3.596a1.037 1.037 0 11-1.962.676l-1.238-3.596-3.596 1.238a1.037 1.037 0 01-.675-1.961l3.596-1.238-1.238-3.596a1.037 1.037 0 111.961-.675l1.238 3.595 3.596-1.238a1.037 1.037 0 011.318.643z"
+                fill="#D8D8D8"
+              />
+              <path
+                d="M210.909 181.989a.878.878 0 01-.216 1.222l-2.635 1.845 1.845 2.637a.878.878 0 11-1.438 1.006l-1.845-2.636-2.636 1.846a.878.878 0 01-1.007-1.438l2.636-1.846-1.846-2.635a.878.878 0 111.438-1.007l1.846 2.635 2.636-1.845a.878.878 0 011.222.216z"
+                fill="#949494"
+              />
+              <circle
+                cx={167.831}
+                cy={221.64}
+                r={5.975}
+                stroke="#949494"
+                strokeWidth={2.4}
+              />
+              <circle
+                cx={288.246}
+                cy={71.731}
+                r={3.665}
+                stroke="#949494"
+                strokeWidth={2.4}
+              />
+            </g>
+            <g
+              transform="translate(171 91)"
+            >
+              <g
+                transform="rotate(-150 42.305 49.169)"
+              >
+                <mask
+                  fill="#fff"
+                  id="svg-authorplaceholder-b"
+                >
+                  <use
+                    xlinkHref="#svg-authorplaceholder-a"
+                  />
+                </mask>
+                <path
+                  d="M9.705 26.579h14.44c5.8 0 10.5 4.7 10.5 10.5v45.37c0 9.665-7.834 17.5-17.5 17.5h-.44c-9.665 0-17.5-7.835-17.5-17.5v-45.37c0-5.8 4.701-10.5 10.5-10.5z"
+                  stroke="#D8D8D8"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M4.228 28.022h14.44a9 9 0 019 9v39.63c0 8.958-7.262 16.22-16.22 16.22-8.958 0-16.22-7.262-16.22-16.22v-39.63a9 9 0 019-9z"
+                  fill="#FFF"
+                  mask="url(#svg-authorplaceholder-b)"
+                />
+                <mask
+                  fill="#fff"
+                  id="svg-authorplaceholder-d"
+                >
+                  <use
+                    xlinkHref="#svg-authorplaceholder-c"
+                  />
+                </mask>
+                <path
+                  d="M22.86 5.045l11.132 24.932a2.5 2.5 0 01-2.283 3.52H2.142a2.5 2.5 0 01-2.283-3.52L10.99 5.045a6.5 6.5 0 0111.87 0z"
+                  stroke="#D8D8D8"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M20.299 5.308l7.803 30.1a1 1 0 01-.968 1.25H-2.648a1 1 0 01-.905-1.425L10.934 4.434a5 5 0 019.365.874z"
+                  fill="#FFF"
+                  mask="url(#svg-authorplaceholder-d)"
+                />
+                <path
+                  d="M-1.177-8.759v21.55h47.77v-21.55h-47.77z"
+                  mask="url(#svg-authorplaceholder-d)"
+                  stroke="#D8D8D8"
+                  strokeWidth={3}
+                />
+                <rect
+                  fill="#EDF2F5"
+                  height={45}
+                  rx={6}
+                  stroke="#D8D8D8"
+                  strokeWidth={3}
+                  width={12}
+                  x={25.895}
+                  y={47.235}
+                />
+              </g>
+              <rect
+                fill="#D8D8D8"
+                height={2.713}
+                rx={1.356}
+                width={45.21}
+                x={42.228}
+                y={103.347}
+              />
+            </g>
+            <g
+              transform="translate(121 86)"
+            >
+              <rect
+                fill="#D8D8D8"
+                height={2.713}
+                rx={1.356}
+                width={45.21}
+                x={26.228}
+                y={108.347}
+              />
+              <rect
+                fill="#D8D8D8"
+                height={2.713}
+                rx={1.356}
+                width={7.234}
+                x={9.952}
+                y={108.347}
+              />
+              <g
+                transform="rotate(150 33.759 61.49)"
+              >
+                <mask
+                  fill="#fff"
+                  id="svg-authorplaceholder-f"
+                >
+                  <use
+                    xlinkHref="#svg-authorplaceholder-e"
+                  />
+                </mask>
+                <path
+                  d="M9.896 34.167h23.208c5.8 0 10.5 4.701 10.5 10.5v61.68a7.5 7.5 0 01-7.5 7.5H6.896a7.5 7.5 0 01-7.5-7.5v-61.68c0-5.799 4.7-10.5 10.5-10.5z"
+                  stroke="#D8D8D8"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M2.938 35.596h23.208a9 9 0 019 9v54.68a6 6 0 01-6 6H-.062a6 6 0 01-6-6v-54.68a9 9 0 019-9z"
+                  fill="#FFF"
+                  mask="url(#svg-authorplaceholder-f)"
+                />
+                <path
+                  d="M-3.902 100.196h49v23h-49z"
+                  fill="#EDF2F5"
+                  mask="url(#svg-authorplaceholder-f)"
+                  stroke="#D8D8D8"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M-3 92.634h49v23H-3z"
+                  mask="url(#svg-authorplaceholder-f)"
+                  stroke="#D8D8D8"
+                  strokeWidth={3}
+                />
+                <mask
+                  fill="#fff"
+                  id="svg-authorplaceholder-h"
+                >
+                  <use
+                    xlinkHref="#svg-authorplaceholder-g"
+                  />
+                </mask>
+                <path
+                  d="M27.435 3.81l15.543 34.815a2.5 2.5 0 01-2.283 3.52H2.305a2.5 2.5 0 01-2.283-3.52L15.565 3.81a6.5 6.5 0 0111.87 0z"
+                  stroke="#D8D8D8"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M24.846 3.121l10.939 42.194a1 1 0 01-.968 1.251H-3.789a1 1 0 01-.905-1.425L15.481 2.248a5 5 0 019.365.873z"
+                  fill="#FFF"
+                  mask="url(#svg-authorplaceholder-h)"
+                />
+                <path
+                  d="M5.74-12.442h34.008V14.93H5.74z"
+                  fill="#D8D8D8"
+                  mask="url(#svg-authorplaceholder-h)"
+                />
+                <path
+                  d="M13.13 92.32V43.309m17 49.011V43.309"
+                  stroke="#D8D8D8"
+                  strokeLinecap="square"
+                  strokeWidth={3}
+                />
+              </g>
+            </g>
+            <g
+              transform="translate(171 91)"
+            >
+              <g
+                transform="rotate(-150 42.305 49.169)"
+              >
+                <mask
+                  fill="#fff"
+                  id="svg-authorplaceholder-j"
+                >
+                  <use
+                    xlinkHref="#svg-authorplaceholder-i"
+                  />
+                </mask>
+                <path
+                  d="M9.705 26.579h14.44c5.8 0 10.5 4.7 10.5 10.5v45.37c0 9.665-7.834 17.5-17.5 17.5h-.44c-9.665 0-17.5-7.835-17.5-17.5v-45.37c0-5.8 4.701-10.5 10.5-10.5z"
+                  stroke="#949494"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M4.228 28.022h14.44a9 9 0 019 9v39.63c0 8.958-7.262 16.22-16.22 16.22-8.958 0-16.22-7.262-16.22-16.22v-39.63a9 9 0 019-9z"
+                  fill="#FFF"
+                  mask="url(#svg-authorplaceholder-j)"
+                />
+                <mask
+                  fill="#fff"
+                  id="svg-authorplaceholder-l"
+                >
+                  <use
+                    xlinkHref="#svg-authorplaceholder-k"
+                  />
+                </mask>
+                <path
+                  d="M22.86 5.045l11.132 24.932a2.5 2.5 0 01-2.283 3.52H2.142a2.5 2.5 0 01-2.283-3.52L10.99 5.045a6.5 6.5 0 0111.87 0z"
+                  stroke="#949494"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M20.299 5.308l7.803 30.1a1 1 0 01-.968 1.25H-2.648a1 1 0 01-.905-1.425L10.934 4.434a5 5 0 019.365.874z"
+                  fill="#FFF"
+                  mask="url(#svg-authorplaceholder-l)"
+                />
+                <path
+                  d="M-1.177-8.759v21.55h47.77v-21.55h-47.77z"
+                  mask="url(#svg-authorplaceholder-l)"
+                  stroke="#949494"
+                  strokeWidth={3}
+                />
+                <rect
+                  fill="#EDF2F5"
+                  height={45}
+                  rx={6}
+                  stroke="#949494"
+                  strokeWidth={3}
+                  width={12}
+                  x={25.895}
+                  y={47.235}
+                />
+              </g>
+              <rect
+                fill="#949494"
+                height={2.713}
+                rx={1.356}
+                width={45.21}
+                x={42.228}
+                y={103.347}
+              />
+            </g>
+            <g
+              transform="translate(121 86)"
+            >
+              <rect
+                fill="#949494"
+                height={2.713}
+                rx={1.356}
+                width={45.21}
+                x={26.228}
+                y={108.347}
+              />
+              <rect
+                fill="#949494"
+                height={2.713}
+                rx={1.356}
+                width={7.234}
+                x={9.952}
+                y={108.347}
+              />
+              <g
+                transform="rotate(150 33.759 61.49)"
+              >
+                <mask
+                  fill="#fff"
+                  id="svg-authorplaceholder-n"
+                >
+                  <use
+                    xlinkHref="#svg-authorplaceholder-m"
+                  />
+                </mask>
+                <path
+                  d="M9.896 34.167h23.208c5.8 0 10.5 4.701 10.5 10.5v61.68a7.5 7.5 0 01-7.5 7.5H6.896a7.5 7.5 0 01-7.5-7.5v-61.68c0-5.799 4.7-10.5 10.5-10.5z"
+                  stroke="#949494"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M2.938 35.596h23.208a9 9 0 019 9v54.68a6 6 0 01-6 6H-.062a6 6 0 01-6-6v-54.68a9 9 0 019-9z"
+                  fill="#FFF"
+                  mask="url(#svg-authorplaceholder-n)"
+                />
+                <path
+                  d="M-3.902 100.196h49v23h-49z"
+                  fill="#EDF2F5"
+                  mask="url(#svg-authorplaceholder-n)"
+                  stroke="#949494"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M-3 92.634h49v23H-3z"
+                  mask="url(#svg-authorplaceholder-n)"
+                  stroke="#949494"
+                  strokeWidth={3}
+                />
+                <mask
+                  fill="#fff"
+                  id="svg-authorplaceholder-p"
+                >
+                  <use
+                    xlinkHref="#svg-authorplaceholder-o"
+                  />
+                </mask>
+                <path
+                  d="M27.435 3.81l15.543 34.815a2.5 2.5 0 01-2.283 3.52H2.305a2.5 2.5 0 01-2.283-3.52L15.565 3.81a6.5 6.5 0 0111.87 0z"
+                  stroke="#949494"
+                  strokeWidth={3}
+                />
+                <path
+                  d="M24.846 3.121l10.939 42.194a1 1 0 01-.968 1.251H-3.789a1 1 0 01-.905-1.425L15.481 2.248a5 5 0 019.365.873z"
+                  fill="#FFF"
+                  mask="url(#svg-authorplaceholder-p)"
+                />
+                <path
+                  d="M5.74-12.442h34.008V14.93H5.74z"
+                  fill="#949494"
+                  mask="url(#svg-authorplaceholder-p)"
+                />
+                <path
+                  d="M13.13 92.32V43.309m17 49.011V43.309"
+                  stroke="#949494"
+                  strokeLinecap="square"
+                  strokeWidth={3}
+                />
+              </g>
+            </g>
+          </g>
+        </svg>
+        <div
+          className="CommentList__PlaceholderMessage-sc-1zszu3-7 jEwFyA"
+        >
+          Discuss this manuscript with your collaborators by creating a comment.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

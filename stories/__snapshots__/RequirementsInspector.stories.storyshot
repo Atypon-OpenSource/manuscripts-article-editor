@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Inspector/Requirements validations 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="RequirementsInspector__AlertMessage-sc-1hclsh6-0 eIOBNq"
+    >
+      You need to select a template to display the quality report check
+    </div>
+  </div>
+</div>
+`;

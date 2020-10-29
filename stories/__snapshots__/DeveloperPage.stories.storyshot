@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots DeveloperPage default 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="DeveloperPageContainer__DropdownAction-uurek7-0 kgsWCJ"
+        onClick={[Function]}
+      >
+        Create token
+      </div>
+      <div
+        className="DeveloperPageContainer__DropdownAction-uurek7-0 kgsWCJ"
+        onClick={[Function]}
+      >
+        Create user profile
+      </div>
+      <div
+        className="DeveloperPageContainer__DropdownAction-uurek7-0 kgsWCJ"
+        onClick={[Function]}
+      >
+        Delete database
+      </div>
+      <div
+        className="DeveloperPageContainer__DropdownInfo-uurek7-1 hYkkMU"
+      >
+        <a
+          className="DeveloperPageContainer__PlainLink-uurek7-2 dVZegl"
+          href="https://127.0.0.1/app/version"
+        >
+          API version
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

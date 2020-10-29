@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Placeholders Manuscript 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Placeholders__PlaceholderContainer-sc-1ln90vo-0 bxKpSD"
+    >
+      <canvas
+        height={375}
+        width={375}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Placeholders Project 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Placeholders__PlaceholderContainer-sc-1ln90vo-0 bxKpSD"
+    >
+      <canvas
+        height={375}
+        width={375}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Placeholders Project Syncing 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Placeholders__PlaceholderContainer-sc-1ln90vo-0 bxKpSD"
+    >
+      <div
+        className="Placeholders__ProgressGroup-sc-1ln90vo-1 gPDDjt"
+      >
+        <canvas
+          height={375}
+          width={375}
+        />
+        <div
+          className="Placeholders__ProgressMessage-sc-1ln90vo-2 gbOAid"
+        >
+          Syncing project data…
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

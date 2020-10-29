@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Library Sidebar Sidebar 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "height": "100%",
+          "position": "relative",
+          "width": 260,
+        }
+      }
+    >
+      <div
+        className="Sidebar-v95ywm-0 dinrsd"
+        data-cy="sidebar"
+      >
+        <div
+          className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+        >
+          <div
+            className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+          >
+            Library
+          </div>
+        </div>
+        <div
+          className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+        >
+          <div
+            className="LibrarySidebar__SectionContainer-sc-1hhfek3-0 LIwfz"
+          >
+            <a
+              aria-current={null}
+              className="LibrarySidebar__SectionLink-sc-1hhfek3-4 LibrarySidebar__SectionTitleLink-sc-1hhfek3-5 eUXOBN lPRyr"
+              href="/projects/MPProject:1/library/project"
+              onClick={[Function]}
+            >
+              <svg
+                height={12}
+                viewBox="0 0 12 12"
+                width={12}
+              >
+                <path
+                  d="M4.462 1.923l4 4-4 4"
+                  fill="none"
+                  stroke="#6E6E6E"
+                  strokeWidth={2}
+                />
+              </svg>
+              <div
+                className="LibrarySidebar__SectionTitle-sc-1hhfek3-2 dJQhuM"
+              >
+                Project Library
+              </div>
+            </a>
+          </div>
+          <div
+            className="LibrarySidebar__SectionContainer-sc-1hhfek3-0 LIwfz"
+          >
+            <a
+              aria-current={null}
+              className="LibrarySidebar__SectionLink-sc-1hhfek3-4 LibrarySidebar__SectionTitleLink-sc-1hhfek3-5 eUXOBN lPRyr"
+              href="/projects/MPProject:1/library/global/MPLibrary:1/MPLibraryCollection:4"
+              onClick={[Function]}
+            >
+              <svg
+                height={12}
+                viewBox="0 0 12 12"
+                width={12}
+              >
+                <path
+                  d="M4.462 1.923l4 4-4 4"
+                  fill="none"
+                  stroke="#6E6E6E"
+                  strokeWidth={2}
+                />
+              </svg>
+              <div
+                className="LibrarySidebar__SectionTitle-sc-1hhfek3-2 dJQhuM"
+              >
+                My Library
+              </div>
+            </a>
+          </div>
+          <div
+            className="LibrarySidebar__SectionContainer-sc-1hhfek3-0 LIwfz"
+          >
+            <a
+              aria-current={null}
+              className="LibrarySidebar__SectionLink-sc-1hhfek3-4 LibrarySidebar__SectionTitleLink-sc-1hhfek3-5 eUXOBN lPRyr"
+              href="/projects/MPProject:1/library/search"
+              onClick={[Function]}
+            >
+              <svg
+                height={12}
+                viewBox="0 0 12 12"
+                width={12}
+              >
+                <path
+                  d="M4.462 1.923l4 4-4 4"
+                  fill="none"
+                  stroke="#6E6E6E"
+                  strokeWidth={2}
+                />
+              </svg>
+              <div
+                className="LibrarySidebar__SectionTitle-sc-1hhfek3-2 dJQhuM"
+              >
+                Search Online
+              </div>
+            </a>
+          </div>
+        </div>
+        <div
+          className="SidebarHeaderFooter__SidebarFooter-sc-6j8srx-3 kLpROE"
+        >
+          <div>
+            <div
+              className="LibrarySidebar__FooterItem-sc-1hhfek3-6 kcltmV"
+            >
+              <button
+                className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jxNfPW"
+                onClick={[Function]}
+                size="small"
+                type="button"
+              >
+                <svg
+                  className="AddButton__RegularAddIcon-sc-16tykoq-0"
+                  height={40}
+                  viewBox="0 0 32 34"
+                  width={40}
+                >
+                  <g
+                    fill="none"
+                    fillRule="evenodd"
+                  >
+                    <path
+                      d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+                      fill="#FFBD26"
+                    />
+                    <path
+                      d="M16.005 8.957a.75.75 0 01.75.75l-.001 6h6.001a.75.75 0 010 1.5h-6.001l.001 6a.75.75 0 01-1.5 0l-.001-6H9.255a.75.75 0 110-1.5h5.999l.001-6a.75.75 0 01.75-.75z"
+                      fill="#FFF"
+                      stroke="#FFF"
+                    />
+                  </g>
+                </svg>
+                <div
+                  className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+                >
+                  Create new library item
+                </div>
+              </button>
+            </div>
+            <div
+              className="LibrarySidebar__FooterItem-sc-1hhfek3-6 kcltmV"
+            >
+              <button
+                className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jxNfPW"
+                onClick={[Function]}
+                size="small"
+                type="button"
+              >
+                <svg
+                  className="AddButton__RegularAddIcon-sc-16tykoq-0"
+                  height={40}
+                  viewBox="0 0 32 34"
+                  width={40}
+                >
+                  <g
+                    fill="none"
+                    fillRule="evenodd"
+                  >
+                    <path
+                      d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+                      fill="#FFBD26"
+                    />
+                    <path
+                      d="M16.005 8.957a.75.75 0 01.75.75l-.001 6h6.001a.75.75 0 010 1.5h-6.001l.001 6a.75.75 0 01-1.5 0l-.001-6H9.255a.75.75 0 110-1.5h5.999l.001-6a.75.75 0 01.75-.75z"
+                      fill="#FFF"
+                      stroke="#FFF"
+                    />
+                  </g>
+                </svg>
+                <div
+                  className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+                >
+                  Import from file
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+        onMouseDown={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <button
+          aria-expanded={true}
+          className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb Panel__ResizerButton-sc-1v8xanm-0 cRSqLN dRpzpn ifa-DBT jXeSFM imbOZC"
+          onClick={[Function]}
+          onMouseDown={[Function]}
+          type="button"
+        >
+          <svg
+            height={12}
+            viewBox="0 0 16 12"
+            width={16}
+          >
+            <g
+              fill="#6E6E6E"
+            >
+              <path
+                d="M14.983 11.775H4.438a.787.787 0 110-1.574h10.545a.787.787 0 010 1.574zm0-4.939H4.438a.787.787 0 110-1.574h10.545a.787.787 0 010 1.574zm0-4.939H4.438a.787.787 0 110-1.574h10.545a.787.787 0 010 1.574z"
+              />
+              <circle
+                cx={1.057}
+                cy={1.171}
+                r={1.057}
+              />
+              <circle
+                cx={1.057}
+                cy={6.049}
+                r={1.057}
+              />
+              <circle
+                cx={1.057}
+                cy={10.927}
+                r={1.057}
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

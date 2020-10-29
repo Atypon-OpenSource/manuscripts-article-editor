@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots SubmissionItem Failure 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="SubmissionItem__Container-sc-8qvef2-0 BjTpS"
+    >
+      <div
+        className="SubmissionItem__JournalTitle-sc-8qvef2-1 gaflcU"
+        data-journal-code="example"
+      >
+        Example Journal
+      </div>
+      <div
+        className="SubmissionItem__StatusMessage-sc-8qvef2-2"
+      >
+        There was an error submitting this manuscript.
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots SubmissionItem Submitting 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="SubmissionItem__Container-sc-8qvef2-0 BjTpS"
+    >
+      <div
+        className="SubmissionItem__JournalTitle-sc-8qvef2-1 gaflcU"
+        data-journal-code="example"
+      >
+        Example Journal
+      </div>
+      <div
+        className="SubmissionItem__StatusMessage-sc-8qvef2-2"
+      >
+        Submitting…
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots SubmissionItem Success 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="SubmissionItem__Container-sc-8qvef2-0 BjTpS"
+    >
+      <div
+        className="SubmissionItem__JournalTitle-sc-8qvef2-1 gaflcU"
+        data-journal-code="example"
+      >
+        Example Journal
+      </div>
+      <div
+        className="SubmissionItem__StatusMessage-sc-8qvef2-2"
+      >
+        Submitted successfully.
+      </div>
+      1 minute ago
+    </div>
+  </div>
+</div>
+`;

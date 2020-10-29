@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Hero Hero 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Hero-gmnoyv-0 fNBifv"
+    >
+      Welcome
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Hero SubHero 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Hero__SubHero-gmnoyv-1 dGTxWk"
+    >
+      Welcome
+    </div>
+  </div>
+</div>
+`;

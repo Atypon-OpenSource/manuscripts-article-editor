@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Presence Presence List 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="PresenceList__AvatarStack-xp4le9-0 hAxBhK"
+    >
+      <div
+        className="PresenceList__AvatarContainer-xp4le9-1 dCSaGQ"
+        style={
+          Object {
+            "filter": "none",
+          }
+        }
+      >
+        <div
+          className="sc-gIvpCV isESLn"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <div
+            className="sc-jffIyK kbBVcu"
+          >
+            <img
+              className="sc-eJoaVz evhJOl"
+              onError={[Function]}
+              size={22}
+              src="//user-2/image"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="PresenceList__AvatarContainer-xp4le9-1 dCSaGQ"
+        style={
+          Object {
+            "filter": "none",
+          }
+        }
+      >
+        <div
+          className="sc-gIvpCV isESLn"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <div
+            className="sc-jffIyK kbBVcu"
+          >
+            <img
+              className="sc-eJoaVz evhJOl"
+              onError={[Function]}
+              size={22}
+              src="test-file-stub"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="PresenceList__AvatarContainer-xp4le9-1 dCSaGQ"
+        style={
+          Object {
+            "filter": "none",
+          }
+        }
+      >
+        <div
+          className="sc-gIvpCV isESLn"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <div
+            className="sc-jffIyK kbBVcu"
+          >
+            <img
+              className="sc-eJoaVz evhJOl"
+              onError={[Function]}
+              size={22}
+              src="//user-3/image"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

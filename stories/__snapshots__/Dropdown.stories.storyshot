@@ -1,0 +1,330 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Nav/Dropdown Button 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        selected={false}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          Closed
+        </div>
+        <svg
+          className="Dropdown__DropdownToggle-fhxyb7-8 jPBaxq"
+          height={8}
+          viewBox="0 0 12 8"
+          width={12}
+        >
+          <path
+            d="M10 6L6.058 2 2 5.947"
+            fill="none"
+            stroke="#353535"
+            strokeLinecap="round"
+            strokeWidth={1.6}
+          />
+        </svg>
+      </button>
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        selected={true}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          Open
+        </div>
+        <svg
+          className="Dropdown__DropdownToggle-fhxyb7-8 jPBaxq open"
+          height={8}
+          viewBox="0 0 12 8"
+          width={12}
+        >
+          <path
+            d="M10 6L6.058 2 2 5.947"
+            fill="none"
+            stroke="#353535"
+            strokeLinecap="round"
+            strokeWidth={1.6}
+          />
+        </svg>
+      </button>
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        selected={false}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          Closed with notifications
+        </div>
+        <div
+          className="Badge-sc-13x44pi-0 Dropdown__NotificationsBadge-fhxyb7-9 dIKRaM gAPDHA"
+        >
+          3
+        </div>
+        <svg
+          className="Dropdown__DropdownToggle-fhxyb7-8 jPBaxq"
+          height={8}
+          viewBox="0 0 12 8"
+          width={12}
+        >
+          <path
+            d="M10 6L6.058 2 2 5.947"
+            fill="none"
+            stroke="#353535"
+            strokeLinecap="round"
+            strokeWidth={1.6}
+          />
+        </svg>
+      </button>
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        selected={true}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          Open with notifications
+        </div>
+        <div
+          className="Badge-sc-13x44pi-0 Dropdown__NotificationsBadge-fhxyb7-9 dIKRaM bdveRM"
+        >
+          3
+        </div>
+        <svg
+          className="Dropdown__DropdownToggle-fhxyb7-8 jPBaxq open"
+          height={8}
+          viewBox="0 0 12 8"
+          width={12}
+        >
+          <path
+            d="M10 6L6.058 2 2 5.947"
+            fill="none"
+            stroke="#353535"
+            strokeLinecap="round"
+            strokeWidth={1.6}
+          />
+        </svg>
+      </button>
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        selected={false}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          More notifications
+        </div>
+        <div
+          className="Badge-sc-13x44pi-0 Dropdown__NotificationsBadge-fhxyb7-9 dIKRaM gAPDHA"
+        >
+          30
+        </div>
+        <svg
+          className="Dropdown__DropdownToggle-fhxyb7-8 jPBaxq"
+          height={8}
+          viewBox="0 0 12 8"
+          width={12}
+        >
+          <path
+            d="M10 6L6.058 2 2 5.947"
+            fill="none"
+            stroke="#353535"
+            strokeLinecap="round"
+            strokeWidth={1.6}
+          />
+        </svg>
+      </button>
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        selected={false}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          More notifications
+        </div>
+        <div
+          className="Badge-sc-13x44pi-0 Dropdown__NotificationsBadge-fhxyb7-9 dIKRaM gAPDHA"
+        >
+          300
+        </div>
+        <svg
+          className="Dropdown__DropdownToggle-fhxyb7-8 jPBaxq"
+          height={8}
+          viewBox="0 0 12 8"
+          width={12}
+        >
+          <path
+            d="M10 6L6.058 2 2 5.947"
+            fill="none"
+            stroke="#353535"
+            strokeLinecap="round"
+            strokeWidth={1.6}
+          />
+        </svg>
+      </button>
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        selected={false}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          More notifications
+        </div>
+        <div
+          className="Badge-sc-13x44pi-0 Dropdown__NotificationsBadge-fhxyb7-9 dIKRaM gAPDHA"
+        >
+          3000
+        </div>
+        <svg
+          className="Dropdown__DropdownToggle-fhxyb7-8 jPBaxq"
+          height={8}
+          viewBox="0 0 12 8"
+          width={12}
+        >
+          <path
+            d="M10 6L6.058 2 2 5.947"
+            fill="none"
+            stroke="#353535"
+            strokeLinecap="round"
+            strokeWidth={1.6}
+          />
+        </svg>
+      </button>
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        selected={false}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          Without Chevron
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Nav/Dropdown Menu - Projects Dropdown 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Dropdown__DropdownContainer-fhxyb7-0 cXLUGN"
+      id="projects-dropdown"
+    >
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        onClick={[Function]}
+        selected={false}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          Projects
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Nav/Dropdown Menu 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Dropdown__DropdownContainer-fhxyb7-0 cXLUGN"
+    >
+      <button
+        className="sc-ezzayL sc-bYwzba Dropdown__DropdownButtonContainer-fhxyb7-10 cRSqLN bXiklN dropdown-toggle"
+        onClick={[Function]}
+        selected={false}
+        type="button"
+      >
+        <div
+          className="Dropdown__DropdownButtonText-fhxyb7-7 fqhsPT"
+        >
+          Menu
+        </div>
+        <svg
+          className="Dropdown__DropdownToggle-fhxyb7-8 jPBaxq"
+          height={8}
+          viewBox="0 0 12 8"
+          width={12}
+        >
+          <path
+            d="M10 6L6.058 2 2 5.947"
+            fill="none"
+            stroke="#353535"
+            strokeLinecap="round"
+            strokeWidth={1.6}
+          />
+        </svg>
+      </button>
+      <div
+        className="Dropdown-fhxyb7-1 qsuae"
+      >
+        <div
+          className="UserInfo__Name-sc-10zfnhv-0 hjyLfh"
+        >
+          Janine
+        </div>
+        <div
+          className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+        />
+        <a
+          aria-current={null}
+          className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+          href="/profile"
+          onClick={[Function]}
+        >
+           Profile 
+        </a>
+        <div
+          className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+        />
+        <a
+          aria-current={null}
+          className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+          href="/diagnostics"
+          onClick={[Function]}
+        >
+          Diagnostics
+        </a>
+        <div
+          className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+        />
+        <a
+          aria-current={null}
+          className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+          href="/logout"
+          onClick={[Function]}
+        >
+          Sign out
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

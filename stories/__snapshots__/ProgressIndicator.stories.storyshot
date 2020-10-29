@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Progress Indicator Determinate 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <canvas
+        height={375}
+        width={375}
+      />
+      <canvas
+        height={375}
+        width={375}
+      />
+      <canvas
+        height={375}
+        width={375}
+      />
+      <canvas
+        height={375}
+        width={375}
+      />
+      <canvas
+        height={375}
+        width={375}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Progress Indicator Indeterminate 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <canvas
+        height={375}
+        width={375}
+      />
+      <canvas
+        height={375}
+        width={375}
+      />
+      <canvas
+        height={375}
+        width={375}
+      />
+      <canvas
+        height={375}
+        width={375}
+      />
+      <canvas
+        height={375}
+        width={375}
+      />
+    </div>
+  </div>
+</div>
+`;

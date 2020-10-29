@@ -1,0 +1,679 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Account/Forms/Modal Change password 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="sc-eGJXgd REOgn"
+      >
+        <div
+          className="sc-csTaMs fVoOUB"
+        >
+          <button
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            onClick={[Function]}
+            type="button"
+          />
+        </div>
+        <div
+          className="sc-bsatbK cHdJDA"
+        >
+          <div
+            className="ModalForm__ModalTitle-sc-19rmanp-0 bXjORw"
+          >
+            Change Password
+          </div>
+          <div
+            className="ModalForm__ModalBody-sc-19rmanp-1"
+          >
+            <form
+              action="#"
+              id="change-password-form"
+              noValidate={true}
+              onReset={[Function]}
+              onSubmit={[Function]}
+            >
+              <div
+                className="sc-eCApGN bRvWwx"
+              >
+                <input
+                  autoComplete="password"
+                  autoFocus={true}
+                  className="sc-dlnjPT iOeyAw"
+                  name="currentPassword"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  placeholder="Enter the current password"
+                  required={true}
+                  type="password"
+                  value=""
+                />
+                <input
+                  autoComplete="new-password"
+                  className="sc-dlnjPT iOeyAw"
+                  name="newPassword"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  placeholder="Enter a new password"
+                  required={true}
+                  type="password"
+                  value=""
+                />
+              </div>
+              <div
+                className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+              >
+                <button
+                  className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+                  disabled={false}
+                  type="submit"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Forms/Modal Delete account 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="sc-eGJXgd REOgn"
+      >
+        <div
+          className="sc-csTaMs fVoOUB"
+        >
+          <button
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            onClick={[Function]}
+            type="button"
+          />
+        </div>
+        <div
+          className="sc-bsatbK cHdJDA"
+        >
+          <div
+            className="ModalForm__ModalTitle-sc-19rmanp-0 bXjORw"
+          >
+            Delete account
+          </div>
+          <div
+            className="ModalForm__ModalBody-sc-19rmanp-1"
+          >
+            <form
+              action="#"
+              id="delete-account-form"
+              noValidate={true}
+              onReset={[Function]}
+              onSubmit={[Function]}
+            >
+              <input
+                autoFocus={true}
+                className="sc-dlnjPT iOeyAw"
+                name="password"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Confirm your password to delete your account"
+                required={true}
+                type="password"
+                value=""
+              />
+              <div
+                className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+              >
+                <button
+                  className="sc-ezzayL sc-kLokih dgVtfa bYa-DYT"
+                  disabled={false}
+                  type="submit"
+                >
+                  Delete Account
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Forms/Modal Delete account with projects 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="sc-eGJXgd REOgn"
+      >
+        <div
+          className="sc-csTaMs fVoOUB"
+        >
+          <button
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            onClick={[Function]}
+            type="button"
+          />
+        </div>
+        <div
+          className="sc-bsatbK cHdJDA"
+        >
+          <div
+            className="ModalForm__ModalTitle-sc-19rmanp-0 bXjORw"
+          >
+            Delete account
+          </div>
+          <div
+            className="ModalForm__ModalBody-sc-19rmanp-1"
+          >
+            <form
+              action="#"
+              id="delete-account-form"
+              noValidate={true}
+              onReset={[Function]}
+              onSubmit={[Function]}
+            >
+              <input
+                autoFocus={true}
+                className="sc-dlnjPT iOeyAw"
+                name="password"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Confirm your password to delete your account"
+                required={true}
+                type="password"
+                value=""
+              />
+              <div
+                className="DeleteAccountForm__MessageContainer-sc-1k2ug4t-0 hhAvXn"
+              >
+                Deleting your account will also delete these projects
+                <ul>
+                  <li>
+                    <div />
+                  </li>
+                  <li>
+                    <div />
+                  </li>
+                </ul>
+              </div>
+              <div
+                className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+              >
+                <button
+                  className="sc-ezzayL sc-kLokih dgVtfa bYa-DYT"
+                  disabled={false}
+                  type="submit"
+                >
+                  Delete Account
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Forms/Pages Choose password 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <form
+      action="#"
+      className="sc-fcmNTy zxdNU"
+      noValidate={true}
+      onReset={[Function]}
+      onSubmit={[Function]}
+    >
+      <div
+        className="sc-Gvgqn fswnSU"
+      >
+        <div
+          className="Hero__SubHero-gmnoyv-1 dGTxWk"
+        >
+          Choose a new password
+        </div>
+      </div>
+      <input
+        autoComplete="new-password"
+        autoFocus={true}
+        className="sc-dlnjPT iOeyAw"
+        name="password"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        type="password"
+        value=""
+      />
+      <div
+        className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+      >
+        <button
+          className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+          disabled={false}
+          type="submit"
+        >
+          Save Password
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Forms/Pages Login 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <form
+      action="#"
+      className="sc-fcmNTy zxdNU"
+      id="login-form"
+      noValidate={true}
+      onReset={[Function]}
+      onSubmit={[Function]}
+    >
+      <div
+        className="sc-Gvgqn fswnSU"
+      >
+        <div
+          className="Hero__SubHero-gmnoyv-1 dGTxWk"
+        >
+          Welcome to
+        </div>
+        <div
+          className="Hero-gmnoyv-0 fNBifv"
+        >
+          Manuscripts.io
+        </div>
+      </div>
+      <div
+        className="sc-eCApGN bRvWwx"
+      >
+        <input
+          autoComplete="username email"
+          className="sc-dlnjPT iOeyAw"
+          name="email"
+          onBlur={[Function]}
+          onChange={[Function]}
+          placeholder="email"
+          required={true}
+          type="email"
+          value=""
+        />
+        <input
+          autoComplete="password"
+          className="sc-dlnjPT iOeyAw"
+          name="password"
+          onBlur={[Function]}
+          onChange={[Function]}
+          placeholder="password"
+          required={true}
+          type="password"
+          value=""
+        />
+      </div>
+      <div>
+        By signing in you agree to our
+         
+        <a
+          className="LoginForm__HeavyLink-sc-1h8dgfs-3 eNpJdX"
+          href="https://www.atypon.com/privacy-policy/"
+        >
+          Privacy policy
+        </a>
+        .
+      </div>
+      <div
+        className="sc-gsWdvU fVVZFu"
+      >
+        <div
+          className="LoginForm__ManuscriptLinks-sc-1h8dgfs-0 cxZfnT"
+        >
+          <div>
+            No account? 
+            <a
+              className="Form__FormLink-sc-3ioey8-0 dBhCob"
+              href="/signup"
+              onClick={[Function]}
+            >
+              Sign up
+            </a>
+          </div>
+          <div>
+            Forgot password? 
+            <a
+              className="Form__FormLink-sc-3ioey8-0 dBhCob"
+              href="/recover"
+              onClick={[Function]}
+            >
+              Reset Password
+            </a>
+          </div>
+        </div>
+        <div>
+          <button
+            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            disabled={false}
+            type="submit"
+          >
+            Sign in
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Forms/Pages Recover 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <form
+      action="#"
+      className="sc-fcmNTy zxdNU"
+      noValidate={true}
+      onReset={[Function]}
+      onSubmit={[Function]}
+    >
+      <div
+        className="sc-Gvgqn fswnSU"
+      >
+        <div
+          className="Hero__SubHero-gmnoyv-1 dGTxWk"
+        >
+          Reset Password
+        </div>
+      </div>
+      <div
+        className="sc-eCApGN bRvWwx"
+      >
+        <input
+          autoComplete="username email"
+          autoFocus={true}
+          className="sc-dlnjPT iOeyAw"
+          name="email"
+          onBlur={[Function]}
+          onChange={[Function]}
+          placeholder="email"
+          required={true}
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        className="sc-gsWdvU fVVZFu"
+      >
+        <div />
+        <div>
+          <button
+            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            disabled={false}
+            type="submit"
+          >
+            Send password reset
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Forms/Pages Sign up 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <form
+      action="#"
+      className="sc-fcmNTy zxdNU"
+      id="signup-form"
+      noValidate={true}
+      onReset={[Function]}
+      onSubmit={[Function]}
+    >
+      <div
+        className="sc-Gvgqn fswnSU"
+      >
+        <div
+          className="Hero__SubHero-gmnoyv-1 dGTxWk"
+        >
+          Manuscripts.io
+        </div>
+        <div
+          className="Hero-gmnoyv-0 fNBifv"
+        >
+          Sign Up
+        </div>
+      </div>
+      <div
+        className="sc-eCApGN bRvWwx"
+      >
+        <input
+          autoComplete="name"
+          className="sc-dlnjPT iOeyAw"
+          name="name"
+          onBlur={[Function]}
+          onChange={[Function]}
+          placeholder="name"
+          required={true}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="sc-eCApGN bRvWwx"
+      >
+        <input
+          autoComplete="username email"
+          className="sc-dlnjPT iOeyAw"
+          name="email"
+          onBlur={[Function]}
+          onChange={[Function]}
+          placeholder="email"
+          required={true}
+          type="email"
+          value=""
+        />
+        <input
+          autoComplete="new-password"
+          className="sc-dlnjPT iOeyAw"
+          name="password"
+          onBlur={[Function]}
+          onChange={[Function]}
+          placeholder="password"
+          required={true}
+          type="password"
+          value=""
+        />
+      </div>
+      <div>
+        By signing up you agree to our
+         
+        <a
+          className="SignupForm__HeavyLink-sc-197rn77-0 kCKQBd"
+          href="https://www.atypon.com/privacy-policy/"
+        >
+          Privacy policy
+        </a>
+        .
+        <br />
+      </div>
+      <div
+        className="sc-gsWdvU fVVZFu"
+      >
+        <div>
+          Have an account? 
+          <a
+            className="Form__FormLink-sc-3ioey8-0 dBhCob"
+            href="/login"
+            onClick={[Function]}
+          >
+            Sign In
+          </a>
+        </div>
+        <button
+          className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+          disabled={false}
+          type="submit"
+        >
+          Sign up
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Feedback Feedback 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="sc-eGJXgd REOgn"
+      >
+        <div
+          className="sc-csTaMs fVoOUB"
+        >
+          <button
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            onClick={[Function]}
+            type="button"
+          />
+        </div>
+        <div
+          className="sc-bsatbK cHdJDA"
+        >
+          <div
+            className="ModalForm__ModalTitle-sc-19rmanp-0 bXjORw"
+          >
+            Feedback
+          </div>
+          <div
+            className="ModalForm__ModalBody-sc-19rmanp-1"
+          >
+            <form
+              action="#"
+              id="feedback-form"
+              noValidate={true}
+              onReset={[Function]}
+              onSubmit={[Function]}
+            >
+              <div
+                className="sc-eCApGN bRvWwx"
+              >
+                <input
+                  autoFocus={true}
+                  className="sc-dlnjPT iOeyAw"
+                  name="title"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  placeholder="Title"
+                  required={true}
+                  type="title"
+                  value=""
+                />
+              </div>
+              <textarea
+                autoFocus={true}
+                className="sc-hKFyIo coeRtO"
+                id="feedback-message"
+                name="message"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Please tell us how you like Manuscripts.io, and what we should improve.
+
+If you are reporting a bug, please include steps to help us reproduce the problem you encountered."
+                required={true}
+                value=""
+              />
+              <div
+                className="FeedbackForm__Container-sc-72tbqw-0 dwmSGD"
+              >
+                <label
+                  htmlFor="feedback-message"
+                >
+                  Your feedback will be posted privately to the developers.
+                </label>
+              </div>
+              <div
+                className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+              >
+                <button
+                  className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+                  disabled={false}
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Preferences Preferences 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <form
+      action="#"
+      onReset={[Function]}
+      onSubmit={[Function]}
+    >
+      <label
+        className="PreferencesForm__LocaleSelectorLabel-sotkv8-0 kfJduB"
+      >
+        Locale
+        <select
+          className="PreferencesForm__LocaleSelector-sotkv8-1 kiEEWM"
+          name="locale"
+          onBlur={[Function]}
+          onChange={[Function]}
+          required={true}
+          value="en"
+        >
+          <option
+            value="en"
+          >
+            English
+          </option>
+          <option
+            value="ar"
+          >
+            Arabic
+          </option>
+        </select>
+      </label>
+    </form>
+  </div>
+</div>
+`;

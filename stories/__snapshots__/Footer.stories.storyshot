@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Footer default 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <footer
+      className="Footer__FooterBlock-sc-59xuxh-0 ekGOTL"
+    >
+      <nav
+        className="Footer__FooterLinks-sc-59xuxh-1 bGrrZu"
+      >
+        <span>
+          <a
+            className="Footer__FooterLink-sc-59xuxh-2 hDvKtX"
+            href="/https://example.com/support"
+            onClick={[Function]}
+          >
+            Support
+          </a>
+        </span>
+        <span>
+          <span
+            className="Footer__FooterLinkSeparator-sc-59xuxh-3 hmwKUF"
+          >
+            |
+          </span>
+          <a
+            className="Footer__FooterLink-sc-59xuxh-2 hDvKtX"
+            href="/mailto:support@example.com"
+            onClick={[Function]}
+          >
+            Feedback
+          </a>
+        </span>
+      </nav>
+    </footer>
+  </div>
+</div>
+`;

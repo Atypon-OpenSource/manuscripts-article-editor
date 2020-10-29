@@ -1,0 +1,619 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Account/Pages Login 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <main
+      className="Page__Main-sc-1fh7x3-0 Page__Centered-sc-1fh7x3-1 evZTJm dtaKHY"
+    >
+      <form
+        action="#"
+        className="sc-fcmNTy zxdNU"
+        id="login-form"
+        noValidate={true}
+        onReset={[Function]}
+        onSubmit={[Function]}
+      >
+        <div
+          className="sc-Gvgqn fswnSU"
+        >
+          <div
+            className="Hero__SubHero-gmnoyv-1 dGTxWk"
+          >
+            Welcome to
+          </div>
+          <div
+            className="Hero-gmnoyv-0 fNBifv"
+          >
+            Manuscripts.io
+          </div>
+        </div>
+        <div
+          className="sc-eCApGN bRvWwx"
+        >
+          <input
+            autoComplete="username email"
+            className="sc-dlnjPT iOeyAw"
+            name="email"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="email"
+            required={true}
+            type="email"
+            value=""
+          />
+          <input
+            autoComplete="password"
+            className="sc-dlnjPT iOeyAw"
+            name="password"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="password"
+            required={true}
+            type="password"
+            value=""
+          />
+        </div>
+        <div>
+          By signing in you agree to our
+           
+          <a
+            className="LoginForm__HeavyLink-sc-1h8dgfs-3 eNpJdX"
+            href="https://www.atypon.com/privacy-policy/"
+          >
+            Privacy policy
+          </a>
+          .
+        </div>
+        <div
+          className="sc-gsWdvU fVVZFu"
+        >
+          <div
+            className="LoginForm__ManuscriptLinks-sc-1h8dgfs-0 cxZfnT"
+          >
+            <div>
+              No account? 
+              <a
+                className="Form__FormLink-sc-3ioey8-0 dBhCob"
+                href="/signup"
+                onClick={[Function]}
+              >
+                Sign up
+              </a>
+            </div>
+            <div>
+              Forgot password? 
+              <a
+                className="Form__FormLink-sc-3ioey8-0 dBhCob"
+                href="/recover"
+                onClick={[Function]}
+              >
+                Reset Password
+              </a>
+            </div>
+          </div>
+          <div>
+            <button
+              className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+              disabled={false}
+              type="submit"
+            >
+              Sign in
+            </button>
+          </div>
+        </div>
+      </form>
+      <div
+        className="Authentication__AuthenticationContainer-sc-2rsk8d-8 iDKTiJ"
+      >
+        <div>
+          Sign in with
+        </div>
+        <div>
+          <button
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Authentication__IconButtonWithText-sc-2rsk8d-1 cRSqLN dRpzpn ifa-DBT hTVBHK"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="Authentication__GoogleImage-sc-2rsk8d-2 jhlbof"
+            >
+              <svg
+                height={45}
+                size={45}
+                title="Google logo"
+                width={45}
+              >
+                <defs>
+                  <filter
+                    filterUnits="objectBoundingBox"
+                    height="200%"
+                    id="google-a"
+                    width="200%"
+                    x="-50%"
+                    y="-50%"
+                  >
+                    <feOffset
+                      dy={1}
+                      in="SourceAlpha"
+                      result="shadowOffsetOuter1"
+                    />
+                    <feGaussianBlur
+                      in="shadowOffsetOuter1"
+                      result="shadowBlurOuter1"
+                      stdDeviation={0.5}
+                    />
+                    <feColorMatrix
+                      in="shadowBlurOuter1"
+                      result="shadowMatrixOuter1"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.168 0"
+                    />
+                    <feOffset
+                      in="SourceAlpha"
+                      result="shadowOffsetOuter2"
+                    />
+                    <feGaussianBlur
+                      in="shadowOffsetOuter2"
+                      result="shadowBlurOuter2"
+                      stdDeviation={0.5}
+                    />
+                    <feColorMatrix
+                      in="shadowBlurOuter2"
+                      result="shadowMatrixOuter2"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.084 0"
+                    />
+                    <feMerge>
+                      <feMergeNode
+                        in="shadowMatrixOuter1"
+                      />
+                      <feMergeNode
+                        in="shadowMatrixOuter2"
+                      />
+                      <feMergeNode
+                        in="SourceGraphic"
+                      />
+                    </feMerge>
+                  </filter>
+                  <rect
+                    height={40}
+                    id="google-b"
+                    rx={2}
+                    width={40}
+                  />
+                </defs>
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <g
+                    filter="url(#google-a)"
+                    transform="translate(3 3)"
+                  >
+                    <use
+                      fill="#FFF"
+                      xlinkHref="#google-b"
+                    />
+                    <use
+                      xlinkHref="#google-b"
+                    />
+                    <use
+                      xlinkHref="#google-b"
+                    />
+                    <use
+                      xlinkHref="#google-b"
+                    />
+                  </g>
+                  <path
+                    d="M31.64 23.205c0-.639-.057-1.252-.164-1.841H23v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M23 32c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711h-3.007v2.332A8.997 8.997 0 0 0 23 32z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M17.964 24.71a5.41 5.41 0 0 1-.282-1.71c0-.593.102-1.17.282-1.71v-2.332h-3.007A8.996 8.996 0 0 0 14 23c0 1.452.348 2.827.957 4.042l3.007-2.332z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M23 17.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C27.463 14.891 25.426 14 23 14a8.997 8.997 0 0 0-8.043 4.958l3.007 2.332c.708-2.127 2.692-3.71 5.036-3.71z"
+                    fill="#EA4335"
+                  />
+                  <path
+                    d="M14 14h18v18H14V14z"
+                  />
+                </g>
+              </svg>
+            </span>
+            <div
+              className="Authentication__ButtonText-sc-2rsk8d-0 Byslt"
+            >
+              Google
+            </div>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AccountFooter__Container-sc-16eyfj0-0 fEHcdz"
+      >
+        <div>
+          Copyright © 2019 Atypon Systems, LLC.
+        </div>
+        <a
+          className="AccountFooter__HeavyLink-sc-16eyfj0-1 iFvJkp"
+          href="https://www.atypon.com/privacy-policy/"
+        >
+          Privacy policy
+        </a>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Pages Recover 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <main
+      className="Page__Main-sc-1fh7x3-0 Page__Centered-sc-1fh7x3-1 evZTJm dtaKHY"
+    >
+      <form
+        action="#"
+        className="sc-fcmNTy zxdNU"
+        noValidate={true}
+        onReset={[Function]}
+        onSubmit={[Function]}
+      >
+        <div
+          className="sc-Gvgqn fswnSU"
+        >
+          <div
+            className="Hero__SubHero-gmnoyv-1 dGTxWk"
+          >
+            Reset Password
+          </div>
+        </div>
+        <div
+          className="sc-eCApGN bRvWwx"
+        >
+          <input
+            autoComplete="username email"
+            autoFocus={true}
+            className="sc-dlnjPT iOeyAw"
+            name="email"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="email"
+            required={true}
+            type="email"
+            value=""
+          />
+        </div>
+        <div
+          className="sc-gsWdvU fVVZFu"
+        >
+          <div />
+          <div>
+            <button
+              className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+              disabled={false}
+              type="submit"
+            >
+              Send password reset
+            </button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Pages Set password 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <main
+      className="Page__Main-sc-1fh7x3-0 Page__Centered-sc-1fh7x3-1 evZTJm dtaKHY"
+    >
+      <form
+        action="#"
+        className="sc-fcmNTy zxdNU"
+        noValidate={true}
+        onReset={[Function]}
+        onSubmit={[Function]}
+      >
+        <div
+          className="sc-Gvgqn fswnSU"
+        >
+          <div
+            className="Hero__SubHero-gmnoyv-1 dGTxWk"
+          >
+            Choose a new password
+          </div>
+        </div>
+        <input
+          autoComplete="new-password"
+          autoFocus={true}
+          className="sc-dlnjPT iOeyAw"
+          name="password"
+          onBlur={[Function]}
+          onChange={[Function]}
+          required={true}
+          type="password"
+          value=""
+        />
+        <div
+          className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+        >
+          <button
+            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            disabled={false}
+            type="submit"
+          >
+            Save Password
+          </button>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Pages Sign up 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <main
+      className="Page__Main-sc-1fh7x3-0 Page__Centered-sc-1fh7x3-1 evZTJm dtaKHY"
+    >
+      <form
+        action="#"
+        className="sc-fcmNTy zxdNU"
+        id="signup-form"
+        noValidate={true}
+        onReset={[Function]}
+        onSubmit={[Function]}
+      >
+        <div
+          className="sc-Gvgqn fswnSU"
+        >
+          <div
+            className="Hero__SubHero-gmnoyv-1 dGTxWk"
+          >
+            Manuscripts.io
+          </div>
+          <div
+            className="Hero-gmnoyv-0 fNBifv"
+          >
+            Sign Up
+          </div>
+        </div>
+        <div
+          className="sc-eCApGN bRvWwx"
+        >
+          <input
+            autoComplete="name"
+            className="sc-dlnjPT iOeyAw"
+            name="name"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="name"
+            required={true}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="sc-eCApGN bRvWwx"
+        >
+          <input
+            autoComplete="username email"
+            className="sc-dlnjPT iOeyAw"
+            name="email"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="email"
+            required={true}
+            type="email"
+            value=""
+          />
+          <input
+            autoComplete="new-password"
+            className="sc-dlnjPT iOeyAw"
+            name="password"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="password"
+            required={true}
+            type="password"
+            value=""
+          />
+        </div>
+        <div>
+          By signing up you agree to our
+           
+          <a
+            className="SignupForm__HeavyLink-sc-197rn77-0 kCKQBd"
+            href="https://www.atypon.com/privacy-policy/"
+          >
+            Privacy policy
+          </a>
+          .
+          <br />
+        </div>
+        <div
+          className="sc-gsWdvU fVVZFu"
+        >
+          <div>
+            Have an account? 
+            <a
+              className="Form__FormLink-sc-3ioey8-0 dBhCob"
+              href="/login"
+              onClick={[Function]}
+            >
+              Sign In
+            </a>
+          </div>
+          <button
+            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            disabled={false}
+            type="submit"
+          >
+            Sign up
+          </button>
+        </div>
+      </form>
+      <div
+        className="Authentication__AuthenticationContainer-sc-2rsk8d-8 iDKTiJ"
+      >
+        <div>
+          Sign up with
+        </div>
+        <div>
+          <button
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq Authentication__IconButtonWithText-sc-2rsk8d-1 cRSqLN dRpzpn ifa-DBT hTVBHK"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="Authentication__GoogleImage-sc-2rsk8d-2 jhlbof"
+            >
+              <svg
+                height={45}
+                size={45}
+                title="Google logo"
+                width={45}
+              >
+                <defs>
+                  <filter
+                    filterUnits="objectBoundingBox"
+                    height="200%"
+                    id="google-a"
+                    width="200%"
+                    x="-50%"
+                    y="-50%"
+                  >
+                    <feOffset
+                      dy={1}
+                      in="SourceAlpha"
+                      result="shadowOffsetOuter1"
+                    />
+                    <feGaussianBlur
+                      in="shadowOffsetOuter1"
+                      result="shadowBlurOuter1"
+                      stdDeviation={0.5}
+                    />
+                    <feColorMatrix
+                      in="shadowBlurOuter1"
+                      result="shadowMatrixOuter1"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.168 0"
+                    />
+                    <feOffset
+                      in="SourceAlpha"
+                      result="shadowOffsetOuter2"
+                    />
+                    <feGaussianBlur
+                      in="shadowOffsetOuter2"
+                      result="shadowBlurOuter2"
+                      stdDeviation={0.5}
+                    />
+                    <feColorMatrix
+                      in="shadowBlurOuter2"
+                      result="shadowMatrixOuter2"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.084 0"
+                    />
+                    <feMerge>
+                      <feMergeNode
+                        in="shadowMatrixOuter1"
+                      />
+                      <feMergeNode
+                        in="shadowMatrixOuter2"
+                      />
+                      <feMergeNode
+                        in="SourceGraphic"
+                      />
+                    </feMerge>
+                  </filter>
+                  <rect
+                    height={40}
+                    id="google-b"
+                    rx={2}
+                    width={40}
+                  />
+                </defs>
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <g
+                    filter="url(#google-a)"
+                    transform="translate(3 3)"
+                  >
+                    <use
+                      fill="#FFF"
+                      xlinkHref="#google-b"
+                    />
+                    <use
+                      xlinkHref="#google-b"
+                    />
+                    <use
+                      xlinkHref="#google-b"
+                    />
+                    <use
+                      xlinkHref="#google-b"
+                    />
+                  </g>
+                  <path
+                    d="M31.64 23.205c0-.639-.057-1.252-.164-1.841H23v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M23 32c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711h-3.007v2.332A8.997 8.997 0 0 0 23 32z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M17.964 24.71a5.41 5.41 0 0 1-.282-1.71c0-.593.102-1.17.282-1.71v-2.332h-3.007A8.996 8.996 0 0 0 14 23c0 1.452.348 2.827.957 4.042l3.007-2.332z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M23 17.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C27.463 14.891 25.426 14 23 14a8.997 8.997 0 0 0-8.043 4.958l3.007 2.332c.708-2.127 2.692-3.71 5.036-3.71z"
+                    fill="#EA4335"
+                  />
+                  <path
+                    d="M14 14h18v18H14V14z"
+                  />
+                </g>
+              </svg>
+            </span>
+            <div
+              className="Authentication__ButtonText-sc-2rsk8d-0 Byslt"
+            >
+              Google
+            </div>
+          </button>
+        </div>
+      </div>
+      <div
+        className="AccountFooter__Container-sc-16eyfj0-0 fEHcdz"
+      >
+        <div>
+          Copyright © 2019 Atypon Systems, LLC.
+        </div>
+        <a
+          className="AccountFooter__HeavyLink-sc-16eyfj0-1 iFvJkp"
+          href="https://www.atypon.com/privacy-policy/"
+        >
+          Privacy policy
+        </a>
+      </div>
+    </main>
+  </div>
+</div>
+`;

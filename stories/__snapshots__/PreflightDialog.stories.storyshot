@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Preflight Dialog 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="PreflightDialog__ModalBody-sc-1h5hc9d-0 gNOJGh"
+      >
+        <div
+          className="PreflightDialog__ModalTitle-sc-1h5hc9d-1 eNAKfE"
+        >
+          Submission
+          <span>
+             
+            to 
+            <i>
+              Example Journal
+            </i>
+          </span>
+        </div>
+        <div
+          className="PreflightDialog__ModalMain-sc-1h5hc9d-2 ctLlLP"
+        >
+          <div
+            className="PreflightDialog__ManuscriptTitleContainer-sc-1h5hc9d-5 UaVUs"
+          >
+            <span
+              className="sc-dTSxUT gkxIGD"
+            >
+              <svg
+                className="PreflightDialog__StyledManuscriptIcon-sc-1h5hc9d-6 kqhKAF"
+                height={18}
+                viewBox="0 0 19 18"
+                width={19}
+              >
+                <g
+                  fill="#FFBD26"
+                >
+                  <path
+                    d="M4.5.5h10A2.5 2.5 0 0117 3v12a2.5 2.5 0 01-2.5 2.5h-10A2.5 2.5 0 012 15V3A2.5 2.5 0 014.5.5zm0 1.5a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V3a1 1 0 00-1-1h-10z"
+                  />
+                  <path
+                    d="M6.25 4h3.5a.75.75 0 010 1.5h-3.5a.75.75 0 010-1.5zm0 1a.25.25 0 100-.5h3.5a.25.25 0 100 .5h-3.5zm0 3h6.5a.75.75 0 110 1.5h-6.5a.75.75 0 010-1.5zm0 1a.25.25 0 100-.5h6.5a.25.25 0 100 .5h-6.5zm0 3h6.5a.75.75 0 110 1.5h-6.5a.75.75 0 110-1.5zm0 1a.25.25 0 100-.5h6.5a.25.25 0 100 .5h-6.5z"
+                  />
+                </g>
+              </svg>
+            </span>
+            <div
+              className="PreflightDialog__ManuscriptTitle-sc-1h5hc9d-4 biobhm"
+            />
+          </div>
+          Validating…
+        </div>
+        <div
+          className="sc-iTVIwl PreflightDialog__ModalFooter-sc-1h5hc9d-3 fqGxrZ geouJx"
+        >
+          <button
+            className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+            onClick={[Function]}
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            className="sc-ezzayL sc-kLokih gjhYjP bYa-DYT"
+            disabled={true}
+            onClick={[Function]}
+            type="button"
+          >
+            Submit to Review
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

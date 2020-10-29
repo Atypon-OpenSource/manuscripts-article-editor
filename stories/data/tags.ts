@@ -10,32 +10,31 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { timestamp } from '@manuscripts/manuscript-transform'
 import { ObjectTypes, Tag } from '@manuscripts/manuscripts-json-schema'
 
 export const tags: Tag[] = [
   {
-    _id: 'tag-1',
+    _id: 'MPTag:1',
     name: 'Tag One',
     objectType: ObjectTypes.Tag,
-    containerID: 'project-1',
-    createdAt: timestamp(),
-    updatedAt: timestamp(),
+    containerID: 'MPProject:1',
+    createdAt: 0,
+    updatedAt: 0,
   },
   {
-    _id: 'tag-2',
+    _id: 'MPTag:2',
     name: 'Tag Two',
     objectType: ObjectTypes.Tag,
-    containerID: 'project-1',
-    createdAt: timestamp(),
-    updatedAt: timestamp(),
+    containerID: 'MPProject:1',
+    createdAt: 0,
+    updatedAt: 0,
   },
   {
-    _id: 'tag-3',
+    _id: 'MPTag:3',
     name: 'Tag Three',
     objectType: ObjectTypes.Tag,
-    containerID: 'project-1',
-    createdAt: timestamp(),
-    updatedAt: timestamp(),
+    containerID: 'MPProject:1',
+    createdAt: 0,
+    updatedAt: 0,
   },
 ]

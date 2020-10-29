@@ -7,6 +7,16 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-declare module '@storybook/addon-storyshots'
+
+import React from 'react'
+import { TooltipProps } from 'react-tooltip'
+
+class ReactTooltip extends React.Component<TooltipProps> {
+  public render() {
+    return <div />
+  }
+}
+
+export default ReactTooltip

@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Citation Style Selector Empty search results 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="CitationStyleEmpty__Container-r3bofv-0 hiNIPE"
+    >
+      <div
+        className="CitationStyleEmpty__TextContainer-r3bofv-1 bpiFUD"
+      >
+        No matching template for query 'example'.
+      </div>
+      <div
+        className="SadAnimal__Container-sc-1srbkx5-0 huoNFW"
+      >
+        <img
+          alt="😿"
+          height={154}
+          src="test-file-stub"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Citation Style Selector Modal 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "height": 400,
+          "width": 600,
+        }
+      }
+    >
+      <div
+        className="sc-eGJXgd REOgn"
+      >
+        <div
+          className="sc-csTaMs fVoOUB"
+        >
+          <button
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            onClick={[Function]}
+            type="button"
+          />
+        </div>
+        <div
+          className="sc-bsatbK CitationStyleSelectorModal__ModalContainerInner-sc-1rrlj2y-3 cHdJDA lbvJvS"
+        >
+          <div
+            className="CitationStyleSelectorModal__TemplateSearch-sc-1rrlj2y-2 eAfHxp"
+          >
+            <div
+              className="TemplateSearchInput__SearchContainer-sc-19hq5da-0 cSShyy"
+            >
+              <div
+                className="Search__SearchContainer-vfnej6-0 evtBHc"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+              >
+                <span
+                  className="Search__SearchIconContainer-vfnej6-1 hRschK"
+                >
+                  <svg
+                    height={18}
+                    viewBox="0 0 18 18"
+                    width={18}
+                  >
+                    <path
+                      d="M11.015 12.38a6.426 6.426 0 01-3.82 1.246A6.336 6.336 0 011.31 9.62a6.417 6.417 0 011.488-6.99 6.312 6.312 0 016.996-1.219 6.391 6.391 0 013.733 6.079 5.98 5.98 0 01-1.273 3.685l4.686 4.565.007.007a.804.804 0 01.201.587.778.778 0 01-.27.543.845.845 0 01-1.17.067l-4.693-4.566zM2.531 7.484v.003c.053 2.539 2.14 4.555 4.664 4.508a4.661 4.661 0 004.324-2.944c.71-1.78.275-3.82-1.098-5.15a4.646 4.646 0 00-5.144-.893 4.703 4.703 0 00-2.746 4.476z"
+                      fill="#FFF"
+                      fillRule="evenodd"
+                      stroke="#FFF"
+                      strokeWidth={0.3}
+                    />
+                  </svg>
+                </span>
+                <input
+                  autoFocus={true}
+                  className="sc-dlnjPT Search__SearchText-vfnej6-2 iOeyAw ibXnKp"
+                  onChange={[Function]}
+                  placeholder="Search"
+                  type="search"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="CitationStyleSelectorModal__ListContainer-sc-1rrlj2y-0 ijlsIG"
+          >
+            <div
+              style={
+                Object {
+                  "height": 0,
+                  "overflow": "visible",
+                  "width": 0,
+                }
+              }
+            />
+            <div
+              className="CitationStyleSelectorModal__FadingEdge-sc-1rrlj2y-1 jZamee"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Citation Style Selector Result 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 600,
+        }
+      }
+    >
+      <div
+        className="CitationStyleListItem__Container-ahf3yr-5 hbusQS"
+        onClick={[Function]}
+      >
+        <div
+          className="CitationStyleListItem__Heading-ahf3yr-1 LkuLF"
+        >
+          <div
+            className="CitationStyleListItem__Title-ahf3yr-2 nRIWj"
+          >
+            <div
+              className="CitationStyleListItem__BundleTitle-ahf3yr-3 gEDhh"
+            >
+              Frontiers in Computational Neuroscience
+            </div>
+          </div>
+          <div
+            className="CitationStyleListItem__Actions-ahf3yr-4 fTDUUC"
+          >
+            <button
+              className="sc-ezzayL sc-kLokih CitationStyleListItem__CreateButton-ahf3yr-0 cRSqLN bYa-DYT fiHcjT"
+              type="button"
+            >
+              Select
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Citation Style Selector Results list 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "height": 400,
+          "width": 600,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "height": 0,
+            "overflow": "visible",
+            "width": 0,
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

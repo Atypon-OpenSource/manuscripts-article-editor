@@ -1,0 +1,2067 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Template Selector Category selector 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <nav
+      className="TemplateCategorySelector__Categories-sc-152id2w-0 hvMndk"
+      role="navigation"
+    >
+      <div
+        className="Slider__SliderContainer-x7d2c6-0 enbbIk"
+      >
+        <button
+          aria-label="Scroll left"
+          className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-carGAA Slider__SliderButton-x7d2c6-2 gjhYjP bPZcXk ifa-DBT eiUoSm fsLyeW"
+          disabled={true}
+          onClick={[Function]}
+          size={20}
+          type="button"
+        >
+          <svg
+            height={20}
+            viewBox="0 0 20 20"
+            width={20}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+              transform="matrix(1 0 0 -1 0 20)"
+            >
+              <circle
+                cx={10}
+                cy={10}
+                r={9}
+                stroke="#E2E2E2"
+              />
+              <path
+                d="M6.505 10.974l3.548-3 3.652 2.96"
+                stroke="#6E6E6E"
+                strokeLinecap="round"
+                strokeWidth={2}
+              />
+            </g>
+          </svg>
+        </button>
+        <div
+          className="Slider__SliderContainerInner-x7d2c6-1 hCAokd"
+        >
+          <span
+            className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+          >
+            <button
+              autoFocus={true}
+              className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN iLoAvh gHbVVS"
+              onClick={[Function]}
+              selected={true}
+              title="Peer reviewed research publications."
+              type="button"
+            >
+              <svg
+                height={20}
+                viewBox="0 0 18 20"
+                width={18}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <path
+                    d="M4.282 2.25h9.436c.52 0 .815.057 1.124.222.294.157.529.392.686.686.165.309.222.604.222 1.124v11.436c0 .52-.057.815-.222 1.124a1.659 1.659 0 01-.686.686c-.309.165-.604.222-1.124.222H4.282c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686c-.165-.309-.222-.604-.222-1.124V4.282c0-.52.057-.815.222-1.124.157-.294.392-.529.686-.686.309-.165.604-.222 1.124-.222z"
+                    stroke="#1A9BC7"
+                    strokeWidth={1.5}
+                  />
+                  <path
+                    d="M12 6a.75.75 0 01.75.75v7.5a.75.75 0 01-1.5 0v-7.5A.75.75 0 0112 6zm-6 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 016 10zm3-1a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 019 9z"
+                    fill="#1A9BC7"
+                  />
+                </g>
+              </svg>
+              <span
+                className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+              >
+                Research Article
+              </span>
+            </button>
+          </span>
+          <span
+            className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+          >
+            <button
+              autoFocus={false}
+              className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+              onClick={[Function]}
+              selected={false}
+              title="Essays"
+              type="button"
+            >
+              <svg
+                height={20}
+                viewBox="0 0 18 20"
+                width={18}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                  transform="translate(3 2)"
+                >
+                  <path
+                    d="M1.282.25h9.436c.52 0 .815.057 1.124.222.294.157.529.392.686.686.165.309.222.604.222 1.124v11.436c0 .52-.057.815-.222 1.124a1.659 1.659 0 01-.686.686c-.309.165-.604.222-1.124.222H1.282c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686c-.165-.309-.222-.604-.222-1.124V2.282c0-.52.057-.815.222-1.124C-.37.864-.136.629.158.472.467.307.762.25 1.282.25z"
+                    stroke="#1A9BC7"
+                    strokeWidth={1.5}
+                  />
+                  <rect
+                    fill="#1A9BC7"
+                    height={16}
+                    rx={0.75}
+                    width={1.5}
+                    x={2}
+                  />
+                </g>
+              </svg>
+              <span
+                className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+              >
+                Essay
+              </span>
+            </button>
+          </span>
+          <span
+            className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+          >
+            <button
+              autoFocus={false}
+              className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+              onClick={[Function]}
+              selected={false}
+              title="Master's & PhD theses, and other dissertations."
+              type="button"
+            >
+              <svg
+                height={19}
+                viewBox="0 0 16 19"
+                width={16}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <path
+                    d="M3.5 8a.75.75 0 01.75.75v4.5a.75.75 0 11-1.5 0v-4.5A.75.75 0 013.5 8zm3 0a.75.75 0 01.75.75v4.5a.75.75 0 11-1.5 0v-4.5A.75.75 0 016.5 8zm3 0a.75.75 0 01.75.75v4.5a.75.75 0 11-1.5 0v-4.5A.75.75 0 019.5 8zm3 0a.75.75 0 01.75.75v4.5a.75.75 0 11-1.5 0v-4.5A.75.75 0 0112.5 8z"
+                    fill="#1A9BC7"
+                  />
+                  <path
+                    d="M7.862 2.894a.25.25 0 00-.224 0L1.874 5.776a.25.25 0 00.112.474h11.528a.25.25 0 00.112-.474L7.862 2.894z"
+                    stroke="#1A9BC7"
+                    strokeWidth={1.5}
+                  />
+                  <path
+                    d="M1.75 15h12.5a.75.75 0 110 1.5H1.75a.75.75 0 110-1.5z"
+                    fill="#1A9BC7"
+                  />
+                </g>
+              </svg>
+              <span
+                className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+              >
+                Dissertation
+              </span>
+            </button>
+          </span>
+          <span
+            className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+          >
+            <button
+              autoFocus={false}
+              className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+              onClick={[Function]}
+              selected={false}
+              title="A book or a book chapter"
+              type="button"
+            >
+              <svg
+                height={20}
+                viewBox="0 0 19 20"
+                width={19}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <path
+                    d="M4.032 2.75H12.5v15.5H4.032c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686C2.057 17.033 2 16.738 2 16.218V4.782c0-.52.057-.815.222-1.124.157-.294.392-.529.686-.686.309-.165.604-.222 1.124-.222z"
+                    stroke="#1A9BC7"
+                    strokeWidth={1.5}
+                  />
+                  <path
+                    d="M14.75 2.25a.75.75 0 01.75.75v15a.75.75 0 11-1.5 0V3a.75.75 0 01.75-.75zM17 2.5a.75.75 0 01.75.75v14.5a.75.75 0 11-1.5 0V3.25A.75.75 0 0117 2.5z"
+                    fill="#1A9BC7"
+                  />
+                </g>
+              </svg>
+              <span
+                className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+              >
+                Book
+              </span>
+            </button>
+          </span>
+          <span
+            className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+          >
+            <button
+              autoFocus={false}
+              className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+              onClick={[Function]}
+              selected={false}
+              title="An application for funding."
+              type="button"
+            >
+              <svg
+                height={20}
+                viewBox="0 0 18 20"
+                width={18}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <path
+                    d="M4.282 2.25h9.436c.52 0 .815.057 1.124.222.294.157.529.392.686.686.165.309.222.604.222 1.124v11.436c0 .52-.057.815-.222 1.124a1.659 1.659 0 01-.686.686c-.309.165-.604.222-1.124.222H4.282c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686c-.165-.309-.222-.604-.222-1.124V4.282c0-.52.057-.815.222-1.124.157-.294.392-.529.686-.686.309-.165.604-.222 1.124-.222z"
+                    stroke="#1A9BC7"
+                    strokeWidth={1.5}
+                  />
+                  <text
+                    fill="#1A9BC7"
+                    fontFamily="Barlow-Bold, Barlow"
+                    fontSize={10}
+                    fontWeight="bold"
+                    letterSpacing={-0.154}
+                    transform="translate(3 3)"
+                  >
+                    <tspan
+                      x={3.317}
+                      y={10.75}
+                    >
+                      $
+                    </tspan>
+                  </text>
+                </g>
+              </svg>
+              <span
+                className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+              >
+                Grant Application
+              </span>
+            </button>
+          </span>
+          <span
+            className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+          >
+            <button
+              autoFocus={false}
+              className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+              onClick={[Function]}
+              selected={false}
+              title="A blog post"
+              type="button"
+            >
+              <svg
+                height={16}
+                viewBox="0 0 21 16"
+                width={21}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                  transform="translate(2 4)"
+                >
+                  <path
+                    d="M3.641-.75h10.718c.316 0 .523.04.739.155.212.114.383.285.497.497.115.216.155.423.155.739V7.75H2.25V.641c0-.316.04-.523.155-.739.114-.212.285-.383.497-.497.216-.115.423-.155.739-.155z"
+                    stroke="#1A9BC7"
+                    strokeWidth={1.5}
+                  />
+                  <rect
+                    fill="#1A9BC7"
+                    height={1.5}
+                    rx={0.75}
+                    width={18}
+                    y={9}
+                  />
+                </g>
+              </svg>
+              <span
+                className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+              >
+                Blog Post
+              </span>
+            </button>
+          </span>
+          <span
+            className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+          >
+            <button
+              autoFocus={false}
+              className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+              onClick={[Function]}
+              selected={false}
+              title="A manual (for a software product etc)."
+              type="button"
+            >
+              <svg
+                height={21}
+                viewBox="0 0 18 21"
+                width={18}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <path
+                    d="M4.282 3.25h9.436c.52 0 .815.057 1.124.222.294.157.529.392.686.686.165.309.222.604.222 1.124v11.436c0 .52-.057.815-.222 1.124a1.659 1.659 0 01-.686.686c-.309.165-.604.222-1.124.222H4.282c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686c-.165-.309-.222-.604-.222-1.124V5.282c0-.52.057-.815.222-1.124.157-.294.392-.529.686-.686.309-.165.604-.222 1.124-.222z"
+                    stroke="#1A9BC7"
+                    strokeWidth={1.5}
+                  />
+                  <path
+                    d="M10 8.5a.75.75 0 01-.75.75h-.999l-.001 1a.75.75 0 01-1.5 0v-1h-1a.75.75 0 010-1.5h1v-1a.75.75 0 011.5 0v1h1a.75.75 0 01.75.75z"
+                    fill="#1A9BC7"
+                  />
+                </g>
+              </svg>
+              <span
+                className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+              >
+                Manual
+              </span>
+            </button>
+          </span>
+        </div>
+        <button
+          aria-label="Scroll right"
+          className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-carGAA Slider__SliderButton-x7d2c6-2 gjhYjP bPZcXk ifa-DBT eiUoSm cMojkJ"
+          disabled={true}
+          onClick={[Function]}
+          size={20}
+          type="button"
+        >
+          <svg
+            height={20}
+            viewBox="0 0 20 20"
+            width={20}
+          >
+            <g
+              fill="none"
+              fillRule="evenodd"
+              transform="matrix(-1 0 0 1 20 0)"
+            >
+              <circle
+                cx={10}
+                cy={10}
+                r={9}
+                stroke="#E2E2E2"
+              />
+              <path
+                d="M6.505 10.974l3.548-3 3.652 2.96"
+                stroke="#6E6E6E"
+                strokeLinecap="round"
+                strokeWidth={2}
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Template Selector Empty category 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="TemplateEmpty__Container-sc-1o46rfr-1 jeNqRW"
+    >
+      <div
+        className="TemplateEmpty__TextContainer-sc-1o46rfr-2 bgZDqq"
+      >
+        No manuscript templates yet in the
+         
+        <span
+          className="TemplateEmpty__CategoryContainer-sc-1o46rfr-0 dkVZGC"
+        >
+          Biology
+        </span>
+         category.
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Template Selector Empty search results 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="TemplateEmpty__Container-sc-1o46rfr-1 jeNqRW"
+    >
+      <div
+        className="TemplateEmpty__TextContainer-sc-1o46rfr-2 bgZDqq"
+      >
+        No matching template for query
+         
+        <span
+          className="TemplateEmpty__CategoryContainer-sc-1o46rfr-0 dkVZGC"
+        >
+          example
+        </span>
+        .
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Template Selector Modal 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="TemplateSelectorModal__ModalBody-sc-3m3whc-1 ciPRyT"
+    >
+      <div
+        className="TemplateModalClose__ModalHeader-sc-4b5ggu-0 dJXTtX"
+      >
+        <button
+          className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+          onClick={[Function]}
+          type="button"
+        >
+          Close Modal
+        </button>
+      </div>
+      <div
+        className="TemplateSelectorModal__ModalContainer-sc-3m3whc-0 ESxyv"
+      >
+        <header
+          className="TemplateModalHeader__ModalHeader-sc-1p5c4fv-0 gUwmOX"
+        >
+          <h2
+            className="TemplateModalHeader__Header-sc-1p5c4fv-1 iQCokA"
+          >
+            Add Manuscript to Project
+          </h2>
+        </header>
+        <nav
+          className="TemplateCategorySelector__Categories-sc-152id2w-0 hvMndk"
+          role="navigation"
+        >
+          <div
+            className="Slider__SliderContainer-x7d2c6-0 enbbIk"
+          >
+            <button
+              aria-label="Scroll left"
+              className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-carGAA Slider__SliderButton-x7d2c6-2 gjhYjP bPZcXk ifa-DBT eiUoSm fsLyeW"
+              disabled={true}
+              onClick={[Function]}
+              size={20}
+              type="button"
+            >
+              <svg
+                height={20}
+                viewBox="0 0 20 20"
+                width={20}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                  transform="matrix(1 0 0 -1 0 20)"
+                >
+                  <circle
+                    cx={10}
+                    cy={10}
+                    r={9}
+                    stroke="#E2E2E2"
+                  />
+                  <path
+                    d="M6.505 10.974l3.548-3 3.652 2.96"
+                    stroke="#6E6E6E"
+                    strokeLinecap="round"
+                    strokeWidth={2}
+                  />
+                </g>
+              </svg>
+            </button>
+            <div
+              className="Slider__SliderContainerInner-x7d2c6-1 hCAokd"
+            >
+              <span
+                className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+              >
+                <button
+                  autoFocus={true}
+                  className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN iLoAvh gHbVVS"
+                  onClick={[Function]}
+                  selected={true}
+                  title="Peer reviewed research publications."
+                  type="button"
+                >
+                  <svg
+                    height={20}
+                    viewBox="0 0 18 20"
+                    width={18}
+                  >
+                    <g
+                      fill="none"
+                      fillRule="evenodd"
+                    >
+                      <path
+                        d="M4.282 2.25h9.436c.52 0 .815.057 1.124.222.294.157.529.392.686.686.165.309.222.604.222 1.124v11.436c0 .52-.057.815-.222 1.124a1.659 1.659 0 01-.686.686c-.309.165-.604.222-1.124.222H4.282c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686c-.165-.309-.222-.604-.222-1.124V4.282c0-.52.057-.815.222-1.124.157-.294.392-.529.686-.686.309-.165.604-.222 1.124-.222z"
+                        stroke="#1A9BC7"
+                        strokeWidth={1.5}
+                      />
+                      <path
+                        d="M12 6a.75.75 0 01.75.75v7.5a.75.75 0 01-1.5 0v-7.5A.75.75 0 0112 6zm-6 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 016 10zm3-1a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 019 9z"
+                        fill="#1A9BC7"
+                      />
+                    </g>
+                  </svg>
+                  <span
+                    className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+                  >
+                    Research Article
+                  </span>
+                </button>
+              </span>
+              <span
+                className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+              >
+                <button
+                  autoFocus={false}
+                  className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+                  onClick={[Function]}
+                  selected={false}
+                  title="Essays"
+                  type="button"
+                >
+                  <svg
+                    height={20}
+                    viewBox="0 0 18 20"
+                    width={18}
+                  >
+                    <g
+                      fill="none"
+                      fillRule="evenodd"
+                      transform="translate(3 2)"
+                    >
+                      <path
+                        d="M1.282.25h9.436c.52 0 .815.057 1.124.222.294.157.529.392.686.686.165.309.222.604.222 1.124v11.436c0 .52-.057.815-.222 1.124a1.659 1.659 0 01-.686.686c-.309.165-.604.222-1.124.222H1.282c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686c-.165-.309-.222-.604-.222-1.124V2.282c0-.52.057-.815.222-1.124C-.37.864-.136.629.158.472.467.307.762.25 1.282.25z"
+                        stroke="#1A9BC7"
+                        strokeWidth={1.5}
+                      />
+                      <rect
+                        fill="#1A9BC7"
+                        height={16}
+                        rx={0.75}
+                        width={1.5}
+                        x={2}
+                      />
+                    </g>
+                  </svg>
+                  <span
+                    className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+                  >
+                    Essay
+                  </span>
+                </button>
+              </span>
+              <span
+                className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+              >
+                <button
+                  autoFocus={false}
+                  className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+                  onClick={[Function]}
+                  selected={false}
+                  title="Master's & PhD theses, and other dissertations."
+                  type="button"
+                >
+                  <svg
+                    height={19}
+                    viewBox="0 0 16 19"
+                    width={16}
+                  >
+                    <g
+                      fill="none"
+                      fillRule="evenodd"
+                    >
+                      <path
+                        d="M3.5 8a.75.75 0 01.75.75v4.5a.75.75 0 11-1.5 0v-4.5A.75.75 0 013.5 8zm3 0a.75.75 0 01.75.75v4.5a.75.75 0 11-1.5 0v-4.5A.75.75 0 016.5 8zm3 0a.75.75 0 01.75.75v4.5a.75.75 0 11-1.5 0v-4.5A.75.75 0 019.5 8zm3 0a.75.75 0 01.75.75v4.5a.75.75 0 11-1.5 0v-4.5A.75.75 0 0112.5 8z"
+                        fill="#1A9BC7"
+                      />
+                      <path
+                        d="M7.862 2.894a.25.25 0 00-.224 0L1.874 5.776a.25.25 0 00.112.474h11.528a.25.25 0 00.112-.474L7.862 2.894z"
+                        stroke="#1A9BC7"
+                        strokeWidth={1.5}
+                      />
+                      <path
+                        d="M1.75 15h12.5a.75.75 0 110 1.5H1.75a.75.75 0 110-1.5z"
+                        fill="#1A9BC7"
+                      />
+                    </g>
+                  </svg>
+                  <span
+                    className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+                  >
+                    Dissertation
+                  </span>
+                </button>
+              </span>
+              <span
+                className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+              >
+                <button
+                  autoFocus={false}
+                  className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+                  onClick={[Function]}
+                  selected={false}
+                  title="A book or a book chapter"
+                  type="button"
+                >
+                  <svg
+                    height={20}
+                    viewBox="0 0 19 20"
+                    width={19}
+                  >
+                    <g
+                      fill="none"
+                      fillRule="evenodd"
+                    >
+                      <path
+                        d="M4.032 2.75H12.5v15.5H4.032c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686C2.057 17.033 2 16.738 2 16.218V4.782c0-.52.057-.815.222-1.124.157-.294.392-.529.686-.686.309-.165.604-.222 1.124-.222z"
+                        stroke="#1A9BC7"
+                        strokeWidth={1.5}
+                      />
+                      <path
+                        d="M14.75 2.25a.75.75 0 01.75.75v15a.75.75 0 11-1.5 0V3a.75.75 0 01.75-.75zM17 2.5a.75.75 0 01.75.75v14.5a.75.75 0 11-1.5 0V3.25A.75.75 0 0117 2.5z"
+                        fill="#1A9BC7"
+                      />
+                    </g>
+                  </svg>
+                  <span
+                    className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+                  >
+                    Book
+                  </span>
+                </button>
+              </span>
+              <span
+                className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+              >
+                <button
+                  autoFocus={false}
+                  className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+                  onClick={[Function]}
+                  selected={false}
+                  title="An application for funding."
+                  type="button"
+                >
+                  <svg
+                    height={20}
+                    viewBox="0 0 18 20"
+                    width={18}
+                  >
+                    <g
+                      fill="none"
+                      fillRule="evenodd"
+                    >
+                      <path
+                        d="M4.282 2.25h9.436c.52 0 .815.057 1.124.222.294.157.529.392.686.686.165.309.222.604.222 1.124v11.436c0 .52-.057.815-.222 1.124a1.659 1.659 0 01-.686.686c-.309.165-.604.222-1.124.222H4.282c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686c-.165-.309-.222-.604-.222-1.124V4.282c0-.52.057-.815.222-1.124.157-.294.392-.529.686-.686.309-.165.604-.222 1.124-.222z"
+                        stroke="#1A9BC7"
+                        strokeWidth={1.5}
+                      />
+                      <text
+                        fill="#1A9BC7"
+                        fontFamily="Barlow-Bold, Barlow"
+                        fontSize={10}
+                        fontWeight="bold"
+                        letterSpacing={-0.154}
+                        transform="translate(3 3)"
+                      >
+                        <tspan
+                          x={3.317}
+                          y={10.75}
+                        >
+                          $
+                        </tspan>
+                      </text>
+                    </g>
+                  </svg>
+                  <span
+                    className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+                  >
+                    Grant Application
+                  </span>
+                </button>
+              </span>
+              <span
+                className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+              >
+                <button
+                  autoFocus={false}
+                  className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+                  onClick={[Function]}
+                  selected={false}
+                  title="A blog post"
+                  type="button"
+                >
+                  <svg
+                    height={16}
+                    viewBox="0 0 21 16"
+                    width={21}
+                  >
+                    <g
+                      fill="none"
+                      fillRule="evenodd"
+                      transform="translate(2 4)"
+                    >
+                      <path
+                        d="M3.641-.75h10.718c.316 0 .523.04.739.155.212.114.383.285.497.497.115.216.155.423.155.739V7.75H2.25V.641c0-.316.04-.523.155-.739.114-.212.285-.383.497-.497.216-.115.423-.155.739-.155z"
+                        stroke="#1A9BC7"
+                        strokeWidth={1.5}
+                      />
+                      <rect
+                        fill="#1A9BC7"
+                        height={1.5}
+                        rx={0.75}
+                        width={18}
+                        y={9}
+                      />
+                    </g>
+                  </svg>
+                  <span
+                    className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+                  >
+                    Blog Post
+                  </span>
+                </button>
+              </span>
+              <span
+                className="TemplateCategory__Category-ofwrbj-0 kFaMxL"
+              >
+                <button
+                  autoFocus={false}
+                  className="sc-ezzayL sc-hiKfjK TemplateCategorySelector__Category-sc-152id2w-1 cRSqLN ktDLLB gHbVVS"
+                  onClick={[Function]}
+                  selected={false}
+                  title="A manual (for a software product etc)."
+                  type="button"
+                >
+                  <svg
+                    height={21}
+                    viewBox="0 0 18 21"
+                    width={18}
+                  >
+                    <g
+                      fill="none"
+                      fillRule="evenodd"
+                    >
+                      <path
+                        d="M4.282 3.25h9.436c.52 0 .815.057 1.124.222.294.157.529.392.686.686.165.309.222.604.222 1.124v11.436c0 .52-.057.815-.222 1.124a1.659 1.659 0 01-.686.686c-.309.165-.604.222-1.124.222H4.282c-.52 0-.815-.057-1.124-.222a1.659 1.659 0 01-.686-.686c-.165-.309-.222-.604-.222-1.124V5.282c0-.52.057-.815.222-1.124.157-.294.392-.529.686-.686.309-.165.604-.222 1.124-.222z"
+                        stroke="#1A9BC7"
+                        strokeWidth={1.5}
+                      />
+                      <path
+                        d="M10 8.5a.75.75 0 01-.75.75h-.999l-.001 1a.75.75 0 01-1.5 0v-1h-1a.75.75 0 010-1.5h1v-1a.75.75 0 011.5 0v1h1a.75.75 0 01.75.75z"
+                        fill="#1A9BC7"
+                      />
+                    </g>
+                  </svg>
+                  <span
+                    className="TemplateCategorySelector__CategoryName-sc-152id2w-2 kNTgw"
+                  >
+                    Manual
+                  </span>
+                </button>
+              </span>
+            </div>
+            <button
+              aria-label="Scroll right"
+              className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-carGAA Slider__SliderButton-x7d2c6-2 gjhYjP bPZcXk ifa-DBT eiUoSm cMojkJ"
+              disabled={true}
+              onClick={[Function]}
+              size={20}
+              type="button"
+            >
+              <svg
+                height={20}
+                viewBox="0 0 20 20"
+                width={20}
+              >
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                  transform="matrix(-1 0 0 1 20 0)"
+                >
+                  <circle
+                    cx={10}
+                    cy={10}
+                    r={9}
+                    stroke="#E2E2E2"
+                  />
+                  <path
+                    d="M6.505 10.974l3.548-3 3.652 2.96"
+                    stroke="#6E6E6E"
+                    strokeLinecap="round"
+                    strokeWidth={2}
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </nav>
+        <div
+          className="TemplateSelectorModal__FiltersContainer-sc-3m3whc-2 cevOwd"
+        >
+          <div
+            className="Search__SearchContainer-vfnej6-0 evtBHc"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+          >
+            <span
+              className="Search__SearchIconContainer-vfnej6-1 hRschK"
+            >
+              <svg
+                height={18}
+                viewBox="0 0 18 18"
+                width={18}
+              >
+                <path
+                  d="M11.015 12.38a6.426 6.426 0 01-3.82 1.246A6.336 6.336 0 011.31 9.62a6.417 6.417 0 011.488-6.99 6.312 6.312 0 016.996-1.219 6.391 6.391 0 013.733 6.079 5.98 5.98 0 01-1.273 3.685l4.686 4.565.007.007a.804.804 0 01.201.587.778.778 0 01-.27.543.845.845 0 01-1.17.067l-4.693-4.566zM2.531 7.484v.003c.053 2.539 2.14 4.555 4.664 4.508a4.661 4.661 0 004.324-2.944c.71-1.78.275-3.82-1.098-5.15a4.646 4.646 0 00-5.144-.893 4.703 4.703 0 00-2.746 4.476z"
+                  fill="#FFF"
+                  fillRule="evenodd"
+                  stroke="#FFF"
+                  strokeWidth={0.3}
+                />
+              </svg>
+            </span>
+            <input
+              autoComplete="off"
+              autoFocus={true}
+              className="sc-dlnjPT Search__SearchText-vfnej6-2 iOeyAw ibXnKp"
+              onChange={[Function]}
+              placeholder="Search"
+              type="search"
+              value=""
+            />
+          </div>
+          <div
+            className="TemplateTopicSelector__TopicSelector-so8lw-0 hPixTL"
+          >
+            <button
+              className="sc-ezzayL sc-iklIKw TemplateTopicSelector__TopicsToggleButton-so8lw-1 cRSqLN laqiSe kIUdqo"
+              onClick={[Function]}
+              type="button"
+            >
+              <div
+                className="TemplateTopicSelector__SelectedTopic-so8lw-2 bZTfMg"
+              >
+                All Topics
+              </div>
+              <svg
+                data-cy="arrow-down"
+                height={8}
+                viewBox="0 0 12 8"
+                width={12}
+              >
+                <path
+                  d="M2 2l3.942 4L10 2.053"
+                  fill="none"
+                  stroke="#353535"
+                  strokeLinecap="round"
+                  strokeWidth={1.6}
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          className="TemplateSelectorModal__TemplatesContainer-sc-3m3whc-3 cFkPur"
+        >
+          <div
+            style={
+              Object {
+                "height": 0,
+                "overflow": "visible",
+                "width": 0,
+              }
+            }
+          />
+        </div>
+        <div
+          className="TemplateModalFooter__ModalFooter-xir4lt-0 jYYbfB"
+        >
+          <div
+            className="TemplateModalFooter__FooterText-xir4lt-1 gbsejm"
+          >
+            <div
+              className="TemplateModalFooter__SelectedTemplateDesc-xir4lt-2 icLedQ"
+            >
+              Select a Template
+            </div>
+          </div>
+          <div
+            className="sc-iTVIwl TemplateModalFooter__FooterButtons-xir4lt-6 fqGxrZ fsIyho"
+          >
+            <button
+              className="sc-ezzayL sc-iklIKw cRSqLN laqiSe"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Add Empty
+            </button>
+            <button
+              className="sc-ezzayL sc-kLokih gjhYjP bYa-DYT"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Add Manuscript
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Template Selector Result 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 600,
+        }
+      }
+    >
+      <button
+        className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+        onClick={[Function]}
+        selected={false}
+      >
+        <div
+          className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+          selected={false}
+        >
+          <div
+            className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+            selected={false}
+          >
+            <div
+              className="TemplateListItem__Title-ilpg5i-1 kggahy"
+              selected={false}
+            >
+              <span
+                className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+              >
+                Drugs & Aging
+              </span>
+            </div>
+            <div
+              className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__InfoLinkContainer-ilpg5i-9 jAtREJ"
+              >
+                <a
+                  className="TemplateInfoLink__InfoLink-sc-13kugjt-0 flhTxH"
+                  href="http://www.springer.com/cda/content/document/cda_downloaddocument/manuscript-guidelines-1.0.pdf"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  ⓘ
+                </a>
+              </div>
+            </div>
+            <span
+              className="TemplateListItem__ArticleType-ilpg5i-8 bSWqCm"
+              data-cy="article-type"
+              selected={false}
+            >
+              Journal Publication
+            </span>
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Template Selector Result: selected 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 600,
+        }
+      }
+    >
+      <button
+        className="TemplateListItem__Container-ilpg5i-6 jCWNpK"
+        onClick={[Function]}
+        selected={true}
+      >
+        <div
+          className="TemplateListItem__ContainerInner-ilpg5i-7 dsyDir"
+          selected={true}
+        >
+          <div
+            className="TemplateListItem__Heading-ilpg5i-0 jfVCDc"
+            selected={true}
+          >
+            <div
+              className="TemplateListItem__Title-ilpg5i-1 coTUwR"
+              selected={true}
+            >
+              <span
+                className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+              >
+                Drugs & Aging
+              </span>
+            </div>
+            <div
+              className="TemplateListItem__TemplateActions-ilpg5i-4 gJUfRN"
+              selected={true}
+            >
+              <div
+                className="TemplateListItem__InfoLinkContainer-ilpg5i-9 jAtREJ"
+              >
+                <a
+                  className="TemplateInfoLink__InfoLink-sc-13kugjt-0 flhTxH"
+                  href="http://www.springer.com/cda/content/document/cda_downloaddocument/manuscript-guidelines-1.0.pdf"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  ⓘ
+                </a>
+              </div>
+            </div>
+            <span
+              className="TemplateListItem__ArticleType-ilpg5i-8 imCdez"
+              data-cy="article-type"
+              selected={true}
+            >
+              Journal Publication
+            </span>
+          </div>
+          <div
+            className="TemplateListItem__PublisherName-ilpg5i-3 bjNWYG"
+          >
+            Springer Science+Business Media
+          </div>
+          <div
+            className="TemplateListItem__Description-ilpg5i-2 hcuOVE"
+            selected={true}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Metus dictum at tempor commodo ullamcorper a lacus vestibulum sed. Sit amet aliquam id diam maecenas. Amet mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan. Amet mattis vulputate enim nulla aliquet. Elit sed vulputate mi sit amet mauris commodo quis imperdiet. Ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Massa vitae tortor condimentum lacinia quis vel eros donec ac. Orci dapibus ultrices in iaculis nunc sed augue lacus viverra. Nunc pulvinar sapien et ligula ullamcorper malesuada proin libero. Semper auctor neque vitae tempus. Faucibus purus in massa tempor nec feugiat nisl. Quisque id diam vel quam elementum pulvinar. Sed ullamcorper morbi tincidunt ornare massa. Id venenatis a condimentum vitae sapien pellentesque habitant morbi.
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Template Selector Results list 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "height": 400,
+          "width": 600,
+        }
+      }
+    >
+      <div
+        onScroll={[Function]}
+        style={
+          Object {
+            "WebkitOverflowScrolling": "touch",
+            "direction": "ltr",
+            "height": 400,
+            "overflow": "auto",
+            "position": "relative",
+            "width": 600,
+            "willChange": "transform",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "height": 432,
+              "pointerEvents": undefined,
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            id="MPManuscriptTemplate:www-zotero-org-styles-drugs-and-aging-Drugs-&-Aging-Journal--Publication"
+            style={
+              Object {
+                "height": 48,
+                "left": 0,
+                "paddingBottom": "12px",
+                "position": "absolute",
+                "top": 0,
+                "transition": "all 200ms ease-in-out",
+                "width": "100%",
+              }
+            }
+          >
+            <button
+              className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+              onClick={[Function]}
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+                selected={false}
+              >
+                <div
+                  className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+                  selected={false}
+                >
+                  <div
+                    className="TemplateListItem__Title-ilpg5i-1 kggahy"
+                    selected={false}
+                  >
+                    <span
+                      className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+                    >
+                      Drugs & Aging
+                    </span>
+                  </div>
+                  <div
+                    className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+                    selected={false}
+                  >
+                    <div
+                      className="TemplateListItem__InfoLinkContainer-ilpg5i-9 jAtREJ"
+                    >
+                      <a
+                        className="TemplateInfoLink__InfoLink-sc-13kugjt-0 flhTxH"
+                        href="http://www.springer.com/cda/content/document/cda_downloaddocument/manuscript-guidelines-1.0.pdf"
+                        rel="noopener"
+                        target="_blank"
+                      >
+                        ⓘ
+                      </a>
+                    </div>
+                  </div>
+                  <span
+                    className="TemplateListItem__ArticleType-ilpg5i-8 bSWqCm"
+                    data-cy="article-type"
+                    selected={false}
+                  >
+                    Journal Publication
+                  </span>
+                </div>
+              </div>
+            </button>
+          </div>
+          <div
+            id="MPManuscriptTemplate:www-zotero-org-styles-drugs-and-aging-Drugs-&-Aging-Journal--Publication-Review-Article"
+            style={
+              Object {
+                "height": 48,
+                "left": 0,
+                "paddingBottom": "12px",
+                "position": "absolute",
+                "top": 48,
+                "transition": "all 200ms ease-in-out",
+                "width": "100%",
+              }
+            }
+          >
+            <button
+              className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+              onClick={[Function]}
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+                selected={false}
+              >
+                <div
+                  className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+                  selected={false}
+                >
+                  <div
+                    className="TemplateListItem__Title-ilpg5i-1 kggahy"
+                    selected={false}
+                  >
+                    <span
+                      className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+                    >
+                      Drugs & Aging
+                    </span>
+                  </div>
+                  <div
+                    className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+                    selected={false}
+                  >
+                    <div
+                      className="TemplateListItem__InfoLinkContainer-ilpg5i-9 jAtREJ"
+                    >
+                      <a
+                        className="TemplateInfoLink__InfoLink-sc-13kugjt-0 flhTxH"
+                        href="http://www.springer.com/cda/content/document/cda_downloaddocument/manuscript-guidelines-1.0.pdf"
+                        rel="noopener"
+                        target="_blank"
+                      >
+                        ⓘ
+                      </a>
+                    </div>
+                  </div>
+                  <span
+                    className="TemplateListItem__ArticleType-ilpg5i-8 bSWqCm"
+                    data-cy="article-type"
+                    selected={false}
+                  >
+                    Review Article
+                  </span>
+                </div>
+              </div>
+            </button>
+          </div>
+          <div
+            id="MPManuscriptTemplate:www-zotero-org-styles-drugs-and-aging-Drugs-&-Aging-Journal--Publication-Current-Opinion"
+            style={
+              Object {
+                "height": 48,
+                "left": 0,
+                "paddingBottom": "12px",
+                "position": "absolute",
+                "top": 96,
+                "transition": "all 200ms ease-in-out",
+                "width": "100%",
+              }
+            }
+          >
+            <button
+              className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+              onClick={[Function]}
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+                selected={false}
+              >
+                <div
+                  className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+                  selected={false}
+                >
+                  <div
+                    className="TemplateListItem__Title-ilpg5i-1 kggahy"
+                    selected={false}
+                  >
+                    <span
+                      className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+                    >
+                      Drugs & Aging
+                    </span>
+                  </div>
+                  <div
+                    className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+                    selected={false}
+                  >
+                    <div
+                      className="TemplateListItem__InfoLinkContainer-ilpg5i-9 jAtREJ"
+                    >
+                      <a
+                        className="TemplateInfoLink__InfoLink-sc-13kugjt-0 flhTxH"
+                        href="http://www.springer.com/cda/content/document/cda_downloaddocument/manuscript-guidelines-1.0.pdf"
+                        rel="noopener"
+                        target="_blank"
+                      >
+                        ⓘ
+                      </a>
+                    </div>
+                  </div>
+                  <span
+                    className="TemplateListItem__ArticleType-ilpg5i-8 bSWqCm"
+                    data-cy="article-type"
+                    selected={false}
+                  >
+                    Current Opinion
+                  </span>
+                </div>
+              </div>
+            </button>
+          </div>
+          <div
+            id="MPManuscriptTemplate:www-zotero-org-styles-drugs-and-aging-Drugs-&-Aging-Journal--Publication-Leading-Article"
+            style={
+              Object {
+                "height": 48,
+                "left": 0,
+                "paddingBottom": "12px",
+                "position": "absolute",
+                "top": 144,
+                "transition": "all 200ms ease-in-out",
+                "width": "100%",
+              }
+            }
+          >
+            <button
+              className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+              onClick={[Function]}
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+                selected={false}
+              >
+                <div
+                  className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+                  selected={false}
+                >
+                  <div
+                    className="TemplateListItem__Title-ilpg5i-1 kggahy"
+                    selected={false}
+                  >
+                    <span
+                      className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+                    >
+                      Drugs & Aging
+                    </span>
+                  </div>
+                  <div
+                    className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+                    selected={false}
+                  >
+                    <div
+                      className="TemplateListItem__InfoLinkContainer-ilpg5i-9 jAtREJ"
+                    >
+                      <a
+                        className="TemplateInfoLink__InfoLink-sc-13kugjt-0 flhTxH"
+                        href="http://www.springer.com/cda/content/document/cda_downloaddocument/manuscript-guidelines-1.0.pdf"
+                        rel="noopener"
+                        target="_blank"
+                      >
+                        ⓘ
+                      </a>
+                    </div>
+                  </div>
+                  <span
+                    className="TemplateListItem__ArticleType-ilpg5i-8 bSWqCm"
+                    data-cy="article-type"
+                    selected={false}
+                  >
+                    Leading Article
+                  </span>
+                </div>
+              </div>
+            </button>
+          </div>
+          <div
+            id="MPManuscriptTemplate:www-zotero-org-styles-drugs-and-aging-Drugs-&-Aging-Journal--Publication-Therapy-in-Practice"
+            style={
+              Object {
+                "height": 48,
+                "left": 0,
+                "paddingBottom": "12px",
+                "position": "absolute",
+                "top": 192,
+                "transition": "all 200ms ease-in-out",
+                "width": "100%",
+              }
+            }
+          >
+            <button
+              className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+              onClick={[Function]}
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+                selected={false}
+              >
+                <div
+                  className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+                  selected={false}
+                >
+                  <div
+                    className="TemplateListItem__Title-ilpg5i-1 kggahy"
+                    selected={false}
+                  >
+                    <span
+                      className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+                    >
+                      Drugs & Aging
+                    </span>
+                  </div>
+                  <div
+                    className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+                    selected={false}
+                  >
+                    <div
+                      className="TemplateListItem__InfoLinkContainer-ilpg5i-9 jAtREJ"
+                    >
+                      <a
+                        className="TemplateInfoLink__InfoLink-sc-13kugjt-0 flhTxH"
+                        href="http://www.springer.com/cda/content/document/cda_downloaddocument/manuscript-guidelines-1.0.pdf"
+                        rel="noopener"
+                        target="_blank"
+                      >
+                        ⓘ
+                      </a>
+                    </div>
+                  </div>
+                  <span
+                    className="TemplateListItem__ArticleType-ilpg5i-8 bSWqCm"
+                    data-cy="article-type"
+                    selected={false}
+                  >
+                    Therapy in Practice
+                  </span>
+                </div>
+              </div>
+            </button>
+          </div>
+          <div
+            id="MPManuscriptTemplate:www-zotero-org-styles-drugs-and-aging-Drugs-&-Aging-Journal--Publication-Systematic-Review"
+            style={
+              Object {
+                "height": 48,
+                "left": 0,
+                "paddingBottom": "12px",
+                "position": "absolute",
+                "top": 240,
+                "transition": "all 200ms ease-in-out",
+                "width": "100%",
+              }
+            }
+          >
+            <button
+              className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+              onClick={[Function]}
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+                selected={false}
+              >
+                <div
+                  className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+                  selected={false}
+                >
+                  <div
+                    className="TemplateListItem__Title-ilpg5i-1 kggahy"
+                    selected={false}
+                  >
+                    <span
+                      className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+                    >
+                      Drugs & Aging
+                    </span>
+                  </div>
+                  <div
+                    className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+                    selected={false}
+                  >
+                    <div
+                      className="TemplateListItem__InfoLinkContainer-ilpg5i-9 jAtREJ"
+                    >
+                      <a
+                        className="TemplateInfoLink__InfoLink-sc-13kugjt-0 flhTxH"
+                        href="http://www.springer.com/cda/content/document/cda_downloaddocument/manuscript-guidelines-1.0.pdf"
+                        rel="noopener"
+                        target="_blank"
+                      >
+                        ⓘ
+                      </a>
+                    </div>
+                  </div>
+                  <span
+                    className="TemplateListItem__ArticleType-ilpg5i-8 bSWqCm"
+                    data-cy="article-type"
+                    selected={false}
+                  >
+                    Systematic Review
+                  </span>
+                </div>
+              </div>
+            </button>
+          </div>
+          <div
+            id="MPManuscriptTemplate:MPBundle:www-zotero-org-styles-harvard1-cambridge_university_press_journal_publication"
+            style={
+              Object {
+                "height": 48,
+                "left": 0,
+                "paddingBottom": "12px",
+                "position": "absolute",
+                "top": 288,
+                "transition": "all 200ms ease-in-out",
+                "width": "100%",
+              }
+            }
+          >
+            <button
+              className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+              onClick={[Function]}
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+                selected={false}
+              >
+                <div
+                  className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+                  selected={false}
+                >
+                  <div
+                    className="TemplateListItem__Title-ilpg5i-1 kggahy"
+                    selected={false}
+                  >
+                    <span
+                      className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+                    >
+                      Cambridge University Press
+                    </span>
+                  </div>
+                  <div
+                    className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+                    selected={false}
+                  />
+                  <span
+                    className="TemplateListItem__ArticleType-ilpg5i-8 bSWqCm"
+                    data-cy="article-type"
+                    selected={false}
+                  >
+                    Journal Publication
+                  </span>
+                </div>
+              </div>
+            </button>
+          </div>
+          <div
+            id="MPManuscriptTemplate:MPManuscriptTemplate:MPBundle:www-zotero-org-styles-harvard1-cambridge_university_press_journal_publication-MPBundle:www-zotero-org-styles-harvard1-thalamus_and_related_systems_"
+            style={
+              Object {
+                "height": 48,
+                "left": 0,
+                "paddingBottom": "12px",
+                "position": "absolute",
+                "top": 336,
+                "transition": "all 200ms ease-in-out",
+                "width": "100%",
+              }
+            }
+          >
+            <button
+              className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+              onClick={[Function]}
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+                selected={false}
+              >
+                <div
+                  className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+                  selected={false}
+                >
+                  <div
+                    className="TemplateListItem__Title-ilpg5i-1 kggahy"
+                    selected={false}
+                  >
+                    <span
+                      className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+                    >
+                      Thalamus and Related Systems
+                    </span>
+                  </div>
+                  <div
+                    className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+                    selected={false}
+                  />
+                </div>
+              </div>
+            </button>
+          </div>
+          <div
+            id="MPBundle:www-zotero-org-styles-zoology-in-the-middle-east"
+            style={
+              Object {
+                "height": 48,
+                "left": 0,
+                "paddingBottom": "12px",
+                "position": "absolute",
+                "top": 384,
+                "transition": "all 200ms ease-in-out",
+                "width": "100%",
+              }
+            }
+          >
+            <button
+              className="TemplateListItem__Container-ilpg5i-6 gsbhfD"
+              onClick={[Function]}
+              selected={false}
+            >
+              <div
+                className="TemplateListItem__ContainerInner-ilpg5i-7 blfbyl"
+                selected={false}
+              >
+                <div
+                  className="TemplateListItem__Heading-ilpg5i-0 dTFVyW"
+                  selected={false}
+                >
+                  <div
+                    className="TemplateListItem__Title-ilpg5i-1 kggahy"
+                    selected={false}
+                  >
+                    <span
+                      className="TemplateListItem__BundleTitle-ilpg5i-5 YMZNm"
+                    >
+                      Zoology in the Middle East
+                    </span>
+                  </div>
+                  <div
+                    className="TemplateListItem__TemplateActions-ilpg5i-4 kNkhuW"
+                    selected={false}
+                  >
+                    <div
+                      className="TemplateListItem__InfoLinkContainer-ilpg5i-9 jAtREJ"
+                    >
+                      <a
+                        className="TemplateInfoLink__InfoLink-sc-13kugjt-0 flhTxH"
+                        href="http://www.tandfonline.com/action/authorSubmission?journalCode=TZME20&page=instructions"
+                        rel="noopener"
+                        target="_blank"
+                      >
+                        ⓘ
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Template Selector Search input 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="TemplateSearchInput__SearchContainer-sc-19hq5da-0 cSShyy"
+    >
+      <div
+        className="Search__SearchContainer-vfnej6-0 evtBHc"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <span
+          className="Search__SearchIconContainer-vfnej6-1 hRschK"
+        >
+          <svg
+            height={18}
+            viewBox="0 0 18 18"
+            width={18}
+          >
+            <path
+              d="M11.015 12.38a6.426 6.426 0 01-3.82 1.246A6.336 6.336 0 011.31 9.62a6.417 6.417 0 011.488-6.99 6.312 6.312 0 016.996-1.219 6.391 6.391 0 013.733 6.079 5.98 5.98 0 01-1.273 3.685l4.686 4.565.007.007a.804.804 0 01.201.587.778.778 0 01-.27.543.845.845 0 01-1.17.067l-4.693-4.566zM2.531 7.484v.003c.053 2.539 2.14 4.555 4.664 4.508a4.661 4.661 0 004.324-2.944c.71-1.78.275-3.82-1.098-5.15a4.646 4.646 0 00-5.144-.893 4.703 4.703 0 00-2.746 4.476z"
+              fill="#FFF"
+              fillRule="evenodd"
+              stroke="#FFF"
+              strokeWidth={0.3}
+            />
+          </svg>
+        </span>
+        <input
+          autoFocus={true}
+          className="sc-dlnjPT Search__SearchText-vfnej6-2 iOeyAw ibXnKp"
+          onChange={[Function]}
+          placeholder="Search"
+          type="search"
+          value=""
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Template Selector Topic selector 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 200,
+        }
+      }
+    >
+      <div
+        className="TemplateTopicSelector__TopicSelector-so8lw-0 hPixTL"
+      >
+        <button
+          className="sc-ezzayL sc-iklIKw TemplateTopicSelector__TopicsToggleButton-so8lw-1 cRSqLN laqiSe kIUdqo"
+          onClick={[Function]}
+          type="button"
+        >
+          <div
+            className="TemplateTopicSelector__SelectedTopic-so8lw-2 bZTfMg"
+          >
+            All Topics
+          </div>
+          <svg
+            data-cy="arrow-down"
+            height={8}
+            viewBox="0 0 12 8"
+            width={12}
+          >
+            <path
+              d="M2 2l3.942 4L10 2.053"
+              fill="none"
+              stroke="#353535"
+              strokeLinecap="round"
+              strokeWidth={1.6}
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Template Selector Topics list 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="TemplateTopicsList__ListContainer-znroi6-0 hvIUYp"
+      data-cy="template-topics-list"
+    >
+      <div
+        className="TemplateTopicsList__List-znroi6-1 Twfrv"
+      >
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          >
+            <svg
+              height={16}
+              viewBox="0 0 32 34"
+              width={16}
+            >
+              <g
+                fill="none"
+                fillRule="evenodd"
+              >
+                <g
+                  stroke="#FFE185"
+                >
+                  <path
+                    d="M20 3.144a8 8 0 00-8 0L6 6.608a8 8 0 00-4 6.928v6.928a8 8 0 004 6.928l6 3.464a8 8 0 008 0l6-3.464a8 8 0 004-6.928v-6.928a8 8 0 00-4-6.928l-6-3.464z"
+                    strokeWidth={2}
+                  />
+                  <path
+                    d="M16 9a.75.75 0 01.75.75l-.001 5.999 6.001.001a.75.75 0 110 1.5l-6.001-.001.001 6.001a.75.75 0 11-1.5 0l-.001-6.001-5.999.001a.75.75 0 110-1.5l5.999-.001.001-5.999A.75.75 0 0116 9z"
+                    fill="#FFE185"
+                  />
+                </g>
+                <path
+                  d="M20.5 2.278l6 3.464a9 9 0 014.5 7.794v6.928a9 9 0 01-4.5 7.794l-6 3.464a9 9 0 01-9 0l-6-3.464A9 9 0 011 20.464v-6.928a9 9 0 014.5-7.794l6-3.464a9 9 0 019 0z"
+                  fill="#8DD439"
+                />
+                <path
+                  d="M12.355 17.264a1.094 1.094 0 00-1.468.023l-.148.143a.91.91 0 00.022 1.358l3.634 3.258 8.81-8.002a.878.878 0 00-.011-1.333l-.154-.137a1.139 1.139 0 00-1.492.004l-7.205 6.469-1.988-1.783z"
+                  fill="#FFF"
+                />
+              </g>
+            </svg>
+          </span>
+          All Topics
+        </div>
+        <div
+          className="TemplateTopicsList__Separator-znroi6-3 dGLCKI"
+        />
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Anthropology
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Astronomy
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Biology
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Botany
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Chemistry
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Communications
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Engineering
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Generic base
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Geography
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Geology
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          History
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Humanities
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Law
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Linguistics
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Literature
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Math
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Medicine
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Philosophy
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Physics
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Political science
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Psychology
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Science
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Social science
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Sociology
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Theology
+        </div>
+        <div
+          className="TemplateTopicsList__ListSection-znroi6-2 bDNwyE"
+          onClick={[Function]}
+        >
+          <span
+            className="TemplateTopicsList__AddedIconContainer-znroi6-4 gKKAro"
+          />
+          Zoology
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

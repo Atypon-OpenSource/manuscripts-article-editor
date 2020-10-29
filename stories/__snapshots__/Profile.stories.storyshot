@@ -1,0 +1,618 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Account/Modals Profile 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div>
+      <div
+        className="sc-eGJXgd REOgn"
+      >
+        <div
+          className="sc-csTaMs fVoOUB"
+        >
+          <button
+            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            data-cy="modal-close-button"
+            onClick={[Function]}
+            type="button"
+          />
+        </div>
+        <div
+          className="Sidebar__ModalBody-v95ywm-3 jOabhg"
+        >
+          <div
+            className="Sidebar__ModalSidebar-v95ywm-1 eElppW"
+          >
+            <div
+              className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+            >
+              <div
+                className="UserProfileSidebar__AvatarContainer-bxt72r-3 cSDDbE"
+              >
+                <div
+                  className="sc-jffIyK kbBVcu"
+                >
+                  <svg
+                    className="sc-oefIU chSjlL"
+                    color="#6e6e6e"
+                    height={150}
+                    viewBox="0 0 34 34"
+                    width={150}
+                  >
+                    <path
+                      d="M17 1c8.837 0 16 7.163 16 16s-7.163 16-16 16S1 25.837 1 17 8.163 1 17 1zm0 17.585a9.341 9.341 0 00-9.324 9.905A14.737 14.737 0 0017 31.797a14.74 14.74 0 009.324-3.306A9.341 9.341 0 0017 18.586zm0-16.382C8.828 2.203 2.203 8.828 2.203 17c0 4.03 1.612 7.685 4.226 10.354.243-4.575 3.391-8.378 7.633-9.601a5.605 5.605 0 115.876.001c4.242 1.222 7.39 5.025 7.633 9.6A14.75 14.75 0 0031.797 17c0-8.172-6.625-14.797-14.797-14.797zm0 6.418a4.36 4.36 0 100 8.719 4.36 4.36 0 000-8.719z"
+                      fill="#6E6E6E"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                className="UserProfileSidebar__AddProfileButtonContainer-bxt72r-7 jOPSbr"
+              >
+                <button
+                  className="sc-ezzayL sc-kLokih UserProfileSidebar__EditButton-bxt72r-2 cRSqLN bYa-DYT eZDOZH"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Add Picture
+                </button>
+              </div>
+              <div
+                className="UserProfileSidebar__UserEmail-bxt72r-0 gCirii"
+              />
+              <div
+                className="UserProfileSidebar__MemberSince-bxt72r-1 jOffnD"
+              >
+                Member since
+                 
+                Oct 29, 2020
+              </div>
+              <button
+                className="sc-ezzayL sc-kLokih UserProfileSidebar__ChangePasswordButton-bxt72r-5 cRSqLN bYa-DYT krNhiM"
+                onClick={[Function]}
+                type="button"
+              >
+                Change Password
+              </button>
+              <button
+                className="sc-ezzayL sc-iklIKw UserProfileSidebar__DeleteAccountButton-bxt72r-6 cRSqLN laqiSe fEAvHC"
+                onClick={[Function]}
+                type="button"
+              >
+                Delete Account
+              </button>
+            </div>
+          </div>
+          <div
+            className="sc-bsatbK Sidebar__StyledModalMain-v95ywm-2 cHdJDA dGMrRR"
+          >
+            <form
+              action="#"
+              noValidate={true}
+              onReset={[Function]}
+              onSubmit={[Function]}
+            >
+              <div
+                className="ProfileForm__Fields-sc-1olk8da-0 iiQqnx"
+              >
+                <fieldset
+                  className="ProfileForm__Fieldset-sc-1olk8da-1 jZsYAi"
+                >
+                  <legend
+                    className="ProfileForm__Legend-sc-1olk8da-2 ezIKTn"
+                  >
+                    Details
+                  </legend>
+                  <div
+                    className="sc-eCApGN bRvWwx"
+                  >
+                    <input
+                      checked={true}
+                      className="sc-dlnjPT iOeyAw"
+                      name="bibliographicName.given"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="given name"
+                      value="Jon"
+                    />
+                    <input
+                      checked={true}
+                      className="sc-dlnjPT iOeyAw"
+                      name="bibliographicName.family"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="family name"
+                      value="Snow"
+                    />
+                  </div>
+                </fieldset>
+              </div>
+            </form>
+            <div
+              className="sc-hHEjAm hlpCzi"
+            >
+              <legend
+                className="sc-iqAbSa ZuSPU"
+              >
+                Affiliations
+              </legend>
+              <div
+                className="sc-dlMBXb iuXqaM"
+              >
+                <div
+                  className="sc-kfYqjs jTbWOp"
+                >
+                  <section
+                    className="sc-dIsAE hSCMRX"
+                  >
+                    <h4
+                      className="sc-bqGHjH fEbpMQ"
+                    >
+                      <button
+                        className="sc-hBMVcZ jxpJvc"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <svg
+                          className="sc-ksluoS drbnlP"
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <g
+                            fill="none"
+                            fillRule="evenodd"
+                            transform="matrix(1 0 0 -1 0 20)"
+                          >
+                            <circle
+                              cx={10}
+                              cy={10}
+                              r={9}
+                              stroke="#E2E2E2"
+                            />
+                            <path
+                              d="M6.505 10.974l3.548-3 3.652 2.96"
+                              stroke="#6E6E6E"
+                              strokeLinecap="round"
+                              strokeWidth={2}
+                            />
+                          </g>
+                        </svg>
+                        Foobar University
+                      </button>
+                      <button
+                        aria-label="Delete this affiliation"
+                        className="sc-fnVYJo jYorMu"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <svg
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <path
+                            d="M15.494 3.375h-3.539c-.025-.21-.241-.375-.504-.375H8.548c-.262 0-.478.165-.503.375H4.506c-.28 0-.506.186-.506.417v.791c0 .23.227.417.506.417h10.988c.28 0 .506-.186.506-.417v-.791c0-.23-.227-.417-.506-.417zM5 6v10.491c0 .281.23.509.513.509h8.974a.51.51 0 00.513-.509V6H5zm3.753 7.874c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563zm3.624 0c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563z"
+                            fill="#6E6E6E"
+                          />
+                        </svg>
+                      </button>
+                    </h4>
+                  </section>
+                  <section
+                    className="sc-dIsAE hSCMRX"
+                  >
+                    <h4
+                      className="sc-bqGHjH fEbpMQ"
+                    >
+                      <button
+                        className="sc-hBMVcZ jxpJvc"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <svg
+                          className="sc-ksluoS drbnlP"
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <g
+                            fill="none"
+                            fillRule="evenodd"
+                            transform="matrix(1 0 0 -1 0 20)"
+                          >
+                            <circle
+                              cx={10}
+                              cy={10}
+                              r={9}
+                              stroke="#E2E2E2"
+                            />
+                            <path
+                              d="M6.505 10.974l3.548-3 3.652 2.96"
+                              stroke="#6E6E6E"
+                              strokeLinecap="round"
+                              strokeWidth={2}
+                            />
+                          </g>
+                        </svg>
+                        Foobar Collage of IT
+                      </button>
+                      <button
+                        aria-label="Delete this affiliation"
+                        className="sc-fnVYJo jYorMu"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <svg
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <path
+                            d="M15.494 3.375h-3.539c-.025-.21-.241-.375-.504-.375H8.548c-.262 0-.478.165-.503.375H4.506c-.28 0-.506.186-.506.417v.791c0 .23.227.417.506.417h10.988c.28 0 .506-.186.506-.417v-.791c0-.23-.227-.417-.506-.417zM5 6v10.491c0 .281.23.509.513.509h8.974a.51.51 0 00.513-.509V6H5zm3.753 7.874c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563zm3.624 0c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563z"
+                            fill="#6E6E6E"
+                          />
+                        </svg>
+                      </button>
+                    </h4>
+                  </section>
+                </div>
+                <div
+                  className=" css-2b097c-container"
+                  onKeyDown={[Function]}
+                >
+                  <div
+                    className=" css-19titw-control"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                  >
+                    <div
+                      className=" css-g1d714-ValueContainer"
+                    >
+                      <div
+                        className=" css-1wa3eu0-placeholder"
+                      >
+                        Begin typing to add affiliation
+                      </div>
+                      <div
+                        className="css-b8ldur-Input"
+                      >
+                        <div
+                          className=""
+                          style={
+                            Object {
+                              "display": "inline-block",
+                            }
+                          }
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            autoCapitalize="none"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            disabled={false}
+                            id="react-select-7-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            spellCheck="false"
+                            style={
+                              Object {
+                                "background": 0,
+                                "border": 0,
+                                "boxSizing": "content-box",
+                                "color": "inherit",
+                                "fontSize": "inherit",
+                                "label": "input",
+                                "opacity": 1,
+                                "outline": 0,
+                                "padding": 0,
+                                "width": "1px",
+                              }
+                            }
+                            tabIndex="0"
+                            type="text"
+                            value=""
+                          />
+                          <div
+                            style={
+                              Object {
+                                "height": 0,
+                                "left": 0,
+                                "overflow": "scroll",
+                                "position": "absolute",
+                                "top": 0,
+                                "visibility": "hidden",
+                                "whiteSpace": "pre",
+                              }
+                            }
+                          >
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="sc-fKgIGh GxMKb"
+                    >
+                      <svg
+                        height={36}
+                        viewBox="0 0 36 36"
+                        width={36}
+                      >
+                        <defs>
+                          <circle
+                            cx={18}
+                            cy={18}
+                            id="svg-addauthor-a"
+                            r={18}
+                          />
+                        </defs>
+                        <g
+                          fill="none"
+                          fillRule="evenodd"
+                        >
+                          <mask
+                            fill="#fff"
+                            id="svg-addauthor-b"
+                          >
+                            <use
+                              xlinkHref="#svg-addauthor-a"
+                            />
+                          </mask>
+                          <use
+                            fill="#FFBD26"
+                            xlinkHref="#svg-addauthor-a"
+                          />
+                          <path
+                            d="M18.005 10.493a.7.7 0 01.7.7l-.001 5.6h5.6a.7.7 0 010 1.4h-5.6v5.6a.7.7 0 01-1.4 0v-5.6h-5.6a.7.7 0 010-1.4h5.6v-5.6a.7.7 0 01.7-.7z"
+                            fill="#FFF"
+                            mask="url(#svg-addauthor-b)"
+                            stroke="#FFF"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Profile AvatarFileUpload - with new Avatar 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Profilestories__SidebarStory-dvlmq5-0 jZOfds"
+    >
+      <div
+        className="Sidebar__ModalSidebar-v95ywm-1 eElppW"
+      >
+        <div
+          className="AvatarFileUpload__AvatarContainer-wn580i-9 ldJzrG"
+        >
+          <div />
+          <input
+            className="AvatarFileUpload__RangeInput-wn580i-10"
+            max={4}
+            min={1}
+            onChange={[Function]}
+            step={0.2}
+            type="range"
+            value={1}
+          />
+        </div>
+        <div
+          className="AvatarFileUpload__ButtonsContainer-wn580i-6 bvNIsF"
+        >
+          <button
+            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 cRSqLN bYa-DYT kjhvGo"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Save Avatar
+          </button>
+          <button
+            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 gjhYjP bYa-DYT kjhvGo"
+            disabled={true}
+            onClick={[Function]}
+            type="button"
+          >
+            Remove Avatar
+          </button>
+          <button
+            className="sc-ezzayL sc-bYwzba AvatarFileUpload__CancelButton-wn580i-8 cRSqLN bXiklN iHPwZR"
+            onClick={[Function]}
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Profile AvatarFileUpload - with old Avatar 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Profilestories__SidebarStory-dvlmq5-0 jZOfds"
+    >
+      <div
+        className="Sidebar__ModalSidebar-v95ywm-1 eElppW"
+      >
+        <div
+          className="ImportAvatarContainer__Container-sc-15s9qd8-0 ggOblm"
+          onClick={[Function]}
+          onDragEnter={[Function]}
+          onDragLeave={[Function]}
+          onDragOver={[Function]}
+          onDrop={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <div
+            className="AvatarFileUpload__UploadContainer-wn580i-1 gcVQAo"
+          >
+            <div
+              className="AvatarFileUpload__RoundedBorders-wn580i-11 iOToSH"
+            >
+              <div
+                className="sc-jffIyK kbBVcu"
+              >
+                <img
+                  className="sc-eJoaVz kMlOPN"
+                  onError={[Function]}
+                  size={150}
+                  src="test-file-stub"
+                />
+              </div>
+            </div>
+            <div
+              className="AvatarFileUpload__UploadBox-wn580i-2 iWdTkB"
+            >
+              <div
+                className="AvatarFileUpload__UploadLabel-wn580i-3 kyCKSl"
+              >
+                Drag file above
+              </div>
+              <div
+                className="AvatarFileUpload__UploadBoxInnerText-wn580i-4 jBgXDZ"
+              >
+                or 
+                <span
+                  className="AvatarFileUpload__UploadBoxBrowse-wn580i-5 lgPlsa"
+                >
+                  browse
+                </span>
+                 for a file
+                <div>
+                  to replace the image
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="AvatarFileUpload__ButtonsContainer-wn580i-6 bvNIsF"
+        >
+          <button
+            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 gjhYjP bYa-DYT kjhvGo"
+            disabled={true}
+            onClick={[Function]}
+            type="button"
+          >
+            Save Avatar
+          </button>
+          <button
+            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 cRSqLN bYa-DYT kjhvGo"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Remove Avatar
+          </button>
+          <button
+            className="sc-ezzayL sc-bYwzba AvatarFileUpload__CancelButton-wn580i-8 cRSqLN bXiklN iHPwZR"
+            onClick={[Function]}
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Profile AvatarFileUpload 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Profilestories__SidebarStory-dvlmq5-0 jZOfds"
+    >
+      <div
+        className="Sidebar__ModalSidebar-v95ywm-1 eElppW"
+      >
+        <div
+          className="ImportAvatarContainer__Container-sc-15s9qd8-0 ggOblm"
+          onClick={[Function]}
+          onDragEnter={[Function]}
+          onDragLeave={[Function]}
+          onDragOver={[Function]}
+          onDrop={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <div
+            className="AvatarFileUpload__UploadContainer-wn580i-1 gcVQAo"
+          >
+            <div
+              className="AvatarFileUpload__DropZone-wn580i-0 OwpAZ"
+            />
+            <div
+              className="AvatarFileUpload__UploadBox-wn580i-2 iWdTkB"
+            >
+              <div
+                className="AvatarFileUpload__UploadLabel-wn580i-3 kyCKSl"
+              >
+                Drag file above
+              </div>
+              <div
+                className="AvatarFileUpload__UploadBoxInnerText-wn580i-4 jBgXDZ"
+              >
+                or 
+                <span
+                  className="AvatarFileUpload__UploadBoxBrowse-wn580i-5 lgPlsa"
+                >
+                  browse
+                </span>
+                 for a file
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="AvatarFileUpload__ButtonsContainer-wn580i-6 bvNIsF"
+        >
+          <button
+            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 gjhYjP bYa-DYT kjhvGo"
+            disabled={true}
+            onClick={[Function]}
+            type="button"
+          >
+            Save Avatar
+          </button>
+          <button
+            className="sc-ezzayL sc-bYwzba AvatarFileUpload__CancelButton-wn580i-8 cRSqLN bXiklN iHPwZR"
+            onClick={[Function]}
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

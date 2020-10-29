@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Color Selector Selector 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <button
+      className="ColorSelector__AddButton-sc-1jm2xhx-2 hjjpwi"
+      onClick={[Function]}
+      type="button"
+    >
+      +
+    </button>
+  </div>
+</div>
+`;

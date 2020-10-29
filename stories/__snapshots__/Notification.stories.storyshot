@@ -1,0 +1,453 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Notification ServiceWorker 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Notifications__Container-fwv9o1-0 kgBXpl"
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "marginBottom": 0,
+            "maxWidth": "90%",
+            "opacity": 0,
+            "transform": "translate3d(0, 100%, 0)",
+            "width": 800,
+          }
+        }
+      >
+        <div
+          className="Notifications__NotificationPrompt-fwv9o1-1 lnqfUG"
+        >
+          <div
+            className="Notifications__NotificationHead-fwv9o1-2 gtIcwZ"
+          >
+            <svg
+              className="Notifications__NotificationIcon-fwv9o1-4 bOcnWW"
+              height={24}
+              viewBox="0 0 24 24"
+              width={24}
+            >
+              <path
+                d="M12 22.5c5.799 0 10.5-4.701 10.5-10.5S17.799 1.5 12 1.5 1.5 6.201 1.5 12 6.2 22.5 12 22.5zm0 1.5c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.372 12 12 12zm0-16a1 1 0 110-2 1 1 0 010 2zm.02 10.2a.9.9 0 01-.9-.9v-7.2a.9.9 0 111.8 0v7.2a.9.9 0 01-.9.9z"
+                fill="#1A9BC7"
+                fillRule="evenodd"
+              />
+            </svg>
+            <div
+              className="Notifications__NotificationMessage-fwv9o1-7 fDRPMI"
+            >
+              <div
+                className="Notifications__NotificationTitle-fwv9o1-5 jxWCWq"
+              >
+                A new version of the app is available on refreshing.
+              </div>
+              <a
+                className="Notifications__NotificationLink-fwv9o1-6 gEquVa"
+                href="undefined/c/updates"
+                target="_blank"
+              >
+                What's new?
+              </a>
+            </div>
+          </div>
+          <div
+            className="sc-iTVIwl Notifications__NotificationActions-fwv9o1-3 fqGxrZ kQELWK"
+          >
+            <button
+              className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+              onClick={[Function]}
+              type="button"
+            >
+              Dismiss
+            </button>
+            <button
+              className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+              onClick={[Function]}
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "marginBottom": 0,
+            "maxWidth": "90%",
+            "opacity": 0,
+            "transform": "translate3d(0, 100%, 0)",
+            "width": 800,
+          }
+        }
+      >
+        <div
+          className="Notifications__NotificationPrompt-fwv9o1-1 lnqfUG"
+        >
+          <div
+            className="Notifications__NotificationHead-fwv9o1-2 gtIcwZ"
+          >
+            <svg
+              className="Notifications__NotificationIcon-fwv9o1-4 bOcnWW"
+              height={24}
+              viewBox="0 0 24 24"
+              width={24}
+            >
+              <path
+                d="M12 22.5c5.799 0 10.5-4.701 10.5-10.5S17.799 1.5 12 1.5 1.5 6.201 1.5 12 6.2 22.5 12 22.5zm0 1.5c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.372 12 12 12zm0-16a1 1 0 110-2 1 1 0 010 2zm.02 10.2a.9.9 0 01-.9-.9v-7.2a.9.9 0 111.8 0v7.2a.9.9 0 01-.9.9z"
+                fill="#1A9BC7"
+                fillRule="evenodd"
+              />
+            </svg>
+            <div
+              className="Notifications__NotificationMessage-fwv9o1-7 fDRPMI"
+            >
+              <div
+                className="Notifications__NotificationTitle-fwv9o1-5 jxWCWq"
+              >
+                A new version of the app is available on refreshing.
+              </div>
+              <a
+                className="Notifications__NotificationLink-fwv9o1-6 gEquVa"
+                href="undefined/c/updates"
+                target="_blank"
+              >
+                What's new?
+              </a>
+            </div>
+          </div>
+          <div
+            className="sc-iTVIwl Notifications__NotificationActions-fwv9o1-3 fqGxrZ kQELWK"
+          >
+            <button
+              className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+              onClick={[Function]}
+              type="button"
+            >
+              Dismiss
+            </button>
+            <button
+              className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+              onClick={[Function]}
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "marginBottom": 0,
+            "maxWidth": "90%",
+            "opacity": 0,
+            "transform": "translate3d(0, 100%, 0)",
+            "width": 800,
+          }
+        }
+      >
+        <div
+          className="Notifications__NotificationPrompt-fwv9o1-1 lnqfUG"
+        >
+          <div
+            className="Notifications__NotificationHead-fwv9o1-2 gtIcwZ"
+          >
+            <svg
+              className="Notifications__NotificationIcon-fwv9o1-4 bOcnWW"
+              height={24}
+              viewBox="0 0 24 24"
+              width={24}
+            >
+              <path
+                d="M12 22.5c5.799 0 10.5-4.701 10.5-10.5S17.799 1.5 12 1.5 1.5 6.201 1.5 12 6.2 22.5 12 22.5zm0 1.5c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.372 12 12 12zm0-16a1 1 0 110-2 1 1 0 010 2zm.02 10.2a.9.9 0 01-.9-.9v-7.2a.9.9 0 111.8 0v7.2a.9.9 0 01-.9.9z"
+                fill="#1A9BC7"
+                fillRule="evenodd"
+              />
+            </svg>
+            <div
+              className="Notifications__NotificationMessage-fwv9o1-7 fDRPMI"
+            >
+              <div
+                className="Notifications__NotificationTitle-fwv9o1-5 jxWCWq"
+              >
+                A new version of the app is available on refreshing.
+              </div>
+              <a
+                className="Notifications__NotificationLink-fwv9o1-6 gEquVa"
+                href="undefined/c/updates"
+                target="_blank"
+              >
+                What's new?
+              </a>
+            </div>
+          </div>
+          <div
+            className="sc-iTVIwl Notifications__NotificationActions-fwv9o1-3 fqGxrZ kQELWK"
+          >
+            <button
+              className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+              onClick={[Function]}
+              type="button"
+            >
+              Dismiss
+            </button>
+            <button
+              className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+              onClick={[Function]}
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots SyncNotification basic 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Notifications__NotificationPrompt-fwv9o1-1 lnqfUG"
+    >
+      <div
+        className="Notifications__NotificationHead-fwv9o1-2 gtIcwZ"
+      >
+        <svg
+          height={24}
+          viewBox="0 0 24 24"
+          width={24}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+          >
+            <circle
+              cx={12}
+              cy={18.7}
+              fill="#FE8F1F"
+              r={1}
+            />
+            <rect
+              fill="#FE8F1F"
+              height={9}
+              rx={0.9}
+              width={1.8}
+              x={11.12}
+              y={7.5}
+            />
+            <path
+              d="M12.901 1.98l9.41 19.587a1 1 0 01-.9 1.433H2.59a1 1 0 01-.901-1.433l9.41-19.586a1 1 0 011.802 0z"
+              stroke="#FE8F1F"
+              strokeWidth={1.5}
+            />
+          </g>
+        </svg>
+        <div
+          className="Notifications__NotificationMessage-fwv9o1-7 fDRPMI"
+        >
+          <div
+            className="Notifications__NotificationTitle-fwv9o1-5 jxWCWq"
+          >
+            You best watch yourself
+          </div>
+        </div>
+      </div>
+      <div
+        className="sc-iTVIwl Notifications__NotificationActions-fwv9o1-3 fqGxrZ kQELWK"
+      >
+        <button
+          className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+          onClick={[Function]}
+          type="button"
+        >
+          Sounds good
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots SyncNotification with diagnostics 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Notifications__NotificationPrompt-fwv9o1-1 lnqfUG"
+    >
+      <div
+        className="Notifications__NotificationHead-fwv9o1-2 gtIcwZ"
+      >
+        <svg
+          height={24}
+          viewBox="0 0 24 24"
+          width={24}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+          >
+            <circle
+              cx={12}
+              cy={18.7}
+              fill="#FE8F1F"
+              r={1}
+            />
+            <rect
+              fill="#FE8F1F"
+              height={9}
+              rx={0.9}
+              width={1.8}
+              x={11.12}
+              y={7.5}
+            />
+            <path
+              d="M12.901 1.98l9.41 19.587a1 1 0 01-.9 1.433H2.59a1 1 0 01-.901-1.433l9.41-19.586a1 1 0 011.802 0z"
+              stroke="#FE8F1F"
+              strokeWidth={1.5}
+            />
+          </g>
+        </svg>
+        <div
+          className="Notifications__NotificationMessage-fwv9o1-7 fDRPMI"
+        >
+          <div
+            className="Notifications__NotificationTitle-fwv9o1-5 jxWCWq"
+          >
+            Uh-oh, this is really bad
+          </div>
+          <div
+            className="SyncNotification__NotificationInfo-srt73l-0 gxgodS"
+          >
+            <span
+              style={
+                Object {
+                  "color": "red",
+                }
+              }
+            >
+              One possible action
+            </span>
+             
+            <span
+              style={
+                Object {
+                  "color": "blue",
+                }
+              }
+            >
+              Another possible action
+            </span>
+             
+          </div>
+        </div>
+      </div>
+      <div
+        className="sc-iTVIwl Notifications__NotificationActions-fwv9o1-3 fqGxrZ kQELWK"
+      >
+        <button
+          className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+          onClick={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots SyncNotification with primary button 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="Notifications__NotificationPrompt-fwv9o1-1 lnqfUG"
+    >
+      <div
+        className="Notifications__NotificationHead-fwv9o1-2 gtIcwZ"
+      >
+        <svg
+          height={24}
+          viewBox="0 0 24 24"
+          width={24}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+          >
+            <circle
+              cx={12}
+              cy={18.7}
+              fill="#FE8F1F"
+              r={1}
+            />
+            <rect
+              fill="#FE8F1F"
+              height={9}
+              rx={0.9}
+              width={1.8}
+              x={11.12}
+              y={7.5}
+            />
+            <path
+              d="M12.901 1.98l9.41 19.587a1 1 0 01-.9 1.433H2.59a1 1 0 01-.901-1.433l9.41-19.586a1 1 0 011.802 0z"
+              stroke="#FE8F1F"
+              strokeWidth={1.5}
+            />
+          </g>
+        </svg>
+        <div
+          className="Notifications__NotificationMessage-fwv9o1-7 fDRPMI"
+        >
+          <div
+            className="Notifications__NotificationTitle-fwv9o1-5 jxWCWq"
+          >
+            Something is wrong, but we have a solution
+          </div>
+          <div
+            className="SyncNotification__NotificationInfo-srt73l-0 gxgodS"
+          >
+            Click the primary button to give us permission
+             
+          </div>
+        </div>
+      </div>
+      <div
+        className="sc-iTVIwl Notifications__NotificationActions-fwv9o1-3 fqGxrZ kQELWK"
+      >
+        <button
+          className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+          onClick={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+          onClick={[Function]}
+          type="button"
+        >
+          Go ahead
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

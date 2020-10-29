@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Nav/User ProfileDropdown 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "justifyContent": "flex-end",
+          "width": 400,
+        }
+      }
+    >
+      <div
+        className="Dropdown__DropdownContainer-fhxyb7-0 cXLUGN"
+        id="user-dropdown"
+      >
+        <button
+          className="ProfileDropdown__DropdownButton-sc-1fnkn46-2 WYhc dropdown-toggle"
+          onClick={[Function]}
+        >
+          <div
+            className="ProfileDropdown__AvatarContainer-sc-1fnkn46-0 dqZbua"
+          >
+            <div
+              className="sc-jffIyK kbBVcu"
+            >
+              <img
+                className="sc-eJoaVz jyvNWR"
+                onError={[Function]}
+                size={32}
+                src="test-file-stub"
+              />
+            </div>
+          </div>
+          <svg
+            className="ProfileDropdown__DropdownToggle-sc-1fnkn46-1 kcFOiY"
+            height={8}
+            viewBox="0 0 12 8"
+            width={12}
+          >
+            <path
+              d="M10 6L6.058 2 2 5.947"
+              fill="none"
+              stroke="#353535"
+              strokeLinecap="round"
+              strokeWidth={1.6}
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Nav/User UserInfo 1`] = `
+<div
+  className="Story-sc-1e4b0ke-0 hwwcpR"
+>
+  <div>
+    <div
+      className="UserInfo__Name-sc-10zfnhv-0 hjyLfh"
+    >
+      Janine
+    </div>
+    <div
+      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+    />
+    <a
+      aria-current={null}
+      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      href="/profile"
+      onClick={[Function]}
+    >
+       Profile 
+    </a>
+    <div
+      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+    />
+    <a
+      aria-current={null}
+      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      href="/diagnostics"
+      onClick={[Function]}
+    >
+      Diagnostics
+    </a>
+    <div
+      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+    />
+    <a
+      aria-current={null}
+      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      href="/logout"
+      onClick={[Function]}
+    >
+      Sign out
+    </a>
+  </div>
+</div>
+`;
