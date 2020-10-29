@@ -13,4 +13,8 @@
 // https://github.com/pubkey/broadcast-channel#clear-tmp-folder
 import BroadcastChannel from 'broadcast-channel'
 
-export const clearChannelFolder = () => BroadcastChannel.clearNodeFolder()
+// This is used for testing, and is allowed to fail in case the folder doesn't exist
+export const clearChannelFolder = () =>
+  BroadcastChannel.clearNodeFolder().catch((error) => {
+    console.warn(error)
+  })
