@@ -618,7 +618,7 @@ exports[`Storyshots Inspector/History basic 1`] = `
                   className="History__Title-sc-1osnknr-3 edIaBz"
                 >
                   <span>
-                    January 1, 1970 at 1:00 AM
+                    January 1, 1970 at 12:00 AM
                   </span>
                 </span>
                 <a
@@ -786,7 +786,7 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
                   className="History__Title-sc-1osnknr-3 edIaBz"
                 >
                   <span>
-                    January 1, 1970 at 1:00 AM
+                    January 1, 1970 at 12:00 AM
                   </span>
                 </span>
                 <a
@@ -844,7 +844,7 @@ exports[`Storyshots Inspector/History read only 1`] = `
                   className="History__Title-sc-1osnknr-3 edIaBz"
                 >
                   <span>
-                    January 1, 1970 at 1:00 AM
+                    January 1, 1970 at 12:00 AM
                   </span>
                 </span>
                 <a
@@ -998,7 +998,7 @@ exports[`Storyshots Inspector/History while saving 1`] = `
                   className="History__Title-sc-1osnknr-3 edIaBz"
                 >
                   <span>
-                    January 1, 1970 at 1:00 AM
+                    January 1, 1970 at 12:00 AM
                   </span>
                 </span>
                 <a
