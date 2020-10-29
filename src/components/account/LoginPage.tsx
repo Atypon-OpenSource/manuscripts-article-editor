@@ -42,10 +42,11 @@ const LoginPage: React.FunctionComponent<FormikConfig<LoginValues> & Props> = ({
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={onSubmit}
-      render={(formikProps) => (
+    >
+      {(formikProps) => (
         <LoginForm {...formikProps} submitErrorType={submitErrorType} />
       )}
-    />
+    </Formik>
 
     <AuthenticationContainer>
       <div>Sign in with</div>
