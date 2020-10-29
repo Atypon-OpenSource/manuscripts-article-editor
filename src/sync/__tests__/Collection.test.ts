@@ -20,10 +20,9 @@ import { Collection, isBulkDocsError, isBulkDocsSuccess } from '../Collection'
 
 jest.mock('../../lib/adapter')
 
-const dispatch = jest.fn()
 const store = {
   getState: jest.fn(() => ({})),
-  dispatch,
+  dispatch: jest.fn(),
 }
 
 const items = (projectDump.data as Model[]).map((item) => {
@@ -35,13 +34,7 @@ const items = (projectDump.data as Model[]).map((item) => {
 const generateDbName = (prefix: string) => prefix + uuid().replace(/-/g, '_')
 
 describe('Collection', () => {
-  beforeAll(async () => {
-    try {
-      await clearChannelFolder()
-    } catch {
-      // ignore if the folder doesn't exist
-    }
-  })
+  beforeAll(clearChannelFolder)
   afterAll(clearChannelFolder)
 
   test('new collection', async () => {
