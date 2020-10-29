@@ -1,4 +1,4 @@
-#image: node:12-buster
+image: node:12-buster
 
 # Environment variables needed:
 #
@@ -27,8 +27,6 @@ lint_test_build:
     - yarn test --ci --coverage --reporters=default --reporters=jest-junit
     - ALLOW_MISSING_VARIABLES=1 yarn build
   coverage: '/Statements\s*:\s*(\d+\.\d+)%/'
-  tags:
-    - nodejs-8
   artifacts:
     reports:
       junit: junit.xml
@@ -38,8 +36,6 @@ lint_test_build:
   script:
     - yarn install --frozen-lockfile --non-interactive
     - yarn test:integration
-  tags:
-    - nodejs-8
 
 #pages:
 #  stage: pages
