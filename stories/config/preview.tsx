@@ -13,7 +13,7 @@
 // eslint-disable-next-line jest/no-mocks-import
 import '../../src/lib/__mocks__/adapter'
 
-import { addDecorator, configure } from '@storybook/react'
+import { addDecorator } from '@storybook/react'
 import React from 'react'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -41,9 +41,3 @@ addDecorator((story) => (
     </IntlProvider>
   </DndProvider>
 ))
-
-const req = require.context('..', true, /\.stories\.tsx/)
-
-configure(() => {
-  req.keys().forEach((filename) => req(filename))
-}, module)
