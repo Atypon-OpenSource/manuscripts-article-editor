@@ -32,14 +32,16 @@ const bibliographicName: BibliographicName = {
   family: 'Snow',
 }
 
+const createdAt = new Date('2020-01-01T12:00:00Z').getTime() / 1000
+
 const affiliation1: UserProfileAffiliation = {
   _id: 'MPUserProfileAffiliation:id',
   objectType: 'MPUserProfileAffiliation',
   priority: 1,
   institution: 'Foobar University',
   containerID: 'MPUserProfile:id',
-  createdAt: new Date().getTime() / 1000,
-  updatedAt: new Date().getTime() / 1000,
+  createdAt,
+  updatedAt: createdAt,
 }
 
 const affiliation2: UserProfileAffiliation = {
@@ -48,8 +50,8 @@ const affiliation2: UserProfileAffiliation = {
   priority: 1,
   institution: 'Foobar Collage of IT',
   containerID: 'MPUserProfile:id2',
-  createdAt: new Date().getTime() / 1000,
-  updatedAt: new Date().getTime() / 1000,
+  createdAt,
+  updatedAt: createdAt,
 }
 
 const affiliationsMap = new Map([
@@ -61,8 +63,8 @@ const user: UserProfileWithAvatar = {
   _id: 'MPUserProfile:id',
   objectType: 'MPUserProfile',
   bibliographicName,
-  createdAt: new Date().getTime() / 1000,
-  updatedAt: new Date().getTime() / 1000,
+  createdAt,
+  updatedAt: createdAt,
   userID: 'User_jsnow@atypon.com',
   affiliations: [affiliation1._id],
 }
