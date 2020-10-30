@@ -26,6 +26,7 @@ lint_test_build:
     - yarn lint
     - yarn test --ci --coverage --reporters=default --reporters=jest-junit
     - ALLOW_MISSING_VARIABLES=1 yarn build
+    - yarn bundlesize
   coverage: '/Statements\s*:\s*(\d+\.\d+)%/'
   artifacts:
     reports:

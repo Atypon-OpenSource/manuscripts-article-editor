@@ -72,10 +72,11 @@ const configuration: webpack.Configuration = merge(common, {
     filename: 'js/[name].[chunkhash:8].js',
     crossOriginLoading: 'anonymous',
   },
-  performance: {
-    maxEntrypointSize: 3000000,
-    maxAssetSize: 3000000,
-  },
+  // performance: {
+  //   hints: 'error',
+  //   maxEntrypointSize: 0.5 * 1024 * 1024,
+  //   maxAssetSize: 9 * 1024 * 1024,
+  // },
   plugins: [
     new SriPlugin({
       hashFuncNames: ['sha512'],

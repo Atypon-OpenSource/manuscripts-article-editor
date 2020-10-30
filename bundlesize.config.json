@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "path": "dist/js/*.js",
+      "maxSize": "1.5 MB"
+    },
+    {
+      "path": "dist/js/*-page.*.js",
+      "maxSize": "200 KB"
+    },
+    {
+      "path": "dist/js/main.*.js",
+      "maxSize": "150 KB"
+    }
+  ]
+}
