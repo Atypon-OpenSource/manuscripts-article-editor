@@ -157,23 +157,22 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
 
             <table>
               <thead>
-                <th>Collection</th>
-                <th>Push</th>
-                <th>Pull</th>
-                <th>Closed</th>
+                <tr>
+                  <th>Collection</th>
+                  <th>Push</th>
+                  <th>Pull</th>
+                  <th>Closed</th>
+                </tr>
               </thead>
               <tbody>
-                {Object.keys(syncState).map((collection) => {
-                  const data = syncState[collection]
-                  return (
-                    <tr key={collection}>
-                      <td>{collection}</td>
-                      <td>{data.state.push}</td>
-                      <td>{data.state.pull}</td>
-                      <td>{data.state.closed}</td>
-                    </tr>
-                  )
-                })}
+                {Object.entries(syncState).map(([collection, data]) => (
+                  <tr key={collection}>
+                    <td>{collection}</td>
+                    <td>{data.state.push}</td>
+                    <td>{data.state.pull}</td>
+                    <td>{data.state.closed}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </Diagnostics>
