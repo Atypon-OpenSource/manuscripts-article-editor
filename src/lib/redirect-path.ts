@@ -10,31 +10,16 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { parse } from 'qs'
-import React from 'react'
-import { Redirect, RouteComponentProps } from 'react-router'
+const storage = window.localStorage
 
-import config from '../config'
-import { redirectToConnect } from '../lib/api'
-import redirectPathStorage from '../lib/redirect-path'
+export const PATH_KEY = 'redirect_path'
 
-export const RequireLogin: React.FunctionComponent<RouteComponentProps> = ({
-  children: message,
-  location: from,
-}) => {
-  redirectPathStorage.set(location.pathname)
-  const { autologin } = parse(location.search.substr(1))
-  if (typeof autologin !== 'undefined' && config.connect.enabled) {
-    redirectToConnect('login')
-    return null
-  }
+export default {
+  get: () => storage.getItem(PATH_KEY),
+  set: (PATH: string) => {
+    storage.setItem(PATH_KEY, PATH)
 
-  return (
-    <Redirect
-      to={{
-        pathname: '/login',
-        state: { infoLoginMessage: message },
-      }}
-    />
-  )
+    return PATH
+  },
+  remove: () => storage.removeItem(PATH_KEY),
 }

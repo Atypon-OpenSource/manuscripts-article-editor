@@ -23,6 +23,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import config from '../../config'
 import { login } from '../../lib/account'
 import { redirectToConnect, resendVerificationEmail } from '../../lib/api'
+import redirectPathStorage from '../../lib/redirect-path'
 import tokenHandler from '../../lib/token'
 import { TokenPayload } from '../../lib/user'
 import userID from '../../lib/user-id'
@@ -199,7 +200,7 @@ class LoginPageContainer extends React.Component<
 
       recover === 'true'
         ? window.location.assign('/retrieve-account')
-        : window.location.assign('/projects')
+        : this.redirectAfterLogin()
     }
 
     if (redirect && config.connect.enabled) {
@@ -268,13 +269,17 @@ class LoginPageContainer extends React.Component<
   }
 
   // redirect if the user tried before login to access an authenticated route
-  // (e.g. a bookmarked project, or a project invitation link)
+  // (e.g. a bookmarked project, but not a project invitation link,
+  // that is handled with invitationTokenHandler and AcceptProjectInvitation component)
   private redirectAfterLogin = () => {
-    const { state } = this.props.location
+    const redirectPath = redirectPathStorage.get()
 
-    window.location.assign(
-      state && state.from ? state.from.pathname : '/projects'
-    )
+    if (redirectPath) {
+      redirectPathStorage.remove()
+      window.location.assign(redirectPath)
+    } else {
+      window.location.assign('/projects')
+    }
   }
 
   private errorName = (response: AxiosResponse) => {
