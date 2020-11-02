@@ -67,7 +67,8 @@ export const RequirementsInspector: React.FC<{
   modelMap: Map<string, Model>
   prototypeId: string | undefined
   manuscriptID: string
-}> = ({ modelMap, prototypeId, manuscriptID }) => {
+  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+}> = ({ modelMap, prototypeId, manuscriptID, bulkUpdate }) => {
   const [result, setResult] = useState<AnyValidationResult[]>()
   const [error, setError] = useState<Error>()
 
@@ -94,7 +95,14 @@ export const RequirementsInspector: React.FC<{
     return null // TODO
   }
 
-  return <RequirementsList validationResult={result} />
+  return (
+    <RequirementsList
+      validationResult={result}
+      modelMap={modelMap}
+      manuscriptID={manuscriptID}
+      bulkUpdate={bulkUpdate}
+    />
+  )
 }
 
 const AlertMessage = styled.div`

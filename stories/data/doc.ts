@@ -22,6 +22,6 @@ projectDump.data.forEach((model: Model) => {
 
 const decoder = new Decoder(modelMap)
 
-export const doc = decoder.createArticleNode(
-  'MPManuscript:561C1FB2-3A94-4460-AB75-426F80BC7071'
-)
+export const manuscriptID = 'MPManuscript:561C1FB2-3A94-4460-AB75-426F80BC7071'
+
+export const doc = decoder.createArticleNode(manuscriptID)

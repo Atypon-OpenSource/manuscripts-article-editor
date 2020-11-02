@@ -10,8 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
-import { SectionCategory } from '@manuscripts/manuscripts-json-schema'
-import React, { useState } from 'react'
+import { ContainedModel } from '@manuscripts/manuscript-transform'
+import { Model, SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import { runManuscriptFixes } from '@manuscripts/requirements'
+import { isEqual } from 'lodash-es'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 
 import { AnyValidationResult } from '../../lib/validations'
@@ -45,10 +48,53 @@ import {
   SectionTitleMatch,
 } from './RequirementsMessages'
 
+const getDiff = (
+  modelMap: Map<string, Model>,
+  containedModelArray: Array<ContainedModel>
+): Array<ContainedModel> => {
+  const result: Array<ContainedModel> = new Array<ContainedModel>()
+
+  containedModelArray.forEach((value) => {
+    if (!modelMap.get(value._id)) {
+      // Determine added objects
+      result.push(value)
+    } else {
+      // Determine updated objects
+      if (!isEqual(modelMap.get(value._id), value)) {
+        result.push(value)
+      }
+    }
+  })
+
+  return result
+}
+
 export const RequirementsData: React.FC<{
   node: AnyValidationResult
-}> = ({ node }) => {
+  modelMap: Map<string, Model>
+  manuscriptID: string
+  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+}> = ({ node, modelMap, manuscriptID, bulkUpdate }) => {
   const [isShown, setIsShown] = useState(false)
+
+  const fixItHandler = useCallback(async () => {
+    const manuscriptData: Array<ContainedModel> = new Array<ContainedModel>()
+    modelMap.forEach((value) => {
+      manuscriptData.push({
+        ...value,
+      } as ContainedModel)
+    })
+
+    const result: Array<ContainedModel> = runManuscriptFixes(
+      manuscriptData,
+      manuscriptID,
+      [node]
+    )
+
+    const changedItems: Array<ContainedModel> = getDiff(modelMap, result)
+
+    await bulkUpdate(changedItems)
+  }, [modelMap, bulkUpdate, manuscriptID, node])
 
   return (
     <InspectorContainer>
@@ -61,11 +107,11 @@ export const RequirementsData: React.FC<{
       >
         <ValidationMessage node={node} />
 
-        {isShown && !node.passed && (
-          <LinksList>
-            <Link href={'#'}> Fix it</Link>
-            <Link href={'#'}> Ignore</Link>
-          </LinksList>
+        {isShown && !node.passed && node.fix && (
+          <ButtonsList>
+            <Button onClick={fixItHandler}> Fix it</Button>
+            <Button> Ignore</Button>
+          </ButtonsList>
         )}
       </Message>
     </InspectorContainer>
@@ -154,14 +200,18 @@ const Message = styled.div`
   color: #353535;
   padding: 4px 0 0 11px;
 `
-const Link = styled.a`
+const Button = styled.button`
   font-family: Lato;
   font-size: 14px;
   text-decoration-line: underline;
   color: #0d79d0;
   padding: 0 0 0 9px;
+  cursor: pointer;
+  background: #fff;
+  border: none;
+  outline: none;
 `
-const LinksList = styled.div`
+const ButtonsList = styled.div`
   float: right;
   padding: 22px 0 0 0;
 `

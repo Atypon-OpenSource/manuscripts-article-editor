@@ -12,6 +12,7 @@
 
 import {
   ActualManuscriptNode,
+  ContainedModel,
   ManuscriptEditorView,
   SectionNode,
   Selected,
@@ -88,6 +89,7 @@ export const Inspector: React.FC<{
   view: ManuscriptEditorView
   tags: Tag[]
   manageManuscript: boolean
+  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
 }> = ({
   bundle,
   comments,
@@ -118,6 +120,7 @@ export const Inspector: React.FC<{
   view,
   tags,
   manageManuscript,
+  bulkUpdate,
 }) => {
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -290,6 +293,7 @@ export const Inspector: React.FC<{
                     modelMap={modelMap}
                     prototypeId={manuscript.prototype}
                     manuscriptID={manuscript._id}
+                    bulkUpdate={bulkUpdate}
                   />
                 </>
               )}

@@ -10,7 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
-import { SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import { ContainedModel } from '@manuscripts/manuscript-transform'
+import { Model, SectionCategory } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,7 +21,10 @@ import { RequirementsData } from './RequirementsData'
 
 export const SectionValidations: React.FC<{
   sortedData: AnyValidationResult[]
-}> = ({ sortedData }) => {
+  modelMap: Map<string, Model>
+  manuscriptID: string
+  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+}> = ({ sortedData, modelMap, manuscriptID, bulkUpdate }) => {
   let sectionValidation = sortedData.filter((node: AnyValidationResult) =>
     node.type.startsWith('section-')
   )
@@ -29,6 +33,7 @@ export const SectionValidations: React.FC<{
   while (sectionValidation.length > 0) {
     if (sectionValidation[0].type !== 'section-order') {
       const category = sectionValidation[0].data.sectionCategory
+      const sectionValidationId = sectionValidation[0]._id
       const sections = sectionValidation.filter(
         (node: AnyValidationResult) => node.data.sectionCategory === category
       )
@@ -41,10 +46,16 @@ export const SectionValidations: React.FC<{
         }
       })
       sectionsData.push(
-        <RequirementContainer title={categoryData}>
+        <RequirementContainer key={sectionValidationId} title={categoryData}>
           <Requirement>
             {sections.map((section: AnyValidationResult) => (
-              <RequirementsData node={section} key={section._id} />
+              <RequirementsData
+                node={section}
+                key={section._id}
+                modelMap={modelMap}
+                manuscriptID={manuscriptID}
+                bulkUpdate={bulkUpdate}
+              />
             ))}
           </Requirement>
           <Separator />

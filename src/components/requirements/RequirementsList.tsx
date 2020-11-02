@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { ContainedModel } from '@manuscripts/manuscript-transform'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -20,7 +22,10 @@ import { SectionValidations } from './SectionValidations'
 
 export const RequirementsList: React.FC<{
   validationResult: AnyValidationResult[]
-}> = ({ validationResult }) => {
+  modelMap: Map<string, Model>
+  manuscriptID: string
+  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+}> = ({ validationResult, modelMap, manuscriptID, bulkUpdate }) => {
   const sortedData = useMemo(
     () =>
       [...validationResult].sort((a, b) =>
@@ -50,18 +55,35 @@ export const RequirementsList: React.FC<{
         <RequirementContainer title={'Manuscript'}>
           <Requirement>
             {manuscriptValidation.map((section: AnyValidationResult) => (
-              <RequirementsData node={section} key={section._id} />
+              <RequirementsData
+                node={section}
+                key={section._id}
+                modelMap={modelMap}
+                manuscriptID={manuscriptID}
+                bulkUpdate={bulkUpdate}
+              />
             ))}
           </Requirement>
           <Separator />
         </RequirementContainer>
       )}
-      <SectionValidations sortedData={sortedData} />
+      <SectionValidations
+        sortedData={sortedData}
+        modelMap={modelMap}
+        manuscriptID={manuscriptID}
+        bulkUpdate={bulkUpdate}
+      />
       {requiredSectionValidation.length !== 0 && (
         <RequirementContainer title={'Required Section'}>
           <Requirement>
             {requiredSectionValidation.map((section: AnyValidationResult) => (
-              <RequirementsData node={section} key={section._id} />
+              <RequirementsData
+                node={section}
+                key={section._id}
+                modelMap={modelMap}
+                manuscriptID={manuscriptID}
+                bulkUpdate={bulkUpdate}
+              />
             ))}
           </Requirement>
           <Separator />
@@ -71,7 +93,13 @@ export const RequirementsList: React.FC<{
         <RequirementContainer title={'Bibliography'}>
           <Requirement>
             {bibliographyValidation.map((section: AnyValidationResult) => (
-              <RequirementsData node={section} key={section._id} />
+              <RequirementsData
+                node={section}
+                key={section._id}
+                modelMap={modelMap}
+                manuscriptID={manuscriptID}
+                bulkUpdate={bulkUpdate}
+              />
             ))}
           </Requirement>
           <Separator />
@@ -81,7 +109,13 @@ export const RequirementsList: React.FC<{
         <RequirementContainer title={'Figure'}>
           <Requirement>
             {figureValidation.map((section: AnyValidationResult) => (
-              <RequirementsData node={section} key={section._id} />
+              <RequirementsData
+                node={section}
+                key={section._id}
+                modelMap={modelMap}
+                manuscriptID={manuscriptID}
+                bulkUpdate={bulkUpdate}
+              />
             ))}
           </Requirement>
           <Separator />
@@ -91,7 +125,13 @@ export const RequirementsList: React.FC<{
         <RequirementContainer title={'Section Order'}>
           <Requirement>
             {sectionOrderValidation.map((section: AnyValidationResult) => (
-              <RequirementsData node={section} key={section._id} />
+              <RequirementsData
+                node={section}
+                key={section._id}
+                modelMap={modelMap}
+                manuscriptID={manuscriptID}
+                bulkUpdate={bulkUpdate}
+              />
             ))}
           </Requirement>
           <Separator />

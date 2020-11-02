@@ -2113,15 +2113,15 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/requirements@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.1.1.tgz#45655f82397fae7a9cc1341f9a42c9e7be0340fd"
-  integrity sha512-ljlqF9w/+aKiySVYp+47zxfxE+7NwMpj6odLbx6WvaGfL9fLX/ZnlsYeQxGCL+QmEFcP6MGz+/rt7MgP+og3Yg==
+"@manuscripts/requirements@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.1.3.tgz#fd7a205b66b0eb0b75d2cae7592a38928679c8cc"
+  integrity sha512-+zC86cIV9LFEIZvYURQRMMekY1930S/y1ZuIiov7ufhtrl1m190z16Eil5RtnjpFTm3lfbWoRXoyi/bXsAZ62w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/data" "^0.1.0"
-    "@manuscripts/manuscript-transform" "^0.36.0"
-    "@manuscripts/manuscripts-json-schema" "^1.33.0"
+    "@manuscripts/manuscript-transform" "^0.36.2"
+    "@manuscripts/manuscripts-json-schema" "^1.35.0"
     "@types/uuid" "^8.3.0"
     file-type "^15.0.1"
     grapheme-splitter "^1.0.4"

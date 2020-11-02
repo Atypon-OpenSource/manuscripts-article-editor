@@ -605,11 +605,18 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               view={view}
               tags={this.props.tags}
               manageManuscript={!view.hasFocus()}
+              bulkUpdate={this.bulkUpdate}
             />
           )}
         </Panel>
       </RequirementsProvider>
     )
+  }
+
+  private bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
+    for (const value of items) {
+      await this.saveChangedModel(value, true)
+    }
   }
 
   public handleEditorStateChange = (editor: string) => (

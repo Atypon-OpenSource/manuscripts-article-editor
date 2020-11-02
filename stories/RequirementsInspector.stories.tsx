@@ -11,7 +11,10 @@
  */
 
 import { RequirementsProvider } from '@manuscripts/manuscript-editor'
-import { hasObjectType } from '@manuscripts/manuscript-transform'
+import {
+  ContainedModel,
+  hasObjectType,
+} from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   MaximumManuscriptCharacterCountRequirement,
@@ -190,12 +193,19 @@ manuscript.maxWordCountRequirement = maximumManuscriptWordCountRequirement._id
 
 modelMap.set(manuscript._id, manuscript)
 
+const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
+  return await new Promise<void>((resolve, reject) => {
+    resolve()
+  })
+}
+
 storiesOf('Inspector/Requirements', module).add('validations', () => (
   <RequirementsProvider modelMap={modelMap}>
     <RequirementsInspector
       modelMap={modelMap}
       manuscriptID={manuscript._id}
       prototypeId={manuscript.prototype}
+      bulkUpdate={bulkUpdate}
     />
   </RequirementsProvider>
 ))
