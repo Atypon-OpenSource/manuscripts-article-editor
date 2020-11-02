@@ -1675,9 +1675,23 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     model.src = previousModel.src
   }
 
+  private saveChangedModel = (model: Model, external = false) => {
+    const { manuscriptID, projectID } = this.props.match.params
+
+    const containerIDs: ContainerIDs = {
+      containerID: projectID,
+    }
+
+    if (isManuscriptModel(model)) {
+      containerIDs.manuscriptID = manuscriptID
+    }
+
+    // TODO: use collection.create or collection.update as appropriate?
+    return this.collection.save(model, containerIDs, external)
+  }
+
   private saveModels = async (state: ManuscriptEditorState) => {
     // TODO: return/queue if already saving?
-    const { manuscriptID, projectID } = this.props.match.params
 
     // NOTE: can't use state.toJSON() as the HTML serializer needs the actual nodes
 
@@ -1731,24 +1745,23 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         return output
       }, changedModelsObject)
 
-      const saveChangedModel = (model: Model) => {
-        const containerIDs: ContainerIDs = {
-          containerID: projectID,
-        }
+      await Promise.all(
+        changedModelsByType.dependencies.map((model) =>
+          this.saveChangedModel(model)
+        )
+      )
 
-        if (isManuscriptModel(model)) {
-          containerIDs.manuscriptID = manuscriptID
-        }
+      await Promise.all(
+        changedModelsByType.elements.map((model) =>
+          this.saveChangedModel(model)
+        )
+      )
 
-        // TODO: use collection.create or collection.update as appropriate?
-        return this.collection.save(model, containerIDs)
-      }
-
-      await Promise.all(changedModelsByType.dependencies.map(saveChangedModel))
-
-      await Promise.all(changedModelsByType.elements.map(saveChangedModel))
-
-      await Promise.all(changedModelsByType.sections.map(saveChangedModel))
+      await Promise.all(
+        changedModelsByType.sections.map((model) =>
+          this.saveChangedModel(model)
+        )
+      )
 
       // delete any removed models, children first
 

@@ -27,6 +27,7 @@ import {
 import { ConflictManager } from '@manuscripts/sync-client'
 import axios, { AxiosError } from 'axios'
 import generateReplicationID from 'pouchdb-generate-replication-id'
+import { v4 as uuid } from 'uuid'
 
 import { CollectionName, collections } from '../collections'
 import { Database } from '../components/DatabaseProvider'
@@ -40,6 +41,8 @@ import {
   Direction,
   PouchReplicationError,
 } from './types'
+
+const externalSessionID = uuid()
 
 export interface ContainerIDs {
   containerID?: string
@@ -276,29 +279,30 @@ export class Collection<T extends Model> {
 
   public async save(
     data: T | Partial<T> | Build<T>,
-    ids?: ContainerIDs
+    ids?: ContainerIDs,
+    external = false
   ): Promise<T> {
     const doc = data._id ? await this.findOne(data._id).exec() : null
 
     return doc
-      ? this.update(doc._id, data as Partial<T>)
-      : this.create(data as Build<T>, ids)
+      ? this.update(doc._id, data as Partial<T>, external)
+      : this.create(data as Build<T>, ids, external)
   }
 
-  public requiredFields(): Partial<Model> {
+  public requiredFields(external = false): Partial<Model> {
     const createdAt = timestamp()
 
     return {
       createdAt,
       updatedAt: createdAt,
-      sessionID,
+      sessionID: external ? externalSessionID : sessionID,
     }
   }
 
-  public async create(data: Build<T>, ids?: ContainerIDs) {
+  public async create(data: Build<T>, ids?: ContainerIDs, external = false) {
     const model: T = {
       ...(data as T),
-      ...this.requiredFields(),
+      ...this.requiredFields(external),
       ...ids,
     }
 
@@ -311,10 +315,14 @@ export class Collection<T extends Model> {
     }
   }
 
-  public async update(id: string, data: Partial<T>): Promise<T> {
+  public async update(
+    id: string,
+    data: Partial<T>,
+    external = false
+  ): Promise<T> {
     try {
       const doc = await this.findDoc(id)
-      const result = await this.atomicUpdate<T>(doc, data)
+      const result = await this.atomicUpdate<T>(doc, data, external)
       return result.toJSON()
     } catch (e) {
       this.dispatchWriteError('update', e)
@@ -686,9 +694,10 @@ export class Collection<T extends Model> {
 
   private atomicUpdate = async <T extends Model>(
     prev: RxDocument<T>,
-    data: Partial<T>
+    data: Partial<T>,
+    external = false
   ): Promise<RxDocument<T>> => {
-    const update = this.prepareUpdate<T>(data)
+    const update = this.prepareUpdate<T>(data, external)
 
     return prev.atomicUpdate((doc: RxDocument<T>) => {
       Object.entries(update).forEach(([key, value]) => {
@@ -699,7 +708,10 @@ export class Collection<T extends Model> {
     })
   }
 
-  private prepareUpdate = <T extends Model>(data: Partial<T>): Partial<T> => {
+  private prepareUpdate = <T extends Model>(
+    data: Partial<T>,
+    external = false
+  ): Partial<T> => {
     // https://github.com/Microsoft/TypeScript/pull/13288
 
     const { _id, _rev, ...rest } = data as any
@@ -707,7 +719,7 @@ export class Collection<T extends Model> {
     return {
       ...rest,
       updatedAt: timestamp(),
-      sessionID,
+      sessionID: external ? externalSessionID : sessionID,
     }
   }
 
