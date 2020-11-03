@@ -27,6 +27,7 @@ if (config.sentry.dsn) {
   import('@sentry/browser')
     .then((Sentry) => {
       Sentry.init(config.sentry)
+      window.Sentry = Sentry
     })
     .catch((error) => {
       console.error(error)

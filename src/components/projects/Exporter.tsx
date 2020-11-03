@@ -96,7 +96,7 @@ export class Exporter extends React.Component<Props, State> {
       trackEvent({
         category: 'Manuscripts',
         action: 'Export',
-        label: `project=${project._id}&format=${format}`,
+        label: `success=true&project=${project._id}&format=${format}`,
       })
 
       if (format === 'submission-for-review') {
@@ -129,6 +129,16 @@ export class Exporter extends React.Component<Props, State> {
     } catch (error) {
       console.error(error)
 
+      if (window.Sentry) {
+        window.Sentry.captureException(error)
+      }
+
+      trackEvent({
+        category: 'Manuscripts',
+        action: 'Export',
+        label: `success=false&project=${project._id}&format=${format}`,
+      })
+
       this.setState({ error })
     }
   }
@@ -146,8 +156,12 @@ export class Exporter extends React.Component<Props, State> {
           message={
             <React.Fragment>
               There was an error exporting the manuscript. Please{' '}
-              <ContactSupportButton>contact support</ContactSupportButton> if
-              this persists.
+              <ContactSupportButton
+                message={`Export error: ${error.toString()}`}
+              >
+                contact support
+              </ContactSupportButton>{' '}
+              if this persists.
             </React.Fragment>
           }
           actions={{

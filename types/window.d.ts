@@ -40,4 +40,5 @@ declare interface Window {
   ) => void
   restartSync: () => void
   ga: UniversalAnalytics.ga
+  Sentry: UniversalAnalytics.Sentry
 }

@@ -27,8 +27,19 @@ const InlineButton = styled.button`
   font-size: inherit;
 `
 
-export const ContactSupportButton: React.FC = ({ children }) => {
+export const ContactSupportButton: React.FC<{ message?: string }> = ({
+  children,
+  message,
+}) => {
   const crisp = useCrisp()
+
+  if (message) {
+    return (
+      <InlineButton onClick={() => crisp.setMessageText(message)}>
+        {children}
+      </InlineButton>
+    )
+  }
 
   return <InlineButton onClick={crisp.open}>{children}</InlineButton>
 }
