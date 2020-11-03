@@ -59,6 +59,22 @@ import { CommentList } from './CommentList'
 import { HeaderImageInspector } from './HeaderImageInspector'
 import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
 
+const TABS = [
+  'Content',
+  'Style',
+  'Comments',
+  config.quality_control.enabled && 'Quality Report',
+  config.shackles.enabled && 'History',
+  config.export.to_review && 'Submissions',
+].filter(Boolean) as Array<
+  | 'Content'
+  | 'Style'
+  | 'Comments'
+  | 'Quality Report'
+  | 'History'
+  | 'Submissions'
+>
+
 export const Inspector: React.FC<{
   bundle?: Bundle
   comments?: CommentAnnotation[]
@@ -128,9 +144,9 @@ export const Inspector: React.FC<{
 
   useEffect(() => {
     if (commentTarget) {
-      setTabIndex(2)
+      setTabIndex(TABS.findIndex((tab) => tab === 'Comments'))
     } else if (submission) {
-      setTabIndex(3)
+      setTabIndex(TABS.findIndex((tab) => tab === 'Submissions'))
     }
   }, [commentTarget, submission])
 
@@ -138,189 +154,186 @@ export const Inspector: React.FC<{
     <InspectorContainer>
       <InspectorTabs index={tabIndex} onChange={setTabIndex}>
         <InspectorTabList>
-          <InspectorTab>Content</InspectorTab>
-          <InspectorTab>Style</InspectorTab>
-          <InspectorTab>Comments</InspectorTab>
-          {config.quality_control.enabled && (
-            <InspectorTab>Quality Report</InspectorTab>
-          )}
-          {config.shackles.enabled && <InspectorTab>History</InspectorTab>}
-          {config.export.to_review && <InspectorTab>Submissions</InspectorTab>}
+          {TABS.map((label, i) => (
+            <InspectorTab key={i}>{label}</InspectorTab>
+          ))}
         </InspectorTabList>
-
         <PaddedInspectorTabPanels>
-          <InspectorTabPanel>
-            {tabIndex === 0 && (
-              <>
-                <StatisticsInspector
-                  manuscriptNode={doc}
-                  sectionNode={
-                    selectedSection
-                      ? (selectedSection.node as SectionNode)
-                      : undefined
-                  }
-                />
-                {config.export.literatum && (
-                  <HeaderImageInspector
-                    deleteModel={deleteModel}
-                    manuscript={manuscript}
-                    modelMap={modelMap}
-                    saveManuscript={saveManuscript}
-                    saveModel={saveModel}
-                  />
-                )}
-                {config.export.literatum && selected && (
-                  <NodeInspector
-                    manuscript={manuscript}
-                    selected={selected}
-                    modelMap={modelMap}
-                    saveModel={saveModel}
-                    deleteModel={deleteModel}
-                    view={view}
-                  />
-                )}
-                <ManuscriptInspector
-                  key={manuscript._id}
-                  manuscript={manuscript}
-                  modelMap={modelMap}
-                  saveManuscript={saveManuscript}
-                  saveModel={saveModel}
-                  view={view}
-                />
+          {TABS.map((label) => {
+            switch (label) {
+              case 'Content': {
+                return (
+                  <InspectorTabPanel key={label}>
+                    <StatisticsInspector
+                      manuscriptNode={doc}
+                      sectionNode={
+                        selectedSection
+                          ? (selectedSection.node as SectionNode)
+                          : undefined
+                      }
+                    />
+                    {config.export.literatum && (
+                      <HeaderImageInspector
+                        deleteModel={deleteModel}
+                        manuscript={manuscript}
+                        modelMap={modelMap}
+                        saveManuscript={saveManuscript}
+                        saveModel={saveModel}
+                      />
+                    )}
+                    {config.export.literatum && selected && (
+                      <NodeInspector
+                        manuscript={manuscript}
+                        selected={selected}
+                        modelMap={modelMap}
+                        saveModel={saveModel}
+                        deleteModel={deleteModel}
+                        view={view}
+                      />
+                    )}
+                    <ManuscriptInspector
+                      key={manuscript._id}
+                      manuscript={manuscript}
+                      modelMap={modelMap}
+                      saveManuscript={saveManuscript}
+                      saveModel={saveModel}
+                      view={view}
+                    />
 
-                {(element || section) && config.features.projectManagement && (
-                  <ManageTargetInspector
-                    target={
-                      manageManuscript
-                        ? manuscript
-                        : ((element || section) as AnyElement | Section)
-                    }
-                    listCollaborators={listCollaborators}
-                    saveModel={saveModel}
-                    statusLabels={statusLabels}
-                    tags={tags}
-                    modelMap={modelMap}
-                    deleteModel={deleteModel}
-                    project={project}
-                  />
-                )}
+                    {(element || section) &&
+                      config.features.projectManagement && (
+                        <ManageTargetInspector
+                          target={
+                            manageManuscript
+                              ? manuscript
+                              : ((element || section) as AnyElement | Section)
+                          }
+                          listCollaborators={listCollaborators}
+                          saveModel={saveModel}
+                          statusLabels={statusLabels}
+                          tags={tags}
+                          modelMap={modelMap}
+                          deleteModel={deleteModel}
+                          project={project}
+                        />
+                      )}
 
-                {section && (
-                  <SectionInspector
-                    key={section._id}
-                    section={section}
-                    sectionNode={
-                      selectedSection
-                        ? (selectedSection.node as SectionNode)
-                        : undefined
-                    }
-                    modelMap={modelMap}
-                    saveModel={saveModel}
-                    dispatchNodeAttrs={dispatchNodeAttrs}
-                  />
-                )}
-              </>
-            )}
-          </InspectorTabPanel>
+                    {section && (
+                      <SectionInspector
+                        key={section._id}
+                        section={section}
+                        sectionNode={
+                          selectedSection
+                            ? (selectedSection.node as SectionNode)
+                            : undefined
+                        }
+                        modelMap={modelMap}
+                        saveModel={saveModel}
+                        dispatchNodeAttrs={dispatchNodeAttrs}
+                      />
+                    )}
+                  </InspectorTabPanel>
+                )
+              }
 
-          <InspectorTabPanel>
-            {tabIndex === 1 && (
-              <>
-                <ManuscriptStyleInspector
-                  bundle={bundle}
-                  openCitationStyleSelector={openCitationStyleSelector}
-                />
-                {element && (
-                  <ElementStyleInspector
-                    manuscript={manuscript}
-                    element={element}
-                    modelMap={modelMap}
-                    saveModel={saveModel}
-                    deleteModel={deleteModel}
-                    view={view}
-                  />
-                )}
-                {section && (
-                  <SectionStyleInspector
-                    section={section}
-                    modelMap={modelMap}
-                    saveModel={saveModel}
-                    dispatchUpdate={dispatchUpdate}
-                  />
-                )}
-                <InlineStyleInspector
-                  modelMap={modelMap}
-                  saveModel={saveModel}
-                  deleteModel={deleteModel}
-                  view={view}
-                />
-              </>
-            )}
-          </InspectorTabPanel>
+              case 'Style': {
+                return (
+                  <InspectorTabPanel key={label}>
+                    <ManuscriptStyleInspector
+                      bundle={bundle}
+                      openCitationStyleSelector={openCitationStyleSelector}
+                    />
+                    {element && (
+                      <ElementStyleInspector
+                        manuscript={manuscript}
+                        element={element}
+                        modelMap={modelMap}
+                        saveModel={saveModel}
+                        deleteModel={deleteModel}
+                        view={view}
+                      />
+                    )}
+                    {section && (
+                      <SectionStyleInspector
+                        section={section}
+                        modelMap={modelMap}
+                        saveModel={saveModel}
+                        dispatchUpdate={dispatchUpdate}
+                      />
+                    )}
+                    <InlineStyleInspector
+                      modelMap={modelMap}
+                      saveModel={saveModel}
+                      deleteModel={deleteModel}
+                      view={view}
+                    />
+                  </InspectorTabPanel>
+                )
+              }
 
-          <InspectorTabPanel>
-            {tabIndex === 2 && (
-              <>
-                {comments && (
-                  <CommentList
-                    comments={comments}
-                    doc={doc}
-                    getCurrentUser={getCurrentUser}
-                    selected={selected}
-                    createKeyword={createKeyword}
-                    deleteModel={deleteModel}
-                    getCollaborator={getCollaborator}
-                    getCollaboratorById={getCollaboratorById}
-                    getKeyword={getKeyword}
-                    listCollaborators={listCollaborators}
-                    listKeywords={listKeywords}
-                    saveModel={saveModel}
-                    commentTarget={commentTarget}
-                    setCommentTarget={setCommentTarget}
-                    view={view}
-                    key={commentTarget}
-                  />
-                )}
-              </>
-            )}
-          </InspectorTabPanel>
+              case 'Comments': {
+                return (
+                  <InspectorTabPanel key={label}>
+                    <CommentList
+                      comments={comments || []}
+                      doc={doc}
+                      getCurrentUser={getCurrentUser}
+                      selected={selected}
+                      createKeyword={createKeyword}
+                      deleteModel={deleteModel}
+                      getCollaborator={getCollaborator}
+                      getCollaboratorById={getCollaboratorById}
+                      getKeyword={getKeyword}
+                      listCollaborators={listCollaborators}
+                      listKeywords={listKeywords}
+                      saveModel={saveModel}
+                      commentTarget={commentTarget}
+                      setCommentTarget={setCommentTarget}
+                      view={view}
+                      key={commentTarget}
+                    />
+                  </InspectorTabPanel>
+                )
+              }
 
-          {config.quality_control.enabled && (
-            <InspectorTabPanel>
-              {tabIndex === 3 && (
-                <>
-                  <RequirementsInspector
-                    modelMap={modelMap}
-                    prototypeId={manuscript.prototype}
-                    manuscriptID={manuscript._id}
-                    bulkUpdate={bulkUpdate}
-                  />
-                </>
-              )}
-            </InspectorTabPanel>
-          )}
+              case 'Quality Report': {
+                return (
+                  <InspectorTabPanel key="Quality Report">
+                    <RequirementsInspector
+                      modelMap={modelMap}
+                      prototypeId={manuscript.prototype}
+                      manuscriptID={manuscript._id}
+                      bulkUpdate={bulkUpdate}
+                    />
+                  </InspectorTabPanel>
+                )
+              }
 
-          {config.shackles.enabled && (
-            <InspectorTabPanel>
-              {tabIndex === 4 && (
-                <HistoryPanelContainer
-                  project={project}
-                  manuscriptID={manuscript._id}
-                  getCurrentUser={getCurrentUser}
-                />
-              )}
-            </InspectorTabPanel>
-          )}
+              case 'History': {
+                return (
+                  <InspectorTabPanel key="History">
+                    <HistoryPanelContainer
+                      project={project}
+                      manuscriptID={manuscript._id}
+                      getCurrentUser={getCurrentUser}
+                    />
+                  </InspectorTabPanel>
+                )
+              }
 
-          {config.export.to_review && (
-            <InspectorTabPanel>
-              {tabIndex === 5 && (
-                <>
-                  <SubmissionsInspector modelMap={modelMap} />
-                </>
-              )}
-            </InspectorTabPanel>
-          )}
+              case 'Submissions': {
+                return (
+                  <InspectorTabPanel key="Submissions">
+                    <SubmissionsInspector modelMap={modelMap} />
+                  </InspectorTabPanel>
+                )
+              }
+
+              default: {
+                return null
+              }
+            }
+          })}
         </PaddedInspectorTabPanels>
       </InspectorTabs>
     </InspectorContainer>
