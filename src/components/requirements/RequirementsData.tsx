@@ -88,7 +88,11 @@ export const RequirementsData: React.FC<{
     const result: Array<ContainedModel> = runManuscriptFixes(
       manuscriptData,
       manuscriptID,
-      [node]
+      [node],
+      {
+        parser: new DOMParser(),
+        serializer: new XMLSerializer(),
+      }
     )
 
     const changedItems: Array<ContainedModel> = getDiff(modelMap, result)
