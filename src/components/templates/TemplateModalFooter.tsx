@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Model } from '@manuscripts/manuscripts-json-schema'
 import {
   ButtonGroup,
   PrimaryButton,
@@ -19,7 +18,7 @@ import {
 import React from 'react'
 import styled from 'styled-components'
 
-import { TemplateData } from '../../types/templates'
+import { TemplateData } from '../../lib/templates'
 
 const ModalFooter = styled.div`
   box-shadow: 0 -2px 12px 0 rgba(216, 216, 216, 0.26);
@@ -72,7 +71,7 @@ const FooterButtons = styled(ButtonGroup)`
 
 interface Props {
   createEmpty: () => Promise<void>
-  importManuscript: (models: Model[]) => Promise<void>
+  // importManuscript: (models: Model[]) => Promise<void>
   selectTemplate: () => Promise<void>
   selectedTemplate?: TemplateData
   creatingManuscript: boolean

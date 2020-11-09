@@ -10,7 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { hasObjectType } from '@manuscripts/manuscript-transform'
+import {
+  getByPrototype,
+  hasObjectType,
+} from '@manuscripts/manuscript-transform'
 import {
   Color,
   ColorScheme,
@@ -25,17 +28,6 @@ export const isColorScheme = hasObjectType<ColorScheme>(ObjectTypes.ColorScheme)
 
 export const nextColorPriority = (colors: Color[]) =>
   Math.max(...colors.map((color) => color.priority || 0)) + 10
-
-const getByPrototype = <T extends Model>(
-  modelMap: Map<string, Model>,
-  prototype: string
-) => {
-  for (const model of modelMap.values()) {
-    if (model.prototype === prototype) {
-      return model as T
-    }
-  }
-}
 
 export const buildColors = (
   modelMap: Map<string, Model>,

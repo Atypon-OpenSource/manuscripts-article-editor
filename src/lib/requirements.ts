@@ -11,6 +11,7 @@
  */
 
 import {
+  MandatorySubsectionsRequirement,
   MaximumManuscriptCharacterCountRequirement,
   MaximumManuscriptWordCountRequirement,
   MaximumSectionCharacterCountRequirement,
@@ -82,3 +83,8 @@ export type SectionCountRequirementType =
   | ObjectTypes.MinimumSectionCharacterCountRequirement
   | ObjectTypes.MaximumSectionWordCountRequirement
   | ObjectTypes.MaximumSectionCharacterCountRequirement
+
+export type Requirement =
+  | MandatorySubsectionsRequirement
+  | ManuscriptCountRequirement
+  | SectionCountRequirement

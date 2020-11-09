@@ -20,8 +20,12 @@ import {
   buildSection,
   ContainedModel,
   DEFAULT_BUNDLE,
+  DEFAULT_PAGE_LAYOUT,
+  fromPrototype,
   generateID,
   hasObjectType,
+  loadBundledDependencies,
+  updatedPageLayout,
 } from '@manuscripts/manuscript-transform'
 import {
   BibliographyElement,
@@ -43,7 +47,6 @@ import {
   Section,
   SectionCategory,
   SectionDescription,
-  Style,
   Table,
   TableElement,
   TableStyle,
@@ -56,15 +59,15 @@ import { AxiosResponse, ResponseType } from 'axios'
 // eslint-disable-next-line import/no-unresolved
 import { Data } from 'csl-json'
 
+import { Requirement } from '../../lib/requirements'
 import { importSharedData } from '../../lib/shared-data'
+import { Style } from '../../lib/styles'
 import {
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
-  createNewBundledStyles,
-  updatedPageLayout,
+  TemplatesDataType,
 } from '../../lib/templates'
-import { Requirement, TemplatesDataType } from '../../types/templates'
 import {
   ExportBibliographyFormat,
   ExportManuscriptFormat,
@@ -161,9 +164,6 @@ const buildManuscriptModelMap = async (
   manuscript: Build<Manuscript>,
   templateID?: string
 ) => {
-  const bundles = await importSharedData<Bundle>('bundles')
-  const styles = await importSharedData<Style>('styles')
-
   const modelMap = new Map<string, ContainedModel>()
 
   const addModel = <T extends Model>(model: Build<T>) =>
@@ -177,20 +177,21 @@ const buildManuscriptModelMap = async (
     })
 
   // add the bundle
+  const bundles = await importSharedData<Bundle>('bundles')
+
   const bundle = bundles.get(DEFAULT_BUNDLE)
   if (!bundle) {
     throw new Error('Default bundle not found')
   }
   addModel<Bundle>(bundle)
 
-  // add the shared styles
-  const newStyles = createNewBundledStyles(styles)
-  for (const style of newStyles.values()) {
-    addModel<Style>(style)
-  }
+  // add the manuscript dependencies
+  const dependencies = await loadBundledDependencies()
+  dependencies.map(fromPrototype).forEach(addModel)
 
   // add the page layout
-  const newPageLayout = updatedPageLayout(newStyles)
+  const styles = await importSharedData<Style>('styles')
+  const newPageLayout = updatedPageLayout(styles, DEFAULT_PAGE_LAYOUT)
   addModel<PageLayout>(newPageLayout)
 
   // add the author contributor
@@ -273,9 +274,7 @@ const buildManuscriptModelMap = async (
         sectionDescriptions
       )
 
-      for (const item of items) {
-        addModel(item)
-      }
+      items.forEach(addModel)
     } else {
       // create an empty section, if there are no required sections
       const paragraph = createEmptyParagraph(newPageLayout)

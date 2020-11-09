@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { ContainedModel } from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   Model,
@@ -26,15 +27,16 @@ export const isSection = (model: Model): model is Section =>
   model.objectType === ObjectTypes.Section
 
 export const nextManuscriptPriority = async (
-  collection: Collection<Manuscript>
+  collection: Collection<ContainedModel>
 ): Promise<number> => {
   const docs = await collection
-    .collection!.find({
+    .getCollection()
+    .find({
       objectType: ObjectTypes.Manuscript,
     })
     .exec()
 
-  const manuscripts = docs.map((doc) => doc.toJSON())
+  const manuscripts = docs.map((doc) => doc.toJSON()) as Manuscript[]
 
   const priority: number = manuscripts.length
     ? Math.max(...manuscripts.map((manuscript) => manuscript.priority || 1))

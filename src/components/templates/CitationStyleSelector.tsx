@@ -10,14 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ContainedModel } from '@manuscripts/manuscript-transform'
+import { loadStyle } from '@manuscripts/library'
+import {
+  ContainedModel,
+  fromPrototype,
+} from '@manuscripts/manuscript-transform'
 import { Bundle, Project } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 import { importSharedData } from '../../lib/shared-data'
-import { attachStyle, fromPrototype } from '../../lib/templates'
 import { Collection } from '../../sync/Collection'
 import { ContactSupportButton } from '../ContactSupportButton'
 import { CitationStyleSelectorModal } from './CitationStyleSelectorModal'
@@ -31,7 +34,6 @@ interface Props {
 
 interface State {
   loadingError?: Error
-  bundlesMap?: Map<string, Bundle>
   bundles?: Bundle[]
 }
 
@@ -42,7 +44,7 @@ class CitationStyleSelector extends React.Component<
   public state: Readonly<State> = {}
 
   public async componentDidMount() {
-    this.loadData().catch((loadingError) => {
+    this.loadBundles().catch((loadingError) => {
       this.setState({ loadingError })
     })
   }
@@ -93,17 +95,22 @@ class CitationStyleSelector extends React.Component<
     )
   }
 
-  private async loadData() {
+  private async loadBundles() {
+    const bundles: Bundle[] = []
+
     const bundlesMap = await importSharedData<Bundle>('bundles')
 
-    const bundles = Array.from(bundlesMap.values())
-      .filter((bundle) => bundle.csl && bundle.csl.title)
-      .sort((a, b) => a.csl!.title!.localeCompare(b.csl!.title!))
+    for (const bundle of bundlesMap.values()) {
+      // only include bundles with titles
+      if (bundle.csl?.title) {
+        bundles.push(bundle)
+      }
+    }
 
-    this.setState({
-      bundlesMap,
-      bundles,
-    })
+    // sort by title, alphabetically
+    bundles.sort((a, b) => a.csl!.title!.localeCompare(b.csl!.title!))
+
+    this.setState({ bundles })
   }
 
   private saveParentBundle = async (
@@ -140,7 +147,7 @@ class CitationStyleSelector extends React.Component<
       containerID: project._id,
     })
 
-    await attachStyle(newParentBundle, this.props.collection)
+    await this.attachStyle(newParentBundle)
 
     return newParentBundle
   }
@@ -154,11 +161,23 @@ class CitationStyleSelector extends React.Component<
       containerID: project._id,
     })
 
-    await attachStyle(newBundle, this.props.collection)
+    await this.attachStyle(newBundle)
 
     const parentBundle = await this.saveParentBundle(newBundle)
 
     handleComplete(newBundle, parentBundle)
+  }
+
+  private attachStyle = async (newBundle: Bundle) => {
+    if (newBundle.csl && newBundle.csl.cslIdentifier) {
+      const data = await loadStyle(newBundle.csl.cslIdentifier)
+
+      await this.props.collection.putAttachment(newBundle._id, {
+        id: 'csl',
+        type: 'application/vnd.citationstyles.style+xml',
+        data,
+      })
+    }
   }
 }
 

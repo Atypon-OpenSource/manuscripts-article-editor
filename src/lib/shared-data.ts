@@ -12,7 +12,6 @@
 
 import {
   Bundle,
-  ContributorRole,
   ManuscriptCategory,
   ManuscriptTemplate,
   Model,
@@ -23,9 +22,23 @@ import {
   StatusLabel,
 } from '@manuscripts/manuscripts-json-schema'
 
-import { SharedData } from '../components/templates/TemplateSelector'
-import { Requirement, TemplatesDataType } from '../types/templates'
+import { Requirement } from './requirements'
 import { Style } from './styles'
+import { TemplatesDataType } from './templates'
+
+export interface SharedData {
+  bundles: Map<string, Bundle>
+  // contributorRoles: Map<string, ContributorRole>
+  manuscriptCategories: Map<string, ManuscriptCategory>
+  manuscriptTemplates: Map<string, ManuscriptTemplate>
+  publishers: Map<string, Publisher>
+  researchFields: Map<string, ResearchField>
+  sectionCategories: Map<string, SectionCategory>
+  styles: Map<string, Style>
+  // statusLabels: Map<string, StatusLabel>
+  templatesData: Map<string, TemplatesDataType>
+  userManuscriptTemplates: Map<string, ManuscriptTemplate>
+}
 
 export const importSharedData = <T extends Model>(file: string) =>
   import(`@manuscripts/data/dist/shared/${file}.json`)
@@ -37,7 +50,7 @@ export const importSharedData = <T extends Model>(file: string) =>
         )
     )
 
-export const loadSharedData = async (
+export const loadAllSharedData = async (
   userTemplates?: ManuscriptTemplate[],
   userTemplateModels?: Model[]
 ): Promise<SharedData> => {
@@ -80,7 +93,7 @@ export const loadSharedData = async (
   )
 
   const researchFields = new Map<string, ResearchField>()
-  const statusLabels = new Map<string, StatusLabel>()
+  // const statusLabels = new Map<string, StatusLabel>()
 
   for (const item of keywords.values()) {
     switch (item.objectType) {
@@ -88,16 +101,16 @@ export const loadSharedData = async (
         researchFields.set(item._id, item)
         break
 
-      case ObjectTypes.StatusLabel:
-        statusLabels.set(item._id, item)
-        break
+      // case ObjectTypes.StatusLabel:
+      //   statusLabels.set(item._id, item)
+      //   break
     }
   }
 
   // contributor roles
-  const contributorRoles = await importSharedData<ContributorRole>(
-    'contributor-roles'
-  )
+  // const contributorRoles = await importSharedData<ContributorRole>(
+  //   'contributor-roles'
+  // )
 
   const userManuscriptTemplates = new Map<string, ManuscriptTemplate>()
 
@@ -138,7 +151,7 @@ export const loadSharedData = async (
 
   return {
     bundles,
-    contributorRoles,
+    // contributorRoles,
     manuscriptCategories,
     manuscriptTemplates,
     publishers,
@@ -147,6 +160,6 @@ export const loadSharedData = async (
     styles,
     templatesData,
     userManuscriptTemplates,
-    statusLabels,
+    // statusLabels,
   }
 }

@@ -12,6 +12,7 @@
 
 import {
   DEFAULT_PAGE_LAYOUT,
+  fromPrototype,
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -31,7 +32,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 import { buildColors } from '../../lib/colors'
 import { findBodyTextParagraphStyles } from '../../lib/styles'
-import { fromPrototype } from '../../lib/templates'
 import { AnyElement, ElementStyleInspectorProps } from './ElementStyleInspector'
 import { ParagraphStyles } from './ParagraphStyles'
 

@@ -10,14 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { loadStyle } from '@manuscripts/library'
 import {
   Build,
   buildParagraph,
   buildSection,
-  ContainedModel,
   DEFAULT_BUNDLE,
-  DEFAULT_PAGE_LAYOUT,
+  fromPrototype,
   generateID,
   ManuscriptModel,
 } from '@manuscripts/manuscript-transform'
@@ -28,7 +26,7 @@ import {
   Model,
   ObjectTypes,
   PageLayout,
-  ParagraphStyle,
+  Publisher,
   ResearchField,
   Section,
   SectionCategory,
@@ -36,18 +34,32 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { mergeWith } from 'lodash-es'
 
-import { SharedData } from '../components/templates/TemplateSelector'
-import { Collection } from '../sync/Collection'
 import {
-  ManuscriptTemplateData,
-  TemplateData,
-  TemplatesDataType,
-} from '../types/templates'
-import {
+  Requirement,
   SectionCountRequirement,
   sectionCountRequirementFields,
 } from './requirements'
-import { isParagraphStyle } from './styles'
+import { SharedData } from './shared-data'
+
+export type ManuscriptTemplateData = Pick<
+  ManuscriptTemplate,
+  Exclude<
+    keyof ManuscriptTemplate,
+    'containerID' | 'manuscriptID' | 'sessionID'
+  >
+>
+
+export interface TemplateData {
+  template?: ManuscriptTemplateData
+  bundle?: Bundle
+  title: string
+  articleType?: string
+  publisher?: Publisher
+  category?: string
+  titleAndType: string
+}
+
+export type TemplatesDataType = ManuscriptTemplate | Requirement
 
 export const RESEARCH_ARTICLE_CATEGORY = 'MPManuscriptCategory:research-article'
 export const COVER_LETTER_CATEGORY = 'MPManuscriptCategory:cover-letter'
@@ -264,7 +276,10 @@ export const createManuscriptSectionsFromTemplate = (
   return items
 }
 
-const findBundleByURL = (url: string, bundles: Map<string, Bundle>) => {
+const findBundleByURL = (
+  url: string,
+  bundles: Map<string, Bundle>
+): Bundle | undefined => {
   for (const bundle of bundles.values()) {
     if (bundle.csl && bundle.csl['self-URL'] === url) {
       return bundle
@@ -275,7 +290,7 @@ const findBundleByURL = (url: string, bundles: Map<string, Bundle>) => {
 export const createParentBundle = (
   bundle: Bundle,
   bundles: Map<string, Bundle>
-) => {
+): Bundle | undefined => {
   if (bundle.csl) {
     const parentURL = bundle.csl['independent-parent-URL']
 
@@ -286,7 +301,7 @@ export const createParentBundle = (
         throw new Error(`Bundle with URL not found: ${parentURL} `)
       }
 
-      return fromPrototype(parentBundle)
+      return fromPrototype<Bundle>(parentBundle)
     }
   }
 }
@@ -294,41 +309,14 @@ export const createParentBundle = (
 export const createNewBundle = (
   bundleID: string,
   bundles: Map<string, Bundle>
-) => {
+): Bundle => {
   const bundle = bundles.get(bundleID)
 
   if (!bundle) {
     throw new Error(`Bundle not found: ${bundleID}`)
   }
 
-  return fromPrototype(bundle)
-}
-
-export const attachStyle = async (
-  newBundle: Bundle,
-  collection: Collection<ContainedModel>
-) => {
-  if (newBundle.csl && newBundle.csl.cslIdentifier) {
-    const data = await loadStyle(newBundle.csl.cslIdentifier)
-
-    await collection.putAttachment(newBundle._id, {
-      id: 'csl',
-      type: 'application/vnd.citationstyles.style+xml',
-      data,
-    })
-  }
-}
-
-export const fromPrototype = <T extends Model>(model: T) => {
-  const { _rev, ...data } = model
-
-  const output = {
-    ...data,
-    prototype: model._id,
-    _id: generateID(model.objectType as ObjectTypes),
-  }
-
-  return output as T & { prototype?: string }
+  return fromPrototype<Bundle>(bundle)
 }
 
 export const createMergedTemplate = (
@@ -366,9 +354,12 @@ export const createMergedTemplate = (
     parentTemplateID = parentTemplate.parent
   }
 
+  // TODO: keep the origin template ID?
+
   delete mergedTemplate.parent
 
-  return fromPrototype<ManuscriptTemplateData>(mergedTemplate)
+  // TODO: no need to create a prototype as it isn't saved?
+  return mergedTemplate
 }
 
 export const createEmptyParagraph = (pageLayout: PageLayout) => {
@@ -537,152 +528,5 @@ export const buildTemplateDataFactory = (sharedData: SharedData) => (
   }
 }
 
-export const chooseBundleID = (item: TemplateData) => {
-  if (item.template && item.template.bundle) {
-    return item.template.bundle
-  }
-
-  if (item.bundle && item.bundle) {
-    return item.bundle._id
-  }
-
-  return DEFAULT_BUNDLE
-}
-
-// export const createNewStyles = (styles: Map<string, Model>) => {
-//   const newStyles = new Map<string, Model>()
-//
-//   const prototypeMap = new Map<string, string>()
-//
-//   for (const style of styles.values()) {
-//     const newStyle = fromPrototype(style)
-//     newStyles.set(newStyle._id, newStyle)
-//
-//     prototypeMap.set(newStyle.prototype, newStyle._id)
-//   }
-//
-//   for (const style of newStyles.values()) {
-//     fixReferencedIds(style, prototypeMap)
-//   }
-//
-//   return newStyles
-// }
-
-export const createNewTemplateStyles = (
-  styles: Map<string, Model>,
-  templateStyleIDs: string[]
-) => {
-  const newStyles = new Map<string, Model>()
-
-  for (const styleID of templateStyleIDs) {
-    const style = (styles.get(styleID) as ParagraphStyle) || undefined
-
-    if (style) {
-      const newStyle = fromPrototype(style)
-      // newStyle.prototype = style.prototype // NOTE: different from bundled styles
-      newStyles.set(newStyle._id, newStyle)
-    }
-  }
-
-  // this.fixReferencedStyleIds(newStyles, prototypeMap)
-
-  return newStyles
-}
-
-export const createNewBundledStyles = (styles: Map<string, Model>) => {
-  const newStyles = new Map<string, Model>()
-
-  for (const style of styles.values()) {
-    if (style.bundled) {
-      const newStyle = fromPrototype(style)
-      newStyles.set(newStyle._id, newStyle)
-    }
-  }
-
-  // this.fixReferencedStyleIds(newStyles, prototypeMap)
-
-  return newStyles
-}
-
-const ignoreKeys = ['_id', 'prototype']
-
-const fixReferencedIds = (model: Model, prototypeMap: Map<string, string>) => {
-  for (const [key, value] of Object.entries(model)) {
-    if (ignoreKeys.includes(key)) {
-      continue
-    }
-
-    if (value._id) {
-      // nested object
-      fixReferencedIds(value, prototypeMap)
-    } else {
-      if (prototypeMap.has(value)) {
-        // @ts-ignore
-        model[key] = prototypeMap.get(value) as string
-      }
-    }
-  }
-}
-
-export const createNewItems = <S extends Model>(items: Map<string, S>) => {
-  const newItems = new Map<string, S>()
-
-  for (const item of items.values()) {
-    const newItem = fromPrototype(item)
-    newItems.set(newItem._id, newItem)
-  }
-
-  return newItems
-}
-
-export const getByPrototype = <T extends Model>(
-  prototype: string,
-  modelMap: Map<string, Model>
-): T | undefined => {
-  for (const model of modelMap.values()) {
-    if (model.prototype === prototype) {
-      return model as T
-    }
-  }
-}
-
-const chooseNewDefaultParagraphStyle = (newStyles: Map<string, Model>) => {
-  for (const style of newStyles.values()) {
-    if (isParagraphStyle(style)) {
-      if (style.title === 'Body Text') {
-        // TODO: something stricter?
-        return style
-      }
-    }
-  }
-}
-
-export const updatedPageLayout = (
-  newStyles: Map<string, Model>,
-  template?: ManuscriptTemplateData
-) => {
-  const newPageLayout = getByPrototype<PageLayout>(
-    template && template.pageLayout ? template.pageLayout : DEFAULT_PAGE_LAYOUT,
-    newStyles
-  )
-
-  if (!newPageLayout) {
-    throw new Error('Default page layout not found')
-  }
-
-  const newDefaultParagraphStyle =
-    getByPrototype<ParagraphStyle>(
-      newPageLayout.defaultParagraphStyle,
-      newStyles
-    ) || chooseNewDefaultParagraphStyle(newStyles)
-
-  if (!newDefaultParagraphStyle) {
-    throw new Error('Default paragraph style not found')
-  }
-
-  newPageLayout.defaultParagraphStyle = newDefaultParagraphStyle._id
-
-  // newStyles.set(newPageLayout._id, newPageLayout)
-
-  return newPageLayout
-}
+export const chooseBundleID = (item?: TemplateData) =>
+  item?.template?.bundle || item?.bundle?._id || DEFAULT_BUNDLE

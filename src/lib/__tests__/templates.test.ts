@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { DEFAULT_BUNDLE, generateID } from '@manuscripts/manuscript-transform'
+import {
+  DEFAULT_BUNDLE,
+  fromPrototype,
+  generateID,
+} from '@manuscripts/manuscript-transform'
 import {
   Bundle,
   MandatorySubsectionsRequirement,
@@ -23,9 +27,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { orderBy } from 'lodash-es'
 
-import { SharedData } from '../../components/templates/TemplateSelector'
-import { ManuscriptTemplateData, TemplateData } from '../../types/templates'
-import { loadSharedData } from '../shared-data'
+import { loadAllSharedData, SharedData } from '../shared-data'
 import {
   buildArticleType,
   buildCategories,
@@ -38,7 +40,8 @@ import {
   createEmptyParagraph,
   createManuscriptSectionsFromTemplate,
   createMergedTemplate,
-  fromPrototype,
+  ManuscriptTemplateData,
+  TemplateData,
   // isMandatorySubsectionsRequirement,
 } from '../templates'
 
@@ -53,7 +56,7 @@ describe('templates', () => {
   let testBundle: Bundle
 
   beforeAll(async () => {
-    sharedData = await loadSharedData()
+    sharedData = await loadAllSharedData()
 
     testTemplate = sharedData.manuscriptTemplates.get(
       TEST_TEMPLATE
@@ -333,7 +336,6 @@ describe('templates', () => {
       ],
       objectType: 'MPManuscriptTemplate',
       priority: 3,
-      prototype: 'MPManuscriptTemplate:foo',
       publisher: 'MPPublisher:springer',
       title: 'Example template with parent',
       updatedAt: 0,

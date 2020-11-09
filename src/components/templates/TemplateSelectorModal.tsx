@@ -12,7 +12,6 @@
 
 import {
   ManuscriptCategory,
-  Model,
   ResearchField,
 } from '@manuscripts/manuscripts-json-schema'
 import fuzzysort from 'fuzzysort'
@@ -21,7 +20,7 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
 import styled from 'styled-components'
 
-import { TemplateData } from '../../types/templates'
+import { TemplateData } from '../../lib/templates'
 import Search from '../Search'
 import { TemplateCategorySelector } from './TemplateCategorySelector'
 import { TemplateEmpty } from './TemplateEmpty'
@@ -93,7 +92,7 @@ interface Props {
   categories: ManuscriptCategory[]
   researchFields: ResearchField[]
   handleComplete: () => void
-  importManuscript: (models: Model[]) => Promise<void>
+  // importManuscript: (models: Model[]) => Promise<void>
   selectTemplate: (template: TemplateData) => Promise<void>
   createEmpty: () => Promise<void>
 }
@@ -125,7 +124,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
     const {
       categories,
       handleComplete,
-      importManuscript,
+      // importManuscript,
       researchFields,
     } = this.props
 
@@ -207,7 +206,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
 
           <TemplateModalFooter
             createEmpty={this.createEmpty}
-            importManuscript={importManuscript}
+            // importManuscript={importManuscript}
             selectTemplate={this.selectTemplate}
             selectedTemplate={selectedItem}
             creatingManuscript={creatingManuscript}

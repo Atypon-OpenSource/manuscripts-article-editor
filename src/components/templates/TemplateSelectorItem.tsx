@@ -13,7 +13,7 @@
 import React from 'react'
 import { ListChildComponentProps } from 'react-window'
 
-import { TemplateData } from '../../types/templates'
+import { TemplateData } from '../../lib/templates'
 import { TemplateListItem } from './TemplateListItem'
 
 interface Props {

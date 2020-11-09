@@ -14,8 +14,8 @@ import React, { useCallback, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { VariableSizeList } from 'react-window'
 
+import { TemplateData } from '../../lib/templates'
 import { ThemeProvider } from '../../theme/ThemeProvider'
-import { TemplateData } from '../../types/templates'
 import { TemplateListItem } from './TemplateListItem'
 import { TemplateSelectorItem } from './TemplateSelectorItem'
 

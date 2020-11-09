@@ -29,7 +29,7 @@ import { TemplateSelectorList } from '../src/components/templates/TemplateSelect
 import { TemplateSelectorModal } from '../src/components/templates/TemplateSelectorModal'
 import { TemplateTopicSelector } from '../src/components/templates/TemplateTopicSelector'
 import { TemplateTopicsList } from '../src/components/templates/TemplateTopicsList'
-import { TemplateData } from '../src/types/templates'
+import { TemplateData } from '../src/lib/templates'
 import { templatesData } from './data/templates-data'
 
 const researchFields = (keywords as ResearchField[]).filter(
@@ -56,7 +56,7 @@ storiesOf('Template Selector', module)
       categories={manuscriptCategories}
       researchFields={researchFields}
       handleComplete={action('complete')}
-      importManuscript={action('import manuscript')}
+      // importManuscript={action('import manuscript')}
       selectTemplate={action('select template')}
       createEmpty={action('create empty')}
     />

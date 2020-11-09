@@ -44,16 +44,19 @@ import {
   ContainedProps,
   Decoder,
   DEFAULT_BUNDLE,
+  DEFAULT_PAGE_LAYOUT,
   documentObjectTypes,
   elementObjects,
   encode,
+  fromPrototype,
   generateID,
   getAttachment,
   getModelsByType,
-  hasObjectType,
   isFigure,
   isManuscriptModel,
   isUserProfile,
+  loadBundledDependencies,
+  loadStyles,
   ManuscriptEditorState,
   ManuscriptEditorView,
   ManuscriptModel,
@@ -63,6 +66,7 @@ import {
   schema,
   Selected,
   timestamp,
+  updatedPageLayout,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -82,7 +86,7 @@ import {
   UserProfile,
   UserProject,
 } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from '@manuscripts/rxdb'
+import { RxCollection, RxDocument } from '@manuscripts/rxdb'
 import {
   ConflictManager,
   conflictsKey,
@@ -90,6 +94,7 @@ import {
   isTreeChange,
   LocalConflicts,
   plugins as syncPlugins,
+  SectionLike,
   SYNC_ERROR_LOCAL_DOC_ID,
   SyncErrors,
   syncErrorsKey,
@@ -105,6 +110,7 @@ import { Subscription } from 'rxjs/Subscription'
 
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
+import { loadBundle } from '../../lib/bundles'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import deviceId from '../../lib/device-id'
 import { loadTargetJournals } from '../../lib/literatum'
@@ -130,18 +136,11 @@ import { canWrite } from '../../lib/roles'
 import { filterLibrary } from '../../lib/search-library'
 import sessionID from '../../lib/session-id'
 import {
-  attachStyle,
-  createNewBundle,
-  createParentBundle,
-  updatedPageLayout,
-} from '../../lib/templates'
-import {
   buildRecentProjects,
   buildUserProject,
   RecentProject,
 } from '../../lib/user-project'
 import { ExportFormat } from '../../pressroom/exporter'
-import { importBundledData } from '../../pressroom/importers'
 import { Collection, ContainerIDs } from '../../sync/Collection'
 import CollectionManager from '../../sync/CollectionManager'
 // import { newestFirst, oldestFirst } from '../../lib/sort'
@@ -250,7 +249,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private subs: Subscription[] = []
 
-  private collection: Collection<Model>
+  private collection: Collection<ContainedModel>
 
   private readonly debouncedSaveModels: (state: ManuscriptEditorState) => void
 
@@ -318,7 +317,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     window.addEventListener('beforeunload', this.unloadListener)
 
-    this.collection = CollectionManager.getCollection<Model>(
+    this.collection = CollectionManager.getCollection<ContainedModel>(
       `project-${projectID}`
     )
 
@@ -342,7 +341,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       this.subs.forEach((sub) => sub.unsubscribe())
 
       if (params.projectID !== nextParams.projectID) {
-        this.collection = CollectionManager.getCollection<Model>(
+        this.collection = CollectionManager.getCollection<ContainedModel>(
           `project-${nextParams.projectID}`
         )
       }
@@ -691,7 +690,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private prepare = async (projectID: string, manuscriptID: string) => {
     try {
       const conflictManager = new ConflictManager(
-        this.collection.getCollection() // TODO: wait for this?
+        this.collection.getCollection() as RxCollection<SectionLike> // TODO: wait for this?
       )
 
       this.setState({
@@ -945,7 +944,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     addModal('citation-style-selector', ({ handleClose }) => (
       <CitationStyleSelector
-        collection={this.collection as Collection<ContainedModel>}
+        collection={this.collection}
         project={project}
         handleComplete={async (bundle?: Bundle, parentBundle?: Bundle) => {
           if (bundle) {
@@ -1048,36 +1047,26 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       throw new Error('No manuscript found')
     }
 
-    manuscript.priority = await nextManuscriptPriority(
-      this.collection as Collection<Manuscript>
-    )
+    // TODO: try to share this code with createManuscript
+
+    manuscript.priority = await nextManuscriptPriority(this.collection)
 
     // TODO: use the imported filename?
     if (!manuscript.pageLayout) {
-      const {
-        bundles,
-        contributorRoles,
-        styles,
-        statusLabels,
-      } = await importBundledData()
-
-      const bundle = createNewBundle(
-        manuscript.bundle || DEFAULT_BUNDLE,
-        bundles
-      )
+      const [bundle, parentBundle] = await loadBundle(manuscript.bundle)
       manuscript.bundle = bundle._id
       models.push(bundle)
 
-      const parentBundle = createParentBundle(bundle, bundles)
       if (parentBundle) {
         models.push(parentBundle)
       }
 
-      models.push(...contributorRoles.values())
-      models.push(...statusLabels.values())
-      models.push(...styles.values())
+      const dependencies = await loadBundledDependencies()
+      models.push(...dependencies.map(fromPrototype))
 
-      const pageLayout = updatedPageLayout(styles)
+      const styles = await loadStyles()
+      const styleMap = new Map(styles.map((style) => [style._id, style]))
+      const pageLayout = updatedPageLayout(styleMap, DEFAULT_PAGE_LAYOUT, false)
       manuscript.pageLayout = pageLayout._id
       models.push(pageLayout)
 
@@ -1094,16 +1083,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }))
 
     await this.collection.bulkCreate(items)
-
-    try {
-      const bundles = models.filter(hasObjectType<Bundle>(ObjectTypes.Bundle))
-
-      for (const bundle of bundles) {
-        await attachStyle(bundle, this.collection as Collection<ContainedModel>)
-      }
-    } catch (error) {
-      console.log(error)
-    }
 
     if (redirect) {
       this.props.history.push(
@@ -1281,7 +1260,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private saveModel = async <T extends Model>(
     model: T | Build<T> | Partial<T>
-  ): Promise<T> => {
+  ): Promise<T & ContainedProps> => {
     const { manuscriptID, projectID } = this.props.match.params
 
     if (!model._id) {
@@ -1313,16 +1292,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     // TODO: data.contents = serialized DOM wrapper for bibliography
 
-    const result = await this.collection.save(
-      data as Partial<ManuscriptModel>,
-      containerIDs
-    )
+    const result = await this.collection.save(data, containerIDs)
 
     if (attachment) {
       await this.collection.putAttachment(result._id, attachment)
     }
 
-    return result as T
+    return result as T & ContainedProps
   }
 
   private deleteModel = (id: string) => {
@@ -1379,8 +1355,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private processConflictingUpdate = (
-    model: Model,
-    modelDocument: RxDocument<Model>
+    model: ContainedModel,
+    modelDocument: RxDocument<ContainedModel>
   ) => {
     const { conflictManager, conflicts } = this.state
 
@@ -1388,7 +1364,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     return conflictManager!.processConflictingUpdate(
       model,
-      modelDocument,
+      modelDocument as RxDocument<Model>,
       conflicts!,
       decoder.decode
     )

@@ -14,22 +14,18 @@ import {
   buildProject,
   ContainedModel,
   isManuscriptModel,
-  ManuscriptModel,
-  ModelAttachment,
 } from '@manuscripts/manuscript-transform'
-import {
-  Manuscript,
-  Model,
-  Project,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+import { Model, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { History } from 'history'
 
+import {
+  createAndPushNewProject,
+  createProjectCollection,
+} from '../../lib/collections'
 import { BulkCreateError } from '../../lib/errors'
 import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
 import { getCurrentUserId } from '../../lib/user'
-import { Collection, isBulkDocsError } from '../../sync/Collection'
-import CollectionManager from '../../sync/CollectionManager'
+import { isBulkDocsError } from '../../sync/Collection'
 import { Database } from '../DatabaseProvider'
 
 export const importManuscript = (
@@ -43,14 +39,15 @@ export const importManuscript = (
 
   const newProject = possibleProjectID ? null : buildProject(userID)
 
+  if (newProject) {
+    await createAndPushNewProject(newProject)
+  }
+
   const projectID = newProject ? newProject._id : possibleProjectID!
 
   const collection = await createProjectCollection(db, projectID)
 
-  if (newProject) {
-    const projectsCollection = openProjectsCollection()
-    await projectsCollection.create(newProject)
-  }
+  // TODO: handle multiple manuscripts in a project bundle
 
   const manuscript = models.find(isManuscript)
 
@@ -58,26 +55,24 @@ export const importManuscript = (
     throw new Error('No manuscript found')
   }
 
-  manuscript.priority = await nextManuscriptPriority(
-    collection as Collection<Manuscript>
-  )
+  // TODO: try to share this code with createManuscript
 
-  // TODO: save dependencies first, then the manuscript
-  // TODO: handle multiple manuscripts in a project bundle
+  manuscript.priority = await nextManuscriptPriority(collection)
 
-  const items = models.map((model) => ({
-    ...model,
-    containerID: projectID,
-    manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
-  }))
+  // save the dependencies
+  const dependencies: Array<ContainedModel & { manuscriptID?: string }> = []
 
-  const results = await collection.bulkCreate(items)
-
-  for (const model of models as Array<Model & ModelAttachment>) {
-    if (model.attachment) {
-      await collection.putAttachment(model._id, model.attachment)
+  for (const model of models) {
+    if (!isManuscript(model)) {
+      dependencies.push({
+        ...model,
+        containerID: projectID,
+        manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
+      })
     }
   }
+
+  const results = await collection.bulkCreate(dependencies)
 
   const failures = results.filter(isBulkDocsError)
 
@@ -85,19 +80,13 @@ export const importManuscript = (
     throw new BulkCreateError(failures)
   }
 
+  // save the manuscript
+  await collection.create(manuscript)
+
+  // redirect to the manuscript page
   history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
 
   if (handleComplete) {
     handleComplete()
   }
 }
-
-export const createProjectCollection = (db: Database, projectID: string) =>
-  CollectionManager.createCollection<ContainedModel | ManuscriptModel>({
-    collection: `project-${projectID}`,
-    channels: [`${projectID}-read`, `${projectID}-readwrite`],
-    db,
-  })
-
-export const openProjectsCollection = () =>
-  CollectionManager.getCollection<Project>('user' /* 'projects' */)

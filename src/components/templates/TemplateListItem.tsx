@@ -14,7 +14,7 @@ import { Publisher } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
 
-import { ManuscriptTemplateData, TemplateData } from '../../types/templates'
+import { ManuscriptTemplateData, TemplateData } from '../../lib/templates'
 import { TemplateInfoLink } from './TemplateInfoLink'
 
 const Heading = styled.div<{ selected?: boolean }>`

@@ -17,12 +17,9 @@ import {
   parseSTSStandard,
 } from '@manuscripts/manuscript-transform'
 import {
-  Bundle,
-  ContributorRole,
   Figure,
   Model,
   ObjectTypes,
-  StatusLabel,
 } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
@@ -32,8 +29,6 @@ import pathParse from 'path-parse'
 import config from '../config'
 import { FileExtensionError } from '../lib/errors'
 import { idRe } from '../lib/id'
-import { importSharedData } from '../lib/shared-data'
-import { createNewBundledStyles, createNewItems } from '../lib/templates'
 import { cleanItem } from './clean-item'
 import { ExportManuscriptFormat, removeUnsupportedData } from './exporter'
 import { convert } from './pressroom'
@@ -143,39 +138,6 @@ export const importProjectArchive = async (result: Blob) => {
   await loadManuscriptsAttachments(zip, models)
 
   return models
-}
-
-interface BundledData {
-  bundles: Map<string, Bundle>
-  contributorRoles: Map<string, ContributorRole>
-  statusLabels: Map<string, StatusLabel>
-  styles: Map<string, Model>
-}
-
-export const importBundledData = async (): Promise<BundledData> => {
-  const bundles = await importSharedData<Bundle>('bundles')
-  const contributorRoles = await importSharedData<ContributorRole>(
-    'contributor-roles'
-  )
-  const keywords = await importSharedData<StatusLabel>('keywords')
-  const statusLabels = new Map<string, StatusLabel>()
-
-  for (const item of keywords.values()) {
-    switch (item.objectType) {
-      case ObjectTypes.StatusLabel:
-        statusLabels.set(item._id, item)
-        break
-    }
-  }
-
-  const styles = await importSharedData<Model>('styles')
-
-  return {
-    bundles,
-    contributorRoles: createNewItems(contributorRoles),
-    statusLabels: createNewItems(statusLabels),
-    styles: createNewBundledStyles(styles),
-  }
 }
 
 const convertFile = async (

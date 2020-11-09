@@ -10,7 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptNode } from '@manuscripts/manuscript-transform'
+import {
+  fromPrototype,
+  ManuscriptNode,
+} from '@manuscripts/manuscript-transform'
 import {
   FigureElement,
   FigureStyle,
@@ -22,7 +25,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { buildColors } from '../../lib/colors'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { findBorderStyles, findFigureStyles } from '../../lib/styles'
-import { fromPrototype } from '../../lib/templates'
 import { ElementStyleInspectorProps } from './ElementStyleInspector'
 import { FigureStyles } from './FigureStyles'
 
