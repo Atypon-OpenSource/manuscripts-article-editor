@@ -153,127 +153,130 @@ export const Inspector: React.FC<{
   return (
     <InspectorContainer>
       <InspectorTabs index={tabIndex} onChange={setTabIndex}>
-        <InspectorTabList>
-          {TABS.map((label, i) => (
-            <InspectorTab key={i}>{label}</InspectorTab>
-          ))}
-        </InspectorTabList>
-        <PaddedInspectorTabPanels>
-          {TABS.map((label) => {
-            switch (label) {
-              case 'Content': {
-                return (
-                  <InspectorTabPanel key={label}>
-                    <StatisticsInspector
-                      manuscriptNode={doc}
-                      sectionNode={
-                        selectedSection
-                          ? (selectedSection.node as SectionNode)
-                          : undefined
-                      }
-                    />
-                    {config.export.literatum && (
-                      <HeaderImageInspector
-                        deleteModel={deleteModel}
-                        manuscript={manuscript}
-                        modelMap={modelMap}
-                        saveManuscript={saveManuscript}
-                        saveModel={saveModel}
-                      />
-                    )}
-                    {config.export.literatum && selected && (
-                      <NodeInspector
-                        manuscript={manuscript}
-                        selected={selected}
-                        modelMap={modelMap}
-                        saveModel={saveModel}
-                        deleteModel={deleteModel}
-                        view={view}
-                      />
-                    )}
-                    <ManuscriptInspector
-                      key={manuscript._id}
-                      manuscript={manuscript}
-                      modelMap={modelMap}
-                      saveManuscript={saveManuscript}
-                      saveModel={saveModel}
-                      view={view}
-                    />
+        {({ selectedIndex }) => {
+          const activeTab = TABS[selectedIndex]
 
-                    {(element || section) &&
-                      config.features.projectManagement && (
-                        <ManageTargetInspector
-                          target={
-                            manageManuscript
-                              ? manuscript
-                              : ((element || section) as AnyElement | Section)
-                          }
-                          listCollaborators={listCollaborators}
-                          saveModel={saveModel}
-                          statusLabels={statusLabels}
-                          tags={tags}
-                          modelMap={modelMap}
-                          deleteModel={deleteModel}
-                          project={project}
-                        />
-                      )}
+          return (
+            <>
+              <InspectorTabList>
+                {TABS.map((label, i) => (
+                  <InspectorTab key={i}>{label}</InspectorTab>
+                ))}
+              </InspectorTabList>
 
-                    {section && (
-                      <SectionInspector
-                        key={section._id}
-                        section={section}
+              <PaddedInspectorTabPanels>
+                <InspectorTabPanel>
+                  {activeTab === 'Content' && (
+                    <>
+                      <StatisticsInspector
+                        manuscriptNode={doc}
                         sectionNode={
                           selectedSection
                             ? (selectedSection.node as SectionNode)
                             : undefined
                         }
-                        modelMap={modelMap}
-                        saveModel={saveModel}
-                        dispatchNodeAttrs={dispatchNodeAttrs}
                       />
-                    )}
-                  </InspectorTabPanel>
-                )
-              }
-
-              case 'Style': {
-                return (
-                  <InspectorTabPanel key={label}>
-                    <ManuscriptStyleInspector
-                      bundle={bundle}
-                      openCitationStyleSelector={openCitationStyleSelector}
-                    />
-                    {element && (
-                      <ElementStyleInspector
+                      {config.export.literatum && (
+                        <HeaderImageInspector
+                          deleteModel={deleteModel}
+                          manuscript={manuscript}
+                          modelMap={modelMap}
+                          saveManuscript={saveManuscript}
+                          saveModel={saveModel}
+                        />
+                      )}
+                      {config.export.literatum && selected && (
+                        <NodeInspector
+                          manuscript={manuscript}
+                          selected={selected}
+                          modelMap={modelMap}
+                          saveModel={saveModel}
+                          deleteModel={deleteModel}
+                          view={view}
+                        />
+                      )}
+                      <ManuscriptInspector
+                        key={manuscript._id}
                         manuscript={manuscript}
-                        element={element}
+                        modelMap={modelMap}
+                        saveManuscript={saveManuscript}
+                        saveModel={saveModel}
+                        view={view}
+                      />
+
+                      {(element || section) &&
+                        config.features.projectManagement && (
+                          <ManageTargetInspector
+                            target={
+                              manageManuscript
+                                ? manuscript
+                                : ((element || section) as AnyElement | Section)
+                            }
+                            listCollaborators={listCollaborators}
+                            saveModel={saveModel}
+                            statusLabels={statusLabels}
+                            tags={tags}
+                            modelMap={modelMap}
+                            deleteModel={deleteModel}
+                            project={project}
+                          />
+                        )}
+
+                      {section && (
+                        <SectionInspector
+                          key={section._id}
+                          section={section}
+                          sectionNode={
+                            selectedSection
+                              ? (selectedSection.node as SectionNode)
+                              : undefined
+                          }
+                          modelMap={modelMap}
+                          saveModel={saveModel}
+                          dispatchNodeAttrs={dispatchNodeAttrs}
+                        />
+                      )}
+                    </>
+                  )}
+                </InspectorTabPanel>
+
+                <InspectorTabPanel>
+                  {activeTab === 'Style' && (
+                    <>
+                      <ManuscriptStyleInspector
+                        bundle={bundle}
+                        openCitationStyleSelector={openCitationStyleSelector}
+                      />
+                      {element && (
+                        <ElementStyleInspector
+                          manuscript={manuscript}
+                          element={element}
+                          modelMap={modelMap}
+                          saveModel={saveModel}
+                          deleteModel={deleteModel}
+                          view={view}
+                        />
+                      )}
+                      {section && (
+                        <SectionStyleInspector
+                          section={section}
+                          modelMap={modelMap}
+                          saveModel={saveModel}
+                          dispatchUpdate={dispatchUpdate}
+                        />
+                      )}
+                      <InlineStyleInspector
                         modelMap={modelMap}
                         saveModel={saveModel}
                         deleteModel={deleteModel}
                         view={view}
                       />
-                    )}
-                    {section && (
-                      <SectionStyleInspector
-                        section={section}
-                        modelMap={modelMap}
-                        saveModel={saveModel}
-                        dispatchUpdate={dispatchUpdate}
-                      />
-                    )}
-                    <InlineStyleInspector
-                      modelMap={modelMap}
-                      saveModel={saveModel}
-                      deleteModel={deleteModel}
-                      view={view}
-                    />
-                  </InspectorTabPanel>
-                )
-              }
+                    </>
+                  )}
+                </InspectorTabPanel>
 
-              case 'Comments': {
-                return (
-                  <InspectorTabPanel key={label}>
+                <InspectorTabPanel>
+                  {activeTab === 'Comments' && (
                     <CommentList
                       comments={comments || []}
                       doc={doc}
@@ -292,49 +295,39 @@ export const Inspector: React.FC<{
                       view={view}
                       key={commentTarget}
                     />
-                  </InspectorTabPanel>
-                )
-              }
+                  )}
+                </InspectorTabPanel>
 
-              case 'Quality Report': {
-                return (
-                  <InspectorTabPanel key="Quality Report">
+                <InspectorTabPanel>
+                  {activeTab === 'Quality Report' && (
                     <RequirementsInspector
                       modelMap={modelMap}
                       prototypeId={manuscript.prototype}
                       manuscriptID={manuscript._id}
                       bulkUpdate={bulkUpdate}
                     />
-                  </InspectorTabPanel>
-                )
-              }
+                  )}
+                </InspectorTabPanel>
 
-              case 'History': {
-                return (
-                  <InspectorTabPanel key="History">
+                <InspectorTabPanel>
+                  {activeTab === 'History' && (
                     <HistoryPanelContainer
                       project={project}
                       manuscriptID={manuscript._id}
                       getCurrentUser={getCurrentUser}
                     />
-                  </InspectorTabPanel>
-                )
-              }
+                  )}
+                </InspectorTabPanel>
 
-              case 'Submissions': {
-                return (
-                  <InspectorTabPanel key="Submissions">
+                <InspectorTabPanel>
+                  {activeTab === 'Submissions' && (
                     <SubmissionsInspector modelMap={modelMap} />
-                  </InspectorTabPanel>
-                )
-              }
-
-              default: {
-                return null
-              }
-            }
-          })}
-        </PaddedInspectorTabPanels>
+                  )}
+                </InspectorTabPanel>
+              </PaddedInspectorTabPanels>
+            </>
+          )
+        }}
       </InspectorTabs>
     </InspectorContainer>
   )

@@ -402,9 +402,11 @@ exports[`Storyshots Inspector tabs 1`] = `
       }
     >
       <div
+        data-orientation="horizontal"
         data-reach-tabs=""
       >
         <div
+          aria-orientation="horizontal"
           className="Inspector__InspectorTabList-sc-1pgjywx-2 hgOhxj"
           data-reach-tab-list=""
           onKeyDown={[Function]}
@@ -414,11 +416,15 @@ exports[`Storyshots Inspector tabs 1`] = `
             aria-controls="tabs--1--panel---1"
             aria-selected={false}
             className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+            data-orientation="horizontal"
             data-reach-tab=""
             id="tabs--1--tab---1"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             role="tab"
             tabIndex={-1}
+            type="button"
           >
             Tab 1
           </button>
@@ -426,11 +432,15 @@ exports[`Storyshots Inspector tabs 1`] = `
             aria-controls="tabs--1--panel---1"
             aria-selected={false}
             className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+            data-orientation="horizontal"
             data-reach-tab=""
             id="tabs--1--tab---1"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             role="tab"
             tabIndex={-1}
+            type="button"
           >
             Tab 2
           </button>
@@ -438,11 +448,15 @@ exports[`Storyshots Inspector tabs 1`] = `
             aria-controls="tabs--1--panel---1"
             aria-selected={false}
             className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+            data-orientation="horizontal"
             data-reach-tab=""
             id="tabs--1--tab---1"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             role="tab"
             tabIndex={-1}
+            type="button"
           >
             Tab 3
           </button>
@@ -1088,9 +1102,11 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
         >
           <div
             className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            data-orientation="horizontal"
             data-reach-tabs=""
           >
             <div
+              aria-orientation="horizontal"
               className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
               data-reach-tab-list=""
               onKeyDown={[Function]}
@@ -1100,11 +1116,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 aria-controls="tabs--3--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--3--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Metadata
               </button>
@@ -1112,11 +1132,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 aria-controls="tabs--3--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--3--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Labels
               </button>
@@ -1124,11 +1148,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 aria-controls="tabs--3--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--3--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Requirements
               </button>
@@ -1770,9 +1798,11 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
           </div>
           <div
             className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            data-orientation="horizontal"
             data-reach-tabs=""
           >
             <div
+              aria-orientation="horizontal"
               className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
               data-reach-tab-list=""
               onKeyDown={[Function]}
@@ -1782,11 +1812,15 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
                 aria-controls="tabs--5--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--5--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Text
               </button>
@@ -1794,11 +1828,15 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
                 aria-controls="tabs--5--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--5--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Spacing
               </button>
@@ -1806,11 +1844,15 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
                 aria-controls="tabs--5--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--5--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Lists
               </button>
@@ -1990,9 +2032,11 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
           />
           <div
             className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            data-orientation="horizontal"
             data-reach-tabs=""
           >
             <div
+              aria-orientation="horizontal"
               className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
               data-reach-tab-list=""
               onKeyDown={[Function]}
@@ -2002,11 +2046,15 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                 aria-controls="tabs--4--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--4--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 General
               </button>
@@ -2014,11 +2062,15 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                 aria-controls="tabs--4--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--4--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Requirements
               </button>
@@ -2431,9 +2483,11 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
         >
           <div
             className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            data-orientation="horizontal"
             data-reach-tabs=""
           >
             <div
+              aria-orientation="horizontal"
               className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
               data-reach-tab-list=""
               onKeyDown={[Function]}
@@ -2443,11 +2497,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 aria-controls="tabs--6--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--6--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Text
               </button>
@@ -2455,11 +2513,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 aria-controls="tabs--6--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--6--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Spacing
               </button>
@@ -2467,11 +2529,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 aria-controls="tabs--6--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--6--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Numbering
               </button>
@@ -2479,11 +2545,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 aria-controls="tabs--6--panel---1"
                 aria-selected={false}
                 className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--6--tab---1"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 role="tab"
                 tabIndex={-1}
+                type="button"
               >
                 Options
               </button>

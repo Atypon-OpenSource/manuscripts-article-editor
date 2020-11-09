@@ -2287,20 +2287,21 @@
   dependencies:
     "@phosphor/algorithm" "^1.2.0"
 
-"@reach/auto-id@^0.8.5":
-  version "0.8.5"
-  resolved "https://registry.npmjs.org/@reach/auto-id/-/auto-id-0.8.5.tgz#940500d4c93624852efa5ecbed29c5d7015eb6e9"
-  integrity sha512-FmyoQ5Mvw+WXLd3JOlDmHDQKqhTiZ+BwtEq9HW6pgzYMztq1wr5itv4lrSDqOYa/hJfNrkBC8iCtaIKcykuYnQ==
+"@reach/auto-id@0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@reach/auto-id/-/auto-id-0.11.2.tgz#c66a905c5401d1ac3da8d26165b8d27d6e778fa6"
+  integrity sha512-YZ21b0Kb88wJ0t7QjSznWOYskARQMnmXY9Y2XZ5RyYcZ2krT4s3+ghghpfaPs6BKcrZDonZCrU65OFDJPa1jAw==
   dependencies:
-    tslib "^1.10.0"
+    "@reach/utils" "0.11.2"
+    tslib "^2.0.0"
 
-"@reach/descendants@^0.8.5":
-  version "0.8.5"
-  resolved "https://registry.npmjs.org/@reach/descendants/-/descendants-0.8.5.tgz#084b2410bd13be4a76ac663d5957a54325301df0"
-  integrity sha512-L1zGSeOtpK8m/SA/CyJsKBnk+z+kvraEJUq1u/apkw1n47j1Byu40nA7TwKvUxuZtEVaK1CdsGFRGeyHRfU/kg==
+"@reach/descendants@0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@reach/descendants/-/descendants-0.11.2.tgz#49ea1b5eb91aba8ae6dce57f6575c38aff1f9756"
+  integrity sha512-63Wdx32/RyjGRJc4UZKK7F1sIrb6jeGkDwvQH0hv0lRAhEjsiSQ1t2JTYDml3testFP48J0B2xS7JzNeY0zoQw==
   dependencies:
-    "@reach/utils" "^0.8.5"
-    tslib "^1.10.0"
+    "@reach/utils" "0.11.2"
+    tslib "^2.0.0"
 
 "@reach/router@^1.3.3":
   version "1.3.4"
@@ -2312,24 +2313,24 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
 
-"@reach/tabs@^0.8.5":
-  version "0.8.5"
-  resolved "https://registry.npmjs.org/@reach/tabs/-/tabs-0.8.5.tgz#34edb417e1b499bb1049d146b61e4dc826e3b3cf"
-  integrity sha512-bkUWmsXWNy/TFj5vuoQyLrDwxZ/I+2ou5OxRbSVayluWbgcG3gGBT4sO7P3g58FQD9TVL3GE5JET7+lWYFGUeg==
+"@reach/tabs@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@reach/tabs/-/tabs-0.11.2.tgz#75a73d069ff4832259a191e7e321818c9d09a2c8"
+  integrity sha512-iVDXfmdpJmBavyyiJbm9sUddlelra+x5MaF5Y4QwV7Q+w3t9RLqTePQAOX+2MX0BJgvasX/YItMBO2JumWxGPQ==
   dependencies:
-    "@reach/auto-id" "^0.8.5"
-    "@reach/descendants" "^0.8.5"
-    "@reach/utils" "^0.8.5"
+    "@reach/auto-id" "0.11.2"
+    "@reach/descendants" "0.11.2"
+    "@reach/utils" "0.11.2"
     prop-types "^15.7.2"
-    tslib "^1.10.0"
-    warning "^4.0.3"
+    tslib "^2.0.0"
 
-"@reach/utils@^0.8.5":
-  version "0.8.5"
-  resolved "https://registry.npmjs.org/@reach/utils/-/utils-0.8.5.tgz#6675d6f81054c8dce1b9d535280b0e3c5174fe7d"
-  integrity sha512-nc84exIqBa+EohJPBFjePQP88dBAP4l+tChxwWszzZ+R6tTtSgOg40WyQ5EjPYJFbltnbZIbASHefcEBrFxqng==
+"@reach/utils@0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@reach/utils/-/utils-0.11.2.tgz#be1f03650db56fd67a16d3fc70e5262cdb139cec"
+  integrity sha512-fBTolYj+rKTROXmf0zHO0rCWSvw7J0ALmYj5QxW4DmITMOH5uyRuWDWOfqohIGFbOtF/sum50WTB3tvx76d+Aw==
   dependencies:
-    tslib "^1.10.0"
+    "@types/warning" "^3.0.0"
+    tslib "^2.0.0"
     warning "^4.0.3"
 
 "@sentry/browser@^5.25.0":
@@ -3579,13 +3580,6 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/reach__tabs@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@types/reach__tabs/-/reach__tabs-0.1.1.tgz#107377b09017e27cab6f26f12be6be97eb5410fd"
-  integrity sha512-xvI0gKwbs9dRBMyaV+n8Upys86VAg870g/lSDqtHvqe3oADS2Ofv7hzSNxV1MvQ7ctg+S+1mMi5GNZhiXz55AA==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-avatar-editor@^10.3.5":
   version "10.3.5"
   resolved "https://registry.npmjs.org/@types/react-avatar-editor/-/react-avatar-editor-10.3.5.tgz#0747bf98ca67006a8dae0af2eb95acfc4ca7f212"
@@ -3822,6 +3816,11 @@
   version "8.3.0"
   resolved "https://registry.npmjs.org/@types/uuid/-/uuid-8.3.0.tgz#215c231dff736d5ba92410e6d602050cce7e273f"
   integrity sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==
+
+"@types/warning@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/@types/warning/-/warning-3.0.0.tgz#0d2501268ad8f9962b740d387c4654f5f8e23e52"
+  integrity sha1-DSUBJorY+ZYrdA04fEZU9fjiPlI=
 
 "@types/webpack-dev-server@^3.11.0":
   version "3.11.0"
