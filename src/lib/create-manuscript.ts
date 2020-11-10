@@ -25,6 +25,7 @@ import {
   loadBundledDependencies,
   loadContributorRoles,
   loadKeywords,
+  StyleObject,
   updatedPageLayout,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -197,10 +198,11 @@ export const createManuscript = async ({
     addContainedModels(dependencies.map(fromPrototype))
   }
 
+  const dependencyMap = new Map(dependencies.map((model) => [model._id, model]))
+
   const newPageLayout = updatedPageLayout(
-    data.styles,
-    template?.pageLayout || DEFAULT_PAGE_LAYOUT,
-    false
+    dependencyMap as Map<string, StyleObject>,
+    template?.pageLayout || DEFAULT_PAGE_LAYOUT
   )
 
   // const colorScheme = this.findDefaultColorScheme(newStyles)

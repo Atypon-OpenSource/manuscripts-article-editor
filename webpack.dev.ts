@@ -87,6 +87,7 @@ const configuration: webpack.Configuration = merge(common, {
         '@manuscripts/manuscript-transform'
       ),
       formik: require.resolve('formik'),
+      'prosemirror-model': require.resolve('prosemirror-model'),
       react: require.resolve('react'),
       'react-dnd': require.resolve('react-dnd'),
       'react-dom': require.resolve('react-dom'),

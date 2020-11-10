@@ -56,7 +56,6 @@ import {
   isManuscriptModel,
   isUserProfile,
   loadBundledDependencies,
-  loadStyles,
   ManuscriptEditorState,
   ManuscriptEditorView,
   ManuscriptModel,
@@ -65,6 +64,7 @@ import {
   ModelAttachment,
   schema,
   Selected,
+  StyleObject,
   timestamp,
   updatedPageLayout,
   UserProfileWithAvatar,
@@ -1062,11 +1062,16 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       }
 
       const dependencies = await loadBundledDependencies()
-      models.push(...dependencies.map(fromPrototype))
+      const prototypedDependencies = dependencies.map(fromPrototype)
+      models.push(...prototypedDependencies)
 
-      const styles = await loadStyles()
-      const styleMap = new Map(styles.map((style) => [style._id, style]))
-      const pageLayout = updatedPageLayout(styleMap, DEFAULT_PAGE_LAYOUT, false)
+      const styleMap = new Map(
+        prototypedDependencies.map((style) => [style._id, style])
+      )
+      const pageLayout = updatedPageLayout(
+        styleMap as Map<string, StyleObject>,
+        DEFAULT_PAGE_LAYOUT
+      )
       manuscript.pageLayout = pageLayout._id
       models.push(pageLayout)
 
