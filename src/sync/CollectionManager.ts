@@ -13,6 +13,7 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 
 import { CollectionName } from '../collections'
+import { Database } from '../components/DatabaseProvider'
 import config from '../config'
 import { Collection, CollectionProps } from './Collection'
 import { onIdle } from './onIdle'
@@ -33,6 +34,7 @@ const NullStore = () => ({
 class CollectionManager {
   private collections: Map<string, Collection<Model>> = new Map()
   private store: Store
+  private db?: Database
 
   public constructor() {
     this.store = NullStore()
@@ -72,9 +74,9 @@ class CollectionManager {
   public async createCollection<T extends Model>(
     props: CollectionProps
   ): Promise<Collection<T>> {
-    // if (this.collections.has(props.collection)) {
-    //   return this.getCollection(props.collection)
-    // }
+    if (!this.db) {
+      this.db = props.db
+    }
 
     const collection = new Collection<T>(props, this.store)
     this.collections.set(props.collection, collection as Collection<Model>)
@@ -158,7 +160,18 @@ class CollectionManager {
     if (!collectionName) {
       return
     }
-    this.getCollection(collectionName).cleanupAndDestroy()
+    if (this.collections.has(collectionName)) {
+      this.getCollection(collectionName).cleanupAndDestroy()
+    } else if (this.db) {
+      const { meta } = state[collectionName]!
+      const collection = new Collection({
+        collection: collectionName,
+        channels: meta.channels,
+        db: this.db,
+      })
+      await collection.initialize(false)
+      await collection.cleanupAndDestroy()
+    }
   }
 }
 
