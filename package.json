@@ -48,7 +48,7 @@
     "@manuscripts/csl-locales": "^0.0.4",
     "@manuscripts/data": "^0.1.1",
     "@manuscripts/library": "^0.3.3",
-    "@manuscripts/manuscript-editor": "^0.75.3",
+    "@manuscripts/manuscript-editor": "^0.76.0",
     "@manuscripts/manuscript-transform": "^0.36.5",
     "@manuscripts/manuscripts-json-schema": "^1.35.0",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts0",
