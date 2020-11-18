@@ -1,15 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots SubmissionItem Failure 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  padding: 8px 0;
+}
+
+.c2 {
+  font-weight: bold;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="SubmissionItem__Container-sc-8qvef2-0 BjTpS"
+      className="c1"
     >
       <div
-        className="SubmissionItem__JournalTitle-sc-8qvef2-1 gaflcU"
+        className="c2"
         data-journal-code="example"
       >
         Example Journal
@@ -25,15 +40,30 @@ exports[`Storyshots SubmissionItem Failure 1`] = `
 `;
 
 exports[`Storyshots SubmissionItem Submitting 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  padding: 8px 0;
+}
+
+.c2 {
+  font-weight: bold;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="SubmissionItem__Container-sc-8qvef2-0 BjTpS"
+      className="c1"
     >
       <div
-        className="SubmissionItem__JournalTitle-sc-8qvef2-1 gaflcU"
+        className="c2"
         data-journal-code="example"
       >
         Example Journal
@@ -49,15 +79,30 @@ exports[`Storyshots SubmissionItem Submitting 1`] = `
 `;
 
 exports[`Storyshots SubmissionItem Success 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  padding: 8px 0;
+}
+
+.c2 {
+  font-weight: bold;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="SubmissionItem__Container-sc-8qvef2-0 BjTpS"
+      className="c1"
     >
       <div
-        className="SubmissionItem__JournalTitle-sc-8qvef2-1 gaflcU"
+        className="c2"
         data-journal-code="example"
       >
         Example Journal

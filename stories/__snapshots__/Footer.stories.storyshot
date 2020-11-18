@@ -1,19 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Footer default 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  bottom: 8px;
+  box-sizing: border-box;
+  color: #6e6e6e;
+  padding: 20px;
+  position: absolute;
+  width: 100%;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c3 {
+  color: inherit;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  padding: 4px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c3:hover,
+.c3:focus {
+  color: #0d79d0;
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  padding: 0 4px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <footer
-      className="Footer__FooterBlock-sc-59xuxh-0 ekGOTL"
+      className="c1"
     >
       <nav
-        className="Footer__FooterLinks-sc-59xuxh-1 bGrrZu"
+        className="c2"
       >
         <span>
           <a
-            className="Footer__FooterLink-sc-59xuxh-2 hDvKtX"
+            className="c3"
             href="/https://example.com/support"
             onClick={[Function]}
           >
@@ -22,12 +73,12 @@ exports[`Storyshots Footer default 1`] = `
         </span>
         <span>
           <span
-            className="Footer__FooterLinkSeparator-sc-59xuxh-3 hmwKUF"
+            className="c4"
           >
             |
           </span>
           <a
-            className="Footer__FooterLink-sc-59xuxh-2 hDvKtX"
+            className="c3"
             href="/mailto:support@example.com"
             onClick={[Function]}
           >

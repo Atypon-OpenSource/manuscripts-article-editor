@@ -10,12 +10,18 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import 'jest-styled-components'
 import 'whatwg-fetch'
 
 import initStoryshots, {
   Stories2SnapsConverter,
 } from '@storybook/addon-storyshots'
+import { addSerializer } from 'jest-specific-snapshot'
+// @ts-ignore
+import { styleSheetSerializer } from 'jest-styled-components/serializer'
 import { act, create } from 'react-test-renderer'
+
+addSerializer(styleSheetSerializer)
 
 jest.mock('lodash-es', () => {
   const original = jest.requireActual('lodash-es')

@@ -1,16 +1,293 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Citation Citation Editor 1`] = `
+.c14 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c14:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c14:hover {
+  background-color: #f2fbfc;
+}
+
+.c14:invalid {
+  box-shadow: none;
+}
+
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c17 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c17:not([disabled]):hover,
+.c17:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c17:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c18 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c18:not([disabled]):hover,
+.c18:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c18:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c7 {
+  padding: 0;
+  height: 24px;
+  width: 24px;
+}
+
+.c7 svg g[stroke] {
+  stroke: currentColor;
+}
+
+.c7 svg path[fill] {
+  fill: currentColor;
+}
+
+.c7 svg path[stroke] {
+  stroke: currentColor;
+}
+
+.c7 svg text[fill],
+.c7 svg rect[fill],
+.c7 svg path[fill] {
+  fill: currentColor;
+}
+
+.c8 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):hover,
+.c8:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c16 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c16 button:not(:first-child) {
+  margin-left: 4px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c11 {
+  margin: 16px 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c11 .c13 {
+  padding: 2px;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c12 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 50px;
+}
+
+.c2 {
+  padding: 16px 0;
+}
+
+.c2:not(:last-of-type) {
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.c4 {
+  color: #6e6e6e;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  font-weight: 300;
+  margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+.c5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c1 {
+  padding: 0 16px;
+  font-family: "Lato",sans-serif;
+  max-height: 70vh;
+  min-height: 100px;
+  overflow-y: auto;
+}
+
+.c15 {
+  margin: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c9 {
+  margin: 16px;
+}
+
+.c10 {
+  cursor: pointer;
+}
+
+.c10:focus {
+  outline: 1px solid #f2f2f2;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="CitationEditor__CitedItems-sc-1651091-5 cWYnNh"
+        className="c1"
       >
         <div
-          className="CitationEditor__CitedItem-sc-1651091-0 vohYV"
+          className="c2"
           style={
             Object {
               "color": "inherit",
@@ -21,18 +298,18 @@ exports[`Storyshots Citation Citation Editor 1`] = `
             className="CitationEditor__CitedItemTitle-sc-1651091-1"
           />
           <div
-            className="CitationEditor__CitedItemActionLine-sc-1651091-3 bDSTvj"
+            className="c3"
           >
             <div
-              className="CitationEditor__CitedItemMetadata-sc-1651091-2 gynANx"
+              className="c4"
             >
               Guicciardi & Gores, Journal of Clinical Investigation, 2003
             </div>
             <span
-              className="CitationEditor__CitedItemActions-sc-1651091-4 bFWYXl"
+              className="c5"
             >
               <button
-                className="sc-ezzayL sc-cBoprd sc-ciSmjq CitationEditor__ActionButton-sc-1651091-6 cRSqLN cPWUwg ifa-DBT"
+                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -52,7 +329,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           </div>
         </div>
         <div
-          className="CitationEditor__CitedItem-sc-1651091-0 vohYV"
+          className="c2"
           style={
             Object {
               "color": "inherit",
@@ -63,18 +340,18 @@ exports[`Storyshots Citation Citation Editor 1`] = `
             className="CitationEditor__CitedItemTitle-sc-1651091-1"
           />
           <div
-            className="CitationEditor__CitedItemActionLine-sc-1651091-3 bDSTvj"
+            className="c3"
           >
             <div
-              className="CitationEditor__CitedItemMetadata-sc-1651091-2 gynANx"
+              className="c4"
             >
               Zhao, Wang, Wang, Rodal & Zhang, PLoS Genetics, 2013
             </div>
             <span
-              className="CitationEditor__CitedItemActions-sc-1651091-4 bFWYXl"
+              className="c5"
             >
               <button
-                className="sc-ezzayL sc-cBoprd sc-ciSmjq CitationEditor__ActionButton-sc-1651091-6 cRSqLN cPWUwg ifa-DBT"
+                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -94,7 +371,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           </div>
         </div>
         <div
-          className="CitationEditor__CitedItem-sc-1651091-0 vohYV"
+          className="c2"
           style={
             Object {
               "color": "inherit",
@@ -105,18 +382,18 @@ exports[`Storyshots Citation Citation Editor 1`] = `
             className="CitationEditor__CitedItemTitle-sc-1651091-1"
           />
           <div
-            className="CitationEditor__CitedItemActionLine-sc-1651091-3 bDSTvj"
+            className="c3"
           >
             <div
-              className="CitationEditor__CitedItemMetadata-sc-1651091-2 gynANx"
+              className="c4"
             >
               Rodal & Littleton, Current Biology, 2008
             </div>
             <span
-              className="CitationEditor__CitedItemActions-sc-1651091-4 bFWYXl"
+              className="c5"
             >
               <button
-                className="sc-ezzayL sc-cBoprd sc-ciSmjq CitationEditor__ActionButton-sc-1651091-6 cRSqLN cPWUwg ifa-DBT"
+                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -136,7 +413,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           </div>
         </div>
         <div
-          className="CitationEditor__CitedItem-sc-1651091-0 vohYV"
+          className="c2"
           style={
             Object {
               "color": "inherit",
@@ -147,18 +424,18 @@ exports[`Storyshots Citation Citation Editor 1`] = `
             className="CitationEditor__CitedItemTitle-sc-1651091-1"
           />
           <div
-            className="CitationEditor__CitedItemActionLine-sc-1651091-3 bDSTvj"
+            className="c3"
           >
             <div
-              className="CitationEditor__CitedItemMetadata-sc-1651091-2 gynANx"
+              className="c4"
             >
               Okada, Ravi, Smith & Goode, Molecular Biology of the Cell, 2006
             </div>
             <span
-              className="CitationEditor__CitedItemActions-sc-1651091-4 bFWYXl"
+              className="c5"
             >
               <button
-                className="sc-ezzayL sc-cBoprd sc-ciSmjq CitationEditor__ActionButton-sc-1651091-6 cRSqLN cPWUwg ifa-DBT"
+                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -178,7 +455,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           </div>
         </div>
         <div
-          className="CitationEditor__CitedItem-sc-1651091-0 vohYV"
+          className="c2"
           style={
             Object {
               "color": "inherit",
@@ -189,18 +466,18 @@ exports[`Storyshots Citation Citation Editor 1`] = `
             className="CitationEditor__CitedItemTitle-sc-1651091-1"
           />
           <div
-            className="CitationEditor__CitedItemActionLine-sc-1651091-3 bDSTvj"
+            className="c3"
           >
             <div
-              className="CitationEditor__CitedItemMetadata-sc-1651091-2 gynANx"
+              className="c4"
             >
               Voegtli, Madrona & Wilson, Journal of Biological Chemistry, 2003
             </div>
             <span
-              className="CitationEditor__CitedItemActions-sc-1651091-4 bFWYXl"
+              className="c5"
             >
               <button
-                className="sc-ezzayL sc-cBoprd sc-ciSmjq CitationEditor__ActionButton-sc-1651091-6 cRSqLN cPWUwg ifa-DBT"
+                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -221,20 +498,20 @@ exports[`Storyshots Citation Citation Editor 1`] = `
         </div>
       </div>
       <details
-        className="CitationEditor__Options-sc-1651091-8 exdYKT"
+        className="c9"
         onToggle={[Function]}
         open={false}
       >
         <summary
-          className="CitationEditor__OptionsSummary-sc-1651091-9 iWwEdy"
+          className="c10"
         >
           Options
         </summary>
         <div
-          className="CitationProperties__FormGroup-sc-1dxfc4b-0 cqZZc"
+          className="c11"
         >
           <label
-            className="CitationProperties__FormLabel-sc-1dxfc4b-1 fluxNQ"
+            className="c12"
           >
             Show
           </label>
@@ -265,49 +542,49 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           </select>
         </div>
         <div
-          className="CitationProperties__FormGroup-sc-1dxfc4b-0 cqZZc"
+          className="c11"
         >
           <label
-            className="CitationProperties__FormLabel-sc-1dxfc4b-1 fluxNQ"
+            className="c12"
           >
             Prefix
           </label>
           <input
-            className="sc-dlnjPT iOeyAw"
+            className="c13 c14"
             onChange={[Function]}
             type="text"
           />
         </div>
         <div
-          className="CitationProperties__FormGroup-sc-1dxfc4b-0 cqZZc"
+          className="c11"
         >
           <label
-            className="CitationProperties__FormLabel-sc-1dxfc4b-1 fluxNQ"
+            className="c12"
           >
             Suffix
           </label>
           <input
-            className="sc-dlnjPT iOeyAw"
+            className="c13 c14"
             onChange={[Function]}
             type="text"
           />
         </div>
       </details>
       <div
-        className="CitationEditor__Actions-sc-1651091-7 ebtpUP"
+        className="c15"
       >
         <div
-          className="sc-iTVIwl fqGxrZ"
+          className="c16"
         >
           <button
-            className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+            className="c6 c17"
             onClick={[Function]}
             type="button"
           >
             Done
           </button>
           <button
-            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            className="c6 c18"
             onClick={[Function]}
             type="button"
           >
@@ -321,19 +598,103 @@ exports[`Storyshots Citation Citation Editor 1`] = `
 `;
 
 exports[`Storyshots Citation Citation Search Section 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c5 {
+  cursor: pointer;
+  padding: 8px 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c5:not(:last-of-type) {
+  border-bottom: 1px solid #f6f6f6;
+}
+
+.c8 {
+  color: #6e6e6e;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  font-weight: 300;
+  margin-top: 4px;
+}
+
+.c7 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c6 {
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
+  margin-right: 12px;
+  height: 24px;
+  width: 24px;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.c4 {
+  padding: 0 16px;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.c1 {
+  margin: 8px 0;
+}
+
+.c2 {
+  margin: 0 16px 8px;
+  color: #6e6e6e;
+  cursor: pointer;
+}
+
+.c2:hover {
+  color: #e2e2e2;
+}
+
+.c3 {
+  margin-right: 16px;
+  width: 24px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CitationSearchSection__ResultsSection-sc-8hepq8-0 kpNMCy"
+      className="c1"
     >
       <div
-        className="CitationSearchSection__SearchSource-sc-8hepq8-1 jOZFTX"
+        className="c2"
         onClick={[Function]}
       >
         <svg
-          className="CitationSearchSection__DropdownChevron-sc-8hepq8-3 ihDFGu"
+          className="c3"
           height={8}
           style={
             Object {
@@ -354,14 +715,14 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
         Stories
       </div>
       <div
-        className="SearchResults__Results-sc-1p0vc56-7 jxjbhW"
+        className="c4"
       >
         <div
-          className="SearchResults__SearchResult-sc-1p0vc56-0 heThrF"
+          className="c5"
           onClick={[Function]}
         >
           <div
-            className="SearchResults__StatusIcon-sc-1p0vc56-6 dHvjUX"
+            className="c6"
           >
             <svg
               data-cy="plus-icon"
@@ -386,11 +747,11 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
             </svg>
           </div>
           <div
-            className="SearchResults__ResultMetadata-sc-1p0vc56-4 fZJErN"
+            className="c7"
           >
             <div />
             <div
-              className="SearchResults__SearchResultAuthors-sc-1p0vc56-1 gFmfdT"
+              className="c8"
               data-cy="search-result-author"
             >
               Guicciardi & Gores, Journal of Clinical Investigation, 2003
@@ -398,11 +759,11 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
           </div>
         </div>
         <div
-          className="SearchResults__SearchResult-sc-1p0vc56-0 heThrF"
+          className="c5"
           onClick={[Function]}
         >
           <div
-            className="SearchResults__StatusIcon-sc-1p0vc56-6 dHvjUX"
+            className="c6"
           >
             <svg
               data-cy="plus-icon"
@@ -427,11 +788,11 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
             </svg>
           </div>
           <div
-            className="SearchResults__ResultMetadata-sc-1p0vc56-4 fZJErN"
+            className="c7"
           >
             <div />
             <div
-              className="SearchResults__SearchResultAuthors-sc-1p0vc56-1 gFmfdT"
+              className="c8"
               data-cy="search-result-author"
             >
               Zhao, Wang, Wang, Rodal & Zhang, PLoS Genetics, 2013
@@ -439,11 +800,11 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
           </div>
         </div>
         <div
-          className="SearchResults__SearchResult-sc-1p0vc56-0 heThrF"
+          className="c5"
           onClick={[Function]}
         >
           <div
-            className="SearchResults__StatusIcon-sc-1p0vc56-6 dHvjUX"
+            className="c6"
           >
             <svg
               data-cy="plus-icon"
@@ -468,11 +829,11 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
             </svg>
           </div>
           <div
-            className="SearchResults__ResultMetadata-sc-1p0vc56-4 fZJErN"
+            className="c7"
           >
             <div />
             <div
-              className="SearchResults__SearchResultAuthors-sc-1p0vc56-1 gFmfdT"
+              className="c8"
               data-cy="search-result-author"
             >
               Rodal & Littleton, Current Biology, 2008
@@ -480,11 +841,11 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
           </div>
         </div>
         <div
-          className="SearchResults__SearchResult-sc-1p0vc56-0 heThrF"
+          className="c5"
           onClick={[Function]}
         >
           <div
-            className="SearchResults__StatusIcon-sc-1p0vc56-6 dHvjUX"
+            className="c6"
           >
             <svg
               data-cy="plus-icon"
@@ -509,11 +870,11 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
             </svg>
           </div>
           <div
-            className="SearchResults__ResultMetadata-sc-1p0vc56-4 fZJErN"
+            className="c7"
           >
             <div />
             <div
-              className="SearchResults__SearchResultAuthors-sc-1p0vc56-1 gFmfdT"
+              className="c8"
               data-cy="search-result-author"
             >
               Okada, Ravi, Smith & Goode, Molecular Biology of the Cell, 2006
@@ -521,11 +882,11 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
           </div>
         </div>
         <div
-          className="SearchResults__SearchResult-sc-1p0vc56-0 heThrF"
+          className="c5"
           onClick={[Function]}
         >
           <div
-            className="SearchResults__StatusIcon-sc-1p0vc56-6 dHvjUX"
+            className="c6"
           >
             <svg
               data-cy="plus-icon"
@@ -550,11 +911,11 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
             </svg>
           </div>
           <div
-            className="SearchResults__ResultMetadata-sc-1p0vc56-4 fZJErN"
+            className="c7"
           >
             <div />
             <div
-              className="SearchResults__SearchResultAuthors-sc-1p0vc56-1 gFmfdT"
+              className="c8"
               data-cy="search-result-author"
             >
               Voegtli, Madrona & Wilson, Journal of Biological Chemistry, 2003
@@ -568,74 +929,108 @@ exports[`Storyshots Citation Citation Search Section 1`] = `
 `;
 
 exports[`Storyshots Citation Citation Viewer 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c2 {
+  padding: 16px 0;
+  cursor: pointer;
+}
+
+.c2:not(:last-of-type) {
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.c3 {
+  margin-top: 4px;
+  color: #6e6e6e;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.c1 {
+  padding: 0 16px;
+  font-family: "Lato",sans-serif;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CitationViewer__CitedItems-q6gk2k-3 bhQHgI"
+      className="c1"
     >
       <div
-        className="CitationViewer__CitedItem-q6gk2k-0 gKPeSR"
+        className="c2"
         onClick={[Function]}
       >
         <div
           className="CitationViewer__CitedItemTitle-q6gk2k-1"
         />
         <div
-          className="CitationViewer__CitedItemAuthors-q6gk2k-2 jeMnxm"
+          className="c3"
         >
           Guicciardi & Gores, Journal of Clinical Investigation, 2003
         </div>
       </div>
       <div
-        className="CitationViewer__CitedItem-q6gk2k-0 gKPeSR"
+        className="c2"
         onClick={[Function]}
       >
         <div
           className="CitationViewer__CitedItemTitle-q6gk2k-1"
         />
         <div
-          className="CitationViewer__CitedItemAuthors-q6gk2k-2 jeMnxm"
+          className="c3"
         >
           Zhao, Wang, Wang, Rodal & Zhang, PLoS Genetics, 2013
         </div>
       </div>
       <div
-        className="CitationViewer__CitedItem-q6gk2k-0 gKPeSR"
+        className="c2"
         onClick={[Function]}
       >
         <div
           className="CitationViewer__CitedItemTitle-q6gk2k-1"
         />
         <div
-          className="CitationViewer__CitedItemAuthors-q6gk2k-2 jeMnxm"
+          className="c3"
         >
           Rodal & Littleton, Current Biology, 2008
         </div>
       </div>
       <div
-        className="CitationViewer__CitedItem-q6gk2k-0 gKPeSR"
+        className="c2"
         onClick={[Function]}
       >
         <div
           className="CitationViewer__CitedItemTitle-q6gk2k-1"
         />
         <div
-          className="CitationViewer__CitedItemAuthors-q6gk2k-2 jeMnxm"
+          className="c3"
         >
           Okada, Ravi, Smith & Goode, Molecular Biology of the Cell, 2006
         </div>
       </div>
       <div
-        className="CitationViewer__CitedItem-q6gk2k-0 gKPeSR"
+        className="c2"
         onClick={[Function]}
       >
         <div
           className="CitationViewer__CitedItemTitle-q6gk2k-1"
         />
         <div
-          className="CitationViewer__CitedItemAuthors-q6gk2k-2 jeMnxm"
+          className="c3"
         >
           Voegtli, Madrona & Wilson, Journal of Biological Chemistry, 2003
         </div>

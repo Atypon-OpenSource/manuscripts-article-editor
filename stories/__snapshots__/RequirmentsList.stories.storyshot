@@ -1,23 +1,92 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Requirments/List validations 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  display: block;
+  float: right;
+  padding: 0px 32px 0 0;
+}
+
+.c2 {
+  display: block;
+  padding: 0 0 0 8px;
+}
+
+.c3 {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  color: #353535;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+  -webkit-order: 1;
+  -ms-flex-order: 1;
+  order: 1;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  margin: 13px 0 9px 17px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 52px;
+}
+
+.c7 {
+  padding: 0 0 0 18px;
+}
+
+.c8 {
+  font-family: Lato;
+  font-size: 14px;
+  color: #353535;
+  padding: 4px 0 0 11px;
+}
+
+.c9 {
+  margin: 0 8px 0 8px;
+  border: 1px solid #f2f2f2;
+}
+
+.c1 {
+  display: block;
+}
+
+.c5 {
+  padding: 15px 0 0 0;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="RequirementsList__RequirementList-owqh5u-1 fPeJOd"
+      className="c1"
     >
       <div
-        className="RequirementContainer__Container-sc-1hjsz3x-1 hkbnsQ"
+        className="c2"
       >
         <div
-          className="RequirementContainer__Title-sc-1hjsz3x-2 hKpjdF"
+          className="c3"
           onClick={[Function]}
         >
           Figure
           <div
-            className="RequirementContainer__ExpanderButton-sc-1hjsz3x-0 liFSUR"
+            className="c4"
             onClick={[Function]}
           >
             <svg
@@ -41,13 +110,13 @@ exports[`Storyshots Requirments/List validations 1`] = `
           </div>
         </div>
         <div
-          className="RequirementsList__Requirement-owqh5u-2 iwNFge"
+          className="c5"
         >
           <div
-            className="RequirementsData__InspectorContainer-iiz6as-0 eEIjuH"
+            className="c6"
           >
             <div
-              className="RequirementsData__Icon-iiz6as-1 DmpZp"
+              className="c7"
             >
               <svg
                 fill="none"
@@ -65,7 +134,7 @@ exports[`Storyshots Requirments/List validations 1`] = `
               </svg>
             </div>
             <div
-              className="RequirementsData__Message-iiz6as-2 fxioLO"
+              className="c8"
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
@@ -73,10 +142,10 @@ exports[`Storyshots Requirments/List validations 1`] = `
             </div>
           </div>
           <div
-            className="RequirementsData__InspectorContainer-iiz6as-0 eEIjuH"
+            className="c6"
           >
             <div
-              className="RequirementsData__Icon-iiz6as-1 DmpZp"
+              className="c7"
             >
               <svg
                 fill="none"
@@ -96,7 +165,7 @@ exports[`Storyshots Requirments/List validations 1`] = `
               </svg>
             </div>
             <div
-              className="RequirementsData__Message-iiz6as-2 fxioLO"
+              className="c8"
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
@@ -105,19 +174,19 @@ exports[`Storyshots Requirments/List validations 1`] = `
           </div>
         </div>
         <div
-          className="RequirementsList__Separator-owqh5u-0 hYvOLD"
+          className="c9"
         />
       </div>
       <div
-        className="RequirementContainer__Container-sc-1hjsz3x-1 hkbnsQ"
+        className="c2"
       >
         <div
-          className="RequirementContainer__Title-sc-1hjsz3x-2 hKpjdF"
+          className="c3"
           onClick={[Function]}
         >
           Section Order
           <div
-            className="RequirementContainer__ExpanderButton-sc-1hjsz3x-0 liFSUR"
+            className="c4"
             onClick={[Function]}
           >
             <svg
@@ -141,13 +210,13 @@ exports[`Storyshots Requirments/List validations 1`] = `
           </div>
         </div>
         <div
-          className="RequirementsList__Requirement-owqh5u-2 iwNFge"
+          className="c5"
         >
           <div
-            className="RequirementsData__InspectorContainer-iiz6as-0 eEIjuH"
+            className="c6"
           >
             <div
-              className="RequirementsData__Icon-iiz6as-1 DmpZp"
+              className="c7"
             >
               <svg
                 fill="none"
@@ -167,7 +236,7 @@ exports[`Storyshots Requirments/List validations 1`] = `
               </svg>
             </div>
             <div
-              className="RequirementsData__Message-iiz6as-2 fxioLO"
+              className="c8"
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
@@ -176,7 +245,7 @@ exports[`Storyshots Requirments/List validations 1`] = `
           </div>
         </div>
         <div
-          className="RequirementsList__Separator-owqh5u-0 hYvOLD"
+          className="c9"
         />
       </div>
     </div>

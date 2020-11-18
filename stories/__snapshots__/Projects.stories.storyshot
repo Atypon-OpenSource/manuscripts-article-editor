@@ -1,8 +1,503 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Projects Manuscript Sidebar 1`] = `
+.c8 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c8 svg + span {
+  margin-left: 4px;
+}
+
+.c24 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c24 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c9 {
+  padding: 0;
+  height: 24px;
+  width: 24px;
+}
+
+.c9 svg g[stroke] {
+  stroke: currentColor;
+}
+
+.c9 svg path[fill] {
+  fill: currentColor;
+}
+
+.c9 svg path[stroke] {
+  stroke: currentColor;
+}
+
+.c9 svg text[fill],
+.c9 svg rect[fill],
+.c9 svg path[fill] {
+  fill: currentColor;
+}
+
+.c30 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c10 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10:not([disabled]):hover,
+.c10:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c31 {
+  background: #fff;
+  border: 5px solid #fff !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12);
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+  -webkit-transition: border-color 0.25s;
+  transition: border-color 0.25s;
+}
+
+.c31:focus,
+.c31:hover {
+  background: #f2fbfc !important;
+}
+
+.c31 svg {
+  max-height: 16px;
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c21 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 1.2em;
+  height: 1.3em;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 2px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c18 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  background: transparent;
+  border-color: #f2fbfc;
+  color: #353535;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 18px;
+  line-height: 30px;
+  margin-left: -20px;
+  margin-right: -20px;
+  overflow-x: hidden;
+  padding-right: 20px;
+  padding-left: 20px;
+  white-space: nowrap;
+}
+
+.c18:hover {
+  background: #f2fbfc;
+}
+
+.c17 {
+  font-size: 16px;
+  position: relative;
+}
+
+.c17 .outline-text-title {
+  font-size: 18px;
+}
+
+.c20 {
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0 4px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.c20:hover .use[fill='#949494'],
+.c20:hover .sc-tsHpd use[fill='#949494'] {
+  fill: #ccc;
+}
+
+.c20:focus {
+  outline: none;
+}
+
+.c19 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  overflow-x: hidden;
+  color: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  height: 100%;
+}
+
+.c19:focus,
+.c19:active {
+  outline: none;
+}
+
+.c22 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: inline-block;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  margin-left: 8px;
+}
+
+.c25 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.c25 svg {
+  margin: 0;
+}
+
+.c25 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c25:focus svg path:first-of-type,
+.c25:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c26 {
+  padding-left: 12px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c11 svg text[fill],
+.c11 svg rect[fill],
+.c11 svg path[fill] {
+  fill: #1a9bc7;
+}
+
+.c11 svg path[stroke] {
+  stroke: #1a9bc7;
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background: #fafafa;
+  border-right: 1px solid #f2f2f2;
+}
+
+.c12 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.c3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.c23 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-top: 16px;
+}
+
+.c27 {
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  position: absolute;
+}
+
+.c27::before {
+  content: '';
+  position: absolute;
+  -webkit-transition: background-color 200ms ease-in-out 100ms;
+  transition: background-color 200ms ease-in-out 100ms;
+  background: rgb(240,240,240);
+}
+
+.c27:hover::before {
+  background: #e2e2e2;
+}
+
+.c28 {
+  cursor: ew-resize;
+  top: 0;
+  height: 100%;
+  width: 16px;
+}
+
+.c28::before {
+  height: 100%;
+  width: 1px;
+}
+
+.c29 {
+  right: -16px;
+}
+
+.c29::before {
+  left: -1px;
+}
+
+.c32 {
+  position: absolute;
+  top: 50%;
+  margin: -20px;
+  line-height: 1;
+}
+
+.c14 {
+  background: #65a3ff;
+  height: 1px;
+  z-index: 2;
+  width: 100%;
+  position: absolute;
+}
+
+.c15 {
+  top: 0;
+  visibility: hidden;
+}
+
+.c16 {
+  bottom: -1px;
+  visibility: hidden;
+}
+
+.c13 {
+  opacity: 1;
+  position: relative;
+}
+
+.c4 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c5 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow: hidden;
+  padding-right: 4px;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.c5 .ProseMirror {
+  cursor: text;
+}
+
+.c5 .ProseMirror:not(.ProseMirror-focused) {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.c5 .ProseMirror.empty-node::before {
+  position: absolute;
+  color: #e2e2e2;
+  cursor: text;
+  content: 'Untitled Project';
+  pointer-events: none;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c5 .ProseMirror.empty-node:hover::before {
+  color: #6e6e6e;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -15,37 +510,37 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
       }
     >
       <div
-        className="Sidebar-v95ywm-0 dinrsd"
+        className="c1"
         data-cy="sidebar"
       >
         <div
-          className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+          className="c2"
         >
           <div
-            className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+            className="c3"
           >
             <div
-              className="ManuscriptSidebar__CustomizedSidebarHeader-wuxpfv-0 gOAqNt"
+              className="c4"
             >
               <div
-                className="ManuscriptSidebar__ProjectTitle-wuxpfv-1 lcsgfn"
+                className="c5"
               >
                 <div
                   id="project-title-field"
                 />
               </div>
               <div
-                className="ShareProjectButton__Container-dtoiwn-0 YPEIW"
+                className="c6"
                 onClick={[Function]}
               >
                 <div
-                  className="sc-gIvpCV isESLn"
+                  className="c7"
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                 >
                   <button
                     aria-label="Share project"
-                    className="sc-ezzayL sc-cBoprd sc-ciSmjq ShareProjectButton__ShareIconButton-dtoiwn-1 cRSqLN cPWUwg ifa-DBT mdOcx"
+                    className="c8 c9 c10 c11"
                     onClick={[Function]}
                     size={24}
                     type="button"
@@ -87,43 +582,43 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
           </div>
         </div>
         <div
-          className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+          className="c12"
         >
           <div>
             <div
-              className="SortableManuscript__Container-sc-9onkba-3 hQURZj"
+              className="c13"
             >
               <div
-                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__BeforeDropPreview-sc-9onkba-1 ptZMa bRsLRm"
+                className="c14 c15"
               />
               <div
-                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__AfterDropPreview-sc-9onkba-2 ptZMa jGPZZA"
+                className="c14 c16"
               />
             </div>
           </div>
           <div>
             <div
-              className="SortableManuscript__Container-sc-9onkba-3 hQURZj"
+              className="c13"
             >
               <div
-                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__BeforeDropPreview-sc-9onkba-1 ptZMa bRsLRm"
+                className="c14 c15"
               />
               <div
-                className="sc-cbeQSR gjHgly"
+                className="c17"
               >
                 <div
-                  className="sc-htmbXw crgWcH"
+                  className="c18"
                 >
                   <a
-                    className="sc-gkCpWe lgdynU"
+                    className="c19"
                     href="/projects/project-1/manuscripts/example-2"
                     onClick={[Function]}
                   >
                     <button
-                      className="sc-fWWZrV rFzeb"
+                      className="c20"
                     >
                       <svg
-                        className="sc-hkePoP"
+                        className=""
                         height={12}
                         viewBox="0 0 12 12"
                         width={12}
@@ -137,7 +632,7 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
                       </svg>
                     </button>
                     <span
-                      className="sc-dTSxUT gkxIGD"
+                      className="c21"
                     >
                       <svg
                         height={18}
@@ -157,7 +652,7 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
                       </svg>
                     </span>
                     <span
-                      className="sc-flUlJl iwBbvh outline-text-title"
+                      className="c22 outline-text-title"
                     >
                       Two complement receptor one alleles have opposing associations with cerebral malaria and interact with α+thalassaemia
                     </span>
@@ -165,33 +660,33 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
                 </div>
               </div>
               <div
-                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__AfterDropPreview-sc-9onkba-2 ptZMa jGPZZA"
+                className="c14 c16"
               />
             </div>
           </div>
           <div>
             <div
-              className="SortableManuscript__Container-sc-9onkba-3 hQURZj"
+              className="c13"
             >
               <div
-                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__BeforeDropPreview-sc-9onkba-1 ptZMa bRsLRm"
+                className="c14 c15"
               />
               <div
-                className="sc-cbeQSR gjHgly"
+                className="c17"
               >
                 <div
-                  className="sc-htmbXw crgWcH"
+                  className="c18"
                 >
                   <a
-                    className="sc-gkCpWe lgdynU"
+                    className="c19"
                     href="/projects/project-1/manuscripts/example-3"
                     onClick={[Function]}
                   >
                     <button
-                      className="sc-fWWZrV rFzeb"
+                      className="c20"
                     >
                       <svg
-                        className="sc-hkePoP"
+                        className=""
                         height={12}
                         viewBox="0 0 12 12"
                         width={12}
@@ -205,7 +700,7 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
                       </svg>
                     </button>
                     <span
-                      className="sc-dTSxUT gkxIGD"
+                      className="c21"
                     >
                       <svg
                         height={18}
@@ -225,7 +720,7 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
                       </svg>
                     </span>
                     <span
-                      className="sc-flUlJl iwBbvh outline-text-title"
+                      className="c22 outline-text-title"
                     >
                       Cryo-EM structure of the adenosine A2A receptor coupled to an engineered heterotrimeric G protein
                     </span>
@@ -233,16 +728,16 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
                 </div>
               </div>
               <div
-                className="SortableManuscript__DropPreview-sc-9onkba-0 SortableManuscript__AfterDropPreview-sc-9onkba-2 ptZMa jGPZZA"
+                className="c14 c16"
               />
             </div>
           </div>
         </div>
         <div
-          className="SidebarHeaderFooter__SidebarFooter-sc-6j8srx-3 kLpROE"
+          className="c23"
         >
           <button
-            className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jxNfPW"
+            className="c8 c24 c25"
             onClick={[Function]}
             size="small"
             type="button"
@@ -269,7 +764,7 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
               </g>
             </svg>
             <div
-              className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+              className="c26"
             >
               New Manuscript
             </div>
@@ -277,14 +772,14 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
         </div>
       </div>
       <div
-        className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+        className="c27 c28 c29"
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <button
           aria-expanded={true}
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb Panel__ResizerButton-sc-1v8xanm-0 cRSqLN dRpzpn ifa-DBT jXeSFM imbOZC"
+          className="c8 c30 c10 c31 c32"
           onClick={[Function]}
           onMouseDown={[Function]}
           type="button"
@@ -325,21 +820,165 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
 `;
 
 exports[`Storyshots Projects Projects Menu 1`] = `
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c9 svg + span {
+  margin-left: 4px;
+}
+
+.c10 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c10 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c11 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+}
+
+.c11 svg {
+  max-height: 28px;
+  max-width: 28px;
+}
+
+.c11 svg {
+  margin: 0;
+}
+
+.c11 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c11:focus svg path:first-of-type,
+.c11:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c12 {
+  padding-left: 12px;
+}
+
+.c7 {
+  color: #6e6e6e;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px 12px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #353535;
+  pointer-events: unset;
+}
+
+.c1:hover,
+.c1:hover .c6 {
+  background: #f2fbfc;
+}
+
+.c4 {
+  height: 1px;
+  width: 100%;
+  opacity: 0.23;
+  background-color: #bce7f6;
+}
+
+.c8 {
+  padding: 12px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 12px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 {
+  overflow: auto;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <a
       aria-current={null}
-      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      className="c1"
       href="/projects"
       onClick={[Function]}
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+          className="c3"
         >
           <svg
             height={26}
@@ -379,22 +1018,22 @@ exports[`Storyshots Projects Projects Menu 1`] = `
       </div>
     </a>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c4"
     />
     <div
-      className="ProjectsDropdownList__ProjectContainer-iy7kf9-0 iKAHVI"
+      className="c5"
     >
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-3"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -423,21 +1062,21 @@ exports[`Storyshots Projects Projects Menu 1`] = `
             </svg>
           </div>
           <div
-            className="Dropdown__PlaceholderTitle-fhxyb7-2 fAXUxr"
+            className="c6 c7"
           />
         </div>
       </a>
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-1"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -470,15 +1109,15 @@ exports[`Storyshots Projects Projects Menu 1`] = `
       </a>
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-2"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -511,13 +1150,13 @@ exports[`Storyshots Projects Projects Menu 1`] = `
       </a>
     </div>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c4"
     />
     <div
-      className="ProjectDropdown__ActionContainer-nj113c-0 iliCiP"
+      className="c8"
     >
       <button
-        className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf gETdIg"
+        className="c9 c10 c11"
         onClick={[Function]}
         size="default"
         type="button"
@@ -544,7 +1183,7 @@ exports[`Storyshots Projects Projects Menu 1`] = `
           </g>
         </svg>
         <div
-          className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          className="c12"
         >
           New Project
         </div>
@@ -555,18 +1194,159 @@ exports[`Storyshots Projects Projects Menu 1`] = `
 `;
 
 exports[`Storyshots Projects Projects Page - Empty 1`] = `
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c3 svg + span {
+  margin-left: 4px;
+}
+
+.c4 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c4 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c5 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 20px;
+}
+
+.c5 svg {
+  max-height: 40px;
+  max-width: 40px;
+}
+
+.c5 svg {
+  margin: 0;
+}
+
+.c5 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c5:focus svg path:first-of-type,
+.c5:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c6 {
+  padding-left: 12px;
+}
+
+.c2 {
+  height: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 20px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  line-height: 24px;
+  text-align: center;
+}
+
+.c7 {
+  font-weight: 300;
+  padding-top: 20px;
+  color: #6e6e6e;
+}
+
+.c8 {
+  -webkit-letter-spacing: -0.8px;
+  -moz-letter-spacing: -0.8px;
+  -ms-letter-spacing: -0.8px;
+  letter-spacing: -0.8px;
+  padding-top: 6px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="EmptyProjectPage__OuterContainer-sc-1tyx5jc-0 gjcbZz"
+      className="c1"
     >
       <div
         className="EmptyProjectPage__Placeholder-sc-1tyx5jc-1"
       >
         <div
-          className="Placeholders__PlaceholderContainer-sc-1ln90vo-0 bxKpSD"
+          className="c2"
         >
           <canvas
             height={375}
@@ -578,7 +1358,7 @@ exports[`Storyshots Projects Projects Page - Empty 1`] = `
         className="EmptyProjectPage__ActionContainer-sc-1tyx5jc-2"
       >
         <button
-          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jmbwRs"
+          className="c3 c4 c5"
           onClick={[Function]}
           size="large"
           type="button"
@@ -605,22 +1385,22 @@ exports[`Storyshots Projects Projects Page - Empty 1`] = `
             </g>
           </svg>
           <div
-            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+            className="c6"
           >
             New Manuscript
           </div>
         </button>
       </div>
       <div
-        className="EmptyProjectPage__Message-sc-1tyx5jc-3 jtXRHZ"
+        className="c7"
       >
         <div
-          className="EmptyProjectPage__TextContainer-sc-1tyx5jc-4 ijZRWY"
+          className="c8"
         >
           This project is empty.
         </div>
         <div
-          className="EmptyProjectPage__TextContainer-sc-1tyx5jc-4 ijZRWY"
+          className="c8"
         >
           Create a manuscript to get started.
         </div>
@@ -631,18 +1411,178 @@ exports[`Storyshots Projects Projects Page - Empty 1`] = `
 `;
 
 exports[`Storyshots Projects Projects Page - Empty due to pull error 1`] = `
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c3 svg + span {
+  margin-left: 4px;
+}
+
+.c9 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c9:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c4 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c4 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c5 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 20px;
+}
+
+.c5 svg {
+  max-height: 40px;
+  max-width: 40px;
+}
+
+.c5 svg {
+  margin: 0;
+}
+
+.c5 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c5:focus svg path:first-of-type,
+.c5:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c6 {
+  padding-left: 12px;
+}
+
+.c2 {
+  height: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 20px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  line-height: 24px;
+  text-align: center;
+}
+
+.c7 {
+  font-weight: 300;
+  padding-top: 20px;
+  color: #6e6e6e;
+}
+
+.c8 {
+  -webkit-letter-spacing: -0.8px;
+  -moz-letter-spacing: -0.8px;
+  -ms-letter-spacing: -0.8px;
+  letter-spacing: -0.8px;
+  padding-top: 6px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="EmptyProjectPage__OuterContainer-sc-1tyx5jc-0 gjcbZz"
+      className="c1"
     >
       <div
         className="EmptyProjectPage__Placeholder-sc-1tyx5jc-1"
       >
         <div
-          className="Placeholders__PlaceholderContainer-sc-1ln90vo-0 bxKpSD"
+          className="c2"
         >
           <canvas
             height={375}
@@ -654,7 +1594,7 @@ exports[`Storyshots Projects Projects Page - Empty due to pull error 1`] = `
         className="EmptyProjectPage__ActionContainer-sc-1tyx5jc-2"
       >
         <button
-          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jmbwRs"
+          className="c3 c4 c5"
           onClick={[Function]}
           size="large"
           type="button"
@@ -681,25 +1621,25 @@ exports[`Storyshots Projects Projects Page - Empty due to pull error 1`] = `
             </g>
           </svg>
           <div
-            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+            className="c6"
           >
             New Manuscript
           </div>
         </button>
       </div>
       <div
-        className="EmptyProjectPage__Message-sc-1tyx5jc-3 jtXRHZ"
+        className="c7"
       >
         <div
-          className="EmptyProjectPage__TextContainer-sc-1tyx5jc-4 ijZRWY"
+          className="c8"
         >
           Error while pulling data: there may be manuscripts which are missing locally
         </div>
         <div
-          className="EmptyProjectPage__TextContainer-sc-1tyx5jc-4 ijZRWY"
+          className="c8"
         >
           <button
-            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            className="c3 c9"
             onClick={[Function]}
             type="button"
           >

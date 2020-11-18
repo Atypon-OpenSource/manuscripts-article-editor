@@ -1,12 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Hero Hero 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  font-size: 280%;
+  white-space: nowrap;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Hero-gmnoyv-0 fNBifv"
+      className="c1"
     >
       Welcome
     </div>
@@ -15,12 +27,24 @@ exports[`Storyshots Hero Hero 1`] = `
 `;
 
 exports[`Storyshots Hero SubHero 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Hero__SubHero-gmnoyv-1 dGTxWk"
+      className="c1"
     >
       Welcome
     </div>

@@ -1,12 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Inspector/Requirements validations 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  margin: 13px 0 9px 17px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="RequirementsInspector__AlertMessage-sc-1hclsh6-0 eIOBNq"
+      className="c1"
     >
       You need to select a template to display the quality report check
     </div>

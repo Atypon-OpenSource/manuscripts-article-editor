@@ -1,41 +1,548 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Account/Modals Profile 1`] = `
+.c29 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c29:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c29:hover {
+  background-color: #f2fbfc;
+}
+
+.c29:invalid {
+  box-shadow: none;
+}
+
+.c27 .c28:first-of-type {
+  margin-top: 4px;
+}
+
+.c27 .c28:last-of-type {
+  margin-bottom: 4px;
+}
+
+.c27 .c28:not(:first-of-type) {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.c27 .c28:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.c27 .c28:not(:last-of-type):focus + .c28 {
+  border-top-color: #bce7f6;
+}
+
+.c31 {
+  font: 400 20px / 24px "Lato",sans-serif;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  color: #6e6e6e;
+}
+
+.c34 {
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 2px;
+  overflow: hidden;
+}
+
+.c35 {
+  margin: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 0.875rem;
+  padding-right: 0.5rem;
+  background: transparent;
+  color: inherit;
+}
+
+.c37 {
+  border: 0;
+  border-radius: 50%;
+  margin-right: 0.6em;
+  min-width: 20px;
+}
+
+.c36 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-family: "Lato",sans-serif;
+  font-size: 1rem;
+  padding: 0.6em 0.5em;
+  outline: none;
+}
+
+.c36:focus {
+  color: #0b6bb8;
+}
+
+.c36 svg {
+  -webkit-transform: initial;
+  -ms-transform: initial;
+  transform: initial;
+}
+
+.c38 {
+  border: none;
+  background: transparent;
+  padding: 0;
+  outline: none;
+}
+
+.c38:focus path {
+  fill: #fff;
+}
+
+.c38 svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.c30 {
+  margin: 0 1.89rem 1rem;
+}
+
+.c32 {
+  margin: 1rem 0;
+}
+
+.c33 {
+  margin-bottom: 0.5rem;
+}
+
+.c39 {
+  padding-right: 0.71rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: space-around;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: space-around;
+  justify-content: space-around;
+}
+
+.c39 svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.c39 circle,
+.c39 use {
+  fill: #0d79d0;
+}
+
+.c39 path {
+  -webkit-mask: none;
+  mask: none;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c3 svg + span {
+  margin-left: 4px;
+}
+
+.c15 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c15:not([disabled]):hover,
+.c15:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c15:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c20 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c20:not([disabled]):hover,
+.c20:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c20:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c4 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c5 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):hover,
+.c5:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6 {
+  background: #fff;
+  border: 5px solid #fff !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12);
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+  -webkit-transition: border-color 0.25s;
+  transition: border-color 0.25s;
+}
+
+.c6:focus,
+.c6:hover {
+  background: #f2fbfc !important;
+}
+
+.c6 svg {
+  max-height: 16px;
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.c12 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c13 path {
+  fill: #6e6e6e;
+}
+
+.c13:hover path {
+  fill: #6e6e6e;
+}
+
+.c1 {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
+  font-family: "Lato",sans-serif;
+  overflow: hidden;
+  margin: 12px;
+}
+
+.c2 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.c7 {
+  box-shadow: none;
+  text-indent: -99999px;
+}
+
+.c7::before,
+.c7::after {
+  background-color: #6e6e6e;
+  border-radius: 2px;
+  content: ' ';
+  display: block;
+  height: 14px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  width: 2px;
+  position: absolute;
+  top: calc(50% - 7px);
+  left: calc(50% - 1px);
+}
+
+.c7::after {
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.c22 {
+  padding: 16px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c9 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fafafa;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  max-width: 40vw;
+  overflow: auto;
+  width: 340px;
+}
+
+.c23 {
+  box-sizing: border-box;
+  max-width: 60vw;
+  width: 480px;
+}
+
+.c8 {
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  height: 90vh;
+  max-height: 680px;
+}
+
+.c10 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c24 {
+  padding: 16px;
+}
+
+.c25 {
+  border: none;
+}
+
+.c26 {
+  font-size: 20px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  color: #6e6e6e;
+}
+
+.c17 {
+  font-weight: 500;
+  text-align: center;
+}
+
+.c18 {
+  font-size: 14px;
+  text-align: center;
+  color: #6e6e6e;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+.c16 {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.c16:hover {
+  background: #fff;
+}
+
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c19 {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.c21 {
+  width: 100%;
+}
+
+.c14 {
+  position: relative;
+  bottom: 37px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="sc-eGJXgd REOgn"
+        className="c1"
       >
         <div
-          className="sc-csTaMs fVoOUB"
+          className="c2"
         >
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            className="c3 c4 c5 c6 c7"
             data-cy="modal-close-button"
             onClick={[Function]}
             type="button"
           />
         </div>
         <div
-          className="Sidebar__ModalBody-v95ywm-3 jOabhg"
+          className="c8"
         >
           <div
-            className="Sidebar__ModalSidebar-v95ywm-1 eElppW"
+            className="c9"
           >
             <div
-              className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+              className="c10"
             >
               <div
-                className="UserProfileSidebar__AvatarContainer-bxt72r-3 cSDDbE"
+                className="c11"
               >
                 <div
-                  className="sc-jffIyK kbBVcu"
+                  className="c12"
                 >
                   <svg
-                    className="sc-oefIU chSjlL"
+                    className="c13"
                     color="#6e6e6e"
                     height={150}
                     viewBox="0 0 34 34"
@@ -49,10 +556,10 @@ exports[`Storyshots Account/Modals Profile 1`] = `
                 </div>
               </div>
               <div
-                className="UserProfileSidebar__AddProfileButtonContainer-bxt72r-7 jOPSbr"
+                className="c14"
               >
                 <button
-                  className="sc-ezzayL sc-kLokih UserProfileSidebar__EditButton-bxt72r-2 cRSqLN bYa-DYT eZDOZH"
+                  className="c3 c15 c16"
                   onClick={[Function]}
                   type="button"
                 >
@@ -60,24 +567,24 @@ exports[`Storyshots Account/Modals Profile 1`] = `
                 </button>
               </div>
               <div
-                className="UserProfileSidebar__UserEmail-bxt72r-0 gCirii"
+                className="c17"
               />
               <div
-                className="UserProfileSidebar__MemberSince-bxt72r-1 jOffnD"
+                className="c18"
               >
                 Member since
                  
                 Jan 1, 2020
               </div>
               <button
-                className="sc-ezzayL sc-kLokih UserProfileSidebar__ChangePasswordButton-bxt72r-5 cRSqLN bYa-DYT krNhiM"
+                className="c3 c15 c19"
                 onClick={[Function]}
                 type="button"
               >
                 Change Password
               </button>
               <button
-                className="sc-ezzayL sc-iklIKw UserProfileSidebar__DeleteAccountButton-bxt72r-6 cRSqLN laqiSe fEAvHC"
+                className="c3 c20 c21"
                 onClick={[Function]}
                 type="button"
               >
@@ -86,7 +593,7 @@ exports[`Storyshots Account/Modals Profile 1`] = `
             </div>
           </div>
           <div
-            className="sc-bsatbK Sidebar__StyledModalMain-v95ywm-2 cHdJDA dGMrRR"
+            className="c22 c23"
           >
             <form
               action="#"
@@ -95,22 +602,22 @@ exports[`Storyshots Account/Modals Profile 1`] = `
               onSubmit={[Function]}
             >
               <div
-                className="ProfileForm__Fields-sc-1olk8da-0 iiQqnx"
+                className="c24"
               >
                 <fieldset
-                  className="ProfileForm__Fieldset-sc-1olk8da-1 jZsYAi"
+                  className="c25"
                 >
                   <legend
-                    className="ProfileForm__Legend-sc-1olk8da-2 ezIKTn"
+                    className="c26"
                   >
                     Details
                   </legend>
                   <div
-                    className="sc-eCApGN bRvWwx"
+                    className="c27"
                   >
                     <input
                       checked={true}
-                      className="sc-dlnjPT iOeyAw"
+                      className="c28 c29"
                       name="bibliographicName.given"
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -120,7 +627,7 @@ exports[`Storyshots Account/Modals Profile 1`] = `
                     />
                     <input
                       checked={true}
-                      className="sc-dlnjPT iOeyAw"
+                      className="c28 c29"
                       name="bibliographicName.family"
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -133,32 +640,32 @@ exports[`Storyshots Account/Modals Profile 1`] = `
               </div>
             </form>
             <div
-              className="sc-hHEjAm hlpCzi"
+              className="c30"
             >
               <legend
-                className="sc-iqAbSa ZuSPU"
+                className="c31"
               >
                 Affiliations
               </legend>
               <div
-                className="sc-dlMBXb iuXqaM"
+                className="c32"
               >
                 <div
-                  className="sc-kfYqjs jTbWOp"
+                  className="c33"
                 >
                   <section
-                    className="sc-dIsAE hSCMRX"
+                    className="c34"
                   >
                     <h4
-                      className="sc-bqGHjH fEbpMQ"
+                      className="c35"
                     >
                       <button
-                        className="sc-hBMVcZ jxpJvc"
+                        className="c36"
                         onClick={[Function]}
                         type="button"
                       >
                         <svg
-                          className="sc-ksluoS drbnlP"
+                          className="c37"
                           height={20}
                           viewBox="0 0 20 20"
                           width={20}
@@ -186,7 +693,7 @@ exports[`Storyshots Account/Modals Profile 1`] = `
                       </button>
                       <button
                         aria-label="Delete this affiliation"
-                        className="sc-fnVYJo jYorMu"
+                        className="c38"
                         onClick={[Function]}
                         type="button"
                       >
@@ -204,18 +711,18 @@ exports[`Storyshots Account/Modals Profile 1`] = `
                     </h4>
                   </section>
                   <section
-                    className="sc-dIsAE hSCMRX"
+                    className="c34"
                   >
                     <h4
-                      className="sc-bqGHjH fEbpMQ"
+                      className="c35"
                     >
                       <button
-                        className="sc-hBMVcZ jxpJvc"
+                        className="c36"
                         onClick={[Function]}
                         type="button"
                       >
                         <svg
-                          className="sc-ksluoS drbnlP"
+                          className="c37"
                           height={20}
                           viewBox="0 0 20 20"
                           width={20}
@@ -243,7 +750,7 @@ exports[`Storyshots Account/Modals Profile 1`] = `
                       </button>
                       <button
                         aria-label="Delete this affiliation"
-                        className="sc-fnVYJo jYorMu"
+                        className="c38"
                         onClick={[Function]}
                         type="button"
                       >
@@ -337,7 +844,7 @@ exports[`Storyshots Account/Modals Profile 1`] = `
                       </div>
                     </div>
                     <div
-                      className="sc-fKgIGh GxMKb"
+                      className="c39"
                     >
                       <svg
                         height={36}
@@ -390,18 +897,202 @@ exports[`Storyshots Account/Modals Profile 1`] = `
 `;
 
 exports[`Storyshots Account/Profile AvatarFileUpload - with new Avatar 1`] = `
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c5 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: default;
+  background-color: #e2e2e2 !important;
+  border-color: #e2e2e2 !important;
+  color: #fff !important;
+}
+
+.c8 svg + span {
+  margin-left: 4px;
+}
+
+.c9 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c9:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c6 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c6:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fafafa;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  max-width: 40vw;
+  overflow: auto;
+  width: 340px;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c7 {
+  margin-bottom: 10px;
+}
+
+.c10 {
+  margin-bottom: 10px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 30px;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.c1 {
+  width: 300px;
+  height: 600px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Profilestories__SidebarStory-dvlmq5-0 jZOfds"
+      className="c1"
     >
       <div
-        className="Sidebar__ModalSidebar-v95ywm-1 eElppW"
+        className="c2"
       >
         <div
-          className="AvatarFileUpload__AvatarContainer-wn580i-9 ldJzrG"
+          className="c3"
         >
           <div />
           <input
@@ -415,10 +1106,10 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with new Avatar 1`] = `
           />
         </div>
         <div
-          className="AvatarFileUpload__ButtonsContainer-wn580i-6 bvNIsF"
+          className="c4"
         >
           <button
-            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 cRSqLN bYa-DYT kjhvGo"
+            className="c5 c6 c7"
             disabled={false}
             onClick={[Function]}
             type="button"
@@ -426,7 +1117,7 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with new Avatar 1`] = `
             Save Avatar
           </button>
           <button
-            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 gjhYjP bYa-DYT kjhvGo"
+            className="c8 c6 c7"
             disabled={true}
             onClick={[Function]}
             type="button"
@@ -434,7 +1125,7 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with new Avatar 1`] = `
             Remove Avatar
           </button>
           <button
-            className="sc-ezzayL sc-bYwzba AvatarFileUpload__CancelButton-wn580i-8 cRSqLN bXiklN iHPwZR"
+            className="c5 c9 c10"
             onClick={[Function]}
             type="button"
           >
@@ -448,18 +1139,293 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with new Avatar 1`] = `
 `;
 
 exports[`Storyshots Account/Profile AvatarFileUpload - with old Avatar 1`] = `
+.c13 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: default;
+  background-color: #e2e2e2 !important;
+  border-color: #e2e2e2 !important;
+  color: #fff !important;
+}
+
+.c13 svg + span {
+  margin-left: 4px;
+}
+
+.c16 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c16 svg + span {
+  margin-left: 4px;
+}
+
+.c17 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c17:not([disabled]):hover,
+.c17:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c17:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c14 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c14:not([disabled]):hover,
+.c14:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c14:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c7 {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fafafa;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  max-width: 40vw;
+  overflow: auto;
+  width: 340px;
+}
+
+.c3 {
+  cursor: pointer;
+}
+
+.c3 * {
+  pointer-events: none;
+}
+
+.c4 {
+  color: #acb8c7;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c8 {
+  margin-top: 30px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.c9 {
+  font-size: 20px;
+  line-height: 24px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #353535;
+}
+
+.c10 {
+  font-size: 16px line-height:24px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #6e6e6e;
+}
+
+.c11 {
+  margin: 0 2px;
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #0d79d0;
+  cursor: pointer;
+}
+
+.c12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c15 {
+  margin-bottom: 10px;
+}
+
+.c18 {
+  margin-bottom: 10px;
+}
+
+.c5 {
+  width: 150px;
+  height: 150px;
+  background-color: #fff;
+  border: solid 1px #bce7f6;
+  border-radius: 50%;
+}
+
+.c1 {
+  width: 300px;
+  height: 600px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Profilestories__SidebarStory-dvlmq5-0 jZOfds"
+      className="c1"
     >
       <div
-        className="Sidebar__ModalSidebar-v95ywm-1 eElppW"
+        className="c2"
       >
         <div
-          className="ImportAvatarContainer__Container-sc-15s9qd8-0 ggOblm"
+          className="c3"
           onClick={[Function]}
           onDragEnter={[Function]}
           onDragLeave={[Function]}
@@ -469,16 +1435,16 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with old Avatar 1`] = `
           onMouseLeave={[Function]}
         >
           <div
-            className="AvatarFileUpload__UploadContainer-wn580i-1 gcVQAo"
+            className="c4"
           >
             <div
-              className="AvatarFileUpload__RoundedBorders-wn580i-11 iOToSH"
+              className="c5"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c6"
               >
                 <img
-                  className="sc-eJoaVz kMlOPN"
+                  className="c7"
                   onError={[Function]}
                   size={150}
                   src="test-file-stub"
@@ -486,19 +1452,19 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with old Avatar 1`] = `
               </div>
             </div>
             <div
-              className="AvatarFileUpload__UploadBox-wn580i-2 iWdTkB"
+              className="c8"
             >
               <div
-                className="AvatarFileUpload__UploadLabel-wn580i-3 kyCKSl"
+                className="c9"
               >
                 Drag file above
               </div>
               <div
-                className="AvatarFileUpload__UploadBoxInnerText-wn580i-4 jBgXDZ"
+                className="c10"
               >
                 or 
                 <span
-                  className="AvatarFileUpload__UploadBoxBrowse-wn580i-5 lgPlsa"
+                  className="c11"
                 >
                   browse
                 </span>
@@ -511,10 +1477,10 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with old Avatar 1`] = `
           </div>
         </div>
         <div
-          className="AvatarFileUpload__ButtonsContainer-wn580i-6 bvNIsF"
+          className="c12"
         >
           <button
-            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 gjhYjP bYa-DYT kjhvGo"
+            className="c13 c14 c15"
             disabled={true}
             onClick={[Function]}
             type="button"
@@ -522,7 +1488,7 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with old Avatar 1`] = `
             Save Avatar
           </button>
           <button
-            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 cRSqLN bYa-DYT kjhvGo"
+            className="c16 c14 c15"
             disabled={false}
             onClick={[Function]}
             type="button"
@@ -530,7 +1496,7 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with old Avatar 1`] = `
             Remove Avatar
           </button>
           <button
-            className="sc-ezzayL sc-bYwzba AvatarFileUpload__CancelButton-wn580i-8 cRSqLN bXiklN iHPwZR"
+            className="c16 c17 c18"
             onClick={[Function]}
             type="button"
           >
@@ -544,18 +1510,263 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with old Avatar 1`] = `
 `;
 
 exports[`Storyshots Account/Profile AvatarFileUpload 1`] = `
+.c11 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: default;
+  background-color: #e2e2e2 !important;
+  border-color: #e2e2e2 !important;
+  color: #fff !important;
+}
+
+.c11 svg + span {
+  margin-left: 4px;
+}
+
+.c14 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c14 svg + span {
+  margin-left: 4px;
+}
+
+.c15 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c15:not([disabled]):hover,
+.c15:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c15:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c12 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c12:not([disabled]):hover,
+.c12:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c12:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fafafa;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  max-width: 40vw;
+  overflow: auto;
+  width: 340px;
+}
+
+.c3 {
+  cursor: pointer;
+}
+
+.c3 * {
+  pointer-events: none;
+}
+
+.c5 {
+  width: 150px;
+  height: 150px;
+  background-color: #fafafa;
+  border: dashed 3px #bce7f6;
+  border-radius: 50%;
+}
+
+.c4 {
+  color: #acb8c7;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c6 {
+  margin-top: 30px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.c7 {
+  font-size: 20px;
+  line-height: 24px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #353535;
+}
+
+.c8 {
+  font-size: 16px line-height:24px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #6e6e6e;
+}
+
+.c9 {
+  margin: 0 2px;
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #0d79d0;
+  cursor: pointer;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c13 {
+  margin-bottom: 10px;
+}
+
+.c16 {
+  margin-bottom: 10px;
+}
+
+.c1 {
+  width: 300px;
+  height: 600px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Profilestories__SidebarStory-dvlmq5-0 jZOfds"
+      className="c1"
     >
       <div
-        className="Sidebar__ModalSidebar-v95ywm-1 eElppW"
+        className="c2"
       >
         <div
-          className="ImportAvatarContainer__Container-sc-15s9qd8-0 ggOblm"
+          className="c3"
           onClick={[Function]}
           onDragEnter={[Function]}
           onDragLeave={[Function]}
@@ -565,25 +1776,25 @@ exports[`Storyshots Account/Profile AvatarFileUpload 1`] = `
           onMouseLeave={[Function]}
         >
           <div
-            className="AvatarFileUpload__UploadContainer-wn580i-1 gcVQAo"
+            className="c4"
           >
             <div
-              className="AvatarFileUpload__DropZone-wn580i-0 OwpAZ"
+              className="c5"
             />
             <div
-              className="AvatarFileUpload__UploadBox-wn580i-2 iWdTkB"
+              className="c6"
             >
               <div
-                className="AvatarFileUpload__UploadLabel-wn580i-3 kyCKSl"
+                className="c7"
               >
                 Drag file above
               </div>
               <div
-                className="AvatarFileUpload__UploadBoxInnerText-wn580i-4 jBgXDZ"
+                className="c8"
               >
                 or 
                 <span
-                  className="AvatarFileUpload__UploadBoxBrowse-wn580i-5 lgPlsa"
+                  className="c9"
                 >
                   browse
                 </span>
@@ -593,10 +1804,10 @@ exports[`Storyshots Account/Profile AvatarFileUpload 1`] = `
           </div>
         </div>
         <div
-          className="AvatarFileUpload__ButtonsContainer-wn580i-6 bvNIsF"
+          className="c10"
         >
           <button
-            className="sc-ezzayL sc-kLokih AvatarFileUpload__SaveAvatarButton-wn580i-7 gjhYjP bYa-DYT kjhvGo"
+            className="c11 c12 c13"
             disabled={true}
             onClick={[Function]}
             type="button"
@@ -604,7 +1815,7 @@ exports[`Storyshots Account/Profile AvatarFileUpload 1`] = `
             Save Avatar
           </button>
           <button
-            className="sc-ezzayL sc-bYwzba AvatarFileUpload__CancelButton-wn580i-8 cRSqLN bXiklN iHPwZR"
+            className="c14 c15 c16"
             onClick={[Function]}
             type="button"
           >

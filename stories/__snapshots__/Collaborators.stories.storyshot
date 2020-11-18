@@ -1,12 +1,190 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Collaboration/Forms Invite 1`] = `
+.c4 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c4:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c4:hover {
+  background-color: #f2fbfc;
+}
+
+.c4:invalid {
+  box-shadow: none;
+}
+
+.c2 .c3:first-of-type {
+  margin-top: 4px;
+}
+
+.c2 .c3:last-of-type {
+  margin-bottom: 4px;
+}
+
+.c2 .c3:not(:first-of-type) {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.c2 .c3:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.c2 .c3:not(:last-of-type):focus + .c3 {
+  border-top-color: #bce7f6;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c9 svg + span {
+  margin-left: 4px;
+}
+
+.c10 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c10:not([disabled]):hover,
+.c10:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c10:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c7 {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.c7 + label {
+  cursor: pointer;
+  margin: 0;
+  display: inline-block;
+  font-size: 18px;
+  color: #353535;
+  line-height: 24px;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 28px;
+  text-align: left;
+}
+
+.c7 + label::before {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #353535;
+  box-sizing: border-box;
+  content: ' ';
+  display: block;
+  height: 18px;
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  z-index: 0;
+}
+
+.c7:checked + label::before {
+  background: #1a9bc7;
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c7:hover + label::before,
+.c7:focus + label::before {
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c8 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c6 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
+}
+
+.c11 {
+  width: 100%;
+}
+
+.c5 {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.c1 {
+  width: 300px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Collaboratorsstories__PopperStory-sc-1212mv0-0 iamLVJ"
+      className="c1"
     >
       <form
         action="#"
@@ -15,10 +193,10 @@ exports[`Storyshots Collaboration/Forms Invite 1`] = `
         onSubmit={[Function]}
       >
         <div
-          className="sc-eCApGN bRvWwx"
+          className="c2"
         >
           <input
-            className="sc-dlnjPT iOeyAw"
+            className="c3 c4"
             disabled={false}
             name="name"
             onBlur={[Function]}
@@ -30,7 +208,7 @@ exports[`Storyshots Collaboration/Forms Invite 1`] = `
             value=""
           />
           <input
-            className="sc-dlnjPT iOeyAw"
+            className="c3 c4"
             disabled={false}
             name="email"
             onBlur={[Function]}
@@ -43,14 +221,14 @@ exports[`Storyshots Collaboration/Forms Invite 1`] = `
           />
         </div>
         <div
-          className="InvitationForm__RadioButtonsContainer-jwjlou-1 fhxMEU"
+          className="c5"
         >
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c6"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c7"
               disabled={false}
               id="owner"
               name="role"
@@ -66,18 +244,18 @@ exports[`Storyshots Collaboration/Forms Invite 1`] = `
             >
               Owner
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c8"
               >
                 Can modify and delete project, invite and remove collaborators
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c6"
           >
             <input
               checked={true}
-              className="sc-fuIRbl jLsvIs"
+              className="c7"
               disabled={false}
               id="writer"
               name="role"
@@ -93,18 +271,18 @@ exports[`Storyshots Collaboration/Forms Invite 1`] = `
             >
               Writer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c8"
               >
                 Can modify project contents
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c6"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c7"
               disabled={false}
               id="viewer"
               name="role"
@@ -120,7 +298,7 @@ exports[`Storyshots Collaboration/Forms Invite 1`] = `
             >
               Viewer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c8"
               >
                 Can only review projects without modifying it
               </p>
@@ -128,7 +306,7 @@ exports[`Storyshots Collaboration/Forms Invite 1`] = `
           </div>
         </div>
         <button
-          className="sc-ezzayL sc-kLokih InvitationForm__SendInvitationButton-jwjlou-0 cRSqLN bYa-DYT ekcIem"
+          className="c9 c10 c11"
           disabled={false}
           type="submit"
         >
@@ -141,18 +319,101 @@ exports[`Storyshots Collaboration/Forms Invite 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Pages Add collaborators 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.c2 {
+  text-align: center;
+  max-width: 480px;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+  -webkit-letter-spacing: -0.5px;
+  -moz-letter-spacing: -0.5px;
+  -ms-letter-spacing: -0.5px;
+  letter-spacing: -0.5px;
+}
+
+.c5 {
+  max-width: 400px;
+  font-size: 20px;
+  margin-top: 24px;
+  font-weight: 300;
+  color: #6e6e6e;
+}
+
+@media (max-width:850px) {
+  .c5 {
+    margin-right: 20px;
+    margin-left: 20px;
+    max-width: 350px;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CollaboratorsPage__OuterContainer-elfojr-0 jIcqgs"
+      className="c1"
     >
       <div
-        className="CollaboratorsPage__InnerContainer-elfojr-1 kbfhjo"
+        className="c2"
       >
         <div
-          className="CollaboratorsPage__Placeholder-elfojr-2 erBlxn"
+          className="c3"
         >
           <svg
             height={302}
@@ -448,12 +709,12 @@ exports[`Storyshots Collaboration/Pages Add collaborators 1`] = `
           </svg>
         </div>
         <div
-          className="CollaboratorsPage__Action-elfojr-3 jEDkLk"
+          className="c4"
         >
           Add Collaborator
         </div>
         <div
-          className="CollaboratorsPage__Message-elfojr-4 iWLUgj"
+          className="c5"
         >
           You added 3 collaborators
         </div>
@@ -464,26 +725,245 @@ exports[`Storyshots Collaboration/Pages Add collaborators 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Pages Collaborator Details page - for the user 1`] = `
+.c15 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c15 svg + span {
+  margin-left: 4px;
+}
+
+.c16 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c16 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c5 {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c17 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c17 g[fill] {
+  fill: currentColor;
+}
+
+.c17:not([disabled]):focus,
+.c17:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c13 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c12 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c10 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c11 {
+  background-color: #f2fbfc;
+  border: solid 1px #0d79d0;
+  color: #2781a1;
+}
+
+.c14 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  padding: 14px 0px 0px 40px;
+  width: 65%;
+}
+
+.c9 {
+  position: absolute;
+  bottom: 16px;
+  width: inherit;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 20px;
+  font-weight: 400;
+  color: #353535;
+  margin-bottom: 26px;
+}
+
+.c6 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 16px;
+  position: relative;
+  top: 8px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 40px;
+}
+
+.c7 {
+  font-size: 20px;
+  font-weight: 500;
+  padding-bottom: 20px;
+}
+
+.c8 {
+  font-size: 18px;
+  color: #353535;
+  opacity: 0.3;
+  padding-left: 1px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CollaboratorForm__DetailsContainer-nw8iq9-0 efJfPN"
+      className="c1"
     >
       <div
-        className="CollaboratorForm__NameField-nw8iq9-2 iqbnVj"
+        className="c2"
       >
         Janine Melnitz
       </div>
       <div
-        className="CollaboratorForm__CollaboratorInformationContainer-nw8iq9-4 edCuek"
+        className="c3"
       >
         <div
-          className="sc-jffIyK kbBVcu"
+          className="c4"
         >
           <img
-            className="sc-eJoaVz bzaYPN"
+            className="c5"
             onError={[Function]}
             size={74}
             src="test-file-stub"
@@ -491,33 +971,33 @@ exports[`Storyshots Collaboration/Pages Collaborator Details page - for the user
         </div>
         <div>
           <div
-            className="CollaboratorForm__EmailContainer-nw8iq9-3 fcqluj"
+            className="c6"
           >
             janine.melnitz@example.com
           </div>
         </div>
       </div>
       <div
-        className="CollaboratorForm__Legend-nw8iq9-5 ebYzlt"
+        className="c7"
       >
         Affiliations
       </div>
       <div
-        className="CollaboratorForm__EmptyFieldText-nw8iq9-6 hNLXBY"
+        className="c8"
       >
         No Affiliations
       </div>
       <div
-        className="CollaboratorForm__InfoContainer-nw8iq9-1 huWBWP"
+        className="c9"
       >
         <div
-          className="sc-eKYRpg sc-hOPghE iOXcUE ejfhxV alert-message"
+          className="c10 c11 alert-message"
         >
           <div
-            className="sc-hmbsMR jcsba-d"
+            className="c12"
           >
             <div
-              className="sc-jOFreG gmbONa"
+              className="c13"
             >
               <svg
                 height={24}
@@ -532,12 +1012,12 @@ exports[`Storyshots Collaboration/Pages Collaborator Details page - for the user
               </svg>
             </div>
             <div
-              className="sc-daBvwG ETUjy"
+              className="c14"
             >
               These are your details.
             </div>
             <button
-              className="sc-ezzayL sc-jJMGHv sc-jHNhIU cRSqLN qAimf GPWUb"
+              className="c15 c16 c17"
               onClick={[Function]}
               type="button"
             >
@@ -552,26 +1032,113 @@ exports[`Storyshots Collaboration/Pages Collaborator Details page - for the user
 `;
 
 exports[`Storyshots Collaboration/Pages Collaborator Details page - with affiliations 1`] = `
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c5 path {
+  fill: #6e6e6e;
+}
+
+.c5:hover path {
+  fill: #6e6e6e;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  padding: 14px 0px 0px 40px;
+  width: 65%;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 20px;
+  font-weight: 400;
+  color: #353535;
+  margin-bottom: 26px;
+}
+
+.c6 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 16px;
+  position: relative;
+  top: 8px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 40px;
+}
+
+.c7 {
+  font-size: 20px;
+  font-weight: 500;
+  padding-bottom: 20px;
+}
+
+.c9 {
+  font-size: 18px;
+  color: #353535;
+  padding: 3px 5px;
+  background: #e2e2e2;
+  border-radius: 4px;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.c8 {
+  max-width: 600px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CollaboratorForm__DetailsContainer-nw8iq9-0 efJfPN"
+      className="c1"
     >
       <div
-        className="CollaboratorForm__NameField-nw8iq9-2 iqbnVj"
+        className="c2"
       >
         Mark Foobarovic
       </div>
       <div
-        className="CollaboratorForm__CollaboratorInformationContainer-nw8iq9-4 edCuek"
+        className="c3"
       >
         <div
-          className="sc-jffIyK kbBVcu"
+          className="c4"
         >
           <svg
-            className="sc-oefIU chSjlL"
+            className="c5"
             color="#6e6e6e"
             height={74}
             viewBox="0 0 34 34"
@@ -585,20 +1152,20 @@ exports[`Storyshots Collaboration/Pages Collaborator Details page - with affilia
         </div>
         <div>
           <div
-            className="CollaboratorForm__EmailContainer-nw8iq9-3 fcqluj"
+            className="c6"
           />
         </div>
       </div>
       <div
-        className="CollaboratorForm__Legend-nw8iq9-5 ebYzlt"
+        className="c7"
       >
         Affiliations
       </div>
       <div
-        className="CollaboratorForm__AffiliationGroupContainer-nw8iq9-8 kxFylI"
+        className="c8"
       >
         <div
-          className="CollaboratorForm__AffiliationLabel-nw8iq9-7 fRpYCa"
+          className="c9"
         >
           Bla bla
         </div>
@@ -609,26 +1176,102 @@ exports[`Storyshots Collaboration/Pages Collaborator Details page - with affilia
 `;
 
 exports[`Storyshots Collaboration/Pages Collaborator Details page 1`] = `
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c5 path {
+  fill: #6e6e6e;
+}
+
+.c5:hover path {
+  fill: #6e6e6e;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  padding: 14px 0px 0px 40px;
+  width: 65%;
+}
+
+.c2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 20px;
+  font-weight: 400;
+  color: #353535;
+  margin-bottom: 26px;
+}
+
+.c6 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 16px;
+  position: relative;
+  top: 8px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 40px;
+}
+
+.c7 {
+  font-size: 20px;
+  font-weight: 500;
+  padding-bottom: 20px;
+}
+
+.c8 {
+  font-size: 18px;
+  color: #353535;
+  opacity: 0.3;
+  padding-left: 1px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CollaboratorForm__DetailsContainer-nw8iq9-0 efJfPN"
+      className="c1"
     >
       <div
-        className="CollaboratorForm__NameField-nw8iq9-2 iqbnVj"
+        className="c2"
       >
         Mark Foobarovic
       </div>
       <div
-        className="CollaboratorForm__CollaboratorInformationContainer-nw8iq9-4 edCuek"
+        className="c3"
       >
         <div
-          className="sc-jffIyK kbBVcu"
+          className="c4"
         >
           <svg
-            className="sc-oefIU chSjlL"
+            className="c5"
             color="#6e6e6e"
             height={74}
             viewBox="0 0 34 34"
@@ -642,17 +1285,17 @@ exports[`Storyshots Collaboration/Pages Collaborator Details page 1`] = `
         </div>
         <div>
           <div
-            className="CollaboratorForm__EmailContainer-nw8iq9-3 fcqluj"
+            className="c6"
           />
         </div>
       </div>
       <div
-        className="CollaboratorForm__Legend-nw8iq9-5 ebYzlt"
+        className="c7"
       >
         Affiliations
       </div>
       <div
-        className="CollaboratorForm__EmptyFieldText-nw8iq9-6 hNLXBY"
+        className="c8"
       >
         No Affiliations
       </div>
@@ -662,22 +1305,105 @@ exports[`Storyshots Collaboration/Pages Collaborator Details page 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Pages Collaborator details 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.c2 {
+  text-align: center;
+  max-width: 480px;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+  -webkit-letter-spacing: -0.5px;
+  -moz-letter-spacing: -0.5px;
+  -ms-letter-spacing: -0.5px;
+  letter-spacing: -0.5px;
+}
+
+.c5 {
+  max-width: 400px;
+  font-size: 20px;
+  margin-top: 24px;
+  font-weight: 300;
+  color: #6e6e6e;
+}
+
+@media (max-width:850px) {
+  .c5 {
+    margin-right: 20px;
+    margin-left: 20px;
+    max-width: 350px;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CollaboratorsPage__OuterContainer-elfojr-0 jIcqgs"
+      className="c1"
       data-cy="collaborators-page"
     >
       <div
-        className="CollaboratorsPage__InnerContainer-elfojr-1 kbfhjo"
+        className="c2"
       >
         <div
-          className="CollaboratorsPage__InnerContainer-elfojr-1 kbfhjo"
+          className="c2"
         >
           <div
-            className="CollaboratorsPage__Placeholder-elfojr-2 erBlxn"
+            className="c3"
           >
             <svg
               height={302}
@@ -823,12 +1549,12 @@ exports[`Storyshots Collaboration/Pages Collaborator details 1`] = `
             </svg>
           </div>
           <div
-            className="CollaboratorsPage__Action-elfojr-3 jEDkLk"
+            className="c4"
           >
             Collaborator Details
           </div>
           <div
-            className="CollaboratorsPage__Message-elfojr-4 iWLUgj"
+            className="c5"
           >
             Select a collaborator from the list to display their details here.
           </div>
@@ -840,18 +1566,101 @@ exports[`Storyshots Collaboration/Pages Collaborator details 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Pages Invite collaborators 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.c2 {
+  text-align: center;
+  max-width: 480px;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+  -webkit-letter-spacing: -0.5px;
+  -moz-letter-spacing: -0.5px;
+  -ms-letter-spacing: -0.5px;
+  letter-spacing: -0.5px;
+}
+
+.c5 {
+  max-width: 400px;
+  font-size: 20px;
+  margin-top: 24px;
+  font-weight: 300;
+  color: #6e6e6e;
+}
+
+@media (max-width:850px) {
+  .c5 {
+    margin-right: 20px;
+    margin-left: 20px;
+    max-width: 350px;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CollaboratorsPage__OuterContainer-elfojr-0 jIcqgs"
+      className="c1"
     >
       <div
-        className="CollaboratorsPage__InnerContainer-elfojr-1 kbfhjo"
+        className="c2"
       >
         <div
-          className="CollaboratorsPage__Placeholder-elfojr-2 erBlxn"
+          className="c3"
         >
           <svg
             height={302}
@@ -1026,12 +1835,12 @@ exports[`Storyshots Collaboration/Pages Invite collaborators 1`] = `
           </svg>
         </div>
         <div
-          className="CollaboratorsPage__Action-elfojr-3 jEDkLk"
+          className="c4"
         >
           Invite New Collaborator
         </div>
         <div
-          className="CollaboratorsPage__Message-elfojr-4 iWLUgj"
+          className="c5"
         >
           You can invite collaborators by sending email to the users you want to add.
         </div>
@@ -1042,22 +1851,179 @@ exports[`Storyshots Collaboration/Pages Invite collaborators 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Pages No collaborators 1`] = `
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c5 svg + span {
+  margin-left: 4px;
+}
+
+.c6 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c6 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 20px;
+}
+
+.c7 svg {
+  max-height: 40px;
+  max-width: 40px;
+}
+
+.c7 svg {
+  margin: 0;
+}
+
+.c7 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c7:focus svg path:first-of-type,
+.c7:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c8 {
+  padding-left: 12px;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.c2 {
+  text-align: center;
+  max-width: 480px;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+  -webkit-letter-spacing: -0.5px;
+  -moz-letter-spacing: -0.5px;
+  -ms-letter-spacing: -0.5px;
+  letter-spacing: -0.5px;
+}
+
+.c9 {
+  max-width: 400px;
+  font-size: 20px;
+  margin-top: 24px;
+  font-weight: 300;
+  color: #6e6e6e;
+}
+
+@media (max-width:850px) {
+  .c9 {
+    margin-right: 20px;
+    margin-left: 20px;
+    max-width: 350px;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CollaboratorsPage__OuterContainer-elfojr-0 jIcqgs"
+      className="c1"
       data-cy="collaborators-page"
     >
       <div
-        className="CollaboratorsPage__InnerContainer-elfojr-1 kbfhjo"
+        className="c2"
       >
         <div
-          className="CollaboratorsPage__InnerContainer-elfojr-1 kbfhjo"
+          className="c2"
         >
           <div
-            className="CollaboratorsPage__Placeholder-elfojr-2 erBlxn"
+            className="c3"
           >
             <svg
               height={302}
@@ -1353,10 +2319,10 @@ exports[`Storyshots Collaboration/Pages No collaborators 1`] = `
             </svg>
           </div>
           <div
-            className="CollaboratorsPage__Action-elfojr-3 jEDkLk"
+            className="c4"
           >
             <button
-              className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jmbwRs"
+              className="c5 c6 c7"
               onClick={[Function]}
               size="large"
               type="button"
@@ -1383,14 +2349,14 @@ exports[`Storyshots Collaboration/Pages No collaborators 1`] = `
                 </g>
               </svg>
               <div
-                className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+                className="c8"
               >
                 Add Collaborator
               </div>
             </button>
           </div>
           <div
-            className="CollaboratorsPage__Message-elfojr-4 iWLUgj"
+            className="c9"
           >
             You can add collaborators from the list or send out invitation mails to those not yet in the list.
           </div>
@@ -1402,18 +2368,84 @@ exports[`Storyshots Collaboration/Pages No collaborators 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Pages Search collaborators by email 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.c2 {
+  text-align: center;
+  max-width: 480px;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.c4 {
+  max-width: 400px;
+  font-size: 20px;
+  margin-top: 24px;
+  font-weight: 300;
+  color: #6e6e6e;
+}
+
+.c5 {
+  margin-top: 0;
+}
+
+@media (max-width:850px) {
+  .c4 {
+    margin-right: 20px;
+    margin-left: 20px;
+    max-width: 350px;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CollaboratorsPage__OuterContainer-elfojr-0 jIcqgs"
+      className="c1"
     >
       <div
-        className="CollaboratorsPage__InnerContainer-elfojr-1 kbfhjo"
+        className="c2"
       >
         <div
-          className="CollaboratorsPage__Placeholder-elfojr-2 erBlxn"
+          className="c3"
         >
           <svg
             height={302}
@@ -1549,12 +2581,12 @@ exports[`Storyshots Collaboration/Pages Search collaborators by email 1`] = `
           </svg>
         </div>
         <div
-          className="CollaboratorsPage__Message-elfojr-4 CollaboratorsPage__InfoMessage-elfojr-5 iWLUgj eIqfAH"
+          className="c4 c5"
         >
           No matches found
         </div>
         <div
-          className="CollaboratorsPage__Message-elfojr-4 iWLUgj"
+          className="c4"
         >
           Check that the name or email are correct or invite "bob@example.com" to
           join as new Collaborator.
@@ -1566,18 +2598,84 @@ exports[`Storyshots Collaboration/Pages Search collaborators by email 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Pages Search collaborators by name 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.c2 {
+  text-align: center;
+  max-width: 480px;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.c4 {
+  max-width: 400px;
+  font-size: 20px;
+  margin-top: 24px;
+  font-weight: 300;
+  color: #6e6e6e;
+}
+
+.c5 {
+  margin-top: 0;
+}
+
+@media (max-width:850px) {
+  .c4 {
+    margin-right: 20px;
+    margin-left: 20px;
+    max-width: 350px;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="CollaboratorsPage__OuterContainer-elfojr-0 jIcqgs"
+      className="c1"
     >
       <div
-        className="CollaboratorsPage__InnerContainer-elfojr-1 kbfhjo"
+        className="c2"
       >
         <div
-          className="CollaboratorsPage__Placeholder-elfojr-2 erBlxn"
+          className="c3"
         >
           <svg
             height={302}
@@ -1713,12 +2811,12 @@ exports[`Storyshots Collaboration/Pages Search collaborators by name 1`] = `
           </svg>
         </div>
         <div
-          className="CollaboratorsPage__Message-elfojr-4 CollaboratorsPage__InfoMessage-elfojr-5 iWLUgj eIqfAH"
+          className="c4 c5"
         >
           No matches found
         </div>
         <div
-          className="CollaboratorsPage__Message-elfojr-4 iWLUgj"
+          className="c4"
         >
           Check that the name or email are correct or invite "bob" to
           join as new Collaborator.
@@ -1730,25 +2828,106 @@ exports[`Storyshots Collaboration/Pages Search collaborators by name 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Poppers Add 1`] = `
+.c5 {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.c5 + label {
+  cursor: pointer;
+  margin: 0;
+  display: inline-block;
+  font-size: 18px;
+  color: #353535;
+  line-height: 24px;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 28px;
+  text-align: left;
+}
+
+.c5 + label::before {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #353535;
+  box-sizing: border-box;
+  content: ' ';
+  display: block;
+  height: 18px;
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  z-index: 0;
+}
+
+.c5:checked + label::before {
+  background: #1a9bc7;
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c5:hover + label::before,
+.c5:focus + label::before {
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 300px;
+}
+
+.c6 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c4 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
+}
+
+.c3 {
+  color: #353535;
+}
+
+.c1 {
+  width: 300px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Collaboratorsstories__PopperStory-sc-1212mv0-0 iamLVJ"
+      className="c1"
     >
       <div
-        className="Popper__PopperBody-sc-5y9oyp-5 cpDOxp"
+        className="c2"
       >
         <div
-          className="CollaboratorRolesInput__Container-sc-4osez9-0 UUZIF"
+          className="c3"
         >
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c4"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c5"
               id="owner"
               name="role"
               onChange={[Function]}
@@ -1760,18 +2939,18 @@ exports[`Storyshots Collaboration/Poppers Add 1`] = `
             >
               Owner
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c6"
               >
                 Can modify and delete project, invite and remove collaborators
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c4"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c5"
               id="writer"
               name="role"
               onChange={[Function]}
@@ -1783,18 +2962,18 @@ exports[`Storyshots Collaboration/Poppers Add 1`] = `
             >
               Writer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c6"
               >
                 Can modify project contents
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c4"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c5"
               id="viewer"
               name="role"
               onChange={[Function]}
@@ -1806,7 +2985,7 @@ exports[`Storyshots Collaboration/Poppers Add 1`] = `
             >
               Viewer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c6"
               >
                 Can only review projects without modifying it
               </p>
@@ -1820,32 +2999,173 @@ exports[`Storyshots Collaboration/Poppers Add 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Poppers Invite and Uninvite - Update role 1`] = `
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c7 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c8:not([disabled]):hover,
+.c8:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c8:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c9 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c9:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 button:not(:first-child) {
+  margin-left: 4px;
+}
+
+.c2 {
+  border-radius: 8px;
+  box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
+  background: #fff;
+  width: 350px;
+  max-width: 90vw;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.c4 {
+  min-height: 90px;
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  margin: 16px 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  color: #6e6e6e;
+  line-height: 1.5;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #353535;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font: 700 16px / 1 "Lato",sans-serif;
+  line-height: 1.5;
+}
+
+.c6 {
+  padding-top: 20px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  width: 300px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Collaboratorsstories__PopperStory-sc-1212mv0-0 iamLVJ"
+      className="c1"
     >
       <div>
         <div
-          className="sc-cTJmaU cARodd"
+          className="c2"
         >
           <div
-            className="sc-dPaNSN kFzkMG"
+            className="c3"
           >
             Update collaborator role
           </div>
           <div
-            className="sc-jNnnWF kQavsV"
+            className="c4"
           >
             Are you sure you want to update collaborator role?
           </div>
           <div
-            className="sc-iTVIwl sc-bBjRzc fqGxrZ ewlpkj"
+            className="c5 c6"
           >
             <button
-              className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+              className="c7 c8"
               onClick={[Function]}
               type="button"
             >
@@ -1853,7 +3173,7 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite - Update role 1`] 
             </button>
             <button
               autoFocus={true}
-              className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+              className="c7 c9"
               disabled={false}
               onClick={[Function]}
               type="button"
@@ -1869,26 +3189,203 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite - Update role 1`] 
 `;
 
 exports[`Storyshots Collaboration/Poppers Invite and Uninvite 1`] = `
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c9 svg + span {
+  margin-left: 4px;
+}
+
+.c11 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c11:not([disabled]):hover,
+.c11:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c11:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c10 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10:not([disabled]):hover,
+.c10:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c10:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c8 button:not(:first-child) {
+  margin-left: 4px;
+}
+
+.c5 {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.c5 + label {
+  cursor: pointer;
+  margin: 0;
+  display: inline-block;
+  font-size: 18px;
+  color: #353535;
+  line-height: 24px;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 28px;
+  text-align: left;
+}
+
+.c5 + label::before {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #353535;
+  box-sizing: border-box;
+  content: ' ';
+  display: block;
+  height: 18px;
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  z-index: 0;
+}
+
+.c5:checked + label::before {
+  background: #1a9bc7;
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c5:hover + label::before,
+.c5:focus + label::before {
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  margin: 8px 0 24px;
+  background-color: #e2e2e2;
+  height: 1px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 250px;
+}
+
+.c6 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c4 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
+}
+
+.c3 {
+  color: #353535;
+}
+
+.c1 {
+  width: 300px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Collaboratorsstories__PopperStory-sc-1212mv0-0 iamLVJ"
+      className="c1"
     >
       <div
-        className="Popper__PopperBody-sc-5y9oyp-5 bEWIwh"
+        className="c2"
         size={250}
       >
         <div
-          className="CollaboratorRolesInput__Container-sc-4osez9-0 UUZIF"
+          className="c3"
         >
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c4"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c5"
               disabled={false}
               id="owner"
               name="role"
@@ -1901,18 +3398,18 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite 1`] = `
             >
               Owner
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c6"
               >
                 Can modify and delete project, invite and remove collaborators
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c4"
           >
             <input
               checked={true}
-              className="sc-fuIRbl jLsvIs"
+              className="c5"
               disabled={false}
               id="writer"
               name="role"
@@ -1925,18 +3422,18 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite 1`] = `
             >
               Writer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c6"
               >
                 Can modify project contents
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c4"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c5"
               disabled={false}
               id="viewer"
               name="role"
@@ -1949,7 +3446,7 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite 1`] = `
             >
               Viewer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c6"
               >
                 Can only review projects without modifying it
               </p>
@@ -1957,13 +3454,13 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite 1`] = `
           </div>
         </div>
         <div
-          className="Popper__SeparatorLine-sc-5y9oyp-4 dZBYYr"
+          className="c7"
         />
         <div
-          className="sc-iTVIwl fqGxrZ"
+          className="c8"
         >
           <button
-            className="sc-ezzayL sc-iklIKw cRSqLN laqiSe"
+            className="c9 c10"
             disabled={false}
             onClick={[Function]}
             type="button"
@@ -1971,7 +3468,7 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite 1`] = `
             Cancel invitation
           </button>
           <button
-            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            className="c9 c11"
             onClick={[Function]}
             type="button"
           >
@@ -1985,32 +3482,173 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Poppers Settings and Remove - Update role 1`] = `
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c7 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c8:not([disabled]):hover,
+.c8:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c8:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c9 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c9:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 button:not(:first-child) {
+  margin-left: 4px;
+}
+
+.c2 {
+  border-radius: 8px;
+  box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
+  background: #fff;
+  width: 350px;
+  max-width: 90vw;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.c4 {
+  min-height: 90px;
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  margin: 16px 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  color: #6e6e6e;
+  line-height: 1.5;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #353535;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font: 700 16px / 1 "Lato",sans-serif;
+  line-height: 1.5;
+}
+
+.c6 {
+  padding-top: 20px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  width: 300px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Collaboratorsstories__PopperStory-sc-1212mv0-0 iamLVJ"
+      className="c1"
     >
       <div>
         <div
-          className="sc-cTJmaU cARodd"
+          className="c2"
         >
           <div
-            className="sc-dPaNSN kFzkMG"
+            className="c3"
           >
             Update collaborator role
           </div>
           <div
-            className="sc-jNnnWF kQavsV"
+            className="c4"
           >
             Are you sure you want to update collaborator role?
           </div>
           <div
-            className="sc-iTVIwl sc-bBjRzc fqGxrZ ewlpkj"
+            className="c5 c6"
           >
             <button
-              className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+              className="c7 c8"
               onClick={[Function]}
               type="button"
             >
@@ -2018,7 +3656,7 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - Update role 1`] 
             </button>
             <button
               autoFocus={true}
-              className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+              className="c7 c9"
               disabled={false}
               onClick={[Function]}
               type="button"
@@ -2034,28 +3672,264 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - Update role 1`] 
 `;
 
 exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] = `
+.c15 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: default;
+  background-color: #e2e2e2 !important;
+  border-color: #e2e2e2 !important;
+  color: #fff !important;
+}
+
+.c15 svg + span {
+  margin-left: 4px;
+}
+
+.c16 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c16:not([disabled]):hover,
+.c16:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c16:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c14 button:not(:first-child) {
+  margin-left: 4px;
+}
+
+.c7 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c5 {
+  background-color: #f2fbfc;
+  border: solid 1px #0d79d0;
+  color: #2781a1;
+}
+
+.c8 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c11 {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.c11 + label {
+  cursor: pointer;
+  margin: 0;
+  display: inline-block;
+  font-size: 18px;
+  color: #353535;
+  line-height: 24px;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 28px;
+  text-align: left;
+}
+
+.c11 + label::before {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #353535;
+  box-sizing: border-box;
+  content: ' ';
+  display: block;
+  height: 18px;
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  z-index: 0;
+}
+
+.c11:checked + label::before {
+  background: #1a9bc7;
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c11:hover + label::before,
+.c11:focus + label::before {
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c13 {
+  margin: 8px 0 24px;
+  background-color: #e2e2e2;
+  height: 1px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 250px;
+}
+
+.c12 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c10 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
+}
+
+.c9 {
+  color: #353535;
+}
+
+.c3 {
+  margin-bottom: 9px;
+}
+
+.c1 {
+  width: 300px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Collaboratorsstories__PopperStory-sc-1212mv0-0 iamLVJ"
+      className="c1"
     >
       <div
-        className="Popper__PopperBody-sc-5y9oyp-5 bEWIwh"
+        className="c2"
         size={250}
       >
         <div
-          className="CollaboratorRolePopper__AlertMessageContainer-sc-1pyvczg-0 fUwlLJ"
+          className="c3"
         >
           <div
-            className="sc-eKYRpg sc-hOPghE iOXcUE ejfhxV alert-message"
+            className="c4 c5 alert-message"
           >
             <div
-              className="sc-hmbsMR jcsba-d"
+              className="c6"
             >
               <div
-                className="sc-jOFreG gmbONa"
+                className="c7"
               >
                 <svg
                   height={24}
@@ -2070,7 +3944,7 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] =
                 </svg>
               </div>
               <div
-                className="sc-daBvwG ETUjy"
+                className="c8"
               >
                 Role change not permitted because you are the only owner.
               </div>
@@ -2078,14 +3952,14 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] =
           </div>
         </div>
         <div
-          className="CollaboratorRolesInput__Container-sc-4osez9-0 UUZIF"
+          className="c9"
         >
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c10"
           >
             <input
               checked={true}
-              className="sc-fuIRbl jLsvIs"
+              className="c11"
               disabled={true}
               id="owner"
               name="role"
@@ -2098,18 +3972,18 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] =
             >
               Owner
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c12"
               >
                 Can modify and delete project, invite and remove collaborators
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c10"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c11"
               disabled={true}
               id="writer"
               name="role"
@@ -2122,18 +3996,18 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] =
             >
               Writer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c12"
               >
                 Can modify project contents
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c10"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c11"
               disabled={true}
               id="viewer"
               name="role"
@@ -2146,7 +4020,7 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] =
             >
               Viewer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c12"
               >
                 Can only review projects without modifying it
               </p>
@@ -2154,13 +4028,13 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] =
           </div>
         </div>
         <div
-          className="Popper__SeparatorLine-sc-5y9oyp-4 dZBYYr"
+          className="c13"
         />
         <div
-          className="sc-iTVIwl fqGxrZ"
+          className="c14"
         >
           <button
-            className="sc-ezzayL sc-iklIKw gjhYjP laqiSe"
+            className="c15 c16"
             disabled={true}
             onClick={[Function]}
             type="button"
@@ -2175,26 +4049,184 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] =
 `;
 
 exports[`Storyshots Collaboration/Poppers Settings and Remove 1`] = `
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c9 svg + span {
+  margin-left: 4px;
+}
+
+.c10 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10:not([disabled]):hover,
+.c10:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c10:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c8 button:not(:first-child) {
+  margin-left: 4px;
+}
+
+.c5 {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.c5 + label {
+  cursor: pointer;
+  margin: 0;
+  display: inline-block;
+  font-size: 18px;
+  color: #353535;
+  line-height: 24px;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 28px;
+  text-align: left;
+}
+
+.c5 + label::before {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #353535;
+  box-sizing: border-box;
+  content: ' ';
+  display: block;
+  height: 18px;
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  z-index: 0;
+}
+
+.c5:checked + label::before {
+  background: #1a9bc7;
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c5:hover + label::before,
+.c5:focus + label::before {
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  margin: 8px 0 24px;
+  background-color: #e2e2e2;
+  height: 1px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 250px;
+}
+
+.c6 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c4 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
+}
+
+.c3 {
+  color: #353535;
+}
+
+.c1 {
+  width: 300px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Collaboratorsstories__PopperStory-sc-1212mv0-0 iamLVJ"
+      className="c1"
     >
       <div
-        className="Popper__PopperBody-sc-5y9oyp-5 bEWIwh"
+        className="c2"
         size={250}
       >
         <div
-          className="CollaboratorRolesInput__Container-sc-4osez9-0 UUZIF"
+          className="c3"
         >
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c4"
           >
             <input
               checked={true}
-              className="sc-fuIRbl jLsvIs"
+              className="c5"
               disabled={false}
               id="owner"
               name="role"
@@ -2207,18 +4239,18 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove 1`] = `
             >
               Owner
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c6"
               >
                 Can modify and delete project, invite and remove collaborators
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c4"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c5"
               disabled={false}
               id="writer"
               name="role"
@@ -2231,18 +4263,18 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove 1`] = `
             >
               Writer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c6"
               >
                 Can modify project contents
               </p>
             </label>
           </div>
           <div
-            className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+            className="c4"
           >
             <input
               checked={false}
-              className="sc-fuIRbl jLsvIs"
+              className="c5"
               disabled={false}
               id="viewer"
               name="role"
@@ -2255,7 +4287,7 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove 1`] = `
             >
               Viewer
               <p
-                className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                className="c6"
               >
                 Can only review projects without modifying it
               </p>
@@ -2263,13 +4295,13 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove 1`] = `
           </div>
         </div>
         <div
-          className="Popper__SeparatorLine-sc-5y9oyp-4 dZBYYr"
+          className="c7"
         />
         <div
-          className="sc-iTVIwl fqGxrZ"
+          className="c8"
         >
           <button
-            className="sc-ezzayL sc-iklIKw cRSqLN laqiSe"
+            className="c9 c10"
             disabled={false}
             onClick={[Function]}
             type="button"
@@ -2284,27 +4316,391 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been added 1`] = `
+.c11 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c11:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c11:hover {
+  background-color: #f2fbfc;
+}
+
+.c11:invalid {
+  box-shadow: none;
+}
+
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 3px 16px;
+  margin: 0 4px;
+  line-height: 1;
+}
+
+.c5 svg + span {
+  margin-left: 4px;
+}
+
+.c21 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c21 svg + span {
+  margin-left: 4px;
+}
+
+.c6 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c6:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c22 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c23 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c23:not([disabled]):hover,
+.c23:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c23:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c16 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c17 {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c25 path {
+  fill: #6e6e6e;
+}
+
+.c25:hover path {
+  fill: #6e6e6e;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background: #fafafa;
+  border-right: 1px solid #f2f2f2;
+}
+
+.c13 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.c4 {
+  margin-right: -16px;
+}
+
+.c3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.c14 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: unset;
+  border: 1px solid transparent;
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0 -20px;
+  padding: 8px 20px;
+}
+
+.c14:hover {
+  background-color: #f2fbfc;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
+  background-color: #f2fbfc;
+}
+
+.c8 {
+  -webkit-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
+  padding: 0 12px;
+}
+
+.c24 {
+  width: unset;
+  height: unset;
+  margin-left: 8px;
+}
+
+.c24:focus {
+  outline: none;
+}
+
+.c20 {
+  margin-right: 4px;
+  font-weight: 200;
+}
+
+.c19 {
+  font-size: 20px;
+  color: #353535;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.c18 {
+  padding-left: 10px;
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-width: 100px;
+  overflow: hidden;
+}
+
+.c7 {
+  margin-bottom: 8px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Sidebar-v95ywm-0 dinrsd"
+      className="c1"
       data-cy="sidebar"
     >
       <div
-        className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+        className="c2"
       >
         <div
-          className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+          className="c3"
         >
           Add Collaborators
         </div>
         <div
-          className="SidebarHeaderFooter__StyledSidebarActionContainer-sc-6j8srx-1 AQKph"
+          className="c4"
         >
           <button
-            className="sc-ezzayL sc-kLokih gxEnKq bYa-DYT"
+            className="c5 c6"
             onClick={[Function]}
             type="button"
           >
@@ -2313,20 +4709,20 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
         </div>
       </div>
       <div
-        className="AddCollaboratorsSidebar__SearchContainer-sc-1q6y7mo-7 clCvnd"
+        className="c7"
       >
         <div
-          className="SidebarSearch__SearchContainer-bf4qbt-0 jAyTHc"
+          className="c8"
         >
           <div
-            className="Search__SearchContainer-vfnej6-0 evtBHc"
+            className="c9"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <span
-              className="Search__SearchIconContainer-vfnej6-1 hRschK"
+              className="c10"
             >
               <svg
                 height={18}
@@ -2344,7 +4740,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
             </span>
             <input
               autoFocus={true}
-              className="sc-dlnjPT Search__SearchText-vfnej6-2 iOeyAw ibXnKp"
+              className="c11 c12"
               maxLength={100}
               onChange={[Function]}
               placeholder="Search name/email"
@@ -2354,32 +4750,32 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
         </div>
       </div>
       <div
-        className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+        className="c13"
       >
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <img
-                className="sc-eJoaVz dEcItF"
+                className="c17"
                 onError={[Function]}
                 size={45}
                 src="test-file-stub"
               />
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 <span
-                  className="AddCollaboratorsSidebar__PersonInitial-sc-1q6y7mo-0 kdebN"
+                  className="c20"
                 >
                   Janine
                 </span>
@@ -2388,7 +4784,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+            className="c21 c22 c23 c24"
             type="button"
           >
             <svg
@@ -2425,16 +4821,16 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
           </button>
         </div>
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <svg
-                className="sc-oefIU chSjlL"
+                className="c25"
                 color="#6e6e6e"
                 height={45}
                 viewBox="0 0 34 34"
@@ -2447,13 +4843,13 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
               </svg>
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 <span
-                  className="AddCollaboratorsSidebar__PersonInitial-sc-1q6y7mo-0 kdebN"
+                  className="c20"
                 >
                   Peter
                 </span>
@@ -2462,7 +4858,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+            className="c21 c22 c23 c24"
             onClick={[Function]}
             type="button"
           >
@@ -2489,16 +4885,16 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
           </button>
         </div>
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <svg
-                className="sc-oefIU chSjlL"
+                className="c25"
                 color="#6e6e6e"
                 height={45}
                 viewBox="0 0 34 34"
@@ -2511,13 +4907,13 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
               </svg>
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 <span
-                  className="AddCollaboratorsSidebar__PersonInitial-sc-1q6y7mo-0 kdebN"
+                  className="c20"
                 >
                   Egon
                 </span>
@@ -2526,7 +4922,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+            className="c21 c22 c23 c24"
             onClick={[Function]}
             type="button"
           >
@@ -2559,27 +4955,424 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
 `;
 
 exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1`] = `
+.c11 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c11:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c11:hover {
+  background-color: #f2fbfc;
+}
+
+.c11:invalid {
+  box-shadow: none;
+}
+
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 3px 16px;
+  margin: 0 4px;
+  line-height: 1;
+}
+
+.c5 svg + span {
+  margin-left: 4px;
+}
+
+.c25 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c25 svg + span {
+  margin-left: 4px;
+}
+
+.c6 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c26 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c27 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c27:not([disabled]):hover,
+.c27:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c27:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c16 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c23 {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c17 path {
+  fill: #6e6e6e;
+}
+
+.c17:hover path {
+  fill: #6e6e6e;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background: #fafafa;
+  border-right: 1px solid #f2f2f2;
+}
+
+.c13 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.c4 {
+  margin-right: -16px;
+}
+
+.c3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.c14 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: unset;
+  border: 1px solid transparent;
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0 -20px;
+  padding: 8px 20px;
+}
+
+.c14:hover {
+  background-color: #f2fbfc;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
+  background-color: #f2fbfc;
+}
+
+.c8 {
+  -webkit-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
+  padding: 0 12px;
+}
+
+.c28 {
+  width: unset;
+  height: unset;
+  margin-left: 8px;
+}
+
+.c28:focus {
+  outline: none;
+}
+
+.c24 {
+  margin-right: 4px;
+  font-weight: 200;
+}
+
+.c19 {
+  font-size: 20px;
+  color: #353535;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.c18 {
+  padding-left: 10px;
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-width: 100px;
+  overflow: hidden;
+}
+
+.c21 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 12px;
+  color: #0d79d0;
+}
+
+.c20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.c22 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 8px;
+}
+
+.c22:focus {
+  outline: none;
+}
+
+.c7 {
+  margin-bottom: 8px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Sidebar-v95ywm-0 dinrsd"
+      className="c1"
       data-cy="sidebar"
     >
       <div
-        className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+        className="c2"
       >
         <div
-          className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+          className="c3"
         >
           Add Collaborators
         </div>
         <div
-          className="SidebarHeaderFooter__StyledSidebarActionContainer-sc-6j8srx-1 AQKph"
+          className="c4"
         >
           <button
-            className="sc-ezzayL sc-iklIKw gxEnKq laqiSe"
+            className="c5 c6"
             onClick={[Function]}
             type="button"
           >
@@ -2588,20 +5381,20 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
         </div>
       </div>
       <div
-        className="AddCollaboratorsSidebar__SearchContainer-sc-1q6y7mo-7 clCvnd"
+        className="c7"
       >
         <div
-          className="SidebarSearch__SearchContainer-bf4qbt-0 jAyTHc"
+          className="c8"
         >
           <div
-            className="Search__SearchContainer-vfnej6-0 evtBHc"
+            className="c9"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <span
-              className="Search__SearchIconContainer-vfnej6-1 hRschK"
+              className="c10"
             >
               <svg
                 height={18}
@@ -2619,7 +5412,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
             </span>
             <input
               autoFocus={true}
-              className="sc-dlnjPT Search__SearchText-vfnej6-2 iOeyAw ibXnKp"
+              className="c11 c12"
               maxLength={100}
               onChange={[Function]}
               placeholder="Search name/email"
@@ -2629,19 +5422,19 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
         </div>
       </div>
       <div
-        className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+        className="c13"
       >
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <svg
-                className="sc-oefIU chSjlL"
+                className="c17"
                 color="#6e6e6e"
                 height={45}
                 viewBox="0 0 34 34"
@@ -2654,25 +5447,25 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
               </svg>
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 Lionel Messi
               </div>
             </div>
           </div>
           <div
-            className="AddCollaboratorsSidebar__InvitedContainer-sc-1q6y7mo-5 kGOuUv"
+            className="c20"
           >
             <div
-              className="AddCollaboratorsSidebar__Invited-sc-1q6y7mo-4 hnWArc"
+              className="c21"
             >
               Invited
             </div>
             <div
-              className="AddCollaboratorsSidebar__AddedIconContainer-sc-1q6y7mo-6 gVmXPv"
+              className="c22"
             >
               <svg
                 height={34}
@@ -2709,16 +5502,16 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
           </div>
         </div>
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <svg
-                className="sc-oefIU chSjlL"
+                className="c17"
                 color="#6e6e6e"
                 height={45}
                 viewBox="0 0 34 34"
@@ -2731,25 +5524,25 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
               </svg>
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 lmessi@atypon.com
               </div>
             </div>
           </div>
           <div
-            className="AddCollaboratorsSidebar__InvitedContainer-sc-1q6y7mo-5 kGOuUv"
+            className="c20"
           >
             <div
-              className="AddCollaboratorsSidebar__Invited-sc-1q6y7mo-4 hnWArc"
+              className="c21"
             >
               Invited
             </div>
             <div
-              className="AddCollaboratorsSidebar__AddedIconContainer-sc-1q6y7mo-6 gVmXPv"
+              className="c22"
             >
               <svg
                 height={34}
@@ -2786,29 +5579,29 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
           </div>
         </div>
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <img
-                className="sc-eJoaVz dEcItF"
+                className="c23"
                 onError={[Function]}
                 size={45}
                 src="test-file-stub"
               />
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 <span
-                  className="AddCollaboratorsSidebar__PersonInitial-sc-1q6y7mo-0 kdebN"
+                  className="c24"
                 >
                   Janine
                 </span>
@@ -2817,7 +5610,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+            className="c25 c26 c27 c28"
             onClick={[Function]}
             type="button"
           >
@@ -2844,16 +5637,16 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
           </button>
         </div>
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <svg
-                className="sc-oefIU chSjlL"
+                className="c17"
                 color="#6e6e6e"
                 height={45}
                 viewBox="0 0 34 34"
@@ -2866,13 +5659,13 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
               </svg>
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 <span
-                  className="AddCollaboratorsSidebar__PersonInitial-sc-1q6y7mo-0 kdebN"
+                  className="c24"
                 >
                   Peter
                 </span>
@@ -2881,7 +5674,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+            className="c25 c26 c27 c28"
             onClick={[Function]}
             type="button"
           >
@@ -2908,16 +5701,16 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
           </button>
         </div>
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <svg
-                className="sc-oefIU chSjlL"
+                className="c17"
                 color="#6e6e6e"
                 height={45}
                 viewBox="0 0 34 34"
@@ -2930,13 +5723,13 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
               </svg>
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 <span
-                  className="AddCollaboratorsSidebar__PersonInitial-sc-1q6y7mo-0 kdebN"
+                  className="c24"
                 >
                   Egon
                 </span>
@@ -2945,7 +5738,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+            className="c25 c26 c27 c28"
             onClick={[Function]}
             type="button"
           >
@@ -2978,27 +5771,391 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
 `;
 
 exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
+.c11 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c11:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c11:hover {
+  background-color: #f2fbfc;
+}
+
+.c11:invalid {
+  box-shadow: none;
+}
+
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 3px 16px;
+  margin: 0 4px;
+  line-height: 1;
+}
+
+.c5 svg + span {
+  margin-left: 4px;
+}
+
+.c21 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c21 svg + span {
+  margin-left: 4px;
+}
+
+.c6 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c22 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c23 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c23:not([disabled]):hover,
+.c23:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c23:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c16 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c17 {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c25 path {
+  fill: #6e6e6e;
+}
+
+.c25:hover path {
+  fill: #6e6e6e;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background: #fafafa;
+  border-right: 1px solid #f2f2f2;
+}
+
+.c13 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.c4 {
+  margin-right: -16px;
+}
+
+.c3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.c14 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: unset;
+  border: 1px solid transparent;
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0 -20px;
+  padding: 8px 20px;
+}
+
+.c14:hover {
+  background-color: #f2fbfc;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
+  background-color: #f2fbfc;
+}
+
+.c8 {
+  -webkit-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
+  padding: 0 12px;
+}
+
+.c24 {
+  width: unset;
+  height: unset;
+  margin-left: 8px;
+}
+
+.c24:focus {
+  outline: none;
+}
+
+.c20 {
+  margin-right: 4px;
+  font-weight: 200;
+}
+
+.c19 {
+  font-size: 20px;
+  color: #353535;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.c18 {
+  padding-left: 10px;
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-width: 100px;
+  overflow: hidden;
+}
+
+.c7 {
+  margin-bottom: 8px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Sidebar-v95ywm-0 dinrsd"
+      className="c1"
       data-cy="sidebar"
     >
       <div
-        className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+        className="c2"
       >
         <div
-          className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+          className="c3"
         >
           Add Collaborators
         </div>
         <div
-          className="SidebarHeaderFooter__StyledSidebarActionContainer-sc-6j8srx-1 AQKph"
+          className="c4"
         >
           <button
-            className="sc-ezzayL sc-iklIKw gxEnKq laqiSe"
+            className="c5 c6"
             onClick={[Function]}
             type="button"
           >
@@ -3007,20 +6164,20 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
         </div>
       </div>
       <div
-        className="AddCollaboratorsSidebar__SearchContainer-sc-1q6y7mo-7 clCvnd"
+        className="c7"
       >
         <div
-          className="SidebarSearch__SearchContainer-bf4qbt-0 jAyTHc"
+          className="c8"
         >
           <div
-            className="Search__SearchContainer-vfnej6-0 evtBHc"
+            className="c9"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <span
-              className="Search__SearchIconContainer-vfnej6-1 hRschK"
+              className="c10"
             >
               <svg
                 height={18}
@@ -3038,7 +6195,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
             </span>
             <input
               autoFocus={true}
-              className="sc-dlnjPT Search__SearchText-vfnej6-2 iOeyAw ibXnKp"
+              className="c11 c12"
               maxLength={100}
               onChange={[Function]}
               placeholder="Search name/email"
@@ -3048,32 +6205,32 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
         </div>
       </div>
       <div
-        className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+        className="c13"
       >
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <img
-                className="sc-eJoaVz dEcItF"
+                className="c17"
                 onError={[Function]}
                 size={45}
                 src="test-file-stub"
               />
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 <span
-                  className="AddCollaboratorsSidebar__PersonInitial-sc-1q6y7mo-0 kdebN"
+                  className="c20"
                 >
                   Janine
                 </span>
@@ -3082,7 +6239,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+            className="c21 c22 c23 c24"
             onClick={[Function]}
             type="button"
           >
@@ -3109,16 +6266,16 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
           </button>
         </div>
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <svg
-                className="sc-oefIU chSjlL"
+                className="c25"
                 color="#6e6e6e"
                 height={45}
                 viewBox="0 0 34 34"
@@ -3131,13 +6288,13 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
               </svg>
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 <span
-                  className="AddCollaboratorsSidebar__PersonInitial-sc-1q6y7mo-0 kdebN"
+                  className="c20"
                 >
                   Peter
                 </span>
@@ -3146,7 +6303,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+            className="c21 c22 c23 c24"
             onClick={[Function]}
             type="button"
           >
@@ -3173,16 +6330,16 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
           </button>
         </div>
         <div
-          className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+          className="c14"
         >
           <div
-            className="AddCollaboratorsSidebar__UserDataContainer-sc-1q6y7mo-3 bprPZq"
+            className="c15"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c16"
             >
               <svg
-                className="sc-oefIU chSjlL"
+                className="c25"
                 color="#6e6e6e"
                 height={45}
                 viewBox="0 0 34 34"
@@ -3195,13 +6352,13 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
               </svg>
             </div>
             <div
-              className="AddCollaboratorsSidebar__PersonData-sc-1q6y7mo-2 cFkSwh"
+              className="c18"
             >
               <div
-                className="AddCollaboratorsSidebar__PersonName-sc-1q6y7mo-1 dHZqbU"
+                className="c19"
               >
                 <span
-                  className="AddCollaboratorsSidebar__PersonInitial-sc-1q6y7mo-0 kdebN"
+                  className="c20"
                 >
                   Egon
                 </span>
@@ -3210,7 +6367,7 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+            className="c21 c22 c23 c24"
             onClick={[Function]}
             type="button"
           >
@@ -3243,8 +6400,323 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
+.c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c19 svg + span {
+  margin-left: 4px;
+}
+
+.c20 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c21 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c21:not([disabled]):hover,
+.c21:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c21:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c22 {
+  background: #fff;
+  border: 5px solid #fff !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12);
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+  -webkit-transition: border-color 0.25s;
+  transition: border-color 0.25s;
+}
+
+.c22:focus,
+.c22:hover {
+  background: #f2fbfc !important;
+}
+
+.c22 svg {
+  max-height: 16px;
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.c7 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c14 {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c8 path {
+  fill: #6e6e6e;
+}
+
+.c8:hover path {
+  fill: #6e6e6e;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background: #fafafa;
+  border-right: 1px solid #f2f2f2;
+}
+
+.c4 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.c3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: unset;
+  border: 1px solid transparent;
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0 -20px;
+  padding: 8px 20px;
+}
+
+.c5:hover {
+  background-color: #f2fbfc;
+}
+
+.c16 {
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  position: absolute;
+}
+
+.c16::before {
+  content: '';
+  position: absolute;
+  -webkit-transition: background-color 200ms ease-in-out 100ms;
+  transition: background-color 200ms ease-in-out 100ms;
+  background: rgb(240,240,240);
+}
+
+.c16:hover::before {
+  background: #e2e2e2;
+}
+
+.c17 {
+  cursor: ew-resize;
+  top: 0;
+  height: 100%;
+  width: 16px;
+}
+
+.c17::before {
+  height: 100%;
+  width: 1px;
+}
+
+.c18 {
+  right: -16px;
+}
+
+.c18::before {
+  left: -1px;
+}
+
+.c23 {
+  position: absolute;
+  top: 50%;
+  margin: -20px;
+  line-height: 1;
+}
+
+.c15 {
+  margin-right: 4px;
+  font-weight: 300;
+}
+
+.c10 {
+  font-size: 120%;
+  color: #353535;
+  font-weight: 500;
+}
+
+.c11 {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.c9 {
+  padding-left: 8px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.c13 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 12px;
+  color: #0d79d0;
+}
+
+.c12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-left: 8px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -3257,34 +6729,34 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
       }
     >
       <div
-        className="Sidebar-v95ywm-0 dinrsd"
+        className="c1"
         data-cy="sidebar"
       >
         <div
-          className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+          className="c2"
         >
           <div
-            className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+            className="c3"
           >
             Collaborators
           </div>
         </div>
         <div
-          className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+          className="c4"
         >
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c5"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c6"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c7"
               >
                 <svg
-                  className="sc-oefIU chSjlL"
+                  className="c8"
                   color="#6e6e6e"
                   height={36}
                   viewBox="0 0 34 34"
@@ -3297,43 +6769,43 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
                 </svg>
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c9"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c10"
                 >
                   Lionel Messi
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c11"
                 >
                   Writer
                 </div>
               </div>
             </div>
             <div
-              className="CollaboratorsSidebar__InvitedContainer-sc-1wa9hcm-7 kOYSLi"
+              className="c12"
             >
               <div
-                className="CollaboratorsSidebar__Invited-sc-1wa9hcm-6 daepyh"
+                className="c13"
               >
                 Invited
               </div>
             </div>
           </div>
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c5"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c6"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c7"
               >
                 <svg
-                  className="sc-oefIU chSjlL"
+                  className="c8"
                   color="#6e6e6e"
                   height={36}
                   viewBox="0 0 34 34"
@@ -3346,60 +6818,60 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
                 </svg>
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c9"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c10"
                 >
                   lmessi@atypon.com
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c11"
                 >
                   Writer
                 </div>
               </div>
             </div>
             <div
-              className="CollaboratorsSidebar__InvitedContainer-sc-1wa9hcm-7 kOYSLi"
+              className="c12"
             >
               <div
-                className="CollaboratorsSidebar__Invited-sc-1wa9hcm-6 daepyh"
+                className="c13"
               >
                 Invited
               </div>
             </div>
           </div>
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c5"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             selected={false}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c6"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c7"
               >
                 <img
-                  className="sc-eJoaVz cBuokZ"
+                  className="c14"
                   onError={[Function]}
                   size={36}
                   src="test-file-stub"
                 />
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c9"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c10"
                 >
                   You
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c11"
                 >
                   Viewer
                 </div>
@@ -3407,20 +6879,20 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
             </div>
           </div>
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c5"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             selected={false}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c6"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c7"
               >
                 <svg
-                  className="sc-oefIU chSjlL"
+                  className="c8"
                   color="#6e6e6e"
                   height={36}
                   viewBox="0 0 34 34"
@@ -3433,20 +6905,20 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
                 </svg>
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c9"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c10"
                 >
                   <span
-                    className="CollaboratorsSidebar__CollaboratorInitial-sc-1wa9hcm-0 fhVfzY"
+                    className="c15"
                   >
                     P.
                   </span>
                   Venkman
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c11"
                 >
                   Owner
                 </div>
@@ -3454,20 +6926,20 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
             </div>
           </div>
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c5"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             selected={false}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c6"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c7"
               >
                 <svg
-                  className="sc-oefIU chSjlL"
+                  className="c8"
                   color="#6e6e6e"
                   height={36}
                   viewBox="0 0 34 34"
@@ -3480,20 +6952,20 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
                 </svg>
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c9"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c10"
                 >
                   <span
-                    className="CollaboratorsSidebar__CollaboratorInitial-sc-1wa9hcm-0 fhVfzY"
+                    className="c15"
                   >
                     E.
                   </span>
                   Spengler
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c11"
                 >
                   Viewer
                 </div>
@@ -3503,14 +6975,14 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
         </div>
       </div>
       <div
-        className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+        className="c16 c17 c18"
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <button
           aria-expanded={true}
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb Panel__ResizerButton-sc-1v8xanm-0 cRSqLN dRpzpn ifa-DBT jXeSFM imbOZC"
+          className="c19 c20 c21 c22 c23"
           onClick={[Function]}
           onMouseDown={[Function]}
           type="button"
@@ -3551,8 +7023,368 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c7 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c7 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c24 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c25 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c25:not([disabled]):hover,
+.c25:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c25:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c26 {
+  background: #fff;
+  border: 5px solid #fff !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12);
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+  -webkit-transition: border-color 0.25s;
+  transition: border-color 0.25s;
+}
+
+.c26:focus,
+.c26:hover {
+  background: #f2fbfc !important;
+}
+
+.c26 svg {
+  max-height: 16px;
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.c12 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c19 {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c13 path {
+  fill: #6e6e6e;
+}
+
+.c13:hover path {
+  fill: #6e6e6e;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c8 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.c8 svg {
+  max-height: 36px;
+  max-width: 36px;
+}
+
+.c8 svg {
+  margin: 0;
+}
+
+.c8 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c8:focus svg path:first-of-type,
+.c8:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c9 {
+  padding-left: 12px;
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background: #fafafa;
+  border-right: 1px solid #f2f2f2;
+}
+
+.c4 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.c3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.c10 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: unset;
+  border: 1px solid transparent;
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0 -20px;
+  padding: 8px 20px;
+}
+
+.c10:hover {
+  background-color: #f2fbfc;
+}
+
+.c21 {
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  position: absolute;
+}
+
+.c21::before {
+  content: '';
+  position: absolute;
+  -webkit-transition: background-color 200ms ease-in-out 100ms;
+  transition: background-color 200ms ease-in-out 100ms;
+  background: rgb(240,240,240);
+}
+
+.c21:hover::before {
+  background: #e2e2e2;
+}
+
+.c22 {
+  cursor: ew-resize;
+  top: 0;
+  height: 100%;
+  width: 16px;
+}
+
+.c22::before {
+  height: 100%;
+  width: 1px;
+}
+
+.c23 {
+  right: -16px;
+}
+
+.c23::before {
+  left: -1px;
+}
+
+.c27 {
+  position: absolute;
+  top: 50%;
+  margin: -20px;
+  line-height: 1;
+}
+
+.c20 {
+  margin-right: 4px;
+  font-weight: 300;
+}
+
+.c15 {
+  font-size: 120%;
+  color: #353535;
+  font-weight: 500;
+}
+
+.c16 {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.c5 {
+  margin-bottom: 8px;
+}
+
+.c14 {
+  padding-left: 8px;
+}
+
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.c18 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 12px;
+  color: #0d79d0;
+}
+
+.c17 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-left: 8px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -3565,26 +7397,26 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
       }
     >
       <div
-        className="Sidebar-v95ywm-0 dinrsd"
+        className="c1"
         data-cy="sidebar"
       >
         <div
-          className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+          className="c2"
         >
           <div
-            className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+            className="c3"
           >
             Collaborators
           </div>
         </div>
         <div
-          className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+          className="c4"
         >
           <div
-            className="CollaboratorsSidebar__Action-sc-1wa9hcm-3 iHAxFR"
+            className="c5"
           >
             <button
-              className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jfqywZ"
+              className="c6 c7 c8"
               onClick={[Function]}
               size="medium"
               type="button"
@@ -3611,25 +7443,25 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
                 </g>
               </svg>
               <div
-                className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+                className="c9"
               >
                 New Collaborator
               </div>
             </button>
           </div>
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c10"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c11"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c12"
               >
                 <svg
-                  className="sc-oefIU chSjlL"
+                  className="c13"
                   color="#6e6e6e"
                   height={36}
                   viewBox="0 0 34 34"
@@ -3642,43 +7474,43 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
                 </svg>
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c14"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c15"
                 >
                   Lionel Messi
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c16"
                 >
                   Writer
                 </div>
               </div>
             </div>
             <div
-              className="CollaboratorsSidebar__InvitedContainer-sc-1wa9hcm-7 kOYSLi"
+              className="c17"
             >
               <div
-                className="CollaboratorsSidebar__Invited-sc-1wa9hcm-6 daepyh"
+                className="c18"
               >
                 Invited
               </div>
             </div>
           </div>
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c10"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c11"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c12"
               >
                 <svg
-                  className="sc-oefIU chSjlL"
+                  className="c13"
                   color="#6e6e6e"
                   height={36}
                   viewBox="0 0 34 34"
@@ -3691,60 +7523,60 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
                 </svg>
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c14"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c15"
                 >
                   lmessi@atypon.com
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c16"
                 >
                   Writer
                 </div>
               </div>
             </div>
             <div
-              className="CollaboratorsSidebar__InvitedContainer-sc-1wa9hcm-7 kOYSLi"
+              className="c17"
             >
               <div
-                className="CollaboratorsSidebar__Invited-sc-1wa9hcm-6 daepyh"
+                className="c18"
               >
                 Invited
               </div>
             </div>
           </div>
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c10"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             selected={false}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c11"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c12"
               >
                 <img
-                  className="sc-eJoaVz cBuokZ"
+                  className="c19"
                   onError={[Function]}
                   size={36}
                   src="test-file-stub"
                 />
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c14"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c15"
                 >
                   You
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c16"
                 >
                   Owner
                 </div>
@@ -3752,20 +7584,20 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
             </div>
           </div>
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c10"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             selected={false}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c11"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c12"
               >
                 <svg
-                  className="sc-oefIU chSjlL"
+                  className="c13"
                   color="#6e6e6e"
                   height={36}
                   viewBox="0 0 34 34"
@@ -3778,20 +7610,20 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
                 </svg>
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c14"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c15"
                 >
                   <span
-                    className="CollaboratorsSidebar__CollaboratorInitial-sc-1wa9hcm-0 fhVfzY"
+                    className="c20"
                   >
                     P.
                   </span>
                   Venkman
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c16"
                 >
                   Viewer
                 </div>
@@ -3799,20 +7631,20 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
             </div>
           </div>
           <div
-            className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+            className="c10"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             selected={false}
           >
             <div
-              className="CollaboratorsSidebar__UserDataContainer-sc-1wa9hcm-5 cHpEXm"
+              className="c11"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c12"
               >
                 <svg
-                  className="sc-oefIU chSjlL"
+                  className="c13"
                   color="#6e6e6e"
                   height={36}
                   viewBox="0 0 34 34"
@@ -3825,20 +7657,20 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
                 </svg>
               </div>
               <div
-                className="CollaboratorsSidebar__CollaboratorData-sc-1wa9hcm-4 MjIFd"
+                className="c14"
               >
                 <div
-                  className="CollaboratorsSidebar__CollaboratorName-sc-1wa9hcm-1 dqcUkl"
+                  className="c15"
                 >
                   <span
-                    className="CollaboratorsSidebar__CollaboratorInitial-sc-1wa9hcm-0 fhVfzY"
+                    className="c20"
                   >
                     E.
                   </span>
                   Spengler
                 </div>
                 <div
-                  className="CollaboratorsSidebar__CollaboratorRole-sc-1wa9hcm-2 iQdEfJ"
+                  className="c16"
                 >
                   Viewer
                 </div>
@@ -3848,14 +7680,14 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
         </div>
       </div>
       <div
-        className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+        className="c21 c22 c23"
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <button
           aria-expanded={true}
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb Panel__ResizerButton-sc-1v8xanm-0 cRSqLN dRpzpn ifa-DBT jXeSFM imbOZC"
+          className="c6 c24 c25 c26 c27"
           onClick={[Function]}
           onMouseDown={[Function]}
           type="button"
@@ -3896,26 +7728,320 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
+.c10 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c10:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c10:hover {
+  background-color: #f2fbfc;
+}
+
+.c10:invalid {
+  box-shadow: none;
+}
+
+.c8 .c9:first-of-type {
+  margin-top: 4px;
+}
+
+.c8 .c9:last-of-type {
+  margin-bottom: 4px;
+}
+
+.c8 .c9:not(:first-of-type) {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.c8 .c9:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.c8 .c9:not(:last-of-type):focus + .c9 {
+  border-top-color: #bce7f6;
+}
+
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 3px 16px;
+  margin: 0 4px;
+  line-height: 1;
+}
+
+.c5 svg + span {
+  margin-left: 4px;
+}
+
+.c15 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c15 svg + span {
+  margin-left: 4px;
+}
+
+.c16 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c16:not([disabled]):hover,
+.c16:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c16:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c6 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c13 {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.c13 + label {
+  cursor: pointer;
+  margin: 0;
+  display: inline-block;
+  font-size: 18px;
+  color: #353535;
+  line-height: 24px;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 28px;
+  text-align: left;
+}
+
+.c13 + label::before {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #353535;
+  box-sizing: border-box;
+  content: ' ';
+  display: block;
+  height: 18px;
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  z-index: 0;
+}
+
+.c13:checked + label::before {
+  background: #1a9bc7;
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c13:hover + label::before,
+.c13:focus + label::before {
+  box-shadow: 0 0 0 1px #1a9bc7;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c14 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c12 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
+}
+
+.c17 {
+  width: 100%;
+}
+
+.c11 {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background: #fafafa;
+  border-right: 1px solid #f2f2f2;
+}
+
+.c7 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.c4 {
+  margin-right: -16px;
+}
+
+.c3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Sidebar-v95ywm-0 dinrsd"
+      className="c1"
     >
       <div
-        className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+        className="c2"
       >
         <div
-          className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+          className="c3"
         >
           Invite
         </div>
         <div
-          className="SidebarHeaderFooter__StyledSidebarActionContainer-sc-6j8srx-1 AQKph"
+          className="c4"
         >
           <button
-            className="sc-ezzayL sc-iklIKw gxEnKq laqiSe"
+            className="c5 c6"
             onClick={[Function]}
             type="button"
           >
@@ -3924,7 +8050,7 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
         </div>
       </div>
       <div
-        className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+        className="c7"
       >
         <form
           action="#"
@@ -3933,10 +8059,10 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
           onSubmit={[Function]}
         >
           <div
-            className="sc-eCApGN bRvWwx"
+            className="c8"
           >
             <input
-              className="sc-dlnjPT iOeyAw"
+              className="c9 c10"
               disabled={false}
               name="name"
               onBlur={[Function]}
@@ -3948,7 +8074,7 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
               value=""
             />
             <input
-              className="sc-dlnjPT iOeyAw"
+              className="c9 c10"
               disabled={false}
               name="email"
               onBlur={[Function]}
@@ -3961,14 +8087,14 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
             />
           </div>
           <div
-            className="InvitationForm__RadioButtonsContainer-jwjlou-1 fhxMEU"
+            className="c11"
           >
             <div
-              className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+              className="c12"
             >
               <input
                 checked={false}
-                className="sc-fuIRbl jLsvIs"
+                className="c13"
                 disabled={false}
                 id="owner"
                 name="role"
@@ -3984,18 +8110,18 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
               >
                 Owner
                 <p
-                  className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                  className="c14"
                 >
                   Can modify and delete project, invite and remove collaborators
                 </p>
               </label>
             </div>
             <div
-              className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+              className="c12"
             >
               <input
                 checked={false}
-                className="sc-fuIRbl jLsvIs"
+                className="c13"
                 disabled={false}
                 id="writer"
                 name="role"
@@ -4011,18 +8137,18 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
               >
                 Writer
                 <p
-                  className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                  className="c14"
                 >
                   Can modify project contents
                 </p>
               </label>
             </div>
             <div
-              className="RadioButton__Control-sc-1hx5u6i-1 gmttHo"
+              className="c12"
             >
               <input
                 checked={false}
-                className="sc-fuIRbl jLsvIs"
+                className="c13"
                 disabled={false}
                 id="viewer"
                 name="role"
@@ -4038,7 +8164,7 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
               >
                 Viewer
                 <p
-                  className="RadioButton__TextHint-sc-1hx5u6i-0 fwduZw"
+                  className="c14"
                 >
                   Can only review projects without modifying it
                 </p>
@@ -4046,7 +8172,7 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
             </div>
           </div>
           <button
-            className="sc-ezzayL sc-kLokih InvitationForm__SendInvitationButton-jwjlou-0 cRSqLN bYa-DYT ekcIem"
+            className="c15 c16 c17"
             disabled={false}
             type="submit"
           >
@@ -4060,32 +8186,204 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Sidebars Remove Collaborators 1`] = `
+.c12 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c12 svg + span {
+  margin-left: 4px;
+}
+
+.c13 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c13:not([disabled]):hover,
+.c13:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c13:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c6 {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c10 {
+  margin: 8px 0 24px;
+  background-color: #e2e2e2;
+  height: 1px;
+}
+
+.c1 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 250px;
+}
+
+.c8 {
+  margin-right: 4px;
+  font-weight: 200;
+}
+
+.c7 {
+  text-align: center;
+  font-size: 120%;
+  color: #353535;
+  font-weight: 600;
+  padding-bottom: 13px;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-top: 14px;
+  padding-bottom: 6px;
+}
+
+.c3 {
+  color: #353535;
+  font-weight: 600;
+  padding-left: 5px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #353535;
+  padding-bottom: 15px;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 10px;
+  font-size: 14px;
+  color: #6e6e6e;
+  text-align: center;
+  white-space: normal;
+}
+
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Popper__PopperBody-sc-5y9oyp-5 bEWIwh"
+      className="c1"
       size={250}
     >
       <div
-        className="RemoveCollaboratorPopper__Message-sc-1uddq8p-4 bvAeHT"
+        className="c2"
       >
         Are you sure you want to 
         <div
-          className="RemoveCollaboratorPopper__Action-sc-1uddq8p-3 iLFOCe"
+          className="c3"
         >
           remove
         </div>
       </div>
       <div
-        className="RemoveCollaboratorPopper__AvatarStyle-sc-1uddq8p-2 eTnNMr"
+        className="c4"
       >
         <div
-          className="sc-jffIyK kbBVcu"
+          className="c5"
         >
           <img
-            className="sc-eJoaVz dEcItF"
+            className="c6"
             onError={[Function]}
             size={45}
             src="test-file-stub"
@@ -4093,41 +8391,41 @@ exports[`Storyshots Collaboration/Sidebars Remove Collaborators 1`] = `
         </div>
       </div>
       <div
-        className="RemoveCollaboratorPopper__CollaboratorName-sc-1uddq8p-1 jMavzj"
+        className="c7"
       >
         <span
-          className="RemoveCollaboratorPopper__CollaboratorInitial-sc-1uddq8p-0 kPIUkA"
+          className="c8"
         >
           J.
         </span>
         Melnitz
       </div>
       <div
-        className="RemoveCollaboratorPopper__Message-sc-1uddq8p-4 bvAeHT"
+        className="c2"
       >
         from the Contributors list?
       </div>
       <div
-        className="RemoveCollaboratorPopper__Description-sc-1uddq8p-5 hA-DxNk"
+        className="c9"
       >
         Janine
          won't be able to view or modify any content of the project anymore
       </div>
       <div
-        className="Popper__SeparatorLine-sc-5y9oyp-4 dZBYYr"
+        className="c10"
       />
       <div
-        className="RemoveCollaboratorPopper__ButtonsContainer-sc-1uddq8p-6 hyEdWw"
+        className="c11"
       >
         <button
-          className="sc-ezzayL sc-iklIKw cRSqLN laqiSe"
+          className="c12 c13"
           onClick={[Function]}
           type="button"
         >
           Cancel
         </button>
         <button
-          className="sc-ezzayL sc-iklIKw cRSqLN laqiSe"
+          className="c12 c13"
           onClick={[Function]}
           type="button"
         >
@@ -4140,27 +8438,159 @@ exports[`Storyshots Collaboration/Sidebars Remove Collaborators 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Sidebars Search Collaborators - Empty 1`] = `
+.c8 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c8 svg + span {
+  margin-left: 4px;
+}
+
+.c9 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c9:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c6 button:not(:first-child) {
+  margin-left: 4px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  padding-left: 40px;
+  line-height: 24px;
+  max-width: 230px;
+}
+
+.c4 {
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.c3 {
+  font-size: 16px;
+  margin-bottom: 32px;
+  margin-top: 40px;
+}
+
+.c7 {
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.c7 div,
+.c7 button {
+  white-space: unset;
+  width: 100%;
+}
+
+.c7 > div,
+.c7 > button {
+  margin-bottom: 16px;
+}
+
+.c5 {
+  word-break: break-word;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+      className="c1"
     >
       <div
-        className="SidebarEmptyResult__EmptyTextContainer-sc-4ers34-0 eeYYel"
+        className="c2"
       >
         <div
-          className="SidebarEmptyResult__SidebarText-sc-4ers34-2 ewUive"
+          className="c3"
           data-cy="sidebar-text"
         >
           <div
-            className="SidebarEmptyResult__EmptyTextTitle-sc-4ers34-1 jtYGbY"
+            className="c4"
           >
             No matches found.
           </div>
           <div
-            className="SearchCollaboratorsSidebar__TextContainer-sc-1lsm0oy-4 dFzcoa"
+            className="c5"
           >
             Do you want to invite 
             <strong>
@@ -4170,10 +8600,10 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators - Empty 1`] = `
           </div>
         </div>
         <div
-          className="sc-iTVIwl SidebarEmptyResult__SidebarButtonContainer-sc-4ers34-3 fqGxrZ kgcNSi"
+          className="c6 c7"
         >
           <button
-            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            className="c8 c9"
             onClick={[Function]}
             type="button"
           >
@@ -4187,37 +8617,215 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators - Empty 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Sidebars Search Collaborators 1`] = `
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c9 svg + span {
+  margin-left: 4px;
+}
+
+.c10 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c11 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c11:not([disabled]):hover,
+.c11:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c11:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c5 {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c13 path {
+  fill: #6e6e6e;
+}
+
+.c13:hover path {
+  fill: #2781a1;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: unset;
+  border: 1px solid transparent;
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0 -20px;
+  padding: 8px 20px;
+}
+
+.c2:hover {
+  background-color: #f2fbfc;
+}
+
+.c12 {
+  width: unset;
+  height: unset;
+  margin-left: 8px;
+}
+
+.c12:focus {
+  outline: none;
+}
+
+.c8 {
+  margin-right: 4px;
+  font-weight: 300;
+}
+
+.c7 {
+  font-size: 20px;
+  color: #353535;
+  font-weight: 500;
+}
+
+.c6 {
+  padding-left: 12px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  overflow: hidden;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+      className="c1"
     >
       <div
-        className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+        className="c2"
       >
         <div
-          className="SearchCollaboratorsSidebar__UserDataContainer-sc-1lsm0oy-3 bHwtvH"
+          className="c3"
         >
           <div
-            className="sc-jffIyK kbBVcu"
+            className="c4"
           >
             <img
-              className="sc-eJoaVz dEcItF"
+              className="c5"
               onError={[Function]}
               size={45}
               src="test-file-stub"
             />
           </div>
           <div
-            className="SearchCollaboratorsSidebar__PeopleData-sc-1lsm0oy-2 cUHeUa"
+            className="c6"
           >
             <div
-              className="SearchCollaboratorsSidebar__PersonName-sc-1lsm0oy-1 ivqDbS"
+              className="c7"
             >
               <span
-                className="SearchCollaboratorsSidebar__PersonInitial-sc-1lsm0oy-0 dANZPM"
+                className="c8"
               >
                 Janine
               </span>
@@ -4226,7 +8834,7 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators 1`] = `
           </div>
         </div>
         <button
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+          className="c9 c10 c11 c12"
           onClick={[Function]}
           type="button"
         >
@@ -4253,16 +8861,16 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators 1`] = `
         </button>
       </div>
       <div
-        className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+        className="c2"
       >
         <div
-          className="SearchCollaboratorsSidebar__UserDataContainer-sc-1lsm0oy-3 bHwtvH"
+          className="c3"
         >
           <div
-            className="sc-jffIyK kbBVcu"
+            className="c4"
           >
             <svg
-              className="sc-oefIU gYPbYg"
+              className="c13"
               height={45}
               viewBox="0 0 34 34"
               width={45}
@@ -4274,13 +8882,13 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators 1`] = `
             </svg>
           </div>
           <div
-            className="SearchCollaboratorsSidebar__PeopleData-sc-1lsm0oy-2 cUHeUa"
+            className="c6"
           >
             <div
-              className="SearchCollaboratorsSidebar__PersonName-sc-1lsm0oy-1 ivqDbS"
+              className="c7"
             >
               <span
-                className="SearchCollaboratorsSidebar__PersonInitial-sc-1lsm0oy-0 dANZPM"
+                className="c8"
               >
                 Peter
               </span>
@@ -4289,7 +8897,7 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators 1`] = `
           </div>
         </div>
         <button
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+          className="c9 c10 c11 c12"
           onClick={[Function]}
           type="button"
         >
@@ -4316,16 +8924,16 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators 1`] = `
         </button>
       </div>
       <div
-        className="SidebarPersonContainer-yq4pk8-0 bnjCYt"
+        className="c2"
       >
         <div
-          className="SearchCollaboratorsSidebar__UserDataContainer-sc-1lsm0oy-3 bHwtvH"
+          className="c3"
         >
           <div
-            className="sc-jffIyK kbBVcu"
+            className="c4"
           >
             <svg
-              className="sc-oefIU gYPbYg"
+              className="c13"
               height={45}
               viewBox="0 0 34 34"
               width={45}
@@ -4337,13 +8945,13 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators 1`] = `
             </svg>
           </div>
           <div
-            className="SearchCollaboratorsSidebar__PeopleData-sc-1lsm0oy-2 cUHeUa"
+            className="c6"
           >
             <div
-              className="SearchCollaboratorsSidebar__PersonName-sc-1lsm0oy-1 ivqDbS"
+              className="c7"
             >
               <span
-                className="SearchCollaboratorsSidebar__PersonInitial-sc-1lsm0oy-0 dANZPM"
+                className="c8"
               >
                 Egon
               </span>
@@ -4352,7 +8960,7 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators 1`] = `
           </div>
         </div>
         <button
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+          className="c9 c10 c11 c12"
           onClick={[Function]}
           type="button"
         >
@@ -4384,31 +8992,192 @@ exports[`Storyshots Collaboration/Sidebars Search Collaborators 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Sidebars Uninvite Collaborators 1`] = `
+.c11 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c11 svg + span {
+  margin-left: 4px;
+}
+
+.c12 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c12:not([disabled]):hover,
+.c12:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c12:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c6 path {
+  fill: #6e6e6e;
+}
+
+.c6:hover path {
+  fill: #6e6e6e;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c9 {
+  margin: 8px 0 24px;
+  background-color: #e2e2e2;
+  height: 1px;
+}
+
+.c1 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 300px;
+}
+
+.c7 {
+  text-align: center;
+  font-size: 20px;
+  color: #353535;
+  font-weight: 600;
+  padding-bottom: 12px;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+
+.c3 {
+  color: #353535;
+  font-weight: 600;
+  padding-left: 4px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #353535;
+  padding-bottom: 16px;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 8px;
+  font-size: 14px;
+  color: #6e6e6e;
+  text-align: center;
+  white-space: normal;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Popper__PopperBody-sc-5y9oyp-5 cpDOxp"
+      className="c1"
     >
       <div
-        className="UninviteCollaboratorPopper__Message-sc-19apzh7-3 cXaSCh"
+        className="c2"
       >
         Are you sure you want to 
         <div
-          className="UninviteCollaboratorPopper__Action-sc-19apzh7-2 jDqRCI"
+          className="c3"
         >
           uninvite
         </div>
       </div>
       <div
-        className="UninviteCollaboratorPopper__AvatarStyle-sc-19apzh7-1 diyQEx"
+        className="c4"
       >
         <div
-          className="sc-jffIyK kbBVcu"
+          className="c5"
         >
           <svg
-            className="sc-oefIU chSjlL"
+            className="c6"
             color="#6e6e6e"
             height={45}
             viewBox="0 0 34 34"
@@ -4422,36 +9191,36 @@ exports[`Storyshots Collaboration/Sidebars Uninvite Collaborators 1`] = `
         </div>
       </div>
       <div
-        className="UninviteCollaboratorPopper__CollaboratorName-sc-19apzh7-0 hOwtIW"
+        className="c7"
       >
         
       </div>
       <div
-        className="UninviteCollaboratorPopper__Message-sc-19apzh7-3 cXaSCh"
+        className="c2"
       >
         from the Contributors list?
       </div>
       <div
-        className="UninviteCollaboratorPopper__Description-sc-19apzh7-4 fcaBYq"
+        className="c8"
       >
         
          won't get an invitation to view or modify any content of the project anymore
       </div>
       <div
-        className="Popper__SeparatorLine-sc-5y9oyp-4 dZBYYr"
+        className="c9"
       />
       <div
-        className="UninviteCollaboratorPopper__ButtonsContainer-sc-19apzh7-5 cBsBxu"
+        className="c10"
       >
         <button
-          className="sc-ezzayL sc-iklIKw cRSqLN laqiSe"
+          className="c11 c12"
           onClick={[Function]}
           type="button"
         >
           Cancel
         </button>
         <button
-          className="sc-ezzayL sc-iklIKw cRSqLN laqiSe"
+          className="c11 c12"
           onClick={[Function]}
           type="button"
         >

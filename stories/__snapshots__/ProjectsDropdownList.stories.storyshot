@@ -1,21 +1,313 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
+.c13 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c13 svg + span {
+  margin-left: 4px;
+}
+
+.c16 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c16:not([disabled]):hover,
+.c16:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c16:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c14 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c14:not([disabled]):hover,
+.c14:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c14:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c20 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c20 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c11 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c12 path {
+  fill: #0d79d0;
+}
+
+.c12:hover path {
+  fill: #0d79d0;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c21 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+}
+
+.c21 svg {
+  max-height: 28px;
+  max-width: 28px;
+}
+
+.c21 svg {
+  margin: 0;
+}
+
+.c21 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c21:focus svg path:first-of-type,
+.c21:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c22 {
+  padding-left: 12px;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 14px;
+  -webkit-letter-spacing: -0.3px;
+  -moz-letter-spacing: -0.3px;
+  -ms-letter-spacing: -0.3px;
+  letter-spacing: -0.3px;
+  color: #6e6e6e;
+  clear: both;
+  margin-top: 8px;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px 12px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #353535;
+  pointer-events: unset;
+}
+
+.c1:hover,
+.c1:hover .Dropdown__PlaceholderTitle-fhxyb7-2 {
+  background: #f2fbfc;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px 12px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #353535;
+  pointer-events: unset;
+  cursor: pointer;
+}
+
+.c5:hover,
+.c5:hover .Dropdown__PlaceholderTitle-fhxyb7-2 {
+  background: #f2fbfc;
+}
+
+.c5:hover .user-icon-path {
+  fill: #fff;
+}
+
+.c4 {
+  height: 1px;
+  width: 100%;
+  opacity: 0.23;
+  background-color: #bce7f6;
+}
+
+.c19 {
+  padding: 12px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 12px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 4px;
+}
+
+.c7 {
+  display: grid;
+  padding-left: 8px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c15 {
+  line-height: 1;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.c17 {
+  line-height: 1;
+  font-size: 14px;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 6px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c9 {
+  height: 20px;
+}
+
+.c18 {
+  overflow: auto;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <a
       aria-current={null}
-      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      className="c1"
       href="/projects"
       onClick={[Function]}
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+          className="c3"
         >
           <svg
             height={26}
@@ -55,16 +347,16 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
       </div>
     </a>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c4"
     />
     <div
-      className="Dropdown__DropdownElement-fhxyb7-5 lhCwmi"
+      className="c5"
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownWithNotificationIcon-nj113c-2 bbrqMJ"
+          className="c6"
         >
           <svg
             color="#0d79d0"
@@ -147,25 +439,25 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
           </svg>
         </div>
         <div
-          className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+          className="c7"
         >
           <div />
           <div
-            className="Dropdown__InvitedBy-fhxyb7-3 aoFFf"
+            className="c8"
           >
             <div
-              className="ProjectDropdown__InvitedByText-nj113c-8 dvMrAN"
+              className="c9"
             >
               Invited by
             </div>
             <div
-              className="ProjectDropdown__AvatarContainer-nj113c-7 LCfCU"
+              className="c10"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c11"
               >
                 <svg
-                  className="sc-oefIU hhjELT"
+                  className="c12"
                   color="#0d79d0"
                   height={20}
                   viewBox="0 0 34 34"
@@ -182,17 +474,17 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
         </div>
       </div>
       <div
-        className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+        className="c7"
       >
         <button
-          className="sc-ezzayL sc-kLokih ProjectDropdown__AcceptButton-nj113c-5 cRSqLN bYa-DYT keNSdg"
+          className="c13 c14 c15"
           onClick={[Function]}
           type="button"
         >
           Accept
         </button>
         <button
-          className="sc-ezzayL sc-bYwzba ProjectDropdown__RejectButton-nj113c-6 cRSqLN bXiklN bQYwVJ"
+          className="c13 c16 c17"
           onClick={[Function]}
           type="button"
         >
@@ -201,13 +493,13 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
       </div>
     </div>
     <div
-      className="Dropdown__DropdownElement-fhxyb7-5 lhCwmi"
+      className="c5"
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownWithNotificationIcon-nj113c-2 bbrqMJ"
+          className="c6"
         >
           <svg
             color="#0d79d0"
@@ -290,25 +582,25 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
           </svg>
         </div>
         <div
-          className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+          className="c7"
         >
           <div />
           <div
-            className="Dropdown__InvitedBy-fhxyb7-3 aoFFf"
+            className="c8"
           >
             <div
-              className="ProjectDropdown__InvitedByText-nj113c-8 dvMrAN"
+              className="c9"
             >
               Invited by
             </div>
             <div
-              className="ProjectDropdown__AvatarContainer-nj113c-7 LCfCU"
+              className="c10"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c11"
               >
                 <svg
-                  className="sc-oefIU hhjELT"
+                  className="c12"
                   color="#0d79d0"
                   height={20}
                   viewBox="0 0 34 34"
@@ -325,17 +617,17 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
         </div>
       </div>
       <div
-        className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+        className="c7"
       >
         <button
-          className="sc-ezzayL sc-kLokih ProjectDropdown__AcceptButton-nj113c-5 cRSqLN bYa-DYT keNSdg"
+          className="c13 c14 c15"
           onClick={[Function]}
           type="button"
         >
           Accept
         </button>
         <button
-          className="sc-ezzayL sc-bYwzba ProjectDropdown__RejectButton-nj113c-6 cRSqLN bXiklN bQYwVJ"
+          className="c13 c16 c17"
           onClick={[Function]}
           type="button"
         >
@@ -344,13 +636,13 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
       </div>
     </div>
     <div
-      className="ProjectsDropdownList__ProjectContainer-iy7kf9-0 iKAHVI"
+      className="c18"
     />
     <div
-      className="ProjectDropdown__ActionContainer-nj113c-0 iliCiP"
+      className="c19"
     >
       <button
-        className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf gETdIg"
+        className="c13 c20 c21"
         onClick={[Function]}
         size="default"
         type="button"
@@ -377,7 +669,7 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
           </g>
         </svg>
         <div
-          className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          className="c22"
         >
           New Project
         </div>
@@ -388,21 +680,165 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
 `;
 
 exports[`Storyshots Nav/Projects Dropdown List With projects 1`] = `
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c9 svg + span {
+  margin-left: 4px;
+}
+
+.c10 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c10 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c11 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+}
+
+.c11 svg {
+  max-height: 28px;
+  max-width: 28px;
+}
+
+.c11 svg {
+  margin: 0;
+}
+
+.c11 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c11:focus svg path:first-of-type,
+.c11:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c12 {
+  padding-left: 12px;
+}
+
+.c7 {
+  color: #6e6e6e;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px 12px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #353535;
+  pointer-events: unset;
+}
+
+.c1:hover,
+.c1:hover .c6 {
+  background: #f2fbfc;
+}
+
+.c4 {
+  height: 1px;
+  width: 100%;
+  opacity: 0.23;
+  background-color: #bce7f6;
+}
+
+.c8 {
+  padding: 12px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 12px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 {
+  overflow: auto;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <a
       aria-current={null}
-      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      className="c1"
       href="/projects"
       onClick={[Function]}
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+          className="c3"
         >
           <svg
             height={26}
@@ -442,22 +878,22 @@ exports[`Storyshots Nav/Projects Dropdown List With projects 1`] = `
       </div>
     </a>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c4"
     />
     <div
-      className="ProjectsDropdownList__ProjectContainer-iy7kf9-0 iKAHVI"
+      className="c5"
     >
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-3"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -486,21 +922,21 @@ exports[`Storyshots Nav/Projects Dropdown List With projects 1`] = `
             </svg>
           </div>
           <div
-            className="Dropdown__PlaceholderTitle-fhxyb7-2 fAXUxr"
+            className="c6 c7"
           />
         </div>
       </a>
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-1"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -533,15 +969,15 @@ exports[`Storyshots Nav/Projects Dropdown List With projects 1`] = `
       </a>
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-2"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -574,13 +1010,13 @@ exports[`Storyshots Nav/Projects Dropdown List With projects 1`] = `
       </a>
     </div>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c4"
     />
     <div
-      className="ProjectDropdown__ActionContainer-nj113c-0 iliCiP"
+      className="c8"
     >
       <button
-        className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf gETdIg"
+        className="c9 c10 c11"
         onClick={[Function]}
         size="default"
         type="button"
@@ -607,7 +1043,7 @@ exports[`Storyshots Nav/Projects Dropdown List With projects 1`] = `
           </g>
         </svg>
         <div
-          className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          className="c12"
         >
           New Project
         </div>
@@ -618,21 +1054,317 @@ exports[`Storyshots Nav/Projects Dropdown List With projects 1`] = `
 `;
 
 exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`] = `
+.c13 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c13 svg + span {
+  margin-left: 4px;
+}
+
+.c16 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c16:not([disabled]):hover,
+.c16:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c16:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c14 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c14:not([disabled]):hover,
+.c14:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c14:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c22 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c22 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c11 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c12 path {
+  fill: #0d79d0;
+}
+
+.c12:hover path {
+  fill: #0d79d0;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c23 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+}
+
+.c23 svg {
+  max-height: 28px;
+  max-width: 28px;
+}
+
+.c23 svg {
+  margin: 0;
+}
+
+.c23 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c23:focus svg path:first-of-type,
+.c23:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c24 {
+  padding-left: 12px;
+}
+
+.c20 {
+  color: #6e6e6e;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 14px;
+  -webkit-letter-spacing: -0.3px;
+  -moz-letter-spacing: -0.3px;
+  -ms-letter-spacing: -0.3px;
+  letter-spacing: -0.3px;
+  color: #6e6e6e;
+  clear: both;
+  margin-top: 8px;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px 12px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #353535;
+  pointer-events: unset;
+}
+
+.c1:hover,
+.c1:hover .c19 {
+  background: #f2fbfc;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px 12px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #353535;
+  pointer-events: unset;
+  cursor: pointer;
+}
+
+.c5:hover,
+.c5:hover .c19 {
+  background: #f2fbfc;
+}
+
+.c5:hover .user-icon-path {
+  fill: #fff;
+}
+
+.c4 {
+  height: 1px;
+  width: 100%;
+  opacity: 0.23;
+  background-color: #bce7f6;
+}
+
+.c21 {
+  padding: 12px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 12px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 4px;
+}
+
+.c7 {
+  display: grid;
+  padding-left: 8px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c15 {
+  line-height: 1;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.c17 {
+  line-height: 1;
+  font-size: 14px;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 6px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c9 {
+  height: 20px;
+}
+
+.c18 {
+  overflow: auto;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <a
       aria-current={null}
-      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      className="c1"
       href="/projects"
       onClick={[Function]}
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+          className="c3"
         >
           <svg
             height={26}
@@ -672,16 +1404,16 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
       </div>
     </a>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c4"
     />
     <div
-      className="Dropdown__DropdownElement-fhxyb7-5 lhCwmi"
+      className="c5"
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownWithNotificationIcon-nj113c-2 bbrqMJ"
+          className="c6"
         >
           <svg
             color="#0d79d0"
@@ -764,25 +1496,25 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
           </svg>
         </div>
         <div
-          className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+          className="c7"
         >
           <div />
           <div
-            className="Dropdown__InvitedBy-fhxyb7-3 aoFFf"
+            className="c8"
           >
             <div
-              className="ProjectDropdown__InvitedByText-nj113c-8 dvMrAN"
+              className="c9"
             >
               Invited by
             </div>
             <div
-              className="ProjectDropdown__AvatarContainer-nj113c-7 LCfCU"
+              className="c10"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c11"
               >
                 <svg
-                  className="sc-oefIU hhjELT"
+                  className="c12"
                   color="#0d79d0"
                   height={20}
                   viewBox="0 0 34 34"
@@ -799,17 +1531,17 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
         </div>
       </div>
       <div
-        className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+        className="c7"
       >
         <button
-          className="sc-ezzayL sc-kLokih ProjectDropdown__AcceptButton-nj113c-5 cRSqLN bYa-DYT keNSdg"
+          className="c13 c14 c15"
           onClick={[Function]}
           type="button"
         >
           Accept
         </button>
         <button
-          className="sc-ezzayL sc-bYwzba ProjectDropdown__RejectButton-nj113c-6 cRSqLN bXiklN bQYwVJ"
+          className="c13 c16 c17"
           onClick={[Function]}
           type="button"
         >
@@ -818,13 +1550,13 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
       </div>
     </div>
     <div
-      className="Dropdown__DropdownElement-fhxyb7-5 lhCwmi"
+      className="c5"
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownWithNotificationIcon-nj113c-2 bbrqMJ"
+          className="c6"
         >
           <svg
             color="#0d79d0"
@@ -907,25 +1639,25 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
           </svg>
         </div>
         <div
-          className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+          className="c7"
         >
           <div />
           <div
-            className="Dropdown__InvitedBy-fhxyb7-3 aoFFf"
+            className="c8"
           >
             <div
-              className="ProjectDropdown__InvitedByText-nj113c-8 dvMrAN"
+              className="c9"
             >
               Invited by
             </div>
             <div
-              className="ProjectDropdown__AvatarContainer-nj113c-7 LCfCU"
+              className="c10"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c11"
               >
                 <svg
-                  className="sc-oefIU hhjELT"
+                  className="c12"
                   color="#0d79d0"
                   height={20}
                   viewBox="0 0 34 34"
@@ -942,17 +1674,17 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
         </div>
       </div>
       <div
-        className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+        className="c7"
       >
         <button
-          className="sc-ezzayL sc-kLokih ProjectDropdown__AcceptButton-nj113c-5 cRSqLN bYa-DYT keNSdg"
+          className="c13 c14 c15"
           onClick={[Function]}
           type="button"
         >
           Accept
         </button>
         <button
-          className="sc-ezzayL sc-bYwzba ProjectDropdown__RejectButton-nj113c-6 cRSqLN bXiklN bQYwVJ"
+          className="c13 c16 c17"
           onClick={[Function]}
           type="button"
         >
@@ -961,19 +1693,19 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
       </div>
     </div>
     <div
-      className="ProjectsDropdownList__ProjectContainer-iy7kf9-0 iKAHVI"
+      className="c18"
     >
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-3"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -1002,21 +1734,21 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
             </svg>
           </div>
           <div
-            className="Dropdown__PlaceholderTitle-fhxyb7-2 fAXUxr"
+            className="c19 c20"
           />
         </div>
       </a>
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-1"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -1049,15 +1781,15 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
       </a>
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-2"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -1090,13 +1822,13 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
       </a>
     </div>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c4"
     />
     <div
-      className="ProjectDropdown__ActionContainer-nj113c-0 iliCiP"
+      className="c21"
     >
       <button
-        className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf gETdIg"
+        className="c13 c22 c23"
         onClick={[Function]}
         size="default"
         type="button"
@@ -1123,7 +1855,7 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
           </g>
         </svg>
         <div
-          className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          className="c24"
         >
           New Project
         </div>
@@ -1134,21 +1866,317 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
 `;
 
 exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
+.c13 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c13 svg + span {
+  margin-left: 4px;
+}
+
+.c16 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c16:not([disabled]):hover,
+.c16:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c16:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c14 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c14:not([disabled]):hover,
+.c14:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c14:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c22 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c22 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c11 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c12 path {
+  fill: #0d79d0;
+}
+
+.c12:hover path {
+  fill: #0d79d0;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c23 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+}
+
+.c23 svg {
+  max-height: 28px;
+  max-width: 28px;
+}
+
+.c23 svg {
+  margin: 0;
+}
+
+.c23 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c23:focus svg path:first-of-type,
+.c23:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c24 {
+  padding-left: 12px;
+}
+
+.c20 {
+  color: #6e6e6e;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 14px;
+  -webkit-letter-spacing: -0.3px;
+  -moz-letter-spacing: -0.3px;
+  -ms-letter-spacing: -0.3px;
+  letter-spacing: -0.3px;
+  color: #6e6e6e;
+  clear: both;
+  margin-top: 8px;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px 12px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #353535;
+  pointer-events: unset;
+}
+
+.c1:hover,
+.c1:hover .c19 {
+  background: #f2fbfc;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px 12px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #353535;
+  pointer-events: unset;
+  cursor: pointer;
+}
+
+.c5:hover,
+.c5:hover .c19 {
+  background: #f2fbfc;
+}
+
+.c5:hover .user-icon-path {
+  fill: #fff;
+}
+
+.c4 {
+  height: 1px;
+  width: 100%;
+  opacity: 0.23;
+  background-color: #bce7f6;
+}
+
+.c21 {
+  padding: 12px;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 12px;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 4px;
+}
+
+.c7 {
+  display: grid;
+  padding-left: 8px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c15 {
+  line-height: 1;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.c17 {
+  line-height: 1;
+  font-size: 14px;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 6px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c9 {
+  height: 20px;
+}
+
+.c18 {
+  overflow: auto;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <a
       aria-current={null}
-      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      className="c1"
       href="/projects"
       onClick={[Function]}
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+          className="c3"
         >
           <svg
             height={26}
@@ -1188,16 +2216,16 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
       </div>
     </a>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c4"
     />
     <div
-      className="Dropdown__DropdownElement-fhxyb7-5 lhCwmi"
+      className="c5"
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownWithNotificationIcon-nj113c-2 bbrqMJ"
+          className="c6"
         >
           <svg
             color="#0d79d0"
@@ -1280,25 +2308,25 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
           </svg>
         </div>
         <div
-          className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+          className="c7"
         >
           <div />
           <div
-            className="Dropdown__InvitedBy-fhxyb7-3 aoFFf"
+            className="c8"
           >
             <div
-              className="ProjectDropdown__InvitedByText-nj113c-8 dvMrAN"
+              className="c9"
             >
               Invited by
             </div>
             <div
-              className="ProjectDropdown__AvatarContainer-nj113c-7 LCfCU"
+              className="c10"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c11"
               >
                 <svg
-                  className="sc-oefIU hhjELT"
+                  className="c12"
                   color="#0d79d0"
                   height={20}
                   viewBox="0 0 34 34"
@@ -1315,17 +2343,17 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
         </div>
       </div>
       <div
-        className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+        className="c7"
       >
         <button
-          className="sc-ezzayL sc-kLokih ProjectDropdown__AcceptButton-nj113c-5 cRSqLN bYa-DYT keNSdg"
+          className="c13 c14 c15"
           onClick={[Function]}
           type="button"
         >
           Accept
         </button>
         <button
-          className="sc-ezzayL sc-bYwzba ProjectDropdown__RejectButton-nj113c-6 cRSqLN bXiklN bQYwVJ"
+          className="c13 c16 c17"
           onClick={[Function]}
           type="button"
         >
@@ -1334,13 +2362,13 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
       </div>
     </div>
     <div
-      className="Dropdown__DropdownElement-fhxyb7-5 lhCwmi"
+      className="c5"
     >
       <div
-        className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+        className="c2"
       >
         <div
-          className="ProjectDropdown__DropdownWithNotificationIcon-nj113c-2 bbrqMJ"
+          className="c6"
         >
           <svg
             color="#0d79d0"
@@ -1423,25 +2451,25 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
           </svg>
         </div>
         <div
-          className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+          className="c7"
         >
           <div />
           <div
-            className="Dropdown__InvitedBy-fhxyb7-3 aoFFf"
+            className="c8"
           >
             <div
-              className="ProjectDropdown__InvitedByText-nj113c-8 dvMrAN"
+              className="c9"
             >
               Invited by
             </div>
             <div
-              className="ProjectDropdown__AvatarContainer-nj113c-7 LCfCU"
+              className="c10"
             >
               <div
-                className="sc-jffIyK kbBVcu"
+                className="c11"
               >
                 <svg
-                  className="sc-oefIU hhjELT"
+                  className="c12"
                   color="#0d79d0"
                   height={20}
                   viewBox="0 0 34 34"
@@ -1458,17 +2486,17 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
         </div>
       </div>
       <div
-        className="ProjectDropdown__ButtonsContainer-nj113c-3 htJNip"
+        className="c7"
       >
         <button
-          className="sc-ezzayL sc-kLokih ProjectDropdown__AcceptButton-nj113c-5 cRSqLN bYa-DYT keNSdg"
+          className="c13 c14 c15"
           onClick={[Function]}
           type="button"
         >
           Accept
         </button>
         <button
-          className="sc-ezzayL sc-bYwzba ProjectDropdown__RejectButton-nj113c-6 cRSqLN bXiklN bQYwVJ"
+          className="c13 c16 c17"
           onClick={[Function]}
           type="button"
         >
@@ -1477,19 +2505,19 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
       </div>
     </div>
     <div
-      className="ProjectsDropdownList__ProjectContainer-iy7kf9-0 iKAHVI"
+      className="c18"
     >
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-3"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -1518,21 +2546,21 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
             </svg>
           </div>
           <div
-            className="Dropdown__PlaceholderTitle-fhxyb7-2 fAXUxr"
+            className="c19 c20"
           />
         </div>
       </a>
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-1"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -1565,15 +2593,15 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
       </a>
       <a
         aria-current={null}
-        className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+        className="c1"
         href="/projects/project-2"
         onClick={[Function]}
       >
         <div
-          className="ProjectDropdown__ProjectNameContainer-nj113c-4 dhjNtT"
+          className="c2"
         >
           <div
-            className="ProjectDropdown__DropdownIcon-nj113c-1 laumky"
+            className="c3"
           >
             <svg
               color="#0d79d0"
@@ -1606,13 +2634,13 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
       </a>
     </div>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c4"
     />
     <div
-      className="ProjectDropdown__ActionContainer-nj113c-0 iliCiP"
+      className="c21"
     >
       <button
-        className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf gETdIg"
+        className="c13 c22 c23"
         onClick={[Function]}
         size="default"
         type="button"
@@ -1639,7 +2667,7 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
           </g>
         </svg>
         <div
-          className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          className="c24"
         >
           New Project
         </div>
@@ -1650,18 +2678,106 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
 `;
 
 exports[`Storyshots Nav/Projects Dropdown List Without projects 1`] = `
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c3 svg + span {
+  margin-left: 4px;
+}
+
+.c4 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c4 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c5 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+}
+
+.c5 svg {
+  max-height: 28px;
+  max-width: 28px;
+}
+
+.c5 svg {
+  margin: 0;
+}
+
+.c5 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c5:focus svg path:first-of-type,
+.c5:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c6 {
+  padding-left: 12px;
+}
+
+.c2 {
+  padding: 12px;
+}
+
+.c1 {
+  overflow: auto;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="ProjectsDropdownList__ProjectContainer-iy7kf9-0 iKAHVI"
+      className="c1"
     />
     <div
-      className="ProjectDropdown__ActionContainer-nj113c-0 iliCiP"
+      className="c2"
     >
       <button
-        className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf gETdIg"
+        className="c3 c4 c5"
         onClick={[Function]}
         size="default"
         type="button"
@@ -1688,7 +2804,7 @@ exports[`Storyshots Nav/Projects Dropdown List Without projects 1`] = `
           </g>
         </svg>
         <div
-          className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+          className="c6"
         >
           New Project
         </div>

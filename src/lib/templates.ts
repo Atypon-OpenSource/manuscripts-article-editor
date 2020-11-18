@@ -15,7 +15,6 @@ import {
   buildParagraph,
   buildSection,
   DEFAULT_BUNDLE,
-  fromPrototype,
   generateID,
   ManuscriptModel,
 } from '@manuscripts/manuscript-transform'
@@ -274,49 +273,6 @@ export const createManuscriptSectionsFromTemplate = (
   }
 
   return items
-}
-
-const findBundleByURL = (
-  url: string,
-  bundles: Map<string, Bundle>
-): Bundle | undefined => {
-  for (const bundle of bundles.values()) {
-    if (bundle.csl && bundle.csl['self-URL'] === url) {
-      return bundle
-    }
-  }
-}
-
-export const createParentBundle = (
-  bundle: Bundle,
-  bundles: Map<string, Bundle>
-): Bundle | undefined => {
-  if (bundle.csl) {
-    const parentURL = bundle.csl['independent-parent-URL']
-
-    if (parentURL) {
-      const parentBundle = findBundleByURL(parentURL, bundles)
-
-      if (!parentBundle) {
-        throw new Error(`Bundle with URL not found: ${parentURL} `)
-      }
-
-      return fromPrototype<Bundle>(parentBundle)
-    }
-  }
-}
-
-export const createNewBundle = (
-  bundleID: string,
-  bundles: Map<string, Bundle>
-): Bundle => {
-  const bundle = bundles.get(bundleID)
-
-  if (!bundle) {
-    throw new Error(`Bundle not found: ${bundleID}`)
-  }
-
-  return fromPrototype<Bundle>(bundle)
 }
 
 export const createMergedTemplate = (

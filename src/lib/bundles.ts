@@ -11,12 +11,16 @@
  */
 
 import { loadStyle } from '@manuscripts/library'
-import { Build, DEFAULT_BUNDLE } from '@manuscripts/manuscript-transform'
+import {
+  Build,
+  createNewBundle,
+  createParentBundle,
+  DEFAULT_BUNDLE,
+} from '@manuscripts/manuscript-transform'
 import { Bundle } from '@manuscripts/manuscripts-json-schema'
 import { RxAttachmentCreator } from '@manuscripts/rxdb'
 
 import { importSharedData } from './shared-data'
-import { createNewBundle, createParentBundle } from './templates'
 
 const attachBundleStyle = async (
   bundle: Build<Bundle & { attachment?: RxAttachmentCreator }>

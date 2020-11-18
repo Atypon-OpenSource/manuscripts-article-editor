@@ -1,18 +1,174 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Account/Messages/Login gatewayInaccessibleErrorMessage 1`] = `
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c7 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c8 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):hover,
+.c8:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c9 g[fill] {
+  fill: currentColor;
+}
+
+.c9:not([disabled]):focus,
+.c9:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #fff1f0;
+  border: solid 1px #f5c1b7;
+  color: #f35143;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c10 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-kHWWFa iOXcUE loOVdQ alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -27,19 +183,19 @@ exports[`Storyshots Account/Messages/Login gatewayInaccessibleErrorMessage 1`] =
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           Trouble reaching manuscripts.io servers. Please try again later.
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c6 c7 c8 c9"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c10"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -73,18 +229,187 @@ exports[`Storyshots Account/Messages/Login gatewayInaccessibleErrorMessage 1`] =
 `;
 
 exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - default 1`] = `
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c7 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c9 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c10 g[fill] {
+  fill: currentColor;
+}
+
+.c10:not([disabled]):focus,
+.c10:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #fff1f0;
+  border: solid 1px #f5c1b7;
+  color: #f35143;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c11 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c6 {
+  display: inline;
+  color: #2781a1;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  border: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-kHWWFa iOXcUE loOVdQ alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -99,13 +424,13 @@ exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - defaul
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           <span>
             An error occurred while logging in, please
              
             <button
-              className="ContactSupportButton__InlineButton-sc-1693mpt-0 bvbUKx"
+              className="c6"
               onClick={[Function]}
             >
               contact support.
@@ -114,13 +439,13 @@ exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - defaul
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c7 c8 c9 c10"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c11"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -154,18 +479,187 @@ exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - defaul
 `;
 
 exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - user not found 1`] = `
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c7 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c9 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c10 g[fill] {
+  fill: currentColor;
+}
+
+.c10:not([disabled]):focus,
+.c10:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #fff1f0;
+  border: solid 1px #f5c1b7;
+  color: #f35143;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c11 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c6 {
+  display: inline;
+  color: #2781a1;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  border: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-kHWWFa iOXcUE loOVdQ alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -180,12 +674,12 @@ exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - user n
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           <span>
             A user record matching your identity was unexpectedly not found. Please 
             <button
-              className="ContactSupportButton__InlineButton-sc-1693mpt-0 bvbUKx"
+              className="c6"
               onClick={[Function]}
             >
               contact support
@@ -195,13 +689,13 @@ exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - user n
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c7 c8 c9 c10"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c11"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -235,18 +729,187 @@ exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - user n
 `;
 
 exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - validation-error 1`] = `
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c7 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c9 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c10 g[fill] {
+  fill: currentColor;
+}
+
+.c10:not([disabled]):focus,
+.c10:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #fff1f0;
+  border: solid 1px #f5c1b7;
+  color: #f35143;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c11 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c6 {
+  display: inline;
+  color: #2781a1;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  border: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-kHWWFa iOXcUE loOVdQ alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -261,13 +924,13 @@ exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - valida
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           <span>
             An invalid request was made when attempting to log in. Please
              
             <button
-              className="ContactSupportButton__InlineButton-sc-1693mpt-0 bvbUKx"
+              className="c6"
               onClick={[Function]}
             >
               contact support
@@ -277,13 +940,13 @@ exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - valida
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c7 c8 c9 c10"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c11"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -317,18 +980,174 @@ exports[`Storyshots Account/Messages/Login identityProviderErrorMessage - valida
 `;
 
 exports[`Storyshots Account/Messages/Login infoLoginMessage 1`] = `
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c7 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c8 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):hover,
+.c8:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c9 g[fill] {
+  fill: currentColor;
+}
+
+.c9:not([disabled]):focus,
+.c9:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #f2fbfc;
+  border: solid 1px #0d79d0;
+  color: #2781a1;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c10 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-hOPghE iOXcUE ejfhxV alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -343,19 +1162,19 @@ exports[`Storyshots Account/Messages/Login infoLoginMessage 1`] = `
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           Logged in successfully
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c6 c7 c8 c9"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c10"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -389,18 +1208,187 @@ exports[`Storyshots Account/Messages/Login infoLoginMessage 1`] = `
 `;
 
 exports[`Storyshots Account/Messages/Login networkErrorMessage 1`] = `
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c7 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c9 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c10 g[fill] {
+  fill: currentColor;
+}
+
+.c10:not([disabled]):focus,
+.c10:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #fff1f0;
+  border: solid 1px #f5c1b7;
+  color: #f35143;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c11 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c6 {
+  display: inline;
+  color: #2781a1;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  border: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-kHWWFa iOXcUE loOVdQ alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -415,13 +1403,13 @@ exports[`Storyshots Account/Messages/Login networkErrorMessage 1`] = `
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           <span>
             Failed to connect to service. Please check your network connection before trying again, and if the problem persists
              
             <button
-              className="ContactSupportButton__InlineButton-sc-1693mpt-0 bvbUKx"
+              className="c6"
               onClick={[Function]}
             >
               contact support.
@@ -430,13 +1418,13 @@ exports[`Storyshots Account/Messages/Login networkErrorMessage 1`] = `
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c7 c8 c9 c10"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c11"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -470,21 +1458,165 @@ exports[`Storyshots Account/Messages/Login networkErrorMessage 1`] = `
 `;
 
 exports[`Storyshots Account/Messages/Login resendVerificationDataMessage 1`] = `
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c7 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c8 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c9 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c9 g[fill] {
+  fill: currentColor;
+}
+
+.c9:not([disabled]):focus,
+.c9:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #dff0d7;
+  border: solid 1px #b2c0ac;
+  color: #36b260;
+}
+
+.c6 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c5 {
+  -webkit-transform: scale(0.75,0.75);
+  -ms-transform: scale(0.75,0.75);
+  transform: scale(0.75,0.75);
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-bTDODP iOXcUE jhuEGn alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
-            className="sc-jUfxsr ezMBTZ"
+            className="c5"
             height={32}
             viewBox="0 0 32 32"
             width={32}
@@ -551,12 +1683,12 @@ exports[`Storyshots Account/Messages/Login resendVerificationDataMessage 1`] = `
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c6"
         >
           Verification message send successfully to foobar@manuscripts.com
         </div>
         <button
-          className="sc-ezzayL sc-jJMGHv sc-jHNhIU cRSqLN qAimf GPWUb"
+          className="c7 c8 c9"
           onClick={[Function]}
           type="button"
         >
@@ -569,18 +1701,174 @@ exports[`Storyshots Account/Messages/Login resendVerificationDataMessage 1`] = `
 `;
 
 exports[`Storyshots Account/Messages/Login verificationMessage 1`] = `
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c7 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c8 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):hover,
+.c8:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c9 g[fill] {
+  fill: currentColor;
+}
+
+.c9:not([disabled]):focus,
+.c9:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #fff1f0;
+  border: solid 1px #f5c1b7;
+  color: #f35143;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c10 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-kHWWFa iOXcUE loOVdQ alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -595,19 +1883,19 @@ exports[`Storyshots Account/Messages/Login verificationMessage 1`] = `
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           Account verification failed. Is the account already verified?
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c6 c7 c8 c9"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c10"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -641,18 +1929,174 @@ exports[`Storyshots Account/Messages/Login verificationMessage 1`] = `
 `;
 
 exports[`Storyshots Account/Messages/Login verificationMessage default 1`] = `
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c7 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c8 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):hover,
+.c8:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c9 g[fill] {
+  fill: currentColor;
+}
+
+.c9:not([disabled]):focus,
+.c9:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #f2fbfc;
+  border: solid 1px #0d79d0;
+  color: #2781a1;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c10 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-hOPghE iOXcUE ejfhxV alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -667,19 +2111,19 @@ exports[`Storyshots Account/Messages/Login verificationMessage default 1`] = `
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           Verification failed
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c6 c7 c8 c9"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c10"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -713,18 +2157,174 @@ exports[`Storyshots Account/Messages/Login verificationMessage default 1`] = `
 `;
 
 exports[`Storyshots Account/Messages/Login warningLoginMessage 1`] = `
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c7 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c8 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):hover,
+.c8:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c9 g[fill] {
+  fill: currentColor;
+}
+
+.c9:not([disabled]):focus,
+.c9:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #fffcdb;
+  border: solid 1px #ffe0b2;
+  color: #fe8f1f;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c10 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-dsXyEt iOXcUE bPfLto alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -758,19 +2358,19 @@ exports[`Storyshots Account/Messages/Login warningLoginMessage 1`] = `
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           This is a warning message
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c6 c7 c8 c9"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c10"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -804,18 +2404,174 @@ exports[`Storyshots Account/Messages/Login warningLoginMessage 1`] = `
 `;
 
 exports[`Storyshots Account/Messages/Signup signupVerifyConflictMessage 1`] = `
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c7 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c8 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):hover,
+.c8:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c8:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c9 g[fill] {
+  fill: currentColor;
+}
+
+.c9:not([disabled]):focus,
+.c9:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #fffcdb;
+  border: solid 1px #ffe0b2;
+  color: #fe8f1f;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c10 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-dsXyEt iOXcUE bPfLto alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -849,19 +2605,19 @@ exports[`Storyshots Account/Messages/Signup signupVerifyConflictMessage 1`] = `
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           Account already exists with foobar@manuscripts.com. Verification email has been re-sent to your email address.
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c6 c7 c8 c9"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c10"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -895,21 +2651,165 @@ exports[`Storyshots Account/Messages/Signup signupVerifyConflictMessage 1`] = `
 `;
 
 exports[`Storyshots Account/Messages/Signup signupVerifyMessage 1`] = `
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c7 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c8 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c9 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c9 g[fill] {
+  fill: currentColor;
+}
+
+.c9:not([disabled]):focus,
+.c9:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #dff0d7;
+  border: solid 1px #b2c0ac;
+  color: #36b260;
+}
+
+.c6 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c5 {
+  -webkit-transform: scale(0.75,0.75);
+  -ms-transform: scale(0.75,0.75);
+  transform: scale(0.75,0.75);
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-bTDODP iOXcUE jhuEGn alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
-            className="sc-jUfxsr ezMBTZ"
+            className="c5"
             height={32}
             viewBox="0 0 32 32"
             width={32}
@@ -976,12 +2876,12 @@ exports[`Storyshots Account/Messages/Signup signupVerifyMessage 1`] = `
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c6"
         >
           Thanks for signing up! Please click the link sent to foobar@manuscripts.com to verify your account.
         </div>
         <button
-          className="sc-ezzayL sc-jJMGHv sc-jHNhIU cRSqLN qAimf GPWUb"
+          className="c7 c8 c9"
           onClick={[Function]}
           type="button"
         >
@@ -994,18 +2894,156 @@ exports[`Storyshots Account/Messages/Signup signupVerifyMessage 1`] = `
 `;
 
 exports[`Storyshots Account/Messages/Signup signupVerifyResendFailureMessage 1`] = `
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c7 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c7 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c8 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c8 g[fill] {
+  fill: currentColor;
+}
+
+.c8:not([disabled]):focus,
+.c8:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #fff1f0;
+  border: solid 1px #f5c1b7;
+  color: #f35143;
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-kHWWFa iOXcUE loOVdQ alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
             height={24}
@@ -1020,12 +3058,12 @@ exports[`Storyshots Account/Messages/Signup signupVerifyResendFailureMessage 1`]
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c5"
         >
           Failed to re-send verification email to foobar@manuscripts.com.
         </div>
         <button
-          className="sc-ezzayL sc-jJMGHv sc-jHNhIU cRSqLN qAimf GPWUb"
+          className="c6 c7 c8"
           onClick={[Function]}
           type="button"
         >
@@ -1038,21 +3076,196 @@ exports[`Storyshots Account/Messages/Signup signupVerifyResendFailureMessage 1`]
 `;
 
 exports[`Storyshots Account/Messages/Signup signupVerifyResendSuccessMessage 1`] = `
+.c8 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c8 svg + span {
+  margin-left: 4px;
+}
+
+.c9 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c10 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10:not([disabled]):hover,
+.c10:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c11 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c11 g[fill] {
+  fill: currentColor;
+}
+
+.c11:not([disabled]):focus,
+.c11:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #dff0d7;
+  border: solid 1px #b2c0ac;
+  color: #36b260;
+}
+
+.c6 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c5 {
+  -webkit-transform: scale(0.75,0.75);
+  -ms-transform: scale(0.75,0.75);
+  transform: scale(0.75,0.75);
+}
+
+.c12 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  display: inline;
+  color: #2781a1;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  border: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-bTDODP iOXcUE jhuEGn alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
-            className="sc-jUfxsr ezMBTZ"
+            className="c5"
             height={32}
             viewBox="0 0 32 32"
             width={32}
@@ -1119,7 +3332,7 @@ exports[`Storyshots Account/Messages/Signup signupVerifyResendSuccessMessage 1`]
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c6"
         >
           <span>
             Verification email re-resent to 
@@ -1127,7 +3340,7 @@ exports[`Storyshots Account/Messages/Signup signupVerifyResendSuccessMessage 1`]
             . If you have not received it, please wait, check your spam box before
              
             <button
-              className="ContactSupportButton__InlineButton-sc-1693mpt-0 bvbUKx"
+              className="c7"
               onClick={[Function]}
             >
               contacting support.
@@ -1136,13 +3349,13 @@ exports[`Storyshots Account/Messages/Signup signupVerifyResendSuccessMessage 1`]
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c8 c9 c10 c11"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c12"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -1176,8 +3389,15 @@ exports[`Storyshots Account/Messages/Signup signupVerifyResendSuccessMessage 1`]
 `;
 
 exports[`Storyshots Messages AddAuthorsMessage 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     Add authors to your author list from your collaborators, or invite new ones
@@ -1186,8 +3406,15 @@ exports[`Storyshots Messages AddAuthorsMessage 1`] = `
 `;
 
 exports[`Storyshots Messages EmptyManuscriptsMessage 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     No manuscripts yet
@@ -1196,8 +3423,15 @@ exports[`Storyshots Messages EmptyManuscriptsMessage 1`] = `
 `;
 
 exports[`Storyshots Messages FeedbackMessage 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     Post Feedback
@@ -1206,8 +3440,15 @@ exports[`Storyshots Messages FeedbackMessage 1`] = `
 `;
 
 exports[`Storyshots Messages ImportManuscriptMessage 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     Use the + button to create a new Manuscript or import one from your computer.
@@ -1216,8 +3457,15 @@ exports[`Storyshots Messages ImportManuscriptMessage 1`] = `
 `;
 
 exports[`Storyshots Messages ManageProfileMessage 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     Details
@@ -1226,8 +3474,15 @@ exports[`Storyshots Messages ManageProfileMessage 1`] = `
 `;
 
 exports[`Storyshots Messages ManuscriptsTitleMessage 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     Manuscripts
@@ -1236,21 +3491,183 @@ exports[`Storyshots Messages ManuscriptsTitleMessage 1`] = `
 `;
 
 exports[`Storyshots Messages MessageBanner 1`] = `
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c7 svg + span {
+  margin-left: 4px;
+}
+
+.c8 {
+  padding: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.c9 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c10 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c10 g[fill] {
+  fill: currentColor;
+}
+
+.c10:not([disabled]):focus,
+.c10:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c4 {
+  height: 24px;
+  margin-right: 12px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 1 "Lato",sans-serif;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px;
+  white-space: normal;
+}
+
+.c2 {
+  background-color: #dff0d7;
+  border: solid 1px #b2c0ac;
+  color: #36b260;
+}
+
+.c6 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  word-break: break-word;
+}
+
+.c5 {
+  -webkit-transform: scale(0.75,0.75);
+  -ms-transform: scale(0.75,0.75);
+  transform: scale(0.75,0.75);
+}
+
+.c11 {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="sc-eKYRpg sc-bTDODP iOXcUE jhuEGn alert-message"
+      className="c1 c2 alert-message"
     >
       <div
-        className="sc-hmbsMR jcsba-d"
+        className="c3"
       >
         <div
-          className="sc-jOFreG gmbONa"
+          className="c4"
         >
           <svg
-            className="sc-jUfxsr ezMBTZ"
+            className="c5"
             height={32}
             viewBox="0 0 32 32"
             width={32}
@@ -1317,19 +3734,19 @@ exports[`Storyshots Messages MessageBanner 1`] = `
           </svg>
         </div>
         <div
-          className="sc-daBvwG ETUjy"
+          className="c6"
         >
           Password reset was successful.
         </div>
       </div>
       <button
-        className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-amjdv cRSqLN cAfxFn ifa-DBT dNpmXb"
+        className="c7 c8 c9 c10"
         onClick={[Function]}
         size={16}
         type="button"
       >
         <svg
-          className="sc-jQAyEw erWFzz"
+          className="c11"
           height={26}
           viewBox="0 0 26 26"
           width={26}
@@ -1363,8 +3780,15 @@ exports[`Storyshots Messages MessageBanner 1`] = `
 `;
 
 exports[`Storyshots Messages PreferencesMessage 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     Preferences
@@ -1373,8 +3797,15 @@ exports[`Storyshots Messages PreferencesMessage 1`] = `
 `;
 
 exports[`Storyshots Messages SignInMessage 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     Sign in

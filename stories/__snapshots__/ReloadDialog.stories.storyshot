@@ -1,19 +1,171 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Reload Dialog with message 1`] = `
+.c8 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c8 svg + span {
+  margin-left: 4px;
+}
+
+.c10 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c10:not([disabled]):hover,
+.c10:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c10:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c9 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c9:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c6 button:not(:first-child) {
+  margin-left: 4px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c5 {
+  display: inline;
+  color: #2781a1;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  border: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.c3 {
+  margin-right: 8px;
+  color: #fffcdb;
+}
+
+.c1 {
+  border-radius: 8px;
+  box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
+  background: #fff;
+  font-family: "Lato",sans-serif;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 16px;
+}
+
+.c4 {
+  max-width: 300px;
+  min-height: 100px;
+  font-size: 16px;
+  color: #6e6e6e;
+  padding: 0 16px;
+}
+
+.c4 a {
+  color: inherit;
+}
+
+.c7 {
+  padding: 16px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="ReloadDialog__ModalBody-sc-1s8bgjk-1 kFCRcs"
+        className="c1"
       >
         <div
-          className="ReloadDialog__Header-sc-1s8bgjk-2 iHqwFg"
+          className="c2"
         >
           <svg
-            className="ReloadDialog__Icon-sc-1s8bgjk-0 iVaAUH"
+            className="c3"
             height={24}
             viewBox="0 0 24 24"
             width={24}
@@ -27,7 +179,7 @@ exports[`Storyshots Reload Dialog with message 1`] = `
            Failed to open project for editing
         </div>
         <div
-          className="ReloadDialog__Body-sc-1s8bgjk-3 seuCh"
+          className="c4"
         >
           <div>
             <p>
@@ -37,7 +189,7 @@ exports[`Storyshots Reload Dialog with message 1`] = `
               If the problem persists, please
                
               <button
-                className="ContactSupportButton__InlineButton-sc-1693mpt-0 bvbUKx"
+                className="c5"
                 onClick={[Function]}
               >
                 contact support.
@@ -46,17 +198,17 @@ exports[`Storyshots Reload Dialog with message 1`] = `
           </div>
         </div>
         <div
-          className="sc-iTVIwl ReloadDialog__Actions-sc-1s8bgjk-4 fqGxrZ gbFFNH"
+          className="c6 c7"
         >
           <button
-            className="sc-ezzayL sc-iklIKw cRSqLN laqiSe"
+            className="c8 c9"
             onClick={[Function]}
             type="button"
           >
             View projects
           </button>
           <button
-            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            className="c8 c10"
             onClick={[Function]}
             type="button"
           >

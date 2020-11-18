@@ -160,7 +160,7 @@ const parseXML = (xml: string): Document => {
   return new DOMParser().parseFromString(xml, 'application/xml')
 }
 
-const convertXMLDocument = (doc: Document): Model[] => {
+const convertXMLDocument = async (doc: Document): Promise<Model[]> => {
   // TODO: check doc.doctype.publicId?
   switch (doc.documentElement.nodeName) {
     case 'article':
@@ -327,7 +327,7 @@ export const importFile = async (file: File) => {
     const xml = await zip.files[filename].async('text')
     const doc = parseXML(xml)
 
-    const models = convertXMLDocument(doc)
+    const models = await convertXMLDocument(doc)
 
     await loadExtylesAttachments(zip, models)
 

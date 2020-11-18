@@ -1989,10 +1989,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.0.tgz#8b8ae4e0afd9f9bbda371c1548d5854c703d8747"
   integrity sha512-Lr7am9TkzLYOJjgPr6pRtkd8IjX/atew6YX/9o9xspIZJla51fSSPk6cTCVtT70Srn1aShLxZF4hi1jZH5+Gzw==
 
-"@manuscripts/data@^0.1.0", "@manuscripts/data@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.1.tgz#eef6afb1f45cee7b60e1c655049d5f1977c9e278"
-  integrity sha512-M83afpyuxG1O31nh25Aw1tmP3a/hwX9bGBWko68m60JT4x363p5XUuH7AShrfRtecGD8hnMiQ90x1n1KPxsxMw==
+"@manuscripts/data@^0.1.2", "@manuscripts/data@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.3.tgz#7f5fda8b518e6851e4461e21664182aae39621f9"
+  integrity sha512-FriVBENLiEyNS7S6r3lgwqbpmKxpZirwcrjNdE6jdchEI6AfbZUe2OoLyv29a9HNRbQAZq1eUKevoZZ4OuwLpw==
 
 "@manuscripts/eslint-config@^0.4.2":
   version "0.4.2"
@@ -2008,34 +2008,34 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.7.tgz#f7f0cef173fb2c83fbf283a2c2962b5d6ea32874"
   integrity sha512-7a1y6H/wnvn4hTh7S+TEyC8R5tLHHNiWYJnbeS43JCMYS/6qhMCzJTS0PwQynoep7PWwi2LdgaSZ3qALxzgg0g==
 
-"@manuscripts/library@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.3.3.tgz#4c239a420ba4734bad7b7752a1c2073d76555152"
-  integrity sha512-UKOcxgeuABuegy8+QgTrtB7RN84dqhAIkbolg5klnZlY29fzytNYIrH3Rq46HF5AZ4GQgczw8lGg9Jg1c+i2ig==
+"@manuscripts/library@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.5.0.tgz#f5a969939dadd979365b76a2ff2401b59b75f445"
+  integrity sha512-iFtCFegmbRxpsYSG49hDwQcgsfQ+wZwRreSO3hy+cGLzlqCDUQnl4XsjwxB29LIJA7iuAw1d2MRl/SzhV930jA==
   dependencies:
     "@manuscripts/csl-locales" "^0.0.4"
     "@manuscripts/csl-styles" "^0.2.0"
-    "@manuscripts/data" "^0.1.0"
-    "@manuscripts/manuscript-transform" "^0.36.0"
-    astrocite-bibtex "^0.16.3"
-    astrocite-ris "^0.16.0"
-    citeproc "^2.4.6"
-    fontoxpath "^3.12.1"
+    "@manuscripts/data" "^0.1.2"
+    "@manuscripts/manuscript-transform" "^0.38.0"
+    astrocite-bibtex "^0.16.4"
+    astrocite-ris "^0.16.4"
+    citeproc "^2.4.48"
+    fontoxpath "^3.14.0"
 
-"@manuscripts/manuscript-editor@^0.76.0":
-  version "0.76.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.76.0.tgz#9f2e1c991ac589e5c1b1565b05d415ae8fdfe047"
-  integrity sha512-fwKL1C0AYsnxoob5a72Q6qLJMfqg+77pSicb2VmxNbhcy/QBOB6vHTqAYFdlMKzRdPWoCQ+LzuHA1+ZRHI2IkA==
+"@manuscripts/manuscript-editor@^0.78.0":
+  version "0.78.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.78.0.tgz#ccb5e6ea684a4184238f66a2b54b4e1709aca805"
+  integrity sha512-cLJW6nOlCQuMFqA2ij+18UYeGc4Wf8OWc+jiCTrCPTlvD69xGTcUcxVafl5fPUnt4HKSXcy/ounLH+qTVmhsyQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
-    "@manuscripts/manuscripts-json-schema" "^1.33.0"
+    "@manuscripts/manuscripts-json-schema" "^1.39.0"
     "@manuscripts/title-editor" "^0.5.1"
-    astrocite-eutils "^0.16.0"
+    astrocite-eutils "^0.16.4"
     axios "^0.20.0"
     blob-util "^2.0.2"
-    citeproc "^2.4.39"
+    citeproc "^2.4.48"
     codemirror "^5.58.1"
     crypto-hash "^1.3.0"
     dompurify "^2.1.1"
@@ -2065,23 +2065,23 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@^0.36.0", "@manuscripts/manuscript-transform@^0.36.2", "@manuscripts/manuscript-transform@^0.36.5":
-  version "0.36.5"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.36.5.tgz#b6d1e00412ee322f9a1f03c00488694bfe1d0ac0"
-  integrity sha512-ZXDgKRU4UVDCziuw1+ipbcyvphBHz1qIKn1h/qxqpCq75INS7rPRaGK8zLsmAKr01kZ74i4cQr/fyAhjCtZgdw==
+"@manuscripts/manuscript-transform@^0.38.0":
+  version "0.38.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.38.0.tgz#7751be101666291b46afaab3614605d772276536"
+  integrity sha512-ZNjZymdx69Gk9WSJiB0Rt4mz9KfyrrsVUd/vdoF5cANkY19b2lM55Jm79nNdrkafeZNo0mJdlBe3fKeVaBkUIg==
   dependencies:
-    "@manuscripts/data" "^0.1.0"
-    "@manuscripts/manuscripts-json-schema" "^1.32.0"
+    "@manuscripts/data" "^0.1.3"
+    "@manuscripts/manuscripts-json-schema" "^1.38.0"
     debug "^4.1.1"
     mime-types "^2.1.27"
     prosemirror-model "^1.11.0"
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@^1.32.0", "@manuscripts/manuscripts-json-schema@^1.33.0", "@manuscripts/manuscripts-json-schema@^1.35.0":
-  version "1.35.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.35.0.tgz#881d4612756a1e727d086e0c4f7af2add5003a71"
-  integrity sha512-OYyAvL1yG3odUt3+Y0opmPGLp0UwqOWNP6Z37m/wht8eqNT9gjYJwoPRqzg7zCTjpAWsam+86z8XxY0lWPvErw==
+"@manuscripts/manuscripts-json-schema@^1.38.0", "@manuscripts/manuscripts-json-schema@^1.39.0":
+  version "1.39.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.39.0.tgz#cd96f1fb0b5fb88562c56b68fed2bfed809840d2"
+  integrity sha512-TbPi71Uu0EsBNXikh3CARj988Q22OdURi4NIOhGEsUwqH8GrPQvnVKJY/wncKbU73+fA/IV591O90QRuUE41vA==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"
@@ -2113,16 +2113,15 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/requirements@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.1.4.tgz#ddcc9df85ea4cd9154582b65d3d857dab9929089"
-  integrity sha512-RAc6k4tG9heMTlVzfpg1HGpJLU09bmSc+HFj3hE4SIeWJj4eAG2MpZ8f4qKS+IqPbw8KSEJUYpltPI0vBZ/gOQ==
+"@manuscripts/requirements@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.3.0.tgz#28a237dafa4462ef10b1c0ff796127990f4a07a9"
+  integrity sha512-5d1Wj+J/hVjh/VdDYfl2BMnIfOYeKOOin932gjvvCX+vk3bG7evl3glqURJvmENVDDwId/1fAXx8x1tm2+IUbQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
-    "@manuscripts/data" "^0.1.0"
-    "@manuscripts/manuscript-transform" "^0.36.2"
-    "@manuscripts/manuscripts-json-schema" "^1.35.0"
-    "@types/uuid" "^8.3.0"
+    "@manuscripts/data" "^0.1.2"
+    "@manuscripts/manuscript-transform" "^0.38.0"
+    "@manuscripts/manuscripts-json-schema" "^1.39.0"
     file-type "^15.0.1"
     grapheme-splitter "^1.0.4"
     image-size "^0.9.1"
@@ -2162,23 +2161,28 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.21.1.tgz#6dccb60a0131da668bb9ff1ff0d63d0c93723d3d"
-  integrity sha512-FsQrbbs4I/czMWlNsRiucUTGrn66DQpy6/z1z4lo6jLsJkrTNIL5BzXMNH3P8roKv5kZmZ/kJic2mEin/lFOSQ==
+"@manuscripts/style-guide@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.21.2.tgz#8d88078ca77f2e9852065e6fb5ac4212e28cbd7f"
+  integrity sha512-rsRvbQNoGk6/u4aB7ADZimdPa3xSmNV4D3YhYmLAAQyhGGkrOHqtwVMyYVKnWqbEHlgaCDDq97ezNQJrVD9B6w==
   dependencies:
     "@manuscripts/assets" "^0.6.1"
+    "@manuscripts/eslint-config" "^0.4.2"
+    "@reach/tabs" "^0.11.2"
+    date-fns "^2.16.1"
     lodash-es "^4.17.15"
+    pdfjs-dist "^2.5.207"
     react-dnd "^9.4.0"
     react-modal "^3.11.2"
+    react-modern-calendar-datepicker "^3.1.3"
     react-select "^3.0.8"
     react-sizeme "^2.6.12"
     tooltip.js "^1.3.3"
 
-"@manuscripts/sync-client@^0.7.1":
-  version "0.7.1"
-  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.7.1.tgz#71eaadf237ddc1cc9ef043e4d2b20f04d442abf2"
-  integrity sha512-nfU7zEJ19KLBSKW6Ee1WoVPWDwG4dGA3p2v3C0Bxm6npIRYEQKJ61kwEZ1I/b2x3Kb0V2aaJ8zLoMnbw5agC2Q==
+"@manuscripts/sync-client@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.npmjs.org/@manuscripts/sync-client/-/sync-client-0.8.0.tgz#c3a04fc254ea3dd6c10d05ace2b9ca7532fbfa47"
+  integrity sha512-sbo3vY6w+cct4HPqBC/CC/KwaL0rQZQ49AkLFJXNfB0P8n/XEiZTTONwk62ybfJ5D8QXMAHUCrkwqJRLFrBBSQ==
   dependencies:
     "@manuscripts/prosemirror-recreate-steps" "^0.1.4"
     lodash.isequal "^4.5.0"
@@ -4759,10 +4763,10 @@ astral-regex@^1.0.0:
   resolved "https://registry.npmjs.org/astral-regex/-/astral-regex-1.0.0.tgz#6c8c3fb827dd43ee3918f27b82782ab7658a6fd9"
   integrity sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==
 
-astrocite-bibtex@^0.16.3:
-  version "0.16.3"
-  resolved "https://registry.npmjs.org/astrocite-bibtex/-/astrocite-bibtex-0.16.3.tgz#f0586543a9897e4f22bd87cb59adb3e44a906181"
-  integrity sha512-9PPKyxqWEJH+/eAcbWF33Goued2ymoP5/dzbr+PrfUlsXsi+2B4vOT/4sFlS6FLrulsntBoqjeHqF48QyH57hA==
+astrocite-bibtex@^0.16.4:
+  version "0.16.4"
+  resolved "https://registry.npmjs.org/astrocite-bibtex/-/astrocite-bibtex-0.16.4.tgz#e90ba7012cbd41befd633c783691a55e5710e78c"
+  integrity sha512-5u6uNPDzqxYoJL4x2ekGeZbcBPCIHUt3JBKX0nurpOfHzJjP8SMuVO6u/fcUaG92XPoa/oKhUAFHvtwFab49iQ==
   dependencies:
     astrocite-core "^0.16.0"
     csl-json "^0.1.0"
@@ -4774,19 +4778,19 @@ astrocite-core@^0.16.0:
   dependencies:
     csl-json "^0.1.0"
 
-astrocite-eutils@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.npmjs.org/astrocite-eutils/-/astrocite-eutils-0.16.0.tgz#b2d7336dcf4965966eb630031f86aabad3219f9e"
-  integrity sha512-Yn8PW20mTKusgdJp6tdjpeS6KGXbhgHoS67aoX/bVBZnLFVQAn3+QIii1zNZXx1i6BQ0exo4nZH8xhnKf/1QRg==
+astrocite-eutils@^0.16.4:
+  version "0.16.4"
+  resolved "https://registry.npmjs.org/astrocite-eutils/-/astrocite-eutils-0.16.4.tgz#4bddb17adf53d548ee745cef09f4a925609cb90d"
+  integrity sha512-TMBxlSQR0Ot9Ai8JG0N5/TFbGJoEP7q6/VhCNuN6Fyg5a7mk58OiAuLg23eXsAdU404OSnpdnVSDMs+m45VcWg==
   dependencies:
     astrocite-core "^0.16.0"
     csl-json "^0.1.0"
     he "^1.2.0"
 
-astrocite-ris@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.npmjs.org/astrocite-ris/-/astrocite-ris-0.16.0.tgz#a44275a7774b8cee85044fd8b523a60462cc5a89"
-  integrity sha512-astB/rYaYDuHnbBhcRWl64sYRFDui7KwlEsbCw+FXahMRAS+Oj2V7Q+Q846puyvubpVhVl4qJku+V7+eexD8ww==
+astrocite-ris@^0.16.4:
+  version "0.16.4"
+  resolved "https://registry.npmjs.org/astrocite-ris/-/astrocite-ris-0.16.4.tgz#163094b402ef4bc7c63fd3c7f9fb91694996cde8"
+  integrity sha512-O6TjeuJGugxhn07JQSmTl3zTXS67crQr99pXbq+0XYRS+8Z+kYMVJNe6Eam2VZKFl4t6E3jm+0rZN2aUmsSAGA==
   dependencies:
     astrocite-core "^0.16.0"
     csl-json "^0.1.0"
@@ -6281,10 +6285,10 @@ circular-json-es6@^2.0.1:
   resolved "https://registry.npmjs.org/circular-json-es6/-/circular-json-es6-2.0.2.tgz#e4f4a093e49fb4b6aba1157365746112a78bd344"
   integrity sha512-ODYONMMNb3p658Zv+Pp+/XPa5s6q7afhz3Tzyvo+VRh9WIrJ64J76ZC4GQxnlye/NesTn09jvOiuE8+xxfpwhQ==
 
-citeproc@^2.4.39, citeproc@^2.4.6:
-  version "2.4.39"
-  resolved "https://registry.npmjs.org/citeproc/-/citeproc-2.4.39.tgz#0d8b72a5bc8dd43369ad119d520146da7d85ba78"
-  integrity sha512-aVoLwf5xFMguwF6fXhF7vWWVCL7yE09LXDpp9CHDAlhrGrfF6AuA/Z9ig8mN3CLTJegKnFaEm5mYx5sq4y0W7w==
+citeproc@^2.4.39, citeproc@^2.4.48:
+  version "2.4.48"
+  resolved "https://registry.npmjs.org/citeproc/-/citeproc-2.4.48.tgz#246819bc3cd7f53ec653087be7cecf291cf3976e"
+  integrity sha512-R0FuUoiJk7R4LDnA1w8zBoUf53WwT19+Xb51PhCIUHb3pc7wPqtlPAPefRRA07KVauVGdaEeVRS2H2Zl6ySKNw==
 
 class-utils@^0.3.5:
   version "0.3.6"
@@ -9193,10 +9197,10 @@ follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
   integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
 
-fontoxpath@^3.12.1:
-  version "3.12.1"
-  resolved "https://registry.npmjs.org/fontoxpath/-/fontoxpath-3.12.1.tgz#ce4858b75b12466a8979a1c767eaab9cbca06c24"
-  integrity sha512-c6gCK1BJPFAAf12z6HNA3LChYB6GNG80nJgX+DhEoBSgqdJLfHjM0CqwpyPi7IZLtco33wKhXG5eJwUq8WYvRg==
+fontoxpath@^3.14.0:
+  version "3.14.0"
+  resolved "https://registry.npmjs.org/fontoxpath/-/fontoxpath-3.14.0.tgz#977edb7ee2cd8830688840b8ca74ecccc61375ea"
+  integrity sha512-t6PqPz6oKGfQw+RVDwQ4MRqYkD/QXLRiBEafKaZ0V+e+jPtQpjMhpUFgW7eZkoRxN3IpYPiZLSeNzH07TEf7nw==
   dependencies:
     xspattern "^1.2.1"
 
@@ -14643,6 +14647,11 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+pdfjs-dist@^2.5.207:
+  version "2.5.207"
+  resolved "https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-2.5.207.tgz#b5e8c19627be64269cd3fb6df3eaaf45ddffe7b6"
+  integrity sha512-xGDUhnCYPfHy+unMXCLCJtlpZaaZ17Ew3WIL0tnSgKFUZXHAPD49GO9xScyszSsQMoutNDgRb+rfBXIaX/lJbw==
+
 peek-readable@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/peek-readable/-/peek-readable-3.1.0.tgz#250b08b7de09db8573d7fd8ea475215bbff14348"
@@ -16451,7 +16460,7 @@ react-modal@^3.11.2:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-modern-calendar-datepicker@^3.1.6:
+react-modern-calendar-datepicker@^3.1.3, react-modern-calendar-datepicker@^3.1.6:
   version "3.1.6"
   resolved "https://registry.npmjs.org/react-modern-calendar-datepicker/-/react-modern-calendar-datepicker-3.1.6.tgz#46b1533eb387a4d93ae8217eb30c26a4174a138f"
   integrity sha512-lnMqEMj9Wn32/sm119tjCl5lOkq4u9vJE7wggi7hdXV4s8rPdKlH56FVVehlBi0dfYeWQVZ9npY384Zprjn4WA==

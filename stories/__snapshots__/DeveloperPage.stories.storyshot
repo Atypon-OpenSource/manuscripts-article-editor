@@ -1,46 +1,75 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots DeveloperPage default 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  padding: 10px 20px;
+  display: block;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.c1:hover {
+  background: #f2fbfc;
+}
+
+.c2 {
+  padding: 10px 20px;
+  white-space: nowrap;
+}
+
+.c3 {
+  color: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="DeveloperPageContainer__DropdownAction-uurek7-0 kgsWCJ"
+        className="c1"
         onClick={[Function]}
       >
         Create token
       </div>
       <div
-        className="DeveloperPageContainer__DropdownAction-uurek7-0 kgsWCJ"
+        className="c1"
         onClick={[Function]}
       >
         Create user profile
       </div>
       <div
-        className="DeveloperPageContainer__DropdownAction-uurek7-0 kgsWCJ"
+        className="c1"
         onClick={[Function]}
       >
         Delete database
       </div>
       <div
-        className="DeveloperPageContainer__DropdownInfo-uurek7-1 hYkkMU"
+        className="c2"
       >
         Version: 
         test
       </div>
       <div
-        className="DeveloperPageContainer__DropdownInfo-uurek7-1 hYkkMU"
+        className="c2"
       >
         Commit: 
         test
       </div>
       <div
-        className="DeveloperPageContainer__DropdownInfo-uurek7-1 hYkkMU"
+        className="c2"
       >
         <a
-          className="DeveloperPageContainer__PlainLink-uurek7-2 dVZegl"
+          className="c3"
           href="https://127.0.0.1/app/version"
         >
           API version

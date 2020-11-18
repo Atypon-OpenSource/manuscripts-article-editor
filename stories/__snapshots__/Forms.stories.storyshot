@@ -1,28 +1,251 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Account/Forms/Modal Change password 1`] = `
+.c12 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c12:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c12:hover {
+  background-color: #f2fbfc;
+}
+
+.c12:invalid {
+  box-shadow: none;
+}
+
+.c10 .c11:first-of-type {
+  margin-top: 4px;
+}
+
+.c10 .c11:last-of-type {
+  margin-bottom: 4px;
+}
+
+.c10 .c11:not(:first-of-type) {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.c10 .c11:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.c10 .c11:not(:last-of-type):focus + .c11 {
+  border-top-color: #bce7f6;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c3 svg + span {
+  margin-left: 4px;
+}
+
+.c14 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c14:not([disabled]):hover,
+.c14:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c14:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c4 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c5 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):hover,
+.c5:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6 {
+  background: #fff;
+  border: 5px solid #fff !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12);
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+  -webkit-transition: border-color 0.25s;
+  transition: border-color 0.25s;
+}
+
+.c6:focus,
+.c6:hover {
+  background: #f2fbfc !important;
+}
+
+.c6 svg {
+  max-height: 16px;
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.c1 {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
+  font-family: "Lato",sans-serif;
+  overflow: hidden;
+  margin: 12px;
+}
+
+.c2 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.c7 {
+  box-shadow: none;
+  text-indent: -99999px;
+}
+
+.c7::before,
+.c7::after {
+  background-color: #6e6e6e;
+  border-radius: 2px;
+  content: ' ';
+  display: block;
+  height: 14px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  width: 2px;
+  position: absolute;
+  top: calc(50% - 7px);
+  left: calc(50% - 1px);
+}
+
+.c7::after {
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.c8 {
+  padding: 16px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c9 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.c13 {
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="sc-eGJXgd REOgn"
+        className="c1"
       >
         <div
-          className="sc-csTaMs fVoOUB"
+          className="c2"
         >
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            className="c3 c4 c5 c6 c7"
             onClick={[Function]}
             type="button"
           />
         </div>
         <div
-          className="sc-bsatbK cHdJDA"
+          className="c8"
         >
           <div
-            className="ModalForm__ModalTitle-sc-19rmanp-0 bXjORw"
+            className="c9"
           >
             Change Password
           </div>
@@ -37,12 +260,12 @@ exports[`Storyshots Account/Forms/Modal Change password 1`] = `
               onSubmit={[Function]}
             >
               <div
-                className="sc-eCApGN bRvWwx"
+                className="c10"
               >
                 <input
                   autoComplete="password"
                   autoFocus={true}
-                  className="sc-dlnjPT iOeyAw"
+                  className="c11 c12"
                   name="currentPassword"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -53,7 +276,7 @@ exports[`Storyshots Account/Forms/Modal Change password 1`] = `
                 />
                 <input
                   autoComplete="new-password"
-                  className="sc-dlnjPT iOeyAw"
+                  className="c11 c12"
                   name="newPassword"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -64,10 +287,10 @@ exports[`Storyshots Account/Forms/Modal Change password 1`] = `
                 />
               </div>
               <div
-                className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+                className="c13"
               >
                 <button
-                  className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+                  className="c3 c14"
                   disabled={false}
                   type="submit"
                 >
@@ -84,28 +307,276 @@ exports[`Storyshots Account/Forms/Modal Change password 1`] = `
 `;
 
 exports[`Storyshots Account/Forms/Modal Delete account 1`] = `
+.c10 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c10:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c10:hover {
+  background-color: #f2fbfc;
+}
+
+.c10:invalid {
+  box-shadow: none;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c3 svg + span {
+  margin-left: 4px;
+}
+
+.c12 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  color: #fff !important;
+  background-color: #f35143 !important;
+  border-color: #f35143 !important;
+}
+
+.c12 svg + span {
+  margin-left: 4px;
+}
+
+.c12:not([disabled]):hover,
+.c12:not([disabled]):focus {
+  color: #fff !important;
+  background-color: #c74237 !important;
+  border-color: #c74237 !important;
+}
+
+.c12:not([disabled]):active {
+  color: #fff;
+  background-color: #f35143;
+  border-color: #f35143;
+}
+
+.c13 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c13:not([disabled]):hover,
+.c13:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c13:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c4 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c5 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):hover,
+.c5:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6 {
+  background: #fff;
+  border: 5px solid #fff !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12);
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+  -webkit-transition: border-color 0.25s;
+  transition: border-color 0.25s;
+}
+
+.c6:focus,
+.c6:hover {
+  background: #f2fbfc !important;
+}
+
+.c6 svg {
+  max-height: 16px;
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.c1 {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
+  font-family: "Lato",sans-serif;
+  overflow: hidden;
+  margin: 12px;
+}
+
+.c2 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.c7 {
+  box-shadow: none;
+  text-indent: -99999px;
+}
+
+.c7::before,
+.c7::after {
+  background-color: #6e6e6e;
+  border-radius: 2px;
+  content: ' ';
+  display: block;
+  height: 14px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  width: 2px;
+  position: absolute;
+  top: calc(50% - 7px);
+  left: calc(50% - 1px);
+}
+
+.c7::after {
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.c8 {
+  padding: 16px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c9 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.c11 {
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="sc-eGJXgd REOgn"
+        className="c1"
       >
         <div
-          className="sc-csTaMs fVoOUB"
+          className="c2"
         >
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            className="c3 c4 c5 c6 c7"
             onClick={[Function]}
             type="button"
           />
         </div>
         <div
-          className="sc-bsatbK cHdJDA"
+          className="c8"
         >
           <div
-            className="ModalForm__ModalTitle-sc-19rmanp-0 bXjORw"
+            className="c9"
           >
             Delete account
           </div>
@@ -121,7 +592,7 @@ exports[`Storyshots Account/Forms/Modal Delete account 1`] = `
             >
               <input
                 autoFocus={true}
-                className="sc-dlnjPT iOeyAw"
+                className="c10"
                 name="password"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -131,10 +602,10 @@ exports[`Storyshots Account/Forms/Modal Delete account 1`] = `
                 value=""
               />
               <div
-                className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+                className="c11"
               >
                 <button
-                  className="sc-ezzayL sc-kLokih dgVtfa bYa-DYT"
+                  className="c12 c13"
                   disabled={false}
                   type="submit"
                 >
@@ -151,28 +622,284 @@ exports[`Storyshots Account/Forms/Modal Delete account 1`] = `
 `;
 
 exports[`Storyshots Account/Forms/Modal Delete account with projects 1`] = `
+.c10 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c10:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c10:hover {
+  background-color: #f2fbfc;
+}
+
+.c10:invalid {
+  box-shadow: none;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c3 svg + span {
+  margin-left: 4px;
+}
+
+.c13 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  color: #fff !important;
+  background-color: #f35143 !important;
+  border-color: #f35143 !important;
+}
+
+.c13 svg + span {
+  margin-left: 4px;
+}
+
+.c13:not([disabled]):hover,
+.c13:not([disabled]):focus {
+  color: #fff !important;
+  background-color: #c74237 !important;
+  border-color: #c74237 !important;
+}
+
+.c13:not([disabled]):active {
+  color: #fff;
+  background-color: #f35143;
+  border-color: #f35143;
+}
+
+.c14 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c14:not([disabled]):hover,
+.c14:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c14:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c4 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c5 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):hover,
+.c5:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6 {
+  background: #fff;
+  border: 5px solid #fff !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12);
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+  -webkit-transition: border-color 0.25s;
+  transition: border-color 0.25s;
+}
+
+.c6:focus,
+.c6:hover {
+  background: #f2fbfc !important;
+}
+
+.c6 svg {
+  max-height: 16px;
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.c1 {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
+  font-family: "Lato",sans-serif;
+  overflow: hidden;
+  margin: 12px;
+}
+
+.c2 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.c7 {
+  box-shadow: none;
+  text-indent: -99999px;
+}
+
+.c7::before,
+.c7::after {
+  background-color: #6e6e6e;
+  border-radius: 2px;
+  content: ' ';
+  display: block;
+  height: 14px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  width: 2px;
+  position: absolute;
+  top: calc(50% - 7px);
+  left: calc(50% - 1px);
+}
+
+.c7::after {
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.c8 {
+  padding: 16px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c9 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.c12 {
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c11 {
+  font-family: "Lato",sans-serif;
+  font-size: 16px;
+  color: #6e6e6e;
+  margin-top: 16px;
+  margin-left: 20px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="sc-eGJXgd REOgn"
+        className="c1"
       >
         <div
-          className="sc-csTaMs fVoOUB"
+          className="c2"
         >
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            className="c3 c4 c5 c6 c7"
             onClick={[Function]}
             type="button"
           />
         </div>
         <div
-          className="sc-bsatbK cHdJDA"
+          className="c8"
         >
           <div
-            className="ModalForm__ModalTitle-sc-19rmanp-0 bXjORw"
+            className="c9"
           >
             Delete account
           </div>
@@ -188,7 +915,7 @@ exports[`Storyshots Account/Forms/Modal Delete account with projects 1`] = `
             >
               <input
                 autoFocus={true}
-                className="sc-dlnjPT iOeyAw"
+                className="c10"
                 name="password"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -198,7 +925,7 @@ exports[`Storyshots Account/Forms/Modal Delete account with projects 1`] = `
                 value=""
               />
               <div
-                className="DeleteAccountForm__MessageContainer-sc-1k2ug4t-0 hhAvXn"
+                className="c11"
               >
                 Deleting your account will also delete these projects
                 <ul>
@@ -211,10 +938,10 @@ exports[`Storyshots Account/Forms/Modal Delete account with projects 1`] = `
                 </ul>
               </div>
               <div
-                className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+                className="c12"
               >
                 <button
-                  className="sc-ezzayL sc-kLokih dgVtfa bYa-DYT"
+                  className="c13 c14"
                   disabled={false}
                   type="submit"
                 >
@@ -231,22 +958,139 @@ exports[`Storyshots Account/Forms/Modal Delete account with projects 1`] = `
 `;
 
 exports[`Storyshots Account/Forms/Pages Choose password 1`] = `
+.c4 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c4:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c4:hover {
+  background-color: #f2fbfc;
+}
+
+.c4:invalid {
+  box-shadow: none;
+}
+
+.c6 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c6 svg + span {
+  margin-left: 4px;
+}
+
+.c7 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c7:not([disabled]):hover,
+.c7:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c7:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c1 {
+  width: 100%;
+  max-width: 450px;
+}
+
+.c2 {
+  padding: 40px;
+  text-align: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c5 {
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c3 {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+@media (max-width:450px) {
+  .c2 {
+    padding: 40px 0;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <form
       action="#"
-      className="sc-fcmNTy zxdNU"
+      className="c1"
       noValidate={true}
       onReset={[Function]}
       onSubmit={[Function]}
     >
       <div
-        className="sc-Gvgqn fswnSU"
+        className="c2"
       >
         <div
-          className="Hero__SubHero-gmnoyv-1 dGTxWk"
+          className="c3"
         >
           Choose a new password
         </div>
@@ -254,7 +1098,7 @@ exports[`Storyshots Account/Forms/Pages Choose password 1`] = `
       <input
         autoComplete="new-password"
         autoFocus={true}
-        className="sc-dlnjPT iOeyAw"
+        className="c4"
         name="password"
         onBlur={[Function]}
         onChange={[Function]}
@@ -263,10 +1107,10 @@ exports[`Storyshots Account/Forms/Pages Choose password 1`] = `
         value=""
       />
       <div
-        className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+        className="c5"
       >
         <button
-          className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+          className="c6 c7"
           disabled={false}
           type="submit"
         >
@@ -279,38 +1123,205 @@ exports[`Storyshots Account/Forms/Pages Choose password 1`] = `
 `;
 
 exports[`Storyshots Account/Forms/Pages Login 1`] = `
+.c7 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c7:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c7:hover {
+  background-color: #f2fbfc;
+}
+
+.c7:invalid {
+  box-shadow: none;
+}
+
+.c5 .c6:first-of-type {
+  margin-top: 4px;
+}
+
+.c5 .c6:last-of-type {
+  margin-bottom: 4px;
+}
+
+.c5 .c6:not(:first-of-type) {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.c5 .c6:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.c5 .c6:not(:last-of-type):focus + .c6 {
+  border-top-color: #bce7f6;
+}
+
+.c12 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c12 svg + span {
+  margin-left: 4px;
+}
+
+.c13 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c13:not([disabled]):hover,
+.c13:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c13:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c1 {
+  width: 100%;
+  max-width: 450px;
+}
+
+.c2 {
+  padding: 40px;
+  text-align: center;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: rgba(0,0,0,0.51);
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c11 {
+  color: #0b6bb8;
+  font: inherit;
+  font-size: 14px;
+}
+
+.c4 {
+  font-size: 280%;
+  white-space: nowrap;
+}
+
+.c3 {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.c10 {
+  text-align: left;
+}
+
+.c8 {
+  font-weight: 500;
+  color: inherit;
+}
+
+@media (max-width:450px) {
+  .c2 {
+    padding: 40px 0;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <form
       action="#"
-      className="sc-fcmNTy zxdNU"
+      className="c1"
       id="login-form"
       noValidate={true}
       onReset={[Function]}
       onSubmit={[Function]}
     >
       <div
-        className="sc-Gvgqn fswnSU"
+        className="c2"
       >
         <div
-          className="Hero__SubHero-gmnoyv-1 dGTxWk"
+          className="c3"
         >
           Welcome to
         </div>
         <div
-          className="Hero-gmnoyv-0 fNBifv"
+          className="c4"
         >
           Manuscripts.io
         </div>
       </div>
       <div
-        className="sc-eCApGN bRvWwx"
+        className="c5"
       >
         <input
           autoComplete="username email"
-          className="sc-dlnjPT iOeyAw"
+          className="c6 c7"
           name="email"
           onBlur={[Function]}
           onChange={[Function]}
@@ -321,7 +1332,7 @@ exports[`Storyshots Account/Forms/Pages Login 1`] = `
         />
         <input
           autoComplete="password"
-          className="sc-dlnjPT iOeyAw"
+          className="c6 c7"
           name="password"
           onBlur={[Function]}
           onChange={[Function]}
@@ -335,7 +1346,7 @@ exports[`Storyshots Account/Forms/Pages Login 1`] = `
         By signing in you agree to our
          
         <a
-          className="LoginForm__HeavyLink-sc-1h8dgfs-3 eNpJdX"
+          className="c8"
           href="https://www.atypon.com/privacy-policy/"
         >
           Privacy policy
@@ -343,15 +1354,15 @@ exports[`Storyshots Account/Forms/Pages Login 1`] = `
         .
       </div>
       <div
-        className="sc-gsWdvU fVVZFu"
+        className="c9"
       >
         <div
-          className="LoginForm__ManuscriptLinks-sc-1h8dgfs-0 cxZfnT"
+          className="c10"
         >
           <div>
             No account? 
             <a
-              className="Form__FormLink-sc-3ioey8-0 dBhCob"
+              className="c11"
               href="/signup"
               onClick={[Function]}
             >
@@ -361,7 +1372,7 @@ exports[`Storyshots Account/Forms/Pages Login 1`] = `
           <div>
             Forgot password? 
             <a
-              className="Form__FormLink-sc-3ioey8-0 dBhCob"
+              className="c11"
               href="/recover"
               onClick={[Function]}
             >
@@ -371,7 +1382,7 @@ exports[`Storyshots Account/Forms/Pages Login 1`] = `
         </div>
         <div>
           <button
-            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            className="c12 c13"
             disabled={false}
             type="submit"
           >
@@ -385,33 +1396,180 @@ exports[`Storyshots Account/Forms/Pages Login 1`] = `
 `;
 
 exports[`Storyshots Account/Forms/Pages Recover 1`] = `
+.c6 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c6:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c6:hover {
+  background-color: #f2fbfc;
+}
+
+.c6:invalid {
+  box-shadow: none;
+}
+
+.c4 .c5:first-of-type {
+  margin-top: 4px;
+}
+
+.c4 .c5:last-of-type {
+  margin-bottom: 4px;
+}
+
+.c4 .c5:not(:first-of-type) {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.c4 .c5:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.c4 .c5:not(:last-of-type):focus + .c5 {
+  border-top-color: #bce7f6;
+}
+
+.c8 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c8 svg + span {
+  margin-left: 4px;
+}
+
+.c9 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c9:not([disabled]):hover,
+.c9:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c9:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c1 {
+  width: 100%;
+  max-width: 450px;
+}
+
+.c2 {
+  padding: 40px;
+  text-align: center;
+}
+
+.c7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: rgba(0,0,0,0.51);
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c3 {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+@media (max-width:450px) {
+  .c2 {
+    padding: 40px 0;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <form
       action="#"
-      className="sc-fcmNTy zxdNU"
+      className="c1"
       noValidate={true}
       onReset={[Function]}
       onSubmit={[Function]}
     >
       <div
-        className="sc-Gvgqn fswnSU"
+        className="c2"
       >
         <div
-          className="Hero__SubHero-gmnoyv-1 dGTxWk"
+          className="c3"
         >
           Reset Password
         </div>
       </div>
       <div
-        className="sc-eCApGN bRvWwx"
+        className="c4"
       >
         <input
           autoComplete="username email"
           autoFocus={true}
-          className="sc-dlnjPT iOeyAw"
+          className="c5 c6"
           name="email"
           onBlur={[Function]}
           onChange={[Function]}
@@ -422,12 +1580,12 @@ exports[`Storyshots Account/Forms/Pages Recover 1`] = `
         />
       </div>
       <div
-        className="sc-gsWdvU fVVZFu"
+        className="c7"
       >
         <div />
         <div>
           <button
-            className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+            className="c8 c9"
             disabled={false}
             type="submit"
           >
@@ -441,38 +1599,201 @@ exports[`Storyshots Account/Forms/Pages Recover 1`] = `
 `;
 
 exports[`Storyshots Account/Forms/Pages Sign up 1`] = `
+.c7 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c7:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c7:hover {
+  background-color: #f2fbfc;
+}
+
+.c7:invalid {
+  box-shadow: none;
+}
+
+.c5 .c6:first-of-type {
+  margin-top: 4px;
+}
+
+.c5 .c6:last-of-type {
+  margin-bottom: 4px;
+}
+
+.c5 .c6:not(:first-of-type) {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.c5 .c6:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.c5 .c6:not(:last-of-type):focus + .c6 {
+  border-top-color: #bce7f6;
+}
+
+.c11 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c11 svg + span {
+  margin-left: 4px;
+}
+
+.c12 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c12:not([disabled]):hover,
+.c12:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c12:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c1 {
+  width: 100%;
+  max-width: 450px;
+}
+
+.c2 {
+  padding: 40px;
+  text-align: center;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: rgba(0,0,0,0.51);
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c10 {
+  color: #0b6bb8;
+  font: inherit;
+  font-size: 14px;
+}
+
+.c4 {
+  font-size: 280%;
+  white-space: nowrap;
+}
+
+.c3 {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.c8 {
+  font-weight: 500;
+  color: inherit;
+}
+
+@media (max-width:450px) {
+  .c2 {
+    padding: 40px 0;
+  }
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <form
       action="#"
-      className="sc-fcmNTy zxdNU"
+      className="c1"
       id="signup-form"
       noValidate={true}
       onReset={[Function]}
       onSubmit={[Function]}
     >
       <div
-        className="sc-Gvgqn fswnSU"
+        className="c2"
       >
         <div
-          className="Hero__SubHero-gmnoyv-1 dGTxWk"
+          className="c3"
         >
           Manuscripts.io
         </div>
         <div
-          className="Hero-gmnoyv-0 fNBifv"
+          className="c4"
         >
           Sign Up
         </div>
       </div>
       <div
-        className="sc-eCApGN bRvWwx"
+        className="c5"
       >
         <input
           autoComplete="name"
-          className="sc-dlnjPT iOeyAw"
+          className="c6 c7"
           name="name"
           onBlur={[Function]}
           onChange={[Function]}
@@ -483,11 +1804,11 @@ exports[`Storyshots Account/Forms/Pages Sign up 1`] = `
         />
       </div>
       <div
-        className="sc-eCApGN bRvWwx"
+        className="c5"
       >
         <input
           autoComplete="username email"
-          className="sc-dlnjPT iOeyAw"
+          className="c6 c7"
           name="email"
           onBlur={[Function]}
           onChange={[Function]}
@@ -498,7 +1819,7 @@ exports[`Storyshots Account/Forms/Pages Sign up 1`] = `
         />
         <input
           autoComplete="new-password"
-          className="sc-dlnjPT iOeyAw"
+          className="c6 c7"
           name="password"
           onBlur={[Function]}
           onChange={[Function]}
@@ -512,7 +1833,7 @@ exports[`Storyshots Account/Forms/Pages Sign up 1`] = `
         By signing up you agree to our
          
         <a
-          className="SignupForm__HeavyLink-sc-197rn77-0 kCKQBd"
+          className="c8"
           href="https://www.atypon.com/privacy-policy/"
         >
           Privacy policy
@@ -521,12 +1842,12 @@ exports[`Storyshots Account/Forms/Pages Sign up 1`] = `
         <br />
       </div>
       <div
-        className="sc-gsWdvU fVVZFu"
+        className="c9"
       >
         <div>
           Have an account? 
           <a
-            className="Form__FormLink-sc-3ioey8-0 dBhCob"
+            className="c10"
             href="/login"
             onClick={[Function]}
           >
@@ -534,7 +1855,7 @@ exports[`Storyshots Account/Forms/Pages Sign up 1`] = `
           </a>
         </div>
         <button
-          className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+          className="c11 c12"
           disabled={false}
           type="submit"
         >
@@ -547,28 +1868,280 @@ exports[`Storyshots Account/Forms/Pages Sign up 1`] = `
 `;
 
 exports[`Storyshots Feedback Feedback 1`] = `
+.c12 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c12:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c12:hover {
+  background-color: #f2fbfc;
+}
+
+.c12:invalid {
+  box-shadow: none;
+}
+
+.c13 {
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c13:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c13:hover {
+  background-color: #f2fbfc;
+}
+
+.c13:invalid {
+  box-shadow: none;
+}
+
+.c10 .c11:first-of-type {
+  margin-top: 4px;
+}
+
+.c10 .c11:last-of-type {
+  margin-bottom: 4px;
+}
+
+.c10 .c11:not(:first-of-type) {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.c10 .c11:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.c10 .c11:not(:last-of-type):focus + .c11 {
+  border-top-color: #bce7f6;
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c3 svg + span {
+  margin-left: 4px;
+}
+
+.c16 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c16:not([disabled]):hover,
+.c16:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c16:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c4 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c5 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):hover,
+.c5:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6 {
+  background: #fff;
+  border: 5px solid #fff !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12);
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+  -webkit-transition: border-color 0.25s;
+  transition: border-color 0.25s;
+}
+
+.c6:focus,
+.c6:hover {
+  background: #f2fbfc !important;
+}
+
+.c6 svg {
+  max-height: 16px;
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.c1 {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
+  font-family: "Lato",sans-serif;
+  overflow: hidden;
+  margin: 12px;
+}
+
+.c2 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.c7 {
+  box-shadow: none;
+  text-indent: -99999px;
+}
+
+.c7::before,
+.c7::after {
+  background-color: #6e6e6e;
+  border-radius: 2px;
+  content: ' ';
+  display: block;
+  height: 14px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  width: 2px;
+  position: absolute;
+  top: calc(50% - 7px);
+  left: calc(50% - 1px);
+}
+
+.c7::after {
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.c8 {
+  padding: 16px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c9 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.c15 {
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c14 {
+  margin-top: 10px;
+  color: #6e6e6e;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="sc-eGJXgd REOgn"
+        className="c1"
       >
         <div
-          className="sc-csTaMs fVoOUB"
+          className="c2"
         >
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb sc-dFRpvv cRSqLN dRpzpn ifa-DBT jXeSFM dhvpWq"
+            className="c3 c4 c5 c6 c7"
             onClick={[Function]}
             type="button"
           />
         </div>
         <div
-          className="sc-bsatbK cHdJDA"
+          className="c8"
         >
           <div
-            className="ModalForm__ModalTitle-sc-19rmanp-0 bXjORw"
+            className="c9"
           >
             Feedback
           </div>
@@ -583,11 +2156,11 @@ exports[`Storyshots Feedback Feedback 1`] = `
               onSubmit={[Function]}
             >
               <div
-                className="sc-eCApGN bRvWwx"
+                className="c10"
               >
                 <input
                   autoFocus={true}
-                  className="sc-dlnjPT iOeyAw"
+                  className="c11 c12"
                   name="title"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -599,7 +2172,7 @@ exports[`Storyshots Feedback Feedback 1`] = `
               </div>
               <textarea
                 autoFocus={true}
-                className="sc-hKFyIo coeRtO"
+                className="c13"
                 id="feedback-message"
                 name="message"
                 onBlur={[Function]}
@@ -611,7 +2184,7 @@ If you are reporting a bug, please include steps to help us reproduce the proble
                 value=""
               />
               <div
-                className="FeedbackForm__Container-sc-72tbqw-0 dwmSGD"
+                className="c14"
               >
                 <label
                   htmlFor="feedback-message"
@@ -620,10 +2193,10 @@ If you are reporting a bug, please include steps to help us reproduce the proble
                 </label>
               </div>
               <div
-                className="ModalForm__ModalFormActions-sc-19rmanp-2 knVNzl"
+                className="c15"
               >
                 <button
-                  className="sc-ezzayL sc-kLokih cRSqLN bYa-DYT"
+                  className="c3 c16"
                   disabled={false}
                   type="submit"
                 >
@@ -640,8 +2213,25 @@ If you are reporting a bug, please include steps to help us reproduce the proble
 `;
 
 exports[`Storyshots Preferences Preferences 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  display: block;
+  margin-top: 20px;
+}
+
+.c2 {
+  width: auto;
+  margin-left: 1ch;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <form
@@ -650,11 +2240,11 @@ exports[`Storyshots Preferences Preferences 1`] = `
       onSubmit={[Function]}
     >
       <label
-        className="PreferencesForm__LocaleSelectorLabel-sotkv8-0 kfJduB"
+        className="c1"
       >
         Locale
         <select
-          className="PreferencesForm__LocaleSelector-sotkv8-1 kiEEWM"
+          className="c2"
           name="locale"
           onBlur={[Function]}
           onChange={[Function]}

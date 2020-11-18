@@ -1,25 +1,316 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Inspector Manage Section 1`] = `
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c4 svg + span {
+  margin-left: 4px;
+}
+
+.c5 {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.c6 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c14 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c15 {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  border: none;
+  border-radius: 50%;
+}
+
+.c7:focus:not([disabled]),
+.c7:hover:not([disabled]) {
+  background: #f2fbfc;
+}
+
+.c7 svg circle {
+  stroke: #e2e2e2;
+}
+
+.c1 {
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  margin: 24px 28px 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c8 {
+  margin: 8px 8px 32px;
+}
+
+.c13 {
+  margin-right: 4px;
+  position: relative;
+}
+
+.c13 .tooltip {
+  border-radius: 6px;
+}
+
+.c13 img {
+  border: 1px solid transparent;
+}
+
+.c13:hover img {
+  border: 1px solid #bce7f6;
+}
+
+.c13:hover .remove {
+  cursor: pointer;
+}
+
+.c13:hover .remove svg {
+  fill: #6e6e6e;
+}
+
+.c12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-left: 8px;
+}
+
+.c17 {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.c17 .tooltip {
+  border-radius: 6px;
+}
+
+.c17:focus {
+  outline: none;
+}
+
+.c16 {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  height: 10px;
+  width: 10px;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c16 svg {
+  fill: none;
+}
+
+.c18 {
+  width: 100%;
+}
+
+.c18 .DatePicker {
+  width: 100%;
+  z-index: 10;
+}
+
+.c18 .Calendar__weekDay {
+  color: #e6e6e;
+  font-size: 14px;
+}
+
+.c18 .Calendar__day:not(.-blank):not(.-selected):hover {
+  background: #f2fbfc !important;
+}
+
+.c18 .Calendar__day.-today:hover::after {
+  opacity: 0.5 !important;
+}
+
+.c18 .selected-day {
+  color: #353535 !important;
+  border: 1px solid #bce7f6 !important;
+}
+
+.c18 .DatePicker__calendarContainer {
+  position: absolute;
+  top: unset;
+  left: unset !important;
+  right: 0 !important;
+  -webkit-transform: unset !important;
+  -ms-transform: unset !important;
+  transform: unset !important;
+}
+
+.c20 {
+  position: relative;
+  width: 100%;
+}
+
+.c19 {
+  width: 100%;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.c9:last-child {
+  margin-bottom: 0;
+}
+
+.c10 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 100px;
+  color: #6e6e6e;
+}
+
+.c11 {
+  color: #353535;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+      className="c1"
     >
       <div
-        className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+        className="c2"
         onClick={[Function]}
       >
         <div
-          className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+          className="c3"
         >
           Manage Section
         </div>
         <button
           aria-label="Toggle expand section"
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+          className="c4 c5 c6 c7"
           onClick={[Function]}
           size={20}
           style={
@@ -56,31 +347,31 @@ exports[`Storyshots Inspector Manage Section 1`] = `
         </button>
       </div>
       <div
-        className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+        className="c8"
       >
         <div
-          className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+          className="c9"
         >
           <div
-            className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 ManageTargetInspector__Label-sc-89ru3x-0 bQQxFg cqaIfH"
+            className="c10 c11"
           >
             Assignees
           </div>
           <div
-            className="AssigneesInput__Avatars-sc-1d9maja-2 lbnOTw"
+            className="c12"
           >
             <div
-              className="AssigneesInput__AvatarContainer-sc-1d9maja-1 emhyOZ"
+              className="c13"
             >
               <div
                 data-for="user-1"
                 data-tip={true}
               >
                 <div
-                  className="sc-jffIyK kbBVcu"
+                  className="c14"
                 >
                   <img
-                    className="sc-eJoaVz evhJOl"
+                    className="c15"
                     onError={[Function]}
                     size={22}
                     src="//user-1/image"
@@ -89,7 +380,7 @@ exports[`Storyshots Inspector Manage Section 1`] = `
               </div>
               <div />
               <div
-                className="AssigneesInput__RemoveContainer-sc-1d9maja-4 eWSrkh remove"
+                className="c16 remove"
                 onClick={[Function]}
               >
                 <svg
@@ -107,7 +398,7 @@ exports[`Storyshots Inspector Manage Section 1`] = `
             </div>
           </div>
           <button
-            className="AssigneesInput__Button-sc-1d9maja-3 jEshjD"
+            className="c17"
             onClick={[Function]}
           >
             <div
@@ -137,30 +428,30 @@ exports[`Storyshots Inspector Manage Section 1`] = `
           </button>
         </div>
         <div
-          className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+          className="c9"
         >
           <div
-            className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 ManageTargetInspector__Label-sc-89ru3x-0 bQQxFg cqaIfH"
+            className="c10 c11"
           >
             Deadline
           </div>
           <div
-            className="DeadlineInput__CalendarContainer-sc-1l7dcit-2 jfTGnp"
+            className="c18"
             selected={true}
           >
             <div />
           </div>
         </div>
         <div
-          className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+          className="c9"
         >
           <div
-            className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 ManageTargetInspector__Label-sc-89ru3x-0 bQQxFg cqaIfH"
+            className="c10 c11"
           >
             Tags
           </div>
           <div
-            className="TagsInput__OuterContainer-hyi689-3 caQgGK"
+            className="c19"
           >
             <div
               className=" css-1akvy1b-container"
@@ -268,15 +559,15 @@ exports[`Storyshots Inspector Manage Section 1`] = `
           </div>
         </div>
         <div
-          className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+          className="c9"
         >
           <div
-            className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 ManageTargetInspector__Label-sc-89ru3x-0 bQQxFg cqaIfH"
+            className="c10 c11"
           >
             Status
           </div>
           <div
-            className="StatusInputStyling__StatusInputWrapper-lmdgns-9 bcxCPM"
+            className="c20"
           >
             <div
               className=" css-1akvy1b-container"
@@ -390,8 +681,43 @@ exports[`Storyshots Inspector Manage Section 1`] = `
 `;
 
 exports[`Storyshots Inspector tabs 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1.c1 {
+  background: none;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #353535;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c2.c2 {
+  background: none;
+  padding: 8px;
+  border-bottom-width: 1px;
+}
+
+.c2.c2:focus {
+  outline: none;
+}
+
+.c2.c2[data-selected] {
+  border-bottom-color: #0d79d0;
+  color: #0d79d0;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -407,7 +733,7 @@ exports[`Storyshots Inspector tabs 1`] = `
       >
         <div
           aria-orientation="horizontal"
-          className="Inspector__InspectorTabList-sc-1pgjywx-2 hgOhxj"
+          className="c1"
           data-reach-tab-list=""
           onKeyDown={[Function]}
           role="tablist"
@@ -415,7 +741,7 @@ exports[`Storyshots Inspector tabs 1`] = `
           <button
             aria-controls="tabs--1--panel---1"
             aria-selected={false}
-            className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+            className="c2"
             data-orientation="horizontal"
             data-reach-tab=""
             id="tabs--1--tab---1"
@@ -431,7 +757,7 @@ exports[`Storyshots Inspector tabs 1`] = `
           <button
             aria-controls="tabs--1--panel---1"
             aria-selected={false}
-            className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+            className="c2"
             data-orientation="horizontal"
             data-reach-tab=""
             id="tabs--1--tab---1"
@@ -447,7 +773,7 @@ exports[`Storyshots Inspector tabs 1`] = `
           <button
             aria-controls="tabs--1--panel---1"
             aria-selected={false}
-            className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+            className="c2"
             data-orientation="horizontal"
             data-reach-tab=""
             id="tabs--1--tab---1"
@@ -502,16 +828,278 @@ exports[`Storyshots Inspector tabs 1`] = `
 `;
 
 exports[`Storyshots Inspector/History basic 1`] = `
+.c15 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c15:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c15:hover {
+  background-color: #f2fbfc;
+}
+
+.c15:invalid {
+  box-shadow: none;
+}
+
+.c13 {
+  position: relative;
+}
+
+.c13 .c14 {
+  padding-left: 28px;
+}
+
+.c16 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: space-around;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: space-around;
+  justify-content: space-around;
+}
+
+.c2 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c2 svg + span {
+  margin-left: 4px;
+}
+
+.c3 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c3 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c9 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.c4 svg {
+  max-height: 36px;
+  max-width: 36px;
+}
+
+.c4 svg {
+  margin: 0;
+}
+
+.c4 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c4:focus svg path:first-of-type,
+.c4:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c5 {
+  padding-left: 12px;
+}
+
+.c7 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  padding: 16px 24px;
+}
+
+.c7::after {
+  content: ' ';
+  position: absolute;
+  left: 33px;
+  top: 42px;
+  bottom: 0;
+  border-left: 1px solid #e2e2e2;
+}
+
+.c10 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-left: 8px;
+}
+
+.c11 {
+  margin-top: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c12 {
+  font-weight: 700;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c17 path {
+  fill: #1a9bc7;
+}
+
+.c6 {
+  border-color: #bce7f6;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  background: #f2fbfc;
+}
+
+.c18 {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.c19 {
+  position: relative;
+}
+
+.c1 {
+  padding: 16px 24px;
+}
+
+.c20 {
+  color: #0d79d0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c20.c20::after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="History__AddButtonWrapper-sc-1osnknr-9 jncbVP"
+        className="c1"
       >
         <button
-          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jfqywZ"
+          className="c2 c3 c4"
           onClick={[Function]}
           size="medium"
           type="button"
@@ -538,37 +1126,37 @@ exports[`Storyshots Inspector/History basic 1`] = `
             </g>
           </svg>
           <div
-            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+            className="c5"
           >
             Add a New Version
           </div>
         </button>
       </div>
       <form
-        className="History__Form-sc-1osnknr-6 blBwPz"
+        className="c6"
         onSubmit={[Function]}
       >
         <div
-          className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+          className="c7"
         >
           <div
-            className="sc-jffIyK kbBVcu"
+            className="c8"
           >
             <img
-              className="sc-eJoaVz bbaKRF"
+              className="c9"
               onError={[Function]}
               size={20}
               src="//user-1/image"
             />
           </div>
           <div
-            className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+            className="c10"
           >
             <p
-              className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+              className="c11"
             >
               <span
-                className="History__Title-sc-1osnknr-3 edIaBz"
+                className="c12"
               >
                 <span>
                   New Snapshot
@@ -576,19 +1164,19 @@ exports[`Storyshots Inspector/History basic 1`] = `
               </span>
             </p>
             <div
-              className="sc-gKAblj gtlwJe"
+              className="c13"
             >
               <input
-                className="sc-dlnjPT iOeyAw"
+                className="c14 c15"
                 id="snapshot-name"
                 onChange={[Function]}
                 value=""
               />
               <div
-                className="sc-iCoHVE gEktBD"
+                className="c16"
               >
                 <svg
-                  className="History__EditIconStyled-sc-1osnknr-4 dZPrtx"
+                  className="c17"
                   height={20}
                   viewBox="0 0 21 20"
                   width={21}
@@ -604,39 +1192,39 @@ exports[`Storyshots Inspector/History basic 1`] = `
         </div>
       </form>
       <ul
-        className="History__List-sc-1osnknr-7 eaxSzb"
+        className="c18"
       >
         <li
-          className="History__ListItem-sc-1osnknr-8 gepPho"
+          className="c19"
         >
           <div
-            className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+            className="c7"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c8"
             >
               <img
-                className="sc-eJoaVz bbaKRF"
+                className="c9"
                 onError={[Function]}
                 size={20}
                 src="//Egon Spengler/image"
               />
             </div>
             <div
-              className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+              className="c10"
             >
               <p
-                className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+                className="c11"
               >
                 <span
-                  className="History__Title-sc-1osnknr-3 edIaBz"
+                  className="c12"
                 >
                   <span>
                     January 1, 1970 at 12:00 AM
                   </span>
                 </span>
                 <a
-                  className="History__ViewLink-sc-1osnknr-10 gEjXTG"
+                  className="c20"
                   href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
                   onClick={[Function]}
                 >
@@ -656,16 +1244,338 @@ exports[`Storyshots Inspector/History basic 1`] = `
 `;
 
 exports[`Storyshots Inspector/History error while saving 1`] = `
+.c15 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c15:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c15:hover {
+  background-color: #f2fbfc;
+}
+
+.c15:invalid {
+  box-shadow: none;
+}
+
+.c13 {
+  position: relative;
+}
+
+.c13 .c14 {
+  padding-left: 28px;
+}
+
+.c16 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: space-around;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: space-around;
+  justify-content: space-around;
+}
+
+.c2 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c2 svg + span {
+  margin-left: 4px;
+}
+
+.c19 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 3px 16px;
+  margin: 0 4px;
+  line-height: 1;
+}
+
+.c19 svg + span {
+  margin-left: 4px;
+}
+
+.c20 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c20:not([disabled]):hover,
+.c20:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c20:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c3 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c3 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c9 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.c4 svg {
+  max-height: 36px;
+  max-width: 36px;
+}
+
+.c4 svg {
+  margin: 0;
+}
+
+.c4 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c4:focus svg path:first-of-type,
+.c4:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c5 {
+  padding-left: 12px;
+}
+
+.c7 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  padding: 16px 24px;
+}
+
+.c7::after {
+  content: ' ';
+  position: absolute;
+  left: 33px;
+  top: 42px;
+  bottom: 0;
+  border-left: 1px solid #e2e2e2;
+}
+
+.c10 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-left: 8px;
+}
+
+.c11 {
+  margin-top: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c12 {
+  font-weight: 700;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c17 path {
+  fill: #1a9bc7;
+}
+
+.c18 {
+  color: #f35143;
+  font-size: 0.8rem;
+}
+
+.c6 {
+  border-color: #bce7f6;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  background: #f2fbfc;
+}
+
+.c21 {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.c22 {
+  position: relative;
+}
+
+.c1 {
+  padding: 16px 24px;
+}
+
+.c23 {
+  color: #0d79d0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c23.c23::after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="History__AddButtonWrapper-sc-1osnknr-9 jncbVP"
+        className="c1"
       >
         <button
-          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jfqywZ"
+          className="c2 c3 c4"
           onClick={[Function]}
           size="medium"
           type="button"
@@ -692,37 +1602,37 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
             </g>
           </svg>
           <div
-            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+            className="c5"
           >
             Add a New Version
           </div>
         </button>
       </div>
       <form
-        className="History__Form-sc-1osnknr-6 blBwPz"
+        className="c6"
         onSubmit={[Function]}
       >
         <div
-          className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+          className="c7"
         >
           <div
-            className="sc-jffIyK kbBVcu"
+            className="c8"
           >
             <img
-              className="sc-eJoaVz bbaKRF"
+              className="c9"
               onError={[Function]}
               size={20}
               src="//user-1/image"
             />
           </div>
           <div
-            className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+            className="c10"
           >
             <p
-              className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+              className="c11"
             >
               <span
-                className="History__Title-sc-1osnknr-3 edIaBz"
+                className="c12"
               >
                 <span>
                   New Snapshot
@@ -730,19 +1640,19 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
               </span>
             </p>
             <div
-              className="sc-gKAblj gtlwJe"
+              className="c13"
             >
               <input
-                className="sc-dlnjPT iOeyAw"
+                className="c14 c15"
                 id="snapshot-name"
                 onChange={[Function]}
                 value=""
               />
               <div
-                className="sc-iCoHVE gEktBD"
+                className="c16"
               >
                 <svg
-                  className="History__EditIconStyled-sc-1osnknr-4 dZPrtx"
+                  className="c17"
                   height={20}
                   viewBox="0 0 21 20"
                   width={21}
@@ -755,14 +1665,14 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
               </div>
             </div>
             <div
-              className="History__ErrorStatus-sc-1osnknr-5 dutheC"
+              className="c18"
             >
               <span>
                 There was an error saving your snapshot.
               </span>
             </div>
             <button
-              className="sc-ezzayL sc-kLokih gxEnKq bYa-DYT"
+              className="c19 c20"
               onClick={[Function]}
               type="button"
             >
@@ -772,39 +1682,39 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
         </div>
       </form>
       <ul
-        className="History__List-sc-1osnknr-7 eaxSzb"
+        className="c21"
       >
         <li
-          className="History__ListItem-sc-1osnknr-8 gepPho"
+          className="c22"
         >
           <div
-            className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+            className="c7"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c8"
             >
               <img
-                className="sc-eJoaVz bbaKRF"
+                className="c9"
                 onError={[Function]}
                 size={20}
                 src="//Egon Spengler/image"
               />
             </div>
             <div
-              className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+              className="c10"
             >
               <p
-                className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+                className="c11"
               >
                 <span
-                  className="History__Title-sc-1osnknr-3 edIaBz"
+                  className="c12"
                 >
                   <span>
                     January 1, 1970 at 12:00 AM
                   </span>
                 </span>
                 <a
-                  className="History__ViewLink-sc-1osnknr-10 gEjXTG"
+                  className="c23"
                   href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
                   onClick={[Function]}
                 >
@@ -824,45 +1734,167 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
 `;
 
 exports[`Storyshots Inspector/History read only 1`] = `
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c5 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c3 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  padding: 16px 24px;
+}
+
+.c3::after {
+  content: ' ';
+  position: absolute;
+  left: 33px;
+  top: 42px;
+  bottom: 0;
+  border-left: 1px solid #e2e2e2;
+}
+
+.c6 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-left: 8px;
+}
+
+.c7 {
+  margin-top: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c8 {
+  font-weight: 700;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c1 {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.c2 {
+  position: relative;
+}
+
+.c9 {
+  color: #0d79d0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c9.c9::after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <ul
-        className="History__List-sc-1osnknr-7 eaxSzb"
+        className="c1"
       >
         <li
-          className="History__ListItem-sc-1osnknr-8 gepPho"
+          className="c2"
         >
           <div
-            className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+            className="c3"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c4"
             >
               <img
-                className="sc-eJoaVz bbaKRF"
+                className="c5"
                 onError={[Function]}
                 size={20}
                 src="//Egon Spengler/image"
               />
             </div>
             <div
-              className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+              className="c6"
             >
               <p
-                className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+                className="c7"
               >
                 <span
-                  className="History__Title-sc-1osnknr-3 edIaBz"
+                  className="c8"
                 >
                   <span>
                     January 1, 1970 at 12:00 AM
                   </span>
                 </span>
                 <a
-                  className="History__ViewLink-sc-1osnknr-10 gEjXTG"
+                  className="c9"
                   href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
                   onClick={[Function]}
                 >
@@ -882,16 +1914,278 @@ exports[`Storyshots Inspector/History read only 1`] = `
 `;
 
 exports[`Storyshots Inspector/History while saving 1`] = `
+.c15 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c15:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c15:hover {
+  background-color: #f2fbfc;
+}
+
+.c15:invalid {
+  box-shadow: none;
+}
+
+.c13 {
+  position: relative;
+}
+
+.c13 .c14 {
+  padding-left: 28px;
+}
+
+.c16 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: space-around;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: space-around;
+  justify-content: space-around;
+}
+
+.c2 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c2 svg + span {
+  margin-left: 4px;
+}
+
+.c3 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c3 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c9 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.c4 svg {
+  max-height: 36px;
+  max-width: 36px;
+}
+
+.c4 svg {
+  margin: 0;
+}
+
+.c4 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c4:focus svg path:first-of-type,
+.c4:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c5 {
+  padding-left: 12px;
+}
+
+.c7 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  padding: 16px 24px;
+}
+
+.c7::after {
+  content: ' ';
+  position: absolute;
+  left: 33px;
+  top: 42px;
+  bottom: 0;
+  border-left: 1px solid #e2e2e2;
+}
+
+.c10 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-left: 8px;
+}
+
+.c11 {
+  margin-top: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c12 {
+  font-weight: 700;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c17 path {
+  fill: #1a9bc7;
+}
+
+.c6 {
+  border-color: #bce7f6;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  background: #f2fbfc;
+}
+
+.c18 {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.c19 {
+  position: relative;
+}
+
+.c1 {
+  padding: 16px 24px;
+}
+
+.c20 {
+  color: #0d79d0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c20.c20::after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="History__AddButtonWrapper-sc-1osnknr-9 jncbVP"
+        className="c1"
       >
         <button
-          className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jfqywZ"
+          className="c2 c3 c4"
           onClick={[Function]}
           size="medium"
           type="button"
@@ -918,37 +2212,37 @@ exports[`Storyshots Inspector/History while saving 1`] = `
             </g>
           </svg>
           <div
-            className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+            className="c5"
           >
             Add a New Version
           </div>
         </button>
       </div>
       <form
-        className="History__Form-sc-1osnknr-6 blBwPz"
+        className="c6"
         onSubmit={[Function]}
       >
         <div
-          className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+          className="c7"
         >
           <div
-            className="sc-jffIyK kbBVcu"
+            className="c8"
           >
             <img
-              className="sc-eJoaVz bbaKRF"
+              className="c9"
               onError={[Function]}
               size={20}
               src="//user-1/image"
             />
           </div>
           <div
-            className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+            className="c10"
           >
             <p
-              className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+              className="c11"
             >
               <span
-                className="History__Title-sc-1osnknr-3 edIaBz"
+                className="c12"
               >
                 <span>
                   New Snapshot
@@ -956,19 +2250,19 @@ exports[`Storyshots Inspector/History while saving 1`] = `
               </span>
             </p>
             <div
-              className="sc-gKAblj gtlwJe"
+              className="c13"
             >
               <input
-                className="sc-dlnjPT iOeyAw"
+                className="c14 c15"
                 id="snapshot-name"
                 onChange={[Function]}
                 value=""
               />
               <div
-                className="sc-iCoHVE gEktBD"
+                className="c16"
               >
                 <svg
-                  className="History__EditIconStyled-sc-1osnknr-4 dZPrtx"
+                  className="c17"
                   height={20}
                   viewBox="0 0 21 20"
                   width={21}
@@ -984,39 +2278,39 @@ exports[`Storyshots Inspector/History while saving 1`] = `
         </div>
       </form>
       <ul
-        className="History__List-sc-1osnknr-7 eaxSzb"
+        className="c18"
       >
         <li
-          className="History__ListItem-sc-1osnknr-8 gepPho"
+          className="c19"
         >
           <div
-            className="History__SnapshotComponentContainer-sc-1osnknr-0 cXRxJq"
+            className="c7"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c8"
             >
               <img
-                className="sc-eJoaVz bbaKRF"
+                className="c9"
                 onError={[Function]}
                 size={20}
                 src="//Egon Spengler/image"
               />
             </div>
             <div
-              className="History__SnapshotComponentContainerInner-sc-1osnknr-1 cMGepW"
+              className="c10"
             >
               <p
-                className="History__TitleLine-sc-1osnknr-2 hXUbaj"
+                className="c11"
               >
                 <span
-                  className="History__Title-sc-1osnknr-3 edIaBz"
+                  className="c12"
                 >
                   <span>
                     January 1, 1970 at 12:00 AM
                   </span>
                 </span>
                 <a
-                  className="History__ViewLink-sc-1osnknr-10 gEjXTG"
+                  className="c20"
                   href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
                   onClick={[Function]}
                 >
@@ -1036,8 +2330,277 @@ exports[`Storyshots Inspector/History while saving 1`] = `
 `;
 
 exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
+.c18 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c18:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c18:hover {
+  background-color: #f2fbfc;
+}
+
+.c18:invalid {
+  box-shadow: none;
+}
+
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c4 svg + span {
+  margin-left: 4px;
+}
+
+.c5 {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.c6 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c10.c10 {
+  background: none;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #353535;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c11 {
+  margin-bottom: 16px;
+}
+
+.c13 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.c14 {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.c12.c12 {
+  background: none;
+  padding: 8px;
+  border-bottom-width: 1px;
+}
+
+.c12.c12:focus {
+  outline: none;
+}
+
+.c12.c12[data-selected] {
+  border-bottom-color: #0d79d0;
+  color: #0d79d0;
+}
+
+.c7 {
+  border: none;
+  border-radius: 50%;
+}
+
+.c7:focus:not([disabled]),
+.c7:hover:not([disabled]) {
+  background: #f2fbfc;
+}
+
+.c7 svg circle {
+  stroke: #e2e2e2;
+}
+
+.c1 {
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  margin: 24px 28px 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c15 {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.c15:not(:first-child) {
+  margin-top: 24px;
+}
+
+.c8 {
+  margin: 8px 8px 32px;
+}
+
+.c23 {
+  width: 100px;
+  padding: 4px 8px;
+  font-size: 1em;
+}
+
+.c19 {
+  padding: 8px;
+  font-size: 1em;
+}
+
+.c22 {
+  margin-right: 8px;
+}
+
+.c16 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.c16:last-child {
+  margin-bottom: 0;
+}
+
+.c17 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 100px;
+  color: #6e6e6e;
+}
+
+.c20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.c20:last-child {
+  margin-bottom: 0;
+}
+
+.c21 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -1048,20 +2611,20 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
       }
     >
       <div
-        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+        className="c1"
       >
         <div
-          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          className="c2"
           onClick={[Function]}
         >
           <div
-            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+            className="c3"
           >
             Manuscript
           </div>
           <button
             aria-label="Toggle expand section"
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            className="c4 c5 c6 c7"
             onClick={[Function]}
             size={20}
             style={
@@ -1098,16 +2661,16 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
           </button>
         </div>
         <div
-          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+          className="c8"
         >
           <div
-            className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            className="c9"
             data-orientation="horizontal"
             data-reach-tabs=""
           >
             <div
               aria-orientation="horizontal"
-              className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
+              className="c10 c11"
               data-reach-tab-list=""
               onKeyDown={[Function]}
               role="tablist"
@@ -1115,7 +2678,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
               <button
                 aria-controls="tabs--3--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--3--tab---1"
@@ -1131,7 +2694,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
               <button
                 aria-controls="tabs--3--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--3--tab---1"
@@ -1147,7 +2710,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
               <button
                 aria-controls="tabs--3--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--3--tab---1"
@@ -1162,12 +2725,12 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
               </button>
             </div>
             <div
-              className="Inspector__InspectorTabPanels-sc-1pgjywx-4 dacSjo"
+              className="c13"
               data-reach-tab-panels=""
             >
               <div
                 aria-labelledby="tabs--3--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--3--panel---1"
@@ -1175,7 +2738,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+                  className="c3 c15"
                 >
                   Keywords
                 </div>
@@ -1285,7 +2848,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
               </div>
               <div
                 aria-labelledby="tabs--3--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--3--panel---1"
@@ -1293,15 +2856,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c16"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c17"
                   >
                     Figure Panel
                   </div>
                   <input
-                    className="sc-dlnjPT inputs__MediumTextField-sc-1sm67p2-3 iOeyAw fyriKu"
+                    className="c18 c19"
                     onChange={[Function]}
                     placeholder="Figure"
                     type="text"
@@ -1309,15 +2872,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c16"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c17"
                   >
                     Table
                   </div>
                   <input
-                    className="sc-dlnjPT inputs__MediumTextField-sc-1sm67p2-3 iOeyAw fyriKu"
+                    className="c18 c19"
                     onChange={[Function]}
                     placeholder="Table"
                     type="text"
@@ -1325,15 +2888,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c16"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c17"
                   >
                     Equation
                   </div>
                   <input
-                    className="sc-dlnjPT inputs__MediumTextField-sc-1sm67p2-3 iOeyAw fyriKu"
+                    className="c18 c19"
                     onChange={[Function]}
                     placeholder="Equation"
                     type="text"
@@ -1341,15 +2904,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c16"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c17"
                   >
                     Listing
                   </div>
                   <input
-                    className="sc-dlnjPT inputs__MediumTextField-sc-1sm67p2-3 iOeyAw fyriKu"
+                    className="c18 c19"
                     onChange={[Function]}
                     placeholder="Listing"
                     type="text"
@@ -1359,7 +2922,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
               </div>
               <div
                 aria-labelledby="tabs--3--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--3--panel---1"
@@ -1367,21 +2930,21 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="CountInput__Field-es8haj-0 dOEvrq"
+                  className="c20"
                 >
                   <label
-                    className="CountInput__Label-es8haj-1 lojzof"
+                    className="c21"
                   >
                     <input
                       checked={false}
-                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      className="c22"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Min word count
                   </label>
                   <input
-                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    className="c18 c23"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -1395,21 +2958,21 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="CountInput__Field-es8haj-0 dOEvrq"
+                  className="c20"
                 >
                   <label
-                    className="CountInput__Label-es8haj-1 lojzof"
+                    className="c21"
                   >
                     <input
                       checked={false}
-                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      className="c22"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Max word count
                   </label>
                   <input
-                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    className="c18 c23"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -1423,21 +2986,21 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="CountInput__Field-es8haj-0 dOEvrq"
+                  className="c20"
                 >
                   <label
-                    className="CountInput__Label-es8haj-1 lojzof"
+                    className="c21"
                   >
                     <input
                       checked={false}
-                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      className="c22"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Min character count
                   </label>
                   <input
-                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    className="c18 c23"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -1451,21 +3014,21 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="CountInput__Field-es8haj-0 dOEvrq"
+                  className="c20"
                 >
                   <label
-                    className="CountInput__Label-es8haj-1 lojzof"
+                    className="c21"
                   >
                     <input
                       checked={false}
-                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      className="c22"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Max character count
                   </label>
                   <input
-                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    className="c18 c23"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -1489,8 +3052,251 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
 `;
 
 exports[`Storyshots Inspector/Manuscript Style Inspector with bundle 1`] = `
+.c12 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c12:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c12:hover {
+  background-color: #f2fbfc;
+}
+
+.c12:invalid {
+  box-shadow: none;
+}
+
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c4 svg + span {
+  margin-left: 4px;
+}
+
+.c14 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 3px 16px;
+  margin: 0 4px;
+  line-height: 1;
+}
+
+.c14 svg + span {
+  margin-left: 4px;
+}
+
+.c15 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c15:not([disabled]):hover,
+.c15:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c15:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5 {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.c6 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  border: none;
+  border-radius: 50%;
+}
+
+.c7:focus:not([disabled]),
+.c7:hover:not([disabled]) {
+  background: #f2fbfc;
+}
+
+.c7 svg circle {
+  stroke: #e2e2e2;
+}
+
+.c1 {
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  margin: 24px 28px 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c8 {
+  margin: 8px 8px 32px;
+}
+
+.c13 {
+  border-right: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  cursor: pointer;
+  font-size: 14px;
+  overflow: hidden;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  text-overflow: ellipsis;
+}
+
+.c16 {
+  border-left: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  border-left: 1px solid;
+  border-color: #e2e2e2 !important;
+  margin: 0;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.c9:last-child {
+  margin-bottom: 0;
+}
+
+.c10 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 100px;
+  color: #6e6e6e;
+}
+
+.c11 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -1501,20 +3307,20 @@ exports[`Storyshots Inspector/Manuscript Style Inspector with bundle 1`] = `
       }
     >
       <div
-        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+        className="c1"
       >
         <div
-          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          className="c2"
           onClick={[Function]}
         >
           <div
-            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+            className="c3"
           >
             Manuscript
           </div>
           <button
             aria-label="Toggle expand section"
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            className="c4 c5 c6 c7"
             onClick={[Function]}
             size={20}
             style={
@@ -1551,27 +3357,27 @@ exports[`Storyshots Inspector/Manuscript Style Inspector with bundle 1`] = `
           </button>
         </div>
         <div
-          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+          className="c8"
         >
           <div
-            className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+            className="c9"
           >
             <div
-              className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+              className="c10"
             >
               Citation Style
             </div>
             <div
-              className="ManuscriptStyleInspector__InspectorValue-bb0p27-4 dfpPUu"
+              className="c11"
               onClick={[Function]}
             >
               <input
-                className="sc-dlnjPT ManuscriptStyleInspector__CitationStyle-bb0p27-0 iOeyAw bIfVXy"
+                className="c12 c13"
                 readOnly={true}
                 value="Nature"
               />
               <button
-                className="sc-ezzayL sc-iklIKw ManuscriptStyleInspector__ChooseButton-bb0p27-1 gxEnKq laqiSe fkSgil"
+                className="c14 c15 c16"
                 type="button"
               >
                 Choose
@@ -1586,8 +3392,251 @@ exports[`Storyshots Inspector/Manuscript Style Inspector with bundle 1`] = `
 `;
 
 exports[`Storyshots Inspector/Manuscript Style Inspector without bundle 1`] = `
+.c12 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c12:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c12:hover {
+  background-color: #f2fbfc;
+}
+
+.c12:invalid {
+  box-shadow: none;
+}
+
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c4 svg + span {
+  margin-left: 4px;
+}
+
+.c14 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 3px 16px;
+  margin: 0 4px;
+  line-height: 1;
+}
+
+.c14 svg + span {
+  margin-left: 4px;
+}
+
+.c15 {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c15:not([disabled]):hover,
+.c15:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #f2fbfc;
+  border-color: #f2fbfc;
+}
+
+.c15:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5 {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.c6 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  border: none;
+  border-radius: 50%;
+}
+
+.c7:focus:not([disabled]),
+.c7:hover:not([disabled]) {
+  background: #f2fbfc;
+}
+
+.c7 svg circle {
+  stroke: #e2e2e2;
+}
+
+.c1 {
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  margin: 24px 28px 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c8 {
+  margin: 8px 8px 32px;
+}
+
+.c13 {
+  border-right: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  cursor: pointer;
+  font-size: 14px;
+  overflow: hidden;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  text-overflow: ellipsis;
+}
+
+.c16 {
+  border-left: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  border-left: 1px solid;
+  border-color: #e2e2e2 !important;
+  margin: 0;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.c9:last-child {
+  margin-bottom: 0;
+}
+
+.c10 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 100px;
+  color: #6e6e6e;
+}
+
+.c11 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -1598,20 +3647,20 @@ exports[`Storyshots Inspector/Manuscript Style Inspector without bundle 1`] = `
       }
     >
       <div
-        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+        className="c1"
       >
         <div
-          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          className="c2"
           onClick={[Function]}
         >
           <div
-            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+            className="c3"
           >
             Manuscript
           </div>
           <button
             aria-label="Toggle expand section"
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            className="c4 c5 c6 c7"
             onClick={[Function]}
             size={20}
             style={
@@ -1648,27 +3697,27 @@ exports[`Storyshots Inspector/Manuscript Style Inspector without bundle 1`] = `
           </button>
         </div>
         <div
-          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+          className="c8"
         >
           <div
-            className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+            className="c9"
           >
             <div
-              className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+              className="c10"
             >
               Citation Style
             </div>
             <div
-              className="ManuscriptStyleInspector__InspectorValue-bb0p27-4 dfpPUu"
+              className="c11"
               onClick={[Function]}
             >
               <input
-                className="sc-dlnjPT ManuscriptStyleInspector__CitationStyle-bb0p27-0 iOeyAw bIfVXy"
+                className="c12 c13"
                 readOnly={true}
                 value=""
               />
               <button
-                className="sc-ezzayL sc-iklIKw ManuscriptStyleInspector__ChooseButton-bb0p27-1 gxEnKq laqiSe fkSgil"
+                className="c14 c15 c16"
                 type="button"
               >
                 Choose
@@ -1683,8 +3732,301 @@ exports[`Storyshots Inspector/Manuscript Style Inspector without bundle 1`] = `
 `;
 
 exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
+.c19 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c19:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c19:hover {
+  background-color: #f2fbfc;
+}
+
+.c19:invalid {
+  box-shadow: none;
+}
+
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c4 svg + span {
+  margin-left: 4px;
+}
+
+.c5 {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.c6 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c23 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  cursor: pointer;
+  line-height: 0;
+  font-size: 16px;
+}
+
+.c23:hover {
+  border-color: #e2e2e2;
+}
+
+.c23:focus {
+  outline: none;
+}
+
+.c12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c13.c13 {
+  background: none;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #353535;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c14 {
+  margin-bottom: 16px;
+}
+
+.c16 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.c17 {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.c15.c15 {
+  background: none;
+  padding: 8px;
+  border-bottom-width: 1px;
+}
+
+.c15.c15:focus {
+  outline: none;
+}
+
+.c15.c15[data-selected] {
+  border-bottom-color: #0d79d0;
+  color: #0d79d0;
+}
+
+.c7 {
+  border: none;
+  border-radius: 50%;
+}
+
+.c7:focus:not([disabled]),
+.c7:hover:not([disabled]) {
+  background: #f2fbfc;
+}
+
+.c7 svg circle {
+  stroke: #e2e2e2;
+}
+
+.c1 {
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  margin: 24px 28px 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c8 {
+  margin: 8px 8px 32px;
+}
+
+.c20 {
+  width: 50px;
+  padding: 2px 8px;
+  margin-right: 8px;
+  font-size: 0.75em;
+}
+
+.c10 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.c9:last-child {
+  margin-bottom: 0;
+}
+
+.c18 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 100px;
+  color: #6e6e6e;
+}
+
+.c22 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c21 {
+  font-weight: 400;
+  font-size: inherit;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.c11 {
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  margin: 0 8px;
+}
+
+.c11:focus {
+  outline: none;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -1695,20 +4037,20 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
       }
     >
       <div
-        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+        className="c1"
       >
         <div
-          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          className="c2"
           onClick={[Function]}
         >
           <div
-            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+            className="c3"
           >
             Paragraph Styles
           </div>
           <button
             aria-label="Toggle expand section"
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            className="c4 c5 c6 c7"
             onClick={[Function]}
             size={20}
             style={
@@ -1745,13 +4087,13 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
           </button>
         </div>
         <div
-          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+          className="c8"
         >
           <div
-            className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+            className="c9"
           >
             <select
-              className="inputs__StyleSelect-sc-1sm67p2-6 jkmNRm"
+              className="c10"
               onChange={[Function]}
               value="MPParagraphStyle:7EAB5784-717B-4672-BD59-8CA324FB0637"
             >
@@ -1762,7 +4104,7 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
               </option>
             </select>
             <button
-              className="StyleActions__MenuButton-j0vbrh-0 hWgYTE"
+              className="c11"
               onClick={[Function]}
               type="button"
             >
@@ -1797,13 +4139,13 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
             </button>
           </div>
           <div
-            className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            className="c12"
             data-orientation="horizontal"
             data-reach-tabs=""
           >
             <div
               aria-orientation="horizontal"
-              className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
+              className="c13 c14"
               data-reach-tab-list=""
               onKeyDown={[Function]}
               role="tablist"
@@ -1811,7 +4153,7 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
               <button
                 aria-controls="tabs--5--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c15"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--5--tab---1"
@@ -1827,7 +4169,7 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
               <button
                 aria-controls="tabs--5--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c15"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--5--tab---1"
@@ -1843,7 +4185,7 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
               <button
                 aria-controls="tabs--5--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c15"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--5--tab---1"
@@ -1858,12 +4200,12 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
               </button>
             </div>
             <div
-              className="Inspector__InspectorTabPanels-sc-1pgjywx-4 dacSjo"
+              className="c16"
               data-reach-tab-panels=""
             >
               <div
                 aria-labelledby="tabs--5--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c17"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--5--panel---1"
@@ -1871,15 +4213,15 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c9"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c18"
                   >
                     Size
                   </div>
                   <input
-                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    className="c19 c20"
                     onChange={[Function]}
                     type="number"
                     value={12}
@@ -1887,22 +4229,22 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
                   pt
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c9"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c18"
                   >
                     Style
                   </div>
                   <button
-                    className="ParagraphStyleFields__TextStyleButton-ccztfi-0 iuQEnP"
+                    className="c21"
                     onMouseDown={[Function]}
                     type="button"
                   >
                     B
                   </button>
                   <button
-                    className="ParagraphStyleFields__TextStyleButton-ccztfi-0 iuQEnP"
+                    className="c21"
                     onMouseDown={[Function]}
                     style={
                       Object {
@@ -1915,18 +4257,18 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
                   </button>
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c9"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c18"
                   >
                     Color
                   </div>
                   <div
-                    className="StyleFields__ColorsContainer-yiknnh-2 iQBhkF"
+                    className="c22"
                   >
                     <button
-                      className="ColorSelector__AddButton-sc-1jm2xhx-2 hjjpwi"
+                      className="c23"
                       onClick={[Function]}
                       type="button"
                     >
@@ -1937,7 +4279,7 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
               </div>
               <div
                 aria-labelledby="tabs--5--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c17"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--5--panel---1"
@@ -1946,7 +4288,7 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
               />
               <div
                 aria-labelledby="tabs--5--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c17"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--5--panel---1"
@@ -1963,8 +4305,268 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
 `;
 
 exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
+.c18 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c18:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c18:hover {
+  background-color: #f2fbfc;
+}
+
+.c18:invalid {
+  box-shadow: none;
+}
+
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c4 svg + span {
+  margin-left: 4px;
+}
+
+.c5 {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.c6 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c11.c11 {
+  background: none;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #353535;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c12 {
+  margin-bottom: 16px;
+}
+
+.c14 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.c15 {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.c13.c13 {
+  background: none;
+  padding: 8px;
+  border-bottom-width: 1px;
+}
+
+.c13.c13:focus {
+  outline: none;
+}
+
+.c13.c13[data-selected] {
+  border-bottom-color: #0d79d0;
+  color: #0d79d0;
+}
+
+.c7 {
+  border: none;
+  border-radius: 50%;
+}
+
+.c7:focus:not([disabled]),
+.c7:hover:not([disabled]) {
+  background: #f2fbfc;
+}
+
+.c7 svg circle {
+  stroke: #e2e2e2;
+}
+
+.c1 {
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  margin: 24px 28px 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c16 {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.c16:not(:first-child) {
+  margin-top: 24px;
+}
+
+.c8 {
+  margin: 8px 8px 32px;
+}
+
+.c24 {
+  width: 100px;
+  padding: 4px 8px;
+  font-size: 1em;
+}
+
+.c23 {
+  margin-right: 8px;
+}
+
+.c17 {
+  display: block;
+  width: 100%;
+}
+
+.c21 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.c21:last-child {
+  margin-bottom: 0;
+}
+
+.c22 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c20 {
+  display: block;
+  width: 100%;
+}
+
+.c9 {
+  color: #353535;
+  margin: 4px 0;
+}
+
+.c19 {
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 1em;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -1975,20 +4577,20 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
       }
     >
       <div
-        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+        className="c1"
       >
         <div
-          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          className="c2"
           onClick={[Function]}
         >
           <div
-            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+            className="c3"
           >
             Section
           </div>
           <button
             aria-label="Toggle expand section"
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            className="c4 c5 c6 c7"
             onClick={[Function]}
             size={20}
             style={
@@ -2025,19 +4627,19 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
           </button>
         </div>
         <div
-          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+          className="c8"
         >
           <div
-            className="SectionInspector__StyledTitle-sc-1xqu1fp-0 dGJHJX"
+            className="c9"
           />
           <div
-            className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            className="c10"
             data-orientation="horizontal"
             data-reach-tabs=""
           >
             <div
               aria-orientation="horizontal"
-              className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
+              className="c11 c12"
               data-reach-tab-list=""
               onKeyDown={[Function]}
               role="tablist"
@@ -2045,7 +4647,7 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
               <button
                 aria-controls="tabs--4--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c13"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--4--tab---1"
@@ -2061,7 +4663,7 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
               <button
                 aria-controls="tabs--4--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c13"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--4--tab---1"
@@ -2076,12 +4678,12 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
               </button>
             </div>
             <div
-              className="Inspector__InspectorTabPanels-sc-1pgjywx-4 dacSjo"
+              className="c14"
               data-reach-tab-panels=""
             >
               <div
                 aria-labelledby="tabs--4--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c15"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--4--panel---1"
@@ -2089,12 +4691,12 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+                  className="c3 c16"
                 >
                   Category
                 </div>
                 <select
-                  className="CategoryInput__CategorySelector-sc-1mnc92r-0 fssIET"
+                  className="c17"
                   onChange={[Function]}
                   value="MPSectionCategory:section"
                 >
@@ -2245,21 +4847,21 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                   </option>
                 </select>
                 <div
-                  className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+                  className="c3 c16"
                 >
                   Placeholder
                 </div>
                 <input
-                  className="sc-dlnjPT SectionInspector__PlaceholderInput-sc-1xqu1fp-1 iOeyAw gXfmnB"
+                  className="c18 c19"
                   onChange={[Function]}
                 />
                 <div
-                  className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+                  className="c3 c16"
                 >
                   Page Break
                 </div>
                 <select
-                  className="PageBreakInput__Selector-sc-18b0koz-0 cKHYm"
+                  className="c20"
                   onChange={[Function]}
                   value={0}
                 >
@@ -2287,7 +4889,7 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
               </div>
               <div
                 aria-labelledby="tabs--4--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c15"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--4--panel---1"
@@ -2295,21 +4897,21 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="CountInput__Field-es8haj-0 dOEvrq"
+                  className="c21"
                 >
                   <label
-                    className="CountInput__Label-es8haj-1 lojzof"
+                    className="c22"
                   >
                     <input
                       checked={false}
-                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      className="c23"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Min word count
                   </label>
                   <input
-                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    className="c18 c24"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -2323,21 +4925,21 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="CountInput__Field-es8haj-0 dOEvrq"
+                  className="c21"
                 >
                   <label
-                    className="CountInput__Label-es8haj-1 lojzof"
+                    className="c22"
                   >
                     <input
                       checked={false}
-                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      className="c23"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Max word count
                   </label>
                   <input
-                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    className="c18 c24"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -2351,21 +4953,21 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="CountInput__Field-es8haj-0 dOEvrq"
+                  className="c21"
                 >
                   <label
-                    className="CountInput__Label-es8haj-1 lojzof"
+                    className="c22"
                   >
                     <input
                       checked={false}
-                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      className="c23"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Min character count
                   </label>
                   <input
-                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    className="c18 c24"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -2379,21 +4981,21 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="CountInput__Field-es8haj-0 dOEvrq"
+                  className="c21"
                 >
                   <label
-                    className="CountInput__Label-es8haj-1 lojzof"
+                    className="c22"
                   >
                     <input
                       checked={false}
-                      className="inputs__Checkbox-sc-1sm67p2-7 dDHtaJ"
+                      className="c23"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Max character count
                   </label>
                   <input
-                    className="sc-dlnjPT inputs__NumberField-sc-1sm67p2-0 iOeyAw DtIkA"
+                    className="c18 c24"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -2417,8 +5019,361 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
 `;
 
 exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
+.c25 input {
+  border: 0;
+  -webkit-clip: rect(0 0 0 0);
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.c25 div {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #6e6e6e;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  line-height: 16px;
+  margin: 16px 0 8px;
+}
+
+.c25 div::before {
+  content: ' ';
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #6e6e6e;
+  border-radius: 4px;
+  margin-right: 1em;
+  text-align: center;
+}
+
+.c25 input:checked + div::before {
+  background: #0d79d0;
+  border-color: #0d79d0;
+  color: white;
+  content: '✓';
+}
+
+.c25 input:focus + div::before {
+  border-color: #0b6bb8;
+}
+
+.c17 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c17:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c17:hover {
+  background-color: #f2fbfc;
+}
+
+.c17:invalid {
+  box-shadow: none;
+}
+
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c4 svg + span {
+  margin-left: 4px;
+}
+
+.c5 {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.c6 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c21 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  cursor: pointer;
+  line-height: 0;
+  font-size: 16px;
+}
+
+.c21:hover {
+  border-color: #e2e2e2;
+}
+
+.c21:focus {
+  outline: none;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c10.c10 {
+  background: none;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #353535;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c11 {
+  margin-bottom: 16px;
+}
+
+.c13 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.c14 {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.c12.c12 {
+  background: none;
+  padding: 8px;
+  border-bottom-width: 1px;
+}
+
+.c12.c12:focus {
+  outline: none;
+}
+
+.c12.c12[data-selected] {
+  border-bottom-color: #0d79d0;
+  color: #0d79d0;
+}
+
+.c7 {
+  border: none;
+  border-radius: 50%;
+}
+
+.c7:focus:not([disabled]),
+.c7:hover:not([disabled]) {
+  background: #f2fbfc;
+}
+
+.c7 svg circle {
+  stroke: #e2e2e2;
+}
+
+.c1 {
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  margin: 24px 28px 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c8 {
+  margin: 8px 8px 32px;
+}
+
+.c18 {
+  width: 50px;
+  padding: 2px 8px;
+  margin-right: 8px;
+  font-size: 0.75em;
+}
+
+.c24 {
+  width: 25px;
+  padding: 2px 4px;
+  margin-right: 4px;
+  font-size: 0.75em;
+}
+
+.c23 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  margin-right: 8px;
+}
+
+.c22 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.c15:last-child {
+  margin-bottom: 0;
+}
+
+.c16 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 100px;
+  color: #6e6e6e;
+}
+
+.c20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c19 {
+  font-weight: 400;
+  font-size: inherit;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -2429,20 +5384,20 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
       }
     >
       <div
-        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+        className="c1"
       >
         <div
-          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          className="c2"
           onClick={[Function]}
         >
           <div
-            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+            className="c3"
           >
             Section Heading Styles
           </div>
           <button
             aria-label="Toggle expand section"
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            className="c4 c5 c6 c7"
             onClick={[Function]}
             size={20}
             style={
@@ -2479,16 +5434,16 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
           </button>
         </div>
         <div
-          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+          className="c8"
         >
           <div
-            className="Inspector__InspectorTabs-sc-1pgjywx-1 haCVMb"
+            className="c9"
             data-orientation="horizontal"
             data-reach-tabs=""
           >
             <div
               aria-orientation="horizontal"
-              className="Inspector__InspectorTabList-sc-1pgjywx-2 Inspector__InspectorPanelTabList-sc-1pgjywx-3 hgOhxj bYtWzW"
+              className="c10 c11"
               data-reach-tab-list=""
               onKeyDown={[Function]}
               role="tablist"
@@ -2496,7 +5451,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               <button
                 aria-controls="tabs--6--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--6--tab---1"
@@ -2512,7 +5467,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               <button
                 aria-controls="tabs--6--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--6--tab---1"
@@ -2528,7 +5483,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               <button
                 aria-controls="tabs--6--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--6--tab---1"
@@ -2544,7 +5499,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               <button
                 aria-controls="tabs--6--panel---1"
                 aria-selected={false}
-                className="Inspector__InspectorTab-sc-1pgjywx-7 cZOEiW"
+                className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
                 id="tabs--6--tab---1"
@@ -2559,12 +5514,12 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               </button>
             </div>
             <div
-              className="Inspector__InspectorTabPanels-sc-1pgjywx-4 dacSjo"
+              className="c13"
               data-reach-tab-panels=""
             >
               <div
                 aria-labelledby="tabs--6--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--6--panel---1"
@@ -2572,15 +5527,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     Size
                   </div>
                   <input
-                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    className="c17 c18"
                     onChange={[Function]}
                     type="number"
                     value={12}
@@ -2588,22 +5543,22 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                   pt
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     Style
                   </div>
                   <button
-                    className="ParagraphStyleFields__TextStyleButton-ccztfi-0 iuQEnP"
+                    className="c19"
                     onMouseDown={[Function]}
                     type="button"
                   >
                     B
                   </button>
                   <button
-                    className="ParagraphStyleFields__TextStyleButton-ccztfi-0 iuQEnP"
+                    className="c19"
                     onMouseDown={[Function]}
                     style={
                       Object {
@@ -2616,18 +5571,18 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                   </button>
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     Color
                   </div>
                   <div
-                    className="StyleFields__ColorsContainer-yiknnh-2 iQBhkF"
+                    className="c20"
                   >
                     <button
-                      className="ColorSelector__AddButton-sc-1jm2xhx-2 hjjpwi"
+                      className="c21"
                       onClick={[Function]}
                       type="button"
                     >
@@ -2638,7 +5593,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               </div>
               <div
                 aria-labelledby="tabs--6--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--6--panel---1"
@@ -2646,15 +5601,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     Alignment
                   </div>
                   <select
-                    className="inputs__StyleSelect-sc-1sm67p2-6 jkmNRm"
+                    className="c22"
                     onChange={[Function]}
                     value="left"
                   >
@@ -2681,15 +5636,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                   </select>
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     Top spacing
                   </div>
                   <input
-                    className="inputs__StyleRange-sc-1sm67p2-5 hQGDNX"
+                    className="c23"
                     list="topSpacingList"
                     max={40}
                     min={0}
@@ -2764,7 +5719,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                     </option>
                   </datalist>
                   <input
-                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    className="c17 c18"
                     onChange={[Function]}
                     type="number"
                     value={10}
@@ -2772,15 +5727,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                   pt
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     Bottom spacing
                   </div>
                   <input
-                    className="inputs__StyleRange-sc-1sm67p2-5 hQGDNX"
+                    className="c23"
                     list="bottomSpacingLsit"
                     max={40}
                     min={0}
@@ -2855,7 +5810,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                     </option>
                   </datalist>
                   <input
-                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    className="c17 c18"
                     onChange={[Function]}
                     type="number"
                     value={10}
@@ -2863,15 +5818,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                   pt
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     First line indent
                   </div>
                   <input
-                    className="inputs__StyleRange-sc-1sm67p2-5 hQGDNX"
+                    className="c23"
                     list="firstLineIndentList"
                     max={40}
                     min={0}
@@ -2946,7 +5901,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                     </option>
                   </datalist>
                   <input
-                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    className="c17 c18"
                     onChange={[Function]}
                     type="number"
                     value={0}
@@ -2954,15 +5909,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                   pt
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     Line spacing
                   </div>
                   <input
-                    className="inputs__StyleRange-sc-1sm67p2-5 hQGDNX"
+                    className="c23"
                     list="lineSpacingList"
                     max={2}
                     min={1}
@@ -2973,7 +5928,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                     value={2}
                   />
                   <input
-                    className="sc-dlnjPT inputs__SmallNumberField-sc-1sm67p2-1 iOeyAw iOztEz"
+                    className="c17 c18"
                     onChange={[Function]}
                     type="number"
                     value={2}
@@ -2983,7 +5938,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               </div>
               <div
                 aria-labelledby="tabs--6--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--6--panel---1"
@@ -2991,15 +5946,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     Numbering
                   </div>
                   <select
-                    className="inputs__StyleSelect-sc-1sm67p2-6 jkmNRm"
+                    className="c22"
                     name="section-numbering-scheme"
                     onChange={[Function]}
                     value="decimal"
@@ -3017,15 +5972,15 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                   </select>
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <div
-                    className="ManuscriptStyleInspector__InspectorLabel-bb0p27-3 bQQxFg"
+                    className="c16"
                   >
                     Suffix
                   </div>
                   <input
-                    className="sc-dlnjPT inputs__SmallTextField-sc-1sm67p2-2 iOeyAw fEscs"
+                    className="c17 c24"
                     name="list-suffix"
                     onChange={[Function]}
                     type="text"
@@ -3035,7 +5990,7 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               </div>
               <div
                 aria-labelledby="tabs--6--tab---1"
-                className="Inspector__InspectorTabPanel-sc-1pgjywx-6 jJNKsf"
+                className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--6--panel---1"
@@ -3043,11 +5998,11 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <input
                     checked={false}
-                    className="sc-gtssRu"
+                    className=""
                     disabled={false}
                     id="part-of-toc"
                     name="part-of-toc"
@@ -3055,25 +6010,25 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                     type="checkbox"
                   />
                   <label
-                    className="sc-bdnylx fnQjfh"
+                    className="c25"
                     htmlFor="part-of-toc"
                   >
                     Include in Table of Contents
                   </label>
                 </div>
                 <div
-                  className="ManuscriptStyleInspector__InspectorField-bb0p27-2 ezgEUi"
+                  className="c15"
                 >
                   <input
                     checked={false}
-                    className="sc-gtssRu"
+                    className=""
                     id="run-in"
                     name="run-in"
                     onChange={[Function]}
                     type="checkbox"
                   />
                   <label
-                    className="sc-bdnylx fnQjfh"
+                    className="c25"
                     htmlFor="run-in"
                   >
                     Run into first paragraph
@@ -3090,8 +6045,133 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
 `;
 
 exports[`Storyshots Inspector/Statistics Inspector with section 1`] = `
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c4 svg + span {
+  margin-left: 4px;
+}
+
+.c5 {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.c6 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  border: none;
+  border-radius: 50%;
+}
+
+.c7:focus:not([disabled]),
+.c7:hover:not([disabled]) {
+  background: #f2fbfc;
+}
+
+.c7 svg circle {
+  stroke: #e2e2e2;
+}
+
+.c1 {
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  margin: 24px 28px 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c10 {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.c10:not(:first-child) {
+  margin-top: 24px;
+}
+
+.c8 {
+  margin: 8px 8px 32px;
+}
+
+.c9 {
+  margin-left: 8px;
+}
+
+.c9:not(:first-child) {
+  margin-top: 16px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -3102,20 +6182,20 @@ exports[`Storyshots Inspector/Statistics Inspector with section 1`] = `
       }
     >
       <div
-        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+        className="c1"
       >
         <div
-          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          className="c2"
           onClick={[Function]}
         >
           <div
-            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+            className="c3"
           >
             Statistics
           </div>
           <button
             aria-label="Toggle expand section"
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            className="c4 c5 c6 c7"
             onClick={[Function]}
             size={20}
             style={
@@ -3152,22 +6232,22 @@ exports[`Storyshots Inspector/Statistics Inspector with section 1`] = `
           </button>
         </div>
         <div
-          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+          className="c8"
         >
           <div
-            className="StatisticsInspector__InspectorSubsection-sc-1mdggai-0 fOfyAl"
+            className="c9"
           >
             <div
-              className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+              className="c3 c10"
             >
               Manuscript
             </div>
           </div>
           <div
-            className="StatisticsInspector__InspectorSubsection-sc-1mdggai-0 fOfyAl"
+            className="c9"
           >
             <div
-              className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+              className="c3 c10"
             >
               Section
             </div>
@@ -3180,8 +6260,133 @@ exports[`Storyshots Inspector/Statistics Inspector with section 1`] = `
 `;
 
 exports[`Storyshots Inspector/Statistics Inspector without section 1`] = `
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c4 svg + span {
+  margin-left: 4px;
+}
+
+.c5 {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.c6 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):hover,
+.c6:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c6:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  border: none;
+  border-radius: 50%;
+}
+
+.c7:focus:not([disabled]),
+.c7:hover:not([disabled]) {
+  background: #f2fbfc;
+}
+
+.c7 svg circle {
+  stroke: #e2e2e2;
+}
+
+.c1 {
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  margin: 24px 28px 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c10 {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.c10:not(:first-child) {
+  margin-top: 24px;
+}
+
+.c8 {
+  margin: 8px 8px 32px;
+}
+
+.c9 {
+  margin-left: 8px;
+}
+
+.c9:not(:first-child) {
+  margin-top: 16px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -3192,20 +6397,20 @@ exports[`Storyshots Inspector/Statistics Inspector without section 1`] = `
       }
     >
       <div
-        className="InspectorSection__Section-sc-1db7g4o-0 dAXaHK"
+        className="c1"
       >
         <div
-          className="InspectorSection__Heading-sc-1db7g4o-1 qvETJ"
+          className="c2"
           onClick={[Function]}
         >
           <div
-            className="InspectorSection__HeadingText-sc-1db7g4o-2 ivYnZx"
+            className="c3"
           >
             Statistics
           </div>
           <button
             aria-label="Toggle expand section"
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq Metadata__ExpanderButton-sc-16efetg-2 cRSqLN gnSscH ifa-DBT jeWufu"
+            className="c4 c5 c6 c7"
             onClick={[Function]}
             size={20}
             style={
@@ -3242,13 +6447,13 @@ exports[`Storyshots Inspector/Statistics Inspector without section 1`] = `
           </button>
         </div>
         <div
-          className="InspectorSection__Content-sc-1db7g4o-5 eYIhmS"
+          className="c8"
         >
           <div
-            className="StatisticsInspector__InspectorSubsection-sc-1mdggai-0 fOfyAl"
+            className="c9"
           >
             <div
-              className="InspectorSection__HeadingText-sc-1db7g4o-2 InspectorSection__Subheading-sc-1db7g4o-3 ivYnZx fDENLo"
+              className="c3 c10"
             >
               Manuscript
             </div>

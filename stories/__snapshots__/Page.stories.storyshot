@@ -1,15 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Page A page 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c2 {
+  height: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: calc(100vh - 1px);
+  box-sizing: border-box;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Page__PageContainer-sc-1fh7x3-2 eTxenI"
+      className="c1"
     >
       <main
-        className="Page__Main-sc-1fh7x3-0 evZTJm"
+        className="c2"
         style={
           Object {
             "padding": "10px 20px",
@@ -24,29 +51,269 @@ exports[`Storyshots Page A page 1`] = `
 `;
 
 exports[`Storyshots Page A page with a project 1`] = `
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c3 svg + span {
+  margin-left: 4px;
+}
+
+.c4 {
+  padding: 0;
+  height: 34px;
+  width: 34px;
+}
+
+.c15 {
+  padding: 0;
+  height: 56px;
+  width: 56px;
+}
+
+.c15 svg g[stroke] {
+  stroke: currentColor;
+}
+
+.c15 svg path[fill] {
+  fill: currentColor;
+}
+
+.c15 svg path[stroke] {
+  stroke: currentColor;
+}
+
+.c15 svg text[fill],
+.c15 svg rect[fill],
+.c15 svg path[fill] {
+  fill: currentColor;
+}
+
+.c5 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):hover,
+.c5:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c5:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+}
+
+.c6 {
+  border: 0;
+  margin: 15px 11px;
+}
+
+.c16 {
+  color: #6e6e6e;
+  padding: 8px;
+}
+
+.c17 g {
+  stroke: currentColor;
+}
+
+.c17:hover g {
+  stroke: #7fb5d5;
+}
+
+.c18 {
+  height: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: calc(100vh - 1px);
+  box-sizing: border-box;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+}
+
+.c2 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #f2f2f2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 56px;
+}
+
+.c10 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+}
+
+.c10 div {
+  margin: 20px 0 0;
+  text-align: center;
+  width: 56px;
+}
+
+.c11 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #353535;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+  height: 32px;
+}
+
+.c11:hover {
+  color: #1a9bc7;
+}
+
+.c11.active {
+  color: #1a9bc7;
+  background: #ddf3fa;
+}
+
+.c9 {
+  border: 1px solid #e2e2e2;
+  width: 28px;
+}
+
+.c12 g {
+  stroke: currentColor;
+}
+
+.c13 path {
+  stroke: currentColor;
+}
+
+.c14 path {
+  stroke: currentColor;
+}
+
+.c14 circle {
+  stroke: currentColor;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Page__PageContainer-sc-1fh7x3-2 eTxenI"
+      className="c1"
     >
       <div
-        className="Page__ViewsBar-sc-1fh7x3-3 dEbdGM"
+        className="c2"
       >
         <button
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq Menu__MenuBarIcon-hrk9dt-1 cRSqLN kCoQtn ifa-DBT fhmNEV"
+          className="c3 c4 c5 c6"
           onClick={[Function]}
           size={34}
           type="button"
         >
           <div
-            className="sc-gIvpCV isESLn"
+            className="c7"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <div
-              className="OfflineIndicator__Wrapper-wvuzxx-0 cDvenR"
+              className="c8"
             >
               <svg
                 height={34}
@@ -98,24 +365,24 @@ exports[`Storyshots Page A page with a project 1`] = `
           </div>
         </button>
         <div
-          className="Page__ViewsSeparator-sc-1fh7x3-6 iskbLY"
+          className="c9"
         />
         <div
-          className="Page__IconBar-sc-1fh7x3-4 bTSUnj"
+          className="c10"
         >
           <div
-            className="sc-gIvpCV isESLn"
+            className="c7"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <a
               aria-current={null}
-              className="Page__ViewLink-sc-1fh7x3-5 fkZxYI"
+              className="c11"
               href="/projects/project-1"
               onClick={[Function]}
             >
               <svg
-                className="Page__StyledEditProjectIcon-sc-1fh7x3-7 DZSij"
+                className="c12"
                 height={26}
                 viewBox="0 0 24 26"
                 width={24}
@@ -141,18 +408,18 @@ exports[`Storyshots Page A page with a project 1`] = `
             </a>
           </div>
           <div
-            className="sc-gIvpCV isESLn"
+            className="c7"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <a
               aria-current={null}
-              className="Page__ViewLink-sc-1fh7x3-5 fkZxYI"
+              className="c11"
               href="/projects/project-1/library"
               onClick={[Function]}
             >
               <svg
-                className="Page__ProjectLibraryIcon-sc-1fh7x3-8 TytsK"
+                className="c13"
                 height={24}
                 viewBox="0 0 24 24"
                 width={24}
@@ -165,18 +432,18 @@ exports[`Storyshots Page A page with a project 1`] = `
             </a>
           </div>
           <div
-            className="sc-gIvpCV isESLn"
+            className="c7"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
           >
             <a
               aria-current={null}
-              className="Page__ViewLink-sc-1fh7x3-5 fkZxYI"
+              className="c11"
               href="/projects/project-1/collaborators"
               onClick={[Function]}
             >
               <svg
-                className="Page__ProjectContributorsIcon-sc-1fh7x3-9 dCHLVB"
+                className="c14"
                 data-cy="collaborators"
                 height={24}
                 viewBox="0 0 24 24"
@@ -221,13 +488,13 @@ exports[`Storyshots Page A page with a project 1`] = `
         </div>
         <div>
           <button
-            className="sc-ezzayL sc-cBoprd sc-ciSmjq Support__Button-sc-1je7ukb-0 cRSqLN eiwokw ifa-DBT gdRdUd"
+            className="c3 c15 c5 c16"
             onClick={[Function]}
             size={56}
             type="button"
           >
             <svg
-              className="Support__StyledSupportIcon-sc-1je7ukb-1 czcAQx"
+              className="c17"
               height={32}
               viewBox="0 0 22 23"
               width={32}
@@ -257,7 +524,7 @@ exports[`Storyshots Page A page with a project 1`] = `
         </div>
       </div>
       <main
-        className="Page__Main-sc-1fh7x3-0 evZTJm"
+        className="c18"
         style={
           Object {
             "padding": "10px 20px",

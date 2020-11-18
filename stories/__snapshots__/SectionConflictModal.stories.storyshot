@@ -1,16 +1,266 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots SectionConflictModal basic 1`] = `
+.c11 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c11 svg + span {
+  margin-left: 4px;
+}
+
+.c15 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: default;
+  background-color: #e2e2e2 !important;
+  border-color: #e2e2e2 !important;
+  color: #fff !important;
+}
+
+.c15 svg + span {
+  margin-left: 4px;
+}
+
+.c12 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c12:not([disabled]):hover,
+.c12:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c12:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c16 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c16:not([disabled]):hover,
+.c16:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c16:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  list-style-type: none;
+  margin-top: 0;
+  padding-left: 1rem;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c9 span {
+  margin-left: 0.2em;
+}
+
+.c8 {
+  font-size: 1.2rem;
+}
+
+.c10 {
+  font-size: 1.0999999999999999rem;
+}
+
+.c1 {
+  max-width: 640px;
+  background: #fff;
+  padding: 2rem;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+}
+
+.c2 {
+  margin: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 span {
+  margin-left: 0.5em;
+}
+
+.c6 {
+  font-size: 1.2rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c6 span {
+  margin-left: 0.2em;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.c4 {
+  -webkit-flex: 1 0 50%;
+  -ms-flex: 1 0 50%;
+  flex: 1 0 50%;
+}
+
+.c5 {
+  margin: 0 0 1em;
+}
+
+.c13 {
+  padding: 0.6em 1.2em;
+  color: #353535;
+  background: #e2e2e2;
+  border-radius: 2px;
+  border: 2px solid #e2e2e2;
+}
+
+.c13 g {
+  fill: #353535;
+}
+
+.c13 span {
+  margin-left: 0.5em;
+}
+
+.c13:hover g,
+.c13:active g,
+.c13:focus g {
+  fill: #0d79d0;
+}
+
+.c13[aria-pressed='true'] {
+  border-color: #0d79d0;
+  color: #fff;
+  background: rgba(127,181,213,0.6);
+}
+
+.c13[aria-pressed='true'] g {
+  fill: #fff;
+}
+
+.c14 {
+  margin-top: 1rem;
+  text-align: right;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="SectionConflictModal__Container-sc-1tcmflh-0 jrJgNL"
+        className="c1"
       >
         <h3
-          className="SectionConflictModal__ModalTitle-sc-1tcmflh-1 isueDF"
+          className="c2"
         >
           <svg
             height={24}
@@ -50,18 +300,18 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
           External changes have resulted in a conflict in the overall outline of your manuscript. Please resolve this to continue.
         </p>
         <div
-          className="SectionConflictModal__CompareContainer-sc-1tcmflh-3 cdzcwX"
+          className="c3"
         >
           <div
-            className="SectionConflictModal__CompareItem-sc-1tcmflh-4 ijHqVN"
+            className="c4"
           >
             <h4
-              className="SectionConflictModal__ItemTitle-sc-1tcmflh-5 dxNNmK"
+              className="c5"
             >
               Your Version
             </h4>
             <span
-              className="SectionConflictModal__ManuscriptTitle-sc-1tcmflh-2 dSjyoE"
+              className="c6"
             >
               <svg
                 height={18}
@@ -82,13 +332,13 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
               <div />
             </span>
             <ul
-              className="SectionTree__SectionList-d0grj-0 fBqPlt"
+              className="c7"
             >
               <li
-                className="SectionTree__SectionListItem-d0grj-2 epLdZy"
+                className="c8"
               >
                 <div
-                  className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+                  className="c9"
                 >
                   <svg
                     height={18}
@@ -105,10 +355,10 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
                 </div>
               </li>
               <li
-                className="SectionTree__SectionListItem-d0grj-2 epLdZy"
+                className="c8"
               >
                 <div
-                  className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+                  className="c9"
                 >
                   <svg
                     height={18}
@@ -124,13 +374,13 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
                   <div />
                 </div>
                 <ul
-                  className="SectionTree__SectionList-d0grj-0 fBqPlt"
+                  className="c7"
                 >
                   <li
-                    className="SectionTree__SectionListItem-d0grj-2 ktcpbB"
+                    className="c10"
                   >
                     <div
-                      className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+                      className="c9"
                     >
                       <svg
                         height={18}
@@ -147,10 +397,10 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
                     </div>
                   </li>
                   <li
-                    className="SectionTree__SectionListItem-d0grj-2 ktcpbB"
+                    className="c10"
                   >
                     <div
-                      className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+                      className="c9"
                     >
                       <svg
                         height={18}
@@ -171,7 +421,7 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
             </ul>
             <button
               aria-pressed={false}
-              className="sc-ezzayL sc-bYwzba SectionConflictModal__SelectionButton-sc-1tcmflh-6 cRSqLN bXiklN jSmNna"
+              className="c11 c12 c13"
               onClick={[Function]}
               type="button"
             >
@@ -197,15 +447,15 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
             </button>
           </div>
           <div
-            className="SectionConflictModal__CompareItem-sc-1tcmflh-4 ijHqVN"
+            className="c4"
           >
             <h4
-              className="SectionConflictModal__ItemTitle-sc-1tcmflh-5 dxNNmK"
+              className="c5"
             >
               Server Version
             </h4>
             <span
-              className="SectionConflictModal__ManuscriptTitle-sc-1tcmflh-2 dSjyoE"
+              className="c6"
             >
               <svg
                 height={18}
@@ -226,13 +476,13 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
               <div />
             </span>
             <ul
-              className="SectionTree__SectionList-d0grj-0 fBqPlt"
+              className="c7"
             >
               <li
-                className="SectionTree__SectionListItem-d0grj-2 epLdZy"
+                className="c8"
               >
                 <div
-                  className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+                  className="c9"
                 >
                   <svg
                     height={18}
@@ -249,10 +499,10 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
                 </div>
               </li>
               <li
-                className="SectionTree__SectionListItem-d0grj-2 epLdZy"
+                className="c8"
               >
                 <div
-                  className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+                  className="c9"
                 >
                   <svg
                     height={18}
@@ -268,13 +518,13 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
                   <div />
                 </div>
                 <ul
-                  className="SectionTree__SectionList-d0grj-0 fBqPlt"
+                  className="c7"
                 >
                   <li
-                    className="SectionTree__SectionListItem-d0grj-2 ktcpbB"
+                    className="c10"
                   >
                     <div
-                      className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+                      className="c9"
                     >
                       <svg
                         height={18}
@@ -291,10 +541,10 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
                     </div>
                   </li>
                   <li
-                    className="SectionTree__SectionListItem-d0grj-2 ktcpbB"
+                    className="c10"
                   >
                     <div
-                      className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+                      className="c9"
                     >
                       <svg
                         height={18}
@@ -315,7 +565,7 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
             </ul>
             <button
               aria-pressed={false}
-              className="sc-ezzayL sc-bYwzba SectionConflictModal__SelectionButton-sc-1tcmflh-6 cRSqLN bXiklN jSmNna"
+              className="c11 c12 c13"
               onClick={[Function]}
               type="button"
             >
@@ -342,10 +592,10 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
           </div>
         </div>
         <footer
-          className="SectionConflictModal__Footer-sc-1tcmflh-7 bkBXJs"
+          className="c14"
         >
           <button
-            className="sc-ezzayL sc-kLokih gjhYjP bYa-DYT"
+            className="c15 c16"
             disabled={true}
             onClick={[Function]}
             type="button"
@@ -360,18 +610,57 @@ exports[`Storyshots SectionConflictModal basic 1`] = `
 `;
 
 exports[`Storyshots SectionTree basic 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  list-style-type: none;
+  margin-top: 0;
+  padding-left: 1rem;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 span {
+  margin-left: 0.2em;
+}
+
+.c2 {
+  font-size: 1.2rem;
+}
+
+.c4 {
+  font-size: 1.0999999999999999rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <ul
-      className="SectionTree__SectionList-d0grj-0 fBqPlt"
+      className="c1"
     >
       <li
-        className="SectionTree__SectionListItem-d0grj-2 epLdZy"
+        className="c2"
       >
         <div
-          className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+          className="c3"
         >
           <svg
             height={18}
@@ -388,10 +677,10 @@ exports[`Storyshots SectionTree basic 1`] = `
         </div>
       </li>
       <li
-        className="SectionTree__SectionListItem-d0grj-2 epLdZy"
+        className="c2"
       >
         <div
-          className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+          className="c3"
         >
           <svg
             height={18}
@@ -407,13 +696,13 @@ exports[`Storyshots SectionTree basic 1`] = `
           <div />
         </div>
         <ul
-          className="SectionTree__SectionList-d0grj-0 fBqPlt"
+          className="c1"
         >
           <li
-            className="SectionTree__SectionListItem-d0grj-2 ktcpbB"
+            className="c4"
           >
             <div
-              className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+              className="c3"
             >
               <svg
                 height={18}
@@ -430,10 +719,10 @@ exports[`Storyshots SectionTree basic 1`] = `
             </div>
           </li>
           <li
-            className="SectionTree__SectionListItem-d0grj-2 ktcpbB"
+            className="c4"
           >
             <div
-              className="SectionTree__SectionTreeTitle-d0grj-1 NFnkt"
+              className="c3"
             >
               <svg
                 height={18}

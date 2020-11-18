@@ -1,22 +1,138 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Support Menu 1`] = `
+.c2 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c2 svg + span {
+  margin-left: 4px;
+}
+
+.c3 {
+  padding: 0;
+  height: 56px;
+  width: 56px;
+}
+
+.c3 svg g[stroke] {
+  stroke: currentColor;
+}
+
+.c3 svg path[fill] {
+  fill: currentColor;
+}
+
+.c3 svg path[stroke] {
+  stroke: currentColor;
+}
+
+.c3 svg text[fill],
+.c3 svg rect[fill],
+.c3 svg path[fill] {
+  fill: currentColor;
+}
+
+.c4 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c4:not([disabled]):hover,
+.c4:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c4:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c5 {
+  color: #6e6e6e;
+  padding: 8px;
+}
+
+.c6 g {
+  stroke: currentColor;
+}
+
+.c6:hover g {
+  stroke: #7fb5d5;
+}
+
+.c1 {
+  height: 300px;
+  width: 300px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Supportstories__Container-sc-5geqny-0 kHmvYd"
+      className="c1"
     >
       <div>
         <button
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq Support__Button-sc-1je7ukb-0 cRSqLN eiwokw ifa-DBT gdRdUd"
+          className="c2 c3 c4 c5"
           onClick={[Function]}
           size={56}
           type="button"
         >
           <svg
-            className="Support__StyledSupportIcon-sc-1je7ukb-1 czcAQx"
+            className="c6"
             height={32}
             viewBox="0 0 22 23"
             width={32}
@@ -46,13 +162,13 @@ exports[`Storyshots Support Menu 1`] = `
       </div>
       <div>
         <button
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq Support__Button-sc-1je7ukb-0 cRSqLN eiwokw ifa-DBT gdRdUd"
+          className="c2 c3 c4 c5"
           onClick={[Function]}
           size={56}
           type="button"
         >
           <svg
-            className="Support__StyledSupportIcon-sc-1je7ukb-1 czcAQx"
+            className="c6"
             height={32}
             viewBox="0 0 22 23"
             width={32}

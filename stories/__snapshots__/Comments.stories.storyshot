@@ -1,8 +1,165 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Projects/Comments with comments 1`] = `
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c7 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c11 {
+  border-top: 1px solid #eee;
+  margin-top: 16px;
+  padding: 8px 8px 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c12 {
+  border: none;
+  background: none;
+  cursor: pointer;
+  height: 24px;
+}
+
+.c9 {
+  padding: 0 16px;
+}
+
+.c10 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c10 .ProseMirror {
+  font-family: "Lato",sans-serif;
+  line-height: 1.06;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  color: #353535;
+  margin: 8px 0;
+}
+
+.c10 .ProseMirror:focus {
+  outline: none;
+}
+
+.c10 .ProseMirror p:first-child {
+  margin-top: 0;
+}
+
+.c10 .ProseMirror p:last-child {
+  margin-bottom: 0;
+}
+
+.c10 .ProseMirror blockquote {
+  margin: 10px 0;
+  border-left: 4px solid #faed98;
+  padding-left: 1em;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.17;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  color: #bababa;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c8 {
+  margin: 0 8px;
+  font-weight: 600;
+}
+
+.c1 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.c3 {
+  padding: 16px 0 8px;
+  background: #fff;
+  border: 1px solid #ddf3fa;
+  border-left: 4px solid #bce7f6;
+}
+
+.c2 {
+  margin: 16px 16px 16px 0;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 16px;
+  padding: 0 16px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -13,33 +170,33 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
       }
     >
       <div
-        className="CommentList__CommentListContainer-sc-1zszu3-0 fNkanP"
+        className="c1"
       >
         <div>
           <div
-            className="CommentList__CommentThread-sc-1zszu3-2 fLNfvX"
+            className="c2"
           >
             <div
-              className="CommentList__Container-sc-1zszu3-1 gAMUaB"
+              className="c3"
             >
               <div
-                className="CommentList__CommentHeader-sc-1zszu3-3 iPbDGe"
+                className="c4"
               >
                 <div
-                  className="CommentUser__CommentUserContainer-sc-2wx110-0 fzuavb"
+                  className="c5"
                 >
                   <div
-                    className="sc-jffIyK kbBVcu"
+                    className="c6"
                   >
                     <img
-                      className="sc-eJoaVz bbaKRF"
+                      className="c7"
                       onError={[Function]}
                       size={20}
                       src="test-file-stub"
                     />
                   </div>
                   <div
-                    className="CommentUser__CommentUserName-sc-2wx110-1 cgDaWw"
+                    className="c8"
                   >
                     by 
                     Janine Melnitz
@@ -49,18 +206,18 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
               </div>
               <div>
                 <div
-                  className="CommentBody__CommentContent-kvz3xa-3 jroXCP"
+                  className="c9"
                 >
                   <div
-                    className="CommentBody__StyledCommentViewer-kvz3xa-5 ihbNUw"
+                    className="c10"
                   />
                 </div>
                 <div
-                  className="CommentBody__CommentFooter-kvz3xa-0 clAOdA"
+                  className="c11"
                 >
                   <span>
                     <button
-                      className="CommentBody__ActionButton-kvz3xa-2 gfPDCx"
+                      className="c12"
                       onClick={[Function]}
                       title="Edit comment"
                     >
@@ -76,7 +233,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
                       </svg>
                     </button>
                     <button
-                      className="CommentBody__ActionButton-kvz3xa-2 gfPDCx"
+                      className="c12"
                       onClick={[Function]}
                       title="Reply"
                     >
@@ -97,7 +254,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
                   </span>
                   <span>
                     <button
-                      className="CommentBody__ActionButton-kvz3xa-2 gfPDCx"
+                      className="c12"
                       disabled={false}
                       onClick={[Function]}
                       title="Delete comment"
@@ -126,8 +283,42 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
 `;
 
 exports[`Storyshots Projects/Comments without comments 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.c2 {
+  font-size: 16px;
+  font-weight: 300;
+  color: #6e6e6e;
+  text-align: center;
+  margin: 20px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -138,7 +329,7 @@ exports[`Storyshots Projects/Comments without comments 1`] = `
       }
     >
       <div
-        className="CommentList__PlaceholderContainer-sc-1zszu3-6 ifdIFy"
+        className="c1"
       >
         <svg
           height={202}
@@ -568,7 +759,7 @@ exports[`Storyshots Projects/Comments without comments 1`] = `
           </g>
         </svg>
         <div
-          className="CommentList__PlaceholderMessage-sc-1zszu3-7 jEwFyA"
+          className="c2"
         >
           Discuss this manuscript with your collaborators by creating a comment.
         </div>

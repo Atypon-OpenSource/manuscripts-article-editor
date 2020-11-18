@@ -1,12 +1,234 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Panel combined 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c12 {
+  height: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: calc(100vh - 1px);
+  box-sizing: border-box;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+}
+
+.c5 {
+  position: relative;
+  background: none;
+  border: none;
+  color: transparent;
+  cursor: pointer;
+}
+
+.c5:focus {
+  outline: 1px solid blue;
+}
+
+.c5::before,
+.c5::after {
+  content: '';
+  background-color: #ddd;
+  border-radius: 16px;
+  position: absolute;
+  opacity: 0.5;
+  -webkit-transition: -webkit-transform 100ms ease-in-out,opacity 200ms ease-in-out 100ms;
+  -webkit-transition: transform 100ms ease-in-out,opacity 200ms ease-in-out 100ms;
+  transition: transform 100ms ease-in-out,opacity 200ms ease-in-out 100ms;
+}
+
+.c5::before {
+  -webkit-transform-origin: 1px 7px;
+  -ms-transform-origin: 1px 7px;
+  transform-origin: 1px 7px;
+}
+
+.c5::after {
+  -webkit-transform-origin: 1px 1px;
+  -ms-transform-origin: 1px 1px;
+  transform-origin: 1px 1px;
+}
+
+.c5:hover::before,
+.c5:focus::before,
+.c5:hover::after,
+.c5:focus::after {
+  background-color: #2a6f9d;
+  opacity: 1;
+}
+
+.c10 {
+  top: calc(50% - 18px);
+  width: 24px;
+  height: 36px;
+}
+
+.c10::before,
+.c10::after {
+  width: 2px;
+  height: 8px;
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+.c10::before {
+  top: 10px;
+}
+
+.c10::after {
+  top: 16px;
+}
+
+.c11 {
+  left: -1px;
+}
+
+.c11::before,
+.c11::after {
+  left: 8px;
+}
+
+.c11:hover::before,
+.c11:focus::before {
+  -webkit-transform: rotate(40deg);
+  -ms-transform: rotate(40deg);
+  transform: rotate(40deg);
+}
+
+.c11:hover::after,
+.c11:focus::after {
+  -webkit-transform: rotate(-40deg);
+  -ms-transform: rotate(-40deg);
+  transform: rotate(-40deg);
+}
+
+.c6 {
+  left: calc(50% - 18px);
+  width: 36px;
+  height: 24px;
+}
+
+.c6::before,
+.c6::after {
+  width: 8px;
+  height: 2px;
+}
+
+.c6::before {
+  left: 10px;
+}
+
+.c6::after {
+  left: 16px;
+}
+
+.c7 {
+  bottom: -1px;
+}
+
+.c7::before,
+.c7::after {
+  bottom: 8px;
+  -webkit-transform-origin: top center;
+  -ms-transform-origin: top center;
+  transform-origin: top center;
+}
+
+.c7:hover::before,
+.c7:focus::before {
+  -webkit-transform: rotate(-40deg);
+  -ms-transform: rotate(-40deg);
+  transform: rotate(-40deg);
+}
+
+.c7:hover::after,
+.c7:focus::after {
+  -webkit-transform: rotate(40deg);
+  -ms-transform: rotate(40deg);
+  transform: rotate(40deg);
+}
+
+.c2 {
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  position: absolute;
+}
+
+.c2::before {
+  content: '';
+  position: absolute;
+  -webkit-transition: background-color 200ms ease-in-out 100ms;
+  transition: background-color 200ms ease-in-out 100ms;
+  background: rgb(240,240,240);
+}
+
+.c2:hover::before {
+  background: #e2e2e2;
+}
+
+.c8 {
+  cursor: ew-resize;
+  top: 0;
+  height: 100%;
+  width: 16px;
+}
+
+.c8::before {
+  height: 100%;
+  width: 1px;
+}
+
+.c9 {
+  right: -16px;
+}
+
+.c9::before {
+  left: -1px;
+}
+
+.c3 {
+  cursor: ns-resize;
+  left: 0;
+  height: 16px;
+  width: 100%;
+}
+
+.c3::before {
+  width: 100%;
+  height: 1px;
+}
+
+.c4 {
+  bottom: -16px;
+}
+
+.c4::before {
+  top: -1px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Page__PageContainer-sc-1fh7x3-2 eTxenI"
+      className="c1"
     >
       <div
         style={
@@ -38,14 +260,14 @@ exports[`Storyshots Panel combined 1`] = `
               This is a panel
             </p>
             <div
-              className="sc-dkiTmt sc-gXZlrW sc-fxFQrc kreIgV gJMaBd idKCfO"
+              className="c2 c3 c4"
               onMouseDown={[Function]}
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
               <button
                 aria-expanded={true}
-                className="sc-ecQjpJ sc-hKiGeM sc-exqJjn jhCzoo bBRZgP fXNbFr"
+                className="c5 c6 c7"
                 onClick={[Function]}
                 onMouseDown={[Function]}
               />
@@ -62,21 +284,21 @@ exports[`Storyshots Panel combined 1`] = `
           </div>
         </div>
         <div
-          className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+          className="c2 c8 c9"
           onMouseDown={[Function]}
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
         >
           <button
             aria-expanded={true}
-            className="sc-ecQjpJ sc-jlQhLH sc-iXqwbG jhCzoo hXlbRk GvwMR"
+            className="c5 c10 c11"
             onClick={[Function]}
             onMouseDown={[Function]}
           />
         </div>
       </div>
       <main
-        className="Page__Main-sc-1fh7x3-0 evZTJm"
+        className="c12"
       >
         <p
           style={
@@ -94,12 +316,199 @@ exports[`Storyshots Panel combined 1`] = `
 `;
 
 exports[`Storyshots Panel row 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c8 {
+  height: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: calc(100vh - 1px);
+  box-sizing: border-box;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+}
+
+.c5 {
+  position: relative;
+  background: none;
+  border: none;
+  color: transparent;
+  cursor: pointer;
+}
+
+.c5:focus {
+  outline: 1px solid blue;
+}
+
+.c5::before,
+.c5::after {
+  content: '';
+  background-color: #ddd;
+  border-radius: 16px;
+  position: absolute;
+  opacity: 0.5;
+  -webkit-transition: -webkit-transform 100ms ease-in-out,opacity 200ms ease-in-out 100ms;
+  -webkit-transition: transform 100ms ease-in-out,opacity 200ms ease-in-out 100ms;
+  transition: transform 100ms ease-in-out,opacity 200ms ease-in-out 100ms;
+}
+
+.c5::before {
+  -webkit-transform-origin: 1px 7px;
+  -ms-transform-origin: 1px 7px;
+  transform-origin: 1px 7px;
+}
+
+.c5::after {
+  -webkit-transform-origin: 1px 1px;
+  -ms-transform-origin: 1px 1px;
+  transform-origin: 1px 1px;
+}
+
+.c5:hover::before,
+.c5:focus::before,
+.c5:hover::after,
+.c5:focus::after {
+  background-color: #2a6f9d;
+  opacity: 1;
+}
+
+.c6 {
+  top: calc(50% - 18px);
+  width: 24px;
+  height: 36px;
+}
+
+.c6::before,
+.c6::after {
+  width: 2px;
+  height: 8px;
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+.c6::before {
+  top: 10px;
+}
+
+.c6::after {
+  top: 16px;
+}
+
+.c7 {
+  left: -1px;
+}
+
+.c7::before,
+.c7::after {
+  left: 8px;
+}
+
+.c7:hover::before,
+.c7:focus::before {
+  -webkit-transform: rotate(40deg);
+  -ms-transform: rotate(40deg);
+  transform: rotate(40deg);
+}
+
+.c7:hover::after,
+.c7:focus::after {
+  -webkit-transform: rotate(-40deg);
+  -ms-transform: rotate(-40deg);
+  transform: rotate(-40deg);
+}
+
+.c10 {
+  right: -1px;
+}
+
+.c10::before,
+.c10::after {
+  right: 16px;
+}
+
+.c10:hover::before,
+.c10:focus::before {
+  -webkit-transform: rotate(-40deg);
+  -ms-transform: rotate(-40deg);
+  transform: rotate(-40deg);
+}
+
+.c10:hover::after,
+.c10:focus::after {
+  -webkit-transform: rotate(40deg);
+  -ms-transform: rotate(40deg);
+  transform: rotate(40deg);
+}
+
+.c2 {
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  position: absolute;
+}
+
+.c2::before {
+  content: '';
+  position: absolute;
+  -webkit-transition: background-color 200ms ease-in-out 100ms;
+  transition: background-color 200ms ease-in-out 100ms;
+  background: rgb(240,240,240);
+}
+
+.c2:hover::before {
+  background: #e2e2e2;
+}
+
+.c3 {
+  cursor: ew-resize;
+  top: 0;
+  height: 100%;
+  width: 16px;
+}
+
+.c3::before {
+  height: 100%;
+  width: 1px;
+}
+
+.c9 {
+  left: -16px;
+}
+
+.c9::before {
+  right: -1px;
+}
+
+.c4 {
+  right: -16px;
+}
+
+.c4::before {
+  left: -1px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="Page__PageContainer-sc-1fh7x3-2 eTxenI"
+      className="c1"
     >
       <div
         style={
@@ -120,21 +529,21 @@ exports[`Storyshots Panel row 1`] = `
           This is a panel at the start
         </p>
         <div
-          className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+          className="c2 c3 c4"
           onMouseDown={[Function]}
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
         >
           <button
             aria-expanded={true}
-            className="sc-ecQjpJ sc-jlQhLH sc-iXqwbG jhCzoo hXlbRk GvwMR"
+            className="c5 c6 c7"
             onClick={[Function]}
             onMouseDown={[Function]}
           />
         </div>
       </div>
       <main
-        className="Page__Main-sc-1fh7x3-0 evZTJm"
+        className="c8"
       >
         <p
           style={
@@ -156,14 +565,14 @@ exports[`Storyshots Panel row 1`] = `
         }
       >
         <div
-          className="sc-dkiTmt sc-cVJhCs sc-kHVJdr kreIgV gQBCRV gfsIZg"
+          className="c2 c3 c9"
           onMouseDown={[Function]}
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
         >
           <button
             aria-expanded={true}
-            className="sc-ecQjpJ sc-jlQhLH sc-hYIrON jhCzoo hXlbRk fqIGrr"
+            className="c5 c6 c10"
             onClick={[Function]}
             onMouseDown={[Function]}
           />

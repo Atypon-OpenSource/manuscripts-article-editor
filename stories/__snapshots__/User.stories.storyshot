@@ -1,8 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Nav/User ProfileDropdown 1`] = `
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c5 {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  position: relative;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  border: 2px solid transparent;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.c3 svg:hover path,
+.c3 path {
+  fill: currentColor;
+}
+
+.c7 {
+  margin-left: 6px;
+}
+
+.c7 path {
+  stroke: currentColor;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 5px 10px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  border: none;
+  font-size: inherit;
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+  color: #6e6e6e;
+}
+
+.c2:focus {
+  outline: none;
+}
+
+.c2:hover {
+  color: #1a9bc7;
+}
+
+.c2 .c6 {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -15,21 +125,21 @@ exports[`Storyshots Nav/User ProfileDropdown 1`] = `
       }
     >
       <div
-        className="Dropdown__DropdownContainer-fhxyb7-0 cXLUGN"
+        className="c1"
         id="user-dropdown"
       >
         <button
-          className="ProfileDropdown__DropdownButton-sc-1fnkn46-2 WYhc dropdown-toggle"
+          className="c2 dropdown-toggle"
           onClick={[Function]}
         >
           <div
-            className="ProfileDropdown__AvatarContainer-sc-1fnkn46-0 dqZbua"
+            className="c3"
           >
             <div
-              className="sc-jffIyK kbBVcu"
+              className="c4"
             >
               <img
-                className="sc-eJoaVz jyvNWR"
+                className="c5"
                 onError={[Function]}
                 size={32}
                 src="test-file-stub"
@@ -37,7 +147,7 @@ exports[`Storyshots Nav/User ProfileDropdown 1`] = `
             </div>
           </div>
           <svg
-            className="ProfileDropdown__DropdownToggle-sc-1fnkn46-1 kcFOiY"
+            className="c6 c7"
             height={8}
             viewBox="0 0 12 8"
             width={12}
@@ -58,43 +168,93 @@ exports[`Storyshots Nav/User ProfileDropdown 1`] = `
 `;
 
 exports[`Storyshots Nav/User UserInfo 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 12px 12px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #353535;
+  pointer-events: unset;
+}
+
+.c3:hover,
+.c3:hover .Dropdown__PlaceholderTitle-fhxyb7-2 {
+  background: #f2fbfc;
+}
+
+.c2 {
+  height: 1px;
+  width: 100%;
+  opacity: 0.23;
+  background-color: #bce7f6;
+}
+
+.c1 {
+  padding: 12px 12px;
+  color: #6e6e6e;
+  font-weight: 500;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="UserInfo__Name-sc-10zfnhv-0 hjyLfh"
+      className="c1"
     >
       Janine
     </div>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c2"
     />
     <a
       aria-current={null}
-      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      className="c3"
       href="/profile"
       onClick={[Function]}
     >
        Profile 
     </a>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c2"
     />
     <a
       aria-current={null}
-      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      className="c3"
       href="/diagnostics"
       onClick={[Function]}
     >
       Diagnostics
     </a>
     <div
-      className="Dropdown__DropdownSeparator-fhxyb7-6 lhmoku"
+      className="c2"
     />
     <a
       aria-current={null}
-      className="Dropdown__DropdownLink-fhxyb7-4 VIDVC"
+      className="c3"
       href="/logout"
       onClick={[Function]}
     >

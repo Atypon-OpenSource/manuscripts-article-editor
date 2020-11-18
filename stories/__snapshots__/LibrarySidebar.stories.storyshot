@@ -1,8 +1,319 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Library Sidebar Sidebar 1`] = `
+.c12 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c12 svg + span {
+  margin-left: 4px;
+}
+
+.c13 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c13 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c19 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c20 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c20:not([disabled]):hover,
+.c20:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c20:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c21 {
+  background: #fff;
+  border: 5px solid #fff !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12);
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+  -webkit-transition: border-color 0.25s;
+  transition: border-color 0.25s;
+}
+
+.c21:focus,
+.c21:hover {
+  background: #f2fbfc !important;
+}
+
+.c21 svg {
+  max-height: 16px;
+  max-width: 16px;
+  vertical-align: middle;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c14 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.c14 svg {
+  margin: 0;
+}
+
+.c14 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c14:focus svg path:first-of-type,
+.c14:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c15 {
+  padding-left: 12px;
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background: #fafafa;
+  border-right: 1px solid #f2f2f2;
+}
+
+.c4 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c2 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.c3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.c10 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-top: 16px;
+}
+
+.c16 {
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  position: absolute;
+}
+
+.c16::before {
+  content: '';
+  position: absolute;
+  -webkit-transition: background-color 200ms ease-in-out 100ms;
+  transition: background-color 200ms ease-in-out 100ms;
+  background: rgb(240,240,240);
+}
+
+.c16:hover::before {
+  background: #e2e2e2;
+}
+
+.c17 {
+  cursor: ew-resize;
+  top: 0;
+  height: 100%;
+  width: 16px;
+}
+
+.c17::before {
+  height: 100%;
+  width: 1px;
+}
+
+.c18 {
+  right: -16px;
+}
+
+.c18::before {
+  left: -1px;
+}
+
+.c22 {
+  position: absolute;
+  top: 50%;
+  margin: -20px;
+  line-height: 1;
+}
+
+.c5 {
+  margin: 0 -20px 16px;
+}
+
+.c9 {
+  margin-left: 8px;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c7 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  color: #6e6e6e;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px 8px 8px 36px;
+  line-height: 1;
+  overflow: hidden;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  -webkit-transition: background-color 0.25s;
+  transition: background-color 0.25s;
+  white-space: nowrap;
+}
+
+.c7:hover,
+.c7.active {
+  background-color: #f2fbfc;
+}
+
+.c7.active {
+  border-color: #bce7f6;
+}
+
+.c7:hover + .c6.active,
+.c7.active + .c7:hover {
+  border-top-color: transparent;
+}
+
+.c8 {
+  color: #353535;
+  padding: 7px 16px;
+}
+
+.c11 {
+  margin-top: 8px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
@@ -15,27 +326,27 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
       }
     >
       <div
-        className="Sidebar-v95ywm-0 dinrsd"
+        className="c1"
         data-cy="sidebar"
       >
         <div
-          className="SidebarHeaderFooter__StyledSidebarHeader-sc-6j8srx-0 GuOOH"
+          className="c2"
         >
           <div
-            className="SidebarHeaderFooter__SidebarTitle-sc-6j8srx-2 bPcivx"
+            className="c3"
           >
             Library
           </div>
         </div>
         <div
-          className="Sidebar__SidebarContent-v95ywm-4 eJGBnz"
+          className="c4"
         >
           <div
-            className="LibrarySidebar__SectionContainer-sc-1hhfek3-0 LIwfz"
+            className="c5"
           >
             <a
               aria-current={null}
-              className="LibrarySidebar__SectionLink-sc-1hhfek3-4 LibrarySidebar__SectionTitleLink-sc-1hhfek3-5 eUXOBN lPRyr"
+              className="c6 c7 c8"
               href="/projects/MPProject:1/library/project"
               onClick={[Function]}
             >
@@ -52,18 +363,18 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
                 />
               </svg>
               <div
-                className="LibrarySidebar__SectionTitle-sc-1hhfek3-2 dJQhuM"
+                className="c9"
               >
                 Project Library
               </div>
             </a>
           </div>
           <div
-            className="LibrarySidebar__SectionContainer-sc-1hhfek3-0 LIwfz"
+            className="c5"
           >
             <a
               aria-current={null}
-              className="LibrarySidebar__SectionLink-sc-1hhfek3-4 LibrarySidebar__SectionTitleLink-sc-1hhfek3-5 eUXOBN lPRyr"
+              className="c6 c7 c8"
               href="/projects/MPProject:1/library/global/MPLibrary:1/MPLibraryCollection:4"
               onClick={[Function]}
             >
@@ -80,18 +391,18 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
                 />
               </svg>
               <div
-                className="LibrarySidebar__SectionTitle-sc-1hhfek3-2 dJQhuM"
+                className="c9"
               >
                 My Library
               </div>
             </a>
           </div>
           <div
-            className="LibrarySidebar__SectionContainer-sc-1hhfek3-0 LIwfz"
+            className="c5"
           >
             <a
               aria-current={null}
-              className="LibrarySidebar__SectionLink-sc-1hhfek3-4 LibrarySidebar__SectionTitleLink-sc-1hhfek3-5 eUXOBN lPRyr"
+              className="c6 c7 c8"
               href="/projects/MPProject:1/library/search"
               onClick={[Function]}
             >
@@ -108,7 +419,7 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
                 />
               </svg>
               <div
-                className="LibrarySidebar__SectionTitle-sc-1hhfek3-2 dJQhuM"
+                className="c9"
               >
                 Search Online
               </div>
@@ -116,14 +427,14 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
           </div>
         </div>
         <div
-          className="SidebarHeaderFooter__SidebarFooter-sc-6j8srx-3 kLpROE"
+          className="c10"
         >
           <div>
             <div
-              className="LibrarySidebar__FooterItem-sc-1hhfek3-6 kcltmV"
+              className="c11"
             >
               <button
-                className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jxNfPW"
+                className="c12 c13 c14"
                 onClick={[Function]}
                 size="small"
                 type="button"
@@ -150,17 +461,17 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
                   </g>
                 </svg>
                 <div
-                  className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+                  className="c15"
                 >
                   Create new library item
                 </div>
               </button>
             </div>
             <div
-              className="LibrarySidebar__FooterItem-sc-1hhfek3-6 kcltmV"
+              className="c11"
             >
               <button
-                className="sc-ezzayL sc-jJMGHv AddButton__Action-sc-16tykoq-1 cRSqLN qAimf jxNfPW"
+                className="c12 c13 c14"
                 onClick={[Function]}
                 size="small"
                 type="button"
@@ -187,7 +498,7 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
                   </g>
                 </svg>
                 <div
-                  className="AddButton__ActionTitle-sc-16tykoq-2 eGkEGv"
+                  className="c15"
                 >
                   Import from file
                 </div>
@@ -197,14 +508,14 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
         </div>
       </div>
       <div
-        className="sc-dkiTmt sc-cVJhCs sc-ktvXtq kreIgV gQBCRV hXERFd"
+        className="c16 c17 c18"
         onMouseDown={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <button
           aria-expanded={true}
-          className="sc-ezzayL sc-cBoprd sc-ciSmjq sc-jcwofb Panel__ResizerButton-sc-1v8xanm-0 cRSqLN dRpzpn ifa-DBT jXeSFM imbOZC"
+          className="c12 c19 c20 c21 c22"
           onClick={[Function]}
           onMouseDown={[Function]}
           type="button"

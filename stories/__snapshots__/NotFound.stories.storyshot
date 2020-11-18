@@ -1,12 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots NotFound Resource not found 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  font-family: "Lato",sans-serif;
+}
+
+.c2 {
+  margin: 10px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c3 {
+  font-size: 150%;
+  font-weight: 700;
+}
+
+.c4 {
+  font-weight: 600;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
-      className="NotFoundPage__FullSizeContainer-q0laaw-0 iXChwb"
+      className="c1"
     >
       <svg
         height={302}
@@ -285,17 +330,17 @@ exports[`Storyshots NotFound Resource not found 1`] = `
         </g>
       </svg>
       <div
-        className="NotFoundPage__Message-q0laaw-1 cTlgRo"
+        className="c2"
       >
         <p
-          className="NotFoundPage__Heading-q0laaw-2 fqCpNw"
+          className="c3"
         >
           This is probably not what you were looking for.
         </p>
         <p>
           Nothing found at 
           <span
-            className="NotFoundPage__NotFoundPath-q0laaw-3 dTsumV"
+            className="c4"
           >
             /page-that-does-not-exist
           </span>

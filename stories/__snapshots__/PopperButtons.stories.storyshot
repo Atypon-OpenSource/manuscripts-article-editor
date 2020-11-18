@@ -1,12 +1,87 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Collaboration/Popper Buttons AddCollaboratorButton 1`] = `
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c1 svg + span {
+  margin-left: 4px;
+}
+
+.c2 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c3 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):hover,
+.c3:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  width: unset;
+  height: unset;
+  margin-left: 8px;
+}
+
+.c4:focus {
+  outline: none;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <button
-      className="sc-ezzayL sc-cBoprd sc-ciSmjq AddCollaboratorButton__AddIconButton-sc-19csw95-0 cRSqLN dRpzpn ifa-DBT kwFFUB"
+      className="c1 c2 c3 c4"
       onClick={[Function]}
       type="button"
     >
@@ -36,17 +111,118 @@ exports[`Storyshots Collaboration/Popper Buttons AddCollaboratorButton 1`] = `
 `;
 
 exports[`Storyshots Collaboration/Popper Buttons CollaboratorSettingsButton 1`] = `
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c1 svg + span {
+  margin-left: 4px;
+}
+
+.c2 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c2 svg g[stroke] {
+  stroke: currentColor;
+}
+
+.c2 svg path[fill] {
+  fill: currentColor;
+}
+
+.c2 svg path[stroke] {
+  stroke: currentColor;
+}
+
+.c2 svg text[fill],
+.c2 svg rect[fill],
+.c2 svg path[fill] {
+  fill: currentColor;
+}
+
+.c3 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):hover,
+.c3:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: unset;
+  width: unset;
+  padding-left: 8px;
+}
+
+.c4:focus {
+  outline: none;
+}
+
+.c5 g {
+  stroke: #0d79d0;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <button
-      className="sc-ezzayL sc-cBoprd sc-ciSmjq CollaboratorSettingsButton__AddIconButton-sc-1r9x5re-0 cRSqLN crkOrQ ifa-DBT gqwlDZ"
+      className="c1 c2 c3 c4"
       onClick={[Function]}
       type="button"
     >
       <svg
-        className="CollaboratorSettingsButton__SettingsInvertedIcon-sc-1r9x5re-1 hTqBRu"
+        className="c5"
         height={20}
         viewBox="0 0 20 20"
         width={20}
@@ -71,17 +247,117 @@ exports[`Storyshots Collaboration/Popper Buttons CollaboratorSettingsButton 1`] 
 `;
 
 exports[`Storyshots Collaboration/Popper Buttons InvitedCollaboratorSettingsButton 1`] = `
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c1 svg + span {
+  margin-left: 4px;
+}
+
+.c2 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c2 svg g[stroke] {
+  stroke: currentColor;
+}
+
+.c2 svg path[fill] {
+  fill: currentColor;
+}
+
+.c2 svg path[stroke] {
+  stroke: currentColor;
+}
+
+.c2 svg text[fill],
+.c2 svg rect[fill],
+.c2 svg path[fill] {
+  fill: currentColor;
+}
+
+.c3 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):hover,
+.c3:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 24px;
+  width: 40px;
+}
+
+.c4:focus {
+  outline: none;
+}
+
+.c5 g {
+  stroke: #0d79d0;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <button
-      className="sc-ezzayL sc-cBoprd sc-ciSmjq InvitedCollaboratorSettingsButton__AddIconButton-l65nnj-0 cRSqLN crkOrQ ifa-DBT bhFujr"
+      className="c1 c2 c3 c4"
       onClick={[Function]}
       type="button"
     >
       <svg
-        className="InvitedCollaboratorSettingsButton__SettingsInvertedIcon-l65nnj-1 byGGSL"
+        className="c5"
         height={20}
         viewBox="0 0 20 20"
         width={20}
@@ -106,12 +382,84 @@ exports[`Storyshots Collaboration/Popper Buttons InvitedCollaboratorSettingsButt
 `;
 
 exports[`Storyshots Metadata/Popper Buttons InviteAuthorButton 1`] = `
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c1 svg + span {
+  margin-left: 4px;
+}
+
+.c2 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c2 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c3 {
+  color: inherit;
+  margin-left: 16px;
+}
+
+.c3 g[fill] {
+  fill: currentColor;
+}
+
+.c3:not([disabled]):focus,
+.c3:not([disabled]):hover {
+  color: inherit;
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  margin-left: 12px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <button
-      className="sc-ezzayL sc-jJMGHv sc-jHNhIU InviteAuthorButton__Button-sc-7yg865-0 cRSqLN qAimf GPWUb dYCwrS"
+      className="c1 c2 c3 c4"
       onClick={[Function]}
       type="button"
     >

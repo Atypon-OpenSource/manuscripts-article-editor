@@ -713,7 +713,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         )
       }
 
-      const modelMap = await buildModelMap(models)
+      const modelMap = await buildModelMap(models as Array<RxDocument<Model>>)
 
       try {
         await this.createCitationProcessor(this.props.manuscript, modelMap)
@@ -1426,10 +1426,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         const model = modelDocument.toJSON()
 
         if (isFigure(model)) {
-          model.src = await getAttachment(modelDocument, 'image')
+          model.src = await getAttachment(
+            modelDocument as RxDocument<Model>,
+            'image'
+          )
         } else if (isUserProfile(model)) {
           ;(model as UserProfileWithAvatar).avatar = await getAttachment(
-            modelDocument,
+            modelDocument as RxDocument<Model>,
             PROFILE_IMAGE_ATTACHMENT
           )
         }
@@ -2054,7 +2057,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const targetJournals = await loadTargetJournals().then((targetJournals) =>
       targetJournals.length
         ? targetJournals
-        : JSON.parse(window.localStorage.getItem('targetJournals') || '[]')
+        : // load mock data from localStorage until the endpoint contains data
+          JSON.parse(window.localStorage.getItem('targetJournals') || '[]')
     )
 
     addModal('template-selector', ({ handleClose }) => (

@@ -1,16 +1,96 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Account/Authentication Google 1`] = `
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c1 svg + span {
+  margin-left: 4px;
+}
+
+.c2 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c3 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):hover,
+.c3:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c6 {
+  color: #6e6e6e;
+}
+
+.c4 {
+  margin: 4px;
+  padding: 0 16px;
+  width: auto;
+}
+
+.c5 {
+  height: 40px;
+  margin: -4px 0 0 -4px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <button
-      className="sc-ezzayL sc-cBoprd sc-ciSmjq Authentication__IconButtonWithText-sc-2rsk8d-1 cRSqLN dRpzpn ifa-DBT hTVBHK"
+      className="c1 c2 c3 c4"
       type="button"
     >
       <span
-        className="Authentication__GoogleImage-sc-2rsk8d-2 jhlbof"
+        className="c5"
       >
         <svg
           height={45}
@@ -120,7 +200,7 @@ exports[`Storyshots Account/Authentication Google 1`] = `
         </svg>
       </span>
       <div
-        className="Authentication__ButtonText-sc-2rsk8d-0 Byslt"
+        className="c6"
       >
         Google
       </div>
@@ -130,12 +210,77 @@ exports[`Storyshots Account/Authentication Google 1`] = `
 `;
 
 exports[`Storyshots Account/Authentication Orcid 1`] = `
+.c1 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c1 svg + span {
+  margin-left: 4px;
+}
+
+.c2 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c3 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):hover,
+.c3:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <button
-      className="sc-ezzayL sc-cBoprd sc-ciSmjq cRSqLN dRpzpn ifa-DBT"
+      className="c1 c2 c3"
       type="button"
     >
       <svg

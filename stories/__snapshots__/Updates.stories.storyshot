@@ -1,29 +1,69 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Updates Error 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  color: inherit;
+  display: block;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c5 {
+  padding: 8px 24px 12px;
+  border-top: 1px solid #e2e2e2;
+}
+
+.c2 {
+  font-size: 1.6em;
+  font-weight: 200;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.c1 {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.c1 img.emoji {
+  height: 1em;
+  padding: 0;
+}
+
+.c3 {
+  padding: 0 24px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
       className="Updates__Container-i7aaxp-4"
     >
       <div
-        className="Updates__UpdatesContent-i7aaxp-7 btzbyQ"
+        className="c1"
       >
         <div
-          className="Updates__Header-i7aaxp-5 gdDeQN"
+          className="c2"
         >
           Latest Updates
         </div>
         <div
-          className="Updates__Message-i7aaxp-12 icTTlK"
+          className="c3"
         >
           There was an error
         </div>
       </div>
       <a
-        className="Updates__Link-i7aaxp-1 Updates__FooterLink-i7aaxp-2 jzAiQT hdcwNl"
+        className="c4 c5"
         href="https://example.com/login"
       >
         🔗 Manuscripts.io community
@@ -34,36 +74,140 @@ exports[`Storyshots Updates Error 1`] = `
 `;
 
 exports[`Storyshots Updates Loaded 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c7 {
+  color: inherit;
+  display: block;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c8 {
+  padding: 8px 24px 12px;
+  border-top: 1px solid #e2e2e2;
+}
+
+.c5 {
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c2 {
+  font-size: 1.6em;
+  font-weight: 200;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.c4 {
+  font-size: 1.05em;
+  font-weight: 500;
+  margin-bottom: 2px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c1 {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.c1 img.emoji {
+  height: 1em;
+  padding: 0;
+}
+
+.c6 {
+  color: #0d79d0;
+  font-size: 8pt;
+  font-weight: 400;
+  border-radius: 8px;
+  border: 1px solid rgba(0,197,255,0.12);
+  background-color: rgba(0,197,255,0.1);
+  padding: 2pt 5pt;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+  margin-left: 4px;
+}
+
+.c3 {
+  cursor: pointer;
+  font-weight: 400;
+  padding: 12px 24px;
+}
+
+.c3:not(:last-of-type) {
+  border-bottom: 1px solid #eee;
+}
+
+.c3 p {
+  margin-top: 0.5em;
+  margin-bottom: 0.8em;
+}
+
+.c3 img {
+  max-width: 70%;
+  margin: 0;
+  padding: 10pt;
+}
+
+.c3 .lightbox-wrapper .meta {
+  display: none;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
       className="Updates__Container-i7aaxp-4"
     >
       <div
-        className="Updates__UpdatesContent-i7aaxp-7 btzbyQ"
+        className="c1"
       >
         <div
-          className="Updates__Header-i7aaxp-5 gdDeQN"
+          className="c2"
         >
           Latest Updates
         </div>
         <div
-          className="Updates__TopicItem-i7aaxp-9 knIUAT"
+          className="c3"
           onClick={[Function]}
         >
           <div
-            className="Updates__Heading-i7aaxp-6 jHdtmk"
+            className="c4"
           >
             <div
-              className="Updates__Title-i7aaxp-3 dDvqFI"
+              className="c5"
             >
               Improved tooltips
             </div>
             <div>
               <span
-                className="Updates__Timestamp-i7aaxp-8 iSrzUg"
+                className="c6"
               >
                 2 years ago
               </span>
@@ -71,20 +215,20 @@ exports[`Storyshots Updates Loaded 1`] = `
           </div>
         </div>
         <div
-          className="Updates__TopicItem-i7aaxp-9 knIUAT"
+          className="c3"
           onClick={[Function]}
         >
           <div
-            className="Updates__Heading-i7aaxp-6 jHdtmk"
+            className="c4"
           >
             <div
-              className="Updates__Title-i7aaxp-3 dDvqFI"
+              className="c5"
             >
               Much improved compatibility with Manuscripts for Mac file format
             </div>
             <div>
               <span
-                className="Updates__Timestamp-i7aaxp-8 iSrzUg"
+                className="c6"
               >
                 2 years ago
               </span>
@@ -93,7 +237,7 @@ exports[`Storyshots Updates Loaded 1`] = `
         </div>
       </div>
       <a
-        className="Updates__Link-i7aaxp-1 Updates__FooterLink-i7aaxp-2 jzAiQT hdcwNl"
+        className="c7 c8"
         href="https://example.com/login"
       >
         🔗 Manuscripts.io community
@@ -104,29 +248,69 @@ exports[`Storyshots Updates Loaded 1`] = `
 `;
 
 exports[`Storyshots Updates Loading 1`] = `
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c4 {
+  color: inherit;
+  display: block;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c5 {
+  padding: 8px 24px 12px;
+  border-top: 1px solid #e2e2e2;
+}
+
+.c2 {
+  font-size: 1.6em;
+  font-weight: 200;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.c1 {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.c1 img.emoji {
+  height: 1em;
+  padding: 0;
+}
+
+.c3 {
+  padding: 0 24px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div
       className="Updates__Container-i7aaxp-4"
     >
       <div
-        className="Updates__UpdatesContent-i7aaxp-7 btzbyQ"
+        className="c1"
       >
         <div
-          className="Updates__Header-i7aaxp-5 gdDeQN"
+          className="c2"
         >
           Latest Updates
         </div>
         <div
-          className="Updates__Message-i7aaxp-12 icTTlK"
+          className="c3"
         >
           Loading…
         </div>
       </div>
       <a
-        className="Updates__Link-i7aaxp-1 Updates__FooterLink-i7aaxp-2 jzAiQT hdcwNl"
+        className="c4 c5"
         href="https://example.com/login"
       >
         🔗 Manuscripts.io community

@@ -1,16 +1,228 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Preflight Dialog 1`] = `
+.c10 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c10 svg + span {
+  margin-left: 4px;
+}
+
+.c12 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: default;
+  background-color: #e2e2e2 !important;
+  border-color: #e2e2e2 !important;
+  color: #fff !important;
+}
+
+.c12 svg + span {
+  margin-left: 4px;
+}
+
+.c11 {
+  color: #353535;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c11:not([disabled]):hover,
+.c11:not([disabled]):focus {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c11:not([disabled]):active {
+  color: #0d79d0;
+  background-color: #fff;
+  border-color: #e2e2e2;
+}
+
+.c13 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c13:not([disabled]):hover,
+.c13:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c13:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c8 button:not(:first-child) {
+  margin-left: 4px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 1.2em;
+  height: 1.3em;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 2px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c1 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  border-radius: 8px;
+  box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
+  background: #fff;
+}
+
+.c2 {
+  font-size: 18px;
+  padding: 16px 32px;
+}
+
+.c3 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 32px 16px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.c9 {
+  padding: 16px;
+}
+
+.c7 {
+  margin-left: 4px;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
 <div
-  className="Story-sc-1e4b0ke-0 hwwcpR"
+  className="c0"
 >
   <div>
     <div>
       <div
-        className="PreflightDialog__ModalBody-sc-1h5hc9d-0 gNOJGh"
+        className="c1"
       >
         <div
-          className="PreflightDialog__ModalTitle-sc-1h5hc9d-1 eNAKfE"
+          className="c2"
         >
           Submission
           <span>
@@ -22,16 +234,16 @@ exports[`Storyshots Preflight Dialog 1`] = `
           </span>
         </div>
         <div
-          className="PreflightDialog__ModalMain-sc-1h5hc9d-2 ctLlLP"
+          className="c3"
         >
           <div
-            className="PreflightDialog__ManuscriptTitleContainer-sc-1h5hc9d-5 UaVUs"
+            className="c4"
           >
             <span
-              className="sc-dTSxUT gkxIGD"
+              className="c5"
             >
               <svg
-                className="PreflightDialog__StyledManuscriptIcon-sc-1h5hc9d-6 kqhKAF"
+                className="c6"
                 height={18}
                 viewBox="0 0 19 18"
                 width={19}
@@ -49,23 +261,23 @@ exports[`Storyshots Preflight Dialog 1`] = `
               </svg>
             </span>
             <div
-              className="PreflightDialog__ManuscriptTitle-sc-1h5hc9d-4 biobhm"
+              className="c7"
             />
           </div>
           Validating…
         </div>
         <div
-          className="sc-iTVIwl PreflightDialog__ModalFooter-sc-1h5hc9d-3 fqGxrZ geouJx"
+          className="c8 c9"
         >
           <button
-            className="sc-ezzayL sc-bYwzba cRSqLN bXiklN"
+            className="c10 c11"
             onClick={[Function]}
             type="button"
           >
             Cancel
           </button>
           <button
-            className="sc-ezzayL sc-kLokih gjhYjP bYa-DYT"
+            className="c12 c13"
             disabled={true}
             onClick={[Function]}
             type="button"
