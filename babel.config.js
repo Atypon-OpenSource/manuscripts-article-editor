@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 module.exports = {
+  compact: false,
   env: {
     development: {
       plugins: ['react-hot-loader/babel', 'react-intl'],
@@ -35,8 +36,12 @@ module.exports = {
     [
       '@babel/env',
       {
-        corejs: 3,
+        corejs: {
+          version: 3,
+          // proposals: true
+        },
         useBuiltIns: 'usage',
+        // forceAllTransforms: true,
       },
     ],
     '@babel/react',

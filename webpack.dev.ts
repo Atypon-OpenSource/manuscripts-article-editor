@@ -27,6 +27,8 @@ const configuration: webpack.Configuration = merge(common, {
     historyApiFallback: true,
     hot: true,
     open: true,
+    noInfo: true,
+    stats: 'minimal',
   },
   devtool: 'source-map',
   mode: 'development',

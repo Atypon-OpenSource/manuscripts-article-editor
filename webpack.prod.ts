@@ -34,6 +34,12 @@ const configuration: webpack.Configuration = merge(common, {
             use: 'babel-loader',
           },
           {
+            exclude: /node_modules/,
+            include: /node_modules\/@manuscripts\/(?!(manuscripts-json-schema|assets)\/)/,
+            test: /\.jsx?$/,
+            use: 'babel-loader',
+          },
+          {
             test: /\.mjs$/,
             type: 'javascript/auto',
           },
@@ -72,11 +78,11 @@ const configuration: webpack.Configuration = merge(common, {
     filename: 'js/[name].[chunkhash:8].js',
     crossOriginLoading: 'anonymous',
   },
-  // performance: {
-  //   hints: 'error',
-  //   maxEntrypointSize: 0.5 * 1024 * 1024,
-  //   maxAssetSize: 9 * 1024 * 1024,
-  // },
+  performance: {
+    hints: 'error',
+    maxEntrypointSize: 1024 * 1024,
+    maxAssetSize: 10 * 1024 * 1024,
+  },
   plugins: [
     new SriPlugin({
       hashFuncNames: ['sha512'],
