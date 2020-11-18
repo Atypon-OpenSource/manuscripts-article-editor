@@ -332,8 +332,10 @@ export class Collection<T extends Model> {
 
   public async delete(id: string) {
     try {
-      const doc = await this.findDoc(id)
-      await doc.remove()
+      const doc = await this.findOne(id).exec()
+      if (doc) {
+        await doc.remove()
+      }
       return id
     } catch (e) {
       this.dispatchWriteError('delete', e)
