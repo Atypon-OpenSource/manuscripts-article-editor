@@ -93,13 +93,11 @@ class CollaboratorPageContainer extends React.Component<CombinedProps, State> {
       (invitation) => !invitation.acceptedAt
     )
 
-    const collaboratorEmails: string[] = []
-
     const projectCollaborators = buildCollaborators(project, collaborators)
 
-    for (const collaborator of projectCollaborators.values()) {
-      collaboratorEmails.push(collaborator.userID.replace('User_', ''))
-    }
+    const collaboratorEmails: string[] = projectCollaborators
+      .filter((collaborator) => collaborator.email)
+      .map((collaborator) => collaborator.email!)
 
     const filteredInvitations = acceptedInvitations.filter(
       (invitation) => !collaboratorEmails.includes(invitation.invitedUserEmail)

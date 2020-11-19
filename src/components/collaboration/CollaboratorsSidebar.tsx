@@ -134,9 +134,9 @@ class CollaboratorsSidebar extends React.Component<Props, State> {
 
     const { hoveredID, selectedID, message } = this.state
 
-    const collaboratorEmails = projectCollaborators.map((collaborator) =>
-      collaborator.userID.replace('User_', '')
-    )
+    const collaboratorEmails: string[] = projectCollaborators
+      .filter((collaborator) => collaborator.email)
+      .map((collaborator) => collaborator.email!)
 
     const filteredInvitations = invitations.filter(
       (invitation) => !collaboratorEmails.includes(invitation.invitedUserEmail)
