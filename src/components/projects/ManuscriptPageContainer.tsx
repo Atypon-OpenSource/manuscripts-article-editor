@@ -1098,6 +1098,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
+  private getCitationStyleData = (
+    bundleID: string
+  ): Promise<string | undefined> => {
+    return this.collection.getAttachmentAsString(bundleID, 'csl').catch(() => {
+      return undefined
+    })
+  }
+
   private createCitationProcessor = async (
     manuscript: Manuscript,
     modelMap: Map<string, Model>
@@ -1106,7 +1114,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const bundle = modelMap.get(bundleID) as Bundle | undefined
 
     const citationStyleData = bundle
-      ? await this.collection.getAttachmentAsString(bundle._id, 'csl')
+      ? await this.getCitationStyleData(bundle._id)
       : undefined
 
     // TODO: move defaults into method?
