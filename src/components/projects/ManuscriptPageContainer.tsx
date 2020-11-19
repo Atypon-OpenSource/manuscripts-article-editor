@@ -1053,12 +1053,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     // TODO: use the imported filename?
     if (!manuscript.pageLayout) {
-      const [bundle, parentBundle] = await loadBundle(manuscript.bundle)
-      manuscript.bundle = bundle._id
-      models.push(bundle)
+      if (!models.find((model) => model._id === manuscript.bundle)) {
+        const [bundle, parentBundle] = await loadBundle(manuscript.bundle)
+        manuscript.bundle = bundle._id
+        models.push(bundle)
 
-      if (parentBundle) {
-        models.push(parentBundle)
+        if (parentBundle) {
+          models.push(parentBundle)
+        }
       }
 
       const dependencies = await loadBundledDependencies()
