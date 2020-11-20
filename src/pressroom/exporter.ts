@@ -11,9 +11,9 @@
  */
 
 import { convertBibliographyItemToData, fixCSLData } from '@manuscripts/library'
-import { convertToMathML } from '@manuscripts/manuscript-editor'
 import {
   Attachments,
+  convertTeXToMathML,
   Decoder,
   generateAttachmentFilename,
   getModelData,
@@ -92,7 +92,7 @@ const augmentEquations = async (modelMap: Map<string, Model>) => {
       !model.MathMLStringRepresentation
     ) {
       // block equation
-      const mathml = convertToMathML(model.TeXRepresentation, true)
+      const mathml = await convertTeXToMathML(model.TeXRepresentation, true)
 
       if (mathml) {
         model.MathMLStringRepresentation = mathml
@@ -106,7 +106,7 @@ const augmentEquations = async (modelMap: Map<string, Model>) => {
       !model.MathMLRepresentation
     ) {
       // inline equation
-      const mathml = convertToMathML(model.TeXRepresentation, false)
+      const mathml = await convertTeXToMathML(model.TeXRepresentation, false)
 
       if (mathml) {
         model.MathMLRepresentation = mathml
