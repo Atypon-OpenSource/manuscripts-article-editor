@@ -76,6 +76,7 @@ import {
   Figure,
   Keyword,
   Manuscript,
+  ManuscriptNote,
   ManuscriptTemplate,
   Model,
   ObjectTypes,
@@ -201,6 +202,7 @@ interface State {
     [key: string]: Set<string>
   }
   modelMap?: Map<string, Model>
+  noteTarget?: string
   plugins?: ManuscriptPlugin[]
   popper: PopperManager
   processor?: CiteProc.Engine
@@ -219,6 +221,7 @@ interface State {
 export interface ManuscriptPageContainerProps {
   tags: Tag[]
   comments: CommentAnnotation[]
+  notes: ManuscriptNote[]
   keywords: Map<string, Keyword>
   library: Map<string, BibliographyItem>
   manuscripts: Manuscript[]
@@ -396,6 +399,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       selectedElement,
       selectedSection,
       commentTarget,
+      noteTarget,
       conflicts,
       submission,
     } = this.state
@@ -403,6 +407,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const {
       comments,
       manuscript,
+      notes,
       manuscripts,
       project,
       user,
@@ -592,6 +597,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               listKeywords={this.listKeywords}
               manuscript={manuscript}
               modelMap={modelMap}
+              noteTarget={noteTarget}
+              notes={notes}
               openCitationStyleSelector={this.openCitationStyleSelector}
               saveManuscript={this.saveManuscript}
               project={project}
@@ -600,6 +607,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               selected={selected}
               selectedSection={selectedSection}
               setCommentTarget={this.setCommentTarget}
+              setNoteTarget={this.setNoteTarget}
               submission={submission}
               view={view}
               tags={this.props.tags}
@@ -1899,6 +1907,10 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private setCommentTarget = (commentTarget?: string) => {
     this.setState({ commentTarget })
+  }
+
+  private setNoteTarget = (noteTarget?: string) => {
+    this.setState({ noteTarget })
   }
 
   private publishTemplate = async () => {

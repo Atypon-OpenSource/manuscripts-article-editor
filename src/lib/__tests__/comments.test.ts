@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { buildName } from '../comments'
+import { buildName } from '@manuscripts/style-guide'
 
 describe('buildName', () => {
   it('buildName', () => {

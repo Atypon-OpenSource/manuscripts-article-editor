@@ -31,13 +31,6 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   justify-content: center;
 }
 
-.c0 {
-  background-color: #fff;
-  color: #353535;
-  font-family: "Lato",sans-serif;
-  padding: 3rem;
-}
-
 .c11 {
   border-top: 1px solid #eee;
   margin-top: 16px;
@@ -120,6 +113,13 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
 .c8 {
   margin: 0 8px;
   font-weight: 600;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
 }
 
 .c1 {
@@ -255,7 +255,6 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
                   <span>
                     <button
                       className="c12"
-                      disabled={false}
                       onClick={[Function]}
                       title="Delete comment"
                     >

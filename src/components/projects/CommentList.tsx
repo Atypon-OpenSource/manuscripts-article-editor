@@ -29,14 +29,17 @@ import {
   Keyword,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import {
+  buildCommentTree,
+  CommentBody,
+  CommentData,
+  CommentTarget,
+  CommentUser,
+  RelativeDate,
+} from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { buildCommentTree, CommentData } from '../../lib/comments'
-import { RelativeDate } from '../RelativeDate'
-import CommentBody from './CommentBody'
-import { CommentTarget } from './CommentTarget'
-import { CommentUser } from './CommentUser'
 import { HighlightedText } from './HighlightedText'
 
 const CommentListContainer = styled.div`
@@ -257,7 +260,10 @@ export const CommentList: React.FC<Props> = React.memo(
                       <LightRelativeDate createdAt={comment.createdAt * 1000} />
                     </CommentHeader>
 
-                    <HighlightedText comment={comment} state={state} />
+                    <HighlightedText
+                      comment={comment as CommentAnnotation}
+                      state={state}
+                    />
 
                     <CommentBody
                       comment={comment}
@@ -269,7 +275,7 @@ export const CommentList: React.FC<Props> = React.memo(
                       listKeywords={listKeywords}
                       saveComment={saveComment}
                       setCommentTarget={setCommentTarget}
-                      isNew={isNew(comment)}
+                      isNew={isNew(comment as CommentAnnotation)}
                     />
                   </Container>
 
@@ -298,7 +304,7 @@ export const CommentList: React.FC<Props> = React.memo(
                         listKeywords={listKeywords}
                         saveComment={saveComment}
                         setCommentTarget={setCommentTarget}
-                        isNew={isNew(comment)}
+                        isNew={isNew(comment as CommentAnnotation)}
                       />
                     </Reply>
                   ))}

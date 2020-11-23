@@ -22,6 +22,7 @@ import {
   CommentAnnotation,
   Keyword,
   Manuscript,
+  ManuscriptNote,
   Model,
   Project,
   Section,
@@ -93,6 +94,8 @@ export const Inspector: React.FC<{
   listKeywords: () => Keyword[]
   manuscript: Manuscript
   modelMap: Map<string, Model>
+  notes?: ManuscriptNote[]
+  noteTarget?: string
   openCitationStyleSelector: () => void
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   project: Project
@@ -101,6 +104,7 @@ export const Inspector: React.FC<{
   selected: Selected | null
   selectedSection?: Selected
   setCommentTarget: () => void
+  setNoteTarget: () => void
   submission?: Submission
   view: ManuscriptEditorView
   tags: Tag[]

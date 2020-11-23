@@ -21,6 +21,7 @@ import GlobalLibraryCollectionsData from '../../data/GlobalLibraryCollectionsDat
 import GlobalLibraryItemsData from '../../data/GlobalLibraryItemsData'
 import ManuscriptCommentsData from '../../data/ManuscriptCommentsData'
 import ManuscriptData from '../../data/ManuscriptData'
+import ManuscriptNoteData from '../../data/ManuscriptNoteData'
 import ProjectData from '../../data/ProjectData'
 import ProjectInvitationsData from '../../data/ProjectInvitationsData'
 import ProjectKeywordsData from '../../data/ProjectKeywordsData'
@@ -319,65 +320,81 @@ class ProjectPageContainer extends React.Component<
                                                                                   {(
                                                                                     comments
                                                                                   ) => (
-                                                                                    <React.Suspense
-                                                                                      fallback={
-                                                                                        <ProjectPlaceholder />
+                                                                                    <ManuscriptNoteData
+                                                                                      manuscriptID={
+                                                                                        manuscriptID
+                                                                                      }
+                                                                                      projectID={
+                                                                                        projectID
                                                                                       }
                                                                                     >
-                                                                                      <ManuscriptPageContainer
-                                                                                        {...props}
-                                                                                        tags={
-                                                                                          tags
-                                                                                        }
-                                                                                        comments={
-                                                                                          comments
-                                                                                        }
-                                                                                        keywords={
-                                                                                          keywords
-                                                                                        }
-                                                                                        library={
-                                                                                          library
-                                                                                        }
-                                                                                        manuscript={
-                                                                                          manuscript
-                                                                                        }
-                                                                                        manuscripts={
-                                                                                          manuscripts
-                                                                                        }
-                                                                                        project={
-                                                                                          project
-                                                                                        }
-                                                                                        projects={
-                                                                                          projects
-                                                                                        }
-                                                                                        projectsCollection={
-                                                                                          projectsCollection
-                                                                                        }
-                                                                                        user={
-                                                                                          user
-                                                                                        }
-                                                                                        collaborators={buildCollaboratorProfiles(
-                                                                                          collaborators,
-                                                                                          user
-                                                                                        )}
-                                                                                        collaboratorsById={buildCollaboratorProfiles(
-                                                                                          collaborators,
-                                                                                          user,
-                                                                                          '_id'
-                                                                                        )}
-                                                                                        userProjects={
-                                                                                          userProjects
-                                                                                        }
-                                                                                        userProjectsCollection={
-                                                                                          userProjectCollection
-                                                                                        }
-                                                                                        tokenActions={
-                                                                                          this
-                                                                                            .props
-                                                                                            .tokenActions
-                                                                                        }
-                                                                                      />
-                                                                                    </React.Suspense>
+                                                                                      {(
+                                                                                        notes
+                                                                                      ) => (
+                                                                                        <React.Suspense
+                                                                                          fallback={
+                                                                                            <ProjectPlaceholder />
+                                                                                          }
+                                                                                        >
+                                                                                          <ManuscriptPageContainer
+                                                                                            {...props}
+                                                                                            tags={
+                                                                                              tags
+                                                                                            }
+                                                                                            comments={
+                                                                                              comments
+                                                                                            }
+                                                                                            keywords={
+                                                                                              keywords
+                                                                                            }
+                                                                                            library={
+                                                                                              library
+                                                                                            }
+                                                                                            manuscript={
+                                                                                              manuscript
+                                                                                            }
+                                                                                            manuscripts={
+                                                                                              manuscripts
+                                                                                            }
+                                                                                            notes={
+                                                                                              notes
+                                                                                            }
+                                                                                            project={
+                                                                                              project
+                                                                                            }
+                                                                                            projects={
+                                                                                              projects
+                                                                                            }
+                                                                                            projectsCollection={
+                                                                                              projectsCollection
+                                                                                            }
+                                                                                            user={
+                                                                                              user
+                                                                                            }
+                                                                                            collaborators={buildCollaboratorProfiles(
+                                                                                              collaborators,
+                                                                                              user
+                                                                                            )}
+                                                                                            collaboratorsById={buildCollaboratorProfiles(
+                                                                                              collaborators,
+                                                                                              user,
+                                                                                              '_id'
+                                                                                            )}
+                                                                                            userProjects={
+                                                                                              userProjects
+                                                                                            }
+                                                                                            userProjectsCollection={
+                                                                                              userProjectCollection
+                                                                                            }
+                                                                                            tokenActions={
+                                                                                              this
+                                                                                                .props
+                                                                                                .tokenActions
+                                                                                            }
+                                                                                          />
+                                                                                        </React.Suspense>
+                                                                                      )}
+                                                                                    </ManuscriptNoteData>
                                                                                   )}
                                                                                 </ManuscriptCommentsData>
                                                                               )}
