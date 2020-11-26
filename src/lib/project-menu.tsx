@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { MenuItem, MenuSeparator } from '@manuscripts/manuscript-editor'
-import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
+import { MenuSpec } from '@manuscripts/manuscript-editor'
+import { ManuscriptEditorView } from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import { History } from 'history'
@@ -21,7 +21,8 @@ import config from '../config'
 import { ExportFormat } from '../pressroom/exporter'
 import { RecentProject } from './user-project'
 
-interface Props {
+export interface ProjectMenuProps {
+  view: ManuscriptEditorView
   project: Project
   manuscript: Manuscript
   getRecentProjects: () => RecentProject[]
@@ -65,51 +66,51 @@ const confirmDeleteProjectMessage = (title: string) => {
   return `Are you sure you wish to delete the project with title "${node.textContent}"?`
 }
 
-export const buildProjectMenu = (props: Props): MenuItem => {
-  const exportMenu: MenuItem[] = [
+export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
+  const exportMenu: MenuSpec[] = [
     {
       id: 'export-pdf',
-      label: () => 'PDF',
+      label: 'PDF',
       run: () => props.openExporter('pdf'),
     },
     {
       id: 'export-docx',
-      label: () => 'Microsoft Word',
+      label: 'Microsoft Word',
       run: () => props.openExporter('docx'),
     },
     {
       id: 'export-epub',
-      label: () => 'EPUB',
+      label: 'EPUB',
       run: () => props.openExporter('epub'),
     },
     {
       id: 'export-md',
-      label: () => 'Markdown',
+      label: 'Markdown',
       run: () => props.openExporter('md'),
     },
     {
       id: 'export-tex',
-      label: () => 'LaTeX',
+      label: 'LaTeX',
       run: () => props.openExporter('tex'),
     },
     {
       id: 'export-html',
-      label: () => 'HTML',
+      label: 'HTML',
       run: () => props.openExporter('html'),
     },
     {
       id: 'export-jats',
-      label: () => 'JATS',
+      label: 'JATS',
       run: () => props.openExporter('jats'),
     },
     {
       id: 'export-icml',
-      label: () => 'ICML',
+      label: 'ICML',
       run: () => props.openExporter('icml'),
     },
     {
       id: 'export-manuproj',
-      label: () => 'Manuscripts Archive',
+      label: 'Manuscripts Archive',
       run: () => props.openExporter('manuproj'),
     },
   ]
@@ -117,7 +118,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
   if (config.export.literatum) {
     exportMenu.push({
       id: 'export-do',
-      label: () => 'Literatum Digital Object',
+      label: 'Literatum Digital Object',
       run: () => props.openExporter('do', false),
     })
   }
@@ -125,7 +126,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
   if (config.export.sts) {
     exportMenu.push({
       id: 'export-sts',
-      label: () => 'STS',
+      label: 'STS',
       run: () => props.openExporter('sts'),
     })
   }
@@ -133,56 +134,56 @@ export const buildProjectMenu = (props: Props): MenuItem => {
   if (config.submission.group_doi && config.submission.series_code) {
     exportMenu.push({
       id: 'export-submission',
-      label: () => 'Literatum Submission',
+      label: 'Literatum Submission',
       run: () => props.openExporter('submission', false),
     })
 
     exportMenu.push({
       id: 'export-pdf-prince',
-      label: () => 'PDF (via Prince)',
+      label: 'PDF (via Prince)',
       run: () => props.openExporter('pdf-prince'),
     })
   }
 
-  const exportReferencesMenu: MenuItem[] = [
+  const exportReferencesMenu: MenuSpec[] = [
     {
       id: 'export-bib',
-      label: () => 'BibTeX',
+      label: 'BibTeX',
       run: () => props.openExporter('bib'),
     },
     {
       id: 'export-ris',
-      label: () => 'RIS',
+      label: 'RIS',
       run: () => props.openExporter('ris'),
     },
     {
       id: 'export-mods',
-      label: () => 'MODS',
+      label: 'MODS',
       run: () => props.openExporter('mods'),
     },
   ]
 
-  const submenu: Array<MenuItem | MenuSeparator> = [
+  const submenu: MenuSpec[] = [
     {
       id: 'project-new',
-      label: () => 'New',
+      label: 'New',
       submenu: [
         {
           id: 'project-new-project',
-          label: () => 'Project…',
+          label: 'Project…',
           run: () => props.openTemplateSelector(true),
         },
         {
           id: 'project-new-manuscript',
-          label: () => 'Manuscript…',
+          label: 'Manuscript…',
           run: () => props.openTemplateSelector(false),
         },
       ],
     },
     {
       id: 'project-open-recent',
-      label: () => 'Open Recent',
-      enable: () => props.getRecentProjects().length > 0,
+      label: 'Open Recent',
+      enable: props.getRecentProjects().length > 0,
       submenu: props
         .getRecentProjects()
         .map(({ projectID, manuscriptID, projectTitle, sectionID }) => ({
@@ -210,12 +211,12 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     },
     {
       id: 'import',
-      label: () => 'Import Manuscript…',
+      label: 'Import Manuscript…',
       run: props.openImporter,
     },
     {
       id: 'export',
-      label: () => 'Export Manuscript as…',
+      label: 'Export Manuscript as…',
       submenu: exportMenu,
     },
     {
@@ -223,35 +224,35 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     },
     {
       id: 'export-bibliography',
-      label: () => 'Export Bibliography as…',
+      label: 'Export Bibliography as…',
       submenu: exportReferencesMenu,
-      enable: (state: ManuscriptEditorState) => {
+      enable: (() => {
         let result = false
 
-        state.doc.descendants((node) => {
+        props.view.state.doc.descendants((node) => {
           if (node.type === node.type.schema.nodes.citation) {
             result = true
           }
         })
 
         return result
-      },
+      })(),
     },
     {
       role: 'separator',
     },
     {
       id: 'submit-to-review',
-      label: () => 'Submit to Review…',
+      label: 'Submit to Review…',
       run: config.export.to_review ? props.submitToReview : () => null,
-      enable: () => config.export.to_review && window.navigator.onLine,
+      enable: config.export.to_review && window.navigator.onLine,
     },
     {
       role: 'separator',
     },
     {
       id: 'delete-project',
-      label: () => 'Delete Project',
+      label: 'Delete Project',
       run: () =>
         confirm(
           props.project.title
@@ -264,10 +265,9 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     },
     {
       id: 'delete-manuscript',
-      label: () =>
-        props.manuscript.title
-          ? deleteManuscriptLabel(props.manuscript.title)
-          : 'Delete Untitled Manuscript',
+      label: props.manuscript.title
+        ? deleteManuscriptLabel(props.manuscript.title)
+        : 'Delete Untitled Manuscript',
       run: () =>
         confirm(
           props.manuscript.title
@@ -280,7 +280,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     },
     {
       id: 'rename-project',
-      label: () => 'Rename Project',
+      label: 'Rename Project',
       run: () => props.openRenameProject(props.project),
     },
     {
@@ -288,7 +288,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
     },
     {
       id: 'project-diagnostics',
-      label: () => 'View Diagnostics',
+      label: 'View Diagnostics',
       run: () =>
         props.history.push(`/projects/${props.project._id}/diagnostics`),
     },
@@ -301,7 +301,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
       },
       {
         id: 'project-template',
-        label: () => 'Publish Template',
+        label: 'Publish Template',
         run: () => props.publishTemplate(),
       }
     )
@@ -309,7 +309,7 @@ export const buildProjectMenu = (props: Props): MenuItem => {
 
   return {
     id: 'project',
-    label: () => 'Project',
+    label: 'Project',
     submenu,
   }
 }

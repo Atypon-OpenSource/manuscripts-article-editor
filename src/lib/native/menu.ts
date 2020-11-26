@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { MenuItem, MenuSeparator } from '@manuscripts/manuscript-editor'
+import { MenuSpec } from '@manuscripts/manuscript-editor'
 import { ManuscriptEditorView } from '@manuscripts/manuscript-transform'
 
 export interface MenuItemState {
@@ -21,14 +21,9 @@ export interface MenuItemState {
   submenu?: string
 }
 
-const isMenuSeparator = (
-  item: MenuItem | MenuSeparator
-): item is MenuSeparator => 'role' in item && item.role === 'separator'
+const isMenuSeparator = (item: MenuSpec): boolean => item.role === 'separator'
 
-const findMenuItem = (
-  items: Array<MenuItem | MenuSeparator>,
-  key: string
-): MenuItem | undefined => {
+const findMenuItem = (items: MenuSpec[], key: string): MenuSpec | null => {
   for (const item of items) {
     if (isMenuSeparator(item)) {
       continue
@@ -47,24 +42,13 @@ const findMenuItem = (
     }
   }
 
-  return undefined
-}
-
-const getMenuItemState = (
-  view: ManuscriptEditorView,
-  item: MenuItem
-): MenuItemState => {
-  return {
-    id: item.id,
-    active: item.active ? item.active(view.state) : undefined,
-    enabled: item.enable ? item.enable(view.state) : undefined,
-  }
+  return null
 }
 
 export const createGetMenuState = (
   view: ManuscriptEditorView,
-  menus: MenuItem[]
-) => (key: string): Array<MenuItemState | MenuSeparator> => {
+  menus: MenuSpec[]
+) => (key: string): MenuSpec[] => {
   const menu = findMenuItem(menus, key)
 
   if (!menu) {
@@ -80,14 +64,13 @@ export const createGetMenuState = (
       return item
     }
 
-    return getMenuItemState(view, item)
+    return item
   })
 }
 
-export const createDispatchMenuAction = (
-  view: ManuscriptEditorView,
-  menus: MenuItem[]
-) => (key: string) => {
+export const createDispatchMenuAction = (menus: MenuSpec[]) => (
+  key: string
+) => {
   const item = findMenuItem(menus, key)
 
   if (!item) {
@@ -98,5 +81,5 @@ export const createDispatchMenuAction = (
     throw new Error(`No run action for menu item with id ${key}`)
   }
 
-  item.run(view.state, view.dispatch)
+  item.run()
 }

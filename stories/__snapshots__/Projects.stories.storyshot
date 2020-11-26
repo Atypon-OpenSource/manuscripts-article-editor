@@ -217,7 +217,7 @@ exports[`Storyshots Projects Manuscript Sidebar 1`] = `
 }
 
 .c20:hover .use[fill='#949494'],
-.c20:hover .sc-eiQXzm use[fill='#949494'] {
+.c20:hover .sc-cVJhCs use[fill='#949494'] {
   fill: #ccc;
 }
 

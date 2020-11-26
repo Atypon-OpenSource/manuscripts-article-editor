@@ -21,7 +21,6 @@ import {
   transformBibliography,
 } from '@manuscripts/library'
 import {
-  ApplicationMenu,
   canInsert,
   ChangeReceiver,
   Editor,
@@ -29,8 +28,6 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
   insertInlineCitation,
-  MenuItem,
-  menus as editorMenus,
   PopperManager,
   RequirementsProvider,
 } from '@manuscripts/manuscript-editor'
@@ -127,11 +124,7 @@ import {
   postWebkitMessage,
   titleToolbarState,
 } from '../../lib/native'
-import {
-  createDispatchMenuAction,
-  createGetMenuState,
-} from '../../lib/native/menu'
-import { buildProjectMenu } from '../../lib/project-menu'
+import { createDispatchMenuAction } from '../../lib/native/menu'
 import { buildTemplateModels } from '../../lib/publish-template'
 import { canWrite } from '../../lib/roles'
 import { filterLibrary } from '../../lib/search-library'
@@ -173,6 +166,7 @@ import { EditorStyles } from './EditorStyles'
 import { Exporter } from './Exporter'
 import { Importer } from './Importer'
 import { Inspector } from './Inspector'
+import { createMenuSpec, ManuscriptPageMenus } from './ManuscriptPageMenus'
 import {
   EditorType,
   EditorViewType,
@@ -478,7 +472,22 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               {view && permissions.write && !config.native && (
                 <EditorHeader>
                   <ApplicationMenuContainer>
-                    <ApplicationMenu menus={this.buildMenus()} view={view} />
+                    <ManuscriptPageMenus
+                      view={view}
+                      manuscript={manuscript}
+                      project={project}
+                      openTemplateSelector={this.openTemplateSelector}
+                      deleteManuscript={this.deleteManuscript}
+                      deleteModel={this.deleteModel}
+                      history={this.props.history}
+                      openExporter={this.openExporter}
+                      openImporter={this.openImporter}
+                      openRenameProject={this.openRenameProject}
+                      getRecentProjects={this.getRecentProjects}
+                      publishTemplate={this.publishTemplate}
+                      submitToReview={this.showPreflightDialog}
+                    />
+
                     {config.beacon.ws && (
                       <PresenceList
                         containerId={projectID}
@@ -1621,17 +1630,25 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         view as ManuscriptEditorView
       )
 
-      const menus = this.buildMenus(true)
+      const menus = createMenuSpec({
+        view: this.state.view!,
+        manuscript: this.props.manuscript,
+        project: this.props.project,
+        openTemplateSelector: this.openTemplateSelector,
+        deleteManuscript: this.deleteManuscript,
+        deleteModel: this.deleteModel,
+        history: this.props.history,
+        openExporter: this.openExporter,
+        openImporter: this.openImporter,
+        openRenameProject: this.openRenameProject,
+        getRecentProjects: this.getRecentProjects,
+        publishTemplate: this.publishTemplate,
+        submitToReview: this.showPreflightDialog,
+      })
 
-      window.dispatchMenuAction = createDispatchMenuAction(
-        view as ManuscriptEditorView,
-        menus
-      )
+      window.dispatchMenuAction = createDispatchMenuAction(menus)
 
-      window.getMenuState = createGetMenuState(
-        view as ManuscriptEditorView,
-        menus
-      )
+      window.getMenuState = () => menus
 
       postWebkitMessage('toolbar', {
         manuscript: {
@@ -1835,32 +1852,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     // send remaining/updated conflict state to editor plugin
     view.dispatch(view.state.tr.setMeta(conflictsKey, updatedConflicts))
-  }
-
-  private buildMenus = (includeEditorMenus = false): MenuItem[] => {
-    const { manuscript, project } = this.props
-    const { view } = this.state
-
-    const projectMenu = buildProjectMenu({
-      manuscript,
-      project,
-      openTemplateSelector: this.openTemplateSelector,
-      deleteManuscript: this.deleteManuscript,
-      deleteModel: this.deleteModel,
-      history: this.props.history,
-      openExporter: this.openExporter,
-      openImporter: this.openImporter,
-      openRenameProject: this.openRenameProject,
-      getRecentProjects: this.getRecentProjects,
-      publishTemplate: this.publishTemplate,
-      submitToReview: this.showPreflightDialog,
-    })
-
-    const menus: MenuItem[] = [projectMenu]
-
-    return includeEditorMenus || (view && view.hasFocus())
-      ? menus.concat(editorMenus)
-      : menus
   }
 
   private getCurrentUser = (): UserProfile => this.props.user
