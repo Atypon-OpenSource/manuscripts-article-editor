@@ -47,7 +47,6 @@ export const createMenuSpec = (props: ProjectMenuProps): MenuSpec[] => {
 
 export const ManuscriptPageMenus: React.FC<ProjectMenuProps> = (props) => {
   const spec = createMenuSpec(props)
-  console.log(spec)
 
   const { menuState, wrapperRef, handleItemClick } = useApplicationMenus(spec)
 
