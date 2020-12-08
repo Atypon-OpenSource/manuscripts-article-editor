@@ -27,8 +27,7 @@ export interface ProjectMenuProps {
   manuscript: Manuscript
   getRecentProjects: () => RecentProject[]
   openTemplateSelector: (newProject?: boolean) => void
-  deleteManuscript: (id: string) => Promise<void>
-  deleteModel: (id: string) => Promise<string>
+  deleteProjectOrManuscript: (id: Project | Manuscript) => void
   history: History
   openExporter: (format: ExportFormat, closeOnSuccess?: boolean) => void
   openImporter: () => void
@@ -52,18 +51,6 @@ const deleteManuscriptLabel = (title: string) => {
       ”
     </span>
   )
-}
-
-const confirmDeleteManuscriptMessage = (title: string) => {
-  const node = parseTitle(title)
-
-  return `Are you sure you wish to delete the manuscript with title "${node.textContent}"?`
-}
-
-const confirmDeleteProjectMessage = (title: string) => {
-  const node = parseTitle(title)
-
-  return `Are you sure you wish to delete the project with title "${node.textContent}"?`
 }
 
 export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
@@ -253,27 +240,14 @@ export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
     {
       id: 'delete-project',
       label: 'Delete Project',
-      run: () =>
-        confirm(
-          props.project.title
-            ? confirmDeleteProjectMessage(props.project.title)
-            : 'Are you sure you wish to delete this untitled project?'
-        ) &&
-        props
-          .deleteModel(props.manuscript.containerID)
-          .then(() => props.history.push('/')),
+      run: () => props.deleteProjectOrManuscript(props.project),
     },
     {
       id: 'delete-manuscript',
       label: props.manuscript.title
         ? deleteManuscriptLabel(props.manuscript.title)
         : 'Delete Untitled Manuscript',
-      run: () =>
-        confirm(
-          props.manuscript.title
-            ? confirmDeleteManuscriptMessage(props.manuscript.title)
-            : `Are you sure you wish to delete this untitled manuscript?`
-        ) && props.deleteManuscript(props.manuscript._id),
+      run: () => props.deleteProjectOrManuscript(props.manuscript),
     },
     {
       role: 'separator',

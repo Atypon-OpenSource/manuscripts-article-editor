@@ -12,14 +12,14 @@
 
 import HorizontalEllipsis from '@manuscripts/assets/react/HorizontalEllipsis'
 import { Project } from '@manuscripts/manuscripts-json-schema'
-import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
-import { parse as parseTitle } from '@manuscripts/title-editor'
+import { IconButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { ModalProps, withModal } from '../ModalProvider'
 import { Dropdown, DropdownContainer } from '../nav/Dropdown'
+import { DeleteConfirmationDialog } from './DeleteConfirmationDialog'
 import ProjectContextMenu from './ProjectContextMenu'
 import RenameProject from './RenameProject'
 
@@ -34,7 +34,6 @@ const ContextMenuIconButton = styled(IconButton)`
 
 interface State {
   isOpen: boolean
-  isConfirmDeleteOpen: boolean
   isRenameOpen: boolean
 }
 
@@ -50,7 +49,6 @@ type CombinedProps = Props & ModalProps & RouteComponentProps
 class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
   public state: State = {
     isOpen: false,
-    isConfirmDeleteOpen: false,
     isRenameOpen: false,
   }
 
@@ -61,36 +59,8 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
   }
 
   public render() {
-    const { isOpen, isConfirmDeleteOpen, isRenameOpen } = this.state
-    const { closeModal, deleteProject, history, project } = this.props
-
-    const actions = {
-      primary: {
-        action: async () => {
-          await deleteProject()
-          // TODO: delete project models and collection
-          history.push('/projects')
-        },
-        title: 'Delete',
-        isDestructive: true,
-      },
-      secondary: {
-        action: () =>
-          this.setState({
-            isConfirmDeleteOpen: false,
-          }),
-        title: 'Cancel',
-      },
-    }
-
-    const confirmDeleteProjectMessage = (title: string) => {
-      const node = parseTitle(title)
-      return `Are you sure you wish to delete the project with title "${node.textContent}"?`
-    }
-
-    const message = this.props.project.title
-      ? confirmDeleteProjectMessage(this.props.project.title)
-      : 'Are you sure you wish to delete this untitled project?'
+    const { isOpen, isRenameOpen } = this.state
+    const { closeModal, project } = this.props
 
     return (
       <DropdownContainer
@@ -100,26 +70,20 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
         <ContextMenuIconButton onClick={this.toggleOpen}>
           <HorizontalEllipsis />
         </ContextMenuIconButton>
-        {isOpen && (
-          <Dropdown direction={'right'} top={24}>
-            <ProjectContextMenu
-              project={project}
-              deleteProject={this.deleteProject}
-              renameProject={this.renameProject}
-              closeModal={closeModal}
-            />
-          </Dropdown>
-        )}
-        {isConfirmDeleteOpen && (
-          <Dialog
-            isOpen={isConfirmDeleteOpen}
-            actions={actions}
-            category={Category.confirmation}
-            header={'Delete Project'}
-            message={message}
-            confirmFieldText={'DELETE'}
-          />
-        )}
+        <DeleteConfirmationDialog handleDelete={this.deleteProject}>
+          {({ handleRequestDelete }) =>
+            isOpen ? (
+              <Dropdown direction={'right'} top={24}>
+                <ProjectContextMenu
+                  project={project}
+                  deleteProject={handleRequestDelete}
+                  renameProject={this.renameProject}
+                  closeModal={closeModal}
+                />
+              </Dropdown>
+            ) : null
+          }
+        </DeleteConfirmationDialog>
         {isRenameOpen &&
           this.props.addModal('rename-project', ({ handleClose }) => (
             <RenameProject
@@ -163,10 +127,11 @@ class ProjectContextMenuButton extends React.Component<CombinedProps, State> {
     }
   }
 
-  private deleteProject = () =>
-    this.setState({
-      isConfirmDeleteOpen: true,
-    })
+  private deleteProject = async () => {
+    await this.props.deleteProject()
+    // TODO: delete project models and collection
+    this.props.history.push('/projects')
+  }
 
   private renameProject = () =>
     this.setState({

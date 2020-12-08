@@ -20,8 +20,9 @@ import {
   ManuscriptEditorState,
   ManuscriptTransaction,
 } from '@manuscripts/manuscript-transform'
-import React from 'react'
+import React, { useEffect } from 'react'
 
+import { createDispatchMenuAction } from '../../lib/native'
 import { buildProjectMenu, ProjectMenuProps } from '../../lib/project-menu'
 
 type Command = (
@@ -47,6 +48,11 @@ export const createMenuSpec = (props: ProjectMenuProps): MenuSpec[] => {
 
 export const ManuscriptPageMenus: React.FC<ProjectMenuProps> = (props) => {
   const spec = createMenuSpec(props)
+
+  useEffect(() => {
+    window.dispatchMenuAction = createDispatchMenuAction(spec)
+    window.getMenuState = () => spec
+  }, [spec])
 
   const { menuState, wrapperRef, handleItemClick } = useApplicationMenus(spec)
 

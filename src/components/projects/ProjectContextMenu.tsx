@@ -25,7 +25,7 @@ import {
 
 interface Props {
   closeModal?: () => void
-  deleteProject: () => void
+  deleteProject: (project: Project) => void
   project: Project
   renameProject: () => void
 }
@@ -53,7 +53,10 @@ const ProjectContextMenu: React.FunctionComponent<Props & ModalProps> = ({
             Rename
           </DropdownElement>
           <DropdownSeparator />
-          <DropdownElement disabled={!owner} onClick={deleteProject}>
+          <DropdownElement
+            disabled={!owner}
+            onClick={() => deleteProject(project)}
+          >
             Delete
           </DropdownElement>
         </React.Fragment>

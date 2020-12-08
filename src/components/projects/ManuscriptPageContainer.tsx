@@ -124,7 +124,6 @@ import {
   postWebkitMessage,
   titleToolbarState,
 } from '../../lib/native'
-import { createDispatchMenuAction } from '../../lib/native/menu'
 import { buildTemplateModels } from '../../lib/publish-template'
 import { canWrite } from '../../lib/roles'
 import { filterLibrary } from '../../lib/search-library'
@@ -156,6 +155,7 @@ import TemplateSelector from '../templates/TemplateSelector'
 import { ResizingInspectorButton } from './../ResizerButtons'
 import { ApplicationMenuContainer } from './ApplicationMenuContainer'
 import ConflictResolver from './ConflictResolver'
+import { DeleteConfirmationDialog } from './DeleteConfirmationDialog'
 import {
   EditorBody,
   EditorContainer,
@@ -166,7 +166,7 @@ import { EditorStyles } from './EditorStyles'
 import { Exporter } from './Exporter'
 import { Importer } from './Importer'
 import { Inspector } from './Inspector'
-import { createMenuSpec, ManuscriptPageMenus } from './ManuscriptPageMenus'
+import { ManuscriptPageMenus } from './ManuscriptPageMenus'
 import {
   EditorType,
   EditorViewType,
@@ -472,21 +472,26 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               {view && permissions.write && !config.native && (
                 <EditorHeader>
                   <ApplicationMenuContainer>
-                    <ManuscriptPageMenus
-                      view={view}
-                      manuscript={manuscript}
-                      project={project}
-                      openTemplateSelector={this.openTemplateSelector}
-                      deleteManuscript={this.deleteManuscript}
-                      deleteModel={this.deleteModel}
-                      history={this.props.history}
-                      openExporter={this.openExporter}
-                      openImporter={this.openImporter}
-                      openRenameProject={this.openRenameProject}
-                      getRecentProjects={this.getRecentProjects}
-                      publishTemplate={this.publishTemplate}
-                      submitToReview={this.showPreflightDialog}
-                    />
+                    <DeleteConfirmationDialog
+                      handleDelete={this.deleteProjectOrManuscript}
+                    >
+                      {({ handleRequestDelete }) => (
+                        <ManuscriptPageMenus
+                          view={view}
+                          manuscript={manuscript}
+                          project={project}
+                          openTemplateSelector={this.openTemplateSelector}
+                          deleteProjectOrManuscript={handleRequestDelete}
+                          history={this.props.history}
+                          openExporter={this.openExporter}
+                          openImporter={this.openImporter}
+                          openRenameProject={this.openRenameProject}
+                          getRecentProjects={this.getRecentProjects}
+                          publishTemplate={this.publishTemplate}
+                          submitToReview={this.showPreflightDialog}
+                        />
+                      )}
+                    </DeleteConfirmationDialog>
 
                     {config.beacon.ws && (
                       <PresenceList
@@ -879,13 +884,18 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     await this.saveModel(manuscript)
   }
 
-  private deleteManuscript = async (id: string) => {
+  private deleteProjectOrManuscript = async (model: Project | Manuscript) => {
+    await this.deleteModel(model._id)
+
+    if (model.objectType === ObjectTypes.Project) {
+      this.props.history.push('/')
+      return
+    }
+
     const { manuscripts, project } = this.props
-    const index = manuscripts.findIndex((item) => item._id === id)
+    const index = manuscripts.findIndex((item) => item._id === model._id)
 
     const prevManuscript: Manuscript = manuscripts[index === 0 ? 1 : index - 1]
-
-    await this.deleteModel(id)
 
     if (prevManuscript) {
       this.props.history.push(
@@ -1629,26 +1639,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       window.dispatchToolbarAction = createDispatchManuscriptToolbarAction(
         view as ManuscriptEditorView
       )
-
-      const menus = createMenuSpec({
-        view: this.state.view!,
-        manuscript: this.props.manuscript,
-        project: this.props.project,
-        openTemplateSelector: this.openTemplateSelector,
-        deleteManuscript: this.deleteManuscript,
-        deleteModel: this.deleteModel,
-        history: this.props.history,
-        openExporter: this.openExporter,
-        openImporter: this.openImporter,
-        openRenameProject: this.openRenameProject,
-        getRecentProjects: this.getRecentProjects,
-        publishTemplate: this.publishTemplate,
-        submitToReview: this.showPreflightDialog,
-      })
-
-      window.dispatchMenuAction = createDispatchMenuAction(menus)
-
-      window.getMenuState = () => menus
 
       postWebkitMessage('toolbar', {
         manuscript: {
