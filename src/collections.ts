@@ -104,4 +104,14 @@ export const collections: CollectionCreators = {
       attachments: {},
     },
   },
+  picker: {
+    name: 'picker',
+    schema: {
+      version: 0,
+      type: 'object',
+      properties: basicProperties,
+      required: ['objectType'],
+      attachments: {},
+    },
+  },
 }

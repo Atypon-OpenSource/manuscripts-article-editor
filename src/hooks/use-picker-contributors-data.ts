@@ -10,14 +10,34 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-export const isTrue = (value: string | undefined) => {
-  return value === '1' || value === 'true'
-}
+import { Contributor, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import { useEffect, useState } from 'react'
 
-export const normalizeURL = (url: string | undefined) => {
-  return url && url.replace(/\/$/, '')
-}
+import CollectionManager from '../sync/CollectionManager'
+import { usePullComplete } from './use-pull-complete'
 
-export const splitArray = (value: string | undefined) => {
-  return value ? value.split(/\s*;\s*/) : []
+export const usePickerContributorsData = () => {
+  const [data, setData] = useState<Contributor[]>()
+  const picker = 'picker'
+  const isPullComplete = usePullComplete(picker)
+
+  useEffect(() => {
+    if (isPullComplete) {
+      const subscription = CollectionManager.getCollection<Contributor>(picker)
+        .find({
+          objectType: ObjectTypes.Contributor,
+        })
+        .$.subscribe((docs) => {
+          if (docs) {
+            const data = docs.map((doc) => doc.toJSON()) as Array<Contributor>
+            setData(data)
+          }
+        })
+      return () => {
+        subscription.unsubscribe()
+      }
+    }
+  }, [isPullComplete])
+
+  return { data }
 }

@@ -92,6 +92,9 @@ export const logout = () =>
     withCredentials: true,
   })
 
+export const fetchScopedToken = (containerID: string, scope: string) =>
+  client.get<string>(`/project/${containerID}/${scope}`)
+
 export const refresh = () =>
   client.request({
     url: '/token',
@@ -115,6 +118,3 @@ export const redirectToConnect = (action?: string) => {
       })
   )
 }
-
-export const fetchScopedToken = (containerID: string, scope: string) =>
-  client.get<string>(`/project/${containerID}/${scope}`)

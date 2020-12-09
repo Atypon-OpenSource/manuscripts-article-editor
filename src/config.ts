@@ -11,7 +11,7 @@
  */
 
 import { version } from '../package.json'
-import { isTrue, normalizeURL } from './lib/config-helpers'
+import { isTrue, normalizeURL, splitArray } from './lib/config-helpers'
 
 interface Config {
   url: string
@@ -102,6 +102,9 @@ interface Config {
   submission: {
     series_code?: string
     group_doi?: string
+  }
+  picker: {
+    origins: string[]
   }
   templates: {
     publish?: boolean
@@ -204,6 +207,9 @@ const config = {
   submission: {
     series_code: process.env.SUBMISSION_SERIES_CODE,
     group_doi: process.env.SUBMISSION_GROUP_DOI,
+  },
+  picker: {
+    origins: splitArray(process.env.PICKER_ORIGINS),
   },
   templates: {
     publish: isTrue(process.env.PUBLISH_TEMPLATES),

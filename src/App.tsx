@@ -41,6 +41,7 @@ import OptionalUserData from './data/OptionalUserData'
 import { TokenData } from './data/TokenData'
 import { apolloClient } from './lib/apollo'
 import invitationTokenHandler from './lib/invitation-token'
+import { Picker } from './picker/Picker'
 import Sync from './sync/Sync'
 
 const DeveloperPageContainer = React.lazy(
@@ -176,6 +177,22 @@ const App: React.FunctionComponent = () => (
                               }
                             />
                           )}
+
+                          <Route
+                            path={'/picker'}
+                            exact={true}
+                            render={(props) =>
+                              user ? (
+                                <Picker
+                                  {...props}
+                                  db={db}
+                                  tokenActions={tokenActions}
+                                />
+                              ) : (
+                                <RequireLogin {...props} />
+                              )
+                            }
+                          />
 
                           <Route
                             path={'/login'}

@@ -15,7 +15,7 @@ import styled from 'styled-components'
 
 import Search from '../Search'
 
-const SearchContainer = styled.div`
+export const SearchContainer = styled.div`
   margin: 0 30px 20px 10px;
 `
 
