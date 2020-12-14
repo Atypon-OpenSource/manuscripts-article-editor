@@ -172,7 +172,10 @@ const App: React.FunctionComponent = () => (
                                     {...props}
                                   />
                                 ) : (
-                                  <RequireLogin {...props} />
+                                  <RequireLogin
+                                    {...props}
+                                    profileMissing={true}
+                                  />
                                 )
                               }
                             />
@@ -189,7 +192,10 @@ const App: React.FunctionComponent = () => (
                                   tokenActions={tokenActions}
                                 />
                               ) : (
-                                <RequireLogin {...props} />
+                                <RequireLogin
+                                  {...props}
+                                  profileMissing={true}
+                                />
                               )
                             }
                           />
@@ -242,7 +248,10 @@ const App: React.FunctionComponent = () => (
                                   tokenActions={tokenActions}
                                 />
                               ) : (
-                                <RequireLogin {...props} />
+                                <RequireLogin
+                                  {...props}
+                                  profileMissing={true}
+                                />
                               )
                             }
                           />
@@ -273,7 +282,10 @@ const App: React.FunctionComponent = () => (
                                   {...props}
                                 />
                               ) : (
-                                <RequireLogin {...props} />
+                                <RequireLogin
+                                  {...props}
+                                  profileMissing={true}
+                                />
                               )
                             }
                           />
@@ -291,7 +303,10 @@ const App: React.FunctionComponent = () => (
                               user ? (
                                 <ProfilePageContainer {...props} />
                               ) : (
-                                <RequireLogin {...props} />
+                                <RequireLogin
+                                  {...props}
+                                  profileMissing={true}
+                                />
                               )
                             }
                           />
@@ -305,7 +320,10 @@ const App: React.FunctionComponent = () => (
                                   {...props}
                                 />
                               ) : (
-                                <RequireLogin {...props} />
+                                <RequireLogin
+                                  {...props}
+                                  profileMissing={true}
+                                />
                               )
                             }
                           />
@@ -367,16 +385,20 @@ const App: React.FunctionComponent = () => (
                                   <Route
                                     path={'/projects/:projectID'}
                                     render={(props) => (
-                                      <RequireLogin {...props}>
-                                        You must sign in to access this project.
-                                      </RequireLogin>
+                                      <RequireLogin
+                                        {...props}
+                                        profileMissing={true}
+                                      />
                                     )}
                                   />
 
                                   <Route
                                     path={'/projects'}
                                     render={(props) => (
-                                      <RequireLogin {...props} />
+                                      <RequireLogin
+                                        {...props}
+                                        profileMissing={true}
+                                      />
                                     )}
                                   />
                                 </Switch>

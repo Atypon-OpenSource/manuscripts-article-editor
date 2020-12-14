@@ -18,15 +18,27 @@ import config from '../config'
 import { redirectToConnect } from '../lib/api'
 import redirectPathStorage from '../lib/redirect-path'
 
-export const RequireLogin: React.FunctionComponent<RouteComponentProps> = ({
-  children: message,
-  location: from,
-}) => {
+export const RequireLogin: React.FunctionComponent<
+  RouteComponentProps & { profileMissing?: boolean }
+> = ({ children: message, location: from, profileMissing }) => {
   redirectPathStorage.set(location.pathname)
   const { autologin } = parse(location.search.substr(1))
   if (typeof autologin !== 'undefined' && config.connect.enabled) {
     redirectToConnect('login')
     return null
+  }
+
+  if (profileMissing) {
+    return (
+      <Redirect
+        to={{
+          pathname: `/login`,
+          state: {
+            errorMessage: 'missing-user-profile',
+          },
+        }}
+      />
+    )
   }
 
   return (
