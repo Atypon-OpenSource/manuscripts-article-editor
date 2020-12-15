@@ -10,4 +10,5 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-export const convert = async (form: FormData) => form.get('file') // echo the input
+export const exportData = async (form: FormData) => form.get('file') // echo the input
+export const importData = async (form: FormData) => form.get('file') // echo the input

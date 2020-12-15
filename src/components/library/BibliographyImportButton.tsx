@@ -88,7 +88,7 @@ export const BibliographyImportButton: React.FC<{
   const handleImport = useCallback(() => {
     setImporting(true)
 
-    openFilePicker(['.bib', '.ris'])
+    openFilePicker(['.bib', '.bibtex', '.ris'])
       .then(async ([file]) => {
         if (!file) {
           return

@@ -11,24 +11,22 @@
  */
 
 import axios, { AxiosResponse, ResponseType } from 'axios'
-// eslint-disable-next-line import/no-unresolved
-import { Data } from 'csl-json'
 
 import config from '../config'
-import tokenHandler from '../lib/token'
-import { ExportBibliographyFormat, ExportManuscriptFormat } from './exporter'
+import { fetchScopedToken } from '../lib/api'
+import { ExportManuscriptFormat, ImportManuscriptFormat } from './exporter'
 
 const client = axios.create({
   baseURL: config.pressroom.url,
 })
 
-client.interceptors.request.use((requestConfig) => {
-  const token = tokenHandler.get()
-
+client.interceptors.request.use(async (requestConfig) => {
   if (config.pressroom.key) {
-    requestConfig.headers['Pressroom-API-Key'] = config.pressroom.key
-  } else if (token) {
-    requestConfig.headers.Authorization = 'Bearer ' + token
+    requestConfig.headers['pressroom-api-key'] = config.pressroom.key
+  } else {
+    const { data: token } = await fetchScopedToken('pressroom-js')
+
+    requestConfig.headers.Authorization = `Bearer ${token}`
   }
 
   return requestConfig
@@ -50,16 +48,14 @@ const validateResponse = (response: AxiosResponse) => {
   }
 }
 
-export const convertBibliography = async (
-  data: Data[],
-  format: ExportBibliographyFormat
+export const importData = async (
+  form: FormData,
+  sourceFormat: ImportManuscriptFormat,
+  headers = {}
 ): Promise<Blob> => {
-  const response = await client.post<Blob>('/v1/compile/bibliography', data, {
+  const response = await client.post<Blob>(`/import/${sourceFormat}`, form, {
     responseType: 'blob' as ResponseType,
-    headers: {
-      'Pressroom-Target-Bibliography-Format':
-        format === 'mods' ? 'xml' : format,
-    },
+    headers,
   })
 
   validateResponse(response)
@@ -67,67 +63,12 @@ export const convertBibliography = async (
   return response.data
 }
 
-// TODO: remove this once the endpoints have been merged
-const chooseURL = (format: ExportManuscriptFormat) => {
-  switch (format) {
-    case 'do':
-    case 'jats':
-    case 'pdf-prince':
-    case 'submission':
-      return '/v1/compile/document/jats'
-
-    case 'submission-for-review':
-      return '/v1/compile/document/deposit'
-
-    default:
-      return '/v1/compile/document'
-  }
-}
-
-const downloadFile = (file: File) => {
-  const a = document.createElement('a')
-  a.href = window.URL.createObjectURL(file)
-  a.download = file.name
-  a.click()
-}
-
-export const convert = async (
-  data: FormData,
-  format: ExportManuscriptFormat,
-  headers: { [key: string]: string } = {}
+export const exportData = async (
+  form: FormData,
+  targetFormat: ExportManuscriptFormat | 'bibliography' | 'word'
 ): Promise<Blob> => {
-  const file = data.get('file') as File
-
-  // To debug the file that's sent to Pressroom:
-  // window.localStorage.setItem('PRESSROOM_DEBUG', 1)
-  if (window.localStorage.getItem('PRESSROOM_DEBUG')) {
-    downloadFile(file)
-  }
-
-  if (!headers['Pressroom-Target-Jats-Output-Format']) {
-    headers['Pressroom-Target-File-Extension'] = format
-  }
-
-  if (format === 'manuproj') {
-    headers['Pressroom-Regenerate-Project-Bundle-Model-Object-IDs'] = '1'
-
-    // Enrich metadata via GROBID if not importing a .manuproj file
-    if (!file.name.endsWith('.manuproj')) {
-      headers['Pressroom-Enrich-Document-Metadata'] = '1'
-      headers['Pressroom-Continue-On-Errors'] = '1'
-    }
-  }
-
-  if (format === 'jats' && config.extyles.arc.secret) {
-    headers['Pressroom-Jats-Document-Processing-Level'] = 'full_text'
-    headers['Pressroom-Extylesarc-Secret'] = config.extyles.arc.secret
-  }
-
-  const url = chooseURL(format)
-
-  const response = await client.post<Blob>(url, data, {
+  const response = await client.post<Blob>(`/export/${targetFormat}`, form, {
     responseType: 'blob' as ResponseType,
-    headers,
   })
 
   validateResponse(response)

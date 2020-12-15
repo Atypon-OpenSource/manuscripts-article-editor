@@ -12,12 +12,15 @@
 
 import projectDump from '@manuscripts/examples/data/project-dump.json'
 import { Manuscript, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
-import { AxiosResponse, ResponseType } from 'axios'
+import { AxiosResponse } from 'axios'
 import JSZip from 'jszip'
 
-import { buildProjectBundle, removeUnsupportedData } from '../exporter'
-import { ProjectDump, readProjectDumpFromArchive } from '../importers'
-import { convert } from '../pressroom'
+import { buildProjectBundle, ImportManuscriptFormat } from '../exporter'
+import {
+  importFile,
+  ProjectDump,
+  readProjectDumpFromArchive,
+} from '../importers'
 import { getAttachment } from './attachments'
 import { buildModelMap } from './util'
 
@@ -28,45 +31,44 @@ jest.unmock('axios')
 jest.setTimeout(1000 * 60 * 10)
 
 jest.mock('../pressroom', () => ({
-  convert: jest.fn(async (data: FormData, format: string) => {
-    const { default: config } = await import('../../config')
-    const { default: axios } = await import('axios')
-    const { default: toBuffer } = await import('blob-to-buffer')
-    const { default: NodeFormData } = await import('form-data')
+  importData: jest.fn(
+    async (data: FormData, sourceFormat: ImportManuscriptFormat) => {
+      const { default: config } = await import('../../config')
+      const { default: axios } = await import('axios')
+      const { default: toBuffer } = await import('blob-to-buffer')
+      const { default: NodeFormData } = await import('form-data')
 
-    const fileToBuffer = (file: File): Promise<Buffer> =>
-      new Promise((resolve, reject) => {
-        toBuffer(file, (err, buffer) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(buffer)
-          }
+      const fileToBuffer = (file: File): Promise<Buffer> =>
+        new Promise((resolve, reject) => {
+          toBuffer(file, (err, buffer) => {
+            if (err) {
+              reject(err)
+            } else {
+              resolve(buffer)
+            }
+          })
         })
-      })
 
-    const file = data.get('file') as File
-    const buffer = await fileToBuffer(file)
+      const file = data.get('file') as File
+      const buffer = await fileToBuffer(file)
 
-    const formData = new NodeFormData()
-    formData.append('file', buffer, file.name)
+      const formData = new NodeFormData()
+      formData.append('file', buffer, file.name)
 
-    return axios.post<ArrayBuffer>(
-      '/v1/compile/document',
-      formData.getBuffer(),
-      {
-        baseURL: config.pressroom.url,
-        // responseType: 'stream' as ResponseType,
-        responseType: 'arraybuffer' as ResponseType,
-        headers: {
-          'Pressroom-API-Key': config.pressroom.key,
-          'Pressroom-Target-File-Extension': format.replace(/^\./, ''),
-          'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
-          ...formData.getHeaders(),
-        },
-      }
-    )
-  }),
+      return axios.post<ArrayBuffer>(
+        `/import/${sourceFormat}`,
+        formData.getBuffer(),
+        {
+          baseURL: config.pressroom.url,
+          responseType: 'arraybuffer',
+          headers: {
+            ...formData.getHeaders(),
+            'pressroom-api-key': config.pressroom.key,
+          },
+        }
+      )
+    }
+  ),
 }))
 
 describe('importer', () => {
@@ -87,18 +89,13 @@ describe('importer', () => {
       'manuproj'
     )
 
-    await removeUnsupportedData(zip)
-
     const blob = await zip.generateAsync({ type: 'blob' })
     const file = new File([blob], 'example.manuproj')
-
-    const form = new FormData()
-    form.append('file', file)
 
     console.log('Importing empty manuscript')
 
     // @ts-ignore: mocked convert function returns the response, not the blob
-    const response: AxiosResponse<ArrayBuffer> = await convert(form, 'manuproj')
+    const response: AxiosResponse<ArrayBuffer> = await importFile(file)
     expect(response.status).toBe(200)
     expect(response.statusText).toBe('OK')
     expect(response.data).not.toBeUndefined()

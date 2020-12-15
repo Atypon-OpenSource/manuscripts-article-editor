@@ -53,12 +53,10 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 // import data from '@manuscripts/examples/data/project-dump.json'
-import { AxiosResponse, ResponseType } from 'axios'
+import { AxiosResponse } from 'axios'
+
 // import { ProjectDump } from '../importers'
 // import { buildModelMap } from './util'
-// eslint-disable-next-line import/no-unresolved
-import { Data } from 'csl-json'
-
 import { Requirement } from '../../lib/requirements'
 import { importSharedData } from '../../lib/shared-data'
 import { Style } from '../../lib/styles'
@@ -82,7 +80,7 @@ jest.unmock('axios')
 jest.setTimeout(1000 * 60 * 10)
 
 jest.mock('../pressroom', () => ({
-  convert: jest.fn(async (data: FormData, format: string) => {
+  exportData: jest.fn(async (data: FormData, targetFormat: string) => {
     const { default: config } = await import('../../config')
     const { default: axios } = await import('axios')
     const { default: toBuffer } = await import('blob-to-buffer')
@@ -103,18 +101,22 @@ jest.mock('../pressroom', () => ({
     const buffer = await fileToBuffer(file)
 
     const formData = new NodeFormData()
+
+    data.forEach((value, key) => {
+      if (key !== 'file') {
+        formData.append(key, value)
+      }
+    })
+
     formData.append('file', buffer, file.name)
 
     return axios
-      .post<ArrayBuffer>('/v1/compile/document', formData.getBuffer(), {
+      .post<ArrayBuffer>(`/export/${targetFormat}`, formData.getBuffer(), {
         baseURL: config.pressroom.url,
-        // responseType: 'stream' as ResponseType,
-        responseType: 'arraybuffer' as ResponseType,
+        responseType: 'arraybuffer',
         headers: {
-          'Pressroom-API-Key': config.pressroom.key,
-          'Pressroom-Target-File-Extension': format.replace(/^\./, ''),
-          'Pressroom-Regenerate-Project-Bundle-Model-Object-IDs': 1,
           ...formData.getHeaders(),
+          'pressroom-api-key': config.pressroom.key,
         },
       })
       .catch((error) => {
@@ -125,23 +127,6 @@ jest.mock('../pressroom', () => ({
         }
       })
   }),
-
-  convertBibliography: jest.fn(
-    async (data: Data[], format: ExportBibliographyFormat) => {
-      const { default: config } = await import('../../config')
-      const { default: axios } = await import('axios')
-
-      return axios.post<Blob>('/v1/compile/bibliography', data, {
-        baseURL: config.pressroom.url,
-        responseType: 'blob' as ResponseType,
-        headers: {
-          'Pressroom-API-Key': config.pressroom.key,
-          'Pressroom-Target-Bibliography-Format':
-            format === 'mods' ? 'xml' : format,
-        },
-      })
-    }
-  ),
 }))
 
 const user: Build<UserProfile> = {
@@ -315,11 +300,11 @@ const formats: Array<{
     contentType: 'application/pdf',
   },
   {
-    format: 'md',
+    format: 'markdown',
     contentType: 'application/zip',
   },
   {
-    format: 'tex',
+    format: 'latex',
     contentType: 'application/zip',
   },
   {
@@ -333,17 +318,17 @@ const bibliographyFormats: Array<{
   contentType: string
 }> = [
   {
-    format: 'bib',
+    format: 'bibtex',
     contentType: 'text/plain; charset=utf-8',
   },
   {
     format: 'ris',
     contentType: 'text/plain; charset=utf-8',
   },
-  {
-    format: 'mods',
-    contentType: 'text/plain; charset=utf-8',
-  },
+  // {
+  //   format: 'mods',
+  //   contentType: 'text/plain; charset=utf-8',
+  // },
 ]
 
 describe('exporter', () => {

@@ -13,11 +13,8 @@
 jest.mock('../pressroom')
 
 import data from '@manuscripts/examples/data/project-dump.json'
-import { ManuscriptModel } from '@manuscripts/manuscript-transform'
 import {
-  ContainerInvitation,
   Manuscript,
-  ObjectTypes,
   ParagraphElement,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
@@ -184,73 +181,5 @@ describe('exporter', () => {
 
     // const manuscript = await readProjectDumpFromArchive(zip)
     // expect(manuscript.data).toHaveLength(138)
-  })
-
-  test('removes unsupported data', async () => {
-    const modelMap = buildModelMap(data as ProjectDump)
-    const manuscriptID = 'MPManuscript:8EB79C14-9F61-483A-902F-A0B8EF5973C9'
-
-    for (const [key, value] of modelMap.entries()) {
-      const model = value as ManuscriptModel
-      model.containerID = 'MPProject:1'
-      model.manuscriptID = 'MPManuscript:1'
-      modelMap.set(key, model)
-    }
-
-    const containerInvitation: ContainerInvitation = {
-      _id: 'MPContainerInvitation:1',
-      objectType: ObjectTypes.ContainerInvitation,
-      containerID: 'MPProject:1',
-      role: 'Writer',
-      createdAt: 0,
-      updatedAt: 0,
-      invitingUserID: 'foo',
-      invitedUserEmail: 'foo@example.com',
-      invitingUserProfile: {
-        _id: 'MPUserProfile:1',
-        objectType: ObjectTypes.UserProfile,
-        createdAt: 0,
-        updatedAt: 0,
-        userID: 'foo',
-        bibliographicName: {
-          _id: 'MPBibliographicName:1',
-          objectType: ObjectTypes.BibliographicName,
-          given: 'foo',
-          family: 'foo',
-        },
-      },
-    }
-
-    modelMap.set(containerInvitation._id, containerInvitation)
-
-    // `result` is the blob that would be sent for conversion, echoed back
-    const result = await exportProject(
-      getAttachment,
-      modelMap,
-      manuscriptID,
-      'docx'
-    )
-    expect(result).toBeInstanceOf(Blob)
-
-    const zip = await new JSZip().loadAsync(result)
-    const bundle = await readProjectDumpFromArchive(zip)
-
-    for (const value of bundle.data) {
-      const model = value as ManuscriptModel
-      expect(model.containerID).toBeUndefined()
-      expect(model.manuscriptID).toBeUndefined()
-    }
-
-    const invitations = bundle.data.filter(
-      (model) => model.objectType === ObjectTypes.ContainerInvitation
-    )
-
-    expect(invitations).toHaveLength(0)
-
-    const paragraphs = bundle.data.filter(
-      (model) => model.objectType === ObjectTypes.ParagraphElement
-    )
-
-    expect(paragraphs).toHaveLength(11)
   })
 })

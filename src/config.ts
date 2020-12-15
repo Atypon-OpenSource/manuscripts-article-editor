@@ -92,6 +92,7 @@ interface Config {
     url: string
   }
   export: {
+    prince: boolean
     literatum: boolean
     sts: boolean
     to_review: boolean
@@ -194,6 +195,7 @@ const config = {
     url: normalizeURL(process.env.ZOTERO_TRANSLATION_SERVER),
   },
   export: {
+    prince: isTrue(process.env.EXPORT_PRINCE),
     literatum: isTrue(process.env.EXPORT_LITERATUM),
     sts: isTrue(process.env.EXPORT_STS),
     to_review: isTrue(process.env.EXPORT_TO_REVIEW),

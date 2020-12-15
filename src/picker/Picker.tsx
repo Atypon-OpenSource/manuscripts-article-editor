@@ -40,7 +40,7 @@ import ProjectsData from '../data/ProjectsData'
 import { TokenActions } from '../data/TokenData'
 import { usePickerContributorsData } from '../hooks/use-picker-contributors-data'
 import { usePickerManuscriptDocs } from '../hooks/use-picker-manuscript-docs'
-import { fetchScopedToken } from '../lib/api'
+import { fetchProjectScopedToken } from '../lib/api'
 import Sync from '../sync/Sync'
 import { DropdownMenu } from './DropdownMenu'
 import { Filter } from './Filter'
@@ -115,7 +115,7 @@ export const Picker: React.FC<{ db: Database; tokenActions: TokenActions }> = ({
         throw new Error('Origin not whitelisted')
       }
 
-      fetchScopedToken(project._id, 'export')
+      fetchProjectScopedToken(project._id, 'export')
         .then((token) => {
           window.parent.postMessage(
             { type: 'selected-manuscript', manuscript, project, token },

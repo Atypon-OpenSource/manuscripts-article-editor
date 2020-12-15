@@ -14,7 +14,7 @@ import axios from 'axios'
 
 import config from '../config'
 import { importProjectArchive, ProjectDump } from '../pressroom/importers'
-import { fetchScopedToken } from './api'
+import { fetchProjectScopedToken } from './api'
 
 const client = axios.create({
   baseURL: config.shackles.url,
@@ -25,7 +25,7 @@ export const takeSnapshot = async (
   projectID: string,
   blob: Blob
 ): Promise<{ creator: string; key: string; proof: string[] }> => {
-  const { data: jwk } = await fetchScopedToken(projectID, 'shackles')
+  const { data: jwk } = await fetchProjectScopedToken(projectID, 'shackles')
 
   const form = new FormData()
   form.append('file', blob, 'snapshot.manuproj')
@@ -50,7 +50,7 @@ export const takeKeyframe = (
 }
 
 export const getSnapshot = async (projectID: string, key: string) => {
-  const { data: jwk } = await fetchScopedToken(projectID, 'shackles')
+  const { data: jwk } = await fetchProjectScopedToken(projectID, 'shackles')
 
   const res = await client.get(`/snapshot/${key}`, {
     responseType: 'arraybuffer',

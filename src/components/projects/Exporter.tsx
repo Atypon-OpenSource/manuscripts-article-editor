@@ -99,7 +99,7 @@ export class Exporter extends React.Component<Props, State> {
         label: `success=true&project=${project._id}&format=${format}`,
       })
 
-      if (format === 'submission-for-review') {
+      if (format === 'literatum-eeo') {
         const data = JSON.parse(await blob.text())
 
         if (data.queued !== 'true') {
@@ -179,7 +179,7 @@ export class Exporter extends React.Component<Props, State> {
     }
 
     if (status === 'complete') {
-      if (format === 'do') {
+      if (format === 'literatum-do') {
         return (
           <SuccessModal
             status={'Export to Literatum completed successfully'}
@@ -190,7 +190,7 @@ export class Exporter extends React.Component<Props, State> {
         )
       }
 
-      if (format === 'submission') {
+      if (format === 'literatum-bundle') {
         return (
           <SuccessModal
             status={'Submission to Literatum completed successfully'}
@@ -201,7 +201,7 @@ export class Exporter extends React.Component<Props, State> {
         )
       }
 
-      if (format === 'submission-for-review') {
+      if (format === 'literatum-eeo') {
         return (
           <SuccessModal
             status={'Submission started successfully'}

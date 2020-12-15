@@ -10,12 +10,19 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import fs from 'fs'
+
 jest.mock('../pressroom')
 
 import data from '@manuscripts/examples/data/project-dump.json'
 
 import { exportProject } from '../exporter'
-import { importFile, openFilePicker, ProjectDump } from '../importers'
+import {
+  importFile,
+  importProjectArchive,
+  openFilePicker,
+  ProjectDump,
+} from '../importers'
 import { getAttachment } from './attachments'
 import { buildModelMap } from './util'
 
@@ -110,5 +117,17 @@ describe('Import', () => {
     items.forEach((item: any) => expect(item.objectType).toBeDefined())
     items.forEach((item: any) => expect(item._rev).toBeUndefined())
     items.forEach((item: any) => expect(item.collection).toBeUndefined())
+  })
+
+  test('Import a .manuproj file', async () => {
+    const buffer = await fs.promises.readFile(
+      __dirname + '/__fixtures__/example.manuproj'
+    )
+
+    const blob = new Blob([buffer])
+
+    const result = await importProjectArchive(blob, true)
+
+    expect(result.length).toBe(101)
   })
 })

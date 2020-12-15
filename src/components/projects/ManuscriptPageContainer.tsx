@@ -2039,7 +2039,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private submitToReview = async (submission: Submission) => {
     this.setState({ submission }, () => {
-      this.openExporter('submission-for-review', false)
+      this.openExporter('literatum-eeo', false)
     })
   }
 

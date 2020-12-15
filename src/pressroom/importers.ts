@@ -11,30 +11,24 @@
  */
 
 import {
-  isFigure,
   ModelAttachment,
   parseJATSArticle,
   parseSTSStandard,
 } from '@manuscripts/manuscript-transform'
-import {
-  Figure,
-  Model,
-  ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
-import { getType } from 'mime/lite'
 import pathParse from 'path-parse'
 
 import config from '../config'
 import { FileExtensionError } from '../lib/errors'
 import { idRe } from '../lib/id'
+import { updateAttachments, updateIdentifiers } from '../lib/update-identifiers'
 import { cleanItem } from './clean-item'
-import { ExportManuscriptFormat, removeUnsupportedData } from './exporter'
-import { convert } from './pressroom'
+import { ImportManuscriptFormat } from './exporter'
+import { importData } from './pressroom'
 
 export interface JsonModel extends Model, ModelAttachment {
-  _id: string
   bundled?: boolean
   collection?: string
   contentType?: string
@@ -90,39 +84,22 @@ const loadManuscriptsAttachments = async (zip: JSZip, models: JsonModel[]) => {
   }
 }
 
-// load attachments from the Images folder
-const loadExtylesAttachments = async (zip: JSZip, models: JsonModel[]) => {
-  const files = Object.values(zip.files)
+export const importProjectArchive = async (
+  blob: Blob,
+  regenerateIDs = false
+) => {
+  const zip = await new JSZip().loadAsync(blob)
 
-  const attachmentKey = attachmentKeys[ObjectTypes.Figure] as string
+  const { data, version } = await readProjectDumpFromArchive(zip)
 
-  const figures = models.filter(isFigure) as Array<Figure & ModelAttachment>
-
-  for (const figure of figures) {
-    if (figure.originalURL) {
-      for (const file of files) {
-        const { dir, name, ext = 'png' } = pathParse(file.name)
-
-        if (dir === 'images' && name === figure.originalURL) {
-          figure.attachment = {
-            id: attachmentKey,
-            type: figure.contentType || getType(ext),
-            data: await file.async('blob'),
-          }
-          break
-        }
-      }
-    }
+  if (version !== '2.0') {
+    throw new Error(`Unsupported version: ${version}`)
   }
-}
 
-export const importProjectArchive = async (result: Blob) => {
-  const zip = await new JSZip().loadAsync(result)
+  if (regenerateIDs) {
+    const idMap = await updateIdentifiers(data)
 
-  const projectDump = await readProjectDumpFromArchive(zip)
-
-  if (projectDump.version !== '2.0') {
-    throw new Error(`Unsupported version: ${projectDump.version}`)
+    await updateAttachments(zip, idMap)
   }
 
   // TODO: validate?
@@ -130,7 +107,7 @@ export const importProjectArchive = async (result: Blob) => {
   // TODO: add default bundle (which has no parent bundle)
   // TODO: ensure that pageLayout and bundle are set
 
-  const models = projectDump.data
+  const models = data
     .filter((item) => item.objectType !== 'MPContentSummary')
     .filter((item) => item._id && idRe.test(item._id))
     .map((item) => cleanItem(item))
@@ -138,16 +115,6 @@ export const importProjectArchive = async (result: Blob) => {
   await loadManuscriptsAttachments(zip, models)
 
   return models
-}
-
-const convertFile = async (
-  file: File,
-  format: ExportManuscriptFormat = 'manuproj'
-): Promise<Blob> => {
-  const form = new FormData()
-  form.append('file', file)
-
-  return convert(form, format)
 }
 
 const parseXMLFile = async (blob: Blob): Promise<Document> => {
@@ -303,38 +270,43 @@ export const openFilePicker = (
   })
 
 export const importFile = async (file: File) => {
-  const { name, lastModified } = file
+  const extension = file.name.split('.').pop()
 
-  if (name.endsWith('.manuproj')) {
-    const zip = await new JSZip().loadAsync(file)
-    await removeUnsupportedData(zip)
-    const blob = await zip.generateAsync({ type: 'blob' })
-    file = new File([blob], name, { lastModified })
+  if (!extension) {
+    throw new Error('No file extension found')
   }
 
-  // TODO: look inside .zip files
-  if (name.endsWith('.xml')) {
+  // TODO: reject unsupported file extensions
+
+  if (extension === 'xml') {
     return parseXMLFile(file).then(convertXMLDocument)
   }
 
-  if (file.name.endsWith('.docx') && config.extyles.arc.secret) {
-    const blob = await convertFile(file, 'jats')
-    // console.log(window.URL.createObjectURL(blob))
-
-    const zip = await new JSZip().loadAsync(blob)
-    const filename = file.name.replace(/\.docx$/, '.XML')
-
-    const xml = await zip.files[filename].async('text')
-    const doc = parseXML(xml)
-
-    const models = await convertXMLDocument(doc)
-
-    await loadExtylesAttachments(zip, models)
-
-    return models
+  if (extension === 'manuproj') {
+    return importProjectArchive(file, true)
   }
 
-  const result = await convertFile(file)
+  const form = new FormData()
+  form.append('file', file)
+
+  const headers: Record<string, string> = {}
+
+  let sourceFormat = extension as ImportManuscriptFormat
+
+  if (extension === 'docx' || extension === 'doc') {
+    form.append('enrichMetadata', 'true') // TODO: use this for all formats
+
+    if (config.extyles.arc.secret) {
+      sourceFormat = 'word-arc'
+      headers['pressroom-extylesarc-secret'] = config.extyles.arc.secret
+    } else {
+      sourceFormat = 'word'
+    }
+  }
+
+  // TODO: look inside .zip files
+
+  const result = await importData(form, sourceFormat, headers)
 
   return importProjectArchive(result)
 }

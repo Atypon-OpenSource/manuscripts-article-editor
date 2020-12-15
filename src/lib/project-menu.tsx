@@ -73,12 +73,12 @@ export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
     {
       id: 'export-md',
       label: 'Markdown',
-      run: () => props.openExporter('md'),
+      run: () => props.openExporter('markdown'),
     },
     {
       id: 'export-tex',
       label: 'LaTeX',
-      run: () => props.openExporter('tex'),
+      run: () => props.openExporter('latex'),
     },
     {
       id: 'export-html',
@@ -106,7 +106,7 @@ export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
     exportMenu.push({
       id: 'export-do',
       label: 'Literatum Digital Object',
-      run: () => props.openExporter('do', false),
+      run: () => props.openExporter('literatum-do', false),
     })
   }
 
@@ -122,7 +122,7 @@ export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
     exportMenu.push({
       id: 'export-submission',
       label: 'Literatum Submission',
-      run: () => props.openExporter('submission', false),
+      run: () => props.openExporter('literatum-bundle', false),
     })
 
     exportMenu.push({
@@ -136,17 +136,12 @@ export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
     {
       id: 'export-bib',
       label: 'BibTeX',
-      run: () => props.openExporter('bib'),
+      run: () => props.openExporter('bibtex'),
     },
     {
       id: 'export-ris',
       label: 'RIS',
       run: () => props.openExporter('ris'),
-    },
-    {
-      id: 'export-mods',
-      label: 'MODS',
-      run: () => props.openExporter('mods'),
     },
   ]
 
