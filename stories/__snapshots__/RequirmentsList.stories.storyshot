@@ -58,6 +58,20 @@ exports[`Storyshots Requirments/List validations 1`] = `
 }
 
 .c9 {
+  display: inline;
+}
+
+.c10 {
+  width: 404px;
+  margin: 0 0 0 8px;
+  border: 1px solid #f2f2f2;
+}
+
+.c5 {
+  padding: 15px 0 0 0;
+}
+
+.c12 {
   margin: 0 8px 0 8px;
   border: 1px solid #f2f2f2;
 }
@@ -66,7 +80,7 @@ exports[`Storyshots Requirments/List validations 1`] = `
   display: block;
 }
 
-.c5 {
+.c11 {
   padding: 15px 0 0 0;
 }
 
@@ -84,7 +98,7 @@ exports[`Storyshots Requirments/List validations 1`] = `
           className="c3"
           onClick={[Function]}
         >
-          Figure
+          Abstract
           <div
             className="c4"
             onClick={[Function]}
@@ -138,43 +152,18 @@ exports[`Storyshots Requirments/List validations 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              The figure format should be image/png
-            </div>
-          </div>
-          <div
-            className="c6"
-          >
-            <div
-              className="c7"
-            >
-              <svg
-                fill="none"
-                height="16"
-                viewBox="0 0 16 16"
-                width="16"
-                xmlns="http://www.w3.org/2000/svg"
+              <div
+                className="c9"
               >
-                <path
-                  d="M7.99984 0C3.58852 0 0 3.5888 0 8C0 12.4112 3.58852 16 7.99984 16C12.4112 16 16 12.4112 16 8C16 3.5888 12.4112 0 7.99984 0ZM7.99984 14.9508C4.1672 14.9508 1.0492 11.8326 1.0492 8C1.0492 4.16732 4.16716 1.04924 7.99984 1.04924C11.8325 1.04924 14.9507 4.16736 14.9507 8C14.9507 11.8326 11.8325 14.9508 7.99984 14.9508Z"
-                  fill="#36B260"
-                />
-                <path
-                  d="M10.8962 5.38104L6.771 9.50608L5.10344 7.83888C4.89852 7.6342 4.56656 7.63408 4.36164 7.839C4.15664 8.044 4.15664 8.376 4.36164 8.58092L6.40016 10.6191C6.5026 10.7214 6.6368 10.7726 6.771 10.7726C6.9052 10.7726 7.03976 10.7214 7.14216 10.619L7.14324 10.6176L11.638 6.12284C11.843 5.91804 11.843 5.5858 11.638 5.381C11.4331 5.17608 11.1009 5.17608 10.8962 5.38104Z"
-                  fill="#36B260"
-                />
-              </svg>
-            </div>
-            <div
-              className="c8"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-            >
-              The figure panel must contain content
+                 
+                Abstract section must contains content
+                 
+              </div>
             </div>
           </div>
         </div>
         <div
-          className="c9"
+          className="c10"
         />
       </div>
       <div
@@ -210,7 +199,7 @@ exports[`Storyshots Requirments/List validations 1`] = `
           </div>
         </div>
         <div
-          className="c5"
+          className="c11"
         >
           <div
             className="c6"
@@ -240,12 +229,18 @@ exports[`Storyshots Requirments/List validations 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              The sections order must be 
+              <div
+                className="c9"
+              >
+                 
+                Sections must be listed in the following order Abstract
+                 
+              </div>
             </div>
           </div>
         </div>
         <div
-          className="c9"
+          className="c12"
         />
       </div>
     </div>

@@ -9,9 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
-import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
 import { ContainedModel } from '@manuscripts/manuscript-transform'
-import { Model, SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import { runManuscriptFixes } from '@manuscripts/requirements'
 import { isEqual } from 'lodash-es'
 import React, { useCallback, useState } from 'react'
@@ -19,34 +18,6 @@ import styled from 'styled-components'
 
 import { AnyValidationResult } from '../../lib/validations'
 import { ValidationDangerIcon, ValidationPassedIcon } from './RequirementsIcons'
-import {
-  BibliographyDoiExist,
-  BibliographyDoiFormat,
-  DefaultMessage,
-  FigureContainsImage,
-  FigureFormatValidation,
-  ManuscriptMaximumCharacters,
-  ManuscriptMaximumCombinedFigureTables,
-  ManuscriptMaximumFigures,
-  ManuscriptMaximumReferences,
-  ManuscriptMaximumTables,
-  ManuscriptMaximumWords,
-  ManuscriptMinimumCharacters,
-  ManuscriptMinimumWords,
-  ManuscriptTitleMaximumWords,
-  ManuscriptTitleMinimumCharacters,
-  ManuscriptTitleMinimumWords,
-  RequiredSection,
-  SectionBodyHasContent,
-  SectionCategoryUniqueness,
-  SectionMaximumCharacters,
-  SectionMaximumWords,
-  SectionMinimumCharacters,
-  SectionMinimumWords,
-  SectionOrder,
-  SectionTitleContainsContent,
-  SectionTitleMatch,
-} from './RequirementsMessages'
 
 const getDiff = (
   modelMap: Map<string, Model>,
@@ -105,11 +76,11 @@ export const RequirementsData: React.FC<{
       <Icon>
         {node.passed ? <ValidationPassedIcon /> : <ValidationDangerIcon />}
       </Icon>
-      <Message
+      <MessageContainer
         onMouseEnter={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
       >
-        <ValidationMessage node={node} />
+        <Message> {node.message} </Message>
 
         {isShown && !node.passed && node.fix && (
           <ButtonsList>
@@ -117,78 +88,9 @@ export const RequirementsData: React.FC<{
             <Button> Ignore</Button>
           </ButtonsList>
         )}
-      </Message>
+      </MessageContainer>
     </InspectorContainer>
   )
-}
-
-const ValidationMessage: React.FC<{
-  node: AnyValidationResult
-}> = ({ node }) => {
-  // tslint:disable-next-line:cyclomatic-complexity
-  switch (node.type) {
-    case 'required-section': {
-      const category = sectionCategories.map((section: SectionCategory) => {
-        if (section._id === node.data.sectionDescription.sectionCategory) {
-          return section.name
-        }
-      })
-      return <RequiredSection category={category} />
-    }
-    case 'section-body-has-content':
-      return <SectionBodyHasContent />
-    case 'section-title-match':
-      return <SectionTitleMatch title={node.data.title} />
-    case 'section-title-contains-content':
-      return <SectionTitleContainsContent />
-    case 'section-minimum-words':
-      return <SectionMinimumWords wordsNumber={node.data.count} />
-    case 'section-minimum-characters':
-      return <SectionMinimumCharacters charNumber={node.data.count} />
-    case 'section-maximum-characters':
-      return <SectionMaximumCharacters charNumber={node.data.count} />
-    case 'section-maximum-words':
-      return <SectionMaximumWords wordsNumber={node.data.count} />
-    case 'section-order':
-      return <SectionOrder sectionOrder={node.data.order} />
-    case 'manuscript-maximum-characters':
-      return <ManuscriptMaximumCharacters value={node.data.count} />
-    case 'manuscript-minimum-characters':
-      return <ManuscriptMinimumCharacters value={node.data.count} />
-    case 'manuscript-maximum-words':
-      return <ManuscriptMaximumWords value={node.data.count} />
-    case 'manuscript-minimum-words':
-      return <ManuscriptMinimumWords value={node.data.count} />
-    case 'manuscript-title-maximum-words':
-      return <ManuscriptTitleMaximumWords value={node.data.count} />
-    case 'manuscript-title-minimum-words':
-      return <ManuscriptTitleMinimumWords value={node.data.count} />
-    case 'manuscript-title-maximum-characters':
-      return <ManuscriptMaximumCharacters value={node.data.count} />
-    case 'manuscript-title-minimum-characters':
-      return <ManuscriptTitleMinimumCharacters value={node.data.count} />
-    case 'manuscript-maximum-references':
-      return <ManuscriptMaximumReferences value={node.data.count} />
-    case 'manuscript-maximum-figures':
-      return <ManuscriptMaximumFigures value={node.data.count} />
-    case 'manuscript-maximum-tables':
-      return <ManuscriptMaximumTables value={node.data.count} />
-    case 'manuscript-maximum-combined-figure-tables':
-      return <ManuscriptMaximumCombinedFigureTables value={node.data.count} />
-    case 'figure-format-validation':
-      return <FigureFormatValidation format={node.data.contentType} />
-    case 'figure-contains-image':
-      return <FigureContainsImage />
-    case 'section-category-uniqueness':
-      return <SectionCategoryUniqueness />
-    case 'bibliography-doi-format':
-      return <BibliographyDoiFormat />
-    case 'bibliography-doi-exist':
-      return <BibliographyDoiExist />
-    default: {
-      return <DefaultMessage passed={node.data.passed} />
-    }
-  }
 }
 
 const InspectorContainer = styled.div`
@@ -198,11 +100,14 @@ const InspectorContainer = styled.div`
 const Icon = styled.div`
   padding: 0 0 0 18px;
 `
-const Message = styled.div`
+const MessageContainer = styled.div`
   font-family: Lato;
   font-size: 14px;
   color: #353535;
   padding: 4px 0 0 11px;
+`
+const Message = styled.div`
+  display: inline;
 `
 const Button = styled.button`
   font-family: Lato;
