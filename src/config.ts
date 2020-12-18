@@ -80,6 +80,10 @@ interface Config {
   }
   connect: {
     enabled: boolean
+    frontmatterUri: string
+  }
+  leanWorkflow: {
+    enabled: boolean
   }
   iam: {
     url: string
@@ -183,6 +187,10 @@ const config = {
   },
   connect: {
     enabled: isTrue(process.env.ENABLE_CONNECT_LOGIN_OPTION),
+    frontmatterUri: process.env.FRONTMATTER_URI || '/about',
+  },
+  leanWorkflow: {
+    enabled: isTrue(process.env.LEAN_WORKFLOW),
   },
   iam: {
     url: normalizeURL(process.env.IAM_BASE_URL),

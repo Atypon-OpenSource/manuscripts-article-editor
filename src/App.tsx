@@ -30,6 +30,7 @@ import AcceptProjectInvitation from './components/collaboration/AcceptProjectInv
 import AcceptInvitationByEmailContainer from './components/collaboration/AcceptProjectInvitationByEmailContainer'
 import AcceptInvitationURIContainer from './components/collaboration/AcceptProjectInvitationURIPageContainer'
 import { DatabaseContext } from './components/DatabaseProvider'
+import { Frontmatter } from './components/Frontmatter'
 import { LoadingPage } from './components/Loading'
 import { NewProjectPageContainerProps } from './components/projects/NewProjectPageContainer'
 import { ProjectPageContainerProps } from './components/projects/ProjectPageContainer'
@@ -207,7 +208,9 @@ const App: React.FunctionComponent = () => (
                               user ? (
                                 <Redirect to={'/projects'} />
                               ) : (
-                                <LoginPageContainer {...props} />
+                                <Frontmatter>
+                                  <LoginPageContainer {...props} />
+                                </Frontmatter>
                               )
                             }
                           />
@@ -218,10 +221,10 @@ const App: React.FunctionComponent = () => (
                             render={(props) =>
                               user ? (
                                 <Redirect to={'/projects'} />
-                              ) : config.connect.enabled ? (
-                                <Redirect to={'/about/'} />
                               ) : (
-                                <SignupPageContainer {...props} />
+                                <Frontmatter>
+                                  <SignupPageContainer {...props} />
+                                </Frontmatter>
                               )
                             }
                           />
@@ -447,7 +450,11 @@ const App: React.FunctionComponent = () => (
                 <Route
                   path={'/'}
                   exact={true}
-                  render={() => <Redirect to={'/signup'} />}
+                  render={() => (
+                    <Frontmatter>
+                      <Redirect to={'/signup'} />
+                    </Frontmatter>
+                  )}
                 />
 
                 <Route
@@ -459,19 +466,21 @@ const App: React.FunctionComponent = () => (
                 <Route
                   path={'/signup'}
                   exact={true}
-                  render={(props) =>
-                    config.connect.enabled ? (
-                      <Redirect to={'/about/'} />
-                    ) : (
+                  render={(props) => (
+                    <Frontmatter>
                       <SignupPageContainer {...props} />
-                    )
-                  }
+                    </Frontmatter>
+                  )}
                 />
 
                 <Route
                   path={'/recover'}
                   exact={true}
-                  render={(props) => <RecoverPageContainer {...props} />}
+                  render={(props) => (
+                    <Frontmatter>
+                      <RecoverPageContainer {...props} />
+                    </Frontmatter>
+                  )}
                 />
 
                 <Route
