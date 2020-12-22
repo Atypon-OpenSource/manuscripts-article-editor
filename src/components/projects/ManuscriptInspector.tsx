@@ -43,6 +43,7 @@ import { DateTimeInput } from './DateTimeInput'
 import { DescriptionInput } from './DescriptionInput'
 import { DOIInput } from './DOIInput'
 import { KeywordsInput } from './KeywordsInput'
+import { RunningTitleField } from './RunningTitleField'
 import { ThemeInput } from './ThemeInput'
 
 export type SaveModel = <T extends Model>(
@@ -143,6 +144,18 @@ export const ManuscriptInspector: React.FC<{
                   handleChange={async (DOI) => {
                     await saveManuscript({
                       DOI,
+                    })
+                  }}
+                />
+
+                <Subheading>Running title</Subheading>
+
+                <RunningTitleField
+                  placeholder={'Running title'}
+                  value={manuscript.runningTitle || ''}
+                  handleChange={async (runningTitle) => {
+                    await saveManuscript({
+                      runningTitle,
                     })
                   }}
                 />
