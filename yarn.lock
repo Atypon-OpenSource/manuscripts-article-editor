@@ -2064,7 +2064,7 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@^0.38.0", "@manuscripts/manuscript-transform@^0.38.3":
+"@manuscripts/manuscript-transform@^0.38.0":
   version "0.38.3"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.38.3.tgz#ad26ba77ac96d79d537339196f1d2e853185b837"
   integrity sha512-fTmcaASQsBBggRDSHyFGGuyDzfynjrI3KAxHL5FglWbBG2ihwhe5CObvULun9vjwD7nsHE9HHQG1IojJZmFTbA==
@@ -2078,10 +2078,33 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
+"@manuscripts/manuscript-transform@^0.40.0":
+  version "0.40.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.40.0.tgz#7fb934191a3861976d9f828d0193edd2f3f07e61"
+  integrity sha512-6hC3I09poGeFG+YpC68PzvSd96Jm5lQsQsBSv5E1wTY0D4ZPfkKo/QGRffxImqRR+1qb2ZcfBGqOnhlDZUaNyg==
+  dependencies:
+    "@manuscripts/data" "^0.1.3"
+    "@manuscripts/manuscripts-json-schema" "^1.42.0"
+    debug "^4.1.1"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "^1.11.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
 "@manuscripts/manuscripts-json-schema@^1.38.0", "@manuscripts/manuscripts-json-schema@^1.39.0":
   version "1.39.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.39.0.tgz#cd96f1fb0b5fb88562c56b68fed2bfed809840d2"
   integrity sha512-TbPi71Uu0EsBNXikh3CARj988Q22OdURi4NIOhGEsUwqH8GrPQvnVKJY/wncKbU73+fA/IV591O90QRuUE41vA==
+  dependencies:
+    ajv "^6.10.0"
+    deepmerge "^3.2.0"
+    js-beautify "^1.9.0"
+
+"@manuscripts/manuscripts-json-schema@^1.41.0", "@manuscripts/manuscripts-json-schema@^1.42.0", "@manuscripts/manuscripts-json-schema@^1.44.1":
+  version "1.44.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.44.1.tgz#a1a06562578c3126c2af5cb64b85e1df4654168b"
+  integrity sha512-ixqOa+mybus8qgANqH1tOkmeVMGJe+GaFk9Z/uDmnLknEQGrQbyZDVYNZMTrubiDrjHDeUMKK28RAU0AAYMJoQ==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"
@@ -2113,15 +2136,15 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/requirements@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.3.0.tgz#28a237dafa4462ef10b1c0ff796127990f4a07a9"
-  integrity sha512-5d1Wj+J/hVjh/VdDYfl2BMnIfOYeKOOin932gjvvCX+vk3bG7evl3glqURJvmENVDDwId/1fAXx8x1tm2+IUbQ==
+"@manuscripts/requirements@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.3.1.tgz#a5c969c4c929f8b67cde53da538894b8ab90de02"
+  integrity sha512-ZnED0BEzu6VRzDO1CgVCUrJt4PSKaLDHhhwHPbLe70//Xie5j8ST9SrMWOwjGNfDc9D2RqutbH8Ktkct0PPhyw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/data" "^0.1.2"
     "@manuscripts/manuscript-transform" "^0.38.0"
-    "@manuscripts/manuscripts-json-schema" "^1.39.0"
+    "@manuscripts/manuscripts-json-schema" "^1.41.0"
     file-type "^15.0.1"
     grapheme-splitter "^1.0.4"
     image-size "^0.9.1"

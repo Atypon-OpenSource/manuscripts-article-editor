@@ -12,10 +12,10 @@
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
 import { ContainedModel } from '@manuscripts/manuscript-transform'
 import { Model, SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import { AnyValidationResult } from '@manuscripts/requirements'
 import React from 'react'
 import styled from 'styled-components'
 
-import { AnyValidationResult } from '../../lib/validations'
 import { RequirementContainer } from './RequirementContainer'
 import { RequirementsData } from './RequirementsData'
 

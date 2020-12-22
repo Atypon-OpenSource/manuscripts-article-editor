@@ -11,11 +11,11 @@
  */
 
 import { ContainedModel } from '@manuscripts/manuscript-transform'
+import { AnyValidationResult } from '@manuscripts/requirements'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 
 import { RequirementsList } from '../src/components/requirements/RequirementsList'
-import { AnyValidationResult } from '../src/lib/validations'
 import { manuscriptID, modelMap } from './data/doc'
 import { validationData } from './data/validationData'
 

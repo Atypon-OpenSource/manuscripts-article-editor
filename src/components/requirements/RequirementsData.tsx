@@ -11,12 +11,14 @@
  */
 import { ContainedModel } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
-import { runManuscriptFixes } from '@manuscripts/requirements'
+import {
+  AnyValidationResult,
+  runManuscriptFixes,
+} from '@manuscripts/requirements'
 import { isEqual } from 'lodash-es'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 
-import { AnyValidationResult } from '../../lib/validations'
 import { ValidationDangerIcon, ValidationPassedIcon } from './RequirementsIcons'
 
 const getDiff = (

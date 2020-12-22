@@ -12,12 +12,14 @@
 
 import { ContainedModel, isFigure } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
-import { createTemplateValidator } from '@manuscripts/requirements'
+import {
+  AnyValidationResult,
+  createTemplateValidator,
+} from '@manuscripts/requirements'
 import toBuffer from 'blob-to-buffer'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { AnyValidationResult } from '../../lib/validations'
 import { RequirementsList } from './RequirementsList'
 
 const buildQualityCheck = async (

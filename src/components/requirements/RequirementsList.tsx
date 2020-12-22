@@ -12,10 +12,10 @@
 
 import { ContainedModel } from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
+import { AnyValidationResult } from '@manuscripts/requirements'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
-import { AnyValidationResult } from '../../lib/validations'
 import { RequirementContainer } from './RequirementContainer'
 import { RequirementsData } from './RequirementsData'
 import { SectionValidations } from './SectionValidations'

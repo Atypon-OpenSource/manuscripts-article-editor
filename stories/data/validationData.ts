@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { AnyValidationResult } from '../../src/lib/validations'
+import { AnyValidationResult } from '@manuscripts/requirements'
 
 export const validationData: AnyValidationResult[] = [
   {
@@ -20,11 +20,6 @@ export const validationData: AnyValidationResult[] = [
     data: {
       order: [],
     },
-    containerID: 'MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C',
-    createdAt: 1601237242,
-    manuscriptID: 'MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232',
-    sessionID: 'f0b3bf1b-4435-4829-84e9-4b8b3517b95c',
-    updatedAt: 1601237242,
     fix: true,
     objectType: 'MPSectionOrderValidationResult',
     _id: 'MPSectionOrderValidationResult:FCD54873-BAD0-488E-96C8-D1ECA23DD1F4',
@@ -38,11 +33,6 @@ export const validationData: AnyValidationResult[] = [
       id: 'MPSection:6383A9BC-CB0E-4B0E-BB3A-31E0B5143256',
       sectionCategory: 'MPSectionCategory:abstract',
     },
-    containerID: 'MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C',
-    createdAt: 1601237242,
-    manuscriptID: 'MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232',
-    sessionID: 'f0b3bf1b-4435-4829-84e9-4b8b3517b95c',
-    updatedAt: 1601237242,
     fix: true,
     objectType: 'MPSectionBodyValidationResult',
     _id: 'MPSectionBodyValidationResult:2C772412-BA8C-46A4-B0D6-DFDC8BCB793A',
