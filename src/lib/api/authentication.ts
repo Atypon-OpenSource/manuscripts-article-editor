@@ -93,7 +93,13 @@ export const logout = () =>
   })
 
 export const fetchScopedToken = (scope: string) =>
-  client.get<string>(`/authorization/${scope}`)
+  client.request<string>({
+    url: `/authorization/${scope}`,
+    method: 'GET',
+    headers: {
+      accept: 'text/plain',
+    },
+  })
 
 export const refresh = () =>
   client.request({
