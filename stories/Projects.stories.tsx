@@ -17,10 +17,8 @@ import React from 'react'
 
 import ProjectsMenu from '../src/components/nav/ProjectsMenu'
 import { EmptyProjectPage } from '../src/components/projects/EmptyProjectPage'
-import ManuscriptSidebar from '../src/components/projects/ManuscriptSidebar'
 // import { ProjectsList } from '../src/components/projects/ProjectsList'
 import { user } from './data/contributors'
-import manuscripts from './data/manuscripts'
 import { people } from './data/people'
 import projects from './data/projects'
 
@@ -56,25 +54,6 @@ storiesOf('Projects', module)
       openTemplateSelector={action('open template selector ')}
       hasPullError={true}
       restartSync={action('cancel syncing and reinitialize collection')}
-    />
-  ))
-  .add('Manuscript Sidebar', () => (
-    <ManuscriptSidebar
-      openTemplateSelector={action('open')}
-      manuscript={manuscripts[0]}
-      manuscripts={manuscripts}
-      project={projects[0]}
-      saveProjectTitle={action('save title')}
-      selected={null}
-      user={user}
-      permissions={{
-        write: true,
-      }}
-      tokenActions={{
-        delete: action('delete token'),
-        update: action('update token'),
-      }}
-      saveModel={action('save model')}
     />
   ))
   .add('Projects Menu', () => (
