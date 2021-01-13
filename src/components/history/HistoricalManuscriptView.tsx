@@ -11,7 +11,10 @@
  */
 
 import { PopperManager, Viewer } from '@manuscripts/manuscript-editor'
-import { ActualManuscriptNode } from '@manuscripts/manuscript-transform'
+import {
+  ActualManuscriptNode,
+  ManuscriptNode,
+} from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   Model,
@@ -35,7 +38,7 @@ interface Props {
   currentSnapshot: {
     manuscripts: Manuscript[]
     modelMap: Map<string, JsonModel>
-    doc: ActualManuscriptNode
+    doc: ManuscriptNode
   }
   user: UserProfile
 }
@@ -106,7 +109,7 @@ export const HistoricalManuscriptView: React.FC<Props> = ({
       <Viewer
         projectID={project._id}
         history={browserHistory}
-        doc={doc}
+        doc={doc as ActualManuscriptNode}
         modelMap={modelMap}
         getModel={getModel}
         popper={popper}

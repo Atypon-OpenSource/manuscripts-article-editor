@@ -2022,16 +2022,17 @@
     citeproc "^2.4.48"
     fontoxpath "^3.14.0"
 
-"@manuscripts/manuscript-editor@0.80.2":
-  version "0.80.2"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.80.2.tgz#049463a9459f7db8863e0905da5c0677dbd565b8"
-  integrity sha512-RHTAnpnpxX96puYrLTn15GI1Dp4SDywaOvtbLXK/10aD+RZDUrPPSTe1EmO9cF8ibEsvtf3NsL9a5ZIexmaWCg==
+"@manuscripts/manuscript-editor@^0.81.3":
+  version "0.81.3"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.81.3.tgz#7e86e7408f3323a1cdd47573b125e22964d67af2"
+  integrity sha512-C4q5WoC4NZ8ePA7K0S+CktbtENI4zX+voaZyzMYKhOl6KDFZIqnHIMP03aZL9kOONhnaIazI6uqMUlQL2aK8yQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
     "@manuscripts/manuscripts-json-schema" "^1.39.0"
     "@manuscripts/title-editor" "^0.5.1"
+    "@manuscripts/track-changes" "^0.0.2"
     astrocite-eutils "^0.16.4"
     axios "^0.20.0"
     blob-util "^2.0.2"
@@ -2230,6 +2231,15 @@
     prosemirror-model "^1.11.2"
     prosemirror-state "^1.3.3"
     prosemirror-view "^1.16.0"
+
+"@manuscripts/track-changes@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes/-/track-changes-0.0.2.tgz#99a1a3569dd889ff0b6d8726beaff588ae2baef0"
+  integrity sha512-TJIoHYPghRjTCe5J2eb9tKewjA2p7KJG7yr8QCT8JZN9e5DJKTp/mtJXJnfebOPxF14caX9k0Dwu5HXHi7hzfg==
+  dependencies:
+    prosemirror-state "^1.3.3"
+    prosemirror-view "^1.15.5"
+    uuid "^3.2.1"
 
 "@mdx-js/util@1.6.18":
   version "1.6.18"
@@ -15878,6 +15888,15 @@ prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.13.3, pros
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.1.0"
 
+prosemirror-view@^1.15.5:
+  version "1.16.5"
+  resolved "https://registry.npmjs.org/prosemirror-view/-/prosemirror-view-1.16.5.tgz#1a4646832e16c1cf116b54b9becf4b0663821125"
+  integrity sha512-cFEjzhqQZIRDALEgQt8CNn+Qb+BUOvNxxaljaWoCbAYlsWGMiNNQG06I1MwbRNDcwnZKeFmOGpLEB4eorYYGig==
+  dependencies:
+    prosemirror-model "^1.1.0"
+    prosemirror-state "^1.0.0"
+    prosemirror-transform "^1.1.0"
+
 proto-list@~1.2.1:
   version "1.2.4"
   resolved "https://registry.npmjs.org/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
@@ -19596,7 +19615,7 @@ uuid@8.1.0:
   resolved "https://registry.npmjs.org/uuid/-/uuid-8.1.0.tgz#6f1536eb43249f473abc6bd58ff983da1ca30d8d"
   integrity sha512-CI18flHDznR0lq54xBycOVmphdCYnQLKn8abKn7PXUiKUGdEd+/l9LWNJmugXel4hXq7S+RMNl34ecyC9TntWg==
 
-uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2, uuid@^3.3.3, uuid@^3.4.0:
+uuid@^3.0.1, uuid@^3.1.0, uuid@^3.2.1, uuid@^3.3.2, uuid@^3.3.3, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==

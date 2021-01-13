@@ -10,10 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  ActualManuscriptNode,
-  Decoder,
-} from '@manuscripts/manuscript-transform'
+import { Decoder, ManuscriptNode } from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   Model,
@@ -43,7 +40,7 @@ interface HookValue {
   currentSnapshot: {
     manuscripts: Manuscript[]
     modelMap: Map<string, JsonModel>
-    doc: ActualManuscriptNode
+    doc: ManuscriptNode
   } | null
 }
 
@@ -110,7 +107,7 @@ export const useHistory = (projectID: string): HookValue => {
             )
           )
           const decoder = new Decoder(modelMap)
-          const doc = decoder.createArticleNode() as ActualManuscriptNode
+          const doc = decoder.createArticleNode() as ManuscriptNode
           setLoadSnapshotStatus(SnapshotStatus.Done)
           setCurrent({
             doc,

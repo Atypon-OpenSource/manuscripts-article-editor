@@ -14,6 +14,7 @@ import { Manuscript } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
 
+import config from '../../config'
 import CollaboratorsData from '../../data/CollaboratorsData'
 import ContainerInvitationsData from '../../data/ContainerInvitationsData'
 import GlobalLibrariesData from '../../data/GlobalLibrariesData'
@@ -66,9 +67,14 @@ const LibraryPageContainer = React.lazy<
 
 const ManuscriptPageContainer = React.lazy<
   React.ComponentType<ManuscriptPageContainerProps>
->(
-  () =>
-    import(/* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainer')
+>(() =>
+  config.leanWorkflow.enabled
+    ? import(
+        /* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainerLW'
+      )
+    : import(
+        /* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainer'
+      )
 )
 
 const APHORISM_DURATION =

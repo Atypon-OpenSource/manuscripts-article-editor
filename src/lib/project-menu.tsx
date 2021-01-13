@@ -11,7 +11,10 @@
  */
 
 import { MenuSpec } from '@manuscripts/manuscript-editor'
-import { ManuscriptEditorView } from '@manuscripts/manuscript-transform'
+import {
+  ManuscriptEditorState,
+  ManuscriptEditorView,
+} from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import { History } from 'history'
@@ -21,15 +24,17 @@ import config from '../config'
 import { ExportFormat } from '../pressroom/exporter'
 import { RecentProject } from './user-project'
 
+type OpenExporter = (format: ExportFormat, closeOnSuccess?: boolean) => void
+
 export interface ProjectMenuProps {
   view: ManuscriptEditorView
   project: Project
   manuscript: Manuscript
   getRecentProjects: () => RecentProject[]
   openTemplateSelector: (newProject?: boolean) => void
-  deleteProjectOrManuscript: (id: Project | Manuscript) => void
+  deleteProjectOrManuscript: (model: Project | Manuscript) => void
   history: History
-  openExporter: (format: ExportFormat, closeOnSuccess?: boolean) => void
+  openExporter: OpenExporter
   openImporter: () => void
   openRenameProject: (project: Project) => void
   publishTemplate: () => Promise<void>
@@ -53,98 +58,128 @@ const deleteManuscriptLabel = (title: string) => {
   )
 }
 
-export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
-  const exportMenu: MenuSpec[] = [
+export const buildExportMenu = (openExporter: OpenExporter): MenuSpec => {
+  const submenu = [
     {
       id: 'export-pdf',
       label: 'PDF',
-      run: () => props.openExporter('pdf'),
+      run: () => openExporter('pdf'),
     },
     {
       id: 'export-docx',
       label: 'Microsoft Word',
-      run: () => props.openExporter('docx'),
+      run: () => openExporter('docx'),
     },
     {
       id: 'export-epub',
       label: 'EPUB',
-      run: () => props.openExporter('epub'),
+      run: () => openExporter('epub'),
     },
     {
       id: 'export-md',
       label: 'Markdown',
-      run: () => props.openExporter('markdown'),
+      run: () => openExporter('markdown'),
     },
     {
       id: 'export-tex',
       label: 'LaTeX',
-      run: () => props.openExporter('latex'),
+      run: () => openExporter('latex'),
     },
     {
       id: 'export-html',
       label: 'HTML',
-      run: () => props.openExporter('html'),
+      run: () => openExporter('html'),
     },
     {
       id: 'export-jats',
       label: 'JATS',
-      run: () => props.openExporter('jats'),
+      run: () => openExporter('jats'),
     },
     {
       id: 'export-icml',
       label: 'ICML',
-      run: () => props.openExporter('icml'),
+      run: () => openExporter('icml'),
     },
     {
       id: 'export-manuproj',
       label: 'Manuscripts Archive',
-      run: () => props.openExporter('manuproj'),
+      run: () => openExporter('manuproj'),
     },
   ]
 
   if (config.export.literatum) {
-    exportMenu.push({
+    submenu.push({
       id: 'export-do',
       label: 'Literatum Digital Object',
-      run: () => props.openExporter('literatum-do', false),
+      run: () => openExporter('literatum-do', false),
     })
   }
 
   if (config.export.sts) {
-    exportMenu.push({
+    submenu.push({
       id: 'export-sts',
       label: 'STS',
-      run: () => props.openExporter('sts'),
+      run: () => openExporter('sts'),
     })
   }
 
   if (config.submission.group_doi && config.submission.series_code) {
-    exportMenu.push({
+    submenu.push({
       id: 'export-submission',
       label: 'Literatum Submission',
-      run: () => props.openExporter('literatum-bundle', false),
+      run: () => openExporter('literatum-bundle', false),
     })
 
-    exportMenu.push({
+    submenu.push({
       id: 'export-pdf-prince',
       label: 'PDF (via Prince)',
-      run: () => props.openExporter('pdf-prince'),
+      run: () => openExporter('pdf-prince'),
     })
   }
 
-  const exportReferencesMenu: MenuSpec[] = [
+  return {
+    id: 'export',
+    label: 'Export Manuscript as…',
+    submenu,
+  }
+}
+
+export const buildExportReferencesMenu = (
+  openExporter: OpenExporter,
+  state: ManuscriptEditorState
+): MenuSpec => {
+  const submenu = [
     {
       id: 'export-bib',
       label: 'BibTeX',
-      run: () => props.openExporter('bibtex'),
+      run: () => openExporter('bibtex'),
     },
     {
       id: 'export-ris',
       label: 'RIS',
-      run: () => props.openExporter('ris'),
+      run: () => openExporter('ris'),
     },
   ]
 
+  return {
+    id: 'export-bibliography',
+    label: 'Export Bibliography as…',
+    submenu,
+    enable: (() => {
+      let result = false
+
+      state.doc.descendants((node) => {
+        if (node.type === node.type.schema.nodes.citation) {
+          result = true
+        }
+      })
+
+      return result
+    })(),
+  }
+}
+
+export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
   const submenu: MenuSpec[] = [
     {
       id: 'project-new',
@@ -196,30 +231,11 @@ export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
       label: 'Import Manuscript…',
       run: props.openImporter,
     },
-    {
-      id: 'export',
-      label: 'Export Manuscript as…',
-      submenu: exportMenu,
-    },
+    buildExportMenu(props.openImporter),
     {
       role: 'separator',
     },
-    {
-      id: 'export-bibliography',
-      label: 'Export Bibliography as…',
-      submenu: exportReferencesMenu,
-      enable: (() => {
-        let result = false
-
-        props.view.state.doc.descendants((node) => {
-          if (node.type === node.type.schema.nodes.citation) {
-            result = true
-          }
-        })
-
-        return result
-      })(),
-    },
+    buildExportReferencesMenu(props.openExporter, props.view.state),
     {
       role: 'separator',
     },

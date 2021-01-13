@@ -21,7 +21,7 @@ import {
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
-import { TitleField } from '@manuscripts/title-editor'
+import { Title, TitleField } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -81,11 +81,11 @@ const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
 }
 
 interface Props {
-  openTemplateSelector: (newProject: boolean) => void
+  openTemplateSelector?: (newProject: boolean) => void
   manuscript: Manuscript
   manuscripts: Manuscript[]
   project: Project
-  saveProjectTitle: (title: string) => Promise<Project>
+  saveProjectTitle?: (title: string) => Promise<Project>
   selected: Selected | null
   view?: ManuscriptEditorView
   doc?: ManuscriptNode
@@ -114,15 +114,6 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   useEffect(() => {
     setSortedManuscripts(manuscripts.sort(lowestPriorityFirst))
   }, [manuscripts])
-
-  const handleNewManuscript = useCallback(() => {
-    openTemplateSelector(false)
-  }, [openTemplateSelector])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleTitleChange = useCallback(debounce(saveProjectTitle, 1000), [
-    saveProjectTitle,
-  ])
 
   const setIndex = useCallback(
     (id: string, index: number) => {
@@ -162,14 +153,22 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
           title={
             <CustomizedSidebarHeader>
               <ProjectTitle>
-                <TitleField
-                  id={'project-title-field'}
-                  // eslint-disable-next-line jsx-a11y/tabindex-no-positive
-                  tabIndex={1}
-                  editable={permissions.write}
-                  value={project.title || ''}
-                  handleChange={handleTitleChange}
-                />
+                {saveProjectTitle ? (
+                  <TitleField
+                    id={'project-title-field'}
+                    // eslint-disable-next-line jsx-a11y/tabindex-no-positive
+                    tabIndex={1}
+                    editable={permissions.write}
+                    value={project.title || ''}
+                    handleChange={debounce(saveProjectTitle, 1000)}
+                  />
+                ) : (
+                  <Title
+                    id="project-title"
+                    editable={false}
+                    value={project.title || ''}
+                  />
+                )}
               </ProjectTitle>
               <ShareProjectButton
                 project={project}
@@ -181,9 +180,9 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
         />
       }
       sidebarFooter={
-        permissions.write ? (
+        permissions.write && openTemplateSelector ? (
           <AddButton
-            action={handleNewManuscript}
+            action={() => openTemplateSelector(false)}
             size={'small'}
             title={'New Manuscript'}
           />

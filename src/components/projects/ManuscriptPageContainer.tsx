@@ -154,6 +154,7 @@ import CitationStyleSelector from '../templates/CitationStyleSelector'
 import TemplateSelector from '../templates/TemplateSelector'
 import { ResizingInspectorButton } from './../ResizerButtons'
 import { ApplicationMenuContainer } from './ApplicationMenuContainer'
+import { ManuscriptPageMenus } from './ApplicationMenus'
 import ConflictResolver from './ConflictResolver'
 import { DeleteConfirmationDialog } from './DeleteConfirmationDialog'
 import {
@@ -166,7 +167,6 @@ import { EditorStyles } from './EditorStyles'
 import { Exporter } from './Exporter'
 import { Importer } from './Importer'
 import { Inspector } from './Inspector'
-import { ManuscriptPageMenus } from './ManuscriptPageMenus'
 import {
   EditorType,
   EditorViewType,
