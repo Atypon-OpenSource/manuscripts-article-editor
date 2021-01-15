@@ -28,13 +28,20 @@ import {
   ManuscriptNode,
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
-import { Bundle, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  Bundle,
+  Correction,
+  Manuscript,
+  Model,
+} from '@manuscripts/manuscripts-json-schema'
+import { Commit } from '@manuscripts/track-changes'
 import React, { useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 
 import config from '../../config'
 import { Biblio, useBiblio } from '../../hooks/use-biblio'
+import { useCommits } from '../../hooks/use-commits'
 import { SnapshotStatus, useHistory } from '../../hooks/use-history'
 import { useManuscriptModels } from '../../hooks/use-manuscript-models'
 import { Collection } from '../../sync/Collection'
@@ -48,6 +55,7 @@ import { Main } from '../Page'
 import Panel from '../Panel'
 import { ManuscriptPlaceholder } from '../Placeholders'
 import { ResizingInspectorButton } from '../ResizerButtons'
+import { Corrections } from '../track/Corrections'
 import {
   ApplicationMenuContainer,
   ApplicationMenusLW as ApplicationMenus,
@@ -71,6 +79,14 @@ type CombinedProps = ManuscriptPageContainerProps &
   RouteComponentProps<RouteParams> &
   IntlProps &
   ModalProps
+
+/**
+ * TODO: The two wrapping components should be removed, and replaced with a
+ * generic hook that takes a promise and returns { data, loadStatus, error }
+ *
+ * The promise should be a single long function composed out of smaller, testable
+ * functions.
+ */
 
 const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   const { project, match } = props
@@ -112,7 +128,7 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   }
 
   return (
-    <ManuscriptPageView
+    <ManuscriptPageInner
       doc={currentSnapshot.doc}
       modelMap={manuscriptModels.map}
       snapshotID={latestSnaphotID!}
@@ -123,7 +139,7 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   )
 }
 
-interface ManuscriptPageViewProps extends CombinedProps {
+interface ManuscriptPageInnerProps extends CombinedProps {
   doc: ManuscriptNode
   snapshotID: string
   modelMap: Map<string, Model>
@@ -133,6 +149,28 @@ interface ManuscriptPageViewProps extends CombinedProps {
   deleteModel: (id: string) => Promise<string>
   collection: Collection<ContainedModel>
   bundle: Bundle | null
+}
+
+const ManuscriptPageInner: React.FC<ManuscriptPageInnerProps & Biblio> = (
+  props
+) => {
+  const { modelMap, project } = props
+
+  const commits = useCommits(modelMap, project._id, props.snapshotID)
+
+  if (commits.load !== 2) {
+    console.log(commits.load)
+    return null
+  }
+
+  return <ManuscriptPageView {...props} {...commits} />
+}
+
+interface ManuscriptPageViewProps extends ManuscriptPageInnerProps {
+  commitAtLoad: Commit | null
+  commits: Commit[]
+  corrections: Correction[]
+  saveCommit: (commit: Commit) => void
 }
 
 const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
@@ -200,7 +238,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
       CitationEditor,
       CitationViewer,
     },
-    commit: null,
+    commit: props.commitAtLoad,
   }
 
   const editor = useEditor<ManuscriptSchema>(
@@ -237,14 +275,14 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
                   project={project}
                   collection={props.collection}
                 />
-                <ManuscriptToolbar view={view} />
               </ApplicationMenuContainer>
+              <ManuscriptToolbar view={view} />
             </EditorHeader>
             <EditorBody>
               <MetadataContainer
                 manuscript={manuscript}
                 saveManuscript={props.saveManuscript}
-                handleTitleStateChange={() => ''}
+                handleTitleStateChange={() => '' /*FIX THIS*/}
                 saveModel={saveModel}
                 deleteModel={deleteModel}
                 permissions={editorProps.permissions}
@@ -267,7 +305,20 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
         hideWhen="max-width: 900px"
         resizerButton={ResizingInspectorButton}
       >
-        <InspectorContainer>{/* TODO: Inspector */}</InspectorContainer>
+        <InspectorContainer>
+          <Corrections
+            editor={editor}
+            corrections={props.corrections}
+            commits={props.commits}
+            saveCorrection={saveModel}
+            saveCommit={props.saveCommit}
+            collaborators={props.collaboratorsById}
+            user={props.user}
+            containerID={project._id}
+            manuscriptID={manuscript._id}
+            snapshotID={props.snapshotID}
+          />
+        </InspectorContainer>
       </Panel>
     </RequirementsProvider>
   )

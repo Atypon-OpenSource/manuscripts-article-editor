@@ -1,0 +1,337 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Correction basic 1`] = `
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c7 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c8 {
+  margin: 0 8px;
+  font-weight: 600;
+}
+
+.c9 {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #6e6e6e;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  margin: 2rem 0;
+  padding: 0;
+  list-style-type: none;
+  opacity: 1;
+  position: relative;
+}
+
+.c3 {
+  color: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c3:after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c10 {
+  background: transparent;
+  margin: 0 1em;
+  border: 1px solid black;
+  padding: 0;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.c11 {
+  font-size: 0.85rem;
+}
+
+<div
+  className="c0"
+>
+  <div>
+    <div
+      style={
+        Object {
+          "width": 500,
+        }
+      }
+    >
+      <li
+        className="c1"
+      >
+        <header
+          className="c2"
+        >
+          <a
+            className="c3"
+            href="#"
+            onClick={[Function]}
+          >
+            <div
+              className="c4"
+            >
+              <div
+                className="c5"
+              >
+                <div
+                  className="c6"
+                >
+                  <img
+                    className="c7"
+                    onError={[Function]}
+                    size={20}
+                    src="test-file-stub"
+                  />
+                </div>
+              </div>
+              <div
+                className="c5"
+              >
+                <div
+                  className="c8"
+                >
+                  By 
+                  Janine Melnitz
+                </div>
+                <div
+                  className="c8 c9"
+                >
+                  1 week ago
+                </div>
+              </div>
+            </div>
+          </a>
+          <div>
+            <button
+              className="c10"
+              onClick={[Function]}
+              type="button"
+            >
+              ☒
+            </button>
+            <button
+              className="c10"
+              onClick={[Function]}
+              type="button"
+            >
+              ☑
+            </button>
+          </div>
+        </header>
+        <div
+          className="c11"
+        />
+      </li>
+      <li
+        className="c1"
+      >
+        <header
+          className="c2"
+        >
+          <a
+            className="c3"
+            href="#"
+            onClick={[Function]}
+          >
+            <div
+              className="c4"
+            >
+              <div
+                className="c5"
+              >
+                <div
+                  className="c6"
+                >
+                  <img
+                    className="c7"
+                    onError={[Function]}
+                    size={20}
+                    src="test-file-stub"
+                  />
+                </div>
+              </div>
+              <div
+                className="c5"
+              >
+                <div
+                  className="c8"
+                >
+                  By 
+                  Janine Melnitz
+                </div>
+                <div
+                  className="c8 c9"
+                >
+                  1 week ago
+                </div>
+              </div>
+            </div>
+          </a>
+          <div>
+            <button
+              className="c10"
+              onClick={[Function]}
+              type="button"
+            >
+              ☒
+            </button>
+            <button
+              className="c10"
+              onClick={[Function]}
+              type="button"
+            >
+              ☑
+            </button>
+          </div>
+        </header>
+        <div
+          className="c11"
+        />
+      </li>
+      <li
+        className="c1"
+      >
+        <header
+          className="c2"
+        >
+          <a
+            className="c3"
+            href="#"
+            onClick={[Function]}
+          >
+            <div
+              className="c4"
+            >
+              <div
+                className="c5"
+              >
+                <div
+                  className="c6"
+                >
+                  <img
+                    className="c7"
+                    onError={[Function]}
+                    size={20}
+                    src="test-file-stub"
+                  />
+                </div>
+              </div>
+              <div
+                className="c5"
+              >
+                <div
+                  className="c8"
+                >
+                  By 
+                  Janine Melnitz
+                </div>
+                <div
+                  className="c8 c9"
+                >
+                  1 week ago
+                </div>
+              </div>
+            </div>
+          </a>
+          <div>
+            <button
+              className="c10"
+              onClick={[Function]}
+              type="button"
+            >
+              ☒
+            </button>
+            <button
+              className="c10"
+              onClick={[Function]}
+              type="button"
+            >
+              ☑
+            </button>
+          </div>
+        </header>
+        <div
+          className="c11"
+        />
+      </li>
+    </div>
+  </div>
+</div>
+`;

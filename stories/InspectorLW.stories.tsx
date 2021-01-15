@@ -1,0 +1,50 @@
+/*!
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
+ *
+ * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
+ *
+ * The Original Code is manuscripts-frontend.
+ *
+ * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
+ *
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ */
+
+import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react'
+import React from 'react'
+
+import { Correction } from '../src/components/track/Correction'
+import data from './data/corrections'
+import { people } from './data/people'
+
+const getCollaboratorById = () => people[0]
+
+storiesOf('Correction', module).add('basic', () => (
+  <div style={{ width: 500 }}>
+    <Correction
+      correction={data[0]}
+      isFocused={false}
+      getCollaboratorById={getCollaboratorById}
+      handleAccept={action('accept the change')}
+      handleFocus={action('focus the change')}
+      handleReject={action('reject the change')}
+    />
+    <Correction
+      correction={data[1]}
+      isFocused={true}
+      getCollaboratorById={getCollaboratorById}
+      handleAccept={action('accept the change')}
+      handleFocus={action('focus the change')}
+      handleReject={action('reject the change')}
+    />
+    <Correction
+      correction={data[2]}
+      isFocused={false}
+      getCollaboratorById={getCollaboratorById}
+      handleAccept={action('accept the change')}
+      handleFocus={action('focus the change')}
+      handleReject={action('reject the change')}
+    />
+  </div>
+))
