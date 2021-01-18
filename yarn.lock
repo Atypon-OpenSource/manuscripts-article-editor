@@ -1984,10 +1984,15 @@
   resolved "https://registry.npmjs.org/@manuscripts/csl-locales/-/csl-locales-0.0.4.tgz#28b427cc39349f370e65d26638e88dfa62bb9b9e"
   integrity sha512-Vw9XPCpDi5rk0GMW0nNpLwhVAD9MSHSzbqjIbL8DyeTbdm5iqtA+4KukF/bX6zamatTR98a+HZqwfJoRblyMcg==
 
-"@manuscripts/csl-styles@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.0.tgz#8b8ae4e0afd9f9bbda371c1548d5854c703d8747"
-  integrity sha512-Lr7am9TkzLYOJjgPr6pRtkd8IjX/atew6YX/9o9xspIZJla51fSSPk6cTCVtT70Srn1aShLxZF4hi1jZH5+Gzw==
+"@manuscripts/csl-locales@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmjs.org/@manuscripts/csl-locales/-/csl-locales-0.0.5.tgz#5051467f097cac4ee88a30b2741352ace26b38b4"
+  integrity sha512-g4m25tT6zjFedajG9RLVwMNHGMXTzJqQMR6i5ppK07KyYh65Ra0ulAdTJoFLl+QMgpR+y3TnZjRSzN42dtCzKg==
+
+"@manuscripts/csl-styles@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.1.tgz#c499e2b2600811792a0e9172df9e6a3ce1df1a4f"
+  integrity sha512-DUbNRehtEiX1K3qA3swqRNyxv2fIa4zGYz8MasIkSxrMfrBG7f68FSWtERrorz6OyL4tL2WQ+K5hIt3WrIlg2Q==
 
 "@manuscripts/data@^0.1.2", "@manuscripts/data@^0.1.3":
   version "0.1.3"
@@ -2008,15 +2013,15 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.7.tgz#f7f0cef173fb2c83fbf283a2c2962b5d6ea32874"
   integrity sha512-7a1y6H/wnvn4hTh7S+TEyC8R5tLHHNiWYJnbeS43JCMYS/6qhMCzJTS0PwQynoep7PWwi2LdgaSZ3qALxzgg0g==
 
-"@manuscripts/library@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.5.0.tgz#f5a969939dadd979365b76a2ff2401b59b75f445"
-  integrity sha512-iFtCFegmbRxpsYSG49hDwQcgsfQ+wZwRreSO3hy+cGLzlqCDUQnl4XsjwxB29LIJA7iuAw1d2MRl/SzhV930jA==
+"@manuscripts/library@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.5.2.tgz#22d7d5a6640684c7ca31c7a200858abf8dbfcc3b"
+  integrity sha512-xVytmiH6/nC7Hxf4DAz50LDSgejzYm4u9hCcY6y6nOsGhSD92qczI2xR0DxfpvXBive/hAP8xF5mhFY27tntNQ==
   dependencies:
-    "@manuscripts/csl-locales" "^0.0.4"
-    "@manuscripts/csl-styles" "^0.2.0"
+    "@manuscripts/csl-locales" "^0.0.5"
+    "@manuscripts/csl-styles" "^0.2.1"
     "@manuscripts/data" "^0.1.2"
-    "@manuscripts/manuscript-transform" "^0.38.0"
+    "@manuscripts/manuscript-transform" "^0.40.0"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.48"
