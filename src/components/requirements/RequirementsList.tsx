@@ -52,17 +52,23 @@ export const RequirementsList: React.FC<{
   return (
     <RequirementList>
       {manuscriptValidation.length !== 0 && (
-        <RequirementContainer title={'Manuscript'}>
+        <RequirementContainer
+          result={manuscriptValidation}
+          title={'Manuscript'}
+        >
           <Requirement>
-            {manuscriptValidation.map((section: AnyValidationResult) => (
-              <RequirementsData
-                node={section}
-                key={section._id}
-                modelMap={modelMap}
-                manuscriptID={manuscriptID}
-                bulkUpdate={bulkUpdate}
-              />
-            ))}
+            {manuscriptValidation.map(
+              (section: AnyValidationResult) =>
+                section.message && (
+                  <RequirementsData
+                    node={section}
+                    key={section._id}
+                    modelMap={modelMap}
+                    manuscriptID={manuscriptID}
+                    bulkUpdate={bulkUpdate}
+                  />
+                )
+            )}
           </Requirement>
           <Separator />
         </RequirementContainer>
@@ -74,65 +80,86 @@ export const RequirementsList: React.FC<{
         bulkUpdate={bulkUpdate}
       />
       {requiredSectionValidation.length !== 0 && (
-        <RequirementContainer title={'Required Section'}>
+        <RequirementContainer
+          result={requiredSectionValidation}
+          title={'Required Section'}
+        >
           <Requirement>
-            {requiredSectionValidation.map((section: AnyValidationResult) => (
-              <RequirementsData
-                node={section}
-                key={section._id}
-                modelMap={modelMap}
-                manuscriptID={manuscriptID}
-                bulkUpdate={bulkUpdate}
-              />
-            ))}
+            {requiredSectionValidation.map(
+              (section: AnyValidationResult) =>
+                section.message && (
+                  <RequirementsData
+                    node={section}
+                    key={section._id}
+                    modelMap={modelMap}
+                    manuscriptID={manuscriptID}
+                    bulkUpdate={bulkUpdate}
+                  />
+                )
+            )}
           </Requirement>
           <Separator />
         </RequirementContainer>
       )}
       {bibliographyValidation.length !== 0 && (
-        <RequirementContainer title={'Bibliography'}>
+        <RequirementContainer
+          result={bibliographyValidation}
+          title={'Bibliography'}
+        >
           <Requirement>
-            {bibliographyValidation.map((section: AnyValidationResult) => (
-              <RequirementsData
-                node={section}
-                key={section._id}
-                modelMap={modelMap}
-                manuscriptID={manuscriptID}
-                bulkUpdate={bulkUpdate}
-              />
-            ))}
+            {bibliographyValidation.map(
+              (section: AnyValidationResult) =>
+                section.message && (
+                  <RequirementsData
+                    node={section}
+                    key={section._id}
+                    modelMap={modelMap}
+                    manuscriptID={manuscriptID}
+                    bulkUpdate={bulkUpdate}
+                  />
+                )
+            )}
           </Requirement>
           <Separator />
         </RequirementContainer>
       )}
       {figureValidation.length !== 0 && (
-        <RequirementContainer title={'Figure'}>
+        <RequirementContainer result={figureValidation} title={'Figure'}>
           <Requirement>
-            {figureValidation.map((section: AnyValidationResult) => (
-              <RequirementsData
-                node={section}
-                key={section._id}
-                modelMap={modelMap}
-                manuscriptID={manuscriptID}
-                bulkUpdate={bulkUpdate}
-              />
-            ))}
+            {figureValidation.map(
+              (section: AnyValidationResult) =>
+                section.message && (
+                  <RequirementsData
+                    node={section}
+                    key={section._id}
+                    modelMap={modelMap}
+                    manuscriptID={manuscriptID}
+                    bulkUpdate={bulkUpdate}
+                  />
+                )
+            )}
           </Requirement>
           <Separator />
         </RequirementContainer>
       )}
       {sectionOrderValidation.length !== 0 && (
-        <RequirementContainer title={'Section Order'}>
+        <RequirementContainer
+          result={sectionOrderValidation}
+          title={'Section Order'}
+        >
           <Requirement>
-            {sectionOrderValidation.map((section: AnyValidationResult) => (
-              <RequirementsData
-                node={section}
-                key={section._id}
-                modelMap={modelMap}
-                manuscriptID={manuscriptID}
-                bulkUpdate={bulkUpdate}
-              />
-            ))}
+            {sectionOrderValidation.map(
+              (section: AnyValidationResult) =>
+                section.message && (
+                  <RequirementsData
+                    node={section}
+                    key={section._id}
+                    modelMap={modelMap}
+                    manuscriptID={manuscriptID}
+                    bulkUpdate={bulkUpdate}
+                  />
+                )
+            )}
           </Requirement>
           <Separator />
         </RequirementContainer>
@@ -142,7 +169,7 @@ export const RequirementsList: React.FC<{
 }
 
 const Separator = styled.div`
-  margin: 0 8px 0 8px;
+  margin: 0 0 0 8px;
   border: 1px solid #f2f2f2;
 `
 const RequirementList = styled.div`

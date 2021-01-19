@@ -19,8 +19,6 @@ import { isEqual } from 'lodash-es'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 
-import { ValidationDangerIcon, ValidationPassedIcon } from './RequirementsIcons'
-
 const getDiff = (
   modelMap: Map<string, Model>,
   containedModelArray: Array<ContainedModel>
@@ -75,9 +73,6 @@ export const RequirementsData: React.FC<{
 
   return (
     <InspectorContainer>
-      <Icon>
-        {node.passed ? <ValidationPassedIcon /> : <ValidationDangerIcon />}
-      </Icon>
       <MessageContainer
         onMouseEnter={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
@@ -99,17 +94,15 @@ const InspectorContainer = styled.div`
   display: flex;
   height: 52px;
 `
-const Icon = styled.div`
-  padding: 0 0 0 18px;
-`
 const MessageContainer = styled.div`
   font-family: Lato;
   font-size: 14px;
   color: #353535;
-  padding: 4px 0 0 11px;
+  padding: 4px 0 0 58px;
 `
 const Message = styled.div`
   display: inline;
+  cursor: default;
 `
 const Button = styled.button`
   font-family: Lato;
@@ -125,4 +118,5 @@ const Button = styled.button`
 const ButtonsList = styled.div`
   float: right;
   padding: 22px 0 0 0;
+  cursor: pointer;
 `

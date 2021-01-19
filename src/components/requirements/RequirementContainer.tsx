@@ -10,39 +10,62 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { AnyValidationResult } from '@manuscripts/requirements'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { ArrowDownIcon, ArrowUpIcon } from './RequirementsIcons'
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  ValidationDangerIcon,
+  ValidationPassedIcon,
+} from './RequirementsIcons'
 
 interface Props {
   title: React.ReactNode
+  result: AnyValidationResult[]
 }
 
-export const RequirementContainer: React.FC<Props> = ({ title, children }) => {
+export const RequirementContainer: React.FC<Props> = ({
+  title,
+  result,
+  children,
+}) => {
   const [expanded, setExpanded] = useState(true)
+  const failedResults = result.filter(
+    (node: AnyValidationResult) => !node.passed
+  )
 
   return (
     <Container>
-      <Title onClick={() => setExpanded(!expanded)}>
-        {title}
-        <ExpanderButton onClick={() => setExpanded(!expanded)}>
-          {expanded ? <ArrowUpIcon /> : <ArrowDownIcon />}
-        </ExpanderButton>
-      </Title>
+      {failedResults.length === 0 ? (
+        <Data>
+          <Icon>
+            <ValidationPassedIcon />
+          </Icon>
+          <Title>{title}</Title>
+        </Data>
+      ) : (
+        <Data onClick={() => setExpanded(!expanded)}>
+          <Icon>
+            <ValidationDangerIcon />
+          </Icon>
+          <Title>{title}</Title>
+          <ExpanderButton onClick={() => setExpanded(!expanded)}>
+            {expanded ? <ArrowUpIcon /> : <ArrowDownIcon />}
+          </ExpanderButton>
+        </Data>
+      )}
       {expanded && <>{children}</>}
     </Container>
   )
 }
 
 const ExpanderButton = styled.div`
-  display: block;
-  float: right;
-  padding: 0px 32px 0 0;
+  cursor: pointer;
 `
 const Container = styled.div`
-  display: block;
-  padding: 0 0 0 8px;
+  padding: 0 0 16px 0;
 `
 const Title = styled.div`
   font-family: Lato;
@@ -50,9 +73,14 @@ const Title = styled.div`
   font-weight: bold;
   font-size: 16px;
   line-height: 24px;
-  color: #353535;
-  flex: none;
-  order: 1;
-  align-self: center;
-  margin: 13px 0 9px 17px;
+  flex: 0.96;
+  cursor: pointer;
+`
+const Icon = styled.div`
+  display: inline-flex;
+  padding: 3px 11px 0 0;
+`
+const Data = styled.div`
+  display: flex;
+  padding: 20px 0 0 21px;
 `

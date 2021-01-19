@@ -46,20 +46,29 @@ export const SectionValidations: React.FC<{
         }
       })
       sectionsData.push(
-        <RequirementContainer key={sectionValidationId} title={categoryData}>
-          <Requirement>
-            {sections.map((section: AnyValidationResult) => (
-              <RequirementsData
-                node={section}
-                key={section._id}
-                modelMap={modelMap}
-                manuscriptID={manuscriptID}
-                bulkUpdate={bulkUpdate}
-              />
-            ))}
-          </Requirement>
+        <>
+          <RequirementContainer
+            result={sections}
+            key={sectionValidationId}
+            title={categoryData}
+          >
+            <Requirement>
+              {sections.map(
+                (section: AnyValidationResult) =>
+                  section.message && (
+                    <RequirementsData
+                      node={section}
+                      key={section._id}
+                      modelMap={modelMap}
+                      manuscriptID={manuscriptID}
+                      bulkUpdate={bulkUpdate}
+                    />
+                  )
+              )}
+            </Requirement>
+          </RequirementContainer>
           <Separator />
-        </RequirementContainer>
+        </>
       )
     }
     return <>{sectionsData}</>
@@ -67,7 +76,6 @@ export const SectionValidations: React.FC<{
   return null
 }
 const Separator = styled.div`
-  width: 404px;
   margin: 0 0 0 8px;
   border: 1px solid #f2f2f2;
 `
