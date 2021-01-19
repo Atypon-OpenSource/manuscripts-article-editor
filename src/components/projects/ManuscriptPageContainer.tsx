@@ -1616,9 +1616,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     state: ManuscriptEditorState,
     docChanged: boolean
   ) => {
+    const modelIds = this.state.modelMap
+      ? Array.from(this.state.modelMap?.keys())
+      : []
+
     const selected = findParentNodeWithIdValue(state.selection) || null
     const selectedSection = findParentSection(state.selection)
-    const selectedElement = findParentElement(state.selection)
+    const selectedElement = findParentElement(state.selection, modelIds)
 
     this.setState((prevState) => ({
       ...prevState,
