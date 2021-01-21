@@ -1,7 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Projects/Comments with comments 1`] = `
-.c6 {
+.c2 input {
+  border: 0;
+  -webkit-clip: rect(0 0 0 0);
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.c2 div {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #6e6e6e;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  line-height: 16px;
+  margin: 16px 0 8px;
+}
+
+.c2 div::before {
+  content: ' ';
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #6e6e6e;
+  border-radius: 4px;
+  margin-right: 1em;
+  text-align: center;
+}
+
+.c2 input:checked + div::before {
+  background: #0d79d0;
+  border-color: #0d79d0;
+  color: white;
+  content: '✓';
+}
+
+.c2 input:focus + div::before {
+  border-color: #0b6bb8;
+}
+
+.c16 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c16 svg + span {
+  margin-left: 4px;
+}
+
+.c17 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c17 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
+}
+
+.c11 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -17,7 +119,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   position: relative;
 }
 
-.c7 {
+.c12 {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -31,7 +133,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   justify-content: center;
 }
 
-.c11 {
+.c21 {
   border-top: 1px solid #eee;
   margin-top: 16px;
   padding: 8px 8px 0;
@@ -45,24 +147,24 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   justify-content: space-between;
 }
 
-.c12 {
+.c22 {
   border: none;
   background: none;
   cursor: pointer;
   height: 24px;
 }
 
-.c9 {
+.c19 {
   padding: 0 16px;
 }
 
-.c10 {
+.c20 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.c10 .ProseMirror {
+.c20 .ProseMirror {
   font-family: "Lato",sans-serif;
   line-height: 1.06;
   -webkit-letter-spacing: -0.2px;
@@ -73,19 +175,19 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   margin: 8px 0;
 }
 
-.c10 .ProseMirror:focus {
+.c20 .ProseMirror:focus {
   outline: none;
 }
 
-.c10 .ProseMirror p:first-child {
+.c20 .ProseMirror p:first-child {
   margin-top: 0;
 }
 
-.c10 .ProseMirror p:last-child {
+.c20 .ProseMirror p:last-child {
   margin-bottom: 0;
 }
 
-.c10 .ProseMirror blockquote {
+.c20 .ProseMirror blockquote {
   margin: 10px 0;
   border-left: 4px solid #faed98;
   padding-left: 1em;
@@ -99,20 +201,84 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   color: #bababa;
 }
 
-.c5 {
+.c9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+
+.c13 {
+  margin: 0 8px;
+  font-weight: 600;
+}
+
+.c14 {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #6e6e6e;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
 }
 
-.c8 {
-  margin: 0 8px;
-  font-weight: 600;
+.c15 .tooltip {
+  border-radius: 6px;
+  width: 70px;
+  padding: 8px 0 8px 0;
+  text-align: center;
+}
+
+.c18 {
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: none;
+}
+
+.c18 svg {
+  max-height: 8.5px;
+  max-width: 12px;
+  margin-right: 0;
+}
+
+.c18 path {
+  fill: #353535;
+}
+
+.c18:not([disabled]):hover {
+  background: #f2fbfc;
+  border: 1px solid #c9c9c9;
+}
+
+.c18:not([disabled]):hover path {
+  fill: #1a9bc7;
 }
 
 .c0 {
@@ -122,25 +288,25 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   padding: 3rem;
 }
 
-.c1 {
+.c5 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   overflow-y: auto;
 }
 
-.c3 {
+.c7 {
   padding: 16px 0 8px;
   background: #fff;
   border: 1px solid #ddf3fa;
   border-left: 4px solid #bce7f6;
 }
 
-.c2 {
+.c6 {
   margin: 16px 16px 16px 0;
 }
 
-.c4 {
+.c8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -158,6 +324,34 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   padding: 0 16px;
 }
 
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  margin-right: 17px;
+  margin-left: 33px;
+}
+
+.c4 {
+  font-family: "Lato",sans-serif;
+  color: #353535;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.c3 div {
+  color: #353535;
+}
+
 <div
   className="c0"
 >
@@ -172,52 +366,107 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
       <div
         className="c1"
       >
+        <label
+          className="c2 c3"
+        >
+          <input
+            checked={false}
+            className=""
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="c4"
+          >
+            See resolved
+          </div>
+        </label>
+      </div>
+      <div
+        className="c5"
+      >
         <div>
           <div
-            className="c2"
+            className="c6"
           >
             <div
-              className="c3"
+              className="c7"
             >
               <div
-                className="c4"
+                className="c8"
               >
-                <div
-                  className="c5"
-                >
-                  <div
-                    className="c6"
-                  >
-                    <img
-                      className="c7"
-                      onError={[Function]}
-                      size={20}
-                      src="test-file-stub"
-                    />
-                  </div>
-                  <div
-                    className="c8"
-                  >
-                    by 
-                    Janine Melnitz
-                  </div>
-                </div>
-                3 years ago
-              </div>
-              <div>
                 <div
                   className="c9"
                 >
                   <div
                     className="c10"
+                  >
+                    <div
+                      className="c11"
+                    >
+                      <img
+                        className="c12"
+                        onError={[Function]}
+                        size={20}
+                        src="test-file-stub"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="c10"
+                  >
+                    <div
+                      className="c13"
+                    >
+                      By 
+                      Janine Melnitz
+                    </div>
+                    <div
+                      className="c13 c14"
+                    >
+                      3 years ago
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="c15"
+                >
+                  <button
+                    className="c16 c17 c18"
+                    data-for="comment-1"
+                    data-tip={true}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <svg
+                      color="#353535"
+                      height={8.5}
+                      width={12}
+                    >
+                      <path
+                        d="M2.642 3.99a1.101 1.101 0 0 0-1.47.011l.228-.214c-.4.376-.39.98.02 1.346L4.207 7.62a1.147 1.147 0 0 0 1.488.004l5.846-5.193a.853.853 0 0 0-.004-1.316l.235.206a1.168 1.168 0 0 0-1.497.003L4.912 6.032 2.642 3.99z"
+                        fill="#353535"
+                        fillRule="nonzero"
+                      />
+                    </svg>
+                  </button>
+                  <div />
+                </div>
+              </div>
+              <div>
+                <div
+                  className="c19"
+                >
+                  <div
+                    className="c20"
                   />
                 </div>
                 <div
-                  className="c11"
+                  className="c21"
                 >
                   <span>
                     <button
-                      className="c12"
+                      className="c22"
                       onClick={[Function]}
                       title="Edit comment"
                     >
@@ -233,7 +482,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
                       </svg>
                     </button>
                     <button
-                      className="c12"
+                      className="c22"
                       onClick={[Function]}
                       title="Reply"
                     >
@@ -254,7 +503,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
                   </span>
                   <span>
                     <button
-                      className="c12"
+                      className="c22"
                       onClick={[Function]}
                       title="Delete comment"
                     >

@@ -56,7 +56,7 @@ import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
 import { StatisticsInspector } from '../inspector/StatisticsInspector'
 import { SubmissionsInspector } from '../inspector/SubmissionsInspector'
 import { RequirementsInspector } from '../requirements/RequirementsInspector'
-import { CommentList } from './CommentList'
+import { CommentFilter, CommentList } from './CommentList'
 import { HeaderImageInspector } from './HeaderImageInspector'
 import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
 
@@ -143,6 +143,9 @@ export const Inspector: React.FC<{
   bulkUpdate,
 }) => {
   const [tabIndex, setTabIndex] = useState(0)
+  const [commentFilter, setCommentFilter] = useState<CommentFilter>(
+    CommentFilter.ALL
+  )
 
   const statusLabels = useStatusLabels(manuscript.containerID, manuscript._id)
 
@@ -299,6 +302,8 @@ export const Inspector: React.FC<{
                       setCommentTarget={setCommentTarget}
                       view={view}
                       key={commentTarget}
+                      setCommentFilter={setCommentFilter}
+                      commentFilter={commentFilter}
                     />
                   </InspectorTabPanel>
                 )
