@@ -231,7 +231,7 @@ export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
       label: 'Import Manuscript…',
       run: props.openImporter,
     },
-    buildExportMenu(props.openImporter),
+    buildExportMenu(props.openExporter),
     {
       role: 'separator',
     },
